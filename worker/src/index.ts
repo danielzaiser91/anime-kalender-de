@@ -130,10 +130,17 @@ async function handleUnsubscribe(request: Request, env: Env): Promise<Response> 
 }
 
 async function loadEvents(env: Env): Promise<ReleaseEvent[]> {
-  const res = await fetch(new URL('data/events.json', env.SITE_URL).toString(), {
-    cf: { cacheTtl: 900 },
-  } as RequestInit)
-  if (!res.ok) throw new Error(`events.json: ${res.status}`)
+  const url = new URL('data/events.json', env.SITE_URL).toString()
+  let res: Response
+  try {
+    res = await fetch(url, { cf: { cacheTtl: 900 } } as RequestInit)
+  } catch (err) {
+    // Häufigster Fall: die Seite ist erreichbar, aber ihr TLS-Zertifikat wird
+    // gerade erst ausgestellt. Die Meldung soll das benennen statt nur
+    // „fetch failed" zu sagen.
+    throw new Error(`Termine nicht abrufbar (${url}): ${(err as Error).message}`)
+  }
+  if (!res.ok) throw new Error(`Termine nicht abrufbar (${url}): HTTP ${res.status}`)
   return (await res.json()) as ReleaseEvent[]
 }
 
@@ -241,8 +248,14 @@ export default {
           return json(env, { error: 'Nicht erlaubt' }, 403)
         }
         const frequency = url.searchParams.get('frequency') === 'weekly' ? 'weekly' : 'daily'
-        const result = await runDigest(env, new Date(), frequency)
-        return json(env, { ok: true, result })
+        try {
+          const result = await runDigest(env, new Date(), frequency)
+          return json(env, { ok: true, result })
+        } catch (err) {
+          // Ohne Auffangnetz quittiert Cloudflare das mit einem nackten
+          // „error code: 1101", aus dem niemand die Ursache erkennt.
+          return json(env, { ok: false, error: (err as Error).message }, 500)
+        }
       }
       case '/health': {
         const count = await env.DB.prepare(
