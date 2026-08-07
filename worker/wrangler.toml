@@ -1,4 +1,4 @@
-name = "anime-kalender-newsletter"
+name = "newsletter"
 main = "src/index.ts"
 compatibility_date = "2025-05-01"
 
@@ -11,14 +11,17 @@ crons = ["0 * * * *"]
 [[d1_databases]]
 binding = "DB"
 database_name = "anime-kalender"
-database_id = "PLATZHALTER — nach `wrangler d1 create anime-kalender` eintragen"
+database_id = "ee32d6b3-0290-4ad3-b899-da37577a8d20"
 
 [vars]
 SITE_URL = "https://danielzaiser91.github.io/anime-kalender-de/"
-FROM_EMAIL = "kalender@example.org"
-FROM_NAME = "Anime-Kalender DE"
+ALLOWED_ORIGIN = "https://danielzaiser91.github.io"
 MAIL_PROVIDER = "resend"       # resend | brevo | console
+FROM_EMAIL = "onboarding@resend.dev"
+FROM_NAME = "Anime-Kalender DE"
 SEND_HOUR_BERLIN = "7"
-ALLOWED_ORIGIN = "*"
+# Wird nach dem ersten Deploy mit der tatsächlichen Worker-Adresse gefüllt;
+# sie steckt in jedem Abmeldelink.
+WORKER_URL = "https://newsletter.animekalender.workers.dev"
 
 # Geheim setzen mit:  wrangler secret put MAIL_API_KEY

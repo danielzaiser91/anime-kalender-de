@@ -18,6 +18,26 @@ Danach kannst du ihn ausschalten, formatieren oder verkaufen — der Newsletter 
 Auch die Website selbst braucht den Worker nicht. Kalender, Filter, ICS-Feeds und die
 Google-Calendar-Knöpfe funktionieren ohne ihn. Er ist ein Anbauteil für genau ein Feature.
 
+## Stand dieser Installation
+
+| | |
+|---|---|
+| Worker | `https://newsletter.animekalender.workers.dev` |
+| D1-Datenbank | `anime-kalender`, Region WEUR (Westeuropa) |
+| Cron | stündlich, versendet um 07:00 Berliner Zeit |
+| Mail-Anbieter | Resend |
+| Absender | `onboarding@resend.dev` — **Übergangslösung, siehe unten** |
+
+### ⚠ Offener Punkt: Absenderdomain
+
+Solange als Absender `onboarding@resend.dev` eingetragen ist, liefert Resend **nur an die
+Adresse des Kontoinhabers** aus. Fremde Abonnenten bekommen nichts — Resend lehnt den Versand
+ab. Zum Testen reicht das, für den öffentlichen Betrieb nicht.
+
+Behoben wird das, indem in Resend unter *Domains* eine eigene Domain verifiziert wird (drei
+DNS-Einträge: MX, SPF/TXT und DKIM). Danach `FROM_EMAIL` in `wrangler.toml` auf eine Adresse
+dieser Domain umstellen und neu deployen.
+
 ## Was du einmalig tun musst
 
 Voraussetzung: ein Cloudflare-Konto (kostenlos, ohne Kreditkarte) und ein Konto bei einem

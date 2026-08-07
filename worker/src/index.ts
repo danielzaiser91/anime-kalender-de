@@ -21,6 +21,8 @@ export interface Env extends MailEnv {
   WORKER_URL: string
   SEND_HOUR_BERLIN: string
   ALLOWED_ORIGIN: string
+  /** Optional. Ist es gesetzt, lässt sich der Versand über /debug/digest auslösen. */
+  DEBUG_TOKEN?: string
 }
 
 interface SubscriberRow {
@@ -231,6 +233,17 @@ export default {
         return handleConfirm(request, env)
       case '/unsubscribe':
         return handleUnsubscribe(request, env)
+      case '/debug/digest': {
+        // Versand von Hand auslösen, ohne bis 07:00 zu warten. Nur mit dem
+        // Secret DEBUG_TOKEN erreichbar; ohne gesetztes Secret abgeschaltet.
+        const token = url.searchParams.get('token') ?? ''
+        if (!env.DEBUG_TOKEN || token !== env.DEBUG_TOKEN) {
+          return json(env, { error: 'Nicht erlaubt' }, 403)
+        }
+        const frequency = url.searchParams.get('frequency') === 'weekly' ? 'weekly' : 'daily'
+        const result = await runDigest(env, new Date(), frequency)
+        return json(env, { ok: true, result })
+      }
       case '/health': {
         const count = await env.DB.prepare(
           "SELECT COUNT(*) AS n FROM subscribers WHERE status = 'active'",
