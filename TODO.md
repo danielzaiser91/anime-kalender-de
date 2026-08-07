@@ -41,12 +41,19 @@ soll, wenn eine Quelle stumm bleibt.
 
 ---
 
+## Offene Kästchen
 
 - [ ] Projekt ins Portfolio eintragen, sobald sinnvoll (öffentlich, stabil genug für eine
       kuratierte Beschreibung) — siehe Projects-Daten in
       `C:\code\ai\my website\src\app\data\projects.ts` (Repo `danielzaiser91/Portfolio-daniel-zaiser.de`).
-- [ ] Impressum und Datenschutzerklärung mit echten Angaben füllen — beide sind aktuell
-      Platzhalter und blockieren den öffentlichen Newsletter-Betrieb.
-- [ ] Uhrzeiten für die laufenden Crunchyroll-Simuldubs belegen und in
-      `data/curated/streaming-sommer-2026.yaml` eintragen.
-- [ ] Newsletter-Worker deployen (Cloudflare-Account, D1-Datenbank, Mail-Anbieter).
+- [ ] Tracking-Absatz aus der Datenschutzerklärung entfernen, sobald der erste Versand über
+      `kalender@send.anime-kalender.de` bestätigt ist — auf der eigenen Domain ist Öffnungs-
+      und Klick-Erfassung abgeschaltet, der Absatz beschreibt dann etwas, das nicht mehr
+      passiert.
+
+## Erledigt
+
+- [x] Impressum und Datenschutzerklärung ausformulieren
+- [x] Uhrzeiten der laufenden Crunchyroll-Simuldubs belegen
+- [x] Newsletter-Worker deployen
+- [x] Eigene Domain und Absenderdomain einrichten

@@ -10,8 +10,8 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **Absenderdomain bei Resend verifizieren** | 2 | **blockiert den öffentlichen Newsletter-Betrieb**, gleich zweifach: (1) mit `onboarding@resend.dev` liefert Resend nur an den Kontoinhaber, (2) auf der geteilten Domain erzwingt Resend Öffnungs- und Klick-Tracking über `awstrack.me` — auf eigener Domain lässt sich beides abschalten |
 | Alle legalen Anbieter + mehr Quellen + häufigeres Polling | 21 | ausführlich in `TODO.md` |
+| Tracking-Absatz aus der Datenschutzerklärung nehmen | 1 | erst wenn der erste Versand über die eigene Domain bestätigt ist |
 | Katalogtitel (Netflix/Disney+ Batch-Drops) erfassen | 3 | Release-Art `batch` ist im Code vorhanden, aber noch ohne Datenbestand |
 | Kino-Termine erfassen | 2 | Release-Art `movie` ebenfalls ungenutzt |
 | Disc-Releases September 2026 nachtragen | 2 | Quelle: Anime2You-Monatsübersicht |
@@ -70,3 +70,13 @@ _(leer)_
   Anmeldung → Bestätigungsmail → Bestätigung → Tages-Digest mit 17 Terminen verschickt.
   GitHub-Variable `NEWSLETTER_API_URL` gesetzt, Formular auf der Live-Seite verbunden.
   Brevo fiel aus — deren Registrierung war defekt.
+- ✅ **Eigene Domain `anime-kalender.de`** bei INWX registriert. DNS-Zone per API gesetzt
+  (`tools/inwx-dns.mjs`, idempotent): GitHub Pages A/AAAA, www-CNAME, drei Resend-Einträge,
+  DMARC. Die drei INWX-Parkeinträge mussten weichen, sonst hätte sich jeder Aufruf zufällig
+  zwischen Seite und Platzhalter entschieden
+- ✅ **Absenderdomain `send.anime-kalender.de` verifiziert**, Öffnungs- und Klick-Tracking von
+  Anfang an abgeschaltet. Absender jetzt `kalender@send.anime-kalender.de`
+- ✅ Deutsche Handlungsbeschreibungen von TMDB für 1.453 von 2.751 Titeln, mit Jahres- und
+  Titelabgleich gegen Fehlzuordnung; englischer Rückfall mit Hinweis. FSK für 942 Titel
+- ✅ Prime-Video-Links laufen über amazon.de. Die ASIN ist **nicht** marktübergreifend gleich —
+  das Umschreiben von `amazon.com` auf `amazon.de` führte zuverlässig auf eine Fehlerseite
