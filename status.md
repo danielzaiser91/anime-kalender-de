@@ -10,7 +10,7 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **Absenderdomain bei Resend verifizieren** | 2 | **blockiert den öffentlichen Newsletter-Betrieb** — mit `onboarding@resend.dev` liefert Resend nur an den Kontoinhaber; fremde Abonnenten bekommen nichts |
+| **Absenderdomain bei Resend verifizieren** | 2 | **blockiert den öffentlichen Newsletter-Betrieb**, gleich zweifach: (1) mit `onboarding@resend.dev` liefert Resend nur an den Kontoinhaber, (2) auf der geteilten Domain erzwingt Resend Öffnungs- und Klick-Tracking über `awstrack.me` — auf eigener Domain lässt sich beides abschalten |
 | Alle legalen Anbieter + mehr Quellen + häufigeres Polling | 21 | ausführlich in `TODO.md` |
 | Katalogtitel (Netflix/Disney+ Batch-Drops) erfassen | 3 | Release-Art `batch` ist im Code vorhanden, aber noch ohne Datenbestand |
 | Kino-Termine erfassen | 2 | Release-Art `movie` ebenfalls ungenutzt |
