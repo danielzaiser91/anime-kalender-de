@@ -1,7 +1,8 @@
 import type { Fsk, ReleaseEvent, Title } from '@shared/types.ts'
 import { RELEASE_TYPES } from '@shared/types.ts'
 import { useLang } from '../lib/i18n.tsx'
-import { FavoriteStar, FskBadge, PlatformBadge } from './ui.tsx'
+import { useShare } from '../lib/share.ts'
+import { FavoriteStar, FskBadge, PlatformBadge, ShareIcon } from './ui.tsx'
 
 export function EventCard({
   event,
@@ -21,6 +22,7 @@ export function EventCard({
   dense?: boolean
 }) {
   const { t } = useLang()
+  const { share, copiedSlug } = useShare()
   const type = RELEASE_TYPES[event.releaseType]
   const cover = title?.coverImage
 
@@ -68,11 +70,16 @@ export function EventCard({
               ≈
             </span>
           )}
-          {onToggleFavorite && (
-            <span className="ml-auto">
+          <span className="ml-auto flex items-center gap-0.5">
+            <ShareIcon
+              onShare={() => share(event.releaseSlug, event.name)}
+              copied={copiedSlug === event.releaseSlug}
+              size="sm"
+            />
+            {onToggleFavorite && (
               <FavoriteStar active={!!favorite} onToggle={onToggleFavorite} size="sm" />
-            </span>
-          )}
+            )}
+          </span>
         </div>
         <span className="line-clamp-2 text-[13px] font-medium leading-snug text-slate-900 dark:text-slate-100">
           {event.name}

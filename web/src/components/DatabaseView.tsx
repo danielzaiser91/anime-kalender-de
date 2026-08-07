@@ -4,7 +4,8 @@ import { titleStatus } from '@shared/logic.ts'
 import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
-import { FavoriteStar, FskBadge, PlatformBadge, StatusBadge, Toggle } from './ui.tsx'
+import { FavoriteStar, FskBadge, PlatformBadge, ShareIcon, StatusBadge, Toggle } from './ui.tsx'
+import { useShare } from '../lib/share.ts'
 
 const PAGE_SIZE = 60
 
@@ -49,6 +50,7 @@ export function DatabaseView({
   onOpenTitle: (id: number) => void
 }) {
   const { t } = useLang()
+  const { share, copiedSlug } = useShare()
   const today = todayIso()
   const [visible, setVisible] = useState(PAGE_SIZE)
   const [sort, setSort] = useState<'titel' | 'jahr' | 'score'>('titel')
@@ -125,8 +127,16 @@ export function DatabaseView({
                     className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
                   />
                 )}
-                <span className="absolute left-1 top-1">
+                <span className="absolute left-1 top-1 flex items-center gap-0.5">
                   <FavoriteStar active={favorite} onToggle={() => onToggleFavorite(main.id)} />
+                  {/* Geteilt wird der Release, nicht der Anime — nur zu ihm
+                      gibt es eine Seite mit eigenem Vorschaubild. */}
+                  {releases[0] && (
+                    <ShareIcon
+                      onShare={() => share(releases[0].slug, releases[0].name)}
+                      copied={copiedSlug === releases[0].slug}
+                    />
+                  )}
                 </span>
                 {main.fsk !== undefined && (
                   <span className="absolute right-1 top-1">

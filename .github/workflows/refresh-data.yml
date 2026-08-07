@@ -43,11 +43,14 @@ jobs:
           SITE_URL: ${{ vars.SITE_URL }}
         run: npm run data:build
 
+      - name: Vorschaubilder für neue Releases erzeugen
+        run: npm run data:og
+
       - name: Änderungen committen
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/data data/curated-ids.json data/tmdb.json data/crunchyroll.json
+          git add public/data public/og data/curated-ids.json data/tmdb.json data/crunchyroll.json
           if git diff --staged --quiet; then
             echo "Keine Datenänderung."
           else

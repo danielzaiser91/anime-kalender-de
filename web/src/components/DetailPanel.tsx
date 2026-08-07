@@ -7,6 +7,7 @@ import { formatDate, todayIso, weekdayName } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
 import { loadSynopses } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
+import { useShare } from '../lib/share.ts'
 import {
   Button,
   Chip,
@@ -30,6 +31,18 @@ function downloadIcs(events: ReleaseEvent[], filename: string): void {
   a.download = `${filename}.ics`
   a.click()
   URL.revokeObjectURL(url)
+}
+
+function ShareButton({ release }: { release: Release }) {
+  const { t } = useLang()
+  const { share, copiedSlug } = useShare()
+  const copied = copiedSlug === release.slug
+
+  return (
+    <Button size="sm" onClick={() => share(release.slug, release.name)} title={t('detail.shareHint')}>
+      {copied ? `✓ ${t('sub.copied').replace('✓ ', '')}` : `🔗 ${t('detail.share')}`}
+    </Button>
+  )
 }
 
 function ReleaseBlock({ release, today }: { release: Release; today: string }) {
@@ -121,6 +134,7 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
         >
           ⬇ {t('detail.downloadIcs')}
         </Button>
+        <ShareButton release={release} />
       </div>
 
       {events.length > 1 && (

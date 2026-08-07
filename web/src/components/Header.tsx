@@ -4,6 +4,7 @@ import type { ReleaseType } from '@shared/types.ts'
 import { VIEWS, type ViewId } from '../lib/router.ts'
 import { addDays, addMonths, formatDateLong, monthName, startOfWeek, todayIso } from '@shared/time.ts'
 import { LANGUAGES, useLang, type TranslationKey } from '../lib/i18n.tsx'
+import { Flag } from './Flags.tsx'
 
 function ThemeToggle() {
   const { t } = useLang()
@@ -58,11 +59,11 @@ function LanguagePicker() {
         aria-expanded={open}
         aria-label={t('nav.language')}
         title={`${t('nav.language')}: ${current.label}`}
-        className="flex cursor-pointer items-center gap-1 rounded-lg px-2 py-2 text-base transition hover:bg-slate-200/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 dark:hover:bg-white/10"
+        className="flex cursor-pointer items-center gap-1.5 rounded-lg px-2 py-2 transition hover:bg-slate-200/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 dark:hover:bg-white/10"
       >
-        <span aria-hidden="true">{current.flag}</span>
-        <span className="text-[10px] font-semibold uppercase text-slate-500 dark:text-slate-400">
-          {current.id}
+        <Flag lang={current.id} size={22} />
+        <span aria-hidden="true" className="text-[9px] text-slate-400">
+          ▾
         </span>
       </button>
 
@@ -88,7 +89,7 @@ function LanguagePicker() {
                     : 'text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10',
                 ].join(' ')}
               >
-                <span aria-hidden="true">{l.flag}</span>
+                <Flag lang={l.id} size={20} />
                 {l.label}
                 {l.id === lang && <span className="ml-auto">✓</span>}
               </button>

@@ -221,6 +221,40 @@ export function FavoriteStar({
   )
 }
 
+/** Kleiner Teilen-Knopf für Kacheln. */
+export function ShareIcon({
+  onShare,
+  copied,
+  size = 'md',
+}: {
+  onShare: () => void
+  copied?: boolean
+  size?: 'sm' | 'md'
+}) {
+  const { t } = useLang()
+  return (
+    <button
+      type="button"
+      title={t('detail.shareHint')}
+      aria-label={t('detail.share')}
+      onClick={(e) => {
+        e.stopPropagation()
+        onShare()
+      }}
+      className={[
+        'inline-flex items-center justify-center rounded-full transition',
+        CLICKABLE,
+        size === 'sm' ? 'size-5 text-[12px]' : 'size-7 text-sm',
+        copied
+          ? 'text-emerald-400'
+          : 'text-slate-400/70 hover:text-sky-400 dark:text-slate-500 dark:hover:text-sky-300',
+      ].join(' ')}
+    >
+      {copied ? '✓' : '🔗'}
+    </button>
+  )
+}
+
 /** Schalter für Ja/Nein-Einstellungen. */
 export function Toggle({
   checked,
