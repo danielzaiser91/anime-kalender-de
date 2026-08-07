@@ -10,7 +10,8 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| Newsletter-Worker deployen | 3 | braucht Cloudflare-Account + API-Token + Mail-Anbieter; Anleitung in `worker/README.md` |
+| **Absenderdomain bei Resend verifizieren** | 2 | **blockiert den öffentlichen Newsletter-Betrieb** — mit `onboarding@resend.dev` liefert Resend nur an den Kontoinhaber; fremde Abonnenten bekommen nichts |
+| Alle legalen Anbieter + mehr Quellen + häufigeres Polling | 21 | ausführlich in `TODO.md` |
 | Katalogtitel (Netflix/Disney+ Batch-Drops) erfassen | 3 | Release-Art `batch` ist im Code vorhanden, aber noch ohne Datenbestand |
 | Kino-Termine erfassen | 2 | Release-Art `movie` ebenfalls ungenutzt |
 | Disc-Releases September 2026 nachtragen | 2 | Quelle: Anime2You-Monatsübersicht |
@@ -57,3 +58,8 @@ _(leer)_
   Status „Erschienen", Trennung nach Uhrzeit, 58 Genres statt 18
 - ✅ Impressum und Datenschutzerklärung ausformuliert (Kontakt per E-Mail, ohne Anschrift —
   bewusste Entscheidung des Betreibers für ein privates, nicht kommerzielles Angebot)
+- ✅ **Newsletter live**: Worker unter `newsletter.animekalender.workers.dev`, D1-Datenbank
+  `anime-kalender` in Westeuropa, stündlicher Cron, Versand über Resend. Ende-zu-Ende getestet:
+  Anmeldung → Bestätigungsmail → Bestätigung → Tages-Digest mit 17 Terminen verschickt.
+  GitHub-Variable `NEWSLETTER_API_URL` gesetzt, Formular auf der Live-Seite verbunden.
+  Brevo fiel aus — deren Registrierung war defekt.
