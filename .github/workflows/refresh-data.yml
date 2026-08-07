@@ -23,11 +23,20 @@ jobs:
 
       - run: npm ci
 
+      - name: Browser für den Crunchyroll-Kalender installieren
+        run: npx playwright install --with-deps chromium
+
       - name: Rohdaten holen
         env:
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
           SITE_URL: ${{ vars.SITE_URL }}
         run: npm run data:fetch
+
+      - name: Deutsche Sendezeiten von Crunchyroll lesen
+        # Schlägt der Lauf fehl (Seitenumbau, Ausfall), bleiben die zuletzt
+        # gespeicherten Zeiten stehen — der Build läuft trotzdem weiter.
+        continue-on-error: true
+        run: npm run data:crunchyroll
 
       - name: Datensatz bauen
         env:
@@ -38,7 +47,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/data data/curated-ids.json data/tmdb.json
+          git add public/data data/curated-ids.json data/tmdb.json data/crunchyroll.json
           if git diff --staged --quiet; then
             echo "Keine Datenänderung."
           else

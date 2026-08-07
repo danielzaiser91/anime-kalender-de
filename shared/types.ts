@@ -29,7 +29,7 @@ export type ReleaseType = 'weekly' | 'batch' | 'movie' | 'disc'
  * `unbekannt` gibt es für Titel, bei denen eine deutsche Synchro belegt ist,
  * aber kein deutscher Termin — lieber ehrlich als geraten.
  */
-export type ReleaseStatus = 'airing' | 'abgeschlossen' | 'tba' | 'unbekannt'
+export type ReleaseStatus = 'airing' | 'abgeschlossen' | 'tba' | 'erschienen' | 'unbekannt'
 
 export type Fsk = 0 | 6 | 12 | 16 | 18
 
@@ -54,6 +54,12 @@ export interface Schedule {
 export interface StreamLink {
   platform: PlatformId
   url: string
+  /**
+   * true  — deutsche Synchro dort belegt
+   * false — dort ausdrücklich nur Originalton mit Untertiteln
+   * fehlt — nicht geprüft
+   */
+  dub?: boolean
 }
 
 /** Ein Anime (genauer: ein AniList-Eintrag) mit belegter deutscher Synchro. */
@@ -70,6 +76,13 @@ export interface Title {
   /** Jahr der japanischen Erstausstrahlung. */
   jpYear?: number
   jpSeason?: string
+  /** Ende der japanischen Ausstrahlung als ISO-Datum, falls bekannt. */
+  jpEnd?: string
+  /**
+   * Kleinste AniList-ID der zusammenhängenden Reihe (Vorgänger/Nachfolger).
+   * Dient dazu, Staffeln derselben Serie zu einer Karte zu bündeln.
+   */
+  franchiseId?: number
   genres: string[]
   keywords: string[]
   coverImage?: string
@@ -170,6 +183,7 @@ export const STATUS_LABEL: Record<ReleaseStatus, string> = {
   airing: 'Läuft',
   abgeschlossen: 'Abgeschlossen',
   tba: 'TBA',
+  erschienen: 'Erschienen',
   unbekannt: 'Termin unbekannt',
 }
 

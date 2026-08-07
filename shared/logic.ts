@@ -1,4 +1,4 @@
-import type { Release, ReleaseEvent, ReleaseStatus } from './types.ts'
+import type { Release, ReleaseEvent, ReleaseStatus, Title } from './types.ts'
 import { addDays, todayIso } from './time.ts'
 
 /**
@@ -41,13 +41,24 @@ export function releaseStatus(release: Release, today = todayIso()): ReleaseStat
 /**
  * Status eines Anime über alle seine Releases hinweg.
  * Läuft irgendetwas gerade, gewinnt „airing"; sonst zählt der nächste Termin.
+ *
+ * Ohne erfassten deutschen Termin hilft die japanische Ausstrahlung weiter:
+ * Ist die längst vorbei und eine Synchro belegt, dann ist sie erschienen —
+ * „Termin unbekannt" wäre für einen Titel von 2003 unsinnig.
  */
-export function titleStatus(releases: Release[], today = todayIso()): ReleaseStatus {
-  if (releases.length === 0) return 'unbekannt'
-  const all = releases.map((r) => releaseStatus(r, today))
-  if (all.includes('airing')) return 'airing'
-  if (all.includes('tba')) return 'tba'
-  if (all.includes('abgeschlossen')) return 'abgeschlossen'
+export function titleStatus(
+  releases: Release[],
+  today = todayIso(),
+  title?: Pick<Title, 'jpEnd' | 'jpYear'>,
+): ReleaseStatus {
+  if (releases.length > 0) {
+    const all = releases.map((r) => releaseStatus(r, today))
+    if (all.includes('airing')) return 'airing'
+    if (all.includes('tba')) return 'tba'
+    if (all.includes('abgeschlossen')) return 'abgeschlossen'
+  }
+  const ended = title?.jpEnd ?? (title?.jpYear ? `${title.jpYear}-12-31` : undefined)
+  if (ended && ended < today) return 'erschienen'
   return 'unbekannt'
 }
 

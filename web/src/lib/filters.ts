@@ -22,6 +22,8 @@ export interface FilterState {
   search: string
   /** Blendet Termine aus, die nur abgeleitet sind. */
   confirmedOnly: boolean
+  /** Zeigt nur gemerkte Titel. */
+  favoritesOnly: boolean
   /** Mindest-Vertrauensstufe der Dub-Angabe (nur Datenbank-Ansicht). */
   minConfidence: DubConfidence
 }
@@ -36,6 +38,7 @@ export const EMPTY_FILTERS: FilterState = {
   keywords: [],
   search: '',
   confirmedOnly: false,
+  favoritesOnly: false,
   minConfidence: 'low',
 }
 
@@ -57,6 +60,7 @@ export function isFilterActive(f: FilterState): boolean {
     f.keywords.length > 0 ||
     f.search.trim() !== '' ||
     f.confirmedOnly ||
+    f.favoritesOnly ||
     f.minConfidence !== 'low'
   )
 }
@@ -72,6 +76,7 @@ export function activeFilterCount(f: FilterState): number {
     f.keywords.length +
     (f.search.trim() ? 1 : 0) +
     (f.confirmedOnly ? 1 : 0) +
+    (f.favoritesOnly ? 1 : 0) +
     (f.minConfidence !== 'low' ? 1 : 0)
   )
 }
@@ -154,9 +159,11 @@ export function filterEvents(
   data: Dataset,
   f: FilterState,
   today: string,
+  favorites: Set<number>,
 ): ReleaseEvent[] {
   const allowed = new Set(
     data.releases
+      .filter((r) => !f.favoritesOnly || favorites.has(r.titleId))
       .filter((r) => releaseMatches(r, data.titleById.get(r.titleId), f, today))
       .map((r) => r.slug),
   )
@@ -169,8 +176,10 @@ export function filterTitles(
   data: Dataset,
   f: FilterState,
   today: string,
+  favorites: Set<number>,
 ): Title[] {
   return source.filter((t) => {
+    if (f.favoritesOnly && !favorites.has(t.id)) return false
     if (CONFIDENCE_RANK[t.dubConfidence] < CONFIDENCE_RANK[f.minConfidence]) return false
     if (f.genres.length && !f.genres.every((g) => t.genres.includes(g))) return false
     if (f.keywords.length && !f.keywords.every((k) => t.keywords.includes(k))) return false
@@ -187,7 +196,7 @@ export function filterTitles(
       const years = releases.length ? releases.map((r) => r.year) : t.jpYear ? [t.jpYear] : []
       if (!f.years.some((y) => years.includes(y))) return false
     }
-    if (f.statuses.length && !f.statuses.includes(titleStatus(releases, today))) return false
+    if (f.statuses.length && !f.statuses.includes(titleStatus(releases, today, t))) return false
     if (f.search.trim() && !titleMatchesSearch(f.search.trim(), t)) return false
     return true
   })

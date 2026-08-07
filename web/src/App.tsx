@@ -3,7 +3,9 @@ import type { Title } from '@shared/types.ts'
 import type { Dataset } from './lib/data.ts'
 import { loadAllTitles, loadDataset } from './lib/data.ts'
 import { filterEvents, filterTitles, toggleValue, type FilterState } from './lib/filters.ts'
+import { useFavorites } from './lib/favorites.ts'
 import { useRoute, type ViewId } from './lib/router.ts'
+import { useLang } from './lib/i18n.tsx'
 import { addDays, addMonths, todayIso } from '@shared/time.ts'
 import { Header, Legend } from './components/Header.tsx'
 import { FilterBar } from './components/FilterBar.tsx'
@@ -30,21 +32,31 @@ function Spinner({ label }: { label: string }) {
 }
 
 export default function App() {
+  const { t } = useLang()
   const [data, setData] = useState<Dataset>()
   const [allTitles, setAllTitles] = useState<Title[]>()
   const [error, setError] = useState<string>()
+  const [grouped, setGrouped] = useState(() => localStorage.getItem('groupSeasons') !== '0')
   const [route, navigate] = useRoute()
+  const { favorites, toggle } = useFavorites()
   const today = todayIso()
 
   useEffect(() => {
-    loadDataset().then(setData).catch((e: Error) => setError(e.message))
+    loadDataset()
+      .then(setData)
+      .catch((e: Error) => setError(e.message))
   }, [])
+
+  useEffect(() => {
+    localStorage.setItem('groupSeasons', grouped ? '1' : '0')
+  }, [grouped])
 
   // Wochen- und Monatssprünge per Tastatur, solange kein Textfeld den Fokus hat.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const el = document.activeElement
-      if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement || el instanceof HTMLSelectElement) return
+      if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement || el instanceof HTMLSelectElement)
+        return
       if (route.release || route.title) return
       const isMonth = route.view === 'monat'
       if (e.key === 'ArrowLeft') navigate({ date: isMonth ? addMonths(route.date, -1) : addDays(route.date, -7) })
@@ -58,16 +70,18 @@ export default function App() {
   // Die vollständige Titelliste kommt erst, wenn sie gebraucht wird.
   useEffect(() => {
     if (!data || allTitles || route.view !== 'datenbank') return
-    loadAllTitles(data).then(setAllTitles).catch(() => setAllTitles(data.titles))
+    loadAllTitles(data)
+      .then(setAllTitles)
+      .catch(() => setAllTitles(data.titles))
   }, [data, allTitles, route.view])
 
   const events = useMemo(
-    () => (data ? filterEvents(data, route.filters, today) : []),
-    [data, route.filters, today],
+    () => (data ? filterEvents(data, route.filters, today, favorites) : []),
+    [data, route.filters, today, favorites],
   )
   const titles = useMemo(
-    () => (data ? filterTitles(allTitles ?? data.titles, data, route.filters, today) : []),
-    [data, allTitles, route.filters, today],
+    () => (data ? filterTitles(allTitles ?? data.titles, data, route.filters, today, favorites) : []),
+    [data, allTitles, route.filters, today, favorites],
   )
 
   const openTitleId = useMemo(() => {
@@ -82,16 +96,16 @@ export default function App() {
   if (error) {
     return (
       <div className="mx-auto max-w-lg p-8 text-center">
-        <h1 className="text-lg font-semibold text-red-400">Daten konnten nicht geladen werden</h1>
+        <h1 className="text-lg font-semibold text-red-400">{t('app.loadError')}</h1>
         <p className="mt-2 text-sm text-slate-400">{error}</p>
         <p className="mt-4 text-xs text-slate-500">
-          Wurde die Datenpipeline schon ausgeführt? <code>npm run data:all</code>
+          {t('app.loadHint')} <code>npm run data:all</code>
         </p>
       </div>
     )
   }
 
-  if (!data) return <Spinner label="Kalender wird geladen …" />
+  if (!data) return <Spinner label={t('app.loading')} />
 
   const isCalendar = route.view === 'woche' || route.view === 'monat' || route.view === 'agenda'
   const showFilters = isCalendar || route.view === 'datenbank'
@@ -108,12 +122,13 @@ export default function App() {
               filters={route.filters}
               onChange={setFilters}
               showConfidence={route.view === 'datenbank'}
+              favoriteCount={favorites.size}
             />
             {isCalendar && (
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <Legend />
                 <span className="text-[11px] text-slate-500 dark:text-slate-400">
-                  {events.length} Termine im Filter · Tasten ← → T
+                  {t('legend.count', { count: events.length })}
                 </span>
               </div>
             )}
@@ -125,6 +140,8 @@ export default function App() {
             data={data}
             events={events}
             anchorDate={route.date}
+            favorites={favorites}
+            onToggleFavorite={toggle}
             onOpen={(release) => navigate({ release, title: undefined })}
           />
         )}
@@ -133,6 +150,7 @@ export default function App() {
           <MonthView
             events={events}
             anchorDate={route.date}
+            favorites={favorites}
             onOpen={(release) => navigate({ release, title: undefined })}
             onPickDay={(d) => navigate({ view: 'woche', date: d })}
           />
@@ -143,6 +161,8 @@ export default function App() {
             data={data}
             events={events}
             anchorDate={route.date}
+            favorites={favorites}
+            onToggleFavorite={toggle}
             onOpen={(release) => navigate({ release, title: undefined })}
           />
         )}
@@ -152,10 +172,14 @@ export default function App() {
             <DatabaseView
               data={data}
               titles={titles}
+              grouped={grouped}
+              onGroupedChange={setGrouped}
+              favorites={favorites}
+              onToggleFavorite={toggle}
               onOpenTitle={(id) => navigate({ title: id, release: undefined })}
             />
           ) : (
-            <Spinner label={`${data.meta.titleCount.toLocaleString('de-DE')} Einträge werden geladen …`} />
+            <Spinner label={t('app.loadingTitles', { count: data.meta.titleCount.toLocaleString('de-DE') })} />
           ))}
 
         {route.view === 'abo' && <SubscribeView meta={data.meta} />}
@@ -170,7 +194,10 @@ export default function App() {
         <DetailPanel
           data={data}
           titleId={openTitleId}
+          favorites={favorites}
+          onToggleFavorite={toggle}
           onClose={() => navigate({ release: undefined, title: undefined })}
+          onOpenTitle={(id) => navigate({ title: id, release: undefined })}
           onFilterBy={(kind, value) => {
             const filters =
               kind === 'genre'

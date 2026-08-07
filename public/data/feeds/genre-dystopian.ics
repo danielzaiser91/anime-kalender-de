@@ -3,7 +3,7 @@ VERSION:2.0
 PRODID:-//anime-kalender-de//Anime-Kalender DE//DE
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
-X-WR-CALNAME:Anime-Kalender DE – Psychologisch
+X-WR-CALNAME:Anime-Kalender DE – Dystopian
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
 UID:ghost-in-the-shell-2026@2026-07-07@anime-kalender-de
@@ -66,6 +66,28 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
+UID:attack-on-titan-final-season-steelbook@2026-08-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260807
+DTEND;VALUE=DATE:20260808
+SUMMARY:Attack on Titan – Final Season (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://danielzaiser91.github.io/anime-kale
+ nder-de/#/release/attack-on-titan-final-season-steelbook
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:worlds-end-harem-vol2@2026-08-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260807
+DTEND;VALUE=DATE:20260808
+SUMMARY:World's End Harem – Vol. 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://danielzaiser91.github.io/anime-kale
+ nder-de/#/release/worlds-end-harem-vol2
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:ghost-in-the-shell-2026@2026-08-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260811
@@ -88,17 +110,6 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
  ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
  ase/ghost-in-the-shell-2026
 CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
-UID:banana-fish-vol1@2026-08-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260821
-DTEND;VALUE=DATE:20260822
-SUMMARY:Banana Fish – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://danielzaiser91.github.io/anime-kale
- nder-de/#/release/banana-fish-vol1
-CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:ghost-in-the-shell-2026@2026-08-25@anime-kalender-de

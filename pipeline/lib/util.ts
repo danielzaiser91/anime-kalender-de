@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -26,6 +26,13 @@ export function writeJson(path: string, data: unknown, pretty = false): void {
   const full = resolve(ROOT, path)
   mkdirSync(dirname(full), { recursive: true })
   writeFileSync(full, pretty ? JSON.stringify(data, null, 2) : JSON.stringify(data), 'utf8')
+}
+
+/** Löscht den Inhalt eines Ordners, legt ihn bei Bedarf an. */
+export function clearDir(path: string): void {
+  const full = resolve(ROOT, path)
+  rmSync(full, { recursive: true, force: true })
+  mkdirSync(full, { recursive: true })
 }
 
 export function writeText(path: string, text: string): void {

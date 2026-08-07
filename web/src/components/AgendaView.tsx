@@ -2,19 +2,25 @@ import { useMemo } from 'react'
 import type { ReleaseEvent } from '@shared/types.ts'
 import type { Dataset } from '../lib/data.ts'
 import { formatDateLong, todayIso, weekdayName } from '@shared/time.ts'
+import { useLang } from '../lib/i18n.tsx'
 import { EventCard } from './EventCard.tsx'
 
 export function AgendaView({
   data,
   events,
   anchorDate,
+  favorites,
+  onToggleFavorite,
   onOpen,
 }: {
   data: Dataset
   events: ReleaseEvent[]
   anchorDate: string
+  favorites: Set<number>
+  onToggleFavorite: (titleId: number) => void
   onOpen: (slug: string, date: string) => void
 }) {
+  const { t } = useLang()
   const today = todayIso()
 
   const groups = useMemo(() => {
@@ -30,14 +36,15 @@ export function AgendaView({
       .slice(0, 60)
       .map(([date, list]) => ({
         date,
-        events: list.sort((a, b) => (a.time ?? '99').localeCompare(b.time ?? '99')),
+        // Termine mit Uhrzeit stehen vorn, danach die noch offenen.
+        events: list.sort((a, b) => (a.time ?? '~').localeCompare(b.time ?? '~')),
       }))
   }, [events, anchorDate])
 
   if (groups.length === 0) {
     return (
       <p className="rounded-xl border border-dashed border-slate-300 p-8 text-center text-sm text-slate-500 dark:border-white/15 dark:text-slate-400">
-        Ab dem gewählten Datum liegt kein Termin, der zu den Filtern passt.
+        {t('agenda.empty')}
       </p>
     )
   }
@@ -57,7 +64,7 @@ export function AgendaView({
             </span>
             {date === today && (
               <span className="rounded bg-sky-500/15 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-sky-500">
-                heute
+                {t('week.today')}
               </span>
             )}
             <span className="ml-auto text-xs text-slate-400">{dayEvents.length}</span>
@@ -69,6 +76,8 @@ export function AgendaView({
                 event={ev}
                 title={data.titleById.get(ev.titleId)}
                 fsk={data.releaseBySlug.get(ev.releaseSlug)?.fsk}
+                favorite={favorites.has(ev.titleId)}
+                onToggleFavorite={ev.titleId > 0 ? () => onToggleFavorite(ev.titleId) : undefined}
                 onOpen={() => onOpen(ev.releaseSlug, ev.date)}
               />
             ))}

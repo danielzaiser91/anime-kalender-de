@@ -3,9 +3,15 @@
  * Ausgabe landet in public/data/ und wird mit ins Repo committet.
  */
 import type { AniListMedia } from './lib/anilist.ts'
+import {
+  crunchyrollSeriesId,
+  normalizeTitle,
+  type CrunchyrollData,
+  type CrunchyrollEntry,
+} from './lib/crunchyroll.ts'
 import { loadCurated, type CuratedEntry } from './lib/curated.ts'
 import type { TmdbInfo } from './lib/tmdb.ts'
-import { log, readJson, slugify, warn, writeJson, writeText } from './lib/util.ts'
+import { clearDir, log, readJson, slugify, warn, writeJson, writeText } from './lib/util.ts'
 import type {
   DataMeta,
   DubConfidence,
@@ -16,12 +22,13 @@ import type {
   Title,
 } from '../shared/types.ts'
 import { expandEvents } from '../shared/logic.ts'
+import { addDays, weekdayIndex } from '../shared/time.ts'
 import { buildIcs } from '../shared/ics.ts'
 import {
-  GENRE_DE,
   KEYWORD_BLOCKLIST,
-  KEYWORD_DE,
   PLATFORM_PRIORITY,
+  TAG_AS_GENRE,
+  TAG_AS_GENRE_MIN_RANK,
   amazonSearchUrl,
   germanizeUrl,
   platformFromSite,
@@ -29,7 +36,8 @@ import {
 
 const OUT = 'public/data'
 const KEYWORD_MIN_RANK = 55
-const KEYWORD_MAX = 14
+const KEYWORD_MAX = 24
+const CR_CALENDAR_URL = 'https://www.crunchyroll.com/de/simulcastcalendar'
 
 function cleanSynopsis(raw: string | null): string | undefined {
   if (!raw) return undefined
@@ -43,8 +51,17 @@ function cleanSynopsis(raw: string | null): string | undefined {
     .trim()
 }
 
-function mapGenres(genres: string[]): string[] {
-  return genres.map((g) => GENRE_DE[g] ?? g)
+/**
+ * Genres bleiben im Datensatz englisch — übersetzt wird erst in der
+ * Oberfläche, sonst könnte sie nicht zwischen Sprachen umschalten.
+ * Prägende Tags wie „Isekai" zählen mit als Genre.
+ */
+function mapGenres(media: AniListMedia): string[] {
+  const fromTags = (media.tags ?? [])
+    .filter((t) => !t.isMediaSpoiler && !t.isAdult && t.rank >= TAG_AS_GENRE_MIN_RANK)
+    .filter((t) => t.name in TAG_AS_GENRE)
+    .map((t) => t.name)
+  return [...new Set([...(media.genres ?? []), ...fromTags])]
 }
 
 function mapKeywords(media: AniListMedia): string[] {
@@ -53,7 +70,13 @@ function mapKeywords(media: AniListMedia): string[] {
     .filter((t) => !KEYWORD_BLOCKLIST.has(t.name))
     .sort((a, b) => b.rank - a.rank)
     .slice(0, KEYWORD_MAX)
-    .map((t) => KEYWORD_DE[t.name] ?? t.name)
+    .map((t) => t.name)
+}
+
+function isoDate(d: { year: number | null; month: number | null; day: number | null } | undefined) {
+  if (!d?.year) return undefined
+  const p = (n: number | null, fallback: string) => (n ? String(n).padStart(2, '0') : fallback)
+  return `${d.year}-${p(d.month, '12')}-${p(d.day, '31')}`
 }
 
 function mapStreams(media: AniListMedia): StreamLink[] {
@@ -83,7 +106,8 @@ function titleFromMedia(media: AniListMedia, confidence: DubConfidence): Title {
     episodes: media.episodes ?? undefined,
     jpYear: media.seasonYear ?? media.startDate?.year ?? undefined,
     jpSeason: media.season ?? undefined,
-    genres: mapGenres(media.genres ?? []),
+    jpEnd: isoDate(media.endDate) ?? isoDate(media.startDate),
+    genres: mapGenres(media),
     keywords: mapKeywords(media),
     coverImage: media.coverImage?.extraLarge ?? media.coverImage?.large ?? undefined,
     bannerImage: media.bannerImage ?? undefined,
@@ -128,9 +152,71 @@ function main(): void {
     titles.set(media.id, titleFromMedia(media, confidence))
   }
 
+  // --- Reihen zusammenführen -------------------------------------------------
+  // Staffeln, Cours und Specials derselben Serie bekommen eine gemeinsame ID,
+  // damit die Datenbank sie auf Wunsch zu einer Karte bündeln kann.
+  const FRANCHISE_RELATIONS = new Set(['PREQUEL', 'SEQUEL', 'PARENT', 'SIDE_STORY'])
+  const parent = new Map<number, number>()
+  const find = (id: number): number => {
+    let root = id
+    while (parent.get(root) !== undefined && parent.get(root) !== root) root = parent.get(root)!
+    let cur = id
+    while (parent.get(cur) !== undefined && parent.get(cur) !== cur) {
+      const next = parent.get(cur)!
+      parent.set(cur, root)
+      cur = next
+    }
+    return root
+  }
+  const union = (a: number, b: number) => {
+    const ra = find(a)
+    const rb = find(b)
+    if (ra === rb) return
+    // Die kleinere ID gewinnt — das ist in aller Regel die erste Staffel.
+    if (ra < rb) parent.set(rb, ra)
+    else parent.set(ra, rb)
+  }
+
+  for (const media of [...Object.values(byMal), ...Object.values(byAniId)]) {
+    if (!media?.id) continue
+    parent.set(media.id, parent.get(media.id) ?? media.id)
+    for (const edge of media.relations?.edges ?? []) {
+      if (!FRANCHISE_RELATIONS.has(edge.relationType)) continue
+      if (edge.node?.type !== 'ANIME') continue
+      parent.set(edge.node.id, parent.get(edge.node.id) ?? edge.node.id)
+      union(media.id, edge.node.id)
+    }
+  }
+  for (const title of titles.values()) title.franchiseId = find(title.id)
+
+  // --- Crunchyroll-Sendeplätze indizieren ------------------------------------
+  const crunchyroll = readJson<CrunchyrollData>('data/crunchyroll.json', {
+    scrapedAt: '',
+    german: {},
+    slots: [],
+  })
+  const crBySeriesId = new Map<string, CrunchyrollEntry>()
+  for (const entry of Object.values(crunchyroll.german)) {
+    if (entry.seriesId) crBySeriesId.set(entry.seriesId, entry)
+  }
+  /** AniList-Titel über ihre Crunchyroll-Serien-ID auffindbar machen. */
+  const titleByCrSeries = new Map<string, Title>()
+  for (const title of titles.values()) {
+    for (const stream of title.streams) {
+      const id = stream.platform === 'crunchyroll' ? crunchyrollSeriesId(stream.url) : undefined
+      if (id && !titleByCrSeries.has(id)) titleByCrSeries.set(id, title)
+    }
+  }
+
+  function findCrunchyroll(entryUrl: string | undefined, name: string): CrunchyrollEntry | undefined {
+    const id = crunchyrollSeriesId(entryUrl)
+    return (id ? crBySeriesId.get(id) : undefined) ?? crunchyroll.german[normalizeTitle(name)]
+  }
+
   // --- Releases aufbauen ----------------------------------------------------
   const releases: Release[] = []
   const seenSlugs = new Set<string>()
+  const usedCrKeys = new Set<string>()
 
   for (const entry of curated) {
     if (seenSlugs.has(entry.slug)) {
@@ -171,6 +257,22 @@ function main(): void {
 
     const name = entry.titleDe ?? title?.titleEn ?? title?.titleRomaji ?? entry.slug
     const fsk = entry.fsk ?? info?.fsk ?? title?.fsk
+    const platformUrl = pickPlatformUrl(entry, title)
+
+    // Belegte Sendezeit aus dem Crunchyroll-Kalender einsetzen. Sie ersetzt
+    // eine geschätzte Angabe, weil sie direkt vom Anbieter kommt.
+    const sources = [...(entry.sources ?? [])]
+    if (entry.platform === 'crunchyroll' && !entry.schedule.time) {
+      const slot = findCrunchyroll(platformUrl, entry.titleDe ?? name)
+      if (slot) {
+        usedCrKeys.add(normalizeTitle(slot.rawTitle))
+        schedule.time = slot.time
+        const startsOnSlotWeekday =
+          weekdayIndex(schedule.firstEpisodeDate) === slot.weekday || slot.dates.includes(schedule.firstEpisodeDate)
+        if (startsOnSlotWeekday && slot.weeklyConfirmed) delete schedule.estimated
+        sources.push(CR_CALENDAR_URL)
+      }
+    }
 
     if (title && fsk !== undefined && title.fsk === undefined) title.fsk = fsk
     if (title && entry.titleDe && !title.titleDe) title.titleDe = entry.titleDe
@@ -180,7 +282,7 @@ function main(): void {
       titleId: titleId ?? -1,
       name,
       platform: entry.platform,
-      platformUrl: pickPlatformUrl(entry, title),
+      platformUrl,
       buyUrl:
         entry.buyUrl ?? (entry.releaseType === 'disc' ? amazonSearchUrl(name) : undefined),
       releaseType: entry.releaseType,
@@ -190,8 +292,82 @@ function main(): void {
       note: entry.note,
       schedule,
       year: releaseYear,
-      sources: entry.sources ?? [],
+      sources: [...new Set(sources)],
     })
+  }
+
+  // --- Automatisch ergänzte Crunchyroll-Simuldubs ----------------------------
+  // Alles, was der Kalender von Crunchyroll als „(Deutsch)" führt und noch
+  // nicht kuratiert ist, wird selbsttätig aufgenommen. Der Staffelstart wird
+  // aus der frühesten gesehenen Folgennummer zurückgerechnet.
+  let autoAdded = 0
+  for (const [key, slot] of Object.entries(crunchyroll.german)) {
+    if (usedCrKeys.has(key)) continue
+    if (!slot.earliest?.date) continue
+
+    const title = slot.seriesId ? titleByCrSeries.get(slot.seriesId) : undefined
+    const slug = `cr-${slot.seriesId ?? slugify(key)}`
+    if (seenSlugs.has(slug)) continue
+    seenSlugs.add(slug)
+
+    const episodeOffset = (slot.earliest.episode ?? 1) - 1
+    const firstEpisodeDate = addDays(slot.earliest.date, -7 * episodeOffset)
+    const name = slot.rawTitle.replace(/\s*\(Deutsch\)\s*$/i, '').trim()
+    const releaseYear = Number(firstEpisodeDate.slice(0, 4))
+
+    let episodeCount = title?.episodes
+    let episodeCountAssumed = false
+    if (!episodeCount || !title?.jpYear || Math.abs(title.jpYear - releaseYear) > 1) {
+      episodeCount = Math.max(12, (slot.earliest.episode ?? 1) + slot.dates.length)
+      episodeCountAssumed = true
+    }
+
+    releases.push({
+      slug,
+      titleId: title?.id ?? -1,
+      name,
+      platform: 'crunchyroll',
+      platformUrl: slot.seriesUrl,
+      releaseType: 'weekly',
+      fsk: title?.fsk,
+      schedule: {
+        firstEpisodeDate,
+        time: slot.time,
+        episodeCount,
+        episodeCountAssumed,
+        // Uhrzeit und Wochentag sind belegt; nur der zurückgerechnete Start
+        // bleibt eine Annahme, solange die Wochentaktung nicht bestätigt ist.
+        estimated: !slot.weeklyConfirmed || episodeOffset > 0,
+      },
+      year: releaseYear,
+      sources: [CR_CALENDAR_URL],
+    })
+    autoAdded++
+  }
+  log(`${autoAdded} Simuldubs automatisch aus dem Crunchyroll-Kalender ergänzt`)
+
+  // --- Synchro-Verfügbarkeit je Plattform ------------------------------------
+  // Ein Stream-Link allein sagt nichts über die Sprache. Belegt ist die Synchro
+  // nur dort, wo sie tatsächlich nachgewiesen wurde.
+  const dubByTitle = new Map<number, Set<PlatformId>>()
+  for (const release of releases) {
+    if (release.titleId < 0) continue
+    const set = dubByTitle.get(release.titleId) ?? new Set<PlatformId>()
+    set.add(release.platform)
+    dubByTitle.set(release.titleId, set)
+  }
+  for (const title of titles.values()) {
+    const confirmed = dubByTitle.get(title.id)
+    for (const stream of title.streams) {
+      if (confirmed?.has(stream.platform)) {
+        stream.dub = true
+      } else if (stream.platform === 'crunchyroll') {
+        // Für Crunchyroll haben wir eine vollständige Liste der Synchro-Titel,
+        // also ist ein Fehlen dort eine belastbare Aussage.
+        const id = crunchyrollSeriesId(stream.url)
+        stream.dub = id ? crBySeriesId.has(id) : undefined
+      }
+    }
   }
 
   // --- Termine ausrollen ----------------------------------------------------
@@ -243,6 +419,9 @@ function main(): void {
   writeJson(`${OUT}/meta.json`, meta, true)
 
   // --- ICS-Abo-Feeds --------------------------------------------------------
+  // Erst leeren: Genres kommen und gehen, sonst blieben alte Feeds als Leichen
+  // im Repository liegen und würden weiter ausgeliefert.
+  clearDir(`${OUT}/feeds`)
   const siteUrl = process.env.SITE_URL ?? 'https://danielzaiser91.github.io/anime-kalender-de/'
   writeText(`${OUT}/feeds/all.ics`, buildIcs(events, { siteUrl, calendarName: 'Anime-Kalender DE' }))
 

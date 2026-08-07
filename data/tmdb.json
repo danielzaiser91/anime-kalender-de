@@ -10,14 +10,7 @@
       "primevideo"
     ]
   },
-  "blue-exorcist-beyond-the-snow-saga-vol2": {
-    "tmdbId": 38464,
-    "fsk": 16,
-    "justwatchUrl": "https://www.themoviedb.org/tv/38464/watch?locale=DE",
-    "providers": [
-      "crunchyroll"
-    ]
-  },
+  "blue-exorcist-beyond-the-snow-saga-vol2": {},
   "campfire-cooking-s1-box": {
     "tmdbId": 213402,
     "justwatchUrl": "https://www.themoviedb.org/tv/213402/watch?locale=DE",
@@ -89,7 +82,9 @@
       "crunchyroll"
     ]
   },
-  "virgin-road-vol1": {},
+  "virgin-road-vol1": {
+    "tmdbId": 117886
+  },
   "wind-breaker-s2-vol1": {},
   "worlds-end-harem-vol2": {
     "tmdbId": 103409,
@@ -261,40 +256,19 @@
       "crunchyroll"
     ]
   },
-  "clevatess-s2": {
-    "tmdbId": 258348,
-    "justwatchUrl": "https://www.themoviedb.org/tv/258348/watch?locale=DE",
-    "providers": [
-      "crunchyroll"
-    ]
-  },
-  "hana-kimi-s2": {
-    "tmdbId": 254492,
-    "justwatchUrl": "https://www.themoviedb.org/tv/254492/watch?locale=DE",
-    "providers": [
-      "crunchyroll"
-    ]
-  },
+  "clevatess-s2": {},
+  "hana-kimi-s2": {},
   "mushoku-tensei-s3": {},
-  "saga-of-tanya-the-evil-s2": {
-    "tmdbId": 69346,
-    "fsk": 16,
-    "justwatchUrl": "https://www.themoviedb.org/tv/69346/watch?locale=DE",
+  "saga-of-tanya-the-evil-s2": {},
+  "skeleton-knight-s2": {},
+  "though-i-am-an-inept-villainess": {
+    "tmdbId": 286345,
+    "justwatchUrl": "https://www.themoviedb.org/tv/286345/watch?locale=DE",
     "providers": [
-      "crunchyroll",
-      "primevideo"
+      "disneyplus",
+      "crunchyroll"
     ]
   },
-  "skeleton-knight-s2": {
-    "tmdbId": 123528,
-    "fsk": 16,
-    "justwatchUrl": "https://www.themoviedb.org/tv/123528/watch?locale=DE",
-    "providers": [
-      "crunchyroll",
-      "primevideo"
-    ]
-  },
-  "though-i-am-an-inept-villainess": {},
   "tomb-raider-king": {
     "tmdbId": 297826,
     "justwatchUrl": "https://www.themoviedb.org/tv/297826/watch?locale=DE",
@@ -302,15 +276,7 @@
       "crunchyroll"
     ]
   },
-  "trapped-in-a-dating-sim-s2": {
-    "tmdbId": 139512,
-    "fsk": 12,
-    "justwatchUrl": "https://www.themoviedb.org/tv/139512/watch?locale=DE",
-    "providers": [
-      "crunchyroll",
-      "primevideo"
-    ]
-  },
+  "trapped-in-a-dating-sim-s2": {},
   "you-and-i-are-polar-opposites-s2": {},
   "thunder-3": {
     "tmdbId": 326119,
@@ -326,12 +292,5 @@
       "primevideo"
     ]
   },
-  "vom-landei-zum-schwertheiligen-2": {
-    "tmdbId": 260823,
-    "fsk": 16,
-    "justwatchUrl": "https://www.themoviedb.org/tv/260823/watch?locale=DE",
-    "providers": [
-      "primevideo"
-    ]
-  }
+  "vom-landei-zum-schwertheiligen-2": {}
 }

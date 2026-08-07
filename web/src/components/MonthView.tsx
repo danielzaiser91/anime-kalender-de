@@ -2,18 +2,22 @@ import { useMemo } from 'react'
 import type { ReleaseEvent } from '@shared/types.ts'
 import { RELEASE_TYPES } from '@shared/types.ts'
 import { addDays, startOfMonth, startOfWeek, todayIso, weekdayName } from '@shared/time.ts'
+import { useLang } from '../lib/i18n.tsx'
 
 export function MonthView({
   events,
   anchorDate,
+  favorites,
   onOpen,
   onPickDay,
 }: {
   events: ReleaseEvent[]
   anchorDate: string
+  favorites: Set<number>
   onOpen: (slug: string, date: string) => void
   onPickDay: (date: string) => void
 }) {
+  const { t } = useLang()
   const today = todayIso()
   const month = anchorDate.slice(0, 7)
   const gridStart = startOfWeek(startOfMonth(anchorDate))
@@ -26,7 +30,8 @@ export function MonthView({
       else map.set(ev.date, [ev])
     }
     for (const list of map.values()) {
-      list.sort((a, b) => (a.time ?? '99').localeCompare(b.time ?? '99'))
+      // Erst mit Uhrzeit, dann ohne — dieselbe Ordnung wie in der Wochenansicht.
+      list.sort((a, b) => (a.time ?? '~').localeCompare(b.time ?? '~'))
     }
     return map
   }, [events])
@@ -53,7 +58,7 @@ export function MonthView({
             <div
               key={date}
               className={[
-                'min-h-24 border-t border-l border-slate-200 p-1 first:border-l-0 dark:border-white/10',
+                'min-h-24 border-l border-t border-slate-200 p-1 first:border-l-0 dark:border-white/10',
                 inMonth ? '' : 'bg-slate-50/60 opacity-50 dark:bg-black/20',
                 isToday ? 'bg-sky-400/10' : '',
               ].join(' ')}
@@ -61,9 +66,9 @@ export function MonthView({
               <button
                 type="button"
                 onClick={() => onPickDay(date)}
-                title="Woche dieses Tages öffnen"
+                title={t('month.openWeek')}
                 className={[
-                  'mb-1 flex h-5 w-5 items-center justify-center rounded text-[11px] tabular-nums transition',
+                  'mb-1 flex h-5 w-5 cursor-pointer items-center justify-center rounded text-[11px] tabular-nums transition',
                   isToday
                     ? 'bg-sky-500 font-bold text-white'
                     : 'text-slate-500 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-white/10',
@@ -78,12 +83,18 @@ export function MonthView({
                     key={ev.id}
                     type="button"
                     onClick={() => onOpen(ev.releaseSlug, ev.date)}
-                    className="flex items-center gap-1 truncate rounded px-1 py-0.5 text-left text-[11px] text-slate-700 transition hover:bg-slate-200/70 dark:text-slate-200 dark:hover:bg-white/10"
+                    className={[
+                      'flex cursor-pointer items-center gap-1 truncate rounded px-1 py-0.5 text-left text-[11px] transition',
+                      favorites.has(ev.titleId)
+                        ? 'bg-amber-400/10 text-amber-600 dark:text-amber-300'
+                        : 'text-slate-700 hover:bg-slate-200/70 dark:text-slate-200 dark:hover:bg-white/10',
+                    ].join(' ')}
                   >
                     <span
                       className="size-1.5 shrink-0 rounded-full"
                       style={{ background: RELEASE_TYPES[ev.releaseType].color }}
                     />
+                    {favorites.has(ev.titleId) && <span aria-hidden="true">★</span>}
                     {ev.time && <span className="tabular-nums opacity-70">{ev.time}</span>}
                     <span className="truncate">{ev.name}</span>
                   </button>
@@ -92,9 +103,9 @@ export function MonthView({
                   <button
                     type="button"
                     onClick={() => onPickDay(date)}
-                    className="px-1 text-left text-[11px] text-sky-500 hover:underline"
+                    className="cursor-pointer px-1 text-left text-[11px] text-sky-500 hover:underline"
                   >
-                    +{dayEvents.length - 4} weitere
+                    {t('month.more', { count: dayEvents.length - 4 })}
                   </button>
                 )}
               </div>

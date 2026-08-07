@@ -1,7 +1,6 @@
 import type { PlatformId } from './types.ts'
 
-/** AniList-Genres → deutsche Bezeichnung. */
-export const GENRE_DE: Record<string, string> = {
+const BASE_GENRE_DE: Record<string, string> = {
   Action: 'Action',
   Adventure: 'Abenteuer',
   Comedy: 'Comedy',
@@ -22,6 +21,67 @@ export const GENRE_DE: Record<string, string> = {
   Thriller: 'Thriller',
   Hentai: 'Hentai',
 }
+
+/**
+ * AniList kennt nur 18 Genres — „Isekai" oder „Crime" liegen dort als Tag vor.
+ * Diese Tags werden ab einer gewissen Relevanz wie Genres behandelt, damit der
+ * Filter die Begriffe anbietet, nach denen tatsächlich gesucht wird.
+ */
+export const TAG_AS_GENRE: Record<string, string> = {
+  Isekai: 'Isekai',
+  Crime: 'Crime',
+  Detective: 'Detektiv',
+  Military: 'Militär',
+  Historical: 'Historisch',
+  School: 'Schule',
+  Survival: 'Survival',
+  Harem: 'Harem',
+  'Reverse Harem': 'Reverse Harem',
+  'Boys Love': 'Boys Love',
+  'Girls Love': 'Girls Love',
+  Iyashikei: 'Iyashikei',
+  Cyberpunk: 'Cyberpunk',
+  Steampunk: 'Steampunk',
+  'Post-Apocalyptic': 'Postapokalyptisch',
+  Dystopian: 'Dystopie',
+  Space: 'Weltraum',
+  'Martial Arts': 'Kampfkunst',
+  Samurai: 'Samurai',
+  Ninja: 'Ninja',
+  Pirates: 'Piraten',
+  Vampire: 'Vampire',
+  Zombie: 'Zombies',
+  Demons: 'Dämonen',
+  Magic: 'Magie',
+  Mythology: 'Mythologie',
+  Superhero: 'Superhelden',
+  Idol: 'Idols',
+  Cooking: 'Kochen',
+  Racing: 'Rennsport',
+  Gambling: 'Glücksspiel',
+  Politics: 'Politik',
+  Revenge: 'Rache',
+  Gore: 'Gore',
+  Parody: 'Parodie',
+  Satire: 'Satire',
+  Reincarnation: 'Reinkarnation',
+  'Time Manipulation': 'Zeitmanipulation',
+  'Video Games': 'Videospiele',
+  'Slice of Life': 'Slice of Life',
+  Villainess: 'Villainess',
+  Cultivation: 'Kultivierung',
+  Josei: 'Josei',
+  Seinen: 'Seinen',
+  Shoujo: 'Shoujo',
+  Shounen: 'Shounen',
+  Kids: 'Kinder',
+}
+
+/** Ab dieser Relevanz gilt ein Tag als prägend genug für den Genre-Filter. */
+export const TAG_AS_GENRE_MIN_RANK = 60
+
+/** Genre-Namen (immer englisch im Datensatz) → deutsche Bezeichnung. */
+export const GENRE_DE: Record<string, string> = { ...BASE_GENRE_DE, ...TAG_AS_GENRE }
 
 /**
  * Häufige AniList-Tags → deutsche Keywords.

@@ -3,118 +3,168 @@ import type { Title } from '@shared/types.ts'
 import { titleStatus } from '@shared/logic.ts'
 import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
-import { FskBadge, PlatformBadge, StatusBadge } from './ui.tsx'
+import { useLang } from '../lib/i18n.tsx'
+import { FavoriteStar, FskBadge, PlatformBadge, StatusBadge, Toggle } from './ui.tsx'
 
 const PAGE_SIZE = 60
+
+export interface TitleGroup {
+  main: Title
+  members: Title[]
+}
+
+/**
+ * Bündelt Staffeln derselben Reihe. Stellvertreter ist die neueste Staffel —
+ * ältere liegen ohnehin in der Vergangenheit und brauchen keine eigene Kachel.
+ */
+export function groupByFranchise(titles: Title[]): TitleGroup[] {
+  const byFranchise = new Map<number, Title[]>()
+  for (const t of titles) {
+    const key = t.franchiseId ?? t.id
+    const list = byFranchise.get(key)
+    if (list) list.push(t)
+    else byFranchise.set(key, [t])
+  }
+  return [...byFranchise.values()].map((members) => {
+    const sorted = members.slice().sort((a, b) => (b.jpYear ?? 0) - (a.jpYear ?? 0) || b.id - a.id)
+    return { main: sorted[0], members: sorted }
+  })
+}
 
 export function DatabaseView({
   data,
   titles,
+  grouped,
+  onGroupedChange,
+  favorites,
+  onToggleFavorite,
   onOpenTitle,
 }: {
   data: Dataset
   titles: Title[]
+  grouped: boolean
+  onGroupedChange: (next: boolean) => void
+  favorites: Set<number>
+  onToggleFavorite: (id: number) => void
   onOpenTitle: (id: number) => void
 }) {
+  const { t } = useLang()
   const today = todayIso()
   const [visible, setVisible] = useState(PAGE_SIZE)
   const [sort, setSort] = useState<'titel' | 'jahr' | 'score'>('titel')
 
-  const sorted = useMemo(() => {
-    const list = titles.slice()
-    if (sort === 'titel') {
-      list.sort((a, b) =>
-        (a.titleDe ?? a.titleEn ?? a.titleRomaji ?? '').localeCompare(
-          b.titleDe ?? b.titleEn ?? b.titleRomaji ?? '',
-          'de',
-        ),
-      )
-    } else if (sort === 'jahr') {
-      list.sort((a, b) => (b.jpYear ?? 0) - (a.jpYear ?? 0))
-    } else {
-      list.sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
-    }
-    return list
-  }, [titles, sort])
+  const groups = useMemo(() => {
+    const base: TitleGroup[] = grouped
+      ? groupByFranchise(titles)
+      : titles.map((tt) => ({ main: tt, members: [tt] }))
+
+    const name = (tt: Title) => tt.titleDe ?? tt.titleEn ?? tt.titleRomaji ?? ''
+    if (sort === 'titel') base.sort((a, b) => name(a.main).localeCompare(name(b.main), 'de'))
+    else if (sort === 'jahr') base.sort((a, b) => (b.main.jpYear ?? 0) - (a.main.jpYear ?? 0))
+    else base.sort((a, b) => (b.main.score ?? 0) - (a.main.score ?? 0))
+    return base
+  }, [titles, grouped, sort])
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500 dark:text-slate-400">
-        <span>
-          <strong className="text-slate-800 dark:text-slate-100">{titles.length}</strong> Anime mit
-          belegter deutscher Synchro
-        </span>
-        <label className="ml-auto flex items-center gap-2">
-          Sortierung
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-500 dark:text-slate-400">
+        <span>{t('db.count', { count: titles.length.toLocaleString('de-DE') })}</span>
+        <Toggle
+          checked={grouped}
+          onChange={onGroupedChange}
+          label={t('db.groupSeasons')}
+          hint={t('db.groupSeasonsHint')}
+        />
+        <label className="ml-auto flex cursor-pointer items-center gap-2">
+          {t('db.sort')}
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value as typeof sort)}
-            className="rounded-md border border-slate-300 bg-white px-2 py-1 text-sm dark:border-white/15 dark:bg-white/5"
+            className="cursor-pointer rounded-md border border-slate-300 bg-white px-2 py-1 text-sm dark:border-white/15 dark:bg-white/5"
           >
-            <option value="titel">Titel A–Z</option>
-            <option value="jahr">Jahr (neu zuerst)</option>
-            <option value="score">Bewertung</option>
+            <option value="titel">{t('db.sortTitle')}</option>
+            <option value="jahr">{t('db.sortYear')}</option>
+            <option value="score">{t('db.sortScore')}</option>
           </select>
         </label>
       </div>
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6">
-        {sorted.slice(0, visible).map((t) => {
-          const releases = data.releasesByTitle.get(t.id) ?? []
-          const status = titleStatus(releases, today)
+        {groups.slice(0, visible).map(({ main, members }) => {
+          const releases = members.flatMap((m) => data.releasesByTitle.get(m.id) ?? [])
+          const status = titleStatus(releases, today, main)
+          const favorite = members.some((m) => favorites.has(m.id))
+          const platform = releases[0]?.platform ?? main.streams[0]?.platform
           return (
-            <button
-              key={t.id}
-              type="button"
-              onClick={() => onOpenTitle(t.id)}
-              className="group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:border-slate-300 hover:shadow-lg dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-white/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+            <div
+              key={main.id}
+              role="button"
+              tabIndex={0}
+              onClick={() => onOpenTitle(main.id)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  onOpenTitle(main.id)
+                }
+              }}
+              className={[
+                'group flex cursor-pointer flex-col overflow-hidden rounded-xl border text-left transition',
+                favorite
+                  ? 'border-amber-400/70 shadow-[0_0_0_1px_rgba(251,191,36,.3)]'
+                  : 'border-slate-200 hover:border-slate-300 dark:border-white/10 dark:hover:border-white/25',
+                'bg-white hover:shadow-lg dark:bg-white/[0.03]',
+                'focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400',
+              ].join(' ')}
             >
               <div className="relative aspect-[2/3] overflow-hidden bg-slate-200 dark:bg-white/5">
-                {t.coverImage && (
+                {main.coverImage && (
                   <img
-                    src={t.coverImage}
+                    src={main.coverImage}
                     alt=""
                     loading="lazy"
                     className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
                   />
                 )}
-                {t.fsk !== undefined && (
+                <span className="absolute left-1 top-1">
+                  <FavoriteStar active={favorite} onToggle={() => onToggleFavorite(main.id)} />
+                </span>
+                {main.fsk !== undefined && (
                   <span className="absolute right-1 top-1">
-                    <FskBadge fsk={t.fsk} small />
+                    <FskBadge fsk={main.fsk} small />
+                  </span>
+                )}
+                {grouped && members.length > 1 && (
+                  <span className="absolute bottom-1 right-1 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-semibold text-white">
+                    {t('db.seasons', { count: members.length })}
                   </span>
                 )}
               </div>
               <div className="flex flex-1 flex-col gap-1.5 p-2">
                 <span className="line-clamp-2 text-[13px] font-medium leading-snug text-slate-900 dark:text-slate-100">
-                  {t.titleDe ?? t.titleEn ?? t.titleRomaji}
+                  {main.titleDe ?? main.titleEn ?? main.titleRomaji}
                 </span>
                 <span className="text-[11px] text-slate-500 dark:text-slate-400">
-                  {t.jpYear ?? '—'}
-                  {t.episodes ? ` · ${t.episodes} Ep.` : ''}
+                  {main.jpYear ?? '—'}
+                  {main.episodes ? ` · ${t('db.episodes', { count: main.episodes })}` : ''}
                 </span>
                 <span className="mt-auto flex flex-wrap items-center gap-1">
                   <StatusBadge status={status} small />
-                  {(releases[0]?.platform ?? t.streams[0]?.platform) && (
-                    <PlatformBadge
-                      platform={releases[0]?.platform ?? t.streams[0].platform}
-                      small
-                    />
-                  )}
+                  {platform && <PlatformBadge platform={platform} small />}
                 </span>
               </div>
-            </button>
+            </div>
           )
         })}
       </div>
 
-      {visible < sorted.length && (
+      {visible < groups.length && (
         <button
           type="button"
           onClick={() => setVisible((v) => v + PAGE_SIZE * 2)}
-          className="mx-auto rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-200/60 dark:border-white/15 dark:text-slate-300 dark:hover:bg-white/10"
+          className="mx-auto cursor-pointer rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-200/60 dark:border-white/15 dark:text-slate-300 dark:hover:bg-white/10"
         >
-          Weitere {Math.min(PAGE_SIZE * 2, sorted.length - visible)} anzeigen
-          <span className="ml-2 text-xs opacity-60">({sorted.length - visible} übrig)</span>
+          {t('db.more', { count: Math.min(PAGE_SIZE * 2, groups.length - visible) })}
+          <span className="ml-2 text-xs opacity-60">{t('db.remaining', { count: groups.length - visible })}</span>
         </button>
       )}
     </div>

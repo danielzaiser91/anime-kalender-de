@@ -1,12 +1,24 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { Release, ReleaseEvent, Title } from '@shared/types.ts'
-import { PLATFORMS, RELEASE_TYPES } from '@shared/types.ts'
+import { PLATFORMS } from '@shared/types.ts'
 import { expandEvents, lastEpisodeDate, releaseStatus, titleStatus } from '@shared/logic.ts'
 import { buildIcs, googleCalendarUrl } from '@shared/ics.ts'
 import { formatDate, todayIso, weekdayName } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
 import { loadSynopses } from '../lib/data.ts'
-import { Button, Chip, FskBadge, PlatformBadge, ReleaseTypeBadge, SectionTitle, StatusBadge } from './ui.tsx'
+import { useLang } from '../lib/i18n.tsx'
+import {
+  Button,
+  Chip,
+  FavoriteStar,
+  FskBadge,
+  PlatformBadge,
+  ReleaseTypeBadge,
+  SectionTitle,
+  StatusBadge,
+} from './ui.tsx'
+
+const KEYWORD_PREVIEW = 8
 
 function downloadIcs(events: ReleaseEvent[], filename: string): void {
   const blob = new Blob([buildIcs(events, { calendarName: filename })], {
@@ -21,6 +33,7 @@ function downloadIcs(events: ReleaseEvent[], filename: string): void {
 }
 
 function ReleaseBlock({ release, today }: { release: Release; today: string }) {
+  const { t } = useLang()
   const events = useMemo(() => expandEvents(release), [release])
   const status = releaseStatus(release, today)
   const upcoming = events.find((e) => e.date >= today) ?? events[events.length - 1]
@@ -37,7 +50,7 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
         {release.fsk !== undefined && <FskBadge fsk={release.fsk} />}
         {release.schedule.estimated && (
           <span className="rounded bg-amber-500/15 px-1.5 py-0.5 text-[11px] font-semibold text-amber-500 ring-1 ring-amber-500/40">
-            Termin abgeleitet
+            ≈ {t('detail.estimatedDate')}
           </span>
         )}
       </div>
@@ -56,27 +69,30 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
       )}
 
       <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-slate-600 dark:text-slate-300">
-        <dt className="text-slate-400">Start</dt>
+        <dt className="text-slate-400">{t('detail.start')}</dt>
         <dd className="tabular-nums">
-          {weekdayName(release.schedule.firstEpisodeDate, true)},{' '}
-          {formatDate(release.schedule.firstEpisodeDate)}
+          {weekdayName(release.schedule.firstEpisodeDate, true)}, {formatDate(release.schedule.firstEpisodeDate)}
         </dd>
-        <dt className="text-slate-400">Uhrzeit</dt>
+        <dt className="text-slate-400">{t('detail.time')}</dt>
         <dd className="tabular-nums">
-          {release.schedule.time ? `${release.schedule.time} Uhr` : <em className="not-italic opacity-60">unbekannt</em>}
+          {release.schedule.time ? (
+            `${release.schedule.time} Uhr`
+          ) : (
+            <span className="opacity-60">{t('detail.unknown')}</span>
+          )}
         </dd>
         {release.releaseType === 'weekly' && (
           <>
-            <dt className="text-slate-400">Folgen</dt>
+            <dt className="text-slate-400">{t('detail.episodes')}</dt>
             <dd className="tabular-nums">
               {release.schedule.episodeCount ?? '—'}
               {release.schedule.episodeCountAssumed && (
-                <span title="Folgenzahl noch nicht belegt — 12 angenommen" className="ml-1 text-amber-500">
+                <span title={t('detail.assumedEpisodes')} className="ml-1 text-amber-500">
                   ≈
                 </span>
               )}
             </dd>
-            <dt className="text-slate-400">Letzte Folge</dt>
+            <dt className="text-slate-400">{t('detail.lastEpisode')}</dt>
             <dd className="tabular-nums">{last ? formatDate(last) : '—'}</dd>
           </>
         )}
@@ -85,31 +101,31 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
       <div className="mt-3 flex flex-wrap gap-2">
         {release.platformUrl && (
           <Button href={release.platformUrl} variant="primary" size="sm">
-            Bei {PLATFORMS[release.platform].name} ansehen
+            {t('detail.watchOn', { platform: PLATFORMS[release.platform].name })}
           </Button>
         )}
         {release.buyUrl && (
           <Button href={release.buyUrl} size="sm">
-            Kaufen
+            {t('detail.buy')}
           </Button>
         )}
         {upcoming && (
-          <Button href={googleCalendarUrl(upcoming)} size="sm" title="Nächsten Termin in Google Calendar eintragen">
-            📅 Google Calendar
+          <Button href={googleCalendarUrl(upcoming)} size="sm">
+            📅 {t('detail.addToGoogle')}
           </Button>
         )}
         <Button
           size="sm"
+          title={t('detail.downloadIcsHint')}
           onClick={() => downloadIcs(events, release.name.replace(/[^\w\s-]/g, '').trim() || release.slug)}
-          title="Alle Termine dieser Staffel als Kalenderdatei"
         >
-          ⬇ .ics
+          ⬇ {t('detail.downloadIcs')}
         </Button>
       </div>
 
       {events.length > 1 && (
         <div className="mt-3">
-          <SectionTitle>Alle Termine</SectionTitle>
+          <SectionTitle>{t('detail.allDates')}</SectionTitle>
           <ul className="flex flex-col gap-0.5">
             {shown.map((ev) => (
               <li
@@ -124,15 +140,17 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
                 <span className="tabular-nums">
                   {weekdayName(ev.date, true)} {formatDate(ev.date)}
                 </span>
-                <span className="tabular-nums text-slate-400">{ev.time ?? '—:—'}</span>
+                <span className="tabular-nums text-slate-400">
+                  {ev.time ?? <span className="italic">{t('card.timeOpen')}</span>}
+                </span>
                 <a
-                  className="ml-auto text-slate-400 hover:text-sky-400"
+                  className="ml-auto inline-flex cursor-pointer items-center gap-1 rounded px-1.5 py-0.5 text-[11px] text-slate-400 transition hover:bg-sky-500/10 hover:text-sky-400"
                   href={googleCalendarUrl(ev)}
                   target="_blank"
                   rel="noreferrer noopener"
-                  title="Diesen Termin zu Google Calendar"
+                  title={t('detail.addSingle')}
                 >
-                  +
+                  📅 <span className="hidden sm:inline">{t('detail.addToGoogle')}</span>
                 </a>
               </li>
             ))}
@@ -141,9 +159,9 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
             <button
               type="button"
               onClick={() => setShowAll((s) => !s)}
-              className="mt-1 text-xs text-sky-500 hover:underline"
+              className="mt-1 cursor-pointer text-xs text-sky-500 hover:underline"
             >
-              {showAll ? 'weniger anzeigen' : `alle ${events.length} Termine anzeigen`}
+              {showAll ? t('detail.showFewer') : t('detail.showAllDates', { count: events.length })}
             </button>
           )}
         </div>
@@ -151,7 +169,7 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
 
       {release.sources.length > 0 && (
         <p className="mt-3 text-[11px] text-slate-400">
-          Quelle:{' '}
+          {t('detail.source')}:{' '}
           {release.sources.map((s, i) => (
             <span key={s}>
               {i > 0 && ', '}
@@ -166,21 +184,52 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
   )
 }
 
+function DubMark({ dub }: { dub?: boolean }) {
+  const { t } = useLang()
+  if (dub === true) {
+    return (
+      <span title={t('detail.dubYes')} className="text-[11px] font-bold text-emerald-400">
+        🇩🇪 ✓
+      </span>
+    )
+  }
+  if (dub === false) {
+    return (
+      <span title={t('detail.dubNo')} className="text-[11px] font-bold text-red-400">
+        🇩🇪 ✕
+      </span>
+    )
+  }
+  return (
+    <span title={t('detail.dubUnknown')} className="text-[11px] text-slate-400">
+      🇩🇪 ?
+    </span>
+  )
+}
+
 export function DetailPanel({
   data,
   titleId,
+  favorites,
+  onToggleFavorite,
   onClose,
   onFilterBy,
+  onOpenTitle,
 }: {
   data: Dataset
   titleId: number
+  favorites: Set<number>
+  onToggleFavorite: (id: number) => void
   onClose: () => void
   onFilterBy: (kind: 'genre' | 'keyword', value: string) => void
+  onOpenTitle: (id: number) => void
 }) {
+  const { t, tGenre, tKeyword } = useLang()
   const today = todayIso()
   const title: Title | undefined = data.titleById.get(titleId)
   const releases = data.releasesByTitle.get(titleId) ?? []
   const [synopsis, setSynopsis] = useState<string | undefined>()
+  const [allKeywords, setAllKeywords] = useState(false)
 
   useEffect(() => {
     let alive = true
@@ -189,6 +238,7 @@ export function DetailPanel({
         if (alive) setSynopsis(all[titleId])
       })
       .catch(() => {})
+    setAllKeywords(false)
     return () => {
       alive = false
     }
@@ -202,26 +252,35 @@ export function DetailPanel({
     return () => window.removeEventListener('keydown', onKey)
   }, [onClose])
 
+  // Andere Staffeln derselben Reihe — nur sinnvoll, wenn AniList sie kennt.
+  const siblings = useMemo(() => {
+    if (!title?.franchiseId) return []
+    return data.titles
+      .filter((x) => x.franchiseId === title.franchiseId && x.id !== title.id)
+      .sort((a, b) => (a.jpYear ?? 0) - (b.jpYear ?? 0))
+  }, [data.titles, title])
+
   if (!title) {
     return (
       <aside className="fixed inset-y-0 right-0 z-40 w-full max-w-md overflow-y-auto border-l border-slate-200 bg-white p-4 dark:border-white/10 dark:bg-[#0d1220]">
-        <p className="text-sm text-slate-500">Zu diesem Eintrag liegen keine Metadaten vor.</p>
+        <p className="mb-3 text-sm text-slate-500">{t('detail.noMeta')}</p>
         <Button onClick={onClose} size="sm">
-          Schließen
+          {t('detail.close')}
         </Button>
       </aside>
     )
   }
 
-  const status = titleStatus(releases, today)
+  const status = titleStatus(releases, today, title)
+  const dubOnlyOnDisc =
+    releases.length > 0 &&
+    releases.every((r) => r.releaseType === 'disc') &&
+    title.streams.some((s) => s.dub !== true)
+  const keywords = allKeywords ? title.keywords : title.keywords.slice(0, KEYWORD_PREVIEW)
 
   return (
     <>
-      <div
-        className="fixed inset-0 z-30 bg-black/40 backdrop-blur-[2px]"
-        onClick={onClose}
-        aria-hidden="true"
-      />
+      <div className="fixed inset-0 z-30 cursor-pointer bg-black/40 backdrop-blur-[2px]" onClick={onClose} aria-hidden="true" />
       <aside
         className="animate-slide-in fixed inset-y-0 right-0 z-40 flex w-full max-w-md flex-col overflow-y-auto border-l border-slate-200 bg-white shadow-2xl dark:border-white/10 dark:bg-[#0d1220]"
         role="dialog"
@@ -234,8 +293,8 @@ export function DetailPanel({
           <button
             type="button"
             onClick={onClose}
-            aria-label="Schließen"
-            className="absolute right-2 top-2 rounded-full bg-black/50 px-2 py-1 text-sm text-white transition hover:bg-black/70"
+            aria-label={t('detail.close')}
+            className="absolute right-2 top-2 cursor-pointer rounded-full bg-black/50 px-2 py-1 text-sm text-white transition hover:bg-black/70"
           >
             ✕
           </button>
@@ -243,22 +302,19 @@ export function DetailPanel({
 
         <div className="flex gap-3 p-4">
           {title.coverImage && (
-            <img
-              src={title.coverImage}
-              alt=""
-              className="h-40 w-28 shrink-0 rounded-lg object-cover shadow-lg"
-            />
+            <img src={title.coverImage} alt="" className="h-40 w-28 shrink-0 rounded-lg object-cover shadow-lg" />
           )}
           <div className="min-w-0 flex-1">
-            <h2 className="text-lg font-semibold leading-tight text-slate-900 dark:text-white">
-              {title.titleDe ?? title.titleEn ?? title.titleRomaji}
-            </h2>
+            <div className="flex items-start gap-2">
+              <h2 className="flex-1 text-lg font-semibold leading-tight text-slate-900 dark:text-white">
+                {title.titleDe ?? title.titleEn ?? title.titleRomaji}
+              </h2>
+              <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
+            </div>
             {title.titleRomaji && title.titleRomaji !== (title.titleDe ?? title.titleEn) && (
               <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">{title.titleRomaji}</p>
             )}
-            {title.titleNative && (
-              <p className="text-xs text-slate-400 dark:text-slate-500">{title.titleNative}</p>
-            )}
+            {title.titleNative && <p className="text-xs text-slate-400 dark:text-slate-500">{title.titleNative}</p>}
             <div className="mt-2 flex flex-wrap items-center gap-1.5">
               <StatusBadge status={status} small />
               {title.fsk !== undefined && <FskBadge fsk={title.fsk} small />}
@@ -271,7 +327,7 @@ export function DetailPanel({
             <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
               {[
                 title.format,
-                title.episodes ? `${title.episodes} Folgen` : undefined,
+                title.episodes ? t('db.episodes', { count: title.episodes }) : undefined,
                 title.jpYear ? `JP ${title.jpYear}` : undefined,
                 title.studios?.[0],
               ]
@@ -284,7 +340,7 @@ export function DetailPanel({
         <div className="flex flex-col gap-4 px-4 pb-8">
           {releases.length > 0 ? (
             <div className="flex flex-col gap-3">
-              <SectionTitle>Deutsche Releases</SectionTitle>
+              <SectionTitle>{t('detail.releases')}</SectionTitle>
               {releases
                 .slice()
                 .sort((a, b) => a.schedule.firstEpisodeDate.localeCompare(b.schedule.firstEpisodeDate))
@@ -294,26 +350,57 @@ export function DetailPanel({
             </div>
           ) : (
             <div className="rounded-xl border border-dashed border-slate-300 p-3 text-xs text-slate-500 dark:border-white/15 dark:text-slate-400">
-              Für diesen Titel ist eine deutsche Synchro belegt
-              {title.dubConfidence === 'low' ? ' (nur eine Quelle)' : ''}, aber noch kein deutscher
-              Termin erfasst. Wer einen kennt: Quelle im Repository ergänzen.
+              {t('detail.noRelease')}
+              {title.dubConfidence === 'low' && t('detail.noReleaseSingleSource')}
             </div>
           )}
 
           {title.streams.length > 0 && (
             <div>
-              <SectionTitle>Wo läuft es</SectionTitle>
-              <div className="flex flex-wrap gap-2">
+              <SectionTitle>{t('detail.whereToWatch')}</SectionTitle>
+              <div className="flex flex-col gap-1.5">
                 {title.streams.map((s) => (
                   <a
                     key={s.platform}
                     href={s.url}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="transition hover:opacity-80"
+                    className="flex cursor-pointer items-center gap-2 rounded-lg border border-slate-200 px-2 py-1.5 transition hover:border-slate-300 hover:bg-slate-100/60 dark:border-white/10 dark:hover:border-white/25 dark:hover:bg-white/5"
                   >
                     <PlatformBadge platform={s.platform} />
+                    <span className="ml-auto">
+                      <DubMark dub={s.dub} />
+                    </span>
                   </a>
+                ))}
+              </div>
+              {dubOnlyOnDisc && (
+                <p className="mt-2 rounded-lg bg-amber-500/10 px-2 py-1.5 text-[11px] leading-snug text-amber-600 dark:text-amber-400">
+                  {t('detail.dubHintDisc')}
+                </p>
+              )}
+            </div>
+          )}
+
+          {siblings.length > 0 && (
+            <div>
+              <SectionTitle>{t('detail.seasons')}</SectionTitle>
+              <div className="flex flex-col gap-1">
+                {siblings.map((s) => (
+                  <button
+                    key={s.id}
+                    type="button"
+                    onClick={() => onOpenTitle(s.id)}
+                    className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-left text-xs transition hover:bg-slate-100/70 dark:hover:bg-white/5"
+                  >
+                    {s.coverImage && (
+                      <img src={s.coverImage} alt="" loading="lazy" className="h-9 w-6 rounded object-cover" />
+                    )}
+                    <span className="min-w-0 flex-1 truncate text-slate-700 dark:text-slate-200">
+                      {s.titleDe ?? s.titleEn ?? s.titleRomaji}
+                    </span>
+                    <span className="shrink-0 tabular-nums text-slate-400">{s.jpYear ?? '—'}</span>
+                  </button>
                 ))}
               </div>
             </div>
@@ -321,11 +408,11 @@ export function DetailPanel({
 
           {title.genres.length > 0 && (
             <div>
-              <SectionTitle>Genres</SectionTitle>
+              <SectionTitle>{t('detail.genres')}</SectionTitle>
               <div className="flex flex-wrap gap-1.5">
                 {title.genres.map((g) => (
                   <Chip key={g} onClick={() => onFilterBy('genre', g)}>
-                    {g}
+                    {tGenre(g)}
                   </Chip>
                 ))}
               </div>
@@ -334,20 +421,27 @@ export function DetailPanel({
 
           {title.keywords.length > 0 && (
             <div>
-              <SectionTitle>Keywords</SectionTitle>
+              <SectionTitle>{t('detail.keywords')}</SectionTitle>
               <div className="flex flex-wrap gap-1.5">
-                {title.keywords.map((k) => (
+                {keywords.map((k) => (
                   <Chip key={k} onClick={() => onFilterBy('keyword', k)}>
-                    {k}
+                    {tKeyword(k)}
                   </Chip>
                 ))}
+                {title.keywords.length > KEYWORD_PREVIEW && (
+                  <Chip onClick={() => setAllKeywords((v) => !v)}>
+                    {allKeywords
+                      ? t('filter.showLess')
+                      : `(…) ${t('filter.showMore', { count: title.keywords.length })}`}
+                  </Chip>
+                )}
               </div>
             </div>
           )}
 
           {synopsis && (
             <div>
-              <SectionTitle>Handlung</SectionTitle>
+              <SectionTitle>{t('detail.plot')}</SectionTitle>
               <p className="whitespace-pre-line text-sm leading-relaxed text-slate-600 dark:text-slate-300">
                 {synopsis}
               </p>
@@ -355,21 +449,21 @@ export function DetailPanel({
           )}
 
           <p className="text-[11px] text-slate-400">
-            Metadaten von AniList
-            {title.malId ? ` · MAL-ID ${title.malId}` : ''} · Dub-Beleg über MyDubList (
-            {title.dubConfidence === 'very-high'
-              ? '≥4 Quellen'
-              : title.dubConfidence === 'high'
-                ? '≥3 Quellen'
-                : title.dubConfidence === 'normal'
-                  ? '≥2 Quellen'
-                  : '1 Quelle'}
-            )
+            {t('detail.metaFrom')}
+            {title.malId ? ` · MAL ${title.malId}` : ''} ·{' '}
+            {t('detail.dubProof', {
+              sources:
+                title.dubConfidence === 'very-high'
+                  ? '≥4'
+                  : title.dubConfidence === 'high'
+                    ? '≥3'
+                    : title.dubConfidence === 'normal'
+                      ? '≥2'
+                      : '1',
+            })}
           </p>
         </div>
       </aside>
     </>
   )
 }
-
-export { RELEASE_TYPES }

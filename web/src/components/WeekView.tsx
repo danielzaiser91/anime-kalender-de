@@ -2,19 +2,43 @@ import { useMemo } from 'react'
 import type { ReleaseEvent } from '@shared/types.ts'
 import type { Dataset } from '../lib/data.ts'
 import { addDays, formatDate, startOfWeek, todayIso, weekdayName } from '@shared/time.ts'
+import { useLang } from '../lib/i18n.tsx'
 import { EventCard } from './EventCard.tsx'
+
+/** Trennt Termine mit belegter Uhrzeit von denen ohne — mit Uhrzeit zuerst. */
+function splitByTime(events: ReleaseEvent[]): { timed: ReleaseEvent[]; untimed: ReleaseEvent[] } {
+  const timed = events
+    .filter((e) => e.time)
+    .sort((a, b) => a.time!.localeCompare(b.time!))
+  const untimed = events.filter((e) => !e.time).sort((a, b) => a.name.localeCompare(b.name, 'de'))
+  return { timed, untimed }
+}
+
+function GroupLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex items-center gap-2 px-0.5 pt-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500">
+      <span className="whitespace-nowrap">{children}</span>
+      <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />
+    </div>
+  )
+}
 
 export function WeekView({
   data,
   events,
   anchorDate,
+  favorites,
+  onToggleFavorite,
   onOpen,
 }: {
   data: Dataset
   events: ReleaseEvent[]
   anchorDate: string
+  favorites: Set<number>
+  onToggleFavorite: (titleId: number) => void
   onOpen: (slug: string, date: string) => void
 }) {
+  const { t } = useLang()
   const today = todayIso()
   const monday = startOfWeek(anchorDate)
 
@@ -27,22 +51,28 @@ export function WeekView({
     }
     return Array.from({ length: 7 }, (_, i) => {
       const date = addDays(monday, i)
-      const list = (byDate.get(date) ?? []).slice().sort((a, b) => {
-        if (!a.time && !b.time) return a.name.localeCompare(b.name, 'de')
-        if (!a.time) return 1
-        if (!b.time) return -1
-        return a.time.localeCompare(b.time)
-      })
-      return { date, events: list }
+      return { date, ...splitByTime(byDate.get(date) ?? []) }
     })
   }, [events, monday])
 
-  const total = days.reduce((sum, d) => sum + d.events.length, 0)
+  const total = days.reduce((sum, d) => sum + d.timed.length + d.untimed.length, 0)
+
+  const card = (ev: ReleaseEvent) => (
+    <EventCard
+      key={ev.id}
+      event={ev}
+      title={data.titleById.get(ev.titleId)}
+      fsk={data.releaseBySlug.get(ev.releaseSlug)?.fsk}
+      favorite={favorites.has(ev.titleId)}
+      onToggleFavorite={ev.titleId > 0 ? () => onToggleFavorite(ev.titleId) : undefined}
+      onOpen={() => onOpen(ev.releaseSlug, ev.date)}
+    />
+  )
 
   return (
     <div className="flex flex-col gap-3">
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
-        {days.map(({ date, events: dayEvents }) => {
+        {days.map(({ date, timed, untimed }) => {
           const isToday = date === today
           const isPast = date < today
           return (
@@ -67,24 +97,29 @@ export function WeekView({
               >
                 <span className="text-xs font-semibold uppercase tracking-wider">
                   {weekdayName(date, true)}
-                  {isToday && <span className="ml-1 normal-case tracking-normal">· heute</span>}
+                  {isToday && <span className="ml-1 normal-case tracking-normal">· {t('week.today')}</span>}
                 </span>
                 <span className="text-xs tabular-nums opacity-80">{formatDate(date).slice(0, 5)}</span>
               </header>
 
               <div className="flex flex-1 flex-col gap-1.5 p-2">
-                {dayEvents.length === 0 ? (
-                  <p className="m-auto text-xs text-slate-400 dark:text-slate-600">nichts</p>
+                {timed.length === 0 && untimed.length === 0 ? (
+                  <p className="m-auto text-xs text-slate-400 dark:text-slate-600">{t('week.nothing')}</p>
                 ) : (
-                  dayEvents.map((ev) => (
-                    <EventCard
-                      key={ev.id}
-                      event={ev}
-                      title={data.titleById.get(ev.titleId)}
-                      fsk={data.releaseBySlug.get(ev.releaseSlug)?.fsk}
-                      onOpen={() => onOpen(ev.releaseSlug, ev.date)}
-                    />
-                  ))
+                  <>
+                    {timed.length > 0 && (
+                      <>
+                        {untimed.length > 0 && <GroupLabel>{t('week.withTime')}</GroupLabel>}
+                        {timed.map(card)}
+                      </>
+                    )}
+                    {untimed.length > 0 && (
+                      <>
+                        {timed.length > 0 && <GroupLabel>{t('week.withoutTime')}</GroupLabel>}
+                        {untimed.map(card)}
+                      </>
+                    )}
+                  </>
                 )}
               </div>
             </section>
@@ -94,8 +129,7 @@ export function WeekView({
 
       {total === 0 && (
         <p className="rounded-xl border border-dashed border-slate-300 p-8 text-center text-sm text-slate-500 dark:border-white/15 dark:text-slate-400">
-          In dieser Woche liegt kein Termin, der zu den Filtern passt. Mit den Pfeiltasten ← → springst
-          du durch die Wochen.
+          {t('week.empty')}
         </p>
       )}
     </div>

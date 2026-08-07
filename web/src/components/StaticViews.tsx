@@ -2,9 +2,11 @@ import { useState } from 'react'
 import type { DataMeta, PlatformId } from '@shared/types.ts'
 import { PLATFORMS } from '@shared/types.ts'
 import { absoluteFeedUrl } from '../lib/data.ts'
+import { useLang } from '../lib/i18n.tsx'
 import { Button, SectionTitle } from './ui.tsx'
 
 const WORKER_URL = import.meta.env.VITE_NEWSLETTER_API ?? ''
+const CONTACT_EMAIL = 'danielzaiser91@googlemail.com'
 
 function Card({ children }: { children: React.ReactNode }) {
   return (
@@ -15,6 +17,7 @@ function Card({ children }: { children: React.ReactNode }) {
 }
 
 function CopyField({ value }: { value: string }) {
+  const { t } = useLang()
   const [copied, setCopied] = useState(false)
   return (
     <div className="flex gap-2">
@@ -22,7 +25,7 @@ function CopyField({ value }: { value: string }) {
         readOnly
         value={value}
         onFocus={(e) => e.currentTarget.select()}
-        className="min-w-0 flex-1 rounded-lg border border-slate-300 bg-slate-100 px-2 py-1.5 font-mono text-xs dark:border-white/15 dark:bg-black/30"
+        className="min-w-0 flex-1 cursor-text rounded-lg border border-slate-300 bg-slate-100 px-2 py-1.5 font-mono text-xs dark:border-white/15 dark:bg-black/30"
       />
       <Button
         size="sm"
@@ -33,13 +36,66 @@ function CopyField({ value }: { value: string }) {
           })
         }}
       >
-        {copied ? '✓ kopiert' : 'kopieren'}
+        {copied ? t('sub.copied') : t('sub.copy')}
       </Button>
     </div>
   )
 }
 
+function PlatformToggleList({
+  platforms,
+  selected,
+  onToggle,
+  allLabel,
+  onAll,
+}: {
+  platforms: PlatformId[]
+  selected: PlatformId[] | 'all'
+  onToggle: (p: PlatformId) => void
+  allLabel?: string
+  onAll?: () => void
+}) {
+  const isAll = selected === 'all'
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {allLabel && onAll && (
+        <button
+          type="button"
+          onClick={onAll}
+          className={[
+            'cursor-pointer rounded-full border px-3 py-1 text-xs font-medium transition',
+            isAll
+              ? 'border-transparent bg-slate-100 text-slate-900'
+              : 'border-slate-300/70 text-slate-600 dark:border-white/15 dark:text-slate-300',
+          ].join(' ')}
+        >
+          {allLabel}
+        </button>
+      )}
+      {platforms.map((p) => {
+        const active = !isAll && selected.includes(p)
+        return (
+          <button
+            key={p}
+            type="button"
+            onClick={() => onToggle(p)}
+            className={[
+              'cursor-pointer rounded-full border px-3 py-1 text-xs font-medium transition',
+              active
+                ? 'border-transparent bg-slate-100 text-slate-900'
+                : 'border-slate-300/70 text-slate-600 hover:border-slate-400 dark:border-white/15 dark:text-slate-300',
+            ].join(' ')}
+          >
+            {PLATFORMS[p].name}
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
 export function SubscribeView({ meta }: { meta: DataMeta }) {
+  const { t } = useLang()
   const [platform, setPlatform] = useState<PlatformId | 'all'>('all')
   const feed = platform === 'all' ? 'all.ics' : `platform-${platform}.ics`
   const url = absoluteFeedUrl(feed)
@@ -47,69 +103,40 @@ export function SubscribeView({ meta }: { meta: DataMeta }) {
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-5">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Kalender abonnieren</h1>
-        <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
-          Ein Abo statt vieler Einzelklicks: Die Feeds unten aktualisieren sich mit jedem Daten-Update
-          von selbst. Kein Konto, kein Login, keine Freigabe an uns nötig.
-        </p>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{t('sub.title')}</h1>
+        <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{t('sub.intro')}</p>
       </div>
 
       <Card>
-        <SectionTitle>Feed wählen</SectionTitle>
-        <div className="mb-3 flex flex-wrap gap-1.5">
-          <button
-            type="button"
-            onClick={() => setPlatform('all')}
-            className={[
-              'rounded-full border px-3 py-1 text-xs font-medium transition',
-              platform === 'all'
-                ? 'border-transparent bg-slate-100 text-slate-900'
-                : 'border-slate-300/70 text-slate-600 dark:border-white/15 dark:text-slate-300',
-            ].join(' ')}
-          >
-            Alles
-          </button>
-          {meta.platforms.map((p) => (
-            <button
-              key={p}
-              type="button"
-              onClick={() => setPlatform(p)}
-              className={[
-                'rounded-full border px-3 py-1 text-xs font-medium transition',
-                platform === p
-                  ? 'border-transparent bg-slate-100 text-slate-900'
-                  : 'border-slate-300/70 text-slate-600 dark:border-white/15 dark:text-slate-300',
-              ].join(' ')}
-            >
-              {PLATFORMS[p].name}
-            </button>
-          ))}
+        <SectionTitle>{t('sub.pick')}</SectionTitle>
+        <div className="mb-3">
+          <PlatformToggleList
+            platforms={meta.platforms}
+            selected={platform === 'all' ? 'all' : [platform]}
+            onToggle={(p) => setPlatform(p)}
+            allLabel={t('sub.all')}
+            onAll={() => setPlatform('all')}
+          />
         </div>
         <CopyField value={url} />
         <div className="mt-3 flex flex-wrap gap-2">
           <Button href={url} download={feed} size="sm">
-            ⬇ Datei laden
+            ⬇ {t('sub.download')}
           </Button>
           <Button href="https://calendar.google.com/calendar/u/0/r/settings/addbyurl" size="sm">
-            In Google Calendar einfügen
+            {t('sub.insert')}
           </Button>
         </div>
       </Card>
 
       <Card>
-        <SectionTitle>So geht's</SectionTitle>
+        <SectionTitle>{t('sub.how')}</SectionTitle>
         <ol className="ml-4 list-decimal space-y-1.5 text-sm text-slate-600 dark:text-slate-300">
-          <li>Adresse oben kopieren.</li>
-          <li>
-            Google Calendar öffnen → links bei „Weitere Kalender" auf <strong>+</strong> → „Per URL".
-          </li>
-          <li>Adresse einfügen, „Kalender hinzufügen".</li>
+          <li>{t('sub.step1')}</li>
+          <li>{t('sub.step2')}</li>
+          <li>{t('sub.step3')}</li>
         </ol>
-        <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
-          Google holt sich abonnierte Feeds nur alle paar Stunden bis Tage. Wer Termine sofort
-          braucht, nutzt beim einzelnen Eintrag den Knopf „Google Calendar" — der legt den Termin
-          direkt an. Apple Kalender und Outlook lesen dieselbe Adresse.
-        </p>
+        <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">{t('sub.note')}</p>
       </Card>
     </div>
   )
@@ -118,6 +145,7 @@ export function SubscribeView({ meta }: { meta: DataMeta }) {
 type FormState = 'idle' | 'sending' | 'ok' | 'error'
 
 export function NewsletterView({ meta }: { meta: DataMeta }) {
+  const { t } = useLang()
   const [email, setEmail] = useState('')
   const [frequency, setFrequency] = useState<'daily' | 'weekly'>('weekly')
   const [platforms, setPlatforms] = useState<PlatformId[]>([])
@@ -130,9 +158,7 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
     if (!consent) return
     if (!WORKER_URL) {
       setState('error')
-      setMessage(
-        'Der Newsletter-Dienst ist in dieser Installation noch nicht verbunden (VITE_NEWSLETTER_API fehlt).',
-      )
+      setMessage(t('news.notConnected'))
       return
     }
     setState('sending')
@@ -145,7 +171,7 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
       const body = (await res.json()) as { ok?: boolean; error?: string }
       if (!res.ok || !body.ok) throw new Error(body.error ?? 'Unbekannter Fehler')
       setState('ok')
-      setMessage('Fast geschafft: Bestätigungsmail ist unterwegs. Erst der Klick darin aktiviert das Abo.')
+      setMessage(t('news.ok'))
     } catch (err) {
       setState('error')
       setMessage((err as Error).message)
@@ -155,17 +181,14 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-5">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Newsletter</h1>
-        <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
-          Täglich oder wöchentlich per Mail, was mit deutscher Synchro erscheint. Kein Tracking, keine
-          Werbung, Abmelden mit einem Klick aus jeder Mail.
-        </p>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{t('news.title')}</h1>
+        <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{t('news.intro')}</p>
       </div>
 
       <Card>
         <form onSubmit={submit} className="flex flex-col gap-4">
           <label className="flex flex-col gap-1 text-sm">
-            <span className="font-medium text-slate-700 dark:text-slate-200">E-Mail-Adresse</span>
+            <span className="font-medium text-slate-700 dark:text-slate-200">{t('news.email')}</span>
             <input
               type="email"
               required
@@ -177,12 +200,12 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
           </label>
 
           <fieldset className="flex flex-col gap-1 text-sm">
-            <legend className="mb-1 font-medium text-slate-700 dark:text-slate-200">Rhythmus</legend>
+            <legend className="mb-1 font-medium text-slate-700 dark:text-slate-200">{t('news.frequency')}</legend>
             <div className="flex gap-2">
               {(
                 [
-                  ['weekly', 'Wöchentlich', 'montags 07:00, alles der kommenden Woche'],
-                  ['daily', 'Täglich', '07:00, alles des Tages'],
+                  ['weekly', t('news.weekly'), t('news.weeklyHint')],
+                  ['daily', t('news.daily'), t('news.dailyHint')],
                 ] as const
               ).map(([value, label, hint]) => (
                 <label
@@ -210,50 +233,36 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
 
           <fieldset>
             <legend className="mb-1.5 text-sm font-medium text-slate-700 dark:text-slate-200">
-              Nur diese Plattformen <span className="font-normal text-slate-400">(leer = alle)</span>
+              {t('news.platforms')} <span className="font-normal text-slate-400">{t('news.platformsHint')}</span>
             </legend>
-            <div className="flex flex-wrap gap-1.5">
-              {meta.platforms.map((p) => {
-                const active = platforms.includes(p)
-                return (
-                  <button
-                    key={p}
-                    type="button"
-                    onClick={() =>
-                      setPlatforms(active ? platforms.filter((x) => x !== p) : [...platforms, p])
-                    }
-                    className={[
-                      'rounded-full border px-3 py-1 text-xs font-medium transition',
-                      active
-                        ? 'border-transparent bg-slate-100 text-slate-900'
-                        : 'border-slate-300/70 text-slate-600 dark:border-white/15 dark:text-slate-300',
-                    ].join(' ')}
-                  >
-                    {PLATFORMS[p].name}
-                  </button>
-                )
-              })}
-            </div>
+            <PlatformToggleList
+              platforms={meta.platforms}
+              selected={platforms}
+              onToggle={(p) =>
+                setPlatforms(platforms.includes(p) ? platforms.filter((x) => x !== p) : [...platforms, p])
+              }
+            />
           </fieldset>
 
-          <label className="flex items-start gap-2 text-xs text-slate-600 dark:text-slate-300">
+          <label className="flex cursor-pointer items-start gap-2 text-xs text-slate-600 dark:text-slate-300">
             <input
               type="checkbox"
               checked={consent}
               onChange={(e) => setConsent(e.target.checked)}
-              className="mt-0.5"
+              className="mt-0.5 cursor-pointer"
               required
             />
             <span>
-              Ich möchte den Newsletter erhalten und bin damit einverstanden, dass meine Adresse dafür
-              gespeichert wird. Die Einwilligung kann ich jederzeit über den Abmeldelink widerrufen.
-              Näheres in der <a className="underline" href="#/datenschutz">Datenschutzerklärung</a>.
+              {t('news.consent')}{' '}
+              <a className="underline" href="#/datenschutz">
+                {t('news.privacy')}
+              </a>
             </span>
           </label>
 
           <div className="flex items-center gap-3">
             <Button variant="primary" type="submit" disabled={state === 'sending' || !consent}>
-              {state === 'sending' ? 'sendet …' : 'Anmelden'}
+              {state === 'sending' ? t('news.sending') : t('news.submit')}
             </Button>
             {state !== 'idle' && (
               <span
@@ -270,58 +279,102 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
       </Card>
 
       <Card>
-        <SectionTitle>Wie das technisch läuft</SectionTitle>
-        <p className="text-sm text-slate-600 dark:text-slate-300">
-          Die Anmeldung ist ein Double-Opt-in: Wir schicken erst eine Bestätigungsmail, gespeichert
-          wird das Abo erst nach deinem Klick. Adresse, Rhythmus und Plattformwahl liegen in einer
-          Cloudflare-D1-Datenbank in der EU. Der Versand läuft über einen Cron-Job, der die
-          Termine aus genau diesem Kalender zieht.
-        </p>
+        <SectionTitle>{t('news.howTitle')}</SectionTitle>
+        <p className="text-sm text-slate-600 dark:text-slate-300">{t('news.how')}</p>
       </Card>
     </div>
   )
 }
 
+/* Rechtstexte bleiben bewusst deutsch: Sie richten sich nach deutschem Recht
+   und wären in Übersetzung nicht mehr die verbindliche Fassung. */
+
 export function ImpressumView() {
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
       <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Impressum</h1>
-      <p className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-3 text-amber-700 dark:text-amber-300">
-        Platzhalter — vor der Veröffentlichung mit den echten Angaben nach § 5 DDG füllen. Ohne
-        vollständiges Impressum ist ein deutscher Newsletter-Betrieb angreifbar.
-      </p>
+
       <div>
-        <h2 className="font-semibold text-slate-800 dark:text-slate-100">Angaben gemäß § 5 DDG</h2>
+        <h2 className="font-semibold text-slate-800 dark:text-slate-100">Anbieter</h2>
         <p>
           Daniel Zaiser
           <br />
-          [Straße und Hausnummer]
-          <br />
-          [PLZ Ort]
-          <br />
-          Deutschland
+          Kontakt ausschließlich per E-Mail:{' '}
+          <a className="underline hover:text-sky-400" href={`mailto:${CONTACT_EMAIL}`}>
+            {CONTACT_EMAIL}
+          </a>
+        </p>
+        <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
+          Dieses Angebot ist ein privates, nicht kommerzielles Fan-Projekt ohne Werbung, ohne
+          Affiliate-Links und ohne kostenpflichtige Leistungen. Eine Anschrift wird deshalb nicht
+          veröffentlicht; für Anliegen jeder Art genügt die E-Mail-Adresse oben, sie wird zeitnah
+          gelesen. Wer eine ladungsfähige Anschrift benötigt, bekommt sie auf Anfrage.
         </p>
       </div>
+
       <div>
-        <h2 className="font-semibold text-slate-800 dark:text-slate-100">Kontakt</h2>
-        <p>E-Mail: [Kontaktadresse]</p>
+        <h2 className="font-semibold text-slate-800 dark:text-slate-100">Verantwortlich für den Inhalt</h2>
+        <p>Daniel Zaiser, erreichbar über die oben genannte Adresse.</p>
       </div>
+
       <div>
         <h2 className="font-semibold text-slate-800 dark:text-slate-100">Haftung für Inhalte</h2>
         <p>
-          Dieses Projekt ist ein privates, nicht kommerzielles Fan-Projekt. Alle Termine sind ohne
-          Gewähr; maßgeblich sind die Angaben der jeweiligen Anbieter. Für Inhalte verlinkter Seiten
-          sind ausschließlich deren Betreiber verantwortlich.
+          Alle Termine sind ohne Gewähr. Maßgeblich sind ausschließlich die Angaben der jeweiligen
+          Anbieter. Erscheinungsdaten verschieben sich in dieser Branche regelmäßig; abgeleitete oder
+          unbestätigte Angaben sind auf dieser Seite mit einem ≈ gekennzeichnet.
         </p>
       </div>
+
+      <div>
+        <h2 className="font-semibold text-slate-800 dark:text-slate-100">Haftung für Links</h2>
+        <p>
+          Diese Seite verlinkt auf Angebote Dritter (Streaming-Anbieter, Händler, Datenbanken). Auf
+          deren Inhalte haben wir keinen Einfluss; für sie ist ausschließlich der jeweilige Betreiber
+          verantwortlich. Zum Zeitpunkt der Verlinkung waren keine Rechtsverstöße erkennbar.
+        </p>
+      </div>
+
+      <div>
+        <h2 className="font-semibold text-slate-800 dark:text-slate-100">Urheberrecht</h2>
+        <p>
+          Titelbilder, Titel und Beschreibungstexte stammen von AniList und den jeweiligen
+          Rechteinhabern und werden hier lediglich eingebunden. Alle Marken- und Bildrechte liegen bei
+          ihren Inhabern. Der Quellcode dieser Seite steht unter der MIT-Lizenz, die selbst gepflegten
+          Termindaten unter CC BY 4.0.
+        </p>
+      </div>
+
       <div>
         <h2 className="font-semibold text-slate-800 dark:text-slate-100">Datenquellen</h2>
-        <ul className="ml-4 list-disc">
-          <li>Dub-Daten: MyDubList (CC BY 4.0)</li>
-          <li>Metadaten: AniList</li>
-          <li>FSK und Anbieter: TMDB — dieses Projekt nutzt die TMDB-API, ist aber weder von TMDB unterstützt noch zertifiziert</li>
-          <li>Termine: aniSearch, Anime2You — Quelle je Eintrag im Detail-Panel</li>
+        <ul className="ml-4 list-disc space-y-0.5">
+          <li>
+            Synchro-Nachweis: <a className="underline" href="https://mydublist.com">MyDubList</a> (CC BY 4.0)
+          </li>
+          <li>
+            Metadaten: <a className="underline" href="https://anilist.co">AniList</a>
+          </li>
+          <li>
+            FSK und Anbieter:{' '}
+            <a className="underline" href="https://www.themoviedb.org">TMDB</a> — diese Seite nutzt die
+            TMDB-API, ist aber weder von TMDB unterstützt noch zertifiziert
+          </li>
+          <li>
+            Sendezeiten:{' '}
+            <a className="underline" href="https://www.crunchyroll.com/de/simulcastcalendar">
+              Crunchyroll-Simulcast-Kalender
+            </a>
+          </li>
+          <li>Termine: aniSearch, Anime2You — Quelle je Eintrag im Detail-Panel verlinkt</li>
         </ul>
+      </div>
+
+      <div>
+        <h2 className="font-semibold text-slate-800 dark:text-slate-100">Streitschlichtung</h2>
+        <p>
+          Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer
+          Verbraucherschlichtungsstelle teilzunehmen.
+        </p>
       </div>
     </div>
   )
@@ -331,25 +384,48 @@ export function DatenschutzView() {
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
       <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Datenschutzerklärung</h1>
-      <p className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-3 text-amber-700 dark:text-amber-300">
-        Entwurf. Vor dem Livegang von einer fachkundigen Person prüfen lassen, insbesondere die
-        Angaben zu Hosting und Auftragsverarbeitung.
-      </p>
+
+      <div>
+        <h2 className="font-semibold text-slate-800 dark:text-slate-100">Verantwortlicher</h2>
+        <p>
+          Daniel Zaiser,{' '}
+          <a className="underline hover:text-sky-400" href={`mailto:${CONTACT_EMAIL}`}>
+            {CONTACT_EMAIL}
+          </a>
+        </p>
+      </div>
 
       <div>
         <h2 className="font-semibold text-slate-800 dark:text-slate-100">Aufruf der Seite</h2>
         <p>
-          Die Seite ist statisch und setzt keine Cookies, kein Tracking und keine Analyse-Werkzeuge
-          ein. Beim Abruf verarbeitet der Hoster (GitHub Pages, GitHub Inc.) technisch notwendige
-          Server-Logdaten wie IP-Adresse und Zeitpunkt.
+          Diese Seite ist statisch. Sie setzt keine Cookies, kein Tracking, keine Analyse-Werkzeuge und
+          keine Werbenetzwerke ein. Beim Abruf verarbeitet der Hoster GitHub Pages (GitHub Inc., 88
+          Colin P Kelly Jr Street, San Francisco, CA 94107, USA) technisch notwendige Server-Logdaten
+          wie IP-Adresse, Zeitpunkt und aufgerufene Datei. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f
+          DSGVO (berechtigtes Interesse am sicheren Betrieb). Die Übermittlung in die USA stützt sich
+          auf die Standardvertragsklauseln, die GitHub in seinen{' '}
+          <a className="underline" href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement">
+            Datenschutzbestimmungen
+          </a>{' '}
+          zusichert.
         </p>
       </div>
 
       <div>
         <h2 className="font-semibold text-slate-800 dark:text-slate-100">Bilder von Drittanbietern</h2>
         <p>
-          Cover-Bilder werden direkt von den Servern von AniList geladen. Dabei wird deine IP-Adresse
-          an AniList übertragen.
+          Cover- und Bannerbilder werden direkt von den Servern von AniList (AniList, Delaware, USA)
+          geladen. Dabei wird deine IP-Adresse dorthin übertragen — technisch unvermeidbar, wenn ein
+          Bild von einem fremden Server angezeigt wird. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.
+        </p>
+      </div>
+
+      <div>
+        <h2 className="font-semibold text-slate-800 dark:text-slate-100">Lokale Speicherung im Browser</h2>
+        <p>
+          Sprachwahl, Farbschema und deine Favoriten werden im <em>localStorage</em> deines Browsers
+          abgelegt. Diese Daten verlassen dein Gerät nicht und werden von uns weder gelesen noch
+          übertragen. Löschen kannst du sie jederzeit über die Browsereinstellungen.
         </p>
       </div>
 
@@ -357,23 +433,37 @@ export function DatenschutzView() {
         <h2 className="font-semibold text-slate-800 dark:text-slate-100">Newsletter</h2>
         <p>
           Für den Newsletter speichern wir E-Mail-Adresse, gewählten Rhythmus, Plattformauswahl sowie
-          Zeitpunkt und IP-Adresse von Anmeldung und Bestätigung — Letzteres, um die Einwilligung
-          nachweisen zu können. Rechtsgrundlage ist Art. 6 Abs. 1 lit. a DSGVO (Einwilligung).
-          Die Anmeldung erfolgt im Double-Opt-in-Verfahren.
+          Zeitpunkt und IP-Adresse von Anmeldung und Bestätigung. Letzteres dient allein dem Nachweis
+          der Einwilligung. Rechtsgrundlage ist Art. 6 Abs. 1 lit. a DSGVO. Die Anmeldung erfolgt im
+          Double-Opt-in-Verfahren: Ohne Klick auf den Bestätigungslink wird kein Abo aktiv.
         </p>
         <p className="mt-2">
-          Die Daten liegen in einer Cloudflare-D1-Datenbank; der Versand erfolgt über einen
-          E-Mail-Dienstleister. Mit beiden besteht ein Auftragsverarbeitungsvertrag. Ein Widerruf ist
-          jederzeit über den Abmeldelink in jeder Mail möglich; die Daten werden dann gelöscht.
+          Die Daten liegen in einer Cloudflare-D1-Datenbank (Cloudflare Germany GmbH bzw. Cloudflare,
+          Inc.); der Versand erfolgt über einen E-Mail-Dienstleister. Mit beiden bestehen Verträge zur
+          Auftragsverarbeitung nach Art. 28 DSGVO. Ein Widerruf ist jederzeit über den Abmeldelink in
+          jeder Mail möglich; der Datensatz wird dabei vollständig gelöscht.
+        </p>
+      </div>
+
+      <div>
+        <h2 className="font-semibold text-slate-800 dark:text-slate-100">Speicherdauer</h2>
+        <p>
+          Newsletter-Daten werden gespeichert, bis du dich abmeldest. Server-Logdaten des Hosters
+          werden nach dessen Vorgaben gelöscht.
         </p>
       </div>
 
       <div>
         <h2 className="font-semibold text-slate-800 dark:text-slate-100">Deine Rechte</h2>
         <p>
-          Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und
-          Widerspruch nach Art. 15–21 DSGVO, außerdem das Recht auf Beschwerde bei einer
-          Aufsichtsbehörde.
+          Du hast das Recht auf Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (Art. 17),
+          Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch
+          (Art. 21 DSGVO) sowie das Recht, eine erteilte Einwilligung jederzeit zu widerrufen. Wende
+          dich dafür an die oben genannte E-Mail-Adresse.
+        </p>
+        <p className="mt-2">
+          Außerdem steht dir ein Beschwerderecht bei einer Aufsichtsbehörde zu, etwa dem Landesbeauftragten
+          für den Datenschutz und die Informationsfreiheit Rheinland-Pfalz.
         </p>
       </div>
     </div>
@@ -381,25 +471,32 @@ export function DatenschutzView() {
 }
 
 export function Footer({ meta }: { meta: DataMeta }) {
+  const { t, lang } = useLang()
   const generated = new Date(meta.generatedAt)
   return (
     <footer className="mt-10 border-t border-slate-200 py-6 text-xs text-slate-500 dark:border-white/10 dark:text-slate-400">
       <div className="mx-auto flex max-w-[1600px] flex-wrap items-start gap-x-8 gap-y-3 px-4">
         <div className="min-w-56 flex-1">
-          <p className="font-semibold text-slate-700 dark:text-slate-200">Anime-Kalender DE</p>
+          <p className="font-semibold text-slate-700 dark:text-slate-200">{t('app.title')}</p>
           <p className="mt-1">
-            {meta.titleCount.toLocaleString('de-DE')} Anime mit belegter deutscher Synchro ·{' '}
-            {meta.releaseCount} erfasste Releases · {meta.eventCount} Termine
+            {t('footer.stats', {
+              titles: meta.titleCount.toLocaleString('de-DE'),
+              releases: meta.releaseCount,
+              events: meta.eventCount,
+            })}
           </p>
           <p>
-            Daten zuletzt aktualisiert:{' '}
+            {t('footer.updated')}{' '}
             <time dateTime={meta.generatedAt}>
-              {generated.toLocaleString('de-DE', { dateStyle: 'medium', timeStyle: 'short' })}
+              {generated.toLocaleString(lang === 'de' ? 'de-DE' : 'en-GB', {
+                dateStyle: 'medium',
+                timeStyle: 'short',
+              })}
             </time>
           </p>
         </div>
         <div>
-          <p className="font-semibold text-slate-700 dark:text-slate-200">Quellen</p>
+          <p className="font-semibold text-slate-700 dark:text-slate-200">{t('footer.sources')}</p>
           <ul className="mt-1 space-y-0.5">
             {meta.attribution.map((a) => (
               <li key={a}>{a}</li>
@@ -408,13 +505,13 @@ export function Footer({ meta }: { meta: DataMeta }) {
         </div>
         <div className="flex flex-col gap-0.5">
           <a className="hover:underline" href="#/impressum">
-            Impressum
+            {t('view.impressum')}
           </a>
           <a className="hover:underline" href="#/datenschutz">
-            Datenschutz
+            {t('view.datenschutz')}
           </a>
           <a className="hover:underline" href="#/abo">
-            Kalender-Abo
+            {t('view.abo')}
           </a>
           <a
             className="hover:underline"
@@ -422,7 +519,7 @@ export function Footer({ meta }: { meta: DataMeta }) {
             target="_blank"
             rel="noreferrer noopener"
           >
-            Quellcode
+            {t('footer.code')}
           </a>
         </div>
       </div>

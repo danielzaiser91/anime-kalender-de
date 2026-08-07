@@ -22,7 +22,8 @@ export interface AniListMedia {
   averageScore: number | null
   isAdult: boolean
   description: string | null
-  relations?: { edges: { relationType: string; node: { id: number } }[] }
+  relations?: { edges: { relationType: string; node: { id: number; type: string } }[] }
+  endDate?: { year: number | null; month: number | null; day: number | null }
 }
 
 const MEDIA_FIELDS = `
@@ -30,6 +31,7 @@ const MEDIA_FIELDS = `
   title { romaji english native }
   format status episodes duration season seasonYear
   startDate { year month day }
+  endDate { year month day }
   genres
   tags { name rank isMediaSpoiler isAdult }
   externalLinks { site url type }
@@ -38,6 +40,7 @@ const MEDIA_FIELDS = `
   bannerImage
   averageScore isAdult
   description(asHtml: false)
+  relations { edges { relationType node { id type } } }
 `
 
 interface GqlResponse<T> {

@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
+import { LanguageProvider } from './lib/i18n.tsx'
 import './styles.css'
 
 // Theme-Wahl vor dem ersten Rendern anwenden, damit es nicht kurz aufblitzt.
@@ -12,6 +13,8 @@ document.documentElement.style.colorScheme = dark ? 'dark' : 'light'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <LanguageProvider>
+      <App />
+    </LanguageProvider>
   </StrictMode>,
 )

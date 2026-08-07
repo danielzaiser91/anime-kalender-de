@@ -1,39 +1,116 @@
-# Newsletter-Worker
+# Newsletter-Dienst
 
-Cloudflare Worker + D1 + Cron. Der Kalender selbst braucht ihn nicht — er ist ein
-Anbauteil, das ausschließlich den Newsletter bedient.
+## Wo das läuft (die wichtigste Klarstellung)
 
-## Einrichten
+**Nichts davon läuft auf deinem PC.** Der Dienst liegt in Cloudflares Rechenzentren
+und läuft dort rund um die Uhr weiter, auch wenn dein Rechner aus ist.
+
+| Baustein | Wo | Was er tut |
+|---|---|---|
+| Worker | Cloudflare-Edge, weltweit | nimmt Anmeldungen an, bestätigt, meldet ab |
+| D1-Datenbank | Cloudflare | speichert die Abonnenten |
+| Cron-Trigger | Cloudflare | weckt den Worker stündlich |
+| Mail-Versand | Resend oder Brevo | verschickt die Mails |
+
+Dein PC wird nur einmal gebraucht: um den Worker **hochzuladen** (`wrangler deploy`).
+Danach kannst du ihn ausschalten, formatieren oder verkaufen — der Newsletter läuft weiter.
+
+Auch die Website selbst braucht den Worker nicht. Kalender, Filter, ICS-Feeds und die
+Google-Calendar-Knöpfe funktionieren ohne ihn. Er ist ein Anbauteil für genau ein Feature.
+
+## Was du einmalig tun musst
+
+Voraussetzung: ein Cloudflare-Konto (kostenlos, ohne Kreditkarte) und ein Konto bei einem
+Mail-Anbieter. Rechne mit 20 Minuten.
+
+### 1. Anmelden und Projekt vorbereiten
 
 ```bash
 cd worker
 npm install
-npx wrangler login
+npx wrangler login        # öffnet den Browser, einmal bestätigen
+```
 
-# Datenbank anlegen — die ausgegebene database_id in wrangler.toml eintragen
+### 2. Datenbank anlegen
+
+```bash
 npx wrangler d1 create anime-kalender
+```
 
-# Tabellen anlegen
-npm run db:init          # lokal
-npm run db:init:remote   # live
+Der Befehl gibt eine `database_id` aus. Diese in `wrangler.toml` bei `database_id` eintragen
+— dort steht bis dahin ein Platzhalter.
 
-# Mail-Zugang hinterlegen (Resend- oder Brevo-API-Key)
+Dann die Tabellen anlegen:
+
+```bash
+npm run db:init:remote
+```
+
+### 3. Mail-Anbieter wählen
+
+|  | Resend | Brevo |
+|---|---|---|
+| Gratis | 3.000 Mails/Monat | 300 Mails/Tag |
+| Eigene Domain nötig? | **ja**, sonst gehen Mails nur an dich selbst | nein, verifizierte Absenderadresse genügt |
+| Einrichtung | Domain-DNS-Einträge setzen | Adresse per Klick bestätigen |
+
+Ohne eigene Domain also **Brevo** nehmen. Danach den API-Key hinterlegen:
+
+```bash
 npx wrangler secret put MAIL_API_KEY
+```
 
+Der Key landet verschlüsselt bei Cloudflare, nicht im Repository.
+
+### 4. Einstellungen in `wrangler.toml`
+
+```toml
+MAIL_PROVIDER = "brevo"                 # brevo | resend | console
+FROM_EMAIL    = "kalender@deine-domain.de"
+FROM_NAME     = "Anime-Kalender DE"
+WORKER_URL    = "https://anime-kalender-newsletter.DEIN-SUBDOMAIN.workers.dev"
+ALLOWED_ORIGIN = "https://danielzaiser91.github.io"
+SITE_URL      = "https://danielzaiser91.github.io/anime-kalender-de/"
+```
+
+`WORKER_URL` kennst du erst nach dem ersten Deploy — also einmal deployen, die ausgegebene
+Adresse eintragen, ein zweites Mal deployen.
+
+### 5. Hochladen
+
+```bash
 npm run deploy
 ```
 
-Danach in `wrangler.toml` setzen:
+### 6. Website mit dem Worker verbinden
 
-- `FROM_EMAIL` / `FROM_NAME` — Absender. Bei **Resend** muss die Domain dort
-  verifiziert sein, sonst gehen Mails nur an die eigene Adresse. **Brevo** kommt
-  mit einer verifizierten Einzeladresse aus, deckelt aber bei 300 Mails/Tag.
-- `MAIL_PROVIDER` — `resend`, `brevo` oder `console` (schreibt nur ins Log).
-- `WORKER_URL` — die öffentliche Adresse des Workers, landet in den Abmeldelinks.
-- `ALLOWED_ORIGIN` — die Adresse der Website, für CORS.
+Im Repository unter **Settings → Secrets and variables → Actions → Variables** eine Variable
+`NEWSLETTER_API_URL` mit der Worker-Adresse anlegen. Beim nächsten Deploy backt der Build sie
+in die Seite ein, und das Anmeldeformular ist scharf. Ohne diese Variable zeigt das Formular
+einen ehrlichen Hinweis statt eines Knopfes, der ins Leere führt.
 
-Zuletzt im Frontend `VITE_NEWSLETTER_API` auf die Worker-URL setzen (z. B. in
-`.env` oder als Repository-Variable in GitHub Actions) und neu bauen.
+## Vor dem Livegang
+
+- Impressum und Datenschutzerklärung müssen stimmen — beide sind über den Fuß der Seite
+  erreichbar und im Code hinterlegt.
+- Einmal selbst anmelden und den ganzen Weg durchspielen: Bestätigungsmail, Bestätigungslink,
+  Digest, Abmeldelink.
+
+## Örtlich ausprobieren
+
+```bash
+npm run db:init      # lokale Kopie der Datenbank
+npm run dev          # startet auf http://localhost:8787
+```
+
+Mit `MAIL_PROVIDER = "console"` geht dabei keine einzige echte Mail raus; der Inhalt landet
+im Terminal. Genau so testet man den Versand, ohne jemandem Post zu schicken.
+
+Den Versand von Hand auslösen, ohne auf 07:00 Uhr zu warten:
+
+```bash
+curl "http://localhost:8787/__scheduled?cron=0+*+*+*+*"
+```
 
 ## Endpunkte
 
@@ -44,21 +121,31 @@ Zuletzt im Frontend `VITE_NEWSLETTER_API` auf die Worker-URL setzen (z. B. in
 | `GET /unsubscribe?token=…` | löscht den Datensatz |
 | `GET /health` | Anzahl aktiver Abos |
 
-## Versandlogik
+## Wann verschickt wird
 
-Der Cron läuft **stündlich** und prüft selbst, ob es in Berlin gerade
-`SEND_HOUR_BERLIN` (Standard 7) ist. So stimmt der Zeitpunkt auch nach der
-Sommerzeitumstellung, ohne zwei Cron-Einträge zu verbrauchen.
+Der Cron läuft **stündlich** und prüft selbst, ob es in Berlin gerade `SEND_HOUR_BERLIN`
+(Standard 7) ist. So stimmt der Zeitpunkt auch nach der Sommerzeitumstellung, ohne zwei
+Cron-Einträge zu verbrauchen — der kostenlose Tarif erlaubt nur drei.
 
-- **täglich**: Termine des heutigen Tages
-- **wöchentlich**: montags, Termine der nächsten sieben Tage
+- **täglich**: die Termine des heutigen Tages
+- **wöchentlich**: montags, die Termine der nächsten sieben Tage
 
-Die `send_log`-Tabelle verhindert Doppelversand, falls ein Cron zweimal feuert.
-Wer nur Plattformen abonniert hat, bekommt keine Mail, wenn in seinem Fenster
-nichts passendes liegt.
+Die Tabelle `send_log` verhindert Doppelversand, falls ein Cron zweimal feuert. Wer nur
+bestimmte Plattformen abonniert hat, bekommt keine Mail, wenn in seinem Zeitfenster nichts
+Passendes liegt.
+
+Die Termine holt sich der Worker aus derselben `events.json`, die auch die Website lädt —
+es gibt also keine zweite Wahrheit, die auseinanderlaufen könnte.
 
 ## Datenschutz
 
-Gespeichert werden Adresse, Rhythmus, Plattformwahl sowie Zeitpunkt und IP von
-Anmeldung und Bestätigung — Letzteres als Nachweis der Einwilligung. Die
-Abmeldung löscht die Zeile vollständig; es bleibt kein Rest zurück.
+Gespeichert werden Adresse, Rhythmus, Plattformwahl sowie Zeitpunkt und IP von Anmeldung und
+Bestätigung — Letzteres als Nachweis der Einwilligung. Die Abmeldung löscht die Zeile
+vollständig; es bleibt kein Rest zurück.
+
+## Was es kostet
+
+Nichts, solange die Abonnentenzahl im dreistelligen Bereich bleibt. Cloudflare rechnet den
+freien Tarif mit 100.000 Worker-Aufrufen und 5 Millionen D1-Lesevorgängen pro Tag ab; ein
+täglicher Digest an 500 Leute verbraucht davon einen Bruchteil. Die Grenze setzt eher der
+Mail-Anbieter: 300 Mails/Tag bei Brevo heißt maximal 300 tägliche Abonnenten.
