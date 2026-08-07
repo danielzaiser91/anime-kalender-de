@@ -1,0 +1,383 @@
+# DVD- und Blu-ray-Veröffentlichungen im deutschen Raum, August 2026.
+# Quelle: Anime2You-Monatsübersicht. Alle Termine sind bestätigte Verkaufsstarts,
+# deshalb kein `estimated`. Uhrzeit gibt es bei Disc-Releases naturgemäß nicht.
+# Ohne `buyUrl` erzeugt der Build automatisch einen Amazon.de-Suchlink.
+
+- slug: attack-on-titan-final-season-steelbook
+  search: "Shingeki no Kyojin The Final Season"
+  titleDe: "Attack on Titan – Final Season"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Limited Steelbook Edition, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-07" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: black-clover-s3-bundle
+  search: "Black Clover"
+  titleDe: "Black Clover – Staffel 3"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Bundle Edition, DVD & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-07" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: blue-exorcist-beyond-the-snow-saga-vol2
+  anilistId: 176311
+  search: "Ao no Exorcist Beyond the Snow Saga"
+  titleDe: "Blue Exorcist: Beyond the Snow Saga – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "DVD & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-07" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: campfire-cooking-s1-box
+  search: "Tondemo Skill de Isekai Hourou Meshi"
+  titleDe: "Campfire Cooking in Another World – Staffel 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Complete Box, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-07" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: girls-band-cry-vol1
+  search: "Girls Band Cry"
+  titleDe: "Girls Band Cry – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "peppermint anime"
+  edition: "Standard & Limited Edition, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-07" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: reincarnated-as-the-7th-prince-s1-box
+  anilistId: 156415
+  search: "Tensei shitara Dainana Ouji Datta node"
+  titleDe: "I Was Reincarnated as the 7th Prince – Staffel 1"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Complete Box, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-07" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: villainess-who-goes-down-in-history-box
+  anilistId: 168139
+  search: "Rekishi ni Nokoru Akujo ni Naru zo"
+  titleDe: "I'll Become a Villainess Who Goes Down in History"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Complete Box, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-07" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: im-standing-on-a-million-lives-s1-box
+  search: "100-man no Inochi no Ue ni Ore wa Tatteiru"
+  titleDe: "I'm Standing on a Million Lives – Staffel 1"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Complete Box, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-07" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: my-one-hit-kill-sister-s1-box
+  search: "Isekai One Turn Kill Nee-san"
+  titleDe: "My One-Hit Kill Sister – Staffel 1"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Complete Box, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-07" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: re-monster-s1-box
+  search: "Re:Monster"
+  titleDe: "Re:Monster – Staffel 1"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Complete Box, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-07" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: strike-witches-s2-vol1
+  search: "Strike Witches 2"
+  titleDe: "Strike Witches (Staffel 2) – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Limited Edition mit Sammelschuber, DVD & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-07" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: cafe-terrace-and-its-goddesses-s1-box
+  anilistId: 154412
+  search: "Megami no Café Terrace"
+  titleDe: "The Café Terrace and Its Goddesses – Staffel 1"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Complete Box, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-07" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: case-study-of-vanitas-s1-vol2
+  search: "Vanitas no Karte"
+  titleDe: "The Case Study of Vanitas (Staffel 1) – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-07" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: virgin-road-vol1
+  anilistId: 129193
+  search: "Kaikoku no Shokei Shoujo"
+  titleDe: "Virgin Road – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Limited Edition mit Sammelschuber, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-07" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: wind-breaker-s2-vol1
+  search: "Wind Breaker Season 2"
+  titleDe: "Wind Breaker (Staffel 2) – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Limited Edition mit Sammelschuber, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-07" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: worlds-end-harem-vol2
+  search: "Shuumatsu no Harem"
+  titleDe: "World's End Harem – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "FSK-18-Edition im Steelcase, DVD & Blu-ray"
+  fsk: 18
+  schedule: { firstEpisodeDate: "2026-08-07" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: 2-5-dimensional-seduction-vol4
+  search: "2.5-jigen no Ririsa"
+  titleDe: "2.5 Dimensional Seduction – Vol. 4"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Limited Edition, DVD & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-14" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: inazuma-eleven-s1-box
+  search: "Inazuma Eleven"
+  titleDe: "Inazuma Eleven – Staffel 1"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Complete Box, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-14" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: infinite-dendrogram-vol2
+  search: "Infinite Dendrogram"
+  titleDe: "Infinite Dendrogram – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Limited Edition, DVD & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-14" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: robin-hood-box
+  search: "Robin Hood no Daibouken"
+  titleDe: "Robin Hood"
+  platform: disc
+  releaseType: disc
+  publisher: "KSM Anime"
+  edition: "Complete Box (Serie + Film), Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-20" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: sword-of-the-demon-hunter-vol1
+  search: "Kijin Gentoushou"
+  titleDe: "Sword of the Demon Hunter – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "KSM Anime"
+  edition: "Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-20" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: sword-of-the-demon-hunter-vol2
+  search: "Kijin Gentoushou"
+  titleDe: "Sword of the Demon Hunter – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "KSM Anime"
+  edition: "Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-20" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: most-heretical-last-boss-queen-s1-box
+  search: "Higeki no Genkyou to Naru Saikyou Gedou Last Boss Joou"
+  titleDe: "The Most Heretical Last Boss Queen – Staffel 1"
+  platform: disc
+  releaseType: disc
+  publisher: "KSM Anime"
+  edition: "Complete Box, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-20" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: witch-watch-vol1
+  search: "Witch Watch"
+  titleDe: "Witch Watch – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "KSM Anime"
+  edition: "Limited Collector's Edition, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-20" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: as-a-reincarnated-aristocrat-s1-vol1
+  search: "Tensei Kizoku Kantei Skill de Nariagaru"
+  titleDe: "As a Reincarnated Aristocrat (Staffel 1) – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-21" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: banana-fish-vol1
+  search: "Banana Fish"
+  titleDe: "Banana Fish – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "peppermint anime"
+  edition: "Standard & Limited Edition, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-21" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: please-put-them-on-takamine-vol1
+  search: "Haite Kudasai Takamine-san"
+  titleDe: "Please Put Them On, Takamine! – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Limited Edition mit Sammelschuber, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-21" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: demon-slayer-s1-steelbook
+  search: "Kimetsu no Yaiba"
+  titleDe: "Demon Slayer – Staffel 1"
+  platform: disc
+  releaseType: disc
+  publisher: "peppermint anime"
+  edition: "Limited Steelbook Edition, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-21" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: my-love-story-with-yamada-kun-vol1
+  search: "Loving Yamada at Lv999"
+  titleDe: "My Love Story with Yamada-kun at Lv999 – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Limited Edition mit Sammelschuber, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-21" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: sakamoto-days-vol1
+  search: "Sakamoto Days"
+  titleDe: "Sakamoto Days – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Limited Edition mit Sammelschuber, DVD & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-21" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: tougen-anki-part1
+  search: "Tougen Anki"
+  titleDe: "Tougen Anki – Part 1"
+  platform: disc
+  releaseType: disc
+  publisher: "LEONINE Anime"
+  edition: "Limited Collector's Edition, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-21" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: vampire-knight-guilty-box
+  search: "Vampire Knight Guilty"
+  titleDe: "Vampire Knight Guilty"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Complete Box, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-21" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: dandadan-s2-vol3
+  search: "Dandadan"
+  titleDe: "DAN DA DAN (Staffel 2) – Vol. 3"
+  platform: disc
+  releaseType: disc
+  publisher: "polyband anime"
+  edition: "Limited Edition, DVD & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-28" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: inazuma-eleven-movie-team-oger
+  search: "Inazuma Eleven Saikyou Gundan Ogre Shuurai"
+  titleDe: "Inazuma Eleven – The Movie: Team Oger Attacks!"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-28" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: nukitashi-vol1
+  search: "Nukitashi"
+  titleDe: "Nukitashi – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Limited Edition mit Sammelschuber, DVD & Blu-ray"
+  note: "Erhielt in Deutschland keine FSK-Freigabe."
+  schedule: { firstEpisodeDate: "2026-08-28" }
+  sources:
+    - https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/
+    - https://www.anime2you.de/news/998432/nukitashi-keine-fsk-freigabe/
+
+- slug: recovery-of-an-mmo-junkie-vol2
+  search: "Net-juu no Susume"
+  titleDe: "Recovery of an MMO Junkie – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "polyband anime"
+  edition: "Limited Edition, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-28" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
+
+- slug: dandadan-s2-vol1-steelcase
+  search: "Dandadan"
+  titleDe: "DAN DA DAN (Staffel 2) – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Exklusive Limited Steelcase Edition, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-31" }
+  sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]

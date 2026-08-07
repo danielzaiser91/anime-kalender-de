@@ -1,0 +1,17 @@
+{
+  "name": "anime-kalender-newsletter",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:init": "wrangler d1 execute anime-kalender --file=./schema.sql",
+    "db:init:remote": "wrangler d1 execute anime-kalender --remote --file=./schema.sql",
+    "tail": "wrangler tail"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250510.0",
+    "typescript": "^5.8.3",
+    "wrangler": "^4.16.0"
+  }
+}

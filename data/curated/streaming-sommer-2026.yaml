@@ -1,0 +1,165 @@
+# Simuldubs der Sommersaison 2026 (deutsche Synchro parallel zum Simulcast).
+#
+# Quellenlage: aniSearch führt diese Titel in der Saisonübersicht als „Simuldub verfügbar",
+# nennt aber nur den Simulcast-Starttermin und keine Uhrzeit. Anime2You/AniNews meldeten im
+# Juni für dieselben Titel „DE-Dub: TBA". Die Termine hier sind deshalb durchgehend
+# `estimated: true` — Datum vom Simulcast-Start abgeleitet, Uhrzeit bewusst leer.
+# Sobald eine Uhrzeit belegt ist, `time:` ergänzen und `estimated` entfernen.
+
+- slug: black-torch
+  anilistId: 187538
+  search: "Black Torch"
+  titleDe: "Black Torch"
+  platform: crunchyroll
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-07-04"
+    estimated: true
+  sources:
+    - https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026
+    - https://www.anime2you.de/news/1022385/crunchyroll-sommer-2026-synchros/
+
+- slug: clevatess-s2
+  anilistId: 198946
+  search: "Clevatess"
+  titleDe: "Clevatess – Staffel 2"
+  platform: crunchyroll
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-07-08"
+    estimated: true
+  sources:
+    - https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026
+
+- slug: hana-kimi-s2
+  anilistId: 209669
+  search: "Hanazakari no Kimitachi e"
+  titleDe: "Hana-Kimi – Staffel 2"
+  platform: crunchyroll
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-07-01"
+    estimated: true
+  sources:
+    - https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026
+
+- slug: mushoku-tensei-s3
+  anilistId: 178789
+  search: "Mushoku Tensei Isekai Ittara Honki Dasu"
+  titleDe: "Mushoku Tensei: Jobless Reincarnation – Staffel 3"
+  platform: crunchyroll
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-07-05"
+    estimated: true
+  sources:
+    - https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026
+    - https://www.anime2you.de/news/1022385/crunchyroll-sommer-2026-synchros/
+
+- slug: saga-of-tanya-the-evil-s2
+  anilistId: 135865
+  search: "Youjo Senki"
+  titleDe: "Saga of Tanya the Evil – Staffel 2"
+  platform: crunchyroll
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-07-08"
+    estimated: true
+  sources:
+    - https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026
+
+- slug: skeleton-knight-s2
+  anilistId: 185542
+  search: "Gaikotsu Kishi-sama Tadaima Isekai e Odekakechuu"
+  titleDe: "Skeleton Knight in Another World – Staffel 2"
+  platform: crunchyroll
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-07-04"
+    estimated: true
+  sources:
+    - https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026
+
+- slug: though-i-am-an-inept-villainess
+  anilistId: 188139
+  search: "Mukoku no Akujo"
+  titleDe: "Though I Am an Inept Villainess"
+  platform: crunchyroll
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-07-12"
+    estimated: true
+  sources:
+    - https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026
+
+- slug: tomb-raider-king
+  anilistId: 184356
+  search: "Tomb Raider King"
+  titleDe: "Tomb Raider King"
+  platform: crunchyroll
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-07-08"
+    estimated: true
+  sources:
+    - https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026
+
+- slug: trapped-in-a-dating-sim-s2
+  anilistId: 159309
+  search: "Otome Game Sekai wa Mob ni Kibishii Sekai desu"
+  titleDe: "Trapped in a Dating Sim – Staffel 2"
+  platform: crunchyroll
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-07-08"
+    estimated: true
+  sources:
+    - https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026
+
+- slug: you-and-i-are-polar-opposites-s2
+  anilistId: 210031
+  search: "Kimi to Boku wa Gyaku ni Naru"
+  titleDe: "You and I Are Polar Opposites – Staffel 2"
+  platform: crunchyroll
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-07-05"
+    estimated: true
+  sources:
+    - https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026
+
+- slug: thunder-3
+  anilistId: 207254
+  search: "Thunder 3"
+  titleDe: "Thunder 3"
+  platform: netflix
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-07-08"
+    estimated: true
+  sources:
+    - https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026
+
+- slug: ghost-in-the-shell-2026
+  anilistId: 177699
+  search: "The Ghost in the Shell"
+  titleDe: "The Ghost in the Shell"
+  platform: primevideo
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-07-07"
+    estimated: true
+  sources:
+    - https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026
+
+- slug: vom-landei-zum-schwertheiligen-2
+  anilistId: 194829
+  search: "Katainaka no Ossan Kensei ni Naru"
+  titleDe: "Vom Landei zum Schwertheiligen II"
+  platform: primevideo
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-07-08"
+    estimated: true
+  sources:
+    - https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026

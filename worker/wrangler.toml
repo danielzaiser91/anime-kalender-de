@@ -1,0 +1,24 @@
+name = "anime-kalender-newsletter"
+main = "src/index.ts"
+compatibility_date = "2025-05-01"
+
+# Stündlich wecken; ob wirklich versendet wird, entscheidet der Worker anhand
+# der Berliner Ortszeit — so stimmt der Versandzeitpunkt auch über die
+# Sommerzeitumstellung hinweg, ohne zwei Cron-Einträge zu verbrauchen.
+[triggers]
+crons = ["0 * * * *"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "anime-kalender"
+database_id = "PLATZHALTER — nach `wrangler d1 create anime-kalender` eintragen"
+
+[vars]
+SITE_URL = "https://danielzaiser91.github.io/anime-kalender-de/"
+FROM_EMAIL = "kalender@example.org"
+FROM_NAME = "Anime-Kalender DE"
+MAIL_PROVIDER = "resend"       # resend | brevo | console
+SEND_HOUR_BERLIN = "7"
+ALLOWED_ORIGIN = "*"
+
+# Geheim setzen mit:  wrangler secret put MAIL_API_KEY

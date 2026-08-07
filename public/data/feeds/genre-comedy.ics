@@ -1,0 +1,784 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//anime-kalender-de//Anime-Kalender DE//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Anime-Kalender DE – Comedy
+X-WR-TIMEZONE:Europe/Berlin
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-07-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260701
+DTEND;VALUE=DATE:20260702
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 1/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:skeleton-knight-s2@2026-07-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260704
+DTEND;VALUE=DATE:20260705
+SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 1/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/skeleton-knight-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:you-and-i-are-polar-opposites-s2@2026-07-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260705
+DTEND;VALUE=DATE:20260706
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 1/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/you-and-i-are-polar-opposites-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-07-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260708
+DTEND;VALUE=DATE:20260709
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 2/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:vom-landei-zum-schwertheiligen-2@2026-07-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260708
+DTEND;VALUE=DATE:20260709
+SUMMARY:Vom Landei zum Schwertheiligen II – Folge 1/12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/vom-landei-zum-schwertheiligen-2
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:skeleton-knight-s2@2026-07-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260711
+DTEND;VALUE=DATE:20260712
+SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 2/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/skeleton-knight-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:you-and-i-are-polar-opposites-s2@2026-07-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260712
+DTEND;VALUE=DATE:20260713
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 2/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/you-and-i-are-polar-opposites-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-07-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260715
+DTEND;VALUE=DATE:20260716
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 3/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:vom-landei-zum-schwertheiligen-2@2026-07-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260715
+DTEND;VALUE=DATE:20260716
+SUMMARY:Vom Landei zum Schwertheiligen II – Folge 2/12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/vom-landei-zum-schwertheiligen-2
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:skeleton-knight-s2@2026-07-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260718
+DTEND;VALUE=DATE:20260719
+SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 3/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/skeleton-knight-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:you-and-i-are-polar-opposites-s2@2026-07-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260719
+DTEND;VALUE=DATE:20260720
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 3/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/you-and-i-are-polar-opposites-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-07-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260722
+DTEND;VALUE=DATE:20260723
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 4/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:vom-landei-zum-schwertheiligen-2@2026-07-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260722
+DTEND;VALUE=DATE:20260723
+SUMMARY:Vom Landei zum Schwertheiligen II – Folge 3/12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/vom-landei-zum-schwertheiligen-2
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:skeleton-knight-s2@2026-07-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260725
+DTEND;VALUE=DATE:20260726
+SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 4/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/skeleton-knight-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:you-and-i-are-polar-opposites-s2@2026-07-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260726
+DTEND;VALUE=DATE:20260727
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 4/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/you-and-i-are-polar-opposites-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-07-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260729
+DTEND;VALUE=DATE:20260730
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 5/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:vom-landei-zum-schwertheiligen-2@2026-07-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260729
+DTEND;VALUE=DATE:20260730
+SUMMARY:Vom Landei zum Schwertheiligen II – Folge 4/12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/vom-landei-zum-schwertheiligen-2
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:skeleton-knight-s2@2026-08-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260801
+DTEND;VALUE=DATE:20260802
+SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 5/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/skeleton-knight-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:you-and-i-are-polar-opposites-s2@2026-08-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260802
+DTEND;VALUE=DATE:20260803
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 5/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/you-and-i-are-polar-opposites-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-08-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260805
+DTEND;VALUE=DATE:20260806
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 6/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:vom-landei-zum-schwertheiligen-2@2026-08-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260805
+DTEND;VALUE=DATE:20260806
+SUMMARY:Vom Landei zum Schwertheiligen II – Folge 5/12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/vom-landei-zum-schwertheiligen-2
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:black-clover-s3-bundle@2026-08-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260807
+DTEND;VALUE=DATE:20260808
+SUMMARY:Black Clover – Staffel 3 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://danielzaiser91.github.io/anime-kale
+ nder-de/#/release/black-clover-s3-bundle
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:campfire-cooking-s1-box@2026-08-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260807
+DTEND;VALUE=DATE:20260808
+SUMMARY:Campfire Cooking in Another World – Staffel 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://danielzaiser91.github.io/anime-kale
+ nder-de/#/release/campfire-cooking-s1-box
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:villainess-who-goes-down-in-history-box@2026-08-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260807
+DTEND;VALUE=DATE:20260808
+SUMMARY:I'll Become a Villainess Who Goes Down in History (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://danielzaiser91.github.io/anime-kale
+ nder-de/#/release/villainess-who-goes-down-in-history-box
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:my-one-hit-kill-sister-s1-box@2026-08-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260807
+DTEND;VALUE=DATE:20260808
+SUMMARY:My One-Hit Kill Sister – Staffel 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://danielzaiser91.github.io/anime-kale
+ nder-de/#/release/my-one-hit-kill-sister-s1-box
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:cafe-terrace-and-its-goddesses-s1-box@2026-08-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260807
+DTEND;VALUE=DATE:20260808
+SUMMARY:The Café Terrace and Its Goddesses – Staffel 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://danielzaiser91.github.io/anime-kale
+ nder-de/#/release/cafe-terrace-and-its-goddesses-s1-box
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:wind-breaker-s2-vol1@2026-08-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260807
+DTEND;VALUE=DATE:20260808
+SUMMARY:Wind Breaker (Staffel 2) – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://danielzaiser91.github.io/anime-kale
+ nder-de/#/release/wind-breaker-s2-vol1
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:skeleton-knight-s2@2026-08-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260808
+DTEND;VALUE=DATE:20260809
+SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 6/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/skeleton-knight-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:you-and-i-are-polar-opposites-s2@2026-08-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260809
+DTEND;VALUE=DATE:20260810
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 6/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/you-and-i-are-polar-opposites-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-08-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260812
+DTEND;VALUE=DATE:20260813
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 7/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:vom-landei-zum-schwertheiligen-2@2026-08-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260812
+DTEND;VALUE=DATE:20260813
+SUMMARY:Vom Landei zum Schwertheiligen II – Folge 6/12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/vom-landei-zum-schwertheiligen-2
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:2-5-dimensional-seduction-vol4@2026-08-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260814
+DTEND;VALUE=DATE:20260815
+SUMMARY:2.5 Dimensional Seduction – Vol. 4 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://danielzaiser91.github.io/anime-kale
+ nder-de/#/release/2-5-dimensional-seduction-vol4
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:skeleton-knight-s2@2026-08-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260815
+DTEND;VALUE=DATE:20260816
+SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 7/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/skeleton-knight-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:you-and-i-are-polar-opposites-s2@2026-08-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260816
+DTEND;VALUE=DATE:20260817
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 7/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/you-and-i-are-polar-opposites-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-08-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260819
+DTEND;VALUE=DATE:20260820
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 8/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:vom-landei-zum-schwertheiligen-2@2026-08-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260819
+DTEND;VALUE=DATE:20260820
+SUMMARY:Vom Landei zum Schwertheiligen II – Folge 7/12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/vom-landei-zum-schwertheiligen-2
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:most-heretical-last-boss-queen-s1-box@2026-08-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260820
+DTEND;VALUE=DATE:20260821
+SUMMARY:The Most Heretical Last Boss Queen – Staffel 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://danielzaiser91.github.io/anime-kale
+ nder-de/#/release/most-heretical-last-boss-queen-s1-box
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:witch-watch-vol1@2026-08-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260820
+DTEND;VALUE=DATE:20260821
+SUMMARY:Witch Watch – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://danielzaiser91.github.io/anime-kale
+ nder-de/#/release/witch-watch-vol1
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:please-put-them-on-takamine-vol1@2026-08-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260821
+DTEND;VALUE=DATE:20260822
+SUMMARY:Please Put Them On\, Takamine! – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://danielzaiser91.github.io/anime-kale
+ nder-de/#/release/please-put-them-on-takamine-vol1
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:my-love-story-with-yamada-kun-vol1@2026-08-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260821
+DTEND;VALUE=DATE:20260822
+SUMMARY:My Love Story with Yamada-kun at Lv999 – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://danielzaiser91.github.io/anime-kale
+ nder-de/#/release/my-love-story-with-yamada-kun-vol1
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:sakamoto-days-vol1@2026-08-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260821
+DTEND;VALUE=DATE:20260822
+SUMMARY:Sakamoto Days – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://danielzaiser91.github.io/anime-kale
+ nder-de/#/release/sakamoto-days-vol1
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:skeleton-knight-s2@2026-08-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260822
+DTEND;VALUE=DATE:20260823
+SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 8/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/skeleton-knight-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:you-and-i-are-polar-opposites-s2@2026-08-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260823
+DTEND;VALUE=DATE:20260824
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 8/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/you-and-i-are-polar-opposites-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-08-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260826
+DTEND;VALUE=DATE:20260827
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 9/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:vom-landei-zum-schwertheiligen-2@2026-08-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260826
+DTEND;VALUE=DATE:20260827
+SUMMARY:Vom Landei zum Schwertheiligen II – Folge 8/12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/vom-landei-zum-schwertheiligen-2
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:dandadan-s2-vol3@2026-08-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260828
+DTEND;VALUE=DATE:20260829
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://danielzaiser91.github.io/anime-kale
+ nder-de/#/release/dandadan-s2-vol3
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:nukitashi-vol1@2026-08-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260828
+DTEND;VALUE=DATE:20260829
+SUMMARY:Nukitashi – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://danielzaiser91.github.io/anime-kale
+ nder-de/#/release/nukitashi-vol1
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:recovery-of-an-mmo-junkie-vol2@2026-08-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260828
+DTEND;VALUE=DATE:20260829
+SUMMARY:Recovery of an MMO Junkie – Vol. 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://danielzaiser91.github.io/anime-kale
+ nder-de/#/release/recovery-of-an-mmo-junkie-vol2
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:skeleton-knight-s2@2026-08-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260829
+DTEND;VALUE=DATE:20260830
+SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 9/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/skeleton-knight-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:you-and-i-are-polar-opposites-s2@2026-08-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260830
+DTEND;VALUE=DATE:20260831
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 9/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/you-and-i-are-polar-opposites-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:dandadan-s2-vol1-steelcase@2026-08-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260831
+DTEND;VALUE=DATE:20260901
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://danielzaiser91.github.io/anime-kale
+ nder-de/#/release/dandadan-s2-vol1-steelcase
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-09-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260902
+DTEND;VALUE=DATE:20260903
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 10/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:vom-landei-zum-schwertheiligen-2@2026-09-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260902
+DTEND;VALUE=DATE:20260903
+SUMMARY:Vom Landei zum Schwertheiligen II – Folge 9/12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/vom-landei-zum-schwertheiligen-2
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:skeleton-knight-s2@2026-09-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260905
+DTEND;VALUE=DATE:20260906
+SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 10/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/skeleton-knight-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:you-and-i-are-polar-opposites-s2@2026-09-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260906
+DTEND;VALUE=DATE:20260907
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 10/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/you-and-i-are-polar-opposites-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-09-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260909
+DTEND;VALUE=DATE:20260910
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 11/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:vom-landei-zum-schwertheiligen-2@2026-09-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260909
+DTEND;VALUE=DATE:20260910
+SUMMARY:Vom Landei zum Schwertheiligen II – Folge 10/12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/vom-landei-zum-schwertheiligen-2
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:skeleton-knight-s2@2026-09-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260912
+DTEND;VALUE=DATE:20260913
+SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 11/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/skeleton-knight-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:you-and-i-are-polar-opposites-s2@2026-09-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260913
+DTEND;VALUE=DATE:20260914
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 11/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/you-and-i-are-polar-opposites-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-09-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260916
+DTEND;VALUE=DATE:20260917
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 12/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:vom-landei-zum-schwertheiligen-2@2026-09-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260916
+DTEND;VALUE=DATE:20260917
+SUMMARY:Vom Landei zum Schwertheiligen II – Folge 11/12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/vom-landei-zum-schwertheiligen-2
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:skeleton-knight-s2@2026-09-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260919
+DTEND;VALUE=DATE:20260920
+SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 12/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/skeleton-knight-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:you-and-i-are-polar-opposites-s2@2026-09-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260920
+DTEND;VALUE=DATE:20260921
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 12/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/you-and-i-are-polar-opposites-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-09-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260923
+DTEND;VALUE=DATE:20260924
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 13/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:vom-landei-zum-schwertheiligen-2@2026-09-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260923
+DTEND;VALUE=DATE:20260924
+SUMMARY:Vom Landei zum Schwertheiligen II – Folge 12/12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/vom-landei-zum-schwertheiligen-2
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:you-and-i-are-polar-opposites-s2@2026-09-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260927
+DTEND;VALUE=DATE:20260928
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 13/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
+ rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
+ ätigt.\nDetails: https://danielzaiser91.github.io/anime-kalender-de/#/rele
+ ase/you-and-i-are-polar-opposites-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+END:VCALENDAR
