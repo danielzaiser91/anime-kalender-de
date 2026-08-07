@@ -22,6 +22,7 @@ import { resolve } from 'node:path'
 import { PLATFORMS, RELEASE_TYPES, type Release, type Title } from '../shared/types.ts'
 import { expandEvents } from '../shared/logic.ts'
 import { formatDate, todayIso, weekdayName } from '../shared/time.ts'
+import { GENRE_DE } from '../shared/mappings.ts'
 import { ROOT, log, readJson } from './lib/util.ts'
 
 const DIST = resolve(ROOT, 'dist')
@@ -59,7 +60,10 @@ function describe(release: Release, title: Title | undefined, today: string): st
     )
   }
   if (release.fsk !== undefined) parts.push(`FSK ${release.fsk}.`)
-  if (title?.genres.length) parts.push(title.genres.slice(0, 3).join(', ') + '.')
+  // Genres liegen im Datensatz englisch — die Vorschau ist deutsch.
+  if (title?.genres.length) {
+    parts.push(title.genres.slice(0, 3).map((g) => GENRE_DE[g] ?? g).join(', ') + '.')
+  }
   parts.push('Mit deutscher Synchronisation.')
   return parts.join(' ')
 }

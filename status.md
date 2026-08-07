@@ -17,6 +17,7 @@ _(leer)_
 | Disc-Releases September 2026 nachtragen | 2 | Quelle: Anime2You-Monatsübersicht |
 | Uhrzeiten außerhalb von Crunchyroll | 3 | Netflix und Prime Video nennen keine Uhrzeit; bislang „Zeit offen" |
 | Weitere Sprachen | 3 | Gerüst steht, EN und DE gepflegt; weitere brauchen nur ein Wörterbuch |
+| Projekt ins Portfolio eintragen | 1 | Reminder in `TODO.md` |
 
 ### Zu besprechen
 | Thema | Frage |
@@ -56,6 +57,12 @@ _(leer)_
   vorher gar nicht erfasst
 - ✅ Favoriten (lokal), Sprachumschalter DE/EN, Staffel-Bündelung über AniList-Beziehungen,
   Status „Erschienen", Trennung nach Uhrzeit, 58 Genres statt 18
+- ✅ **Link-Vorschaubilder**: 1200×630 je Release aus den Daten gerendert (SVG über sharp),
+  echte Teilen-Seiten unter `/r/<slug>/` — Hash-Routen können prinzipbedingt keine eigene
+  Vorschau tragen. Teilen-Knöpfe auf Kacheln, Karten und im Detail-Panel. Muster als globaler
+  Skill `link-vorschaubilder` festgehalten
+- ✅ Sprachwahl mit gezeichneten SVG-Flaggen statt Emoji (Windows rendert Regional-Indicator
+  nur als Buchstaben)
 - ✅ Impressum und Datenschutzerklärung ausformuliert (Kontakt per E-Mail, ohne Anschrift —
   bewusste Entscheidung des Betreibers für ein privates, nicht kommerzielles Angebot)
 - ✅ **Newsletter live**: Worker unter `newsletter.animekalender.workers.dev`, D1-Datenbank
