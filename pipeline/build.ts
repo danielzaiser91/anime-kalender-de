@@ -361,11 +361,14 @@ function main(): void {
     for (const stream of title.streams) {
       if (confirmed?.has(stream.platform)) {
         stream.dub = true
-      } else if (stream.platform === 'crunchyroll') {
-        // Für Crunchyroll haben wir eine vollständige Liste der Synchro-Titel,
-        // also ist ein Fehlen dort eine belastbare Aussage.
+        continue
+      }
+      if (stream.platform === 'crunchyroll') {
         const id = crunchyrollSeriesId(stream.url)
-        stream.dub = id ? crBySeriesId.has(id) : undefined
+        // Nur ein Treffer beweist etwas. Ein Fehlen beweist nichts: Der
+        // Simulcast-Kalender führt ausschließlich laufende Staffeln, nicht den
+        // gesamten Katalog. „Nicht gefunden" bleibt deshalb „ungeprüft".
+        if (id && crBySeriesId.has(id)) stream.dub = true
       }
     }
   }

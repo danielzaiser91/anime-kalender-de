@@ -272,10 +272,14 @@ export function DetailPanel({
   }
 
   const status = titleStatus(releases, today, title)
+  // Hinweis nur, wenn die Synchro ausschließlich auf Disc belegt ist, es aber
+  // Streams gibt — genau der Fall, in dem ein Plattform-Logo sonst zu viel
+  // verspricht.
   const dubOnlyOnDisc =
     releases.length > 0 &&
     releases.every((r) => r.releaseType === 'disc') &&
-    title.streams.some((s) => s.dub !== true)
+    title.streams.length > 0 &&
+    title.streams.every((s) => s.dub !== true)
   const keywords = allKeywords ? title.keywords : title.keywords.slice(0, KEYWORD_PREVIEW)
 
   return (

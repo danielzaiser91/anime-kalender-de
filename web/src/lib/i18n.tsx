@@ -144,8 +144,9 @@ const EN = {
   'detail.noMeta': 'No metadata available for this entry.',
   'detail.dubYes': 'German dub documented here',
   'detail.dubNo': 'No German dub here — original audio with subtitles',
-  'detail.dubUnknown': 'Audio language not checked',
-  'detail.dubHintDisc': 'The German dub of this title is documented only on disc, not on the streams listed.',
+  'detail.dubUnknown': 'German audio not documented here — check on the platform itself',
+  'detail.dubHintDisc':
+    'The German dub of this title is only documented on disc. The streams listed above may well be original audio with subtitles — the “Buy” button leads to the dubbed edition.',
   'detail.metaFrom': 'Metadata from AniList',
   'detail.dubProof': 'dub documented via MyDubList ({sources})',
 
@@ -325,9 +326,9 @@ const DE: Partial<Record<TranslationKey, string>> = {
   'detail.noMeta': 'Zu diesem Eintrag liegen keine Metadaten vor.',
   'detail.dubYes': 'Deutsche Synchro hier belegt',
   'detail.dubNo': 'Hier keine deutsche Synchro — Originalton mit Untertiteln',
-  'detail.dubUnknown': 'Tonspur nicht geprüft',
+  'detail.dubUnknown': 'Deutsche Tonspur hier nicht belegt — beim Anbieter selbst prüfen',
   'detail.dubHintDisc':
-    'Die deutsche Synchro dieses Titels ist nur auf Disc belegt, nicht auf den gelisteten Streams.',
+    'Die deutsche Synchro dieses Titels ist nur auf Disc belegt. Die oben gelisteten Streams laufen möglicherweise nur im Originalton mit Untertiteln — der Knopf „Kaufen" führt zur synchronisierten Fassung.',
   'detail.metaFrom': 'Metadaten von AniList',
   'detail.dubProof': 'Synchro belegt über MyDubList ({sources})',
 

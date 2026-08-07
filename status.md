@@ -10,12 +10,12 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| Uhrzeiten der laufenden Simuldubs belegen | 3 | einzige echte Lücke; Crunchyroll blockt Bots, braucht manuelle Prüfung oder eine Session mit Premium |
-| Newsletter-Worker deployen | 3 | braucht Cloudflare-Account + API-Token + Mail-Anbieter |
-| Impressum/Datenschutz mit echten Angaben füllen | 1 | Platzhalter im Code markiert |
+| Newsletter-Worker deployen | 3 | braucht Cloudflare-Account + API-Token + Mail-Anbieter; Anleitung in `worker/README.md` |
 | Katalogtitel (Netflix/Disney+ Batch-Drops) erfassen | 3 | Release-Art `batch` ist im Code vorhanden, aber noch ohne Datenbestand |
 | Kino-Termine erfassen | 2 | Release-Art `movie` ebenfalls ungenutzt |
 | Disc-Releases September 2026 nachtragen | 2 | Quelle: Anime2You-Monatsübersicht |
+| Uhrzeiten außerhalb von Crunchyroll | 3 | Netflix und Prime Video nennen keine Uhrzeit; bislang „Zeit offen" |
+| Weitere Sprachen | 3 | Gerüst steht, EN und DE gepflegt; weitere brauchen nur ein Wörterbuch |
 
 ### Zu besprechen
 | Thema | Frage |
@@ -49,3 +49,11 @@ _(leer)_
 - ✅ TMDB-API-Key besorgt und in `my_secrets.md` hinterlegt
 - ✅ Repo `danielzaiser91/anime-kalender-de` (public) angelegt, Pages auf Actions-Quelle
   gestellt, Secret `TMDB_API_KEY` und Variable `SITE_URL` gesetzt, Deploy grün
+- ✅ **Crunchyroll-Sendezeiten**: Der Simulcast-Kalender ist mit `filter=premium` öffentlich
+  lesbar (kein Login, kein Abo) und markiert deutsche Synchro-Folgen mit „(Deutsch)". Playwright
+  nötig, weil die Seite ihre Kacheln per JS baut. 25 Titel mit belegter Uhrzeit, 16 davon
+  vorher gar nicht erfasst
+- ✅ Favoriten (lokal), Sprachumschalter DE/EN, Staffel-Bündelung über AniList-Beziehungen,
+  Status „Erschienen", Trennung nach Uhrzeit, 58 Genres statt 18
+- ✅ Impressum und Datenschutzerklärung ausformuliert (Kontakt per E-Mail, ohne Anschrift —
+  bewusste Entscheidung des Betreibers für ein privates, nicht kommerzielles Angebot)
