@@ -213,7 +213,7 @@ async function renderCard(data: CardData, cover: Buffer | undefined, file: strin
 
   await sharp({ create: { width: W, height: H, channels: 4, background: '#0a0e17' } })
     .composite(layers)
-    .png({ compressionLevel: 9 })
+    .jpeg({ quality: 82, mozjpeg: true })
     .toFile(file)
 }
 
@@ -226,7 +226,7 @@ async function main(): Promise<void> {
   mkdirSync(OUT_DIR, { recursive: true })
 
   // --- Standardbild für Links ohne Release ---------------------------------
-  const defaultFile = resolve(OUT_DIR, 'default.png')
+  const defaultFile = resolve(OUT_DIR, 'default.jpg')
   if (FORCE || !existsSync(defaultFile)) {
     await renderCard(
       {
@@ -254,7 +254,7 @@ async function main(): Promise<void> {
   // --- Ein Bild je Release --------------------------------------------------
   let written = 0
   for (const release of releases) {
-    const file = resolve(OUT_DIR, `${release.slug}.png`)
+    const file = resolve(OUT_DIR, `${release.slug}.jpg`)
     if (!FORCE && existsSync(file)) continue
 
     const title = titleById.get(release.titleId)

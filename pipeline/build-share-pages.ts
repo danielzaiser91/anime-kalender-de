@@ -72,7 +72,7 @@ function head(release: Release, title: Title | undefined, today: string): string
   const events = expandEvents(release)
   const next = events.find((e) => e.date >= today) ?? events[0]
   const url = `${SITE}r/${release.slug}/`
-  const image = `${SITE}og/${release.slug}.png`
+  const image = `${SITE}og/${release.slug}.jpg`
   const headline = `${release.name} — ${RELEASE_TYPES[release.releaseType].short} bei ${PLATFORMS[release.platform].name}`
   const description = describe(release, title, today)
   const hash = `#/woche?${next ? `d=${next.date}&` : ''}r=${release.slug}`
@@ -86,6 +86,7 @@ function head(release: Release, title: Title | undefined, today: string): string
     <meta property="og:title" content="${esc(headline)}" />
     <meta property="og:description" content="${esc(description)}" />
     <meta property="og:image" content="${image}" />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="${esc(release.name)} — Termin, Plattform und FSK auf einen Blick" />
