@@ -1,6 +1,6 @@
 # Status: anime-kalender-de
 
-Stand: 07.08.2026
+Stand: 07.08.2026 · Live: https://danielzaiser91.github.io/anime-kalender-de/
 
 ## Task Queue
 
@@ -47,3 +47,5 @@ _(leer)_
   Resend-/Brevo-Adapter, Mail-Templates
 - ✅ GitHub Actions: Pages-Deploy + nächtliche Datenaktualisierung
 - ✅ TMDB-API-Key besorgt und in `my_secrets.md` hinterlegt
+- ✅ Repo `danielzaiser91/anime-kalender-de` (public) angelegt, Pages auf Actions-Quelle
+  gestellt, Secret `TMDB_API_KEY` und Variable `SITE_URL` gesetzt, Deploy grün
