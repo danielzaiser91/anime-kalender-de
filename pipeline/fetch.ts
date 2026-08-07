@@ -21,6 +21,9 @@ const SKIP_ANILIST = args.includes('--skip-anilist')
 
 const MYDUBLIST_BASE =
   'https://raw.githubusercontent.com/Joelis57/MyDubList/main/dubs/confidence'
+
+/** Liegt im Repo statt im Cache — sonst gehen die FSK-Angaben ohne API-Key verloren. */
+const TMDB_PATH = 'data/tmdb.json'
 const TIERS = ['low', 'normal', 'high', 'very-high'] as const
 type Tier = (typeof TIERS)[number]
 
@@ -113,7 +116,7 @@ async function main(): Promise<void> {
   if (!tmdbKey) {
     warn('TMDB_API_KEY nicht gesetzt — FSK und Anbieterliste werden übersprungen')
   } else {
-    const tmdbCache = readJson<Record<string, TmdbInfo>>('data/cache/tmdb.json', {})
+    const tmdbCache = readJson<Record<string, TmdbInfo>>(TMDB_PATH, {})
     let done = 0
     for (const entry of curated) {
       if (!FORCE && tmdbCache[entry.slug]) continue
@@ -126,7 +129,7 @@ async function main(): Promise<void> {
       done++
       if (done % 10 === 0) log(`  TMDB ${done} Titel abgefragt`)
     }
-    writeJson('data/cache/tmdb.json', tmdbCache, true)
+    writeJson(TMDB_PATH, tmdbCache, true)
     log(`TMDB: ${done} neue Abfragen, ${Object.keys(tmdbCache).length} im Cache`)
   }
 

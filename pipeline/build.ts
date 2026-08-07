@@ -106,7 +106,9 @@ function main(): void {
   const byMal = readJson<Record<string, AniListMedia>>('data/cache/anilist-media.json', {})
   const byAniId = readJson<Record<string, AniListMedia>>('data/cache/anilist-by-id.json', {})
   const curatedIds = readJson<Record<string, number>>('data/curated-ids.json', {})
-  const tmdb = readJson<Record<string, TmdbInfo>>('data/cache/tmdb.json', {})
+  // Liegt bewusst im Repo statt im Cache: ohne TMDB-Key soll ein Build die
+  // bereits ermittelten FSK-Angaben nicht wieder verlieren.
+  const tmdb = readJson<Record<string, TmdbInfo>>('data/tmdb.json', {})
   const curated = loadCurated()
 
   // --- Titel aufbauen -------------------------------------------------------
