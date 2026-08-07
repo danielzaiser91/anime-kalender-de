@@ -14,10 +14,10 @@ database_name = "anime-kalender"
 database_id = "ee32d6b3-0290-4ad3-b899-da37577a8d20"
 
 [vars]
-SITE_URL = "https://danielzaiser91.github.io/anime-kalender-de/"
-ALLOWED_ORIGIN = "https://danielzaiser91.github.io"
+SITE_URL = "https://anime-kalender.de/"
+ALLOWED_ORIGIN = "https://anime-kalender.de"
 MAIL_PROVIDER = "resend"       # resend | brevo | console
-FROM_EMAIL = "onboarding@resend.dev"
+FROM_EMAIL = "kalender@send.anime-kalender.de"
 FROM_NAME = "Anime-Kalender DE"
 SEND_HOUR_BERLIN = "7"
 # Wird nach dem ersten Deploy mit der tatsächlichen Worker-Adresse gefüllt;

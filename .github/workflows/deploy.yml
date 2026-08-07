@@ -35,7 +35,7 @@ jobs:
 
       - name: Bauen
         env:
-          PAGES_BASE: /${{ github.event.repository.name }}/
+          PAGES_BASE: /
           VITE_NEWSLETTER_API: ${{ vars.NEWSLETTER_API_URL }}
         run: npm run build
 

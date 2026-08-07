@@ -5,7 +5,7 @@ import { expandEvents, lastEpisodeDate, releaseStatus, titleStatus } from '@shar
 import { buildIcs, googleCalendarUrl } from '@shared/ics.ts'
 import { formatDate, todayIso, weekdayName } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
-import { loadSynopses } from '../lib/data.ts'
+import { loadSynopses, type Synopsis } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useShare } from '../lib/share.ts'
 import {
@@ -238,11 +238,11 @@ export function DetailPanel({
   onFilterBy: (kind: 'genre' | 'keyword', value: string) => void
   onOpenTitle: (id: number) => void
 }) {
-  const { t, tGenre, tKeyword } = useLang()
+  const { t, tGenre, tKeyword, lang } = useLang()
   const today = todayIso()
   const title: Title | undefined = data.titleById.get(titleId)
   const releases = data.releasesByTitle.get(titleId) ?? []
-  const [synopsis, setSynopsis] = useState<string | undefined>()
+  const [synopsis, setSynopsis] = useState<Synopsis | undefined>()
   const [allKeywords, setAllKeywords] = useState(false)
 
   useEffect(() => {
@@ -286,6 +286,14 @@ export function DetailPanel({
   }
 
   const status = titleStatus(releases, today, title)
+  // Handlung in der aktiven Sprache; fehlt sie, lieber die vorhandene Fassung
+  // mit Hinweis zeigen als gar keine.
+  const plot = (() => {
+    const preferred = lang === 'de' ? synopsis?.de : synopsis?.en
+    if (preferred) return { text: preferred, fallback: false }
+    const other = lang === 'de' ? synopsis?.en : synopsis?.de
+    return other ? { text: other, fallback: true } : undefined
+  })()
   // Hinweis nur, wenn die Synchro ausschließlich auf Disc belegt ist, es aber
   // Streams gibt — genau der Fall, in dem ein Plattform-Logo sonst zu viel
   // verspricht.
@@ -457,12 +465,15 @@ export function DetailPanel({
             </div>
           )}
 
-          {synopsis && (
+          {plot && (
             <div>
               <SectionTitle>{t('detail.plot')}</SectionTitle>
               <p className="whitespace-pre-line text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-                {synopsis}
+                {plot.text}
               </p>
+              {plot.fallback && (
+                <p className="mt-1.5 text-[11px] text-slate-400">{t('detail.plotOnlyEnglish')}</p>
+              )}
             </div>
           )}
 

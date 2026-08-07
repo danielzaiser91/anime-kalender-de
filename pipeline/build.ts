@@ -15,6 +15,7 @@ import { clearDir, log, readJson, slugify, warn, writeJson, writeText } from './
 import type {
   DataMeta,
   DubConfidence,
+  Fsk,
   PlatformId,
   Release,
   ReleaseEvent,
@@ -30,6 +31,8 @@ import {
   TAG_AS_GENRE,
   TAG_AS_GENRE_MIN_RANK,
   amazonSearchUrl,
+  isUnusablePrimeLink,
+  primeVideoSearchUrl,
   germanizeUrl,
   platformFromSite,
 } from '../shared/mappings.ts'
@@ -81,12 +84,22 @@ function isoDate(d: { year: number | null; month: number | null; day: number | n
 
 function mapStreams(media: AniListMedia): StreamLink[] {
   const out: StreamLink[] = []
+  const displayTitle = media.title.english ?? media.title.romaji ?? ''
+
   for (const link of media.externalLinks ?? []) {
     if (link.type !== 'STREAMING') continue
     const platform = platformFromSite(link.site)
     if (!platform) continue
     if (out.some((s) => s.platform === platform)) continue
-    out.push({ platform, url: germanizeUrl(platform, link.url) })
+
+    // Prime Video läuft grundsätzlich über amazon.de. Ein Deeplink von AniList
+    // zeigt auf einen fremden Marktplatz und endet in Deutschland auf einer
+    // Fehlerseite — dann lieber zur Suche schicken als ins Nichts.
+    const url =
+      platform === 'primevideo' && isUnusablePrimeLink(link.url)
+        ? primeVideoSearchUrl(displayTitle)
+        : germanizeUrl(platform, link.url)
+    out.push({ platform, url })
   }
   return out.sort(
     (a, b) => PLATFORM_PRIORITY.indexOf(a.platform) - PLATFORM_PRIORITY.indexOf(b.platform),
@@ -133,6 +146,12 @@ function main(): void {
   // Liegt bewusst im Repo statt im Cache: ohne TMDB-Key soll ein Build die
   // bereits ermittelten FSK-Angaben nicht wieder verlieren.
   const tmdb = readJson<Record<string, TmdbInfo>>('data/tmdb.json', {})
+  // Je AniList-ID: deutsche Handlung, FSK und Anbieter — für alle Titel, nicht
+  // nur die kuratierten.
+  const tmdbTitles = readJson<Record<string, { overviewDe?: string; fsk?: Fsk; providers?: PlatformId[] }>>(
+    'data/tmdb-titles.json',
+    {},
+  )
   const curated = loadCurated()
 
   // --- Titel aufbauen -------------------------------------------------------
@@ -188,6 +207,12 @@ function main(): void {
     }
   }
   for (const title of titles.values()) title.franchiseId = find(title.id)
+
+  // FSK aus TMDB für alle Titel übernehmen, nicht nur für kuratierte.
+  for (const title of titles.values()) {
+    const extra = tmdbTitles[title.id]
+    if (extra?.fsk !== undefined && title.fsk === undefined) title.fsk = extra.fsk
+  }
 
   // --- Crunchyroll-Sendeplätze indizieren ------------------------------------
   const crunchyroll = readJson<CrunchyrollData>('data/crunchyroll.json', {
@@ -404,9 +429,11 @@ function main(): void {
 
   // --- Schreiben ------------------------------------------------------------
   // Synopsen liegen getrennt, damit die Startseite nicht Megabytes laden muss.
-  const synopses: Record<number, string> = {}
+  // Zweisprachig: AniList führt nur Englisch, die deutsche Fassung kommt von TMDB.
+  const synopses: Record<number, { de?: string; en?: string }> = {}
   const slim = allTitles.map((t) => {
-    if (t.synopsis) synopses[t.id] = t.synopsis
+    const de = tmdbTitles[t.id]?.overviewDe
+    if (t.synopsis || de) synopses[t.id] = { de, en: t.synopsis }
     const { synopsis: _drop, ...rest } = t
     return rest
   })
@@ -425,7 +452,7 @@ function main(): void {
   // Erst leeren: Genres kommen und gehen, sonst blieben alte Feeds als Leichen
   // im Repository liegen und würden weiter ausgeliefert.
   clearDir(`${OUT}/feeds`)
-  const siteUrl = process.env.SITE_URL ?? 'https://danielzaiser91.github.io/anime-kalender-de/'
+  const siteUrl = process.env.SITE_URL ?? 'https://anime-kalender.de/'
   writeText(`${OUT}/feeds/all.ics`, buildIcs(events, { siteUrl, calendarName: 'Anime-Kalender DE' }))
 
   for (const platform of platforms) {

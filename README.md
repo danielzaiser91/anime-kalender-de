@@ -3,7 +3,7 @@
 Wochenkalender für alle Anime-Releases mit **deutscher Synchronisation** — Streaming und Disc,
 mit Plattform, FSK, Genres, Keywords, Google-Calendar-Export und Newsletter.
 
-**Live:** https://danielzaiser91.github.io/anime-kalender-de/
+**Live:** https://anime-kalender.de/
 
 ## Warum das Ding so gebaut ist
 

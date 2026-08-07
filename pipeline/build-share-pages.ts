@@ -26,7 +26,7 @@ import { GENRE_DE } from '../shared/mappings.ts'
 import { ROOT, log, readJson } from './lib/util.ts'
 
 const DIST = resolve(ROOT, 'dist')
-const SITE = (process.env.SITE_URL ?? 'https://danielzaiser91.github.io/anime-kalender-de/').replace(
+const SITE = (process.env.SITE_URL ?? 'https://anime-kalender.de/').replace(
   /\/?$/,
   '/',
 )

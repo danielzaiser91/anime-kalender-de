@@ -68,13 +68,19 @@ export function loadAllTitles(data: Dataset): Promise<Title[]> {
   return allTitlesPromise
 }
 
-let synopsisCache: Record<number, string> | undefined
-let synopsisPromise: Promise<Record<number, string>> | undefined
+/** Handlung je Sprache. Deutsch stammt von TMDB, Englisch von AniList. */
+export interface Synopsis {
+  de?: string
+  en?: string
+}
+
+let synopsisCache: Record<number, Synopsis> | undefined
+let synopsisPromise: Promise<Record<number, Synopsis>> | undefined
 
 /** Synopsen liegen in einer eigenen Datei und werden erst beim ersten Detail-Öffnen geholt. */
-export async function loadSynopses(): Promise<Record<number, string>> {
+export async function loadSynopses(): Promise<Record<number, Synopsis>> {
   if (synopsisCache) return synopsisCache
-  synopsisPromise ??= loadJson<Record<number, string>>('synopses.json').then((data) => {
+  synopsisPromise ??= loadJson<Record<number, Synopsis>>('synopses.json').then((data) => {
     synopsisCache = data
     return data
   })

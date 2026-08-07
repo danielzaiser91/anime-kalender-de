@@ -13,8 +13,20 @@
  *
  * Aufruf: npm run data:tmdb   [-- --force] [-- --limit 200]
  */
+import { existsSync, readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import type { Fsk, PlatformId, Title } from '../shared/types.ts'
-import { fetchJson, log, readJson, sleep, warn, writeJson } from './lib/util.ts'
+import { ROOT, fetchJson, log, readJson, sleep, warn, writeJson } from './lib/util.ts'
+
+/** .env einlesen, damit der Schlüssel nicht bei jedem Aufruf gesetzt werden muss. */
+function loadEnv(): void {
+  const envPath = resolve(ROOT, '.env')
+  if (!existsSync(envPath)) return
+  for (const line of readFileSync(envPath, 'utf8').split(/\r?\n/)) {
+    const m = /^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/.exec(line)
+    if (m && !process.env[m[1]]) process.env[m[1]] = m[2].replace(/^["']|["']$/g, '')
+  }
+}
 
 const args = process.argv.slice(2)
 const FORCE = args.includes('--force')
@@ -164,6 +176,7 @@ async function lookup(apiKey: string, title: Title): Promise<TmdbTitle> {
 }
 
 async function main(): Promise<void> {
+  loadEnv()
   const apiKey = process.env.TMDB_API_KEY
   if (!apiKey) {
     warn('TMDB_API_KEY nicht gesetzt — Schritt übersprungen')

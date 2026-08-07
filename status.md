@@ -1,6 +1,6 @@
 # Status: anime-kalender-de
 
-Stand: 07.08.2026 · Live: https://danielzaiser91.github.io/anime-kalender-de/
+Stand: 07.08.2026 · Live: https://anime-kalender.de/
 
 ## Task Queue
 

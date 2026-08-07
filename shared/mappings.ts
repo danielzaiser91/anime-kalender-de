@@ -262,18 +262,32 @@ export function germanizeUrl(platform: PlatformId, url: string): string {
   if (platform === 'disneyplus') {
     return url.replace(/disneyplus\.com\/(?!de-de\/)/, 'disneyplus.com/de-de/')
   }
-  if (platform === 'primevideo') {
-    // AniList verlinkt die US-Storefront; die ASIN ist bei Prime Video
-    // marktübergreifend dieselbe, deshalb reicht der Domain-Tausch.
-    return url
-      .replace('primevideo.com/detail', 'primevideo.com/-/de/detail')
-      .replace('www.amazon.com/', 'www.amazon.de/')
-      .replace('//amazon.com/', '//www.amazon.de/')
-  }
   return url
 }
 
 /** Amazon-Suchlink als Fallback für Kauf-Releases. */
 export function amazonSearchUrl(query: string): string {
   return `https://www.amazon.de/s?k=${encodeURIComponent(`${query} Anime Blu-ray`)}`
+}
+
+/**
+ * Prime-Video-Links laufen bei uns grundsätzlich über **amazon.de**.
+ *
+ * Zwei Gründe. Erstens: Die ASIN ist **nicht** marktübergreifend gleich —
+ * `amazon.com/dp/B0H1QXXRG1` auf `amazon.de` umzuschreiben führt zuverlässig
+ * auf eine Fehlerseite (am 08.08.2026 genau so passiert). AniList verlinkt fast
+ * immer die US-Storefront, ihre Kennungen sind hier also wertlos.
+ * Zweitens: `amazon.de` ist die vertrautere Adresse als `primevideo.com` und
+ * führt zur selben Inhalteseite.
+ *
+ * Ein brauchbarer Deeplink kann deshalb nur aus der Kuratierung kommen; alles
+ * andere wird zur Suche.
+ */
+export function isUnusablePrimeLink(url: string): boolean {
+  return !/^https:\/\/(www\.)?amazon\.de\//.test(url)
+}
+
+/** Suche auf amazon.de statt eines Deeplinks, der ins Leere führt. */
+export function primeVideoSearchUrl(query: string): string {
+  return `https://www.amazon.de/s?k=${encodeURIComponent(query)}&i=instant-video`
 }

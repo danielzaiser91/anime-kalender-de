@@ -89,8 +89,8 @@ MAIL_PROVIDER = "brevo"                 # brevo | resend | console
 FROM_EMAIL    = "kalender@deine-domain.de"
 FROM_NAME     = "Anime-Kalender DE"
 WORKER_URL    = "https://anime-kalender-newsletter.DEIN-SUBDOMAIN.workers.dev"
-ALLOWED_ORIGIN = "https://danielzaiser91.github.io"
-SITE_URL      = "https://danielzaiser91.github.io/anime-kalender-de/"
+ALLOWED_ORIGIN = "https://anime-kalender.de"
+SITE_URL      = "https://anime-kalender.de/"
 ```
 
 `WORKER_URL` kennst du erst nach dem ersten Deploy — also einmal deployen, die ausgegebene
