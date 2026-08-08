@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { ReleaseEvent } from '@shared/types.ts'
 import type { Dataset } from '../lib/data.ts'
 import { addDays, formatDate, nowHhMm, startOfWeek, todayIso, weekdayName } from '@shared/time.ts'
@@ -34,6 +34,28 @@ function GroupLabel({ children }: { children: React.ReactNode }) {
     <div className="flex items-center gap-2 px-0.5 pt-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500">
       <span className="whitespace-nowrap">{children}</span>
       <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />
+    </div>
+  )
+}
+
+/**
+ * Zwei Farbfelder im heutigen Tag: Vorbei ist grau, was noch kommt bleibt blau.
+ *
+ * Der blaue Rahmen markiert den ganzen Tag — dadurch sah auch der Vormittag
+ * noch so aus, als stünde er bevor. Die Grenze zwischen beiden Feldern sagt
+ * jetzt ohne ein einziges Wort, wo die Gegenwart liegt.
+ */
+function TimeBand({ past, children }: { past?: boolean; children: React.ReactNode }) {
+  return (
+    <div
+      className={[
+        '-mx-1 flex flex-col gap-1.5 rounded-lg px-1 py-1.5',
+        past
+          ? 'bg-slate-400/[0.14] opacity-70 dark:bg-black/25'
+          : 'bg-sky-400/[0.10] dark:bg-sky-400/[0.08]',
+      ].join(' ')}
+    >
+      {children}
     </div>
   )
 }
@@ -76,6 +98,14 @@ export function WeekView({
 
   const total = days.reduce((sum, d) => sum + d.timed.length + d.untimed.length, 0)
 
+  // Die aktuelle Uhrzeit trennt im heutigen Tag Vergangenes von Kommendem.
+  // Einmal je Minute nachziehen, damit die Grenze nicht stehen bleibt.
+  const [now, setNow] = useState(nowHhMm)
+  useEffect(() => {
+    const id = window.setInterval(() => setNow(nowHhMm()), 60_000)
+    return () => window.clearInterval(id)
+  }, [])
+
   /**
    * Der Termin von heute, bei dem der Blick landen soll: der nächste, der noch
    * aussteht. Ist der Tag schon durch, wird es der letzte — dann steht der
@@ -84,9 +114,8 @@ export function WeekView({
   const landingId = useMemo(() => {
     const day = days.find((d) => d.date === today)
     if (!day?.timed.length) return undefined
-    const now = nowHhMm()
     return (day.timed.find((e) => e.time! >= now) ?? day.timed[day.timed.length - 1]).id
-  }, [days, today])
+  }, [days, today, now])
 
   const landingRef = useRef<HTMLDivElement | null>(null)
   /** Für welche Woche schon gesprungen wurde — verhindert erneutes Springen. */
@@ -160,6 +189,23 @@ export function WeekView({
     )
   }
 
+  /**
+   * Heute in zwei Farbfeldern: erst das Vorbei-Feld, dann das Kommt-Feld.
+   * Fehlt eine der beiden Hälften, entfällt auch ihr Feld — ein einzelnes
+   * Farbfeld über dem ganzen Tag wäre keine Grenze, sondern nur Dekoration.
+   */
+  const renderToday = (timed: ReleaseEvent[]) => {
+    const past = timed.filter((e) => e.time! < now)
+    const upcoming = timed.filter((e) => e.time! >= now)
+    if (!past.length || !upcoming.length) return timed.map(card)
+    return (
+      <>
+        <TimeBand past>{past.map(card)}</TimeBand>
+        <TimeBand>{upcoming.map(card)}</TimeBand>
+      </>
+    )
+  }
+
   return (
     <div className="flex flex-col gap-3">
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
@@ -201,7 +247,7 @@ export function WeekView({
                     {timed.length > 0 && (
                       <>
                         {untimed.length > 0 && <GroupLabel>{t('week.withTime')}</GroupLabel>}
-                        {timed.map(card)}
+                        {isToday ? renderToday(timed) : timed.map(card)}
                       </>
                     )}
                     {untimed.length > 0 && (
