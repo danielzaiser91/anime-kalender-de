@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-08T19:04:31.275Z",
+  "scrapedAt": "2026-08-08T19:48:40.323Z",
   "window": {
     "from": "2026-07-27",
     "to": "2026-08-16"
@@ -436,6 +436,21 @@
         "episode": 1
       },
       "weeklyConfirmed": false
+    },
+    "fruits basket fruits basket s2": {
+      "time": "18:00",
+      "weekday": 5,
+      "dates": [
+        "2026-08-01"
+      ],
+      "rawTitle": "Fruits Basket (2019) Fruits Basket Staffel 2 (Deutsch)",
+      "seriesId": "G6ZJMGEXY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6ZJMGEXY/fruits-basket-2019",
+      "earliest": {
+        "date": "2026-08-01",
+        "episode": 25
+      },
+      "weeklyConfirmed": false
     }
   },
   "slots": [
@@ -560,6 +575,16 @@
       "german": true
     },
     {
+      "key": "fruits basket fruits basket s2",
+      "rawTitle": "Fruits Basket (2019) Fruits Basket Staffel 2 (Deutsch)",
+      "seriesId": "G6ZJMGEXY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6ZJMGEXY/fruits-basket-2019",
+      "date": "2026-08-01",
+      "time": "18:00",
+      "episode": 25,
+      "german": true
+    },
+    {
       "key": "fruits basket fruits basket the final season",
       "rawTitle": "Fruits Basket (2019) Fruits Basket: The Final Season (Deutsch)",
       "seriesId": "G6ZJMGEXY",
@@ -567,16 +592,6 @@
       "date": "2026-08-01",
       "time": "18:00",
       "episode": 13,
-      "german": true
-    },
-    {
-      "key": "fruits basket s2",
-      "rawTitle": "Fruits Basket (2019) Staffel 2 (Deutsch)",
-      "seriesId": "G6ZJMGEXY",
-      "seriesUrl": "https://www.crunchyroll.com/de/series/G6ZJMGEXY/fruits-basket-2019",
-      "date": "2026-08-01",
-      "time": "18:00",
-      "episode": 25,
       "german": true
     },
     {
