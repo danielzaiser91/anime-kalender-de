@@ -54,6 +54,15 @@ const RECORDS = [
     type: 'TXT',
     content: 'v=DMARC1; p=none; rua=mailto:danielzaiser91@googlemail.com',
   },
+
+  // Nachweis der Domaininhaberschaft für die Google Search Console. Muss stehen
+  // bleiben: Google prüft ihn nicht nur einmal, sondern von Zeit zu Zeit erneut
+  // — verschwindet er, verliert das Konto den Zugriff auf die Property.
+  {
+    name: '',
+    type: 'TXT',
+    content: 'google-site-verification=dWETkl59VJiWDuqu6oZRrCbHP8YaxvJ8F07K-MmwRtM',
+  },
 ]
 
 function loadEnv() {

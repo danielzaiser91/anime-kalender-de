@@ -520,21 +520,14 @@ export function DatenschutzView() {
 
       <div>
         <h2 className="font-semibold text-slate-800 dark:text-slate-100">
-          Erfolgsmessung im Newsletter
+          Keine Erfolgsmessung im Newsletter
         </h2>
         <p>
-          Der Versanddienstleister Resend nutzt derzeit eine gemeinsam genutzte Absenderdomain. Auf
-          dieser fügt er den Mails automatisch eine Erfolgsmessung hinzu: ein unsichtbares Bild, das
-          beim Öffnen der Mail geladen wird, und Links, die über einen Zählserver von Amazon Web
-          Services (<code>awstrack.me</code>) umgeleitet werden. Dabei fallen Öffnungs- und
-          Klickzeitpunkt sowie IP-Adresse an. Wir werten diese Daten nicht aus, können die Messung
-          auf einer fremden Domain aber nicht abschalten.
-        </p>
-        <p className="mt-2">
-          Diese Messung endet, sobald der Versand auf eine eigene Absenderdomain umgestellt ist —
-          dort werden Öffnungs- und Klick-Erfassung abgeschaltet. Wer sie bis dahin vermeiden
-          möchte: Bilder in der Mail nicht nachladen lassen (Standardeinstellung der meisten
-          Programme) und die Adressen aus dem Textteil der Mail statt der verlinkten Knöpfe nutzen.
+          Der Versand läuft über die eigene Absenderdomain{' '}
+          <code>send.anime-kalender.de</code>. Öffnungs- und Klick-Erfassung sind dort abgeschaltet:
+          Die Mails enthalten kein Zählpixel, und die Links führen direkt zum Ziel statt über einen
+          Zählserver. Wir erfahren also nicht, ob und wann du eine Mail geöffnet oder worauf du
+          geklickt hast.
         </p>
       </div>
 

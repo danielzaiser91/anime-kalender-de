@@ -130,6 +130,58 @@ function main(): void {
   }
 
   log(`${releases.length} Teilen-Seiten unter dist/r/ geschrieben`)
+  writeSitemap(releases)
+}
+
+/**
+ * Schreibt `sitemap.xml` und `robots.txt`.
+ *
+ * Warum das hier steht und nicht als statische Datei im Repo: Eine Sitemap darf
+ * nur Adressen enthalten, die es wirklich gibt. Die Teilen-Seiten entstehen
+ * genau eine Zeile weiter oben aus dem Datenbestand — was dort nicht gebaut
+ * wurde, gehört auch nicht in die Sitemap.
+ *
+ * Aufgenommen werden ausschließlich die vorgerenderten Seiten. Die Ansichten
+ * der App (`#/woche`, `#/datenbank` …) fehlen bewusst: Alles hinter dem `#`
+ * bekommt eine Suchmaschine nie zu sehen, sie würde für jede dieser Adressen
+ * dieselbe Startseite indexieren.
+ */
+function writeSitemap(releases: Release[]): void {
+  const today = todayIso()
+  const urls = [
+    { loc: SITE, priority: '1.0', changefreq: 'daily' },
+    ...releases.map((r) => ({
+      loc: `${SITE}r/${r.slug}/`,
+      priority: '0.7',
+      // Ein laufender Simuldub ändert sich wöchentlich, ein Disc-Termin steht.
+      changefreq: r.releaseType === 'weekly' ? 'weekly' : 'monthly',
+    })),
+  ]
+
+  const xml =
+    `<?xml version="1.0" encoding="UTF-8"?>\n` +
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+    urls
+      .map(
+        (u) =>
+          `  <url>\n    <loc>${esc(u.loc)}</loc>\n    <lastmod>${today}</lastmod>\n` +
+          `    <changefreq>${u.changefreq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`,
+      )
+      .join('\n') +
+    `\n</urlset>\n`
+
+  writeFileSync(resolve(DIST, 'sitemap.xml'), xml, 'utf8')
+
+  // Kein `Disallow` — die Seite soll gefunden werden. Der Sitemap-Verweis ist
+  // der eigentliche Zweck dieser Datei: Ohne ihn muss jede Suchmaschine die
+  // Adresse raten oder auf das Einreichen in der Search Console warten.
+  writeFileSync(
+    resolve(DIST, 'robots.txt'),
+    ['User-agent: *', 'Allow: /', '', `Sitemap: ${SITE}sitemap.xml`, ''].join('\n'),
+    'utf8',
+  )
+
+  log(`sitemap.xml mit ${urls.length} Adressen und robots.txt geschrieben`)
 }
 
 main()
