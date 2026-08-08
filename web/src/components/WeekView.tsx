@@ -190,18 +190,21 @@ export function WeekView({
   }
 
   /**
-   * Heute in zwei Farbfeldern: erst das Vorbei-Feld, dann das Kommt-Feld.
-   * Fehlt eine der beiden Hälften, entfällt auch ihr Feld — ein einzelnes
-   * Farbfeld über dem ganzen Tag wäre keine Grenze, sondern nur Dekoration.
+   * Heute in Farbfeldern: erst das Vorbei-Feld, dann das Kommt-Feld.
+   *
+   * Auch wenn nur eine Hälfte existiert, bekommt sie ihr Feld — gerade dann
+   * trägt die Farbe die ganze Aussage. Durchgehend grau heißt „für heute ist
+   * Schluss", durchgehend blau „alles steht noch bevor". Ohne das sah ein
+   * abgelaufener Tag genauso aus wie ein bevorstehender, und genau daran ist
+   * die erste Fassung gescheitert.
    */
   const renderToday = (timed: ReleaseEvent[]) => {
     const past = timed.filter((e) => e.time! < now)
     const upcoming = timed.filter((e) => e.time! >= now)
-    if (!past.length || !upcoming.length) return timed.map(card)
     return (
       <>
-        <TimeBand past>{past.map(card)}</TimeBand>
-        <TimeBand>{upcoming.map(card)}</TimeBand>
+        {past.length > 0 && <TimeBand past>{past.map(card)}</TimeBand>}
+        {upcoming.length > 0 && <TimeBand>{upcoming.map(card)}</TimeBand>}
       </>
     )
   }
