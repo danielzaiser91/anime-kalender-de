@@ -1,29 +1,7 @@
-import { useCallback, useEffect, useState } from 'react'
+import { createIdSet } from './idSet.ts'
 
-const KEY = 'favorites'
-
-/**
- * Favoriten liegen im Browser des Nutzers, nicht auf einem Server — die Seite
- * ist statisch und soll ohne Konto auskommen. Ein eigenes Event hält mehrere
- * gleichzeitig sichtbare Sterne in Gleichklang.
- */
-const CHANGED = 'favorites:changed'
-
-function read(): Set<number> {
-  try {
-    const raw = localStorage.getItem(KEY)
-    if (!raw) return new Set()
-    const parsed: unknown = JSON.parse(raw)
-    return new Set(Array.isArray(parsed) ? parsed.filter((v): v is number => typeof v === 'number') : [])
-  } catch {
-    return new Set()
-  }
-}
-
-function write(ids: Set<number>): void {
-  localStorage.setItem(KEY, JSON.stringify([...ids]))
-  window.dispatchEvent(new CustomEvent(CHANGED))
-}
+/** Gemerkte Titel. Liegen im Browser des Nutzers, nicht auf einem Server. */
+const favoritesSet = createIdSet('favorites')
 
 export function useFavorites(): {
   favorites: Set<number>
@@ -31,30 +9,30 @@ export function useFavorites(): {
   toggle: (id: number) => void
   count: number
 } {
-  const [favorites, setFavorites] = useState<Set<number>>(read)
+  const { ids, has, toggle, count } = favoritesSet.use()
+  return { favorites: ids, isFavorite: has, toggle, count }
+}
 
-  useEffect(() => {
-    const sync = () => setFavorites(read())
-    window.addEventListener(CHANGED, sync)
-    // Auch Änderungen aus einem zweiten Tab übernehmen.
-    window.addEventListener('storage', sync)
-    return () => {
-      window.removeEventListener(CHANGED, sync)
-      window.removeEventListener('storage', sync)
-    }
-  }, [])
+/**
+ * Ausgeblendete Titel.
+ *
+ * Gedacht für zwei Fälle: Ein Kalender, der auch von Jüngeren benutzt wird,
+ * soll Bild und Schlagworte eines FSK-18-Titels nicht ungefragt zeigen. Und
+ * wer eine bestimmte Serie schlicht nicht sehen will, soll sie loswerden,
+ * ohne dass der Termin aus dem Kalender verschwindet.
+ *
+ * Deshalb wird nicht gefiltert, sondern verdeckt: Die Karte bleibt an ihrem
+ * Platz, zeigt aber nur noch den Namen. Ein Filter würde den Tag stillschweigend
+ * leerer machen, und man wüsste nie, dass da etwas war.
+ */
+const hiddenSet = createIdSet('hidden')
 
-  const toggle = useCallback((id: number) => {
-    const next = read()
-    if (next.has(id)) next.delete(id)
-    else next.add(id)
-    write(next)
-  }, [])
-
-  return {
-    favorites,
-    isFavorite: (id) => favorites.has(id),
-    toggle,
-    count: favorites.size,
-  }
+export function useHidden(): {
+  hidden: Set<number>
+  isHidden: (id: number) => boolean
+  toggle: (id: number) => void
+  count: number
+} {
+  const { ids, has, toggle, count } = hiddenSet.use()
+  return { hidden: ids, isHidden: has, toggle, count }
 }

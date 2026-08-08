@@ -13,6 +13,7 @@ import {
   Button,
   Chip,
   FavoriteStar,
+  HideEye,
   FskBadge,
   PlatformBadge,
   ReleaseTypeBadge,
@@ -262,7 +263,9 @@ export function DetailPanel({
   data,
   titleId,
   favorites,
+  hidden,
   onToggleFavorite,
+  onToggleHidden,
   onClose,
   onFilterBy,
   onOpenTitle,
@@ -270,7 +273,9 @@ export function DetailPanel({
   data: Dataset
   titleId: number
   favorites: Set<number>
+  hidden: Set<number>
   onToggleFavorite: (id: number) => void
+  onToggleHidden: (id: number) => void
   onClose: () => void
   onFilterBy: (kind: 'genre' | 'keyword', value: string) => void
   onOpenTitle: (id: number) => void
@@ -319,6 +324,35 @@ export function DetailPanel({
           {t('detail.close')}
         </Button>
       </aside>
+    )
+  }
+
+  // Ausgeblendet: Auch das Detail bleibt zu. Über die Kacheln kommt man ohnehin
+  // nicht mehr hierher, aber ein geteilter Link oder ein Lesezeichen schon —
+  // und dann soll nicht doch alles zu sehen sein, was jemand weggeklickt hat.
+  if (hidden.has(title.id)) {
+    return (
+      <>
+        <div className="fixed inset-0 z-30 cursor-pointer bg-black/40 backdrop-blur-[2px]" onClick={onClose} aria-hidden="true" />
+        <aside
+          className="animate-slide-in fixed inset-y-0 right-0 z-40 flex w-full max-w-md flex-col justify-center gap-4 border-l border-slate-200 bg-white p-6 text-center shadow-2xl dark:border-white/10 dark:bg-[#0d1220]"
+          role="dialog"
+          aria-label={title.titleDe ?? title.titleEn ?? 'Details'}
+        >
+          <p className="text-base font-medium italic text-slate-400 dark:text-slate-500">
+            {title.titleDe ?? title.titleEn ?? title.titleRomaji}
+          </p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">{t('detail.hiddenNote')}</p>
+          <div className="flex justify-center gap-2">
+            <Button onClick={() => onToggleHidden(title.id)} size="sm">
+              {t('card.unhide')}
+            </Button>
+            <Button onClick={onClose} size="sm">
+              {t('detail.close')}
+            </Button>
+          </div>
+        </aside>
+      </>
     )
   }
 
@@ -372,6 +406,7 @@ export function DetailPanel({
               <h2 className="flex-1 text-lg font-semibold leading-tight text-slate-900 dark:text-white">
                 {title.titleDe ?? title.titleEn ?? title.titleRomaji}
               </h2>
+              <HideEye hidden={false} onToggle={() => onToggleHidden(title.id)} />
               <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
             </div>
             {title.titleRomaji && title.titleRomaji !== (title.titleDe ?? title.titleEn) && (

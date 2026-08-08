@@ -1,7 +1,14 @@
 import { useState } from 'react'
 import type { DataMeta, Fsk, PlatformId, ReleaseStatus, ReleaseType } from '@shared/types.ts'
 import { PLATFORMS, RELEASE_TYPES } from '@shared/types.ts'
-import { EMPTY_FILTERS, activeFilterCount, toggleValue, type FilterState } from '../lib/filters.ts'
+import {
+  EMPTY_FILTERS,
+  activeFilterCount,
+  filterMode,
+  toggleFilter,
+  type FilterState,
+  type ListKey,
+} from '../lib/filters.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { Chip } from './ui.tsx'
 
@@ -44,9 +51,21 @@ export function FilterBar({
   const [genreQuery, setGenreQuery] = useState('')
   const [keywordQuery, setKeywordQuery] = useState('')
   const [allKeywords, setAllKeywords] = useState(false)
+  // Auswahlmodus: Ein Klick auf ein Tag wählt es — oder verbietet es.
+  const [mode, setMode] = useState<'include' | 'exclude'>('include')
   const count = activeFilterCount(filters)
 
   const set = (patch: Partial<FilterState>) => onChange({ ...filters, ...patch })
+
+  /** Ein Klick auf ein Tag — der Modus entscheidet, auf welche Seite es geht. */
+  const pick = <K extends ListKey>(key: K, value: FilterState[K][number]) =>
+    onChange(toggleFilter(filters, key, value, mode))
+
+  /** Zustand eines Tags für die Darstellung. */
+  const chipState = <K extends ListKey>(key: K, value: FilterState[K][number]) => {
+    const state = filterMode(filters, key, value)
+    return { active: state === 'include', excluded: state === 'exclude' }
+  }
 
   const sortedGenres = meta.genres
     .slice()
@@ -61,10 +80,12 @@ export function FilterBar({
   const matchingKeywords = keywordQuery
     ? sortedKeywords.filter((k) => tKeyword(k).toLowerCase().includes(keywordQuery.toLowerCase()))
     : sortedKeywords
-  // Gewählte Keywords bleiben immer sichtbar, damit sie abwählbar sind.
+  // Gewählte und ausgeschlossene Keywords bleiben immer sichtbar, sonst könnte
+  // man ein Verbot setzen und es anschließend nicht mehr finden.
+  const setKeywords = [...filters.keywords, ...filters.excluded.keywords]
   const previewKeywords = [
-    ...filters.keywords,
-    ...matchingKeywords.filter((k) => !filters.keywords.includes(k)).slice(0, KEYWORD_PREVIEW),
+    ...setKeywords,
+    ...matchingKeywords.filter((k) => !setKeywords.includes(k)).slice(0, KEYWORD_PREVIEW),
   ]
   const shownKeywords = allKeywords || keywordQuery ? matchingKeywords : previewKeywords
   const hiddenKeywordCount = matchingKeywords.length - previewKeywords.length
@@ -118,14 +139,46 @@ export function FilterBar({
       </div>
 
       {open && (
-        <div className="animate-fade-in grid gap-4 border-t border-slate-200 p-3 dark:border-white/10 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="animate-fade-in border-t border-slate-200 dark:border-white/10">
+          {/* Der Umschalter steht über den Tags, nicht neben jedem einzelnen:
+              Wer etwas ausschließen will, will meist mehreres ausschließen. */}
+          <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 px-3 py-2 dark:border-white/10">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+              {t('filter.mode')}
+            </span>
+            <div className="inline-flex overflow-hidden rounded-lg border border-slate-300 dark:border-white/15">
+              {(['include', 'exclude'] as const).map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  onClick={() => setMode(m)}
+                  aria-pressed={mode === m}
+                  className={[
+                    'cursor-pointer px-3 py-1 text-xs font-medium transition',
+                    mode === m
+                      ? m === 'exclude'
+                        ? 'bg-rose-500 text-white'
+                        : 'bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900'
+                      : 'text-slate-600 hover:bg-slate-200/60 dark:text-slate-300 dark:hover:bg-white/10',
+                  ].join(' ')}
+                >
+                  {m === 'exclude' ? `⊘ ${t('filter.modeExclude')}` : t('filter.modeInclude')}
+                </button>
+              ))}
+            </div>
+            <span className="text-[11px] text-slate-500 dark:text-slate-400">
+              {t(mode === 'exclude' ? 'filter.modeExcludeHint' : 'filter.modeIncludeHint')}
+            </span>
+          </div>
+
+          <div className="grid gap-4 p-3 sm:grid-cols-2 xl:grid-cols-3">
           <Group label={t('filter.platform')}>
             {meta.platforms.map((p: PlatformId) => (
               <Chip
                 key={p}
                 color={PLATFORMS[p].color}
-                active={filters.platforms.includes(p)}
-                onClick={() => set({ platforms: toggleValue(filters.platforms, p) })}
+                {...chipState('platforms', p)}
+                onClick={() => pick('platforms', p)}
               >
                 {PLATFORMS[p].name}
               </Chip>
@@ -138,8 +191,8 @@ export function FilterBar({
                 key={type}
                 color={RELEASE_TYPES[type].color}
                 title={tRelease(type, 'hint')}
-                active={filters.releaseTypes.includes(type)}
-                onClick={() => set({ releaseTypes: toggleValue(filters.releaseTypes, type) })}
+                {...chipState('releaseTypes', type)}
+                onClick={() => pick('releaseTypes', type)}
               >
                 {tRelease(type)}
               </Chip>
@@ -150,8 +203,8 @@ export function FilterBar({
             {STATUS_OPTIONS.map((s) => (
               <Chip
                 key={s}
-                active={filters.statuses.includes(s)}
-                onClick={() => set({ statuses: toggleValue(filters.statuses, s) })}
+                {...chipState('statuses', s)}
+                onClick={() => pick('statuses', s)}
               >
                 {t(STATUS_LABEL_KEY[s])}
               </Chip>
@@ -162,8 +215,8 @@ export function FilterBar({
             {FSK_OPTIONS.map((f) => (
               <Chip
                 key={f}
-                active={filters.fsk.includes(f)}
-                onClick={() => set({ fsk: toggleValue(filters.fsk, f) })}
+                {...chipState('fsk', f)}
+                onClick={() => pick('fsk', f)}
               >
                 {t('filter.fskFrom', { n: f })}
               </Chip>
@@ -174,8 +227,8 @@ export function FilterBar({
             {meta.years.map((y) => (
               <Chip
                 key={y}
-                active={filters.years.includes(y)}
-                onClick={() => set({ years: toggleValue(filters.years, y) })}
+                {...chipState('years', y)}
+                onClick={() => pick('years', y)}
               >
                 {y}
               </Chip>
@@ -214,8 +267,8 @@ export function FilterBar({
               {visibleGenres.map((g) => (
                 <Chip
                   key={g}
-                  active={filters.genres.includes(g)}
-                  onClick={() => set({ genres: toggleValue(filters.genres, g) })}
+                  {...chipState('genres', g)}
+                  onClick={() => pick('genres', g)}
                 >
                   {tGenre(g)}
                 </Chip>
@@ -235,8 +288,8 @@ export function FilterBar({
               {shownKeywords.map((k) => (
                 <Chip
                   key={k}
-                  active={filters.keywords.includes(k)}
-                  onClick={() => set({ keywords: toggleValue(filters.keywords, k) })}
+                  {...chipState('keywords', k)}
+                  onClick={() => pick('keywords', k)}
                 >
                   {tKeyword(k)}
                 </Chip>
@@ -247,6 +300,7 @@ export function FilterBar({
                 </Chip>
               )}
             </Group>
+          </div>
           </div>
         </div>
       )}

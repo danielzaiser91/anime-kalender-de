@@ -10,14 +10,18 @@ export function AgendaView({
   events,
   anchorDate,
   favorites,
+  hidden,
   onToggleFavorite,
+  onToggleHidden,
   onOpen,
 }: {
   data: Dataset
   events: ReleaseEvent[]
   anchorDate: string
   favorites: Set<number>
+  hidden: Set<number>
   onToggleFavorite: (titleId: number) => void
+  onToggleHidden: (titleId: number) => void
   onOpen: (slug: string, date: string) => void
 }) {
   const { t } = useLang()
@@ -77,7 +81,9 @@ export function AgendaView({
                 title={data.titleById.get(ev.titleId)}
                 fsk={data.releaseBySlug.get(ev.releaseSlug)?.fsk}
                 favorite={favorites.has(ev.titleId)}
+                hidden={hidden.has(ev.titleId)}
                 onToggleFavorite={ev.titleId > 0 ? () => onToggleFavorite(ev.titleId) : undefined}
+                onToggleHidden={ev.titleId > 0 ? () => onToggleHidden(ev.titleId) : undefined}
                 onOpen={() => onOpen(ev.releaseSlug, ev.date)}
               />
             ))}

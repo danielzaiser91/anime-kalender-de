@@ -1,6 +1,13 @@
 import { useEffect, useState } from 'react'
-import type { DubConfidence, Fsk, PlatformId, ReleaseStatus, ReleaseType } from '@shared/types.ts'
-import { EMPTY_FILTERS, type FilterState } from './filters.ts'
+import type { DubConfidence } from '@shared/types.ts'
+import {
+  EMPTY_FILTERS,
+  LIST_KEYS,
+  emptyLists,
+  type FilterLists,
+  type FilterState,
+  type ListKey,
+} from './filters.ts'
 import { todayIso } from '@shared/time.ts'
 
 export type ViewId = 'woche' | 'monat' | 'agenda' | 'datenbank' | 'abo' | 'newsletter' | 'impressum' | 'datenschutz'
@@ -26,10 +33,42 @@ export interface AppRoute {
   filters: FilterState
 }
 
-const LIST_KEYS = ['p', 'rt', 'st', 'fsk', 'y', 'g', 'kw'] as const
+/**
+ * Kurzname je Listenfeld in der Adresse. Der Ausschluss bekommt denselben
+ * Namen mit `x` davor — `g=Fantasy&xg=Ecchi` liest sich von selbst.
+ */
+const LIST_PARAM: Record<ListKey, string> = {
+  platforms: 'p',
+  releaseTypes: 'rt',
+  statuses: 'st',
+  fsk: 'fsk',
+  years: 'y',
+  genres: 'g',
+  keywords: 'kw',
+}
+
+/** Felder, deren Werte Zahlen sind — alle anderen bleiben Zeichenketten. */
+const NUMERIC_KEYS = new Set<ListKey>(['fsk', 'years'])
 
 function splitList(value: string | null): string[] {
   return value ? value.split(',').filter(Boolean) : []
+}
+
+function readLists(params: URLSearchParams, prefix: '' | 'x'): FilterLists {
+  const lists = emptyLists()
+  for (const key of LIST_KEYS) {
+    const raw = splitList(params.get(prefix + LIST_PARAM[key]))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ;(lists as any)[key] = NUMERIC_KEYS.has(key) ? raw.map(Number) : raw
+  }
+  return lists
+}
+
+function writeLists(params: URLSearchParams, lists: FilterLists, prefix: '' | 'x'): void {
+  for (const key of LIST_KEYS) {
+    const values = lists[key]
+    if (values.length) params.set(prefix + LIST_PARAM[key], values.join(','))
+  }
 }
 
 export function parseHash(hash: string): AppRoute {
@@ -40,13 +79,8 @@ export function parseHash(hash: string): AppRoute {
 
   const filters: FilterState = {
     ...EMPTY_FILTERS,
-    platforms: splitList(params.get('p')) as PlatformId[],
-    releaseTypes: splitList(params.get('rt')) as ReleaseType[],
-    statuses: splitList(params.get('st')) as ReleaseStatus[],
-    fsk: splitList(params.get('fsk')).map(Number) as Fsk[],
-    years: splitList(params.get('y')).map(Number),
-    genres: splitList(params.get('g')),
-    keywords: splitList(params.get('kw')),
+    ...readLists(params, ''),
+    excluded: readLists(params, 'x'),
     search: params.get('q') ?? '',
     confirmedOnly: params.get('sicher') === '1',
     favoritesOnly: params.get('fav') === '1',
@@ -65,18 +99,8 @@ export function parseHash(hash: string): AppRoute {
 export function buildHash(route: AppRoute): string {
   const params = new URLSearchParams()
   const f = route.filters
-  const lists: Record<(typeof LIST_KEYS)[number], (string | number)[]> = {
-    p: f.platforms,
-    rt: f.releaseTypes,
-    st: f.statuses,
-    fsk: f.fsk,
-    y: f.years,
-    g: f.genres,
-    kw: f.keywords,
-  }
-  for (const key of LIST_KEYS) {
-    if (lists[key].length) params.set(key, lists[key].join(','))
-  }
+  writeLists(params, f, '')
+  writeLists(params, f.excluded, 'x')
   if (f.search.trim()) params.set('q', f.search.trim())
   if (f.confirmedOnly) params.set('sicher', '1')
   if (f.favoritesOnly) params.set('fav', '1')

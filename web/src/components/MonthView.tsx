@@ -8,12 +8,14 @@ export function MonthView({
   events,
   anchorDate,
   favorites,
+  hidden,
   onOpen,
   onPickDay,
 }: {
   events: ReleaseEvent[]
   anchorDate: string
   favorites: Set<number>
+  hidden: Set<number>
   onOpen: (slug: string, date: string) => void
   onPickDay: (date: string) => void
 }) {
@@ -78,7 +80,19 @@ export function MonthView({
               </button>
 
               <div className="flex flex-col gap-0.5">
-                {dayEvents.slice(0, 4).map((ev) => (
+                {dayEvents.slice(0, 4).map((ev) =>
+                  // Ausgeblendet: nur der Name, kursiv und grau, nicht anklickbar.
+                  // Die Monatsansicht zeigt ohnehin nichts weiter — hier genügt
+                  // es, den Weg ins Detail zu versperren.
+                  hidden.has(ev.titleId) ? (
+                    <span
+                      key={ev.id}
+                      className="flex items-center gap-1 truncate rounded px-1 py-0.5 text-[11px] italic text-slate-400 dark:text-slate-500"
+                    >
+                      <span className="size-1.5 shrink-0 rounded-full bg-slate-300 dark:bg-white/20" />
+                      <span className="truncate">{ev.name}</span>
+                    </span>
+                  ) : (
                   <button
                     key={ev.id}
                     type="button"
@@ -98,7 +112,8 @@ export function MonthView({
                     {ev.time && <span className="tabular-nums opacity-70">{ev.time}</span>}
                     <span className="truncate">{ev.name}</span>
                   </button>
-                ))}
+                  ),
+                )}
                 {dayEvents.length > 4 && (
                   <button
                     type="button"

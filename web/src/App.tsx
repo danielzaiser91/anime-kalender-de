@@ -3,7 +3,7 @@ import type { Title } from '@shared/types.ts'
 import type { Dataset } from './lib/data.ts'
 import { loadAllTitles, loadDataset } from './lib/data.ts'
 import { filterEvents, filterTitles, toggleValue, type FilterState } from './lib/filters.ts'
-import { useFavorites } from './lib/favorites.ts'
+import { useFavorites, useHidden } from './lib/favorites.ts'
 import { useNewsletterSync } from './lib/newsletterSync.ts'
 import { useRoute, type ViewId } from './lib/router.ts'
 import { useLang } from './lib/i18n.tsx'
@@ -40,6 +40,7 @@ export default function App() {
   const [grouped, setGrouped] = useState(() => localStorage.getItem('groupSeasons') !== '0')
   const [route, navigate] = useRoute()
   const { favorites, toggle } = useFavorites()
+  const { hidden, toggle: toggleHidden } = useHidden()
   // Hält die im Newsletter hinterlegten Favoriten aktuell — sitzt hier oben,
   // damit es unabhängig von der geöffneten Ansicht greift.
   useNewsletterSync(favorites)
@@ -145,7 +146,9 @@ export default function App() {
             events={events}
             anchorDate={route.date}
             favorites={favorites}
+            hidden={hidden}
             onToggleFavorite={toggle}
+            onToggleHidden={toggleHidden}
             onOpen={(release) => navigate({ release, title: undefined })}
           />
         )}
@@ -155,6 +158,7 @@ export default function App() {
             events={events}
             anchorDate={route.date}
             favorites={favorites}
+            hidden={hidden}
             onOpen={(release) => navigate({ release, title: undefined })}
             onPickDay={(d) => navigate({ view: 'woche', date: d })}
           />
@@ -166,7 +170,9 @@ export default function App() {
             events={events}
             anchorDate={route.date}
             favorites={favorites}
+            hidden={hidden}
             onToggleFavorite={toggle}
+            onToggleHidden={toggleHidden}
             onOpen={(release) => navigate({ release, title: undefined })}
           />
         )}
@@ -179,7 +185,9 @@ export default function App() {
               grouped={grouped}
               onGroupedChange={setGrouped}
               favorites={favorites}
+              hidden={hidden}
               onToggleFavorite={toggle}
+              onToggleHidden={toggleHidden}
               onOpenTitle={(id) => navigate({ title: id, release: undefined })}
             />
           ) : (
@@ -199,7 +207,9 @@ export default function App() {
           data={data}
           titleId={openTitleId}
           favorites={favorites}
+          hidden={hidden}
           onToggleFavorite={toggle}
+          onToggleHidden={toggleHidden}
           onClose={() => navigate({ release: undefined, title: undefined })}
           onOpenTitle={(id) => navigate({ title: id, release: undefined })}
           onFilterBy={(kind, value) => {

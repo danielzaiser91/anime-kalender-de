@@ -4,7 +4,7 @@ import { titleStatus } from '@shared/logic.ts'
 import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
-import { FavoriteStar, FskBadge, PlatformBadge, ShareIcon, StatusBadge, Toggle } from './ui.tsx'
+import { FavoriteStar, FskBadge, HideEye, PlatformBadge, ShareIcon, StatusBadge, Toggle } from './ui.tsx'
 import { useShare } from '../lib/share.ts'
 
 const PAGE_SIZE = 60
@@ -38,7 +38,9 @@ export function DatabaseView({
   grouped,
   onGroupedChange,
   favorites,
+  hidden,
   onToggleFavorite,
+  onToggleHidden,
   onOpenTitle,
 }: {
   data: Dataset
@@ -46,7 +48,9 @@ export function DatabaseView({
   grouped: boolean
   onGroupedChange: (next: boolean) => void
   favorites: Set<number>
+  hidden: Set<number>
   onToggleFavorite: (id: number) => void
+  onToggleHidden: (id: number) => void
   onOpenTitle: (id: number) => void
 }) {
   const { t } = useLang()
@@ -96,7 +100,25 @@ export function DatabaseView({
           const releases = members.flatMap((m) => data.releasesByTitle.get(m.id) ?? [])
           const status = titleStatus(releases, today, main)
           const favorite = members.some((m) => favorites.has(m.id))
+          // Eine Reihe gilt als ausgeblendet, sobald eine ihrer Staffeln es ist —
+          // sonst käme das Cover über den Umweg der Fortsetzung doch wieder.
+          const isHidden = members.some((m) => hidden.has(m.id))
           const platform = releases[0]?.platform ?? main.streams[0]?.platform
+
+          if (isHidden) {
+            return (
+              <div
+                key={main.id}
+                className="flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-slate-300 bg-slate-100/60 p-3 text-center dark:border-white/15 dark:bg-white/[0.02]"
+              >
+                <span className="line-clamp-3 text-xs italic text-slate-400 dark:text-slate-500">
+                  {main.titleDe ?? main.titleEn ?? main.titleRomaji}
+                </span>
+                <HideEye hidden onToggle={() => onToggleHidden(main.id)} />
+              </div>
+            )
+          }
+
           return (
             <div
               key={main.id}
@@ -129,6 +151,7 @@ export function DatabaseView({
                 )}
                 <span className="absolute left-1 top-1 flex items-center gap-0.5">
                   <FavoriteStar active={favorite} onToggle={() => onToggleFavorite(main.id)} />
+                  <HideEye hidden={false} onToggle={() => onToggleHidden(main.id)} />
                   {/* Geteilt wird der Release, nicht der Anime — nur zu ihm
                       gibt es eine Seite mit eigenem Vorschaubild. */}
                   {releases[0] && (

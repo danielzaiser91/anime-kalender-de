@@ -8,12 +8,15 @@ const CLICKABLE = 'cursor-pointer focus:outline-none focus-visible:ring-2 focus-
 
 export function Chip({
   active,
+  excluded,
   onClick,
   children,
   color,
   title,
 }: {
   active?: boolean
+  /** Ausgeschlossen — muss sich auf einen Blick von „gewählt" unterscheiden. */
+  excluded?: boolean
   onClick?: () => void
   children: ReactNode
   color?: string
@@ -24,16 +27,27 @@ export function Chip({
       type="button"
       onClick={onClick}
       title={title}
-      aria-pressed={active}
+      aria-pressed={active || excluded}
       className={[
         'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium transition',
         CLICKABLE,
-        active
-          ? 'border-transparent bg-slate-100 text-slate-900 dark:bg-slate-100 dark:text-slate-900'
-          : 'border-slate-300/70 text-slate-600 hover:border-slate-400 hover:text-slate-900 dark:border-white/15 dark:text-slate-300 dark:hover:border-white/40 dark:hover:text-white',
+        excluded
+          ? // Rot und durchgestrichen: Ein bloß andersfarbiger Chip würde sich
+            // wie eine zweite Auswahl lesen, nicht wie ein Verbot.
+            'border-rose-400/70 bg-rose-500/10 text-rose-600 line-through decoration-rose-500/70 dark:border-rose-400/50 dark:text-rose-300'
+          : active
+            ? 'border-transparent bg-slate-100 text-slate-900 dark:bg-slate-100 dark:text-slate-900'
+            : 'border-slate-300/70 text-slate-600 hover:border-slate-400 hover:text-slate-900 dark:border-white/15 dark:text-slate-300 dark:hover:border-white/40 dark:hover:text-white',
       ].join(' ')}
     >
-      {color && <span className="size-2 rounded-full" style={{ background: color }} aria-hidden="true" />}
+      {excluded && (
+        <span aria-hidden="true" className="no-underline">
+          ⊘
+        </span>
+      )}
+      {color && !excluded && (
+        <span className="size-2 rounded-full" style={{ background: color }} aria-hidden="true" />
+      )}
       {children}
     </button>
   )
@@ -217,6 +231,62 @@ export function FavoriteStar({
       ].join(' ')}
     >
       {active ? '★' : '☆'}
+    </button>
+  )
+}
+
+/**
+ * Auge zum Ausblenden eines Titels.
+ *
+ * Als gezeichnetes SVG statt als Emoji: Ein 👁 sieht je nach Betriebssystem
+ * völlig anders aus und lässt sich nicht einfärben — hier soll es aber die
+ * Farbe des Zustands tragen und neben dem Stern gleich groß wirken.
+ */
+export function HideEye({
+  hidden,
+  onToggle,
+  size = 'md',
+}: {
+  hidden: boolean
+  onToggle: () => void
+  size?: 'sm' | 'md'
+}) {
+  const { t } = useLang()
+  return (
+    <button
+      type="button"
+      aria-pressed={hidden}
+      title={t(hidden ? 'card.unhide' : 'card.hide')}
+      aria-label={t(hidden ? 'card.unhide' : 'card.hide')}
+      onClick={(e) => {
+        e.stopPropagation()
+        onToggle()
+      }}
+      className={[
+        'inline-flex items-center justify-center rounded-full transition',
+        CLICKABLE,
+        size === 'sm' ? 'size-5' : 'size-7',
+        hidden
+          ? 'text-sky-500 dark:text-sky-400'
+          : 'text-slate-400/70 hover:text-sky-500 dark:text-slate-500 dark:hover:text-sky-400',
+      ].join(' ')}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={size === 'sm' ? 'size-3.5' : 'size-[18px]'}
+        aria-hidden="true"
+      >
+        <path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z" />
+        <circle cx="12" cy="12" r="2.7" />
+        {/* Der Balken bedeutet „ist ausgeblendet" — ohne ihn sähen beide
+            Zustände gleich aus, und der Knopf würde nichts erzählen. */}
+        {hidden && <path d="M3.5 3.5 20.5 20.5" />}
+      </svg>
     </button>
   )
 }

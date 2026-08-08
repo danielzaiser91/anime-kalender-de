@@ -2,14 +2,16 @@ import type { Fsk, ReleaseEvent, Title } from '@shared/types.ts'
 import { RELEASE_TYPES } from '@shared/types.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useShare } from '../lib/share.ts'
-import { FavoriteStar, FskBadge, PlatformBadge, ShareIcon } from './ui.tsx'
+import { FavoriteStar, FskBadge, HideEye, PlatformBadge, ShareIcon } from './ui.tsx'
 
 export function EventCard({
   event,
   title,
   fsk,
   favorite,
+  hidden,
   onToggleFavorite,
+  onToggleHidden,
   onOpen,
   dense,
 }: {
@@ -17,7 +19,9 @@ export function EventCard({
   title?: Title
   fsk?: Fsk
   favorite?: boolean
+  hidden?: boolean
   onToggleFavorite?: () => void
+  onToggleHidden?: () => void
   onOpen: () => void
   dense?: boolean
 }) {
@@ -25,6 +29,31 @@ export function EventCard({
   const { share, copiedSlug } = useShare()
   const type = RELEASE_TYPES[event.releaseType]
   const cover = title?.coverImage
+
+  /**
+   * Ausgeblendet: Der Termin bleibt an seinem Platz, aber nur als Name.
+   *
+   * Kein Bild, keine Schlagworte, keine Plattform, kein Öffnen — sonst wäre
+   * das Ausblenden eine Attrappe. Genau darum ist die ganze Karte hier auch
+   * kein Knopf mehr: Ein versehentlicher Klick soll nicht zeigen, was jemand
+   * bewusst nicht sehen wollte.
+   */
+  if (hidden) {
+    return (
+      <div
+        className={[
+          'flex w-full items-center gap-2 overflow-hidden rounded-lg border border-dashed',
+          'border-slate-300 bg-slate-100/60 text-left dark:border-white/15 dark:bg-white/[0.02]',
+          dense ? 'p-1.5' : 'p-2',
+        ].join(' ')}
+      >
+        <span className="line-clamp-1 min-w-0 flex-1 text-[13px] italic text-slate-400 dark:text-slate-500">
+          {event.name}
+        </span>
+        {onToggleHidden && <HideEye hidden onToggle={onToggleHidden} size="sm" />}
+      </div>
+    )
+  }
 
   return (
     <div
@@ -76,6 +105,7 @@ export function EventCard({
               copied={copiedSlug === event.releaseSlug}
               size="sm"
             />
+            {onToggleHidden && <HideEye hidden={false} onToggle={onToggleHidden} size="sm" />}
             {onToggleFavorite && (
               <FavoriteStar active={!!favorite} onToggle={onToggleFavorite} size="sm" />
             )}
