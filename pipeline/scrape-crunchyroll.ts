@@ -17,6 +17,7 @@
 import { chromium, type Browser } from 'playwright'
 import { addDays, diffDays, startOfWeek, todayIso } from '../shared/time.ts'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
+import { recordSource } from './lib/health.ts'
 import {
   crunchyrollSeriesId,
   normalizeTitle,
@@ -133,6 +134,7 @@ async function main(): Promise<void> {
   }
 
   if (!slots.length) {
+    recordSource('crunchyroll', 0, 'keine Kachel im Kalender gefunden')
     warn('Keine Einträge gefunden — Seitenaufbau geändert? Bestehende Daten bleiben unangetastet.')
     return
   }
@@ -207,6 +209,8 @@ async function main(): Promise<void> {
     },
     true,
   )
+  const germanCount = Object.keys(german).length
+  recordSource('crunchyroll', germanCount, germanCount ? undefined : 'Kalender geladen, aber kein „(Deutsch)"-Eintrag')
   log(`${Object.keys(merged).length} Titel mit belegter deutscher Sendezeit gespeichert.`)
 }
 

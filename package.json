@@ -13,9 +13,13 @@
     "data:build": "tsx pipeline/build.ts",
     "data:og": "tsx pipeline/build-og.ts",
     "data:tmdb": "tsx pipeline/fetch-tmdb-titles.ts",
-    "data:all": "npm run data:fetch && npm run data:crunchyroll && npm run data:build",
+    "data:all": "npm run data:fetch && npm run data:crunchyroll && npm run data:adn && npm run data:anime2you && npm run data:build",
     "data:validate": "tsx pipeline/validate.ts",
-    "typecheck": "tsc -b --noEmit false --emitDeclarationOnly false || tsc -b"
+    "typecheck": "tsc -b --noEmit false --emitDeclarationOnly false || tsc -b",
+    "data:adn": "tsx pipeline/fetch-adn.ts",
+    "data:anime2you": "tsx pipeline/scrape-anime2you.ts",
+    "data:check": "tsx pipeline/check-sources.ts",
+    "data:report": "tsx pipeline/report-proposals.ts"
   },
   "dependencies": {
     "react": "^19.1.0",

@@ -1,0 +1,66 @@
+name: Stündlich — Sendezeiten
+
+# Der Crunchyroll-Kalender ist die einzige Quelle, die sich mehrmals täglich
+# ändert: Uhrzeiten verschieben sich, Folgen kommen dazu, Staffeln fallen aus.
+# Alles andere (AniList-Metadaten, Disc-Termine, Kinostarts) ändert sich
+# höchstens täglich und läuft deshalb im großen Nachtlauf.
+#
+# Committet wird nur bei echter Änderung — sonst rauscht das Repo mit 24 leeren
+# Commits pro Tag voll.
+
+on:
+  schedule:
+    # :23 statt :00 — zur vollen Stunde treffen alle Cron-Jobs der Welt
+    # gleichzeitig auf dieselben Server.
+    - cron: '23 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  # Läuft ein Nachtlauf, hat der Vorrang: Zwei Jobs, die dieselben Dateien
+  # committen, erzeugen sonst einen Push-Konflikt.
+  group: daten
+  cancel-in-progress: false
+
+jobs:
+  sendezeiten:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Browser installieren
+        run: npx playwright install --with-deps chromium
+
+      - name: Crunchyroll-Kalender lesen
+        # Drei Wochen genügen stündlich; der Wochenlauf schaut weiter zurück.
+        run: npx tsx pipeline/scrape-crunchyroll.ts --weeks 3
+
+      - name: Datensatz bauen
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+        run: npm run data:build
+
+      - name: Vorschaubilder für neue Releases
+        run: npm run data:og
+
+      - name: Änderungen committen
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data public/og data/crunchyroll.json data/source-health.json
+          if git diff --staged --quiet; then
+            echo "Keine Änderung an den Sendezeiten."
+          else
+            git commit -m "chore(data): Sendezeiten aktualisiert"
+            git pull --rebase --autostash
+            git push
+          fi

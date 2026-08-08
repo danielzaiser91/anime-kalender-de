@@ -10,13 +10,9 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| Alle legalen Anbieter + mehr Quellen + häufigeres Polling | 21 | ausführlich in `TODO.md` |
+| Kuratierungsbericht abarbeiten | 2 | `npm run data:report` listet, was gemeldet, aber nicht erfasst ist |
 | Tracking-Absatz aus der Datenschutzerklärung nehmen | 1 | erst wenn der erste Versand über die eigene Domain bestätigt ist |
-| Katalogtitel (Netflix/Disney+ Batch-Drops) erfassen | 3 | Release-Art `batch` ist im Code vorhanden, aber noch ohne Datenbestand |
-| Kino-Termine erfassen | 2 | Release-Art `movie` ebenfalls ungenutzt |
-| Disc-Releases September 2026 nachtragen | 2 | Quelle: Anime2You-Monatsübersicht |
 | Uhrzeiten außerhalb von Crunchyroll | 3 | Netflix und Prime Video nennen keine Uhrzeit; bislang „Zeit offen" |
-| Projekt ins Portfolio eintragen | 1 | Reminder in `TODO.md` |
 
 ### Später (nice to have)
 
@@ -40,6 +36,20 @@ herausgeholt, wenn der User es sagt.
 | Gesamtabnahme der ersten Version | 07.08.2026 |
 
 ## Archiv
+
+- ✅ **ADN als zweite maschinelle Quelle**: Die öffentliche JSON-Schnittstelle nennt je Folge
+  Datum, Uhrzeit UND Sprachcode (`vde` = Synchro, `vostde` = nur Untertitel). Damit beantwortet
+  sie von sich aus die Frage, für die es sonst keine maschinenlesbare Antwort gibt. 4 Serien
+  mit deutscher Synchro gefunden, alle vorher nicht erfasst
+- ✅ **Anime2You als Vorschlagsquelle**: drei RSS-Feeds, deutsche Datumserkennung, Abgleich gegen
+  die `sources` der kuratierten Einträge. Erzeugt bewusst keine Termine, sondern die Liste
+  „gemeldet, aber noch nicht erfasst" (`npm run data:report`) — 16 offene Meldungen beim ersten Lauf
+- ✅ **Polling-Kaskade**: stündlich Crunchyroll, täglich alle Quellen, wöchentlich mit weitem
+  Fenster. Alle drei teilen sich eine `concurrency`-Gruppe, committen nur bei echter Änderung
+- ✅ **Wachhund gegen stumme Quellen**: `data/source-health.json` merkt sich je Quelle den letzten
+  erfolgreichen Lauf; schweigt eine länger als vier Tage, wird der Workflow rot und GitHub mailt.
+  Gegen den lautlosesten Fehler des Projekts — ein Scraper, der nach einem Seitenumbau einfach
+  nichts mehr findet
 
 - ✅ Teilbare Adresse ohne Umweg: sobald eine Karte offen ist, steht /r/<slug>/ in der
   Adressleiste (replaceState, kein Neuladen) — kopieren genügt, der Teilen-Knopf ist nur Beiwerk

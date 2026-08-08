@@ -1,13 +1,17 @@
-name: Täglich — alle Quellen
+name: Wöchentlich — tiefer Durchlauf
 
-# Der große Lauf: Metadaten, Synchro-Listen, ADN-Kalender, Nachrichtenlage.
-# Die stündliche Aktion deckt nur Crunchyroll ab.
+# Was täglich zu teuer wäre: weite Zeitfenster und ein vollständiger
+# Neuaufbau. Dabei fällt auf, was der Tageslauf mit seinem engen Fenster
+# übersieht — etwa eine Staffel, die vor Wochen anlief, oder ein ADN-Titel,
+# der erst in zwei Monaten erscheint.
+#
+# Außerdem der Ort für den Bericht: Was hat Anime2You gemeldet, das noch nicht
+# in `data/curated/` steht? Der landet in der Zusammenfassung des Laufs.
 
 on:
   schedule:
-    # 04:17 UTC — abseits der vollen Stunde, damit die Fremd-APIs nicht
-    # gleichzeitig von tausend Cron-Jobs getroffen werden.
-    - cron: '17 4 * * *'
+    # Montags 05:41 UTC — nach dem Tageslauf, vor der Arbeitswoche.
+    - cron: '41 5 * * 1'
   workflow_dispatch:
 
 permissions:
@@ -18,7 +22,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  refresh:
+  tief:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -30,7 +34,7 @@ jobs:
 
       - run: npm ci
 
-      - name: Browser für den Crunchyroll-Kalender installieren
+      - name: Browser installieren
         run: npx playwright install --with-deps chromium
 
       - name: Rohdaten holen
@@ -39,20 +43,15 @@ jobs:
           SITE_URL: ${{ vars.SITE_URL }}
         run: npm run data:fetch
 
-      - name: Deutsche Sendezeiten von Crunchyroll lesen
-        # Schlägt der Lauf fehl (Seitenumbau, Ausfall), bleiben die zuletzt
-        # gespeicherten Zeiten stehen — der Build läuft trotzdem weiter.
+      - name: Crunchyroll — zwölf Wochen
         continue-on-error: true
-        run: npm run data:crunchyroll
+        run: npx tsx pipeline/scrape-crunchyroll.ts --weeks 12
 
-      - name: ADN-Kalender lesen
-        # Liefert Datum, Uhrzeit UND Sprachfassung — die einzige Quelle neben
-        # Crunchyroll, die die Synchro selbst ausweist.
+      - name: ADN — ein halbes Jahr voraus
         continue-on-error: true
-        run: npm run data:adn
+        run: npx tsx pipeline/fetch-adn.ts --from -90 --to 180
 
-      - name: Nachrichtenlage bei Anime2You prüfen
-        # Erzeugt nur Vorschläge für die Kuratierung, keine Termine.
+      - name: Anime2You
         continue-on-error: true
         run: npm run data:anime2you
 
@@ -61,7 +60,7 @@ jobs:
           SITE_URL: ${{ vars.SITE_URL }}
         run: npm run data:build
 
-      - name: Vorschaubilder für neue Releases erzeugen
+      - name: Vorschaubilder
         run: npm run data:og
 
       - name: Änderungen committen
@@ -73,13 +72,13 @@ jobs:
           if git diff --staged --quiet; then
             echo "Keine Datenänderung."
           else
-            git commit -m "chore(data): Datensatz automatisch aktualisiert"
+            git commit -m "chore(data): wöchentlicher Tiefendurchlauf"
             git pull --rebase --autostash
             git push
           fi
 
-      # Zuletzt, damit der Datenstand auch dann committet ist, wenn die Prüfung
-      # anschlägt. Ein roter Lauf schickt dem Betreiber eine Mail — das ist die
-      # Meldung „eine Quelle ist stumm geworden", ohne eigene Infrastruktur.
+      - name: Was noch kuratiert werden müsste
+        run: npm run data:report >> $GITHUB_STEP_SUMMARY
+
       - name: Quellen auf Schweigen prüfen
         run: npm run data:check

@@ -1,55 +1,68 @@
 # TODO
 
-## Alle legalen Anbieter, mehr Quellen, häufigeres Polling
+## Quellenlage — Stand 08.08.2026
 
-Großer Brocken, bewusst nach hinten geschoben. Ziel: nicht mehr nur Crunchyroll
-maschinell, sondern jede legale deutsche Bezugsquelle — und der Datenbestand
-mindestens wöchentlich, besser täglich bis stündlich aktuell.
+Ziel war: nicht nur Crunchyroll maschinell, sondern jede legale deutsche
+Bezugsquelle, und der Datenbestand mindestens täglich aktuell. Was daraus
+geworden ist:
 
-**Plattformen aufnehmen** (im Code als `PlatformId` bereits angelegt, es fehlen die Daten):
-Netflix, Prime Video, Disney+, ADN, Aniverse, WOW, Joyn, RTL+, YouTube, Kino, Disc.
+**Maschinell, mit belegter Uhrzeit und belegter Synchro:**
 
-**Quellen prüfen und anbinden:**
-
-| Quelle | Liefert | Zugang |
+| Quelle | Liefert | Wie |
 |---|---|---|
-| ADN (animationdigitalnetwork.com/de) | Simulcast-Kalender mit Uhrzeit, eigene Synchros | HTML, vermutlich scrapebar |
-| Aniverse | Katalog + Neustarts | HTML |
-| Netflix DE „Neu & beliebt" | Batch-Drops, Datum ohne Uhrzeit | HTML oder JustWatch |
-| Prime Video DE | Simulcasts, teils mit Uhrzeit | HTML oder JustWatch |
-| Disney+ DE | Katalogtitel | JustWatch |
-| JustWatch (inoffizielle GraphQL-API) | Anbieter + Deeplinks + Preise, Region DE | inoffiziell, ToS-Graubereich — vorher abwägen |
-| Anime2You Monatsübersichten | Disc-Releases mit Datum, Label, Edition | RSS + HTML, monatlich |
-| aniSearch Saisonübersichten | Startdaten je Plattform | HTML, einmal je Saison |
-| Kino-Verleiher (Crunchyroll, LEONINE, Plaion) | Kinostarts | Pressebereiche, RSS |
+| Crunchyroll-Simulcastkalender | Uhrzeit, Folgennummer, „(Deutsch)"-Kennzeichnung | Playwright, stündlich |
+| ADN | Datum, Uhrzeit **und Sprachcode** (`vde` = Synchro, `vostde` = nur UT) | öffentliche JSON-Schnittstelle, täglich |
 
-**Polling-Kaskade statt eines Nachtlaufs:**
+ADN ist der wertvollere Fund: Die Schnittstelle sagt je Folge selbst, ob eine
+deutsche Synchro existiert. Da muss nichts abgeleitet werden.
 
-- stündlich: Crunchyroll-Kalender (billig, ändert sich am häufigsten)
-- täglich: MyDubList, AniList-Deltas, ADN, Prime Video
-- wöchentlich: Netflix, Disney+, Aniverse, Disc-Übersichten
-- je Saison: aniSearch-Saisonübersicht
+**Maschinell, aber nur als Vorschlag:**
 
-Dafür braucht es einen Scheduler mit mehreren Cron-Einträgen und eine
-Änderungs-Erkennung, die nur committet, wenn sich wirklich etwas bewegt hat —
-sonst rauscht das Repo mit leeren Commits voll. Kandidat: mehrere GitHub-Action-
-Workflows mit unterschiedlichem Takt statt eines einzigen.
+| Quelle | Liefert | Wie |
+|---|---|---|
+| Anime2You (drei Nachrichten-Feeds) | Ankündigungen zu Netflix, Disney+, Prime, Aniverse, WOW, Joyn, RTL+, Kino, Disc | RSS, täglich → `data/proposals/` |
 
-**Zu klären:** Rechtliche Bewertung des Scrapings je Quelle, Rate-Limits,
-Erkennungsrobustheit (Selektoren brechen), und ob ein Discord-Webhook melden
-soll, wenn eine Quelle stumm bleibt.
+Warum nur Vorschlag: Der Text einer Meldung ist kein Datensatz. „Ab dem 4.
+September" kann sich auf den Titel in der Überschrift beziehen oder auf einen,
+der im dritten Absatz erwähnt wird. Maschinell ist das nicht sicher zu
+trennen. Der Wochenlauf schreibt deshalb eine Liste „was ist gemeldet, steht
+aber noch nicht im Datensatz" in seine Zusammenfassung — `npm run data:report`
+erzeugt sie auch lokal.
 
----
+**Weiterhin Handarbeit, und das bleibt vermutlich so:**
+
+Netflix, Disney+ und Prime Video veröffentlichen keinen Kalender, nennen keine
+Uhrzeiten und weisen die Sprachfassung nicht maschinenlesbar aus. Die
+JustWatch-GraphQL-Schnittstelle wäre eine Möglichkeit, ist aber inoffiziell und
+in den Nutzungsbedingungen ein Graubereich — bewusst nicht angebunden.
+aniverse.de ist von hier aus nicht erreichbar (TLS-Handshake bricht ab).
+
+## Polling
+
+Drei Workflows statt eines Nachtlaufs, alle mit `concurrency: daten`, damit sie
+sich nicht gegenseitig ins Repo schreiben:
+
+- **stündlich** (`refresh-hourly.yml`) — Crunchyroll, drei Wochen Fenster
+- **täglich** (`refresh-data.yml`) — alle Quellen, danach `data:check`
+- **wöchentlich** (`refresh-weekly.yml`) — weite Fenster (CR zwölf Wochen, ADN
+  ein halbes Jahr), Kuratierungsbericht
+
+Committet wird nur bei echter Änderung.
+
+`pipeline/check-sources.ts` ist der Wachhund gegen den lautlosesten Fehler
+dieses Projekts: Ein Scraper läuft weiter durch, findet aber nichts mehr, weil
+die Gegenseite ihre Seite umgebaut hat. Schweigt eine Quelle länger als vier
+Tage, wird der Lauf rot — und GitHub schickt die Mail.
 
 ## Offene Kästchen
 
-- [ ] Projekt ins Portfolio eintragen, sobald sinnvoll (öffentlich, stabil genug für eine
-      kuratierte Beschreibung) — siehe Projects-Daten in
-      `C:\code\ai\my website\src\app\data\projects.ts` (Repo `danielzaiser91/Portfolio-daniel-zaiser.de`).
-- [ ] Tracking-Absatz aus der Datenschutzerklärung entfernen, sobald der erste Versand über
-      `kalender@send.anime-kalender.de` bestätigt ist — auf der eigenen Domain ist Öffnungs-
-      und Klick-Erfassung abgeschaltet, der Absatz beschreibt dann etwas, das nicht mehr
-      passiert.
+- [ ] Kuratierungsbericht regelmäßig abarbeiten — die Liste aus
+      `npm run data:report` in `data/curated/` übertragen. Das ist die
+      wiederkehrende Pflegearbeit, die kein Skript abnehmen kann.
+- [ ] Tracking-Absatz aus der Datenschutzerklärung entfernen, sobald der erste
+      Versand über `kalender@send.anime-kalender.de` bestätigt ist — auf der
+      eigenen Domain ist Öffnungs- und Klick-Erfassung abgeschaltet, der Absatz
+      beschreibt dann etwas, das nicht mehr passiert.
 
 ## Erledigt
 
@@ -57,3 +70,8 @@ soll, wenn eine Quelle stumm bleibt.
 - [x] Uhrzeiten der laufenden Crunchyroll-Simuldubs belegen
 - [x] Newsletter-Worker deployen
 - [x] Eigene Domain und Absenderdomain einrichten
+- [x] Projekt ins Portfolio eintragen
+- [x] ADN als zweite maschinelle Quelle anbinden
+- [x] Anime2You als Vorschlagsquelle anbinden
+- [x] Polling-Kaskade stündlich/täglich/wöchentlich
+- [x] Wachhund gegen stumm gewordene Quellen

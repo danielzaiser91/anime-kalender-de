@@ -6,6 +6,16 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Sci-Fi
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:adn-190@2026-06-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260629T070000Z
+DTEND:20260629T073000Z
+SUMMARY:Gunslinger Girl
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-190
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:black-torch@2026-07-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260704T130000Z
@@ -103,6 +113,16 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrzei
  t noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell bestätig
  t.\nDetails: https://anime-kalender.de/#/release/thunder-3
 CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1354@2026-07-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260724T070000Z
+DTEND:20260724T073000Z
+SUMMARY:Parasyte: The Maxim
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1354
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:black-torch@2026-07-25@anime-kalender-de

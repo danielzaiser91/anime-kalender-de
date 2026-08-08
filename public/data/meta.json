@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-08-08T12:33:56.464Z",
+  "generatedAt": "2026-08-08T12:45:22.221Z",
   "titleCount": 2753,
-  "releaseCount": 109,
-  "eventCount": 469,
+  "releaseCount": 113,
+  "eventCount": 473,
   "genres": [
     "Action",
     "Adventure",
@@ -411,7 +411,8 @@
     "disc",
     "kino",
     "crunchyroll",
-    "primevideo"
+    "primevideo",
+    "adn"
   ],
   "years": [
     2026

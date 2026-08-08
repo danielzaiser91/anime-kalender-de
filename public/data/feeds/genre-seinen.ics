@@ -6,6 +6,36 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Seinen
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:adn-190@2026-06-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260629T070000Z
+DTEND:20260629T073000Z
+SUMMARY:Gunslinger Girl
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-190
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1354@2026-07-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260724T070000Z
+DTEND:20260724T073000Z
+SUMMARY:Parasyte: The Maxim
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1354
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-617@2026-08-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260810T070000Z
+DTEND:20260810T073000Z
+SUMMARY:Prison School
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-617
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:apothecary-diaries-s1-steelbook@2026-09-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260904

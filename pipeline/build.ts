@@ -11,6 +11,7 @@ import {
 } from './lib/crunchyroll.ts'
 import { loadCurated, type CuratedEntry } from './lib/curated.ts'
 import type { TmdbInfo } from './lib/tmdb.ts'
+import type { AdnData } from './fetch-adn.ts'
 import { clearDir, log, readJson, slugify, warn, writeJson, writeText } from './lib/util.ts'
 import type {
   DataMeta,
@@ -42,6 +43,13 @@ const OUT = 'public/data'
 const KEYWORD_MIN_RANK = 55
 const KEYWORD_MAX = 24
 const CR_CALENDAR_URL = 'https://www.crunchyroll.com/de/simulcastcalendar'
+const ADN_CALENDAR_URL = 'https://animationdigitalnetwork.com/de/'
+
+/** ADN schreibt die Freigabe als "12+"; unser Datensatz kennt die FSK-Stufen. */
+function fskFromAdnAge(age: string | undefined): Fsk | undefined {
+  const value = Number((age ?? '').replace(/\D+/g, ''))
+  return ([0, 6, 12, 16, 18] as const).includes(value as Fsk) ? (value as Fsk) : undefined
+}
 
 function cleanSynopsis(raw: string | null): string | undefined {
   if (!raw) return undefined
@@ -276,6 +284,15 @@ function main(): void {
     }
   }
 
+  /** AniList-Titel über ihren normalisierten Namen auffindbar machen. */
+  const titleByName = new Map<string, Title>()
+  for (const title of titles.values()) {
+    for (const name of [title.titleRomaji, title.titleEn, title.titleNative]) {
+      const key = name ? normalizeTitle(name) : ''
+      if (key && !titleByName.has(key)) titleByName.set(key, title)
+    }
+  }
+
   function findCrunchyroll(entryUrl: string | undefined, name: string): CrunchyrollEntry | undefined {
     const id = crunchyrollSeriesId(entryUrl)
     return (id ? crBySeriesId.get(id) : undefined) ?? crunchyroll.german[normalizeTitle(name)]
@@ -442,6 +459,48 @@ function main(): void {
   }
   log(`${autoAdded} Simuldubs automatisch aus dem Crunchyroll-Kalender ergänzt`)
   if (unverified.length) log(`${unverified.length} kuratierte Termine verworfen (unbestätigt): ${unverified.join(', ')}`)
+
+  // --- Automatisch ergänzte ADN-Titel ---------------------------------------
+  // ADN nennt in seiner Schnittstelle je Folge die Sprachfassung. Was dort als
+  // `vde` steht, ist eine belegte deutsche Synchro mit belegter Uhrzeit — hier
+  // muss nichts abgeleitet werden. Kuratierte Einträge haben Vorrang: Wer eine
+  // ADN-Adresse von Hand gepflegt hat, will keinen zweiten Eintrag daneben.
+  const adn = readJson<AdnData>('data/adn.json', { scrapedAt: '', window: { from: '', to: '' }, shows: [] })
+  const curatedAdnShows = new Set(
+    releases
+      .filter((r) => r.platform === 'adn')
+      .map((r) => normalizeTitle(r.name)),
+  )
+  let adnAdded = 0
+  for (const show of adn.shows) {
+    if (!show.episodes.length) continue
+    if (curatedAdnShows.has(normalizeTitle(show.title))) continue
+    const slug = `adn-${show.showId}`
+    if (seenSlugs.has(slug)) continue
+
+    const title = titleByName.get(normalizeTitle(show.title)) ?? titleByName.get(normalizeTitle(show.originalTitle ?? ''))
+    const first = show.episodes[0]
+    seenSlugs.add(slug)
+    releases.push({
+      slug,
+      titleId: title?.id ?? -1,
+      name: show.title,
+      platform: 'adn',
+      platformUrl: first.url,
+      releaseType: show.batch ? 'batch' : 'weekly',
+      fsk: title?.fsk ?? fskFromAdnAge(show.age),
+      schedule: {
+        firstEpisodeDate: first.date,
+        time: first.time,
+        episodeCount: show.episodes.length,
+        lastEpisodeDate: show.episodes.at(-1)!.date,
+      },
+      year: Number(first.date.slice(0, 4)),
+      sources: [ADN_CALENDAR_URL],
+    })
+    adnAdded++
+  }
+  if (adn.shows.length) log(`${adnAdded} ADN-Titel mit deutscher Synchro ergänzt (${adn.shows.length} gefunden)`)
 
   // --- Synchro-Verfügbarkeit je Plattform ------------------------------------
   // Ein Stream-Link allein sagt nichts über die Sprache. Belegt ist die Synchro
