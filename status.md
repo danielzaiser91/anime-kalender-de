@@ -16,8 +16,17 @@ _(leer)_
 | Kino-Termine erfassen | 2 | Release-Art `movie` ebenfalls ungenutzt |
 | Disc-Releases September 2026 nachtragen | 2 | Quelle: Anime2You-Monatsübersicht |
 | Uhrzeiten außerhalb von Crunchyroll | 3 | Netflix und Prime Video nennen keine Uhrzeit; bislang „Zeit offen" |
-| Weitere Sprachen | 3 | Gerüst steht, EN und DE gepflegt; weitere brauchen nur ein Wörterbuch |
 | Projekt ins Portfolio eintragen | 1 | Reminder in `TODO.md` |
+
+### Später (nice to have)
+
+Bewusst zurückgestellt. Zählt im Footer als „später", nicht als „jetzt möglich" — damit die
+Liste der wirklich anstehenden Arbeit nicht von Dauerbrennern verstopft wird. Wird hier
+herausgeholt, wenn der User es sagt.
+
+| Idee | SP | Notiz |
+|---|---|---|
+| Weitere Sprachen | 3 | Gerüst steht, EN und DE gepflegt; weitere brauchen nur ein Wörterbuch (zurückgestellt 08.08.2026) |
 
 ### Zu besprechen
 | Thema | Frage |

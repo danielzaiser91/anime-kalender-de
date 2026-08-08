@@ -33,6 +33,7 @@ import {
   amazonSearchUrl,
   isUnusablePrimeLink,
   primeVideoSearchUrl,
+  platformSearchUrl,
   germanizeUrl,
   platformFromSite,
 } from '../shared/mappings.ts'
@@ -156,7 +157,28 @@ function derivedStart(slot: CrunchyrollEntry): { date: string; assumed: boolean 
 function pickPlatformUrl(entry: CuratedEntry, title: Title | undefined): string | undefined {
   if (entry.platformUrl) return entry.platformUrl
   const match = title?.streams.find((s) => s.platform === entry.platform)
-  return match?.url
+  if (match) return match.url
+  // Kein Deeplink bekannt: lieber zur Suche des Anbieters schicken als die
+  // Plattform als toten Text stehen lassen. Bei `kino` gibt es keine, dann
+  // bleibt es leer.
+  const query = searchableName(entry.titleDe ?? title?.titleEn ?? title?.titleRomaji ?? entry.search)
+  return query ? platformSearchUrl(entry.platform, query) : undefined
+}
+
+/**
+ * Reduziert einen Anzeigenamen auf den Serientitel.
+ *
+ * „Yu-Gi-Oh! – Staffel 2" findet bei Disney+ nichts, „Yu-Gi-Oh!" schon: Die
+ * Suchfelder der Anbieter sind keine Volltextsuche, jeder Zusatz kostet Treffer.
+ * Staffel-, Volume- und Part-Angaben fliegen deshalb raus.
+ */
+function searchableName(name: string | undefined): string | undefined {
+  if (!name) return undefined
+  const trimmed = name
+    .replace(/\s*[–—-]\s*(Staffel|Season|Vol\.?|Part|Box)\s*\d+.*$/i, '')
+    .replace(/\s*\((\d{4}|Remaster|2K-Remaster)\)\s*$/i, '')
+    .trim()
+  return trimmed || name
 }
 
 function main(): void {

@@ -1,0 +1,50 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//anime-kalender-de//Anime-Kalender DE//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Anime-Kalender DE – kino
+X-WR-TIMEZONE:Europe/Berlin
+BEGIN:VEVENT
+UID:venus-wars-kino-2026@2026-07-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260728
+DTEND;VALUE=DATE:20260729
+SUMMARY:Venus Wars (2K-Remaster)
+DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestätig
+ t.\nDetails: https://anime-kalender.de/#/release/venus-wars-kino-2026
+CATEGORIES:Kino
+END:VEVENT
+BEGIN:VEVENT
+UID:detektiv-conan-movie-29-kino@2026-08-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260825
+DTEND;VALUE=DATE:20260826
+SUMMARY:Detektiv Conan – Der gefallene Engel des Highways
+DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestätig
+ t.\nDetails: https://anime-kalender.de/#/release/detektiv-conan-movie-29-k
+ ino
+CATEGORIES:Kino
+END:VEVENT
+BEGIN:VEVENT
+UID:a-new-dawn-kino@2026-10-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261015
+DTEND;VALUE=DATE:20261016
+SUMMARY:A New Dawn
+DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestätig
+ t.\nDetails: https://anime-kalender.de/#/release/a-new-dawn-kino
+CATEGORIES:Kino
+END:VEVENT
+BEGIN:VEVENT
+UID:madoka-walpurgisnacht-rising-kino@2026-11-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261124
+DTEND;VALUE=DATE:20261125
+SUMMARY:Puella Magi Madoka Magica the Movie – Walpurgisnacht: Rising
+DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestätig
+ t.\nDetails: https://anime-kalender.de/#/release/madoka-walpurgisnacht-ris
+ ing-kino
+CATEGORIES:Kino
+END:VEVENT
+END:VCALENDAR

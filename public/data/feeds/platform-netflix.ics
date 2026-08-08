@@ -39,6 +39,17 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrzei
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
+UID:beelzebub-netflix@2026-07-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260725
+DTEND;VALUE=DATE:20260726
+SUMMARY:Beelzebub
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/#/release/beelzebub-netf
+ lix
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:thunder-3@2026-07-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260729
@@ -58,6 +69,17 @@ SUMMARY:Thunder 3 – Folge 5/12
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrzei
  t noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell bestätig
  t.\nDetails: https://anime-kalender.de/#/release/thunder-3
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:the-ribbon-hero-netflix@2026-08-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260808
+DTEND;VALUE=DATE:20260809
+SUMMARY:The Ribbon Hero
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Film\nUhrzeit noch nicht bestä
+ tigt.\nDetails: https://anime-kalender.de/#/release/the-ribbon-hero-netfli
+ x
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT

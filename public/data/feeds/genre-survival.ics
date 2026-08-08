@@ -242,4 +242,15 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  end-harem-vol2
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
+BEGIN:VEVENT
+UID:dr-stone-science-future-part1@2026-10-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261016
+DTEND;VALUE=DATE:20261017
+SUMMARY:Dr. STONE: Science Future – Part 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/dr-ston
+ e-science-future-part1
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
 END:VCALENDAR

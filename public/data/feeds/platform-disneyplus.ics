@@ -1,0 +1,74 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//anime-kalender-de//Anime-Kalender DE//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Anime-Kalender DE – disneyplus
+X-WR-TIMEZONE:Europe/Berlin
+BEGIN:VEVENT
+UID:yu-gi-oh-s2-disneyplus@2026-08-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260801
+DTEND;VALUE=DATE:20260802
+SUMMARY:Yu-Gi-Oh! – Staffel 2
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/#/release/yu-gi-oh-s2-di
+ sneyplus
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
+UID:naruto-s4-disneyplus@2026-08-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260805
+DTEND;VALUE=DATE:20260806
+SUMMARY:Naruto – Staffel 4
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/#/release/naruto-s4-disn
+ eyplus
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
+UID:naruto-shippuden-s1-disneyplus@2026-08-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260805
+DTEND;VALUE=DATE:20260806
+SUMMARY:Naruto Shippuden – Staffel 1
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/#/release/naruto-shippud
+ en-s1-disneyplus
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
+UID:star-wars-visions-ninth-jedi@2026-08-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260805
+DTEND;VALUE=DATE:20260806
+SUMMARY:Star Wars: Visionen – Die neunte Jedi
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/#/release/star-wars-visi
+ ons-ninth-jedi
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
+UID:yu-gi-oh-s3-disneyplus@2026-08-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260829
+DTEND;VALUE=DATE:20260830
+SUMMARY:Yu-Gi-Oh! – Staffel 3
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/#/release/yu-gi-oh-s3-di
+ sneyplus
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
+UID:black-clover-s1-disneyplus@2026-08-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260830
+DTEND;VALUE=DATE:20260831
+SUMMARY:Black Clover – Staffel 1
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/#/release/black-clover-s
+ 1-disneyplus
+CATEGORIES:Disney+
+END:VEVENT
+END:VCALENDAR

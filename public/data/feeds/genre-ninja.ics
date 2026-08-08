@@ -56,6 +56,28 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:naruto-s4-disneyplus@2026-08-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260805
+DTEND;VALUE=DATE:20260806
+SUMMARY:Naruto – Staffel 4
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/#/release/naruto-s4-disn
+ eyplus
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
+UID:naruto-shippuden-s1-disneyplus@2026-08-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260805
+DTEND;VALUE=DATE:20260806
+SUMMARY:Naruto Shippuden – Staffel 1
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/#/release/naruto-shippud
+ en-s1-disneyplus
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
 UID:skeleton-knight-s2@2026-08-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260808T130000Z

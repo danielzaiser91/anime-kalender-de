@@ -148,4 +148,15 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  kalender.de/#/release/though-i-am-an-inept-villainess
 CATEGORIES:Crunchyroll
 END:VEVENT
+BEGIN:VEVENT
+UID:my-next-life-as-a-villainess-s2-bundle@2026-10-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261016
+DTEND;VALUE=DATE:20261017
+SUMMARY:My Next Life as a Villainess – Staffel 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/my-next
+ -life-as-a-villainess-s2-bundle
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
 END:VCALENDAR

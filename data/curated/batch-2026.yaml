@@ -1,0 +1,105 @@
+# Katalogtitel: ganze Staffeln, die an einem Tag komplett erscheinen.
+#
+# Das ist der Normalfall bei Netflix, Disney+ und Prime Video — dort gibt es
+# keinen wöchentlichen Sendeplatz, sondern einen Stichtag, ab dem alles da ist.
+# Deshalb `releaseType: batch` und genau ein Termin statt einer Serie.
+#
+# Aufgenommen wird nur, was ausdrücklich **mit deutscher Synchronfassung**
+# angekündigt ist. Titel, bei denen die Anbieter die Sprachfassung offen lassen
+# (im August 2026 etwa die Fate-Reihe und der Gintama-Film bei Netflix), fehlen
+# hier bewusst — dieses Projekt behauptet keine Synchro, die niemand belegt hat.
+#
+# Uhrzeit: Netflix und Disney+ nennen für Katalogtitel keine. Sie bleibt leer,
+# die Oberfläche schreibt dann „Zeit offen".
+
+# ---------------------------------------------------------------- Disney+
+
+- slug: yu-gi-oh-s2-disneyplus
+  anilistId: 481
+  search: "Yu☆Gi☆Oh! Duel Monsters"
+  titleDe: "Yu-Gi-Oh! – Staffel 2"
+  platform: disneyplus
+  releaseType: batch
+  schedule:
+    firstEpisodeDate: "2026-08-01"
+    episodeCount: 48
+  sources: [https://www.anime2you.de/news/1036663/disney-plus-sechs-anime-neuzugaenge-august-2026/]
+
+- slug: naruto-s4-disneyplus
+  anilistId: 20
+  search: "Naruto"
+  titleDe: "Naruto – Staffel 4"
+  platform: disneyplus
+  releaseType: batch
+  schedule:
+    firstEpisodeDate: "2026-08-05"
+    episodeCount: 57
+  sources: [https://www.anime2you.de/news/1036663/disney-plus-sechs-anime-neuzugaenge-august-2026/]
+
+- slug: naruto-shippuden-s1-disneyplus
+  anilistId: 1735
+  search: "Naruto: Shippuuden"
+  titleDe: "Naruto Shippuden – Staffel 1"
+  platform: disneyplus
+  releaseType: batch
+  schedule:
+    firstEpisodeDate: "2026-08-05"
+    episodeCount: 53
+  sources: [https://www.anime2you.de/news/1036663/disney-plus-sechs-anime-neuzugaenge-august-2026/]
+
+- slug: star-wars-visions-ninth-jedi
+  anilistId: 213847
+  search: "Star Wars: Visions - Kyuuninme no Jedi"
+  titleDe: "Star Wars: Visionen – Die neunte Jedi"
+  platform: disneyplus
+  releaseType: batch
+  schedule:
+    firstEpisodeDate: "2026-08-05"
+    episodeCount: 8
+  sources: [https://www.anime2you.de/news/1036663/disney-plus-sechs-anime-neuzugaenge-august-2026/]
+
+- slug: yu-gi-oh-s3-disneyplus
+  anilistId: 481
+  search: "Yu☆Gi☆Oh! Duel Monsters"
+  titleDe: "Yu-Gi-Oh! – Staffel 3"
+  platform: disneyplus
+  releaseType: batch
+  schedule:
+    firstEpisodeDate: "2026-08-29"
+    episodeCount: 40
+  sources: [https://www.anime2you.de/news/1036663/disney-plus-sechs-anime-neuzugaenge-august-2026/]
+
+- slug: black-clover-s1-disneyplus
+  search: "Black Clover"
+  titleDe: "Black Clover – Staffel 1"
+  platform: disneyplus
+  releaseType: batch
+  schedule:
+    firstEpisodeDate: "2026-08-30"
+    episodeCount: 51
+  sources: [https://www.anime2you.de/news/1036663/disney-plus-sechs-anime-neuzugaenge-august-2026/]
+
+# ---------------------------------------------------------------- Netflix
+
+- slug: beelzebub-netflix
+  anilistId: 9513
+  search: "Beelzebub"
+  titleDe: "Beelzebub"
+  platform: netflix
+  releaseType: batch
+  note: "Zum Start standen 24 der 60 Folgen bereit; die übrigen reicht Netflix nach."
+  schedule:
+    firstEpisodeDate: "2026-07-25"
+    episodeCount: 24
+  sources:
+    - https://www.anime2you.de/news/1032820/netflix-beelzebub-und-mehr/
+    - https://www.anime2you.de/news/1034754/netflix-beelzebub-gintama-und-mehr/
+
+- slug: the-ribbon-hero-netflix
+  anilistId: 211308
+  search: "THE RIBBON HERO"
+  titleDe: "The Ribbon Hero"
+  platform: netflix
+  releaseType: movie
+  schedule: { firstEpisodeDate: "2026-08-08" }
+  sources: [https://www.anime2you.de/news/1033802/netflix-anime-neu-im-august-2026/]

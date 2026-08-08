@@ -1,0 +1,355 @@
+# DVD- und Blu-ray-Veröffentlichungen im deutschen Raum, September bis Dezember 2026.
+#
+# Quellenlage: Die Monatsübersicht von Anime2You erscheint erst rund eine Woche vor
+# Monatsbeginn — für September lag sie am 08.08.2026 noch nicht vor. Belegt sind die
+# Termine deshalb über zwei ältere Artikel, die weiter in die Zukunft reichen:
+# Crunchyrolls Releaseplan bis September und die Vorbestell-Übersicht für Oktober
+# bis Dezember. Beide nennen Datum, Label und Edition ausdrücklich.
+#
+# Alle Termine sind angekündigte Verkaufsstarts, also kein `estimated`. Uhrzeiten gibt
+# es bei Disc-Releases naturgemäß nicht. Ohne `buyUrl` erzeugt der Build einen
+# Amazon.de-Suchlink.
+
+# ---------------------------------------------------------------- 04.09.2026
+
+- slug: blue-exorcist-blue-night-saga-vol1
+  search: "Blue Exorcist: The Blue Night Saga"
+  titleDe: "Blue Exorcist: The Blue Night Saga – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Limited Edition mit Sammelschuber, DVD & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-09-04" }
+  sources: [https://www.anime2you.de/news/1033753/crunchyroll-blu-ray-releaseplan-bis-september-2026/]
+
+- slug: detective-conan-box9
+  search: "Meitantei Conan"
+  titleDe: "Detektiv Conan – Box 9"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Box 9, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-09-04" }
+  sources: [https://www.anime2you.de/news/1033753/crunchyroll-blu-ray-releaseplan-bis-september-2026/]
+
+- slug: log-horizon-s3-box
+  search: "Log Horizon: Entaku Houkai"
+  titleDe: "Log Horizon – Staffel 3"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Komplettbox, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-09-04" }
+  sources: [https://www.anime2you.de/news/1033753/crunchyroll-blu-ray-releaseplan-bis-september-2026/]
+
+- slug: my-hero-academia-vigilantes-s1-box
+  search: "Vigilante: Boku no Hero Academia Illegals"
+  titleDe: "My Hero Academia: Vigilantes – Staffel 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Komplettbox, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-09-04" }
+  sources: [https://www.anime2you.de/news/1033753/crunchyroll-blu-ray-releaseplan-bis-september-2026/]
+
+- slug: re-zero-s3-vol1
+  search: "Re:Zero kara Hajimeru Isekai Seikatsu 3rd Season"
+  titleDe: "Re:ZERO – Staffel 3 – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Limited Edition mit Sammelschuber, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-09-04" }
+  sources: [https://www.anime2you.de/news/1033753/crunchyroll-blu-ray-releaseplan-bis-september-2026/]
+
+- slug: sailor-moon-s1-steelbook
+  search: "Bishoujo Senshi Sailor Moon"
+  titleDe: "Sailor Moon – Staffel 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Limited Steelbook Edition, DVD & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-09-04" }
+  sources: [https://www.anime2you.de/news/1033753/crunchyroll-blu-ray-releaseplan-bis-september-2026/]
+
+- slug: apothecary-diaries-s1-steelbook
+  search: "Kusuriya no Hitorigoto"
+  titleDe: "Die Tagebücher der Apothekerin – Staffel 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Limited Steelbook Edition, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-09-04" }
+  sources: [https://www.anime2you.de/news/1033753/crunchyroll-blu-ray-releaseplan-bis-september-2026/]
+
+# ---------------------------------------------------------------- 18.09.2026
+
+- slug: as-a-reincarnated-aristocrat-s1-vol2
+  search: "Tensei Kizoku Kantei Skill de Nariagaru"
+  titleDe: "As a Reincarnated Aristocrat – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Blu-ray"
+  schedule: { firstEpisodeDate: "2026-09-18" }
+  sources: [https://www.anime2you.de/news/1033753/crunchyroll-blu-ray-releaseplan-bis-september-2026/]
+
+- slug: kaiju-no8-mission-recon-steelbook
+  anilistId: 179998
+  search: "Kaiju No. 8: Mission Recon"
+  titleDe: "Kaiju No. 8: Mission Recon – Der Film"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Limited Steelbook Edition, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-09-18" }
+  sources: [https://www.anime2you.de/news/1033753/crunchyroll-blu-ray-releaseplan-bis-september-2026/]
+
+- slug: ron-kamonohashi-s2-vol1
+  search: "Kamonohashi Ron no Kindan Suiri 2nd Season"
+  titleDe: "Master Detective Ron Kamonohashi – Staffel 2 – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Limited Edition mit Sammelschuber, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-09-18" }
+  sources: [https://www.anime2you.de/news/1033753/crunchyroll-blu-ray-releaseplan-bis-september-2026/]
+
+- slug: my-hero-academia-s7-vol3
+  search: "Boku no Hero Academia 7th Season"
+  titleDe: "My Hero Academia – Staffel 7 – Vol. 3"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "DVD & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-09-18" }
+  sources: [https://www.anime2you.de/news/1033753/crunchyroll-blu-ray-releaseplan-bis-september-2026/]
+
+# ---------------------------------------------------------------- 02.10.2026
+
+- slug: black-butler-emerald-witch-vol1
+  search: "Kuroshitsuji: Midori no Majo-hen"
+  titleDe: "Black Butler: Emerald Witch Arc – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Limited Edition mit Sammelschuber, DVD"
+  schedule: { firstEpisodeDate: "2026-10-02" }
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+
+- slug: blue-exorcist-blue-night-saga-vol2
+  search: "Blue Exorcist: The Blue Night Saga"
+  titleDe: "Blue Exorcist: The Blue Night Saga – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "DVD & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-10-02" }
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+
+- slug: chainsaw-man-s1-bundle
+  search: "Chainsaw Man"
+  titleDe: "Chainsaw Man – Staffel 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Bundle Edition, DVD & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-10-02" }
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+
+- slug: my-hero-academia-s6-box
+  search: "Boku no Hero Academia 6th Season"
+  titleDe: "My Hero Academia – Staffel 6"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Komplettbox, DVD & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-10-02" }
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+
+- slug: wind-breaker-s2-vol2
+  search: "Wind Breaker Season 2"
+  titleDe: "Wind Breaker – Staffel 2 – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Blu-ray"
+  schedule: { firstEpisodeDate: "2026-10-02" }
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+
+- slug: zombie-land-saga-s1-s2-bundle
+  search: "Zombieland Saga"
+  titleDe: "Zombie Land Saga – Staffel 1 + 2"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Bundle Edition, DVD & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-10-02" }
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+
+- slug: my-love-story-with-yamada-kun-vol2
+  search: "Loving Yamada at Lv999"
+  titleDe: "My Love Story with Yamada-kun at Lv999 – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "DVD & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-10-02" }
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+
+- slug: girls-band-cry-vol2
+  search: "Girls Band Cry"
+  titleDe: "Girls Band Cry – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "peppermint anime"
+  edition: "Blu-ray"
+  schedule: { firstEpisodeDate: "2026-10-02" }
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+
+# ---------------------------------------------------------------- 16.10.2026
+
+- slug: dr-stone-science-future-part1
+  search: "Dr. Stone: Science Future"
+  titleDe: "Dr. STONE: Science Future – Part 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Limited Edition mit Sammelschuber, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-10-16" }
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+
+- slug: dragon-maid-lonely-dragon-movie-disc
+  search: "Kobayashi-san Chi no Maid Dragon"
+  titleDe: "Miss Kobayashi's Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Blu-ray"
+  schedule: { firstEpisodeDate: "2026-10-16" }
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+
+- slug: my-next-life-as-a-villainess-s2-bundle
+  search: "Otome Game no Hametsu Flag shika Nai Akuyaku Reijou ni Tensei shiteshimatta... X"
+  titleDe: "My Next Life as a Villainess – Staffel 2"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Bundle Edition, DVD & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-10-16" }
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+
+- slug: rent-a-girlfriend-s4-box
+  search: "Kanojo, Okarishimasu 4th Season"
+  titleDe: "Rent-A-Girlfriend – Staffel 4"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Komplettbox, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-10-16" }
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+
+- slug: vinland-saga-s2-bundle
+  search: "Vinland Saga Season 2"
+  titleDe: "Vinland Saga – Staffel 2"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Bundle Edition, DVD"
+  schedule: { firstEpisodeDate: "2026-10-16" }
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+
+- slug: yashahime-s2-box
+  anilistId: 131264
+  search: "Hanyou no Yashahime: Ni no Shou"
+  titleDe: "Yashahime: Princess Half-Demon – Staffel 2"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Komplettbox, DVD & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-10-16" }
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+
+# ---------------------------------------------------------------- November 2026
+
+- slug: spice-and-wolf-2024-vol3
+  search: "Ookami to Koushinryou: Merchant Meets the Wise Wolf"
+  titleDe: "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 3"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Blu-ray"
+  schedule: { firstEpisodeDate: "2026-11-06" }
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+
+- slug: banana-fish-vol2
+  search: "Banana Fish"
+  titleDe: "Banana Fish – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "peppermint anime"
+  edition: "Blu-ray"
+  schedule: { firstEpisodeDate: "2026-11-06" }
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+
+- slug: bocchi-the-rock-vol3
+  search: "Bocchi the Rock!"
+  titleDe: "Bocchi the Rock! – Vol. 3"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "DVD & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+
+- slug: my-love-story-with-yamada-kun-vol3
+  search: "Loving Yamada at Lv999"
+  titleDe: "My Love Story with Yamada-kun at Lv999 – Vol. 3"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "DVD & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+
+- slug: anne-shirley-vol2
+  search: "Anne Shirley"
+  titleDe: "Anne Shirley: Anne mit den roten Haaren – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "peppermint anime"
+  edition: "Blu-ray"
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+
+- slug: call-of-the-night-s2-vol2
+  search: "Yofukashi no Uta Season 2"
+  titleDe: "Call of the Night – Staffel 2 – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "peppermint anime"
+  edition: "Blu-ray"
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+
+- slug: shin-chan-vol15
+  search: "Crayon Shin-chan"
+  titleDe: "Shin Chan – Vol. 15"
+  platform: disc
+  releaseType: disc
+  publisher: "polyband anime"
+  edition: "DVD"
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+
+# ---------------------------------------------------------------- Dezember 2026
+
+- slug: spice-and-wolf-2024-vol4
+  search: "Ookami to Koushinryou: Merchant Meets the Wise Wolf"
+  titleDe: "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 4"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Blu-ray"
+  schedule: { firstEpisodeDate: "2026-12-18" }
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]

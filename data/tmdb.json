@@ -292,5 +292,252 @@
       "primevideo"
     ]
   },
-  "vom-landei-zum-schwertheiligen-2": {}
+  "vom-landei-zum-schwertheiligen-2": {},
+  "blue-exorcist-blue-night-saga-vol1": {},
+  "detective-conan-box9": {
+    "tmdbId": 30983,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/30983/watch?locale=DE",
+    "providers": [
+      "crunchyroll",
+      "primevideo"
+    ]
+  },
+  "log-horizon-s3-box": {},
+  "my-hero-academia-vigilantes-s1-box": {
+    "tmdbId": 280110,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/280110-illegals/watch?locale=DE",
+    "providers": [
+      "crunchyroll"
+    ]
+  },
+  "re-zero-s3-vol1": {},
+  "sailor-moon-s1-steelbook": {
+    "tmdbId": 3570,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/3570/watch?locale=DE",
+    "providers": [
+      "adn",
+      "primevideo"
+    ]
+  },
+  "apothecary-diaries-s1-steelbook": {
+    "tmdbId": 220542,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/220542/watch?locale=DE",
+    "providers": [
+      "netflix",
+      "crunchyroll"
+    ]
+  },
+  "as-a-reincarnated-aristocrat-s1-vol2": {
+    "tmdbId": 237150,
+    "justwatchUrl": "https://www.themoviedb.org/tv/237150/watch?locale=DE",
+    "providers": [
+      "crunchyroll"
+    ]
+  },
+  "kaiju-no8-mission-recon-steelbook": {},
+  "ron-kamonohashi-s2-vol1": {},
+  "my-hero-academia-s7-vol3": {},
+  "black-butler-emerald-witch-vol1": {},
+  "blue-exorcist-blue-night-saga-vol2": {},
+  "chainsaw-man-s1-bundle": {
+    "tmdbId": 114410,
+    "fsk": 16,
+    "justwatchUrl": "https://www.themoviedb.org/tv/114410/watch?locale=DE",
+    "providers": [
+      "crunchyroll",
+      "primevideo"
+    ]
+  },
+  "my-hero-academia-s6-box": {},
+  "wind-breaker-s2-vol2": {},
+  "zombie-land-saga-s1-s2-bundle": {
+    "tmdbId": 82822,
+    "justwatchUrl": "https://www.themoviedb.org/tv/82822/watch?locale=DE",
+    "providers": [
+      "crunchyroll",
+      "primevideo"
+    ]
+  },
+  "my-love-story-with-yamada-kun-vol2": {
+    "tmdbId": 208067,
+    "justwatchUrl": "https://www.themoviedb.org/tv/208067-lv999/watch?locale=DE",
+    "providers": [
+      "netflix",
+      "crunchyroll"
+    ]
+  },
+  "girls-band-cry-vol2": {
+    "tmdbId": 241928,
+    "justwatchUrl": "https://www.themoviedb.org/tv/241928/watch?locale=DE",
+    "providers": [
+      "crunchyroll",
+      "adn",
+      "primevideo"
+    ]
+  },
+  "dr-stone-science-future-part1": {},
+  "dragon-maid-lonely-dragon-movie-disc": {
+    "tmdbId": 69291,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/69291/watch?locale=DE",
+    "providers": [
+      "crunchyroll",
+      "primevideo"
+    ]
+  },
+  "my-next-life-as-a-villainess-s2-bundle": {},
+  "rent-a-girlfriend-s4-box": {},
+  "vinland-saga-s2-bundle": {},
+  "yashahime-s2-box": {
+    "tmdbId": 103254,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/103254/watch?locale=DE",
+    "providers": [
+      "crunchyroll",
+      "primevideo"
+    ]
+  },
+  "spice-and-wolf-2024-vol3": {
+    "tmdbId": 229676,
+    "justwatchUrl": "https://www.themoviedb.org/tv/229676-merchant-meets-the-wise-wolf/watch?locale=DE",
+    "providers": [
+      "crunchyroll"
+    ]
+  },
+  "banana-fish-vol2": {
+    "tmdbId": 80564,
+    "fsk": 18
+  },
+  "bocchi-the-rock-vol3": {
+    "tmdbId": 119100,
+    "justwatchUrl": "https://www.themoviedb.org/tv/119100/watch?locale=DE",
+    "providers": [
+      "crunchyroll"
+    ]
+  },
+  "my-love-story-with-yamada-kun-vol3": {
+    "tmdbId": 208067,
+    "justwatchUrl": "https://www.themoviedb.org/tv/208067-lv999/watch?locale=DE",
+    "providers": [
+      "netflix",
+      "crunchyroll"
+    ]
+  },
+  "anne-shirley-vol2": {
+    "tmdbId": 277665,
+    "justwatchUrl": "https://www.themoviedb.org/tv/277665/watch?locale=DE",
+    "providers": [
+      "crunchyroll"
+    ]
+  },
+  "call-of-the-night-s2-vol2": {},
+  "shin-chan-vol15": {
+    "tmdbId": 30623,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/30623/watch?locale=DE",
+    "providers": [
+      "primevideo"
+    ]
+  },
+  "spice-and-wolf-2024-vol4": {
+    "tmdbId": 229676,
+    "justwatchUrl": "https://www.themoviedb.org/tv/229676-merchant-meets-the-wise-wolf/watch?locale=DE",
+    "providers": [
+      "crunchyroll"
+    ]
+  },
+  "venus-wars-kino-2026": {
+    "tmdbId": 31769,
+    "fsk": 16
+  },
+  "detektiv-conan-movie-29-kino": {
+    "tmdbId": 1545621,
+    "fsk": 12
+  },
+  "a-new-dawn-kino": {
+    "tmdbId": 1279865
+  },
+  "madoka-walpurgisnacht-rising-kino": {
+    "tmdbId": 822653
+  },
+  "yu-gi-oh-s2-disneyplus": {
+    "tmdbId": 902,
+    "fsk": 6,
+    "justwatchUrl": "https://www.themoviedb.org/tv/902/watch?locale=DE",
+    "providers": [
+      "netflix",
+      "disneyplus",
+      "rtlplus",
+      "primevideo",
+      "crunchyroll"
+    ]
+  },
+  "naruto-s4-disneyplus": {
+    "tmdbId": 46260,
+    "fsk": 16,
+    "justwatchUrl": "https://www.themoviedb.org/tv/46260/watch?locale=DE",
+    "providers": [
+      "netflix",
+      "primevideo",
+      "disneyplus",
+      "rtlplus",
+      "crunchyroll"
+    ]
+  },
+  "naruto-shippuden-s1-disneyplus": {
+    "tmdbId": 31910,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/31910/watch?locale=DE",
+    "providers": [
+      "netflix",
+      "primevideo",
+      "disneyplus",
+      "rtlplus",
+      "crunchyroll"
+    ]
+  },
+  "star-wars-visions-ninth-jedi": {
+    "tmdbId": 289324,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/289324/watch?locale=DE",
+    "providers": [
+      "disneyplus"
+    ]
+  },
+  "yu-gi-oh-s3-disneyplus": {
+    "tmdbId": 902,
+    "fsk": 6,
+    "justwatchUrl": "https://www.themoviedb.org/tv/902/watch?locale=DE",
+    "providers": [
+      "netflix",
+      "disneyplus",
+      "rtlplus",
+      "primevideo",
+      "crunchyroll"
+    ]
+  },
+  "black-clover-s1-disneyplus": {
+    "tmdbId": 73223,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/73223/watch?locale=DE",
+    "providers": [
+      "netflix",
+      "crunchyroll",
+      "primevideo"
+    ]
+  },
+  "beelzebub-netflix": {
+    "tmdbId": 38603,
+    "justwatchUrl": "https://www.themoviedb.org/tv/38603/watch?locale=DE",
+    "providers": [
+      "netflix"
+    ]
+  },
+  "the-ribbon-hero-netflix": {
+    "tmdbId": 1679730
+  }
 }

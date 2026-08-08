@@ -125,6 +125,8 @@ const EN = {
   'detail.plotOnlyEnglish': 'Only available in the other language — automatic translations would distort the content.',
   'detail.seasons': 'Seasons of this series',
   'detail.start': 'Start',
+  'detail.startCinema': 'In cinemas from',
+  'detail.startDisc': 'On sale from',
   'detail.time': 'Time',
   'detail.unknown': 'unknown',
   'detail.episodes': 'Episodes',
@@ -318,6 +320,9 @@ const DE: Partial<Record<TranslationKey, string>> = {
   'detail.plotOnlyEnglish': 'Nur in der anderen Sprache verfügbar — eine maschinelle Übersetzung würde den Inhalt verfälschen.',
   'detail.seasons': 'Staffeln dieser Reihe',
   'detail.start': 'Start',
+  'detail.startCinema': 'Im Kino ab',
+  'detail.startDisc': 'Im Handel ab',
+
   'detail.time': 'Uhrzeit',
   'detail.unknown': 'unbekannt',
   'detail.episodes': 'Folgen',

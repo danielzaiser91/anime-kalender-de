@@ -82,18 +82,33 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
       )}
 
       <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-slate-600 dark:text-slate-300">
-        <dt className="text-slate-400">{t('detail.start')}</dt>
+        <dt className="text-slate-400">
+          {t(
+            release.releaseType === 'movie'
+              ? 'detail.startCinema'
+              : release.releaseType === 'disc'
+                ? 'detail.startDisc'
+                : 'detail.start',
+          )}
+        </dt>
         <dd className="tabular-nums">
           {weekdayName(release.schedule.firstEpisodeDate, true)}, {formatDate(release.schedule.firstEpisodeDate)}
         </dd>
-        <dt className="text-slate-400">{t('detail.time')}</dt>
-        <dd className="tabular-nums">
-          {release.schedule.time ? (
-            `${release.schedule.time} Uhr`
-          ) : (
-            <span className="opacity-60">{t('detail.unknown')}</span>
-          )}
-        </dd>
+        {/* Uhrzeit nur, wo es überhaupt eine geben kann: Ein Kinofilm läuft je
+            nach Kino, eine Disc liegt ab Ladenöffnung im Regal. „unbekannt"
+            wäre dort keine fehlende Angabe, sondern eine falsche Frage. */}
+        {release.releaseType !== 'movie' && release.releaseType !== 'disc' && (
+          <>
+            <dt className="text-slate-400">{t('detail.time')}</dt>
+            <dd className="tabular-nums">
+              {release.schedule.time ? (
+                `${release.schedule.time} Uhr`
+              ) : (
+                <span className="opacity-60">{t('detail.unknown')}</span>
+              )}
+            </dd>
+          </>
+        )}
         {release.releaseType === 'weekly' && (
           <>
             <dt className="text-slate-400">{t('detail.episodes')}</dt>

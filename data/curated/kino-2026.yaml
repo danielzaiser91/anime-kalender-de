@@ -1,0 +1,53 @@
+# Anime-Kinostarts im deutschsprachigen Raum 2026.
+#
+# Ein Kinostart ist ein einzelner Termin, deshalb `releaseType: movie` und
+# `platform: kino`. `publisher` trägt hier den Verleih, nicht das Disc-Label.
+#
+# Wichtig für dieses Projekt: Ein Kinostart bedeutet **nicht** automatisch eine
+# deutsche Synchronfassung. Viele Filme laufen zunächst nur im Original mit
+# Untertiteln, und die Verleiher lassen die Sprachfassung in der Ankündigung oft
+# ausdrücklich offen. Wo das so ist, steht es in `note` — geraten wird nichts.
+
+- slug: venus-wars-kino-2026
+  anilistId: 544
+  search: "Venus Senki"
+  titleDe: "Venus Wars (2K-Remaster)"
+  platform: kino
+  releaseType: movie
+  publisher: "Film Verleih Gruppe / Tonkatsu Pictures"
+  note: "Deutsche Synchronfassung bestätigt, zusätzlich japanischer Originalton mit deutschen Untertiteln."
+  schedule: { firstEpisodeDate: "2026-07-28" }
+  sources: [https://www.anime2you.de/news/1034477/venus-wars-2k-remaster-im-kino/]
+
+- slug: detektiv-conan-movie-29-kino
+  anilistId: 198369
+  search: "Meitantei Conan: Highway no Datenshi"
+  titleDe: "Detektiv Conan – Der gefallene Engel des Highways"
+  platform: kino
+  releaseType: movie
+  publisher: "Crunchyroll (KAZÉ Anime)"
+  note: "Kinostart bestätigt; die Sprachfassungen hat der Verleih noch nicht bekanntgegeben."
+  schedule: { firstEpisodeDate: "2026-08-25" }
+  sources: [https://www.anime2you.de/news/1020620/detektiv-conan-film-29-kinostart-deutschland/]
+
+- slug: a-new-dawn-kino
+  anilistId: 177132
+  search: "Hanarokushou ga Akeru Hi ni"
+  titleDe: "A New Dawn"
+  platform: kino
+  releaseType: movie
+  publisher: "polyband anime"
+  note: "Deutsche Synchronfassung bestätigt, zusätzlich japanischer Originalton mit Untertiteln."
+  schedule: { firstEpisodeDate: "2026-10-15" }
+  sources: [https://www.anime2you.de/news/1036946/a-new-dawn-deutscher-kinostart/]
+
+- slug: madoka-walpurgisnacht-rising-kino
+  anilistId: 133007
+  search: "Mahou Shoujo Madoka Magica: Walpurgis no Kaiten"
+  titleDe: "Puella Magi Madoka Magica the Movie – Walpurgisnacht: Rising"
+  platform: kino
+  releaseType: movie
+  publisher: "Crunchyroll"
+  note: "Kinostart bestätigt; die Sprachfassungen hat der Verleih noch nicht bekanntgegeben."
+  schedule: { firstEpisodeDate: "2026-11-24" }
+  sources: [https://www.anime2you.de/news/1036604/madoka-magica-walpurgisnacht-rising-kinostart/]

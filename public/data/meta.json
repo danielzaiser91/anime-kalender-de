@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-08-08T11:37:18.854Z",
-  "titleCount": 2751,
-  "releaseCount": 64,
-  "eventCount": 424,
+  "generatedAt": "2026-08-08T12:33:56.464Z",
+  "titleCount": 2753,
+  "releaseCount": 109,
+  "eventCount": 469,
   "genres": [
     "Action",
     "Adventure",
@@ -406,9 +406,11 @@
     "Zombie"
   ],
   "platforms": [
-    "disc",
-    "crunchyroll",
+    "disneyplus",
     "netflix",
+    "disc",
+    "kino",
+    "crunchyroll",
     "primevideo"
   ],
   "years": [
