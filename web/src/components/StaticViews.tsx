@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { DataMeta, PlatformId } from '@shared/types.ts'
 import { PLATFORMS } from '@shared/types.ts'
 import { absoluteFeedUrl } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
+import { useFavorites } from '../lib/favorites.ts'
 import { Button, SectionTitle } from './ui.tsx'
 
 const WORKER_URL = import.meta.env.VITE_NEWSLETTER_API ?? ''
@@ -146,12 +147,44 @@ type FormState = 'idle' | 'sending' | 'ok' | 'error'
 
 export function NewsletterView({ meta }: { meta: DataMeta }) {
   const { t } = useLang()
+  const { favorites } = useFavorites()
   const [email, setEmail] = useState('')
   const [frequency, setFrequency] = useState<'daily' | 'weekly'>('weekly')
   const [platforms, setPlatforms] = useState<PlatformId[]>([])
   const [consent, setConsent] = useState(false)
   const [state, setState] = useState<FormState>('idle')
   const [message, setMessage] = useState('')
+  const [syncState, setSyncState] = useState<'idle' | 'sending' | 'ok' | 'error'>('idle')
+  const [syncMessage, setSyncMessage] = useState('')
+
+  /**
+   * Abgleich aus einer Mail heraus: `#/newsletter?sync=<token>`.
+   * Die Favoriten liegen nur hier im Browser — der Dienst erfährt erst über
+   * diesen Weg, welche Serien jemand verfolgt.
+   */
+  useEffect(() => {
+    const token = new URLSearchParams(window.location.hash.split('?')[1] ?? '').get('sync')
+    if (!token || !WORKER_URL) return
+    setSyncState('sending')
+    fetch(`${WORKER_URL}/favorites`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token, favorites: [...favorites] }),
+    })
+      .then(async (res) => {
+        const body = (await res.json()) as { ok?: boolean; count?: number; error?: string }
+        if (!res.ok || !body.ok) throw new Error(body.error ?? 'Abgleich fehlgeschlagen')
+        setSyncState('ok')
+        setSyncMessage(t('news.syncOk', { count: body.count ?? 0 }))
+      })
+      .catch((err: Error) => {
+        setSyncState('error')
+        setSyncMessage(err.message)
+      })
+    // Nur beim Öffnen; ein späteres Umsortieren der Favoriten soll nicht
+    // ungefragt erneut senden.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -166,7 +199,7 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
       const res = await fetch(`${WORKER_URL}/subscribe`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, frequency, platforms }),
+        body: JSON.stringify({ email, frequency, platforms, favorites: [...favorites] }),
       })
       const body = (await res.json()) as { ok?: boolean; error?: string }
       if (!res.ok || !body.ok) throw new Error(body.error ?? 'Unbekannter Fehler')
@@ -184,6 +217,21 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{t('news.title')}</h1>
         <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{t('news.intro')}</p>
       </div>
+
+      {syncState !== 'idle' && (
+        <div
+          className={[
+            'rounded-xl border px-4 py-3 text-sm',
+            syncState === 'ok'
+              ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-500'
+              : syncState === 'error'
+                ? 'border-red-500/40 bg-red-500/10 text-red-400'
+                : 'border-slate-300 text-slate-500 dark:border-white/15',
+          ].join(' ')}
+        >
+          {syncState === 'sending' ? t('news.syncRunning') : syncMessage}
+        </div>
+      )}
 
       <Card>
         <form onSubmit={submit} className="flex flex-col gap-4">
@@ -230,6 +278,15 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
               ))}
             </div>
           </fieldset>
+
+          <div className="rounded-lg border border-slate-300 px-3 py-2.5 text-sm dark:border-white/15">
+            <p className="font-medium text-slate-700 dark:text-slate-200">
+              ★ {t('news.favorites', { count: favorites.size })}
+            </p>
+            <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
+              {favorites.size > 0 ? t('news.favoritesHint') : t('news.favoritesNone')}
+            </p>
+          </div>
 
           <fieldset>
             <legend className="mb-1.5 text-sm font-medium text-slate-700 dark:text-slate-200">

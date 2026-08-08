@@ -33,7 +33,25 @@ interface SubscriberRow {
   email: string
   frequency: 'daily' | 'weekly'
   platforms: string
+  favorites: string
   unsub_token: string
+  pref_token: string
+}
+
+/** Kommagetrennte Zahlenliste aus der Datenbank in ein Set. */
+function parseIdList(raw: string | null | undefined): Set<number> {
+  return new Set(
+    (raw ?? '')
+      .split(',')
+      .map((v) => Number(v.trim()))
+      .filter((v) => Number.isInteger(v) && v > 0),
+  )
+}
+
+/** Nur ganze Zahlen übernehmen — die Liste kommt aus dem Browser. */
+function cleanIdList(input: unknown): string {
+  if (!Array.isArray(input)) return ''
+  return [...new Set(input.map(Number).filter((v) => Number.isInteger(v) && v > 0))].join(',')
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i
@@ -59,7 +77,7 @@ function baseUrl(request: Request): string {
 }
 
 async function handleSubscribe(request: Request, env: Env): Promise<Response> {
-  let payload: { email?: string; frequency?: string; platforms?: string[] }
+  let payload: { email?: string; frequency?: string; platforms?: string[]; favorites?: number[] }
   try {
     payload = await request.json()
   } catch {
@@ -69,28 +87,48 @@ async function handleSubscribe(request: Request, env: Env): Promise<Response> {
   const email = (payload.email ?? '').trim().toLowerCase()
   const frequency = payload.frequency === 'daily' ? 'daily' : 'weekly'
   const platforms = (payload.platforms ?? []).filter((p) => /^[a-z]+$/.test(p)).join(',')
+  const favorites = cleanIdList(payload.favorites)
 
   if (!EMAIL_RE.test(email)) return json(env, { error: 'Diese E-Mail-Adresse sieht nicht gültig aus.' }, 400)
 
   const confirmToken = crypto.randomUUID()
   const unsubToken = crypto.randomUUID()
+  const prefToken = crypto.randomUUID()
   const now = new Date().toISOString()
   const ip = request.headers.get('cf-connecting-ip') ?? ''
 
   // Erneute Anmeldung derselben Adresse ersetzt die alte Zeile und setzt sie
   // wieder auf "pending" — bestätigt wird trotzdem nur per Klick.
   await env.DB.prepare(
-    `INSERT INTO subscribers (id, email, frequency, platforms, status, confirm_token, unsub_token, created_at, created_ip)
-     VALUES (?1, ?2, ?3, ?4, 'pending', ?5, ?6, ?7, ?8)
+    `INSERT INTO subscribers
+       (id, email, frequency, platforms, favorites, favorites_at, status,
+        confirm_token, unsub_token, pref_token, created_at, created_ip)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, 'pending', ?7, ?8, ?9, ?10, ?11)
      ON CONFLICT(email) DO UPDATE SET
        frequency = excluded.frequency,
        platforms = excluded.platforms,
+       favorites = excluded.favorites,
+       favorites_at = excluded.favorites_at,
        status = CASE WHEN subscribers.status = 'active' THEN 'active' ELSE 'pending' END,
        confirm_token = excluded.confirm_token,
+       -- Vorhandene Tokens behalten: Links aus alten Mails sollen weiter gehen.
+       pref_token = CASE WHEN subscribers.pref_token = '' THEN excluded.pref_token ELSE subscribers.pref_token END,
        created_at = excluded.created_at,
        created_ip = excluded.created_ip`,
   )
-    .bind(crypto.randomUUID(), email, frequency, platforms, confirmToken, unsubToken, now, ip)
+    .bind(
+      crypto.randomUUID(),
+      email,
+      frequency,
+      platforms,
+      favorites,
+      favorites ? now : null,
+      confirmToken,
+      unsubToken,
+      prefToken,
+      now,
+      ip,
+    )
     .run()
 
   const confirmUrl = `${baseUrl(request)}/confirm?token=${confirmToken}`
@@ -121,6 +159,37 @@ async function handleConfirm(request: Request, env: Env): Promise<Response> {
     return page('Link nicht gültig', 'Dieser Bestätigungslink ist abgelaufen oder wurde schon benutzt.', env.SITE_URL)
   }
   return page('Abo aktiv', 'Ab jetzt bekommst du die anstehenden Releases mit deutscher Synchro per Mail.', env.SITE_URL)
+}
+
+/**
+ * Gleicht die Favoriten eines Abonnenten ab.
+ *
+ * Nötig, weil die Favoriten im Browser des Nutzers liegen und sich dort
+ * jederzeit ändern, ohne dass der Dienst davon erfährt. Jede Mail trägt einen
+ * Link hierher; die Seite schickt beim Öffnen ihren aktuellen Stand.
+ */
+async function handleFavorites(request: Request, env: Env): Promise<Response> {
+  let payload: { token?: string; favorites?: number[] }
+  try {
+    payload = await request.json()
+  } catch {
+    return json(env, { error: 'Ungültige Anfrage.' }, 400)
+  }
+
+  const token = (payload.token ?? '').trim()
+  if (!token) return json(env, { error: 'Kein Abgleich-Schlüssel übergeben.' }, 400)
+
+  const favorites = cleanIdList(payload.favorites)
+  const result = await env.DB.prepare(
+    "UPDATE subscribers SET favorites = ?1, favorites_at = ?2 WHERE pref_token = ?3 AND status = 'active'",
+  )
+    .bind(favorites, new Date().toISOString(), token)
+    .run()
+
+  if (!result.meta.changes) {
+    return json(env, { error: 'Dieser Abgleich-Schlüssel gehört zu keinem aktiven Abo.' }, 404)
+  }
+  return json(env, { ok: true, count: favorites ? favorites.split(',').length : 0 })
 }
 
 async function handleUnsubscribe(request: Request, env: Env): Promise<Response> {
@@ -193,7 +262,7 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
     const window = allEvents.filter((e) => e.date >= iso && e.date <= until)
 
     const { results } = await env.DB.prepare(
-      `SELECT id, email, frequency, platforms, unsub_token FROM subscribers
+      `SELECT id, email, frequency, platforms, favorites, unsub_token, pref_token FROM subscribers
        WHERE status = 'active' AND frequency = ?1`,
     )
       .bind(frequency)
@@ -205,8 +274,15 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
       const events = wanted.length ? window.filter((e) => wanted.includes(e.platform)) : window
       if (!events.length) continue
 
-      const unsubUrl = `${(env.WORKER_URL || '').replace(/\/$/, '')}/unsubscribe?token=${sub.unsub_token}`
-      const mail = digestMail(events, frequency, env.SITE_URL, unsubUrl)
+      // Gemerkte Titel nach vorn: Eine neue Folge einer Serie, der jemand
+      // folgt, ist ihm wichtiger als irgendein Disc-Release.
+      const favorites = parseIdList(sub.favorites)
+      const base = (env.WORKER_URL || '').replace(/\/$/, '')
+      const unsubUrl = `${base}/unsubscribe?token=${sub.unsub_token}`
+      const syncUrl = sub.pref_token
+        ? `${env.SITE_URL.replace(/\/$/, '')}/#/newsletter?sync=${sub.pref_token}`
+        : undefined
+      const mail = digestMail(events, frequency, env.SITE_URL, unsubUrl, { favorites, syncUrl })
       try {
         await sendMail(env, { to: sub.email, ...mail, unsubscribeUrl: unsubUrl })
         sent++
@@ -359,6 +435,9 @@ export default {
         return handleConfirm(request, env)
       case '/unsubscribe':
         return handleUnsubscribe(request, env)
+      case '/favorites':
+        if (request.method !== 'POST') return json(env, { error: 'POST erwartet' }, 405)
+        return handleFavorites(request, env)
       case '/debug/digest': {
         // Versand von Hand auslösen, ohne bis 07:00 zu warten. Nur mit dem
         // Secret DEBUG_TOKEN erreichbar; ohne gesetztes Secret abgeschaltet.

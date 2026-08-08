@@ -7,9 +7,16 @@ CREATE TABLE IF NOT EXISTS subscribers (
   email        TEXT NOT NULL UNIQUE,
   frequency    TEXT NOT NULL CHECK (frequency IN ('daily', 'weekly')),
   platforms    TEXT NOT NULL DEFAULT '',   -- kommagetrennt, leer = alle
+  -- AniList-IDs der gemerkten Titel, kommagetrennt. Sie liegen sonst nur im
+  -- Browser des Nutzers; für den Versand müssen sie hierher gespiegelt werden.
+  favorites    TEXT NOT NULL DEFAULT '',
   status       TEXT NOT NULL CHECK (status IN ('pending', 'active')) DEFAULT 'pending',
   confirm_token TEXT NOT NULL,
   unsub_token  TEXT NOT NULL,
+  -- Erlaubt das spätere Abgleichen der Favoriten, ohne den Abmeldelink
+  -- preiszugeben.
+  pref_token   TEXT NOT NULL DEFAULT '',
+  favorites_at TEXT,
   created_at   TEXT NOT NULL,
   created_ip   TEXT,
   confirmed_at TEXT,

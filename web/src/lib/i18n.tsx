@@ -178,6 +178,11 @@ const EN = {
   'news.weeklyHint': 'Mondays 07:00, everything for the coming week',
   'news.daily': 'Daily',
   'news.dailyHint': '07:00, everything for the day',
+  'news.favorites': 'Favourites: {count} series',
+  'news.favoritesHint': 'New episodes of these appear at the top of every email.',
+  'news.favoritesNone': 'None yet. Star series in the calendar — their new episodes then lead every email.',
+  'news.syncRunning': 'Syncing favourites …',
+  'news.syncOk': 'Favourites synced: {count} series. From now on their episodes lead your emails.',
   'news.platforms': 'Only these platforms',
   'news.platformsHint': '(empty = all)',
   'news.consent':
@@ -363,6 +368,11 @@ const DE: Partial<Record<TranslationKey, string>> = {
   'news.weeklyHint': 'montags 07:00, alles der kommenden Woche',
   'news.daily': 'Täglich',
   'news.dailyHint': '07:00, alles des Tages',
+  'news.favorites': 'Favoriten: {count} Serien',
+  'news.favoritesHint': 'Neue Folgen davon stehen in jeder Mail ganz oben.',
+  'news.favoritesNone': 'Noch keine. Markiere Serien im Kalender mit dem Stern — ihre neuen Folgen stehen dann in jeder Mail ganz oben.',
+  'news.syncRunning': 'Favoriten werden abgeglichen …',
+  'news.syncOk': 'Favoriten übernommen: {count} Serien. Ab jetzt stehen deren Folgen in deinen Mails ganz oben.',
   'news.platforms': 'Nur diese Plattformen',
   'news.platformsHint': '(leer = alle)',
   'news.consent':

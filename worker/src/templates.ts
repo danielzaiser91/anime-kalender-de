@@ -42,80 +42,137 @@ export function confirmMail(confirmUrl: string): { subject: string; html: string
   return { subject, html, text }
 }
 
-export function digestMail(
-  events: ReleaseEvent[],
-  frequency: 'daily' | 'weekly',
-  siteUrl: string,
-  unsubUrl: string,
-): { subject: string; html: string; text: string } {
-  const subject =
-    frequency === 'daily'
-      ? `Heute mit deutscher Synchro: ${events.length} ${events.length === 1 ? 'Release' : 'Releases'}`
-      : `Diese Woche mit deutscher Synchro: ${events.length} ${events.length === 1 ? 'Release' : 'Releases'}`
+function eventRow(ev: ReleaseEvent, highlight: boolean): string {
+  const type = RELEASE_TYPES[ev.releaseType]
+  const time = ev.time ? `${ev.time} Uhr` : ev.releaseType === 'disc' ? 'im Handel' : 'Zeit offen'
+  const episode = ev.episode ? ` · Folge ${ev.episode}${ev.episodeCount ? `/${ev.episodeCount}` : ''}` : ''
+  return `<tr>
+    <td style="padding:7px 0;border-top:1px solid #232c40;">
+      <span style="display:inline-block;width:3px;height:14px;background:${type.color};vertical-align:-2px;border-radius:2px;"></span>
+      ${highlight ? '<span style="color:#fbbf24;">★</span> ' : ''}<strong style="color:#fff;">${escapeHtml(ev.name)}</strong><br>
+      <span style="color:#9aa5bd;font-size:13px;">${escapeHtml(time)}${escapeHtml(episode)} · ${escapeHtml(PLATFORMS[ev.platform].name)}${ev.estimated ? ' · Termin abgeleitet' : ''}</span>
+    </td>
+  </tr>`
+}
 
+/** Termine nach Tag gruppiert ausgeben. */
+function dateSections(events: ReleaseEvent[], highlight: boolean): string {
   const byDate = new Map<string, ReleaseEvent[]>()
   for (const ev of events) {
     const list = byDate.get(ev.date)
     if (list) list.push(ev)
     else byDate.set(ev.date, [ev])
   }
-
-  const sections = [...byDate.entries()]
+  return [...byDate.entries()]
     .sort((a, b) => a[0].localeCompare(b[0]))
-    .map(([date, list]) => {
-      const rows = list
-        .map((ev) => {
-          const type = RELEASE_TYPES[ev.releaseType]
-          const time = ev.time
-            ? `${ev.time} Uhr`
-            : ev.releaseType === 'disc'
-              ? 'im Handel'
-              : 'Zeit offen'
-          const episode = ev.episode ? ` · Folge ${ev.episode}${ev.episodeCount ? `/${ev.episodeCount}` : ''}` : ''
-          return `<tr>
-            <td style="padding:7px 0;border-top:1px solid #232c40;">
-              <span style="display:inline-block;width:3px;height:14px;background:${type.color};vertical-align:-2px;border-radius:2px;"></span>
-              <strong style="color:#fff;">${escapeHtml(ev.name)}</strong><br>
-              <span style="color:#9aa5bd;font-size:13px;">${escapeHtml(time)}${escapeHtml(episode)} · ${escapeHtml(PLATFORMS[ev.platform].name)}${ev.estimated ? ' · Termin abgeleitet' : ''}</span>
-            </td>
-          </tr>`
-        })
-        .join('')
-      return `<p style="margin:20px 0 4px;color:#7dd3fc;font-weight:700;font-size:14px;">
+    .map(
+      ([date, list]) => `<p style="margin:16px 0 2px;color:#7dd3fc;font-weight:700;font-size:14px;">
         ${weekdayName(date)}, ${formatDate(date)}</p>
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${rows}</table>`
-    })
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${list
+          .map((ev) => eventRow(ev, highlight))
+          .join('')}</table>`,
+    )
     .join('')
+}
+
+function textSections(events: ReleaseEvent[]): string {
+  const byDate = new Map<string, ReleaseEvent[]>()
+  for (const ev of events) {
+    const list = byDate.get(ev.date)
+    if (list) list.push(ev)
+    else byDate.set(ev.date, [ev])
+  }
+  return [...byDate.entries()]
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .map(
+      ([date, list]) =>
+        `${weekdayName(date)}, ${formatDate(date)}\n` +
+        list
+          .map(
+            (ev) =>
+              `  - ${ev.name}${ev.episode ? ` (Folge ${ev.episode})` : ''} — ${
+                ev.time ? `${ev.time} Uhr` : ev.releaseType === 'disc' ? 'im Handel' : 'Zeit offen'
+              }, ${PLATFORMS[ev.platform].name}`,
+          )
+          .join('\n'),
+    )
+    .join('\n\n')
+}
+
+export interface DigestOptions {
+  /** AniList-IDs der gemerkten Titel. */
+  favorites?: Set<number>
+  /** Adresse, über die der Nutzer seine Favoriten abgleichen kann. */
+  syncUrl?: string
+}
+
+export function digestMail(
+  events: ReleaseEvent[],
+  frequency: 'daily' | 'weekly',
+  siteUrl: string,
+  unsubUrl: string,
+  options: DigestOptions = {},
+): { subject: string; html: string; text: string } {
+  const favorites = options.favorites ?? new Set<number>()
+  const mine = events.filter((e) => favorites.has(e.titleId))
+  const rest = events.filter((e) => !favorites.has(e.titleId))
+
+  // Der Betreff nennt zuerst, was den Leser wirklich betrifft.
+  const subject =
+    mine.length > 0
+      ? `${mine.length} ${mine.length === 1 ? 'Folge' : 'Folgen'} deiner Favoriten${
+          rest.length ? ` und ${rest.length} weitere Releases` : ''
+        }`
+      : frequency === 'daily'
+        ? `Heute mit deutscher Synchro: ${events.length} ${events.length === 1 ? 'Release' : 'Releases'}`
+        : `Diese Woche mit deutscher Synchro: ${events.length} ${events.length === 1 ? 'Release' : 'Releases'}`
+
+  const heading = (text: string, colour: string) =>
+    `<p style="margin:26px 0 0;padding-bottom:6px;border-bottom:2px solid ${colour};color:${colour};font-weight:700;font-size:15px;letter-spacing:.03em;">${text}</p>`
+
+  let body = ''
+  if (mine.length > 0) {
+    body += heading('★ Deine Favoriten', '#fbbf24') + dateSections(mine, true)
+  }
+  if (rest.length > 0) {
+    body +=
+      mine.length > 0
+        ? heading('Weitere Releases', '#3f4b63') + dateSections(rest, false)
+        : `<p style="margin:0;">${
+            frequency === 'daily' ? 'Das steht heute an:' : 'Das steht in den nächsten sieben Tagen an:'
+          }</p>` + dateSections(rest, false)
+  }
+
+  // Ohne gemerkte Titel ist der Hinweis nützlich; mit gemerkten wäre er Lärm.
+  const favouriteHint =
+    favorites.size === 0 && options.syncUrl
+      ? `<p style="margin:22px 0 0;padding:12px 14px;background:#1d2536;border-radius:9px;color:#9aa5bd;font-size:13px;line-height:1.6;">
+           Du hast noch keine Favoriten hinterlegt. Markiere im Kalender die Serien, denen du folgst —
+           ihre neuen Folgen stehen dann ganz oben in dieser Mail.<br>
+           <a href="${options.syncUrl}" style="color:#7dd3fc;">Favoriten übernehmen</a>
+         </p>`
+      : ''
 
   const html = SHELL(
     subject,
-    `<p style="margin:0;">${
-      frequency === 'daily' ? 'Das steht heute an:' : 'Das steht in den nächsten sieben Tagen an:'
-    }</p>${sections}
+    `${body}${favouriteHint}
      <p style="margin:24px 0 0;"><a href="${siteUrl}"
        style="display:inline-block;background:#38bdf8;color:#06121d;text-decoration:none;padding:10px 18px;border-radius:9px;font-weight:700;">
        Im Kalender ansehen</a></p>`,
     `Du bekommst diese Mail, weil du den Newsletter bestätigt hast.
      <a href="${unsubUrl}" style="color:#7dd3fc;">Abmelden</a> ·
-     <a href="${siteUrl}#/datenschutz" style="color:#7dd3fc;">Datenschutz</a>`,
+     <a href="${siteUrl}#/datenschutz" style="color:#7dd3fc;">Datenschutz</a>${
+       options.syncUrl ? ` · <a href="${options.syncUrl}" style="color:#7dd3fc;">Favoriten abgleichen</a>` : ''
+     }`,
   )
 
   const text =
     `${subject}\n\n` +
-    [...byDate.entries()]
-      .sort((a, b) => a[0].localeCompare(b[0]))
-      .map(
-        ([date, list]) =>
-          `${weekdayName(date)}, ${formatDate(date)}\n` +
-          list
-            .map(
-              (ev) =>
-                `  - ${ev.name} (${ev.time ? `${ev.time} Uhr` : ev.releaseType === 'disc' ? 'im Handel' : 'Zeit offen'}, ${PLATFORMS[ev.platform].name})`,
-            )
-            .join('\n'),
-      )
-      .join('\n\n') +
-    `\n\nKalender: ${siteUrl}\nAbmelden: ${unsubUrl}`
+    (mine.length > 0 ? `DEINE FAVORITEN\n\n${textSections(mine)}\n\n` : '') +
+    (rest.length > 0 ? `${mine.length > 0 ? 'WEITERE RELEASES\n\n' : ''}${textSections(rest)}\n\n` : '') +
+    `Kalender: ${siteUrl}\n` +
+    (options.syncUrl ? `Favoriten abgleichen: ${options.syncUrl}\n` : '') +
+    `Abmelden: ${unsubUrl}`
 
   return { subject, html, text }
 }
