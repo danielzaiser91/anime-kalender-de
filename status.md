@@ -1,6 +1,6 @@
 # Status: anime-kalender-de
 
-Stand: 07.08.2026 · Live: https://anime-kalender.de/
+Stand: 08.08.2026 · Live: https://anime-kalender.de/
 
 ## Task Queue
 
@@ -31,6 +31,11 @@ _(leer)_
 | Gesamtabnahme der ersten Version | 07.08.2026 |
 
 ## Archiv
+
+- ✅ Newsletter-Mails verlinken: Titel → Teilen-Seite des Releases (mit Vorschaubild, springt in
+  die Wochenansicht des Tages), Anbietername → Serie beim Streamingdienst bzw. Kaufseite
+- ✅ Unbelegte Crunchyroll-Termine verwerfen: liegt ein behaupteter Start im abgesuchten
+  Kalenderfenster, hat dort aber keine deutsche Folge, fällt der Termin raus
 
 - ✅ Quellen- und Tool-Recherche (`docs/recherche-quellen.md`)
 - ✅ Plan mit Datenmodell und Story Points (`docs/plan.md`)
