@@ -10,8 +10,7 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| Google-Indexierung einrichten | 3 | `sitemap.xml` + `robots.txt` fehlen (beide 404), Search Console verifizieren, Sitemap einreichen |
-| Tracking-Absatz aus der Datenschutzerklärung nehmen | 1 | erst wenn der erste Versand über die eigene Domain bestätigt ist |
+| PWA für Mobilgeräte | 5 | Manifest, Icons, Service Worker; auf dem Handy Dialog „App installieren" oder „im Browser weiter", dazu ein dauerhafter Knopf |
 
 ### Später (nice to have)
 
@@ -24,17 +23,31 @@ herausgeholt, wenn der User es sagt.
 | Weitere Sprachen | 3 | Gerüst steht, EN und DE gepflegt; weitere brauchen nur ein Wörterbuch (zurückgestellt 08.08.2026) |
 
 ### Zu besprechen
-| Thema | Frage |
-|---|---|
-| Affiliate-Links | Amazon-Kauflinks als Partnerlinks? Würde die TMDB-Nutzung von „privat" auf „kommerziell" schieben |
-| Community-Beiträge | Termine per Pull Request annehmen, oder Datenpflege allein behalten? |
+_(leer)_
 
 ### Warten auf Feedback
 | Thema | Seit |
 |---|---|
-| Gesamtabnahme der ersten Version | 07.08.2026 |
+| Newsletter-Abmeldung testen | 08.08.2026 |
+
+## Entscheidungen
+
+- **Keine Affiliate-Links** (08.08.2026). Das Projekt bleibt unkommerziell. Damit bleibt auch die
+  TMDB-Nutzung im privaten Rahmen, und die Amazon-Links sind schlichte Kauflinks ohne Partner-Tag.
+- **Keine Pull Requests für Termine** (08.08.2026). Die Datenpflege bleibt in einer Hand — die
+  Quellenpflicht ist die Grundregel des Projekts, und sie ist nur haltbar, solange jeder Termin
+  durch dieselbe Prüfung geht.
+- **Gesamtabnahme der ersten Version erteilt** (08.08.2026), mit einer Ausnahme: Die
+  Newsletter-Abmeldung ist noch ungetestet.
 
 ## Archiv
+
+- ✅ **Bei Google angemeldet**: `sitemap.xml` (122 Adressen) und `robots.txt` entstehen jetzt im
+  Build aus dem Datenbestand. Domain-Property in der Search Console über einen TXT-Eintrag in der
+  INWX-Zone bestätigt, Sitemap eingereicht — Status „Erfolgreich", 122 Seiten erkannt
+- ✅ Datenschutzerklärung: Der Abschnitt zur Erfolgsmessung beschrieb die Zeit der gemeinsam
+  genutzten Absenderdomain. Seit dem Wechsel auf `send.anime-kalender.de` wird nicht mehr
+  getrackt; der Text sagt das jetzt auch
 
 - ✅ **Ausschluss-Filter**: Umschalter über den Tags; im Modus „Ausschließen" macht ein Klick aus
   einem Tag ein Verbot statt einer Auswahl (roter, durchgestrichener Chip). Ausschluss schlägt

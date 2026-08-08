@@ -65,10 +65,7 @@ Sprachfassung unbekannt oder gar kein Anime).
 
 ## Offene Kästchen
 
-- [ ] Tracking-Absatz aus der Datenschutzerklärung entfernen, sobald der erste
-      Versand über `kalender@send.anime-kalender.de` bestätigt ist — auf der
-      eigenen Domain ist Öffnungs- und Klick-Erfassung abgeschaltet, der Absatz
-      beschreibt dann etwas, das nicht mehr passiert.
+_(leer)_
 
 ## Erledigt
 
@@ -77,6 +74,8 @@ Sprachfassung unbekannt oder gar kein Anime).
 - [x] Newsletter-Worker deployen
 - [x] Eigene Domain und Absenderdomain einrichten
 - [x] Projekt ins Portfolio eintragen
+- [x] Tracking-Absatz aus der Datenschutzerklärung entfernt (Versand läuft über die eigene Domain)
+- [x] Sitemap, robots.txt und Google Search Console eingerichtet
 - [x] ADN als zweite maschinelle Quelle anbinden
 - [x] Anime2You als Vorschlagsquelle anbinden
 - [x] Polling-Kaskade stündlich/täglich/wöchentlich
