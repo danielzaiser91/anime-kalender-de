@@ -9,11 +9,18 @@
  *
  * Die Termine kommen aus denselben JSON-Dateien, die auch die Website lädt.
  */
-import type { ReleaseEvent } from '../../shared/types.ts'
+import type { Release, ReleaseEvent } from '../../shared/types.ts'
 import { addDays, weekdayIndex } from '../../shared/time.ts'
 import { sendMail, type MailEnv } from './mail.ts'
 import { checkAllSites } from './monitor.ts'
-import { confirmMail, digestMail, outageMail, page, weeklyStatusMail } from './templates.ts'
+import {
+  confirmMail,
+  digestMail,
+  outageMail,
+  page,
+  weeklyStatusMail,
+  type ReleaseLink,
+} from './templates.ts'
 
 export interface Env extends MailEnv {
   DB: D1Database
@@ -228,6 +235,24 @@ async function loadEvents(env: Env): Promise<ReleaseEvent[]> {
   return (await res.json()) as ReleaseEvent[]
 }
 
+/** Anbieter-Deeplinks je Release — dieselbe Datei, die auch die Web-App laedt. */
+async function loadReleaseLinks(env: Env): Promise<Map<string, ReleaseLink>> {
+  const url = new URL('data/releases.json', env.SITE_URL).toString()
+  try {
+    const res = await fetch(url, { cf: { cacheTtl: 900 } } as RequestInit)
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    const releases = (await res.json()) as Release[]
+    return new Map(
+      releases.map((r) => [r.slug, { platformUrl: r.platformUrl, buyUrl: r.buyUrl }] as const),
+    )
+  } catch (err) {
+    // Ohne Deeplinks bleibt die Mail brauchbar — sie verlinkt dann nur den
+    // Kalender. Das ist ein besserer Ausgang als gar kein Versand.
+    console.error('Anbieter-Links nicht abrufbar', err)
+    return new Map()
+  }
+}
+
 function berlinParts(date: Date): { hour: number; iso: string } {
   const fmt = new Intl.DateTimeFormat('en-CA', {
     timeZone: 'Europe/Berlin',
@@ -256,6 +281,7 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
   if (!due.length) return `nichts zu tun (Berliner Stunde ${hour})`
 
   const allEvents = await loadEvents(env)
+  const links = await loadReleaseLinks(env)
   const log: string[] = []
 
   for (const frequency of due) {
@@ -294,7 +320,7 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
       const syncUrl = sub.pref_token
         ? `${env.SITE_URL.replace(/\/$/, '')}/#/newsletter?sync=${sub.pref_token}`
         : undefined
-      const mail = digestMail(events, frequency, env.SITE_URL, unsubUrl, { favorites, syncUrl })
+      const mail = digestMail(events, frequency, env.SITE_URL, unsubUrl, { favorites, syncUrl, links })
       try {
         await sendMail(env, { to: sub.email, ...mail, unsubscribeUrl: unsubUrl })
         sent++

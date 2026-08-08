@@ -42,21 +42,69 @@ export function confirmMail(confirmUrl: string): { subject: string; html: string
   return { subject, html, text }
 }
 
-function eventRow(ev: ReleaseEvent, highlight: boolean): string {
+/** Direktlinks je Release-Slug, aus `releases.json` geladen. */
+export interface ReleaseLink {
+  platformUrl?: string
+  buyUrl?: string
+}
+
+/** Was jede Zeile zum Verlinken braucht. */
+interface RowContext {
+  siteUrl: string
+  links: Map<string, ReleaseLink>
+}
+
+/**
+ * Die Ansicht im Kalender, die genau diesen Termin zeigt.
+ *
+ * Bewusst über die Teilen-Seite `/r/<slug>/` statt direkt über `#/woche?…`:
+ * Alles hinter dem `#` erreicht keinen Server, eine weitergeleitete Mail hätte
+ * damit nie eine Vorschau. Die Teilen-Seite hat eigene Vorschaubilder und
+ * springt anschließend selbst in die Wochenansicht — der Hash sagt ihr nur,
+ * welcher Tag gemeint ist.
+ */
+function calendarUrl(ctx: RowContext, ev: ReleaseEvent): string {
+  const slug = encodeURIComponent(ev.releaseSlug)
+  return `${ctx.siteUrl.replace(/\/$/, '')}/r/${slug}/#/woche?d=${ev.date}&r=${slug}`
+}
+
+/** Zum Anbieter selbst: Streamingseite, bei Disc-Releases die Kaufseite. */
+function watchUrl(ctx: RowContext, ev: ReleaseEvent): string | undefined {
+  const link = ctx.links.get(ev.releaseSlug)
+  if (!link) return undefined
+  return ev.releaseType === 'disc' ? (link.buyUrl ?? link.platformUrl) : (link.platformUrl ?? link.buyUrl)
+}
+
+function eventRow(ctx: RowContext, ev: ReleaseEvent, highlight: boolean): string {
   const type = RELEASE_TYPES[ev.releaseType]
   const time = ev.time ? `${ev.time} Uhr` : ev.releaseType === 'disc' ? 'im Handel' : 'Zeit offen'
   const episode = ev.episode ? ` · Folge ${ev.episode}${ev.episodeCount ? `/${ev.episodeCount}` : ''}` : ''
+  const platform = PLATFORMS[ev.platform]
+  const watch = watchUrl(ctx, ev)
+
+  // Der Anbietername ist der Knopf zum Ansehen. Fehlt der Deeplink, bleibt er
+  // schlichter Text — ein Link ins Leere wäre schlimmer als keiner.
+  const platformPart = watch
+    ? `<a href="${escapeHtml(watch)}" style="color:${platform.color};text-decoration:none;font-weight:600;">${escapeHtml(
+        platform.name,
+      )} ${ev.releaseType === 'disc' ? 'kaufen' : 'ansehen'} &rsaquo;</a>`
+    : escapeHtml(platform.name)
+
   return `<tr>
     <td style="padding:7px 0;border-top:1px solid #232c40;">
       <span style="display:inline-block;width:3px;height:14px;background:${type.color};vertical-align:-2px;border-radius:2px;"></span>
-      ${highlight ? '<span style="color:#fbbf24;">★</span> ' : ''}<strong style="color:#fff;">${escapeHtml(ev.name)}</strong><br>
-      <span style="color:#9aa5bd;font-size:13px;">${escapeHtml(time)}${escapeHtml(episode)} · ${escapeHtml(PLATFORMS[ev.platform].name)}${ev.estimated ? ' · Termin abgeleitet' : ''}</span>
+      ${highlight ? '<span style="color:#fbbf24;">★</span> ' : ''}<a href="${escapeHtml(
+        calendarUrl(ctx, ev),
+      )}" style="color:#fff;text-decoration:none;"><strong>${escapeHtml(ev.name)}</strong></a><br>
+      <span style="color:#9aa5bd;font-size:13px;">${escapeHtml(time)}${escapeHtml(episode)} · ${platformPart}${
+        ev.estimated ? ' · Termin abgeleitet' : ''
+      }</span>
     </td>
   </tr>`
 }
 
 /** Termine nach Tag gruppiert ausgeben. */
-function dateSections(events: ReleaseEvent[], highlight: boolean): string {
+function dateSections(ctx: RowContext, events: ReleaseEvent[], highlight: boolean): string {
   const byDate = new Map<string, ReleaseEvent[]>()
   for (const ev of events) {
     const list = byDate.get(ev.date)
@@ -69,13 +117,13 @@ function dateSections(events: ReleaseEvent[], highlight: boolean): string {
       ([date, list]) => `<p style="margin:16px 0 2px;color:#7dd3fc;font-weight:700;font-size:14px;">
         ${weekdayName(date)}, ${formatDate(date)}</p>
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${list
-          .map((ev) => eventRow(ev, highlight))
+          .map((ev) => eventRow(ctx, ev, highlight))
           .join('')}</table>`,
     )
     .join('')
 }
 
-function textSections(events: ReleaseEvent[]): string {
+function textSections(ctx: RowContext, events: ReleaseEvent[]): string {
   const byDate = new Map<string, ReleaseEvent[]>()
   for (const ev of events) {
     const list = byDate.get(ev.date)
@@ -88,12 +136,16 @@ function textSections(events: ReleaseEvent[]): string {
       ([date, list]) =>
         `${weekdayName(date)}, ${formatDate(date)}\n` +
         list
-          .map(
-            (ev) =>
+          .map((ev) => {
+            const watch = watchUrl(ctx, ev)
+            return (
               `  - ${ev.name}${ev.episode ? ` (Folge ${ev.episode})` : ''} — ${
                 ev.time ? `${ev.time} Uhr` : ev.releaseType === 'disc' ? 'im Handel' : 'Zeit offen'
-              }, ${PLATFORMS[ev.platform].name}`,
-          )
+              }, ${PLATFORMS[ev.platform].name}\n` +
+              `    Kalender: ${calendarUrl(ctx, ev)}` +
+              (watch ? `\n    ${ev.releaseType === 'disc' ? 'Kaufen' : 'Ansehen'}: ${watch}` : '')
+            )
+          })
           .join('\n'),
     )
     .join('\n\n')
@@ -104,6 +156,8 @@ export interface DigestOptions {
   favorites?: Set<number>
   /** Adresse, über die der Nutzer seine Favoriten abgleichen kann. */
   syncUrl?: string
+  /** Direktlinks zum Anbieter, je Release-Slug. */
+  links?: Map<string, ReleaseLink>
 }
 
 export function digestMail(
@@ -116,6 +170,7 @@ export function digestMail(
   const favorites = options.favorites ?? new Set<number>()
   const mine = events.filter((e) => favorites.has(e.titleId))
   const rest = events.filter((e) => !favorites.has(e.titleId))
+  const ctx: RowContext = { siteUrl, links: options.links ?? new Map() }
 
   // Der Betreff nennt zuerst, was den Leser wirklich betrifft.
   const subject =
@@ -132,15 +187,15 @@ export function digestMail(
 
   let body = ''
   if (mine.length > 0) {
-    body += heading('★ Deine Favoriten', '#fbbf24') + dateSections(mine, true)
+    body += heading('★ Deine Favoriten', '#fbbf24') + dateSections(ctx, mine, true)
   }
   if (rest.length > 0) {
     body +=
       mine.length > 0
-        ? heading('Weitere Releases', '#3f4b63') + dateSections(rest, false)
+        ? heading('Weitere Releases', '#3f4b63') + dateSections(ctx, rest, false)
         : `<p style="margin:0;">${
             frequency === 'daily' ? 'Das steht heute an:' : 'Das steht in den nächsten sieben Tagen an:'
-          }</p>` + dateSections(rest, false)
+          }</p>` + dateSections(ctx, rest, false)
   }
 
   // Ohne gemerkte Titel ist der Hinweis nützlich; mit gemerkten wäre er Lärm.
@@ -168,8 +223,8 @@ export function digestMail(
 
   const text =
     `${subject}\n\n` +
-    (mine.length > 0 ? `DEINE FAVORITEN\n\n${textSections(mine)}\n\n` : '') +
-    (rest.length > 0 ? `${mine.length > 0 ? 'WEITERE RELEASES\n\n' : ''}${textSections(rest)}\n\n` : '') +
+    (mine.length > 0 ? `DEINE FAVORITEN\n\n${textSections(ctx, mine)}\n\n` : '') +
+    (rest.length > 0 ? `${mine.length > 0 ? 'WEITERE RELEASES\n\n' : ''}${textSections(ctx, rest)}\n\n` : '') +
     `Kalender: ${siteUrl}\n` +
     (options.syncUrl ? `Favoriten abgleichen: ${options.syncUrl}\n` : '') +
     `Abmelden: ${unsubUrl}`

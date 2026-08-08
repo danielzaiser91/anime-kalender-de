@@ -23,7 +23,7 @@ import type {
   Title,
 } from '../shared/types.ts'
 import { expandEvents } from '../shared/logic.ts'
-import { addDays, weekdayIndex } from '../shared/time.ts'
+import { addDays } from '../shared/time.ts'
 import { buildIcs } from '../shared/ics.ts'
 import {
   KEYWORD_BLOCKLIST,
@@ -129,6 +129,27 @@ function titleFromMedia(media: AniListMedia, confidence: DubConfidence): Title {
     score: media.averageScore ?? undefined,
     dubConfidence: confidence,
     streams: mapStreams(media),
+  }
+}
+
+/**
+ * Rechnet aus dem beobachteten Sendeplan den Start der deutschen Fassung.
+ *
+ * Der Kalender zeigt nur ein Fenster von wenigen Wochen. Lief die früheste dort
+ * gesehene Folge als Nummer 5, lag Folge 1 vier Wochen davor — das ist Rechnen,
+ * kein Raten, solange der Wochentakt bestätigt ist.
+ *
+ * `assumed` sagt, wie weit man dem Ergebnis trauen darf: Nur wenn Folge 1
+ * selbst gesehen wurde **und** der Takt bestätigt ist, steht der komplette
+ * Plan auf Beobachtung. Sonst ist die Fortschreibung eine Annahme.
+ */
+function derivedStart(slot: CrunchyrollEntry): { date: string; assumed: boolean } | undefined {
+  if (!slot.earliest?.date) return undefined
+  const episode = slot.earliest.episode ?? 1
+  const offset = Math.max(0, episode - 1)
+  return {
+    date: addDays(slot.earliest.date, -7 * offset),
+    assumed: offset > 0 || !slot.weeklyConfirmed,
   }
 }
 
@@ -242,6 +263,8 @@ function main(): void {
   const releases: Release[] = []
   const seenSlugs = new Set<string>()
   const usedCrKeys = new Set<string>()
+  // Kuratierte Termine, die der Crunchyroll-Kalender nicht bestätigt.
+  const unverified: string[] = []
 
   for (const entry of curated) {
     if (seenSlugs.has(entry.slug)) {
@@ -284,18 +307,43 @@ function main(): void {
     const fsk = entry.fsk ?? info?.fsk ?? title?.fsk
     const platformUrl = pickPlatformUrl(entry, title)
 
-    // Belegte Sendezeit aus dem Crunchyroll-Kalender einsetzen. Sie ersetzt
-    // eine geschätzte Angabe, weil sie direkt vom Anbieter kommt.
+    // Angaben aus dem Crunchyroll-Kalender einsetzen. Sie kommen direkt vom
+    // Anbieter und schlagen deshalb jede abgeleitete Angabe.
     const sources = [...(entry.sources ?? [])]
-    if (entry.platform === 'crunchyroll' && !entry.schedule.time) {
+    if (entry.platform === 'crunchyroll') {
       const slot = findCrunchyroll(platformUrl, entry.titleDe ?? name)
       if (slot) {
         usedCrKeys.add(normalizeTitle(slot.rawTitle))
-        schedule.time = slot.time
-        const startsOnSlotWeekday =
-          weekdayIndex(schedule.firstEpisodeDate) === slot.weekday || slot.dates.includes(schedule.firstEpisodeDate)
-        if (startsOnSlotWeekday && slot.weeklyConfirmed) delete schedule.estimated
+        if (!entry.schedule.time) schedule.time = slot.time
+
+        // Der wichtigste Teil: Die deutsche Synchro startet oft Wochen NACH
+        // dem Simulcast. Die kuratierten Daten stammen aus Saisonübersichten
+        // und nennen nur den Simulcast-Start — real gemessen bis zu drei
+        // Wochen zu früh (08.08.2026 vom Nutzer gemeldet: „Though I Am an
+        // Inept Villainess" stand auf dem 12.07., Folge 1 lief am 02.08.).
+        // Ist der Termin nur abgeleitet, gewinnt der beobachtete Sendeplan.
+        const observed = derivedStart(slot)
+        if (observed && entry.schedule.estimated) {
+          schedule.firstEpisodeDate = observed.date
+          schedule.estimated = observed.assumed
+          if (!observed.assumed) delete schedule.estimated
+        }
         sources.push(CR_CALENDAR_URL)
+      } else if (
+        entry.schedule.estimated &&
+        crunchyroll.window &&
+        schedule.firstEpisodeDate >= crunchyroll.window.from &&
+        schedule.firstEpisodeDate <= crunchyroll.window.to
+      ) {
+        // Der behauptete Start liegt mitten im abgesuchten Zeitraum, und der
+        // Kalender führt dort keine deutsche Folge. Dann gibt es die Synchro
+        // (noch) nicht — ein erfundener Sendeplan wäre schlimmer als gar keiner.
+        warn(
+          `"${entry.slug}": kein deutscher Eintrag bei Crunchyroll im Zeitraum ` +
+            `${crunchyroll.window.from}…${crunchyroll.window.to}, Start ${schedule.firstEpisodeDate} verworfen`,
+        )
+        unverified.push(entry.slug)
+        continue
       }
     }
 
@@ -335,8 +383,9 @@ function main(): void {
     if (seenSlugs.has(slug)) continue
     seenSlugs.add(slug)
 
-    const episodeOffset = (slot.earliest.episode ?? 1) - 1
-    const firstEpisodeDate = addDays(slot.earliest.date, -7 * episodeOffset)
+    const derived = derivedStart(slot)
+    if (!derived) continue
+    const firstEpisodeDate = derived.date
     const name = slot.rawTitle.replace(/\s*\(Deutsch\)\s*$/i, '').trim()
     const releaseYear = Number(firstEpisodeDate.slice(0, 4))
 
@@ -362,7 +411,7 @@ function main(): void {
         episodeCountAssumed,
         // Uhrzeit und Wochentag sind belegt; nur der zurückgerechnete Start
         // bleibt eine Annahme, solange die Wochentaktung nicht bestätigt ist.
-        estimated: !slot.weeklyConfirmed || episodeOffset > 0,
+        estimated: derived.assumed,
       },
       year: releaseYear,
       sources: [CR_CALENDAR_URL],
@@ -370,6 +419,7 @@ function main(): void {
     autoAdded++
   }
   log(`${autoAdded} Simuldubs automatisch aus dem Crunchyroll-Kalender ergänzt`)
+  if (unverified.length) log(`${unverified.length} kuratierte Termine verworfen (unbestätigt): ${unverified.join(', ')}`)
 
   // --- Synchro-Verfügbarkeit je Plattform ------------------------------------
   // Ein Stream-Link allein sagt nichts über die Sprache. Belegt ist die Synchro

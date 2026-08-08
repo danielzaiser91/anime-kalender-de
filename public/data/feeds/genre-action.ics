@@ -641,36 +641,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:saga-of-tanya-the-evil-s2@2026-07-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260708T133000Z
-DTEND:20260708T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 1/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:trapped-in-a-dating-sim-s2@2026-07-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260708T153000Z
-DTEND:20260708T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 1/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:tomb-raider-king@2026-07-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260708T172000Z
-DTEND:20260708T175000Z
-SUMMARY:Tomb Raider King – Folge 1/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/tomb-raider-king
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-G24H1NWKE@2026-07-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260708T193000Z
@@ -767,36 +737,6 @@ DTEND:20260715T123000Z
 SUMMARY:Clevatess – Staffel 2 – Folge 2/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/clevatess-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:saga-of-tanya-the-evil-s2@2026-07-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260715T133000Z
-DTEND:20260715T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 2/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:trapped-in-a-dating-sim-s2@2026-07-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260715T153000Z
-DTEND:20260715T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 2/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:tomb-raider-king@2026-07-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260715T172000Z
-DTEND:20260715T175000Z
-SUMMARY:Tomb Raider King – Folge 2/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -899,36 +839,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:saga-of-tanya-the-evil-s2@2026-07-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260722T133000Z
-DTEND:20260722T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 3/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:trapped-in-a-dating-sim-s2@2026-07-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260722T153000Z
-DTEND:20260722T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 3/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:tomb-raider-king@2026-07-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260722T172000Z
-DTEND:20260722T175000Z
-SUMMARY:Tomb Raider King – Folge 3/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/tomb-raider-king
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:vom-landei-zum-schwertheiligen-2@2026-07-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260722
@@ -1010,7 +920,7 @@ UID:saga-of-tanya-the-evil-s2@2026-07-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260729T133000Z
 DTEND:20260729T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 4/12
+SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 1/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
 CATEGORIES:Crunchyroll
@@ -1020,7 +930,7 @@ UID:trapped-in-a-dating-sim-s2@2026-07-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260729T153000Z
 DTEND:20260729T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 4/12
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 1/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
 CATEGORIES:Crunchyroll
@@ -1030,7 +940,7 @@ UID:tomb-raider-king@2026-07-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260729T172000Z
 DTEND:20260729T175000Z
-SUMMARY:Tomb Raider King – Folge 4/12
+SUMMARY:Tomb Raider King – Folge 1/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
@@ -1117,7 +1027,7 @@ UID:saga-of-tanya-the-evil-s2@2026-08-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260805T133000Z
 DTEND:20260805T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 5/12
+SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 2/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
 CATEGORIES:Crunchyroll
@@ -1127,7 +1037,7 @@ UID:trapped-in-a-dating-sim-s2@2026-08-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260805T153000Z
 DTEND:20260805T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 5/12
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 2/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
 CATEGORIES:Crunchyroll
@@ -1137,7 +1047,7 @@ UID:tomb-raider-king@2026-08-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260805T172000Z
 DTEND:20260805T175000Z
-SUMMARY:Tomb Raider King – Folge 5/12
+SUMMARY:Tomb Raider King – Folge 2/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
@@ -1334,7 +1244,7 @@ UID:saga-of-tanya-the-evil-s2@2026-08-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260812T133000Z
 DTEND:20260812T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 6/12
+SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 3/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
 CATEGORIES:Crunchyroll
@@ -1344,7 +1254,7 @@ UID:trapped-in-a-dating-sim-s2@2026-08-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260812T153000Z
 DTEND:20260812T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 6/12
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 3/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
 CATEGORIES:Crunchyroll
@@ -1354,7 +1264,7 @@ UID:tomb-raider-king@2026-08-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260812T172000Z
 DTEND:20260812T175000Z
-SUMMARY:Tomb Raider King – Folge 6/12
+SUMMARY:Tomb Raider King – Folge 3/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
@@ -1452,7 +1362,7 @@ UID:saga-of-tanya-the-evil-s2@2026-08-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260819T133000Z
 DTEND:20260819T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 7/12
+SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 4/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
 CATEGORIES:Crunchyroll
@@ -1462,7 +1372,7 @@ UID:trapped-in-a-dating-sim-s2@2026-08-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260819T153000Z
 DTEND:20260819T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 7/12
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 4/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
 CATEGORIES:Crunchyroll
@@ -1472,7 +1382,7 @@ UID:tomb-raider-king@2026-08-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260819T172000Z
 DTEND:20260819T175000Z
-SUMMARY:Tomb Raider King – Folge 7/12
+SUMMARY:Tomb Raider King – Folge 4/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
@@ -1613,7 +1523,7 @@ UID:saga-of-tanya-the-evil-s2@2026-08-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260826T133000Z
 DTEND:20260826T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 8/12
+SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 5/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
 CATEGORIES:Crunchyroll
@@ -1623,7 +1533,7 @@ UID:trapped-in-a-dating-sim-s2@2026-08-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260826T153000Z
 DTEND:20260826T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 8/12
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 5/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
 CATEGORIES:Crunchyroll
@@ -1633,7 +1543,7 @@ UID:tomb-raider-king@2026-08-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260826T172000Z
 DTEND:20260826T175000Z
-SUMMARY:Tomb Raider King – Folge 8/12
+SUMMARY:Tomb Raider King – Folge 5/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
@@ -1741,7 +1651,7 @@ UID:saga-of-tanya-the-evil-s2@2026-09-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260902T133000Z
 DTEND:20260902T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 9/12
+SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 6/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
 CATEGORIES:Crunchyroll
@@ -1751,7 +1661,7 @@ UID:trapped-in-a-dating-sim-s2@2026-09-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260902T153000Z
 DTEND:20260902T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 9/12
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 6/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
 CATEGORIES:Crunchyroll
@@ -1761,7 +1671,7 @@ UID:tomb-raider-king@2026-09-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260902T172000Z
 DTEND:20260902T175000Z
-SUMMARY:Tomb Raider King – Folge 9/12
+SUMMARY:Tomb Raider King – Folge 6/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
@@ -1836,7 +1746,7 @@ UID:saga-of-tanya-the-evil-s2@2026-09-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260909T133000Z
 DTEND:20260909T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 10/12
+SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 7/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
 CATEGORIES:Crunchyroll
@@ -1846,7 +1756,7 @@ UID:trapped-in-a-dating-sim-s2@2026-09-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260909T153000Z
 DTEND:20260909T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 10/12
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 7/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
 CATEGORIES:Crunchyroll
@@ -1856,7 +1766,7 @@ UID:tomb-raider-king@2026-09-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260909T172000Z
 DTEND:20260909T175000Z
-SUMMARY:Tomb Raider King – Folge 10/12
+SUMMARY:Tomb Raider King – Folge 7/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
@@ -1931,7 +1841,7 @@ UID:saga-of-tanya-the-evil-s2@2026-09-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260916T133000Z
 DTEND:20260916T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 11/12
+SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 8/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
 CATEGORIES:Crunchyroll
@@ -1941,7 +1851,7 @@ UID:trapped-in-a-dating-sim-s2@2026-09-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260916T153000Z
 DTEND:20260916T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 11/12
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 8/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
 CATEGORIES:Crunchyroll
@@ -1951,7 +1861,7 @@ UID:tomb-raider-king@2026-09-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260916T172000Z
 DTEND:20260916T175000Z
-SUMMARY:Tomb Raider King – Folge 11/12
+SUMMARY:Tomb Raider King – Folge 8/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
@@ -2026,7 +1936,7 @@ UID:saga-of-tanya-the-evil-s2@2026-09-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260923T133000Z
 DTEND:20260923T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 12/12
+SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 9/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
 CATEGORIES:Crunchyroll
@@ -2036,7 +1946,7 @@ UID:trapped-in-a-dating-sim-s2@2026-09-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260923T153000Z
 DTEND:20260923T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 12/12
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 9/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
 CATEGORIES:Crunchyroll
@@ -2046,7 +1956,7 @@ UID:tomb-raider-king@2026-09-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260923T172000Z
 DTEND:20260923T175000Z
-SUMMARY:Tomb Raider King – Folge 12/12
+SUMMARY:Tomb Raider King – Folge 9/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
@@ -2085,6 +1995,36 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:saga-of-tanya-the-evil-s2@2026-09-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260930T133000Z
+DTEND:20260930T140000Z
+SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 10/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:trapped-in-a-dating-sim-s2@2026-09-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260930T153000Z
+DTEND:20260930T160000Z
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 10/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:tomb-raider-king@2026-09-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260930T172000Z
+DTEND:20260930T175000Z
+SUMMARY:Tomb Raider King – Folge 10/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/tomb-raider-king
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-G6NQ5DWZ6@2026-10-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261004T160000Z
@@ -2096,6 +2036,36 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:saga-of-tanya-the-evil-s2@2026-10-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261007T133000Z
+DTEND:20261007T140000Z
+SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 11/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:trapped-in-a-dating-sim-s2@2026-10-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261007T153000Z
+DTEND:20261007T160000Z
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 11/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:tomb-raider-king@2026-10-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261007T172000Z
+DTEND:20261007T175000Z
+SUMMARY:Tomb Raider King – Folge 11/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/tomb-raider-king
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-G6NQ5DWZ6@2026-10-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261011T160000Z
@@ -2104,6 +2074,36 @@ SUMMARY:My Hero Academia I am a hero too – Folge 11/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NQ5DWZ6
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:saga-of-tanya-the-evil-s2@2026-10-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261014T133000Z
+DTEND:20261014T140000Z
+SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 12/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:trapped-in-a-dating-sim-s2@2026-10-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261014T153000Z
+DTEND:20261014T160000Z
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 12/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:tomb-raider-king@2026-10-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261014T172000Z
+DTEND:20261014T175000Z
+SUMMARY:Tomb Raider King – Folge 12/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT

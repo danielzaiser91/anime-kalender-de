@@ -33,6 +33,8 @@ export interface CrunchyrollEntry {
 
 export interface CrunchyrollData {
   scrapedAt: string
+  /** Zeitraum, den der letzte Lauf tatsaechlich abgedeckt hat. */
+  window?: { from: string; to: string }
   german: Record<string, CrunchyrollEntry>
   slots: CrunchyrollSlot[]
 }

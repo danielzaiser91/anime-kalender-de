@@ -115,12 +115,14 @@ async function main(): Promise<void> {
   const browser = await chromium.launch({ headless: !HEADED })
   const today = todayIso()
   const slots: CrunchyrollSlot[] = []
+  const weekStarts: string[] = []
 
   try {
     // Rückblick statt Vorschau: künftige Wochen stehen oft noch auf
     // „Zeitplan kommt bald", vergangene tragen die tatsächliche Uhrzeit.
     for (let i = WEEKS - 2; i >= -1; i--) {
       const weekStart = startOfWeek(addDays(today, -7 * i))
+      weekStarts.push(weekStart)
       const found = await scrapeWeek(browser, weekStart)
       log(`Crunchyroll ${weekStart}: ${found.length} Einträge, davon ${found.filter((f) => f.german).length} deutsch`)
       slots.push(...found)
@@ -196,7 +198,13 @@ async function main(): Promise<void> {
 
   writeJson(
     'data/crunchyroll.json',
-    { scrapedAt: new Date().toISOString(), german: merged, slots: slots.filter((s) => s.german) },
+    {
+      scrapedAt: new Date().toISOString(),
+      // Nur innerhalb dieses Fensters ist ein Fehlen aussagekräftig.
+      window: { from: weekStarts[0], to: addDays(weekStarts[weekStarts.length - 1], 6) },
+      german: merged,
+      slots: slots.filter((s) => s.german),
+    },
     true,
   )
   log(`${Object.keys(merged).length} Titel mit belegter deutscher Sendezeit gespeichert.`)

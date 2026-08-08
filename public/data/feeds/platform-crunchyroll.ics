@@ -1830,16 +1830,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:hana-kimi-s2@2026-07-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260701T160000Z
-DTEND:20260701T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 1/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/hana-kimi-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-G24H1NWKE@2026-07-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260701T193000Z
@@ -1972,29 +1962,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-07-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260705
-DTEND;VALUE=DATE:20260706
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 1/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-07-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260705
-DTEND;VALUE=DATE:20260706
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 1/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/you-and-i-are-polar-o
- pposites-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00371857@2026-07-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260707T143000Z
@@ -2050,16 +2017,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:saga-of-tanya-the-evil-s2@2026-07-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260708T133000Z
-DTEND:20260708T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 1/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GVDHX8504@2026-07-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260708T140000Z
@@ -2069,36 +2026,6 @@ SUMMARY:Reborn as a Vending Machine\, I Now Wander the Dungeon Season 3 – F
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GVDHX8504
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:trapped-in-a-dating-sim-s2@2026-07-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260708T153000Z
-DTEND:20260708T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 1/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:hana-kimi-s2@2026-07-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260708T160000Z
-DTEND:20260708T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 2/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/hana-kimi-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:tomb-raider-king@2026-07-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260708T172000Z
-DTEND:20260708T175000Z
-SUMMARY:Tomb Raider King – Folge 1/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -2234,40 +2161,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:though-i-am-an-inept-villainess@2026-07-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260712T154500Z
-DTEND:20260712T161500Z
-SUMMARY:Though I Am an Inept Villainess – Folge 1/11
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/though-i-am-an-inept-villainess
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-07-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260712
-DTEND;VALUE=DATE:20260713
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 2/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-07-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260712
-DTEND;VALUE=DATE:20260713
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 2/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/you-and-i-are-polar-o
- pposites-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00371857@2026-07-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260714T143000Z
@@ -2323,16 +2216,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:saga-of-tanya-the-evil-s2@2026-07-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260715T133000Z
-DTEND:20260715T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 2/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GVDHX8504@2026-07-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260715T140000Z
@@ -2345,33 +2228,14 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:trapped-in-a-dating-sim-s2@2026-07-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260715T153000Z
-DTEND:20260715T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 2/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:hana-kimi-s2@2026-07-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260715T160000Z
 DTEND:20260715T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 3/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/hana-kimi-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:tomb-raider-king@2026-07-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260715T172000Z
-DTEND:20260715T175000Z
-SUMMARY:Tomb Raider King – Folge 2/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/tomb-raider-king
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 1/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/hana-kimi-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -2496,40 +2360,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:though-i-am-an-inept-villainess@2026-07-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260719T154500Z
-DTEND:20260719T161500Z
-SUMMARY:Though I Am an Inept Villainess – Folge 2/11
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/though-i-am-an-inept-villainess
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-07-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260719
-DTEND;VALUE=DATE:20260720
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 3/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-07-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260719
-DTEND;VALUE=DATE:20260720
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 3/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/you-and-i-are-polar-o
- pposites-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00371857@2026-07-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260721T143000Z
@@ -2585,43 +2415,14 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:saga-of-tanya-the-evil-s2@2026-07-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260722T133000Z
-DTEND:20260722T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 3/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:trapped-in-a-dating-sim-s2@2026-07-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260722T153000Z
-DTEND:20260722T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 3/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:hana-kimi-s2@2026-07-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260722T160000Z
 DTEND:20260722T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 4/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/hana-kimi-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:tomb-raider-king@2026-07-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260722T172000Z
-DTEND:20260722T175000Z
-SUMMARY:Tomb Raider King – Folge 3/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/tomb-raider-king
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 2/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/hana-kimi-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -2724,40 +2525,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:though-i-am-an-inept-villainess@2026-07-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260726T154500Z
-DTEND:20260726T161500Z
-SUMMARY:Though I Am an Inept Villainess – Folge 3/11
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/though-i-am-an-inept-villainess
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-07-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260726
-DTEND;VALUE=DATE:20260727
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 4/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-07-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260726
-DTEND;VALUE=DATE:20260727
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 4/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/you-and-i-are-polar-o
- pposites-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GY4PD7Z06@2026-07-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260728T213000Z
@@ -2795,7 +2562,7 @@ UID:saga-of-tanya-the-evil-s2@2026-07-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260729T133000Z
 DTEND:20260729T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 4/12
+SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 1/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
 CATEGORIES:Crunchyroll
@@ -2805,7 +2572,7 @@ UID:trapped-in-a-dating-sim-s2@2026-07-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260729T153000Z
 DTEND:20260729T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 4/12
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 1/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
 CATEGORIES:Crunchyroll
@@ -2815,9 +2582,10 @@ UID:hana-kimi-s2@2026-07-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260729T160000Z
 DTEND:20260729T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 5/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/hana-kimi-s2
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 3/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/hana-kimi-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -2825,7 +2593,7 @@ UID:tomb-raider-king@2026-07-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260729T172000Z
 DTEND:20260729T175000Z
-SUMMARY:Tomb Raider King – Folge 4/12
+SUMMARY:Tomb Raider King – Folge 1/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
@@ -2923,7 +2691,7 @@ UID:though-i-am-an-inept-villainess@2026-08-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260802T154500Z
 DTEND:20260802T161500Z
-SUMMARY:Though I Am an Inept Villainess – Folge 4/11
+SUMMARY:Though I Am an Inept Villainess – Folge 1/11
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/though-i-am-an-inept-villainess
@@ -2938,29 +2706,6 @@ SUMMARY:My Hero Academia I am a hero too – Folge 1/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NQ5DWZ6
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-08-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260802
-DTEND;VALUE=DATE:20260803
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 5/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-08-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260802
-DTEND;VALUE=DATE:20260803
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 5/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/you-and-i-are-polar-o
- pposites-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -3001,7 +2746,7 @@ UID:saga-of-tanya-the-evil-s2@2026-08-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260805T133000Z
 DTEND:20260805T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 5/12
+SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 2/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
 CATEGORIES:Crunchyroll
@@ -3011,7 +2756,7 @@ UID:trapped-in-a-dating-sim-s2@2026-08-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260805T153000Z
 DTEND:20260805T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 5/12
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 2/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
 CATEGORIES:Crunchyroll
@@ -3021,9 +2766,10 @@ UID:hana-kimi-s2@2026-08-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260805T160000Z
 DTEND:20260805T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 6/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/hana-kimi-s2
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 4/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/hana-kimi-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -3031,7 +2777,7 @@ UID:tomb-raider-king@2026-08-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260805T172000Z
 DTEND:20260805T175000Z
-SUMMARY:Tomb Raider King – Folge 5/12
+SUMMARY:Tomb Raider King – Folge 2/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
@@ -3118,7 +2864,7 @@ UID:though-i-am-an-inept-villainess@2026-08-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260809T154500Z
 DTEND:20260809T161500Z
-SUMMARY:Though I Am an Inept Villainess – Folge 5/11
+SUMMARY:Though I Am an Inept Villainess – Folge 2/11
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/though-i-am-an-inept-villainess
@@ -3133,29 +2879,6 @@ SUMMARY:My Hero Academia I am a hero too – Folge 2/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NQ5DWZ6
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-08-09@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260809
-DTEND;VALUE=DATE:20260810
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 6/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-08-09@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260809
-DTEND;VALUE=DATE:20260810
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 6/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/you-and-i-are-polar-o
- pposites-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -3184,7 +2907,7 @@ UID:saga-of-tanya-the-evil-s2@2026-08-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260812T133000Z
 DTEND:20260812T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 6/12
+SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 3/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
 CATEGORIES:Crunchyroll
@@ -3194,7 +2917,7 @@ UID:trapped-in-a-dating-sim-s2@2026-08-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260812T153000Z
 DTEND:20260812T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 6/12
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 3/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
 CATEGORIES:Crunchyroll
@@ -3204,9 +2927,10 @@ UID:hana-kimi-s2@2026-08-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260812T160000Z
 DTEND:20260812T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 7/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/hana-kimi-s2
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 5/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/hana-kimi-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -3214,7 +2938,7 @@ UID:tomb-raider-king@2026-08-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260812T172000Z
 DTEND:20260812T175000Z
-SUMMARY:Tomb Raider King – Folge 6/12
+SUMMARY:Tomb Raider King – Folge 3/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
@@ -3267,7 +2991,7 @@ UID:though-i-am-an-inept-villainess@2026-08-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260816T154500Z
 DTEND:20260816T161500Z
-SUMMARY:Though I Am an Inept Villainess – Folge 6/11
+SUMMARY:Though I Am an Inept Villainess – Folge 3/11
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/though-i-am-an-inept-villainess
@@ -3282,29 +3006,6 @@ SUMMARY:My Hero Academia I am a hero too – Folge 3/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NQ5DWZ6
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-08-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260816
-DTEND;VALUE=DATE:20260817
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 7/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-08-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260816
-DTEND;VALUE=DATE:20260817
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 7/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/you-and-i-are-polar-o
- pposites-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -3333,7 +3034,7 @@ UID:saga-of-tanya-the-evil-s2@2026-08-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260819T133000Z
 DTEND:20260819T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 7/12
+SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 4/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
 CATEGORIES:Crunchyroll
@@ -3343,7 +3044,7 @@ UID:trapped-in-a-dating-sim-s2@2026-08-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260819T153000Z
 DTEND:20260819T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 7/12
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 4/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
 CATEGORIES:Crunchyroll
@@ -3353,9 +3054,10 @@ UID:hana-kimi-s2@2026-08-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260819T160000Z
 DTEND:20260819T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 8/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/hana-kimi-s2
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 6/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/hana-kimi-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -3363,7 +3065,7 @@ UID:tomb-raider-king@2026-08-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260819T172000Z
 DTEND:20260819T175000Z
-SUMMARY:Tomb Raider King – Folge 7/12
+SUMMARY:Tomb Raider King – Folge 4/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
@@ -3404,7 +3106,7 @@ UID:though-i-am-an-inept-villainess@2026-08-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260823T154500Z
 DTEND:20260823T161500Z
-SUMMARY:Though I Am an Inept Villainess – Folge 7/11
+SUMMARY:Though I Am an Inept Villainess – Folge 4/11
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/though-i-am-an-inept-villainess
@@ -3419,29 +3121,6 @@ SUMMARY:My Hero Academia I am a hero too – Folge 4/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NQ5DWZ6
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-08-23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260823
-DTEND;VALUE=DATE:20260824
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 8/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-08-23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260823
-DTEND;VALUE=DATE:20260824
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 8/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/you-and-i-are-polar-o
- pposites-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -3470,7 +3149,7 @@ UID:saga-of-tanya-the-evil-s2@2026-08-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260826T133000Z
 DTEND:20260826T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 8/12
+SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 5/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
 CATEGORIES:Crunchyroll
@@ -3480,7 +3159,7 @@ UID:trapped-in-a-dating-sim-s2@2026-08-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260826T153000Z
 DTEND:20260826T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 8/12
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 5/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
 CATEGORIES:Crunchyroll
@@ -3490,9 +3169,10 @@ UID:hana-kimi-s2@2026-08-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260826T160000Z
 DTEND:20260826T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 9/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/hana-kimi-s2
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 7/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/hana-kimi-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -3500,7 +3180,7 @@ UID:tomb-raider-king@2026-08-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260826T172000Z
 DTEND:20260826T175000Z
-SUMMARY:Tomb Raider King – Folge 8/12
+SUMMARY:Tomb Raider King – Folge 5/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
@@ -3541,7 +3221,7 @@ UID:though-i-am-an-inept-villainess@2026-08-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260830T154500Z
 DTEND:20260830T161500Z
-SUMMARY:Though I Am an Inept Villainess – Folge 8/11
+SUMMARY:Though I Am an Inept Villainess – Folge 5/11
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/though-i-am-an-inept-villainess
@@ -3556,29 +3236,6 @@ SUMMARY:My Hero Academia I am a hero too – Folge 5/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NQ5DWZ6
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-08-30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260830
-DTEND;VALUE=DATE:20260831
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 9/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-08-30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260830
-DTEND;VALUE=DATE:20260831
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 9/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/you-and-i-are-polar-o
- pposites-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -3607,7 +3264,7 @@ UID:saga-of-tanya-the-evil-s2@2026-09-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260902T133000Z
 DTEND:20260902T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 9/12
+SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 6/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
 CATEGORIES:Crunchyroll
@@ -3617,7 +3274,7 @@ UID:trapped-in-a-dating-sim-s2@2026-09-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260902T153000Z
 DTEND:20260902T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 9/12
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 6/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
 CATEGORIES:Crunchyroll
@@ -3627,9 +3284,10 @@ UID:hana-kimi-s2@2026-09-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260902T160000Z
 DTEND:20260902T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 10/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/hana-kimi-s2
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 8/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/hana-kimi-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -3637,7 +3295,7 @@ UID:tomb-raider-king@2026-09-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260902T172000Z
 DTEND:20260902T175000Z
-SUMMARY:Tomb Raider King – Folge 9/12
+SUMMARY:Tomb Raider King – Folge 6/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
@@ -3678,7 +3336,7 @@ UID:though-i-am-an-inept-villainess@2026-09-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260906T154500Z
 DTEND:20260906T161500Z
-SUMMARY:Though I Am an Inept Villainess – Folge 9/11
+SUMMARY:Though I Am an Inept Villainess – Folge 6/11
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/though-i-am-an-inept-villainess
@@ -3693,29 +3351,6 @@ SUMMARY:My Hero Academia I am a hero too – Folge 6/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NQ5DWZ6
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-09-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260906
-DTEND;VALUE=DATE:20260907
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 10/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-09-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260906
-DTEND;VALUE=DATE:20260907
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 10/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/you-and-i-are-polar-o
- pposites-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -3744,7 +3379,7 @@ UID:saga-of-tanya-the-evil-s2@2026-09-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260909T133000Z
 DTEND:20260909T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 10/12
+SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 7/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
 CATEGORIES:Crunchyroll
@@ -3754,7 +3389,7 @@ UID:trapped-in-a-dating-sim-s2@2026-09-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260909T153000Z
 DTEND:20260909T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 10/12
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 7/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
 CATEGORIES:Crunchyroll
@@ -3764,9 +3399,10 @@ UID:hana-kimi-s2@2026-09-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260909T160000Z
 DTEND:20260909T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 11/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/hana-kimi-s2
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 9/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/hana-kimi-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -3774,7 +3410,7 @@ UID:tomb-raider-king@2026-09-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260909T172000Z
 DTEND:20260909T175000Z
-SUMMARY:Tomb Raider King – Folge 10/12
+SUMMARY:Tomb Raider King – Folge 7/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
@@ -3815,7 +3451,7 @@ UID:though-i-am-an-inept-villainess@2026-09-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260913T154500Z
 DTEND:20260913T161500Z
-SUMMARY:Though I Am an Inept Villainess – Folge 10/11
+SUMMARY:Though I Am an Inept Villainess – Folge 7/11
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/though-i-am-an-inept-villainess
@@ -3830,29 +3466,6 @@ SUMMARY:My Hero Academia I am a hero too – Folge 7/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NQ5DWZ6
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-09-13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260913
-DTEND;VALUE=DATE:20260914
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 11/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-09-13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260913
-DTEND;VALUE=DATE:20260914
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 11/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/you-and-i-are-polar-o
- pposites-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -3881,7 +3494,7 @@ UID:saga-of-tanya-the-evil-s2@2026-09-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260916T133000Z
 DTEND:20260916T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 11/12
+SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 8/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
 CATEGORIES:Crunchyroll
@@ -3891,7 +3504,7 @@ UID:trapped-in-a-dating-sim-s2@2026-09-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260916T153000Z
 DTEND:20260916T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 11/12
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 8/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
 CATEGORIES:Crunchyroll
@@ -3901,9 +3514,10 @@ UID:hana-kimi-s2@2026-09-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260916T160000Z
 DTEND:20260916T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 12/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/hana-kimi-s2
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 10/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/hana-kimi-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -3911,7 +3525,7 @@ UID:tomb-raider-king@2026-09-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260916T172000Z
 DTEND:20260916T175000Z
-SUMMARY:Tomb Raider King – Folge 11/12
+SUMMARY:Tomb Raider King – Folge 8/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
@@ -3952,7 +3566,7 @@ UID:though-i-am-an-inept-villainess@2026-09-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260920T154500Z
 DTEND:20260920T161500Z
-SUMMARY:Though I Am an Inept Villainess – Folge 11/11
+SUMMARY:Though I Am an Inept Villainess – Folge 8/11
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/though-i-am-an-inept-villainess
@@ -3970,29 +3584,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-09-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260920
-DTEND;VALUE=DATE:20260921
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 12/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-09-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260920
-DTEND;VALUE=DATE:20260921
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 12/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/you-and-i-are-polar-o
- pposites-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:clevatess-s2@2026-09-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260923T120000Z
@@ -4007,7 +3598,7 @@ UID:saga-of-tanya-the-evil-s2@2026-09-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260923T133000Z
 DTEND:20260923T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 12/12
+SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 9/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
 CATEGORIES:Crunchyroll
@@ -4017,7 +3608,7 @@ UID:trapped-in-a-dating-sim-s2@2026-09-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260923T153000Z
 DTEND:20260923T160000Z
-SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 12/12
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 9/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
 CATEGORIES:Crunchyroll
@@ -4027,9 +3618,10 @@ UID:hana-kimi-s2@2026-09-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260923T160000Z
 DTEND:20260923T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 13/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/hana-kimi-s2
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 11/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/hana-kimi-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -4037,7 +3629,7 @@ UID:tomb-raider-king@2026-09-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260923T172000Z
 DTEND:20260923T175000Z
-SUMMARY:Tomb Raider King – Folge 12/12
+SUMMARY:Tomb Raider King – Folge 9/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
@@ -4054,6 +3646,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:though-i-am-an-inept-villainess@2026-09-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260927T154500Z
+DTEND:20260927T161500Z
+SUMMARY:Though I Am an Inept Villainess – Folge 9/11
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/though-i-am-an-inept-villainess
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-G6NQ5DWZ6@2026-09-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260927T160000Z
@@ -4065,29 +3668,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-09-27@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260927
-DTEND;VALUE=DATE:20260928
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 13/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-09-27@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260927
-DTEND;VALUE=DATE:20260928
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 13/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/you-and-i-are-polar-o
- pposites-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:clevatess-s2@2026-09-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260930T120000Z
@@ -4095,6 +3675,47 @@ DTEND:20260930T123000Z
 SUMMARY:Clevatess – Staffel 2 – Folge 13/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/clevatess-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:saga-of-tanya-the-evil-s2@2026-09-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260930T133000Z
+DTEND:20260930T140000Z
+SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 10/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:trapped-in-a-dating-sim-s2@2026-09-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260930T153000Z
+DTEND:20260930T160000Z
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 10/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-09-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260930T160000Z
+DTEND:20260930T163000Z
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 12/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:tomb-raider-king@2026-09-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260930T172000Z
+DTEND:20260930T175000Z
+SUMMARY:Tomb Raider King – Folge 10/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -4109,6 +3730,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:though-i-am-an-inept-villainess@2026-10-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261004T154500Z
+DTEND:20261004T161500Z
+SUMMARY:Though I Am an Inept Villainess – Folge 10/11
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/though-i-am-an-inept-villainess
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-G6NQ5DWZ6@2026-10-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261004T160000Z
@@ -4120,14 +3752,44 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-10-04@anime-kalender-de
+UID:saga-of-tanya-the-evil-s2@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261004
-DTEND;VALUE=DATE:20261005
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 14/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
+DTSTART:20261007T133000Z
+DTEND:20261007T140000Z
+SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 11/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:trapped-in-a-dating-sim-s2@2026-10-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261007T153000Z
+DTEND:20261007T160000Z
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 11/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-10-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261007T160000Z
+DTEND:20261007T163000Z
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 13/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:tomb-raider-king@2026-10-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261007T172000Z
+DTEND:20261007T175000Z
+SUMMARY:Tomb Raider King – Folge 11/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -4142,6 +3804,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:though-i-am-an-inept-villainess@2026-10-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261011T154500Z
+DTEND:20261011T161500Z
+SUMMARY:Though I Am an Inept Villainess – Folge 11/11
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/though-i-am-an-inept-villainess
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-G6NQ5DWZ6@2026-10-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261011T160000Z
@@ -4150,6 +3823,36 @@ SUMMARY:My Hero Academia I am a hero too – Folge 11/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NQ5DWZ6
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:saga-of-tanya-the-evil-s2@2026-10-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261014T133000Z
+DTEND:20261014T140000Z
+SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 12/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:trapped-in-a-dating-sim-s2@2026-10-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261014T153000Z
+DTEND:20261014T160000Z
+SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 12/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:tomb-raider-king@2026-10-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261014T172000Z
+DTEND:20261014T175000Z
+SUMMARY:Tomb Raider King – Folge 12/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/tomb-raider-king
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
