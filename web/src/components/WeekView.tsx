@@ -104,13 +104,31 @@ export function WeekView({
     if (!el) return
     jumpedFor.current = monday
 
-    // Die Kopfleiste klebt oben und würde die Karte sonst verdecken.
-    const header = document.querySelector('header')
-    const offset = (header?.getBoundingClientRect().height ?? 0) + LEAD_PX
-    window.scrollTo({
-      top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - offset),
-      behavior: 'smooth',
-    })
+    const jump = () => {
+      // Die Kopfleiste klebt oben und würde die Karte sonst verdecken.
+      const header = document.querySelector('header')
+      const offset = (header?.getBoundingClientRect().height ?? 0) + LEAD_PX
+      window.scrollTo({
+        top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - offset),
+        // Wer Bewegung abgestellt hat, bekommt keine — und im versteckten Tab
+        // liefe eine weiche Bewegung ohnehin nicht.
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      })
+    }
+
+    // Im Hintergrund geöffnet? Dann läuft die weiche Bewegung nicht, und der
+    // Sprung ginge lautlos verloren — die Seite stünde beim Hinschauen oben.
+    // Also warten, bis wirklich jemand hinsieht.
+    if (document.hidden) {
+      const onVisible = () => {
+        if (document.hidden) return
+        document.removeEventListener('visibilitychange', onVisible)
+        jump()
+      }
+      document.addEventListener('visibilitychange', onVisible)
+      return () => document.removeEventListener('visibilitychange', onVisible)
+    }
+    jump()
   }, [days, monday, today, landingId])
 
   // Verlässt man die Woche mit heute, darf beim nächsten Besuch wieder
