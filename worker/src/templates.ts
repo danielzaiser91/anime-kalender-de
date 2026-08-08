@@ -120,6 +120,115 @@ export function digestMail(
   return { subject, html, text }
 }
 
+interface MonitorLine {
+  name: string
+  url: string
+  ok: boolean
+  reason?: string
+  ms: number
+  downSince?: string
+}
+
+/**
+ * Störungsmeldung. Kommt höchstens einmal am Tag, deshalb steht alles drin,
+ * was zur Einschätzung nötig ist — nachfragen kann man ihr nicht.
+ */
+export function outageMail(
+  down: MonitorLine[],
+  totalCount: number,
+  siteUrl: string,
+): { subject: string; html: string; text: string } {
+  const subject =
+    down.length === 1
+      ? `Nicht erreichbar: ${down[0].name}`
+      : `${down.length} von ${totalCount} Seiten nicht erreichbar`
+
+  const rows = down
+    .map(
+      (d) => `<tr><td style="padding:8px 0;border-top:1px solid #232c40;">
+        <strong style="color:#fff;">${escapeHtml(d.name)}</strong><br>
+        <span style="color:#f87171;font-size:13px;">${escapeHtml(d.reason ?? 'nicht erreichbar')}</span><br>
+        <span style="color:#7c879e;font-size:12px;">${escapeHtml(d.url)}${
+          d.downSince ? ` · zuletzt erreichbar ${escapeHtml(d.downSince)}` : ' · noch nie erreichbar gewesen'
+        }</span>
+      </td></tr>`,
+    )
+    .join('')
+
+  const html = SHELL(
+    subject,
+    `<p style="margin:0 0 8px;">Die Prüfung lief gerade und hat Folgendes gefunden:</p>
+     <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${rows}</table>
+     <p style="margin:20px 0 0;color:#9aa5bd;font-size:13px;">
+       ${totalCount - down.length} von ${totalCount} Seiten antworten normal.
+       Diese Meldung kommt höchstens einmal am Tag — bleibt eine Seite länger weg,
+       erfährst du es erst in der Wochenübersicht wieder.</p>`,
+    `Erreichbarkeitsprüfung · <a href="${siteUrl}" style="color:#7dd3fc;">Anime-Kalender DE</a>`,
+  )
+
+  const text =
+    `${subject}\n\n` +
+    down
+      .map(
+        (d) =>
+          `- ${d.name}: ${d.reason ?? 'nicht erreichbar'}\n  ${d.url}${
+            d.downSince ? `\n  zuletzt erreichbar: ${d.downSince}` : ''
+          }`,
+      )
+      .join('\n') +
+    `\n\n${totalCount - down.length} von ${totalCount} Seiten antworten normal.`
+
+  return { subject, html, text }
+}
+
+/**
+ * Wochenübersicht. Kommt auch, wenn alles läuft — genau das ist ihr Zweck:
+ * Sie beweist, dass die Überwachung selbst noch lebt. Ohne sie wäre Stille
+ * nicht von „alles in Ordnung" zu unterscheiden.
+ */
+export function weeklyStatusMail(
+  lines: MonitorLine[],
+  siteUrl: string,
+): { subject: string; html: string; text: string } {
+  const down = lines.filter((l) => !l.ok)
+  const subject =
+    down.length === 0
+      ? `Wochenübersicht: alle ${lines.length} Seiten laufen`
+      : `Wochenübersicht: ${down.length} von ${lines.length} Seiten gestört`
+
+  const rows = lines
+    .slice()
+    .sort((a, b) => Number(a.ok) - Number(b.ok) || a.name.localeCompare(b.name, 'de'))
+    .map(
+      (l) => `<tr>
+        <td style="padding:5px 8px 5px 0;border-top:1px solid #232c40;white-space:nowrap;color:${
+          l.ok ? '#34d399' : '#f87171'
+        };">${l.ok ? '●' : '▲'}</td>
+        <td style="padding:5px 0;border-top:1px solid #232c40;color:#d7dced;">${escapeHtml(l.name)}</td>
+        <td style="padding:5px 0;border-top:1px solid #232c40;text-align:right;color:#7c879e;font-size:13px;white-space:nowrap;">${
+          l.ok ? `${l.ms} ms` : escapeHtml(l.reason ?? 'weg')
+        }</td>
+      </tr>`,
+    )
+    .join('')
+
+  const html = SHELL(
+    subject,
+    `<p style="margin:0 0 8px;">Stand der letzten Prüfung:</p>
+     <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${rows}</table>
+     <p style="margin:18px 0 0;color:#7c879e;font-size:12px;">
+       Diese Mail kommt einmal die Woche, auch wenn alles läuft — daran erkennst du,
+       dass die Überwachung selbst noch arbeitet.</p>`,
+    `Erreichbarkeitsprüfung · <a href="${siteUrl}" style="color:#7dd3fc;">Anime-Kalender DE</a>`,
+  )
+
+  const text =
+    `${subject}\n\n` +
+    lines.map((l) => `${l.ok ? 'ok  ' : 'WEG '} ${l.name} — ${l.ok ? `${l.ms} ms` : (l.reason ?? '')}`).join('\n')
+
+  return { subject, html, text }
+}
+
 export function page(title: string, message: string, siteUrl: string): Response {
   const html = `<!doctype html><html lang="de"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(title)}</title></head>

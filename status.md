@@ -78,5 +78,9 @@ _(leer)_
   Anfang an abgeschaltet. Absender jetzt `kalender@send.anime-kalender.de`
 - ✅ Deutsche Handlungsbeschreibungen von TMDB für 1.453 von 2.751 Titeln, mit Jahres- und
   Titelabgleich gegen Fehlzuordnung; englischer Rückfall mit Hinweis. FSK für 942 Titel
+- ✅ **Erreichbarkeitsprüfung für 19 Seiten** im selben Worker: stündlich, höchstens eine
+  Störungsmail pro Tag, montags eine Wochenübersicht als Lebensnachweis. Liste per
+  Pages-Schnittstelle aus allen 32 Repos ermittelt statt aus READMEs. Der Dienst überwacht
+  sich bewusst **nicht** selbst
 - ✅ Prime-Video-Links laufen über amazon.de. Die ASIN ist **nicht** marktübergreifend gleich —
   das Umschreiben von `amazon.com` auf `amazon.de` führte zuverlässig auf eine Fehlerseite

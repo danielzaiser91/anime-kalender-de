@@ -140,6 +140,40 @@ curl "http://localhost:8787/__scheduled?cron=0+*+*+*+*"
 | `GET /confirm?token=…` | schaltet das Abo scharf |
 | `GET /unsubscribe?token=…` | löscht den Datensatz |
 | `GET /health` | Anzahl aktiver Abos |
+| `GET /status` | letzter Stand aller überwachten Seiten |
+| `GET /debug/digest?token=…` | Newsletter-Versand von Hand auslösen |
+| `GET /debug/monitor?token=…` | Erreichbarkeitsprüfung von Hand auslösen |
+
+## Erreichbarkeitsprüfung
+
+Derselbe stündliche Cron prüft alle gehosteten Seiten — die Liste steht in
+[`src/sites.ts`](src/sites.ts), eine Zeile je Seite.
+
+Warum hier und nicht bei einem der üblichen Dienste: Die melden sich **bei
+Zustandswechsel**. Flackert eine Seite, kommen Dutzende Mails. Gefordert war
+höchstens eine pro Tag — das ist hier eine Zeile Logik statt einer Einstellung,
+die es so nirgends gibt.
+
+Entscheidend ist der Ort: Cloudflare liegt **außerhalb** aller überwachten
+Hoster (GitHub Pages, Plesk, lima-city). Ein Wächter auf derselben
+Infrastruktur wie das Bewachte wäre wertlos.
+
+**Wann was verschickt wird**
+
+- **Störung**: höchstens **einmal am Tag**, mit allen betroffenen Seiten, dem
+  Grund und dem Zeitpunkt der letzten erfolgreichen Prüfung.
+- **Wochenübersicht**: montags, auch wenn alles läuft. Das ist keine Statistik,
+  sondern der Lebensnachweis des Wächters — bleibt sie aus, ist er tot. Aus
+  demselben Grund steht der Dienst **nicht** in seiner eigenen Prüfliste: Ein
+  Dienst, der sich selbst überwacht, schweigt genau dann, wenn er ausfällt.
+
+**Was geprüft wird** — nicht nur der Statuscode: Eine Seite, die brav 200 meldet
+und dabei einen leeren Rumpf liefert, gilt als kaputt (`minBytes`), ebenso eine,
+in der ein erwarteter Text fehlt (`expect`). Abgelaufene Zertifikate fallen als
+Verbindungsfehler auf; die Restlaufzeit im Voraus zu lesen, geht in einem Worker
+nicht.
+
+Neue Seite aufnehmen: Zeile in `src/sites.ts` ergänzen, `npm run deploy`.
 
 ## Wann verschickt wird
 

@@ -22,8 +22,25 @@ CREATE INDEX IF NOT EXISTS idx_subscribers_confirm ON subscribers (confirm_token
 CREATE INDEX IF NOT EXISTS idx_subscribers_unsub ON subscribers (unsub_token);
 
 -- Verhindert, dass ein Cron-Doppellauf zweimal dieselbe Mail schickt.
+-- Dient gleichzeitig als Sperre für die Benachrichtigungen der Überwachung:
+-- "alert:2026-08-08" bzw. "weekly:2026-W32".
 CREATE TABLE IF NOT EXISTS send_log (
   run_key    TEXT PRIMARY KEY,   -- z. B. "daily:2026-08-07"
   sent_at    TEXT NOT NULL,
   recipients INTEGER NOT NULL
+);
+
+-- Ergebnis der letzten Erreichbarkeitsprüfung je Seite.
+CREATE TABLE IF NOT EXISTS site_status (
+  url          TEXT PRIMARY KEY,
+  name         TEXT NOT NULL,
+  ok           INTEGER NOT NULL,
+  status       INTEGER NOT NULL,
+  ms           INTEGER NOT NULL,
+  reason       TEXT,
+  checked_at   TEXT NOT NULL,
+  -- Zeitpunkt der letzten erfolgreichen Prüfung: daraus ergibt sich, wie lange
+  -- eine Seite schon weg ist.
+  last_ok_at   TEXT,
+  fail_streak  INTEGER NOT NULL DEFAULT 0
 );

@@ -12,7 +12,8 @@
 import type { ReleaseEvent } from '../../shared/types.ts'
 import { addDays, weekdayIndex } from '../../shared/time.ts'
 import { sendMail, type MailEnv } from './mail.ts'
-import { confirmMail, digestMail, page } from './templates.ts'
+import { checkAllSites } from './monitor.ts'
+import { confirmMail, digestMail, outageMail, page, weeklyStatusMail } from './templates.ts'
 
 export interface Env extends MailEnv {
   DB: D1Database
@@ -23,6 +24,8 @@ export interface Env extends MailEnv {
   ALLOWED_ORIGIN: string
   /** Optional. Ist es gesetzt, lässt sich der Versand über /debug/digest auslösen. */
   DEBUG_TOKEN?: string
+  /** Empfänger der Überwachungsmeldungen. Fehlt sie, wird nur geprüft, nicht gemeldet. */
+  MONITOR_EMAIL?: string
 }
 
 interface SubscriberRow {
@@ -226,6 +229,122 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
   return log.join('; ')
 }
 
+/**
+ * Erreichbarkeitsprüfung mit gedeckelten Benachrichtigungen.
+ *
+ * Der Takt kommt vom stündlichen Cron. Gemeldet wird:
+ *   - höchstens **einmal am Tag**, wenn etwas nicht erreichbar ist
+ *   - **montags**, wenn `SEND_HOUR_BERLIN` erreicht ist, eine Wochenübersicht
+ *     — auch wenn alles läuft, als Lebensnachweis der Überwachung selbst
+ */
+export async function runMonitor(
+  env: Env,
+  now: Date,
+  force?: 'alert' | 'weekly',
+): Promise<string> {
+  const { hour, iso } = berlinParts(now)
+  const results = await checkAllSites()
+  const nowIso = now.toISOString()
+
+  // Vorherige Stände laden, um „seit wann weg" beantworten zu können.
+  const { results: previous } = await env.DB.prepare(
+    'SELECT url, last_ok_at, fail_streak FROM site_status',
+  ).all<{ url: string; last_ok_at: string | null; fail_streak: number }>()
+  const before = new Map((previous ?? []).map((row) => [row.url, row]))
+
+  const lines = results.map((r) => {
+    const old = before.get(r.site.url)
+    return {
+      name: r.site.name,
+      url: r.site.url,
+      ok: r.ok,
+      reason: r.reason,
+      ms: r.ms,
+      downSince: r.ok ? undefined : (old?.last_ok_at ?? undefined),
+    }
+  })
+
+  // Stände fortschreiben. Einzeln statt gebündelt, damit ein Fehler bei einer
+  // Zeile nicht die übrigen mitreißt.
+  for (const r of results) {
+    const old = before.get(r.site.url)
+    await env.DB.prepare(
+      `INSERT INTO site_status (url, name, ok, status, ms, reason, checked_at, last_ok_at, fail_streak)
+       VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)
+       ON CONFLICT(url) DO UPDATE SET
+         name = excluded.name, ok = excluded.ok, status = excluded.status, ms = excluded.ms,
+         reason = excluded.reason, checked_at = excluded.checked_at,
+         last_ok_at = excluded.last_ok_at, fail_streak = excluded.fail_streak`,
+    )
+      .bind(
+        r.site.url,
+        r.site.name,
+        r.ok ? 1 : 0,
+        r.status,
+        r.ms,
+        r.reason ?? null,
+        nowIso,
+        r.ok ? nowIso : (old?.last_ok_at ?? null),
+        r.ok ? 0 : (old?.fail_streak ?? 0) + 1,
+      )
+      .run()
+  }
+
+  const down = lines.filter((l) => !l.ok)
+  const to = env.MONITOR_EMAIL
+  if (!to) return `${down.length}/${lines.length} gestört — MONITOR_EMAIL nicht gesetzt, keine Mail`
+
+  const log: string[] = [`${down.length}/${lines.length} gestört`]
+
+  // --- Störungsmeldung, höchstens einmal am Tag ------------------------------
+  if (down.length > 0 || force === 'alert') {
+    const key = `alert:${iso}`
+    const already = force ? null : await env.DB.prepare('SELECT run_key FROM send_log WHERE run_key = ?1').bind(key).first()
+    if (already) {
+      log.push('Störungsmail heute bereits verschickt')
+    } else {
+      const mail = outageMail(down.length ? down : lines.slice(0, 1), lines.length, env.SITE_URL)
+      await sendMail(env, { to, ...mail })
+      if (!force) {
+        await env.DB.prepare(
+          'INSERT OR REPLACE INTO send_log (run_key, sent_at, recipients) VALUES (?1, ?2, 1)',
+        )
+          .bind(key, nowIso)
+          .run()
+      }
+      log.push('Störungsmail verschickt')
+    }
+  }
+
+  // --- Wochenübersicht, montags ---------------------------------------------
+  const sendHour = Number(env.SEND_HOUR_BERLIN || '7')
+  const isWeeklySlot = weekdayIndex(iso) === 0 && hour === sendHour
+  if (isWeeklySlot || force === 'weekly') {
+    // Kalenderwoche als Schlüssel: so kommt die Mail auch dann genau einmal,
+    // wenn der Cron in derselben Stunde mehrfach feuert.
+    const [y, m, d] = iso.split('-').map(Number)
+    const week = Math.floor((Date.UTC(y, m - 1, d) - Date.UTC(y, 0, 1)) / (7 * 86400000)) + 1
+    const key = `weekly-status:${y}-W${String(week).padStart(2, '0')}`
+    const already = force ? null : await env.DB.prepare('SELECT run_key FROM send_log WHERE run_key = ?1').bind(key).first()
+    if (already) {
+      log.push('Wochenübersicht diese Woche bereits verschickt')
+    } else {
+      const mail = weeklyStatusMail(lines, env.SITE_URL)
+      await sendMail(env, { to, ...mail })
+      if (!force) {
+        await env.DB.prepare(
+          'INSERT OR REPLACE INTO send_log (run_key, sent_at, recipients) VALUES (?1, ?2, 1)',
+        )
+          .bind(key, nowIso)
+          .run()
+      }
+      log.push('Wochenübersicht verschickt')
+    }
+  }
+
+  return log.join('; ')
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url)
@@ -257,6 +376,27 @@ export default {
           return json(env, { ok: false, error: (err as Error).message }, 500)
         }
       }
+      case '/debug/monitor': {
+        const token = url.searchParams.get('token') ?? ''
+        if (!env.DEBUG_TOKEN || token !== env.DEBUG_TOKEN) return json(env, { error: 'Nicht erlaubt' }, 403)
+        const mode = url.searchParams.get('mail')
+        try {
+          const result = await runMonitor(
+            env,
+            new Date(),
+            mode === 'alert' || mode === 'weekly' ? mode : undefined,
+          )
+          return json(env, { ok: true, result })
+        } catch (err) {
+          return json(env, { ok: false, error: (err as Error).message }, 500)
+        }
+      }
+      case '/status': {
+        const { results } = await env.DB.prepare(
+          'SELECT name, url, ok, status, ms, reason, checked_at, last_ok_at, fail_streak FROM site_status ORDER BY ok, name',
+        ).all()
+        return json(env, { sites: results ?? [] })
+      }
       case '/health': {
         const count = await env.DB.prepare(
           "SELECT COUNT(*) AS n FROM subscribers WHERE status = 'active'",
@@ -269,10 +409,18 @@ export default {
   },
 
   async scheduled(_event: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
+    const now = new Date()
+    // Beide Aufgaben getrennt halten: Fällt der Newsletter aus, soll die
+    // Überwachung trotzdem laufen — und umgekehrt.
     ctx.waitUntil(
-      runDigest(env, new Date())
+      runDigest(env, now)
         .then((msg) => console.log(`[digest] ${msg}`))
         .catch((err) => console.error('[digest] fehlgeschlagen', err)),
+    )
+    ctx.waitUntil(
+      runMonitor(env, now)
+        .then((msg) => console.log(`[monitor] ${msg}`))
+        .catch((err) => console.error('[monitor] fehlgeschlagen', err)),
     )
   },
 }

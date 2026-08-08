@@ -20,6 +20,8 @@ MAIL_PROVIDER = "resend"       # resend | brevo | console
 FROM_EMAIL = "kalender@send.anime-kalender.de"
 FROM_NAME = "Anime-Kalender DE"
 SEND_HOUR_BERLIN = "7"
+# Empfänger der Überwachungsmeldungen
+MONITOR_EMAIL = "danielzaiser91@googlemail.com"
 # Wird nach dem ersten Deploy mit der tatsächlichen Worker-Adresse gefüllt;
 # sie steckt in jedem Abmeldelink.
 WORKER_URL = "https://newsletter.animekalender.workers.dev"
