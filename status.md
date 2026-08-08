@@ -8,9 +8,8 @@ Stand: 08.08.2026 · Live: https://anime-kalender.de/
 _(leer)_
 
 ### Queue
-| Aufgabe | SP | Notiz |
-|---|---|---|
-| PWA für Mobilgeräte | 5 | Manifest, Icons, Service Worker; auf dem Handy Dialog „App installieren" oder „im Browser weiter", dazu ein dauerhafter Knopf |
+_(leer)_
+
 
 ### Später (nice to have)
 
@@ -42,6 +41,13 @@ _(leer)_
 
 ## Archiv
 
+- ✅ **Als App installierbar (PWA)**: Manifest, gezeichnete PNG-Symbole samt `maskable`-Fassung,
+  Service Worker mit drei Strategien (Seiten aus dem Netz zuerst, gehashte Bündel aus dem Cache,
+  Termine sofort aus dem Cache und im Hintergrund aufgefrischt). Auf dem Handy einmalig die Frage
+  „installieren oder im Browser weiter", danach der Knopf in der Kopfzeile; auf iOS die Anleitung
+  übers Teilen-Menü, weil Safari kein `beforeinstallprompt` kennt
+- ✅ **Mobil auf heute**: Der Blick landet beim nächsten anstehenden Termin, 30px Vorlauf, einmal
+  je Ankunft. Dazu zwei Farbfelder im heutigen Tag — vorbei grau, kommend blau
 - ✅ **Bei Google angemeldet**: `sitemap.xml` (122 Adressen) und `robots.txt` entstehen jetzt im
   Build aus dem Datenbestand. Domain-Property in der Search Console über einen TXT-Eintrag in der
   INWX-Zone bestätigt, Sitemap eingereicht — Status „Erfolgreich", 122 Seiten erkannt
