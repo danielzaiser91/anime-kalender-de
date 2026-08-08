@@ -10,6 +10,7 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
+| Google-Indexierung einrichten | 3 | `sitemap.xml` + `robots.txt` fehlen (beide 404), Search Console verifizieren, Sitemap einreichen |
 | Tracking-Absatz aus der Datenschutzerklärung nehmen | 1 | erst wenn der erste Versand über die eigene Domain bestätigt ist |
 
 ### Später (nice to have)
