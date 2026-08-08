@@ -32,6 +32,9 @@ _(leer)_
 
 ## Archiv
 
+- ✅ Teilbare Adresse ohne Umweg: sobald eine Karte offen ist, steht /r/<slug>/ in der
+  Adressleiste (replaceState, kein Neuladen) — kopieren genügt, der Teilen-Knopf ist nur Beiwerk
+
 - ✅ Newsletter-Mails verlinken: Titel → Teilen-Seite des Releases (mit Vorschaubild, springt in
   die Wochenansicht des Tages), Anbietername → Serie beim Streamingdienst bzw. Kaufseite
 - ✅ Unbelegte Crunchyroll-Termine verwerfen: liegt ein behaupteter Start im abgesuchten
