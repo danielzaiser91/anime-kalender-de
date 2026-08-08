@@ -19,7 +19,8 @@
     "data:adn": "tsx pipeline/fetch-adn.ts",
     "data:anime2you": "tsx pipeline/scrape-anime2you.ts",
     "data:check": "tsx pipeline/check-sources.ts",
-    "data:report": "tsx pipeline/report-proposals.ts"
+    "data:report": "tsx pipeline/report-proposals.ts",
+    "data:icons": "tsx pipeline/build-icons.ts"
   },
   "dependencies": {
     "react": "^19.1.0",

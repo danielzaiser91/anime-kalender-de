@@ -5,6 +5,7 @@ import { VIEWS, type ViewId } from '../lib/router.ts'
 import { addDays, addMonths, formatDateLong, monthName, startOfWeek, todayIso } from '@shared/time.ts'
 import { LANGUAGES, useLang, type TranslationKey } from '../lib/i18n.tsx'
 import { Flag } from './Flags.tsx'
+import { InstallButton } from './InstallPrompt.tsx'
 
 function ThemeToggle() {
   const { t } = useLang()
@@ -206,6 +207,7 @@ export function Header({
         )}
 
         <div className="ml-auto flex items-center gap-1">
+          <InstallButton />
           <button
             type="button"
             onClick={() => onView('abo')}

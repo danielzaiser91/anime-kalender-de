@@ -9,6 +9,7 @@ import { useRoute, type ViewId } from './lib/router.ts'
 import { useLang } from './lib/i18n.tsx'
 import { addDays, addMonths, todayIso } from '@shared/time.ts'
 import { Header, Legend } from './components/Header.tsx'
+import { InstallDialog } from './components/InstallPrompt.tsx'
 import { FilterBar } from './components/FilterBar.tsx'
 import { WeekView } from './components/WeekView.tsx'
 import { MonthView } from './components/MonthView.tsx'
@@ -201,6 +202,8 @@ export default function App() {
       </main>
 
       <Footer meta={data.meta} />
+
+      <InstallDialog />
 
       {openTitleId !== undefined && (
         <DetailPanel
