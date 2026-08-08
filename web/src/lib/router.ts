@@ -89,6 +89,31 @@ export function buildHash(route: AppRoute): string {
   return `#/${route.view}${query ? `?${query}` : ''}`
 }
 
+/**
+ * Hält den Pfad in der Adressleiste zur geöffneten Karte passend.
+ *
+ * Hintergrund: Diese App routet über den Hash, und alles hinter dem `#`
+ * bekommt kein Server und kein Crawler je zu sehen. Ein kopierter Link der
+ * Form `…/#/woche?r=black-torch` kann deshalb prinzipiell keine eigene
+ * Vorschau haben — WhatsApp, Discord und Co. fragen dafür `…/` ab und finden
+ * dort das Standardbild. Daran lässt sich server-seitig nichts ändern.
+ *
+ * Was sich ändern lässt: welche Adresse überhaupt in der Leiste steht. Zu
+ * jedem Release existiert unter `/r/<slug>/` eine vorgerenderte Seite mit
+ * eigenem Titel, Text und Bild. Sobald eine Karte offen ist, schreiben wir
+ * genau diesen Pfad in die Adresse — ohne Neuladen, die App läuft weiter.
+ * Wer die Adresse dann kopiert, teilt automatisch die Fassung mit Vorschau.
+ */
+function syncSharePath(release: string | undefined): void {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '')
+  const target = release ? `${base}/r/${encodeURIComponent(release)}/` : `${base}/`
+  if (window.location.pathname === target) return
+  // Nur innerhalb der eigenen Seite umschreiben. Läuft die App aus einem
+  // Unterverzeichnis, das nicht zum Muster passt, bleibt der Pfad unangetastet.
+  if (!window.location.pathname.startsWith(`${base}/`)) return
+  history.replaceState(history.state, '', target + window.location.search + window.location.hash)
+}
+
 export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void] {
   const [route, setRoute] = useState<AppRoute>(() => parseHash(window.location.hash))
 
@@ -97,6 +122,10 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void] {
     window.addEventListener('hashchange', onChange)
     return () => window.removeEventListener('hashchange', onChange)
   }, [])
+
+  useEffect(() => {
+    syncSharePath(route.release)
+  }, [route.release])
 
   const navigate = (next: Partial<AppRoute>) => {
     const merged: AppRoute = { ...route, ...next }
