@@ -37,13 +37,13 @@ herausgeholt, wenn der User es sagt.
 
 - ✅ **Ausschluss-Filter**: Umschalter über den Tags; im Modus „Ausschließen" macht ein Klick aus
   einem Tag ein Verbot statt einer Auswahl (roter, durchgestrichener Chip). Ausschluss schlägt
-  Einschluss, ein Wert kann nie beides sein. Steht in der Adresse als ,  usw.
+  Einschluss, ein Wert kann nie beides sein. Steht in der Adresse als `xg=`, `xkw=` usw.
 - ✅ **Titel ausblenden**: Auge neben dem Stern. Die Karte bleibt an ihrem Platz, zeigt aber nur
   den Namen — kein Bild, keine Tags, nicht anklickbar; auch das Detail-Panel bleibt zu.
   Verdeckt statt gefiltert, damit man sieht, dass da etwas ist
-- ✅ **Notbremse im Build**: Der stündliche Workflow hatte  ohne 
+- ✅ **Notbremse im Build**: Der stündliche Workflow hatte `data:build` ohne `data:fetch`
   aufgerufen und damit einen Datensatz mit null Titeln veröffentlicht. Der Build bricht jetzt ab,
-  wenn der Cache leer ist, und die drei Workflows teilen sich einen 
+  wenn der Cache leer ist, und die drei Workflows teilen sich einen `actions/cache`
 
 - ✅ Kuratierungsbericht abgearbeitet: 6 belegte Termine übernommen (Chihiro-Wiederaufführung,
   Yu-Gi-Oh-Komplettbox, Bocchi Vol. 1+2, Oshi no Ko S3 Vol. 1+2), 5 bestehende Termine mit einer
