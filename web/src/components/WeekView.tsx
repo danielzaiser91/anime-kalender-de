@@ -121,6 +121,25 @@ export function WeekView({
   /** Für welche Woche schon gesprungen wurde — verhindert erneutes Springen. */
   const jumpedFor = useRef<string | undefined>(undefined)
 
+  /**
+   * Beim Blättern in eine andere Woche sofort an den Anfang.
+   *
+   * Ohne das landet man nach dem Wechsel irgendwo in der Mitte des neuen
+   * Zeitraums — auf dem Handy sogar bei Donnerstag, weil die vorige Woche
+   * dort gerade so weit gescrollt war. Ohne Animation, weil das kein Weg
+   * ist, den man mitverfolgen will, sondern ein Zustandswechsel.
+   *
+   * Die Woche mit heute ist ausgenommen: Dort übernimmt der Sprung zur
+   * nächsten Folge, und beides gleichzeitig wäre ein Ruckeln.
+   */
+  const previousMonday = useRef(monday)
+  useEffect(() => {
+    if (previousMonday.current === monday) return
+    previousMonday.current = monday
+    if (days.some((d) => d.date === today)) return
+    window.scrollTo({ top: 0, behavior: 'auto' })
+  }, [monday, days, today])
+
   useEffect(() => {
     const showsToday = days.some((d) => d.date === today)
     if (!showsToday || !landingId) return

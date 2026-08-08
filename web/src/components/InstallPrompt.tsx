@@ -52,20 +52,26 @@ export function InstallDialog() {
   }
 
   return (
-    <>
-      <div className="fixed inset-0 z-40 bg-black/50 backdrop-blur-[2px]" onClick={close} aria-hidden="true" />
+    // Mittig statt am unteren Rand: Eine Leiste unten wird als Werbebanner
+    // gelesen und weggewischt. Der kräftige Hintergrund nimmt der Seite
+    // dahinter die Aufmerksamkeit — sonst wirkt die Frage wie eine Randnotiz.
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+      onClick={close}
+    >
       <div
         role="dialog"
         aria-modal="true"
         aria-label={t('pwa.title')}
-        className="animate-slide-in fixed inset-x-0 bottom-0 z-50 rounded-t-2xl border-t border-slate-200 bg-white p-5 shadow-2xl dark:border-white/10 dark:bg-[#0d1220]"
+        onClick={(e) => e.stopPropagation()}
+        className="animate-fade-in w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-5 shadow-2xl dark:border-white/10 dark:bg-[#0d1220]"
       >
-        <div className="mx-auto flex max-w-md flex-col gap-4">
-          <div className="flex items-start gap-3">
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col items-center gap-3 text-center">
             <AppMark />
             <div className="min-w-0">
               <p className="text-base font-semibold text-slate-900 dark:text-white">{t('pwa.title')}</p>
-              <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">{t('pwa.pitch')}</p>
+              <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{t('pwa.pitch')}</p>
             </div>
           </div>
 
@@ -76,7 +82,7 @@ export function InstallDialog() {
             </p>
           ) : null}
 
-          <div className="flex flex-col gap-2 sm:flex-row-reverse">
+          <div className="flex flex-col gap-2">
             {canPrompt && (
               <Button
                 variant="primary"
@@ -92,18 +98,50 @@ export function InstallDialog() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
-/** Dauerhafter Installations-Knopf für die Kopfzeile. */
+/**
+ * Installations-Knopf in der Kopfzeile — nur auf Geräten, die man in der Hand
+ * hält. Auf dem Desktop ist eine installierte Fensteranwendung selten das, was
+ * jemand von einem Kalender will, und der Knopf nähme nur Platz weg.
+ */
 export function InstallButton() {
   const { t } = useLang()
   const { canPrompt, install } = useInstall()
-  if (!canPrompt) return null
+  if (!canPrompt || !isHandheld()) return null
   return (
     <Button size="sm" onClick={() => void install()} title={t('pwa.pitch')}>
       ⬇ {t('pwa.install')}
     </Button>
+  )
+}
+
+/**
+ * Das Angebot im Seitenfuß — der ruhige Ort dafür.
+ *
+ * Wer die Frage einmal beantwortet hat, bekommt sie nie wieder als Popup.
+ * Weg ist die Möglichkeit damit aber nicht: Hier steht sie weiter, ohne sich
+ * aufzudrängen. Auch auf iOS, wo es keinen Knopf geben kann — dort erscheint
+ * die Anleitung.
+ */
+export function InstallFooterOffer() {
+  const { t } = useLang()
+  const { canPrompt, needsManual, install } = useInstall()
+  const [showHint, setShowHint] = useState(false)
+  if (!canPrompt && !needsManual) return null
+
+  return (
+    <span className="inline-flex flex-wrap items-center gap-2">
+      <button
+        type="button"
+        onClick={() => (canPrompt ? void install() : setShowHint((v) => !v))}
+        className="cursor-pointer underline underline-offset-2 hover:text-slate-700 dark:hover:text-slate-200"
+      >
+        ⬇ {t('pwa.install')}
+      </button>
+      {showHint && <span className="text-slate-500 dark:text-slate-400">{t('pwa.iosHint')}</span>}
+    </span>
   )
 }

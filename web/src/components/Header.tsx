@@ -136,27 +136,63 @@ export function Header({
 
   return (
     <header className="sticky top-0 z-20 border-b border-slate-200 bg-[#f6f7fb]/85 backdrop-blur dark:border-white/10 dark:bg-[#0a0e17]/85">
-      <div className="mx-auto flex max-w-[1600px] flex-wrap items-center gap-3 px-4 py-2.5">
-        <button
-          type="button"
-          onClick={() => {
-            onView('woche')
-            onDate(todayIso())
-          }}
-          className="flex cursor-pointer items-center gap-2 text-left"
-        >
-          <span className="text-xl" aria-hidden="true">
-            📺
-          </span>
-          <span>
-            <span className="block text-sm font-bold leading-tight text-slate-900 dark:text-white">
-              {t('app.title')}
+      <div className="mx-auto flex max-w-[1600px] flex-wrap items-center gap-x-3 gap-y-2 px-4 py-2.5">
+        {/*
+          Auf dem Handy bilden Titel und Symbole eine gemeinsame erste Zeile —
+          sonst kostet jede Schaltfläche eine eigene Reihe und die Kopfleiste
+          frisst den halben Bildschirm. Ab `sm` löst sich diese Hülle per
+          `display: contents` auf; dann liegen Titel und Symbolgruppe direkt in
+          der Kopfzeile, und `order-last` schiebt die Gruppe wieder nach rechts.
+        */}
+        <div className="flex w-full items-center gap-2 sm:contents">
+          <button
+            type="button"
+            onClick={() => {
+              onView('woche')
+              onDate(todayIso())
+            }}
+            className="flex min-w-0 cursor-pointer items-center gap-2 text-left"
+          >
+            <span className="text-xl" aria-hidden="true">
+              📺
             </span>
-            <span className="block text-[11px] leading-tight text-slate-500 dark:text-slate-400">
-              {t('app.subtitle')}
+            <span className="min-w-0">
+              <span className="block truncate text-sm font-bold leading-tight text-slate-900 dark:text-white">
+                {t('app.title')}
+              </span>
+              <span className="block truncate text-[11px] leading-tight text-slate-500 dark:text-slate-400">
+                {t('app.subtitle')}
+              </span>
             </span>
-          </span>
-        </button>
+          </button>
+
+          <div className="ml-auto flex shrink-0 items-center gap-1 sm:order-last">
+            <InstallButton />
+            <button
+              type="button"
+              onClick={() => onView('abo')}
+              className="hidden cursor-pointer rounded-lg px-2.5 py-2 text-sm text-slate-600 transition hover:bg-slate-200/60 sm:block dark:text-slate-300 dark:hover:bg-white/10"
+            >
+              {t('view.abo')}
+            </button>
+            <button
+              type="button"
+              onClick={() => onView('newsletter')}
+              aria-label={t('view.newsletter')}
+              title={t('view.newsletter')}
+              className="cursor-pointer rounded-lg bg-sky-500 px-3 py-2 text-sm font-medium text-white transition hover:bg-sky-400"
+            >
+              {/* Auf schmalen Schirmen genügt das Symbol — der Knopf ist der
+                  auffälligste im Kopf, seine Bedeutung geht nicht verloren. */}
+              <span className="sm:hidden" aria-hidden="true">
+                ✉
+              </span>
+              <span className="hidden sm:inline">{t('view.newsletter')}</span>
+            </button>
+            <LanguagePicker />
+            <ThemeToggle />
+          </div>
+        </div>
 
         <nav className="flex gap-0.5 rounded-lg bg-slate-200/60 p-0.5 dark:bg-white/5" aria-label="Ansicht">
           {VIEWS.filter((v) => v.inNav).map((v) => (
@@ -206,25 +242,6 @@ export function Header({
           </div>
         )}
 
-        <div className="ml-auto flex items-center gap-1">
-          <InstallButton />
-          <button
-            type="button"
-            onClick={() => onView('abo')}
-            className="cursor-pointer rounded-lg px-2.5 py-2 text-sm text-slate-600 transition hover:bg-slate-200/60 dark:text-slate-300 dark:hover:bg-white/10"
-          >
-            {t('view.abo')}
-          </button>
-          <button
-            type="button"
-            onClick={() => onView('newsletter')}
-            className="cursor-pointer rounded-lg bg-sky-500 px-3 py-2 text-sm font-medium text-white transition hover:bg-sky-400"
-          >
-            {t('view.newsletter')}
-          </button>
-          <LanguagePicker />
-          <ThemeToggle />
-        </div>
       </div>
     </header>
   )

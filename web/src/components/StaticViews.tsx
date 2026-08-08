@@ -6,6 +6,7 @@ import { useLang } from '../lib/i18n.tsx'
 import { useFavorites } from '../lib/favorites.ts'
 import { getSyncToken, pushFavorites, setSyncToken } from '../lib/newsletterSync.ts'
 import { AdminPanel, readAdminToken } from './AdminPanel.tsx'
+import { InstallFooterOffer } from './InstallPrompt.tsx'
 import { Button, SectionTitle } from './ui.tsx'
 
 const WORKER_URL = import.meta.env.VITE_NEWSLETTER_API ?? ''
@@ -607,6 +608,7 @@ export function Footer({ meta }: { meta: DataMeta }) {
           >
             {t('footer.code')}
           </a>
+          <InstallFooterOffer />
         </div>
       </div>
     </footer>
