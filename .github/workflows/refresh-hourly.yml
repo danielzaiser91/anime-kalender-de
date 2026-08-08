@@ -37,6 +37,25 @@ jobs:
 
       - run: npm ci
 
+      # `data/cache/` liegt bewusst nicht im Repo, wird aber vom Build
+      # gebraucht — ohne ihn entstünde ein Datensatz ganz ohne Titel. Der
+      # Cache-Schlüssel wechselt täglich, damit die Metadaten nicht ewig
+      # altern; greift er nicht, holt der nächste Schritt sie neu.
+      - name: AniList-Cache wiederverwenden
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: data/cache
+          key: anilist-cache-${{ github.run_id }}
+          restore-keys: anilist-cache-
+
+      - name: Rohdaten holen, falls kein Cache da ist
+        if: steps.cache.outputs.cache-matched-key == ''
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          SITE_URL: ${{ vars.SITE_URL }}
+        run: npm run data:fetch
+
       - name: Browser installieren
         run: npx playwright install --with-deps chromium
 

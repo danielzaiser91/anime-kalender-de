@@ -30,6 +30,15 @@ jobs:
 
       - run: npm ci
 
+      # Cache für die stündliche Aktion mitfüllen — die kann sich `data:fetch`
+      # sonst nicht sparen.
+      - name: AniList-Cache ablegen
+        uses: actions/cache@v4
+        with:
+          path: data/cache
+          key: anilist-cache-${{ github.run_id }}
+          restore-keys: anilist-cache-
+
       - name: Browser für den Crunchyroll-Kalender installieren
         run: npx playwright install --with-deps chromium
 

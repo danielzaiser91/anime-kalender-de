@@ -205,6 +205,23 @@ function main(): void {
   )
   const curated = loadCurated()
 
+  // Notbremse: Ohne den AniList-Cache baut dieser Lauf einen Datensatz ohne
+  // einen einzigen Titel — und damit ohne Genres, Keywords, Cover und
+  // Beschreibungen. Das sieht in der Ausgabe harmlos aus („Titel: 0") und
+  // überschreibt trotzdem alles unter public/data/.
+  //
+  // Genau das ist am 08.08.2026 passiert: Der stündliche Workflow rief
+  // `data:build` ohne vorheriges `data:fetch` auf, und `data/cache/` liegt
+  // bewusst nicht im Repo. Der Kalender stand danach eine Stunde lang ohne
+  // Genre- und Keyword-Filter da.
+  if (!Object.keys(byMal).length && !Object.keys(byAniId).length) {
+    console.error(
+      'Abbruch: data/cache/ ist leer — ohne AniList-Daten gäbe es keinen einzigen Titel.\n' +
+        'Erst `npm run data:fetch` laufen lassen. Der bestehende Datensatz bleibt unangetastet.',
+    )
+    process.exit(1)
+  }
+
   // --- Titel aufbauen -------------------------------------------------------
   const titles = new Map<number, Title>()
 
