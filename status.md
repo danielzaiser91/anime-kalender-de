@@ -78,6 +78,9 @@ _(leer)_
   Anfang an abgeschaltet. Absender jetzt `kalender@send.anime-kalender.de`
 - ✅ Deutsche Handlungsbeschreibungen von TMDB für 1.453 von 2.751 Titeln, mit Jahres- und
   Titelabgleich gegen Fehlzuordnung; englischer Rückfall mit Hinweis. FSK für 942 Titel
+- ✅ **Favoriten im Newsletter**: eigener Block „★ Deine Favoriten" über den übrigen Terminen,
+  Betreff nennt sie zuerst. Favoriten werden bei der Anmeldung mitgeschickt und in D1 gespiegelt;
+  ein Abgleich-Link mit eigenem Token in jeder Mail hält sie aktuell
 - ✅ **HTTPS für anime-kalender.de**. Das Zertifikat war über eine Stunde lang nie beantragt worden:
   Beim Setzen der Domain per API fehlte das Feld `https_certificate` vollständig. Auslöser ist das
   **erneute** Setzen — einmal entfernen und neu setzen, dann war es in einer Minute da. In

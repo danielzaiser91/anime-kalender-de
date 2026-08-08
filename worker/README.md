@@ -184,6 +184,21 @@ Cron-Einträge zu verbrauchen — der kostenlose Tarif erlaubt nur drei.
 - **täglich**: die Termine des heutigen Tages
 - **wöchentlich**: montags, die Termine der nächsten sieben Tage
 
+### Favoriten stehen oben
+
+Die Mail trennt **„★ Deine Favoriten"** von den übrigen Releases, und der Betreff nennt zuerst,
+was den Leser wirklich betrifft — eine neue Folge einer verfolgten Serie wiegt schwerer als ein
+beliebiges Disc-Release.
+
+Die Favoriten liegen im `localStorage` des Nutzers; der Dienst kennt sie nicht von allein. Sie
+werden bei der Anmeldung mitgeschickt und in D1 gespiegelt. Damit sie nicht veralten, trägt jede
+Mail einen Abgleich-Link mit **eigenem** Token (`pref_token`, getrennt vom Abmelde-Token):
+`…/#/newsletter?sync=<token>` — beim Öffnen schickt die Seite ihren aktuellen Stand an
+`POST /favorites`.
+
+Wer noch keine Favoriten hinterlegt hat, findet in der Mail einen Hinweis darauf. Wer welche hat,
+sieht ihn nicht — sonst wäre er Lärm.
+
 Die Tabelle `send_log` verhindert Doppelversand, falls ein Cron zweimal feuert. Wer nur
 bestimmte Plattformen abonniert hat, bekommt keine Mail, wenn in seinem Zeitfenster nichts
 Passendes liegt.
