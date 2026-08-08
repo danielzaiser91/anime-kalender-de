@@ -1,9 +1,24 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import type { ReleaseEvent } from '@shared/types.ts'
 import type { Dataset } from '../lib/data.ts'
-import { addDays, formatDate, startOfWeek, todayIso, weekdayName } from '@shared/time.ts'
+import { addDays, formatDate, nowHhMm, startOfWeek, todayIso, weekdayName } from '@shared/time.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { EventCard } from './EventCard.tsx'
+
+/**
+ * Unterhalb dieser Breite steht ein Tag als einzelne senkrechte Spalte —
+ * dieselbe Grenze wie Tailwinds `sm:`. Nur dort ist der Sprung sinnvoll:
+ * Auf breiten Schirmen liegen die sieben Tage nebeneinander und man sieht
+ * ohnehin alles.
+ */
+const SINGLE_COLUMN = '(max-width: 639px)'
+
+/**
+ * Wie viel vom Vorherigen über der nächsten Folge sichtbar bleibt. Ohne diesen
+ * Rest sähe die Seite aus, als begänne der Tag hier — der Vorlauf verrät, dass
+ * oben noch etwas ist.
+ */
+const LEAD_PX = 30
 
 /** Trennt Termine mit belegter Uhrzeit von denen ohne — mit Uhrzeit zuerst. */
 function splitByTime(events: ReleaseEvent[]): { timed: ReleaseEvent[]; untimed: ReleaseEvent[] } {
@@ -61,19 +76,71 @@ export function WeekView({
 
   const total = days.reduce((sum, d) => sum + d.timed.length + d.untimed.length, 0)
 
-  const card = (ev: ReleaseEvent) => (
-    <EventCard
-      key={ev.id}
-      event={ev}
-      title={data.titleById.get(ev.titleId)}
-      fsk={data.releaseBySlug.get(ev.releaseSlug)?.fsk}
-      favorite={favorites.has(ev.titleId)}
-      hidden={hidden.has(ev.titleId)}
-      onToggleFavorite={ev.titleId > 0 ? () => onToggleFavorite(ev.titleId) : undefined}
-      onToggleHidden={ev.titleId > 0 ? () => onToggleHidden(ev.titleId) : undefined}
-      onOpen={() => onOpen(ev.releaseSlug, ev.date)}
-    />
-  )
+  /**
+   * Der Termin von heute, bei dem der Blick landen soll: der nächste, der noch
+   * aussteht. Ist der Tag schon durch, wird es der letzte — dann steht der
+   * jüngste Eintrag oben statt der Vormittag von vor zehn Stunden.
+   */
+  const landingId = useMemo(() => {
+    const day = days.find((d) => d.date === today)
+    if (!day?.timed.length) return undefined
+    const now = nowHhMm()
+    return (day.timed.find((e) => e.time! >= now) ?? day.timed[day.timed.length - 1]).id
+  }, [days, today])
+
+  const landingRef = useRef<HTMLDivElement | null>(null)
+  /** Für welche Woche schon gesprungen wurde — verhindert erneutes Springen. */
+  const jumpedFor = useRef<string | undefined>(undefined)
+
+  useEffect(() => {
+    const showsToday = days.some((d) => d.date === today)
+    if (!showsToday || !landingId) return
+    // Einmal je Ankunft. Wer innerhalb der Woche filtert, blättert oder eine
+    // Karte öffnet, soll nicht wieder nach unten gerissen werden.
+    if (jumpedFor.current === monday) return
+    if (!window.matchMedia(SINGLE_COLUMN).matches) return
+
+    const el = landingRef.current
+    if (!el) return
+    jumpedFor.current = monday
+
+    // Die Kopfleiste klebt oben und würde die Karte sonst verdecken.
+    const header = document.querySelector('header')
+    const offset = (header?.getBoundingClientRect().height ?? 0) + LEAD_PX
+    window.scrollTo({
+      top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - offset),
+      behavior: 'smooth',
+    })
+  }, [days, monday, today, landingId])
+
+  // Verlässt man die Woche mit heute, darf beim nächsten Besuch wieder
+  // gesprungen werden.
+  useEffect(() => {
+    if (!days.some((d) => d.date === today)) jumpedFor.current = undefined
+  }, [days, today])
+
+  const card = (ev: ReleaseEvent) => {
+    const inner = (
+      <EventCard
+        event={ev}
+        title={data.titleById.get(ev.titleId)}
+        fsk={data.releaseBySlug.get(ev.releaseSlug)?.fsk}
+        favorite={favorites.has(ev.titleId)}
+        hidden={hidden.has(ev.titleId)}
+        onToggleFavorite={ev.titleId > 0 ? () => onToggleFavorite(ev.titleId) : undefined}
+        onToggleHidden={ev.titleId > 0 ? () => onToggleHidden(ev.titleId) : undefined}
+        onOpen={() => onOpen(ev.releaseSlug, ev.date)}
+      />
+    )
+    // Nur die Zielkarte bekommt eine Hülle — die braucht der Sprung als Anker.
+    return ev.id === landingId ? (
+      <div key={ev.id} ref={landingRef}>
+        {inner}
+      </div>
+    ) : (
+      <div key={ev.id}>{inner}</div>
+    )
+  }
 
   return (
     <div className="flex flex-col gap-3">

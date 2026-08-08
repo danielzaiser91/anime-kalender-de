@@ -56,6 +56,19 @@ export function todayIso(): string {
   return toIsoDate(new Date())
 }
 
+/**
+ * Aktuelle Uhrzeit in Berliner Ortszeit als "HH:MM".
+ *
+ * Bewusst im selben Format wie `schedule.time`, damit sich beides mit einem
+ * schlichten Zeichenketten-Vergleich ordnen lässt — `"18:30" >= "17:45"` stimmt,
+ * solange beide Seiten zweistellig sind.
+ */
+export function nowHhMm(): string {
+  const parts = partsFormatter.formatToParts(new Date())
+  const get = (t: string) => parts.find((p) => p.type === t)!.value
+  return `${get('hour') === '24' ? '00' : get('hour')}:${get('minute')}`
+}
+
 /** Rechnet mit reinen Datumsstrings, ohne Zeitzonen-Drift. */
 export function addDays(iso: string, days: number): string {
   const [y, m, d] = iso.split('-').map(Number)
