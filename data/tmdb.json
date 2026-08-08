@@ -539,5 +539,42 @@
   },
   "the-ribbon-hero-netflix": {
     "tmdbId": 1679730
+  },
+  "bocchi-the-rock-vol1": {
+    "tmdbId": 119100,
+    "justwatchUrl": "https://www.themoviedb.org/tv/119100/watch?locale=DE",
+    "providers": [
+      "crunchyroll"
+    ]
+  },
+  "yu-gi-oh-komplettbox-ksm": {
+    "tmdbId": 902,
+    "fsk": 6,
+    "justwatchUrl": "https://www.themoviedb.org/tv/902/watch?locale=DE",
+    "providers": [
+      "netflix",
+      "disneyplus",
+      "rtlplus",
+      "primevideo",
+      "crunchyroll"
+    ]
+  },
+  "bocchi-the-rock-vol2": {
+    "tmdbId": 119100,
+    "justwatchUrl": "https://www.themoviedb.org/tv/119100/watch?locale=DE",
+    "providers": [
+      "crunchyroll"
+    ]
+  },
+  "oshi-no-ko-s3-vol1": {},
+  "oshi-no-ko-s3-vol2": {},
+  "chihiro-jubilaeum-kino-2026": {
+    "tmdbId": 129,
+    "fsk": 0,
+    "justwatchUrl": "https://www.themoviedb.org/movie/129/watch?locale=DE",
+    "providers": [
+      "netflix",
+      "primevideo"
+    ]
   }
 }

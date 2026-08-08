@@ -10,9 +10,7 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| Kuratierungsbericht abarbeiten | 2 | `npm run data:report` listet, was gemeldet, aber nicht erfasst ist |
 | Tracking-Absatz aus der Datenschutzerklärung nehmen | 1 | erst wenn der erste Versand über die eigene Domain bestätigt ist |
-| Uhrzeiten außerhalb von Crunchyroll | 3 | Netflix und Prime Video nennen keine Uhrzeit; bislang „Zeit offen" |
 
 ### Später (nice to have)
 
@@ -36,6 +34,14 @@ herausgeholt, wenn der User es sagt.
 | Gesamtabnahme der ersten Version | 07.08.2026 |
 
 ## Archiv
+
+- ✅ Kuratierungsbericht abgearbeitet: 6 belegte Termine übernommen (Chihiro-Wiederaufführung,
+  Yu-Gi-Oh-Komplettbox, Bocchi Vol. 1+2, Oshi no Ko S3 Vol. 1+2), 5 bestehende Termine mit einer
+  zweiten Quelle belegt. Ohne belegte deutsche Fassung bleibt ein Titel draußen
+- ✅ Uhrzeiten außerhalb von Crunchyroll geklärt: Nur Netflix macht dazu eine belastbare Aussage
+  (Eigenproduktionen 00:00 Pacific, Lizenztitel Mitternacht Ortszeit) — Disney+ und Prime Video
+  veröffentlichen keine. Statt eine Faustregel als Uhrzeit einzutragen, erklärt die Karte jetzt,
+  warum dort nichts steht, mit Quellenlink
 
 - ✅ **ADN als zweite maschinelle Quelle**: Die öffentliche JSON-Schnittstelle nennt je Folge
   Datum, Uhrzeit UND Sprachcode (`vde` = Synchro, `vostde` = nur Untertitel). Damit beantwortet

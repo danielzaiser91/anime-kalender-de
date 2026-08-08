@@ -324,3 +324,38 @@ const PLATFORM_SEARCH: Partial<Record<PlatformId, (q: string) => string>> = {
 export function platformSearchUrl(platform: PlatformId, query: string): string | undefined {
   return PLATFORM_SEARCH[platform]?.(query)
 }
+
+/**
+ * Warum bei dieser Plattform keine Uhrzeit steht.
+ *
+ * „Zeit offen" ist ehrlich, aber unbefriedigend — der Leser weiß nicht, ob wir
+ * schlampig gepflegt haben oder ob es die Angabe schlicht nicht gibt. Meist
+ * ist Letzteres der Fall, und das lässt sich sagen.
+ *
+ * Nur Netflix macht dazu eine belastbare Aussage, und die steht in ihrer
+ * eigenen Hilfe. Für Disney+ und Prime Video gibt es keine — hier steht
+ * deshalb genau das und keine Faustregel aus dem Internet. Eine plausible
+ * Uhrzeit als `time` einzutragen wäre der bequemere Weg und genau die Art
+ * Falschangabe, die dieses Projekt vermeiden will.
+ */
+export const PLATFORM_TIME_NOTE: Partial<
+  Record<PlatformId, { de: string; en: string; source?: string }>
+> = {
+  netflix: {
+    de: 'Netflix nennt je Titel keine Uhrzeit. Eigenproduktionen erscheinen weltweit um 00:00 Uhr Pacific Time — in Berlin also am frühen Vormittag. Lizenzierte Titel schaltet Netflix um Mitternacht Ortszeit frei.',
+    en: 'Netflix gives no per-title time. Its own productions go live worldwide at 12:00 a.m. Pacific Time — late morning in Berlin. Licensed titles unlock at midnight local time.',
+    source: 'https://help.netflix.com/en/node/118959',
+  },
+  disneyplus: {
+    de: 'Disney+ veröffentlicht für Deutschland keine feste Uhrzeit.',
+    en: 'Disney+ publishes no fixed release time for Germany.',
+  },
+  primevideo: {
+    de: 'Prime Video macht zur Uhrzeit keine Angabe.',
+    en: 'Prime Video does not state a release time.',
+  },
+  aniverse: {
+    de: 'aniverse nennt keine Uhrzeit.',
+    en: 'aniverse does not state a release time.',
+  },
+}

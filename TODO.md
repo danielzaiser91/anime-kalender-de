@@ -54,11 +54,17 @@ dieses Projekts: Ein Scraper läuft weiter durch, findet aber nichts mehr, weil
 die Gegenseite ihre Seite umgebaut hat. Schweigt eine Quelle länger als vier
 Tage, wird der Lauf rot — und GitHub schickt die Mail.
 
+## Wiederkehrend
+
+**Kuratierungsbericht abarbeiten** — `npm run data:report` listet, was gemeldet,
+aber noch nicht erfasst ist. Die Liste in `data/curated/` übertragen; was keine
+belegte deutsche Fassung hat, bleibt draußen. Das ist die Pflegearbeit, die kein
+Skript abnehmen kann. Kein Kästchen, weil sie nie „fertig" ist — zuletzt am
+08.08.2026 gemacht (16 Meldungen geprüft, 6 übernommen, 8 bewusst offen gelassen:
+Sprachfassung unbekannt oder gar kein Anime).
+
 ## Offene Kästchen
 
-- [ ] Kuratierungsbericht regelmäßig abarbeiten — die Liste aus
-      `npm run data:report` in `data/curated/` übertragen. Das ist die
-      wiederkehrende Pflegearbeit, die kein Skript abnehmen kann.
 - [ ] Tracking-Absatz aus der Datenschutzerklärung entfernen, sobald der erste
       Versand über `kalender@send.anime-kalender.de` bestätigt ist — auf der
       eigenen Domain ist Öffnungs- und Klick-Erfassung abgeschaltet, der Absatz

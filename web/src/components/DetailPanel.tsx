@@ -8,6 +8,7 @@ import type { Dataset } from '../lib/data.ts'
 import { loadSynopses, type Synopsis } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useShare } from '../lib/share.ts'
+import { PLATFORM_TIME_NOTE } from '@shared/mappings.ts'
 import {
   Button,
   Chip,
@@ -46,7 +47,7 @@ function ShareButton({ release }: { release: Release }) {
 }
 
 function ReleaseBlock({ release, today }: { release: Release; today: string }) {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const events = useMemo(() => expandEvents(release), [release])
   const status = releaseStatus(release, today)
   const upcoming = events.find((e) => e.date >= today) ?? events[events.length - 1]
@@ -109,6 +110,27 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
             </dd>
           </>
         )}
+        {/* Warum keine Uhrzeit dasteht. Ohne diesen Satz liest sich „unbekannt"
+            wie ein Pflegefehler — meistens gibt es die Angabe aber schlicht
+            nicht, und das ist eine Auskunft für sich. */}
+        {!release.schedule.time &&
+          release.releaseType !== 'movie' &&
+          release.releaseType !== 'disc' &&
+          PLATFORM_TIME_NOTE[release.platform] && (
+            <dd className="col-span-2 text-[11px] leading-relaxed text-slate-400 dark:text-slate-500">
+              {PLATFORM_TIME_NOTE[release.platform]![lang]}{' '}
+              {PLATFORM_TIME_NOTE[release.platform]!.source && (
+                <a
+                  className="cursor-pointer underline decoration-dotted hover:text-slate-600 dark:hover:text-slate-300"
+                  href={PLATFORM_TIME_NOTE[release.platform]!.source}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  {t('detail.source')}
+                </a>
+              )}
+            </dd>
+          )}
         {release.releaseType === 'weekly' && (
           <>
             <dt className="text-slate-400">{t('detail.episodes')}</dt>

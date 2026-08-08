@@ -19,6 +19,17 @@
   schedule: { firstEpisodeDate: "2026-07-28" }
   sources: [https://www.anime2you.de/news/1034477/venus-wars-2k-remaster-im-kino/]
 
+- slug: chihiro-jubilaeum-kino-2026
+  anilistId: 199
+  search: "Sen to Chihiro no Kamikakushi"
+  titleDe: "Chihiros Reise ins Zauberland (25. Jubiläum)"
+  platform: kino
+  releaseType: movie
+  publisher: "Wild Bunch Germany"
+  note: "Wiederaufführung zum 25. Jubiläum, mit deutscher Synchronfassung und im Original mit Untertiteln."
+  schedule: { firstEpisodeDate: "2026-08-18" }
+  sources: [https://www.anime2you.de/news/1034379/chihiros-reise-ins-zauberland-bald-wieder-im-kino/]
+
 - slug: detektiv-conan-movie-29-kino
   anilistId: 198369
   search: "Meitantei Conan: Highway no Datenshi"

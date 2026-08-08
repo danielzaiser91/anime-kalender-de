@@ -82,6 +82,31 @@
   schedule: { firstEpisodeDate: "2026-09-04" }
   sources: [https://www.anime2you.de/news/1033753/crunchyroll-blu-ray-releaseplan-bis-september-2026/]
 
+- slug: bocchi-the-rock-vol1
+  search: "Bocchi the Rock!"
+  titleDe: "Bocchi the Rock! – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Blu-ray mit Sammelschuber und Figur"
+  note: "Folgen 1–4. Deutsche Synchronfassung von TNT Media, Dialogregie Jermain Meyer."
+  schedule: { firstEpisodeDate: "2026-09-04" }
+  sources: [https://www.anime2you.de/news/1035764/bocchi-the-rock-deutscher-trailer/]
+
+# ---------------------------------------------------------------- 17.09.2026
+
+- slug: yu-gi-oh-komplettbox-ksm
+  anilistId: 481
+  search: "Yu☆Gi☆Oh! Duel Monsters"
+  titleDe: "Yu-Gi-Oh! – Komplettbox"
+  platform: disc
+  releaseType: disc
+  publisher: "KSM Anime"
+  edition: "Komplettbox, Blu-ray"
+  note: "Alle 224 Folgen in überarbeiteter HD-Fassung plus die zwölfteilige Reihe „Capsule Monsters“ — ausschließlich mit deutschem Ton, ohne japanische Tonspur."
+  schedule: { firstEpisodeDate: "2026-09-17" }
+  sources: [https://www.anime2you.de/news/1038025/neue-yu-gi-oh-box-vorbestellbar/]
+
 # ---------------------------------------------------------------- 18.09.2026
 
 - slug: as-a-reincarnated-aristocrat-s1-vol2
@@ -135,7 +160,7 @@
   publisher: "Crunchyroll"
   edition: "Limited Edition mit Sammelschuber, DVD"
   schedule: { firstEpisodeDate: "2026-10-02" }
-  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/, https://www.anime2you.de/news/1038181/black-butler-emerald-witch-arc-blu-ray-termin/]
 
 - slug: blue-exorcist-blue-night-saga-vol2
   search: "Blue Exorcist: The Blue Night Saga"
@@ -197,6 +222,17 @@
   schedule: { firstEpisodeDate: "2026-10-02" }
   sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
 
+- slug: bocchi-the-rock-vol2
+  search: "Bocchi the Rock!"
+  titleDe: "Bocchi the Rock! – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Blu-ray"
+  note: "Folgen 5–8."
+  schedule: { firstEpisodeDate: "2026-10-02" }
+  sources: [https://www.anime2you.de/news/1035764/bocchi-the-rock-deutscher-trailer/]
+
 - slug: girls-band-cry-vol2
   search: "Girls Band Cry"
   titleDe: "Girls Band Cry – Vol. 2"
@@ -217,7 +253,7 @@
   publisher: "Crunchyroll"
   edition: "Limited Edition mit Sammelschuber, Blu-ray"
   schedule: { firstEpisodeDate: "2026-10-16" }
-  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/, https://www.anime2you.de/news/1035810/dr-stone-staffel-4-blu-ray-termin/]
 
 - slug: dragon-maid-lonely-dragon-movie-disc
   search: "Kobayashi-san Chi no Maid Dragon"
@@ -227,7 +263,7 @@
   publisher: "Crunchyroll"
   edition: "Blu-ray"
   schedule: { firstEpisodeDate: "2026-10-16" }
-  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/, https://www.anime2you.de/news/1035817/miss-kobayashis-dragon-maid-film-blu-ray-release/]
 
 - slug: my-next-life-as-a-villainess-s2-bundle
   search: "Otome Game no Hametsu Flag shika Nai Akuyaku Reijou ni Tensei shiteshimatta... X"
@@ -247,7 +283,7 @@
   publisher: "Crunchyroll"
   edition: "Komplettbox, Blu-ray"
   schedule: { firstEpisodeDate: "2026-10-16" }
-  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/, https://www.anime2you.de/news/1035798/rent-a-girlfriend-staffel-4-blu-ray-komplettbox/]
 
 - slug: vinland-saga-s2-bundle
   search: "Vinland Saga Season 2"
@@ -300,7 +336,7 @@
   publisher: "AniMoon Publishing"
   edition: "DVD & Blu-ray"
   schedule: { firstEpisodeDate: "2026-11-20" }
-  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/, https://www.anime2you.de/news/1035764/bocchi-the-rock-deutscher-trailer/]
 
 - slug: my-love-story-with-yamada-kun-vol3
   search: "Loving Yamada at Lv999"
@@ -353,3 +389,29 @@
   edition: "Blu-ray"
   schedule: { firstEpisodeDate: "2026-12-18" }
   sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
+
+# ---------------------------------------------------------------- 2027
+
+- slug: oshi-no-ko-s3-vol1
+  anilistId: 182587
+  search: "[Oshi no Ko] 3rd Season"
+  titleDe: "Oshi no Ko – Staffel 3 – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "peppermint anime"
+  edition: "Blu-ray, Standard und Limited Edition mit Sammelschuber"
+  note: "Folgen 25–30, deutsche und japanische Tonspur."
+  schedule: { firstEpisodeDate: "2027-04-16" }
+  sources: [https://www.anime2you.de/news/1037042/oshi-no-ko-staffel-3-disc-termin/]
+
+- slug: oshi-no-ko-s3-vol2
+  anilistId: 182587
+  search: "[Oshi no Ko] 3rd Season"
+  titleDe: "Oshi no Ko – Staffel 3 – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "peppermint anime"
+  edition: "Blu-ray, Standard und Limited Edition"
+  note: "Folgen 31–35, deutsche und japanische Tonspur."
+  schedule: { firstEpisodeDate: "2027-06-18" }
+  sources: [https://www.anime2you.de/news/1037042/oshi-no-ko-staffel-3-disc-termin/]

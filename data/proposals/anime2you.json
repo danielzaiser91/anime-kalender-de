@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-08T12:44:21.104Z",
+  "scrapedAt": "2026-08-08T13:03:23.393Z",
   "proposals": [
     {
       "articleTitle": "Neue Anime-Planet-Aktion: 25 Euro Rabatt auf DVDs und Blu-rays",
@@ -32,7 +32,7 @@
         }
       ],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Neue Blu-ray-Komplettbox von »Yu-Gi-Oh!« bei Amazon vorbestellbar",
@@ -53,7 +53,7 @@
         }
       ],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Netflix nimmt zweiten »Mobile Suit Gundam: Hathaway«-Film ins Programm",
@@ -108,7 +108,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Deutscher Kinostart von »A New Dawn« + Synchro-Trailer",
@@ -203,7 +203,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Blu-ray-Termin der vierten Staffel von »Dr. STONE«",
@@ -225,7 +225,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Vierte »Rent-A-Girlfriend«-Staffel erscheint als Blu-ray-Komplettbox",
@@ -247,7 +247,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Neue Anime-Katalogtitel im August 2026 bei aniverse",
@@ -286,7 +286,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Neuer »Gintama«-Film erscheint auf Netflix + Visual",
@@ -341,7 +341,7 @@
         }
       ],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Deutscher Kinostart von »Godzilla Minus Zero« steht fest + Teaser",

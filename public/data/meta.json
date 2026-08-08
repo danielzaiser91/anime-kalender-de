@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-08-08T12:45:22.221Z",
+  "generatedAt": "2026-08-08T12:59:58.473Z",
   "titleCount": 2753,
-  "releaseCount": 113,
-  "eventCount": 473,
+  "releaseCount": 119,
+  "eventCount": 479,
   "genres": [
     "Action",
     "Adventure",
@@ -415,6 +415,7 @@
     "adn"
   ],
   "years": [
+    2027,
     2026
   ],
   "attribution": [
