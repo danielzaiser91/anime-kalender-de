@@ -5,6 +5,7 @@ import { absoluteFeedUrl } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useFavorites } from '../lib/favorites.ts'
 import { getSyncToken, pushFavorites, setSyncToken } from '../lib/newsletterSync.ts'
+import { AdminPanel, readAdminToken } from './AdminPanel.tsx'
 import { Button, SectionTitle } from './ui.tsx'
 
 const WORKER_URL = import.meta.env.VITE_NEWSLETTER_API ?? ''
@@ -159,6 +160,7 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
   const [syncMessage, setSyncMessage] = useState('')
   const [welcome, setWelcome] = useState(false)
   const autoSync = !!getSyncToken()
+  const adminToken = readAdminToken()
 
   /**
    * Zwei Wege führen hierher: die Bestätigungsmail (`welcome=1`) und der
@@ -219,6 +221,8 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{t('news.title')}</h1>
         <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{t('news.intro')}</p>
       </div>
+
+      {adminToken && <AdminPanel token={adminToken} />}
 
       {welcome && (
         <div className="rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-500">
