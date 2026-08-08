@@ -158,7 +158,19 @@ async function handleConfirm(request: Request, env: Env): Promise<Response> {
   if (!result.meta.changes) {
     return page('Link nicht gültig', 'Dieser Bestätigungslink ist abgelaufen oder wurde schon benutzt.', env.SITE_URL)
   }
-  return page('Abo aktiv', 'Ab jetzt bekommst du die anstehenden Releases mit deutscher Synchro per Mail.', env.SITE_URL)
+
+  // Statt einer Bestätigungsseite zurück auf die Website — mit dem
+  // Abgleich-Token. Der Browser merkt es sich und schickt ab da jede Änderung
+  // an den Favoriten von selbst. Ohne diesen Schritt bliebe die im Dienst
+  // gespeicherte Liste auf dem Stand der Anmeldung stehen.
+  const row = await env.DB.prepare('SELECT pref_token FROM subscribers WHERE confirm_token = ?1')
+    .bind(token)
+    .first<{ pref_token: string }>()
+
+  const target = `${env.SITE_URL.replace(/\/$/, '')}/#/newsletter?welcome=1${
+    row?.pref_token ? `&sync=${row.pref_token}` : ''
+  }`
+  return Response.redirect(target, 302)
 }
 
 /**

@@ -199,6 +199,18 @@ Mail einen Abgleich-Link mit **eigenem** Token (`pref_token`, getrennt vom Abmel
 Wer noch keine Favoriten hinterlegt hat, findet in der Mail einen Hinweis darauf. Wer welche hat,
 sieht ihn nicht — sonst wäre er Lärm.
 
+**Der Abgleich läuft danach von selbst.** Der Bestätigungslink zeigt keine eigene Seite mehr,
+sondern leitet zurück auf die Website und bringt den Schlüssel mit. Der Browser legt ihn ab, und
+ab da meldet jede Änderung an den Favoriten sich selbsttätig — verzögert um wenige Sekunden,
+damit fünf Klicks hintereinander eine Anfrage ergeben statt fünf. Ohne diesen Schritt bliebe die
+gespeicherte Liste auf dem Stand der Anmeldung stehen; genau das war der erste Entwurf, und er
+war zu wenig.
+
+Der Schlüssel liegt in dem Browser, in dem bestätigt wurde. Wer auf einem zweiten Gerät Favoriten
+setzt, öffnet dort einmal den Abgleich-Link aus einer Mail — danach hält auch dieses Gerät den
+Stand aktuell. Wird das Abo gelöscht, antwortet `/favorites` mit 404 und der Browser wirft den
+Schlüssel weg.
+
 Die Tabelle `send_log` verhindert Doppelversand, falls ein Cron zweimal feuert. Wer nur
 bestimmte Plattformen abonniert hat, bekommt keine Mail, wenn in seinem Zeitfenster nichts
 Passendes liegt.

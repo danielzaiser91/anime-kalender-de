@@ -4,6 +4,7 @@ import { PLATFORMS } from '@shared/types.ts'
 import { absoluteFeedUrl } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useFavorites } from '../lib/favorites.ts'
+import { getSyncToken, pushFavorites, setSyncToken } from '../lib/newsletterSync.ts'
 import { Button, SectionTitle } from './ui.tsx'
 
 const WORKER_URL = import.meta.env.VITE_NEWSLETTER_API ?? ''
@@ -156,33 +157,34 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
   const [message, setMessage] = useState('')
   const [syncState, setSyncState] = useState<'idle' | 'sending' | 'ok' | 'error'>('idle')
   const [syncMessage, setSyncMessage] = useState('')
+  const [welcome, setWelcome] = useState(false)
+  const autoSync = !!getSyncToken()
 
   /**
-   * Abgleich aus einer Mail heraus: `#/newsletter?sync=<token>`.
-   * Die Favoriten liegen nur hier im Browser — der Dienst erfährt erst über
-   * diesen Weg, welche Serien jemand verfolgt.
+   * Zwei Wege führen hierher: die Bestätigungsmail (`welcome=1`) und der
+   * Abgleich-Link aus jeder Digest-Mail. Beide bringen den Schlüssel mit.
+   *
+   * Er wird im Browser hinterlegt — ab da meldet jede Änderung an den
+   * Favoriten sich von selbst, ohne dass jemand einen Link anklicken muss.
    */
   useEffect(() => {
-    const token = new URLSearchParams(window.location.hash.split('?')[1] ?? '').get('sync')
+    const params = new URLSearchParams(window.location.hash.split('?')[1] ?? '')
+    const token = params.get('sync')
+    setWelcome(params.get('welcome') === '1')
     if (!token || !WORKER_URL) return
+
+    setSyncToken(token)
     setSyncState('sending')
-    fetch(`${WORKER_URL}/favorites`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token, favorites: [...favorites] }),
-    })
-      .then(async (res) => {
-        const body = (await res.json()) as { ok?: boolean; count?: number; error?: string }
-        if (!res.ok || !body.ok) throw new Error(body.error ?? 'Abgleich fehlgeschlagen')
+    pushFavorites(token, [...favorites])
+      .then((count) => {
         setSyncState('ok')
-        setSyncMessage(t('news.syncOk', { count: body.count ?? 0 }))
+        setSyncMessage(t('news.syncOk', { count }))
       })
       .catch((err: Error) => {
         setSyncState('error')
         setSyncMessage(err.message)
       })
-    // Nur beim Öffnen; ein späteres Umsortieren der Favoriten soll nicht
-    // ungefragt erneut senden.
+    // Nur beim Öffnen. Spätere Änderungen übernimmt der Abgleich in App.tsx.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -217,6 +219,13 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{t('news.title')}</h1>
         <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{t('news.intro')}</p>
       </div>
+
+      {welcome && (
+        <div className="rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-500">
+          <strong className="block">{t('news.welcomeTitle')}</strong>
+          {t('news.welcomeBody')}
+        </div>
+      )}
 
       {syncState !== 'idle' && (
         <div
@@ -286,6 +295,9 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
             <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
               {favorites.size > 0 ? t('news.favoritesHint') : t('news.favoritesNone')}
             </p>
+            {autoSync && (
+              <p className="mt-1 text-xs text-emerald-500">✓ {t('news.autoSync')}</p>
+            )}
           </div>
 
           <fieldset>

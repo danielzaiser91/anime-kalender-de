@@ -4,6 +4,7 @@ import type { Dataset } from './lib/data.ts'
 import { loadAllTitles, loadDataset } from './lib/data.ts'
 import { filterEvents, filterTitles, toggleValue, type FilterState } from './lib/filters.ts'
 import { useFavorites } from './lib/favorites.ts'
+import { useNewsletterSync } from './lib/newsletterSync.ts'
 import { useRoute, type ViewId } from './lib/router.ts'
 import { useLang } from './lib/i18n.tsx'
 import { addDays, addMonths, todayIso } from '@shared/time.ts'
@@ -39,6 +40,9 @@ export default function App() {
   const [grouped, setGrouped] = useState(() => localStorage.getItem('groupSeasons') !== '0')
   const [route, navigate] = useRoute()
   const { favorites, toggle } = useFavorites()
+  // Hält die im Newsletter hinterlegten Favoriten aktuell — sitzt hier oben,
+  // damit es unabhängig von der geöffneten Ansicht greift.
+  useNewsletterSync(favorites)
   const today = todayIso()
 
   useEffect(() => {
