@@ -10,8 +10,7 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| aniSearch-Bestand auffüllen | 2 | läuft über die Nachtläufe, 60 Titel je Lauf; 1.938 von 2.746 Titeln haben deutschen Text |
-| aniSearch-API-Zugang anlegen | 1 | Registrierung nur von Daniels Handy möglich — dieser Anschluss ist gesperrt |
+| aniSearch-Bestand auffüllen | 2 | läuft über die Nachtläufe, 200 Titel je Lauf; 2.041 von 2.753 Titeln haben deutschen Text, 1.452 aniSearch-Seiten offen (~8 Läufe) |
 
 
 ### Später (nice to have)
@@ -46,6 +45,15 @@ _(leer)_
 
 ## Archiv
 
+- ✅ **Nachtläufe gehen jetzt auch live**. Der Datenlauf committete nach `public/data` und pushte —
+  aber ein Push aus einer Action mit dem `GITHUB_TOKEN` löst keine weiteren Workflows aus, und
+  genau daran hing der Deploy. Seit dem Einrichten der Kaskade ging kein automatisch geholter
+  Datensatz live, außer wenn zufällig ein Mensch am selben Tag etwas pushte. `deploy.yml` hört
+  jetzt zusätzlich per `workflow_run` auf die drei Refresh-Workflows; mit einem Bot-Lauf verifiziert
+- ✅ **aniSearch: ehrliche Kennung**. Der Abruf gab sich als Chrome aus. In deren Doku steht, dass
+  fehlende oder generische Kennungen als Missbrauch gewertet werden und zur IP-Sperre führen — die
+  Rate war also nicht der einzige Fehler. Jetzt `anime-kalender.de/1.0 (+URL; Mail)`, Kontingent
+  200 je Lauf; erster Lauf 200 von 200 ohne Fehlschlag
 - ✅ **Anbieter vollständig aus TMDB** (Datenbasis JustWatch — dieselbe Quelle, aus der werstreamt.es
   schöpft). Der Abruf fragte bisher nur flatrate und buy und behielt davon nur die Dienste mit
   eigener Plattform; Videobuster, maxdome, Apple TV, MagentaTV, Videoload, Sky Store, Rakuten und
