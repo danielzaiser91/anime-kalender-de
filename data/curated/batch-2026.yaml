@@ -103,3 +103,34 @@
   releaseType: movie
   schedule: { firstEpisodeDate: "2026-08-08" }
   sources: [https://www.anime2you.de/news/1033802/netflix-anime-neu-im-august-2026/]
+
+# ---------------------------------------------------------------- Netflix, Einzelfolgen
+
+- slug: steel-ball-run-1st-stage
+  anilistId: 190327
+  search: "JoJo no Kimyou na Bouken: Steel Ball Run"
+  titleDe: "JoJo's Bizarre Adventure: Steel Ball Run – 1st STAGE"
+  platform: netflix
+  platformUrl: https://www.netflix.com/title/82116553
+  releaseType: batch
+  note: "Auftaktfolge mit 47 Minuten Laufzeit, deutsche und japanische Sprachfassung. Die Fortsetzung („2nd – 3rd STAGE\", elf Folgen) läuft ab dem 25.09.2026 wöchentlich."
+  schedule:
+    firstEpisodeDate: "2026-03-19"
+    episodeCount: 1
+  sources:
+    - https://www.anime2you.de/news/1027799/jojo-steel-ball-run-fortsetzung-netflix-termin/
+    - https://www.anisearch.de/anime/20466
+
+- slug: steel-ball-run-2nd-3rd-stage
+  anilistId: 190327
+  search: "JoJo no Kimyou na Bouken: Steel Ball Run"
+  titleDe: "JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE"
+  platform: netflix
+  platformUrl: https://www.netflix.com/title/82116553
+  releaseType: weekly
+  note: "Elf Folgen im Wochentakt. Netflix nennt für Katalogtitel keine Uhrzeit."
+  schedule:
+    firstEpisodeDate: "2026-09-25"
+    episodeCount: 11
+  sources:
+    - https://www.anime2you.de/news/1027799/jojo-steel-ball-run-fortsetzung-netflix-termin/

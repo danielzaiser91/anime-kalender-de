@@ -64,6 +64,12 @@ jobs:
         continue-on-error: true
         run: npm run data:anime2you
 
+      - name: Deutsche Texte und Anbieter von aniSearch
+        # Nur ein Kontingent je Lauf, eine Anfrage pro Sekunde. Der Bestand
+        # füllt sich über die Tage; er liegt im Repo und geht nie verloren.
+        continue-on-error: true
+        run: npm run data:anisearch -- --limit 300
+
       - name: Datensatz bauen
         env:
           SITE_URL: ${{ vars.SITE_URL }}
@@ -77,7 +83,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/data public/og data/curated-ids.json data/tmdb.json \
-                  data/crunchyroll.json data/adn.json data/proposals data/source-health.json
+                  data/crunchyroll.json data/adn.json data/anisearch.json data/anime-ids.json \
+                  data/proposals data/source-health.json
           if git diff --staged --quiet; then
             echo "Keine Datenänderung."
           else

@@ -38,3 +38,28 @@ export function loadCurated(): CuratedEntry[] {
   }
   return entries
 }
+
+/** Ein von Hand gepflegter Bezugsweg zu einem Titel. */
+export interface CuratedWatch {
+  anilistId: number
+  title?: string
+  links: { name: string; url: string; kind: 'stream' | 'buy' }[]
+  sources: string[]
+}
+
+/**
+ * Lädt `data/watch-links.yaml`.
+ *
+ * Getrennt von den Terminen, weil es etwas anderes beschreibt: nicht *wann*
+ * etwas läuft, sondern *wo* es zu haben ist. Für alte Katalogtitel ist das die
+ * einzige sinnvolle Auskunft — ein Datum gibt es dort nicht mehr.
+ */
+export function loadWatchLinks(): CuratedWatch[] {
+  const file = resolve(ROOT, 'data/watch-links.yaml')
+  try {
+    const parsed = yaml.load(readFileSync(file, 'utf8')) as CuratedWatch[] | null
+    return (parsed ?? []).filter((e) => e?.anilistId && e.links?.length)
+  } catch {
+    return []
+  }
+}

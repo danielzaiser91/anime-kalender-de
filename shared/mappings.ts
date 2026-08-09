@@ -326,6 +326,116 @@ export function platformSearchUrl(platform: PlatformId, query: string): string |
 }
 
 /**
+ * aniSearch-Anbieterkürzel → unsere Plattform, soweit es eine gibt.
+ *
+ * Nur die großen Dienste haben bei uns eine eigene Plattform mit Farbe und
+ * Filter. Alles andere wandert als schlichter Verweis in `watchLinks` — das
+ * ist kein Mangel, sondern die ehrliche Abbildung: Maxdome und Videobuster
+ * gehören nicht in einen Filter „Plattform", aber sehr wohl in die Antwort auf
+ * „wo kann ich das sehen".
+ */
+const ANISEARCH_PLATFORM: Record<string, PlatformId> = {
+  crunchyroll: 'crunchyroll',
+  netflix: 'netflix',
+  disneyplus: 'disneyplus',
+  'disney-plus': 'disneyplus',
+  wow: 'wow',
+  joyn: 'joyn',
+  'rtl-plus': 'rtlplus',
+  rtlplus: 'rtlplus',
+  'rtl+': 'rtlplus',
+  youtube: 'youtube',
+  adn: 'adn',
+  'animation-digital-network': 'adn',
+  aniverse: 'aniverse',
+}
+
+/** Anbieter, bei denen man kauft oder leiht statt im Abo zu schauen. */
+const BUY_PROVIDERS = new Set([
+  'amazon',
+  'maxdome',
+  'sky-store',
+  'videobuster',
+  'itunes',
+  'apple-tv',
+  'google-play',
+  'microsoft-store',
+  'rakuten-tv',
+  'videoload',
+])
+
+/** Anzeigenamen für die Kürzel — „sky-store-de" will niemand lesen. */
+const PROVIDER_NAMES: Record<string, string> = {
+  amazon: 'Amazon',
+  maxdome: 'maxdome',
+  'sky-store': 'Sky Store',
+  videobuster: 'Videobuster',
+  itunes: 'iTunes',
+  'apple-tv': 'Apple TV',
+  'google-play': 'Google Play',
+  'microsoft-store': 'Microsoft Store',
+  'rakuten-tv': 'Rakuten TV',
+  videoload: 'Videoload',
+  toggo: 'TOGGO',
+  'anime-on-demand': 'Anime on Demand',
+  akiba: 'Akiba Pass TV',
+}
+
+/**
+ * Vereinheitlicht die Anbieterkennung.
+ *
+ * aniSearch schreibt denselben Dienst je nach Kachel als `amazon-de`,
+ * `amazon-(de)` oder `amazon`. Ohne diese Angleichung stünde derselbe Anbieter
+ * mehrfach in der Liste, einmal als Kauf und einmal als Stream.
+ */
+export function canonicalProvider(provider: string): string {
+  return provider
+    .toLowerCase()
+    .replace(/[()]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/-(de|deutschland)$/, '')
+    .replace(/^-|-$/g, '')
+}
+
+export function anisearchPlatform(provider: string): PlatformId | undefined {
+  const key = canonicalProvider(provider)
+  return ANISEARCH_PLATFORM[key] ?? ANISEARCH_PLATFORM[provider]
+}
+
+export function providerName(provider: string): string {
+  const key = canonicalProvider(provider)
+  return (
+    PROVIDER_NAMES[key] ??
+    PROVIDER_NAMES[provider] ??
+    key.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+  )
+}
+
+export function providerKind(provider: string): 'stream' | 'buy' {
+  return BUY_PROVIDERS.has(canonicalProvider(provider)) || BUY_PROVIDERS.has(provider) ? 'buy' : 'stream'
+}
+
+/**
+ * Entfernt fremde Partner-Kennungen aus einer Adresse.
+ *
+ * aniSearch hängt an seine Amazon-Links ein `?tag=anisearch.de`. Diesen Link
+ * unverändert weiterzureichen hieße, deren Provision über unsere Seite laufen
+ * zu lassen — eine stille Entscheidung, die niemand getroffen hat. Dieses
+ * Projekt ist ausdrücklich unkommerziell; also fliegt der Anhang raus.
+ */
+export function stripAffiliate(url: string): string {
+  try {
+    const parsed = new URL(url)
+    for (const key of ['tag', 'ascsubtag', 'linkCode', 'ref_', 'affiliate', 'utm_source', 'utm_medium']) {
+      parsed.searchParams.delete(key)
+    }
+    return parsed.toString().replace(/\?$/, '')
+  } catch {
+    return url
+  }
+}
+
+/**
  * Warum bei dieser Plattform keine Uhrzeit steht.
  *
  * „Zeit offen" ist ehrlich, aber unbefriedigend — der Leser weiß nicht, ob wir

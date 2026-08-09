@@ -74,6 +74,23 @@ export interface StreamLink {
 }
 
 /** Ein Anime (genauer: ein AniList-Eintrag) mit belegter deutscher Synchro. */
+/**
+ * Ein Weg, den Titel zu sehen oder zu kaufen — jenseits der Plattformen, die
+ * dieses Projekt selbst kennt.
+ *
+ * `PlatformId` ist eine geschlossene Liste der großen Anbieter. Für einen alten
+ * Katalogtitel steht der einzige deutsche Weg aber oft bei Maxdome, Videobuster
+ * oder schlicht als DVD bei Amazon. Diese Angebote hier zu verschweigen, nur
+ * weil sie nicht in die Liste passen, wäre die schlechtere Antwort.
+ */
+export interface WatchLink {
+  /** Anzeigename, wie ihn ein Mensch erwartet: „Amazon", „Videobuster". */
+  name: string
+  url: string
+  /** Ansehen oder erwerben — Streams stehen in der Oberfläche zuerst. */
+  kind: 'stream' | 'buy'
+}
+
 export interface Title {
   id: number
   malId?: number
@@ -104,6 +121,8 @@ export interface Title {
   fsk?: Fsk
   dubConfidence: DubConfidence
   streams: StreamLink[]
+  /** Weitere Wege zum Ansehen oder Kaufen, die keine eigene Plattform sind. */
+  watchLinks?: WatchLink[]
 }
 
 /** Eine konkrete deutsche Veröffentlichung — das, was im Kalender steht. */

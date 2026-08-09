@@ -130,6 +130,10 @@ const EN = {
   'detail.noRelease':
     'A German dub is documented for this title, but no German date has been recorded yet.',
   'detail.noReleaseSingleSource': ' (single source)',
+  'detail.releasedNoDate': 'The German dub has been released. We do not have an exact date for it — the links below lead to it.',
+  'detail.linkStream': 'watch',
+  'detail.linkBuy': 'buy or rent',
+
   'detail.whereToWatch': 'Where to watch',
   'detail.genres': 'Genres',
   'detail.keywords': 'Keywords',
@@ -338,6 +342,10 @@ const DE: Partial<Record<TranslationKey, string>> = {
   'detail.noRelease':
     'Für diesen Titel ist eine deutsche Synchro belegt, aber noch kein deutscher Termin erfasst.',
   'detail.noReleaseSingleSource': ' (nur eine Quelle)',
+  'detail.releasedNoDate': 'Die deutsche Fassung ist erschienen. Ein genaues Datum führen wir dazu nicht — die Verweise unten führen hin.',
+  'detail.linkStream': 'ansehen',
+  'detail.linkBuy': 'kaufen oder leihen',
+
   'detail.whereToWatch': 'Wo läuft es',
   'detail.genres': 'Genres',
   'detail.keywords': 'Keywords',

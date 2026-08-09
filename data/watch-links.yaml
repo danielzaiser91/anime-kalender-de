@@ -1,0 +1,23 @@
+# Von Hand gepflegte Bezugsquellen.
+#
+# Wozu, wenn aniSearch die Anbieter doch liefert: aniSearch pflegt seine
+# Stream-Liste ehrenamtlich, und gerade bei älteren Titeln steht dort nichts —
+# obwohl es die deutsche Fassung sehr wohl zu kaufen oder zu leihen gibt.
+# werstreamt.es wüsste es, untersagt in seiner robots.txt aber ausdrücklich das
+# automatisierte Auslesen. Was dort steht, kommt also nur von Hand hierher.
+#
+# `kind`: stream (Abo oder Leihe im Browser) oder buy (Kauf, Disc).
+# `sources` ist Pflicht — dieselbe Regel wie bei Terminen.
+
+- anilistId: 9332
+  title: .hack//Quantum
+  links:
+    - name: Videobuster
+      url: https://www.videobuster.de/dvd-bluray-verleih/169939/hack-quantum
+      kind: stream
+    - name: Amazon
+      url: https://www.amazon.de/hack-Quantum-Masaki-Tachibana/dp/B007NUP578/
+      kind: buy
+  sources:
+    - https://www.anisearch.com/anime/6438,hack-quantum
+    - https://www.werstreamt.es/film/details/680079/hackquantum/

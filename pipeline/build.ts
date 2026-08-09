@@ -9,7 +9,7 @@ import {
   type CrunchyrollData,
   type CrunchyrollEntry,
 } from './lib/crunchyroll.ts'
-import { loadCurated, type CuratedEntry } from './lib/curated.ts'
+import { loadCurated, loadWatchLinks, type CuratedEntry } from './lib/curated.ts'
 import type { TmdbInfo } from './lib/tmdb.ts'
 import type { AdnData } from './fetch-adn.ts'
 import { clearDir, log, readJson, slugify, warn, writeJson, writeText } from './lib/util.ts'
@@ -22,6 +22,7 @@ import type {
   ReleaseEvent,
   StreamLink,
   Title,
+  WatchLink,
 } from '../shared/types.ts'
 import { expandEvents } from '../shared/logic.ts'
 import { addDays } from '../shared/time.ts'
@@ -32,6 +33,10 @@ import {
   TAG_AS_GENRE,
   TAG_AS_GENRE_MIN_RANK,
   amazonSearchUrl,
+  anisearchPlatform,
+  providerKind,
+  providerName,
+  stripAffiliate,
   isUnusablePrimeLink,
   primeVideoSearchUrl,
   platformSearchUrl,
@@ -269,6 +274,11 @@ function main(): void {
     'data/tmdb-titles.json',
     {},
   )
+  // Deutsche Inhaltsangaben und Anbieter von aniSearch. Fehlt die Datei, läuft
+  // alles wie zuvor — nur eben mit den schwächeren Texten.
+  const anisearch = readJson<
+    Record<string, { descriptionDe?: string; streams: { provider: string; url: string }[] }>
+  >('data/anisearch.json', {})
   const curated = loadCurated()
 
   // Notbremse: Ohne den AniList-Cache baut dieser Lauf einen Datensatz ohne
@@ -346,6 +356,62 @@ function main(): void {
   for (const title of titles.values()) {
     const extra = tmdbTitles[title.id]
     if (extra?.fsk !== undefined && title.fsk === undefined) title.fsk = extra.fsk
+  }
+
+  // Anbieter von aniSearch dazunehmen. Die decken genau die Lücke, die AniList
+  // lässt: alte Katalogtitel, die nur noch als DVD oder bei einem kleinen
+  // Dienst zu haben sind.
+  for (const title of titles.values()) {
+    const extra = anisearch[title.id]
+    if (!extra?.streams?.length) continue
+    const watchLinks: WatchLink[] = []
+    for (const { provider, url: raw } of extra.streams) {
+      const url = stripAffiliate(raw)
+      const platform = anisearchPlatform(provider)
+      if (platform) {
+        // Kennt unsere Plattformliste den Dienst, gehört er zu den Streams —
+        // aber nur, wenn dort nicht schon ein Link steht.
+        if (!title.streams.some((s) => s.platform === platform)) {
+          title.streams.push({ platform, url })
+        }
+        continue
+      }
+      // Ein Anbieter genügt einmal. Zwei Amazon-Zeilen nebeneinander sind
+      // keine Auswahl, sondern Rauschen — aniSearch führt dort oft mehrere
+      // Ausgaben desselben Titels.
+      const name = providerName(provider)
+      if (!watchLinks.some((w) => w.name === name)) {
+        watchLinks.push({ name, url, kind: providerKind(provider) })
+      }
+    }
+    if (watchLinks.length) {
+      // Ansehen vor Kaufen — wer ein Abo hat, will nicht erst zur Kasse.
+      title.watchLinks = watchLinks.sort((a, b) => (a.kind === b.kind ? 0 : a.kind === 'stream' ? -1 : 1))
+    }
+    title.streams.sort(
+      (a, b) => PLATFORM_PRIORITY.indexOf(a.platform) - PLATFORM_PRIORITY.indexOf(b.platform),
+    )
+  }
+
+  // Von Hand gepflegte Bezugswege. Sie stehen vorn: Wer sie einträgt, hat
+  // nachgesehen — das schlägt jede automatische Liste.
+  for (const entry of loadWatchLinks()) {
+    const title = titles.get(entry.anilistId)
+    if (!title) {
+      warn(`watch-links.yaml: AniList-ID ${entry.anilistId} (${entry.title ?? '?'}) ist unbekannt`)
+      continue
+    }
+    const existing = title.watchLinks ?? []
+    const curated = entry.links.filter((l) => !existing.some((e) => e.url === l.url))
+    title.watchLinks = [...curated, ...existing].sort((a, b) =>
+      a.kind === b.kind ? 0 : a.kind === 'stream' ? -1 : 1,
+    )
+  }
+
+  for (const title of titles.values()) {
+    title.streams.sort(
+      (a, b) => PLATFORM_PRIORITY.indexOf(a.platform) - PLATFORM_PRIORITY.indexOf(b.platform),
+    )
   }
 
   // --- Crunchyroll-Sendeplätze indizieren ------------------------------------
@@ -641,16 +707,23 @@ function main(): void {
       'Dub-Daten: MyDubList (https://mydublist.com) — CC BY 4.0',
       'Metadaten: AniList (https://anilist.co)',
       'FSK & Anbieter: TMDB (https://www.themoviedb.org)',
+      'Deutsche Inhaltsangaben & Bezugsquellen: aniSearch (https://www.anisearch.de)',
+      'ID-Zuordnung: anime-offline-database (https://github.com/manami-project/anime-offline-database) — ODbL v1.0',
       'Termine: aniSearch, Anime2You — siehe Quellenangabe je Eintrag',
     ],
   }
 
   // --- Schreiben ------------------------------------------------------------
   // Synopsen liegen getrennt, damit die Startseite nicht Megabytes laden muss.
-  // Zweisprachig: AniList führt nur Englisch, die deutsche Fassung kommt von TMDB.
+  //
+  // Drei Quellen, in dieser Reihenfolge: aniSearch schreibt redaktionelle
+  // deutsche Texte, TMDB oft nur einen übersetzten Stummel, AniList gar kein
+  // Deutsch. Vorher gewann TMDB — und bei „You and I Are Polar Opposites
+  // Staffel 2" stand deshalb „The second season of …" auf der Seite, obwohl es
+  // eine ausführliche deutsche Inhaltsangabe gibt.
   const synopses: Record<number, { de?: string; en?: string }> = {}
   const slim = allTitles.map((t) => {
-    const de = tmdbTitles[t.id]?.overviewDe
+    const de = anisearch[t.id]?.descriptionDe ?? tmdbTitles[t.id]?.overviewDe
     if (t.synopsis || de) synopses[t.id] = { de, en: t.synopsis }
     const { synopsis: _drop, ...rest } = t
     return rest

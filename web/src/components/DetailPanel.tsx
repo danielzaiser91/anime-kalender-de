@@ -448,12 +448,19 @@ export function DetailPanel({
             </div>
           ) : (
             <div className="rounded-xl border border-dashed border-slate-300 p-3 text-xs text-slate-500 dark:border-white/15 dark:text-slate-400">
-              {t('detail.noRelease')}
+              {/*
+                Zwei sehr verschiedene Fälle, die vorher denselben Satz bekamen:
+                Ein Titel von 2011 mit fertiger Synchro ist längst erschienen —
+                „noch kein Termin erfasst" klang dort, als fehlte etwas am Titel,
+                dabei fehlt nur ein Datum in unserem Bestand. Ein Titel, dessen
+                japanische Ausstrahlung noch läuft, wartet dagegen wirklich.
+              */}
+              {t(status === 'erschienen' ? 'detail.releasedNoDate' : 'detail.noRelease')}
               {title.dubConfidence === 'low' && t('detail.noReleaseSingleSource')}
             </div>
           )}
 
-          {title.streams.length > 0 && (
+          {(title.streams.length > 0 || (title.watchLinks?.length ?? 0) > 0) && (
             <div>
               <SectionTitle>{t('detail.whereToWatch')}</SectionTitle>
               <div className="flex flex-col gap-1.5">
@@ -468,6 +475,23 @@ export function DetailPanel({
                     <PlatformBadge platform={s.platform} />
                     <span className="ml-auto">
                       <DubMark dub={s.dub} />
+                    </span>
+                  </a>
+                ))}
+
+                {/* Anbieter ohne eigene Plattform — Streams stehen zuerst,
+                    weil ein Abo näher liegt als ein Kauf. */}
+                {(title.watchLinks ?? []).map((w) => (
+                  <a
+                    key={w.url}
+                    href={w.url}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="flex cursor-pointer items-center gap-2 rounded-lg border border-slate-200 px-2 py-1.5 transition hover:border-slate-300 hover:bg-slate-100/60 dark:border-white/10 dark:hover:border-white/25 dark:hover:bg-white/5"
+                  >
+                    <span className="text-xs font-medium text-slate-700 dark:text-slate-200">{w.name}</span>
+                    <span className="ml-auto text-[11px] text-slate-400 dark:text-slate-500">
+                      {t(w.kind === 'buy' ? 'detail.linkBuy' : 'detail.linkStream')}
                     </span>
                   </a>
                 ))}
