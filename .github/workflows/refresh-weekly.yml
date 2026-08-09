@@ -26,6 +26,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Siehe refresh-hourly.yml: ohne `ref` checkt ein eingereihter Lauf
+          # den Stand von vor seiner Wartezeit aus und scheitert am Push.
+          ref: main
 
       - uses: actions/setup-node@v4
         with:

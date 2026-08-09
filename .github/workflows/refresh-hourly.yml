@@ -29,6 +29,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Ohne `ref` holt checkout den Commit, für den der Lauf ausgelöst
+          # wurde — bei einem eingereihten Lauf also den Stand von vor der
+          # Wartezeit. Der Lauf baut dann auf veralteten Daten und scheitert
+          # beim Push am Konflikt. Genau so am 09.08.2026 passiert, als dieser
+          # Lauf hinter dem Nachtlauf wartete und danach dessen frisch
+          # gepushte Dateien nicht kannte.
+          ref: main
 
       - uses: actions/setup-node@v4
         with:
