@@ -55,7 +55,7 @@ const EN = {
   'release.disc.hint': 'Physical media you can buy',
 
   'legend.colour': 'Colour = release type:',
-  'legend.estimated': 'date derived, not officially confirmed',
+  'legend.estimated': 'projected — this episode has not appeared in the schedule yet',
   'legend.count': '{count} dates in filter · keys ← → T',
 
   'filter.search': 'Title, studio, genre, keyword …',
@@ -262,7 +262,7 @@ const DE: Partial<Record<TranslationKey, string>> = {
   'release.disc.hint': 'Kaufbarer Datenträger',
 
   'legend.colour': 'Farbe = Release-Art:',
-  'legend.estimated': 'Termin abgeleitet, nicht offiziell bestätigt',
+  'legend.estimated': 'fortgeschrieben — diese Folge stand noch nicht im Sendeplan',
   'legend.count': '{count} Termine im Filter · Tasten ← → T',
 
   'filter.search': 'Titel, Studio, Genre, Keyword …',

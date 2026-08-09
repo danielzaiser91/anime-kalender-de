@@ -90,25 +90,52 @@ export function expandEvents(release: Release): ReleaseEvent[] {
 
   const count = s.episodeCount ?? 12
   const skips = new Set(s.skipDates ?? [])
-  const events: ReleaseEvent[] = []
-  let date = s.firstEpisodeDate
-  let guard = 0
-  while (events.length < count && guard++ < 400) {
-    if (!skips.has(date)) {
-      const episode = events.length + 1
-      // Beobachtung schlägt Rechnung: Wurde diese Folge im Kalender gesehen,
-      // gilt ihr echter Termin. Der Takt läuft trotzdem unverändert weiter —
-      // ein einzelner Ausreißer soll nicht alles Folgende mitverschieben.
-      const seen = s.observed?.[episode]
-      events.push({
-        ...base,
-        id: `${release.slug}@${seen ?? date}`,
-        date: seen ?? date,
-        episode,
-        episodeCount: count,
-      })
+
+  /**
+   * Beobachtete Folgen, aufsteigend. Sie sind die Stützpunkte des Sendeplans:
+   * Jede Folge rechnet ab der jüngsten Beobachtung **vor** ihr weiter.
+   *
+   * Der Unterschied ist keine Kleinigkeit. Vorher lief die Rechnung stur ab
+   * Folge 1 durch, und eine einzige Sendepause verschob alles Weitere um eine
+   * Woche: Bei „Ascendance of a Bookworm" pausierte die Staffel am 25.07., die
+   * echte Folge 14 lief am 08.08. — der Kalender setzte dorthin Folge 15 und
+   * behauptete damit eine deutsche Fassung, die es noch gar nicht gab.
+   *
+   * Ein Stützpunkt hinter sich zu haben heißt: Der Takt ab dort ist gemessen,
+   * nicht geraten. Alles jenseits der letzten Beobachtung bleibt Fortschreibung
+   * und wird als solche gekennzeichnet.
+   */
+  const anchors = Object.entries(s.observed ?? {})
+    .map(([episode, date]) => ({ episode: Number(episode), date }))
+    .filter((a) => a.episode > 0 && a.date)
+    .sort((a, b) => a.episode - b.episode)
+  const lastAnchor = anchors[anchors.length - 1]
+
+  const dateOf = (episode: number): string => {
+    let anchor: { episode: number; date: string } | undefined
+    for (const candidate of anchors) {
+      if (candidate.episode > episode) break
+      anchor = candidate
     }
-    date = addDays(date, 7)
+    return anchor
+      ? addDays(anchor.date, 7 * (episode - anchor.episode))
+      : addDays(s.firstEpisodeDate, 7 * (episode - 1))
   }
-  return events.sort((a, b) => a.date.localeCompare(b.date) || (a.episode ?? 0) - (b.episode ?? 0))
+
+  const events: ReleaseEvent[] = []
+  for (let episode = 1; episode <= count; episode++) {
+    const date = dateOf(episode)
+    if (skips.has(date)) continue
+    events.push({
+      ...base,
+      id: `${release.slug}@${date}`,
+      date,
+      episode,
+      episodeCount: count,
+      // Gesehen ist gesehen; fortgeschrieben bleibt eine Annahme, auch wenn
+      // der Start selbst belegt ist.
+      estimated: s.observed?.[episode] ? undefined : lastAnchor ? true : s.estimated,
+    })
+  }
+  return events
 }
