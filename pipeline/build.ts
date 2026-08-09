@@ -146,6 +146,25 @@ function titleFromMedia(media: AniListMedia, confidence: DubConfidence): Title {
   }
 }
 
+/**
+ * TMDB-Anbietername → unsere Plattform. Dieselbe Zuordnung wie im Abrufskript,
+ * hier noch einmal gebraucht, weil der Build entscheidet, was als Plattform
+ * und was als schlichter Verweis erscheint.
+ */
+function providerToPlatform(name: string): PlatformId | undefined {
+  const n = name.toLowerCase()
+  if (n.includes('crunchyroll')) return 'crunchyroll'
+  if (n.includes('netflix')) return 'netflix'
+  if (n.includes('disney')) return 'disneyplus'
+  if (n.includes('amazon') || n.includes('prime video')) return 'primevideo'
+  if (n.includes('animation digital network') || n === 'adn') return 'adn'
+  if (n.includes('wow')) return 'wow'
+  if (n.includes('joyn')) return 'joyn'
+  if (n.includes('rtl')) return 'rtlplus'
+  if (n.includes('aniverse')) return 'aniverse'
+  return undefined
+}
+
 /** Wochentag eines ISO-Datums, 0 = Montag. */
 function weekdayOf(iso: string): number {
   const [y, m, d] = iso.split('-').map(Number)
@@ -270,7 +289,18 @@ function main(): void {
   const tmdb = readJson<Record<string, TmdbInfo>>('data/tmdb.json', {})
   // Je AniList-ID: deutsche Handlung, FSK und Anbieter — für alle Titel, nicht
   // nur die kuratierten.
-  const tmdbTitles = readJson<Record<string, { overviewDe?: string; fsk?: Fsk; providers?: PlatformId[] }>>(
+  const tmdbTitles = readJson<
+    Record<
+      string,
+      {
+        overviewDe?: string
+        fsk?: Fsk
+        providers?: PlatformId[]
+        offers?: { name: string; kind: 'flatrate' | 'rent' | 'buy' }[]
+        justwatchUrl?: string
+      }
+    >
+  >(
     'data/tmdb-titles.json',
     {},
   )
@@ -391,6 +421,33 @@ function main(): void {
     title.streams.sort(
       (a, b) => PLATFORM_PRIORITY.indexOf(a.platform) - PLATFORM_PRIORITY.indexOf(b.platform),
     )
+  }
+
+  // Angebote von TMDB (Datenbasis JustWatch) — dieselbe Quelle, aus der auch
+  // werstreamt.es schöpft. Bisher behielten wir davon nur die Dienste mit
+  // eigener Plattform und warfen Videobuster, maxdome, Sky Store und Apple TV
+  // weg. Die Daten waren immer da.
+  //
+  // Einen Link je Anbieter liefert TMDB nicht, nur eine Übersichtsseite für
+  // die Region. Also zeigt jede Zeile den Anbieternamen und führt dorthin —
+  // besser als ein erfundener Deeplink, der ins Leere geht.
+  for (const title of titles.values()) {
+    const info = tmdbTitles[title.id]
+    if (!info?.offers?.length || !info.justwatchUrl) continue
+    const watchLinks = title.watchLinks ?? []
+    for (const offer of info.offers) {
+      if (providerToPlatform(offer.name)) continue
+      const name = offer.name
+      if (watchLinks.some((w) => w.name === name)) continue
+      watchLinks.push({
+        name,
+        url: info.justwatchUrl,
+        kind: offer.kind === 'flatrate' ? 'stream' : 'buy',
+      })
+    }
+    if (watchLinks.length) {
+      title.watchLinks = watchLinks.sort((a, b) => (a.kind === b.kind ? 0 : a.kind === 'stream' ? -1 : 1))
+    }
   }
 
   // Von Hand gepflegte Bezugswege. Sie stehen vorn: Wer sie einträgt, hat

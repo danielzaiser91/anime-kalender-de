@@ -8,3 +8,4 @@ dist/
 worker/node_modules/
 data/cache/
 .anisearch*.log
+.tmdb.log

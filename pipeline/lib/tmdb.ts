@@ -3,11 +3,44 @@ import type { Fsk, PlatformId } from '../../shared/types.ts'
 
 const BASE = 'https://api.themoviedb.org/3'
 
+/** Ein Angebot, wie TMDB (Datenbasis JustWatch) es für Deutschland führt. */
+export interface TmdbOffer {
+  name: string
+  /** flatrate = im Abo, rent = leihen, buy = kaufen. */
+  kind: 'flatrate' | 'rent' | 'buy'
+}
+
 export interface TmdbInfo {
   tmdbId?: number
   fsk?: Fsk
   providers?: PlatformId[]
+  /**
+   * Die **vollständige** Anbieterliste, nicht nur die Dienste mit eigener
+   * Plattform.
+   *
+   * Vorher wurde alles verworfen, was `providerToPlatform` nicht kannte —
+   * also Videobuster, maxdome, Sky Store, Apple TV, Google Play. Genau die
+   * Angebote, die bei alten Titeln oft die einzigen sind. Die Daten waren
+   * immer da, wir haben sie nur weggeworfen.
+   */
+  offers?: TmdbOffer[]
+  /** TMDBs Übersichtsseite mit allen Anbieterlinks für die Region. */
   justwatchUrl?: string
+}
+
+/** Liest `flatrate`, `rent` und `buy` aus einer watch/providers-Antwort. */
+export function readOffers(de: {
+  flatrate?: { provider_name: string }[]
+  rent?: { provider_name: string }[]
+  buy?: { provider_name: string }[]
+}): TmdbOffer[] {
+  const out: TmdbOffer[] = []
+  for (const kind of ['flatrate', 'rent', 'buy'] as const) {
+    for (const p of de[kind] ?? []) {
+      if (!out.some((o) => o.name === p.provider_name)) out.push({ name: p.provider_name, kind })
+    }
+  }
+  return out
 }
 
 const FSK_VALUES: Fsk[] = [0, 6, 12, 16, 18]
@@ -78,13 +111,24 @@ export async function lookupTmdb(
     await sleep(60)
 
     const wp = await fetchJson<{
-      results: Record<string, { link?: string; flatrate?: { provider_name: string }[]; buy?: { provider_name: string }[] }>
+      results: Record<
+        string,
+        {
+          link?: string
+          flatrate?: { provider_name: string }[]
+          rent?: { provider_name: string }[]
+          buy?: { provider_name: string }[]
+        }
+      >
     }>(`${BASE}/${kind}/${hit.id}/watch/providers?api_key=${apiKey}`)
     const de = wp.results?.DE
     if (de) {
       info.justwatchUrl = de.link
-      const names = [...(de.flatrate ?? []), ...(de.buy ?? [])].map((p) => p.provider_name)
-      const platforms = [...new Set(names.map(providerToPlatform).filter(Boolean))] as PlatformId[]
+      const offers = readOffers(de)
+      if (offers.length) info.offers = offers
+      const platforms = [
+        ...new Set(offers.map((o) => providerToPlatform(o.name)).filter(Boolean)),
+      ] as PlatformId[]
       if (platforms.length) info.providers = platforms
     }
     await sleep(60)

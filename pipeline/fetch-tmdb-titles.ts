@@ -17,6 +17,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import type { Fsk, PlatformId, Title } from '../shared/types.ts'
 import { ROOT, fetchJson, log, readJson, sleep, warn, writeJson } from './lib/util.ts'
+import { readOffers, type TmdbOffer } from './lib/tmdb.ts'
 
 /** .env einlesen, damit der Schlüssel nicht bei jedem Aufruf gesetzt werden muss. */
 function loadEnv(): void {
@@ -41,6 +42,10 @@ export interface TmdbTitle {
   overviewDe?: string
   fsk?: Fsk
   providers?: PlatformId[]
+  /** Alle deutschen Angebote, auch die ohne eigene Plattform. */
+  offers?: TmdbOffer[]
+  /** TMDBs Anbieterseite für die Region — dort stehen die Einzellinks. */
+  justwatchUrl?: string
   /** Nichts gefunden — verhindert, dass jeder Lauf erneut sucht. */
   miss?: true
 }
@@ -159,12 +164,25 @@ async function lookup(apiKey: string, title: Title): Promise<TmdbTitle> {
     await sleep(40)
 
     const wp = await fetchJson<{
-      results: Record<string, { flatrate?: { provider_name: string }[]; buy?: { provider_name: string }[] }>
+      results: Record<
+        string,
+        {
+          link?: string
+          flatrate?: { provider_name: string }[]
+          rent?: { provider_name: string }[]
+          buy?: { provider_name: string }[]
+        }
+      >
     }>(`${BASE}/${kind}/${best.hit.id}/watch/providers?api_key=${apiKey}`)
     const de = wp.results?.DE
     if (de) {
-      const names = [...(de.flatrate ?? []), ...(de.buy ?? [])].map((p) => p.provider_name)
-      const platforms = [...new Set(names.map(providerToPlatform).filter(Boolean))] as PlatformId[]
+      out.justwatchUrl = de.link
+      // Die ganze Liste behalten, nicht nur die Dienste mit eigener Plattform.
+      const offers = readOffers(de)
+      if (offers.length) out.offers = offers
+      const platforms = [
+        ...new Set(offers.map((o) => providerToPlatform(o.name)).filter(Boolean)),
+      ] as PlatformId[]
       if (platforms.length) out.providers = platforms
     }
     await sleep(40)

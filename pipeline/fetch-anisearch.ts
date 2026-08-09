@@ -15,6 +15,12 @@
  * sperrt nur Weiterleitungs- und Konto-Pfade. Also nehmen wir, was erlaubt ist,
  * und tragen den Rest von Hand nach.
  *
+ * **Offene Baustelle:** aniSearch betreibt unter `api.anisearch.com` eine
+ * offizielle Schnittstelle mit OAuth-Zugang. Die wäre der richtige Weg — sie
+ * verlangt aber eine registrierte Anwendung, und ein Konto kann nur der
+ * Betreiber dieses Projekts anlegen. Bis dahin bleibt das Lesen der
+ * öffentlichen Seiten, im dokumentierten Takt der API.
+ *
  * Die Zuordnung AniList → aniSearch kommt aus der anime-offline-database des
  * manami-Projekts (ODbL). Titelvergleiche wären hier fatal: „.hack//Quantum"
  * und „.hack//Sign" trennt kein Suchindex zuverlässig.
@@ -34,11 +40,22 @@ const args = process.argv.slice(2)
  * tausend Anfragen im Sekundentakt, und zu Recht. Der Bestand liegt im Repo
  * und wächst mit jedem Nachtlauf; er muss nicht an einem Tag vollständig sein.
  */
-const LIMIT = Number(args[args.indexOf('--limit') + 1]) || 120
+const LIMIT = Number(args[args.indexOf('--limit') + 1]) || 60
 const FORCE = args.includes('--force')
 
-/** Abstand zwischen zwei Anfragen. */
-const DELAY_MS = 2500
+/**
+ * Abstand zwischen zwei Anfragen: sechs Sekunden, also zehn pro Minute.
+ *
+ * Das ist keine gegriffene Zahl, sondern das strengere der beiden Limits, die
+ * aniSearch für seine API dokumentiert (10/Minute bzw. 100/2 Minuten, je nach
+ * Endpunkt). Hier werden zwar HTML-Seiten gelesen und keine API befragt — aber
+ * die Grenze, die der Betreiber für seine eigene Schnittstelle zieht, ist die
+ * beste verfügbare Auskunft darüber, was er für zumutbar hält.
+ *
+ * Der erste Anlauf lief mit 60 Anfragen pro Minute. Das war sechsmal über dem
+ * Limit und endete in einer Sperre — nachvollziehbarerweise.
+ */
+const DELAY_MS = 6000
 
 /**
  * So viele Fehlschläge hintereinander, dann ist Schluss.
