@@ -26,8 +26,28 @@ import { recordSource } from './lib/health.ts'
 import type { Release, Title } from '../shared/types.ts'
 
 const args = process.argv.slice(2)
-const LIMIT = Number(args[args.indexOf('--limit') + 1]) || 250
+/**
+ * Wie viele Seiten ein Lauf höchstens holt.
+ *
+ * Bewusst klein. Ein Versuch mit 2.900 Titeln am Stück endete damit, dass
+ * aniSearch die Verbindung verweigerte (`UND_ERR_CONNECT_TIMEOUT`) — nach rund
+ * tausend Anfragen im Sekundentakt, und zu Recht. Der Bestand liegt im Repo
+ * und wächst mit jedem Nachtlauf; er muss nicht an einem Tag vollständig sein.
+ */
+const LIMIT = Number(args[args.indexOf('--limit') + 1]) || 120
 const FORCE = args.includes('--force')
+
+/** Abstand zwischen zwei Anfragen. */
+const DELAY_MS = 2500
+
+/**
+ * So viele Fehlschläge hintereinander, dann ist Schluss.
+ *
+ * Wenn eine Seite dichtmacht, hilft Weitermachen niemandem: Jede weitere
+ * Anfrage ist nutzlos und verlängert nur die Sperre. Abbrechen ist hier die
+ * höflichere und die klügere Reaktion.
+ */
+const MAX_FAILURES = 5
 
 const UA =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36'
@@ -217,23 +237,28 @@ async function main(): Promise<void> {
   let mitText = 0
   let mitStream = 0
 
+  let fehlerInFolge = 0
   for (const title of queue) {
     const anisearchId = ids.anisearch[title.id]
     const entry = await fetchTitle(anisearchId)
     if (entry) {
       cache[title.id] = { anisearchId, ...entry }
       neu++
+      fehlerInFolge = 0
       if (entry.descriptionDe) mitText++
       if (entry.streams.length) mitStream++
+    } else if (++fehlerInFolge >= MAX_FAILURES) {
+      warn(`${MAX_FAILURES} Fehlschläge in Folge — aniSearch macht dicht. Lauf wird beendet.`)
+      break
     }
     // Zwischendurch sichern. Ein Lauf über tausend Titel dauert eine gute
     // halbe Stunde; würde erst am Ende geschrieben, wäre ein Abbruch kurz
     // davor gleichbedeutend mit tausend vergeblichen Anfragen an eine fremde
     // Seite. Genau das ist einmal passiert.
     if (neu % 25 === 0) writeJson('data/anisearch.json', cache, true)
-    // Eine Sekunde Abstand. Die Seite gehört einer kleinen Redaktion, nicht
-    // einem Rechenzentrum — ein Ansturm wäre respektlos und würde auffallen.
-    await sleep(1000)
+    // Reichlich Abstand. Die Seite gehört einer kleinen Redaktion, nicht einem
+    // Rechenzentrum — ein Ansturm ist respektlos und endet in einer Sperre.
+    await sleep(DELAY_MS)
   }
 
   writeJson('data/anisearch.json', cache, true)

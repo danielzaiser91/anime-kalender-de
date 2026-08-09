@@ -68,7 +68,7 @@ jobs:
         # Nur ein Kontingent je Lauf, eine Anfrage pro Sekunde. Der Bestand
         # füllt sich über die Tage; er liegt im Repo und geht nie verloren.
         continue-on-error: true
-        run: npm run data:anisearch -- --limit 300
+        run: npm run data:anisearch -- --limit 120
 
       - name: Datensatz bauen
         env:
