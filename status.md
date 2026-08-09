@@ -8,7 +8,9 @@ Stand: 08.08.2026 · Live: https://anime-kalender.de/
 _(leer)_
 
 ### Queue
-_(leer)_
+| Aufgabe | SP | Notiz |
+|---|---|---|
+| aniSearch-Bestand auffüllen | 2 | läuft über die Nachtläufe, 120 Titel je Lauf; aktuell 0, Ziel rund 2.750 |
 
 
 ### Später (nice to have)
@@ -40,6 +42,14 @@ _(leer)_
   Newsletter-Abmeldung ist noch ungetestet.
 
 ## Archiv
+
+- ✅ **aniSearch als Quelle**: deutsche Inhaltsangaben (redaktionell, ausführlich) und Bezugsquellen
+  auch für alte Katalogtitel. ID-Zuordnung über die anime-offline-database (ODbL), weil ein
+  Titelvergleich „.hack//Quantum" und „.hack//Sign" nicht auseinanderhält
+- ✅ **Hinweis bei Titeln ohne Termin** unterscheidet jetzt: erschienen (Datum fehlt nur bei uns)
+  gegen wartend. Bezugswege stehen darunter, Streams vor Kauflinks, fremde Partner-Kennungen
+  entfernt
+- ✅ **Steel Ball Run** kuratiert: 1st STAGE seit 19.03.2026 auf Netflix, Fortsetzung ab 25.09.2026
 
 - ✅ **Sendepausen verschieben alles Folgende**: Der Sendeplan hängt jetzt an Stützpunkten — jede
   Folge rechnet ab der jüngsten Beobachtung vor ihr weiter, nicht ab Folge 1. Eine Pause muss
