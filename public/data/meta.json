@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-09T08:19:29.167Z",
-  "titleCount": 2753,
+  "generatedAt": "2026-08-09T09:06:54.163Z",
+  "titleCount": 2759,
   "releaseCount": 127,
   "eventCount": 567,
   "genres": [
@@ -422,6 +422,8 @@
     "Dub-Daten: MyDubList (https://mydublist.com) — CC BY 4.0",
     "Metadaten: AniList (https://anilist.co)",
     "FSK & Anbieter: TMDB (https://www.themoviedb.org)",
+    "Deutsche Inhaltsangaben & Bezugsquellen: aniSearch (https://www.anisearch.de)",
+    "ID-Zuordnung: anime-offline-database (https://github.com/manami-project/anime-offline-database) — ODbL v1.0",
     "Termine: aniSearch, Anime2You — siehe Quellenangabe je Eintrag"
   ]
 }
