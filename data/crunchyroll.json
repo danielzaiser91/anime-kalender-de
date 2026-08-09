@@ -1,7 +1,7 @@
 {
-  "scrapedAt": "2026-08-08T23:49:33.789Z",
+  "scrapedAt": "2026-08-09T00:57:13.849Z",
   "window": {
-    "from": "2026-07-27",
+    "from": "2026-05-25",
     "to": "2026-08-16"
   },
   "german": {
@@ -9,6 +9,10 @@
       "time": "16:30",
       "weekday": 1,
       "dates": [
+        "2026-05-26",
+        "2026-06-02",
+        "2026-06-09",
+        "2026-06-16",
         "2026-06-23",
         "2026-06-30",
         "2026-07-07",
@@ -18,9 +22,47 @@
       "rawTitle": "MARRIAGETOXIN Season 1 (Deutsch)",
       "seriesId": "GT00371857",
       "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371857/marriagetoxin",
+      "observations": [
+        {
+          "date": "2026-05-26",
+          "episode": 5
+        },
+        {
+          "date": "2026-06-02",
+          "episode": 6
+        },
+        {
+          "date": "2026-06-09",
+          "episode": 7
+        },
+        {
+          "date": "2026-06-16",
+          "episode": 8
+        },
+        {
+          "date": "2026-06-23",
+          "episode": 9
+        },
+        {
+          "date": "2026-06-30",
+          "episode": 10
+        },
+        {
+          "date": "2026-07-07",
+          "episode": 11
+        },
+        {
+          "date": "2026-07-14",
+          "episode": 12
+        },
+        {
+          "date": "2026-07-21",
+          "episode": 13
+        }
+      ],
       "earliest": {
-        "date": "2026-06-23",
-        "episode": 9
+        "date": "2026-05-26",
+        "episode": 5
       },
       "weeklyConfirmed": true
     },
@@ -28,6 +70,10 @@
       "time": "14:30",
       "weekday": 2,
       "dates": [
+        "2026-05-27",
+        "2026-06-03",
+        "2026-06-10",
+        "2026-06-17",
         "2026-06-24",
         "2026-07-01",
         "2026-07-08",
@@ -38,9 +84,51 @@
       "rawTitle": "Classroom of the Elite 4th Season: Second Year, First Semester (Deutsch)",
       "seriesId": "GRVN8MNQY",
       "seriesUrl": "https://www.crunchyroll.com/de/series/GRVN8MNQY/classroom-of-the-elite",
+      "observations": [
+        {
+          "date": "2026-05-27",
+          "episode": 7
+        },
+        {
+          "date": "2026-06-03",
+          "episode": 8
+        },
+        {
+          "date": "2026-06-10",
+          "episode": 9
+        },
+        {
+          "date": "2026-06-17",
+          "episode": 10
+        },
+        {
+          "date": "2026-06-24",
+          "episode": 11
+        },
+        {
+          "date": "2026-07-01",
+          "episode": 12
+        },
+        {
+          "date": "2026-07-08",
+          "episode": 13
+        },
+        {
+          "date": "2026-07-15",
+          "episode": 14
+        },
+        {
+          "date": "2026-07-22",
+          "episode": 15
+        },
+        {
+          "date": "2026-07-29",
+          "episode": 16
+        }
+      ],
       "earliest": {
-        "date": "2026-06-24",
-        "episode": 11
+        "date": "2026-05-27",
+        "episode": 7
       },
       "weeklyConfirmed": true
     },
@@ -48,6 +136,10 @@
       "time": "15:00",
       "weekday": 2,
       "dates": [
+        "2026-05-27",
+        "2026-06-03",
+        "2026-06-10",
+        "2026-06-17",
         "2026-06-24",
         "2026-07-01",
         "2026-07-08",
@@ -56,9 +148,43 @@
       "rawTitle": "Rent-a-Girlfriend Season 5 (Deutsch)",
       "seriesId": "G6QWV3976",
       "seriesUrl": "https://www.crunchyroll.com/de/series/G6QWV3976/rent-a-girlfriend",
+      "observations": [
+        {
+          "date": "2026-05-27",
+          "episode": 5
+        },
+        {
+          "date": "2026-06-03",
+          "episode": 6
+        },
+        {
+          "date": "2026-06-10",
+          "episode": 7
+        },
+        {
+          "date": "2026-06-17",
+          "episode": 8
+        },
+        {
+          "date": "2026-06-24",
+          "episode": 9
+        },
+        {
+          "date": "2026-07-01",
+          "episode": 10
+        },
+        {
+          "date": "2026-07-08",
+          "episode": 11
+        },
+        {
+          "date": "2026-07-15",
+          "episode": 12
+        }
+      ],
       "earliest": {
-        "date": "2026-06-24",
-        "episode": 9
+        "date": "2026-05-27",
+        "episode": 5
       },
       "weeklyConfirmed": true
     },
@@ -66,6 +192,10 @@
       "time": "16:00",
       "weekday": 2,
       "dates": [
+        "2026-05-27",
+        "2026-06-03",
+        "2026-06-10",
+        "2026-06-17",
         "2026-06-24",
         "2026-07-08",
         "2026-07-15"
@@ -73,9 +203,39 @@
       "rawTitle": "Reborn as a Vending Machine, I Now Wander the Dungeon Season 3 (Deutsch)",
       "seriesId": "GVDHX8504",
       "seriesUrl": "https://www.crunchyroll.com/de/series/GVDHX8504/reborn-as-a-vending-machine-i-now-wander-the-dungeon",
+      "observations": [
+        {
+          "date": "2026-05-27",
+          "episode": 6
+        },
+        {
+          "date": "2026-06-03",
+          "episode": 7
+        },
+        {
+          "date": "2026-06-10",
+          "episode": 8
+        },
+        {
+          "date": "2026-06-17",
+          "episode": 9
+        },
+        {
+          "date": "2026-06-24",
+          "episode": 10
+        },
+        {
+          "date": "2026-07-08",
+          "episode": 11
+        },
+        {
+          "date": "2026-07-15",
+          "episode": 12
+        }
+      ],
       "earliest": {
-        "date": "2026-06-24",
-        "episode": 10
+        "date": "2026-05-27",
+        "episode": 6
       },
       "weeklyConfirmed": true
     },
@@ -83,6 +243,10 @@
       "time": "14:30",
       "weekday": 3,
       "dates": [
+        "2026-05-28",
+        "2026-06-04",
+        "2026-06-11",
+        "2026-06-18",
         "2026-06-25",
         "2026-07-02",
         "2026-07-09",
@@ -91,9 +255,43 @@
       "rawTitle": "The Warrior Princess and the Barbaric King Season 1 (Deutsch)",
       "seriesId": "GT00362253",
       "seriesUrl": "https://www.crunchyroll.com/de/series/GT00362253/the-warrior-princess-and-the-barbaric-king",
+      "observations": [
+        {
+          "date": "2026-05-28",
+          "episode": 5
+        },
+        {
+          "date": "2026-06-04",
+          "episode": 6
+        },
+        {
+          "date": "2026-06-11",
+          "episode": 7
+        },
+        {
+          "date": "2026-06-18",
+          "episode": 8
+        },
+        {
+          "date": "2026-06-25",
+          "episode": 9
+        },
+        {
+          "date": "2026-07-02",
+          "episode": 10
+        },
+        {
+          "date": "2026-07-09",
+          "episode": 11
+        },
+        {
+          "date": "2026-07-16",
+          "episode": 12
+        }
+      ],
       "earliest": {
-        "date": "2026-06-25",
-        "episode": 9
+        "date": "2026-05-28",
+        "episode": 5
       },
       "weeklyConfirmed": true
     },
@@ -101,6 +299,10 @@
       "time": "17:00",
       "weekday": 4,
       "dates": [
+        "2026-05-29",
+        "2026-06-05",
+        "2026-06-12",
+        "2026-06-19",
         "2026-06-26",
         "2026-07-03",
         "2026-07-10",
@@ -112,9 +314,55 @@
       "rawTitle": "Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 (Deutsch)",
       "seriesId": "GYZJ43JMR",
       "seriesUrl": "https://www.crunchyroll.com/de/series/GYZJ43JMR/that-time-i-got-reincarnated-as-a-slime",
+      "observations": [
+        {
+          "date": "2026-05-29",
+          "episode": 5
+        },
+        {
+          "date": "2026-06-05",
+          "episode": 6
+        },
+        {
+          "date": "2026-06-12",
+          "episode": 7
+        },
+        {
+          "date": "2026-06-19",
+          "episode": 8
+        },
+        {
+          "date": "2026-06-26",
+          "episode": 9
+        },
+        {
+          "date": "2026-07-03",
+          "episode": 10
+        },
+        {
+          "date": "2026-07-10",
+          "episode": 11
+        },
+        {
+          "date": "2026-07-17",
+          "episode": 12
+        },
+        {
+          "date": "2026-07-24",
+          "episode": 13
+        },
+        {
+          "date": "2026-07-31",
+          "episode": 14
+        },
+        {
+          "date": "2026-08-07",
+          "episode": 15
+        }
+      ],
       "earliest": {
-        "date": "2026-06-26",
-        "episode": 9
+        "date": "2026-05-29",
+        "episode": 5
       },
       "weeklyConfirmed": true
     },
@@ -122,6 +370,10 @@
       "time": "11:30",
       "weekday": 5,
       "dates": [
+        "2026-05-30",
+        "2026-06-06",
+        "2026-06-13",
+        "2026-06-20",
         "2026-06-27",
         "2026-07-04",
         "2026-07-11",
@@ -132,9 +384,51 @@
       "rawTitle": "Ascendance of a Bookworm Staffel 4 (Deutsch)",
       "seriesId": "G6793XKZY",
       "seriesUrl": "https://www.crunchyroll.com/de/series/G6793XKZY/ascendance-of-a-bookworm",
+      "observations": [
+        {
+          "date": "2026-05-30",
+          "episode": 5
+        },
+        {
+          "date": "2026-06-06",
+          "episode": 6
+        },
+        {
+          "date": "2026-06-13",
+          "episode": 7
+        },
+        {
+          "date": "2026-06-20",
+          "episode": 8
+        },
+        {
+          "date": "2026-06-27",
+          "episode": 9
+        },
+        {
+          "date": "2026-07-04",
+          "episode": 10
+        },
+        {
+          "date": "2026-07-11",
+          "episode": 11
+        },
+        {
+          "date": "2026-07-18",
+          "episode": 12
+        },
+        {
+          "date": "2026-08-01",
+          "episode": 13
+        },
+        {
+          "date": "2026-08-08",
+          "episode": 14
+        }
+      ],
       "earliest": {
-        "date": "2026-06-27",
-        "episode": 9
+        "date": "2026-05-30",
+        "episode": 5
       },
       "weeklyConfirmed": true
     },
@@ -142,6 +436,10 @@
       "time": "12:25",
       "weekday": 5,
       "dates": [
+        "2026-05-30",
+        "2026-06-06",
+        "2026-06-13",
+        "2026-06-20",
         "2026-06-27",
         "2026-07-04",
         "2026-07-11",
@@ -152,9 +450,51 @@
       "rawTitle": "Welcome to Demon School! Iruma-kun Staffel 4 (Deutsch)",
       "seriesId": "G6NVG970Y",
       "seriesUrl": "https://www.crunchyroll.com/de/series/G6NVG970Y/welcome-to-demon-school-iruma-kun",
+      "observations": [
+        {
+          "date": "2026-05-30",
+          "episode": 9
+        },
+        {
+          "date": "2026-06-06",
+          "episode": 10
+        },
+        {
+          "date": "2026-06-13",
+          "episode": 11
+        },
+        {
+          "date": "2026-06-20",
+          "episode": 12
+        },
+        {
+          "date": "2026-06-27",
+          "episode": 13
+        },
+        {
+          "date": "2026-07-04",
+          "episode": 14
+        },
+        {
+          "date": "2026-07-11",
+          "episode": 15
+        },
+        {
+          "date": "2026-07-18",
+          "episode": 16
+        },
+        {
+          "date": "2026-07-25",
+          "episode": 17
+        },
+        {
+          "date": "2026-08-01",
+          "episode": 18
+        }
+      ],
       "earliest": {
-        "date": "2026-06-27",
-        "episode": 13
+        "date": "2026-05-30",
+        "episode": 9
       },
       "weeklyConfirmed": true
     },
@@ -162,6 +502,10 @@
       "time": "18:00",
       "weekday": 5,
       "dates": [
+        "2026-05-30",
+        "2026-06-06",
+        "2026-06-13",
+        "2026-06-20",
         "2026-06-27",
         "2026-07-04",
         "2026-07-11"
@@ -169,9 +513,39 @@
       "rawTitle": "Mistress Kanan is Devilishly Easy Season 1 (Deutsch)",
       "seriesId": "GT00371860",
       "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371860/mistress-kanan-is-devilishly-easy",
+      "observations": [
+        {
+          "date": "2026-05-30",
+          "episode": 6
+        },
+        {
+          "date": "2026-06-06",
+          "episode": 7
+        },
+        {
+          "date": "2026-06-13",
+          "episode": 8
+        },
+        {
+          "date": "2026-06-20",
+          "episode": 9
+        },
+        {
+          "date": "2026-06-27",
+          "episode": 10
+        },
+        {
+          "date": "2026-07-04",
+          "episode": 11
+        },
+        {
+          "date": "2026-07-11",
+          "episode": 12
+        }
+      ],
       "earliest": {
-        "date": "2026-06-27",
-        "episode": 10
+        "date": "2026-05-30",
+        "episode": 6
       },
       "weeklyConfirmed": true
     },
@@ -179,6 +553,10 @@
       "time": "10:30",
       "weekday": 6,
       "dates": [
+        "2026-05-31",
+        "2026-06-07",
+        "2026-06-14",
+        "2026-06-21",
         "2026-06-28",
         "2026-07-05",
         "2026-07-12",
@@ -187,9 +565,43 @@
       "rawTitle": "Wistoria: Wand and Sword Season 2 (Deutsch)",
       "seriesId": "GW4HM7WK9",
       "seriesUrl": "https://www.crunchyroll.com/de/series/GW4HM7WK9/wistoria-wand-and-sword",
+      "observations": [
+        {
+          "date": "2026-05-31",
+          "episode": 17
+        },
+        {
+          "date": "2026-06-07",
+          "episode": 18
+        },
+        {
+          "date": "2026-06-14",
+          "episode": 19
+        },
+        {
+          "date": "2026-06-21",
+          "episode": 20
+        },
+        {
+          "date": "2026-06-28",
+          "episode": 21
+        },
+        {
+          "date": "2026-07-05",
+          "episode": 22
+        },
+        {
+          "date": "2026-07-12",
+          "episode": 23
+        },
+        {
+          "date": "2026-07-19",
+          "episode": 24
+        }
+      ],
       "earliest": {
-        "date": "2026-06-28",
-        "episode": 21
+        "date": "2026-05-31",
+        "episode": 17
       },
       "weeklyConfirmed": true
     },
@@ -206,6 +618,28 @@
       "rawTitle": "Skeleton Knight in Another World Staffel 2 (Deutsch)",
       "seriesId": "G8DHV7WJP",
       "seriesUrl": "https://www.crunchyroll.com/de/series/G8DHV7WJP/skeleton-knight-in-another-world",
+      "observations": [
+        {
+          "date": "2026-07-04",
+          "episode": 1
+        },
+        {
+          "date": "2026-07-13",
+          "episode": 2
+        },
+        {
+          "date": "2026-07-20",
+          "episode": 3
+        },
+        {
+          "date": "2026-07-27",
+          "episode": 4
+        },
+        {
+          "date": "2026-08-03",
+          "episode": 5
+        }
+      ],
       "earliest": {
         "date": "2026-07-04",
         "episode": 1
@@ -226,6 +660,32 @@
       "rawTitle": "BLACK TORCH Staffel 1 (Deutsch)",
       "seriesId": "GT00377907",
       "seriesUrl": "https://www.crunchyroll.com/de/series/GT00377907/black-torch",
+      "observations": [
+        {
+          "date": "2026-07-04",
+          "episode": 1
+        },
+        {
+          "date": "2026-07-11",
+          "episode": 2
+        },
+        {
+          "date": "2026-07-18",
+          "episode": 3
+        },
+        {
+          "date": "2026-07-25",
+          "episode": 4
+        },
+        {
+          "date": "2026-08-01",
+          "episode": 5
+        },
+        {
+          "date": "2026-08-08",
+          "episode": 6
+        }
+      ],
       "earliest": {
         "date": "2026-07-04",
         "episode": 1
@@ -245,6 +705,28 @@
       "rawTitle": "Clevatess Staffel 2 (Deutsch)",
       "seriesId": "G8DHV78ZM",
       "seriesUrl": "https://www.crunchyroll.com/de/series/G8DHV78ZM/clevatess",
+      "observations": [
+        {
+          "date": "2026-07-08",
+          "episode": 1
+        },
+        {
+          "date": "2026-07-15",
+          "episode": 2
+        },
+        {
+          "date": "2026-07-22",
+          "episode": 3
+        },
+        {
+          "date": "2026-07-29",
+          "episode": 4
+        },
+        {
+          "date": "2026-08-05",
+          "episode": 5
+        }
+      ],
       "earliest": {
         "date": "2026-07-08",
         "episode": 1
@@ -260,6 +742,12 @@
       "rawTitle": "The Beginning After the End Staffel 1 (Deutsch)",
       "seriesId": "G24H1NWKE",
       "seriesUrl": "https://www.crunchyroll.com/de/series/G24H1NWKE/the-beginning-after-the-end",
+      "observations": [
+        {
+          "date": "2026-07-15",
+          "episode": 12
+        }
+      ],
       "earliest": {
         "date": "2026-07-15",
         "episode": 12
@@ -275,6 +763,12 @@
       "rawTitle": "The Quintessential Quintuplets Specials (Deutsch)",
       "seriesId": "GY4PD7Z06",
       "seriesUrl": "https://www.crunchyroll.com/de/series/GY4PD7Z06/the-quintessential-quintuplets",
+      "observations": [
+        {
+          "date": "2026-07-21",
+          "episode": 4
+        }
+      ],
       "earliest": {
         "date": "2026-07-21",
         "episode": 4
@@ -292,6 +786,20 @@
       "rawTitle": "Hana-Kimi Staffel 2 (Deutsch)",
       "seriesId": "GT00365568",
       "seriesUrl": "https://www.crunchyroll.com/de/series/GT00365568/hana-kimi",
+      "observations": [
+        {
+          "date": "2026-07-22",
+          "episode": 2
+        },
+        {
+          "date": "2026-07-29",
+          "episode": 3
+        },
+        {
+          "date": "2026-08-05",
+          "episode": 4
+        }
+      ],
       "earliest": {
         "date": "2026-07-22",
         "episode": 2
@@ -308,6 +816,16 @@
       "rawTitle": "The 100 Girlfriends Who Really, Really, Really, Really, REALLY Love You Season 3 (Deutsch)",
       "seriesId": "GNVHKN933",
       "seriesUrl": "https://www.crunchyroll.com/de/series/GNVHKN933/the-100-girlfriends-who-really-really-really-really-really-love-you",
+      "observations": [
+        {
+          "date": "2026-07-26",
+          "episode": 25
+        },
+        {
+          "date": "2026-08-02",
+          "episode": 26
+        }
+      ],
       "earliest": {
         "date": "2026-07-26",
         "episode": 25
@@ -324,6 +842,16 @@
       "rawTitle": "Saga of Tanya the Evil Staffel 2 (Deutsch)",
       "seriesId": "GR9P57W96",
       "seriesUrl": "https://www.crunchyroll.com/de/series/GR9P57W96/saga-of-tanya-the-evil",
+      "observations": [
+        {
+          "date": "2026-07-29",
+          "episode": 1
+        },
+        {
+          "date": "2026-08-05",
+          "episode": 2
+        }
+      ],
       "earliest": {
         "date": "2026-07-29",
         "episode": 1
@@ -340,6 +868,16 @@
       "rawTitle": "Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Staffel 2 (Deutsch)",
       "seriesId": "G0XHWM0D3",
       "seriesUrl": "https://www.crunchyroll.com/de/series/G0XHWM0D3/trapped-in-a-dating-sim-the-world-of-otome-games-is-tough-for-mobs",
+      "observations": [
+        {
+          "date": "2026-07-29",
+          "episode": 1
+        },
+        {
+          "date": "2026-08-05",
+          "episode": 2
+        }
+      ],
       "earliest": {
         "date": "2026-07-29",
         "episode": 1
@@ -356,6 +894,16 @@
       "rawTitle": "Tomb Raider King Staffel 1 (Deutsch)",
       "seriesId": "GT00378123",
       "seriesUrl": "https://www.crunchyroll.com/de/series/GT00378123/tomb-raider-king",
+      "observations": [
+        {
+          "date": "2026-07-29",
+          "episode": 1
+        },
+        {
+          "date": "2026-08-05",
+          "episode": 2
+        }
+      ],
       "earliest": {
         "date": "2026-07-29",
         "episode": 1
@@ -371,6 +919,12 @@
       "rawTitle": "Tamon's B-side Season 1 (Deutsch)",
       "seriesId": "GT00365598",
       "seriesUrl": "https://www.crunchyroll.com/de/series/GT00365598/tamons-b-side",
+      "observations": [
+        {
+          "date": "2026-07-30",
+          "episode": 13
+        }
+      ],
       "earliest": {
         "date": "2026-07-30",
         "episode": 13
@@ -386,6 +940,12 @@
       "rawTitle": "Fruits Basket (2019) Fruits Basket: The Final Season (Deutsch)",
       "seriesId": "G6ZJMGEXY",
       "seriesUrl": "https://www.crunchyroll.com/de/series/G6ZJMGEXY/fruits-basket-2019",
+      "observations": [
+        {
+          "date": "2026-08-01",
+          "episode": 13
+        }
+      ],
       "earliest": {
         "date": "2026-08-01",
         "episode": 13
@@ -416,6 +976,12 @@
       "rawTitle": "Though I Am an Inept Villainess Staffel 1 (Deutsch)",
       "seriesId": "GT00371881",
       "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371881/though-i-am-an-inept-villainess",
+      "observations": [
+        {
+          "date": "2026-08-02",
+          "episode": 1
+        }
+      ],
       "earliest": {
         "date": "2026-08-02",
         "episode": 1
@@ -431,9 +997,114 @@
       "rawTitle": "My Hero Academia I am a hero too (Deutsch)",
       "seriesId": "G6NQ5DWZ6",
       "seriesUrl": "https://www.crunchyroll.com/de/series/G6NQ5DWZ6/my-hero-academia",
+      "observations": [
+        {
+          "date": "2026-08-02",
+          "episode": 1
+        }
+      ],
       "earliest": {
         "date": "2026-08-02",
         "episode": 1
+      },
+      "weeklyConfirmed": false
+    },
+    "dorohedoro s2": {
+      "time": "16:00",
+      "weekday": 2,
+      "dates": [
+        "2026-05-27"
+      ],
+      "rawTitle": "Dorohedoro Season 2 (Deutsch)",
+      "seriesId": "GT00371893",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371893/dorohedoro",
+      "observations": [
+        {
+          "date": "2026-05-27",
+          "episode": 11
+        }
+      ],
+      "earliest": {
+        "date": "2026-05-27",
+        "episode": 11
+      },
+      "weeklyConfirmed": false
+    },
+    "re zero starting life in another world s4": {
+      "time": "16:00",
+      "weekday": 2,
+      "dates": [
+        "2026-05-27",
+        "2026-06-03",
+        "2026-06-10",
+        "2026-06-17"
+      ],
+      "rawTitle": "Re:ZERO -Starting Life in Another World- Staffel 4 (Deutsch)",
+      "seriesId": "GRGG9798R",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GRGG9798R/rezero--starting-life-in-another-world-",
+      "observations": [
+        {
+          "date": "2026-05-27",
+          "episode": 8
+        },
+        {
+          "date": "2026-06-03",
+          "episode": 9
+        },
+        {
+          "date": "2026-06-10",
+          "episode": 10
+        },
+        {
+          "date": "2026-06-17",
+          "episode": 11
+        }
+      ],
+      "earliest": {
+        "date": "2026-05-27",
+        "episode": 8
+      },
+      "weeklyConfirmed": true
+    },
+    "crunchyroll anime awards 2021 the 2026 crunchyroll anime awards": {
+      "time": "20:00",
+      "weekday": 4,
+      "dates": [
+        "2026-05-29"
+      ],
+      "rawTitle": "Crunchyroll Anime Awards 2021 The 2026 Crunchyroll Anime Awards (Deutsch)",
+      "seriesId": "GR3K50PZR",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GR3K50PZR/the-crunchyroll-anime-awards",
+      "observations": [
+        {
+          "date": "2026-05-29",
+          "episode": 1
+        }
+      ],
+      "earliest": {
+        "date": "2026-05-29",
+        "episode": 1
+      },
+      "weeklyConfirmed": false
+    },
+    "elainas reise wandering witch the journey of elaina": {
+      "time": "17:00",
+      "weekday": 2,
+      "dates": [
+        "2026-06-10"
+      ],
+      "rawTitle": "Elainas Reise Wandering Witch: The Journey of Elaina (Deutsch)",
+      "seriesId": "G79H23VNQ",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G79H23VNQ/wandering-witch-the-journey-of-elaina",
+      "observations": [
+        {
+          "date": "2026-06-10",
+          "episode": 12
+        }
+      ],
+      "earliest": {
+        "date": "2026-06-10",
+        "episode": 12
       },
       "weeklyConfirmed": false
     },
@@ -446,6 +1117,12 @@
       "rawTitle": "Fruits Basket (2019) Fruits Basket Staffel 2 (Deutsch)",
       "seriesId": "G6ZJMGEXY",
       "seriesUrl": "https://www.crunchyroll.com/de/series/G6ZJMGEXY/fruits-basket-2019",
+      "observations": [
+        {
+          "date": "2026-08-01",
+          "episode": 25
+        }
+      ],
       "earliest": {
         "date": "2026-08-01",
         "episode": 25
@@ -454,6 +1131,1036 @@
     }
   },
   "slots": [
+    {
+      "key": "marriagetoxin s1",
+      "rawTitle": "MARRIAGETOXIN Season 1 (Deutsch)",
+      "seriesId": "GT00371857",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371857/marriagetoxin",
+      "date": "2026-05-26",
+      "time": "16:30",
+      "episode": 5,
+      "german": true
+    },
+    {
+      "key": "classroom of the elite s4 second year first semester",
+      "rawTitle": "Classroom of the Elite 4th Season: Second Year, First Semester (Deutsch)",
+      "seriesId": "GRVN8MNQY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GRVN8MNQY/classroom-of-the-elite",
+      "date": "2026-05-27",
+      "time": "14:30",
+      "episode": 7,
+      "german": true
+    },
+    {
+      "key": "rent a girlfriend s5",
+      "rawTitle": "Rent-a-Girlfriend Season 5 (Deutsch)",
+      "seriesId": "G6QWV3976",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6QWV3976/rent-a-girlfriend",
+      "date": "2026-05-27",
+      "time": "15:00",
+      "episode": 5,
+      "german": true
+    },
+    {
+      "key": "dorohedoro s2",
+      "rawTitle": "Dorohedoro Season 2 (Deutsch)",
+      "seriesId": "GT00371893",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371893/dorohedoro",
+      "date": "2026-05-27",
+      "time": "16:00",
+      "episode": 11,
+      "german": true
+    },
+    {
+      "key": "reborn as a vending machine i now wander the dungeon s3",
+      "rawTitle": "Reborn as a Vending Machine, I Now Wander the Dungeon Season 3 (Deutsch)",
+      "seriesId": "GVDHX8504",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GVDHX8504/reborn-as-a-vending-machine-i-now-wander-the-dungeon",
+      "date": "2026-05-27",
+      "time": "16:00",
+      "episode": 6,
+      "german": true
+    },
+    {
+      "key": "re zero starting life in another world s4",
+      "rawTitle": "Re:ZERO -Starting Life in Another World- Staffel 4 (Deutsch)",
+      "seriesId": "GRGG9798R",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GRGG9798R/rezero--starting-life-in-another-world-",
+      "date": "2026-05-27",
+      "time": "16:00",
+      "episode": 8,
+      "german": true
+    },
+    {
+      "key": "the warrior princess and the barbaric king s1",
+      "rawTitle": "The Warrior Princess and the Barbaric King Season 1 (Deutsch)",
+      "seriesId": "GT00362253",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00362253/the-warrior-princess-and-the-barbaric-king",
+      "date": "2026-05-28",
+      "time": "14:30",
+      "episode": 5,
+      "german": true
+    },
+    {
+      "key": "meine wiedergeburt als schleim in einer anderen welt s4",
+      "rawTitle": "Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 (Deutsch)",
+      "seriesId": "GYZJ43JMR",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GYZJ43JMR/that-time-i-got-reincarnated-as-a-slime",
+      "date": "2026-05-29",
+      "time": "17:00",
+      "episode": 5,
+      "german": true
+    },
+    {
+      "key": "crunchyroll anime awards 2021 the 2026 crunchyroll anime awards",
+      "rawTitle": "Crunchyroll Anime Awards 2021 The 2026 Crunchyroll Anime Awards (Deutsch)",
+      "seriesId": "GR3K50PZR",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GR3K50PZR/the-crunchyroll-anime-awards",
+      "date": "2026-05-29",
+      "time": "20:00",
+      "episode": 1,
+      "german": true
+    },
+    {
+      "key": "ascendance of a bookworm s4",
+      "rawTitle": "Ascendance of a Bookworm Staffel 4 (Deutsch)",
+      "seriesId": "G6793XKZY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6793XKZY/ascendance-of-a-bookworm",
+      "date": "2026-05-30",
+      "time": "11:30",
+      "episode": 5,
+      "german": true
+    },
+    {
+      "key": "welcome to demon school iruma kun s4",
+      "rawTitle": "Welcome to Demon School! Iruma-kun Staffel 4 (Deutsch)",
+      "seriesId": "G6NVG970Y",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6NVG970Y/welcome-to-demon-school-iruma-kun",
+      "date": "2026-05-30",
+      "time": "12:25",
+      "episode": 9,
+      "german": true
+    },
+    {
+      "key": "mistress kanan is devilishly easy s1",
+      "rawTitle": "Mistress Kanan is Devilishly Easy Season 1 (Deutsch)",
+      "seriesId": "GT00371860",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371860/mistress-kanan-is-devilishly-easy",
+      "date": "2026-05-30",
+      "time": "18:00",
+      "episode": 6,
+      "german": true
+    },
+    {
+      "key": "wistoria wand and sword s2",
+      "rawTitle": "Wistoria: Wand and Sword Season 2 (Deutsch)",
+      "seriesId": "GW4HM7WK9",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GW4HM7WK9/wistoria-wand-and-sword",
+      "date": "2026-05-31",
+      "time": "10:30",
+      "episode": 17,
+      "german": true
+    },
+    {
+      "key": "marriagetoxin s1",
+      "rawTitle": "MARRIAGETOXIN Season 1 (Deutsch)",
+      "seriesId": "GT00371857",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371857/marriagetoxin",
+      "date": "2026-06-02",
+      "time": "16:30",
+      "episode": 6,
+      "german": true
+    },
+    {
+      "key": "classroom of the elite s4 second year first semester",
+      "rawTitle": "Classroom of the Elite 4th Season: Second Year, First Semester (Deutsch)",
+      "seriesId": "GRVN8MNQY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GRVN8MNQY/classroom-of-the-elite",
+      "date": "2026-06-03",
+      "time": "14:30",
+      "episode": 8,
+      "german": true
+    },
+    {
+      "key": "rent a girlfriend s5",
+      "rawTitle": "Rent-a-Girlfriend Season 5 (Deutsch)",
+      "seriesId": "G6QWV3976",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6QWV3976/rent-a-girlfriend",
+      "date": "2026-06-03",
+      "time": "15:00",
+      "episode": 6,
+      "german": true
+    },
+    {
+      "key": "reborn as a vending machine i now wander the dungeon s3",
+      "rawTitle": "Reborn as a Vending Machine, I Now Wander the Dungeon Season 3 (Deutsch)",
+      "seriesId": "GVDHX8504",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GVDHX8504/reborn-as-a-vending-machine-i-now-wander-the-dungeon",
+      "date": "2026-06-03",
+      "time": "16:00",
+      "episode": 7,
+      "german": true
+    },
+    {
+      "key": "re zero starting life in another world s4",
+      "rawTitle": "Re:ZERO -Starting Life in Another World- Staffel 4 (Deutsch)",
+      "seriesId": "GRGG9798R",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GRGG9798R/rezero--starting-life-in-another-world-",
+      "date": "2026-06-03",
+      "time": "16:00",
+      "episode": 9,
+      "german": true
+    },
+    {
+      "key": "the warrior princess and the barbaric king s1",
+      "rawTitle": "The Warrior Princess and the Barbaric King Season 1 (Deutsch)",
+      "seriesId": "GT00362253",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00362253/the-warrior-princess-and-the-barbaric-king",
+      "date": "2026-06-04",
+      "time": "14:30",
+      "episode": 6,
+      "german": true
+    },
+    {
+      "key": "meine wiedergeburt als schleim in einer anderen welt s4",
+      "rawTitle": "Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 (Deutsch)",
+      "seriesId": "GYZJ43JMR",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GYZJ43JMR/that-time-i-got-reincarnated-as-a-slime",
+      "date": "2026-06-05",
+      "time": "17:00",
+      "episode": 6,
+      "german": true
+    },
+    {
+      "key": "ascendance of a bookworm s4",
+      "rawTitle": "Ascendance of a Bookworm Staffel 4 (Deutsch)",
+      "seriesId": "G6793XKZY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6793XKZY/ascendance-of-a-bookworm",
+      "date": "2026-06-06",
+      "time": "11:30",
+      "episode": 6,
+      "german": true
+    },
+    {
+      "key": "welcome to demon school iruma kun s4",
+      "rawTitle": "Welcome to Demon School! Iruma-kun Staffel 4 (Deutsch)",
+      "seriesId": "G6NVG970Y",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6NVG970Y/welcome-to-demon-school-iruma-kun",
+      "date": "2026-06-06",
+      "time": "12:25",
+      "episode": 10,
+      "german": true
+    },
+    {
+      "key": "mistress kanan is devilishly easy s1",
+      "rawTitle": "Mistress Kanan is Devilishly Easy Season 1 (Deutsch)",
+      "seriesId": "GT00371860",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371860/mistress-kanan-is-devilishly-easy",
+      "date": "2026-06-06",
+      "time": "18:00",
+      "episode": 7,
+      "german": true
+    },
+    {
+      "key": "wistoria wand and sword s2",
+      "rawTitle": "Wistoria: Wand and Sword Season 2 (Deutsch)",
+      "seriesId": "GW4HM7WK9",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GW4HM7WK9/wistoria-wand-and-sword",
+      "date": "2026-06-07",
+      "time": "10:30",
+      "episode": 18,
+      "german": true
+    },
+    {
+      "key": "marriagetoxin s1",
+      "rawTitle": "MARRIAGETOXIN Season 1 (Deutsch)",
+      "seriesId": "GT00371857",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371857/marriagetoxin",
+      "date": "2026-06-09",
+      "time": "16:30",
+      "episode": 7,
+      "german": true
+    },
+    {
+      "key": "classroom of the elite s4 second year first semester",
+      "rawTitle": "Classroom of the Elite 4th Season: Second Year, First Semester (Deutsch)",
+      "seriesId": "GRVN8MNQY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GRVN8MNQY/classroom-of-the-elite",
+      "date": "2026-06-10",
+      "time": "14:30",
+      "episode": 9,
+      "german": true
+    },
+    {
+      "key": "rent a girlfriend s5",
+      "rawTitle": "Rent-a-Girlfriend Season 5 (Deutsch)",
+      "seriesId": "G6QWV3976",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6QWV3976/rent-a-girlfriend",
+      "date": "2026-06-10",
+      "time": "15:00",
+      "episode": 7,
+      "german": true
+    },
+    {
+      "key": "reborn as a vending machine i now wander the dungeon s3",
+      "rawTitle": "Reborn as a Vending Machine, I Now Wander the Dungeon Season 3 (Deutsch)",
+      "seriesId": "GVDHX8504",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GVDHX8504/reborn-as-a-vending-machine-i-now-wander-the-dungeon",
+      "date": "2026-06-10",
+      "time": "16:00",
+      "episode": 8,
+      "german": true
+    },
+    {
+      "key": "re zero starting life in another world s4",
+      "rawTitle": "Re:ZERO -Starting Life in Another World- Staffel 4 (Deutsch)",
+      "seriesId": "GRGG9798R",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GRGG9798R/rezero--starting-life-in-another-world-",
+      "date": "2026-06-10",
+      "time": "16:00",
+      "episode": 10,
+      "german": true
+    },
+    {
+      "key": "elainas reise wandering witch the journey of elaina",
+      "rawTitle": "Elainas Reise Wandering Witch: The Journey of Elaina (Deutsch)",
+      "seriesId": "G79H23VNQ",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G79H23VNQ/wandering-witch-the-journey-of-elaina",
+      "date": "2026-06-10",
+      "time": "17:00",
+      "episode": 12,
+      "german": true
+    },
+    {
+      "key": "the warrior princess and the barbaric king s1",
+      "rawTitle": "The Warrior Princess and the Barbaric King Season 1 (Deutsch)",
+      "seriesId": "GT00362253",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00362253/the-warrior-princess-and-the-barbaric-king",
+      "date": "2026-06-11",
+      "time": "14:30",
+      "episode": 7,
+      "german": true
+    },
+    {
+      "key": "meine wiedergeburt als schleim in einer anderen welt s4",
+      "rawTitle": "Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 (Deutsch)",
+      "seriesId": "GYZJ43JMR",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GYZJ43JMR/that-time-i-got-reincarnated-as-a-slime",
+      "date": "2026-06-12",
+      "time": "17:00",
+      "episode": 7,
+      "german": true
+    },
+    {
+      "key": "ascendance of a bookworm s4",
+      "rawTitle": "Ascendance of a Bookworm Staffel 4 (Deutsch)",
+      "seriesId": "G6793XKZY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6793XKZY/ascendance-of-a-bookworm",
+      "date": "2026-06-13",
+      "time": "11:30",
+      "episode": 7,
+      "german": true
+    },
+    {
+      "key": "welcome to demon school iruma kun s4",
+      "rawTitle": "Welcome to Demon School! Iruma-kun Staffel 4 (Deutsch)",
+      "seriesId": "G6NVG970Y",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6NVG970Y/welcome-to-demon-school-iruma-kun",
+      "date": "2026-06-13",
+      "time": "12:25",
+      "episode": 11,
+      "german": true
+    },
+    {
+      "key": "mistress kanan is devilishly easy s1",
+      "rawTitle": "Mistress Kanan is Devilishly Easy Season 1 (Deutsch)",
+      "seriesId": "GT00371860",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371860/mistress-kanan-is-devilishly-easy",
+      "date": "2026-06-13",
+      "time": "18:00",
+      "episode": 8,
+      "german": true
+    },
+    {
+      "key": "wistoria wand and sword s2",
+      "rawTitle": "Wistoria: Wand and Sword Season 2 (Deutsch)",
+      "seriesId": "GW4HM7WK9",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GW4HM7WK9/wistoria-wand-and-sword",
+      "date": "2026-06-14",
+      "time": "10:30",
+      "episode": 19,
+      "german": true
+    },
+    {
+      "key": "marriagetoxin s1",
+      "rawTitle": "MARRIAGETOXIN Season 1 (Deutsch)",
+      "seriesId": "GT00371857",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371857/marriagetoxin",
+      "date": "2026-06-16",
+      "time": "16:30",
+      "episode": 8,
+      "german": true
+    },
+    {
+      "key": "classroom of the elite s4 second year first semester",
+      "rawTitle": "Classroom of the Elite 4th Season: Second Year, First Semester (Deutsch)",
+      "seriesId": "GRVN8MNQY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GRVN8MNQY/classroom-of-the-elite",
+      "date": "2026-06-17",
+      "time": "14:30",
+      "episode": 10,
+      "german": true
+    },
+    {
+      "key": "rent a girlfriend s5",
+      "rawTitle": "Rent-a-Girlfriend Season 5 (Deutsch)",
+      "seriesId": "G6QWV3976",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6QWV3976/rent-a-girlfriend",
+      "date": "2026-06-17",
+      "time": "15:00",
+      "episode": 8,
+      "german": true
+    },
+    {
+      "key": "reborn as a vending machine i now wander the dungeon s3",
+      "rawTitle": "Reborn as a Vending Machine, I Now Wander the Dungeon Season 3 (Deutsch)",
+      "seriesId": "GVDHX8504",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GVDHX8504/reborn-as-a-vending-machine-i-now-wander-the-dungeon",
+      "date": "2026-06-17",
+      "time": "16:00",
+      "episode": 9,
+      "german": true
+    },
+    {
+      "key": "re zero starting life in another world s4",
+      "rawTitle": "Re:ZERO -Starting Life in Another World- Staffel 4 (Deutsch)",
+      "seriesId": "GRGG9798R",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GRGG9798R/rezero--starting-life-in-another-world-",
+      "date": "2026-06-17",
+      "time": "16:00",
+      "episode": 11,
+      "german": true
+    },
+    {
+      "key": "the warrior princess and the barbaric king s1",
+      "rawTitle": "The Warrior Princess and the Barbaric King Season 1 (Deutsch)",
+      "seriesId": "GT00362253",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00362253/the-warrior-princess-and-the-barbaric-king",
+      "date": "2026-06-18",
+      "time": "14:30",
+      "episode": 8,
+      "german": true
+    },
+    {
+      "key": "meine wiedergeburt als schleim in einer anderen welt s4",
+      "rawTitle": "Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 (Deutsch)",
+      "seriesId": "GYZJ43JMR",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GYZJ43JMR/that-time-i-got-reincarnated-as-a-slime",
+      "date": "2026-06-19",
+      "time": "17:00",
+      "episode": 8,
+      "german": true
+    },
+    {
+      "key": "ascendance of a bookworm s4",
+      "rawTitle": "Ascendance of a Bookworm Staffel 4 (Deutsch)",
+      "seriesId": "G6793XKZY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6793XKZY/ascendance-of-a-bookworm",
+      "date": "2026-06-20",
+      "time": "11:30",
+      "episode": 8,
+      "german": true
+    },
+    {
+      "key": "welcome to demon school iruma kun s4",
+      "rawTitle": "Welcome to Demon School! Iruma-kun Staffel 4 (Deutsch)",
+      "seriesId": "G6NVG970Y",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6NVG970Y/welcome-to-demon-school-iruma-kun",
+      "date": "2026-06-20",
+      "time": "12:25",
+      "episode": 12,
+      "german": true
+    },
+    {
+      "key": "mistress kanan is devilishly easy s1",
+      "rawTitle": "Mistress Kanan is Devilishly Easy Season 1 (Deutsch)",
+      "seriesId": "GT00371860",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371860/mistress-kanan-is-devilishly-easy",
+      "date": "2026-06-20",
+      "time": "18:00",
+      "episode": 9,
+      "german": true
+    },
+    {
+      "key": "wistoria wand and sword s2",
+      "rawTitle": "Wistoria: Wand and Sword Season 2 (Deutsch)",
+      "seriesId": "GW4HM7WK9",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GW4HM7WK9/wistoria-wand-and-sword",
+      "date": "2026-06-21",
+      "time": "10:30",
+      "episode": 20,
+      "german": true
+    },
+    {
+      "key": "marriagetoxin s1",
+      "rawTitle": "MARRIAGETOXIN Season 1 (Deutsch)",
+      "seriesId": "GT00371857",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371857/marriagetoxin",
+      "date": "2026-06-23",
+      "time": "16:30",
+      "episode": 9,
+      "german": true
+    },
+    {
+      "key": "classroom of the elite s4 second year first semester",
+      "rawTitle": "Classroom of the Elite 4th Season: Second Year, First Semester (Deutsch)",
+      "seriesId": "GRVN8MNQY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GRVN8MNQY/classroom-of-the-elite",
+      "date": "2026-06-24",
+      "time": "14:30",
+      "episode": 11,
+      "german": true
+    },
+    {
+      "key": "rent a girlfriend s5",
+      "rawTitle": "Rent-a-Girlfriend Season 5 (Deutsch)",
+      "seriesId": "G6QWV3976",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6QWV3976/rent-a-girlfriend",
+      "date": "2026-06-24",
+      "time": "15:00",
+      "episode": 9,
+      "german": true
+    },
+    {
+      "key": "reborn as a vending machine i now wander the dungeon s3",
+      "rawTitle": "Reborn as a Vending Machine, I Now Wander the Dungeon Season 3 (Deutsch)",
+      "seriesId": "GVDHX8504",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GVDHX8504/reborn-as-a-vending-machine-i-now-wander-the-dungeon",
+      "date": "2026-06-24",
+      "time": "16:00",
+      "episode": 10,
+      "german": true
+    },
+    {
+      "key": "the warrior princess and the barbaric king s1",
+      "rawTitle": "The Warrior Princess and the Barbaric King Season 1 (Deutsch)",
+      "seriesId": "GT00362253",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00362253/the-warrior-princess-and-the-barbaric-king",
+      "date": "2026-06-25",
+      "time": "14:30",
+      "episode": 9,
+      "german": true
+    },
+    {
+      "key": "meine wiedergeburt als schleim in einer anderen welt s4",
+      "rawTitle": "Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 (Deutsch)",
+      "seriesId": "GYZJ43JMR",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GYZJ43JMR/that-time-i-got-reincarnated-as-a-slime",
+      "date": "2026-06-26",
+      "time": "17:00",
+      "episode": 9,
+      "german": true
+    },
+    {
+      "key": "ascendance of a bookworm s4",
+      "rawTitle": "Ascendance of a Bookworm Staffel 4 (Deutsch)",
+      "seriesId": "G6793XKZY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6793XKZY/ascendance-of-a-bookworm",
+      "date": "2026-06-27",
+      "time": "11:30",
+      "episode": 9,
+      "german": true
+    },
+    {
+      "key": "welcome to demon school iruma kun s4",
+      "rawTitle": "Welcome to Demon School! Iruma-kun Staffel 4 (Deutsch)",
+      "seriesId": "G6NVG970Y",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6NVG970Y/welcome-to-demon-school-iruma-kun",
+      "date": "2026-06-27",
+      "time": "12:25",
+      "episode": 13,
+      "german": true
+    },
+    {
+      "key": "mistress kanan is devilishly easy s1",
+      "rawTitle": "Mistress Kanan is Devilishly Easy Season 1 (Deutsch)",
+      "seriesId": "GT00371860",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371860/mistress-kanan-is-devilishly-easy",
+      "date": "2026-06-27",
+      "time": "18:00",
+      "episode": 10,
+      "german": true
+    },
+    {
+      "key": "wistoria wand and sword s2",
+      "rawTitle": "Wistoria: Wand and Sword Season 2 (Deutsch)",
+      "seriesId": "GW4HM7WK9",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GW4HM7WK9/wistoria-wand-and-sword",
+      "date": "2026-06-28",
+      "time": "10:30",
+      "episode": 21,
+      "german": true
+    },
+    {
+      "key": "marriagetoxin s1",
+      "rawTitle": "MARRIAGETOXIN Season 1 (Deutsch)",
+      "seriesId": "GT00371857",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371857/marriagetoxin",
+      "date": "2026-06-30",
+      "time": "16:30",
+      "episode": 10,
+      "german": true
+    },
+    {
+      "key": "classroom of the elite s4 second year first semester",
+      "rawTitle": "Classroom of the Elite 4th Season: Second Year, First Semester (Deutsch)",
+      "seriesId": "GRVN8MNQY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GRVN8MNQY/classroom-of-the-elite",
+      "date": "2026-07-01",
+      "time": "14:30",
+      "episode": 12,
+      "german": true
+    },
+    {
+      "key": "rent a girlfriend s5",
+      "rawTitle": "Rent-a-Girlfriend Season 5 (Deutsch)",
+      "seriesId": "G6QWV3976",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6QWV3976/rent-a-girlfriend",
+      "date": "2026-07-01",
+      "time": "15:00",
+      "episode": 10,
+      "german": true
+    },
+    {
+      "key": "the warrior princess and the barbaric king s1",
+      "rawTitle": "The Warrior Princess and the Barbaric King Season 1 (Deutsch)",
+      "seriesId": "GT00362253",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00362253/the-warrior-princess-and-the-barbaric-king",
+      "date": "2026-07-02",
+      "time": "14:30",
+      "episode": 10,
+      "german": true
+    },
+    {
+      "key": "meine wiedergeburt als schleim in einer anderen welt s4",
+      "rawTitle": "Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 (Deutsch)",
+      "seriesId": "GYZJ43JMR",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GYZJ43JMR/that-time-i-got-reincarnated-as-a-slime",
+      "date": "2026-07-03",
+      "time": "17:00",
+      "episode": 10,
+      "german": true
+    },
+    {
+      "key": "ascendance of a bookworm s4",
+      "rawTitle": "Ascendance of a Bookworm Staffel 4 (Deutsch)",
+      "seriesId": "G6793XKZY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6793XKZY/ascendance-of-a-bookworm",
+      "date": "2026-07-04",
+      "time": "11:30",
+      "episode": 10,
+      "german": true
+    },
+    {
+      "key": "welcome to demon school iruma kun s4",
+      "rawTitle": "Welcome to Demon School! Iruma-kun Staffel 4 (Deutsch)",
+      "seriesId": "G6NVG970Y",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6NVG970Y/welcome-to-demon-school-iruma-kun",
+      "date": "2026-07-04",
+      "time": "12:25",
+      "episode": 14,
+      "german": true
+    },
+    {
+      "key": "skeleton knight in another world s2",
+      "rawTitle": "Skeleton Knight in Another World Staffel 2 (Deutsch)",
+      "seriesId": "G8DHV7WJP",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G8DHV7WJP/skeleton-knight-in-another-world",
+      "date": "2026-07-04",
+      "time": "13:30",
+      "episode": 1,
+      "german": true
+    },
+    {
+      "key": "black torch s1",
+      "rawTitle": "BLACK TORCH Staffel 1 (Deutsch)",
+      "seriesId": "GT00377907",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00377907/black-torch",
+      "date": "2026-07-04",
+      "time": "15:00",
+      "episode": 1,
+      "german": true
+    },
+    {
+      "key": "mistress kanan is devilishly easy s1",
+      "rawTitle": "Mistress Kanan is Devilishly Easy Season 1 (Deutsch)",
+      "seriesId": "GT00371860",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371860/mistress-kanan-is-devilishly-easy",
+      "date": "2026-07-04",
+      "time": "18:00",
+      "episode": 11,
+      "german": true
+    },
+    {
+      "key": "wistoria wand and sword s2",
+      "rawTitle": "Wistoria: Wand and Sword Season 2 (Deutsch)",
+      "seriesId": "GW4HM7WK9",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GW4HM7WK9/wistoria-wand-and-sword",
+      "date": "2026-07-05",
+      "time": "10:30",
+      "episode": 22,
+      "german": true
+    },
+    {
+      "key": "marriagetoxin s1",
+      "rawTitle": "MARRIAGETOXIN Season 1 (Deutsch)",
+      "seriesId": "GT00371857",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371857/marriagetoxin",
+      "date": "2026-07-07",
+      "time": "16:30",
+      "episode": 11,
+      "german": true
+    },
+    {
+      "key": "clevatess s2",
+      "rawTitle": "Clevatess Staffel 2 (Deutsch)",
+      "seriesId": "G8DHV78ZM",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G8DHV78ZM/clevatess",
+      "date": "2026-07-08",
+      "time": "14:00",
+      "episode": 1,
+      "german": true
+    },
+    {
+      "key": "classroom of the elite s4 second year first semester",
+      "rawTitle": "Classroom of the Elite 4th Season: Second Year, First Semester (Deutsch)",
+      "seriesId": "GRVN8MNQY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GRVN8MNQY/classroom-of-the-elite",
+      "date": "2026-07-08",
+      "time": "14:30",
+      "episode": 13,
+      "german": true
+    },
+    {
+      "key": "rent a girlfriend s5",
+      "rawTitle": "Rent-a-Girlfriend Season 5 (Deutsch)",
+      "seriesId": "G6QWV3976",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6QWV3976/rent-a-girlfriend",
+      "date": "2026-07-08",
+      "time": "15:00",
+      "episode": 11,
+      "german": true
+    },
+    {
+      "key": "reborn as a vending machine i now wander the dungeon s3",
+      "rawTitle": "Reborn as a Vending Machine, I Now Wander the Dungeon Season 3 (Deutsch)",
+      "seriesId": "GVDHX8504",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GVDHX8504/reborn-as-a-vending-machine-i-now-wander-the-dungeon",
+      "date": "2026-07-08",
+      "time": "16:00",
+      "episode": 11,
+      "german": true
+    },
+    {
+      "key": "the warrior princess and the barbaric king s1",
+      "rawTitle": "The Warrior Princess and the Barbaric King Season 1 (Deutsch)",
+      "seriesId": "GT00362253",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00362253/the-warrior-princess-and-the-barbaric-king",
+      "date": "2026-07-09",
+      "time": "14:30",
+      "episode": 11,
+      "german": true
+    },
+    {
+      "key": "meine wiedergeburt als schleim in einer anderen welt s4",
+      "rawTitle": "Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 (Deutsch)",
+      "seriesId": "GYZJ43JMR",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GYZJ43JMR/that-time-i-got-reincarnated-as-a-slime",
+      "date": "2026-07-10",
+      "time": "17:00",
+      "episode": 11,
+      "german": true
+    },
+    {
+      "key": "ascendance of a bookworm s4",
+      "rawTitle": "Ascendance of a Bookworm Staffel 4 (Deutsch)",
+      "seriesId": "G6793XKZY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6793XKZY/ascendance-of-a-bookworm",
+      "date": "2026-07-11",
+      "time": "11:30",
+      "episode": 11,
+      "german": true
+    },
+    {
+      "key": "welcome to demon school iruma kun s4",
+      "rawTitle": "Welcome to Demon School! Iruma-kun Staffel 4 (Deutsch)",
+      "seriesId": "G6NVG970Y",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6NVG970Y/welcome-to-demon-school-iruma-kun",
+      "date": "2026-07-11",
+      "time": "12:25",
+      "episode": 15,
+      "german": true
+    },
+    {
+      "key": "black torch s1",
+      "rawTitle": "BLACK TORCH Staffel 1 (Deutsch)",
+      "seriesId": "GT00377907",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00377907/black-torch",
+      "date": "2026-07-11",
+      "time": "15:00",
+      "episode": 2,
+      "german": true
+    },
+    {
+      "key": "mistress kanan is devilishly easy s1",
+      "rawTitle": "Mistress Kanan is Devilishly Easy Season 1 (Deutsch)",
+      "seriesId": "GT00371860",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371860/mistress-kanan-is-devilishly-easy",
+      "date": "2026-07-11",
+      "time": "18:00",
+      "episode": 12,
+      "german": true
+    },
+    {
+      "key": "wistoria wand and sword s2",
+      "rawTitle": "Wistoria: Wand and Sword Season 2 (Deutsch)",
+      "seriesId": "GW4HM7WK9",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GW4HM7WK9/wistoria-wand-and-sword",
+      "date": "2026-07-12",
+      "time": "10:30",
+      "episode": 23,
+      "german": true
+    },
+    {
+      "key": "skeleton knight in another world s2",
+      "rawTitle": "Skeleton Knight in Another World Staffel 2 (Deutsch)",
+      "seriesId": "G8DHV7WJP",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G8DHV7WJP/skeleton-knight-in-another-world",
+      "date": "2026-07-13",
+      "time": "15:00",
+      "episode": 2,
+      "german": true
+    },
+    {
+      "key": "marriagetoxin s1",
+      "rawTitle": "MARRIAGETOXIN Season 1 (Deutsch)",
+      "seriesId": "GT00371857",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371857/marriagetoxin",
+      "date": "2026-07-14",
+      "time": "16:30",
+      "episode": 12,
+      "german": true
+    },
+    {
+      "key": "clevatess s2",
+      "rawTitle": "Clevatess Staffel 2 (Deutsch)",
+      "seriesId": "G8DHV78ZM",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G8DHV78ZM/clevatess",
+      "date": "2026-07-15",
+      "time": "14:00",
+      "episode": 2,
+      "german": true
+    },
+    {
+      "key": "classroom of the elite s4 second year first semester",
+      "rawTitle": "Classroom of the Elite 4th Season: Second Year, First Semester (Deutsch)",
+      "seriesId": "GRVN8MNQY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GRVN8MNQY/classroom-of-the-elite",
+      "date": "2026-07-15",
+      "time": "14:30",
+      "episode": 14,
+      "german": true
+    },
+    {
+      "key": "rent a girlfriend s5",
+      "rawTitle": "Rent-a-Girlfriend Season 5 (Deutsch)",
+      "seriesId": "G6QWV3976",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6QWV3976/rent-a-girlfriend",
+      "date": "2026-07-15",
+      "time": "15:00",
+      "episode": 12,
+      "german": true
+    },
+    {
+      "key": "reborn as a vending machine i now wander the dungeon s3",
+      "rawTitle": "Reborn as a Vending Machine, I Now Wander the Dungeon Season 3 (Deutsch)",
+      "seriesId": "GVDHX8504",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GVDHX8504/reborn-as-a-vending-machine-i-now-wander-the-dungeon",
+      "date": "2026-07-15",
+      "time": "16:00",
+      "episode": 12,
+      "german": true
+    },
+    {
+      "key": "the beginning after the end s1",
+      "rawTitle": "The Beginning After the End Staffel 1 (Deutsch)",
+      "seriesId": "G24H1NWKE",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G24H1NWKE/the-beginning-after-the-end",
+      "date": "2026-07-15",
+      "time": "21:30",
+      "episode": 12,
+      "german": true
+    },
+    {
+      "key": "the warrior princess and the barbaric king s1",
+      "rawTitle": "The Warrior Princess and the Barbaric King Season 1 (Deutsch)",
+      "seriesId": "GT00362253",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00362253/the-warrior-princess-and-the-barbaric-king",
+      "date": "2026-07-16",
+      "time": "14:30",
+      "episode": 12,
+      "german": true
+    },
+    {
+      "key": "meine wiedergeburt als schleim in einer anderen welt s4",
+      "rawTitle": "Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 (Deutsch)",
+      "seriesId": "GYZJ43JMR",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GYZJ43JMR/that-time-i-got-reincarnated-as-a-slime",
+      "date": "2026-07-17",
+      "time": "17:00",
+      "episode": 12,
+      "german": true
+    },
+    {
+      "key": "ascendance of a bookworm s4",
+      "rawTitle": "Ascendance of a Bookworm Staffel 4 (Deutsch)",
+      "seriesId": "G6793XKZY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6793XKZY/ascendance-of-a-bookworm",
+      "date": "2026-07-18",
+      "time": "11:30",
+      "episode": 12,
+      "german": true
+    },
+    {
+      "key": "welcome to demon school iruma kun s4",
+      "rawTitle": "Welcome to Demon School! Iruma-kun Staffel 4 (Deutsch)",
+      "seriesId": "G6NVG970Y",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6NVG970Y/welcome-to-demon-school-iruma-kun",
+      "date": "2026-07-18",
+      "time": "12:25",
+      "episode": 16,
+      "german": true
+    },
+    {
+      "key": "black torch s1",
+      "rawTitle": "BLACK TORCH Staffel 1 (Deutsch)",
+      "seriesId": "GT00377907",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00377907/black-torch",
+      "date": "2026-07-18",
+      "time": "15:00",
+      "episode": 3,
+      "german": true
+    },
+    {
+      "key": "wistoria wand and sword s2",
+      "rawTitle": "Wistoria: Wand and Sword Season 2 (Deutsch)",
+      "seriesId": "GW4HM7WK9",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GW4HM7WK9/wistoria-wand-and-sword",
+      "date": "2026-07-19",
+      "time": "10:30",
+      "episode": 24,
+      "german": true
+    },
+    {
+      "key": "skeleton knight in another world s2",
+      "rawTitle": "Skeleton Knight in Another World Staffel 2 (Deutsch)",
+      "seriesId": "G8DHV7WJP",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G8DHV7WJP/skeleton-knight-in-another-world",
+      "date": "2026-07-20",
+      "time": "15:00",
+      "episode": 3,
+      "german": true
+    },
+    {
+      "key": "marriagetoxin s1",
+      "rawTitle": "MARRIAGETOXIN Season 1 (Deutsch)",
+      "seriesId": "GT00371857",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371857/marriagetoxin",
+      "date": "2026-07-21",
+      "time": "16:30",
+      "episode": 13,
+      "german": true
+    },
+    {
+      "key": "the quintessential quintuplets specials",
+      "rawTitle": "The Quintessential Quintuplets Specials (Deutsch)",
+      "seriesId": "GY4PD7Z06",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GY4PD7Z06/the-quintessential-quintuplets",
+      "date": "2026-07-21",
+      "time": "23:30",
+      "episode": 4,
+      "german": true
+    },
+    {
+      "key": "clevatess s2",
+      "rawTitle": "Clevatess Staffel 2 (Deutsch)",
+      "seriesId": "G8DHV78ZM",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G8DHV78ZM/clevatess",
+      "date": "2026-07-22",
+      "time": "14:00",
+      "episode": 3,
+      "german": true
+    },
+    {
+      "key": "classroom of the elite s4 second year first semester",
+      "rawTitle": "Classroom of the Elite 4th Season: Second Year, First Semester (Deutsch)",
+      "seriesId": "GRVN8MNQY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GRVN8MNQY/classroom-of-the-elite",
+      "date": "2026-07-22",
+      "time": "14:30",
+      "episode": 15,
+      "german": true
+    },
+    {
+      "key": "hana kimi s2",
+      "rawTitle": "Hana-Kimi Staffel 2 (Deutsch)",
+      "seriesId": "GT00365568",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00365568/hana-kimi",
+      "date": "2026-07-22",
+      "time": "18:00",
+      "episode": 2,
+      "german": true
+    },
+    {
+      "key": "meine wiedergeburt als schleim in einer anderen welt s4",
+      "rawTitle": "Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 (Deutsch)",
+      "seriesId": "GYZJ43JMR",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GYZJ43JMR/that-time-i-got-reincarnated-as-a-slime",
+      "date": "2026-07-24",
+      "time": "17:00",
+      "episode": 13,
+      "german": true
+    },
+    {
+      "key": "welcome to demon school iruma kun s4",
+      "rawTitle": "Welcome to Demon School! Iruma-kun Staffel 4 (Deutsch)",
+      "seriesId": "G6NVG970Y",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6NVG970Y/welcome-to-demon-school-iruma-kun",
+      "date": "2026-07-25",
+      "time": "12:25",
+      "episode": 17,
+      "german": true
+    },
+    {
+      "key": "black torch s1",
+      "rawTitle": "BLACK TORCH Staffel 1 (Deutsch)",
+      "seriesId": "GT00377907",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00377907/black-torch",
+      "date": "2026-07-25",
+      "time": "15:00",
+      "episode": 4,
+      "german": true
+    },
+    {
+      "key": "the 100 girlfriends who really really really really really love you s3",
+      "rawTitle": "The 100 Girlfriends Who Really, Really, Really, Really, REALLY Love You Season 3 (Deutsch)",
+      "seriesId": "GNVHKN933",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GNVHKN933/the-100-girlfriends-who-really-really-really-really-really-love-you",
+      "date": "2026-07-26",
+      "time": "16:00",
+      "episode": 25,
+      "german": true
+    },
     {
       "key": "skeleton knight in another world s2",
       "rawTitle": "Skeleton Knight in Another World Staffel 2 (Deutsch)",

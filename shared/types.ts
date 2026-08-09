@@ -45,6 +45,17 @@ export interface Schedule {
   lastEpisodeDate?: string
   /** ISO-Daten, an denen wegen Sendepause keine Folge läuft. */
   skipDates?: string[]
+  /**
+   * Tatsächlich beobachtete Termine einzelner Folgen, `{ "1": "2026-07-04" }`.
+   *
+   * Der Wochenrhythmus ist eine Rechenregel, kein Naturgesetz: „Skeleton
+   * Knight" startete an einem Samstag und lief danach montags weiter — neun
+   * Tage Abstand. Wer solche Fälle in Siebener-Schritten erzwingt, verschiebt
+   * entweder den Start oder alle Folgetermine.
+   *
+   * Was hier steht, ist im Kalender gesehen worden und schlägt jede Rechnung.
+   */
+  observed?: Record<number, string>
   /** true, wenn das Datum abgeleitet statt bestätigt ist. */
   estimated?: boolean
   /** true, wenn die Folgenzahl nicht belegt ist und angenommen wurde. */

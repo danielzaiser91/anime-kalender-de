@@ -22,6 +22,7 @@ import {
   crunchyrollSeriesId,
   normalizeTitle,
   type CrunchyrollData,
+  type CrunchyrollObservation,
   type CrunchyrollSlot,
 } from './lib/crunchyroll.ts'
 
@@ -157,6 +158,12 @@ async function main(): Promise<void> {
     entry.seriesId ??= slot.seriesId
     entry.seriesUrl ??= slot.seriesUrl
     if (!entry.dates.includes(slot.date)) entry.dates.push(slot.date)
+    // Jeden gesehenen Termin mit seiner Folgennummer festhalten. Erst die
+    // Menge aller Beobachtungen macht einen einzelnen Ausreißer erkennbar.
+    entry.observations ??= []
+    if (!entry.observations.some((o) => o.date === slot.date)) {
+      entry.observations.push({ date: slot.date, episode: slot.episode })
+    }
     // Frühester Termin samt Folgennummer — daraus lässt sich der Staffelstart
     // zurückrechnen, auch wenn er vor dem gescrapten Zeitraum liegt.
     if (!entry.earliest || slot.date < entry.earliest.date) {
@@ -187,9 +194,17 @@ async function main(): Promise<void> {
       old.earliest && (!value.earliest || old.earliest.date < value.earliest.date)
         ? old.earliest
         : value.earliest
+    // Beobachtungen beider Läufe vereinen. Ältere Bestände kennen das Feld
+    // noch nicht — deren Termine kommen ohne Folgennummer dazu und zählen
+    // dann nur bei der Frage mit, welcher Wochentag der Sendeplatz ist.
+    const byDate = new Map<string, CrunchyrollObservation>()
+    for (const date of old.dates) byDate.set(date, { date })
+    for (const o of old.observations ?? []) byDate.set(o.date, o)
+    for (const o of value.observations ?? []) byDate.set(o.date, o)
     merged[key] = {
       ...value,
       dates,
+      observations: [...byDate.values()].sort((a, b) => a.date.localeCompare(b.date)),
       earliest,
       weeklyConfirmed:
         value.weeklyConfirmed ||

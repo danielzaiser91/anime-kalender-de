@@ -95,15 +95,20 @@ export function expandEvents(release: Release): ReleaseEvent[] {
   let guard = 0
   while (events.length < count && guard++ < 400) {
     if (!skips.has(date)) {
+      const episode = events.length + 1
+      // Beobachtung schlägt Rechnung: Wurde diese Folge im Kalender gesehen,
+      // gilt ihr echter Termin. Der Takt läuft trotzdem unverändert weiter —
+      // ein einzelner Ausreißer soll nicht alles Folgende mitverschieben.
+      const seen = s.observed?.[episode]
       events.push({
         ...base,
-        id: `${release.slug}@${date}`,
-        date,
-        episode: events.length + 1,
+        id: `${release.slug}@${seen ?? date}`,
+        date: seen ?? date,
+        episode,
         episodeCount: count,
       })
     }
     date = addDays(date, 7)
   }
-  return events
+  return events.sort((a, b) => a.date.localeCompare(b.date) || (a.episode ?? 0) - (b.episode ?? 0))
 }

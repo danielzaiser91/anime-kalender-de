@@ -141,25 +141,91 @@ function titleFromMedia(media: AniListMedia, confidence: DubConfidence): Title {
   }
 }
 
+/** Wochentag eines ISO-Datums, 0 = Montag. */
+function weekdayOf(iso: string): number {
+  const [y, m, d] = iso.split('-').map(Number)
+  return (new Date(Date.UTC(y, m - 1, d)).getUTCDay() + 6) % 7
+}
+
 /**
  * Rechnet aus dem beobachteten Sendeplan den Start der deutschen Fassung.
  *
  * Der Kalender zeigt nur ein Fenster von wenigen Wochen. Lief die früheste dort
  * gesehene Folge als Nummer 5, lag Folge 1 vier Wochen davor — das ist Rechnen,
- * kein Raten, solange der Wochentakt bestätigt ist.
+ * kein Raten, solange der Wochentakt stimmt.
  *
- * `assumed` sagt, wie weit man dem Ergebnis trauen darf: Nur wenn Folge 1
- * selbst gesehen wurde **und** der Takt bestätigt ist, steht der komplette
- * Plan auf Beobachtung. Sonst ist die Fortschreibung eine Annahme.
+ * Entscheidend ist, **welcher** Beobachtung man dabei glaubt. Die erste Fassung
+ * nahm die früheste und lag bei „Skeleton Knight" zwei Tage daneben: Dort stand
+ * eine einzelne Kachel am Samstag, 04.07., als Folge 1 im Kalender, während vier
+ * spätere Termine einträchtig montags lagen. Aus dem Samstag hochgerechnet war
+ * anschließend **jeder** Termin der Staffel falsch.
+ *
+ * Deshalb entscheidet jetzt die Mehrheit:
+ *  1. Der Wochentag, auf dem die meisten Beobachtungen liegen, ist der
+ *     Sendeplatz. Alles daneben fliegt raus — auch wenn es früher liegt.
+ *  2. Jede verbliebene Beobachtung rechnet ihren eigenen Staffelstart aus.
+ *     Der häufigste gewinnt; bei Gleichstand der aus dem jüngsten Termin,
+ *     weil ein aktueller Sendeplan mehr über den laufenden Plan sagt.
+ *
+ * `assumed` bleibt gesetzt, solange nur eine einzige Stimme hinter dem
+ * Ergebnis steht — dann ist es eine plausible Rechnung, aber kein Beleg.
  */
 function derivedStart(slot: CrunchyrollEntry): { date: string; assumed: boolean } | undefined {
-  if (!slot.earliest?.date) return undefined
-  const episode = slot.earliest.episode ?? 1
-  const offset = Math.max(0, episode - 1)
-  return {
-    date: addDays(slot.earliest.date, -7 * offset),
-    assumed: offset > 0 || !slot.weeklyConfirmed,
+  const observations = slot.observations?.length
+    ? slot.observations
+    : slot.earliest
+      ? [slot.earliest]
+      : []
+  if (!observations.length) return undefined
+
+  // 1. Der Sendeplatz ist der Wochentag mit den meisten Beobachtungen.
+  const perWeekday = new Map<number, number>()
+  for (const o of observations) {
+    const day = weekdayOf(o.date)
+    perWeekday.set(day, (perWeekday.get(day) ?? 0) + 1)
   }
+  const slotDay = [...perWeekday.entries()].sort((a, b) => b[1] - a[1] || a[0] - b[0])[0][0]
+  const onSlot = observations.filter((o) => weekdayOf(o.date) === slotDay)
+
+  // 2. Jede Beobachtung mit Folgennummer rechnet ihren Staffelstart aus.
+  const votes = new Map<string, { count: number; latest: string }>()
+  for (const o of onSlot) {
+    if (!o.episode || o.episode < 1) continue
+    const start = addDays(o.date, -7 * (o.episode - 1))
+    const entry = votes.get(start)
+    if (entry) {
+      entry.count++
+      if (o.date > entry.latest) entry.latest = o.date
+    } else {
+      votes.set(start, { count: 1, latest: o.date })
+    }
+  }
+
+  if (!votes.size) {
+    // Keine einzige Folgennummer: Dann bleibt nur der früheste Termin auf dem
+    // Sendeplatz, und das ist ausdrücklich eine Annahme.
+    const fallback = onSlot.map((o) => o.date).sort()[0]
+    return fallback ? { date: fallback, assumed: true } : undefined
+  }
+
+  const [date, winner] = [...votes.entries()].sort(
+    (a, b) => b[1].count - a[1].count || b[1].latest.localeCompare(a[1].latest),
+  )[0]
+  return { date, assumed: winner.count < 2 }
+}
+
+/**
+ * Die im Kalender tatsächlich gesehenen Termine je Folgennummer.
+ *
+ * Nur was eine Nummer trägt, lässt sich einer Folge zuordnen. Alles andere
+ * bleibt der Hochrechnung überlassen.
+ */
+function observedEpisodes(slot: CrunchyrollEntry): Record<number, string> {
+  const out: Record<number, string> = {}
+  for (const o of slot.observations ?? []) {
+    if (o.episode && o.episode > 0) out[o.episode] = o.date
+  }
+  return out
 }
 
 function pickPlatformUrl(entry: CuratedEntry, title: Title | undefined): string | undefined {
@@ -384,6 +450,9 @@ function main(): void {
           schedule.estimated = observed.assumed
           if (!observed.assumed) delete schedule.estimated
         }
+        // Gesehene Einzeltermine gewinnen gegen jede Hochrechnung.
+        const seen = observedEpisodes(slot)
+        if (Object.keys(seen).length) schedule.observed = seen
         sources.push(CR_CALENDAR_URL)
       } else if (
         entry.schedule.estimated &&
@@ -468,6 +537,7 @@ function main(): void {
         // Uhrzeit und Wochentag sind belegt; nur der zurückgerechnete Start
         // bleibt eine Annahme, solange die Wochentaktung nicht bestätigt ist.
         estimated: derived.assumed,
+        observed: observedEpisodes(slot),
       },
       year: releaseYear,
       sources: [CR_CALENDAR_URL],

@@ -11,9 +11,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260208T093000Z
 DTEND:20260208T100000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 1/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -22,9 +21,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260215T093000Z
 DTEND:20260215T100000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 2/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -33,9 +31,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260222T093000Z
 DTEND:20260222T100000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 3/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -44,9 +41,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260301T093000Z
 DTEND:20260301T100000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 4/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -55,9 +51,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260308T093000Z
 DTEND:20260308T100000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 5/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -66,9 +61,19 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260315T093000Z
 DTEND:20260315T100000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 6/25
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GT00371893@2026-03-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260318T150000Z
+DTEND:20260318T153000Z
+SUMMARY:Dorohedoro Season 2 – Folge 1/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+ kalender.de/#/release/cr-GT00371893
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -77,9 +82,19 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260322T093000Z
 DTEND:20260322T100000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 7/25
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GT00371893@2026-03-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260325T150000Z
+DTEND:20260325T153000Z
+SUMMARY:Dorohedoro Season 2 – Folge 2/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+ kalender.de/#/release/cr-GT00371893
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -88,9 +103,19 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260329T083000Z
 DTEND:20260329T090000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 8/25
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GT00371893@2026-04-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260401T140000Z
+DTEND:20260401T143000Z
+SUMMARY:Dorohedoro Season 2 – Folge 3/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+ kalender.de/#/release/cr-GT00371893
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -99,9 +124,29 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260405T083000Z
 DTEND:20260405T090000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 9/25
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GT00371893@2026-04-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260408T140000Z
+DTEND:20260408T143000Z
+SUMMARY:Dorohedoro Season 2 – Folge 4/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+ kalender.de/#/release/cr-GT00371893
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-04-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260408T140000Z
+DTEND:20260408T143000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 1/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -110,9 +155,29 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260412T083000Z
 DTEND:20260412T090000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 10/25
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GT00371893@2026-04-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260415T140000Z
+DTEND:20260415T143000Z
+SUMMARY:Dorohedoro Season 2 – Folge 5/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+ kalender.de/#/release/cr-GT00371893
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-04-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260415T140000Z
+DTEND:20260415T143000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 2/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -121,9 +186,29 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260419T083000Z
 DTEND:20260419T090000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 11/25
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GT00371893@2026-04-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260422T140000Z
+DTEND:20260422T143000Z
+SUMMARY:Dorohedoro Season 2 – Folge 6/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+ kalender.de/#/release/cr-GT00371893
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-04-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260422T140000Z
+DTEND:20260422T143000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 3/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -132,9 +217,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260426T083000Z
 DTEND:20260426T090000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 12/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -143,9 +227,29 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260428T143000Z
 DTEND:20260428T150000Z
 SUMMARY:MARRIAGETOXIN Season 1 – Folge 1/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GT00371857
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GT00371893@2026-04-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260429T140000Z
+DTEND:20260429T143000Z
+SUMMARY:Dorohedoro Season 2 – Folge 7/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GT00371857
+ kalender.de/#/release/cr-GT00371893
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-04-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260429T140000Z
+DTEND:20260429T143000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 4/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -166,9 +270,8 @@ DTSTART:20260501T150000Z
 DTEND:20260501T153000Z
 SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
  lge 1/16
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GYZJ43JMR
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -177,9 +280,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260503T083000Z
 DTEND:20260503T090000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 13/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -188,9 +290,29 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260505T143000Z
 DTEND:20260505T150000Z
 SUMMARY:MARRIAGETOXIN Season 1 – Folge 2/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GT00371857
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GT00371893@2026-05-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260506T140000Z
+DTEND:20260506T143000Z
+SUMMARY:Dorohedoro Season 2 – Folge 8/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GT00371857
+ kalender.de/#/release/cr-GT00371893
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-05-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260506T140000Z
+DTEND:20260506T143000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 5/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -211,9 +333,8 @@ DTSTART:20260508T150000Z
 DTEND:20260508T153000Z
 SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
  lge 2/16
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GYZJ43JMR
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -222,9 +343,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260510T083000Z
 DTEND:20260510T090000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 14/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -233,9 +353,29 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260512T143000Z
 DTEND:20260512T150000Z
 SUMMARY:MARRIAGETOXIN Season 1 – Folge 3/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GT00371857
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GT00371893@2026-05-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260513T140000Z
+DTEND:20260513T143000Z
+SUMMARY:Dorohedoro Season 2 – Folge 9/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GT00371857
+ kalender.de/#/release/cr-GT00371893
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-05-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260513T140000Z
+DTEND:20260513T143000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 6/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -256,9 +396,8 @@ DTSTART:20260515T150000Z
 DTEND:20260515T153000Z
 SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
  lge 3/16
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GYZJ43JMR
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -267,9 +406,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260517T083000Z
 DTEND:20260517T090000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 15/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -278,9 +416,29 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260519T143000Z
 DTEND:20260519T150000Z
 SUMMARY:MARRIAGETOXIN Season 1 – Folge 4/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GT00371857
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GT00371893@2026-05-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260520T140000Z
+DTEND:20260520T143000Z
+SUMMARY:Dorohedoro Season 2 – Folge 10/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GT00371857
+ kalender.de/#/release/cr-GT00371893
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-05-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260520T140000Z
+DTEND:20260520T143000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 7/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -301,9 +459,8 @@ DTSTART:20260522T150000Z
 DTEND:20260522T153000Z
 SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
  lge 4/16
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GYZJ43JMR
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -312,9 +469,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260524T083000Z
 DTEND:20260524T090000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 16/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -323,9 +479,29 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260526T143000Z
 DTEND:20260526T150000Z
 SUMMARY:MARRIAGETOXIN Season 1 – Folge 5/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GT00371857
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GT00371893@2026-05-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260527T140000Z
+DTEND:20260527T143000Z
+SUMMARY:Dorohedoro Season 2 – Folge 11/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GT00371857
+ kalender.de/#/release/cr-GT00371893
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-05-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260527T140000Z
+DTEND:20260527T143000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 8/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -346,9 +522,8 @@ DTSTART:20260529T150000Z
 DTEND:20260529T153000Z
 SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
  lge 5/16
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GYZJ43JMR
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -357,9 +532,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260531T083000Z
 DTEND:20260531T090000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 17/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -368,9 +542,29 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260602T143000Z
 DTEND:20260602T150000Z
 SUMMARY:MARRIAGETOXIN Season 1 – Folge 6/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GT00371857
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GT00371893@2026-06-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260603T140000Z
+DTEND:20260603T143000Z
+SUMMARY:Dorohedoro Season 2 – Folge 12/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GT00371857
+ kalender.de/#/release/cr-GT00371893
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-06-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260603T140000Z
+DTEND:20260603T143000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 9/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -391,9 +585,8 @@ DTSTART:20260605T150000Z
 DTEND:20260605T153000Z
 SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
  lge 6/16
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GYZJ43JMR
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -402,9 +595,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260607T083000Z
 DTEND:20260607T090000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 18/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -413,9 +605,18 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260609T143000Z
 DTEND:20260609T150000Z
 SUMMARY:MARRIAGETOXIN Season 1 – Folge 7/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GT00371857
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GT00371857
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-06-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260610T140000Z
+DTEND:20260610T143000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 10/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -436,9 +637,8 @@ DTSTART:20260612T150000Z
 DTEND:20260612T153000Z
 SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
  lge 7/16
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GYZJ43JMR
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -447,9 +647,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260614T083000Z
 DTEND:20260614T090000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 19/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -458,9 +657,18 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260616T143000Z
 DTEND:20260616T150000Z
 SUMMARY:MARRIAGETOXIN Season 1 – Folge 8/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GT00371857
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GT00371857
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-06-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260617T140000Z
+DTEND:20260617T143000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 11/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -481,9 +689,8 @@ DTSTART:20260619T150000Z
 DTEND:20260619T153000Z
 SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
  lge 8/16
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GYZJ43JMR
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -492,9 +699,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260621T083000Z
 DTEND:20260621T090000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 20/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -503,9 +709,18 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260623T143000Z
 DTEND:20260623T150000Z
 SUMMARY:MARRIAGETOXIN Season 1 – Folge 9/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GT00371857
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GT00371857
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-06-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260624T140000Z
+DTEND:20260624T143000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 12/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -526,9 +741,8 @@ DTSTART:20260626T150000Z
 DTEND:20260626T153000Z
 SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
  lge 9/16
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GYZJ43JMR
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -537,9 +751,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260628T083000Z
 DTEND:20260628T090000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 21/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -558,9 +771,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260630T143000Z
 DTEND:20260630T150000Z
 SUMMARY:MARRIAGETOXIN Season 1 – Folge 10/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GT00371857
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GT00371857
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -581,9 +793,8 @@ DTSTART:20260703T150000Z
 DTEND:20260703T153000Z
 SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
  lge 10/16
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GYZJ43JMR
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -612,9 +823,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260705T083000Z
 DTEND:20260705T090000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 22/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -623,9 +833,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260707T143000Z
 DTEND:20260707T150000Z
 SUMMARY:MARRIAGETOXIN Season 1 – Folge 11/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GT00371857
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GT00371857
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -680,9 +889,8 @@ DTSTART:20260710T150000Z
 DTEND:20260710T153000Z
 SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
  lge 11/16
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GYZJ43JMR
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -696,24 +904,23 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:skeleton-knight-s2@2026-07-11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260711T130000Z
-DTEND:20260711T133000Z
-SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 2/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/skeleton-knight-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GW4HM7WK9@2026-07-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260712T083000Z
 DTEND:20260712T090000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 23/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:skeleton-knight-s2@2026-07-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260713T130000Z
+DTEND:20260713T133000Z
+SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 2/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -722,9 +929,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260714T143000Z
 DTEND:20260714T150000Z
 SUMMARY:MARRIAGETOXIN Season 1 – Folge 12/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GT00371857
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GT00371857
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -779,9 +985,8 @@ DTSTART:20260717T150000Z
 DTEND:20260717T153000Z
 SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
  lge 12/16
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GYZJ43JMR
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -795,24 +1000,23 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:skeleton-knight-s2@2026-07-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260718T130000Z
-DTEND:20260718T133000Z
-SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 3/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/skeleton-knight-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GW4HM7WK9@2026-07-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260719T083000Z
 DTEND:20260719T090000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 24/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:skeleton-knight-s2@2026-07-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260720T130000Z
+DTEND:20260720T133000Z
+SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 3/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -821,9 +1025,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260721T143000Z
 DTEND:20260721T150000Z
 SUMMARY:MARRIAGETOXIN Season 1 – Folge 13/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GT00371857
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GT00371857
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -877,9 +1080,8 @@ DTSTART:20260724T150000Z
 DTEND:20260724T153000Z
 SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
  lge 13/16
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GYZJ43JMR
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -890,16 +1092,6 @@ DTEND:20260725T133000Z
 SUMMARY:Black Torch – Folge 4/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/black-torch
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:skeleton-knight-s2@2026-07-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260725T130000Z
-DTEND:20260725T133000Z
-SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 4/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -919,9 +1111,18 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260726T083000Z
 DTEND:20260726T090000Z
 SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 25/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:skeleton-knight-s2@2026-07-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260727T130000Z
+DTEND:20260727T133000Z
+SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 4/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1005,9 +1206,8 @@ DTSTART:20260731T150000Z
 DTEND:20260731T153000Z
 SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
  lge 14/16
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GYZJ43JMR
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1021,16 +1221,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:skeleton-knight-s2@2026-08-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260801T130000Z
-DTEND:20260801T133000Z
-SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 5/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/skeleton-knight-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-G6NQ5DWZ6@2026-08-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260802T160000Z
@@ -1039,6 +1229,16 @@ SUMMARY:My Hero Academia I am a hero too – Folge 1/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NQ5DWZ6
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:skeleton-knight-s2@2026-08-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260803T130000Z
+DTEND:20260803T133000Z
+SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 5/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1145,9 +1345,8 @@ DTSTART:20260807T150000Z
 DTEND:20260807T153000Z
 SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
  lge 15/16
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GYZJ43JMR
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1271,16 +1470,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:skeleton-knight-s2@2026-08-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260808T130000Z
-DTEND:20260808T133000Z
-SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 6/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/skeleton-knight-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:the-ribbon-hero-netflix@2026-08-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260808
@@ -1300,6 +1489,16 @@ SUMMARY:My Hero Academia I am a hero too – Folge 2/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NQ5DWZ6
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:skeleton-knight-s2@2026-08-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260810T130000Z
+DTEND:20260810T133000Z
+SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 6/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1373,9 +1572,8 @@ DTSTART:20260814T150000Z
 DTEND:20260814T153000Z
 SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
  lge 16/16
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GYZJ43JMR
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1400,16 +1598,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:skeleton-knight-s2@2026-08-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260815T130000Z
-DTEND:20260815T133000Z
-SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 7/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/skeleton-knight-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-G6NQ5DWZ6@2026-08-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260816T160000Z
@@ -1418,6 +1606,16 @@ SUMMARY:My Hero Academia I am a hero too – Folge 3/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NQ5DWZ6
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:skeleton-knight-s2@2026-08-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260817T130000Z
+DTEND:20260817T133000Z
+SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 7/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1561,16 +1759,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:skeleton-knight-s2@2026-08-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260822T130000Z
-DTEND:20260822T133000Z
-SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 8/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/skeleton-knight-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-G6NQ5DWZ6@2026-08-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260823T160000Z
@@ -1579,6 +1767,16 @@ SUMMARY:My Hero Academia I am a hero too – Folge 4/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NQ5DWZ6
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:skeleton-knight-s2@2026-08-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260824T130000Z
+DTEND:20260824T133000Z
+SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 8/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1678,16 +1876,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:skeleton-knight-s2@2026-08-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260829T130000Z
-DTEND:20260829T133000Z
-SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 9/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/skeleton-knight-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-G6NQ5DWZ6@2026-08-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260830T160000Z
@@ -1708,6 +1896,16 @@ DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
  ht bestätigt.\nDetails: https://anime-kalender.de/#/release/black-clover-s
  1-disneyplus
 CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
+UID:skeleton-knight-s2@2026-08-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260831T130000Z
+DTEND:20260831T133000Z
+SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 9/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/skeleton-knight-s2
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:dandadan-s2-vol1-steelcase@2026-08-31@anime-kalender-de
@@ -1850,16 +2048,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:skeleton-knight-s2@2026-09-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260905T130000Z
-DTEND:20260905T133000Z
-SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 10/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/skeleton-knight-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-G6NQ5DWZ6@2026-09-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260906T160000Z
@@ -1868,6 +2056,16 @@ SUMMARY:My Hero Academia I am a hero too – Folge 6/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NQ5DWZ6
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:skeleton-knight-s2@2026-09-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260907T130000Z
+DTEND:20260907T133000Z
+SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 10/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1945,16 +2143,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:skeleton-knight-s2@2026-09-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260912T130000Z
-DTEND:20260912T133000Z
-SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 11/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/skeleton-knight-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-G6NQ5DWZ6@2026-09-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260913T160000Z
@@ -1963,6 +2151,16 @@ SUMMARY:My Hero Academia I am a hero too – Folge 7/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NQ5DWZ6
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:skeleton-knight-s2@2026-09-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260914T130000Z
+DTEND:20260914T133000Z
+SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 11/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -2062,16 +2260,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:skeleton-knight-s2@2026-09-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260919T130000Z
-DTEND:20260919T133000Z
-SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 12/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/skeleton-knight-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-G6NQ5DWZ6@2026-09-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260920T160000Z
@@ -2080,6 +2268,16 @@ SUMMARY:My Hero Academia I am a hero too – Folge 8/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NQ5DWZ6
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:skeleton-knight-s2@2026-09-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260921T130000Z
+DTEND:20260921T133000Z
+SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 12/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT

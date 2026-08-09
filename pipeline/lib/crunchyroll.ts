@@ -17,6 +17,13 @@ export interface CrunchyrollSlot {
   german: boolean
 }
 
+/** Ein tatsächlich im Kalender gesehener Sendetermin. */
+export interface CrunchyrollObservation {
+  date: string
+  /** Folgennummer, falls die Kachel eine nennt. */
+  episode?: number
+}
+
 export interface CrunchyrollEntry {
   time: string
   /** 0 = Montag. */
@@ -25,6 +32,15 @@ export interface CrunchyrollEntry {
   rawTitle: string
   seriesId?: string
   seriesUrl?: string
+  /**
+   * Alle je gesehenen Termine mit Folgennummer, über Läufe hinweg gesammelt.
+   *
+   * Das ist die eigentliche Beweislage. `earliest` allein reichte nicht: Ein
+   * einzelner Ausreißer — etwa eine Vorab-Folge an einem anderen Wochentag —
+   * hat als „früheste Folge 1" den kompletten Sendeplan um zwei Tage
+   * verschoben, obwohl vier spätere Termine einträchtig auf Montag zeigten.
+   */
+  observations?: CrunchyrollObservation[]
   /** Frühester gesehener Termin und die zugehörige Folgennummer. */
   earliest?: { date: string; episode?: number }
   /** true, wenn zwei aufeinanderfolgende Termine genau sieben Tage auseinanderliegen. */
