@@ -183,8 +183,16 @@ self.addEventListener('message', (event) => {
     caches.open(MEDIA).then(async (cache) => {
       for (const url of urls.slice(0, 120)) {
         if (await cache.match(url)) continue
-        // `no-cors` liefert eine opake Antwort — reicht zum Anzeigen.
-        await cache.add(new Request(url, { mode: 'no-cors' })).catch(() => undefined)
+        try {
+          // Nicht `cache.add`: Das lehnt opake Antworten ab, weil deren Status
+          // 0 ist — und fremde Bilder ohne CORS sind immer opak. Nur der Umweg
+          // über `fetch` und `put` legt sie überhaupt ab. Zum Anzeigen in einem
+          // <img> genügen sie vollauf.
+          const response = await fetch(url, { mode: 'no-cors' })
+          if (response.ok || response.type === 'opaque') await cache.put(url, response)
+        } catch {
+          // Ein einzelnes Bild darf den Rest nicht aufhalten.
+        }
       }
     }),
   )
