@@ -130,3 +130,20 @@ export function registerServiceWorker(): void {
     })
   })
 }
+
+/**
+ * Legt die Cover der aktuellen und nächsten Woche für den Offline-Fall ab.
+ *
+ * Nur diese zwei Wochen: Das ist, was jemand unterwegs zeigen will, und es
+ * bleibt in der Größenordnung von ein paar Dutzend Bildern. Der gesamte
+ * Katalog wären tausende — ungefragt hundert Megabyte auf ein fremdes Handy
+ * zu legen wäre übergriffig.
+ *
+ * Die Auswahl passiert hier und nicht im Build, weil „aktuelle Woche" vom Tag
+ * des Betrachters abhängt, nicht vom Tag des Builds.
+ */
+export function cacheCoversForOffline(urls: string[]): void {
+  const worker = navigator.serviceWorker?.controller
+  if (!worker || !urls.length) return
+  worker.postMessage({ type: 'cache-covers', urls: [...new Set(urls)] })
+}

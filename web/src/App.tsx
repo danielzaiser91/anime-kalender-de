@@ -7,9 +7,10 @@ import { useFavorites, useHidden } from './lib/favorites.ts'
 import { useNewsletterSync } from './lib/newsletterSync.ts'
 import { useRoute, type ViewId } from './lib/router.ts'
 import { useLang } from './lib/i18n.tsx'
-import { addDays, addMonths, todayIso } from '@shared/time.ts'
+import { addDays, addMonths, startOfWeek, todayIso } from '@shared/time.ts'
 import { Header, Legend } from './components/Header.tsx'
 import { InstallDialog } from './components/InstallPrompt.tsx'
+import { cacheCoversForOffline } from './lib/pwa.ts'
 import { FilterBar } from './components/FilterBar.tsx'
 import { WeekView } from './components/WeekView.tsx'
 import { MonthView } from './components/MonthView.tsx'
@@ -56,6 +57,19 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('groupSeasons', grouped ? '1' : '0')
   }, [grouped])
+
+  // Cover der aktuellen und nächsten Woche für unterwegs sichern. Erst wenn
+  // die Daten stehen — vorher weiß niemand, welche Bilder gebraucht werden.
+  useEffect(() => {
+    if (!data) return
+    const from = startOfWeek(today)
+    const to = addDays(from, 13)
+    const urls = data.events
+      .filter((e) => e.date >= from && e.date <= to)
+      .map((e) => data.titleById.get(e.titleId)?.coverImage)
+      .filter((url): url is string => Boolean(url))
+    cacheCoversForOffline(urls)
+  }, [data, today])
 
   // Wochen- und Monatssprünge per Tastatur, solange kein Textfeld den Fokus hat.
   useEffect(() => {
