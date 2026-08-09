@@ -25,16 +25,14 @@ herausgeholt, wenn der User es sagt.
 | Weitere Sprachen | 3 | Gerüst steht, EN und DE gepflegt; weitere brauchen nur ein Wörterbuch (zurückgestellt 08.08.2026) |
 
 ### Zu besprechen
-| Thema | Notiz |
-|---|---|
-| aniSearch um Erlaubnis fragen | Öffentliche API hat keine Titeldaten; für Beschreibungen/Anbieter bräuchte es ein „Custom Interface" per Anfrage an api@anisearch.com. Deren API-Bedingungen verbieten Weitergabe an Dritte — eine öffentliche Website ist genau das, das muss die Anfrage ansprechen |
+_(leer)_
 
 ### Warten auf Feedback
 | Thema | Seit |
 |---|---|
 | Newsletter-Abmeldung testen | 08.08.2026 |
 | Offline-Test auf dem Handy | 09.08.2026 |
-| aniSearch-Zugangsdaten vom Handy | 09.08.2026 |
+| Antwort von aniSearch auf die Anfrage nach einer Titeldaten-Schnittstelle (abgeschickt 09.08.2026 an api@anisearch.com); dabei auch gefragt, ob die Beschreibungen mit Quellenangabe öffentlich stehen dürfen | 09.08.2026 |
 
 ## Entscheidungen
 

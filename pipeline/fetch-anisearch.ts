@@ -35,12 +35,16 @@ const args = process.argv.slice(2)
 /**
  * Wie viele Seiten ein Lauf höchstens holt.
  *
- * Bewusst klein. Ein Versuch mit 2.900 Titeln am Stück endete damit, dass
- * aniSearch die Verbindung verweigerte (`UND_ERR_CONNECT_TIMEOUT`) — nach rund
- * tausend Anfragen im Sekundentakt, und zu Recht. Der Bestand liegt im Repo
- * und wächst mit jedem Nachtlauf; er muss nicht an einem Tag vollständig sein.
+ * Ein Versuch mit 2.900 Titeln am Stück endete damit, dass aniSearch die
+ * Verbindung verweigerte (`UND_ERR_CONNECT_TIMEOUT`) — nach rund tausend
+ * Anfragen im Sekundentakt, und zu Recht. Der Bestand liegt im Repo und wächst
+ * mit jedem Nachtlauf; er muss nicht an einem Tag vollständig sein.
+ *
+ * 200 Titel sind bei sechs Sekunden Abstand rund zwanzig Minuten Lauf und
+ * bleiben damit deutlich unter dem Umfang, der die Sperre auslöste. Bei 60 je
+ * Lauf hätte der Rückstand von 1.652 Titeln 28 Tage gebraucht; so sind es acht.
  */
-const LIMIT = Number(args[args.indexOf('--limit') + 1]) || 60
+const LIMIT = Number(args[args.indexOf('--limit') + 1]) || 200
 const FORCE = args.includes('--force')
 
 /**

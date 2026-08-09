@@ -66,10 +66,12 @@ jobs:
         run: npm run data:anime2you
 
       - name: Deutsche Texte und Anbieter von aniSearch
-        # Nur ein Kontingent je Lauf, eine Anfrage pro Sekunde. Der Bestand
-        # füllt sich über die Tage; er liegt im Repo und geht nie verloren.
+        # Kontingent und Takt stehen im Skript (200 Titel, alle sechs Sekunden).
+        # Hier bewusst keine zweite Zahl: Stünde sie an beiden Stellen, liefe
+        # eine davon irgendwann still auseinander. Der Bestand füllt sich über
+        # die Tage; er liegt im Repo und geht nie verloren.
         continue-on-error: true
-        run: npm run data:anisearch -- --limit 60
+        run: npm run data:anisearch
 
       - name: Datensatz bauen
         env:
