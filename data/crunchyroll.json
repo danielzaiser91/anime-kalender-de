@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-09T14:56:54.635Z",
+  "scrapedAt": "2026-08-09T15:52:27.300Z",
   "window": {
     "from": "2026-07-27",
     "to": "2026-08-16"
@@ -976,7 +976,8 @@
       "time": "17:45",
       "weekday": 6,
       "dates": [
-        "2026-08-02"
+        "2026-08-02",
+        "2026-08-09"
       ],
       "rawTitle": "Though I Am an Inept Villainess Staffel 1 (Deutsch)",
       "seriesId": "GT00371881",
@@ -985,13 +986,17 @@
         {
           "date": "2026-08-02",
           "episode": 1
+        },
+        {
+          "date": "2026-08-09",
+          "episode": 2
         }
       ],
       "earliest": {
         "date": "2026-08-02",
         "episode": 1
       },
-      "weeklyConfirmed": false
+      "weeklyConfirmed": true
     },
     "my hero academia i am a hero too": {
       "time": "18:00",
@@ -1404,6 +1409,16 @@
       "date": "2026-08-09",
       "time": "16:00",
       "episode": 27,
+      "german": true
+    },
+    {
+      "key": "though i am an inept villainess s1",
+      "rawTitle": "Though I Am an Inept Villainess Staffel 1 (Deutsch)",
+      "seriesId": "GT00371881",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371881/though-i-am-an-inept-villainess",
+      "date": "2026-08-09",
+      "time": "17:45",
+      "episode": 2,
       "german": true
     }
   ]
