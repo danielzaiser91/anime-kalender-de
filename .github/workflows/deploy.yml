@@ -6,6 +6,19 @@ on:
     paths-ignore:
       - 'docs/**'
       - '*.md'
+  # Ohne das hier gehen die Daten der Nachtläufe nie live. GitHub startet
+  # bewusst keine Workflows für Pushes, die aus einer Action mit dem
+  # GITHUB_TOKEN kommen — sonst könnte sich eine Action endlos selbst
+  # auslösen. Folge: Der Datenlauf committet, `push` schweigt, die Seite
+  # zeigt weiter den Stand von gestern. Aufgefallen ist das nur zufällig,
+  # weil an einem Tag jemand von Hand gepusht und damit fremde Daten
+  # mitdeployt hat. `workflow_run` fällt nicht unter die Regel.
+  workflow_run:
+    workflows:
+      - 'Stündlich — Sendezeiten'
+      - 'Täglich — alle Quellen'
+      - 'Wöchentlich — tiefer Durchlauf'
+    types: [completed]
   workflow_dispatch:
 
 permissions:
@@ -20,6 +33,12 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # Ein gescheiterter Datenlauf soll nichts veröffentlichen. Bei den anderen
+    # Auslösern (push, workflow_dispatch) ist das Feld leer, deshalb die
+    # Oder-Bedingung — sonst würde der Deploy von Hand nie mehr starten.
+    if: >-
+      github.event_name != 'workflow_run' ||
+      github.event.workflow_run.conclusion == 'success'
     steps:
       - uses: actions/checkout@v4
 
