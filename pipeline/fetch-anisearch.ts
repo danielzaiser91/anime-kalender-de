@@ -66,8 +66,17 @@ const DELAY_MS = 6000
  */
 const MAX_FAILURES = 5
 
-const UA =
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36'
+/**
+ * Wir sagen, wer wir sind.
+ *
+ * Hier stand vorher eine Chrome-Kennung. aniSearch schreibt in der eigenen
+ * Doku, dass Anfragen ohne aussagekräftige Kennung als Missbrauch gewertet und
+ * die IP gesperrt wird — genau das ist am 09.08.2026 passiert. Eine gefälschte
+ * Browser-Kennung ist dabei nicht die harmlosere, sondern die schlechtere
+ * Variante: Sie nimmt dem Betreiber die Möglichkeit, den Verursacher
+ * anzuschreiben, statt ihn auszusperren.
+ */
+const UA = 'anime-kalender.de/1.0 (+https://anime-kalender.de; danielzaiser91@googlemail.com)'
 const IDS_URL =
   'https://github.com/manami-project/anime-offline-database/releases/latest/download/anime-offline-database-minified.json'
 

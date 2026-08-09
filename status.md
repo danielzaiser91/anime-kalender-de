@@ -10,7 +10,8 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| aniSearch-Bestand auffüllen | 2 | läuft über die Nachtläufe, 120 Titel je Lauf; aktuell 0, Ziel rund 2.750 |
+| aniSearch-Bestand auffüllen | 2 | läuft über die Nachtläufe, 60 Titel je Lauf; 1.938 von 2.746 Titeln haben deutschen Text |
+| aniSearch-API-Zugang anlegen | 1 | Registrierung nur von Daniels Handy möglich — dieser Anschluss ist gesperrt |
 
 
 ### Später (nice to have)
@@ -30,6 +31,8 @@ _(leer)_
 | Thema | Seit |
 |---|---|
 | Newsletter-Abmeldung testen | 08.08.2026 |
+| Offline-Test auf dem Handy | 09.08.2026 |
+| aniSearch-Zugangsdaten vom Handy | 09.08.2026 |
 
 ## Entscheidungen
 
