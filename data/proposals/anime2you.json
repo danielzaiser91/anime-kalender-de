@@ -1,6 +1,23 @@
 {
-  "scrapedAt": "2026-08-08T13:03:23.393Z",
+  "scrapedAt": "2026-08-09T05:19:41.796Z",
   "proposals": [
+    {
+      "articleTitle": "Zweite Staffel von »The Dangers in My Heart« bald auf Netflix",
+      "articleUrl": "https://www.anime2you.de/news/1039474/dangers-in-my-heart-staffel-2-auf-netflix/",
+      "publishedAt": "2026-08-08",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "iso": "2026-08-20",
+          "context": "rt« in Kürze in sein Programm aufnehmen wird. Wir fassen zusammen. Ab 20. August 2026 Die zweite Staffel von »The Dangers in My Heart« steht"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Neue Anime-Planet-Aktion: 25 Euro Rabatt auf DVDs und Blu-rays",
       "articleUrl": "https://www.anime2you.de/news/1038214/anime-planet-animagic-2026-aktion/",
