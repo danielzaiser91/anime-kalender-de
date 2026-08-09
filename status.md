@@ -43,6 +43,14 @@ _(leer)_
 
 ## Archiv
 
+- ✅ **Anbieter vollständig aus TMDB** (Datenbasis JustWatch — dieselbe Quelle, aus der werstreamt.es
+  schöpft). Der Abruf fragte bisher nur flatrate und buy und behielt davon nur die Dienste mit
+  eigener Plattform; Videobuster, maxdome, Apple TV, MagentaTV, Videoload, Sky Store, Rakuten und
+  Akibapass wurden verworfen. Jetzt 291 Titel mit Bezugswegen
+- ⚠️ **aniSearch-Sperre selbst verschuldet**: Scraper lief mit 60 Anfragen je Minute, dokumentiert
+  sind 10. Jetzt 6 Sekunden Takt, 60 Titel je Lauf. Neue Immer-Regel: API-Doku vor dem ersten
+  Abrufcode lesen
+
 - ✅ **aniSearch als Quelle**: deutsche Inhaltsangaben (redaktionell, ausführlich) und Bezugsquellen
   auch für alte Katalogtitel. ID-Zuordnung über die anime-offline-database (ODbL), weil ein
   Titelvergleich „.hack//Quantum" und „.hack//Sign" nicht auseinanderhält
