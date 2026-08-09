@@ -143,7 +143,14 @@ export function registerServiceWorker(): void {
  * des Betrachters abhängt, nicht vom Tag des Builds.
  */
 export function cacheCoversForOffline(urls: string[]): void {
-  const worker = navigator.serviceWorker?.controller
-  if (!worker || !urls.length) return
-  worker.postMessage({ type: 'cache-covers', urls: [...new Set(urls)] })
+  if (!('serviceWorker' in navigator) || !urls.length) return
+  // Über `ready` statt über `controller`: Beim allerersten Besuch steuert noch
+  // kein Worker diese Seite, obwohl er längst installiert ist. Genau dann wird
+  // der Vorrat aber gebraucht — wer die App gerade erst geöffnet hat, geht
+  // vielleicht als Nächstes vor die Tür.
+  navigator.serviceWorker.ready
+    .then((registration) => {
+      registration.active?.postMessage({ type: 'cache-covers', urls: [...new Set(urls)] })
+    })
+    .catch(() => undefined)
 }
