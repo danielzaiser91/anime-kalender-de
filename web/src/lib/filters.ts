@@ -48,6 +48,16 @@ export interface FilterState extends FilterLists {
   confirmedOnly: boolean
   /** Zeigt nur gemerkte Titel. */
   favoritesOnly: boolean
+  /**
+   * Zeigt nur Titel, bei denen belegt ist, wo man sie sehen oder kaufen kann.
+   *
+   * Der Kalender kennt 2.753 Anime mit belegter deutscher Synchro, aber nur
+   * gut hundert davon haben einen anstehenden Termin. Die übrigen sind nicht
+   * weniger interessant — bei ihnen ist die Frage bloß nicht „wann", sondern
+   * „wo". Für rund 2.000 gibt es darauf inzwischen eine Antwort, sie war nur
+   * nicht auffindbar (eingeführt 10.08.2026).
+   */
+  availableOnly: boolean
   /** Mindest-Vertrauensstufe der Dub-Angabe (nur Datenbank-Ansicht). */
   minConfidence: DubConfidence
 }
@@ -68,6 +78,7 @@ export const EMPTY_FILTERS: FilterState = {
   search: '',
   confirmedOnly: false,
   favoritesOnly: false,
+  availableOnly: false,
   minConfidence: 'low',
 }
 
@@ -130,6 +141,7 @@ export function activeFilterCount(f: FilterState): number {
     (f.search.trim() ? 1 : 0) +
     (f.confirmedOnly ? 1 : 0) +
     (f.favoritesOnly ? 1 : 0) +
+    (f.availableOnly ? 1 : 0) +
     (f.minConfidence !== 'low' ? 1 : 0)
   )
 }
@@ -241,6 +253,16 @@ export function filterTitles(
 ): Title[] {
   return source.filter((t) => {
     if (f.favoritesOnly && !favorites.has(t.id)) return false
+    // „Wo kann ich das sehen?" — Stream-Verweise aus AniList/TMDB oder
+    // Bezugsquellen aus aniSearch. Ein Termin zählt selbstverständlich auch.
+    if (
+      f.availableOnly &&
+      !t.streams.length &&
+      !(t.watchLinks?.length ?? 0) &&
+      !(data.releasesByTitle.get(t.id)?.length ?? 0)
+    ) {
+      return false
+    }
     if (CONFIDENCE_RANK[t.dubConfidence] < CONFIDENCE_RANK[f.minConfidence]) return false
 
     const x = f.excluded

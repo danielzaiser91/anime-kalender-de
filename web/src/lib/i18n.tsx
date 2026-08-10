@@ -161,6 +161,9 @@ const TEXTE = {
   'detail.shareHint': 'Kopiert einen Link, der diesen Titel mit eigenem Vorschaubild zeigt',
   'detail.source': 'Quelle',
   'detail.whyNoTime': 'Warum steht hier keine Uhrzeit?',
+  'filter.available': 'verfügbar',
+  'filter.availableHint':
+    'Nur Titel, bei denen belegt ist, wo man sie sehen oder kaufen kann — Stream, Kauf oder anstehender Termin.',
   'detail.estimatedDate': 'Termin abgeleitet',
   'detail.assumedEpisodes': 'Folgenzahl nicht belegt — 12 angenommen',
   'detail.close': 'Schließen',

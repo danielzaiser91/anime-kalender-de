@@ -112,6 +112,19 @@ export function FilterBar({
           {favoriteCount > 0 && <span className="opacity-60">({favoriteCount})</span>}
         </Chip>
 
+        {/* Nur in der Datenbank sinnvoll: In den Kalenderansichten hat ohnehin
+            alles einen Termin, dort wäre der Schalter wirkungslos. */}
+        {showConfidence && (
+          <Chip
+            active={filters.availableOnly}
+            onClick={() => set({ availableOnly: !filters.availableOnly })}
+            color="#34d399"
+            title={t('filter.availableHint')}
+          >
+            ▶ {t('filter.available')}
+          </Chip>
+        )}
+
         <button
           type="button"
           onClick={() => setOpen((o) => !o)}

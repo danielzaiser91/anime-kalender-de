@@ -94,6 +94,7 @@ export function parseHash(hash: string): AppRoute {
     search: params.get('q') ?? '',
     confirmedOnly: params.get('sicher') === '1',
     favoritesOnly: params.get('fav') === '1',
+    availableOnly: params.get('wo') === '1',
     minConfidence: (params.get('conf') as DubConfidence) ?? 'low',
   }
 
@@ -114,6 +115,7 @@ export function buildHash(route: AppRoute): string {
   if (f.search.trim()) params.set('q', f.search.trim())
   if (f.confirmedOnly) params.set('sicher', '1')
   if (f.favoritesOnly) params.set('fav', '1')
+  if (f.availableOnly) params.set('wo', '1')
   if (f.minConfidence !== 'low') params.set('conf', f.minConfidence)
   if (route.date !== todayIso()) params.set('d', route.date)
   if (route.release) params.set('r', route.release)
