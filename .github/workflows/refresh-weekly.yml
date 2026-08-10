@@ -83,7 +83,8 @@ jobs:
         run: npm run data:og
 
       - name: Änderungen committen
-        run: bash tools/commit-data.sh "chore(data): wöchentlicher Tiefendurchlauf"
+        run: |
+          bash tools/commit-data.sh "chore(data): wöchentlicher Tiefendurchlauf"
 
       - name: Was noch kuratiert werden müsste
         run: npm run data:report >> $GITHUB_STEP_SUMMARY

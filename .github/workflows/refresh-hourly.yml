@@ -80,4 +80,5 @@ jobs:
         run: npm run data:og
 
       - name: Änderungen committen
-        run: bash tools/commit-data.sh "chore(data): Sendezeiten aktualisiert"
+        run: |
+          bash tools/commit-data.sh "chore(data): Sendezeiten aktualisiert"

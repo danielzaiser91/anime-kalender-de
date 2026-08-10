@@ -21,7 +21,8 @@
     "data:check": "tsx pipeline/check-sources.ts",
     "data:report": "tsx pipeline/report-proposals.ts",
     "data:icons": "tsx pipeline/build-icons.ts",
-    "data:anisearch": "tsx pipeline/fetch-anisearch.ts"
+    "data:anisearch": "tsx pipeline/fetch-anisearch.ts",
+    "check:workflows": "node tools/check-workflows.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",
@@ -40,6 +41,7 @@
     "tailwindcss": "^4.1.7",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "yaml": "^2.9.0"
   }
 }

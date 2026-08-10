@@ -91,7 +91,8 @@ jobs:
         run: npm run data:og
 
       - name: Änderungen committen
-        run: bash tools/commit-data.sh "chore(data): Datensatz automatisch aktualisiert"
+        run: |
+          bash tools/commit-data.sh "chore(data): Datensatz automatisch aktualisiert"
 
       # Zuletzt, damit der Datenstand auch dann committet ist, wenn die Prüfung
       # anschlägt. Ein roter Lauf schickt dem Betreiber eine Mail — das ist die

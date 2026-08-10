@@ -52,6 +52,12 @@ jobs:
       - name: Kuratierte Daten prüfen
         run: npm run data:validate
 
+      # Ein kaputter Workflow meldet sich nicht — er verschwindet lautlos aus
+      # der Übersicht und läuft nie wieder. Diese Prüfung ist der einzige Ort,
+      # der das bemerkt, bevor ein Nachtlauf ausbleibt.
+      - name: Workflow-Dateien prüfen
+        run: npm run check:workflows
+
       - name: Bauen
         env:
           PAGES_BASE: /
