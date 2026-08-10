@@ -5,10 +5,7 @@ Stand: 11.08.2026 · Live: https://anime-kalender.de/
 ## Task Queue
 
 ### In Arbeit
-
-| Aufgabe | SP | Stand |
-|---|---|---|
-| aniSearch-Nachzug für die 102 Titel mit Termin | 1 | Läuft seit 01:30 Uhr (`--force --limit 110`, rund 10 Minuten). Der Code ist fertig und geprüft; es fehlt nur, dass die Seiten einmal mit dem neuen Parser durchlaufen. **Morgen zuerst:** Lauf zu Ende, dann `npm run data:build`, `npm run data:validate`, committen |
+_(leer)_
 
 ### Queue
 | Aufgabe | SP | Notiz |
@@ -78,6 +75,27 @@ verschoben, Best-of, Recap.
   abgenommen.
 
 ## Archiv
+
+- ✅ **aniSearch-Seiten werden archiviert statt verworfen** (11.08.2026). Bisher wurden je Seite
+  zwei Felder herausgelöst und 110 KB weggeworfen; die gebrauchte Folgenzahl stand auf jeder
+  bereits geholten Seite und wäre nur über einen zweiten Lauf über 2.612 Seiten zu bekommen
+  gewesen — vier Stunden Last auf einer fremden Redaktionsseite (Daniels Einwand: „besser zu
+  viele Daten als zu wenig"). Jetzt liegen die inhaltlichen Abschnitte unter
+  `data/anisearch-raw/` (~14 KB je Titel gepackt, 1,5 MB für die ersten 110). Forum,
+  Kommentare, Rezensionen und Bearbeiterlisten bleiben draußen. Die Infobox wird vollständig
+  gelesen: Folgenzahl mit Schätzungs-Markierung, Laufzeit, Studio, Staff mit Funktion,
+  Sendeplatz, Synonyme sowie Titel, Status, Zeitraum und Publisher je Sprachfassung.
+  **Live-Scraping beim Seitenaufruf wurde verworfen** — es macht aus einem Abruf je Titel und
+  Woche einen je Besucher.
+  *Sofort bezahlt gemacht:* Die erste Stichprobe fand einen Fehler im frischen Parser — die
+  Folgenzahl wurde nur bei 3 % erkannt, weil eine Regex die Laufzeit traf statt der
+  Folgenzahl. Reparatur über `data:anisearch:reparse` ohne einen einzigen neuen Abruf,
+  Trefferquote 100 %. `data:anisearch:check` wacht seither auch über die Folgenzahl.
+- ✅ **Folgenzahl von aniSearch statt geraten** (11.08.2026). Fehlte die Angabe bei AniList,
+  wurden zwölf angesetzt. „Meine Wiedergeburt als Schleim" stand damit mit 16 statt 24 Folgen
+  im Kalender. Kennzeichnet aniSearch die Zahl selbst als vorläufig, trägt sie weiter das ≈ —
+  aber mit dem Hinweis, dass die Schätzung von dort stammt und nicht unsere eigene Annahme
+  ist. Neues Feld `schedule.episodeCountSource`.
 
 - ✅ **aniSearch-Bestand vollständig** (10.08.2026): alle 2.612 zuordenbaren Titel geholt, an
   einem Tag von 960 auf 2.612. Deutsche Beschreibungen von 2.041 auf **2.689 von 2.759**,
