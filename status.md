@@ -10,7 +10,7 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| „Alle Termine": Datum falsch, wenn Folge 1 weit vor dem Rest liegt | 3 | Belegfall Steel Ball Run (1st STAGE 19.03.2026, Fortsetzung ab 25.09.2026). Verdacht: Anker-Projektion in `shared/logic.ts`. Erst reproduzieren, dann nach weiteren Titeln mit großer Lücke zwischen Folge 1 und 2 suchen |
+| „Alle Termine": Datum falsch, wenn Folge 1 weit vor dem Rest liegt | 3 | **Nicht reproduzierbar.** Geprüft am 10.08.2026: 1st STAGE Do 19.03.2026 (ist ein Donnerstag), 2nd/3rd STAGE elf Folgen ab Fr 25.09.2026 im Sieben-Tage-Takt bis Fr 04.12.2026 — alle Wochentage und Abstände stimmen. Rückfrage an Daniel offen, was genau im Screenshot falsch aussah. Vermutung: die Zählung beginnt bei 2nd/3rd wieder bei 1, obwohl 1st STAGE schon Folge 1 war |
 | aniSearch-Bestand auffüllen | 2 | läuft über die Nachtläufe, 200 Titel je Lauf; 2.041 von 2.753 Titeln haben deutschen Text, 1.452 aniSearch-Seiten offen (~8 Läufe) |
 
 
@@ -46,6 +46,12 @@ _(leer)_
 
 ## Archiv
 
+- ✅ **Specials werden nicht mehr zu zwölfteiligen Serien**. Der Kalender behauptete eine neue Folge
+  von „I am a hero too"; es gibt genau eine, am 02.08.2026. Drei Fehler zusammen: ein einzelner
+  Termin galt als Wochenserie (`Math.max(12, …)`), die Zuordnung lief über die Crunchyroll-Serien-ID
+  (die alle Staffeln einer Reihe teilen — daher „Staffel 6"), und der Rückfall prüfte die
+  Staffelnummer nicht („Schleim Staffel 4" hing an „Slime Season 3"). Vorher 9 Einträge mit
+  geratener Folgenzahl und 3 ohne Titel, jetzt 2 und 1 — letzterer sind die Anime Awards
 - ✅ **Nachtläufe gehen jetzt auch live**. Der Datenlauf committete nach `public/data` und pushte —
   aber ein Push aus einer Action mit dem `GITHUB_TOKEN` löst keine weiteren Workflows aus, und
   genau daran hing der Deploy. Seit dem Einrichten der Kaskade ging kein automatisch geholter
