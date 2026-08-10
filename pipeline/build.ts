@@ -481,12 +481,25 @@ function main(): void {
   for (const entry of Object.values(crunchyroll.german)) {
     if (entry.seriesId) crBySeriesId.set(entry.seriesId, entry)
   }
-  /** AniList-Titel über ihre Crunchyroll-Serien-ID auffindbar machen. */
-  const titleByCrSeries = new Map<string, Title>()
+  /**
+   * AniList-Titel über ihre Crunchyroll-Serien-ID auffindbar machen.
+   *
+   * Bewusst eine Liste je Serie, kein einzelner Titel: Crunchyroll führt alle
+   * Staffeln und Specials einer Reihe unter derselben Serien-ID. Wer hier nur
+   * den ersten Treffer behält, ordnet jede Folge willkürlich irgendeiner
+   * Staffel zu — so landete „I am a hero too" bei Staffel 6.
+   */
+  const titlesByCrSeries = new Map<string, Title[]>()
   for (const title of titles.values()) {
     for (const stream of title.streams) {
       const id = stream.platform === 'crunchyroll' ? crunchyrollSeriesId(stream.url) : undefined
-      if (id && !titleByCrSeries.has(id)) titleByCrSeries.set(id, title)
+      if (!id) continue
+      const list = titlesByCrSeries.get(id)
+      if (list) {
+        if (!list.includes(title)) list.push(title)
+      } else {
+        titlesByCrSeries.set(id, [title])
+      }
     }
   }
 
@@ -497,6 +510,68 @@ function main(): void {
       const key = name ? normalizeTitle(name) : ''
       if (key && !titleByName.has(key)) titleByName.set(key, title)
     }
+  }
+
+  /**
+   * Einen AniList-Titel zu einem Kalendernamen finden.
+   *
+   * Crunchyroll setzt im Kalender gern zwei Namen hintereinander — den
+   * deutschen und den englischen („Elainas Reise Wandering Witch: The Journey
+   * of Elaina") oder die Serie und ihren Untertitel („Fruits Basket (2019)
+   * Fruits Basket: The Final Season"). Ein Vergleich auf den ganzen String
+   * findet dann nichts. Deshalb wird der Name von vorne verkürzt und der
+   * längste Treffer genommen; unter zwei Wörtern wird nicht mehr gesucht,
+   * sonst trifft irgendwann jedes „Season 2".
+   */
+  function titleForCalendarName(name: string): Title | undefined {
+    const words = normalizeTitle(name).split(' ').filter(Boolean)
+    for (let start = 0; start <= words.length - 2; start++) {
+      const hit = titleByName.get(words.slice(start).join(' '))
+      if (hit) return hit
+    }
+    return undefined
+  }
+
+  /** Staffelnummer aus einem Namen, sofern er eine nennt. */
+  function seasonNumber(name: string | undefined): number | undefined {
+    const match = name ? normalizeTitle(name).match(/\bs(\d+)\b/) : null
+    return match ? Number(match[1]) : undefined
+  }
+
+  /**
+   * Aus allen Staffeln einer Crunchyroll-Serie die gemeinte heraussuchen.
+   *
+   * Der Rückfall auf die Serien-ID greift, wenn der Name nichts findet — bei
+   * deutschen Kalendernamen also fast immer. Nennt der Kalender eine
+   * Staffelnummer, muss der Titel sie auch tragen: „Meine Wiedergeburt als
+   * Schleim … Staffel 4" hing sonst an „Slime Season 3", mitsamt deren
+   * Folgenzahl, Cover und Beschreibung. Passt keine, bleibt der Titel lieber
+   * leer — eine falsche Zuordnung ist schlechter als keine.
+   */
+  function titleFromSeries(
+    seriesId: string,
+    calendarName: string,
+    year: number,
+  ): Title | undefined {
+    const candidates = titlesByCrSeries.get(seriesId) ?? []
+    if (!candidates.length) return undefined
+    const wanted = seasonNumber(calendarName)
+    if (wanted === undefined) return candidates[0]
+
+    const numberOf = (t: Title) => seasonNumber(t.titleEn) ?? seasonNumber(t.titleRomaji)
+    const exact = candidates.find((t) => numberOf(t) === wanted)
+    if (exact) return exact
+    // Die erste Staffel trägt ihre Nummer meist nicht im Titel.
+    if (wanted === 1) {
+      const plain = candidates.find((t) => numberOf(t) === undefined)
+      if (plain) return plain
+    }
+    // Viele Reihen nummerieren gar nicht, sondern geben jeder Staffel einen
+    // eigenen Untertitel („Ascendance of a Bookworm: Adopted Daughter of an
+    // Archduke"). Dann entscheidet das Ausstrahlungsjahr — und nur, wenn es
+    // genau einen Kandidaten trifft. Bei zweien wäre es wieder geraten.
+    const sameYear = candidates.filter((t) => t.jpYear && Math.abs(t.jpYear - year) <= 1)
+    return sameYear.length === 1 ? sameYear[0] : undefined
   }
 
   function findCrunchyroll(entryUrl: string | undefined, name: string): CrunchyrollEntry | undefined {
@@ -626,21 +701,77 @@ function main(): void {
     if (usedCrKeys.has(key)) continue
     if (!slot.earliest?.date) continue
 
-    const title = slot.seriesId ? titleByCrSeries.get(slot.seriesId) : undefined
+    const name = slot.rawTitle.replace(/\s*\(Deutsch\)\s*$/i, '').trim()
+    // Erst über den vollen Namen, dann über die Serien-ID.
+    //
+    // Der Kalender nennt bei Specials die Serie UND den Untertitel — „My Hero
+    // Academia I am a hero too". Dafür gibt es bei AniList einen eigenen
+    // Eintrag, und der normalisierte Name trifft ihn genau. Die Serien-ID
+    // dagegen zeigt bei Crunchyroll für alle Staffeln und Specials auf
+    // dieselbe Serie; welcher AniList-Titel dahinter landete, entschied die
+    // Reihenfolge in der Map. So wurde aus dem Special die sechste Staffel.
+    const title =
+      titleForCalendarName(name) ??
+      (slot.seriesId
+        ? titleFromSeries(slot.seriesId, name, Number(slot.earliest.date.slice(0, 4)))
+        : undefined)
     const slug = `cr-${slot.seriesId ?? slugify(key)}`
     if (seenSlugs.has(slug)) continue
     seenSlugs.add(slug)
 
+    // Ein einziger Termin ist kein Beleg für einen Wochentakt.
+    //
+    // Im selben Kalender stehen Specials, Filmpremieren und die Anime Awards.
+    // Sie sehen dort aus wie eine Serienfolge; der einzige Unterschied ist,
+    // dass es bei ihnen bei einem Termin bleibt. Ohne diese Unterscheidung
+    // wurde aus jedem davon eine Reihe von mindestens zwölf Folgen, und der
+    // Kalender behauptete Woche für Woche eine Folge, die es nicht gibt.
+    // Genau so kam „I am a hero too" zu elf erfundenen Terminen.
+    //
+    // Der eine Termin allein reicht als Merkmal aber nicht: Eine Serie, die
+    // gerade erst anläuft, hat im Kalenderfenster ebenfalls nur einen. Deshalb
+    // zählt zusätzlich, was AniList über die Folgenzahl sagt — steht dort eine
+    // belegte Zahl über eins, ist es eine Reihe, egal wie viele Termine das
+    // Fenster gerade zeigt.
+    const seenDates = [...new Set(slot.dates ?? [])]
+    const knownEpisodes =
+      title?.episodes && title.jpYear
+        ? Math.abs(title.jpYear - Number(slot.earliest.date.slice(0, 4))) <= 1
+          ? title.episodes
+          : undefined
+        : undefined
+    if (seenDates.length < 2 && (knownEpisodes ?? 1) === 1) {
+      const date = slot.earliest.date
+      releases.push({
+        slug,
+        titleId: title?.id ?? -1,
+        name,
+        platform: 'crunchyroll',
+        platformUrl: slot.seriesUrl,
+        releaseType: 'batch',
+        fsk: title?.fsk,
+        note: 'Crunchyroll führt dazu bisher genau einen deutschen Termin.',
+        schedule: { firstEpisodeDate: date, time: slot.time, episodeCount: 1 },
+        year: Number(date.slice(0, 4)),
+        sources: [CR_CALENDAR_URL],
+      })
+      autoAdded++
+      continue
+    }
+
     const derived = derivedStart(slot)
     if (!derived) continue
     const firstEpisodeDate = derived.date
-    const name = slot.rawTitle.replace(/\s*\(Deutsch\)\s*$/i, '').trim()
     const releaseYear = Number(firstEpisodeDate.slice(0, 4))
 
     let episodeCount = title?.episodes
     let episodeCountAssumed = false
     if (!episodeCount || !title?.jpYear || Math.abs(title.jpYear - releaseYear) > 1) {
-      episodeCount = Math.max(12, (slot.earliest.episode ?? 1) + slot.dates.length)
+      // Die Reihe läuft, aber wie lang sie wird, weiß hier niemand. Zwölf ist
+      // die übliche Cour-Länge und trägt das ≈ im UI. Die Untergrenze bleibt
+      // das, was tatsächlich gesehen wurde — sonst fielen belegte Termine
+      // hinten heraus.
+      episodeCount = Math.max(12, (slot.earliest.episode ?? 1) + seenDates.length)
       episodeCountAssumed = true
     }
 

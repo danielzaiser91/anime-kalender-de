@@ -158,15 +158,14 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:the-ribbon-hero-netflix@2026-08-08@anime-kalender-de
+UID:cr-G6ZJMGEXY@2026-08-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260808
-DTEND;VALUE=DATE:20260809
-SUMMARY:The Ribbon Hero
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Film\nUhrzeit noch nicht bestä
- tigt.\nDetails: https://anime-kalender.de/#/release/the-ribbon-hero-netfli
- x
-CATEGORIES:Netflix
+DTSTART:20260801T160000Z
+DTEND:20260801T163000Z
+SUMMARY:Fruits Basket (2019) Fruits Basket: The Final Season
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Katalogtitel\nDetails: htt
+ ps://anime-kalender.de/#/release/cr-G6ZJMGEXY
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:banana-fish-vol1@2026-08-21@anime-kalender-de

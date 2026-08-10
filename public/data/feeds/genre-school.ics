@@ -6,17 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – School
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-02-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260208T093000Z
-DTEND:20260208T100000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 1/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GNVHKN933@2026-02-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260208T150000Z
@@ -26,17 +15,6 @@ SUMMARY:The 100 Girlfriends Who Really\, Really\, Really\, Really\, REALLY
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GNVHKN933
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-02-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260215T093000Z
-DTEND:20260215T100000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 2/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -52,17 +30,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-02-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260222T093000Z
-DTEND:20260222T100000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 3/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GNVHKN933@2026-02-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260222T150000Z
@@ -72,17 +39,6 @@ SUMMARY:The 100 Girlfriends Who Really\, Really\, Really\, Really\, REALLY
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GNVHKN933
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-03-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260301T093000Z
-DTEND:20260301T100000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 4/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -98,17 +54,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-03-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260308T093000Z
-DTEND:20260308T100000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 5/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GNVHKN933@2026-03-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260308T150000Z
@@ -118,17 +63,6 @@ SUMMARY:The 100 Girlfriends Who Really\, Really\, Really\, Really\, REALLY
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GNVHKN933
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-03-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260315T093000Z
-DTEND:20260315T100000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 6/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -144,17 +78,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-03-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260322T093000Z
-DTEND:20260322T100000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 7/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GNVHKN933@2026-03-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260322T150000Z
@@ -164,17 +87,6 @@ SUMMARY:The 100 Girlfriends Who Really\, Really\, Really\, Really\, REALLY
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GNVHKN933
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-03-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260329T083000Z
-DTEND:20260329T090000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 8/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -194,21 +106,10 @@ UID:cr-G6NVG970Y@2026-04-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260404T102500Z
 DTEND:20260404T105500Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 1/19
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 1/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NVG970Y
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-04-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260405T083000Z
-DTEND:20260405T090000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 9/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -228,21 +129,10 @@ UID:cr-G6NVG970Y@2026-04-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260411T102500Z
 DTEND:20260411T105500Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 2/19
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 2/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NVG970Y
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-04-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260412T083000Z
-DTEND:20260412T090000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 10/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -263,7 +153,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260415T123000Z
 DTEND:20260415T130000Z
 SUMMARY:Classroom of the Elite 4th Season: Second Year\, First Semester – F
- olge 1/17
+ olge 1/16
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GRVN8MNQY
@@ -274,21 +164,10 @@ UID:cr-G6NVG970Y@2026-04-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260418T102500Z
 DTEND:20260418T105500Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 3/19
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 3/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NVG970Y
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-04-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260419T083000Z
-DTEND:20260419T090000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 11/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -309,7 +188,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260422T123000Z
 DTEND:20260422T130000Z
 SUMMARY:Classroom of the Elite 4th Season: Second Year\, First Semester – F
- olge 2/17
+ olge 2/16
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GRVN8MNQY
@@ -320,7 +199,7 @@ UID:cr-G6NVG970Y@2026-04-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260425T102500Z
 DTEND:20260425T105500Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 4/19
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 4/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NVG970Y
@@ -335,17 +214,6 @@ SUMMARY:Mistress Kanan is Devilishly Easy Season 1 – Folge 1/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GT00371860
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-04-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260426T083000Z
-DTEND:20260426T090000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 12/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -366,7 +234,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260429T123000Z
 DTEND:20260429T130000Z
 SUMMARY:Classroom of the Elite 4th Season: Second Year\, First Semester – F
- olge 3/17
+ olge 3/16
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GRVN8MNQY
@@ -377,7 +245,7 @@ UID:cr-G6NVG970Y@2026-05-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260502T102500Z
 DTEND:20260502T105500Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 5/19
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 5/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NVG970Y
@@ -392,17 +260,6 @@ SUMMARY:Mistress Kanan is Devilishly Easy Season 1 – Folge 2/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GT00371860
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-05-03@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260503T083000Z
-DTEND:20260503T090000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 13/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -423,7 +280,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260506T123000Z
 DTEND:20260506T130000Z
 SUMMARY:Classroom of the Elite 4th Season: Second Year\, First Semester – F
- olge 4/17
+ olge 4/16
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GRVN8MNQY
@@ -434,7 +291,7 @@ UID:cr-G6NVG970Y@2026-05-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260509T102500Z
 DTEND:20260509T105500Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 6/19
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 6/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NVG970Y
@@ -449,17 +306,6 @@ SUMMARY:Mistress Kanan is Devilishly Easy Season 1 – Folge 3/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GT00371860
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-05-10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260510T083000Z
-DTEND:20260510T090000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 14/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -480,7 +326,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260513T123000Z
 DTEND:20260513T130000Z
 SUMMARY:Classroom of the Elite 4th Season: Second Year\, First Semester – F
- olge 5/17
+ olge 5/16
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GRVN8MNQY
@@ -491,7 +337,7 @@ UID:cr-G6NVG970Y@2026-05-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260516T102500Z
 DTEND:20260516T105500Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 7/19
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 7/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NVG970Y
@@ -506,17 +352,6 @@ SUMMARY:Mistress Kanan is Devilishly Easy Season 1 – Folge 4/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GT00371860
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-05-17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260517T083000Z
-DTEND:20260517T090000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 15/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -537,7 +372,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260520T123000Z
 DTEND:20260520T130000Z
 SUMMARY:Classroom of the Elite 4th Season: Second Year\, First Semester – F
- olge 6/17
+ olge 6/16
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GRVN8MNQY
@@ -548,7 +383,7 @@ UID:cr-G6NVG970Y@2026-05-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260523T102500Z
 DTEND:20260523T105500Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 8/19
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 8/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NVG970Y
@@ -563,17 +398,6 @@ SUMMARY:Mistress Kanan is Devilishly Easy Season 1 – Folge 5/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GT00371860
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-05-24@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260524T083000Z
-DTEND:20260524T090000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 16/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -594,7 +418,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260527T123000Z
 DTEND:20260527T130000Z
 SUMMARY:Classroom of the Elite 4th Season: Second Year\, First Semester – F
- olge 7/17
+ olge 7/16
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GRVN8MNQY
 CATEGORIES:Crunchyroll
@@ -604,7 +428,7 @@ UID:cr-G6NVG970Y@2026-05-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260530T102500Z
 DTEND:20260530T105500Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 9/19
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 9/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
@@ -617,16 +441,6 @@ DTEND:20260530T163000Z
 SUMMARY:Mistress Kanan is Devilishly Easy Season 1 – Folge 6/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GT00371860
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-05-31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260531T083000Z
-DTEND:20260531T090000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 17/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -657,7 +471,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260603T123000Z
 DTEND:20260603T130000Z
 SUMMARY:Classroom of the Elite 4th Season: Second Year\, First Semester – F
- olge 8/17
+ olge 8/16
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GRVN8MNQY
 CATEGORIES:Crunchyroll
@@ -667,7 +481,7 @@ UID:cr-G6NVG970Y@2026-06-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260606T102500Z
 DTEND:20260606T105500Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 10/19
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 10/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
@@ -680,16 +494,6 @@ DTEND:20260606T163000Z
 SUMMARY:Mistress Kanan is Devilishly Easy Season 1 – Folge 7/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GT00371860
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-06-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260607T083000Z
-DTEND:20260607T090000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 18/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -710,7 +514,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260610T123000Z
 DTEND:20260610T130000Z
 SUMMARY:Classroom of the Elite 4th Season: Second Year\, First Semester – F
- olge 9/17
+ olge 9/16
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GRVN8MNQY
 CATEGORIES:Crunchyroll
@@ -720,7 +524,7 @@ UID:cr-G6NVG970Y@2026-06-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260613T102500Z
 DTEND:20260613T105500Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 11/19
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 11/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
@@ -733,16 +537,6 @@ DTEND:20260613T163000Z
 SUMMARY:Mistress Kanan is Devilishly Easy Season 1 – Folge 8/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GT00371860
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-06-14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260614T083000Z
-DTEND:20260614T090000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 19/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -763,7 +557,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260617T123000Z
 DTEND:20260617T130000Z
 SUMMARY:Classroom of the Elite 4th Season: Second Year\, First Semester – F
- olge 10/17
+ olge 10/16
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GRVN8MNQY
 CATEGORIES:Crunchyroll
@@ -773,7 +567,7 @@ UID:cr-G6NVG970Y@2026-06-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260620T102500Z
 DTEND:20260620T105500Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 12/19
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 12/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
@@ -786,16 +580,6 @@ DTEND:20260620T163000Z
 SUMMARY:Mistress Kanan is Devilishly Easy Season 1 – Folge 9/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GT00371860
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-06-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260621T083000Z
-DTEND:20260621T090000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 20/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -816,7 +600,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260624T123000Z
 DTEND:20260624T130000Z
 SUMMARY:Classroom of the Elite 4th Season: Second Year\, First Semester – F
- olge 11/17
+ olge 11/16
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GRVN8MNQY
 CATEGORIES:Crunchyroll
@@ -826,7 +610,7 @@ UID:cr-G6NVG970Y@2026-06-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260627T102500Z
 DTEND:20260627T105500Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 13/19
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 13/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
@@ -839,16 +623,6 @@ DTEND:20260627T163000Z
 SUMMARY:Mistress Kanan is Devilishly Easy Season 1 – Folge 10/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GT00371860
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-06-28@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260628T083000Z
-DTEND:20260628T090000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 21/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -869,7 +643,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260701T123000Z
 DTEND:20260701T130000Z
 SUMMARY:Classroom of the Elite 4th Season: Second Year\, First Semester – F
- olge 12/17
+ olge 12/16
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GRVN8MNQY
 CATEGORIES:Crunchyroll
@@ -879,7 +653,7 @@ UID:cr-G6NVG970Y@2026-07-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260704T102500Z
 DTEND:20260704T105500Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 14/19
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 14/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
@@ -892,16 +666,6 @@ DTEND:20260704T163000Z
 SUMMARY:Mistress Kanan is Devilishly Easy Season 1 – Folge 11/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GT00371860
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-07-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260705T083000Z
-DTEND:20260705T090000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 22/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -932,7 +696,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260708T123000Z
 DTEND:20260708T130000Z
 SUMMARY:Classroom of the Elite 4th Season: Second Year\, First Semester – F
- olge 13/17
+ olge 13/16
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GRVN8MNQY
 CATEGORIES:Crunchyroll
@@ -942,7 +706,7 @@ UID:cr-G6NVG970Y@2026-07-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260711T102500Z
 DTEND:20260711T105500Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 15/19
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 15/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
@@ -955,16 +719,6 @@ DTEND:20260711T163000Z
 SUMMARY:Mistress Kanan is Devilishly Easy Season 1 – Folge 12/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GT00371860
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-07-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260712T083000Z
-DTEND:20260712T090000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 23/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -995,7 +749,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260715T123000Z
 DTEND:20260715T130000Z
 SUMMARY:Classroom of the Elite 4th Season: Second Year\, First Semester – F
- olge 14/17
+ olge 14/16
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GRVN8MNQY
 CATEGORIES:Crunchyroll
@@ -1005,19 +759,9 @@ UID:cr-G6NVG970Y@2026-07-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260718T102500Z
 DTEND:20260718T105500Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 16/19
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 16/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-G6NVG970Y
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-07-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260719T083000Z
-DTEND:20260719T090000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 24/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1048,7 +792,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260722T123000Z
 DTEND:20260722T130000Z
 SUMMARY:Classroom of the Elite 4th Season: Second Year\, First Semester – F
- olge 15/17
+ olge 15/16
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GRVN8MNQY
 CATEGORIES:Crunchyroll
@@ -1068,7 +812,7 @@ UID:cr-G6NVG970Y@2026-07-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260725T102500Z
 DTEND:20260725T105500Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 17/19
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 17/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
@@ -1083,17 +827,6 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
  ht bestätigt.\nDetails: https://anime-kalender.de/#/release/beelzebub-netf
  lix
 CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GW4HM7WK9@2026-07-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260726T083000Z
-DTEND:20260726T090000Z
-SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 25/25
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GW4HM7WK9
-CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GNVHKN933@2026-07-26@anime-kalender-de
@@ -1122,7 +855,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260729T123000Z
 DTEND:20260729T130000Z
 SUMMARY:Classroom of the Elite 4th Season: Second Year\, First Semester – F
- olge 16/17
+ olge 16/16
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GRVN8MNQY
 CATEGORIES:Crunchyroll
@@ -1142,9 +875,19 @@ UID:cr-G6NVG970Y@2026-08-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260801T102500Z
 DTEND:20260801T105500Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 18/19
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 18/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-G6NVG970Y
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-G6ZJMGEXY@2026-08-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260801T160000Z
+DTEND:20260801T163000Z
+SUMMARY:Fruits Basket (2019) Fruits Basket: The Final Season
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Katalogtitel\nDetails: htt
+ ps://anime-kalender.de/#/release/cr-G6ZJMGEXY
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1166,18 +909,6 @@ DTEND:20260805T123000Z
 SUMMARY:Clevatess – Staffel 2 – Folge 5/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/clevatess-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GRVN8MNQY@2026-08-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260805T123000Z
-DTEND:20260805T130000Z
-SUMMARY:Classroom of the Elite 4th Season: Second Year\, First Semester – F
- olge 17/17
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GRVN8MNQY
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1228,7 +959,7 @@ UID:cr-G6NVG970Y@2026-08-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260808T102500Z
 DTEND:20260808T105500Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 19/19
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 19/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NVG970Y
@@ -1287,6 +1018,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/inazuma
  -eleven-s1-box
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-G6NVG970Y@2026-08-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260815T102500Z
+DTEND:20260815T105500Z
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 20/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-G6NVG970Y
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GNVHKN933@2026-08-16@anime-kalender-de
@@ -1355,6 +1097,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:cr-G6NVG970Y@2026-08-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260822T102500Z
+DTEND:20260822T105500Z
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 21/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-G6NVG970Y
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:clevatess-s2@2026-08-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260826T120000Z
@@ -1397,6 +1150,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/nukitas
  hi-vol1
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-G6NVG970Y@2026-08-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260829T102500Z
+DTEND:20260829T105500Z
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 22/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-G6NVG970Y
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:dandadan-s2-vol1-steelcase@2026-08-31@anime-kalender-de
@@ -1454,6 +1218,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:cr-G6NVG970Y@2026-09-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260905T102500Z
+DTEND:20260905T105500Z
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 23/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-G6NVG970Y
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:clevatess-s2@2026-09-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260909T120000Z
@@ -1473,6 +1248,17 @@ SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 7/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/trapped-in-a-dating-sim-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-G6NVG970Y@2026-09-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260912T102500Z
+DTEND:20260912T105500Z
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 24/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT

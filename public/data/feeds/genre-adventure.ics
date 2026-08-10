@@ -6,11 +6,77 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Adventure
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:cr-GW4HM7WK9@2026-02-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260208T093000Z
+DTEND:20260208T100000Z
+SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 1/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-GW4HM7WK9
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GW4HM7WK9@2026-02-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260215T093000Z
+DTEND:20260215T100000Z
+SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 2/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-GW4HM7WK9
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GW4HM7WK9@2026-02-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260222T093000Z
+DTEND:20260222T100000Z
+SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 3/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-GW4HM7WK9
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GW4HM7WK9@2026-03-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260301T093000Z
+DTEND:20260301T100000Z
+SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 4/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-GW4HM7WK9
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GW4HM7WK9@2026-03-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260308T093000Z
+DTEND:20260308T100000Z
+SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 5/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-GW4HM7WK9
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GW4HM7WK9@2026-03-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260315T093000Z
+DTEND:20260315T100000Z
+SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 6/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-GW4HM7WK9
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00371893@2026-03-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260318T150000Z
 DTEND:20260318T153000Z
-SUMMARY:Dorohedoro Season 2 – Folge 1/12
+SUMMARY:Dorohedoro Season 2 – Folge 1/11
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GT00371893
@@ -28,14 +94,36 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
+UID:cr-GW4HM7WK9@2026-03-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260322T093000Z
+DTEND:20260322T100000Z
+SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 7/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-GW4HM7WK9
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00371893@2026-03-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260325T150000Z
 DTEND:20260325T153000Z
-SUMMARY:Dorohedoro Season 2 – Folge 2/12
+SUMMARY:Dorohedoro Season 2 – Folge 2/11
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GT00371893
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GW4HM7WK9@2026-03-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260329T083000Z
+DTEND:20260329T090000Z
+SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 8/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -43,10 +131,21 @@ UID:cr-GT00371893@2026-04-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260401T140000Z
 DTEND:20260401T143000Z
-SUMMARY:Dorohedoro Season 2 – Folge 3/12
+SUMMARY:Dorohedoro Season 2 – Folge 3/11
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GT00371893
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GW4HM7WK9@2026-04-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260405T083000Z
+DTEND:20260405T090000Z
+SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 9/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -54,7 +153,7 @@ UID:cr-GT00371893@2026-04-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260408T140000Z
 DTEND:20260408T143000Z
-SUMMARY:Dorohedoro Season 2 – Folge 4/12
+SUMMARY:Dorohedoro Season 2 – Folge 4/11
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GT00371893
@@ -65,10 +164,21 @@ UID:cr-GRGG9798R@2026-04-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260408T140000Z
 DTEND:20260408T143000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 1/12
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 1/19
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GRGG9798R
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GW4HM7WK9@2026-04-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260412T083000Z
+DTEND:20260412T090000Z
+SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 10/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -76,7 +186,7 @@ UID:cr-GT00371893@2026-04-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260415T140000Z
 DTEND:20260415T143000Z
-SUMMARY:Dorohedoro Season 2 – Folge 5/12
+SUMMARY:Dorohedoro Season 2 – Folge 5/11
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GT00371893
@@ -87,10 +197,21 @@ UID:cr-GRGG9798R@2026-04-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260415T140000Z
 DTEND:20260415T143000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 2/12
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 2/19
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GRGG9798R
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GW4HM7WK9@2026-04-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260419T083000Z
+DTEND:20260419T090000Z
+SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 11/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -99,7 +220,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260422T140000Z
 DTEND:20260422T143000Z
 SUMMARY:Reborn as a Vending Machine\, I Now Wander the Dungeon Season 3 – F
- olge 1/13
+ olge 1/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GVDHX8504
@@ -110,7 +231,7 @@ UID:cr-GT00371893@2026-04-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260422T140000Z
 DTEND:20260422T143000Z
-SUMMARY:Dorohedoro Season 2 – Folge 6/12
+SUMMARY:Dorohedoro Season 2 – Folge 6/11
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GT00371893
@@ -121,10 +242,21 @@ UID:cr-GRGG9798R@2026-04-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260422T140000Z
 DTEND:20260422T143000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 3/12
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 3/19
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GRGG9798R
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GW4HM7WK9@2026-04-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260426T083000Z
+DTEND:20260426T090000Z
+SUMMARY:Wistoria: Wand and Sword Season 2 – Folge 12/12
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -133,7 +265,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260429T140000Z
 DTEND:20260429T143000Z
 SUMMARY:Reborn as a Vending Machine\, I Now Wander the Dungeon Season 3 – F
- olge 2/13
+ olge 2/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GVDHX8504
@@ -144,7 +276,7 @@ UID:cr-GT00371893@2026-04-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260429T140000Z
 DTEND:20260429T143000Z
-SUMMARY:Dorohedoro Season 2 – Folge 7/12
+SUMMARY:Dorohedoro Season 2 – Folge 7/11
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GT00371893
@@ -155,7 +287,7 @@ UID:cr-GRGG9798R@2026-04-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260429T140000Z
 DTEND:20260429T143000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 4/12
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 4/19
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GRGG9798R
@@ -190,7 +322,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260506T140000Z
 DTEND:20260506T143000Z
 SUMMARY:Reborn as a Vending Machine\, I Now Wander the Dungeon Season 3 – F
- olge 3/13
+ olge 3/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GVDHX8504
@@ -201,7 +333,7 @@ UID:cr-GT00371893@2026-05-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260506T140000Z
 DTEND:20260506T143000Z
-SUMMARY:Dorohedoro Season 2 – Folge 8/12
+SUMMARY:Dorohedoro Season 2 – Folge 8/11
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GT00371893
@@ -212,7 +344,7 @@ UID:cr-GRGG9798R@2026-05-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260506T140000Z
 DTEND:20260506T143000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 5/12
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 5/19
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GRGG9798R
@@ -247,7 +379,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260513T140000Z
 DTEND:20260513T143000Z
 SUMMARY:Reborn as a Vending Machine\, I Now Wander the Dungeon Season 3 – F
- olge 4/13
+ olge 4/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GVDHX8504
@@ -258,7 +390,7 @@ UID:cr-GT00371893@2026-05-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260513T140000Z
 DTEND:20260513T143000Z
-SUMMARY:Dorohedoro Season 2 – Folge 9/12
+SUMMARY:Dorohedoro Season 2 – Folge 9/11
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GT00371893
@@ -269,7 +401,7 @@ UID:cr-GRGG9798R@2026-05-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260513T140000Z
 DTEND:20260513T143000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 6/12
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 6/19
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GRGG9798R
@@ -314,7 +446,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260520T140000Z
 DTEND:20260520T143000Z
 SUMMARY:Reborn as a Vending Machine\, I Now Wander the Dungeon Season 3 – F
- olge 5/13
+ olge 5/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GVDHX8504
@@ -325,7 +457,7 @@ UID:cr-GT00371893@2026-05-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260520T140000Z
 DTEND:20260520T143000Z
-SUMMARY:Dorohedoro Season 2 – Folge 10/12
+SUMMARY:Dorohedoro Season 2 – Folge 10/11
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GT00371893
@@ -336,7 +468,7 @@ UID:cr-GRGG9798R@2026-05-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260520T140000Z
 DTEND:20260520T143000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 7/12
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 7/19
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GRGG9798R
@@ -381,7 +513,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260527T140000Z
 DTEND:20260527T143000Z
 SUMMARY:Reborn as a Vending Machine\, I Now Wander the Dungeon Season 3 – F
- olge 6/13
+ olge 6/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GVDHX8504
 CATEGORIES:Crunchyroll
@@ -391,7 +523,7 @@ UID:cr-GT00371893@2026-05-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260527T140000Z
 DTEND:20260527T143000Z
-SUMMARY:Dorohedoro Season 2 – Folge 11/12
+SUMMARY:Dorohedoro Season 2 – Folge 11/11
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GT00371893
 CATEGORIES:Crunchyroll
@@ -401,7 +533,7 @@ UID:cr-GRGG9798R@2026-05-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260527T140000Z
 DTEND:20260527T143000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 8/12
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 8/19
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
@@ -454,20 +586,9 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260603T140000Z
 DTEND:20260603T143000Z
 SUMMARY:Reborn as a Vending Machine\, I Now Wander the Dungeon Season 3 – F
- olge 7/13
+ olge 7/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GVDHX8504
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00371893@2026-06-03@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260603T140000Z
-DTEND:20260603T143000Z
-SUMMARY:Dorohedoro Season 2 – Folge 12/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GT00371893
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -475,7 +596,7 @@ UID:cr-GRGG9798R@2026-06-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260603T140000Z
 DTEND:20260603T143000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 9/12
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 9/19
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
@@ -508,7 +629,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260610T140000Z
 DTEND:20260610T143000Z
 SUMMARY:Reborn as a Vending Machine\, I Now Wander the Dungeon Season 3 – F
- olge 8/13
+ olge 8/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GVDHX8504
 CATEGORIES:Crunchyroll
@@ -518,9 +639,19 @@ UID:cr-GRGG9798R@2026-06-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260610T140000Z
 DTEND:20260610T143000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 10/12
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 10/19
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GRGG9798R
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-G79H23VNQ@2026-06-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260610T150000Z
+DTEND:20260610T153000Z
+SUMMARY:Elainas Reise Wandering Witch: The Journey of Elaina
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Katalogtitel\nDetails: htt
+ ps://anime-kalender.de/#/release/cr-G79H23VNQ
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -551,7 +682,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260617T140000Z
 DTEND:20260617T143000Z
 SUMMARY:Reborn as a Vending Machine\, I Now Wander the Dungeon Season 3 – F
- olge 9/13
+ olge 9/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GVDHX8504
 CATEGORIES:Crunchyroll
@@ -561,7 +692,7 @@ UID:cr-GRGG9798R@2026-06-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260617T140000Z
 DTEND:20260617T143000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 11/12
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 11/19
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
@@ -594,7 +725,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260624T140000Z
 DTEND:20260624T143000Z
 SUMMARY:Reborn as a Vending Machine\, I Now Wander the Dungeon Season 3 – F
- olge 10/13
+ olge 10/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GVDHX8504
 CATEGORIES:Crunchyroll
@@ -604,7 +735,7 @@ UID:cr-GRGG9798R@2026-06-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260624T140000Z
 DTEND:20260624T143000Z
-SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 12/12
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 12/19
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GRGG9798R
@@ -630,6 +761,17 @@ SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
  lge 9/16
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-07-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260701T140000Z
+DTEND:20260701T143000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 13/19
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -680,9 +822,20 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260708T140000Z
 DTEND:20260708T143000Z
 SUMMARY:Reborn as a Vending Machine\, I Now Wander the Dungeon Season 3 – F
- olge 11/13
+ olge 11/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GVDHX8504
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-07-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260708T140000Z
+DTEND:20260708T143000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 14/19
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -756,9 +909,20 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260715T140000Z
 DTEND:20260715T143000Z
 SUMMARY:Reborn as a Vending Machine\, I Now Wander the Dungeon Season 3 – F
- olge 12/13
+ olge 12/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GVDHX8504
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-07-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260715T140000Z
+DTEND:20260715T143000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 15/19
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -826,15 +990,14 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-GVDHX8504@2026-07-22@anime-kalender-de
+UID:cr-GRGG9798R@2026-07-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260722T140000Z
 DTEND:20260722T143000Z
-SUMMARY:Reborn as a Vending Machine\, I Now Wander the Dungeon Season 3 – F
- olge 13/13
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 16/19
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GVDHX8504
+ kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -902,6 +1065,17 @@ DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestätig
 CATEGORIES:Kino
 END:VEVENT
 BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-07-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260729T140000Z
+DTEND:20260729T143000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 17/19
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-GRGG9798R
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:tomb-raider-king@2026-07-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260729T172000Z
@@ -967,16 +1141,6 @@ DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
 CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-G6NQ5DWZ6@2026-08-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260802T160000Z
-DTEND:20260802T163000Z
-SUMMARY:My Hero Academia I am a hero too – Folge 1/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-G6NQ5DWZ6
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:skeleton-knight-s2@2026-08-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260803T130000Z
@@ -984,6 +1148,17 @@ DTEND:20260803T133000Z
 SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 5/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/skeleton-knight-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-08-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260805T140000Z
+DTEND:20260805T143000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 18/19
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1129,17 +1304,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-G6NQ5DWZ6@2026-08-09@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260809T160000Z
-DTEND:20260809T163000Z
-SUMMARY:My Hero Academia I am a hero too – Folge 2/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-G6NQ5DWZ6
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:skeleton-knight-s2@2026-08-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260810T130000Z
@@ -1148,6 +1312,17 @@ SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 6/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/skeleton-knight-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GRGG9798R@2026-08-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260812T140000Z
+DTEND:20260812T143000Z
+SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 19/19
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1216,17 +1391,6 @@ SUMMARY:Black Torch – Folge 7/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/black-torch
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6NQ5DWZ6@2026-08-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260816T160000Z
-DTEND:20260816T163000Z
-SUMMARY:My Hero Academia I am a hero too – Folge 3/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-G6NQ5DWZ6
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1330,17 +1494,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-G6NQ5DWZ6@2026-08-23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260823T160000Z
-DTEND:20260823T163000Z
-SUMMARY:My Hero Academia I am a hero too – Folge 4/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-G6NQ5DWZ6
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:skeleton-knight-s2@2026-08-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260824T130000Z
@@ -1406,17 +1559,6 @@ DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
  ht bestätigt.\nDetails: https://anime-kalender.de/#/release/yu-gi-oh-s3-di
  sneyplus
 CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6NQ5DWZ6@2026-08-30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260830T160000Z
-DTEND:20260830T163000Z
-SUMMARY:My Hero Academia I am a hero too – Folge 5/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-G6NQ5DWZ6
-CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:black-clover-s1-disneyplus@2026-08-30@anime-kalender-de
@@ -1541,17 +1683,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-G6NQ5DWZ6@2026-09-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260906T160000Z
-DTEND:20260906T163000Z
-SUMMARY:My Hero Academia I am a hero too – Folge 6/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-G6NQ5DWZ6
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:skeleton-knight-s2@2026-09-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260907T130000Z
@@ -1605,17 +1736,6 @@ SUMMARY:Black Torch – Folge 11/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/black-torch
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6NQ5DWZ6@2026-09-13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260913T160000Z
-DTEND:20260913T163000Z
-SUMMARY:My Hero Academia I am a hero too – Folge 7/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-G6NQ5DWZ6
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1708,17 +1828,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-G6NQ5DWZ6@2026-09-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260920T160000Z
-DTEND:20260920T163000Z
-SUMMARY:My Hero Academia I am a hero too – Folge 8/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-G6NQ5DWZ6
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:skeleton-knight-s2@2026-09-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260921T130000Z
@@ -1776,17 +1885,6 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrzei
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-G6NQ5DWZ6@2026-09-27@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260927T160000Z
-DTEND:20260927T163000Z
-SUMMARY:My Hero Academia I am a hero too – Folge 9/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-G6NQ5DWZ6
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:tomb-raider-king@2026-09-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260930T172000Z
@@ -1821,17 +1919,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-G6NQ5DWZ6@2026-10-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T160000Z
-DTEND:20261004T163000Z
-SUMMARY:My Hero Academia I am a hero too – Folge 10/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-G6NQ5DWZ6
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:tomb-raider-king@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T172000Z
@@ -1853,17 +1940,6 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrzei
  t noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/stee
  l-ball-run-2nd-3rd-stage
 CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6NQ5DWZ6@2026-10-11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261011T160000Z
-DTEND:20261011T163000Z
-SUMMARY:My Hero Academia I am a hero too – Folge 11/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-G6NQ5DWZ6
-CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:tomb-raider-king@2026-10-14@anime-kalender-de
@@ -1920,17 +1996,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/yashahi
  me-s2-box
 CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6NQ5DWZ6@2026-10-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261018T160000Z
-DTEND:20261018T163000Z
-SUMMARY:My Hero Academia I am a hero too – Folge 12/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-G6NQ5DWZ6
-CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-10-23@anime-kalender-de
