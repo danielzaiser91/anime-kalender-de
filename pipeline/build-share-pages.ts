@@ -68,6 +68,64 @@ function describe(release: Release, title: Title | undefined, today: string): st
   return parts.join(' ')
 }
 
+/**
+ * Der sichtbare Inhalt der Teilen-Seite, als fertiges HTML im `#root`.
+ *
+ * Bis zum 10.08.2026 stand hier nichts: Die Seite bestand aus Meta-Angaben und
+ * einem Skript, das den Hash setzt. Für die Link-Vorschau reichte das, und
+ * indexiert wurden die Seiten auch — aber eine Seite ohne Text rankt für
+ * nichts. Wer „Steel Ball Run deutsche Synchro" sucht, soll hier landen, und
+ * dafür müssen die Wörter auf der Seite stehen.
+ *
+ * React räumt `#root` beim ersten Rendern leer. Das ist gewollt: Bis das
+ * Bündel geladen ist, sieht der Besucher statt einer weißen Fläche schon den
+ * Titel und die Termine.
+ */
+function body(
+  release: Release,
+  title: Title | undefined,
+  synopsis: string | undefined,
+  today: string,
+): string {
+  const events = expandEvents(release)
+  const next = events.find((e) => e.date >= today) ?? events[0]
+  const hash = `#/woche?${next ? `d=${next.date}&` : ''}r=${release.slug}`
+  const art = RELEASE_TYPES[release.releaseType].short
+  const platform = PLATFORMS[release.platform].name
+
+  const fakten = [
+    `${art} bei ${platform}`,
+    release.fsk !== undefined ? `FSK ${release.fsk}` : null,
+    title?.genres.length
+      ? title.genres.slice(0, 3).map((g) => GENRE_DE[g] ?? g).join(', ')
+      : null,
+    release.publisher ? `Vertrieb: ${release.publisher}` : null,
+    release.edition ?? null,
+  ].filter(Boolean) as string[]
+
+  const termine = events
+    .map((e) => {
+      const wann = `${weekdayName(e.date)}, ${formatDate(e.date)}`
+      const zeit = e.time ? ` um ${e.time} Uhr` : ''
+      const folge = e.episode ? `Folge ${e.episode}${e.episodeCount ? ` von ${e.episodeCount}` : ''}: ` : ''
+      const abgeleitet = e.estimated ? ' (Termin abgeleitet)' : ''
+      return `<li>${esc(`${folge}${wann}${zeit}${abgeleitet}`)}</li>`
+    })
+    .join('\n        ')
+
+  return `<article style="max-width:52rem;margin:0 auto;padding:2rem 1.25rem;color:#d7dced;font-family:system-ui,sans-serif;line-height:1.6;">
+      <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">${esc(release.name)}</h1>
+      <p style="margin:0 0 1rem;color:#9aa5bd;">${esc(fakten.join(' · '))}</p>
+      ${synopsis ? `<p style="margin:0 0 1.5rem;">${esc(synopsis)}</p>` : ''}
+      ${release.note ? `<p style="margin:0 0 1.5rem;color:#9aa5bd;">${esc(release.note)}</p>` : ''}
+      <h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">Alle Termine mit deutscher Synchronisation</h2>
+      <ul style="margin:0 0 1.5rem;padding-left:1.2rem;">
+        ${termine || '<li>Noch kein Termin erfasst.</li>'}
+      </ul>
+      <p><a href="${esc(SITE + hash)}" style="color:#7dd3fc;">Im Kalender ansehen</a></p>
+    </article>`
+}
+
 function head(release: Release, title: Title | undefined, today: string): string {
   const events = expandEvents(release)
   const next = events.find((e) => e.date >= today) ?? events[0]
@@ -117,16 +175,30 @@ function main(): void {
   const releases = readJson<Release[]>('public/data/releases.json', [])
   const titles = readJson<Title[]>('public/data/titles-core.json', [])
   const titleById = new Map(titles.map((t) => [t.id, t]))
+  const synopses = readJson<Record<string, { de?: string; en?: string }>>(
+    'public/data/synopses.json',
+    {},
+  )
   const today = todayIso()
+
+  // Nur der deutsche Text kommt auf die Seite. Ein englischer Absatz auf einer
+  // durchweg deutschen Seite hilft weder dem Leser noch der Suche.
+  const ROOT_TAG = '<div id="root"></div>'
+  if (!before.includes(ROOT_TAG) && !after.includes(ROOT_TAG)) {
+    console.error('build-share-pages: <div id="root"></div> nicht gefunden — Vorlage geändert?')
+    process.exit(1)
+  }
 
   for (const release of releases) {
     const dir = resolve(DIST, 'r', release.slug)
     mkdirSync(dir, { recursive: true })
-    writeFileSync(
-      resolve(dir, 'index.html'),
-      before + head(release, titleById.get(release.titleId), today) + after,
-      'utf8',
+    const title = titleById.get(release.titleId)
+    const inhalt = body(release, title, synopses[String(release.titleId)]?.de, today)
+    const seite = (before + head(release, title, today) + after).replace(
+      ROOT_TAG,
+      `<div id="root">${inhalt}</div>`,
     )
+    writeFileSync(resolve(dir, 'index.html'), seite, 'utf8')
   }
 
   log(`${releases.length} Teilen-Seiten unter dist/r/ geschrieben`)

@@ -113,7 +113,7 @@
   platform: netflix
   platformUrl: https://www.netflix.com/title/82116553
   releaseType: batch
-  note: "Folge 1 von 12, allein vorab veröffentlicht: 47 Minuten Laufzeit, deutsche und japanische Sprachfassung. Die Folgen 2 bis 12 kommen ab dem 25.09.2026 im Wochentakt als „2nd & 3rd STAGE\"."
+  note: "Folge 1 von 12, allein vorab veröffentlicht: 47 Minuten Laufzeit, deutsche und japanische Sprachfassung. Die Folgen 2 bis 12 kommen ab dem 25.09.2026 im Wochentakt als „2nd & 3rd STAGE“."
   schedule:
     firstEpisodeDate: "2026-03-19"
     episodeCount: 1
@@ -128,7 +128,7 @@
   platform: netflix
   platformUrl: https://www.netflix.com/title/82116553
   releaseType: weekly
-  note: "Die Folgen 2 bis 12 im Wochentakt. Folge 1 („1st STAGE\") lief bereits am 19.03.2026. Netflix nennt für Katalogtitel keine Uhrzeit."
+  note: "Die Folgen 2 bis 12 im Wochentakt. Folge 1 („1st STAGE“) lief bereits am 19.03.2026. Netflix nennt für Katalogtitel keine Uhrzeit."
   schedule:
     firstEpisodeDate: "2026-09-25"
     episodeCount: 11
