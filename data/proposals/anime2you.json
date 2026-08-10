@@ -1,6 +1,49 @@
 {
-  "scrapedAt": "2026-08-09T11:41:48.307Z",
+  "scrapedAt": "2026-08-10T05:45:33.034Z",
   "proposals": [
+    {
+      "articleTitle": "Erste »DAN DA DAN«-Staffel erscheint als Blu-ray-Komplettbox",
+      "articleUrl": "https://www.anime2you.de/news/1039547/dan-da-dan-staffel-1-blu-ray-komplettbox/",
+      "publishedAt": "2026-08-09",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-10-30",
+          "context": "x der ersten »DAN DA DAN«-Staffel erscheint nach aktueller Planung am 30. Oktober 2026 als DVD und Blu-ray. Diese enthält alle drei Volumes"
+        },
+        {
+          "month": "2026-10",
+          "context": "ttbox in den Handel. Ein erstes Produktbild findet ihr unten. Release im Oktober 2026 Die Komplettbox der ersten »DAN DA DAN«-Staffel ersche"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Design der Blu-ray-Box der vierten »Rent-A-Girlfriend«-Staffel + Extras",
+      "articleUrl": "https://www.anime2you.de/news/1039040/rent-a-girlfriend-staffel-4-box-design/",
+      "publishedAt": "2026-08-09",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-10-16",
+          "context": "der vierten »Rent-A-Girlfriend«-Staffel erscheint voraussichtlich am 16. Oktober 2026 als Blu-ray im Handel. Diese beinhaltet alle zwölf Ep"
+        },
+        {
+          "month": "2026-10",
+          "context": "esign und die Extras. Ein neues Produktbild findet ihr unten. Release im Oktober 2026 Die Komplettbox der vierten »Rent-A-Girlfriend«-Staffe"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Zweite Staffel von »The Dangers in My Heart« bald auf Netflix",
       "articleUrl": "https://www.anime2you.de/news/1039474/dangers-in-my-heart-staffel-2-auf-netflix/",
