@@ -10,7 +10,8 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| aniSearch-Bestand auffüllen | 2 | **ausgesetzt**, bis die Anfrage beantwortet ist. 200 Titel je Lauf; 2.041 von 2.753 Titeln haben deutschen Text, 1.452 aniSearch-Seiten offen (~8 Läufe) |
+| aniSearch-Bestand auffüllen | 2 | **ausgesetzt**, bis die Anfrage beantwortet ist. 200 Titel je Lauf; 2.041 von 2.753 Titeln haben deutschen Text, 1.452 aniSearch-Seiten offen (~8 Läufe). Sperre ist seit 10.08.2026 weg (302 in 0,11 s vom selben Anschluss) — technisch stünde dem Weitermachen nichts im Weg |
+| DMARC-Policy auf `quarantine` heben | 1 | **terminiert auf den 24.08.2026** (Daniel, 10.08.): erst zwei weitere Wochen Berichte sammeln, dann `p=quarantine; sp=quarantine` in `tools/inwx-dns.mjs` setzen und ausführen. Die Berichte vom 07.–09.08. waren makellos (9 Mails, DKIM und SPF durchgehend bestanden, nur Amazon-SES-IPs) |
 
 
 ### Später (nice to have)
@@ -24,9 +25,7 @@ herausgeholt, wenn der User es sagt.
 | Weitere Sprachen | 3 | Gerüst steht, EN und DE gepflegt; weitere brauchen nur ein Wörterbuch (zurückgestellt 08.08.2026) |
 
 ### Zu besprechen
-| Thema | Notiz |
-|---|---|
-| DMARC-Policy von `none` auf `quarantine` | Die Google-Aggregatberichte vom 07.–09.08.2026 sind sauber: 9 Mails, DKIM und SPF durchgehend bestanden, nur Amazon-SES-IPs. `p=none` wehrt aber nichts ab — eine Fälschung im eigenen Namen würde zugestellt. Umstellung betrifft die Zustellbarkeit, deshalb Daniels Entscheidung. Datenbasis ist mit drei Tagen noch dünn |
+_(leer)_
 
 ### Warten auf Feedback
 | Thema | Seit |
