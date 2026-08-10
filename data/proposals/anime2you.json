@@ -1,6 +1,27 @@
 {
-  "scrapedAt": "2026-08-10T16:36:31.456Z",
+  "scrapedAt": "2026-08-10T17:02:25.948Z",
   "proposals": [
+    {
+      "articleTitle": "Starttermin von »Dragon Ball DAIMA« auf TOGGO plus und RTL+",
+      "articleUrl": "https://www.anime2you.de/news/1039738/dragon-ball-daima-toggo-rtl-starttermin/",
+      "publishedAt": "2026-08-10",
+      "category": "streaming",
+      "platforms": [
+        "rtlplus"
+      ],
+      "dates": [
+        {
+          "iso": "2026-08-28",
+          "context": "TV-Premiere im August 2026 »Dragon Ball DAIMA« ist demzufolge ab dem 28. August 2026 jeweils von Montag bis Freitag um 21:15 Uhr mit deutsc"
+        },
+        {
+          "month": "2026-08",
+          "context": "von »Dragon Ball DAIMA« im deutschen Fernsehen verkündet. TV-Premiere im August 2026 »Dragon Ball DAIMA« ist demzufolge ab dem 28. August 20"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Erste »DAN DA DAN«-Staffel erscheint als Blu-ray-Komplettbox",
       "articleUrl": "https://www.anime2you.de/news/1039547/dan-da-dan-staffel-1-blu-ray-komplettbox/",
