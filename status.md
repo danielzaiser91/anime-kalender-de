@@ -10,8 +10,7 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| „Alle Termine": Datum falsch, wenn Folge 1 weit vor dem Rest liegt | 3 | **Nicht reproduzierbar.** Geprüft am 10.08.2026: 1st STAGE Do 19.03.2026 (ist ein Donnerstag), 2nd/3rd STAGE elf Folgen ab Fr 25.09.2026 im Sieben-Tage-Takt bis Fr 04.12.2026 — alle Wochentage und Abstände stimmen. Rückfrage an Daniel offen, was genau im Screenshot falsch aussah. Vermutung: die Zählung beginnt bei 2nd/3rd wieder bei 1, obwohl 1st STAGE schon Folge 1 war |
-| aniSearch-Bestand auffüllen | 2 | läuft über die Nachtläufe, 200 Titel je Lauf; 2.041 von 2.753 Titeln haben deutschen Text, 1.452 aniSearch-Seiten offen (~8 Läufe) |
+| aniSearch-Bestand auffüllen | 2 | **ausgesetzt**, bis die Anfrage beantwortet ist. 200 Titel je Lauf; 2.041 von 2.753 Titeln haben deutschen Text, 1.452 aniSearch-Seiten offen (~8 Läufe) |
 
 
 ### Später (nice to have)
@@ -46,6 +45,12 @@ _(leer)_
 
 ## Archiv
 
+- ✅ **Geteilte Staffelstarts zählen durch**. Netflix brachte Steel Ball Run am 19.03.2026 als
+  einzelne 47-Minuten-Folge und den Rest ein halbes Jahr später als „2nd & 3rd STAGE". Die
+  Terminliste des zweiten Teils begann wieder bei „1. Fr 25.09.2026" und las sich damit wie der
+  Termin der Auftaktfolge. Neues Feld `schedule.firstEpisodeNumber`: aus „Ep 1/11" wird „Ep 2/12",
+  im Panel steht die Spanne „2–12" statt der nackten „11". Beide Hinweistexte sagen jetzt, welche
+  Folge wann kommt
 - ✅ **Specials werden nicht mehr zu zwölfteiligen Serien**. Der Kalender behauptete eine neue Folge
   von „I am a hero too"; es gibt genau eine, am 02.08.2026. Drei Fehler zusammen: ein einzelner
   Termin galt als Wochenserie (`Math.max(12, …)`), die Zuordnung lief über die Crunchyroll-Serien-ID
