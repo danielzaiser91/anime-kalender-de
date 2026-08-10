@@ -180,6 +180,11 @@ export interface DataMeta {
   genres: string[]
   keywords: string[]
   platforms: PlatformId[]
+  /**
+   * Bezugsquellen jenseits der bekannten Plattformen — maxdome, Apple TV,
+   * Videobuster, die Prime-Video-Kanäle. Nach Häufigkeit sortiert.
+   */
+  providers: string[]
   years: number[]
   attribution: string[]
 }

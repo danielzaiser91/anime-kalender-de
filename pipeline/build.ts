@@ -165,6 +165,37 @@ function providerToPlatform(name: string): PlatformId | undefined {
   return undefined
 }
 
+/**
+ * Müsste diese Serie im abgesuchten Crunchyroll-Zeitraum laufen?
+ *
+ * Die Frage entscheidet, ob das Fehlen im Kalender etwas beweist. Vorher wurde
+ * nur geprüft, ob der **Starttermin** im Fenster liegt — und das ging schief,
+ * sobald das Fenster weiterwanderte:
+ *
+ *   Fenster 03.08.–23.08., Mushoku Tensei S3 startet angeblich am 05.07.
+ *   → Start liegt davor → keine Prüfung → der Eintrag bleibt stehen.
+ *
+ * Im Juli war derselbe Eintrag korrekt verworfen worden. Der Fehler reparierte
+ * sich also von selbst wieder kaputt, und niemand hätte es gemerkt (gemeldet
+ * von Daniel am 10.08.2026: „gibt es noch nicht auf Deutsch, nicht mal die
+ * erste Folge").
+ *
+ * Richtig ist: Wenn eine wöchentliche Serie am 05.07. beginnt und vierzehn
+ * Folgen hat, müssen im August Folgen im Kalender stehen. Stehen dort keine,
+ * gibt es die deutsche Fassung nicht. Nur bei Serien, die vor dem Fenster
+ * abgeschlossen waren, beweist das Fehlen nichts.
+ */
+function overlapsWindow(
+  schedule: { firstEpisodeDate: string; episodeCount?: number; lastEpisodeDate?: string },
+  window: { from: string; to: string },
+): boolean {
+  const start = schedule.firstEpisodeDate
+  const ende =
+    schedule.lastEpisodeDate ??
+    addDays(start, 7 * Math.max(0, (schedule.episodeCount ?? 12) - 1))
+  return start <= window.to && ende >= window.from
+}
+
 /** Wochentag eines ISO-Datums, 0 = Montag. */
 function weekdayOf(iso: string): number {
   const [y, m, d] = iso.split('-').map(Number)
@@ -657,18 +688,13 @@ function main(): void {
         const seen = observedEpisodes(slot)
         if (Object.keys(seen).length) schedule.observed = seen
         sources.push(CR_CALENDAR_URL)
-      } else if (
-        entry.schedule.estimated &&
-        crunchyroll.window &&
-        schedule.firstEpisodeDate >= crunchyroll.window.from &&
-        schedule.firstEpisodeDate <= crunchyroll.window.to
-      ) {
-        // Der behauptete Start liegt mitten im abgesuchten Zeitraum, und der
-        // Kalender führt dort keine deutsche Folge. Dann gibt es die Synchro
-        // (noch) nicht — ein erfundener Sendeplan wäre schlimmer als gar keiner.
+      } else if (entry.schedule.estimated && crunchyroll.window && overlapsWindow(schedule, crunchyroll.window)) {
+        // Die Serie müsste im abgesuchten Zeitraum laufen, und der Kalender
+        // führt dort keine deutsche Folge. Dann gibt es die Synchro nicht —
+        // ein erfundener Sendeplan wäre schlimmer als gar keiner.
         warn(
           `"${entry.slug}": kein deutscher Eintrag bei Crunchyroll im Zeitraum ` +
-            `${crunchyroll.window.from}…${crunchyroll.window.to}, Start ${schedule.firstEpisodeDate} verworfen`,
+            `${crunchyroll.window.from}…${crunchyroll.window.to} (Start ${schedule.firstEpisodeDate}) — verworfen`,
         )
         unverified.push(entry.slug)
         continue
@@ -806,6 +832,25 @@ function main(): void {
   log(`${autoAdded} Simuldubs automatisch aus dem Crunchyroll-Kalender ergänzt`)
   if (unverified.length) log(`${unverified.length} kuratierte Termine verworfen (unbestätigt): ${unverified.join(', ')}`)
 
+  // Abgeleitete Termine, für die es keine maschinelle Gegenprüfung gibt.
+  //
+  // Für Crunchyroll und ADN lesen wir den Kalender und können eine behauptete
+  // Synchro widerlegen. Für Netflix, Prime Video und Disney+ gibt es diese
+  // Möglichkeit nicht — dort bleibt ein `estimated: true` für immer stehen, und
+  // niemand merkt, wenn die angekündigte Fassung nie erscheint. Genau so kam
+  // „Mushoku Tensei Staffel 3" in den Kalender (10.08.2026): Die Quelle war
+  // eine Simulcast-Übersicht, und ein Simulcast sagt nur, wann eine Folge
+  // zeitgleich mit Japan läuft — nicht, ob sie deutsch vertont ist.
+  const ungeprueft = releases.filter(
+    (r) => r.schedule.estimated && !['crunchyroll', 'adn'].includes(r.platform),
+  )
+  if (ungeprueft.length) {
+    warn(
+      `${ungeprueft.length} abgeleitete Termine ohne Gegenprüfung (Plattform hat keinen Kalender, den wir lesen) — ` +
+        `von Hand belegen oder streichen: ${ungeprueft.map((r) => r.slug).join(', ')}`,
+    )
+  }
+
   // --- Automatisch ergänzte ADN-Titel ---------------------------------------
   // ADN nennt in seiner Schnittstelle je Folge die Sprachfassung. Was dort als
   // `vde` steht, ist eine belegte deutsche Synchro mit belegter Uhrzeit — hier
@@ -887,6 +932,18 @@ function main(): void {
   const platforms = [...new Set(releases.map((r) => r.platform))] as PlatformId[]
   const years = [...new Set(releases.map((r) => r.year))].sort((a, b) => b - a)
 
+  // Bezugsquellen jenseits der neun bekannten Plattformen — maxdome, Apple TV,
+  // Videobuster und die Prime-Video-Kanäle. Nach Häufigkeit sortiert, nicht
+  // alphabetisch: Wer nach einem Anbieter filtert, sucht zuerst die großen, und
+  // eine Liste von 42 Einträgen liest niemand von A bis Z durch.
+  const providerCount = new Map<string, number>()
+  for (const t of allTitles) {
+    for (const w of t.watchLinks ?? []) providerCount.set(w.name, (providerCount.get(w.name) ?? 0) + 1)
+  }
+  const providers = [...providerCount.entries()]
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'de'))
+    .map(([name]) => name)
+
   const meta: DataMeta = {
     generatedAt: new Date().toISOString(),
     titleCount: allTitles.length,
@@ -895,6 +952,7 @@ function main(): void {
     genres,
     keywords,
     platforms,
+    providers,
     years,
     attribution: [
       'Dub-Daten: MyDubList (https://mydublist.com) — CC BY 4.0',
