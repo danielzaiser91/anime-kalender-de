@@ -113,7 +113,7 @@
   platform: netflix
   platformUrl: https://www.netflix.com/title/82116553
   releaseType: batch
-  note: "Auftaktfolge mit 47 Minuten Laufzeit, deutsche und japanische Sprachfassung. Die Fortsetzung („2nd – 3rd STAGE\", elf Folgen) läuft ab dem 25.09.2026 wöchentlich."
+  note: "Folge 1 von 12, allein vorab veröffentlicht: 47 Minuten Laufzeit, deutsche und japanische Sprachfassung. Die Folgen 2 bis 12 kommen ab dem 25.09.2026 im Wochentakt als „2nd & 3rd STAGE\"."
   schedule:
     firstEpisodeDate: "2026-03-19"
     episodeCount: 1
@@ -128,9 +128,13 @@
   platform: netflix
   platformUrl: https://www.netflix.com/title/82116553
   releaseType: weekly
-  note: "Elf Folgen im Wochentakt. Netflix nennt für Katalogtitel keine Uhrzeit."
+  note: "Die Folgen 2 bis 12 im Wochentakt. Folge 1 („1st STAGE\") lief bereits am 19.03.2026. Netflix nennt für Katalogtitel keine Uhrzeit."
   schedule:
     firstEpisodeDate: "2026-09-25"
     episodeCount: 11
+    # Die Reihe hat zwölf Folgen; Folge 1 lief ein halbes Jahr vorher als
+    # eigenes Release. Ohne diese Angabe stünde hier „1. Fr 25.09.2026", und
+    # genau das las sich wie der Termin der Auftaktfolge.
+    firstEpisodeNumber: 2
   sources:
     - https://www.anime2you.de/news/1027799/jojo-steel-ball-run-fortsetzung-netflix-termin/

@@ -92,6 +92,15 @@ export function expandEvents(release: Release): ReleaseEvent[] {
   const skips = new Set(s.skipDates ?? [])
 
   /**
+   * Bei welcher Folgennummer dieses Release einsetzt — und bis zu welcher die
+   * Reihe insgesamt läuft. Beides fällt nur dann zusammen, wenn ein Release
+   * die ganze Staffel abdeckt; bei einem geteilten Start (siehe
+   * `firstEpisodeNumber`) beginnt der zweite Teil mitten in der Zählung.
+   */
+  const first = Math.max(1, s.firstEpisodeNumber ?? 1)
+  const last = first + count - 1
+
+  /**
    * Beobachtete Folgen, aufsteigend. Sie sind die Stützpunkte des Sendeplans:
    * Jede Folge rechnet ab der jüngsten Beobachtung **vor** ihr weiter.
    *
@@ -119,11 +128,11 @@ export function expandEvents(release: Release): ReleaseEvent[] {
     }
     return anchor
       ? addDays(anchor.date, 7 * (episode - anchor.episode))
-      : addDays(s.firstEpisodeDate, 7 * (episode - 1))
+      : addDays(s.firstEpisodeDate, 7 * (episode - first))
   }
 
   const events: ReleaseEvent[] = []
-  for (let episode = 1; episode <= count; episode++) {
+  for (let episode = first; episode <= last; episode++) {
     const date = dateOf(episode)
     if (skips.has(date)) continue
     events.push({
@@ -131,7 +140,7 @@ export function expandEvents(release: Release): ReleaseEvent[] {
       id: `${release.slug}@${date}`,
       date,
       episode,
-      episodeCount: count,
+      episodeCount: last,
       // Gesehen ist gesehen; fortgeschrieben bleibt eine Annahme, auch wenn
       // der Start selbst belegt ist.
       estimated: s.observed?.[episode] ? undefined : lastAnchor ? true : s.estimated,

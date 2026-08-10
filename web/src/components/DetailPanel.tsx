@@ -53,6 +53,14 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
   const status = releaseStatus(release, today)
   const upcoming = events.find((e) => e.date >= today) ?? events[events.length - 1]
   const last = lastEpisodeDate(release)
+  // „11" neben einer Liste, die bei „2." beginnt, liest sich wie ein Fehler.
+  // Fängt das Release mitten in der Reihe an, steht hier die Spanne.
+  const episodeSpan = useMemo(() => {
+    const count = release.schedule.episodeCount
+    if (!count) return undefined
+    const first = Math.max(1, release.schedule.firstEpisodeNumber ?? 1)
+    return first === 1 ? String(count) : `${first}–${first + count - 1}`
+  }, [release.schedule.episodeCount, release.schedule.firstEpisodeNumber])
   const [showAll, setShowAll] = useState(false)
   const shown = showAll ? events : events.slice(0, 8)
 
@@ -136,7 +144,12 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
           <>
             <dt className="text-slate-400">{t('detail.episodes')}</dt>
             <dd className="tabular-nums">
-              {release.schedule.episodeCount ?? '—'}
+              {/*
+                Beginnt das Release mitten in der Zählung, steht hier die
+                Spanne statt einer nackten Anzahl. „11" neben einer Liste, die
+                bei „2." anfängt, liest sich sonst wie ein Widerspruch.
+              */}
+              {episodeSpan ?? '—'}
               {release.schedule.episodeCountAssumed && (
                 <span title={t('detail.assumedEpisodes')} className="ml-1 text-amber-500">
                   ≈

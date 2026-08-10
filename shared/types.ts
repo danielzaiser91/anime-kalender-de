@@ -41,6 +41,17 @@ export interface Schedule {
   /** "HH:MM" in Europe/Berlin. Fehlt, wenn die Uhrzeit nicht belegt ist. */
   time?: string
   episodeCount?: number
+  /**
+   * Nummer der ersten Folge dieses Releases. Fehlt, wenn es bei 1 anfängt.
+   *
+   * Netflix und Crunchyroll teilen Staffeln gern auf: „Steel Ball Run"
+   * startete am 19.03.2026 mit einer einzelnen 47-Minuten-Folge, der Rest kam
+   * ein halbes Jahr später als „2nd & 3rd STAGE". Beides sind eigene Releases
+   * mit eigenem Termin — aber die Folgen laufen durch. Ohne dieses Feld begann
+   * die Terminliste des zweiten Teils wieder bei „1.", und wer das las, hielt
+   * den 25.09. für den Termin der Auftaktfolge.
+   */
+  firstEpisodeNumber?: number
   /** Explizites Enddatum; sonst aus firstEpisodeDate + episodeCount berechnet. */
   lastEpisodeDate?: string
   /** ISO-Daten, an denen wegen Sendepause keine Folge läuft. */
