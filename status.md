@@ -10,9 +10,17 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| aniSearch-Bestand auffüllen | 2 | **ausgesetzt**, bis die Anfrage beantwortet ist. 200 Titel je Lauf; 2.041 von 2.753 Titeln haben deutschen Text, 1.452 aniSearch-Seiten offen (~8 Läufe). Sperre ist seit 10.08.2026 weg (302 in 0,11 s vom selben Anschluss) — technisch stünde dem Weitermachen nichts im Weg |
-| DMARC-Policy auf `quarantine` heben | 1 | **terminiert auf den 24.08.2026** (Daniel, 10.08.): erst zwei weitere Wochen Berichte sammeln, dann `p=quarantine; sp=quarantine` in `tools/inwx-dns.mjs` setzen und ausführen. Die Berichte vom 07.–09.08. waren makellos (9 Mails, DKIM und SPF durchgehend bestanden, nur Amazon-SES-IPs) |
+| aniSearch-Bestand auffüllen | 2 | läuft wieder seit 10.08.2026, 200 Titel je Lauf; 2.041 von 2.753 Titeln haben deutschen Text, 1.452 aniSearch-Seiten offen (~8 Nachtläufe) |
 
+
+### Terminiert (läuft von allein)
+
+Geplante Aufgaben, die zu einem festen Zeitpunkt selbst anspringen. Zählen im Footer als 📅,
+nicht als „jetzt möglich" — entschieden und eingeplant ist beides schon, es fehlt nur die Zeit.
+
+| Wann | Was | Aufgabe |
+|---|---|---|
+| 24.08.2026, 10:00 | DMARC-Politik von `p=none` auf `p=quarantine` heben — vorher die bis dahin eingegangenen Berichte prüfen; bei einem `fail` oder einer fremden Absender-IP wird nicht umgestellt | `dmarc-policy-anime-kalender` |
 
 ### Später (nice to have)
 
