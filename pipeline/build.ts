@@ -410,6 +410,8 @@ function main(): void {
       // keine Auswahl, sondern Rauschen — aniSearch führt dort oft mehrere
       // Ausgaben desselben Titels.
       const name = providerName(provider)
+      // Leerer Name heißt: der Anbieter gehört nicht auf eine deutsche Seite.
+      if (!name) continue
       if (!watchLinks.some((w) => w.name === name)) {
         watchLinks.push({ name, url, kind: providerKind(provider) })
       }
@@ -437,7 +439,10 @@ function main(): void {
     const watchLinks = title.watchLinks ?? []
     for (const offer of info.offers) {
       if (providerToPlatform(offer.name)) continue
-      const name = offer.name
+      // Denselben Weg über providerName wie die aniSearch-Angebote — sonst
+      // stünden „maxdome" und „maxdome Store" als zwei Anbieter nebeneinander.
+      const name = providerName(offer.name)
+      if (!name) continue
       if (watchLinks.some((w) => w.name === name)) continue
       watchLinks.push({
         name,

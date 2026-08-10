@@ -618,6 +618,52 @@ const BUY_PROVIDERS = new Set([
 
 /** Anzeigenamen für die Kürzel — „sky-store-de" will niemand lesen. */
 const PROVIDER_NAMES: Record<string, string> = {
+  // Namen, wie TMDB sie liefert — ausgeschrieben statt als Kürzel. Dieselbe
+  // Firma steht dort unter mehreren Schreibweisen („maxdome" und „maxdome
+  // Store", „Kixi" und „Kixi Select"); ohne Zusammenführung zeigt das Panel
+  // drei Zeilen für einen Anbieter (10.08.2026: 53 Namen, rund 30 Anbieter).
+  'apple-tv-store': 'Apple TV',
+  'maxdome-store': 'maxdome',
+  'akiba-pass-tv': 'Akibapass',
+  akibapass: 'Akibapass',
+  'kixi-select': 'Kixi',
+  'magenta-tv+': 'MagentaTV',
+  magentatv: 'MagentaTV',
+  'freenet-meinvod': 'freenet meinVOD',
+  'google-play-movies': 'Google Play',
+  'anime-digital-network': 'ADN',
+  'paramount-plus': 'Paramount+',
+  'paramount-plus-apple-tv-channel': 'Paramount+ über Apple TV',
+  plutotv: 'Pluto TV',
+  pokemon: 'Pokémon TV',
+  'pokémon': 'Pokémon TV',
+  rakuten: 'Rakuten TV',
+  arthousecnma: 'Arthouse CNMA',
+  'cnma-arthouse': 'Arthouse CNMA',
+  iq: 'iQIYI',
+  wetv: 'WeTV',
+  zdf: 'ZDF',
+  'twitter-/-x': 'X',
+  filmfriend: 'filmfriend',
+  // Abo-Kanäle fremder Anbieter innerhalb von Prime Video. Sie behalten den
+  // Namen des eigentlichen Anbieters samt Hinweis, wo er läuft — wer ein
+  // Crunchyroll-Abo hat, kommt mit dem Prime-Kanal nicht weiter.
+  primevideo: 'Prime Video',
+  'primevideo-channel-adn': 'ADN über Prime Video',
+  'primevideo-channel-aniverse': 'Aniverse über Prime Video',
+  'primevideo-channel-crunchyroll': 'Crunchyroll über Prime Video',
+  'primevideo-channel-hbo-max': 'HBO Max über Prime Video',
+  'primevideo-channel-kixi-select': 'Kixi über Prime Video',
+  'primevideo-channel-moviedome': 'Moviedome über Prime Video',
+  'primevideo-channel-pokemon': 'Pokémon TV über Prime Video',
+  'primevideo-channel-prosiebenfun': 'ProSieben Fun über Prime Video',
+  'primevideo-channel-sevenentertainment': 'Seven Entertainment über Prime Video',
+  // Leer heißt: nicht anzeigen. „Default" ist ein Datenfehler von TMDB,
+  // „Amazon UK" führt in den britischen Shop.
+  youtube: 'YouTube',
+  'shahid-vip': 'Shahid VIP',
+  default: '',
+  'amazon-uk': '',
   amazon: 'Amazon',
   maxdome: 'maxdome',
   'sky-store': 'Sky Store',
@@ -641,12 +687,19 @@ const PROVIDER_NAMES: Record<string, string> = {
  * mehrfach in der Liste, einmal als Kauf und einmal als Stream.
  */
 export function canonicalProvider(provider: string): string {
-  return provider
-    .toLowerCase()
-    .replace(/[()]/g, '')
-    .replace(/-+/g, '-')
-    .replace(/-(de|deutschland)$/, '')
-    .replace(/^-|-$/g, '')
+  return (
+    provider
+      .toLowerCase()
+      .replace(/[()]/g, '')
+      // Leerzeichen zu Bindestrichen: aniSearch schreibt `primevideo-channel-
+      // crunchyroll`, TMDB dieselbe Sache als „Primevideo Channel Crunchyroll".
+      // Ohne diese Zeile gibt es zwei Normalformen, und eine Tabelle kann immer
+      // nur die eine treffen — der Anbieter stand dann doppelt in der Liste.
+      .replace(/[\s_]+/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/-(de|deutschland)$/, '')
+      .replace(/^-|-$/g, '')
+  )
 }
 
 export function anisearchPlatform(provider: string): PlatformId | undefined {
@@ -654,13 +707,19 @@ export function anisearchPlatform(provider: string): PlatformId | undefined {
   return ANISEARCH_PLATFORM[key] ?? ANISEARCH_PLATFORM[provider]
 }
 
+/**
+ * Anzeigename eines Anbieters. **Leer heißt: gar nicht anzeigen.**
+ *
+ * Zwei Einträge aus TMDB sind für einen deutschen Kalender wertlos: „Default"
+ * ist schlicht ein Datenfehler, „Amazon UK" führt in den britischen Shop. Sie
+ * stehen mit leerem Wert in der Tabelle; wer diese Funktion benutzt, muss das
+ * Ergebnis auf Leere prüfen.
+ */
 export function providerName(provider: string): string {
   const key = canonicalProvider(provider)
-  return (
-    PROVIDER_NAMES[key] ??
-    PROVIDER_NAMES[provider] ??
-    key.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
-  )
+  const treffer = PROVIDER_NAMES[key] ?? PROVIDER_NAMES[provider]
+  if (treffer !== undefined) return treffer
+  return key.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
 }
 
 export function providerKind(provider: string): 'stream' | 'buy' {
