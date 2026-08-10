@@ -10,6 +10,15 @@ Dieses Projekt lebt davon, dass die Termine stimmen. Deshalb gilt ausnahmslos:
 - **Abgeleitetes kennzeichnen.** Datum aus dem Simulcast-Start übernommen statt aus einer
   Dub-Ankündigung? Dann `estimated: true`. Folgenzahl geraten? Setzt die Pipeline selbst als
   `episodeCountAssumed`. Beides erscheint im UI als `≈`.
+- **Keine Folgenzahl erfinden, auch nicht als Rückfall.** Ein einzelner Termin im
+  Crunchyroll-Kalender ist kein Beleg für eine Wochenserie — dort stehen auch Specials,
+  Filmpremieren und die Anime Awards. Ein `Math.max(12, …)` als Standardwert machte daraus neun
+  zwölfteilige Reihen (10.08.2026), und der Kalender behauptete Woche für Woche eine Folge, die
+  es nicht gibt. Ein Termin ohne belegte Stückzahl über eins ist ein Einzeltermin.
+- **Geteilte Staffelstarts über `schedule.firstEpisodeNumber` abbilden.** Netflix brachte Steel
+  Ball Run als eine Folge im März und den Rest im September. Zwei Releases, aber eine
+  durchlaufende Zählung: Ohne das Feld beginnt die Terminliste des zweiten Teils wieder bei „1."
+  und liest sich wie der Termin der Auftaktfolge.
 - Bei Fortsetzungen die **AniList-ID prüfen**, nicht der Suche vertrauen. `npx tsx
   pipeline/qa-resolve.ts` zeigt Verdachtsfälle; die Folgenzahl wird nur übernommen, wenn das
   japanische Ausstrahlungsjahr zum deutschen Termin passt.
