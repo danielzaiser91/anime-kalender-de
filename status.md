@@ -10,8 +10,7 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| aniSearch-Bestand auffüllen | 2 | 1.865 von 2.612 Seiten geholt, **747 offen** (~4 Läufe à 20 Min). 2.355 von 2.755 Titeln haben deutschen Text. Läuft nicht von allein durch — der Nachtlauf holt 200 je Tag, schneller geht es nur durch Anstoßen von Hand. **Blockiert die Verfügbarkeits-Ansicht** |
-| Ansicht „Wo kann ich das sehen?" ausbauen | 5 | **wartet auf den vollen aniSearch-Bestand.** Der Filter „▶ verfügbar" steht seit 10.08.2026 und zeigt 1.967 von 2.753 Titeln, davon 1.856 ohne Termin. Offen: nach Anbieter gruppieren (die `watchLinks` tragen nur Namen, keine PlatformId), Kauf von Stream trennen, eigene Ansicht unter `#/wo` |
+| Ansicht „Wo kann ich das sehen?" ausbauen | 5 | **Nicht mehr blockiert** — aniSearch-Bestand seit 10.08.2026 vollständig, 2.109 Titel haben einen Bezugsweg. Der Filter „▶ verfügbar" steht bereits. Offen: nach Anbieter gruppieren (die `watchLinks` tragen nur Namen, keine PlatformId), Kauf von Stream trennen, eigene Ansicht unter `#/wo` |
 
 
 ### Terminiert (läuft von allein)
@@ -55,6 +54,11 @@ _(leer)_
   abgenommen.
 
 ## Archiv
+
+- ✅ **aniSearch-Bestand vollständig** (10.08.2026): alle 2.612 zuordenbaren Titel geholt, an
+  einem Tag von 960 auf 2.612. Deutsche Beschreibungen von 2.041 auf **2.689 von 2.759**,
+  Titel mit belegtem Bezugsweg von 498 auf **2.109**. Die letzten drei Läufe lief eine Kette,
+  die nach jedem Durchgang im Repo nachzählte und nur bei Bedarf den nächsten anstieß
 
 - ✅ **Discord-Bereich vervollständigt** (10.08.2026): Die Kategorie „🌐 Anime-Kalender DE" hatte
   nur `#info`. Jetzt mit `#news`, der Ping-Rolle „Anime-Kalender News" (erwähnbar, wie bei den
