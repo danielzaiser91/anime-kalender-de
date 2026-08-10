@@ -1,232 +1,20 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { GENRE_DE, KEYWORD_DE } from '@shared/mappings.ts'
-import { setDateLocale } from '@shared/time.ts'
 import type { ReleaseType } from '@shared/types.ts'
 
-export type Lang = 'de' | 'en'
-
-export const LANGUAGES: { id: Lang; flag: string; label: string }[] = [
-  { id: 'de', flag: '🇩🇪', label: 'Deutsch' },
-  { id: 'en', flag: '🇬🇧', label: 'English' },
-]
-
 /**
- * Englisch ist die Grundlage, Deutsch überschreibt.
- * Fehlt ein deutscher Eintrag, greift automatisch der englische — so bleibt
- * die Oberfläche auch bei halber Übersetzung benutzbar.
+ * Alle Texte der Oberfläche — auf Deutsch, und nur auf Deutsch.
+ *
+ * Bis zum 10.08.2026 lag hier ein englisches Wörterbuch als Grundlage, das
+ * deutsche überschrieb es, und ein Flaggen-Umschalter im Kopf wechselte
+ * zwischen beiden. Das ist gestrichen: Die Seite heißt anime-kalender.de,
+ * sammelt ausschließlich deutsche Synchronfassungen und richtet sich an ein
+ * deutschsprachiges Publikum. Zwei Sprachfassungen zu pflegen kostete Arbeit
+ * für einen Fall, den es nicht gab.
+ *
+ * Englisch bleibt an den Stellen, wo es hingehört: Serientitel wie
+ * „Steel Ball Run — 1st STAGE" sind Eigennamen und werden nicht übersetzt.
  */
-const EN = {
-  'app.title': 'Anime Calendar DE',
-  'app.subtitle': 'everything with a German dub',
-  'app.description':
-    'Weekly calendar of every anime release with a German dub: dates, times, platform, age rating and genres. With Google Calendar export and newsletter.',
-  'app.loading': 'Loading calendar …',
-  'app.loadingTitles': 'Loading {count} entries …',
-  'app.loadError': 'Could not load data',
-  'app.loadHint': 'Has the data pipeline been run yet?',
-
-  'view.woche': 'Week',
-  'view.monat': 'Month',
-  'view.agenda': 'Agenda',
-  'view.datenbank': 'Database',
-  'view.abo': 'Calendar feed',
-  'view.newsletter': 'Newsletter',
-  'view.impressum': 'Legal notice',
-  'view.datenschutz': 'Privacy',
-
-  'nav.today': 'today',
-  'nav.back': 'back',
-  'nav.forward': 'forward',
-  'nav.from': 'from {date}',
-  'nav.theme': 'Toggle light/dark',
-  'nav.language': 'Language',
-
-  'release.weekly': 'Weekly (simuldub)',
-  'release.weekly.short': 'Weekly',
-  'release.weekly.hint': 'Episode by episode, on a fixed weekday',
-  'release.batch': 'Catalogue title',
-  'release.batch.short': 'Catalogue',
-  'release.batch.hint': 'The whole season at once',
-  'release.movie': 'Film',
-  'release.movie.short': 'Film',
-  'release.movie.hint': 'Film release (stream or cinema)',
-  'release.disc': 'DVD / Blu-ray',
-  'release.disc.short': 'Disc',
-  'release.disc.hint': 'Physical media you can buy',
-
-  'legend.colour': 'Colour = release type:',
-  'legend.estimated': 'projected — this episode has not appeared in the schedule yet',
-  'legend.count': '{count} dates in filter · keys ← → T',
-
-  'filter.search': 'Title, studio, genre, keyword …',
-  'filter.mode': 'Click mode',
-  'filter.modeInclude': 'Include',
-  'filter.modeExclude': 'Exclude',
-  'filter.modeIncludeHint': 'A click keeps only what carries this tag.',
-  'filter.modeExcludeHint': 'A click removes everything that carries this tag.',
-  'filter.button': 'Filters',
-  'filter.reset': 'reset',
-  'filter.platform': 'Platform',
-  'filter.releaseType': 'Release type',
-  'filter.status': 'Status',
-  'filter.fsk': 'Age rating',
-  'filter.year': 'Year',
-  'filter.confidence': 'Confidence',
-  'filter.genre': 'Genre',
-  'filter.genreSearch': 'search genre',
-  'filter.keywords': 'Keywords ({count} available)',
-  'filter.keywordSearch': 'e.g. female protagonist, isekai, time loop …',
-  'filter.confirmedOnly': 'confirmed dates only',
-  'filter.confirmedOnlyHint': 'Hides dates that were only derived from the simulcast start',
-  'filter.favourites': 'favourites only',
-  'filter.fskFrom': '{n}+',
-  'filter.sources': '{n}+ sources',
-  'filter.source': '1 source',
-  'filter.showMore': 'show all ({count})',
-  'filter.showLess': 'show fewer',
-
-  'week.nothing': 'nothing',
-  'week.today': 'today',
-  'week.empty':
-    'No date in this week matches the filters. Use ← → to jump between weeks.',
-  'week.withTime': 'With time',
-  'week.withoutTime': 'Time not confirmed',
-  'month.more': '+{count} more',
-  'month.openWeek': 'Open the week of this day',
-  'agenda.empty': 'No date from the chosen day matches the filters.',
-
-  'status.airing': 'Airing',
-  'status.abgeschlossen': 'Completed',
-  'status.tba': 'TBA',
-  'status.erschienen': 'Released',
-  'status.unbekannt': 'Date unknown',
-
-  'card.timeOpen': 'time TBC',
-  'card.inStores': 'in stores',
-  'card.episode': 'Ep {n}',
-  'pwa.title': 'Add to your home screen',
-  'pwa.pitch': 'Opens like an app, full screen, and works without a connection.',
-  'pwa.install': 'Install app',
-  'pwa.stayInBrowser': 'Continue in browser',
-  'pwa.iosHint': 'In Safari: tap Share, then "Add to Home Screen".',
-  'card.hide': 'Hide this title',
-  'card.unhide': 'Show this title again',
-  'card.favourite': 'Mark as favourite',
-  'card.unfavourite': 'Remove from favourites',
-
-  'db.count': '{count} anime with a documented German dub',
-  'db.sort': 'Sort by',
-  'db.sortTitle': 'Title A–Z',
-  'db.sortYear': 'Year (newest first)',
-  'db.sortScore': 'Rating',
-  'db.more': 'Show {count} more',
-  'db.remaining': '({count} left)',
-  'db.groupSeasons': 'Combine seasons',
-  'db.groupSeasonsHint': 'Shows only the newest season of a series; earlier ones appear in its details',
-  'db.seasons': '{count} seasons',
-  'db.episodes': '{count} ep.',
-
-  'detail.releases': 'German releases',
-  'detail.noRelease':
-    'A German dub is documented for this title, but no German date has been recorded yet.',
-  'detail.noReleaseSingleSource': ' (single source)',
-  'detail.releasedNoDate': 'The German dub has been released. We do not have an exact date for it — the links below lead to it.',
-  'detail.linkStream': 'watch',
-  'detail.linkBuy': 'buy or rent',
-
-  'detail.whereToWatch': 'Where to watch',
-  'detail.genres': 'Genres',
-  'detail.keywords': 'Keywords',
-  'detail.plot': 'Plot',
-  'detail.plotOnlyEnglish': 'Only available in the other language — automatic translations would distort the content.',
-  'detail.seasons': 'Seasons of this series',
-  'detail.start': 'Start',
-  'detail.startCinema': 'In cinemas from',
-  'detail.startDisc': 'On sale from',
-  'detail.time': 'Time',
-  'detail.unknown': 'unknown',
-  'detail.episodes': 'Episodes',
-  'detail.lastEpisode': 'Last episode',
-  'detail.allDates': 'All dates',
-  'detail.showAllDates': 'show all {count} dates',
-  'detail.showFewer': 'show fewer',
-  'detail.watchOn': 'Watch on {platform}',
-  'detail.buy': 'Buy',
-  'detail.addToGoogle': 'Add to Google Calendar',
-  'detail.addSingle': 'Add this episode to Google Calendar',
-  'detail.downloadIcs': 'Download .ics',
-  'detail.downloadIcsHint': 'All dates of this season as a calendar file',
-  'detail.share': 'Share',
-  'detail.shareHint': 'Copies a link that shows this title with its own preview image',
-  'detail.source': 'Source',
-  'detail.estimatedDate': 'date derived',
-  'detail.assumedEpisodes': 'Episode count not documented — 12 assumed',
-  'detail.close': 'Close',
-  'detail.hiddenNote': 'You hid this title. Nothing is shown until you bring it back.',
-  'detail.noMeta': 'No metadata available for this entry.',
-  'detail.dubYes': 'German dub documented here',
-  'detail.dubNo': 'No German dub here — original audio with subtitles',
-  'detail.dubUnknown': 'German audio not documented here — check on the platform itself',
-  'detail.dubHintDisc':
-    'The German dub of this title is only documented on disc. The streams listed above may well be original audio with subtitles — the “Buy” button leads to the dubbed edition.',
-  'detail.metaFrom': 'Metadata from AniList',
-  'detail.dubProof': 'dub documented via MyDubList ({sources})',
-
-  'sub.title': 'Subscribe to the calendar',
-  'sub.intro':
-    'One subscription instead of many clicks: the feeds below update themselves with every data run. No account, no login, nothing shared with us.',
-  'sub.pick': 'Choose a feed',
-  'sub.all': 'Everything',
-  'sub.copy': 'copy',
-  'sub.copied': '✓ copied',
-  'sub.download': 'Download file',
-  'sub.insert': 'Add in Google Calendar',
-  'sub.how': 'How it works',
-  'sub.step1': 'Copy the address above.',
-  'sub.step2': 'Open Google Calendar → next to "Other calendars" click +  → "From URL".',
-  'sub.step3': 'Paste the address, "Add calendar".',
-  'sub.note':
-    'Google refreshes subscribed feeds only every few hours to days. If you need a date right away, use the "Google Calendar" button on the entry itself — that creates it immediately. Apple Calendar and Outlook read the same address.',
-
-  'news.title': 'Newsletter',
-  'news.intro':
-    'Daily or weekly by email: what is coming out with a German dub. No tracking, no ads, unsubscribe with one click from every email.',
-  'news.email': 'Email address',
-  'news.frequency': 'Rhythm',
-  'news.weekly': 'Weekly',
-  'news.weeklyHint': 'Mondays 07:00, everything for the coming week',
-  'news.daily': 'Daily',
-  'news.dailyHint': '07:00, everything for the day',
-  'news.autoSync': 'Changes are transferred automatically from now on.',
-  'news.welcomeTitle': 'Subscription active',
-  'news.welcomeBody': 'From now on you will receive the upcoming releases with a German dub by email.',
-  'news.favorites': 'Favourites: {count} series',
-  'news.favoritesHint': 'New episodes of these appear at the top of every email.',
-  'news.favoritesNone': 'None yet. Star series in the calendar — their new episodes then lead every email.',
-  'news.syncRunning': 'Syncing favourites …',
-  'news.syncOk': 'Favourites synced: {count} series. From now on their episodes lead your emails.',
-  'news.platforms': 'Only these platforms',
-  'news.platformsHint': '(empty = all)',
-  'news.consent':
-    'I want to receive the newsletter and agree that my address is stored for that purpose. I can withdraw this at any time via the unsubscribe link.',
-  'news.privacy': 'privacy policy',
-  'news.submit': 'Subscribe',
-  'news.sending': 'sending …',
-  'news.ok': 'Almost done: a confirmation email is on its way. Only the click inside activates the subscription.',
-  'news.notConnected': 'The newsletter service is not connected in this installation yet.',
-  'news.howTitle': 'How this works technically',
-  'news.how':
-    'Signing up is a double opt-in: we send a confirmation email first, and the subscription is only stored after your click. Address, rhythm and platform choice live in a Cloudflare D1 database. Sending is done by a cron job that pulls the dates from this very calendar.',
-
-  'footer.stats': '{titles} anime with a documented German dub · {releases} releases · {events} dates',
-  'footer.updated': 'Data last updated:',
-  'footer.sources': 'Sources',
-  'footer.code': 'Source code',
-} as const
-
-export type TranslationKey = keyof typeof EN
-
-const DE: Partial<Record<TranslationKey, string>> = {
+const TEXTE = {
   'app.title': 'Anime-Kalender DE',
   'app.subtitle': 'alles mit deutscher Synchro',
   'app.description':
@@ -372,6 +160,7 @@ const DE: Partial<Record<TranslationKey, string>> = {
   'detail.share': 'Teilen',
   'detail.shareHint': 'Kopiert einen Link, der diesen Titel mit eigenem Vorschaubild zeigt',
   'detail.source': 'Quelle',
+  'detail.whyNoTime': 'Warum steht hier keine Uhrzeit?',
   'detail.estimatedDate': 'Termin abgeleitet',
   'detail.assumedEpisodes': 'Folgenzahl nicht belegt — 12 angenommen',
   'detail.close': 'Schließen',
@@ -437,76 +226,48 @@ const DE: Partial<Record<TranslationKey, string>> = {
   'footer.code': 'Quellcode',
 }
 
-const DICTIONARIES: Record<Lang, Partial<Record<TranslationKey, string>>> = { en: EN, de: DE }
-
+export type TranslationKey = keyof typeof TEXTE
 export type Translate = (key: TranslationKey, params?: Record<string, string | number>) => string
 
-function translate(lang: Lang, key: TranslationKey, params?: Record<string, string | number>): string {
-  const raw = DICTIONARIES[lang][key] ?? EN[key] ?? key
+function translate(key: TranslationKey, params?: Record<string, string | number>): string {
+  const raw: string = TEXTE[key] ?? key
   if (!params) return raw
   return raw.replace(/\{(\w+)\}/g, (match, name: string) =>
     params[name] !== undefined ? String(params[name]) : match,
   )
 }
 
-function detectLanguage(): Lang {
-  const stored = localStorage.getItem('lang')
-  if (stored === 'de' || stored === 'en') return stored
-  return navigator.languages?.some((l) => l.toLowerCase().startsWith('de')) ? 'de' : 'en'
-}
-
 interface LanguageValue {
-  lang: Lang
-  setLang: (lang: Lang) => void
   t: Translate
-  /** Genre-Namen (AniList liefert englisch) in die aktive Sprache bringen. */
+  /** Genre-Namen ins Deutsche bringen — AniList liefert sie englisch. */
   tGenre: (name: string) => string
   tKeyword: (name: string) => string
-  /** Beschriftung einer Release-Art in der aktiven Sprache. */
+  /** Beschriftung einer Release-Art. */
   tRelease: (type: ReleaseType, variant?: 'name' | 'short' | 'hint') => string
 }
 
-const LanguageContext = createContext<LanguageValue | undefined>(undefined)
-
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>(() => {
-    const initial = detectLanguage()
-    // Vor dem ersten Rendern setzen, sonst stünden Wochentage kurz falsch da.
-    setDateLocale(initial)
-    return initial
-  })
-
-  useEffect(() => {
-    setDateLocale(lang)
-    document.documentElement.lang = lang
-    const description = DICTIONARIES[lang]['app.description'] ?? EN['app.description']
-    document.querySelector('meta[name="description"]')?.setAttribute('content', description)
-    document.title = `${translate(lang, 'app.title')} — ${translate(lang, 'app.subtitle')}`
-  }, [lang])
-
-  const setLang = useCallback((next: Lang) => {
-    localStorage.setItem('lang', next)
-    setLangState(next)
-  }, [])
-
-  const value = useMemo<LanguageValue>(
-    () => ({
-      lang,
-      setLang,
-      t: (key, params) => translate(lang, key, params),
-      tGenre: (name) => (lang === 'de' ? (GENRE_DE[name] ?? name) : name),
-      tKeyword: (name) => (lang === 'de' ? (KEYWORD_DE[name] ?? name) : name),
-      tRelease: (type, variant = 'name') =>
-        translate(lang, (variant === 'name' ? `release.${type}` : `release.${type}.${variant}`) as TranslationKey),
-    }),
-    [lang, setLang],
-  )
-
-  return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>
+/**
+ * Kein Context, kein State: Es gibt nur eine Sprache, also ist das Ergebnis
+ * für die gesamte Laufzeit dasselbe Objekt. Der frühere LanguageProvider
+ * hätte hier nur noch Konstanten durchgereicht.
+ */
+const VALUE: LanguageValue = {
+  t: (key, params) => translate(key, params),
+  tGenre: (name) => GENRE_DE[name] ?? name,
+  tKeyword: (name) => KEYWORD_DE[name] ?? name,
+  tRelease: (type, variant = 'name') =>
+    translate((variant === 'name' ? `release.${type}` : `release.${type}.${variant}`) as TranslationKey),
 }
 
 export function useLang(): LanguageValue {
-  const ctx = useContext(LanguageContext)
-  if (!ctx) throw new Error('useLang außerhalb des LanguageProvider verwendet')
-  return ctx
+  return VALUE
+}
+
+/** Einmalig beim Start: Sprache im HTML und die Metaangaben setzen. */
+export function applyDocumentLanguage(): void {
+  document.documentElement.lang = 'de'
+  document
+    .querySelector('meta[name="description"]')
+    ?.setAttribute('content', TEXTE['app.description'])
+  document.title = `${TEXTE['app.title']} — ${TEXTE['app.subtitle']}`
 }

@@ -112,42 +112,21 @@ export function addMonths(iso: string, months: number): string {
 }
 
 const NAMES = {
-  de: {
-    long: ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'],
-    short: ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'],
-    months: [
-      'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
-      'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember',
-    ],
-  },
-  en: {
-    long: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    short: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    months: [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December',
-    ],
-  },
+  long: ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'],
+  short: ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'],
+  months: [
+    'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+    'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember',
+  ],
 } as const
-
-/**
- * Sprache der Datumsnamen. Pipeline und Worker bleiben bei Deutsch; die
- * Web-App setzt sie beim Sprachwechsel um, damit nicht in jede Komponente
- * ein Locale-Parameter durchgereicht werden muss.
- */
-let locale: 'de' | 'en' = 'de'
-
-export function setDateLocale(next: 'de' | 'en'): void {
-  locale = next
-}
 
 export function weekdayName(iso: string, short = false): string {
   const i = weekdayIndex(iso)
-  return short ? NAMES[locale].short[i] : NAMES[locale].long[i]
+  return short ? NAMES.short[i] : NAMES.long[i]
 }
 
 export function monthName(monthIndex0: number): string {
-  return NAMES[locale].months[monthIndex0]
+  return NAMES.months[monthIndex0]
 }
 
 /** "2026-08-13" → "13.08.2026" */
@@ -156,10 +135,10 @@ export function formatDate(iso: string): string {
   return `${d}.${m}.${y}`
 }
 
-/** "2026-08-13" → "13. August 2026" bzw. "13 August 2026" */
+/** "2026-08-13" → "13. August 2026" */
 export function formatDateLong(iso: string): string {
   const [y, m, d] = iso.split('-').map(Number)
-  return locale === 'de' ? `${d}. ${monthName(m - 1)} ${y}` : `${d} ${monthName(m - 1)} ${y}`
+  return `${d}. ${monthName(m - 1)} ${y}`
 }
 
 /** Kompakter UTC-Stempel für ICS und Google Calendar: 20260813T153000Z */

@@ -558,7 +558,7 @@ export function DatenschutzView() {
 }
 
 export function Footer({ meta }: { meta: DataMeta }) {
-  const { t, lang } = useLang()
+  const { t } = useLang()
   const generated = new Date(meta.generatedAt)
   return (
     <footer className="mt-10 border-t border-slate-200 py-6 text-xs text-slate-500 dark:border-white/10 dark:text-slate-400">
@@ -575,7 +575,7 @@ export function Footer({ meta }: { meta: DataMeta }) {
           <p>
             {t('footer.updated')}{' '}
             <time dateTime={meta.generatedAt}>
-              {generated.toLocaleString(lang === 'de' ? 'de-DE' : 'en-GB', {
+              {generated.toLocaleString('de-DE', {
                 dateStyle: 'medium',
                 timeStyle: 'short',
               })}

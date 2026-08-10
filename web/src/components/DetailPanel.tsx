@@ -48,7 +48,7 @@ function ShareButton({ release }: { release: Release }) {
 }
 
 function ReleaseBlock({ release, today }: { release: Release; today: string }) {
-  const { t, lang } = useLang()
+  const { t } = useLang()
   const events = useMemo(() => expandEvents(release), [release])
   const status = releaseStatus(release, today)
   const upcoming = events.find((e) => e.date >= today) ?? events[events.length - 1]
@@ -62,6 +62,15 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
     return first === 1 ? String(count) : `${first}–${first + count - 1}`
   }, [release.schedule.episodeCount, release.schedule.firstEpisodeNumber])
   const [showAll, setShowAll] = useState(false)
+  // Der Hinweis, warum keine Uhrzeit dasteht — nur bei Streaming-Terminen ohne
+  // Uhrzeit. Bei Filmen und Discs erwartet niemand eine Minutenangabe.
+  const timeNote =
+    !release.schedule.time &&
+    release.releaseType !== 'movie' &&
+    release.releaseType !== 'disc'
+      ? PLATFORM_TIME_NOTE[release.platform]
+      : undefined
+  const [showTimeNote, setShowTimeNote] = useState(false)
   const shown = showAll ? events : events.slice(0, 8)
 
   return (
@@ -114,32 +123,58 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
               {release.schedule.time ? (
                 `${release.schedule.time} Uhr`
               ) : (
-                <span className="opacity-60">{t('detail.unknown')}</span>
+                <>
+                  <span className="opacity-60">{t('detail.unknown')}</span>
+                  {timeNote && (
+                    <button
+                      type="button"
+                      onClick={() => setShowTimeNote((v) => !v)}
+                      aria-expanded={showTimeNote}
+                      title={t('detail.whyNoTime')}
+                      className={`ml-1.5 inline-flex size-4 cursor-pointer items-center justify-center rounded-full border align-[1px] text-[10px] leading-none font-bold transition-colors ${
+                        showTimeNote
+                          ? 'border-sky-400 bg-sky-400 text-slate-900'
+                          : 'border-slate-400 text-slate-400 hover:border-sky-400 hover:text-sky-400 dark:border-slate-500 dark:text-slate-500'
+                      }`}
+                    >
+                      ?
+                    </button>
+                  )}
+                </>
               )}
             </dd>
           </>
         )}
         {/* Warum keine Uhrzeit dasteht. Ohne diesen Satz liest sich „unbekannt"
             wie ein Pflegefehler — meistens gibt es die Angabe aber schlicht
-            nicht, und das ist eine Auskunft für sich. */}
-        {!release.schedule.time &&
-          release.releaseType !== 'movie' &&
-          release.releaseType !== 'disc' &&
-          PLATFORM_TIME_NOTE[release.platform] && (
-            <dd className="col-span-2 text-[11px] leading-relaxed text-slate-400 dark:text-slate-500">
-              {PLATFORM_TIME_NOTE[release.platform]![lang]}{' '}
-              {PLATFORM_TIME_NOTE[release.platform]!.source && (
-                <a
-                  className="cursor-pointer underline decoration-dotted hover:text-slate-600 dark:hover:text-slate-300"
-                  href={PLATFORM_TIME_NOTE[release.platform]!.source}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                >
-                  {t('detail.source')}
-                </a>
-              )}
-            </dd>
-          )}
+            nicht, und das ist eine Auskunft für sich.
+            Seit dem 10.08.2026 hinter einem Fragezeichen: Der Absatz stand bei
+            jedem Netflix- und Prime-Titel offen da und war nach dem zweiten
+            Lesen nur noch Rauschen zwischen den Eckdaten. Das Grid-Zeilenmaß
+            von 0fr auf 1fr animiert die Höhe, ohne sie zu kennen. */}
+        {timeNote && (
+          <dd
+            className={`col-span-2 grid transition-all duration-200 ease-out ${
+              showTimeNote ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+            }`}
+          >
+            <div className="overflow-hidden">
+              <p className="pt-1 text-[11px] leading-relaxed text-slate-400 dark:text-slate-500">
+                {timeNote.de}{' '}
+                {timeNote.source && (
+                  <a
+                    className="cursor-pointer underline decoration-dotted hover:text-slate-600 dark:hover:text-slate-300"
+                    href={timeNote.source}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    {t('detail.source')}
+                  </a>
+                )}
+              </p>
+            </div>
+          </dd>
+        )}
         {release.releaseType === 'weekly' && (
           <>
             <dt className="text-slate-400">{t('detail.episodes')}</dt>
@@ -293,7 +328,7 @@ export function DetailPanel({
   onFilterBy: (kind: 'genre' | 'keyword', value: string) => void
   onOpenTitle: (id: number) => void
 }) {
-  const { t, tGenre, tKeyword, lang } = useLang()
+  const { t, tGenre, tKeyword } = useLang()
   const today = todayIso()
   const title: Title | undefined = data.titleById.get(titleId)
   const releases = data.releasesByTitle.get(titleId) ?? []
@@ -370,13 +405,17 @@ export function DetailPanel({
   }
 
   const status = titleStatus(releases, today, title)
-  // Handlung in der aktiven Sprache; fehlt sie, lieber die vorhandene Fassung
-  // mit Hinweis zeigen als gar keine.
+  // Handlung auf Deutsch; fehlt sie, lieber den englischen Text mit Hinweis
+  // zeigen als gar keinen.
+  //
+  // Der englische Rückfall bleibt bewusst, obwohl die Oberfläche seit dem
+  // 10.08.2026 einsprachig ist: Er stammt nicht aus einer Übersetzung der
+  // Seite, sondern aus der Quelle. Für rund 700 der 2.750 Titel gibt es
+  // nirgends eine deutsche Inhaltsangabe — dort wäre die Alternative eine
+  // leere Fläche.
   const plot = (() => {
-    const preferred = lang === 'de' ? synopsis?.de : synopsis?.en
-    if (preferred) return { text: preferred, fallback: false }
-    const other = lang === 'de' ? synopsis?.en : synopsis?.de
-    return other ? { text: other, fallback: true } : undefined
+    if (synopsis?.de) return { text: synopsis.de, fallback: false }
+    return synopsis?.en ? { text: synopsis.en, fallback: true } : undefined
   })()
   // Hinweis nur, wenn die Synchro ausschließlich auf Disc belegt ist, es aber
   // Streams gibt — genau der Fall, in dem ein Plattform-Logo sonst zu viel

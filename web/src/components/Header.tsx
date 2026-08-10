@@ -1,10 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
 import { RELEASE_TYPES } from '@shared/types.ts'
 import type { ReleaseType } from '@shared/types.ts'
 import { VIEWS, type ViewId } from '../lib/router.ts'
 import { addDays, addMonths, formatDateLong, monthName, startOfWeek, todayIso } from '@shared/time.ts'
-import { LANGUAGES, useLang, type TranslationKey } from '../lib/i18n.tsx'
-import { Flag } from './Flags.tsx'
+import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import { InstallButton } from './InstallPrompt.tsx'
 
 function ThemeToggle() {
@@ -29,78 +27,6 @@ function ThemeToggle() {
   )
 }
 
-function LanguagePicker() {
-  const { lang, setLang, t } = useLang()
-  const [open, setOpen] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
-  const current = LANGUAGES.find((l) => l.id === lang)!
-
-  useEffect(() => {
-    if (!open) return
-    const onClick = (e: MouseEvent) => {
-      if (!ref.current?.contains(e.target as Node)) setOpen(false)
-    }
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false)
-    }
-    document.addEventListener('mousedown', onClick)
-    document.addEventListener('keydown', onKey)
-    return () => {
-      document.removeEventListener('mousedown', onClick)
-      document.removeEventListener('keydown', onKey)
-    }
-  }, [open])
-
-  return (
-    <div className="relative" ref={ref}>
-      <button
-        type="button"
-        onClick={() => setOpen((o) => !o)}
-        aria-haspopup="listbox"
-        aria-expanded={open}
-        aria-label={t('nav.language')}
-        title={`${t('nav.language')}: ${current.label}`}
-        className="flex cursor-pointer items-center gap-1.5 rounded-lg px-2 py-2 transition hover:bg-slate-200/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 dark:hover:bg-white/10"
-      >
-        <Flag lang={current.id} size={22} />
-        <span aria-hidden="true" className="text-[9px] text-slate-400">
-          ▾
-        </span>
-      </button>
-
-      {open && (
-        <ul
-          role="listbox"
-          className="animate-fade-in absolute right-0 z-30 mt-1 min-w-40 overflow-hidden rounded-lg border border-slate-200 bg-white py-1 shadow-xl dark:border-white/15 dark:bg-[#141b2b]"
-        >
-          {LANGUAGES.map((l) => (
-            <li key={l.id}>
-              <button
-                type="button"
-                role="option"
-                aria-selected={l.id === lang}
-                onClick={() => {
-                  setLang(l.id)
-                  setOpen(false)
-                }}
-                className={[
-                  'flex w-full cursor-pointer items-center gap-2 px-3 py-1.5 text-left text-sm transition',
-                  l.id === lang
-                    ? 'bg-sky-500/10 font-semibold text-sky-500'
-                    : 'text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10',
-                ].join(' ')}
-              >
-                <Flag lang={l.id} size={20} />
-                {l.label}
-                {l.id === lang && <span className="ml-auto">✓</span>}
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  )
-}
 
 export function Header({
   view,
@@ -189,7 +115,6 @@ export function Header({
               </span>
               <span className="hidden sm:inline">{t('view.newsletter')}</span>
             </button>
-            <LanguagePicker />
             <ThemeToggle />
           </div>
         </div>

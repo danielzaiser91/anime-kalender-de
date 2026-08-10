@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
-import { LanguageProvider } from './lib/i18n.tsx'
+import { applyDocumentLanguage } from './lib/i18n.tsx'
 import { registerServiceWorker } from './lib/pwa.ts'
 import './styles.css'
 
@@ -15,10 +15,12 @@ document.documentElement.style.colorScheme = dark ? 'dark' : 'light'
 // Offline-Fähigkeit anmelden. Schlägt das fehl, läuft die Seite normal weiter.
 registerServiceWorker()
 
+// Sprache, Titel und Beschreibung im Dokument setzen. Früher machte das der
+// LanguageProvider bei jedem Sprachwechsel — es gibt nur noch Deutsch.
+applyDocumentLanguage()
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <LanguageProvider>
-      <App />
-    </LanguageProvider>
+    <App />
   </StrictMode>,
 )
