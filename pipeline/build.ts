@@ -13,6 +13,7 @@ import { loadCurated, loadWatchLinks, type CuratedEntry } from './lib/curated.ts
 import type { TmdbInfo } from './lib/tmdb.ts'
 import type { AdnData } from './fetch-adn.ts'
 import { clearDir, log, readJson, slugify, warn, writeJson, writeText } from './lib/util.ts'
+import { SYNOPSIS_GROUPS } from '../shared/types.ts'
 import type {
   DataMeta,
   DubConfidence,
@@ -985,7 +986,26 @@ function main(): void {
   const referenced = new Set(releases.map((r) => r.titleId))
   writeJson(`${OUT}/titles-core.json`, slim.filter((t) => referenced.has(t.id)))
   writeJson(`${OUT}/titles.json`, slim)
-  writeJson(`${OUT}/synopses.json`, synopses)
+  // Synopsen in Gruppen statt in einer Datei.
+  //
+  // Vorher lag alles in `synopses.json`: 3,8 MB, die beim ersten Öffnen eines
+  // Detail-Panels über die Leitung gingen — für **eine** Beschreibung wurden
+  // 2.753 geladen. Bei 32 Gruppen sind es rund 120 KB, und die Gruppe deckt
+  // beim Durchklickeln oft gleich mehrere weitere Titel mit ab.
+  //
+  // Die Gruppe ergibt sich aus der AniList-ID, nicht aus einer laufenden
+  // Nummer: So bleibt sie über Datenläufe hinweg dieselbe, und ein gecachter
+  // Abruf verfällt nicht, nur weil ein Titel dazukam.
+  const gruppen = new Map<number, Record<number, { de?: string; en?: string }>>()
+  for (const [id, wert] of Object.entries(synopses)) {
+    const gruppe = Number(id) % SYNOPSIS_GROUPS
+    const eintrag = gruppen.get(gruppe) ?? {}
+    eintrag[Number(id)] = wert
+    gruppen.set(gruppe, eintrag)
+  }
+  clearDir(`${OUT}/synopses`)
+  for (const [gruppe, inhalt] of gruppen) writeJson(`${OUT}/synopses/${gruppe}.json`, inhalt)
+  log(`Synopsen in ${gruppen.size} Gruppen geschrieben (vorher eine Datei mit ${Object.keys(synopses).length} Einträgen)`)
   writeJson(`${OUT}/releases.json`, releases)
   writeJson(`${OUT}/events.json`, events)
   writeJson(`${OUT}/meta.json`, meta, true)

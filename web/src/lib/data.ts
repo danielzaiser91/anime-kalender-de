@@ -1,3 +1,4 @@
+import { SYNOPSIS_GROUPS } from '@shared/types.ts'
 import type { DataMeta, Release, ReleaseEvent, Title } from '@shared/types.ts'
 
 export interface Dataset {
@@ -74,17 +75,28 @@ export interface Synopsis {
   en?: string
 }
 
-let synopsisCache: Record<number, Synopsis> | undefined
-let synopsisPromise: Promise<Record<number, Synopsis>> | undefined
+/**
+ * Bereits geholte Gruppen. Eine Gruppe deckt rund neunzig Titel ab, deshalb
+ * lohnt das Merken: Wer sich durch eine Serie klickt, trifft oft dieselbe.
+ */
+const synopsisGroups = new Map<number, Promise<Record<number, Synopsis>>>()
 
-/** Synopsen liegen in einer eigenen Datei und werden erst beim ersten Detail-Öffnen geholt. */
-export async function loadSynopses(): Promise<Record<number, Synopsis>> {
-  if (synopsisCache) return synopsisCache
-  synopsisPromise ??= loadJson<Record<number, Synopsis>>('synopses.json').then((data) => {
-    synopsisCache = data
-    return data
-  })
-  return synopsisPromise
+/**
+ * Handlung eines Titels — holt nur die Gruppe, in der er liegt.
+ *
+ * Vorher lag alles in einer Datei: 3,8 MB gingen beim ersten Öffnen eines
+ * Detail-Panels über die Leitung, um **eine** Beschreibung anzuzeigen. Jetzt
+ * sind es rund 120 KB (10.08.2026, aufgefallen, weil der Browser-Speicher
+ * auffällig voll war).
+ */
+export async function loadSynopsis(titleId: number): Promise<Synopsis | undefined> {
+  const gruppe = titleId % SYNOPSIS_GROUPS
+  let geladen = synopsisGroups.get(gruppe)
+  if (!geladen) {
+    geladen = loadJson<Record<number, Synopsis>>(`synopses/${gruppe}.json`).catch(() => ({}))
+    synopsisGroups.set(gruppe, geladen)
+  }
+  return (await geladen)[titleId]
 }
 
 export function feedUrl(name: string): string {

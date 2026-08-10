@@ -19,7 +19,7 @@
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { PLATFORMS, RELEASE_TYPES, type Release, type Title } from '../shared/types.ts'
+import { PLATFORMS, RELEASE_TYPES, SYNOPSIS_GROUPS, type Release, type Title } from '../shared/types.ts'
 import { expandEvents } from '../shared/logic.ts'
 import { formatDate, todayIso, weekdayName } from '../shared/time.ts'
 import { GENRE_DE } from '../shared/mappings.ts'
@@ -175,10 +175,13 @@ function main(): void {
   const releases = readJson<Release[]>('public/data/releases.json', [])
   const titles = readJson<Title[]>('public/data/titles-core.json', [])
   const titleById = new Map(titles.map((t) => [t.id, t]))
-  const synopses = readJson<Record<string, { de?: string; en?: string }>>(
-    'public/data/synopses.json',
-    {},
-  )
+  // Die Synopsen liegen seit dem 10.08.2026 in Gruppen statt in einer Datei.
+  // Hier werden alle gebraucht — die Seiten entstehen einmal im Build, nicht im
+  // Browser, für ihn zählt die Aufteilung nicht.
+  const synopses: Record<string, { de?: string; en?: string }> = {}
+  for (let gruppe = 0; gruppe < SYNOPSIS_GROUPS; gruppe++) {
+    Object.assign(synopses, readJson<Record<string, { de?: string; en?: string }>>(`public/data/synopses/${gruppe}.json`, {}))
+  }
   const today = todayIso()
 
   // Nur der deutsche Text kommt auf die Seite. Ein englischer Absatz auf einer

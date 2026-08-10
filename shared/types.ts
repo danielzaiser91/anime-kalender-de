@@ -172,6 +172,16 @@ export interface ReleaseEvent {
   estimated?: boolean
 }
 
+/**
+ * In wie viele Gruppen die Handlungsbeschreibungen aufgeteilt sind.
+ *
+ * Die Zahl teilen sich Pipeline und Web-App: Die eine schreibt danach, die
+ * andere rechnet aus einer Titel-ID die Datei aus. Wird sie geändert, müssen
+ * beide Seiten neu gebaut werden — sonst sucht die App in einer Datei, die es
+ * nicht gibt. Deshalb steht sie hier und nicht zweimal.
+ */
+export const SYNOPSIS_GROUPS = 32
+
 export interface DataMeta {
   generatedAt: string
   titleCount: number

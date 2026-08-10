@@ -5,7 +5,7 @@ import { expandEvents, lastEpisodeDate, releaseStatus, titleStatus } from '@shar
 import { buildIcs, googleCalendarUrl } from '@shared/ics.ts'
 import { formatDate, todayIso, weekdayName } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
-import { loadSynopses, type Synopsis } from '../lib/data.ts'
+import { loadSynopsis, type Synopsis } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useShare } from '../lib/share.ts'
 import { FORMAT_DE, PLATFORM_TIME_NOTE } from '@shared/mappings.ts'
@@ -337,9 +337,10 @@ export function DetailPanel({
 
   useEffect(() => {
     let alive = true
-    loadSynopses()
-      .then((all) => {
-        if (alive) setSynopsis(all[titleId])
+    setSynopsis(undefined)
+    loadSynopsis(titleId)
+      .then((s) => {
+        if (alive) setSynopsis(s)
       })
       .catch(() => {})
     setAllKeywords(false)
