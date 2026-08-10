@@ -91,19 +91,7 @@ jobs:
         run: npm run data:og
 
       - name: Änderungen committen
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/data public/og data/curated-ids.json data/tmdb.json \
-                  data/crunchyroll.json data/adn.json data/anisearch.json data/anime-ids.json \
-                  data/proposals data/source-health.json
-          if git diff --staged --quiet; then
-            echo "Keine Datenänderung."
-          else
-            git commit -m "chore(data): Datensatz automatisch aktualisiert"
-            git pull --rebase --autostash
-            git push
-          fi
+        run: bash tools/commit-data.sh "chore(data): Datensatz automatisch aktualisiert"
 
       # Zuletzt, damit der Datenstand auch dann committet ist, wenn die Prüfung
       # anschlägt. Ein roter Lauf schickt dem Betreiber eine Mail — das ist die
