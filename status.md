@@ -10,6 +10,7 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
+| „Alle Termine": Datum falsch, wenn Folge 1 weit vor dem Rest liegt | 3 | Belegfall Steel Ball Run (1st STAGE 19.03.2026, Fortsetzung ab 25.09.2026). Verdacht: Anker-Projektion in `shared/logic.ts`. Erst reproduzieren, dann nach weiteren Titeln mit großer Lücke zwischen Folge 1 und 2 suchen |
 | aniSearch-Bestand auffüllen | 2 | läuft über die Nachtläufe, 200 Titel je Lauf; 2.041 von 2.753 Titeln haben deutschen Text, 1.452 aniSearch-Seiten offen (~8 Läufe) |
 
 

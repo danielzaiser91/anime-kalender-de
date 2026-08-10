@@ -70,10 +70,18 @@ jobs:
         run: npm run data:anime2you
 
       - name: Deutsche Texte und Anbieter von aniSearch
+        # AUSGESETZT seit 09.08.2026. Kurz nach dem ersten sauberen Lauf war
+        # anisearch.de vom Anschluss des Betreibers aus wieder nicht erreichbar
+        # (TCP 443 tot, IPv4 und IPv6). Ob das mit diesem Lauf zusammenhängt,
+        # ist offen. Solange es offen ist, schicken wir keine 200 Anfragen pro
+        # Nacht an eine Seite, die uns möglicherweise gerade nicht haben will.
+        # Eine Anfrage nach einem regulären Zugang liegt bei api@anisearch.com;
+        # sobald die Antwort da ist, `if:` wieder entfernen.
+        #
         # Kontingent und Takt stehen im Skript (200 Titel, alle sechs Sekunden).
-        # Hier bewusst keine zweite Zahl: Stünde sie an beiden Stellen, liefe
-        # eine davon irgendwann still auseinander. Der Bestand füllt sich über
-        # die Tage; er liegt im Repo und geht nie verloren.
+        # Der Bestand liegt im Repo und geht nicht verloren: 1.160 von 2.612
+        # Seiten sind geholt.
+        if: false
         continue-on-error: true
         run: npm run data:anisearch
 
