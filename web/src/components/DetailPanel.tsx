@@ -8,7 +8,7 @@ import type { Dataset } from '../lib/data.ts'
 import { loadSynopses, type Synopsis } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useShare } from '../lib/share.ts'
-import { PLATFORM_TIME_NOTE } from '@shared/mappings.ts'
+import { FORMAT_DE, PLATFORM_TIME_NOTE } from '@shared/mappings.ts'
 import {
   Button,
   Chip,
@@ -476,7 +476,7 @@ export function DetailPanel({
             </div>
             <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
               {[
-                title.format,
+                title.format ? (FORMAT_DE[title.format] ?? title.format) : undefined,
                 title.episodes ? t('db.episodes', { count: title.episodes }) : undefined,
                 title.jpYear ? `JP ${title.jpYear}` : undefined,
                 title.studios?.[0],

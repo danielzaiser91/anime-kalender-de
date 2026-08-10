@@ -18,7 +18,7 @@
  * Die Version im Cache-Namen ist der Aufräumschalter: Sie zu erhöhen wirft
  * beim nächsten Start alles Alte weg.
  */
-const VERSION = 'v2'
+const VERSION = 'v3'
 const SHELL = `shell-${VERSION}`
 const DATA = `data-${VERSION}`
 const MEDIA = `media-${VERSION}`
