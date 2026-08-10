@@ -10,6 +10,7 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
+| Monitoring-Mail als solche kennzeichnen | 2 | Absendername und Betreff der Erreichbarkeitsprüfung sind identisch mit dem Newsletter („Anime-Kalender DE"), obwohl sie 19 Seiten aus allen Projekten überwacht. Betrifft Störungsmeldung, Wochenübersicht und Entwarnung |
 | aniSearch-Bestand auffüllen | 2 | **ausgesetzt**, bis die Anfrage beantwortet ist. 200 Titel je Lauf; 2.041 von 2.753 Titeln haben deutschen Text, 1.452 aniSearch-Seiten offen (~8 Läufe) |
 
 
@@ -29,8 +30,6 @@ _(leer)_
 ### Warten auf Feedback
 | Thema | Seit |
 |---|---|
-| Newsletter-Abmeldung testen | 08.08.2026 |
-| Offline-Test auf dem Handy | 09.08.2026 |
 | Antwort von aniSearch auf die Anfrage nach einer Titeldaten-Schnittstelle (abgeschickt 09.08.2026 an api@anisearch.com); dabei auch gefragt, ob die Beschreibungen mit Quellenangabe öffentlich stehen dürfen | 09.08.2026 |
 
 ## Entscheidungen
@@ -40,11 +39,18 @@ _(leer)_
 - **Keine Pull Requests für Termine** (08.08.2026). Die Datenpflege bleibt in einer Hand — die
   Quellenpflicht ist die Grundregel des Projekts, und sie ist nur haltbar, solange jeder Termin
   durch dieselbe Prüfung geht.
-- **Gesamtabnahme der ersten Version erteilt** (08.08.2026), mit einer Ausnahme: Die
-  Newsletter-Abmeldung ist noch ungetestet.
+- **Gesamtabnahme der ersten Version erteilt** (08.08.2026). Die letzte offene Ausnahme, die
+  Newsletter-Abmeldung, ist am 10.08.2026 geprüft — damit ist die erste Version vollständig
+  abgenommen.
 
 ## Archiv
 
+- ✅ **Abmeldung Ende zu Ende geprüft** (10.08.2026), nicht nur die Seite, sondern die Wirkung in
+  D1: Link aus der echten Digest-Mail → „Abgemeldet", Datensatz gelöscht (2 Abos → 1), das fremde
+  Abo unberührt. Zweiter Aufruf desselben Links → „Nichts zu tun" statt Fehler. Neuanmeldung →
+  Bestätigungsmail → „Abo aktiv", wieder 2 Abos, beide `active`, keins hängen geblieben.
+  Nebenbefund: Der Wochen-Digest ging am selben Morgen raus, der wöchentliche Versand war bis
+  dahin nie bestätigt
 - ✅ **Geteilte Staffelstarts zählen durch**. Netflix brachte Steel Ball Run am 19.03.2026 als
   einzelne 47-Minuten-Folge und den Rest ein halbes Jahr später als „2nd & 3rd STAGE". Die
   Terminliste des zweiten Teils begann wieder bei „1. Fr 25.09.2026" und las sich damit wie der
