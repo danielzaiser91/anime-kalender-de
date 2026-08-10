@@ -66,6 +66,7 @@ const TEXTE = {
   'filter.button': 'Filter',
   'filter.reset': 'zurücksetzen',
   'filter.platform': 'Plattform',
+  'filter.provider': 'Bezugsquelle ({count} Anbieter)',
   'filter.releaseType': 'Release-Art',
   'filter.status': 'Status',
   'filter.fsk': 'FSK',

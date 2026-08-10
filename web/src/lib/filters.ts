@@ -17,6 +17,13 @@ import type { Dataset } from './data.ts'
  */
 export interface FilterLists {
   platforms: PlatformId[]
+  /**
+   * Bezugsquellen jenseits der neun bekannten Plattformen — maxdome, Apple TV,
+   * Videobuster, die Prime-Video-Kanäle. Als Klartextnamen, weil sie keine
+   * feste Kennung haben; die Schreibweise vereinheitlicht `providerName` schon
+   * beim Bauen des Datensatzes.
+   */
+  providers: string[]
   releaseTypes: ReleaseType[]
   statuses: ReleaseStatus[]
   fsk: Fsk[]
@@ -29,6 +36,7 @@ export type ListKey = keyof FilterLists
 
 export const LIST_KEYS: ListKey[] = [
   'platforms',
+  'providers',
   'releaseTypes',
   'statuses',
   'fsk',
@@ -64,6 +72,7 @@ export interface FilterState extends FilterLists {
 
 const emptyLists = (): FilterLists => ({
   platforms: [],
+  providers: [],
   releaseTypes: [],
   statuses: [],
   fsk: [],
@@ -278,12 +287,18 @@ export function filterTitles(
     const platformsOf = new Set([...releases.map((r) => r.platform), ...t.streams.map((s) => s.platform)])
     const yearsOf = releases.length ? releases.map((r) => r.year) : t.jpYear ? [t.jpYear] : []
 
+    // Bezugsquellen zählen wie Plattformen: Wer nach „maxdome" filtert, will
+    // die Titel sehen, die es dort gibt — ob als Abo oder zum Kauf.
+    const providersOf = new Set((t.watchLinks ?? []).map((w) => w.name))
+
     if (x.platforms.some((p) => platformsOf.has(p))) return false
+    if (x.providers.some((p) => providersOf.has(p))) return false
     if (x.releaseTypes.some((rt) => releases.some((r) => r.releaseType === rt))) return false
     if (x.years.some((y) => yearsOf.includes(y))) return false
     if (x.statuses.includes(titleStatus(releases, today, t))) return false
 
     if (f.platforms.length && !f.platforms.some((p) => platformsOf.has(p))) return false
+    if (f.providers.length && !f.providers.some((p) => providersOf.has(p))) return false
     if (f.releaseTypes.length && !releases.some((r) => f.releaseTypes.includes(r.releaseType))) return false
     if (f.years.length && !f.years.some((y) => yearsOf.includes(y))) return false
     if (f.statuses.length && !f.statuses.includes(titleStatus(releases, today, t))) return false

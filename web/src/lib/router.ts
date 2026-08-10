@@ -49,6 +49,7 @@ export interface AppRoute {
  */
 const LIST_PARAM: Record<ListKey, string> = {
   platforms: 'p',
+  providers: 'anb',
   releaseTypes: 'rt',
   statuses: 'st',
   fsk: 'fsk',

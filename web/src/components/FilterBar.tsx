@@ -51,6 +51,7 @@ export function FilterBar({
   const [genreQuery, setGenreQuery] = useState('')
   const [keywordQuery, setKeywordQuery] = useState('')
   const [allKeywords, setAllKeywords] = useState(false)
+  const [showAllProviders, setShowAllProviders] = useState(false)
   // Auswahlmodus: Ein Klick auf ein Tag wählt es — oder verbietet es.
   const [mode, setMode] = useState<'include' | 'exclude'>('include')
   const count = activeFilterCount(filters)
@@ -197,6 +198,35 @@ export function FilterBar({
               </Chip>
             ))}
           </Group>
+
+          {/* Bezugsquellen nur in der Datenbank: In den Kalenderansichten geht es
+              um Termine, und ein Termin liegt immer auf einer der bekannten
+              Plattformen — dort wäre die Gruppe leer. */}
+          {showConfidence && meta.providers.length > 0 && (
+            <Group label={t('filter.provider', { count: meta.providers.length })}>
+              {meta.providers.slice(0, showAllProviders ? undefined : 12).map((name: string) => (
+                <Chip
+                  key={name}
+                  color="#34d399"
+                  {...chipState('providers', name)}
+                  onClick={() => pick('providers', name)}
+                >
+                  {name}
+                </Chip>
+              ))}
+              {meta.providers.length > 12 && (
+                <button
+                  type="button"
+                  onClick={() => setShowAllProviders((v) => !v)}
+                  className="cursor-pointer text-xs text-sky-500 underline-offset-2 hover:underline"
+                >
+                  {showAllProviders
+                    ? t('filter.showLess')
+                    : t('filter.showMore', { count: meta.providers.length })}
+                </button>
+              )}
+            </Group>
+          )}
 
           <Group label={t('filter.releaseType')}>
             {(Object.keys(RELEASE_TYPES) as ReleaseType[]).map((type) => (
