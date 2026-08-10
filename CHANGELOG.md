@@ -6,6 +6,34 @@ Die Datenaktualisierungen der Nachtläufe stehen hier nicht — die laufen tägl
 sind in der Fußzeile der Seite am Stand ablesbar. Hier steht, was sich an der Seite
 selbst oder an der Art ändert, wie Termine zustande kommen.
 
+## Unveröffentlicht
+
+### Genauere Folgenzahlen
+
+- **Die Folgenzahl kommt jetzt von aniSearch, statt geraten zu werden.** Fehlte die
+  Angabe bei AniList, setzte die Pipeline zwölf an — die übliche Länge, aber eben
+  geraten. Bei einer 24-teiligen Reihe fehlte der Kalender damit ab Folge 13. aniSearch
+  pflegt die Zahl redaktionell; sie wird jetzt von dort übernommen.
+- **Vorläufige Angaben bleiben als solche erkennbar.** aniSearch kennzeichnet selbst,
+  wenn eine Folgenzahl noch nicht feststeht. Diese Kennzeichnung wandert mit in den
+  Datensatz und erscheint als ≈ — mit dem Hinweis, dass die Schätzung von aniSearch
+  stammt und nicht unsere eigene Annahme ist. Wo aniSearch die Zahl als gesichert
+  führt, verschwindet das ≈ dagegen.
+
+### Unter der Haube
+
+- **Abgerufene Seiten werden archiviert.** Bisher wurden aus jeder aniSearch-Seite zwei
+  Felder herausgelöst und der Rest verworfen — was jedes später gebrauchte Feld zu einem
+  neuen Lauf über tausende Seiten einer fremden Redaktion machte. Die inhaltlichen
+  Abschnitte liegen jetzt komprimiert im Repo (~9 KB je Titel). Forum, Kommentare und
+  Rezensionen bleiben ausdrücklich draußen: fremde Beiträge gehören nicht in unser Repo.
+- **Aus der Infobox wird alles gelesen**, auch was heute niemand anzeigt: Studio, Staff
+  mit Funktion, Sendeplatz, Folgenlänge, Synonyme, Publisher und Status je Sprachfassung.
+- `npm run data:anisearch:check` prüft den Parser gegen das Archiv, ohne einen einzigen
+  neuen Abruf; `data:anisearch:reparse` wertet den Bestand nach einer Parser-Änderung neu
+  aus. Beides hat sich sofort bezahlt gemacht: Die Folgenzahl wurde anfangs nur bei 3 %
+  der Titel erkannt, weil eine Regex die Laufzeit traf statt der Folgenzahl.
+
 ## 0.2.0 — 10.08.2026
 
 ### Falsche Termine

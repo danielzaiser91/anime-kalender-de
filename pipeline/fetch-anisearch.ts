@@ -27,6 +27,8 @@
  *
  * Aufruf: npm run data:anisearch [-- --limit 250]
  */
+import { gzipSync } from 'node:zlib'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import type { Release, Title } from '../shared/types.ts'
@@ -93,11 +95,74 @@ export interface AnisearchStream {
   url: string
 }
 
+/** Eine Sprachfassung, wie aniSearch sie in der Infobox führt. */
+export interface AnisearchLanguage {
+  /** Sprachname im Original der Seite: „Japanisch", „Deutsch", … */
+  language: string
+  title?: string
+  /** Der Titel in Originalschrift — steht nur beim japanischen Block. */
+  titleNative?: string
+  /** „Laufend", „Abgeschlossen", „Angekündigt" … */
+  status?: string
+  /** Zeitraum wie angegeben, etwa „08.07.2026 - ?". */
+  released?: string
+  publisher?: string[]
+  /**
+   * true, wenn aniSearch die Fassung als **synchronisiert** führt.
+   *
+   * Die Seite unterscheidet das von „untertitelt" über die Klasse `dubbed-1`
+   * am Lautsprecher-Symbol. Für einen Synchro-Kalender ist genau das die
+   * Kernaussage der ganzen Seite.
+   */
+  dubbed?: boolean
+}
+
+/**
+ * Was in der Infobox einer aniSearch-Seite steht.
+ *
+ * Bewusst großzügig: Auch Felder, die der Kalender heute nicht anzeigt, werden
+ * mitgenommen. Der Abruf ist der teure Teil — das Speichern kostet nichts, und
+ * jedes Feld, das hier fehlt, bedeutet später einen zweiten Lauf über tausende
+ * Seiten einer fremden Redaktion.
+ */
+export interface AnisearchInfo {
+  /** „TV-Serie", „Film", „OVA" … */
+  format?: string
+  episodes?: number
+  /**
+   * true, wenn aniSearch die Folgenzahl **selbst** als vorläufig kennzeichnet.
+   *
+   * Die Seite hängt dann ein Warnzeichen mit dem Hinweis „Episodenanzahl:
+   * vorläufige Schätzung" an. Ohne dieses Feld dürften wir die Zahl nach
+   * unseren eigenen Regeln gar nicht übernehmen — eine geschätzte Zahl
+   * ungekennzeichnet zu übernehmen macht aus fremder Unsicherheit eine eigene
+   * Behauptung.
+   */
+  episodesEstimated?: boolean
+  /** Länge einer Folge in Minuten. */
+  runtimeMinutes?: number
+  season?: string
+  studios?: string[]
+  /** Beteiligte mit ihrer Funktion, so wie aniSearch sie nennt. */
+  staff?: { name: string; role?: string }[]
+  /** „Light Novel", „Manga", „Original" … */
+  adaptedFrom?: string
+  /** Japanischer Sendeplatz, etwa „Mittwoch 23:45 (JST)". */
+  broadcast?: string
+  websites?: { name: string; url: string }[]
+  /** Alternative Schreibweisen — hilft beim Abgleich mit Plattform-Titeln. */
+  synonyms?: string[]
+  languages: AnisearchLanguage[]
+  /** Alle Warnhinweise der Seite im Wortlaut, auch die hier nicht gedeuteten. */
+  issues?: string[]
+}
+
 export interface AnisearchEntry {
   anisearchId: number
   /** Deutsche Inhaltsangabe, Quellenhinweis entfernt. */
   descriptionDe?: string
   streams: AnisearchStream[]
+  info?: AnisearchInfo
   fetchedAt: string
 }
 
@@ -207,6 +272,72 @@ function extractStreams(html: string): AnisearchStream[] {
   return out
 }
 
+/**
+ * Die Abschnitte, die ins Rohdaten-Archiv wandern.
+ *
+ * Warum überhaupt archiviert wird: Der erste Anlauf hat aus jeder Seite nur
+ * Inhaltsangabe und Streams herausgelöst und die übrigen 110 KB verworfen. Als
+ * dann die Folgenzahl gebraucht wurde, war der einzige Weg dorthin ein zweiter
+ * Lauf über alle 2.612 Seiten — bei sechs Sekunden Abstand über vier Stunden
+ * Last auf einem fremden Server, für Daten, die wir schon einmal hatten. Der
+ * Abruf ist teuer, das Aufheben kostet drei Kilobyte.
+ *
+ * Was **nicht** ins Archiv geht, ist keine Platzfrage: Forum, Kommentare,
+ * Rezensionen, Umfragen und Bearbeiterlisten sind Beiträge einzelner Menschen.
+ * Die haben sie auf aniSearch veröffentlicht und nicht in unser Repo — wir
+ * legen keine Sammlung fremder personenbezogener Daten an, nur weil sie
+ * technisch mit im Abruf steckt.
+ */
+const ARCHIV_ABSCHNITTE = [
+  'information',
+  'description',
+  'genres-tags',
+  'streams',
+  'trailers',
+  'items',
+  'images',
+  'characters',
+  'relations',
+  'recommendations',
+  'ratings',
+  'status',
+]
+
+const ARCHIV_DIR = 'data/anisearch-raw'
+
+/** Schneidet die aufhebenswerten Abschnitte aus der Seite. */
+function extractArchive(html: string): string {
+  const teile: string[] = []
+  for (const id of ARCHIV_ABSCHNITTE) {
+    const start = html.indexOf(`<section id="${id}"`)
+    if (start < 0) continue
+    const ende = html.indexOf('</section>', start)
+    if (ende < 0) continue
+    teile.push(html.slice(start, ende + 10))
+  }
+  return teile.join('\n')
+}
+
+/**
+ * Legt die Rohabschnitte gzip-komprimiert ab — eine Datei je Titel.
+ *
+ * Eine Datei je Titel statt eines großen Archivs, weil Git binäre Dateien
+ * komplett neu speichert statt als Änderung: Ein Sammelarchiv würde bei jedem
+ * Nachtlauf in voller Größe erneut in die Historie wandern. So bleibt jede
+ * Datei nach ihrem einzigen Schreibvorgang unangetastet.
+ */
+function saveArchive(anisearchId: number, html: string): void {
+  const inhalt = extractArchive(html)
+  if (!inhalt) return
+  if (!existsSync(ARCHIV_DIR)) mkdirSync(ARCHIV_DIR, { recursive: true })
+  const pfad = `${ARCHIV_DIR}/${anisearchId}.html.gz`
+  const neu = gzipSync(inhalt, { level: 9 })
+  // Unverändert nicht neu schreiben: Sonst erzeugt jeder Lauf mit --force
+  // tausende neue Blobs in der Historie, obwohl sich nichts geändert hat.
+  if (existsSync(pfad) && readFileSync(pfad).equals(neu)) return
+  writeFileSync(pfad, neu)
+}
+
 /** Letzter Ausweg für den Anbieternamen: die Domain. */
 function hostOf(url: string): string {
   try {
@@ -214,6 +345,169 @@ function hostOf(url: string): string {
   } catch {
     return ''
   }
+}
+
+/** Tags raus, Entities auf, Leerraum normalisieren. */
+function textOf(html: string): string {
+  return decode(html.replace(/<[^>]+>/g, ' '))
+    .replace(/‑/g, '-')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+/** Die Links eines Infobox-Feldes als Klartext — Studios, Staff, Publisher. */
+function namesOf(html: string): string[] {
+  const namen = [...html.matchAll(/<a [^>]*>([\s\S]*?)<\/a>/g)]
+    .map((m) => textOf(m[1]))
+    .filter(Boolean)
+  return namen.length ? namen : textOf(html).split(/,\s*/).filter(Boolean)
+}
+
+/**
+ * Zerlegt einen Infobox-Block in seine Felder.
+ *
+ * aniSearch schreibt jedes Feld als `<div class="…"><span class="header">Label:
+ * </span>Wert`. Die Blöcke sind nicht sauber geschlossen — deshalb endet ein
+ * Wert hier am Anfang des nächsten Feldes statt an einem `</div>`.
+ */
+function fields(block: string): { key: string; label: string; value: string }[] {
+  const out: { key: string; label: string; value: string }[] = []
+  // Ein Wert endet am nächsten Feld — oder an der nächsten Sprachflagge. Ohne
+  // die zweite Grenze hängte sich an „Ausstrahlung: Mittwoch 23:45 (JST)" noch
+  // der englische Titel an, der im HTML unmittelbar darauf folgt.
+  const muster =
+    /<div class="([a-z-]+)">\s*<span class="header">([^<]+):<\/span>([\s\S]*?)(?=<div class="[a-z-]+">\s*<span class="header">|<img[^>]*class="flag" alt=|$)/g
+  for (const m of block.matchAll(muster)) {
+    out.push({ key: m[1], label: decode(m[2]).trim(), value: m[3] })
+  }
+  return out
+}
+
+/**
+ * Liest die Infobox aus — alles, was dort steht.
+ *
+ * Der Aufbau: ein allgemeiner Kopf (Typ, Folgen, Season, Studio, Staff,
+ * Sendeplatz), danach je Sprachfassung ein eigener Block mit Titel, Status,
+ * Zeitraum und Publisher. Getrennt werden sie durch die Flaggen-Bilder.
+ */
+export function extractInfo(html: string): AnisearchInfo | undefined {
+  const start = html.indexOf('<section id="information"')
+  if (start < 0) return undefined
+  const section = html.slice(start, html.indexOf('</section>', start))
+
+  const info: AnisearchInfo = { languages: [] }
+
+  // Jeder Warnhinweis der Seite, im Wortlaut. Gedeutet wird unten nur der zur
+  // Folgenzahl — die übrigen liegen für später bereit, statt verloren zu gehen.
+  const issues = [...section.matchAll(/class="issue-[^"]*"[^>]*data-tooltip="([^"]+)"/g)].map((m) =>
+    decode(m[1]),
+  )
+  if (issues.length) info.issues = [...new Set(issues)]
+
+  // Die Flaggen der Sprachblöcke tragen `class` vor `alt`; die kleinen Flaggen
+  // in der Webseiten-Zeile umgekehrt. Daran lassen sie sich sauber trennen.
+  const marken = [...section.matchAll(/<img[^>]*class="flag" alt="([^"]+)" title="[^"]*">/g)]
+
+  const grenzen = marken.map((m) => m.index!)
+
+  for (const [i, marke] of marken.entries()) {
+    const block = section.slice(grenzen[i], grenzen[i + 1] ?? section.length)
+    const eintrag: AnisearchLanguage = { language: decode(marke[1]) }
+    const titel = /<strong class="f16">([\s\S]*?)<\/strong>/.exec(block)?.[1]
+    if (titel) eintrag.title = textOf(titel)
+    const nativ = /<\/strong>\s*<div class="grey">([\s\S]*?)<\/div>/.exec(block)?.[1]
+    if (nativ) eintrag.titleNative = textOf(nativ)
+
+    for (const feld of fields(block)) {
+      const wert = textOf(feld.value)
+      if (!wert && feld.key !== 'status') continue
+      switch (feld.label) {
+        case 'Status':
+          eintrag.status = wert.split(' ')[0] || undefined
+          // Das Lautsprecher-Symbol trennt synchronisiert von untertitelt.
+          if (/class="dubbed dubbed-1"/.test(feld.value)) eintrag.dubbed = true
+          break
+        case 'Veröffentlicht':
+          eintrag.released = wert
+          break
+        case 'Publisher':
+          eintrag.publisher = namesOf(feld.value)
+          break
+      }
+    }
+    info.languages.push(eintrag)
+  }
+
+  // Die allgemeinen Angaben stehen nicht vor dem ersten Sprachblock, sondern
+  // im japanischen — Typ, Season und Studio folgen dort auf den Titel. Sie über
+  // die ganze Infobox zu suchen ist deshalb nicht nur einfacher, sondern auch
+  // haltbarer: Die Labels kommen genau einmal vor, „Studio" lässt sich nicht
+  // mit dem blockweisen „Publisher" verwechseln.
+  for (const feld of fields(section)) {
+    const wert = textOf(feld.value)
+    switch (feld.label) {
+      case 'Typ': {
+        // „TV-Serie, 13 (~24 min, Gesamt 5 Std)" — oder mit Warnzeichen
+        // zwischen Komma und Zahl: „TV-Serie, ⚠ 12".
+        //
+        // Die Zahl muss unmittelbar hinter dem Komma gelesen werden, nicht als
+        // letzte Zahl des Feldes: Dahinter stehen bei den meisten Titeln noch
+        // Folgenlänge und Gesamtlaufzeit. Die erste Fassung nahm die letzte
+        // Zahl und fand die Folgenzahl deshalb nur bei den wenigen Titeln
+        // ohne Laufzeitangabe — 3 % statt 97 %.
+        const typ = /^\s*([^,<]+?)\s*,\s*(?:<span[^>]*>[\s\S]*?<\/span>\s*)*(\d+)/.exec(feld.value)
+        info.format = (typ?.[1] ?? wert.split(',')[0]).trim() || undefined
+        if (typ?.[2]) info.episodes = Number(typ[2])
+        if (/data-tooltip="Episodenanzahl[^"]*"/.test(feld.value)) info.episodesEstimated = true
+        // Die Folgenlänge steht als maschinenlesbare Dauer daneben. Sie kostet
+        // nichts und beantwortet die Frage, die nach „wann" als Nächstes kommt.
+        const dauer = /<time datetime="PT(?:(\d+)H)?(?:(\d+)M)?"/.exec(feld.value)
+        if (dauer) {
+          const minuten = Number(dauer[1] ?? 0) * 60 + Number(dauer[2] ?? 0)
+          if (minuten > 0) info.runtimeMinutes = minuten
+        }
+        break
+      }
+      case 'Season':
+        info.season = wert
+        break
+      case 'Studio':
+        info.studios = namesOf(feld.value)
+        break
+      case 'Staff':
+        // „<a>Akio KAZUMI</a> (Direction)" — die Funktion steht hinter dem
+        // Link, nicht darin. Sie mitzunehmen kostet nichts und macht die
+        // Angabe erst brauchbar: Ein Regisseur ist etwas anderes als der
+        // Zeichner der Vorlage.
+        info.staff = [...feld.value.matchAll(/<a [^>]*>([\s\S]*?)<\/a>\s*(?:\(([^)]+)\))?/g)]
+          .map((m) => ({ name: textOf(m[1]), role: m[2] ? decode(m[2]).trim() : undefined }))
+          .filter((p) => p.name)
+        break
+      case 'Adaptiert von':
+        info.adaptedFrom = wert
+        break
+      case 'Ausstrahlung':
+        info.broadcast = wert
+        break
+      case 'Webseite':
+        info.websites = [...feld.value.matchAll(/<a [^>]*href="(https?:\/\/[^"]+)"[^>]*>([\s\S]*?)<\/a>/g)]
+          .map((m) => ({ name: textOf(m[2]), url: decode(m[1]) }))
+          .filter((w) => w.url)
+        break
+    }
+  }
+
+  // Synonyme stehen hinter dem letzten Sprachblock und damit außerhalb des
+  // Kopfes — deshalb hier über die ganze Infobox.
+  const synonyme = fields(section).find((f) => f.label === 'Synonyme')
+  if (synonyme) {
+    info.synonyms = textOf(synonyme.value.replace(/<input[\s\S]*$/, ''))
+      .split(/,\s*/)
+      .map((s) => s.replace(/…mehr$/, '').trim())
+      .filter(Boolean)
+  }
+
+  return info
 }
 
 async function fetchTitle(anisearchId: number): Promise<Omit<AnisearchEntry, 'anisearchId'> | undefined> {
@@ -228,9 +522,14 @@ async function fetchTitle(anisearchId: number): Promise<Omit<AnisearchEntry, 'an
       return undefined
     }
     const html = await response.text()
+    // Zuerst archivieren, dann auswerten. Wenn ein Muster unten danebengreift,
+    // liegt die Seite trotzdem vor und der Fehler ist ohne neuen Abruf zu
+    // beheben — genau darum geht es beim Archiv.
+    saveArchive(anisearchId, html)
     return {
       descriptionDe: extractDescription(html),
       streams: extractStreams(html),
+      info: extractInfo(html),
       fetchedAt: new Date().toISOString(),
     }
   } catch (err) {
@@ -238,6 +537,9 @@ async function fetchTitle(anisearchId: number): Promise<Omit<AnisearchEntry, 'an
     return undefined
   }
 }
+
+/** Nur bei direktem Aufruf loslaufen — der Parser wird auch importiert. */
+const IST_HAUPTLAUF = process.argv[1]?.replace(/\\/g, '/').endsWith('fetch-anisearch.ts')
 
 async function main(): Promise<void> {
   const ids = await loadIdMap()
@@ -296,7 +598,9 @@ async function main(): Promise<void> {
   log(`aniSearch: ${neu} geholt, davon ${mitText} mit deutschem Text, ${mitStream} mit Stream-Angabe`)
 }
 
-main().catch((err) => {
-  console.error(err)
-  process.exit(1)
-})
+if (IST_HAUPTLAUF) {
+  main().catch((err) => {
+    console.error(err)
+    process.exit(1)
+  })
+}

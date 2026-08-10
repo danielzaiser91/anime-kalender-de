@@ -1,15 +1,19 @@
 # Status: anime-kalender-de
 
-Stand: 08.08.2026 · Live: https://anime-kalender.de/
+Stand: 11.08.2026 · Live: https://anime-kalender.de/
 
 ## Task Queue
 
 ### In Arbeit
-_(leer)_
+
+| Aufgabe | SP | Stand |
+|---|---|---|
+| aniSearch-Nachzug für die 102 Titel mit Termin | 1 | Läuft seit 01:30 Uhr (`--force --limit 110`, rund 10 Minuten). Der Code ist fertig und geprüft; es fehlt nur, dass die Seiten einmal mit dem neuen Parser durchlaufen. **Morgen zuerst:** Lauf zu Ende, dann `npm run data:build`, `npm run data:validate`, committen |
 
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
+| News-Quellen für Sendepausen und Verschiebungen | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
 | Ansicht „Wo kann ich das sehen?" ausbauen | 5 | **Nicht mehr blockiert** — aniSearch-Bestand seit 10.08.2026 vollständig, 2.109 Titel haben einen Bezugsweg. Der Filter „▶ verfügbar" steht bereits. Offen: nach Anbieter gruppieren (die `watchLinks` tragen nur Namen, keine PlatformId), Kauf von Stream trennen, eigene Ansicht unter `#/wo` |
 
 
@@ -42,6 +46,25 @@ _(leer)_
 | Thema | Seit |
 |---|---|
 | Antwort von aniSearch auf die Anfrage nach einer Titeldaten-Schnittstelle (abgeschickt 09.08.2026 an api@anisearch.com); dabei auch gefragt, ob die Beschreibungen mit Quellenangabe öffentlich stehen dürfen | 09.08.2026 |
+
+## Recherche News-Quellen (11.08.2026, angefangen — nicht abgeschlossen)
+
+Erster Schritt der Aufgabe „News-Quellen für Sendepausen". Geprüft wurde nur, was ohne
+Abrufcode zu prüfen ist: robots.txt und ob es einen Feed gibt. **Kein Zeilencode geschrieben,
+keine Inhalte ausgewertet.**
+
+| Quelle | robots.txt | Feed | Bewertung |
+|---|---|---|---|
+| anime2you.de | erlaubt (sperrt nur `wp-admin`) | `/feed/` → 200, echtes RSS, 54 KB | **Bester Kandidat.** Wir lesen die Seite ohnehin schon (`scrape-anime2you.ts`), aber bisher nur die Termin-Artikel. Ein Feed ist der schonendste Weg überhaupt: eine Anfrage statt vieler |
+| nipponinsider.de | erlaubt (sperrt nur `wp-admin`) | `/feed/` → 200, echtes RSS, 12 KB | Zweiter Kandidat, kleinere Redaktion |
+| crunchyroll.com/de/news | `/news` nicht gesperrt | `/de/news/rss` → 200, aber `text/html` — **kein Feed** | Ginge nur als HTML-Auslesen. Zurückstellen, bis die beiden Feeds ausgewertet sind |
+| anisearch.de/news | erlaubt | `/news/rss` → 404 | Kein Feed vorhanden |
+
+**Offen und vor dem Bauen zu klären:** Wie oft steht eine Sendepause überhaupt in diesen News,
+und mit welchen Worten? Bevor ein Erkenner gebaut wird, sollte einmal von Hand durch ein paar
+Wochen Feed gelesen werden — sonst baut man eine Mustererkennung für einen Fall, den es in der
+Praxis dreimal im Jahr gibt. Kandidaten für Signalwörter: Pause, pausiert, Sendepause, entfällt,
+verschoben, Best-of, Recap.
 
 ## Entscheidungen
 

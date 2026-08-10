@@ -71,6 +71,15 @@ export interface Schedule {
   estimated?: boolean
   /** true, wenn die Folgenzahl nicht belegt ist und angenommen wurde. */
   episodeCountAssumed?: boolean
+  /**
+   * Woher eine vorläufige Folgenzahl stammt.
+   *
+   * Der Unterschied zählt: „zwölf, weil das die übliche Länge ist" ist unsere
+   * eigene Annahme, „zwölf laut aniSearch, dort als vorläufig gekennzeichnet"
+   * ist eine gepflegte Angabe mit Vorbehalt. Beides trägt das ≈, aber der
+   * Hinweis daneben soll nicht dasselbe behaupten.
+   */
+  episodeCountSource?: 'anisearch'
 }
 
 export interface StreamLink {

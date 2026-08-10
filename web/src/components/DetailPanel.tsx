@@ -186,7 +186,14 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
               */}
               {episodeSpan ?? '—'}
               {release.schedule.episodeCountAssumed && (
-                <span title={t('detail.assumedEpisodes')} className="ml-1 text-amber-500">
+                <span
+                  title={
+                    release.schedule.episodeCountSource === 'anisearch'
+                      ? t('detail.assumedEpisodesAnisearch')
+                      : t('detail.assumedEpisodes')
+                  }
+                  className="ml-1 text-amber-500"
+                >
                   ≈
                 </span>
               )}

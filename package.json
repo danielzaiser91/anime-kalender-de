@@ -22,6 +22,8 @@
     "data:report": "tsx pipeline/report-proposals.ts",
     "data:icons": "tsx pipeline/build-icons.ts",
     "data:anisearch": "tsx pipeline/fetch-anisearch.ts",
+    "data:anisearch:check": "tsx pipeline/check-anisearch.ts",
+    "data:anisearch:reparse": "tsx pipeline/reparse-anisearch.ts",
     "check:workflows": "node tools/check-workflows.mjs"
   },
   "dependencies": {

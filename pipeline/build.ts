@@ -339,9 +339,38 @@ function main(): void {
   // Deutsche Inhaltsangaben und Anbieter von aniSearch. Fehlt die Datei, läuft
   // alles wie zuvor — nur eben mit den schwächeren Texten.
   const anisearch = readJson<
-    Record<string, { descriptionDe?: string; streams: { provider: string; url: string }[] }>
+    Record<
+      string,
+      {
+        descriptionDe?: string
+        streams: { provider: string; url: string }[]
+        info?: { episodes?: number; episodesEstimated?: boolean }
+      }
+    >
   >('data/anisearch.json', {})
   const curated = loadCurated()
+
+  /**
+   * Die Folgenzahl laut aniSearch — samt deren eigener Einschätzung, ob sie
+   * schon feststeht.
+   *
+   * Die bisherige Rückfallregel war „zwölf, weil das die übliche Cour-Länge
+   * ist". Das ist geraten, und bei einer 24-teiligen Reihe fehlte der Kalender
+   * ab Folge 13 einfach. aniSearch pflegt die Zahl redaktionell und schreibt
+   * dazu, wenn sie vorläufig ist — beides übernehmen wir: die Zahl als
+   * besseren Wert, die Kennzeichnung, damit aus fremder Unsicherheit keine
+   * eigene Behauptung wird.
+   *
+   * Eine Jahresprüfung wie bei AniList braucht es hier nicht: Die Zuordnung
+   * kommt aus der ID-Brücke und trifft damit genau diese Staffel.
+   */
+  const anisearchEpisodes = (
+    titleId: number | undefined,
+  ): { count: number; estimated: boolean } | undefined => {
+    const info = titleId === undefined ? undefined : anisearch[titleId]?.info
+    if (!info?.episodes || info.episodes < 1) return undefined
+    return { count: info.episodes, estimated: info.episodesEstimated === true }
+  }
 
   // Notbremse: Ohne den AniList-Cache baut dieser Lauf einen Datensatz ohne
   // einen einzigen Titel — und damit ohne Genres, Keywords, Cover und
@@ -652,6 +681,13 @@ function main(): void {
           `"${entry.slug}": Folgenzahl von AniList verworfen (Titel von ${jpYear}, Release ${releaseYear})`,
         )
       }
+      // Zweiter Versuch bei aniSearch, bevor geraten wird.
+      const ausAnisearch = schedule.episodeCount ? undefined : anisearchEpisodes(title?.id)
+      if (ausAnisearch) {
+        schedule.episodeCount = ausAnisearch.count
+        schedule.episodeCountSource = 'anisearch'
+        if (ausAnisearch.estimated) schedule.episodeCountAssumed = true
+      }
       // Ohne belegte Folgenzahl wird eine Standardstaffel angenommen — das steht
       // als Flag im Datensatz, damit die Oberfläche es nicht als Fakt ausgibt.
       if (!schedule.episodeCount) {
@@ -798,13 +834,20 @@ function main(): void {
 
     let episodeCount = title?.episodes
     let episodeCountAssumed = false
+    let episodeCountSource: 'anisearch' | undefined
     if (!episodeCount || !title?.jpYear || Math.abs(title.jpYear - releaseYear) > 1) {
-      // Die Reihe läuft, aber wie lang sie wird, weiß hier niemand. Zwölf ist
-      // die übliche Cour-Länge und trägt das ≈ im UI. Die Untergrenze bleibt
-      // das, was tatsächlich gesehen wurde — sonst fielen belegte Termine
-      // hinten heraus.
-      episodeCount = Math.max(12, (slot.earliest.episode ?? 1) + seenDates.length)
-      episodeCountAssumed = true
+      // Die Reihe läuft, aber wie lang sie wird, sagt der Kalender nicht.
+      // aniSearch pflegt die Zahl — sonst bleibt zwölf als übliche Cour-Länge.
+      // Die Untergrenze ist in beiden Fällen das, was tatsächlich gesehen
+      // wurde: sonst fielen belegte Termine hinten heraus.
+      const mindestens = (slot.earliest.episode ?? 1) + seenDates.length
+      const ausAnisearch = anisearchEpisodes(title?.id)
+      episodeCount = Math.max(ausAnisearch?.count ?? 12, mindestens)
+      // Nicht mehr geraten, sobald aniSearch die Zahl bestätigt — und sie
+      // durch die Untergrenze nicht nach oben korrigiert werden musste.
+      episodeCountAssumed =
+        !ausAnisearch || ausAnisearch.estimated || episodeCount !== ausAnisearch.count
+      if (ausAnisearch && episodeCount === ausAnisearch.count) episodeCountSource = 'anisearch'
     }
 
     releases.push({
@@ -820,6 +863,7 @@ function main(): void {
         time: slot.time,
         episodeCount,
         episodeCountAssumed,
+        episodeCountSource,
         // Uhrzeit und Wochentag sind belegt; nur der zurückgerechnete Start
         // bleibt eine Annahme, solange die Wochentaktung nicht bestätigt ist.
         estimated: derived.assumed,

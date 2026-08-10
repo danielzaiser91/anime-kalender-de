@@ -167,6 +167,7 @@ const TEXTE = {
     'Nur Titel, bei denen belegt ist, wo man sie sehen oder kaufen kann — Stream, Kauf oder anstehender Termin.',
   'detail.estimatedDate': 'Termin abgeleitet',
   'detail.assumedEpisodes': 'Folgenzahl nicht belegt — 12 angenommen',
+  'detail.assumedEpisodesAnisearch': 'Folgenzahl laut aniSearch — dort als vorläufige Schätzung geführt',
   'detail.close': 'Schließen',
   'detail.hiddenNote': 'Dieser Titel ist von dir ausgeblendet. Bis du ihn wieder einblendest, wird hier nichts gezeigt.',
   'detail.noMeta': 'Zu diesem Eintrag liegen keine Metadaten vor.',

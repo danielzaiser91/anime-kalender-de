@@ -23,6 +23,26 @@ Dieses Projekt lebt davon, dass die Termine stimmen. Deshalb gilt ausnahmslos:
   pipeline/qa-resolve.ts` zeigt Verdachtsfälle; die Folgenzahl wird nur übernommen, wenn das
   japanische Ausstrahlungsjahr zum deutschen Termin passt.
 
+## Beim Scrapen nichts wegwerfen
+
+Der Abruf ist der teure und der schädliche Teil, nicht das Speichern. Wer eine fremde Seite
+holt und nur zwei Felder herauslöst, zahlt für jedes später gebrauchte Feld ein zweites Mal —
+und zwar mit Last auf einem fremden Server, nicht mit eigenem Speicherplatz.
+
+- **Rohabschnitte archivieren** (`data/anisearch-raw/*.html.gz`, rund 9 KB je Titel). Ein
+  nachträglich gebrauchtes Feld ist dann eine Änderung am Parser, kein zweiter Lauf über 2.612
+  Seiten. Genau das war am 11.08.2026 der Fall: Die Folgenzahl stand auf jeder bereits geholten
+  Seite und war trotzdem nur durch einen kompletten Neuabruf zu bekommen.
+- **Infobox vollständig auslesen**, auch Felder, die heute niemand anzeigt. Das kostet nichts.
+- **Nicht archiviert werden** Forum, Kommentare, Rezensionen, Umfragen und Bearbeiterlisten.
+  Das ist keine Platzfrage: Es sind Beiträge einzelner Menschen, veröffentlicht auf aniSearch
+  und nicht in unserem Repo.
+- **Kein Live-Scraping beim Seitenaufruf.** Das macht aus einem Abruf je Titel und Woche einen
+  Abruf je Besucher — dieselbe Last, unbegrenzt, und ein fremder Server im Ladepfad der
+  eigenen Seite.
+- `npm run data:anisearch:check` prüft den Parser gegen das Archiv, ohne einen einzigen neuen
+  Abruf. Bricht er ab, hat aniSearch die Seitenstruktur geändert.
+
 ## Datenfluss
 
 `data/curated/*.yaml` (Handarbeit) + `data/cache/*` (APIs) → `pipeline/build.ts` → `public/data/*`
