@@ -80,7 +80,12 @@ export function EventCard({
         <img src={cover} alt="" loading="lazy" className="h-14 w-10 shrink-0 rounded object-cover" />
       )}
       <div className="flex min-w-0 flex-1 flex-col gap-1">
-        <div className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+        {/* Umbrechend, weil die Reihe je nach Titel bis zu sechs Dinge trägt:
+            Uhrzeit, Folgennummer, das ≈, Teilen, Auge, Stern. In einer schmalen
+            Tagesspalte passte das nicht mehr nebeneinander, und der Stern stand
+            am Ende außerhalb der Kachel (10.08.2026). Bricht die Reihe um,
+            schiebt `ml-auto` die Icons in der zweiten Zeile nach rechts. */}
+        <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-[11px] font-semibold text-slate-500 dark:text-slate-400">
           {event.time ? (
             <span className="tabular-nums text-slate-700 dark:text-slate-200">{event.time}</span>
           ) : event.releaseType === 'disc' ? (
@@ -99,7 +104,7 @@ export function EventCard({
               ≈
             </span>
           )}
-          <span className="ml-auto flex items-center gap-0.5">
+          <span className="ml-auto flex shrink-0 items-center gap-0.5">
             <ShareIcon
               onShare={() => share(event.releaseSlug, event.name)}
               copied={copiedSlug === event.releaseSlug}
