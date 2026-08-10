@@ -10,7 +10,30 @@ function escapeHtml(value: string): string {
     .replace(/"/g, '&quot;')
 }
 
-const SHELL = (title: string, body: string, footer: string) => `<!doctype html>
+/**
+ * Absender und Kopfzeile der beiden Mail-Arten, die dieser Worker verschickt.
+ *
+ * Sie kommen aus derselben Adresse — `send.anime-kalender.de` ist die einzige
+ * bei Resend verifizierte Domain —, aber sie haben nichts miteinander zu tun:
+ * Der Newsletter geht an Abonnenten, die Erreichbarkeitsprüfung geht an den
+ * Betreiber und überwacht **alle** Projekte, nicht nur den Kalender. Solange
+ * beide „Anime-Kalender DE" im Kopf trugen, war die Wochenübersicht im
+ * Posteingang nicht vom Digest zu unterscheiden (10.08.2026, beim Suchen des
+ * Abmeldelinks in der falschen Mail aufgefallen).
+ */
+export const BRAND = {
+  newsletter: { icon: '📺', name: 'Anime-Kalender DE' },
+  monitor: { icon: '🛰️', name: 'Seiten-Wächter' },
+} as const
+
+type Brand = (typeof BRAND)[keyof typeof BRAND]
+
+const SHELL = (
+  title: string,
+  body: string,
+  footer: string,
+  brand: Brand = BRAND.newsletter,
+) => `<!doctype html>
 <html lang="de"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${escapeHtml(title)}</title></head>
@@ -18,8 +41,8 @@ const SHELL = (title: string, body: string, footer: string) => `<!doctype html>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
 <table role="presentation" width="100%" style="max-width:600px;background:#161c2b;border-radius:14px;overflow:hidden;">
 <tr><td style="padding:20px 24px;background:#1d2536;">
-  <span style="font-size:20px;">📺</span>
-  <span style="color:#fff;font-size:17px;font-weight:700;margin-left:6px;">Anime-Kalender DE</span>
+  <span style="font-size:20px;">${brand.icon}</span>
+  <span style="color:#fff;font-size:17px;font-weight:700;margin-left:6px;">${escapeHtml(brand.name)}</span>
 </td></tr>
 <tr><td style="padding:24px;color:#d7dced;font-size:15px;line-height:1.6;">${body}</td></tr>
 <tr><td style="padding:16px 24px;background:#121826;color:#7c879e;font-size:12px;line-height:1.6;">${footer}</td></tr>
@@ -252,8 +275,8 @@ export function outageMail(
 ): { subject: string; html: string; text: string } {
   const subject =
     down.length === 1
-      ? `Nicht erreichbar: ${down[0].name}`
-      : `${down.length} von ${totalCount} Seiten nicht erreichbar`
+      ? `Störung: ${down[0].name} nicht erreichbar`
+      : `Störung: ${down.length} von ${totalCount} Diensten nicht erreichbar`
 
   const rows = down
     .map(
@@ -269,13 +292,16 @@ export function outageMail(
 
   const html = SHELL(
     subject,
-    `<p style="margin:0 0 8px;">Die Prüfung lief gerade und hat Folgendes gefunden:</p>
+    `<p style="margin:0 0 8px;">Die stündliche Prüfung aller Seiten lief gerade und hat
+     Folgendes gefunden:</p>
      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${rows}</table>
      <p style="margin:20px 0 0;color:#9aa5bd;font-size:13px;">
-       ${totalCount - down.length} von ${totalCount} Seiten antworten normal.
+       ${totalCount - down.length} von ${totalCount} Diensten antworten normal.
        Diese Meldung kommt höchstens einmal am Tag — bleibt eine Seite länger weg,
-       erfährst du es erst in der Wochenübersicht wieder.</p>`,
-    `Erreichbarkeitsprüfung · <a href="${siteUrl}" style="color:#7dd3fc;">Anime-Kalender DE</a>`,
+       erfährst du es erst im Wochenbericht wieder.</p>`,
+    `Erreichbarkeitsprüfung aller Projekte · kein Newsletter ·
+     <a href="${siteUrl}" style="color:#7dd3fc;">anime-kalender.de</a>`,
+    BRAND.monitor,
   )
 
   const text =
@@ -305,8 +331,8 @@ export function weeklyStatusMail(
   const down = lines.filter((l) => !l.ok)
   const subject =
     down.length === 0
-      ? `Wochenübersicht: alle ${lines.length} Seiten laufen`
-      : `Wochenübersicht: ${down.length} von ${lines.length} Seiten gestört`
+      ? `Wochenbericht: alle ${lines.length} Dienste laufen`
+      : `Wochenbericht: ${down.length} von ${lines.length} Diensten gestört`
 
   const rows = lines
     .slice()
@@ -326,12 +352,15 @@ export function weeklyStatusMail(
 
   const html = SHELL(
     subject,
-    `<p style="margin:0 0 8px;">Stand der letzten Prüfung:</p>
+    `<p style="margin:0 0 8px;">Stand der letzten Prüfung aller ${lines.length} überwachten
+     Seiten:</p>
      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${rows}</table>
      <p style="margin:18px 0 0;color:#7c879e;font-size:12px;">
        Diese Mail kommt einmal die Woche, auch wenn alles läuft — daran erkennst du,
        dass die Überwachung selbst noch arbeitet.</p>`,
-    `Erreichbarkeitsprüfung · <a href="${siteUrl}" style="color:#7dd3fc;">Anime-Kalender DE</a>`,
+    `Erreichbarkeitsprüfung aller Projekte · kein Newsletter ·
+     <a href="${siteUrl}" style="color:#7dd3fc;">anime-kalender.de</a>`,
+    BRAND.monitor,
   )
 
   const text =

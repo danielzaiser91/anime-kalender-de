@@ -14,6 +14,7 @@ import { addDays, weekdayIndex } from '../../shared/time.ts'
 import { sendMail, type MailEnv } from './mail.ts'
 import { checkAllSites } from './monitor.ts'
 import {
+  BRAND,
   confirmMail,
   digestMail,
   outageMail,
@@ -418,7 +419,7 @@ export async function runMonitor(
       log.push('Störungsmail heute bereits verschickt')
     } else {
       const mail = outageMail(down.length ? down : lines.slice(0, 1), lines.length, env.SITE_URL)
-      await sendMail(env, { to, ...mail })
+      await sendMail(env, { to, ...mail, fromName: BRAND.monitor.name })
       if (!force) {
         await env.DB.prepare(
           'INSERT OR REPLACE INTO send_log (run_key, sent_at, recipients) VALUES (?1, ?2, 1)',
@@ -444,7 +445,7 @@ export async function runMonitor(
       log.push('Wochenübersicht diese Woche bereits verschickt')
     } else {
       const mail = weeklyStatusMail(lines, env.SITE_URL)
-      await sendMail(env, { to, ...mail })
+      await sendMail(env, { to, ...mail, fromName: BRAND.monitor.name })
       if (!force) {
         await env.DB.prepare(
           'INSERT OR REPLACE INTO send_log (run_key, sent_at, recipients) VALUES (?1, ?2, 1)',

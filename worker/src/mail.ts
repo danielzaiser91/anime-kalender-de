@@ -12,6 +12,16 @@ export interface Mail {
   text: string
   /** Landet als List-Unsubscribe-Header — Mailclients zeigen dann einen eigenen Knopf. */
   unsubscribeUrl?: string
+  /**
+   * Anzeigename des Absenders, falls er von `FROM_NAME` abweichen soll.
+   *
+   * Die Adresse bleibt dieselbe — `send.anime-kalender.de` ist die einzige bei
+   * Resend verifizierte Domain. Der Name unterscheidet aber die beiden Arten
+   * von Post, die dieser Worker verschickt: Newsletter an Abonnenten,
+   * Erreichbarkeitsprüfung an den Betreiber. Ohne diese Trennung standen beide
+   * als „Anime-Kalender DE" im Posteingang und waren nicht auseinanderzuhalten.
+   */
+  fromName?: string
 }
 
 /**
@@ -24,6 +34,7 @@ export async function sendMail(env: MailEnv, mail: Mail): Promise<void> {
     headers['List-Unsubscribe'] = `<${mail.unsubscribeUrl}>`
     headers['List-Unsubscribe-Post'] = 'List-Unsubscribe=One-Click'
   }
+  const fromName = mail.fromName ?? env.FROM_NAME
 
   switch (env.MAIL_PROVIDER) {
     case 'resend': {
@@ -34,7 +45,7 @@ export async function sendMail(env: MailEnv, mail: Mail): Promise<void> {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          from: `${env.FROM_NAME} <${env.FROM_EMAIL}>`,
+          from: `${fromName} <${env.FROM_EMAIL}>`,
           to: [mail.to],
           subject: mail.subject,
           html: mail.html,
@@ -51,7 +62,7 @@ export async function sendMail(env: MailEnv, mail: Mail): Promise<void> {
         method: 'POST',
         headers: { 'api-key': env.MAIL_API_KEY ?? '', 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          sender: { email: env.FROM_EMAIL, name: env.FROM_NAME },
+          sender: { email: env.FROM_EMAIL, name: fromName },
           to: [{ email: mail.to }],
           subject: mail.subject,
           htmlContent: mail.html,
