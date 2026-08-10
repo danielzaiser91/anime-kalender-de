@@ -56,6 +56,11 @@ _(leer)_
 
 ## Archiv
 
+- ✅ **Discord-Bereich vervollständigt** (10.08.2026): Die Kategorie „🌐 Anime-Kalender DE" hatte
+  nur `#info`. Jetzt mit `#news`, der Ping-Rolle „Anime-Kalender News" (erwähnbar, wie bei den
+  anderen Projekten) und einem Webhook — beide in `my_secrets.md`. Erste Release-Meldung mit den
+  Änderungen dieses Tages ist raus
+
 - ✅ **Monitoring-Mails vom Newsletter unterscheidbar**: Beide kamen als „Anime-Kalender DE" an,
   obwohl die Erreichbarkeitsprüfung 19 Seiten aus allen Projekten überwacht — Daniel hielt die
   Wochenübersicht deshalb für den Newsletter. Absendername und Kopfzeile hängen jetzt an einer
