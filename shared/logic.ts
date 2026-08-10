@@ -46,10 +46,30 @@ export function releaseStatus(release: Release, today = todayIso()): ReleaseStat
  * Ist die längst vorbei und eine Synchro belegt, dann ist sie erschienen —
  * „Termin unbekannt" wäre für einen Titel von 2003 unsinnig.
  */
+/**
+ * Wie lange nach dem japanischen Ende eine deutsche Fassung als „erschienen"
+ * gilt, wenn kein Termin bekannt ist.
+ *
+ * Der Status stützt sich auf einen Schluss, der bei alten Katalogtiteln trägt:
+ * Cowboy Bebop lief 1998, es gibt eine deutsche Fassung, also ist sie längst
+ * draußen — nur das Datum kennen wir nicht. Bei einer Serie, die vor fünf
+ * Wochen in Japan endete, trägt derselbe Schluss nicht mehr.
+ *
+ * Real am 10.08.2026: „Mushoku Tensei Staffel 3" (japanisches Ende 04.07.2026)
+ * stand auf der Seite mit „Die deutsche Fassung ist erschienen." Es gibt sie
+ * nicht, nicht einmal die erste Folge. 96 Titel trugen dieselbe Behauptung.
+ *
+ * Ein Jahr ist bewusst großzügig: Eine Synchro entsteht nicht über Nacht, und
+ * wer im letzten Jahr lief und bei uns keinen Termin hat, ist entweder noch
+ * nicht vertont oder von uns nicht erfasst. In beiden Fällen ist „unbekannt"
+ * die ehrliche Antwort.
+ */
+const ERSCHIENEN_MINDESTABSTAND_TAGE = 365
+
 export function titleStatus(
   releases: Release[],
   today = todayIso(),
-  title?: Pick<Title, 'jpEnd' | 'jpYear'>,
+  title?: Pick<Title, 'jpEnd' | 'jpYear' | 'dubConfidence'>,
 ): ReleaseStatus {
   if (releases.length > 0) {
     const all = releases.map((r) => releaseStatus(r, today))
@@ -58,7 +78,11 @@ export function titleStatus(
     if (all.includes('abgeschlossen')) return 'abgeschlossen'
   }
   const ended = title?.jpEnd ?? (title?.jpYear ? `${title.jpYear}-12-31` : undefined)
-  if (ended && ended < today) return 'erschienen'
+  // Eine einzige Quelle reicht für eine Terminangabe nicht — und erst recht
+  // nicht für den Satz „die deutsche Fassung ist erschienen".
+  if (ended && title?.dubConfidence !== 'low' && ended < addDays(today, -ERSCHIENEN_MINDESTABSTAND_TAGE)) {
+    return 'erschienen'
+  }
   return 'unbekannt'
 }
 

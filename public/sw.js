@@ -85,6 +85,33 @@ self.addEventListener('activate', (event) => {
   )
 })
 
+/**
+ * Wie viele Cover höchstens liegen bleiben.
+ *
+ * Ohne Obergrenze wuchs der Bildspeicher unbegrenzt: Wer einmal durch die
+ * Datenbank-Ansicht scrollte, sammelte 2.759 Cover ein — 313 MB auf der Platte,
+ * bei 6,7 MB eigentlichen Daten (gemessen am 10.08.2026). Der Zweck war nie ein
+ * Bildarchiv, sondern dass der Kalender offline nicht wie eine Baustelle
+ * aussieht. Dafür genügen die Cover der aktuellen und der nächsten Woche.
+ *
+ * 400 Einträge sind großzügig gerechnet: Eine Woche zeigt selten mehr als
+ * zwanzig Titel, ein ausgiebiger Streifzug durch die Datenbank ein paar hundert.
+ */
+const MEDIA_MAX = 400
+
+/**
+ * Ältere Einträge wegräumen, bis die Grenze wieder eingehalten ist.
+ *
+ * `cache.keys()` liefert sie in Einfügereihenfolge — die ältesten stehen vorn.
+ * Das ist keine echte Nutzungsstatistik, aber es genügt: Was vor tausend
+ * Bildern einmal angesehen wurde, braucht offline niemand mehr.
+ */
+async function trimCache(cache, max) {
+  const keys = await cache.keys()
+  if (keys.length <= max) return
+  await Promise.all(keys.slice(0, keys.length - max).map((k) => cache.delete(k)))
+}
+
 /** Cache zuerst, Netz nur beim ersten Mal. Für unveränderliche Adressen. */
 async function cacheFirst(request, cacheName) {
   const cache = await caches.open(cacheName)
@@ -93,7 +120,10 @@ async function cacheFirst(request, cacheName) {
   const response = await fetch(request)
   // `opaque` sind Antworten fremder Server ohne CORS — speichern lässt sich
   // das trotzdem, und für ein <img> genügt es vollauf.
-  if (response.ok || response.type === 'opaque') cache.put(request, response.clone())
+  if (response.ok || response.type === 'opaque') {
+    await cache.put(request, response.clone())
+    if (cacheName === MEDIA) await trimCache(cache, MEDIA_MAX)
+  }
   return response
 }
 
