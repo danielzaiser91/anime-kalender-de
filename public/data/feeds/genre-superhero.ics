@@ -6,16 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Superhero
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:adn-427@2026-06-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260601T070000Z
-DTEND:20260601T073000Z
-SUMMARY:Sailor Moon
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-427
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-G6NQ5DWZ6@2026-08-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260802T160000Z
@@ -24,6 +14,17 @@ SUMMARY:My Hero Academia I am a hero too
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Katalogtitel\nDetails: htt
  ps://anime-kalender.de/#/release/cr-G6NQ5DWZ6
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:the-ribbon-hero-netflix@2026-08-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260808
+DTEND;VALUE=DATE:20260809
+SUMMARY:The Ribbon Hero
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Film\nUhrzeit noch nicht bestä
+ tigt.\nDetails: https://anime-kalender.de/#/release/the-ribbon-hero-netfli
+ x
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:my-hero-academia-vigilantes-s1-box@2026-09-04@anime-kalender-de

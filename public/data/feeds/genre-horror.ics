@@ -105,16 +105,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1375@2026-05-13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260513T140000Z
-DTEND:20260513T143000Z
-SUMMARY:Dorohedoro – Folge 1/3
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1375
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00371893@2026-05-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260520T140000Z
@@ -126,16 +116,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1375@2026-05-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260520T140000Z
-DTEND:20260520T143000Z
-SUMMARY:Dorohedoro – Folge 2/3
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1375
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00371893@2026-05-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260527T140000Z
@@ -144,26 +124,6 @@ SUMMARY:Dorohedoro Season 2 – Folge 11/11
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GT00371893
 CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1375@2026-05-27@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260527T140000Z
-DTEND:20260527T143000Z
-SUMMARY:Dorohedoro – Folge 3/3
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1375
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1391@2026-06-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260605T070000Z
-DTEND:20260605T073000Z
-SUMMARY:Gantz
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-1391
-CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:adn-1354@2026-07-24@anime-kalender-de

@@ -228,16 +228,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1375@2026-05-13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260513T140000Z
-DTEND:20260513T143000Z
-SUMMARY:Dorohedoro – Folge 1/3
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1375
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-05-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260515T150000Z
@@ -281,16 +271,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GT00371893
 CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1375@2026-05-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260520T140000Z
-DTEND:20260520T143000Z
-SUMMARY:Dorohedoro – Folge 2/3
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1375
-CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-05-22@anime-kalender-de
@@ -337,16 +317,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1375@2026-05-27@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260527T140000Z
-DTEND:20260527T143000Z
-SUMMARY:Dorohedoro – Folge 3/3
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1375
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-05-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260529T150000Z
@@ -376,16 +346,6 @@ SUMMARY:Mistress Kanan is Devilishly Easy Season 1 – Folge 6/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GT00371860
 CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-427@2026-06-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260601T070000Z
-DTEND:20260601T073000Z
-SUMMARY:Sailor Moon
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-427
-CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-06-05@anime-kalender-de
@@ -543,17 +503,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-07-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260705
-DTEND;VALUE=DATE:20260706
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 1/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-07-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260710T150000Z
@@ -585,17 +534,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-07-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260712
-DTEND;VALUE=DATE:20260713
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 2/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-07-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260717T150000Z
@@ -614,17 +552,6 @@ DTEND:20260718T105500Z
 SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 16/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-G6NVG970Y
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-07-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260719
-DTEND;VALUE=DATE:20260720
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 3/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -660,17 +587,6 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-07-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260726
-DTEND;VALUE=DATE:20260727
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 4/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:tomb-raider-king@2026-07-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260729T172000Z
@@ -699,17 +615,6 @@ DTEND:20260801T105500Z
 SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 18/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-G6NVG970Y
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-08-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260802
-DTEND;VALUE=DATE:20260803
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 5/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -789,17 +694,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-08-09@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260809
-DTEND;VALUE=DATE:20260810
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 6/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:tomb-raider-king@2026-08-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260812T172000Z
@@ -831,17 +725,6 @@ SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 20/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NVG970Y
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-08-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260816
-DTEND;VALUE=DATE:20260817
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 7/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -911,17 +794,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-08-23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260823
-DTEND;VALUE=DATE:20260824
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 8/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:tomb-raider-king@2026-08-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260826T172000Z
@@ -953,17 +825,6 @@ DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
  ht bestätigt.\nDetails: https://anime-kalender.de/#/release/black-clover-s
  1-disneyplus
 CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-08-30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260830
-DTEND;VALUE=DATE:20260831
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 9/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:tomb-raider-king@2026-09-02@anime-kalender-de
@@ -1010,17 +871,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-09-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260906
-DTEND;VALUE=DATE:20260907
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 10/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:tomb-raider-king@2026-09-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260909T172000Z
@@ -1043,17 +893,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-09-13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260913
-DTEND;VALUE=DATE:20260914
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 11/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:tomb-raider-king@2026-09-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260916T172000Z
@@ -1065,17 +904,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-09-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260920
-DTEND;VALUE=DATE:20260921
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 12/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:tomb-raider-king@2026-09-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260923T172000Z
@@ -1084,17 +912,6 @@ SUMMARY:Tomb Raider King – Folge 9/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/tomb-raider-king
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-09-27@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260927
-DTEND;VALUE=DATE:20260928
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 13/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1140,17 +957,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/chainsa
  w-man-s1-bundle
 CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-10-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261004
-DTEND;VALUE=DATE:20261005
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 14/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:tomb-raider-king@2026-10-07@anime-kalender-de
