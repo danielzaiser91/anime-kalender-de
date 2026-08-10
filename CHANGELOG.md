@@ -41,6 +41,12 @@ selbst oder an der Art ändert, wie Termine zustande kommen.
   die zugehörige Mechanik sind entfernt. Die Seite sammelt deutsche Synchronfassungen;
   zwei Sprachfassungen zu pflegen war Aufwand für einen Fall, den es nicht gab.
   Serientitel bleiben unverändert — „Steel Ball Run — 1st STAGE" ist ein Eigenname.
+- **Keywords und Formatangaben auf Deutsch.** 234 von 340 Keywords wurden roh aus der
+  Quelle durchgereicht und standen englisch in den Filtern und im Detail-Panel
+  („Terrorism", „Bullying", „Witch"). Ebenso die Formatangabe („MOVIE", „TV_SHORT",
+  „MUSIC"). Unverändert bleibt, was im Deutschen ohnehin so heißt — Noir, Cosplay,
+  Battle Royale — und was als japanischer Fachbegriff etabliert ist: Chuunibyou, Gyaru,
+  Kaiju, Rakugo, Tokusatsu, Youkai, ebenso OVA, ONA und Special.
 - **Deutsche Inhaltsangaben: 2.238 von 2.754 Titeln** (vorher 2.041). Quelle ist
   aniSearch, der Bestand wächst über die Nachtläufe weiter.
 - **Der Footer ist von zehn auf zwei Zeilen geschrumpft.** Die Quellenangaben liegen
