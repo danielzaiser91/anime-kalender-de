@@ -133,12 +133,19 @@
   search: "Thunder 3"
   titleDe: "Thunder 3"
   platform: netflix
+  platformUrl: https://www.netflix.com/title/82736186
   releaseType: weekly
   schedule:
     firstEpisodeDate: "2026-07-08"
-    estimated: true
+    # Netflix nennt Folge 6 für den 12.08.2026 — genau fünf Wochen nach dem
+    # 08.07., das bestätigt Start und Wochentakt. Netflix schaltet alle
+    # Sprachfassungen gleichzeitig frei, der Termin gilt also auch für die
+    # deutsche (Daniel, 10.08.2026, auf netflix.com nachgesehen).
+    observed:
+      6: "2026-08-12"
   sources:
     - https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026
+    - https://www.netflix.com/title/82736186
 
 - slug: ghost-in-the-shell-2026
   anilistId: 177699
@@ -148,9 +155,15 @@
   releaseType: weekly
   schedule:
     firstEpisodeDate: "2026-07-07"
-    estimated: true
+    # Von Daniel am 10.08.2026 bei Prime Video geprüft: Folge 1 am 07.07.,
+    # danach im Wochentakt, Folge 5 am 04.08. mit deutscher Synchro
+    # angesehen. Wie viele Folgen die Staffel hat, sagt der Anbieter nicht.
+    observed:
+      1: "2026-07-07"
+      5: "2026-08-04"
   sources:
     - https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026
+    - https://www.amazon.de/s?k=THE%20GHOST%20IN%20THE%20SHELL&i=instant-video
 
 - slug: vom-landei-zum-schwertheiligen-2
   anilistId: 194829
@@ -161,6 +174,12 @@
   releaseType: weekly
   schedule:
     firstEpisodeDate: "2026-07-08"
-    estimated: true
+    # Von Daniel am 10.08.2026 bei Prime Video geprüft: Start 08.07. stimmt,
+    # zuletzt Folge 5 am 06.08. Ob die Staffel dort endet oder weitergeht, ist
+    # offen — deshalb keine Folgenzahl, die Fortschreibung trägt das ≈.
+    observed:
+      1: "2026-07-08"
+      5: "2026-08-06"
   sources:
     - https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026
+    - https://www.amazon.de/Vom-Landei-zum-Schwertheiligen-II/dp/B0H1QXQL33
