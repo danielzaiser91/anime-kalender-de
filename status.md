@@ -10,7 +10,6 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| Monitoring-Mail als solche kennzeichnen | 2 | Absendername und Betreff der Erreichbarkeitsprüfung sind identisch mit dem Newsletter („Anime-Kalender DE"), obwohl sie 19 Seiten aus allen Projekten überwacht. Betrifft Störungsmeldung, Wochenübersicht und Entwarnung |
 | aniSearch-Bestand auffüllen | 2 | **ausgesetzt**, bis die Anfrage beantwortet ist. 200 Titel je Lauf; 2.041 von 2.753 Titeln haben deutschen Text, 1.452 aniSearch-Seiten offen (~8 Läufe) |
 
 
@@ -25,7 +24,9 @@ herausgeholt, wenn der User es sagt.
 | Weitere Sprachen | 3 | Gerüst steht, EN und DE gepflegt; weitere brauchen nur ein Wörterbuch (zurückgestellt 08.08.2026) |
 
 ### Zu besprechen
-_(leer)_
+| Thema | Notiz |
+|---|---|
+| DMARC-Policy von `none` auf `quarantine` | Die Google-Aggregatberichte vom 07.–09.08.2026 sind sauber: 9 Mails, DKIM und SPF durchgehend bestanden, nur Amazon-SES-IPs. `p=none` wehrt aber nichts ab — eine Fälschung im eigenen Namen würde zugestellt. Umstellung betrifft die Zustellbarkeit, deshalb Daniels Entscheidung. Datenbasis ist mit drei Tagen noch dünn |
 
 ### Warten auf Feedback
 | Thema | Seit |
@@ -45,6 +46,17 @@ _(leer)_
 
 ## Archiv
 
+- ✅ **Monitoring-Mails vom Newsletter unterscheidbar**: Beide kamen als „Anime-Kalender DE" an,
+  obwohl die Erreichbarkeitsprüfung 19 Seiten aus allen Projekten überwacht — Daniel hielt die
+  Wochenübersicht deshalb für den Newsletter. Absendername und Kopfzeile hängen jetzt an einer
+  `BRAND`-Konstante: Newsletter „📺 Anime-Kalender DE", Prüfung „🛰️ Seiten-Wächter". Betreffe
+  sagen jetzt, worum es geht („Störung: …", „Wochenbericht: …"), die Fußzeile schreibt
+  „kein Newsletter". Adresse bleibt gleich, weil `send.anime-kalender.de` die einzige verifizierte
+  Domain ist
+- ✅ **DMARC-Berichte von Google ausgewertet** (07.–09.08.2026): drei Aggregatberichte, 9 Mails,
+  DKIM (Resend und amazonses) und SPF durchgehend `pass`, ausschließlich Amazon-SES-IPs, kein
+  fremder Absender. Kein Handlungsbedarf am Versand; offen ist nur, ob die Politik von `none`
+  angehoben wird
 - ✅ **Abmeldung Ende zu Ende geprüft** (10.08.2026), nicht nur die Seite, sondern die Wirkung in
   D1: Link aus der echten Digest-Mail → „Abgemeldet", Datensatz gelöscht (2 Abos → 1), das fremde
   Abo unberührt. Zweiter Aufruf desselben Links → „Nichts zu tun" statt Fehler. Neuanmeldung →
