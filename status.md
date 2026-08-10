@@ -10,7 +10,8 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| aniSearch-Bestand auffüllen | 2 | läuft wieder seit 10.08.2026, 200 Titel je Lauf; 2.041 von 2.753 Titeln haben deutschen Text, 1.452 aniSearch-Seiten offen (~8 Nachtläufe) |
+| aniSearch-Bestand auffüllen | 2 | läuft, 200 Titel je Lauf; 2.238 von 2.754 Titeln haben deutschen Text, 947 aniSearch-Seiten offen (~5 Läufe) |
+| Ansicht „Wo kann ich das sehen?" ausbauen | 5 | **wartet auf den vollen aniSearch-Bestand.** Der Filter „▶ verfügbar" steht seit 10.08.2026 und zeigt 1.967 von 2.753 Titeln, davon 1.856 ohne Termin. Offen: nach Anbieter gruppieren (die `watchLinks` tragen nur Namen, keine PlatformId), Kauf von Stream trennen, eigene Ansicht unter `#/wo` |
 
 
 ### Terminiert (läuft von allein)
@@ -30,7 +31,9 @@ herausgeholt, wenn der User es sagt.
 
 | Idee | SP | Notiz |
 |---|---|---|
-| Weitere Sprachen | 3 | Gerüst steht, EN und DE gepflegt; weitere brauchen nur ein Wörterbuch (zurückgestellt 08.08.2026) |
+| Fallback-Kette für Beschreibungen | 5 | Heute: aniSearch, sonst TMDB, sonst englischer Text von AniList — 516 von 2.754 Titeln haben gar nichts. Als weitere Glieder recherchiert (10.08.2026): **deutsche Wikipedia** über die MediaWiki-API, ausführliche Handlungsabschnitte unter CC BY-SA, ausdrücklich zur Weiterverwendung gedacht, aber nur bekanntere Serien haben einen Artikel; **Wikidata** unter CC0, für Inhaltsangaben zu knapp, dafür eine saubere zweite ID-Brücke neben der anime-offline-database. Vor dem Bauen messen, wie viele unserer Titel überhaupt einen deutschen Wikipedia-Artikel haben — sonst baut man eine Kette für dreißig Treffer. **Proxer.me** hat als einzige deutsche Seite eine echte API, fällt aber wegen der Rechtslage aus, aus demselben Grund wie AniWorld |
+| Deutsche Synchronsprecher zeigen | 8 | „Wer spricht diese Figur auf Deutsch" — das hat sonst niemand neben den Terminen. Quellen: Deutsche Synchronkartei (über 800.000 Einträge) und synchrondatenbank.de. Beide ohne API, beide müssten also ausgelesen werden — vorher robots.txt und Nutzungsbedingungen prüfen und dort anfragen, wie es bei aniSearch gelaufen ist. Aufwand vor allem in der Zuordnung Figur ↔ Sprecher ↔ unserem Titel |
+| Weitere Sprachen | 3 | **Überholt.** Am 10.08.2026 wurde die Oberfläche bewusst einsprachig gemacht (englisches Wörterbuch, Umschalter und Provider entfernt). Eine zweite Sprache hieße jetzt: das Gerüst neu bauen. Bleibt als Idee stehen, aber mit dieser Hypothek |
 
 ### Zu besprechen
 _(leer)_
