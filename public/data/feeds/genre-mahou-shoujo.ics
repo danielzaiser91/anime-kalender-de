@@ -6,6 +6,16 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Mahou Shoujo
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:adn-427@2026-06-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260601T070000Z
+DTEND:20260601T073000Z
+SUMMARY:Sailor Moon
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:the-ribbon-hero-netflix@2026-08-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260808
