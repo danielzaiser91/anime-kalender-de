@@ -557,40 +557,65 @@ export function DatenschutzView() {
   )
 }
 
+/**
+ * Quellen und Lizenzen als eigene Ansicht.
+ *
+ * Bis zum 10.08.2026 stand diese Liste im Seitenfuß und machte ihn sechs
+ * Zeilen lang. Verschwinden darf sie nicht — die anime-offline-database steht
+ * unter ODbL, MyDubList unter CC BY 4.0, und beide verlangen die Nennung. Ein
+ * Klick entfernt erfüllt das genauso wie unter jeder Seite, und hier ist Platz
+ * zu erklären, wofür welche Quelle überhaupt gebraucht wird.
+ */
+export function SourcesView({ meta }: { meta: DataMeta }) {
+  const { t } = useLang()
+  return (
+    <div className="mx-auto max-w-3xl px-4 py-8 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+      <h1 className="mb-1 text-xl font-bold text-slate-900 dark:text-slate-100">
+        {t('sources.title')}
+      </h1>
+      <p className="mb-6 text-slate-500 dark:text-slate-400">{t('sources.intro')}</p>
+      <ul className="space-y-2">
+        {meta.attribution.map((a) => (
+          <li
+            key={a}
+            className="rounded-lg border border-slate-200 px-3 py-2 dark:border-white/10"
+          >
+            {a}
+          </li>
+        ))}
+      </ul>
+      <p className="mt-6 text-xs text-slate-500 dark:text-slate-400">{t('sources.perEntry')}</p>
+    </div>
+  )
+}
+
 export function Footer({ meta }: { meta: DataMeta }) {
   const { t } = useLang()
   const generated = new Date(meta.generatedAt)
+  // Zwei Zeilen, mehr nicht: Zahlen und Stand, darunter die Wege. Die
+  // Quellenliste hat eine eigene Ansicht bekommen — sie stand hier unter jeder
+  // Seite und wurde nach dem ersten Lesen nie wieder gebraucht.
   return (
-    <footer className="mt-10 border-t border-slate-200 py-6 text-xs text-slate-500 dark:border-white/10 dark:text-slate-400">
-      <div className="mx-auto flex max-w-[1600px] flex-wrap items-start gap-x-8 gap-y-3 px-4">
-        <div className="min-w-56 flex-1">
-          <p className="font-semibold text-slate-700 dark:text-slate-200">{t('app.title')}</p>
-          <p className="mt-1">
-            {t('footer.stats', {
-              titles: meta.titleCount.toLocaleString('de-DE'),
-              releases: meta.releaseCount,
-              events: meta.eventCount,
-            })}
-          </p>
-          <p>
-            {t('footer.updated')}{' '}
-            <time dateTime={meta.generatedAt}>
-              {generated.toLocaleString('de-DE', {
-                dateStyle: 'medium',
-                timeStyle: 'short',
-              })}
-            </time>
-          </p>
-        </div>
-        <div>
-          <p className="font-semibold text-slate-700 dark:text-slate-200">{t('footer.sources')}</p>
-          <ul className="mt-1 space-y-0.5">
-            {meta.attribution.map((a) => (
-              <li key={a}>{a}</li>
-            ))}
-          </ul>
-        </div>
-        <div className="flex flex-col gap-0.5">
+    <footer className="mt-10 border-t border-slate-200 py-4 text-xs text-slate-500 dark:border-white/10 dark:text-slate-400">
+      <div className="mx-auto flex max-w-[1600px] flex-col gap-1 px-4">
+        <p>
+          <span className="font-semibold text-slate-700 dark:text-slate-200">{t('app.title')}</span>
+          {' · '}
+          {t('footer.stats', {
+            titles: meta.titleCount.toLocaleString('de-DE'),
+            releases: meta.releaseCount,
+            events: meta.eventCount,
+          })}
+          {' · '}
+          {t('footer.updated')}{' '}
+          <time dateTime={meta.generatedAt}>
+            {generated.toLocaleString('de-DE', { dateStyle: 'medium', timeStyle: 'short' })}
+          </time>
+        </p>
+        <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
+          <a className="hover:underline" href="#/quellen">
+            {t('footer.sources')}
+          </a>
           <a className="hover:underline" href="#/impressum">
             {t('view.impressum')}
           </a>
@@ -609,7 +634,7 @@ export function Footer({ meta }: { meta: DataMeta }) {
             {t('footer.code')}
           </a>
           <InstallFooterOffer />
-        </div>
+        </p>
       </div>
     </footer>
   )

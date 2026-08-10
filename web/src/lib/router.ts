@@ -10,7 +10,16 @@ import {
 } from './filters.ts'
 import { todayIso } from '@shared/time.ts'
 
-export type ViewId = 'woche' | 'monat' | 'agenda' | 'datenbank' | 'abo' | 'newsletter' | 'impressum' | 'datenschutz'
+export type ViewId =
+  | 'woche'
+  | 'monat'
+  | 'agenda'
+  | 'datenbank'
+  | 'abo'
+  | 'newsletter'
+  | 'quellen'
+  | 'impressum'
+  | 'datenschutz'
 
 export const VIEWS: { id: ViewId; label: string; inNav: boolean }[] = [
   { id: 'woche', label: 'Woche', inNav: true },
@@ -19,6 +28,7 @@ export const VIEWS: { id: ViewId; label: string; inNav: boolean }[] = [
   { id: 'datenbank', label: 'Datenbank', inNav: true },
   { id: 'abo', label: 'Kalender-Abo', inNav: false },
   { id: 'newsletter', label: 'Newsletter', inNav: false },
+  { id: 'quellen', label: 'Quellen', inNav: false },
   { id: 'impressum', label: 'Impressum', inNav: false },
   { id: 'datenschutz', label: 'Datenschutz', inNav: false },
 ]

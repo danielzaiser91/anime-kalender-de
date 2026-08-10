@@ -222,8 +222,13 @@ const TEXTE = {
 
   'footer.stats': '{titles} Anime mit belegter deutscher Synchro · {releases} Releases · {events} Termine',
   'footer.updated': 'Daten zuletzt aktualisiert:',
-  'footer.sources': 'Quellen',
+  'footer.sources': 'Quellen & Lizenzen',
   'footer.code': 'Quellcode',
+  'sources.title': 'Quellen & Lizenzen',
+  'sources.intro':
+    'Dieser Kalender führt Daten aus mehreren Quellen zusammen. Manche davon verlangen eine Nennung, alle haben sie verdient.',
+  'sources.perEntry':
+    'Woher ein einzelner Termin stammt, steht bei jedem Eintrag: Das Detail-Panel nennt unter „Quelle" die Seite, auf der er belegt ist.',
 }
 
 export type TranslationKey = keyof typeof TEXTE

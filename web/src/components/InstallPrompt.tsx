@@ -130,7 +130,10 @@ export function InstallFooterOffer() {
   const { t } = useLang()
   const { canPrompt, needsManual, install } = useInstall()
   const [showHint, setShowHint] = useState(false)
-  if (!canPrompt && !needsManual) return null
+  // `isHandheld()` fehlte hier, während der Knopf im Kopf es längst prüfte —
+  // deshalb bot der Fuß die Installation auch am Schreibtisch an, wo sie nicht
+  // gewollt ist (bemerkt am 10.08.2026).
+  if ((!canPrompt && !needsManual) || !isHandheld()) return null
 
   return (
     <span className="inline-flex flex-wrap items-center gap-2">
