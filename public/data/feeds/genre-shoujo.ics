@@ -488,6 +488,17 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:the-ribbon-hero-netflix@2026-08-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260808
+DTEND;VALUE=DATE:20260809
+SUMMARY:The Ribbon Hero
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Film\nUhrzeit noch nicht bestä
+ tigt.\nDetails: https://anime-kalender.de/#/release/the-ribbon-hero-netfli
+ x
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-427@2026-08-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260811T070000Z
