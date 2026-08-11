@@ -80,11 +80,37 @@ Haltung; vor einer Anbindung dort erst mit Daniel klären.
 | nipponinsider.de | erlaubt | RSS | kleinere Redaktion, zweite Meinung |
 | animehunter.de | zu prüfen | zu prüfen | Führt Jahreslisten „Deutsche Anime-Lizenzen 20XX" über **alle** Publisher hinweg — genau die Lizenznehmer-Übersicht, die einzeln zu scrapen mühsam wäre |
 
-**Wettbewerber gefunden:** [animeradar.de](https://www.animeradar.de/kalender) macht dasselbe wie
-wir und mehr — Release-Kalender filterbar nach deutscher Synchro, dazu Android-App, Community,
-Discord, Toplisten, Nutzerprofile. robots.txt erlaubt das Lesen (nur `/api/` gesperrt). Als
-Quelle wäre es allerdings Abschreiben bei jemandem, dessen Termine aus denselben Quellen
-stammen wie unsere — kein Gewinn an Belegqualität. Als Maßstab und Ideengeber dagegen relevant.
+**Wettbewerber gefunden — und der Vergleich schärft, worin unser Unterschied besteht:**
+[animeradar.de](https://www.animeradar.de/kalender) bietet einen Release-Kalender filterbar nach
+deutscher Synchro, dazu Android-App, Community, Discord, Toplisten, Nutzerprofile. Der Aufbau
+ist ausgereifter als unserer. **Ihre Datenbasis sind laut eigenem Impressum-Hinweis TMDb und
+AniList** — beides Quellen, die wir ebenfalls nutzen.
+
+Genau daraus folgt die Grenze, und sie schreiben sie selbst unter ihren Filter:
+
+> „Bestätigt nur, dass eine deutsche Synchro **existiert**"
+
+TMDb und AniList führen den **Originaltermin**: AniLists `airingSchedule` ist der japanische
+Sendeplan, TMDbs `air_date` die Erstausstrahlung. Ein deutscher Ausstrahlungstermin steht in
+keiner der beiden APIs. Ablesbar auch an der Menge: **120 Releases in der Woche vom 10.08.**
+gegenüber einer Handvoll bei uns — das ist der japanische Sendeplan mit einem Ja/Nein-Filter
+darüber, nicht ein deutscher Terminkalender.
+
+Was aus TMDb + AniList prinzipiell **nicht** abzuleiten ist und bei uns aus eigenen Quellen kommt:
+
+| | unsere Quelle |
+|---|---|
+| **Wann** die deutsche Folge läuft | Crunchyroll-Simulcastkalender (Playwright, stündlich), ADN |
+| **Uhrzeit** der deutschen Folge | derselbe Kalender |
+| Ob **diese eine Folge** synchronisiert ist | ADN-Sprachcode je Folge (`vde` vs. `vostde`) — eine Reihe kann mit Untertiteln starten und erst später eine Synchro bekommen |
+| Disc- und Kino-Termine | Handpflege aus Publisher- und Presseangaben |
+| Sendepausen im deutschen Takt | offen — siehe Aufgabe „News-Quellen" |
+| Quellenangabe je Termin | Pflichtfeld im Datensatz |
+
+Das bestätigt den Kurs: Der Aufwand mit Playwright, ADN und Handpflege **ist** der Unterschied.
+Als Quelle taugt AnimeRadar folglich nicht — es wäre Abschreiben bei jemandem, der die Frage
+„wann kommt es auf Deutsch" gar nicht beantwortet. Als Maßstab für Funktionsumfang und
+Bedienung dagegen sehr wohl.
 
 **Offen und vor dem Bauen zu klären:** Wie oft steht eine Sendepause überhaupt in diesen News,
 und mit welchen Worten? Bevor ein Erkenner gebaut wird, sollte einmal von Hand durch ein paar
