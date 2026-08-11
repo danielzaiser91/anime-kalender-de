@@ -10,6 +10,7 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
+| ADN-Katalog statt nur Kalender auswerten | 3 | Der Abruf liest nur `/video/calendar`, also nur was in einem Zeitfenster **neu** erscheint — aktuell vier Shows. `/show` liefert den vollen Katalog (580 Titel, `limit` max 100 laut Fehlermeldung der API). Titel, die dort komplett liegen und keinen neuen Termin haben, entgehen uns. **Haken:** Der Katalog-Endpunkt liefert trotz `X-Target-Distribution: de` nur französische Sprachcodes; die deutschen stehen erst in `/video/show/<id>`. Zu klären, ob es Titel mit `vde` gibt, die kein Kalendereintrag erfasst — ohne dafür 580 Einzelabrufe zu machen (aufgefallen 11.08.2026 bei der Chiikawa-Gegenprobe) |
 | News-Quellen für Sendepausen und Verschiebungen | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
 | Ansicht „Wo kann ich das sehen?" ausbauen | 5 | **Nicht mehr blockiert** — aniSearch-Bestand seit 10.08.2026 vollständig, 2.109 Titel haben einen Bezugsweg. Der Filter „▶ verfügbar" steht bereits. Offen: nach Anbieter gruppieren (die `watchLinks` tragen nur Namen, keine PlatformId), Kauf von Stream trennen, eigene Ansicht unter `#/wo` |
 
@@ -106,6 +107,14 @@ Was aus TMDb + AniList prinzipiell **nicht** abzuleiten ist und bei uns aus eige
 | Disc- und Kino-Termine | Handpflege aus Publisher- und Presseangaben |
 | Sendepausen im deutschen Takt | offen — siehe Aufgabe „News-Quellen" |
 | Quellenangabe je Termin | Pflichtfeld im Datensatz |
+
+**Gegenprobe am Einzelfall (Daniel, 11.08.2026):** AnimeRadar zeigte „Chiikawa Folge 369
+erscheint in 2 Tagen". Nachgeprüft über die ADN-API: ADN Deutschland führt Chiikawa mit **120
+Folgen, Sprachcode `vostde`** — deutsche **Untertitel**, nicht Synchro (`vde`). Damit sind es
+zwei Fehler in einer Zeile: die Folgennummer stammt aus dem japanischen Sendeplan, und eine
+deutsche Synchro gibt es überhaupt nicht. **Unser Kalender liegt richtig, indem er den Titel
+nicht führt** — der ADN-Abruf prüft den Sprachcode je Folge. Genau diese Trennlinie kann ein
+Ja/Nein-Filter aus TMDb oder AniList nicht ziehen.
 
 Das bestätigt den Kurs: Der Aufwand mit Playwright, ADN und Handpflege **ist** der Unterschied.
 Als Quelle taugt AnimeRadar folglich nicht — es wäre Abschreiben bei jemandem, der die Frage
