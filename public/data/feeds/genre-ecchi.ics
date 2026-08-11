@@ -6,6 +6,76 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Ecchi
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:adn-1125@2024-02-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240208T150000Z
+DTEND:20240208T153000Z
+SUMMARY:Demon Slave – Folge 1/1
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1125
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1197@2024-06-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240606T070000Z
+DTEND:20240606T073000Z
+SUMMARY:Aesthetica of a Rogue Hero
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1197
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1113@2024-07-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240725T070000Z
+DTEND:20240725T073000Z
+SUMMARY:Hyakka Ryouran Samurai Girls
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1113
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-684@2024-09-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240905T070000Z
+DTEND:20240905T073000Z
+SUMMARY:Motto To Love-Ru
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-684
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-217@2024-09-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240905T070000Z
+DTEND:20240905T073000Z
+SUMMARY:To Love-Ru - Darkness
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-217
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-22@2025-08-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250814T070000Z
+DTEND:20250814T073000Z
+SUMMARY:Air Gear
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-22
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1060@2025-11-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251126T080000Z
+DTEND:20251126T083000Z
+SUMMARY:High School of the Dead
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1060
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GNVHKN933@2026-02-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260208T150000Z

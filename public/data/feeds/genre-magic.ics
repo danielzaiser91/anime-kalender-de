@@ -6,6 +6,466 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Magic
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:adn-1197@2024-06-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240606T070000Z
+DTEND:20240606T073000Z
+SUMMARY:Aesthetica of a Rogue Hero
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1197
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-278@2024-07-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240711T070000Z
+DTEND:20240711T073000Z
+SUMMARY:Beyond the Boundary
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-278
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1233@2024-09-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240926T150000Z
+DTEND:20240926T153000Z
+SUMMARY:Loner Life in Another World – Folge 1/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1233
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1233@2024-10-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20241003T150000Z
+DTEND:20241003T153000Z
+SUMMARY:Loner Life in Another World – Folge 2/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1233
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1233@2024-10-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20241010T150000Z
+DTEND:20241010T153000Z
+SUMMARY:Loner Life in Another World – Folge 3/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1233
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1233@2024-10-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20241017T150000Z
+DTEND:20241017T153000Z
+SUMMARY:Loner Life in Another World – Folge 4/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1233
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1233@2024-10-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20241024T150000Z
+DTEND:20241024T153000Z
+SUMMARY:Loner Life in Another World – Folge 5/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1233
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1233@2024-10-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20241031T160000Z
+DTEND:20241031T163000Z
+SUMMARY:Loner Life in Another World – Folge 6/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1233
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1233@2024-11-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20241107T160000Z
+DTEND:20241107T163000Z
+SUMMARY:Loner Life in Another World – Folge 7/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1233
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1233@2024-11-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20241114T160000Z
+DTEND:20241114T163000Z
+SUMMARY:Loner Life in Another World – Folge 8/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1233
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1233@2024-11-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20241121T160000Z
+DTEND:20241121T163000Z
+SUMMARY:Loner Life in Another World – Folge 9/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1233
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1233@2024-11-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20241128T160000Z
+DTEND:20241128T163000Z
+SUMMARY:Loner Life in Another World – Folge 10/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1233
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1233@2024-12-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20241205T160000Z
+DTEND:20241205T163000Z
+SUMMARY:Loner Life in Another World – Folge 11/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1233
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1233@2024-12-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20241212T160000Z
+DTEND:20241212T163000Z
+SUMMARY:Loner Life in Another World – Folge 12/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1233
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-04-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250406T083000Z
+DTEND:20250406T090000Z
+SUMMARY:WITCH WATCH – Folge 1/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-04-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250413T083000Z
+DTEND:20250413T090000Z
+SUMMARY:WITCH WATCH – Folge 2/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-04-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250420T083000Z
+DTEND:20250420T090000Z
+SUMMARY:WITCH WATCH – Folge 3/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-04-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250427T083000Z
+DTEND:20250427T090000Z
+SUMMARY:WITCH WATCH – Folge 4/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-05-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250504T083000Z
+DTEND:20250504T090000Z
+SUMMARY:WITCH WATCH – Folge 5/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-05-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250511T083000Z
+DTEND:20250511T090000Z
+SUMMARY:WITCH WATCH – Folge 6/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-05-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250518T083000Z
+DTEND:20250518T090000Z
+SUMMARY:WITCH WATCH – Folge 7/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-05-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250525T083000Z
+DTEND:20250525T090000Z
+SUMMARY:WITCH WATCH – Folge 8/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-06-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250601T083000Z
+DTEND:20250601T090000Z
+SUMMARY:WITCH WATCH – Folge 9/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-06-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250608T083000Z
+DTEND:20250608T090000Z
+SUMMARY:WITCH WATCH – Folge 10/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-06-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250615T083000Z
+DTEND:20250615T090000Z
+SUMMARY:WITCH WATCH – Folge 11/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-06-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250622T083000Z
+DTEND:20250622T090000Z
+SUMMARY:WITCH WATCH – Folge 12/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-06-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250629T083000Z
+DTEND:20250629T090000Z
+SUMMARY:WITCH WATCH – Folge 13/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-07-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250706T083000Z
+DTEND:20250706T090000Z
+SUMMARY:WITCH WATCH – Folge 14/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-07-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250713T083000Z
+DTEND:20250713T090000Z
+SUMMARY:WITCH WATCH – Folge 15/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-07-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250720T083000Z
+DTEND:20250720T090000Z
+SUMMARY:WITCH WATCH – Folge 16/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-07-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250727T083000Z
+DTEND:20250727T090000Z
+SUMMARY:WITCH WATCH – Folge 17/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-08-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250803T083000Z
+DTEND:20250803T090000Z
+SUMMARY:WITCH WATCH – Folge 18/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-08-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250810T083000Z
+DTEND:20250810T090000Z
+SUMMARY:WITCH WATCH – Folge 19/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-08-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250817T083000Z
+DTEND:20250817T090000Z
+SUMMARY:WITCH WATCH – Folge 20/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-08-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250824T083000Z
+DTEND:20250824T090000Z
+SUMMARY:WITCH WATCH – Folge 21/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-08-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250831T083000Z
+DTEND:20250831T090000Z
+SUMMARY:WITCH WATCH – Folge 22/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-09-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250907T083000Z
+DTEND:20250907T090000Z
+SUMMARY:WITCH WATCH – Folge 23/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-09-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250914T083000Z
+DTEND:20250914T090000Z
+SUMMARY:WITCH WATCH – Folge 24/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1272@2025-09-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250921T083000Z
+DTEND:20250921T090000Z
+SUMMARY:WITCH WATCH – Folge 25/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2025-12-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251223T080000Z
+DTEND:20251223T083000Z
+SUMMARY:Sailor Moon – Folge 1/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2025-12-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251230T080000Z
+DTEND:20251230T083000Z
+SUMMARY:Sailor Moon – Folge 2/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-01-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260106T080000Z
+DTEND:20260106T083000Z
+SUMMARY:Sailor Moon – Folge 3/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-01-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260113T080000Z
+DTEND:20260113T083000Z
+SUMMARY:Sailor Moon – Folge 4/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-01-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260120T080000Z
+DTEND:20260120T083000Z
+SUMMARY:Sailor Moon – Folge 5/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-01-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260127T080000Z
+DTEND:20260127T083000Z
+SUMMARY:Sailor Moon – Folge 6/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-02-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260203T080000Z
+DTEND:20260203T083000Z
+SUMMARY:Sailor Moon – Folge 7/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GW4HM7WK9@2026-02-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260208T093000Z
@@ -15,6 +475,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-02-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260210T080000Z
+DTEND:20260210T083000Z
+SUMMARY:Sailor Moon – Folge 8/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GW4HM7WK9@2026-02-15@anime-kalender-de
@@ -28,6 +498,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-427@2026-02-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260217T080000Z
+DTEND:20260217T083000Z
+SUMMARY:Sailor Moon – Folge 9/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GW4HM7WK9@2026-02-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260222T093000Z
@@ -37,6 +517,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-02-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260224T080000Z
+DTEND:20260224T083000Z
+SUMMARY:Sailor Moon – Folge 10/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GW4HM7WK9@2026-03-01@anime-kalender-de
@@ -50,6 +540,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-427@2026-03-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260303T080000Z
+DTEND:20260303T083000Z
+SUMMARY:Sailor Moon – Folge 11/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GW4HM7WK9@2026-03-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260308T093000Z
@@ -61,6 +561,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-427@2026-03-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260310T080000Z
+DTEND:20260310T083000Z
+SUMMARY:Sailor Moon – Folge 12/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GW4HM7WK9@2026-03-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260315T093000Z
@@ -70,6 +580,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-03-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260317T080000Z
+DTEND:20260317T083000Z
+SUMMARY:Sailor Moon – Folge 13/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00371893@2026-03-18@anime-kalender-de
@@ -94,6 +614,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-427@2026-03-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260324T080000Z
+DTEND:20260324T083000Z
+SUMMARY:Sailor Moon – Folge 14/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00371893@2026-03-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260325T150000Z
@@ -114,6 +644,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-03-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260331T070000Z
+DTEND:20260331T073000Z
+SUMMARY:Sailor Moon – Folge 15/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00371893@2026-04-01@anime-kalender-de
@@ -147,6 +687,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-04-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260407T070000Z
+DTEND:20260407T073000Z
+SUMMARY:Sailor Moon – Folge 16/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00371893@2026-04-08@anime-kalender-de
@@ -193,6 +743,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-427@2026-04-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260414T070000Z
+DTEND:20260414T073000Z
+SUMMARY:Sailor Moon – Folge 17/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00371893@2026-04-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260415T140000Z
@@ -237,6 +797,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-427@2026-04-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260421T070000Z
+DTEND:20260421T073000Z
+SUMMARY:Sailor Moon – Folge 18/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00371893@2026-04-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260422T140000Z
@@ -279,6 +849,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-04-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260428T070000Z
+DTEND:20260428T073000Z
+SUMMARY:Sailor Moon – Folge 19/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00371893@2026-04-29@anime-kalender-de
@@ -359,6 +939,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-427@2026-05-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260505T070000Z
+DTEND:20260505T073000Z
+SUMMARY:Sailor Moon – Folge 20/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00371893@2026-05-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260506T140000Z
@@ -435,6 +1025,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-05-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260512T070000Z
+DTEND:20260512T073000Z
+SUMMARY:Sailor Moon – Folge 21/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00371893@2026-05-13@anime-kalender-de
@@ -515,6 +1115,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-427@2026-05-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260519T070000Z
+DTEND:20260519T073000Z
+SUMMARY:Sailor Moon – Folge 22/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00371893@2026-05-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260520T140000Z
@@ -593,6 +1203,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-427@2026-05-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260526T070000Z
+DTEND:20260526T073000Z
+SUMMARY:Sailor Moon – Folge 23/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00371893@2026-05-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260527T140000Z
@@ -665,6 +1285,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-427@2026-06-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260602T070000Z
+DTEND:20260602T073000Z
+SUMMARY:Sailor Moon – Folge 24/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-06-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260603T140000Z
@@ -725,6 +1355,16 @@ SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 10/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-06-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260609T070000Z
+DTEND:20260609T073000Z
+SUMMARY:Sailor Moon – Folge 25/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-06-10@anime-kalender-de
@@ -799,6 +1439,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-427@2026-06-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260616T070000Z
+DTEND:20260616T073000Z
+SUMMARY:Sailor Moon – Folge 26/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-06-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260617T140000Z
@@ -859,6 +1509,16 @@ SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 12/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-06-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260623T070000Z
+DTEND:20260623T073000Z
+SUMMARY:Sailor Moon – Folge 27/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-06-24@anime-kalender-de
@@ -922,6 +1582,16 @@ SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 13/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-06-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260630T070000Z
+DTEND:20260630T073000Z
+SUMMARY:Sailor Moon – Folge 28/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-07-01@anime-kalender-de
@@ -995,6 +1665,16 @@ SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 1/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-07-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260707T070000Z
+DTEND:20260707T073000Z
+SUMMARY:Sailor Moon – Folge 29/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:clevatess-s2@2026-07-08@anime-kalender-de
@@ -1080,6 +1760,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-427@2026-07-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260714T070000Z
+DTEND:20260714T073000Z
+SUMMARY:Sailor Moon – Folge 30/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:clevatess-s2@2026-07-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260715T120000Z
@@ -1162,6 +1852,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-427@2026-07-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260721T070000Z
+DTEND:20260721T073000Z
+SUMMARY:Sailor Moon – Folge 31/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:clevatess-s2@2026-07-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260722T120000Z
@@ -1212,6 +1912,16 @@ SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 4/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-07-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260728T070000Z
+DTEND:20260728T073000Z
+SUMMARY:Sailor Moon – Folge 32/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:clevatess-s2@2026-07-29@anime-kalender-de
@@ -1325,6 +2035,16 @@ SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 5/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-08-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260804T070000Z
+DTEND:20260804T073000Z
+SUMMARY:Sailor Moon – Folge 33/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:clevatess-s2@2026-08-05@anime-kalender-de
@@ -1520,17 +2240,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:the-ribbon-hero-netflix@2026-08-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260808
-DTEND;VALUE=DATE:20260809
-SUMMARY:The Ribbon Hero
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Film\nUhrzeit noch nicht bestä
- tigt.\nDetails: https://anime-kalender.de/#/release/the-ribbon-hero-netfli
- x
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
 UID:though-i-am-an-inept-villainess@2026-08-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260809T154500Z
@@ -1549,6 +2258,16 @@ SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 6/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-08-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260811T070000Z
+DTEND:20260811T073000Z
+SUMMARY:Sailor Moon – Folge 34/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:clevatess-s2@2026-08-12@anime-kalender-de
@@ -1671,6 +2390,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-08-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260818T070000Z
+DTEND:20260818T073000Z
+SUMMARY:Sailor Moon – Folge 35/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:chihiro-jubilaeum-kino-2026@2026-08-18@anime-kalender-de
@@ -1817,6 +2546,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-427@2026-08-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260825T070000Z
+DTEND:20260825T073000Z
+SUMMARY:Sailor Moon – Folge 36/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:clevatess-s2@2026-08-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260826T120000Z
@@ -1937,6 +2676,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-09-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260901T070000Z
+DTEND:20260901T073000Z
+SUMMARY:Sailor Moon – Folge 37/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:clevatess-s2@2026-09-02@anime-kalender-de
@@ -2072,6 +2821,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-427@2026-09-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260908T070000Z
+DTEND:20260908T073000Z
+SUMMARY:Sailor Moon – Folge 38/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:clevatess-s2@2026-09-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260909T120000Z
@@ -2170,6 +2929,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-09-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260915T070000Z
+DTEND:20260915T073000Z
+SUMMARY:Sailor Moon – Folge 39/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:clevatess-s2@2026-09-16@anime-kalender-de
@@ -2283,6 +3052,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-427@2026-09-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260922T070000Z
+DTEND:20260922T073000Z
+SUMMARY:Sailor Moon – Folge 40/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:clevatess-s2@2026-09-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260923T120000Z
@@ -2359,6 +3138,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/though-i-am-an-inept-villainess
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-09-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260929T070000Z
+DTEND:20260929T073000Z
+SUMMARY:Sailor Moon – Folge 41/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:clevatess-s2@2026-09-30@anime-kalender-de
@@ -2439,6 +3228,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-427@2026-10-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261006T070000Z
+DTEND:20261006T073000Z
+SUMMARY:Sailor Moon – Folge 42/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T133000Z
@@ -2504,6 +3303,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/though-i-am-an-inept-villainess
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-10-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261013T070000Z
+DTEND:20261013T073000Z
+SUMMARY:Sailor Moon – Folge 43/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-10-14@anime-kalender-de
@@ -2573,6 +3382,66 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-427@2026-10-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261020T070000Z
+DTEND:20261020T073000Z
+SUMMARY:Sailor Moon – Folge 44/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-10-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261027T080000Z
+DTEND:20261027T083000Z
+SUMMARY:Sailor Moon – Folge 45/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261103T080000Z
+DTEND:20261103T083000Z
+SUMMARY:Sailor Moon – Folge 46/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-11-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261110T080000Z
+DTEND:20261110T083000Z
+SUMMARY:Sailor Moon – Folge 47/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-11-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261117T080000Z
+DTEND:20261117T083000Z
+SUMMARY:Sailor Moon – Folge 48/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-11-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261124T080000Z
+DTEND:20261124T083000Z
+SUMMARY:Sailor Moon – Folge 49/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:madoka-walpurgisnacht-rising-kino@2026-11-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261124
@@ -2582,5 +3451,515 @@ DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestätig
  t.\nDetails: https://anime-kalender.de/#/release/madoka-walpurgisnacht-ris
  ing-kino
 CATEGORIES:Kino
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-12-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261201T080000Z
+DTEND:20261201T083000Z
+SUMMARY:Sailor Moon – Folge 50/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-12-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261208T080000Z
+DTEND:20261208T083000Z
+SUMMARY:Sailor Moon – Folge 51/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-12-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261215T080000Z
+DTEND:20261215T083000Z
+SUMMARY:Sailor Moon – Folge 52/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-12-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261222T080000Z
+DTEND:20261222T083000Z
+SUMMARY:Sailor Moon – Folge 53/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2026-12-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261229T080000Z
+DTEND:20261229T083000Z
+SUMMARY:Sailor Moon – Folge 54/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-01-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270105T080000Z
+DTEND:20270105T083000Z
+SUMMARY:Sailor Moon – Folge 55/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-01-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270112T080000Z
+DTEND:20270112T083000Z
+SUMMARY:Sailor Moon – Folge 56/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-01-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270119T080000Z
+DTEND:20270119T083000Z
+SUMMARY:Sailor Moon – Folge 57/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-01-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270126T080000Z
+DTEND:20270126T083000Z
+SUMMARY:Sailor Moon – Folge 58/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-02-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270202T080000Z
+DTEND:20270202T083000Z
+SUMMARY:Sailor Moon – Folge 59/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-02-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270209T080000Z
+DTEND:20270209T083000Z
+SUMMARY:Sailor Moon – Folge 60/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-02-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270216T080000Z
+DTEND:20270216T083000Z
+SUMMARY:Sailor Moon – Folge 61/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-02-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270223T080000Z
+DTEND:20270223T083000Z
+SUMMARY:Sailor Moon – Folge 62/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-03-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270302T080000Z
+DTEND:20270302T083000Z
+SUMMARY:Sailor Moon – Folge 63/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-03-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270309T080000Z
+DTEND:20270309T083000Z
+SUMMARY:Sailor Moon – Folge 64/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-03-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270316T080000Z
+DTEND:20270316T083000Z
+SUMMARY:Sailor Moon – Folge 65/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-03-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270323T080000Z
+DTEND:20270323T083000Z
+SUMMARY:Sailor Moon – Folge 66/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-03-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270330T070000Z
+DTEND:20270330T073000Z
+SUMMARY:Sailor Moon – Folge 67/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-04-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270406T070000Z
+DTEND:20270406T073000Z
+SUMMARY:Sailor Moon – Folge 68/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-04-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270413T070000Z
+DTEND:20270413T073000Z
+SUMMARY:Sailor Moon – Folge 69/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-04-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270420T070000Z
+DTEND:20270420T073000Z
+SUMMARY:Sailor Moon – Folge 70/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-04-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270427T070000Z
+DTEND:20270427T073000Z
+SUMMARY:Sailor Moon – Folge 71/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-05-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270504T070000Z
+DTEND:20270504T073000Z
+SUMMARY:Sailor Moon – Folge 72/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-05-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270511T070000Z
+DTEND:20270511T073000Z
+SUMMARY:Sailor Moon – Folge 73/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-05-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270518T070000Z
+DTEND:20270518T073000Z
+SUMMARY:Sailor Moon – Folge 74/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-05-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270525T070000Z
+DTEND:20270525T073000Z
+SUMMARY:Sailor Moon – Folge 75/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-06-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270601T070000Z
+DTEND:20270601T073000Z
+SUMMARY:Sailor Moon – Folge 76/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-06-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270608T070000Z
+DTEND:20270608T073000Z
+SUMMARY:Sailor Moon – Folge 77/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-06-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270615T070000Z
+DTEND:20270615T073000Z
+SUMMARY:Sailor Moon – Folge 78/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-06-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270622T070000Z
+DTEND:20270622T073000Z
+SUMMARY:Sailor Moon – Folge 79/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-06-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270629T070000Z
+DTEND:20270629T073000Z
+SUMMARY:Sailor Moon – Folge 80/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-07-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270706T070000Z
+DTEND:20270706T073000Z
+SUMMARY:Sailor Moon – Folge 81/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-07-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270713T070000Z
+DTEND:20270713T073000Z
+SUMMARY:Sailor Moon – Folge 82/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-07-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270720T070000Z
+DTEND:20270720T073000Z
+SUMMARY:Sailor Moon – Folge 83/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-07-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270727T070000Z
+DTEND:20270727T073000Z
+SUMMARY:Sailor Moon – Folge 84/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-08-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270803T070000Z
+DTEND:20270803T073000Z
+SUMMARY:Sailor Moon – Folge 85/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-08-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270810T070000Z
+DTEND:20270810T073000Z
+SUMMARY:Sailor Moon – Folge 86/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-08-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270817T070000Z
+DTEND:20270817T073000Z
+SUMMARY:Sailor Moon – Folge 87/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-08-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270824T070000Z
+DTEND:20270824T073000Z
+SUMMARY:Sailor Moon – Folge 88/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-08-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270831T070000Z
+DTEND:20270831T073000Z
+SUMMARY:Sailor Moon – Folge 89/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-09-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270907T070000Z
+DTEND:20270907T073000Z
+SUMMARY:Sailor Moon – Folge 90/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-09-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270914T070000Z
+DTEND:20270914T073000Z
+SUMMARY:Sailor Moon – Folge 91/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-09-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270921T070000Z
+DTEND:20270921T073000Z
+SUMMARY:Sailor Moon – Folge 92/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-09-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270928T070000Z
+DTEND:20270928T073000Z
+SUMMARY:Sailor Moon – Folge 93/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-10-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20271005T070000Z
+DTEND:20271005T073000Z
+SUMMARY:Sailor Moon – Folge 94/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-10-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20271012T070000Z
+DTEND:20271012T073000Z
+SUMMARY:Sailor Moon – Folge 95/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-10-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20271019T070000Z
+DTEND:20271019T073000Z
+SUMMARY:Sailor Moon – Folge 96/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-10-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20271026T070000Z
+DTEND:20271026T073000Z
+SUMMARY:Sailor Moon – Folge 97/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-11-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20271102T080000Z
+DTEND:20271102T083000Z
+SUMMARY:Sailor Moon – Folge 98/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-11-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20271109T080000Z
+DTEND:20271109T083000Z
+SUMMARY:Sailor Moon – Folge 99/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427@2027-11-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20271116T080000Z
+DTEND:20271116T083000Z
+SUMMARY:Sailor Moon – Folge 100/100
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-427
+CATEGORIES:ADN
 END:VEVENT
 END:VCALENDAR

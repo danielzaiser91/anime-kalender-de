@@ -17,6 +17,7 @@
     "data:validate": "tsx pipeline/validate.ts",
     "typecheck": "tsc -b --noEmit false --emitDeclarationOnly false || tsc -b",
     "data:adn": "tsx pipeline/fetch-adn.ts",
+    "data:adn:catalog": "tsx pipeline/fetch-adn.ts --catalog",
     "data:anime2you": "tsx pipeline/scrape-anime2you.ts",
     "data:check": "tsx pipeline/check-sources.ts",
     "data:report": "tsx pipeline/report-proposals.ts",

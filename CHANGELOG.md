@@ -8,6 +8,14 @@ selbst oder an der Art ändert, wie Termine zustande kommen.
 
 ## Unveröffentlicht
 
+### Mehr Titel im Überblick
+
+- **ADN-Serien, die keinen neuen Termin mehr haben, fehlten komplett.** Gelesen wurde nur der
+  Veröffentlichungskalender — also nur, was gerade erscheint. Serien, die vollständig im
+  Angebot liegen, tauchen dort nie auf. Statt **4** ADN-Titeln sind es jetzt **28**, darunter
+  DAN DA DAN, Sword Art Online, Haikyu!!, Dragon Ball Super und Parasyte. Insgesamt stieg die
+  Zahl der Termine von 486 auf 853.
+
 ### Neu: deutsche Synchronsprecher
 
 - **„Wer spricht diese Figur auf Deutsch"** steht jetzt im Detail-Panel — bei 1.746 von 2.753

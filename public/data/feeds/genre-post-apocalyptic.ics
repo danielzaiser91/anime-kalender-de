@@ -1,0 +1,40 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//anime-kalender-de//Anime-Kalender DE//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Anime-Kalender DE – Post-Apocalyptic
+X-WR-TIMEZONE:Europe/Berlin
+BEGIN:VEVENT
+UID:adn-662@2025-07-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250715T070000Z
+DTEND:20250715T073000Z
+SUMMARY:L'Attaque des Titans
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-662
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:my-hero-academia-s7-vol3@2026-09-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260918
+DTEND;VALUE=DATE:20260919
+SUMMARY:My Hero Academia – Staffel 7 – Vol. 3 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/my-hero
+ -academia-s7-vol3
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:dr-stone-science-future-part1@2026-10-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261016
+DTEND;VALUE=DATE:20261017
+SUMMARY:Dr. STONE: Science Future – Part 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/dr-ston
+ e-science-future-part1
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+END:VCALENDAR

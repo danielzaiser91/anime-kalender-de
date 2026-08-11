@@ -6,6 +6,26 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Sports
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:adn-461@2023-10-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20231001T070000Z
+DTEND:20231001T073000Z
+SUMMARY:Haikyu!!
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-461
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-22@2025-08-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250814T070000Z
+DTEND:20250814T073000Z
+SUMMARY:Air Gear
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-22
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:steel-ball-run-1st-stage@2026-03-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260319
@@ -15,6 +35,16 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
  ht bestätigt.\nDetails: https://anime-kalender.de/#/release/steel-ball-run
  -1st-stage
 CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-329@2026-04-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260424T070000Z
+DTEND:20260424T073000Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-329
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:inazuma-eleven-s1-box@2026-08-14@anime-kalender-de

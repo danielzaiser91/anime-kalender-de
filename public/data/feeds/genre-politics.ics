@@ -6,6 +6,16 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Politics
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:adn-1325@2025-09-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250904T070000Z
+DTEND:20250904T073000Z
+SUMMARY:Alderamin on the Sky
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1325
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:steel-ball-run-1st-stage@2026-03-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260319

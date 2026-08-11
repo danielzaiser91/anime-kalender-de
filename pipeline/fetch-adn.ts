@@ -21,9 +21,22 @@ import { addDays, diffDays, todayIso } from '../shared/time.ts'
 import { log, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 
-const API = 'https://gw.api.animationdigitalnetwork.com/video/calendar'
-const UA =
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36'
+const BASE = 'https://gw.api.animationdigitalnetwork.com'
+const API = `${BASE}/video/calendar`
+/** Der Katalog aller Serien — anders als der Kalender zeitunabhängig. */
+const SHOWS_API = `${BASE}/show`
+
+/**
+ * Wir sagen, wer wir sind.
+ *
+ * Hier stand bis zum 11.08.2026 eine Chrome-Kennung. Das war aus demselben
+ * Grund falsch wie bei aniSearch, wo es eine IP-Sperre einbrachte: Eine
+ * gefälschte Browser-Kennung nimmt dem Betreiber die Möglichkeit, den
+ * Verursacher anzuschreiben, statt ihn auszusperren. Nötig war sie ohnehin nie
+ * — mit ehrlicher Kennung antwortet dieselbe Schnittstelle mit 200.
+ */
+const UA = 'anime-kalender.de/1.0 (+https://anime-kalender.de; danielzaiser91@googlemail.com)'
+const HEADERS = { 'User-Agent': UA, 'X-Target-Distribution': 'de', Accept: 'application/json' }
 
 const args = process.argv.slice(2)
 const numberArg = (name: string, fallback: number) => {
@@ -65,6 +78,18 @@ export interface AdnShow {
    * veröffentlicht Katalogtitel als Komplettabwurf, Simulcasts wöchentlich.
    */
   batch: boolean
+  /**
+   * true, wenn der Eintrag aus dem Katalogdurchlauf stammt statt aus dem
+   * Kalender.
+   *
+   * Der Unterschied zählt beim Bauen: Der Katalog-Endpunkt führt den
+   * **französischen** Bestand, und für einige Titel gibt es dort gar keinen
+   * deutschen Namen — „One Piece Film 3 • Le Royaume de Chopper" etwa. Ohne
+   * passenden Anime-Eintrag stünde ein französischer Titel ohne Cover, Genres
+   * und Beschreibung im deutschen Kalender. Solche Einträge werden verworfen;
+   * beim Kalender-Weg ist der Name dagegen belegt und bleibt.
+   */
+  fromCatalog?: boolean
 }
 
 export interface AdnData {
@@ -96,7 +121,7 @@ function toBerlin(iso: string): { date: string; time: string } | undefined {
 
 async function fetchDay(date: string): Promise<AdnVideo[]> {
   const res = await fetch(`${API}?date=${date}`, {
-    headers: { 'User-Agent': UA, 'X-Target-Distribution': 'de', Accept: 'application/json' },
+    headers: HEADERS,
   })
   if (!res.ok) {
     warn(`ADN ${date}: HTTP ${res.status}`)
@@ -106,7 +131,144 @@ async function fetchDay(date: string): Promise<AdnVideo[]> {
   return body.videos ?? []
 }
 
+/**
+ * Geht den gesamten ADN-Katalog durch, statt nur den Kalender.
+ *
+ * Warum das nötig ist: Der Kalender zeigt nur, was in einem Zeitfenster **neu**
+ * erscheint. Eine Serie, die vollständig im Angebot liegt und keine neue Folge
+ * mehr bekommt, taucht dort nie auf — sie fehlte damit dauerhaft, obwohl es
+ * eine deutsche Synchro gibt. Für das Projektziel „Gesamtüberblick" ist das
+ * genau die falsche Lücke.
+ *
+ * Warum es trotzdem nicht im Nachtlauf steht: Der Katalog-Endpunkt liefert nur
+ * den **französischen** Bestand samt französischer Sprachcodes; welche Serie
+ * eine deutsche Fassung hat, verrät erst eine Abfrage je Serie. Das sind rund
+ * 580 Anfragen — vertretbar als seltener Lauf, nicht als täglicher.
+ *
+ * Ertrag laut Stichprobe vom 11.08.2026: etwa drei Prozent der Serien haben
+ * `vde`; die meisten des französischen Katalogs sind in Deutschland gar nicht
+ * verfügbar (die Folgenliste kommt dann leer zurück).
+ */
+async function fetchCatalog(): Promise<AdnShow[]> {
+  /**
+   * Die Serienliste einsammeln — nach eindeutigen Kennungen, nicht nach `total`.
+   *
+   * Der Endpunkt paginiert unzuverlässig: Die Reihenfolge ist nicht sortiert,
+   * `offset=200` bricht nach 46 Einträgen ab, und `total` meldet trotzdem
+   * weiter 580 — das ist die Größe des **französischen** Katalogs, während mit
+   * deutschem Regionskopf nur ein Teil davon ausgeliefert wird. Wer `total` als
+   * Abbruchbedingung nimmt, sammelt Wiederholungen ein und hält am Ende
+   * dieselbe Serie mehrfach in der Hand (real: 12 Doubletten unter 47 Treffern).
+   *
+   * Deshalb: nach Kennung entdoppeln und abbrechen, wenn zwei Seiten in Folge
+   * nichts Neues mehr bringen.
+   */
+  const nachId = new Map<number, { id: number; title: string; originalTitle?: string; age?: string }>()
+  let leerlauf = 0
+  for (let offset = 0; offset < 2000 && leerlauf < 2; offset += 100) {
+    const res = await fetch(`${SHOWS_API}?limit=100&offset=${offset}`, { headers: HEADERS })
+    if (!res.ok) {
+      warn(`ADN-Katalog: HTTP ${res.status} bei offset ${offset}`)
+      break
+    }
+    const body = (await res.json()) as { shows?: { id: number; title: string }[] }
+    const seite = body.shows ?? []
+    if (!seite.length) break
+    const vorher = nachId.size
+    for (const s of seite) if (!nachId.has(s.id)) nachId.set(s.id, s as never)
+    leerlauf = nachId.size === vorher ? leerlauf + 1 : 0
+    await sleep(400)
+  }
+  const alle = [...nachId.values()]
+  log(`ADN-Katalog: ${alle.length} Serien gelistet, wird je Serie auf deutsche Synchro geprüft…`)
+
+  const out: AdnShow[] = []
+  let geprueft = 0
+  let fehlerInFolge = 0
+  for (const eintrag of alle) {
+    geprueft++
+    if (geprueft % 100 === 0) log(`  ${geprueft}/${alle.length} — ${out.length} mit Synchro`)
+    try {
+      // 100 ist das Maximum der Schnittstelle; sie nennt es selbst in ihrer
+      // Fehlermeldung. Ein zu großer Wert liefert 400 — und weil ein 400 hier
+      // zunächst wie „nicht verfügbar" behandelt wurde, meldete der erste Lauf
+      // seelenruhig „0 Serien mit deutscher Synchro" für alle 580. Deshalb
+      // unterscheidet die Schleife unten strikt: 404 ist eine Antwort, 400 ist
+      // ein Fehler im eigenen Aufruf und muss auffallen.
+      const res = await fetch(`${BASE}/video/show/${eintrag.id}?limit=100`, { headers: HEADERS })
+      if (res.status === 400) {
+        warn(`ADN-Katalog: Anfrage abgelehnt (400) bei Serie ${eintrag.id} — Aufruf prüfen.`)
+        if (++fehlerInFolge >= 5) {
+          warn('Fünf abgelehnte Anfragen in Folge — Lauf wird beendet.')
+          break
+        }
+        await sleep(700)
+        continue
+      }
+      if (!res.ok) {
+        // 404 heißt hier schlicht „in Deutschland nicht im Angebot".
+        if (res.status >= 500 && ++fehlerInFolge >= 5) {
+          warn('ADN-Katalog: fünf Serverfehler in Folge — Lauf wird beendet.')
+          break
+        }
+        await sleep(700)
+        continue
+      }
+      fehlerInFolge = 0
+      const videos = ((await res.json()) as { videos?: AdnVideo[] }).videos ?? []
+      const deutsch = videos.filter((v) => v.languages?.includes('vde'))
+      if (deutsch.length) {
+        const episodes: AdnEpisode[] = []
+        for (const v of deutsch) {
+          const when = toBerlin(v.releaseDate)
+          if (!when) continue
+          const number = Number(v.shortNumber ?? v.number?.replace(/\D+/g, ''))
+          episodes.push({
+            date: when.date,
+            time: when.time,
+            episode: Number.isFinite(number) && number > 0 ? number : undefined,
+            url: v.url,
+          })
+        }
+        if (episodes.length) {
+          episodes.sort((a, b) => a.date.localeCompare(b.date) || (a.episode ?? 0) - (b.episode ?? 0))
+          const dates = new Set(episodes.map((e) => e.date))
+          out.push({
+            showId: eintrag.id,
+            title: eintrag.title,
+            originalTitle: eintrag.originalTitle ?? undefined,
+            age: eintrag.age ?? undefined,
+            url: `https://animationdigitalnetwork.com/de/video/${eintrag.id}`,
+            episodes,
+            batch: dates.size === 1 && episodes.length > 1,
+            fromCatalog: true,
+          })
+        }
+      }
+    } catch (err) {
+      warn(`ADN-Katalog ${eintrag.id}: ${(err as Error).message}`)
+    }
+    await sleep(700)
+  }
+  return out
+}
+
 async function main(): Promise<void> {
+  if (args.includes('--catalog')) {
+    const shows = await fetchCatalog()
+    writeJson(
+      'data/adn-catalog.json',
+      { scrapedAt: new Date().toISOString(), window: { from: '', to: '' }, shows } satisfies AdnData,
+      true,
+    )
+    recordSource('adn-catalog', shows.length, shows.length ? undefined : 'keine Serie mit vde')
+    log(`ADN-Katalog: ${shows.length} Serien mit deutscher Synchro`)
+    for (const show of shows) {
+      log(`  · ${show.title} — ${show.episodes.length} Folgen ab ${show.episodes[0].date}`)
+    }
+    return
+  }
+
   const today = todayIso()
   const from = addDays(today, FROM)
   const to = addDays(today, TO)

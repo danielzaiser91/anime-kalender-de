@@ -10,7 +10,6 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| ADN-Katalog statt nur Kalender auswerten | 3 | Der Abruf liest nur `/video/calendar`, also nur was in einem Zeitfenster **neu** erscheint — aktuell vier Shows. `/show` liefert den vollen Katalog (580 Titel, `limit` max 100 laut Fehlermeldung der API). Titel, die dort komplett liegen und keinen neuen Termin haben, entgehen uns. **Haken:** Der Katalog-Endpunkt liefert trotz `X-Target-Distribution: de` nur französische Sprachcodes; die deutschen stehen erst in `/video/show/<id>`. Zu klären, ob es Titel mit `vde` gibt, die kein Kalendereintrag erfasst — ohne dafür 580 Einzelabrufe zu machen (aufgefallen 11.08.2026 bei der Chiikawa-Gegenprobe) |
 | News-Quellen für Sendepausen und Verschiebungen | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
 | Ansicht „Wo kann ich das sehen?" ausbauen | 5 | **Nicht mehr blockiert** — aniSearch-Bestand seit 10.08.2026 vollständig, 2.109 Titel haben einen Bezugsweg. Der Filter „▶ verfügbar" steht bereits. Offen: nach Anbieter gruppieren (die `watchLinks` tragen nur Namen, keine PlatformId), Kauf von Stream trennen, eigene Ansicht unter `#/wo` |
 
@@ -149,6 +148,28 @@ verschoben, Best-of, Recap.
   abgenommen.
 
 ## Archiv
+
+- ✅ **ADN-Katalog statt nur Kalender** (11.08.2026). Der Abruf las nur `/video/calendar` — also
+  nur, was in einem Zeitfenster **neu** erscheint. Serien, die vollständig im Angebot liegen,
+  tauchten dort nie auf: Wir kannten **4** ADN-Titel, es sind **28**. Releases 125 → 149,
+  Termine 486 → 853. Neu darunter: DAN DA DAN, Sword Art Online, Haikyu!!, Dragon Ball Super,
+  Parasyte, Eyeshield 21. Läuft als eigener seltener Lauf (`npm run data:adn:catalog`) im
+  Wochen-Workflow, nicht täglich — es sind rund 390 Einzelabfragen.
+  *Drei Anläufe, drei ungeprüfte Zahlen:* (1) `limit=500` überschritt die API-Grenze von 100,
+  jede Anfrage kam als `400` und lief in denselben Zweig wie ein `404` — Ergebnis „0 Serien",
+  fehlerfrei gemeldet. (2) `total` meldet 580, das ist der **französische** Katalog; mit
+  deutschem Regionskopf sind es 387, und die Schleife sammelte darüber hinaus Wiederholungen
+  (12 Doubletten). Jetzt wird nach Kennung entdoppelt und bei Sättigung abgebrochen. (3) Die
+  Vorab-Stichprobe zog aus den ersten 100 Einträgen und schätzte 19 Treffer — die Liste ist
+  unsortiert, also war sie nicht repräsentativ.
+  *Qualitätsfilter:* Der Katalog führt den französischen Bestand, für einige Titel gibt es
+  keinen deutschen Namen („One Piece Film 3 • Le Royaume de Chopper"). Solche Einträge werden
+  verworfen, wenn sich kein Anime zuordnen lässt — ein französischer Titel ohne Cover und
+  Genres im deutschen Kalender wäre schlechter als gar keiner. Betraf 9 von 37.
+- ✅ **Gefälschte Browser-Kennung im ADN-Abruf entfernt** (11.08.2026). Dort stand seit jeher
+  eine Chrome-Kennung — derselbe Fehler, der bei aniSearch die IP-Sperre einbrachte und danach
+  als Lehre festgehalten wurde, ohne zu prüfen, wo er sonst noch im Code steckt. Mit ehrlicher
+  Kennung antwortet dieselbe Schnittstelle mit 200; nötig war die Tarnung nie.
 
 - ✅ **Deutsche Synchronsprecher im Detail-Panel** (11.08.2026). 1.746 von 2.753 Titeln haben
   eine Besetzung, zusammen **21.924 Rollen**. Quelle ist **AniList** — dieselbe Schnittstelle,

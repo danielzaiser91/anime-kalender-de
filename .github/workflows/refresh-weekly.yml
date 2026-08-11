@@ -64,6 +64,18 @@ jobs:
         continue-on-error: true
         run: npx tsx pipeline/fetch-adn.ts --from -90 --to 180
 
+      - name: ADN — vollständiger Katalog
+        # Der Kalender zeigt nur, was neu erscheint. Eine Serie, die komplett
+        # im Angebot liegt, taucht dort nie auf und fehlte deshalb dauerhaft.
+        # Rund 580 Abfragen — zu viel für den Tageslauf, richtig für diesen.
+        continue-on-error: true
+        run: npm run data:adn:catalog
+
+      - name: Deutsche Synchronsprecher
+        # Holt nur, was fehlt oder älter als ein halbes Jahr ist.
+        continue-on-error: true
+        run: npm run data:voices -- --limit 400
+
       - name: Anime2You
         continue-on-error: true
         run: npm run data:anime2you

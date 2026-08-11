@@ -1,0 +1,40 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//anime-kalender-de//Anime-Kalender DE//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Anime-Kalender DE – Steampunk
+X-WR-TIMEZONE:Europe/Berlin
+BEGIN:VEVENT
+UID:adn-662@2025-07-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250715T070000Z
+DTEND:20250715T073000Z
+SUMMARY:L'Attaque des Titans
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-662
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:attack-on-titan-final-season-steelbook@2026-08-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260807
+DTEND;VALUE=DATE:20260808
+SUMMARY:Attack on Titan – Final Season (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/attack-
+ on-titan-final-season-steelbook
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:case-study-of-vanitas-s1-vol2@2026-08-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260807
+DTEND;VALUE=DATE:20260808
+SUMMARY:The Case Study of Vanitas (Staffel 1) – Vol. 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/case-st
+ udy-of-vanitas-s1-vol2
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+END:VCALENDAR

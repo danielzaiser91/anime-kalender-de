@@ -904,7 +904,20 @@ function main(): void {
   // `vde` steht, ist eine belegte deutsche Synchro mit belegter Uhrzeit — hier
   // muss nichts abgeleitet werden. Kuratierte Einträge haben Vorrang: Wer eine
   // ADN-Adresse von Hand gepflegt hat, will keinen zweiten Eintrag daneben.
-  const adn = readJson<AdnData>('data/adn.json', { scrapedAt: '', window: { from: '', to: '' }, shows: [] })
+  const leer: AdnData = { scrapedAt: '', window: { from: '', to: '' }, shows: [] }
+  const adnKalender = readJson<AdnData>('data/adn.json', leer)
+  // Der Katalog-Lauf (`data:adn -- --catalog`) findet Serien, die vollständig
+  // im Angebot liegen und deshalb in keinem Kalenderfenster mehr auftauchen.
+  // Er läuft selten; fehlt die Datei, ändert sich nichts.
+  const adnKatalog = readJson<AdnData>('data/adn-catalog.json', leer)
+  const adn: AdnData = {
+    ...adnKalender,
+    shows: [
+      ...adnKalender.shows,
+      // Der Kalender ist die frischere Quelle — was dort schon steht, gewinnt.
+      ...adnKatalog.shows.filter((k) => !adnKalender.shows.some((s) => s.showId === k.showId)),
+    ],
+  }
   const curatedAdnShows = new Set(
     releases
       .filter((r) => r.platform === 'adn')
@@ -918,6 +931,12 @@ function main(): void {
     if (seenSlugs.has(slug)) continue
 
     const title = titleByName.get(normalizeTitle(show.title)) ?? titleByName.get(normalizeTitle(show.originalTitle ?? ''))
+    // Aus dem Katalogdurchlauf nur, was sich einem Anime zuordnen lässt. Der
+    // Katalog-Endpunkt führt den französischen Bestand: Ohne Zuordnung stünde
+    // ein französischer Titel ohne Cover, Genres und Beschreibung im deutschen
+    // Kalender („One Piece Film 3 • Le Royaume de Chopper"). Beim Kalender-Weg
+    // ist der Name belegt, dort bleibt der Eintrag auch ohne Treffer.
+    if (!title && show.fromCatalog) continue
     const first = show.episodes[0]
     seenSlugs.add(slug)
     releases.push({

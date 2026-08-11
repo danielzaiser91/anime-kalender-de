@@ -6,6 +6,566 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Isekai
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:adn-1197@2024-06-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240606T070000Z
+DTEND:20240606T073000Z
+SUMMARY:Aesthetica of a Rogue Hero
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1197
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1233@2024-09-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240926T150000Z
+DTEND:20240926T153000Z
+SUMMARY:Loner Life in Another World – Folge 1/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1233
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1233@2024-10-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20241003T150000Z
+DTEND:20241003T153000Z
+SUMMARY:Loner Life in Another World – Folge 2/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1233
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1233@2024-10-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20241010T150000Z
+DTEND:20241010T153000Z
+SUMMARY:Loner Life in Another World – Folge 3/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1233
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1233@2024-10-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20241017T150000Z
+DTEND:20241017T153000Z
+SUMMARY:Loner Life in Another World – Folge 4/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1233
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1233@2024-10-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20241024T150000Z
+DTEND:20241024T153000Z
+SUMMARY:Loner Life in Another World – Folge 5/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1233
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1233@2024-10-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20241031T160000Z
+DTEND:20241031T163000Z
+SUMMARY:Loner Life in Another World – Folge 6/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1233
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1233@2024-11-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20241107T160000Z
+DTEND:20241107T163000Z
+SUMMARY:Loner Life in Another World – Folge 7/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1233
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1233@2024-11-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20241114T160000Z
+DTEND:20241114T163000Z
+SUMMARY:Loner Life in Another World – Folge 8/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1233
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1233@2024-11-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20241121T160000Z
+DTEND:20241121T163000Z
+SUMMARY:Loner Life in Another World – Folge 9/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1233
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1233@2024-11-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20241128T160000Z
+DTEND:20241128T163000Z
+SUMMARY:Loner Life in Another World – Folge 10/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1233
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1233@2024-12-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20241205T160000Z
+DTEND:20241205T163000Z
+SUMMARY:Loner Life in Another World – Folge 11/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1233
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1233@2024-12-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20241212T160000Z
+DTEND:20241212T163000Z
+SUMMARY:Loner Life in Another World – Folge 12/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1233
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-06-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250611T070000Z
+DTEND:20250611T073000Z
+SUMMARY:Sword Art Online – Folge 1/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-06-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250618T070000Z
+DTEND:20250618T073000Z
+SUMMARY:Sword Art Online – Folge 2/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-06-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250625T070000Z
+DTEND:20250625T073000Z
+SUMMARY:Sword Art Online – Folge 3/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-07-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250702T070000Z
+DTEND:20250702T073000Z
+SUMMARY:Sword Art Online – Folge 4/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-07-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250709T070000Z
+DTEND:20250709T073000Z
+SUMMARY:Sword Art Online – Folge 5/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-07-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250716T070000Z
+DTEND:20250716T073000Z
+SUMMARY:Sword Art Online – Folge 6/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-07-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250723T070000Z
+DTEND:20250723T073000Z
+SUMMARY:Sword Art Online – Folge 7/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-07-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250730T070000Z
+DTEND:20250730T073000Z
+SUMMARY:Sword Art Online – Folge 8/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-08-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250806T070000Z
+DTEND:20250806T073000Z
+SUMMARY:Sword Art Online – Folge 9/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-08-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250813T070000Z
+DTEND:20250813T073000Z
+SUMMARY:Sword Art Online – Folge 10/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-08-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250820T070000Z
+DTEND:20250820T073000Z
+SUMMARY:Sword Art Online – Folge 11/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-08-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250827T070000Z
+DTEND:20250827T073000Z
+SUMMARY:Sword Art Online – Folge 12/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-09-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250903T070000Z
+DTEND:20250903T073000Z
+SUMMARY:Sword Art Online – Folge 13/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-09-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250910T070000Z
+DTEND:20250910T073000Z
+SUMMARY:Sword Art Online – Folge 14/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-09-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250917T070000Z
+DTEND:20250917T073000Z
+SUMMARY:Sword Art Online – Folge 15/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-09-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250924T070000Z
+DTEND:20250924T073000Z
+SUMMARY:Sword Art Online – Folge 16/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-10-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251001T070000Z
+DTEND:20251001T073000Z
+SUMMARY:Sword Art Online – Folge 17/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-10-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251008T070000Z
+DTEND:20251008T073000Z
+SUMMARY:Sword Art Online – Folge 18/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-10-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251015T070000Z
+DTEND:20251015T073000Z
+SUMMARY:Sword Art Online – Folge 19/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-10-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251022T070000Z
+DTEND:20251022T073000Z
+SUMMARY:Sword Art Online – Folge 20/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-10-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251029T080000Z
+DTEND:20251029T083000Z
+SUMMARY:Sword Art Online – Folge 21/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-11-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251105T080000Z
+DTEND:20251105T083000Z
+SUMMARY:Sword Art Online – Folge 22/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-11-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251112T080000Z
+DTEND:20251112T083000Z
+SUMMARY:Sword Art Online – Folge 23/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-11-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251119T080000Z
+DTEND:20251119T083000Z
+SUMMARY:Sword Art Online – Folge 24/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-11-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251126T080000Z
+DTEND:20251126T083000Z
+SUMMARY:Sword Art Online – Folge 25/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-12-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251203T080000Z
+DTEND:20251203T083000Z
+SUMMARY:Sword Art Online – Folge 26/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-12-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251210T080000Z
+DTEND:20251210T083000Z
+SUMMARY:Sword Art Online – Folge 27/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-12-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251217T080000Z
+DTEND:20251217T083000Z
+SUMMARY:Sword Art Online – Folge 28/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-12-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251224T080000Z
+DTEND:20251224T083000Z
+SUMMARY:Sword Art Online – Folge 29/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2025-12-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251231T080000Z
+DTEND:20251231T083000Z
+SUMMARY:Sword Art Online – Folge 30/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-01-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260107T080000Z
+DTEND:20260107T083000Z
+SUMMARY:Sword Art Online – Folge 31/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-01-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260114T080000Z
+DTEND:20260114T083000Z
+SUMMARY:Sword Art Online – Folge 32/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-01-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260121T080000Z
+DTEND:20260121T083000Z
+SUMMARY:Sword Art Online – Folge 33/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-01-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260128T080000Z
+DTEND:20260128T083000Z
+SUMMARY:Sword Art Online – Folge 34/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-02-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260204T080000Z
+DTEND:20260204T083000Z
+SUMMARY:Sword Art Online – Folge 35/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-02-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260211T080000Z
+DTEND:20260211T083000Z
+SUMMARY:Sword Art Online – Folge 36/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-02-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260218T080000Z
+DTEND:20260218T083000Z
+SUMMARY:Sword Art Online – Folge 37/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-02-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260225T080000Z
+DTEND:20260225T083000Z
+SUMMARY:Sword Art Online – Folge 38/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-03-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260304T080000Z
+DTEND:20260304T083000Z
+SUMMARY:Sword Art Online – Folge 39/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-03-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260311T080000Z
+DTEND:20260311T083000Z
+SUMMARY:Sword Art Online – Folge 40/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-03-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260318T080000Z
+DTEND:20260318T083000Z
+SUMMARY:Sword Art Online – Folge 41/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-03-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260325T080000Z
+DTEND:20260325T083000Z
+SUMMARY:Sword Art Online – Folge 42/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-04-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260401T070000Z
+DTEND:20260401T073000Z
+SUMMARY:Sword Art Online – Folge 43/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-G6NVG970Y@2026-04-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260404T102500Z
@@ -15,6 +575,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-04-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260408T070000Z
+DTEND:20260408T073000Z
+SUMMARY:Sword Art Online – Folge 44/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-04-08@anime-kalender-de
@@ -39,6 +609,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-442@2026-04-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260415T070000Z
+DTEND:20260415T073000Z
+SUMMARY:Sword Art Online – Folge 45/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-04-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260415T140000Z
@@ -59,6 +639,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-04-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260422T070000Z
+DTEND:20260422T073000Z
+SUMMARY:Sword Art Online – Folge 46/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GVDHX8504@2026-04-22@anime-kalender-de
@@ -93,6 +683,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-04-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260429T070000Z
+DTEND:20260429T073000Z
+SUMMARY:Sword Art Online – Folge 47/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GVDHX8504@2026-04-29@anime-kalender-de
@@ -163,6 +763,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-442@2026-05-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260506T070000Z
+DTEND:20260506T073000Z
+SUMMARY:Sword Art Online – Folge 48/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GVDHX8504@2026-05-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260506T140000Z
@@ -229,6 +839,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-05-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260513T070000Z
+DTEND:20260513T073000Z
+SUMMARY:Sword Art Online – Folge 49/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GVDHX8504@2026-05-13@anime-kalender-de
@@ -299,6 +919,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-442@2026-05-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260520T070000Z
+DTEND:20260520T073000Z
+SUMMARY:Sword Art Online – Folge 50/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GVDHX8504@2026-05-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260520T140000Z
@@ -367,6 +997,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-442@2026-05-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260527T070000Z
+DTEND:20260527T073000Z
+SUMMARY:Sword Art Online – Folge 51/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GVDHX8504@2026-05-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260527T140000Z
@@ -428,6 +1068,16 @@ SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 9/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-06-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260603T070000Z
+DTEND:20260603T073000Z
+SUMMARY:Sword Art Online – Folge 52/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GVDHX8504@2026-06-03@anime-kalender-de
@@ -493,6 +1143,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-442@2026-06-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260610T070000Z
+DTEND:20260610T073000Z
+SUMMARY:Sword Art Online – Folge 53/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GVDHX8504@2026-06-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260610T140000Z
@@ -556,6 +1216,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-442@2026-06-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260617T070000Z
+DTEND:20260617T073000Z
+SUMMARY:Sword Art Online – Folge 54/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GVDHX8504@2026-06-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260617T140000Z
@@ -617,6 +1287,16 @@ SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 12/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-06-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260624T070000Z
+DTEND:20260624T073000Z
+SUMMARY:Sword Art Online – Folge 55/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GVDHX8504@2026-06-24@anime-kalender-de
@@ -683,6 +1363,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-442@2026-07-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260701T070000Z
+DTEND:20260701T073000Z
+SUMMARY:Sword Art Online – Folge 56/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-07-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260701T140000Z
@@ -744,6 +1434,16 @@ SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 1/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-07-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260708T070000Z
+DTEND:20260708T073000Z
+SUMMARY:Sword Art Online – Folge 57/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GVDHX8504@2026-07-08@anime-kalender-de
@@ -820,6 +1520,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-442@2026-07-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260715T070000Z
+DTEND:20260715T073000Z
+SUMMARY:Sword Art Online – Folge 58/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GVDHX8504@2026-07-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260715T140000Z
@@ -893,6 +1603,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-442@2026-07-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260722T070000Z
+DTEND:20260722T073000Z
+SUMMARY:Sword Art Online – Folge 59/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-07-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260722T140000Z
@@ -933,6 +1653,16 @@ SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 4/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-07-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260729T070000Z
+DTEND:20260729T073000Z
+SUMMARY:Sword Art Online – Folge 60/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-07-29@anime-kalender-de
@@ -1005,6 +1735,16 @@ SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 5/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-08-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260805T070000Z
+DTEND:20260805T073000Z
+SUMMARY:Sword Art Online – Folge 61/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-08-05@anime-kalender-de
@@ -1146,6 +1886,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-442@2026-08-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260812T070000Z
+DTEND:20260812T073000Z
+SUMMARY:Sword Art Online – Folge 62/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-08-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260812T133000Z
@@ -1246,6 +1996,16 @@ DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestätig
 CATEGORIES:Kino
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-442@2026-08-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260819T070000Z
+DTEND:20260819T073000Z
+SUMMARY:Sword Art Online – Folge 63/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-08-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260819T133000Z
@@ -1335,6 +2095,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-442@2026-08-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260826T070000Z
+DTEND:20260826T073000Z
+SUMMARY:Sword Art Online – Folge 64/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-08-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260826T133000Z
@@ -1400,6 +2170,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-09-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260902T070000Z
+DTEND:20260902T073000Z
+SUMMARY:Sword Art Online – Folge 65/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-09-02@anime-kalender-de
@@ -1491,6 +2271,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-442@2026-09-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260909T070000Z
+DTEND:20260909T073000Z
+SUMMARY:Sword Art Online – Folge 66/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-09-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260909T133000Z
@@ -1556,6 +2346,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-09-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260916T070000Z
+DTEND:20260916T073000Z
+SUMMARY:Sword Art Online – Folge 67/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-09-16@anime-kalender-de
@@ -1625,6 +2425,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-442@2026-09-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260923T070000Z
+DTEND:20260923T073000Z
+SUMMARY:Sword Art Online – Folge 68/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-09-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260923T133000Z
@@ -1668,6 +2478,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6793XKZY
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-09-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260930T070000Z
+DTEND:20260930T073000Z
+SUMMARY:Sword Art Online – Folge 69/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-09-30@anime-kalender-de
@@ -1715,6 +2535,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-442@2026-10-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261007T070000Z
+DTEND:20261007T073000Z
+SUMMARY:Sword Art Online – Folge 70/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T133000Z
@@ -1758,6 +2588,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6793XKZY
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-10-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261014T070000Z
+DTEND:20261014T073000Z
+SUMMARY:Sword Art Online – Folge 71/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-10-14@anime-kalender-de
@@ -1813,5 +2653,255 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6793XKZY
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-10-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261021T070000Z
+DTEND:20261021T073000Z
+SUMMARY:Sword Art Online – Folge 72/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-10-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261028T080000Z
+DTEND:20261028T083000Z
+SUMMARY:Sword Art Online – Folge 73/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-11-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261104T080000Z
+DTEND:20261104T083000Z
+SUMMARY:Sword Art Online – Folge 74/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-11-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261111T080000Z
+DTEND:20261111T083000Z
+SUMMARY:Sword Art Online – Folge 75/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-11-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261118T080000Z
+DTEND:20261118T083000Z
+SUMMARY:Sword Art Online – Folge 76/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-11-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261125T080000Z
+DTEND:20261125T083000Z
+SUMMARY:Sword Art Online – Folge 77/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-12-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261202T080000Z
+DTEND:20261202T083000Z
+SUMMARY:Sword Art Online – Folge 78/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-12-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261209T080000Z
+DTEND:20261209T083000Z
+SUMMARY:Sword Art Online – Folge 79/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-12-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261216T080000Z
+DTEND:20261216T083000Z
+SUMMARY:Sword Art Online – Folge 80/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-12-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261223T080000Z
+DTEND:20261223T083000Z
+SUMMARY:Sword Art Online – Folge 81/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2026-12-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261230T080000Z
+DTEND:20261230T083000Z
+SUMMARY:Sword Art Online – Folge 82/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2027-01-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270106T080000Z
+DTEND:20270106T083000Z
+SUMMARY:Sword Art Online – Folge 83/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2027-01-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270113T080000Z
+DTEND:20270113T083000Z
+SUMMARY:Sword Art Online – Folge 84/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2027-01-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270120T080000Z
+DTEND:20270120T083000Z
+SUMMARY:Sword Art Online – Folge 85/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2027-01-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270127T080000Z
+DTEND:20270127T083000Z
+SUMMARY:Sword Art Online – Folge 86/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2027-02-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270203T080000Z
+DTEND:20270203T083000Z
+SUMMARY:Sword Art Online – Folge 87/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2027-02-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270210T080000Z
+DTEND:20270210T083000Z
+SUMMARY:Sword Art Online – Folge 88/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2027-02-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270217T080000Z
+DTEND:20270217T083000Z
+SUMMARY:Sword Art Online – Folge 89/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2027-02-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270224T080000Z
+DTEND:20270224T083000Z
+SUMMARY:Sword Art Online – Folge 90/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2027-03-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270303T080000Z
+DTEND:20270303T083000Z
+SUMMARY:Sword Art Online – Folge 91/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2027-03-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270310T080000Z
+DTEND:20270310T083000Z
+SUMMARY:Sword Art Online – Folge 92/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2027-03-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270317T080000Z
+DTEND:20270317T083000Z
+SUMMARY:Sword Art Online – Folge 93/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2027-03-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270324T080000Z
+DTEND:20270324T083000Z
+SUMMARY:Sword Art Online – Folge 94/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2027-03-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270331T070000Z
+DTEND:20270331T073000Z
+SUMMARY:Sword Art Online – Folge 95/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-442@2027-04-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270407T070000Z
+DTEND:20270407T073000Z
+SUMMARY:Sword Art Online – Folge 96/96
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-442
+CATEGORIES:ADN
 END:VEVENT
 END:VCALENDAR
