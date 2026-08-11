@@ -5,10 +5,7 @@ Stand: 11.08.2026 · Live: https://anime-kalender.de/
 ## Task Queue
 
 ### In Arbeit
-
-| Aufgabe | SP | Stand |
-|---|---|---|
-| Deutsche Synchronsprecher anbinden | 8 | Quelle gefunden und Code fertig: **AniList** führt die deutschen Stimmen selbst (`voiceActors(language: GERMAN)`) — dieselbe API, die das Projekt ohnehin abfragt. Der Abruf über alle 2.753 Titel läuft; danach `data:build`, prüfen, committen |
+_(leer)_
 
 ### Queue
 | Aufgabe | SP | Notiz |
@@ -85,6 +82,23 @@ verschoben, Best-of, Recap.
   abgenommen.
 
 ## Archiv
+
+- ✅ **Deutsche Synchronsprecher im Detail-Panel** (11.08.2026). 1.746 von 2.753 Titeln haben
+  eine Besetzung, zusammen **21.924 Rollen**. Quelle ist **AniList** — dieselbe Schnittstelle,
+  die das Projekt seit Monaten abfragt. Der Umweg dorthin ist die eigentliche Lehre: Erst
+  Deutsche Synchronkartei recherchiert (800.000 Einträge, saubere Rollentabellen), dafür eine
+  Wikidata-Brücke über P4834/P3844 gebaut und gemessen (675 unserer Titel erreichbar) — und
+  dann in deren rechtlichen Hinweisen gelesen: „Insbesondere ist ein automatisiertes Auslesen
+  des Internetangebots nicht gestattet." Die robots.txt hätte grünes Licht gegeben, wo keines
+  ist. synchrondatenbank.de veröffentlicht frei nur Synchronisationen, die über dreißig Jahre
+  zurückliegen. **Regel für künftige Quellensuchen: erst die eigenen Quellen ausreizen.**
+  *Architektur:* eine Datei je Titel (~640 B) unter `public/data/voices/`, geholt **erst beim
+  Aufklappen** — live nachgeprüft, genau ein Abruf, ausgelöst durch den Klick. Der Erstaufruf
+  bleibt bei 142 KB. Der Merker `hasVoices` sorgt dafür, dass der Bereich nur erscheint, wo es
+  Stimmen gibt; `titles-core` bleibt trotzdem bei 27 KB gzip.
+  *Beinahe durchgerutscht:* Die erste Fassung fragte deutsche und japanische Stimmen in einer
+  Auswahl ab. AniList löst das gleichnamige Feld genau einmal auf — Liste gefüllt, Namen
+  plausibel, nur hieß Henriettas „deutsche" Stimme Yuuka Nanri.
 
 - ✅ **aniSearch-Seiten werden archiviert statt verworfen** (11.08.2026). Bisher wurden je Seite
   zwei Felder herausgelöst und 110 KB weggeworfen; die gebrauchte Folgenzahl stand auf jeder

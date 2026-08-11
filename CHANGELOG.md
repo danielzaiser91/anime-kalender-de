@@ -8,6 +8,12 @@ selbst oder an der Art ändert, wie Termine zustande kommen.
 
 ## Unveröffentlicht
 
+### Neu: deutsche Synchronsprecher
+
+- **„Wer spricht diese Figur auf Deutsch"** steht jetzt im Detail-Panel — bei 1.746 von 2.753
+  Titeln, zusammen 21.924 Rollen. Der Bereich ist zugeklappt und lädt erst beim Aufklappen;
+  wer ihn nicht öffnet, lädt auch nichts. Angaben von AniList.
+
 ### Genauere Folgenzahlen
 
 - **Die Folgenzahl kommt jetzt von aniSearch, statt geraten zu werden.** Fehlte die
