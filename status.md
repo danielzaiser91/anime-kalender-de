@@ -54,6 +54,38 @@ keine Inhalte ausgewertet.**
 | crunchyroll.com/de/news | `/news` nicht gesperrt | `/de/news/rss` → 200, aber `text/html` — **kein Feed** | Ginge nur als HTML-Auslesen. Zurückstellen, bis die beiden Feeds ausgewertet sind |
 | anisearch.de/news | erlaubt | `/news/rss` → 404 | Kein Feed vorhanden |
 
+### Nachtrag 11.08.2026: Lizenznehmer statt Studios — und wer sie beobachtet
+
+Aus der Studio-Recherche folgt die Frage, ob man nicht bei den **Lizenznehmern** suchen sollte.
+Die zerfallen in zwei Gruppen, und nur eine hilft:
+
+- **Streaming-Lizenznehmer sind die Plattformen selbst.** Crunchyroll und ADN lesen wir bereits
+  maschinell; Netflix, Prime und Disney+ veröffentlichen keine Kalender. Kein neuer Weg.
+- **Disc- und Kino-Publisher** (peppermint, KAZÉ, AniMoon, Nipponart, Universum, polyband)
+  müssen Termine nennen, weil man vorbestellen soll. Genau diese pflegen wir bisher von Hand.
+
+Direkt bei den Publishern auszulesen ist aber der mühsamste Weg: zehn Seiten, zehn Bauweisen.
+peppermints Übersicht (`/anime`) rendert per JavaScript, im HTML steht kein einziges Datum;
+AniMoon und Universum waren von hier aus nicht erreichbar. **polyband sperrt in seiner
+robots.txt ausschließlich `ClaudeBot`** — kein allgemeines Verbot, aber eine erkennbare
+Haltung; vor einer Anbindung dort erst mit Daniel klären.
+
+**Der bessere Hebel sind Seiten, die alle Publisher zugleich beobachten:**
+
+| Quelle | robots | Feed | Was sie liefert |
+|---|---|---|---|
+| **anime2you.de** | erlaubt | RSS | **Die stärkste Quelle, und wir haben sie schon.** Fasst Ankündigungen je Season gebündelt zusammen: „Crunchyroll zeigt zehn Anime-Neustarts im Sommer 2026 auf Deutsch". Bisher werten wir nur die Termin-Artikel aus, nicht diese Übersichten |
+| manga-passion.de | erlaubt (`Disallow:` leer) | ja | Schwerpunkt Manga, deckt aber Publisher-News mit ab |
+| sumikai.com | erlaubt | RSS | Japan-News allgemein, Anime als Teilbereich |
+| nipponinsider.de | erlaubt | RSS | kleinere Redaktion, zweite Meinung |
+| animehunter.de | zu prüfen | zu prüfen | Führt Jahreslisten „Deutsche Anime-Lizenzen 20XX" über **alle** Publisher hinweg — genau die Lizenznehmer-Übersicht, die einzeln zu scrapen mühsam wäre |
+
+**Wettbewerber gefunden:** [animeradar.de](https://www.animeradar.de/kalender) macht dasselbe wie
+wir und mehr — Release-Kalender filterbar nach deutscher Synchro, dazu Android-App, Community,
+Discord, Toplisten, Nutzerprofile. robots.txt erlaubt das Lesen (nur `/api/` gesperrt). Als
+Quelle wäre es allerdings Abschreiben bei jemandem, dessen Termine aus denselben Quellen
+stammen wie unsere — kein Gewinn an Belegqualität. Als Maßstab und Ideengeber dagegen relevant.
+
 **Offen und vor dem Bauen zu klären:** Wie oft steht eine Sendepause überhaupt in diesen News,
 und mit welchen Worten? Bevor ein Erkenner gebaut wird, sollte einmal von Hand durch ein paar
 Wochen Feed gelesen werden — sonst baut man eine Mustererkennung für einen Fall, den es in der
