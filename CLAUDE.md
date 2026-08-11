@@ -1,5 +1,31 @@
 # Projektregeln: anime-kalender-de
 
+## Projektziel
+
+Ein **Gesamtüberblick aller Anime, für die es eine deutsche Synchronfassung gibt oder geben
+wird** — die bereits erschienenen ebenso wie die angekündigten. Dazu **filterbar**, **durchsuchbar**
+und als **Kalendereintrag** übernehmbar (Daniel, 11.08.2026).
+
+Fünf Punkte gehören aus der bisherigen Arbeit dazu, weil ohne sie keiner der vier oben trägt:
+
+1. **Synchro ist nicht Untertitel.** Das ist die Trennlinie, an der sich das Projekt von jedem
+   anderen Kalender scheidet. Chiikawa hat 120 deutsche Folgen — alle untertitelt, keine
+   synchronisiert; unser Kalender führt es zu Recht nicht. Wer diese Unterscheidung nicht
+   trifft, beantwortet eine andere Frage als die gestellte.
+2. **Nichts behaupten, was nicht belegt ist** (siehe nächster Abschnitt). Ein Kalender, dem man
+   nicht trauen kann, ist wertlos — er kostet dann Zeit, statt sie zu sparen.
+3. **Unsicheres kennzeichnen statt weglassen.** Der Sinn ist vorherzusagen, damit niemand etwas
+   verpasst. Ein Eintrag wird nur gestrichen, wenn eine Quelle ihn **aktiv widerlegt** — nicht,
+   weil er unbestätigt ist. Sonst fehlt genau der Termin, für den jemand die Seite aufruft.
+4. **Nicht nur wann, auch wo.** Zu jedem Titel gehört, wo man ihn sehen oder kaufen kann. Bei
+   den meisten Titeln ist das die eigentliche Frage — nur gut hundert haben überhaupt einen
+   anstehenden Termin.
+5. **Rechtzeitig Bescheid geben.** Kalender-Abo, ICS-Export und Newsletter sind kein Beiwerk:
+   Wer die Seite nicht täglich aufruft, verpasst sonst genau das, wovor sie bewahren soll.
+
+Was **nicht** zum Ziel gehört: eine Community-Plattform, Bewertungen, Wasserstandsmeldungen zu
+japanischen Ausstrahlungen. Der Kalender beantwortet eine Frage, und die auf Deutsch.
+
 ## Grundsatz: nichts behaupten, was nicht belegt ist
 
 Dieses Projekt lebt davon, dass die Termine stimmen. Deshalb gilt ausnahmslos:
