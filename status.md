@@ -5,7 +5,10 @@ Stand: 11.08.2026 · Live: https://anime-kalender.de/
 ## Task Queue
 
 ### In Arbeit
-_(leer)_
+
+| Aufgabe | SP | Stand |
+|---|---|---|
+| Deutsche Synchronsprecher anbinden | 8 | Quelle gefunden und Code fertig: **AniList** führt die deutschen Stimmen selbst (`voiceActors(language: GERMAN)`) — dieselbe API, die das Projekt ohnehin abfragt. Der Abruf über alle 2.753 Titel läuft; danach `data:build`, prüfen, committen |
 
 ### Queue
 | Aufgabe | SP | Notiz |
@@ -31,10 +34,7 @@ herausgeholt, wenn der User es sagt.
 
 | Idee | SP | Notiz |
 |---|---|---|
-| Synchronstudios als Quelle | 8 | **Die Wurzel der Terminfrage.** Ein Dub muss produziert werden — die Studios wissen als Erste, wann eine Fassung fertig wird. Kandidaten: Violetmedia, Oxygen Sound Studios, Studio Umlaut, TV+Synchron, Iyuno, VSI Berlin. Zu klären: Veröffentlichen sie überhaupt Termine (Website, Social Media, Presse)? Lohnt eine Anfrage, wie bei aniSearch? Anders als Simulcast-Listen wäre das eine Quelle, die den deutschen Termin **kennt**, statt ihn aus dem japanischen abzuleiten (Daniels Idee, 10.08.2026) |
-| Fallback-Kette für Beschreibungen | 5 | Heute: aniSearch, sonst TMDB, sonst englischer Text von AniList — 516 von 2.754 Titeln haben gar nichts. Als weitere Glieder recherchiert (10.08.2026): **deutsche Wikipedia** über die MediaWiki-API, ausführliche Handlungsabschnitte unter CC BY-SA, ausdrücklich zur Weiterverwendung gedacht, aber nur bekanntere Serien haben einen Artikel; **Wikidata** unter CC0, für Inhaltsangaben zu knapp, dafür eine saubere zweite ID-Brücke neben der anime-offline-database. Vor dem Bauen messen, wie viele unserer Titel überhaupt einen deutschen Wikipedia-Artikel haben — sonst baut man eine Kette für dreißig Treffer. **Proxer.me** hat als einzige deutsche Seite eine echte API, fällt aber wegen der Rechtslage aus, aus demselben Grund wie AniWorld |
-| Deutsche Synchronsprecher zeigen | 8 | „Wer spricht diese Figur auf Deutsch" — das hat sonst niemand neben den Terminen. Quellen: Deutsche Synchronkartei (über 800.000 Einträge) und synchrondatenbank.de. Beide ohne API, beide müssten also ausgelesen werden — vorher robots.txt und Nutzungsbedingungen prüfen und dort anfragen, wie es bei aniSearch gelaufen ist. Aufwand vor allem in der Zuordnung Figur ↔ Sprecher ↔ unserem Titel |
-| Weitere Sprachen | 3 | **Überholt.** Am 10.08.2026 wurde die Oberfläche bewusst einsprachig gemacht (englisches Wörterbuch, Umschalter und Provider entfernt). Eine zweite Sprache hieße jetzt: das Gerüst neu bauen. Bleibt als Idee stehen, aber mit dieser Hypothek |
+| Synchronstudios als Quelle | 8 | **Recherche am 11.08.2026 gemacht, Ergebnis ernüchternd.** Oxygen Sound Studios führt unter [o2studios.com/de/projekte](https://o2studios.com/de/projekte/) eine reine Referenzliste: „Chainsaw Man – Der Film Reze Arc — Deutsche Synchronisation", ohne jedes Datum und ohne Status. Violetmedia ist von hier aus nicht erreichbar (TLS-Handshake bricht ab, wie schon bei aniverse.de). Ein Studio nennt also, **dass** es eine Fassung macht — nicht **wann** sie kommt. Das ist nachvollziehbar: Der Termin gehört dem Lizenznehmer, nicht dem Studio. **Rest-Nutzen:** Die Projektlisten wären ein Beleg dafür, dass eine deutsche Fassung überhaupt existiert oder entsteht — für die `dubConfidence`, nicht für den Kalender. Als Terminquelle zurückgestellt; eine Anfrage lohnt nur, wenn ein Studio überhaupt Termine kennt und nennen dürfte |
 
 ### Zu besprechen
 _(leer)_
@@ -64,6 +64,16 @@ Praxis dreimal im Jahr gibt. Kandidaten für Signalwörter: Pause, pausiert, Sen
 verschoben, Best-of, Recap.
 
 ## Entscheidungen
+
+- **Keine Fallback-Kette über Wikipedia für Beschreibungen** (11.08.2026). Am 11.08. gemessen
+  statt geschätzt: Es fehlen nur noch **70** von 2.753 Beschreibungen (nicht 516 — die Zahl
+  stammte von vor dem vollständigen aniSearch-Bestand), und von diesen 70 haben **2** einen
+  deutschen Wikipedia-Artikel. Eine ganze Quellenkette für zwei Texte lohnt nicht. Wikidata
+  bleibt als ID-Brücke interessant, für Inhaltsangaben ist es zu knapp.
+- **Die Seite bleibt einsprachig deutsch** (11.08.2026). Die Idee „weitere Sprachen" ist
+  gestrichen, nicht zurückgestellt: anime-kalender.de sagt, wann ein Anime **auf Deutsch**
+  erscheint. Eine englische Fassung derselben Seite hätte keinen Inhalt, den es nicht
+  anderswo besser gäbe.
 
 - **Keine Affiliate-Links** (08.08.2026). Das Projekt bleibt unkommerziell. Damit bleibt auch die
   TMDB-Nutzung im privaten Rahmen, und die Amazon-Links sind schlichte Kauflinks ohne Partner-Tag.

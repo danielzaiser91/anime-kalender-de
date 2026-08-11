@@ -121,6 +121,15 @@ export interface Title {
   titleNative?: string
   format?: string
   episodes?: number
+  /**
+   * true, wenn zu diesem Titel deutsche Sprechrollen vorliegen.
+   *
+   * Nur ein Merker, keine Daten: Die Rollen selbst liegen in einer eigenen
+   * Datei je Titel und werden erst beim Aufklappen geholt. Ohne diesen Merker
+   * müsste die Oberfläche den Bereich bei jedem Titel anbieten und könnte erst
+   * nach dem Klick sagen, dass es nichts zu sehen gibt.
+   */
+  hasVoices?: boolean
   /** Jahr der japanischen Erstausstrahlung. */
   jpYear?: number
   jpSeason?: string

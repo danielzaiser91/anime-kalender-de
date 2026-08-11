@@ -12,6 +12,7 @@ import {
 import { loadCurated, loadWatchLinks, type CuratedEntry } from './lib/curated.ts'
 import type { TmdbInfo } from './lib/tmdb.ts'
 import type { AdnData } from './fetch-adn.ts'
+import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { clearDir, log, readJson, slugify, warn, writeJson, writeText } from './lib/util.ts'
 import { SYNOPSIS_GROUPS } from '../shared/types.ts'
 import type {
@@ -46,6 +47,8 @@ import {
 } from '../shared/mappings.ts'
 
 const OUT = 'public/data'
+/** Deutsche Sprechrollen, eine Datei je Titel — gefüllt von `data:voices`. */
+const VOICES_DIR = `${OUT}/voices`
 const KEYWORD_MIN_RANK = 55
 const KEYWORD_MAX = 24
 const CR_CALENDAR_URL = 'https://www.crunchyroll.com/de/simulcastcalendar'
@@ -1018,11 +1021,32 @@ function main(): void {
   // Staffel 2" stand deshalb „The second season of …" auf der Seite, obwohl es
   // eine ausführliche deutsche Inhaltsangabe gibt.
   const synopses: Record<number, { de?: string; en?: string }> = {}
+
+  // Welche Titel haben deutsche Sprechrollen? Nur der Merker wandert in den
+  // Datensatz — die Rollen selbst holt die Oberfläche beim Aufklappen aus
+  // `public/data/voices/<id>.json`. Das Verzeichnis füllt `data:voices`, das
+  // vor diesem Lauf gelaufen sein muss; fehlt es, bleibt der Merker aus und
+  // die Oberfläche zeigt den Bereich schlicht nicht an.
+  const mitStimmen = new Set<number>()
+  if (existsSync(VOICES_DIR)) {
+    for (const datei of readdirSync(VOICES_DIR)) {
+      if (!datei.endsWith('.json')) continue
+      try {
+        const inhalt = JSON.parse(readFileSync(`${VOICES_DIR}/${datei}`, 'utf8')) as {
+          roles?: unknown[]
+        }
+        if (inhalt.roles?.length) mitStimmen.add(Number(datei.replace('.json', '')))
+      } catch {
+        // Kaputte Datei überspringen — der nächste Sprecher-Lauf schreibt sie neu.
+      }
+    }
+  }
+
   const slim = allTitles.map((t) => {
     const de = anisearch[t.id]?.descriptionDe ?? tmdbTitles[t.id]?.overviewDe
     if (t.synopsis || de) synopses[t.id] = { de, en: t.synopsis }
     const { synopsis: _drop, ...rest } = t
-    return rest
+    return mitStimmen.has(t.id) ? { ...rest, hasVoices: true } : rest
   })
 
   // Der Kalender braucht nur die Titel, zu denen es einen Termin gibt. Die

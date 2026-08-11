@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useState } from 'react'
+import { Fragment, useEffect, useMemo, useState } from 'react'
 import type { Release, ReleaseEvent, Title } from '@shared/types.ts'
 import { PLATFORMS } from '@shared/types.ts'
 import { expandEvents, lastEpisodeDate, releaseStatus, titleStatus } from '@shared/logic.ts'
 import { buildIcs, googleCalendarUrl } from '@shared/ics.ts'
 import { formatDate, todayIso, weekdayName } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
-import { loadSynopsis, type Synopsis } from '../lib/data.ts'
+import { loadSynopsis, loadVoices, type Synopsis, type VoiceRole } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useShare } from '../lib/share.ts'
 import { FORMAT_DE, PLATFORM_TIME_NOTE } from '@shared/mappings.ts'
@@ -311,6 +311,83 @@ function DubMark({ dub }: { dub?: boolean }) {
     <span title={t('detail.dubUnknown')} className="text-[11px] text-slate-400">
       🇩🇪 ?
     </span>
+  )
+}
+
+/**
+ * Deutsche Sprechrollen — zugeklappt, und erst der Klick holt die Daten.
+ *
+ * Bewusst nicht im Hauptdatensatz: Über alle Titel wären das mehr als 50.000
+ * Einträge für eine Angabe, die die meisten nie aufschlagen. Wer sie sehen
+ * will, lädt zwei Kilobyte; alle anderen zahlen nichts. Siehe ARCHITEKTUR.md.
+ */
+function VoiceCast({ titleId }: { titleId: number }) {
+  const { t } = useLang()
+  const [open, setOpen] = useState(false)
+  const [roles, setRoles] = useState<VoiceRole[] | undefined>()
+
+  // Titelwechsel: zuklappen und vergessen. Sonst stünde beim nächsten Anime
+  // kurz die Besetzung des vorherigen da.
+  useEffect(() => {
+    setOpen(false)
+    setRoles(undefined)
+  }, [titleId])
+
+  useEffect(() => {
+    if (!open || roles) return
+    let alive = true
+    loadVoices(titleId)
+      .then((r) => {
+        if (alive) setRoles(r)
+      })
+      .catch(() => {
+        if (alive) setRoles([])
+      })
+    return () => {
+      alive = false
+    }
+  }, [open, roles, titleId])
+
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        className="flex w-full cursor-pointer items-center gap-1.5 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+      >
+        <span aria-hidden className={`transition-transform ${open ? 'rotate-90' : ''}`}>
+          ›
+        </span>
+        {t('detail.voices')}
+      </button>
+
+      {open && (
+        <div className="mt-2">
+          {roles === undefined ? (
+            <p className="text-sm text-slate-400">{t('detail.voicesLoading')}</p>
+          ) : roles.length === 0 ? (
+            <p className="text-sm text-slate-400">{t('detail.voicesNone')}</p>
+          ) : (
+            <>
+              <dl className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-x-3 gap-y-1 text-sm">
+                {roles.map((r) => (
+                  <Fragment key={`${r.character}-${r.actor}`}>
+                    <dt className="truncate text-slate-500 dark:text-slate-400" title={r.character}>
+                      {r.character}
+                    </dt>
+                    <dd className="truncate text-slate-700 dark:text-slate-200" title={r.actor}>
+                      {r.actor}
+                    </dd>
+                  </Fragment>
+                ))}
+              </dl>
+              <p className="mt-2 text-[11px] text-slate-400">{t('detail.voicesSource')}</p>
+            </>
+          )}
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -632,6 +709,8 @@ export function DetailPanel({
               )}
             </div>
           )}
+
+          {title.hasVoices && <VoiceCast titleId={title.id} />}
 
           <p className="text-[11px] text-slate-400">
             {t('detail.metaFrom')}

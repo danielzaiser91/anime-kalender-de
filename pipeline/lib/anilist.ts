@@ -130,6 +130,91 @@ export async function searchMedia(term: string, year?: number): Promise<AniListM
   return data?.Page?.media?.[0]
 }
 
+/** Eine Sprechrolle: Figur, deutsche Stimme, dazu die japanische zum Vergleich. */
+export interface VoiceRole {
+  character: string
+  /** Deutsche Sprecherin oder Sprecher. */
+  actor: string
+  /** 'MAIN' | 'SUPPORTING' | 'BACKGROUND' — die Reihenfolge kommt von AniList. */
+  role?: string
+}
+
+/**
+ * Holt die deutschen Sprechrollen zu mehreren Titeln.
+ *
+ * Warum AniList und nicht die Deutsche Synchronkartei, die ungleich mehr hat:
+ * Deren rechtliche Hinweise untersagen automatisiertes Auslesen wörtlich
+ * („Insbesondere ist ein automatisiertes Auslesen des Internetangebots nicht
+ * gestattet"). AniList dagegen betreibt die Schnittstelle ausdrücklich für
+ * genau solche Zugriffe — und wir fragen sie ohnehin schon ab.
+ *
+ * Zehn Titel je Anfrage: Die Figurenliste ist eine verschachtelte Abfrage,
+ * größere Bündel treiben die Kosten je Anfrage unnötig hoch.
+ *
+ * **Nur eine Sprache je Abfrage.** AniList löst das Feld voiceActors pro
+ * Auswahl genau einmal auf: Steht es zweimal mit verschiedenen Sprachen da,
+ * gewinnt die letzte — und zwar für beide Felder. Aliasse helfen nicht, sie
+ * machen es schlimmer, weil dann beide die japanischen Namen liefern. Der
+ * Fehler ist still und plausibel: Die Liste ist gefüllt, die Namen sehen nach
+ * Sprechern aus, nur spricht Yuuka Nanri kein Deutsch. Wer die japanische
+ * Besetzung dazu will, braucht eine zweite Abfrage.
+ */
+export async function germanVoicesFor(
+  ids: number[],
+  onProgress?: (done: number, total: number) => void,
+): Promise<Map<number, VoiceRole[]>> {
+  const out = new Map<number, VoiceRole[]>()
+  const query = `query ($ids: [Int]) {
+    Page(page: 1, perPage: 10) {
+      media(id_in: $ids, type: ANIME) {
+        id
+        characters(sort: [ROLE, RELEVANCE], perPage: 25) {
+          edges {
+            role
+            node { name { full } }
+            voiceActors(language: GERMAN) { name { full } }
+          }
+        }
+      }
+    }
+  }`
+
+  for (let i = 0; i < ids.length; i += 10) {
+    const chunk = ids.slice(i, i + 10)
+    try {
+      const data = await gql<{
+        Page: {
+          media: {
+            id: number
+            characters: {
+              edges: {
+                role: string | null
+                node: { name: { full: string | null } }
+                voiceActors: { name: { full: string | null } }[]
+              }[]
+            }
+          }[]
+        }
+      }>(query, { ids: chunk })
+
+      for (const m of data?.Page?.media ?? []) {
+        const rollen: VoiceRole[] = []
+        for (const kante of m.characters?.edges ?? []) {
+          const stimme = kante.voiceActors?.[0]?.name?.full
+          const figur = kante.node?.name?.full
+          if (!stimme || !figur) continue
+          rollen.push({ character: figur, actor: stimme, role: kante.role ?? undefined })
+        }
+        if (rollen.length) out.set(m.id, rollen)
+      }
+    } catch (err) {
+      warn(`Sprecher-Bündel ab Index ${i} fehlgeschlagen: ${(err as Error).message}`)
+    }
+    onProgress?.(Math.min(i + 10, ids.length), ids.length)
+  }
+  return out
+}
+
 export async function mediaById(id: number): Promise<AniListMedia | undefined> {
   const query = `query ($id: Int) { Media(id: $id, type: ANIME) { ${MEDIA_FIELDS} } }`
   const data = await gql<{ Media: AniListMedia }>(query, { id })

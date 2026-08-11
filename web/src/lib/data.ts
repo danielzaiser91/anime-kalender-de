@@ -99,6 +99,38 @@ export async function loadSynopsis(titleId: number): Promise<Synopsis | undefine
   return (await geladen)[titleId]
 }
 
+/** Eine deutsche Sprechrolle: Figur und Stimme. */
+export interface VoiceRole {
+  character: string
+  actor: string
+  /** 'MAIN' | 'SUPPORTING' | 'BACKGROUND' */
+  role?: string
+}
+
+const voiceCache = new Map<number, Promise<VoiceRole[]>>()
+
+/**
+ * Deutsche Synchronsprecher eines Titels — eine eigene Datei je Titel.
+ *
+ * Anders als die Handlung liegt das **nicht** in Gruppen: Bei rund zwanzig
+ * Rollen je Titel wäre eine Gruppe von neunzig Titeln schnell hundert Kilobyte
+ * groß, und geholt wird sie für eine einzige aufgeklappte Liste. Eine Datei je
+ * Titel sind zwei Kilobyte.
+ *
+ * Fehlt die Datei, hat AniList für diesen Titel keine deutschen Stimmen — das
+ * ist kein Fehler, sondern die Antwort.
+ */
+export function loadVoices(titleId: number): Promise<VoiceRole[]> {
+  let geladen = voiceCache.get(titleId)
+  if (!geladen) {
+    geladen = loadJson<{ roles?: VoiceRole[] }>(`voices/${titleId}.json`)
+      .then((d) => d.roles ?? [])
+      .catch(() => [])
+    voiceCache.set(titleId, geladen)
+  }
+  return geladen
+}
+
 export function feedUrl(name: string): string {
   return `${import.meta.env.BASE_URL}data/feeds/${name}`
 }

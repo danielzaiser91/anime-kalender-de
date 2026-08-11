@@ -554,7 +554,13 @@ async function main(): Promise<void> {
   const withRelease = new Set(releases.map((r) => r.titleId))
   const queue = titles
     .filter((t) => ids.anisearch[t.id])
-    .filter((t) => FORCE || !cache[t.id])
+    // Auch Titel, deren Eintrag noch aus der Zeit vor dem Infobox-Parser
+    // stammt. Ohne diese Bedingung überspringt der Lauf jeden bekannten Titel
+    // für immer — ein Katalogtitel, der neu einen Termin bekommt, hätte dann
+    // dauerhaft keine Folgenzahl, obwohl genau sie dann gebraucht wird.
+    // So füllt sich der Rückstand über die Nachtläufe von selbst auf, ohne
+    // dass ein einziger zusätzlicher Abruf nötig wäre.
+    .filter((t) => FORCE || !cache[t.id] || !cache[t.id].info)
     .sort((a, b) => Number(withRelease.has(b.id)) - Number(withRelease.has(a.id)))
     .slice(0, LIMIT)
 

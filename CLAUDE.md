@@ -43,6 +43,16 @@ und zwar mit Last auf einem fremden Server, nicht mit eigenem Speicherplatz.
 - `npm run data:anisearch:check` prüft den Parser gegen das Archiv, ohne einen einzigen neuen
   Abruf. Bricht er ab, hat aniSearch die Seitenstruktur geändert.
 
+## Architektur
+
+Bauweise, Grenzen und die Schwellen, ab denen umgebaut werden müsste: [ARCHITEKTUR.md](ARCHITEKTUR.md).
+
+Die eine Regel, die man dort nicht nachlesen muss: **Ladelast, veröffentlichte Seite und
+Repo-Größe sind drei verschiedene Dinge.** Rohdaten unter `data/` kosten keine Ladelast und
+zählen nicht zur Pages-Grenze — sie wandern nie nach `dist/`. Ein neues Feld gehört nur dann
+in `titles.json`, wenn es die Mehrheit der Besucher braucht; alles andere kommt als eigene
+Datei, nachgeladen bei Bedarf.
+
 ## Datenfluss
 
 `data/curated/*.yaml` (Handarbeit) + `data/cache/*` (APIs) → `pipeline/build.ts` → `public/data/*`
