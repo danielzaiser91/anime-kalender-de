@@ -19,7 +19,8 @@
         }
       ],
       "batch": false,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 461
     },
     {
       "showId": 684,
@@ -102,7 +103,8 @@
         }
       ],
       "batch": true,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 9181
     },
     {
       "showId": 278,
@@ -185,7 +187,8 @@
         }
       ],
       "batch": true,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 18153
     },
     {
       "showId": 1160,
@@ -340,7 +343,8 @@
         }
       ],
       "batch": false,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 171018
     },
     {
       "showId": 904,
@@ -535,7 +539,8 @@
         }
       ],
       "batch": true,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 134
     },
     {
       "showId": 1164,
@@ -618,7 +623,8 @@
         }
       ],
       "batch": true,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 163078
     },
     {
       "showId": 329,
@@ -1229,7 +1235,8 @@
         }
       ],
       "batch": true,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 15
     },
     {
       "showId": 925,
@@ -1245,7 +1252,8 @@
         }
       ],
       "batch": false,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 3848
     },
     {
       "showId": 340,
@@ -1334,7 +1342,8 @@
         }
       ],
       "batch": true,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 20629
     },
     {
       "showId": 1122,
@@ -1417,7 +1426,8 @@
         }
       ],
       "batch": true,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 158028
     },
     {
       "showId": 662,
@@ -1578,7 +1588,8 @@
         }
       ],
       "batch": true,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 16498
     },
     {
       "showId": 971,
@@ -1865,7 +1876,8 @@
         }
       ],
       "batch": false,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 1293
     },
     {
       "showId": 948,
@@ -1881,7 +1893,8 @@
         }
       ],
       "batch": false,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 4155
     },
     {
       "showId": 22,
@@ -2048,7 +2061,8 @@
         }
       ],
       "batch": true,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 857
     },
     {
       "showId": 907,
@@ -2064,7 +2078,8 @@
         }
       ],
       "batch": false,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 463
     },
     {
       "showId": 427,
@@ -2675,7 +2690,8 @@
         }
       ],
       "batch": false,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 530
     },
     {
       "showId": 1060,
@@ -2758,7 +2774,8 @@
         }
       ],
       "batch": true,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 8074
     },
     {
       "showId": 1197,
@@ -2841,7 +2858,8 @@
         }
       ],
       "batch": true,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 13161
     },
     {
       "showId": 1168,
@@ -2996,7 +3014,8 @@
         }
       ],
       "batch": false,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 143598
     },
     {
       "showId": 1233,
@@ -3079,7 +3098,8 @@
         }
       ],
       "batch": false,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 173693
     },
     {
       "showId": 217,
@@ -3246,7 +3266,8 @@
         }
       ],
       "batch": true,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 13663
     },
     {
       "showId": 923,
@@ -3262,7 +3283,8 @@
         }
       ],
       "batch": false,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 465
     },
     {
       "showId": 1113,
@@ -3417,7 +3439,8 @@
         }
       ],
       "batch": true,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 8277
     },
     {
       "showId": 924,
@@ -3450,7 +3473,8 @@
         }
       ],
       "batch": false,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 141821
     },
     {
       "showId": 461,
@@ -3999,7 +4023,8 @@
         }
       ],
       "batch": true,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 20464
     },
     {
       "showId": 1354,
@@ -4154,7 +4179,8 @@
         }
       ],
       "batch": true,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 20623
     },
     {
       "showId": 442,
@@ -4741,7 +4767,8 @@
         }
       ],
       "batch": false,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 11757
     },
     {
       "showId": 999,
@@ -5352,7 +5379,8 @@
         }
       ],
       "batch": true,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 21175
     },
     {
       "showId": 1311,
@@ -5507,7 +5535,8 @@
         }
       ],
       "batch": false,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 177474
     },
     {
       "showId": 1272,
@@ -5668,7 +5697,8 @@
         }
       ],
       "batch": false,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 180367
     },
     {
       "showId": 1325,
@@ -5757,7 +5787,8 @@
         }
       ],
       "batch": true,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 21410
     },
     {
       "showId": 920,
@@ -5773,7 +5804,8 @@
         }
       ],
       "batch": false,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 464
     },
     {
       "showId": 1037,
@@ -5934,7 +5966,8 @@
         }
       ],
       "batch": true,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anilistId": 153152
     }
   ]
 }

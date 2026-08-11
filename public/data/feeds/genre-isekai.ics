@@ -136,6 +136,16 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1122@2025-01-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250124T080000Z
+DTEND:20250124T083000Z
+SUMMARY:My Instant Death Ability is Overpowered
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1122
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-442@2025-06-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250611T070000Z

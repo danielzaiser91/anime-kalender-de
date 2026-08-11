@@ -1,0 +1,70 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//anime-kalender-de//Anime-Kalender DE//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Anime-Kalender DE – Pirates
+X-WR-TIMEZONE:Europe/Berlin
+BEGIN:VEVENT
+UID:adn-905@2022-07-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220706T150000Z
+DTEND:20220706T153000Z
+SUMMARY:One Piece: Chopper’s Kingdom on the Island of Strange Animals – Fol
+ ge 1/1
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-905
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-907@2022-07-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220706T150000Z
+DTEND:20220706T153000Z
+SUMMARY:One Piece: The Curse of the Sacred Sword – Folge 1/1
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-907
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-925@2022-08-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220810T150000Z
+DTEND:20220810T153000Z
+SUMMARY:One Piece: Episode Of Chopper +: The Miracle Winter Cherry Blossom 
+ – Folge 1/1
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-925
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-923@2022-08-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220810T150000Z
+DTEND:20220810T153000Z
+SUMMARY:One Piece: Mega Mecha Soldier of Karakuri Castle – Folge 1/1
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-923
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-920@2022-08-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220810T150000Z
+DTEND:20220810T153000Z
+SUMMARY:One Piece: Baron Omatsuri and the Secret Island – Folge 1/1
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-920
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-948@2022-09-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220914T150000Z
+DTEND:20220914T153000Z
+SUMMARY:One Piece Film: Strong World – Folge 1/1
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-948
+CATEGORIES:ADN
+END:VEVENT
+END:VCALENDAR

@@ -930,19 +930,31 @@ function main(): void {
     const slug = `adn-${show.showId}`
     if (seenSlugs.has(slug)) continue
 
-    const title = titleByName.get(normalizeTitle(show.title)) ?? titleByName.get(normalizeTitle(show.originalTitle ?? ''))
-    // Aus dem Katalogdurchlauf nur, was sich einem Anime zuordnen lässt. Der
-    // Katalog-Endpunkt führt den französischen Bestand: Ohne Zuordnung stünde
-    // ein französischer Titel ohne Cover, Genres und Beschreibung im deutschen
-    // Kalender („One Piece Film 3 • Le Royaume de Chopper"). Beim Kalender-Weg
-    // ist der Name belegt, dort bleibt der Eintrag auch ohne Treffer.
+    // Die im Katalog-Lauf nachgeschlagene Kennung zuerst — sie trifft auch,
+    // wo der Namensabgleich an Schreibweisen scheitert.
+    const title =
+      (show.anilistId ? titles.get(show.anilistId) : undefined) ??
+      titleByName.get(normalizeTitle(show.title)) ??
+      titleByName.get(normalizeTitle(show.originalTitle ?? ''))
+    // Aus dem Katalogdurchlauf nur, was sich einem Anime zuordnen lässt: Der
+    // Katalog führt den französischen Bestand, und ohne Zuordnung bliebe der
+    // französische Name stehen, dazu ohne Cover, Genres und Beschreibung.
+    // Beim Kalender-Weg ist der Name belegt, dort bleibt der Eintrag auch ohne
+    // Treffer.
     if (!title && show.fromCatalog) continue
+    // Der Ton ist deutsch — der Name von ADN oft nicht. „One Piece Film 3 •
+    // Le Royaume de Chopper" heißt hier „One Piece – Chopper auf der Insel der
+    // seltsamen Tiere". Für Katalogtitel gewinnt deshalb der Anime-Eintrag.
+    const anzeigename =
+      show.fromCatalog && title
+        ? (title.titleDe ?? title.titleEn ?? title.titleRomaji ?? show.title)
+        : show.title
     const first = show.episodes[0]
     seenSlugs.add(slug)
     releases.push({
       slug,
       titleId: title?.id ?? -1,
-      name: show.title,
+      name: anzeigename,
       platform: 'adn',
       platformUrl: first.url,
       releaseType: show.batch ? 'batch' : 'weekly',

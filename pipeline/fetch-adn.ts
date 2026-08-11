@@ -19,6 +19,7 @@
  */
 import { addDays, diffDays, todayIso } from '../shared/time.ts'
 import { log, sleep, warn, writeJson } from './lib/util.ts'
+import { searchMedia, type AniListMedia } from './lib/anilist.ts'
 import { recordSource } from './lib/health.ts'
 
 const BASE = 'https://gw.api.animationdigitalnetwork.com'
@@ -83,13 +84,23 @@ export interface AdnShow {
    * Kalender.
    *
    * Der Unterschied zählt beim Bauen: Der Katalog-Endpunkt führt den
-   * **französischen** Bestand, und für einige Titel gibt es dort gar keinen
-   * deutschen Namen — „One Piece Film 3 • Le Royaume de Chopper" etwa. Ohne
-   * passenden Anime-Eintrag stünde ein französischer Titel ohne Cover, Genres
-   * und Beschreibung im deutschen Kalender. Solche Einträge werden verworfen;
-   * beim Kalender-Weg ist der Name dagegen belegt und bleibt.
+   * **französischen** Bestand — der Ton ist deutsch (sonst stünde der Titel
+   * hier gar nicht), aber der Name ist es oft nicht: „One Piece Film 3 • Le
+   * Royaume de Chopper" heißt auf Deutsch „One Piece – Chopper auf der Insel
+   * der seltsamen Tiere". Deshalb wird für Katalogtitel der Name aus dem
+   * zugeordneten Anime-Eintrag genommen, nicht der von ADN.
    */
   fromCatalog?: boolean
+  /**
+   * AniList-Kennung, im Katalog-Lauf über den Originaltitel nachgeschlagen.
+   *
+   * Nötig, weil der Namensabgleich beim Bauen an Schreibweisen scheitert:
+   * ADN schreibt „One Piece Movie 3 : Chinjuu Shima no Chopper Oukoku“,
+   * AniList „One Piece Movie 3: Chinjuu-jima no Chopper Oukoku“. Acht Filme
+   * mit belegter deutscher Synchro fielen deswegen aus dem Datensatz — ein
+   * Verlust, den die Suche für 35 Anfragen abwendet.
+   */
+  anilistId?: number
 }
 
 export interface AdnData {
@@ -149,6 +160,76 @@ async function fetchDay(date: string): Promise<AdnVideo[]> {
  * `vde`; die meisten des französischen Katalogs sind in Deutschland gar nicht
  * verfügbar (die Folgenliste kommt dann leer zurück).
  */
+/**
+ * Suchbegriffe für einen ADN-Titel, vom vollständigsten zum knappsten.
+ *
+ * ADN und AniList benennen dieselben Filme unterschiedlich: „One Piece Movie 3
+ * : Chinjuu Shima no Chopper Oukoku" gegenüber „ONE PIECE: Chinjuu-jima no
+ * Chopper Oukoku". Zwei Dinge brechen die Suche — die Zählung „Movie 3", die
+ * AniList gar nicht führt, und der Teil vor dem Doppelpunkt. Mit dem vollen
+ * String findet man nichts, mit dem Namensteil dahinter sofort den richtigen
+ * Film. Deshalb nacheinander probieren statt einmal raten.
+ */
+function sucheVarianten(...titel: (string | undefined)[]): string[] {
+  const varianten: string[] = []
+  for (const t of titel) {
+    if (!t) continue
+    varianten.push(t)
+    // Ohne Diakritika: ADN schreibt „Kyôkai no Kanata" und „Haikyū!!", AniList
+    // „Kyoukai no Kanata" und „Haikyuu!!". Ein Zirkumflex genügt, damit die
+    // Suche ins Leere greift.
+    const schlicht = t.normalize('NFD').replace(/[̀-ͯ]/g, '')
+    if (schlicht !== t) varianten.push(schlicht)
+    // Alles nach dem letzten Doppelpunkt — dort steht der eigentliche Name.
+    const nachDoppelpunkt = t.split(/\s*:\s*/).slice(1).join(': ').trim()
+    if (nachDoppelpunkt.length > 4) varianten.push(nachDoppelpunkt)
+    // Ohne die Zählung („Movie 3", „Film 3", „OVA 2").
+    const ohneZaehlung = t.replace(/\b(movie|film|ova|special)\s*\d+\b/gi, '').replace(/\s{2,}/g, ' ').trim()
+    if (ohneZaehlung.length > 4 && ohneZaehlung !== t) varianten.push(ohneZaehlung)
+    // Zuletzt nur der Namenskern: die letzten drei, dann zwei Wörter. Eine
+    // einzelne abweichende Silbe reicht sonst für einen Fehlschlag — ADN
+    // schreibt „Chinjuu Shima no Chopper Oukoku", AniList „Chinjuu-jima…";
+    // „Chopper Oukoku" trifft dagegen sofort. Unter zwei Wörtern wird nicht
+    // gekürzt, sonst passt irgendwann jedes „Season 2".
+    const woerter = ohneZaehlung.split(/\s+/).filter(Boolean)
+    for (const n of [3, 2]) {
+      if (woerter.length > n) varianten.push(woerter.slice(-n).join(' '))
+    }
+  }
+  return [...new Set(varianten)]
+}
+
+/**
+ * Gegenprobe für einen Suchtreffer — greift die kurzen Varianten ab.
+ *
+ * Die Kürzung auf den Namenskern rettet Fälle wie „Chinjuu Shima" gegen
+ * „Chinjuu-jima", trifft mit zwei Wörtern aber auch beliebiges: „no Bouken"
+ * fand „The Enchanted Journey", „to Kaizoku Tachi" fand „Galactic Pirates" —
+ * beides keine One-Piece-Filme. Ein falsch zugeordneter Titel ist schlimmer
+ * als ein fehlender: Er bringt Cover, Beschreibung und Genres eines fremden
+ * Werks mit.
+ *
+ * Deshalb muss der Treffer ein aussagekräftiges Wort mit dem ADN-Titel teilen.
+ * Kurze Füllwörter zählen nicht — sonst genügte „no" oder „the".
+ */
+function passtZuSerie(show: { title: string; originalTitle?: string }, media: AniListMedia): boolean {
+  const woerterVon = (s: string) =>
+    new Set(
+      s
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[̀-ͯ]/g, '')
+        .split(/[^a-z0-9]+/)
+        .filter((w) => w.length >= 4),
+    )
+  const unsere = new Set([...woerterVon(show.title), ...woerterVon(show.originalTitle ?? '')])
+  const ihre = woerterVon(
+    [media.title.romaji, media.title.english, media.title.native].filter(Boolean).join(' '),
+  )
+  for (const wort of unsere) if (ihre.has(wort)) return true
+  return false
+}
+
 async function fetchCatalog(): Promise<AdnShow[]> {
   /**
    * Die Serienliste einsammeln — nach eindeutigen Kennungen, nicht nach `total`.
@@ -250,6 +331,32 @@ async function fetchCatalog(): Promise<AdnShow[]> {
     }
     await sleep(700)
   }
+
+  // Zuordnung nachschlagen, solange wir online sind.
+  //
+  // Der Namensabgleich beim Bauen scheitert an Schreibweisen — ADN schreibt
+  // „One Piece Movie 3 : Chinjuu Shima no Chopper Oukoku", AniList
+  // „Chinjuu-jima". Acht Filme mit belegter deutscher Synchro fielen deshalb
+  // heraus. Die Suche kostet eine Anfrage je Treffer und rettet sie.
+  log(`ADN-Katalog: ${out.length} Treffer, Zuordnung wird nachgeschlagen…`)
+  for (const show of out) {
+    try {
+      // Beide Namen anbieten: Der Originaltitel trägt oft Makra und
+      // Zirkumflexe, der Anzeigename ist die schlichtere Schreibweise —
+      // „Haikyū!!" gegen „Haikyu!!". Welcher trifft, weiß man vorher nicht.
+      for (const begriff of sucheVarianten(show.originalTitle, show.title)) {
+        const media = await searchMedia(begriff)
+        if (media?.id && passtZuSerie(show, media)) {
+          show.anilistId = media.id
+          break
+        }
+      }
+    } catch (err) {
+      warn(`ADN-Katalog: Suche für "${show.title}" fehlgeschlagen: ${(err as Error).message}`)
+    }
+  }
+  const zugeordnet = out.filter((s) => s.anilistId).length
+  log(`ADN-Katalog: ${zugeordnet} von ${out.length} einem Anime zugeordnet`)
   return out
 }
 

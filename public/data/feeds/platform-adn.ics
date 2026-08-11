@@ -6,11 +6,73 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – adn
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:adn-905@2022-07-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220706T150000Z
+DTEND:20220706T153000Z
+SUMMARY:One Piece: Chopper’s Kingdom on the Island of Strange Animals – Fol
+ ge 1/1
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-905
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-907@2022-07-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220706T150000Z
+DTEND:20220706T153000Z
+SUMMARY:One Piece: The Curse of the Sacred Sword – Folge 1/1
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-907
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-925@2022-08-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220810T150000Z
+DTEND:20220810T153000Z
+SUMMARY:One Piece: Episode Of Chopper +: The Miracle Winter Cherry Blossom 
+ – Folge 1/1
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-925
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-923@2022-08-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220810T150000Z
+DTEND:20220810T153000Z
+SUMMARY:One Piece: Mega Mecha Soldier of Karakuri Castle – Folge 1/1
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-923
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-920@2022-08-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220810T150000Z
+DTEND:20220810T153000Z
+SUMMARY:One Piece: Baron Omatsuri and the Secret Island – Folge 1/1
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-920
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-948@2022-09-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220914T150000Z
+DTEND:20220914T153000Z
+SUMMARY:One Piece Film: Strong World – Folge 1/1
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-948
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-971@2022-10-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20221013T165500Z
 DTEND:20221013T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 1/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 1/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -20,7 +82,7 @@ UID:adn-971@2022-10-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20221020T165500Z
 DTEND:20221020T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 2/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 2/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -30,7 +92,7 @@ UID:adn-971@2022-10-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20221027T165500Z
 DTEND:20221027T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 3/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 3/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -40,7 +102,7 @@ UID:adn-971@2022-11-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20221103T175500Z
 DTEND:20221103T182500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 4/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 4/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -50,7 +112,7 @@ UID:adn-971@2022-11-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20221110T175500Z
 DTEND:20221110T182500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 5/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 5/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -60,7 +122,7 @@ UID:adn-971@2022-11-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20221117T175500Z
 DTEND:20221117T182500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 6/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 6/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -70,7 +132,7 @@ UID:adn-971@2022-11-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20221124T175500Z
 DTEND:20221124T182500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 7/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 7/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -80,7 +142,7 @@ UID:adn-971@2022-12-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20221201T175500Z
 DTEND:20221201T182500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 8/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 8/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -90,7 +152,7 @@ UID:adn-971@2022-12-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20221208T175500Z
 DTEND:20221208T182500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 9/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 9/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -100,7 +162,7 @@ UID:adn-971@2022-12-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20221215T175500Z
 DTEND:20221215T182500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 10/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 10/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -110,7 +172,7 @@ UID:adn-971@2022-12-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20221222T175500Z
 DTEND:20221222T182500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 11/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 11/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -120,7 +182,7 @@ UID:adn-971@2022-12-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20221229T175500Z
 DTEND:20221229T182500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 12/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 12/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -140,7 +202,7 @@ UID:adn-971@2023-01-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230105T175500Z
 DTEND:20230105T182500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 13/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 13/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -150,7 +212,7 @@ UID:adn-971@2023-01-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230112T175500Z
 DTEND:20230112T182500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 14/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 14/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -160,7 +222,7 @@ UID:adn-971@2023-01-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230119T175500Z
 DTEND:20230119T182500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 15/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 15/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -170,7 +232,7 @@ UID:adn-971@2023-01-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230126T175500Z
 DTEND:20230126T182500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 16/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 16/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -180,7 +242,7 @@ UID:adn-971@2023-02-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230202T175500Z
 DTEND:20230202T182500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 17/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 17/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -190,7 +252,7 @@ UID:adn-971@2023-02-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230209T175500Z
 DTEND:20230209T182500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 18/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 18/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -200,7 +262,7 @@ UID:adn-971@2023-02-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230216T175500Z
 DTEND:20230216T182500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 19/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 19/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -210,7 +272,7 @@ UID:adn-971@2023-02-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230223T175500Z
 DTEND:20230223T182500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 20/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 20/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -220,7 +282,7 @@ UID:adn-971@2023-03-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230302T175500Z
 DTEND:20230302T182500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 21/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 21/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -230,7 +292,7 @@ UID:adn-971@2023-03-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230309T175500Z
 DTEND:20230309T182500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 22/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 22/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -240,7 +302,7 @@ UID:adn-971@2023-03-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230316T175500Z
 DTEND:20230316T182500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 23/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 23/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -250,7 +312,7 @@ UID:adn-971@2023-03-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230323T175500Z
 DTEND:20230323T182500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 24/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 24/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -260,7 +322,7 @@ UID:adn-971@2023-03-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230330T165500Z
 DTEND:20230330T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 25/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 25/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -270,7 +332,7 @@ UID:adn-971@2023-04-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230406T165500Z
 DTEND:20230406T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 26/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 26/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -280,7 +342,7 @@ UID:adn-971@2023-04-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230413T165500Z
 DTEND:20230413T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 27/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 27/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -290,7 +352,7 @@ UID:adn-971@2023-04-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230420T165500Z
 DTEND:20230420T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 28/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 28/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -300,7 +362,7 @@ UID:adn-971@2023-04-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230427T165500Z
 DTEND:20230427T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 29/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 29/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -310,7 +372,7 @@ UID:adn-971@2023-05-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230504T165500Z
 DTEND:20230504T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 30/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 30/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -320,7 +382,7 @@ UID:adn-971@2023-05-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230511T165500Z
 DTEND:20230511T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 31/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 31/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -330,7 +392,7 @@ UID:adn-971@2023-05-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230518T165500Z
 DTEND:20230518T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 32/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 32/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -340,7 +402,7 @@ UID:adn-971@2023-05-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230525T165500Z
 DTEND:20230525T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 33/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 33/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -350,7 +412,7 @@ UID:adn-971@2023-06-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230601T165500Z
 DTEND:20230601T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 34/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 34/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -360,7 +422,7 @@ UID:adn-971@2023-06-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230608T165500Z
 DTEND:20230608T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 35/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 35/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -370,7 +432,7 @@ UID:adn-971@2023-06-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230615T165500Z
 DTEND:20230615T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 36/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 36/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -380,7 +442,7 @@ UID:adn-971@2023-06-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230622T165500Z
 DTEND:20230622T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 37/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 37/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -390,7 +452,7 @@ UID:adn-971@2023-06-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230629T165500Z
 DTEND:20230629T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 38/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 38/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -400,7 +462,7 @@ UID:adn-971@2023-07-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230706T165500Z
 DTEND:20230706T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 39/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 39/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -410,7 +472,7 @@ UID:adn-971@2023-07-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230713T165500Z
 DTEND:20230713T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 40/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 40/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -420,7 +482,7 @@ UID:adn-971@2023-07-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230720T165500Z
 DTEND:20230720T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 41/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 41/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -430,7 +492,7 @@ UID:adn-971@2023-07-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230727T165500Z
 DTEND:20230727T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 42/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 42/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -440,7 +502,7 @@ UID:adn-971@2023-08-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230803T165500Z
 DTEND:20230803T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 43/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 43/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -450,7 +512,7 @@ UID:adn-971@2023-08-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230810T165500Z
 DTEND:20230810T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 44/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 44/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -460,7 +522,7 @@ UID:adn-971@2023-08-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230817T165500Z
 DTEND:20230817T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 45/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 45/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -470,7 +532,7 @@ UID:adn-971@2023-08-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230824T165500Z
 DTEND:20230824T172500Z
-SUMMARY:Urusei Yatsura (2022) – Folge 46/46
+SUMMARY:Urusei Yatsura (2022) Seasons 1 & 2 – Folge 46/46
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-971
 CATEGORIES:ADN
@@ -480,7 +542,7 @@ UID:adn-461@2023-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20231001T070000Z
 DTEND:20231001T073000Z
-SUMMARY:Haikyu!!
+SUMMARY:HAIKYU!!
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-461
 CATEGORIES:ADN
@@ -490,7 +552,7 @@ UID:adn-1125@2024-02-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20240208T150000Z
 DTEND:20240208T153000Z
-SUMMARY:Demon Slave – Folge 1/1
+SUMMARY:Chained Soldier – Folge 1/1
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1125
 CATEGORIES:ADN
@@ -520,7 +582,7 @@ UID:adn-1113@2024-07-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20240725T070000Z
 DTEND:20240725T073000Z
-SUMMARY:Hyakka Ryouran Samurai Girls
+SUMMARY:Samurai Girls
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-1113
 CATEGORIES:ADN
@@ -530,7 +592,7 @@ UID:adn-684@2024-09-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20240905T070000Z
 DTEND:20240905T073000Z
-SUMMARY:Motto To Love-Ru
+SUMMARY:Motto To Love Ru
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-684
 CATEGORIES:ADN
@@ -540,7 +602,7 @@ UID:adn-217@2024-09-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20240905T070000Z
 DTEND:20240905T073000Z
-SUMMARY:To Love-Ru - Darkness
+SUMMARY:To Love Ru Darkness
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-217
 CATEGORIES:ADN
@@ -570,7 +632,7 @@ UID:adn-1160@2024-10-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241003T160000Z
 DTEND:20241003T163000Z
-SUMMARY:DAN DA DAN – Folge 1/24
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 1/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1160
 CATEGORIES:ADN
@@ -590,7 +652,7 @@ UID:adn-1160@2024-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241010T160000Z
 DTEND:20241010T163000Z
-SUMMARY:DAN DA DAN – Folge 2/24
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 2/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1160
 CATEGORIES:ADN
@@ -610,7 +672,7 @@ UID:adn-1160@2024-10-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241017T160000Z
 DTEND:20241017T163000Z
-SUMMARY:DAN DA DAN – Folge 3/24
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 3/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1160
 CATEGORIES:ADN
@@ -630,7 +692,7 @@ UID:adn-1160@2024-10-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241024T160000Z
 DTEND:20241024T163000Z
-SUMMARY:DAN DA DAN – Folge 4/24
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 4/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1160
 CATEGORIES:ADN
@@ -650,7 +712,7 @@ UID:adn-1160@2024-10-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241031T170000Z
 DTEND:20241031T173000Z
-SUMMARY:DAN DA DAN – Folge 5/24
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 5/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1160
 CATEGORIES:ADN
@@ -670,7 +732,7 @@ UID:adn-1160@2024-11-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241107T170000Z
 DTEND:20241107T173000Z
-SUMMARY:DAN DA DAN – Folge 6/24
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 6/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1160
 CATEGORIES:ADN
@@ -690,7 +752,7 @@ UID:adn-1160@2024-11-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241114T170000Z
 DTEND:20241114T173000Z
-SUMMARY:DAN DA DAN – Folge 7/24
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 7/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1160
 CATEGORIES:ADN
@@ -710,7 +772,7 @@ UID:adn-1160@2024-11-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241121T170000Z
 DTEND:20241121T173000Z
-SUMMARY:DAN DA DAN – Folge 8/24
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 8/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1160
 CATEGORIES:ADN
@@ -730,7 +792,7 @@ UID:adn-1160@2024-11-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241128T170000Z
 DTEND:20241128T173000Z
-SUMMARY:DAN DA DAN – Folge 9/24
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 9/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1160
 CATEGORIES:ADN
@@ -750,7 +812,7 @@ UID:adn-1160@2024-12-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241205T170000Z
 DTEND:20241205T173000Z
-SUMMARY:DAN DA DAN – Folge 10/24
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 10/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1160
 CATEGORIES:ADN
@@ -770,7 +832,7 @@ UID:adn-1160@2024-12-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241212T170000Z
 DTEND:20241212T173000Z
-SUMMARY:DAN DA DAN – Folge 11/24
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 11/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1160
 CATEGORIES:ADN
@@ -780,7 +842,7 @@ UID:adn-1160@2024-12-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241219T170000Z
 DTEND:20241219T173000Z
-SUMMARY:DAN DA DAN – Folge 12/24
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 12/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1160
 CATEGORIES:ADN
@@ -790,7 +852,7 @@ UID:adn-1160@2024-12-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241226T170000Z
 DTEND:20241226T173000Z
-SUMMARY:DAN DA DAN – Folge 13/24
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 13/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1160
 CATEGORIES:ADN
@@ -800,7 +862,7 @@ UID:adn-1160@2025-01-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250102T170000Z
 DTEND:20250102T173000Z
-SUMMARY:DAN DA DAN – Folge 14/24
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 14/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1160
 CATEGORIES:ADN
@@ -810,7 +872,7 @@ UID:adn-1160@2025-01-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250109T170000Z
 DTEND:20250109T173000Z
-SUMMARY:DAN DA DAN – Folge 15/24
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 15/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1160
 CATEGORIES:ADN
@@ -820,7 +882,7 @@ UID:adn-1164@2025-01-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250110T080000Z
 DTEND:20250110T083000Z
-SUMMARY:Jellyfish Can't Swim in the Night
+SUMMARY:Jellyfish Can’t Swim in the Night
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-1164
 CATEGORIES:ADN
@@ -830,7 +892,7 @@ UID:adn-1160@2025-01-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250116T170000Z
 DTEND:20250116T173000Z
-SUMMARY:DAN DA DAN – Folge 16/24
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 16/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1160
 CATEGORIES:ADN
@@ -840,9 +902,19 @@ UID:adn-1160@2025-01-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250123T170000Z
 DTEND:20250123T173000Z
-SUMMARY:DAN DA DAN – Folge 17/24
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 17/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1160
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1122@2025-01-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250124T080000Z
+DTEND:20250124T083000Z
+SUMMARY:My Instant Death Ability is Overpowered
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1122
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -850,7 +922,7 @@ UID:adn-1160@2025-01-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250130T170000Z
 DTEND:20250130T173000Z
-SUMMARY:DAN DA DAN – Folge 18/24
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 18/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1160
 CATEGORIES:ADN
@@ -860,7 +932,7 @@ UID:adn-1160@2025-02-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250206T170000Z
 DTEND:20250206T173000Z
-SUMMARY:DAN DA DAN – Folge 19/24
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 19/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1160
 CATEGORIES:ADN
@@ -870,7 +942,7 @@ UID:adn-1160@2025-02-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250213T170000Z
 DTEND:20250213T173000Z
-SUMMARY:DAN DA DAN – Folge 20/24
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 20/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1160
 CATEGORIES:ADN
@@ -880,7 +952,7 @@ UID:adn-1160@2025-02-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250220T170000Z
 DTEND:20250220T173000Z
-SUMMARY:DAN DA DAN – Folge 21/24
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 21/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1160
 CATEGORIES:ADN
@@ -890,7 +962,7 @@ UID:adn-1160@2025-02-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250227T170000Z
 DTEND:20250227T173000Z
-SUMMARY:DAN DA DAN – Folge 22/24
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 22/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1160
 CATEGORIES:ADN
@@ -900,7 +972,7 @@ UID:adn-1160@2025-03-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250306T170000Z
 DTEND:20250306T173000Z
-SUMMARY:DAN DA DAN – Folge 23/24
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 23/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1160
 CATEGORIES:ADN
@@ -910,7 +982,7 @@ UID:adn-1160@2025-03-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250313T170000Z
 DTEND:20250313T173000Z
-SUMMARY:DAN DA DAN – Folge 24/24
+SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 24/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1160
 CATEGORIES:ADN
@@ -920,7 +992,7 @@ UID:adn-1168@2025-03-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250331T123000Z
 DTEND:20250331T130000Z
-SUMMARY:Sword of the Demon Hunter KIJIN GENTÔSHÔ – Folge 1/24
+SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 1/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -930,7 +1002,7 @@ UID:adn-1272@2025-04-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250406T083000Z
 DTEND:20250406T090000Z
-SUMMARY:WITCH WATCH – Folge 1/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 1/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -940,7 +1012,7 @@ UID:adn-1168@2025-04-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250407T123000Z
 DTEND:20250407T130000Z
-SUMMARY:Sword of the Demon Hunter KIJIN GENTÔSHÔ – Folge 2/24
+SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 2/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -950,7 +1022,7 @@ UID:adn-1272@2025-04-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250413T083000Z
 DTEND:20250413T090000Z
-SUMMARY:WITCH WATCH – Folge 2/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 2/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -960,7 +1032,7 @@ UID:adn-1168@2025-04-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250414T123000Z
 DTEND:20250414T130000Z
-SUMMARY:Sword of the Demon Hunter KIJIN GENTÔSHÔ – Folge 3/24
+SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 3/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -970,7 +1042,7 @@ UID:adn-1272@2025-04-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250420T083000Z
 DTEND:20250420T090000Z
-SUMMARY:WITCH WATCH – Folge 3/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 3/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -980,7 +1052,7 @@ UID:adn-1168@2025-04-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250421T123000Z
 DTEND:20250421T130000Z
-SUMMARY:Sword of the Demon Hunter KIJIN GENTÔSHÔ – Folge 4/24
+SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 4/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -990,7 +1062,7 @@ UID:adn-1272@2025-04-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250427T083000Z
 DTEND:20250427T090000Z
-SUMMARY:WITCH WATCH – Folge 4/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 4/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -1000,7 +1072,7 @@ UID:adn-1168@2025-04-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250428T123000Z
 DTEND:20250428T130000Z
-SUMMARY:Sword of the Demon Hunter KIJIN GENTÔSHÔ – Folge 5/24
+SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 5/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -1010,7 +1082,7 @@ UID:adn-1272@2025-05-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250504T083000Z
 DTEND:20250504T090000Z
-SUMMARY:WITCH WATCH – Folge 5/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 5/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -1020,7 +1092,7 @@ UID:adn-1168@2025-05-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250505T123000Z
 DTEND:20250505T130000Z
-SUMMARY:Sword of the Demon Hunter KIJIN GENTÔSHÔ – Folge 6/24
+SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 6/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -1030,7 +1102,7 @@ UID:adn-1272@2025-05-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250511T083000Z
 DTEND:20250511T090000Z
-SUMMARY:WITCH WATCH – Folge 6/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 6/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -1040,7 +1112,7 @@ UID:adn-1168@2025-05-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250512T123000Z
 DTEND:20250512T130000Z
-SUMMARY:Sword of the Demon Hunter KIJIN GENTÔSHÔ – Folge 7/24
+SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 7/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -1050,7 +1122,7 @@ UID:adn-1272@2025-05-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250518T083000Z
 DTEND:20250518T090000Z
-SUMMARY:WITCH WATCH – Folge 7/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 7/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -1060,7 +1132,7 @@ UID:adn-1168@2025-05-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250519T123000Z
 DTEND:20250519T130000Z
-SUMMARY:Sword of the Demon Hunter KIJIN GENTÔSHÔ – Folge 8/24
+SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 8/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -1070,7 +1142,7 @@ UID:adn-1272@2025-05-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250525T083000Z
 DTEND:20250525T090000Z
-SUMMARY:WITCH WATCH – Folge 8/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 8/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -1080,7 +1152,7 @@ UID:adn-1168@2025-05-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250526T123000Z
 DTEND:20250526T130000Z
-SUMMARY:Sword of the Demon Hunter KIJIN GENTÔSHÔ – Folge 9/24
+SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 9/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -1090,7 +1162,7 @@ UID:adn-1272@2025-06-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250601T083000Z
 DTEND:20250601T090000Z
-SUMMARY:WITCH WATCH – Folge 9/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 9/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -1100,7 +1172,7 @@ UID:adn-1168@2025-06-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250602T123000Z
 DTEND:20250602T130000Z
-SUMMARY:Sword of the Demon Hunter KIJIN GENTÔSHÔ – Folge 10/24
+SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 10/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -1110,7 +1182,7 @@ UID:adn-1272@2025-06-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250608T083000Z
 DTEND:20250608T090000Z
-SUMMARY:WITCH WATCH – Folge 10/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 10/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -1120,7 +1192,7 @@ UID:adn-1168@2025-06-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250609T123000Z
 DTEND:20250609T130000Z
-SUMMARY:Sword of the Demon Hunter KIJIN GENTÔSHÔ – Folge 11/24
+SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 11/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -1140,7 +1212,7 @@ UID:adn-1272@2025-06-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250615T083000Z
 DTEND:20250615T090000Z
-SUMMARY:WITCH WATCH – Folge 11/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 11/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -1150,7 +1222,7 @@ UID:adn-1168@2025-06-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250616T123000Z
 DTEND:20250616T130000Z
-SUMMARY:Sword of the Demon Hunter KIJIN GENTÔSHÔ – Folge 12/24
+SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 12/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -1170,7 +1242,7 @@ UID:adn-1272@2025-06-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250622T083000Z
 DTEND:20250622T090000Z
-SUMMARY:WITCH WATCH – Folge 12/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 12/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -1180,7 +1252,7 @@ UID:adn-1168@2025-06-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250623T123000Z
 DTEND:20250623T130000Z
-SUMMARY:Sword of the Demon Hunter KIJIN GENTÔSHÔ – Folge 13/24
+SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 13/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -1200,7 +1272,7 @@ UID:adn-1272@2025-06-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250629T083000Z
 DTEND:20250629T090000Z
-SUMMARY:WITCH WATCH – Folge 13/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 13/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -1210,7 +1282,7 @@ UID:adn-1168@2025-06-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250630T123000Z
 DTEND:20250630T130000Z
-SUMMARY:Sword of the Demon Hunter KIJIN GENTÔSHÔ – Folge 14/24
+SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 14/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -1230,7 +1302,7 @@ UID:adn-1272@2025-07-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250706T083000Z
 DTEND:20250706T090000Z
-SUMMARY:WITCH WATCH – Folge 14/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 14/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -1240,7 +1312,7 @@ UID:adn-1168@2025-07-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250707T123000Z
 DTEND:20250707T130000Z
-SUMMARY:Sword of the Demon Hunter KIJIN GENTÔSHÔ – Folge 15/24
+SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 15/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -1260,7 +1332,7 @@ UID:adn-1311@2025-07-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250711T153000Z
 DTEND:20250711T160000Z
-SUMMARY:TOUGEN ANKI – Folge 1/24
+SUMMARY:Tougen Anki – Part 1 – Folge 1/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
@@ -1270,7 +1342,7 @@ UID:adn-1272@2025-07-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250713T083000Z
 DTEND:20250713T090000Z
-SUMMARY:WITCH WATCH – Folge 15/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 15/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -1280,7 +1352,7 @@ UID:adn-1168@2025-07-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250714T123000Z
 DTEND:20250714T130000Z
-SUMMARY:Sword of the Demon Hunter KIJIN GENTÔSHÔ – Folge 16/24
+SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 16/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -1290,7 +1362,7 @@ UID:adn-662@2025-07-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250715T070000Z
 DTEND:20250715T073000Z
-SUMMARY:L'Attaque des Titans
+SUMMARY:Attack on Titan
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-662
 CATEGORIES:ADN
@@ -1310,7 +1382,7 @@ UID:adn-1311@2025-07-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250718T153000Z
 DTEND:20250718T160000Z
-SUMMARY:TOUGEN ANKI – Folge 2/24
+SUMMARY:Tougen Anki – Part 1 – Folge 2/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
@@ -1320,7 +1392,7 @@ UID:adn-1272@2025-07-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250720T083000Z
 DTEND:20250720T090000Z
-SUMMARY:WITCH WATCH – Folge 16/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 16/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -1330,7 +1402,7 @@ UID:adn-1168@2025-07-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250721T123000Z
 DTEND:20250721T130000Z
-SUMMARY:Sword of the Demon Hunter KIJIN GENTÔSHÔ – Folge 17/24
+SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 17/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -1350,7 +1422,7 @@ UID:adn-1311@2025-07-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250725T153000Z
 DTEND:20250725T160000Z
-SUMMARY:TOUGEN ANKI – Folge 3/24
+SUMMARY:Tougen Anki – Part 1 – Folge 3/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
@@ -1360,7 +1432,7 @@ UID:adn-1272@2025-07-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250727T083000Z
 DTEND:20250727T090000Z
-SUMMARY:WITCH WATCH – Folge 17/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 17/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -1370,7 +1442,7 @@ UID:adn-1168@2025-07-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250728T123000Z
 DTEND:20250728T130000Z
-SUMMARY:Sword of the Demon Hunter KIJIN GENTÔSHÔ – Folge 18/24
+SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 18/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -1390,7 +1462,7 @@ UID:adn-1311@2025-08-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250801T153000Z
 DTEND:20250801T160000Z
-SUMMARY:TOUGEN ANKI – Folge 4/24
+SUMMARY:Tougen Anki – Part 1 – Folge 4/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
@@ -1400,7 +1472,7 @@ UID:adn-1272@2025-08-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250803T083000Z
 DTEND:20250803T090000Z
-SUMMARY:WITCH WATCH – Folge 18/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 18/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -1410,7 +1482,7 @@ UID:adn-1168@2025-08-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250804T123000Z
 DTEND:20250804T130000Z
-SUMMARY:Sword of the Demon Hunter KIJIN GENTÔSHÔ – Folge 19/24
+SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 19/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -1430,7 +1502,7 @@ UID:adn-1311@2025-08-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250808T153000Z
 DTEND:20250808T160000Z
-SUMMARY:TOUGEN ANKI – Folge 5/24
+SUMMARY:Tougen Anki – Part 1 – Folge 5/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
@@ -1440,7 +1512,7 @@ UID:adn-1272@2025-08-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250810T083000Z
 DTEND:20250810T090000Z
-SUMMARY:WITCH WATCH – Folge 19/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 19/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -1450,7 +1522,7 @@ UID:adn-1168@2025-08-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250811T123000Z
 DTEND:20250811T130000Z
-SUMMARY:Sword of the Demon Hunter KIJIN GENTÔSHÔ – Folge 20/24
+SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 20/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -1480,7 +1552,7 @@ UID:adn-1311@2025-08-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250815T153000Z
 DTEND:20250815T160000Z
-SUMMARY:TOUGEN ANKI – Folge 6/24
+SUMMARY:Tougen Anki – Part 1 – Folge 6/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
@@ -1490,7 +1562,7 @@ UID:adn-1272@2025-08-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250817T083000Z
 DTEND:20250817T090000Z
-SUMMARY:WITCH WATCH – Folge 20/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 20/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -1500,7 +1572,7 @@ UID:adn-1168@2025-08-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250818T123000Z
 DTEND:20250818T130000Z
-SUMMARY:Sword of the Demon Hunter KIJIN GENTÔSHÔ – Folge 21/24
+SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 21/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -1520,7 +1592,7 @@ UID:adn-340@2025-08-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250821T070000Z
 DTEND:20250821T073000Z
-SUMMARY:TERRAFORMARS
+SUMMARY:Terra Formars
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-340
 CATEGORIES:ADN
@@ -1530,7 +1602,7 @@ UID:adn-1311@2025-08-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250822T153000Z
 DTEND:20250822T160000Z
-SUMMARY:TOUGEN ANKI – Folge 7/24
+SUMMARY:Tougen Anki – Part 1 – Folge 7/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
@@ -1540,7 +1612,7 @@ UID:adn-1272@2025-08-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250824T083000Z
 DTEND:20250824T090000Z
-SUMMARY:WITCH WATCH – Folge 21/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 21/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -1550,7 +1622,7 @@ UID:adn-1168@2025-08-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250825T123000Z
 DTEND:20250825T130000Z
-SUMMARY:Sword of the Demon Hunter KIJIN GENTÔSHÔ – Folge 22/24
+SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 22/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -1570,7 +1642,7 @@ UID:adn-1311@2025-08-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250829T153000Z
 DTEND:20250829T160000Z
-SUMMARY:TOUGEN ANKI – Folge 8/24
+SUMMARY:Tougen Anki – Part 1 – Folge 8/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
@@ -1580,7 +1652,7 @@ UID:adn-1272@2025-08-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250831T083000Z
 DTEND:20250831T090000Z
-SUMMARY:WITCH WATCH – Folge 22/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 22/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -1590,7 +1662,7 @@ UID:adn-1168@2025-09-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250901T123000Z
 DTEND:20250901T130000Z
-SUMMARY:Sword of the Demon Hunter KIJIN GENTÔSHÔ – Folge 23/24
+SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 23/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -1620,7 +1692,7 @@ UID:adn-1311@2025-09-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250905T153000Z
 DTEND:20250905T160000Z
-SUMMARY:TOUGEN ANKI – Folge 9/24
+SUMMARY:Tougen Anki – Part 1 – Folge 9/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
@@ -1630,7 +1702,7 @@ UID:adn-1272@2025-09-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250907T083000Z
 DTEND:20250907T090000Z
-SUMMARY:WITCH WATCH – Folge 23/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 23/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -1640,7 +1712,7 @@ UID:adn-1168@2025-09-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250908T123000Z
 DTEND:20250908T130000Z
-SUMMARY:Sword of the Demon Hunter KIJIN GENTÔSHÔ – Folge 24/24
+SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 24/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -1660,7 +1732,7 @@ UID:adn-1311@2025-09-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250912T153000Z
 DTEND:20250912T160000Z
-SUMMARY:TOUGEN ANKI – Folge 10/24
+SUMMARY:Tougen Anki – Part 1 – Folge 10/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
@@ -1670,7 +1742,7 @@ UID:adn-1272@2025-09-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250914T083000Z
 DTEND:20250914T090000Z
-SUMMARY:WITCH WATCH – Folge 24/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 24/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -1690,7 +1762,7 @@ UID:adn-1311@2025-09-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250919T153000Z
 DTEND:20250919T160000Z
-SUMMARY:TOUGEN ANKI – Folge 11/24
+SUMMARY:Tougen Anki – Part 1 – Folge 11/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
@@ -1700,7 +1772,7 @@ UID:adn-1272@2025-09-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250921T083000Z
 DTEND:20250921T090000Z
-SUMMARY:WITCH WATCH – Folge 25/25
+SUMMARY:Witch Watch – Vol. 1 – Folge 25/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -1720,7 +1792,7 @@ UID:adn-1311@2025-09-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250926T153000Z
 DTEND:20250926T160000Z
-SUMMARY:TOUGEN ANKI – Folge 12/24
+SUMMARY:Tougen Anki – Part 1 – Folge 12/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
@@ -1740,7 +1812,7 @@ UID:adn-1311@2025-10-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251003T153000Z
 DTEND:20251003T160000Z
-SUMMARY:TOUGEN ANKI – Folge 13/24
+SUMMARY:Tougen Anki – Part 1 – Folge 13/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
@@ -1760,7 +1832,7 @@ UID:adn-1311@2025-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251010T153000Z
 DTEND:20251010T160000Z
-SUMMARY:TOUGEN ANKI – Folge 14/24
+SUMMARY:Tougen Anki – Part 1 – Folge 14/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
@@ -1780,7 +1852,7 @@ UID:adn-1311@2025-10-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251017T153000Z
 DTEND:20251017T160000Z
-SUMMARY:TOUGEN ANKI – Folge 15/24
+SUMMARY:Tougen Anki – Part 1 – Folge 15/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
@@ -1800,7 +1872,7 @@ UID:adn-1311@2025-10-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251024T153000Z
 DTEND:20251024T160000Z
-SUMMARY:TOUGEN ANKI – Folge 16/24
+SUMMARY:Tougen Anki – Part 1 – Folge 16/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
@@ -1820,7 +1892,7 @@ UID:adn-1311@2025-10-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251031T163000Z
 DTEND:20251031T170000Z
-SUMMARY:TOUGEN ANKI – Folge 17/24
+SUMMARY:Tougen Anki – Part 1 – Folge 17/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
@@ -1840,7 +1912,7 @@ UID:adn-1311@2025-11-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251107T163000Z
 DTEND:20251107T170000Z
-SUMMARY:TOUGEN ANKI – Folge 18/24
+SUMMARY:Tougen Anki – Part 1 – Folge 18/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
@@ -1860,7 +1932,7 @@ UID:adn-1311@2025-11-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251114T163000Z
 DTEND:20251114T170000Z
-SUMMARY:TOUGEN ANKI – Folge 19/24
+SUMMARY:Tougen Anki – Part 1 – Folge 19/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
@@ -1880,7 +1952,7 @@ UID:adn-1311@2025-11-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251121T163000Z
 DTEND:20251121T170000Z
-SUMMARY:TOUGEN ANKI – Folge 20/24
+SUMMARY:Tougen Anki – Part 1 – Folge 20/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
@@ -1910,7 +1982,7 @@ UID:adn-1311@2025-11-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251128T163000Z
 DTEND:20251128T170000Z
-SUMMARY:TOUGEN ANKI – Folge 21/24
+SUMMARY:Tougen Anki – Part 1 – Folge 21/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
@@ -1930,7 +2002,7 @@ UID:adn-1311@2025-12-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251205T163000Z
 DTEND:20251205T170000Z
-SUMMARY:TOUGEN ANKI – Folge 22/24
+SUMMARY:Tougen Anki – Part 1 – Folge 22/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
@@ -1950,7 +2022,7 @@ UID:adn-1311@2025-12-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251212T163000Z
 DTEND:20251212T170000Z
-SUMMARY:TOUGEN ANKI – Folge 23/24
+SUMMARY:Tougen Anki – Part 1 – Folge 23/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
@@ -1970,7 +2042,7 @@ UID:adn-1311@2025-12-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251219T163000Z
 DTEND:20251219T170000Z
-SUMMARY:TOUGEN ANKI – Folge 24/24
+SUMMARY:Tougen Anki – Part 1 – Folge 24/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
@@ -1980,7 +2052,7 @@ UID:adn-427@2025-12-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251223T080000Z
 DTEND:20251223T083000Z
-SUMMARY:Sailor Moon – Folge 1/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 1/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2000,7 +2072,7 @@ UID:adn-427@2025-12-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251230T080000Z
 DTEND:20251230T083000Z
-SUMMARY:Sailor Moon – Folge 2/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 2/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2020,7 +2092,7 @@ UID:adn-427@2026-01-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260106T080000Z
 DTEND:20260106T083000Z
-SUMMARY:Sailor Moon – Folge 3/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 3/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2040,7 +2112,7 @@ UID:adn-427@2026-01-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260113T080000Z
 DTEND:20260113T083000Z
-SUMMARY:Sailor Moon – Folge 4/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 4/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2060,7 +2132,7 @@ UID:adn-427@2026-01-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260120T080000Z
 DTEND:20260120T083000Z
-SUMMARY:Sailor Moon – Folge 5/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 5/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2080,7 +2152,7 @@ UID:adn-427@2026-01-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260127T080000Z
 DTEND:20260127T083000Z
-SUMMARY:Sailor Moon – Folge 6/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 6/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2100,7 +2172,7 @@ UID:adn-427@2026-02-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260203T080000Z
 DTEND:20260203T083000Z
-SUMMARY:Sailor Moon – Folge 7/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 7/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2120,7 +2192,7 @@ UID:adn-427@2026-02-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260210T080000Z
 DTEND:20260210T083000Z
-SUMMARY:Sailor Moon – Folge 8/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 8/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2150,7 +2222,7 @@ UID:adn-427@2026-02-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260217T080000Z
 DTEND:20260217T083000Z
-SUMMARY:Sailor Moon – Folge 9/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 9/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2170,7 +2242,7 @@ UID:adn-427@2026-02-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260224T080000Z
 DTEND:20260224T083000Z
-SUMMARY:Sailor Moon – Folge 10/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 10/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2190,7 +2262,7 @@ UID:adn-427@2026-03-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260303T080000Z
 DTEND:20260303T083000Z
-SUMMARY:Sailor Moon – Folge 11/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 11/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2210,7 +2282,7 @@ UID:adn-427@2026-03-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260310T080000Z
 DTEND:20260310T083000Z
-SUMMARY:Sailor Moon – Folge 12/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 12/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2230,7 +2302,7 @@ UID:adn-427@2026-03-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260317T080000Z
 DTEND:20260317T083000Z
-SUMMARY:Sailor Moon – Folge 13/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 13/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2250,7 +2322,7 @@ UID:adn-427@2026-03-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260324T080000Z
 DTEND:20260324T083000Z
-SUMMARY:Sailor Moon – Folge 14/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 14/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2270,7 +2342,7 @@ UID:adn-427@2026-03-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260331T070000Z
 DTEND:20260331T073000Z
-SUMMARY:Sailor Moon – Folge 15/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 15/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2290,7 +2362,7 @@ UID:adn-427@2026-04-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260407T070000Z
 DTEND:20260407T073000Z
-SUMMARY:Sailor Moon – Folge 16/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 16/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2310,7 +2382,7 @@ UID:adn-427@2026-04-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260414T070000Z
 DTEND:20260414T073000Z
-SUMMARY:Sailor Moon – Folge 17/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 17/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2330,7 +2402,7 @@ UID:adn-427@2026-04-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260421T070000Z
 DTEND:20260421T073000Z
-SUMMARY:Sailor Moon – Folge 18/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 18/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2360,7 +2432,7 @@ UID:adn-427@2026-04-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260428T070000Z
 DTEND:20260428T073000Z
-SUMMARY:Sailor Moon – Folge 19/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 19/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2380,7 +2452,7 @@ UID:adn-427@2026-05-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260505T070000Z
 DTEND:20260505T073000Z
-SUMMARY:Sailor Moon – Folge 20/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 20/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2400,7 +2472,7 @@ UID:adn-427@2026-05-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260512T070000Z
 DTEND:20260512T073000Z
-SUMMARY:Sailor Moon – Folge 21/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 21/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2420,7 +2492,7 @@ UID:adn-427@2026-05-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260519T070000Z
 DTEND:20260519T073000Z
-SUMMARY:Sailor Moon – Folge 22/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 22/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2440,7 +2512,7 @@ UID:adn-427@2026-05-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260526T070000Z
 DTEND:20260526T073000Z
-SUMMARY:Sailor Moon – Folge 23/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 23/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2460,7 +2532,7 @@ UID:adn-427@2026-06-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260602T070000Z
 DTEND:20260602T073000Z
-SUMMARY:Sailor Moon – Folge 24/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 24/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2480,7 +2552,7 @@ UID:adn-427@2026-06-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260609T070000Z
 DTEND:20260609T073000Z
-SUMMARY:Sailor Moon – Folge 25/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 25/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2500,7 +2572,7 @@ UID:adn-427@2026-06-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260616T070000Z
 DTEND:20260616T073000Z
-SUMMARY:Sailor Moon – Folge 26/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 26/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2520,7 +2592,7 @@ UID:adn-427@2026-06-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260623T070000Z
 DTEND:20260623T073000Z
-SUMMARY:Sailor Moon – Folge 27/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 27/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2550,7 +2622,7 @@ UID:adn-427@2026-06-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260630T070000Z
 DTEND:20260630T073000Z
-SUMMARY:Sailor Moon – Folge 28/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 28/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2570,7 +2642,7 @@ UID:adn-427@2026-07-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260707T070000Z
 DTEND:20260707T073000Z
-SUMMARY:Sailor Moon – Folge 29/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 29/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2590,7 +2662,7 @@ UID:adn-427@2026-07-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260714T070000Z
 DTEND:20260714T073000Z
-SUMMARY:Sailor Moon – Folge 30/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 30/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2610,7 +2682,7 @@ UID:adn-427@2026-07-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260721T070000Z
 DTEND:20260721T073000Z
-SUMMARY:Sailor Moon – Folge 31/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 31/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2640,7 +2712,7 @@ UID:adn-427@2026-07-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260728T070000Z
 DTEND:20260728T073000Z
-SUMMARY:Sailor Moon – Folge 32/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 32/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2660,7 +2732,7 @@ UID:adn-427@2026-08-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260804T070000Z
 DTEND:20260804T073000Z
-SUMMARY:Sailor Moon – Folge 33/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 33/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2690,7 +2762,7 @@ UID:adn-427@2026-08-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260811T070000Z
 DTEND:20260811T073000Z
-SUMMARY:Sailor Moon – Folge 34/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 34/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2720,7 +2792,7 @@ UID:adn-427@2026-08-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260818T070000Z
 DTEND:20260818T073000Z
-SUMMARY:Sailor Moon – Folge 35/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 35/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2740,7 +2812,7 @@ UID:adn-427@2026-08-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260825T070000Z
 DTEND:20260825T073000Z
-SUMMARY:Sailor Moon – Folge 36/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 36/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2760,7 +2832,7 @@ UID:adn-427@2026-09-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260901T070000Z
 DTEND:20260901T073000Z
-SUMMARY:Sailor Moon – Folge 37/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 37/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2780,7 +2852,7 @@ UID:adn-427@2026-09-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260908T070000Z
 DTEND:20260908T073000Z
-SUMMARY:Sailor Moon – Folge 38/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 38/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2800,7 +2872,7 @@ UID:adn-427@2026-09-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260915T070000Z
 DTEND:20260915T073000Z
-SUMMARY:Sailor Moon – Folge 39/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 39/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2820,7 +2892,7 @@ UID:adn-427@2026-09-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260922T070000Z
 DTEND:20260922T073000Z
-SUMMARY:Sailor Moon – Folge 40/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 40/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2840,7 +2912,7 @@ UID:adn-427@2026-09-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260929T070000Z
 DTEND:20260929T073000Z
-SUMMARY:Sailor Moon – Folge 41/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 41/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2860,7 +2932,7 @@ UID:adn-427@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261006T070000Z
 DTEND:20261006T073000Z
-SUMMARY:Sailor Moon – Folge 42/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 42/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2880,7 +2952,7 @@ UID:adn-427@2026-10-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T070000Z
 DTEND:20261013T073000Z
-SUMMARY:Sailor Moon – Folge 43/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 43/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2900,7 +2972,7 @@ UID:adn-427@2026-10-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261020T070000Z
 DTEND:20261020T073000Z
-SUMMARY:Sailor Moon – Folge 44/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 44/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2920,7 +2992,7 @@ UID:adn-427@2026-10-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261027T080000Z
 DTEND:20261027T083000Z
-SUMMARY:Sailor Moon – Folge 45/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 45/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2940,7 +3012,7 @@ UID:adn-427@2026-11-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261103T080000Z
 DTEND:20261103T083000Z
-SUMMARY:Sailor Moon – Folge 46/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 46/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2960,7 +3032,7 @@ UID:adn-427@2026-11-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261110T080000Z
 DTEND:20261110T083000Z
-SUMMARY:Sailor Moon – Folge 47/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 47/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -2980,7 +3052,7 @@ UID:adn-427@2026-11-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261117T080000Z
 DTEND:20261117T083000Z
-SUMMARY:Sailor Moon – Folge 48/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 48/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3000,7 +3072,7 @@ UID:adn-427@2026-11-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261124T080000Z
 DTEND:20261124T083000Z
-SUMMARY:Sailor Moon – Folge 49/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 49/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3020,7 +3092,7 @@ UID:adn-427@2026-12-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261201T080000Z
 DTEND:20261201T083000Z
-SUMMARY:Sailor Moon – Folge 50/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 50/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3040,7 +3112,7 @@ UID:adn-427@2026-12-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261208T080000Z
 DTEND:20261208T083000Z
-SUMMARY:Sailor Moon – Folge 51/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 51/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3060,7 +3132,7 @@ UID:adn-427@2026-12-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261215T080000Z
 DTEND:20261215T083000Z
-SUMMARY:Sailor Moon – Folge 52/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 52/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3080,7 +3152,7 @@ UID:adn-427@2026-12-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261222T080000Z
 DTEND:20261222T083000Z
-SUMMARY:Sailor Moon – Folge 53/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 53/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3100,7 +3172,7 @@ UID:adn-427@2026-12-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261229T080000Z
 DTEND:20261229T083000Z
-SUMMARY:Sailor Moon – Folge 54/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 54/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3120,7 +3192,7 @@ UID:adn-427@2027-01-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270105T080000Z
 DTEND:20270105T083000Z
-SUMMARY:Sailor Moon – Folge 55/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 55/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3140,7 +3212,7 @@ UID:adn-427@2027-01-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270112T080000Z
 DTEND:20270112T083000Z
-SUMMARY:Sailor Moon – Folge 56/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 56/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3160,7 +3232,7 @@ UID:adn-427@2027-01-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270119T080000Z
 DTEND:20270119T083000Z
-SUMMARY:Sailor Moon – Folge 57/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 57/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3180,7 +3252,7 @@ UID:adn-427@2027-01-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270126T080000Z
 DTEND:20270126T083000Z
-SUMMARY:Sailor Moon – Folge 58/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 58/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3200,7 +3272,7 @@ UID:adn-427@2027-02-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270202T080000Z
 DTEND:20270202T083000Z
-SUMMARY:Sailor Moon – Folge 59/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 59/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3220,7 +3292,7 @@ UID:adn-427@2027-02-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270209T080000Z
 DTEND:20270209T083000Z
-SUMMARY:Sailor Moon – Folge 60/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 60/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3240,7 +3312,7 @@ UID:adn-427@2027-02-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270216T080000Z
 DTEND:20270216T083000Z
-SUMMARY:Sailor Moon – Folge 61/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 61/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3260,7 +3332,7 @@ UID:adn-427@2027-02-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270223T080000Z
 DTEND:20270223T083000Z
-SUMMARY:Sailor Moon – Folge 62/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 62/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3280,7 +3352,7 @@ UID:adn-427@2027-03-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270302T080000Z
 DTEND:20270302T083000Z
-SUMMARY:Sailor Moon – Folge 63/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 63/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3300,7 +3372,7 @@ UID:adn-427@2027-03-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270309T080000Z
 DTEND:20270309T083000Z
-SUMMARY:Sailor Moon – Folge 64/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 64/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3320,7 +3392,7 @@ UID:adn-427@2027-03-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270316T080000Z
 DTEND:20270316T083000Z
-SUMMARY:Sailor Moon – Folge 65/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 65/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3340,7 +3412,7 @@ UID:adn-427@2027-03-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270323T080000Z
 DTEND:20270323T083000Z
-SUMMARY:Sailor Moon – Folge 66/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 66/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3360,7 +3432,7 @@ UID:adn-427@2027-03-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270330T070000Z
 DTEND:20270330T073000Z
-SUMMARY:Sailor Moon – Folge 67/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 67/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3380,7 +3452,7 @@ UID:adn-427@2027-04-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270406T070000Z
 DTEND:20270406T073000Z
-SUMMARY:Sailor Moon – Folge 68/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 68/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3400,7 +3472,7 @@ UID:adn-427@2027-04-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270413T070000Z
 DTEND:20270413T073000Z
-SUMMARY:Sailor Moon – Folge 69/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 69/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3410,7 +3482,7 @@ UID:adn-427@2027-04-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270420T070000Z
 DTEND:20270420T073000Z
-SUMMARY:Sailor Moon – Folge 70/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 70/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3420,7 +3492,7 @@ UID:adn-427@2027-04-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270427T070000Z
 DTEND:20270427T073000Z
-SUMMARY:Sailor Moon – Folge 71/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 71/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3430,7 +3502,7 @@ UID:adn-427@2027-05-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270504T070000Z
 DTEND:20270504T073000Z
-SUMMARY:Sailor Moon – Folge 72/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 72/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3440,7 +3512,7 @@ UID:adn-427@2027-05-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270511T070000Z
 DTEND:20270511T073000Z
-SUMMARY:Sailor Moon – Folge 73/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 73/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3450,7 +3522,7 @@ UID:adn-427@2027-05-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270518T070000Z
 DTEND:20270518T073000Z
-SUMMARY:Sailor Moon – Folge 74/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 74/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3460,7 +3532,7 @@ UID:adn-427@2027-05-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270525T070000Z
 DTEND:20270525T073000Z
-SUMMARY:Sailor Moon – Folge 75/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 75/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3470,7 +3542,7 @@ UID:adn-427@2027-06-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270601T070000Z
 DTEND:20270601T073000Z
-SUMMARY:Sailor Moon – Folge 76/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 76/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3480,7 +3552,7 @@ UID:adn-427@2027-06-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270608T070000Z
 DTEND:20270608T073000Z
-SUMMARY:Sailor Moon – Folge 77/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 77/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3490,7 +3562,7 @@ UID:adn-427@2027-06-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270615T070000Z
 DTEND:20270615T073000Z
-SUMMARY:Sailor Moon – Folge 78/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 78/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3500,7 +3572,7 @@ UID:adn-427@2027-06-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270622T070000Z
 DTEND:20270622T073000Z
-SUMMARY:Sailor Moon – Folge 79/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 79/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3510,7 +3582,7 @@ UID:adn-427@2027-06-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270629T070000Z
 DTEND:20270629T073000Z
-SUMMARY:Sailor Moon – Folge 80/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 80/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3520,7 +3592,7 @@ UID:adn-427@2027-07-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270706T070000Z
 DTEND:20270706T073000Z
-SUMMARY:Sailor Moon – Folge 81/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 81/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3530,7 +3602,7 @@ UID:adn-427@2027-07-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270713T070000Z
 DTEND:20270713T073000Z
-SUMMARY:Sailor Moon – Folge 82/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 82/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3540,7 +3612,7 @@ UID:adn-427@2027-07-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270720T070000Z
 DTEND:20270720T073000Z
-SUMMARY:Sailor Moon – Folge 83/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 83/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3550,7 +3622,7 @@ UID:adn-427@2027-07-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270727T070000Z
 DTEND:20270727T073000Z
-SUMMARY:Sailor Moon – Folge 84/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 84/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3560,7 +3632,7 @@ UID:adn-427@2027-08-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270803T070000Z
 DTEND:20270803T073000Z
-SUMMARY:Sailor Moon – Folge 85/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 85/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3570,7 +3642,7 @@ UID:adn-427@2027-08-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270810T070000Z
 DTEND:20270810T073000Z
-SUMMARY:Sailor Moon – Folge 86/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 86/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3580,7 +3652,7 @@ UID:adn-427@2027-08-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270817T070000Z
 DTEND:20270817T073000Z
-SUMMARY:Sailor Moon – Folge 87/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 87/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3590,7 +3662,7 @@ UID:adn-427@2027-08-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270824T070000Z
 DTEND:20270824T073000Z
-SUMMARY:Sailor Moon – Folge 88/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 88/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3600,7 +3672,7 @@ UID:adn-427@2027-08-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270831T070000Z
 DTEND:20270831T073000Z
-SUMMARY:Sailor Moon – Folge 89/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 89/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3610,7 +3682,7 @@ UID:adn-427@2027-09-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270907T070000Z
 DTEND:20270907T073000Z
-SUMMARY:Sailor Moon – Folge 90/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 90/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3620,7 +3692,7 @@ UID:adn-427@2027-09-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270914T070000Z
 DTEND:20270914T073000Z
-SUMMARY:Sailor Moon – Folge 91/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 91/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3630,7 +3702,7 @@ UID:adn-427@2027-09-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270921T070000Z
 DTEND:20270921T073000Z
-SUMMARY:Sailor Moon – Folge 92/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 92/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3640,7 +3712,7 @@ UID:adn-427@2027-09-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20270928T070000Z
 DTEND:20270928T073000Z
-SUMMARY:Sailor Moon – Folge 93/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 93/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3650,7 +3722,7 @@ UID:adn-427@2027-10-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20271005T070000Z
 DTEND:20271005T073000Z
-SUMMARY:Sailor Moon – Folge 94/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 94/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3660,7 +3732,7 @@ UID:adn-427@2027-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20271012T070000Z
 DTEND:20271012T073000Z
-SUMMARY:Sailor Moon – Folge 95/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 95/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3670,7 +3742,7 @@ UID:adn-427@2027-10-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20271019T070000Z
 DTEND:20271019T073000Z
-SUMMARY:Sailor Moon – Folge 96/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 96/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3680,7 +3752,7 @@ UID:adn-427@2027-10-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20271026T070000Z
 DTEND:20271026T073000Z
-SUMMARY:Sailor Moon – Folge 97/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 97/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3690,7 +3762,7 @@ UID:adn-427@2027-11-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20271102T080000Z
 DTEND:20271102T083000Z
-SUMMARY:Sailor Moon – Folge 98/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 98/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3700,7 +3772,7 @@ UID:adn-427@2027-11-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20271109T080000Z
 DTEND:20271109T083000Z
-SUMMARY:Sailor Moon – Folge 99/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 99/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
@@ -3710,7 +3782,7 @@ UID:adn-427@2027-11-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20271116T080000Z
 DTEND:20271116T083000Z
-SUMMARY:Sailor Moon – Folge 100/100
+SUMMARY:Sailor Moon – Staffel 1 – Folge 100/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
