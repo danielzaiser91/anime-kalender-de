@@ -8,6 +8,39 @@ selbst oder an der Art ändert, wie Termine zustande kommen.
 
 ## Unveröffentlicht
 
+### Eigene Hinweise statt der Kästchen des Betriebssystems
+
+Erklärungen hingen bisher am `title`-Attribut — dem Standard-Tooltip des Browsers: heller
+Kasten mit fremder Schrift mitten in einer dunklen Seite, eine Sekunde Verzögerung, auf dem
+Handy gar nicht erreichbar. Jetzt zeichnet die Seite ihre Hinweise selbst, in ihrem eigenen
+Stil, und sie erscheinen auch bei Bedienung per Tastatur.
+
+Eingebaut ist das in die gemeinsamen Bausteine — Knöpfe, Chips, FSK-Plaketten, Stern,
+Auge, Teilen, Schalter. Damit gilt es überall auf einen Schlag. Die einzige Ausnahme ist die
+Sprecherliste: Dort zeigt der Browser bei abgeschnittenen Namen den vollen Text, und das ist
+seine eigene Aufgabe.
+
+Nebenbei erklärt sich jetzt auch **MAL** — die Kennung neben den Metadaten stand bisher
+unkommentiert da.
+
+### Geprüfte Anbieter-Verweise
+
+- **Tote Verweise verschwinden.** Sechs von zehn Verweisen aus dem ersten Prüfdurchgang waren
+  nicht „vorhanden, aber nur untertitelt", sondern schlicht weg — „Videos nicht verfügbar" oder
+  eine Weiterleitung auf die Startseite. Ein „🇩🇪 ✕" hätte dort ein Angebot ohne deutsche Fassung
+  behauptet, wo es überhaupt kein Angebot gibt.
+- **16 Angaben sind jetzt belegt**, darunter Attack on Titan samt OADs, Blue Exorcist (außer der
+  Kyoto Saga, die es dort nur mit englischer Synchro gibt), Campfire Cooking und
+  „I Was Reincarnated as the 7th Prince" — alle auf Crunchyroll.
+
+### Die Quelle der Handlung stimmt jetzt
+
+Bei 2.385 von 2.683 deutschen Beschreibungen stand die Quelle mitten im Fließtext („Quelle:
+www.anisearch.de/anime/1572"), und darunter noch einmal eine eigene Zeile, die pauschal
+„themoviedb.org" behauptete — auch dort, wo der Text von aniSearch kam. Die Quelle wird jetzt
+beim Bauen herausgelöst, mitgeführt und einmal als Verweis dargestellt.
+
+
 ### Detail-Panel aufgeräumt
 
 Das Panel war über die Zeit zu einer Liste von Kästen geworden, in der das Wichtigste unten

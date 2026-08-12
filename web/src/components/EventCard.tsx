@@ -2,7 +2,9 @@ import type { Fsk, ReleaseEvent, Title } from '@shared/types.ts'
 import { RELEASE_TYPES } from '@shared/types.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useShare } from '../lib/share.ts'
-import { FavoriteStar, FskBadge, HideEye, PlatformBadge, ShareIcon } from './ui.tsx'
+import { FavoriteStar, FskBadge, HideEye, PlatformBadge, ShareIcon,
+  Tooltip,
+} from './ui.tsx'
 
 export function EventCard({
   event,
@@ -100,9 +102,9 @@ export function EventCard({
             </span>
           )}
           {event.estimated && (
-            <span title={t('legend.estimated')} className="text-amber-500">
-              ≈
-            </span>
+            <Tooltip text={t('legend.estimated')} seite="oben">
+              <span className="text-amber-500">≈</span>
+            </Tooltip>
           )}
           <span className="ml-auto flex shrink-0 items-center gap-0.5">
             <ShareIcon

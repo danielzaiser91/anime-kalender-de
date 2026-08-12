@@ -68,7 +68,7 @@ export function MonthView({
               <button
                 type="button"
                 onClick={() => onPickDay(date)}
-                title={t('month.openWeek')}
+                aria-label={t('month.openWeek')}
                 className={[
                   'mb-1 flex h-5 w-5 cursor-pointer items-center justify-center rounded text-[11px] tabular-nums transition',
                   isToday

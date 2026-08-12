@@ -164,6 +164,32 @@ verschoben, Best-of, Recap.
 
 ## Archiv
 
+- ✅ **Batch 1 der Prüfliste ausgewertet, Format umgestellt** (12.08.2026). Daniels zehn
+  Antworten brachten einen Befund, den ich nicht erwartet hatte: **sechs von zehn Verweisen waren
+  tot**, nicht untertitelt. Deshalb kennt `data/dub-confirmed.yaml` jetzt drei Ergebnisse —
+  `dub: true`, `dub: false` (dort nur Untertitel, Verweis bleibt mit ✕) und
+  `available: false` (Titel dort nicht zu haben, Verweis wird **entfernt**). 16 Angaben belegt,
+  6 Verweise entfernt.
+  *Neues Listenformat:* Eine Zeile ist jetzt eine **Reihe auf einem Anbieter**, nicht eine
+  einzelne Staffel — wer den Crunchyroll-Verweis von Attack on Titan öffnet, sieht dort alle
+  Staffeln auf einmal. In der letzten Spalte stehen die noch offenen Einträge, jeder als eigener
+  Verweis; die Anbieter-Spalte entfällt, sie ergibt sich aus der Adresse. 1.691 Zeilen statt
+  2.910 Einzelposten.
+
+- ✅ **Eigene Tooltips statt der Browser-Kästchen** (12.08.2026, Daniel). `Tooltip` in
+  `ui.tsx`, eingehängt in die gemeinsamen Bausteine (Button, Chip, FskBadge,
+  ReleaseTypeBadge, FavoriteStar, HideEye, ShareIcon, Toggle) — damit greifen die 25
+  Aufrufstellen auf einmal. Erscheint auch bei Tastaturbedienung. Einzige Ausnahme: die
+  abgeschnittenen Namen der Sprecherliste, wo der Browser-Hinweis genau seine Aufgabe erfüllt.
+  Dazu die Abkürzung MAL erklärt und der veraltete Hinweistext von „Staffeln zusammenfassen"
+  korrigiert (sprach noch von „der neuesten Staffel").
+
+- ✅ **Quelle der Handlung stimmt und steht an einer Stelle** (12.08.2026). aniSearch hängt sie
+  als Fließtext an die Beschreibung; bei 2.385 von 2.683 Texten stand sie deshalb mitten im
+  Absatz, und darunter behauptete unsere eigene Zeile pauschal „themoviedb.org". Die Pipeline
+  löst sie jetzt heraus und führt sie als `deSource` mit.
+
+
 - ✅ **Detail-Panel aufgeräumt** (12.08.2026, zehn Punkte von Daniel). Genres nach oben neben das
   Cover, Keywords ganz ans Ende, „Alles aus dieser Reihe" gestrichen (steht schon im
   Umschalter). Im Terminblock: Datum und Uhrzeit in einer Zeile, Uhrzeit weg statt „unbekannt",

@@ -109,6 +109,15 @@ export function loadFranchises(): Promise<Franchises> {
 export interface Synopsis {
   de?: string
   en?: string
+  /**
+   * Woher die deutsche Fassung stammt — aniSearch oder TMDB.
+   *
+   * aniSearch hängt die Quelle als Fließtext an die Beschreibung. Die Pipeline
+   * löst sie heraus, damit sie hier genauso aussieht wie unter einem Termin,
+   * statt einmal im Text zu stehen und einmal als Zeile darunter — und dort
+   * womöglich noch mit dem falschen Namen (Daniel, 12.08.2026).
+   */
+  deSource?: { name: string; url: string }
 }
 
 /**

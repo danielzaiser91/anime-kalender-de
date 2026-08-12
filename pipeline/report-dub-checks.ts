@@ -7,13 +7,18 @@
  * Bei YouTube, Netflix, Prime Video, RTL+, Joyn, Disney+ und Aniverse gibt es
  * gar keine maschinenlesbare Auskunft — dort steht dauerhaft „🇩🇪 ?".
  *
- * Diese Liste macht daraus eine abarbeitbare Reihenfolge: neueste zuerst,
- * ausschließlich Titel, die es **schon gibt**. Was erst erscheinen soll, lässt
- * sich nicht nachsehen und rutscht von selbst herein, sobald sein Termin
- * vorbei ist — die Liste wird bei jedem Lauf neu gebaut.
+ * **Eine Zeile ist eine Reihe auf einem Anbieter**, nicht eine einzelne
+ * Staffel. Der Grund kommt aus dem ersten Prüfdurchgang (Daniel, 12.08.2026):
+ * Wer den Crunchyroll-Verweis von „Attack on Titan" öffnet, sieht dort alle
+ * Staffeln, die OADs und den Film auf einmal — und kann sie auch alle auf
+ * einmal beantworten. Zehn Zeilen für zehn Staffeln derselben Serie wären zehn
+ * Mal derselbe Klick.
  *
- * Geprüftes verschwindet: Was in `data/dub-confirmed.yaml` steht, taucht hier
- * nicht mehr auf.
+ * Sortiert von heute in die Vergangenheit, ausschließlich Titel, die es **schon
+ * gibt**. Was erst erscheinen soll, lässt sich nicht nachsehen und rutscht von
+ * selbst herein, sobald sein Termin vorbei ist — die Liste wird bei jedem Lauf
+ * neu gebaut. Geprüftes verschwindet: Was in `data/dub-confirmed.yaml` steht,
+ * taucht hier nicht mehr auf.
  *
  * Aufruf: npm run data:dub-checks
  */
@@ -23,40 +28,27 @@ import { log, readJson, ROOT, writeText } from './lib/util.ts'
 import { loadDubChecks, dubKey } from './lib/dub-confirmed.ts'
 import { loadWatchLinks } from './lib/curated.ts'
 import { lastEpisodeDate } from '../shared/logic.ts'
-import { anzeigeName } from '../shared/titles.ts'
+import { anzeigeName, eindeutschenStaffel, reihenVertreter } from '../shared/titles.ts'
 import { todayIso } from '../shared/time.ts'
-import { PLATFORMS, type PlatformId, type Release, type Title } from '../shared/types.ts'
+import { PLATFORMS, type Franchises, type PlatformId, type Release, type Title } from '../shared/types.ts'
 
-/** Ein zu prüfender Verweis. */
-interface Pruefpunkt {
-  id: string
+/** Ein einzelner Verweis, der noch bestätigt werden muss. */
+interface Offen {
   titleId: number
   name: string
-  platform: PlatformId
   url: string
-  /** Datum, nach dem sortiert wird. */
   datum: string
-  /** Woher das Datum stammt — das ändert, wie belastbar die Reihenfolge ist. */
   datumHerkunft: 'deutscher Termin' | 'japanisches Ende' | 'japanisches Jahr'
-  /** Wer den Verweis geliefert hat. */
   herkunft: string
-  /** Warum er ungeprüft ist. */
-  grund: string
 }
 
-/**
- * Woher ein Verweis stammt.
- *
- * Die Angabe steht nicht im Datensatz — sie dort mitzuführen hieße, jedem
- * Besucher ein Feld auszuliefern, das nur die Kuratierung braucht. Hier wird
- * sie stattdessen aus denselben Rohdaten wieder hergeleitet, aus denen der
- * Verweis entstanden ist.
- */
-function herkunftVon(titleId: number, url: string): string {
-  if (anisearchUrls.get(titleId)?.has(url)) return 'aniSearch'
-  if (anilistUrls.get(titleId)?.has(url)) return 'AniList'
-  if (kuratierteUrls.has(url)) return 'Handarbeit'
-  return 'abgeleitet'
+/** Eine Reihe auf einem Anbieter — das ist eine Zeile der Liste. */
+interface Zeile {
+  reihenId: number
+  reihe: string
+  platform: PlatformId
+  datum: string
+  offen: Offen[]
 }
 
 /**
@@ -86,6 +78,7 @@ const GRUND: Partial<Record<PlatformId, string>> = {
 const heute = todayIso()
 const titles = JSON.parse(readFileSync(resolve(ROOT, 'public/data/titles.json'), 'utf8')) as Title[]
 const releases = readJson<Release[]>('public/data/releases.json', [])
+const reihen = readJson<Franchises>('public/data/franchises.json', {})
 const anisearch = readJson<Record<number, { streams?: { provider: string; url: string }[] }>>(
   'data/anisearch.json',
   {},
@@ -111,8 +104,22 @@ for (const datei of ['data/cache/anilist-media.json', 'data/cache/anilist-by-id.
 }
 
 const kuratierteUrls = new Set(loadWatchLinks().flatMap((w) => w.links.map((l) => l.url)))
-
 const bereitsGeprueft = new Set(loadDubChecks().map((c) => dubKey(c.anilistId, c.platform)))
+
+/**
+ * Woher ein Verweis stammt.
+ *
+ * Die Angabe steht nicht im Datensatz — sie dort mitzuführen hieße, jedem
+ * Besucher ein Feld auszuliefern, das nur die Kuratierung braucht. Hier wird
+ * sie stattdessen aus denselben Rohdaten wieder hergeleitet, aus denen der
+ * Verweis entstanden ist.
+ */
+function herkunftVon(titleId: number, url: string): string {
+  if (anisearchUrls.get(titleId)?.has(url)) return 'aniSearch'
+  if (anilistUrls.get(titleId)?.has(url)) return 'AniList'
+  if (kuratierteUrls.has(url)) return 'Handarbeit'
+  return 'abgeleitet'
+}
 
 /** Letzter bekannter deutscher Termin eines Titels. */
 const letzterTermin = new Map<number, string>()
@@ -122,7 +129,30 @@ for (const r of releases) {
   if (!bisher || ende > bisher) letzterTermin.set(r.titleId, ende)
 }
 
-const punkte: Pruefpunkt[] = []
+const titleById = new Map(titles.map((t) => [t.id, t]))
+
+/**
+ * Name der Reihe — die erste reguläre Staffel gibt ihn vor, ohne Staffelzusatz.
+ *
+ * Der deutsche Name der ersten Staffel heißt oft schon „… – Staffel 1", weil er
+ * aus einer Disc-Ausgabe stammt. Als Überschrift einer Reihe, unter der dann
+ * „Staffel 1" und „Staffel 2" stehen, wäre das eine Zählung zu viel.
+ */
+function reihenName(reihenId: number): string {
+  const mitglieder = reihen[reihenId]
+  const roh = mitglieder?.length
+    ? reihenVertreter(mitglieder).name
+    : (titleById.get(reihenId)?.titleDe ??
+      titleById.get(reihenId)?.titleEn ??
+      titleById.get(reihenId)?.titleRomaji ??
+      `#${reihenId}`)
+  return eindeutschenStaffel(roh)
+    .replace(/\s*[–—-]?\s*\(?(Staffel|Season)\s*1\)?\s*$/i, '')
+    .trim()
+}
+
+const nachReiheUndPlattform = new Map<string, Zeile>()
+
 for (const title of titles) {
   for (const stream of title.streams) {
     if (stream.dub !== undefined) continue
@@ -134,8 +164,7 @@ for (const title of titles) {
      * Gefragt ist „von heute in die Vergangenheit", also nach dem, was auf
      * Deutsch zuletzt passiert ist. Wo ein deutscher Termin bekannt ist, ist
      * das die richtige Zahl. Bei einem Katalogtitel von 1976 gibt es keinen —
-     * dann bleibt das japanische Ende als grobe Einordnung, und die Liste sagt
-     * dazu, dass es eine ist.
+     * dann bleibt das japanische Ende als grobe Einordnung.
      */
     const deutsch = letzterTermin.get(title.id)
     const datum = deutsch ?? title.jpEnd ?? (title.jpYear ? `${title.jpYear}-12-31` : '')
@@ -144,68 +173,113 @@ for (const title of titles) {
     // selbst herein, sobald der Termin vorbei ist — die Liste wird neu gebaut.
     if (datum > heute) continue
 
-    punkte.push({
-      id: `${title.id}-${stream.platform}`,
+    const reihenId = title.franchiseId ?? title.id
+    const key = `${reihenId}|${stream.platform}`
+    const zeile = nachReiheUndPlattform.get(key) ?? {
+      reihenId,
+      reihe: reihenName(reihenId),
+      platform: stream.platform,
+      datum,
+      offen: [],
+    }
+    if (datum > zeile.datum) zeile.datum = datum
+    zeile.offen.push({
       titleId: title.id,
       name: anzeigeName(title),
-      platform: stream.platform,
       url: stream.url,
       datum,
       datumHerkunft: deutsch ? 'deutscher Termin' : title.jpEnd ? 'japanisches Ende' : 'japanisches Jahr',
       herkunft: herkunftVon(title.id, stream.url),
-      grund: GRUND[stream.platform] ?? 'Für diese Plattform gibt es keine öffentliche Sprachangabe.',
     })
+    nachReiheUndPlattform.set(key, zeile)
   }
 }
 
-punkte.sort((a, b) => b.datum.localeCompare(a.datum) || a.name.localeCompare(b.name, 'de'))
+const zeilen = [...nachReiheUndPlattform.values()]
+/**
+ * Innerhalb einer Zeile zählt die Reihenfolge der Reihe, nicht das Datum.
+ *
+ * Wer den Verweis öffnet, geht die Staffeln von vorn durch. „Staffel 2" vor
+ * „Staffel 1" zu listen, nur weil deren deutscher Termin älter ist, macht das
+ * Abhaken unnötig schwer.
+ */
+const reihenfolge = new Map<number, number>()
+for (const [id, mitglieder] of Object.entries(reihen)) {
+  mitglieder.forEach((m, i) => reihenfolge.set(m.id, i))
+  void id
+}
+for (const z of zeilen) {
+  z.offen.sort(
+    (a, b) =>
+      (reihenfolge.get(a.titleId) ?? 999) - (reihenfolge.get(b.titleId) ?? 999) ||
+      a.name.localeCompare(b.name, 'de'),
+  )
+}
+zeilen.sort((a, b) => b.datum.localeCompare(a.datum) || a.reihe.localeCompare(b.reihe, 'de'))
 
-const nachPlattform = new Map<string, number>()
-for (const p of punkte) nachPlattform.set(p.platform, (nachPlattform.get(p.platform) ?? 0) + 1)
+const offenGesamt = zeilen.reduce((n, z) => n + z.offen.length, 0)
+const nachPlattform = new Map<PlatformId, number>()
+for (const z of zeilen) nachPlattform.set(z.platform, (nachPlattform.get(z.platform) ?? 0) + z.offen.length)
 
-const zeilen: string[] = [
+/**
+ * Kurzname eines Eintrags innerhalb seiner Reihe.
+ *
+ * „Attack on Titan Staffel 2" heißt in einer Zeile, die schon „Attack on Titan"
+ * überschrieben ist, nur noch „Staffel 2". Bleibt nichts übrig, steht der volle
+ * Name da — bei einem Film heißt der Eintrag nun einmal anders als die Reihe.
+ */
+function kurzname(reihe: string, name: string): string {
+  if (name === reihe) return 'Hauptserie'
+  if (name.startsWith(reihe)) {
+    const rest = name.slice(reihe.length).replace(/^[\s:–—-]+/, '').trim()
+    if (rest) return rest
+  }
+  return name
+}
+
+const md: string[] = [
   '# Prüfliste: Wo läuft es wirklich auf Deutsch?',
   '',
-  `Stand ${heute} · **${punkte.length} offene Verweise** auf ${new Set(punkte.map((p) => p.titleId)).size} Titeln.`,
+  `Stand ${heute} · **${offenGesamt} offene Verweise** in **${zeilen.length} Zeilen**.`,
   '',
   'Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört',
   'nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.',
   '',
-  'Sortiert von heute in die Vergangenheit. Ausschließlich Titel, die es schon gibt —',
-  'Künftiges lässt sich nicht nachsehen und rutscht von selbst herein, sobald sein Termin',
-  'vorbei ist.',
+  '**Eine Zeile ist eine Reihe auf einem Anbieter.** Wer den Verweis öffnet, sieht dort in aller',
+  'Regel alle Staffeln auf einmal und kann sie auch auf einmal beantworten. In der letzten Spalte',
+  'steht, welche Einträge dieser Reihe dort noch offen sind — bereits Bestätigtes fehlt dort.',
   '',
-  '**Datum** ist der letzte bekannte deutsche Termin. Fehlt der, steht dort das japanische',
-  'Ende als grobe Einordnung; die Spalte sagt, was von beidem gemeint ist.',
+  'Sortiert von heute in die Vergangenheit, ausschließlich Titel, die es schon gibt.',
   '',
-  '| Offen je Plattform | Anzahl |',
+  '| Offen je Anbieter | Verweise |',
   '|---|---|',
   ...[...nachPlattform.entries()]
     .sort((a, b) => b[1] - a[1])
-    .map(([p, n]) => `| ${PLATFORMS[p as PlatformId].name} | ${n} |`),
+    .map(([p, n]) => `| ${PLATFORMS[p].name} | ${n} |`),
   '',
   '## Zu prüfen',
   '',
-  '| # | Datum | Bezug | Titel | Anbieter | Verweis | Herkunft |',
-  '|---|---|---|---|---|---|---|',
+  '| # | Datum | Reihe | Noch zu bestätigen |',
+  '|---|---|---|---|',
 ]
 
-punkte.forEach((p, i) => {
-  zeilen.push(
-    `| ${i + 1} | ${p.datum} | ${p.datumHerkunft} | ${p.name.replace(/\|/g, '\\|')} | ${PLATFORMS[p.platform].name} | [${p.id}](${p.url}) | ${p.herkunft} |`,
-  )
+zeilen.forEach((z, i) => {
+  const eintraege = z.offen
+    .map((o) => `[${kurzname(z.reihe, o.name).replace(/\|/g, '\\|')}](${o.url})`)
+    .join(' · ')
+  md.push(`| ${i + 1} | ${z.datum} | ${z.reihe.replace(/\|/g, '\\|')} | ${eintraege} |`)
 })
 
-zeilen.push(
+md.push(
   '',
-  '## Warum die einzelnen Plattformen unsicher sind',
+  '## Warum die einzelnen Anbieter unsicher sind',
   '',
   ...[...nachPlattform.keys()]
     .sort()
-    .map((p) => `- **${PLATFORMS[p as PlatformId].name}:** ${GRUND[p as PlatformId] ?? '—'}`),
+    .map((p) => `- **${PLATFORMS[p].name}:** ${GRUND[p] ?? '—'}`),
   '',
 )
 
-writeText('data/dub-pruefliste.md', zeilen.join('\n'))
-log(`Prüfliste geschrieben: ${punkte.length} offene Verweise (data/dub-pruefliste.md)`)
+writeText('data/dub-pruefliste.md', md.join('\n'))
+log(`Prüfliste geschrieben: ${zeilen.length} Zeilen, ${offenGesamt} offene Verweise`)
 for (const [p, n] of [...nachPlattform.entries()].sort((a, b) => b[1] - a[1])) log(`  · ${p}: ${n}`)

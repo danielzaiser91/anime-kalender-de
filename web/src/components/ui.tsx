@@ -6,6 +6,25 @@ import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 /** Gemeinsamer Fokus- und Zeigerstil aller anklickbaren Elemente. */
 const CLICKABLE = 'cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400'
 
+/**
+ * Hüllt einen Baustein in einen Hinweis — aber nur, wenn es einen gibt.
+ *
+ * Warum hier und nicht an den 25 Aufrufstellen: Fast alle davon reichen ihren
+ * Hinweis ohnehin als `title` an einen dieser Bausteine durch. Wird die Hülle
+ * hier gesetzt, bekommen sie den gestalteten Hinweis alle auf einmal — und es
+ * gibt keine Stelle, die beim nächsten Mal vergessen wird (Daniel, 12.08.2026:
+ * „keine default web tooltips … überall nutzen").
+ */
+function mitHinweis(text: string | undefined, seite: 'oben' | 'unten', kind: ReactNode): ReactNode {
+  return text ? (
+    <Tooltip text={text} seite={seite}>
+      {kind}
+    </Tooltip>
+  ) : (
+    kind
+  )
+}
+
 export function Chip({
   active,
   excluded,
@@ -22,11 +41,13 @@ export function Chip({
   color?: string
   title?: string
 }) {
-  return (
+  return mitHinweis(
+    title,
+    'unten',
     <button
       type="button"
       onClick={onClick}
-      title={title}
+      aria-label={title}
       aria-pressed={active || excluded}
       className={[
         'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium transition',
@@ -49,7 +70,7 @@ export function Chip({
         <span className="size-2 rounded-full" style={{ background: color }} aria-hidden="true" />
       )}
       {children}
-    </button>
+    </button>,
   )
 }
 
@@ -71,9 +92,10 @@ export function PlatformBadge({ platform, small }: { platform: PlatformId; small
 export function FskBadge({ fsk, small }: { fsk: Fsk; small?: boolean }) {
   const bg = FSK_COLORS[fsk]
   const dark = fsk === 0 || fsk === 6
-  return (
+  return mitHinweis(
+    `FSK ${fsk}`,
+    'oben',
     <span
-      title={`FSK ${fsk}`}
       className={[
         'inline-flex items-center justify-center rounded-sm font-bold',
         small ? 'h-4 min-w-6 text-[10px]' : 'h-5 min-w-7 text-xs',
@@ -81,16 +103,17 @@ export function FskBadge({ fsk, small }: { fsk: Fsk; small?: boolean }) {
       style={{ background: bg, color: dark ? '#111' : '#fff', border: '1px solid rgba(0,0,0,.25)' }}
     >
       {fsk}
-    </span>
+    </span>,
   )
 }
 
 export function ReleaseTypeBadge({ type, small }: { type: ReleaseType; small?: boolean }) {
   const { tRelease } = useLang()
   const style = RELEASE_TYPES[type]
-  return (
+  return mitHinweis(
+    tRelease(type, 'hint'),
+    'oben',
     <span
-      title={tRelease(type, 'hint')}
       className={[
         'inline-flex items-center gap-1 rounded font-semibold',
         small ? 'px-1.5 py-0.5 text-[10px]' : 'px-2 py-0.5 text-[11px]',
@@ -98,7 +121,7 @@ export function ReleaseTypeBadge({ type, small }: { type: ReleaseType; small?: b
       style={{ background: `${style.color}22`, color: style.color, boxShadow: `inset 0 0 0 1px ${style.color}55` }}
     >
       {tRelease(type, 'short')}
-    </span>
+    </span>,
   )
 }
 
@@ -166,29 +189,31 @@ export function Button({
   ].join(' ')
 
   if (href) {
-    return (
+    return mitHinweis(
+      title,
+      'oben',
       <a
         className={cls}
         href={href}
-        title={title}
         download={download}
         target={download ? undefined : '_blank'}
         rel="noreferrer noopener"
       >
         {children}
-      </a>
+      </a>,
     )
   }
-  return (
+  return mitHinweis(
+    title,
+    'oben',
     <button
       type={type}
       className={`${cls}${disabled ? ' cursor-not-allowed opacity-50' : ''}`}
       onClick={onClick}
-      title={title}
       disabled={disabled}
     >
       {children}
-    </button>
+    </button>,
   )
 }
 
@@ -211,11 +236,13 @@ export function FavoriteStar({
   size?: 'sm' | 'md'
 }) {
   const { t } = useLang()
-  return (
+  const hinweis = t(active ? 'card.unfavourite' : 'card.favourite')
+  return mitHinweis(
+    hinweis,
+    'unten',
     <button
       type="button"
       aria-pressed={active}
-      title={t(active ? 'card.unfavourite' : 'card.favourite')}
       aria-label={t(active ? 'card.unfavourite' : 'card.favourite')}
       onClick={(e) => {
         e.stopPropagation()
@@ -252,11 +279,13 @@ export function HideEye({
   size?: 'sm' | 'md'
 }) {
   const { t } = useLang()
-  return (
+  const hinweis = t(hidden ? 'card.unhide' : 'card.hide')
+  return mitHinweis(
+    hinweis,
+    'unten',
     <button
       type="button"
       aria-pressed={hidden}
-      title={t(hidden ? 'card.unhide' : 'card.hide')}
       aria-label={t(hidden ? 'card.unhide' : 'card.hide')}
       onClick={(e) => {
         e.stopPropagation()
@@ -302,10 +331,11 @@ export function ShareIcon({
   size?: 'sm' | 'md'
 }) {
   const { t } = useLang()
-  return (
+  return mitHinweis(
+    t('detail.shareHint'),
+    'unten',
     <button
       type="button"
-      title={t('detail.shareHint')}
       aria-label={t('detail.share')}
       onClick={(e) => {
         e.stopPropagation()
@@ -337,8 +367,10 @@ export function Toggle({
   label: string
   hint?: string
 }) {
-  return (
-    <label className={`inline-flex items-center gap-2 text-sm ${CLICKABLE}`} title={hint}>
+  return mitHinweis(
+    hint,
+    'unten',
+    <label className={`inline-flex items-center gap-2 text-sm ${CLICKABLE}`}>
       <input
         type="checkbox"
         checked={checked}
@@ -360,6 +392,70 @@ export function Toggle({
         />
       </span>
       <span className="text-slate-600 dark:text-slate-300">{label}</span>
-    </label>
+    </label>,
+  )
+}
+
+/**
+ * Ein Hinweis, der zur Seite gehört — nicht der des Betriebssystems.
+ *
+ * Das `title`-Attribut erzeugt den Standard-Tooltip des Betriebssystems: heller
+ * Kasten mit fremder Schrift, mitten in einer dunklen Seite, dazu eine
+ * Verzögerung von etwa einer Sekunde und keine Möglichkeit, ihn zu gestalten
+ * oder auf dem Handy überhaupt zu sehen. Daniel am 12.08.2026: „keine default
+ * web tooltips, sondern rich tooltips, schön gestyled".
+ *
+ * Deshalb diese Komponente. Bewusst schlicht gebaut:
+ *
+ * - **Kein Portal, kein Positionierungs-Paket.** Der Hinweis hängt absolut am
+ *   umschließenden Element. Das reicht, solange kein Elternteil `overflow:
+ *   hidden` setzt — und im Detail-Panel tut das keiner.
+ * - **`group-hover` **und** `focus-within`**, damit er auch mit der Tastatur
+ *   erscheint. Wer nicht mit der Maus arbeitet, braucht die Erklärung genauso.
+ * - **Auf Berührung reagiert er per Klick**, weil es dort kein Schweben gibt.
+ * - **`aria-describedby` gibt es nicht**, dafür steht der Text im DOM und wird
+ *   vom Screenreader ohnehin vorgelesen.
+ *
+ * `unterstrichen` zeichnet den Anker gepunktet an — das ist die verabredete
+ * Kennzeichnung dafür, dass hinter einem Wort noch etwas steht.
+ */
+export function Tooltip({
+  text,
+  children,
+  unterstrichen,
+  seite = 'unten',
+}: {
+  text: string
+  children: ReactNode
+  unterstrichen?: boolean
+  seite?: 'oben' | 'unten'
+}) {
+  return (
+    <span className="group relative inline-flex items-center focus-within:z-30 hover:z-30">
+      <span
+        tabIndex={0}
+        role="note"
+        className={[
+          'outline-none',
+          unterstrichen ? 'cursor-help underline decoration-dotted underline-offset-2' : '',
+        ].join(' ')}
+      >
+        {children}
+      </span>
+      <span
+        role="tooltip"
+        className={[
+          'pointer-events-none absolute left-1/2 z-30 w-max max-w-[min(20rem,80vw)]',
+          '-translate-x-1/2 rounded-lg px-2.5 py-1.5 text-left text-[11px] leading-snug',
+          'bg-slate-900 text-slate-100 shadow-xl ring-1 ring-white/15',
+          'dark:bg-slate-800 dark:ring-white/10',
+          'opacity-0 transition-opacity duration-150',
+          'group-hover:opacity-100 group-focus-within:opacity-100',
+          seite === 'oben' ? 'bottom-[calc(100%+0.4rem)]' : 'top-[calc(100%+0.4rem)]',
+        ].join(' ')}
+      >
+        {text}
+      </span>
+    </span>
   )
 }

@@ -14,6 +14,7 @@ import { FORMAT_DE } from '@shared/mappings.ts'
 import {
   Button,
   Chip,
+  Tooltip,
   FavoriteStar,
   HideEye,
   FskBadge,
@@ -138,12 +139,17 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
             dem Datum, wenn es eine gibt, und sonst gar nichts (Daniel,
             12.08.2026).
           */}
-          <span
-            title={datumErklaerung}
-            className={datumErklaerung ? 'cursor-help underline decoration-dotted underline-offset-2' : undefined}
-          >
-            {weekdayName(release.schedule.firstEpisodeDate, true)}, {formatDate(release.schedule.firstEpisodeDate)}
-          </span>
+          {datumErklaerung ? (
+            <Tooltip text={datumErklaerung} unterstrichen>
+              {weekdayName(release.schedule.firstEpisodeDate, true)},{' '}
+              {formatDate(release.schedule.firstEpisodeDate)}
+            </Tooltip>
+          ) : (
+            <>
+              {weekdayName(release.schedule.firstEpisodeDate, true)},{' '}
+              {formatDate(release.schedule.firstEpisodeDate)}
+            </>
+          )}
           {release.schedule.time && (
             <span className="text-slate-400"> · {release.schedule.time} Uhr</span>
           )}
@@ -159,15 +165,17 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
               */}
               {episodeSpan ?? '—'}
               {release.schedule.episodeCountAssumed && (
-                <span
-                  title={
-                    release.schedule.episodeCountSource === 'anisearch'
-                      ? t('detail.assumedEpisodesAnisearch')
-                      : t('detail.assumedEpisodes')
-                  }
-                  className="ml-1 text-amber-500"
-                >
-                  ≈
+                <span className="ml-1 text-amber-500">
+                  <Tooltip
+                    text={
+                      release.schedule.episodeCountSource === 'anisearch'
+                        ? t('detail.assumedEpisodesAnisearch')
+                        : t('detail.assumedEpisodes')
+                    }
+                    unterstrichen
+                  >
+                    ≈
+                  </Tooltip>
                 </span>
               )}
             </dd>
@@ -213,12 +221,11 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
               nichts, was man erraten könnte. Der Hinweis erklärt es an Ort und
               Stelle, statt ihn im Kopf des Lesers vorauszusetzen.
             */}
-            <span
-              title={t('detail.downloadIcsHint')}
-              className="ml-1.5 inline-flex size-4 cursor-help items-center justify-center rounded-full border border-current align-[1px] text-[10px] leading-none font-bold opacity-60"
-            >
-              ?
-            </span>
+            <Tooltip text={t('detail.downloadIcsHint')} seite="oben">
+              <span className="ml-1.5 inline-flex size-4 cursor-help items-center justify-center rounded-full border border-current align-[1px] text-[10px] leading-none font-bold opacity-60">
+                ?
+              </span>
+            </Tooltip>
           </Button>
         )}
         <ShareButton release={release} />
@@ -249,7 +256,7 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
                   href={googleCalendarUrl(ev)}
                   target="_blank"
                   rel="noreferrer noopener"
-                  title={t('detail.addSingle')}
+                  aria-label={t('detail.addSingle')}
                 >
                   📅 <span className="hidden sm:inline">{t('detail.addToGoogle')}</span>
                 </a>
@@ -289,22 +296,22 @@ function DubMark({ dub }: { dub?: boolean }) {
   const { t } = useLang()
   if (dub === true) {
     return (
-      <span title={t('detail.dubYes')} className="text-[11px] font-bold text-emerald-400">
-        🇩🇪 ✓
-      </span>
+      <Tooltip text={t('detail.dubYes')} seite="oben">
+        <span className="text-[11px] font-bold text-emerald-400">🇩🇪 ✓</span>
+      </Tooltip>
     )
   }
   if (dub === false) {
     return (
-      <span title={t('detail.dubNo')} className="text-[11px] font-bold text-red-400">
-        🇩🇪 ✕
-      </span>
+      <Tooltip text={t('detail.dubNo')} seite="oben">
+        <span className="text-[11px] font-bold text-red-400">🇩🇪 ✕</span>
+      </Tooltip>
     )
   }
   return (
-    <span title={t('detail.dubUnknown')} className="text-[11px] text-slate-400">
-      🇩🇪 ?
-    </span>
+    <Tooltip text={t('detail.dubUnknown')} seite="oben">
+      <span className="text-[11px] text-slate-400">🇩🇪 ?</span>
+    </Tooltip>
   )
 }
 
@@ -547,8 +554,20 @@ export function DetailPanel({
   // nirgends eine deutsche Inhaltsangabe — dort wäre die Alternative eine
   // leere Fläche.
   const plot = (() => {
-    if (synopsis?.de) return { text: synopsis.de, fallback: false }
-    return synopsis?.en ? { text: synopsis.en, fallback: true } : undefined
+    if (synopsis?.de) {
+      return {
+        text: synopsis.de,
+        fallback: false,
+        quelle: synopsis.deSource ?? { name: 'anisearch.de', url: 'https://www.anisearch.de/' },
+      }
+    }
+    if (!synopsis?.en) return undefined
+    // Die englische Fassung kommt immer von AniList — dort steht auch der Titel.
+    return {
+      text: synopsis.en,
+      fallback: true,
+      quelle: { name: 'anilist.co', url: `https://anilist.co/anime/${titleId}` },
+    }
   })()
   // Hinweis nur, wenn die Synchro ausschließlich auf Disc belegt ist, es aber
   // Streams gibt — genau der Fall, in dem ein Plattform-Logo sonst zu viel
@@ -722,14 +741,12 @@ export function DetailPanel({
                 <dl className="grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-slate-600 dark:text-slate-300">
                   <dt className="text-slate-400">{t('detail.availableFrom')}</dt>
                   <dd>
-                    <span
-                      title={t(
-                        status === 'erschienen' ? 'detail.releasedNoDate' : 'detail.noRelease',
-                      )}
-                      className="cursor-help underline decoration-dotted underline-offset-2 opacity-70"
+                    <Tooltip
+                      text={t(status === 'erschienen' ? 'detail.releasedNoDate' : 'detail.noRelease')}
+                      unterstrichen
                     >
-                      {t('detail.unknown')}
-                    </span>
+                      <span className="opacity-70">{t('detail.unknown')}</span>
+                    </Tooltip>
                   </dd>
                 </dl>
                 {title.dubConfidence === 'low' && (
@@ -826,15 +843,22 @@ export function DetailPanel({
                 anisearch.de". Vorher stand sie nur als Fließtext ganz unten in
                 der Metazeile und war weder als Quelle erkennbar noch anklickbar.
               */}
+              {/*
+                Die Quelle steht jetzt an genau einer Stelle und nennt die
+                richtige. Vorher stand sie zweimal da: einmal als Fließtext am
+                Ende der aniSearch-Beschreibung und einmal als Zeile darunter,
+                die pauschal „themoviedb.org" behauptete — auch bei den 2.385
+                Texten, die von aniSearch stammen (Daniel, 12.08.2026).
+              */}
               <p className="mt-2 text-[11px] text-slate-400">
                 {t('detail.source')}:{' '}
                 <a
-                  href={plot.fallback ? `https://anilist.co/anime/${title.id}` : 'https://www.themoviedb.org/'}
+                  href={plot.quelle.url}
                   target="_blank"
                   rel="noreferrer noopener"
                   className="underline hover:text-sky-400"
                 >
-                  {plot.fallback ? 'anilist.co' : 'themoviedb.org'}
+                  {plot.quelle.name}
                 </a>
               </p>
             </div>
@@ -864,7 +888,18 @@ export function DetailPanel({
 
           <p className="text-[11px] text-slate-400">
             {t('detail.metaFrom')}
-            {title.malId ? ` · MAL ${title.malId}` : ''} ·{' '}
+            {title.malId ? (
+              <>
+                {' · '}
+                <Tooltip text={t('detail.malMeaning')} unterstrichen>
+                  MAL
+                </Tooltip>{' '}
+                {title.malId}
+              </>
+            ) : (
+              ''
+            )}{' '}
+            ·{' '}
             {t('detail.dubProof', {
               sources:
                 title.dubConfidence === 'very-high'

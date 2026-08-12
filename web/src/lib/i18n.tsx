@@ -122,8 +122,10 @@ const TEXTE = {
   'db.more': 'Weitere {count} anzeigen',
   'db.remaining': '({count} übrig)',
   'db.groupSeasons': 'Staffeln zusammenfassen',
+  // Der Text sprach bis zum 12.08.2026 von „der neuesten Staffel" — das war die
+  // alte, falsche Auswahl des Reihen-Vertreters.
   'db.groupSeasonsHint':
-    'Zeigt nur die neueste Staffel einer Reihe; die älteren stehen in deren Detailansicht',
+    'Fasst alle Staffeln, Filme und Specials einer Reihe zu einer Kachel zusammen. Gezeigt wird die erste Staffel; die übrigen stehen in ihrer Detailansicht.',
   'db.seasons': '{count} Staffeln',
   'db.episodes': '{count} Ep.',
 
@@ -195,6 +197,7 @@ const TEXTE = {
   'detail.dubHintDisc':
     'Die deutsche Synchro dieses Titels ist nur auf Disc belegt. Die oben gelisteten Streams laufen möglicherweise nur im Originalton mit Untertiteln — der Knopf „Kaufen" führt zur synchronisierten Fassung.',
   'detail.metaFrom': 'Metadaten von AniList',
+  'detail.malMeaning': 'MyAnimeList — die Kennung dieses Anime in der größten Anime-Datenbank.',
   'detail.dubProof': 'Synchro belegt über MyDubList ({sources})',
 
   'sub.title': 'Kalender abonnieren',

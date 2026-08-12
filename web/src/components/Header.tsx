@@ -4,6 +4,7 @@ import { VIEWS, type ViewId } from '../lib/router.ts'
 import { addDays, addMonths, formatDateLong, monthName, startOfWeek, todayIso } from '@shared/time.ts'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import { InstallButton } from './InstallPrompt.tsx'
+import { Tooltip } from './ui.tsx'
 
 function ThemeToggle() {
   const { t } = useLang()
@@ -14,16 +15,17 @@ function ThemeToggle() {
     root.style.colorScheme = dark ? 'dark' : 'light'
   }
   return (
-    <button
-      type="button"
-      onClick={toggle}
-      aria-label={t('nav.theme')}
-      title={t('nav.theme')}
-      className="cursor-pointer rounded-lg px-2.5 py-2 text-sm transition hover:bg-slate-200/60 dark:hover:bg-white/10"
-    >
-      <span className="hidden dark:inline">☀️</span>
-      <span className="dark:hidden">🌙</span>
-    </button>
+    <Tooltip text={t('nav.theme')}>
+      <button
+        type="button"
+        onClick={toggle}
+        aria-label={t('nav.theme')}
+        className="cursor-pointer rounded-lg px-2.5 py-2 text-sm transition hover:bg-slate-200/60 dark:hover:bg-white/10"
+      >
+        <span className="hidden dark:inline">☀️</span>
+        <span className="dark:hidden">🌙</span>
+      </button>
+    </Tooltip>
   )
 }
 
@@ -105,7 +107,6 @@ export function Header({
               type="button"
               onClick={() => onView('newsletter')}
               aria-label={t('view.newsletter')}
-              title={t('view.newsletter')}
               className="cursor-pointer rounded-lg bg-sky-500 px-3 py-2 text-sm font-medium text-white transition hover:bg-sky-400"
             >
               {/* Auf schmalen Schirmen genügt das Symbol — der Knopf ist der
@@ -178,10 +179,12 @@ export function Legend() {
     <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-slate-500 dark:text-slate-400">
       <span className="font-semibold uppercase tracking-wider">{t('legend.colour')}</span>
       {(Object.keys(RELEASE_TYPES) as ReleaseType[]).map((type) => (
-        <span key={type} className="inline-flex items-center gap-1.5" title={tRelease(type, 'hint')}>
-          <span className="h-2.5 w-1 rounded-sm" style={{ background: RELEASE_TYPES[type].color }} />
-          {tRelease(type)}
-        </span>
+        <Tooltip key={type} text={tRelease(type, 'hint')}>
+          <span className="inline-flex items-center gap-1.5">
+            <span className="h-2.5 w-1 rounded-sm" style={{ background: RELEASE_TYPES[type].color }} />
+            {tRelease(type)}
+          </span>
+        </Tooltip>
       ))}
       <span className="inline-flex items-center gap-1.5">
         <span className="text-amber-500">≈</span> {t('legend.estimated')}

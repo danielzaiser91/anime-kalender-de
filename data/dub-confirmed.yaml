@@ -1,32 +1,172 @@
-# Von Hand bestätigte (und widerlegte) Synchro-Angaben je Anbieter.
+# Von Hand geprüfte Angaben zu den Anbieter-Verweisen.
 #
 # Warum es diese Datei gibt: Ein Stream-Verweis sagt, **dass** ein Titel dort
 # läuft — nicht, in welcher Sprache. Die Pipeline kann das nur dort belegen, wo
 # eine Quelle es selbst nennt: ADN führt je Folge den Sprachcode `vde`,
 # Crunchyroll schreibt „(Deutsch)" in den Kalender. Für alles andere —
 # YouTube-Kanäle, Netflix, Prime Video, RTL+, Joyn — gibt es keine
-# maschinenlesbare Auskunft. Übrig bleiben 3.021 Verweise mit „🇩🇪 ?".
+# maschinenlesbare Auskunft. Übrig bleiben rund 3.000 Verweise mit „🇩🇪 ?".
 #
-# Diese Datei ist der Ort, an dem aus einem Fragezeichen ein Häkchen wird.
-# Gepflegt wird sie ausschließlich durch tatsächliche Prüfung — Daniel öffnet
-# den Verweis und sieht nach. Geraten wird hier nichts; das wäre genau die
-# Behauptung, die dieses Projekt nicht aufstellen will.
+# Diese Datei ist der Ort, an dem daraus eine Antwort wird. Gepflegt wird sie
+# ausschließlich durch tatsächliche Prüfung — Daniel öffnet den Verweis und
+# sieht nach. Geraten wird hier nichts.
 #
-# `dub: false` ist genauso wertvoll wie `true`: Es nimmt den Eintrag dauerhaft
-# aus der Prüfliste und sagt der Oberfläche, dass es dort **nur** Untertitel
-# gibt.
+# Drei mögliche Ergebnisse, und der Unterschied zwischen den letzten beiden ist
+# wichtig:
+#
+#   dub: true         Deutsche Synchro dort vorhanden.
+#   dub: false        Dort **nur** Originalton mit Untertiteln. Der Verweis
+#                     bleibt stehen und trägt „🇩🇪 ✕" — die Auskunft ist ja
+#                     brauchbar.
+#   available: false  Der Titel ist dort gar nicht (mehr) zu haben: „Videos
+#                     nicht verfügbar", oder der Verweis leitet auf die
+#                     Startseite. Der Verweis wird **entfernt**. Ein „✕" wäre
+#                     hier falsch, denn es behauptete ein Angebot ohne Synchro,
+#                     wo es überhaupt kein Angebot gibt (Daniel, 12.08.2026).
 #
 # Felder:
 #   anilistId  Pflicht — die Kennung des Anime.
 #   platform   Pflicht — crunchyroll | netflix | primevideo | youtube | adn |
 #              aniverse | wow | joyn | rtlplus | disneyplus
-#   dub        Pflicht — true (deutsche Synchro dort vorhanden) oder false.
+#   dub        true/false, oder `available: false` statt dessen.
 #   checkedAt  Pflicht — Datum der Prüfung, ISO, in Anführungszeichen.
 #   note       Optional — was genau gesehen wurde.
+
+# ---------------------------------------------------------------------------
+# Prüfung vom 12.08.2026 (Batch 1)
+# ---------------------------------------------------------------------------
 
 - anilistId: 1663
   title: 3000 Leagues in Search of Mother
   platform: youtube
   dub: true
   checkedAt: '2026-08-12'
-  note: Von Daniel im Verweis geöffnet und als deutsche Synchronfassung bestätigt.
+  note: Im Verweis geöffnet, deutsche Synchronfassung.
+
+- anilistId: 189046
+  title: Re:ZERO Staffel 4
+  platform: youtube
+  available: false
+  checkedAt: '2026-08-12'
+  note: Videos nicht verfügbar.
+
+- anilistId: 20807
+  title: Prison School
+  platform: crunchyroll
+  available: false
+  checkedAt: '2026-08-12'
+  note: '„Leider sind die Videos dieser Serie nicht mehr verfügbar."'
+
+# Attack on Titan — auf Crunchyroll durchgehend deutsch, auf Netflix tot.
+# Die acht OADs verteilen sich bei AniList auf drei Einträge (OVA, No Regrets,
+# Lost Girls); auf Crunchyroll stehen sie als eine Sammlung „Attack on Titan
+# OADs" mit acht Folgen, alle mit Synchro.
+- anilistId: 110277
+  title: Attack on Titan – Finale Staffel
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-12'
+- anilistId: 20958
+  title: Attack on Titan Staffel 2
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-12'
+- anilistId: 99147
+  title: Attack on Titan Staffel 3
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-12'
+- anilistId: 18397
+  title: Attack on Titan OVA
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-12'
+  note: Teil der Sammlung „Attack on Titan OADs", acht Folgen mit Synchro.
+- anilistId: 20811
+  title: 'Attack on Titan: No Regrets'
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-12'
+  note: Teil der Sammlung „Attack on Titan OADs".
+- anilistId: 99634
+  title: 'Attack on Titan: Lost Girls'
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-12'
+  note: Teil der Sammlung „Attack on Titan OADs".
+- anilistId: 110277
+  title: Attack on Titan – Finale Staffel
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-12'
+  note: Verweis läuft ins Leere und leitet auf die Startseite.
+
+# Blue Exorcist — auf Crunchyroll deutsch, mit einer Ausnahme.
+- anilistId: 176311
+  title: 'Blue Exorcist: Beyond the Snow Saga'
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-12'
+- anilistId: 9919
+  title: Blue Exorcist
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-12'
+- anilistId: 158931
+  title: Blue Exorcist -Shimane Illuminati Saga-
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-12'
+- anilistId: 185880
+  title: 'Blue Exorcist: The Blue Night Saga'
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-12'
+- anilistId: 21861
+  title: 'Blue Exorcist: Kyoto Saga'
+  platform: crunchyroll
+  dub: false
+  checkedAt: '2026-08-12'
+  note: Dort derzeit nur mit englischer Synchro.
+
+# Campfire Cooking — Crunchyroll ja, Netflix und YouTube tot.
+- anilistId: 156067
+  title: Campfire Cooking in Another World – Staffel 1
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-12'
+- anilistId: 170577
+  title: Campfire Cooking in Another World – Staffel 2
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-12'
+- anilistId: 156067
+  title: Campfire Cooking in Another World – Staffel 1
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-12'
+  note: Leitet auf die Startseite.
+- anilistId: 156067
+  title: Campfire Cooking in Another World – Staffel 1
+  platform: youtube
+  available: false
+  checkedAt: '2026-08-12'
+  note: 25 Videos nicht verfügbar.
+
+# I Was Reincarnated as the 7th Prince — Crunchyroll ja, Netflix tot.
+- anilistId: 156415
+  title: I Was Reincarnated as the 7th Prince – Staffel 1
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-12'
+- anilistId: 178090
+  title: I Was Reincarnated as the 7th Prince – Staffel 2
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-12'
+- anilistId: 156415
+  title: I Was Reincarnated as the 7th Prince – Staffel 1
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-12'
+  note: Leitet auf die Startseite.

@@ -428,6 +428,9 @@ function main(): void {
         providers?: PlatformId[]
         offers?: { name: string; kind: 'flatrate' | 'rent' | 'buy' }[]
         justwatchUrl?: string
+        /** Kennung und Art bei TMDB — nötig, um die Quelle verlinken zu können. */
+        tmdbId?: number
+        kind?: 'tv' | 'movie'
       }
     >
   >(
@@ -1229,16 +1232,34 @@ function main(): void {
    * gesetztes `true`.
    */
   let geprueft = 0
+  let entfernt = 0
   const checks = new Map(loadDubChecks().map((c) => [dubKey(c.anilistId, c.platform), c]))
   for (const title of titles.values()) {
-    for (const stream of title.streams) {
+    /**
+     * Tote Verweise verschwinden, statt ein „✕" zu bekommen.
+     *
+     * Sechs von zehn Verweisen aus dem ersten Prüfdurchgang waren nicht
+     * „vorhanden, aber nur untertitelt", sondern schlicht weg: „Videos nicht
+     * verfügbar" oder eine Weiterleitung auf die Startseite. Ein „🇩🇪 ✕"
+     * behauptete dort ein Angebot ohne deutsche Fassung — also etwas, das es
+     * gar nicht gibt.
+     */
+    title.streams = title.streams.filter((stream) => {
       const check = checks.get(dubKey(title.id, stream.platform))
-      if (!check) continue
-      stream.dub = check.dub
-      geprueft++
-    }
+      if (check?.available === false) {
+        entfernt++
+        return false
+      }
+      if (check && typeof check.dub === 'boolean') {
+        stream.dub = check.dub
+        geprueft++
+      }
+      return true
+    })
   }
-  if (checks.size) log(`${geprueft} von ${checks.size} geprüften Synchro-Angaben übernommen`)
+  if (checks.size) {
+    log(`${geprueft} geprüfte Synchro-Angaben übernommen, ${entfernt} tote Verweise entfernt (${checks.size} Prüfungen)`)
+  }
 
   /**
    * „Season" kommt nicht auf die Seite — auch nicht über einen Release-Namen.
@@ -1331,7 +1352,13 @@ function main(): void {
   // Deutsch. Vorher gewann TMDB — und bei „You and I Are Polar Opposites
   // Staffel 2" stand deshalb „The second season of …" auf der Seite, obwohl es
   // eine ausführliche deutsche Inhaltsangabe gibt.
-  const synopses: Record<number, { de?: string; en?: string }> = {}
+  /** Handlung je Titel, mit belegter Herkunft der deutschen Fassung. */
+  interface SynopsisEintrag {
+    de?: string
+    en?: string
+    deSource?: { name: string; url: string }
+  }
+  const synopses: Record<number, SynopsisEintrag> = {}
 
   // Welche Titel haben deutsche Sprechrollen? Nur der Merker wandert in den
   // Datensatz — die Rollen selbst holt die Oberfläche beim Aufklappen aus
@@ -1353,9 +1380,48 @@ function main(): void {
     }
   }
 
+  /**
+   * Die Quelle aus dem Beschreibungstext herauslösen.
+   *
+   * aniSearch hängt sie an den Text an: „… hinterher.\n\nQuelle:
+   * www.anisearch.de/anime/1572". Das stand bei 2.385 von 2.683 deutschen
+   * Beschreibungen mitten im Fließtext — und darunter dann noch einmal unsere
+   * eigene, anders gestaltete Quellenzeile, die obendrein „themoviedb.org"
+   * behauptete, obwohl der Text von aniSearch kam (Daniel, 12.08.2026).
+   *
+   * Herausgelöst wird sie hier, einmal beim Bauen, statt in der Oberfläche bei
+   * jedem Öffnen eines Panels.
+   */
+  function trenneQuelle(text: string): { text: string; url?: string } {
+    const treffer = /\n+\s*Quelle:\s*(\S+)\s*$/.exec(text)
+    if (!treffer) return { text: text.trim() }
+    const roh = treffer[1]
+    return {
+      text: text.slice(0, treffer.index).trim(),
+      url: roh.startsWith('http') ? roh : `https://${roh}`,
+    }
+  }
+
   const slim = allTitles.map((t) => {
-    const de = anisearch[t.id]?.descriptionDe ?? tmdbTitles[t.id]?.overviewDe
-    if (t.synopsis || de) synopses[t.id] = { de, en: t.synopsis }
+    const ausAnisearch = anisearch[t.id]?.descriptionDe
+    const ausTmdb = tmdbTitles[t.id]
+    if (t.synopsis || ausAnisearch || ausTmdb?.overviewDe) {
+      const eintrag: SynopsisEintrag = { en: t.synopsis }
+      if (ausAnisearch) {
+        const { text, url } = trenneQuelle(ausAnisearch)
+        eintrag.de = text
+        eintrag.deSource = { name: 'anisearch.de', url: url ?? `https://www.anisearch.de/anime/` }
+      } else if (ausTmdb?.overviewDe) {
+        eintrag.de = ausTmdb.overviewDe
+        eintrag.deSource = {
+          name: 'themoviedb.org',
+          url: ausTmdb.tmdbId
+            ? `https://www.themoviedb.org/${ausTmdb.kind === 'movie' ? 'movie' : 'tv'}/${ausTmdb.tmdbId}`
+            : 'https://www.themoviedb.org/',
+        }
+      }
+      synopses[t.id] = eintrag
+    }
     const { synopsis: _drop, ...rest } = t
     return mitStimmen.has(t.id) ? { ...rest, hasVoices: true } : rest
   })
