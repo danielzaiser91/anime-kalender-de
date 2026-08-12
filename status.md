@@ -11,6 +11,7 @@ _(leer)_
 | Aufgabe | SP | Notiz |
 |---|---|---|
 | News-Quellen für Sendepausen und Verschiebungen | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
+| Disc-Termine aus dem aniSearch-Archiv gewinnen | 5 | Der `items`-Abschnitt der archivierten Seiten führt deutsche Neuerscheinungen mit Datum — Blu-ray und DVD, Jahre im Voraus, samt Publisher. **136 künftige Termine allein in den 110 bisher archivierten Seiten**; 96 davon führen überhaupt eine solche Liste. Ersetzt die Handpflege der Disc-Releases und macht das Auslesen einzelner Publisher-Seiten überflüssig (gemessen 12.08.2026). Zu lösen: Discs von Manga-/Novel-Bänden trennen (aniSearch markiert den Typ, „Bd. 02" gegen „[Blu-ray]"), Zuordnung zum Anime-Eintrag, und wie bei allem Abgeleiteten als Vorschlag nach `data/proposals/` statt direkt in den Datensatz |
 | Ansicht „Wo kann ich das sehen?" ausbauen | 5 | **Nicht mehr blockiert** — aniSearch-Bestand seit 10.08.2026 vollständig, 2.109 Titel haben einen Bezugsweg. Der Filter „▶ verfügbar" steht bereits. Offen: nach Anbieter gruppieren (die `watchLinks` tragen nur Namen, keine PlatformId), Kauf von Stream trennen, eigene Ansicht unter `#/wo` |
 
 
@@ -66,9 +67,21 @@ Die zerfallen in zwei Gruppen, und nur eine hilft:
 
 Direkt bei den Publishern auszulesen ist aber der mühsamste Weg: zehn Seiten, zehn Bauweisen.
 peppermints Übersicht (`/anime`) rendert per JavaScript, im HTML steht kein einziges Datum;
-AniMoon und Universum waren von hier aus nicht erreichbar. **polyband sperrt in seiner
-robots.txt ausschließlich `ClaudeBot`** — kein allgemeines Verbot, aber eine erkennbare
-Haltung; vor einer Anbindung dort erst mit Daniel klären.
+AniMoon und Universum waren von hier aus nicht erreichbar. polyband sperrt in seiner robots.txt
+ausschließlich `ClaudeBot`.
+
+**Erledigt am 12.08.2026 — und zwar ohne eine einzige Publisher-Seite abzurufen.** aniSearch
+führt beides selbst: den **deutschen Publisher** je Titel (in 310 ausgewerteten Infoboxen 60
+verschiedene, von Crunchyroll mit 83 Titeln bis polyband mit 13) und im Abschnitt `items` die
+**deutschen Neuerscheinungen mit Datum**, Jahre im Voraus — „Banana Fish – Vol. 1/2 [Blu-ray],
+21.08.2026". In 110 archivierten Seiten stecken 136 künftige Termine, 96 Seiten führen
+überhaupt eine solche Liste.
+
+Damit ist die polyband-Frage hinfällig: Wir bekommen dieselbe Auskunft aus einer Quelle, die
+uns das Lesen erlaubt, und zwar für **alle** Publisher zugleich. Die Rohabschnitte liegen schon
+im Archiv — `items` war beim Archivieren am 11.08. bewusst mit aufgenommen worden, weil
+deutsche Disc-Termine dort „das Wertvollste auf der Seite" wären, falls sie darin stehen. Sie
+stehen darin. Neue Aufgabe in der Queue.
 
 **Der bessere Hebel sind Seiten, die alle Publisher zugleich beobachten:**
 
