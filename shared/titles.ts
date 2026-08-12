@@ -24,6 +24,9 @@ export function eindeutschenStaffel(name: string): string {
   return name
     .replace(/\bThe Final Season\b/gi, 'Die finale Staffel')
     .replace(/\bFinal Season\b/gi, 'Finale Staffel')
+    // Mehrzahl zuerst, sonst greift die Einzahl-Regel nicht: AniList führt
+    // „Urusei Yatsura (2022) Seasons 1 & 2" als einen Titel.
+    .replace(/\bSeasons\s+(\d+)\s*(?:&|and|\+|–|-)\s*(\d+)/gi, 'Staffeln $1 & $2')
     .replace(/\b(\d+)(?:st|nd|rd|th)\s+Season\b/gi, 'Staffel $1')
     .replace(/\bSeason\s+(\d+)\b/gi, 'Staffel $1')
     .replace(/\bPart\s+(\d+)\b/gi, 'Teil $1')

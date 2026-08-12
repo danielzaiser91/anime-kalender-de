@@ -10,7 +10,6 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| Sichtprüfung der Staffel-Umschaltung im Browser | 1 | Code gebaut und getestet, aber noch nicht im laufenden Bild gesehen — braucht einen Dev-Server, dafür fehlt die Zustimmung |
 | Kuratierungsbericht: drei Pausen-Meldungen prüfen | 1 | Der neue Pausen-Filter hat drei Artikel vorgelegt (`data/proposals/anime2you.json`, Feld `pause`): „24 Blu-ray-Termine verschoben" (betrifft AniMoon, Crunchyroll, KSM — teils unsere Disc-Termine), „Disc-Release von »Bleach« auf unbestimmte Zeit verschoben", „»Scarlet« startet früher in Deutschland". Von Hand gegen `data/curated/` abgleichen |
 | ~~News-Quellen für Sendepausen~~ — **Filter gebaut, Rest verworfen** | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
 | **Disc-Vorschläge abarbeiten** | 3 | `npm run data:disc-proposals` erzeugt aus dem Archiv 47 Ausgaben an **34 Terminen zu 21 Anime**, die noch nicht im Datensatz stehen (`data/proposals/disc-anisearch.json`, Stand 12.08.2026). Jeder Vorschlag trägt den Grund seiner Einstufung. Übertragen nach `data/curated/` — das ist Handarbeit mit Augenmaß: Mehrere Editionen am selben Tag sind **ein** Kalendereintrag |
@@ -181,6 +180,11 @@ verschoben, Best-of, Recap.
   nachgeladen). Im Detail-Panel steht jetzt der Reihenname im Kopf und darunter ein Umschalter
   über alle Staffeln, Filme und Specials. „Season" ist aus Titeln, Terminnamen und Oberfläche
   verschwunden (`eindeutschenStaffel()` in `shared/titles.ts`).
+  *Im Browser geprüft* (Dev-Server auf Port 5183, danach gestoppt): Kacheln, Umschalter, Termine
+  je Staffel, Suche nach „ästhetik". Dabei zwei Dinge gefunden, die kein Test gezeigt hätte —
+  die Eindeutschung lief **nach** dem Ausrollen der Termine, stand also in `releases.json` und
+  nicht in `events.json`; und die Mehrzahlform „Seasons 1 & 2" (Urusei Yatsura) fiel durch die
+  Einzahl-Regel.
 
 
 - ✅ **196 erfundene Termine beseitigt — der schwerste Fehler bisher** (12.08.2026). Gemeldet

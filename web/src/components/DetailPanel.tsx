@@ -614,8 +614,20 @@ export function DetailPanel({
               <HideEye hidden={false} onToggle={() => onToggleHidden(title.id)} />
               <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
             </div>
+            {/*
+              Auch die Umschrift bekommt „Staffel" statt „Season".
+
+              Die Zeile zeigt den japanischen Titel in lateinischer Schrift und
+              ist damit ohnehin schon eine Mischung — „Tensei Shitara Slime
+              Datta Ken 4th Season" ist weder ganz japanisch noch ganz englisch.
+              Ein zweites „Season" drei Zeilen unter dem deutschen „Staffel 4"
+              stehen zu lassen, wäre genau der Widerspruch, um den es ging.
+              Die Originalschrift darunter bleibt unangetastet.
+            */}
             {title.titleRomaji && title.titleRomaji !== (title.titleDe ?? title.titleEn) && (
-              <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">{title.titleRomaji}</p>
+              <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
+                {eindeutschenStaffel(title.titleRomaji)}
+              </p>
             )}
             {title.titleNative && <p className="text-xs text-slate-400 dark:text-slate-500">{title.titleNative}</p>}
             <div className="mt-2 flex flex-wrap items-center gap-1.5">

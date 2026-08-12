@@ -1189,11 +1189,6 @@ function main(): void {
     }
   }
 
-  // --- Termine ausrollen ----------------------------------------------------
-  const events: ReleaseEvent[] = releases
-    .flatMap(expandEvents)
-    .sort((a, b) => (a.date === b.date ? (a.time ?? '99') .localeCompare(b.time ?? '99') : a.date.localeCompare(b.date)))
-
   /**
    * „Season" kommt nicht auf die Seite — auch nicht über einen Release-Namen.
    *
@@ -1205,8 +1200,18 @@ function main(): void {
    * Umgestellt wird hier und nicht in der Oberfläche, weil dieselben Namen in
    * die ICS-Feeds und die Teilen-Seiten wandern. Ersetzt wird nur die
    * Staffelmarkierung; der übrige Titel ist ein Eigenname.
+   *
+   * **Vor** dem Ausrollen der Termine — die kopieren den Namen. Stand die
+   * Umstellung dahinter, war sie in `releases.json` erledigt und in
+   * `events.json` nicht, und der Kalender zeigte weiter „The 100 Girlfriends …
+   * Season 3" (bemerkt bei der Sichtprüfung im Browser, 12.08.2026).
    */
   for (const release of releases) release.name = eindeutschenStaffel(release.name)
+
+  // --- Termine ausrollen ----------------------------------------------------
+  const events: ReleaseEvent[] = releases
+    .flatMap(expandEvents)
+    .sort((a, b) => (a.date === b.date ? (a.time ?? '99') .localeCompare(b.time ?? '99') : a.date.localeCompare(b.date)))
 
   /**
    * Gegenprobe, bevor irgendetwas geschrieben wird.
