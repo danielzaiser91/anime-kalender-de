@@ -50,6 +50,28 @@ const PLATFORM_HINTS: { platform: PlatformId; pattern: RegExp }[] = [
   { platform: 'disc', pattern: /\b(blu-ray|dvd|steelbook)\b/i },
 ]
 
+/**
+ * Formulierungen, die eine Unterbrechung des Wochentakts ankündigen.
+ *
+ * Der Kalender rechnet Folgetermine im Siebener-Rhythmus fort. Fällt eine
+ * Woche aus, stimmt danach alles nicht mehr — und niemand merkt es, weil kein
+ * Kalender-Feed „diese Woche nichts" meldet. Solche Meldungen stehen nur in
+ * News.
+ *
+ * Wie ergiebig das ist, wurde am 12.08.2026 gemessen statt geschätzt: In 3.136
+ * Artikeln aus neun Monaten trugen 62 ein Pausen- oder Verschiebungssignal,
+ * aber nur **vier** einen erkennbaren Bezug zur deutschen Fassung — der Rest
+ * betraf japanische Ausstrahlungen, Disc-Termine und Kinostarts. Etwa eine
+ * relevante Meldung alle zwei Monate. Für einen Erkenner mit Textanalyse ist
+ * das zu wenig; für einen Filter, der sie zur Prüfung vorlegt, genau richtig.
+ */
+const PAUSE_HINTS: { art: string; pattern: RegExp }[] = [
+  { art: 'pause', pattern: /\b(sende)?pause\b|pausiert|legt eine pause|unterbrich|unterbrochen/i },
+  { art: 'verschoben', pattern: /verschoben|verschiebt sich|verzögert|verspätet|später als geplant/i },
+  { art: 'entfällt', pattern: /entfällt|fällt aus|kein[e]? neue[n]? folge/i },
+  { art: 'recap', pattern: /\brecap\b|best-of-folge|zusammenfassungsfolge|rückblickfolge/i },
+]
+
 /** Formulierungen, die eine deutsche Sprachfassung ausdrücklich zusagen. */
 const DUB_CONFIRMED =
   /(deutsche[rn]? (synchro|synchronisation|sprachfassung|fassung)|auf deutsch|deutsch(er)? ton|deutsch und japanisch|synchronfassung)/i
@@ -66,6 +88,16 @@ export interface Proposal {
   dates: FoundDate[]
   /** 'ja' — ausdrücklich zugesagt, 'offen' — ausdrücklich unklar, sonst 'unklar'. */
   dub: 'ja' | 'offen' | 'unklar'
+  /**
+   * Gesetzt, wenn die Meldung eine Unterbrechung des Wochentakts ankündigt —
+   * „pause", „verschoben", „entfällt" oder „recap".
+   *
+   * Solche Artikel kommen auch **ohne** künftiges Datum in die Liste: „Die
+   * Serie pausiert bis auf Weiteres" nennt keins, ändert den Kalender aber
+   * trotzdem. Sie sind der einzige Fall, in dem ein Vorschlag ohne Termin
+   * nützlich ist.
+   */
+  pause?: string
   /** true, wenn dieser Artikel schon als Quelle in data/curated/ steht. */
   alreadyCurated: boolean
 }
@@ -106,16 +138,33 @@ async function main(): Promise<void> {
       // Nur was in der Zukunft liegt oder gerade erst war, ist ein Termin-
       // Kandidat. Rückblicke auf japanische Ausstrahlungen sind es nicht.
       const relevant = dates.filter((d) => (d.iso ?? `${d.month}-31`) >= today)
-      if (!relevant.length) continue
+      const platforms = PLATFORM_HINTS.filter((h) => h.pattern.test(text)).map((h) => h.platform)
+      const dub = DUB_OPEN.test(text) ? 'offen' : DUB_CONFIRMED.test(text) ? 'ja' : 'unklar'
+
+      // Pausen nur melden, wenn die deutsche Fassung gemeint sein kann. Ohne
+      // diese Bedingung überwiegen japanische Ausstrahlungen bei weitem: In der
+      // Messung vom 12.08.2026 trugen 62 Artikel ein Pausensignal, aber nur
+      // vier einen Bezug zur deutschen Fassung. Wer die übrigen 58 mitliest,
+      // hört nach der zweiten Woche auf, die Liste anzusehen.
+      const pause =
+        dub !== 'unklar' || platforms.length
+          ? PAUSE_HINTS.find((p) => p.pattern.test(text))?.art
+          : undefined
+
+      // Ein Vorschlag braucht einen künftigen Termin — außer er meldet eine
+      // Pause. „Die Serie pausiert bis auf Weiteres" nennt kein Datum und
+      // ändert den Kalender trotzdem.
+      if (!relevant.length && !pause) continue
 
       proposals.push({
         articleTitle: item.title,
         articleUrl: item.link,
         publishedAt: item.publishedAt,
         category: feed.category,
-        platforms: PLATFORM_HINTS.filter((h) => h.pattern.test(text)).map((h) => h.platform),
+        platforms,
         dates: relevant,
-        dub: DUB_OPEN.test(text) ? 'offen' : DUB_CONFIRMED.test(text) ? 'ja' : 'unklar',
+        dub,
+        ...(pause ? { pause } : {}),
         alreadyCurated: curatedSources.has(item.link.replace(/\/$/, '')),
       })
     }

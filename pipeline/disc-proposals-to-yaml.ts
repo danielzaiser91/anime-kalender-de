@@ -36,21 +36,61 @@ function main(): void {
   const titles = readJson<Title[]>('public/data/titles.json', [])
   const releases = readJson<Release[]>('public/data/releases.json', [])
   const titelNach = new Map(titles.map((t) => [t.id, t]))
-  const vorhanden = new Set(
-    releases
-      .filter((r) => r.releaseType === 'disc')
-      .map((r) => `${r.titleId}|${r.schedule.firstEpisodeDate}`),
-  )
+  /**
+   * Bekannte Disc-Termine je Anime — als Datumsliste, nicht als Schlüssel.
+   *
+   * Der erste Anlauf verglich `titleId` **und** Datum. Das ging schief: Wird
+   * ein Verkaufsstart verschoben, gilt derselbe Artikel plötzlich als neu, und
+   * der Kalender führt dieselbe Ausgabe zweimal mit verschiedenen Terminen.
+   * Bei 34 übernommenen Terminen entstanden so 25 Doubletten — „The Café
+   * Terrace and Its Goddesses" stand mit dem 07.08. und dem 21.08. da, während
+   * der richtige Termin laut Publisher-Meldung der 04.09. war.
+   */
+  const bekannteTermine = new Map<number, string[]>()
+  for (const r of releases.filter((r) => r.releaseType === 'disc')) {
+    const liste = bekannteTermine.get(r.titleId)
+    if (liste) liste.push(r.schedule.firstEpisodeDate)
+    else bekannteTermine.set(r.titleId, [r.schedule.firstEpisodeDate])
+  }
+
+  /**
+   * Wie nah ein bekannter Termin liegen darf, damit es dieselbe Ausgabe ist.
+   *
+   * Zwei Monate: Verschiebungen um zwei, drei Wochen sind bei Disc-Terminen
+   * die Regel — am 31.07.2026 verschob ein einziger Publisher 21 Titel um
+   * genau diese Spanne. Wer enger prüft, sammelt Doubletten; wer weiter prüft,
+   * verliert echte Folgebände, die oft im Zweimonatstakt erscheinen.
+   */
+  const NAH_TAGE = 60
+  const tage = (a: string, b: string) =>
+    Math.abs(new Date(a).getTime() - new Date(b).getTime()) / 86_400_000
 
   // Nach Anime und Datum bündeln.
   const gebuendelt = new Map<string, DiscProposal[]>()
+  let alsDoublette = 0
   for (const v of proposals) {
+    if ((bekannteTermine.get(v.titleId) ?? []).some((d) => tage(d, v.date) < NAH_TAGE)) {
+      alsDoublette++
+      continue
+    }
     const key = `${v.titleId}|${v.date}`
-    if (vorhanden.has(key)) continue
     const liste = gebuendelt.get(key)
     if (liste) liste.push(v)
     else gebuendelt.set(key, [v])
   }
+
+  /**
+   * Namen der Disc-Ausgaben, die schon im Datensatz stehen.
+   *
+   * Die Zeitschwelle allein reicht nicht: „DAN DA DAN – Vol. 3" stand mit dem
+   * 28.08. im Bestand, der Vorschlag nannte den 30.10. — 63 Tage, also knapp
+   * daneben. Dasselbe Produkt bekam so einen zweiten Eintrag. Wo der Name
+   * übereinstimmt, ist es dieselbe Ausgabe, egal wie weit die Termine
+   * auseinanderliegen.
+   */
+  const bekannteNamen = new Set(
+    releases.filter((r) => r.releaseType === 'disc').map((r) => r.name.toLowerCase()),
+  )
 
   const zeilen: string[] = [
     '# Disc-Termine aus dem archivierten aniSearch-Bestand.',
@@ -70,7 +110,25 @@ function main(): void {
     const titleId = Number(titleIdStr)
     const titel = titelNach.get(titleId)
     if (!titel) continue
-    const name = titel.titleDe ?? titel.titleEn ?? titel.titleRomaji ?? String(titleId)
+    const basis = titel.titleDe ?? titel.titleEn ?? titel.titleRomaji ?? String(titleId)
+
+    /*
+     * Die Bandnummer gehört in den Namen, nicht nur in die Edition.
+     *
+     * Unser Anime-Eintrag heißt manchmal schon „Virgin Road – Vol. 1", weil
+     * die erste Ausgabe den Titel geprägt hat. Übernimmt man ihn unverändert
+     * für Vol. 2 und Vol. 3, stehen drei Zeilen „Virgin Road – Vol. 1" mit
+     * verschiedenen Terminen im Kalender — formal keine Doublette, für den
+     * Leser aber genau das.
+     */
+    const band = /\bVol\.\s*(\d+)\s*\/\s*\d+/i.exec(gruppe[0].edition)?.[1]
+    const name = band
+      ? `${basis.replace(/\s*[–-]\s*Vol\.\s*\d+\s*$/i, '')} – Vol. ${band}`
+      : basis
+    if (bekannteNamen.has(name.toLowerCase())) {
+      alsDoublette++
+      continue
+    }
 
     // Editionsnamen: den gemeinsamen Titelteil abschneiden, damit nicht dreimal
     // der Serienname in der Zeile steht.
@@ -100,7 +158,10 @@ function main(): void {
   }
 
   writeFileSync(OUT, zeilen.join('\n'), 'utf8')
-  log(`${anzahl} Disc-Termine nach ${OUT} geschrieben (aus ${proposals.length} Vorschlägen)`)
+  log(
+    `${anzahl} Disc-Termine nach ${OUT} geschrieben — aus ${proposals.length} Vorschlägen, ` +
+      `${alsDoublette} als bereits bekannte Ausgabe übersprungen`,
+  )
 }
 
 main()
