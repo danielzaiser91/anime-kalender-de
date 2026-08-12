@@ -8,6 +8,48 @@ selbst oder an der Art ändert, wie Termine zustande kommen.
 
 ## Unveröffentlicht
 
+### Behoben: 196 Termine, die es nicht gibt
+
+Der schwerste Fehler, den die Seite bisher hatte. Für **Sword Art Online** stand Woche für
+Woche eine neue Folge im Kalender, bis zum 07.04.2027 — für **Sailor Moon** bis zum
+16.11.2027. Zusammen **196 von 867 Terminen** waren frei erfunden, davon 101 in der Zukunft
+und zwei in der laufenden Woche, beide ohne Näherungszeichen und damit als belegt ausgewiesen.
+
+Vier Annahmen gerieten hintereinander:
+
+- **ADN wurde nur bis Folge 100 gelesen.** `?limit=100` ohne Blätterung, und die Schnittstelle
+  liefert die neuesten Folgen zuerst — abgeschnitten wurde also der Anfang. Sailor Moon: 100
+  statt 199 Folgen und ein um vier Monate falscher Start. Eyeshield 21: 100 statt 145. Dragon
+  Ball Super: 100 statt 131.
+- **Die Staffelangabe der Quelle wurde weggeworfen.** Eine ADN-Serienkennung führt ein ganzes
+  Franchise; unter „Sword Art Online" liegen drei Staffeln, unter „Sailor Moon" fünf, unter
+  „Haikyu!!" acht. Der Kalender machte daraus je eine Reihe mit durchlaufender Zählung — und
+  behauptete 96 Folgen am Stück statt 25 + 24 + 47.
+- **Zwei Veröffentlichungstermine galten nicht als Komplettabwurf.** Erkannt wurde nur „alles
+  an einem Tag". ADN nahm Sword Art Online in zwei Wellen ins Angebot, 36 Tage auseinander —
+  also galt der Eintrag als Wochenserie.
+- **Das belegte Enddatum wurde beim Ausrollen der Termine nicht gelesen.** Es stand daneben.
+  Der Statusknopf sagte „Abgeschlossen", die Terminliste darunter lief bis 2027.
+
+Was sich dadurch für Besucher ändert:
+
+- **Staffeln stehen jetzt einzeln da, unter ihrem eigenen Namen.** Aus einem Eintrag „Sword Art
+  Online, 96 Folgen" wurden fünf: Staffel 1, Staffel 2, Alicization, War of Underworld und War
+  of Underworld Part 2 — jede mit ihrer eigenen Folgenzahl. Wo eine Plattform anders zählt als
+  wir, steht es dabei: „ADN führt diese Staffel als Folgen 25–36 der ADN-Staffel 3."
+- **„Im Angebot seit" statt „Start"** bei Katalogtiteln. Der 11.06.2025 ist der Tag, an dem ADN
+  Sword Art Online ins Angebot nahm — die deutsche Fassung gibt es seit 2013, die von
+  Alicization seit August 2019 auf Disc. Ein Hinweis unter dem Datum sagt das jetzt auch.
+- **32 Anime hießen nach einer Blu-ray-Ausgabe.** „Bocchi the Rock! – Vol. 1" war der Name
+  einer Disc und wurde zum Namen des Anime — in Suche, Kachel und Teilen-Seite. Der
+  Ausgaben-Zusatz fällt jetzt weg, die Staffelangabe bleibt.
+- Die beiden Disc-Ausgaben von **DAN DA DAN Staffel 2** hingen an der ersten Staffel.
+
+Damit so etwas auffällt, bevor es online geht, prüft die Pipeline ab sofort ihr **eigenes
+Ergebnis** und bricht bei einem Widerspruch ab, statt zu schreiben. Bisher wurden nur die von
+Hand gepflegten Dateien geprüft — also ausgerechnet der Teil, den ohnehin jemand durchdacht
+hatte.
+
 ### Mehr Titel im Überblick
 
 - **ADN-Serien, die keinen neuen Termin mehr haben, fehlten komplett.** Gelesen wurde nur der

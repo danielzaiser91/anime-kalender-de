@@ -17,10 +17,18 @@
  *
  * Aufruf: npx tsx pipeline/fetch-adn.ts [--from -30] [--to 60]
  */
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import { gzipSync } from 'node:zlib'
 import { addDays, diffDays, todayIso } from '../shared/time.ts'
-import { log, sleep, warn, writeJson } from './lib/util.ts'
+import { log, readJson, ROOT, sleep, warn, writeJson } from './lib/util.ts'
 import { searchMedia, type AniListMedia } from './lib/anilist.ts'
 import { recordSource } from './lib/health.ts'
+import { bestimmeRhythmus, type AdnData, type AdnEpisode, type AdnShow } from './lib/adn.ts'
+
+// Weiterhin von hier aus verfügbar — die Typen wanderten nach `lib/adn.ts`,
+// weil `build.ts` sie braucht, diese Datei aber beim Laden ihr `main()` startet.
+export type { AdnData, AdnEpisode, AdnShow } from './lib/adn.ts'
 
 const BASE = 'https://gw.api.animationdigitalnetwork.com'
 const API = `${BASE}/video/calendar`
@@ -49,64 +57,52 @@ const TO = numberArg('--to', 75)
 
 interface AdnVideo {
   id: number
+  title?: string | null
+  /** Folgentitel, oft französisch oder leer. */
+  name?: string | null
   number: string | null
   shortNumber: string | null
+  /** Staffel, wie ADN sie zählt: "1", "2", "3". */
+  season?: string | null
+  /** Kennung samt Staffel und Folge: "swordartonline_tv3_0047". */
+  reference?: string | null
+  /** Laufende Nummer über die gesamte Serie hinweg. */
+  order?: number | null
+  /** "EPS" (Folge), "OAV", "FLM" … */
+  type?: string | null
+  /** Laufzeit in Sekunden. */
+  duration?: number | null
+  image?: string | null
   releaseDate: string
   languages: string[]
   url: string
   show: { id: number; title: string; originalTitle: string | null; age: string | null; url?: string }
 }
 
-export interface AdnEpisode {
-  /** ISO-Datum in Europe/Berlin. */
-  date: string
-  /** "HH:MM" in Europe/Berlin. */
-  time: string
-  episode?: number
-  url: string
-}
-
-export interface AdnShow {
-  showId: number
-  title: string
-  originalTitle?: string
-  /** Altersfreigabe, wie ADN sie schreibt ("12+"). */
-  age?: string
-  url: string
-  episodes: AdnEpisode[]
-  /**
-   * true, wenn alle bekannten Folgen auf denselben Termin fallen — ADN
-   * veröffentlicht Katalogtitel als Komplettabwurf, Simulcasts wöchentlich.
-   */
-  batch: boolean
-  /**
-   * true, wenn der Eintrag aus dem Katalogdurchlauf stammt statt aus dem
-   * Kalender.
-   *
-   * Der Unterschied zählt beim Bauen: Der Katalog-Endpunkt führt den
-   * **französischen** Bestand — der Ton ist deutsch (sonst stünde der Titel
-   * hier gar nicht), aber der Name ist es oft nicht: „One Piece Film 3 • Le
-   * Royaume de Chopper" heißt auf Deutsch „One Piece – Chopper auf der Insel
-   * der seltsamen Tiere". Deshalb wird für Katalogtitel der Name aus dem
-   * zugeordneten Anime-Eintrag genommen, nicht der von ADN.
-   */
-  fromCatalog?: boolean
-  /**
-   * AniList-Kennung, im Katalog-Lauf über den Originaltitel nachgeschlagen.
-   *
-   * Nötig, weil der Namensabgleich beim Bauen an Schreibweisen scheitert:
-   * ADN schreibt „One Piece Movie 3 : Chinjuu Shima no Chopper Oukoku“,
-   * AniList „One Piece Movie 3: Chinjuu-jima no Chopper Oukoku“. Acht Filme
-   * mit belegter deutscher Synchro fielen deswegen aus dem Datensatz — ein
-   * Verlust, den die Suche für 35 Anfragen abwendet.
-   */
-  anilistId?: number
-}
-
-export interface AdnData {
-  scrapedAt: string
-  window: { from: string; to: string }
-  shows: AdnShow[]
+/**
+ * Baut aus einem ADN-Video unseren Folgeneintrag — an einer Stelle, damit
+ * Kalender- und Katalogweg nicht auseinanderlaufen.
+ *
+ * Genau das war vorher der Fall: Beide Wege bauten das Objekt von Hand, und
+ * beide vergaßen dieselben Felder.
+ */
+function episodeAus(video: AdnVideo, when: { date: string; time: string }): AdnEpisode {
+  const nummer = Number(video.shortNumber ?? video.number?.replace(/\D+/g, ''))
+  return {
+    date: when.date,
+    time: when.time,
+    episode: Number.isFinite(nummer) && nummer > 0 ? nummer : undefined,
+    url: video.url,
+    season: video.season ?? undefined,
+    // Die Folgennummer am Ende abschneiden: "swordartonline_tv3_0047" →
+    // "swordartonline_tv3".
+    seasonReference: video.reference?.replace(/_\d+$/, '') || undefined,
+    order: typeof video.order === 'number' ? video.order : undefined,
+    type: video.type ?? undefined,
+    duration: typeof video.duration === 'number' ? video.duration : undefined,
+    title: video.name || video.title || undefined,
+    image: video.image ?? undefined,
+  }
 }
 
 const berlin = new Intl.DateTimeFormat('en-CA', {
@@ -230,6 +226,82 @@ function passtZuSerie(show: { title: string; originalTitle?: string }, media: An
   return false
 }
 
+/** Ordnet Folgen nach Staffel, dann Nummer, dann Termin. */
+function sortiereFolgen(episodes: AdnEpisode[]): void {
+  episodes.sort(
+    (a, b) =>
+      (a.season ?? '').localeCompare(b.season ?? '') ||
+      (a.order ?? 0) - (b.order ?? 0) ||
+      a.date.localeCompare(b.date) ||
+      (a.episode ?? 0) - (b.episode ?? 0),
+  )
+}
+
+/** Wohin die Rohantworten je Serie wandern. */
+const ARCHIV_DIR = resolve(ROOT, 'data/adn-raw')
+
+/**
+ * Legt die vollständige Antwort einer Serie gzip-komprimiert ab.
+ *
+ * Aus demselben Grund wie beim aniSearch-Archiv, und aus einem zusätzlichen,
+ * der am 12.08.2026 real geworden ist: Der Abruf hatte `season`, `reference`,
+ * `order`, `type` und `duration` von Anfang an in der Hand und warf sie weg.
+ * Als die Staffelangabe gebraucht wurde, war der einzige Weg dorthin ein
+ * kompletter zweiter Lauf über alle Serien — Last auf einem fremden Server für
+ * Daten, die längst über die Leitung gegangen waren.
+ *
+ * Eine Datei je Serie, unverändert nicht neu geschrieben: Git speichert binäre
+ * Dateien komplett neu, ein Sammelarchiv landete sonst bei jedem Lauf in voller
+ * Größe in der Historie.
+ */
+function archiviereSerie(showId: number, videos: AdnVideo[]): void {
+  if (!existsSync(ARCHIV_DIR)) mkdirSync(ARCHIV_DIR, { recursive: true })
+  const pfad = `${ARCHIV_DIR}/${showId}.json.gz`
+  const neu = gzipSync(JSON.stringify({ showId, videos }), { level: 9 })
+  if (existsSync(pfad) && readFileSync(pfad).equals(neu)) return
+  writeFileSync(pfad, neu)
+}
+
+/**
+ * Holt **alle** Folgen einer Serie — seitenweise.
+ *
+ * Hier stand `?limit=100` ohne `offset`. Das war kein Limit, sondern stiller
+ * Datenverlust, und der schlimmste Teil: Die Schnittstelle liefert die
+ * **neuesten** Folgen zuerst, abgeschnitten wurde also der Anfang. Gemessen am
+ * 12.08.2026 fehlten dadurch 99 von 199 Folgen bei Sailor Moon, 45 von 145 bei
+ * Eyeshield 21 und 31 von 131 bei Dragon Ball Super — und bei Sailor Moon
+ * gleich die beiden frühesten Veröffentlichungstermine, weshalb der Datensatz
+ * den 23.12.2025 als Start führte statt des richtigen 29.10.2025.
+ *
+ * 100 ist das Maximum je Seite; die Schnittstelle nennt es selbst in ihrer
+ * Fehlermeldung. Ein größerer Wert liefert 400 — und weil ein 400 einmal wie
+ * „nicht verfügbar" behandelt wurde, meldete ein früherer Lauf seelenruhig
+ * „0 Serien mit deutscher Synchro" für alle 580. Deshalb wird hier strikt
+ * unterschieden: 404 ist eine Antwort, 400 ist ein Fehler im eigenen Aufruf.
+ */
+async function ladeSerie(showId: number): Promise<{ videos: AdnVideo[]; abbruch?: string }> {
+  const videos: AdnVideo[] = []
+  const SEITE = 100
+  for (let offset = 0; offset < 2000; offset += SEITE) {
+    const res = await fetch(`${BASE}/video/show/${showId}?limit=${SEITE}&offset=${offset}`, {
+      headers: HEADERS,
+    })
+    if (res.status === 400) {
+      warn(`ADN: Anfrage abgelehnt (400) bei Serie ${showId}, offset ${offset} — Aufruf prüfen.`)
+      return { videos, abbruch: '400' }
+    }
+    if (!res.ok) {
+      // 404 heißt hier schlicht „in Deutschland nicht im Angebot".
+      return { videos, abbruch: res.status >= 500 ? String(res.status) : undefined }
+    }
+    const seite = ((await res.json()) as { videos?: AdnVideo[] }).videos ?? []
+    videos.push(...seite)
+    if (seite.length < SEITE) break
+    await sleep(700)
+  }
+  return { videos }
+}
+
 async function fetchCatalog(): Promise<AdnShow[]> {
   /**
    * Die Serienliste einsammeln — nach eindeutigen Kennungen, nicht nach `total`.
@@ -270,50 +342,28 @@ async function fetchCatalog(): Promise<AdnShow[]> {
     geprueft++
     if (geprueft % 100 === 0) log(`  ${geprueft}/${alle.length} — ${out.length} mit Synchro`)
     try {
-      // 100 ist das Maximum der Schnittstelle; sie nennt es selbst in ihrer
-      // Fehlermeldung. Ein zu großer Wert liefert 400 — und weil ein 400 hier
-      // zunächst wie „nicht verfügbar" behandelt wurde, meldete der erste Lauf
-      // seelenruhig „0 Serien mit deutscher Synchro" für alle 580. Deshalb
-      // unterscheidet die Schleife unten strikt: 404 ist eine Antwort, 400 ist
-      // ein Fehler im eigenen Aufruf und muss auffallen.
-      const res = await fetch(`${BASE}/video/show/${eintrag.id}?limit=100`, { headers: HEADERS })
-      if (res.status === 400) {
-        warn(`ADN-Katalog: Anfrage abgelehnt (400) bei Serie ${eintrag.id} — Aufruf prüfen.`)
+      const antwort = await ladeSerie(eintrag.id)
+      if (antwort.abbruch) {
         if (++fehlerInFolge >= 5) {
-          warn('Fünf abgelehnte Anfragen in Folge — Lauf wird beendet.')
-          break
-        }
-        await sleep(700)
-        continue
-      }
-      if (!res.ok) {
-        // 404 heißt hier schlicht „in Deutschland nicht im Angebot".
-        if (res.status >= 500 && ++fehlerInFolge >= 5) {
-          warn('ADN-Katalog: fünf Serverfehler in Folge — Lauf wird beendet.')
+          warn(`ADN-Katalog: fünf Fehler in Folge (zuletzt ${antwort.abbruch}) — Lauf wird beendet.`)
           break
         }
         await sleep(700)
         continue
       }
       fehlerInFolge = 0
-      const videos = ((await res.json()) as { videos?: AdnVideo[] }).videos ?? []
+      const videos = antwort.videos
+      if (videos.length) archiviereSerie(eintrag.id, videos)
       const deutsch = videos.filter((v) => v.languages?.includes('vde'))
       if (deutsch.length) {
         const episodes: AdnEpisode[] = []
         for (const v of deutsch) {
           const when = toBerlin(v.releaseDate)
           if (!when) continue
-          const number = Number(v.shortNumber ?? v.number?.replace(/\D+/g, ''))
-          episodes.push({
-            date: when.date,
-            time: when.time,
-            episode: Number.isFinite(number) && number > 0 ? number : undefined,
-            url: v.url,
-          })
+          episodes.push(episodeAus(v, when))
         }
         if (episodes.length) {
-          episodes.sort((a, b) => a.date.localeCompare(b.date) || (a.episode ?? 0) - (b.episode ?? 0))
-          const dates = new Set(episodes.map((e) => e.date))
+          sortiereFolgen(episodes)
           out.push({
             showId: eintrag.id,
             title: eintrag.title,
@@ -321,7 +371,7 @@ async function fetchCatalog(): Promise<AdnShow[]> {
             age: eintrag.age ?? undefined,
             url: `https://animationdigitalnetwork.com/de/video/${eintrag.id}`,
             episodes,
-            batch: dates.size === 1 && episodes.length > 1,
+            batch: bestimmeRhythmus(episodes) !== 'weekly' && episodes.length > 1,
             fromCatalog: true,
           })
         }
@@ -360,7 +410,80 @@ async function fetchCatalog(): Promise<AdnShow[]> {
   return out
 }
 
+/**
+ * Holt die bereits bekannten Katalogserien erneut — ohne den Rundgang über
+ * alle 580 Einträge.
+ *
+ * Der Anlass, aus dem es diesen Modus gibt: Am 12.08.2026 kamen `season`,
+ * `reference` und `order` neu in den Datensatz. Gebraucht wurden sie nur für
+ * die 35 Serien, die überhaupt eine deutsche Fassung haben — der volle
+ * Katalog-Lauf hätte dafür 580 Serien angefragt, also den Server für 545
+ * Antworten belastet, die niemand braucht. Dieselbe Lage entsteht bei jeder
+ * künftigen Feld-Erweiterung.
+ *
+ * Neue Serien findet dieser Modus nicht; dafür bleibt `--catalog`.
+ */
+async function refreshCatalog(): Promise<AdnShow[]> {
+  const bestand = readJson<AdnData>('data/adn-catalog.json', {
+    scrapedAt: '',
+    window: { from: '', to: '' },
+    shows: [],
+  })
+  if (!bestand.shows.length) {
+    warn('Kein Katalogbestand vorhanden — bitte zuerst mit --catalog laufen lassen.')
+    return []
+  }
+  log(`ADN-Auffrischung: ${bestand.shows.length} bekannte Serien werden neu geholt…`)
+  const out: AdnShow[] = []
+  for (const alt of bestand.shows) {
+    try {
+      const { videos, abbruch } = await ladeSerie(alt.showId)
+      if (abbruch) warn(`ADN ${alt.showId}: Abbruch (${abbruch}) — alter Stand bleibt stehen.`)
+      if (!videos.length) {
+        out.push(alt)
+        continue
+      }
+      archiviereSerie(alt.showId, videos)
+      const episodes: AdnEpisode[] = []
+      for (const v of videos.filter((v) => v.languages?.includes('vde'))) {
+        const when = toBerlin(v.releaseDate)
+        if (when) episodes.push(episodeAus(v, when))
+      }
+      if (!episodes.length) {
+        warn(`ADN ${alt.showId} (${alt.title}): keine Folge mehr mit vde — alter Stand bleibt stehen.`)
+        out.push(alt)
+        continue
+      }
+      sortiereFolgen(episodes)
+      out.push({
+        ...alt,
+        episodes,
+        batch: bestimmeRhythmus(episodes) !== 'weekly' && episodes.length > 1,
+      })
+      if (episodes.length !== alt.episodes.length) {
+        log(`  · ${alt.title}: ${alt.episodes.length} → ${episodes.length} Folgen`)
+      }
+    } catch (err) {
+      warn(`ADN ${alt.showId}: ${(err as Error).message}`)
+      out.push(alt)
+    }
+    await sleep(700)
+  }
+  return out
+}
+
 async function main(): Promise<void> {
+  if (args.includes('--refresh')) {
+    const shows = await refreshCatalog()
+    if (!shows.length) return
+    writeJson(
+      'data/adn-catalog.json',
+      { scrapedAt: new Date().toISOString(), window: { from: '', to: '' }, shows } satisfies AdnData,
+      true,
+    )
+    log(`ADN-Auffrischung: ${shows.length} Serien aktualisiert`)
+    return
+  }
   if (args.includes('--catalog')) {
     const shows = await fetchCatalog()
     writeJson(
@@ -411,13 +534,7 @@ async function main(): Promise<void> {
         episodes: [],
         batch: false,
       }
-      const number = Number(video.shortNumber ?? video.number?.replace(/\D+/g, ''))
-      show.episodes.push({
-        date: when.date,
-        time: when.time,
-        episode: Number.isFinite(number) && number > 0 ? number : undefined,
-        url: video.url,
-      })
+      show.episodes.push(episodeAus(video, when))
       byShow.set(video.show.id, show)
     }
     await sleep(220)
@@ -431,9 +548,8 @@ async function main(): Promise<void> {
   recordSource('adn', byShow.size, byShow.size ? undefined : 'keine Folge mit vde gefunden')
 
   const shows = [...byShow.values()].map((show) => {
-    show.episodes.sort((a, b) => a.date.localeCompare(b.date) || (a.episode ?? 0) - (b.episode ?? 0))
-    const dates = new Set(show.episodes.map((e) => e.date))
-    return { ...show, batch: dates.size === 1 && show.episodes.length > 1 }
+    sortiereFolgen(show.episodes)
+    return { ...show, batch: bestimmeRhythmus(show.episodes) !== 'weekly' && show.episodes.length > 1 }
   })
 
   writeJson('data/adn.json', { scrapedAt: new Date().toISOString(), window: { from, to }, shows } satisfies AdnData, true)

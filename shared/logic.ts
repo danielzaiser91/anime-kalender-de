@@ -112,7 +112,15 @@ export function expandEvents(release: Release): ReleaseEvent[] {
     ]
   }
 
-  const count = s.episodeCount ?? 12
+  /**
+   * Ohne belegte Folgenzahl wird **eine** Folge erzeugt, nicht zwölf.
+   *
+   * Hier stand `?? 12`. Das ist derselbe geratene Standardwert, den CLAUDE.md
+   * unter „Keine Folgenzahl erfinden, auch nicht als Rückfall" verbietet — nur
+   * eine Ebene tiefer, wo ihn die Kuratierung nicht mehr sieht. Ein einzelner
+   * belegter Termin ist ein Termin, keine Staffel.
+   */
+  const count = s.episodeCount ?? 1
   const skips = new Set(s.skipDates ?? [])
 
   /**
@@ -159,6 +167,25 @@ export function expandEvents(release: Release): ReleaseEvent[] {
   for (let episode = first; episode <= last; episode++) {
     const date = dateOf(episode)
     if (skips.has(date)) continue
+    /**
+     * Ein belegtes Enddatum beendet die Reihe — auch wenn die Folgenzahl noch
+     * mehr hergäbe.
+     *
+     * Genau hier entstand der schlimmste Fehler, den die Seite je hatte: ADN
+     * nahm „Sword Art Online" am 11.06. und 17.07.2025 als Komplettabwurf ins
+     * Angebot, 96 Folgen an zwei Tagen. Weil der Eintrag fälschlich als
+     * wöchentlich galt (siehe fetch-adn.ts), rechnete diese Schleife 96
+     * Wochentermine bis zum 07.04.2027 aus — und das, obwohl `lastEpisodeDate`
+     * mit dem 17.07.2025 daneben stand und `releaseStatus()` in derselben
+     * Datei brav „Abgeschlossen" meldete. Der Datensatz widersprach sich
+     * selbst, und der Kalender kündigte Woche für Woche eine Folge an, die es
+     * nicht gibt (gemeldet von Daniel, 12.08.2026).
+     *
+     * Die Abbruchbedingung ist billiger als jede Rhythmus-Reparatur: Was
+     * hinter dem letzten belegten Termin liegt, ist keine Fortschreibung mehr,
+     * sondern eine Erfindung.
+     */
+    if (s.lastEpisodeDate && date > s.lastEpisodeDate) break
     events.push({
       ...base,
       id: `${release.slug}@${date}`,

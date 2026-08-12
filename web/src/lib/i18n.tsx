@@ -144,6 +144,12 @@ const TEXTE = {
   'detail.start': 'Start',
   'detail.startCinema': 'Im Kino ab',
   'detail.startDisc': 'Im Handel ab',
+  // „Start" wäre bei einem Katalogtitel eine Falschbehauptung: ADN nahm
+  // „Sword Art Online" am 11.06.2025 ins Angebot, die deutsche Fassung gibt es
+  // seit 2013. Was wir wissen, ist das Datum der Verfügbarkeit — mehr nicht.
+  'detail.availableFrom': 'Im Angebot seit',
+  'detail.availableFromNote':
+    'Das Datum sagt, seit wann der Titel dort abrufbar ist — nicht, wann die deutsche Fassung erschienen ist. Die kann deutlich älter sein.',
 
   'detail.time': 'Uhrzeit',
   'detail.unknown': 'unbekannt',

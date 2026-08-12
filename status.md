@@ -10,6 +10,11 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
+| **Fuzzy-Suche** | 5 | Tippfehler und umgangssprachliche Kurzformen sollen treffen: „ästhetik" oder „aesthetic hero" muss „Aesthetica of a Rogue Hero" finden. Zusätzlich über alle drei Namensformen suchen (romaji/native, deutsch, englisch). Danach erklären, wie sanft die Toleranz steht (Daniel, 12.08.2026) |
+| **„Staffeln zusammenfassen" wählt die falsche Kachel** | 3 | Suche „slime" zeigt Staffel 2 und einen Film als Reihen-Vertreter. Erwartet ist die erste reguläre Staffel (Daniel, 12.08.2026, Screenshots 1+2) |
+| **„Staffeln dieser Reihe" unvollständig** | 3 | Bei „That Time I Got Reincarnated as a Slime" steht nur Staffel 4, bei „I've Been Killing Slimes" fehlt der Abschnitt ganz. Alle Einträge derselben `franchiseId` müssen erscheinen (Daniel, 12.08.2026, Screenshots 3+4) |
+| **Staffelauswahl per Dropdown im Detail-Panel** | 8 | Kopf zeigt nur den Serientitel; darunter ein Dropdown über alle Staffeln/Filme/Specials, vorausgewählt die angeklickte. Jede Auswahl mit eigenen „Alle Termine" — der Abschnitt fehlt heute bei allen außer Staffel 4. Betrifft auch SAO (staffelweise statt 90+ Folgen) (Daniel, 12.08.2026, Screenshot 5) |
+| **„Season" aus dem Vokabular streichen** | 2 | Überall „Staffel". Betrifft auch aus AniList übernommene Titel („… Slime Season 2") und die Namen aus ADN und Kuratierung (Daniel, 12.08.2026) |
 | Kuratierungsbericht: drei Pausen-Meldungen prüfen | 1 | Der neue Pausen-Filter hat drei Artikel vorgelegt (`data/proposals/anime2you.json`, Feld `pause`): „24 Blu-ray-Termine verschoben" (betrifft AniMoon, Crunchyroll, KSM — teils unsere Disc-Termine), „Disc-Release von »Bleach« auf unbestimmte Zeit verschoben", „»Scarlet« startet früher in Deutschland". Von Hand gegen `data/curated/` abgleichen |
 | ~~News-Quellen für Sendepausen~~ — **Filter gebaut, Rest verworfen** | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
 | **Disc-Vorschläge abarbeiten** | 3 | `npm run data:disc-proposals` erzeugt aus dem Archiv 47 Ausgaben an **34 Terminen zu 21 Anime**, die noch nicht im Datensatz stehen (`data/proposals/disc-anisearch.json`, Stand 12.08.2026). Jeder Vorschlag trägt den Grund seiner Einstufung. Übertragen nach `data/curated/` — das ist Handarbeit mit Augenmaß: Mehrere Editionen am selben Tag sind **ein** Kalendereintrag |
@@ -162,6 +167,42 @@ verschoben, Best-of, Recap.
   abgenommen.
 
 ## Archiv
+
+- ✅ **196 erfundene Termine beseitigt — der schwerste Fehler bisher** (12.08.2026). Gemeldet
+  von Daniel: Der Kalender führte „Sword Art Online" mit 96 Wochenfolgen bis zum 07.04.2027,
+  obwohl die deutsche Fassung der dritten Staffel seit August 2019 auf Disc existiert (Quelle:
+  [anime2you, 15.04.2019](https://www.anime2you.de/) — peppermint anime beginnt im August 2019
+  mit dem Disc-Release von »Sword Art Online -Alicization-«). Sailor Moon dasselbe bis zum
+  16.11.2027. Zusammen **196 von 867 Terminen frei erfunden**, 101 davon in der Zukunft, zwei
+  in der laufenden Woche und ohne ≈ ausgewiesen. Vollständige Analyse:
+  [anime-kalender-adn-staffeln-und-falsche-termine.md](file:///C:/code/ai/__assets/notes/anime-kalender-adn-staffeln-und-falsche-termine.md).
+
+  Vier Ursachen hintereinander, alle behoben:
+  1. `?limit=100` ohne `offset` — ADN liefert die neuesten Folgen zuerst, abgeschnitten wurde
+     der Anfang. Sailor Moon 100 statt 199 (und ein um vier Monate falscher Start), Eyeshield 21
+     100 statt 145, Dragon Ball Super 100 statt 131.
+  2. Die Felder `season`, `reference`, `order`, `type`, `duration` der ADN-Antwort wurden
+     weggeworfen. Eine ADN-Kennung ist ein Franchise: SAO = 3 Staffeln, Sailor Moon = 5,
+     Haikyu!! = 8, neun von 37 Serien betroffen.
+  3. Komplettabwurf wurde an `dates.size === 1` erkannt — zwei Veröffentlichungswellen galten
+     als Wochentakt.
+  4. `expandEvents` las `lastEpisodeDate` nicht, obwohl `releaseStatus()` in derselben Datei es
+     auswertet. Der Datensatz sagte gleichzeitig „abgeschlossen" und „nächste Folge Mittwoch".
+
+  Ergebnis: 46 ADN-Releases aus 48 Staffelblöcken statt 28 Sammel-Einträgen, Termine von 867
+  auf 682, zukünftige Termine von 291 auf 191. SAO steht jetzt als fünf Einträge da —
+  Staffel 1, Staffel 2, Alicization, War of Underworld, WoU Part 2 —, jeder mit seiner eigenen
+  Folgenzahl und dem Hinweis, wie ADN sie zählt („Folgen 25–36 der ADN-Staffel 3").
+
+  *Neu dazu:* `pipeline/lib/pruefung.ts` prüft am Ende jedes Builds den **erzeugten** Datensatz
+  und bricht bei einem Widerspruch ab (bisher prüfte `validate.ts` nur die Handarbeit — also
+  ausgerechnet den durchdachten Teil). `npm run check:logic` stellt die vier Annahmen nach.
+  `npm run data:adn:refresh` frischt die bekannten Katalogserien auf, ohne alle 580 anzufragen.
+  Rohantworten liegen ab sofort unter `data/adn-raw/*.json.gz` (35 Dateien, 196 KB).
+
+  *Nebenbefunde derselben Art, mitbehoben:* 32 Anime hießen nach einer Blu-ray-Ausgabe
+  („Bocchi the Rock! – Vol. 1"), weil der Release-Name zum Werktitel wurde. Die beiden
+  Disc-Ausgaben von DAN DA DAN Staffel 2 hingen über `search: "Dandadan"` an der ersten Staffel.
 
 - ✅ **Disc-Termine aus dem aniSearch-Archiv** (12.08.2026). Der `items`-Abschnitt jeder
   archivierten Seite führt die deutschen Neuerscheinungen mit maschinenlesbarem Datum

@@ -41,6 +41,29 @@ Dieses Projekt lebt davon, dass die Termine stimmen. Deshalb gilt ausnahmslos:
   Filmpremieren und die Anime Awards. Ein `Math.max(12, …)` als Standardwert machte daraus neun
   zwölfteilige Reihen (10.08.2026), und der Kalender behauptete Woche für Woche eine Folge, die
   es nicht gibt. Ein Termin ohne belegte Stückzahl über eins ist ein Einzeltermin.
+- **Ein Wochentakt muss gemessen sein, nicht angenommen.** „Nicht alles an einem Tag" heißt
+  nicht „jede Woche eine Folge". ADN nahm Sword Art Online in zwei Wellen ins Angebot (11.06.
+  und 17.07.2025, 49 und 47 Folgen); weil die Einstufung nur `dates.size === 1` prüfte, galt der
+  Eintrag als Wochenserie, und der Kalender rechnete daraus 96 Termine bis 2027 — zusammen mit
+  Sailor Moon **196 von 867 Terminen frei erfunden** (12.08.2026). Entscheidend sind der
+  Abstand zwischen den Terminen **und** die Zahl der Folgen je Termin; beides prüft
+  `bestimmeRhythmus()` in `pipeline/lib/adn.ts`.
+- **Ein belegtes Ende schlägt jede Fortschreibung.** `expandEvents` bricht bei
+  `schedule.lastEpisodeDate` ab. Vorher las nur `releaseStatus()` das Feld, `expandEvents` nicht
+  — der Datensatz behauptete gleichzeitig „abgeschlossen seit Juli 2025" und „nächste Folge
+  nächsten Mittwoch".
+- **Eine Plattform-Serienkennung ist ein Franchise, keine Staffel.** ADN führt unter einer
+  Kennung alle drei Staffeln von SAO, alle fünf von Sailor Moon, acht Blöcke von Haikyu!! —
+  neun der 37 Serien. Zerlegt wird über das Feld `season` der Quelle
+  (`staffelBloecke()`); die Zuordnung zur richtigen AniList-Staffel läuft über die
+  **Folgenzahl**, nicht über den Namen: ADN-Staffel 3 von SAO hat 47 Folgen = Alicization 24 +
+  War of Underworld 12 + Part 2 11. Geht die Summe nicht exakt auf, bleibt der Block lieber
+  unzugeordnet, als einen fremden Titel mitzubringen.
+- **„Im Angebot seit" ist nicht „erschienen am".** Nimmt eine Plattform einen Katalogtitel auf,
+  kennt sie nur das Datum ihrer eigenen Aufnahme. Für SAO war das der 11.06.2025 — die deutsche
+  Fassung gibt es seit 2013, die von Alicization seit August 2019 auf Disc. Deshalb trägt jedes
+  nicht-wöchentliche ADN-Release `dateMeaning: 'available-from'`, und die Oberfläche schreibt
+  „Im Angebot seit" statt „Start".
 - **Geteilte Staffelstarts über `schedule.firstEpisodeNumber` abbilden.** Netflix brachte Steel
   Ball Run als eine Folge im März und den Rest im September. Zwei Releases, aber eine
   durchlaufende Zählung: Ohne das Feld beginnt die Terminliste des zweiten Teils wieder bei „1."
@@ -49,13 +72,36 @@ Dieses Projekt lebt davon, dass die Termine stimmen. Deshalb gilt ausnahmslos:
   pipeline/qa-resolve.ts` zeigt Verdachtsfälle; die Folgenzahl wird nur übernommen, wenn das
   japanische Ausstrahlungsjahr zum deutschen Termin passt.
 
+## Was erzeugt wird, wird auch geprüft
+
+`npm run data:validate` sichert nur `data/curated/*.yaml` — also den Teil, den ohnehin jemand
+durchdacht hat. Der Fehler vom 12.08.2026 entstand vollständig in `build.ts` und wäre dort nie
+aufgefallen. Deshalb prüft `pipeline/lib/pruefung.ts` am Ende jedes Builds den **erzeugten**
+Datensatz und bricht bei einem Widerspruch ab, bevor etwas geschrieben wird:
+
+- kein Termin nach dem belegten `lastEpisodeDate`
+- keine Folgenzahl über dem Doppelten der AniList-Angabe (Ausnahme: `firstEpisodeNumber` oder
+  ein erklärender `note`)
+- keine zwei Releases, die zusammen mehr Folgen behaupten, als der Anime hat
+- kein Release ohne Quelle
+
+`npm run check:logic` stellt zusätzlich die vier Annahmen nach, aus denen der Fehler entstand.
+Beide gehören zur Prüfkette vor dem Commit.
+
 ## Beim Scrapen nichts wegwerfen
 
 Der Abruf ist der teure und der schädliche Teil, nicht das Speichern. Wer eine fremde Seite
 holt und nur zwei Felder herauslöst, zahlt für jedes später gebrauchte Feld ein zweites Mal —
 und zwar mit Last auf einem fremden Server, nicht mit eigenem Speicherplatz.
 
-- **Rohabschnitte archivieren** (`data/anisearch-raw/*.html.gz`, rund 9 KB je Titel). Ein
+- **Paginierte Schnittstellen paginiert abfragen.** `?limit=100` ohne `offset` ist keine
+  Begrenzung, sondern stiller Datenverlust — und weil ADN die **neuesten** Folgen zuerst
+  liefert, fehlte ausgerechnet der Anfang: 99 von 199 Folgen bei Sailor Moon, 45 von 145 bei
+  Eyeshield 21, 31 von 131 bei Dragon Ball Super. Bei Sailor Moon fielen dadurch die beiden
+  frühesten Veröffentlichungstermine weg, und der Datensatz führte den 23.12.2025 als Start
+  statt des richtigen 29.10.2025.
+- **Rohantworten archivieren** (`data/adn-raw/*.json.gz`, `data/anisearch-raw/*.html.gz`, rund
+  9 KB je Titel). Ein
   nachträglich gebrauchtes Feld ist dann eine Änderung am Parser, kein zweiter Lauf über 2.612
   Seiten. Genau das war am 11.08.2026 der Fall: Die Folgenzahl stand auf jeder bereits geholten
   Seite und war trotzdem nur durch einen kompletten Neuabruf zu bekommen.
@@ -110,7 +156,7 @@ Abmeldelink, Impressum, Datenschutzerklärung) sind kein Nice-to-have — nichts
 ## Vor dem Commit
 
 ```bash
-npm run data:validate && npx tsc -b && npm run check:worker && npm run build
+npm run data:validate && npm run check:logic && npx tsc -b && npm run check:worker && npm run build
 ```
 
 **`npm run check:worker` nicht weglassen.** Das Haupt-`tsconfig.json` deckt nur `web/src`,

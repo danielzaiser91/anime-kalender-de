@@ -18,6 +18,7 @@
     "typecheck": "tsc -b --noEmit false --emitDeclarationOnly false || tsc -b",
     "data:adn": "tsx pipeline/fetch-adn.ts",
     "data:adn:catalog": "tsx pipeline/fetch-adn.ts --catalog",
+    "data:adn:refresh": "tsx pipeline/fetch-adn.ts --refresh",
     "data:anime2you": "tsx pipeline/scrape-anime2you.ts",
     "data:check": "tsx pipeline/check-sources.ts",
     "data:report": "tsx pipeline/report-proposals.ts",
@@ -27,6 +28,7 @@
     "data:anisearch:check": "tsx pipeline/check-anisearch.ts",
     "data:disc-proposals": "tsx pipeline/extract-disc-dates.ts",
     "data:anisearch:reparse": "tsx pipeline/reparse-anisearch.ts",
+    "check:logic": "tsx pipeline/check-logic.ts",
     "check:workflows": "node tools/check-workflows.mjs",
     "check:worker": "tsc --noEmit -p worker/tsconfig.json"
   },

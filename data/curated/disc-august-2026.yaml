@@ -329,8 +329,11 @@
   schedule: { firstEpisodeDate: "2026-08-21" }
   sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
 
+# Ausdrücklich die zweite Staffel: `search: "Dandadan"` fand die erste
+# (AniList 171018) und hängte beide Disc-Ausgaben der zweiten Staffel dort an —
+# samt deren Namen, der dadurch zum Namen der ersten Staffel wurde.
 - slug: dandadan-s2-vol3
-  search: "Dandadan"
+  anilistId: 185660
   titleDe: "DAN DA DAN (Staffel 2) – Vol. 3"
   platform: disc
   releaseType: disc
@@ -373,7 +376,7 @@
   sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
 
 - slug: dandadan-s2-vol1-steelcase
-  search: "Dandadan"
+  anilistId: 185660
   titleDe: "DAN DA DAN (Staffel 2) – Vol. 1"
   platform: disc
   releaseType: disc

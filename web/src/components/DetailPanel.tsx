@@ -99,15 +99,29 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
           {release.note}
         </p>
       )}
+      {/*
+        Der Satz, der das Datum einordnet.
+
+        Ohne ihn liest sich „Im Angebot seit 11.06.2025" wie ein Erscheinungs-
+        termin — und der wäre bei Sword Art Online zwölf Jahre daneben. Nur bei
+        Katalogtiteln, wo genau diese Verwechslung droht.
+      */}
+      {release.dateMeaning === 'available-from' && (
+        <p className="mt-1 text-[11px] leading-relaxed text-slate-400 dark:text-slate-500">
+          {t('detail.availableFromNote')}
+        </p>
+      )}
 
       <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-slate-600 dark:text-slate-300">
         <dt className="text-slate-400">
           {t(
-            release.releaseType === 'movie'
-              ? 'detail.startCinema'
-              : release.releaseType === 'disc'
-                ? 'detail.startDisc'
-                : 'detail.start',
+            release.dateMeaning === 'available-from'
+              ? 'detail.availableFrom'
+              : release.releaseType === 'movie'
+                ? 'detail.startCinema'
+                : release.releaseType === 'disc'
+                  ? 'detail.startDisc'
+                  : 'detail.start',
           )}
         </dt>
         <dd className="tabular-nums">

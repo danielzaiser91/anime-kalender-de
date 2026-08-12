@@ -31,6 +31,26 @@ export type ReleaseType = 'weekly' | 'batch' | 'movie' | 'disc'
  */
 export type ReleaseStatus = 'airing' | 'abgeschlossen' | 'tba' | 'erschienen' | 'unbekannt'
 
+/**
+ * Was das Datum eines Releases aussagt.
+ *
+ * `premiere`       — an diesem Tag erschien die deutsche Fassung.
+ * `available-from` — an diesem Tag stand sie dort im Angebot. Ob sie
+ *                    anderswo längst zu haben war, sagt das Datum nicht.
+ *
+ * Der Unterschied ist der Kern des schwersten Fehlers, den die Seite hatte
+ * (12.08.2026). ADN nahm „Sword Art Online" am 11.06.2025 ins Angebot — die
+ * deutsche Fassung von Staffel 1 gibt es seit 2013, die von „Alicization" seit
+ * August 2019 auf Disc. Der Kalender schrieb trotzdem „Start: 11.06.2025" und
+ * lag damit um bis zu zwölf Jahre daneben.
+ *
+ * Fehlt das Feld, gilt `premiere` — so ist es für jeden Simulcast und jede
+ * kuratierte Disc richtig. Gesetzt wird es dort, wo wir es **nicht** besser
+ * wissen: bei einem Komplettabwurf aus einem Plattformkatalog. „Seit dem X.
+ * dort im Angebot" ist immer wahr, „erschienen am X." wäre eine Behauptung.
+ */
+export type DateMeaning = 'premiere' | 'available-from'
+
 export type Fsk = 0 | 6 | 12 | 16 | 18
 
 export type DubConfidence = 'low' | 'normal' | 'high' | 'very-high'
@@ -164,6 +184,8 @@ export interface Release {
   platformUrl?: string
   buyUrl?: string
   releaseType: ReleaseType
+  /** Bedeutung des Datums; fehlt = `premiere`. Siehe `DateMeaning`. */
+  dateMeaning?: DateMeaning
   fsk?: Fsk
   publisher?: string
   edition?: string

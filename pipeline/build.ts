@@ -11,7 +11,13 @@ import {
 } from './lib/crunchyroll.ts'
 import { loadCurated, loadWatchLinks, type CuratedEntry } from './lib/curated.ts'
 import type { TmdbInfo } from './lib/tmdb.ts'
-import type { AdnData } from './fetch-adn.ts'
+import {
+  ordneBloeckeZuStaffeln,
+  staffelBloecke,
+  staffelnDesFranchise,
+  type AdnBlock,
+  type AdnData,
+} from './lib/adn.ts'
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { clearDir, log, readJson, slugify, warn, writeJson, writeText } from './lib/util.ts'
 import { SYNOPSIS_GROUPS } from '../shared/types.ts'
@@ -27,8 +33,9 @@ import type {
   WatchLink,
 } from '../shared/types.ts'
 import { expandEvents } from '../shared/logic.ts'
-import { addDays } from '../shared/time.ts'
+import { addDays, todayIso } from '../shared/time.ts'
 import { buildIcs } from '../shared/ics.ts'
+import { pruefeErgebnis } from './lib/pruefung.ts'
 import {
   KEYWORD_BLOCKLIST,
   PLATFORM_PRIORITY,
@@ -58,6 +65,91 @@ const ADN_CALENDAR_URL = 'https://animationdigitalnetwork.com/de/'
 function fskFromAdnAge(age: string | undefined): Fsk | undefined {
   const value = Number((age ?? '').replace(/\D+/g, ''))
   return ([0, 6, 12, 16, 18] as const).includes(value as Fsk) ? (value as Fsk) : undefined
+}
+
+/**
+ * Kennung eines ADN-Releases.
+ *
+ * Bleibt es bei einem einzigen Block, behält das Release seinen alten Slug
+ * `adn-<id>` — geteilte Links und Merklisten sollen nicht ins Leere laufen.
+ * Sobald eine Serie in Staffeln zerfällt, muss der Slug sie unterscheiden;
+ * dann kommt Staffel und Termin dazu, und bei einem Block über mehrere
+ * AniList-Staffeln zusätzlich deren Kennung.
+ */
+function adnSlug(showId: number, block: AdnBlock, titleId: number | undefined, einBlock: boolean): string {
+  if (einBlock && titleId === undefined) return `adn-${showId}`
+  const teile = [`adn-${showId}`, block.season ? `s${block.season}` : 'x', block.firstDate.replace(/-/g, '')]
+  if (titleId !== undefined) teile.push(String(titleId))
+  return teile.join('-')
+}
+
+/**
+ * Anzeigename eines Blocks, wenn kein AniList-Titel dahintersteht.
+ *
+ * „Sword Art Online" dreimal untereinander ist keine Auskunft. Ohne
+ * zugeordnete Staffel bleibt nur die Zählung, die ADN selbst verwendet — die
+ * ist zwar nicht die von Crunchyroll, aber sie stimmt wenigstens mit dem
+ * überein, was der Nutzer auf der verlinkten Seite vorfindet.
+ */
+function adnBlockName(showTitle: string, block: AdnBlock, blockAnzahl: number): string {
+  if (blockAnzahl <= 1 || !block.season) return showTitle
+  return `${showTitle} – ADN-Staffel ${block.season}`
+}
+
+/**
+ * Macht aus dem Namen eines Releases den Namen des Werks.
+ *
+ * Ein kuratierter Eintrag heißt „Bocchi the Rock! – Vol. 1", weil genau diese
+ * Blu-ray so heißt. Der Anime heißt „Bocchi the Rock!". Weil der deutsche
+ * Titel eines Werks aber aus dem ersten Release übernommen wird, das ihn
+ * nennt, hieß der Anime bei uns ebenfalls „– Vol. 1" — und zwar überall:
+ * Kachel, Suche, Teilen-Seite, Kalendereintrag. 32 Titel trugen am 12.08.2026
+ * die Ausgabennummer irgendeiner Disc im Namen.
+ *
+ * Die Staffelangabe bleibt stehen: „Re:ZERO – Staffel 3" ist der Titel des
+ * Werks, „– Vol. 1" ist es nicht.
+ */
+function werkTitel(name: string): string {
+  return name
+    .replace(/\s*[–—-]\s*(vol\.?|volume|part|teil)\s*\d+\s*$/i, '')
+    .replace(/\s*\((vol\.?|volume|part|teil)\s*\d+\)\s*$/i, '')
+    .trim()
+}
+
+/**
+ * Der Satz unter einem ADN-Release, der die Zählung erklärt.
+ *
+ * Zwei Dinge sind erklärungsbedürftig, und beide hat Daniel am 12.08.2026 als
+ * „schwer zu verstehen, worauf sich die Episoden beziehen" gemeldet:
+ *
+ *  1. **ADN zählt anders als Crunchyroll.** Was ADN als Folge 25 der dritten
+ *     Staffel führt, ist bei Crunchyroll Folge 1 von „Alicization – War of
+ *     Underworld". Wer über unseren Link dorthin geht, muss wissen, wonach er
+ *     scrollt.
+ *  2. **Die Folgenzahlen weichen ab.** ADN hat 42 Folgen „Sailor Moon R" mit
+ *     deutschem Ton, der Eintrag nennt 43. Diese Lücke stillschweigend zu
+ *     schlucken hieße, eine der beiden Zahlen zur Wahrheit zu erklären.
+ */
+function adnHinweis(
+  block: AdnBlock,
+  abschnitt: { adnVon: number; adnBis: number },
+  teileAnzahl: number,
+  folgenzahl: number,
+  title: Title | undefined,
+  unscharf: boolean | undefined,
+): string | undefined {
+  const saetze: string[] = []
+  if (teileAnzahl > 1) {
+    saetze.push(
+      `ADN führt diese Staffel als Folgen ${abschnitt.adnVon}–${abschnitt.adnBis} der ADN-Staffel ${block.season ?? '?'}.`,
+    )
+  }
+  if (unscharf && title?.episodes && title.episodes !== folgenzahl) {
+    saetze.push(
+      `ADN listet ${folgenzahl} Folgen mit deutschem Ton, die Serie hat ${title.episodes} — die Zuordnung ist über die Folgenzahl erschlossen.`,
+    )
+  }
+  return saetze.length ? saetze.join(' ') : undefined
 }
 
 function cleanSynopsis(raw: string | null): string | undefined {
@@ -742,7 +834,7 @@ function main(): void {
     }
 
     if (title && fsk !== undefined && title.fsk === undefined) title.fsk = fsk
-    if (title && entry.titleDe && !title.titleDe) title.titleDe = entry.titleDe
+    if (title && entry.titleDe && !title.titleDe) title.titleDe = werkTitel(entry.titleDe)
 
     releases.push({
       slug: entry.slug,
@@ -924,15 +1016,14 @@ function main(): void {
       .map((r) => normalizeTitle(r.name)),
   )
   let adnAdded = 0
+  let adnBloecke = 0
   for (const show of adn.shows) {
     if (!show.episodes.length) continue
     if (curatedAdnShows.has(normalizeTitle(show.title))) continue
-    const slug = `adn-${show.showId}`
-    if (seenSlugs.has(slug)) continue
 
     // Die im Katalog-Lauf nachgeschlagene Kennung zuerst — sie trifft auch,
     // wo der Namensabgleich an Schreibweisen scheitert.
-    const title =
+    const serienTitel =
       (show.anilistId ? titles.get(show.anilistId) : undefined) ??
       titleByName.get(normalizeTitle(show.title)) ??
       titleByName.get(normalizeTitle(show.originalTitle ?? ''))
@@ -941,36 +1032,113 @@ function main(): void {
     // französische Name stehen, dazu ohne Cover, Genres und Beschreibung.
     // Beim Kalender-Weg ist der Name belegt, dort bleibt der Eintrag auch ohne
     // Treffer.
-    if (!title && show.fromCatalog) continue
-    // Der Ton ist deutsch — der Name von ADN oft nicht. „One Piece Film 3 •
-    // Le Royaume de Chopper" heißt hier „One Piece – Chopper auf der Insel der
-    // seltsamen Tiere". Für Katalogtitel gewinnt deshalb der Anime-Eintrag.
-    const anzeigename =
-      show.fromCatalog && title
-        ? (title.titleDe ?? title.titleEn ?? title.titleRomaji ?? show.title)
-        : show.title
-    const first = show.episodes[0]
-    seenSlugs.add(slug)
-    releases.push({
-      slug,
-      titleId: title?.id ?? -1,
-      name: anzeigename,
-      platform: 'adn',
-      platformUrl: first.url,
-      releaseType: show.batch ? 'batch' : 'weekly',
-      fsk: title?.fsk ?? fskFromAdnAge(show.age),
-      schedule: {
-        firstEpisodeDate: first.date,
-        time: first.time,
-        episodeCount: show.episodes.length,
-        lastEpisodeDate: show.episodes.at(-1)!.date,
-      },
-      year: Number(first.date.slice(0, 4)),
-      sources: [ADN_CALENDAR_URL],
-    })
-    adnAdded++
+    if (!serienTitel && show.fromCatalog) continue
+
+    /**
+     * Eine ADN-Serienkennung ist ein Franchise, keine Staffel.
+     *
+     * Bis zum 12.08.2026 wurde je Serie **ein** Release gebaut. Für „Sword Art
+     * Online" hieß das: ein Eintrag mit 96 Folgen, deren Nummern zweimal bei 1
+     * neu anfangen, unter dem Namen der ersten Staffel — und, weil zwei
+     * Abwurftermine nicht als Komplettabwurf erkannt wurden, mit 96
+     * Wochenterminen bis 2027. Neun der 37 ADN-Serien führen mehrere Staffeln
+     * unter einer Kennung.
+     */
+    const bloecke = staffelBloecke(show)
+    const staffeln = serienTitel?.franchiseId
+      ? staffelnDesFranchise(titles.values(), serienTitel.franchiseId)
+      : []
+    const zuordnungen = ordneBloeckeZuStaffeln(bloecke, staffeln)
+    adnBloecke += bloecke.length
+    // Nur wenn es bei einem einzigen Block bleibt, behält das Release seinen
+    // alten Slug — geteilte Links und Merklisten sollen nicht ins Leere laufen.
+    const einBlock = bloecke.length === 1
+    /**
+     * Kein Anime zweimal in derselben ADN-Serie.
+     *
+     * Ohne diese Sperre landete „Sailor Moon" doppelt im Datensatz: Staffel 1
+     * mit 46 Folgen und Staffel 2 mit 42, beide auf AniList 530 gezeigt, weil
+     * der Rückfall auf den Serientitel keine Rücksicht darauf nahm, dass der
+     * längst vergeben war. Ein Titel mit zwei widersprüchlichen Folgenzahlen
+     * ist schlimmer als ein fehlender Eintrag.
+     */
+    const belegteTitel = new Set<number>()
+
+    for (const { block, teile, unscharf } of zuordnungen) {
+      // Ohne aufgehende Rechnung deckt der Block genau einen Titel ab: den der
+      // Serie. Lieber eine gröbere Zuordnung als eine falsche.
+      const abschnitte = teile.length
+        ? teile
+        : [{ title: serienTitel, adnVon: block.nummern[0] ?? 1, adnBis: block.nummern.at(-1) ?? block.episodes.length }]
+
+      for (const abschnitt of abschnitte) {
+        const title = abschnitt.title
+        if (title && belegteTitel.has(title.id)) {
+          warn(
+            `ADN ${show.showId} (${show.title}): Staffel ${block.season ?? '?'} mit ${block.episodes.length} Folgen ` +
+              `lässt sich keiner eigenen AniList-Staffel zuordnen — übersprungen, statt "${title.titleRomaji ?? title.id}" doppelt zu führen.`,
+          )
+          continue
+        }
+        if (title) belegteTitel.add(title.id)
+        const slug = adnSlug(show.showId, block, teile.length > 1 ? title?.id : undefined, einBlock)
+        if (seenSlugs.has(slug)) continue
+        seenSlugs.add(slug)
+
+        // Der Ton ist deutsch — der Name von ADN oft nicht. „One Piece Film 3 •
+        // Le Royaume de Chopper" heißt hier „One Piece – Chopper auf der Insel
+        // der seltsamen Tiere". Für Katalogtitel gewinnt deshalb der
+        // Anime-Eintrag; er nennt außerdem die Staffel beim Namen, während ADN
+        // nur „3" schreibt.
+        const anzeigename =
+          (show.fromCatalog || teile.length) && title
+            ? (title.titleDe ?? title.titleEn ?? title.titleRomaji ?? show.title)
+            : adnBlockName(show.title, block, bloecke.length)
+
+        const folgen = block.episodes.filter(
+          (e) => !teile.length || ((e.episode ?? 0) >= abschnitt.adnVon && (e.episode ?? 0) <= abschnitt.adnBis),
+        )
+        if (!folgen.length) continue
+        const first = folgen[0]
+        const letzte = folgen.at(-1)!
+        const anzahl = new Set(folgen.map((e) => e.episode ?? e.url)).size
+
+        releases.push({
+          slug,
+          titleId: title?.id ?? -1,
+          name: anzeigename,
+          platform: 'adn',
+          platformUrl: first.url,
+          releaseType: block.rhythm === 'weekly' ? 'weekly' : 'batch',
+          /**
+           * Was das Datum bedeutet — und was es ausdrücklich nicht bedeutet.
+           *
+           * Bei einem Wochentakt ist der Termin der Sendeplan, also die
+           * Erstveröffentlichung. Bei einem Komplettabwurf weiß ADN nur, wann
+           * der Titel ins Angebot kam: „Sword Art Online" am 11.06.2025,
+           * obwohl es die deutsche Fassung seit 2013 gibt. „Im Angebot seit"
+           * ist in beiden Fällen wahr, „erschienen am" wäre geraten.
+           */
+          dateMeaning: block.rhythm === 'weekly' ? undefined : 'available-from',
+          fsk: title?.fsk ?? fskFromAdnAge(show.age),
+          note: adnHinweis(block, abschnitt, teile.length, anzahl, title, unscharf),
+          schedule: {
+            firstEpisodeDate: first.date,
+            time: first.time,
+            episodeCount: anzahl,
+            lastEpisodeDate: letzte.date,
+          },
+          year: Number(first.date.slice(0, 4)),
+          sources: [ADN_CALENDAR_URL],
+        })
+        adnAdded++
+      }
+    }
   }
-  if (adn.shows.length) log(`${adnAdded} ADN-Titel mit deutscher Synchro ergänzt (${adn.shows.length} gefunden)`)
+  if (adn.shows.length)
+    log(
+      `${adnAdded} ADN-Releases aus ${adnBloecke} Staffelblöcken ergänzt (${adn.shows.length} Serien gefunden)`,
+    )
 
   // --- Synchro-Verfügbarkeit je Plattform ------------------------------------
   // Ein Stream-Link allein sagt nichts über die Sprache. Belegt ist die Synchro
@@ -1003,6 +1171,26 @@ function main(): void {
   const events: ReleaseEvent[] = releases
     .flatMap(expandEvents)
     .sort((a, b) => (a.date === b.date ? (a.time ?? '99') .localeCompare(b.time ?? '99') : a.date.localeCompare(b.date)))
+
+  /**
+   * Gegenprobe, bevor irgendetwas geschrieben wird.
+   *
+   * Sie steht hier und nicht in `validate.ts`, weil dort nur die kuratierten
+   * Dateien geprüft werden — also ausgerechnet der Teil, den ohnehin ein Mensch
+   * durchdacht hat. Der Fehler vom 12.08.2026 (196 erfundene Termine) entstand
+   * vollständig in diesem Skript und wäre dort nie aufgefallen.
+   *
+   * Ein Widerspruch bricht den Lauf ab. Das kostet im schlimmsten Fall eine
+   * Nacht ohne frische Daten — ein Kalender, der eine Folge ankündigt, die es
+   * nicht gibt, kostet das Vertrauen in jeden anderen Termin.
+   */
+  const pruefung = pruefeErgebnis(releases, events, titles, todayIso())
+  for (const w of pruefung.warnungen) warn(w)
+  if (pruefung.fehler.length) {
+    for (const f of pruefung.fehler) console.error('  ✖', f)
+    console.error(`\n${pruefung.fehler.length} Widersprüche im erzeugten Datensatz — nichts geschrieben.`)
+    process.exit(1)
+  }
 
   // --- Meta -----------------------------------------------------------------
   const allTitles = [...titles.values()]

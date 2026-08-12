@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-12T05:50:58.813Z",
+  "scrapedAt": "2026-08-12T13:36:22.101Z",
   "window": {
     "from": "2026-06-28",
     "to": "2026-10-26"
@@ -16,169 +16,365 @@
           "date": "2026-06-29",
           "time": "09:00",
           "episode": 1,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2411-episode-1"
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2398-episode-1",
+          "season": "1",
+          "seasonReference": "gunslingergirl_tv",
+          "order": 1,
+          "type": "EPS",
+          "duration": 1390,
+          "title": "Frère",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv/web/eps1_320x180.jpg"
+        },
+        {
+          "date": "2026-06-29",
+          "time": "09:00",
+          "episode": 2,
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2399-episode-2",
+          "season": "1",
+          "seasonReference": "gunslingergirl_tv",
+          "order": 2,
+          "type": "EPS",
+          "duration": 1390,
+          "title": "Astronomie",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv/web/eps2_320x180.jpg"
+        },
+        {
+          "date": "2026-06-29",
+          "time": "09:00",
+          "episode": 3,
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2400-episode-3",
+          "season": "1",
+          "seasonReference": "gunslingergirl_tv",
+          "order": 3,
+          "type": "EPS",
+          "duration": 1391,
+          "title": "Le Garçon",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv/web/eps3_320x180.jpg"
+        },
+        {
+          "date": "2026-06-29",
+          "time": "09:00",
+          "episode": 4,
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2401-episode-4",
+          "season": "1",
+          "seasonReference": "gunslingergirl_tv",
+          "order": 4,
+          "type": "EPS",
+          "duration": 1390,
+          "title": "La Poupée",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv/web/eps4_320x180.jpg"
+        },
+        {
+          "date": "2026-06-29",
+          "time": "09:00",
+          "episode": 5,
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2402-episode-5",
+          "season": "1",
+          "seasonReference": "gunslingergirl_tv",
+          "order": 5,
+          "type": "EPS",
+          "duration": 1390,
+          "title": "La Promesse",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv/web/eps5_320x180.jpg"
+        },
+        {
+          "date": "2026-06-29",
+          "time": "09:00",
+          "episode": 6,
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2403-episode-6",
+          "season": "1",
+          "seasonReference": "gunslingergirl_tv",
+          "order": 6,
+          "type": "EPS",
+          "duration": 1391,
+          "title": "La Crème glacée",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv/web/eps6_320x180.jpg"
+        },
+        {
+          "date": "2026-06-29",
+          "time": "09:00",
+          "episode": 7,
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2404-episode-7",
+          "season": "1",
+          "seasonReference": "gunslingergirl_tv",
+          "order": 7,
+          "type": "EPS",
+          "duration": 1390,
+          "title": "Protection",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv/web/eps7_320x180.jpg"
+        },
+        {
+          "date": "2026-06-29",
+          "time": "09:00",
+          "episode": 8,
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2405-episode-8",
+          "season": "1",
+          "seasonReference": "gunslingergirl_tv",
+          "order": 8,
+          "type": "EPS",
+          "duration": 1390,
+          "title": "Le Prince du Royaume des Pâtes",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv/web/eps8_320x180.jpg"
+        },
+        {
+          "date": "2026-06-29",
+          "time": "09:00",
+          "episode": 9,
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2406-episode-9",
+          "season": "1",
+          "seasonReference": "gunslingergirl_tv",
+          "order": 9,
+          "type": "EPS",
+          "duration": 1390,
+          "title": "Lycoris radiata",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv/web/eps9_320x180.jpg"
+        },
+        {
+          "date": "2026-06-29",
+          "time": "09:00",
+          "episode": 10,
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2407-episode-10",
+          "season": "1",
+          "seasonReference": "gunslingergirl_tv",
+          "order": 10,
+          "type": "EPS",
+          "duration": 1390,
+          "title": "Aimer",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv/web/eps10_320x180.jpg"
+        },
+        {
+          "date": "2026-06-29",
+          "time": "09:00",
+          "episode": 11,
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2408-episode-11",
+          "season": "1",
+          "seasonReference": "gunslingergirl_tv",
+          "order": 11,
+          "type": "EPS",
+          "duration": 1390,
+          "title": "Forte fièvre",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv/web/eps11_320x180.jpg"
+        },
+        {
+          "date": "2026-06-29",
+          "time": "09:00",
+          "episode": 12,
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2409-episode-12",
+          "season": "1",
+          "seasonReference": "gunslingergirl_tv",
+          "order": 12,
+          "type": "EPS",
+          "duration": 1390,
+          "title": "Symbiose",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv/web/eps12_320x180.jpg"
+        },
+        {
+          "date": "2026-06-29",
+          "time": "09:00",
+          "episode": 13,
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2410-episode-13",
+          "season": "1",
+          "seasonReference": "gunslingergirl_tv",
+          "order": 13,
+          "type": "EPS",
+          "duration": 1390,
+          "title": "Étoile filante",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv/web/eps13_320x180.jpg"
         },
         {
           "date": "2026-06-29",
           "time": "09:00",
           "episode": 1,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2398-episode-1"
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2411-episode-1",
+          "season": "2",
+          "seasonReference": "gunslingergirl_tv2",
+          "order": 15,
+          "type": "EPS",
+          "duration": 1505,
+          "title": "La distance entre un frère et une sœur",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv2/web/eps1_320x180.jpg"
         },
         {
           "date": "2026-06-29",
           "time": "09:00",
           "episode": 2,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2412-episode-2"
-        },
-        {
-          "date": "2026-06-29",
-          "time": "09:00",
-          "episode": 2,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2399-episode-2"
-        },
-        {
-          "date": "2026-06-29",
-          "time": "09:00",
-          "episode": 3,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2413-episode-3"
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2412-episode-2",
+          "season": "2",
+          "seasonReference": "gunslingergirl_tv2",
+          "order": 16,
+          "type": "EPS",
+          "duration": 1506,
+          "title": "Pinocchio",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv2/web/eps2_320x180.jpg"
         },
         {
           "date": "2026-06-29",
           "time": "09:00",
           "episode": 3,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2400-episode-3"
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2413-episode-3",
+          "season": "2",
+          "seasonReference": "gunslingergirl_tv2",
+          "order": 17,
+          "type": "EPS",
+          "duration": 1506,
+          "title": "Simulacre",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv2/web/eps3_320x180.jpg"
         },
         {
           "date": "2026-06-29",
           "time": "09:00",
           "episode": 4,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2414-episode-4"
-        },
-        {
-          "date": "2026-06-29",
-          "time": "09:00",
-          "episode": 4,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2401-episode-4"
-        },
-        {
-          "date": "2026-06-29",
-          "time": "09:00",
-          "episode": 5,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2415-episode-5"
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2414-episode-4",
+          "season": "2",
+          "seasonReference": "gunslingergirl_tv2",
+          "order": 18,
+          "type": "EPS",
+          "duration": 1505,
+          "title": "Le Retour d'Angelica",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv2/web/eps4_320x180.jpg"
         },
         {
           "date": "2026-06-29",
           "time": "09:00",
           "episode": 5,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2402-episode-5"
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2415-episode-5",
+          "season": "2",
+          "seasonReference": "gunslingergirl_tv2",
+          "order": 19,
+          "type": "EPS",
+          "duration": 1505,
+          "title": "Impermanence et réminiscence",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv2/web/eps5_320x180.jpg"
         },
         {
           "date": "2026-06-29",
           "time": "09:00",
           "episode": 6,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2416-episode-6"
-        },
-        {
-          "date": "2026-06-29",
-          "time": "09:00",
-          "episode": 6,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2403-episode-6"
-        },
-        {
-          "date": "2026-06-29",
-          "time": "09:00",
-          "episode": 7,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2417-episode-7"
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2416-episode-6",
+          "season": "2",
+          "seasonReference": "gunslingergirl_tv2",
+          "order": 20,
+          "type": "EPS",
+          "duration": 1505,
+          "title": "Le terrier tibétain part à la retraite",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv2/web/eps6_320x180.jpg"
         },
         {
           "date": "2026-06-29",
           "time": "09:00",
           "episode": 7,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2404-episode-7"
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2417-episode-7",
+          "season": "2",
+          "seasonReference": "gunslingergirl_tv2",
+          "order": 21,
+          "type": "EPS",
+          "duration": 1504,
+          "title": "Le Cercle de la vengeance de Caterina",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv2/web/eps7_320x180.jpg"
         },
         {
           "date": "2026-06-29",
           "time": "09:00",
           "episode": 8,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2418-episode-8"
-        },
-        {
-          "date": "2026-06-29",
-          "time": "09:00",
-          "episode": 8,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2405-episode-8"
-        },
-        {
-          "date": "2026-06-29",
-          "time": "09:00",
-          "episode": 9,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2419-episode-9"
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2418-episode-8",
+          "season": "2",
+          "seasonReference": "gunslingergirl_tv2",
+          "order": 22,
+          "type": "EPS",
+          "duration": 1506,
+          "title": "Une journée dans la vie de Claes",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv2/web/eps8_320x180.jpg"
         },
         {
           "date": "2026-06-29",
           "time": "09:00",
           "episode": 9,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2406-episode-9"
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2419-episode-9",
+          "season": "2",
+          "seasonReference": "gunslingergirl_tv2",
+          "order": 23,
+          "type": "EPS",
+          "duration": 1506,
+          "title": "Serpent sagace, colombe ingénue",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv2/web/eps9_320x180.jpg"
         },
         {
           "date": "2026-06-29",
           "time": "09:00",
           "episode": 10,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2420-episode-10"
-        },
-        {
-          "date": "2026-06-29",
-          "time": "09:00",
-          "episode": 10,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2407-episode-10"
-        },
-        {
-          "date": "2026-06-29",
-          "time": "09:00",
-          "episode": 11,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2421-episode-11"
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2420-episode-10",
+          "season": "2",
+          "seasonReference": "gunslingergirl_tv2",
+          "order": 24,
+          "type": "EPS",
+          "duration": 1506,
+          "title": "Bienveillance",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv2/web/eps10_320x180.jpg"
         },
         {
           "date": "2026-06-29",
           "time": "09:00",
           "episode": 11,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2408-episode-11"
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2421-episode-11",
+          "season": "2",
+          "seasonReference": "gunslingergirl_tv2",
+          "order": 25,
+          "type": "EPS",
+          "duration": 1507,
+          "title": "Sentiments naissants",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv2/web/eps11_320x180.jpg"
         },
         {
           "date": "2026-06-29",
           "time": "09:00",
           "episode": 12,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2422-episode-12"
-        },
-        {
-          "date": "2026-06-29",
-          "time": "09:00",
-          "episode": 12,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2409-episode-12"
-        },
-        {
-          "date": "2026-06-29",
-          "time": "09:00",
-          "episode": 13,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2423-episode-13"
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2422-episode-12",
+          "season": "2",
+          "seasonReference": "gunslingergirl_tv2",
+          "order": 26,
+          "type": "EPS",
+          "duration": 1506,
+          "title": "Poupées de combat",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv2/web/eps12_320x180.jpg"
         },
         {
           "date": "2026-06-29",
           "time": "09:00",
           "episode": 13,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2410-episode-13"
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/2423-episode-13",
+          "season": "2",
+          "seasonReference": "gunslingergirl_tv2",
+          "order": 27,
+          "type": "EPS",
+          "duration": 1509,
+          "title": "Et Pinocchio devint un être humain",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv2/web/eps13_320x180.jpg"
         },
         {
           "date": "2026-06-29",
           "time": "09:00",
           "episode": 14,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/22748-oav-14"
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/22748-oav-14",
+          "season": "2",
+          "seasonReference": "gunslingergirl_tv2",
+          "order": 28,
+          "type": "OAV",
+          "duration": 1433,
+          "title": "Lumière sur Venise, ténèbres dans les cœurs",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv2/web/oav14_320x180.jpg"
         },
         {
           "date": "2026-06-29",
           "time": "09:00",
           "episode": 15,
-          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/22749-oav-15"
+          "url": "https://animationdigitalnetwork.com/de/video/190-gunslinger-girl/22749-oav-15",
+          "season": "2",
+          "seasonReference": "gunslingergirl_tv2",
+          "order": 29,
+          "type": "OAV",
+          "duration": 1433,
+          "title": "Phantasma",
+          "image": "https://image.animationdigitalnetwork.com/license/gunslingergirl/tv2/web/oav15_320x180.jpg"
         }
       ],
       "batch": true
@@ -194,145 +390,313 @@
           "date": "2026-07-24",
           "time": "09:00",
           "episode": 1,
-          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30581-episode-1"
+          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30581-episode-1",
+          "season": "1",
+          "seasonReference": "parasyte_tv",
+          "order": 1,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Parasyte -the maxim- 1",
+          "image": "https://image.animationdigitalnetwork.com/license/parasyte/tv/web/eps1_320x180.jpg"
         },
         {
           "date": "2026-07-24",
           "time": "09:00",
           "episode": 2,
-          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30582-episode-2"
+          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30582-episode-2",
+          "season": "1",
+          "seasonReference": "parasyte_tv",
+          "order": 2,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Parasyte -the maxim- 2",
+          "image": "https://image.animationdigitalnetwork.com/license/parasyte/tv/web/eps2_320x180.jpg"
         },
         {
           "date": "2026-07-24",
           "time": "09:00",
           "episode": 3,
-          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30583-episode-3"
+          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30583-episode-3",
+          "season": "1",
+          "seasonReference": "parasyte_tv",
+          "order": 3,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Parasyte -the maxim- 3",
+          "image": "https://image.animationdigitalnetwork.com/license/parasyte/tv/web/eps3_320x180.jpg"
         },
         {
           "date": "2026-07-24",
           "time": "09:00",
           "episode": 4,
-          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30584-episode-4"
+          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30584-episode-4",
+          "season": "1",
+          "seasonReference": "parasyte_tv",
+          "order": 4,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Parasyte -the maxim- 4",
+          "image": "https://image.animationdigitalnetwork.com/license/parasyte/tv/web/eps4_320x180.jpg"
         },
         {
           "date": "2026-07-24",
           "time": "09:00",
           "episode": 5,
-          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30585-episode-5"
+          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30585-episode-5",
+          "season": "1",
+          "seasonReference": "parasyte_tv",
+          "order": 5,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Parasyte -the maxim- 5",
+          "image": "https://image.animationdigitalnetwork.com/license/parasyte/tv/web/eps5_320x180.jpg"
         },
         {
           "date": "2026-07-24",
           "time": "09:00",
           "episode": 6,
-          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30586-episode-6"
+          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30586-episode-6",
+          "season": "1",
+          "seasonReference": "parasyte_tv",
+          "order": 6,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Parasyte -the maxim- 6",
+          "image": "https://image.animationdigitalnetwork.com/license/parasyte/tv/web/eps6_320x180.jpg"
         },
         {
           "date": "2026-07-24",
           "time": "09:00",
           "episode": 7,
-          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30587-episode-7"
+          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30587-episode-7",
+          "season": "1",
+          "seasonReference": "parasyte_tv",
+          "order": 7,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Parasyte -the maxim- 7",
+          "image": "https://image.animationdigitalnetwork.com/license/parasyte/tv/web/eps7_320x180.jpg"
         },
         {
           "date": "2026-07-24",
           "time": "09:00",
           "episode": 8,
-          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30588-episode-8"
+          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30588-episode-8",
+          "season": "1",
+          "seasonReference": "parasyte_tv",
+          "order": 8,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Parasyte -the maxim- 8",
+          "image": "https://image.animationdigitalnetwork.com/license/parasyte/tv/web/eps8_320x180.jpg"
         },
         {
           "date": "2026-07-24",
           "time": "09:00",
           "episode": 9,
-          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30589-episode-9"
+          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30589-episode-9",
+          "season": "1",
+          "seasonReference": "parasyte_tv",
+          "order": 9,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Parasyte -the maxim- 9",
+          "image": "https://image.animationdigitalnetwork.com/license/parasyte/tv/web/eps9_320x180.jpg"
         },
         {
           "date": "2026-07-24",
           "time": "09:00",
           "episode": 10,
-          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30590-episode-10"
+          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30590-episode-10",
+          "season": "1",
+          "seasonReference": "parasyte_tv",
+          "order": 10,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Parasyte -the maxim- 10",
+          "image": "https://image.animationdigitalnetwork.com/license/parasyte/tv/web/eps10_320x180.jpg"
         },
         {
           "date": "2026-07-24",
           "time": "09:00",
           "episode": 11,
-          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30591-episode-11"
+          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30591-episode-11",
+          "season": "1",
+          "seasonReference": "parasyte_tv",
+          "order": 11,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Parasyte -the maxim- 11",
+          "image": "https://image.animationdigitalnetwork.com/license/parasyte/tv/web/eps11_320x180.jpg"
         },
         {
           "date": "2026-07-24",
           "time": "09:00",
           "episode": 12,
-          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30592-episode-12"
+          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30592-episode-12",
+          "season": "1",
+          "seasonReference": "parasyte_tv",
+          "order": 12,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Parasyte -the maxim- 12",
+          "image": "https://image.animationdigitalnetwork.com/license/parasyte/tv/web/eps12_320x180.jpg"
         },
         {
           "date": "2026-07-24",
           "time": "09:00",
           "episode": 13,
-          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30593-episode-13"
+          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30593-episode-13",
+          "season": "1",
+          "seasonReference": "parasyte_tv",
+          "order": 13,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Parasyte -the maxim- 13",
+          "image": "https://image.animationdigitalnetwork.com/license/parasyte/tv/web/eps13_320x180.jpg"
         },
         {
           "date": "2026-07-24",
           "time": "09:00",
           "episode": 14,
-          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30594-episode-14"
+          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30594-episode-14",
+          "season": "1",
+          "seasonReference": "parasyte_tv",
+          "order": 14,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Parasyte -the maxim- 14",
+          "image": "https://image.animationdigitalnetwork.com/license/parasyte/tv/web/eps14_320x180.jpg"
         },
         {
           "date": "2026-07-24",
           "time": "09:00",
           "episode": 15,
-          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30595-episode-15"
+          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30595-episode-15",
+          "season": "1",
+          "seasonReference": "parasyte_tv",
+          "order": 15,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Parasyte -the maxim- 15",
+          "image": "https://image.animationdigitalnetwork.com/license/parasyte/tv/web/eps15_320x180.jpg"
         },
         {
           "date": "2026-07-24",
           "time": "09:00",
           "episode": 16,
-          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30596-episode-16"
+          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30596-episode-16",
+          "season": "1",
+          "seasonReference": "parasyte_tv",
+          "order": 16,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Parasyte -the maxim- 16",
+          "image": "https://image.animationdigitalnetwork.com/license/parasyte/tv/web/eps16_320x180.jpg"
         },
         {
           "date": "2026-07-24",
           "time": "09:00",
           "episode": 17,
-          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30597-episode-17"
+          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30597-episode-17",
+          "season": "1",
+          "seasonReference": "parasyte_tv",
+          "order": 17,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Parasyte -the maxim- 17",
+          "image": "https://image.animationdigitalnetwork.com/license/parasyte/tv/web/eps17_320x180.jpg"
         },
         {
           "date": "2026-07-24",
           "time": "09:00",
           "episode": 18,
-          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30598-episode-18"
+          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30598-episode-18",
+          "season": "1",
+          "seasonReference": "parasyte_tv",
+          "order": 18,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Parasyte -the maxim- 18",
+          "image": "https://image.animationdigitalnetwork.com/license/parasyte/tv/web/eps18_320x180.jpg"
         },
         {
           "date": "2026-07-24",
           "time": "09:00",
           "episode": 19,
-          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30599-episode-19"
+          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30599-episode-19",
+          "season": "1",
+          "seasonReference": "parasyte_tv",
+          "order": 19,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Parasyte -the maxim- 19",
+          "image": "https://image.animationdigitalnetwork.com/license/parasyte/tv/web/eps19_320x180.jpg"
         },
         {
           "date": "2026-07-24",
           "time": "09:00",
           "episode": 20,
-          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30600-episode-20"
+          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30600-episode-20",
+          "season": "1",
+          "seasonReference": "parasyte_tv",
+          "order": 20,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Parasyte -the maxim- 20",
+          "image": "https://image.animationdigitalnetwork.com/license/parasyte/tv/web/eps20_320x180.jpg"
         },
         {
           "date": "2026-07-24",
           "time": "09:00",
           "episode": 21,
-          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30601-episode-21"
+          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30601-episode-21",
+          "season": "1",
+          "seasonReference": "parasyte_tv",
+          "order": 21,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Parasyte -the maxim- 21",
+          "image": "https://image.animationdigitalnetwork.com/license/parasyte/tv/web/eps21_320x180.jpg"
         },
         {
           "date": "2026-07-24",
           "time": "09:00",
           "episode": 22,
-          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30602-episode-22"
+          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30602-episode-22",
+          "season": "1",
+          "seasonReference": "parasyte_tv",
+          "order": 22,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Parasyte -the maxim- 22",
+          "image": "https://image.animationdigitalnetwork.com/license/parasyte/tv/web/eps22_320x180.jpg"
         },
         {
           "date": "2026-07-24",
           "time": "09:00",
           "episode": 23,
-          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30603-episode-23"
+          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30603-episode-23",
+          "season": "1",
+          "seasonReference": "parasyte_tv",
+          "order": 23,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Parasyte -the maxim- 23",
+          "image": "https://image.animationdigitalnetwork.com/license/parasyte/tv/web/eps23_320x180.jpg"
         },
         {
           "date": "2026-07-24",
           "time": "09:00",
           "episode": 24,
-          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30604-episode-24"
+          "url": "https://animationdigitalnetwork.com/de/video/1354-parasyte-the-maxim/30604-episode-24",
+          "season": "1",
+          "seasonReference": "parasyte_tv",
+          "order": 24,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Parasyte -the maxim- 24",
+          "image": "https://image.animationdigitalnetwork.com/license/parasyte/tv/web/eps24_320x180.jpg"
         }
       ],
       "batch": true
@@ -348,73 +712,157 @@
           "date": "2026-08-10",
           "time": "09:00",
           "episode": 1,
-          "url": "https://animationdigitalnetwork.com/de/video/617-prisonschool_tv-617/11386-episode-1"
+          "url": "https://animationdigitalnetwork.com/de/video/617-prisonschool_tv-617/11386-episode-1",
+          "season": "1",
+          "seasonReference": "prisonschool_tv",
+          "order": 1,
+          "type": "EPS",
+          "duration": 1485,
+          "title": "Opération voyeurisme !",
+          "image": "https://image.animationdigitalnetwork.com/license/prisonschool/tv/web/eps1_320x180.jpg"
         },
         {
           "date": "2026-08-10",
           "time": "09:00",
           "episode": 2,
-          "url": "https://animationdigitalnetwork.com/de/video/617-prisonschool_tv-617/11387-episode-2"
+          "url": "https://animationdigitalnetwork.com/de/video/617-prisonschool_tv-617/11387-episode-2",
+          "season": "1",
+          "seasonReference": "prisonschool_tv",
+          "order": 2,
+          "type": "EPS",
+          "duration": 1485,
+          "title": "L’homme qui en savait trop (sur les fesses)",
+          "image": "https://image.animationdigitalnetwork.com/license/prisonschool/tv/web/eps2_320x180.jpg"
         },
         {
           "date": "2026-08-10",
           "time": "09:00",
           "episode": 3,
-          "url": "https://animationdigitalnetwork.com/de/video/617-prisonschool_tv-617/11388-episode-3"
+          "url": "https://animationdigitalnetwork.com/de/video/617-prisonschool_tv-617/11388-episode-3",
+          "season": "1",
+          "seasonReference": "prisonschool_tv",
+          "order": 3,
+          "type": "EPS",
+          "duration": 1485,
+          "title": "La Grande Éruption",
+          "image": "https://image.animationdigitalnetwork.com/license/prisonschool/tv/web/eps3_320x180.jpg"
         },
         {
           "date": "2026-08-10",
           "time": "09:00",
           "episode": 4,
-          "url": "https://animationdigitalnetwork.com/de/video/617-prisonschool_tv-617/11389-episode-4"
+          "url": "https://animationdigitalnetwork.com/de/video/617-prisonschool_tv-617/11389-episode-4",
+          "season": "1",
+          "seasonReference": "prisonschool_tv",
+          "order": 4,
+          "type": "EPS",
+          "duration": 1485,
+          "title": "Emmène-moi voir du sumo",
+          "image": "https://image.animationdigitalnetwork.com/license/prisonschool/tv/web/eps4_320x180.jpg"
         },
         {
           "date": "2026-08-10",
           "time": "09:00",
           "episode": 5,
-          "url": "https://animationdigitalnetwork.com/de/video/617-prisonschool_tv-617/11390-episode-5"
+          "url": "https://animationdigitalnetwork.com/de/video/617-prisonschool_tv-617/11390-episode-5",
+          "season": "1",
+          "seasonReference": "prisonschool_tv",
+          "order": 5,
+          "type": "EPS",
+          "duration": 1485,
+          "title": "Le Pire Traître du lycée",
+          "image": "https://image.animationdigitalnetwork.com/license/prisonschool/tv/web/eps5_320x180.jpg"
         },
         {
           "date": "2026-08-10",
           "time": "09:00",
           "episode": 6,
-          "url": "https://animationdigitalnetwork.com/de/video/617-prisonschool_tv-617/11391-episode-6"
+          "url": "https://animationdigitalnetwork.com/de/video/617-prisonschool_tv-617/11391-episode-6",
+          "season": "1",
+          "seasonReference": "prisonschool_tv",
+          "order": 6,
+          "type": "EPS",
+          "duration": 1485,
+          "title": "La vengeance est à Hana",
+          "image": "https://image.animationdigitalnetwork.com/license/prisonschool/tv/web/eps6_320x180.jpg"
         },
         {
           "date": "2026-08-10",
           "time": "09:00",
           "episode": 7,
-          "url": "https://animationdigitalnetwork.com/de/video/617-prisonschool_tv-617/11392-episode-7"
+          "url": "https://animationdigitalnetwork.com/de/video/617-prisonschool_tv-617/11392-episode-7",
+          "season": "1",
+          "seasonReference": "prisonschool_tv",
+          "order": 7,
+          "type": "EPS",
+          "duration": 1485,
+          "title": "Le Délicieux Restaurant de Meiko",
+          "image": "https://image.animationdigitalnetwork.com/license/prisonschool/tv/web/eps7_320x180.jpg"
         },
         {
           "date": "2026-08-10",
           "time": "09:00",
           "episode": 8,
-          "url": "https://animationdigitalnetwork.com/de/video/617-prisonschool_tv-617/11393-episode-8"
+          "url": "https://animationdigitalnetwork.com/de/video/617-prisonschool_tv-617/11393-episode-8",
+          "season": "1",
+          "seasonReference": "prisonschool_tv",
+          "order": 8,
+          "type": "EPS",
+          "duration": 1485,
+          "title": "Le Journal d'André",
+          "image": "https://image.animationdigitalnetwork.com/license/prisonschool/tv/web/eps8_320x180.jpg"
         },
         {
           "date": "2026-08-10",
           "time": "09:00",
           "episode": 9,
-          "url": "https://animationdigitalnetwork.com/de/video/617-prisonschool_tv-617/11394-episode-9"
+          "url": "https://animationdigitalnetwork.com/de/video/617-prisonschool_tv-617/11394-episode-9",
+          "season": "1",
+          "seasonReference": "prisonschool_tv",
+          "order": 9,
+          "type": "EPS",
+          "duration": 1485,
+          "title": "Du liquide partout",
+          "image": "https://image.animationdigitalnetwork.com/license/prisonschool/tv/web/eps9_320x180.jpg"
         },
         {
           "date": "2026-08-10",
           "time": "09:00",
           "episode": 10,
-          "url": "https://animationdigitalnetwork.com/de/video/617-prisonschool_tv-617/11395-episode-10"
+          "url": "https://animationdigitalnetwork.com/de/video/617-prisonschool_tv-617/11395-episode-10",
+          "season": "1",
+          "seasonReference": "prisonschool_tv",
+          "order": 10,
+          "type": "EPS",
+          "duration": 1485,
+          "title": "La vie est belle, comme un cul !",
+          "image": "https://image.animationdigitalnetwork.com/license/prisonschool/tv/web/eps10_320x180.jpg"
         },
         {
           "date": "2026-08-10",
           "time": "09:00",
           "episode": 11,
-          "url": "https://animationdigitalnetwork.com/de/video/617-prisonschool_tv-617/11396-episode-11"
+          "url": "https://animationdigitalnetwork.com/de/video/617-prisonschool_tv-617/11396-episode-11",
+          "season": "1",
+          "seasonReference": "prisonschool_tv",
+          "order": 11,
+          "type": "EPS",
+          "duration": 1485,
+          "title": "Eringi Brokovitch",
+          "image": "https://image.animationdigitalnetwork.com/license/prisonschool/tv/web/eps11_320x180.jpg"
         },
         {
           "date": "2026-08-10",
           "time": "09:00",
           "episode": 12,
-          "url": "https://animationdigitalnetwork.com/de/video/617-prisonschool_tv-617/11397-episode-12"
+          "url": "https://animationdigitalnetwork.com/de/video/617-prisonschool_tv-617/11397-episode-12",
+          "season": "1",
+          "seasonReference": "prisonschool_tv",
+          "order": 12,
+          "type": "EPS",
+          "duration": 1485,
+          "title": "Good Morning Prison",
+          "image": "https://image.animationdigitalnetwork.com/license/prisonschool/tv/web/eps12_320x180.jpg"
         }
       ],
       "batch": true
@@ -430,73 +878,157 @@
           "date": "2026-08-17",
           "time": "09:00",
           "episode": 1,
-          "url": "https://animationdigitalnetwork.com/de/video/1415-love-and-lies/32036-episode-1"
+          "url": "https://animationdigitalnetwork.com/de/video/1415-love-and-lies/32036-episode-1",
+          "season": "1",
+          "seasonReference": "loveandlies_tv",
+          "order": 1,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Love & Lies - Episode 1",
+          "image": "https://image.animationdigitalnetwork.com/license/loveandlies/tv_0001/web/license_320x180.jpg"
         },
         {
           "date": "2026-08-17",
           "time": "09:00",
           "episode": 2,
-          "url": "https://animationdigitalnetwork.com/de/video/1415-love-and-lies/32037-episode-2"
+          "url": "https://animationdigitalnetwork.com/de/video/1415-love-and-lies/32037-episode-2",
+          "season": "1",
+          "seasonReference": "loveandlies_tv",
+          "order": 2,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Love & Lies - Episode 2",
+          "image": "https://image.animationdigitalnetwork.com/license/loveandlies/tv_0002/web/license_320x180.jpg"
         },
         {
           "date": "2026-08-17",
           "time": "09:00",
           "episode": 3,
-          "url": "https://animationdigitalnetwork.com/de/video/1415-love-and-lies/32038-episode-3"
+          "url": "https://animationdigitalnetwork.com/de/video/1415-love-and-lies/32038-episode-3",
+          "season": "1",
+          "seasonReference": "loveandlies_tv",
+          "order": 3,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Love & Lies - Episode 3",
+          "image": "https://image.animationdigitalnetwork.com/license/loveandlies/tv_0003/web/license_320x180.jpg"
         },
         {
           "date": "2026-08-17",
           "time": "09:00",
           "episode": 4,
-          "url": "https://animationdigitalnetwork.com/de/video/1415-love-and-lies/32039-episode-4"
+          "url": "https://animationdigitalnetwork.com/de/video/1415-love-and-lies/32039-episode-4",
+          "season": "1",
+          "seasonReference": "loveandlies_tv",
+          "order": 4,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Love & Lies - Episode 4",
+          "image": "https://image.animationdigitalnetwork.com/license/loveandlies/tv_0004/web/license_320x180.jpg"
         },
         {
           "date": "2026-08-17",
           "time": "09:00",
           "episode": 5,
-          "url": "https://animationdigitalnetwork.com/de/video/1415-love-and-lies/32040-episode-5"
+          "url": "https://animationdigitalnetwork.com/de/video/1415-love-and-lies/32040-episode-5",
+          "season": "1",
+          "seasonReference": "loveandlies_tv",
+          "order": 5,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Love & Lies - Episode 5",
+          "image": "https://image.animationdigitalnetwork.com/license/loveandlies/tv_0005/web/license_320x180.jpg"
         },
         {
           "date": "2026-08-17",
           "time": "09:00",
           "episode": 6,
-          "url": "https://animationdigitalnetwork.com/de/video/1415-love-and-lies/32041-episode-6"
+          "url": "https://animationdigitalnetwork.com/de/video/1415-love-and-lies/32041-episode-6",
+          "season": "1",
+          "seasonReference": "loveandlies_tv",
+          "order": 6,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Love & Lies - Episode 6",
+          "image": "https://image.animationdigitalnetwork.com/license/loveandlies/tv_0006/web/license_320x180.jpg"
         },
         {
           "date": "2026-08-17",
           "time": "09:00",
           "episode": 7,
-          "url": "https://animationdigitalnetwork.com/de/video/1415-love-and-lies/32042-episode-7"
+          "url": "https://animationdigitalnetwork.com/de/video/1415-love-and-lies/32042-episode-7",
+          "season": "1",
+          "seasonReference": "loveandlies_tv",
+          "order": 7,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Love & Lies - Episode 7",
+          "image": "https://image.animationdigitalnetwork.com/license/loveandlies/tv_0007/web/license_320x180.jpg"
         },
         {
           "date": "2026-08-17",
           "time": "09:00",
           "episode": 8,
-          "url": "https://animationdigitalnetwork.com/de/video/1415-love-and-lies/32043-episode-8"
+          "url": "https://animationdigitalnetwork.com/de/video/1415-love-and-lies/32043-episode-8",
+          "season": "1",
+          "seasonReference": "loveandlies_tv",
+          "order": 8,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Love & Lies - Episode 8",
+          "image": "https://image.animationdigitalnetwork.com/license/loveandlies/tv_0008/web/license_320x180.jpg"
         },
         {
           "date": "2026-08-17",
           "time": "09:00",
           "episode": 9,
-          "url": "https://animationdigitalnetwork.com/de/video/1415-love-and-lies/32044-episode-9"
+          "url": "https://animationdigitalnetwork.com/de/video/1415-love-and-lies/32044-episode-9",
+          "season": "1",
+          "seasonReference": "loveandlies_tv",
+          "order": 9,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Love & Lies - Episode 9",
+          "image": "https://image.animationdigitalnetwork.com/license/loveandlies/tv_0009/web/license_320x180.jpg"
         },
         {
           "date": "2026-08-17",
           "time": "09:00",
           "episode": 10,
-          "url": "https://animationdigitalnetwork.com/de/video/1415-love-and-lies/32045-episode-10"
+          "url": "https://animationdigitalnetwork.com/de/video/1415-love-and-lies/32045-episode-10",
+          "season": "1",
+          "seasonReference": "loveandlies_tv",
+          "order": 10,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Love & Lies - Episode 10",
+          "image": "https://image.animationdigitalnetwork.com/license/loveandlies/tv_0010/web/license_320x180.jpg"
         },
         {
           "date": "2026-08-17",
           "time": "09:00",
           "episode": 11,
-          "url": "https://animationdigitalnetwork.com/de/video/1415-love-and-lies/32046-episode-11"
+          "url": "https://animationdigitalnetwork.com/de/video/1415-love-and-lies/32046-episode-11",
+          "season": "1",
+          "seasonReference": "loveandlies_tv",
+          "order": 11,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Love & Lies - Episode 11",
+          "image": "https://image.animationdigitalnetwork.com/license/loveandlies/tv_0011/web/license_320x180.jpg"
         },
         {
           "date": "2026-08-17",
           "time": "09:00",
           "episode": 12,
-          "url": "https://animationdigitalnetwork.com/de/video/1415-love-and-lies/32047-episode-12"
+          "url": "https://animationdigitalnetwork.com/de/video/1415-love-and-lies/32047-episode-12",
+          "season": "1",
+          "seasonReference": "loveandlies_tv",
+          "order": 12,
+          "type": "EPS",
+          "duration": 1440,
+          "title": "Love & Lies - Episode 12",
+          "image": "https://image.animationdigitalnetwork.com/license/loveandlies/tv_0012/web/license_320x180.jpg"
         }
       ],
       "batch": true

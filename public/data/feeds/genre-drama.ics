@@ -6,23 +6,53 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Drama
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:adn-948@2022-09-14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20220914T150000Z
-DTEND:20220914T153000Z
-SUMMARY:One Piece Film: Strong World – Folge 1/1
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-948
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-461@2023-10-01@anime-kalender-de
+UID:adn-461-s1-20231001@2023-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20231001T070000Z
 DTEND:20231001T073000Z
 SUMMARY:HAIKYU!!
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-461
+ me-kalender.de/#/release/adn-461-s1-20231001
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-461-s2-20231001@2023-10-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20231001T070000Z
+DTEND:20231001T073000Z
+SUMMARY:HAIKYU!! 2nd Season
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-461-s2-20231001
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-461-s3-20231001@2023-10-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20231001T070000Z
+DTEND:20231001T073000Z
+SUMMARY:HAIKYU!! 3rd Season
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-461-s3-20231001
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-461-s4-20231001-106625@2023-10-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20231001T070000Z
+DTEND:20231001T073000Z
+SUMMARY:HAIKYU!! TO THE TOP
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-461-s4-20231001-106625
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-461-s4-20231001-113538@2023-10-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20231001T070000Z
+DTEND:20231001T073000Z
+SUMMARY:HAIKYU!! TO THE TOP Part 2
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-461-s4-20231001-113538
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -30,9 +60,9 @@ UID:adn-1125@2024-02-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20240208T150000Z
 DTEND:20240208T153000Z
-SUMMARY:Chained Soldier – Folge 1/1
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1125
+SUMMARY:Chained Soldier
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1125
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -46,153 +76,123 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1160@2024-10-03@anime-kalender-de
+UID:adn-1160-s1-20241003-171018@2024-10-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241003T160000Z
 DTEND:20241003T163000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 1/24
+SUMMARY:DAN DA DAN – Folge 1/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160
+ ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-171018
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1160@2024-10-10@anime-kalender-de
+UID:adn-1160-s1-20241003-171018@2024-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241010T160000Z
 DTEND:20241010T163000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 2/24
+SUMMARY:DAN DA DAN – Folge 2/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160
+ ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-171018
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1160@2024-10-17@anime-kalender-de
+UID:adn-1160-s1-20241003-171018@2024-10-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241017T160000Z
 DTEND:20241017T163000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 3/24
+SUMMARY:DAN DA DAN – Folge 3/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160
+ ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-171018
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1160@2024-10-24@anime-kalender-de
+UID:adn-1160-s1-20241003-171018@2024-10-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241024T160000Z
 DTEND:20241024T163000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 4/24
+SUMMARY:DAN DA DAN – Folge 4/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160
+ ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-171018
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1160@2024-10-31@anime-kalender-de
+UID:adn-1160-s1-20241003-171018@2024-10-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241031T170000Z
 DTEND:20241031T173000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 5/24
+SUMMARY:DAN DA DAN – Folge 5/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160
+ ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-171018
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1160@2024-11-07@anime-kalender-de
+UID:adn-1160-s1-20241003-171018@2024-11-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241107T170000Z
 DTEND:20241107T173000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 6/24
+SUMMARY:DAN DA DAN – Folge 6/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160
+ ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-171018
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1160@2024-11-14@anime-kalender-de
+UID:adn-1160-s1-20241003-171018@2024-11-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241114T170000Z
 DTEND:20241114T173000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 7/24
+SUMMARY:DAN DA DAN – Folge 7/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160
+ ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-171018
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1160@2024-11-21@anime-kalender-de
+UID:adn-1160-s1-20241003-171018@2024-11-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241121T170000Z
 DTEND:20241121T173000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 8/24
+SUMMARY:DAN DA DAN – Folge 8/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160
+ ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-171018
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1160@2024-11-28@anime-kalender-de
+UID:adn-1160-s1-20241003-171018@2024-11-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241128T170000Z
 DTEND:20241128T173000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 9/24
+SUMMARY:DAN DA DAN – Folge 9/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160
+ ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-171018
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1160@2024-12-05@anime-kalender-de
+UID:adn-1160-s1-20241003-171018@2024-12-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241205T170000Z
 DTEND:20241205T173000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 10/24
+SUMMARY:DAN DA DAN – Folge 10/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160
+ ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-171018
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1160@2024-12-12@anime-kalender-de
+UID:adn-1160-s1-20241003-171018@2024-12-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241212T170000Z
 DTEND:20241212T173000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 11/24
+SUMMARY:DAN DA DAN – Folge 11/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160
+ ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-171018
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1160@2024-12-19@anime-kalender-de
+UID:adn-1160-s1-20241003-171018@2024-12-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241219T170000Z
 DTEND:20241219T173000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 12/24
+SUMMARY:DAN DA DAN – Folge 12/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160@2024-12-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20241226T170000Z
-DTEND:20241226T173000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 13/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160@2025-01-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250102T170000Z
-DTEND:20250102T173000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 14/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160@2025-01-09@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250109T170000Z
-DTEND:20250109T173000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 15/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160
+ ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-171018
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -206,101 +206,11 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1160@2025-01-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250116T170000Z
-DTEND:20250116T173000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 16/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160@2025-01-23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250123T170000Z
-DTEND:20250123T173000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 17/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160@2025-01-30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250130T170000Z
-DTEND:20250130T173000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 18/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160@2025-02-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250206T170000Z
-DTEND:20250206T173000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 19/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160@2025-02-13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250213T170000Z
-DTEND:20250213T173000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 20/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160@2025-02-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250220T170000Z
-DTEND:20250220T173000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 21/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160@2025-02-27@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250227T170000Z
-DTEND:20250227T173000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 22/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160@2025-03-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250306T170000Z
-DTEND:20250306T173000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 23/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160@2025-03-13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250313T170000Z
-DTEND:20250313T173000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Vol. 3 – Folge 24/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1168@2025-03-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250331T123000Z
 DTEND:20250331T130000Z
-SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 1/24
+SUMMARY:Sword of the Demon Hunter – Folge 1/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -310,7 +220,7 @@ UID:adn-1272@2025-04-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250406T083000Z
 DTEND:20250406T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 1/25
+SUMMARY:Witch Watch – Folge 1/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -320,7 +230,7 @@ UID:adn-1168@2025-04-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250407T123000Z
 DTEND:20250407T130000Z
-SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 2/24
+SUMMARY:Sword of the Demon Hunter – Folge 2/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -330,7 +240,7 @@ UID:adn-1272@2025-04-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250413T083000Z
 DTEND:20250413T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 2/25
+SUMMARY:Witch Watch – Folge 2/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -340,7 +250,7 @@ UID:adn-1168@2025-04-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250414T123000Z
 DTEND:20250414T130000Z
-SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 3/24
+SUMMARY:Sword of the Demon Hunter – Folge 3/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -350,7 +260,7 @@ UID:adn-1272@2025-04-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250420T083000Z
 DTEND:20250420T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 3/25
+SUMMARY:Witch Watch – Folge 3/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -360,7 +270,7 @@ UID:adn-1168@2025-04-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250421T123000Z
 DTEND:20250421T130000Z
-SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 4/24
+SUMMARY:Sword of the Demon Hunter – Folge 4/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -370,7 +280,7 @@ UID:adn-1272@2025-04-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250427T083000Z
 DTEND:20250427T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 4/25
+SUMMARY:Witch Watch – Folge 4/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -380,7 +290,7 @@ UID:adn-1168@2025-04-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250428T123000Z
 DTEND:20250428T130000Z
-SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 5/24
+SUMMARY:Sword of the Demon Hunter – Folge 5/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -390,7 +300,7 @@ UID:adn-1272@2025-05-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250504T083000Z
 DTEND:20250504T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 5/25
+SUMMARY:Witch Watch – Folge 5/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -400,7 +310,7 @@ UID:adn-1168@2025-05-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250505T123000Z
 DTEND:20250505T130000Z
-SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 6/24
+SUMMARY:Sword of the Demon Hunter – Folge 6/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -410,7 +320,7 @@ UID:adn-1272@2025-05-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250511T083000Z
 DTEND:20250511T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 6/25
+SUMMARY:Witch Watch – Folge 6/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -420,7 +330,7 @@ UID:adn-1168@2025-05-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250512T123000Z
 DTEND:20250512T130000Z
-SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 7/24
+SUMMARY:Sword of the Demon Hunter – Folge 7/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -430,7 +340,7 @@ UID:adn-1272@2025-05-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250518T083000Z
 DTEND:20250518T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 7/25
+SUMMARY:Witch Watch – Folge 7/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -440,7 +350,7 @@ UID:adn-1168@2025-05-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250519T123000Z
 DTEND:20250519T130000Z
-SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 8/24
+SUMMARY:Sword of the Demon Hunter – Folge 8/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -450,7 +360,7 @@ UID:adn-1272@2025-05-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250525T083000Z
 DTEND:20250525T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 8/25
+SUMMARY:Witch Watch – Folge 8/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -460,7 +370,7 @@ UID:adn-1168@2025-05-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250526T123000Z
 DTEND:20250526T130000Z
-SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 9/24
+SUMMARY:Sword of the Demon Hunter – Folge 9/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -470,7 +380,7 @@ UID:adn-1272@2025-06-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250601T083000Z
 DTEND:20250601T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 9/25
+SUMMARY:Witch Watch – Folge 9/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -480,7 +390,7 @@ UID:adn-1168@2025-06-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250602T123000Z
 DTEND:20250602T130000Z
-SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 10/24
+SUMMARY:Sword of the Demon Hunter – Folge 10/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -490,7 +400,7 @@ UID:adn-1272@2025-06-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250608T083000Z
 DTEND:20250608T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 10/25
+SUMMARY:Witch Watch – Folge 10/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -500,7 +410,7 @@ UID:adn-1168@2025-06-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250609T123000Z
 DTEND:20250609T130000Z
-SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 11/24
+SUMMARY:Sword of the Demon Hunter – Folge 11/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -510,7 +420,7 @@ UID:adn-1272@2025-06-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250615T083000Z
 DTEND:20250615T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 11/25
+SUMMARY:Witch Watch – Folge 11/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -520,7 +430,7 @@ UID:adn-1168@2025-06-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250616T123000Z
 DTEND:20250616T130000Z
-SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 12/24
+SUMMARY:Sword of the Demon Hunter – Folge 12/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -530,7 +440,7 @@ UID:adn-1272@2025-06-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250622T083000Z
 DTEND:20250622T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 12/25
+SUMMARY:Witch Watch – Folge 12/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -540,7 +450,7 @@ UID:adn-1168@2025-06-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250623T123000Z
 DTEND:20250623T130000Z
-SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 13/24
+SUMMARY:Sword of the Demon Hunter – Folge 13/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -550,7 +460,7 @@ UID:adn-1272@2025-06-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250629T083000Z
 DTEND:20250629T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 13/25
+SUMMARY:Witch Watch – Folge 13/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -560,9 +470,19 @@ UID:adn-1168@2025-06-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250630T123000Z
 DTEND:20250630T130000Z
-SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 14/24
+SUMMARY:Sword of the Demon Hunter – Folge 14/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1160-s1-20241003-185660@2025-07-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250703T160000Z
+DTEND:20250703T163000Z
+SUMMARY:DAN DA DAN (Staffel 2) – Folge 1/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-185660
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -570,7 +490,7 @@ UID:adn-1272@2025-07-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250706T083000Z
 DTEND:20250706T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 14/25
+SUMMARY:Witch Watch – Folge 14/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -580,9 +500,19 @@ UID:adn-1168@2025-07-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250707T123000Z
 DTEND:20250707T130000Z
-SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 15/24
+SUMMARY:Sword of the Demon Hunter – Folge 15/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1160-s1-20241003-185660@2025-07-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250710T160000Z
+DTEND:20250710T163000Z
+SUMMARY:DAN DA DAN (Staffel 2) – Folge 2/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-185660
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -590,7 +520,7 @@ UID:adn-1272@2025-07-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250713T083000Z
 DTEND:20250713T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 15/25
+SUMMARY:Witch Watch – Folge 15/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -600,7 +530,7 @@ UID:adn-1168@2025-07-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250714T123000Z
 DTEND:20250714T130000Z
-SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 16/24
+SUMMARY:Sword of the Demon Hunter – Folge 16/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -616,11 +546,31 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-442-s3-20250717-108759@2025-07-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250717T070000Z
+DTEND:20250717T073000Z
+SUMMARY:Sword Art Online: Alicization - War of Underworld
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-442-s3-20250717-108759
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1160-s1-20241003-185660@2025-07-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250717T160000Z
+DTEND:20250717T163000Z
+SUMMARY:DAN DA DAN (Staffel 2) – Folge 3/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-185660
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-1272@2025-07-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250720T083000Z
 DTEND:20250720T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 16/25
+SUMMARY:Witch Watch – Folge 16/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -630,9 +580,19 @@ UID:adn-1168@2025-07-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250721T123000Z
 DTEND:20250721T130000Z
-SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 17/24
+SUMMARY:Sword of the Demon Hunter – Folge 17/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1160-s1-20241003-185660@2025-07-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250724T160000Z
+DTEND:20250724T163000Z
+SUMMARY:DAN DA DAN (Staffel 2) – Folge 4/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-185660
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -640,7 +600,7 @@ UID:adn-1272@2025-07-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250727T083000Z
 DTEND:20250727T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 17/25
+SUMMARY:Witch Watch – Folge 17/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -650,9 +610,19 @@ UID:adn-1168@2025-07-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250728T123000Z
 DTEND:20250728T130000Z
-SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 18/24
+SUMMARY:Sword of the Demon Hunter – Folge 18/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1160-s1-20241003-185660@2025-07-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250731T160000Z
+DTEND:20250731T163000Z
+SUMMARY:DAN DA DAN (Staffel 2) – Folge 5/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-185660
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -660,7 +630,7 @@ UID:adn-1272@2025-08-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250803T083000Z
 DTEND:20250803T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 18/25
+SUMMARY:Witch Watch – Folge 18/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -670,9 +640,19 @@ UID:adn-1168@2025-08-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250804T123000Z
 DTEND:20250804T130000Z
-SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 19/24
+SUMMARY:Sword of the Demon Hunter – Folge 19/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1160-s1-20241003-185660@2025-08-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250807T160000Z
+DTEND:20250807T163000Z
+SUMMARY:DAN DA DAN (Staffel 2) – Folge 6/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-185660
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -680,7 +660,7 @@ UID:adn-1272@2025-08-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250810T083000Z
 DTEND:20250810T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 19/25
+SUMMARY:Witch Watch – Folge 19/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -690,9 +670,19 @@ UID:adn-1168@2025-08-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250811T123000Z
 DTEND:20250811T130000Z
-SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 20/24
+SUMMARY:Sword of the Demon Hunter – Folge 20/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1160-s1-20241003-185660@2025-08-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250814T160000Z
+DTEND:20250814T163000Z
+SUMMARY:DAN DA DAN (Staffel 2) – Folge 7/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-185660
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -700,7 +690,7 @@ UID:adn-1272@2025-08-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250817T083000Z
 DTEND:20250817T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 20/25
+SUMMARY:Witch Watch – Folge 20/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -710,9 +700,19 @@ UID:adn-1168@2025-08-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250818T123000Z
 DTEND:20250818T130000Z
-SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 21/24
+SUMMARY:Sword of the Demon Hunter – Folge 21/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1160-s1-20241003-185660@2025-08-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250821T160000Z
+DTEND:20250821T163000Z
+SUMMARY:DAN DA DAN (Staffel 2) – Folge 8/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-185660
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -720,7 +720,7 @@ UID:adn-1272@2025-08-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250824T083000Z
 DTEND:20250824T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 21/25
+SUMMARY:Witch Watch – Folge 21/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -730,9 +730,19 @@ UID:adn-1168@2025-08-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250825T123000Z
 DTEND:20250825T130000Z
-SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 22/24
+SUMMARY:Sword of the Demon Hunter – Folge 22/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1160-s1-20241003-185660@2025-08-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250828T160000Z
+DTEND:20250828T163000Z
+SUMMARY:DAN DA DAN (Staffel 2) – Folge 9/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-185660
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -740,7 +750,7 @@ UID:adn-1272@2025-08-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250831T083000Z
 DTEND:20250831T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 22/25
+SUMMARY:Witch Watch – Folge 22/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -750,7 +760,7 @@ UID:adn-1168@2025-09-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250901T123000Z
 DTEND:20250901T130000Z
-SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 23/24
+SUMMARY:Sword of the Demon Hunter – Folge 23/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
@@ -766,11 +776,21 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1160-s1-20241003-185660@2025-09-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250904T160000Z
+DTEND:20250904T163000Z
+SUMMARY:DAN DA DAN (Staffel 2) – Folge 10/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-185660
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-1272@2025-09-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250907T083000Z
 DTEND:20250907T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 23/25
+SUMMARY:Witch Watch – Folge 23/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -780,9 +800,19 @@ UID:adn-1168@2025-09-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250908T123000Z
 DTEND:20250908T130000Z
-SUMMARY:Sword of the Demon Hunter – Vol. 1 – Folge 24/24
+SUMMARY:Sword of the Demon Hunter – Folge 24/24
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1160-s1-20241003-185660@2025-09-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250911T160000Z
+DTEND:20250911T163000Z
+SUMMARY:DAN DA DAN (Staffel 2) – Folge 11/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-185660
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -790,9 +820,19 @@ UID:adn-1272@2025-09-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250914T083000Z
 DTEND:20250914T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 24/25
+SUMMARY:Witch Watch – Folge 24/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1160-s1-20241003-185660@2025-09-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250918T160000Z
+DTEND:20250918T163000Z
+SUMMARY:DAN DA DAN (Staffel 2) – Folge 12/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-185660
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -800,7 +840,7 @@ UID:adn-1272@2025-09-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250921T083000Z
 DTEND:20250921T090000Z
-SUMMARY:Witch Watch – Vol. 1 – Folge 25/25
+SUMMARY:Witch Watch – Folge 25/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
 CATEGORIES:ADN
@@ -813,6 +853,16 @@ DTEND:20251126T083000Z
 SUMMARY:High School of the Dead
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-1060
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427-s3-20251223@2025-12-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251223T080000Z
+DTEND:20251223T083000Z
+SUMMARY:Sailor Moon S
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-427-s3-20251223
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -913,6 +963,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-427-s4-20260401@2026-04-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260401T070000Z
+DTEND:20260401T073000Z
+SUMMARY:Sailor Moon SuperS
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-427-s4-20260401
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GW4HM7WK9@2026-04-05@anime-kalender-de
@@ -1237,6 +1297,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-427-s5-20260601@2026-06-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260601T070000Z
+DTEND:20260601T073000Z
+SUMMARY:Sailor Moon Sailor Stars
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-427-s5-20260601
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00371857@2026-06-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260602T143000Z
@@ -1402,13 +1472,23 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-190@2026-06-29@anime-kalender-de
+UID:adn-190-s1-20260629@2026-06-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260629T070000Z
 DTEND:20260629T073000Z
 SUMMARY:Gunslinger Girl
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-190
+ me-kalender.de/#/release/adn-190-s1-20260629
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-190-s2-20260629@2026-06-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260629T070000Z
+DTEND:20260629T073000Z
+SUMMARY:Gunslinger Girl -Il Teatrino-
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-190-s2-20260629
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -1668,7 +1748,7 @@ UID:adn-1354@2026-07-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260724T070000Z
 DTEND:20260724T073000Z
-SUMMARY:Parasyte: The Maxim
+SUMMARY:Parasyte -the maxim-
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-1354
 CATEGORIES:ADN
@@ -1987,7 +2067,7 @@ UID:adn-1415@2026-08-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260817T070000Z
 DTEND:20260817T073000Z
-SUMMARY:Love & Lies
+SUMMARY:LOVE and LIES
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-1415
 CATEGORIES:ADN

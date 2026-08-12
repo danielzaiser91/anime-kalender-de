@@ -16,6 +16,16 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-442-s3-20250717-114308@2025-07-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250717T070000Z
+DTEND:20250717T073000Z
+SUMMARY:Sword Art Online: Alicization - War of Underworld Part 2
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-442-s3-20250717-114308
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-1325@2025-09-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250904T070000Z

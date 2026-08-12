@@ -10,9 +10,9 @@ UID:adn-1125@2024-02-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20240208T150000Z
 DTEND:20240208T153000Z
-SUMMARY:Chained Soldier – Folge 1/1
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1125
+SUMMARY:Chained Soldier
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1125
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -26,13 +26,23 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1113@2024-07-25@anime-kalender-de
+UID:adn-1113-s1-20240725@2024-07-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20240725T070000Z
 DTEND:20240725T073000Z
 SUMMARY:Samurai Girls
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-1113
+ me-kalender.de/#/release/adn-1113-s1-20240725
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1113-s2-20240725@2024-07-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240725T070000Z
+DTEND:20240725T073000Z
+SUMMARY:Samurai Bride
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1113-s2-20240725
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -50,7 +60,7 @@ UID:adn-217@2024-09-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20240905T070000Z
 DTEND:20240905T073000Z
-SUMMARY:To Love Ru Darkness
+SUMMARY:To Love Ru
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-217
 CATEGORIES:ADN
