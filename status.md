@@ -11,8 +11,6 @@ _(leer)_
 | Aufgabe | SP | Notiz |
 |---|---|---|
 | News-Quellen für Sendepausen und Verschiebungen | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
-| Störungsmail erst beim zweiten Fehlschlag | 2 | **Fehlalarm am 11.08.2026 nachgewiesen.** Der Wächter meldete „Isekai-Idle-Mockups: HTTP 503"; die letzte grüne Prüfung war 01:00:28Z, die Mail kam aus dem Lauf um 02:00Z — also genau **ein** roter Lauf, eine Stunde später. Heute steht dieselbe Seite auf `ok=1, fail_streak=0`. Die Seite selbst war unverändert (`Last-Modified` steht seit 17.07.2026), GitHub meldete für den 10./11.08. keinen Vorfall, und 503 kommt bei Pages von Fastly davor, nicht vom Repo. `runMonitor` alarmiert aber schon bei `down.length > 0`, also beim ersten roten Lauf. Der `fail_streak` in `site_status` wird bereits mitgeführt — es fehlt allein die Bedingung `fail_streak >= 2`. Kostet im echten Ausfall eine Stunde Verzögerung; das ist billiger als eine Mail, der man nicht mehr glaubt |
-| Karteileiche „Newsletter-Dienst" aus `site_status` löschen | 1 | `/status` führt eine Zeile, die es in `SITES` nicht mehr gibt: `ok=0, HTTP 404, checked_at 08.08.2026` — ein Rest vom Selbstüberwachungs-Versuch, der bewusst zurückgenommen wurde (Kommentar in `sites.ts:34`). Sie wird nie wieder geprüft und steht darum dauerhaft auf Rot. Mails betrifft es nicht (die lesen `checkAllSites()`, nicht die Tabelle), das Admin-Panel schon. Zeile löschen und beim Start entfernen, was nicht mehr in `SITES` steht |
 | Ansicht „Wo kann ich das sehen?" ausbauen | 5 | **Nicht mehr blockiert** — aniSearch-Bestand seit 10.08.2026 vollständig, 2.109 Titel haben einen Bezugsweg. Der Filter „▶ verfügbar" steht bereits. Offen: nach Anbieter gruppieren (die `watchLinks` tragen nur Namen, keine PlatformId), Kauf von Stream trennen, eigene Ansicht unter `#/wo` |
 
 
@@ -23,7 +21,7 @@ nicht als „jetzt möglich" — entschieden und eingeplant ist beides schon, es
 
 | Wann | Was | Aufgabe |
 |---|---|---|
-| 24.08.2026, 10:00 | DMARC-Politik von `p=none` auf `p=quarantine` heben — vorher die bis dahin eingegangenen Berichte prüfen; bei einem `fail` oder einer fremden Absender-IP wird nicht umgestellt | `dmarc-policy-anime-kalender` |
+| 24.08.2026, 10:00 | DMARC-Politik von `p=none` auf `p=quarantine` heben **und `rua=` streichen** — vorher die bis dahin eingegangenen Berichte prüfen; bei einem `fail` oder einer fremden Absender-IP wird nicht umgestellt. Die täglichen Berichtsmails hören damit auf (Daniels Entscheidung 12.08.2026); Preis dafür: keine Belegkette für ein späteres `p=reject` und keine Warnung bei gefälschten Absendern | `dmarc-policy-anime-kalender` |
 
 ### Später (nice to have)
 
@@ -151,6 +149,23 @@ verschoben, Best-of, Recap.
 
 ## Archiv
 
+- ✅ **Wächter meldet erst beim zweiten Fehlschlag** (12.08.2026) — *im Code erledigt, live mit
+  dem nächsten `wrangler deploy` aus `worker/`.* Auslöser war ein Fehlalarm: Am 11.08.2026 kam
+  „Störung: Isekai-Idle-Mockups, HTTP 503". Nachgeprüft war es keiner — letzter grüner Abruf
+  01:00:28Z, Mail aus dem Lauf um 02:00Z, also genau **ein** roter Lauf; die Seite ist unverändert
+  (`Last-Modified` 17.07.2026), GitHub meldete für den 10./11.08. keinen Pages-Vorfall, und ein
+  503 vor einer Pages-Seite kommt aus dem Fastly-Edge davor, nicht aus dem Repo. `runMonitor`
+  alarmierte bei `down.length > 0`. Jetzt gilt eine Seite erst ab `failStreak >= 2` als gestört —
+  der Wert wurde ohnehin schon in `site_status` fortgeschrieben und nur nie gelesen. Der Preis ist
+  eine Stunde Verzug im echten Ausfall; eine Mail, der man nicht mehr glaubt, ist teurer.
+  `outageMail` bekam dazu ein `okCount`-Argument: Es zählte bisher `totalCount - down.length` und
+  hätte eine gleichzeitig erstmalig rote Seite als „antwortet normal" mitgezählt.
+- ✅ **Karteileichen in `site_status`** (12.08.2026, dieselbe Änderung). `/status` führte eine Zeile
+  „Newsletter-Dienst" auf `ok=0, HTTP 404, checked_at 08.08.2026` — Rest vom zurückgenommenen
+  Selbstüberwachungs-Versuch (`sites.ts:34`). Sie wurde nie wieder geprüft und stand darum
+  dauerhaft auf Rot im Admin-Panel. `runMonitor` löscht jetzt nach jedem Lauf, was nicht mehr in
+  `SITES` steht. Auf die Mails hatte es nie Einfluss — die lesen `checkAllSites()`, nicht die
+  Tabelle.
 - ✅ **ADN-Katalog statt nur Kalender** (11.08.2026). Der Abruf las nur `/video/calendar` — also
   nur, was in einem Zeitfenster **neu** erscheint. Serien, die vollständig im Angebot liegen,
   tauchten dort nie auf: Wir kannten **4** ADN-Titel, es sind **28**. Releases 125 → 149,
