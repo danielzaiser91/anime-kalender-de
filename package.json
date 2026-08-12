@@ -26,7 +26,8 @@
     "data:voices": "tsx pipeline/fetch-voices.ts",
     "data:anisearch:check": "tsx pipeline/check-anisearch.ts",
     "data:anisearch:reparse": "tsx pipeline/reparse-anisearch.ts",
-    "check:workflows": "node tools/check-workflows.mjs"
+    "check:workflows": "node tools/check-workflows.mjs",
+    "check:worker": "tsc --noEmit -p worker/tsconfig.json"
   },
   "dependencies": {
     "react": "^19.1.0",

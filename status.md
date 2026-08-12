@@ -162,8 +162,8 @@ verschoben, Best-of, Recap.
 
 ## Archiv
 
-- ✅ **Wächter meldet erst beim zweiten Fehlschlag** (12.08.2026) — *im Code erledigt, live mit
-  dem nächsten `wrangler deploy` aus `worker/`.* Auslöser war ein Fehlalarm: Am 11.08.2026 kam
+- ✅ **Wächter meldet erst beim zweiten Fehlschlag** (12.08.2026, deployt — Version
+  `af64e37e-0ef9-4bf2-9270-0877434ad67e`). Auslöser war ein Fehlalarm: Am 11.08.2026 kam
   „Störung: Isekai-Idle-Mockups, HTTP 503". Nachgeprüft war es keiner — letzter grüner Abruf
   01:00:28Z, Mail aus dem Lauf um 02:00Z, also genau **ein** roter Lauf; die Seite ist unverändert
   (`Last-Modified` 17.07.2026), GitHub meldete für den 10./11.08. keinen Pages-Vorfall, und ein

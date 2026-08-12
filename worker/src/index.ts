@@ -12,7 +12,7 @@
 import type { Release, ReleaseEvent } from '../../shared/types.ts'
 import { addDays, weekdayIndex } from '../../shared/time.ts'
 import { sendMail, type MailEnv } from './mail.ts'
-import { checkAllSites } from './monitor.ts'
+import { checkAllSites, confirmOutages } from './monitor.ts'
 import {
   BRAND,
   confirmMail,
@@ -359,7 +359,20 @@ export async function runMonitor(
   force?: 'alert' | 'weekly',
 ): Promise<string> {
   const { hour, iso } = berlinParts(now)
-  const results = await checkAllSites()
+  const ersterLauf = await checkAllSites()
+
+  // Rote Seiten sofort nachprüfen, statt bis zum nächsten Stundenlauf zu warten.
+  // Erst was auch danach noch schweigt, gilt als Störung — und der Stand in der
+  // Datenbank ist dann schon der bestätigte, damit `/status` und das
+  // Admin-Panel keinen Aussetzer als Ausfall zeigen.
+  const bestaetigt = await confirmOutages(ersterLauf.filter((r) => !r.ok))
+  const bestaetigteUrls = new Set(bestaetigt.map((r) => r.site.url))
+  const results = ersterLauf.map((r) => {
+    if (r.ok || bestaetigteUrls.has(r.site.url)) return r
+    // Hat sich beim Nachprüfen erholt: als erreichbar führen, aber den Grund
+    // behalten — im Wochenbericht ist „war kurz weg" eine nützliche Auskunft.
+    return { ...r, ok: true, reason: `kurzzeitig: ${r.reason ?? 'nicht erreichbar'}` }
+  })
   const nowIso = now.toISOString()
 
   // Vorherige Stände laden, um „seit wann weg" beantworten zu können.
@@ -426,19 +439,24 @@ export async function runMonitor(
       .run()
   }
 
-  const down = lines.filter((l) => !l.ok)
-  // Erst der zweite rote Lauf in Folge gilt als Störung. Ein einzelner
-  // Fehlschlag ist meistens keiner: Am 11.08.2026 meldete der Wächter für die
-  // Isekai-Idle-Mockups ein HTTP 503, das eine Stunde später schon wieder weg
-  // war — GitHub Pages hatte keinen Vorfall, die Seite war unverändert, das
-  // 503 kam aus dem Fastly-Edge davor. Eine Mail, die man dreimal umsonst
-  // bekommt, liest man beim vierten Mal nicht mehr. Der Preis ist eine Stunde
-  // Verzug im echten Ausfall, und den ist es wert.
-  const confirmed = down.filter((l) => l.failStreak >= 2)
+  // `results` trägt bereits das Ergebnis nach der Nachprüfung — was hier rot
+  // ist, war es über anderthalb Minuten und drei Versuche hinweg.
+  //
+  // Ein einzelner Fehlschlag ist meistens keiner: Am 11.08.2026 meldete der
+  // Wächter für die Isekai-Idle-Mockups ein HTTP 503, das eine Stunde später
+  // schon wieder weg war — GitHub Pages hatte keinen Vorfall, die Seite war
+  // unverändert, das 503 kam aus dem Fastly-Edge davor. Eine Mail, die man
+  // dreimal umsonst bekommt, liest man beim vierten Mal nicht mehr.
+  const confirmed = lines.filter((l) => !l.ok)
+  // Wie viele sich beim Nachprüfen wieder gefangen haben — nur fürs Protokoll.
+  const erholt = ersterLauf.filter((r) => !r.ok).length - confirmed.length
   const to = env.MONITOR_EMAIL
-  if (!to) return `${down.length}/${lines.length} gestört — MONITOR_EMAIL nicht gesetzt, keine Mail`
+  if (!to) return `${confirmed.length}/${lines.length} gestört — MONITOR_EMAIL nicht gesetzt, keine Mail`
 
-  const log: string[] = [`${down.length}/${lines.length} gestört, davon ${confirmed.length} bestätigt`]
+  const log: string[] = [
+    `${confirmed.length}/${lines.length} gestört` +
+      (erholt ? `, ${erholt} nur kurzzeitig (beim Nachprüfen wieder erreichbar)` : ''),
+  ]
 
   // --- Störungsmeldung, höchstens einmal am Tag ------------------------------
   if (confirmed.length > 0 || force === 'alert') {
@@ -447,8 +465,11 @@ export async function runMonitor(
     if (already) {
       log.push('Störungsmail heute bereits verschickt')
     } else {
-      const report = confirmed.length ? confirmed : down.length ? down : lines.slice(0, 1)
-      const mail = outageMail(report, lines.length, env.SITE_URL, lines.length - down.length)
+      // Ohne bestätigte Störung kann nur ein erzwungener Lauf hier landen —
+      // dann geht eine Testmail mit der ersten Seite als Beispiel hinaus, und
+      // die Vorlage benennt das auch so.
+      const report = confirmed.length ? confirmed : lines.slice(0, 1)
+      const mail = outageMail(report, lines.length, env.SITE_URL, lines.length - confirmed.length)
       await sendMail(env, { to, ...mail, fromName: BRAND.monitor.name })
       if (!force) {
         await env.DB.prepare(
@@ -459,8 +480,8 @@ export async function runMonitor(
       }
       log.push('Störungsmail verschickt')
     }
-  } else if (down.length > 0) {
-    log.push(`${down.length} erstmalig rot — noch keine Mail, wird nächste Stunde erneut geprüft`)
+  } else if (erholt > 0) {
+    log.push(`${erholt} kurzzeitig rot, beim Nachprüfen wieder erreichbar — keine Mail`)
   }
 
   // --- Wochenübersicht, montags ---------------------------------------------

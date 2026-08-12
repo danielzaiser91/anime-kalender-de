@@ -7,8 +7,9 @@
  * er mit aus und schweigt.
  *
  * Benachrichtigungen sind bewusst gedeckelt:
- *   - eine Seite gilt erst als gestört, wenn sie **zwei** Läufe hintereinander
- *     nicht antwortet — ein einzelnes 503 aus einem CDN ist kein Ausfall
+ *   - was rot ist, wird im selben Lauf **nachgeprüft** — ein einzelnes 503 aus
+ *     einem CDN ist kein Ausfall, aber der Nutzer erfährt einen echten binnen
+ *     Minuten und nicht erst zur nächsten vollen Stunde
  *   - höchstens **eine** Störungsmail pro Tag, egal wie oft es scheitert
  *   - **wöchentlich** eine Zusammenfassung, auch wenn alles läuft
  *
@@ -79,4 +80,45 @@ export async function checkAllSites(): Promise<CheckResult[]> {
     results.push(...(await Promise.all(SITES.slice(i, i + BATCH).map(checkOne))))
   }
   return results
+}
+
+/**
+ * Wie oft eine rote Seite nachgeprüft wird und in welchem Abstand.
+ *
+ * Zwei zusätzliche Versuche mit je 45 Sekunden Pause: Eine Störung ist damit
+ * nach spätestens anderthalb Minuten bestätigt statt nach einer Stunde, und ein
+ * Aussetzer wie das Fastly-503 vom 11.08.2026 fällt trotzdem durchs Raster.
+ *
+ * Warum das im Worker gefahrlos ist: Cloudflare rechnet Wartezeit **nicht** auf
+ * die CPU-Zeit an („Waiting on network requests does not count toward CPU
+ * time"), und ein Cron-Lauf darf bis zu 15 Minuten dauern. Nachgeprüft werden
+ * ohnehin nur die roten Seiten — im Normalfall keine.
+ */
+const RECHECKS = 2
+const RECHECK_PAUSE_MS = 45_000
+
+const schlafe = (ms: number) => new Promise((r) => setTimeout(r, ms))
+
+/**
+ * Prüft rote Seiten im selben Lauf noch einmal nach.
+ *
+ * Gibt für jede Seite zurück, ob sie **durchgehend** rot blieb. Antwortet sie
+ * bei einem der Versuche wieder, war es ein Aussetzer — dann zählt das Ergebnis
+ * des letzten Versuchs, und es geht keine Mail hinaus.
+ *
+ * Der frühere Weg lief über einen Zähler in der Datenbank: erst der zweite rote
+ * Lauf galt als Störung. Das kostete bei stündlichem Takt bis zu einer Stunde
+ * Verzug — zu viel für einen Wächter, dessen Zweck es ist, früh Bescheid zu
+ * sagen.
+ */
+export async function confirmOutages(rot: CheckResult[]): Promise<CheckResult[]> {
+  if (!rot.length) return []
+  let verdaechtig = rot
+  for (let runde = 1; runde <= RECHECKS && verdaechtig.length; runde++) {
+    await schlafe(RECHECK_PAUSE_MS)
+    const erneut = await Promise.all(verdaechtig.map((r) => checkOne(r.site)))
+    // Wer jetzt antwortet, fliegt raus; der Rest geht in die nächste Runde.
+    verdaechtig = erneut.filter((r) => !r.ok)
+  }
+  return verdaechtig
 }

@@ -110,5 +110,10 @@ Abmeldelink, Impressum, Datenschutzerklärung) sind kein Nice-to-have — nichts
 ## Vor dem Commit
 
 ```bash
-npm run data:validate && npx tsc -b && npm run build
+npm run data:validate && npx tsc -b && npm run check:worker && npm run build
 ```
+
+**`npm run check:worker` nicht weglassen.** Das Haupt-`tsconfig.json` deckt nur `web/src`,
+`pipeline` und `shared` ab — `worker/` hat ein eigenes und wird von `tsc -b` **nicht** erfasst.
+Am 12.08.2026 meldete `tsc -b` „sauber" für Code, in dem fünfmal eine gelöschte Variable stand;
+der Fehler wäre erst beim `wrangler deploy` aufgefallen.
