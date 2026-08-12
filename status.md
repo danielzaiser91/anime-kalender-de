@@ -5,15 +5,17 @@ Stand: 11.08.2026 · Live: https://anime-kalender.de/
 ## Task Queue
 
 ### In Arbeit
-_(leer)_
+
+| Aufgabe | Stand |
+|---|---|
+| **Volldurchlauf `npm run data:cr-dub`** | Läuft seit 23:17 Uhr über **918 Crunchyroll-Adressen**. Die Nein-Fälle sind nach einem Ladevorgang fertig, die Ja-Fälle kosten je Staffel deutlich mehr — Schätzung mehrere Stunden. Ergebnis landet in `data/crunchyroll-dub.json` und wird beim nächsten `data:build` übernommen |
 
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
 | **Prüfliste „Wo läuft es" abarbeiten** (Dauerauftrag) | — | 2.910 Anbieter-Verweise ohne belegte Synchro, Liste: `data/dub-pruefliste.md`, erzeugt mit `npm run data:dub-checks`. Daniel arbeitet sie in Zehnerschritten ab; ich lege den Batch vor, er meldet je Nummer ja/nein, ich trage es in `data/dub-confirmed.yaml` ein und baue neu. **Stand: Batch 1 und 2 ausgewertet (12.08.2026), 34 Prüfungen eingetragen — 21 Angaben belegt, 13 tote Verweise entfernt.** Kurzschrift der Antworten (`1`/`0`/`x`, mehrere je Zeile mit Punkt) steht im Kopf der Liste und in der `CLAUDE.md`. Je Batch kurz sagen, woher der Verweis stammt und warum er unsicher ist |
-| Crunchyrolls eigene Staffelzählung auslesen | 5 | Wir wissen belegt, dass 344 Adressen mehrere unserer Einträge bedienen (Feld `sharedWith`), und zeigen das an. **Nicht** belegt ist, wie der Anbieter selbst einteilt — Crunchyroll führt „Café Terrace" und „Vanitas" je als eine Staffel mit 24 Folgen (Daniel, 12.08.2026). Um das zu wissen, müsste die Serienseite abgerufen werden; sie lädt ihre Staffelliste per JavaScript nach, also mit Playwright, rund 1.150 Seiten. Erst sinnvoll, wenn die Prüfliste zeigt, wie oft die Abweichung wirklich stört |
 | ~~News-Quellen für Sendepausen~~ — **Filter gebaut, Rest verworfen** | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
-| **Widersprüchliche Disc-Termine klären** | 2 | Beim Abarbeiten der Vorschläge (12.08.2026) blieben sieben Fälle stehen, in denen aniSearch ein **anderes** Datum nennt als unser Eintrag — nicht als Verschiebung erkennbar, sondern als schlichter Widerspruch. Je Fall braucht es einen Blick auf die Produktseite: **Dr. STONE Science Future Teil 1** (wir 16.10., aniSearch 24.08.), **Kaiju No. 8 Mission Recon** (18.09. / 08.09. + 19.10.), **MHA Vigilantes Staffel 1** (04.09. / 08.09. + 14.09.), **Black Butler Emerald Witch Arc** (Vol. 1 am 02.10. / zwei undatierte Blu-rays am 01.09. und 28.09.), **Inazuma Eleven Staffel 1** (AniMoon 04.09. / Kazé 25.09. unter **anderer** AniList-Kennung 5231 — womöglich eine Alt-Ausgabe, womöglich unsere Zuordnung falsch). Nicht übernommen wurde alles mit dem 31.12. — das ist aniSearchs Platzhalter für „steht noch nicht fest" |
+| **Widersprüchliche Disc-Termine klären** | 2 | Sieben Fälle, in denen aniSearch ein **anderes** Datum nennt als unser Eintrag: **Dr. STONE Science Future Teil 1** (wir 16.10., aniSearch 24.08. **und** 16.10. in zwei Ausgaben), **Kaiju No. 8 Mission Recon** (18.09. / 08.09. + 19.10.), **MHA Vigilantes Staffel 1** (04.09. / 08.09. + 14.09.), **Black Butler Emerald Witch Arc** (Vol. 1 am 02.10. / zwei undatierte Blu-rays am 01.09. und 28.09.), **Inazuma Eleven Staffel 1** (AniMoon 04.09. / Kazé 25.09. unter anderer AniList-Kennung 5231). **Am 12.08.2026 versucht, selbst aufzulösen — geht nicht:** Die aniSearch-Artikelseiten geben Datum und Ausgabe nicht in einer maschinell lesbaren Form her, und beide Quellen (anime2you und aniSearch) sind gleich gültig. Es braucht eine dritte Quelle oder einen Blick von Daniel — vermutlich handelt es sich je Titel um **zwei verschiedene Ausgaben** mit eigenen Terminen, dann fehlt uns schlicht die zweite |
 | Ansicht „Wo kann ich das sehen?" ausbauen | 5 | **Nicht mehr blockiert** — aniSearch-Bestand seit 10.08.2026 vollständig, 2.109 Titel haben einen Bezugsweg. Der Filter „▶ verfügbar" steht bereits. Offen: nach Anbieter gruppieren (die `watchLinks` tragen nur Namen, keine PlatformId), Kauf von Stream trennen, eigene Ansicht unter `#/wo` |
 
 
@@ -163,6 +165,23 @@ verschoben, Best-of, Recap.
   abgenommen.
 
 ## Archiv
+
+- ✅ **Crunchyroll-Serienseiten liefern die Synchro-Auskunft selbst** (12.08.2026). Aus der
+  Frage nach Crunchyrolls Staffelzählung wurde etwas viel Nützlicheres: Die Serienseite nennt
+  je Folge „Synchro", „Synchro English" oder nur „Untertitel" — also genau das, was Daniel
+  bisher von Hand prüft. `npm run data:cr-dub` liest das aus.
+  *Zwei Stufen:* Fehlt „Deutsch" in der Audio-Zeile des Kopfes, ist die Seite nach einem
+  Ladevorgang erledigt (Daniels Abbruchbedingung); im Probelauf traf das auf fünf von sechs
+  Adressen zu. Sonst wird jede Staffel durchgeblättert und je Folge gezählt.
+  *Drei Fallen, alle gemessen und behoben:* Die Folgenliste zeigt nur zwanzig Kacheln und lädt
+  weitere erst auf Klick auf „Mehr anzeigen" (der erste Versuch meldete deshalb drei
+  Slime-Staffeln als „20/20"); Badges müssen je Kachel gelesen werden, nicht aus dem Fließtext;
+  und gezählt werden **Folgennummern statt Kacheln**, weil Crunchyroll Folgen doppelt führt —
+  das korrigierte Slime-Staffel 1 von 25 auf die richtigen 24.
+  *Grundsatz:* Crunchyrolls Einteilung wird nicht übernommen, nur die Tonspur. Ein teilweise
+  vertonter Block bleibt ohne Urteil. Sechs Zusicherungen in `check:logic` halten das fest.
+  *Gegenprobe an Slime:* Staffel 4 mit 15 von 17 Folgen deutsch — genau Daniels Befund.
+
 
 - ✅ **Disc-Vorschläge abgearbeitet** (12.08.2026). Von 101 Vorschlägen aus dem aniSearch-Archiv
   führten wir 77 bereits mit demselben Datum. Von den 24 offenen blieben nach dem Abgleich genau
