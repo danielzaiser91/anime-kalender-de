@@ -5,14 +5,12 @@ Stand: 11.08.2026 · Live: https://anime-kalender.de/
 ## Task Queue
 
 ### In Arbeit
-
-| Aufgabe | Stand |
-|---|---|
-| **Volldurchlauf `npm run data:cr-dub`** | Läuft seit 23:17 Uhr über **918 Crunchyroll-Adressen**. Die Nein-Fälle sind nach einem Ladevorgang fertig, die Ja-Fälle kosten je Staffel deutlich mehr — Schätzung mehrere Stunden. Ergebnis landet in `data/crunchyroll-dub.json` und wird beim nächsten `data:build` übernommen |
+_(leer)_
 
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
+| **▶ HIER WEITERMACHEN: Crunchyroll-Lauf zu Ende bringen** | 1 | `npm run data:cr-dub` — **601 von 918 Adressen sind gelesen**, der Rest wird automatisch übersprungen und nur das Offene geholt (Wiederaufsatz eingebaut 13.08.2026). Rund **317 Seiten**, geschätzt eine Stunde. Danach `npm run data:build` und `npm run data:dub-checks`. **Ansage nicht vergessen:** Beim ersten Playwright-Start fragt die Windows-Firewall nach `chrome-headless-shell.exe` — abbrechen genügt |
 | **Prüfliste „Wo läuft es" abarbeiten** (Dauerauftrag) | — | 2.910 Anbieter-Verweise ohne belegte Synchro, Liste: `data/dub-pruefliste.md`, erzeugt mit `npm run data:dub-checks`. Daniel arbeitet sie in Zehnerschritten ab; ich lege den Batch vor, er meldet je Nummer ja/nein, ich trage es in `data/dub-confirmed.yaml` ein und baue neu. **Stand: Batch 1 und 2 ausgewertet (12.08.2026), 34 Prüfungen eingetragen — 21 Angaben belegt, 13 tote Verweise entfernt.** Kurzschrift der Antworten (`1`/`0`/`x`, mehrere je Zeile mit Punkt) steht im Kopf der Liste und in der `CLAUDE.md`. Je Batch kurz sagen, woher der Verweis stammt und warum er unsicher ist |
 | ~~News-Quellen für Sendepausen~~ — **Filter gebaut, Rest verworfen** | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
 | **Widersprüchliche Disc-Termine klären** | 2 | Sieben Fälle, in denen aniSearch ein **anderes** Datum nennt als unser Eintrag: **Dr. STONE Science Future Teil 1** (wir 16.10., aniSearch 24.08. **und** 16.10. in zwei Ausgaben), **Kaiju No. 8 Mission Recon** (18.09. / 08.09. + 19.10.), **MHA Vigilantes Staffel 1** (04.09. / 08.09. + 14.09.), **Black Butler Emerald Witch Arc** (Vol. 1 am 02.10. / zwei undatierte Blu-rays am 01.09. und 28.09.), **Inazuma Eleven Staffel 1** (AniMoon 04.09. / Kazé 25.09. unter anderer AniList-Kennung 5231). **Am 12.08.2026 versucht, selbst aufzulösen — geht nicht:** Die aniSearch-Artikelseiten geben Datum und Ausgabe nicht in einer maschinell lesbaren Form her, und beide Quellen (anime2you und aniSearch) sind gleich gültig. Es braucht eine dritte Quelle oder einen Blick von Daniel — vermutlich handelt es sich je Titel um **zwei verschiedene Ausgaben** mit eigenen Terminen, dann fehlt uns schlicht die zweite |
@@ -165,6 +163,21 @@ verschoben, Best-of, Recap.
   abgenommen.
 
 ## Archiv
+
+- ✅ **Crunchyroll-Lauf: 601 Seiten gelesen, 791 Angaben belegt** (12./13.08.2026). Die offenen
+  Crunchyroll-Verweise fielen damit von **1.156 auf 380**, die Prüfliste insgesamt von 2.847 auf
+  **2.078** Verweise. 551 der gelesenen Seiten führen gar keine deutsche Tonspur — das sind
+  belegte Neins, für die niemand mehr klicken muss.
+  *Beinahe-Verlust und die Lehre daraus:* Der Lauf schrieb sein Ergebnis erst **am Ende**. Beim
+  Abbruch nach 579 Seiten wäre alles weg gewesen — anderthalb Stunden Last auf einem fremden
+  Server für nichts. Gerettet über `pipeline/recover-cr-dub.ts`, das die Protokollzeilen zurück
+  in den Datensatz übersetzt. Seitdem schreibt der Scraper alle zehn Seiten einen Zwischenstand
+  und überspringt beim nächsten Start, was schon gelesen ist. **Ein langer Lauf ohne
+  Zwischenstand ist ein Lauf ohne Netz.**
+  *Nebenbei:* Ein Fehlschlag wird nicht mehr als „keine Synchro" gespeichert — sonst stünde eine
+  Zeitüberschreitung später als belegtes Nein im Datensatz, und der Wiederaufsatz fasste die
+  Seite nie wieder an.
+
 
 - ✅ **Crunchyroll-Serienseiten liefern die Synchro-Auskunft selbst** (12.08.2026). Aus der
   Frage nach Crunchyrolls Staffelzählung wurde etwas viel Nützlicheres: Die Serienseite nennt

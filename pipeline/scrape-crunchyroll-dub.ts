@@ -58,6 +58,8 @@ const zahl = (name: string, fallback: number) => {
 }
 const LIMIT = zahl('--limit', 0)
 const NUR = args.indexOf('--nur') >= 0 ? args[args.indexOf('--nur') + 1] : undefined
+/** Ignoriert den vorhandenen Stand und holt alles neu. */
+const NEU = args.includes('--neu')
 
 /** Was auf einer Folgenkachel steht. */
 type Tonspur = 'deutsch' | 'fremd' | 'keine'
@@ -244,18 +246,44 @@ async function main(): Promise<void> {
   }
   let adressen = [...offen].sort()
   if (NUR) adressen = adressen.filter((u) => u.includes(NUR))
+
+  /**
+   * Wiederaufsatz: Was schon gelesen ist, wird nicht noch einmal geholt.
+   *
+   * Der erste Volldurchlauf schrieb sein Ergebnis erst **am Ende**. Beim
+   * Abbruch nach 579 von 918 Seiten wäre alles verloren gewesen — anderthalb
+   * Stunden Last auf einem fremden Server für nichts (12.08.2026). Ein langer
+   * Lauf ohne Zwischenstand ist ein Lauf ohne Netz.
+   *
+   * Mit `--neu` wird der Bestand ignoriert und alles frisch geholt.
+   */
+  const bestand = new Map<string, CrSerie>(
+    NEU ? [] : readJson<{ serien: CrSerie[] }>('data/crunchyroll-dub.json', { serien: [] }).serien.map((s) => [s.url, s]),
+  )
+  const schonDa = adressen.filter((u) => bestand.has(u)).length
+  adressen = adressen.filter((u) => !bestand.has(u))
   if (LIMIT > 0) adressen = adressen.slice(0, LIMIT)
-  log(`Crunchyroll: ${adressen.length} Serienadressen ohne belegte Synchro`)
+  log(
+    `Crunchyroll: ${adressen.length} Serienadressen offen` +
+      (schonDa ? ` (${schonDa} bereits gelesen, werden übersprungen)` : ''),
+  )
+  if (!adressen.length) {
+    log('Nichts zu tun.')
+    return
+  }
 
   const browser = await chromium.launch()
   const page = await browser.newPage({ userAgent: CHROME, locale: 'de-DE', viewport: { width: 1600, height: 1200 } })
-  const ergebnis: CrSerie[] = []
   let ohneDeutsch = 0
+
+  /** Schreibt den Stand — alles Bekannte plus alles gerade Gelesene. */
+  const sichern = () =>
+    writeJson('data/crunchyroll-dub.json', { scrapedAt: new Date().toISOString(), serien: [...bestand.values()] }, true)
 
   for (const [i, url] of adressen.entries()) {
     try {
       const serie = await serieLesen(page, url)
-      ergebnis.push(serie)
+      bestand.set(url, serie)
       if (!serie.deutschImAngebot) ohneDeutsch++
       const kurz = url.replace(/^https?:\/\/(www\.)?crunchyroll\.com\/de\//, '')
       log(
@@ -263,16 +291,24 @@ async function main(): Promise<void> {
           (serie.staffeln ? ` (${serie.staffeln.map((s) => `${s.name}: ${s.deutsch}/${s.folgen}`).join(', ')})` : ''),
       )
     } catch (err) {
+      /**
+       * Ein Fehlschlag wird **nicht** als „keine Synchro" gespeichert.
+       *
+       * Sonst stünde ein Zeitüberschreitungs-Fehler später als belegtes Nein im
+       * Datensatz — und der Wiederaufsatz würde die Seite nie wieder anfassen.
+       * Sie bleibt offen und kommt beim nächsten Lauf erneut dran.
+       */
       warn(`${url}: ${(err as Error).message.slice(0, 100)}`)
-      ergebnis.push({ url, deutschImAngebot: false, geprueftAm: new Date().toISOString().slice(0, 10), fehler: (err as Error).message.slice(0, 200) })
     }
+    // Alle zehn Seiten sichern: Ein Abbruch kostet dann höchstens zehn Abrufe.
+    if (i % 10 === 9) sichern()
     await sleep(1500)
   }
   await browser.close()
 
-  writeJson('data/crunchyroll-dub.json', { scrapedAt: new Date().toISOString(), serien: ergebnis }, true)
-  recordSource('crunchyroll-dub', ergebnis.length, ergebnis.length ? undefined : 'keine Seite gelesen')
-  log(`Fertig: ${ergebnis.length} Seiten, davon ${ohneDeutsch} ohne jede deutsche Tonspur`)
+  sichern()
+  recordSource('crunchyroll-dub', bestand.size, bestand.size ? undefined : 'keine Seite gelesen')
+  log(`Fertig: ${bestand.size} Seiten im Bestand, davon ${ohneDeutsch} in diesem Lauf ohne deutsche Tonspur`)
 }
 
 main().catch((err) => {
