@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-12T16:12:56.095Z",
+  "scrapedAt": "2026-08-12T17:16:33.433Z",
   "window": {
     "from": "2026-08-03",
     "to": "2026-08-23"
@@ -910,11 +910,12 @@
       "weeklyConfirmed": true
     },
     "tomb raider king s1": {
-      "time": "19:20",
+      "time": "19:15",
       "weekday": 2,
       "dates": [
         "2026-07-29",
-        "2026-08-05"
+        "2026-08-05",
+        "2026-08-12"
       ],
       "rawTitle": "Tomb Raider King Staffel 1 (Deutsch)",
       "seriesId": "GT00378123",
@@ -927,6 +928,10 @@
         {
           "date": "2026-08-05",
           "episode": 2
+        },
+        {
+          "date": "2026-08-12",
+          "episode": 3
         }
       ],
       "earliest": {
@@ -1308,6 +1313,16 @@
       "seriesUrl": "https://www.crunchyroll.com/de/series/G0XHWM0D3/trapped-in-a-dating-sim-the-world-of-otome-games-is-tough-for-mobs",
       "date": "2026-08-12",
       "time": "17:30",
+      "episode": 3,
+      "german": true
+    },
+    {
+      "key": "tomb raider king s1",
+      "rawTitle": "Tomb Raider King Staffel 1 (Deutsch)",
+      "seriesId": "GT00378123",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00378123/tomb-raider-king",
+      "date": "2026-08-12",
+      "time": "19:15",
       "episode": 3,
       "german": true
     }
