@@ -1,0 +1,131 @@
+{
+  "scrapedAt": "2026-08-12T21:12:17.987Z",
+  "serien": [
+    {
+      "url": "http://www.crunchyroll.com/de/that-time-i-got-reincarnated-as-a-slime",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Staffel 1",
+          "folgen": 24,
+          "kacheln": 25,
+          "deutsch": 24,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 2",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 25,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 3",
+          "folgen": 25,
+          "kacheln": 26,
+          "deutsch": 25,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 4",
+          "folgen": 17,
+          "kacheln": 17,
+          "deutsch": 15,
+          "fremd": 1
+        },
+        {
+          "name": "OVA Season 1",
+          "folgen": 5,
+          "kacheln": 5,
+          "deutsch": 5,
+          "fremd": 0
+        },
+        {
+          "name": "Meine Wiedergeburt als Schleim in einer anderen Welt: Der Traum von Coleus",
+          "folgen": 3,
+          "kacheln": 3,
+          "deutsch": 3,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-12"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GMTE00256631/that-time-i-got-reincarnated-as-a-slime-the-movie-scarlet-bond",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-12"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GMTE00374450/that-time-i-got-reincarnated-as-a-slime-the-movie-tears-of-the-azure-sea",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-12"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/that-time-i-got-reincarnated-as-a-slime",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Staffel 1",
+          "folgen": 24,
+          "kacheln": 25,
+          "deutsch": 24,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 2",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 25,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 3",
+          "folgen": 25,
+          "kacheln": 26,
+          "deutsch": 25,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 4",
+          "folgen": 17,
+          "kacheln": 17,
+          "deutsch": 15,
+          "fremd": 1
+        },
+        {
+          "name": "OVA Season 1",
+          "folgen": 5,
+          "kacheln": 5,
+          "deutsch": 5,
+          "fremd": 0
+        },
+        {
+          "name": "Meine Wiedergeburt als Schleim in einer anderen Welt: Der Traum von Coleus",
+          "folgen": 3,
+          "kacheln": 3,
+          "deutsch": 3,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-12"
+    }
+  ]
+}

@@ -46,6 +46,7 @@ import { chromium, type Page } from 'playwright'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import type { Title } from '../shared/types.ts'
+import type { CrSerie, CrStaffel } from './lib/crunchyroll-dub.ts'
 
 const CHROME =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36'
@@ -61,24 +62,9 @@ const NUR = args.indexOf('--nur') >= 0 ? args[args.indexOf('--nur') + 1] : undef
 /** Was auf einer Folgenkachel steht. */
 type Tonspur = 'deutsch' | 'fremd' | 'keine'
 
-export interface CrStaffel {
-  /** Überschrift der Staffel, wie Crunchyroll sie schreibt. */
-  name: string
-  folgen: number
-  deutsch: number
-  /** Folgen mit Synchro in einer anderen Sprache als Deutsch. */
-  fremd: number
-}
-
-export interface CrSerie {
-  url: string
-  /** false = auf der ganzen Seite keine deutsche Tonspur. */
-  deutschImAngebot: boolean
-  /** Fehlt bei `deutschImAngebot: false` — dann wurde nicht weiter gesucht. */
-  staffeln?: CrStaffel[]
-  geprueftAm: string
-  fehler?: string
-}
+// Die Typen stehen in `lib/crunchyroll-dub.ts` — dort, wo auch die Auswertung
+// wohnt. Zwei Fassungen desselben Typs laufen unweigerlich auseinander.
+export type { CrStaffel, CrSerie } from './lib/crunchyroll-dub.ts'
 
 /**
  * Liest die Tonspur einer Folgenkachel.
@@ -137,22 +123,24 @@ async function bisAnsEnde(page: Page): Promise<void> {
  * „12/12" und „Staffel 4: 12/12" — und ohne ihn ist die Zahl wertlos, weil
  * niemand weiß, worauf sie sich bezieht.
  */
-async function staffelZaehlen(page: Page): Promise<{ name: string; badges: string[] }> {
+async function staffelZaehlen(page: Page): Promise<{ name: string; karten: { nummer: string; badge: string }[] }> {
   return page.evaluate(() => {
-    const karten = [...document.querySelectorAll('[data-t^="episode-card"]')]
-    const badges = karten.map((k) => {
-      const text = [...k.querySelectorAll('*')]
+    const karten = [...document.querySelectorAll('[data-t^="episode-card"]')].map((k) => {
+      const zeilen = [...k.querySelectorAll('*')]
         .filter((e) => e.children.length === 0)
         .map((e) => (e.textContent || '').trim())
-        .find((t) => /^(Synchro|Untertitel)\b/.test(t))
-      return text ?? ''
+      return {
+        // „E12 – Die Entwicklung von Tempest" → „E12"
+        nummer: (zeilen.find((t) => /^E\d+\b/.test(t)) ?? '').match(/^E\d+/)?.[0] ?? '',
+        badge: zeilen.find((t) => /^(Synchro|Untertitel)\b/.test(t)) ?? '',
+      }
     })
     const feld = document.querySelector('.erc-seasons-select .season-info')
     // Der Knopf doppelt seinen Text („Staffel 1Staffel 1"); die erste Hälfte
     // genügt.
     const roh = (feld?.textContent || '').replace(/\s+/g, ' ').trim()
     const haelfte = roh.length > 1 && roh.slice(0, roh.length / 2) === roh.slice(roh.length / 2)
-    return { name: (haelfte ? roh.slice(0, roh.length / 2) : roh) || 'einzige Staffel', badges }
+    return { name: (haelfte ? roh.slice(0, roh.length / 2) : roh) || 'einzige Staffel', karten }
   })
 }
 
@@ -204,13 +192,38 @@ async function serieLesen(page: Page, url: string): Promise<CrSerie> {
   const gesehen = new Set<string>()
   for (let runde = 0; runde < 20; runde++) {
     await bisAnsEnde(page)
-    const { name, badges } = await staffelZaehlen(page)
+    const { name, karten } = await staffelZaehlen(page)
     if (gesehen.has(name)) break
     gesehen.add(name)
-    const tonspuren = badges.map(tonspurAus)
+
+    /**
+     * Je Folgennummer nur einmal zählen.
+     *
+     * Crunchyroll führt dieselbe Folge mehrfach auf, und es gibt sogar zwei
+     * Einträge im Wähler mit derselben Staffel (Daniel, 12.08.2026). Wer
+     * Kacheln zählt statt Folgennummern, holt sich diese Fehler in den eigenen
+     * Datensatz — und genau das soll nicht passieren: Die Staffelstruktur
+     * bleibt unsere, Crunchyroll liefert hier nur die Tonspur.
+     *
+     * Kacheln ohne erkennbare Nummer (Filme, Specials) bekommen einen eigenen
+     * Schlüssel, damit sie nicht alle zu einer verschmelzen.
+     */
+    const jeFolge = new Map<string, Tonspur>()
+    karten.forEach((k, i) => {
+      const schluessel = k.nummer || `#${i}`
+      const ton = tonspurAus(k.badge)
+      // Eine deutsche Fassung schlägt eine fremde: Steht dieselbe Folge zweimal
+      // da, einmal mit und einmal ohne Synchro, gibt es sie deutsch.
+      const bisher = jeFolge.get(schluessel)
+      if (bisher === 'deutsch') return
+      if (bisher === 'fremd' && ton === 'keine') return
+      jeFolge.set(schluessel, ton)
+    })
+    const tonspuren = [...jeFolge.values()]
     staffeln.push({
       name,
-      folgen: badges.length,
+      folgen: jeFolge.size,
+      kacheln: karten.length,
       deutsch: tonspuren.filter((t) => t === 'deutsch').length,
       fremd: tonspuren.filter((t) => t === 'fremd').length,
     })

@@ -26,6 +26,7 @@ import {
   type AdnShow,
 } from './lib/adn.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
+import { beurteile } from './lib/crunchyroll-dub.ts'
 import type { Release, Title } from '../shared/types.ts'
 
 let fehler = 0
@@ -205,6 +206,119 @@ console.log('\nGegenprobe des erzeugten Datensatzes:')
   }
   const ok = pruefeErgebnis([sauber], [{ ...erfundeneTermine[0], releaseSlug: 'adn-442-s1', date: '2025-06-11', episode: undefined, releaseType: 'batch' }], titles, '2026-08-12')
   pruefe('der reparierte Eintrag geht durch', ok.fehler.length === 0, ok.fehler)
+}
+
+console.log('\nCrunchyroll: fremde Staffelfehler nicht nachbauen:')
+{
+  const t = (id: number, episodes: number, jahr: number): Title => titel(id, `T${id}`, episodes, jahr, 'SUMMER')
+
+  // 1) Keine deutsche Tonspur auf der Seite — beide Einträge sicher „nein",
+  //    ganz ohne Zuordnung.
+  const ohne = beurteile({ url: 'u', deutschImAngebot: false, geprueftAm: '2026-08-12' }, [
+    t(1, 12, 2020),
+    t(2, 12, 2021),
+  ])
+  pruefe('ohne deutsche Tonspur: beide false', ohne.length === 2 && ohne.every((u) => !u.dub), ohne)
+
+  // 2) Alles vollständig deutsch — beide „ja", ebenfalls ohne Zuordnung.
+  const voll = beurteile(
+    {
+      url: 'u',
+      deutschImAngebot: true,
+      geprueftAm: '2026-08-12',
+      staffeln: [{ name: 'Staffel 1', folgen: 24, kacheln: 24, deutsch: 24, fremd: 0 }],
+    },
+    [t(1, 12, 2020), t(2, 12, 2021)],
+  )
+  pruefe('vollständig deutsch: beide true', voll.length === 2 && voll.every((u) => u.dub), voll)
+
+  /**
+   * 3) Der Slime-Fall: Ein Block ist nur zu 15 von 17 Folgen deutsch. Genau
+   *    hier darf nicht geraten werden — wo die Grenze zwischen „deutsch" und
+   *    „noch nicht" verläuft, verrät keine Summe.
+   */
+  const teilweise = beurteile(
+    {
+      url: 'u',
+      deutschImAngebot: true,
+      geprueftAm: '2026-08-12',
+      staffeln: [
+        { name: 'Staffel 1', folgen: 24, kacheln: 24, deutsch: 24, fremd: 0 },
+        { name: 'Staffel 4', folgen: 17, kacheln: 17, deutsch: 15, fremd: 1 },
+      ],
+    },
+    [t(1, 24, 2018), t(2, 17, 2026)],
+  )
+  pruefe(
+    'teilweise vertonter Block bleibt ohne Urteil',
+    teilweise.length === 1 && teilweise[0].titleId === 1,
+    teilweise,
+  )
+
+  /**
+   * 4) Crunchyroll fasst zwei unserer Staffeln zu einem Block zusammen — und
+   *    führt dabei 25 Kacheln für 24 Folgen, also eine Doppelung. Gezählt wird
+   *    die Folgenzahl, nicht die Kachelzahl; dann geht die Summe auf und das
+   *    Urteil gilt für beide, ohne dass wir ihre Einteilung übernehmen.
+   */
+  const zusammen = beurteile(
+    {
+      url: 'u',
+      deutschImAngebot: true,
+      geprueftAm: '2026-08-12',
+      staffeln: [{ name: 'Staffel 2', folgen: 24, kacheln: 25, deutsch: 24, fremd: 0 }],
+    },
+    [t(1, 12, 2021), t(2, 12, 2021)],
+  )
+  pruefe('ein Block über zwei unserer Staffeln: beide true', zusammen.length === 2 && zusammen.every((u) => u.dub), zusammen)
+
+  /**
+   * 5) Gemischte Seite, bei der die Folgenzahlen nicht aufgehen: Der erste
+   *    Block hat 13 Folgen, unsere Einträge je zwölf. Dann bleibt alles offen —
+   *    hier zu raten hieße, eine Staffel als deutsch auszugeben, weil die
+   *    Nachbarstaffel es ist.
+   *
+   *    Wichtig ist die Abgrenzung zum Fall darüber: Wäre die **ganze** Seite
+   *    deutsch, gälte das Urteil trotz krummer Summe, denn dann ist jede Folge
+   *    deutsch, die dort liegt. Erst die Mischung macht die Zuordnung nötig —
+   *    und ohne aufgehende Summe gibt es keine.
+   */
+  const krumm = beurteile(
+    {
+      url: 'u',
+      deutschImAngebot: true,
+      geprueftAm: '2026-08-12',
+      staffeln: [
+        { name: 'Staffel 1', folgen: 13, kacheln: 13, deutsch: 13, fremd: 0 },
+        { name: 'Staffel 2', folgen: 13, kacheln: 13, deutsch: 0, fremd: 13 },
+      ],
+    },
+    [t(1, 12, 2020), t(2, 12, 2021)],
+  )
+  pruefe('gemischte Seite mit krummer Summe: kein Urteil', krumm.length === 0, krumm)
+
+  /**
+   * 6) Dieselbe Mischung, aber die Summen gehen auf: Der erste Block deckt
+   *    genau unseren ersten Eintrag, der zweite den zweiten. Dann darf und soll
+   *    unterschieden werden.
+   */
+  const sauber = beurteile(
+    {
+      url: 'u',
+      deutschImAngebot: true,
+      geprueftAm: '2026-08-12',
+      staffeln: [
+        { name: 'Staffel 1', folgen: 12, kacheln: 12, deutsch: 12, fremd: 0 },
+        { name: 'Staffel 2', folgen: 12, kacheln: 12, deutsch: 0, fremd: 12 },
+      ],
+    },
+    [t(1, 12, 2020), t(2, 12, 2021)],
+  )
+  pruefe(
+    'aufgehende Summen: erste Staffel deutsch, zweite nicht',
+    sauber.length === 2 && sauber[0].dub === true && sauber[1].dub === false,
+    sauber,
+  )
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')

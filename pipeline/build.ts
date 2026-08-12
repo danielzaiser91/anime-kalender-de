@@ -11,6 +11,7 @@ import {
 } from './lib/crunchyroll.ts'
 import { loadCurated, loadWatchLinks, type CuratedEntry } from './lib/curated.ts'
 import { dubKey, loadDubChecks } from './lib/dub-confirmed.ts'
+import { beurteile, type CrDubData } from './lib/crunchyroll-dub.ts'
 import type { TmdbInfo } from './lib/tmdb.ts'
 import {
   ordneBloeckeZuStaffeln,
@@ -1259,6 +1260,43 @@ function main(): void {
   }
   if (checks.size) {
     log(`${geprueft} geprüfte Synchro-Angaben übernommen, ${entfernt} tote Verweise entfernt (${checks.size} Prüfungen)`)
+  }
+
+  /**
+   * Was auf Crunchyrolls Serienseiten steht — als Beleg, nicht als Vorbild.
+   *
+   * Der Scraper liest dort je Folge, ob eine deutsche Tonspur vorliegt.
+   * Übernommen wird ausschließlich diese Auskunft; Crunchyrolls
+   * Staffeleinteilung bleibt draußen. Sie enthält Folgendoppelungen, mehrfache
+   * Wähler-Einträge zur selben Staffel und Blöcke, die zwei unserer Staffeln
+   * zusammenfassen (Daniel, 12.08.2026). Unsere Einteilung kommt von AniList
+   * und bleibt maßgeblich.
+   *
+   * Handgeprüftes schlägt auch das: Der Block läuft **vor** dem Einlesen von
+   * `dub-confirmed.yaml`, damit ein Mensch das letzte Wort behält.
+   */
+  const crDub = readJson<CrDubData>('data/crunchyroll-dub.json', { scrapedAt: '', serien: [] })
+  if (crDub.serien.length) {
+    const nachUrl = new Map<string, Title[]>()
+    for (const title of titles.values()) {
+      for (const stream of title.streams) {
+        if (stream.platform !== 'crunchyroll') continue
+        const liste = nachUrl.get(stream.url) ?? []
+        liste.push(title)
+        nachUrl.set(stream.url, liste)
+      }
+    }
+    let belegt = 0
+    for (const serie of crDub.serien) {
+      for (const urteil of beurteile(serie, nachUrl.get(serie.url) ?? [])) {
+        const title = titles.get(urteil.titleId)
+        const stream = title?.streams.find((s) => s.platform === 'crunchyroll' && s.url === serie.url)
+        if (!stream || stream.dub !== undefined) continue
+        stream.dub = urteil.dub
+        belegt++
+      }
+    }
+    log(`${belegt} Synchro-Angaben aus den Crunchyroll-Serienseiten belegt (${crDub.serien.length} Seiten gelesen)`)
   }
 
   /**
