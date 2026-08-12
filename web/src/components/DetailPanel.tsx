@@ -10,7 +10,7 @@ import { anzeigeName, eindeutschenStaffel, reihenVertreter } from '@shared/title
 import { loadAllTitles, loadFranchises, loadSynopsis, loadVoices, type Synopsis, type VoiceRole } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useShare } from '../lib/share.ts'
-import { FORMAT_DE, PLATFORM_TIME_NOTE } from '@shared/mappings.ts'
+import { FORMAT_DE } from '@shared/mappings.ts'
 import {
   Button,
   Chip,
@@ -24,6 +24,13 @@ import {
 } from './ui.tsx'
 
 const KEYWORD_PREVIEW = 8
+/**
+ * Wie viel von der Handlung ohne Klick zu sehen ist.
+ *
+ * 200 Zeichen sind etwa zwei Sätze — genug, um zu entscheiden, ob man
+ * weiterlesen will, und kurz genug, dass alles Übrige im Bild bleibt.
+ */
+const PLOT_PREVIEW = 200
 
 function downloadIcs(events: ReleaseEvent[], filename: string): void {
   const blob = new Blob([buildIcs(events, { calendarName: filename })], {
@@ -53,7 +60,6 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
   const { t } = useLang()
   const events = useMemo(() => expandEvents(release), [release])
   const status = releaseStatus(release, today)
-  const upcoming = events.find((e) => e.date >= today) ?? events[events.length - 1]
   const last = lastEpisodeDate(release)
   // „11" neben einer Liste, die bei „2." beginnt, liest sich wie ein Fehler.
   // Fängt das Release mitten in der Reihe an, steht hier die Spanne.
@@ -64,16 +70,21 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
     return first === 1 ? String(count) : `${first}–${first + count - 1}`
   }, [release.schedule.episodeCount, release.schedule.firstEpisodeNumber])
   const [showAll, setShowAll] = useState(false)
-  // Der Hinweis, warum keine Uhrzeit dasteht — nur bei Streaming-Terminen ohne
-  // Uhrzeit. Bei Filmen und Discs erwartet niemand eine Minutenangabe.
-  const timeNote =
-    !release.schedule.time &&
-    release.releaseType !== 'movie' &&
-    release.releaseType !== 'disc'
-      ? PLATFORM_TIME_NOTE[release.platform]
-      : undefined
-  const [showTimeNote, setShowTimeNote] = useState(false)
   const shown = showAll ? events : events.slice(0, 8)
+
+  /**
+   * Der Satz, der das Datum einordnet — als Hovertext, nicht als Absatz.
+   *
+   * „Im Angebot seit 11.06.2025" liest sich sonst wie ein Erscheinungstermin,
+   * und der wäre bei Sword Art Online zwölf Jahre daneben. Als eigener Absatz
+   * stand die Erklärung aber bei jedem Katalogtitel im Weg. Das gepunktete
+   * Unterstreichen zeigt an, dass da noch etwas steht.
+   */
+  const datumErklaerung =
+    release.dateMeaning === 'available-from' ? t('detail.availableFromNote') : undefined
+
+  const naechster = events.find((e) => e.date >= today)
+  const kuenftige = events.filter((e) => e.date >= today)
 
   return (
     <section className="rounded-xl border border-slate-200 p-3 dark:border-white/10">
@@ -89,8 +100,11 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
         )}
       </div>
 
-      <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{release.name}</p>
-
+      {/*
+        Der Name des Releases stand hier bis zum 12.08.2026 und wiederholte nur
+        den Eintrag, der drei Zeilen darüber im Umschalter gewählt ist. Zwei
+        Zeilen für dieselbe Auskunft sind eine zu viel.
+      */}
       {(release.publisher || release.edition) && (
         <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
           {[release.publisher, release.edition].filter(Boolean).join(' · ')}
@@ -101,19 +115,6 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
           {release.note}
         </p>
       )}
-      {/*
-        Der Satz, der das Datum einordnet.
-
-        Ohne ihn liest sich „Im Angebot seit 11.06.2025" wie ein Erscheinungs-
-        termin — und der wäre bei Sword Art Online zwölf Jahre daneben. Nur bei
-        Katalogtiteln, wo genau diese Verwechslung droht.
-      */}
-      {release.dateMeaning === 'available-from' && (
-        <p className="mt-1 text-[11px] leading-relaxed text-slate-400 dark:text-slate-500">
-          {t('detail.availableFromNote')}
-        </p>
-      )}
-
       <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-slate-600 dark:text-slate-300">
         <dt className="text-slate-400">
           {t(
@@ -127,70 +128,26 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
           )}
         </dt>
         <dd className="tabular-nums">
-          {weekdayName(release.schedule.firstEpisodeDate, true)}, {formatDate(release.schedule.firstEpisodeDate)}
-        </dd>
-        {/* Uhrzeit nur, wo es überhaupt eine geben kann: Ein Kinofilm läuft je
-            nach Kino, eine Disc liegt ab Ladenöffnung im Regal. „unbekannt"
-            wäre dort keine fehlende Angabe, sondern eine falsche Frage. */}
-        {release.releaseType !== 'movie' && release.releaseType !== 'disc' && (
-          <>
-            <dt className="text-slate-400">{t('detail.time')}</dt>
-            <dd className="tabular-nums">
-              {release.schedule.time ? (
-                `${release.schedule.time} Uhr`
-              ) : (
-                <>
-                  <span className="opacity-60">{t('detail.unknown')}</span>
-                  {timeNote && (
-                    <button
-                      type="button"
-                      onClick={() => setShowTimeNote((v) => !v)}
-                      aria-expanded={showTimeNote}
-                      title={t('detail.whyNoTime')}
-                      className={`ml-1.5 inline-flex size-4 cursor-pointer items-center justify-center rounded-full border align-[1px] text-[10px] leading-none font-bold transition-colors ${
-                        showTimeNote
-                          ? 'border-sky-400 bg-sky-400 text-slate-900'
-                          : 'border-slate-400 text-slate-400 hover:border-sky-400 hover:text-sky-400 dark:border-slate-500 dark:text-slate-500'
-                      }`}
-                    >
-                      ?
-                    </button>
-                  )}
-                </>
-              )}
-            </dd>
-          </>
-        )}
-        {/* Warum keine Uhrzeit dasteht. Ohne diesen Satz liest sich „unbekannt"
-            wie ein Pflegefehler — meistens gibt es die Angabe aber schlicht
-            nicht, und das ist eine Auskunft für sich.
-            Seit dem 10.08.2026 hinter einem Fragezeichen: Der Absatz stand bei
-            jedem Netflix- und Prime-Titel offen da und war nach dem zweiten
-            Lesen nur noch Rauschen zwischen den Eckdaten. Das Grid-Zeilenmaß
-            von 0fr auf 1fr animiert die Höhe, ohne sie zu kennen. */}
-        {timeNote && (
-          <dd
-            className={`col-span-2 grid transition-all duration-200 ease-out ${
-              showTimeNote ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
-            }`}
+          {/*
+            Datum und Uhrzeit in einer Zeile.
+
+            Vorher standen sie als zwei Einträge untereinander, und fehlte die
+            Uhrzeit, stand dort „unbekannt" samt Erklärknopf daneben. Das war
+            eine ganze Zeile für die Auskunft, dass wir nichts wissen — bei
+            Netflix und Prime also fast immer. Jetzt steht die Uhrzeit hinter
+            dem Datum, wenn es eine gibt, und sonst gar nichts (Daniel,
+            12.08.2026).
+          */}
+          <span
+            title={datumErklaerung}
+            className={datumErklaerung ? 'cursor-help underline decoration-dotted underline-offset-2' : undefined}
           >
-            <div className="overflow-hidden">
-              <p className="pt-1 text-[11px] leading-relaxed text-slate-400 dark:text-slate-500">
-                {timeNote.de}{' '}
-                {timeNote.source && (
-                  <a
-                    className="cursor-pointer underline decoration-dotted hover:text-slate-600 dark:hover:text-slate-300"
-                    href={timeNote.source}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    {t('detail.source')}
-                  </a>
-                )}
-              </p>
-            </div>
-          </dd>
-        )}
+            {weekdayName(release.schedule.firstEpisodeDate, true)}, {formatDate(release.schedule.firstEpisodeDate)}
+          </span>
+          {release.schedule.time && (
+            <span className="text-slate-400"> · {release.schedule.time} Uhr</span>
+          )}
+        </dd>
         {release.releaseType === 'weekly' && (
           <>
             <dt className="text-slate-400">{t('detail.episodes')}</dt>
@@ -231,18 +188,39 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
             {t('detail.buy')}
           </Button>
         )}
-        {upcoming && (
-          <Button href={googleCalendarUrl(upcoming)} size="sm">
+        {/*
+          Eintragen kann man nur, was noch kommt.
+
+          Bei einem Katalogtitel, der seit einem Jahr im Angebot ist, führte
+          „Zu Google Calendar" zu einem Termin in der Vergangenheit, und die
+          ICS-Datei enthielt lauter abgelaufene Einträge. Beide Knöpfe standen
+          also überall, halfen aber nur bei einem Bruchteil der Titel (Daniel,
+          12.08.2026).
+        */}
+        {naechster && (
+          <Button href={googleCalendarUrl(naechster)} size="sm">
             📅 {t('detail.addToGoogle')}
           </Button>
         )}
-        <Button
-          size="sm"
-          title={t('detail.downloadIcsHint')}
-          onClick={() => downloadIcs(events, release.name.replace(/[^\w\s-]/g, '').trim() || release.slug)}
-        >
-          ⬇ {t('detail.downloadIcs')}
-        </Button>
+        {kuenftige.length > 0 && (
+          <Button
+            size="sm"
+            onClick={() => downloadIcs(kuenftige, release.name.replace(/[^\w\s-]/g, '').trim() || release.slug)}
+          >
+            ⬇ {t('detail.downloadIcs')}
+            {/*
+              Was eine ICS-Datei ist, weiß nicht jeder — das Kürzel steht für
+              nichts, was man erraten könnte. Der Hinweis erklärt es an Ort und
+              Stelle, statt ihn im Kopf des Lesers vorauszusetzen.
+            */}
+            <span
+              title={t('detail.downloadIcsHint')}
+              className="ml-1.5 inline-flex size-4 cursor-help items-center justify-center rounded-full border border-current align-[1px] text-[10px] leading-none font-bold opacity-60"
+            >
+              ?
+            </span>
+          </Button>
+        )}
         <ShareButton release={release} />
       </div>
 
@@ -434,6 +412,7 @@ export function DetailPanel({
   const releases = data.releasesByTitle.get(titleId) ?? []
   const [synopsis, setSynopsis] = useState<Synopsis | undefined>()
   const [allKeywords, setAllKeywords] = useState(false)
+  const [plotOffen, setPlotOffen] = useState(false)
 
   useEffect(() => {
     let alive = true
@@ -444,6 +423,7 @@ export function DetailPanel({
       })
       .catch(() => {})
     setAllKeywords(false)
+    setPlotOffen(false)
     return () => {
       alive = false
     }
@@ -649,6 +629,22 @@ export function DetailPanel({
                 .filter(Boolean)
                 .join(' · ')}
             </p>
+            {/*
+              Genres stehen seit dem 12.08.2026 hier oben statt weit unten
+              (Daniel): Sie beantworten die erste Frage, die jemand an einen
+              unbekannten Titel hat — „ist das überhaupt meins?". Die Keywords
+              dagegen sind die feinste Unterteilung und stehen deshalb ganz am
+              Ende.
+            */}
+            {title.genres.length > 0 && (
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {title.genres.map((g) => (
+                  <Chip key={g} onClick={() => onFilterBy('genre', g)}>
+                    {tGenre(g)}
+                  </Chip>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
@@ -706,16 +702,42 @@ export function DetailPanel({
                 ))}
             </div>
           ) : (
-            <div className="rounded-xl border border-dashed border-slate-300 p-3 text-xs text-slate-500 dark:border-white/15 dark:text-slate-400">
-              {/*
-                Zwei sehr verschiedene Fälle, die vorher denselben Satz bekamen:
-                Ein Titel von 2011 mit fertiger Synchro ist längst erschienen —
-                „noch kein Termin erfasst" klang dort, als fehlte etwas am Titel,
-                dabei fehlt nur ein Datum in unserem Bestand. Ein Titel, dessen
-                japanische Ausstrahlung noch läuft, wartet dagegen wirklich.
-              */}
-              {t(status === 'erschienen' ? 'detail.releasedNoDate' : 'detail.noRelease')}
-              {title.dubConfidence === 'low' && t('detail.noReleaseSingleSource')}
+            /*
+              Dieselbe Form wie ein echter Termin, nur mit „unbekannt".
+
+              Vorher stand hier ein Kasten mit zwei Sätzen: „Die deutsche
+              Fassung ist erschienen. Ein genaues Datum führen wir dazu nicht —
+              die Verweise unten führen hin." Das war viel Text für eine
+              einzige Auskunft, und es sah anders aus als jeder andere Titel.
+              „Im Angebot seit: unbekannt" sagt dasselbe in einer Zeile und an
+              derselben Stelle wie sonst auch (Daniel, 12.08.2026).
+            */
+            <div className="flex flex-col gap-3">
+              <SectionTitle>{t('detail.releases')}</SectionTitle>
+              <section className="rounded-xl border border-slate-200 p-3 dark:border-white/10">
+                <div className="mb-2 flex flex-wrap items-center gap-1.5">
+                  <StatusBadge status={status} />
+                  {title.fsk !== undefined && <FskBadge fsk={title.fsk} />}
+                </div>
+                <dl className="grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-slate-600 dark:text-slate-300">
+                  <dt className="text-slate-400">{t('detail.availableFrom')}</dt>
+                  <dd>
+                    <span
+                      title={t(
+                        status === 'erschienen' ? 'detail.releasedNoDate' : 'detail.noRelease',
+                      )}
+                      className="cursor-help underline decoration-dotted underline-offset-2 opacity-70"
+                    >
+                      {t('detail.unknown')}
+                    </span>
+                  </dd>
+                </dl>
+                {title.dubConfidence === 'low' && (
+                  <p className="mt-2 text-[11px] leading-snug text-amber-600 dark:text-amber-400">
+                    {t('detail.noReleaseSingleSource')}
+                  </p>
+                )}
+              </section>
             </div>
           )}
 
@@ -764,55 +786,61 @@ export function DetailPanel({
           )}
 
           {/*
-            Die Reihe im Überblick — dieselbe Auswahl wie im Umschalter oben,
-            aber sichtbar statt zugeklappt. Der Umschalter beantwortet „ich will
-            woanders hin", diese Liste beantwortet „was gehört überhaupt dazu".
-            Der aktuelle Eintrag steht mit drin und ist markiert; ihn
-            wegzulassen wäre gerade bei einer Reihe aus zehn Teilen die falsche
-            Auskunft.
+            Hier stand „Alles aus dieser Reihe" — dieselben Einträge, die zwei
+            Handbreit darüber schon im Umschalter stehen. Zwei Listen mit
+            identischem Inhalt sind keine doppelte Auskunft, sondern doppelte
+            Länge (Daniel, 12.08.2026).
           */}
-          {reihe.length > 1 && (
+          {plot && (
             <div>
-              <SectionTitle>{t('detail.seasons')}</SectionTitle>
-              <div className="flex flex-col gap-0.5">
-                {reihe.map((s) => (
-                  <button
-                    key={s.id}
-                    type="button"
-                    onClick={() => wechsleZu(s.id)}
-                    aria-current={s.id === title.id}
-                    className={[
-                      'flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-left text-xs transition',
-                      s.id === title.id
-                        ? 'bg-sky-500/10 font-semibold text-sky-600 dark:text-sky-400'
-                        : 'text-slate-700 hover:bg-slate-100/70 dark:text-slate-200 dark:hover:bg-white/5',
-                    ].join(' ')}
-                  >
-                    <span className="min-w-0 flex-1 truncate">{eindeutschenStaffel(s.name)}</span>
-                    {s.format && s.format !== 'TV' && (
-                      <span className="shrink-0 rounded bg-slate-200/70 px-1 text-[10px] text-slate-500 dark:bg-white/10 dark:text-slate-400">
-                        {FORMAT_DE[s.format] ?? s.format}
-                      </span>
-                    )}
-                    <span className="shrink-0 tabular-nums text-slate-400">{s.jpYear ?? '—'}</span>
-                  </button>
-                ))}
-              </div>
+              <SectionTitle>{t('detail.plot')}</SectionTitle>
+              {/*
+                Zuerst zwei Sätze, den Rest auf Wunsch.
+
+                Eine Inhaltsangabe von tausend Zeichen schob alles darunter aus
+                dem Bild — die deutschen Stimmen, die Keywords, die
+                Quellenangabe. Wer die Handlung lesen will, klickt; wer sie nur
+                einordnen will, sieht den Anfang und bleibt im Überblick
+                (Daniel, 12.08.2026).
+              */}
+              <p className="whitespace-pre-line text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                {plotOffen || plot.text.length <= PLOT_PREVIEW
+                  ? plot.text
+                  : `${plot.text.slice(0, PLOT_PREVIEW).trimEnd()} …`}
+              </p>
+              {plot.text.length > PLOT_PREVIEW && (
+                <button
+                  type="button"
+                  onClick={() => setPlotOffen((v) => !v)}
+                  aria-expanded={plotOffen}
+                  className="mt-1 cursor-pointer text-xs text-sky-500 hover:underline"
+                >
+                  {t(plotOffen ? 'detail.plotLess' : 'detail.plotMore')}
+                </button>
+              )}
+              {plot.fallback && (
+                <p className="mt-1.5 text-[11px] text-slate-400">{t('detail.plotOnlyEnglish')}</p>
+              )}
+              {/*
+                Die Quelle im selben Stil wie unter einem Termin: „Quelle:
+                anisearch.de". Vorher stand sie nur als Fließtext ganz unten in
+                der Metazeile und war weder als Quelle erkennbar noch anklickbar.
+              */}
+              <p className="mt-2 text-[11px] text-slate-400">
+                {t('detail.source')}:{' '}
+                <a
+                  href={plot.fallback ? `https://anilist.co/anime/${title.id}` : 'https://www.themoviedb.org/'}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="underline hover:text-sky-400"
+                >
+                  {plot.fallback ? 'anilist.co' : 'themoviedb.org'}
+                </a>
+              </p>
             </div>
           )}
 
-          {title.genres.length > 0 && (
-            <div>
-              <SectionTitle>{t('detail.genres')}</SectionTitle>
-              <div className="flex flex-wrap gap-1.5">
-                {title.genres.map((g) => (
-                  <Chip key={g} onClick={() => onFilterBy('genre', g)}>
-                    {tGenre(g)}
-                  </Chip>
-                ))}
-              </div>
-            </div>
-          )}
+          {title.hasVoices && <VoiceCast titleId={title.id} />}
 
           {title.keywords.length > 0 && (
             <div>
@@ -833,20 +861,6 @@ export function DetailPanel({
               </div>
             </div>
           )}
-
-          {plot && (
-            <div>
-              <SectionTitle>{t('detail.plot')}</SectionTitle>
-              <p className="whitespace-pre-line text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-                {plot.text}
-              </p>
-              {plot.fallback && (
-                <p className="mt-1.5 text-[11px] text-slate-400">{t('detail.plotOnlyEnglish')}</p>
-              )}
-            </div>
-          )}
-
-          {title.hasVoices && <VoiceCast titleId={title.id} />}
 
           <p className="text-[11px] text-slate-400">
             {t('detail.metaFrom')}

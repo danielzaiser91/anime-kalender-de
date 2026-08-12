@@ -8,6 +8,32 @@ selbst oder an der Art ändert, wie Termine zustande kommen.
 
 ## Unveröffentlicht
 
+### Detail-Panel aufgeräumt
+
+Das Panel war über die Zeit zu einer Liste von Kästen geworden, in der das Wichtigste unten
+stand. Zehn Änderungen, alle aus einem Blick von Daniel am 12.08.2026:
+
+- **Genres stehen jetzt oben neben dem Cover.** Sie beantworten die erste Frage an einen
+  unbekannten Titel — „ist das überhaupt meins?". **Keywords** stehen dafür ganz am Ende.
+- **„Alles aus dieser Reihe" ist weg.** Dieselben Einträge stehen zwei Handbreit darüber im
+  Umschalter; zwei Listen mit gleichem Inhalt sind keine doppelte Auskunft, sondern doppelte
+  Länge.
+- **Datum und Uhrzeit stehen in einer Zeile**, und fehlt die Uhrzeit, steht dort gar nichts
+  mehr statt „unbekannt" samt Erklärknopf.
+- **Der Hinweis, was das Datum bedeutet, ist Hovertext geworden** — das Datum ist gepunktet
+  unterstrichen. Vorher stand der Satz bei jedem Katalogtitel als eigener Absatz im Weg.
+- **Der Name des Releases entfällt** — er stand schon im Umschalter darüber.
+- **Titel ohne Termin sehen aus wie alle anderen:** „Im Angebot seit — unbekannt", statt eines
+  eigenen Kastens mit zwei Sätzen.
+- **Kalender-Knöpfe nur, wenn es etwas einzutragen gibt.** Bei einem Katalogtitel führte „Zu
+  Google Calendar" bisher zu einem Termin in der Vergangenheit.
+- **Die ICS-Datei erklärt sich jetzt selbst.** Ein Fragezeichen daneben sagt, was das Format
+  ist und wohin die Datei gehört — Allgemeinwissen ist das nicht.
+- **Die Handlung zeigt zwei Sätze**, der Rest kommt auf Klick. Eine Inhaltsangabe von tausend
+  Zeichen schob vorher alles Weitere aus dem Bild.
+- **Die Quelle der Handlung steht als Verweis darunter**, im selben Stil wie unter einem Termin.
+
+
 ### Kleinigkeiten mit großer Wirkung
 
 - **Die Auswahlliste des Staffel-Umschalters war im Dunkelmodus nicht zu lesen.** Das Element

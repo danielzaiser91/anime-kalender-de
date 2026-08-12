@@ -128,10 +128,13 @@ const TEXTE = {
   'db.episodes': '{count} Ep.',
 
   'detail.releases': 'Deutsche Releases',
-  'detail.noRelease':
-    'Für diesen Titel ist eine deutsche Synchro belegt, aber noch kein deutscher Termin erfasst.',
-  'detail.noReleaseSingleSource': ' (nur eine Quelle)',
-  'detail.releasedNoDate': 'Die deutsche Fassung ist erschienen. Ein genaues Datum führen wir dazu nicht — die Verweise unten führen hin.',
+  // Beide Texte stehen seit dem 12.08.2026 als Hovertext hinter dem Wort
+  // „unbekannt" statt als eigener Kasten — sie erklären, warum dort kein Datum
+  // steht, und das ist eine Fußnote, keine Schlagzeile.
+  'detail.noRelease': 'Eine deutsche Synchro ist belegt, ein deutscher Termin bisher nicht.',
+  'detail.noReleaseSingleSource': 'Belegt durch nur eine Quelle.',
+  'detail.releasedNoDate':
+    'Die deutsche Fassung ist erschienen, das genaue Datum führen wir nicht.',
   'detail.linkStream': 'ansehen',
   'detail.linkBuy': 'kaufen oder leihen',
 
@@ -139,6 +142,8 @@ const TEXTE = {
   'detail.genres': 'Genres',
   'detail.keywords': 'Keywords',
   'detail.plot': 'Handlung',
+  'detail.plotMore': 'mehr anzeigen',
+  'detail.plotLess': 'weniger anzeigen',
   'detail.plotOnlyEnglish': 'Nur in der anderen Sprache verfügbar — eine maschinelle Übersetzung würde den Inhalt verfälschen.',
   'detail.seasons': 'Alles aus dieser Reihe',
   'detail.pickSeason': 'Staffel, Film oder Special',
@@ -169,7 +174,8 @@ const TEXTE = {
   'detail.addToGoogle': 'Zu Google Calendar',
   'detail.addSingle': 'Diese Folge zu Google Calendar hinzufügen',
   'detail.downloadIcs': '.ics laden',
-  'detail.downloadIcsHint': 'Alle Termine dieser Staffel als Kalenderdatei',
+  'detail.downloadIcsHint':
+    'ICS ist das Standardformat für Kalendertermine. Die Datei enthält alle noch kommenden Folgen; ein Doppelklick trägt sie in Outlook, Apple Kalender oder Thunderbird ein. Für Google Calendar stattdessen den Knopf daneben nehmen.',
   'detail.share': 'Teilen',
   'detail.shareHint': 'Kopiert einen Link, der diesen Titel mit eigenem Vorschaubild zeigt',
   'detail.source': 'Quelle',

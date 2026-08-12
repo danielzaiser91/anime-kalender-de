@@ -164,6 +164,16 @@ verschoben, Best-of, Recap.
 
 ## Archiv
 
+- ✅ **Detail-Panel aufgeräumt** (12.08.2026, zehn Punkte von Daniel). Genres nach oben neben das
+  Cover, Keywords ganz ans Ende, „Alles aus dieser Reihe" gestrichen (steht schon im
+  Umschalter). Im Terminblock: Datum und Uhrzeit in einer Zeile, Uhrzeit weg statt „unbekannt",
+  der Bedeutungs-Hinweis als Hovertext am gepunktet unterstrichenen Datum, Release-Name raus.
+  Titel ohne Termin bekommen denselben Block mit „Im Angebot seit — unbekannt" statt eines
+  eigenen Kastens. Kalender- und ICS-Knopf nur noch bei künftigen Terminen, ICS mit
+  Erklär-Fragezeichen. Handlung auf 200 Zeichen mit „mehr anzeigen", Quelle darunter als
+  Verweis. Im Browser gegengeprüft (Dev-Server 5183, danach gestoppt).
+
+
 - ✅ **Drei Nachbesserungen an der Staffel-Ansicht** (12.08.2026, Daniel).
   *Auswahlliste unlesbar:* Im Dunkelmodus hatte das `select` `bg-white/5` — 95 % durchsichtiges
   Weiß. Geschlossen richtig, aufgeklappt malt Windows es über Weiß, und die helle Schrift des
