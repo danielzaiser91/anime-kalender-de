@@ -170,3 +170,73 @@
   available: false
   checkedAt: '2026-08-12'
   note: Leitet auf die Startseite.
+
+# ---------------------------------------------------------------------------
+# Prüfung vom 12.08.2026 (Batch 2)
+# ---------------------------------------------------------------------------
+
+- anilistId: 156415
+  title: I Was Reincarnated as the 7th Prince – Staffel 1
+  platform: youtube
+  available: false
+  checkedAt: '2026-08-12'
+
+- anilistId: 168139
+  title: I'll Become a Villainess Who Goes Down in History
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-12'
+
+- anilistId: 116242
+  title: I'm Standing on a Million Lives
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-12'
+- anilistId: 127366
+  title: I'm Standing on a Million Lives Staffel 2
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-12'
+- anilistId: 116242
+  title: I'm Standing on a Million Lives
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-12'
+- anilistId: 116242
+  title: I'm Standing on a Million Lives
+  platform: youtube
+  available: false
+  checkedAt: '2026-08-12'
+- anilistId: 127366
+  title: I'm Standing on a Million Lives Staffel 2
+  platform: youtube
+  available: false
+  checkedAt: '2026-08-12'
+
+- anilistId: 146234
+  title: My One-Hit Kill Sister
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-12'
+- anilistId: 146234
+  title: My One-Hit Kill Sister
+  platform: youtube
+  available: false
+  checkedAt: '2026-08-12'
+  note: Verweis zeigt auf einen Kanal, nicht auf den Titel.
+
+- anilistId: 169417
+  title: 'Re:Monster'
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-12'
+- anilistId: 169417
+  title: 'Re:Monster'
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-12'
+- anilistId: 169417
+  title: 'Re:Monster'
+  platform: youtube
+  available: false
+  checkedAt: '2026-08-12'

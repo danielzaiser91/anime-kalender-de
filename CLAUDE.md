@@ -88,7 +88,20 @@ gibt es keine öffentliche Auskunft — dort steht „🇩🇪 ?", und das ist d
   Folgen.
 - `npm run data:dub-checks` erzeugt aus dem aktuellen Stand die Arbeitsliste
   `data/dub-pruefliste.md` — nach hinten sortiert von heute, ohne Künftiges (das kann niemand
-  nachsehen) und ohne bereits Geprüftes.
+  nachsehen) und ohne bereits Geprüftes. Eine Zeile ist eine **Reihe auf einem Anbieter**: Wer
+  den Verweis öffnet, sieht dort in aller Regel alle Staffeln auf einmal.
+
+**Kurzschrift für Daniels Antworten** (12.08.2026) — sie steht auch im Kopf der Liste:
+
+| Zeichen | Bedeutung | wird zu |
+|---|---|---|
+| `1` | hat deutsche Synchro | `dub: true` |
+| `0` | keine deutsche Synchro, nur Untertitel | `dub: false`, Verweis bleibt mit ✕ |
+| `x` | kein Video: nicht verfügbar, tot, Weiterleitung | `available: false`, Verweis wird entfernt |
+
+Mehrere Einträge in einer Zeile werden mit Punkt getrennt in derselben Reihenfolge beantwortet
+(`1.0` = erster ja, zweiter nein). Eine einzelne Angabe gilt für alle Einträge der Zeile.
+Beispiel für einen ganzen Batch: `1-x 2-1 3-1.0 4-x`.
 
 ## Was erzeugt wird, wird auch geprüft
 
