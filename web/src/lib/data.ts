@@ -12,8 +12,28 @@ export interface Dataset {
   meta: DataMeta
 }
 
+/**
+ * Kennung des Builds, in `vite.config.ts` einkompiliert.
+ *
+ * Im Test- und Pipeline-Kontext gibt es sie nicht — dort steht `dev`, und das
+ * genügt: Beim Entwickeln gibt es keinen Service Worker, der etwas festhält.
+ */
+declare const __BUILD_ID__: string | undefined
+const BUILD_ID = typeof __BUILD_ID__ === 'string' ? __BUILD_ID__ : 'dev'
+
+/**
+ * Adresse einer Datendatei — mit Build-Kennung.
+ *
+ * Ohne sie blieb nach einem Deploy die alte Fassung stehen, und nur ein hartes
+ * Neuladen half. Die Kennung macht daraus eine neue Adresse; für Browser-Cache
+ * und Service Worker ist das ein Erstabruf, kein Auffrischen.
+ *
+ * Der Service Worker weiß davon (siehe `public/sw.js`): Er antwortet bei
+ * gleicher Kennung sofort aus dem Cache und fällt offline auf die letzte
+ * bekannte Fassung zurück, egal welche Kennung die trägt.
+ */
 function url(path: string): string {
-  return `${import.meta.env.BASE_URL}data/${path}`
+  return `${import.meta.env.BASE_URL}data/${path}?v=${BUILD_ID}`
 }
 
 async function loadJson<T>(path: string): Promise<T> {
@@ -147,6 +167,15 @@ export function loadVoices(titleId: number): Promise<VoiceRole[]> {
   return geladen
 }
 
+/**
+ * Adresse eines ICS-Feeds — **ohne** Build-Kennung.
+ *
+ * Das ist kein Versehen, sondern der Unterschied zwischen Abrufen und
+ * Abonnieren: Diese Adresse trägt jemand in Google Calendar oder Outlook ein,
+ * und die fragt sie monatelang immer wieder ab. Eine Kennung darin würde beim
+ * nächsten Deploy auf eine Datei zeigen, die es nicht mehr gibt — das Abo wäre
+ * still tot.
+ */
 export function feedUrl(name: string): string {
   return `${import.meta.env.BASE_URL}data/feeds/${name}`
 }

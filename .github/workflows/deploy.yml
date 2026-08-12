@@ -58,6 +58,12 @@ jobs:
       - name: Workflow-Dateien prüfen
         run: npm run check:workflows
 
+      # Die Zusicherungen aus der Prüfkette vor dem Commit. Sie gehören auch
+      # hierher: Die Nachtläufe committen ohne menschlichen Blick, und der
+      # Fehler vom 12.08.2026 (196 erfundene Termine) entstand genau dort.
+      - name: Zusicherungen prüfen
+        run: npm run check:logic && npm run check:search
+
       - name: Bauen
         env:
           PAGES_BASE: /

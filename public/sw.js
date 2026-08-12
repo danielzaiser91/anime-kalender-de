@@ -10,15 +10,14 @@
  *   HTML          Netz zuerst, aber mit Zeitlimit — sonst hängt die App an
  *                 einer toten Verbindung, statt die Kopie zu nehmen.
  *   /assets/…     Cache zuerst. Die Namen tragen einen Hash, sie ändern sich nie.
- *   /data/…       Cache sofort, Netz im Hintergrund. Termine dürfen eine Minute
- *                 alt sein; wichtiger ist, dass überhaupt etwas dasteht.
+ *   /data/…       Cache zuerst **je Build-Kennung**, sonst Netz. Siehe unten.
  *   Cover         Cache zuerst, auch vom fremden CDN. Die App legt die Bilder
  *                 der aktuellen und nächsten Woche selbst hier ab.
  *
  * Die Version im Cache-Namen ist der Aufräumschalter: Sie zu erhöhen wirft
  * beim nächsten Start alles Alte weg.
  */
-const VERSION = 'v3'
+const VERSION = 'v4'
 const SHELL = `shell-${VERSION}`
 const DATA = `data-${VERSION}`
 const MEDIA = `media-${VERSION}`
@@ -106,11 +105,29 @@ const MEDIA_MAX = 400
  * Das ist keine echte Nutzungsstatistik, aber es genügt: Was vor tausend
  * Bildern einmal angesehen wurde, braucht offline niemand mehr.
  */
-async function trimCache(cache, max) {
-  const keys = await cache.keys()
+async function trimCache(cache, max, nurPfad) {
+  const alle = await cache.keys()
+  // Bei einem Pfadfilter zählt und löscht nur, was darunter liegt.
+  //
+  // Ohne ihn hätte das Aufräumen der Bündel die Startseite mitgenommen: Sie
+  // wird beim Einrichten als Erstes abgelegt, steht also ganz vorn in der
+  // Einfügereihenfolge — und ist ausgerechnet die Datei, ohne die es offline
+  // keine Seite mehr gibt.
+  const keys = nurPfad ? alle.filter((k) => new URL(k.url).pathname.startsWith(nurPfad)) : alle
   if (keys.length <= max) return
   await Promise.all(keys.slice(0, keys.length - max).map((k) => cache.delete(k)))
 }
+
+/**
+ * Wie viele Bündel-Dateien höchstens liegen bleiben.
+ *
+ * Die Namen unter `/assets/` tragen einen Hash, jeder Deploy erzeugt also neue.
+ * Die alten fragt danach niemand mehr an — sie lagen aber bis zum nächsten
+ * Wechsel der Cache-Version herum, rund 400 KB je Deploy. Bei mehreren Deploys
+ * am Tag ist das derselbe stille Zuwachs, der schon einmal 313 MB Cover
+ * angesammelt hat.
+ */
+const SHELL_MAX = 40
 
 /** Cache zuerst, Netz nur beim ersten Mal. Für unveränderliche Adressen. */
 async function cacheFirst(request, cacheName) {
@@ -123,21 +140,57 @@ async function cacheFirst(request, cacheName) {
   if (response.ok || response.type === 'opaque') {
     await cache.put(request, response.clone())
     if (cacheName === MEDIA) await trimCache(cache, MEDIA_MAX)
+    if (cacheName === SHELL) await trimCache(cache, SHELL_MAX, '/assets/')
   }
   return response
 }
 
-/** Sofort aus dem Cache antworten und parallel auffrischen. */
-async function staleWhileRevalidate(request, cacheName) {
+/**
+ * Wie viele Datendateien höchstens liegen bleiben.
+ *
+ * Seit die Adressen eine Build-Kennung tragen, hinterlässt jeder Deploy einen
+ * neuen Satz Einträge. Ohne Obergrenze läge nach fünfzig Deploys fünfzigmal
+ * derselbe Datensatz im Speicher.
+ */
+const DATA_MAX = 80
+
+/**
+ * Daten: Cache zuerst — aber nur bei **gleicher** Build-Kennung.
+ *
+ * Der Kern des Cache-Bustings, und der Grund, warum hartes Neuladen nie wieder
+ * nötig sein sollte:
+ *
+ *  - **Gleiche Kennung** heißt: exakt dieselbe Datei wie beim letzten Mal. Sie
+ *    kann sich nicht geändert haben, also wird sofort geantwortet, ohne Netz.
+ *  - **Neue Kennung** heißt: neuer Deploy. Der Cache kennt die Adresse nicht,
+ *    es geht ans Netz — genau einmal, danach ist auch sie schnell.
+ *  - **Offline** wird die Kennung ignoriert (`ignoreSearch`) und die letzte
+ *    bekannte Fassung genommen. Lieber Termine von vorgestern als eine leere
+ *    Seite.
+ *
+ * Vorher stand hier „Cache sofort, Netz im Hintergrund". Das klingt richtig,
+ * war es aber nicht: Die Adresse blieb nach einem Deploy dieselbe, und der
+ * Auffrischungs-Abruf lief seinerseits in den HTTP-Cache des Browsers
+ * (GitHub Pages: zehn Minuten). Aufgefrischt wurde damit mit demselben alten
+ * Inhalt, beliebig oft (Daniel, 12.08.2026: „hartes Neuladen sollte nie
+ * notwendig sein").
+ */
+async function dataFirst(request, cacheName) {
   const cache = await caches.open(cacheName)
-  const hit = await cache.match(request)
-  const fresh = fetch(request)
-    .then((response) => {
-      if (response.ok) cache.put(request, response.clone())
-      return response
-    })
-    .catch(() => undefined)
-  return hit ?? (await fresh) ?? Response.error()
+  const exakt = await cache.match(request)
+  if (exakt) return exakt
+
+  try {
+    const response = await fetch(request)
+    if (response.ok) {
+      await cache.put(request, response.clone())
+      await trimCache(cache, DATA_MAX, '/data/')
+    }
+    return response
+  } catch {
+    // Kein Netz: irgendeine Fassung ist besser als keine.
+    return (await cache.match(request, { ignoreSearch: true })) ?? Response.error()
+  }
 }
 
 /**
@@ -153,7 +206,17 @@ async function networkFirst(request, cacheName) {
 
   try {
     const response = await Promise.race([
-      fetch(request).then((r) => {
+      /**
+       * `no-cache` heißt hier nicht „nicht cachen", sondern „beim Server
+       * nachfragen, ob die Kopie noch stimmt". Ohne das antwortet der
+       * HTTP-Cache des Browsers zehn Minuten lang (GitHub Pages setzt
+       * `max-age=600`) mit dem alten HTML — und altes HTML verweist auf das
+       * alte Bündel, das wiederum die alte Build-Kennung trägt. Die ganze
+       * Kette hinge dann an einer Datei, die niemand nachgefragt hat.
+       *
+       * Die Antwort ist meist ein 304 und damit fast kostenlos.
+       */
+      fetch(request, { cache: 'no-cache' }).then((r) => {
         if (r.ok) cache.put(request, r.clone())
         return r
       }),
@@ -187,7 +250,7 @@ self.addEventListener('fetch', (event) => {
     return
   }
   if (url.pathname.startsWith('/data/')) {
-    event.respondWith(staleWhileRevalidate(request, DATA))
+    event.respondWith(dataFirst(request, DATA))
     return
   }
   if (url.pathname.startsWith('/assets/')) {

@@ -8,6 +8,26 @@ selbst oder an der Art ändert, wie Termine zustande kommen.
 
 ## Unveröffentlicht
 
+### Neue Daten kommen jetzt beim normalen Neuladen an
+
+Nach einem Deploy zeigte die Seite weiter den alten Stand; nur ein hartes Neuladen half. Schuld
+war nicht ein Fehler, sondern eine Adresse: `/data/events.json` hieß nach dem Deploy genauso wie
+davor, und was unter derselben Adresse liegt, gilt dem Browser-Cache wie dem Service Worker als
+dieselbe Datei. Die „Auffrischung im Hintergrund" holte deshalb zehn Minuten lang denselben
+alten Inhalt.
+
+Jede Datenadresse trägt jetzt den **Datenstand**: `/data/events.json?v=20260812142619`. Ändern
+sich die Daten, ändert sich die Adresse — für beide Caches ist das ein Erstabruf, kein
+Auffrischen. Ein Deploy, der nur Code ändert, lässt die Adressen dagegen in Ruhe; niemand lädt
+deswegen erneut 551 KB Titeldaten.
+
+Offline bleibt es, wie es war: Fehlt das Netz, wird die Kennung ignoriert und die letzte bekannte
+Fassung genommen — lieber Termine von vorgestern als eine leere Seite.
+
+Nebenbei aufgeräumt: Die alten Programmdateien jedes Deploys blieben im Speicher liegen, rund
+400 KB pro Veröffentlichung. Jetzt bleiben die letzten vierzig.
+
+
 ### Suche: Tippfehler, Kurzformen und alle drei Sprachen
 
 - **Die Suche liest jetzt Wort für Wort.** Bisher wurde die gesamte Eingabe als

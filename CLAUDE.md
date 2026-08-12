@@ -153,6 +153,22 @@ Der Worker in `worker/` ist optional. Ohne gesetztes `VITE_NEWSLETTER_API` zeigt
 einen ehrlichen Hinweis statt eines kaputten Buttons. DSGVO-Pflichten (Double-Opt-in,
 Abmeldelink, Impressum, Datenschutzerklärung) sind kein Nice-to-have — nichts davon entfernen.
 
+## Caches: die Adresse ist die Version
+
+Datenadressen tragen den Datenstand (`/data/events.json?v=20260812142619`), eingesetzt in
+`vite.config.ts` aus `meta.generatedAt`. Ohne das blieb nach einem Deploy die alte Fassung
+stehen, und nur Strg+Shift+R half — dieselbe Adresse ist für Browser-Cache und Service Worker
+dieselbe Datei, egal was darin steht.
+
+- **Datenstand, nicht Commit-Hash.** Ein Deploy ohne Datenänderung soll niemanden 551 KB
+  Titeldaten erneut laden lassen.
+- **ICS-Feeds bekommen keine Kennung** (`feedUrl`). Die Adresse wird abonniert, nicht abgerufen;
+  eine Kennung darin wäre beim nächsten Deploy ein totes Abo.
+- **Offline ignoriert die Kennung** (`ignoreSearch` in `sw.js`) — lieber alte Termine als eine
+  leere Seite.
+- Jeder Cache im Service Worker hat eine Obergrenze. Ohne sie wächst er still: einmal 313 MB
+  Cover (10.08.2026), einmal 400 KB Programmdateien je Deploy (12.08.2026).
+
 ## Vor dem Commit
 
 ```bash

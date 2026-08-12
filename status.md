@@ -163,6 +163,26 @@ verschoben, Best-of, Recap.
 
 ## Archiv
 
+- ✅ **Cache-Busting: normaler Refresh reicht** (12.08.2026, Daniel: „das harte Neuladen sollte
+  nie notwendig sein"). Ursache war keine Fehlfunktion, sondern eine Adresse: `/data/events.json`
+  hieß nach dem Deploy genauso wie davor. Der Service Worker fuhr „Cache sofort, Netz im
+  Hintergrund", und der Hintergrund-Abruf lief seinerseits in den HTTP-Cache des Browsers
+  (GitHub Pages: `max-age=600`) — aufgefrischt wurde also mit demselben alten Inhalt, beliebig
+  oft. Jede Datenadresse trägt jetzt den Datenstand aus `meta.generatedAt`
+  (`?v=20260812142619`), eingesetzt in `vite.config.ts`; der Service Worker antwortet bei
+  gleicher Kennung sofort aus dem Cache, sonst aus dem Netz, und ignoriert die Kennung nur
+  offline. Navigationen fragen mit `cache: 'no-cache'` beim Server nach, damit altes HTML nicht
+  zehn Minuten lang auf ein altes Bündel zeigt.
+  *Im Browser bewiesen*, nicht nur gebaut: Datenstand geändert, Dev-Server neu gestartet,
+  **normal** neu geladen — neuer Inhalt da, alter weg, beide Fassungen nebeneinander im Cache.
+  Offline-Zweig einzeln geprüft: unbekannte Kennung ohne Server liefert die letzte bekannte
+  Fassung (682 Termine) statt eines Fehlers.
+  *Nebenbefund mitbehoben:* Die Programmdateien jedes Deploys blieben liegen — rund 400 KB je
+  Veröffentlichung, unbegrenzt. Jetzt bleiben die letzten vierzig, und das Aufräumen fasst
+  ausdrücklich nur `/assets/` an: Die Startseite steht in der Einfügereihenfolge ganz vorn und
+  wäre als Erstes gelöscht worden, obwohl ohne sie offline gar nichts mehr geht.
+
+
 - ✅ **Suche und Staffel-Navigation überarbeitet** (12.08.2026, gemeldet von Daniel).
   *Suche:* liest jetzt Wort für Wort statt die Eingabe als eine Zeichenkette („aesthetic hero"
   fand vorher nichts), und fällt bei leerem Ergebnis auf eine nachsichtige Stufe zurück
