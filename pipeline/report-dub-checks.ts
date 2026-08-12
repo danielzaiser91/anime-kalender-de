@@ -28,7 +28,7 @@ import { log, readJson, ROOT, writeText } from './lib/util.ts'
 import { loadDubChecks, dubKey } from './lib/dub-confirmed.ts'
 import { loadWatchLinks } from './lib/curated.ts'
 import { lastEpisodeDate } from '../shared/logic.ts'
-import { anzeigeName, eindeutschenStaffel, reihenVertreter } from '../shared/titles.ts'
+import { anzeigeName, ohneStaffelEins, reihenVertreter } from '../shared/titles.ts'
 import { todayIso } from '../shared/time.ts'
 import { PLATFORMS, type Franchises, type PlatformId, type Release, type Title } from '../shared/types.ts'
 
@@ -146,9 +146,7 @@ function reihenName(reihenId: number, ersatz: Title): string {
    * die es im Datensatz nicht gibt. In der Liste stand dafür „#9120".
    */
   const roh = mitglieder?.length ? reihenVertreter(mitglieder).name : anzeigeName(titleById.get(reihenId) ?? ersatz)
-  return eindeutschenStaffel(roh)
-    .replace(/\s*[–—-]?\s*\(?(Staffel|Season)\s*1\)?\s*$/i, '')
-    .trim()
+  return ohneStaffelEins(roh)
 }
 
 const nachReiheUndPlattform = new Map<string, Zeile>()

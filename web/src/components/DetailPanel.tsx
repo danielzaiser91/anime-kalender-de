@@ -6,7 +6,7 @@ import { buildIcs, googleCalendarUrl } from '@shared/ics.ts'
 import { formatDate, todayIso, weekdayName } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
 import type { FranchiseMember, Franchises } from '@shared/types.ts'
-import { anzeigeName, eindeutschenStaffel, reihenVertreter } from '@shared/titles.ts'
+import { anzeigeName, eindeutschenStaffel, ohneStaffelEins, reihenVertreter } from '@shared/titles.ts'
 import { loadAllTitles, loadFranchises, loadSynopsis, loadVoices, type Synopsis, type VoiceRole } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useShare } from '../lib/share.ts'
@@ -480,7 +480,7 @@ export function DetailPanel({
   const reihenName = useMemo(() => {
     if (!title) return ''
     if (reihe.length < 2) return anzeigeName(title)
-    return eindeutschenStaffel(reihenVertreter(reihe.map((m) => ({ ...m, id: m.id }))).name)
+    return ohneStaffelEins(reihenVertreter(reihe.map((m) => ({ ...m, id: m.id }))).name)
   }, [reihe, title])
 
   /**
@@ -771,6 +771,23 @@ export function DetailPanel({
                     className="flex cursor-pointer items-center gap-2 rounded-lg border border-slate-200 px-2 py-1.5 transition hover:border-slate-300 hover:bg-slate-100/60 dark:border-white/10 dark:hover:border-white/25 dark:hover:bg-white/5"
                   >
                     <PlatformBadge platform={s.platform} />
+                    {/*
+                      Der Hinweis, dass der Anbieter anders zählt als wir.
+
+                      Bei „The Café Terrace and Its Goddesses" zeigen unsere
+                      Staffel 1 und Staffel 2 auf dieselbe Crunchyroll-Seite,
+                      und dort steht das Ganze als **eine** Staffel mit 24
+                      Folgen. Ohne diesen Hinweis hält man eine der beiden
+                      Angaben für falsch — dabei zählen bloß beide anders
+                      (Daniel, 12.08.2026).
+                    */}
+                    {(s.sharedWith ?? 0) > 1 && (
+                      <Tooltip text={t('detail.sharedUrlNote', { count: s.sharedWith! })} seite="oben">
+                        <span className="text-[10px] text-slate-400 dark:text-slate-500">
+                          {t('detail.sharedUrl', { count: s.sharedWith! })}
+                        </span>
+                      </Tooltip>
+                    )}
                     <span className="ml-auto">
                       <DubMark dub={s.dub} />
                     </span>

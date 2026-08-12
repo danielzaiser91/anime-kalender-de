@@ -141,6 +141,13 @@ const TEXTE = {
   'detail.linkBuy': 'kaufen oder leihen',
 
   'detail.whereToWatch': 'Wo läuft es',
+  'detail.sharedUrl': '{count} Einträge',
+  // Bewusst „kann abweichen", nicht „weicht ab": Belegt ist nur, dass mehrere
+  // unserer Einträge auf dieselbe Adresse zeigen. Wie der Anbieter seinerseits
+  // in Staffeln teilt, steht auf einer Seite, die ihre Staffelliste per
+  // JavaScript nachlädt — geprüft ist es also nicht.
+  'detail.sharedUrlNote':
+    'Diese Adresse führt {count} unserer Einträge zu dieser Reihe. Wie der Anbieter sie in Staffeln teilt, kann von unserer Zählung abweichen — Crunchyroll zeigt manche Reihen als eine Staffel, die wir getrennt führen.',
   'detail.genres': 'Genres',
   'detail.keywords': 'Keywords',
   'detail.plot': 'Handlung',

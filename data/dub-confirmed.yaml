@@ -240,3 +240,185 @@
   platform: youtube
   available: false
   checkedAt: '2026-08-12'
+
+# ---------------------------------------------------------------------------
+# Prüfung vom 12.08.2026 (Batch 3)
+#
+# Auffällig: Crunchyroll fasst bei „The Café Terrace and Its Goddesses" und
+# „The Case Study of Vanitas" jeweils beide Staffeln zu **einer** Staffel mit
+# 24 Folgen zusammen, während AniList (und Google) sie getrennt führen. Die
+# Synchro ist in beiden Fällen vorhanden — die Abweichung betrifft nur die
+# Zählung. Siehe `sharedUrl` in `build.ts`.
+# ---------------------------------------------------------------------------
+
+- anilistId: 154412
+  title: The Café Terrace and Its Goddesses
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-12'
+- anilistId: 166477
+  title: The Café Terrace and Its Goddesses Staffel 2
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-12'
+  note: Crunchyroll führt beide Staffeln als eine mit 24 Folgen.
+
+- anilistId: 131646
+  title: The Case Study of Vanitas
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-12'
+- anilistId: 135136
+  title: The Case Study of Vanitas Teil 2
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-12'
+  note: Crunchyroll führt beide Teile als eine Staffel mit 24 Folgen.
+
+- anilistId: 118465
+  title: World's End Harem
+  platform: crunchyroll
+  dub: false
+  checkedAt: '2026-08-12'
+
+# Naruto auf Crunchyroll: die vier Serien laufen dort ohne deutsche Synchro,
+# die acht Filme sind gar nicht (mehr) im Angebot.
+- anilistId: 20
+  title: Naruto
+  platform: crunchyroll
+  dub: false
+  checkedAt: '2026-08-12'
+- anilistId: 1735
+  title: Naruto Shippuden
+  platform: crunchyroll
+  dub: false
+  checkedAt: '2026-08-12'
+- anilistId: 97938
+  title: 'Boruto: Naruto Next Generations'
+  platform: crunchyroll
+  dub: false
+  checkedAt: '2026-08-12'
+- anilistId: 12979
+  title: 'NARUTO Spin-Off: Rock Lee & His Ninja Pals'
+  platform: crunchyroll
+  dub: false
+  checkedAt: '2026-08-12'
+- anilistId: 442
+  title: 'Naruto the Movie: Ninja Clash in the Land of Snow'
+  platform: crunchyroll
+  available: false
+  checkedAt: '2026-08-12'
+- anilistId: 936
+  title: 'Naruto the Movie: Legend of the Stone of Gelel'
+  platform: crunchyroll
+  available: false
+  checkedAt: '2026-08-12'
+- anilistId: 2144
+  title: 'Naruto the Movie: Guardians of the Crescent Moon Kingdom'
+  platform: crunchyroll
+  available: false
+  checkedAt: '2026-08-12'
+- anilistId: 6325
+  title: 'Naruto Shippuden the Movie: The Will of Fire'
+  platform: crunchyroll
+  available: false
+  checkedAt: '2026-08-12'
+- anilistId: 8246
+  title: 'Naruto Shippuden the Movie: The Lost Tower'
+  platform: crunchyroll
+  available: false
+  checkedAt: '2026-08-12'
+- anilistId: 10589
+  title: 'Naruto Shippuden the Movie: Blood Prison'
+  platform: crunchyroll
+  available: false
+  checkedAt: '2026-08-12'
+- anilistId: 13667
+  title: 'Road to Ninja: Naruto the Movie'
+  platform: crunchyroll
+  available: false
+  checkedAt: '2026-08-12'
+- anilistId: 16870
+  title: 'The Last: Naruto the Movie'
+  platform: crunchyroll
+  available: false
+  checkedAt: '2026-08-12'
+
+# Naruto auf Netflix: die drei Serien haben deutsche Synchro. Die zwölf Filme
+# und Ableger stehen weiter offen — sie waren im Batch nicht verlinkt und damit
+# nicht prüfbar.
+- anilistId: 20
+  title: Naruto
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-12'
+- anilistId: 1735
+  title: Naruto Shippuden
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-12'
+- anilistId: 97938
+  title: 'Boruto: Naruto Next Generations'
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-12'
+
+- anilistId: 20
+  title: Naruto
+  platform: youtube
+  available: false
+  checkedAt: '2026-08-12'
+- anilistId: 1735
+  title: Naruto Shippuden
+  platform: youtube
+  available: false
+  checkedAt: '2026-08-12'
+
+- anilistId: 105334
+  title: Fruits Basket (2019)
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-12'
+- anilistId: 111762
+  title: Fruits Basket Staffel 2
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-12'
+- anilistId: 124194
+  title: Fruits Basket Die finale Staffel
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-12'
+
+- anilistId: 178005
+  title: Tamon's B-Side
+  platform: youtube
+  available: false
+  checkedAt: '2026-08-12'
+
+- anilistId: 98659
+  title: Classroom of the Elite
+  platform: youtube
+  available: false
+  checkedAt: '2026-08-12'
+- anilistId: 145545
+  title: Classroom of the Elite Staffel 2
+  platform: youtube
+  available: false
+  checkedAt: '2026-08-12'
+- anilistId: 146066
+  title: Classroom of the Elite Staffel 3
+  platform: youtube
+  available: false
+  checkedAt: '2026-08-12'
+- anilistId: 180745
+  title: 'Classroom of the Elite Staffel 4: Second Year, First Semester'
+  platform: youtube
+  available: false
+  checkedAt: '2026-08-12'
+
+- anilistId: 9513
+  title: Beelzebub
+  platform: crunchyroll
+  available: false
+  checkedAt: '2026-08-12'

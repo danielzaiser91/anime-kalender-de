@@ -8,6 +8,20 @@ selbst oder an der Art ändert, wie Termine zustande kommen.
 
 ## Unveröffentlicht
 
+### Wenn der Anbieter anders zählt als wir
+
+Bei „The Café Terrace and Its Goddesses" führt Crunchyroll **eine** Staffel mit 24 Folgen, wo
+AniList zwei zu je zwölf kennt; bei „The Case Study of Vanitas" genauso. Wer bei uns Staffel 2
+anklickt und dort eine Liste mit 24 Folgen vorfindet, hält zwangsläufig eine der beiden Angaben
+für falsch — dabei zählen bloß beide anders.
+
+Unter „Wo läuft es" steht jetzt dabei, wenn eine Adresse mehrere unserer Einträge bedient
+(878 Verweise, 344 Adressen). Der Hinweis sagt bewusst „kann abweichen" und nicht „weicht ab":
+Belegt ist nur, dass dieselbe Seite mehrere unserer Staffeln bedient. Wie der Anbieter selbst
+einteilt, steht auf einer Seite, die ihre Staffelliste per JavaScript nachlädt — geprüft ist
+das also nicht.
+
+
 ### Eigene Hinweise statt der Kästchen des Betriebssystems
 
 Erklärungen hingen bisher am `title`-Attribut — dem Standard-Tooltip des Browsers: heller

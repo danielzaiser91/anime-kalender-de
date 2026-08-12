@@ -111,6 +111,21 @@ export interface StreamLink {
    * fehlt — nicht geprüft
    */
   dub?: boolean
+  /**
+   * Wie viele unserer Einträge diese eine Adresse bedient.
+   *
+   * Fehlt, wenn es nur einer ist. Steht dort eine Zahl, führt die Plattform
+   * mehrere unserer Staffeln unter derselben Seite — und teilt sie dort oft
+   * anders ein als wir: Crunchyroll zeigt „The Café Terrace and Its Goddesses"
+   * als **eine** Staffel mit 24 Folgen, während AniList zwei Staffeln zu je
+   * zwölf führt; dasselbe bei „The Case Study of Vanitas" (Daniel, 12.08.2026).
+   *
+   * Das ist keine Nebensächlichkeit, sondern der Grund für ein Missverständnis:
+   * Wer bei uns „Staffel 2" anklickt und dort eine Liste mit 24 Folgen
+   * vorfindet, hält entweder unsere Angabe oder die der Plattform für falsch.
+   * Beide zählen bloß anders. 344 Adressen bedienen so 655 unserer Einträge.
+   */
+  sharedWith?: number
 }
 
 /** Ein Anime (genauer: ein AniList-Eintrag) mit belegter deutscher Synchro. */

@@ -11,6 +11,7 @@ _(leer)_
 | Aufgabe | SP | Notiz |
 |---|---|---|
 | **Prüfliste „Wo läuft es" abarbeiten** (Dauerauftrag) | — | 2.910 Anbieter-Verweise ohne belegte Synchro, Liste: `data/dub-pruefliste.md`, erzeugt mit `npm run data:dub-checks`. Daniel arbeitet sie in Zehnerschritten ab; ich lege den Batch vor, er meldet je Nummer ja/nein, ich trage es in `data/dub-confirmed.yaml` ein und baue neu. **Stand: Batch 1 und 2 ausgewertet (12.08.2026), 34 Prüfungen eingetragen — 21 Angaben belegt, 13 tote Verweise entfernt.** Kurzschrift der Antworten (`1`/`0`/`x`, mehrere je Zeile mit Punkt) steht im Kopf der Liste und in der `CLAUDE.md`. Je Batch kurz sagen, woher der Verweis stammt und warum er unsicher ist |
+| Crunchyrolls eigene Staffelzählung auslesen | 5 | Wir wissen belegt, dass 344 Adressen mehrere unserer Einträge bedienen (Feld `sharedWith`), und zeigen das an. **Nicht** belegt ist, wie der Anbieter selbst einteilt — Crunchyroll führt „Café Terrace" und „Vanitas" je als eine Staffel mit 24 Folgen (Daniel, 12.08.2026). Um das zu wissen, müsste die Serienseite abgerufen werden; sie lädt ihre Staffelliste per JavaScript nach, also mit Playwright, rund 1.150 Seiten. Erst sinnvoll, wenn die Prüfliste zeigt, wie oft die Abweichung wirklich stört |
 | Kuratierungsbericht: drei Pausen-Meldungen prüfen | 1 | Der neue Pausen-Filter hat drei Artikel vorgelegt (`data/proposals/anime2you.json`, Feld `pause`): „24 Blu-ray-Termine verschoben" (betrifft AniMoon, Crunchyroll, KSM — teils unsere Disc-Termine), „Disc-Release von »Bleach« auf unbestimmte Zeit verschoben", „»Scarlet« startet früher in Deutschland". Von Hand gegen `data/curated/` abgleichen |
 | ~~News-Quellen für Sendepausen~~ — **Filter gebaut, Rest verworfen** | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
 | **Disc-Vorschläge abarbeiten** | 3 | `npm run data:disc-proposals` erzeugt aus dem Archiv 47 Ausgaben an **34 Terminen zu 21 Anime**, die noch nicht im Datensatz stehen (`data/proposals/disc-anisearch.json`, Stand 12.08.2026). Jeder Vorschlag trägt den Grund seiner Einstufung. Übertragen nach `data/curated/` — das ist Handarbeit mit Augenmaß: Mehrere Editionen am selben Tag sind **ein** Kalendereintrag |
@@ -163,6 +164,18 @@ verschoben, Best-of, Recap.
   abgenommen.
 
 ## Archiv
+
+- ✅ **Batch 3 ausgewertet, zwei Regeln fürs Vorlegen gelernt** (12.08.2026). 33 Angaben belegt,
+  32 tote Verweise entfernt (65 Prüfungen). Zwei Fehler auf meiner Seite, beide beim Vorlegen im
+  Chat: Ich hatte die Einträge einer Zeile **umsortiert** (Serien vor Filme statt in der
+  Reihenfolge der Liste) und zwölf Netflix-Einträge zu „12 weitere Filme/Ableger"
+  zusammengefasst, statt sie zu verlinken — die blieben damit ungeprüft. Ab jetzt: jeder Eintrag
+  einzeln verlinkt, Reihenfolge wie in der Liste, und bei gleicher Adresse nur **ein** Link mit
+  den zu prüfenden Namen in Klammern.
+  *Befund am Rande:* Crunchyroll zeigt „Café Terrace" und „Vanitas" je als **eine** Staffel mit
+  24 Folgen, während wir sie getrennt führen. Daraus wurde `StreamLink.sharedWith` und ein
+  Hinweis unter „Wo läuft es".
+
 
 - ✅ **Batch 1 der Prüfliste ausgewertet, Format umgestellt** (12.08.2026). Daniels zehn
   Antworten brachten einen Befund, den ich nicht erwartet hatte: **sechs von zehn Verweisen waren

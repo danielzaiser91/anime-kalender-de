@@ -75,3 +75,17 @@ export function reihenVertreter<T extends Pick<Title, 'jpYear' | 'jpSeason' | 'i
   const sortiert = mitglieder.slice().sort(nachAusstrahlung)
   return sortiert.find((m) => istStaffel(m.format)) ?? sortiert[0]
 }
+
+/**
+ * Name einer Reihe — ohne den Staffelzusatz der ersten Staffel.
+ *
+ * Der deutsche Name der ersten Staffel heißt oft schon „… – Staffel 1", weil er
+ * aus einer Disc-Ausgabe stammt. Als Überschrift einer Reihe, unter der dann
+ * „Staffel 1" und „Staffel 2" zur Auswahl stehen, wäre das eine Zählung zu
+ * viel.
+ */
+export function ohneStaffelEins(name: string): string {
+  return eindeutschenStaffel(name)
+    .replace(/\s*[–—-]?\s*\(?(Staffel|Season)\s*1\)?\s*$/i, '')
+    .trim()
+}
