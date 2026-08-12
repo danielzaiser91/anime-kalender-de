@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-12T11:10:07.713Z",
+  "scrapedAt": "2026-08-12T17:28:04.239Z",
   "quelle": "data/anisearch-raw",
   "proposals": [
     {
@@ -14,7 +14,7 @@
     },
     {
       "titleId": 143598,
-      "anime": "Sword of the Demon Hunter – Vol. 1",
+      "anime": "Sword of the Demon Hunter",
       "edition": "Sword of the Demon Hunter: Kijin Gentôshô - Vol. 2/2 [Blu-ray]",
       "date": "2026-08-20",
       "grund": "Bildträger im Titel benannt",
@@ -24,7 +24,7 @@
     },
     {
       "titleId": 143598,
-      "anime": "Sword of the Demon Hunter – Vol. 1",
+      "anime": "Sword of the Demon Hunter",
       "edition": "Sword of the Demon Hunter: Kijin Gentôshô - Vol. 1/2 [Blu-ray] + Sammelschuber",
       "date": "2026-08-20",
       "grund": "Bildträger im Titel benannt",
@@ -44,7 +44,7 @@
     },
     {
       "titleId": 180367,
-      "anime": "Witch Watch – Vol. 1",
+      "anime": "Witch Watch",
       "edition": "Witch Watch: Staffel 1 - Vol. 1/2: Collector’s Edition [Blu-ray]",
       "date": "2026-08-20",
       "grund": "Bildträger im Titel benannt",
@@ -54,7 +54,7 @@
     },
     {
       "titleId": 164702,
-      "anime": "As a Reincarnated Aristocrat (Staffel 1) – Vol. 1",
+      "anime": "As a Reincarnated Aristocrat (Staffel 1)",
       "edition": "As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World: Staffel 1 - Vol. 1/2 [Blu-ray]",
       "date": "2026-08-21",
       "grund": "Bildträger im Titel benannt",
@@ -64,7 +64,7 @@
     },
     {
       "titleId": 100388,
-      "anime": "Banana Fish – Vol. 1",
+      "anime": "Banana Fish",
       "edition": "Banana Fish - Vol. 1/2: Limited Edition [Blu-ray] + Sammelschuber",
       "date": "2026-08-21",
       "grund": "Bildträger im Titel benannt",
@@ -74,7 +74,7 @@
     },
     {
       "titleId": 100388,
-      "anime": "Banana Fish – Vol. 1",
+      "anime": "Banana Fish",
       "edition": "Banana Fish - Vol. 1/2 [Blu-ray]",
       "date": "2026-08-21",
       "grund": "Bildträger im Titel benannt",
@@ -134,7 +134,7 @@
     },
     {
       "titleId": 177474,
-      "anime": "Tougen Anki – Part 1",
+      "anime": "Tougen Anki",
       "edition": "Tougen Anki: Staffel 1 - Limited Collector’s Edition [Blu-ray]",
       "date": "2026-08-21",
       "grund": "Bildträger im Titel benannt",
@@ -154,7 +154,7 @@
     },
     {
       "titleId": 172019,
-      "anime": "Dr. STONE: Science Future – Part 1",
+      "anime": "Dr. STONE: Science Future",
       "edition": "Dr. Stone: Science Future - Part 1/3 [Blu-ray]",
       "date": "2026-08-24",
       "grund": "Bildträger im Titel benannt",
@@ -164,7 +164,7 @@
     },
     {
       "titleId": 99726,
-      "anime": "Recovery of an MMO Junkie – Vol. 2",
+      "anime": "Recovery of an MMO Junkie",
       "edition": "Recovery of an MMO Junkie - Vol. 2/2: Limited Edition [Blu-ray]",
       "date": "2026-08-28",
       "grund": "Bildträger im Titel benannt",
@@ -174,7 +174,7 @@
     },
     {
       "titleId": 177709,
-      "anime": "Sakamoto Days – Vol. 1",
+      "anime": "Sakamoto Days",
       "edition": "Sakamoto Days - Vol. 1/4: Limited Steelcase Edition + Sammelschuber",
       "date": "2026-08-28",
       "grund": "Volume-Zählung („Vol. 2/3\")",
@@ -184,7 +184,7 @@
     },
     {
       "titleId": 177709,
-      "anime": "Sakamoto Days – Vol. 1",
+      "anime": "Sakamoto Days",
       "edition": "Sakamoto Days - Vol. 1/4: Limited Steelcase Edition [Blu-ray] + Sammelschuber",
       "date": "2026-08-28",
       "grund": "Bildträger im Titel benannt",
@@ -194,7 +194,7 @@
     },
     {
       "titleId": 6381,
-      "anime": "Strike Witches (Staffel 2) – Vol. 1",
+      "anime": "Strike Witches (Staffel 2)",
       "edition": "Strike Witches: Staffel 2 - Vol. 1/3: Limited Mediabook Edition + Sammelschuber",
       "date": "2026-08-28",
       "grund": "Volume-Zählung („Vol. 2/3\")",
@@ -204,7 +204,7 @@
     },
     {
       "titleId": 6381,
-      "anime": "Strike Witches (Staffel 2) – Vol. 1",
+      "anime": "Strike Witches (Staffel 2)",
       "edition": "Strike Witches: Staffel 2 - Vol. 1/3: Limited Mediabook Edition [Blu-ray] + Sammelschuber",
       "date": "2026-08-28",
       "grund": "Bildträger im Titel benannt",
@@ -214,7 +214,7 @@
     },
     {
       "titleId": 129193,
-      "anime": "Virgin Road – Vol. 1",
+      "anime": "Virgin Road",
       "edition": "Virgin Road: Die Henkerin und ihre Art zu leben - Vol. 1/3: Limited Edition + Sammelschuber",
       "date": "2026-08-28",
       "grund": "Volume-Zählung („Vol. 2/3\")",
@@ -224,7 +224,7 @@
     },
     {
       "titleId": 129193,
-      "anime": "Virgin Road – Vol. 1",
+      "anime": "Virgin Road",
       "edition": "Virgin Road: Die Henkerin und ihre Art zu leben - Vol. 1/3: Limited Edition [Blu-ray] + Sammelschuber",
       "date": "2026-08-28",
       "grund": "Bildträger im Titel benannt",
@@ -234,7 +234,7 @@
     },
     {
       "titleId": 179054,
-      "anime": "Black Butler: Emerald Witch Arc – Vol. 1",
+      "anime": "Black Butler: Emerald Witch Arc",
       "edition": "Black Butler: Emerald Witch Arc [Blu-ray]",
       "date": "2026-09-01",
       "grund": "Bildträger im Titel benannt",
@@ -244,7 +244,7 @@
     },
     {
       "titleId": 185880,
-      "anime": "Blue Exorcist: The Blue Night Saga – Vol. 1",
+      "anime": "Blue Exorcist: The Blue Night Saga",
       "edition": "Blue Exorcist: The Blue Night Saga - Vol. 1/2: Limited Edition + Sammelschuber",
       "date": "2026-09-04",
       "grund": "Volume-Zählung („Vol. 2/3\")",
@@ -254,7 +254,7 @@
     },
     {
       "titleId": 185880,
-      "anime": "Blue Exorcist: The Blue Night Saga – Vol. 1",
+      "anime": "Blue Exorcist: The Blue Night Saga",
       "edition": "Blue Exorcist: The Blue Night Saga - Vol. 1/2: Limited Edition [Blu-ray] + Sammelschuber",
       "date": "2026-09-04",
       "grund": "Bildträger im Titel benannt",
@@ -264,7 +264,7 @@
     },
     {
       "titleId": 130003,
-      "anime": "Bocchi the Rock! – Vol. 1",
+      "anime": "Bocchi the Rock!",
       "edition": "Bocchi the Rock! Staffel 1 - Vol. 1/3: Limited Edition + Sammelschuber",
       "date": "2026-09-04",
       "grund": "Volume-Zählung („Vol. 2/3\")",
@@ -274,7 +274,7 @@
     },
     {
       "titleId": 130003,
-      "anime": "Bocchi the Rock! – Vol. 1",
+      "anime": "Bocchi the Rock!",
       "edition": "Bocchi the Rock! Staffel 1 - Vol. 1/3: Limited Edition [Blu-ray] + Sammelschuber",
       "date": "2026-09-04",
       "grund": "Bildträger im Titel benannt",
@@ -314,7 +314,7 @@
     },
     {
       "titleId": 107420,
-      "anime": "Infinite Dendrogram – Vol. 2",
+      "anime": "Infinite Dendrogram",
       "edition": "Infinite Dendrogram - Vol. 2/2: Day One Edition [Blu-ray]",
       "date": "2026-09-04",
       "grund": "Bildträger im Titel benannt",
@@ -324,7 +324,7 @@
     },
     {
       "titleId": 107420,
-      "anime": "Infinite Dendrogram – Vol. 2",
+      "anime": "Infinite Dendrogram",
       "edition": "Infinite Dendrogram - Vol. 2/2: Day One Edition",
       "date": "2026-09-04",
       "grund": "Volume-Zählung („Vol. 2/3\")",
@@ -354,7 +354,7 @@
     },
     {
       "titleId": 154965,
-      "anime": "My Love Story with Yamada-kun at Lv999 – Vol. 1",
+      "anime": "My Love Story with Yamada-kun at Lv999",
       "edition": "My Love Story with Yamada-kun at Lv999 - Vol. 1/3: Limited Edition + Sammelschuber",
       "date": "2026-09-04",
       "grund": "Volume-Zählung („Vol. 2/3\")",
@@ -364,7 +364,7 @@
     },
     {
       "titleId": 154965,
-      "anime": "My Love Story with Yamada-kun at Lv999 – Vol. 1",
+      "anime": "My Love Story with Yamada-kun at Lv999",
       "edition": "My Love Story with Yamada-kun at Lv999 - Vol. 1/3: Limited Edition [Blu-ray] + Sammelschuber",
       "date": "2026-09-04",
       "grund": "Bildträger im Titel benannt",
@@ -374,7 +374,7 @@
     },
     {
       "titleId": 179965,
-      "anime": "Please Put Them On, Takamine! – Vol. 1",
+      "anime": "Please Put Them On, Takamine!",
       "edition": "Bitte zieh dich an, Takamine! - Vol. 1/3: Limited Edition [Blu-ray] + Sammelschuber",
       "date": "2026-09-04",
       "grund": "Bildträger im Titel benannt",
@@ -384,7 +384,7 @@
     },
     {
       "titleId": 163134,
-      "anime": "Re:ZERO – Staffel 3 – Vol. 1",
+      "anime": "Re:ZERO – Staffel 3",
       "edition": "Re:Zero - Starting Life in Another World: Staffel 3 - Vol. 1: Limited Edition [Blu-ray] + Sammelschuber",
       "date": "2026-09-04",
       "grund": "Bildträger im Titel benannt",
@@ -414,7 +414,7 @@
     },
     {
       "titleId": 145728,
-      "anime": "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 3",
+      "anime": "Spice and Wolf: Merchant Meets the Wise Wolf",
       "edition": "Spice and Wolf: Merchant Meets the Wise Wolf - Staffel 1 - Vol. 1/4: Limited Edition [Blu-ray] + Sammelschuber",
       "date": "2026-09-04",
       "grund": "Bildträger im Titel benannt",
@@ -454,7 +454,7 @@
     },
     {
       "titleId": 180367,
-      "anime": "Witch Watch – Vol. 1",
+      "anime": "Witch Watch",
       "edition": "Witch Watch: Staffel 1 - Vol. 2/2: Collector’s Edition [Blu-ray]",
       "date": "2026-09-17",
       "grund": "Bildträger im Titel benannt",
@@ -474,7 +474,7 @@
     },
     {
       "titleId": 164702,
-      "anime": "As a Reincarnated Aristocrat (Staffel 1) – Vol. 1",
+      "anime": "As a Reincarnated Aristocrat (Staffel 1)",
       "edition": "As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World: Staffel 1 - Vol. 2/2 [Blu-ray]",
       "date": "2026-09-18",
       "grund": "Bildträger im Titel benannt",
@@ -484,7 +484,7 @@
     },
     {
       "titleId": 175914,
-      "anime": "Call of the Night – Staffel 2 – Vol. 2",
+      "anime": "Call of the Night – Staffel 2",
       "edition": "Call of the Night: Staffel 2 - Vol. 1/2 [Blu-ray]",
       "date": "2026-09-18",
       "grund": "Bildträger im Titel benannt",
@@ -504,7 +504,7 @@
     },
     {
       "titleId": 172355,
-      "anime": "Master Detective Ron Kamonohashi – Staffel 2 – Vol. 1",
+      "anime": "Master Detective Ron Kamonohashi – Staffel 2",
       "edition": "Meisterdetektiv Ron Kamonohashi: Staffel 2 - Vol. 1/2: Limited Edition [Blu-ray] + Sammelschuber",
       "date": "2026-09-18",
       "grund": "Bildträger im Titel benannt",
@@ -514,7 +514,7 @@
     },
     {
       "titleId": 163139,
-      "anime": "My Hero Academia – Staffel 7 – Vol. 3",
+      "anime": "My Hero Academia – Staffel 7",
       "edition": "My Hero Academia: Staffel 7 - Vol. 3/3 [Blu-ray]",
       "date": "2026-09-18",
       "grund": "Bildträger im Titel benannt",
@@ -524,7 +524,7 @@
     },
     {
       "titleId": 163139,
-      "anime": "My Hero Academia – Staffel 7 – Vol. 3",
+      "anime": "My Hero Academia – Staffel 7",
       "edition": "My Hero Academia: Staffel 7 - Vol. 3/3",
       "date": "2026-09-18",
       "grund": "Volume-Zählung („Vol. 2/3\")",
@@ -544,7 +544,7 @@
     },
     {
       "titleId": 179054,
-      "anime": "Black Butler: Emerald Witch Arc – Vol. 1",
+      "anime": "Black Butler: Emerald Witch Arc",
       "edition": "Black Butler: Emerald Witch Arc [Blu-ray]",
       "date": "2026-09-28",
       "grund": "Bildträger im Titel benannt",
@@ -554,7 +554,7 @@
     },
     {
       "titleId": 179054,
-      "anime": "Black Butler: Emerald Witch Arc – Vol. 1",
+      "anime": "Black Butler: Emerald Witch Arc",
       "edition": "Black Butler: Emerald Witch Arc - Vol. 1/2: Limited Edition + Sammelschuber",
       "date": "2026-10-02",
       "grund": "Volume-Zählung („Vol. 2/3\")",
@@ -564,7 +564,7 @@
     },
     {
       "titleId": 179054,
-      "anime": "Black Butler: Emerald Witch Arc – Vol. 1",
+      "anime": "Black Butler: Emerald Witch Arc",
       "edition": "Black Butler: Emerald Witch Arc - Vol. 1/2: Limited Edition [Blu-ray] + Sammelschuber",
       "date": "2026-10-02",
       "grund": "Bildträger im Titel benannt",
@@ -574,7 +574,7 @@
     },
     {
       "titleId": 185880,
-      "anime": "Blue Exorcist: The Blue Night Saga – Vol. 1",
+      "anime": "Blue Exorcist: The Blue Night Saga",
       "edition": "Blue Exorcist: The Blue Night Saga - Vol. 2/2 [Blu-ray]",
       "date": "2026-10-02",
       "grund": "Bildträger im Titel benannt",
@@ -584,7 +584,7 @@
     },
     {
       "titleId": 185880,
-      "anime": "Blue Exorcist: The Blue Night Saga – Vol. 1",
+      "anime": "Blue Exorcist: The Blue Night Saga",
       "edition": "Blue Exorcist: The Blue Night Saga - Vol. 2/2",
       "date": "2026-10-02",
       "grund": "Volume-Zählung („Vol. 2/3\")",
@@ -594,7 +594,7 @@
     },
     {
       "titleId": 130003,
-      "anime": "Bocchi the Rock! – Vol. 1",
+      "anime": "Bocchi the Rock!",
       "edition": "Bocchi the Rock! Staffel 1 - Vol. 2/3: Limited Edition [Blu-ray]",
       "date": "2026-10-02",
       "grund": "Bildträger im Titel benannt",
@@ -604,7 +604,7 @@
     },
     {
       "titleId": 130003,
-      "anime": "Bocchi the Rock! – Vol. 1",
+      "anime": "Bocchi the Rock!",
       "edition": "Bocchi the Rock! Staffel 1 - Vol. 2/3: Limited Edition",
       "date": "2026-10-02",
       "grund": "Volume-Zählung („Vol. 2/3\")",
@@ -614,7 +614,7 @@
     },
     {
       "titleId": 164212,
-      "anime": "Girls Band Cry – Vol. 1",
+      "anime": "Girls Band Cry",
       "edition": "Girls Band Cry - Vol. 2/2: Limited Edition [Blu-ray]",
       "date": "2026-10-02",
       "grund": "Bildträger im Titel benannt",
@@ -624,7 +624,7 @@
     },
     {
       "titleId": 164212,
-      "anime": "Girls Band Cry – Vol. 1",
+      "anime": "Girls Band Cry",
       "edition": "Girls Band Cry - Vol. 2/2 [Blu-ray]",
       "date": "2026-10-02",
       "grund": "Bildträger im Titel benannt",
@@ -644,7 +644,7 @@
     },
     {
       "titleId": 154965,
-      "anime": "My Love Story with Yamada-kun at Lv999 – Vol. 1",
+      "anime": "My Love Story with Yamada-kun at Lv999",
       "edition": "My Love Story with Yamada-kun at Lv999 - Vol. 2/3: Limited Edition",
       "date": "2026-10-02",
       "grund": "Volume-Zählung („Vol. 2/3\")",
@@ -654,7 +654,7 @@
     },
     {
       "titleId": 177709,
-      "anime": "Sakamoto Days – Vol. 1",
+      "anime": "Sakamoto Days",
       "edition": "Sakamoto Days - Vol. 2/4: Limited Steelcase Edition [Blu-ray]",
       "date": "2026-10-02",
       "grund": "Bildträger im Titel benannt",
@@ -664,7 +664,7 @@
     },
     {
       "titleId": 177709,
-      "anime": "Sakamoto Days – Vol. 1",
+      "anime": "Sakamoto Days",
       "edition": "Sakamoto Days - Vol. 2/4: Limited Steelcase Edition",
       "date": "2026-10-02",
       "grund": "Volume-Zählung („Vol. 2/3\")",
@@ -674,7 +674,7 @@
     },
     {
       "titleId": 145728,
-      "anime": "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 3",
+      "anime": "Spice and Wolf: Merchant Meets the Wise Wolf",
       "edition": "Spice and Wolf: Merchant Meets the Wise Wolf - Staffel 1 - Vol. 2/4: Limited Edition [Blu-ray]",
       "date": "2026-10-02",
       "grund": "Bildträger im Titel benannt",
@@ -684,7 +684,7 @@
     },
     {
       "titleId": 178680,
-      "anime": "Wind Breaker (Staffel 2) – Vol. 1",
+      "anime": "Wind Breaker (Staffel 2)",
       "edition": "Wind Breaker: Staffel 2 - Vol. 2/2 [Blu-ray]",
       "date": "2026-10-02",
       "grund": "Bildträger im Titel benannt",
@@ -704,7 +704,7 @@
     },
     {
       "titleId": 6381,
-      "anime": "Strike Witches (Staffel 2) – Vol. 1",
+      "anime": "Strike Witches (Staffel 2)",
       "edition": "Strike Witches: Staffel 2 - Vol. 2/3: Limited Mediabook Edition [Blu-ray]",
       "date": "2026-10-09",
       "grund": "Bildträger im Titel benannt",
@@ -714,7 +714,7 @@
     },
     {
       "titleId": 6381,
-      "anime": "Strike Witches (Staffel 2) – Vol. 1",
+      "anime": "Strike Witches (Staffel 2)",
       "edition": "Strike Witches: Staffel 2 - Vol. 2/3: Limited Mediabook Edition",
       "date": "2026-10-09",
       "grund": "Volume-Zählung („Vol. 2/3\")",
@@ -724,7 +724,7 @@
     },
     {
       "titleId": 129193,
-      "anime": "Virgin Road – Vol. 1",
+      "anime": "Virgin Road",
       "edition": "Virgin Road: Die Henkerin und ihre Art zu leben - Vol. 2/3: Limited Edition [Blu-ray]",
       "date": "2026-10-09",
       "grund": "Bildträger im Titel benannt",
@@ -734,7 +734,7 @@
     },
     {
       "titleId": 129193,
-      "anime": "Virgin Road – Vol. 1",
+      "anime": "Virgin Road",
       "edition": "Virgin Road: Die Henkerin und ihre Art zu leben - Vol. 2/3: Limited Edition",
       "date": "2026-10-09",
       "grund": "Volume-Zählung („Vol. 2/3\")",
@@ -744,7 +744,7 @@
     },
     {
       "titleId": 172019,
-      "anime": "Dr. STONE: Science Future – Part 1",
+      "anime": "Dr. STONE: Science Future",
       "edition": "Dr. Stone: Science Future - Staffel 4 - Box 1/3: Limited Edition [Blu-ray] + Sammelschuber",
       "date": "2026-10-16",
       "grund": "Bildträger im Titel benannt",
@@ -764,7 +764,7 @@
     },
     {
       "titleId": 179965,
-      "anime": "Please Put Them On, Takamine! – Vol. 1",
+      "anime": "Please Put Them On, Takamine!",
       "edition": "Bitte zieh dich an, Takamine! - Vol. 2/3: Limited Edition [Blu-ray]",
       "date": "2026-10-16",
       "grund": "Bildträger im Titel benannt",
@@ -814,27 +814,27 @@
     },
     {
       "titleId": 171018,
-      "anime": "DAN DA DAN (Staffel 2) – Vol. 3",
+      "anime": "DAN DA DAN",
       "edition": "Dan Da Dan: Staffel 1 - Gesamtausgabe: Limited Edition [Blu-ray]",
       "date": "2026-10-30",
       "grund": "Bildträger im Titel benannt",
       "publisher": "Crunchyroll",
       "url": "https://www.anisearch.de/article/214677,dan-da-dan-staffel-1-gesamtausgabe-limited-edition-blu-ray",
-      "bekannt": true
+      "bekannt": false
     },
     {
       "titleId": 171018,
-      "anime": "DAN DA DAN (Staffel 2) – Vol. 3",
+      "anime": "DAN DA DAN",
       "edition": "Dan Da Dan: Staffel 1 - Gesamtausgabe: Limited Edition",
       "date": "2026-10-30",
       "grund": "Box oder Gesamtausgabe",
       "publisher": "Crunchyroll",
       "url": "https://www.anisearch.de/article/214678,dan-da-dan-staffel-1-gesamtausgabe-limited-edition",
-      "bekannt": true
+      "bekannt": false
     },
     {
       "titleId": 100388,
-      "anime": "Banana Fish – Vol. 1",
+      "anime": "Banana Fish",
       "edition": "Banana Fish - Vol. 2/2: Limited Edition [Blu-ray]",
       "date": "2026-11-06",
       "grund": "Bildträger im Titel benannt",
@@ -844,7 +844,7 @@
     },
     {
       "titleId": 100388,
-      "anime": "Banana Fish – Vol. 1",
+      "anime": "Banana Fish",
       "edition": "Banana Fish - Vol. 2/2 [Blu-ray]",
       "date": "2026-11-06",
       "grund": "Bildträger im Titel benannt",
@@ -864,7 +864,7 @@
     },
     {
       "titleId": 184639,
-      "anime": "Anne Shirley: Anne mit den roten Haaren – Vol. 2",
+      "anime": "Anne Shirley: Anne mit den roten Haaren",
       "edition": "Anne Shirley - Vol. 2/2: Limited Edition [Blu-ray]",
       "date": "2026-11-20",
       "grund": "Bildträger im Titel benannt",
@@ -874,7 +874,7 @@
     },
     {
       "titleId": 184639,
-      "anime": "Anne Shirley: Anne mit den roten Haaren – Vol. 2",
+      "anime": "Anne Shirley: Anne mit den roten Haaren",
       "edition": "Anne Shirley - Vol. 2/2 [Blu-ray]",
       "date": "2026-11-20",
       "grund": "Bildträger im Titel benannt",
@@ -884,7 +884,7 @@
     },
     {
       "titleId": 130003,
-      "anime": "Bocchi the Rock! – Vol. 1",
+      "anime": "Bocchi the Rock!",
       "edition": "Bocchi the Rock! Staffel 1 - Vol. 3/3: Limited Edition [Blu-ray]",
       "date": "2026-11-20",
       "grund": "Bildträger im Titel benannt",
@@ -894,7 +894,7 @@
     },
     {
       "titleId": 130003,
-      "anime": "Bocchi the Rock! – Vol. 1",
+      "anime": "Bocchi the Rock!",
       "edition": "Bocchi the Rock! Staffel 1 - Vol. 3/3: Limited Edition",
       "date": "2026-11-20",
       "grund": "Volume-Zählung („Vol. 2/3\")",
@@ -904,7 +904,7 @@
     },
     {
       "titleId": 175914,
-      "anime": "Call of the Night – Staffel 2 – Vol. 2",
+      "anime": "Call of the Night – Staffel 2",
       "edition": "Call of the Night: Staffel 2 - Vol. 2/2 [Blu-ray]",
       "date": "2026-11-20",
       "grund": "Bildträger im Titel benannt",
@@ -914,7 +914,7 @@
     },
     {
       "titleId": 154965,
-      "anime": "My Love Story with Yamada-kun at Lv999 – Vol. 1",
+      "anime": "My Love Story with Yamada-kun at Lv999",
       "edition": "My Love Story with Yamada-kun at Lv999 - Vol. 3/3: Limited Edition",
       "date": "2026-11-20",
       "grund": "Volume-Zählung („Vol. 2/3\")",
@@ -924,7 +924,7 @@
     },
     {
       "titleId": 179965,
-      "anime": "Please Put Them On, Takamine! – Vol. 1",
+      "anime": "Please Put Them On, Takamine!",
       "edition": "Bitte zieh dich an, Takamine! - Vol. 3/3: Limited Edition [Blu-ray]",
       "date": "2026-11-20",
       "grund": "Bildträger im Titel benannt",
@@ -934,7 +934,7 @@
     },
     {
       "titleId": 6381,
-      "anime": "Strike Witches (Staffel 2) – Vol. 1",
+      "anime": "Strike Witches (Staffel 2)",
       "edition": "Strike Witches: Staffel 2 - Vol. 3/3: Limited Mediabook Edition [Blu-ray]",
       "date": "2026-11-20",
       "grund": "Bildträger im Titel benannt",
@@ -944,7 +944,7 @@
     },
     {
       "titleId": 6381,
-      "anime": "Strike Witches (Staffel 2) – Vol. 1",
+      "anime": "Strike Witches (Staffel 2)",
       "edition": "Strike Witches: Staffel 2 - Vol. 3/3: Limited Mediabook Edition",
       "date": "2026-11-20",
       "grund": "Volume-Zählung („Vol. 2/3\")",
@@ -954,7 +954,7 @@
     },
     {
       "titleId": 129193,
-      "anime": "Virgin Road – Vol. 1",
+      "anime": "Virgin Road",
       "edition": "Virgin Road: Die Henkerin und ihre Art zu leben - Vol. 3/3: Limited Edition [Blu-ray]",
       "date": "2026-11-20",
       "grund": "Bildträger im Titel benannt",
@@ -964,7 +964,7 @@
     },
     {
       "titleId": 129193,
-      "anime": "Virgin Road – Vol. 1",
+      "anime": "Virgin Road",
       "edition": "Virgin Road: Die Henkerin und ihre Art zu leben - Vol. 3/3: Limited Edition",
       "date": "2026-11-20",
       "grund": "Volume-Zählung („Vol. 2/3\")",
@@ -974,7 +974,7 @@
     },
     {
       "titleId": 154965,
-      "anime": "My Love Story with Yamada-kun at Lv999 – Vol. 1",
+      "anime": "My Love Story with Yamada-kun at Lv999",
       "edition": "My Love Story with Yamada-kun at Lv999 - Vol. 3/3: Limited Edition [Blu-ray]",
       "date": "2026-12-31",
       "grund": "Bildträger im Titel benannt",
@@ -984,7 +984,7 @@
     },
     {
       "titleId": 154965,
-      "anime": "My Love Story with Yamada-kun at Lv999 – Vol. 1",
+      "anime": "My Love Story with Yamada-kun at Lv999",
       "edition": "My Love Story with Yamada-kun at Lv999 - Vol. 2/3: Limited Edition [Blu-ray]",
       "date": "2026-12-31",
       "grund": "Bildträger im Titel benannt",
@@ -994,7 +994,7 @@
     },
     {
       "titleId": 145728,
-      "anime": "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 3",
+      "anime": "Spice and Wolf: Merchant Meets the Wise Wolf",
       "edition": "Spice and Wolf: Merchant Meets the Wise Wolf - Staffel 1 - Vol. 4/4: Limited Edition [Blu-ray]",
       "date": "2026-12-31",
       "grund": "Bildträger im Titel benannt",
@@ -1004,7 +1004,7 @@
     },
     {
       "titleId": 145728,
-      "anime": "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 3",
+      "anime": "Spice and Wolf: Merchant Meets the Wise Wolf",
       "edition": "Spice and Wolf: Merchant Meets the Wise Wolf - Staffel 1 - Vol. 3/4: Limited Edition [Blu-ray]",
       "date": "2026-12-31",
       "grund": "Bildträger im Titel benannt",

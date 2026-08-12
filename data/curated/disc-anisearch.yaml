@@ -76,3 +76,33 @@
   edition: "Vol. 3/3: Limited Mediabook Edition Blu-ray · Vol. 3/3: Limited Mediabook Edition"
   schedule: { firstEpisodeDate: "2026-11-20" }
   sources: [https://www.anisearch.de/article/197487,strike-witches-staffel-2-vol-3-3-limited-mediabook-edition-blu-ray]
+
+# ---------------------------------------------------------------------------
+# Nachtrag 12.08.2026 aus `npm run data:disc-proposals`.
+#
+# Von 24 Vorschlägen, deren (Anime, Datum) wir noch nicht führten, blieben nach
+# dem Abgleich genau diese zwei übrig: eine fehlende Zwischenausgabe einer
+# Reihe, deren übrige Volumes wir schon haben. Alles andere widersprach einem
+# vorhandenen Termin oder trug den 31.12. — aniSearchs Platzhalter für „steht
+# noch nicht fest". Die offenen Fälle stehen in status.md.
+# ---------------------------------------------------------------------------
+
+- slug: spice-and-wolf-merchant-meets-the-wise-wolf-vol-2-2026-10-02
+  anilistId: 145728
+  titleDe: "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Staffel 1 - Vol. 2/4: Limited Edition, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-10-02" }
+  sources: [https://www.anisearch.de/article/191391,spice-and-wolf-merchant-meets-the-wise-wolf-staffel-1-vol-2-4-limited-edition-blu-ray]
+
+- slug: witch-watch-vol2
+  anilistId: 180367
+  titleDe: "Witch Watch – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Staffel 1 - Vol. 2/2: Collector's Edition, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-09-17" }
+  sources: [https://www.anisearch.de/article/205044,witch-watch-staffel-1-vol-2-2-collectors-edition-blu-ray]

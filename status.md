@@ -13,7 +13,7 @@ _(leer)_
 | **Prüfliste „Wo läuft es" abarbeiten** (Dauerauftrag) | — | 2.910 Anbieter-Verweise ohne belegte Synchro, Liste: `data/dub-pruefliste.md`, erzeugt mit `npm run data:dub-checks`. Daniel arbeitet sie in Zehnerschritten ab; ich lege den Batch vor, er meldet je Nummer ja/nein, ich trage es in `data/dub-confirmed.yaml` ein und baue neu. **Stand: Batch 1 und 2 ausgewertet (12.08.2026), 34 Prüfungen eingetragen — 21 Angaben belegt, 13 tote Verweise entfernt.** Kurzschrift der Antworten (`1`/`0`/`x`, mehrere je Zeile mit Punkt) steht im Kopf der Liste und in der `CLAUDE.md`. Je Batch kurz sagen, woher der Verweis stammt und warum er unsicher ist |
 | Crunchyrolls eigene Staffelzählung auslesen | 5 | Wir wissen belegt, dass 344 Adressen mehrere unserer Einträge bedienen (Feld `sharedWith`), und zeigen das an. **Nicht** belegt ist, wie der Anbieter selbst einteilt — Crunchyroll führt „Café Terrace" und „Vanitas" je als eine Staffel mit 24 Folgen (Daniel, 12.08.2026). Um das zu wissen, müsste die Serienseite abgerufen werden; sie lädt ihre Staffelliste per JavaScript nach, also mit Playwright, rund 1.150 Seiten. Erst sinnvoll, wenn die Prüfliste zeigt, wie oft die Abweichung wirklich stört |
 | ~~News-Quellen für Sendepausen~~ — **Filter gebaut, Rest verworfen** | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
-| **Disc-Vorschläge abarbeiten** | 3 | `npm run data:disc-proposals` erzeugt aus dem Archiv 47 Ausgaben an **34 Terminen zu 21 Anime**, die noch nicht im Datensatz stehen (`data/proposals/disc-anisearch.json`, Stand 12.08.2026). Jeder Vorschlag trägt den Grund seiner Einstufung. Übertragen nach `data/curated/` — das ist Handarbeit mit Augenmaß: Mehrere Editionen am selben Tag sind **ein** Kalendereintrag |
+| **Widersprüchliche Disc-Termine klären** | 2 | Beim Abarbeiten der Vorschläge (12.08.2026) blieben sieben Fälle stehen, in denen aniSearch ein **anderes** Datum nennt als unser Eintrag — nicht als Verschiebung erkennbar, sondern als schlichter Widerspruch. Je Fall braucht es einen Blick auf die Produktseite: **Dr. STONE Science Future Teil 1** (wir 16.10., aniSearch 24.08.), **Kaiju No. 8 Mission Recon** (18.09. / 08.09. + 19.10.), **MHA Vigilantes Staffel 1** (04.09. / 08.09. + 14.09.), **Black Butler Emerald Witch Arc** (Vol. 1 am 02.10. / zwei undatierte Blu-rays am 01.09. und 28.09.), **Inazuma Eleven Staffel 1** (AniMoon 04.09. / Kazé 25.09. unter **anderer** AniList-Kennung 5231 — womöglich eine Alt-Ausgabe, womöglich unsere Zuordnung falsch). Nicht übernommen wurde alles mit dem 31.12. — das ist aniSearchs Platzhalter für „steht noch nicht fest" |
 | Ansicht „Wo kann ich das sehen?" ausbauen | 5 | **Nicht mehr blockiert** — aniSearch-Bestand seit 10.08.2026 vollständig, 2.109 Titel haben einen Bezugsweg. Der Filter „▶ verfügbar" steht bereits. Offen: nach Anbieter gruppieren (die `watchLinks` tragen nur Namen, keine PlatformId), Kauf von Stream trennen, eigene Ansicht unter `#/wo` |
 
 
@@ -163,6 +163,21 @@ verschoben, Best-of, Recap.
   abgenommen.
 
 ## Archiv
+
+- ✅ **Disc-Vorschläge abgearbeitet** (12.08.2026). Von 101 Vorschlägen aus dem aniSearch-Archiv
+  führten wir 77 bereits mit demselben Datum. Von den 24 offenen blieben nach dem Abgleich genau
+  **zwei** echte Lücken: „Spice and Wolf – Vol. 2/4" (02.10.) und „Witch Watch – Vol. 2/2"
+  (17.09.) — beides Zwischenausgaben von Reihen, deren übrige Volumes wir schon führen.
+  Der Rest zerfiel in drei Gruppen: **veraltete Termine**, die der Verschiebungs-Artikel vom
+  31.07. längst überholt hat (I'm Standing on a Million Lives, One-Hit Kill Sister, Re:Monster,
+  Café Terrace, Most Heretical Last Boss Queen — alle mit dem alten 21.08. bzw. 20.08.);
+  **Platzhalter** mit dem 31.12., den aniSearch für „steht noch nicht fest" verwendet; und
+  **sieben echte Widersprüche**, die je einen Blick auf die Produktseite brauchen und deshalb in
+  der Queue stehen.
+  *Nebenbei bestätigt:* aniSearch nennt für „Café Terrace – Staffel 1" den 21.08. — also genau
+  das alte Datum aus dem Verschiebungs-Artikel. Unser bisheriger 07.08. war damit falsch, und
+  die Entscheidung, auf den neuen 04.09. zu gehen, war richtig.
+
 
 - ✅ **Drei Pausen-Meldungen abgearbeitet** (12.08.2026). Der Filter hatte sie am 11.08. vorgelegt,
   aber ohne Datumsangaben — die stehen nur im Fließtext bzw. in einer Tabelle. Ergebnis nach
