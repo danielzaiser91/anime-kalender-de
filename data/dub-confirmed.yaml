@@ -1,0 +1,32 @@
+# Von Hand bestätigte (und widerlegte) Synchro-Angaben je Anbieter.
+#
+# Warum es diese Datei gibt: Ein Stream-Verweis sagt, **dass** ein Titel dort
+# läuft — nicht, in welcher Sprache. Die Pipeline kann das nur dort belegen, wo
+# eine Quelle es selbst nennt: ADN führt je Folge den Sprachcode `vde`,
+# Crunchyroll schreibt „(Deutsch)" in den Kalender. Für alles andere —
+# YouTube-Kanäle, Netflix, Prime Video, RTL+, Joyn — gibt es keine
+# maschinenlesbare Auskunft. Übrig bleiben 3.021 Verweise mit „🇩🇪 ?".
+#
+# Diese Datei ist der Ort, an dem aus einem Fragezeichen ein Häkchen wird.
+# Gepflegt wird sie ausschließlich durch tatsächliche Prüfung — Daniel öffnet
+# den Verweis und sieht nach. Geraten wird hier nichts; das wäre genau die
+# Behauptung, die dieses Projekt nicht aufstellen will.
+#
+# `dub: false` ist genauso wertvoll wie `true`: Es nimmt den Eintrag dauerhaft
+# aus der Prüfliste und sagt der Oberfläche, dass es dort **nur** Untertitel
+# gibt.
+#
+# Felder:
+#   anilistId  Pflicht — die Kennung des Anime.
+#   platform   Pflicht — crunchyroll | netflix | primevideo | youtube | adn |
+#              aniverse | wow | joyn | rtlplus | disneyplus
+#   dub        Pflicht — true (deutsche Synchro dort vorhanden) oder false.
+#   checkedAt  Pflicht — Datum der Prüfung, ISO, in Anführungszeichen.
+#   note       Optional — was genau gesehen wurde.
+
+- anilistId: 1663
+  title: 3000 Leagues in Search of Mother
+  platform: youtube
+  dub: true
+  checkedAt: '2026-08-12'
+  note: Von Daniel im Verweis geöffnet und als deutsche Synchronfassung bestätigt.

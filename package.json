@@ -21,6 +21,7 @@
     "data:adn:refresh": "tsx pipeline/fetch-adn.ts --refresh",
     "data:anime2you": "tsx pipeline/scrape-anime2you.ts",
     "data:check": "tsx pipeline/check-sources.ts",
+    "data:dub-checks": "tsx pipeline/report-dub-checks.ts",
     "data:report": "tsx pipeline/report-proposals.ts",
     "data:icons": "tsx pipeline/build-icons.ts",
     "data:anisearch": "tsx pipeline/fetch-anisearch.ts",

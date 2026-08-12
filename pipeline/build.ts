@@ -10,6 +10,7 @@ import {
   type CrunchyrollEntry,
 } from './lib/crunchyroll.ts'
 import { loadCurated, loadWatchLinks, type CuratedEntry } from './lib/curated.ts'
+import { dubKey, loadDubChecks } from './lib/dub-confirmed.ts'
 import type { TmdbInfo } from './lib/tmdb.ts'
 import {
   ordneBloeckeZuStaffeln,
@@ -1216,6 +1217,28 @@ function main(): void {
       }
     }
   }
+
+  /**
+   * Was ein Mensch nachgesehen hat, schlägt jede Ableitung.
+   *
+   * Für YouTube, Netflix, Prime Video, RTL+ und Joyn gibt es keine Quelle, die
+   * die Tonspur nennt — 3.021 Verweise standen deshalb dauerhaft auf „🇩🇪 ?".
+   * `data/dub-confirmed.yaml` löst das auf dem einzigen Weg, der zum
+   * Projektgrundsatz passt: durch tatsächliches Nachsehen. Ein Eintrag dort ist
+   * ein Beleg, kein Vorschlag, und gilt deshalb auch gegen ein automatisch
+   * gesetztes `true`.
+   */
+  let geprueft = 0
+  const checks = new Map(loadDubChecks().map((c) => [dubKey(c.anilistId, c.platform), c]))
+  for (const title of titles.values()) {
+    for (const stream of title.streams) {
+      const check = checks.get(dubKey(title.id, stream.platform))
+      if (!check) continue
+      stream.dub = check.dub
+      geprueft++
+    }
+  }
+  if (checks.size) log(`${geprueft} von ${checks.size} geprüften Synchro-Angaben übernommen`)
 
   /**
    * „Season" kommt nicht auf die Seite — auch nicht über einen Release-Namen.

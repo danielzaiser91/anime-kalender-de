@@ -72,6 +72,24 @@ Dieses Projekt lebt davon, dass die Termine stimmen. Deshalb gilt ausnahmslos:
   pipeline/qa-resolve.ts` zeigt Verdachtsfälle; die Folgenzahl wird nur übernommen, wenn das
   japanische Ausstrahlungsjahr zum deutschen Termin passt.
 
+## „Wo läuft es" — ein Verweis ist keine Sprachangabe
+
+Ein Stream-Verweis sagt, **dass** ein Titel dort läuft, nicht **in welcher Sprache**. Belegen
+kann die Pipeline die deutsche Fassung nur bei ADN (Sprachcode `vde` je Folge) und Crunchyroll
+(„(Deutsch)" im Kalender). Bei YouTube, Netflix, Prime Video, Disney+, RTL+, Joyn und Aniverse
+gibt es keine öffentliche Auskunft — dort steht „🇩🇪 ?", und das ist die ehrliche Antwort.
+
+- **Aus dem Fragezeichen wird ein Häkchen nur durch Nachsehen.** Geprüfte Fälle stehen in
+  `data/dub-confirmed.yaml`, mit Datum. `dub: false` ist genauso wertvoll wie `true`.
+- **Was ein Mensch geprüft hat, schlägt jede Ableitung** — der Eintrag gilt auch gegen ein
+  automatisch gesetztes `true`.
+- **Nie raten, auch nicht bei starken Indizien.** Eine YouTube-Playlist des deutschen
+  Crunchyroll-Kanals ist ein Hinweis, kein Beleg; dieselbe Playlist enthält auch untertitelte
+  Folgen.
+- `npm run data:dub-checks` erzeugt aus dem aktuellen Stand die Arbeitsliste
+  `data/dub-pruefliste.md` — nach hinten sortiert von heute, ohne Künftiges (das kann niemand
+  nachsehen) und ohne bereits Geprüftes.
+
 ## Was erzeugt wird, wird auch geprüft
 
 `npm run data:validate` sichert nur `data/curated/*.yaml` — also den Teil, den ohnehin jemand
