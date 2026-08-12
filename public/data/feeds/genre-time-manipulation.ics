@@ -394,6 +394,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:please-put-them-on-takamine-vol2@2026-10-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261016
+DTEND;VALUE=DATE:20261017
+SUMMARY:Please Put Them On\, Takamine! – Vol. 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/please-
+ put-them-on-takamine-vol2
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:please-put-them-on-takamine-vol-3-2026-11-20@2026-11-20@anime-kalender-
  de
 DTSTAMP:20200101T000000Z

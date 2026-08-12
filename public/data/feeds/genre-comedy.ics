@@ -3567,6 +3567,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:sakamoto-days-vol2@2026-10-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261002
+DTEND;VALUE=DATE:20261003
+SUMMARY:Sakamoto Days – Vol. 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/sakamot
+ o-days-vol2
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:wind-breaker-s2-vol2@2026-10-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261002
@@ -3632,6 +3643,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:please-put-them-on-takamine-vol2@2026-10-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261016
+DTEND;VALUE=DATE:20261017
+SUMMARY:Please Put Them On\, Takamine! – Vol. 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/please-
+ put-them-on-takamine-vol2
+CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:dr-stone-science-future-part1@2026-10-16@anime-kalender-de

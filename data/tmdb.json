@@ -621,5 +621,102 @@
     ]
   },
   "strike-witches-staffel-2-vol-2-2026-10-09": {},
-  "strike-witches-staffel-2-vol-3-2026-11-20": {}
+  "strike-witches-staffel-2-vol-3-2026-11-20": {},
+  "spice-and-wolf-merchant-meets-the-wise-wolf-vol-2-2026-10-02": {
+    "tmdbId": 229676,
+    "justwatchUrl": "https://www.themoviedb.org/tv/229676-merchant-meets-the-wise-wolf/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "crunchyroll"
+    ]
+  },
+  "witch-watch-vol2": {
+    "tmdbId": 261868,
+    "justwatchUrl": "https://www.themoviedb.org/tv/261868/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Animation Digital Network",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Anime Digital Network Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "netflix",
+      "crunchyroll",
+      "primevideo",
+      "adn"
+    ]
+  },
+  "please-put-them-on-takamine-vol2": {
+    "tmdbId": 276880,
+    "justwatchUrl": "https://www.themoviedb.org/tv/276880/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "crunchyroll"
+    ]
+  },
+  "im-standing-on-a-million-lives-s2-box": {},
+  "sakamoto-days-vol2": {
+    "tmdbId": 207332,
+    "fsk": 16,
+    "justwatchUrl": "https://www.themoviedb.org/tv/207332-sakamoto-days/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "netflix"
+    ]
+  }
 }

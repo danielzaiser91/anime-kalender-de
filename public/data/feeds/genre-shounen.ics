@@ -2694,6 +2694,17 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrzei
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
+UID:sakamoto-days-vol2@2026-10-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261002
+DTEND;VALUE=DATE:20261003
+SUMMARY:Sakamoto Days – Vol. 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/sakamot
+ o-days-vol2
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:black-butler-emerald-witch-vol1@2026-10-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261002
@@ -2746,6 +2757,17 @@ SUMMARY:Wind Breaker – Staffel 2 – Vol. 2 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/wind-br
  eaker-s2-vol2
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:please-put-them-on-takamine-vol2@2026-10-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261016
+DTEND;VALUE=DATE:20261017
+SUMMARY:Please Put Them On\, Takamine! – Vol. 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/please-
+ put-them-on-takamine-vol2
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
