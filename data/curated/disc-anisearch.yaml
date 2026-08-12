@@ -1,0 +1,348 @@
+# Disc-Termine aus dem archivierten aniSearch-Bestand.
+#
+# Erzeugt von pipeline/disc-proposals-to-yaml.ts aus data/proposals/disc-anisearch.json.
+# Grundlage ist der Abschnitt „Neuerscheinungen" der jeweiligen aniSearch-Seite; das Datum
+# steht dort maschinenlesbar als data-date. Alle Termine sind angekündigte Verkaufsstarts,
+# deshalb kein `estimated`. Eine Uhrzeit gibt es bei Disc-Veröffentlichungen nicht.
+#
+# Mehrere Editionen am selben Tag sind ein Eintrag — sie stehen zusammengefasst in `edition`.
+
+- slug: infinite-dendrogram-vol-2-2026-09-04
+  anilistId: 107420
+  titleDe: "Infinite Dendrogram – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing GmbH"
+  edition: "Vol. 2/2: Day One Edition Blu-ray · Vol. 2/2: Day One Edition"
+  schedule: { firstEpisodeDate: "2026-09-04" }
+  sources: [https://www.anisearch.de/article/187244,infinite-dendrogram-vol-2-2-day-one-edition-blu-ray]
+
+- slug: i-m-standing-on-a-million-lives-staffel-1-2026-08-21
+  anilistId: 116242
+  titleDe: "I'm Standing on a Million Lives – Staffel 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Gesamtausgabe Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-21" }
+  sources: [https://www.anisearch.de/article/191415,im-standing-on-a-million-lives-staffel-1-gesamtausgabe-blu-ray]
+
+- slug: virgin-road-vol-1-2026-08-28
+  anilistId: 129193
+  titleDe: "Virgin Road – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing GmbH"
+  edition: "Vol. 1/3: Limited Edition + Sammelschuber · Vol. 1/3: Limited Edition Blu-ray + Sammelschuber"
+  schedule: { firstEpisodeDate: "2026-08-28" }
+  sources: [https://www.anisearch.de/article/135829,virgin-road-die-henkerin-und-ihre-art-zu-leben-vol-1-3-limited-edition-sammelschuber]
+
+- slug: virgin-road-vol-1-2026-10-09
+  anilistId: 129193
+  titleDe: "Virgin Road – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing GmbH"
+  edition: "Vol. 2/3: Limited Edition Blu-ray · Vol. 2/3: Limited Edition"
+  schedule: { firstEpisodeDate: "2026-10-09" }
+  sources: [https://www.anisearch.de/article/198025,virgin-road-die-henkerin-und-ihre-art-zu-leben-vol-2-3-limited-edition-blu-ray]
+
+- slug: virgin-road-vol-1-2026-11-20
+  anilistId: 129193
+  titleDe: "Virgin Road – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing GmbH"
+  edition: "Vol. 3/3: Limited Edition Blu-ray · Vol. 3/3: Limited Edition"
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anisearch.de/article/198026,virgin-road-die-henkerin-und-ihre-art-zu-leben-vol-3-3-limited-edition-blu-ray]
+
+- slug: spice-and-wolf-merchant-meets-the-wise-wolf-vol-3-2026-09-04
+  anilistId: 145728
+  titleDe: "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 3"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Staffel 1 - Vol. 1/4: Limited Edition Blu-ray + Sammelschuber"
+  schedule: { firstEpisodeDate: "2026-09-04" }
+  sources: [https://www.anisearch.de/article/191390,spice-and-wolf-merchant-meets-the-wise-wolf-staffel-1-vol-1-4-limited-edition-blu-ray-sammelschuber]
+
+- slug: spice-and-wolf-merchant-meets-the-wise-wolf-vol-3-2026-10-02
+  anilistId: 145728
+  titleDe: "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 3"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Staffel 1 - Vol. 2/4: Limited Edition Blu-ray"
+  schedule: { firstEpisodeDate: "2026-10-02" }
+  sources: [https://www.anisearch.de/article/191391,spice-and-wolf-merchant-meets-the-wise-wolf-staffel-1-vol-2-4-limited-edition-blu-ray]
+
+- slug: spice-and-wolf-merchant-meets-the-wise-wolf-vol-3-2026-12-31
+  anilistId: 145728
+  titleDe: "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 3"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Staffel 1 - Vol. 4/4: Limited Edition Blu-ray · Staffel 1 - Vol. 3/4: Limited Edition Blu-ray"
+  schedule: { firstEpisodeDate: "2026-12-31" }
+  sources: [https://www.anisearch.de/article/191393,spice-and-wolf-merchant-meets-the-wise-wolf-staffel-1-vol-4-4-limited-edition-blu-ray]
+
+- slug: my-one-hit-kill-sister-staffel-1-2026-08-21
+  anilistId: 146234
+  titleDe: "My One-Hit Kill Sister – Staffel 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Gesamtausgabe: Limited Edition Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-21" }
+  sources: [https://www.anisearch.de/article/191412,my-one-hit-kill-sister-gesamtausgabe-limited-edition-blu-ray]
+
+- slug: the-cafe-terrace-and-its-goddesses-staffel-1-2026-08-21
+  anilistId: 154412
+  titleDe: "The Café Terrace and Its Goddesses – Staffel 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Gesamtausgabe: Limited Edition Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-21" }
+  sources: [https://www.anisearch.de/article/191414,the-cafe-terrace-and-its-goddesses-staffel-1-gesamtausgabe-limited-edition-blu-ray]
+
+- slug: my-love-story-with-yamada-kun-at-lv999-vol-1-2026-09-04
+  anilistId: 154965
+  titleDe: "My Love Story with Yamada-kun at Lv999 – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Vol. 1/3: Limited Edition + Sammelschuber · Vol. 1/3: Limited Edition Blu-ray + Sammelschuber"
+  schedule: { firstEpisodeDate: "2026-09-04" }
+  sources: [https://www.anisearch.de/article/213746,my-love-story-with-yamada-kun-at-lv999-vol-1-3-limited-edition-sammelschuber]
+
+- slug: my-love-story-with-yamada-kun-at-lv999-vol-1-2026-12-31
+  anilistId: 154965
+  titleDe: "My Love Story with Yamada-kun at Lv999 – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Vol. 3/3: Limited Edition Blu-ray · Vol. 2/3: Limited Edition Blu-ray"
+  schedule: { firstEpisodeDate: "2026-12-31" }
+  sources: [https://www.anisearch.de/article/191581,my-love-story-with-yamada-kun-at-lv999-vol-3-3-limited-edition-blu-ray]
+
+- slug: i-was-reincarnated-as-the-7th-prince-staffel-1-2026-09-04
+  anilistId: 156415
+  titleDe: "I Was Reincarnated as the 7th Prince – Staffel 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Gesamtausgabe: Limited Edition Blu-ray"
+  schedule: { firstEpisodeDate: "2026-09-04" }
+  sources: [https://www.anisearch.de/article/191439,i-was-reincarnated-as-the-7th-prince-so-i-can-take-my-time-perfecting-my-magical-ability-staffel-1-gesamtausgabe-limited-edition-blu-ray]
+
+- slug: re-monster-staffel-1-2026-08-21
+  anilistId: 169417
+  titleDe: "Re:Monster – Staffel 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Gesamtausgabe: Limited Edition Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-21" }
+  sources: [https://www.anisearch.de/article/191413,re-monster-gesamtausgabe-limited-edition-blu-ray]
+
+- slug: dan-da-dan-staffel-2-vol-3-2026-10-30
+  anilistId: 171018
+  titleDe: "DAN DA DAN (Staffel 2) – Vol. 3"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Gesamtausgabe: Limited Edition Blu-ray · Gesamtausgabe: Limited Edition"
+  schedule: { firstEpisodeDate: "2026-10-30" }
+  sources: [https://www.anisearch.de/article/214677,dan-da-dan-staffel-1-gesamtausgabe-limited-edition-blu-ray]
+
+- slug: dr-stone-science-future-part-1-2026-08-24
+  anilistId: 172019
+  titleDe: "Dr. STONE: Science Future – Part 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Part 1/3 Blu-ray"
+  schedule: { firstEpisodeDate: "2026-08-24" }
+  sources: [https://www.anisearch.de/article/209142,dr-stone-science-future-part-1-3-blu-ray]
+
+- slug: call-of-the-night-staffel-2-vol-2-2026-09-18
+  anilistId: 175914
+  titleDe: "Call of the Night – Staffel 2 – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "peppermint anime GmbH"
+  edition: "Vol. 1/2 Blu-ray"
+  schedule: { firstEpisodeDate: "2026-09-18" }
+  sources: [https://www.anisearch.de/article/189295,call-of-the-night-staffel-2-vol-1-2-blu-ray]
+
+- slug: sakamoto-days-vol-1-2026-08-28
+  anilistId: 177709
+  titleDe: "Sakamoto Days – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Netflix, Inc."
+  edition: "Vol. 1/4: Limited Steelcase Edition + Sammelschuber · Vol. 1/4: Limited Steelcase Edition Blu-ray + Sammelschuber"
+  schedule: { firstEpisodeDate: "2026-08-28" }
+  sources: [https://www.anisearch.de/article/201860,sakamoto-days-vol-1-4-limited-steelcase-edition-sammelschuber]
+
+- slug: sakamoto-days-vol-1-2026-10-02
+  anilistId: 177709
+  titleDe: "Sakamoto Days – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Netflix, Inc."
+  edition: "Vol. 2/4: Limited Steelcase Edition Blu-ray · Vol. 2/4: Limited Steelcase Edition"
+  schedule: { firstEpisodeDate: "2026-10-02" }
+  sources: [https://www.anisearch.de/article/201861,sakamoto-days-vol-2-4-limited-steelcase-edition-blu-ray]
+
+- slug: black-butler-emerald-witch-arc-vol-1-2026-09-01
+  anilistId: 179054
+  titleDe: "Black Butler: Emerald Witch Arc – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Black Butler: Emerald Witch Arc Blu-ray"
+  schedule: { firstEpisodeDate: "2026-09-01" }
+  sources: [https://www.anisearch.de/article/209966,black-butler-emerald-witch-arc-blu-ray]
+
+- slug: black-butler-emerald-witch-arc-vol-1-2026-09-28
+  anilistId: 179054
+  titleDe: "Black Butler: Emerald Witch Arc – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Black Butler: Emerald Witch Arc Blu-ray"
+  schedule: { firstEpisodeDate: "2026-09-28" }
+  sources: [https://www.anisearch.de/article/213904,black-butler-emerald-witch-arc-blu-ray]
+
+- slug: please-put-them-on-takamine-vol-1-2026-09-04
+  anilistId: 179965
+  titleDe: "Please Put Them On, Takamine! – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Vol. 1/3: Limited Edition Blu-ray + Sammelschuber"
+  schedule: { firstEpisodeDate: "2026-09-04" }
+  sources: [https://www.anisearch.de/article/191369,bitte-zieh-dich-an-takamine-vol-1-3-limited-edition-blu-ray-sammelschuber]
+
+- slug: please-put-them-on-takamine-vol-1-2026-10-16
+  anilistId: 179965
+  titleDe: "Please Put Them On, Takamine! – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Vol. 2/3: Limited Edition Blu-ray"
+  schedule: { firstEpisodeDate: "2026-10-16" }
+  sources: [https://www.anisearch.de/article/191370,bitte-zieh-dich-an-takamine-vol-2-3-limited-edition-blu-ray]
+
+- slug: please-put-them-on-takamine-vol-1-2026-11-20
+  anilistId: 179965
+  titleDe: "Please Put Them On, Takamine! – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Vol. 3/3: Limited Edition Blu-ray"
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anisearch.de/article/191371,bitte-zieh-dich-an-takamine-vol-3-3-limited-edition-blu-ray]
+
+- slug: kaiju-no-8-mission-recon-der-film-2026-09-08
+  anilistId: 179998
+  titleDe: "Kaiju No. 8: Mission Recon – Der Film"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Steelbook Blu-ray"
+  schedule: { firstEpisodeDate: "2026-09-08" }
+  sources: [https://www.anisearch.de/article/209965,kaiju-no-8-mission-recon-steelbook-blu-ray]
+
+- slug: kaiju-no-8-mission-recon-der-film-2026-10-19
+  anilistId: 179998
+  titleDe: "Kaiju No. 8: Mission Recon – Der Film"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Steelbook Blu-ray"
+  schedule: { firstEpisodeDate: "2026-10-19" }
+  sources: [https://www.anisearch.de/article/213002,kaiju-no-8-mission-recon-steelbook-blu-ray]
+
+- slug: witch-watch-vol-1-2026-09-17
+  anilistId: 180367
+  titleDe: "Witch Watch – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Vol. 2/2: Collector’s Edition Blu-ray"
+  schedule: { firstEpisodeDate: "2026-09-17" }
+  sources: [https://www.anisearch.de/article/205044,witch-watch-staffel-1-vol-2-2-collectors-edition-blu-ray]
+
+- slug: my-hero-academia-vigilantes-staffel-1-2026-09-08
+  anilistId: 185736
+  titleDe: "My Hero Academia: Vigilantes – Staffel 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Season 1 Blu-ray"
+  schedule: { firstEpisodeDate: "2026-09-08" }
+  sources: [https://www.anisearch.de/article/209935,my-hero-academia-vigilantes-season-1-blu-ray]
+
+- slug: my-hero-academia-vigilantes-staffel-1-2026-09-14
+  anilistId: 185736
+  titleDe: "My Hero Academia: Vigilantes – Staffel 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Season 1 Blu-ray"
+  schedule: { firstEpisodeDate: "2026-09-14" }
+  sources: [https://www.anisearch.de/article/213903,my-hero-academia-vigilantes-season-1-blu-ray]
+
+- slug: inazuma-eleven-staffel-1-2026-09-25
+  anilistId: 5231
+  titleDe: "Inazuma Eleven – Staffel 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Kazé Deutschland"
+  edition: "Inazuma Eleven: Staffel 1 Blu-ray"
+  schedule: { firstEpisodeDate: "2026-09-25" }
+  sources: [https://www.anisearch.de/article/209920,inazuma-eleven-staffel-1-blu-ray]
+
+- slug: strike-witches-staffel-2-vol-1-2026-08-28
+  anilistId: 6381
+  titleDe: "Strike Witches (Staffel 2) – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Vol. 1/3: Limited Mediabook Edition + Sammelschuber · Vol. 1/3: Limited Mediabook Edition Blu-ray + Sammelschuber"
+  schedule: { firstEpisodeDate: "2026-08-28" }
+  sources: [https://www.anisearch.de/article/197488,strike-witches-staffel-2-vol-1-3-limited-mediabook-edition-sammelschuber]
+
+- slug: strike-witches-staffel-2-vol-1-2026-10-09
+  anilistId: 6381
+  titleDe: "Strike Witches (Staffel 2) – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Vol. 2/3: Limited Mediabook Edition Blu-ray · Vol. 2/3: Limited Mediabook Edition"
+  schedule: { firstEpisodeDate: "2026-10-09" }
+  sources: [https://www.anisearch.de/article/197486,strike-witches-staffel-2-vol-2-3-limited-mediabook-edition-blu-ray]
+
+- slug: strike-witches-staffel-2-vol-1-2026-11-20
+  anilistId: 6381
+  titleDe: "Strike Witches (Staffel 2) – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Vol. 3/3: Limited Mediabook Edition Blu-ray · Vol. 3/3: Limited Mediabook Edition"
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anisearch.de/article/197487,strike-witches-staffel-2-vol-3-3-limited-mediabook-edition-blu-ray]
+
+- slug: inazuma-eleven-the-movie-team-oger-attacks-2026-11-06
+  anilistId: 9032
+  titleDe: "Inazuma Eleven – The Movie: Team Oger Attacks!"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing GmbH"
+  edition: "Team Oger greift an! Blu-ray"
+  schedule: { firstEpisodeDate: "2026-11-06" }
+  sources: [https://www.anisearch.de/article/210019,inazuma-eleven-the-movie-team-oger-greift-an-blu-ray]

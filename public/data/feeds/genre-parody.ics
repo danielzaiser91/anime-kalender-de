@@ -1382,6 +1382,18 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:my-one-hit-kill-sister-staffel-1-2026-08-21@2026-08-21@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260821
+DTEND;VALUE=DATE:20260822
+SUMMARY:My One-Hit Kill Sister – Staffel 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/my-one-
+ hit-kill-sister-staffel-1-2026-08-21
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:trapped-in-a-dating-sim-s2@2026-08-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260826T153000Z
@@ -1424,6 +1436,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/trapped-in-a-dating-sim-s2
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:witch-watch-vol-1-2026-09-17@2026-09-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260917
+DTEND;VALUE=DATE:20260918
+SUMMARY:Witch Watch – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/witch-w
+ atch-vol-1-2026-09-17
+CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:trapped-in-a-dating-sim-s2@2026-09-23@anime-kalender-de

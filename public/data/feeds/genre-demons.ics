@@ -1623,6 +1623,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:my-one-hit-kill-sister-staffel-1-2026-08-21@2026-08-21@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260821
+DTEND;VALUE=DATE:20260822
+SUMMARY:My One-Hit Kill Sister – Staffel 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/my-one-
+ hit-kill-sister-staffel-1-2026-08-21
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:demon-slayer-s1-steelbook@2026-08-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260821
@@ -1721,6 +1733,18 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:black-butler-emerald-witch-arc-vol-1-2026-09-01@2026-09-01@anime-kalend
+ er-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260901
+DTEND;VALUE=DATE:20260902
+SUMMARY:Black Butler: Emerald Witch Arc – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/black-b
+ utler-emerald-witch-arc-vol-1-2026-09-01
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:tomb-raider-king@2026-09-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260902T172000Z
@@ -1742,6 +1766,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:i-was-reincarnated-as-the-7th-prince-staffel-1-2026-09-04@2026-09-04@an
+ ime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260904
+DTEND;VALUE=DATE:20260905
+SUMMARY:I Was Reincarnated as the 7th Prince – Staffel 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/i-was-r
+ eincarnated-as-the-7th-prince-staffel-1-2026-09-04
+CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:blue-exorcist-blue-night-saga-vol1@2026-09-04@anime-kalender-de
@@ -1885,6 +1921,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:black-butler-emerald-witch-arc-vol-1-2026-09-28@2026-09-28@anime-kalend
+ er-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260928
+DTEND;VALUE=DATE:20260929
+SUMMARY:Black Butler: Emerald Witch Arc – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/black-b
+ utler-emerald-witch-arc-vol-1-2026-09-28
+CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:adn-427@2026-09-29@anime-kalender-de

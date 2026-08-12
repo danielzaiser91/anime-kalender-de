@@ -287,6 +287,29 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
+UID:sakamoto-days-vol-1-2026-08-28@2026-08-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260828
+DTEND;VALUE=DATE:20260829
+SUMMARY:Sakamoto Days – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/sakamot
+ o-days-vol-1-2026-08-28
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:black-butler-emerald-witch-arc-vol-1-2026-09-01@2026-09-01@anime-kalend
+ er-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260901
+DTEND;VALUE=DATE:20260902
+SUMMARY:Black Butler: Emerald Witch Arc – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/black-b
+ utler-emerald-witch-arc-vol-1-2026-09-01
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:ghost-in-the-shell-2026@2026-09-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260901
@@ -321,6 +344,18 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:my-hero-academia-vigilantes-staffel-1-2026-09-08@2026-09-08@anime-kalen
+ der-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260908
+DTEND;VALUE=DATE:20260909
+SUMMARY:My Hero Academia: Vigilantes – Staffel 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/my-hero
+ -academia-vigilantes-staffel-1-2026-09-08
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:ghost-in-the-shell-2026@2026-09-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260908
@@ -331,6 +366,18 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
  ätigt.\nDetails: https://anime-kalender.de/#/release/ghost-in-the-shell-20
  26
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:my-hero-academia-vigilantes-staffel-1-2026-09-14@2026-09-14@anime-kalen
+ der-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260914
+DTEND;VALUE=DATE:20260915
+SUMMARY:My Hero Academia: Vigilantes – Staffel 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/my-hero
+ -academia-vigilantes-staffel-1-2026-09-14
+CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:ghost-in-the-shell-2026@2026-09-15@anime-kalender-de
@@ -366,6 +413,29 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
  ätigt.\nDetails: https://anime-kalender.de/#/release/ghost-in-the-shell-20
  26
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:black-butler-emerald-witch-arc-vol-1-2026-09-28@2026-09-28@anime-kalend
+ er-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260928
+DTEND;VALUE=DATE:20260929
+SUMMARY:Black Butler: Emerald Witch Arc – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/black-b
+ utler-emerald-witch-arc-vol-1-2026-09-28
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:sakamoto-days-vol-1-2026-10-02@2026-10-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261002
+DTEND;VALUE=DATE:20261003
+SUMMARY:Sakamoto Days – Vol. 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/sakamot
+ o-days-vol-1-2026-10-02
+CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:black-butler-emerald-witch-vol1@2026-10-02@anime-kalender-de

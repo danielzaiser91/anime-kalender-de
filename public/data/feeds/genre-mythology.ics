@@ -430,6 +430,18 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:spice-and-wolf-merchant-meets-the-wise-wolf-vol-3-2026-09-04@2026-09-04
+ @anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260904
+DTEND;VALUE=DATE:20260905
+SUMMARY:Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 3 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/spice-a
+ nd-wolf-merchant-meets-the-wise-wolf-vol-3-2026-09-04
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:sailor-moon-s1-steelbook@2026-09-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260904
@@ -490,6 +502,18 @@ SUMMARY:Sailor Moon – Staffel 1 – Folge 41/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:spice-and-wolf-merchant-meets-the-wise-wolf-vol-3-2026-10-02@2026-10-02
+ @anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261002
+DTEND;VALUE=DATE:20261003
+SUMMARY:Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 3 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/spice-a
+ nd-wolf-merchant-meets-the-wise-wolf-vol-3-2026-10-02
+CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:adn-427@2026-10-06@anime-kalender-de
@@ -642,6 +666,18 @@ SUMMARY:Sailor Moon – Staffel 1 – Folge 54/100
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-427
 CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:spice-and-wolf-merchant-meets-the-wise-wolf-vol-3-2026-12-31@2026-12-31
+ @anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261231
+DTEND;VALUE=DATE:20270101
+SUMMARY:Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 3 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/spice-a
+ nd-wolf-merchant-meets-the-wise-wolf-vol-3-2026-12-31
+CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:adn-427@2027-01-05@anime-kalender-de
