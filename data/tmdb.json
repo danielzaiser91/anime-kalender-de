@@ -578,5 +578,48 @@
     ]
   },
   "steel-ball-run-1st-stage": {},
-  "steel-ball-run-2nd-3rd-stage": {}
+  "steel-ball-run-2nd-3rd-stage": {},
+  "virgin-road-vol-2-2026-10-09": {
+    "tmdbId": 117886
+  },
+  "virgin-road-vol-3-2026-11-20": {
+    "tmdbId": 117886
+  },
+  "spice-and-wolf-merchant-meets-the-wise-wolf-vol-1-2026-09-04": {
+    "tmdbId": 229676,
+    "justwatchUrl": "https://www.themoviedb.org/tv/229676-merchant-meets-the-wise-wolf/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "crunchyroll"
+    ]
+  },
+  "call-of-the-night-staffel-2-vol-1-2026-09-18": {},
+  "please-put-them-on-takamine-vol-3-2026-11-20": {
+    "tmdbId": 276880,
+    "justwatchUrl": "https://www.themoviedb.org/tv/276880/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "crunchyroll"
+    ]
+  },
+  "strike-witches-staffel-2-vol-2-2026-10-09": {},
+  "strike-witches-staffel-2-vol-3-2026-11-20": {}
 }

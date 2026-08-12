@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-12T10:30:01.269Z",
+  "scrapedAt": "2026-08-12T12:02:07.912Z",
   "window": {
     "from": "2026-08-03",
     "to": "2026-08-23"
@@ -705,7 +705,8 @@
         "2026-07-15",
         "2026-07-22",
         "2026-07-29",
-        "2026-08-05"
+        "2026-08-05",
+        "2026-08-12"
       ],
       "rawTitle": "Clevatess Staffel 2 (Deutsch)",
       "seriesId": "G8DHV78ZM",
@@ -730,6 +731,10 @@
         {
           "date": "2026-08-05",
           "episode": 5
+        },
+        {
+          "date": "2026-08-12",
+          "episode": 6
         }
       ],
       "earliest": {
@@ -1263,6 +1268,16 @@
       "seriesUrl": "https://www.crunchyroll.com/de/series/G8DHV7WJP/skeleton-knight-in-another-world",
       "date": "2026-08-10",
       "time": "15:00",
+      "episode": 6,
+      "german": true
+    },
+    {
+      "key": "clevatess s2",
+      "rawTitle": "Clevatess Staffel 2 (Deutsch)",
+      "seriesId": "G8DHV78ZM",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G8DHV78ZM/clevatess",
+      "date": "2026-08-12",
+      "time": "14:00",
       "episode": 6,
       "german": true
     }
