@@ -280,19 +280,33 @@ interface MonitorLine {
   reason?: string
   ms: number
   downSince?: string
+  /** Wie viele Läufe hintereinander diese Seite schon rot ist. */
+  failStreak?: number
 }
 
 /**
  * Störungsmeldung. Kommt höchstens einmal am Tag, deshalb steht alles drin,
  * was zur Einschätzung nötig ist — nachfragen kann man ihr nicht.
+ *
+ * `okCount` wird übergeben statt aus `totalCount - down.length` gerechnet:
+ * Gemeldet werden nur bestätigte Störungen, aber gleichzeitig kann eine
+ * weitere Seite im ersten roten Lauf stecken. Die wäre in der Differenz
+ * fälschlich als „antwortet normal" mitgezählt.
  */
 export function outageMail(
   down: MonitorLine[],
   totalCount: number,
   siteUrl: string,
+  okCount = totalCount - down.length,
 ): { subject: string; html: string; text: string } {
-  const subject =
-    down.length === 1
+  // Ein erzwungener Lauf (`force=alert`) schickt die Mail auch, wenn nichts
+  // gestört ist — dann steht eine gesunde Seite als Beispiel darin. Ohne
+  // Unterscheidung trüge die Testmail „Störung" im Betreff und behauptete im
+  // Text einen Ausfall, den es nicht gibt.
+  const echteStoerung = down.some((d) => !d.ok)
+  const subject = !echteStoerung
+    ? 'Testlauf der Störungsmeldung — alles erreichbar'
+    : down.length === 1
       ? `Störung: ${down[0].name} nicht erreichbar`
       : `Störung: ${down.length} von ${totalCount} Diensten nicht erreichbar`
 
@@ -303,18 +317,21 @@ export function outageMail(
         <span style="color:#f87171;font-size:13px;">${escapeHtml(d.reason ?? 'nicht erreichbar')}</span><br>
         <span style="color:#7c879e;font-size:12px;">${escapeHtml(d.url)}${
           d.downSince ? ` · zuletzt erreichbar ${escapeHtml(d.downSince)}` : ' · noch nie erreichbar gewesen'
-        }</span>
+        }${d.failStreak ? ` · ${d.failStreak} Fehlversuche in Folge` : ''}</span>
       </td></tr>`,
     )
     .join('')
 
   const html = SHELL(
     subject,
-    `<p style="margin:0 0 8px;">Die stündliche Prüfung aller Seiten lief gerade und hat
-     Folgendes gefunden:</p>
+    `<p style="margin:0 0 8px;">Die stündliche Prüfung aller Seiten lief gerade. ${
+       !echteStoerung
+         ? 'Es ist nichts gestört — diese Mail wurde von Hand ausgelöst, die Seite unten steht nur als Beispiel:'
+         : 'Folgendes antwortet seit mindestens zwei Prüfungen nicht mehr:'
+     }</p>
      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${rows}</table>
      <p style="margin:20px 0 0;color:#9aa5bd;font-size:13px;">
-       ${totalCount - down.length} von ${totalCount} Diensten antworten normal.
+       ${okCount} von ${totalCount} Diensten antworten normal.
        Diese Meldung kommt höchstens einmal am Tag — bleibt eine Seite länger weg,
        erfährst du es erst im Wochenbericht wieder.</p>`,
     `Erreichbarkeitsprüfung aller Projekte · kein Newsletter ·
@@ -329,10 +346,10 @@ export function outageMail(
         (d) =>
           `- ${d.name}: ${d.reason ?? 'nicht erreichbar'}\n  ${d.url}${
             d.downSince ? `\n  zuletzt erreichbar: ${d.downSince}` : ''
-          }`,
+          }${d.failStreak ? `\n  ${d.failStreak} Fehlversuche in Folge` : ''}`,
       )
       .join('\n') +
-    `\n\n${totalCount - down.length} von ${totalCount} Seiten antworten normal.`
+    `\n\n${okCount} von ${totalCount} Seiten antworten normal.`
 
   return { subject, html, text }
 }

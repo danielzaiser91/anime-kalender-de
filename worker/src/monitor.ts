@@ -7,6 +7,8 @@
  * er mit aus und schweigt.
  *
  * Benachrichtigungen sind bewusst gedeckelt:
+ *   - eine Seite gilt erst als gestört, wenn sie **zwei** Läufe hintereinander
+ *     nicht antwortet — ein einzelnes 503 aus einem CDN ist kein Ausfall
  *   - höchstens **eine** Störungsmail pro Tag, egal wie oft es scheitert
  *   - **wöchentlich** eine Zusammenfassung, auch wenn alles läuft
  *

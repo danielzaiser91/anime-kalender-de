@@ -348,7 +348,8 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
  * Erreichbarkeitsprüfung mit gedeckelten Benachrichtigungen.
  *
  * Der Takt kommt vom stündlichen Cron. Gemeldet wird:
- *   - höchstens **einmal am Tag**, wenn etwas nicht erreichbar ist
+ *   - höchstens **einmal am Tag**, und erst wenn eine Seite **zwei** Läufe
+ *     hintereinander nicht antwortet
  *   - **montags**, wenn `SEND_HOUR_BERLIN` erreicht ist, eine Wochenübersicht
  *     — auch wenn alles läuft, als Lebensnachweis der Überwachung selbst
  */
@@ -376,12 +377,15 @@ export async function runMonitor(
       reason: r.reason,
       ms: r.ms,
       downSince: r.ok ? undefined : (old?.last_ok_at ?? undefined),
+      // Derselbe Wert, der gleich in die Datenbank geschrieben wird — hier
+      // schon gebraucht, weil die Alarmschwelle daran hängt.
+      failStreak: r.ok ? 0 : (old?.fail_streak ?? 0) + 1,
     }
   })
 
   // Stände fortschreiben. Einzeln statt gebündelt, damit ein Fehler bei einer
   // Zeile nicht die übrigen mitreißt.
-  for (const r of results) {
+  for (const [i, r] of results.entries()) {
     const old = before.get(r.site.url)
     await env.DB.prepare(
       `INSERT INTO site_status (url, name, ok, status, ms, reason, checked_at, last_ok_at, fail_streak)
@@ -400,25 +404,51 @@ export async function runMonitor(
         r.reason ?? null,
         nowIso,
         r.ok ? nowIso : (old?.last_ok_at ?? null),
-        r.ok ? 0 : (old?.fail_streak ?? 0) + 1,
+        lines[i].failStreak,
       )
       .run()
   }
 
+  // Seiten, die aus SITES entfernt wurden, blieben als Zeile stehen und damit
+  // auf ihrem letzten Stand — meist rot, weil sie ja wegen eines Fehlers
+  // herausgenommen wurden. In /status und im Admin-Panel sah das aus wie eine
+  // dauerhafte Störung, obwohl gar nichts mehr geprüft wird.
+  const known = results.map((r) => r.site.url)
+  // Die Wächter-Liste ist fest im Code, leer werden kann sie nur durch einen
+  // Fehler — dann aber würde `NOT IN ()` als SQL-Syntaxfehler den ganzen Lauf
+  // abbrechen und aus einem Versehen einen Ausfall der Überwachung machen.
+  // Und ein Aufräumen ohne bekannte Seiten hieße: alles löschen.
+  if (known.length) {
+    await env.DB.prepare(
+      `DELETE FROM site_status WHERE url NOT IN (${known.map((_, i) => `?${i + 1}`).join(', ')})`,
+    )
+      .bind(...known)
+      .run()
+  }
+
   const down = lines.filter((l) => !l.ok)
+  // Erst der zweite rote Lauf in Folge gilt als Störung. Ein einzelner
+  // Fehlschlag ist meistens keiner: Am 11.08.2026 meldete der Wächter für die
+  // Isekai-Idle-Mockups ein HTTP 503, das eine Stunde später schon wieder weg
+  // war — GitHub Pages hatte keinen Vorfall, die Seite war unverändert, das
+  // 503 kam aus dem Fastly-Edge davor. Eine Mail, die man dreimal umsonst
+  // bekommt, liest man beim vierten Mal nicht mehr. Der Preis ist eine Stunde
+  // Verzug im echten Ausfall, und den ist es wert.
+  const confirmed = down.filter((l) => l.failStreak >= 2)
   const to = env.MONITOR_EMAIL
   if (!to) return `${down.length}/${lines.length} gestört — MONITOR_EMAIL nicht gesetzt, keine Mail`
 
-  const log: string[] = [`${down.length}/${lines.length} gestört`]
+  const log: string[] = [`${down.length}/${lines.length} gestört, davon ${confirmed.length} bestätigt`]
 
   // --- Störungsmeldung, höchstens einmal am Tag ------------------------------
-  if (down.length > 0 || force === 'alert') {
+  if (confirmed.length > 0 || force === 'alert') {
     const key = `alert:${iso}`
     const already = force ? null : await env.DB.prepare('SELECT run_key FROM send_log WHERE run_key = ?1').bind(key).first()
     if (already) {
       log.push('Störungsmail heute bereits verschickt')
     } else {
-      const mail = outageMail(down.length ? down : lines.slice(0, 1), lines.length, env.SITE_URL)
+      const report = confirmed.length ? confirmed : down.length ? down : lines.slice(0, 1)
+      const mail = outageMail(report, lines.length, env.SITE_URL, lines.length - down.length)
       await sendMail(env, { to, ...mail, fromName: BRAND.monitor.name })
       if (!force) {
         await env.DB.prepare(
@@ -429,6 +459,8 @@ export async function runMonitor(
       }
       log.push('Störungsmail verschickt')
     }
+  } else if (down.length > 0) {
+    log.push(`${down.length} erstmalig rot — noch keine Mail, wird nächste Stunde erneut geprüft`)
   }
 
   // --- Wochenübersicht, montags ---------------------------------------------
