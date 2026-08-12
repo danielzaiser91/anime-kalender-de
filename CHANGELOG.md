@@ -8,6 +8,36 @@ selbst oder an der Art ändert, wie Termine zustande kommen.
 
 ## Unveröffentlicht
 
+### Suche: Tippfehler, Kurzformen und alle drei Sprachen
+
+- **Die Suche liest jetzt Wort für Wort.** Bisher wurde die gesamte Eingabe als
+  zusammenhängende Zeichenkette gesucht — „aesthetic hero" fand deshalb nichts, obwohl
+  „Aesthetica of a Rogue Hero" beide Wörter enthält. Die Reihenfolge ist jetzt gleichgültig.
+- **Verschrieben ist nicht verloren.** Findet die genaue Suche nichts, wird ein zweites Mal
+  nachsichtig gesucht: „ästhetik" führt zu „Aesthetica", „bochi the rok" zu „Bocchi the Rock!".
+  Diese Stufe greift **nur bei leerem Ergebnis** — eine Suche nach „slime" liefert weiterhin
+  genau die Slime-Titel und nicht alles, was entfernt so klingt.
+- **Deutsche Namen sind endlich durchsuchbar.** Der Name, den Crunchyroll im deutschen Kalender
+  führt, hing bisher nur am Termin, nicht am Anime: „Meine Wiedergeburt als Schleim" fand
+  nichts. Statt 84 haben jetzt 93 Titel einen deutschen Namen. Gesucht wird ohnehin in allen
+  Formen — deutsch, englisch, Umschrift und japanische Schrift.
+
+### Staffeln: eine Reihe, ein Umschalter
+
+- **„Staffeln zusammenfassen" zeigte die falsche Kachel.** Vertreter einer Reihe war die
+  neueste Staffel. Eine Suche nach „slime" lieferte deshalb „I've Been Killing Slimes … Season
+  2" und „That Time I Got Reincarnated as a Slime the Movie" — eine Fortsetzung und einen Film,
+  während die beiden gesuchten Serien nirgends auftauchten. Vertreter ist jetzt die erste
+  reguläre Staffel.
+- **„Staffeln dieser Reihe" war fast immer leer oder unvollständig.** Der Abschnitt las die
+  Titel des Kalenders — und das sind nur die 133 mit Termin. Bei „That Time I Got Reincarnated
+  as a Slime" stand deshalb allein Staffel 4, bei „I've Been Killing Slimes" gar nichts. Jetzt
+  stehen dort alle Staffeln, Filme und Specials, in Ausstrahlungsreihenfolge.
+- **Der Kopf nennt die Reihe, ein Umschalter die Staffel.** Statt „That Time I Got Reincarnated
+  as a Slime Season 4" steht dort der Serienname; darunter wird gewählt, worauf sich alles
+  Weitere bezieht — jede Staffel, jeder Film, jedes Special, jeweils mit den eigenen Terminen.
+- **„Season" steht nirgends mehr.** Weder im Kopf noch im Terminnamen noch im Kalendereintrag.
+
 ### Behoben: 196 Termine, die es nicht gibt
 
 Der schwerste Fehler, den die Seite bisher hatte. Für **Sword Art Online** stand Woche für

@@ -10,6 +10,7 @@ import type {
 } from '@shared/types.ts'
 import { releaseStatus, titleStatus } from '@shared/logic.ts'
 import type { Dataset } from './data.ts'
+import { sucheZweistufig } from './search.ts'
 
 /**
  * Die Listen, die es sowohl als Einschluss als auch als Ausschluss gibt.
@@ -155,48 +156,30 @@ export function activeFilterCount(f: FilterState): number {
   )
 }
 
-function normalize(value: string): string {
-  return value
-    .toLowerCase()
-    .replace(/[äÄ]/g, 'a')
-    .replace(/[öÖ]/g, 'o')
-    .replace(/[üÜ]/g, 'u')
-    .replace(/ß/g, 'ss')
+/**
+ * Die Namen eines Anime in allen drei Sprachen.
+ *
+ * Deutsch, Englisch, Japanisch — letzteres doppelt, in Umschrift und in
+ * Originalschrift. Wer „Tensei Shitara Slime" tippt, sucht dasselbe wie jemand,
+ * der „転生したらスライム" einfügt oder „Meine Wiedergeburt als Schleim" schreibt.
+ */
+function namen(title: Title | undefined): string[] {
+  return [title?.titleDe, title?.titleEn, title?.titleRomaji, title?.titleNative].filter(
+    (v): v is string => !!v,
+  )
 }
 
-function matchesSearch(term: string, release: Release, title: Title | undefined): boolean {
-  const haystack = [
-    release.name,
-    release.publisher,
-    release.edition,
-    title?.titleDe,
-    title?.titleEn,
-    title?.titleRomaji,
-    title?.titleNative,
+/** Alles, was die strenge Suchstufe durchsuchen darf. */
+function suchfelder(release: Release | undefined, title: Title | undefined): string[] {
+  return [
+    release?.name,
+    release?.publisher,
+    release?.edition,
+    ...namen(title),
     ...(title?.studios ?? []),
     ...(title?.genres ?? []),
     ...(title?.keywords ?? []),
-  ]
-    .filter(Boolean)
-    .map((v) => normalize(String(v)))
-  const needle = normalize(term)
-  return haystack.some((h) => h.includes(needle))
-}
-
-function titleMatchesSearch(term: string, title: Title): boolean {
-  const haystack = [
-    title.titleDe,
-    title.titleEn,
-    title.titleRomaji,
-    title.titleNative,
-    ...(title.studios ?? []),
-    ...title.genres,
-    ...title.keywords,
-  ]
-    .filter(Boolean)
-    .map((v) => normalize(String(v)))
-  const needle = normalize(term)
-  return haystack.some((h) => h.includes(needle))
+  ].filter((v): v is string => !!v)
 }
 
 /** Prüft einen einzelnen Release gegen die Filter. */
@@ -233,7 +216,9 @@ export function releaseMatches(
 
   if (f.genres.length && !f.genres.every((g) => genres.includes(g))) return false
   if (f.keywords.length && !f.keywords.every((k) => keywords.includes(k))) return false
-  if (f.search.trim() && !matchesSearch(f.search.trim(), release, title)) return false
+  // Der Suchbegriff wird **nicht** hier geprüft: Er läuft zweistufig über die
+  // ganze Liste (siehe search.ts) und braucht dafür das Gesamtergebnis, nicht
+  // ein Einzelurteil.
   return true
 }
 
@@ -243,12 +228,18 @@ export function filterEvents(
   today: string,
   favorites: Set<number>,
 ): ReleaseEvent[] {
-  const allowed = new Set(
-    data.releases
-      .filter((r) => !f.favoritesOnly || favorites.has(r.titleId))
-      .filter((r) => releaseMatches(r, data.titleById.get(r.titleId), f, today))
-      .map((r) => r.slug),
+  const passend = data.releases
+    .filter((r) => !f.favoritesOnly || favorites.has(r.titleId))
+    .filter((r) => releaseMatches(r, data.titleById.get(r.titleId), f, today))
+
+  const gesucht = sucheZweistufig(
+    passend,
+    f.search,
+    (r) => suchfelder(r, data.titleById.get(r.titleId)),
+    (r) => [r.name, ...namen(data.titleById.get(r.titleId))],
   )
+
+  const allowed = new Set(gesucht.map((r) => r.slug))
   return data.events.filter((e) => allowed.has(e.releaseSlug))
 }
 
@@ -260,7 +251,7 @@ export function filterTitles(
   today: string,
   favorites: Set<number>,
 ): Title[] {
-  return source.filter((t) => {
+  const vorgefiltert = source.filter((t) => {
     if (f.favoritesOnly && !favorites.has(t.id)) return false
     // „Wo kann ich das sehen?" — Stream-Verweise aus AniList/TMDB oder
     // Bezugsquellen aus aniSearch. Ein Termin zählt selbstverständlich auch.
@@ -302,9 +293,15 @@ export function filterTitles(
     if (f.releaseTypes.length && !releases.some((r) => f.releaseTypes.includes(r.releaseType))) return false
     if (f.years.length && !f.years.some((y) => yearsOf.includes(y))) return false
     if (f.statuses.length && !f.statuses.includes(titleStatus(releases, today, t))) return false
-    if (f.search.trim() && !titleMatchesSearch(f.search.trim(), t)) return false
     return true
   })
+
+  return sucheZweistufig(
+    vorgefiltert,
+    f.search,
+    (t) => suchfelder(undefined, t),
+    (t) => namen(t),
+  )
 }
 
 export function toggleValue<T>(list: T[], value: T): T[] {

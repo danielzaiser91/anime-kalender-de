@@ -222,6 +222,25 @@ export interface ReleaseEvent {
  */
 export const SYNOPSIS_GROUPS = 32
 
+/**
+ * Ein Eintrag einer Reihe, wie ihn `franchises.json` führt.
+ *
+ * Bewusst knapp: Die Datei beantwortet nur „welche Staffeln, Filme und
+ * Specials gehören zusammen und in welcher Reihenfolge". Cover, Genres und
+ * Beschreibungen stehen bereits in `titles.json` — sie hier zu wiederholen
+ * würde die Datei verdoppeln, ohne eine Frage zu beantworten.
+ */
+export interface FranchiseMember {
+  id: number
+  name: string
+  format?: string
+  jpYear?: number
+  episodes?: number
+}
+
+/** franchiseId → alle Einträge der Reihe, in Ausstrahlungsreihenfolge. */
+export type Franchises = Record<number, FranchiseMember[]>
+
 export interface DataMeta {
   generatedAt: string
   titleCount: number

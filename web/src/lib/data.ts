@@ -1,5 +1,5 @@
 import { SYNOPSIS_GROUPS } from '@shared/types.ts'
-import type { DataMeta, Release, ReleaseEvent, Title } from '@shared/types.ts'
+import type { DataMeta, Franchises, Release, ReleaseEvent, Title } from '@shared/types.ts'
 
 export interface Dataset {
   titles: Title[]
@@ -67,6 +67,22 @@ export function loadAllTitles(data: Dataset): Promise<Title[]> {
     return titles.map((t) => data.titleById.get(t.id)!)
   })
   return allTitlesPromise
+}
+
+let franchisesPromise: Promise<Franchises> | undefined
+
+/**
+ * Welche Staffeln, Filme und Specials zu einer Reihe gehören.
+ *
+ * Eigene Datei (33 KB gzip), geholt beim ersten Öffnen eines Detail-Panels.
+ * Vorher las das Panel dafür `data.titles` — im Kalender sind das aber nur die
+ * 133 Titel **mit Termin**. „That Time I Got Reincarnated as a Slime" zeigte
+ * deshalb allein Staffel 4 als verwandten Eintrag, „I've Been Killing Slimes"
+ * gar nichts (gemeldet von Daniel, 12.08.2026).
+ */
+export function loadFranchises(): Promise<Franchises> {
+  franchisesPromise ??= loadJson<Franchises>('franchises.json').catch(() => ({}) as Franchises)
+  return franchisesPromise
 }
 
 /** Handlung je Sprache. Deutsch stammt von TMDB, Englisch von AniList. */

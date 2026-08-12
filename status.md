@@ -10,11 +10,7 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **Fuzzy-Suche** | 5 | Tippfehler und umgangssprachliche Kurzformen sollen treffen: „ästhetik" oder „aesthetic hero" muss „Aesthetica of a Rogue Hero" finden. Zusätzlich über alle drei Namensformen suchen (romaji/native, deutsch, englisch). Danach erklären, wie sanft die Toleranz steht (Daniel, 12.08.2026) |
-| **„Staffeln zusammenfassen" wählt die falsche Kachel** | 3 | Suche „slime" zeigt Staffel 2 und einen Film als Reihen-Vertreter. Erwartet ist die erste reguläre Staffel (Daniel, 12.08.2026, Screenshots 1+2) |
-| **„Staffeln dieser Reihe" unvollständig** | 3 | Bei „That Time I Got Reincarnated as a Slime" steht nur Staffel 4, bei „I've Been Killing Slimes" fehlt der Abschnitt ganz. Alle Einträge derselben `franchiseId` müssen erscheinen (Daniel, 12.08.2026, Screenshots 3+4) |
-| **Staffelauswahl per Dropdown im Detail-Panel** | 8 | Kopf zeigt nur den Serientitel; darunter ein Dropdown über alle Staffeln/Filme/Specials, vorausgewählt die angeklickte. Jede Auswahl mit eigenen „Alle Termine" — der Abschnitt fehlt heute bei allen außer Staffel 4. Betrifft auch SAO (staffelweise statt 90+ Folgen) (Daniel, 12.08.2026, Screenshot 5) |
-| **„Season" aus dem Vokabular streichen** | 2 | Überall „Staffel". Betrifft auch aus AniList übernommene Titel („… Slime Season 2") und die Namen aus ADN und Kuratierung (Daniel, 12.08.2026) |
+| Sichtprüfung der Staffel-Umschaltung im Browser | 1 | Code gebaut und getestet, aber noch nicht im laufenden Bild gesehen — braucht einen Dev-Server, dafür fehlt die Zustimmung |
 | Kuratierungsbericht: drei Pausen-Meldungen prüfen | 1 | Der neue Pausen-Filter hat drei Artikel vorgelegt (`data/proposals/anime2you.json`, Feld `pause`): „24 Blu-ray-Termine verschoben" (betrifft AniMoon, Crunchyroll, KSM — teils unsere Disc-Termine), „Disc-Release von »Bleach« auf unbestimmte Zeit verschoben", „»Scarlet« startet früher in Deutschland". Von Hand gegen `data/curated/` abgleichen |
 | ~~News-Quellen für Sendepausen~~ — **Filter gebaut, Rest verworfen** | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
 | **Disc-Vorschläge abarbeiten** | 3 | `npm run data:disc-proposals` erzeugt aus dem Archiv 47 Ausgaben an **34 Terminen zu 21 Anime**, die noch nicht im Datensatz stehen (`data/proposals/disc-anisearch.json`, Stand 12.08.2026). Jeder Vorschlag trägt den Grund seiner Einstufung. Übertragen nach `data/curated/` — das ist Handarbeit mit Augenmaß: Mehrere Editionen am selben Tag sind **ein** Kalendereintrag |
@@ -167,6 +163,25 @@ verschoben, Best-of, Recap.
   abgenommen.
 
 ## Archiv
+
+- ✅ **Suche und Staffel-Navigation überarbeitet** (12.08.2026, gemeldet von Daniel).
+  *Suche:* liest jetzt Wort für Wort statt die Eingabe als eine Zeichenkette („aesthetic hero"
+  fand vorher nichts), und fällt bei leerem Ergebnis auf eine nachsichtige Stufe zurück
+  („ästhetik" → Aesthetica, „bochi the rok" → Bocchi the Rock!). Toleranz nach Wortlänge:
+  bis 2 Zeichen keine, 3–6 ein Tippfehler, ab 7 zwei, dazu Bigramm-Ähnlichkeit ab 0,60 und
+  gemeinsame Wortanfänge ab vier Zeichen auf **beiden** Seiten. Die zweite Stufe sieht nur
+  Titel an, nicht Genres oder Keywords. `npm run check:search` sichert das gegen den echten
+  Bestand ab, samt Laufzeitgrenze.
+  *Deutsche Namen:* Der Name aus dem Crunchyroll-Kalender hing nur am Termin, nicht am Anime —
+  „Meine Wiedergeburt als Schleim" war nicht auffindbar. Jetzt 93 statt 84 Titel mit deutschem
+  Namen.
+  *Reihen:* Vertreter einer Reihe ist die erste reguläre Staffel statt der neuesten (Suche
+  „slime" zeigte vorher eine Fortsetzung und einen Film). „Staffeln dieser Reihe" las die 133
+  Kalender-Titel statt aller — neu über `public/data/franchises.json` (460 Reihen, 33 KB gzip,
+  nachgeladen). Im Detail-Panel steht jetzt der Reihenname im Kopf und darunter ein Umschalter
+  über alle Staffeln, Filme und Specials. „Season" ist aus Titeln, Terminnamen und Oberfläche
+  verschwunden (`eindeutschenStaffel()` in `shared/titles.ts`).
+
 
 - ✅ **196 erfundene Termine beseitigt — der schwerste Fehler bisher** (12.08.2026). Gemeldet
   von Daniel: Der Kalender führte „Sword Art Online" mit 96 Wochenfolgen bis zum 07.04.2027,

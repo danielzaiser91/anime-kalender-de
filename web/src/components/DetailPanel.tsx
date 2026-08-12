@@ -5,7 +5,9 @@ import { expandEvents, lastEpisodeDate, releaseStatus, titleStatus } from '@shar
 import { buildIcs, googleCalendarUrl } from '@shared/ics.ts'
 import { formatDate, todayIso, weekdayName } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
-import { loadSynopsis, loadVoices, type Synopsis, type VoiceRole } from '../lib/data.ts'
+import type { FranchiseMember, Franchises } from '@shared/types.ts'
+import { anzeigeName, eindeutschenStaffel, reihenVertreter } from '@shared/titles.ts'
+import { loadAllTitles, loadFranchises, loadSynopsis, loadVoices, type Synopsis, type VoiceRole } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useShare } from '../lib/share.ts'
 import { FORMAT_DE, PLATFORM_TIME_NOTE } from '@shared/mappings.ts'
@@ -455,13 +457,65 @@ export function DetailPanel({
     return () => window.removeEventListener('keydown', onKey)
   }, [onClose])
 
-  // Andere Staffeln derselben Reihe — nur sinnvoll, wenn AniList sie kennt.
-  const siblings = useMemo(() => {
-    if (!title?.franchiseId) return []
-    return data.titles
-      .filter((x) => x.franchiseId === title.franchiseId && x.id !== title.id)
-      .sort((a, b) => (a.jpYear ?? 0) - (b.jpYear ?? 0))
-  }, [data.titles, title])
+  /**
+   * Die ganze Reihe — Staffeln, Filme und Specials.
+   *
+   * Kommt aus `franchises.json`, nicht aus `data.titles`. Dort stehen im
+   * Kalender nur die 133 Titel **mit Termin**; „That Time I Got Reincarnated as
+   * a Slime" zeigte deshalb allein Staffel 4 als verwandten Eintrag, „I've Been
+   * Killing Slimes" gar nichts, obwohl es eine zweite Staffel gibt (gemeldet
+   * von Daniel, 12.08.2026).
+   */
+  const [franchises, setFranchises] = useState<Franchises>({})
+  useEffect(() => {
+    let alive = true
+    loadFranchises().then((f) => {
+      if (alive) setFranchises(f)
+    })
+    return () => {
+      alive = false
+    }
+  }, [])
+
+  const reihe: FranchiseMember[] = useMemo(() => {
+    if (!title) return []
+    return franchises[title.franchiseId ?? title.id] ?? []
+  }, [franchises, title])
+
+  /**
+   * Wie die Reihe heißt — nicht, wie die gerade gewählte Staffel heißt.
+   *
+   * Im Kopf stand vorher „That Time I Got Reincarnated as a Slime Season 4",
+   * während vier Zeilen darunter „… Staffel 4" stand: dasselbe zweimal, einmal
+   * auf Englisch. Der Kopf nennt jetzt die Reihe, die Staffel steht im
+   * Umschalter darunter.
+   */
+  const reihenName = useMemo(() => {
+    if (!title) return ''
+    if (reihe.length < 2) return anzeigeName(title)
+    return eindeutschenStaffel(reihenVertreter(reihe.map((m) => ({ ...m, id: m.id }))).name)
+  }, [reihe, title])
+
+  /**
+   * Beim Wechsel auf eine Staffel ohne Termin fehlen die Metadaten — die liegen
+   * in `titles.json`, das im Kalender nicht geladen ist. Erst holen, dann
+   * öffnen, sonst zeigt das Panel „keine Metadaten".
+   */
+  const [wechselt, setWechselt] = useState(false)
+  const wechsleZu = (id: number) => {
+    if (id === titleId) return
+    if (data.titleById.has(id)) {
+      onOpenTitle(id)
+      return
+    }
+    setWechselt(true)
+    loadAllTitles(data)
+      .catch(() => {})
+      .finally(() => {
+        setWechselt(false)
+        onOpenTitle(id)
+      })
+  }
 
   if (!title) {
     return (
@@ -484,10 +538,10 @@ export function DetailPanel({
         <aside
           className="animate-slide-in fixed inset-y-0 right-0 z-40 flex w-full max-w-md flex-col justify-center gap-4 border-l border-slate-200 bg-white p-6 text-center shadow-2xl dark:border-white/10 dark:bg-[#0d1220]"
           role="dialog"
-          aria-label={title.titleDe ?? title.titleEn ?? 'Details'}
+          aria-label={anzeigeName(title)}
         >
           <p className="text-base font-medium italic text-slate-400 dark:text-slate-500">
-            {title.titleDe ?? title.titleEn ?? title.titleRomaji}
+            {anzeigeName(title)}
           </p>
           <p className="text-sm text-slate-500 dark:text-slate-400">{t('detail.hiddenNote')}</p>
           <div className="flex justify-center gap-2">
@@ -532,7 +586,7 @@ export function DetailPanel({
       <aside
         className="animate-slide-in fixed inset-y-0 right-0 z-40 flex w-full max-w-md flex-col overflow-y-auto border-l border-slate-200 bg-white shadow-2xl dark:border-white/10 dark:bg-[#0d1220]"
         role="dialog"
-        aria-label={title.titleDe ?? title.titleEn ?? 'Details'}
+        aria-label={anzeigeName(title)}
       >
         <div className="relative">
           {title.bannerImage && (
@@ -555,7 +609,7 @@ export function DetailPanel({
           <div className="min-w-0 flex-1">
             <div className="flex items-start gap-2">
               <h2 className="flex-1 text-lg font-semibold leading-tight text-slate-900 dark:text-white">
-                {title.titleDe ?? title.titleEn ?? title.titleRomaji}
+                {reihenName}
               </h2>
               <HideEye hidden={false} onToggle={() => onToggleHidden(title.id)} />
               <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
@@ -587,6 +641,48 @@ export function DetailPanel({
         </div>
 
         <div className="flex flex-col gap-4 px-4 pb-8">
+          {/*
+            Der Umschalter über die Reihe.
+
+            Vorher gab es je Staffel eine eigene Kachel und ganz unten eine
+            Liste „Staffeln dieser Reihe" — die im Kalender fast immer leer war,
+            weil sie nur Staffeln mit Termin kannte. Wer von Staffel 4 zu
+            Staffel 2 wollte, fand keinen Weg dorthin, und „Alle Termine" gab es
+            nur bei der einen Staffel, die man gerade offen hatte (Daniel,
+            12.08.2026).
+
+            Jetzt trägt der Kopf den Reihennamen, und hier wird gewählt, worauf
+            sich alles darunter bezieht. Ein `select` statt einer Liste, weil
+            eine Reihe zehn Einträge haben kann und die Termine darunter der
+            eigentliche Inhalt bleiben sollen.
+          */}
+          {reihe.length > 1 && (
+            <label className="flex flex-col gap-1">
+              <SectionTitle>{t('detail.pickSeason')}</SectionTitle>
+              <select
+                value={title.id}
+                disabled={wechselt}
+                onChange={(e) => wechsleZu(Number(e.target.value))}
+                className="w-full cursor-pointer rounded-lg border border-slate-300 bg-white px-2 py-1.5 text-sm disabled:opacity-60 dark:border-white/15 dark:bg-white/5"
+              >
+                {reihe.map((m) => (
+                  <option key={m.id} value={m.id}>
+                    {[
+                      eindeutschenStaffel(m.name),
+                      m.format && m.format !== 'TV' ? `(${FORMAT_DE[m.format] ?? m.format})` : '',
+                      m.jpYear ? `· ${m.jpYear}` : '',
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
+                  </option>
+                ))}
+              </select>
+              {wechselt && (
+                <span className="text-[11px] text-slate-400">{t('detail.seasonLoading')}</span>
+              )}
+            </label>
+          )}
+
           {releases.length > 0 ? (
             <div className="flex flex-col gap-3">
               <SectionTitle>{t('detail.releases')}</SectionTitle>
@@ -655,23 +751,37 @@ export function DetailPanel({
             </div>
           )}
 
-          {siblings.length > 0 && (
+          {/*
+            Die Reihe im Überblick — dieselbe Auswahl wie im Umschalter oben,
+            aber sichtbar statt zugeklappt. Der Umschalter beantwortet „ich will
+            woanders hin", diese Liste beantwortet „was gehört überhaupt dazu".
+            Der aktuelle Eintrag steht mit drin und ist markiert; ihn
+            wegzulassen wäre gerade bei einer Reihe aus zehn Teilen die falsche
+            Auskunft.
+          */}
+          {reihe.length > 1 && (
             <div>
               <SectionTitle>{t('detail.seasons')}</SectionTitle>
-              <div className="flex flex-col gap-1">
-                {siblings.map((s) => (
+              <div className="flex flex-col gap-0.5">
+                {reihe.map((s) => (
                   <button
                     key={s.id}
                     type="button"
-                    onClick={() => onOpenTitle(s.id)}
-                    className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-left text-xs transition hover:bg-slate-100/70 dark:hover:bg-white/5"
+                    onClick={() => wechsleZu(s.id)}
+                    aria-current={s.id === title.id}
+                    className={[
+                      'flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-left text-xs transition',
+                      s.id === title.id
+                        ? 'bg-sky-500/10 font-semibold text-sky-600 dark:text-sky-400'
+                        : 'text-slate-700 hover:bg-slate-100/70 dark:text-slate-200 dark:hover:bg-white/5',
+                    ].join(' ')}
                   >
-                    {s.coverImage && (
-                      <img src={s.coverImage} alt="" loading="lazy" className="h-9 w-6 rounded object-cover" />
+                    <span className="min-w-0 flex-1 truncate">{eindeutschenStaffel(s.name)}</span>
+                    {s.format && s.format !== 'TV' && (
+                      <span className="shrink-0 rounded bg-slate-200/70 px-1 text-[10px] text-slate-500 dark:bg-white/10 dark:text-slate-400">
+                        {FORMAT_DE[s.format] ?? s.format}
+                      </span>
                     )}
-                    <span className="min-w-0 flex-1 truncate text-slate-700 dark:text-slate-200">
-                      {s.titleDe ?? s.titleEn ?? s.titleRomaji}
-                    </span>
                     <span className="shrink-0 tabular-nums text-slate-400">{s.jpYear ?? '—'}</span>
                   </button>
                 ))}

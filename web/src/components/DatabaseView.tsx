@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import type { Title } from '@shared/types.ts'
 import { titleStatus } from '@shared/logic.ts'
+import { anzeigeName, nachAusstrahlung, reihenVertreter } from '@shared/titles.ts'
 import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
@@ -15,8 +16,12 @@ export interface TitleGroup {
 }
 
 /**
- * Bündelt Staffeln derselben Reihe. Stellvertreter ist die neueste Staffel —
- * ältere liegen ohnehin in der Vergangenheit und brauchen keine eigene Kachel.
+ * Bündelt Staffeln derselben Reihe.
+ *
+ * Vertreter ist die **erste reguläre Staffel**, nicht die neueste — warum,
+ * steht bei `reihenVertreter()`. Die Mitglieder stehen in
+ * Ausstrahlungsreihenfolge, damit die Reihe im Detail-Panel von vorn nach
+ * hinten gelesen wird.
  */
 export function groupByFranchise(titles: Title[]): TitleGroup[] {
   const byFranchise = new Map<number, Title[]>()
@@ -27,8 +32,8 @@ export function groupByFranchise(titles: Title[]): TitleGroup[] {
     else byFranchise.set(key, [t])
   }
   return [...byFranchise.values()].map((members) => {
-    const sorted = members.slice().sort((a, b) => (b.jpYear ?? 0) - (a.jpYear ?? 0) || b.id - a.id)
-    return { main: sorted[0], members: sorted }
+    const sorted = members.slice().sort(nachAusstrahlung)
+    return { main: reihenVertreter(sorted), members: sorted }
   })
 }
 
@@ -64,8 +69,7 @@ export function DatabaseView({
       ? groupByFranchise(titles)
       : titles.map((tt) => ({ main: tt, members: [tt] }))
 
-    const name = (tt: Title) => tt.titleDe ?? tt.titleEn ?? tt.titleRomaji ?? ''
-    if (sort === 'titel') base.sort((a, b) => name(a.main).localeCompare(name(b.main), 'de'))
+    if (sort === 'titel') base.sort((a, b) => anzeigeName(a.main).localeCompare(anzeigeName(b.main), 'de'))
     else if (sort === 'jahr') base.sort((a, b) => (b.main.jpYear ?? 0) - (a.main.jpYear ?? 0))
     else base.sort((a, b) => (b.main.score ?? 0) - (a.main.score ?? 0))
     return base
@@ -112,7 +116,7 @@ export function DatabaseView({
                 className="flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-slate-300 bg-slate-100/60 p-3 text-center dark:border-white/15 dark:bg-white/[0.02]"
               >
                 <span className="line-clamp-3 text-xs italic text-slate-400 dark:text-slate-500">
-                  {main.titleDe ?? main.titleEn ?? main.titleRomaji}
+                  {anzeigeName(main)}
                 </span>
                 <HideEye hidden onToggle={() => onToggleHidden(main.id)} />
               </div>
@@ -174,7 +178,7 @@ export function DatabaseView({
               </div>
               <div className="flex flex-1 flex-col gap-1.5 p-2">
                 <span className="line-clamp-2 text-[13px] font-medium leading-snug text-slate-900 dark:text-slate-100">
-                  {main.titleDe ?? main.titleEn ?? main.titleRomaji}
+                  {anzeigeName(main)}
                 </span>
                 <span className="text-[11px] text-slate-500 dark:text-slate-400">
                   {main.jpYear ?? '—'}

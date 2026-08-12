@@ -29,6 +29,7 @@
     "data:disc-proposals": "tsx pipeline/extract-disc-dates.ts",
     "data:anisearch:reparse": "tsx pipeline/reparse-anisearch.ts",
     "check:logic": "tsx pipeline/check-logic.ts",
+    "check:search": "tsx pipeline/check-search.ts",
     "check:workflows": "node tools/check-workflows.mjs",
     "check:worker": "tsc --noEmit -p worker/tsconfig.json"
   },

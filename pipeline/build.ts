@@ -23,6 +23,7 @@ import { clearDir, log, readJson, slugify, warn, writeJson, writeText } from './
 import { SYNOPSIS_GROUPS } from '../shared/types.ts'
 import type {
   DataMeta,
+  FranchiseMember,
   DubConfidence,
   Fsk,
   PlatformId,
@@ -33,6 +34,7 @@ import type {
   WatchLink,
 } from '../shared/types.ts'
 import { expandEvents } from '../shared/logic.ts'
+import { eindeutschenStaffel, nachAusstrahlung } from '../shared/titles.ts'
 import { addDays, todayIso } from '../shared/time.ts'
 import { buildIcs } from '../shared/ics.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
@@ -882,6 +884,26 @@ function main(): void {
     if (seenSlugs.has(slug)) continue
     seenSlugs.add(slug)
 
+    /**
+     * Der deutsche Name, den Crunchyroll selbst verwendet, gehört an den Titel.
+     *
+     * Er war die ganze Zeit da — als Name des Releases — aber nicht am Anime,
+     * und deshalb nicht durchsuchbar: Eine Suche nach „Meine Wiedergeburt als
+     * Schleim" fand nichts, obwohl der Kalender genau diesen Namen anzeigt
+     * (aufgefallen 12.08.2026 beim Bau der Suche). Nur 84 von 2.753 Titeln
+     * hatten überhaupt einen deutschen Namen, und alle aus Handarbeit.
+     *
+     * Bedingung: Es darf noch keiner da sein — Handarbeit gewinnt — und der
+     * Name muss sich vom englischen unterscheiden, sonst behaupten wir eine
+     * Übersetzung, wo Crunchyroll nur den Originaltitel führt.
+     */
+    if (title && !title.titleDe) {
+      const werk = werkTitel(name)
+      if (werk && normalizeTitle(werk) !== normalizeTitle(title.titleEn ?? '') && normalizeTitle(werk) !== normalizeTitle(title.titleRomaji ?? '')) {
+        title.titleDe = werk
+      }
+    }
+
     // Ein einziger Termin ist kein Beleg für einen Wochentakt.
     //
     // Im selben Kalender stehen Specials, Filmpremieren und die Anime Awards.
@@ -1173,6 +1195,20 @@ function main(): void {
     .sort((a, b) => (a.date === b.date ? (a.time ?? '99') .localeCompare(b.time ?? '99') : a.date.localeCompare(b.date)))
 
   /**
+   * „Season" kommt nicht auf die Seite — auch nicht über einen Release-Namen.
+   *
+   * Die Namen stammen aus dem Crunchyroll-Kalender und aus AniList und tragen
+   * dort „Season 2", „2nd Season", „Final Season". Im Detail-Panel stand das
+   * dann neben dem deutschen „Staffel 4" — dasselbe Wort zweimal, in zwei
+   * Sprachen, in einem Blickfeld (Daniel, 12.08.2026).
+   *
+   * Umgestellt wird hier und nicht in der Oberfläche, weil dieselben Namen in
+   * die ICS-Feeds und die Teilen-Seiten wandern. Ersetzt wird nur die
+   * Staffelmarkierung; der übrige Titel ist ein Eigenname.
+   */
+  for (const release of releases) release.name = eindeutschenStaffel(release.name)
+
+  /**
    * Gegenprobe, bevor irgendetwas geschrieben wird.
    *
    * Sie steht hier und nicht in `validate.ts`, weil dort nur die kuratierten
@@ -1293,6 +1329,43 @@ function main(): void {
   clearDir(`${OUT}/synopses`)
   for (const [gruppe, inhalt] of gruppen) writeJson(`${OUT}/synopses/${gruppe}.json`, inhalt)
   log(`Synopsen in ${gruppen.size} Gruppen geschrieben (vorher eine Datei mit ${Object.keys(synopses).length} Einträgen)`)
+  /**
+   * Die Reihen — welche Staffeln, Filme und Specials zusammengehören.
+   *
+   * Eine eigene Datei, weil das Detail-Panel die Frage „welche Staffeln gibt es
+   * noch?" auch im Kalender beantworten muss, wo nur `titles-core.json` geladen
+   * ist. Vorher las es dafür `data.titles` — und das sind dort die 133 Titel
+   * mit Termin. Ergebnis (gemeldet von Daniel, 12.08.2026): Bei „That Time I
+   * Got Reincarnated as a Slime" stand unter „Staffeln dieser Reihe" allein
+   * Staffel 4, weil nur die einen Termin hat; bei „I've Been Killing Slimes"
+   * fehlte der Abschnitt ganz, obwohl es eine zweite Staffel gibt.
+   *
+   * Nur Reihen mit mehr als einem Eintrag — ein Einzeltitel hat keine Reihe.
+   * 460 Reihen, 1.709 Titel, 33 KB gzip, nachgeladen beim ersten Öffnen eines
+   * Detail-Panels. Cover stehen bewusst nicht darin: Sie würden die Datei
+   * verdoppeln, und für eine Auswahlliste braucht es sie nicht.
+   */
+  const nachReihe = new Map<number, typeof slim>()
+  for (const t of slim) {
+    const key = t.franchiseId ?? t.id
+    const liste = nachReihe.get(key) ?? []
+    liste.push(t)
+    nachReihe.set(key, liste)
+  }
+  const reihen: Record<number, FranchiseMember[]> = {}
+  for (const [key, liste] of nachReihe) {
+    if (liste.length < 2) continue
+    reihen[key] = liste.sort(nachAusstrahlung).map((t) => ({
+      id: t.id,
+      name: t.titleDe ?? t.titleEn ?? t.titleRomaji ?? `#${t.id}`,
+      format: t.format,
+      jpYear: t.jpYear,
+      episodes: t.episodes,
+    }))
+  }
+  writeJson(`${OUT}/franchises.json`, reihen)
+  log(`${Object.keys(reihen).length} Reihen mit mehr als einem Eintrag geschrieben`)
+
   writeJson(`${OUT}/releases.json`, releases)
   writeJson(`${OUT}/events.json`, events)
   writeJson(`${OUT}/meta.json`, meta, true)
