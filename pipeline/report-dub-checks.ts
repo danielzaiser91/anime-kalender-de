@@ -138,14 +138,14 @@ const titleById = new Map(titles.map((t) => [t.id, t]))
  * aus einer Disc-Ausgabe stammt. Als Überschrift einer Reihe, unter der dann
  * „Staffel 1" und „Staffel 2" stehen, wäre das eine Zählung zu viel.
  */
-function reihenName(reihenId: number): string {
+function reihenName(reihenId: number, ersatz: Title): string {
   const mitglieder = reihen[reihenId]
-  const roh = mitglieder?.length
-    ? reihenVertreter(mitglieder).name
-    : (titleById.get(reihenId)?.titleDe ??
-      titleById.get(reihenId)?.titleEn ??
-      titleById.get(reihenId)?.titleRomaji ??
-      `#${reihenId}`)
+  /**
+   * Der Rückfall ist nötig, weil eine `franchiseId` auf einen Anime zeigen
+   * kann, den wir gar nicht führen — dann steht die Reihe unter einer Kennung,
+   * die es im Datensatz nicht gibt. In der Liste stand dafür „#9120".
+   */
+  const roh = mitglieder?.length ? reihenVertreter(mitglieder).name : anzeigeName(titleById.get(reihenId) ?? ersatz)
   return eindeutschenStaffel(roh)
     .replace(/\s*[–—-]?\s*\(?(Staffel|Season)\s*1\)?\s*$/i, '')
     .trim()
@@ -177,7 +177,7 @@ for (const title of titles) {
     const key = `${reihenId}|${stream.platform}`
     const zeile = nachReiheUndPlattform.get(key) ?? {
       reihenId,
-      reihe: reihenName(reihenId),
+      reihe: reihenName(reihenId, title),
       platform: stream.platform,
       datum,
       offen: [],
@@ -231,7 +231,13 @@ for (const z of zeilen) nachPlattform.set(z.platform, (nachPlattform.get(z.platf
 function kurzname(reihe: string, name: string): string {
   if (name === reihe) return 'Hauptserie'
   if (name.startsWith(reihe)) {
-    const rest = name.slice(reihe.length).replace(/^[\s:–—-]+/, '').trim()
+    const rest = name
+      .slice(reihe.length)
+      .replace(/^[\s:–—-]+/, '')
+      // „The Case Study of Vanitas (Staffel 1)" ließ als Rest „(Staffel 1)"
+      // stehen — die Klammer gehörte zum vollen Namen, nicht zum Zusatz.
+      .replace(/^\((.*)\)$/, '$1')
+      .trim()
     if (rest) return rest
   }
   return name

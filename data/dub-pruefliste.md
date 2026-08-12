@@ -45,7 +45,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
 | 1 | 2026-08-07 | The Café Terrace and Its Goddesses | [Staffel 1](https://www.crunchyroll.com/de/series/GQWH0MPQ7/the-caf-terrace-and-its-goddesses) · [Staffel 2](https://www.crunchyroll.com/de/series/GQWH0MPQ7/the-caf-terrace-and-its-goddesses) |
-| 2 | 2026-08-07 | The Case Study of Vanitas | [(Staffel 1)](https://www.crunchyroll.com/de/the-case-study-of-vanitas) · [Teil 2](https://crunchyroll.com/de/series/GEXH3W8DG/the-case-study-of-vanitas) |
+| 2 | 2026-08-07 | The Case Study of Vanitas | [Staffel 1](https://www.crunchyroll.com/de/the-case-study-of-vanitas) · [Teil 2](https://crunchyroll.com/de/series/GEXH3W8DG/the-case-study-of-vanitas) |
 | 3 | 2026-08-07 | World's End Harem | [Hauptserie](https://www.crunchyroll.com/de/worlds-end-harem) |
 | 4 | 2026-08-05 | Naruto – Staffel 4 | [Hauptserie](http://www.crunchyroll.com/de/naruto) · [Naruto the Movie: Ninja Clash in the Land of Snow](https://www.crunchyroll.com/de/naruto-the-movie-ninja-clash-in-the-land-of-snow) · [Naruto the Movie: Legend of the Stone of Gelel](https://www.crunchyroll.com/de/naruto-the-movie-legend-of-the-stone-of-gelel) · [Naruto the Movie: Guardians of the Crescent Moon Kingdom](https://www.crunchyroll.com/de/naruto-the-movie-guardians-of-the-crescent-moon-kingdom) · [Naruto Shippuden – Staffel 1](http://www.crunchyroll.com/de/naruto-shippuden) · [Naruto Shippuden the Movie: The Will of Fire](https://www.crunchyroll.com/de/naruto-shippuden-the-movie-the-will-of-fire) · [Naruto Shippuden the Movie: The Lost Tower](https://www.crunchyroll.com/de/naruto-shippuden-the-movie-the-lost-tower) · [Naruto Shippuden the Movie: Blood Prison](https://www.crunchyroll.com/de/naruto-shippuden-the-movie-blood-prison) · [NARUTO Spin-Off: Rock Lee & His Ninja Pals](http://www.crunchyroll.com/de/naruto-spin-off-rock-lee-his-ninja-pals) · [Road to Ninja: Naruto the Movie](https://www.crunchyroll.com/de/road-to-ninja-naruto-the-movie) · [The Last: Naruto the Movie](https://www.crunchyroll.com/de/the-last-naruto-the-movie) · [Boruto: Naruto Next Generations](http://www.crunchyroll.com/de/boruto-naruto-next-generations) |
 | 5 | 2026-08-05 | Naruto – Staffel 4 | [Hauptserie](https://www.netflix.com/title/70205012) · [Naruto the Movie: Ninja Clash in the Land of Snow](https://www.netflix.com/title/70074559) · [Naruto the Movie: Legend of the Stone of Gelel](https://www.netflix.com/title/70101321) · [Naruto the Movie: Guardians of the Crescent Moon Kingdom](https://www.netflix.com/title/70108386) · [Naruto Shippuden – Staffel 1](https://www.netflix.com/title/80000603) · [Naruto Shippuden the Movie](http://www.netflix.com/title/70124999) · [Naruto Shippuden the Movie: Bonds](http://www.netflix.com/title/70105699) · [Naruto Shippuden the Movie: The Will of Fire](http://www.netflix.com/title/80045673) · [Naruto Shippuden the Movie: The Lost Tower](http://www.netflix.com/title/70275937) · [Naruto Shippuden the Movie: Blood Prison](https://www.netflix.com/title/80152537) · [NARUTO Spin-Off: Rock Lee & His Ninja Pals](https://www.netflix.com/title/80151421) · [Road to Ninja: Naruto the Movie](https://www.netflix.com/title/80152538) · [The Last: Naruto the Movie](https://www.netflix.com/title/80037677) · [Boruto: Naruto the Movie](https://www.netflix.com/title/80075823) · [Boruto: Naruto Next Generations](https://www.netflix.com/title/81080523) |
@@ -53,8 +53,8 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 7 | 2026-08-01 | Fruits Basket (2019) | [Hauptserie](https://www.netflix.com/title/80987063) · [Fruits Basket Staffel 2](https://www.netflix.com/title/80987063) · [Fruits Basket: Die finale Staffel](https://www.netflix.com/title/80987063) |
 | 8 | 2026-07-30 | Tamon's B-side | [Staffel 1](https://www.youtube.com/playlist?list=PLxSscENEp7JijRmWuTWXJjTIQNOs-hMfO) |
 | 9 | 2026-07-29 | Classroom of the Elite | [Hauptserie](https://www.youtube.com/playlist?list=PLwLSw1_eDZl37ONxLQx-mIAJu3hdX-brM) · [Staffel 2](https://www.youtube.com/playlist?list=PLwLSw1_eDZl2WCY-naAlexgVnI7CHlNNR) · [Staffel 3](https://www.youtube.com/playlist?list=PLwLSw1_eDZl3ptRSYsrWpjb7_d8DXgxF3) · [Staffel 4: Second Year, First Semester](https://www.youtube.com/playlist?list=PLwLSw1_eDZl3d2XXHoyqobEAMz2g0nBc0) |
-| 10 | 2026-07-25 | #9120 | [Beelzebub](http://www.crunchyroll.com/de/beelzebub) |
-| 11 | 2026-07-25 | #9120 | [Beelzebub](https://youtube.com/playlist?list=PLwLSw1_eDZl0sgiAAegEz0YBnExhICwtl) |
+| 10 | 2026-07-25 | Beelzebub | [Hauptserie](http://www.crunchyroll.com/de/beelzebub) |
+| 11 | 2026-07-25 | Beelzebub | [Hauptserie](https://youtube.com/playlist?list=PLwLSw1_eDZl0sgiAAegEz0YBnExhICwtl) |
 | 12 | 2026-07-25 | Bleach | [Hauptserie](https://www.disneyplus.com/de-de/en-gb/series/bleach/6g48QKlgQdWK) · [BLEACH: Thousand-Year Blood War](https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy) · [BLEACH: Thousand-Year Blood War - The Separation](https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy) · [BLEACH: Thousand-Year Blood War - The Conflict](https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy) · [BLEACH: Thousand-Year Blood War - The Calamity](https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy) |
 | 13 | 2026-07-25 | Bleach | [Hauptserie](https://www.youtube.com/playlist?list=PLxSscENEp7JhUQ-NvGTp34p7vqZarUZ7Y) · [BLEACH: Thousand-Year Blood War](https://www.youtube.com/playlist?list=PLxSscENEp7Jg3pUga3XbHeMfWLXRMGVQY) · [BLEACH: Thousand-Year Blood War - The Separation](https://www.youtube.com/playlist?list=PLxSscENEp7JhrtC5M6EHH5g_rAh6LXEni) · [BLEACH: Thousand-Year Blood War - The Conflict](https://www.youtube.com/playlist?list=PLxSscENEp7JgOSk5QmPX6aolSUsXgCMc-) · [BLEACH: Thousand-Year Blood War - The Calamity](https://youtube.com/@official_bleach) |
 | 14 | 2026-07-24 | Parasyte -the maxim- | [Hauptserie](https://www.netflix.com/title/80191008) |
@@ -123,7 +123,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 77 | 2026-03-27 | JUJUTSU KAISEN | [Hauptserie](https://youtube.com/playlist?list=PLxSscENEp7JisDU6GAJuyNpVwDvCm-f3J) · [Staffel 2](https://www.youtube.com/playlist?list=PLxSscENEp7JjIe81K3Qd0l7PVaIiPi64r) · [Staffel 3: The Culling Game Teil 1](https://www.youtube.com/playlist?list=PLxSscENEp7JhRHMXloduRBZmrGlDW5gmC) |
 | 78 | 2026-03-26 | Sentenced to Be a Hero | [Hauptserie](https://www.crunchyroll.com/de/series/GT00356809/sentenced-to-be-a-hero) |
 | 79 | 2026-03-26 | Sentenced to Be a Hero | [Hauptserie](https://www.youtube.com/playlist?list=PLxSscENEp7JhI_LMRY2MHHGdT1QxjvlG6) |
-| 80 | 2026-03-22 | #165171 | [Medalist Staffel 2](https://www.disneyplus.com/de-de/series/medalist/4LgC0zEd5JEx) |
+| 80 | 2026-03-22 | Medalist Staffel 2 | [Hauptserie](https://www.disneyplus.com/de-de/series/medalist/4LgC0zEd5JEx) |
 | 81 | 2026-03-20 | Assassination Classroom | [Hauptserie](https://www.crunchyroll.com/de/assassination-classroom) · [Second Season](https://www.crunchyroll.com/de/assassination-classroom) · [Koro Sensei Quest!](http://www.crunchyroll.com/de/koro-sensei-quest) · [the Movie: Our Time](https://www.crunchyroll.com/de/series/GMTE00376679/assassination-classroom-the-movie-our-time) |
 | 82 | 2026-03-18 | SHIBOYUGI: Playing Death Games to Put Food on the Table | [Hauptserie](https://www.netflix.com/us/title/82047155) |
 | 83 | 2026-03-18 | SHIBOYUGI: Playing Death Games to Put Food on the Table | [Hauptserie](https://www.youtube.com/playlist?list=PLwLSw1_eDZl1yaZiMDinSA80dyCgrQPcj) |
@@ -132,7 +132,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 86 | 2026-02-13 | The Dangers in My Heart | [Hauptserie](https://www.netflix.com/title/81788312) · [Staffel 2](https://www.netflix.com/title/81788312) |
 | 87 | 2026-02-13 | The Dangers in My Heart | [Hauptserie](https://www.amazon.de/s?k=The%20Dangers%20in%20My%20Heart&i=instant-video) · [Special](https://www.amazon.de/s?k=The%20Dangers%20in%20My%20Heart%20Special&i=instant-video) · [Staffel 2](https://www.amazon.de/gp/video/detail/B0CPQ7WF89/ref=atv_dp_season_select_s2) |
 | 88 | 2026-02-13 | The Dangers in My Heart | [Hauptserie](https://youtube.com/playlist?list=PLC18xlbCdwtRQc8zDrcFDhxm25PsThPU_&si=kSnDr_5aUda3VkUx) |
-| 89 | 2026-02-06 | #189068 | [Milky☆Subway: The Galactic Limited Express – the Movie](https://www.netflix.com/title/82703490) |
+| 89 | 2026-02-06 | Milky☆Subway: The Galactic Limited Express – the Movie | [Hauptserie](https://www.netflix.com/title/82703490) |
 | 90 | 2026-01-30 | Lupin the 3rd | [Cat's Eye (2025)](https://www.disneyplus.com/de-de/browse/entity-21240dd9-5fb4-4334-be13-687a6bd230f7) |
 | 91 | 2026-01-22 | Cosmic Princess Kaguya! | [Hauptserie](https://www.netflix.com/title/81756595) |
 | 92 | 2026-01-22 | Cosmic Princess Kaguya! | [Hauptserie](https://youtube.com/@cho-kaguyahime-pr) |
@@ -182,11 +182,11 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 136 | 2025-09-28 | The Fragrant Flower Blooms With Dignity | [Hauptserie](https://www.netflix.com/title/82024665) |
 | 137 | 2025-09-28 | The Summer Hikaru Died | [Hauptserie](https://www.netflix.com/title/81948057) |
 | 138 | 2025-09-28 | The Summer Hikaru Died | [Hauptserie](https://www.youtube.com/@hikaru_anime_en) |
-| 139 | 2025-09-27 | #2335 | [YAIBA: Samurai Legend](https://www.netflix.com/title/82030192) |
-| 140 | 2025-09-27 | #2335 | [YAIBA: Samurai Legend](https://animationdigitalnetwork.com/de/video/1289-yaiba) |
-| 141 | 2025-09-27 | Kaiju No. 8 | [Hauptserie](https://www.crunchyroll.com/de/series/GG5H5XQ7D/kaiju-no-8) · [Kaiju No.8: Hoshina's Day Off](https://www.crunchyroll.com/de/watch/G2XUNVJMN/hoshinas-day-off) · [Staffel 2](https://www.crunchyroll.com/de/series/GG5H5XQ7D/kaiju-no-8) |
-| 142 | 2025-09-27 | Kaiju No. 8 | [Staffel 2](https://www.youtube.com/playlist?list=PLxSscENEp7JjBFTyOmpLiobwouSY2fCJM) |
-| 143 | 2025-09-25 | #8795 | [New PANTY & STOCKING with GARTERBELT](https://www.amazon.de/s?k=New%20PANTY%20%26%20STOCKING%20with%20GARTERBELT&i=instant-video) |
+| 139 | 2025-09-27 | Kaiju No. 8 | [Hauptserie](https://www.crunchyroll.com/de/series/GG5H5XQ7D/kaiju-no-8) · [Kaiju No.8: Hoshina's Day Off](https://www.crunchyroll.com/de/watch/G2XUNVJMN/hoshinas-day-off) · [Staffel 2](https://www.crunchyroll.com/de/series/GG5H5XQ7D/kaiju-no-8) |
+| 140 | 2025-09-27 | Kaiju No. 8 | [Staffel 2](https://www.youtube.com/playlist?list=PLxSscENEp7JjBFTyOmpLiobwouSY2fCJM) |
+| 141 | 2025-09-27 | YAIBA: Samurai Legend | [Hauptserie](https://www.netflix.com/title/82030192) |
+| 142 | 2025-09-27 | YAIBA: Samurai Legend | [Hauptserie](https://animationdigitalnetwork.com/de/video/1289-yaiba) |
+| 143 | 2025-09-25 | New PANTY & STOCKING with GARTERBELT | [Hauptserie](https://www.amazon.de/s?k=New%20PANTY%20%26%20STOCKING%20with%20GARTERBELT&i=instant-video) |
 | 144 | 2025-09-24 | The Rising of the Shield Hero | [Hauptserie](https://www.crunchyroll.com/de/the-rising-of-the-shield-hero) · [Staffel 2](https://crunchyroll.com/de/series/G6W4QKX0R/the-rising-of-the-shield-hero) · [Staffel 3](https://www.crunchyroll.com/de/series/G6W4QKX0R/the-rising-of-the-shield-hero) · [Staffel 4](https://www.crunchyroll.com/de/series/G6W4QKX0R/the-rising-of-the-shield-hero) |
 | 145 | 2025-09-23 | A Couple of Cuckoos | [Hauptserie](https://www.crunchyroll.com/de/series/GXJHM39MP/a-couple-of-cuckoos) · [Staffel 2](https://www.crunchyroll.com/de/series/GXJHM39MP/a-couple-of-cuckoos) |
 | 146 | 2025-09-21 | My Dress-Up Darling | [Hauptserie](https://crunchyroll.com/de/series/GQWH0M9N8) · [Staffel 2](https://www.crunchyroll.com/de/series/GQWH0M9N8/my-dress-up-darling) |
@@ -340,11 +340,11 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 294 | 2024-08-15 | Suicide Squad ISEKAI | [Hauptserie](https://www.netflix.com/title/81767643) |
 | 295 | 2024-08-15 | Suicide Squad ISEKAI | [Hauptserie](https://www.youtube.com/playlist?list=PLxSscENEp7Jh3bhDq-EYeXx6Seif0sN2m) |
 | 296 | 2024-08-06 | Rising Impact | [Hauptserie](https://www.netflix.com/title/81563026) · [Staffel 2](https://www.netflix.com/title/81563026) |
-| 297 | 2024-07-17 | #12529 | [T・P BON](https://www.netflix.com/title/81497635) |
+| 297 | 2024-07-17 | T・P BON | [Hauptserie](https://www.netflix.com/title/81497635) |
 | 298 | 2024-07-11 | Beyond the Boundary | [Hauptserie](http://www.netflix.com/WiMovie/80052668) |
 | 299 | 2024-07-11 | Beyond the Boundary | [Hauptserie](https://www.amazon.de/s?k=Beyond%20the%20Boundary&i=instant-video) |
-| 300 | 2024-06-30 | Captain Tsubasa | [Hauptserie](https://www.amazon.de/s?k=Captain%20Tsubasa&i=instant-video) · [(2018)](https://www.amazon.de/s?k=Captain%20Tsubasa%20(2018)&i=instant-video) · [Junior Youth Arc](https://www.amazon.de/s?k=Captain%20Tsubasa%3A%20Junior%20Youth%20Arc&i=instant-video) |
-| 301 | 2024-06-30 | Captain Tsubasa | [(2018)](https://www.crunchyroll.com/series/GZJH3D7G9/captain-tsubasa) · [Junior Youth Arc](https://www.crunchyroll.com/de/series/G4PH0WJDQ/captain-tsubasa-junior-youth-arc) |
+| 300 | 2024-06-30 | Captain Tsubasa | [Hauptserie](https://www.amazon.de/s?k=Captain%20Tsubasa&i=instant-video) · [2018](https://www.amazon.de/s?k=Captain%20Tsubasa%20(2018)&i=instant-video) · [Junior Youth Arc](https://www.amazon.de/s?k=Captain%20Tsubasa%3A%20Junior%20Youth%20Arc&i=instant-video) |
+| 301 | 2024-06-30 | Captain Tsubasa | [2018](https://www.crunchyroll.com/series/GZJH3D7G9/captain-tsubasa) · [Junior Youth Arc](https://www.crunchyroll.com/de/series/G4PH0WJDQ/captain-tsubasa-junior-youth-arc) |
 | 302 | 2024-06-30 | Captain Tsubasa | [Junior Youth Arc](https://www.netflix.com/title/81003894) |
 | 303 | 2024-06-30 | Demon Slayer | [Kimetsu no Yaiba- The Movie: Mugen Train](https://www.netflix.com/title/81410810) · [Kimetsu no Yaiba Mugen Train Arc](https://www.netflix.com/us/title/81091393) · [Kimetsu no Yaiba Entertainment District Arc](https://www.netflix.com/us/title/81091393) · [Kimetsu no Yaiba Swordsmith Village Arc](https://www.netflix.com/title/81091393) · [Kimetsu no Yaiba Hashira Training Arc](https://www.netflix.com/title/81091393) |
 | 304 | 2024-06-30 | Demon Slayer | [Kimetsu no Yaiba- The Movie: Mugen Train](https://plus.rtl.de/video-tv/filme/demon-slayer-the-movie-mugen-train-1044324) · [Kimetsu no Yaiba Mugen Train Arc](https://plus.rtl.de/demon-slayer-p_68945) · [Kimetsu no Yaiba Entertainment District Arc](https://plus.rtl.de/demon-slayer-p_68945) · [Kimetsu no Yaiba Swordsmith Village Arc](https://plus.rtl.de/demon-slayer-p_68945) · [Kimetsu no Yaiba Hashira Training Arc](https://plus.rtl.de/demon-slayer-p_68945) |
@@ -370,7 +370,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 324 | 2024-05-24 | My Oni Girl | [Hauptserie](https://www.netflix.com/title/81582442) |
 | 325 | 2024-05-23 | Garouden: The Way of the Lone Wolf | [Hauptserie](https://www.netflix.com/title/81215625) |
 | 326 | 2024-05-05 | Ninja Kamui | [Hauptserie](https://www.amazon.de/s?k=Ninja%20Kamui&i=instant-video) |
-| 327 | 2024-05-01 | #158896 | [Sand Land: The Series](https://www.disneyplus.com/de-de/series/sand-land-the-series/7I31jGPKAwz5) |
+| 327 | 2024-05-01 | Sand Land: The Series | [Hauptserie](https://www.disneyplus.com/de-de/series/sand-land-the-series/7I31jGPKAwz5) |
 | 328 | 2024-04-17 | The Grimm Variations | [Hauptserie](https://www.netflix.com/title/81050091) |
 | 329 | 2024-04-12 | Lupin the 3rd | [Detective Conan: The Million-dollar Pentagram](https://www.joyn.de/filme/detektiv-conan-film-27-das-1-million-dollar-pentagram) |
 | 330 | 2024-04-06 | BUCCHIGIRI?! | [Hauptserie](https://www.crunchyroll.com/de/series/G5PHNM985/bucchigiri) |
@@ -437,7 +437,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 391 | 2023-12-01 | Rascal Does Not Dream of Bunny Girl Senpai | [Hauptserie](https://www.crunchyroll.com/de/series/GYW4MG9G6/rascal-does-not-dream-series) · [Rascal Does Not Dream of a Dreaming Girl](https://www.crunchyroll.com/de/series/GYW4MG9G6/rascal-does-not-dream-of-bunny-girl-senpai) · [Rascal Does Not Dream of a Sister Venturing Out](https://www.crunchyroll.com/de/watch/G0DUMXDPZ/rascal-does-not-dream-of-a-sister-venturing-out) · [Rascal Does Not Dream of a Knapsack Kid](https://www.crunchyroll.com/de/watch/GWDU73EX8/rascal-does-not-dream-of-a-knapsack-kid) |
 | 392 | 2023-11-28 | Onmyoji | [Hauptserie](https://www.netflix.com/title/81215624) |
 | 393 | 2023-11-10 | Komada - A Whisky Family | [Hauptserie](https://www.amazon.de/dp/B0GKWVYSJN) |
-| 394 | 2023-11-09 | #8194 | [Akuma Kun](https://www.netflix.com/title/81400498) |
+| 394 | 2023-11-09 | Akuma Kun | [Hauptserie](https://www.netflix.com/title/81400498) |
 | 395 | 2023-11-02 | Onimusha | [Hauptserie](https://www.netflix.com/title/81153116) |
 | 396 | 2023-10-26 | PLUTO | [Hauptserie](https://www.netflix.com/title/81281344) |
 | 397 | 2023-10-13 | Reign of the Seven Spellblades | [Hauptserie](https://www.crunchyroll.com/de/series/GEXH3W2Z7/reign-of-the-seven-spellblades) |
@@ -633,14 +633,14 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 587 | 2022-04-04 | Attack on Titan | [Staffel 2](https://www.netflix.com/title/70299043) · [Staffel 3](https://www.netflix.com/title/70299043) · [Staffel 3 Teil 2](https://www.netflix.com/title/70299043) · [Finale Staffel Teil 2](https://www.netflix.com/title/70299043) |
 | 588 | 2022-04-03 | How a Realist Hero Rebuilt the Kingdom | [Hauptserie](https://www.crunchyroll.com/de/how-a-realist-hero-rebuilt-the-kingdom) · [Teil 2](https://www.crunchyroll.com/de/how-a-realist-hero-rebuilt-the-kingdom) |
 | 589 | 2022-04-03 | Puella Magi Madoka Magica | [Hauptserie](http://www.crunchyroll.com/de/puella-magi-madoka-magica) · [Magia Record: Puella Magi Madoka Magica Side Story](https://www.crunchyroll.com/de/magia-record-puella-magi-madoka-magica-side-story) · [Magia Record: Puella Magi Madoka Magica Side Story Staffel 2 -The Eve of Awakening-](https://www.crunchyroll.com/de/magia-record-puella-magi-madoka-magica-side-story) · [Magia Record: Puella Magi Madoka Magica Side Story Finale Staffel -Dawn of a Shallow Dream-](https://crunchyroll.com/de/series/G6QWDD096/magia-record-puella-magi-madoka-magica-side-story) |
-| 590 | 2022-03-31 | #87498 | [Saiyuki RELOAD: ZEROIN](https://www.youtube.com/playlist?list=PLWBgW1RHJJCTSuxzweNqoEgFRxuRzxVB5) |
+| 590 | 2022-03-31 | Saiyuki RELOAD: ZEROIN | [Hauptserie](https://www.youtube.com/playlist?list=PLWBgW1RHJJCTSuxzweNqoEgFRxuRzxVB5) |
 | 591 | 2022-03-30 | Love of Kill | [Hauptserie](https://www.crunchyroll.com/de/love-of-kill) |
 | 592 | 2022-03-30 | She Professed Herself Pupil of the Wise Man | [Hauptserie](https://www.crunchyroll.com/de/she-professed-herself-pupil-of-the-wise-man) |
 | 593 | 2022-03-30 | She Professed Herself Pupil of the Wise Man | [Hauptserie](https://www.youtube.com/playlist?list=PLwLSw1_eDZl2o_CBCRxnYJOP_UhDn7NeW) |
-| 594 | 2022-03-28 | #12321 | [Thermae Romae Novae](https://www.netflix.com/title/81264354) |
+| 594 | 2022-03-28 | Thermae Romae Novae | [Hauptserie](https://www.netflix.com/title/81264354) |
 | 595 | 2022-03-28 | Tribe Nine | [Hauptserie](https://www.crunchyroll.com/de/tribe-nine) |
 | 596 | 2022-03-28 | Tribe Nine | [Hauptserie](https://www.youtube.com/playlist?list=PLxSscENEp7Jhe6NY4eBDHrF3UxWLYC8_5) |
-| 597 | 2022-03-27 | #100957 | [LUPIN THE 3rd Teil 6](https://www.crunchyroll.com/de/lupin-the-3rd-part-6) |
+| 597 | 2022-03-27 | LUPIN THE 3rd Teil 6 | [Hauptserie](https://www.crunchyroll.com/de/lupin-the-3rd-part-6) |
 | 598 | 2022-03-26 | The Strongest Sage with the Weakest Crest | [Hauptserie](https://crunchyroll.com/de/series/G5PHNM4K8) |
 | 599 | 2022-03-26 | The Strongest Sage with the Weakest Crest | [Hauptserie](https://www.youtube.com/playlist?list=PLxSscENEp7JhLYLGaHZCoq1kVvPAh_O8b) |
 | 600 | 2022-03-25 | Platinum End | [Hauptserie](https://crunchyroll.com/de/series/G8DHV722J) |
@@ -703,9 +703,9 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 657 | 2021-06-20 | Combatants Will Be Dispatched! | [Hauptserie](https://www.crunchyroll.com/de/combatants-will-be-dispatched) |
 | 658 | 2021-06-20 | Combatants Will Be Dispatched! | [Hauptserie](https://www.youtube.com/playlist?list=PLwLSw1_eDZl0tNsenacq3tN4Jedyd-H_7) |
 | 659 | 2021-06-17 | Godzilla Singular Point | [Hauptserie](https://www.netflix.com/title/80234811) |
-| 660 | 2021-06-11 | #101554 | [Mobile Suit Gundam Hathaway](https://www.netflix.com/title/81439253) |
-| 661 | 2021-06-11 | How NOT to Summon a Demon Lord | [Hauptserie](http://www.crunchyroll.com/de/how-not-to-summon-a-demon-lord) · [Ω](https://www.crunchyroll.com/de/how-not-to-summon-a-demon-lord) |
-| 662 | 2021-06-11 | How NOT to Summon a Demon Lord | [Hauptserie](https://www.youtube.com/playlist?list=PLxSscENEp7JhBK5yhltkjm1Y2Ha5KwcQs) · [Ω](https://www.youtube.com/playlist?list=PLxSscENEp7Jhq3b0mH_rLalCw8ttjbHnP) |
+| 660 | 2021-06-11 | How NOT to Summon a Demon Lord | [Hauptserie](http://www.crunchyroll.com/de/how-not-to-summon-a-demon-lord) · [Ω](https://www.crunchyroll.com/de/how-not-to-summon-a-demon-lord) |
+| 661 | 2021-06-11 | How NOT to Summon a Demon Lord | [Hauptserie](https://www.youtube.com/playlist?list=PLxSscENEp7JhBK5yhltkjm1Y2Ha5KwcQs) · [Ω](https://www.youtube.com/playlist?list=PLxSscENEp7Jhq3b0mH_rLalCw8ttjbHnP) |
+| 662 | 2021-06-11 | Mobile Suit Gundam Hathaway | [Hauptserie](https://www.netflix.com/title/81439253) |
 | 663 | 2021-05-27 | Eden | [Hauptserie](https://www.netflix.com/title/80992783) |
 | 664 | 2021-04-29 | Yasuke | [Hauptserie](https://www.netflix.com/title/80990863) |
 | 665 | 2021-03-27 | The Hidden Dungeon Only I Can Enter | [Hauptserie](https://www.crunchyroll.com/de/the-hidden-dungeon-only-i-can-enter) |
@@ -727,8 +727,8 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 681 | 2021-02-26 | Cells at Work! | [Hauptserie](https://youtube.com/playlist?list=PLwLSw1_eDZl2jD4HobdnUs3oOdkDNwQGq&si=nMq7BfTrJQ-FbH-g) · [!](https://www.youtube.com/watch?v=Nu6SsBBHXXk&list=PLwLSw1_eDZl2jD4HobdnUs3oOdkDNwQGq&ab_channel=MuseAsia) |
 | 682 | 2021-02-25 | High-Rise Invasion | [Hauptserie](https://www.netflix.com/title/81043571) |
 | 683 | 2021-02-12 | New Gods: Nezha Reborn | [Hauptserie](https://www.netflix.com/title/81418302) |
-| 684 | 2020-12-31 | #21629 | [Noblesse](https://www.crunchyroll.com/de/noblesse) |
-| 685 | 2020-12-31 | #21629 | [Noblesse](https://www.youtube.com/playlist?list=PLwLSw1_eDZl2cM2gAHFY2dgbAElluhIOx) |
+| 684 | 2020-12-31 | Noblesse | [Hauptserie](https://www.crunchyroll.com/de/noblesse) |
+| 685 | 2020-12-31 | Noblesse | [Hauptserie](https://www.youtube.com/playlist?list=PLwLSw1_eDZl2cM2gAHFY2dgbAElluhIOx) |
 | 686 | 2020-12-30 | Earwig and the Witch | [Hauptserie](https://www.netflix.com/title/81316559) |
 | 687 | 2020-12-27 | Talentless Nana | [Hauptserie](https://www.crunchyroll.com/de/talentless-nana) |
 | 688 | 2020-12-27 | Talentless Nana | [Hauptserie](https://www.youtube.com/playlist?list=PLwLSw1_eDZl2t0ExBn76ZdBomplZbeaay) |
@@ -847,7 +847,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 801 | 2019-11-22 | Fragtime | [Hauptserie](https://www.crunchyroll.com/fragtime/fragtime-unbekannt-813782?ssid=406732) |
 | 802 | 2019-11-22 | Midnight Occult Civil Servants | [Hauptserie](https://www.crunchyroll.com/de/midnight-occult-civil-servants) · [OVA](https://www.crunchyroll.com/de/midnight-occult-civil-servants) |
 | 803 | 2019-11-03 | Pokémon | [Hauptserie](https://www.amazon.de/s?k=Pok%C3%A9mon&i=instant-video) · [the Series: Sun & Moon](https://www.amazon.de/s?k=Pok%C3%A9mon%20the%20Series%3A%20Sun%20%26%20Moon&i=instant-video) |
-| 804 | 2019-10-22 | #7193 | [HUMAN LOST](https://www.crunchyroll.com/de/series/G24H1NJQ2/human-lost) |
+| 804 | 2019-10-22 | HUMAN LOST | [Hauptserie](https://www.crunchyroll.com/de/series/G24H1NJQ2/human-lost) |
 | 805 | 2019-10-11 | Her Blue Sky | [Hauptserie](https://netflix.com/title/81427482) |
 | 806 | 2019-10-05 | BLACKFOX | [Hauptserie](https://www.crunchyroll.com/de/blackfox) |
 | 807 | 2019-10-03 | Carole & Tuesday | [Hauptserie](https://www.netflix.com/title/80992137) |
@@ -894,8 +894,8 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 848 | 2019-06-28 | Bungo Stray Dogs | [Hauptserie](http://www.crunchyroll.com/de/bungo-stray-dogs) · [2](http://www.crunchyroll.com/de/bungo-stray-dogs) · [2: Walking Alone](https://www.crunchyroll.com/de/bungo-stray-dogs) · [DEAD APPLE](https://www.crunchyroll.com/de/bungo-stray-dogs) · [3](https://www.crunchyroll.com/de/bungo-stray-dogs) |
 | 849 | 2019-06-28 | Bungo Stray Dogs | [Hauptserie](https://www.netflix.com/title/80132126) · [2](https://www.netflix.com/title/80132126) · [3](https://www.netflix.com/title/80132126) |
 | 850 | 2019-06-26 | Wise Man’s Grandchild | [Hauptserie](https://www.crunchyroll.com/de/wise-mans-grandchild) |
-| 851 | 2019-06-24 | #5760 | [Dororo](https://www.amazon.de/s?k=Dororo&i=instant-video) |
-| 852 | 2019-06-24 | #5760 | [Dororo](https://youtube.com/playlist?list=PLxSscENEp7JhK-cSte9aHaz3rs6qc2Eup&si=lgTTA5pL7lelUyrR) |
+| 851 | 2019-06-24 | Dororo | [Hauptserie](https://www.amazon.de/s?k=Dororo&i=instant-video) |
+| 852 | 2019-06-24 | Dororo | [Hauptserie](https://youtube.com/playlist?list=PLxSscENEp7JhK-cSte9aHaz3rs6qc2Eup&si=lgTTA5pL7lelUyrR) |
 | 853 | 2019-06-24 | Why the hell are you here, Teacher!? | [Hauptserie](https://www.crunchyroll.com/de/why-the-hell-are-you-here-teacher) |
 | 854 | 2019-06-21 | Ride Your Wave | [Hauptserie](https://www.crunchyroll.com/ride-your-wave/ride-your-wave-unbekannt-806160?ssid=392654) |
 | 855 | 2019-06-07 | Children of the Sea | [Hauptserie](https://www.netflix.com/title/81208104) |
@@ -913,7 +913,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 867 | 2019-03-30 | Magical Girl Spec-Ops Asuka | [Hauptserie](https://animationdigitalnetwork.com/de/video/1374-magical-girl-spec-ops-asuka) |
 | 868 | 2019-03-30 | Magical Girl Spec-Ops Asuka | [Hauptserie](https://www.amazon.de/dp/B0F5CG5FHF) |
 | 869 | 2019-03-30 | Magical Girl Spec-Ops Asuka | [Hauptserie](https://www.joyn.de/serien/magical-girl-special-ops-asuka) |
-| 870 | 2019-03-29 | #369 | [Boogiepop and Others](https://www.crunchyroll.com/de/boogiepop-and-others) |
+| 870 | 2019-03-29 | Boogiepop and Others | [Hauptserie](https://www.crunchyroll.com/de/boogiepop-and-others) |
 | 871 | 2019-03-29 | TRINITY SEVEN | [Hauptserie](http://www.crunchyroll.com/de/trinity-seven) · [Trinity Seven: Eternal Library & Alchemic Girl](http://www.crunchyroll.com/de/trinity-seven) · [Trinity Seven: Heavens Library & Crimson Lord](https://www.crunchyroll.com/de/trinity-seven) |
 | 872 | 2019-03-23 | PERSONA5 the Animation | [Hauptserie](http://www.crunchyroll.com/de/persona5-the-animation) · [Stars and Ours](https://www.crunchyroll.com/de/persona5-the-animation/persona5-the-animation-stars-and-ours-782566) |
 | 873 | 2019-03-19 | That Time I Got Reincarnated as a Slime | [Hauptserie](https://www.amazon.de/s?k=That%20Time%20I%20Got%20Reincarnated%20as%20a%20Slime&i=instant-video) |
@@ -988,7 +988,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 942 | 2018-06-21 | Comic Girls | [Hauptserie](http://www.crunchyroll.com/de/comic-girls) |
 | 943 | 2018-06-16 | LOST SONG | [Hauptserie](https://www.netflix.com/title/80191369) |
 | 944 | 2018-06-10 | Cardcaptor Sakura | [Hauptserie](http://www.crunchyroll.com/de/cardcaptor-sakura) · [The Movie](http://www.crunchyroll.com/de/cardcaptor-sakura-the-movie) · [the Movie 2: The Sealed Card](https://www.crunchyroll.com/de/cardcaptor-sakura-the-movie-2-the-sealed-card) · [Clear Card](http://www.crunchyroll.com/de/cardcaptor-sakura-clear-card) |
-| 945 | 2018-06-09 | #98511 | [Kase-san and Morning Glories](https://www.crunchyroll.com/kase-san-and-morning-glories/kase-san-and-morning-glories-unbekannt-813883) |
+| 945 | 2018-06-09 | Kase-san and Morning Glories | [Hauptserie](https://www.crunchyroll.com/kase-san-and-morning-glories/kase-san-and-morning-glories-unbekannt-813883) |
 | 946 | 2018-05-26 | Code Geass: Lelouch of the Rebellion | [Hauptserie](https://www.crunchyroll.com/de/code-geass) · [R2](https://www.crunchyroll.com/de/code-geass) · [I - Initiation](https://www.crunchyroll.com/de/code-geass) · [II - Transgression](https://www.crunchyroll.com/de/code-geass) · [III - Glorification](https://www.crunchyroll.com/de/code-geass) |
 | 947 | 2018-05-25 | Junji Ito Collection | [Hauptserie](http://www.crunchyroll.com/de/junji-ito-collection) · [Tomie](https://www.crunchyroll.com/de/junji-ito-collection) |
 | 948 | 2018-05-05 | Digimon: Digital Monsters | [Hauptserie](https://www.crunchyroll.com/de/digimon-adventure) · [02](https://www.crunchyroll.com/de/digimon-adventure-02) · [Digimon Tamers](https://www.crunchyroll.com/series/GYJ0HW59G/digimon-tamers) · [Digimon Frontier](https://www.crunchyroll.com/series/G3KHEVD7E/digimon-frontier) · [Digimon Data Squad](https://www.crunchyroll.com/series/GNVHKN972/digimon-savers) · [Digimon Fusion](http://www.crunchyroll.com/de/digimon-xros-wars-the-young-hunters-who-leapt-through-time) · [Digimon Xros Wars: The Evil Death Generals and the Seven Kingdoms](http://www.crunchyroll.com/de/digimon-xros-wars-the-young-hunters-who-leapt-through-time) · [Digimon Adventure tri. Chapter 1: Reunion](http://www.crunchyroll.com/de/digimon-adventure-tri/) · [Digimon Adventure tri. Chapter 2: Determination](https://www.crunchyroll.com/de/digimon-adventure-tri) · [Digimon Adventure tri. Chapter 3: Confession](https://www.crunchyroll.com/de/digimon-adventure-tri) · [Digimon Adventure tri. Chapter 4: Loss](https://www.crunchyroll.com/de/digimon-adventure-tri) · [Digimon Adventure tri. Chapter 5: Coexistance](https://www.crunchyroll.com/de/digimon-adventure-tri) · [Digimon Adventure tri. Chapter 6: Our Future](https://www.crunchyroll.com/de/digimon-adventure-tri) |
@@ -1024,7 +1024,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 978 | 2017-12-24 | Blood Blockade Battlefront | [Hauptserie](https://www.netflix.com/title/80205560) · [& Beyond](https://www.netflix.com/title/80205560) |
 | 979 | 2017-12-24 | Children of the Whales | [Hauptserie](https://www.netflix.com/title/80174917) |
 | 980 | 2017-12-24 | TWOCAR | [Hauptserie](http://www.crunchyroll.com/de/twocar) |
-| 981 | 2017-12-23 | #19581 | [Land of the Lustrous](https://www.amazon.de/s?k=Land%20of%20the%20Lustrous&i=instant-video) |
+| 981 | 2017-12-23 | Land of the Lustrous | [Hauptserie](https://www.amazon.de/s?k=Land%20of%20the%20Lustrous&i=instant-video) |
 | 982 | 2017-12-22 | Girls' Last Tour | [Hauptserie](https://www.youtube.com/playlist?list=PLwLSw1_eDZl3llJarYAOOfcLJ3LUcHlxC) |
 | 983 | 2017-12-22 | INUYASHIKI LAST HERO | [Hauptserie](https://www.crunchyroll.com/de/series/G8DHV7E9Q/inuyashiki-last-hero) |
 | 984 | 2017-12-22 | INUYASHIKI LAST HERO | [Hauptserie](https://www.netflix.com/title/81028433) |
@@ -1076,9 +1076,9 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 1030 | 2017-06-27 | WorldEnd: What are you doing at the end of the world? Are you busy? Will you save us? | [Hauptserie](http://www.crunchyroll.com/de/worldend-what-do-you-do-at-the-end-of-the-world-are-you-busy-will-you-save-us) |
 | 1031 | 2017-06-27 | WorldEnd: What are you doing at the end of the world? Are you busy? Will you save us? | [Hauptserie](https://www.netflix.com/title/80193136) |
 | 1032 | 2017-06-27 | WorldEnd: What are you doing at the end of the world? Are you busy? Will you save us? | [Hauptserie](https://www.youtube.com/playlist?list=PLwLSw1_eDZl0SxShip9NhNFbZoIv8f4UZ) |
-| 1033 | 2017-06-26 | #14349 | [Little Witch Academia (TV)](https://www.netflix.com/title/80156387) |
-| 1034 | 2017-06-26 | Grimoire of Zero | [Hauptserie](https://www.netflix.com/title/80192979) |
-| 1035 | 2017-06-26 | Grimoire of Zero | [Hauptserie](https://www.amazon.de/s?k=Grimoire%20of%20Zero&i=instant-video) |
+| 1033 | 2017-06-26 | Grimoire of Zero | [Hauptserie](https://www.netflix.com/title/80192979) |
+| 1034 | 2017-06-26 | Grimoire of Zero | [Hauptserie](https://www.amazon.de/s?k=Grimoire%20of%20Zero&i=instant-video) |
+| 1035 | 2017-06-26 | Little Witch Academia (TV) | [Hauptserie](https://www.netflix.com/title/80156387) |
 | 1036 | 2017-06-25 | Eromanga Sensei | [Hauptserie](http://www.crunchyroll.com/de/eromanga-sensei) |
 | 1037 | 2017-06-25 | Eromanga Sensei | [Hauptserie](https://www.netflix.com/title/80193052) |
 | 1038 | 2017-06-25 | Granblue Fantasy: The Animation | [Hauptserie](http://www.crunchyroll.com/de/granblue-fantasy-the-animation) |
@@ -1092,12 +1092,12 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 1046 | 2017-06-20 | Akashic Records of Bastard Magic Instructor | [Hauptserie](https://www.youtube.com/playlist?list=PLxSscENEp7JhgECCmAq4rlTGlPT-5AvuA) |
 | 1047 | 2017-06-13 | MFKZ | [Hauptserie](https://www.netflix.com/title/81037697) |
 | 1048 | 2017-05-24 | Strike the Blood | [Hauptserie](http://www.crunchyroll.com/de/strike-the-blood) · [Kingdom of the Valkyria](https://www.crunchyroll.com/de/strike-the-blood) · [Second](https://www.crunchyroll.com/de/strike-the-blood) |
-| 1049 | 2017-05-20 | #1055 | [BLAME!](https://www.netflix.com/title/80115466) |
-| 1050 | 2017-05-20 | #1055 | [BLAME!](https://www.youtube.com/watch?v=JC3KBJchdtE) |
+| 1049 | 2017-05-20 | BLAME! | [Hauptserie](https://www.netflix.com/title/80115466) |
+| 1050 | 2017-05-20 | BLAME! | [Hauptserie](https://www.youtube.com/watch?v=JC3KBJchdtE) |
 | 1051 | 2017-05-19 | Lu Over the Wall | [Hauptserie](https://www.crunchyroll.com/lu-over-the-wall/lu-over-the-wall-unbekannt-811213?ssid=399959) |
 | 1052 | 2017-05-19 | Lu Over the Wall | [Hauptserie](https://www.netflix.com/title/80238911) |
 | 1053 | 2017-04-29 | Tales of Zestiria the X | [Hauptserie](https://www.crunchyroll.com/de/tales-of-zestiria-the-x) · [Staffel 2](https://www.crunchyroll.com/de/tales-of-zestiria-the-x) |
-| 1054 | 2017-04-07 | #7785 | [The Night is Short, Walk on Girl](https://www.crunchyroll.com/night-is-short-walk-on-girl/night-is-short-walk-on-girl-unbekannt-811211?ssid=399939) |
+| 1054 | 2017-04-07 | The Night is Short, Walk on Girl | [Hauptserie](https://www.crunchyroll.com/night-is-short-walk-on-girl/night-is-short-walk-on-girl-unbekannt-811211?ssid=399939) |
 | 1055 | 2017-03-31 | Saga of Tanya the Evil | [Hauptserie](https://www.youtube.com/playlist?list=PLxSscENEp7JipogV7W74-hbDbYaQx78Oq) |
 | 1056 | 2017-03-31 | Scum's Wish | [Hauptserie](https://www.netflix.com/title/80194878) |
 | 1057 | 2017-03-31 | Scum's Wish | [Hauptserie](https://www.amazon.de/s?k=Scum's%20Wish&i=instant-video) |
@@ -1118,7 +1118,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 1072 | 2017-01-07 | Kabaneri of the Iron Fortress | [Hauptserie](https://www.crunchyroll.com/de/kabaneri-of-the-iron-fortress/videos) · [Light That Gathers](https://www.crunchyroll.com/de/kabaneri-of-the-iron-fortress) · [Life That Burns](https://www.crunchyroll.com/de/kabaneri-of-the-iron-fortress) |
 | 1073 | 2016-12-29 | FLIP FLAPPERS | [Hauptserie](https://www.crunchyroll.com/flip-flappers) |
 | 1074 | 2016-12-24 | AJIN: Demi-Human | [Hauptserie](https://www.netflix.com/gb/title/80043576) · [2](https://www.netflix.com/title/80043576) |
-| 1075 | 2016-12-23 | #16932 | [DRIFTERS](https://www.netflix.com/title/80191083) |
+| 1075 | 2016-12-23 | DRIFTERS | [Hauptserie](https://www.netflix.com/title/80191083) |
 | 1076 | 2016-12-23 | Kiss Him, Not Me | [Hauptserie](http://www.crunchyroll.com/de/kiss-him-not-me) |
 | 1077 | 2016-12-23 | Kiss Him, Not Me | [Hauptserie](https://www.netflix.com/title/81107662) |
 | 1078 | 2016-12-22 | Keijo!!!!!!!! | [Hauptserie](http://www.crunchyroll.com/de/keijo) |
@@ -1154,7 +1154,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 1108 | 2016-08-19 | Dragon Nest: Warriors' Dawn | [Hauptserie](https://www.youtube.com/watch?v=QTZvD-pEYo8) · [Long Zhi Gu: Jingling Wangzuo](https://www.youtube.com/watch?v=KWHCWeMgxm4) |
 | 1109 | 2016-08-18 | Seoul Station | [Hauptserie](https://www.youtube.com/watch?v=9p5GKwN1Mcs) |
 | 1110 | 2016-08-06 | Rudolf to Ippaiattena | [Hauptserie](https://www.youtube.com/watch?v=gPrQv0pvBjM) |
-| 1111 | 2016-07-09 | #21728 | [Kingsglaive Final Fantasy XV](https://www.youtube.com/watch?v=88fSdX1vmNU) |
+| 1111 | 2016-07-09 | Kingsglaive Final Fantasy XV | [Hauptserie](https://www.youtube.com/watch?v=88fSdX1vmNU) |
 | 1112 | 2016-07-08 | Big Fish & Begonia | [Hauptserie](https://www.crunchyroll.com/de/big-fish-begonia) |
 | 1113 | 2016-07-08 | Big Fish & Begonia | [Hauptserie](https://www.netflix.com/title/80233883) |
 | 1114 | 2016-07-08 | Big Fish & Begonia | [Hauptserie](https://www.youtube.com/watch?v=vQQNT6u1msI) |
@@ -1176,19 +1176,19 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 1130 | 2016-03-29 | AOKANA: Four Rhythm Across the Blue | [Hauptserie](http://www.crunchyroll.com/de/aokana) |
 | 1131 | 2016-03-29 | AOKANA: Four Rhythm Across the Blue | [Hauptserie](https://www.amazon.de/dp/B0DNCJGMDN) |
 | 1132 | 2016-03-29 | Snow White with the Red Hair | [Hauptserie](https://www.crunchyroll.com/de/snow-white-with-the-red-hair) · [Staffel 2](https://www.crunchyroll.com/de/snow-white-with-the-red-hair) |
-| 1133 | 2016-03-28 | #11021 | [Schwarzes Marken](http://www.crunchyroll.com/de/schwarzes-marken) |
-| 1134 | 2016-03-28 | Grimgar of Fantasy and Ash | [Hauptserie](https://www.crunchyroll.com/grimgar-ashes-and-illusions) |
-| 1135 | 2016-03-28 | Grimgar of Fantasy and Ash | [Hauptserie](https://www.netflix.com/title/80142717) |
-| 1136 | 2016-03-28 | Grimgar of Fantasy and Ash | [Hauptserie](https://www.youtube.com/watch?v=dDI-WbLC-j0) |
+| 1133 | 2016-03-28 | Grimgar of Fantasy and Ash | [Hauptserie](https://www.crunchyroll.com/grimgar-ashes-and-illusions) |
+| 1134 | 2016-03-28 | Grimgar of Fantasy and Ash | [Hauptserie](https://www.netflix.com/title/80142717) |
+| 1135 | 2016-03-28 | Grimgar of Fantasy and Ash | [Hauptserie](https://www.youtube.com/watch?v=dDI-WbLC-j0) |
+| 1136 | 2016-03-28 | Schwarzes Marken | [Hauptserie](http://www.crunchyroll.com/de/schwarzes-marken) |
 | 1137 | 2016-03-28 | Undefeated Bahamut Chronicle | [Hauptserie](https://www.crunchyroll.com/de/undefeated-bahamut-chronicle) |
 | 1138 | 2016-03-28 | Undefeated Bahamut Chronicle | [Hauptserie](https://netflix.com/title/81022603) |
 | 1139 | 2016-03-27 | Dimension W | [Hauptserie](https://www.crunchyroll.com/de/dimension-w) |
 | 1140 | 2016-03-27 | Dimension W | [Hauptserie](https://www.amazon.de/s?k=Dimension%20W&i=instant-video) |
-| 1141 | 2016-03-26 | #10470 | [God Eater](http://www.crunchyroll.com/de/god-eater) |
-| 1142 | 2016-03-26 | #10470 | [God Eater](https://www.netflix.com/title/80145805) |
-| 1143 | 2016-03-26 | #10470 | [God Eater](https://www.amazon.de/dp/B081HGWP3V) |
-| 1144 | 2016-03-26 | Gate | [Hauptserie](http://www.crunchyroll.com/de/gate) · [2](http://www.crunchyroll.com/de/gate) |
-| 1145 | 2016-03-26 | Gate | [Hauptserie](https://www.netflix.com/title/80182163) · [2](https://www.netflix.com/title/80182163) |
+| 1141 | 2016-03-26 | Gate | [Hauptserie](http://www.crunchyroll.com/de/gate) · [2](http://www.crunchyroll.com/de/gate) |
+| 1142 | 2016-03-26 | Gate | [Hauptserie](https://www.netflix.com/title/80182163) · [2](https://www.netflix.com/title/80182163) |
+| 1143 | 2016-03-26 | God Eater | [Hauptserie](http://www.crunchyroll.com/de/god-eater) |
+| 1144 | 2016-03-26 | God Eater | [Hauptserie](https://www.netflix.com/title/80145805) |
+| 1145 | 2016-03-26 | God Eater | [Hauptserie](https://www.amazon.de/dp/B081HGWP3V) |
 | 1146 | 2016-03-26 | Heavy Object | [Hauptserie](https://www.youtube.com/playlist?list=PLwLSw1_eDZl1J5boIezXefzjn6Ymek6HH) |
 | 1147 | 2016-03-25 | Divine Gate | [Hauptserie](https://www.crunchyroll.com/de/divine-gate) |
 | 1148 | 2016-03-25 | ERASED | [Hauptserie](http://www.crunchyroll.com/de/erased) |
@@ -1214,7 +1214,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 1168 | 2015-12-16 | Sound! Euphonium | [Ready, Set, Monaka](https://www.youtube.com/user/KyoaniChannel) |
 | 1169 | 2015-11-21 | Girls und Panzer | [Hauptserie](https://www.netflix.com/title/80205232) · [der Film](https://www.netflix.com/title/80159876) |
 | 1170 | 2015-11-13 | Harmony | [Hauptserie](https://www.crunchyroll.com/harmony/harmony-unbekannt-807914?ssid=394443) |
-| 1171 | 2015-10-10 | #5267 | [Air Bound](https://www.youtube.com/watch?v=yMEbEhKHMB8) |
+| 1171 | 2015-10-10 | Air Bound | [Hauptserie](https://www.youtube.com/watch?v=yMEbEhKHMB8) |
 | 1172 | 2015-10-02 | The Empire of Corpses | [Hauptserie](https://www.crunchyroll.com/the-empire-of-corpses/the-empire-of-corpses-unknown-808170?ssid=395057) |
 | 1173 | 2015-09-29 | To Love Ru | [Darkness](https://animationdigitalnetwork.com/de/video/217-to-love-ru-darkness) · [Darkness 2](https://animationdigitalnetwork.com/de/video/217-to-love-ru-darkness) |
 | 1174 | 2015-09-27 | Charlotte | [Hauptserie](http://www.crunchyroll.com/de/charlotte) |
@@ -1232,10 +1232,10 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 1186 | 2015-07-11 | The Boy and the Beast | [Hauptserie](https://www.crunchyroll.com/de/the-boy-and-the-beast) |
 | 1187 | 2015-07-11 | The Boy and the Beast | [Hauptserie](https://www.netflix.com/title/80063800) |
 | 1188 | 2015-07-11 | The Boy and the Beast | [Hauptserie](https://www.youtube.com/watch?v=Pe53ho6a5ZE) |
-| 1189 | 2015-06-28 | #20359 | [Yamada and the Seven Witches](http://www.crunchyroll.com/de/yamada-kun-and-the-seven-witches) |
-| 1190 | 2015-06-28 | #20359 | [Yamada and the Seven Witches](https://youtube.com/playlist?list=PLxSscENEp7JjskJ0TWP1V9KqH-szrYbpi) |
-| 1191 | 2015-06-28 | Plastic Memories | [Hauptserie](http://www.crunchyroll.com/de/plastic-memories) |
-| 1192 | 2015-06-28 | Plastic Memories | [Hauptserie](https://animationdigitalnetwork.de/video/plastic-memories) |
+| 1189 | 2015-06-28 | Plastic Memories | [Hauptserie](http://www.crunchyroll.com/de/plastic-memories) |
+| 1190 | 2015-06-28 | Plastic Memories | [Hauptserie](https://animationdigitalnetwork.de/video/plastic-memories) |
+| 1191 | 2015-06-28 | Yamada and the Seven Witches | [Hauptserie](http://www.crunchyroll.com/de/yamada-kun-and-the-seven-witches) |
+| 1192 | 2015-06-28 | Yamada and the Seven Witches | [Hauptserie](https://youtube.com/playlist?list=PLxSscENEp7JjskJ0TWP1V9KqH-szrYbpi) |
 | 1193 | 2015-06-26 | Amagi Brilliant Park | [No Time to Take It Easy!](https://www.crunchyroll.com/amagi-brilliant-park/episode-14-800072?ssid=387020) |
 | 1194 | 2015-06-26 | Nisekoi | [Hauptserie](http://www.crunchyroll.com/de/nisekoi) · [Nisekoi:](http://www.crunchyroll.com/de/nisekoi) |
 | 1195 | 2015-06-26 | PUNCH LINE | [Hauptserie](http://www.crunchyroll.com/de/punch-line) |
@@ -1256,9 +1256,9 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 1210 | 2015-03-29 | ALDNOAH.ZERO | [Hauptserie](https://www.netflix.com/title/80040104) · [Staffel 2](https://www.netflix.com/title/80040104) |
 | 1211 | 2015-03-29 | Maria the Virgin Witch | [Hauptserie](https://www.crunchyroll.com/de/maria-the-virgin-witch) |
 | 1212 | 2015-03-29 | The Seven Deadly Sins | [Hauptserie](https://youtube.com/playlist?list=PLwLSw1_eDZl3572W1HJjIkZyW-0GGVUVq&si=mP5IwBPobYKC27_K) |
-| 1213 | 2015-03-28 | #14353 | [Death Parade](https://www.crunchyroll.com/de/death-parade) |
-| 1214 | 2015-03-28 | #14353 | [Death Parade](https://www.netflix.com/title/80209635) |
-| 1215 | 2015-03-28 | #14353 | [Death Parade](https://animationdigitalnetwork.com/de/video/347-death-parade) |
+| 1213 | 2015-03-28 | Death Parade | [Hauptserie](https://www.crunchyroll.com/de/death-parade) |
+| 1214 | 2015-03-28 | Death Parade | [Hauptserie](https://www.netflix.com/title/80209635) |
+| 1215 | 2015-03-28 | Death Parade | [Hauptserie](https://animationdigitalnetwork.com/de/video/347-death-parade) |
 | 1216 | 2015-03-28 | Log Horizon | [Hauptserie](https://www.crunchyroll.com/de/log-horizon) · [2](https://www.crunchyroll.com/de/log-horizon) |
 | 1217 | 2015-03-28 | Lupin the 3rd | [Magic Kaito 1412](https://animationdigitalnetwork.com/de/video/336-magic-kaito) |
 | 1218 | 2015-03-28 | Ronja, the Robber's Daughter | [Hauptserie](https://www.netflix.com/title/80074221) |
@@ -1293,10 +1293,10 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 1247 | 2014-09-25 | Space Dandy | [Hauptserie](https://www.crunchyroll.com/de/space-dandy) · [2](https://www.crunchyroll.com/de/space-dandy) |
 | 1248 | 2014-09-25 | Space Dandy | [Hauptserie](https://www.amazon.de/s?k=Space%20Dandy&i=instant-video) · [2](https://www.amazon.de/s?k=Space%20Dandy%202&i=instant-video) |
 | 1249 | 2014-09-24 | Brynhildr in the Darkness | [Hauptserie](https://animationdigitalnetwork.com/de/video/310-brynhildr_in_the_darkness) · [OVA](https://animationdigitalnetwork.com/de/video/310-brynhildr_in_the_darkness/29859-folge-14) |
-| 1250 | 2014-09-24 | Hunter x Hunter | [Hauptserie](https://www.youtube.com/playlist?list=PLwLSw1_eDZl2SdSro00Nvg38MQUf-5ZL8) · [(2011)](https://youtube.com/playlist?list=PLwLSw1_eDZl2SdSro00Nvg38MQUf-5ZL8) |
-| 1251 | 2014-09-24 | Hunter x Hunter | [(2011)](http://www.crunchyroll.com/de/hunter-x-hunter) |
-| 1252 | 2014-09-24 | Hunter x Hunter | [(2011)](https://www.netflix.com/title/70300472) · [Phantom Rouge](https://www.netflix.com/title/80108601) · [The Last Mission](https://www.netflix.com/title/80108453) |
-| 1253 | 2014-09-24 | Hunter x Hunter | [(2011)](https://www.amazon.de/s?k=Hunter%20x%20Hunter%20(2011)&i=instant-video) |
+| 1250 | 2014-09-24 | Hunter x Hunter | [Hauptserie](https://www.youtube.com/playlist?list=PLwLSw1_eDZl2SdSro00Nvg38MQUf-5ZL8) · [2011](https://youtube.com/playlist?list=PLwLSw1_eDZl2SdSro00Nvg38MQUf-5ZL8) |
+| 1251 | 2014-09-24 | Hunter x Hunter | [2011](http://www.crunchyroll.com/de/hunter-x-hunter) |
+| 1252 | 2014-09-24 | Hunter x Hunter | [2011](https://www.netflix.com/title/70300472) · [Phantom Rouge](https://www.netflix.com/title/80108601) · [The Last Mission](https://www.netflix.com/title/80108453) |
+| 1253 | 2014-09-24 | Hunter x Hunter | [2011](https://www.amazon.de/s?k=Hunter%20x%20Hunter%20(2011)&i=instant-video) |
 | 1254 | 2014-09-23 | Hamatora | [Hauptserie](http://www.crunchyroll.com/de/hamatora) · [Re: Hamatora](http://www.crunchyroll.com/de/hamatora) |
 | 1255 | 2014-09-22 | DRAMAtical Murder | [Hauptserie](https://www.crunchyroll.com/de/dramatical-murder) |
 | 1256 | 2014-09-22 | Monthly Girls' Nozaki-kun | [Hauptserie](https://www.netflix.com/title/80081848) |
@@ -1304,7 +1304,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 1258 | 2014-09-03 | Avengers Confidential: Black Widow & Punisher | [Hauptserie](https://www.youtube.com/watch?v=YVNzQSzNpTY) |
 | 1259 | 2014-07-31 | Dragon Nest: Warriors' Dawn | [Hauptserie](https://www.netflix.com/title/80084763) |
 | 1260 | 2014-07-19 | When Marnie Was There | [Hauptserie](https://www.netflix.com/title/80036398) |
-| 1261 | 2014-07-15 | Appleseed | [(Movie)](https://www.netflix.com/title/70023531) · [Alpha](https://www.netflix.com/title/70307393) |
+| 1261 | 2014-07-15 | Appleseed | [Movie](https://www.netflix.com/title/70023531) · [Alpha](https://www.netflix.com/title/70307393) |
 | 1262 | 2014-07-15 | Appleseed | [Alpha](https://www.youtube.com/watch?v=Lqxbna7V_Qc) |
 | 1263 | 2014-07-01 | Black Bullet | [Hauptserie](https://animationdigitalnetwork.com/de/video/1132-black-bullet) |
 | 1264 | 2014-07-01 | Black Bullet | [Hauptserie](https://www.youtube.com/playlist?list=PLwLSw1_eDZl1_e_EKh4oVFriW8um3TKY6) |
@@ -1343,7 +1343,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 1297 | 2013-09-17 | Dog & Scissors | [Hauptserie](https://www.crunchyroll.com/de/dog-scissors) |
 | 1298 | 2013-09-09 | Blood Lad | [Hauptserie](https://www.youtube.com/playlist?list=PLxSscENEp7JguvDcNjXMoExm2aM847RJY) |
 | 1299 | 2013-09-07 | Queen Millennia | [Harlock: Space Pirate](https://www.youtube.com/watch?v=kzlvi9dWBhQ) |
-| 1300 | 2013-07-24 | #13807 | [Corpse Party](https://www.crunchyroll.com/corpse-party-tortured-souls) |
+| 1300 | 2013-07-24 | Corpse Party | [Hauptserie](https://www.crunchyroll.com/corpse-party-tortured-souls) |
 | 1301 | 2013-07-20 | The Wind Rises | [Hauptserie](https://www.netflix.com/title/70293674) |
 | 1302 | 2013-06-30 | Flowers of Evil | [Hauptserie](https://www.crunchyroll.com/flowers-of-evil) |
 | 1303 | 2013-06-29 | Hentai Prince & the Stony Cat | [Hauptserie](http://www.crunchyroll.com/de/henneko-the-hentai-prince-and-the-stony-cat-) |
@@ -1401,7 +1401,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 1355 | 2012-03-24 | Shakugan no Shana | [Hauptserie](https://www.crunchyroll.com/de/shakugan-no-shana) · [The Movie](https://www.crunchyroll.com/de/shakugan-no-shana) · [Season II](https://www.crunchyroll.com/de/shakugan-no-shana) · [S](https://www.crunchyroll.com/de/shakugan-no-shana) · [Season III](https://www.crunchyroll.com/de/shakugan-no-shana) |
 | 1356 | 2012-03-24 | Shakugan no Shana | [Season II](https://www.amazon.de/s?k=Shakugan%20no%20Shana%3A%20Season%20II&i=instant-video) · [Season III](https://www.amazon.de/s?k=Shakugan%20no%20Shana%3A%20Season%20III&i=instant-video) |
 | 1357 | 2012-03-24 | The Familiar of Zero | [Hauptserie](https://www.youtube.com/playlist?list=PLwLSw1_eDZl3E39Fs26FYaSxvwh5PI654) · [Knight of the Twin Moons](https://www.youtube.com/playlist?list=PLwLSw1_eDZl3E39Fs26FYaSxvwh5PI654) · ["Rondo" of Princesses](https://www.youtube.com/playlist?list=PLwLSw1_eDZl3E39Fs26FYaSxvwh5PI654) · [F](https://www.youtube.com/playlist?list=PLwLSw1_eDZl3E39Fs26FYaSxvwh5PI654) |
-| 1358 | 2012-03-23 | #7059 | [Black Rock Shooter](https://www.crunchyroll.com/de/series/GMEHME53W/black-rock-shooter) |
+| 1358 | 2012-03-23 | Black Rock Shooter | [Hauptserie](https://www.crunchyroll.com/de/series/GMEHME53W/black-rock-shooter) |
 | 1359 | 2012-03-23 | Guilty Crown | [Hauptserie](https://www.crunchyroll.com/de/guilty-crown) |
 | 1360 | 2012-03-23 | Guilty Crown | [Hauptserie](https://www.netflix.com/title/80113904) |
 | 1361 | 2012-01-26 | Bakugan Battle Brawlers | [Hauptserie](https://www.joyn.de/serien/bakugan-battle-brawlers) · [Bakugan: New Vestroia](https://www.joyn.de/serien/bakugan-battle-brawlers) · [Bakugan: Gundalian Invaders](https://www.joyn.de/serien/bakugan-battle-brawlers) · [Bakugan: Mechtanium Surge](https://www.joyn.de/serien/bakugan-battle-brawlers) |
@@ -1464,8 +1464,8 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 1418 | 2009-09-25 | PandoraHearts | [Hauptserie](http://www.crunchyroll.com/de/pandorahearts) |
 | 1419 | 2009-09-24 | Spice and Wolf | [Hauptserie](https://www.crunchyroll.com/de/spice-and-wolf) · [II: Wolf and the Amber Melancholy](https://www.crunchyroll.com/de/spice-and-wolf) · [II](https://www.crunchyroll.com/de/spice-and-wolf) |
 | 1420 | 2009-09-12 | Yona Yona Penguin | [Hauptserie](https://www.youtube.com/watch?v=-eIYzH31iHs) |
-| 1421 | 2009-08-14 | #1980 | [Redline](https://www.netflix.com/title/70153298) |
-| 1422 | 2009-08-14 | #1980 | [Redline](https://www.youtube.com/watch?v=9NIor7m_tnI) |
+| 1421 | 2009-08-14 | Redline | [Hauptserie](https://www.netflix.com/title/70153298) |
+| 1422 | 2009-08-14 | Redline | [Hauptserie](https://www.youtube.com/watch?v=9NIor7m_tnI) |
 | 1423 | 2009-07-01 | Clannad | [The Motion Picture](https://animationdigitalnetwork.de/video/clannad-the-movie) · [Hauptserie](https://animationdigitalnetwork.de/video/clannad) · [Another World, Tomoyo Chapter](https://animationdigitalnetwork.de/video/clannad/12851-folge-24-das-tomoyo-kapitel) · [After Story](https://animationdigitalnetwork.de/video/clannad-after-story-saison-2) · [Another World, Kyou Chapter](https://animationdigitalnetwork.de/video/clannad-after-story-saison-2/13213-folge-25-das-kyou-kapitel) |
 | 1424 | 2009-03-31 | Natsume's Book of Friends | [Staffel 1](https://www.crunchyroll.com/de/series/GRE5XQJV6/natsumes-book-of-friends) · [Staffel 2](https://www.crunchyroll.com/de/series/GRE5XQJV6/natsumes-book-of-friends) |
 | 1425 | 2009-03-31 | Natsume's Book of Friends | [Staffel 1](https://www.netflix.com/title/81032481) · [Staffel 2](https://www.netflix.com/title/81032481) |
@@ -1494,7 +1494,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 1448 | 2008-07-01 | Vampire Knight | [Hauptserie](https://www.crunchyroll.com/de/series/GR24GNVM6/vampire-knight) |
 | 1449 | 2008-05-30 | Spice and Wolf | [Hauptserie](https://www.netflix.com/title/70205026) |
 | 1450 | 2008-05-30 | Spice and Wolf | [Hauptserie](https://www.youtube.com/playlist?list=PLDAD7E90412AEF3DF) |
-| 1451 | 2008-03-21 | #320 | [Kite Liberator](http://www.crunchyroll.com/de/kite-liberator) |
+| 1451 | 2008-03-21 | Kite Liberator | [Hauptserie](http://www.crunchyroll.com/de/kite-liberator) |
 | 1452 | 2008-01-27 | Dinosaur King | [Hauptserie](https://www.netflix.com/title/80007912) |
 | 1453 | 2007-09-30 | Gurren Lagann | [Hauptserie](http://www.crunchyroll.com/de/gurren-lagann) |
 | 1454 | 2007-09-30 | Gurren Lagann | [Hauptserie](https://www.amazon.de/dp/B0DTXD67CQ) |
@@ -1517,13 +1517,13 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 1471 | 2007-06-27 | Death Note | [Hauptserie](https://www.netflix.com/title/70204970) |
 | 1472 | 2007-06-27 | Death Note | [Hauptserie](https://www.amazon.de/s?k=Death%20Note&i=instant-video) |
 | 1473 | 2007-06-27 | Death Note | [Hauptserie](https://youtube.com/playlist?list=PLDDFkfLheQ9hzlWtnCSla1DicLZkllriY) |
-| 1474 | 2007-05-11 | #4069 | [Pucca](https://youtube.com/playlist?list=PLq9qq7ASaOalLWd9GgIgfAC-QTk_J5Q6G&si=zQdC4kzkNYyZkTU5) |
+| 1474 | 2007-05-11 | Pucca | [Hauptserie](https://youtube.com/playlist?list=PLq9qq7ASaOalLWd9GgIgfAC-QTk_J5Q6G&si=zQdC4kzkNYyZkTU5) |
 | 1475 | 2007-03-30 | Venus Versus Virus | [Hauptserie](https://www.crunchyroll.com/de/venus-versus-virus) |
 | 1476 | 2007-03-28 | NANA | [Hauptserie](https://www.google.com/url?sa=t&source=web&rct=j&url=https://www.crunchyroll.com/de/series/GVDHX8QGP/nana&ved=2ahUKEwifi8P_yuj9AhUgVqQEHZuMD9gQFnoECA0QAQ&usg=AOvVaw3qlL5BTTbccRkl1ygyWy9T) |
 | 1477 | 2007-03-28 | NANA | [Hauptserie](https://www.netflix.com/title/70205010) |
 | 1478 | 2007-03-28 | NANA | [Hauptserie](https://www.youtube.com/watch?v=YCdMLpCpveY) |
 | 1479 | 2007-03-18 | Pumpkin Scissors | [Hauptserie](https://www.crunchyroll.com/de/pumpkin-scissors) |
-| 1480 | 2007-03-15 | #144 | [Kanon (2006)](https://www.crunchyroll.com/de/kanon) |
+| 1480 | 2007-03-15 | Kanon (2006) | [Hauptserie](https://www.crunchyroll.com/de/kanon) |
 | 1481 | 2007-03-03 | 5 Centimeters per Second | [Hauptserie](https://www.netflix.com/title/70093699) |
 | 1482 | 2007-02-01 | Afro Samurai | [Hauptserie](https://www.netflix.com/title/70204947) |
 | 1483 | 2006-12-23 | Tekkon Kinkreet Pilot | [Tekkonkinkreet](https://www.amazon.de/s?k=Tekkonkinkreet&i=instant-video) |
@@ -1610,7 +1610,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 1564 | 2003-09-25 | Texhnolyze | [Hauptserie](https://www.youtube.com/playlist?list=ELrmUroR2hqNY) |
 | 1565 | 2003-07-29 | Wolf's Rain | [Hauptserie](https://www.crunchyroll.com/de/wolfs-rain) |
 | 1566 | 2003-07-29 | Wolf's Rain | [Hauptserie](https://animationdigitalnetwork.com/de/video/1143-wolfs-rain) |
-| 1567 | 2003-07-24 | #1349 | [Parasite Dolls](http://www.crunchyroll.com/de/parasite-dolls) |
+| 1567 | 2003-07-24 | Parasite Dolls | [Hauptserie](http://www.crunchyroll.com/de/parasite-dolls) |
 | 1568 | 2003-07-15 | Ninja Scroll: The Series | [Hauptserie](https://www.crunchyroll.com/de/series/GMEHMENP7/ninja-scroll-the-series) |
 | 1569 | 2003-07-08 | Kino's Journey | [Hauptserie](https://www.netflix.com/title/80193421) |
 | 1570 | 2003-03-19 | Kiddy Grade | [Hauptserie](https://www.crunchyroll.com/de/kiddy-grade) |
@@ -1631,7 +1631,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 1585 | 2001-01-10 | Gravitation TV | [Gravitation: Lyrics of Love](https://www.crunchyroll.com/de/series/G9VHN9DXX/) · [Hauptserie](https://www.crunchyroll.com/de/series/G9VHN9DXX/gravitation) |
 | 1586 | 2000-12-25 | Mon Colle Knights | [Hauptserie](https://www.crunchyroll.com/de/mon-colle-knights) |
 | 1587 | 2000-10-24 | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
-| 1588 | 2000-09-30 | Monster Rancher | [Hauptserie](https://www.amazon.de/s?k=Monster%20Rancher&i=instant-video) · [(2000)](https://www.amazon.de/s?k=Monster%20Rancher%20(2000)&i=instant-video) |
+| 1588 | 2000-09-30 | Monster Rancher | [Hauptserie](https://www.amazon.de/s?k=Monster%20Rancher&i=instant-video) · [2000](https://www.amazon.de/s?k=Monster%20Rancher%20(2000)&i=instant-video) |
 | 1589 | 2000-06-03 | Jin-Roh: The Wolf Brigade | [Hauptserie](https://www.crunchyroll.com/de/watch/G3WF2491E/jin-roh) |
 | 1590 | 2000-03-27 | Pilot Candidate | [Hauptserie](https://www.crunchyroll.com/de/pilot-candidate) |
 | 1591 | 2000-03-27 | Pilot Candidate | [Hauptserie](https://www.amazon.de/s?k=Pilot%20Candidate&i=instant-video) |
@@ -1668,8 +1668,8 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 1622 | 1995-07-15 | Whisper of the Heart | [Hauptserie](https://www.netflix.com/title/70045021) |
 | 1623 | 1995-01-07 | Yu Yu Hakusho: Ghostfiles | [Hauptserie](https://www.crunchyroll.com/de/yu-yu-hakusho) |
 | 1624 | 1995-01-07 | Yu Yu Hakusho: Ghostfiles | [Hauptserie](https://www.netflix.com/title/81005375) |
-| 1625 | 1994-08-06 | #876 | [Street Fighter II: The Animated Movie](https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie) |
-| 1626 | 1994-08-06 | #876 | [Street Fighter II: The Animated Movie](https://www.amazon.de/s?k=Street%20Fighter%20II%3A%20The%20Animated%20Movie&i=instant-video) |
+| 1625 | 1994-08-06 | Street Fighter II: The Animated Movie | [Hauptserie](https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie) |
+| 1626 | 1994-08-06 | Street Fighter II: The Animated Movie | [Hauptserie](https://www.amazon.de/s?k=Street%20Fighter%20II%3A%20The%20Animated%20Movie&i=instant-video) |
 | 1627 | 1994-06-13 | Pom Poko | [Hauptserie](https://www.netflix.com/title/70035036) |
 | 1628 | 1993-06-05 | Ninja Scroll: The Series | [Ninja Scroll](https://www.youtube.com/watch?v=jS8EMw1DfTQ) |
 | 1629 | 1993-05-28 | Dragon Half | [Hauptserie](http://www.crunchyroll.com/de/dragon-half) |
@@ -1709,7 +1709,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 1663 | 1985-04-09 | Tao Tao Ehonkan Sekai Doubutsu Banashi | [Hauptserie](https://www.youtube.com/playlist?list=PLar8fACIEzb0KBeSE1f_KnktvHFFkkrd7) |
 | 1664 | 1984-03-11 | Nausicaä of the Valley of the Wind | [Hauptserie](https://www.netflix.com/title/70019062) |
 | 1665 | 1984-02-25 | Lady Georgie | [Hauptserie](https://www.amazon.de/dp/B0DMHSFLGQ) |
-| 1666 | 1983-06-26 | #194 | [Macross](https://www.crunchyroll.com/de/robotech) |
+| 1666 | 1983-06-26 | Macross | [Hauptserie](https://www.crunchyroll.com/de/robotech) |
 | 1667 | 1982-02-24 | Go Lion | [Hauptserie](http://www.crunchyroll.com/de/go-lion) |
 | 1668 | 1981-12-27 | Swiss Family Robinson | [Hauptserie](https://www.amazon.de/s?k=Swiss%20Family%20Robinson&i=instant-video) |
 | 1669 | 1981-03-14 | Fantastic Adventures of Unico | [Hauptserie](https://www.crunchyroll.com/de/watch/GZ4FVQE90/fantastic-adventures-of-unico) |
