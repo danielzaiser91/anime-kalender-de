@@ -11,7 +11,7 @@ _(leer)_
 | Aufgabe | SP | Notiz |
 |---|---|---|
 | News-Quellen für Sendepausen und Verschiebungen | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
-| Disc-Termine aus dem aniSearch-Archiv gewinnen | 5 | Der `items`-Abschnitt der archivierten Seiten führt deutsche Neuerscheinungen mit Datum — Blu-ray und DVD, Jahre im Voraus, samt Publisher. **136 künftige Termine allein in den 110 bisher archivierten Seiten**; 96 davon führen überhaupt eine solche Liste. Ersetzt die Handpflege der Disc-Releases und macht das Auslesen einzelner Publisher-Seiten überflüssig (gemessen 12.08.2026). Zu lösen: Discs von Manga-/Novel-Bänden trennen (aniSearch markiert den Typ, „Bd. 02" gegen „[Blu-ray]"), Zuordnung zum Anime-Eintrag, und wie bei allem Abgeleiteten als Vorschlag nach `data/proposals/` statt direkt in den Datensatz |
+| **Disc-Vorschläge abarbeiten** | 3 | `npm run data:disc-proposals` erzeugt aus dem Archiv 47 Ausgaben an **34 Terminen zu 21 Anime**, die noch nicht im Datensatz stehen (`data/proposals/disc-anisearch.json`, Stand 12.08.2026). Jeder Vorschlag trägt den Grund seiner Einstufung. Übertragen nach `data/curated/` — das ist Handarbeit mit Augenmaß: Mehrere Editionen am selben Tag sind **ein** Kalendereintrag |
 | Ansicht „Wo kann ich das sehen?" ausbauen | 5 | **Nicht mehr blockiert** — aniSearch-Bestand seit 10.08.2026 vollständig, 2.109 Titel haben einen Bezugsweg. Der Filter „▶ verfügbar" steht bereits. Offen: nach Anbieter gruppieren (die `watchLinks` tragen nur Namen, keine PlatformId), Kauf von Stream trennen, eigene Ansicht unter `#/wo` |
 
 
@@ -161,6 +161,19 @@ verschoben, Best-of, Recap.
   abgenommen.
 
 ## Archiv
+
+- ✅ **Disc-Termine aus dem aniSearch-Archiv** (12.08.2026). Der `items`-Abschnitt jeder
+  archivierten Seite führt die deutschen Neuerscheinungen mit maschinenlesbarem Datum
+  (`data-date="2026-10-30"`), Jahre im Voraus, über **alle** Publisher hinweg. Damit erledigt
+  sich die Frage nach den Verlagsseiten: peppermint rendert per JavaScript, AniMoon und
+  Universum waren nicht erreichbar, polyband sperrt Bots — hier steht alles an einem Ort, in
+  einer Quelle, die uns das Lesen erlaubt. **Ohne einen einzigen neuen Abruf**, gelesen wird nur
+  das Archiv. Ergebnis aus 110 Seiten: 101 künftige Ausgaben, davon 47 neu (34 Termine, 21
+  Anime). `npm run data:disc-proposals`.
+  *Strenge Auswahl:* Als Bildträger gilt nur, was sich belegen lässt — `[Blu-ray]`/`[DVD]`, die
+  Bruchzählung „Vol. 2/3" (die es bei Büchern nicht gibt), Box, Gesamtausgabe, Staffel.
+  Ausgeschlossen: `[eBook]` und „Bd. 02" (Manga), dazu Nendoroid, Pop!, Figuren, Spiele,
+  Soundtracks. Was in keine Gruppe fällt, wird verworfen statt geraten — 106 von 207 Einträgen.
 
 - ✅ **Wächter meldet erst beim zweiten Fehlschlag** (12.08.2026, deployt — Version
   `af64e37e-0ef9-4bf2-9270-0877434ad67e`). Auslöser war ein Fehlalarm: Am 11.08.2026 kam
