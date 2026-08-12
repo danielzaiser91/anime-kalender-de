@@ -191,6 +191,17 @@ export function digestMail(
   options: DigestOptions = {},
 ): { subject: string; html: string; text: string } {
   const favorites = options.favorites ?? new Set<number>()
+  /**
+   * Wie der Rhythmus in der Mail benannt wird — einmal zentral.
+   *
+   * Ohne Uhrzeit, obwohl der Versand um sieben läuft: `SEND_HOUR_BERLIN` ist
+   * einstellbar, und eine Mail, die eine feste Stunde nennt, wird bei der
+   * ersten Änderung zur Falschaussage. „Morgens" bleibt wahr.
+   */
+  const rhythmus =
+    frequency === 'daily'
+      ? { name: 'tägliche Newsletter', wann: 'jeden Morgen', andere: 'wöchentlich' }
+      : { name: 'wöchentliche Newsletter', wann: 'jeden Montagmorgen', andere: 'täglich' }
   const mine = events.filter((e) => favorites.has(e.titleId))
   const rest = events.filter((e) => !favorites.has(e.titleId))
   const ctx: RowContext = { siteUrl, links: options.links ?? new Map() }
@@ -237,7 +248,12 @@ export function digestMail(
      <p style="margin:24px 0 0;"><a href="${siteUrl}"
        style="display:inline-block;background:#38bdf8;color:#06121d;text-decoration:none;padding:10px 18px;border-radius:9px;font-weight:700;">
        Im Kalender ansehen</a></p>`,
-    `Du bekommst diese Mail, weil du den Newsletter bestätigt hast.
+    // Welche Mail das hier ist, gehört hinein: Wer sie seit Monaten bekommt,
+    // weiß sonst nicht mehr, ob er den täglichen oder den wöchentlichen
+    // Rhythmus gewählt hat — und findet auch nicht, wo er das ändert.
+    `Das hier ist der <strong style="color:#cbd5e1;">${rhythmus.name}</strong> — er kommt ${rhythmus.wann}.
+     Du erhältst ihn, weil du das Abo bestätigt hast.<br>
+     <a href="${siteUrl}#/newsletter" style="color:#7dd3fc;">Auf ${rhythmus.andere} umstellen</a> ·
      <a href="${unsubUrl}" style="color:#7dd3fc;">Abmelden</a> ·
      <a href="${siteUrl}#/datenschutz" style="color:#7dd3fc;">Datenschutz</a>${
        options.syncUrl ? ` · <a href="${options.syncUrl}" style="color:#7dd3fc;">Favoriten abgleichen</a>` : ''
@@ -250,6 +266,8 @@ export function digestMail(
     (rest.length > 0 ? `${mine.length > 0 ? 'WEITERE RELEASES\n\n' : ''}${textSections(ctx, rest)}\n\n` : '') +
     `Kalender: ${siteUrl}\n` +
     (options.syncUrl ? `Favoriten abgleichen: ${options.syncUrl}\n` : '') +
+    `\nDas hier ist der ${rhythmus.name} — er kommt ${rhythmus.wann}.\n` +
+    `Auf ${rhythmus.andere} umstellen: ${siteUrl}#/newsletter\n` +
     `Abmelden: ${unsubUrl}`
 
   return { subject, html, text }
