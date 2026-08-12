@@ -163,6 +163,19 @@ verschoben, Best-of, Recap.
 
 ## Archiv
 
+- ✅ **Drei Nachbesserungen an der Staffel-Ansicht** (12.08.2026, Daniel).
+  *Auswahlliste unlesbar:* Im Dunkelmodus hatte das `select` `bg-white/5` — 95 % durchsichtiges
+  Weiß. Geschlossen richtig, aufgeklappt malt Windows es über Weiß, und die helle Schrift des
+  Dunkelmodus stand hellgrau auf Weiß. Feste Farben für `option` in `styles.css`, einmal für
+  beide Auswahllisten der Seite. Gemessen: Kontrast 11,87 (dunkel) und 17,85 (hell).
+  *Progressive-Filme abgetrennt:* AniList verknüpft sie über `ALTERNATIVE`, und dieser
+  Beziehungstyp fehlte in `FRANCHISE_RELATIONS`. Ergänzt um `ALTERNATIVE`, `SPIN_OFF`,
+  `SUMMARY`, `COMPILATION` — bewusst **ohne** `CHARACTER`, das nur „hier kommt jemand vor"
+  bedeutet und fremde Reihen verschmelzen würde. 1.504 → 1.413 Reihen; SAO ist eine Kachel mit
+  zwölf Einträgen.
+  *Schalter-Vorgabe:* „Staffeln zusammenfassen" startet jetzt aus.
+
+
 - ✅ **Cache-Busting: normaler Refresh reicht** (12.08.2026, Daniel: „das harte Neuladen sollte
   nie notwendig sein"). Ursache war keine Fehlfunktion, sondern eine Adresse: `/data/events.json`
   hieß nach dem Deploy genauso wie davor. Der Service Worker fuhr „Cache sofort, Netz im

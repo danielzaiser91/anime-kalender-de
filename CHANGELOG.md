@@ -8,6 +8,21 @@ selbst oder an der Art ändert, wie Termine zustande kommen.
 
 ## Unveröffentlicht
 
+### Kleinigkeiten mit großer Wirkung
+
+- **Die Auswahlliste des Staffel-Umschalters war im Dunkelmodus nicht zu lesen.** Das Element
+  hatte einen fast durchsichtigen Hintergrund — geschlossen sah das richtig aus, aufgeklappt
+  malte Windows es über Weiß, und die helle Schrift stand hellgrau auf Weiß. Jetzt haben die
+  Einträge feste Farben: Kontrast 11,9 zu 1 im Dunkeln, 17,9 zu 1 im Hellen.
+- **Die beiden Filme „Sword Art Online -Progressive-" standen als eigene Reihe daneben.**
+  AniList verknüpft sie als „alternative Erzählung", nicht als Fortsetzung — und genau diese
+  Verknüpfung wurde beim Bündeln übergangen. Dasselbe traf Ableger, Zusammenschnitte und
+  Rückblick-Filme. Aus 1.504 Reihen wurden 1.413; Sword Art Online ist jetzt eine Kachel mit
+  zwölf Einträgen statt zwei Kacheln.
+- **„Staffeln zusammenfassen" ist jetzt standardmäßig aus.** Wer die Datenbank öffnet, sucht
+  meist einen bestimmten Titel — und der steht dann unter seinem eigenen Namen da.
+
+
 ### Neue Daten kommen jetzt beim normalen Neuladen an
 
 Nach einem Deploy zeigte die Seite weiter den alten Stand; nur ein hartes Neuladen half. Schuld

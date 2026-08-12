@@ -506,7 +506,35 @@ function main(): void {
   // --- Reihen zusammenführen -------------------------------------------------
   // Staffeln, Cours und Specials derselben Serie bekommen eine gemeinsame ID,
   // damit die Datenbank sie auf Wunsch zu einer Karte bündeln kann.
-  const FRANCHISE_RELATIONS = new Set(['PREQUEL', 'SEQUEL', 'PARENT', 'SIDE_STORY'])
+  /**
+   * Welche AniList-Beziehungen eine Reihe zusammenhalten.
+   *
+   * `ALTERNATIVE`, `SPIN_OFF`, `SUMMARY` und `COMPILATION` kamen am 12.08.2026
+   * dazu. Ohne sie standen die beiden Filme „Sword Art Online -Progressive-"
+   * als **eigene** Reihe neben der Serie, obwohl sie dieselbe Geschichte neu
+   * erzählen — AniList verknüpft sie als `ALTERNATIVE`, nicht als Fortsetzung.
+   * Dasselbe traf Zusammenschnitte, Ableger und Rückblick-Filme.
+   *
+   * Ausdrücklich **nicht** dabei: `CHARACTER`. Diese Beziehung heißt nur „hier
+   * kommt jemand aus dem anderen Werk vor" und würde Reihen verschmelzen, die
+   * nichts miteinander zu tun haben. `ADAPTATION`, `SOURCE` und `CONTAINS`
+   * zeigen auf Manga und Light Novels und fallen ohnehin durch die
+   * Anime-Prüfung.
+   *
+   * Wirkung: 1.504 Reihen wurden zu 1.413. Die größten sind danach Pokémon
+   * (60), Detective Conan (54), Dragon Ball (32), One Piece und Fate (je 30) —
+   * alles Reihen, bei denen genau das die erwartete Antwort ist.
+   */
+  const FRANCHISE_RELATIONS = new Set([
+    'PREQUEL',
+    'SEQUEL',
+    'PARENT',
+    'SIDE_STORY',
+    'ALTERNATIVE',
+    'SPIN_OFF',
+    'SUMMARY',
+    'COMPILATION',
+  ])
   const parent = new Map<number, number>()
   const find = (id: number): number => {
     let root = id

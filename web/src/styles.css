@@ -77,3 +77,27 @@ html:not(.dark) body {
     animation: none;
   }
 }
+
+/*
+ * Die aufgeklappte Liste eines <select> zeichnet das Betriebssystem, nicht die
+ * Seite — und es nimmt dafür Hintergrund und Schriftfarbe des Elements.
+ *
+ * Im Dunkelmodus stand dort `bg-white/5`, also ein zu 95 % durchsichtiges Weiß.
+ * Geschlossen sah das richtig aus (der dunkle Seitenhintergrund schien durch),
+ * aufgeklappt malte Windows es über Weiß — und die helle Schrift des
+ * Dunkelmodus stand hellgrau auf Weiß. Lesbar war das nur beim markierten
+ * Eintrag (gemeldet von Daniel, 12.08.2026).
+ *
+ * Deshalb bekommen die Einträge feste, undurchsichtige Farben. Sie hier zu
+ * setzen statt an jedem einzelnen <select> hält beide Auswahllisten der Seite
+ * — Sortierung und Staffelumschalter — von selbst gleich.
+ */
+select option {
+  background-color: #ffffff;
+  color: #0f172a;
+}
+
+html.dark select option {
+  background-color: #1e293b;
+  color: #e2e8f0;
+}

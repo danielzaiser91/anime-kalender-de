@@ -40,7 +40,11 @@ export default function App() {
   const [data, setData] = useState<Dataset>()
   const [allTitles, setAllTitles] = useState<Title[]>()
   const [error, setError] = useState<string>()
-  const [grouped, setGrouped] = useState(() => localStorage.getItem('groupSeasons') !== '0')
+  // Vorgabe: aus. Wer die Datenbank öffnet, sucht meist einen bestimmten Titel,
+  // und der steht dann unter seinem eigenen Namen da statt unter dem der Reihe
+  // (Daniels Entscheidung, 12.08.2026). Wer bündeln will, schaltet es ein — die
+  // Wahl bleibt gespeichert.
+  const [grouped, setGrouped] = useState(() => localStorage.getItem('groupSeasons') === '1')
   const [route, navigate] = useRoute()
   const { favorites, toggle } = useFavorites()
   const { hidden, toggle: toggleHidden } = useHidden()
