@@ -61,28 +61,23 @@ html:not(.dark) body {
 /*
  * Einblenden der Hinweis-Blase.
  *
- * Zwei Entscheidungen stecken darin, beide aus einem Fehlschlag gelernt:
+ * **Keine Deckkraft, nur eine Verschiebung.** Der erste Entwurf blendete von
+ * `opacity: 0` auf, und im Browser-Pane des Clients blieb die Blase unsichtbar:
+ * Dort steht `document.hidden` auf true, Animationen laufen gar nicht erst an,
+ * und der Anfangswert bleibt eingefroren stehen. Eine hängende Animation darf
+ * einen Hinweis nie verschlucken — hier ist der eingefrorene Zustand „drei
+ * Pixel zu tief", und das sieht niemand.
  *
- * 1. **Die Verschiebung steht in den Keyframes**, nicht nur als Klasse. Die
- *    Blase trägt ein statisches `-translate-x-1/2`, mit dem sie über ihrem
- *    Anker zentriert steht. Eine Animation, die `transform` anfasst,
- *    überschreibt diese Angabe für ihre gesamte Laufzeit — ohne das
- *    `translateX(-50%)` hier spränge die Blase beim Erscheinen um ihre halbe
- *    Breite nach rechts und rutschte am Ende zurück.
- *
- * 2. **Keine Deckkraft.** Der erste Entwurf blendete von `opacity: 0` auf,
- *    und im Browser-Pane des Clients blieb die Blase unsichtbar: Dort steht
- *    `document.hidden` auf true, Animationen laufen nicht an, und der
- *    Anfangswert bleibt eingefroren stehen. Eine hängende Animation darf einen
- *    Hinweis nie verschlucken — hier ist der eingefrorene Zustand „drei Pixel
- *    zu tief", und das sieht niemand.
+ * Die Blase wird seit dem 13.08.2026 per Portal am `<body>` positioniert und
+ * trägt keinen statischen `transform` mehr; deshalb genügt hier `translateY`.
+ * Solange das so bleibt, kann diese Animation nichts überschreiben.
  */
 @keyframes hinweisEin {
   from {
-    transform: translateX(-50%) translateY(3px);
+    transform: translateY(3px);
   }
   to {
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0);
   }
 }
 

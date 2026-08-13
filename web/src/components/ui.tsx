@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef, useState, type ReactNode } from 'react'
+import { createPortal } from 'react-dom'
 import { FSK_COLORS, PLATFORMS, RELEASE_TYPES } from '@shared/types.ts'
 import type { Fsk, PlatformId, ReleaseStatus, ReleaseType } from '@shared/types.ts'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
@@ -437,9 +438,18 @@ export function Toggle({
  *
  * Deshalb diese Komponente. Bewusst schlicht gebaut:
  *
- * - **Kein Portal, kein Positionierungs-Paket.** Der Hinweis hängt absolut am
- *   umschließenden Element. Das reicht, solange kein Elternteil `overflow:
- *   hidden` setzt — und im Detail-Panel tut das keiner.
+ * - **Die Blase hängt am `<body>`, nicht am Anker** (`createPortal`). Vorher
+ *   stand sie absolut im umschließenden Element, mit dem Zusatz „das reicht,
+ *   solange kein Elternteil `overflow: hidden` setzt". Genau daran ist sie
+ *   gescheitert: Die Anbieter-Karten in „Wo sehen?" tragen `overflow-hidden`
+ *   für ihre runden Ecken, und die Blase wurde oben abgeschnitten (Daniel,
+ *   13.08.2026, mit Bild). Das ist keine Eigenheit dieser einen Karte — jeder
+ *   Vorfahr mit `overflow: hidden` bricht den Baustein, und man sieht es erst,
+ *   wenn jemand hinschaut. Am `<body>` kann das nicht mehr passieren.
+ * - **Positioniert wird nach Messung**, nicht per CSS: Der Anker steht irgendwo
+ *   im Fenster, die Blase soll mittig darüber stehen und trotzdem im Bild
+ *   bleiben. Beides zusammen kann CSS nicht. Reicht der Platz auf der
+ *   gewünschten Seite nicht, klappt sie auf die andere.
  * - **Maus **und** Tastatur**, damit er auch ohne Zeigegerät erscheint. Wer
  *   nicht mit der Maus arbeitet, braucht die Erklärung genauso.
  * - **Auf Berührung reagiert er per Klick**, weil es dort kein Schweben gibt.
@@ -474,31 +484,58 @@ export function Tooltip({
   seite?: 'oben' | 'unten'
 }) {
   const [offen, setOffen] = useState(false)
-  const [versatz, setVersatz] = useState(0)
+  const anker = useRef<HTMLSpanElement>(null)
   const blase = useRef<HTMLSpanElement>(null)
 
   /**
-   * `useLayoutEffect`, damit die Verschiebung vor dem ersten Bild sitzt — mit
+   * Position im Fenster, einmal je Öffnen gemessen.
+   *
+   * `undefined` heißt „noch nicht gemessen" — dann steht die Blase außerhalb
+   * des Bildes und wird nur ausgemessen. Ohne diesen Zwischenschritt kennt
+   * niemand ihre Breite, und ohne Breite lässt sie sich weder zentrieren noch
+   * am Rand festhalten.
+   */
+  const [pos, setPos] = useState<{ left: number; top: number }>()
+
+  /**
+   * `useLayoutEffect`, damit die Position vor dem ersten Bild sitzt — mit
    * `useEffect` blitzte die Blase eine Bildwiederholung lang an der falschen
-   * Stelle auf. Die Messung läuft genau einmal je Öffnen; der Versatz fließt
-   * zwar in die Position ein, löst aber keinen zweiten Durchlauf aus.
+   * Stelle auf.
    */
   useLayoutEffect(() => {
     if (!offen) {
-      setVersatz(0)
+      setPos(undefined)
       return
     }
-    const el = blase.current
-    if (!el) return
-    const r = el.getBoundingClientRect()
+    const a = anker.current?.getBoundingClientRect()
+    const b = blase.current?.getBoundingClientRect()
+    if (!a || !b) return
+
     const rand = 8
-    if (r.right > window.innerWidth - rand) setVersatz(window.innerWidth - rand - r.right)
-    else if (r.left < rand) setVersatz(rand - r.left)
-  }, [offen])
+    const luft = 6
+    // Waagrecht mittig über dem Anker, aber nie über den Fensterrand hinaus.
+    const left = Math.min(
+      Math.max(a.left + a.width / 2 - b.width / 2, rand),
+      Math.max(rand, window.innerWidth - b.width - rand),
+    )
+    // Senkrecht auf der gewünschten Seite — es sei denn, dort ist kein Platz.
+    const oben = a.top - b.height - luft
+    const unten = a.bottom + luft
+    const top =
+      seite === 'oben'
+        ? oben >= rand
+          ? oben
+          : unten
+        : unten + b.height <= window.innerHeight - rand
+          ? unten
+          : Math.max(rand, oben)
+    setPos({ left, top })
+  }, [offen, seite])
 
   return (
     <span
-      className={`relative inline-flex items-center ${offen ? 'z-30' : ''}`}
+      ref={anker}
+      className="relative inline-flex items-center"
       onMouseEnter={() => setOffen(true)}
       onMouseLeave={() => setOffen(false)}
       onFocus={() => setOffen(true)}
@@ -514,23 +551,30 @@ export function Tooltip({
       >
         {children}
       </span>
-      {offen && (
-        <span
-          ref={blase}
-          role="tooltip"
-          style={{ marginLeft: versatz }}
-          className={[
-            'pointer-events-none absolute left-1/2 z-30 w-max max-w-[min(20rem,80vw)]',
-            '-translate-x-1/2 rounded-lg px-2.5 py-1.5 text-left text-[11px] leading-snug',
-            'bg-slate-900 text-slate-100 shadow-xl ring-1 ring-white/15',
-            'dark:bg-slate-800 dark:ring-white/10',
-            'animate-[hinweisEin_.15s_ease-out]',
-            seite === 'oben' ? 'bottom-[calc(100%+0.4rem)]' : 'top-[calc(100%+0.4rem)]',
-          ].join(' ')}
-        >
-          {text}
-        </span>
-      )}
+      {offen &&
+        createPortal(
+          <span
+            ref={blase}
+            role="tooltip"
+            style={
+              pos
+                ? { left: pos.left, top: pos.top }
+                : // Ungemessen: außerhalb des Bildes, damit niemand sie aufblitzen
+                  // sieht. `position: fixed` erzeugt dabei keinen Überlauf.
+                  { left: -9999, top: 0 }
+            }
+            className={[
+              'pointer-events-none fixed z-50 w-max max-w-[min(20rem,80vw)]',
+              'rounded-lg px-2.5 py-1.5 text-left text-[11px] leading-snug',
+              'bg-slate-900 text-slate-100 shadow-xl ring-1 ring-white/15',
+              'dark:bg-slate-800 dark:ring-white/10',
+              pos ? 'animate-[hinweisEin_.15s_ease-out]' : '',
+            ].join(' ')}
+          >
+            {text}
+          </span>,
+          document.body,
+        )}
     </span>
   )
 }
