@@ -12,7 +12,7 @@ _(leer)_
 |---|---|---|
 | **Prüfliste „Wo läuft es" abarbeiten** (Dauerauftrag) | — | 1.732 Anbieter-Verweise ohne belegte Synchro, Liste: `data/dub-pruefliste.md`, erzeugt mit `npm run data:dub-checks`. Daniel arbeitet sie in Zehnerschritten ab; ich lege den Batch vor, er meldet je Nummer ja/nein, ich trage es in `data/dub-confirmed.yaml` ein und baue neu. **Stand: Batch 1 bis 3 ausgewertet, 65 Prüfungen eingetragen — 33 Angaben belegt, 32 tote Verweise entfernt.** Crunchyroll ist seit 13.08.2026 weitgehend maschinell belegt (234 ja / 988 nein / **25 offen**); die Handarbeit verteilt sich jetzt auf Netflix (727), YouTube (528) und Prime Video (219) — Anbieter, die die Sprachfassung nirgends öffentlich nennen. Kurzschrift der Antworten (`1`/`0`/`x`, mehrere je Zeile mit Punkt) steht im Kopf der Liste und in der `CLAUDE.md`. Je Batch kurz sagen, woher der Verweis stammt und warum er unsicher ist |
 | ~~News-Quellen für Sendepausen~~ — **Filter gebaut, Rest verworfen** | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
-| **Inazuma Eleven S1: Termin und Ausgabe klären** | 1 | Der letzte offene Fall der zehn Disc-Widersprüche (13.08.2026 von Daniel geprüft, neun davon erledigt). Wir führen den **04.09.2026** unter AniMoon, Quelle ist der Anime2You-Verschiebungsartikel; aniSearch nennt den **25.09.2026** unter Kazé Deutschland, und der Eintrag trägt **keine** Landesflagge, ist also eine deutsche Ausgabe. Daniel hat nachgesehen: Die AniMoon-Seite nennt nur „Releasedatum: September 26" ohne Tag — unser genauer Tag ist dort **nicht** belegt. Mögliche Deutung: zwei Ausgaben zweier Label (die frühere Notiz führte Kazé unter der abweichenden AniList-Kennung 5231). Nächster Schritt nach der Rangfolge in der `CLAUDE.md`: einen Shop mit Vorbestellung fragen (jpc, Akiba Pass, Amazon) — der muss liefern und pflegt deshalb nach |
+| **Inazuma Eleven S1: aniSearchs 25.09. aufklären** | 1 | **Unser 04.09.2026 ist belegt** (13.08.2026 an der Quelle geprüft): Der Anime2You-Artikel „24 Blu-ray-Termine verschoben" vom 31.07.2026 nennt Inazuma Eleven ausdrücklich, verschoben vom **14.08. auf den 04.09.2026**. **Zwei frühere Deutungen sind damit erledigt:** Es sind nicht zwei Label — aniSearch führt als Publisher ebenfalls **AniMoon**, nicht Kazé (der Kazé-Eintrag stammte aus unserem eigenen `publisher`-Feld, das den Verlag des *Anime* nennt, nicht den der Ausgabe). Und es ist keine Ausgabe mit japanischer Tonspur. **Offen bleibt allein, woher aniSearchs 25.09.2026 kommt** — weder der alte (14.08.) noch der neue Termin (04.09.). Die AniMoon-Seite selbst nennt nur „September 26" ohne Tag, passt also zu beidem. Verdacht: eine **spätere** Verschiebung, die Anime2You nicht gemeldet hat — genau die Lücke, die Daniel beschrieben hat. Am 13.08.2026 versucht: jpc führt den Titel nicht, Akiba Pass ebenso wenig, Amazon antwortete mit HTTP 503. Nächster Versuch über einen Händler mit konkretem Liefertag |
 
 
 ### Terminiert (läuft von allein)
@@ -161,6 +161,34 @@ verschoben, Best-of, Recap.
   abgenommen.
 
 ## Archiv
+
+- ✅ **Anime ohne deutsche Synchro: merken und benachrichtigt werden** (13.08.2026). Der
+  häufigste Grund, die Seite immer wieder aufzurufen, ist eine Serie, die es auf Deutsch gar
+  nicht gibt — nachsehen, nichts finden, nächste Woche wieder (Daniel aus eigener Erfahrung).
+  Jetzt holt ein Schalter in der Datenbank **15.103 Titel ohne belegte Synchro** dazu; wer einen
+  davon merkt, bekommt eine Mail, sobald es eine gibt. Auch dann, wenn sonst nichts ansteht —
+  vorher verschickte der Newsletter nur bei Terminen im Fenster, und eine Ankündigung ist kein
+  Termin.
+  *Datenquelle:* `pipeline/fetch-anilist-katalog.ts` holt den Gesamtbestand (17.852 Anime),
+  zerlegt nach Startjahr, weil AniList je Abfrage nur 5.000 Einträge durchblättern lässt und es
+  kein `id_greater` gibt; ein Nachlauf über die jüngsten Kennungen sammelt 285 Titel ohne
+  Jahrgang ein.
+  *Ladelast:* Eigene Datei, **1.018 KB gzip**, geholt nur beim Umlegen des Schalters. Der
+  Service Worker lädt sie ausdrücklich nicht vor — die Begründung steht jetzt an seiner
+  Vorladeliste, damit sie niemand ergänzt.
+  *Beinahe-Katastrophe:* Beim zweiten Bau galten **alle 2.753** bestehenden Titel als Neuzugang,
+  weil der Ausgangsstand das heutige Datum trägt. Jeder Abonnent hätte eine Mail über Serien
+  bekommen, die er seit Jahren kennt. `check:logic` stellt den Ablauf jetzt nach.
+
+- 📌 **Korrektur einer eigenen Behauptung vom selben Tag** (13.08.2026). Vormittags stand in der
+  `CLAUDE.md`, aniSearch nenne „den weltweit frühesten Termin, nicht den deutschen" — mit
+  Daniels Lesart, der 20.08. sei der Termin der Ausgabe mit japanischer Tonspur. **Widerlegt:**
+  Der Anime2You-Verschiebungsartikel nennt für dieselben Titel exakt diese Daten als die alten
+  **deutschen** Termine (Most Heretical 20.08. → 03.09., Café Terrace 21.08. → 04.09.). aniSearch
+  pflegt Verschiebungen also schlicht nicht nach. Das ist eine andere Diagnose mit anderer Folge:
+  Ein aniSearch-Datum, das **später** liegt als unseres, ist kein Fremdrelease, sondern ein
+  ernstzunehmender Verdacht auf eine Verschiebung, die uns fehlt.
+
 
 - ✅ **Zehn Disc-Widersprüche geprüft, neun erledigt** (13.08.2026, Daniel von Hand, je über die
   Shops). Ergebnis in drei Teilen:

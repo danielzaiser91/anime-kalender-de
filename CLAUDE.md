@@ -120,11 +120,21 @@ Ergebnis ist eine Rangfolge, die für jeden künftigen Disc-Termin gilt:
    stimmen. Verlassen kann man sich darauf trotzdem nicht: Ein Artikel vom 11.07.2026 nennt
    für dieselbe Staffel den 07.08. und wurde nie nachgezogen. **Nicht jede Verschiebung
    bekommt eine eigene Meldung.**
-3. **aniSearch nennt den weltweit frühesten Termin, nicht den deutschen.** Für die fünf
-   AniMoon-Boxen steht dort der 20./21.08. — nach Daniels Prüfung der Termin der Ausgabe
-   mit japanischer Tonspur, nicht der deutschen Fassung. Als Beleg für einen deutschen
-   Termin taugt aniSearch damit **nicht**; als Hinweis darauf, dass es zu einem Titel
-   überhaupt eine Ausgabe gibt, sehr wohl.
+3. **aniSearch führt veraltete deutsche Termine weiter — es pflegt Verschiebungen nicht
+   nach.** Das ist die belegte Fassung; die erste Vermutung (13.08.2026 vormittags), dort
+   stünde der Termin der Ausgabe mit japanischer Tonspur, ist **widerlegt**. Der
+   Anime2You-Artikel „24 Blu-ray-Termine verschoben" nennt für dieselben Titel die alten
+   **deutschen** Termine, und die stehen bei aniSearch noch: „The Most Heretical Last Boss
+   Queen" wurde vom 20.08. auf den 03.09. verschoben — aniSearch zeigt 20.08.,
+   „Café Terrace" vom 21.08. auf den 04.09. — aniSearch zeigt 21.08. Bei drei weiteren
+   liegt aniSearchs Datum zwischen dem ursprünglichen und dem aktuellen, dort gab es
+   offenbar eine frühere Verschiebung.
+
+   Folge: Als Beleg für einen **aktuellen** deutschen Termin taugt aniSearch nicht. Als
+   Hinweis darauf, dass es zu einem Titel überhaupt eine Ausgabe gibt, sehr wohl — und ein
+   aniSearch-Datum, das **später** liegt als unseres, ist ein ernstzunehmender Verdacht auf
+   eine Verschiebung, die Anime2You nicht gemeldet hat (offener Fall: Inazuma Eleven S1,
+   aniSearch 25.09. gegen unseren belegten 04.09.).
 
 **Praktische Folge:** Widerspricht aniSearch einem Termin, der aus Anime2You stammt und von
 Hand nachgezogen wurde, gewinnt unser Termin. Widerspricht ein **Shop**, wird nachgesehen.
