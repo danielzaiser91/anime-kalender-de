@@ -1,0 +1,34 @@
+# Zeilenenden gehören ins Repo, nicht in eine Rechner-Einstellung.
+#
+# Diese Datei wird mitgeklont und gilt damit für jeden, der das Projekt
+# auscheckt — `core.autocrlf` gilt nur lokal und läuft zwischen zwei Rechnern
+# auseinander. Im Repo steht immer LF; was im Arbeitsverzeichnis liegt,
+# entscheidet die Zeile darunter.
+* text=auto eol=lf
+
+# Windows-Skripte brauchen CRLF, sonst stolpert der Interpreter über die
+# Zeilenenden.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Kalenderdateien schreibt RFC 5545 auf CRLF fest — das ist keine Vorliebe,
+# sondern Teil des Formats. `buildIcs()` erzeugt sie deshalb schon mit \r\n.
+#
+# `-text` statt `text eol=crlf`: Beides liefert im Arbeitsverzeichnis CRLF, aber
+# `-text` nimmt die Dateien komplett aus der Umwandlung heraus — was erzeugt
+# wurde, steht Byte für Byte genauso im Repo. Bei einem Format, dessen
+# Zeilenende Teil der Spezifikation ist, soll zwischen Erzeuger und Abonnent
+# gar keine Umrechnung stehen. Nebeneffekt: Die einmalige Normalisierung am
+# 13.08.2026 hätte sonst 7.359 Zeilen allein in `all.ics` angefasst.
+*.ics -text
+
+# Binärdateien bleiben unangetastet.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.gz binary
+*.woff binary
+*.woff2 binary
