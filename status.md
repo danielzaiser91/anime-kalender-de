@@ -12,7 +12,7 @@ _(leer)_
 |---|---|---|
 | **Prüfliste „Wo läuft es" abarbeiten** (Dauerauftrag) | — | 1.732 Anbieter-Verweise ohne belegte Synchro, Liste: `data/dub-pruefliste.md`, erzeugt mit `npm run data:dub-checks`. Daniel arbeitet sie in Zehnerschritten ab; ich lege den Batch vor, er meldet je Nummer ja/nein, ich trage es in `data/dub-confirmed.yaml` ein und baue neu. **Stand: Batch 1 bis 3 ausgewertet, 65 Prüfungen eingetragen — 33 Angaben belegt, 32 tote Verweise entfernt.** Crunchyroll ist seit 13.08.2026 weitgehend maschinell belegt (234 ja / 988 nein / **25 offen**); die Handarbeit verteilt sich jetzt auf Netflix (727), YouTube (528) und Prime Video (219) — Anbieter, die die Sprachfassung nirgends öffentlich nennen. Kurzschrift der Antworten (`1`/`0`/`x`, mehrere je Zeile mit Punkt) steht im Kopf der Liste und in der `CLAUDE.md`. Je Batch kurz sagen, woher der Verweis stammt und warum er unsicher ist |
 | ~~News-Quellen für Sendepausen~~ — **Filter gebaut, Rest verworfen** | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
-| **Widersprüchliche Disc-Termine klären** | 2 | **Zehn Titel** (am 13.08.2026 aus `data/proposals/disc-anisearch.json` gegen `public/data/releases.json` nachgerechnet — die frühere Angabe „sieben Fälle" war nie gezählt, sondern fortgeschrieben, und die Liste darunter nannte nur fünf). **Gruppe 1, konstante Differenz von 14 Tagen, je eine Ausgabe:** The Most Heretical Last Boss Queen S1 (wir 03.09. / aniSearch 20.08.), I’m Standing on a Million Lives S1, My One-Hit Kill Sister S1, Re:Monster S1, The Café Terrace S1 (alle wir 04.09. / aniSearch 21.08.). Fünf Titel, dieselbe Differenz, dieselben Label — das sieht nach **zwei Terminarten** aus (Veröffentlichung gegenüber Verfügbarkeit im Handel), nicht nach zwei Ausgaben. **Gruppe 2, aniSearch widerspricht sich selbst** — zwei Artikel mit identischem Ausgabennamen und verschiedenen Daten: Black Butler Emerald Witch Arc (01.09. Artikel 209966 / 28.09. Artikel 213904), MHA Vigilantes S1 (08.09. / 213903 = 14.09.), Kaiju No. 8 Mission Recon (08.09. / 213002 = 19.10.). **Neu am 13.08.2026:** In allen drei Fällen trägt der **höher nummerierte** Artikel das spätere Datum. Die Artikelnummer verrät die Reihenfolge der Eintragung, das Muster passt zu Terminverschiebungen, bei denen der alte Eintrag stehen blieb. **Indiz, kein Beleg — nicht angewandt.** **Gruppe 3, Einzelfälle:** Dr. STONE Science Future (wir 16.10. für „Box 1/3"; aniSearch zusätzlich 24.08. für „Part 1/3" — hier wirklich zwei Ausgaben), Inazuma Eleven S1 (wir 04.09. AniMoon / aniSearch 25.09. Kazé — zwei Label). **Keine Widersprüche**, obwohl sie in der Rechnung auftauchen: My Love Story with Yamada-kun und Spice and Wolf. Ihre abweichenden Daten liegen alle auf dem 31.12. — aniSearchs Platzhalter für „Termin noch offen"; alle vier Dezember-Einträge des Bestands fallen auf diesen Tag. **Am 12.08.2026 versucht, selbst aufzulösen — geht nicht:** Die aniSearch-Artikelseiten geben Datum und Ausgabe nicht maschinell lesbar her, und beide Quellen (anime2you und aniSearch) sind gleich gültig. Es braucht eine dritte Quelle oder einen Blick von Daniel |
+| **Inazuma Eleven S1: Termin und Ausgabe klären** | 1 | Der letzte offene Fall der zehn Disc-Widersprüche (13.08.2026 von Daniel geprüft, neun davon erledigt). Wir führen den **04.09.2026** unter AniMoon, Quelle ist der Anime2You-Verschiebungsartikel; aniSearch nennt den **25.09.2026** unter Kazé Deutschland, und der Eintrag trägt **keine** Landesflagge, ist also eine deutsche Ausgabe. Daniel hat nachgesehen: Die AniMoon-Seite nennt nur „Releasedatum: September 26" ohne Tag — unser genauer Tag ist dort **nicht** belegt. Mögliche Deutung: zwei Ausgaben zweier Label (die frühere Notiz führte Kazé unter der abweichenden AniList-Kennung 5231). Nächster Schritt nach der Rangfolge in der `CLAUDE.md`: einen Shop mit Vorbestellung fragen (jpc, Akiba Pass, Amazon) — der muss liefern und pflegt deshalb nach |
 
 
 ### Terminiert (läuft von allein)
@@ -161,6 +161,42 @@ verschoben, Best-of, Recap.
   abgenommen.
 
 ## Archiv
+
+- ✅ **Zehn Disc-Widersprüche geprüft, neun erledigt** (13.08.2026, Daniel von Hand, je über die
+  Shops). Ergebnis in drei Teilen:
+
+  **Vier waren gar keine Widersprüche, sondern ein Fehler bei uns.** aniSearch führt US-, UK- und
+  französische Ausgaben gleichberechtigt in derselben Liste; `extract-disc-dates.ts` nahm sie alle
+  mit und hängte jedem Vorschlag den **deutschen** Publisher an. Eine britische Blu-ray sah damit
+  aus wie eine deutsche von Crunchyroll. Betroffen: Black Butler Emerald Witch Arc, MHA Vigilantes
+  S1, Kaiju No. 8 Mission Recon, Dr. STONE Science Future. Erkennbar am Flaggenbild im Block
+  (`class="flag"`) — deutsche Ausgaben tragen keine. **28 von 122 Vorschlägen waren ausländisch.**
+  *Damit fällt auch meine Vermutung vom selben Tag*, die höhere aniSearch-Artikelnummer trage das
+  spätere Datum: Es waren schlicht US- und UK-Termine (Daniel: „also evtl doch nicht so einfach
+  wie du vermutest").
+
+  **Fünf sind bestätigt — unser Termin stimmt.** The Most Heretical Last Boss Queen S1 (03.09.,
+  anime-planet.de: „Lieferung zum Release am 3. September 2026"), I'm Standing on a Million Lives
+  S1, My One-Hit Kill Sister S1, Re:Monster S1, The Café Terrace S1 (alle 04.09., jpc). Warum wir
+  richtig lagen: Die Termine stehen **von Hand** in `data/curated/disc-august-2026.yaml`, mit dem
+  Anime2You-Artikel „24 Blu-ray-Termine verschoben" (news/1035909, 31.07.2026) als zweiter Quelle.
+  Der maschinelle Auszug aus genau diesem Artikel enthält `dates: []` — die Pipeline hat daraus
+  **kein einziges Datum** gelesen, nur die Markierung `pause: "verschoben"`. **Die Richtigkeit
+  skaliert also nicht**; sie hing an einem Menschen, der einen Artikel gelesen hat.
+
+  **Einer bleibt offen:** Inazuma Eleven S1, siehe Queue.
+
+- 📌 **Recherche: Rangfolge der Terminquellen** (13.08.2026, Daniel). Ausführlich in der
+  `CLAUDE.md` unter „Terminquellen". Kurz: **Shop mit Vorbestellung** ist am verlässlichsten (er
+  muss liefern), aber nicht jeder pflegt nach — ofdb.de führte für Million Lives noch den
+  überholten 19.06., jpc und alle übrigen schon den 04.09. **Anime2You** ist ein guter Indikator,
+  aber lückenhaft: Ein Artikel vom 11.07.2026 nennt für dieselbe Staffel den 07.08. und wurde nie
+  nachgezogen — nicht jede Verschiebung bekommt eine eigene Meldung. **aniSearch** nennt den
+  weltweit frühesten Termin, nicht den deutschen; für die fünf AniMoon-Boxen steht dort der
+  20./21.08., nach Daniels Prüfung der Termin der Ausgabe mit japanischer Tonspur.
+  *Verworfen, mit Grund:* aniSearch als Beleg für einen deutschen Termin — dafür taugt es nicht.
+  Als Hinweis, **dass** es zu einem Titel überhaupt eine Ausgabe gibt, bleibt es nützlich.
+
 
 - ✅ **Crunchyroll-Lauf abgeschlossen: 917 von 918 Seiten gelesen** (13.08.2026, 06:25–07:03).
   Die 316 Restadressen des abgebrochenen Laufs vom 12.08. nachgeholt; der Wiederaufsatz übersprang
