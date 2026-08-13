@@ -26,7 +26,20 @@ const KEEP = [SHELL, DATA, MEDIA]
 /** Wie lange auf das Netz gewartet wird, bevor die Kopie gewinnt. */
 const NETWORK_TIMEOUT_MS = 3000
 
-/** Die Dateien, ohne die der Kalender nichts anzeigen kann. */
+/**
+ * Die Dateien, ohne die der Kalender nichts anzeigen kann.
+ *
+ * **Hier kommt nichts dazu, was nur eine einzelne Ansicht braucht.** Weder
+ * `titles.json` (der vollständige Bestand, nur für die Datenbank) noch
+ * `ohne-synchro.json` (die Titel ohne deutsche Synchro, nur hinter dem
+ * Schalter). Beide sind vielfach größer als alles hier zusammen, und wer sie
+ * nie öffnet, soll sie nie übertragen (Daniel, 13.08.2026: „Nutzer, die den
+ * Toggle nicht nutzen, sollen keine unnötigen Sachen laden").
+ *
+ * Vorladen heißt: **jeder** Besucher zahlt dafür, sofort und ungefragt. Das
+ * ist bei vier kleinen Dateien richtig, die der Kalender ohnehin braucht — und
+ * bei allem anderen falsch.
+ */
 const DATA_FILES = [
   '/data/meta.json',
   '/data/events.json',

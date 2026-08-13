@@ -33,7 +33,8 @@
     "check:logic": "tsx pipeline/check-logic.ts",
     "check:search": "tsx pipeline/check-search.ts",
     "check:workflows": "node tools/check-workflows.mjs",
-    "check:worker": "tsc --noEmit -p worker/tsconfig.json"
+    "check:worker": "tsc --noEmit -p worker/tsconfig.json",
+    "data:katalog": "tsx pipeline/fetch-anilist-katalog.ts"
   },
   "dependencies": {
     "react": "^19.1.0",

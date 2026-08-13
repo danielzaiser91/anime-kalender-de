@@ -352,6 +352,18 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
         </form>
       </Card>
 
+      {/*
+        Der Abschnitt steht vor der Technik und nach dem Formular: Er ist der
+        Grund, aus dem sich jemand anmeldet, der noch gar nichts im Kalender
+        gefunden hat — seine Serie ist ja gerade nicht dabei.
+      */}
+      <Card>
+        <SectionTitle>{t('news.waitTitle')}</SectionTitle>
+        <p className="text-sm text-slate-600 dark:text-slate-300">{t('news.waitBody')}</p>
+        <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{t('news.waitHow')}</p>
+        <p className="mt-2 text-[13px] text-slate-500 dark:text-slate-400">{t('news.waitNote')}</p>
+      </Card>
+
       <Card>
         <SectionTitle>{t('news.howTitle')}</SectionTitle>
         <p className="text-sm text-slate-600 dark:text-slate-300">{t('news.how')}</p>

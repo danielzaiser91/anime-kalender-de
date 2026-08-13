@@ -174,6 +174,24 @@ function textSections(ctx: RowContext, events: ReleaseEvent[]): string {
     .join('\n\n')
 }
 
+/**
+ * Ein gemerkter Titel, der **neu** eine deutsche Synchro bekommen hat.
+ *
+ * Das ist die Nachricht, auf die jemand monatelang wartet — und die es ohne
+ * eigenen Weg nie in eine Mail schaffen würde: Eine Ankündigung ist kein
+ * Termin, fällt also durch das Tages- und Wochenfenster des Newsletters
+ * (Daniel, 13.08.2026).
+ */
+export interface NeuMitSynchro {
+  id: number
+  name: string
+  slug: string
+  /** Tag, an dem der Titel erstmals mit belegter Synchro im Bestand stand. */
+  seit: string
+  /** Erster bekannter deutscher Termin — fehlt, wenn nur angekündigt. */
+  termin?: string
+}
+
 export interface DigestOptions {
   /** AniList-IDs der gemerkten Titel. */
   favorites?: Set<number>
@@ -181,6 +199,8 @@ export interface DigestOptions {
   syncUrl?: string
   /** Direktlinks zum Anbieter, je Release-Slug. */
   links?: Map<string, ReleaseLink>
+  /** Gemerkte Titel, die seit der letzten Mail eine Synchro bekommen haben. */
+  neuMitSynchro?: NeuMitSynchro[]
 }
 
 export function digestMail(
@@ -204,22 +224,59 @@ export function digestMail(
       : { name: 'wöchentliche Newsletter', wann: 'jeden Montagmorgen', andere: 'täglich' }
   const mine = events.filter((e) => favorites.has(e.titleId))
   const rest = events.filter((e) => !favorites.has(e.titleId))
+  const neu = options.neuMitSynchro ?? []
   const ctx: RowContext = { siteUrl, links: options.links ?? new Map() }
 
-  // Der Betreff nennt zuerst, was den Leser wirklich betrifft.
+  /**
+   * Der Betreff nennt zuerst, was den Leser wirklich betrifft — und nichts
+   * betrifft ihn mehr als eine Serie, auf deren Synchro er gewartet hat.
+   * Deshalb steht das vor allem anderen, auch vor den Favoriten-Folgen.
+   */
   const subject =
-    mine.length > 0
-      ? `${mine.length} ${mine.length === 1 ? 'Folge' : 'Folgen'} deiner Favoriten${
-          rest.length ? ` und ${rest.length} weitere Releases` : ''
-        }`
-      : frequency === 'daily'
-        ? `Heute mit deutscher Synchro: ${events.length} ${events.length === 1 ? 'Release' : 'Releases'}`
-        : `Diese Woche mit deutscher Synchro: ${events.length} ${events.length === 1 ? 'Release' : 'Releases'}`
+    neu.length > 0
+      ? neu.length === 1
+        ? `${neu[0].name} bekommt eine deutsche Synchro`
+        : `${neu.length} deiner gemerkten Titel bekommen eine deutsche Synchro`
+      : mine.length > 0
+        ? `${mine.length} ${mine.length === 1 ? 'Folge' : 'Folgen'} deiner Favoriten${
+            rest.length ? ` und ${rest.length} weitere Releases` : ''
+          }`
+        : frequency === 'daily'
+          ? `Heute mit deutscher Synchro: ${events.length} ${events.length === 1 ? 'Release' : 'Releases'}`
+          : `Diese Woche mit deutscher Synchro: ${events.length} ${events.length === 1 ? 'Release' : 'Releases'}`
 
   const heading = (text: string, colour: string) =>
     `<p style="margin:26px 0 0;padding-bottom:6px;border-bottom:2px solid ${colour};color:${colour};font-weight:700;font-size:15px;letter-spacing:.03em;">${text}</p>`
 
-  let body = ''
+  /**
+   * Die Nachricht ganz oben, in Grün und mit eigenem Kasten.
+   *
+   * Sie unterscheidet sich in einem Punkt vom Rest der Mail: Hier steht nicht,
+   * *wann* etwas läuft, sondern *dass* es die Sache überhaupt gibt. Wer den
+   * Titel gemerkt hat, hat womöglich Monate darauf gewartet — das verdient
+   * mehr als eine Zeile in einer Terminliste.
+   */
+  const neuBlock = neu.length
+    ? `<p style="margin:0 0 6px;padding-bottom:6px;border-bottom:2px solid #34d399;color:#34d399;font-weight:700;font-size:15px;letter-spacing:.03em;">
+         🎉 Endlich: deutsche Synchro
+       </p>
+       <p style="margin:0 0 10px;color:#9aa5bd;font-size:13px;">
+         ${neu.length === 1 ? 'Ein Titel, den du gemerkt hast, hat' : `${neu.length} Titel, die du gemerkt hast, haben`}
+         jetzt eine belegte deutsche Fassung.
+       </p>
+       ${neu
+         .map(
+           (n) => `<p style="margin:0 0 8px;padding:11px 13px;background:#10251d;border-left:3px solid #34d399;border-radius:0 8px 8px 0;">
+             <a href="${siteUrl}#/datenbank?t=${n.id}" style="color:#e2e8f0;font-weight:700;text-decoration:none;font-size:15px;">${n.name}</a><br>
+             <span style="color:#9aa5bd;font-size:13px;">${
+               n.termin ? `Erster deutscher Termin: ${n.termin.split('-').reverse().join('.')}` : 'Angekündigt — ein Termin steht noch aus.'
+             }</span>
+           </p>`,
+         )
+         .join('')}`
+    : ''
+
+  let body = neuBlock
   if (mine.length > 0) {
     body += heading('★ Deine Favoriten', '#fbbf24') + dateSections(ctx, mine, true)
   }
@@ -262,6 +319,18 @@ export function digestMail(
 
   const text =
     `${subject}\n\n` +
+    (neu.length > 0
+      ? `ENDLICH: DEUTSCHE SYNCHRO\n\n` +
+        neu
+          .map(
+            (n) =>
+              `* ${n.name} — ${
+                n.termin ? `erster deutscher Termin: ${n.termin.split('-').reverse().join('.')}` : 'angekündigt, Termin steht noch aus'
+              }\n  ${siteUrl}#/datenbank?t=${n.id}`,
+          )
+          .join('\n') +
+        '\n\n'
+      : '') +
     (mine.length > 0 ? `DEINE FAVORITEN\n\n${textSections(ctx, mine)}\n\n` : '') +
     (rest.length > 0 ? `${mine.length > 0 ? 'WEITERE RELEASES\n\n' : ''}${textSections(ctx, rest)}\n\n` : '') +
     `Kalender: ${siteUrl}\n` +

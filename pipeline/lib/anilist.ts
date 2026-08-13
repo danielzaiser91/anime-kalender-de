@@ -1,3 +1,4 @@
+import { ANILIST_COVER_BASIS } from '../../shared/mappings.ts'
 import { sleep, warn } from './util.ts'
 
 const ENDPOINT = 'https://graphql.anilist.co'
@@ -86,6 +87,113 @@ async function gql<T>(query: string, variables: Record<string, unknown>, attempt
   if (remaining < 15) minDelayMs = Math.max(minDelayMs, 2000)
   await sleep(minDelayMs)
   return json.data as T
+}
+
+/**
+ * Ein Anime aus dem Gesamtkatalog — bewusst mager.
+ *
+ * Zu diesen Titeln wissen wir nichts über deutsche Fassungen, weil es keine
+ * gibt. Gespeichert wird deshalb nur, was zum Finden und Wiedererkennen reicht.
+ * Sobald eine Synchro belegt ist, wandert der Titel in den gepflegten Bestand
+ * und wird dort vollständig geholt.
+ */
+export interface KatalogEintrag {
+  id: number
+  /** Romaji, Englisch, Japanisch — alle drei, weil alle drei gesucht werden. */
+  t: [string | null, string | null, string | null]
+  format: string | null
+  jahr: number | null
+  folgen: number | null
+  genres: string[]
+  score: number | null
+  /**
+   * Cover **ohne** Adressvorsatz — nur der Dateiname.
+   *
+   * Die vollen AniList-Adressen sind rund 70 Zeichen lang und beginnen alle
+   * gleich. Bei 20.000 Titeln sind das 1,2 MB, die niemand braucht: Der
+   * Vorsatz wird beim Anzeigen wieder angehängt (`COVER_BASIS`).
+   */
+  cover: string | null
+}
+
+
+/** Formate, die als Anime-Titel zählen — `MUSIC` sind Musikvideos. */
+const KATALOG_FORMATE = ['TV', 'TV_SHORT', 'MOVIE', 'SPECIAL', 'OVA', 'ONA']
+
+/**
+ * Eine Seite des Gesamtkatalogs.
+ *
+ * **Warum jahrweise abgefragt wird:** AniList lässt je Abfrage nur 5.000
+ * Einträge durchblättern („Page depth exceeds maximum allowed"), das sind bei
+ * 50 je Seite genau 100 Seiten. Der Bestand ist deutlich größer. Ein Zeiger auf
+ * die Kennung wäre die elegante Lösung, aber `id_greater` gibt es nicht — nur
+ * `id_in` und `id_not_in`. Also wird nach Startjahr zerlegt; kein Jahr kommt
+ * der Grenze auch nur nahe.
+ *
+ * `pageInfo.total` ist dabei **nutzlos**: Es meldet für jedes Jahr 5.000, weil
+ * AniList dort denselben Deckel anlegt. Gezählt wird deshalb über
+ * `hasNextPage`, nicht über `total`.
+ *
+ * Ohne `von`/`bis` läuft die Abfrage über den ganzen Bestand — gebraucht für
+ * den Nachlauf über die jüngsten Kennungen, der Titel ohne Startdatum einsammelt.
+ */
+export async function katalogSeite(
+  seite: number,
+  von?: number,
+  bis?: number,
+  absteigend = false,
+): Promise<{ eintraege: KatalogEintrag[]; weiter: boolean }> {
+  const datumsFilter = von !== undefined ? 'startDate_greater: $von, startDate_lesser: $bis,' : ''
+  const datumsArgs = von !== undefined ? '$von: FuzzyDateInt, $bis: FuzzyDateInt,' : ''
+  const query = `query ($p: Int, ${datumsArgs} $f: [MediaFormat]) {
+    Page(page: $p, perPage: 50) {
+      pageInfo { hasNextPage }
+      media(type: ANIME, isAdult: false, format_in: $f, ${datumsFilter} sort: ${absteigend ? 'ID_DESC' : 'ID'}) {
+        id
+        title { romaji english native }
+        format episodes seasonYear averageScore
+        genres
+        coverImage { large }
+      }
+    }
+  }`
+  const vars: Record<string, unknown> = { p: seite, f: KATALOG_FORMATE }
+  if (von !== undefined) {
+    vars.von = von
+    vars.bis = bis
+  }
+
+  const data = await gql<{
+    Page: {
+      pageInfo: { hasNextPage: boolean }
+      media: {
+        id: number
+        title: { romaji: string | null; english: string | null; native: string | null }
+        format: string | null
+        episodes: number | null
+        seasonYear: number | null
+        averageScore: number | null
+        genres: string[]
+        coverImage: { large: string | null }
+      }[]
+    }
+  }>(query, vars)
+
+  return {
+    weiter: data?.Page?.pageInfo?.hasNextPage ?? false,
+    eintraege: (data?.Page?.media ?? []).map((m) => ({
+      id: m.id,
+      t: [m.title.romaji, m.title.english, m.title.native],
+      format: m.format,
+      jahr: m.seasonYear,
+      folgen: m.episodes,
+      genres: m.genres ?? [],
+      score: m.averageScore,
+      cover: m.coverImage?.large?.startsWith(ANILIST_COVER_BASIS)
+        ? m.coverImage.large.slice(ANILIST_COVER_BASIS.length)
+        : (m.coverImage?.large ?? null),
+    })),
+  }
 }
 
 /** Holt Media-Einträge zu einer Liste von MAL-IDs, 50 Stück pro Request. */

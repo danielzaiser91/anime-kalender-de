@@ -184,6 +184,21 @@ export interface Title {
   score?: number
   fsk?: Fsk
   dubConfidence: DubConfidence
+  /**
+   * true bei Titeln **ohne** belegte deutsche Synchro.
+   *
+   * Sie stehen nicht im Hauptbestand, sondern in `ohne-synchro.json`, und
+   * werden erst geladen, wenn jemand den Schalter in der Datenbank umlegt.
+   * Ihr Zweck ist das Merken: Wer auf eine Synchro wartet, hört damit auf,
+   * von Hand nachzusehen — die Seite meldet sich, sobald es eine gibt
+   * (Daniel, 13.08.2026).
+   *
+   * Zu ihnen ist fast nichts bekannt und soll auch nichts bekannt sein: keine
+   * Termine, keine Verweise, keine Sprecher. Alles Weitere entsteht in dem
+   * Moment, in dem eine deutsche Fassung auftaucht — dann ist es ein ganz
+   * normaler Titel und dieses Feld verschwindet.
+   */
+  ohneSynchro?: boolean
   streams: StreamLink[]
   /** Weitere Wege zum Ansehen oder Kaufen, die keine eigene Plattform sind. */
   watchLinks?: WatchLink[]

@@ -56,6 +56,18 @@ jobs:
           SITE_URL: ${{ vars.SITE_URL }}
         run: npm run data:fetch
 
+      # Der Gesamtkatalog von AniList — die Grundlage für die Titel **ohne**
+      # deutsche Synchro. Wöchentlich reicht: Neue Anime tauchen langsam auf,
+      # und der Lauf kostet rund 600 Abfragen. Er setzt auf dem Cache auf und
+      # holt nur das laufende Jahr sowie Fehlendes nach.
+      #
+      # `continue-on-error`, weil ein Ausfall hier nichts kaputt macht: Ohne
+      # frischen Katalog bleibt die zuletzt gebaute `ohne-synchro.json`
+      # unangetastet stehen — sie ist committet.
+      - name: AniList-Gesamtkatalog
+        continue-on-error: true
+        run: npm run data:katalog
+
       - name: Crunchyroll — zwölf Wochen
         continue-on-error: true
         run: npx tsx pipeline/scrape-crunchyroll.ts --weeks 12

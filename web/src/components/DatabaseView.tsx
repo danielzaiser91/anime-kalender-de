@@ -42,6 +42,9 @@ export function DatabaseView({
   titles,
   grouped,
   onGroupedChange,
+  ohneSynchro,
+  onOhneSynchroChange,
+  ohneSynchroLaedt,
   favorites,
   hidden,
   onToggleFavorite,
@@ -52,6 +55,11 @@ export function DatabaseView({
   titles: Title[]
   grouped: boolean
   onGroupedChange: (next: boolean) => void
+  /** Titel ohne belegte deutsche Synchro mitzeigen. */
+  ohneSynchro: boolean
+  onOhneSynchroChange: (next: boolean) => void
+  /** Die Zusatzdatei ist unterwegs — der Schalter steht, die Titel noch nicht. */
+  ohneSynchroLaedt: boolean
   favorites: Set<number>
   hidden: Set<number>
   onToggleFavorite: (id: number) => void
@@ -63,6 +71,8 @@ export function DatabaseView({
   const today = todayIso()
   const [visible, setVisible] = useState(PAGE_SIZE)
   const [sort, setSort] = useState<'titel' | 'jahr' | 'score'>('titel')
+
+  const anzahlOhne = useMemo(() => titles.filter((tt) => tt.ohneSynchro).length, [titles])
 
   const groups = useMemo(() => {
     const base: TitleGroup[] = grouped
@@ -77,8 +87,48 @@ export function DatabaseView({
 
   return (
     <div className="flex flex-col gap-4">
+      {/*
+        Der Schalter für die Titel ohne Synchro steht **abgesetzt** über der
+        Zeile mit Zählung und Sortierung, nicht darin (Daniels Vorgabe,
+        13.08.2026: „filter should be in a special position"). Der Grund ist
+        nicht Gestaltung, sondern Bedeutung: Er verändert nicht, welcher
+        Ausschnitt des Bestands gezeigt wird — er holt einen ganz anderen
+        Bestand dazu, über den die Seite ausdrücklich **nichts** weiß.
+      */}
+      <div
+        className={[
+          'flex flex-wrap items-center gap-x-3 gap-y-1 rounded-xl border px-3 py-2 transition',
+          ohneSynchro
+            ? 'border-amber-400/60 bg-amber-50 dark:border-amber-400/40 dark:bg-amber-400/10'
+            : 'border-dashed border-slate-300 dark:border-white/15',
+        ].join(' ')}
+      >
+        <Toggle
+          checked={ohneSynchro}
+          onChange={onOhneSynchroChange}
+          label={t('db.withoutDub')}
+          hint={t('db.withoutDubHint')}
+        />
+        <span className="text-[11px] leading-snug text-slate-500 dark:text-slate-400">
+          {ohneSynchroLaedt ? t('db.withoutDubLoading') : t('db.withoutDubWhy')}
+        </span>
+      </div>
+
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-500 dark:text-slate-400">
-        <span>{t('db.count', { count: titles.length.toLocaleString('de-DE') })}</span>
+        {/*
+          Die Zählung muss die beiden Sorten trennen, sobald beide in der Liste
+          stehen. „17.856 Anime mit belegter deutscher Synchro" wäre für 15.103
+          davon schlicht falsch — und damit genau die Verwechslung, die der
+          Schalter verhindern soll (aufgefallen bei der Sichtprüfung, 13.08.2026).
+        */}
+        <span>
+          {ohneSynchro && anzahlOhne > 0
+            ? t('db.countSplit', {
+                mit: (titles.length - anzahlOhne).toLocaleString('de-DE'),
+                ohne: anzahlOhne.toLocaleString('de-DE'),
+              })
+            : t('db.count', { count: titles.length.toLocaleString('de-DE') })}
+        </span>
         <Toggle
           checked={grouped}
           onChange={onGroupedChange}
@@ -108,6 +158,17 @@ export function DatabaseView({
           // sonst käme das Cover über den Umweg der Fortsetzung doch wieder.
           const isHidden = members.some((m) => hidden.has(m.id))
           const platform = releases[0]?.platform ?? main.streams[0]?.platform
+          /**
+           * Ein Titel ohne belegte deutsche Synchro. Er sieht bewusst anders
+           * aus als der gepflegte Bestand: gestrichelter Rahmen, entsättigtes
+           * Cover, eigene Kennzeichnung. Wer die Liste überfliegt, soll die
+           * beiden Sorten nicht verwechseln können (Daniel, 13.08.2026:
+           * „prevent confusion by making it obvious through styling").
+           *
+           * Der Stern bleibt trotzdem da — er ist der einzige Grund, warum
+           * diese Titel überhaupt angezeigt werden.
+           */
+          const keinDub = main.ohneSynchro === true
 
           if (isHidden) {
             return (
@@ -136,11 +197,14 @@ export function DatabaseView({
                 }
               }}
               className={[
-                'group flex cursor-pointer flex-col overflow-hidden rounded-xl border text-left transition',
+                'group flex cursor-pointer flex-col overflow-hidden rounded-xl text-left transition',
+                keinDub ? 'border border-dashed' : 'border',
                 favorite
                   ? 'border-amber-400/70 shadow-[0_0_0_1px_rgba(251,191,36,.3)]'
-                  : 'border-slate-200 hover:border-slate-300 dark:border-white/10 dark:hover:border-white/25',
-                'bg-white hover:shadow-lg dark:bg-white/[0.03]',
+                  : keinDub
+                    ? 'border-slate-400/60 hover:border-slate-500 dark:border-white/25 dark:hover:border-white/40'
+                    : 'border-slate-200 hover:border-slate-300 dark:border-white/10 dark:hover:border-white/25',
+                keinDub ? 'bg-slate-100/70 hover:shadow-md dark:bg-white/[0.015]' : 'bg-white hover:shadow-lg dark:bg-white/[0.03]',
                 'focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400',
               ].join(' ')}
             >
@@ -150,8 +214,19 @@ export function DatabaseView({
                     src={main.coverImage}
                     alt=""
                     loading="lazy"
-                    className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                    className={[
+                      'h-full w-full object-cover transition duration-300 group-hover:scale-105',
+                      // Entsättigt statt blass: Ein blasses Bild sieht nach
+                      // Ladefehler aus, ein graues nach Absicht. Beim Zeigen
+                      // kommt die Farbe zurück — dann schaut jemand genau hin.
+                      keinDub ? 'opacity-80 grayscale group-hover:opacity-100 group-hover:grayscale-0' : '',
+                    ].join(' ')}
                   />
+                )}
+                {keinDub && (
+                  <span className="absolute inset-x-0 bottom-0 bg-slate-900/80 px-1.5 py-1 text-center text-[10px] font-semibold uppercase tracking-wide text-slate-200 backdrop-blur-[1px]">
+                    {t('db.noDubBadge')}
+                  </span>
                 )}
                 <span className="absolute left-1 top-1 flex items-center gap-0.5">
                   <FavoriteStar active={favorite} onToggle={() => onToggleFavorite(main.id)} />
@@ -185,8 +260,27 @@ export function DatabaseView({
                   {main.episodes ? ` · ${t('db.episodes', { count: main.episodes })}` : ''}
                 </span>
                 <span className="mt-auto flex flex-wrap items-center gap-1">
-                  <StatusBadge status={status} small />
-                  {platform && <PlatformBadge platform={platform} small />}
+                  {keinDub ? (
+                    /*
+                      Kein Status, keine Plattform — beides gibt es nicht, und
+                      „Termin unbekannt" wäre die falsche Auskunft: Unbekannt
+                      ist nicht der Termin, sondern ob es je eine Synchro gibt.
+                      Stattdessen steht hier, wozu die Kachel da ist.
+                    */
+                    <span
+                      className={[
+                        'text-[10px] leading-snug',
+                        favorite ? 'font-medium text-amber-600 dark:text-amber-400' : 'text-slate-500 dark:text-slate-400',
+                      ].join(' ')}
+                    >
+                      {favorite ? t('db.noDubWatched') : t('db.noDubWatch')}
+                    </span>
+                  ) : (
+                    <>
+                      <StatusBadge status={status} small />
+                      {platform && <PlatformBadge platform={platform} small />}
+                    </>
+                  )}
                 </span>
               </div>
             </div>

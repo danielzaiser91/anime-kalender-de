@@ -608,7 +608,13 @@ export function DetailPanel({
             )}
             {title.titleNative && <p className="text-xs text-slate-400 dark:text-slate-500">{title.titleNative}</p>}
             <div className="mt-2 flex flex-wrap items-center gap-1.5">
-              <StatusBadge status={status} small />
+              {/*
+                Bei einem Titel ohne belegte Synchro steht hier kein Status.
+                „Termin unbekannt" wäre die falsche Auskunft — unbekannt ist
+                nicht der Termin, sondern ob es je eine deutsche Fassung gibt.
+                Der Kasten weiter unten sagt genau das, in ganzen Sätzen.
+              */}
+              {!title.ohneSynchro && <StatusBadge status={status} small />}
               {title.fsk !== undefined && <FskBadge fsk={title.fsk} small />}
               {title.score !== undefined && (
                 <span className="rounded bg-slate-200/70 px-1.5 py-0.5 text-[11px] font-semibold tabular-nums dark:bg-white/10">
@@ -711,6 +717,25 @@ export function DetailPanel({
             */
             <div className="flex flex-col gap-3">
               <SectionTitle>{t('detail.releases')}</SectionTitle>
+              {title.ohneSynchro ? (
+                /*
+                  Für einen Titel ohne belegte Synchro wäre „Termin unbekannt"
+                  die falsche Auskunft: Unbekannt ist nicht der Termin, sondern
+                  ob es überhaupt je eine deutsche Fassung gibt. Hier steht
+                  deshalb, was wir wirklich wissen — und was der Stern bringt.
+                */
+                <section className="rounded-xl border border-dashed border-slate-300 bg-slate-100/60 p-3 dark:border-white/20 dark:bg-white/[0.02]">
+                  <p className="text-sm font-medium text-slate-700 dark:text-slate-200">
+                    {t('detail.noDubTitle')}
+                  </p>
+                  <p className="mt-1 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
+                    {t('detail.noDubBody')}
+                  </p>
+                  <p className="mt-2 text-xs leading-relaxed text-amber-600 dark:text-amber-400">
+                    {favorites.has(title.id) ? t('detail.noDubWatched') : t('detail.noDubWatch')}
+                  </p>
+                </section>
+              ) : (
               <section className="rounded-xl border border-slate-200 p-3 dark:border-white/10">
                 <div className="mb-2 flex flex-wrap items-center gap-1.5">
                   <StatusBadge status={status} />
@@ -733,6 +758,7 @@ export function DetailPanel({
                   </p>
                 )}
               </section>
+              )}
             </div>
           )}
 

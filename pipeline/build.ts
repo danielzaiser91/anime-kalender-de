@@ -2,7 +2,7 @@
  * Setzt aus Cache + kuratierten Daten die Dateien zusammen, die die Web-App lädt.
  * Ausgabe landet in public/data/ und wird mit ins Repo committet.
  */
-import type { AniListMedia } from './lib/anilist.ts'
+import { type AniListMedia, type KatalogEintrag } from './lib/anilist.ts'
 import {
   crunchyrollSeriesId,
   normalizeTitle,
@@ -55,6 +55,7 @@ import {
   platformSearchUrl,
   germanizeUrl,
   platformFromSite,
+  ANILIST_COVER_BASIS,
 } from '../shared/mappings.ts'
 
 const OUT = 'public/data'
@@ -64,6 +65,174 @@ const KEYWORD_MIN_RANK = 55
 const KEYWORD_MAX = 24
 const CR_CALENDAR_URL = 'https://www.crunchyroll.com/de/simulcastcalendar'
 const ADN_CALENDAR_URL = 'https://animationdigitalnetwork.com/de/'
+
+/**
+ * Schreibt die Anime **ohne** belegte deutsche Synchro als eigene Datei.
+ *
+ * Warum eine eigene Datei und nicht `titles.json`: Es sind rund zehnmal so
+ * viele wie im gepflegten Bestand, und die überwältigende Mehrheit der Besucher
+ * braucht sie nie. Sie in die Hauptdatei zu legen hieße, jedem Aufruf ein
+ * Vielfaches an Ladelast aufzubürden für eine Liste, die nur sieht, wer den
+ * Schalter in der Datenbank ausdrücklich umlegt (ARCHITEKTUR.md: „Ein neues
+ * Feld gehört nur dann in `titles.json`, wenn es die Mehrheit der Besucher
+ * braucht").
+ *
+ * Was schon im gepflegten Bestand steht, fällt hier heraus — sonst stünde ein
+ * Titel zweimal in der Liste, einmal mit und einmal ohne Synchro.
+ */
+function schreibeOhneSynchro(bekannt: Set<number>): void {
+  const katalog = readJson<{ eintraege?: KatalogEintrag[] }>('data/cache/anilist-katalog.json', {})
+  const eintraege = katalog.eintraege ?? []
+  if (!eintraege.length) {
+    /**
+     * Kein Katalog — dann bleibt die zuletzt gebaute Datei **stehen**.
+     *
+     * Das ist Absicht und nicht bloß Bequemlichkeit: `data/cache/` liegt nicht
+     * im Repo, ein CI-Lauf ohne warmen Cache hätte den Katalog also nicht. Eine
+     * leere Datei zu schreiben hieße, die 15.000 Titel bei jedem solchen Lauf
+     * von der Seite verschwinden zu lassen — und mit ihnen die Möglichkeit,
+     * einen davon zu merken.
+     */
+    warn(
+      'Kein AniList-Katalog im Cache — ohne-synchro.json bleibt auf dem letzten Stand. ' +
+        'Frisch holen mit "npm run data:katalog".',
+    )
+    return
+  }
+
+  /**
+   * Drei Pflichtfelder von `Title` fehlen hier absichtlich: `slug`, `keywords`
+   * und `streams`. Sie wären für jeden dieser Titel leer beziehungsweise ohne
+   * Verwendung — es gibt zu ihnen keine Teilen-Seite, keine gepflegten
+   * Schlagwörter und keinen Anbieter. Ausgeschrieben kosteten die leeren Werte
+   * bei achtzehntausend Titeln rund 900 KB. `loadOhneSynchro` setzt sie beim
+   * Laden, sodass der Rest der Anwendung sie wie gewohnt vorfindet.
+   */
+  const ohne = eintraege
+    .filter((e) => !bekannt.has(e.id))
+    .map((e) => {
+      const [romaji, englisch, japanisch] = e.t
+      return {
+        id: e.id,
+        titleRomaji: romaji ?? undefined,
+        titleEn: englisch ?? undefined,
+        titleNative: japanisch ?? undefined,
+        format: e.format ?? undefined,
+        episodes: e.folgen ?? undefined,
+        jpYear: e.jahr ?? undefined,
+        genres: e.genres,
+        /**
+         * **Ohne** Adressvorsatz — der wird erst im Browser angehängt. Bei
+         * achtzehntausend Titeln spart das über ein Megabyte an Ladelast.
+         *
+         * Gekürzt wird hier und nicht beim Abrufen, obwohl es dort naheläge:
+         * Der Zwischenspeicher überdauert viele Läufe, und Einträge aus einem
+         * früheren Lauf tragen noch die volle Adresse. Beim Bauen greift die
+         * Kürzung dagegen auf jeden Eintrag, auch auf alte. Passt der Vorsatz
+         * nicht (AniList liefert gelegentlich einen anderen Hostnamen), bleibt
+         * die Adresse unangetastet — der Browser erkennt das am `http`.
+         */
+        coverImage: e.cover?.startsWith(ANILIST_COVER_BASIS)
+          ? e.cover.slice(ANILIST_COVER_BASIS.length)
+          : (e.cover ?? undefined),
+        score: e.score ?? undefined,
+        /**
+         * `low` ist hier keine schwache Angabe, sondern die einzig ehrliche:
+         * Es gibt nichts zu belegen. Das Feld ist Pflicht, weil dieselbe
+         * Oberfläche beide Sorten anzeigt.
+         */
+        dubConfidence: 'low' as const,
+        ohneSynchro: true,
+      }
+    })
+
+  writeJson(`${OUT}/ohne-synchro.json`, ohne)
+  log(`Ohne deutsche Synchro: ${ohne.length} Titel (aus ${eintraege.length} im AniList-Katalog)`)
+}
+
+/**
+ * Führt Buch darüber, seit wann ein Titel eine belegte deutsche Synchro hat —
+ * und meldet die Neuzugänge.
+ *
+ * Ohne dieses Gedächtnis kann niemand sagen, dass ein Titel **neu** dazukam:
+ * Der gebaute Datensatz beschreibt immer nur den Jetzt-Zustand. `data/
+ * synchro-historie.json` hält deshalb je Titel den Tag fest, an dem er zum
+ * ersten Mal im Bestand auftauchte. Die Datei gehört ins Repo — geht sie
+ * verloren, gelten beim nächsten Lauf alle 2.700 Titel als neu, und jeder
+ * Abonnent bekommt eine Mail über Serien, die er längst kennt.
+ *
+ * Genau diese Angabe trägt das Feature, um das Daniel gebeten hat (13.08.2026):
+ * Wer einen Titel ohne Synchro merkt, will erfahren, **sobald** es eine gibt —
+ * nicht erst, wenn ein Termin im Wochenfenster des Newsletters liegt. Eine
+ * Ankündigung ohne Datum wäre sonst nie eine Mail wert, und gerade sie ist die
+ * Nachricht, auf die jemand monatelang wartet.
+ */
+function schreibeNeuMitSynchro(titles: Title[], releases: Release[]): void {
+  const HISTORIE = 'data/synchro-historie.json'
+  /** Wie lange ein Zugang als „neu" gilt. */
+  const FENSTER_TAGE = 60
+
+  /**
+   * `angelegtAm` ist keine Zierde, sondern die Sperre gegen eine Massenmail.
+   *
+   * Ohne sie war der Fehler unmittelbar da (gemessen 13.08.2026): Der erste
+   * Lauf schreibt für **alle** 2.753 Titel das heutige Datum. Der zweite Lauf
+   * sieht 2.753 Einträge, die jünger als 60 Tage sind, und hält jeden einzelnen
+   * für einen Neuzugang — jeder Abonnent bekäme eine Mail über Serien, die er
+   * längst kennt. Der Vergleich mit `angelegtAm` nimmt genau diesen
+   * Ausgangsstand dauerhaft aus der Meldung heraus.
+   *
+   * Ein Titel, der zufällig am selben Tag wirklich neu dazukommt, fällt damit
+   * einmalig unter den Tisch. Das ist der richtige Tausch: eine verpasste
+   * Meldung gegen tausende falsche.
+   */
+  interface Historie {
+    angelegtAm: string
+    seit: Record<string, string>
+  }
+
+  const heute = todayIso()
+  const historie = readJson<Historie>(HISTORIE, { angelegtAm: heute, seit: {} })
+  const erstlauf = Object.keys(historie.seit).length === 0
+
+  for (const t of titles) {
+    if (!historie.seit[t.id]) historie.seit[t.id] = heute
+  }
+  writeJson(HISTORIE, historie, true)
+
+  if (erstlauf) {
+    log(`Synchro-Historie angelegt: ${titles.length} Titel als Ausgangsstand, keine Neuzugänge gemeldet`)
+    writeJson(`${OUT}/neu-mit-synchro.json`, [])
+    return
+  }
+
+  const ersterTermin = new Map<number, string>()
+  for (const r of releases) {
+    const bisher = ersterTermin.get(r.titleId)
+    if (!bisher || r.schedule.firstEpisodeDate < bisher) ersterTermin.set(r.titleId, r.schedule.firstEpisodeDate)
+  }
+
+  const grenze = addDays(heute, -FENSTER_TAGE)
+  const neu = titles
+    .filter((t) => {
+      const seit = historie.seit[t.id]
+      // Der Ausgangsstand ist kein Neuzugang, egal wie jung sein Datum ist.
+      return seit >= grenze && seit !== historie.angelegtAm
+    })
+    .map((t) => ({
+      id: t.id,
+      name: t.titleDe ?? t.titleEn ?? t.titleRomaji ?? String(t.id),
+      slug: t.slug,
+      /** Tag, an dem der Titel erstmals mit belegter Synchro im Bestand stand. */
+      seit: historie.seit[t.id],
+      /** Erster bekannter deutscher Termin, falls es schon einen gibt. */
+      termin: ersterTermin.get(t.id),
+    }))
+    .sort((a, b) => b.seit.localeCompare(a.seit))
+
+  writeJson(`${OUT}/neu-mit-synchro.json`, neu)
+  log(`Neu mit deutscher Synchro (${FENSTER_TAGE} Tage): ${neu.length} Titel`)
+}
 
 /** ADN schreibt die Freigabe als "12+"; unser Datensatz kennt die FSK-Stufen. */
 function fskFromAdnAge(age: string | undefined): Fsk | undefined {
@@ -1501,6 +1670,8 @@ function main(): void {
   const referenced = new Set(releases.map((r) => r.titleId))
   writeJson(`${OUT}/titles-core.json`, slim.filter((t) => referenced.has(t.id)))
   writeJson(`${OUT}/titles.json`, slim)
+  schreibeOhneSynchro(new Set(slim.map((t) => t.id)))
+  schreibeNeuMitSynchro(slim, releases)
   // Synopsen in Gruppen statt in einer Datei.
   //
   // Vorher lag alles in `synopses.json`: 3,8 MB, die beim ersten Öffnen eines

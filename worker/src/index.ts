@@ -20,6 +20,7 @@ import {
   outageMail,
   page,
   weeklyStatusMail,
+  type NeuMitSynchro,
   type ReleaseLink,
 } from './templates.ts'
 
@@ -44,6 +45,11 @@ interface SubscriberRow {
   favorites: string
   unsub_token: string
   pref_token: string
+  /**
+   * Wann diese Adresse zuletzt eine Mail bekam — die Grenze dafür, welcher
+   * Neuzugang schon gemeldet wurde. `null`, solange noch keine verschickt ist.
+   */
+  last_sent_at: string | null
 }
 
 /** Kommagetrennte Zahlenliste aus der Datenbank in ein Set. */
@@ -236,6 +242,26 @@ async function loadEvents(env: Env): Promise<ReleaseEvent[]> {
   return (await res.json()) as ReleaseEvent[]
 }
 
+/**
+ * Titel, die zuletzt neu eine belegte deutsche Synchro bekommen haben.
+ *
+ * Erzeugt der Build aus `data/synchro-historie.json`. Fehlt die Datei oder ist
+ * sie nicht abrufbar, bleibt der Versand vollständig funktionsfähig — nur ohne
+ * diesen Abschnitt. Das ist der richtige Ausgang: Lieber ein Newsletter ohne
+ * die frohe Botschaft als gar keiner.
+ */
+async function loadNeuMitSynchro(env: Env): Promise<NeuMitSynchro[]> {
+  const url = new URL('data/neu-mit-synchro.json', env.SITE_URL).toString()
+  try {
+    const res = await fetch(url, { cf: { cacheTtl: 900 } } as RequestInit)
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return (await res.json()) as NeuMitSynchro[]
+  } catch (err) {
+    console.error('Neuzugänge mit Synchro nicht abrufbar', err)
+    return []
+  }
+}
+
 /** Anbieter-Deeplinks je Release — dieselbe Datei, die auch die Web-App laedt. */
 async function loadReleaseLinks(env: Env): Promise<Map<string, ReleaseLink>> {
   const url = new URL('data/releases.json', env.SITE_URL).toString()
@@ -283,6 +309,7 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
 
   const allEvents = await loadEvents(env)
   const links = await loadReleaseLinks(env)
+  const alleNeu = await loadNeuMitSynchro(env)
   const log: string[] = []
 
   for (const frequency of due) {
@@ -301,7 +328,7 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
     const window = allEvents.filter((e) => e.date >= iso && e.date <= until)
 
     const { results } = await env.DB.prepare(
-      `SELECT id, email, frequency, platforms, favorites, unsub_token, pref_token FROM subscribers
+      `SELECT id, email, frequency, platforms, favorites, unsub_token, pref_token, last_sent_at FROM subscribers
        WHERE status = 'active' AND frequency = ?1`,
     )
       .bind(frequency)
@@ -311,17 +338,43 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
     for (const sub of results ?? []) {
       const wanted = sub.platforms ? sub.platforms.split(',') : []
       const events = wanted.length ? window.filter((e) => wanted.includes(e.platform)) : window
-      if (!events.length) continue
 
       // Gemerkte Titel nach vorn: Eine neue Folge einer Serie, der jemand
       // folgt, ist ihm wichtiger als irgendein Disc-Release.
       const favorites = parseIdList(sub.favorites)
+
+      /**
+       * Gemerkte Titel, die **seit der letzten Mail an diesen Abonnenten** eine
+       * Synchro bekommen haben.
+       *
+       * Die Grenze ist bewusst der persönliche Versandzeitpunkt und nicht ein
+       * festes Fenster: Wer eine Woche lang keine Mail bekam, weil nichts
+       * anstand, soll die Nachricht trotzdem noch sehen. Umgekehrt verhindert
+       * sie, dass derselbe Titel in jeder Mail erneut gefeiert wird.
+       */
+      const seit = (sub.last_sent_at ?? '').slice(0, 10)
+      const neuMitSynchro = alleNeu.filter((n) => favorites.has(n.id) && (!seit || n.seit > seit))
+
+      /**
+       * Ohne Termine **und** ohne Neuzugang gibt es nichts zu erzählen.
+       *
+       * Bis zum 13.08.2026 stand hier nur `if (!events.length) continue` — eine
+       * angekündigte Synchro ohne Termin hätte damit nie eine Mail ausgelöst,
+       * und genau die ist die Nachricht, auf die jemand monatelang wartet.
+       */
+      if (!events.length && !neuMitSynchro.length) continue
+
       const base = (env.WORKER_URL || '').replace(/\/$/, '')
       const unsubUrl = `${base}/unsubscribe?token=${sub.unsub_token}`
       const syncUrl = sub.pref_token
         ? `${env.SITE_URL.replace(/\/$/, '')}/#/newsletter?sync=${sub.pref_token}`
         : undefined
-      const mail = digestMail(events, frequency, env.SITE_URL, unsubUrl, { favorites, syncUrl, links })
+      const mail = digestMail(events, frequency, env.SITE_URL, unsubUrl, {
+        favorites,
+        syncUrl,
+        links,
+        neuMitSynchro,
+      })
       try {
         await sendMail(env, { to: sub.email, ...mail, unsubscribeUrl: unsubUrl })
         sent++

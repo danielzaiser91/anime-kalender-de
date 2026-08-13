@@ -80,6 +80,24 @@ export const TAG_AS_GENRE: Record<string, string> = {
 /** Ab dieser Relevanz gilt ein Tag als prägend genug für den Genre-Filter. */
 export const TAG_AS_GENRE_MIN_RANK = 60
 
+/**
+ * Adressvorsatz der AniList-Cover — wird in `ohne-synchro.json` **weggelassen**.
+ *
+ * Die vollen Adressen sind rund 70 Zeichen lang und beginnen alle gleich. Bei
+ * achtzehntausend Titeln wären das über ein Megabyte, das jeder überträgt, der
+ * den Schalter umlegt — für Information, die in einer Konstanten steht. Der
+ * Vorsatz wird deshalb erst beim Laden im Browser wieder angehängt
+ * (`loadOhneSynchro`). Der gepflegte Bestand ist davon nicht betroffen: Dort
+ * stehen vollständige Adressen, weil die Cover aus mehreren Quellen kommen.
+ *
+ * **Der Vorsatz endet vor `large/` bzw. `medium/`** — und das ist kein
+ * Schönheitsfehler: AniList liefert im Feld `coverImage.large` bei älteren
+ * Einträgen tatsächlich eine Adresse mit `/cover/medium/` im Pfad. Ein Vorsatz
+ * mit `large/` hätte auf genau diese Titel nicht gepasst und sie ungekürzt
+ * gelassen (gemessen 13.08.2026).
+ */
+export const ANILIST_COVER_BASIS = 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/'
+
 /** Genre-Namen (immer englisch im Datensatz) → deutsche Bezeichnung. */
 export const GENRE_DE: Record<string, string> = { ...BASE_GENRE_DE, ...TAG_AS_GENRE }
 

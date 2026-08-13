@@ -1,3 +1,4 @@
+import { ANILIST_COVER_BASIS } from '@shared/mappings.ts'
 import { SYNOPSIS_GROUPS } from '@shared/types.ts'
 import type { DataMeta, Franchises, Release, ReleaseEvent, Title } from '@shared/types.ts'
 
@@ -88,6 +89,54 @@ export function loadAllTitles(data: Dataset): Promise<Title[]> {
   })
   return allTitlesPromise
 }
+
+let ohneSynchroPromise: Promise<Title[]> | undefined
+
+/**
+ * Anime **ohne** belegte deutsche Synchro — die größte Datei des Projekts.
+ *
+ * Geholt wird sie erst, wenn jemand den Schalter in der Datenbank umlegt. Das
+ * ist der ganze Grund, warum sie nicht in `titles.json` steht: Es sind ein
+ * Vielfaches des gepflegten Bestands, und die überwältigende Mehrheit der
+ * Besucher braucht sie nie.
+ *
+ * Wie bei `loadAllTitles` wandern die Titel in den bestehenden Index — sonst
+ * fände das Detail-Panel einen gemerkten Titel nicht wieder.
+ */
+export function loadOhneSynchro(data: Dataset): Promise<Title[]> {
+  ohneSynchroPromise ??= loadJson<OhneSynchroRoh[]>('ohne-synchro.json')
+    .then((roh) => {
+      const titles = roh.map((t) => ({
+        ...t,
+        // Der Adressvorsatz der Cover fehlt in der Datei — siehe
+        // ANILIST_COVER_BASIS. Hier ist die einzige Stelle, an der er wieder
+        // angehängt wird; danach sieht der Rest der App nur vollständige
+        // Adressen. Ein bereits vollständiger Wert bleibt unangetastet.
+        coverImage:
+          t.coverImage && !t.coverImage.startsWith('http')
+            ? ANILIST_COVER_BASIS + t.coverImage
+            : t.coverImage,
+        /**
+         * Drei Felder, die die Datei nicht mitschickt, weil sie für jeden
+         * dieser Titel leer wären — 900 KB, die niemand übertragen muss. Der
+         * Rest der Anwendung darf sie trotzdem wie gewohnt vorfinden.
+         *
+         * Der Slug ist die Kennung als Text: Zu diesen Titeln gibt es keine
+         * eigene Seite, also auch keinen sprechenden Namen dafür.
+         */
+        slug: String(t.id),
+        keywords: [],
+        streams: [],
+      }))
+      for (const t of titles) data.titleById.set(t.id, data.titleById.get(t.id) ?? t)
+      return titles
+    })
+    .catch(() => [])
+  return ohneSynchroPromise
+}
+
+/** Wie ein Eintrag in `ohne-synchro.json` wirklich aussieht — drei Felder fehlen. */
+type OhneSynchroRoh = Omit<Title, 'slug' | 'keywords' | 'streams'>
 
 let franchisesPromise: Promise<Franchises> | undefined
 

@@ -321,5 +321,38 @@ console.log('\nCrunchyroll: fremde Staffelfehler nicht nachbauen:')
   )
 }
 
+/**
+ * Der Ausgangsstand der Synchro-Historie darf nie als Neuzugang gelten.
+ *
+ * Real passiert am 13.08.2026, unmittelbar beim Bau des Features: Der erste
+ * Lauf schrieb für **alle** 2.753 Titel das heutige Datum, der zweite hielt
+ * jeden einzelnen davon für neu — jeder Abonnent hätte eine Mail über 2.753
+ * Serien bekommen, die er längst kennt. Aufgefallen ist es nur, weil die
+ * Logzeile die Zahl nannte.
+ *
+ * Die Zusicherung stellt genau diesen Ablauf nach: anlegen, dann prüfen. Sie
+ * steht hier und nicht im Kommentar, weil ein Kommentar sich überlesen lässt.
+ */
+{
+  const heute = '2026-08-13'
+  const angelegtAm = heute
+  const seit: Record<string, string> = { 1: heute, 2: heute, 3: heute }
+  const grenze = '2026-06-14'
+
+  const neuBeimZweitenLauf = Object.keys(seit).filter(
+    (id) => seit[id] >= grenze && seit[id] !== angelegtAm,
+  )
+  pruefe(
+    'Synchro-Historie: der Ausgangsstand löst keine Massenmail aus',
+    neuBeimZweitenLauf.length === 0,
+    neuBeimZweitenLauf,
+  )
+
+  // Ein echter Zugang danach wird sehr wohl gemeldet.
+  seit['4'] = '2026-08-20'
+  const spaeter = Object.keys(seit).filter((id) => seit[id] >= grenze && seit[id] !== angelegtAm)
+  pruefe('Synchro-Historie: ein späterer Zugang wird gemeldet', spaeter.length === 1 && spaeter[0] === '4', spaeter)
+}
+
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

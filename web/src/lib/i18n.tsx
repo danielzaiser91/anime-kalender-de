@@ -130,6 +130,17 @@ const TEXTE = {
   // alte, falsche Auswahl des Reihen-Vertreters.
   'db.groupSeasonsHint':
     'Fasst alle Staffeln, Filme und Specials einer Reihe zu einer Kachel zusammen. Gezeigt wird die erste Staffel; die übrigen stehen in ihrer Detailansicht.',
+  // Titel ohne belegte deutsche Synchro — der Schalter, seine Begründung und
+  // die Kennzeichnung an der Kachel. Eingeführt 13.08.2026.
+  'db.countSplit': '{mit} mit belegter deutscher Synchro · {ohne} ohne',
+  'db.withoutDub': 'Anime ohne deutsche Synchro',
+  'db.withoutDubHint':
+    'Holt zusätzlich alle Anime, zu denen wir keine deutsche Synchro kennen. Der Schalter beginnt bei jedem Aufruf wieder aus.',
+  'db.withoutDubWhy': 'Merken und benachrichtigen lassen, sobald es eine gibt.',
+  'db.withoutDubLoading': 'Wird geladen — das ist die größte Liste der Seite.',
+  'db.noDubBadge': 'keine deutsche Synchro',
+  'db.noDubWatch': '☆ merken → Bescheid bei Synchro',
+  'db.noDubWatched': '★ gemerkt — du bekommst Bescheid',
   'db.seasons': '{count} Staffeln',
   'db.episodes': '{count} Ep.',
 
@@ -149,6 +160,15 @@ const TEXTE = {
   'where.openAt': 'Bei {name} öffnen',
   'where.more': 'Weitere {count} anzeigen',
   'where.empty': 'Zu den gewählten Filtern ist kein Bezugsweg belegt.',
+
+  // Titel ohne belegte deutsche Synchro im Detail-Panel. „Termin unbekannt"
+  // wäre hier falsch: Unbekannt ist nicht der Termin, sondern ob es je eine
+  // deutsche Fassung gibt.
+  'detail.noDubTitle': 'Keine deutsche Synchro bekannt',
+  'detail.noDubBody':
+    'Zu diesem Titel kennen wir keine deutsche Fassung — weder eine erschienene noch eine angekündigte. Deshalb führen wir hier absichtlich fast nichts: keine Termine, keine Anbieter, keine Sprecher. Es gibt nichts zu führen.',
+  'detail.noDubWatch': '☆ Merk ihn dir mit dem Stern — du bekommst eine Mail, sobald sich das ändert.',
+  'detail.noDubWatched': '★ Gemerkt. Sobald eine deutsche Synchro angekündigt ist, bekommst du Bescheid.',
 
   'detail.releases': 'Deutsche Releases',
   // Beide Texte stehen seit dem 12.08.2026 als Hovertext hinter dem Wort
@@ -270,6 +290,16 @@ const TEXTE = {
   'news.sending': 'sendet …',
   'news.ok': 'Fast geschafft: Bestätigungsmail ist unterwegs. Erst der Klick darin aktiviert das Abo.',
   'news.notConnected': 'Der Newsletter-Dienst ist in dieser Installation noch nicht verbunden.',
+  // Der Grund, aus dem sich jemand anmeldet, dessen Serie gar nicht im
+  // Kalender steht (Daniel, 13.08.2026 — aus eigener Erfahrung beschrieben).
+  'news.waitTitle': 'Warten, ohne nachzusehen',
+  'news.waitBody':
+    'Der häufigste Grund, diese Seite immer wieder aufzurufen, ist eine Serie, die es auf Deutsch noch gar nicht gibt. Man schaut nach, findet nichts, schaut nächste Woche wieder nach — und wird jedes Mal enttäuscht.',
+  'news.waitHow':
+    'Dafür gibt es in der Datenbank den Schalter „Anime ohne deutsche Synchro". Er holt alle Titel dazu, zu denen wir keine deutsche Fassung kennen. Merke dir dort mit dem Stern, worauf du wartest — und du bekommst eine Mail, sobald eine deutsche Synchro angekündigt ist oder ein Termin feststeht. Auch dann, wenn sonst gerade nichts ansteht.',
+  'news.waitNote':
+    'Zu diesen Titeln führen wir absichtlich fast nichts: Es gibt nichts zu führen, solange es keine deutsche Fassung gibt. Sobald es eine gibt, wird daraus ein vollständiger Eintrag mit Terminen, Anbietern und Sprechern.',
+
   'news.howTitle': 'Wie das technisch läuft',
   'news.how':
     'Die Anmeldung ist ein Double-Opt-in: Wir schicken erst eine Bestätigungsmail, gespeichert wird das Abo erst nach deinem Klick. Adresse, Rhythmus und Plattformwahl liegen in einer Cloudflare-D1-Datenbank. Der Versand läuft über einen Cron-Job, der die Termine aus genau diesem Kalender zieht.',

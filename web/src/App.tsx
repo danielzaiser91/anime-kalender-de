@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { Title } from '@shared/types.ts'
 import type { Dataset } from './lib/data.ts'
-import { loadAllTitles, loadDataset } from './lib/data.ts'
+import { loadAllTitles, loadDataset, loadOhneSynchro } from './lib/data.ts'
 import { filterEvents, filterTitles, toggleValue, type FilterState } from './lib/filters.ts'
 import { useFavorites, useHidden } from './lib/favorites.ts'
 import { useNewsletterSync } from './lib/newsletterSync.ts'
@@ -46,6 +46,19 @@ export default function App() {
   // (Daniels Entscheidung, 12.08.2026). Wer bündeln will, schaltet es ein — die
   // Wahl bleibt gespeichert.
   const [grouped, setGrouped] = useState(() => localStorage.getItem('groupSeasons') === '1')
+  /**
+   * Titel ohne deutsche Synchro mitzeigen — bewusst **nicht** gespeichert.
+   *
+   * Weder im Verlauf noch in der Adresse, weder in `localStorage` noch in den
+   * Filtern der Route. Der Schalter beginnt bei jedem Aufruf aus (Daniels
+   * ausdrückliche Vorgabe, 13.08.2026: „not remembered upon reload, to prevent
+   * them from showing up always"). Der Grund liegt auf der Hand: Der Kalender
+   * beantwortet die Frage nach deutschen Fassungen. Titel ohne eine solche sind
+   * ein Werkzeug zum Merken, kein Teil der Antwort — sie dauerhaft einzublenden
+   * würde die Aussage der Seite verwässern.
+   */
+  const [zeigeOhneSynchro, setZeigeOhneSynchro] = useState(false)
+  const [ohneSynchro, setOhneSynchro] = useState<Title[]>()
   const [route, navigate] = useRoute()
   const { favorites, toggle } = useFavorites()
   const { hidden, toggle: toggleHidden } = useHidden()
@@ -103,14 +116,23 @@ export default function App() {
       .catch(() => setAllTitles(data.titles))
   }, [data, allTitles, route.view])
 
+  // Die Titel ohne Synchro kommen erst über die Leitung, wenn jemand sie sehen
+  // will — und dann genau einmal. Ausschalten wirft sie nicht weg.
+  useEffect(() => {
+    if (!data || !zeigeOhneSynchro || ohneSynchro) return
+    loadOhneSynchro(data).then(setOhneSynchro)
+  }, [data, zeigeOhneSynchro, ohneSynchro])
+
   const events = useMemo(
     () => (data ? filterEvents(data, route.filters, today, favorites) : []),
     [data, route.filters, today, favorites],
   )
-  const titles = useMemo(
-    () => (data ? filterTitles(allTitles ?? data.titles, data, route.filters, today, favorites) : []),
-    [data, allTitles, route.filters, today, favorites],
-  )
+  const titles = useMemo(() => {
+    if (!data) return []
+    const basis = allTitles ?? data.titles
+    const quelle = zeigeOhneSynchro && ohneSynchro ? [...basis, ...ohneSynchro] : basis
+    return filterTitles(quelle, data, route.filters, today, favorites)
+  }, [data, allTitles, ohneSynchro, zeigeOhneSynchro, route.filters, today, favorites])
 
   const openTitleId = useMemo(() => {
     if (route.title) return route.title
@@ -207,6 +229,9 @@ export default function App() {
               titles={titles}
               grouped={grouped}
               onGroupedChange={setGrouped}
+              ohneSynchro={zeigeOhneSynchro}
+              onOhneSynchroChange={setZeigeOhneSynchro}
+              ohneSynchroLaedt={zeigeOhneSynchro && !ohneSynchro}
               favorites={favorites}
               hidden={hidden}
               onToggleFavorite={toggle}
