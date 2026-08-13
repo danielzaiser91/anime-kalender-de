@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-12T22:25:00.659Z",
+  "scrapedAt": "2026-08-13T05:03:48.188Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/that-time-i-got-reincarnated-as-a-slime",
@@ -3749,6 +3749,3298 @@
         }
       ],
       "geprueftAm": "2026-08-12"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GJ0H7QGME/viral-hit",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GJ0H7QGQK/zom-100-the-bucket-list-of-the-dead",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GKEH2G0DN/nyaight-of-the-living-cat",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GKEH2G0J4/the-unaware-atelier-meister",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GKEH2G0QK/nina-the-starry-bride",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GKEH2G0W9/shy",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 24,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GKEH2G428/bofuri-i-dont-want-to-get-hurt-so-ill-max-out-my-defense",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "BOFURI: I Don’t Want to Get Hurt, so I’ll Max Out My Defense.",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "BOFURI: I Don’t Want to Get Hurt, so I’ll Max Out My Defense. Staffel 2",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 12
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GMEHME53W/black-rock-shooter",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GMEHME77W/honey-lemon-soda",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GMEHMENP7/ninja-scroll-the-series",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GMEHMEZ7J/welcome-to-the-ballroom",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GMTE00002906/dragon-ball-z-the-dead-zone",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GMTE00002907/dragon-ball-z-broly-second-coming",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GMTE00002908/dragon-ball-z-bio-broly",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GMTE00002909/dragon-ball-z-fusion-reborn",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GMTE00002910/dragon-ball-z-wrath-of-the-dragon",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GMTE00002911/dragon-ball-z-the-worlds-strongest",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GMTE00002912/dragon-ball-z-the-tree-of-might",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GMTE00002914/dragon-ball-z-coolers-revenge",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GMTE00002915/dragon-ball-z-return-of-cooler",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GMTE00002916/dragon-ball-z-super-android-13",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GMTE00002917/dragon-ball-z-broly-the-legendary-super-saiyan",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GMTE00002918/dragon-ball-z-bojack-unbound",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GMTE00002920/dragon-ball-movies-dragon-ball-z-resurrection-f",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GMTE00019933/dragon-ball-super-broly",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GMTE00199304/dragon-ball-super-super-hero",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GMTE00351664/miss-kobayashis-dragon-maid-a-lonely-dragon-wants-to-be-loved",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GMTE00376679/assassination-classroom-the-movie-our-time",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GNVHKN7KZ/uzaki-chan-wants-to-hang-out",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "S1: Uzaki-chan Wants to Hang Out!",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "S2: Uzaki-chan Wants to Hang Out! Staffel 2",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GNVHKN903/ron-kamonohashis-forbidden-deductions",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Meisterdetektiv Ron Kamonohashi",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        },
+        {
+          "name": "S2: Meisterdetektiv Ron Kamonohashi 2nd Season",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GNVHKN92K/chainsaw-man--the-movie-reze-arc",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GNVHKNP4J/kamikatsu-working-for-god-in-a-godless-world",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GNVHKNPQ7/my-love-story-with-yamada-kun-at-lv999",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GNVHKNPW1/nierautomata-ver11a",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 24,
+          "kacheln": 25,
+          "deutsch": 24,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GP5HJ8417/magic-maker-how-to-make-magic-in-another-world",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GP5HJ8425/suzume",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GP5HJ845X/25-dimensional-seduction",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GP5HJ84D2/tougen-anki",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 24,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GP5HJ84P7/gachiakuta",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 24,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GQWH0M1GG/dragon-ball-z-movies",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GQWH0M1J3/to-be-hero-x",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 24,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GQWH0M1K3/manie-manie-neo-tokyo",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GQWH0M1P3/possibly-the-greatest-alchemist-of-all-time",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GQWH0M1XK/the-weakest-tamer-began-a-journey-to-pick-up-trash",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GQWH0M455/dont-toy-with-me-miss-nagatoro",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Don't Toy with Me, Miss Nagatoro",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Don’t Toy With Me, Miss Nagatoro 2nd Attack",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GQWH0M4NN/love-hina-again",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GQWH0M9N8/my-dress-up-darling",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "S1: My Dress-Up Darling",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "S2: My Dress-Up Darling Season 2",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GQWH0MX4W/hensuki---are-you-willing-to-fall-in-love-with-a-pervert-as-long-as-shes-a-cutie",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GR24GNVM6/vampire-knight",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "S1: Vampire Knight",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        },
+        {
+          "name": "S2: Vampire Knight: Guilty",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GR4980206/sky-wizards-academy",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GRDQV2VWY/free---iwatobi-swim-club",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "S1: Free! - Iwatobi Swim Club",
+          "folgen": 14,
+          "kacheln": 14,
+          "deutsch": 0,
+          "fremd": 12
+        },
+        {
+          "name": "S2: Free! Eternal Summer",
+          "folgen": 14,
+          "kacheln": 14,
+          "deutsch": 0,
+          "fremd": 13
+        },
+        {
+          "name": "S3: Free! -Dive to the Future-",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GRDV0019R/jujutsu-kaisen",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "JUJUTSU KAISEN",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 24,
+          "fremd": 0
+        },
+        {
+          "name": "JUJUTSU KAISEN Staffel 2",
+          "folgen": 23,
+          "kacheln": 23,
+          "deutsch": 23,
+          "fremd": 0
+        },
+        {
+          "name": "JUJUTSU KAISEN: Hidden Inventory / Premature Death – The Movie",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0
+        },
+        {
+          "name": "JUJUTSU KAISEN Season 3",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GRE50KV36/black-clover",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Season 1 Part 1",
+          "folgen": 51,
+          "kacheln": 51,
+          "deutsch": 51,
+          "fremd": 0
+        },
+        {
+          "name": "Season 1 Part 2",
+          "folgen": 0,
+          "kacheln": 0,
+          "deutsch": 0,
+          "fremd": 0
+        },
+        {
+          "name": "Season 1 Part 3",
+          "folgen": 0,
+          "kacheln": 0,
+          "deutsch": 0,
+          "fremd": 0
+        },
+        {
+          "name": "Season 1 Part 4",
+          "folgen": 16,
+          "kacheln": 16,
+          "deutsch": 16,
+          "fremd": 0
+        },
+        {
+          "name": "SP: OVA",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 0,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GRE5XQJV6/natsumes-book-of-friends",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GRJ0J828Y/kaguya-sama-love-is-war",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "S1: Kaguya-sama: Love is War",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 12
+        },
+        {
+          "name": "S2: Kaguya-sama: Love is War?",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "S3: Kaguya-sama: Love is War -Ultra Romantic-",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        },
+        {
+          "name": "Kaguya-sama: Love is War: Season 3.5: The First Kiss That Never Ends - Episodic Cut",
+          "folgen": 4,
+          "kacheln": 4,
+          "deutsch": 4,
+          "fremd": 0
+        },
+        {
+          "name": "Kaguya-sama: Love Is War -Stairway to Adulthood-",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 0,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GRMGWEM3R/jormungand",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GRP8011JR/utawarerumono",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GRWMGGQ86/tonikawa-over-the-moon-for-you",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "S1: TONIKAWA: Over The Moon For You",
+          "folgen": 14,
+          "kacheln": 14,
+          "deutsch": 13,
+          "fremd": 0
+        },
+        {
+          "name": "S2: TONIKAWA: Over The Moon For You Staffel 2",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        },
+        {
+          "name": "S2: TONIKAWA: Over The Moon For You ~High School Days~",
+          "folgen": 4,
+          "kacheln": 4,
+          "deutsch": 4,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GRZXQJJ8Y/the-ancient-magus-bride",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "The Ancient Magus' Bride",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 24,
+          "fremd": 0
+        },
+        {
+          "name": "S2: The Ancient Magus' Bride Staffel 2",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 24,
+          "fremd": 0
+        },
+        {
+          "name": "The Ancient Magus' Bride: Those Awaiting a Star",
+          "folgen": 3,
+          "kacheln": 3,
+          "deutsch": 3,
+          "fremd": 0
+        },
+        {
+          "name": "The Ancient Magus' Bride: The Boy from the West and the Knight of the Blue Storm",
+          "folgen": 3,
+          "kacheln": 3,
+          "deutsch": 3,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GT00258001/",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GT00356809/sentenced-to-be-a-hero",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GT00361955/a-wild-last-boss-appeared",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GT00364840/pass-the-monster-meat-milady",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GT00365079/hands-off-sawaranaide-kotesashi-kun",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GT00365556/dark-moon-the-blood-altar",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GT00365624/you-and-i-are-polar-opposites",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Staffel 1",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 2",
+          "folgen": 6,
+          "kacheln": 6,
+          "deutsch": 0,
+          "fremd": 4
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GT00365727/rooster-fighter",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GT00365787/shiboyugi-playing-death-games-to-put-food-on-the-table",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GT00366791/oshi-no-ko",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Season 1",
+          "folgen": 11,
+          "kacheln": 11,
+          "deutsch": 11,
+          "fremd": 0
+        },
+        {
+          "name": "Season 2",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        },
+        {
+          "name": "Season 3",
+          "folgen": 11,
+          "kacheln": 11,
+          "deutsch": 11,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GVDHX851V/im-in-love-with-the-villainess",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GVDHX8548/dealing-with-mikadono-sisters-is-a-breeze",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GVDHX859Q/new-saga",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GVDHX8PMM/orient",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 24,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GVDHX8Q71/why-raeliana-ended-up-at-the-dukes-mansion",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GVDHX8QK5/the-aristocrats-otherworldly-adventure-serving-gods-who-go-too-far",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GW4HM79VM/ive-been-killing-slimes-for-300-years-and-maxed-out-my-level",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "S1: I've Been Killing Slimes For 300 Years And Maxed Out My Level",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "S2: I've Been Killing Slimes For 300 Years And Maxed Out My Level Staffel 2",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GW4HM7WQ5/may-i-ask-for-one-final-thing",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GW4HM7WWV/grisaia-phantom-trigger",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GXJHM39MP/a-couple-of-cuckoos",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "A Couple of Cuckoos",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 24,
+          "fremd": 0
+        },
+        {
+          "name": "S2: A Couple of Cuckoos Season2",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GXJHM39V0/fatestay-night-heavens-feel",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GXJHM3GG8/promise-of-wizard",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GXJHM3N2E/k-on",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "S2: K-ON!!",
+          "folgen": 27,
+          "kacheln": 27,
+          "deutsch": 27,
+          "fremd": 0
+        },
+        {
+          "name": "K-ON! The Movie",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GXJHM3PK5/trigun-stampede",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "TRIGUN STAMPEDE",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "TRIGUN STARGAZE",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GY190DKQR/mob-psycho-100",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Mob Psycho 100",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Mob Psycho 100 II",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        },
+        {
+          "name": "Mob Psycho 100 III",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "OVAs",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0
+        },
+        {
+          "name": "OVAs (Castilian Dub)",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 0,
+          "fremd": 1
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GY5P48XEY/demon-slayer-kimetsu-no-yaiba",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Demon Slayer: Kimetsu no Yaiba Tanjiro Kamado, Unwavering Resolve Arc",
+          "folgen": 26,
+          "kacheln": 26,
+          "deutsch": 26,
+          "fremd": 0
+        },
+        {
+          "name": "Demon Slayer: Kimetsu no Yaiba Mugen Train Arc",
+          "folgen": 7,
+          "kacheln": 7,
+          "deutsch": 7,
+          "fremd": 0
+        },
+        {
+          "name": "Demon Slayer: Kimetsu no Yaiba Entertainment District Arc",
+          "folgen": 11,
+          "kacheln": 11,
+          "deutsch": 11,
+          "fremd": 0
+        },
+        {
+          "name": "Demon Slayer: Kimetsu no Yaiba Swordsmith Village Arc",
+          "folgen": 11,
+          "kacheln": 11,
+          "deutsch": 11,
+          "fremd": 0
+        },
+        {
+          "name": "Demon Slayer: Kimetsu no Yaiba Hashira Training Arc",
+          "folgen": 8,
+          "kacheln": 8,
+          "deutsch": 8,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GY79P41KR/sword-art-online-alternative-gun-gale-online",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "S1: Sword Art Online Alternative: Gun Gale Online",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        },
+        {
+          "name": "S2: Sword Art Online Alternative: Gun Gale Online II",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GY8DWQN5Y/golden-kamuy",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Golden Kamuy",
+          "folgen": 49,
+          "kacheln": 49,
+          "deutsch": 49,
+          "fremd": 0
+        },
+        {
+          "name": "Golden Kamuy OADs",
+          "folgen": 3,
+          "kacheln": 3,
+          "deutsch": 0,
+          "fremd": 3
+        },
+        {
+          "name": "Golden Kamuy Final Season",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GY8V11X7Y/fatestay-night-unlimited-blade-works",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GY8V7NP8Y/lucky-star",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GYE5K3GQR/konosuba--gods-blessing-on-this-wonderful-world",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "KonoSuba - God's Blessing on This Wonderful World!: Season 1",
+          "folgen": 10,
+          "kacheln": 10,
+          "deutsch": 10,
+          "fremd": 0
+        },
+        {
+          "name": "KonoSuba - God's Blessing on This Wonderful World!: Season 2",
+          "folgen": 10,
+          "kacheln": 10,
+          "deutsch": 10,
+          "fremd": 0
+        },
+        {
+          "name": "OVAs",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0
+        },
+        {
+          "name": "Legend of Crimson",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0
+        },
+        {
+          "name": "Season 03",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 0,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GYEX5E1G6/date-a-live",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GYEXQKJG6/dr-stone",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Dr. STONE",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 24,
+          "fremd": 0
+        },
+        {
+          "name": "S2: Dr. STONE Staffel 2",
+          "folgen": 11,
+          "kacheln": 11,
+          "deutsch": 11,
+          "fremd": 0
+        },
+        {
+          "name": "Dr. STONE Special Episode - RYUSUI",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0
+        },
+        {
+          "name": "Dr. STONE Season 3",
+          "folgen": 0,
+          "kacheln": 0,
+          "deutsch": 0,
+          "fremd": 0
+        },
+        {
+          "name": "Dr. STONE SCIENCE FUTURE",
+          "folgen": 0,
+          "kacheln": 0,
+          "deutsch": 0,
+          "fremd": 0
+        },
+        {
+          "name": "Extras",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 0,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GYGGV94PY/btooom/",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GYMGDZN4Y/when-supernatural-battles-became-commonplace",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GYQ43P3E6/black-butler",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "S4: Black Butler -Public School Arc-",
+          "folgen": 11,
+          "kacheln": 11,
+          "deutsch": 11,
+          "fremd": 0
+        },
+        {
+          "name": "S4: Black Butler -Emerald Witch Arc-",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GYQ4ZWV46/in-another-world-with-my-smartphone",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "S1: In Another World With My Smartphone",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "S2: In Another World With My Smartphone 2",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GYQWNXPZY/fire-force",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Staffel 1",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 24,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 2",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 24,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 3",
+          "folgen": 0,
+          "kacheln": 0,
+          "deutsch": 0,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GYW4MG9G6/rascal-does-not-dream-of-bunny-girl-senpai",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Rascal Does Not Dream of Bunny Girl Senpai",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        },
+        {
+          "name": "Rascal Does Not Dream of a Dreaming Girl",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0
+        },
+        {
+          "name": "Rascal Does Not Dream of a Sister Venturing Out",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 0,
+          "fremd": 1
+        },
+        {
+          "name": "Rascal Does Not Dream of a Knapsack Kid",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 0,
+          "fremd": 1
+        },
+        {
+          "name": "S2: Rascal Does Not Dream of Santa Claus",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 0,
+          "fremd": 13
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GYW4MG9G6/rascal-does-not-dream-series",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Rascal Does Not Dream of Bunny Girl Senpai",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        },
+        {
+          "name": "Rascal Does Not Dream of a Dreaming Girl",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0
+        },
+        {
+          "name": "Rascal Does Not Dream of a Sister Venturing Out",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 0,
+          "fremd": 1
+        },
+        {
+          "name": "Rascal Does Not Dream of a Knapsack Kid",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 0,
+          "fremd": 1
+        },
+        {
+          "name": "S2: Rascal Does Not Dream of Santa Claus",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 0,
+          "fremd": 13
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GYX02P3MR/masamune-kuns-revenge",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Masamune-kun's Revenge: Season 1",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        },
+        {
+          "name": "Masamune-kun's Revenge: Season 2",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GYX0PN4MR/haganai",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GZJH3D0P5/onimai-im-now-your-sister",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GZJH3D0X5/ayakashi-triangle",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GZJH3D719/tsukimichi--moonlit-fantasy-",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "TSUKIMICHI -Moonlit Fantasy-",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "TSUKIMICHI -Moonlit Fantasy- Staffel 2",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 25,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/servamp",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/shakugan-no-shana",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/she-professed-herself-pupil-of-the-wise-man",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/shikimoris-not-just-a-cutie",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 14,
+          "kacheln": 14,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/shimoneta-a-boring-world-where-the-concept-of-dirty-jokes-doesnt-exist",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/shin-ikki-tousen",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 3,
+          "kacheln": 3,
+          "deutsch": 3,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/shomin-sample",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/sing-a-bit-of-harmony",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/sing-yesterday-for-me",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/skeleton-knight-in-another-world",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Season 1",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 2",
+          "folgen": 6,
+          "kacheln": 6,
+          "deutsch": 6,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/snow-white-with-the-red-hair",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/so-im-a-spider-so-what",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 24,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/solo-leveling",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "S1: Solo Leveling",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 12,
+          "fremd": 1
+        },
+        {
+          "name": "S2: Solo Leveling Season 2 -Arise from the Shadow-",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/solty-rei",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/sorcerer-hunters",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/soul-eater",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/soul-hunter",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/space-dandy",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 26,
+          "kacheln": 26,
+          "deutsch": 26,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/special-7-special-crime-investigation-unit",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/speed-grapher",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/spice-and-wolf",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/spy-x-family",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Season 1",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 25,
+          "fremd": 0
+        },
+        {
+          "name": "Season 2",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "SPY x FAMILY Staffel 3",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/star-blazers-space-battleship-yamato",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/steinsgate",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/super-hxeros",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/swan-lake",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/sword-art-online/sword-art-online-the-movie-ordinal-scale-sword-art-online-the-movie-ordinal-scale-sub-820972",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/sword-of-the-stranger",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/talentless-nana",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/tales-of-symphonia-the-animation",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/tales-of-zestiria-the-x",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/tenjho-tenge",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/terror-in-resonance",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-boy-and-the-beast",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-dawn-of-the-witch",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-day-i-became-a-god",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-detective-is-already-dead",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-disappearance-of-haruhi-suzumiya",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-dungeon-of-black-company",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-future-diary",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-garden-of-sinners/episode-1-overlooking-view-thanatos-763069",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-garden-of-sinners/episode-2-murder-speculation-part-a-and-nothing-heart-763071",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-garden-of-sinners/episode-3-remaining-sense-of-pain-ever-cry-never-life-763073",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-garden-of-sinners/episode-4-the-hollow-shrine-garan-no-dou-763077",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-garden-of-sinners/episode-5-paradox-paradigm-763123",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-garden-of-sinners/episode-6-oblivion-recording-fairy-tale-763079",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-garden-of-sinners/episode-7-murder-speculation-part-b-not-nothing-heart-763181",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-garden-of-sinners/episode-8-epilogue-763085",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-girl-who-leapt-through-time",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-god-of-high-school",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 14,
+          "kacheln": 14,
+          "deutsch": 13,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-greatest-demon-lord-is-reborn-as-a-typical-nobody",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-hidden-dungeon-only-i-can-enter",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-journey/",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-magnificent-kotobuki",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-melancholy-of-haruhi-suzumiya",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 28,
+          "kacheln": 29,
+          "deutsch": 13,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-misfit-of-demon-king-academy",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-ones-within",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-promised-neverland",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "S1: THE PROMISED NEVERLAND",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "S2: THE PROMISED NEVERLAND Staffel 2",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 12
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-quintessential-quintuplets",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Season 1",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Season 2",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Specials",
+          "folgen": 4,
+          "kacheln": 4,
+          "deutsch": 4,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-rising-of-the-shield-hero",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Staffel 1",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 25,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 2",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 3",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 4",
+          "folgen": 0,
+          "kacheln": 0,
+          "deutsch": 0,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-saints-magic-power-is-omnipotent",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-slayers",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-slime-diaries",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-stranger-by-the-shore/",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-wonderful-wizard-of-oz",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-wonderland",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/to-your-eternity",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Season 1",
+          "folgen": 20,
+          "kacheln": 20,
+          "deutsch": 20,
+          "fremd": 0
+        },
+        {
+          "name": "To Your Eternity Staffel 2",
+          "folgen": 20,
+          "kacheln": 20,
+          "deutsch": 20,
+          "fremd": 0
+        },
+        {
+          "name": "To Your Eternity Staffel 3",
+          "folgen": 0,
+          "kacheln": 0,
+          "deutsch": 0,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/toilet-bound-hanako-kun",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/tokyo-revengers",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 24,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/tomo-chan-is-a-girl",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/tonikawa-over-the-moon-for-you",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "S1: TONIKAWA: Over The Moon For You",
+          "folgen": 14,
+          "kacheln": 14,
+          "deutsch": 13,
+          "fremd": 0
+        },
+        {
+          "name": "S2: TONIKAWA: Over The Moon For You Staffel 2",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        },
+        {
+          "name": "S2: TONIKAWA: Over The Moon For You ~High School Days~",
+          "folgen": 4,
+          "kacheln": 4,
+          "deutsch": 4,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/tower-of-god",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Season 1",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        },
+        {
+          "name": "Tower of God",
+          "folgen": 0,
+          "kacheln": 0,
+          "deutsch": 0,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/trapped-in-a-dating-sim-the-world-of-otome-games-is-tough-for-mobs",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Staffel 1",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 2",
+          "folgen": 6,
+          "kacheln": 6,
+          "deutsch": 3,
+          "fremd": 1
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/tribe-nine",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/trigun",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/trinity-blood",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/tsugumomo",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/tsugumomo/",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/undefeated-bahamut-chronicle",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/uzaki-chan-wants-to-hang-out",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "S1: Uzaki-chan Wants to Hang Out!",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "S2: Uzaki-chan Wants to Hang Out! Staffel 2",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/valkyrie-drive-mermaid-",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/vampire-knight",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "S1: Vampire Knight",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        },
+        {
+          "name": "S2: Vampire Knight: Guilty",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/venus-versus-virus",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/G0DUMXDPZ/rascal-does-not-dream-of-a-sister-venturing-out",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/G14UVQ5D5/one-piece-fan-letter",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/G2XUNVJMN/hoshinas-day-off",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/G2XUNX9N2/code-white",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/G3WF2491E/jin-roh",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/G7PU3D1ZN/one-piece-film-strong-world",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/G7PU3DWNQ/given-the-movie-to-the-sea",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/G7PU4100M/scherzo-of-deep-night",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/G8WU7P112/dragon-ball-z-battle-of-gods",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/G8WUNMMMW/attack-on-titan-final-season-the-final-chapters-special-1",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GD9UE9XZ7/haikyu-the-dumpster-battle",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GE00365925JAJP/jujutsu-kaisen-hidden-inventory--premature-death--the-movie",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GE00367387JAJP/i-need-to-be-in-----",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GG1UXVQZ3/kaiju-no-8-mission-recon",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GMKUEMXMJ/given-the-movie-hiiragi-mix",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GR2P1377R/legend-of-the-sanada",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GVWU0K5WN/sword-art-online-the-movie--progressive--aria-of-a-starless-night",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GVWU827QE/one-piece-film-the-desert-princess-and-the-pirates-adventures-in-alabasta--",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GVWU8N5DG/blue-lock-the-movie--episode-nagi-",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GWDU73EX8/rascal-does-not-dream-of-a-knapsack-kid",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GX9U34WGN/one-piece-film-z",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GX9UQJE85",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GYNQJG40Y/the-15th-anniversary-special-episode",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GZ4FVQE90/fantastic-adventures-of-unico",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/we-never-learn-bokuben",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/welcome-to-demon-school-iruma-kun",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Staffel 1",
+          "folgen": 23,
+          "kacheln": 23,
+          "deutsch": 23,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 2",
+          "folgen": 21,
+          "kacheln": 21,
+          "deutsch": 21,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 3",
+          "folgen": 21,
+          "kacheln": 21,
+          "deutsch": 21,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 4",
+          "folgen": 18,
+          "kacheln": 18,
+          "deutsch": 18,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-13"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/welcome-to-the-n-h-k",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/why-the-hell-are-you-here-teacher",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/wise-mans-grandchild",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/witch-hunter-robin",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/witchblade",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/wolf-children",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/wolfs-rain",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/wz",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/x",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/xxxholic",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/yamadas-first-time-b-gata-h-kei",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/yashahime-princess-half-demon",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/yes-no-or-maybe",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/your-name",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/yu-gi-oh-arc-v",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/yu-gi-oh-zexal",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/yu-yu-hakusho",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/zombie-land-saga",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/dears/episode-10-is-it-a-golden-ball-811701?ssid=401214",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-1-der-tickende-wolkenkratzer-unbekannt-810163",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-12-die-partitur-des-grauens-unbekannt-811393?ssid=400590",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-14-das-verlorene-schiff-im-himmel-unbekannt-811396?ssid=400599",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-15-die-15-minuten-der-stille-unbekannt-811397?ssid=400596",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-16-der-11-strmer-unbekannt-811399?ssid=400598",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-17-detektiv-auf-hoher-see-unbekannt-812230?ssid=402659",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-18-der-scharfschtze-aus-einer-anderen-dimension-unbekannt-812231",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-2-das-14-ziel-unbekannt-810165",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-21-der-purpurrote-liebesbrief-unbekannt-812236?ssid=402669",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-22-zero-der-vollstrecker-unbekannt-812237?ssid=402670",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-23-die-stahlblaue-faust-unbekannt-857862",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-24-die-scharlachrote-kugel-unbekannt-867288",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-3-der-magier-des-letzten-jahrhunderts-unbekannt-810166",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-4-der-killer-in-ihren-augen-unbekannt-810167",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-5-countdown-zum-himmel-unbekannt-810169?ssid=398572",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-6-das-phantom-der-baker-street-unbekannt-810184?ssid=398574",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan/detektiv-conan-tv-special-episode-one-der-geschrumpfte-meisterdetektiv-unbekannt-821630?ssid=422962",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan/detektiv-conan-tv-special-lupin-iii-vs-detektiv-conan-unbekannt-812798?ssid=404716",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/doreiku-the-animation",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/fairy-tail-movies/fairy-tail-the-movie-phoenix-princess-unbekannt-821316?ssid=422327",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/flip-flappers",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/flowers-of-evil",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/fragtime/fragtime-unbekannt-813782?ssid=406732",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/genocidal-organ/genocidal-organ-unbekannt-807915?ssid=394444",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/grimgar-ashes-and-illusions",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/harmony/harmony-unbekannt-807914?ssid=394443",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/ikki-tousen",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/k-on",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/k-on/episode-14-807608?ssid=394401",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/k-on/episode-27-809423?ssid=397229",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/k-on/k-on-the-movie-unbekannt-822264?ssid=424604",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/kandagawa-jet-girls",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/kase-san-and-morning-glories/kase-san-and-morning-glories-unbekannt-813883",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/kokoro-connect",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-/episode-13-799361?ssid=387047",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/love-stage/episode-11-841216",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lu-over-the-wall/lu-over-the-wall-unbekannt-811213?ssid=399959",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/daisuke-jigens-grabstein-unbekannt-822025?ssid=423942",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/fujiko-mines-lge-unbekannt-822260?ssid=424587",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/goemon-ishikawa-der-es-blut-regnen-lsst-unbekannt-822028?ssid=423944",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/lupin-iii-the-first-unbekannt-827115?ssid=429156",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-the-castle-of-cagliostro/lupin-iii-das-schloss-des-cagliostro-unbekannt-817943?ssid=414931",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-brenne-zantetsuken-der-goldene-drache-unbekannt-813890?ssid=407178",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-das-geheimnis-des-twilight-gemini-der-diamant-der-dmmerung-unbekannt-813886?ssid=407187",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-der-schatz-des-harimao-unbekannt-813894?ssid=407180",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-mordbefehl-an-lupin-der-hllentrip-unbekannt-813888?ssid=407176",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/night-is-short-walk-on-girl/night-is-short-walk-on-girl-unbekannt-811211?ssid=399939",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/one-punch-man",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/ride-your-wave/ride-your-wave-unbekannt-806160?ssid=392654",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/G0XHWM5K7/babylon",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/G3KHEVD7E/digimon-frontier",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/G6DKW52DR/inuyasha",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GEXH3W414/princess-principal",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GMEHMENQM/magic-kaito",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GNVHKN972/digimon-savers",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GP5HJ84EX/bobobo-bo-bo-bobo",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GQWH0M1EX/saber-rider-and-the-star-sheriffs",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GR2P1ZEMR/riddle-story-of-devil",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GR5VKGGPR/invaders-of-the-rokujyoma",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GRGGQ914R/daimidaler-prince-vs-penguin-empire",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GYJ0HW59G/digimon-tamers",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GZJH3D7G9/captain-tsubasa",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/seven-days-war/seven-days-war-unbekannt-821929?ssid=423562",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/the-dragon-dentist/deomu-the-dragon-dentist-unbekannt-811630?ssid=401190",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/the-empire-of-corpses/the-empire-of-corpses-unknown-808170?ssid=395057",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/tsubasa-reservoir-chronicle",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/typhoon-noruda/typhoon-noruda-unbekannt-859032",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/uq-holder",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/G2XU0D874",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/G4VUQVNJ8/",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/G50UZ54W0/the-scarlet-alibi-german-dub",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/G50UZV2GM/",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/G9DU9E4QG/saitama-and-the-mediocre-gang",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/GG1U2NW9Q",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/GJWUQN11K/",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/GK9U31019/",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/GK9U3Z4XE/",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/GMEE00351144DEDE",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/GPWU8KM42/the-shadow-that-snuck-up-too-close",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/GQJUGQWMW/",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.google.com/url?sa=t&source=web&rct=j&url=https://www.crunchyroll.com/de/series/GVDHX8QGP/nana&ved=2ahUKEwifi8P_yuj9AhUgVqQEHZuMD9gQFnoECA0QAQ&usg=AOvVaw3qlL5BTTbccRkl1ygyWy9T",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
     }
   ]
 }
