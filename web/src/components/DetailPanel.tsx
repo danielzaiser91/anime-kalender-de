@@ -14,6 +14,7 @@ import { FORMAT_DE } from '@shared/mappings.ts'
 import {
   Button,
   Chip,
+  DubMark,
   Tooltip,
   FavoriteStar,
   HideEye,
@@ -289,29 +290,6 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
         </p>
       )}
     </section>
-  )
-}
-
-function DubMark({ dub }: { dub?: boolean }) {
-  const { t } = useLang()
-  if (dub === true) {
-    return (
-      <Tooltip text={t('detail.dubYes')} seite="oben">
-        <span className="text-[11px] font-bold text-emerald-400">🇩🇪 ✓</span>
-      </Tooltip>
-    )
-  }
-  if (dub === false) {
-    return (
-      <Tooltip text={t('detail.dubNo')} seite="oben">
-        <span className="text-[11px] font-bold text-red-400">🇩🇪 ✕</span>
-      </Tooltip>
-    )
-  }
-  return (
-    <Tooltip text={t('detail.dubUnknown')} seite="oben">
-      <span className="text-[11px] text-slate-400">🇩🇪 ?</span>
-    </Tooltip>
   )
 }
 

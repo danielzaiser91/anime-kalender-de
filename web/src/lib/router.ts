@@ -15,6 +15,7 @@ export type ViewId =
   | 'monat'
   | 'agenda'
   | 'datenbank'
+  | 'wo'
   | 'abo'
   | 'newsletter'
   | 'quellen'
@@ -26,6 +27,7 @@ export const VIEWS: { id: ViewId; label: string; inNav: boolean }[] = [
   { id: 'monat', label: 'Monat', inNav: true },
   { id: 'agenda', label: 'Agenda', inNav: true },
   { id: 'datenbank', label: 'Datenbank', inNav: true },
+  { id: 'wo', label: 'Wo sehen?', inNav: true },
   { id: 'abo', label: 'Kalender-Abo', inNav: false },
   { id: 'newsletter', label: 'Newsletter', inNav: false },
   { id: 'quellen', label: 'Quellen', inNav: false },

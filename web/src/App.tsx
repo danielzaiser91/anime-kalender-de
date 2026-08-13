@@ -16,6 +16,7 @@ import { WeekView } from './components/WeekView.tsx'
 import { MonthView } from './components/MonthView.tsx'
 import { AgendaView } from './components/AgendaView.tsx'
 import { DatabaseView } from './components/DatabaseView.tsx'
+import { WhereView } from './components/WhereView.tsx'
 import { DetailPanel } from './components/DetailPanel.tsx'
 import {
   DatenschutzView,
@@ -92,9 +93,11 @@ export default function App() {
     return () => window.removeEventListener('keydown', onKey)
   }, [route, navigate])
 
-  // Die vollständige Titelliste kommt erst, wenn sie gebraucht wird.
+  // Die vollständige Titelliste kommt erst, wenn sie gebraucht wird — für die
+  // Datenbank und für „Wo sehen?". Beide zeigen den ganzen Bestand; der
+  // Kalender-Kern führt nur die gut hundert Titel mit Termin.
   useEffect(() => {
-    if (!data || allTitles || route.view !== 'datenbank') return
+    if (!data || allTitles || (route.view !== 'datenbank' && route.view !== 'wo')) return
     loadAllTitles(data)
       .then(setAllTitles)
       .catch(() => setAllTitles(data.titles))
@@ -133,7 +136,7 @@ export default function App() {
   if (!data) return <Spinner label={t('app.loading')} />
 
   const isCalendar = route.view === 'woche' || route.view === 'monat' || route.view === 'agenda'
-  const showFilters = isCalendar || route.view === 'datenbank'
+  const showFilters = isCalendar || route.view === 'datenbank' || route.view === 'wo'
 
   return (
     <div className="flex min-h-full flex-col">
@@ -208,6 +211,17 @@ export default function App() {
               hidden={hidden}
               onToggleFavorite={toggle}
               onToggleHidden={toggleHidden}
+              onOpenTitle={(id) => navigate({ title: id, release: undefined })}
+            />
+          ) : (
+            <Spinner label={t('app.loadingTitles', { count: data.meta.titleCount.toLocaleString('de-DE') })} />
+          ))}
+
+        {route.view === 'wo' &&
+          (allTitles ? (
+            <WhereView
+              titles={titles}
+              gesamt={data.meta.titleCount}
               onOpenTitle={(id) => navigate({ title: id, release: undefined })}
             />
           ) : (

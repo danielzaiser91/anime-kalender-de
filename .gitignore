@@ -9,3 +9,7 @@ worker/node_modules/
 data/cache/
 .anisearch*.log
 .tmdb.log
+# Protokolle langer Abrufläufe. Sie sind Arbeitsmaterial, kein Datenbestand —
+# das Ergebnis landet in data/*.json, und `pipeline/recover-cr-dub.ts` kann aus
+# so einem Protokoll notfalls den Datensatz zurückgewinnen.
+crdub-*.log

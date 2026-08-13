@@ -28,6 +28,10 @@ const TEXTE = {
   'view.monat': 'Monat',
   'view.agenda': 'Agenda',
   'view.datenbank': 'Datenbank',
+  'view.wo': 'Wo sehen?',
+  // Kurzform für schmale Schirme: Mit dem fünften Reiter passte die Leiste bei
+  // 375 px nicht mehr in eine Zeile und schob die Seite waagrecht auf.
+  'view.wo.short': 'Wo?',
   'view.abo': 'Kalender-Abo',
   'view.newsletter': 'Newsletter',
   'view.impressum': 'Impressum',
@@ -128,6 +132,23 @@ const TEXTE = {
     'Fasst alle Staffeln, Filme und Specials einer Reihe zu einer Kachel zusammen. Gezeigt wird die erste Staffel; die übrigen stehen in ihrer Detailansicht.',
   'db.seasons': '{count} Staffeln',
   'db.episodes': '{count} Ep.',
+
+  // „Wo sehen?" — der Kalender von der anderen Seite: nach Anbieter statt nach
+  // Datum. Für die meisten Titel ist das die eigentliche Frage, denn nur gut
+  // hundert von ihnen haben überhaupt einen anstehenden Termin.
+  'where.summary': '{mit} von {gesamt} Anime haben einen belegten Bezugsweg, verteilt auf {anbieter} Anbieter.',
+  'where.stream': 'Ansehen',
+  'where.streamHint': 'Abo, werbefinanziert oder kostenlos',
+  'where.buy': 'Kaufen oder leihen',
+  'where.buyHint': 'einmaliger Preis je Titel oder Staffel',
+  'where.titles': '{count} Einträge',
+  'where.titleOne': '1 Eintrag',
+  'where.tallyYes': 'deutsche Synchro dort belegt',
+  'where.tallyNo': 'dort nachgesehen: keine deutsche Synchro',
+  'where.tallyOpen': 'Synchro dort nicht belegt — der Anbieter sagt es nicht öffentlich',
+  'where.openAt': 'Bei {name} öffnen',
+  'where.more': 'Weitere {count} anzeigen',
+  'where.empty': 'Zu den gewählten Filtern ist kein Bezugsweg belegt.',
 
   'detail.releases': 'Deutsche Releases',
   // Beide Texte stehen seit dem 12.08.2026 als Hovertext hinter dem Wort

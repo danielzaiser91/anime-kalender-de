@@ -30,6 +30,11 @@ function ThemeToggle() {
 }
 
 
+/** Reiter, die auf schmalen Schirmen eine kürzere Beschriftung tragen. */
+const KURZ_IM_NAV: Partial<Record<ViewId, TranslationKey>> = {
+  wo: 'view.wo.short',
+}
+
 export function Header({
   view,
   date,
@@ -120,23 +125,44 @@ export function Header({
           </div>
         </div>
 
-        <nav className="flex gap-0.5 rounded-lg bg-slate-200/60 p-0.5 dark:bg-white/5" aria-label="Ansicht">
-          {VIEWS.filter((v) => v.inNav).map((v) => (
-            <button
-              key={v.id}
-              type="button"
-              onClick={() => onView(v.id)}
-              aria-current={view === v.id}
-              className={[
-                'cursor-pointer rounded-md px-3 py-1.5 text-sm font-medium transition',
-                view === v.id
-                  ? 'bg-white text-slate-900 shadow-sm dark:bg-white/15 dark:text-white'
-                  : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white',
-              ].join(' ')}
-            >
-              {t(`view.${v.id}` as TranslationKey)}
-            </button>
-          ))}
+        {/*
+          `max-w-full overflow-x-auto` ist die Reißleine, nicht der Normalfall:
+          Fünf Reiter passen mit den Kurzformen unten auch auf 375 px. Käme ein
+          sechster dazu, rollt die Leiste, statt die ganze Seite waagrecht
+          aufzuschieben — genau das passierte beim Reiter „Wo sehen?"
+          (13.08.2026), und ein waagrechter Rollbalken über der kompletten Seite
+          fällt niemandem als Navigationsproblem auf.
+        */}
+        <nav
+          className="flex max-w-full gap-0.5 overflow-x-auto rounded-lg bg-slate-200/60 p-0.5 dark:bg-white/5"
+          aria-label="Ansicht"
+        >
+          {VIEWS.filter((v) => v.inNav).map((v) => {
+            const kurz = KURZ_IM_NAV[v.id]
+            return (
+              <button
+                key={v.id}
+                type="button"
+                onClick={() => onView(v.id)}
+                aria-current={view === v.id}
+                className={[
+                  'shrink-0 cursor-pointer whitespace-nowrap rounded-md px-2 py-1.5 text-sm font-medium transition sm:px-3',
+                  view === v.id
+                    ? 'bg-white text-slate-900 shadow-sm dark:bg-white/15 dark:text-white'
+                    : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white',
+                ].join(' ')}
+              >
+                {kurz ? (
+                  <>
+                    <span className="sm:hidden">{t(kurz)}</span>
+                    <span className="hidden sm:inline">{t(`view.${v.id}` as TranslationKey)}</span>
+                  </>
+                ) : (
+                  t(`view.${v.id}` as TranslationKey)
+                )}
+              </button>
+            )
+          })}
         </nav>
 
         {isCalendar && (

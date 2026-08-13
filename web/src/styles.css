@@ -58,6 +58,34 @@ html:not(.dark) body {
   animation: fade-in 0.18s ease-out both;
 }
 
+/*
+ * Einblenden der Hinweis-Blase.
+ *
+ * Zwei Entscheidungen stecken darin, beide aus einem Fehlschlag gelernt:
+ *
+ * 1. **Die Verschiebung steht in den Keyframes**, nicht nur als Klasse. Die
+ *    Blase trägt ein statisches `-translate-x-1/2`, mit dem sie über ihrem
+ *    Anker zentriert steht. Eine Animation, die `transform` anfasst,
+ *    überschreibt diese Angabe für ihre gesamte Laufzeit — ohne das
+ *    `translateX(-50%)` hier spränge die Blase beim Erscheinen um ihre halbe
+ *    Breite nach rechts und rutschte am Ende zurück.
+ *
+ * 2. **Keine Deckkraft.** Der erste Entwurf blendete von `opacity: 0` auf,
+ *    und im Browser-Pane des Clients blieb die Blase unsichtbar: Dort steht
+ *    `document.hidden` auf true, Animationen laufen nicht an, und der
+ *    Anfangswert bleibt eingefroren stehen. Eine hängende Animation darf einen
+ *    Hinweis nie verschlucken — hier ist der eingefrorene Zustand „drei Pixel
+ *    zu tief", und das sieht niemand.
+ */
+@keyframes hinweisEin {
+  from {
+    transform: translateX(-50%) translateY(3px);
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
 @keyframes slide-in {
   from {
     transform: translateX(100%);

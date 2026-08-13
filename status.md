@@ -5,16 +5,17 @@ Stand: 11.08.2026 · Live: https://anime-kalender.de/
 ## Task Queue
 
 ### In Arbeit
-_(leer)_
+
+| Aufgabe | Stand |
+|---|---|
+| **Crunchyroll-Lauf zu Ende bringen** | Läuft im Hintergrund (13.08.2026, ab 06:25). 601 Seiten waren schon gelesen, **316 offene** werden nachgeholt; der Wiederaufsatz überspringt Bekanntes automatisch. Danach `npm run data:build` und `npm run data:dub-checks` |
 
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **▶ HIER WEITERMACHEN: Crunchyroll-Lauf zu Ende bringen** | 1 | `npm run data:cr-dub` — **601 von 918 Adressen sind gelesen**, der Rest wird automatisch übersprungen und nur das Offene geholt (Wiederaufsatz eingebaut 13.08.2026). Rund **317 Seiten**, geschätzt eine Stunde. Danach `npm run data:build` und `npm run data:dub-checks`. **Ansage nicht vergessen:** Beim ersten Playwright-Start fragt die Windows-Firewall nach `chrome-headless-shell.exe` — abbrechen genügt |
 | **Prüfliste „Wo läuft es" abarbeiten** (Dauerauftrag) | — | 2.910 Anbieter-Verweise ohne belegte Synchro, Liste: `data/dub-pruefliste.md`, erzeugt mit `npm run data:dub-checks`. Daniel arbeitet sie in Zehnerschritten ab; ich lege den Batch vor, er meldet je Nummer ja/nein, ich trage es in `data/dub-confirmed.yaml` ein und baue neu. **Stand: Batch 1 und 2 ausgewertet (12.08.2026), 34 Prüfungen eingetragen — 21 Angaben belegt, 13 tote Verweise entfernt.** Kurzschrift der Antworten (`1`/`0`/`x`, mehrere je Zeile mit Punkt) steht im Kopf der Liste und in der `CLAUDE.md`. Je Batch kurz sagen, woher der Verweis stammt und warum er unsicher ist |
 | ~~News-Quellen für Sendepausen~~ — **Filter gebaut, Rest verworfen** | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
 | **Widersprüchliche Disc-Termine klären** | 2 | Sieben Fälle, in denen aniSearch ein **anderes** Datum nennt als unser Eintrag: **Dr. STONE Science Future Teil 1** (wir 16.10., aniSearch 24.08. **und** 16.10. in zwei Ausgaben), **Kaiju No. 8 Mission Recon** (18.09. / 08.09. + 19.10.), **MHA Vigilantes Staffel 1** (04.09. / 08.09. + 14.09.), **Black Butler Emerald Witch Arc** (Vol. 1 am 02.10. / zwei undatierte Blu-rays am 01.09. und 28.09.), **Inazuma Eleven Staffel 1** (AniMoon 04.09. / Kazé 25.09. unter anderer AniList-Kennung 5231). **Am 12.08.2026 versucht, selbst aufzulösen — geht nicht:** Die aniSearch-Artikelseiten geben Datum und Ausgabe nicht in einer maschinell lesbaren Form her, und beide Quellen (anime2you und aniSearch) sind gleich gültig. Es braucht eine dritte Quelle oder einen Blick von Daniel — vermutlich handelt es sich je Titel um **zwei verschiedene Ausgaben** mit eigenen Terminen, dann fehlt uns schlicht die zweite |
-| Ansicht „Wo kann ich das sehen?" ausbauen | 5 | **Nicht mehr blockiert** — aniSearch-Bestand seit 10.08.2026 vollständig, 2.109 Titel haben einen Bezugsweg. Der Filter „▶ verfügbar" steht bereits. Offen: nach Anbieter gruppieren (die `watchLinks` tragen nur Namen, keine PlatformId), Kauf von Stream trennen, eigene Ansicht unter `#/wo` |
 
 
 ### Terminiert (läuft von allein)
@@ -163,6 +164,32 @@ verschoben, Best-of, Recap.
   abgenommen.
 
 ## Archiv
+
+- ✅ **Ansicht „Wo sehen?" gebaut** (13.08.2026, `#/wo`, neuer Reiter). Der Kalender von der
+  anderen Seite gelesen: nach **Anbieter** statt nach Datum, getrennt in *Ansehen* und *Kaufen
+  oder leihen*. Für die meisten Titel ist das die eigentliche Frage — nur gut hundert der 2.753
+  Anime haben überhaupt einen anstehenden Termin. **2.103 Titel auf 53 Anbietern**, je Anbieter
+  die Bilanz ✓/✕/? und aufgeklappt die Titel mit Verweis nach draußen.
+  *Gebündelt wird über Name und Zugangsart*, nicht über die Herkunft der Angabe: Sonst stand
+  „Prime Video" zweimal in der Liste (231 aus `streams`, 6 aus `watchLinks`) und die kleinere
+  Zahl las sich wie ein anderer Dienst. „YouTube zum Ansehen" und „YouTube zum Kaufen" bleiben
+  dagegen getrennt — das sind zwei verschiedene Antworten.
+
+- ✅ **Zwei Anzeigefehler beim Bau der Ansicht gefunden und behoben** (13.08.2026).
+  *Der Tooltip schob die ganze Seite auf:* Die Blase stand dauerhaft im DOM und wurde nur per
+  `opacity-0` unsichtbar gemacht — ein durchsichtiges Element nimmt aber weiter Platz im
+  Überlauf ein. Bei den Hinweisen am rechten Bildrand ragten 320 Pixel hinaus, gemessen 1.302
+  Pixel Inhalt bei 1.270 Pixel Fensterbreite. Jetzt entsteht die Blase erst beim Zeigen und wird
+  einmal gemessen, damit sie mit acht Pixeln Abstand ins Bild passt.
+  *Die Navigation passte nicht mehr aufs Handy:* Mit dem fünften Reiter überstand die Leiste
+  375 Pixel. Gelöst über eine Kurzform („Wo?") und knappere Innenabstände auf schmalen Schirmen;
+  `overflow-x-auto` liegt als Reißleine darunter, falls je ein sechster Reiter dazukommt.
+  *Lehre für die Animation:* Der erste Entwurf blendete die Blase von `opacity: 0` auf — im
+  Browser-Pane blieb sie damit unsichtbar, weil dort `document.hidden` gilt und Animationen gar
+  nicht erst anlaufen. Eine hängende Animation darf einen Inhalt nie verschlucken; jetzt
+  animiert nur noch eine Verschiebung um drei Pixel, und die steht mit im Keyframe, weil eine
+  `transform`-Animation das statische `-translate-x-1/2` sonst überschreibt.
+
 
 - ✅ **Crunchyroll-Lauf: 601 Seiten gelesen, 791 Angaben belegt** (12./13.08.2026). Die offenen
   Crunchyroll-Verweise fielen damit von **1.156 auf 380**, die Prüfliste insgesamt von 2.847 auf

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import { FSK_COLORS, PLATFORMS, RELEASE_TYPES } from '@shared/types.ts'
 import type { Fsk, PlatformId, ReleaseStatus, ReleaseType } from '@shared/types.ts'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
@@ -22,6 +22,36 @@ function mitHinweis(text: string | undefined, seite: 'oben' | 'unten', kind: Rea
     </Tooltip>
   ) : (
     kind
+  )
+}
+
+/**
+ * Der Synchro-Stand eines einzelnen Verweises: ✓, ✕ oder ?
+ *
+ * Steht hier und nicht im Detail-Panel, weil dieselbe Auskunft an zwei Stellen
+ * gebraucht wird — unter dem Titel und in der Ansicht „Wo sehen?". Zwei
+ * Fassungen desselben Zeichens liefen sonst auseinander.
+ */
+export function DubMark({ dub }: { dub?: boolean }) {
+  const { t } = useLang()
+  if (dub === true) {
+    return (
+      <Tooltip text={t('detail.dubYes')} seite="oben">
+        <span className="text-[11px] font-bold text-emerald-400">🇩🇪 ✓</span>
+      </Tooltip>
+    )
+  }
+  if (dub === false) {
+    return (
+      <Tooltip text={t('detail.dubNo')} seite="oben">
+        <span className="text-[11px] font-bold text-red-400">🇩🇪 ✕</span>
+      </Tooltip>
+    )
+  }
+  return (
+    <Tooltip text={t('detail.dubUnknown')} seite="oben">
+      <span className="text-[11px] text-slate-400">🇩🇪 ?</span>
+    </Tooltip>
   )
 }
 
@@ -410,14 +440,27 @@ export function Toggle({
  * - **Kein Portal, kein Positionierungs-Paket.** Der Hinweis hängt absolut am
  *   umschließenden Element. Das reicht, solange kein Elternteil `overflow:
  *   hidden` setzt — und im Detail-Panel tut das keiner.
- * - **`group-hover` **und** `focus-within`**, damit er auch mit der Tastatur
- *   erscheint. Wer nicht mit der Maus arbeitet, braucht die Erklärung genauso.
+ * - **Maus **und** Tastatur**, damit er auch ohne Zeigegerät erscheint. Wer
+ *   nicht mit der Maus arbeitet, braucht die Erklärung genauso.
  * - **Auf Berührung reagiert er per Klick**, weil es dort kein Schweben gibt.
  * - **`aria-describedby` gibt es nicht**, dafür steht der Text im DOM und wird
  *   vom Screenreader ohnehin vorgelesen.
  *
  * `unterstrichen` zeichnet den Anker gepunktet an — das ist die verabredete
  * Kennzeichnung dafür, dass hinter einem Wort noch etwas steht.
+ *
+ * **Warum die Blase erst beim Zeigen entsteht** (13.08.2026): Vorher stand sie
+ * dauerhaft im DOM und wurde nur per `opacity-0` unsichtbar gemacht. Ein
+ * durchsichtiges Element nimmt aber weiterhin Platz im Überlauf ein — bei den
+ * Hinweisen am rechten Bildrand ragten 320 Pixel Blase über das Fenster hinaus,
+ * und die ganze Seite bekam einen waagrechten Rollbalken. Gemessen in der
+ * Ansicht „Wo sehen?": 1.302 Pixel Inhalt bei 1.270 Pixel Fensterbreite.
+ *
+ * **Und warum sie sich verschiebt:** Ein mittig verankerter Hinweis an einem
+ * Symbol am rechten Rand steht zur Hälfte außerhalb des Fensters — sichtbar
+ * wäre dann die halbe Erklärung. Nach dem Einblenden wird deshalb einmal
+ * gemessen und um so viel verschoben, dass die Blase mit acht Pixeln Abstand
+ * ins Bild passt.
  */
 export function Tooltip({
   text,
@@ -430,8 +473,37 @@ export function Tooltip({
   unterstrichen?: boolean
   seite?: 'oben' | 'unten'
 }) {
+  const [offen, setOffen] = useState(false)
+  const [versatz, setVersatz] = useState(0)
+  const blase = useRef<HTMLSpanElement>(null)
+
+  /**
+   * `useLayoutEffect`, damit die Verschiebung vor dem ersten Bild sitzt — mit
+   * `useEffect` blitzte die Blase eine Bildwiederholung lang an der falschen
+   * Stelle auf. Die Messung läuft genau einmal je Öffnen; der Versatz fließt
+   * zwar in die Position ein, löst aber keinen zweiten Durchlauf aus.
+   */
+  useLayoutEffect(() => {
+    if (!offen) {
+      setVersatz(0)
+      return
+    }
+    const el = blase.current
+    if (!el) return
+    const r = el.getBoundingClientRect()
+    const rand = 8
+    if (r.right > window.innerWidth - rand) setVersatz(window.innerWidth - rand - r.right)
+    else if (r.left < rand) setVersatz(rand - r.left)
+  }, [offen])
+
   return (
-    <span className="group relative inline-flex items-center focus-within:z-30 hover:z-30">
+    <span
+      className={`relative inline-flex items-center ${offen ? 'z-30' : ''}`}
+      onMouseEnter={() => setOffen(true)}
+      onMouseLeave={() => setOffen(false)}
+      onFocus={() => setOffen(true)}
+      onBlur={() => setOffen(false)}
+    >
       <span
         tabIndex={0}
         role="note"
@@ -442,20 +514,23 @@ export function Tooltip({
       >
         {children}
       </span>
-      <span
-        role="tooltip"
-        className={[
-          'pointer-events-none absolute left-1/2 z-30 w-max max-w-[min(20rem,80vw)]',
-          '-translate-x-1/2 rounded-lg px-2.5 py-1.5 text-left text-[11px] leading-snug',
-          'bg-slate-900 text-slate-100 shadow-xl ring-1 ring-white/15',
-          'dark:bg-slate-800 dark:ring-white/10',
-          'opacity-0 transition-opacity duration-150',
-          'group-hover:opacity-100 group-focus-within:opacity-100',
-          seite === 'oben' ? 'bottom-[calc(100%+0.4rem)]' : 'top-[calc(100%+0.4rem)]',
-        ].join(' ')}
-      >
-        {text}
-      </span>
+      {offen && (
+        <span
+          ref={blase}
+          role="tooltip"
+          style={{ marginLeft: versatz }}
+          className={[
+            'pointer-events-none absolute left-1/2 z-30 w-max max-w-[min(20rem,80vw)]',
+            '-translate-x-1/2 rounded-lg px-2.5 py-1.5 text-left text-[11px] leading-snug',
+            'bg-slate-900 text-slate-100 shadow-xl ring-1 ring-white/15',
+            'dark:bg-slate-800 dark:ring-white/10',
+            'animate-[hinweisEin_.15s_ease-out]',
+            seite === 'oben' ? 'bottom-[calc(100%+0.4rem)]' : 'top-[calc(100%+0.4rem)]',
+          ].join(' ')}
+        >
+          {text}
+        </span>
+      )}
     </span>
   )
 }
