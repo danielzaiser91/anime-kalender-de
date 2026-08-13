@@ -5,15 +5,12 @@ Stand: 11.08.2026 · Live: https://anime-kalender.de/
 ## Task Queue
 
 ### In Arbeit
-
-| Aufgabe | Stand |
-|---|---|
-| **Crunchyroll-Lauf zu Ende bringen** | Läuft im Hintergrund (13.08.2026, ab 06:25). 601 Seiten waren schon gelesen, **316 offene** werden nachgeholt; der Wiederaufsatz überspringt Bekanntes automatisch. Danach `npm run data:build` und `npm run data:dub-checks` |
+_(leer)_
 
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **Prüfliste „Wo läuft es" abarbeiten** (Dauerauftrag) | — | 2.910 Anbieter-Verweise ohne belegte Synchro, Liste: `data/dub-pruefliste.md`, erzeugt mit `npm run data:dub-checks`. Daniel arbeitet sie in Zehnerschritten ab; ich lege den Batch vor, er meldet je Nummer ja/nein, ich trage es in `data/dub-confirmed.yaml` ein und baue neu. **Stand: Batch 1 und 2 ausgewertet (12.08.2026), 34 Prüfungen eingetragen — 21 Angaben belegt, 13 tote Verweise entfernt.** Kurzschrift der Antworten (`1`/`0`/`x`, mehrere je Zeile mit Punkt) steht im Kopf der Liste und in der `CLAUDE.md`. Je Batch kurz sagen, woher der Verweis stammt und warum er unsicher ist |
+| **Prüfliste „Wo läuft es" abarbeiten** (Dauerauftrag) | — | 1.732 Anbieter-Verweise ohne belegte Synchro, Liste: `data/dub-pruefliste.md`, erzeugt mit `npm run data:dub-checks`. Daniel arbeitet sie in Zehnerschritten ab; ich lege den Batch vor, er meldet je Nummer ja/nein, ich trage es in `data/dub-confirmed.yaml` ein und baue neu. **Stand: Batch 1 bis 3 ausgewertet, 65 Prüfungen eingetragen — 33 Angaben belegt, 32 tote Verweise entfernt.** Crunchyroll ist seit 13.08.2026 weitgehend maschinell belegt (234 ja / 988 nein / **25 offen**); die Handarbeit verteilt sich jetzt auf Netflix (727), YouTube (528) und Prime Video (219) — Anbieter, die die Sprachfassung nirgends öffentlich nennen. Kurzschrift der Antworten (`1`/`0`/`x`, mehrere je Zeile mit Punkt) steht im Kopf der Liste und in der `CLAUDE.md`. Je Batch kurz sagen, woher der Verweis stammt und warum er unsicher ist |
 | ~~News-Quellen für Sendepausen~~ — **Filter gebaut, Rest verworfen** | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
 | **Widersprüchliche Disc-Termine klären** | 2 | Sieben Fälle, in denen aniSearch ein **anderes** Datum nennt als unser Eintrag: **Dr. STONE Science Future Teil 1** (wir 16.10., aniSearch 24.08. **und** 16.10. in zwei Ausgaben), **Kaiju No. 8 Mission Recon** (18.09. / 08.09. + 19.10.), **MHA Vigilantes Staffel 1** (04.09. / 08.09. + 14.09.), **Black Butler Emerald Witch Arc** (Vol. 1 am 02.10. / zwei undatierte Blu-rays am 01.09. und 28.09.), **Inazuma Eleven Staffel 1** (AniMoon 04.09. / Kazé 25.09. unter anderer AniList-Kennung 5231). **Am 12.08.2026 versucht, selbst aufzulösen — geht nicht:** Die aniSearch-Artikelseiten geben Datum und Ausgabe nicht in einer maschinell lesbaren Form her, und beide Quellen (anime2you und aniSearch) sind gleich gültig. Es braucht eine dritte Quelle oder einen Blick von Daniel — vermutlich handelt es sich je Titel um **zwei verschiedene Ausgaben** mit eigenen Terminen, dann fehlt uns schlicht die zweite |
 
@@ -164,6 +161,19 @@ verschoben, Best-of, Recap.
   abgenommen.
 
 ## Archiv
+
+- ✅ **Crunchyroll-Lauf abgeschlossen: 917 von 918 Seiten gelesen** (13.08.2026, 06:25–07:03).
+  Die 316 Restadressen des abgebrochenen Laufs vom 12.08. nachgeholt; der Wiederaufsatz übersprang
+  die 601 bekannten von selbst. **1.146 Synchro-Angaben belegt.**
+  Crunchyroll steht damit bei **234 ja / 988 nein / 25 offen** — vorher 122 / 745 / 380. Knapp
+  tausend belegte Neins sind knapp tausend Klicks, die niemand mehr machen muss: „dort nur
+  Originalton" ist eine genauso brauchbare Auskunft wie ein Häkchen.
+  Die Prüfliste fällt von 2.078 auf **1.732** offene Verweise. Was bleibt, ist Handarbeit bei
+  Anbietern ohne jede öffentliche Sprachangabe.
+  *Beim Rebase auf die Nachtläufe kollidierten die erzeugten Dateien* (`public/data/*`). Nicht von
+  Hand aufgelöst, sondern die Quelldaten zusammengeführt und `data:build` neu laufen lassen — bei
+  erzeugten Dateien ist jede Handauflösung eine Erfindung.
+
 
 - ✅ **Ansicht „Wo sehen?" gebaut** (13.08.2026, `#/wo`, neuer Reiter). Der Kalender von der
   anderen Seite gelesen: nach **Anbieter** statt nach Datum, getrennt in *Ansehen* und *Kaufen
