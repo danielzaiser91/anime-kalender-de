@@ -2,6 +2,28 @@
 # Quelle: Anime2You-Monatsübersicht. Alle Termine sind bestätigte Verkaufsstarts,
 # deshalb kein `estimated`. Uhrzeit gibt es bei Disc-Releases naturgemäß nicht.
 # Ohne `buyUrl` erzeugt der Build automatisch einen Amazon.de-Suchlink.
+#
+# ---------------------------------------------------------------------------
+# WARNUNG: Die Termine der AniMoon-Boxen unten NICHT nach aniSearch korrigieren.
+# ---------------------------------------------------------------------------
+#
+# Sieben Einträge tragen als zweite Quelle den Anime2You-Artikel „24 Blu-ray-
+# Termine verschoben" (news/1035909, erschienen 31.07.2026). Ihre Termine wurden
+# danach von Hand nachgezogen und sind die richtigen. aniSearch führt für
+# dieselben Titel noch den alten Termin (20./21.08.2026), und wer nur dorthin
+# schaut, hält unseren für falsch.
+#
+# Am 13.08.2026 von Daniel gegengeprüft und bestätigt, je über den Shop:
+#   The Most Heretical Last Boss Queen S1  03.09.  (anime-planet.de: „Lieferung
+#                                                   zum Release am 3. September")
+#   I'm Standing on a Million Lives S1     04.09.  (jpc.de; ofdb.de führte noch
+#                                                   den überholten 19.06.)
+#   My One-Hit Kill Sister S1              04.09.
+#   Re:Monster S1                          04.09.
+#   The Café Terrace and Its Goddesses S1  04.09.
+#
+# Die Lehre daraus steht in der CLAUDE.md unter „Terminquellen": Ein Shop mit
+# Vorbestellung ist die verlässlichste Quelle, weil er liefern muss.
 
 - slug: attack-on-titan-final-season-steelbook
   search: "Shingeki no Kyojin The Final Season"

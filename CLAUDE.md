@@ -103,6 +103,40 @@ Mehrere Einträge in einer Zeile werden mit Punkt getrennt in derselben Reihenfo
 (`1.0` = erster ja, zweiter nein). Eine einzelne Angabe gilt für alle Einträge der Zeile.
 Beispiel für einen ganzen Batch: `1-x 2-1 3-1.0 4-x`.
 
+## Terminquellen: der Shop schlägt die News schlägt die Datenbank
+
+Am 13.08.2026 hat Daniel zehn angebliche Terminwidersprüche einzeln nachgeprüft. Das
+Ergebnis ist eine Rangfolge, die für jeden künftigen Disc-Termin gilt:
+
+1. **Ein Shop mit Vorbestellung ist die verlässlichste Quelle** — er muss liefern und
+   korrigiert seinen Termin deshalb. jpc, anime-planet.de, Akiba Pass, Amazon. Bei „The
+   Most Heretical Last Boss Queen" stand dort „Lieferung zum Release am 3. September
+   2026", genau unser Termin. **Aber nicht jeder Shop pflegt nach:** Für „I'm Standing on
+   a Million Lives" führte ofdb.de noch den überholten 19.06., während jpc und alle
+   übrigen schon den 04.09. hatten. Mehrheit schlägt Einzelfund.
+2. **Anime2You ist ein guter Indikator, aber lückenhaft.** Die Monatsübersicht ist die
+   Grundlage unseres Bestands, und der Artikel „24 Blu-ray-Termine verschoben"
+   (news/1035909, 31.07.2026) ist der Grund, warum unsere Termine für sieben AniMoon-Boxen
+   stimmen. Verlassen kann man sich darauf trotzdem nicht: Ein Artikel vom 11.07.2026 nennt
+   für dieselbe Staffel den 07.08. und wurde nie nachgezogen. **Nicht jede Verschiebung
+   bekommt eine eigene Meldung.**
+3. **aniSearch nennt den weltweit frühesten Termin, nicht den deutschen.** Für die fünf
+   AniMoon-Boxen steht dort der 20./21.08. — nach Daniels Prüfung der Termin der Ausgabe
+   mit japanischer Tonspur, nicht der deutschen Fassung. Als Beleg für einen deutschen
+   Termin taugt aniSearch damit **nicht**; als Hinweis darauf, dass es zu einem Titel
+   überhaupt eine Ausgabe gibt, sehr wohl.
+
+**Praktische Folge:** Widerspricht aniSearch einem Termin, der aus Anime2You stammt und von
+Hand nachgezogen wurde, gewinnt unser Termin. Widerspricht ein **Shop**, wird nachgesehen.
+
+**Ausländische Ausgaben gehören nicht in den Bestand.** aniSearch führt US-, UK- und
+französische Veröffentlichungen gleichberechtigt in derselben Liste. Bis zum 13.08.2026 nahm
+`extract-disc-dates.ts` sie alle mit und hängte jedem Vorschlag den **deutschen** Publisher
+an — eine britische Blu-ray sah damit aus wie eine deutsche von Crunchyroll, und drei
+angebliche Widersprüche gingen allein darauf zurück. Erkennbar sind sie am Flaggenbild im
+Block (`class="flag" alt="us"`); **deutsche Ausgaben tragen keine Flagge**. 28 von 122
+Vorschlägen waren ausländisch.
+
 ## Was erzeugt wird, wird auch geprüft
 
 `npm run data:validate` sichert nur `data/curated/*.yaml` — also den Teil, den ohnehin jemand

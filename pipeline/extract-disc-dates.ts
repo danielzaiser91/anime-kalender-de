@@ -1,12 +1,21 @@
 /**
  * Gewinnt deutsche Disc-Termine aus dem archivierten aniSearch-Bestand.
  *
- * Jede aniSearch-Seite führt unter „Neuerscheinungen" die deutschen
- * Veröffentlichungen zum Titel — mit maschinenlesbarem Datum, Jahre im Voraus,
- * über **alle** Publisher hinweg. Damit erübrigt sich das Auslesen einzelner
- * Verlagsseiten: peppermint rendert seine Übersicht per JavaScript, AniMoon und
- * Universum waren nicht erreichbar, polyband sperrt Bots. Hier steht alles an
- * einem Ort, in einer Quelle, die uns das Lesen erlaubt.
+ * Jede aniSearch-Seite führt unter „Neuerscheinungen" die Veröffentlichungen zum
+ * Titel — mit maschinenlesbarem Datum, Jahre im Voraus, über **alle** Publisher
+ * hinweg. Damit erübrigt sich das Auslesen einzelner Verlagsseiten: peppermint
+ * rendert seine Übersicht per JavaScript, AniMoon und Universum waren nicht
+ * erreichbar, polyband sperrt Bots. Hier steht alles an einem Ort, in einer
+ * Quelle, die uns das Lesen erlaubt.
+ *
+ * **Aber nicht nur die deutschen.** Bis zum 13.08.2026 stand hier „die deutschen
+ * Veröffentlichungen", und das war schlicht falsch: Die Liste führt US-, UK- und
+ * französische Ausgaben gleichberechtigt mit. Weil der Auszug sie alle nahm und
+ * jedem Vorschlag den **deutschen** Publisher aus `info.languages` anhängte, sah
+ * eine britische Blu-ray im Vorschlag aus wie eine deutsche von Crunchyroll.
+ * Drei angebliche Terminwidersprüche gingen allein darauf zurück (Daniel,
+ * 13.08.2026: „wieder us und uk … wir haben kein Interesse an Releases für
+ * andere Sprachen als Deutsch").
  *
  * **Kein Abruf.** Gelesen wird ausschließlich das Archiv unter
  * `data/anisearch-raw/`, das der aniSearch-Lauf ohnehin anlegt.
@@ -104,6 +113,8 @@ function main(): void {
   const vorschlaege: DiscProposal[] = []
   let geprüft = 0
   let verworfen = 0
+  /** Ausgaben mit Landesflagge — US, UK, FR. Nicht unsere Baustelle. */
+  let auslaendisch = 0
 
   for (const datei of readdirSync(ARCHIV)) {
     if (!datei.endsWith('.html.gz')) continue
@@ -128,6 +139,26 @@ function main(): void {
       const edition = /<span class="title">([^<]*)</.exec(block)?.[1]?.trim()
       if (!edition) continue
       geprüft++
+
+      /**
+       * Ausländische Ausgaben verwerfen.
+       *
+       * aniSearch markiert sie mit einem Flaggenbild im Block
+       * (`<img … class="flag" alt="us">`); **deutsche Ausgaben tragen keine
+       * Flagge**. Das ist keine Vermutung, sondern am Archiv abgelesen: Bei
+       * „My Hero Academia: Vigilantes" steht die deutsche Gesamtausgabe vom
+       * 04.09. ohne Flagge, daneben zwei gleichnamige `Season 1 [Blu-ray]` mit
+       * `alt="us"` (08.09.) und `alt="gb"` (14.09.).
+       *
+       * Ein Kalender für deutsche Synchronfassungen hat für die keinen
+       * Verwendungszweck — schlimmer noch, sie erzeugen Widersprüche zu
+       * korrekten deutschen Terminen und kosten Prüfzeit von Hand.
+       */
+      const flagge = /class="flag"[^>]*alt="([a-z]{2})"/.exec(block)?.[1]
+      if (flagge) {
+        auslaendisch++
+        continue
+      }
       const grund = istDisc(edition)
       if (!grund) {
         verworfen++
@@ -168,8 +199,8 @@ function main(): void {
   const neueTermine = new Set(neue.map((v) => `${v.titleId}|${v.date}`)).size
 
   log(
-    `Disc-Vorschläge: ${vorschlaege.length} künftige Ausgaben aus ${geprüft} Einträgen ` +
-      `(${verworfen} als Buch, Figur oder Unklares verworfen)`,
+    `Disc-Vorschläge: ${vorschlaege.length} künftige deutsche Ausgaben aus ${geprüft} Einträgen ` +
+      `(${auslaendisch} ausländische, ${verworfen} als Buch, Figur oder Unklares verworfen)`,
   )
   log(
     `  davon noch nicht im Datensatz: ${neue.length} Ausgaben an ${neueTermine} Terminen ` +
