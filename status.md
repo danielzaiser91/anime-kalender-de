@@ -162,6 +162,39 @@ verschoben, Best-of, Recap.
 
 ## Archiv
 
+- ✅ **Detail-Panel neu geordnet: Karussell statt Auswahlliste** (13.08.2026). Vorher standen
+  links ein Cover, rechts die Angaben und weiter unten eine Auswahlliste mit der Überschrift
+  „Staffel, Film oder Special" — drei Bausteine für eine Sache. Jetzt zeigt ein Karussell alle
+  Teile der Reihe als Vorschaukarten, der gewählte ist hervorgehoben, die Angaben stehen darunter
+  über die volle Breite. Die Überschrift entfällt: Ein Karussell aus Covern erklärt sich selbst.
+  *Der eigentliche Fund:* Die alte Liste hing allein an `franchises.json`, und darin steht der
+  AniList-Katalog nicht. „Link Click" war korrekt gebündelt, hatte aber **gar keinen**
+  Umschalter, weil kein einziger seiner sieben Teile eine deutsche Synchro hat. Das Karussell
+  speist deshalb aus beiden Beständen. `franchises.json` trägt dafür jetzt Cover — die frühere
+  Begründung („für eine Auswahlliste braucht es sie nicht") gilt nicht mehr, eine Vorschaukarte
+  ohne Bild ist keine. 63 KB gzip statt 33, weiterhin erst beim ersten Öffnen geholt.
+  *Dazu drei kleinere Korrekturen:* Das Banner bleibt beim Wechsel stehen (eigenes, sonst
+  geliehen vom ersten Teil der Reihe, der eines hat) — vorher sprang der Kopf um 112 Pixel. Der
+  Reihen-Stern hängt absolut statt im Fluss, weil er sonst beim Merken das halbe Panel nach unten
+  schob. Und Status und FSK stehen nur noch im Terminblock: Der nennt sie je Release, und eine
+  Disc kann eine andere Freigabe tragen als der Stream.
+
+- 📌 **Neue Projektregel: zwei Termine, keiner belegbar → beide führen** (Daniel, 13.08.2026).
+  Nicht heimlich einen wählen und den anderen in eine Fußnote schieben. Beide erscheinen im
+  Detail-Panel, jeder mit seiner Quelle verlinkt, dazu der Satz, dass wir es nicht klären
+  konnten. Der **Kalender** führt weiterhin einen Termin — zwei Einträge würden behaupten, es
+  gebe zwei Veröffentlichungen, und das wäre die schlimmere Falschaussage.
+  Technisch `Release.disputedDates`, gepflegt in `data/curated/*.yaml`; die Regel steht in der
+  `CLAUDE.md` unter „Terminquellen". Erster und bisher einziger Fall: Inazuma Eleven S1.
+
+- ⚠️ **Fallstrick beim Prüfen: der Service Worker der Vorschau** (13.08.2026). Ein Service
+  Worker, der aus einer früheren `npm run preview`-Sitzung auf demselben Port registriert blieb,
+  bediente `/data/` hartnäckig aus seinem Cache — der Dev-Server lieferte längst die neuen
+  Daten, der Browser zeigte die alten, und selbst `fetch(..., { cache: 'no-store' })` kam nicht
+  daran vorbei. Erkennbar daran, dass `curl` gegen denselben Port das richtige Ergebnis liefert.
+  Abhilfe: `navigator.serviceWorker.getRegistrations()` abmelden und `caches.keys()` löschen.
+
+
 - ✅ **Anime ohne deutsche Synchro: merken und benachrichtigt werden** (13.08.2026). Der
   häufigste Grund, die Seite immer wieder aufzurufen, ist eine Serie, die es auf Deutsch gar
   nicht gibt — nachsehen, nichts finden, nächste Woche wieder (Daniel aus eigener Erfahrung).
