@@ -52,6 +52,58 @@ export async function pushFavorites(token: string, favorites: number[]): Promise
 }
 
 /**
+ * Holt die gespeicherten Favoriten — der Rückweg.
+ *
+ * Bis zum 14.08.2026 ging der Abgleich nur in eine Richtung: Der Dienst kannte
+ * die Liste jedes Abonnenten, gab sie aber nie heraus. Wer seine Browserdaten
+ * löschte oder das Gerät wechselte, verlor sie deshalb, obwohl sie da waren.
+ */
+export async function pullFavorites(token: string): Promise<number[]> {
+  const res = await fetch(`${WORKER_URL}/favorites?token=${encodeURIComponent(token)}`)
+  const body = (await res.json()) as { ok?: boolean; favorites?: number[]; error?: string }
+  if (res.status === 404) {
+    clearSyncToken()
+    throw new Error(body.error ?? 'Abo nicht mehr vorhanden')
+  }
+  if (!res.ok || !body.ok) throw new Error(body.error ?? 'Abruf fehlgeschlagen')
+  return body.favorites ?? []
+}
+
+/**
+ * Fordert eine Wiederherstellungsmail an.
+ *
+ * Die Antwort ist **immer dieselbe**, auch bei unbekannter Adresse — sonst
+ * ließe sich damit herausfinden, wer abonniert hat. Der Aufrufer bekommt
+ * deshalb nichts zurück, was er auswerten könnte.
+ */
+export async function requestRestore(email: string): Promise<void> {
+  const res = await fetch(`${WORKER_URL}/restore`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  })
+  const body = (await res.json()) as { ok?: boolean; error?: string }
+  // Nur echte Eingabefehler (ungültige Adresse) werden gemeldet.
+  if (!res.ok || !body.ok) throw new Error(body.error ?? 'Anfrage fehlgeschlagen')
+}
+
+/**
+ * Bittet den Browser, den lokalen Speicher nicht von allein zu räumen.
+ *
+ * Ohne das löscht iOS-Safari den Speicher nach **sieben Tagen ohne Besuch** —
+ * die Intelligent Tracking Prevention macht keinen Unterschied zwischen einem
+ * Werbe-Cookie und einer Merkliste. Für eine Seite, deren Zweck das Warten auf
+ * einen Termin in Monaten ist, ist das die schlimmste Variante: Man merkt sich
+ * etwas, kommt in drei Wochen wieder, und alles ist weg.
+ *
+ * Schützt **nicht** vor dem Löschen von Hand — das soll es auch nicht. Dafür
+ * gibt es die Wiederherstellung per Mail.
+ */
+export function speicherSichern(): void {
+  void navigator.storage?.persist?.().catch(() => undefined)
+}
+
+/**
  * Überträgt Änderungen an den Favoriten selbsttätig — verzögert, damit
  * mehrere Klicks hintereinander eine Anfrage ergeben statt fünf.
  */

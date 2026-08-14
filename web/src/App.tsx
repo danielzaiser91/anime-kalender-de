@@ -4,7 +4,7 @@ import type { Dataset } from './lib/data.ts'
 import { loadAllTitles, loadDataset, loadOhneSynchro } from './lib/data.ts'
 import { filterEvents, filterTitles, toggleValue, type FilterState } from './lib/filters.ts'
 import { useFavorites, useHidden } from './lib/favorites.ts'
-import { useNewsletterSync } from './lib/newsletterSync.ts'
+import { speicherSichern, useNewsletterSync } from './lib/newsletterSync.ts'
 import { useRoute, type ViewId } from './lib/router.ts'
 import { useLang } from './lib/i18n.tsx'
 import { addDays, addMonths, startOfWeek, todayIso } from '@shared/time.ts'
@@ -65,6 +65,9 @@ export default function App() {
   // Hält die im Newsletter hinterlegten Favoriten aktuell — sitzt hier oben,
   // damit es unabhängig von der geöffneten Ansicht greift.
   useNewsletterSync(favorites)
+  // Bittet den Browser einmalig, den lokalen Speicher nicht selbst zu räumen.
+  // Ohne das löscht iOS-Safari die Merkliste nach sieben Tagen ohne Besuch.
+  useEffect(speicherSichern, [])
   const today = todayIso()
 
   useEffect(() => {

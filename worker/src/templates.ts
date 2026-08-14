@@ -108,6 +108,39 @@ export function confirmMail(
   return { subject, html, text }
 }
 
+/**
+ * Wiederherstellungsmail — der einzige Weg zurück an die gemerkten Titel.
+ *
+ * Sie muss drei Dinge leisten, und alle drei stehen bewusst im Text:
+ * **warum** sie kommt, dass sie **dreißig Minuten** gilt, und dass **Nichtstun
+ * sicher ist**, falls sie jemand anderes ausgelöst hat. Der letzte Punkt ist
+ * der wichtigste: Wer eine unerwartete Mail über sein Abo bekommt, soll sie
+ * beruhigt ignorieren können, statt aus Sorge auf einen Link zu klicken, den
+ * ein Fremder angefordert hat.
+ */
+export function restoreMail(url: string): { subject: string; html: string; text: string } {
+  const subject = 'Deine gemerkten Titel wiederherstellen'
+  const html = SHELL(
+    subject,
+    `<p style="margin:0 0 14px;">Für diese Adresse wurde angefordert, die gemerkten Titel in einen
+     Browser zurückzuholen — etwa nach dem Löschen der Browserdaten oder auf einem neuen Gerät.</p>
+     <p style="margin:0 0 20px;"><a href="${url}"
+       style="display:inline-block;background:#38bdf8;color:#06121d;text-decoration:none;padding:11px 20px;border-radius:9px;font-weight:700;">
+       Favoriten wiederherstellen</a></p>
+     <p style="margin:0 0 14px;color:#9aa5bd;font-size:13px;">Der Link gilt
+     <strong style="color:#cbd5e1;">dreißig Minuten</strong> und lässt sich nur einmal benutzen.</p>
+     <p style="margin:0;color:#9aa5bd;font-size:13px;">Falls der Knopf nicht geht:<br>
+     <a href="${url}" style="color:#7dd3fc;word-break:break-all;">${url}</a></p>`,
+    'Warst du das nicht, ignoriere diese Mail einfach. Ohne deinen Klick passiert nichts, und an deinem Abo ändert sich nichts.',
+  )
+  const text =
+    `Für diese Adresse wurde angefordert, die gemerkten Titel in einen Browser zurückzuholen.\n\n` +
+    `Wiederherstellen: ${url}\n\n` +
+    `Der Link gilt dreißig Minuten und lässt sich nur einmal benutzen.\n` +
+    `Warst du das nicht, ignoriere diese Mail — ohne deinen Klick passiert nichts.`
+  return { subject, html, text }
+}
+
 /** Direktlinks je Release-Slug, aus `releases.json` geladen. */
 export interface ReleaseLink {
   platformUrl?: string

@@ -309,6 +309,18 @@ const TEXTE = {
   'news.notConnected': 'Der Newsletter-Dienst ist in dieser Installation noch nicht verbunden.',
   // Der Grund, aus dem sich jemand anmeldet, dessen Serie gar nicht im
   // Kalender steht (Daniel, 13.08.2026 — aus eigener Erfahrung beschrieben).
+  // Wiederherstellung der Favoriten per E-Mail-Link (14.08.2026).
+  'news.restoreTitle': 'Favoriten verloren?',
+  'news.restoreBody':
+    'Gemerkte Titel liegen in deinem Browser. Wer die Browserdaten löscht, das Gerät wechselt oder ein neues Handy hat, verliert sie — und Safari räumt den Speicher nach sieben Tagen ohne Besuch sogar von allein auf. Hast du ein Abo, liegen sie bei uns: Wir schicken dir einen Link, der sie in diesen Browser zurückholt.',
+  'news.restoreSubmit': 'Link anfordern',
+  'news.restoreSent':
+    'Falls für diese Adresse ein Abo besteht, ist eine Mail unterwegs. Der Link darin gilt dreißig Minuten und lässt sich einmal benutzen.',
+  'news.restoreSafety':
+    'Die Mail geht immer nur an das eingetragene Postfach — hier im Browser erscheint nichts. Fremde Adressen einzutippen verrät deshalb nichts und ändert nichts.',
+  'news.restoreOk':
+    '{count} gemerkte Titel wiederhergestellt. Was du hier schon gemerkt hattest, ist erhalten geblieben.',
+
   'news.waitTitle': 'Warten, ohne nachzusehen',
   'news.waitBody':
     'Der häufigste Grund, diese Seite immer wieder aufzurufen, ist eine Serie, die es auf Deutsch noch gar nicht gibt. Man schaut nach, findet nichts, schaut nächste Woche wieder nach — und wird jedes Mal enttäuscht.',

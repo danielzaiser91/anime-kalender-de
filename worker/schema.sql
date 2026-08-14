@@ -23,6 +23,10 @@ CREATE TABLE IF NOT EXISTS subscribers (
   pending_frequency TEXT,
   pending_platforms TEXT,
   pending_favorites TEXT,
+  -- Einmal-Link zum Wiederherstellen der Favoriten — siehe migrations/004.
+  restore_token TEXT,
+  restore_expires TEXT,
+  restore_sent_at TEXT,
   favorites_at TEXT,
   created_at   TEXT NOT NULL,
   created_ip   TEXT,
@@ -38,6 +42,14 @@ CREATE INDEX IF NOT EXISTS idx_subscribers_unsub ON subscribers (unsub_token);
 -- Verhindert, dass ein Cron-Doppellauf zweimal dieselbe Mail schickt.
 -- Dient gleichzeitig als Sperre für die Benachrichtigungen der Überwachung:
 -- "alert:2026-08-08" bzw. "weekly:2026-W32".
+-- Zähler je Schlüssel und Zeitfenster, für Ratenbegrenzungen. Siehe
+-- migrations/004; erster Nutzer ist die Wiederherstellung der Favoriten.
+CREATE TABLE IF NOT EXISTS rate_limit (
+  key          TEXT PRIMARY KEY,
+  count        INTEGER NOT NULL,
+  window_start TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS send_log (
   run_key    TEXT PRIMARY KEY,   -- z. B. "daily:2026-08-07"
   sent_at    TEXT NOT NULL,

@@ -4,7 +4,13 @@ import { PLATFORMS } from '@shared/types.ts'
 import { absoluteFeedUrl } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useFavorites } from '../lib/favorites.ts'
-import { getSyncToken, pushFavorites, setSyncToken } from '../lib/newsletterSync.ts'
+import {
+  getSyncToken,
+  pullFavorites,
+  pushFavorites,
+  requestRestore,
+  setSyncToken,
+} from '../lib/newsletterSync.ts'
 import { AdminPanel, readAdminToken } from './AdminPanel.tsx'
 import { InstallFooterOffer } from './InstallPrompt.tsx'
 import { Button, SectionTitle } from './ui.tsx'
@@ -150,8 +156,9 @@ type FormState = 'idle' | 'sending' | 'ok' | 'error'
 
 export function NewsletterView({ meta }: { meta: DataMeta }) {
   const { t } = useLang()
-  const { favorites } = useFavorites()
+  const { favorites, toggle: toggleFavorit } = useFavorites()
   const [email, setEmail] = useState('')
+  const [restoreState, setRestoreState] = useState<'idle' | 'sending' | 'done'>('idle')
   const [frequency, setFrequency] = useState<'daily' | 'weekly'>('weekly')
   const [platforms, setPlatforms] = useState<PlatformId[]>([])
   const [consent, setConsent] = useState(false)
@@ -178,10 +185,30 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
 
     setSyncToken(token)
     setSyncState('sending')
-    pushFavorites(token, [...favorites])
+
+    /**
+     * Kommt der Nutzer über einen **Wiederherstellungslink**, ist die Richtung
+     * umgekehrt: Der Browser hat nichts (oder Reste), der Dienst hat alles.
+     * Deshalb wird hier geholt und mit dem Lokalen **vereinigt** statt ersetzt
+     * — wer auf dem neuen Gerät schon etwas gemerkt hat, soll es behalten.
+     * Danach geht die vereinigte Liste zurück, damit beide Seiten gleichstehen.
+     *
+     * Auf dem gewöhnlichen Weg (Bestätigung, Abgleich-Link aus dem Newsletter)
+     * bleibt es beim Schicken: Dort ist der Browser die Quelle der Wahrheit.
+     */
+    const wiederherstellung = params.get('restored') === '1'
+    const arbeit = wiederherstellung
+      ? pullFavorites(token).then((vomServer) => {
+          const vereint = [...new Set([...favorites, ...vomServer])].sort((a, b) => a - b)
+          for (const id of vomServer) if (!favorites.has(id)) toggleFavorit(id)
+          return pushFavorites(token, vereint)
+        })
+      : pushFavorites(token, [...favorites])
+
+    arbeit
       .then((count) => {
         setSyncState('ok')
-        setSyncMessage(t('news.syncOk', { count }))
+        setSyncMessage(t(wiederherstellung ? 'news.restoreOk' : 'news.syncOk', { count }))
       })
       .catch((err: Error) => {
         setSyncState('error')
@@ -373,6 +400,54 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
         Grund, aus dem sich jemand anmeldet, der noch gar nichts im Kalender
         gefunden hat — seine Serie ist ja gerade nicht dabei.
       */}
+      {/*
+        Wiederherstellung — der Weg zurück an die gemerkten Titel.
+
+        Steht bewusst als eigener Kasten und nicht im Anmeldeformular: Wer
+        hierher kommt, hat schon ein Abo und sucht keine Anmeldung, sondern
+        seine Daten. Die Antwort ist **immer dieselbe**, auch bei unbekannter
+        Adresse — sonst ließe sich mit dem Feld herausfinden, wer abonniert hat
+        (Daniels Datenschutz-Einwand, 14.08.2026).
+      */}
+      <Card>
+        <SectionTitle>{t('news.restoreTitle')}</SectionTitle>
+        <p className="text-sm text-slate-600 dark:text-slate-300">{t('news.restoreBody')}</p>
+        {restoreState === 'done' ? (
+          <p className="mt-3 rounded-lg bg-emerald-500/10 px-3 py-2 text-sm text-emerald-600 dark:text-emerald-400">
+            {t('news.restoreSent')}
+          </p>
+        ) : (
+          <form
+            className="mt-3 flex flex-wrap gap-2"
+            onSubmit={(e) => {
+              e.preventDefault()
+              if (!WORKER_URL || restoreState === 'sending') return
+              setRestoreState('sending')
+              // Auch ein Fehlschlag endet in derselben Anzeige: Der Nutzer soll
+              // aus der Antwort nichts über fremde Adressen schließen können.
+              requestRestore(email).finally(() => setRestoreState('done'))
+            }}
+          >
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={t('news.email')}
+              className="min-w-0 flex-1 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm dark:border-white/15 dark:bg-white/5"
+            />
+            <button
+              type="submit"
+              disabled={restoreState === 'sending' || !WORKER_URL}
+              className="cursor-pointer rounded-lg bg-slate-700 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-600 disabled:opacity-60 dark:bg-white/15 dark:hover:bg-white/25"
+            >
+              {restoreState === 'sending' ? t('news.sending') : t('news.restoreSubmit')}
+            </button>
+          </form>
+        )}
+        <p className="mt-2 text-[13px] text-slate-500 dark:text-slate-400">{t('news.restoreSafety')}</p>
+      </Card>
+
       <Card>
         <SectionTitle>{t('news.waitTitle')}</SectionTitle>
         <p className="text-sm text-slate-600 dark:text-slate-300">{t('news.waitBody')}</p>

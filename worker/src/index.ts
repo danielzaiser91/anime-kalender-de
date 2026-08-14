@@ -19,6 +19,7 @@ import {
   digestMail,
   outageMail,
   page,
+  restoreMail,
   weeklyStatusMail,
   type NeuMitSynchro,
   type ReleaseLink,
@@ -192,6 +193,137 @@ async function handleSubscribe(request: Request, env: Env): Promise<Response> {
   return json(env, { ok: true })
 }
 
+/**
+ * Zähler je Schlüssel und Zeitfenster — gibt `true`, wenn noch Platz ist.
+ *
+ * Bewusst schlicht: ein Zähler, ein Fensteranfang, kein gleitendes Fenster.
+ * Für den Zweck reicht das, und was die Datenbank nicht kann, muss sie hier
+ * auch nicht können.
+ */
+async function imRahmen(env: Env, key: string, grenze: number, fensterMinuten: number): Promise<boolean> {
+  const jetzt = Date.now()
+  const zeile = await env.DB.prepare('SELECT count, window_start FROM rate_limit WHERE key = ?1')
+    .bind(key)
+    .first<{ count: number; window_start: string }>()
+
+  const fensterOffen = zeile && jetzt - Date.parse(zeile.window_start) < fensterMinuten * 60_000
+  if (fensterOffen && zeile.count >= grenze) return false
+
+  const neuerStand = fensterOffen ? zeile.count + 1 : 1
+  const start = fensterOffen ? zeile.window_start : new Date(jetzt).toISOString()
+  await env.DB.prepare(
+    `INSERT INTO rate_limit (key, count, window_start) VALUES (?1, ?2, ?3)
+     ON CONFLICT(key) DO UPDATE SET count = excluded.count, window_start = excluded.window_start`,
+  )
+    .bind(key, neuerStand, start)
+    .run()
+  return true
+}
+
+/**
+ * Wiederherstellung anfordern: Adresse rein, Mail ans Postfach raus.
+ *
+ * **Dem Browser wird nie etwas zurückgegeben.** Wer eine fremde Adresse
+ * eintippt, erfährt weder, ob sie ein Abo hat, noch bekommt er irgendwelche
+ * Daten — die Mail geht an das Postfach, und wer das lesen kann, ist der
+ * Berechtigte. Genau darauf beruhen schon Double-Opt-in und Abmeldelink; ein
+ * Passwort brächte hier nichts hinzu, was die Mail nicht schon leistet
+ * (Daniels Entscheidung, 14.08.2026).
+ *
+ * Drei Schutzmaßnahmen, ohne die der Link zur Waffe würde:
+ *   1. **Einmal-Link mit 30 Minuten Frist** — nicht der unbefristete
+ *      `pref_token`, der in jeder Newsletter-Mail steht.
+ *   2. **Ratenbegrenzung** je Adresse und je IP: Sonst könnte man ein fremdes
+ *      Postfach damit zumüllen.
+ *   3. **Immer dieselbe Antwort**, auch bei unbekannter Adresse. Sonst wäre das
+ *      Feld ein Werkzeug, um herauszufinden, wer abonniert hat.
+ */
+async function handleRestore(request: Request, env: Env): Promise<Response> {
+  let payload: { email?: string }
+  try {
+    payload = (await request.json()) as { email?: string }
+  } catch {
+    return json(env, { error: 'Ungültige Anfrage' }, 400)
+  }
+  const email = (payload.email ?? '').trim().toLowerCase()
+  if (!EMAIL_RE.test(email)) return json(env, { error: 'Diese E-Mail-Adresse sieht nicht gültig aus.' }, 400)
+
+  // Dieselbe Antwort in jedem Ausgang — sie steht hier oben, damit kein Zweig
+  // sie versehentlich anders formuliert.
+  const immerGleich = json(env, {
+    ok: true,
+    message: 'Falls für diese Adresse ein Abo besteht, ist eine Mail unterwegs.',
+  })
+
+  const ip = request.headers.get('cf-connecting-ip') ?? 'unbekannt'
+  // Zehn Anfragen je IP und Stunde fangen das Ausprobieren ganzer Adresslisten
+  // ab, ohne einen Haushalt mit gemeinsamer Leitung zu behindern.
+  if (!(await imRahmen(env, `restore-ip:${ip}`, 10, 60))) return immerGleich
+
+  const row = await env.DB.prepare(
+    "SELECT id, restore_sent_at FROM subscribers WHERE email = ?1 AND status = 'active'",
+  )
+    .bind(email)
+    .first<{ id: string; restore_sent_at: string | null }>()
+  if (!row) return immerGleich
+
+  // Eine Mail je Adresse in fünfzehn Minuten. Wer den Link wirklich braucht,
+  // wartet notfalls; wer ein fremdes Postfach zumüllen will, kommt nicht weit.
+  if (row.restore_sent_at && Date.now() - Date.parse(row.restore_sent_at) < 15 * 60_000) {
+    return immerGleich
+  }
+
+  const token = crypto.randomUUID()
+  const now = new Date()
+  await env.DB.prepare(
+    'UPDATE subscribers SET restore_token = ?1, restore_expires = ?2, restore_sent_at = ?3 WHERE id = ?4',
+  )
+    .bind(token, new Date(now.getTime() + 30 * 60_000).toISOString(), now.toISOString(), row.id)
+    .run()
+
+  const url = `${baseUrl(request)}/restore/confirm?token=${token}`
+  try {
+    await sendMail(env, { to: email, ...restoreMail(url) })
+  } catch (err) {
+    // Auch ein Fehlschlag beim Versand ändert die Antwort nicht — sonst
+    // verriete die Fehlermeldung, dass es die Adresse gibt.
+    console.error('Wiederherstellungsmail fehlgeschlagen', err)
+  }
+  return immerGleich
+}
+
+/**
+ * Der Klick aus der Mail: Einmal-Link einlösen und zurück auf die Seite.
+ *
+ * Der Schlüssel wird sofort entwertet — ein zweiter Klick, etwa aus dem
+ * Verlauf oder von einem Mail-Scanner, führt ins Leere.
+ */
+async function handleRestoreConfirm(request: Request, env: Env): Promise<Response> {
+  const token = new URL(request.url).searchParams.get('token') ?? ''
+  if (!token) return page('Link nicht gültig', 'Dieser Link ist unvollständig.', env.SITE_URL)
+
+  const row = await env.DB.prepare(
+    'SELECT id, pref_token, restore_expires FROM subscribers WHERE restore_token = ?1',
+  )
+    .bind(token)
+    .first<{ id: string; pref_token: string; restore_expires: string | null }>()
+
+  if (!row || !row.restore_expires || Date.parse(row.restore_expires) < Date.now()) {
+    return page(
+      'Link abgelaufen',
+      'Dieser Wiederherstellungslink gilt dreißig Minuten und wurde entweder schon benutzt oder ist abgelaufen. Fordere auf der Newsletter-Seite einen neuen an.',
+      env.SITE_URL,
+    )
+  }
+
+  await env.DB.prepare('UPDATE subscribers SET restore_token = NULL, restore_expires = NULL WHERE id = ?1')
+    .bind(row.id)
+    .run()
+
+  const ziel = `${env.SITE_URL.replace(/\/$/, '')}/#/newsletter?sync=${row.pref_token}&restored=1`
+  return Response.redirect(ziel, 302)
+}
+
 async function handleConfirm(request: Request, env: Env): Promise<Response> {
   const token = new URL(request.url).searchParams.get('token') ?? ''
   const now = new Date().toISOString()
@@ -242,6 +374,31 @@ async function handleConfirm(request: Request, env: Env): Promise<Response> {
  * jederzeit ändern, ohne dass der Dienst davon erfährt. Jede Mail trägt einen
  * Link hierher; die Seite schickt beim Öffnen ihren aktuellen Stand.
  */
+/**
+ * Der Rückweg: die gespeicherten Favoriten abrufen.
+ *
+ * Bis zum 14.08.2026 war `/favorites` reines POST — der Dienst **hatte** die
+ * Liste jedes Abonnenten, gab sie aber nie heraus. Es fehlte also nicht die
+ * Speicherung, sondern der Weg zurück. Ohne ihn nützt auch der beste
+ * Wiederherstellungslink nichts: Er brächte den Schlüssel, aber keine Daten.
+ *
+ * Der Schlüssel ist der Ausweis. Wer ihn hat, hat ihn aus einer Mail an genau
+ * dieses Postfach — dieselbe Grenze wie überall sonst hier.
+ */
+async function handleFavoritesGet(request: Request, env: Env): Promise<Response> {
+  const token = (new URL(request.url).searchParams.get('token') ?? '').trim()
+  if (!token) return json(env, { error: 'Kein Abgleich-Schlüssel übergeben.' }, 400)
+
+  const row = await env.DB.prepare(
+    "SELECT favorites FROM subscribers WHERE pref_token = ?1 AND status = 'active'",
+  )
+    .bind(token)
+    .first<{ favorites: string }>()
+
+  if (!row) return json(env, { error: 'Dieser Abgleich-Schlüssel gehört zu keinem aktiven Abo.' }, 404)
+  return json(env, { ok: true, favorites: [...parseIdList(row.favorites)] })
+}
+
 async function handleFavorites(request: Request, env: Env): Promise<Response> {
   let payload: { token?: string; favorites?: number[] }
   try {
@@ -629,8 +786,15 @@ export default {
       case '/unsubscribe':
         return handleUnsubscribe(request, env)
       case '/favorites':
-        if (request.method !== 'POST') return json(env, { error: 'POST erwartet' }, 405)
+        // GET holt, POST schreibt. Der Rückweg kam am 14.08.2026 dazu.
+        if (request.method === 'GET') return handleFavoritesGet(request, env)
+        if (request.method !== 'POST') return json(env, { error: 'GET oder POST erwartet' }, 405)
         return handleFavorites(request, env)
+      case '/restore':
+        if (request.method !== 'POST') return json(env, { error: 'POST erwartet' }, 405)
+        return handleRestore(request, env)
+      case '/restore/confirm':
+        return handleRestoreConfirm(request, env)
       case '/debug/digest': {
         // Versand von Hand auslösen, ohne bis 07:00 zu warten. Nur mit dem
         // Secret DEBUG_TOKEN erreichbar; ohne gesetztes Secret abgeschaltet.
