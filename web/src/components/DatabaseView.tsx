@@ -234,7 +234,20 @@ export function DatabaseView({
                     {t('db.noDubBadge')}
                   </span>
                 )}
-                <span className="absolute left-1 top-1 flex items-center gap-0.5">
+                {/*
+                  Alles Bedienbare in **einer** Spalte oben rechts, unter der
+                  FSK-Kennzeichnung (Daniel, 13.08.2026: „icon position fühlt
+                  sich falsch an").
+
+                  Vorher lagen Stern und Auge oben links, die FSK oben rechts —
+                  zwei Häufchen in gegenüberliegenden Ecken, ohne dass die
+                  Aufteilung etwas bedeutet hätte. Jetzt gibt es eine einzige
+                  Spalte: Ganz oben die Angabe zum Titel, darunter das, was man
+                  mit ihm tun kann. Das Cover bleibt links frei, und genau dort
+                  steht bei fast jedem Anime das Gesicht.
+                */}
+                <span className="absolute right-1 top-1 flex flex-col items-center gap-0.5">
+                  {main.fsk !== undefined && <FskBadge fsk={main.fsk} small />}
                   <FavoriteStar active={favorite} onToggle={() => onToggleFavorite(main.id)} />
                   <HideEye hidden={false} onToggle={() => onToggleHidden(main.id)} />
                   {/* Geteilt wird der Release, nicht der Anime — nur zu ihm
@@ -246,13 +259,20 @@ export function DatabaseView({
                     />
                   )}
                 </span>
-                {main.fsk !== undefined && (
-                  <span className="absolute right-1 top-1">
-                    <FskBadge fsk={main.fsk} small />
-                  </span>
-                )}
                 {grouped && members.length > 1 && (
-                  <span className="absolute bottom-1 right-1 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-semibold text-white">
+                  /*
+                    Über den Balken statt darauf: Der Hinweis „keine deutsche
+                    Synchro" läuft über die volle Breite am unteren Rand. Ohne
+                    das Ausweichen läge die Staffelzahl mitten darin, sobald
+                    eine Reihe ohne Synchro gebündelt wird — und das tut sie,
+                    seit der Katalog die Beziehungen mitbringt.
+                  */
+                  <span
+                    className={[
+                      'absolute right-1 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-semibold text-white',
+                      keinDub ? 'bottom-7' : 'bottom-1',
+                    ].join(' ')}
+                  >
                     {t('db.seasons', { count: members.length })}
                   </span>
                 )}
