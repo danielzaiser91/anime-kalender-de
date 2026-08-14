@@ -10,6 +10,9 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
+| **▶ HIER WEITERMACHEN: Abmelden aus dem verbundenen Browser** | 1 | Daniels Wunsch vom 14.08.2026, 01:30 Uhr: „abbestellen sollte man in dem Fall aber können." Wer verbunden ist, sieht auf der Newsletter-Seite jetzt „Dieser Browser ist mit deinem Abo verbunden" — kann das Abo dort aber nicht beenden, weil der Abmeldelink am `unsub_token` hängt und die Seite nur den `pref_token` kennt. **War schon gebaut und auf seine Ansage hin wieder zurückgenommen** (Commit-Stand sauber, nichts liegen geblieben). Der Entwurf: `/unsubscribe` nimmt zusätzlich POST mit `{token: prefToken}` und löscht die Zeile über `pref_token` — dasselbe Vertrauensniveau, denn auch der stammt aus einer Mail an dieses Postfach. In der Oberfläche ein Knopf neben der Verbunden-Meldung, **zweistufig** (erst „Abo beenden", dann „Wirklich?"), weil Löschen nicht umkehrbar ist. Danach `wrangler deploy` |
+| **Sichtprüfung: verbundener Zustand auf der Newsletter-Seite** | 1 | Die Änderung vom 14.08.2026 (Formular nur zeigen, wenn nicht verbunden) ist mit tsc und Build geprüft, **optisch nicht**. Zu prüfen: Wie sieht der Kasten „Favoriten verloren?" aus, wenn `autoSync` wahr ist, und ob die Zeile „Trotzdem einen Wiederherstellungslink anfordern" das Formular sauber aufklappt |
+| **`pref_token` ist unbefristet — entschärfen** | 2 | Der Abgleich-Schlüssel steht in **jeder** Newsletter-Mail und gilt ewig. Wer eine weitergeleitete Mail sieht oder einen Screenshot davon, kann die Favoriten dieses Abos dauerhaft ändern. Dieselbe Schwäche wie die am 14.08.2026 geschlossene Übernahme-Lücke, nur leiser. Daniel hatte am 14.08. die Wahl „erst den pref_token entschärfen" — er wählte den Magic Link zuerst; das hier bleibt offen. Entwurf: kurzlebiger Schlüssel je Mail, oder der Abgleich läuft künftig über denselben Einmal-Link wie die Wiederherstellung |
 | **Prüfliste „Wo läuft es" abarbeiten** (Dauerauftrag) | — | 1.732 Anbieter-Verweise ohne belegte Synchro, Liste: `data/dub-pruefliste.md`, erzeugt mit `npm run data:dub-checks`. Daniel arbeitet sie in Zehnerschritten ab; ich lege den Batch vor, er meldet je Nummer ja/nein, ich trage es in `data/dub-confirmed.yaml` ein und baue neu. **Stand: Batch 1 bis 3 ausgewertet, 65 Prüfungen eingetragen — 33 Angaben belegt, 32 tote Verweise entfernt.** Crunchyroll ist seit 13.08.2026 weitgehend maschinell belegt (234 ja / 988 nein / **25 offen**); die Handarbeit verteilt sich jetzt auf Netflix (727), YouTube (528) und Prime Video (219) — Anbieter, die die Sprachfassung nirgends öffentlich nennen. Kurzschrift der Antworten (`1`/`0`/`x`, mehrere je Zeile mit Punkt) steht im Kopf der Liste und in der `CLAUDE.md`. Je Batch kurz sagen, woher der Verweis stammt und warum er unsicher ist |
 | ~~News-Quellen für Sendepausen~~ — **Filter gebaut, Rest verworfen** | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
 | **Inazuma Eleven S1: aniSearchs 25.09. aufklären** | 1 | **Wartet auf eine Quelle, die es noch nicht gibt** — kein offener Arbeitsauftrag. Unser **04.09.2026** ist belegt: Der Anime2You-Artikel „24 Blu-ray-Termine verschoben" (31.07.2026) nennt Inazuma Eleven ausdrücklich, verschoben vom 14.08. auf den 04.09. aniSearch führt **25.09.** — weder der alte noch der neue Termin. **Am 13.08.2026 fünf Händler geprüft, keiner nennt einen Tag:** jpc kennt den Titel nicht, Akiba Pass nicht, Anime Planet nicht (auch nicht unter Neuheiten/Vorbestellungen), Amazon antwortete mit HTTP 503, und der Verlag selbst (animoon-publishing.de, Vorbestellung offen, 64,99 €) schreibt nur „September 26" **ohne Tag**. Ebenfalls erledigt: Es sind nicht zwei Label — aniSearch führt als Publisher ebenfalls AniMoon, nicht Kazé. **Wiedervorlage, sobald ein Händler einen konkreten Liefertag nennt.** Bis dahin bleibt unser Termin stehen, weil er der einzige belegte ist |
@@ -161,6 +164,42 @@ verschoben, Best-of, Recap.
   abgenommen.
 
 ## Archiv
+
+- ✅ **Favoriten gehen nicht mehr verloren** (14.08.2026, live). Gemerkte Titel lagen nur im
+  Browser: Browserdaten gelöscht, Gerät gewechselt, neues Handy — weg. iOS-Safari räumt den
+  Speicher sogar nach sieben Tagen ohne Besuch von allein auf. Serverseitig lagen sie längst,
+  es fehlte allein der Rückweg (`/favorites` war reines POST).
+  Jetzt: **Wiederherstellung per E-Mail-Link**, ohne Konto und ohne Passwort. Die Eingabe einer
+  Adresse gibt dem Browser **nichts** zurück — die Mail geht ans Postfach, und wer das lesen
+  kann, ist der Berechtigte. Drei Schutzmaßnahmen: Einmal-Link mit 30 Minuten Frist,
+  Ratenbegrenzung (eine Mail je Adresse in 15 Minuten, zehn Anfragen je IP und Stunde), und
+  **immer dieselbe Antwort**, auch bei unbekannter Adresse und selbst wenn der Versand
+  scheitert. Beim Wiederherstellen wird **vereinigt statt ersetzt**.
+  Dazu `navigator.storage.persist()` gegen die automatische Löschung.
+
+- 🔒 **Sicherheitslücke geschlossen: fremde Anmeldung überschrieb ein aktives Abo**
+  (14.08.2026, live). Gefunden auf Daniels Frage hin — es war keine hypothetische Sorge.
+  `/subscribe` überschrieb per `ON CONFLICT(email) DO UPDATE` sofort `frequency`, `platforms`
+  und `favorites`, und der Status blieb ausdrücklich `active`. Wer eine fremde Adresse ins
+  Formular tippte, ersetzte damit **ohne einen einzigen Klick** die Einstellungen und die
+  gemerkten Titel eines anderen Menschen.
+  Der Kern des Fehlers war, Anmeldung und Änderung gleich zu behandeln. Eine Anmeldung darf
+  jeder auslösen — sie bewirkt bis zum Klick nichts. Eine Änderung an einem bestätigten Abo
+  darf nur, wer das Postfach lesen kann. Jetzt landen die Wünsche in `pending_*` und greifen
+  erst mit `/confirm`; die Bestätigungsmail hat dafür eine zweite Fassung, die vor allem sagt,
+  dass **Nichtstun sicher ist**.
+
+- 🔒 **Alt-Abos ohne `pref_token` repariert** (14.08.2026). Das Feld kam erst mit Migration 002
+  und hat den Vorgabewert `''` — wer vorher bestätigt hat (Daniel selbst), hatte keinen und
+  bekam bis heute keinen Abgleich-Link in seinen Mails. Der neue Wiederherstellungs-Link hätte
+  es verschlimmert: `?sync=` mit leerem Wert, der Browser hätte einen leeren Schlüssel
+  gespeichert. `sichereSchluessel()` legt ihn jetzt an, wenn er fehlt — ein Alt-Abo repariert
+  sich beim ersten Klick selbst.
+
+- 📌 **Migrationen 003 und 004 sind auf der Live-Datenbank eingespielt**, Worker deployt
+  (Version `9add16ef`). Gegengeprüft: sechs neue Spalten, Tabelle `rate_limit`, und die
+  Endpunkte antworten wie vorgesehen.
+
 
 - ✅ **Detail-Panel neu geordnet: Karussell statt Auswahlliste** (13.08.2026). Vorher standen
   links ein Cover, rechts die Angaben und weiter unten eine Auswahlliste mit der Überschrift
