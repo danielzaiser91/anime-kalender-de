@@ -313,6 +313,9 @@ const TEXTE = {
   'news.restoreTitle': 'Favoriten verloren?',
   'news.restoreBody':
     'Gemerkte Titel liegen in deinem Browser. Wer die Browserdaten löscht, das Gerät wechselt oder ein neues Handy hat, verliert sie — und Safari räumt den Speicher nach sieben Tagen ohne Besuch sogar von allein auf. Hast du ein Abo, liegen sie bei uns: Wir schicken dir einen Link, der sie in diesen Browser zurückholt.',
+  'news.restoreConnected':
+    'Dieser Browser ist mit deinem Abo verbunden. Gemerkte Titel liegen also nicht nur hier — geht der lokale Speicher verloren, holst du sie zurück.',
+  'news.restoreAnyway': 'Trotzdem einen Wiederherstellungslink anfordern',
   'news.restoreSubmit': 'Link anfordern',
   'news.restoreSent':
     'Falls für diese Adresse ein Abo besteht, ist eine Mail unterwegs. Der Link darin gilt dreißig Minuten und lässt sich einmal benutzen.',

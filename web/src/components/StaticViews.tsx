@@ -159,6 +159,8 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
   const { favorites, toggle: toggleFavorit } = useFavorites()
   const [email, setEmail] = useState('')
   const [restoreState, setRestoreState] = useState<'idle' | 'sending' | 'done'>('idle')
+  /** Formular trotz bestehender Verbindung zeigen — für den Fall eines toten Schlüssels. */
+  const [restoreOffen, setRestoreOffen] = useState(false)
   const [frequency, setFrequency] = useState<'daily' | 'weekly'>('weekly')
   const [platforms, setPlatforms] = useState<PlatformId[]>([])
   const [consent, setConsent] = useState(false)
@@ -411,6 +413,30 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
       */}
       <Card>
         <SectionTitle>{t('news.restoreTitle')}</SectionTitle>
+        {/*
+          Wer verbunden ist, braucht das Formular nicht.
+
+          Es stand trotzdem da — ein Eingabefeld für ein Problem, das dieser
+          Browser gerade nicht hat (Daniel, 14.08.2026: „warum kann ich erneut
+          E-Mail eingeben, wenn ich verbunden bin?"). Erreichbar bleibt es
+          trotzdem: Ein Schlüssel kann ungültig geworden sein, und dann ist der
+          Link der einzige Weg zurück.
+        */}
+        {autoSync && !restoreOffen ? (
+          <>
+            <p className="rounded-lg bg-emerald-500/10 px-3 py-2 text-sm text-emerald-600 dark:text-emerald-400">
+              ✓ {t('news.restoreConnected')}
+            </p>
+            <button
+              type="button"
+              onClick={() => setRestoreOffen(true)}
+              className="mt-2 cursor-pointer text-[13px] text-slate-500 underline decoration-dotted underline-offset-2 transition hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+            >
+              {t('news.restoreAnyway')}
+            </button>
+          </>
+        ) : (
+          <>
         <p className="text-sm text-slate-600 dark:text-slate-300">{t('news.restoreBody')}</p>
         {restoreState === 'done' ? (
           <p className="mt-3 rounded-lg bg-emerald-500/10 px-3 py-2 text-sm text-emerald-600 dark:text-emerald-400">
@@ -446,6 +472,8 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
           </form>
         )}
         <p className="mt-2 text-[13px] text-slate-500 dark:text-slate-400">{t('news.restoreSafety')}</p>
+          </>
+        )}
       </Card>
 
       <Card>
