@@ -730,6 +730,7 @@ export function DetailPanel({
           >
             {reihenTeile.map((m) => {
               const gewaehlt = m.id === title.id
+              const gemerkt = favorites.has(m.id)
               return (
                 <button
                   key={m.id}
@@ -741,9 +742,20 @@ export function DetailPanel({
                   className={[
                     'group/karte relative w-24 shrink-0 snap-start overflow-hidden rounded-lg border text-left transition',
                     'focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 disabled:opacity-60',
+                    /*
+                      Zwei Zustände, zwei Farben, und sie dürfen sich nicht ins
+                      Gehege kommen: Blau heißt „das siehst du gerade", Bernstein
+                      „das hast du gemerkt". Ein gemerkter Teil, der zugleich der
+                      gewählte ist, behält den blauen Ring — die Auswahl ist die
+                      dringlichere Auskunft — und trägt den Stern trotzdem.
+                      Gemerkte Karten sind außerdem nie blass: Was man sich
+                      gemerkt hat, soll man im Karussell sofort finden.
+                    */
                     gewaehlt
                       ? 'border-sky-400 ring-2 ring-sky-400/60'
-                      : 'cursor-pointer border-slate-200 opacity-70 hover:opacity-100 dark:border-white/10',
+                      : gemerkt
+                        ? 'cursor-pointer border-amber-400/70 hover:border-amber-400 dark:border-amber-400/60'
+                        : 'cursor-pointer border-slate-200 opacity-70 hover:opacity-100 dark:border-white/10',
                   ].join(' ')}
                 >
                   <span className="block aspect-[2/3] w-full bg-slate-200 dark:bg-white/5">
@@ -751,6 +763,14 @@ export function DetailPanel({
                       <img src={m.cover} alt="" loading="lazy" className="h-full w-full object-cover" />
                     )}
                   </span>
+                  {gemerkt && (
+                    <span
+                      className="absolute left-1 top-1 rounded-full bg-black/60 px-1 text-[11px] leading-tight text-amber-400 drop-shadow-[0_0_3px_rgba(251,191,36,.6)]"
+                      aria-label={t('card.unfavourite')}
+                    >
+                      ★
+                    </span>
+                  )}
                   <span className="block px-1.5 py-1 text-[10px] leading-tight text-slate-600 dark:text-slate-300">
                     <span className="line-clamp-2 font-medium">{eindeutschenStaffel(m.name)}</span>
                     <span className="mt-0.5 block text-slate-400 dark:text-slate-500">

@@ -300,9 +300,25 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
             <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
               {favorites.size > 0 ? t('news.favoritesHint') : t('news.favoritesNone')}
             </p>
-            {autoSync && (
+            {/*
+              Die Gegenprobe zum grünen Häkchen.
+
+              Bisher stand hier nur die gute Nachricht: „Änderungen werden ab
+              jetzt selbsttätig übernommen", wenn dieser Browser einen
+              Abgleich-Schlüssel hat. Fehlte er, stand **nichts** — und wer
+              anderswo abonniert und hier Titel merkt, erfuhr nie, dass sie den
+              Versand gar nicht erreichen (Daniels Frage, 14.08.2026: „ist auch
+              gesichert, dass der Newsletter das mitbekommt?").
+
+              Nur bei vorhandenen Favoriten, und im Konjunktiv: Wer sich hier
+              gerade erst anmeldet, schickt seine Favoriten mit dem Formular mit
+              — für den wäre der Hinweis eine Warnung vor nichts.
+            */}
+            {autoSync ? (
               <p className="mt-1 text-xs text-emerald-500">✓ {t('news.autoSync')}</p>
-            )}
+            ) : favorites.size > 0 ? (
+              <p className="mt-1 text-xs text-amber-600 dark:text-amber-400">{t('news.noSyncYet')}</p>
+            ) : null}
           </div>
 
           <fieldset>
