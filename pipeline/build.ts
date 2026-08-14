@@ -56,6 +56,7 @@ import {
   germanizeUrl,
   platformFromSite,
   ANILIST_COVER_BASIS,
+  FRANCHISE_RELATIONS,
 } from '../shared/mappings.ts'
 
 const OUT = 'public/data'
@@ -65,6 +66,81 @@ const KEYWORD_MIN_RANK = 55
 const KEYWORD_MAX = 24
 const CR_CALENDAR_URL = 'https://www.crunchyroll.com/de/simulcastcalendar'
 const ADN_CALENDAR_URL = 'https://animationdigitalnetwork.com/de/'
+
+/**
+ * Reihen über den **gesamten** AniList-Katalog, nicht nur über den Bestand.
+ *
+ * Warum das nicht einfach ein zweites Union-Find ist: Eine Reihe kann die
+ * Grenze überschreiten. „Attack on Titan" hat eine deutsche Synchro, ein
+ * Special daraus vielleicht nicht — beide gehören trotzdem zusammen. Liefe die
+ * Zusammenführung getrennt, bekäme das Special eine andere Reihen-Kennung als
+ * die Serie, und in der Datenbank stünden zwei Kacheln nebeneinander, die
+ * dieselbe Sache meinen.
+ *
+ * Deshalb zwei Schritte:
+ *
+ * 1. Alles zusammenführen — die Beziehungen aus dem Katalog **und** die bereits
+ *    berechneten Reihen des gepflegten Bestands.
+ * 2. Für jede so entstandene Gruppe die Kennung des gepflegten Bestands
+ *    übernehmen, sofern ein Mitglied dort bekannt ist. Sonst wandert der
+ *    Katalog-Titel in eine eigene Reihe, deren Kennung aber nicht zu der der
+ *    Serie passen würde — und das Bündeln bräche genau an der Stelle, an der
+ *    es am meisten auffällt.
+ */
+function reihenFuerKatalog(
+  eintraege: KatalogEintrag[],
+  bekannt: Map<number, number>,
+): Map<number, number> {
+  const parent = new Map<number, number>()
+  const find = (id: number): number => {
+    let root = id
+    while (parent.get(root) !== undefined && parent.get(root) !== root) root = parent.get(root)!
+    let cur = id
+    while (parent.get(cur) !== undefined && parent.get(cur) !== cur) {
+      const next = parent.get(cur)!
+      parent.set(cur, root)
+      cur = next
+    }
+    return root
+  }
+  const union = (a: number, b: number) => {
+    const ra = find(a)
+    const rb = find(b)
+    if (ra === rb) return
+    // Kleinere Kennung gewinnt — in aller Regel die erste Staffel.
+    if (ra < rb) parent.set(rb, ra)
+    else parent.set(ra, rb)
+  }
+
+  for (const e of eintraege) {
+    parent.set(e.id, parent.get(e.id) ?? e.id)
+    for (const anderer of e.rel ?? []) {
+      parent.set(anderer, parent.get(anderer) ?? anderer)
+      union(e.id, anderer)
+    }
+  }
+  // Die fertigen Reihen des gepflegten Bestands mit einhängen.
+  for (const [id, franchiseId] of bekannt) {
+    parent.set(id, parent.get(id) ?? id)
+    parent.set(franchiseId, parent.get(franchiseId) ?? franchiseId)
+    union(id, franchiseId)
+  }
+
+  // Je Gruppe die Kennung des gepflegten Bestands, falls es dort eine gibt.
+  const ausBestand = new Map<number, number>()
+  for (const [id, franchiseId] of bekannt) {
+    const wurzel = find(id)
+    const bisher = ausBestand.get(wurzel)
+    if (bisher === undefined || franchiseId < bisher) ausBestand.set(wurzel, franchiseId)
+  }
+
+  const reihe = new Map<number, number>()
+  for (const e of eintraege) {
+    const wurzel = find(e.id)
+    reihe.set(e.id, ausBestand.get(wurzel) ?? wurzel)
+  }
+  return reihe
+}
 
 /**
  * Schreibt die Anime **ohne** belegte deutsche Synchro als eigene Datei.
@@ -79,8 +155,12 @@ const ADN_CALENDAR_URL = 'https://animationdigitalnetwork.com/de/'
  *
  * Was schon im gepflegten Bestand steht, fällt hier heraus — sonst stünde ein
  * Titel zweimal in der Liste, einmal mit und einmal ohne Synchro.
+ *
+ * `bekannt` bildet die Kennung eines gepflegten Titels auf seine `franchiseId`
+ * ab. Beides wird gebraucht: die Kennung zum Aussortieren, die Reihe zum
+ * Zusammenführen — siehe `reihenFuerKatalog`.
  */
-function schreibeOhneSynchro(bekannt: Set<number>): void {
+function schreibeOhneSynchro(bekannt: Map<number, number>): void {
   const katalog = readJson<{ eintraege?: KatalogEintrag[] }>('data/cache/anilist-katalog.json', {})
   const eintraege = katalog.eintraege ?? []
   if (!eintraege.length) {
@@ -99,6 +179,8 @@ function schreibeOhneSynchro(bekannt: Set<number>): void {
     )
     return
   }
+
+  const reihe = reihenFuerKatalog(eintraege, bekannt)
 
   /**
    * Drei Pflichtfelder von `Title` fehlen hier absichtlich: `slug`, `keywords`
@@ -136,6 +218,12 @@ function schreibeOhneSynchro(bekannt: Set<number>): void {
           ? e.cover.slice(ANILIST_COVER_BASIS.length)
           : (e.cover ?? undefined),
         score: e.score ?? undefined,
+        /**
+         * Fehlt, wenn der Titel allein steht — dann greift in der Oberfläche
+         * ohnehin der Rückfall auf die eigene Kennung, und die Zahl wäre
+         * fünfzehntausendmal umsonst übertragen.
+         */
+        franchiseId: reihe.get(e.id) === e.id ? undefined : reihe.get(e.id),
         /**
          * `low` ist hier keine schwache Angabe, sondern die einzig ehrliche:
          * Es gibt nichts zu belegen. Das Feld ist Pflicht, weil dieselbe
@@ -680,35 +768,8 @@ function main(): void {
   // --- Reihen zusammenführen -------------------------------------------------
   // Staffeln, Cours und Specials derselben Serie bekommen eine gemeinsame ID,
   // damit die Datenbank sie auf Wunsch zu einer Karte bündeln kann.
-  /**
-   * Welche AniList-Beziehungen eine Reihe zusammenhalten.
-   *
-   * `ALTERNATIVE`, `SPIN_OFF`, `SUMMARY` und `COMPILATION` kamen am 12.08.2026
-   * dazu. Ohne sie standen die beiden Filme „Sword Art Online -Progressive-"
-   * als **eigene** Reihe neben der Serie, obwohl sie dieselbe Geschichte neu
-   * erzählen — AniList verknüpft sie als `ALTERNATIVE`, nicht als Fortsetzung.
-   * Dasselbe traf Zusammenschnitte, Ableger und Rückblick-Filme.
-   *
-   * Ausdrücklich **nicht** dabei: `CHARACTER`. Diese Beziehung heißt nur „hier
-   * kommt jemand aus dem anderen Werk vor" und würde Reihen verschmelzen, die
-   * nichts miteinander zu tun haben. `ADAPTATION`, `SOURCE` und `CONTAINS`
-   * zeigen auf Manga und Light Novels und fallen ohnehin durch die
-   * Anime-Prüfung.
-   *
-   * Wirkung: 1.504 Reihen wurden zu 1.413. Die größten sind danach Pokémon
-   * (60), Detective Conan (54), Dragon Ball (32), One Piece und Fate (je 30) —
-   * alles Reihen, bei denen genau das die erwartete Antwort ist.
-   */
-  const FRANCHISE_RELATIONS = new Set([
-    'PREQUEL',
-    'SEQUEL',
-    'PARENT',
-    'SIDE_STORY',
-    'ALTERNATIVE',
-    'SPIN_OFF',
-    'SUMMARY',
-    'COMPILATION',
-  ])
+  // Welche Beziehungen zählen, steht in `shared/mappings.ts` — der
+  // Katalog-Abruf braucht dieselbe Liste.
   const parent = new Map<number, number>()
   const find = (id: number): number => {
     let root = id
@@ -1670,7 +1731,9 @@ function main(): void {
   const referenced = new Set(releases.map((r) => r.titleId))
   writeJson(`${OUT}/titles-core.json`, slim.filter((t) => referenced.has(t.id)))
   writeJson(`${OUT}/titles.json`, slim)
-  schreibeOhneSynchro(new Set(slim.map((t) => t.id)))
+  // Kennung → Reihe: das Erste sortiert die schon gepflegten Titel aus, das
+  // Zweite hält Reihen zusammen, die über die Grenze der beiden Bestände gehen.
+  schreibeOhneSynchro(new Map(slim.map((t) => [t.id, t.franchiseId ?? t.id])))
   schreibeNeuMitSynchro(slim, releases)
   // Synopsen in Gruppen statt in einer Datei.
   //

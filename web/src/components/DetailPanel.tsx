@@ -15,6 +15,8 @@ import {
   Button,
   Chip,
   DubMark,
+  Fragezeichen,
+  ReihenStern,
   Tooltip,
   FavoriteStar,
   HideEye,
@@ -448,6 +450,25 @@ export function DetailPanel({
   }, [franchises, title])
 
   /**
+   * Alle Kennungen der Reihe — aus zwei Quellen zusammengeführt.
+   *
+   * `franchises.json` deckt nur den gepflegten Bestand ab. Titel **ohne**
+   * deutsche Synchro stehen dort nicht, gehören aber zur selben Reihe: „Link
+   * Click" hat sieben Teile und keinen einzigen mit Synchro. Der zweite Weg
+   * geht deshalb über das, was die Anwendung ohnehin geladen hat — wer im
+   * Detail-Panel steht, hat die passende Liste vorher geöffnet.
+   */
+  const reihenIds: number[] = useMemo(() => {
+    if (!title) return []
+    const wurzel = title.franchiseId ?? title.id
+    const ids = new Set<number>([title.id, ...reihe.map((m) => m.id)])
+    for (const t of data.titleById.values()) {
+      if ((t.franchiseId ?? t.id) === wurzel) ids.add(t.id)
+    }
+    return [...ids]
+  }, [title, reihe, data])
+
+  /**
    * Wie die Reihe heißt — nicht, wie die gerade gewählte Staffel heißt.
    *
    * Im Kopf stand vorher „That Time I Got Reincarnated as a Slime Season 4",
@@ -565,7 +586,26 @@ export function DetailPanel({
         role="dialog"
         aria-label={anzeigeName(title)}
       >
-        <div className="relative">
+        {/*
+          Ohne Banner braucht das ✕ trotzdem seinen eigenen Streifen.
+
+          Der Knopf liegt absolut in diesem Kasten. Fehlt das Bild, fällt der
+          Kasten auf Höhe null zusammen, und das ✕ landet auf dem Inhalt
+          darunter — genau auf dem Favoritenstern, der oben rechts in der
+          Titelzeile sitzt (Daniel, 13.08.2026, mit Bild). Aufgefallen ist es
+          bei den Titeln ohne deutsche Synchro, weil die grundsätzlich kein
+          Banner haben; betroffen war aber jeder Titel ohne Bannerbild.
+
+          **`shrink-0` ist der eigentliche Fix, nicht `h-9`.** Der erste Versuch
+          setzte nur die Höhe — und die blieb wirkungslos: Das Panel ist eine
+          Flex-Spalte mit Rollbereich, und darin schrumpft ein Element ohne
+          `shrink-0` auf null zurück, ganz gleich welche Höhe daransteht.
+          Gemessen wurde genau das: Klasse `relative h-9` gesetzt, Höhe 0
+          (Daniel, 13.08.2026: „ich hab grad geguckt, ist immer noch über dem
+          Stern"). Merksatz: In einer scrollenden Flex-Spalte ist eine Höhe
+          ohne `shrink-0` ein Vorschlag, keine Angabe.
+        */}
+        <div className={`relative shrink-0 ${title.bannerImage ? '' : 'h-9'}`}>
           {title.bannerImage && (
             <img src={title.bannerImage} alt="" className="h-28 w-full object-cover opacity-70" />
           )}
@@ -589,7 +629,29 @@ export function DetailPanel({
                 {reihenName}
               </h2>
               <HideEye hidden={false} onToggle={() => onToggleHidden(title.id)} />
-              <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
+              {/*
+                Der Reihen-Stern steht **unter** dem normalen und erscheint erst,
+                wenn der Titel gemerkt ist (Daniels Vorgabe, 13.08.2026). Er
+                verstärkt eine Entscheidung, die schon gefallen ist — wer die
+                Serie noch gar nicht kennt, will nicht gleich alle Staffeln.
+                Ohne weitere Teile in der Reihe bliebe er ohne Wirkung und
+                bleibt deshalb ganz weg.
+              */}
+              <div className="flex flex-col items-center gap-1">
+                <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
+                {favorites.has(title.id) && reihenIds.length > 1 && (
+                  <div className="flex items-center gap-1">
+                    <ReihenStern
+                      alleGemerkt={reihenIds.every((id) => favorites.has(id))}
+                      anzahl={reihenIds.length}
+                      onMerken={() => {
+                        for (const id of reihenIds) if (!favorites.has(id)) onToggleFavorite(id)
+                      }}
+                    />
+                    <Fragezeichen text={t('detail.seriesStarHelp', { count: reihenIds.length })} />
+                  </div>
+                )}
+              </div>
             </div>
             {/*
               Auch die Umschrift bekommt „Staffel" statt „Season".

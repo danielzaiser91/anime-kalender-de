@@ -294,6 +294,95 @@ export function FavoriteStar({
 }
 
 /**
+ * Drei überlappte Sterne: die **ganze Reihe** auf einmal merken.
+ *
+ * Als gezeichnetes SVG, nicht als Emoji-Kette: Drei nebeneinandergesetzte ★
+ * sähen aus wie drei Knöpfe, und ihre Breite hinge vom Betriebssystem ab. Hier
+ * überlappen sie sich sichtbar — das ist genau die Aussage, „mehrere auf
+ * einmal".
+ *
+ * Der Knopf erscheint erst, wenn der Titel selbst gemerkt ist (siehe
+ * Aufrufstelle). Das ist Absicht: Er verstärkt eine Entscheidung, die schon
+ * gefallen ist, statt eine neue anzubieten — und eine ganze Reihe zu merken,
+ * ohne den Titel zu kennen, will niemand.
+ */
+export function ReihenStern({ alleGemerkt, anzahl, onMerken }: { alleGemerkt: boolean; anzahl: number; onMerken: () => void }) {
+  const { t } = useLang()
+  const hinweis = t(alleGemerkt ? 'detail.seriesStarAllDone' : 'detail.seriesStarDo', { count: anzahl })
+  return mitHinweis(
+    hinweis,
+    'unten',
+    <button
+      type="button"
+      aria-label={hinweis}
+      onClick={(e) => {
+        e.stopPropagation()
+        onMerken()
+      }}
+      className={[
+        'inline-flex size-7 items-center justify-center rounded-full transition',
+        CLICKABLE,
+        alleGemerkt
+          ? 'text-amber-400 drop-shadow-[0_0_4px_rgba(251,191,36,.55)]'
+          : 'text-slate-400/70 hover:text-amber-300 dark:text-slate-500 dark:hover:text-amber-300',
+      ].join(' ')}
+    >
+      <svg viewBox="0 0 24 24" className="size-[18px]" aria-hidden="true">
+        {/* Zwei blasse Sterne dahinter, einer voll davor — „mehrere auf einmal". */}
+        <path
+          d="M7.2 4.6l1.25 2.9 3.15.28-2.38 2.08.71 3.08L7.2 11.3l-2.73 1.64.71-3.08L2.8 7.78l3.15-.28L7.2 4.6z"
+          fill="currentColor"
+          opacity=".45"
+        />
+        <path
+          d="M16.8 4.6l1.25 2.9 3.15.28-2.38 2.08.71 3.08-2.73-1.64-2.73 1.64.71-3.08-2.38-2.08 3.15-.28L16.8 4.6z"
+          fill="currentColor"
+          opacity=".45"
+        />
+        <path
+          d="M12 8.4l1.72 3.98 4.32.38-3.27 2.85.98 4.23L12 17.59l-3.75 2.25.98-4.23-3.27-2.85 4.32-.38L12 8.4z"
+          fill={alleGemerkt ? 'currentColor' : 'none'}
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </button>,
+  )
+}
+
+/**
+ * Fragezeichen, das seine Erklärung auch auf Berührung zeigt.
+ *
+ * `Tooltip` allein reicht hier nicht: Er öffnet auf Zeigen und Fokus, und auf
+ * einem Telefon gibt es kein Zeigen. Daniel hat ausdrücklich beides verlangt
+ * (13.08.2026) — deshalb ist der Anker ein `<button>`, der den Fokus annimmt
+ * und den Hinweis damit auch per Fingertipp öffnet.
+ */
+export function Fragezeichen({ text }: { text: string }) {
+  return (
+    <Tooltip text={text} seite="unten">
+      <button
+        type="button"
+        aria-label={text}
+        onClick={(e) => {
+          e.stopPropagation()
+          e.currentTarget.focus()
+        }}
+        className={[
+          'inline-flex size-4 items-center justify-center rounded-full text-[10px] font-bold leading-none',
+          'bg-slate-300/70 text-slate-600 transition hover:bg-slate-400/70',
+          'dark:bg-white/15 dark:text-slate-300 dark:hover:bg-white/25',
+          CLICKABLE,
+        ].join(' ')}
+      >
+        ?
+      </button>
+    </Tooltip>
+  )
+}
+
+/**
  * Auge zum Ausblenden eines Titels.
  *
  * Als gezeichnetes SVG statt als Emoji: Ein 👁 sieht je nach Betriebssystem

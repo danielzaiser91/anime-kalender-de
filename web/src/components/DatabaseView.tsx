@@ -167,8 +167,14 @@ export function DatabaseView({
            *
            * Der Stern bleibt trotzdem da — er ist der einzige Grund, warum
            * diese Titel überhaupt angezeigt werden.
+           *
+           * **`every`, nicht `main.ohneSynchro`:** Eine Reihe kann die Grenze
+           * überschreiten — Serie mit Synchro, ein Special ohne. Solange
+           * irgendein Teil eine deutsche Fassung hat, ist die Kachel ein
+           * normaler Eintrag; die Lücke steht dann in der Staffelliste des
+           * Detail-Panels, wo sie hingehört.
            */
-          const keinDub = main.ohneSynchro === true
+          const keinDub = members.every((m) => m.ohneSynchro)
 
           if (isHidden) {
             return (

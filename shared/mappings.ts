@@ -81,6 +81,41 @@ export const TAG_AS_GENRE: Record<string, string> = {
 export const TAG_AS_GENRE_MIN_RANK = 60
 
 /**
+ * Welche AniList-Beziehungen eine Reihe zusammenhalten.
+ *
+ * `ALTERNATIVE`, `SPIN_OFF`, `SUMMARY` und `COMPILATION` kamen am 12.08.2026 dazu. Ohne
+ * sie standen die beiden Filme „Sword Art Online -Progressive-" als **eigene** Reihe
+ * neben der Serie, obwohl sie dieselbe Geschichte neu erzählen — AniList verknüpft sie
+ * als `ALTERNATIVE`, nicht als Fortsetzung. Dasselbe traf Zusammenschnitte, Ableger und
+ * Rückblick-Filme.
+ *
+ * Ausdrücklich **nicht** dabei: `CHARACTER`. Diese Beziehung heißt nur „hier kommt jemand
+ * aus dem anderen Werk vor" und würde Reihen verschmelzen, die nichts miteinander zu tun
+ * haben. `ADAPTATION`, `SOURCE` und `CONTAINS` zeigen auf Manga und Light Novels und
+ * fallen ohnehin durch die Anime-Prüfung.
+ *
+ * Wirkung: 1.504 Reihen wurden zu 1.413. Die größten sind danach Pokémon (60), Detective
+ * Conan (54), Dragon Ball (32), One Piece und Fate (je 30) — alles Reihen, bei denen genau
+ * das die erwartete Antwort ist.
+ *
+ * **Warum die Liste hier steht und nicht in `build.ts`** (13.08.2026): Der Abruf des
+ * AniList-Gesamtkatalogs braucht dieselbe Auswahl, um die Titel **ohne** deutsche Synchro
+ * zu Reihen zu bündeln. Zwei Fassungen derselben Liste laufen garantiert auseinander —
+ * und der Fehler wäre still: Reihen, die im einen Bestand zusammenfinden und im anderen
+ * nicht.
+ */
+export const FRANCHISE_RELATIONS = new Set([
+  'PREQUEL',
+  'SEQUEL',
+  'PARENT',
+  'SIDE_STORY',
+  'ALTERNATIVE',
+  'SPIN_OFF',
+  'SUMMARY',
+  'COMPILATION',
+])
+
+/**
  * Adressvorsatz der AniList-Cover — wird in `ohne-synchro.json` **weggelassen**.
  *
  * Die vollen Adressen sind rund 70 Zeichen lang und beginnen alle gleich. Bei

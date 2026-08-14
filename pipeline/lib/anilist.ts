@@ -1,4 +1,4 @@
-import { ANILIST_COVER_BASIS } from '../../shared/mappings.ts'
+import { ANILIST_COVER_BASIS, FRANCHISE_RELATIONS } from '../../shared/mappings.ts'
 import { sleep, warn } from './util.ts'
 
 const ENDPOINT = 'https://graphql.anilist.co'
@@ -114,6 +114,16 @@ export interface KatalogEintrag {
    * Vorsatz wird beim Anzeigen wieder angehängt (`COVER_BASIS`).
    */
   cover: string | null
+  /**
+   * Kennungen verwandter Anime — nur die Beziehungen aus `FRANCHISE_RELATIONS`.
+   *
+   * Ohne dieses Feld gibt es für Titel ohne deutsche Synchro keine
+   * `franchiseId`, und „Staffeln zusammenfassen" wirkt auf sie nicht: „Link
+   * Click" stand mit sieben Kacheln nebeneinander, obwohl der Schalter an war
+   * (Daniel, 13.08.2026, mit Bild). Gefiltert wird schon beim Abruf, damit im
+   * Zwischenspeicher nur landet, was auch gebraucht wird.
+   */
+  rel: number[]
 }
 
 
@@ -154,6 +164,7 @@ export async function katalogSeite(
         format episodes seasonYear averageScore
         genres
         coverImage { large }
+        relations { edges { relationType node { id type } } }
       }
     }
   }`
@@ -175,6 +186,7 @@ export async function katalogSeite(
         averageScore: number | null
         genres: string[]
         coverImage: { large: string | null }
+        relations?: { edges: { relationType: string; node: { id: number; type: string } }[] }
       }[]
     }
   }>(query, vars)
@@ -192,6 +204,9 @@ export async function katalogSeite(
       cover: m.coverImage?.large?.startsWith(ANILIST_COVER_BASIS)
         ? m.coverImage.large.slice(ANILIST_COVER_BASIS.length)
         : (m.coverImage?.large ?? null),
+      rel: (m.relations?.edges ?? [])
+        .filter((e) => FRANCHISE_RELATIONS.has(e.relationType) && e.node?.type === 'ANIME')
+        .map((e) => e.node.id),
     })),
   }
 }

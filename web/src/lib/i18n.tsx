@@ -164,6 +164,14 @@ const TEXTE = {
   // Titel ohne belegte deutsche Synchro im Detail-Panel. „Termin unbekannt"
   // wäre hier falsch: Unbekannt ist nicht der Termin, sondern ob es je eine
   // deutsche Fassung gibt.
+  // Reihen-Stern: die ganze Reihe auf einmal merken (13.08.2026).
+  'detail.seriesStarDo': 'Alle {count} Teile dieser Reihe merken',
+  'detail.seriesStarAllDone': 'Alle {count} Teile dieser Reihe sind gemerkt',
+  'detail.seriesStarHelp':
+    // Kein Markdown: Der Hinweis wird als reiner Text ausgegeben, Sternchen
+    // stünden dort wörtlich da — ausgerechnet neben einem Stern-Symbol.
+    'Ein Klick auf die drei Sterne merkt alle Staffeln, Filme und Specials dieser Reihe auf einmal — hier sind das {count} Einträge. Das ist praktisch, wenn du eine Serie ganz verfolgst: Du bekommst dann zu jedem Teil Bescheid, auch zu Ablegern, die noch gar keine deutsche Synchro haben.',
+
   'detail.noDubTitle': 'Keine deutsche Synchro bekannt',
   'detail.noDubBody':
     'Zu diesem Titel kennen wir keine deutsche Fassung — weder eine erschienene noch eine angekündigte. Deshalb führen wir hier absichtlich fast nichts: keine Termine, keine Anbieter, keine Sprecher. Es gibt nichts zu führen.',
