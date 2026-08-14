@@ -52,6 +52,46 @@ for (const datei of readdirSync(DIR).filter((f) => f.endsWith('.yml') || f.endsW
   console.log(`✓ ${datei.padEnd(22)} ${doc.name} — ${namen.join(', ')}`)
 }
 
+/**
+ * Jede Datei, die ein Lauf unter `data/` schreibt, muss `commit-data.sh` kennen.
+ *
+ * Sonst geht sie still verloren: Das Skript legt nur die aufgezählten Quellen
+ * beiseite, bevor es bei bewegtem Fernstand `git reset --hard` macht — alles
+ * andere ist danach weg, und committet wird es ohnehin nicht.
+ *
+ * Bei einer Momentaufnahme kostet das einen Lauf. Bei einem **Gedächtnis**
+ * kostet es mehr: `data/synchro-historie.json` hält fest, seit wann ein Titel
+ * eine Synchro hat. Fehlte sie in der Liste, stünde ein im CI dazugekommener
+ * Titel bei jedem Lauf erneut als Neuzugang da — und jeder Abonnent bekäme bis
+ * zu sechzig Tage lang täglich dieselbe Mail. Genau das war am 14.08.2026 der
+ * Fall, einen Tag nach dem Einbau.
+ *
+ * Geprüft wird gegen die `writeJson`-Aufrufe der Pipeline, nicht gegen eine
+ * zweite Liste — zwei Listen liefen wieder auseinander.
+ */
+const pipelineDir = resolve(process.cwd(), 'pipeline')
+const geschrieben = new Set()
+for (const datei of readdirSync(pipelineDir, { recursive: true })) {
+  if (typeof datei !== 'string' || !datei.endsWith('.ts')) continue
+  const quelltext = readFileSync(resolve(pipelineDir, datei), 'utf8')
+  for (const m of quelltext.matchAll(/writeJson\(\s*'(data\/[^']+)'/g)) geschrieben.add(m[1])
+}
+
+const skript = readFileSync(resolve(process.cwd(), 'tools/commit-data.sh'), 'utf8')
+for (const pfad of [...geschrieben].sort()) {
+  // `data/cache/` liegt bewusst nicht im Repo (siehe .gitignore).
+  if (pfad.startsWith('data/cache/')) continue
+  // Vorschläge sind als Ordner aufgeführt.
+  if (pfad.startsWith('data/proposals/')) continue
+  if (!skript.includes(pfad)) {
+    console.error(
+      `✗ ${pfad} wird von der Pipeline geschrieben, steht aber nicht in tools/commit-data.sh — ` +
+        'ein CI-Lauf würde die Datei verwerfen',
+    )
+    fehler++
+  }
+}
+
 if (fehler) {
   console.error(`\n${fehler} Problem(e) in den Workflow-Dateien.`)
   process.exit(1)

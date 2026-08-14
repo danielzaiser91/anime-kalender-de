@@ -36,11 +36,31 @@ QUELLEN=(
   data/anisearch.json
   data/crunchyroll.json
   data/adn.json
+  # Fehlte hier, seit es die Datei gibt — gefunden am 14.08.2026 durch die neue
+  # Prüfung in `tools/check-workflows.mjs`. `npm run data:adn:catalog` läuft
+  # **wöchentlich** in der CI und holt 583 KB Katalogdaten; committet wurden sie
+  # nie, und bei bewegtem Fernstand warf der Reset sie weg. Der Lauf tat also
+  # jede Woche dieselbe Arbeit umsonst.
+  data/adn-catalog.json
   data/tmdb.json
   data/anime-ids.json
   data/curated-ids.json
   data/source-health.json
   data/proposals
+  # Gedächtnis, keine Momentaufnahme — und deshalb hier lebenswichtig.
+  #
+  # `data/synchro-historie.json` hält fest, seit wann ein Titel eine belegte
+  # deutsche Synchro hat. Fehlte die Datei in dieser Liste, passierte zweierlei:
+  # Der Lauf committet sie nie, und beim `git reset --hard` weiter unten wird
+  # die frisch geschriebene Fassung verworfen. Ein Titel, der im CI eine Synchro
+  # bekommt, stünde damit bei **jedem** Lauf erneut als Neuzugang da — und jeder
+  # Abonnent bekäme bis zu sechzig Tage lang täglich dieselbe Mail über
+  # dieselbe Serie. Gefunden am 14.08.2026, einen Tag nach dem Einbau, bevor
+  # der erste Nachtlauf darüberlief.
+  data/synchro-historie.json
+  # Ergebnis des Crunchyroll-Synchro-Laufs. Steht hier vorsorglich: Läuft er
+  # eines Tages in der CI, wären 918 Seitenabrufe sonst nach einem Reset weg.
+  data/crunchyroll-dub.json
 )
 ERZEUGNISSE=(public/data public/og)
 
