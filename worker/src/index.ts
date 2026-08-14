@@ -111,42 +111,77 @@ async function handleSubscribe(request: Request, env: Env): Promise<Response> {
   const now = new Date().toISOString()
   const ip = request.headers.get('cf-connecting-ip') ?? ''
 
-  // Erneute Anmeldung derselben Adresse ersetzt die alte Zeile und setzt sie
-  // wieder auf "pending" — bestätigt wird trotzdem nur per Klick.
-  await env.DB.prepare(
-    `INSERT INTO subscribers
-       (id, email, frequency, platforms, favorites, favorites_at, status,
-        confirm_token, unsub_token, pref_token, created_at, created_ip)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6, 'pending', ?7, ?8, ?9, ?10, ?11)
-     ON CONFLICT(email) DO UPDATE SET
-       frequency = excluded.frequency,
-       platforms = excluded.platforms,
-       favorites = excluded.favorites,
-       favorites_at = excluded.favorites_at,
-       status = CASE WHEN subscribers.status = 'active' THEN 'active' ELSE 'pending' END,
-       confirm_token = excluded.confirm_token,
-       -- Vorhandene Tokens behalten: Links aus alten Mails sollen weiter gehen.
-       pref_token = CASE WHEN subscribers.pref_token = '' THEN excluded.pref_token ELSE subscribers.pref_token END,
-       created_at = excluded.created_at,
-       created_ip = excluded.created_ip`,
-  )
-    .bind(
-      crypto.randomUUID(),
-      email,
-      frequency,
-      platforms,
-      favorites,
-      favorites ? now : null,
-      confirmToken,
-      unsubToken,
-      prefToken,
-      now,
-      ip,
+  /**
+   * Anmeldung und Änderung sind zwei verschiedene Dinge.
+   *
+   * Eine **Anmeldung** darf jeder auslösen — sie bewirkt bis zum Klick nichts.
+   * Eine **Änderung an einem bestehenden, bestätigten Abo** darf dagegen nur,
+   * wer das zugehörige Postfach lesen kann. Genau dieselbe Grenze, die schon
+   * für Bestätigung und Abmeldung gilt.
+   *
+   * Bis zum 14.08.2026 waren beide dasselbe: Ein `ON CONFLICT(email) DO UPDATE`
+   * überschrieb `frequency`, `platforms` und `favorites` **sofort**, und der
+   * Status blieb ausdrücklich auf `active`. Wer eine fremde Adresse ins
+   * Formular tippte, ersetzte damit ohne einen einzigen Klick die Einstellungen
+   * und die gemerkten Titel eines anderen Menschen. Der Betroffene bekam weiter
+   * Mails, nur eben die falschen (gefunden auf Daniels Frage hin: „ich möchte
+   * nicht, dass andere meinen Newsletter manipulieren").
+   *
+   * Deshalb: Bei aktivem Abo landen die Wünsche in `pending_*` und werden erst
+   * von `/confirm` übernommen. `unsub_token` und `pref_token` bleiben ohnehin
+   * unangetastet — sonst könnte ein Fremder die Abmeldelinks aus alten Mails
+   * entwerten.
+   */
+  const vorhanden = await env.DB.prepare('SELECT status FROM subscribers WHERE email = ?1')
+    .bind(email)
+    .first<{ status: string }>()
+  const aenderungAmAktiven = vorhanden?.status === 'active'
+
+  if (aenderungAmAktiven) {
+    await env.DB.prepare(
+      `UPDATE subscribers
+         SET pending_frequency = ?1, pending_platforms = ?2, pending_favorites = ?3,
+             confirm_token = ?4
+       WHERE email = ?5`,
     )
-    .run()
+      .bind(frequency, platforms, favorites, confirmToken, email)
+      .run()
+  } else {
+    await env.DB.prepare(
+      `INSERT INTO subscribers
+         (id, email, frequency, platforms, favorites, favorites_at, status,
+          confirm_token, unsub_token, pref_token, created_at, created_ip)
+       VALUES (?1, ?2, ?3, ?4, ?5, ?6, 'pending', ?7, ?8, ?9, ?10, ?11)
+       ON CONFLICT(email) DO UPDATE SET
+         frequency = excluded.frequency,
+         platforms = excluded.platforms,
+         favorites = excluded.favorites,
+         favorites_at = excluded.favorites_at,
+         status = 'pending',
+         confirm_token = excluded.confirm_token,
+         -- Vorhandene Tokens behalten: Links aus alten Mails sollen weiter gehen.
+         pref_token = CASE WHEN subscribers.pref_token = '' THEN excluded.pref_token ELSE subscribers.pref_token END,
+         created_at = excluded.created_at,
+         created_ip = excluded.created_ip`,
+    )
+      .bind(
+        crypto.randomUUID(),
+        email,
+        frequency,
+        platforms,
+        favorites,
+        favorites ? now : null,
+        confirmToken,
+        unsubToken,
+        prefToken,
+        now,
+        ip,
+      )
+      .run()
+  }
 
   const confirmUrl = `${baseUrl(request)}/confirm?token=${confirmToken}`
-  const mail = confirmMail(confirmUrl)
+  const mail = confirmMail(confirmUrl, aenderungAmAktiven)
   try {
     await sendMail(env, { to: email, ...mail })
   } catch (err) {
@@ -162,8 +197,21 @@ async function handleConfirm(request: Request, env: Env): Promise<Response> {
   const now = new Date().toISOString()
   const ip = request.headers.get('cf-connecting-ip') ?? ''
 
+  /**
+   * Der Klick ist der Moment, in dem vorgemerkte Änderungen greifen.
+   *
+   * `COALESCE` übernimmt sie nur, wenn welche dastehen — eine gewöhnliche
+   * Erstbestätigung lässt die Spalten unberührt. Danach werden sie geleert,
+   * damit ein zweiter Klick auf denselben Link nichts mehr bewegt.
+   */
   const result = await env.DB.prepare(
-    `UPDATE subscribers SET status = 'active', confirmed_at = ?1, confirmed_ip = ?2
+    `UPDATE subscribers
+       SET status = 'active', confirmed_at = ?1, confirmed_ip = ?2,
+           frequency = COALESCE(pending_frequency, frequency),
+           platforms = COALESCE(pending_platforms, platforms),
+           favorites = COALESCE(pending_favorites, favorites),
+           favorites_at = CASE WHEN pending_favorites IS NULL THEN favorites_at ELSE ?1 END,
+           pending_frequency = NULL, pending_platforms = NULL, pending_favorites = NULL
      WHERE confirm_token = ?3`,
   )
     .bind(now, ip, token)

@@ -16,6 +16,13 @@ CREATE TABLE IF NOT EXISTS subscribers (
   -- Erlaubt das spätere Abgleichen der Favoriten, ohne den Abmeldelink
   -- preiszugeben.
   pref_token   TEXT NOT NULL DEFAULT '',
+  -- Vorgemerkte Änderungen an einem bereits AKTIVEN Abo. Sie greifen erst mit
+  -- dem Klick auf den Bestätigungslink — siehe migrations/003. Ohne diese
+  -- Trennung konnte jeder, der eine fremde Adresse ins Formular tippt, deren
+  -- Einstellungen und Favoriten sofort ersetzen (14.08.2026).
+  pending_frequency TEXT,
+  pending_platforms TEXT,
+  pending_favorites TEXT,
   favorites_at TEXT,
   created_at   TEXT NOT NULL,
   created_ip   TEXT,

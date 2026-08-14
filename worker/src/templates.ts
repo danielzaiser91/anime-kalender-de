@@ -48,7 +48,50 @@ const SHELL = (
 <tr><td style="padding:16px 24px;background:#121826;color:#7c879e;font-size:12px;line-height:1.6;">${footer}</td></tr>
 </table></td></tr></table></body></html>`
 
-export function confirmMail(confirmUrl: string): { subject: string; html: string; text: string } {
+/**
+ * Bestätigungsmail — in zwei Fassungen.
+ *
+ * `aenderung` gilt, wenn die Adresse **bereits ein aktives Abo** hat und
+ * jemand das Anmeldeformular erneut damit abgeschickt hat. Für den Empfänger
+ * ist das ein völlig anderer Vorgang: Er hat ein laufendes Abo, und jemand —
+ * womöglich er selbst auf einem anderen Gerät, womöglich ein Fremder — möchte
+ * daran etwas ändern. Die Mail muss deshalb zwei Dinge unmissverständlich
+ * sagen: Was sich ändern würde, und dass **Nichtstun sicher ist**.
+ *
+ * Der Unterschied ist nicht kosmetisch. Bis zum 14.08.2026 wurden die
+ * Änderungen sofort wirksam, und diese Mail war nur eine Benachrichtigung nach
+ * getaner Tat — wer sie ignorierte, behielt fremde Einstellungen. Jetzt
+ * passiert ohne Klick nichts, und genau das muss dastehen, sonst klickt jemand
+ * aus Sorge auf einen Link, den ein Fremder ausgelöst hat.
+ */
+export function confirmMail(
+  confirmUrl: string,
+  aenderung = false,
+): { subject: string; html: string; text: string } {
+  if (aenderung) {
+    const subject = 'Änderung an deinem Newsletter bestätigen'
+    const html = SHELL(
+      subject,
+      `<p style="margin:0 0 14px;">Für diese Adresse besteht bereits ein Abo, und es wurde eine
+       <strong style="color:#e2e8f0;">Änderung angefordert</strong> — an Rhythmus, Plattformauswahl
+       oder gemerkten Titeln.</p>
+       <p style="margin:0 0 14px;">Warst du das, bestätige sie mit einem Klick. Bis dahin bleibt
+       dein Abo <strong style="color:#e2e8f0;">unverändert</strong>.</p>
+       <p style="margin:0 0 20px;"><a href="${confirmUrl}"
+         style="display:inline-block;background:#38bdf8;color:#06121d;text-decoration:none;padding:11px 20px;border-radius:9px;font-weight:700;">
+         Änderung übernehmen</a></p>
+       <p style="margin:0;color:#9aa5bd;font-size:13px;">Falls der Knopf nicht geht:<br>
+       <a href="${confirmUrl}" style="color:#7dd3fc;word-break:break-all;">${confirmUrl}</a></p>`,
+      'Warst du das nicht, ignoriere diese Mail einfach. Ohne deinen Klick ändert sich nichts, und dein Abo läuft unverändert weiter.',
+    )
+    const text =
+      `Für diese Adresse besteht bereits ein Abo, und es wurde eine Änderung angefordert.\n` +
+      `Bis zu deinem Klick bleibt alles, wie es ist.\n\n` +
+      `Änderung übernehmen: ${confirmUrl}\n\n` +
+      `Warst du das nicht, ignoriere diese Mail — ohne deinen Klick ändert sich nichts.`
+    return { subject, html, text }
+  }
+
   const subject = 'Bitte bestätige deine Newsletter-Anmeldung'
   const html = SHELL(
     subject,
