@@ -209,6 +209,21 @@
   publisher: "AniMoon Publishing"
   edition: "Complete Box, Blu-ray"
   schedule: { firstEpisodeDate: "2026-09-04" }
+  # Zwei Termine, keiner belegbar — also stehen beide da (Daniels Regel,
+  # 13.08.2026): Anime2You nennt den 04.09., aniSearch den 25.09. für dieselbe
+  # AniMoon-Ausgabe, und der Verlag selbst schreibt in seinem Shop nur
+  # „September 26" ohne Tag. Fünf Händler geprüft (jpc, Akiba Pass, Anime
+  # Planet, Amazon, AniMoon), keiner nennt einen konkreten Liefertag.
+  #
+  # Im Kalender steht der 04.09., weil zwei Einträge behaupten würden, es gebe
+  # zwei Veröffentlichungen. Der Zweitkandidat erscheint im Detail-Panel.
+  #
+  # Nicht verwechseln: Der Kazé-Release von 2013 ist eine **DVD** und eine ganz
+  # andere, ältere Ausgabe (Daniels Fund, 13.08.2026). Hier geht es um die
+  # Blu-ray-Komplettbox von AniMoon.
+  disputedDates:
+    - date: "2026-09-25"
+      source: https://www.anisearch.de/article/209920,inazuma-eleven-staffel-1-blu-ray
   sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/, https://www.anime2you.de/news/1035909/24-blu-ray-termine-verschoben/]
 
 - slug: infinite-dendrogram-vol2

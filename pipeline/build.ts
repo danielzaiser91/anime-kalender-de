@@ -1114,6 +1114,7 @@ function main(): void {
       publisher: entry.publisher,
       edition: entry.edition,
       note: entry.note,
+      disputedDates: entry.disputedDates,
       schedule,
       year: releaseYear,
       sources: [...new Set(sources)],
@@ -1767,9 +1768,13 @@ function main(): void {
    * fehlte der Abschnitt ganz, obwohl es eine zweite Staffel gibt.
    *
    * Nur Reihen mit mehr als einem Eintrag — ein Einzeltitel hat keine Reihe.
-   * 460 Reihen, 1.709 Titel, 33 KB gzip, nachgeladen beim ersten Öffnen eines
-   * Detail-Panels. Cover stehen bewusst nicht darin: Sie würden die Datei
-   * verdoppeln, und für eine Auswahlliste braucht es sie nicht.
+   * 462 Reihen, nachgeladen beim ersten Öffnen eines Detail-Panels.
+   *
+   * **Cover stehen seit dem 13.08.2026 mit drin.** Vorher nicht, mit der
+   * Begründung „für eine Auswahlliste braucht es sie nicht" — aus der
+   * Auswahlliste ist ein Karussell aus Vorschaukarten geworden, und eine Karte
+   * ohne Bild ist keine. Gespeichert wird nur der Dateiname ohne
+   * Adressvorsatz; den hängt `loadFranchises` wieder an.
    */
   const nachReihe = new Map<number, typeof slim>()
   for (const t of slim) {
@@ -1787,6 +1792,10 @@ function main(): void {
       format: t.format,
       jpYear: t.jpYear,
       episodes: t.episodes,
+      // Nur der Dateiname; den Vorsatz hängt `loadFranchises` wieder an.
+      cover: t.coverImage?.startsWith(ANILIST_COVER_BASIS)
+        ? t.coverImage.slice(ANILIST_COVER_BASIS.length)
+        : t.coverImage,
     }))
   }
   writeJson(`${OUT}/franchises.json`, reihen)

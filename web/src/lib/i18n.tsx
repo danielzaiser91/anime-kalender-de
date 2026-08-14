@@ -204,7 +204,14 @@ const TEXTE = {
   'detail.plotLess': 'weniger anzeigen',
   'detail.plotOnlyEnglish': 'Nur in der anderen Sprache verfügbar — eine maschinelle Übersetzung würde den Inhalt verfälschen.',
   'detail.seasons': 'Alles aus dieser Reihe',
-  'detail.pickSeason': 'Staffel, Film oder Special',
+  // Nur noch als Beschriftung des Karussells für Screenreader — sichtbar steht
+  // dort nichts mehr: Ein Karussell aus Covern erklärt sich selbst.
+  'detail.seriesParts': 'Teile dieser Reihe',
+  // Zwei Termine, keiner belegbar — beide anzeigen statt einen zu verschweigen
+  // (Daniels Regel, 13.08.2026).
+  'detail.disputedDate': 'Eine andere Quelle nennt:',
+  'detail.disputedDateHint':
+    'wir konnten nicht klären, welcher Tag stimmt. Beide Quellen sind verlinkt, der Kalender führt den erstgenannten.',
   'detail.seasonLoading': 'Wird geladen …',
   'detail.start': 'Start',
   'detail.startCinema': 'Im Kino ab',

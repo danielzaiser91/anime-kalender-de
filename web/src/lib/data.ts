@@ -150,7 +150,18 @@ let franchisesPromise: Promise<Franchises> | undefined
  * gar nichts (gemeldet von Daniel, 12.08.2026).
  */
 export function loadFranchises(): Promise<Franchises> {
-  franchisesPromise ??= loadJson<Franchises>('franchises.json').catch(() => ({}) as Franchises)
+  franchisesPromise ??= loadJson<Franchises>('franchises.json')
+    .then((reihen) => {
+      // Der Adressvorsatz der Cover fehlt in der Datei — hier kommt er zurück,
+      // an genau einer Stelle. Siehe ANILIST_COVER_BASIS.
+      for (const mitglieder of Object.values(reihen)) {
+        for (const m of mitglieder) {
+          if (m.cover && !m.cover.startsWith('http')) m.cover = ANILIST_COVER_BASIS + m.cover
+        }
+      }
+      return reihen
+    })
+    .catch(() => ({}) as Franchises)
   return franchisesPromise
 }
 

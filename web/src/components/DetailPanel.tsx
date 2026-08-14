@@ -119,6 +119,35 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
           {release.note}
         </p>
       )}
+      {/*
+        Zwei Termine, keiner belegbar — dann stehen beide da.
+
+        Nicht heimlich einen wählen: Wenn zwei Quellen verschiedene Tage nennen
+        und keine sich belegen lässt, bekommt der Leser beide samt Quelle und
+        entscheidet selbst (Daniels Regel, 13.08.2026). Der Kalender führt
+        weiterhin nur einen Termin — zwei Einträge würden behaupten, es gebe
+        zwei Veröffentlichungen, und das wäre die schlimmere Falschaussage.
+      */}
+      {release.disputedDates?.length ? (
+        <p className="mt-1 rounded bg-amber-500/10 px-2 py-1 text-xs leading-relaxed text-amber-600 dark:text-amber-400">
+          {t('detail.disputedDate')}{' '}
+          {release.disputedDates.map((d, i) => (
+            <span key={d.date}>
+              {i > 0 && ', '}
+              <a
+                href={d.source}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="cursor-pointer font-semibold underline decoration-dotted underline-offset-2 hover:text-amber-500"
+              >
+                {formatDate(d.date)}
+              </a>
+            </span>
+          ))}
+          {' — '}
+          {t('detail.disputedDateHint')}
+        </p>
+      ) : null}
       <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-slate-600 dark:text-slate-300">
         <dt className="text-slate-400">
           {t(
@@ -458,15 +487,66 @@ export function DetailPanel({
    * geht deshalb über das, was die Anwendung ohnehin geladen hat — wer im
    * Detail-Panel steht, hat die passende Liste vorher geöffnet.
    */
-  const reihenIds: number[] = useMemo(() => {
+  /**
+   * Alle Teile der Reihe als Karten — aus **beiden** Beständen.
+   *
+   * `franchises.json` deckt nur den gepflegten Bestand ab. Titel ohne deutsche
+   * Synchro stehen dort nicht, gehören aber zur selben Reihe: „Link Click" hat
+   * sieben Teile und keinen einzigen mit Synchro — der Umschalter fehlte dort
+   * deshalb ganz, obwohl die Kachel korrekt gebündelt war (Daniel, 13.08.2026).
+   *
+   * Die zweite Quelle ist das, was die Anwendung ohnehin geladen hat. Wer im
+   * Detail-Panel steht, hat die passende Liste vorher geöffnet; im Kalender
+   * fehlen die Cover mancher Teile, dafür trägt `franchises.json` sie bei.
+   */
+  const reihenTeile: FranchiseMember[] = useMemo(() => {
     if (!title) return []
     const wurzel = title.franchiseId ?? title.id
-    const ids = new Set<number>([title.id, ...reihe.map((m) => m.id)])
+    const teile = new Map<number, FranchiseMember>()
+    for (const m of reihe) teile.set(m.id, m)
     for (const t of data.titleById.values()) {
-      if ((t.franchiseId ?? t.id) === wurzel) ids.add(t.id)
+      if ((t.franchiseId ?? t.id) !== wurzel) continue
+      const bisher = teile.get(t.id)
+      teile.set(t.id, {
+        id: t.id,
+        name: bisher?.name ?? t.titleDe ?? t.titleEn ?? t.titleRomaji ?? `#${t.id}`,
+        format: bisher?.format ?? t.format,
+        jpYear: bisher?.jpYear ?? t.jpYear,
+        episodes: bisher?.episodes ?? t.episodes,
+        cover: bisher?.cover ?? t.coverImage,
+      })
     }
-    return [...ids]
+    if (!teile.has(title.id)) {
+      teile.set(title.id, {
+        id: title.id,
+        name: anzeigeName(title),
+        format: title.format,
+        jpYear: title.jpYear,
+        episodes: title.episodes,
+        cover: title.coverImage,
+      })
+    }
+    // Nach Ausstrahlung: erst das Jahr, dann die Kennung als stabiler Zweitschlüssel.
+    return [...teile.values()].sort((a, b) => (a.jpYear ?? 9999) - (b.jpYear ?? 9999) || a.id - b.id)
   }, [title, reihe, data])
+
+  const reihenIds: number[] = useMemo(() => reihenTeile.map((m) => m.id), [reihenTeile])
+
+  /**
+   * Das Banner des Titels — oder geliehen von einem Teil der Reihe, der eines hat.
+   *
+   * Ohne den Rückfall verschwindet der Kopf beim Umschalten auf ein Special und
+   * kommt beim Zurückschalten wieder; das Panel springt dabei um 112 Pixel.
+   */
+  const banner: string | undefined = useMemo(() => {
+    if (!title) return undefined
+    if (title.bannerImage) return title.bannerImage
+    for (const m of reihenTeile) {
+      const t = data.titleById.get(m.id)
+      if (t?.bannerImage) return t.bannerImage
+    }
+    return undefined
+  }, [title, reihenTeile, data])
 
   /**
    * Wie die Reihe heißt — nicht, wie die gerade gewählte Staffel heißt.
@@ -605,10 +685,18 @@ export function DetailPanel({
           Stern"). Merksatz: In einer scrollenden Flex-Spalte ist eine Höhe
           ohne `shrink-0` ein Vorschlag, keine Angabe.
         */}
-        <div className={`relative shrink-0 ${title.bannerImage ? '' : 'h-9'}`}>
-          {title.bannerImage && (
-            <img src={title.bannerImage} alt="" className="h-28 w-full object-cover opacity-70" />
-          )}
+        {/*
+          Das Banner bleibt beim Wechsel des Reihenteils stehen.
+
+          Vorher hing es allein an `title.bannerImage` — und weil längst nicht
+          jeder Teil einer Reihe eines hat, verschwand es beim Umschalten und
+          kam beim Zurückschalten wieder. Der Kopf sprang dabei um 112 Pixel
+          (Daniel, 13.08.2026). Jetzt gilt: eigenes Banner, sonst das des
+          ersten Teils der Reihe, der eines hat. Ein Banner ist Schmuck für die
+          Reihe, kein Beleg für den einzelnen Titel — es darf geliehen werden.
+        */}
+        <div className={`relative shrink-0 ${banner ? '' : 'h-9'}`}>
+          {banner && <img src={banner} alt="" className="h-28 w-full object-cover opacity-70" />}
           <button
             type="button"
             onClick={onClose}
@@ -619,10 +707,64 @@ export function DetailPanel({
           </button>
         </div>
 
-        <div className="flex gap-3 p-4">
-          {title.coverImage && (
-            <img src={title.coverImage} alt="" className="h-40 w-28 shrink-0 rounded-lg object-cover shadow-lg" />
-          )}
+        {/*
+          Das Karussell der Reihenteile — es ersetzt Cover **und** Auswahlliste.
+
+          Vorher stand links ein einzelnes Cover, rechts daneben alle Angaben,
+          und weiter unten eine Auswahlliste mit der Überschrift „Staffel, Film
+          oder Special". Drei Bausteine für eine Sache. Jetzt zeigt das
+          Karussell alle Teile als Vorschaukarten, der gewählte ist darin
+          hervorgehoben, und die Angaben stehen darunter über die volle Breite
+          (Daniel, 13.08.2026). Die Überschrift entfällt: Ein Karussell aus
+          Covern erklärt sich selbst.
+
+          Auch bei einem Einzeltitel bleibt es stehen — dann als eine Karte.
+          Sonst verschwände beim Umschalten auf einen Titel ohne Geschwister
+          das Cover, und der Kopf sähe plötzlich anders aus.
+        */}
+        <div className="flex flex-col gap-3 p-4">
+          <div
+            className="-mx-1 flex snap-x snap-mandatory gap-2 overflow-x-auto px-1 pb-1"
+            role="tablist"
+            aria-label={t('detail.seriesParts')}
+          >
+            {reihenTeile.map((m) => {
+              const gewaehlt = m.id === title.id
+              return (
+                <button
+                  key={m.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={gewaehlt}
+                  disabled={wechselt}
+                  onClick={() => !gewaehlt && wechsleZu(m.id)}
+                  className={[
+                    'group/karte relative w-24 shrink-0 snap-start overflow-hidden rounded-lg border text-left transition',
+                    'focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 disabled:opacity-60',
+                    gewaehlt
+                      ? 'border-sky-400 ring-2 ring-sky-400/60'
+                      : 'cursor-pointer border-slate-200 opacity-70 hover:opacity-100 dark:border-white/10',
+                  ].join(' ')}
+                >
+                  <span className="block aspect-[2/3] w-full bg-slate-200 dark:bg-white/5">
+                    {m.cover && (
+                      <img src={m.cover} alt="" loading="lazy" className="h-full w-full object-cover" />
+                    )}
+                  </span>
+                  <span className="block px-1.5 py-1 text-[10px] leading-tight text-slate-600 dark:text-slate-300">
+                    <span className="line-clamp-2 font-medium">{eindeutschenStaffel(m.name)}</span>
+                    <span className="mt-0.5 block text-slate-400 dark:text-slate-500">
+                      {[m.format && m.format !== 'TV' ? (FORMAT_DE[m.format] ?? m.format) : '', m.jpYear]
+                        .filter(Boolean)
+                        .join(' · ')}
+                    </span>
+                  </span>
+                </button>
+              )
+            })}
+          </div>
+          {wechselt && <span className="text-[11px] text-slate-400">{t('detail.seasonLoading')}</span>}
+
           <div className="min-w-0 flex-1">
             <div className="flex items-start gap-2">
               <h2 className="flex-1 text-lg font-semibold leading-tight text-slate-900 dark:text-white">
@@ -637,10 +779,27 @@ export function DetailPanel({
                 Ohne weitere Teile in der Reihe bliebe er ohne Wirkung und
                 bleibt deshalb ganz weg.
               */}
-              <div className="flex flex-col items-center gap-1">
+              {/*
+                Die zweite Reihe steht **außerhalb des Flusses**.
+
+                Zuerst hing sie in einer Flex-Spalte unter dem Stern — und beim
+                Merken wuchs die Spalte, mit ihr die Zeile, und der ganze Rest
+                des Panels rutschte nach unten (Daniel, 13.08.2026: „das
+                Einblenden des Multi-Sterns verschiebt die Elemente unschön").
+                Ein Bedienelement, das beim Benutzen die Seite bewegt, ist immer
+                falsch: Der Blick sucht danach die Stelle neu, an der er gerade
+                noch war.
+
+                `absolute top-full` hängt sie unter den Stern, ohne Höhe
+                beizusteuern. Damit sie dabei nichts überdeckt, tragen die
+                beiden Titelzeilen darunter dauerhaft rechts Platz — dauerhaft
+                und nicht nur beim Einblenden, sonst wäre der Umbruch wieder ein
+                Sprung, nur eben waagrecht.
+              */}
+              <div className="relative">
                 <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
                 {favorites.has(title.id) && reihenIds.length > 1 && (
-                  <div className="flex items-center gap-1">
+                  <div className="absolute right-0 top-full mt-1 flex items-center gap-1">
                     <ReihenStern
                       alleGemerkt={reihenIds.every((id) => favorites.has(id))}
                       anzahl={reihenIds.length}
@@ -671,13 +830,17 @@ export function DetailPanel({
             {title.titleNative && <p className="text-xs text-slate-400 dark:text-slate-500">{title.titleNative}</p>}
             <div className="mt-2 flex flex-wrap items-center gap-1.5">
               {/*
-                Bei einem Titel ohne belegte Synchro steht hier kein Status.
-                „Termin unbekannt" wäre die falsche Auskunft — unbekannt ist
-                nicht der Termin, sondern ob es je eine deutsche Fassung gibt.
-                Der Kasten weiter unten sagt genau das, in ganzen Sätzen.
+                Status und FSK standen hier **und** in jedem Terminblock
+                darunter — bei einem Titel mit genau einem Release war das
+                zweimal dieselbe Auskunft im selben Bild (Daniel, 13.08.2026:
+                „erschienen und fsk label werden im panel doppelt angezeigt").
+
+                Weg ist die Angabe hier oben, nicht die unten: Der Terminblock
+                nennt sie **je Release**, und das ist die genauere Aussage —
+                eine Disc kann eine andere Freigabe tragen als der Stream, und
+                „erschienen" gilt für einen Termin, nicht für einen Anime. Die
+                Bewertung bleibt, die gibt es je Titel nur einmal.
               */}
-              {!title.ohneSynchro && <StatusBadge status={status} small />}
-              {title.fsk !== undefined && <FskBadge fsk={title.fsk} small />}
               {title.score !== undefined && (
                 <span className="rounded bg-slate-200/70 px-1.5 py-0.5 text-[11px] font-semibold tabular-nums dark:bg-white/10">
                   ★ {(title.score / 10).toFixed(1)}
@@ -729,33 +892,6 @@ export function DetailPanel({
             eine Reihe zehn Einträge haben kann und die Termine darunter der
             eigentliche Inhalt bleiben sollen.
           */}
-          {reihe.length > 1 && (
-            <label className="flex flex-col gap-1">
-              <SectionTitle>{t('detail.pickSeason')}</SectionTitle>
-              <select
-                value={title.id}
-                disabled={wechselt}
-                onChange={(e) => wechsleZu(Number(e.target.value))}
-                className="w-full cursor-pointer rounded-lg border border-slate-300 bg-white px-2 py-1.5 text-sm disabled:opacity-60 dark:border-white/15 dark:bg-white/5"
-              >
-                {reihe.map((m) => (
-                  <option key={m.id} value={m.id}>
-                    {[
-                      eindeutschenStaffel(m.name),
-                      m.format && m.format !== 'TV' ? `(${FORMAT_DE[m.format] ?? m.format})` : '',
-                      m.jpYear ? `· ${m.jpYear}` : '',
-                    ]
-                      .filter(Boolean)
-                      .join(' ')}
-                  </option>
-                ))}
-              </select>
-              {wechselt && (
-                <span className="text-[11px] text-slate-400">{t('detail.seasonLoading')}</span>
-              )}
-            </label>
-          )}
-
           {releases.length > 0 ? (
             <div className="flex flex-col gap-3">
               <SectionTitle>{t('detail.releases')}</SectionTitle>

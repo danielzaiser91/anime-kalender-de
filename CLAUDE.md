@@ -139,6 +139,21 @@ Ergebnis ist eine Rangfolge, die für jeden künftigen Disc-Termin gilt:
 **Praktische Folge:** Widerspricht aniSearch einem Termin, der aus Anime2You stammt und von
 Hand nachgezogen wurde, gewinnt unser Termin. Widerspricht ein **Shop**, wird nachgesehen.
 
+**Zwei Termine, keiner belegbar? Dann werden beide geführt** (Daniels Regel, 13.08.2026).
+Nicht heimlich einen wählen und den anderen in einer Fußnote verstecken: Wenn zwei Quellen
+verschiedene Tage nennen und sich keiner davon bestätigen lässt, bekommt der Leser beide —
+jeden mit seiner Quelle verlinkt, dazu der Satz, dass wir es nicht klären konnten. Er
+entscheidet dann selbst, und er weiß, woran er ist.
+
+Technisch: `Release.disputedDates`, gepflegt in `data/curated/*.yaml`. Der **Kalender** führt
+weiterhin nur einen Termin — zwei Einträge würden behaupten, es gebe zwei Veröffentlichungen,
+und das wäre die schlimmere Falschaussage. Der Zweitkandidat erscheint im Detail-Panel unter
+dem Terminblock.
+
+Erster Fall: „Inazuma Eleven – Staffel 1". Anime2You nennt den 04.09.2026, aniSearch den
+25.09.2026 für dieselbe AniMoon-Ausgabe, der Verlag selbst nur „September 2026" ohne Tag.
+Fünf Händler geprüft, keiner nennt einen Liefertag.
+
 **Ausländische Ausgaben gehören nicht in den Bestand.** aniSearch führt US-, UK- und
 französische Veröffentlichungen gleichberechtigt in derselben Liste. Bis zum 13.08.2026 nahm
 `extract-disc-dates.ts` sie alle mit und hängte jedem Vorschlag den **deutschen** Publisher

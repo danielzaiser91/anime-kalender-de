@@ -220,6 +220,25 @@ export interface Release {
   publisher?: string
   edition?: string
   note?: string
+  /**
+   * Ein **zweiter** Termin, den eine andere Quelle nennt.
+   *
+   * Wenn zwei Quellen unterschiedliche Tage angeben und keine von beiden sich
+   * belegen lässt, wird nicht heimlich eine gewählt: Beide stehen da, mit ihrer
+   * Quelle, und der Leser entscheidet selbst (Daniels Regel, 13.08.2026).
+   *
+   * Warum trotzdem nur **ein** Termin im Kalender steht: Zwei Einträge würden
+   * behaupten, es gebe zwei Veröffentlichungen — das wäre eine andere und
+   * schlimmere Falschaussage als ein Tag, der um drei Wochen danebenliegt. Der
+   * Zweitkandidat erscheint deshalb im Detail-Panel neben dem ersten, samt
+   * Hinweis, dass wir uns nicht sicher sind.
+   *
+   * Der Anlass: „Inazuma Eleven – Staffel 1". Anime2You nennt den 04.09.2026,
+   * aniSearch den 25.09.2026 für dieselbe AniMoon-Ausgabe, und der Verlag
+   * selbst schreibt nur „September 2026". Fünf Händler geprüft, keiner nennt
+   * einen Tag.
+   */
+  disputedDates?: { date: string; source: string }[]
   schedule: Schedule
   /** Jahr der ersten Folge im deutschen Dub. */
   year: number
@@ -266,6 +285,16 @@ export interface FranchiseMember {
   format?: string
   jpYear?: number
   episodes?: number
+  /**
+   * Cover **ohne** Adressvorsatz — `ANILIST_COVER_BASIS` kommt beim Laden dazu.
+   *
+   * Stand hier bis zum 13.08.2026 bewusst nicht drin: „Sie würden die Datei
+   * verdoppeln, und für eine Auswahlliste braucht es sie nicht." Aus der
+   * Auswahlliste ist ein Karussell aus Vorschaukarten geworden, und eine Karte
+   * ohne Bild ist keine. Die Begründung von damals gilt also nicht mehr — der
+   * Preis dafür steht in der Zeile, in der `franchises.json` geschrieben wird.
+   */
+  cover?: string
 }
 
 /** franchiseId → alle Einträge der Reihe, in Ausstrahlungsreihenfolge. */

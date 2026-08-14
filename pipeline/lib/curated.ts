@@ -18,6 +18,14 @@ export interface CuratedEntry {
   publisher?: string
   edition?: string
   note?: string
+  /**
+   * Zweitkandidaten für den Termin, jeweils mit Quelle.
+   *
+   * Wenn zwei Quellen verschiedene Tage nennen und keine sich belegen lässt,
+   * werden beide geführt statt heimlich einer gewählt (Daniels Regel,
+   * 13.08.2026). Siehe `Release.disputedDates`.
+   */
+  disputedDates?: { date: string; source: string }[]
   genres?: string[]
   keywords?: string[]
   schedule?: Schedule
