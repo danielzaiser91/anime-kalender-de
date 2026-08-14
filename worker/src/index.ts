@@ -194,6 +194,27 @@ async function handleSubscribe(request: Request, env: Env): Promise<Response> {
 }
 
 /**
+ * Gibt den Abgleich-Schlüssel zurück — und legt ihn an, falls er fehlt.
+ *
+ * `pref_token` kam erst mit Migration 002 und hat den Vorgabewert `''`. Jedes
+ * Abo, das **vorher** bestätigt wurde, hat bis heute keinen: Diese Abonnenten
+ * bekommen keinen Abgleich-Link in ihren Mails und können ihre Favoriten
+ * nirgends abgleichen — sie merken es nur nicht, weil nichts fehlschlägt.
+ *
+ * Ohne diese Stelle hätte der neue Wiederherstellungs-Link es sogar schlimmer
+ * gemacht: Er hätte auf `…?sync=` verwiesen, der Browser hätte einen leeren
+ * Schlüssel gespeichert, und jeder spätere Abgleich wäre ins Leere gelaufen
+ * (aufgefallen 14.08.2026, als Daniel fragte, warum sein Browser als „nicht
+ * verbunden" gilt — er ist genau so ein Alt-Abo).
+ */
+async function sichereSchluessel(env: Env, id: string, vorhanden: string | null | undefined): Promise<string> {
+  if (vorhanden) return vorhanden
+  const neu = crypto.randomUUID()
+  await env.DB.prepare('UPDATE subscribers SET pref_token = ?1 WHERE id = ?2').bind(neu, id).run()
+  return neu
+}
+
+/**
  * Zähler je Schlüssel und Zeitfenster — gibt `true`, wenn noch Platz ist.
  *
  * Bewusst schlicht: ein Zähler, ein Fensteranfang, kein gleitendes Fenster.
@@ -320,7 +341,8 @@ async function handleRestoreConfirm(request: Request, env: Env): Promise<Respons
     .bind(row.id)
     .run()
 
-  const ziel = `${env.SITE_URL.replace(/\/$/, '')}/#/newsletter?sync=${row.pref_token}&restored=1`
+  const schluessel = await sichereSchluessel(env, row.id, row.pref_token)
+  const ziel = `${env.SITE_URL.replace(/\/$/, '')}/#/newsletter?sync=${schluessel}&restored=1`
   return Response.redirect(ziel, 302)
 }
 
@@ -357,12 +379,15 @@ async function handleConfirm(request: Request, env: Env): Promise<Response> {
   // Abgleich-Token. Der Browser merkt es sich und schickt ab da jede Änderung
   // an den Favoriten von selbst. Ohne diesen Schritt bliebe die im Dienst
   // gespeicherte Liste auf dem Stand der Anmeldung stehen.
-  const row = await env.DB.prepare('SELECT pref_token FROM subscribers WHERE confirm_token = ?1')
+  const row = await env.DB.prepare('SELECT id, pref_token FROM subscribers WHERE confirm_token = ?1')
     .bind(token)
-    .first<{ pref_token: string }>()
+    .first<{ id: string; pref_token: string }>()
 
+  // Fehlt der Schlüssel (Alt-Abo von vor Migration 002), wird er hier angelegt
+  // statt den Abgleich stillschweigend wegzulassen.
+  const schluessel = row ? await sichereSchluessel(env, row.id, row.pref_token) : ''
   const target = `${env.SITE_URL.replace(/\/$/, '')}/#/newsletter?welcome=1${
-    row?.pref_token ? `&sync=${row.pref_token}` : ''
+    schluessel ? `&sync=${schluessel}` : ''
   }`
   return Response.redirect(target, 302)
 }

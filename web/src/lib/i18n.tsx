@@ -290,7 +290,7 @@ const TEXTE = {
   'news.dailyHint': '07:00, alles des Tages',
   'news.autoSync': 'Änderungen werden ab jetzt selbsttätig übernommen.',
   'news.noSyncYet':
-    'Falls du bereits abonniert hast: Dieser Browser ist noch nicht mit deinem Abo verbunden — gemerkte Titel bleiben hier liegen. Öffne einmal den Abgleich-Link am Ende einer Newsletter-Mail, dann übernimmt er Änderungen von selbst.',
+    'Falls du bereits abonniert hast: Dieser Browser ist noch nicht mit deinem Abo verbunden — gemerkte Titel bleiben hier liegen. Fordere unter „Favoriten verloren?" einen Link an, dann übernimmt er Änderungen ab sofort von selbst. (Der Abgleich-Link am Ende jeder Newsletter-Mail tut dasselbe.)',
   'news.welcomeTitle': 'Abo aktiv',
   'news.welcomeBody': 'Ab jetzt bekommst du die anstehenden Releases mit deutscher Synchro per Mail.',
   'news.favorites': 'Favoriten: {count} Serien',
