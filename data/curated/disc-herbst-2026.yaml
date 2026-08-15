@@ -326,6 +326,7 @@
   publisher: "peppermint anime"
   edition: "Blu-ray"
   schedule: { firstEpisodeDate: "2026-11-06" }
+  buyUrl: https://www.amazon.de/Banana-Fish-Staffel-Vol-2-Blu-ray/dp/B0H8T2VB68
   sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/]
 
 - slug: bocchi-the-rock-vol3

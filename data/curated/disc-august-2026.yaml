@@ -304,6 +304,7 @@
   publisher: "peppermint anime"
   edition: "Standard & Limited Edition, Blu-ray"
   schedule: { firstEpisodeDate: "2026-08-21" }
+  buyUrl: https://www.amazon.de/Banana-Fish-Staffel-Vol-1-Blu-ray/dp/B0H26RZXLW
   sources: [https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/]
 
 - slug: please-put-them-on-takamine-vol1

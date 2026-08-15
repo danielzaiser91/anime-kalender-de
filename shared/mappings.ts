@@ -786,13 +786,28 @@ export function providerKind(provider: string): 'stream' | 'buy' {
  * unverändert weiterzureichen hieße, deren Provision über unsere Seite laufen
  * zu lassen — eine stille Entscheidung, die niemand getroffen hat. Dieses
  * Projekt ist ausdrücklich unkommerziell; also fliegt der Anhang raus.
+ *
+ * **Die Kennung steht nicht immer in der Abfrage.** aniSearch benutzt daneben
+ * Amazons alte Pfadform `…/exec/obidos/ASIN/<ASIN>/<partnerkennung>/`, und die
+ * ging hier jahrelang durch: Am 15.08.2026 trugen **46** Kaufverweise im
+ * Datensatz noch `anisearch.de-21` — mitten im Pfad, wo `searchParams` nicht
+ * hinsieht. Die Funktion tat also genau das, was sie verhindern sollte.
+ *
+ * Solche Adressen werden auf die heutige Kurzform `amazon.de/dp/<ASIN>`
+ * umgeschrieben. Das entfernt die Kennung nicht nur, es macht den Verweis
+ * zugleich stabiler — die `obidos`-Form ist ein Überbleibsel aus den frühen
+ * 2000ern und leitet nur noch weiter.
  */
 export function stripAffiliate(url: string): string {
+  const obidos = /^https?:\/\/(?:www\.)?amazon\.([a-z.]+)\/exec\/obidos\/ASIN\/([A-Z0-9]{10})/i.exec(url)
+  if (obidos) return `https://www.amazon.${obidos[1]}/dp/${obidos[2]}`
   try {
     const parsed = new URL(url)
     for (const key of ['tag', 'ascsubtag', 'linkCode', 'ref_', 'affiliate', 'utm_source', 'utm_medium']) {
       parsed.searchParams.delete(key)
     }
+    // Auch die Pfadform `/dp/<ASIN>/ref=…` trägt gelegentlich noch eine Kennung.
+    parsed.pathname = parsed.pathname.replace(/\/ref=[^/]*$/, '')
     return parsed.toString().replace(/\?$/, '')
   } catch {
     return url

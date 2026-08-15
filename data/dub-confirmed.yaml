@@ -422,3 +422,16 @@
   platform: crunchyroll
   available: false
   checkedAt: '2026-08-12'
+
+# ---------------------------------------------------------------------------
+# Prüfung vom 15.08.2026 (Daniel, aus dem Detail-Panel heraus)
+# ---------------------------------------------------------------------------
+
+- anilistId: 100388
+  title: Banana Fish
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-15'
+  note: >-
+    Verweis war keine Angebotsseite, sondern eine Amazon-Suche nach
+    „BANANA FISH" im Bereich Prime Video — sie läuft leer.
