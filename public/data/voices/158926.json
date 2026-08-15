@@ -1,1 +1,32 @@
-{"titleId":158926,"updatedAt":"2026-08-11T11:20:03.676Z","roles":[]}
+{
+ "titleId": 158926,
+ "updatedAt": "2026-08-15T18:19:19.280Z",
+ "roles": [
+  {
+   "character": "Spitz Feier",
+   "actor": "Sebastian Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "John Grizzly",
+   "actor": "Matthias Klages",
+   "von": "ann"
+  },
+  {
+   "character": "Totomaru \"Toto\" Ishiki",
+   "actor": "Sebastian Fitzner",
+   "von": "ann"
+  },
+  {
+   "character": "Ron Kamonohashi",
+   "actor": "Florian Hoffmann",
+   "von": "ann"
+  },
+  {
+   "character": "Amamiya",
+   "actor": "Özge Kayalar",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=26745"
+}

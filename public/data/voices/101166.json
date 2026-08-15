@@ -1,1 +1,52 @@
-{"titleId":101166,"updatedAt":"2026-08-11T11:20:03.445Z","roles":[]}
+{
+ "titleId": 101166,
+ "updatedAt": "2026-08-15T18:16:40.169Z",
+ "roles": [
+  {
+   "character": "Artemis",
+   "actor": "Sabine Bohlmann",
+   "von": "ann"
+  },
+  {
+   "character": "Loki",
+   "actor": "Jana Kilka",
+   "von": "ann"
+  },
+  {
+   "character": "Eina Tulle",
+   "actor": "Corinna Dörenkamp",
+   "von": "ann"
+  },
+  {
+   "character": "Bell Cranel",
+   "actor": "Maximilian Belle",
+   "von": "ann"
+  },
+  {
+   "character": "Hestia",
+   "actor": "Christiane Werk",
+   "von": "ann"
+  },
+  {
+   "character": "Liliruca Arde",
+   "actor": "Dagmar Bittner",
+   "von": "ann"
+  },
+  {
+   "character": "Aiz Wallenstein",
+   "actor": "Carolin Sophie Göbel",
+   "von": "ann"
+  },
+  {
+   "character": "Welf Crozzo",
+   "actor": "Alexis Schvartzman",
+   "von": "ann"
+  },
+  {
+   "character": "Hermes",
+   "actor": "Stefan Müller-Doriat",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20674"
+}

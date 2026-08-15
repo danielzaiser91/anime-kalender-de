@@ -1,1 +1,52 @@
-{"titleId":101610,"updatedAt":"2026-08-11T11:20:03.463Z","roles":[]}
+{
+ "titleId": 101610,
+ "updatedAt": "2026-08-15T18:16:51.238Z",
+ "roles": [
+  {
+   "character": "Souma Ogata",
+   "actor": "Roman Wolko",
+   "von": "ann"
+  },
+  {
+   "character": "Aya Chiyono",
+   "actor": "Rieke Werner",
+   "von": "ann"
+  },
+  {
+   "character": "Saki Akutsu",
+   "actor": "Laura Elßel",
+   "von": "ann"
+  },
+  {
+   "character": "Mamoru Suzuhara",
+   "actor": "Sebastian Fitzner",
+   "von": "ann"
+  },
+  {
+   "character": "Hiroto Honjou",
+   "actor": "Sebastian Kluckert",
+   "von": "ann"
+  },
+  {
+   "character": "Malet",
+   "actor": "Bettina Kenney",
+   "von": "ann"
+  },
+  {
+   "character": "Hideo Chiyono",
+   "actor": "Sven Brieger",
+   "von": "ann"
+  },
+  {
+   "character": "Kaori Yamazaki",
+   "actor": "Daniela Molina",
+   "von": "ann"
+  },
+  {
+   "character": "Masahiko Honda",
+   "actor": "Jeremias Koschorz",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22539"
+}

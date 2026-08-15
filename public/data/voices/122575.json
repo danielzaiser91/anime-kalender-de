@@ -1,1 +1,57 @@
-{"titleId":122575,"updatedAt":"2026-08-11T11:20:03.543Z","roles":[]}
+{
+ "titleId": 122575,
+ "updatedAt": "2026-08-15T18:17:36.416Z",
+ "roles": [
+  {
+   "character": "Nobita Nobi",
+   "actor": "Konrad Bösherz",
+   "von": "ann"
+  },
+  {
+   "character": "Nobisuke Nobi",
+   "actor": "Hans Hohlbein",
+   "von": "ann"
+  },
+  {
+   "character": "Doraemon",
+   "actor": "Diana Borgwardt",
+   "von": "ann"
+  },
+  {
+   "character": "Tamako Nobi",
+   "actor": "Gundi Eberhard",
+   "von": "ann"
+  },
+  {
+   "character": "Suneo Honekawa",
+   "actor": "Jan Rohrbach",
+   "von": "ann"
+  },
+  {
+   "character": "Nobitas Großmutter",
+   "actor": "Denise Gorzelanny",
+   "von": "ann"
+  },
+  {
+   "character": "Takeshi \"Gian\" Gouda",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Shizuka Minamoto",
+   "actor": "Laura Elßel",
+   "von": "ann"
+  },
+  {
+   "character": "Nobita Nobi",
+   "actor": "Ilona Brokowski",
+   "von": "ann"
+  },
+  {
+   "character": "Hidetoshi Dekisugi",
+   "actor": "Philipp Lind",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=23724"
+}

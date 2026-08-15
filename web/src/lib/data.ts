@@ -229,9 +229,25 @@ export interface VoiceRole {
   actor: string
   /** 'MAIN' | 'SUPPORTING' | 'BACKGROUND' */
   role?: string
+  /**
+   * Woher die Rolle stammt. Fehlt = AniList.
+   *
+   * Anime News Network verlangt fuer die Nutzung seiner Encyclopedia-Daten eine
+   * Quellennennung **und** einen Link zum jeweiligen Eintrag auf jeder Seite,
+   * die die Angaben zeigt. Ohne dieses Feld liesse sich nicht sagen, ob der
+   * Link ueberhaupt faellig ist.
+   */
+  von?: 'ann'
 }
 
-const voiceCache = new Map<number, Promise<VoiceRole[]>>()
+/** Die Sprecherliste eines Titels samt Herkunft. */
+export interface Voices {
+  roles: VoiceRole[]
+  /** Adresse des ANN-Encyclopedia-Eintrags, wenn von dort Rollen stammen. */
+  annUrl?: string
+}
+
+const voiceCache = new Map<number, Promise<Voices>>()
 
 /**
  * Deutsche Synchronsprecher eines Titels — eine eigene Datei je Titel.
@@ -244,12 +260,12 @@ const voiceCache = new Map<number, Promise<VoiceRole[]>>()
  * Fehlt die Datei, hat AniList für diesen Titel keine deutschen Stimmen — das
  * ist kein Fehler, sondern die Antwort.
  */
-export function loadVoices(titleId: number): Promise<VoiceRole[]> {
+export function loadVoices(titleId: number): Promise<Voices> {
   let geladen = voiceCache.get(titleId)
   if (!geladen) {
-    geladen = loadJson<{ roles?: VoiceRole[] }>(`voices/${titleId}.json`)
-      .then((d) => d.roles ?? [])
-      .catch(() => [])
+    geladen = loadJson<{ roles?: VoiceRole[]; annUrl?: string }>(`voices/${titleId}.json`)
+      .then((d) => ({ roles: d.roles ?? [], annUrl: d.annUrl }))
+      .catch(() => ({ roles: [] }))
     voiceCache.set(titleId, geladen)
   }
   return geladen

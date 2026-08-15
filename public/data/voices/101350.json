@@ -1,1 +1,37 @@
-{"titleId":101350,"updatedAt":"2026-08-11T11:20:03.456Z","roles":[]}
+{
+ "titleId": 101350,
+ "updatedAt": "2026-08-15T18:16:44.660Z",
+ "roles": [
+  {
+   "character": "Hiroki",
+   "actor": "Konrad Bösherz",
+   "von": "ann"
+  },
+  {
+   "character": "Katsuragi",
+   "actor": "Bernd Vollbrecht",
+   "von": "ann"
+  },
+  {
+   "character": "Jin",
+   "actor": "Flavia Vinzens",
+   "von": "ann"
+  },
+  {
+   "character": "Satoru",
+   "actor": "Sascha Krüger",
+   "von": "ann"
+  },
+  {
+   "character": "Tsukasa",
+   "actor": "Dennis Sandmann",
+   "von": "ann"
+  },
+  {
+   "character": "Hayashi",
+   "actor": "Patrick Giese",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20777"
+}

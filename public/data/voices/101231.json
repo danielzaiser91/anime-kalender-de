@@ -1,1 +1,62 @@
-{"titleId":101231,"updatedAt":"2026-08-11T11:20:03.447Z","roles":[]}
+{
+ "titleId": 101231,
+ "updatedAt": "2026-08-15T18:16:41.254Z",
+ "roles": [
+  {
+   "character": "Xiao Ming",
+   "actor": "Jesse Grimm",
+   "von": "ann"
+  },
+  {
+   "character": "Pan",
+   "actor": "Ivo Möller",
+   "von": "ann"
+  },
+  {
+   "character": "Young Company Boss",
+   "actor": "Nils Rieke",
+   "von": "ann"
+  },
+  {
+   "character": "Yilin",
+   "actor": "Nadine Schreier",
+   "von": "ann"
+  },
+  {
+   "character": "Lulu",
+   "actor": "Linda Fölster",
+   "von": "ann"
+  },
+  {
+   "character": "Steve",
+   "actor": "Christos Topoulos",
+   "von": "ann"
+  },
+  {
+   "character": "Xiaoyu",
+   "actor": "Jenny Maria Meyer",
+   "von": "ann"
+  },
+  {
+   "character": "Limo",
+   "actor": "Flemming Stein",
+   "von": "ann"
+  },
+  {
+   "character": "Editing Chief",
+   "actor": "Detlef Tams",
+   "von": "ann"
+  },
+  {
+   "character": "Xiao Ming's Grandmother",
+   "actor": "Gerlinde Dillge",
+   "von": "ann"
+  },
+  {
+   "character": "Shui Jing",
+   "actor": "Lotta Doll",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=21127"
+}

@@ -64,6 +64,16 @@ QUELLEN=(
   # neueste Quelle, und die Frage „woher kam der alte Termin?" wäre erneut
   # unbeantwortbar.
   data/quellen-historie.json
+  # Zuordnung AniList → Anime News Network, aus dem Offline-Datensatz von
+  # manami-project. Ohne sie fände `data:ann:voices` keinen einzigen Titel und
+  # der Lauf wäre still wirkungslos.
+  data/ann-ids.json
+  # Die Rohantworten der ANN-Encyclopedia, rund 8 KB je Titel. Sie stehen hier
+  # aus demselben Grund wie das aniSearch-Archiv: ANN erlaubt **eine** Anfrage
+  # pro Sekunde, ein voller Lauf über 2.112 Titel dauert 35 Minuten. Ein später
+  # gebrauchtes Feld muss eine Änderung am Parser sein können und nicht ein
+  # zweiter Lauf über eine fremde Schnittstelle mit hartem Limit.
+  data/ann-raw
   # Ergebnis des Crunchyroll-Synchro-Laufs. Steht hier vorsorglich: Läuft er
   # eines Tages in der CI, wären 918 Seitenabrufe sonst nach einem Reset weg.
   data/crunchyroll-dub.json

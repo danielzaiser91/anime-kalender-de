@@ -1,1 +1,37 @@
-{"titleId":147864,"updatedAt":"2026-08-11T11:20:03.646Z","roles":[]}
+{
+ "titleId": 147864,
+ "updatedAt": "2026-08-15T18:18:50.875Z",
+ "roles": [
+  {
+   "character": "Mahiro Oyama",
+   "actor": "Lara Wurmer",
+   "von": "ann"
+  },
+  {
+   "character": "Asahi Ōka",
+   "actor": "Patricia Strasburger",
+   "von": "ann"
+  },
+  {
+   "character": "Mihari Oyama",
+   "actor": "Daniela Molina",
+   "von": "ann"
+  },
+  {
+   "character": "Kaede Hozuki",
+   "actor": "Angelina Markiefka",
+   "von": "ann"
+  },
+  {
+   "character": "Miyo Murosaki",
+   "actor": "Melanie Olbert",
+   "von": "ann"
+  },
+  {
+   "character": "Momiji Hozuki",
+   "actor": "Sabrina Schwarz",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=25571"
+}

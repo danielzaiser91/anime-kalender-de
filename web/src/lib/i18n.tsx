@@ -257,6 +257,8 @@ const TEXTE = {
   'detail.voices': 'Deutsche Stimmen',
   'detail.voicesLoading': 'Wird geladen …',
   'detail.voicesNone': 'Keine Angaben gefunden.',
+  // Anime News Network kommt nur dazu, wenn von dort auch Rollen stammen — der
+  // Link daneben ist deren Nutzungsauflage, nicht bloß eine Höflichkeit.
   'detail.voicesSource': 'Angaben von AniList',
   'detail.lastEpisode': 'Letzte Folge',
   'detail.allDates': 'Alle Termine',

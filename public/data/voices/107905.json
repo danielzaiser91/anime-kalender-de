@@ -1,1 +1,67 @@
-{"titleId":107905,"updatedAt":"2026-08-11T11:20:03.502Z","roles":[]}
+{
+ "titleId": 107905,
+ "updatedAt": "2026-08-15T18:17:07.915Z",
+ "roles": [
+  {
+   "character": "Nimzo",
+   "actor": "Sascha Draeger",
+   "von": "ann"
+  },
+  {
+   "character": "Ladja",
+   "actor": "Erik Schäffler",
+   "von": "ann"
+  },
+  {
+   "character": "Bianca",
+   "actor": "Katharina von Keller",
+   "von": "ann"
+  },
+  {
+   "character": "Harry",
+   "actor": "Nils Rieke",
+   "von": "ann"
+  },
+  {
+   "character": "Sancho",
+   "actor": "Jens Wendland",
+   "von": "ann"
+  },
+  {
+   "character": "Pankraz",
+   "actor": "Kai Henrik Möller",
+   "von": "ann"
+  },
+  {
+   "character": "Gootrude",
+   "actor": "Oliver Warsitz",
+   "von": "ann"
+  },
+  {
+   "character": "Luca",
+   "actor": "Robert Knorr",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Agon",
+   "actor": "Tomas Kröger",
+   "von": "ann"
+  },
+  {
+   "character": "Nera",
+   "actor": "Maria Wardzinska",
+   "von": "ann"
+  },
+  {
+   "character": "Rodrigo",
+   "actor": "Oliver Hörner",
+   "von": "ann"
+  },
+  {
+   "character": "Bjørn",
+   "actor": "Frank Gustavus",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22481"
+}

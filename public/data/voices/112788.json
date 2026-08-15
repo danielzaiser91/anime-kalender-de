@@ -1,1 +1,32 @@
-{"titleId":112788,"updatedAt":"2026-08-11T11:20:03.538Z","roles":[]}
+{
+ "titleId": 112788,
+ "updatedAt": "2026-08-15T18:17:31.035Z",
+ "roles": [
+  {
+   "character": "Shun Hashimoto",
+   "actor": "Konrad Bösherz",
+   "von": "ann"
+  },
+  {
+   "character": "Mio Chibana",
+   "actor": "Maximilian Artajo",
+   "von": "ann"
+  },
+  {
+   "character": "Suzu",
+   "actor": "Melinda Rachfahl",
+   "von": "ann"
+  },
+  {
+   "character": "Sakurako",
+   "actor": "Ronja Peters",
+   "von": "ann"
+  },
+  {
+   "character": "Eri",
+   "actor": "Friederike Walke",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=23373"
+}

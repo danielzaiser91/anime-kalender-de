@@ -14,7 +14,7 @@ import {
   loadSynopsis,
   loadVoices,
   type Synopsis,
-  type VoiceRole,
+  type Voices,
 } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useShare } from '../lib/share.ts'
@@ -713,29 +713,29 @@ function hostname(url: string): string {
 function VoiceCast({ titleId }: { titleId: number }) {
   const { t } = useLang()
   const [open, setOpen] = useState(false)
-  const [roles, setRoles] = useState<VoiceRole[] | undefined>()
+  const [stimmen, setStimmen] = useState<Voices | undefined>()
 
   // Titelwechsel: zuklappen und vergessen. Sonst stünde beim nächsten Anime
   // kurz die Besetzung des vorherigen da.
   useEffect(() => {
     setOpen(false)
-    setRoles(undefined)
+    setStimmen(undefined)
   }, [titleId])
 
   useEffect(() => {
-    if (!open || roles) return
+    if (!open || stimmen) return
     let alive = true
     loadVoices(titleId)
-      .then((r) => {
-        if (alive) setRoles(r)
+      .then((v) => {
+        if (alive) setStimmen(v)
       })
       .catch(() => {
-        if (alive) setRoles([])
+        if (alive) setStimmen({ roles: [] })
       })
     return () => {
       alive = false
     }
-  }, [open, roles, titleId])
+  }, [open, stimmen, titleId])
 
   return (
     <div>
@@ -753,14 +753,14 @@ function VoiceCast({ titleId }: { titleId: number }) {
 
       {open && (
         <div className="mt-2">
-          {roles === undefined ? (
+          {stimmen === undefined ? (
             <p className="text-sm text-slate-400">{t('detail.voicesLoading')}</p>
-          ) : roles.length === 0 ? (
+          ) : stimmen.roles.length === 0 ? (
             <p className="text-sm text-slate-400">{t('detail.voicesNone')}</p>
           ) : (
             <>
               <dl className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-x-3 gap-y-1 text-sm">
-                {roles.map((r) => (
+                {stimmen.roles.map((r) => (
                   <Fragment key={`${r.character}-${r.actor}`}>
                     <dt className="truncate text-slate-500 dark:text-slate-400" title={r.character}>
                       {r.character}
@@ -771,7 +771,31 @@ function VoiceCast({ titleId }: { titleId: number }) {
                   </Fragment>
                 ))}
               </dl>
-              <p className="mt-2 text-[11px] text-slate-400">{t('detail.voicesSource')}</p>
+              {/*
+                Quellennennung, und bei ANN ist sie eine Auflage, keine Geste.
+
+                Anime News Network verlangt fuer die Nutzung der
+                Encyclopedia-Daten ausdruecklich eine Quellenangabe **und** einen
+                Link zum jeweiligen Eintrag auf jeder Seite, die die Angaben
+                zeigt. Der Link steht deshalb hier und nicht auf der
+                Quellenseite: Er gehoert dorthin, wo die Daten stehen.
+              */}
+              <p className="mt-2 text-[11px] text-slate-400">
+                {t('detail.voicesSource')}
+                {stimmen.annUrl && (
+                  <>
+                    {', '}
+                    <a
+                      href={stimmen.annUrl}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="underline hover:text-sky-400"
+                    >
+                      Anime News Network
+                    </a>
+                  </>
+                )}
+              </p>
             </>
           )}
         </div>

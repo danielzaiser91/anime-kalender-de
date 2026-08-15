@@ -1,1 +1,42 @@
-{"titleId":126791,"updatedAt":"2026-08-11T11:20:03.577Z","roles":[]}
+{
+ "titleId": 126791,
+ "updatedAt": "2026-08-15T18:17:55.281Z",
+ "roles": [
+  {
+   "character": "Mizarisa",
+   "actor": "Daniela Reidies",
+   "von": "ann"
+  },
+  {
+   "character": "Sōichiro Kamui",
+   "actor": "Rasmus Borowski",
+   "von": "ann"
+  },
+  {
+   "character": "Hiro Yūki",
+   "actor": "Tim Kreuer",
+   "von": "ann"
+  },
+  {
+   "character": "Reona Kisaragi",
+   "actor": "Leoni Oeffinger",
+   "von": "ann"
+  },
+  {
+   "character": "Ginji",
+   "actor": "Matthias Klimsa",
+   "von": "ann"
+  },
+  {
+   "character": "Martin",
+   "actor": "Henning Nöhren",
+   "von": "ann"
+  },
+  {
+   "character": "Tesla Wolf Carmine",
+   "actor": "Vincent Fallow",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=23820"
+}

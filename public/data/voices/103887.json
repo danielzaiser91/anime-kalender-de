@@ -1,1 +1,22 @@
-{"titleId":103887,"updatedAt":"2026-08-11T11:20:03.457Z","roles":[]}
+{
+ "titleId": 103887,
+ "updatedAt": "2026-08-15T18:16:46.807Z",
+ "roles": [
+  {
+   "character": "The Invisible Man",
+   "actor": "Rainer Fritzsche",
+   "von": "ann"
+  },
+  {
+   "character": "Shun's Mother",
+   "actor": "Giuliana Jakobeit",
+   "von": "ann"
+  },
+  {
+   "character": "Shun",
+   "actor": "Philip Süß",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=21195"
+}

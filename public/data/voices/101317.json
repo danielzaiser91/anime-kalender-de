@@ -1,1 +1,62 @@
-{"titleId":101317,"updatedAt":"2026-08-11T11:20:03.453Z","roles":[]}
+{
+ "titleId": 101317,
+ "updatedAt": "2026-08-15T18:16:43.465Z",
+ "roles": [
+  {
+   "character": "Lauren",
+   "actor": "Stefan Gossler",
+   "von": "ann"
+  },
+  {
+   "character": "Harold",
+   "actor": "Jörg Hengstler",
+   "von": "ann"
+  },
+  {
+   "character": "Brad",
+   "actor": "Oliver Siebeck",
+   "von": "ann"
+  },
+  {
+   "character": "Hyōei",
+   "actor": "Uwe Jellinek",
+   "von": "ann"
+  },
+  {
+   "character": "Allen",
+   "actor": "Frank Schröder",
+   "von": "ann"
+  },
+  {
+   "character": "Madara",
+   "actor": "Cathlen Gawlich",
+   "von": "ann"
+  },
+  {
+   "character": "Kasumi",
+   "actor": "Frank Schaff",
+   "von": "ann"
+  },
+  {
+   "character": "Mia",
+   "actor": "Katharina Schwarzmaier",
+   "von": "ann"
+  },
+  {
+   "character": "Oboro",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Melissa",
+   "actor": "Nina Schatton",
+   "von": "ann"
+  },
+  {
+   "character": "Rikka Isurugi",
+   "actor": "Leonie Landa",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20802"
+}

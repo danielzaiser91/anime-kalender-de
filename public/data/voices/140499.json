@@ -1,1 +1,42 @@
-{"titleId":140499,"updatedAt":"2026-08-11T11:20:03.618Z","roles":[]}
+{
+ "titleId": 140499,
+ "updatedAt": "2026-08-15T18:18:24.659Z",
+ "roles": [
+  {
+   "character": "Taira",
+   "actor": "Rolf Berg",
+   "von": "ann"
+  },
+  {
+   "character": "Akiko",
+   "actor": "Petra Glunz-Grosch",
+   "von": "ann"
+  },
+  {
+   "character": "Shunji Tamada",
+   "actor": "Dennis Saemann",
+   "von": "ann"
+  },
+  {
+   "character": "Kousei Amanuma",
+   "actor": "Olaf Reitz",
+   "von": "ann"
+  },
+  {
+   "character": "Dai Miyamoto",
+   "actor": "Sebastian Fitzner",
+   "von": "ann"
+  },
+  {
+   "character": "Yukinori Sawabe",
+   "actor": "David M. Schulze",
+   "von": "ann"
+  },
+  {
+   "character": "Masayuki Miyamoto",
+   "actor": "Ben Küch",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24890"
+}

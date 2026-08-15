@@ -1,1 +1,27 @@
-{"titleId":157371,"updatedAt":"2026-08-11T11:20:03.672Z","roles":[]}
+{
+ "titleId": 157371,
+ "updatedAt": "2026-08-15T18:19:12.422Z",
+ "roles": [
+  {
+   "character": "Sian Lablac",
+   "actor": "Tetje Mierendorf",
+   "von": "ann"
+  },
+  {
+   "character": "Gaff Shandy",
+   "actor": "Robert Kotulla",
+   "von": "ann"
+  },
+  {
+   "character": "Belle Lablac",
+   "actor": "Jana Dunja Gries",
+   "von": "ann"
+  },
+  {
+   "character": "Adonis the Question",
+   "actor": "Malte Meibauer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=26581"
+}
