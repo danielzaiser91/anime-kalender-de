@@ -211,6 +211,17 @@ const TEXTE = {
   'detail.disputedDate': 'Eine andere Quelle nennt:',
   'detail.disputedDateHint':
     'wir konnten nicht klären, welcher Tag stimmt. Beide Quellen sind verlinkt, der Kalender führt den erstgenannten.',
+  // Belegkette eines Termins. Kurz halten: Das steht unter jedem Termin, und
+  // gelesen wird es nur von dem kleinen Teil, der wirklich nachprüfen will.
+  'detail.olderSources': '{count} ältere Quelle(n)',
+  'detail.olderSourcesHide': 'ältere Quellen ausblenden',
+  'detail.sourceStale': 'überholt',
+  'detail.sourceMaybeStale': 'vermutlich überholt',
+  'detail.autoSource': 'automatisch übernommen',
+  'detail.autoSourceHint':
+    'Der Termin stammt unverändert aus der verlinkten Meldung. Niemand hat gegengelesen, ob sie diesen Titel meint.',
+  'detail.newsHeading': 'Was Meldungen dazu sagen',
+  'detail.newsHint': 'Kein Tag genannt — hier steht, was in der Quelle wörtlich steht.',
   'detail.seasonLoading': 'Wird geladen …',
   'detail.start': 'Start',
   'detail.startCinema': 'Im Kino ab',
@@ -356,6 +367,22 @@ const TEXTE = {
     'Dieser Kalender führt Daten aus mehreren Quellen zusammen. Manche davon verlangen eine Nennung, alle haben sie verdient.',
   'sources.perEntry':
     'Woher ein einzelner Termin stammt, steht bei jedem Eintrag: Das Detail-Panel nennt unter „Quelle" die Seite, auf der er belegt ist.',
+
+  // Wie der Bot arbeitet. Für Leser geschrieben, nicht für Entwickler: Jeder
+  // Absatz beantwortet eine Frage, die beim Anschauen eines Termins aufkommt.
+  'sources.pipelineTitle': 'Wie die Termine hierher kommen',
+  'sources.howTitle': 'Automatisch, mehrmals täglich',
+  'sources.howText':
+    'Stündlich werden die Sendezeiten bei Crunchyroll geprüft, nachts um 4:17 Uhr alle übrigen Quellen — Anime2You, aniSearch, ADN, AniList, TMDB. Neue Termine stehen anschließend ohne Zutun auf der Seite.',
+  'sources.autoTitle': 'Was der Bot selbst einträgt',
+  'sources.autoText':
+    'Nennt eine Meldung einen Tag, einen eindeutigen Titel und einen Anbieter, wird daraus ein Termin — gekennzeichnet mit „automatisch übernommen". Bleibt offen, welche Staffel gemeint ist, wird kein Termin daraus. Ein Termin an der falschen Staffel wäre schlimmer als keiner, weil er aussieht, als hätte ihn jemand geprüft.',
+  'sources.unsureTitle': 'Wenn nur ein Monat genannt wird',
+  'sources.unsureText':
+    'Aus „im September" wird hier kein Erster. Stattdessen steht die Meldung im Detail-Panel unter „Was Meldungen dazu sagen" — im Wortlaut, mit Datum und Link. Sie entscheiden selbst, was Sie davon halten.',
+  'sources.staleTitle': 'Alte Quellen bleiben stehen',
+  'sources.staleText':
+    'Wird ein Termin verschoben, verschwindet die alte Quelle nicht. Sie wird als „überholt" markiert und bleibt eingeklappt unter dem Termin abrufbar — sonst ließe sich später nicht mehr nachvollziehen, woher der frühere Tag kam.',
 }
 
 export type TranslationKey = keyof typeof TEXTE

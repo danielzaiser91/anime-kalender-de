@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useMemo, useState } from 'react'
-import type { Release, ReleaseEvent, Title } from '@shared/types.ts'
+import type { Meldung, Quelle, Release, ReleaseEvent, Title } from '@shared/types.ts'
 import { PLATFORMS } from '@shared/types.ts'
 import { expandEvents, lastEpisodeDate, releaseStatus, titleStatus } from '@shared/logic.ts'
 import { buildIcs, googleCalendarUrl } from '@shared/ics.ts'
@@ -7,7 +7,15 @@ import { formatDate, todayIso, weekdayName } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
 import type { FranchiseMember, Franchises } from '@shared/types.ts'
 import { anzeigeName, eindeutschenStaffel, ohneStaffelEins, reihenVertreter } from '@shared/titles.ts'
-import { loadAllTitles, loadFranchises, loadSynopsis, loadVoices, type Synopsis, type VoiceRole } from '../lib/data.ts'
+import {
+  loadAllTitles,
+  loadFranchises,
+  loadMeldungen,
+  loadSynopsis,
+  loadVoices,
+  type Synopsis,
+  type VoiceRole,
+} from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useShare } from '../lib/share.ts'
 import { FORMAT_DE } from '@shared/mappings.ts'
@@ -307,21 +315,169 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
         </div>
       )}
 
-      {release.sources.length > 0 && (
-        <p className="mt-3 text-[11px] text-slate-400">
-          {t('detail.source')}:{' '}
-          {release.sources.map((s, i) => (
-            <span key={s}>
-              {i > 0 && ', '}
-              <a href={s} target="_blank" rel="noreferrer noopener" className="underline hover:text-sky-400">
-                {new URL(s).hostname.replace('www.', '')}
-              </a>
-            </span>
-          ))}
-        </p>
-      )}
+      <Quellenliste release={release} />
     </section>
   )
+}
+
+/**
+ * Die Belegkette eines Termins — aktuelle Quellen offen, überholte auf Klick.
+ *
+ * Zwei Anforderungen stehen sich hier gegenüber, und beide sind berechtigt:
+ * Eine überholte Quelle darf **nie verloren gehen** (sonst ist später nicht
+ * mehr zu klären, woher ein alter Termin kam), aber fünf Adressen unter einem
+ * Termin sind Quellen-Spam und niemand liest sie.
+ *
+ * Die Auflösung ist dieselbe, die Wikipedia für Einzelnachweise wählt: sichtbar
+ * bleibt, was den geltenden Stand trägt; alles Ältere steht **eingeklappt mit
+ * Anzahl** dahinter und ist einen Klick entfernt.
+ */
+function Quellenliste({ release }: { release: Release }) {
+  const { t } = useLang()
+  const [offen, setOffen] = useState(false)
+
+  // Rückfall auf `sources`: ältere Datensätze haben noch keine `quellen`.
+  const alle: Quelle[] =
+    release.quellen ??
+    release.sources.map((url) => ({ url, name: hostname(url), gesehenAm: '', stand: 'aktuell' as const }))
+  if (!alle.length) return null
+
+  const aktuell = alle.filter((q) => q.stand !== 'ueberholt' && q.stand !== 'vermutlich-ueberholt')
+  const alt = alle.filter((q) => q.stand === 'ueberholt' || q.stand === 'vermutlich-ueberholt')
+
+  return (
+    <div className="mt-3 text-[11px] text-slate-400">
+      <p>
+        {t('detail.source')}:{' '}
+        {(aktuell.length ? aktuell : alle).map((q, i) => (
+          <span key={q.url}>
+            {i > 0 && ', '}
+            <a
+              href={q.url}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="underline hover:text-sky-400"
+            >
+              {q.name || hostname(q.url)}
+            </a>
+          </span>
+        ))}
+        {release.automatisch && (
+          <>
+            {' · '}
+            <Tooltip text={t('detail.autoSourceHint')}>
+              <span className="cursor-help underline decoration-dotted underline-offset-2">
+                {t('detail.autoSource')}
+              </span>
+            </Tooltip>
+          </>
+        )}
+      </p>
+
+      {alt.length > 0 && (
+        <>
+          <button
+            type="button"
+            onClick={() => setOffen((o) => !o)}
+            className="mt-1 cursor-pointer underline decoration-dotted underline-offset-2 hover:text-sky-400"
+          >
+            {offen ? t('detail.olderSourcesHide') : t('detail.olderSources', { count: alt.length })}
+          </button>
+          {offen && (
+            <ul className="mt-1 space-y-0.5 border-l border-slate-300 pl-2 dark:border-slate-700">
+              {alt.map((q) => (
+                <li key={q.url} className="text-slate-400/70 dark:text-slate-500">
+                  <a
+                    href={q.url}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="line-through underline hover:text-sky-400"
+                  >
+                    {q.name || hostname(q.url)}
+                  </a>{' '}
+                  <span className="italic">
+                    {q.stand === 'ueberholt' ? t('detail.sourceStale') : t('detail.sourceMaybeStale')}
+                  </span>
+                  {q.grund && <span className="block">{q.grund}</span>}
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
+      )}
+    </div>
+  )
+}
+
+/**
+ * Was Meldungen über einen Titel sagen, ohne einen Tag zu nennen.
+ *
+ * Der Grund, dass es diesen Block gibt: Von 29 Meldungen, die der Bot am
+ * 14.08.2026 gefunden hatte, nannten zehn nur einen Monat. Bis dahin
+ * verschwanden sie in einer Datei, auf die ein Mensch hätte reagieren müssen —
+ * für Besucher waren sie schlicht nicht vorhanden, obwohl die Information da
+ * war.
+ *
+ * Jetzt steht sie da, wie sie ist: mit Zitat, mit Datum, mit Link. Ein Termin
+ * wird daraus **nicht** — aus „im September" einen Ersten zu machen wäre genau
+ * die Falschangabe, gegen die dieses Projekt gebaut ist.
+ */
+function Meldungen({ titleId }: { titleId: number }) {
+  const { t } = useLang()
+  const [liste, setListe] = useState<Meldung[]>([])
+
+  useEffect(() => {
+    let aktuell = true
+    loadMeldungen().then((nachTitel) => {
+      if (aktuell) setListe(nachTitel.get(titleId) ?? [])
+    })
+    return () => {
+      aktuell = false
+    }
+  }, [titleId])
+
+  if (!liste.length) return null
+
+  return (
+    <div>
+      <SectionTitle>{t('detail.newsHeading')}</SectionTitle>
+      <p className="mb-2 text-xs text-slate-500 dark:text-slate-400">{t('detail.newsHint')}</p>
+      <ul className="space-y-2">
+        {liste.map((m) => (
+          <li
+            key={m.quelle.url}
+            className="rounded border-l-2 border-sky-500/50 bg-slate-500/5 py-1.5 pl-2 pr-2 text-xs"
+          >
+            <a
+              href={m.quelle.url}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="font-semibold underline hover:text-sky-400"
+            >
+              {m.titel}
+            </a>
+            {m.zitat && (
+              <p className="mt-1 italic leading-relaxed text-slate-500 dark:text-slate-400">
+                „… {m.zitat} …"
+              </p>
+            )}
+            <p className="mt-1 text-[11px] text-slate-400">
+              {m.quelle.name} · {formatDate(m.datum)}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+/** Hostname ohne „www." — der Rest der Adresse sagt dem Leser nichts. */
+function hostname(url: string): string {
+  try {
+    return new URL(url).hostname.replace(/^www\./, '')
+  } catch {
+    return url
+  }
 }
 
 /**
@@ -1102,6 +1258,8 @@ export function DetailPanel({
               </p>
             </div>
           )}
+
+          <Meldungen titleId={title.id} />
 
           {title.hasVoices && <VoiceCast titleId={title.id} />}
 

@@ -58,6 +58,12 @@ QUELLEN=(
   # dieselbe Serie. Gefunden am 14.08.2026, einen Tag nach dem Einbau, bevor
   # der erste Nachtlauf darüberlief.
   data/synchro-historie.json
+  # Ebenfalls Gedächtnis: Jede Adresse, die je zu einem Termin geführt hat.
+  # Fehlte sie hier, ginge beim nächsten Reset genau das verloren, wofür sie da
+  # ist — die überholten Belege. Der Datensatz führte dann wieder nur die
+  # neueste Quelle, und die Frage „woher kam der alte Termin?" wäre erneut
+  # unbeantwortbar.
+  data/quellen-historie.json
   # Ergebnis des Crunchyroll-Synchro-Laufs. Steht hier vorsorglich: Läuft er
   # eines Tages in der CI, wären 918 Seitenabrufe sonst nach einem Reset weg.
   data/crunchyroll-dub.json

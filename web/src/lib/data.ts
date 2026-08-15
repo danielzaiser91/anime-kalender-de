@@ -1,6 +1,6 @@
 import { ANILIST_COVER_BASIS } from '@shared/mappings.ts'
 import { SYNOPSIS_GROUPS } from '@shared/types.ts'
-import type { DataMeta, Franchises, Release, ReleaseEvent, Title } from '@shared/types.ts'
+import type { DataMeta, Franchises, Meldung, Release, ReleaseEvent, Title } from '@shared/types.ts'
 
 export interface Dataset {
   titles: Title[]
@@ -163,6 +163,25 @@ export function loadFranchises(): Promise<Franchises> {
     })
     .catch(() => ({}) as Franchises)
   return franchisesPromise
+}
+
+let meldungenPromise: Promise<Map<number, Meldung[]>> | undefined
+
+/**
+ * Fundstellen aus den Nachrichtenquellen, nach Titel gebündelt.
+ *
+ * Eigene Datei und erst beim Öffnen eines Panels geholt: Sie betrifft eine
+ * Handvoll Titel, und für alle anderen wäre sie Ladelast ohne Gegenwert.
+ */
+export function loadMeldungen(): Promise<Map<number, Meldung[]>> {
+  meldungenPromise ??= loadJson<Meldung[]>('meldungen.json')
+    .then((liste) => {
+      const nachTitel = new Map<number, Meldung[]>()
+      for (const m of liste) nachTitel.set(m.titleId, [...(nachTitel.get(m.titleId) ?? []), m])
+      return nachTitel
+    })
+    .catch(() => new Map<number, Meldung[]>())
+  return meldungenPromise
 }
 
 /** Handlung je Sprache. Deutsch stammt von TMDB, Englisch von AniList. */

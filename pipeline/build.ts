@@ -29,6 +29,7 @@ import type {
   DubConfidence,
   Fsk,
   PlatformId,
+  Quelle,
   Release,
   ReleaseEvent,
   StreamLink,
@@ -40,6 +41,13 @@ import { eindeutschenStaffel, nachAusstrahlung } from '../shared/titles.ts'
 import { addDays, todayIso } from '../shared/time.ts'
 import { buildIcs } from '../shared/ics.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
+import {
+  meldungenAus,
+  quellenName,
+  quellenZusammenfuehren,
+  releasesAus,
+  type Vorschlag,
+} from './lib/meldungen.ts'
 import {
   KEYWORD_BLOCKLIST,
   PLATFORM_PRIORITY,
@@ -236,6 +244,102 @@ function schreibeOhneSynchro(bekannt: Map<number, number>): void {
 
   writeJson(`${OUT}/ohne-synchro.json`, ohne)
   log(`Ohne deutsche Synchro: ${ohne.length} Titel (aus ${eintraege.length} im AniList-Katalog)`)
+}
+
+/** Wo die Quellen jedes Termins über Läufe hinweg aufbewahrt werden. */
+const QUELLEN_HISTORIE = 'data/quellen-historie.json'
+
+/**
+ * Gibt jedem Termin seine Quellen — und **behält die überholten**.
+ *
+ * Die Regel stammt von Wikipedia (`Wikipedia:Link rot`): „Do not delete cited
+ * information solely because the URL to the source does not work." Übertragen
+ * auf Termine heißt das: Wird ein Termin verschoben, verschwindet die Quelle
+ * des alten Termins nicht. Sonst lässt sich die Frage „woher kam eigentlich der
+ * 20.08.?" später nicht mehr beantworten — und genau die stellt sich, sobald
+ * zwei Quellen sich widersprechen. Beim Inazuma-Fall am 13.08.2026 kostete
+ * genau diese fehlende Spur einen halben Tag Nachrecherche.
+ *
+ * Deshalb liegt neben dem Datensatz eine Historie: Jede Adresse, die je zu
+ * einem Termin geführt hat, bleibt dort stehen. Nennt sie inzwischen einen
+ * anderen Tag als der geltende Termin, wird sie als überholt **markiert**, aber
+ * weiter ausgeliefert.
+ */
+function quellenPflegen(releases: Release[]): void {
+  const historie = readJson<Record<string, Quelle[]>>(QUELLEN_HISTORIE, {})
+  const heute = todayIso()
+
+  for (const release of releases) {
+    const termin = release.schedule.firstEpisodeDate
+    /**
+     * Kuratierte Termine tragen nur nackte Adressen in `sources`. Daraus wird
+     * hier eine vollwertige Herkunftsangabe — sonst hätten ausgerechnet die von
+     * Hand geprüften Termine die schlechtere Belegkette als die automatischen.
+     */
+    const neu: Quelle[] =
+      release.quellen ??
+      release.sources.map((url) => ({
+        url,
+        name: quellenName(url),
+        gesehenAm: heute,
+        sagt: termin,
+        stand: 'aktuell' as const,
+      }))
+
+    const aktuelleAdressen = new Set(neu.map((q) => q.url))
+    const alt = (historie[release.slug] ?? []).map((q) => {
+      if (aktuelleAdressen.has(q.url)) return q
+      /**
+       * Die Quelle steht nicht mehr hinter dem geltenden Termin. Ob sie
+       * *widerlegt* ist, wissen wir nur, wenn sie selbst einen Tag genannt hat
+       * — sonst bleibt es bei „vermutlich", und das steht dann auch so da.
+       */
+      return q.sagt && q.sagt !== termin
+        ? {
+            ...q,
+            stand: 'ueberholt' as const,
+            grund: `Nennt den ${q.sagt}; geltender Termin ist der ${termin}.`,
+          }
+        : { ...q, stand: 'vermutlich-ueberholt' as const }
+    })
+
+    const zusammen = quellenZusammenfuehren(alt, neu)
+    historie[release.slug] = zusammen
+    release.quellen = zusammen
+  }
+
+  writeJson(QUELLEN_HISTORIE, historie, true)
+  const ueberholt = Object.values(historie)
+    .flat()
+    .filter((q) => q.stand !== 'aktuell').length
+  log(`Quellenhistorie: ${Object.keys(historie).length} Termine, davon ${ueberholt} überholte Belege`)
+}
+
+/**
+ * Veröffentlicht die Fundstellen der Nachrichtenquellen als **Meldungen**.
+ *
+ * Bis zum 14.08.2026 endete jeder Scraper-Lauf in `data/proposals/` und wartete
+ * auf einen Menschen. Von 29 Funden nannte **keiner** einen Tag, 27 nur einen
+ * Monat — auf eine Handübertragung zu warten hieß also, dauerhaft zu warten.
+ * Seitdem erscheint die Fundstelle selbst auf der Seite: mit Zitat, mit Quelle,
+ * und mit der Ansage, dass wir den Termin nicht auslesen konnten.
+ *
+ * Titel **ohne** Synchro werden mit einbezogen, denn gerade dort ist eine
+ * Meldung die einzige Information, die es überhaupt gibt.
+ */
+function schreibeMeldungen(slim: Title[]): void {
+  const roh = readJson<{ proposals?: Vorschlag[] }>('data/proposals/anime2you.json', {})
+  const vorschlaege = roh.proposals ?? []
+  if (!vorschlaege.length) {
+    warn('Keine Vorschläge in data/proposals/anime2you.json — meldungen.json bleibt leer.')
+    writeJson(`${OUT}/meldungen.json`, [])
+    return
+  }
+
+  const ohne = readJson<Title[]>(`${OUT}/ohne-synchro.json`, [])
+  const meldungen = meldungenAus(vorschlaege, [...slim, ...ohne], todayIso())
+  writeJson(`${OUT}/meldungen.json`, meldungen)
+  log(`${meldungen.length} Meldungen aus ${vorschlaege.length} Vorschlägen zugeordnet`)
 }
 
 /**
@@ -1426,6 +1530,25 @@ function main(): void {
       `${adnAdded} ADN-Releases aus ${adnBloecke} Staffelblöcken ergänzt (${adn.shows.length} Serien gefunden)`,
     )
 
+  // --- Termine aus den Nachrichtenquellen ------------------------------------
+  // Der letzte Schritt vor der Auswertung, und mit Absicht der letzte: Was aus
+  // `data/curated/`, Crunchyroll oder ADN schon da ist, gewinnt gegen den Bot.
+  const rohVorschlaege = readJson<{ proposals?: Vorschlag[] }>('data/proposals/anime2you.json', {})
+  const ausMeldungen = releasesAus(
+    rohVorschlaege.proposals ?? [],
+    [...titles.values()],
+    releases,
+    todayIso(),
+  )
+  releases.push(...ausMeldungen)
+  if (ausMeldungen.length)
+    log(
+      `${ausMeldungen.length} Termine automatisch aus Anime2You übernommen: ` +
+        ausMeldungen.map((r) => `${r.name} (${r.platform}, ${r.schedule.firstEpisodeDate})`).join(', '),
+    )
+
+  quellenPflegen(releases)
+
   // --- Synchro-Verfügbarkeit je Plattform ------------------------------------
   // Ein Stream-Link allein sagt nichts über die Sprache. Belegt ist die Synchro
   // nur dort, wo sie tatsächlich nachgewiesen wurde.
@@ -1800,6 +1923,8 @@ function main(): void {
   }
   writeJson(`${OUT}/franchises.json`, reihen)
   log(`${Object.keys(reihen).length} Reihen mit mehr als einem Eintrag geschrieben`)
+
+  schreibeMeldungen(slim)
 
   writeJson(`${OUT}/releases.json`, releases)
   writeJson(`${OUT}/events.json`, events)

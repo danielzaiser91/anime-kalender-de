@@ -204,6 +204,67 @@ export interface Title {
   watchLinks?: WatchLink[]
 }
 
+/**
+ * Eine Quelle mit Herkunftsangabe — nicht bloß eine Adresse.
+ *
+ * Nach zwei Vorbildern gebaut (14.08.2026):
+ *
+ * - **W3C PROV-DM**: Herkunft ist eigene Information, kein Feld am Rand. Wer
+ *   hat wann was behauptet.
+ * - **Wikipedia:Link rot**: „Do not delete cited information solely because the
+ *   URL to the source does not work." Eine überholte Quelle wird **markiert,
+ *   nicht entfernt** — dort über `url-status`, hier über `stand`.
+ *
+ * Der Grund ist nicht Ordnungsliebe: Wer nur die neueste Quelle führt, verliert
+ * die Spur, sobald sich zwei widersprechen. Genau das ist bei „Inazuma Eleven"
+ * passiert — die ältere Angabe verschwand, und niemand konnte mehr sagen,
+ * woher die neue kam.
+ */
+export interface Quelle {
+  url: string
+  /** Anzeigename, meist der Hostname: „anime2you.de". */
+  name: string
+  /** Wann ein Lauf diese Aussage in dieser Quelle zuletzt gesehen hat. */
+  gesehenAm: string
+  /** Was die Quelle sagt, sofern auslesbar — etwa ein Datum. */
+  sagt?: string
+  /**
+   * `aktuell`              — deckt sich mit dem geführten Stand.
+   * `ueberholt`            — eine neuere Quelle widerspricht, und wir sind sicher.
+   * `vermutlich-ueberholt` — sie widerspricht, aber wir sind es nicht.
+   */
+  stand?: 'aktuell' | 'ueberholt' | 'vermutlich-ueberholt'
+  /** Warum überholt — steht in der Oberfläche hinter der ausgegrauten Quelle. */
+  grund?: string
+}
+
+/**
+ * Eine Meldung, aus der sich **kein** genauer Termin herauslesen ließ.
+ *
+ * Der Anlass ist eine Messung, keine Vermutung (14.08.2026): Von 29 aktuellen
+ * Anime2You-Meldungen enthielt **keine einzige** ein Datum auf den Tag genau,
+ * 27 nannten nur einen Monat. Für die halbe Anbieterlandschaft — Netflix,
+ * Disney+, Prime Video, WOW, Joyn, RTL+, Kino, Disc — ist Anime2You aber die
+ * einzige Quelle.
+ *
+ * Solche Funde verschwinden bisher in `data/proposals/` und warten auf einen
+ * Menschen. Stattdessen werden sie jetzt gezeigt: „Diese Quelle sagt etwas über
+ * einen Termin, wir konnten ihn nicht sicher auslesen — hier steht es." Das ist
+ * ehrlicher als Schweigen und nützlicher als ein leerer Kalender.
+ */
+export interface Meldung {
+  titleId: number
+  quelle: Quelle
+  /** Überschrift der Meldung. */
+  titel: string
+  /** Der Textausschnitt mit der Terminangabe — zum Selbstnachlesen. */
+  zitat?: string
+  /** „2026-09", wenn nur ein Monat genannt wurde. */
+  monat?: string
+  /** Erscheinungstag der Meldung. */
+  datum: string
+}
+
 /** Eine konkrete deutsche Veröffentlichung — das, was im Kalender steht. */
 export interface Release {
   slug: string
@@ -242,7 +303,24 @@ export interface Release {
   schedule: Schedule
   /** Jahr der ersten Folge im deutschen Dub. */
   year: number
+  /**
+   * Die Quellen, aus denen dieser Termin stammt — **alle**, auch überholte.
+   *
+   * Bleibt ein Feld aus Adressen, damit nichts bricht, was es liest; die
+   * Herkunftsangaben stehen daneben in `quellen`. Beide werden vom Build
+   * gefüllt, `sources` bleibt die schlichte Liste für Prüfungen und Feeds.
+   */
   sources: string[]
+  /** Dieselben Quellen mit Herkunftsangabe. Siehe `Quelle`. */
+  quellen?: Quelle[]
+  /**
+   * Vom Bot übernommen, nicht von Hand geprüft.
+   *
+   * Das wird in der Oberfläche gezeigt, statt es zu verschweigen: Der Termin
+   * ist belegt (die Quelle steht daneben), aber niemand hat gegengelesen, ob
+   * die Meldung den richtigen Titel meint. Wer es weiß, kann widersprechen.
+   */
+  automatisch?: boolean
 }
 
 export interface ReleaseEvent {

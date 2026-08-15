@@ -859,6 +859,41 @@ export function SourcesView({ meta }: { meta: DataMeta }) {
         ))}
       </ul>
       <p className="mt-6 text-xs text-slate-500 dark:text-slate-400">{t('sources.perEntry')}</p>
+
+      <Wissenswert />
+    </div>
+  )
+}
+
+/**
+ * Wie die Termine hierher kommen — die Betriebsanleitung des Bots.
+ *
+ * Steht auf der Quellenseite und nicht im Impressum: Wer wissen will, woher ein
+ * Termin stammt, klickt „Quellen". Dort erwartet er die Liste **und** das
+ * Verfahren; zwei Seiten dafür wären eine zu viel.
+ *
+ * Bewusst knapp gehalten. Was hier fehlt, steht ausführlich in `CLAUDE.md` —
+ * hier braucht der Leser nur, was er zur Einordnung eines Termins braucht.
+ */
+function Wissenswert() {
+  const { t } = useLang()
+  const bloecke: { titel: string; text: string }[] = [
+    { titel: t('sources.howTitle'), text: t('sources.howText') },
+    { titel: t('sources.autoTitle'), text: t('sources.autoText') },
+    { titel: t('sources.unsureTitle'), text: t('sources.unsureText') },
+    { titel: t('sources.staleTitle'), text: t('sources.staleText') },
+  ]
+  return (
+    <div className="mt-8 space-y-4">
+      <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">
+        {t('sources.pipelineTitle')}
+      </h2>
+      {bloecke.map((b) => (
+        <div key={b.titel}>
+          <h3 className="font-semibold text-slate-800 dark:text-slate-100">{b.titel}</h3>
+          <p>{b.text}</p>
+        </div>
+      ))}
     </div>
   )
 }
