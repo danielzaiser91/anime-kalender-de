@@ -181,11 +181,24 @@ verschiedene, und genau ihre Vermischung war der Fehler bei Crunchyroll.
   verschiedene Ansichten je nach Anmeldestatus; ein Direktabruf am 15.08. lief zusätzlich in die
   Bot-Sperre (313 Zeichen Seiteninhalt).
 
+- **JustWatch** — verworfen (15.08.2026, nachgeprüft in der Doku selbst). Die Partner-API führt
+  auf Angebotsebene zwar `audioLanguage` und `subtitleLanguage`, **beide sind in sämtlichen
+  Beispielen der Dokumentation leere Zeichenketten**. JustWatch beantwortet „wo läuft es", nicht
+  „in welcher Sprache". Dazu: Zugang nur mit Partnervertrag und Partner-Token, und für die
+  inoffiziellen Endpunkte untersagt JustWatch die kommerzielle Nutzung.
+  Quelle: <https://apis.justwatch.com/docs/api/>
+- **TMDB `watch/providers`** — verworfen. Die Antwort enthält je Anbieter nur `provider_id`,
+  `provider_name`, `logo_path`, `display_priority` und die Verfügbarkeitsart (`flatrate`, `rent`,
+  `buy`, `ads`). Keine Tonspur, an keiner Stelle.
+  Quelle: <https://developer.themoviedb.org/reference/movie-watch-providers>
+
+  Der Vorschlag, TMDB neben JustWatch zu legen, um daraus eine Audio-Matrix zu bauen, stammt aus
+  einer Gemini-Antwort (Daniel, 15.08.2026) und hält der Nachprüfung nicht stand — **keine** der
+  beiden Quellen führt die Tonspur. Notiert, weil er plausibel klingt und sonst ein zweites Mal
+  geprüft würde.
+
 ### Offen
 
-- **JustWatch** — noch nicht bewertet. Es gibt eine offizielle API (<https://apis.justwatch.com/docs/api/>),
-  die aber an eine Partnerschaft gebunden scheint; die kursierenden GraphQL-Zugriffe sind
-  inoffiziell. Vor einer Zeile Abrufcode sind Nutzungsbedingungen und Rate Limits zu lesen.
 - **aniSearch-API** — Anfrage seit 09.08.2026 unbeantwortet.
 - **Anime News Network** — Encyclopedia-API führt Cast nach Sprache; ungeprüft, ob deutscher Cast
   dort breiter gepflegt ist als bei AniList.
