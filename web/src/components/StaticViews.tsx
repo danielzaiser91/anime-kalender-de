@@ -624,7 +624,6 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
         <SectionTitle>{t('news.waitTitle')}</SectionTitle>
         <p className="text-sm text-slate-600 dark:text-slate-300">{t('news.waitBody')}</p>
         <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{t('news.waitHow')}</p>
-        <p className="mt-2 text-[13px] text-slate-500 dark:text-slate-400">{t('news.waitNote')}</p>
       </Card>
 
       <Card>

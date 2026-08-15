@@ -170,13 +170,12 @@ const TEXTE = {
   'detail.seriesStarHelp':
     // Kein Markdown: Der Hinweis wird als reiner Text ausgegeben, Sternchen
     // stünden dort wörtlich da — ausgerechnet neben einem Stern-Symbol.
-    'Ein Klick auf die drei Sterne merkt alle Staffeln, Filme und Specials dieser Reihe auf einmal — hier sind das {count} Einträge. Das ist praktisch, wenn du eine Serie ganz verfolgst: Du bekommst dann zu jedem Teil Bescheid, auch zu Ablegern, die noch gar keine deutsche Synchro haben.',
+    'Merkt alle {count} Teile dieser Reihe auf einmal — auch Filme, Specials und Ableger ohne deutsche Synchro.',
 
   'detail.noDubTitle': 'Keine deutsche Synchro bekannt',
-  'detail.noDubBody':
-    'Zu diesem Titel kennen wir keine deutsche Fassung — weder eine erschienene noch eine angekündigte. Deshalb führen wir hier absichtlich fast nichts: keine Termine, keine Anbieter, keine Sprecher. Es gibt nichts zu führen.',
-  'detail.noDubWatch': '☆ Merk ihn dir mit dem Stern — du bekommst eine Mail, sobald sich das ändert.',
-  'detail.noDubWatched': '★ Gemerkt. Sobald eine deutsche Synchro angekündigt ist, bekommst du Bescheid.',
+  'detail.noDubBody': 'Weder erschienen noch angekündigt — deshalb steht hier weder Termin noch Anbieter.',
+  'detail.noDubWatch': '☆ Merken — du bekommst eine Mail, sobald sich das ändert.',
+  'detail.noDubWatched': '★ Gemerkt. Du bekommst Bescheid, sobald es eine Synchro gibt.',
 
   'detail.releases': 'Deutsche Releases',
   // Beide Texte stehen seit dem 12.08.2026 als Hovertext hinter dem Wort
@@ -196,7 +195,7 @@ const TEXTE = {
   // in Staffeln teilt, steht auf einer Seite, die ihre Staffelliste per
   // JavaScript nachlädt — geprüft ist es also nicht.
   'detail.sharedUrlNote':
-    'Diese Adresse führt {count} unserer Einträge zu dieser Reihe. Wie der Anbieter sie in Staffeln teilt, kann von unserer Zählung abweichen — Crunchyroll zeigt manche Reihen als eine Staffel, die wir getrennt führen.',
+    'Führt zu {count} unserer Einträge — der Anbieter teilt die Reihe möglicherweise anders in Staffeln als wir.',
   'detail.genres': 'Genres',
   'detail.keywords': 'Keywords',
   'detail.plot': 'Handlung',
@@ -240,7 +239,7 @@ const TEXTE = {
   'detail.addSingle': 'Diese Folge zu Google Calendar hinzufügen',
   'detail.downloadIcs': '.ics laden',
   'detail.downloadIcsHint':
-    'ICS ist das Standardformat für Kalendertermine. Die Datei enthält alle noch kommenden Folgen; ein Doppelklick trägt sie in Outlook, Apple Kalender oder Thunderbird ein. Für Google Calendar stattdessen den Knopf daneben nehmen.',
+    'Alle kommenden Folgen als Kalenderdatei — Doppelklick trägt sie in Outlook, Apple Kalender oder Thunderbird ein. Für Google Calendar den Knopf daneben.',
   'detail.share': 'Teilen',
   'detail.shareHint': 'Kopiert einen Link, der diesen Titel mit eigenem Vorschaubild zeigt',
   'detail.source': 'Quelle',
@@ -257,8 +256,10 @@ const TEXTE = {
   'detail.dubYes': 'Deutsche Synchro hier belegt',
   'detail.dubNo': 'Hier keine deutsche Synchro — Originalton mit Untertiteln',
   'detail.dubUnknown': 'Deutsche Tonspur hier nicht belegt — beim Anbieter selbst prüfen',
+  // Bleibt vergleichsweise lang: Hier hängt eine Kaufentscheidung dran, und der
+  // Leser kann den Unterschied nicht selbst herleiten.
   'detail.dubHintDisc':
-    'Die deutsche Synchro dieses Titels ist nur auf Disc belegt. Die oben gelisteten Streams laufen möglicherweise nur im Originalton mit Untertiteln — der Knopf „Kaufen" führt zur synchronisierten Fassung.',
+    'Die deutsche Synchro ist nur auf Disc belegt — die Streams oben laufen möglicherweise nur im Originalton.',
   'detail.metaFrom': 'Metadaten von AniList',
   'detail.malMeaning': 'MyAnimeList — die Kennung dieses Anime in der größten Anime-Datenbank.',
   'detail.dubProof': 'Synchro belegt über MyDubList ({sources})',
@@ -276,8 +277,10 @@ const TEXTE = {
   'sub.step1': 'Adresse oben kopieren.',
   'sub.step2': 'Google Calendar öffnen → links bei „Weitere Kalender" auf + → „Per URL".',
   'sub.step3': 'Adresse einfügen, „Kalender hinzufügen".',
+  // Bleibt: Die Verzögerung ist nicht herleitbar und erzeugt sonst die Frage
+  // „warum ist mein Termin nicht da?".
   'sub.note':
-    'Google holt sich abonnierte Feeds nur alle paar Stunden bis Tage. Wer Termine sofort braucht, nutzt beim einzelnen Eintrag den Knopf „Google Calendar" — der legt den Termin direkt an. Apple Kalender und Outlook lesen dieselbe Adresse.',
+    'Google aktualisiert abonnierte Feeds nur alle paar Stunden bis Tage. Wer einen Termin sofort braucht, nimmt am Eintrag den Knopf „Google Calendar".',
 
   'news.title': 'Newsletter',
   'news.intro':
@@ -290,7 +293,7 @@ const TEXTE = {
   'news.dailyHint': '07:00, alles des Tages',
   'news.autoSync': 'Änderungen werden ab jetzt selbsttätig übernommen.',
   'news.noSyncYet':
-    'Falls du bereits abonniert hast: Dieser Browser ist noch nicht mit deinem Abo verbunden — gemerkte Titel bleiben hier liegen. Fordere unter „Favoriten verloren?" einen Link an, dann übernimmt er Änderungen ab sofort von selbst. (Der Abgleich-Link am Ende jeder Newsletter-Mail tut dasselbe.)',
+    'Schon abonniert? Dieser Browser ist noch nicht verbunden — gemerkte Titel bleiben hier liegen. Unter „Favoriten verloren?" einen Link anfordern.',
   'news.welcomeTitle': 'Abo aktiv',
   'news.welcomeBody': 'Ab jetzt bekommst du die anstehenden Releases mit deutscher Synchro per Mail.',
   'news.favorites': 'Favoriten: {count} Serien',
@@ -332,12 +335,13 @@ const TEXTE = {
   'news.mergedBody': 'Nicht gewollt? Häkchen entfernen.',
 
   'news.waitTitle': 'Warten, ohne nachzusehen',
+  // Gekürzt nach der Regel „Texte für Nutzer so kurz wie möglich" (14.08.2026).
+  // Weg ist `news.waitNote`: Dass wir zu diesen Titeln wenig führen, ändert für
+  // den Leser nichts — er sieht es ohnehin, sobald er einen öffnet.
   'news.waitBody':
-    'Der häufigste Grund, diese Seite immer wieder aufzurufen, ist eine Serie, die es auf Deutsch noch gar nicht gibt. Man schaut nach, findet nichts, schaut nächste Woche wieder nach — und wird jedes Mal enttäuscht.',
+    'Auf eine Serie zu warten, die es auf Deutsch noch nicht gibt, heißt sonst: immer wieder nachsehen und jedes Mal nichts finden.',
   'news.waitHow':
-    'Dafür gibt es in der Datenbank den Schalter „Anime ohne deutsche Synchro". Er holt alle Titel dazu, zu denen wir keine deutsche Fassung kennen. Merke dir dort mit dem Stern, worauf du wartest — und du bekommst eine Mail, sobald eine deutsche Synchro angekündigt ist oder ein Termin feststeht. Auch dann, wenn sonst gerade nichts ansteht.',
-  'news.waitNote':
-    'Zu diesen Titeln führen wir absichtlich fast nichts: Es gibt nichts zu führen, solange es keine deutsche Fassung gibt. Sobald es eine gibt, wird daraus ein vollständiger Eintrag mit Terminen, Anbietern und Sprechern.',
+    'In der Datenbank holt der Schalter „Anime ohne deutsche Synchro" diese Titel dazu. Merke dir einen mit dem Stern — du bekommst eine Mail, sobald es eine Synchro gibt.',
 
   'news.howTitle': 'Wie das technisch läuft',
   'news.how':
