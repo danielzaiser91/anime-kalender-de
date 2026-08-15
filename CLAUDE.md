@@ -200,6 +200,29 @@ Datensatz und bricht bei einem Widerspruch ab, bevor etwas geschrieben wird:
 `npm run check:logic` stellt zusätzlich die vier Annahmen nach, aus denen der Fehler entstand.
 Beide gehören zur Prüfkette vor dem Commit.
 
+## Ein Abruf, der nur ergänzt, veraltet zwangsläufig
+
+**Jede Warteschlange wird nach dem Alter gebildet, nie nach „schon beantwortet".** Ein Filter
+der Form „hole, was noch fehlt" macht jede Antwort endgültig: Der Eintrag verlässt die
+Warteschlange und kommt nie zurück, und ein Falschbefund kann sich nicht mehr korrigieren.
+
+Das ist keine Theorie, es ist am 15.08.2026 dreimal am selben Tag aufgefallen:
+
+- `scrape-crunchyroll-dub.ts` bildete seine Liste aus `stream.dub === undefined`. Was einmal ein
+  `false` erzeugt hatte, kam nie wieder dran — die Antwort verhinderte ihre eigene Überprüfung.
+- `fetch-anisearch.ts` filterte auf `!cache[t.id].info`. Nach dem ersten erfolgreichen Abruf war
+  ein Titel dauerhaft erledigt, sein Bestand an Anbietern eingefroren.
+- Beide zusammen führten dazu, dass 975 Titel ein unbelegtes „keine deutsche Synchro" trugen.
+
+**Warum das gerade hier gefährlich ist:** Verliert ein Streamingdienst die Lizenzrechte, nimmt er
+die deutsche Fassung wieder aus dem Angebot. Crunchyroll führt aus diesem Grund keine erste
+Staffel von „Attack on Titan" mehr (Daniel, 15.08.2026). Ein Bestand, der nur wachsen kann,
+behauptet solche Angebote weiter — und zwar für immer.
+
+Also: `--alter <tage>` als Vorgabe, Wiedervorlage über `fetchedAt` beziehungsweise `geprueftAm`,
+und die Frist am Tempo der Sache bemessen. Vierzehn Tage bei aniSearch, achtundzwanzig bei
+Crunchyroll. Was ein Mensch in `data/dub-confirmed.yaml` bestätigt hat, bleibt davon unberührt.
+
 ## Beim Scrapen nichts wegwerfen
 
 Der Abruf ist der teure und der schädliche Teil, nicht das Speichern. Wer eine fremde Seite

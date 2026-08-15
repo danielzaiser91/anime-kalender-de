@@ -88,6 +88,19 @@ const IDS_URL =
 
 /** Wie lange die ID-Brücke gilt, bevor sie neu geladen wird. */
 const IDS_MAX_AGE_DAYS = 7
+/**
+ * Nach wie vielen Tagen ein Titeleintrag erneut geholt wird.
+ *
+ * Siehe die Begründung an der Warteschlange unten: Ohne Wiedervorlage kann ein
+ * Anbieter, der die Rechte verliert, nie wieder aus unserem Bestand
+ * verschwinden.
+ */
+const TITEL_MAX_AGE_DAYS = Number(process.argv[process.argv.indexOf('--alter') + 1]) || 14
+
+function veraltet(eintrag: { fetchedAt?: string }): boolean {
+  if (!eintrag.fetchedAt) return true
+  return (Date.now() - new Date(eintrag.fetchedAt).getTime()) / 86_400_000 > TITEL_MAX_AGE_DAYS
+}
 
 export interface AnisearchStream {
   /** Erkennungsname des Anbieters, wie aniSearch ihn im Bild führt. */
@@ -554,13 +567,24 @@ async function main(): Promise<void> {
   const withRelease = new Set(releases.map((r) => r.titleId))
   const queue = titles
     .filter((t) => ids.anisearch[t.id])
-    // Auch Titel, deren Eintrag noch aus der Zeit vor dem Infobox-Parser
-    // stammt. Ohne diese Bedingung überspringt der Lauf jeden bekannten Titel
-    // für immer — ein Katalogtitel, der neu einen Termin bekommt, hätte dann
-    // dauerhaft keine Folgenzahl, obwohl genau sie dann gebraucht wird.
-    // So füllt sich der Rückstand über die Nachtläufe von selbst auf, ohne
-    // dass ein einziger zusätzlicher Abruf nötig wäre.
-    .filter((t) => FORCE || !cache[t.id] || !cache[t.id].info)
+    /**
+     * Geholt wird, was fehlt **oder was zu alt ist**.
+     *
+     * Bis zum 15.08.2026 stand hier nur „noch nicht im Bestand oder ohne
+     * Infobox". Damit war jeder Titel nach dem ersten erfolgreichen Abruf
+     * dauerhaft erledigt, und sein Bestand an Anbietern fror ein. Das ist genau
+     * dort falsch, wo sich am meisten ändert: Verliert ein Dienst die
+     * Lizenzrechte, nimmt er die deutsche Fassung wieder aus dem Angebot —
+     * Crunchyroll führt aus diesem Grund keine erste Staffel von „Attack on
+     * Titan" mehr (Daniel, 15.08.2026). Ein Bestand, der nur wachsen kann,
+     * behauptet solche Angebote weiter.
+     *
+     * Vierzehn Tage sind der Kompromiss: aniSearch gehört einer kleinen
+     * Redaktion, jeder Abruf kostet dort Last, und Lizenzen wechseln nicht
+     * wöchentlich. Bei 2.612 Einträgen bedeutet das rund 190 Abrufe je Nacht,
+     * verteilt über die ohnehin laufende Warteschlange.
+     */
+    .filter((t) => FORCE || !cache[t.id] || !cache[t.id].info || veraltet(cache[t.id]))
     .sort((a, b) => Number(withRelease.has(b.id)) - Number(withRelease.has(a.id)))
     .slice(0, LIMIT)
 
