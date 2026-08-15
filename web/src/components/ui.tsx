@@ -220,6 +220,7 @@ export function Button({
   download,
   type = 'button',
   disabled,
+  breit,
 }: {
   children: ReactNode
   onClick?: () => void
@@ -230,9 +231,12 @@ export function Button({
   download?: string
   type?: 'button' | 'submit'
   disabled?: boolean
+  /** Nimmt die volle Breite ihres Behälters — für die Hauptaktion einer Karte. */
+  breit?: boolean
 }) {
   const cls = [
     'inline-flex items-center justify-center gap-2 rounded-lg font-medium transition',
+    breit ? 'w-full' : '',
     CLICKABLE,
     size === 'sm' ? 'px-2.5 py-1.5 text-xs' : 'px-3.5 py-2 text-sm',
     variant === 'primary'

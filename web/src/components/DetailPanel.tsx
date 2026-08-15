@@ -57,15 +57,31 @@ function downloadIcs(events: ReleaseEvent[], filename: string): void {
   URL.revokeObjectURL(url)
 }
 
-function ShareButton({ release }: { release: Release }) {
+/**
+ * Teilen — als Symbol im Kopf, nicht als Knopf neben dem Anbieter.
+ *
+ * Vorher stand er in der Knopfzeile direkt neben „Bei ADN ansehen", und dort
+ * las er sich, als teile er den ADN-Link (Daniel, 15.08.2026: „es lässt
+ * vermuten das der teilen link sich auf adn bezieht, dabei bezieht er sich auf
+ * dieses panel"). Geteilt wird der Titel, also gehört er zu Auge und Stern —
+ * den anderen beiden Handlungen, die dem Titel gelten.
+ */
+function ShareIcon({ slug, name }: { slug: string; name: string }) {
   const { t } = useLang()
   const { share, copiedSlug } = useShare()
-  const copied = copiedSlug === release.slug
+  const copied = copiedSlug === slug
 
   return (
-    <Button size="sm" onClick={() => share(release.slug, release.name)} title={t('detail.shareHint')}>
-      {copied ? `✓ ${t('sub.copied').replace('✓ ', '')}` : `🔗 ${t('detail.share')}`}
-    </Button>
+    <Tooltip text={t('detail.shareHint')} seite="unten">
+      <button
+        type="button"
+        onClick={() => share(slug, name)}
+        aria-label={t('detail.share')}
+        className="cursor-pointer rounded p-1 text-lg leading-none text-slate-400 transition hover:bg-slate-500/10 hover:text-sky-400"
+      >
+        {copied ? '✓' : '🔗'}
+      </button>
+    </Tooltip>
   )
 }
 
@@ -83,6 +99,8 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
     return first === 1 ? String(count) : `${first}–${first + count - 1}`
   }, [release.schedule.episodeCount, release.schedule.firstEpisodeNumber])
   const [showAll, setShowAll] = useState(false)
+  /** Die volle Terminliste erscheint erst auf Wunsch. */
+  const [alleTermine, setAlleTermine] = useState(false)
   const shown = showAll ? events : events.slice(0, 8)
 
   /**
@@ -228,6 +246,15 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
             <span className="text-slate-400"> · {release.schedule.time} Uhr</span>
           )}
         </dd>
+        {/*
+          Eine Zeile, die sagt, was gerade zählt.
+
+          Vorher standen „Start" und „Letzte Folge" nebeneinander, und bei einer
+          laufenden Serie war beides die Vergangenheit — die Frage „wann kommt
+          die nächste?" beantwortete keine der beiden (Daniel, 15.08.2026).
+          Jetzt richtet sich die Zeile nach dem Stand: kommt noch etwas, steht
+          hier die nächste Folge; ist alles durch, die letzte.
+        */}
         {release.releaseType === 'weekly' && (
           <>
             <dt className="text-slate-400">{t('detail.episodes')}</dt>
@@ -253,13 +280,31 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
                 </span>
               )}
             </dd>
-            <dt className="text-slate-400">{t('detail.lastEpisode')}</dt>
-            <dd className="tabular-nums">{last ? formatDate(last) : '—'}</dd>
+            {(naechster || last) && (
+              <>
+                <dt className="text-slate-400">
+                  {t(naechster ? 'detail.nextEpisode' : 'detail.lastEpisode')}
+                </dt>
+                <dd className="tabular-nums">
+                  {formatDate(naechster ? naechster.date : (last as string))}
+                </dd>
+              </>
+            )}
           </>
         )}
       </dl>
 
-      <div className="mt-3 flex flex-wrap gap-2">
+      {/*
+        Die Hauptaktion nimmt die ganze Zeile, der Rest teilt sich die nächste.
+
+        Vorher standen alle Knöpfe in einer umbrechenden Reihe, und der
+        wichtigste — „Bei ADN ansehen" — war genauso breit wie „Teilen" daneben
+        (Daniel, 15.08.2026). Jetzt liegt er allein oben über die volle Breite,
+        und die übrigen teilen die Zeile darunter zu gleichen Teilen: bei zweien
+        je die Hälfte, bei dreien je ein Drittel. Das übernimmt `grid` mit
+        `auto-cols-fr`, ohne dass die Zahl im Code stehen muss.
+      */}
+      <div className="mt-3 flex flex-col gap-2">
         {/*
           **Eine** Hauptaktion, und sie sagt, was passiert und wo.
 
@@ -276,10 +321,11 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
           Feld, statt eines Knopfes, der nicht verrät, wohin er führt.
         */}
         {hauptAktion && (
-          <Button href={hauptAktion.url} variant="primary" size="sm">
+          <Button href={hauptAktion.url} variant="primary" size="sm" breit>
             {hauptAktion.label}
           </Button>
         )}
+        <div className="grid grid-flow-col auto-cols-fr gap-2 empty:hidden">
         {/*
           Eintragen kann man nur, was noch kommt.
 
@@ -312,10 +358,24 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
             </Tooltip>
           </Button>
         )}
-        <ShareButton release={release} />
+        </div>
       </div>
 
-      {events.length > 1 && (
+      {/*
+        Die Terminliste ist zugeklappt. Bei einer Zwölfteiler-Serie standen dort
+        zwölf Zeilen, die fast immer schon vorbei sind — sie füllten das halbe
+        Panel für eine Auskunft, die die wenigsten suchen (Daniel, 15.08.2026).
+      */}
+      {events.length > 1 && !alleTermine && (
+        <button
+          type="button"
+          onClick={() => setAlleTermine(true)}
+          className="mt-2 cursor-pointer text-xs text-sky-500 hover:underline"
+        >
+          {t('detail.showAllDates', { count: events.length })}
+        </button>
+      )}
+      {events.length > 1 && alleTermine && (
         <div className="mt-3">
           <SectionTitle>{t('detail.allDates')}</SectionTitle>
           <ul className="flex flex-col gap-0.5">
@@ -335,15 +395,23 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
                 <span className="tabular-nums text-slate-400">
                   {ev.time ?? <span className="italic">{t('card.timeOpen')}</span>}
                 </span>
-                <a
-                  className="ml-auto inline-flex cursor-pointer items-center gap-1 rounded px-1.5 py-0.5 text-[11px] text-slate-400 transition hover:bg-sky-500/10 hover:text-sky-400"
-                  href={googleCalendarUrl(ev)}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  aria-label={t('detail.addSingle')}
-                >
-                  📅 <span className="hidden sm:inline">{t('detail.addToGoogle')}</span>
-                </a>
+                {/*
+                  Eintragen lässt sich nur, was noch kommt. Bei einer Serie, die
+                  2024 gelaufen ist, stand hinter jeder Folge ein Knopf, der
+                  einen Termin in der Vergangenheit anlegt — sinnlos, und bei
+                  zwölf Folgen zwölfmal (Daniel, 15.08.2026).
+                */}
+                {ev.date >= today && (
+                  <a
+                    className="ml-auto inline-flex cursor-pointer items-center gap-1 rounded px-1.5 py-0.5 text-[11px] text-slate-400 transition hover:bg-sky-500/10 hover:text-sky-400"
+                    href={googleCalendarUrl(ev)}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    aria-label={t('detail.addSingle')}
+                  >
+                    📅 <span className="hidden sm:inline">{t('detail.addToGoogle')}</span>
+                  </a>
+                )}
               </li>
             ))}
           </ul>
@@ -396,14 +464,24 @@ function Quellenliste({ release }: { release: Release }) {
         {(aktuell.length ? aktuell : alle).map((q, i) => (
           <span key={q.url}>
             {i > 0 && ', '}
-            <a
-              href={q.url}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="underline hover:text-sky-400"
-            >
-              {q.name || hostname(q.url)}
-            </a>
+            {istMaschinenquelle(q.url) ? (
+              /*
+                Der Name kommt aus unserer eigenen Plattformliste, nicht aus der
+                Adresse. Ein erster Versuch zerlegte den Hostnamen und machte aus
+                `gw.api.animationdigitalnetwork.com` ein „Api" — geraten statt
+                nachgesehen, und prompt falsch (15.08.2026).
+              */
+              t('detail.sourceProvider', { anbieter: PLATFORMS[release.platform].name })
+            ) : (
+              <a
+                href={q.url}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="underline hover:text-sky-400"
+              >
+                {q.name || hostname(q.url)}
+              </a>
+            )}
           </span>
         ))}
         {release.automatisch && (
@@ -425,7 +503,9 @@ function Quellenliste({ release }: { release: Release }) {
             onClick={() => setOffen((o) => !o)}
             className="mt-1 cursor-pointer underline decoration-dotted underline-offset-2 hover:text-sky-400"
           >
-            {offen ? t('detail.olderSourcesHide') : t('detail.olderSources', { count: alt.length })}
+            {offen
+              ? t('detail.olderSourcesHide')
+              : t(alt.length === 1 ? 'detail.olderSource' : 'detail.olderSources', { count: alt.length })}
           </button>
           {offen && (
             <ul className="mt-1 space-y-0.5 border-l border-slate-300 pl-2 dark:border-slate-700">
@@ -709,6 +789,25 @@ function WeitereTitel({ title }: { title: Title }) {
     </div>
   )
 }
+
+/**
+ * Quellen, die ein Mensch nicht aufschlagen kann.
+ *
+ * Manche Termine kommen aus einer Programmschnittstelle statt von einer Seite —
+ * bei ADN etwa aus `gw.api.animationdigitalnetwork.com`. Diese Adresse als Link
+ * anzubieten wäre eine Zumutung: Wer darauf klickt, landet bei JSON oder einer
+ * Fehlermeldung. Vorher stand dort ersatzweise die Startseite des Anbieters,
+ * und die war schlicht falsch — dort steht keiner dieser Termine (Daniel,
+ * 15.08.2026: „das ist keine quelle").
+ *
+ * Also wird gesagt, was zutrifft: Die Termine kommen vom Anbieter selbst.
+ */
+function istMaschinenquelle(url: string): boolean {
+  const host = hostname(url)
+  return host.startsWith('api.') || host.startsWith('gw.api.')
+}
+
+
 
 /**
  * Der Shop, wie ihn ein Mensch nennt — „Amazon", nicht „www.amazon.de".
@@ -1022,14 +1121,18 @@ export function DetailPanel({
     const rest = voll.toLowerCase().startsWith(reihenName.toLowerCase())
       ? voll.slice(reihenName.length).replace(/^[\s:–—-]+/, '').trim()
       : voll
-    if (rest) return rest
-    const zusatz = [
-      title.format && title.format !== 'TV' ? (FORMAT_DE[title.format] ?? title.format) : '',
-      title.jpYear,
-    ]
-      .filter(Boolean)
-      .join(' · ')
-    return zusatz || voll
+    /**
+     * Bleibt nichts übrig, heißt der Teil wie die Reihe — dann steht auch der
+     * volle Name hier, und die Ausgabestelle unterdrückt die Zeile als
+     * Wiederholung.
+     *
+     * Vorher trat hier Format und Jahr an die Stelle des Namens, und über
+     * „Fairy Tail" stand in großer Schrift „2009" (Daniel, 15.08.2026 — schon
+     * das zweite Mal, nachdem bei Banana Fish „2018" dort stand). Eine nackte
+     * Jahreszahl als Überschrift beantwortet keine Frage; welcher Teil gewählt
+     * ist, zeigt das Karussell.
+     */
+    return rest || voll
   }, [title, reihenName])
 
   /**
@@ -1227,6 +1330,7 @@ export function DetailPanel({
               für nichts weiter als zwei Symbole.
             */}
             <div className="flex shrink-0 items-center gap-2">
+              <ShareIcon slug={title.slug} name={anzeigeName(title)} />
               <HideEye hidden={false} onToggle={() => onToggleHidden(title.id)} />
               <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
             </div>

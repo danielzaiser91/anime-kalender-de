@@ -241,6 +241,10 @@ const TEXTE = {
   'detail.editionCount': '{count} Ausgaben',
   'detail.preorderAt': 'Vorbestellen bei {shop}',
   'detail.buyAt': 'Kaufen bei {shop}',
+  // Steht statt eines Links, wenn die Termine aus einer Programmschnittstelle
+  // stammen. Ein Link auf einen API-Endpunkt hilft niemandem weiter.
+  'detail.sourceProvider': 'direkt von {anbieter} ausgelesen',
+  'detail.olderSource': '1 ältere Quelle',
   'detail.olderSources': '{count} ältere Quellen',
   'detail.olderSourcesHide': 'ältere Quellen ausblenden',
   'detail.sourceStale': 'veraltete Info',
@@ -257,7 +261,7 @@ const TEXTE = {
   // „Start" wäre bei einem Katalogtitel eine Falschbehauptung: ADN nahm
   // „Sword Art Online" am 11.06.2025 ins Angebot, die deutsche Fassung gibt es
   // seit 2013. Was wir wissen, ist das Datum der Verfügbarkeit — mehr nicht.
-  'detail.availableFrom': 'Im Angebot seit',
+  'detail.availableFrom': 'Erscheinungstermin',
   'detail.availableFromNote':
     'Seit diesem Tag steht der Titel dort im Angebot. Die deutsche Fassung selbst kann älter sein.',
 
@@ -270,6 +274,7 @@ const TEXTE = {
   // Anime News Network kommt nur dazu, wenn von dort auch Rollen stammen — der
   // Link daneben ist deren Nutzungsauflage, nicht bloß eine Höflichkeit.
   'detail.voicesSource': 'Angaben von AniList',
+  'detail.nextEpisode': 'Nächste Folge',
   'detail.lastEpisode': 'Letzte Folge',
   'detail.allDates': 'Alle Termine',
   'detail.showAllDates': 'alle {count} Termine anzeigen',

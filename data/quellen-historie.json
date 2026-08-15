@@ -1504,10 +1504,19 @@
       "stand": "aktuell"
     }
   ],
+  "cr-GT00378078": [
+    {
+      "url": "https://www.crunchyroll.com/de/simulcastcalendar",
+      "name": "crunchyroll.com",
+      "gesehenAm": "2026-08-15",
+      "sagt": "2026-08-15",
+      "stand": "aktuell"
+    }
+  ],
   "adn-1354": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2026-07-24",
       "stand": "aktuell"
@@ -1515,8 +1524,8 @@
   ],
   "adn-617": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2026-08-10",
       "stand": "aktuell"
@@ -1524,8 +1533,8 @@
   ],
   "adn-1415": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2026-08-17",
       "stand": "aktuell"
@@ -1533,8 +1542,8 @@
   ],
   "adn-684": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2024-09-05",
       "stand": "aktuell"
@@ -1542,8 +1551,8 @@
   ],
   "adn-278": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2024-07-11",
       "stand": "aktuell"
@@ -1551,8 +1560,8 @@
   ],
   "adn-1160-s1-20241003-171018": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2024-10-03",
       "stand": "aktuell"
@@ -1560,8 +1569,8 @@
   ],
   "adn-1160-s1-20241003-185660": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2025-07-03",
       "stand": "aktuell"
@@ -1569,8 +1578,8 @@
   ],
   "adn-190-s1-20260629": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2026-06-29",
       "stand": "aktuell"
@@ -1578,8 +1587,8 @@
   ],
   "adn-190-s2-20260629": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2026-06-29",
       "stand": "aktuell"
@@ -1587,8 +1596,8 @@
   ],
   "adn-1164": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2025-01-10",
       "stand": "aktuell"
@@ -1596,8 +1605,8 @@
   ],
   "adn-329": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2026-04-24",
       "stand": "aktuell"
@@ -1605,8 +1614,8 @@
   ],
   "adn-340": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2025-08-21",
       "stand": "aktuell"
@@ -1614,8 +1623,8 @@
   ],
   "adn-1122": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2025-01-24",
       "stand": "aktuell"
@@ -1623,8 +1632,8 @@
   ],
   "adn-662": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2025-07-15",
       "stand": "aktuell"
@@ -1632,8 +1641,8 @@
   ],
   "adn-971-s1-20221013": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2022-10-13",
       "stand": "aktuell"
@@ -1641,8 +1650,8 @@
   ],
   "adn-971-s2-20240111": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2024-01-11",
       "stand": "aktuell"
@@ -1650,8 +1659,8 @@
   ],
   "adn-22": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2025-08-14",
       "stand": "aktuell"
@@ -1659,8 +1668,8 @@
   ],
   "adn-427-s1-20251029": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2025-10-29",
       "stand": "aktuell"
@@ -1668,8 +1677,8 @@
   ],
   "adn-427-s2-20251126": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2025-11-26",
       "stand": "aktuell"
@@ -1677,8 +1686,8 @@
   ],
   "adn-427-s3-20251223": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2025-12-23",
       "stand": "aktuell"
@@ -1686,8 +1695,8 @@
   ],
   "adn-427-s4-20260401": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2026-04-01",
       "stand": "aktuell"
@@ -1695,8 +1704,8 @@
   ],
   "adn-427-s5-20260601": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2026-06-01",
       "stand": "aktuell"
@@ -1704,8 +1713,8 @@
   ],
   "adn-1060": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2025-11-26",
       "stand": "aktuell"
@@ -1713,8 +1722,8 @@
   ],
   "adn-1197": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2024-06-06",
       "stand": "aktuell"
@@ -1722,8 +1731,8 @@
   ],
   "adn-1168": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2025-03-31",
       "stand": "aktuell"
@@ -1731,8 +1740,8 @@
   ],
   "adn-1233": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2024-09-26",
       "stand": "aktuell"
@@ -1740,8 +1749,8 @@
   ],
   "adn-217": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2024-09-05",
       "stand": "aktuell"
@@ -1749,8 +1758,8 @@
   ],
   "adn-1113-s1-20240725": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2024-07-25",
       "stand": "aktuell"
@@ -1758,8 +1767,8 @@
   ],
   "adn-1113-s2-20240725": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2024-07-25",
       "stand": "aktuell"
@@ -1767,8 +1776,8 @@
   ],
   "adn-1125": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2024-02-08",
       "stand": "aktuell"
@@ -1776,8 +1785,8 @@
   ],
   "adn-461-s1-20231001": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2023-10-01",
       "stand": "aktuell"
@@ -1785,8 +1794,8 @@
   ],
   "adn-461-s2-20231001": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2023-10-01",
       "stand": "aktuell"
@@ -1794,8 +1803,8 @@
   ],
   "adn-461-s3-20231001": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2023-10-01",
       "stand": "aktuell"
@@ -1803,8 +1812,8 @@
   ],
   "adn-461-s4-20231001-106625": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2023-10-01",
       "stand": "aktuell"
@@ -1812,8 +1821,8 @@
   ],
   "adn-461-s4-20231001-113538": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2023-10-01",
       "stand": "aktuell"
@@ -1821,8 +1830,8 @@
   ],
   "adn-442-s1-20250611": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2025-06-11",
       "stand": "aktuell"
@@ -1830,8 +1839,8 @@
   ],
   "adn-442-s2-20250611": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2025-06-11",
       "stand": "aktuell"
@@ -1839,8 +1848,8 @@
   ],
   "adn-442-s3-20250717-100182": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2025-07-17",
       "stand": "aktuell"
@@ -1848,8 +1857,8 @@
   ],
   "adn-442-s3-20250717-108759": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2025-07-17",
       "stand": "aktuell"
@@ -1857,8 +1866,8 @@
   ],
   "adn-442-s3-20250717-114308": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2025-07-17",
       "stand": "aktuell"
@@ -1866,8 +1875,8 @@
   ],
   "adn-999": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2023-01-04",
       "stand": "aktuell"
@@ -1875,8 +1884,8 @@
   ],
   "adn-1311": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2025-07-11",
       "stand": "aktuell"
@@ -1884,8 +1893,8 @@
   ],
   "adn-1272": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2025-04-06",
       "stand": "aktuell"
@@ -1893,8 +1902,8 @@
   ],
   "adn-1325": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2025-09-04",
       "stand": "aktuell"
@@ -1902,8 +1911,8 @@
   ],
   "adn-1037-s1-20260213": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2026-02-13",
       "stand": "aktuell"
@@ -1911,8 +1920,8 @@
   ],
   "adn-1037-s2-20260213": [
     {
-      "url": "https://animationdigitalnetwork.com/de/",
-      "name": "animationdigitalnetwork.com",
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-15",
       "sagt": "2026-02-13",
       "stand": "aktuell"
@@ -1933,15 +1942,6 @@
       "name": "anime2you.de",
       "gesehenAm": "2026-08-15",
       "sagt": "2026-08-20",
-      "stand": "aktuell"
-    }
-  ],
-  "cr-GT00378078": [
-    {
-      "url": "https://www.crunchyroll.com/de/simulcastcalendar",
-      "name": "crunchyroll.com",
-      "gesehenAm": "2026-08-15",
-      "sagt": "2026-08-15",
       "stand": "aktuell"
     }
   ]

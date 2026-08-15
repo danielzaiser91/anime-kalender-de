@@ -73,7 +73,20 @@ const VOICES_DIR = `${OUT}/voices`
 const KEYWORD_MIN_RANK = 55
 const KEYWORD_MAX = 24
 const CR_CALENDAR_URL = 'https://www.crunchyroll.com/de/simulcastcalendar'
-const ADN_CALENDAR_URL = 'https://animationdigitalnetwork.com/de/'
+/**
+ * Woher die ADN-Termine **wirklich** stammen.
+ *
+ * Hier stand bis zum 15.08.2026 die deutsche Startseite von ADN — und die ist
+ * keine Quelle: Dort steht kein einziger dieser Termine, und wer den Link
+ * öffnet, kann nichts nachprüfen. Daniel hat es gemeldet („das ist keine
+ * quelle").
+ *
+ * Die Termine kommen aus ADNs eigener Programmschnittstelle, die
+ * `fetch-adn.ts` abfragt. Die Adresse steht jetzt hier, weil sie die Wahrheit
+ * ist; die Oberfläche verlinkt sie **nicht**, sondern schreibt „Termine direkt
+ * von ADN ausgelesen". Ein Link auf einen API-Endpunkt hilft niemandem weiter.
+ */
+const ADN_CALENDAR_URL = 'https://gw.api.animationdigitalnetwork.com/video/calendar'
 
 /**
  * Reihen über den **gesamten** AniList-Katalog, nicht nur über den Bestand.
