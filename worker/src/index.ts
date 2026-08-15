@@ -504,6 +504,64 @@ async function handleFavorites(request: Request, env: Env): Promise<Response> {
  * DSGVO verlangt genau das, und ein Abo, das man nicht loswird, wird als Spam
  * gemeldet.
  */
+/**
+ * Liest und ändert die Einstellungen eines verbundenen Browsers.
+ *
+ * Bis zum 15.08.2026 gab es beides nicht: Wer verbunden war, sah auf der
+ * Newsletter-Seite trotzdem das Anmeldeformular für Unverbundene und konnte
+ * weder Rhythmus noch Plattformen ändern, ohne sich neu anzumelden (Daniel:
+ * „wenn ich bereits verbunden bin, sollte ich wechseln können, abbestellen,
+ * etc").
+ *
+ * Der Abgleich-Schlüssel genügt als Ausweis — er liegt nur in dem Browser, in
+ * dem das Abo bestätigt wurde, und öffnet ohnehin schon die Favoritenliste.
+ * Die Adresse selbst lässt sich hier **nicht** ändern: Das wäre eine neue
+ * Anmeldung mit neuer Bestätigung, und genau die gibt es dafür.
+ */
+async function handlePrefsGet(request: Request, env: Env): Promise<Response> {
+  const token = (new URL(request.url).searchParams.get('token') ?? '').trim()
+  if (!token) return json(env, { error: 'Kein Abgleich-Schlüssel übergeben.' }, 400)
+
+  const row = await env.DB.prepare(
+    "SELECT email, frequency, platforms FROM subscribers WHERE pref_token = ?1 AND status = 'active'",
+  )
+    .bind(token)
+    .first<{ email: string; frequency: string; platforms: string }>()
+
+  if (!row) return json(env, { error: 'Dieser Abgleich-Schlüssel gehört zu keinem aktiven Abo.' }, 404)
+  return json(env, {
+    ok: true,
+    email: row.email,
+    frequency: row.frequency === 'daily' ? 'daily' : 'weekly',
+    platforms: row.platforms ? row.platforms.split(',').filter(Boolean) : [],
+  })
+}
+
+async function handlePrefsPost(request: Request, env: Env): Promise<Response> {
+  let payload: { token?: string; frequency?: string; platforms?: string[] }
+  try {
+    payload = (await request.json()) as { token?: string; frequency?: string; platforms?: string[] }
+  } catch {
+    return json(env, { error: 'Ungültige Anfrage.' }, 400)
+  }
+  const token = (payload.token ?? '').trim()
+  if (!token) return json(env, { error: 'Kein Abgleich-Schlüssel übergeben.' }, 400)
+
+  const frequency = payload.frequency === 'daily' ? 'daily' : 'weekly'
+  const platforms = (payload.platforms ?? []).filter((p) => /^[a-z]+$/.test(p)).join(',')
+
+  const result = await env.DB.prepare(
+    "UPDATE subscribers SET frequency = ?1, platforms = ?2 WHERE pref_token = ?3 AND status = 'active'",
+  )
+    .bind(frequency, platforms, token)
+    .run()
+
+  if (!result.meta.changes) {
+    return json(env, { error: 'Dieser Abgleich-Schlüssel gehört zu keinem aktiven Abo.' }, 404)
+  }
+  return json(env, { ok: true })
+}
+
 async function handleUnsubscribeByPref(request: Request, env: Env): Promise<Response> {
   let payload: { token?: string }
   try {
@@ -896,6 +954,11 @@ export default {
         // dem verbundenen Browser — beide beenden dasselbe Abo.
         if (request.method === 'POST') return handleUnsubscribeByPref(request, env)
         return handleUnsubscribe(request, env)
+      case '/prefs':
+        // Der verbundene Browser liest und ändert damit seine Einstellungen.
+        if (request.method === 'GET') return handlePrefsGet(request, env)
+        if (request.method !== 'POST') return json(env, { error: 'GET oder POST erwartet' }, 405)
+        return handlePrefsPost(request, env)
       case '/favorites':
         // GET holt, POST schreibt. Der Rückweg kam am 14.08.2026 dazu.
         if (request.method === 'GET') return handleFavoritesGet(request, env)

@@ -108,13 +108,30 @@ export function Chip({
   )
 }
 
+/**
+ * Maße für alle Plaketten — eine Quelle, damit sie auf einer Linie stehen.
+ *
+ * Vorher brachte jede ihre eigenen mit: `px-2 py-0.5 text-[11px]` bei Plattform,
+ * Release-Art und Status, `h-5 min-w-7 text-xs` bei der FSK. Aus Polsterung
+ * berechnete Höhen und eine feste Höhe daneben ergeben nie dieselbe Zahl, und
+ * nebeneinander sieht man jeden Pixel Unterschied (Daniel, 15.08.2026: „pills
+ * sind nicht gleich groß und nicht pixel genau auf einer Ebene").
+ *
+ * Deshalb feste Höhe statt Polsterung nach oben und unten, und dieselbe
+ * Schriftgröße. Die FSK behält ihre eigene Form — quadratisch, mit Rahmen —,
+ * aber nicht mehr ihre eigene Höhe.
+ */
+const PLAKETTE = 'inline-flex items-center justify-center rounded font-semibold leading-none'
+const PLAKETTE_GROESSE = (small?: boolean) => (small ? 'h-4 px-1.5 text-[10px]' : 'h-5 px-2 text-[11px]')
+
 export function PlatformBadge({ platform, small }: { platform: PlatformId; small?: boolean }) {
   const p = PLATFORMS[platform]
   return (
     <span
       className={[
-        'inline-flex items-center gap-1 rounded font-semibold uppercase tracking-wide',
-        small ? 'px-1.5 py-0.5 text-[10px]' : 'px-2 py-0.5 text-[11px]',
+        PLAKETTE,
+        'gap-1 uppercase tracking-wide',
+        PLAKETTE_GROESSE(small),
       ].join(' ')}
       style={{ background: `${p.color}22`, color: p.color, boxShadow: `inset 0 0 0 1px ${p.color}55` }}
     >
@@ -131,8 +148,9 @@ export function FskBadge({ fsk, small }: { fsk: Fsk; small?: boolean }) {
     'oben',
     <span
       className={[
-        'inline-flex items-center justify-center rounded-sm font-bold',
-        small ? 'h-4 min-w-6 text-[10px]' : 'h-5 min-w-7 text-xs',
+        PLAKETTE,
+        'rounded-sm font-bold',
+        small ? 'h-4 min-w-6 px-1 text-[10px]' : 'h-5 min-w-7 px-1 text-[11px]',
       ].join(' ')}
       style={{ background: bg, color: dark ? '#111' : '#fff', border: '1px solid rgba(0,0,0,.25)' }}
     >
@@ -149,8 +167,9 @@ export function ReleaseTypeBadge({ type, small }: { type: ReleaseType; small?: b
     'oben',
     <span
       className={[
-        'inline-flex items-center gap-1 rounded font-semibold',
-        small ? 'px-1.5 py-0.5 text-[10px]' : 'px-2 py-0.5 text-[11px]',
+        PLAKETTE,
+        'gap-1',
+        PLAKETTE_GROESSE(small),
       ].join(' ')}
       style={{ background: `${style.color}22`, color: style.color, boxShadow: `inset 0 0 0 1px ${style.color}55` }}
     >
@@ -180,8 +199,9 @@ export function StatusBadge({ status, small }: { status: ReleaseStatus; small?: 
   return (
     <span
       className={[
-        'inline-flex items-center rounded font-semibold ring-1',
-        small ? 'px-1.5 py-0.5 text-[10px]' : 'px-2 py-0.5 text-[11px]',
+        PLAKETTE,
+        'ring-1',
+        PLAKETTE_GROESSE(small),
         STATUS_STYLE[status],
       ].join(' ')}
     >
@@ -636,8 +656,16 @@ export function Tooltip({
       <span
         tabIndex={0}
         role="note"
+        /*
+          `inline-flex` statt `inline`: Ein Inline-Element bezieht seine Höhe aus
+          der Zeilenhöhe, nicht aus seinem Inhalt. Eine Plakette mit Hovertext
+          stand deshalb in einer 24 Pixel hohen Hülle, eine ohne war 20 Pixel
+          hoch — nebeneinander sichtbar verschoben (Daniel, 15.08.2026: „nicht
+          pixel genau auf einer Ebene"). Jetzt umschließt die Hülle ihr Kind
+          genau.
+        */
         className={[
-          'outline-none',
+          'inline-flex items-center outline-none',
           unterstrichen ? 'cursor-help underline decoration-dotted underline-offset-2' : '',
         ].join(' ')}
       >

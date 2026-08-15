@@ -238,3 +238,66 @@ export function useNewsletterSync(favorites: Set<number>): void {
     return () => clearTimeout(timer.current)
   }, [favorites])
 }
+
+/** Die Einstellungen eines verbundenen Abos. */
+export interface Einstellungen {
+  email: string
+  frequency: 'daily' | 'weekly'
+  platforms: string[]
+}
+
+/**
+ * Holt Rhythmus, Plattformen und Adresse zum verbundenen Browser.
+ *
+ * Damit zeigt die Newsletter-Seite einem Abonnenten seinen tatsächlichen Stand,
+ * statt ihm dasselbe Anmeldeformular vorzulegen wie einem Fremden (Daniel,
+ * 15.08.2026).
+ */
+export async function ladeEinstellungen(token: string): Promise<Einstellungen> {
+  if (!WORKER_URL) throw new Error('Der Newsletter-Dienst ist in dieser Installation nicht verbunden.')
+  const res = await fetch(`${WORKER_URL}/prefs?token=${encodeURIComponent(token)}`)
+  const body = await alsJson<Partial<Einstellungen> & { ok?: boolean; error?: string }>(res)
+  if (res.status === 404) {
+    clearSyncToken()
+    throw new Error(body.error ?? 'Abo nicht mehr vorhanden')
+  }
+  if (!res.ok || !body.ok) throw new Error(body.error ?? 'Abruf fehlgeschlagen')
+  if (body.email) setSyncMail(body.email)
+  return {
+    email: body.email ?? '',
+    frequency: body.frequency === 'daily' ? 'daily' : 'weekly',
+    platforms: body.platforms ?? [],
+  }
+}
+
+/** Schreibt geänderte Einstellungen zurück. */
+export async function speichereEinstellungen(
+  token: string,
+  werte: { frequency: 'daily' | 'weekly'; platforms: string[] },
+): Promise<void> {
+  if (!WORKER_URL) throw new Error('Der Newsletter-Dienst ist in dieser Installation nicht verbunden.')
+  const res = await fetch(`${WORKER_URL}/prefs`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token, ...werte }),
+  })
+  const body = await alsJson<{ ok?: boolean; error?: string }>(res)
+  if (!res.ok || !body.ok) throw new Error(body.error ?? 'Speichern fehlgeschlagen')
+}
+
+/**
+ * Antwort als JSON lesen, ohne bei HTML in eine rohe Ausnahme zu laufen.
+ *
+ * Ohne `VITE_NEWSLETTER_API` zeigt jede dieser Adressen auf den eigenen
+ * Entwicklungsserver, und der liefert die Startseite. `res.json()` warf dann
+ * „Unexpected token '<'", und genau dieser Satz stand als Fehlermeldung in der
+ * Oberfläche (15.08.2026).
+ */
+async function alsJson<T>(res: Response): Promise<T> {
+  const text = await res.text()
+  try {
+    return JSON.parse(text) as T
+  } catch {
+    throw new Error('Der Newsletter-Dienst hat unerwartet geantwortet.')
+  }
+}

@@ -6,11 +6,15 @@ import { useLang } from '../lib/i18n.tsx'
 import { favoritenErgaenzen, useFavorites } from '../lib/favorites.ts'
 import {
   getSyncToken,
+  ladeEinstellungen,
+  speichereEinstellungen,
+  useNewsletterVerbindung,
   pullFavorites,
   pushFavorites,
   requestRestore,
   unsubscribeByToken,
   setSyncToken,
+  type Einstellungen,
 } from '../lib/newsletterSync.ts'
 import { AdminPanel, readAdminToken } from './AdminPanel.tsx'
 import { InstallFooterOffer } from './InstallPrompt.tsx'
@@ -153,6 +157,118 @@ export function SubscribeView({ meta }: { meta: DataMeta }) {
   )
 }
 
+/**
+ * Was ein verbundener Browser sieht: seinen Stand, nicht das Anmeldeformular.
+ *
+ * Rhythmus und Plattformen lassen sich hier ändern, ohne sich neu anzumelden.
+ * Die Adresse bleibt außen vor — sie zu wechseln heißt, ein neues Abo mit neuer
+ * Bestätigung anzulegen, und dafür gibt es das Formular.
+ */
+function AboEinstellungen({ meta, onWechseln }: { meta: DataMeta; onWechseln: () => void }) {
+  const { t } = useLang()
+  const [stand, setStand] = useState<Einstellungen | undefined>()
+  const [fehler, setFehler] = useState('')
+  const [speichert, setSpeichert] = useState<'idle' | 'laeuft' | 'ok'>('idle')
+
+  useEffect(() => {
+    const token = getSyncToken()
+    if (!token) return
+    ladeEinstellungen(token)
+      .then(setStand)
+      .catch((e: Error) => setFehler(e.message))
+  }, [])
+
+  function sichern(werte: { frequency: 'daily' | 'weekly'; platforms: string[] }) {
+    const token = getSyncToken()
+    if (!token) return
+    setStand((s) => (s ? { ...s, ...werte } : s))
+    setSpeichert('laeuft')
+    speichereEinstellungen(token, werte)
+      .then(() => setSpeichert('ok'))
+      .catch((e: Error) => {
+        setFehler(e.message)
+        setSpeichert('idle')
+      })
+  }
+
+  return (
+    <Card>
+      <SectionTitle>{t('news.yourSubscription')}</SectionTitle>
+      {fehler && <p className="mb-2 text-sm text-red-400">{fehler}</p>}
+      {!stand ? (
+        <p className="text-sm text-slate-400">{t('news.loadingPrefs')}</p>
+      ) : (
+        <div className="flex flex-col gap-4">
+          <p className="text-sm text-slate-600 dark:text-slate-300">
+            {t('news.connectedAs', { mail: stand.email })}
+          </p>
+
+          <div>
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
+              {t('news.frequency')}
+            </span>
+            <div className="mt-1.5 flex gap-2">
+              {(['weekly', 'daily'] as const).map((f) => (
+                <button
+                  key={f}
+                  type="button"
+                  onClick={() => sichern({ frequency: f, platforms: stand.platforms })}
+                  className={[
+                    'cursor-pointer rounded-lg border px-3 py-2 text-sm transition',
+                    stand.frequency === f
+                      ? 'border-sky-500 bg-sky-500/10 font-medium text-slate-900 dark:text-white'
+                      : 'border-slate-300 text-slate-600 hover:border-slate-400 dark:border-white/15 dark:text-slate-300',
+                  ].join(' ')}
+                >
+                  {t(f === 'weekly' ? 'news.weekly' : 'news.daily')}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
+              {t('news.platforms')}
+            </span>
+            <div className="mt-1.5">
+              <PlatformToggleList
+                platforms={meta.platforms}
+                selected={stand.platforms.length ? (stand.platforms as PlatformId[]) : 'all'}
+                onToggle={(p) => {
+                  const naechste = stand.platforms.includes(p)
+                    ? stand.platforms.filter((x) => x !== p)
+                    : [...stand.platforms, p]
+                  sichern({ frequency: stand.frequency, platforms: naechste })
+                }}
+                allLabel={t('news.allPlatforms')}
+                onAll={() => sichern({ frequency: stand.frequency, platforms: [] })}
+              />
+            </div>
+          </div>
+
+          {speichert === 'ok' && <p className="text-sm text-emerald-500">{t('news.prefsSaved')}</p>}
+
+          <div className="flex flex-wrap items-center gap-3 border-t border-slate-200 pt-3 dark:border-white/10">
+            {/*
+              Abmelden steht bewusst **nicht** hier, sondern weiter unten im
+              Kasten „Favoriten verloren?". Dort gab es den Weg schon, zweistufig
+              und mit Abbruch; ein zweiter Knopf gleichen Namens auf derselben
+              Seite wäre die Sorte Dopplung, die diese Runde eigentlich beseitigt.
+            */}
+            <button
+              type="button"
+              onClick={onWechseln}
+              className="cursor-pointer text-sm text-sky-500 underline hover:text-sky-400"
+            >
+              {t('news.changeAddress')}
+            </button>
+          </div>
+        </div>
+      )}
+    </Card>
+  )
+}
+
 type FormState = 'idle' | 'sending' | 'ok' | 'error'
 
 export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }) {
@@ -183,6 +299,9 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
   const [syncMessage, setSyncMessage] = useState('')
   const [welcome, setWelcome] = useState(false)
   const autoSync = !!getSyncToken()
+  const verbindung = useNewsletterVerbindung()
+  /** Bewusst aufklappbar: Eine neue Adresse ist eine neue Anmeldung. */
+  const [adresseWechseln, setAdresseWechseln] = useState(false)
   const adminToken = readAdminToken()
 
   /**
@@ -372,6 +491,20 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
         </Card>
       )}
 
+      {/*
+        Ein verbundener Browser sieht seinen Stand, kein Anmeldeformular.
+
+        Vorher stand hier für jeden dasselbe Formular — auch für Abonnenten, die
+        weder Rhythmus noch Plattformen ändern konnten, ohne sich neu
+        anzumelden (Daniel, 15.08.2026: „wenn ich bereits verbunden bin, sollte
+        ich wechseln können, abbestellen, etc"). Wer die Adresse wechseln will,
+        klappt das Formular über den Knopf darunter wieder auf: Eine neue
+        Adresse ist eine neue Anmeldung samt Bestätigung, und das soll sie auch
+        bleiben.
+      */}
+      {verbindung.verbunden && !adresseWechseln ? (
+        <AboEinstellungen meta={meta} onWechseln={() => setAdresseWechseln(true)} />
+      ) : (
       <Card>
         <form onSubmit={submit} className="flex flex-col gap-4">
           <label className="flex flex-col gap-1 text-sm">
@@ -492,6 +625,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
           </div>
         </form>
       </Card>
+      )}
 
       {/*
         Der Abschnitt steht vor der Technik und nach dem Formular: Er ist der
