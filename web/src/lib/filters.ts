@@ -253,15 +253,28 @@ export function filterTitles(
 ): Title[] {
   const vorgefiltert = source.filter((t) => {
     if (f.favoritesOnly && !favorites.has(t.id)) return false
-    // „Wo kann ich das sehen?" — Stream-Verweise aus AniList/TMDB oder
-    // Bezugsquellen aus aniSearch. Ein Termin zählt selbstverständlich auch.
-    if (
-      f.availableOnly &&
-      !t.streams.length &&
-      !(t.watchLinks?.length ?? 0) &&
-      !(data.releasesByTitle.get(t.id)?.length ?? 0)
-    ) {
-      return false
+    /**
+     * „Streambar" — Titel, bei denen wir einen Stream kennen oder vermuten.
+     *
+     * Der Filter hieß bis zum 15.08.2026 „verfügbar" und nahm alles mit, was
+     * irgendeinen Bezugsweg hatte: auch reine Disc-Veröffentlichungen und
+     * Kauflinks. Daniel las ihn deshalb als „hat deutsche Synchro" und stolperte
+     * darüber, dass „.hack//SIGN" verschwand, obwohl es synchronisiert ist und
+     * man die DVD kaufen kann.
+     *
+     * Beide Lesarten waren falsch, und beide lagen am Namen. Jetzt beantwortet
+     * der Filter genau eine Frage — **kann ich das streamen?** — und lässt
+     * draußen, was nur auf Disc erscheint oder nur zu kaufen ist. Über die
+     * Synchro sagt er weiterhin nichts; das tut die Kennzeichnung am Anbieter.
+     */
+    if (f.availableOnly) {
+      const stream =
+        t.streams.length > 0 ||
+        (t.watchLinks ?? []).some((w) => w.kind === 'stream') ||
+        (data.releasesByTitle.get(t.id) ?? []).some(
+          (r) => r.platform !== 'disc' && r.platform !== 'kino',
+        )
+      if (!stream) return false
     }
     if (CONFIDENCE_RANK[t.dubConfidence] < CONFIDENCE_RANK[f.minConfidence]) return false
 

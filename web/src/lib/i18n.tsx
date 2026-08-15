@@ -255,9 +255,9 @@ const TEXTE = {
   'detail.shareHint': 'Kopiert einen Link, der diesen Titel mit eigenem Vorschaubild zeigt',
   'detail.source': 'Quelle',
   'detail.whyNoTime': 'Warum steht hier keine Uhrzeit?',
-  'filter.available': 'verfügbar',
+  'filter.available': 'streambar',
   'filter.availableHint':
-    'Nur Titel, bei denen belegt ist, wo man sie sehen oder kaufen kann — Stream, Kauf oder anstehender Termin.',
+    'Nur Titel mit bekanntem Stream. Reine Disc- und Kino-Veröffentlichungen bleiben draußen. Sagt nichts über die Synchro.',
   'detail.estimatedDate': 'Termin abgeleitet',
   'detail.assumedEpisodes': 'Folgenzahl nicht belegt — 12 angenommen',
   'detail.assumedEpisodesAnisearch': 'Folgenzahl laut aniSearch — dort als vorläufige Schätzung geführt',
