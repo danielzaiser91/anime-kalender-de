@@ -719,6 +719,36 @@ export function DetailPanel({
   }, [reihe, title])
 
   /**
+   * Was diesen Teil von der Reihe unterscheidet — „Staffel 3", „Der Film".
+   *
+   * Steht unter dem Karussell an der Stelle, an der vorher noch einmal der
+   * Reihenname stand. Der Grund: Welcher Teil gerade offen ist, war allein am
+   * blauen Rahmen einer von acht Vorschaukarten zu erkennen, und das ging unter
+   * (Daniel, 15.08.2026). Der Unterschied ist die wichtigste Auskunft im Kopf,
+   * also steht er im Klartext und am größten.
+   *
+   * Ermittelt wird er durch Abzug: Was am Namen des Teils über den Reihennamen
+   * hinausgeht, ist das Unterscheidende. Bleibt nichts übrig — der Teil heißt
+   * genau wie die Reihe, typisch für die erste Staffel —, treten Format und
+   * Jahr an seine Stelle, denn „2023" unterscheidet immer noch.
+   */
+  const teilName = useMemo(() => {
+    if (!title) return ''
+    const voll = eindeutschenStaffel(anzeigeName(title))
+    const rest = voll.toLowerCase().startsWith(reihenName.toLowerCase())
+      ? voll.slice(reihenName.length).replace(/^[\s:–—-]+/, '').trim()
+      : voll
+    if (rest) return rest
+    const zusatz = [
+      title.format && title.format !== 'TV' ? (FORMAT_DE[title.format] ?? title.format) : '',
+      title.jpYear,
+    ]
+      .filter(Boolean)
+      .join(' · ')
+    return zusatz || voll
+  }, [title, reihenName])
+
+  /**
    * Beim Wechsel auf eine Staffel ohne Termin fehlen die Metadaten — die liegen
    * in `titles.json`, das im Kalender nicht geladen ist. Erst holen, dann
    * öffnen, sonst zeigt das Panel „keine Metadaten".
@@ -879,6 +909,41 @@ export function DetailPanel({
           das Cover, und der Kopf sähe plötzlich anders aus.
         */}
         <div className="flex flex-col gap-3 p-4">
+          {/*
+            Der Reihenname steht **über** dem Karussell, der gewählte Teil
+            darunter (Daniel, 15.08.2026: „ich hab s3 ausgewählt, es ist kaum
+            erkennbar… das ist der wichtigste teil").
+
+            Vorher trugen beide Zeilen denselben Reihennamen, und welcher Teil
+            gerade offen war, stand nur als blauer Rahmen an einer der
+            Vorschaukarten — bei acht Karten nebeneinander ein Rahmen zu viel,
+            um ihn zu bemerken. Jetzt beantwortet die Zeile unter dem Karussell
+            die Frage im Klartext: „Staffel 3".
+
+            Die beiden Bedienelemente teilen sich entsprechend auf: Der
+            Reihen-Stern gehört zur Reihe und steht oben, Stern und Auge
+            gehören zum gewählten Teil und stehen unten. Das ersetzt zugleich
+            die frühere absolute Positionierung — zwei Sterne übereinander
+            brauchte es nur, solange beide in derselben Zeile hingen.
+          */}
+          <div className="flex items-start gap-2">
+            <h2 className="flex-1 text-lg font-semibold leading-tight text-slate-900 dark:text-white">
+              {reihenName}
+            </h2>
+            {reihenIds.length > 1 && (
+              <div className="flex shrink-0 items-center gap-1">
+                <ReihenStern
+                  alleGemerkt={reihenIds.every((id) => favorites.has(id))}
+                  anzahl={reihenIds.length}
+                  onMerken={() => {
+                    for (const id of reihenIds) if (!favorites.has(id)) onToggleFavorite(id)
+                  }}
+                />
+                <Fragezeichen text={t('detail.seriesStarHelp', { count: reihenIds.length })} />
+              </div>
+            )}
+          </div>
+
           <div
             className="-mx-1 flex snap-x snap-mandatory gap-2 overflow-x-auto px-1 pb-1"
             role="tablist"
@@ -943,56 +1008,11 @@ export function DetailPanel({
 
           <div className="min-w-0 flex-1">
             <div className="flex items-start gap-2">
-              <h2 className="flex-1 text-lg font-semibold leading-tight text-slate-900 dark:text-white">
-                {reihenName}
-              </h2>
+              <h3 className="flex-1 text-xl font-bold leading-tight text-slate-900 dark:text-white">
+                {teilName}
+              </h3>
               <HideEye hidden={false} onToggle={() => onToggleHidden(title.id)} />
-              {/*
-                Der Reihen-Stern steht **unter** dem normalen und erscheint erst,
-                wenn der Titel gemerkt ist (Daniels Vorgabe, 13.08.2026). Er
-                verstärkt eine Entscheidung, die schon gefallen ist — wer die
-                Serie noch gar nicht kennt, will nicht gleich alle Staffeln.
-                Ohne weitere Teile in der Reihe bliebe er ohne Wirkung und
-                bleibt deshalb ganz weg.
-              */}
-              {/*
-                Die zweite Reihe steht **außerhalb des Flusses**.
-
-                Zuerst hing sie in einer Flex-Spalte unter dem Stern — und beim
-                Merken wuchs die Spalte, mit ihr die Zeile, und der ganze Rest
-                des Panels rutschte nach unten (Daniel, 13.08.2026: „das
-                Einblenden des Multi-Sterns verschiebt die Elemente unschön").
-                Ein Bedienelement, das beim Benutzen die Seite bewegt, ist immer
-                falsch: Der Blick sucht danach die Stelle neu, an der er gerade
-                noch war.
-
-                `absolute top-full` hängt sie unter den Stern, ohne Höhe
-                beizusteuern. Damit sie dabei nichts überdeckt, tragen die
-                beiden Titelzeilen darunter dauerhaft rechts Platz — dauerhaft
-                und nicht nur beim Einblenden, sonst wäre der Umbruch wieder ein
-                Sprung, nur eben waagrecht.
-              */}
-              <div className="relative">
-                <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
-                {/*
-                  Nicht mehr an „dieser Titel ist gemerkt" gekoppelt (Daniel,
-                  15.08.2026): Wer eine ganze Reihe merken will, will meist
-                  genau das — und nicht erst einen einzelnen Teil merken müssen,
-                  um den Knopf dafür zu Gesicht zu bekommen.
-                */}
-                {reihenIds.length > 1 && (
-                  <div className="absolute right-0 top-full mt-1 flex items-center gap-1">
-                    <ReihenStern
-                      alleGemerkt={reihenIds.every((id) => favorites.has(id))}
-                      anzahl={reihenIds.length}
-                      onMerken={() => {
-                        for (const id of reihenIds) if (!favorites.has(id)) onToggleFavorite(id)
-                      }}
-                    />
-                    <Fragezeichen text={t('detail.seriesStarHelp', { count: reihenIds.length })} />
-                  </div>
-                )}
-              </div>
+              <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
             </div>
             {/*
               Auch die Umschrift bekommt „Staffel" statt „Season".

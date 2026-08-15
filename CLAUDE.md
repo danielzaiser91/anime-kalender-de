@@ -79,6 +79,28 @@ kann die Pipeline die deutsche Fassung nur bei ADN (Sprachcode `vde` je Folge) u
 („(Deutsch)" im Kalender). Bei YouTube, Netflix, Prime Video, Disney+, RTL+, Joyn und Aniverse
 gibt es keine öffentliche Auskunft — dort steht „🇩🇪 ?", und das ist die ehrliche Antwort.
 
+**Crunchyroll ist eine schlechte Quelle über Crunchyroll** (Daniel, 15.08.2026). Die
+Serienseite zeigt je nach Betrachter etwas anderes: nicht angemeldet, angemeldet ohne
+Abo und angemeldet mit Abo sind drei verschiedene Ansichten. Ein Scraper ohne Anmeldung
+sieht deshalb nicht „was es gibt", sondern „was ein Gast sehen darf" — und ein fehlendes
+„Deutsch" in der Audio-Zeile ist dann kein Beleg gegen eine Synchro.
+
+Das passt zum Messwert: Der Lauf vom 12./13.08.2026 fand auf nur **151 von 917** Seiten
+überhaupt Deutsch, und „Frieren: Beyond Journey's End" steht dort als
+`deutschImAngebot: false`. Ein Direktabruf am 15.08.2026 lief zusätzlich in Crunchyrolls
+Bot-Sperre (313 Zeichen Seiteninhalt statt einer Seite), klärt also nichts.
+
+Zwei Folgen daraus:
+
+1. **`deutschImAngebot: false` aus diesem Lauf ist kein Beleg**, sondern bestenfalls ein
+   schwaches Indiz. Als `dub: false` in den Datensatz darf es nur, wenn ein Mensch es in
+   `data/dub-confirmed.yaml` bestätigt hat.
+2. **Ein einmal gesetztes `false` muss wieder prüfbar sein.** `scrape-crunchyroll-dub.ts`
+   bildet seine Kandidatenliste aus `titles.json` über `stream.dub === undefined` — was
+   einmal falsch als `false` erfasst wurde, kommt nie wieder in die Warteschlange. Ein
+   Falschnegativ ist damit dauerhaft. Wiedervorlage muss über das Alter der Prüfung
+   laufen, nicht über „noch nie geprüft".
+
 - **Aus dem Fragezeichen wird ein Häkchen nur durch Nachsehen.** Geprüfte Fälle stehen in
   `data/dub-confirmed.yaml`, mit Datum. `dub: false` ist genauso wertvoll wie `true`.
 - **Was ein Mensch geprüft hat, schlägt jede Ableitung** — der Eintrag gilt auch gegen ein
