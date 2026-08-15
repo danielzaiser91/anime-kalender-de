@@ -213,7 +213,29 @@ verschiedene, und genau ihre Vermischung war der Fehler bei Crunchyroll.
 
   Preis: Zugang nur mit **Partnervertrag** und Partner-Token, und jede Einbindung muss „branded
   links to the JustWatch website" zeigen — Ankertext „JustWatch" oder das Logo mit alt-Text, und
-  der Link muss in die länderspezifische Unterseite des jeweiligen Titels führen. Letzteres ist mit diesem Projekt vereinbar (wir
+  der Link muss in die länderspezifische Unterseite des jeweiligen Titels führen.
+
+- **JustWatchs privater GraphQL-Endpunkt** (`https://apis.justwatch.com/graphql`) — verworfen
+  (15.08.2026). Anlass war eine kursierende Anleitung, die ihn mit Puppeteer und
+  `--disable-web-security` plus `setBypassCSP(true)` anspricht und dabei die Kopfzeilen der
+  JustWatch-Weboberfläche mitschickt (`App-Version: 3.8.0-web-web`, `DEVICE-ID`).
+
+  Drei Gründe, und der erste allein genügt:
+
+  1. **Der beschriebene Trick löst ein Problem, das wir nicht haben.** CORS ist eine
+     Browser-Beschränkung. Unsere Pipeline läuft in Node auf GitHub Actions; dort gibt es kein
+     CORS. Der gesamte Kunstgriff des Artikels ist für uns gegenstandslos.
+  2. **Es liefert nicht, was uns fehlt.** Zurück kommen Titel, Poster, IMDB-Wertung, Genres und
+     Anbieterpakete — alles vorhanden. Eine Tonspurangabe ist in keinem der nachgebauten Clients
+     dokumentiert, und in der offiziellen Partner-API sind genau diese Felder leer.
+  3. **Es hieße, ihre Weboberfläche zu imitieren.** Eigene Kopfzeilen nachzubauen und CSP zu
+     umgehen ist das Umgehen einer technischen Maßnahme, während JustWatch die Datennutzung
+     ausdrücklich über Vertrag und Token führt. Dazu praktisch: undokumentiert, ändert sich ohne
+     Ankündigung, keine veröffentlichten Rate Limits — „excessive usage could lead to throttling
+     or blocking".
+
+  Was an JustWatch für uns wertvoll wäre — die `upcoming`-Zeitfenster —, liegt gerade **nicht**
+  in diesem Endpunkt, sondern hinter dem Vertrag. Letzteres ist mit diesem Projekt vereinbar (wir
   verlinken Quellen ohnehin, und es ist unkommerziell) — der Vertrag ist eine Entscheidung, die
   Daniel treffen muss. Die inoffiziellen Endpunkte scheiden aus: JustWatch untersagt dort die
   kommerzielle Nutzung, und sie sind ungeschützt gegen Änderungen.
