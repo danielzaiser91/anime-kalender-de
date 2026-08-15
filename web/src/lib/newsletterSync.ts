@@ -88,6 +88,23 @@ export async function requestRestore(email: string): Promise<void> {
 }
 
 /**
+ * Beendet das Abo, zu dem dieser Browser den Schlüssel hat.
+ *
+ * Der Schlüssel wird danach gelöscht — sonst zeigte die Seite weiter eine
+ * Verbindung zu einem Abo, das es nicht mehr gibt.
+ */
+export async function unsubscribeByToken(token: string): Promise<void> {
+  const res = await fetch(`${WORKER_URL}/unsubscribe`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token }),
+  })
+  const body = (await res.json()) as { ok?: boolean; error?: string }
+  if (!res.ok || !body.ok) throw new Error(body.error ?? 'Abmelden fehlgeschlagen')
+  clearSyncToken()
+}
+
+/**
  * Bittet den Browser, den lokalen Speicher nicht von allein zu räumen.
  *
  * Ohne das löscht iOS-Safari den Speicher nach **sieben Tagen ohne Besuch** —

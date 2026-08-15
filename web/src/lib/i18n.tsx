@@ -311,16 +311,23 @@ const TEXTE = {
   // Kalender steht (Daniel, 13.08.2026 — aus eigener Erfahrung beschrieben).
   // Wiederherstellung der Favoriten per E-Mail-Link (14.08.2026).
   'news.restoreTitle': 'Favoriten verloren?',
+  // Gekürzt: Warum sie verlorengehen können, muss hier nicht stehen — wer das
+  // Feld sucht, weiß es bereits.
   'news.restoreBody':
-    'Gemerkte Titel liegen in deinem Browser. Wer die Browserdaten löscht, das Gerät wechselt oder ein neues Handy hat, verliert sie — und Safari räumt den Speicher nach sieben Tagen ohne Besuch sogar von allein auf. Hast du ein Abo, liegen sie bei uns: Wir schicken dir einen Link, der sie in diesen Browser zurückholt.',
-  'news.restoreConnected':
-    'Dieser Browser ist mit deinem Abo verbunden. Gemerkte Titel liegen also nicht nur hier — geht der lokale Speicher verloren, holst du sie zurück.',
+    'Gemerkte Titel liegen im Browser. Hast du ein Abo, liegen sie auch bei uns — wir schicken dir einen Link, der sie zurückholt.',
+  // Ein Satz statt zwei: Dass die Titel auch auf dem Server liegen, ist die
+  // Folge — wissen muss man in diesem Moment nur, dass es verbunden ist.
+  'news.restoreConnected': 'Dieser Browser ist mit deinem Abo verbunden.',
   'news.restoreAnyway': 'Trotzdem einen Wiederherstellungslink anfordern',
+  'news.unsub': 'Abo beenden',
+  'news.unsubConfirm': 'Wirklich abmelden?',
+  'news.unsubYes': 'Ja, abmelden',
+  'news.unsubNo': 'Abbrechen',
+  'news.unsubDone': 'Abgemeldet. Deine Adresse ist gelöscht.',
   'news.restoreSubmit': 'Link anfordern',
   'news.restoreSent':
     'Falls für diese Adresse ein Abo besteht, ist eine Mail unterwegs. Der Link darin gilt dreißig Minuten und lässt sich einmal benutzen.',
-  'news.restoreSafety':
-    'Die Mail geht immer nur an das eingetragene Postfach — hier im Browser erscheint nichts. Fremde Adressen einzutippen verrät deshalb nichts und ändert nichts.',
+  'news.restoreSafety': 'Die Mail geht nur an das eingetragene Postfach.',
   'news.restoreOk':
     '{count} gemerkte Titel wiederhergestellt. Was du hier schon gemerkt hattest, ist erhalten geblieben.',
 

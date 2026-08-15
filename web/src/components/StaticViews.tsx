@@ -9,6 +9,7 @@ import {
   pullFavorites,
   pushFavorites,
   requestRestore,
+  unsubscribeByToken,
   setSyncToken,
 } from '../lib/newsletterSync.ts'
 import { AdminPanel, readAdminToken } from './AdminPanel.tsx'
@@ -161,6 +162,7 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
   const [restoreState, setRestoreState] = useState<'idle' | 'sending' | 'done'>('idle')
   /** Formular trotz bestehender Verbindung zeigen — für den Fall eines toten Schlüssels. */
   const [restoreOffen, setRestoreOffen] = useState(false)
+  const [abmeldeState, setAbmeldeState] = useState<'idle' | 'fragt' | 'laeuft' | 'weg'>('idle')
   const [frequency, setFrequency] = useState<'daily' | 'weekly'>('weekly')
   const [platforms, setPlatforms] = useState<PlatformId[]>([])
   const [consent, setConsent] = useState(false)
@@ -427,13 +429,61 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
             <p className="rounded-lg bg-emerald-500/10 px-3 py-2 text-sm text-emerald-600 dark:text-emerald-400">
               ✓ {t('news.restoreConnected')}
             </p>
-            <button
-              type="button"
-              onClick={() => setRestoreOffen(true)}
-              className="mt-2 cursor-pointer text-[13px] text-slate-500 underline decoration-dotted underline-offset-2 transition hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
-            >
-              {t('news.restoreAnyway')}
-            </button>
+            <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1">
+              <button
+                type="button"
+                onClick={() => setRestoreOffen(true)}
+                className="cursor-pointer text-[13px] text-slate-500 underline decoration-dotted underline-offset-2 transition hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+              >
+                {t('news.restoreAnyway')}
+              </button>
+              {/*
+                Abmelden direkt hier — bisher musste man dafür eine alte Mail
+                heraussuchen, weil der Abmeldelink am `unsub_token` hängt und
+                die Seite nur den `pref_token` kennt (Daniel, 14.08.2026).
+
+                Zweistufig, weil Löschen nicht umkehrbar ist: Der erste Klick
+                fragt, der zweite handelt. Kein Dialogfenster — die Frage steht
+                an derselben Stelle, an der auch der Knopf stand.
+              */}
+              {abmeldeState === 'weg' ? (
+                <span className="text-[13px] text-slate-500 dark:text-slate-400">{t('news.unsubDone')}</span>
+              ) : abmeldeState === 'fragt' ? (
+                <span className="flex items-center gap-2 text-[13px]">
+                  <span className="text-slate-600 dark:text-slate-300">{t('news.unsubConfirm')}</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const token = getSyncToken()
+                      if (!token) return
+                      setAbmeldeState('laeuft')
+                      unsubscribeByToken(token)
+                        .then(() => setAbmeldeState('weg'))
+                        .catch(() => setAbmeldeState('idle'))
+                    }}
+                    className="cursor-pointer font-medium text-red-500 underline underline-offset-2 hover:text-red-400"
+                  >
+                    {t('news.unsubYes')}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setAbmeldeState('idle')}
+                    className="cursor-pointer text-slate-500 underline underline-offset-2 hover:text-slate-700 dark:hover:text-slate-200"
+                  >
+                    {t('news.unsubNo')}
+                  </button>
+                </span>
+              ) : (
+                <button
+                  type="button"
+                  disabled={abmeldeState === 'laeuft'}
+                  onClick={() => setAbmeldeState('fragt')}
+                  className="cursor-pointer text-[13px] text-slate-500 underline decoration-dotted underline-offset-2 transition hover:text-red-500 disabled:opacity-60 dark:text-slate-400"
+                >
+                  {t('news.unsub')}
+                </button>
+              )}
+            </div>
           </>
         ) : (
           <>

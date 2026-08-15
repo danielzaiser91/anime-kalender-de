@@ -448,6 +448,36 @@ async function handleFavorites(request: Request, env: Env): Promise<Response> {
   return json(env, { ok: true, count: favorites ? favorites.split(',').length : 0 })
 }
 
+/**
+ * Abmelden aus dem verbundenen Browser heraus.
+ *
+ * Der Abmeldelink aus der Mail trägt den `unsub_token`, die Seite kennt aber
+ * nur den `pref_token`. Wer verbunden war, musste deshalb erst eine alte Mail
+ * heraussuchen — dabei weiß die Seite in dem Moment genau, um welches Abo es
+ * geht (Daniel, 14.08.2026).
+ *
+ * Dasselbe Vertrauensniveau: Auch der `pref_token` stammt aus einer Mail an
+ * dieses Postfach. Und Abmelden leichter zu machen ist nie der Fehler — die
+ * DSGVO verlangt genau das, und ein Abo, das man nicht loswird, wird als Spam
+ * gemeldet.
+ */
+async function handleUnsubscribeByPref(request: Request, env: Env): Promise<Response> {
+  let payload: { token?: string }
+  try {
+    payload = (await request.json()) as { token?: string }
+  } catch {
+    return json(env, { error: 'Ungültige Anfrage.' }, 400)
+  }
+  const token = (payload.token ?? '').trim()
+  if (!token) return json(env, { error: 'Kein Abgleich-Schlüssel übergeben.' }, 400)
+
+  const result = await env.DB.prepare('DELETE FROM subscribers WHERE pref_token = ?1').bind(token).run()
+  if (!result.meta.changes) {
+    return json(env, { error: 'Dieser Abgleich-Schlüssel gehört zu keinem Abo.' }, 404)
+  }
+  return json(env, { ok: true })
+}
+
 async function handleUnsubscribe(request: Request, env: Env): Promise<Response> {
   const token = new URL(request.url).searchParams.get('token') ?? ''
   const result = await env.DB.prepare('DELETE FROM subscribers WHERE unsub_token = ?1').bind(token).run()
@@ -809,6 +839,9 @@ export default {
       case '/confirm':
         return handleConfirm(request, env)
       case '/unsubscribe':
+        // GET mit dem `unsub_token` aus der Mail, POST mit dem `pref_token` aus
+        // dem verbundenen Browser — beide beenden dasselbe Abo.
+        if (request.method === 'POST') return handleUnsubscribeByPref(request, env)
         return handleUnsubscribe(request, env)
       case '/favorites':
         // GET holt, POST schreibt. Der Rückweg kam am 14.08.2026 dazu.
