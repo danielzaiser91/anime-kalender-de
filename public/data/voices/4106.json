@@ -1,1 +1,42 @@
-{"titleId":4106,"updatedAt":"2026-08-11T11:20:03.024Z","roles":[]}
+{
+ "titleId": 4106,
+ "updatedAt": "2026-08-15T18:12:37.743Z",
+ "roles": [
+  {
+   "character": "Meryl Stryfe",
+   "actor": "Susanne Dobrusskin",
+   "von": "ann"
+  },
+  {
+   "character": "Gasback",
+   "actor": "Volker Wolf",
+   "von": "ann"
+  },
+  {
+   "character": "Vash the Stampede",
+   "actor": "Stephan Schleberger",
+   "von": "ann"
+  },
+  {
+   "character": "Milly Thompson",
+   "actor": "Katja Liebing",
+   "von": "ann"
+  },
+  {
+   "character": "Nicholas D. Wolfwood",
+   "actor": "Simon T. Roden",
+   "von": "ann"
+  },
+  {
+   "character": "Amelia",
+   "actor": "Gabi Wienand",
+   "von": "ann"
+  },
+  {
+   "character": "Cain",
+   "actor": "Oliver Krietsch-Matzura",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=9499"
+}

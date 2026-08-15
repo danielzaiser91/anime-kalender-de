@@ -1,1 +1,67 @@
-{"titleId":5355,"updatedAt":"2026-08-11T11:20:03.047Z","roles":[]}
+{
+ "titleId": 5355,
+ "updatedAt": "2026-08-15T18:13:08.808Z",
+ "roles": [
+  {
+   "character": "Sarutobi Sasuke",
+   "actor": "Mario Hassert",
+   "von": "ann"
+  },
+  {
+   "character": "Uesugi Kenshin",
+   "actor": "Mehmet Yilmaz",
+   "von": "ann"
+  },
+  {
+   "character": "Date Masamune",
+   "actor": "Niels Curvin",
+   "von": "ann"
+  },
+  {
+   "character": "Kasuga",
+   "actor": "Andrea Cleven",
+   "von": "ann"
+  },
+  {
+   "character": "Nagamasa Asai",
+   "actor": "Phillip Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Sanada Yukimura",
+   "actor": "Ralph Kretschmar",
+   "von": "ann"
+  },
+  {
+   "character": "Akechi Mitsuhide",
+   "actor": "Rene Hofschneider",
+   "von": "ann"
+  },
+  {
+   "character": "Oichi",
+   "actor": "Caroline Hassert",
+   "von": "ann"
+  },
+  {
+   "character": "Takeda Shingen",
+   "actor": "Thomas Arnold",
+   "von": "ann"
+  },
+  {
+   "character": "Keiji Maeda",
+   "actor": "Benno Lehmann",
+   "von": "ann"
+  },
+  {
+   "character": "Ieyasu Togukawa",
+   "actor": "Philipp Zieschang",
+   "von": "ann"
+  },
+  {
+   "character": "Kojuurou Katakura",
+   "actor": "Sven Riemann",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=10271"
+}

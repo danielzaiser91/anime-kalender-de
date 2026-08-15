@@ -1,1 +1,87 @@
-{"titleId":21191,"updatedAt":"2026-08-11T11:20:03.273Z","roles":[]}
+{
+ "titleId": 21191,
+ "updatedAt": "2026-08-15T18:15:25.821Z",
+ "roles": [
+  {
+   "character": "Acnologia",
+   "actor": "Björn Schalla",
+   "von": "ann"
+  },
+  {
+   "character": "Panther Lily",
+   "actor": "Torsten Münchow",
+   "von": "ann"
+  },
+  {
+   "character": "Sonya",
+   "actor": "Jill Böttcher",
+   "von": "ann"
+  },
+  {
+   "character": "Natsu Dragneel",
+   "actor": "Julius Jellinek",
+   "von": "ann"
+  },
+  {
+   "character": "Erza Scarlet",
+   "actor": "Marieke Oeffinger",
+   "von": "ann"
+  },
+  {
+   "character": "Zash Caine",
+   "actor": "Engelbert von Nordhausen",
+   "von": "ann"
+  },
+  {
+   "character": "Swan",
+   "actor": "Isabelle Schmidt",
+   "von": "ann"
+  },
+  {
+   "character": "King Animus",
+   "actor": "Gerrit Schmidt-Foß",
+   "von": "ann"
+  },
+  {
+   "character": "Gray Fullbuster",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Happy",
+   "actor": "Charlotte Uhlig",
+   "von": "ann"
+  },
+  {
+   "character": "Wendy Marvell",
+   "actor": "Sarah Tkotsch",
+   "von": "ann"
+  },
+  {
+   "character": "Gapri",
+   "actor": "Patrick Keller",
+   "von": "ann"
+  },
+  {
+   "character": "Carla",
+   "actor": "Sarah Alles",
+   "von": "ann"
+  },
+  {
+   "character": "Gajeel Redfox",
+   "actor": "Marios Gavrilis",
+   "von": "ann"
+  },
+  {
+   "character": "Lucy Heartfilia",
+   "actor": "Lina Rabea Mohr",
+   "von": "ann"
+  },
+  {
+   "character": "Doll",
+   "actor": "Bernd Egger",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19338"
+}

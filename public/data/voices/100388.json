@@ -1,1 +1,52 @@
-{"titleId":100388,"updatedAt":"2026-08-11T11:20:02.750Z","roles":[]}
+{
+ "titleId": 100388,
+ "updatedAt": "2026-08-15T18:16:34.321Z",
+ "roles": [
+  {
+   "character": "Max Lobo",
+   "actor": "Tommy Morgenstern",
+   "von": "ann"
+  },
+  {
+   "character": "Dino F. Golzine",
+   "actor": "Walter von Hauff",
+   "von": "ann"
+  },
+  {
+   "character": "Blanca",
+   "actor": "Dietmar Wunder",
+   "von": "ann"
+  },
+  {
+   "character": "Shun'ichi Ibe",
+   "actor": "Gerd Meyer",
+   "von": "ann"
+  },
+  {
+   "character": "Lee Yut Lung",
+   "actor": "Christian Zeiger",
+   "von": "ann"
+  },
+  {
+   "character": "Shorter Wong",
+   "actor": "Amadeus Strobl",
+   "von": "ann"
+  },
+  {
+   "character": "Eiji Okumura",
+   "actor": "Patrick Keller",
+   "von": "ann"
+  },
+  {
+   "character": "Ash Lynx",
+   "actor": "Felix Mayer",
+   "von": "ann"
+  },
+  {
+   "character": "Frederick Arthur",
+   "actor": "Vincent Fallow",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20197"
+}

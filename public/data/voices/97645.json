@@ -1,1 +1,22 @@
-{"titleId":97645,"updatedAt":"2026-08-11T11:20:03.357Z","roles":[]}
+{
+ "titleId": 97645,
+ "updatedAt": "2026-08-15T18:15:59.065Z",
+ "roles": [
+  {
+   "character": "Alisha Diphda",
+   "actor": "Lydia Morgenstern",
+   "von": "ann"
+  },
+  {
+   "character": "Mikleo",
+   "actor": "Dirk Stollberg",
+   "von": "ann"
+  },
+  {
+   "character": "Sorey",
+   "actor": "Felix Mayer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18918"
+}

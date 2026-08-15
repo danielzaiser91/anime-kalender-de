@@ -1,1 +1,47 @@
-{"titleId":21756,"updatedAt":"2026-08-11T11:20:03.329Z","roles":[]}
+{
+ "titleId": 21756,
+ "updatedAt": "2026-08-15T18:15:49.338Z",
+ "roles": [
+  {
+   "character": "Polymar/Takeshi Yoroi",
+   "actor": "Jannik Endemann",
+   "von": "ann"
+  },
+  {
+   "character": "Emi Kaidou",
+   "actor": "Laura Elßel",
+   "von": "ann"
+  },
+  {
+   "character": "Damian Gray",
+   "actor": "Daniel Gärtner",
+   "von": "ann"
+  },
+  {
+   "character": "Casshan/Tetsuya Azuma",
+   "actor": "Tom Raczko",
+   "von": "ann"
+  },
+  {
+   "character": "Tekkaman/Jōji Minami",
+   "actor": "Lasse Dreyer",
+   "von": "ann"
+  },
+  {
+   "character": "Belle Lynne",
+   "actor": "Annika Tenter",
+   "von": "ann"
+  },
+  {
+   "character": "Kazumichi Kaidou / Z",
+   "actor": "Kevin Kraus",
+   "von": "ann"
+  },
+  {
+   "character": "Ken Washio/Gatchaman G-01",
+   "actor": "Florian Clyde",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19401"
+}

@@ -1,1 +1,62 @@
-{"titleId":3315,"updatedAt":"2026-08-11T11:20:03.005Z","roles":[]}
+{
+ "titleId": 3315,
+ "updatedAt": "2026-08-15T18:12:10.376Z",
+ "roles": [
+  {
+   "character": "Ryou Aguri",
+   "actor": "Sebastian Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "Troidal",
+   "actor": "David Nathan",
+   "von": "ann"
+  },
+  {
+   "character": "Jun Zaizen",
+   "actor": "Hannes Maurer",
+   "von": "ann"
+  },
+  {
+   "character": "Gou Gouda",
+   "actor": "Andreas Hosang",
+   "von": "ann"
+  },
+  {
+   "character": "Gilria",
+   "actor": "Oliver Siebeck",
+   "von": "ann"
+  },
+  {
+   "character": "Megades",
+   "actor": "Karl Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "Eriko Yoshizawa",
+   "actor": "Melanie Hinze",
+   "von": "ann"
+  },
+  {
+   "character": "Chief Daigo",
+   "actor": "Michael Telloke",
+   "von": "ann"
+  },
+  {
+   "character": "Jougasaki",
+   "actor": "Kaspar Eichel",
+   "von": "ann"
+  },
+  {
+   "character": "Sayuri Kanzaki",
+   "actor": "Giuliana Jakobeit",
+   "von": "ann"
+  },
+  {
+   "character": "Ken Kanzaki",
+   "actor": "Dennis Schmidt-Foß",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=209"
+}

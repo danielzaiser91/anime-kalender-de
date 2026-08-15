@@ -1,1 +1,52 @@
-{"titleId":21057,"updatedAt":"2026-08-11T11:20:03.237Z","roles":[]}
+{
+ "titleId": 21057,
+ "updatedAt": "2026-08-15T18:15:05.886Z",
+ "roles": [
+  {
+   "character": "Batou",
+   "actor": "Tilo Schmitz",
+   "von": "ann"
+  },
+  {
+   "character": "Ishikawa",
+   "actor": "Erich Räuker",
+   "von": "ann"
+  },
+  {
+   "character": "Paz",
+   "actor": "Thomas Schmuckert",
+   "von": "ann"
+  },
+  {
+   "character": "Togusa",
+   "actor": "Klaus-Peter Grap",
+   "von": "ann"
+  },
+  {
+   "character": "Motoko Kusanagi",
+   "actor": "Christin Marquitan",
+   "von": "ann"
+  },
+  {
+   "character": "Daisuke Aramaki",
+   "actor": "Joachim Tennstedt",
+   "von": "ann"
+  },
+  {
+   "character": "Logicoma",
+   "actor": "Olivia Büschken",
+   "von": "ann"
+  },
+  {
+   "character": "Saito",
+   "actor": "Jacob Weigert",
+   "von": "ann"
+  },
+  {
+   "character": "Borma",
+   "actor": "Kevin Kraus",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16698"
+}

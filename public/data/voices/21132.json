@@ -1,1 +1,42 @@
-{"titleId":21132,"updatedAt":"2026-08-11T11:20:03.267Z","roles":[]}
+{
+ "titleId": 21132,
+ "updatedAt": "2026-08-15T18:15:22.461Z",
+ "roles": [
+  {
+   "character": "Kishou Arima",
+   "actor": "Fabian Oscar Wien",
+   "von": "ann"
+  },
+  {
+   "character": "Itsuki Marude",
+   "actor": "Thomas Schmuckert",
+   "von": "ann"
+  },
+  {
+   "character": "Yakumo Oomori",
+   "actor": "Joachim Kaps",
+   "von": "ann"
+  },
+  {
+   "character": "Taishi Fura",
+   "actor": "Amadeus Strobl",
+   "von": "ann"
+  },
+  {
+   "character": "Ryou",
+   "actor": "Patrick Keller",
+   "von": "ann"
+  },
+  {
+   "character": "Aki Sasada",
+   "actor": "Melinda Rachfahl",
+   "von": "ann"
+  },
+  {
+   "character": "Uruka Minami",
+   "actor": "Alice Bauer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=17155"
+}

@@ -1,1 +1,37 @@
-{"titleId":2311,"updatedAt":"2026-08-11T11:20:02.964Z","roles":[]}
+{
+ "titleId": 2311,
+ "updatedAt": "2026-08-15T18:11:40.395Z",
+ "roles": [
+  {
+   "character": "Wataru",
+   "actor": "Marius Claren",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Stein",
+   "actor": "Horst Lampe",
+   "von": "ann"
+  },
+  {
+   "character": "Kate",
+   "actor": "Manja Doering",
+   "von": "ann"
+  },
+  {
+   "character": "Herr Gerchin",
+   "actor": "Ernst Meincke",
+   "von": "ann"
+  },
+  {
+   "character": "Daisuke Murakami",
+   "actor": "Detlef Gieß",
+   "von": "ann"
+  },
+  {
+   "character": "Zega",
+   "actor": "Joachim Siebenschuh",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=3644"
+}

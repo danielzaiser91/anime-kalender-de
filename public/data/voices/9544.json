@@ -1,1 +1,27 @@
-{"titleId":9544,"updatedAt":"2026-08-11T11:20:03.095Z","roles":[]}
+{
+ "titleId": 9544,
+ "updatedAt": "2026-08-15T18:13:42.100Z",
+ "roles": [
+  {
+   "character": "Svetlana Belikova",
+   "actor": "Irina von Bentheim",
+   "von": "ann"
+  },
+  {
+   "character": "Ingrid Hunnigan",
+   "actor": "Ann Vielhaben",
+   "von": "ann"
+  },
+  {
+   "character": "JD",
+   "actor": "Leonhard Mahlich",
+   "von": "ann"
+  },
+  {
+   "character": "Leon S. Kennedy",
+   "actor": "Sascha Rotermund",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=12143"
+}

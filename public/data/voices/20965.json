@@ -1,1 +1,47 @@
-{"titleId":20965,"updatedAt":"2026-08-11T11:20:03.249Z","roles":[]}
+{
+ "titleId": 20965,
+ "updatedAt": "2026-08-15T18:15:13.683Z",
+ "roles": [
+  {
+   "character": "Friday",
+   "actor": "Konrad Bösherz",
+   "von": "ann"
+  },
+  {
+   "character": "John H. Watson",
+   "actor": "Sebastian Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "Hadaly Lilith",
+   "actor": "Maria Koschny",
+   "von": "ann"
+  },
+  {
+   "character": "M",
+   "actor": "Erich Räuker",
+   "von": "ann"
+  },
+  {
+   "character": "The One",
+   "actor": "Thomas Kästner",
+   "von": "ann"
+  },
+  {
+   "character": "Nikolai Krasotkin",
+   "actor": "Patrick Baehr",
+   "von": "ann"
+  },
+  {
+   "character": "Alexei Karamazov",
+   "actor": "Matti Klemm",
+   "von": "ann"
+  },
+  {
+   "character": "Frederick Barnaby",
+   "actor": "Ingo Albrecht",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16585"
+}

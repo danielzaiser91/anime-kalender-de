@@ -1,1 +1,27 @@
-{"titleId":21416,"updatedAt":"2026-08-11T11:20:03.302Z","roles":[]}
+{
+ "titleId": 21416,
+ "updatedAt": "2026-08-15T18:15:38.086Z",
+ "roles": [
+  {
+   "character": "Sonic",
+   "actor": "Patrick Baehr",
+   "von": "ann"
+  },
+  {
+   "character": "Saitama",
+   "actor": "Fabian Oscar Wien",
+   "von": "ann"
+  },
+  {
+   "character": "Genos",
+   "actor": "Nico Sablik",
+   "von": "ann"
+  },
+  {
+   "character": "Hellish Blizzard",
+   "actor": "Sonja Spuhl",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=17988"
+}

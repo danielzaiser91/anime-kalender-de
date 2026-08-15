@@ -98,6 +98,39 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
   const naechster = events.find((e) => e.date >= today)
   const kuenftige = events.filter((e) => e.date >= today)
 
+  /**
+   * Die eine Hauptaktion dieses Termins — Beschriftung samt Zielort.
+   *
+   * Drei Fälle, und sie unterscheiden sich in dem, was der Leser tun **kann**:
+   *
+   * - **Disc, Termin liegt noch vor uns:** Vorbestellen. „Ansehen" wäre hier
+   *   schlicht falsch — es gibt noch nichts zu sehen.
+   * - **Disc, Termin ist durch:** Kaufen.
+   * - **Stream:** Ansehen, mit dem Namen des Anbieters.
+   *
+   * Der Zielort steht in jedem Fall dabei. Ein Knopf, der nicht verrät, wohin er
+   * führt, ist eine Zumutung — man klickt und landet irgendwo (Daniel,
+   * 15.08.2026: „da sollte ein amazon logo sein, wenn der link zu amazon führt,
+   * sodass man vorher bescheid weiß, bevor man draufklickt").
+   */
+  const hauptAktion = useMemo(() => {
+    const kauf = release.buyUrl
+    if (release.releaseType === 'disc' && kauf) {
+      const kuenftig = release.schedule.firstEpisodeDate > today
+      return {
+        url: kauf,
+        label: t(kuenftig ? 'detail.preorderAt' : 'detail.buyAt', { shop: shopName(kauf) }),
+      }
+    }
+    if (release.platformUrl) {
+      return {
+        url: release.platformUrl,
+        label: t('detail.watchOn', { platform: PLATFORMS[release.platform].name }),
+      }
+    }
+    return kauf ? { url: kauf, label: t('detail.buyAt', { shop: shopName(kauf) }) } : undefined
+  }, [release, today, t])
+
   return (
     <section className="rounded-xl border border-slate-200 p-3 dark:border-white/10">
       <div className="mb-2 flex flex-wrap items-center gap-1.5">
@@ -226,14 +259,24 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
       </dl>
 
       <div className="mt-3 flex flex-wrap gap-2">
-        {release.platformUrl && (
-          <Button href={release.platformUrl} variant="primary" size="sm">
-            {t('detail.watchOn', { platform: PLATFORMS[release.platform].name })}
-          </Button>
-        )}
-        {release.buyUrl && (
-          <Button href={release.buyUrl} size="sm">
-            {t('detail.buy')}
+        {/*
+          **Eine** Hauptaktion, und sie sagt, was passiert und wo.
+
+          Vorher standen hier zwei Knöpfe nebeneinander — „Bei DVD / Blu-ray
+          ansehen" und „Kaufen" —, die bei Disc-Terminen auf **dieselbe** Adresse
+          zeigten (Daniel, 15.08.2026: „was bringt der kaufen button wenn er auf
+          genau das gleiche verlinkt"). Dazu passte „ansehen" nicht: Der Termin
+          liegt in der Zukunft, man kann dort nichts ansehen, man kann
+          vorbestellen.
+
+          Die Beschriftung richtet sich deshalb nach beidem — Art des Releases
+          **und** Lage des Termins —, und der Zielort steht dabei. Das ist das
+          Muster von JustWatch und aniSearch: Handlung plus Anbieter in einem
+          Feld, statt eines Knopfes, der nicht verrät, wohin er führt.
+        */}
+        {hauptAktion && (
+          <Button href={hauptAktion.url} variant="primary" size="sm">
+            {hauptAktion.label}
           </Button>
         )}
         {/*
@@ -469,6 +512,186 @@ function Meldungen({ titleId }: { titleId: number }) {
       </ul>
     </div>
   )
+}
+
+/**
+ * Bündelt Ausgaben, die im Grunde dasselbe sind.
+ *
+ * „Banana Fish – Vol. 1" und „Vol. 2" standen als zwei fast identische Kästen
+ * untereinander: gleiche Plakette, gleicher Verlag, gleiche Knöpfe, und der
+ * einzige Unterschied — Volume und Datum — ging darin unter (Daniel,
+ * 15.08.2026: „unnötige dopplung von infos … man kann sowas gut zusammenfassen").
+ *
+ * Zusammengefasst wird nach **Anbieter, Art und Verlag**. Das ist eng genug,
+ * dass keine ungleichen Dinge zusammenfallen: Eine Disc von peppermint und ein
+ * Crunchyroll-Stream bleiben getrennt, ebenso eine Disc von AniMoon neben einer
+ * von peppermint. Und es ist weit genug, dass eine Volume-Reihe eine Karte
+ * ergibt statt vier.
+ *
+ * Das Muster stammt von aniSearch, das seine deutschen Ausgaben ebenfalls je
+ * Zeile führt, aber nur mit dem, was sie **unterscheidet** — der Serientitel
+ * steht dort ausschließlich im Seitenkopf.
+ */
+function gruppiereReleases(releases: Release[]): Release[][] {
+  const nachSchluessel = new Map<string, Release[]>()
+  for (const r of releases) {
+    const key = `${r.platform}|${r.releaseType}|${r.publisher ?? ''}`
+    nachSchluessel.set(key, [...(nachSchluessel.get(key) ?? []), r])
+  }
+  return [...nachSchluessel.values()]
+    .map((g) => g.sort((a, b) => a.schedule.firstEpisodeDate.localeCompare(b.schedule.firstEpisodeDate)))
+    .sort((a, b) => a[0].schedule.firstEpisodeDate.localeCompare(b[0].schedule.firstEpisodeDate))
+}
+
+/**
+ * Was eine einzelne Ausgabe von den übrigen der Gruppe unterscheidet.
+ *
+ * Der gemeinsame Anfang aller Namen fällt weg — bei „Banana Fish – Vol. 1" und
+ * „Banana Fish – Vol. 2" bleibt „Vol. 1" und „Vol. 2". Genau das ist die
+ * Auskunft, die der Leser sucht; der Serientitel steht drei Zeilen weiter oben.
+ */
+function unterscheidung(name: string, alle: string[]): string {
+  if (alle.length < 2) return name
+  let gemeinsam = 0
+  while (gemeinsam < name.length && alle.every((n) => n[gemeinsam] === name[gemeinsam])) gemeinsam++
+  const rest = name.slice(gemeinsam).replace(/^[\s:–—-]+/, '').trim()
+  return rest || name
+}
+
+/**
+ * Mehrere Ausgaben derselben Sache in **einer** Karte.
+ *
+ * Die Plaketten, der Verlag und die Quellen stehen einmal oben; darunter je
+ * Ausgabe genau eine Zeile mit dem, was sie ausmacht: Datum, Unterscheidung,
+ * Medium und die eine Aktion, die dort möglich ist. Das ist dieselbe Aufteilung,
+ * die JustWatch für seinen Angebotsblock benutzt — ein Rahmen, wechselnder
+ * Inhalt — nur ohne Reiter, weil zwei bis vier Zeilen keinen Umschalter
+ * brauchen.
+ */
+function ReleaseGruppe({ releases, today }: { releases: Release[]; today: string }) {
+  const { t } = useLang()
+  const erste = releases[0]
+  const namen = releases.map((r) => r.name)
+  const alleQuellen = [...new Set(releases.flatMap((r) => r.sources))]
+
+  return (
+    <section className="rounded-xl border border-slate-200 p-3 dark:border-white/10">
+      <div className="mb-2 flex flex-wrap items-center gap-1.5">
+        <ReleaseTypeBadge type={erste.releaseType} />
+        <PlatformBadge platform={erste.platform} />
+        {erste.fsk !== undefined && <FskBadge fsk={erste.fsk} />}
+        <span className="text-xs text-slate-500 dark:text-slate-400">
+          {t('detail.editionCount', { count: releases.length })}
+        </span>
+      </div>
+      {erste.publisher && (
+        <p className="mb-2 text-xs text-slate-500 dark:text-slate-400">{erste.publisher}</p>
+      )}
+
+      <ul className="divide-y divide-slate-200 dark:divide-white/10">
+        {releases.map((r) => {
+          const kuenftig = r.schedule.firstEpisodeDate > today
+          return (
+            <li key={r.slug} className="flex flex-wrap items-center gap-x-3 gap-y-1 py-2 first:pt-0 last:pb-0">
+              <span className="w-24 shrink-0 text-sm font-semibold tabular-nums text-slate-900 dark:text-white">
+                {formatDate(r.schedule.firstEpisodeDate)}
+              </span>
+              <span className="min-w-0 flex-1 text-xs text-slate-600 dark:text-slate-300">
+                <span className="font-medium">{unterscheidung(r.name, namen)}</span>
+                {r.edition && (
+                  <span className="block text-slate-400 dark:text-slate-500">{r.edition}</span>
+                )}
+              </span>
+              {r.buyUrl && (
+                <Button href={r.buyUrl} variant={kuenftig ? 'primary' : undefined} size="sm">
+                  {t(kuenftig ? 'detail.preorderAt' : 'detail.buyAt', { shop: shopName(r.buyUrl) })}
+                </Button>
+              )}
+            </li>
+          )
+        })}
+      </ul>
+
+      {alleQuellen.length > 0 && (
+        <p className="mt-3 text-[11px] text-slate-400">
+          {t('detail.source')}:{' '}
+          {alleQuellen.map((s, i) => (
+            <span key={s}>
+              {i > 0 && ', '}
+              <a href={s} target="_blank" rel="noreferrer noopener" className="underline hover:text-sky-400">
+                {hostname(s)}
+              </a>
+            </span>
+          ))}
+        </p>
+      )}
+    </section>
+  )
+}
+
+/**
+ * Alle weiteren Schreibweisen eines Titels — eingeklappt, an einer Stelle.
+ *
+ * Nach dem Muster von MyAnimeLists „Alternative Titles": ein Aufklapper statt
+ * dauerhaft sichtbarer Zeilen. Wer die Umschrift oder die Originalschrift sucht,
+ * findet sie in einem Klick; alle anderen bekommen zwei Zeilen weniger, die sie
+ * nie gelesen hätten.
+ *
+ * Die Regel „infos nie verstecken" (Daniel, 15.08.2026) ist damit nicht
+ * verletzt, sondern befolgt: Verstecken hieße weglassen oder hinter ein Symbol
+ * ohne Beschriftung packen. Hier steht ausgeschrieben, was drin ist, samt
+ * Anzahl — genau das, was MAL mit „More titles" tut.
+ */
+function WeitereTitel({ title }: { title: Title }) {
+  const { t } = useLang()
+  const [offen, setOffen] = useState(false)
+
+  const gezeigt = title.titleDe ?? title.titleEn ?? title.titleRomaji
+  const weitere: { label: string; wert: string }[] = []
+  if (title.titleRomaji && title.titleRomaji !== gezeigt) {
+    weitere.push({ label: t('detail.titleRomaji'), wert: eindeutschenStaffel(title.titleRomaji) })
+  }
+  if (title.titleEn && title.titleEn !== gezeigt) {
+    weitere.push({ label: t('detail.titleEn'), wert: title.titleEn })
+  }
+  if (title.titleNative) weitere.push({ label: t('detail.titleNative'), wert: title.titleNative })
+  if (!weitere.length) return null
+
+  return (
+    <div className="mt-0.5 text-xs">
+      <button
+        type="button"
+        onClick={() => setOffen((o) => !o)}
+        className="cursor-pointer text-slate-400 underline decoration-dotted underline-offset-2 hover:text-sky-400 dark:text-slate-500"
+      >
+        {offen ? t('detail.otherTitlesHide') : t('detail.otherTitles', { count: weitere.length })}
+      </button>
+      {offen && (
+        <dl className="mt-1 grid grid-cols-[auto_1fr] gap-x-2 gap-y-0.5 text-slate-500 dark:text-slate-400">
+          {weitere.map((w) => (
+            <Fragment key={w.label}>
+              <dt className="text-slate-400 dark:text-slate-500">{w.label}</dt>
+              <dd className="min-w-0 break-words">{w.wert}</dd>
+            </Fragment>
+          ))}
+        </dl>
+      )}
+    </div>
+  )
+}
+
+/**
+ * Der Shop, wie ihn ein Mensch nennt — „Amazon", nicht „www.amazon.de".
+ *
+ * aniSearch schreibt bei seinen Kaufverweisen die Domain aus, und das ist die
+ * belegte, funktionierende Lösung für dieselbe Frage: Vor dem Klick wissen,
+ * wohin es geht. Wir kürzen sie noch auf den Namen, weil „amazon.de" in einem
+ * Knopf mehr nach Adresszeile aussieht als nach Ziel.
+ */
+function shopName(url: string): string {
+  const host = hostname(url)
+  const kern = host.replace(/\.(de|com|net|org|co\.uk|fr)$/, '')
+  return kern.charAt(0).toUpperCase() + kern.slice(1)
 }
 
 /** Hostname ohne „www." — der Rest der Adresse sagt dem Leser nichts. */
@@ -930,6 +1153,20 @@ export function DetailPanel({
             <h2 className="flex-1 text-lg font-semibold leading-tight text-slate-900 dark:text-white">
               {reihenName}
             </h2>
+            {/*
+              Auge und Stern stehen hier oben, nicht mehr unter dem Karussell.
+
+              Sie sind die einzigen Bedienelemente des Kopfbereichs und gehören
+              damit an dessen Anfang — zusammen mit dem Reihen-Stern, der
+              dieselbe Sache für die ganze Reihe tut. Vorher hingen sie an der
+              Titelzeile unter dem Karussell und brauchten dort bei einem
+              Einzeltitel, dessen Titelzeile jetzt entfällt, eine eigene Zeile
+              für nichts weiter als zwei Symbole.
+            */}
+            <div className="flex shrink-0 items-center gap-2">
+              <HideEye hidden={false} onToggle={() => onToggleHidden(title.id)} />
+              <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
+            </div>
             {reihenIds.length > 1 && (
               <div className="flex shrink-0 items-center gap-1">
                 <ReihenStern
@@ -1007,29 +1244,39 @@ export function DetailPanel({
           {wechselt && <span className="text-[11px] text-slate-400">{t('detail.seasonLoading')}</span>}
 
           <div className="min-w-0 flex-1">
-            <div className="flex items-start gap-2">
-              <h3 className="flex-1 text-xl font-bold leading-tight text-slate-900 dark:text-white">
-                {teilName}
-              </h3>
-              <HideEye hidden={false} onToggle={() => onToggleHidden(title.id)} />
-              <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
-            </div>
             {/*
-              Auch die Umschrift bekommt „Staffel" statt „Season".
+              Die zweite Titelzeile entfällt, wenn sie nur die erste wiederholt.
 
-              Die Zeile zeigt den japanischen Titel in lateinischer Schrift und
-              ist damit ohnehin schon eine Mischung — „Tensei Shitara Slime
-              Datta Ken 4th Season" ist weder ganz japanisch noch ganz englisch.
-              Ein zweites „Season" drei Zeilen unter dem deutschen „Staffel 4"
-              stehen zu lassen, wäre genau der Widerspruch, um den es ging.
-              Die Originalschrift darunter bleibt unangetastet.
+              Bei „Banana Fish" stand der Name viermal untereinander: als
+              Reihenname über dem Karussell, hier noch einmal, und darunter als
+              Umschrift und in Originalschrift — dreimal davon identisch
+              (Daniel, 15.08.2026: „banana fish steht dort 3x"). Ein Titel ohne
+              weitere Reihenteile hat schlicht keinen unterscheidenden Zusatz;
+              dann trägt ihn die Zeile über dem Karussell allein.
             */}
-            {title.titleRomaji && title.titleRomaji !== (title.titleDe ?? title.titleEn) && (
-              <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
-                {eindeutschenStaffel(title.titleRomaji)}
-              </p>
+            {teilName !== reihenName && (
+              <div className="flex items-start gap-2">
+                <h3 className="flex-1 text-xl font-bold leading-tight text-slate-900 dark:text-white">
+                  {teilName}
+                </h3>
+              </div>
             )}
-            {title.titleNative && <p className="text-xs text-slate-400 dark:text-slate-500">{title.titleNative}</p>}
+            {/*
+              Alle weiteren Schreibweisen an **einer** Stelle und eingeklappt.
+
+              Vorbild ist MyAnimeLists „Alternative Titles" mit seinem
+              „More titles"-Aufklapper: Der Titel steht genau einmal groß, alle
+              Varianten gebündelt daneben. Vorher standen Umschrift und
+              Originalschrift als zwei eigene Zeilen dauerhaft im Weg — für eine
+              Auskunft, die die wenigsten suchen und niemand zweimal braucht.
+
+              Die Umschrift bekommt dabei „Staffel" statt „Season": Sie ist
+              ohnehin eine Mischform („Tensei Shitara Slime Datta Ken 4th
+              Season"), und ein zweites „Season" unter einem deutschen
+              „Staffel 4" wäre genau der Widerspruch, um den es ging. Die
+              Originalschrift bleibt unangetastet.
+            */}
+            <WeitereTitel title={title} />
             <div className="mt-2 flex flex-wrap items-center gap-1.5">
               {/*
                 Status und FSK standen hier **und** in jedem Terminblock
@@ -1043,10 +1290,30 @@ export function DetailPanel({
                 „erschienen" gilt für einen Termin, nicht für einen Anime. Die
                 Bewertung bleibt, die gibt es je Titel nur einmal.
               */}
+              {/*
+                Die Wertung nennt ihre Quelle — sonst sieht es aus, als wäre es
+                unsere.
+
+                „★ 8.4" ohne Herkunft las sich, als hätten wir diesen Anime
+                selbst mit 8,4 bewertet (Daniel, 15.08.2026). Wir bewerten
+                nichts; die Zahl ist der Nutzerdurchschnitt von AniList. Wie man
+                das löst, ist ein gelöstes Problem: JustWatch stellt das Logo der
+                Quelle vor den Wert, MyAnimeList schreibt „scored by 418,623
+                users" dazu, TMDB beschriftet die eigene Wertung wörtlich als
+                „Benutzerbewertung". Gemeinsam ist allen, dass **neben der Zahl
+                steht, wer sie vergeben hat**.
+
+                Hier steht der Name ausgeschrieben statt eines Logos: AniList
+                liefert keine Bildmarke zur freien Verwendung, und ein
+                nachgebautes Logo wäre schlechter als ein Wort.
+              */}
               {title.score !== undefined && (
-                <span className="rounded bg-slate-200/70 px-1.5 py-0.5 text-[11px] font-semibold tabular-nums dark:bg-white/10">
-                  ★ {(title.score / 10).toFixed(1)}
-                </span>
+                <Tooltip text={t('detail.scoreHint')} seite="oben">
+                  <span className="inline-flex cursor-help items-baseline gap-1 rounded bg-slate-200/70 px-1.5 py-0.5 text-[11px] dark:bg-white/10">
+                    <span className="font-normal text-slate-500 dark:text-slate-400">AniList</span>
+                    <span className="font-semibold tabular-nums">{(title.score / 10).toFixed(1)}</span>
+                  </span>
+                </Tooltip>
               )}
             </div>
             <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
@@ -1097,12 +1364,13 @@ export function DetailPanel({
           {releases.length > 0 ? (
             <div className="flex flex-col gap-3">
               <SectionTitle>{t('detail.releases')}</SectionTitle>
-              {releases
-                .slice()
-                .sort((a, b) => a.schedule.firstEpisodeDate.localeCompare(b.schedule.firstEpisodeDate))
-                .map((r) => (
-                  <ReleaseBlock key={r.slug} release={r} today={today} />
-                ))}
+              {gruppiereReleases(releases).map((gruppe) =>
+                gruppe.length > 1 ? (
+                  <ReleaseGruppe key={gruppe[0].slug} releases={gruppe} today={today} />
+                ) : (
+                  <ReleaseBlock key={gruppe[0].slug} release={gruppe[0]} today={today} />
+                ),
+              )}
             </div>
           ) : (
             /*

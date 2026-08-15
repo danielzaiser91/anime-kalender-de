@@ -1,1 +1,52 @@
-{"titleId":10721,"updatedAt":"2026-08-11T11:20:03.111Z","roles":[]}
+{
+ "titleId": 10721,
+ "updatedAt": "2026-08-15T18:13:51.780Z",
+ "roles": [
+  {
+   "character": "Keiju Tabuki",
+   "actor": "Hubertus von Lerchenfeld",
+   "von": "ann"
+  },
+  {
+   "character": "Yuri Tokikago",
+   "actor": "Ilena Gwisdalla",
+   "von": "ann"
+  },
+  {
+   "character": "Himari Takakura",
+   "actor": "Jana Dunja Gries",
+   "von": "ann"
+  },
+  {
+   "character": "Sanetoshi Watase",
+   "actor": "Arne Hörmann",
+   "von": "ann"
+  },
+  {
+   "character": "Masako Natsume",
+   "actor": "Janina Dietz",
+   "von": "ann"
+  },
+  {
+   "character": "Shōma Takakura",
+   "actor": "Laurin Lechenmayr",
+   "von": "ann"
+  },
+  {
+   "character": "Ringo Oginome",
+   "actor": "Melanie Olbert",
+   "von": "ann"
+  },
+  {
+   "character": "Kanba Takakura",
+   "actor": "Mio Lechenmayr",
+   "von": "ann"
+  },
+  {
+   "character": "Aoi",
+   "actor": "Lucy Leopold",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=12998"
+}

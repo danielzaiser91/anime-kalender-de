@@ -1,1 +1,37 @@
-{"titleId":15,"updatedAt":"2026-08-11T11:20:02.780Z","roles":[]}
+{
+ "titleId": 15,
+ "updatedAt": "2026-08-15T18:10:43.294Z",
+ "roles": [
+  {
+   "character": "Ryōkan Kurita",
+   "actor": "Benedikt Gutjan",
+   "von": "ann"
+  },
+  {
+   "character": "Yōichi Hiruma",
+   "actor": "Julian Manuel",
+   "von": "ann"
+  },
+  {
+   "character": "Sena Kobayakawa",
+   "actor": "Grischa Olbrich",
+   "von": "ann"
+  },
+  {
+   "character": "Tarō Raimon",
+   "actor": "Benjamin Mereis",
+   "von": "ann"
+  },
+  {
+   "character": "Suzana Taki",
+   "actor": "Ramona Schwab",
+   "von": "ann"
+  },
+  {
+   "character": "Mamori Anezaki",
+   "actor": "Ann-Kathrin Hinz",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=4778"
+}

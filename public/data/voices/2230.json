@@ -1,1 +1,32 @@
-{"titleId":2230,"updatedAt":"2026-08-11T11:20:02.960Z","roles":[]}
+{
+ "titleId": 2230,
+ "updatedAt": "2026-08-15T18:11:39.637Z",
+ "roles": [
+  {
+   "character": "Angel / Lunlun (1.Stimme)",
+   "actor": "Simone Brahmann",
+   "von": "ann"
+  },
+  {
+   "character": "Catie / Cateau (2.Stimme)",
+   "actor": "Inez Günther",
+   "von": "ann"
+  },
+  {
+   "character": "Bernie / Noveau",
+   "actor": "Michael Habeck",
+   "von": "ann"
+  },
+  {
+   "character": "Catie / Cateau (1.Stimme)",
+   "actor": "Marina Köhler",
+   "von": "ann"
+  },
+  {
+   "character": "Angel / Lunlun (2.Stimme)",
+   "actor": "Traudel Sperber",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1390"
+}

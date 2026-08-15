@@ -1,1 +1,37 @@
-{"titleId":11285,"updatedAt":"2026-08-11T11:20:03.118Z","roles":[]}
+{
+ "titleId": 11285,
+ "updatedAt": "2026-08-15T18:14:00.169Z",
+ "roles": [
+  {
+   "character": "Yuu Koutari",
+   "actor": "Shandra Schadt",
+   "von": "ann"
+  },
+  {
+   "character": "Kagari Izuriha",
+   "actor": "Lara Wurmer",
+   "von": "ann"
+  },
+  {
+   "character": "Arata Kohata",
+   "actor": "Katharina Schwarzmaier",
+   "von": "ann"
+  },
+  {
+   "character": "Saya Irino",
+   "actor": "Tatjana Pokorny",
+   "von": "ann"
+  },
+  {
+   "character": "Yomi Takanashi",
+   "actor": "Gabrielle Pietermann",
+   "von": "ann"
+  },
+  {
+   "character": "Mato Kuroi",
+   "actor": "Maresa Sedlmeir",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=13310"
+}

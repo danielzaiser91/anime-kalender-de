@@ -1,1 +1,72 @@
-{"titleId":8995,"updatedAt":"2026-08-11T11:20:03.088Z","roles":[]}
+{
+ "titleId": 8995,
+ "updatedAt": "2026-08-15T18:13:37.929Z",
+ "roles": [
+  {
+   "character": "Raine Sage",
+   "actor": "Antje von der Ahe",
+   "von": "ann"
+  },
+  {
+   "character": "Kratos Aurion",
+   "actor": "Matthias Klie",
+   "von": "ann"
+  },
+  {
+   "character": "Yuan Ka-Fai",
+   "actor": "Norman Matt",
+   "von": "ann"
+  },
+  {
+   "character": "Yggdrasill",
+   "actor": "Pascal Breuer",
+   "von": "ann"
+  },
+  {
+   "character": "Lloyd Irving",
+   "actor": "Patrick Baehr",
+   "von": "ann"
+  },
+  {
+   "character": "Presea Combatir",
+   "actor": "Jana Kilka",
+   "von": "ann"
+  },
+  {
+   "character": "Zelos Wilder",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Colette Brunel",
+   "actor": "Rieke Werner",
+   "von": "ann"
+  },
+  {
+   "character": "Sheena Fujibayashi",
+   "actor": "Birte Baumgardt",
+   "von": "ann"
+  },
+  {
+   "character": "Martel",
+   "actor": "Demet Fey",
+   "von": "ann"
+  },
+  {
+   "character": "Mithos",
+   "actor": "Luisa Wietzorek",
+   "von": "ann"
+  },
+  {
+   "character": "Regal Bryant",
+   "actor": "Tobias Brecklinghaus",
+   "von": "ann"
+  },
+  {
+   "character": "Genis Sage",
+   "actor": "Esther Brandt",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=11601"
+}

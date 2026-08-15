@@ -1,1 +1,87 @@
-{"titleId":20850,"updatedAt":"2026-08-11T11:20:03.241Z","roles":[]}
+{
+ "titleId": 20850,
+ "updatedAt": "2026-08-15T18:15:09.192Z",
+ "roles": [
+  {
+   "character": "Ken Kaneki",
+   "actor": "Ricardo Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Yukinori Shinohara",
+   "actor": "Uwe Jellinek",
+   "von": "ann"
+  },
+  {
+   "character": "Yoshimura",
+   "actor": "Thomas Kästner",
+   "von": "ann"
+  },
+  {
+   "character": "Nishiki Nishio",
+   "actor": "Dirk Petrick",
+   "von": "ann"
+  },
+  {
+   "character": "Juuzou Suzuya",
+   "actor": "Katrin Zimmermann",
+   "von": "ann"
+  },
+  {
+   "character": "Renji Yomo",
+   "actor": "Johannes Berenz",
+   "von": "ann"
+  },
+  {
+   "character": "Ayato Kirishima",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Koutarou Amon",
+   "actor": "Florian Hoffmann",
+   "von": "ann"
+  },
+  {
+   "character": "Hinami Fueguchi",
+   "actor": "Sarah Tkotsch",
+   "von": "ann"
+  },
+  {
+   "character": "Touka Kirishima",
+   "actor": "Sarah Alles",
+   "von": "ann"
+  },
+  {
+   "character": "Hideyoshi Nagachika",
+   "actor": "Jeffrey Wipprecht",
+   "von": "ann"
+  },
+  {
+   "character": "Kaya Irimi",
+   "actor": "Anna Amalie Blomeyer",
+   "von": "ann"
+  },
+  {
+   "character": "Enji Koma",
+   "actor": "Dirc Simpson",
+   "von": "ann"
+  },
+  {
+   "character": "Akira Mado",
+   "actor": "Antje Thiele",
+   "von": "ann"
+  },
+  {
+   "character": "Naki",
+   "actor": "Henning Nöhren",
+   "von": "ann"
+  },
+  {
+   "character": "Tatara",
+   "actor": "Julian Mau",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16318"
+}

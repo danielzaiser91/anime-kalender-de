@@ -1,1 +1,62 @@
-{"titleId":8624,"updatedAt":"2026-08-11T11:20:03.085Z","roles":[]}
+{
+ "titleId": 8624,
+ "updatedAt": "2026-08-15T18:13:31.989Z",
+ "roles": [
+  {
+   "character": "Monitamon",
+   "actor": "Santiago Ziesmer",
+   "von": "ann"
+  },
+  {
+   "character": "Mikey Kudo",
+   "actor": "Tom Küttler",
+   "von": "ann"
+  },
+  {
+   "character": "Angie Hinamoto",
+   "actor": "Camille Jung",
+   "von": "ann"
+  },
+  {
+   "character": "Jeremy Tsurugi",
+   "actor": "Tim Hildebrandt",
+   "von": "ann"
+  },
+  {
+   "character": "Shoutmon",
+   "actor": "Frank Gahler",
+   "von": "ann"
+  },
+  {
+   "character": "Ballistamon",
+   "actor": "Patrick Herion",
+   "von": "ann"
+  },
+  {
+   "character": "Tactimon",
+   "actor": "Patrick Herion",
+   "von": "ann"
+  },
+  {
+   "character": "Cutemon",
+   "actor": "Peaches Laska",
+   "von": "ann"
+  },
+  {
+   "character": "Nene Amano",
+   "actor": "Anna-Lena Panten",
+   "von": "ann"
+  },
+  {
+   "character": "Christopher Aonuma",
+   "actor": "Matthias Busch",
+   "von": "ann"
+  },
+  {
+   "character": "Dorulumon",
+   "actor": "Thomas Fedrowitz",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=11450"
+}

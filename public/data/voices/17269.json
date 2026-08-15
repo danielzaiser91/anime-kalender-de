@@ -1,1 +1,47 @@
-{"titleId":17269,"updatedAt":"2026-08-11T11:20:03.168Z","roles":[]}
+{
+ "titleId": 17269,
+ "updatedAt": "2026-08-15T18:14:30.490Z",
+ "roles": [
+  {
+   "character": "Yattaran",
+   "actor": "Christoph Banken",
+   "von": "ann"
+  },
+  {
+   "character": "Yama",
+   "actor": "Nico Sablik",
+   "von": "ann"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Kaspar Eichel",
+   "von": "ann"
+  },
+  {
+   "character": "Kei",
+   "actor": "Esra Vural",
+   "von": "ann"
+  },
+  {
+   "character": "Captain Harlock",
+   "actor": "Sven Gerhardt",
+   "von": "ann"
+  },
+  {
+   "character": "Isora",
+   "actor": "Peter Lontzek",
+   "von": "ann"
+  },
+  {
+   "character": "Nami",
+   "actor": "Anita Hopt",
+   "von": "ann"
+  },
+  {
+   "character": "Miime",
+   "actor": "Anja Nestler",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15170"
+}

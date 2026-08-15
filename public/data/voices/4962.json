@@ -1,1 +1,27 @@
-{"titleId":4962,"updatedAt":"2026-08-11T11:20:03.038Z","roles":[]}
+{
+ "titleId": 4962,
+ "updatedAt": "2026-08-15T18:12:56.614Z",
+ "roles": [
+  {
+   "character": "Batch",
+   "actor": "Ilona Otto",
+   "von": "ann"
+  },
+  {
+   "character": "Rockna Hiragi",
+   "actor": "Julia Ziffer",
+   "von": "ann"
+  },
+  {
+   "character": "Mondo",
+   "actor": "Hannes Maurer",
+   "von": "ann"
+  },
+  {
+   "character": "Professor Hiragi",
+   "actor": "Detlef Bierstedt",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=802"
+}

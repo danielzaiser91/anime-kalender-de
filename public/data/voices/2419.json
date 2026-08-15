@@ -1,1 +1,22 @@
-{"titleId":2419,"updatedAt":"2026-08-11T11:20:02.969Z","roles":[]}
+{
+ "titleId": 2419,
+ "updatedAt": "2026-08-15T18:11:42.437Z",
+ "roles": [
+  {
+   "character": "China",
+   "actor": "Claudia Urbschat-Mingues",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Breckenridge",
+   "actor": "Hans Teuscher",
+   "von": "ann"
+  },
+  {
+   "character": "Jim Floyd",
+   "actor": "Matthias Hinze",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=223"
+}

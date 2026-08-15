@@ -1,1 +1,47 @@
-{"titleId":1081,"updatedAt":"2026-08-11T11:20:02.890Z","roles":[]}
+{
+ "titleId": 1081,
+ "updatedAt": "2026-08-15T18:11:06.309Z",
+ "roles": [
+  {
+   "character": "Tadashi Daiba",
+   "actor": "Hubertus von Lerchenfeld",
+   "von": "ann"
+  },
+  {
+   "character": "Yuki Kei",
+   "actor": "Stephanie Kellner",
+   "von": "ann"
+  },
+  {
+   "character": "Yattaran",
+   "actor": "Hans-Georg Panczak",
+   "von": "ann"
+  },
+  {
+   "character": "Captain Herlock",
+   "actor": "Walter von Hauff",
+   "von": "ann"
+  },
+  {
+   "character": "Mimeh",
+   "actor": "Melanie Jung",
+   "von": "ann"
+  },
+  {
+   "character": "Doktor Zero",
+   "actor": "Tobias Lelle",
+   "von": "ann"
+  },
+  {
+   "character": "Shizuka",
+   "actor": "Tatjana Pokorny",
+   "von": "ann"
+  },
+  {
+   "character": "Nana",
+   "actor": "Natalie Löwenberg",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1875"
+}

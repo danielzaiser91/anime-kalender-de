@@ -1,1 +1,52 @@
-{"titleId":100891,"updatedAt":"2026-08-11T11:20:03.435Z","roles":[]}
+{
+ "titleId": 100891,
+ "updatedAt": "2026-08-15T18:16:39.059Z",
+ "roles": [
+  {
+   "character": "Koishi Yamamoto",
+   "actor": "Marco Kröger",
+   "von": "ann"
+  },
+  {
+   "character": "Kaede Akiyama",
+   "actor": "Susanne Herrmann",
+   "von": "ann"
+  },
+  {
+   "character": "Cosmo Imai",
+   "actor": "Sebastian Kluckert",
+   "von": "ann"
+  },
+  {
+   "character": "Metsudou Katahara",
+   "actor": "Rainer Gerlach",
+   "von": "ann"
+  },
+  {
+   "character": "Setsuna Kiryuu",
+   "actor": "Fabian Kluckert",
+   "von": "ann"
+  },
+  {
+   "character": "Kazuo Yamashita",
+   "actor": "Hanns Jörg Krumpholz",
+   "von": "ann"
+  },
+  {
+   "character": "Hideki Nogi",
+   "actor": "Sven Brieger",
+   "von": "ann"
+  },
+  {
+   "character": "Ouma Tokita",
+   "actor": "Paul Matzke",
+   "von": "ann"
+  },
+  {
+   "character": "Lihito",
+   "actor": "Nils Nelleßen",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20427"
+}

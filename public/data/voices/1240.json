@@ -1,1 +1,47 @@
-{"titleId":1240,"updatedAt":"2026-08-11T11:20:02.904Z","roles":[]}
+{
+ "titleId": 1240,
+ "updatedAt": "2026-08-15T18:11:11.959Z",
+ "roles": [
+  {
+   "character": "Chibi Usa/Sailor Chibi Moon",
+   "actor": "Nicola Grupe",
+   "von": "ann"
+  },
+  {
+   "character": "Aino Minako/Sailor Venus",
+   "actor": "Claudia Lössl",
+   "von": "ann"
+  },
+  {
+   "character": "Kino Makoto/Sailor Jupiter",
+   "actor": "Veronika Neugebauer",
+   "von": "ann"
+  },
+  {
+   "character": "Hino Rei/Sailor Mars",
+   "actor": "Julia Haacke",
+   "von": "ann"
+  },
+  {
+   "character": "Tsukino Usagi/Sailor Moon",
+   "actor": "Inez Günther",
+   "von": "ann"
+  },
+  {
+   "character": "Chiba Mamoru/Tuxedo Mask",
+   "actor": "Dominik Auer",
+   "von": "ann"
+  },
+  {
+   "character": "Mizuno Ami/Sailor Merkur",
+   "actor": "Stefanie Beba",
+   "von": "ann"
+  },
+  {
+   "character": "Artemis",
+   "actor": "Bernd Stephan",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=813"
+}

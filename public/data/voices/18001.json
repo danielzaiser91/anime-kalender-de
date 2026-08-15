@@ -1,1 +1,27 @@
-{"titleId":18001,"updatedAt":"2026-08-11T11:20:03.171Z","roles":[]}
+{
+ "titleId": 18001,
+ "updatedAt": "2026-08-15T18:14:31.589Z",
+ "roles": [
+  {
+   "character": "Satellizer el Bridget",
+   "actor": "Jill Böttcher",
+   "von": "ann"
+  },
+  {
+   "character": "Rana Linchen",
+   "actor": "Sarah Alles",
+   "von": "ann"
+  },
+  {
+   "character": "Chiffon Fairchild",
+   "actor": "Anni C. Salander",
+   "von": "ann"
+  },
+  {
+   "character": "Kazuya Aoi",
+   "actor": "Tom Ferenc",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15226"
+}

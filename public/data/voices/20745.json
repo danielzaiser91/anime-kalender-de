@@ -1,1 +1,77 @@
-{"titleId":20745,"updatedAt":"2026-08-11T11:20:03.223Z","roles":[]}
+{
+ "titleId": 20745,
+ "updatedAt": "2026-08-15T18:14:59.274Z",
+ "roles": [
+  {
+   "character": "Rossweisse",
+   "actor": "Anja Rybiczka",
+   "von": "ann"
+  },
+  {
+   "character": "Rias Gremory",
+   "actor": "Carmen Katt",
+   "von": "ann"
+  },
+  {
+   "character": "Sairaorg Bael",
+   "actor": "Dirk Stollberg",
+   "von": "ann"
+  },
+  {
+   "character": "Irina Shidou",
+   "actor": "Nicole Hannak",
+   "von": "ann"
+  },
+  {
+   "character": "Yuuto Kiba",
+   "actor": "Amadeus Strobl",
+   "von": "ann"
+  },
+  {
+   "character": "Kuroka",
+   "actor": "Olivia Büschken",
+   "von": "ann"
+  },
+  {
+   "character": "Zenovia",
+   "actor": "Nadine Leopold",
+   "von": "ann"
+  },
+  {
+   "character": "Koneko Toujou",
+   "actor": "Elke Appelt",
+   "von": "ann"
+  },
+  {
+   "character": "Gasper Vladi",
+   "actor": "Sarah Alles",
+   "von": "ann"
+  },
+  {
+   "character": "Vali Lucifer",
+   "actor": "Bastian Sierich",
+   "von": "ann"
+  },
+  {
+   "character": "Issei Hyōdō",
+   "actor": "Jeffrey Wipprecht",
+   "von": "ann"
+  },
+  {
+   "character": "Akeno Himejima",
+   "actor": "Ute Noack",
+   "von": "ann"
+  },
+  {
+   "character": "Asia Argento",
+   "actor": "Heide Ihlenfeld",
+   "von": "ann"
+  },
+  {
+   "character": "Azazel",
+   "actor": "Simon Derksen",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16620"
+}

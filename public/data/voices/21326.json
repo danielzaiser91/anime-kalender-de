@@ -1,1 +1,27 @@
-{"titleId":21326,"updatedAt":"2026-08-11T11:20:03.285Z","roles":[]}
+{
+ "titleId": 21326,
+ "updatedAt": "2026-08-15T18:15:33.568Z",
+ "roles": [
+  {
+   "character": "Matsumae",
+   "actor": "Marieke Oeffinger",
+   "von": "ann"
+  },
+  {
+   "character": "Ikaru",
+   "actor": "Laura Elßel",
+   "von": "ann"
+  },
+  {
+   "character": "Shuu Tsukiyama",
+   "actor": "Dirk Stollberg",
+   "von": "ann"
+  },
+  {
+   "character": "Chie Hori",
+   "actor": "Olivia Büschken",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=17375"
+}

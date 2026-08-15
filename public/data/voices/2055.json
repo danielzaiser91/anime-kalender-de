@@ -1,1 +1,22 @@
-{"titleId":2055,"updatedAt":"2026-08-11T11:20:02.953Z","roles":[]}
+{
+ "titleId": 2055,
+ "updatedAt": "2026-08-15T18:11:36.924Z",
+ "roles": [
+  {
+   "character": "Tony Botoms",
+   "actor": "Bernd Schramm",
+   "von": "ann"
+  },
+  {
+   "character": "Cathy Nozaki",
+   "actor": "Andrea-Kathrin Loewig",
+   "von": "ann"
+  },
+  {
+   "character": "Tetsurou Obata",
+   "actor": "Rainer Doering",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1943"
+}

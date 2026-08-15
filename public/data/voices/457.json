@@ -1,1 +1,22 @@
-{"titleId":457,"updatedAt":"2026-08-11T11:20:02.832Z","roles":[]}
+{
+ "titleId": 457,
+ "updatedAt": "2026-08-15T18:10:49.690Z",
+ "roles": [
+  {
+   "character": "Ginko",
+   "actor": "Philipp Moog",
+   "von": "ann"
+  },
+  {
+   "character": "Adashino-sensei",
+   "actor": "Benedikt Gutjan",
+   "von": "ann"
+  },
+  {
+   "character": "Erzählerin",
+   "actor": "Angelika Bender",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=5923"
+}

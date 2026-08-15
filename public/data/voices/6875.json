@@ -1,1 +1,47 @@
-{"titleId":6875,"updatedAt":"2026-08-11T11:20:03.066Z","roles":[]}
+{
+ "titleId": 6875,
+ "updatedAt": "2026-08-15T18:13:17.548Z",
+ "roles": [
+  {
+   "character": "Ho Yinsen",
+   "actor": "Frank-Otto Schenk",
+   "von": "ann"
+  },
+  {
+   "character": "Minister Kuroda",
+   "actor": "Peter Reinhardt",
+   "von": "ann"
+  },
+  {
+   "character": "Nagato Sakurai",
+   "actor": "Thomas Schmuckert",
+   "von": "ann"
+  },
+  {
+   "character": "Ichirou Masuda",
+   "actor": "Klaus-Peter Grap",
+   "von": "ann"
+  },
+  {
+   "character": "Pepper Potts",
+   "actor": "Sarah Riedel",
+   "von": "ann"
+  },
+  {
+   "character": "Tony Stark/Iron Man",
+   "actor": "Peter Lontzek",
+   "von": "ann"
+  },
+  {
+   "character": "Nanami Ota",
+   "actor": "Anita Hopt",
+   "von": "ann"
+  },
+  {
+   "character": "Chika Tanaka",
+   "actor": "Damineh Hojat",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=11786"
+}

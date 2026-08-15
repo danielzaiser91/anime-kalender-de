@@ -1,1 +1,37 @@
-{"titleId":733,"updatedAt":"2026-08-11T11:20:02.856Z","roles":[]}
+{
+ "titleId": 733,
+ "updatedAt": "2026-08-15T18:10:55.318Z",
+ "roles": [
+  {
+   "character": "Kei Enjoji",
+   "actor": "Dirk Mühlbach",
+   "von": "ann"
+  },
+  {
+   "character": "Rena",
+   "actor": "Hannah von Peinen",
+   "von": "ann"
+  },
+  {
+   "character": "Ranmaru Samejima",
+   "actor": "Mathias Wendel",
+   "von": "ann"
+  },
+  {
+   "character": "Jugendlicher",
+   "actor": "Linus Payne",
+   "von": "ann"
+  },
+  {
+   "character": "Mama-san",
+   "actor": "Gerhard Piske",
+   "von": "ann"
+  },
+  {
+   "character": "Taxifahrer",
+   "actor": "Gerhard Piske",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1061"
+}

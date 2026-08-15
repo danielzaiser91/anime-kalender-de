@@ -1,1 +1,67 @@
-{"titleId":20905,"updatedAt":"2026-08-11T11:20:03.205Z","roles":[]}
+{
+ "titleId": 20905,
+ "updatedAt": "2026-08-15T18:14:49.412Z",
+ "roles": [
+  {
+   "character": "Vilius",
+   "actor": "Rolf Berg",
+   "von": "ann"
+  },
+  {
+   "character": "Mr. White",
+   "actor": "Renier Baaken",
+   "von": "ann"
+  },
+  {
+   "character": "Granox",
+   "actor": "Hans Bayer",
+   "von": "ann"
+  },
+  {
+   "character": "Slyger",
+   "actor": "Dieter Maise",
+   "von": "ann"
+  },
+  {
+   "character": "Chooki Mason",
+   "actor": "Daniel Käser",
+   "von": "ann"
+  },
+  {
+   "character": "Gen Kurai",
+   "actor": "Dennis Saemann",
+   "von": "ann"
+  },
+  {
+   "character": "Beag",
+   "actor": "Olaf Reitz",
+   "von": "ann"
+  },
+  {
+   "character": "Guren Nash",
+   "actor": "Benjamin Stolz",
+   "von": "ann"
+  },
+  {
+   "character": "Boreas",
+   "actor": "Tobias Brecklinghaus",
+   "von": "ann"
+  },
+  {
+   "character": "Ceylan Jones",
+   "actor": "Sunke Janssen",
+   "von": "ann"
+  },
+  {
+   "character": "Toxsa Dalton",
+   "actor": "Marco Sven Reinbold",
+   "von": "ann"
+  },
+  {
+   "character": "Beni",
+   "actor": "Annette Potempa",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15885"
+}

@@ -1,1 +1,52 @@
-{"titleId":21158,"updatedAt":"2026-08-11T11:20:03.267Z","roles":[]}
+{
+ "titleId": 21158,
+ "updatedAt": "2026-08-15T18:15:21.853Z",
+ "roles": [
+  {
+   "character": "Kisumi Shigino",
+   "actor": "Konrad Bösherz",
+   "von": "ann"
+  },
+  {
+   "character": "Haruka Nanase",
+   "actor": "Ricardo Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Natsuya Kirishima",
+   "actor": "Julien Haggege",
+   "von": "ann"
+  },
+  {
+   "character": "Makoto Tachibana",
+   "actor": "Asad Schwarz",
+   "von": "ann"
+  },
+  {
+   "character": "Ikuya Kirishima",
+   "actor": "Maximilian Artajo",
+   "von": "ann"
+  },
+  {
+   "character": "Nagisa Hazuki",
+   "actor": "Christian Zeiger",
+   "von": "ann"
+  },
+  {
+   "character": "Nao Serizawa",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Asahi Shiina",
+   "actor": "Sebastian Fitzner",
+   "von": "ann"
+  },
+  {
+   "character": "Rei Ryuugazaki",
+   "actor": "Jan Makino",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16898"
+}

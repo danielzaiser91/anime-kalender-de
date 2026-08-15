@@ -1,1 +1,57 @@
-{"titleId":20442,"updatedAt":"2026-08-11T11:20:03.188Z","roles":[]}
+{
+ "titleId": 20442,
+ "updatedAt": "2026-08-15T18:14:39.361Z",
+ "roles": [
+  {
+   "character": "Narrator",
+   "actor": "Oliver Siebeck",
+   "von": "ann"
+  },
+  {
+   "character": "Balder",
+   "actor": "Jan Spitzer",
+   "von": "ann"
+  },
+  {
+   "character": "Jubileus",
+   "actor": "Uwe Jellinek",
+   "von": "ann"
+  },
+  {
+   "character": "Enzo",
+   "actor": "Dieter Memel",
+   "von": "ann"
+  },
+  {
+   "character": "Rodin",
+   "actor": "Marco Kröger",
+   "von": "ann"
+  },
+  {
+   "character": "Fortitudo",
+   "actor": "Elmar Gutmann",
+   "von": "ann"
+  },
+  {
+   "character": "Bayonetta",
+   "actor": "Natascha Geißler",
+   "von": "ann"
+  },
+  {
+   "character": "Luka",
+   "actor": "Florian Hoffmann",
+   "von": "ann"
+  },
+  {
+   "character": "Jeanne",
+   "actor": "Nadine Heidenreich",
+   "von": "ann"
+  },
+  {
+   "character": "Cereza",
+   "actor": "Nina Schatton",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15609"
+}

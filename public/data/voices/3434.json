@@ -1,1 +1,22 @@
-{"titleId":3434,"updatedAt":"2026-08-11T11:20:03.007Z","roles":[]}
+{
+ "titleId": 3434,
+ "updatedAt": "2026-08-15T18:12:13.425Z",
+ "roles": [
+  {
+   "character": "Ken",
+   "actor": "Inez Günther",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Monkey",
+   "actor": "Fred Maire",
+   "von": "ann"
+  },
+  {
+   "character": "Bumpety Boo",
+   "actor": "Christian Weygand",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1398"
+}

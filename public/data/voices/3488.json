@@ -1,1 +1,42 @@
-{"titleId":3488,"updatedAt":"2026-08-11T11:20:03.009Z","roles":[]}
+{
+ "titleId": 3488,
+ "updatedAt": "2026-08-15T18:12:15.016Z",
+ "roles": [
+  {
+   "character": "Prince Genji",
+   "actor": "Moritz Brendel",
+   "von": "ann"
+  },
+  {
+   "character": "Lady Murasaki",
+   "actor": "Christina Rieth",
+   "von": "ann"
+  },
+  {
+   "character": "Lady Aoi",
+   "actor": "Nataša Rikanović",
+   "von": "ann"
+  },
+  {
+   "character": "Koremitsu",
+   "actor": "Mario Pitz",
+   "von": "ann"
+  },
+  {
+   "character": "Yuugao",
+   "actor": "Helene Aderhold",
+   "von": "ann"
+  },
+  {
+   "character": "Oborozukiyo",
+   "actor": "Chantal Busse",
+   "von": "ann"
+  },
+  {
+   "character": "Tou no Chuujou",
+   "actor": "Gabriel Kemmether",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=3270"
+}

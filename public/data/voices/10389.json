@@ -1,1 +1,62 @@
-{"titleId":10389,"updatedAt":"2026-08-11T11:20:03.106Z","roles":[]}
+{
+ "titleId": 10389,
+ "updatedAt": "2026-08-15T18:13:50.697Z",
+ "roles": [
+  {
+   "character": "Kouichi",
+   "actor": "Karlo Hackenberger",
+   "von": "ann"
+  },
+  {
+   "character": "Kawa",
+   "actor": "Rainer Fritzsche",
+   "von": "ann"
+  },
+  {
+   "character": "Mame",
+   "actor": "Stefan Krause",
+   "von": "ann"
+  },
+  {
+   "character": "Kazuo Miyaura",
+   "actor": "Jaron Löwenberg",
+   "von": "ann"
+  },
+  {
+   "character": "Youta",
+   "actor": "Patrick Baehr",
+   "von": "ann"
+  },
+  {
+   "character": "Ikuko Miyaura",
+   "actor": "Melanie Hinze",
+   "von": "ann"
+  },
+  {
+   "character": "Iwa",
+   "actor": "Elmar Gutmann",
+   "von": "ann"
+  },
+  {
+   "character": "Great Grandfather",
+   "actor": "Kaspar Eichel",
+   "von": "ann"
+  },
+  {
+   "character": "Great Grandmother",
+   "actor": "Sonja Deutsch",
+   "von": "ann"
+  },
+  {
+   "character": "Momo Miyaura",
+   "actor": "Friedel Morgenstern",
+   "von": "ann"
+  },
+  {
+   "character": "Umi",
+   "actor": "Sarah Kunze",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=12526"
+}

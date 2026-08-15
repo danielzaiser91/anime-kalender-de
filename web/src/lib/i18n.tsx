@@ -177,7 +177,10 @@ const TEXTE = {
   'detail.noDubWatch': '☆ Merken — du bekommst eine Mail, sobald sich das ändert.',
   'detail.noDubWatched': '★ Gemerkt. Du bekommst Bescheid, sobald es eine Synchro gibt.',
 
-  'detail.releases': 'Deutsche Releases',
+  // „Deutsche Releases" war zweideutig — es klang nach „hier erschienen",
+  // gemeint ist aber der Termin der deutschen Synchronfassung (Daniel,
+  // 15.08.2026).
+  'detail.releases': 'Release-Termin für Deutsche Synchro',
   // Beide Texte stehen seit dem 12.08.2026 als Hovertext hinter dem Wort
   // „unbekannt" statt als eigener Kasten — sie erklären, warum dort kein Datum
   // steht, und das ist eine Fußnote, keine Schlagzeile.
@@ -213,6 +216,21 @@ const TEXTE = {
     'wir konnten nicht klären, welcher Tag stimmt. Beide Quellen sind verlinkt, der Kalender führt den erstgenannten.',
   // Belegkette eines Termins. Kurz halten: Das steht unter jedem Termin, und
   // gelesen wird es nur von dem kleinen Teil, der wirklich nachprüfen will.
+  // Handlung **und** Zielort in einem Knopf — man soll vor dem Klick wissen,
+  // wo man landet. „Ansehen" wäre bei einem künftigen Disc-Termin falsch: Es
+  // gibt noch nichts zu sehen, nur etwas vorzubestellen (Daniel, 15.08.2026).
+  // Weitere Schreibweisen, nach dem Muster von MyAnimeLists „Alternative
+  // Titles": ein Aufklapper statt drei dauerhafter Zeilen.
+  'detail.otherTitles': '{count} weitere Schreibweisen',
+  'detail.otherTitlesHide': 'Schreibweisen ausblenden',
+  'detail.titleRomaji': 'Umschrift',
+  'detail.titleEn': 'Englisch',
+  'detail.titleNative': 'Original',
+  'detail.scoreHint':
+    'Nutzerdurchschnitt von AniList, nicht unsere eigene Wertung — wir bewerten nichts.',
+  'detail.editionCount': '{count} Ausgaben',
+  'detail.preorderAt': 'Vorbestellen bei {shop}',
+  'detail.buyAt': 'Kaufen bei {shop}',
   'detail.olderSources': '{count} ältere Quelle(n)',
   'detail.olderSourcesHide': 'ältere Quellen ausblenden',
   'detail.sourceStale': 'überholt',

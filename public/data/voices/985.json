@@ -1,1 +1,42 @@
-{"titleId":985,"updatedAt":"2026-08-11T11:20:02.882Z","roles":[]}
+{
+ "titleId": 985,
+ "updatedAt": "2026-08-15T18:11:03.429Z",
+ "roles": [
+  {
+   "character": "Son Gohan",
+   "actor": "Robin Kahnmeyer",
+   "von": "ann"
+  },
+  {
+   "character": "Trunks",
+   "actor": "Sebastian Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "Bulma",
+   "actor": "Claudia Urbschat-Mingues",
+   "von": "ann"
+  },
+  {
+   "character": "Son Goku",
+   "actor": "Tommy Morgenstern",
+   "von": "ann"
+  },
+  {
+   "character": "ChiChi",
+   "actor": "Julia Ziffer",
+   "von": "ann"
+  },
+  {
+   "character": "Yamchu",
+   "actor": "Karlo Hackenberger",
+   "von": "ann"
+  },
+  {
+   "character": "Vegeta",
+   "actor": "Oliver Siebeck",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=133"
+}

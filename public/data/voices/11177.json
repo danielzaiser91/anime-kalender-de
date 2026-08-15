@@ -1,1 +1,47 @@
-{"titleId":11177,"updatedAt":"2026-08-11T11:20:03.116Z","roles":[]}
+{
+ "titleId": 11177,
+ "updatedAt": "2026-08-15T18:13:57.915Z",
+ "roles": [
+  {
+   "character": "Rory Takakura",
+   "actor": "Celine Fontanges",
+   "von": "ann"
+  },
+  {
+   "character": "Dravise",
+   "actor": "Christian Rudolf",
+   "von": "ann"
+  },
+  {
+   "character": "Reggie Mak",
+   "actor": "Niels Rieke",
+   "von": "ann"
+  },
+  {
+   "character": "Samuru Shigami",
+   "actor": "Jannik Endemann",
+   "von": "ann"
+  },
+  {
+   "character": "Riki Ryugasaki",
+   "actor": "Tim Kreuer",
+   "von": "ann"
+  },
+  {
+   "character": "Hugo Raidoh",
+   "actor": "Patrick Bach",
+   "von": "ann"
+  },
+  {
+   "character": "Novu Moru",
+   "actor": "Robert Kotulla",
+   "von": "ann"
+  },
+  {
+   "character": "Alba Cocodoro",
+   "actor": "Benjamin Stolz",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=13256"
+}

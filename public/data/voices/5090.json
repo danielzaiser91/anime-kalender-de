@@ -1,1 +1,57 @@
-{"titleId":5090,"updatedAt":"2026-08-11T11:20:03.041Z","roles":[]}
+{
+ "titleId": 5090,
+ "updatedAt": "2026-08-15T18:13:02.213Z",
+ "roles": [
+  {
+   "character": "Marionella Ayabe",
+   "actor": "Rebecca Völz",
+   "von": "ann"
+  },
+  {
+   "character": "Man with Pipe",
+   "actor": "Hermann Ebeling",
+   "von": "ann"
+  },
+  {
+   "character": "Scratch",
+   "actor": "Karl Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "Elenore",
+   "actor": "Janina Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Gorou Narumi",
+   "actor": "Gerd Holtenau",
+   "von": "ann"
+  },
+  {
+   "character": "Nozomu Takagi",
+   "actor": "Hans-Jürgen Wolf",
+   "von": "ann"
+  },
+  {
+   "character": "Kaoru Kousaka",
+   "actor": "Ronald Nitschke",
+   "von": "ann"
+  },
+  {
+   "character": "Crime",
+   "actor": "Lutz Riedel",
+   "von": "ann"
+  },
+  {
+   "character": "Ken",
+   "actor": "Torsten Sense",
+   "von": "ann"
+  },
+  {
+   "character": "General Hamilton",
+   "actor": "Jürgen Thormann",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=4503"
+}

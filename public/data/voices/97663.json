@@ -1,1 +1,47 @@
-{"titleId":97663,"updatedAt":"2026-08-11T11:20:03.358Z","roles":[]}
+{
+ "titleId": 97663,
+ "updatedAt": "2026-08-15T18:16:01.216Z",
+ "roles": [
+  {
+   "character": "Dietrich Knitz",
+   "actor": "Markus Haase",
+   "von": "ann"
+  },
+  {
+   "character": "Ernesti Echevalier",
+   "actor": "Esther Brandt",
+   "von": "ann"
+  },
+  {
+   "character": "Edgar C. Blanche",
+   "actor": "Jan Langer",
+   "von": "ann"
+  },
+  {
+   "character": "Batson Thermonen",
+   "actor": "Nataša Rikanović",
+   "von": "ann"
+  },
+  {
+   "character": "Ambrosius Tahavo Fremevira",
+   "actor": "Jo Jung",
+   "von": "ann"
+  },
+  {
+   "character": "Archid Walter",
+   "actor": "Sam Bauer",
+   "von": "ann"
+  },
+  {
+   "character": "Emris Yeyel Fremevilla",
+   "actor": "Stefan Müller-Doriat",
+   "von": "ann"
+  },
+  {
+   "character": "Hellvy Oberi",
+   "actor": "Katharina Lichtblau",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19362"
+}

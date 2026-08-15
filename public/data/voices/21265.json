@@ -1,1 +1,72 @@
-{"titleId":21265,"updatedAt":"2026-08-11T11:20:03.252Z","roles":[]}
+{
+ "titleId": 21265,
+ "updatedAt": "2026-08-15T18:15:14.819Z",
+ "roles": [
+  {
+   "character": "Yuugi Mutou",
+   "actor": "Konrad Bösherz",
+   "von": "ann"
+  },
+  {
+   "character": "Joey Wheeler",
+   "actor": "Robin Kahnmeyer",
+   "von": "ann"
+  },
+  {
+   "character": "Tristan Taylor",
+   "actor": "Kim Hasper",
+   "von": "ann"
+  },
+  {
+   "character": "Tea Gardner",
+   "actor": "Rubina Kuraoka",
+   "von": "ann"
+  },
+  {
+   "character": "Mokuba Kaiba",
+   "actor": "Ricardo Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Yamu Yuugi",
+   "actor": "Sebastian Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "Kudaragi",
+   "actor": "Marco Kröger",
+   "von": "ann"
+  },
+  {
+   "character": "Shadi",
+   "actor": "Bernd Vollbrecht",
+   "von": "ann"
+  },
+  {
+   "character": "Ryou Bakura",
+   "actor": "Constantin von Jascheroff",
+   "von": "ann"
+  },
+  {
+   "character": "Seto Kaiba",
+   "actor": "Gerrit Schmidt-Foß",
+   "von": "ann"
+  },
+  {
+   "character": "Aigami",
+   "actor": "Christian Zeiger",
+   "von": "ann"
+  },
+  {
+   "character": "Sera",
+   "actor": "Jennifer Weiß",
+   "von": "ann"
+  },
+  {
+   "character": "Mani",
+   "actor": "Sven Brieger",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16671"
+}

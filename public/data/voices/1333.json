@@ -1,1 +1,37 @@
-{"titleId":1333,"updatedAt":"2026-08-11T11:20:02.910Z","roles":[]}
+{
+ "titleId": 1333,
+ "updatedAt": "2026-08-15T18:11:16.389Z",
+ "roles": [
+  {
+   "character": "Mark",
+   "actor": "Hubertus von Lerchenfeld",
+   "von": "ann"
+  },
+  {
+   "character": "Sandy",
+   "actor": "Julia Haacke",
+   "von": "ann"
+  },
+  {
+   "character": "Pinky",
+   "actor": "Michaela Amler",
+   "von": "ann"
+  },
+  {
+   "character": "Marks Mutter",
+   "actor": "Marion Hartmann",
+   "von": "ann"
+  },
+  {
+   "character": "Blinky",
+   "actor": "Carin Tietze",
+   "von": "ann"
+  },
+  {
+   "character": "Blinky",
+   "actor": "Linda Joy",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1382"
+}

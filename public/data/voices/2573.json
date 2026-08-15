@@ -1,1 +1,52 @@
-{"titleId":2573,"updatedAt":"2026-08-11T11:20:02.979Z","roles":[]}
+{
+ "titleId": 2573,
+ "updatedAt": "2026-08-15T18:11:52.886Z",
+ "roles": [
+  {
+   "character": "Arthur",
+   "actor": "Ben Hecker",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Deighton",
+   "actor": "Ben Hecker",
+   "von": "ann"
+  },
+  {
+   "character": "Annie",
+   "actor": "Reinhilt Schneider",
+   "von": "ann"
+  },
+  {
+   "character": "Kate",
+   "actor": "Reinhilt Schneider",
+   "von": "ann"
+  },
+  {
+   "character": "Tob",
+   "actor": "Reinhilt Schneider",
+   "von": "ann"
+  },
+  {
+   "character": "Mr. Paddywell",
+   "actor": "Herbert Tennigkeit",
+   "von": "ann"
+  },
+  {
+   "character": "Mr. Parker",
+   "actor": "Sven Dahlem",
+   "von": "ann"
+  },
+  {
+   "character": "Klara",
+   "actor": "Susanne Beck",
+   "von": "ann"
+  },
+  {
+   "character": "Lucy May",
+   "actor": "Susanne Beck",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=441"
+}

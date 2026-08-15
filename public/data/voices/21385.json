@@ -1,1 +1,72 @@
-{"titleId":21385,"updatedAt":"2026-08-11T11:20:03.298Z","roles":[]}
+{
+ "titleId": 21385,
+ "updatedAt": "2026-08-15T18:15:35.798Z",
+ "roles": [
+  {
+   "character": "Hawk",
+   "actor": "Daniela Reidies",
+   "von": "ann"
+  },
+  {
+   "character": "Merlin",
+   "actor": "Kristina von Weltzien",
+   "von": "ann"
+  },
+  {
+   "character": "Dreyfus",
+   "actor": "Holger Mahlich",
+   "von": "ann"
+  },
+  {
+   "character": "Ban",
+   "actor": "Rasmus Borowski",
+   "von": "ann"
+  },
+  {
+   "character": "Gilthunder",
+   "actor": "Tobias Schmidt",
+   "von": "ann"
+  },
+  {
+   "character": "Gowther",
+   "actor": "Jesse Grimm",
+   "von": "ann"
+  },
+  {
+   "character": "Meliodas",
+   "actor": "Patrick Bach",
+   "von": "ann"
+  },
+  {
+   "character": "Howzer",
+   "actor": "Martin May",
+   "von": "ann"
+  },
+  {
+   "character": "King",
+   "actor": "Tammo Kaulbarsch",
+   "von": "ann"
+  },
+  {
+   "character": "Hendrickson",
+   "actor": "Jan-David Rönfeldt",
+   "von": "ann"
+  },
+  {
+   "character": "Vivian",
+   "actor": "Jennifer Böttcher",
+   "von": "ann"
+  },
+  {
+   "character": "Elizabeth",
+   "actor": "Arlette Stanschus",
+   "von": "ann"
+  },
+  {
+   "character": "Diane",
+   "actor": "Nadine Schreier",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=17688"
+}

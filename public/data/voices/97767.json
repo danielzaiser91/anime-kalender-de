@@ -1,1 +1,27 @@
-{"titleId":97767,"updatedAt":"2026-08-11T11:20:03.361Z","roles":[]}
+{
+ "titleId": 97767,
+ "updatedAt": "2026-08-15T18:16:04.800Z",
+ "roles": [
+  {
+   "character": "Rias Gremory",
+   "actor": "Carmen Katt",
+   "von": "ann"
+  },
+  {
+   "character": "Issei Hyoudou",
+   "actor": "Jeffrey Wipprecht",
+   "von": "ann"
+  },
+  {
+   "character": "Asia Argento",
+   "actor": "Heide Ihlenfeld",
+   "von": "ann"
+  },
+  {
+   "character": "Yasaka",
+   "actor": "Annabelle Krieg",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20195"
+}
