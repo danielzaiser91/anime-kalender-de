@@ -1,1 +1,72 @@
-{"titleId":166715,"updatedAt":"2026-08-11T11:20:03.696Z","roles":[]}
+{
+ "titleId": 166715,
+ "updatedAt": "2026-08-15T18:19:57.346Z",
+ "roles": [
+  {
+   "character": "Edgar Redmond",
+   "actor": "Konrad Bösherz",
+   "von": "ann"
+  },
+  {
+   "character": "Sebastian Michaelis",
+   "actor": "Bernhard Völger",
+   "von": "ann"
+  },
+  {
+   "character": "Agni",
+   "actor": "Jaron Löwenberg",
+   "von": "ann"
+  },
+  {
+   "character": "Undertaker",
+   "actor": "Michael Pan",
+   "von": "ann"
+  },
+  {
+   "character": "Finnian",
+   "actor": "Dirk Petrick",
+   "von": "ann"
+  },
+  {
+   "character": "Baldroy",
+   "actor": "Felix Spieß",
+   "von": "ann"
+  },
+  {
+   "character": "Ciel Phantomhive",
+   "actor": "Sebastian Fitzner",
+   "von": "ann"
+  },
+  {
+   "character": "Elizabeth Midford",
+   "actor": "Olivia Büschken",
+   "von": "ann"
+  },
+  {
+   "character": "Herman Greenhill",
+   "actor": "Nick Forsberg",
+   "von": "ann"
+  },
+  {
+   "character": "Gregory Violet",
+   "actor": "Oliver Bender",
+   "von": "ann"
+  },
+  {
+   "character": "Edward Midford",
+   "actor": "Fabian Kluckert",
+   "von": "ann"
+  },
+  {
+   "character": "Lawrence Bluewer",
+   "actor": "Christopher Kohn",
+   "von": "ann"
+  },
+  {
+   "character": "Johann Agares",
+   "actor": "Kevin Kraus",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=28897"
+}

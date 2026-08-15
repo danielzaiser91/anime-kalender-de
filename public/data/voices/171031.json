@@ -1,1 +1,27 @@
-{"titleId":171031,"updatedAt":"2026-08-11T11:20:03.714Z","roles":[]}
+{
+ "titleId": 171031,
+ "updatedAt": "2026-08-15T18:20:24.624Z",
+ "roles": [
+  {
+   "character": "Elena",
+   "actor": "Jana Dunja Gries",
+   "von": "ann"
+  },
+  {
+   "character": "Takumi Kayano",
+   "actor": "Flemming Stein",
+   "von": "ann"
+  },
+  {
+   "character": "Syl",
+   "actor": "Robert Knorr",
+   "von": "ann"
+  },
+  {
+   "character": "Allen",
+   "actor": "Eleni Möller",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=30905"
+}

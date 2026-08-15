@@ -1,1 +1,32 @@
-{"titleId":169228,"updatedAt":"2026-08-11T11:20:03.704Z","roles":[]}
+{
+ "titleId": 169228,
+ "updatedAt": "2026-08-15T18:20:11.671Z",
+ "roles": [
+  {
+   "character": "Bat",
+   "actor": "Konrad Bösherz",
+   "von": "ann"
+  },
+  {
+   "character": "Shin",
+   "actor": "Alexander Doering",
+   "von": "ann"
+  },
+  {
+   "character": "Kenshiro",
+   "actor": "Stefan Bräuler",
+   "von": "ann"
+  },
+  {
+   "character": "Lin",
+   "actor": "Anni C. Salander",
+   "von": "ann"
+  },
+  {
+   "character": "Yuria",
+   "actor": "Betty Förster",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=36755"
+}

@@ -1,1 +1,27 @@
-{"titleId":167404,"updatedAt":"2026-08-11T11:20:03.699Z","roles":[]}
+{
+ "titleId": 167404,
+ "updatedAt": "2026-08-15T18:20:05.042Z",
+ "roles": [
+  {
+   "character": "Cyrano",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Flare",
+   "actor": "Julia Bautz",
+   "von": "ann"
+  },
+  {
+   "character": "D.R.",
+   "actor": "Hanns Jörg Krumpholz",
+   "von": "ann"
+  },
+  {
+   "character": "Ryuma",
+   "actor": "Alex Friedland",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=29140"
+}

@@ -1,1 +1,37 @@
-{"titleId":175443,"updatedAt":"2026-08-11T11:20:03.722Z","roles":[]}
+{
+ "titleId": 175443,
+ "updatedAt": "2026-08-15T18:20:41.522Z",
+ "roles": [
+  {
+   "character": "Uka Ishimori",
+   "actor": "Sarah Tkotsch",
+   "von": "ann"
+  },
+  {
+   "character": "Ayumi Endo",
+   "actor": "Jenny van der Wall",
+   "von": "ann"
+  },
+  {
+   "character": "Kai Miura",
+   "actor": "Paul-Lino Krenz",
+   "von": "ann"
+  },
+  {
+   "character": "Remi Kojima",
+   "actor": "Paulina Bachmann",
+   "von": "ann"
+  },
+  {
+   "character": "Tomoya Takamine",
+   "actor": "Christopher Arndt",
+   "von": "ann"
+  },
+  {
+   "character": "Satoru Seto",
+   "actor": "Alexander Duffner",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=32283"
+}
