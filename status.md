@@ -266,6 +266,47 @@ verschiedene, und genau ihre Vermischung war der Fehler bei Crunchyroll.
   beiden Quellen führt die Tonspur. Notiert, weil er plausibel klingt und sonst ein zweites Mal
   geprüft würde.
 
+### GitHub-Durchsicht (15.08.2026)
+
+Durchsucht nach Projekten, die deutsche Synchro- oder Termindaten führen. Zwei Funde, einer davon
+wichtig.
+
+**Gefunden und übernehmenswert: `manami-project/anime-offline-database`**
+(<https://github.com/manami-project/anime-offline-database>, ODbL + DbCL, wöchentlich aktualisiert,
+5,8 MB komprimiert). 41.537 Einträge, jeder mit den Adressen desselben Anime bei zehn Diensten.
+Gemessen gegen unseren Bestand:
+
+- **2.756 unserer 2.758 Titel** sind darin enthalten.
+- 2.613 mit aniSearch-Kennung — für uns **ohne Wert**, unsere eigene Zuordnung hat 15.265 Einträge
+  und ist damit besser.
+- **2.112 mit ANN-Kennung** und 2.401 mit AniDB-Kennung — beides haben wir nicht.
+
+**Warum die ANN-Kennung zählt:** Die Encyclopedia-API von Anime News Network führt Sprechrollen
+**nach Sprache**, `<cast gid="…" lang="DE">`. Nachgemessen am 15.08.2026:
+
+- Frieren: 13 deutsche Rollen bei ANN, exakt so viele wie bei AniList — dieselben Namen.
+- Entscheidender Test an **8 Titeln, für die AniList keine deutschen Stimmen führt**: **5 haben
+  bei ANN welche** (Eyeshield 21: 6, Gankutsuou: 8, FAKE: 5, MUSHI-SHI: 3, Three Little Ghosts: 1).
+  622 unserer Titel fallen in diese Gruppe; die Stichprobe legt rund 380 zusätzlich belegte
+  Synchros nahe.
+
+Bedingungen von ANN, alle erfüllbar: Quellennennung, ein Link zum jeweiligen Encyclopedia-Eintrag
+auf jeder Seite, die die Angaben zeigt, und **1 Anfrage pro Sekunde** je IP. 2.112 Titel wären
+damit ein einmaliger Lauf von rund 35 Minuten.
+Quelle: <https://www.animenewsnetwork.com/encyclopedia/api.php>
+
+**Geprüft und verworfen:**
+
+- `StrikerLUL/anime-ger-dub-tracker` — 125 Titel, scrapt aniSearch, keine Lizenz, ausdrücklich
+  „Work in Progress". Wir haben denselben Bestand vollständiger im eigenen Archiv.
+- `Funami580/MAL-GerDubs` — Handkuratierung wie MyDubList („whenever I see a new dub
+  announcement"), kein eigenständiger Datenstand.
+- `saitho/synchronkartei-api-server` — zwischengespeicherte Synchronkartei-Inhalte. Ändert nichts
+  daran, dass die Synchronkartei automatisiertes Auslesen untersagt; ein fremder Zwischenspeicher
+  wäscht das nicht.
+- `princessmiku/anime2you` — RSS-Bibliothek für Anime2You. Wir lesen die Artikel bereits selbst
+  und brauchen mehr als die Kurzfassung des Feeds.
+
 ### Offen
 
 - **aniSearch-API** — Anfrage seit 09.08.2026 unbeantwortet.
