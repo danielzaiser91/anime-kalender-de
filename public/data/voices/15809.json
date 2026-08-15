@@ -1,1 +1,157 @@
-{"titleId":15809,"updatedAt":"2026-08-11T11:20:03.157Z","roles":[{"character":"Emilia Justina","actor":"Corinna Dorenkamp","role":"MAIN"},{"character":"Satan Jacob","actor":"Daniel Käser","role":"MAIN"},{"character":"Lucifer","actor":"Tom Raczko","role":"MAIN"},{"character":"Crestia Bell","actor":"Ela Paul","role":"MAIN"},{"character":"Chiho Sasaki","actor":"Moira May","role":"MAIN"},{"character":"Alciel","actor":"Uwe Thomsen","role":"MAIN"},{"character":"Albert Ende","actor":"Jochen Langner","role":"SUPPORTING"},{"character":"Olba Meyer","actor":"Gerhard Fehn","role":"SUPPORTING"},{"character":"Kaori Shouji","actor":"Vivien Faber","role":"SUPPORTING"},{"character":"Yuki Mizushima","actor":"Nadja Godzina","role":"SUPPORTING"},{"character":"Riho Sasaki","actor":"Christina Puciata","role":"SUPPORTING"},{"character":"Watanabe","actor":"Hans Bayer","role":"SUPPORTING"},{"character":"Kawachi","actor":"Timo R. Schouren","role":"SUPPORTING"},{"character":"Miki Shiba","actor":"Michaela Kametz","role":"SUPPORTING"},{"character":"Mitsuki Sarue","actor":"Marco Sven Reinbold","role":"SUPPORTING"},{"character":"Senichi Sasaki","actor":"Tom Jacobs","role":"SUPPORTING"},{"character":"Rika Suzuki","actor":"Kirstin Hesse","role":"SUPPORTING"},{"character":"Robertio Iguno Valentia","actor":"Wolfram Fuchs","role":"SUPPORTING"},{"character":"Nord Justina","actor":"Robert Heinle","role":"SUPPORTING"},{"character":"Mayumi Kisaki","actor":"Milena Karas","role":"SUPPORTING"},{"character":"Emeralda Etuva","actor":"Rieke Werner","role":"SUPPORTING"},{"character":"Servantes Reberiz","actor":"Holger Schulz","role":"SUPPORTING"}]}
+{
+ "titleId": 15809,
+ "updatedAt": "2026-08-15T18:35:35.102Z",
+ "roles": [
+  {
+   "character": "Emilia Justina",
+   "actor": "Corinna Dorenkamp",
+   "role": "MAIN"
+  },
+  {
+   "character": "Satan Jacob",
+   "actor": "Daniel Käser",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lucifer",
+   "actor": "Tom Raczko",
+   "role": "MAIN"
+  },
+  {
+   "character": "Crestia Bell",
+   "actor": "Ela Paul",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chiho Sasaki",
+   "actor": "Moira May",
+   "role": "MAIN"
+  },
+  {
+   "character": "Alciel",
+   "actor": "Uwe Thomsen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Albert Ende",
+   "actor": "Jochen Langner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Olba Meyer",
+   "actor": "Gerhard Fehn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaori Shouji",
+   "actor": "Vivien Faber",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuki Mizushima",
+   "actor": "Nadja Godzina",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Riho Sasaki",
+   "actor": "Christina Puciata",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Watanabe",
+   "actor": "Hans Bayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kawachi",
+   "actor": "Timo R. Schouren",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miki Shiba",
+   "actor": "Michaela Kametz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mitsuki Sarue",
+   "actor": "Marco Sven Reinbold",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Senichi Sasaki",
+   "actor": "Tom Jacobs",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rika Suzuki",
+   "actor": "Kirstin Hesse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Robertio Iguno Valentia",
+   "actor": "Wolfram Fuchs",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nord Justina",
+   "actor": "Robert Heinle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mayumi Kisaki",
+   "actor": "Milena Karas",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Emeralda Etuva",
+   "actor": "Rieke Werner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Servantes Reberiz",
+   "actor": "Holger Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Emi Yusa/Heroine Emilia",
+   "actor": "Corinna Dörenkamp",
+   "von": "ann"
+  },
+  {
+   "character": "Emerada Etuva",
+   "actor": "Rieke Werner",
+   "von": "ann"
+  },
+  {
+   "character": "Sadao Maō/Demon King Satan",
+   "actor": "Daniel Käser",
+   "von": "ann"
+  },
+  {
+   "character": "Shirō Ashiya/Demon General Alciel",
+   "actor": "Uwe Thomsen",
+   "von": "ann"
+  },
+  {
+   "character": "Orba Mayer",
+   "actor": "Gerhard Fehn",
+   "von": "ann"
+  },
+  {
+   "character": "Mitsuki Sarue/Sariel",
+   "actor": "Marco Sven Reinbold",
+   "von": "ann"
+  },
+  {
+   "character": "Hanzō Urushihara/Demon General Lucifer",
+   "actor": "Tom Raczko",
+   "von": "ann"
+  },
+  {
+   "character": "Suzuno Kamazuki/Crestia Bell",
+   "actor": "Ela Paul",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=14846"
+}

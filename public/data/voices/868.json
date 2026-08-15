@@ -1,1 +1,77 @@
-{"titleId":868,"updatedAt":"2026-08-11T11:20:02.868Z","roles":[{"character":"Lina Inverse","actor":"Shandra Schadt","role":"MAIN"},{"character":"Gracia Ul Naga Saillune","actor":"Veronika Aryana Neugebauer","role":"MAIN"},{"character":"Lord Granion","actor":"Ulf Jürgen Söhmisch","role":"SUPPORTING"},{"character":"Laia Einburg","actor":"Beate Pfeiffer","role":"SUPPORTING"},{"character":"Huey Einburg","actor":"Florian Bauer","role":"SUPPORTING"},{"character":"Galia Einburg","actor":"Dieter Memel","role":"SUPPORTING"},{"character":"Lord Haizen","actor":"Claus Brockmeyer","role":"SUPPORTING"},{"character":"Granion's Aid","actor":"Alexander Wangler","role":"SUPPORTING"}]}
+{
+ "titleId": 868,
+ "updatedAt": "2026-08-15T18:26:25.780Z",
+ "roles": [
+  {
+   "character": "Lina Inverse",
+   "actor": "Shandra Schadt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gracia Ul Naga Saillune",
+   "actor": "Veronika Aryana Neugebauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lord Granion",
+   "actor": "Ulf Jürgen Söhmisch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Laia Einburg",
+   "actor": "Beate Pfeiffer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Huey Einburg",
+   "actor": "Florian Bauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Galia Einburg",
+   "actor": "Dieter Memel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lord Haizen",
+   "actor": "Claus Brockmeyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Granion's Aid",
+   "actor": "Alexander Wangler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Naga die Weisse Schlange",
+   "actor": "Veronika Neugebauer",
+   "von": "ann"
+  },
+  {
+   "character": "Galia",
+   "actor": "Dieter Memel",
+   "von": "ann"
+  },
+  {
+   "character": "Laia Einberg",
+   "actor": "Beate Pfeiffer",
+   "von": "ann"
+  },
+  {
+   "character": "Lord Granion",
+   "actor": "Ulf Söhmisch",
+   "von": "ann"
+  },
+  {
+   "character": "Lord Haizan",
+   "actor": "Claus Brockmeyer",
+   "von": "ann"
+  },
+  {
+   "character": "Huey Einberg",
+   "actor": "Florian Bauer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=739"
+}

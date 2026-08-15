@@ -1,1 +1,97 @@
-{"titleId":20966,"updatedAt":"2026-08-11T11:20:03.249Z","roles":[{"character":"Ryuu Yamada","actor":"Felix Mayer","role":"MAIN"},{"character":"Urara Shiraishi","actor":"Katharina von Daake","role":"MAIN"},{"character":"Toranosuke Miyamura","actor":"Uwe Thomsen","role":"MAIN"},{"character":"Miyabi Itou","actor":"Zina Laus","role":"MAIN"},{"character":"Noa Takigawa","actor":"Leslie-Vanessa Lill","role":"SUPPORTING"},{"character":"Maria Sarushima","actor":"Anna Ewelina","role":"SUPPORTING"},{"character":"Haruma Yamazaki","actor":"Manuel Scheuernstuhl","role":"SUPPORTING"},{"character":"Shinichi Tamaki","actor":"Tobias John von Freyend","role":"SUPPORTING"},{"character":"Kentarou Tsubaki","actor":"Tobias Kern","role":"SUPPORTING"},{"character":"Leona Miyamura","actor":"Ilena Gwisdalla","role":"SUPPORTING"},{"character":"Daichi Shinagawa","actor":"Niko Laskaris","role":"SUPPORTING"},{"character":"Nene Odagiri","actor":"Patricia Strasburger","role":"SUPPORTING"},{"character":"Saeko Fukazawa","actor":"Janina Dietz","role":"SUPPORTING"},{"character":"Rika Saionji","actor":"Lara Wurmer","role":"SUPPORTING"},{"character":"Ushio Igarashi","actor":"Julian Bayer","role":"SUPPORTING"},{"character":"Meiko Otsuka","actor":"Lea Kalbhenn","role":"SUPPORTING"}]}
+{
+ "titleId": 20966,
+ "updatedAt": "2026-08-15T18:38:04.092Z",
+ "roles": [
+  {
+   "character": "Ryuu Yamada",
+   "actor": "Felix Mayer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Urara Shiraishi",
+   "actor": "Katharina von Daake",
+   "role": "MAIN"
+  },
+  {
+   "character": "Toranosuke Miyamura",
+   "actor": "Uwe Thomsen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miyabi Itou",
+   "actor": "Zina Laus",
+   "role": "MAIN"
+  },
+  {
+   "character": "Noa Takigawa",
+   "actor": "Leslie-Vanessa Lill",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maria Sarushima",
+   "actor": "Anna Ewelina",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haruma Yamazaki",
+   "actor": "Manuel Scheuernstuhl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinichi Tamaki",
+   "actor": "Tobias John von Freyend",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kentarou Tsubaki",
+   "actor": "Tobias Kern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Leona Miyamura",
+   "actor": "Ilena Gwisdalla",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Daichi Shinagawa",
+   "actor": "Niko Laskaris",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nene Odagiri",
+   "actor": "Patricia Strasburger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Saeko Fukazawa",
+   "actor": "Janina Dietz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rika Saionji",
+   "actor": "Lara Wurmer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ushio Igarashi",
+   "actor": "Julian Bayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Meiko Otsuka",
+   "actor": "Lea Kalbhenn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toranusuke Miyamura",
+   "actor": "Uwe Thomsen",
+   "von": "ann"
+  },
+  {
+   "character": "Meiko Ootsuka",
+   "actor": "Lea Kalbhenn",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16583"
+}

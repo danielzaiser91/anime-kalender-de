@@ -1,1 +1,107 @@
-{"titleId":21651,"updatedAt":"2026-08-11T11:20:03.284Z","roles":[{"character":"Satoshi","actor":"Felix Mayer","role":"MAIN"},{"character":"Volcanion","actor":"Stefan Günther","role":"MAIN"},{"character":"Citron","actor":"Tobias Kern","role":"MAIN"},{"character":"Eureka ","actor":"Shandra Schadt","role":"MAIN"},{"character":"Kimia","actor":"Farina Brock","role":"MAIN"},{"character":"Serena","actor":"Gabrielle Pietermann","role":"MAIN"},{"character":"Kojirou","actor":"Matthias Klie","role":"SUPPORTING"},{"character":"Flamel","actor":"Bettina Zech","role":"SUPPORTING"},{"character":"Musashi","actor":"Scarlet Cavadenti","role":"SUPPORTING"},{"character":"Nyarth","actor":"Gerhard Acktun","role":"SUPPORTING"},{"character":"Douga","actor":"Roman Wolko","role":"SUPPORTING"},{"character":"Narrator","actor":"Manfred Trilling","role":"SUPPORTING"},{"character":"Jarvis","actor":"Benedikt Gutjan","role":"SUPPORTING"},{"character":"Éliphas","actor":"Walter von Hauff","role":"SUPPORTING"}]}
+{
+ "titleId": 21651,
+ "updatedAt": "2026-08-15T18:38:46.248Z",
+ "roles": [
+  {
+   "character": "Satoshi",
+   "actor": "Felix Mayer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Volcanion",
+   "actor": "Stefan Günther",
+   "role": "MAIN"
+  },
+  {
+   "character": "Citron",
+   "actor": "Tobias Kern",
+   "role": "MAIN"
+  },
+  {
+   "character": "Eureka ",
+   "actor": "Shandra Schadt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kimia",
+   "actor": "Farina Brock",
+   "role": "MAIN"
+  },
+  {
+   "character": "Serena",
+   "actor": "Gabrielle Pietermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kojirou",
+   "actor": "Matthias Klie",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Flamel",
+   "actor": "Bettina Zech",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Musashi",
+   "actor": "Scarlet Cavadenti",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nyarth",
+   "actor": "Gerhard Acktun",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Douga",
+   "actor": "Roman Wolko",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Manfred Trilling",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jarvis",
+   "actor": "Benedikt Gutjan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Éliphas",
+   "actor": "Walter von Hauff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jessie",
+   "actor": "Scarlet Cavadenti",
+   "von": "ann"
+  },
+  {
+   "character": "Mauzi",
+   "actor": "Gerhard Acktun",
+   "von": "ann"
+  },
+  {
+   "character": "James",
+   "actor": "Matthias Klie",
+   "von": "ann"
+  },
+  {
+   "character": "Heureka",
+   "actor": "Shandra Schadt",
+   "von": "ann"
+  },
+  {
+   "character": "Citro",
+   "actor": "Tobias Kern",
+   "von": "ann"
+  },
+  {
+   "character": "Ash Ketchum",
+   "actor": "Felix Mayer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18227"
+}

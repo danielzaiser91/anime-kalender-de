@@ -1,1 +1,92 @@
-{"titleId":21058,"updatedAt":"2026-08-11T11:20:03.260Z","roles":[{"character":"Zen Wistaria","actor":"Patrick Bach","role":"MAIN"},{"character":"Shirayuki","actor":"Josephine Schmidt","role":"MAIN"},{"character":"Obi","actor":"Daniel Schütter","role":"SUPPORTING"},{"character":"Mihaya","actor":"Jörn Linnenbröker","role":"SUPPORTING"},{"character":"Mitsuhide Rouen","actor":"Martin Brücker","role":"SUPPORTING"},{"character":"Atri","actor":"Jesse Grimm","role":"SUPPORTING"},{"character":"Izana Wistaria","actor":"Johannes Semm","role":"SUPPORTING"},{"character":"Kihal Toghrul","actor":"Lo Rivera","role":"SUPPORTING"},{"character":"Raji Shenazard","actor":"Oliver Böttcher","role":"SUPPORTING"},{"character":"Shuka","actor":"Philipp Baltus","role":"SUPPORTING"},{"character":"Kiki Seiran","actor":"Jennifer Böttcher","role":"SUPPORTING"},{"character":"Ryuu","actor":"Henry Pomrehn","role":"SUPPORTING"},{"character":"Garack Gazeld","actor":"Anne Moll","role":"SUPPORTING"}]}
+{
+ "titleId": 21058,
+ "updatedAt": "2026-08-15T18:38:19.923Z",
+ "roles": [
+  {
+   "character": "Zen Wistaria",
+   "actor": "Patrick Bach",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shirayuki",
+   "actor": "Josephine Schmidt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Obi",
+   "actor": "Daniel Schütter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mihaya",
+   "actor": "Jörn Linnenbröker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mitsuhide Rouen",
+   "actor": "Martin Brücker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Atri",
+   "actor": "Jesse Grimm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Izana Wistaria",
+   "actor": "Johannes Semm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kihal Toghrul",
+   "actor": "Lo Rivera",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Raji Shenazard",
+   "actor": "Oliver Böttcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shuka",
+   "actor": "Philipp Baltus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kiki Seiran",
+   "actor": "Jennifer Böttcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryuu",
+   "actor": "Henry Pomrehn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Garack Gazeld",
+   "actor": "Anne Moll",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zen Wistalia Clarines",
+   "actor": "Patrick Bach",
+   "von": "ann"
+  },
+  {
+   "character": "Garaku Gazert",
+   "actor": "Anne Moll",
+   "von": "ann"
+  },
+  {
+   "character": "Izana Wistalia Clarines",
+   "actor": "Johannes Semm",
+   "von": "ann"
+  },
+  {
+   "character": "Haruka",
+   "actor": "Mark Eichenseher",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16792"
+}

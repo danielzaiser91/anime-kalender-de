@@ -1,1 +1,72 @@
-{"titleId":100749,"updatedAt":"2026-08-11T11:20:03.436Z","roles":[{"character":"Kun","actor":"Peggy Pollow","role":"MAIN"},{"character":"Mirai","actor":"Julia Meynen","role":"MAIN"},{"character":"Seinen","actor":"Matti Klemm","role":"SUPPORTING"},{"character":"Yukko","actor":"Florian Clyde","role":"SUPPORTING"},{"character":"Jiji","actor":"Hans Bayer","role":"SUPPORTING"},{"character":"Otou-san","actor":"Fabian Oscar Wien","role":"SUPPORTING"},{"character":"Okaa-san","actor":"Nadine Heidenreich","role":"SUPPORTING"},{"character":"Baba","actor":"Nina Herting","role":"SUPPORTING"}]}
+{
+ "titleId": 100749,
+ "updatedAt": "2026-08-15T18:42:12.997Z",
+ "roles": [
+  {
+   "character": "Kun",
+   "actor": "Peggy Pollow",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mirai",
+   "actor": "Julia Meynen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Seinen",
+   "actor": "Matti Klemm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yukko",
+   "actor": "Florian Clyde",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jiji",
+   "actor": "Hans Bayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Otou-san",
+   "actor": "Fabian Oscar Wien",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Okaa-san",
+   "actor": "Nadine Heidenreich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Baba",
+   "actor": "Nina Herting",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Grandmother",
+   "actor": "Nina Herting",
+   "von": "ann"
+  },
+  {
+   "character": "Father",
+   "actor": "Fabian Oscar Wien",
+   "von": "ann"
+  },
+  {
+   "character": "Grandfather",
+   "actor": "Hans Bayer",
+   "von": "ann"
+  },
+  {
+   "character": "Great-Grandfather",
+   "actor": "Matti Klemm",
+   "von": "ann"
+  },
+  {
+   "character": "Mother",
+   "actor": "Nadine Heidenreich",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20425"
+}

@@ -1,1 +1,132 @@
-{"titleId":19291,"updatedAt":"2026-08-11T11:20:03.182Z","roles":[{"character":"Satoshi","actor":"Caroline Combrinck","role":"MAIN"},{"character":"Serena","actor":"Gabrielle Pietermann","role":"MAIN"},{"character":"Citron","actor":"Tobias Kern","role":"MAIN"},{"character":"Eureka ","actor":"Shandra Schadt","role":"MAIN"},{"character":"Musashi","actor":"Scarlet Cavadenti","role":"SUPPORTING"},{"character":"Kojirou","actor":"Matthias Klie","role":"SUPPORTING"},{"character":"Nyarth","actor":"Gerhard Acktun","role":"SUPPORTING"},{"character":"Joy","actor":"Katharina Iacobescu","role":"SUPPORTING"},{"character":"Sakaki","actor":"Christoph Jablonka","role":"SUPPORTING"},{"character":"Yukinari Ookido","actor":"Walter von Hauff","role":"SUPPORTING"},{"character":"Junsa","actor":"Angela Wiederhut","role":"SUPPORTING"},{"character":"Narrator","actor":"Manfred Trilling","role":"SUPPORTING"},{"character":"Pansy","actor":"Katharina Schwarzmaier","role":"SUPPORTING"},{"character":"Viola","actor":"Lea Kalbhenn","role":"SUPPORTING"},{"character":"Platane Hakase","actor":"Max Felder","role":"SUPPORTING"},{"character":"Limone","actor":"Alexander Brem","role":"SUPPORTING"},{"character":"Jessica","actor":"Leslie-Vanessa Lill","role":"SUPPORTING"},{"character":"Ellie","actor":"Farina Brock","role":"SUPPORTING"},{"character":"Premier","actor":"Anke Kortemeier","role":"SUPPORTING"}]}
+{
+ "titleId": 19291,
+ "updatedAt": "2026-08-15T18:36:11.195Z",
+ "roles": [
+  {
+   "character": "Satoshi",
+   "actor": "Caroline Combrinck",
+   "role": "MAIN"
+  },
+  {
+   "character": "Serena",
+   "actor": "Gabrielle Pietermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Citron",
+   "actor": "Tobias Kern",
+   "role": "MAIN"
+  },
+  {
+   "character": "Eureka ",
+   "actor": "Shandra Schadt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Musashi",
+   "actor": "Scarlet Cavadenti",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kojirou",
+   "actor": "Matthias Klie",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nyarth",
+   "actor": "Gerhard Acktun",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Joy",
+   "actor": "Katharina Iacobescu",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sakaki",
+   "actor": "Christoph Jablonka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yukinari Ookido",
+   "actor": "Walter von Hauff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Junsa",
+   "actor": "Angela Wiederhut",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Manfred Trilling",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pansy",
+   "actor": "Katharina Schwarzmaier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Viola",
+   "actor": "Lea Kalbhenn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Platane Hakase",
+   "actor": "Max Felder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Limone",
+   "actor": "Alexander Brem",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jessica",
+   "actor": "Leslie-Vanessa Lill",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ellie",
+   "actor": "Farina Brock",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Premier",
+   "actor": "Anke Kortemeier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ash Ketchum",
+   "actor": "Caroline Combrinck",
+   "von": "ann"
+  },
+  {
+   "character": "Jessie",
+   "actor": "Scarlet Cavadenti",
+   "von": "ann"
+  },
+  {
+   "character": "Mauzi",
+   "actor": "Gerhard Acktun",
+   "von": "ann"
+  },
+  {
+   "character": "James",
+   "actor": "Matthias Klie",
+   "von": "ann"
+  },
+  {
+   "character": "Heureka",
+   "actor": "Shandra Schadt",
+   "von": "ann"
+  },
+  {
+   "character": "Citro",
+   "actor": "Tobias Kern",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15491"
+}

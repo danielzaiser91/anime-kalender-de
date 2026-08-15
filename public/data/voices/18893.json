@@ -1,1 +1,107 @@
-{"titleId":18893,"updatedAt":"2026-08-11T11:20:03.177Z","roles":[{"character":"Iona","actor":"Céline Vogt","role":"MAIN"},{"character":"Gunzou Chihaya","actor":"Dirk Stollberg","role":"MAIN"},{"character":"Sou Oribe","actor":"Dennis Saemann","role":"SUPPORTING"},{"character":"Iori Watanuki","actor":"Chiara Haurand","role":"SUPPORTING"},{"character":"Ryoukan Kita","actor":"Peter Harting","role":"SUPPORTING"},{"character":"Takao","actor":"Fabienne Hesse","role":"SUPPORTING"},{"character":"Toujuurou Osakabe","actor":"Vittorio Alfieri","role":"SUPPORTING"},{"character":"Ryuujirou Kamikaze","actor":"Heiko Obermöller","role":"SUPPORTING"},{"character":"Kirishima","actor":"Birte Baumgardt","role":"SUPPORTING"},{"character":"Makie Osakabe","actor":"Jodie Blank","role":"SUPPORTING"},{"character":"Haruna","actor":"Jennifer Weiß","role":"SUPPORTING"},{"character":"Maya","actor":"Charlotte Uhlig","role":"SUPPORTING"},{"character":"Kongou","actor":"Demet Fey","role":"SUPPORTING"},{"character":"Hyuuga","actor":"Corinna Dorenkamp","role":"SUPPORTING"},{"character":"Shizuka Hozumi","actor":"Ela Paul","role":"SUPPORTING"},{"character":"I-402","actor":"Meri Dogan","role":"SUPPORTING"},{"character":"Kyouhei Kashihara","actor":"Marco Sven Reinbold","role":"SUPPORTING"},{"character":"I-400","actor":"Winnie Brandes","role":"SUPPORTING"}]}
+{
+ "titleId": 18893,
+ "updatedAt": "2026-08-15T18:36:06.686Z",
+ "roles": [
+  {
+   "character": "Iona",
+   "actor": "Céline Vogt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gunzou Chihaya",
+   "actor": "Dirk Stollberg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sou Oribe",
+   "actor": "Dennis Saemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Iori Watanuki",
+   "actor": "Chiara Haurand",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryoukan Kita",
+   "actor": "Peter Harting",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takao",
+   "actor": "Fabienne Hesse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toujuurou Osakabe",
+   "actor": "Vittorio Alfieri",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryuujirou Kamikaze",
+   "actor": "Heiko Obermöller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kirishima",
+   "actor": "Birte Baumgardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Makie Osakabe",
+   "actor": "Jodie Blank",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haruna",
+   "actor": "Jennifer Weiß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maya",
+   "actor": "Charlotte Uhlig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kongou",
+   "actor": "Demet Fey",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hyuuga",
+   "actor": "Corinna Dorenkamp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shizuka Hozumi",
+   "actor": "Ela Paul",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "I-402",
+   "actor": "Meri Dogan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyouhei Kashihara",
+   "actor": "Marco Sven Reinbold",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "I-400",
+   "actor": "Winnie Brandes",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hyuuga",
+   "actor": "Corinna Dörenkamp",
+   "von": "ann"
+  },
+  {
+   "character": "Ryuujirou Kamikage",
+   "actor": "Heiko Obermöller",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15359"
+}

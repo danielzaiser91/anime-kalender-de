@@ -1,1 +1,57 @@
-{"titleId":116589,"updatedAt":"2026-08-11T11:20:03.554Z","roles":[{"character":"Shinei Nouzen","actor":"Jesse Grimm","role":"MAIN"},{"character":"Vladilena Milizé","actor":"Franciska  Friede","role":"MAIN"},{"character":"Raiden Shuga","actor":"Jörn Linnenbröker","role":"SUPPORTING"},{"character":"Daiya Irma","actor":"Patrick Bach","role":"SUPPORTING"},{"character":"Kurena Kukumila","actor":"Emily Seubert","role":"SUPPORTING"},{"character":"Theoto Rikka","actor":"Alexander Merbeth","role":"SUPPORTING"},{"character":"Anju Emma","actor":"Simona Pahl","role":"SUPPORTING"}]}
+{
+ "titleId": 116589,
+ "updatedAt": "2026-08-15T18:45:33.132Z",
+ "roles": [
+  {
+   "character": "Shinei Nouzen",
+   "actor": "Jesse Grimm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Vladilena Milizé",
+   "actor": "Franciska  Friede",
+   "role": "MAIN"
+  },
+  {
+   "character": "Raiden Shuga",
+   "actor": "Jörn Linnenbröker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Daiya Irma",
+   "actor": "Patrick Bach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kurena Kukumila",
+   "actor": "Emily Seubert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Theoto Rikka",
+   "actor": "Alexander Merbeth",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Anju Emma",
+   "actor": "Simona Pahl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinei Nozen",
+   "actor": "Jesse Grimm",
+   "von": "ann"
+  },
+  {
+   "character": "Daiya Iruma",
+   "actor": "Patrick Bach",
+   "von": "ann"
+  },
+  {
+   "character": "Vladilena Milizé",
+   "actor": "Franciska Friede",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=23089"
+}

@@ -1,1 +1,172 @@
-{"titleId":21741,"updatedAt":"2026-08-11T11:20:03.328Z","roles":[{"character":"Yamatonokami Yasusada","actor":"Philip Süß","role":"MAIN"},{"character":"Kashuu Kiyomitsu","actor":"Christopher Kohn","role":"MAIN"},{"character":"Izuminokami Kanesada","actor":"Christian Intorp","role":"SUPPORTING"},{"character":"Yamabushi Kunihiro","actor":"Paul Matzke","role":"SUPPORTING"},{"character":"Shokudaikiri Mitsutada","actor":"Stefan Bräuler","role":"SUPPORTING"},{"character":"Nikkari Aoe","actor":"Andi Krösing","role":"SUPPORTING"},{"character":"Tsurumaru Kuninaga","actor":"Valentin Stilu","role":"SUPPORTING"},{"character":"Aizen Kunitoshi","actor":"Sebastian Fitzner","role":"SUPPORTING"},{"character":"Imanotsurugi","actor":"Lina von der Ahe","role":"SUPPORTING"},{"character":"Uguisumaru","actor":"Daniel Montoya","role":"SUPPORTING"},{"character":"Maeda Toushirou","actor":"Angelina Geisler","role":"SUPPORTING"},{"character":"Kogitsunemaru","actor":"David Riedel","role":"SUPPORTING"},{"character":"Kasen Kanesada","actor":"Jan Single","role":"SUPPORTING"},{"character":"Akita Toushirou","actor":"Carlos Fanselow","role":"SUPPORTING"},{"character":"Hirano Toushirou","actor":"Benno Lehmann","role":"SUPPORTING"},{"character":"Sayo Samonji","actor":"Angelina Geisler","role":"SUPPORTING"},{"character":"Shishiou","actor":"Julian Mau","role":"SUPPORTING"},{"character":"Mikazuki Munechika","actor":"Bernd Vollbrecht","role":"SUPPORTING"},{"character":"Mutsunokami Yoshiyuki","actor":"Fabian Oscar Wien","role":"SUPPORTING"},{"character":"Gokotai","actor":"Nico Stank","role":"SUPPORTING"},{"character":"Hakata Toushirou","actor":"Rafael Albert","role":"SUPPORTING"},{"character":"Namazuo Toushirou","actor":"Lucas Wecker","role":"SUPPORTING"}]}
+{
+ "titleId": 21741,
+ "updatedAt": "2026-08-15T18:39:45.564Z",
+ "roles": [
+  {
+   "character": "Yamatonokami Yasusada",
+   "actor": "Philip Süß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kashuu Kiyomitsu",
+   "actor": "Christopher Kohn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Izuminokami Kanesada",
+   "actor": "Christian Intorp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yamabushi Kunihiro",
+   "actor": "Paul Matzke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shokudaikiri Mitsutada",
+   "actor": "Stefan Bräuler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nikkari Aoe",
+   "actor": "Andi Krösing",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsurumaru Kuninaga",
+   "actor": "Valentin Stilu",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aizen Kunitoshi",
+   "actor": "Sebastian Fitzner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Imanotsurugi",
+   "actor": "Lina von der Ahe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Uguisumaru",
+   "actor": "Daniel Montoya",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maeda Toushirou",
+   "actor": "Angelina Geisler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kogitsunemaru",
+   "actor": "David Riedel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kasen Kanesada",
+   "actor": "Jan Single",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akita Toushirou",
+   "actor": "Carlos Fanselow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hirano Toushirou",
+   "actor": "Benno Lehmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sayo Samonji",
+   "actor": "Angelina Geisler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shishiou",
+   "actor": "Julian Mau",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mikazuki Munechika",
+   "actor": "Bernd Vollbrecht",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mutsunokami Yoshiyuki",
+   "actor": "Fabian Oscar Wien",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gokotai",
+   "actor": "Nico Stank",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hakata Toushirou",
+   "actor": "Rafael Albert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Namazuo Toushirou",
+   "actor": "Lucas Wecker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Doudanuki Masakuni",
+   "actor": "Florian Hoffmann",
+   "von": "ann"
+  },
+  {
+   "character": "Hachisuka Kotetsu",
+   "actor": "Heiko Akrap",
+   "von": "ann"
+  },
+  {
+   "character": "Atsushi Toushirou",
+   "actor": "Fabian Kluckert",
+   "von": "ann"
+  },
+  {
+   "character": "Yagen Toushirou",
+   "actor": "Jeremias Koschorz",
+   "von": "ann"
+  },
+  {
+   "character": "Souza Samonji",
+   "actor": "Martin Sabel",
+   "von": "ann"
+  },
+  {
+   "character": "Jiroutachi",
+   "actor": "Artur Weimann",
+   "von": "ann"
+  },
+  {
+   "character": "Shishio",
+   "actor": "Julian Mau",
+   "von": "ann"
+  },
+  {
+   "character": "Heshikiri Hasebe",
+   "actor": "Sven Fechner",
+   "von": "ann"
+  },
+  {
+   "character": "Horikawa Kunihiro",
+   "actor": "Marco Rosenberg",
+   "von": "ann"
+  },
+  {
+   "character": "Ichigo Hitofuri",
+   "actor": "Sascha Krüger",
+   "von": "ann"
+  },
+  {
+   "character": "Midare Toushirou",
+   "actor": "Betty Förster",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18182"
+}

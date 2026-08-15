@@ -1,1 +1,52 @@
-{"titleId":146210,"updatedAt":"2026-08-11T11:20:03.638Z","roles":[{"character":"Alto Goldfield","actor":"Christian Zeiger","role":"MAIN"},{"character":"Vermeil","actor":"Janina Dietz","role":"MAIN"},{"character":"Lilia Kudelfate","actor":"Angelina Markiefka","role":"MAIN"},{"character":"Sharol Iridescence","actor":"Leslie-Vanessa Lill","role":"SUPPORTING"},{"character":"Marx Pearlston","actor":"Tobias John von Freyend","role":"SUPPORTING"}]}
+{
+ "titleId": 146210,
+ "updatedAt": "2026-08-15T18:48:06.602Z",
+ "roles": [
+  {
+   "character": "Alto Goldfield",
+   "actor": "Christian Zeiger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Vermeil",
+   "actor": "Janina Dietz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lilia Kudelfate",
+   "actor": "Angelina Markiefka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sharol Iridescence",
+   "actor": "Leslie-Vanessa Lill",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marx Pearlston",
+   "actor": "Tobias John von Freyend",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Obsidian",
+   "actor": "Hubertus von Lerchenfeld",
+   "von": "ann"
+  },
+  {
+   "character": "Marcus Parston",
+   "actor": "Tobias John von Freyend",
+   "von": "ann"
+  },
+  {
+   "character": "Elena Kimberlight",
+   "actor": "Ilena Gwisdalla",
+   "von": "ann"
+  },
+  {
+   "character": "Lilia Kudelfeyt",
+   "actor": "Angelina Markiefka",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=25419"
+}

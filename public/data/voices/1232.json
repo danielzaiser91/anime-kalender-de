@@ -1,1 +1,22 @@
-{"titleId":1232,"updatedAt":"2026-08-11T11:20:02.903Z","roles":[{"character":"Bloodberry","actor":"Shandra Schadt","role":"MAIN"}]}
+{
+ "titleId": 1232,
+ "updatedAt": "2026-08-15T18:27:54.055Z",
+ "roles": [
+  {
+   "character": "Bloodberry",
+   "actor": "Shandra Schadt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Cherry",
+   "actor": "Michele Sterr",
+   "von": "ann"
+  },
+  {
+   "character": "Junior",
+   "actor": "Tolilah Jolas",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=79"
+}

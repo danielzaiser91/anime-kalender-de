@@ -1,1 +1,152 @@
-{"titleId":20778,"updatedAt":"2026-08-11T11:20:03.229Z","roles":[{"character":"Gokuu Son","actor":"Tommy Morgenstern","role":"MAIN"},{"character":"Freeza","actor":"Thomas Schmuckert","role":"MAIN"},{"character":"Vegeta","actor":"Oliver Siebeck","role":"MAIN"},{"character":"Pilaf","actor":"Konrad Bösherz","role":"SUPPORTING"},{"character":"Beerus","actor":"Oliver Stritzel","role":"SUPPORTING"},{"character":"Bulma","actor":"Claudia Urbschat-mingues","role":"SUPPORTING"},{"character":"Shu","actor":"Dirk Petrick","role":"SUPPORTING"},{"character":"Jaco Teirimentenpibosshi","actor":"Bastian Sierich","role":"SUPPORTING"},{"character":"Mai","actor":"Julia Stoepel","role":"SUPPORTING"},{"character":"Muten Roushi","actor":"Thomas Kästner","role":"SUPPORTING"},{"character":"Sorbet","actor":"Matthias Klages","role":"SUPPORTING"},{"character":"Shen Long","actor":"Mathias Kunze","role":"SUPPORTING"},{"character":"Shisami","actor":"Andreas Müller","role":"SUPPORTING"},{"character":"Jinzouningen 18-gou","actor":"Diana Borgwardt","role":"SUPPORTING"},{"character":"Tagoma","actor":"Otto Strecker","role":"SUPPORTING"},{"character":"Piccolo","actor":"David Nathan","role":"SUPPORTING"},{"character":"Videl","actor":"Julia Blankenburg","role":"SUPPORTING"},{"character":"Tenshinhan","actor":"Julien Haggege","role":"SUPPORTING"},{"character":"Gohan Son","actor":"Robin Kahnmeyer","role":"SUPPORTING"},{"character":"Oracle Fish","actor":"Sabine Winterfeldt","role":"SUPPORTING"}]}
+{
+ "titleId": 20778,
+ "updatedAt": "2026-08-15T18:37:32.467Z",
+ "roles": [
+  {
+   "character": "Gokuu Son",
+   "actor": "Tommy Morgenstern",
+   "role": "MAIN"
+  },
+  {
+   "character": "Freeza",
+   "actor": "Thomas Schmuckert",
+   "role": "MAIN"
+  },
+  {
+   "character": "Vegeta",
+   "actor": "Oliver Siebeck",
+   "role": "MAIN"
+  },
+  {
+   "character": "Pilaf",
+   "actor": "Konrad Bösherz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Beerus",
+   "actor": "Oliver Stritzel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bulma",
+   "actor": "Claudia Urbschat-mingues",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shu",
+   "actor": "Dirk Petrick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jaco Teirimentenpibosshi",
+   "actor": "Bastian Sierich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mai",
+   "actor": "Julia Stoepel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Muten Roushi",
+   "actor": "Thomas Kästner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sorbet",
+   "actor": "Matthias Klages",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shen Long",
+   "actor": "Mathias Kunze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shisami",
+   "actor": "Andreas Müller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jinzouningen 18-gou",
+   "actor": "Diana Borgwardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tagoma",
+   "actor": "Otto Strecker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Piccolo",
+   "actor": "David Nathan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Videl",
+   "actor": "Julia Blankenburg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tenshinhan",
+   "actor": "Julien Haggege",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gohan Son",
+   "actor": "Robin Kahnmeyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Oracle Fish",
+   "actor": "Sabine Winterfeldt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pilaw",
+   "actor": "Konrad Bösherz",
+   "von": "ann"
+  },
+  {
+   "character": "Son Gohan",
+   "actor": "Robin Kahnmeyer",
+   "von": "ann"
+  },
+  {
+   "character": "Krillin",
+   "actor": "Wanja Gerick",
+   "von": "ann"
+  },
+  {
+   "character": "Son Goku",
+   "actor": "Tommy Morgenstern",
+   "von": "ann"
+  },
+  {
+   "character": "C-18",
+   "actor": "Diana Borgwardt",
+   "von": "ann"
+  },
+  {
+   "character": "Muten Roshi",
+   "actor": "Thomas Kästner",
+   "von": "ann"
+  },
+  {
+   "character": "Freezer",
+   "actor": "Thomas Schmuckert",
+   "von": "ann"
+  },
+  {
+   "character": "Trunks",
+   "actor": "Amadeus Strobl",
+   "von": "ann"
+  },
+  {
+   "character": "Jako",
+   "actor": "Bastian Sierich",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16549"
+}

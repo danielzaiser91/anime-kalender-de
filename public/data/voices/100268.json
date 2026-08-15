@@ -1,1 +1,112 @@
-{"titleId":100268,"updatedAt":"2026-08-11T11:20:03.423Z","roles":[{"character":"Takashi Natsume","actor":"Konrad Bösherz","role":"MAIN"},{"character":"Madara","actor":"Hans Hohlbein","role":"MAIN"},{"character":"Shuuichi Natori","actor":"Alexander Ziegenbein","role":"SUPPORTING"},{"character":"Tooru Taki","actor":"Laura Oettel","role":"SUPPORTING"},{"character":"Misuzu","actor":"Kevin Kraus","role":"SUPPORTING"},{"character":"Kaname Tanuma","actor":"Jannik Endemann","role":"SUPPORTING"},{"character":"Daisuke Yuuki","actor":"Jonas Lauenstein","role":"SUPPORTING"},{"character":"Atsushi Kitamoto","actor":"Max Felder","role":"SUPPORTING"},{"character":"Reiko Natsume","actor":"Jill Böttcher","role":"SUPPORTING"},{"character":"Mukuo Tsumura","actor":"Asad Schwarz-Msesilamba","role":"SUPPORTING"},{"character":"Hinoe","actor":"Sarah Méndez García","role":"SUPPORTING"},{"character":"Touko Fujiwara","actor":"Sabine Jaeger","role":"SUPPORTING"},{"character":"Yorie Tsumura","actor":"Traudel Sperber","role":"SUPPORTING"},{"character":"Hiiragi","actor":"Birte Baumgardt","role":"SUPPORTING"},{"character":"Jun Sasada","actor":"Daniela Molina","role":"SUPPORTING"},{"character":"Ushikao no Chuukyuu Youkai","actor":"Uwe Jellinek","role":"SUPPORTING"},{"character":"Satoru Nishimura","actor":"Henning Nöhren","role":"SUPPORTING"},{"character":"Chobi-hige","actor":"Martin Schubach","role":"SUPPORTING"}]}
+{
+ "titleId": 100268,
+ "updatedAt": "2026-08-15T18:41:53.118Z",
+ "roles": [
+  {
+   "character": "Takashi Natsume",
+   "actor": "Konrad Bösherz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Madara",
+   "actor": "Hans Hohlbein",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shuuichi Natori",
+   "actor": "Alexander Ziegenbein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tooru Taki",
+   "actor": "Laura Oettel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Misuzu",
+   "actor": "Kevin Kraus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaname Tanuma",
+   "actor": "Jannik Endemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Daisuke Yuuki",
+   "actor": "Jonas Lauenstein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Atsushi Kitamoto",
+   "actor": "Max Felder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Reiko Natsume",
+   "actor": "Jill Böttcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mukuo Tsumura",
+   "actor": "Asad Schwarz-Msesilamba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hinoe",
+   "actor": "Sarah Méndez García",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Touko Fujiwara",
+   "actor": "Sabine Jaeger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yorie Tsumura",
+   "actor": "Traudel Sperber",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hiiragi",
+   "actor": "Birte Baumgardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jun Sasada",
+   "actor": "Daniela Molina",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ushikao no Chuukyuu Youkai",
+   "actor": "Uwe Jellinek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Satoru Nishimura",
+   "actor": "Henning Nöhren",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chobi-hige",
+   "actor": "Martin Schubach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shigeru Fujiwara",
+   "actor": "Uwe Büschken",
+   "von": "ann"
+  },
+  {
+   "character": "Nyanko-Sensei",
+   "actor": "Hans Hohlbein",
+   "von": "ann"
+  },
+  {
+   "character": "Taki Tooru",
+   "actor": "Laura Elßel",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20798"
+}

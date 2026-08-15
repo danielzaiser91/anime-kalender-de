@@ -1,1 +1,112 @@
-{"titleId":21711,"updatedAt":"2026-08-11T11:20:03.327Z","roles":[{"character":"Angelo Lagusa","actor":"Johannes Semm","role":"MAIN"},{"character":"Nero Vanetti","actor":"Konstantin Graudus","role":"MAIN"},{"character":"Vincent Vanetti","actor":"Wolf Frass","role":"SUPPORTING"},{"character":"Ronaldo Galassia","actor":"Martin May","role":"SUPPORTING"},{"character":"Ganzo Alary","actor":"Hanns Jörg Krumpholz","role":"SUPPORTING"},{"character":"Testa Laguza","actor":"Robert Kotulla","role":"SUPPORTING"},{"character":"Orco","actor":"Joscha Fischer-Antze","role":"SUPPORTING"},{"character":"Galassia","actor":"Michael Grimm","role":"SUPPORTING"},{"character":"Vanno Clemente","actor":"Jan-David Rönfeldt","role":"SUPPORTING"},{"character":"Tigre","actor":"Ivo Möller","role":"SUPPORTING"},{"character":"Fio Vanetti","actor":"Leonie Landa","role":"SUPPORTING"},{"character":"Fango","actor":"Daniel Welbat","role":"SUPPORTING"},{"character":"Strega Galassia","actor":"Martin Sabel","role":"SUPPORTING"},{"character":"Scusa","actor":"Joshy Peters","role":"SUPPORTING"},{"character":"Frate Vanetti","actor":"Felix Strüven","role":"SUPPORTING"},{"character":"Corteo","actor":"Jesse Grimm","role":"SUPPORTING"},{"character":"Cerotto","actor":"Asad Schwarz-Msesilamba","role":"SUPPORTING"},{"character":"Barbero","actor":"Nils Rieke","role":"SUPPORTING"},{"character":"Arturo Tronco","actor":"Brian Sommer","role":"SUPPORTING"}]}
+{
+ "titleId": 21711,
+ "updatedAt": "2026-08-15T18:39:43.103Z",
+ "roles": [
+  {
+   "character": "Angelo Lagusa",
+   "actor": "Johannes Semm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nero Vanetti",
+   "actor": "Konstantin Graudus",
+   "role": "MAIN"
+  },
+  {
+   "character": "Vincent Vanetti",
+   "actor": "Wolf Frass",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ronaldo Galassia",
+   "actor": "Martin May",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ganzo Alary",
+   "actor": "Hanns Jörg Krumpholz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Testa Laguza",
+   "actor": "Robert Kotulla",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Orco",
+   "actor": "Joscha Fischer-Antze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Galassia",
+   "actor": "Michael Grimm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Vanno Clemente",
+   "actor": "Jan-David Rönfeldt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tigre",
+   "actor": "Ivo Möller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fio Vanetti",
+   "actor": "Leonie Landa",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fango",
+   "actor": "Daniel Welbat",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Strega Galassia",
+   "actor": "Martin Sabel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Scusa",
+   "actor": "Joshy Peters",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Frate Vanetti",
+   "actor": "Felix Strüven",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Corteo",
+   "actor": "Jesse Grimm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cerotto",
+   "actor": "Asad Schwarz-Msesilamba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Barbero",
+   "actor": "Nils Rieke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Arturo Tronco",
+   "actor": "Brian Sommer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Vincente Vanetti",
+   "actor": "Wolf Frass",
+   "von": "ann"
+  },
+  {
+   "character": "Avilio Bruno/Angelo Lagusa",
+   "actor": "Johannes Semm",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18169"
+}

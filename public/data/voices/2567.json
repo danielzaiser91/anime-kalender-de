@@ -1,1 +1,22 @@
-{"titleId":2567,"updatedAt":"2026-08-11T11:20:02.977Z","roles":[{"character":"Piccolino","actor":"Helga Anders","role":"MAIN"},{"character":"Narrator","actor":"Leon Rainer","role":"BACKGROUND"}]}
+{
+ "titleId": 2567,
+ "updatedAt": "2026-08-15T18:30:55.498Z",
+ "roles": [
+  {
+   "character": "Piccolino",
+   "actor": "Helga Anders",
+   "role": "MAIN"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Leon Rainer",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Pinocchio",
+   "actor": "Helga Anders",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2129"
+}

@@ -1,1 +1,107 @@
-{"titleId":20447,"updatedAt":"2026-08-11T11:20:03.187Z","roles":[{"character":"Yato","actor":"Asad Schwarz-Msesilamba","role":"MAIN"},{"character":"Hiyori Iki","actor":"Julia Fölster","role":"MAIN"},{"character":"Yukine","actor":"Tobias Diakow","role":"MAIN"},{"character":"Rabo","actor":"Nicolas König","role":"SUPPORTING"},{"character":"Tenjin","actor":"Jürgen Holdorf","role":"SUPPORTING"},{"character":"Ebisu","actor":"Robert Kotulla","role":"SUPPORTING"},{"character":"Bishamon","actor":"Eva Michaelis","role":"SUPPORTING"},{"character":"Kuraha","actor":"Clemens Gerhard","role":"SUPPORTING"},{"character":"Kazuma","actor":"Patrick Bach","role":"SUPPORTING"},{"character":"Tsuguha","actor":"Manuela Eifrig","role":"SUPPORTING"},{"character":"Kofuku Ebisu","actor":"Linda Fölster","role":"SUPPORTING"},{"character":"Aimi Tabata","actor":"Arlette Stanschus","role":"SUPPORTING"},{"character":"Nora","actor":"Saskia Bellahn","role":"SUPPORTING"},{"character":"Mayu","actor":"Merete Brettschneider","role":"SUPPORTING"},{"character":"Daikoku","actor":"Achim Buch","role":"SUPPORTING"},{"character":"Hashimoto","actor":"Tim Kreuer","role":"BACKGROUND"}]}
+{
+ "titleId": 20447,
+ "updatedAt": "2026-08-15T18:36:19.701Z",
+ "roles": [
+  {
+   "character": "Yato",
+   "actor": "Asad Schwarz-Msesilamba",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hiyori Iki",
+   "actor": "Julia Fölster",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yukine",
+   "actor": "Tobias Diakow",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rabo",
+   "actor": "Nicolas König",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tenjin",
+   "actor": "Jürgen Holdorf",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ebisu",
+   "actor": "Robert Kotulla",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bishamon",
+   "actor": "Eva Michaelis",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kuraha",
+   "actor": "Clemens Gerhard",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kazuma",
+   "actor": "Patrick Bach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsuguha",
+   "actor": "Manuela Eifrig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kofuku Ebisu",
+   "actor": "Linda Fölster",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aimi Tabata",
+   "actor": "Arlette Stanschus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nora",
+   "actor": "Saskia Bellahn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mayu",
+   "actor": "Merete Brettschneider",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Daikoku",
+   "actor": "Achim Buch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hashimoto",
+   "actor": "Tim Kreuer",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Labo",
+   "actor": "Nicolas König",
+   "von": "ann"
+  },
+  {
+   "character": "Nora",
+   "actor": "Saskia Weckler",
+   "von": "ann"
+  },
+  {
+   "character": "Yato",
+   "actor": "Asad Schwarz",
+   "von": "ann"
+  },
+  {
+   "character": "Tsuyu",
+   "actor": "Simona Pahl",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15585"
+}

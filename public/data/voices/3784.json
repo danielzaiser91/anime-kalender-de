@@ -1,1 +1,122 @@
-{"titleId":3784,"updatedAt":"2026-08-11T11:20:03.015Z","roles":[{"character":"Shinji Ikari","actor":"Hannes Maurer","role":"MAIN"},{"character":"Misato Katsuragi","actor":"Gundi Eberhard","role":"MAIN"},{"character":"Rei Ayanami","actor":"Samia Little Elk","role":"MAIN"},{"character":"Asuka Langley Souryuu","actor":"Julia Ziffer","role":"MAIN"},{"character":"Mari Makinami Illustrious","actor":"Jennifer Weiß","role":"MAIN"},{"character":"Kensuke Aida","actor":"Gerrit Schmidt-Foß","role":"SUPPORTING"},{"character":"Ritsuko Akagi","actor":"Peggy Sander","role":"SUPPORTING"},{"character":"Shigeru Aoba","actor":"Rainer Fritzsche","role":"SUPPORTING"},{"character":"Kohzou Fuyutsuki","actor":"Uli Krohm","role":"SUPPORTING"},{"character":"Hikari Horaki","actor":"Ilona Brokowski","role":"SUPPORTING"},{"character":"Makoto Hyuuga","actor":"Frank Schröder","role":"SUPPORTING"},{"character":"Maya Ibuki","actor":"Maria Koschny","role":"SUPPORTING"},{"character":"Gendou Ikari","actor":"Erich Räuker","role":"SUPPORTING"},{"character":"Ryouji Kaji","actor":"Marcel Collé","role":"SUPPORTING"},{"character":"Kaworu Nagisa","actor":"Robin Kahnmeyer","role":"SUPPORTING"},{"character":"Touji Suzuhara","actor":"Julien Haggege","role":"SUPPORTING"},{"character":"Keel Lorentz","actor":"Horst Lampe","role":"SUPPORTING"}]}
+{
+ "titleId": 3784,
+ "updatedAt": "2026-08-15T18:31:56.194Z",
+ "roles": [
+  {
+   "character": "Shinji Ikari",
+   "actor": "Hannes Maurer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Misato Katsuragi",
+   "actor": "Gundi Eberhard",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rei Ayanami",
+   "actor": "Samia Little Elk",
+   "role": "MAIN"
+  },
+  {
+   "character": "Asuka Langley Souryuu",
+   "actor": "Julia Ziffer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mari Makinami Illustrious",
+   "actor": "Jennifer Weiß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kensuke Aida",
+   "actor": "Gerrit Schmidt-Foß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ritsuko Akagi",
+   "actor": "Peggy Sander",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shigeru Aoba",
+   "actor": "Rainer Fritzsche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kohzou Fuyutsuki",
+   "actor": "Uli Krohm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hikari Horaki",
+   "actor": "Ilona Brokowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Makoto Hyuuga",
+   "actor": "Frank Schröder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maya Ibuki",
+   "actor": "Maria Koschny",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gendou Ikari",
+   "actor": "Erich Räuker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryouji Kaji",
+   "actor": "Marcel Collé",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaworu Nagisa",
+   "actor": "Robin Kahnmeyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Touji Suzuhara",
+   "actor": "Julien Haggege",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Keel Lorentz",
+   "actor": "Horst Lampe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hikari Horaki",
+   "actor": "Ilona Otto",
+   "von": "ann"
+  },
+  {
+   "character": "Asuka Langley Shikinami",
+   "actor": "Julia Ziffer",
+   "von": "ann"
+  },
+  {
+   "character": "Gendo Ikari",
+   "actor": "Erich Räuker",
+   "von": "ann"
+  },
+  {
+   "character": "Ryoji Kaji",
+   "actor": "Marcel Collé",
+   "von": "ann"
+  },
+  {
+   "character": "Kouzou Fuyutsuki",
+   "actor": "Uli Krohm",
+   "von": "ann"
+  },
+  {
+   "character": "Makinami Mari Illustrious",
+   "actor": "Jennifer Weiß",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=8421"
+}

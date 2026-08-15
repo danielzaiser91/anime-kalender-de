@@ -1,1 +1,112 @@
-{"titleId":21093,"updatedAt":"2026-08-11T11:20:03.264Z","roles":[{"character":"Kimihito Kurusu","actor":"Konrad Bösherz","role":"MAIN"},{"character":"Miia","actor":"Moira May","role":"MAIN"},{"character":"Papi","actor":"Bettina Kenney","role":"MAIN"},{"character":"Suu","actor":"Peggy Pollow","role":"MAIN"},{"character":"Centorea Shianus","actor":"Melanie Isakowitz","role":"MAIN"},{"character":"Meroune Lorelei","actor":"Anita Hopt","role":"MAIN"},{"character":"Rachnera Arachnera","actor":"Leonie Dubuc","role":"MAIN"},{"character":"Doppel","actor":"Melinda Rachfahl","role":"SUPPORTING"},{"character":"Tionishia","actor":"Romina Langenhan","role":"SUPPORTING"},{"character":"Kuroko Smith","actor":"Cornelia Waibel","role":"SUPPORTING"},{"character":"Lala","actor":"Simone Jaeger","role":"SUPPORTING"},{"character":"Draco","actor":"Lo Rivera","role":"SUPPORTING"},{"character":"Manako","actor":"Isabella Vinet","role":"SUPPORTING"},{"character":"Lilith","actor":"Angelina Geisler","role":"SUPPORTING"},{"character":"Satsuke","actor":"Marc Bluhm","role":"SUPPORTING"}]}
+{
+ "titleId": 21093,
+ "updatedAt": "2026-08-15T18:38:26.347Z",
+ "roles": [
+  {
+   "character": "Kimihito Kurusu",
+   "actor": "Konrad Bösherz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miia",
+   "actor": "Moira May",
+   "role": "MAIN"
+  },
+  {
+   "character": "Papi",
+   "actor": "Bettina Kenney",
+   "role": "MAIN"
+  },
+  {
+   "character": "Suu",
+   "actor": "Peggy Pollow",
+   "role": "MAIN"
+  },
+  {
+   "character": "Centorea Shianus",
+   "actor": "Melanie Isakowitz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Meroune Lorelei",
+   "actor": "Anita Hopt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rachnera Arachnera",
+   "actor": "Leonie Dubuc",
+   "role": "MAIN"
+  },
+  {
+   "character": "Doppel",
+   "actor": "Melinda Rachfahl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tionishia",
+   "actor": "Romina Langenhan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kuroko Smith",
+   "actor": "Cornelia Waibel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lala",
+   "actor": "Simone Jaeger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Draco",
+   "actor": "Lo Rivera",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Manako",
+   "actor": "Isabella Vinet",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lilith",
+   "actor": "Angelina Geisler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Satsuke",
+   "actor": "Marc Bluhm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Melu",
+   "actor": "Anita Hopt",
+   "von": "ann"
+  },
+  {
+   "character": "Mia",
+   "actor": "Moira May",
+   "von": "ann"
+  },
+  {
+   "character": "Zentrea Sianus",
+   "actor": "Melanie Isakowitz",
+   "von": "ann"
+  },
+  {
+   "character": "Zombina",
+   "actor": "Anna Gamburg",
+   "von": "ann"
+  },
+  {
+   "character": "Smith",
+   "actor": "Cornelia Waibel",
+   "von": "ann"
+  },
+  {
+   "character": "Rachnera",
+   "actor": "Leonie Dubuc",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16856"
+}

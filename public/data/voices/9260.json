@@ -1,1 +1,47 @@
-{"titleId":9260,"updatedAt":"2026-08-11T11:20:03.091Z","roles":[{"character":"Koyomi Araragi","actor":"David Turba","role":"MAIN"},{"character":"Shinobu Oshino","actor":"Ulrike Stürzbecher","role":"MAIN"},{"character":"Tsubasa Hanekawa","actor":"Kristina Tietz","role":"MAIN"},{"character":"Meme Oshino","actor":"Peter Flechtner","role":"MAIN"},{"character":"Dramaturgy","actor":"Klaus-Dieter Klebsch","role":"SUPPORTING"},{"character":"Episode","actor":"Tobias Nath","role":"SUPPORTING"},{"character":"Guillotine Cutter","actor":"Oliver Siebeck","role":"SUPPORTING"}]}
+{
+ "titleId": 9260,
+ "updatedAt": "2026-08-15T18:33:51.794Z",
+ "roles": [
+  {
+   "character": "Koyomi Araragi",
+   "actor": "David Turba",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shinobu Oshino",
+   "actor": "Ulrike Stürzbecher",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tsubasa Hanekawa",
+   "actor": "Kristina Tietz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Meme Oshino",
+   "actor": "Peter Flechtner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Dramaturgy",
+   "actor": "Klaus-Dieter Klebsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Episode",
+   "actor": "Tobias Nath",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Guillotine Cutter",
+   "actor": "Oliver Siebeck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinobu Oshino",
+   "actor": "Friedel Morgenstern",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=11789"
+}

@@ -1,1 +1,62 @@
-{"titleId":116267,"updatedAt":"2026-08-11T11:20:03.552Z","roles":[{"character":"Nasa Yuzaki","actor":"Flemming Stein","role":"MAIN"},{"character":"Tsukasa Yuzaki","actor":"Leonie Landa","role":"MAIN"},{"character":"Enishi Yuzaki","actor":"Marcus Just","role":"SUPPORTING"},{"character":"Kanoka Yuzaki","actor":"Nadine Schreier","role":"SUPPORTING"},{"character":"Chitose Kaginoji","actor":"Emily Seubert","role":"SUPPORTING"},{"character":"Aya Arisugawa","actor":"Julia Fölster","role":"SUPPORTING"},{"character":"Kaname Arisugawa","actor":"Selina Böttcher","role":"SUPPORTING"},{"character":"Naoko Yanagi","actor":"Stephanie Damare","role":"SUPPORTING"},{"character":"Charlotte","actor":"Linda Fölster","role":"SUPPORTING"},{"character":"Aurora","actor":"Franciska  Friede","role":"SUPPORTING"}]}
+{
+ "titleId": 116267,
+ "updatedAt": "2026-08-15T18:45:29.159Z",
+ "roles": [
+  {
+   "character": "Nasa Yuzaki",
+   "actor": "Flemming Stein",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tsukasa Yuzaki",
+   "actor": "Leonie Landa",
+   "role": "MAIN"
+  },
+  {
+   "character": "Enishi Yuzaki",
+   "actor": "Marcus Just",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kanoka Yuzaki",
+   "actor": "Nadine Schreier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chitose Kaginoji",
+   "actor": "Emily Seubert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aya Arisugawa",
+   "actor": "Julia Fölster",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaname Arisugawa",
+   "actor": "Selina Böttcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Naoko Yanagi",
+   "actor": "Stephanie Damare",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Charlotte",
+   "actor": "Linda Fölster",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aurora",
+   "actor": "Franciska  Friede",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aurora",
+   "actor": "Franciska Friede",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=23503"
+}

@@ -1,1 +1,52 @@
-{"titleId":2476,"updatedAt":"2026-08-11T11:20:02.971Z","roles":[{"character":"Makoto Itou","actor":"Christopher Kohn","role":"MAIN"},{"character":"Sekai Saionji","actor":"Samina König","role":"MAIN"},{"character":"Kotonoha Katsura","actor":"Anni C. Salander","role":"MAIN"},{"character":"Taisuke Sawanaga","actor":"Vincent Fallow","role":"SUPPORTING"},{"character":"Kokoro Katsura","actor":"Julia Bautz","role":"SUPPORTING"}]}
+{
+ "titleId": 2476,
+ "updatedAt": "2026-08-15T18:30:38.002Z",
+ "roles": [
+  {
+   "character": "Makoto Itou",
+   "actor": "Christopher Kohn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sekai Saionji",
+   "actor": "Samina König",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kotonoha Katsura",
+   "actor": "Anni C. Salander",
+   "role": "MAIN"
+  },
+  {
+   "character": "Taisuke Sawanaga",
+   "actor": "Vincent Fallow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kokoro Katsura",
+   "actor": "Julia Bautz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Setsuna Kiyoura",
+   "actor": "Nina Benz",
+   "von": "ann"
+  },
+  {
+   "character": "Otome Katou",
+   "actor": "Patricia Strasburger",
+   "von": "ann"
+  },
+  {
+   "character": "Hikari Kuroda",
+   "actor": "Jana Dunja Gries",
+   "von": "ann"
+  },
+  {
+   "character": "Nanami Kanroji",
+   "actor": "Angelina Markiefka",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=7815"
+}

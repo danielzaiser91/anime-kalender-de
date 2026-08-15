@@ -1,1 +1,152 @@
-{"titleId":11757,"updatedAt":"2026-08-11T11:20:03.124Z","roles":[{"character":"Kazuto Kirigaya","actor":"Patrick Keller","role":"MAIN"},{"character":"Suguha Kirigaya","actor":"Julia Meynen","role":"MAIN"},{"character":"Asuna Yuuki","actor":"Denise Monteiro","role":"MAIN"},{"character":"Kibaou","actor":"Oliver Wronka","role":"SUPPORTING"},{"character":"Ryoutarou Tsuboi","actor":"Isaak Dentler","role":"SUPPORTING"},{"character":"Caynz","actor":"Patrick Dewayne","role":"SUPPORTING"},{"character":"Eugene","actor":"Sascha Nathan","role":"SUPPORTING"},{"character":"Shouzou Yuuki","actor":"Achim Barrenstein","role":"SUPPORTING"},{"character":"Sasha","actor":"Tanja Lipinski","role":"SUPPORTING"},{"character":"Akihiko Kayaba","actor":"Torsten Michaelis","role":"SUPPORTING"},{"character":"Rosalia","actor":"Katrin Laksberg","role":"SUPPORTING"},{"character":"Yulier","actor":"Bettina Kaminski","role":"SUPPORTING"},{"character":"Andrew Gilbert Mills","actor":"Dirk Hardegen","role":"SUPPORTING"},{"character":"Nobuyuki Sugou","actor":"Peter Lehn","role":"SUPPORTING"},{"character":"Sakuya","actor":"Sabina Godec","role":"SUPPORTING"},{"character":"Tetsuo","actor":"Marcel Ehmann","role":"SUPPORTING"},{"character":"Midori Kirigaya","actor":"Gabi Franke","role":"SUPPORTING"},{"character":"Kagemune","actor":"Phil Daub","role":"SUPPORTING"},{"character":"Rika Shinozaki","actor":"Nina Amerschläger","role":"SUPPORTING"},{"character":"Ducker","actor":"Linus Kraus","role":"SUPPORTING"}]}
+{
+ "titleId": 11757,
+ "updatedAt": "2026-08-15T18:34:35.688Z",
+ "roles": [
+  {
+   "character": "Kazuto Kirigaya",
+   "actor": "Patrick Keller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Suguha Kirigaya",
+   "actor": "Julia Meynen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Asuna Yuuki",
+   "actor": "Denise Monteiro",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kibaou",
+   "actor": "Oliver Wronka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryoutarou Tsuboi",
+   "actor": "Isaak Dentler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Caynz",
+   "actor": "Patrick Dewayne",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eugene",
+   "actor": "Sascha Nathan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shouzou Yuuki",
+   "actor": "Achim Barrenstein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sasha",
+   "actor": "Tanja Lipinski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akihiko Kayaba",
+   "actor": "Torsten Michaelis",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rosalia",
+   "actor": "Katrin Laksberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yulier",
+   "actor": "Bettina Kaminski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Andrew Gilbert Mills",
+   "actor": "Dirk Hardegen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nobuyuki Sugou",
+   "actor": "Peter Lehn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sakuya",
+   "actor": "Sabina Godec",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tetsuo",
+   "actor": "Marcel Ehmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Midori Kirigaya",
+   "actor": "Gabi Franke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kagemune",
+   "actor": "Phil Daub",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rika Shinozaki",
+   "actor": "Nina Amerschläger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ducker",
+   "actor": "Linus Kraus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Suguha \"Leafa\" Kirigaya",
+   "actor": "Julia Meynen",
+   "von": "ann"
+  },
+  {
+   "character": "Lisbeth",
+   "actor": "Nina Amerschläger",
+   "von": "ann"
+  },
+  {
+   "character": "Heathcliff",
+   "actor": "Gilles Karolyi",
+   "von": "ann"
+  },
+  {
+   "character": "Klein",
+   "actor": "Isaak Dentler",
+   "von": "ann"
+  },
+  {
+   "character": "Sachi",
+   "actor": "Kristin Wöckel",
+   "von": "ann"
+  },
+  {
+   "character": "Yui",
+   "actor": "Christiane Werk",
+   "von": "ann"
+  },
+  {
+   "character": "Asuna",
+   "actor": "Denise Monteiro",
+   "von": "ann"
+  },
+  {
+   "character": "Kirito",
+   "actor": "Patrick Keller",
+   "von": "ann"
+  },
+  {
+   "character": "Silica",
+   "actor": "Clara Dolny",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=13858"
+}

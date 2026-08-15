@@ -1,1 +1,92 @@
-{"titleId":132474,"updatedAt":"2026-08-11T11:20:03.598Z","roles":[{"character":"Ariane Glenys Maple","actor":"Moira May","role":"MAIN"},{"character":"Ponta","actor":"Ness Gerung","role":"MAIN"},{"character":"Arc ","actor":"Julian Tennstedt","role":"MAIN"},{"character":"Rita Farren","actor":"Franziska Trunte","role":"SUPPORTING"},{"character":"Lauren Laraiya du Luvierte","actor":"Özge Kayalar","role":"SUPPORTING"},{"character":"Chiyome","actor":"Magdalena Höfner","role":"SUPPORTING"},{"character":"Danka Niel Maple","actor":"Alex Friedland","role":"SUPPORTING"}]}
+{
+ "titleId": 132474,
+ "updatedAt": "2026-08-15T18:46:55.296Z",
+ "roles": [
+  {
+   "character": "Ariane Glenys Maple",
+   "actor": "Moira May",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ponta",
+   "actor": "Ness Gerung",
+   "role": "MAIN"
+  },
+  {
+   "character": "Arc ",
+   "actor": "Julian Tennstedt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rita Farren",
+   "actor": "Franziska Trunte",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lauren Laraiya du Luvierte",
+   "actor": "Özge Kayalar",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chiyome",
+   "actor": "Magdalena Höfner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Danka Niel Maple",
+   "actor": "Alex Friedland",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Glenys",
+   "actor": "Andrea Solter",
+   "von": "ann"
+  },
+  {
+   "character": "Dillan",
+   "actor": "Rainer Doering",
+   "von": "ann"
+  },
+  {
+   "character": "Domitianus",
+   "actor": "Klaus-Peter Grap",
+   "von": "ann"
+  },
+  {
+   "character": "Ariane",
+   "actor": "Moira May",
+   "von": "ann"
+  },
+  {
+   "character": "Sekt",
+   "actor": "Fabian Kluckert",
+   "von": "ann"
+  },
+  {
+   "character": "Arc",
+   "actor": "Julian Tennstedt",
+   "von": "ann"
+  },
+  {
+   "character": "Goemon",
+   "actor": "Christian Intorp",
+   "von": "ann"
+  },
+  {
+   "character": "Eevin",
+   "actor": "Anni C. Salander",
+   "von": "ann"
+  },
+  {
+   "character": "Dakares",
+   "actor": "Christopher Groß",
+   "von": "ann"
+  },
+  {
+   "character": "Danka",
+   "actor": "Alex Friedland",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24313"
+}

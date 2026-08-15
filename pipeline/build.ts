@@ -298,7 +298,10 @@ function quellenPflegen(releases: Release[]): void {
         ? {
             ...q,
             stand: 'ueberholt' as const,
-            grund: `Nennt den ${q.sagt}; geltender Termin ist der ${termin}.`,
+            // Daniels Formulierung (15.08.2026). Sie sagt, was passiert ist,
+            // statt zwei Daten nebeneinanderzustellen und den Leser vergleichen
+            // zu lassen.
+            grund: `Termin verschoben auf: ${termin}`,
           }
         : { ...q, stand: 'vermutlich-ueberholt' as const }
     })
@@ -1665,6 +1668,31 @@ function main(): void {
     }
     log(`${belegt} Synchro-Angaben aus den Crunchyroll-Serienseiten belegt (${crDub.serien.length} Seiten gelesen)`)
   }
+
+  /**
+   * Anbieter ohne deutsche Synchro fliegen ganz raus.
+   *
+   * Bis zum 15.08.2026 blieben sie stehen und trugen ein rotes „🇩🇪 ✕" — die
+   * Begründung war, die Auskunft „dort nur Originalton" sei ja brauchbar. Für
+   * diese Seite ist sie es nicht: Sie beantwortet **eine** Frage, und zwar wo
+   * ein Anime auf Deutsch zu sehen ist. Daniel am 15.08.2026: „wir
+   * interessieren uns als app nur für deutsche synchros, keine anderen
+   * synchron sprachen".
+   *
+   * Betroffen sind nur Verweise mit einem **belegten** Nein — aus
+   * `dub-confirmed.yaml` oder aus der Folgenliste einer Serienseite. Ein
+   * unbeantwortetes `undefined` bleibt selbstverständlich stehen; das ist der
+   * Normalfall und heißt „wir wissen es nicht", nicht „dort gibt es keine".
+   */
+  let ohneDeutsch = 0
+  for (const title of titles.values()) {
+    const vorher = title.streams.length
+    title.streams = title.streams.filter((s) => s.dub !== false)
+    ohneDeutsch += vorher - title.streams.length
+    // `watchLinks` tragen keine Sprachangabe — sie sind Shops und Nischendienste,
+    // zu denen niemand die Tonspur belegt. Sie bleiben unangetastet.
+  }
+  if (ohneDeutsch) log(`${ohneDeutsch} Verweise ohne deutsche Synchro entfernt`)
 
   /**
    * Adressen vermerken, die mehrere unserer Einträge bedienen.

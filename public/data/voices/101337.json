@@ -1,1 +1,97 @@
-{"titleId":101337,"updatedAt":"2026-08-11T11:20:03.454Z","roles":[{"character":"Yukiya Araki","actor":"Philip Süß","role":"MAIN"},{"character":"Haruka Tosabori","actor":"Francis Dichmann","role":"MAIN"},{"character":"Chizuru Mitsudera","actor":"Julia Koep","role":"SUPPORTING"},{"character":"Hayate Azuma","actor":"Julian Horeyseck","role":"SUPPORTING"},{"character":"Bind","actor":"Corinna Dorenkamp","role":"SUPPORTING"},{"character":"Masaru Houjou","actor":"Benedikt Hahn","role":"SUPPORTING"},{"character":"Daichi Nagaoka","actor":"Stephan Schleberger","role":"SUPPORTING"},{"character":"Tazuna Takatsuki","actor":"Benjamin Stolz","role":"SUPPORTING"},{"character":"Nielsen Fumiyuki","actor":"Markus Haase","role":"SUPPORTING"},{"character":"Koyori Akutagawa","actor":"Lisa Dzyadyk","role":"SUPPORTING"},{"character":"Break","actor":"Dennis Saemann","role":"SUPPORTING"},{"character":"Riri Houjou","actor":"Nicole Hise","role":"SUPPORTING"},{"character":"Makihara","actor":"Lars Schmidtke","role":"BACKGROUND"}]}
+{
+ "titleId": 101337,
+ "updatedAt": "2026-08-15T18:42:33.184Z",
+ "roles": [
+  {
+   "character": "Yukiya Araki",
+   "actor": "Philip Süß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Haruka Tosabori",
+   "actor": "Francis Dichmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chizuru Mitsudera",
+   "actor": "Julia Koep",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hayate Azuma",
+   "actor": "Julian Horeyseck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bind",
+   "actor": "Corinna Dorenkamp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masaru Houjou",
+   "actor": "Benedikt Hahn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Daichi Nagaoka",
+   "actor": "Stephan Schleberger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tazuna Takatsuki",
+   "actor": "Benjamin Stolz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nielsen Fumiyuki",
+   "actor": "Markus Haase",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Koyori Akutagawa",
+   "actor": "Lisa Dzyadyk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Break",
+   "actor": "Dennis Saemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Riri Houjou",
+   "actor": "Nicole Hise",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Makihara",
+   "actor": "Lars Schmidtke",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Reijirou Araki",
+   "actor": "Dennis Saemann",
+   "von": "ann"
+  },
+  {
+   "character": "Midori Okuike",
+   "actor": "Louis Friedemann Thiele",
+   "von": "ann"
+  },
+  {
+   "character": "Masataka Sakai",
+   "actor": "Ben Steinhoff",
+   "von": "ann"
+  },
+  {
+   "character": "Gai Kishiwada",
+   "actor": "Toni Michael Sattler",
+   "von": "ann"
+  },
+  {
+   "character": "Seba Suuchan",
+   "actor": "Julius Keusch",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20759"
+}

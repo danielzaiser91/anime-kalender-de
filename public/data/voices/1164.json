@@ -1,1 +1,97 @@
-{"titleId":1164,"updatedAt":"2026-08-11T11:20:02.897Z","roles":[{"character":"Louie","actor":"Stefan Günther","role":"MAIN"},{"character":"Genie","actor":"Sandra Schwittau","role":"MAIN"},{"character":"Melissa","actor":"Ulla Wagener","role":"MAIN"},{"character":"Merril","actor":"Leoni Kristin Oeffinger","role":"MAIN"},{"character":"Celecia","actor":"Jana Schölermann","role":"SUPPORTING"},{"character":"Littler","actor":"Claus-Peter Damitz","role":"SUPPORTING"},{"character":"Joan","actor":"Katharina Schwarzmaier","role":"SUPPORTING"},{"character":"Linalim Corwell","actor":"Ute Bronder","role":"SUPPORTING"},{"character":"Barb","actor":"Ole Pfennig","role":"SUPPORTING"},{"character":"Conrad","actor":"Roland Peek","role":"SUPPORTING"},{"character":"Gannet","actor":"Jacqueline Belle","role":"SUPPORTING"},{"character":"Jenny","actor":"Michele Sterr","role":"SUPPORTING"},{"character":"Ila","actor":"Veronika Aryana Neugebauer","role":"SUPPORTING"},{"character":"Anna","actor":"Denise Strey","role":"SUPPORTING"},{"character":"Carwes","actor":"Manfred Erdmann","role":"SUPPORTING"}]}
+{
+ "titleId": 1164,
+ "updatedAt": "2026-08-15T18:27:37.931Z",
+ "roles": [
+  {
+   "character": "Louie",
+   "actor": "Stefan Günther",
+   "role": "MAIN"
+  },
+  {
+   "character": "Genie",
+   "actor": "Sandra Schwittau",
+   "role": "MAIN"
+  },
+  {
+   "character": "Melissa",
+   "actor": "Ulla Wagener",
+   "role": "MAIN"
+  },
+  {
+   "character": "Merril",
+   "actor": "Leoni Kristin Oeffinger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Celecia",
+   "actor": "Jana Schölermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Littler",
+   "actor": "Claus-Peter Damitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Joan",
+   "actor": "Katharina Schwarzmaier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Linalim Corwell",
+   "actor": "Ute Bronder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Barb",
+   "actor": "Ole Pfennig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Conrad",
+   "actor": "Roland Peek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gannet",
+   "actor": "Jacqueline Belle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jenny",
+   "actor": "Michele Sterr",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ila",
+   "actor": "Veronika Aryana Neugebauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Anna",
+   "actor": "Denise Strey",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Carwes",
+   "actor": "Manfred Erdmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Meister Karwess",
+   "actor": "Manfred Erdmann",
+   "von": "ann"
+  },
+  {
+   "character": "Jeany",
+   "actor": "Sandra Schwittau",
+   "von": "ann"
+  },
+  {
+   "character": "Merryll",
+   "actor": "Leoni Oeffinger",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=895"
+}

@@ -1,1 +1,192 @@
-{"titleId":10087,"updatedAt":"2026-08-11T11:20:03.103Z","roles":[{"character":"Kiritsugu Emiya","actor":"Michael-Che Koch","role":"MAIN"},{"character":"Irisviel von Einzbern","actor":"Antje von der Ahe","role":"MAIN"},{"character":"Artoria Pendragon","actor":"Iris R.  Hassenzahl","role":"MAIN"},{"character":"Kirei Kotomine","actor":"Tobias Brecklinghaus","role":"MAIN"},{"character":"Gilgamesh","actor":"René Dawn-Claude","role":"MAIN"},{"character":"Tokiomi Toosaka","actor":"Mario Hassert","role":"MAIN"},{"character":"Waver Velvet","actor":"Patrick Keller","role":"MAIN"},{"character":"Iskandar","actor":"Ingo Albrecht","role":"MAIN"},{"character":"Gilles de Rais","actor":"Fritz Rott","role":"MAIN"},{"character":"Ryuunosuke Uryuu","actor":"Markus Haase","role":"MAIN"},{"character":"Diarmuid  Ua Duibhne","actor":"Peter Lehn","role":"MAIN"},{"character":"Kayneth Archibald El-Melloi","actor":"Gilles Karolyi","role":"MAIN"},{"character":"Kariya Matou","actor":"Phil Daub","role":"MAIN"},{"character":"Rin Tohsaka","actor":"Christiane Werk","role":"SUPPORTING"},{"character":"Sakura Matou","actor":"Anna-Bella Bednarek","role":"SUPPORTING"},{"character":"Illyasviel von Einzbern","actor":"Charlotte Uhlig","role":"SUPPORTING"},{"character":"Lancelot","actor":"Matthias Keller","role":"SUPPORTING"},{"character":"Aoi Tohsaka","actor":"Tanja Esche","role":"SUPPORTING"},{"character":"Maiya Hisau","actor":"Gisa Bergmann","role":"SUPPORTING"},{"character":"Hassan-i-Sabbah","actor":"Heiko Grauel","role":"SUPPORTING"},{"character":"Jubstacheit von Einzbern","actor":"Aart Veder","role":"SUPPORTING"},{"character":"Risei Kotomine","actor":"Achim Barrenstein","role":"SUPPORTING"},{"character":"Zouken Matou","actor":"Bert Stevens","role":"SUPPORTING"},{"character":"Sola-Ui Nuada-Re Sophia-Ri","actor":"Katrin Laksberg","role":"SUPPORTING"},{"character":"Natalia Kamiński","actor":"Katrin Decker","role":"SUPPORTING"}]}
+{
+ "titleId": 10087,
+ "updatedAt": "2026-08-15T18:34:10.776Z",
+ "roles": [
+  {
+   "character": "Kiritsugu Emiya",
+   "actor": "Michael-Che Koch",
+   "role": "MAIN"
+  },
+  {
+   "character": "Irisviel von Einzbern",
+   "actor": "Antje von der Ahe",
+   "role": "MAIN"
+  },
+  {
+   "character": "Artoria Pendragon",
+   "actor": "Iris R.  Hassenzahl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kirei Kotomine",
+   "actor": "Tobias Brecklinghaus",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gilgamesh",
+   "actor": "René Dawn-Claude",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tokiomi Toosaka",
+   "actor": "Mario Hassert",
+   "role": "MAIN"
+  },
+  {
+   "character": "Waver Velvet",
+   "actor": "Patrick Keller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Iskandar",
+   "actor": "Ingo Albrecht",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gilles de Rais",
+   "actor": "Fritz Rott",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ryuunosuke Uryuu",
+   "actor": "Markus Haase",
+   "role": "MAIN"
+  },
+  {
+   "character": "Diarmuid  Ua Duibhne",
+   "actor": "Peter Lehn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kayneth Archibald El-Melloi",
+   "actor": "Gilles Karolyi",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kariya Matou",
+   "actor": "Phil Daub",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rin Tohsaka",
+   "actor": "Christiane Werk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sakura Matou",
+   "actor": "Anna-Bella Bednarek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Illyasviel von Einzbern",
+   "actor": "Charlotte Uhlig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lancelot",
+   "actor": "Matthias Keller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aoi Tohsaka",
+   "actor": "Tanja Esche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maiya Hisau",
+   "actor": "Gisa Bergmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hassan-i-Sabbah",
+   "actor": "Heiko Grauel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jubstacheit von Einzbern",
+   "actor": "Aart Veder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Risei Kotomine",
+   "actor": "Achim Barrenstein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zouken Matou",
+   "actor": "Bert Stevens",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sola-Ui Nuada-Re Sophia-Ri",
+   "actor": "Katrin Laksberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Natalia Kamiński",
+   "actor": "Katrin Decker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Caster",
+   "actor": "Fritz Rott",
+   "von": "ann"
+  },
+  {
+   "character": "Kariya Matō",
+   "actor": "Phil Daub",
+   "von": "ann"
+  },
+  {
+   "character": "Ryūnosuke Uryū",
+   "actor": "Markus Haase",
+   "von": "ann"
+  },
+  {
+   "character": "Archer",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Rider",
+   "actor": "Ingo Albrecht",
+   "von": "ann"
+  },
+  {
+   "character": "Tokiomi Tohsaka",
+   "actor": "Mario Hassert",
+   "von": "ann"
+  },
+  {
+   "character": "Lancer",
+   "actor": "Peter Lehn",
+   "von": "ann"
+  },
+  {
+   "character": "Kiritsugu Emiya",
+   "actor": "Dieter Gring",
+   "von": "ann"
+  },
+  {
+   "character": "Berserker",
+   "actor": "Matthias Keller",
+   "von": "ann"
+  },
+  {
+   "character": "Kayneth El-Melloi Archibald",
+   "actor": "Gilles Karolyi",
+   "von": "ann"
+  },
+  {
+   "character": "Sola-Ui",
+   "actor": "Katrin Laksberg",
+   "von": "ann"
+  },
+  {
+   "character": "Saber",
+   "actor": "Iris R. Hassenzahl",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=12376"
+}

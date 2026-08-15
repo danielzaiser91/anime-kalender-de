@@ -1,1 +1,72 @@
-{"titleId":155418,"updatedAt":"2026-08-11T11:20:03.668Z","roles":[{"character":"Luciel","actor":"Jesse Grimm","role":"MAIN"},{"character":"Monica","actor":"Leoni Kristin Oeffinger","role":"SUPPORTING"},{"character":"Lumina","actor":"Jannika Jira","role":"SUPPORTING"},{"character":"Kururu","actor":"Anna Psurek","role":"SUPPORTING"}]}
+{
+ "titleId": 155418,
+ "updatedAt": "2026-08-15T18:48:59.506Z",
+ "roles": [
+  {
+   "character": "Luciel",
+   "actor": "Jesse Grimm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Monica",
+   "actor": "Leoni Kristin Oeffinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lumina",
+   "actor": "Jannika Jira",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kururu",
+   "actor": "Anna Psurek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nanaella",
+   "actor": "Daniela Reidies",
+   "von": "ann"
+  },
+  {
+   "character": "Kōun-sensei",
+   "actor": "Walter Wigand",
+   "von": "ann"
+  },
+  {
+   "character": "Monika",
+   "actor": "Leoni Oeffinger",
+   "von": "ann"
+  },
+  {
+   "character": "Galva",
+   "actor": "Nils Rieke",
+   "von": "ann"
+  },
+  {
+   "character": "Gulgar",
+   "actor": "Tim Grobe",
+   "von": "ann"
+  },
+  {
+   "character": "Rumina",
+   "actor": "Jannika Jira",
+   "von": "ann"
+  },
+  {
+   "character": "Brod",
+   "actor": "Christopher Groß",
+   "von": "ann"
+  },
+  {
+   "character": "Cattleya",
+   "actor": "Freya Trampert",
+   "von": "ann"
+  },
+  {
+   "character": "Päpstin",
+   "actor": "Johanna Olbrich",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=26414"
+}

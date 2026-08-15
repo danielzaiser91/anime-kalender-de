@@ -1,1 +1,142 @@
-{"titleId":9289,"updatedAt":"2026-08-11T11:20:03.091Z","roles":[{"character":"Nako Oshimizu","actor":"Lucia Patricia Bayer","role":"MAIN"},{"character":"Ohana Matsumae","actor":"Nicole Silbermann","role":"MAIN"},{"character":"Minko Tsurugi","actor":"Carolin Sophie Göbel","role":"MAIN"},{"character":"Tomoe Wajima","actor":"Julia Lowack","role":"SUPPORTING"},{"character":"Tomoya Oshimizu","actor":"Pierluigi Casula","role":"SUPPORTING"},{"character":"Mrs. Tachibana","actor":"Judith Raab","role":"SUPPORTING"},{"character":"Tetsuo Isami","actor":"Gerhard Jilka","role":"SUPPORTING"},{"character":"Mana Oshimizu","actor":"Feli Haas","role":"SUPPORTING"},{"character":"Satsuki Matsumae","actor":"Kathrin Hildebrand","role":"SUPPORTING"},{"character":"Renji Togashi","actor":"Matthias Kiel","role":"SUPPORTING"},{"character":"Eri Mizuno","actor":"Nicolle Gonsior","role":"SUPPORTING"},{"character":"Yuki Kaito","actor":"Lisa Müller","role":"SUPPORTING"},{"character":"Sui Shijima","actor":"Karin Dieck","role":"SUPPORTING"},{"character":"Kouichi Tanemura","actor":"Maximilian Belle","role":"SUPPORTING"},{"character":"Takuzou Misaki","actor":"Sebastian Führ","role":"SUPPORTING"},{"character":"Tamio Oshimizu","actor":"Stefan Eichberg","role":"SUPPORTING"},{"character":"Hiroko Suehiro","actor":"Judith Raab","role":"SUPPORTING"},{"character":"Takako Kawajiri","actor":"Nina Pietschmann","role":"SUPPORTING"},{"character":"Haruhiko Komatsu","actor":"Kai Schulz","role":"SUPPORTING"},{"character":"Shiho","actor":"Lisa Müller","role":"SUPPORTING"},{"character":"Tarou Jiroumaru","actor":"Jan Langer","role":"SUPPORTING"},{"character":"Tooru Miyagishi","actor":"Louis Friedemann Thiele","role":"SUPPORTING"},{"character":"Namiko Igarashi","actor":"Sabrina Engl","role":"SUPPORTING"},{"character":"Atsuji Tachibana","actor":"Dirk Hardegen","role":"SUPPORTING"}]}
+{
+ "titleId": 9289,
+ "updatedAt": "2026-08-15T18:33:52.727Z",
+ "roles": [
+  {
+   "character": "Nako Oshimizu",
+   "actor": "Lucia Patricia Bayer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ohana Matsumae",
+   "actor": "Nicole Silbermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Minko Tsurugi",
+   "actor": "Carolin Sophie Göbel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tomoe Wajima",
+   "actor": "Julia Lowack",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tomoya Oshimizu",
+   "actor": "Pierluigi Casula",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mrs. Tachibana",
+   "actor": "Judith Raab",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tetsuo Isami",
+   "actor": "Gerhard Jilka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mana Oshimizu",
+   "actor": "Feli Haas",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Satsuki Matsumae",
+   "actor": "Kathrin Hildebrand",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Renji Togashi",
+   "actor": "Matthias Kiel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eri Mizuno",
+   "actor": "Nicolle Gonsior",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuki Kaito",
+   "actor": "Lisa Müller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sui Shijima",
+   "actor": "Karin Dieck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kouichi Tanemura",
+   "actor": "Maximilian Belle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takuzou Misaki",
+   "actor": "Sebastian Führ",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tamio Oshimizu",
+   "actor": "Stefan Eichberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hiroko Suehiro",
+   "actor": "Judith Raab",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takako Kawajiri",
+   "actor": "Nina Pietschmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haruhiko Komatsu",
+   "actor": "Kai Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shiho",
+   "actor": "Lisa Müller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tarou Jiroumaru",
+   "actor": "Jan Langer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tooru Miyagishi",
+   "actor": "Louis Friedemann Thiele",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Namiko Igarashi",
+   "actor": "Sabrina Engl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Atsuji Tachibana",
+   "actor": "Dirk Hardegen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Koichi Tanemura",
+   "actor": "Maximilian Belle",
+   "von": "ann"
+  },
+  {
+   "character": "Toru Miyagishi",
+   "actor": "Louis Friedemann Thiele",
+   "von": "ann"
+  },
+  {
+   "character": "Yuina Wakura",
+   "actor": "Lisa Cardinale",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=11795"
+}

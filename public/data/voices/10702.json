@@ -1,1 +1,67 @@
-{"titleId":10702,"updatedAt":"2026-08-11T11:20:03.111Z","roles":[{"character":"Shin Kamiya","actor":"Ricardo Richter","role":"MAIN"},{"character":"Alisa Bosconovitch","actor":"Esra Vural","role":"MAIN"},{"character":"Xiaoyu Ling","actor":"Anja Rybiczka","role":"MAIN"},{"character":"Heihachi Mishima","actor":"Uli Krohm","role":"SUPPORTING"},{"character":"Ganryu","actor":"Jürgen Kluckert","role":"SUPPORTING"},{"character":"Mokujin","actor":"Ann Vielhaben","role":"SUPPORTING"},{"character":"Anna Williams","actor":"Julia Kaufmann","role":"SUPPORTING"},{"character":"Nina Williams","actor":"Maria Koschny","role":"SUPPORTING"},{"character":"Chaolan Lee","actor":"Jaron Löwenberg","role":"SUPPORTING"},{"character":"Kazuya Mishima","actor":"Thomas Schmuckert","role":"SUPPORTING"},{"character":"Jin Kazama","actor":"Matti Klemm","role":"SUPPORTING"}]}
+{
+ "titleId": 10702,
+ "updatedAt": "2026-08-15T18:34:18.716Z",
+ "roles": [
+  {
+   "character": "Shin Kamiya",
+   "actor": "Ricardo Richter",
+   "role": "MAIN"
+  },
+  {
+   "character": "Alisa Bosconovitch",
+   "actor": "Esra Vural",
+   "role": "MAIN"
+  },
+  {
+   "character": "Xiaoyu Ling",
+   "actor": "Anja Rybiczka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Heihachi Mishima",
+   "actor": "Uli Krohm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ganryu",
+   "actor": "Jürgen Kluckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mokujin",
+   "actor": "Ann Vielhaben",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Anna Williams",
+   "actor": "Julia Kaufmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nina Williams",
+   "actor": "Maria Koschny",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chaolan Lee",
+   "actor": "Jaron Löwenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kazuya Mishima",
+   "actor": "Thomas Schmuckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jin Kazama",
+   "actor": "Matti Klemm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ling Xiaoyu",
+   "actor": "Anja Rybiczka",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=12976"
+}

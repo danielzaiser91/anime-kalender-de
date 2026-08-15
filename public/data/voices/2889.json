@@ -1,1 +1,147 @@
-{"titleId":2889,"updatedAt":"2026-08-11T11:20:02.991Z","roles":[{"character":"Toushirou Hitsugaya","actor":"Dennis Saemann","role":"MAIN"},{"character":"Ichigo Kurosaki","actor":"Konrad Bösherz","role":"MAIN"},{"character":"Rangiku Matsumoto","actor":"Ilya Welter","role":"MAIN"},{"character":"Sojiro Kusaka","actor":"Jan van Weyde","role":"MAIN"},{"character":"Yoruichi Shihouin","actor":"Susanne Dobrusskin","role":"SUPPORTING"},{"character":"Kisuke Urahara","actor":"Oliver-Kim Hasper","role":"SUPPORTING"},{"character":"Retsu Unohana","actor":"Brit Gülland","role":"SUPPORTING"},{"character":"Jirou Sakuranosuke Shunsui Kyouraku","actor":"Bernd Vollbrecht","role":"SUPPORTING"},{"character":"Kenpachi Zaraki","actor":"Michael-Che Koch","role":"SUPPORTING"},{"character":"Isshin Kurosaki","actor":"Hans Bayer","role":"SUPPORTING"},{"character":"Yasutora Sado","actor":"Björn Schalla","role":"SUPPORTING"},{"character":"Ying","actor":"Kirstin Hesse","role":"SUPPORTING"},{"character":"Juushirou Ukitake","actor":"Philipp Schepmann","role":"SUPPORTING"},{"character":"Nemu Kurotsuchi","actor":"Brit Gülland","role":"SUPPORTING"},{"character":"Byakuya Kuchiki","actor":"Lars Schmidtke","role":"SUPPORTING"},{"character":"Genryuusai Yamamoto","actor":"Hans-Gerd Kilbinger","role":"SUPPORTING"},{"character":"Karin Kurosaki","actor":"Maximiliane Häcke","role":"SUPPORTING"},{"character":"Zangetsu","actor":"Patrick Feiter","role":"SUPPORTING"},{"character":"Rukia Kuchiki","actor":"Antje von der Ahe","role":"SUPPORTING"},{"character":"Marechiyo Oomaeda","actor":"Thomas Balou Martin","role":"SUPPORTING"}]}
+{
+ "titleId": 2889,
+ "updatedAt": "2026-08-15T18:31:18.626Z",
+ "roles": [
+  {
+   "character": "Toushirou Hitsugaya",
+   "actor": "Dennis Saemann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ichigo Kurosaki",
+   "actor": "Konrad Bösherz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rangiku Matsumoto",
+   "actor": "Ilya Welter",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sojiro Kusaka",
+   "actor": "Jan van Weyde",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yoruichi Shihouin",
+   "actor": "Susanne Dobrusskin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kisuke Urahara",
+   "actor": "Oliver-Kim Hasper",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Retsu Unohana",
+   "actor": "Brit Gülland",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jirou Sakuranosuke Shunsui Kyouraku",
+   "actor": "Bernd Vollbrecht",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kenpachi Zaraki",
+   "actor": "Michael-Che Koch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Isshin Kurosaki",
+   "actor": "Hans Bayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yasutora Sado",
+   "actor": "Björn Schalla",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ying",
+   "actor": "Kirstin Hesse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Juushirou Ukitake",
+   "actor": "Philipp Schepmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nemu Kurotsuchi",
+   "actor": "Brit Gülland",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Byakuya Kuchiki",
+   "actor": "Lars Schmidtke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Genryuusai Yamamoto",
+   "actor": "Hans-Gerd Kilbinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Karin Kurosaki",
+   "actor": "Maximiliane Häcke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zangetsu",
+   "actor": "Patrick Feiter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rukia Kuchiki",
+   "actor": "Antje von der Ahe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marechiyo Oomaeda",
+   "actor": "Thomas Balou Martin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yasutora 'Chad' Sado",
+   "actor": "Björn Schalla",
+   "von": "ann"
+  },
+  {
+   "character": "Renji Abarai",
+   "actor": "David Nathan",
+   "von": "ann"
+  },
+  {
+   "character": "Uryuu Ishida",
+   "actor": "Markus Pfeiffer",
+   "von": "ann"
+  },
+  {
+   "character": "Shigekuni Yamamoto-Genryuusai",
+   "actor": "Hans-Gerd Kilbinger",
+   "von": "ann"
+  },
+  {
+   "character": "Ikkaku Madarame",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Toshiro Hitsugaya",
+   "actor": "Dennis Saemann",
+   "von": "ann"
+  },
+  {
+   "character": "Orihime Inoue",
+   "actor": "Ilona Brokowski",
+   "von": "ann"
+  },
+  {
+   "character": "Soujirou Kusaka",
+   "actor": "Jan van Weyde",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=8369"
+}

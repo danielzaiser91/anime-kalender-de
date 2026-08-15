@@ -1,1 +1,157 @@
-{"titleId":20623,"updatedAt":"2026-08-11T11:09:14.135Z","roles":[{"character":"Shinichi Izumi","actor":"Julian Tennstedt","role":"MAIN"},{"character":"Migi","actor":"Cathlen Gawlich","role":"MAIN"},{"character":"Hideo Shimada","actor":"Oliver-Kim Hasper","role":"SUPPORTING"},{"character":"Kusano","actor":"Steven Merting","role":"SUPPORTING"},{"character":"Yui","actor":"Lutz Mackensy","role":"SUPPORTING"},{"character":"Maesawa","actor":"André Beyer","role":"SUPPORTING"},{"character":"Itou","actor":"Frank Röth","role":"SUPPORTING"},{"character":"Gotou","actor":"Peter Flechtner","role":"SUPPORTING"},{"character":"Taku Furuya","actor":"Johannes Walenta","role":"SUPPORTING"},{"character":"Yamagishi","actor":"Matti Klemm","role":"SUPPORTING"},{"character":"Ryouko Tamiya","actor":"Andrea Aust","role":"SUPPORTING"},{"character":"Mamoru Uda","actor":"Hans Hohlbein","role":"SUPPORTING"},{"character":"Yuuko Tachikawa","actor":"Victoria Frenz","role":"SUPPORTING"},{"character":"Haruki Tachikawa","actor":"Gerrit Schmidt-Foß","role":"SUPPORTING"},{"character":"Misaki no Haha","actor":"Beate Tober","role":"SUPPORTING"},{"character":"Kana Kimishima","actor":"Julia Kaufmann","role":"SUPPORTING"},{"character":"Takeshi Hirokawa","actor":"Sebastian Christoph Jacob","role":"SUPPORTING"},{"character":"Akiho Suzuki","actor":"Laura Oettel","role":"SUPPORTING"},{"character":"Takizawa","actor":"Frank Röth","role":"SUPPORTING"},{"character":"Hikawa","actor":"Antje von der Ahe","role":"SUPPORTING"},{"character":"Satomi Murano","actor":"Lydia Morgenstern","role":"SUPPORTING"}]}
+{
+ "titleId": 20623,
+ "updatedAt": "2026-08-15T18:36:53.792Z",
+ "roles": [
+  {
+   "character": "Shinichi Izumi",
+   "actor": "Julian Tennstedt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Migi",
+   "actor": "Cathlen Gawlich",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hideo Shimada",
+   "actor": "Oliver-Kim Hasper",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kusano",
+   "actor": "Steven Merting",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yui",
+   "actor": "Lutz Mackensy",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maesawa",
+   "actor": "André Beyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Itou",
+   "actor": "Frank Röth",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gotou",
+   "actor": "Peter Flechtner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Taku Furuya",
+   "actor": "Johannes Walenta",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yamagishi",
+   "actor": "Matti Klemm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryouko Tamiya",
+   "actor": "Andrea Aust",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mamoru Uda",
+   "actor": "Hans Hohlbein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuuko Tachikawa",
+   "actor": "Victoria Frenz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haruki Tachikawa",
+   "actor": "Gerrit Schmidt-Foß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Misaki no Haha",
+   "actor": "Beate Tober",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kana Kimishima",
+   "actor": "Julia Kaufmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takeshi Hirokawa",
+   "actor": "Sebastian Christoph Jacob",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akiho Suzuki",
+   "actor": "Laura Oettel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takizawa",
+   "actor": "Frank Röth",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hikawa",
+   "actor": "Antje von der Ahe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Satomi Murano",
+   "actor": "Lydia Morgenstern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hideo Shimada",
+   "actor": "Kim Hasper",
+   "von": "ann"
+  },
+  {
+   "character": "Shirou Kuramori",
+   "actor": "Bernd Vollbrecht",
+   "von": "ann"
+  },
+  {
+   "character": "Takeshi Hirokawa",
+   "actor": "Sebastian Jacob",
+   "von": "ann"
+  },
+  {
+   "character": "Hirama",
+   "actor": "Axel Lutter",
+   "von": "ann"
+  },
+  {
+   "character": "Akiho Suzuki",
+   "actor": "Laura Elßel",
+   "von": "ann"
+  },
+  {
+   "character": "Uragami",
+   "actor": "Benjamin Stöwe",
+   "von": "ann"
+  },
+  {
+   "character": "Nobuko Izumi",
+   "actor": "Mareile Moeller",
+   "von": "ann"
+  },
+  {
+   "character": "Shin'ichi Izumi",
+   "actor": "Julian Tennstedt",
+   "von": "ann"
+  },
+  {
+   "character": "Kazuyuki Izumi",
+   "actor": "Wolfgang Wagner",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15855"
+}

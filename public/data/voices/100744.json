@@ -1,1 +1,117 @@
-{"titleId":100744,"updatedAt":"2026-08-11T11:20:03.436Z","roles":[{"character":"Satoshi","actor":"Felix Mayer","role":"MAIN"},{"character":"Torito","actor":"Maximilian Belle","role":"MAIN"},{"character":"Largo","actor":"Lara Wurmer","role":"MAIN"},{"character":"Lisa","actor":"Lea Kalbhenn","role":"MAIN"},{"character":"Kagachi","actor":"Gerd Meyer","role":"MAIN"},{"character":"Hisui","actor":"Angelika Bender","role":"MAIN"},{"character":"Kojirou","actor":"Matthias Klie","role":"SUPPORTING"},{"character":"Musashi","actor":"Scarlet Cavadenti","role":"SUPPORTING"},{"character":"Riku","actor":"Tobias John von Freyend","role":"SUPPORTING"},{"character":"Nyarth","actor":"Gerhard Acktun","role":"SUPPORTING"},{"character":"Junsa","actor":"Angela Wiederhut","role":"SUPPORTING"},{"character":"Narrator","actor":"Manfred Trilling","role":"BACKGROUND"}]}
+{
+ "titleId": 100744,
+ "updatedAt": "2026-08-15T18:42:10.794Z",
+ "roles": [
+  {
+   "character": "Satoshi",
+   "actor": "Felix Mayer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Torito",
+   "actor": "Maximilian Belle",
+   "role": "MAIN"
+  },
+  {
+   "character": "Largo",
+   "actor": "Lara Wurmer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lisa",
+   "actor": "Lea Kalbhenn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kagachi",
+   "actor": "Gerd Meyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hisui",
+   "actor": "Angelika Bender",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kojirou",
+   "actor": "Matthias Klie",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Musashi",
+   "actor": "Scarlet Cavadenti",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Riku",
+   "actor": "Tobias John von Freyend",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nyarth",
+   "actor": "Gerhard Acktun",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Junsa",
+   "actor": "Angela Wiederhut",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Manfred Trilling",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Jessie",
+   "actor": "Scarlet Cavadenti",
+   "von": "ann"
+  },
+  {
+   "character": "Meowth",
+   "actor": "Gerhard Acktun",
+   "von": "ann"
+  },
+  {
+   "character": "James",
+   "actor": "Matthias Klie",
+   "von": "ann"
+  },
+  {
+   "character": "Margo",
+   "actor": "Lara Wurmer",
+   "von": "ann"
+  },
+  {
+   "character": "Harriet",
+   "actor": "Angelika Bender",
+   "von": "ann"
+  },
+  {
+   "character": "Trito",
+   "actor": "Maximilian Belle",
+   "von": "ann"
+  },
+  {
+   "character": "Callahan",
+   "actor": "Gerd Meyer",
+   "von": "ann"
+  },
+  {
+   "character": "Rick",
+   "actor": "Tobias John von Freyend",
+   "von": "ann"
+  },
+  {
+   "character": "Risa",
+   "actor": "Lea Kalbhenn",
+   "von": "ann"
+  },
+  {
+   "character": "Ash Ketchum",
+   "actor": "Felix Mayer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20849"
+}

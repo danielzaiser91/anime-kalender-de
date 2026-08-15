@@ -1,1 +1,77 @@
-{"titleId":97766,"updatedAt":"2026-08-11T11:20:03.361Z","roles":[{"character":"Karen Tendou","actor":"Lisa Dzyadyk","role":"MAIN"},{"character":"Chiaki Hoshinomori","actor":"Francis Dichmann","role":"MAIN"},{"character":"Keita Amano","actor":"Tobias John von Freyend","role":"MAIN"},{"character":"Aguri Sakurano","actor":"Jana Dunja Gries","role":"MAIN"},{"character":"Tasuku Uehara","actor":"Vincent Fallow","role":"MAIN"},{"character":"Konoha Hoshinomori","actor":"Eleni Möller-Architektonidou","role":"MAIN"},{"character":"Niina Oiso","actor":"Nicole Hise","role":"SUPPORTING"},{"character":"Riki Misumi","actor":"Samina König","role":"SUPPORTING"},{"character":"Eiichi Misumi","actor":"Philip Süß","role":"SUPPORTING"},{"character":"Gakuto Kase","actor":"Dennis Saemann","role":"SUPPORTING"}]}
+{
+ "titleId": 97766,
+ "updatedAt": "2026-08-15T18:40:30.265Z",
+ "roles": [
+  {
+   "character": "Karen Tendou",
+   "actor": "Lisa Dzyadyk",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chiaki Hoshinomori",
+   "actor": "Francis Dichmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Keita Amano",
+   "actor": "Tobias John von Freyend",
+   "role": "MAIN"
+  },
+  {
+   "character": "Aguri Sakurano",
+   "actor": "Jana Dunja Gries",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tasuku Uehara",
+   "actor": "Vincent Fallow",
+   "role": "MAIN"
+  },
+  {
+   "character": "Konoha Hoshinomori",
+   "actor": "Eleni Möller-Architektonidou",
+   "role": "MAIN"
+  },
+  {
+   "character": "Niina Oiso",
+   "actor": "Nicole Hise",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Riki Misumi",
+   "actor": "Samina König",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eiichi Misumi",
+   "actor": "Philip Süß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gakuto Kase",
+   "actor": "Dennis Saemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Niina Ōiso",
+   "actor": "Nicole Hise",
+   "von": "ann"
+  },
+  {
+   "character": "Aguri",
+   "actor": "Jana Dunja Gries",
+   "von": "ann"
+  },
+  {
+   "character": "Karen Tendo",
+   "actor": "Lisa Dzyadyk",
+   "von": "ann"
+  },
+  {
+   "character": "Konoha Hoshinomori",
+   "actor": "Eleni Möller",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19399"
+}

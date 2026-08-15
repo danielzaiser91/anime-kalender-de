@@ -1,1 +1,72 @@
-{"titleId":8841,"updatedAt":"2026-08-11T11:20:03.086Z","roles":[{"character":"Ayumu Aikawa","actor":"Lasse Dreyer","role":"MAIN"},{"character":"Haruna","actor":"Anna Gamburg","role":"MAIN"},{"character":"Seraphim","actor":"Christina Wöllner","role":"MAIN"},{"character":"Eucliwood Hellscythe","actor":"Isabella Vinet","role":"MAIN"},{"character":"Yuki Yoshida","actor":"Magdalena Höfner","role":"MAIN"},{"character":"Orito","actor":"Philip Süß","role":"SUPPORTING"},{"character":"Kerberos Wansard","actor":"Hans-Eckart Eckhardt","role":"SUPPORTING"},{"character":"Kyouko","actor":"Anni C. Salander","role":"SUPPORTING"},{"character":"Sarasvati","actor":"Maria Hönig","role":"SUPPORTING"},{"character":"Taeko Hiramatsu","actor":"Moira May","role":"SUPPORTING"},{"character":"Kanami Mihara","actor":"Heide Ihlenfeld","role":"SUPPORTING"}]}
+{
+ "titleId": 8841,
+ "updatedAt": "2026-08-15T18:33:46.614Z",
+ "roles": [
+  {
+   "character": "Ayumu Aikawa",
+   "actor": "Lasse Dreyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Haruna",
+   "actor": "Anna Gamburg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Seraphim",
+   "actor": "Christina Wöllner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Eucliwood Hellscythe",
+   "actor": "Isabella Vinet",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuki Yoshida",
+   "actor": "Magdalena Höfner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Orito",
+   "actor": "Philip Süß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kerberos Wansard",
+   "actor": "Hans-Eckart Eckhardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyouko",
+   "actor": "Anni C. Salander",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sarasvati",
+   "actor": "Maria Hönig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Taeko Hiramatsu",
+   "actor": "Moira May",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kanami Mihara",
+   "actor": "Heide Ihlenfeld",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tulio Orito",
+   "actor": "Philip Süß",
+   "von": "ann"
+  },
+  {
+   "character": "Orito",
+   "actor": "Pfilip Süß",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=11752"
+}

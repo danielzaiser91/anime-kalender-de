@@ -1,1 +1,77 @@
-{"titleId":155389,"updatedAt":"2026-08-11T11:20:03.668Z","roles":[{"character":"Teru Momijiyama","actor":"Emilia Raschewski","role":"MAIN"},{"character":"Stigma","actor":"Carlos Fanselow","role":"SUPPORTING"},{"character":"Iko Koishikawa","actor":"Marie Hinze","role":"SUPPORTING"},{"character":"Pepesha Andreanova","actor":"Ronja Peters","role":"SUPPORTING"},{"character":"Kfufu","actor":"Lucy Leopold","role":"SUPPORTING"},{"character":"David W. Jones","actor":"Tim Knauer","role":"SUPPORTING"},{"character":"Li Ming Ming","actor":"Derya Akyol","role":"SUPPORTING"},{"character":"Pilse Dunant","actor":"Laura Oettel","role":"SUPPORTING"},{"character":"Uni-lord","actor":"Andrea Cleven","role":"SUPPORTING"},{"character":"Daigo Koishikawa","actor":"Melina Witez","role":"SUPPORTING"},{"character":"N-Villio","actor":"Marco Wittorf","role":"SUPPORTING"}]}
+{
+ "titleId": 155389,
+ "updatedAt": "2026-08-15T18:48:57.546Z",
+ "roles": [
+  {
+   "character": "Teru Momijiyama",
+   "actor": "Emilia Raschewski",
+   "role": "MAIN"
+  },
+  {
+   "character": "Stigma",
+   "actor": "Carlos Fanselow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Iko Koishikawa",
+   "actor": "Marie Hinze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pepesha Andreanova",
+   "actor": "Ronja Peters",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kfufu",
+   "actor": "Lucy Leopold",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "David W. Jones",
+   "actor": "Tim Knauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Li Ming Ming",
+   "actor": "Derya Akyol",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pilse Dunant",
+   "actor": "Laura Oettel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Uni-lord",
+   "actor": "Andrea Cleven",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Daigo Koishikawa",
+   "actor": "Melina Witez",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "N-Villio",
+   "actor": "Marco Wittorf",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "N. Villio / Ebio",
+   "actor": "Marco Wittorf",
+   "von": "ann"
+  },
+  {
+   "character": "Pepesha Andrianov/Spirits",
+   "actor": "Ronja Peters",
+   "von": "ann"
+  },
+  {
+   "character": "Teru Momijiyama / Shy",
+   "actor": "Emilia Raschewski",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=26406"
+}

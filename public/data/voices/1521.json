@@ -1,1 +1,77 @@
-{"titleId":1521,"updatedAt":"2026-08-11T11:20:02.926Z","roles":[{"character":"Jo Carol Brane","actor":"Debora Weigert","role":"MAIN"},{"character":"Kuroo Hazama","actor":"Markus Pfeiffer","role":"MAIN"},{"character":"Nicholas Doris","actor":"Nicola Devico Mamone","role":"SUPPORTING"},{"character":"Thomas Johnston","actor":"Thomas Schmuckert","role":"SUPPORTING"},{"character":"Roger Siegel","actor":"Raimund Krone","role":"SUPPORTING"},{"character":"Fendy","actor":"Anja Godenschweger","role":"SUPPORTING"},{"character":"Pinoko","actor":"Diana Borgwardt","role":"SUPPORTING"},{"character":"Noppo","actor":"Uwe Jellinek","role":"SUPPORTING"},{"character":"Betty McCall","actor":"Silvia Mißbach","role":"SUPPORTING"},{"character":"Lisa Siegel","actor":"Anja Rybiczka","role":"SUPPORTING"},{"character":"Eric Caderry","actor":"Klaus-Peter Grap","role":"SUPPORTING"},{"character":"Ellen Schleier","actor":"Heike Beeck","role":"SUPPORTING"}]}
+{
+ "titleId": 1521,
+ "updatedAt": "2026-08-15T18:28:52.929Z",
+ "roles": [
+  {
+   "character": "Jo Carol Brane",
+   "actor": "Debora Weigert",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kuroo Hazama",
+   "actor": "Markus Pfeiffer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nicholas Doris",
+   "actor": "Nicola Devico Mamone",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Thomas Johnston",
+   "actor": "Thomas Schmuckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Roger Siegel",
+   "actor": "Raimund Krone",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fendy",
+   "actor": "Anja Godenschweger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pinoko",
+   "actor": "Diana Borgwardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Noppo",
+   "actor": "Uwe Jellinek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Betty McCall",
+   "actor": "Silvia Mißbach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lisa Siegel",
+   "actor": "Anja Rybiczka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eric Caderry",
+   "actor": "Klaus-Peter Grap",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ellen Schleier",
+   "actor": "Heike Beeck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Black Jack",
+   "actor": "Markus Pfeiffer",
+   "von": "ann"
+  },
+  {
+   "character": "Joe Carol Brane",
+   "actor": "Debora Weigert",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=107"
+}

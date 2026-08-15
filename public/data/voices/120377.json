@@ -1,1 +1,87 @@
-{"titleId":120377,"updatedAt":"2026-08-11T11:20:03.566Z","roles":[{"character":"David Martinez","actor":"Constantin von Jascheroff","role":"MAIN"},{"character":"Lucy","actor":"Gabrielle Pietermann","role":"MAIN"},{"character":"Maine","actor":"Torben Liebrecht","role":"SUPPORTING"},{"character":"Dorio","actor":"Anja Stadlober","role":"SUPPORTING"},{"character":"Kiwi","actor":"Anne Helm","role":"SUPPORTING"},{"character":"Pilar","actor":"Michael Iwannek","role":"SUPPORTING"},{"character":"Rebecca","actor":"Laura Oettel","role":"SUPPORTING"},{"character":"Ripperdoc","actor":"Simon Jäger","role":"SUPPORTING"},{"character":"Faraday","actor":"Bernd Egger","role":"SUPPORTING"},{"character":"Gloria Martinez","actor":"Katharina Spiering","role":"SUPPORTING"},{"character":"Katsuo Tanaka","actor":"Sebastian Schulz","role":"SUPPORTING"},{"character":"Falco","actor":"Martin Kautz","role":"SUPPORTING"},{"character":"Aldo","actor":"Tim Moeseritz","role":"SUPPORTING"},{"character":"Adam Smasher","actor":"Reinhard Scheunemann","role":"SUPPORTING"}]}
+{
+ "titleId": 120377,
+ "updatedAt": "2026-08-15T18:45:57.012Z",
+ "roles": [
+  {
+   "character": "David Martinez",
+   "actor": "Constantin von Jascheroff",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lucy",
+   "actor": "Gabrielle Pietermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Maine",
+   "actor": "Torben Liebrecht",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dorio",
+   "actor": "Anja Stadlober",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kiwi",
+   "actor": "Anne Helm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pilar",
+   "actor": "Michael Iwannek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rebecca",
+   "actor": "Laura Oettel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ripperdoc",
+   "actor": "Simon Jäger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Faraday",
+   "actor": "Bernd Egger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gloria Martinez",
+   "actor": "Katharina Spiering",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Katsuo Tanaka",
+   "actor": "Sebastian Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Falco",
+   "actor": "Martin Kautz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aldo",
+   "actor": "Tim Moeseritz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Adam Smasher",
+   "actor": "Reinhard Scheunemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Douglas",
+   "actor": "Thomas Schmuckert",
+   "von": "ann"
+  },
+  {
+   "character": "Gloria",
+   "actor": "Katharina Spiering",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=25775"
+}

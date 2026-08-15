@@ -1,1 +1,192 @@
-{"titleId":1366,"updatedAt":"2026-08-11T11:20:02.914Z","roles":[{"character":"Conan Edogawa","actor":"Tobias Müller","role":"MAIN"},{"character":"Kogorou Mouri","actor":"Jörg Hengstler","role":"MAIN"},{"character":"Ai Haibara","actor":"Andrea Loewig","role":"MAIN"},{"character":"Heiji Hattori","actor":"Robin Kahnmeyer","role":"MAIN"},{"character":"Shozo Sakura","actor":"Werner Ziebig","role":"SUPPORTING"},{"character":"Fumimaro Ayanokoji","actor":"Oliver Siebeck","role":"SUPPORTING"},{"character":"Ayumi Yoshida","actor":"Julia Meynen","role":"SUPPORTING"},{"character":"Shuntarou Mizuo","actor":"Bernhard Völger","role":"SUPPORTING"},{"character":"Ninzaburo Shiratori","actor":"Alexander Doering","role":"SUPPORTING"},{"character":"Ran Mouri","actor":"Giuliana Jakobeit","role":"SUPPORTING"},{"character":"Kazuha Tooyama","actor":"Anja Stadlober","role":"SUPPORTING"},{"character":"Taiga Saijo","actor":"Markus Pfeiffer","role":"SUPPORTING"},{"character":"Sonoko Suzuki","actor":"Jill Böttcher","role":"SUPPORTING"},{"character":"Rokuro Kamei","actor":"Christoph Banken","role":"SUPPORTING"},{"character":"Tae Yamakura","actor":"Ulrike Lau","role":"SUPPORTING"},{"character":"Wataru Takagi","actor":"Karlo Hackenberger","role":"SUPPORTING"},{"character":"Hiroshi Agasa","actor":"Rüdiger Evers","role":"SUPPORTING"},{"character":"Hachiro Kataoka","actor":"Olaf Reichmann","role":"SUPPORTING"},{"character":"Suzu Chika","actor":"Catrin Dams","role":"SUPPORTING"},{"character":"Mitsuhiko Tsuburaya","actor":"Fabian Hollwitz","role":"SUPPORTING"},{"character":"Shichiro Washio","actor":"Christian Gaul","role":"SUPPORTING"},{"character":"Kayo Ichi","actor":"Diana Borgwardt","role":"SUPPORTING"},{"character":"Juzo Megure","actor":"Klaus-Dieter Klebsch","role":"SUPPORTING"},{"character":"Ryuen","actor":"Peter Flechtner","role":"SUPPORTING"},{"character":"Okami","actor":"Silvia Mißbach","role":"SUPPORTING"}]}
+{
+ "titleId": 1366,
+ "updatedAt": "2026-08-15T18:28:19.490Z",
+ "roles": [
+  {
+   "character": "Conan Edogawa",
+   "actor": "Tobias Müller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kogorou Mouri",
+   "actor": "Jörg Hengstler",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ai Haibara",
+   "actor": "Andrea Loewig",
+   "role": "MAIN"
+  },
+  {
+   "character": "Heiji Hattori",
+   "actor": "Robin Kahnmeyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shozo Sakura",
+   "actor": "Werner Ziebig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fumimaro Ayanokoji",
+   "actor": "Oliver Siebeck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ayumi Yoshida",
+   "actor": "Julia Meynen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shuntarou Mizuo",
+   "actor": "Bernhard Völger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ninzaburo Shiratori",
+   "actor": "Alexander Doering",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ran Mouri",
+   "actor": "Giuliana Jakobeit",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kazuha Tooyama",
+   "actor": "Anja Stadlober",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Taiga Saijo",
+   "actor": "Markus Pfeiffer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sonoko Suzuki",
+   "actor": "Jill Böttcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rokuro Kamei",
+   "actor": "Christoph Banken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tae Yamakura",
+   "actor": "Ulrike Lau",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Wataru Takagi",
+   "actor": "Karlo Hackenberger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hiroshi Agasa",
+   "actor": "Rüdiger Evers",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hachiro Kataoka",
+   "actor": "Olaf Reichmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Suzu Chika",
+   "actor": "Catrin Dams",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mitsuhiko Tsuburaya",
+   "actor": "Fabian Hollwitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shichiro Washio",
+   "actor": "Christian Gaul",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kayo Ichi",
+   "actor": "Diana Borgwardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Juzo Megure",
+   "actor": "Klaus-Dieter Klebsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryuen",
+   "actor": "Peter Flechtner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Okami",
+   "actor": "Silvia Mißbach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Inspector Megure",
+   "actor": "Klaus-Dieter Klebsch",
+   "von": "ann"
+  },
+  {
+   "character": "Conan Edogawa/Shinichi Kudo",
+   "actor": "Tobias Müller",
+   "von": "ann"
+  },
+  {
+   "character": "Kogoro Môri",
+   "actor": "Jörg Hengstler",
+   "von": "ann"
+  },
+  {
+   "character": "Ichikayo",
+   "actor": "Diana Borgwardt",
+   "von": "ann"
+  },
+  {
+   "character": "Ai Haibara",
+   "actor": "Andrea-Kathrin Loewig",
+   "von": "ann"
+  },
+  {
+   "character": "Miwako Sato",
+   "actor": "Gundi Eberhard",
+   "von": "ann"
+  },
+  {
+   "character": "Inspector Shiratori",
+   "actor": "Alexander Doering",
+   "von": "ann"
+  },
+  {
+   "character": "Professor Agasa",
+   "actor": "Rüdiger Evers",
+   "von": "ann"
+  },
+  {
+   "character": "Kazuha Toyama",
+   "actor": "Anja Stadlober",
+   "von": "ann"
+  },
+  {
+   "character": "Ran Môri",
+   "actor": "Giuliana Jakobeit",
+   "von": "ann"
+  },
+  {
+   "character": "Genta Kojima",
+   "actor": "Michael Iwannek",
+   "von": "ann"
+  },
+  {
+   "character": "Innkeeper",
+   "actor": "Silvia Mißbach",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2678"
+}

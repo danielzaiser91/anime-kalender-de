@@ -1,1 +1,87 @@
-{"titleId":11441,"updatedAt":"2026-08-11T11:20:03.120Z","roles":[{"character":"Kenshin Himura","actor":"René Dawn-Claude","role":"MAIN"},{"character":"Kaoru Kamiya","actor":"Katrin Zimmermann","role":"SUPPORTING"},{"character":"Yahiko Myojin","actor":"Jan Makino","role":"SUPPORTING"}]}
+{
+ "titleId": 11441,
+ "updatedAt": "2026-08-15T18:34:26.831Z",
+ "roles": [
+  {
+   "character": "Kenshin Himura",
+   "actor": "René Dawn-Claude",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kaoru Kamiya",
+   "actor": "Katrin Zimmermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yahiko Myojin",
+   "actor": "Jan Makino",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Usui Uonuma",
+   "actor": "Gerald Paradies",
+   "von": "ann"
+  },
+  {
+   "character": "Misao Makimachi",
+   "actor": "Julia Meynen",
+   "von": "ann"
+  },
+  {
+   "character": "Cho Sawagejo",
+   "actor": "Michael Bauer",
+   "von": "ann"
+  },
+  {
+   "character": "Yumi Komagata",
+   "actor": "Ulrike Stürzbecher",
+   "von": "ann"
+  },
+  {
+   "character": "Makoto Shishio",
+   "actor": "Christian Rudolf",
+   "von": "ann"
+  },
+  {
+   "character": "Seijuro Hiko",
+   "actor": "Jaron Löwenberg",
+   "von": "ann"
+  },
+  {
+   "character": "Sanosuke Sagara",
+   "actor": "Alexander Doering",
+   "von": "ann"
+  },
+  {
+   "character": "Yahiko Myojin",
+   "actor": "Jan Panczak",
+   "von": "ann"
+  },
+  {
+   "character": "Hajime Saito",
+   "actor": "Sebastian Jacob",
+   "von": "ann"
+  },
+  {
+   "character": "Nenji Kashiwazaki",
+   "actor": "Axel Lutter",
+   "von": "ann"
+  },
+  {
+   "character": "Sojiro Seta",
+   "actor": "Christian Zeiger",
+   "von": "ann"
+  },
+  {
+   "character": "Seiku Arai",
+   "actor": "Arne Stephan",
+   "von": "ann"
+  },
+  {
+   "character": "Anji Yukyuzan",
+   "actor": "Jens Bogadtke",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=13316"
+}

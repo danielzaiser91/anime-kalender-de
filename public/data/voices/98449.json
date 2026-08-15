@@ -1,1 +1,147 @@
-{"titleId":98449,"updatedAt":"2026-08-11T11:20:03.377Z","roles":[{"character":"Ouni","actor":"Oliver Scheffel","role":"MAIN"},{"character":"Chakuro","actor":"Felix Mayer","role":"MAIN"},{"character":"Lykos","actor":"Anna Ewelina","role":"MAIN"},{"character":"Ginshu","actor":"Friederike Sipp","role":"SUPPORTING"},{"character":"Byakuroku","actor":"Gerhard Acktun","role":"SUPPORTING"},{"character":"Nezu","actor":"Tobias Kern","role":"SUPPORTING"},{"character":"Ryodari","actor":"Maximilian Belle","role":"SUPPORTING"},{"character":"Chasmourito","actor":"Katharina von Daake","role":"SUPPORTING"},{"character":"Suou","actor":"Max Felder","role":"SUPPORTING"},{"character":"Ema","actor":"Kerstin Dietrich","role":"SUPPORTING"},{"character":"Shuan","actor":"Julian Manuel","role":"SUPPORTING"},{"character":"Hakuji","actor":"Walter von Hauff","role":"SUPPORTING"},{"character":"Sami","actor":"Maresa Sedlmeir","role":"SUPPORTING"},{"character":"Itea","actor":"Angelina Markiefka","role":"SUPPORTING"},{"character":"Oruka","actor":"Johannes Wolko","role":"SUPPORTING"},{"character":"Kicha","actor":"Gabrielle Pietermann","role":"SUPPORTING"},{"character":"Nibi","actor":"Fabian Rohm","role":"SUPPORTING"},{"character":"Araphne","actor":"Leonard Hohm","role":"SUPPORTING"},{"character":"Masoo","actor":"Daniel Schlauch","role":"SUPPORTING"},{"character":"Atsali","actor":"Markus Pfeiffer","role":"SUPPORTING"},{"character":"Neri","actor":"Kerstin Dietrich","role":"SUPPORTING"}]}
+{
+ "titleId": 98449,
+ "updatedAt": "2026-08-15T18:40:53.090Z",
+ "roles": [
+  {
+   "character": "Ouni",
+   "actor": "Oliver Scheffel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chakuro",
+   "actor": "Felix Mayer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lykos",
+   "actor": "Anna Ewelina",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ginshu",
+   "actor": "Friederike Sipp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Byakuroku",
+   "actor": "Gerhard Acktun",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nezu",
+   "actor": "Tobias Kern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryodari",
+   "actor": "Maximilian Belle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chasmourito",
+   "actor": "Katharina von Daake",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Suou",
+   "actor": "Max Felder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ema",
+   "actor": "Kerstin Dietrich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shuan",
+   "actor": "Julian Manuel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hakuji",
+   "actor": "Walter von Hauff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sami",
+   "actor": "Maresa Sedlmeir",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Itea",
+   "actor": "Angelina Markiefka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Oruka",
+   "actor": "Johannes Wolko",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kicha",
+   "actor": "Gabrielle Pietermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nibi",
+   "actor": "Fabian Rohm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Araphne",
+   "actor": "Leonard Hohm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masoo",
+   "actor": "Daniel Schlauch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Atsali",
+   "actor": "Markus Pfeiffer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Neri",
+   "actor": "Kerstin Dietrich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rochalizo",
+   "actor": "Dirk Meyer",
+   "von": "ann"
+  },
+  {
+   "character": "Taisha",
+   "actor": "Stephanie Kellner",
+   "von": "ann"
+  },
+  {
+   "character": "Orca",
+   "actor": "Johannes Wolko",
+   "von": "ann"
+  },
+  {
+   "character": "Urumi",
+   "actor": "Lea Kalbhenn",
+   "von": "ann"
+  },
+  {
+   "character": "Tokusa",
+   "actor": "Domenic Redl",
+   "von": "ann"
+  },
+  {
+   "character": "Tobi",
+   "actor": "Benjamin Levent Krause",
+   "von": "ann"
+  },
+  {
+   "character": "Aima",
+   "actor": "Carla Reiter",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19359"
+}

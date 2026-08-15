@@ -1,1 +1,127 @@
-{"titleId":5337,"updatedAt":"2026-08-11T11:20:03.046Z","roles":[{"character":"Danma Kuso","actor":"Niclas Lutz","role":"MAIN"},{"character":"Spectra Phantom","actor":"Roland Wolf","role":"MAIN"},{"character":"Pyrus Dragonoid","actor":"Jaron Löwenberg","role":"MAIN"},{"character":"Ace Grit","actor":"Jan Makino","role":"MAIN"},{"character":"Chouji Marukura","actor":"Cathlen Gawlich","role":"MAIN"},{"character":"Shun Kazami","actor":"David Turba","role":"MAIN"},{"character":"Baron Rich","actor":"Konrad Bösherz","role":"MAIN"},{"character":"Mira Fermin","actor":"Kaya Marie Möller","role":"MAIN"},{"character":"Masquerade","actor":"Raúl Richter","role":"SUPPORTING"},{"character":"Julie Makimoto","actor":"Julia Stoepel","role":"SUPPORTING"},{"character":"Alice Gehabich","actor":"Cathlen Gawlich","role":"SUPPORTING"},{"character":"Mylene Farrow","actor":"Bianca Krahl","role":"SUPPORTING"},{"character":"Lync Volan","actor":"Dirk Stollberg","role":"SUPPORTING"},{"character":"Shadow Prove","actor":"Tim Sander","role":"SUPPORTING"},{"character":"Runo Misaki","actor":"Julia Meynen","role":"SUPPORTING"},{"character":"Gus Grav","actor":"Peter Lontzek","role":"SUPPORTING"}]}
+{
+ "titleId": 5337,
+ "updatedAt": "2026-08-15T18:32:34.255Z",
+ "roles": [
+  {
+   "character": "Danma Kuso",
+   "actor": "Niclas Lutz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Spectra Phantom",
+   "actor": "Roland Wolf",
+   "role": "MAIN"
+  },
+  {
+   "character": "Pyrus Dragonoid",
+   "actor": "Jaron Löwenberg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ace Grit",
+   "actor": "Jan Makino",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chouji Marukura",
+   "actor": "Cathlen Gawlich",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shun Kazami",
+   "actor": "David Turba",
+   "role": "MAIN"
+  },
+  {
+   "character": "Baron Rich",
+   "actor": "Konrad Bösherz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mira Fermin",
+   "actor": "Kaya Marie Möller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Masquerade",
+   "actor": "Raúl Richter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Julie Makimoto",
+   "actor": "Julia Stoepel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alice Gehabich",
+   "actor": "Cathlen Gawlich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mylene Farrow",
+   "actor": "Bianca Krahl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lync Volan",
+   "actor": "Dirk Stollberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shadow Prove",
+   "actor": "Tim Sander",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Runo Misaki",
+   "actor": "Julia Meynen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gus Grav",
+   "actor": "Peter Lontzek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Baron Leltoy",
+   "actor": "Konrad Bösherz",
+   "von": "ann"
+  },
+  {
+   "character": "Elfin",
+   "actor": "Daniela Reidies",
+   "von": "ann"
+  },
+  {
+   "character": "Dragonoid",
+   "actor": "Jaron Löwenberg",
+   "von": "ann"
+  },
+  {
+   "character": "Marucho Marukura",
+   "actor": "Cathlen Gawlich",
+   "von": "ann"
+  },
+  {
+   "character": "Prinz Hydron",
+   "actor": "Raul Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Volt Luster",
+   "actor": "Dirk Petrick",
+   "von": "ann"
+  },
+  {
+   "character": "Mira Clay",
+   "actor": "Kaya Marie Möller",
+   "von": "ann"
+  },
+  {
+   "character": "Dan",
+   "actor": "Niclas Lutz",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=11248"
+}

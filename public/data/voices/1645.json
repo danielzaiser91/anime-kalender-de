@@ -1,1 +1,92 @@
-{"titleId":1645,"updatedAt":"2026-08-11T11:20:02.934Z","roles":[{"character":"Tochiro Ooyama","actor":"Tobias Lelle","role":"MAIN"},{"character":"Captain Harlock","actor":"Walter von Hauff","role":"MAIN"},{"character":"Miime","actor":"Melanie Manstein","role":"MAIN"},{"character":"Alberich","actor":"Marcus Off","role":"MAIN"},{"character":"Wotan","actor":"Manfred Erdmann","role":"SUPPORTING"},{"character":"Tadashi Daiba","actor":"Hubertus von Lerchenfeld","role":"SUPPORTING"},{"character":"Freya","actor":"Ulla Wagener","role":"SUPPORTING"},{"character":"Yattaran","actor":"Hans-Georg Panczak","role":"SUPPORTING"},{"character":"Erda","actor":"Michaela Geuer","role":"SUPPORTING"},{"character":"Emeraldas","actor":"Martina Duncker","role":"SUPPORTING"},{"character":"Fricka","actor":"Tolilah Jolas","role":"SUPPORTING"},{"character":"Maetel","actor":"Ute Bronder","role":"SUPPORTING"},{"character":"Fasolt","actor":"Crock Krumbiegel","role":"SUPPORTING"},{"character":"Fafner","actor":"Andreas Neumann","role":"SUPPORTING"}]}
+{
+ "titleId": 1645,
+ "updatedAt": "2026-08-15T18:29:12.207Z",
+ "roles": [
+  {
+   "character": "Tochiro Ooyama",
+   "actor": "Tobias Lelle",
+   "role": "MAIN"
+  },
+  {
+   "character": "Captain Harlock",
+   "actor": "Walter von Hauff",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miime",
+   "actor": "Melanie Manstein",
+   "role": "MAIN"
+  },
+  {
+   "character": "Alberich",
+   "actor": "Marcus Off",
+   "role": "MAIN"
+  },
+  {
+   "character": "Wotan",
+   "actor": "Manfred Erdmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tadashi Daiba",
+   "actor": "Hubertus von Lerchenfeld",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Freya",
+   "actor": "Ulla Wagener",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yattaran",
+   "actor": "Hans-Georg Panczak",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Erda",
+   "actor": "Michaela Geuer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Emeraldas",
+   "actor": "Martina Duncker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fricka",
+   "actor": "Tolilah Jolas",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maetel",
+   "actor": "Ute Bronder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fasolt",
+   "actor": "Crock Krumbiegel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fafner",
+   "actor": "Andreas Neumann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Emeraldas",
+   "actor": "Martina Dunker",
+   "von": "ann"
+  },
+  {
+   "character": "Meeme",
+   "actor": "Melanie Jung",
+   "von": "ann"
+  },
+  {
+   "character": "Tochiro Ojyama",
+   "actor": "Tobias Lelle",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=954"
+}

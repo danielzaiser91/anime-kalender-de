@@ -1,1 +1,137 @@
-{"titleId":109586,"updatedAt":"2026-08-11T11:20:03.490Z","roles":[{"character":"Ilie","actor":"Jennifer Weiß","role":"MAIN"},{"character":"Kidou","actor":"Sebastian Fitzner","role":"MAIN"},{"character":"Jin","actor":"René Dawn-Claude","role":"SUPPORTING"},{"character":"Iason","actor":"Christian Zeiger","role":"SUPPORTING"},{"character":"Al","actor":"Sven Plate","role":"SUPPORTING"},{"character":"Tanya","actor":"Magdalena Turba","role":"SUPPORTING"},{"character":"Aisha","actor":"Rieke Werner","role":"SUPPORTING"},{"character":"Naji","actor":"Anja Rybiczka","role":"SUPPORTING"},{"character":"Hadi","actor":"Tim Schwarzmaier","role":"SUPPORTING"},{"character":"Lizzy","actor":"Derya Akyol","role":"SUPPORTING"},{"character":"Kasim","actor":"Matti Klemm","role":"SUPPORTING"},{"character":"Mario","actor":"Rainer Fritzsche","role":"SUPPORTING"},{"character":"Harb Adham","actor":"Axel Lutter","role":"SUPPORTING"},{"character":"Acht","actor":"Konrad Bösherz","role":"SUPPORTING"},{"character":"Franz Kirio","actor":"Max Felder","role":"SUPPORTING"},{"character":"Griffith","actor":"David Turba","role":"SUPPORTING"},{"character":"Karla","actor":"Alice Bauer","role":"SUPPORTING"}]}
+{
+ "titleId": 109586,
+ "updatedAt": "2026-08-15T18:43:33.053Z",
+ "roles": [
+  {
+   "character": "Ilie",
+   "actor": "Jennifer Weiß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kidou",
+   "actor": "Sebastian Fitzner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jin",
+   "actor": "René Dawn-Claude",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Iason",
+   "actor": "Christian Zeiger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Al",
+   "actor": "Sven Plate",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tanya",
+   "actor": "Magdalena Turba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aisha",
+   "actor": "Rieke Werner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Naji",
+   "actor": "Anja Rybiczka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hadi",
+   "actor": "Tim Schwarzmaier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lizzy",
+   "actor": "Derya Akyol",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kasim",
+   "actor": "Matti Klemm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mario",
+   "actor": "Rainer Fritzsche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Harb Adham",
+   "actor": "Axel Lutter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Acht",
+   "actor": "Konrad Bösherz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Franz Kirio",
+   "actor": "Max Felder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Griffith",
+   "actor": "David Turba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Karla",
+   "actor": "Alice Bauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Petrov",
+   "actor": "Timmo Niesner",
+   "von": "ann"
+  },
+  {
+   "character": "Tania",
+   "actor": "Magdalena Turba",
+   "von": "ann"
+  },
+  {
+   "character": "Salif",
+   "actor": "Erich Räuker",
+   "von": "ann"
+  },
+  {
+   "character": "Star",
+   "actor": "Christoph Banken",
+   "von": "ann"
+  },
+  {
+   "character": "Qasim",
+   "actor": "Matti Klemm",
+   "von": "ann"
+  },
+  {
+   "character": "Nim",
+   "actor": "Sarah Tkotsch",
+   "von": "ann"
+  },
+  {
+   "character": "Kara",
+   "actor": "Alice Bauer",
+   "von": "ann"
+  },
+  {
+   "character": "Romus",
+   "actor": "Isabella Vinet",
+   "von": "ann"
+  },
+  {
+   "character": "Lizzy",
+   "actor": "Derya Flechtner",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22610"
+}

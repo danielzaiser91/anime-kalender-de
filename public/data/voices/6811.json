@@ -1,1 +1,117 @@
-{"titleId":6811,"updatedAt":"2026-08-11T11:20:03.065Z","roles":[{"character":"Kagome Higurashi","actor":"Ulrike Jennie","role":"MAIN"},{"character":"Sango","actor":"Angela Wiederhut","role":"MAIN"},{"character":"Miroku","actor":"Florian Halm","role":"MAIN"},{"character":"Inuyasha","actor":"Dominik Auer","role":"MAIN"},{"character":"Shippo","actor":"Julia Haacke","role":"MAIN"},{"character":"Sesshoumaru","actor":"Pascal Breuer","role":"SUPPORTING"},{"character":"Totosai","actor":"Gerhard Acktun","role":"SUPPORTING"},{"character":"Souta Higurashi","actor":"Kerstin Dietrich","role":"SUPPORTING"},{"character":"Rin","actor":"Katharina Schwarzmaier","role":"SUPPORTING"},{"character":"Kanna","actor":"Sonja Reichelt","role":"SUPPORTING"},{"character":"Jaken","actor":"Kai Taschner","role":"SUPPORTING"},{"character":"Kohaku","actor":"Daniel Schlauch","role":"SUPPORTING"},{"character":"Hakkaku","actor":"Dirk Meyer","role":"SUPPORTING"},{"character":"Hojo","actor":"Felix Mayer","role":"SUPPORTING"},{"character":"Kagura","actor":"Maren Rainer","role":"SUPPORTING"},{"character":"Hakudoushi","actor":"Max Felder","role":"SUPPORTING"}]}
+{
+ "titleId": 6811,
+ "updatedAt": "2026-08-15T18:33:09.198Z",
+ "roles": [
+  {
+   "character": "Kagome Higurashi",
+   "actor": "Ulrike Jennie",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sango",
+   "actor": "Angela Wiederhut",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miroku",
+   "actor": "Florian Halm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Inuyasha",
+   "actor": "Dominik Auer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shippo",
+   "actor": "Julia Haacke",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sesshoumaru",
+   "actor": "Pascal Breuer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Totosai",
+   "actor": "Gerhard Acktun",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Souta Higurashi",
+   "actor": "Kerstin Dietrich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rin",
+   "actor": "Katharina Schwarzmaier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kanna",
+   "actor": "Sonja Reichelt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jaken",
+   "actor": "Kai Taschner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kohaku",
+   "actor": "Daniel Schlauch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hakkaku",
+   "actor": "Dirk Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hojo",
+   "actor": "Felix Mayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kagura",
+   "actor": "Maren Rainer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hakudoushi",
+   "actor": "Max Felder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kikyou",
+   "actor": "Claudia Lössl",
+   "von": "ann"
+  },
+  {
+   "character": "Kouga",
+   "actor": "Hubertus von Lerchenfeld",
+   "von": "ann"
+  },
+  {
+   "character": "Shippou",
+   "actor": "Julia Haacke",
+   "von": "ann"
+  },
+  {
+   "character": "Myouga",
+   "actor": "Walter von Hauff",
+   "von": "ann"
+  },
+  {
+   "character": "Naraku",
+   "actor": "Dieter Landuris",
+   "von": "ann"
+  },
+  {
+   "character": "Kagome Higurashi",
+   "actor": "Ulrike Jenni",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=10970"
+}

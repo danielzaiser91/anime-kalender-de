@@ -1,1 +1,102 @@
-{"titleId":2333,"updatedAt":"2026-08-11T11:20:02.966Z","roles":[{"character":"Jean","actor":"Nicola Grupe-Arnoldi","role":"MAIN"},{"character":"Constance Bonacieux","actor":"Solveig Duda","role":"MAIN"},{"character":"Porthos","actor":"Frank Muth","role":"MAIN"},{"character":"Aramis","actor":"Martina Duncker","role":"MAIN"},{"character":"Athos","actor":"Niko Macoulis","role":"MAIN"},{"character":"D'Artagnan","actor":"Stefan Krause","role":"MAIN"},{"character":"Queen Anne","actor":"Maria Böhme","role":"SUPPORTING"},{"character":"Louis XIII","actor":"Arnim André","role":"SUPPORTING"},{"character":"Rochefort","actor":"Thomas Albus","role":"SUPPORTING"},{"character":"Richelieu","actor":"Thomas Reiner","role":"SUPPORTING"},{"character":"Tréville","actor":"Reinhard Brock","role":"SUPPORTING"},{"character":"Milady","actor":"Monika Kockott","role":"SUPPORTING"}]}
+{
+ "titleId": 2333,
+ "updatedAt": "2026-08-15T18:30:26.792Z",
+ "roles": [
+  {
+   "character": "Jean",
+   "actor": "Nicola Grupe-Arnoldi",
+   "role": "MAIN"
+  },
+  {
+   "character": "Constance Bonacieux",
+   "actor": "Solveig Duda",
+   "role": "MAIN"
+  },
+  {
+   "character": "Porthos",
+   "actor": "Frank Muth",
+   "role": "MAIN"
+  },
+  {
+   "character": "Aramis",
+   "actor": "Martina Duncker",
+   "role": "MAIN"
+  },
+  {
+   "character": "Athos",
+   "actor": "Niko Macoulis",
+   "role": "MAIN"
+  },
+  {
+   "character": "D'Artagnan",
+   "actor": "Stefan Krause",
+   "role": "MAIN"
+  },
+  {
+   "character": "Queen Anne",
+   "actor": "Maria Böhme",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Louis XIII",
+   "actor": "Arnim André",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rochefort",
+   "actor": "Thomas Albus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Richelieu",
+   "actor": "Thomas Reiner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tréville",
+   "actor": "Reinhard Brock",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Milady",
+   "actor": "Monika Kockott",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jean",
+   "actor": "Nicola Grupe",
+   "von": "ann"
+  },
+  {
+   "character": "Aramis",
+   "actor": "Martina Dunker",
+   "von": "ann"
+  },
+  {
+   "character": "Athos",
+   "actor": "Nico Macoulis",
+   "von": "ann"
+  },
+  {
+   "character": "Kardinal Richelieu",
+   "actor": "Thomas Reiner",
+   "von": "ann"
+  },
+  {
+   "character": "D'Artagnan",
+   "actor": "Dominik Auer",
+   "von": "ann"
+  },
+  {
+   "character": "Constance",
+   "actor": "Solveig Duda",
+   "von": "ann"
+  },
+  {
+   "character": "Milady",
+   "actor": "Monika Gerganoff",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1112"
+}

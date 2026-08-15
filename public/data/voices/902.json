@@ -1,1 +1,57 @@
-{"titleId":902,"updatedAt":"2026-08-11T11:20:02.875Z","roles":[{"character":"Kogu","actor":"Thomas Schmuckert","role":"SUPPORTING"}]}
+{
+ "titleId": 902,
+ "updatedAt": "2026-08-15T18:26:45.649Z",
+ "roles": [
+  {
+   "character": "Kogu",
+   "actor": "Thomas Schmuckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Trunks",
+   "actor": "Sebastian Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "Bulma",
+   "actor": "Claudia Urbschat-Mingues",
+   "von": "ann"
+  },
+  {
+   "character": "Son Gohan",
+   "actor": "Sandro Blümel",
+   "von": "ann"
+  },
+  {
+   "character": "Kuririn",
+   "actor": "Wanja Gerick",
+   "von": "ann"
+  },
+  {
+   "character": "Tenshinhan",
+   "actor": "Julien Haggege",
+   "von": "ann"
+  },
+  {
+   "character": "Son Goku",
+   "actor": "Tommy Morgenstern",
+   "von": "ann"
+  },
+  {
+   "character": "Piccolo",
+   "actor": "David Nathan",
+   "von": "ann"
+  },
+  {
+   "character": "Chichi",
+   "actor": "Julia Ziffer",
+   "von": "ann"
+  },
+  {
+   "character": "Vegeta",
+   "actor": "Oliver Siebeck",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=987"
+}

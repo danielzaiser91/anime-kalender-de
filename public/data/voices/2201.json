@@ -1,1 +1,137 @@
-{"titleId":2201,"updatedAt":"2026-08-11T11:20:02.958Z","roles":[{"character":"Jack Walker","actor":"Manou Lubowski","role":"MAIN"},{"character":"Satoshi","actor":"Veronika Aryana Neugebauer","role":"MAIN"},{"character":"Masato","actor":"Ute Bronder","role":"MAIN"},{"character":"Takeshi","actor":"Marc Stachel","role":"MAIN"},{"character":"Captain Phantom","actor":"Thomas Albus","role":"MAIN"},{"character":"Haruka","actor":"Nicola Grupe-Arnoldi","role":"MAIN"},{"character":"Manaphy","actor":"Beate Pfeiffer","role":"MAIN"},{"character":"Hiromi","actor":"Shandra Schadt","role":"SUPPORTING"},{"character":"Perap","actor":"Hubertus von Lerchenfeld","role":"SUPPORTING"},{"character":"Musashi","actor":"Scarlet Cavadenti","role":"SUPPORTING"},{"character":"Nyarth","actor":"Gerhard Acktun","role":"SUPPORTING"},{"character":"Minamo","actor":"Michèle Tichawsky","role":"SUPPORTING"},{"character":"Kojirou","actor":"Matthias Klie","role":"SUPPORTING"},{"character":"Ship","actor":"Claus Brockmeyer","role":"SUPPORTING"},{"character":"Sonans","actor":"Dominik Auer","role":"SUPPORTING"},{"character":"Zenigame","actor":"Klaus Münster","role":"SUPPORTING"},{"character":"Buoysel","actor":"Hubertus von Lerchenfeld","role":"SUPPORTING"},{"character":"Narrator","actor":"Michael Schwarzmaier","role":"BACKGROUND"}]}
+{
+ "titleId": 2201,
+ "updatedAt": "2026-08-15T18:30:13.479Z",
+ "roles": [
+  {
+   "character": "Jack Walker",
+   "actor": "Manou Lubowski",
+   "role": "MAIN"
+  },
+  {
+   "character": "Satoshi",
+   "actor": "Veronika Aryana Neugebauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Masato",
+   "actor": "Ute Bronder",
+   "role": "MAIN"
+  },
+  {
+   "character": "Takeshi",
+   "actor": "Marc Stachel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Captain Phantom",
+   "actor": "Thomas Albus",
+   "role": "MAIN"
+  },
+  {
+   "character": "Haruka",
+   "actor": "Nicola Grupe-Arnoldi",
+   "role": "MAIN"
+  },
+  {
+   "character": "Manaphy",
+   "actor": "Beate Pfeiffer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hiromi",
+   "actor": "Shandra Schadt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Perap",
+   "actor": "Hubertus von Lerchenfeld",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Musashi",
+   "actor": "Scarlet Cavadenti",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nyarth",
+   "actor": "Gerhard Acktun",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Minamo",
+   "actor": "Michèle Tichawsky",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kojirou",
+   "actor": "Matthias Klie",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ship",
+   "actor": "Claus Brockmeyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sonans",
+   "actor": "Dominik Auer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zenigame",
+   "actor": "Klaus Münster",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Buoysel",
+   "actor": "Hubertus von Lerchenfeld",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Michael Schwarzmaier",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Ash Ketchum",
+   "actor": "Veronika Neugebauer",
+   "von": "ann"
+  },
+  {
+   "character": "Jessie",
+   "actor": "Scarlet Cavadenti",
+   "von": "ann"
+  },
+  {
+   "character": "Mauzi",
+   "actor": "Gerhard Acktun",
+   "von": "ann"
+  },
+  {
+   "character": "Rocko",
+   "actor": "Marc Stachel",
+   "von": "ann"
+  },
+  {
+   "character": "James",
+   "actor": "Matthias Klie",
+   "von": "ann"
+  },
+  {
+   "character": "Max",
+   "actor": "Ute Bronder",
+   "von": "ann"
+  },
+  {
+   "character": "Phantom",
+   "actor": "Thomas Albus",
+   "von": "ann"
+  },
+  {
+   "character": "Maike",
+   "actor": "Nicola Grupe-Arnoldi",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=6667"
+}

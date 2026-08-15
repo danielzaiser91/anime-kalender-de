@@ -1,1 +1,47 @@
-{"titleId":3054,"updatedAt":"2026-08-11T11:20:02.998Z","roles":[{"character":"Robert de Forge","actor":"Thomas Karallus","role":"MAIN"},{"character":"Simone","actor":"Céline Fontanges","role":"MAIN"},{"character":"Marie Antoinette","actor":"Ela Nitzsche","role":"SUPPORTING"},{"character":"Millan","actor":"Christian Stark","role":"SUPPORTING"},{"character":"Zarar Taichou","actor":"Gerhard Marcel","role":"SUPPORTING"},{"character":"Narrator","actor":"Thomas Karallus","role":"SUPPORTING"}]}
+{
+ "titleId": 3054,
+ "updatedAt": "2026-08-15T18:31:33.113Z",
+ "roles": [
+  {
+   "character": "Robert de Forge",
+   "actor": "Thomas Karallus",
+   "role": "MAIN"
+  },
+  {
+   "character": "Simone",
+   "actor": "Céline Fontanges",
+   "role": "MAIN"
+  },
+  {
+   "character": "Marie Antoinette",
+   "actor": "Ela Nitzsche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Millan",
+   "actor": "Christian Stark",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zarar Taichou",
+   "actor": "Gerhard Marcel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Thomas Karallus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mirand",
+   "actor": "Christian Stark",
+   "von": "ann"
+  },
+  {
+   "character": "Nadine Lorraine",
+   "actor": "Celine Fontanges",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1477"
+}

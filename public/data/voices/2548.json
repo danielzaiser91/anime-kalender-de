@@ -1,1 +1,112 @@
-{"titleId":2548,"updatedAt":"2026-08-11T11:20:02.974Z","roles":[{"character":"Margaret March","actor":"Katrin Schell","role":"MAIN"},{"character":"Amy March","actor":"Luise Helm","role":"MAIN"},{"character":"Elizabeth March","actor":"Manja Doering","role":"MAIN"},{"character":"Josephine March","actor":"Gundula Köster","role":"MAIN"},{"character":"Margaret March","actor":"Astrid Bless","role":"SUPPORTING"},{"character":"Theodore Laurence","actor":"Asad Schwarz-Msesilamba","role":"SUPPORTING"},{"character":"Abraham Lincoln","actor":"Joachim Siebenschuh","role":"SUPPORTING"},{"character":"Aunt Martha March","actor":"Anne Wollner","role":"SUPPORTING"},{"character":"Frederic March","actor":"Joachim Siebenschuh","role":"SUPPORTING"},{"character":"John Brooke","actor":"Rainer Doering","role":"SUPPORTING"},{"character":"Sally Gardiner","actor":"Silvia Mißbach","role":"SUPPORTING"},{"character":"James Laurence","actor":"Walter Niklaus","role":"SUPPORTING"},{"character":"David March","actor":"Michael Walke","role":"BACKGROUND"},{"character":"Anthony Boone","actor":"Jens-Uwe Bogadtke","role":"BACKGROUND"}]}
+{
+ "titleId": 2548,
+ "updatedAt": "2026-08-15T18:30:48.925Z",
+ "roles": [
+  {
+   "character": "Margaret March",
+   "actor": "Katrin Schell",
+   "role": "MAIN"
+  },
+  {
+   "character": "Amy March",
+   "actor": "Luise Helm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Elizabeth March",
+   "actor": "Manja Doering",
+   "role": "MAIN"
+  },
+  {
+   "character": "Josephine March",
+   "actor": "Gundula Köster",
+   "role": "MAIN"
+  },
+  {
+   "character": "Margaret March",
+   "actor": "Astrid Bless",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Theodore Laurence",
+   "actor": "Asad Schwarz-Msesilamba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Abraham Lincoln",
+   "actor": "Joachim Siebenschuh",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aunt Martha March",
+   "actor": "Anne Wollner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Frederic March",
+   "actor": "Joachim Siebenschuh",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "John Brooke",
+   "actor": "Rainer Doering",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sally Gardiner",
+   "actor": "Silvia Mißbach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "James Laurence",
+   "actor": "Walter Niklaus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "David March",
+   "actor": "Michael Walke",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Anthony Boone",
+   "actor": "Jens-Uwe Bogadtke",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Margaret 'Meg' March",
+   "actor": "Katja Strobel",
+   "von": "ann"
+  },
+  {
+   "character": "Laurie Lorenz",
+   "actor": "Frank Schröder",
+   "von": "ann"
+  },
+  {
+   "character": "Elizabeth 'Beth' March",
+   "actor": "Manja Doering",
+   "von": "ann"
+  },
+  {
+   "character": "Laurie Laurence",
+   "actor": "Asad Schwarz",
+   "von": "ann"
+  },
+  {
+   "character": "Josephine 'Jo' March",
+   "actor": "Cornelia Meinhardt",
+   "von": "ann"
+  },
+  {
+   "character": "Mary March",
+   "actor": "Astrid Bless",
+   "von": "ann"
+  },
+  {
+   "character": "Tante Martha",
+   "actor": "Anne Wollner",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=801"
+}

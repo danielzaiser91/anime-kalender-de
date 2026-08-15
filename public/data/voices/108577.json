@@ -1,1 +1,47 @@
-{"titleId":108577,"updatedAt":"2026-08-11T11:20:03.511Z","roles":[{"character":"Shinnosuke Kanomura","actor":"Julien Haggege","role":"MAIN"},{"character":"Aoi Aioi","actor":"Léa Mariage","role":"MAIN"},{"character":"Akane Aioi","actor":"Maria Hönig","role":"MAIN"},{"character":"Masatsugu Nakamura","actor":"Ronja Peters","role":"SUPPORTING"},{"character":"Chika Ootaki","actor":"Patrizia Carlucci","role":"SUPPORTING"},{"character":"Masamichi Nakamura","actor":"Tobias Schmidt","role":"SUPPORTING"},{"character":"Dankichi Nitobe","actor":"Michael Pan","role":"SUPPORTING"}]}
+{
+ "titleId": 108577,
+ "updatedAt": "2026-08-15T18:44:13.876Z",
+ "roles": [
+  {
+   "character": "Shinnosuke Kanomura",
+   "actor": "Julien Haggege",
+   "role": "MAIN"
+  },
+  {
+   "character": "Aoi Aioi",
+   "actor": "Léa Mariage",
+   "role": "MAIN"
+  },
+  {
+   "character": "Akane Aioi",
+   "actor": "Maria Hönig",
+   "role": "MAIN"
+  },
+  {
+   "character": "Masatsugu Nakamura",
+   "actor": "Ronja Peters",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chika Ootaki",
+   "actor": "Patrizia Carlucci",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masamichi Nakamura",
+   "actor": "Tobias Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dankichi Nitobe",
+   "actor": "Michael Pan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinnosuke Kanamuro",
+   "actor": "Julien Haggege",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22015"
+}

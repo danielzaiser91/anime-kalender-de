@@ -1,1 +1,87 @@
-{"titleId":951,"updatedAt":"2026-08-11T11:20:02.880Z","roles":[{"character":"Momoko Sakura","actor":"Tanja Schumann","role":"MAIN"},{"character":"Tamae Honami","actor":"Stephanie Damare","role":"MAIN"},{"character":"Narrator","actor":"Rolf Becker","role":"MAIN"},{"character":"Hiroshi Sakura","actor":"Marco Kröger","role":"SUPPORTING"},{"character":"Sakiko Sakura","actor":"Susanne Sternberg","role":"SUPPORTING"},{"character":"Tomozou Sakura","actor":"Wolf Rahtjen","role":"SUPPORTING"},{"character":"Kotake Sakura","actor":"Sabine Hahn","role":"SUPPORTING"},{"character":"Togawa-sensei","actor":"Holger Mahlich","role":"SUPPORTING"},{"character":"Kazuhiko Hanawa","actor":"Oliver Böttcher","role":"SUPPORTING"},{"character":"Sueo Maruo","actor":"Marc Seidenberg","role":"SUPPORTING"},{"character":"Sumire Sakura","actor":"Traudel Sperber","role":"SUPPORTING"}]}
+{
+ "titleId": 951,
+ "updatedAt": "2026-08-15T18:26:58.915Z",
+ "roles": [
+  {
+   "character": "Momoko Sakura",
+   "actor": "Tanja Schumann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tamae Honami",
+   "actor": "Stephanie Damare",
+   "role": "MAIN"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Rolf Becker",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hiroshi Sakura",
+   "actor": "Marco Kröger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sakiko Sakura",
+   "actor": "Susanne Sternberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tomozou Sakura",
+   "actor": "Wolf Rahtjen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kotake Sakura",
+   "actor": "Sabine Hahn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Togawa-sensei",
+   "actor": "Holger Mahlich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kazuhiko Hanawa",
+   "actor": "Oliver Böttcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sueo Maruo",
+   "actor": "Marc Seidenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sumire Sakura",
+   "actor": "Traudel Sperber",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Momoko \"Chibi Maruko-chan\" Sakura",
+   "actor": "Tanja Schumann",
+   "von": "ann"
+  },
+  {
+   "character": "Tama-chan",
+   "actor": "Stephanie Kirchberger",
+   "von": "ann"
+  },
+  {
+   "character": "Maruo-kun",
+   "actor": "Marc Seidenberg",
+   "von": "ann"
+  },
+  {
+   "character": "Sekiguchi-kun",
+   "actor": "Rafi Guessos",
+   "von": "ann"
+  },
+  {
+   "character": "Hanawa-kun",
+   "actor": "Oliver Böttcher",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=479"
+}

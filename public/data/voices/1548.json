@@ -1,1 +1,37 @@
-{"titleId":1548,"updatedAt":"2026-08-11T11:20:02.929Z","roles":[{"character":"Hajime Amamori","actor":"Jens Wawrczeck","role":"MAIN"},{"character":"La Andromeda Promethium II","actor":"Petra Schmidt-Decker","role":"MAIN"},{"character":"Daisuke Yamori","actor":"Boris Tessmann","role":"SUPPORTING"},{"character":"Leopard Error Franken-bach","actor":"Achim Schülke","role":"SUPPORTING"},{"character":"Selen","actor":"Margrit Straßburger","role":"SUPPORTING"}]}
+{
+ "titleId": 1548,
+ "updatedAt": "2026-08-15T18:29:00.452Z",
+ "roles": [
+  {
+   "character": "Hajime Amamori",
+   "actor": "Jens Wawrczeck",
+   "role": "MAIN"
+  },
+  {
+   "character": "La Andromeda Promethium II",
+   "actor": "Petra Schmidt-Decker",
+   "role": "MAIN"
+  },
+  {
+   "character": "Daisuke Yamori",
+   "actor": "Boris Tessmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Leopard Error Franken-bach",
+   "actor": "Achim Schülke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Selen",
+   "actor": "Margrit Straßburger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yayoi Yukino",
+   "actor": "Petra Schmidt-Decker",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=487"
+}

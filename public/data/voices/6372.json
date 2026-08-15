@@ -1,1 +1,82 @@
-{"titleId":6372,"updatedAt":"2026-08-11T11:20:03.058Z","roles":[{"character":"Saki Morimi","actor":"Josephine Schmidt","role":"MAIN"},{"character":"O-nee","actor":"Katrin Zimmermann","role":"SUPPORTING"},{"character":"Mikuru Katsuhara","actor":"Kristina Tietz","role":"SUPPORTING"},{"character":"Satoshi Ohsugi","actor":"Dirk Stollberg","role":"SUPPORTING"},{"character":"Yutaka Itazu","actor":"Jesco Wirthgen","role":"SUPPORTING"},{"character":"Juiz","actor":"Cathlen Gawlich","role":"SUPPORTING"}]}
+{
+ "titleId": 6372,
+ "updatedAt": "2026-08-15T18:32:56.446Z",
+ "roles": [
+  {
+   "character": "Saki Morimi",
+   "actor": "Josephine Schmidt",
+   "role": "MAIN"
+  },
+  {
+   "character": "O-nee",
+   "actor": "Katrin Zimmermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mikuru Katsuhara",
+   "actor": "Kristina Tietz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Satoshi Ohsugi",
+   "actor": "Dirk Stollberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yutaka Itazu",
+   "actor": "Jesco Wirthgen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Juiz",
+   "actor": "Cathlen Gawlich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haruo Kasuga",
+   "actor": "Fabian Hollwitz",
+   "von": "ann"
+  },
+  {
+   "character": "Kuroha Diana Shiratori",
+   "actor": "Victoria Sturm",
+   "von": "ann"
+  },
+  {
+   "character": "Akira Takizawa",
+   "actor": "Julius Jellinek",
+   "von": "ann"
+  },
+  {
+   "character": "Jintaro Tsuji",
+   "actor": "Raul Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Ryo Yuki",
+   "actor": "Dirk Petrick",
+   "von": "ann"
+  },
+  {
+   "character": "Onee",
+   "actor": "Katrin Zimmermann",
+   "von": "ann"
+  },
+  {
+   "character": "Daiju Mononobe",
+   "actor": "Michael Iwannek",
+   "von": "ann"
+  },
+  {
+   "character": "Satoshi Oosugi",
+   "actor": "Dirk Stollberg",
+   "von": "ann"
+  },
+  {
+   "character": "Kazuomi Hirasawa",
+   "actor": "Robert Glatzeder",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=10620"
+}

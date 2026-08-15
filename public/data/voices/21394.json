@@ -1,1 +1,77 @@
-{"titleId":21394,"updatedAt":"2026-08-11T11:20:03.299Z","roles":[{"character":"Sinbad","actor":"Patrick Bach","role":"MAIN"},{"character":"Ja'far","actor":"Benjamin Stolz","role":"MAIN"},{"character":"Drakon","actor":"Jacob Weigert","role":"MAIN"},{"character":"Hinahoho","actor":"Johannes Semm","role":"MAIN"},{"character":"Yunan","actor":"Flemming Stein","role":"SUPPORTING"},{"character":"Mystras Leoxses","actor":"Tobias Schmidt","role":"SUPPORTING"},{"character":"Serendine","actor":"Tanja Dohse","role":"SUPPORTING"},{"character":"Rurumu","actor":"Tanja Dohse","role":"SUPPORTING"}]}
+{
+ "titleId": 21394,
+ "updatedAt": "2026-08-15T18:39:07.273Z",
+ "roles": [
+  {
+   "character": "Sinbad",
+   "actor": "Patrick Bach",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ja'far",
+   "actor": "Benjamin Stolz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Drakon",
+   "actor": "Jacob Weigert",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hinahoho",
+   "actor": "Johannes Semm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yunan",
+   "actor": "Flemming Stein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mystras Leoxses",
+   "actor": "Tobias Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Serendine",
+   "actor": "Tanja Dohse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rurumu",
+   "actor": "Tanja Dohse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Esra",
+   "actor": "Kristina von Weltzien",
+   "von": "ann"
+  },
+  {
+   "character": "Badr",
+   "actor": "Christian Rudolf",
+   "von": "ann"
+  },
+  {
+   "character": "Vittel",
+   "actor": "Rasmus Borowski",
+   "von": "ann"
+  },
+  {
+   "character": "Mystras",
+   "actor": "Tobias Schmidt",
+   "von": "ann"
+  },
+  {
+   "character": "Sindbad",
+   "actor": "Patrick Bach",
+   "von": "ann"
+  },
+  {
+   "character": "Mahad",
+   "actor": "Detlef Tams",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=17687"
+}

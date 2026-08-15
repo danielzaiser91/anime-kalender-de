@@ -1,1 +1,57 @@
-{"titleId":1798,"updatedAt":"2026-08-11T11:20:02.944Z","roles":[{"character":"Hamako Shihonmatsu","actor":"Fabienne Franken","role":"MAIN"},{"character":"Mikiko Oguro","actor":"Anni Perka","role":"MAIN"},{"character":"Hassaku Hozumi","actor":"Dustin Aßmuteit","role":"SUPPORTING"},{"character":"Battobi","actor":"Birte Baumgardt","role":"SUPPORTING"},{"character":"Aoi Fukami","actor":"Leslie Keane","role":"SUPPORTING"},{"character":"Mizuho Tanonaka","actor":"René Dawn-Claude","role":"SUPPORTING"}]}
+{
+ "titleId": 1798,
+ "updatedAt": "2026-08-15T18:29:37.283Z",
+ "roles": [
+  {
+   "character": "Hamako Shihonmatsu",
+   "actor": "Fabienne Franken",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mikiko Oguro",
+   "actor": "Anni Perka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hassaku Hozumi",
+   "actor": "Dustin Aßmuteit",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Battobi",
+   "actor": "Birte Baumgardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aoi Fukami",
+   "actor": "Leslie Keane",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mizuho Tanonaka",
+   "actor": "René Dawn-Claude",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mai Horaguchi",
+   "actor": "Petra Glunz-Grosch",
+   "von": "ann"
+  },
+  {
+   "character": "Rei Takashimadaira",
+   "actor": "Renier Baaken",
+   "von": "ann"
+  },
+  {
+   "character": "Seiichiro Haryu",
+   "actor": "Mark O'Conner",
+   "von": "ann"
+  },
+  {
+   "character": "Mikiko \"Kuromi\" Oguro",
+   "actor": "Annett Perka",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2860"
+}

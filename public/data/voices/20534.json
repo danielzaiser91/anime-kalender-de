@@ -1,1 +1,97 @@
-{"titleId":20534,"updatedAt":"2026-08-11T11:20:03.194Z","roles":[{"character":"Ryouta Murakami","actor":"Jesse Grimm","role":"MAIN"},{"character":"Neko Kuroha","actor":"Franciska  Friede","role":"MAIN"},{"character":"Kana Tachibana","actor":"Arlette Stanschus","role":"MAIN"},{"character":"Kazumi Schlierenzauer","actor":"Manuela Eifrig","role":"MAIN"},{"character":"Kotori Takatori","actor":"Julia Fölster","role":"MAIN"},{"character":"Nanami Tokou","actor":"Leonie Landa","role":"SUPPORTING"},{"character":"Akane","actor":"Ulla Schiedewitz","role":"SUPPORTING"},{"character":"Kurofuku","actor":"Benjamin Stolz","role":"SUPPORTING"},{"character":"Mako Fujisaki","actor":"Katharina von Keller","role":"SUPPORTING"},{"character":"Chisato Ichijiku","actor":"Clemens Gerhard","role":"SUPPORTING"},{"character":"Hatsuna Wakabayashi","actor":"Céline Fontanges","role":"SUPPORTING"},{"character":"Miki","actor":"Jannika Jira","role":"SUPPORTING"},{"character":"Kitsuka Hatta","actor":"Joanna Semmelrogge","role":"SUPPORTING"},{"character":"Kogorou Hashiratani","actor":"Marc Schülert","role":"SUPPORTING"}]}
+{
+ "titleId": 20534,
+ "updatedAt": "2026-08-15T18:36:33.327Z",
+ "roles": [
+  {
+   "character": "Ryouta Murakami",
+   "actor": "Jesse Grimm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Neko Kuroha",
+   "actor": "Franciska  Friede",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kana Tachibana",
+   "actor": "Arlette Stanschus",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kazumi Schlierenzauer",
+   "actor": "Manuela Eifrig",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kotori Takatori",
+   "actor": "Julia Fölster",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nanami Tokou",
+   "actor": "Leonie Landa",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akane",
+   "actor": "Ulla Schiedewitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kurofuku",
+   "actor": "Benjamin Stolz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mako Fujisaki",
+   "actor": "Katharina von Keller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chisato Ichijiku",
+   "actor": "Clemens Gerhard",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hatsuna Wakabayashi",
+   "actor": "Céline Fontanges",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miki",
+   "actor": "Jannika Jira",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kitsuka Hatta",
+   "actor": "Joanna Semmelrogge",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kogorou Hashiratani",
+   "actor": "Marc Schülert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hatsuna",
+   "actor": "Celine Fontanges",
+   "von": "ann"
+  },
+  {
+   "character": "Mako",
+   "actor": "Katharina von Keller",
+   "von": "ann"
+  },
+  {
+   "character": "Kazumi Schlierenzauer",
+   "actor": "Manuela Bäcker",
+   "von": "ann"
+  },
+  {
+   "character": "Neko Kuroha",
+   "actor": "Franciska Friede",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15757"
+}

@@ -1,1 +1,67 @@
-{"titleId":20057,"updatedAt":"2026-08-11T11:20:03.186Z","roles":[{"character":"Dandy","actor":"Tobias Brecklinghaus","role":"MAIN"},{"character":"QT","actor":"Kirstin Hesse","role":"MAIN"},{"character":"Meow","actor":"Martin Bross","role":"MAIN"},{"character":"Honey","actor":"Rieke Werner","role":"SUPPORTING"},{"character":"Scarlet","actor":"Susanne Reuter","role":"SUPPORTING"},{"character":"Gel Hakase","actor":"Bernd Kuschmann","role":"SUPPORTING"},{"character":"Perry Teitoku","actor":"Thomas Balou Martin","role":"SUPPORTING"},{"character":"Adélie","actor":"Johanna Bergmann","role":"SUPPORTING"}]}
+{
+ "titleId": 20057,
+ "updatedAt": "2026-08-15T18:36:16.933Z",
+ "roles": [
+  {
+   "character": "Dandy",
+   "actor": "Tobias Brecklinghaus",
+   "role": "MAIN"
+  },
+  {
+   "character": "QT",
+   "actor": "Kirstin Hesse",
+   "role": "MAIN"
+  },
+  {
+   "character": "Meow",
+   "actor": "Martin Bross",
+   "role": "MAIN"
+  },
+  {
+   "character": "Honey",
+   "actor": "Rieke Werner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Scarlet",
+   "actor": "Susanne Reuter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gel Hakase",
+   "actor": "Bernd Kuschmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Perry Teitoku",
+   "actor": "Thomas Balou Martin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Adélie",
+   "actor": "Johanna Bergmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Andreas Meese",
+   "von": "ann"
+  },
+  {
+   "character": "Bea",
+   "actor": "Petra Glunz-Grosch",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Gel",
+   "actor": "Bernd Kuschmann",
+   "von": "ann"
+  },
+  {
+   "character": "Commodore Perry",
+   "actor": "Thomas Balou Martin",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15555"
+}

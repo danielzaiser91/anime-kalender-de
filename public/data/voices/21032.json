@@ -1,1 +1,37 @@
-{"titleId":21032,"updatedAt":"2026-08-11T11:20:03.257Z","roles":[{"character":"Sinbad","actor":"Sarah Tkotsch","role":"MAIN"},{"character":"Sana","actor":"Alice Bauer","role":"MAIN"}]}
+{
+ "titleId": 21032,
+ "updatedAt": "2026-08-15T18:38:13.945Z",
+ "roles": [
+  {
+   "character": "Sinbad",
+   "actor": "Sarah Tkotsch",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sana",
+   "actor": "Alice Bauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Najib",
+   "actor": "Frank Ciazynski",
+   "von": "ann"
+  },
+  {
+   "character": "Ali",
+   "actor": "Peggy Pollow",
+   "von": "ann"
+  },
+  {
+   "character": "Captain Razzak",
+   "actor": "Stefan Bergel",
+   "von": "ann"
+  },
+  {
+   "character": "Galip",
+   "actor": "Artur Weimann",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16770"
+}

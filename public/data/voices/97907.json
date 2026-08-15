@@ -1,1 +1,97 @@
-{"titleId":97907,"updatedAt":"2026-08-11T11:20:03.369Z","roles":[{"character":"Ichirou Suzuki","actor":"Felix Mayer","role":"MAIN"},{"character":"Pochi","actor":"Amira Leisner","role":"MAIN"},{"character":"Tama","actor":"Kerstin Dietrich","role":"MAIN"},{"character":"Liza","actor":"Jenny Maria Meyer","role":"MAIN"},{"character":"Arisa","actor":"Mia Maron","role":"MAIN"},{"character":"Lulu","actor":"Lisa Dzyadyk","role":"MAIN"},{"character":"Zena Marientail","actor":"Eleni Möller-Architektonidou","role":"SUPPORTING"},{"character":"Mia","actor":"Nina Benz","role":"SUPPORTING"},{"character":"Nana","actor":"Nicole Hise","role":"SUPPORTING"},{"character":"Nadi","actor":"Patricia Strasburger","role":"SUPPORTING"},{"character":"Martha","actor":"Angelina Markiefka","role":"SUPPORTING"},{"character":"Mosa","actor":"Sonja Reichelt","role":"SUPPORTING"},{"character":"Yusaratoya Bolenan","actor":"Tobias Kern","role":"SUPPORTING"},{"character":"Iona","actor":"Ilena Gwisdalla","role":"SUPPORTING"},{"character":"Lenmaris","actor":"Friederike Sipp","role":"BACKGROUND"}]}
+{
+ "titleId": 97907,
+ "updatedAt": "2026-08-15T18:40:41.182Z",
+ "roles": [
+  {
+   "character": "Ichirou Suzuki",
+   "actor": "Felix Mayer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Pochi",
+   "actor": "Amira Leisner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tama",
+   "actor": "Kerstin Dietrich",
+   "role": "MAIN"
+  },
+  {
+   "character": "Liza",
+   "actor": "Jenny Maria Meyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Arisa",
+   "actor": "Mia Maron",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lulu",
+   "actor": "Lisa Dzyadyk",
+   "role": "MAIN"
+  },
+  {
+   "character": "Zena Marientail",
+   "actor": "Eleni Möller-Architektonidou",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mia",
+   "actor": "Nina Benz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nana",
+   "actor": "Nicole Hise",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nadi",
+   "actor": "Patricia Strasburger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Martha",
+   "actor": "Angelina Markiefka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mosa",
+   "actor": "Sonja Reichelt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yusaratoya Bolenan",
+   "actor": "Tobias Kern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Iona",
+   "actor": "Ilena Gwisdalla",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lenmaris",
+   "actor": "Friederike Sipp",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Misanaria Bolenan",
+   "actor": "Nina Benz",
+   "von": "ann"
+  },
+  {
+   "character": "Satou Pendragon",
+   "actor": "Felix Mayer",
+   "von": "ann"
+  },
+  {
+   "character": "Zena Marienteil",
+   "actor": "Eleni Möller",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19996"
+}

@@ -1,1 +1,87 @@
-{"titleId":21249,"updatedAt":"2026-08-11T11:20:03.281Z","roles":[{"character":"Kikko Hoshino","actor":"Daniela Molina","role":"MAIN"},{"character":"Emi Kino","actor":"Inken Baxmeier","role":"MAIN"},{"character":"Jirou Hitoyoshi","actor":"Christopher Kohn","role":"MAIN"},{"character":"Hikaru Misumi","actor":"Maximilian Artajo","role":"SUPPORTING"},{"character":"Claude","actor":"Björn Bonn","role":"SUPPORTING"},{"character":"Earth-chan","actor":"Angelina Geisler","role":"SUPPORTING"},{"character":"Ullr","actor":"Martin Schubach","role":"SUPPORTING"},{"character":"Yoshiaki Satomi","actor":"Marios Gavrilis","role":"SUPPORTING"},{"character":"Hyouma Yoshimura","actor":"Paul Matzke","role":"SUPPORTING"},{"character":"Yumihiko Otonashi","actor":"Linus Drews","role":"SUPPORTING"},{"character":"Raito Shiba","actor":"Steven Merting","role":"SUPPORTING"},{"character":"Magotake Hitoyoshi","actor":"Christoph Banken","role":"SUPPORTING"},{"character":"Fuurouta","actor":"Sebastian Fitzner","role":"SUPPORTING"},{"character":"Michiko Touzaki","actor":"Berenice Weichert","role":"SUPPORTING"},{"character":"Daishi Akita","actor":"Tim Moeseritz","role":"SUPPORTING"}]}
+{
+ "titleId": 21249,
+ "updatedAt": "2026-08-15T18:38:41.299Z",
+ "roles": [
+  {
+   "character": "Kikko Hoshino",
+   "actor": "Daniela Molina",
+   "role": "MAIN"
+  },
+  {
+   "character": "Emi Kino",
+   "actor": "Inken Baxmeier",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jirou Hitoyoshi",
+   "actor": "Christopher Kohn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hikaru Misumi",
+   "actor": "Maximilian Artajo",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Claude",
+   "actor": "Björn Bonn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Earth-chan",
+   "actor": "Angelina Geisler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ullr",
+   "actor": "Martin Schubach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yoshiaki Satomi",
+   "actor": "Marios Gavrilis",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hyouma Yoshimura",
+   "actor": "Paul Matzke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yumihiko Otonashi",
+   "actor": "Linus Drews",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Raito Shiba",
+   "actor": "Steven Merting",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Magotake Hitoyoshi",
+   "actor": "Christoph Banken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fuurouta",
+   "actor": "Sebastian Fitzner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Michiko Touzaki",
+   "actor": "Berenice Weichert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Daishi Akita",
+   "actor": "Tim Moeseritz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shakkou",
+   "actor": "Fabian Oscar Wien",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=17260"
+}

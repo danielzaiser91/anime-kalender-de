@@ -1,1 +1,152 @@
-{"titleId":11759,"updatedAt":"2026-08-11T11:20:03.124Z","roles":[{"character":"Takumu Mayuzumi","actor":"Maximilian Artajo","role":"MAIN"},{"character":"Haruyuki Arita","actor":"Jan Makino","role":"MAIN"},{"character":"Kuroyukihime","actor":"Mareile Moeller","role":"MAIN"},{"character":"Chiyuri Kurashima","actor":"Laurine Betz","role":"MAIN"},{"character":"Ash Roller","actor":"Raúl Richter","role":"SUPPORTING"},{"character":"Black Vise","actor":"Rainer Fritzsche","role":"SUPPORTING"},{"character":"Crimson Kingbolt","actor":"Valentin Stilu","role":"SUPPORTING"},{"character":"Mihaya Kakei","actor":"Nadine Heidenreich","role":"SUPPORTING"},{"character":"Yellow Radio","actor":"Rainer Doering","role":"SUPPORTING"},{"character":"Saya Arita","actor":"Nora Kunzendorf","role":"SUPPORTING"},{"character":"Fuuko Kurasaki","actor":"Antje von der Ahe","role":"SUPPORTING"},{"character":"Sulfur Pot","actor":"Tim Moeseritz","role":"SUPPORTING"},{"character":"Megumi Wakamiya","actor":"Anja Rybiczka","role":"SUPPORTING"},{"character":"Blue Knight","actor":"Marc Bluhm","role":"SUPPORTING"},{"character":"Araya","actor":"Bastian Sierich","role":"SUPPORTING"},{"character":"Ruka Asato","actor":"Lina Rabea Mohr","role":"SUPPORTING"},{"character":"Akira Himi","actor":"Olivia Büschken","role":"SUPPORTING"},{"character":"Tin Writer","actor":"Marco Wittorf","role":"SUPPORTING"},{"character":"Nickel Doll","actor":"Angelina Geisler","role":"SUPPORTING"},{"character":"Seiji Noumi","actor":"Marcel Mann","role":"SUPPORTING"},{"character":"Sand Duct","actor":"Hans-Eckart Eckhardt","role":"SUPPORTING"},{"character":"Yuniko Kouzuki","actor":"Eva Thärichen","role":"SUPPORTING"}]}
+{
+ "titleId": 11759,
+ "updatedAt": "2026-08-15T18:34:37.874Z",
+ "roles": [
+  {
+   "character": "Takumu Mayuzumi",
+   "actor": "Maximilian Artajo",
+   "role": "MAIN"
+  },
+  {
+   "character": "Haruyuki Arita",
+   "actor": "Jan Makino",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kuroyukihime",
+   "actor": "Mareile Moeller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chiyuri Kurashima",
+   "actor": "Laurine Betz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ash Roller",
+   "actor": "Raúl Richter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Black Vise",
+   "actor": "Rainer Fritzsche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Crimson Kingbolt",
+   "actor": "Valentin Stilu",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mihaya Kakei",
+   "actor": "Nadine Heidenreich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yellow Radio",
+   "actor": "Rainer Doering",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Saya Arita",
+   "actor": "Nora Kunzendorf",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fuuko Kurasaki",
+   "actor": "Antje von der Ahe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sulfur Pot",
+   "actor": "Tim Moeseritz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Megumi Wakamiya",
+   "actor": "Anja Rybiczka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Blue Knight",
+   "actor": "Marc Bluhm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Araya",
+   "actor": "Bastian Sierich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ruka Asato",
+   "actor": "Lina Rabea Mohr",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akira Himi",
+   "actor": "Olivia Büschken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tin Writer",
+   "actor": "Marco Wittorf",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nickel Doll",
+   "actor": "Angelina Geisler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seiji Noumi",
+   "actor": "Marcel Mann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sand Duct",
+   "actor": "Hans-Eckart Eckhardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuniko Kouzuki",
+   "actor": "Eva Thärichen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ash Roller",
+   "actor": "Raul Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Takumu Mayuzumi/Cyan Pile",
+   "actor": "Maximilian Artajo",
+   "von": "ann"
+  },
+  {
+   "character": "Haruyuki Arita/Silver Crow",
+   "actor": "Jan Makino",
+   "von": "ann"
+  },
+  {
+   "character": "Megumi Wakamiya",
+   "actor": "Lisa Braun",
+   "von": "ann"
+  },
+  {
+   "character": "Kuroyukihime//Black Lotus",
+   "actor": "Mareile Moeller",
+   "von": "ann"
+  },
+  {
+   "character": "Yuniko Kouzuki/Scarlet Rain",
+   "actor": "Eva Thärichen",
+   "von": "ann"
+  },
+  {
+   "character": "Chiyuri Kurashima/Lime Bell",
+   "actor": "Laurine Betz",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=13857"
+}

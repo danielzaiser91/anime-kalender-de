@@ -1,1 +1,82 @@
-{"titleId":147105,"updatedAt":"2026-08-11T11:20:03.644Z","roles":[{"character":"Coco","actor":"Julia Fölster","role":"MAIN"},{"character":"Qifrey","actor":"Tammo Kaulbarsch","role":"MAIN"},{"character":"Agott Arkrome","actor":"Kaya Malin Kröger","role":"SUPPORTING"},{"character":"Tetia","actor":"Elisa Pioch","role":"SUPPORTING"},{"character":"Richeh","actor":"Jana Dunja Gries","role":"SUPPORTING"},{"character":"Olruggio","actor":"Tim Niebuhr","role":"SUPPORTING"}]}
+{
+ "titleId": 147105,
+ "updatedAt": "2026-08-15T18:48:17.106Z",
+ "roles": [
+  {
+   "character": "Coco",
+   "actor": "Julia Fölster",
+   "role": "MAIN"
+  },
+  {
+   "character": "Qifrey",
+   "actor": "Tammo Kaulbarsch",
+   "role": "MAIN"
+  },
+  {
+   "character": "Agott Arkrome",
+   "actor": "Kaya Malin Kröger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tetia",
+   "actor": "Elisa Pioch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Richeh",
+   "actor": "Jana Dunja Gries",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Olruggio",
+   "actor": "Tim Niebuhr",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sasaran",
+   "actor": "Robin Brosch",
+   "von": "ann"
+  },
+  {
+   "character": "Iguin",
+   "actor": "Nils Rieke",
+   "von": "ann"
+  },
+  {
+   "character": "Riche",
+   "actor": "Jana Dunja Gries",
+   "von": "ann"
+  },
+  {
+   "character": "Luluci",
+   "actor": "Daniela Molina",
+   "von": "ann"
+  },
+  {
+   "character": "Alaira",
+   "actor": "Nina-Mercedés Rühl",
+   "von": "ann"
+  },
+  {
+   "character": "Eas'heas/Easthies",
+   "actor": "Vincent Fallow",
+   "von": "ann"
+  },
+  {
+   "character": "Brushbuddy",
+   "actor": "Toni Michael Sattler",
+   "von": "ann"
+  },
+  {
+   "character": "Agathe/Agott",
+   "actor": "Kaya Malin Kröger",
+   "von": "ann"
+  },
+  {
+   "character": "Galga",
+   "actor": "Maurice Sarnacki",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=25496"
+}

@@ -1,1 +1,32 @@
-{"titleId":4793,"updatedAt":"2026-08-11T11:20:03.035Z","roles":[{"character":"Takeshi","actor":"Marc Stachel","role":"SUPPORTING"},{"character":"Satoshi","actor":"Caroline Combrinck","role":"SUPPORTING"},{"character":"Nyarth","actor":"Gerhard Acktun","role":"SUPPORTING"},{"character":"Kasumi","actor":"Angela Wiederhut","role":"SUPPORTING"}]}
+{
+ "titleId": 4793,
+ "updatedAt": "2026-08-15T18:32:19.445Z",
+ "roles": [
+  {
+   "character": "Takeshi",
+   "actor": "Marc Stachel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Satoshi",
+   "actor": "Caroline Combrinck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nyarth",
+   "actor": "Gerhard Acktun",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kasumi",
+   "actor": "Angela Wiederhut",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mauzi",
+   "actor": "Gerhard Acktun",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=4621"
+}

@@ -1,1 +1,137 @@
-{"titleId":105334,"updatedAt":"2026-08-11T11:20:03.491Z","roles":[{"character":"Shigure Souma","actor":"René Oltmanns","role":"MAIN"},{"character":"Tooru Honda","actor":"Laura Jenni","role":"MAIN"},{"character":"Yuki Souma","actor":"Maximilian Belle","role":"MAIN"},{"character":"Kyou Souma","actor":"Max Felder","role":"MAIN"},{"character":"Akito Souma","actor":"Marcia von Rebay","role":"SUPPORTING"},{"character":"Isuzu Souma","actor":"Jacqueline Belle","role":"SUPPORTING"},{"character":"Motoko Minagawa","actor":"Katharina von Daake","role":"SUPPORTING"},{"character":"Hiroshi","actor":"Mio Lechenmayr","role":"SUPPORTING"},{"character":"Hatori Souma","actor":"Maximilian Laprell","role":"SUPPORTING"},{"character":"Makoto Takei","actor":"Sebastian Griegel","role":"SUPPORTING"},{"character":"Arisa Uotani","actor":"Farina Brock","role":"SUPPORTING"},{"character":"Megumi Hanajima","actor":"Doreaux Zwetkow","role":"SUPPORTING"},{"character":"Kyou no Chichi","actor":"Vincent Fallow","role":"SUPPORTING"},{"character":"Saki Hanajima","actor":"Shandra Schadt","role":"SUPPORTING"},{"character":"Kazuma Souma","actor":"Manou Lubowski","role":"SUPPORTING"},{"character":"Minami Kinoshita","actor":"Julia Bautz","role":"SUPPORTING"},{"character":"Kagura Souma","actor":"Patricia Strasburger","role":"SUPPORTING"},{"character":"Kyouko Honda","actor":"Claudia Lossl","role":"SUPPORTING"},{"character":"Mayuko Shiraki","actor":"Claudia Urbschat-mingues","role":"SUPPORTING"},{"character":"Mai Gotou","actor":"Tanja Baron","role":"SUPPORTING"},{"character":"Momiji Souma","actor":"Eleni Möller-Architektonidou","role":"SUPPORTING"},{"character":"Kisa Souma","actor":"Anouk Elias","role":"SUPPORTING"},{"character":"Mitsuru","actor":"Nina Benz","role":"SUPPORTING"},{"character":"Rika Aida","actor":"Angelina Markiefka","role":"SUPPORTING"}]}
+{
+ "titleId": 105334,
+ "updatedAt": "2026-08-15T18:43:36.268Z",
+ "roles": [
+  {
+   "character": "Shigure Souma",
+   "actor": "René Oltmanns",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tooru Honda",
+   "actor": "Laura Jenni",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuki Souma",
+   "actor": "Maximilian Belle",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kyou Souma",
+   "actor": "Max Felder",
+   "role": "MAIN"
+  },
+  {
+   "character": "Akito Souma",
+   "actor": "Marcia von Rebay",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Isuzu Souma",
+   "actor": "Jacqueline Belle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Motoko Minagawa",
+   "actor": "Katharina von Daake",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hiroshi",
+   "actor": "Mio Lechenmayr",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hatori Souma",
+   "actor": "Maximilian Laprell",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Makoto Takei",
+   "actor": "Sebastian Griegel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Arisa Uotani",
+   "actor": "Farina Brock",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Megumi Hanajima",
+   "actor": "Doreaux Zwetkow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyou no Chichi",
+   "actor": "Vincent Fallow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Saki Hanajima",
+   "actor": "Shandra Schadt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kazuma Souma",
+   "actor": "Manou Lubowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Minami Kinoshita",
+   "actor": "Julia Bautz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kagura Souma",
+   "actor": "Patricia Strasburger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyouko Honda",
+   "actor": "Claudia Lossl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mayuko Shiraki",
+   "actor": "Claudia Urbschat-mingues",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mai Gotou",
+   "actor": "Tanja Baron",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Momiji Souma",
+   "actor": "Eleni Möller-Architektonidou",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kisa Souma",
+   "actor": "Anouk Elias",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mitsuru",
+   "actor": "Nina Benz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rika Aida",
+   "actor": "Angelina Markiefka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyouko Honda",
+   "actor": "Claudia Lössl",
+   "von": "ann"
+  },
+  {
+   "character": "Ayame Souma",
+   "actor": "Martin Bonvicini",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=21588"
+}

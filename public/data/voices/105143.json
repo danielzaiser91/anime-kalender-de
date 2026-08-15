@@ -1,1 +1,182 @@
-{"titleId":105143,"updatedAt":"2026-08-11T11:20:03.479Z","roles":[{"character":"Luffy Monkey","actor":"Daniel Schlauch","role":"MAIN"},{"character":"Franky","actor":"Frank Engelhardt","role":"MAIN"},{"character":"Zoro Roronoa","actor":"Uwe Thomsen","role":"MAIN"},{"character":"Nami","actor":"Stephanie Kellner","role":"MAIN"},{"character":"Usopp","actor":"Dirk Meyer","role":"MAIN"},{"character":"Douglas Bullet","actor":"Kai Taschner","role":"MAIN"},{"character":"Sanji","actor":"Hubertus von Lerchenfeld","role":"MAIN"},{"character":"Buena Festa","actor":"Torsten Münchow","role":"MAIN"},{"character":"Robin Nico","actor":"Simone Brahmann","role":"MAIN"},{"character":"Chopper Tony Tony","actor":"Martin Halm","role":"MAIN"},{"character":"Brook","actor":"Benedikt Gutjan","role":"MAIN"},{"character":"Galdino","actor":"Manfred Trilling","role":"SUPPORTING"},{"character":"Jewelry Bonney","actor":"Sonja Reichelt","role":"SUPPORTING"},{"character":"Koala","actor":"Maresa Sedlmeir","role":"SUPPORTING"},{"character":"Hina","actor":"Michèle Tichawsky","role":"SUPPORTING"},{"character":"Bartolomeo","actor":"Max Felder","role":"SUPPORTING"},{"character":"Law Trafalgar","actor":"Manou Lubowski","role":"SUPPORTING"},{"character":"Killer","actor":"Yannick Forstenhäusler","role":"SUPPORTING"},{"character":"Wapol","actor":"Dirk Galuba","role":"SUPPORTING"},{"character":"Dracule Mihawk","actor":"Matthias Klie","role":"SUPPORTING"},{"character":"Borsalino","actor":"Mike Carl","role":"SUPPORTING"},{"character":"Momonga","actor":"Josef Vossenkuhl","role":"SUPPORTING"},{"character":"Alvida","actor":"Angela Wiederhut","role":"SUPPORTING"}]}
+{
+ "titleId": 105143,
+ "updatedAt": "2026-08-15T18:43:13.076Z",
+ "roles": [
+  {
+   "character": "Luffy Monkey",
+   "actor": "Daniel Schlauch",
+   "role": "MAIN"
+  },
+  {
+   "character": "Franky",
+   "actor": "Frank Engelhardt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Zoro Roronoa",
+   "actor": "Uwe Thomsen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nami",
+   "actor": "Stephanie Kellner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Usopp",
+   "actor": "Dirk Meyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Douglas Bullet",
+   "actor": "Kai Taschner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sanji",
+   "actor": "Hubertus von Lerchenfeld",
+   "role": "MAIN"
+  },
+  {
+   "character": "Buena Festa",
+   "actor": "Torsten Münchow",
+   "role": "MAIN"
+  },
+  {
+   "character": "Robin Nico",
+   "actor": "Simone Brahmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chopper Tony Tony",
+   "actor": "Martin Halm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Brook",
+   "actor": "Benedikt Gutjan",
+   "role": "MAIN"
+  },
+  {
+   "character": "Galdino",
+   "actor": "Manfred Trilling",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jewelry Bonney",
+   "actor": "Sonja Reichelt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Koala",
+   "actor": "Maresa Sedlmeir",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hina",
+   "actor": "Michèle Tichawsky",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bartolomeo",
+   "actor": "Max Felder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Law Trafalgar",
+   "actor": "Manou Lubowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Killer",
+   "actor": "Yannick Forstenhäusler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Wapol",
+   "actor": "Dirk Galuba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dracule Mihawk",
+   "actor": "Matthias Klie",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Borsalino",
+   "actor": "Mike Carl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Momonga",
+   "actor": "Josef Vossenkuhl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alvida",
+   "actor": "Angela Wiederhut",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lysop",
+   "actor": "Dirk Meyer",
+   "von": "ann"
+  },
+  {
+   "character": "Monkey D. Ruffy",
+   "actor": "Daniel Schlauch",
+   "von": "ann"
+  },
+  {
+   "character": "Trafalgar D. Water Law",
+   "actor": "Manou Lubowski",
+   "von": "ann"
+  },
+  {
+   "character": "Nico Robin",
+   "actor": "Simone Brahmann",
+   "von": "ann"
+  },
+  {
+   "character": "Tony Chopper",
+   "actor": "Martin Halm",
+   "von": "ann"
+  },
+  {
+   "character": "Buggy der Clown",
+   "actor": "Gudo Hoegel",
+   "von": "ann"
+  },
+  {
+   "character": "Smoker",
+   "actor": "Ekkehardt Belle",
+   "von": "ann"
+  },
+  {
+   "character": "Sir Crocodile",
+   "actor": "Frank Röth",
+   "von": "ann"
+  },
+  {
+   "character": "Tashigi",
+   "actor": "Maren Rainer",
+   "von": "ann"
+  },
+  {
+   "character": "Lorenor Zorro",
+   "actor": "Uwe Thomsen",
+   "von": "ann"
+  },
+  {
+   "character": "Boa Hancock",
+   "actor": "Ilena Gwisdalla",
+   "von": "ann"
+  },
+  {
+   "character": "Sabo",
+   "actor": "Felix Mayer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=21732"
+}

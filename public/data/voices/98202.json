@@ -1,1 +1,117 @@
-{"titleId":98202,"updatedAt":"2026-08-11T11:20:03.378Z","roles":[{"character":"Akane Mizuno","actor":"Josephine Martz","role":"MAIN"},{"character":"Kotarou Azumi","actor":"Daniel Kirchberger","role":"MAIN"},{"character":"Daisuke Tachibana","actor":"Tobias Diakow","role":"SUPPORTING"},{"character":"Ryouko Sonoda","actor":"Anni Perka","role":"SUPPORTING"},{"character":"Miu Imazu","actor":"Linda Fölster","role":"SUPPORTING"},{"character":"Sakura Tanaka","actor":"Liza Ohm","role":"SUPPORTING"},{"character":"Setsuko Satou","actor":"Mathilda Charisius","role":"SUPPORTING"},{"character":"Aira Miyamoto","actor":"Florentine Stein","role":"SUPPORTING"},{"character":"Roman Yamashina","actor":"Flemming Stein","role":"SUPPORTING"},{"character":"Chinatsu Nishio","actor":"Malin Steffen","role":"SUPPORTING"},{"character":"Hira Takumi","actor":"Julian-Elias Henneberg","role":"SUPPORTING"}]}
+{
+ "titleId": 98202,
+ "updatedAt": "2026-08-15T18:40:55.079Z",
+ "roles": [
+  {
+   "character": "Akane Mizuno",
+   "actor": "Josephine Martz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kotarou Azumi",
+   "actor": "Daniel Kirchberger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Daisuke Tachibana",
+   "actor": "Tobias Diakow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryouko Sonoda",
+   "actor": "Anni Perka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miu Imazu",
+   "actor": "Linda Fölster",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sakura Tanaka",
+   "actor": "Liza Ohm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Setsuko Satou",
+   "actor": "Mathilda Charisius",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aira Miyamoto",
+   "actor": "Florentine Stein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Roman Yamashina",
+   "actor": "Flemming Stein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chinatsu Nishio",
+   "actor": "Malin Steffen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hira Takumi",
+   "actor": "Julian-Elias Henneberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Junko Azumi",
+   "actor": "Tanja Dohse",
+   "von": "ann"
+  },
+  {
+   "character": "Ryuunosuke Azumi",
+   "actor": "Martin May",
+   "von": "ann"
+  },
+  {
+   "character": "Ryouko Sonoda",
+   "actor": "Annett Perka",
+   "von": "ann"
+  },
+  {
+   "character": "Daichi Ogasawara",
+   "actor": "Janek Schächter",
+   "von": "ann"
+  },
+  {
+   "character": "Shou Nagahara",
+   "actor": "Lino Böttcher",
+   "von": "ann"
+  },
+  {
+   "character": "Takumi Hira",
+   "actor": "Julian Henneberg",
+   "von": "ann"
+  },
+  {
+   "character": "Tsubasa Kaneko",
+   "actor": "Lucas Sperber",
+   "von": "ann"
+  },
+  {
+   "character": "Hiroshi Mizuno",
+   "actor": "Patrick Stamme",
+   "von": "ann"
+  },
+  {
+   "character": "Ayane Mizuno",
+   "actor": "Alina Degener",
+   "von": "ann"
+  },
+  {
+   "character": "Yasuhito Inaba",
+   "actor": "Daniel Axt",
+   "von": "ann"
+  },
+  {
+   "character": "Aoi Takizawa",
+   "actor": "Lara-Maria Wichels",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19019"
+}

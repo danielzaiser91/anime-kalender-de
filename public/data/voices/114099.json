@@ -1,1 +1,187 @@
-{"titleId":114099,"updatedAt":"2026-08-11T11:20:03.544Z","roles":[{"character":"Dai","actor":"Laurin Lechenmayr","role":"MAIN"},{"character":"Popp","actor":"Felix Auer","role":"MAIN"},{"character":"Maam","actor":"Angelina Markiefka","role":"MAIN"},{"character":"Hyunckel","actor":"Julian Bayer","role":"MAIN"},{"character":"Leona","actor":"Katharina von Daake","role":"MAIN"},{"character":"Gome","actor":"Cindy Kepke","role":"SUPPORTING"},{"character":"Crocodine","actor":"Pirmin Sedlmeir","role":"SUPPORTING"},{"character":"Avan","actor":"Oliver Scheffel","role":"SUPPORTING"},{"character":"Brass","actor":"Hans Bayer","role":"SUPPORTING"},{"character":"Hadlar","actor":"Christopher Kussin","role":"SUPPORTING"},{"character":"Zaboera","actor":"Alexander Pelz","role":"SUPPORTING"},{"character":"Baduck","actor":"Gerhard Acktun","role":"SUPPORTING"},{"character":"Flazzard","actor":"Jochen Paletschek","role":"SUPPORTING"},{"character":"Masopho","actor":"Uwe Kosubek","role":"SUPPORTING"},{"character":"Apollo","actor":"Philipp Rafferty","role":"SUPPORTING"},{"character":"Zurbon","actor":"Janina Dietz","role":"SUPPORTING"},{"character":"Amy","actor":"Melanie Olbert","role":"SUPPORTING"},{"character":"Derolin","actor":"Felix Mayer","role":"SUPPORTING"}]}
+{
+ "titleId": 114099,
+ "updatedAt": "2026-08-15T18:45:12.618Z",
+ "roles": [
+  {
+   "character": "Dai",
+   "actor": "Laurin Lechenmayr",
+   "role": "MAIN"
+  },
+  {
+   "character": "Popp",
+   "actor": "Felix Auer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Maam",
+   "actor": "Angelina Markiefka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hyunckel",
+   "actor": "Julian Bayer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Leona",
+   "actor": "Katharina von Daake",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gome",
+   "actor": "Cindy Kepke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Crocodine",
+   "actor": "Pirmin Sedlmeir",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Avan",
+   "actor": "Oliver Scheffel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Brass",
+   "actor": "Hans Bayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hadlar",
+   "actor": "Christopher Kussin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zaboera",
+   "actor": "Alexander Pelz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Baduck",
+   "actor": "Gerhard Acktun",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Flazzard",
+   "actor": "Jochen Paletschek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masopho",
+   "actor": "Uwe Kosubek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Apollo",
+   "actor": "Philipp Rafferty",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zurbon",
+   "actor": "Janina Dietz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Amy",
+   "actor": "Melanie Olbert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Derolin",
+   "actor": "Felix Mayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dunkler König Vearn (Wahre Gestalt)",
+   "actor": "Manfred Trilling",
+   "von": "ann"
+  },
+  {
+   "character": "Myst-Vearn",
+   "actor": "Manfred Trilling",
+   "von": "ann"
+  },
+  {
+   "character": "Baran",
+   "actor": "Ole Pfennig",
+   "von": "ann"
+  },
+  {
+   "character": "Nabara",
+   "actor": "Angelika Bender",
+   "von": "ann"
+  },
+  {
+   "character": "Matoriv",
+   "actor": "Hans-Rainer Müller",
+   "von": "ann"
+  },
+  {
+   "character": "Merle",
+   "actor": "Marcia Von Rebay",
+   "von": "ann"
+  },
+  {
+   "character": "Flora",
+   "actor": "Bettina Zech",
+   "von": "ann"
+  },
+  {
+   "character": "Hym",
+   "actor": "Leonard Hohm",
+   "von": "ann"
+  },
+  {
+   "character": "Larhart",
+   "actor": "Maximilian Laprell",
+   "von": "ann"
+  },
+  {
+   "character": "Borahorn",
+   "actor": "Alexander Wohnhaas",
+   "von": "ann"
+  },
+  {
+   "character": "Killvearn",
+   "actor": "Andreas Thiele",
+   "von": "ann"
+  },
+  {
+   "character": "Piroro",
+   "actor": "Andreas Thiele",
+   "von": "ann"
+  },
+  {
+   "character": "Dunkler König Vearn",
+   "actor": "Josef Vossenkuhl",
+   "von": "ann"
+  },
+  {
+   "character": "Nova",
+   "actor": "Sebastian Griegel",
+   "von": "ann"
+  },
+  {
+   "character": "Gome-chan",
+   "actor": "Cindy Kepke",
+   "von": "ann"
+  },
+  {
+   "character": "Chiu",
+   "actor": "Patrick Kropp",
+   "von": "ann"
+  },
+  {
+   "character": "Galdandy",
+   "actor": "Pascal Fligg",
+   "von": "ann"
+  },
+  {
+   "character": "Lon Beruk",
+   "actor": "Matthias Hoff",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=23361"
+}

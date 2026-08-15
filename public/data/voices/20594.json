@@ -1,1 +1,172 @@
-{"titleId":20594,"updatedAt":"2026-08-11T11:20:03.199Z","roles":[{"character":"Kazuto Kirigaya","actor":"Patrick Keller","role":"MAIN"},{"character":"Asuna Yuuki","actor":"Denise Monteiro","role":"MAIN"},{"character":"Shino Asada","actor":"Jennifer Weiß","role":"MAIN"},{"character":"Yuuki Konno","actor":"Nicole Hise","role":"MAIN"},{"character":"Andrew Gilbert Mills","actor":"Dirk Hardegen","role":"SUPPORTING"},{"character":"Shouichi Shinkawa","actor":"Stephan Schleberger","role":"SUPPORTING"},{"character":"Thrym","actor":"Helmut Winkelmann","role":"SUPPORTING"},{"character":"Verdandi","actor":"Julia Bautz","role":"SUPPORTING"},{"character":"Alicia Rue","actor":"Tanja Esche","role":"SUPPORTING"},{"character":"Rika Shinozaki","actor":"Nina Amerschläger","role":"SUPPORTING"},{"character":"Kyouji Shinkawa","actor":"Marco Sven Reinbold","role":"SUPPORTING"},{"character":"Siune","actor":"Demet Fey","role":"SUPPORTING"},{"character":"Ryoutarou Tsuboi","actor":"Isaak Dentler","role":"SUPPORTING"},{"character":"Dyne","actor":"Gilles Karolyi","role":"SUPPORTING"},{"character":"Tecchi","actor":"David M. Schulze","role":"SUPPORTING"},{"character":"Urd","actor":"Nora Jokhosha","role":"SUPPORTING"},{"character":"Keiko Ayano","actor":"Clara Dolny","role":"SUPPORTING"},{"character":"Talken","actor":"Tino Leo","role":"SUPPORTING"},{"character":"Kurahashi","actor":"Stefan Naas","role":"SUPPORTING"},{"character":"Suguha Kirigaya","actor":"Julia Meynen","role":"SUPPORTING"}]}
+{
+ "titleId": 20594,
+ "updatedAt": "2026-08-15T18:36:43.798Z",
+ "roles": [
+  {
+   "character": "Kazuto Kirigaya",
+   "actor": "Patrick Keller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Asuna Yuuki",
+   "actor": "Denise Monteiro",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shino Asada",
+   "actor": "Jennifer Weiß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuuki Konno",
+   "actor": "Nicole Hise",
+   "role": "MAIN"
+  },
+  {
+   "character": "Andrew Gilbert Mills",
+   "actor": "Dirk Hardegen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shouichi Shinkawa",
+   "actor": "Stephan Schleberger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Thrym",
+   "actor": "Helmut Winkelmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Verdandi",
+   "actor": "Julia Bautz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alicia Rue",
+   "actor": "Tanja Esche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rika Shinozaki",
+   "actor": "Nina Amerschläger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyouji Shinkawa",
+   "actor": "Marco Sven Reinbold",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Siune",
+   "actor": "Demet Fey",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryoutarou Tsuboi",
+   "actor": "Isaak Dentler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dyne",
+   "actor": "Gilles Karolyi",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tecchi",
+   "actor": "David M. Schulze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Urd",
+   "actor": "Nora Jokhosha",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Keiko Ayano",
+   "actor": "Clara Dolny",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Talken",
+   "actor": "Tino Leo",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kurahashi",
+   "actor": "Stefan Naas",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Suguha Kirigaya",
+   "actor": "Julia Meynen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Suguha \"Leafa\" Kirigaya",
+   "actor": "Julia Meynen",
+   "von": "ann"
+  },
+  {
+   "character": "Death Gun",
+   "actor": "Stephan Schleberger",
+   "von": "ann"
+  },
+  {
+   "character": "Sinon",
+   "actor": "Jennifer Weiß",
+   "von": "ann"
+  },
+  {
+   "character": "Sieunee",
+   "actor": "Demet Fey",
+   "von": "ann"
+  },
+  {
+   "character": "Lisbeth",
+   "actor": "Nina Amerschläger",
+   "von": "ann"
+  },
+  {
+   "character": "Seijirou Kikuoka",
+   "actor": "Matthias Keller",
+   "von": "ann"
+  },
+  {
+   "character": "Klein",
+   "actor": "Isaak Dentler",
+   "von": "ann"
+  },
+  {
+   "character": "Yui",
+   "actor": "Christiane Werk",
+   "von": "ann"
+  },
+  {
+   "character": "Asuna",
+   "actor": "Denise Monteiro",
+   "von": "ann"
+  },
+  {
+   "character": "Kirito",
+   "actor": "Patrick Keller",
+   "von": "ann"
+  },
+  {
+   "character": "Silica",
+   "actor": "Clara Dolny",
+   "von": "ann"
+  },
+  {
+   "character": "Kyouko Yuuki",
+   "actor": "Gabi Franke",
+   "von": "ann"
+  },
+  {
+   "character": "Kyôji Shinkawa",
+   "actor": "Marco Sven Reinbold",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15804"
+}

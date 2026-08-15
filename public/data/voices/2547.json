@@ -1,1 +1,82 @@
-{"titleId":2547,"updatedAt":"2026-08-11T11:20:02.973Z","roles":[{"character":"Sara Crewe","actor":"Beate Tober","role":"MAIN"},{"character":"Ralph Crewe","actor":"Rüdiger Evers","role":"SUPPORTING"},{"character":"Mariette","actor":"Bettina Weiß","role":"SUPPORTING"},{"character":"Peter","actor":"Florian Kiesel","role":"SUPPORTING"},{"character":"Becky","actor":"Miriam Behpour","role":"SUPPORTING"},{"character":"Lottie Legh","actor":"Daniela Reidies","role":"SUPPORTING"},{"character":"Maria Minchin","actor":"Viola Sauer","role":"SUPPORTING"},{"character":"Monsieur Dufarge","actor":"Karl-Ulrich Meves","role":"SUPPORTING"},{"character":"Lavinia Herbert","actor":"Natascha Rybakowski","role":"SUPPORTING"},{"character":"Amelia Minchin","actor":"Sonja Deutsch","role":"SUPPORTING"}]}
+{
+ "titleId": 2547,
+ "updatedAt": "2026-08-15T18:30:47.691Z",
+ "roles": [
+  {
+   "character": "Sara Crewe",
+   "actor": "Beate Tober",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ralph Crewe",
+   "actor": "Rüdiger Evers",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mariette",
+   "actor": "Bettina Weiß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Peter",
+   "actor": "Florian Kiesel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Becky",
+   "actor": "Miriam Behpour",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lottie Legh",
+   "actor": "Daniela Reidies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maria Minchin",
+   "actor": "Viola Sauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Monsieur Dufarge",
+   "actor": "Karl-Ulrich Meves",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lavinia Herbert",
+   "actor": "Natascha Rybakowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Amelia Minchin",
+   "actor": "Sonja Deutsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lavinia",
+   "actor": "Julia Haacke",
+   "von": "ann"
+  },
+  {
+   "character": "Sara",
+   "actor": "Diana Borgwardt",
+   "von": "ann"
+  },
+  {
+   "character": "Sara Crewe",
+   "actor": "Bea Tober",
+   "von": "ann"
+  },
+  {
+   "character": "Amelia",
+   "actor": "Sonja Deutsch",
+   "von": "ann"
+  },
+  {
+   "character": "Lavinia",
+   "actor": "Natascha Rybakowski",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=444"
+}

@@ -1,1 +1,72 @@
-{"titleId":104722,"updatedAt":"2026-08-11T11:20:03.488Z","roles":[{"character":"Kufa Vampir","actor":"Flemming Stein","role":"MAIN"},{"character":"Melida Angel","actor":"Julia Fölster","role":"MAIN"},{"character":"Elise Angel","actor":"Elise Eikermann","role":"MAIN"},{"character":"Rosetti Pricket","actor":"Maria Wardzinska","role":"MAIN"},{"character":"Nerva Martillo","actor":"Josephine Martz","role":"SUPPORTING"},{"character":"Williams Jin","actor":"Rasmus Borowski","role":"SUPPORTING"},{"character":"Salacha Schicksal","actor":"Emily Seubert","role":"SUPPORTING"},{"character":"Mule la Mor","actor":"Jenny Maria Meyer","role":"SUPPORTING"},{"character":"Oyaji","actor":"Nicolas König","role":"SUPPORTING"},{"character":"Aimee","actor":"Sarah Madeleine Tusk","role":"SUPPORTING"},{"character":"Black Madia","actor":"Samina König","role":"SUPPORTING"}]}
+{
+ "titleId": 104722,
+ "updatedAt": "2026-08-15T18:43:27.433Z",
+ "roles": [
+  {
+   "character": "Kufa Vampir",
+   "actor": "Flemming Stein",
+   "role": "MAIN"
+  },
+  {
+   "character": "Melida Angel",
+   "actor": "Julia Fölster",
+   "role": "MAIN"
+  },
+  {
+   "character": "Elise Angel",
+   "actor": "Elise Eikermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rosetti Pricket",
+   "actor": "Maria Wardzinska",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nerva Martillo",
+   "actor": "Josephine Martz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Williams Jin",
+   "actor": "Rasmus Borowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Salacha Schicksal",
+   "actor": "Emily Seubert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mule la Mor",
+   "actor": "Jenny Maria Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Oyaji",
+   "actor": "Nicolas König",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aimee",
+   "actor": "Sarah Madeleine Tusk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Black Madia",
+   "actor": "Samina König",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Vater",
+   "actor": "Nicolas König",
+   "von": "ann"
+  },
+  {
+   "character": "Williams Gin",
+   "actor": "Rasmus Borowski",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22217"
+}

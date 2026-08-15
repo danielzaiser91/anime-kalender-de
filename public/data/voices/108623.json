@@ -1,1 +1,102 @@
-{"titleId":108623,"updatedAt":"2026-08-11T11:20:03.512Z","roles":[{"character":"Goblin Slayer","actor":"Roman Wolko","role":"MAIN"},{"character":"Onna Shinkan","actor":"Victoria Frenz","role":"MAIN"},{"character":"Tokage Souryo","actor":"Marlin Wick","role":"SUPPORTING"},{"character":"Kouhito Doushi","actor":"Elmar Gutmann","role":"SUPPORTING"},{"character":"Reijou Kenshi","actor":"Tanya Kahana","role":"SUPPORTING"},{"character":"Uketsuke-jou","actor":"Daniela Molina","role":"SUPPORTING"},{"character":"Ushikai Musume","actor":"Jennifer Weiß","role":"SUPPORTING"},{"character":"Majo","actor":"Cornelia Waibel","role":"SUPPORTING"},{"character":"Yaritsukai","actor":"David Riedel","role":"SUPPORTING"},{"character":"Yousei Yunde","actor":"Anja Stadlober","role":"SUPPORTING"}]}
+{
+ "titleId": 108623,
+ "updatedAt": "2026-08-15T18:44:17.265Z",
+ "roles": [
+  {
+   "character": "Goblin Slayer",
+   "actor": "Roman Wolko",
+   "role": "MAIN"
+  },
+  {
+   "character": "Onna Shinkan",
+   "actor": "Victoria Frenz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tokage Souryo",
+   "actor": "Marlin Wick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kouhito Doushi",
+   "actor": "Elmar Gutmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Reijou Kenshi",
+   "actor": "Tanya Kahana",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Uketsuke-jou",
+   "actor": "Daniela Molina",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ushikai Musume",
+   "actor": "Jennifer Weiß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Majo",
+   "actor": "Cornelia Waibel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yaritsukai",
+   "actor": "David Riedel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yousei Yunde",
+   "actor": "Anja Stadlober",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Priestess",
+   "actor": "Victoria Frenz",
+   "von": "ann"
+  },
+  {
+   "character": "Dwarf Shaman",
+   "actor": "Elmar Gutmann",
+   "von": "ann"
+  },
+  {
+   "character": "Lizardman Priest",
+   "actor": "Marlin Wick",
+   "von": "ann"
+  },
+  {
+   "character": "High Elf Archer",
+   "actor": "Anja Stadlober",
+   "von": "ann"
+  },
+  {
+   "character": "Noble Fencer",
+   "actor": "Tanya Kahana",
+   "von": "ann"
+  },
+  {
+   "character": "Cow Girl",
+   "actor": "Jennifer Weiß",
+   "von": "ann"
+  },
+  {
+   "character": "Witch",
+   "actor": "Cornelia Waibel",
+   "von": "ann"
+  },
+  {
+   "character": "Guild Girl",
+   "actor": "Daniela Molina",
+   "von": "ann"
+  },
+  {
+   "character": "Spearman",
+   "actor": "David Riedel",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22010"
+}

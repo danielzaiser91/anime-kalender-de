@@ -1,1 +1,92 @@
-{"titleId":21584,"updatedAt":"2026-08-11T11:20:03.314Z","roles":[{"character":"Chika Takami","actor":"Anna Gamburg","role":"MAIN"},{"character":"Ruby Kurosawa","actor":"Jennifer Weiß","role":"MAIN"},{"character":"Riko Sakurauchi","actor":"Josefin Hagen","role":"MAIN"},{"character":"Kanan Matsuura","actor":"Jamie Lee Blank","role":"MAIN"},{"character":"Dia Kurosawa","actor":"Laurine Betz","role":"MAIN"},{"character":"You Watanabe","actor":"Jasmin Arnoldt","role":"MAIN"},{"character":"Yoshiko Tsushima","actor":"Jodie Blank","role":"MAIN"},{"character":"Hanamaru Kunikida","actor":"Tina Haseney","role":"MAIN"},{"character":"Mari Ohara","actor":"Inken Baxmeier","role":"MAIN"},{"character":"Yoshimi","actor":"Elinor Eidt","role":"SUPPORTING"},{"character":"Shima Takami","actor":"Annika Tenter","role":"SUPPORTING"},{"character":"Leah Kazuno","actor":"Bettina Kenney","role":"SUPPORTING"},{"character":"Sarah Kazuno","actor":"Annika Tenter","role":"SUPPORTING"},{"character":"Mito Takami","actor":"Bettina Kenney","role":"SUPPORTING"},{"character":"Shiitake","actor":"Jermain Meyer","role":"SUPPORTING"},{"character":"Itsuki","actor":"Olivia Büschken","role":"SUPPORTING"}]}
+{
+ "titleId": 21584,
+ "updatedAt": "2026-08-15T18:39:27.691Z",
+ "roles": [
+  {
+   "character": "Chika Takami",
+   "actor": "Anna Gamburg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ruby Kurosawa",
+   "actor": "Jennifer Weiß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Riko Sakurauchi",
+   "actor": "Josefin Hagen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kanan Matsuura",
+   "actor": "Jamie Lee Blank",
+   "role": "MAIN"
+  },
+  {
+   "character": "Dia Kurosawa",
+   "actor": "Laurine Betz",
+   "role": "MAIN"
+  },
+  {
+   "character": "You Watanabe",
+   "actor": "Jasmin Arnoldt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yoshiko Tsushima",
+   "actor": "Jodie Blank",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hanamaru Kunikida",
+   "actor": "Tina Haseney",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mari Ohara",
+   "actor": "Inken Baxmeier",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yoshimi",
+   "actor": "Elinor Eidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shima Takami",
+   "actor": "Annika Tenter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Leah Kazuno",
+   "actor": "Bettina Kenney",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sarah Kazuno",
+   "actor": "Annika Tenter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mito Takami",
+   "actor": "Bettina Kenney",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shiitake",
+   "actor": "Jermain Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Itsuki",
+   "actor": "Olivia Büschken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kanan Matsuura",
+   "actor": "Jamie-Lee Blank",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=17985"
+}

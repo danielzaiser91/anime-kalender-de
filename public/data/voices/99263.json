@@ -1,1 +1,117 @@
-{"titleId":99263,"updatedAt":"2026-08-11T11:20:03.400Z","roles":[{"character":"Naofumi Iwatani","actor":"Björn Schalla","role":"MAIN"},{"character":"Raphtalia","actor":"Birte Baumgardt","role":"MAIN"},{"character":"Filo","actor":"Léa Mariage","role":"MAIN"},{"character":"Erhard","actor":"Oliver Siebeck","role":"SUPPORTING"},{"character":"Idol Rabier","actor":"Stefan Gossler","role":"SUPPORTING"},{"character":"Beloukas","actor":"Gerald Schaale","role":"SUPPORTING"},{"character":"Rifana","actor":"Samina König","role":"SUPPORTING"},{"character":"Itsuki Kawasumi","actor":"Christian Zeiger","role":"SUPPORTING"},{"character":"Aultcray Melromarc XXXII","actor":"Axel Lutter","role":"SUPPORTING"},{"character":"Van Reichnott","actor":"Oliver-Kim Hasper","role":"SUPPORTING"},{"character":"Melty Q Melromarc","actor":"Daniela Molina","role":"SUPPORTING"},{"character":"Glass","actor":"Alice Bauer","role":"SUPPORTING"},{"character":"L'arc  Berg","actor":"Tim Knauer","role":"SUPPORTING"},{"character":"Ren Amaki","actor":"Ricardo Richter","role":"SUPPORTING"},{"character":"Biscas  T. Balmus","actor":"Uwe Büschken","role":"SUPPORTING"},{"character":"Therese Alexandrite","actor":"Giuliana Jakobeit","role":"SUPPORTING"},{"character":"Motoyasu Kitamura","actor":"Arne Stephan","role":"SUPPORTING"},{"character":"Mirellia Q Melromarc","actor":"Victoria Sturm","role":"SUPPORTING"}]}
+{
+ "titleId": 99263,
+ "updatedAt": "2026-08-15T18:41:18.772Z",
+ "roles": [
+  {
+   "character": "Naofumi Iwatani",
+   "actor": "Björn Schalla",
+   "role": "MAIN"
+  },
+  {
+   "character": "Raphtalia",
+   "actor": "Birte Baumgardt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Filo",
+   "actor": "Léa Mariage",
+   "role": "MAIN"
+  },
+  {
+   "character": "Erhard",
+   "actor": "Oliver Siebeck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Idol Rabier",
+   "actor": "Stefan Gossler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Beloukas",
+   "actor": "Gerald Schaale",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rifana",
+   "actor": "Samina König",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Itsuki Kawasumi",
+   "actor": "Christian Zeiger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aultcray Melromarc XXXII",
+   "actor": "Axel Lutter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Van Reichnott",
+   "actor": "Oliver-Kim Hasper",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Melty Q Melromarc",
+   "actor": "Daniela Molina",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Glass",
+   "actor": "Alice Bauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "L'arc  Berg",
+   "actor": "Tim Knauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ren Amaki",
+   "actor": "Ricardo Richter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Biscas  T. Balmus",
+   "actor": "Uwe Büschken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Therese Alexandrite",
+   "actor": "Giuliana Jakobeit",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Motoyasu Kitamura",
+   "actor": "Arne Stephan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mirellia Q Melromarc",
+   "actor": "Victoria Sturm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Elhart",
+   "actor": "Oliver Siebeck",
+   "von": "ann"
+  },
+  {
+   "character": "Mirellia Q. Melromarc",
+   "actor": "Victoria Sturm",
+   "von": "ann"
+  },
+  {
+   "character": "Myne Suphia",
+   "actor": "Sonja Spuhl",
+   "von": "ann"
+  },
+  {
+   "character": "Melty S. Melromarc",
+   "actor": "Daniela Molina",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19826"
+}

@@ -1,1 +1,77 @@
-{"titleId":116226,"updatedAt":"2026-08-11T11:20:03.551Z","roles":[{"character":"Arata Kishimo","actor":"Rajko Geith","role":"MAIN"},{"character":"Mio Miyamasu","actor":"Emilia Raschewski","role":"MAIN"},{"character":"Mori Obaachan","actor":"Arianne Borbach","role":"SUPPORTING"},{"character":"Wasuremono Guchi Kakariin","actor":"Joachim Kaps","role":"SUPPORTING"},{"character":"Madoka","actor":"Muriel Bielenberg","role":"SUPPORTING"},{"character":"Kiku-chan","actor":"Milena Rybiczka","role":"SUPPORTING"},{"character":"Orika","actor":"Elisa Bannat","role":"SUPPORTING"},{"character":"Sachi Miyamasu","actor":"Tina Haseney","role":"SUPPORTING"},{"character":"Giimon","actor":"Matthias Klages","role":"SUPPORTING"},{"character":"Mogari","actor":"Peter Lontzek","role":"SUPPORTING"}]}
+{
+ "titleId": 116226,
+ "updatedAt": "2026-08-15T18:45:26.974Z",
+ "roles": [
+  {
+   "character": "Arata Kishimo",
+   "actor": "Rajko Geith",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mio Miyamasu",
+   "actor": "Emilia Raschewski",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mori Obaachan",
+   "actor": "Arianne Borbach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Wasuremono Guchi Kakariin",
+   "actor": "Joachim Kaps",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Madoka",
+   "actor": "Muriel Bielenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kiku-chan",
+   "actor": "Milena Rybiczka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Orika",
+   "actor": "Elisa Bannat",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sachi Miyamasu",
+   "actor": "Tina Haseney",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Giimon",
+   "actor": "Matthias Klages",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mogari",
+   "actor": "Peter Lontzek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gimon",
+   "actor": "Matthias Klages",
+   "von": "ann"
+  },
+  {
+   "character": "Gimon",
+   "actor": "Juana von Jascheroff",
+   "von": "ann"
+  },
+  {
+   "character": "Frau Mori",
+   "actor": "Arianne Borbach",
+   "von": "ann"
+  },
+  {
+   "character": "Kiku",
+   "actor": "Milena Rybiczka",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=23570"
+}

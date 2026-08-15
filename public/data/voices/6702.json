@@ -1,1 +1,327 @@
-{"titleId":6702,"updatedAt":"2026-08-11T11:20:03.063Z","roles":[{"character":"Lucy Heartfilia","actor":"Lina Rabea Mohr","role":"MAIN"},{"character":"Natsu Dragneel","actor":"Luisa Wietzorek","role":"MAIN"},{"character":"Happy","actor":"Charlotte Uhlig","role":"MAIN"},{"character":"Gray Fullbuster","actor":"René Dawn-Claude","role":"MAIN"},{"character":"Erza Scarlet","actor":"Marieke Oeffinger","role":"MAIN"},{"character":"Wendy Marvell","actor":"Sarah Tkotsch","role":"MAIN"},{"character":"Charlés","actor":"Sarah Alles","role":"MAIN"},{"character":"Juvia Lockser","actor":"Josephine Schmidt","role":"SUPPORTING"},{"character":"Gajeel Redfox","actor":"Marios Gavrilis","role":"SUPPORTING"},{"character":"Mirajane Strauss","actor":"Lisa May-Mitsching","role":"SUPPORTING"},{"character":"Makarov Dreyar","actor":"Erich Räuker","role":"SUPPORTING"},{"character":"Cana Alberona","actor":"Esra Vural","role":"SUPPORTING"},{"character":"Elfman Strauss","actor":"Peter Lontzek","role":"SUPPORTING"},{"character":"Plue","actor":"Sarah Madeleine Tusk","role":"SUPPORTING"},{"character":"Ul","actor":"Mia Diekow","role":"SUPPORTING"},{"character":"Laxus Dreyar","actor":"Jaron Löwenberg","role":"SUPPORTING"},{"character":"Loke","actor":"Bastian Sierich","role":"SUPPORTING"},{"character":"Mystogan","actor":"Tim Knauer","role":"SUPPORTING"},{"character":"Aria","actor":"Paul Matzke","role":"SUPPORTING"},{"character":"Sol","actor":"Robert Missler","role":"SUPPORTING"},{"character":"Totomaru","actor":"Tobias Müller","role":"SUPPORTING"},{"character":"Jellal Fernandes","actor":"Tim Knauer","role":"SUPPORTING"},{"character":"Ultear Milkovich","actor":"Giuliana Jakobeit","role":"SUPPORTING"},{"character":"Lyon Vastia","actor":"Laurine Betz","role":"SUPPORTING"},{"character":"Jose Porla","actor":"Joachim Kaps","role":"SUPPORTING"}]}
+{
+ "titleId": 6702,
+ "updatedAt": "2026-08-15T18:33:04.961Z",
+ "roles": [
+  {
+   "character": "Lucy Heartfilia",
+   "actor": "Lina Rabea Mohr",
+   "role": "MAIN"
+  },
+  {
+   "character": "Natsu Dragneel",
+   "actor": "Luisa Wietzorek",
+   "role": "MAIN"
+  },
+  {
+   "character": "Happy",
+   "actor": "Charlotte Uhlig",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gray Fullbuster",
+   "actor": "René Dawn-Claude",
+   "role": "MAIN"
+  },
+  {
+   "character": "Erza Scarlet",
+   "actor": "Marieke Oeffinger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Wendy Marvell",
+   "actor": "Sarah Tkotsch",
+   "role": "MAIN"
+  },
+  {
+   "character": "Charlés",
+   "actor": "Sarah Alles",
+   "role": "MAIN"
+  },
+  {
+   "character": "Juvia Lockser",
+   "actor": "Josephine Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gajeel Redfox",
+   "actor": "Marios Gavrilis",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mirajane Strauss",
+   "actor": "Lisa May-Mitsching",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Makarov Dreyar",
+   "actor": "Erich Räuker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cana Alberona",
+   "actor": "Esra Vural",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Elfman Strauss",
+   "actor": "Peter Lontzek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Plue",
+   "actor": "Sarah Madeleine Tusk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ul",
+   "actor": "Mia Diekow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Laxus Dreyar",
+   "actor": "Jaron Löwenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Loke",
+   "actor": "Bastian Sierich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mystogan",
+   "actor": "Tim Knauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aria",
+   "actor": "Paul Matzke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sol",
+   "actor": "Robert Missler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Totomaru",
+   "actor": "Tobias Müller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jellal Fernandes",
+   "actor": "Tim Knauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ultear Milkovich",
+   "actor": "Giuliana Jakobeit",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lyon Vastia",
+   "actor": "Laurine Betz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jose Porla",
+   "actor": "Joachim Kaps",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lyon Vastia",
+   "actor": "Ricardo Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Sting Eucliffe",
+   "actor": "Sebastian Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "Aquarius",
+   "actor": "Ann Vielhaben",
+   "von": "ann"
+  },
+  {
+   "character": "Horologium",
+   "actor": "Uwe Büschken",
+   "von": "ann"
+  },
+  {
+   "character": "Hades",
+   "actor": "Jan Spitzer",
+   "von": "ann"
+  },
+  {
+   "character": "Pantherlily",
+   "actor": "Torsten Münchow",
+   "von": "ann"
+  },
+  {
+   "character": "Alzack Connell",
+   "actor": "Jannik Endemann",
+   "von": "ann"
+  },
+  {
+   "character": "Frosch",
+   "actor": "Cathlen Gawlich",
+   "von": "ann"
+  },
+  {
+   "character": "Taurus",
+   "actor": "Tim Moeseritz",
+   "von": "ann"
+  },
+  {
+   "character": "Zeref",
+   "actor": "Patrick Baehr",
+   "von": "ann"
+  },
+  {
+   "character": "Gildarts",
+   "actor": "Peter Flechtner",
+   "von": "ann"
+  },
+  {
+   "character": "Bixlow",
+   "actor": "Fabian Oscar Wien",
+   "von": "ann"
+  },
+  {
+   "character": "Igneel",
+   "actor": "Raimund Krone",
+   "von": "ann"
+  },
+  {
+   "character": "Rogue Cheney",
+   "actor": "Nico Sablik",
+   "von": "ann"
+  },
+  {
+   "character": "Natsu Dragneel",
+   "actor": "Julius Jellinek",
+   "von": "ann"
+  },
+  {
+   "character": "Warren Rocko",
+   "actor": "Jan Rohrbach",
+   "von": "ann"
+  },
+  {
+   "character": "Wakaba Mine",
+   "actor": "Fritz Rott",
+   "von": "ann"
+  },
+  {
+   "character": "Lisanna Strauss",
+   "actor": "Julia Fölster",
+   "von": "ann"
+  },
+  {
+   "character": "Cancer",
+   "actor": "Felix Spieß",
+   "von": "ann"
+  },
+  {
+   "character": "Sagittarius",
+   "actor": "Steven Merting",
+   "von": "ann"
+  },
+  {
+   "character": "Nab Lasaro",
+   "actor": "Nick Forsberg",
+   "von": "ann"
+  },
+  {
+   "character": "Reedus Jonah",
+   "actor": "Florian Hoffmann",
+   "von": "ann"
+  },
+  {
+   "character": "Mirajane Strauss",
+   "actor": "Lisa Mitsching",
+   "von": "ann"
+  },
+  {
+   "character": "Mavis Vermillion",
+   "actor": "Jodie Blank",
+   "von": "ann"
+  },
+  {
+   "character": "Freed Justine",
+   "actor": "Arne Stephan",
+   "von": "ann"
+  },
+  {
+   "character": "Carla",
+   "actor": "Sarah Alles",
+   "von": "ann"
+  },
+  {
+   "character": "Lector",
+   "actor": "Ilona Brokowski",
+   "von": "ann"
+  },
+  {
+   "character": "Romeo Convolt",
+   "actor": "Peggy Pollow",
+   "von": "ann"
+  },
+  {
+   "character": "Loki",
+   "actor": "Bastian Sierich",
+   "von": "ann"
+  },
+  {
+   "character": "Bisca Mulan",
+   "actor": "Sandrine Mittelstädt",
+   "von": "ann"
+  },
+  {
+   "character": "Evergreen",
+   "actor": "Jasmin Arnoldt",
+   "von": "ann"
+  },
+  {
+   "character": "Laki Olietta",
+   "actor": "Anna Gamburg",
+   "von": "ann"
+  },
+  {
+   "character": "Jet",
+   "actor": "Fabian Kluckert",
+   "von": "ann"
+  },
+  {
+   "character": "Virgo",
+   "actor": "Jenny Maria Meyer",
+   "von": "ann"
+  },
+  {
+   "character": "Levy McGarden",
+   "actor": "Samira Jakobs",
+   "von": "ann"
+  },
+  {
+   "character": "Max Alors",
+   "actor": "Julian Tennstedt",
+   "von": "ann"
+  },
+  {
+   "character": "Vijeeter Ecor",
+   "actor": "Johannes Walenta",
+   "von": "ann"
+  },
+  {
+   "character": "Macao Conbolt",
+   "actor": "Sven Fechner",
+   "von": "ann"
+  },
+  {
+   "character": "Droy",
+   "actor": "Florian Clyde",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=10942"
+}

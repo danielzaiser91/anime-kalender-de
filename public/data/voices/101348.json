@@ -1,1 +1,167 @@
-{"titleId":101348,"updatedAt":"2026-08-11T11:20:03.455Z","roles":[{"character":"Thorfinn Karlsefni","actor":"Nico Sablik","role":"MAIN"},{"character":"Askeladd","actor":"Torsten Michaelis","role":"MAIN"},{"character":"Canute Svenson","actor":"Patrick Baehr","role":"MAIN"},{"character":"Ragnar","actor":"Hans Bayer","role":"SUPPORTING"},{"character":"Atli","actor":"Felix Würgler","role":"SUPPORTING"},{"character":"Tore","actor":"Nico Nothnagel","role":"SUPPORTING"},{"character":"Mord","actor":"Bernd Egger","role":"SUPPORTING"},{"character":"Thors Snorresson","actor":"Matti Klemm","role":"SUPPORTING"},{"character":"Ylva","actor":"Esra Vural","role":"SUPPORTING"},{"character":"Gorm","actor":"Rainer Gerlach","role":"SUPPORTING"},{"character":"Hakon","actor":"Konrad Bösherz","role":"SUPPORTING"},{"character":"Bjorn","actor":"Tobias Brecklinghaus","role":"SUPPORTING"},{"character":"Willibald","actor":"Peter Lontzek","role":"SUPPORTING"},{"character":"Olaf","actor":"Joscha Fischer-Antze","role":"SUPPORTING"},{"character":"Magni","actor":"Fabian Oscar Wien","role":"SUPPORTING"},{"character":"Sweyn","actor":"Bert Franzke","role":"SUPPORTING"},{"character":"Ari","actor":"Julian Tennstedt","role":"SUPPORTING"},{"character":"Jabbathe","actor":"Sven Plate","role":"SUPPORTING"},{"character":"Mols","actor":"Paul Matzke","role":"SUPPORTING"},{"character":"Thorkell","actor":"Johannes Berenz","role":"SUPPORTING"},{"character":"Helga","actor":"Melanie Hinze","role":"SUPPORTING"},{"character":"Halfdan","actor":"Sven Gerhardt","role":"SUPPORTING"},{"character":"Faxi","actor":"Rieke Werner","role":"SUPPORTING"},{"character":"Grim","actor":"Ricardo Richter","role":"SUPPORTING"},{"character":"Asgeir","actor":"Peter Sura","role":"SUPPORTING"}]}
+{
+ "titleId": 101348,
+ "updatedAt": "2026-08-15T18:42:36.967Z",
+ "roles": [
+  {
+   "character": "Thorfinn Karlsefni",
+   "actor": "Nico Sablik",
+   "role": "MAIN"
+  },
+  {
+   "character": "Askeladd",
+   "actor": "Torsten Michaelis",
+   "role": "MAIN"
+  },
+  {
+   "character": "Canute Svenson",
+   "actor": "Patrick Baehr",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ragnar",
+   "actor": "Hans Bayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Atli",
+   "actor": "Felix Würgler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tore",
+   "actor": "Nico Nothnagel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mord",
+   "actor": "Bernd Egger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Thors Snorresson",
+   "actor": "Matti Klemm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ylva",
+   "actor": "Esra Vural",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gorm",
+   "actor": "Rainer Gerlach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hakon",
+   "actor": "Konrad Bösherz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bjorn",
+   "actor": "Tobias Brecklinghaus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Willibald",
+   "actor": "Peter Lontzek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Olaf",
+   "actor": "Joscha Fischer-Antze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Magni",
+   "actor": "Fabian Oscar Wien",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sweyn",
+   "actor": "Bert Franzke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ari",
+   "actor": "Julian Tennstedt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jabbathe",
+   "actor": "Sven Plate",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mols",
+   "actor": "Paul Matzke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Thorkell",
+   "actor": "Johannes Berenz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Helga",
+   "actor": "Melanie Hinze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Halfdan",
+   "actor": "Sven Gerhardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Faxi",
+   "actor": "Rieke Werner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Grim",
+   "actor": "Ricardo Richter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Asgeir",
+   "actor": "Peter Sura",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "The Ear",
+   "actor": "Gerald Schaale",
+   "von": "ann"
+  },
+  {
+   "character": "Floki",
+   "actor": "Torsten Münchow",
+   "von": "ann"
+  },
+  {
+   "character": "Torgrim",
+   "actor": "Tim Moeseritz",
+   "von": "ann"
+  },
+  {
+   "character": "Knut",
+   "actor": "Patrick Baehr",
+   "von": "ann"
+  },
+  {
+   "character": "Thorfinn Thordarson",
+   "actor": "Nico Sablik",
+   "von": "ann"
+  },
+  {
+   "character": "Leif Eriksson",
+   "actor": "Joachim Kaps",
+   "von": "ann"
+  },
+  {
+   "character": "King Sven",
+   "actor": "Bert Franzke",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20778"
+}

@@ -1,1 +1,102 @@
-{"titleId":19815,"updatedAt":"2026-08-11T11:20:03.184Z","roles":[{"character":"Sora","actor":"Björn Schalla","role":"MAIN"},{"character":"Shiro","actor":"Paulina Rümmelein","role":"MAIN"},{"character":"Stephanie Dola","actor":"Winnie Brandes","role":"MAIN"},{"character":"Jibril","actor":"Milena Karas","role":"MAIN"},{"character":"Mahakoht Dola","actor":"Matthias Haase","role":"SUPPORTING"},{"character":"Queen","actor":"Birte Baumgardt","role":"SUPPORTING"},{"character":"Miko","actor":"Daniela Bette-Koch","role":"SUPPORTING"},{"character":"Chlammy Zell","actor":"Corinna Dorenkamp","role":"SUPPORTING"},{"character":"Ino Hatsuse","actor":"Wolfram Fuchs","role":"SUPPORTING"},{"character":"Fiel Nilvalen","actor":"Ela Paul","role":"SUPPORTING"},{"character":"Koukan","actor":"Jochen Kolenda","role":"SUPPORTING"},{"character":"Izuna Hatsuse","actor":"Céline Vogt","role":"SUPPORTING"},{"character":"Touzoku","actor":"Michael-Che Koch","role":"SUPPORTING"},{"character":"Tet","actor":"Patricia Strasburger","role":"SUPPORTING"},{"character":"Senshi","actor":"Thomas Balou Martin","role":"SUPPORTING"}]}
+{
+ "titleId": 19815,
+ "updatedAt": "2026-08-15T18:36:14.543Z",
+ "roles": [
+  {
+   "character": "Sora",
+   "actor": "Björn Schalla",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shiro",
+   "actor": "Paulina Rümmelein",
+   "role": "MAIN"
+  },
+  {
+   "character": "Stephanie Dola",
+   "actor": "Winnie Brandes",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jibril",
+   "actor": "Milena Karas",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mahakoht Dola",
+   "actor": "Matthias Haase",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Queen",
+   "actor": "Birte Baumgardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miko",
+   "actor": "Daniela Bette-Koch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chlammy Zell",
+   "actor": "Corinna Dorenkamp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ino Hatsuse",
+   "actor": "Wolfram Fuchs",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fiel Nilvalen",
+   "actor": "Ela Paul",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Koukan",
+   "actor": "Jochen Kolenda",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Izuna Hatsuse",
+   "actor": "Céline Vogt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Touzoku",
+   "actor": "Michael-Che Koch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tet",
+   "actor": "Patricia Strasburger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Senshi",
+   "actor": "Thomas Balou Martin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chlammy Zell",
+   "actor": "Corinna Dörenkamp",
+   "von": "ann"
+  },
+  {
+   "character": "Shiro",
+   "actor": "Paulina Bohlmann",
+   "von": "ann"
+  },
+  {
+   "character": "Stephanie Dora",
+   "actor": "Winnie Brandes",
+   "von": "ann"
+  },
+  {
+   "character": "Teto",
+   "actor": "Patricia Strasburger",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15784"
+}

@@ -1,1 +1,107 @@
-{"titleId":10681,"updatedAt":"2026-08-11T11:20:03.110Z","roles":[{"character":"Fumito Nanahara","actor":"Jan Kurbjuweit","role":"MAIN"},{"character":"Mana Hiiragi","actor":"Elisabeth Frank","role":"MAIN"},{"character":"Saya Kisaragi","actor":"Lisa Braun","role":"MAIN"},{"character":"Tadayoshi Kisaragi","actor":"Felix Würgler","role":"SUPPORTING"},{"character":"Hiro Tsukiyama","actor":"Jennifer Weiß","role":"SUPPORTING"},{"character":"Itsuki Tomofusa","actor":"Klemens Fuhrmann","role":"SUPPORTING"},{"character":"Nene Motoe","actor":"Angelina Geisler","role":"SUPPORTING"},{"character":"Yuuka Amino","actor":"Katja Hirsch","role":"SUPPORTING"},{"character":"Nono Motoe","actor":"Angelina Geisler","role":"SUPPORTING"},{"character":"Haruno Yanagi","actor":"Greta Galisch de Palma","role":"SUPPORTING"},{"character":"Dog","actor":"Christoph Banken","role":"SUPPORTING"},{"character":"Kanako Tsutsutori","actor":"Carmen Katt","role":"SUPPORTING"},{"character":"Kimihiro Watanuki","actor":"Christoph Banken","role":"SUPPORTING"},{"character":"Iori Matsuo","actor":"Klemens Fuhrmann","role":"SUPPORTING"},{"character":"Kutou","actor":"Sven Gerhardt","role":"SUPPORTING"},{"character":"Shun Fujimura","actor":"Amadeus Strobl","role":"SUPPORTING"},{"character":"Kuroto Mogari","actor":"Manolo Palma","role":"SUPPORTING"}]}
+{
+ "titleId": 10681,
+ "updatedAt": "2026-08-15T18:34:17.521Z",
+ "roles": [
+  {
+   "character": "Fumito Nanahara",
+   "actor": "Jan Kurbjuweit",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mana Hiiragi",
+   "actor": "Elisabeth Frank",
+   "role": "MAIN"
+  },
+  {
+   "character": "Saya Kisaragi",
+   "actor": "Lisa Braun",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tadayoshi Kisaragi",
+   "actor": "Felix Würgler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hiro Tsukiyama",
+   "actor": "Jennifer Weiß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Itsuki Tomofusa",
+   "actor": "Klemens Fuhrmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nene Motoe",
+   "actor": "Angelina Geisler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuuka Amino",
+   "actor": "Katja Hirsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nono Motoe",
+   "actor": "Angelina Geisler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haruno Yanagi",
+   "actor": "Greta Galisch de Palma",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dog",
+   "actor": "Christoph Banken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kanako Tsutsutori",
+   "actor": "Carmen Katt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kimihiro Watanuki",
+   "actor": "Christoph Banken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Iori Matsuo",
+   "actor": "Klemens Fuhrmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kutou",
+   "actor": "Sven Gerhardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shun Fujimura",
+   "actor": "Amadeus Strobl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kuroto Mogari",
+   "actor": "Manolo Palma",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kuto",
+   "actor": "Sven Gerhardt",
+   "von": "ann"
+  },
+  {
+   "character": "Haruno Yanagi",
+   "actor": "Greta Galisch",
+   "von": "ann"
+  },
+  {
+   "character": "Yuka Amino",
+   "actor": "Katja Hirsch",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=13228"
+}

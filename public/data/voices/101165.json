@@ -1,1 +1,147 @@
-{"titleId":101165,"updatedAt":"2026-08-11T11:20:03.445Z","roles":[{"character":"Goblin Slayer","actor":"Roman Wolko","role":"MAIN"},{"character":"Onna Shinkan","actor":"Victoria Frenz","role":"MAIN"},{"character":"Kouhito Doushi","actor":"Elmar Gutmann","role":"SUPPORTING"},{"character":"Omoi Kenshi","actor":"Kevin Kraus","role":"SUPPORTING"},{"character":"Yousei Yunde","actor":"Anja Stadlober","role":"SUPPORTING"},{"character":"Tsurugi no Otome","actor":"Melanie Hinze","role":"SUPPORTING"},{"character":"Onna Kishi","actor":"Alice Bauer","role":"SUPPORTING"},{"character":"Ushikai Musume no Oji","actor":"Klaus Lochthove","role":"SUPPORTING"},{"character":"Shoujo Fujutsushi","actor":"Heide Ihlenfeld","role":"SUPPORTING"},{"character":"Ushikai Musume","actor":"Jennifer Weiß","role":"SUPPORTING"},{"character":"Senshi","actor":"Fabian Hollwitz","role":"SUPPORTING"},{"character":"Kantoku-kan","actor":"Romina Langenhan","role":"SUPPORTING"},{"character":"Uketsuke-jou","actor":"Daniela Molina","role":"SUPPORTING"},{"character":"Butouka","actor":"Anna Gamburg","role":"SUPPORTING"},{"character":"Shoshinsha Senshi","actor":"Sebastian Fitzner","role":"SUPPORTING"},{"character":"Majo","actor":"Cornelia Waibel","role":"SUPPORTING"},{"character":"Mahoutsukai","actor":"Johanna Dost","role":"SUPPORTING"},{"character":"Tokage Souryo","actor":"Marlin Wick","role":"SUPPORTING"},{"character":"Minarai Seishokusha","actor":"Rieke Werner","role":"SUPPORTING"}]}
+{
+ "titleId": 101165,
+ "updatedAt": "2026-08-15T18:42:24.202Z",
+ "roles": [
+  {
+   "character": "Goblin Slayer",
+   "actor": "Roman Wolko",
+   "role": "MAIN"
+  },
+  {
+   "character": "Onna Shinkan",
+   "actor": "Victoria Frenz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kouhito Doushi",
+   "actor": "Elmar Gutmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Omoi Kenshi",
+   "actor": "Kevin Kraus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yousei Yunde",
+   "actor": "Anja Stadlober",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsurugi no Otome",
+   "actor": "Melanie Hinze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Onna Kishi",
+   "actor": "Alice Bauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ushikai Musume no Oji",
+   "actor": "Klaus Lochthove",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shoujo Fujutsushi",
+   "actor": "Heide Ihlenfeld",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ushikai Musume",
+   "actor": "Jennifer Weiß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Senshi",
+   "actor": "Fabian Hollwitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kantoku-kan",
+   "actor": "Romina Langenhan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Uketsuke-jou",
+   "actor": "Daniela Molina",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Butouka",
+   "actor": "Anna Gamburg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shoshinsha Senshi",
+   "actor": "Sebastian Fitzner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Majo",
+   "actor": "Cornelia Waibel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mahoutsukai",
+   "actor": "Johanna Dost",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tokage Souryo",
+   "actor": "Marlin Wick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Minarai Seishokusha",
+   "actor": "Rieke Werner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Priestess",
+   "actor": "Victoria Frenz",
+   "von": "ann"
+  },
+  {
+   "character": "Sword Maiden",
+   "actor": "Melanie Hinze",
+   "von": "ann"
+  },
+  {
+   "character": "Dwarf Shaman",
+   "actor": "Elmar Gutmann",
+   "von": "ann"
+  },
+  {
+   "character": "Lizard Priest",
+   "actor": "Marlin Wick",
+   "von": "ann"
+  },
+  {
+   "character": "High Elf Archer",
+   "actor": "Anja Stadlober",
+   "von": "ann"
+  },
+  {
+   "character": "Cow Girl",
+   "actor": "Jennifer Weiß",
+   "von": "ann"
+  },
+  {
+   "character": "Witch",
+   "actor": "Cornelia Waibel",
+   "von": "ann"
+  },
+  {
+   "character": "Guild Girl",
+   "actor": "Daniela Molina",
+   "von": "ann"
+  },
+  {
+   "character": "Spear Man",
+   "actor": "David Riedel",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20672"
+}

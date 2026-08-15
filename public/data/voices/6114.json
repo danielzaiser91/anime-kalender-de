@@ -1,1 +1,77 @@
-{"titleId":6114,"updatedAt":"2026-08-11T11:20:03.053Z","roles":[{"character":"Tadayoshi Tooyama","actor":"Sebastian Schulz","role":"MAIN"},{"character":"Ryuuji Nomoto","actor":"Tommy Morgenstern","role":"MAIN"},{"character":"Jou Yokosuka","actor":"Dirk Petrick","role":"MAIN"},{"character":"Noboru Maeda","actor":"Hannes Maurer","role":"MAIN"},{"character":"Rokurouta Sakuragi","actor":"Fabian Oscar Wien","role":"MAIN"},{"character":"Mansaku Matsuura","actor":"Jesco Wirthgen","role":"MAIN"},{"character":"Mario Minakami","actor":"David Turba","role":"MAIN"},{"character":"Ishihara","actor":"Oliver Siebeck","role":"SUPPORTING"},{"character":"Gisuke Sasaki","actor":"Axel Lutter","role":"SUPPORTING"},{"character":"Setsuko Koike","actor":"Rubina Kuraoka","role":"SUPPORTING"},{"character":"Megumi Yokosuka","actor":"Lana Finn Marti","role":"SUPPORTING"},{"character":"Kumagai","actor":"Jaron Löwenberg","role":"SUPPORTING"},{"character":"Narrator","actor":"Gundi Eberhard","role":"SUPPORTING"}]}
+{
+ "titleId": 6114,
+ "updatedAt": "2026-08-15T18:32:49.835Z",
+ "roles": [
+  {
+   "character": "Tadayoshi Tooyama",
+   "actor": "Sebastian Schulz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ryuuji Nomoto",
+   "actor": "Tommy Morgenstern",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jou Yokosuka",
+   "actor": "Dirk Petrick",
+   "role": "MAIN"
+  },
+  {
+   "character": "Noboru Maeda",
+   "actor": "Hannes Maurer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rokurouta Sakuragi",
+   "actor": "Fabian Oscar Wien",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mansaku Matsuura",
+   "actor": "Jesco Wirthgen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mario Minakami",
+   "actor": "David Turba",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ishihara",
+   "actor": "Oliver Siebeck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gisuke Sasaki",
+   "actor": "Axel Lutter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Setsuko Koike",
+   "actor": "Rubina Kuraoka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Megumi Yokosuka",
+   "actor": "Lana Finn Marti",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kumagai",
+   "actor": "Jaron Löwenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Gundi Eberhard",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Megu Yokosuka",
+   "actor": "Lana Finn Marti",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=9700"
+}

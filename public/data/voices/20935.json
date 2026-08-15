@@ -1,1 +1,112 @@
-{"titleId":20935,"updatedAt":"2026-08-11T11:20:03.245Z","roles":[{"character":"Hilmes","actor":"Dirk Meyer","role":"MAIN"},{"character":"Daryun","actor":"Leonard Hohm","role":"MAIN"},{"character":"Arslan","actor":"Louis Friedemann Thiele","role":"MAIN"},{"character":"Gieve","actor":"Bela Klentze","role":"MAIN"},{"character":"Narsus","actor":"Oliver Scheffel","role":"MAIN"},{"character":"Elam","actor":"Karim El Kammouchi","role":"MAIN"},{"character":"Farangis","actor":"Franziska Ball","role":"MAIN"},{"character":"Kishward","actor":"Johannes Haag","role":"SUPPORTING"},{"character":"Rajendra","actor":"Johannes Wolko","role":"SUPPORTING"},{"character":"Alfreed","actor":"Katharina Iacobescu","role":"SUPPORTING"},{"character":"Andragoras III","actor":"Gerhard Jilka","role":"SUPPORTING"},{"character":"Garshasph","actor":"Matthias Kupfer","role":"SUPPORTING"}]}
+{
+ "titleId": 20935,
+ "updatedAt": "2026-08-15T18:37:56.360Z",
+ "roles": [
+  {
+   "character": "Hilmes",
+   "actor": "Dirk Meyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Daryun",
+   "actor": "Leonard Hohm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Arslan",
+   "actor": "Louis Friedemann Thiele",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gieve",
+   "actor": "Bela Klentze",
+   "role": "MAIN"
+  },
+  {
+   "character": "Narsus",
+   "actor": "Oliver Scheffel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Elam",
+   "actor": "Karim El Kammouchi",
+   "role": "MAIN"
+  },
+  {
+   "character": "Farangis",
+   "actor": "Franziska Ball",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kishward",
+   "actor": "Johannes Haag",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rajendra",
+   "actor": "Johannes Wolko",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alfreed",
+   "actor": "Katharina Iacobescu",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Andragoras III",
+   "actor": "Gerhard Jilka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Garshasph",
+   "actor": "Matthias Kupfer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Silver Mask",
+   "actor": "Dirk Meyer",
+   "von": "ann"
+  },
+  {
+   "character": "Bodin",
+   "actor": "Gerhard Acktun",
+   "von": "ann"
+  },
+  {
+   "character": "Tahamine",
+   "actor": "Claudia Schmidt",
+   "von": "ann"
+  },
+  {
+   "character": "Kubad",
+   "actor": "Mike Carl",
+   "von": "ann"
+  },
+  {
+   "character": "Etoile",
+   "actor": "Ilena Gwisdalla",
+   "von": "ann"
+  },
+  {
+   "character": "Shapur",
+   "actor": "Felix Mayer",
+   "von": "ann"
+  },
+  {
+   "character": "Sarm",
+   "actor": "John Friedmann",
+   "von": "ann"
+  },
+  {
+   "character": "Kharlan",
+   "actor": "Mark Kuhn",
+   "von": "ann"
+  },
+  {
+   "character": "Giscard",
+   "actor": "Timothy Peach",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16687"
+}

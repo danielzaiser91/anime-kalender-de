@@ -1,1 +1,157 @@
-{"titleId":2904,"updatedAt":"2026-08-11T11:20:02.992Z","roles":[{"character":"Lelouch Lamperouge","actor":"Nico Sablik","role":"MAIN"},{"character":"C.C.","actor":"Antje von der Ahe","role":"MAIN"},{"character":"Suzaku Kururugi","actor":"Konrad Bösherz","role":"MAIN"},{"character":"Kallen Stadtfeld","actor":"Julia Ziffer","role":"MAIN"},{"character":"Cornelia li Britannia","actor":"Marina Krogull","role":"SUPPORTING"},{"character":"Nunnally Lamperouge","actor":"Julia Stoepel","role":"SUPPORTING"},{"character":"Gilbert G.P. Guilford","actor":"Steven Merting","role":"SUPPORTING"},{"character":"Jeremiah Gottwald","actor":"Marcus Off","role":"SUPPORTING"},{"character":"Kaname Oogi","actor":"Markus Pfeiffer","role":"SUPPORTING"},{"character":"Villetta Nu","actor":"Katrin Zimmermann","role":"SUPPORTING"},{"character":"Kyoushiro Toudou","actor":"Jaron Löwenberg","role":"SUPPORTING"},{"character":"Shirley Fenette","actor":"Maria Koschny","role":"SUPPORTING"},{"character":"Milly Ashford","actor":"Uschi Hugo","role":"SUPPORTING"},{"character":"Rivalz Cardemonde","actor":"Sebastian Schulz","role":"SUPPORTING"},{"character":"Nina Einstein","actor":"Manja Doering","role":"SUPPORTING"},{"character":"Shinichirou Tamaki","actor":"Michael Baral","role":"SUPPORTING"},{"character":"Diethard Ried","actor":"Peter Reinhardt","role":"SUPPORTING"},{"character":"Marianne vi Britannia","actor":"Liane Rudolph","role":"SUPPORTING"},{"character":"Lloyd Asplund","actor":"Stefan Staudinger","role":"SUPPORTING"},{"character":"Cécile Croomy","actor":"Marie Bierstedt","role":"SUPPORTING"},{"character":"Schneizel el Britannia","actor":"Sebastian Christoph Jacob","role":"SUPPORTING"},{"character":"Sayoko Shinozaki","actor":"Heike Beeck","role":"SUPPORTING"},{"character":"V.V.","actor":"Marie-Luise Schramm","role":"SUPPORTING"},{"character":"Rakshata Chawla","actor":"Silvia Mißbach","role":"SUPPORTING"},{"character":"Kaguya Sumeragi","actor":"Marie-Luise Schramm","role":"SUPPORTING"}]}
+{
+ "titleId": 2904,
+ "updatedAt": "2026-08-15T18:31:21.932Z",
+ "roles": [
+  {
+   "character": "Lelouch Lamperouge",
+   "actor": "Nico Sablik",
+   "role": "MAIN"
+  },
+  {
+   "character": "C.C.",
+   "actor": "Antje von der Ahe",
+   "role": "MAIN"
+  },
+  {
+   "character": "Suzaku Kururugi",
+   "actor": "Konrad Bösherz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kallen Stadtfeld",
+   "actor": "Julia Ziffer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Cornelia li Britannia",
+   "actor": "Marina Krogull",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nunnally Lamperouge",
+   "actor": "Julia Stoepel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gilbert G.P. Guilford",
+   "actor": "Steven Merting",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jeremiah Gottwald",
+   "actor": "Marcus Off",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaname Oogi",
+   "actor": "Markus Pfeiffer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Villetta Nu",
+   "actor": "Katrin Zimmermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyoushiro Toudou",
+   "actor": "Jaron Löwenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shirley Fenette",
+   "actor": "Maria Koschny",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Milly Ashford",
+   "actor": "Uschi Hugo",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rivalz Cardemonde",
+   "actor": "Sebastian Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nina Einstein",
+   "actor": "Manja Doering",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinichirou Tamaki",
+   "actor": "Michael Baral",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Diethard Ried",
+   "actor": "Peter Reinhardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marianne vi Britannia",
+   "actor": "Liane Rudolph",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lloyd Asplund",
+   "actor": "Stefan Staudinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cécile Croomy",
+   "actor": "Marie Bierstedt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Schneizel el Britannia",
+   "actor": "Sebastian Christoph Jacob",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sayoko Shinozaki",
+   "actor": "Heike Beeck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "V.V.",
+   "actor": "Marie-Luise Schramm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rakshata Chawla",
+   "actor": "Silvia Mißbach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaguya Sumeragi",
+   "actor": "Marie-Luise Schramm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "V.V.",
+   "actor": "Marie Schramm",
+   "von": "ann"
+  },
+  {
+   "character": "Cecile Croomy",
+   "actor": "Marie Bierstedt",
+   "von": "ann"
+  },
+  {
+   "character": "Rolo Lamperouge",
+   "actor": "David Turba",
+   "von": "ann"
+  },
+  {
+   "character": "Kaname Ohgi",
+   "actor": "Markus Pfeiffer",
+   "von": "ann"
+  },
+  {
+   "character": "Nunnally Vi Britannia",
+   "actor": "Julia Stoepel",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=9173"
+}

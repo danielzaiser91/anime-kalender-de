@@ -1,1 +1,87 @@
-{"titleId":20994,"updatedAt":"2026-08-11T11:20:03.254Z","roles":[{"character":"Rory Mercury","actor":"Kathrin Hildebrand","role":"MAIN"},{"character":"Lelei la Lelena","actor":"Ramona Minaz","role":"MAIN"},{"character":"Tuka Luna Marceau","actor":"Nadine Ehrenreich","role":"MAIN"},{"character":"Piña Co Lada","actor":"Christiane Werk","role":"MAIN"},{"character":"Youji Itami","actor":"Patrick Schröder","role":"MAIN"}]}
+{
+ "titleId": 20994,
+ "updatedAt": "2026-08-15T18:38:11.547Z",
+ "roles": [
+  {
+   "character": "Rory Mercury",
+   "actor": "Kathrin Hildebrand",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lelei la Lelena",
+   "actor": "Ramona Minaz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tuka Luna Marceau",
+   "actor": "Nadine Ehrenreich",
+   "role": "MAIN"
+  },
+  {
+   "character": "Piña Co Lada",
+   "actor": "Christiane Werk",
+   "role": "MAIN"
+  },
+  {
+   "character": "Youji Itami",
+   "actor": "Patrick Schröder",
+   "role": "MAIN"
+  },
+  {
+   "character": "Takeo Kurata",
+   "actor": "Sven-Marcel Voss",
+   "von": "ann"
+  },
+  {
+   "character": "Lelei La Lelena",
+   "actor": "Ramona Bess",
+   "von": "ann"
+  },
+  {
+   "character": "Shino Kuribayashi",
+   "actor": "Barbara Ehrlich",
+   "von": "ann"
+  },
+  {
+   "character": "Akira Tomita",
+   "actor": "Jürgen Heimüller",
+   "von": "ann"
+  },
+  {
+   "character": "Mari Kurokawa",
+   "actor": "Nataša Rikanović",
+   "von": "ann"
+  },
+  {
+   "character": "Souichirou Kuwabara",
+   "actor": "Anjo Czernich",
+   "von": "ann"
+  },
+  {
+   "character": "Kouichirou Hazama",
+   "actor": "Raik Singer",
+   "von": "ann"
+  },
+  {
+   "character": "Akira Yanagida",
+   "actor": "Patrick Gräser",
+   "von": "ann"
+  },
+  {
+   "character": "Kato El Altestan",
+   "actor": "Wolfgang Rositzka",
+   "von": "ann"
+  },
+  {
+   "character": "Hamilton Uno Law",
+   "actor": "Stella Goritzki",
+   "von": "ann"
+  },
+  {
+   "character": "Bozes Co Palesti",
+   "actor": "Jenny Winkler",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16679"
+}

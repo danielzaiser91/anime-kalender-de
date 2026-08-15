@@ -1,1 +1,112 @@
-{"titleId":20875,"updatedAt":"2026-08-11T11:20:03.239Z","roles":[{"character":"Shin Matoba","actor":"Sebastian Fitzner","role":"SUPPORTING"},{"character":"Himiko","actor":"Josephine Schmidt","role":"SUPPORTING"},{"character":"Yasuko Tanaka","actor":"Christin Marquitan","role":"SUPPORTING"}]}
+{
+ "titleId": 20875,
+ "updatedAt": "2026-08-15T18:37:47.990Z",
+ "roles": [
+  {
+   "character": "Shin Matoba",
+   "actor": "Sebastian Fitzner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Himiko",
+   "actor": "Josephine Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yasuko Tanaka",
+   "actor": "Christin Marquitan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seiya Ichijou",
+   "actor": "Ricardo Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Kigetsu",
+   "actor": "Jan Spitzer",
+   "von": "ann"
+  },
+  {
+   "character": "Kiyomi",
+   "actor": "Lydia Morgenstern",
+   "von": "ann"
+  },
+  {
+   "character": "Kei",
+   "actor": "Denise Gorzelanny",
+   "von": "ann"
+  },
+  {
+   "character": "Tatsumi",
+   "actor": "Amadeus Strobl",
+   "von": "ann"
+  },
+  {
+   "character": "Hakim",
+   "actor": "Florian Hoffmann",
+   "von": "ann"
+  },
+  {
+   "character": "Kyouka Kagami",
+   "actor": "Inken Baxmeier",
+   "von": "ann"
+  },
+  {
+   "character": "Midoriko",
+   "actor": "Lisa Mitsching",
+   "von": "ann"
+  },
+  {
+   "character": "Issei Ariga",
+   "actor": "Arne Stephan",
+   "von": "ann"
+  },
+  {
+   "character": "Naoki Miki",
+   "actor": "Valentin Stilu",
+   "von": "ann"
+  },
+  {
+   "character": "Marcus Lithos",
+   "actor": "Marcel Mann",
+   "von": "ann"
+  },
+  {
+   "character": "Grimms",
+   "actor": "Dirc Simpson",
+   "von": "ann"
+  },
+  {
+   "character": "Sayaka Ogata",
+   "actor": "Amelie Plaas-Link",
+   "von": "ann"
+  },
+  {
+   "character": "Amon Ogata",
+   "actor": "Sven Brieger",
+   "von": "ann"
+  },
+  {
+   "character": "Mina Hiraya",
+   "actor": "Daniela Molina",
+   "von": "ann"
+  },
+  {
+   "character": "Gai Ogata",
+   "actor": "Christopher Kohn",
+   "von": "ann"
+  },
+  {
+   "character": "Aronys",
+   "actor": "Yeşim Meisheit",
+   "von": "ann"
+  },
+  {
+   "character": "Takuma Miura",
+   "actor": "Christoph Drobig",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19984"
+}

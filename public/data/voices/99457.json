@@ -1,1 +1,97 @@
-{"titleId":99457,"updatedAt":"2026-08-11T11:20:03.404Z","roles":[{"character":"Ariel","actor":"Maximilian Belle","role":"MAIN"},{"character":"Maquia","actor":"Kathrin Hanak","role":"MAIN"},{"character":"Medmel","actor":"Madeleine Holzach","role":"SUPPORTING"},{"character":"Barou","actor":"Karim El Kammouchi","role":"SUPPORTING"},{"character":"Darel","actor":"Gerhard Jilka","role":"SUPPORTING"},{"character":"Dita","actor":"Katharina Schwarzmaier","role":"SUPPORTING"},{"character":"Mido","actor":"Angela Wiederhut","role":"SUPPORTING"},{"character":"Racine","actor":"Melanie Manstein","role":"SUPPORTING"},{"character":"Lang","actor":"Benjamin Weygand","role":"SUPPORTING"},{"character":"Krim","actor":"Martin Bonvicini","role":"SUPPORTING"},{"character":"Izol","actor":"Stefan Günther","role":"SUPPORTING"},{"character":"Leilia","actor":"Stephanie Kellner","role":"SUPPORTING"}]}
+{
+ "titleId": 99457,
+ "updatedAt": "2026-08-15T18:41:24.479Z",
+ "roles": [
+  {
+   "character": "Ariel",
+   "actor": "Maximilian Belle",
+   "role": "MAIN"
+  },
+  {
+   "character": "Maquia",
+   "actor": "Kathrin Hanak",
+   "role": "MAIN"
+  },
+  {
+   "character": "Medmel",
+   "actor": "Madeleine Holzach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Barou",
+   "actor": "Karim El Kammouchi",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Darel",
+   "actor": "Gerhard Jilka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dita",
+   "actor": "Katharina Schwarzmaier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mido",
+   "actor": "Angela Wiederhut",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Racine",
+   "actor": "Melanie Manstein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lang",
+   "actor": "Benjamin Weygand",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Krim",
+   "actor": "Martin Bonvicini",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Izol",
+   "actor": "Stefan Günther",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Leilia",
+   "actor": "Stephanie Kellner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Leylia",
+   "actor": "Stephanie Kellner",
+   "von": "ann"
+  },
+  {
+   "character": "Isor",
+   "actor": "Stefan Günther",
+   "von": "ann"
+  },
+  {
+   "character": "Erial",
+   "actor": "Maximilian Belle",
+   "von": "ann"
+  },
+  {
+   "character": "Lashinu",
+   "actor": "Melanie Manstein",
+   "von": "ann"
+  },
+  {
+   "character": "Balou",
+   "actor": "Karim El Kammouchi",
+   "von": "ann"
+  },
+  {
+   "character": "Lang",
+   "actor": "Sebastian Winkler",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19848"
+}

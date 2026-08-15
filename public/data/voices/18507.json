@@ -1,1 +1,77 @@
-{"titleId":18507,"updatedAt":"2026-08-11T11:20:03.175Z","roles":[{"character":"Rin Matsuoka","actor":"Tim Knauer","role":"MAIN"},{"character":"Nagisa Hazuki","actor":"Christian Zeiger","role":"MAIN"},{"character":"Haruka Nanase","actor":"Birte Baumgardt","role":"MAIN"},{"character":"Rei Ryuugazaki","actor":"Jan Makino","role":"MAIN"},{"character":"Makoto Tachibana","actor":"Asad Schwarz-Msesilamba","role":"MAIN"},{"character":"Gou Matsuoka","actor":"Julia Fölster","role":"MAIN"},{"character":"Miho Amakata","actor":"Tanja Schmitz","role":"SUPPORTING"},{"character":"Chigusa Hanamura","actor":"Rieke Werner","role":"SUPPORTING"},{"character":"Gorou Sasabe","actor":"Fritz Rott","role":"SUPPORTING"},{"character":"Seijuurou Mikoshiba","actor":"Nick Forsberg","role":"SUPPORTING"},{"character":"Aiichirou Nitori","actor":"Vincent Borko","role":"SUPPORTING"}]}
+{
+ "titleId": 18507,
+ "updatedAt": "2026-08-15T18:36:01.734Z",
+ "roles": [
+  {
+   "character": "Rin Matsuoka",
+   "actor": "Tim Knauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nagisa Hazuki",
+   "actor": "Christian Zeiger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Haruka Nanase",
+   "actor": "Birte Baumgardt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rei Ryuugazaki",
+   "actor": "Jan Makino",
+   "role": "MAIN"
+  },
+  {
+   "character": "Makoto Tachibana",
+   "actor": "Asad Schwarz-Msesilamba",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gou Matsuoka",
+   "actor": "Julia Fölster",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miho Amakata",
+   "actor": "Tanja Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chigusa Hanamura",
+   "actor": "Rieke Werner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gorou Sasabe",
+   "actor": "Fritz Rott",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seijuurou Mikoshiba",
+   "actor": "Nick Forsberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aiichirou Nitori",
+   "actor": "Vincent Borko",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haruka Nanase",
+   "actor": "Ricardo Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Makoto Tachibana",
+   "actor": "Asad Schwarz",
+   "von": "ann"
+  },
+  {
+   "character": "Rei Ryugazaki",
+   "actor": "Jan Makino",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15291"
+}

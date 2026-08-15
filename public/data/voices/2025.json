@@ -1,1 +1,152 @@
-{"titleId":2025,"updatedAt":"2026-08-11T11:20:02.952Z","roles":[{"character":"Misaki Kirihara","actor":"Silke Linderhaus","role":"MAIN"},{"character":"Mao","actor":"Thomas Friebe","role":"MAIN"},{"character":"Huang","actor":"Rolf Berg","role":"MAIN"},{"character":"Yin","actor":"Rieke Werner","role":"MAIN"},{"character":"Hei","actor":"Sven Hasper","role":"MAIN"},{"character":"Nobuhiro Aku","actor":"Stephan Schleberger","role":"SUPPORTING"},{"character":"Norio Ukiyama","actor":"Hans-Detlef Hüpgen","role":"SUPPORTING"},{"character":"Hourai Yoshimitsu","actor":"Hans Bayer","role":"SUPPORTING"},{"character":"Meena Kandaswamy","actor":"Corinna Dorenkamp","role":"SUPPORTING"},{"character":"Eric Nishijima","actor":"Jochen Kolenda","role":"SUPPORTING"},{"character":"Alice Wang","actor":"Katja Liebing","role":"SUPPORTING"},{"character":"Havoc","actor":"Vanessa Wunsch","role":"SUPPORTING"},{"character":"Brita","actor":"Gabriele Wienand","role":"SUPPORTING"},{"character":"Shihoko Kishida","actor":"Kordula Leiße","role":"SUPPORTING"},{"character":"November 11","actor":"Stephan Schleberger","role":"SUPPORTING"},{"character":"Amagiri","actor":"Thomas Balou Martin","role":"SUPPORTING"},{"character":"Yutaka Kouno","actor":"Sunke Janssen","role":"SUPPORTING"},{"character":"Masashi Hitotsubashi","actor":"Gregor Höppner","role":"SUPPORTING"},{"character":"Eelis Kastinen","actor":"Philipp Schepmann","role":"SUPPORTING"},{"character":"Mayu Otsuka","actor":"Corinna Dorenkamp","role":"SUPPORTING"},{"character":"April","actor":"Edda Fischer","role":"SUPPORTING"},{"character":"Jean","actor":"Lars Schmidtke","role":"SUPPORTING"},{"character":"Gai Kurasawa","actor":"David Nathan","role":"SUPPORTING"},{"character":"Mai Kashiwagi","actor":"Sarah Brückner","role":"SUPPORTING"},{"character":"Yzak","actor":"Olaf Reitz","role":"SUPPORTING"}]}
+{
+ "titleId": 2025,
+ "updatedAt": "2026-08-15T18:29:57.573Z",
+ "roles": [
+  {
+   "character": "Misaki Kirihara",
+   "actor": "Silke Linderhaus",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mao",
+   "actor": "Thomas Friebe",
+   "role": "MAIN"
+  },
+  {
+   "character": "Huang",
+   "actor": "Rolf Berg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yin",
+   "actor": "Rieke Werner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hei",
+   "actor": "Sven Hasper",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nobuhiro Aku",
+   "actor": "Stephan Schleberger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Norio Ukiyama",
+   "actor": "Hans-Detlef Hüpgen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hourai Yoshimitsu",
+   "actor": "Hans Bayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Meena Kandaswamy",
+   "actor": "Corinna Dorenkamp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eric Nishijima",
+   "actor": "Jochen Kolenda",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alice Wang",
+   "actor": "Katja Liebing",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Havoc",
+   "actor": "Vanessa Wunsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Brita",
+   "actor": "Gabriele Wienand",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shihoko Kishida",
+   "actor": "Kordula Leiße",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "November 11",
+   "actor": "Stephan Schleberger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Amagiri",
+   "actor": "Thomas Balou Martin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yutaka Kouno",
+   "actor": "Sunke Janssen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masashi Hitotsubashi",
+   "actor": "Gregor Höppner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eelis Kastinen",
+   "actor": "Philipp Schepmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mayu Otsuka",
+   "actor": "Corinna Dorenkamp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "April",
+   "actor": "Edda Fischer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jean",
+   "actor": "Lars Schmidtke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gai Kurasawa",
+   "actor": "David Nathan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mai Kashiwagi",
+   "actor": "Sarah Brückner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yzak",
+   "actor": "Olaf Reitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dr. Robert Schröder",
+   "actor": "Dieter Maise",
+   "von": "ann"
+  },
+  {
+   "character": "Zhi-Jun Wei",
+   "actor": "Fritz Rott",
+   "von": "ann"
+  },
+  {
+   "character": "Amber",
+   "actor": "Demet Fey",
+   "von": "ann"
+  },
+  {
+   "character": "Misuzu Ooyama",
+   "actor": "Sibylle Kuhne",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=7382"
+}

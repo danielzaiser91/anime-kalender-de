@@ -1,1 +1,117 @@
-{"titleId":142219,"updatedAt":"2026-08-11T11:20:03.605Z","roles":[{"character":"Wataru Takagi","actor":"Karlo Hackenberger","role":"MAIN"},{"character":"Conan Edogawa","actor":"Tobias Müller","role":"MAIN"},{"character":"Miwako Satou","actor":"Gundi Eberhard","role":"MAIN"},{"character":"Tooru Amuro","actor":"Konrad Bösherz","role":"MAIN"},{"character":"Kogorou Mouri","actor":"Jörg Hengstler","role":"SUPPORTING"},{"character":"Yumi Miyamoto","actor":"Diana Borgwardt","role":"SUPPORTING"},{"character":"Ai Haibara","actor":"Andrea Loewig","role":"SUPPORTING"},{"character":"Wataru Date","actor":"Paul Matzke","role":"SUPPORTING"},{"character":"Ran Mouri","actor":"Giuliana Jakobeit","role":"SUPPORTING"},{"character":"Jinpei Matsuda","actor":"Matti Klemm","role":"SUPPORTING"},{"character":"Yuuya Kazami","actor":"Peter Flechtner","role":"SUPPORTING"},{"character":"Juzo Megure","actor":"Klaus-Dieter Klebsch","role":"SUPPORTING"},{"character":"Hiromitsu Morofushi","actor":"Florian Clyde","role":"SUPPORTING"},{"character":"Naeko Miike","actor":"Anja Nestler","role":"SUPPORTING"},{"character":"Kenji Hagiwara","actor":"Dennis Schmidt-Foß","role":"SUPPORTING"}]}
+{
+ "titleId": 142219,
+ "updatedAt": "2026-08-15T18:47:10.845Z",
+ "roles": [
+  {
+   "character": "Wataru Takagi",
+   "actor": "Karlo Hackenberger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Conan Edogawa",
+   "actor": "Tobias Müller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miwako Satou",
+   "actor": "Gundi Eberhard",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tooru Amuro",
+   "actor": "Konrad Bösherz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kogorou Mouri",
+   "actor": "Jörg Hengstler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yumi Miyamoto",
+   "actor": "Diana Borgwardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ai Haibara",
+   "actor": "Andrea Loewig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Wataru Date",
+   "actor": "Paul Matzke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ran Mouri",
+   "actor": "Giuliana Jakobeit",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jinpei Matsuda",
+   "actor": "Matti Klemm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuuya Kazami",
+   "actor": "Peter Flechtner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Juzo Megure",
+   "actor": "Klaus-Dieter Klebsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hiromitsu Morofushi",
+   "actor": "Florian Clyde",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Naeko Miike",
+   "actor": "Anja Nestler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kenji Hagiwara",
+   "actor": "Dennis Schmidt-Foß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Juuzou Megure",
+   "actor": "Klaus-Dieter Klebsch",
+   "von": "ann"
+  },
+  {
+   "character": "Conan Edogawa / Shin'ichi Kudou",
+   "actor": "Tobias Müller",
+   "von": "ann"
+  },
+  {
+   "character": "Ayumi Yoshida",
+   "actor": "Julia Meynen",
+   "von": "ann"
+  },
+  {
+   "character": "Mitsuhiko Tsuburaya",
+   "actor": "Fabian Hollwitz",
+   "von": "ann"
+  },
+  {
+   "character": "Kazunobu Chiba",
+   "actor": "Michael Bauer",
+   "von": "ann"
+  },
+  {
+   "character": "Hiroshi Agasa",
+   "actor": "Frank Ciazynski",
+   "von": "ann"
+  },
+  {
+   "character": "Genta Kojima",
+   "actor": "Michael Iwannek",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=25016"
+}

@@ -1,1 +1,67 @@
-{"titleId":866,"updatedAt":"2026-08-11T11:20:02.867Z","roles":[{"character":"Lina Inverse","actor":"Shandra Schadt","role":"MAIN"},{"character":"Zelgadis Graywords","actor":"Claus-Peter Damitz","role":"MAIN"},{"character":"Amelia Wil Tesla Saillune","actor":"Sabine Bohlmann","role":"MAIN"},{"character":"Gourry Gabriev","actor":"Hubertus von Lerchenfeld","role":"MAIN"},{"character":"Xellos","actor":"Clemens Ostermann","role":"SUPPORTING"},{"character":"Intelligent Octopus","actor":"Clemens Ostermann","role":"SUPPORTING"},{"character":"Ruuma","actor":"Kathrin Gaube","role":"SUPPORTING"},{"character":"Gracia Ul Naga Saillune","actor":"Veronika Aryana Neugebauer","role":"SUPPORTING"}]}
+{
+ "titleId": 866,
+ "updatedAt": "2026-08-15T18:26:23.552Z",
+ "roles": [
+  {
+   "character": "Lina Inverse",
+   "actor": "Shandra Schadt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Zelgadis Graywords",
+   "actor": "Claus-Peter Damitz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Amelia Wil Tesla Saillune",
+   "actor": "Sabine Bohlmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gourry Gabriev",
+   "actor": "Hubertus von Lerchenfeld",
+   "role": "MAIN"
+  },
+  {
+   "character": "Xellos",
+   "actor": "Clemens Ostermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Intelligent Octopus",
+   "actor": "Clemens Ostermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ruuma",
+   "actor": "Kathrin Gaube",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gracia Ul Naga Saillune",
+   "actor": "Veronika Aryana Neugebauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Amelia Wil Tesla Seyruun",
+   "actor": "Sabine Bohlmann",
+   "von": "ann"
+  },
+  {
+   "character": "Naga die weiße Schlange",
+   "actor": "Veronika Neugebauer",
+   "von": "ann"
+  },
+  {
+   "character": "Zelgadis Greywords",
+   "actor": "Claus-Peter Damitz",
+   "von": "ann"
+  },
+  {
+   "character": "Ruma",
+   "actor": "Kathrin Gaube",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=295"
+}

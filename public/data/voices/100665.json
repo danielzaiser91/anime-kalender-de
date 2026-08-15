@@ -1,1 +1,97 @@
-{"titleId":100665,"updatedAt":"2026-08-11T11:20:03.431Z","roles":[{"character":"Chika Sugihara","actor":"Manuela Eifrig","role":"MAIN"},{"character":"Mari Tachibana","actor":"Florentine Draeger","role":"MAIN"},{"character":"Airi Yamamoto","actor":"Nadine Schreier","role":"MAIN"},{"character":"Mandarin Kinoshita","actor":"Sascha Draeger","role":"SUPPORTING"},{"character":"Kouji Nagata","actor":"Erik Schäffler","role":"SUPPORTING"},{"character":"Kimanjirou Inugane","actor":"Achim Buch","role":"SUPPORTING"},{"character":"Tooru Oguroda","actor":"Holger Umbreit","role":"SUPPORTING"},{"character":"Kimura","actor":"Flemming Stein","role":"SUPPORTING"},{"character":"Rina","actor":"Franciska  Friede","role":"SUPPORTING"},{"character":"Yui Nakamura","actor":"Leoni Kristin Oeffinger","role":"SUPPORTING"},{"character":"Narrator","actor":"Jan-David Rönfeldt","role":"BACKGROUND"}]}
+{
+ "titleId": 100665,
+ "updatedAt": "2026-08-15T18:42:05.348Z",
+ "roles": [
+  {
+   "character": "Chika Sugihara",
+   "actor": "Manuela Eifrig",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mari Tachibana",
+   "actor": "Florentine Draeger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Airi Yamamoto",
+   "actor": "Nadine Schreier",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mandarin Kinoshita",
+   "actor": "Sascha Draeger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kouji Nagata",
+   "actor": "Erik Schäffler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kimanjirou Inugane",
+   "actor": "Achim Buch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tooru Oguroda",
+   "actor": "Holger Umbreit",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kimura",
+   "actor": "Flemming Stein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rina",
+   "actor": "Franciska  Friede",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yui Nakamura",
+   "actor": "Leoni Kristin Oeffinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Jan-David Rönfeldt",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Kentarou Yamamoto",
+   "actor": "Christian Rudolf",
+   "von": "ann"
+  },
+  {
+   "character": "George",
+   "actor": "Jesse Grimm",
+   "von": "ann"
+  },
+  {
+   "character": "Yui Nakamura",
+   "actor": "Leoni Oeffinger",
+   "von": "ann"
+  },
+  {
+   "character": "Kazuhiko Sugihara",
+   "actor": "Nils Rieke",
+   "von": "ann"
+  },
+  {
+   "character": "Chika Sugihara",
+   "actor": "Manuela Bäcker",
+   "von": "ann"
+  },
+  {
+   "character": "Ryuu Tachibana",
+   "actor": "Christos Topoulos",
+   "von": "ann"
+  },
+  {
+   "character": "Rina",
+   "actor": "Franciska Friede",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20851"
+}

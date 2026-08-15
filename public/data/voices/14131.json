@@ -1,1 +1,177 @@
-{"titleId":14131,"updatedAt":"2026-08-11T11:20:03.143Z","roles":[{"character":"Yukari Akiyama","actor":"Katrin Heß","role":"MAIN"},{"character":"Mako Reizei","actor":"Jana Schölermann","role":"MAIN"},{"character":"Miho Nishizumi","actor":"Samira Jakobs","role":"MAIN"},{"character":"Saori Takebe","actor":"Patricia Strasburger","role":"MAIN"},{"character":"Hana Isuzu","actor":"Demet Fey","role":"MAIN"},{"character":"Alisa","actor":"Nicole Hise","role":"SUPPORTING"},{"character":"Shinzaburou","actor":"Markus Haase","role":"SUPPORTING"},{"character":"Taki Momose","actor":"Christiane Werk","role":"SUPPORTING"},{"character":"Katyusha","actor":"Rieke Werner","role":"SUPPORTING"},{"character":"Nonna","actor":"Silke Haupt","role":"SUPPORTING"},{"character":"Shinobu Kawanishi","actor":"Jessica Walther-Gabory","role":"SUPPORTING"},{"character":"Maria Suzuki","actor":"Elisa Kalus","role":"SUPPORTING"},{"character":"Kay","actor":"Corinna Dorenkamp","role":"SUPPORTING"},{"character":"Noriko Isobe","actor":"Nadja Godzina","role":"SUPPORTING"},{"character":"Naomi","actor":"Anna-Sophia Lumpe","role":"SUPPORTING"},{"character":"Keiko Hoshino","actor":"Rieke Werner","role":"SUPPORTING"},{"character":"Aoi Hiyoshi","actor":"Christiane Imdahl","role":"SUPPORTING"},{"character":"Taeko Kondou","actor":"Kerstin Kramer","role":"SUPPORTING"},{"character":"Akebi Sasaki","actor":"Fabienne Hesse","role":"SUPPORTING"},{"character":"Maho Nishizumi","actor":"Birte Baumgardt","role":"SUPPORTING"},{"character":"Darjeeling","actor":"Julia von Tettenborn","role":"SUPPORTING"}]}
+{
+ "titleId": 14131,
+ "updatedAt": "2026-08-15T18:35:05.696Z",
+ "roles": [
+  {
+   "character": "Yukari Akiyama",
+   "actor": "Katrin Heß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mako Reizei",
+   "actor": "Jana Schölermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miho Nishizumi",
+   "actor": "Samira Jakobs",
+   "role": "MAIN"
+  },
+  {
+   "character": "Saori Takebe",
+   "actor": "Patricia Strasburger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hana Isuzu",
+   "actor": "Demet Fey",
+   "role": "MAIN"
+  },
+  {
+   "character": "Alisa",
+   "actor": "Nicole Hise",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinzaburou",
+   "actor": "Markus Haase",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Taki Momose",
+   "actor": "Christiane Werk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Katyusha",
+   "actor": "Rieke Werner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nonna",
+   "actor": "Silke Haupt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinobu Kawanishi",
+   "actor": "Jessica Walther-Gabory",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maria Suzuki",
+   "actor": "Elisa Kalus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kay",
+   "actor": "Corinna Dorenkamp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Noriko Isobe",
+   "actor": "Nadja Godzina",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Naomi",
+   "actor": "Anna-Sophia Lumpe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Keiko Hoshino",
+   "actor": "Rieke Werner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aoi Hiyoshi",
+   "actor": "Christiane Imdahl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Taeko Kondou",
+   "actor": "Kerstin Kramer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akebi Sasaki",
+   "actor": "Fabienne Hesse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maho Nishizumi",
+   "actor": "Birte Baumgardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Darjeeling",
+   "actor": "Julia von Tettenborn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mako Reizei",
+   "actor": "Jana Kilka",
+   "von": "ann"
+  },
+  {
+   "character": "Momo Kawashima",
+   "actor": "Jülide Gülgec",
+   "von": "ann"
+  },
+  {
+   "character": "Anzu Kadotani",
+   "actor": "Charlotte Uhlig",
+   "von": "ann"
+  },
+  {
+   "character": "Caesar",
+   "actor": "Christiane Werk",
+   "von": "ann"
+  },
+  {
+   "character": "Erwin",
+   "actor": "Iris R. Hassenzahl",
+   "von": "ann"
+  },
+  {
+   "character": "Saemonza",
+   "actor": "Katharina Gast",
+   "von": "ann"
+  },
+  {
+   "character": "Azusa Sawa",
+   "actor": "Annette Potempa",
+   "von": "ann"
+  },
+  {
+   "character": "Ayumi Yamagou",
+   "actor": "Esther Brandt",
+   "von": "ann"
+  },
+  {
+   "character": "Yuzuko Koyama",
+   "actor": "Ela Paul",
+   "von": "ann"
+  },
+  {
+   "character": "Aya Oono",
+   "actor": "Katharina von Daake",
+   "von": "ann"
+  },
+  {
+   "character": "Karina Sakaguchi",
+   "actor": "Johanna Bergmann",
+   "von": "ann"
+  },
+  {
+   "character": "Oryou",
+   "actor": "Tabea Hilbert",
+   "von": "ann"
+  },
+  {
+   "character": "Yuuki Utsugi",
+   "actor": "Meri Dogan",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=14334"
+}

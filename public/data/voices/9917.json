@@ -1,1 +1,62 @@
-{"titleId":9917,"updatedAt":"2026-08-11T11:20:03.099Z","roles":[{"character":"Satoshi","actor":"Caroline Combrinck","role":"MAIN"}]}
+{
+ "titleId": 9917,
+ "updatedAt": "2026-08-15T18:34:01.601Z",
+ "roles": [
+  {
+   "character": "Satoshi",
+   "actor": "Caroline Combrinck",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ash Ketchum",
+   "actor": "Caroline Combrinck",
+   "von": "ann"
+  },
+  {
+   "character": "Jessie",
+   "actor": "Scarlet Cavadenti",
+   "von": "ann"
+  },
+  {
+   "character": "Mauzi",
+   "actor": "Gerhard Acktun",
+   "von": "ann"
+  },
+  {
+   "character": "James",
+   "actor": "Matthias Klie",
+   "von": "ann"
+  },
+  {
+   "character": "Benny",
+   "actor": "Tim Schwarzmaier",
+   "von": "ann"
+  },
+  {
+   "character": "Lilia",
+   "actor": "Marieke Oeffinger",
+   "von": "ann"
+  },
+  {
+   "character": "Juanita",
+   "actor": "Tatjana Pokorny",
+   "von": "ann"
+  },
+  {
+   "character": "Damon",
+   "actor": "Patrick Schröder",
+   "von": "ann"
+  },
+  {
+   "character": "Carlita",
+   "actor": "Gabrielle Pietermann",
+   "von": "ann"
+  },
+  {
+   "character": "Victini",
+   "actor": "Katharina Iacobescu",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=11975"
+}

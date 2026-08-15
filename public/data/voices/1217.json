@@ -1,1 +1,37 @@
-{"titleId":1217,"updatedAt":"2026-08-11T11:20:02.902Z","roles":[{"character":"Youichirou Takasugi","actor":"Tobias Brecklinghaus","role":"MAIN"},{"character":"Kousaku Ogata","actor":"Philipp Schepmann","role":"MAIN"},{"character":"Masayuki Tsutsumi","actor":"Markus Haase","role":"SUPPORTING"}]}
+{
+ "titleId": 1217,
+ "updatedAt": "2026-08-15T18:27:51.907Z",
+ "roles": [
+  {
+   "character": "Youichirou Takasugi",
+   "actor": "Tobias Brecklinghaus",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kousaku Ogata",
+   "actor": "Philipp Schepmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Masayuki Tsutsumi",
+   "actor": "Markus Haase",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yukari Shikibu",
+   "actor": "Uwe Thomsen",
+   "von": "ann"
+  },
+  {
+   "character": "Yoichuroh Takasugi",
+   "actor": "Tobias Brecklinghaus",
+   "von": "ann"
+  },
+  {
+   "character": "Kohsaku Ogata",
+   "actor": "Philipp Schepmann",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=6682"
+}

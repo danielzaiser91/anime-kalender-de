@@ -1,1 +1,22 @@
-{"titleId":3132,"updatedAt":"2026-08-11T11:20:03.002Z","roles":[{"character":"Christopher Columbus","actor":"Axel Malzacher","role":"MAIN"},{"character":"Ferdinand Ou","actor":"Michael Rüth","role":"SUPPORTING"}]}
+{
+ "titleId": 3132,
+ "updatedAt": "2026-08-15T18:31:40.814Z",
+ "roles": [
+  {
+   "character": "Christopher Columbus",
+   "actor": "Axel Malzacher",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ferdinand Ou",
+   "actor": "Michael Rüth",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Christoph Columbus",
+   "actor": "Axel Malzacher",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=5243"
+}

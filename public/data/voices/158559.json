@@ -1,1 +1,62 @@
-{"titleId":158559,"updatedAt":"2026-08-11T11:20:03.674Z","roles":[{"character":"Masamune Okumura","actor":"Konrad Bösherz","role":"MAIN"},{"character":"Ririsa Amano","actor":"Helen Malin Blaschke","role":"MAIN"},{"character":"Mikari Tachibana","actor":"Lisa May-Mitsching","role":"MAIN"},{"character":"753♡","actor":"Lara Trautmann","role":"SUPPORTING"},{"character":"Magin♪","actor":"Magdalena Turba","role":"SUPPORTING"},{"character":"Mayuri Hanyuu","actor":"Birte Baumgardt","role":"SUPPORTING"}]}
+{
+ "titleId": 158559,
+ "updatedAt": "2026-08-15T18:49:05.939Z",
+ "roles": [
+  {
+   "character": "Masamune Okumura",
+   "actor": "Konrad Bösherz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ririsa Amano",
+   "actor": "Helen Malin Blaschke",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mikari Tachibana",
+   "actor": "Lisa May-Mitsching",
+   "role": "MAIN"
+  },
+  {
+   "character": "753♡",
+   "actor": "Lara Trautmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Magin♪",
+   "actor": "Magdalena Turba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mayuri Hanyuu",
+   "actor": "Birte Baumgardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Magino",
+   "actor": "Magdalena Turba",
+   "von": "ann"
+  },
+  {
+   "character": "Ogino",
+   "actor": "Thomas Nero Wolff",
+   "von": "ann"
+  },
+  {
+   "character": "Ririsa Amano",
+   "actor": "Rieke Werner",
+   "von": "ann"
+  },
+  {
+   "character": "Mayuri Hanyū",
+   "actor": "Birte Baumgardt",
+   "von": "ann"
+  },
+  {
+   "character": "Masamune Okumura",
+   "actor": "Patrick Keller",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=26712"
+}

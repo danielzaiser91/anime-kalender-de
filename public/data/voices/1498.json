@@ -1,1 +1,137 @@
-{"titleId":1498,"updatedAt":"2026-08-11T11:20:02.925Z","roles":[{"character":"Kotarou Mochizuki","actor":"Maximiliane Häcke","role":"MAIN"},{"character":"Jirou Mochizuki","actor":"Markus Pfeiffer","role":"MAIN"},{"character":"Cassandra Jill Warlock","actor":"Susanne Dobrusskin","role":"MAIN"},{"character":"Mimiko Katsuragi","actor":"Corinna Dorenkamp","role":"MAIN"},{"character":"Cain Warlock","actor":"Volker Wolf","role":"SUPPORTING"},{"character":"Kelly Wong","actor":"Ulrike Hötzel","role":"SUPPORTING"},{"character":"Yafuri Chao","actor":"Dennis Saemann","role":"SUPPORTING"},{"character":"Badrick Serihan","actor":"Thomas Friebe","role":"SUPPORTING"},{"character":"Rinsuke Akai","actor":"Simon T. Roden","role":"SUPPORTING"},{"character":"Alice Eve","actor":"Sarah Brückner","role":"SUPPORTING"},{"character":"Johan Tsang","actor":"Heiko Obermöller","role":"SUPPORTING"},{"character":"Zelman Clock","actor":"Dieter Maise","role":"SUPPORTING"},{"character":"Sei","actor":"Rieke Werner","role":"SUPPORTING"},{"character":"Zaza","actor":"Andreas Meese","role":"SUPPORTING"},{"character":"Chan","actor":"Kirstin Hesse","role":"SUPPORTING"},{"character":"Sayuka Shiramine","actor":"Brit Gülland","role":"SUPPORTING"},{"character":"Hibari Kusunoki","actor":"Gabriele Wienand","role":"SUPPORTING"},{"character":"Zhang Lei Kao","actor":"Hans-Gerd Kilbinger","role":"SUPPORTING"}]}
+{
+ "titleId": 1498,
+ "updatedAt": "2026-08-15T18:28:47.668Z",
+ "roles": [
+  {
+   "character": "Kotarou Mochizuki",
+   "actor": "Maximiliane Häcke",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jirou Mochizuki",
+   "actor": "Markus Pfeiffer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Cassandra Jill Warlock",
+   "actor": "Susanne Dobrusskin",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mimiko Katsuragi",
+   "actor": "Corinna Dorenkamp",
+   "role": "MAIN"
+  },
+  {
+   "character": "Cain Warlock",
+   "actor": "Volker Wolf",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kelly Wong",
+   "actor": "Ulrike Hötzel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yafuri Chao",
+   "actor": "Dennis Saemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Badrick Serihan",
+   "actor": "Thomas Friebe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rinsuke Akai",
+   "actor": "Simon T. Roden",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alice Eve",
+   "actor": "Sarah Brückner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Johan Tsang",
+   "actor": "Heiko Obermöller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zelman Clock",
+   "actor": "Dieter Maise",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sei",
+   "actor": "Rieke Werner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zaza",
+   "actor": "Andreas Meese",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chan",
+   "actor": "Kirstin Hesse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sayuka Shiramine",
+   "actor": "Brit Gülland",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hibari Kusunoki",
+   "actor": "Gabriele Wienand",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zhang Lei Kao",
+   "actor": "Hans-Gerd Kilbinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alice",
+   "actor": "Sarah Brückner",
+   "von": "ann"
+  },
+  {
+   "character": "Mimiko Katsuragi",
+   "actor": "Corinna Dörenkamp",
+   "von": "ann"
+  },
+  {
+   "character": "Kotarou Mochizuki",
+   "actor": "Maxi Häcke",
+   "von": "ann"
+  },
+  {
+   "character": "Hibari Kusunogi",
+   "actor": "Gabi Wienand",
+   "von": "ann"
+  },
+  {
+   "character": "Sei (10 years ago)",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Sei (young)",
+   "actor": "Rieke Werner",
+   "von": "ann"
+  },
+  {
+   "character": "Mitaka Onezawa",
+   "actor": "Stephan Schleberger",
+   "von": "ann"
+  },
+  {
+   "character": "Shougo Jinnai",
+   "actor": "Lars Schmidtke",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=6449"
+}

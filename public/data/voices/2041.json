@@ -1,1 +1,62 @@
-{"titleId":2041,"updatedAt":"2026-08-11T11:20:02.953Z","roles":[{"character":"Karin Kokubu","actor":"Gundi Eberhard","role":"MAIN"},{"character":"Tonrariaano III","actor":"Gunnar Helm","role":"MAIN"},{"character":"Kouichi Mizuno","actor":"Asad Schwarz-Msesilamba","role":"SUPPORTING"},{"character":"Hiromi Kashiwagi","actor":"Rainer Fritzsche","role":"SUPPORTING"},{"character":"Keiko Kuroha","actor":"Ghadah Al-Akel","role":"SUPPORTING"},{"character":"Kaoru Hidaka","actor":"Anja Rybiczka","role":"SUPPORTING"},{"character":"Masami Yamakawa","actor":"Silvia Mißbach","role":"SUPPORTING"}]}
+{
+ "titleId": 2041,
+ "updatedAt": "2026-08-15T18:29:59.074Z",
+ "roles": [
+  {
+   "character": "Karin Kokubu",
+   "actor": "Gundi Eberhard",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tonrariaano III",
+   "actor": "Gunnar Helm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kouichi Mizuno",
+   "actor": "Asad Schwarz-Msesilamba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hiromi Kashiwagi",
+   "actor": "Rainer Fritzsche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Keiko Kuroha",
+   "actor": "Ghadah Al-Akel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaoru Hidaka",
+   "actor": "Anja Rybiczka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masami Yamakawa",
+   "actor": "Silvia Mißbach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Heather Hogwarsh",
+   "actor": "Ghadah Al-Akel",
+   "von": "ann"
+  },
+  {
+   "character": "Kassie Carlen / Super Pig",
+   "actor": "Gundi Eberhard",
+   "von": "ann"
+  },
+  {
+   "character": "Penny Round",
+   "actor": "Anja Rybiczka",
+   "von": "ann"
+  },
+  {
+   "character": "Lance Romero",
+   "actor": "Asad Schwarz",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1067"
+}

@@ -1,1 +1,77 @@
-{"titleId":97815,"updatedAt":"2026-08-11T11:20:03.362Z","roles":[{"character":"Mash Kyrielight","actor":"Julia Stoepel","role":"MAIN"},{"character":"Ritsuka Fujimaru","actor":"Jannik Endemann","role":"MAIN"},{"character":"Romani Archaman","actor":"Sebastian Schulz","role":"MAIN"},{"character":"Fou ","actor":"Iris R.  Hassenzahl","role":"MAIN"},{"character":"Medusa","actor":"Sonja Spuhl","role":"SUPPORTING"},{"character":"Olga Marie Animusphere","actor":"Birte Baumgardt","role":"SUPPORTING"},{"character":"Lev  Flauros","actor":"Bernd Vollbrecht","role":"SUPPORTING"},{"character":"Archer","actor":"Torsten Sense","role":"SUPPORTING"},{"character":"Cú  Chulainn","actor":"Michael Deffert","role":"SUPPORTING"},{"character":"Artoria Pendragon","actor":"Iris R.  Hassenzahl","role":"SUPPORTING"}]}
+{
+ "titleId": 97815,
+ "updatedAt": "2026-08-15T18:40:30.706Z",
+ "roles": [
+  {
+   "character": "Mash Kyrielight",
+   "actor": "Julia Stoepel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ritsuka Fujimaru",
+   "actor": "Jannik Endemann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Romani Archaman",
+   "actor": "Sebastian Schulz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Fou ",
+   "actor": "Iris R.  Hassenzahl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Medusa",
+   "actor": "Sonja Spuhl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Olga Marie Animusphere",
+   "actor": "Birte Baumgardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lev  Flauros",
+   "actor": "Bernd Vollbrecht",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Archer",
+   "actor": "Torsten Sense",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cú  Chulainn",
+   "actor": "Michael Deffert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Artoria Pendragon",
+   "actor": "Iris R.  Hassenzahl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lev Lainur",
+   "actor": "Bernd Vollbrecht",
+   "von": "ann"
+  },
+  {
+   "character": "Cu Chulainn",
+   "actor": "Michael Deffert",
+   "von": "ann"
+  },
+  {
+   "character": "Lancer",
+   "actor": "Sonja Spuhl",
+   "von": "ann"
+  },
+  {
+   "character": "Altria Pendragon",
+   "actor": "Iris Hassenzahl",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18870"
+}

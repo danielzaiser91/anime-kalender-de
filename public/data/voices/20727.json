@@ -1,1 +1,152 @@
-{"titleId":20727,"updatedAt":"2026-08-11T11:20:03.221Z","roles":[{"character":"Leonardo Watch","actor":"Felix Mayer","role":"MAIN"},{"character":"Klaus von Reinherz","actor":"Ingo Albrecht","role":"MAIN"},{"character":"Zapp Renfro","actor":"Uwe Thomsen","role":"MAIN"},{"character":"Mary Macbeth","actor":"Samira Jakobs","role":"SUPPORTING"},{"character":"Blitz T. Abrams","actor":"Bernd Vollbrecht","role":"SUPPORTING"},{"character":"Michella Watch","actor":"Winnie Brandes","role":"SUPPORTING"},{"character":"Benjamin Macbeth","actor":"Philipp Schepmann","role":"SUPPORTING"},{"character":"Chain Sumeragi","actor":"Ann Vielhaben","role":"SUPPORTING"},{"character":"Angelica","actor":"Demet Fey","role":"SUPPORTING"},{"character":"Martin","actor":"Dennis Saemann","role":"SUPPORTING"},{"character":"Steven A. Starphase","actor":"Robert Steudtner","role":"SUPPORTING"},{"character":"Patrick","actor":"Dieter Brink","role":"SUPPORTING"},{"character":"Emma Macbeth","actor":"Vanessa Wunsch","role":"SUPPORTING"},{"character":"Vivian","actor":"Silke Linderhaus","role":"SUPPORTING"},{"character":"Deldro Brody","actor":"Oliver Krietsch-Matzura","role":"SUPPORTING"},{"character":"Korsakov Ulchenko","actor":"Matthias Kiel","role":"SUPPORTING"},{"character":"Gregor Maximus","actor":"Lars Schmidtke","role":"SUPPORTING"},{"character":"William Macbeth","actor":"Katrin Heß","role":"SUPPORTING"},{"character":"Dog Hummer","actor":"Louis Friedemann Thiele","role":"SUPPORTING"},{"character":"Rajuu Juugee  Shizuyoshi","actor":"Stephan Schleberger","role":"SUPPORTING"},{"character":"Yahabio","actor":"Peter Harting","role":"SUPPORTING"},{"character":"Zetsubouou","actor":"Katrin Heß","role":"SUPPORTING"}]}
+{
+ "titleId": 20727,
+ "updatedAt": "2026-08-15T18:37:16.976Z",
+ "roles": [
+  {
+   "character": "Leonardo Watch",
+   "actor": "Felix Mayer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Klaus von Reinherz",
+   "actor": "Ingo Albrecht",
+   "role": "MAIN"
+  },
+  {
+   "character": "Zapp Renfro",
+   "actor": "Uwe Thomsen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mary Macbeth",
+   "actor": "Samira Jakobs",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Blitz T. Abrams",
+   "actor": "Bernd Vollbrecht",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Michella Watch",
+   "actor": "Winnie Brandes",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Benjamin Macbeth",
+   "actor": "Philipp Schepmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chain Sumeragi",
+   "actor": "Ann Vielhaben",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Angelica",
+   "actor": "Demet Fey",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Martin",
+   "actor": "Dennis Saemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Steven A. Starphase",
+   "actor": "Robert Steudtner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Patrick",
+   "actor": "Dieter Brink",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Emma Macbeth",
+   "actor": "Vanessa Wunsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Vivian",
+   "actor": "Silke Linderhaus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Deldro Brody",
+   "actor": "Oliver Krietsch-Matzura",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Korsakov Ulchenko",
+   "actor": "Matthias Kiel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gregor Maximus",
+   "actor": "Lars Schmidtke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "William Macbeth",
+   "actor": "Katrin Heß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dog Hummer",
+   "actor": "Louis Friedemann Thiele",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rajuu Juugee  Shizuyoshi",
+   "actor": "Stephan Schleberger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yahabio",
+   "actor": "Peter Harting",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zetsubouou",
+   "actor": "Katrin Heß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Femt",
+   "actor": "Asad Schwarz",
+   "von": "ann"
+  },
+  {
+   "character": "K.K.",
+   "actor": "Christin Marquitan",
+   "von": "ann"
+  },
+  {
+   "character": "Gilbert F. Altstein",
+   "actor": "Hans Bayer",
+   "von": "ann"
+  },
+  {
+   "character": "Zed O'Brien",
+   "actor": "Jochen Langner",
+   "von": "ann"
+  },
+  {
+   "character": "Black",
+   "actor": "Katrin Heß",
+   "von": "ann"
+  },
+  {
+   "character": "White",
+   "actor": "Samira Jakobs",
+   "von": "ann"
+  },
+  {
+   "character": "Aligura",
+   "actor": "Meri Dogan",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16340"
+}

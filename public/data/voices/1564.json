@@ -1,1 +1,62 @@
-{"titleId":1564,"updatedAt":"2026-08-11T11:20:02.930Z","roles":[{"character":"Haruka","actor":"Nicola Grupe-Arnoldi","role":"MAIN"},{"character":"Satoshi","actor":"Veronika Aryana Neugebauer","role":"MAIN"},{"character":"Takeshi","actor":"Marc Stachel","role":"MAIN"},{"character":"Masato","actor":"Ute Bronder","role":"MAIN"}]}
+{
+ "titleId": 1564,
+ "updatedAt": "2026-08-15T18:29:05.113Z",
+ "roles": [
+  {
+   "character": "Haruka",
+   "actor": "Nicola Grupe-Arnoldi",
+   "role": "MAIN"
+  },
+  {
+   "character": "Satoshi",
+   "actor": "Veronika Aryana Neugebauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Takeshi",
+   "actor": "Marc Stachel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Masato",
+   "actor": "Ute Bronder",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ash Ketchum",
+   "actor": "Veronika Neugebauer",
+   "von": "ann"
+  },
+  {
+   "character": "Jessie",
+   "actor": "Scarlet Cavadenti",
+   "von": "ann"
+  },
+  {
+   "character": "Mauzi",
+   "actor": "Gerhard Acktun",
+   "von": "ann"
+  },
+  {
+   "character": "Rocko",
+   "actor": "Marc Stachel",
+   "von": "ann"
+  },
+  {
+   "character": "James",
+   "actor": "Matthias Klie",
+   "von": "ann"
+  },
+  {
+   "character": "Max",
+   "actor": "Ute Bronder",
+   "von": "ann"
+  },
+  {
+   "character": "Maike",
+   "actor": "Nicola Grupe-Arnoldi",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1873"
+}

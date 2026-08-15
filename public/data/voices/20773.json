@@ -1,1 +1,127 @@
-{"titleId":20773,"updatedAt":"2026-08-11T11:20:03.228Z","roles":[{"character":"Worick Arcangelo","actor":"Mike Carl","role":"MAIN"},{"character":"Alex Benedetto","actor":"Tatjana Pokorny","role":"MAIN"},{"character":"Nicolas Brown","actor":"Gerhard Jilka","role":"MAIN"},{"character":"Daniel Monroe","actor":"Walter von Hauff","role":"SUPPORTING"},{"character":"Marco Adriano","actor":"René Oltmanns","role":"SUPPORTING"},{"character":"Ginger","actor":"Anna Ewelina","role":"SUPPORTING"},{"character":"Constance Raveau","actor":"Ilena Gwisdalla","role":"SUPPORTING"},{"character":"Georgiana","actor":"Angelika Bender","role":"SUPPORTING"},{"character":"Barry Abott","actor":"Philipp Rafferty","role":"SUPPORTING"},{"character":"Gina Paulklee","actor":"Jo Kern","role":"SUPPORTING"},{"character":"Joel Raveau","actor":"Sonja Reichelt","role":"SUPPORTING"},{"character":"Doug","actor":"Felix Auer","role":"SUPPORTING"},{"character":"Uranos Corsica","actor":"Holger Schwiers","role":"SUPPORTING"},{"character":"Nina","actor":"Bettina Zech","role":"SUPPORTING"},{"character":"Loretta Cristiano Amodio","actor":"Leslie-Vanessa Lill","role":"SUPPORTING"},{"character":"Theo","actor":"Crock Krumbiegel","role":"SUPPORTING"},{"character":"Yang","actor":"Oliver Scheffel","role":"SUPPORTING"},{"character":"Galahad Woehor","actor":"Josef Vossenkuhl","role":"SUPPORTING"},{"character":"Chad Adkins","actor":"Thomas Rauscher","role":"SUPPORTING"},{"character":"Miles Mayer","actor":"Jakob Riedl","role":"SUPPORTING"}]}
+{
+ "titleId": 20773,
+ "updatedAt": "2026-08-15T18:37:29.393Z",
+ "roles": [
+  {
+   "character": "Worick Arcangelo",
+   "actor": "Mike Carl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Alex Benedetto",
+   "actor": "Tatjana Pokorny",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nicolas Brown",
+   "actor": "Gerhard Jilka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Daniel Monroe",
+   "actor": "Walter von Hauff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marco Adriano",
+   "actor": "René Oltmanns",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ginger",
+   "actor": "Anna Ewelina",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Constance Raveau",
+   "actor": "Ilena Gwisdalla",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Georgiana",
+   "actor": "Angelika Bender",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Barry Abott",
+   "actor": "Philipp Rafferty",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gina Paulklee",
+   "actor": "Jo Kern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Joel Raveau",
+   "actor": "Sonja Reichelt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Doug",
+   "actor": "Felix Auer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Uranos Corsica",
+   "actor": "Holger Schwiers",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nina",
+   "actor": "Bettina Zech",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Loretta Cristiano Amodio",
+   "actor": "Leslie-Vanessa Lill",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Theo",
+   "actor": "Crock Krumbiegel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yang",
+   "actor": "Oliver Scheffel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Galahad Woehor",
+   "actor": "Josef Vossenkuhl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chad Adkins",
+   "actor": "Thomas Rauscher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miles Mayer",
+   "actor": "Jakob Riedl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Galahad Woeho",
+   "actor": "Joseph Vossenkuhl",
+   "von": "ann"
+  },
+  {
+   "character": "Ivan Glaziev",
+   "actor": "Matthias Kupfer",
+   "von": "ann"
+  },
+  {
+   "character": "Loretta Amodio",
+   "actor": "Leslie-Vanessa Lill",
+   "von": "ann"
+  },
+  {
+   "character": "Cody Balfour",
+   "actor": "Leonard Hohm",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16623"
+}

@@ -1,1 +1,137 @@
-{"titleId":6205,"updatedAt":"2026-08-11T11:20:03.055Z","roles":[{"character":"Akane Mishima","actor":"Kaya Marie Möller","role":"MAIN"},{"character":"Natsuru Senou","actor":"Anna Grisebach","role":"MAIN"},{"character":"Shizuku Sangou","actor":"Katrin Zimmermann","role":"MAIN"},{"character":"Mikoto Kondou","actor":"Manja Doering","role":"MAIN"},{"character":"Kaede Sakura","actor":"Anita Hopt","role":"MAIN"},{"character":"Seppuku Kuro Usagi","actor":"Daniela Reidies","role":"SUPPORTING"},{"character":"Hiaburi Lion","actor":"Axel Lutter","role":"SUPPORTING"},{"character":"Masumi Nishino","actor":"Gundi Eberhard","role":"SUPPORTING"},{"character":"Kaikei","actor":"Lisa May-Mitsching","role":"SUPPORTING"},{"character":"Chissoku Norainu","actor":"Gundi Eberhard","role":"SUPPORTING"},{"character":"Mikihito Higashida","actor":"Oliver Bender","role":"SUPPORTING"},{"character":"Iinchou","actor":"Tanja Schmitz","role":"SUPPORTING"},{"character":"Hitomi Minagawa","actor":"Antje von der Ahe","role":"SUPPORTING"},{"character":"Sayaka Nakao","actor":"Maximiliane Häcke","role":"SUPPORTING"},{"character":"Kanden Yamaneko","actor":"Anja Rybiczka","role":"SUPPORTING"},{"character":"Ryouka Yamakawa","actor":"Nicole Hannak","role":"SUPPORTING"},{"character":"Fuku Iinchou","actor":"Josefin Hagen","role":"SUPPORTING"},{"character":"Rika Ueda","actor":"Katie Pfleghar","role":"SUPPORTING"},{"character":"Harakiri Tora","actor":"Santiago Ziesmer","role":"SUPPORTING"}]}
+{
+ "titleId": 6205,
+ "updatedAt": "2026-08-15T18:32:54.323Z",
+ "roles": [
+  {
+   "character": "Akane Mishima",
+   "actor": "Kaya Marie Möller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Natsuru Senou",
+   "actor": "Anna Grisebach",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shizuku Sangou",
+   "actor": "Katrin Zimmermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mikoto Kondou",
+   "actor": "Manja Doering",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kaede Sakura",
+   "actor": "Anita Hopt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Seppuku Kuro Usagi",
+   "actor": "Daniela Reidies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hiaburi Lion",
+   "actor": "Axel Lutter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masumi Nishino",
+   "actor": "Gundi Eberhard",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaikei",
+   "actor": "Lisa May-Mitsching",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chissoku Norainu",
+   "actor": "Gundi Eberhard",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mikihito Higashida",
+   "actor": "Oliver Bender",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Iinchou",
+   "actor": "Tanja Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hitomi Minagawa",
+   "actor": "Antje von der Ahe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sayaka Nakao",
+   "actor": "Maximiliane Häcke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kanden Yamaneko",
+   "actor": "Anja Rybiczka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryouka Yamakawa",
+   "actor": "Nicole Hannak",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fuku Iinchou",
+   "actor": "Josefin Hagen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rika Ueda",
+   "actor": "Katie Pfleghar",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Harakiri Tora",
+   "actor": "Santiago Ziesmer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mikoto Kondō",
+   "actor": "Manja Doering",
+   "von": "ann"
+  },
+  {
+   "character": "Tora Harakiri",
+   "actor": "Santiago Ziesmer",
+   "von": "ann"
+  },
+  {
+   "character": "Akane Mishima",
+   "actor": "Kaya Möller",
+   "von": "ann"
+  },
+  {
+   "character": "Sayaka Nakao",
+   "actor": "Maxi Häcke",
+   "von": "ann"
+  },
+  {
+   "character": "Shizuku Sangō",
+   "actor": "Katrin Zimmermann",
+   "von": "ann"
+  },
+  {
+   "character": "Natsuru Senō",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Natsuru Senō",
+   "actor": "Anna Grisebach",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=10861"
+}

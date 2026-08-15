@@ -1,1 +1,117 @@
-{"titleId":21236,"updatedAt":"2026-08-11T11:20:03.278Z","roles":[{"character":"Valt Aoi","actor":"Sebastian Fitzner","role":"MAIN"},{"character":"Shu Kurenai","actor":"Bastian Sierich","role":"MAIN"},{"character":"Rantarou Kiyama","actor":"Julian Tennstedt","role":"MAIN"},{"character":"Daina Kurogami","actor":"David Weyl","role":"MAIN"},{"character":"Kensuke Midorikawa","actor":"Fabian Kluckert","role":"MAIN"},{"character":"Lui Shirasagijou","actor":"Constantin von Jascheroff","role":"SUPPORTING"},{"character":"Kaiza Xhakuenji","actor":"Jan-Philipp Jarke","role":"SUPPORTING"}]}
+{
+ "titleId": 21236,
+ "updatedAt": "2026-08-15T18:38:39.616Z",
+ "roles": [
+  {
+   "character": "Valt Aoi",
+   "actor": "Sebastian Fitzner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shu Kurenai",
+   "actor": "Bastian Sierich",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rantarou Kiyama",
+   "actor": "Julian Tennstedt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Daina Kurogami",
+   "actor": "David Weyl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kensuke Midorikawa",
+   "actor": "Fabian Kluckert",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lui Shirasagijou",
+   "actor": "Constantin von Jascheroff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaiza Xhakuenji",
+   "actor": "Jan-Philipp Jarke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rektor Shinoda",
+   "actor": "Uwe Jellinek",
+   "von": "ann"
+  },
+  {
+   "character": "Ukyou Ibuki",
+   "actor": "Jannik Endemann",
+   "von": "ann"
+  },
+  {
+   "character": "Lui Shirasagi",
+   "actor": "Constantin von Jascheroff",
+   "von": "ann"
+  },
+  {
+   "character": "Zac Kaneguro",
+   "actor": "Julius Jellinek",
+   "von": "ann"
+  },
+  {
+   "character": "Akira Yamatoga",
+   "actor": "Tanja Schmitz",
+   "von": "ann"
+  },
+  {
+   "character": "Wakiya Murasaki",
+   "actor": "Christian Zeiger",
+   "von": "ann"
+  },
+  {
+   "character": "Shuu Kurenai",
+   "actor": "Bastian Sierich",
+   "von": "ann"
+  },
+  {
+   "character": "Toko Aoi",
+   "actor": "Melinda Rachfahl",
+   "von": "ann"
+  },
+  {
+   "character": "Nika Aoi",
+   "actor": "Jasmin Arnoldt",
+   "von": "ann"
+  },
+  {
+   "character": "Ken Midori",
+   "actor": "Fabian Kluckert",
+   "von": "ann"
+  },
+  {
+   "character": "Houji Konda",
+   "actor": "Christopher Kohn",
+   "von": "ann"
+  },
+  {
+   "character": "Chiharu Aoi",
+   "actor": "Maria Jany",
+   "von": "ann"
+  },
+  {
+   "character": "Ben Azuki",
+   "actor": "Philipp Lind",
+   "von": "ann"
+  },
+  {
+   "character": "Quon Limon",
+   "actor": "Jonas Frenz",
+   "von": "ann"
+  },
+  {
+   "character": "Daigo Kurogami",
+   "actor": "David Weyl",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=17992"
+}

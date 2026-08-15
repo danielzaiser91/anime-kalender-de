@@ -1,1 +1,137 @@
-{"titleId":21856,"updatedAt":"2026-08-11T11:20:03.343Z","roles":[{"character":"Izuku Midoriya","actor":"Sebastian Fitzner","role":"MAIN"},{"character":"Eijirou Kirishima","actor":"Dennis Saemann","role":"SUPPORTING"}]}
+{
+ "titleId": 21856,
+ "updatedAt": "2026-08-15T18:40:09.740Z",
+ "roles": [
+  {
+   "character": "Izuku Midoriya",
+   "actor": "Sebastian Fitzner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Eijirou Kirishima",
+   "actor": "Dennis Saemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sorahiko Torino (Gran Torino)",
+   "actor": "Hans-Gerd Kilbinger",
+   "von": "ann"
+  },
+  {
+   "character": "Present Mic",
+   "actor": "Phil Daub",
+   "von": "ann"
+  },
+  {
+   "character": "Rei Todoroki",
+   "actor": "Vanessa Wunsch",
+   "von": "ann"
+  },
+  {
+   "character": "All Might",
+   "actor": "Matti Klemm",
+   "von": "ann"
+  },
+  {
+   "character": "Mina Ashido",
+   "actor": "Rieke Werner",
+   "von": "ann"
+  },
+  {
+   "character": "Kyouka Jirou",
+   "actor": "Birte Baumgardt",
+   "von": "ann"
+  },
+  {
+   "character": "Katsuki Bakugou",
+   "actor": "Daniel Käser",
+   "von": "ann"
+  },
+  {
+   "character": "Tsuyu Asui",
+   "actor": "Charlotte Uhlig",
+   "von": "ann"
+  },
+  {
+   "character": "Shouta Aizawa",
+   "actor": "Michael-Che Koch",
+   "von": "ann"
+  },
+  {
+   "character": "Hanta Sero",
+   "actor": "Patrick Mölleken",
+   "von": "ann"
+  },
+  {
+   "character": "Shouto Todoroki",
+   "actor": "Amadeus Strobl",
+   "von": "ann"
+  },
+  {
+   "character": "Denki Kaminari",
+   "actor": "Benjamin Stolz",
+   "von": "ann"
+  },
+  {
+   "character": "Momo Yaoyorozu",
+   "actor": "Milena Karas",
+   "von": "ann"
+  },
+  {
+   "character": "Tenya Iida",
+   "actor": "Arne Stephan",
+   "von": "ann"
+  },
+  {
+   "character": "Mashirao Ojiro",
+   "actor": "Marco Sven Reinbold",
+   "von": "ann"
+  },
+  {
+   "character": "Rikidou Satou",
+   "actor": "David M. Schulze",
+   "von": "ann"
+  },
+  {
+   "character": "Yuuga Aoyama",
+   "actor": "Tom Raczko",
+   "von": "ann"
+  },
+  {
+   "character": "Minoru Mineta",
+   "actor": "Esther Brandt",
+   "von": "ann"
+  },
+  {
+   "character": "Fumikage Tokoyami",
+   "actor": "Michael Borgard",
+   "von": "ann"
+  },
+  {
+   "character": "Stain",
+   "actor": "Sven Brieger",
+   "von": "ann"
+  },
+  {
+   "character": "Nemuri Kayama",
+   "actor": "Betül Jülide Gülgec",
+   "von": "ann"
+  },
+  {
+   "character": "Ochaco Uraraka",
+   "actor": "Meri Dogan",
+   "von": "ann"
+  },
+  {
+   "character": "All For One",
+   "actor": "Peter Sura",
+   "von": "ann"
+  },
+  {
+   "character": "Enji Todoroki/Endeavor",
+   "actor": "Marko Bräutigam",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18485"
+}

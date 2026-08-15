@@ -1,1 +1,147 @@
-{"titleId":142329,"updatedAt":"2026-08-11T11:20:03.587Z","roles":[{"character":"Tanjirou Kamado","actor":"Constantin von Jascheroff","role":"MAIN"},{"character":"Nezuko Kamado","actor":"Julia Meynen","role":"MAIN"},{"character":"Inosuke Hashibira","actor":"Dennis Schmidt-Foß","role":"MAIN"},{"character":"Zenitsu Agatsuma","actor":"Dirk Petrick","role":"MAIN"},{"character":"Tengen Uzui","actor":"Tim Knauer","role":"MAIN"},{"character":"Muzan Kibutsuji","actor":"Norman Matt","role":"SUPPORTING"},{"character":"Kyoujurou Rengoku","actor":"Tommy Morgenstern","role":"SUPPORTING"},{"character":"Giyuu Tomioka","actor":"Nico Sablik","role":"SUPPORTING"},{"character":"Muichirou Tokitou","actor":"Nicolás Artajo","role":"SUPPORTING"},{"character":"Shinobu Kochou","actor":"Maria Koschny","role":"SUPPORTING"},{"character":"Mitsuri Kanroji","actor":"Moira May","role":"SUPPORTING"},{"character":"Sanemi Shinazugawa","actor":"Sebastian Schulz","role":"SUPPORTING"},{"character":"Obanai Iguro","actor":"Tim Sander","role":"SUPPORTING"},{"character":"Gyoumei Himejima","actor":"Alexander Doering","role":"SUPPORTING"},{"character":"Matsuemon Tennouji","actor":"Gerald Schaale","role":"SUPPORTING"},{"character":"Hotaru Haganezuka","actor":"Peter Lontzek","role":"SUPPORTING"},{"character":"Kanao Tsuyuri","actor":"Lisa May-Mitsching","role":"SUPPORTING"},{"character":"Daki","actor":"Farina Brock","role":"SUPPORTING"},{"character":"Gyuutarou","actor":"Marius Claren","role":"SUPPORTING"},{"character":"Makio","actor":"Esra Vural","role":"SUPPORTING"},{"character":"Suma","actor":"Maria Hönig","role":"SUPPORTING"},{"character":"Hinatsuru","actor":"Anja Stadlober","role":"SUPPORTING"},{"character":"Akaza","actor":"Gerrit Schmidt-Foß","role":"SUPPORTING"},{"character":"Douma","actor":"Sascha Rotermund","role":"SUPPORTING"},{"character":"Naho Takada","actor":"Anni C. Salander","role":"SUPPORTING"}]}
+{
+ "titleId": 142329,
+ "updatedAt": "2026-08-15T18:46:35.830Z",
+ "roles": [
+  {
+   "character": "Tanjirou Kamado",
+   "actor": "Constantin von Jascheroff",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nezuko Kamado",
+   "actor": "Julia Meynen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Inosuke Hashibira",
+   "actor": "Dennis Schmidt-Foß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Zenitsu Agatsuma",
+   "actor": "Dirk Petrick",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tengen Uzui",
+   "actor": "Tim Knauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Muzan Kibutsuji",
+   "actor": "Norman Matt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyoujurou Rengoku",
+   "actor": "Tommy Morgenstern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Giyuu Tomioka",
+   "actor": "Nico Sablik",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Muichirou Tokitou",
+   "actor": "Nicolás Artajo",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinobu Kochou",
+   "actor": "Maria Koschny",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mitsuri Kanroji",
+   "actor": "Moira May",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sanemi Shinazugawa",
+   "actor": "Sebastian Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Obanai Iguro",
+   "actor": "Tim Sander",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gyoumei Himejima",
+   "actor": "Alexander Doering",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Matsuemon Tennouji",
+   "actor": "Gerald Schaale",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hotaru Haganezuka",
+   "actor": "Peter Lontzek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kanao Tsuyuri",
+   "actor": "Lisa May-Mitsching",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Daki",
+   "actor": "Farina Brock",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gyuutarou",
+   "actor": "Marius Claren",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Makio",
+   "actor": "Esra Vural",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Suma",
+   "actor": "Maria Hönig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hinatsuru",
+   "actor": "Anja Stadlober",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akaza",
+   "actor": "Gerrit Schmidt-Foß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Douma",
+   "actor": "Sascha Rotermund",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Naho Takada",
+   "actor": "Anni C. Salander",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gyutaro",
+   "actor": "Marius Claren",
+   "von": "ann"
+  },
+  {
+   "character": "Kagaya Ubuyashiki",
+   "actor": "Oliver Feld",
+   "von": "ann"
+  },
+  {
+   "character": "Tanjirō Kamado",
+   "actor": "Constantin von Jascheroff",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24043"
+}

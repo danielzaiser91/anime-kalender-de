@@ -1,1 +1,132 @@
-{"titleId":117343,"updatedAt":"2026-08-11T11:20:03.560Z","roles":[{"character":"Nana Hiiragi","actor":"Samina König","role":"MAIN"},{"character":"Kyouya Onodera","actor":"Yannik Raiss","role":"MAIN"},{"character":"Michiru Inukai","actor":"Moira May","role":"MAIN"},{"character":"Nanao Nakajima","actor":"Philip Süß","role":"SUPPORTING"},{"character":"Moguo Iijima","actor":"David M. Schulze","role":"SUPPORTING"},{"character":"Youhei Shibusawa","actor":"Toni Michael Sattler","role":"SUPPORTING"},{"character":"Jin Tachibana","actor":"Arne Stephan","role":"SUPPORTING"},{"character":"Seiya Koori","actor":"Louis Friedemann Thiele","role":"SUPPORTING"},{"character":"Tsunekichi Hatadaira","actor":"Dennis Saemann","role":"SUPPORTING"},{"character":"Shinji Kazama","actor":"Esther Brandt","role":"SUPPORTING"},{"character":"Yuuka Sasaki","actor":"Eleni Möller-Architektonidou","role":"SUPPORTING"},{"character":"Kirara Habu","actor":"Mayke Dähn","role":"SUPPORTING"},{"character":"Kaori Takanashi","actor":"Poetine Alija","role":"SUPPORTING"},{"character":"Ryuuji Ishii","actor":"Marco Sven Reinbold","role":"SUPPORTING"},{"character":"Fuuko Sorano","actor":"Nicole Hise","role":"SUPPORTING"},{"character":"Rentarou Tsurumigawa","actor":"Benjamin Stolz","role":"SUPPORTING"},{"character":"Tannin Kyoushi","actor":"Ben Steinhoff","role":"SUPPORTING"},{"character":"Shouichi Kosakai","actor":"Julian Horeyseck","role":"SUPPORTING"},{"character":"Tatsumi Tsuruoka","actor":"Tobias Brecklinghaus","role":"SUPPORTING"}]}
+{
+ "titleId": 117343,
+ "updatedAt": "2026-08-15T18:45:39.121Z",
+ "roles": [
+  {
+   "character": "Nana Hiiragi",
+   "actor": "Samina König",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kyouya Onodera",
+   "actor": "Yannik Raiss",
+   "role": "MAIN"
+  },
+  {
+   "character": "Michiru Inukai",
+   "actor": "Moira May",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nanao Nakajima",
+   "actor": "Philip Süß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Moguo Iijima",
+   "actor": "David M. Schulze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Youhei Shibusawa",
+   "actor": "Toni Michael Sattler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jin Tachibana",
+   "actor": "Arne Stephan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seiya Koori",
+   "actor": "Louis Friedemann Thiele",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsunekichi Hatadaira",
+   "actor": "Dennis Saemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinji Kazama",
+   "actor": "Esther Brandt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuuka Sasaki",
+   "actor": "Eleni Möller-Architektonidou",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kirara Habu",
+   "actor": "Mayke Dähn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaori Takanashi",
+   "actor": "Poetine Alija",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryuuji Ishii",
+   "actor": "Marco Sven Reinbold",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fuuko Sorano",
+   "actor": "Nicole Hise",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rentarou Tsurumigawa",
+   "actor": "Benjamin Stolz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tannin Kyoushi",
+   "actor": "Ben Steinhoff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shouichi Kosakai",
+   "actor": "Julian Horeyseck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tatsumi Tsuruoka",
+   "actor": "Tobias Brecklinghaus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seiya Kori",
+   "actor": "Louis Friedemann Thiele",
+   "von": "ann"
+  },
+  {
+   "character": "Fūko Sorano",
+   "actor": "Nicole Hise",
+   "von": "ann"
+  },
+  {
+   "character": "Ryūji Ishii",
+   "actor": "Marco Sven Reinbold",
+   "von": "ann"
+  },
+  {
+   "character": "Klassenlehrer",
+   "actor": "Ben Steinhoff",
+   "von": "ann"
+  },
+  {
+   "character": "Yūka Sasaki",
+   "actor": "Eleni Möller",
+   "von": "ann"
+  },
+  {
+   "character": "Yōhei Shibusawa",
+   "actor": "Toni Michael Sattler",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=23497"
+}

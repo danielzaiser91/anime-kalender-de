@@ -1,1 +1,47 @@
-{"titleId":1051,"updatedAt":"2026-08-11T11:20:02.888Z","roles":[{"character":"Verg","actor":"Bruno Niederprüm","role":"MAIN"},{"character":"Mayumi Kino","actor":"Melanie Wiegmann","role":"MAIN"},{"character":"Tokuhiro Iga","actor":"Stefan Rieger","role":"SUPPORTING"},{"character":"Jung Zorndyke","actor":"Thomas Witte","role":"SUPPORTING"}]}
+{
+ "titleId": 1051,
+ "updatedAt": "2026-08-15T18:27:17.788Z",
+ "roles": [
+  {
+   "character": "Verg",
+   "actor": "Bruno Niederprüm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mayumi Kino",
+   "actor": "Melanie Wiegmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tokuhiro Iga",
+   "actor": "Stefan Rieger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jung Zorndyke",
+   "actor": "Thomas Witte",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zorndyke",
+   "actor": "Thomas Witte",
+   "von": "ann"
+  },
+  {
+   "character": "Iga",
+   "actor": "Stefan Rieger",
+   "von": "ann"
+  },
+  {
+   "character": "Berg",
+   "actor": "Bruno Niederprüm",
+   "von": "ann"
+  },
+  {
+   "character": "Tetsu Hayami",
+   "actor": "Marco Steeger",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=121"
+}

@@ -1,1 +1,47 @@
-{"titleId":7858,"updatedAt":"2026-08-11T11:20:03.077Z","roles":[{"character":"Tomoki Sakurai","actor":"Marco Rosenberg","role":"MAIN"},{"character":"Ikaros","actor":"Lisa Dzyadyk","role":"MAIN"},{"character":"Nymph","actor":"Eleni Möller-Architektonidou","role":"MAIN"},{"character":"Sohara Mitsuki","actor":"Nina Benz","role":"MAIN"},{"character":"Eishirou Sugata","actor":"Vincent Fallow","role":"SUPPORTING"},{"character":"Mikako Satsukitane","actor":"Angelina Markiefka","role":"SUPPORTING"},{"character":"Tomozo Sakurai","actor":"Claus Vester","role":"SUPPORTING"}]}
+{
+ "titleId": 7858,
+ "updatedAt": "2026-08-15T18:33:34.634Z",
+ "roles": [
+  {
+   "character": "Tomoki Sakurai",
+   "actor": "Marco Rosenberg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ikaros",
+   "actor": "Lisa Dzyadyk",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nymph",
+   "actor": "Eleni Möller-Architektonidou",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sohara Mitsuki",
+   "actor": "Nina Benz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Eishirou Sugata",
+   "actor": "Vincent Fallow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mikako Satsukitane",
+   "actor": "Angelina Markiefka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tomozo Sakurai",
+   "actor": "Claus Vester",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nymph",
+   "actor": "Eleni Möller",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=12146"
+}

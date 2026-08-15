@@ -1,1 +1,127 @@
-{"titleId":10029,"updatedAt":"2026-08-11T11:20:03.102Z","roles":[{"character":"Umi Matsuzaki","actor":"Laura Maire","role":"MAIN"},{"character":"Shun Kazama","actor":"Tim Schwarzmaier","role":"MAIN"},{"character":"Shirou Mizunuma","actor":"David Turba","role":"SUPPORTING"},{"character":"Ryouko Matsuzaki","actor":"Claudia Lossl","role":"SUPPORTING"},{"character":"Tomoko Shiraki","actor":"Sonja Reichelt","role":"SUPPORTING"},{"character":"Miki Hokuto","actor":"Beate Pfeiffer","role":"SUPPORTING"},{"character":"Gen Shiraki","actor":"Matthias Klie","role":"SUPPORTING"},{"character":"Sachiko Hirokouji","actor":"Kathrin Gaube","role":"SUPPORTING"},{"character":"Akio Kazama","actor":"Crock Krumbiegel","role":"SUPPORTING"},{"character":"Yamazaki","actor":"Johannes Raspe","role":"SUPPORTING"},{"character":"Hana Matsuzaki","actor":"Dagmar Dempe","role":"SUPPORTING"},{"character":"Sora Matsuzaki","actor":"Paulina Rümmelein","role":"SUPPORTING"},{"character":"Yuuichirou Sawamura","actor":"Patrick Schröder","role":"SUPPORTING"},{"character":"Yoshio Onodera","actor":"Walter von Hauff","role":"SUPPORTING"},{"character":"Riku Matsuzaki","actor":"Felix von Opel","role":"SUPPORTING"},{"character":"Yuuko","actor":"Katharina Schwarzmaier","role":"SUPPORTING"},{"character":"Nobuko Yokoyama","actor":"Farina Brock","role":"SUPPORTING"},{"character":"Saori Makimura","actor":"Angela Wiederhut","role":"SUPPORTING"},{"character":"Tokumaru","actor":"Ekkehardt Belle","role":"SUPPORTING"},{"character":"Yoshino","actor":"Patrick Roche","role":"SUPPORTING"}]}
+{
+ "titleId": 10029,
+ "updatedAt": "2026-08-15T18:34:08.473Z",
+ "roles": [
+  {
+   "character": "Umi Matsuzaki",
+   "actor": "Laura Maire",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shun Kazama",
+   "actor": "Tim Schwarzmaier",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shirou Mizunuma",
+   "actor": "David Turba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryouko Matsuzaki",
+   "actor": "Claudia Lossl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tomoko Shiraki",
+   "actor": "Sonja Reichelt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miki Hokuto",
+   "actor": "Beate Pfeiffer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gen Shiraki",
+   "actor": "Matthias Klie",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sachiko Hirokouji",
+   "actor": "Kathrin Gaube",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akio Kazama",
+   "actor": "Crock Krumbiegel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yamazaki",
+   "actor": "Johannes Raspe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hana Matsuzaki",
+   "actor": "Dagmar Dempe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sora Matsuzaki",
+   "actor": "Paulina Rümmelein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuuichirou Sawamura",
+   "actor": "Patrick Schröder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yoshio Onodera",
+   "actor": "Walter von Hauff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Riku Matsuzaki",
+   "actor": "Felix von Opel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuuko",
+   "actor": "Katharina Schwarzmaier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nobuko Yokoyama",
+   "actor": "Farina Brock",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Saori Makimura",
+   "actor": "Angela Wiederhut",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tokumaru",
+   "actor": "Ekkehardt Belle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yoshino",
+   "actor": "Patrick Roche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryoko Matsuzaki",
+   "actor": "Claudia Lössl",
+   "von": "ann"
+  },
+  {
+   "character": "Sachiko Hirokoji",
+   "actor": "Kathrin Gaube",
+   "von": "ann"
+  },
+  {
+   "character": "Yuko",
+   "actor": "Katharina Schwarzmaier",
+   "von": "ann"
+  },
+  {
+   "character": "Sora Matsuzaki",
+   "actor": "Paulina Bohlmann",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=12307"
+}

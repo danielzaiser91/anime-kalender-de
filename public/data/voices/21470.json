@@ -1,1 +1,102 @@
-{"titleId":21470,"updatedAt":"2026-08-11T11:20:03.307Z","roles":[{"character":"Ai Haibara","actor":"Andrea Loewig","role":"MAIN"},{"character":"Conan Edogawa","actor":"Tobias Müller","role":"MAIN"},{"character":"Chianti","actor":"Claudia Gáldy","role":"SUPPORTING"},{"character":"Azusa Enomoto","actor":"Bettina Kenney","role":"SUPPORTING"}]}
+{
+ "titleId": 21470,
+ "updatedAt": "2026-08-15T18:39:17.246Z",
+ "roles": [
+  {
+   "character": "Ai Haibara",
+   "actor": "Andrea Loewig",
+   "role": "MAIN"
+  },
+  {
+   "character": "Conan Edogawa",
+   "actor": "Tobias Müller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chianti",
+   "actor": "Claudia Gáldy",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Azusa Enomoto",
+   "actor": "Bettina Kenney",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tooru Amuro",
+   "actor": "Konrad Bösherz",
+   "von": "ann"
+  },
+  {
+   "character": "Vodka",
+   "actor": "Stefan Gossler",
+   "von": "ann"
+  },
+  {
+   "character": "Korn",
+   "actor": "Klaus Lochthove",
+   "von": "ann"
+  },
+  {
+   "character": "Ayumi Yoshida",
+   "actor": "Julia Meynen",
+   "von": "ann"
+  },
+  {
+   "character": "Mitsuhiko Tsuburaya",
+   "actor": "Fabian Hollwitz",
+   "von": "ann"
+  },
+  {
+   "character": "Shuuichi Akai",
+   "actor": "Uwe Jellinek",
+   "von": "ann"
+  },
+  {
+   "character": "Curaçao",
+   "actor": "Ulrike Stürzbecher",
+   "von": "ann"
+  },
+  {
+   "character": "Vermouth",
+   "actor": "Melanie Hinze",
+   "von": "ann"
+  },
+  {
+   "character": "Yuuya Kazami",
+   "actor": "Peter Flechtner",
+   "von": "ann"
+  },
+  {
+   "character": "Hiroshi Agasa",
+   "actor": "Frank Ciazynski",
+   "von": "ann"
+  },
+  {
+   "character": "Gin",
+   "actor": "Jan-David Rönfeldt",
+   "von": "ann"
+  },
+  {
+   "character": "Rena Mizunashi",
+   "actor": "Sarah Riedel",
+   "von": "ann"
+  },
+  {
+   "character": "Riesling",
+   "actor": "Natascha Petz",
+   "von": "ann"
+  },
+  {
+   "character": "Genta Kojima",
+   "actor": "Michael Iwannek",
+   "von": "ann"
+  },
+  {
+   "character": "Chianti",
+   "actor": "Claudia Galdy",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=17873"
+}

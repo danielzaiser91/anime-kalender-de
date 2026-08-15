@@ -1,1 +1,217 @@
-{"titleId":138060,"updatedAt":"2026-08-11T11:20:03.606Z","roles":[{"character":"Rounin","actor":"Robin Kahnmeyer","role":"MAIN"},{"character":"T0-B1","actor":"Daniela Molina","role":"MAIN"},{"character":"Karre","actor":"Maximilian Artajo","role":"MAIN"},{"character":"Am","actor":"Magdalena Turba","role":"MAIN"},{"character":"Kara","actor":"Julia Bautz","role":"MAIN"},{"character":"Tajin","actor":"Sebastian Christoph Jacob","role":"MAIN"},{"character":"Tsubaki","actor":"Johann Fohl","role":"MAIN"},{"character":"F","actor":"Rubina Kuraoka","role":"MAIN"},{"character":"Jay","actor":"Christian Zeiger","role":"MAIN"},{"character":"Dan","actor":"David Turba","role":"MAIN"},{"character":"Lop","actor":"Sophie Lechtenbrink","role":"MAIN"},{"character":"Ochou","actor":"Luisa Wietzorek","role":"MAIN"},{"character":"Izuma","actor":"Erich Räuker","role":"SUPPORTING"},{"character":"Shoukou Teikoku","actor":"Klaus-Peter Grap","role":"SUPPORTING"},{"character":"Yatou no Boss","actor":"Victoria Sturm","role":"SUPPORTING"},{"character":"Ethan","actor":"Tom Raczko","role":"SUPPORTING"},{"character":"Mitaka Hakase","actor":"Elmar Gutmann","role":"SUPPORTING"},{"character":"Kamahachi","actor":"Sven Plate","role":"SUPPORTING"},{"character":"Shounen Sonchou","actor":"Carlos Fanselow","role":"SUPPORTING"},{"character":"Boba Fett","actor":"Martin Keßler","role":"SUPPORTING"},{"character":"Juro","actor":"Sven Riemann","role":"SUPPORTING"},{"character":"Roujin","actor":"Gerald Schaale","role":"SUPPORTING"},{"character":"Misa","actor":"Giuliana Jakobeit","role":"SUPPORTING"},{"character":"Vaan","actor":"Sven Gerhardt","role":"SUPPORTING"}]}
+{
+ "titleId": 138060,
+ "updatedAt": "2026-08-15T18:47:13.846Z",
+ "roles": [
+  {
+   "character": "Rounin",
+   "actor": "Robin Kahnmeyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "T0-B1",
+   "actor": "Daniela Molina",
+   "role": "MAIN"
+  },
+  {
+   "character": "Karre",
+   "actor": "Maximilian Artajo",
+   "role": "MAIN"
+  },
+  {
+   "character": "Am",
+   "actor": "Magdalena Turba",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kara",
+   "actor": "Julia Bautz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tajin",
+   "actor": "Sebastian Christoph Jacob",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tsubaki",
+   "actor": "Johann Fohl",
+   "role": "MAIN"
+  },
+  {
+   "character": "F",
+   "actor": "Rubina Kuraoka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jay",
+   "actor": "Christian Zeiger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Dan",
+   "actor": "David Turba",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lop",
+   "actor": "Sophie Lechtenbrink",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ochou",
+   "actor": "Luisa Wietzorek",
+   "role": "MAIN"
+  },
+  {
+   "character": "Izuma",
+   "actor": "Erich Räuker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shoukou Teikoku",
+   "actor": "Klaus-Peter Grap",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yatou no Boss",
+   "actor": "Victoria Sturm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ethan",
+   "actor": "Tom Raczko",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mitaka Hakase",
+   "actor": "Elmar Gutmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kamahachi",
+   "actor": "Sven Plate",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shounen Sonchou",
+   "actor": "Carlos Fanselow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Boba Fett",
+   "actor": "Martin Keßler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Juro",
+   "actor": "Sven Riemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Roujin",
+   "actor": "Gerald Schaale",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Misa",
+   "actor": "Giuliana Jakobeit",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Vaan",
+   "actor": "Sven Gerhardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ronin",
+   "actor": "Robin Kahnmeyer",
+   "von": "ann"
+  },
+  {
+   "character": "The Elder",
+   "actor": "Gerald Schaale",
+   "von": "ann"
+  },
+  {
+   "character": "Zhima",
+   "actor": "Tommy Morgenstern",
+   "von": "ann"
+  },
+  {
+   "character": "B-2ON",
+   "actor": "Rainer Fritzsche",
+   "von": "ann"
+  },
+  {
+   "character": "Masago",
+   "actor": "Peggy Sander",
+   "von": "ann"
+  },
+  {
+   "character": "Yasaburo",
+   "actor": "Oliver Stritzel",
+   "von": "ann"
+  },
+  {
+   "character": "Senshu",
+   "actor": "Tobias Lelle",
+   "von": "ann"
+  },
+  {
+   "character": "Bandit Leader",
+   "actor": "Victoria Sturm",
+   "von": "ann"
+  },
+  {
+   "character": "Mitaka",
+   "actor": "Elmar Gutmann",
+   "von": "ann"
+  },
+  {
+   "character": "Asu",
+   "actor": "Nico Sablik",
+   "von": "ann"
+  },
+  {
+   "character": "Haru",
+   "actor": "Tanya Kahana",
+   "von": "ann"
+  },
+  {
+   "character": "Ocho",
+   "actor": "Luisa Wietzorek",
+   "von": "ann"
+  },
+  {
+   "character": "Valco",
+   "actor": "Sven Gerhardt",
+   "von": "ann"
+  },
+  {
+   "character": "Roden",
+   "actor": "Amadeus Strobl",
+   "von": "ann"
+  },
+  {
+   "character": "Saku",
+   "actor": "Anna Gamburg",
+   "von": "ann"
+  },
+  {
+   "character": "Hen Jin",
+   "actor": "Jonas Frenz",
+   "von": "ann"
+  },
+  {
+   "character": "Village Chief",
+   "actor": "Carlos Fanselow",
+   "von": "ann"
+  },
+  {
+   "character": "F",
+   "actor": "Rubina Nath",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=23840"
+}

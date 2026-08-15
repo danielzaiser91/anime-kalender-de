@@ -1,1 +1,57 @@
-{"titleId":1675,"updatedAt":"2026-08-11T11:20:02.936Z","roles":[{"character":"Carlos Lopez","actor":"Jan Makino","role":"MAIN"},{"character":"Red Alert","actor":"Claus Brockmeyer","role":"MAIN"}]}
+{
+ "titleId": 1675,
+ "updatedAt": "2026-08-15T18:29:13.866Z",
+ "roles": [
+  {
+   "character": "Carlos Lopez",
+   "actor": "Jan Makino",
+   "role": "MAIN"
+  },
+  {
+   "character": "Red Alert",
+   "actor": "Claus Brockmeyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Optimus Prime",
+   "actor": "Pierre Peters-Arnolds",
+   "von": "ann"
+  },
+  {
+   "character": "Alexis",
+   "actor": "Anke Kortemeier",
+   "von": "ann"
+  },
+  {
+   "character": "Galvatron",
+   "actor": "Willi Röbke",
+   "von": "ann"
+  },
+  {
+   "character": "Megatron",
+   "actor": "Willi Röbke",
+   "von": "ann"
+  },
+  {
+   "character": "Carlos",
+   "actor": "Jan Panczak",
+   "von": "ann"
+  },
+  {
+   "character": "Unicron",
+   "actor": "Ekkehardt Belle",
+   "von": "ann"
+  },
+  {
+   "character": "Rad",
+   "actor": "Stefan Günther",
+   "von": "ann"
+  },
+  {
+   "character": "Starscream",
+   "actor": "Gerd Meyer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1670"
+}

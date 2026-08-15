@@ -1,1 +1,72 @@
-{"titleId":17831,"updatedAt":"2026-08-11T11:20:03.169Z","roles":[{"character":"Kazuhito Harumi","actor":"Daniel Axt","role":"MAIN"},{"character":"Kirihime Natsuno","actor":"Leoni Kristin Oeffinger","role":"MAIN"},{"character":"Sachi Moribe","actor":"Sina Zadra","role":"SUPPORTING"},{"character":"Hami Oosawa","actor":"Samina König","role":"SUPPORTING"},{"character":"Maxi Akizuki","actor":"Selina Böttcher","role":"SUPPORTING"},{"character":"Suzuna Hiiragi","actor":"Simona Pahl","role":"SUPPORTING"},{"character":"Kiyoshi Inukai","actor":"Yannik Raiss","role":"SUPPORTING"},{"character":"Daimon Hotokezaka","actor":"Tim Grobe","role":"SUPPORTING"},{"character":"Madoka Harumi","actor":"Sarah Madeleine Tusk","role":"SUPPORTING"},{"character":"Yayoi Honda","actor":"Lucia Mahler","role":"SUPPORTING"},{"character":"Sakura Honda","actor":"Elena Zvirbulis","role":"SUPPORTING"}]}
+{
+ "titleId": 17831,
+ "updatedAt": "2026-08-15T18:35:53.409Z",
+ "roles": [
+  {
+   "character": "Kazuhito Harumi",
+   "actor": "Daniel Axt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kirihime Natsuno",
+   "actor": "Leoni Kristin Oeffinger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sachi Moribe",
+   "actor": "Sina Zadra",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hami Oosawa",
+   "actor": "Samina König",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maxi Akizuki",
+   "actor": "Selina Böttcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Suzuna Hiiragi",
+   "actor": "Simona Pahl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kiyoshi Inukai",
+   "actor": "Yannik Raiss",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Daimon Hotokezaka",
+   "actor": "Tim Grobe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Madoka Harumi",
+   "actor": "Sarah Madeleine Tusk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yayoi Honda",
+   "actor": "Lucia Mahler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sakura Honda",
+   "actor": "Elena Zvirbulis",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kirihime Natsuno",
+   "actor": "Leoni Oeffinger",
+   "von": "ann"
+  },
+  {
+   "character": "Touji Nakahara",
+   "actor": "Ivo Möller",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15101"
+}

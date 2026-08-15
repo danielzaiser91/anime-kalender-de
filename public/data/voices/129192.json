@@ -1,1 +1,72 @@
-{"titleId":129192,"updatedAt":"2026-08-11T11:20:03.586Z","roles":[{"character":"Yuuji","actor":"Benedikt Gutjan","role":"MAIN"},{"character":"Dryad","actor":"Lara Wurmer","role":"SUPPORTING"},{"character":"Proud Wolf","actor":"Pirmin Sedlmeir","role":"SUPPORTING"},{"character":"Sura","actor":"Janina Dietz","role":"SUPPORTING"},{"character":"Surapatch","actor":"Peggy Pollow","role":"SUPPORTING"},{"character":"Mayusura","actor":"Lara Schmidt","role":"SUPPORTING"},{"character":"Surahappa","actor":"Zina Laus","role":"SUPPORTING"},{"character":"Higesura","actor":"Patricia Strasburger","role":"SUPPORTING"},{"character":"Pekesura","actor":"Ilena Gwisdalla","role":"SUPPORTING"},{"character":"Lisa","actor":"Lucy Leopold","role":"SUPPORTING"},{"character":"Tina","actor":"Melanie Olbert","role":"SUPPORTING"}]}
+{
+ "titleId": 129192,
+ "updatedAt": "2026-08-15T18:46:33.661Z",
+ "roles": [
+  {
+   "character": "Yuuji",
+   "actor": "Benedikt Gutjan",
+   "role": "MAIN"
+  },
+  {
+   "character": "Dryad",
+   "actor": "Lara Wurmer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Proud Wolf",
+   "actor": "Pirmin Sedlmeir",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sura",
+   "actor": "Janina Dietz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Surapatch",
+   "actor": "Peggy Pollow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mayusura",
+   "actor": "Lara Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Surahappa",
+   "actor": "Zina Laus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Higesura",
+   "actor": "Patricia Strasburger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pekesura",
+   "actor": "Ilena Gwisdalla",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lisa",
+   "actor": "Lucy Leopold",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tina",
+   "actor": "Melanie Olbert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yūji",
+   "actor": "Benedikt Gutjan",
+   "von": "ann"
+  },
+  {
+   "character": "Proudwolf",
+   "actor": "Pirmin Sedlmeir",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24003"
+}

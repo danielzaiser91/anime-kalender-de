@@ -1,1 +1,192 @@
-{"titleId":20832,"updatedAt":"2026-08-11T11:20:03.258Z","roles":[{"character":"Momonga","actor":"Stefan Kaminski","role":"MAIN"},{"character":"Narberal Gamma","actor":"Milena Karas","role":"SUPPORTING"},{"character":"Brain Unglaus","actor":"Heiko Obermöller","role":"SUPPORTING"},{"character":"Nigun Grid Luin","actor":"Bruno Winzen","role":"SUPPORTING"},{"character":"Londres Di Clamp","actor":"Andreas Maier","role":"SUPPORTING"},{"character":"Shalltear Bloodfallen","actor":"Lisa May-Mitsching","role":"SUPPORTING"},{"character":"Pandora's Actor","actor":"Valentin Stroh","role":"SUPPORTING"},{"character":"Yuri Alpha","actor":"Julia von Tettenborn","role":"SUPPORTING"},{"character":"Dyne Woodwonder","actor":"Michael-Che Koch","role":"SUPPORTING"},{"character":"Zach","actor":"Vittorio Alfieri","role":"SUPPORTING"},{"character":"Albedo","actor":"Uschi Hugo","role":"SUPPORTING"},{"character":"Sebas Tian","actor":"Hans Bayer","role":"SUPPORTING"},{"character":"Clementine","actor":"Jana Schölermann","role":"SUPPORTING"},{"character":"Brita","actor":"Corinna Dorenkamp","role":"SUPPORTING"},{"character":"Solution Epsilon","actor":"Fabienne Hesse","role":"SUPPORTING"},{"character":"Entoma Vasilissa Zeta","actor":"Jana Dunja Gries","role":"SUPPORTING"},{"character":"Nemu Emmot","actor":"Jill Zantopp","role":"SUPPORTING"},{"character":"Moknach","actor":"Thomas Balou Martin","role":"SUPPORTING"},{"character":"Demiurge","actor":"Marcus Off","role":"SUPPORTING"},{"character":"Lizzie Bareare","actor":"Karyn von Ostholt","role":"SUPPORTING"},{"character":"Belius","actor":"Ben Steinhoff","role":"SUPPORTING"},{"character":"Mare Bello Fiore","actor":"Sarah Tkotsch","role":"SUPPORTING"},{"character":"Gazef Stronoff","actor":"Tobias Brecklinghaus","role":"SUPPORTING"}]}
+{
+ "titleId": 20832,
+ "updatedAt": "2026-08-15T18:38:16.125Z",
+ "roles": [
+  {
+   "character": "Momonga",
+   "actor": "Stefan Kaminski",
+   "role": "MAIN"
+  },
+  {
+   "character": "Narberal Gamma",
+   "actor": "Milena Karas",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Brain Unglaus",
+   "actor": "Heiko Obermöller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nigun Grid Luin",
+   "actor": "Bruno Winzen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Londres Di Clamp",
+   "actor": "Andreas Maier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shalltear Bloodfallen",
+   "actor": "Lisa May-Mitsching",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pandora's Actor",
+   "actor": "Valentin Stroh",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuri Alpha",
+   "actor": "Julia von Tettenborn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dyne Woodwonder",
+   "actor": "Michael-Che Koch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zach",
+   "actor": "Vittorio Alfieri",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Albedo",
+   "actor": "Uschi Hugo",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sebas Tian",
+   "actor": "Hans Bayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Clementine",
+   "actor": "Jana Schölermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Brita",
+   "actor": "Corinna Dorenkamp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Solution Epsilon",
+   "actor": "Fabienne Hesse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Entoma Vasilissa Zeta",
+   "actor": "Jana Dunja Gries",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nemu Emmot",
+   "actor": "Jill Zantopp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Moknach",
+   "actor": "Thomas Balou Martin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Demiurge",
+   "actor": "Marcus Off",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lizzie Bareare",
+   "actor": "Karyn von Ostholt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Belius",
+   "actor": "Ben Steinhoff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mare Bello Fiore",
+   "actor": "Sarah Tkotsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gazef Stronoff",
+   "actor": "Tobias Brecklinghaus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Khajit Dale Badantel",
+   "actor": "Willi Röbke",
+   "von": "ann"
+  },
+  {
+   "character": "Clementine",
+   "actor": "Jana Kilka",
+   "von": "ann"
+  },
+  {
+   "character": "Dain Woodwoner",
+   "actor": "Michael-Che Koch",
+   "von": "ann"
+  },
+  {
+   "character": "Ninya the Spellcaster",
+   "actor": "Soraya Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Narberal Gamma / Nabe",
+   "actor": "Milena Karas",
+   "von": "ann"
+  },
+  {
+   "character": "Shalltear Bloodfallen",
+   "actor": "Lisa Mitsching",
+   "von": "ann"
+  },
+  {
+   "character": "King of the Forest",
+   "actor": "Martin Bross",
+   "von": "ann"
+  },
+  {
+   "character": "Aura Bella Fiora",
+   "actor": "Patricia Strasburger",
+   "von": "ann"
+  },
+  {
+   "character": "Nphelia Balear",
+   "actor": "Tom Raczko",
+   "von": "ann"
+  },
+  {
+   "character": "Lukeluther Volve",
+   "actor": "Benedikt Hahn",
+   "von": "ann"
+  },
+  {
+   "character": "Enri Emott",
+   "actor": "Meri Dogan",
+   "von": "ann"
+  },
+  {
+   "character": "Peter Moke",
+   "actor": "Christian Wunderlich",
+   "von": "ann"
+  },
+  {
+   "character": "Momonga / Ainz Ooal Gown",
+   "actor": "Stefan Kaminski",
+   "von": "ann"
+  },
+  {
+   "character": "Cocytus",
+   "actor": "Ferenc Husta",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16729"
+}

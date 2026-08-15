@@ -1,1 +1,182 @@
-{"titleId":18619,"updatedAt":"2026-08-11T11:20:03.176Z","roles":[{"character":"Yukari Akiyama","actor":"Katrin Heß","role":"MAIN"},{"character":"Hana Isuzu","actor":"Demet Fey","role":"MAIN"},{"character":"Miho Nishizumi","actor":"Samira Jakobs","role":"MAIN"},{"character":"Mako Reizei","actor":"Jana Schölermann","role":"MAIN"},{"character":"Saori Takebe","actor":"Patricia Strasburger","role":"MAIN"},{"character":"Chiyomi Anzai","actor":"Jennifer Weiß","role":"MAIN"},{"character":"Riko Matsumoto","actor":"Iris R.  Hassenzahl","role":"SUPPORTING"},{"character":"Karina Sakaguchi","actor":"Johanna Bergmann","role":"SUPPORTING"},{"character":"Nozomi Konparu","actor":"Céline Vogt","role":"SUPPORTING"},{"character":"Yuzu Koyama","actor":"Ela Paul","role":"SUPPORTING"},{"character":"Takako Suzuki","actor":"Christiane Werk","role":"SUPPORTING"},{"character":"Aya Oono","actor":"Katharina von Daake","role":"SUPPORTING"},{"character":"Moyoko Gotou","actor":"Céline Vogt","role":"SUPPORTING"},{"character":"Maria Suzuki","actor":"Elisa Kalus","role":"SUPPORTING"},{"character":"Takeko Nogami","actor":"Tabea Hilbert","role":"SUPPORTING"},{"character":"Akebi Sasaki","actor":"Fabienne Hesse","role":"SUPPORTING"},{"character":"Momo Kawashima","actor":"Betül Jülide Gülgec","role":"SUPPORTING"},{"character":"Naomi","actor":"Anna-Sophia Lumpe","role":"SUPPORTING"},{"character":"Kiyomi Sugiyama","actor":"Katharina Gast","role":"SUPPORTING"},{"character":"Azusa Sawa","actor":"Annette Potempa","role":"SUPPORTING"},{"character":"Kay","actor":"Corinna Dorenkamp","role":"SUPPORTING"},{"character":"Noriko Isobe","actor":"Nadja Godzina","role":"SUPPORTING"}]}
+{
+ "titleId": 18619,
+ "updatedAt": "2026-08-15T18:36:03.353Z",
+ "roles": [
+  {
+   "character": "Yukari Akiyama",
+   "actor": "Katrin Heß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hana Isuzu",
+   "actor": "Demet Fey",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miho Nishizumi",
+   "actor": "Samira Jakobs",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mako Reizei",
+   "actor": "Jana Schölermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Saori Takebe",
+   "actor": "Patricia Strasburger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chiyomi Anzai",
+   "actor": "Jennifer Weiß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Riko Matsumoto",
+   "actor": "Iris R.  Hassenzahl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Karina Sakaguchi",
+   "actor": "Johanna Bergmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nozomi Konparu",
+   "actor": "Céline Vogt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuzu Koyama",
+   "actor": "Ela Paul",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takako Suzuki",
+   "actor": "Christiane Werk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aya Oono",
+   "actor": "Katharina von Daake",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Moyoko Gotou",
+   "actor": "Céline Vogt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maria Suzuki",
+   "actor": "Elisa Kalus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takeko Nogami",
+   "actor": "Tabea Hilbert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akebi Sasaki",
+   "actor": "Fabienne Hesse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Momo Kawashima",
+   "actor": "Betül Jülide Gülgec",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Naomi",
+   "actor": "Anna-Sophia Lumpe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kiyomi Sugiyama",
+   "actor": "Katharina Gast",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Azusa Sawa",
+   "actor": "Annette Potempa",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kay",
+   "actor": "Corinna Dorenkamp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Noriko Isobe",
+   "actor": "Nadja Godzina",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mako Reizei",
+   "actor": "Jana Kilka",
+   "von": "ann"
+  },
+  {
+   "character": "Pepperoni",
+   "actor": "Luisa Wietzorek",
+   "von": "ann"
+  },
+  {
+   "character": "Anzu Kadotani",
+   "actor": "Charlotte Uhlig",
+   "von": "ann"
+  },
+  {
+   "character": "Taeko Kondou",
+   "actor": "Kerstin Kramer",
+   "von": "ann"
+  },
+  {
+   "character": "Caesar",
+   "actor": "Christiane Werk",
+   "von": "ann"
+  },
+  {
+   "character": "Erwin",
+   "actor": "Iris R. Hassenzahl",
+   "von": "ann"
+  },
+  {
+   "character": "Saemonza",
+   "actor": "Katharina Gast",
+   "von": "ann"
+  },
+  {
+   "character": "Ayumi Yamagou",
+   "actor": "Esther Brandt",
+   "von": "ann"
+  },
+  {
+   "character": "Oryou",
+   "actor": "Tabea Hilbert",
+   "von": "ann"
+  },
+  {
+   "character": "Shinobu Kawanishi",
+   "actor": "Jessica Walther-Gabory",
+   "von": "ann"
+  },
+  {
+   "character": "Yuuki Utsugi",
+   "actor": "Meri Dogan",
+   "von": "ann"
+  },
+  {
+   "character": "Saki Maruyama",
+   "actor": "Mascha Berger",
+   "von": "ann"
+  },
+  {
+   "character": "Carpaccio",
+   "actor": "Signe Zurmühlen",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16863"
+}

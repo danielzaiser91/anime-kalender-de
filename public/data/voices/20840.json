@@ -1,1 +1,72 @@
-{"titleId":20840,"updatedAt":"2026-08-11T11:20:03.236Z","roles":[{"character":"Ezekiel","actor":"Maria Hönig","role":"MAIN"},{"character":"Maria","actor":"Leonie Dubuc","role":"MAIN"},{"character":"Joseph","actor":"Ricardo Richter","role":"MAIN"},{"character":"Viv","actor":"Yeshim Meisheit","role":"SUPPORTING"},{"character":"Bernard","actor":"Jan Single","role":"SUPPORTING"},{"character":"Artemis","actor":"Claudia Gáldy","role":"SUPPORTING"},{"character":"Narrator","actor":"Denise Gorzelanny","role":"SUPPORTING"}]}
+{
+ "titleId": 20840,
+ "updatedAt": "2026-08-15T18:37:42.996Z",
+ "roles": [
+  {
+   "character": "Ezekiel",
+   "actor": "Maria Hönig",
+   "role": "MAIN"
+  },
+  {
+   "character": "Maria",
+   "actor": "Leonie Dubuc",
+   "role": "MAIN"
+  },
+  {
+   "character": "Joseph",
+   "actor": "Ricardo Richter",
+   "role": "MAIN"
+  },
+  {
+   "character": "Viv",
+   "actor": "Yeshim Meisheit",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bernard",
+   "actor": "Jan Single",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Artemis",
+   "actor": "Claudia Gáldy",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Denise Gorzelanny",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Josef",
+   "actor": "Ricardo Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Michael",
+   "actor": "Jesco Wirthgen",
+   "von": "ann"
+  },
+  {
+   "character": "Priapus",
+   "actor": "Sebastian Fitzner",
+   "von": "ann"
+  },
+  {
+   "character": "Artemis",
+   "actor": "Claudia Galdy",
+   "von": "ann"
+  },
+  {
+   "character": "Ezechiel",
+   "actor": "Maria Hönig",
+   "von": "ann"
+  },
+  {
+   "character": "Viv",
+   "actor": "Yeşim Meisheit",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16248"
+}

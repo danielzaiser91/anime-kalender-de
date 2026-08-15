@@ -1,1 +1,62 @@
-{"titleId":104325,"updatedAt":"2026-08-11T11:20:03.482Z","roles":[{"character":"Kana Kojima","actor":"Friederike Sipp","role":"MAIN"},{"character":"Ichirou Satou","actor":"Marco Rosenberg","role":"MAIN"},{"character":"Mayu Matsukaze","actor":"Vivien Faber","role":"MAIN"},{"character":"Rin Suzuki","actor":"Mario Pitz","role":"MAIN"},{"character":"Hikari Hazakura","actor":"Carolin Sophie Göbel","role":"MAIN"},{"character":"Takashi Takahashi","actor":"Felix Strüven","role":"MAIN"},{"character":"Chizuru Tachibana","actor":"Doreaux Zwetkow","role":"MAIN"},{"character":"Kou Tanaka","actor":"Julian Manuel","role":"MAIN"}]}
+{
+ "titleId": 104325,
+ "updatedAt": "2026-08-15T18:43:19.790Z",
+ "roles": [
+  {
+   "character": "Kana Kojima",
+   "actor": "Friederike Sipp",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ichirou Satou",
+   "actor": "Marco Rosenberg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mayu Matsukaze",
+   "actor": "Vivien Faber",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rin Suzuki",
+   "actor": "Mario Pitz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hikari Hazakura",
+   "actor": "Carolin Sophie Göbel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Takashi Takahashi",
+   "actor": "Felix Strüven",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chizuru Tachibana",
+   "actor": "Doreaux Zwetkow",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kou Tanaka",
+   "actor": "Julian Manuel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ko Tanaka",
+   "actor": "Julian Manuel",
+   "von": "ann"
+  },
+  {
+   "character": "Chizuru Tachibana",
+   "actor": "Dorothea Zwetkow",
+   "von": "ann"
+  },
+  {
+   "character": "Saki Satou",
+   "actor": "Diana Gantner",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=21469"
+}

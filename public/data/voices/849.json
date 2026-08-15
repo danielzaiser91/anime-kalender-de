@@ -1,1 +1,137 @@
-{"titleId":849,"updatedAt":"2026-08-11T11:20:02.865Z","roles":[{"character":"Kyon","actor":"Michael Baral","role":"MAIN"},{"character":"Haruhi Suzumiya","actor":"Oona Plany","role":"MAIN"},{"character":"Yuki Nagato","actor":"Julia Meynen","role":"MAIN"},{"character":"Mikuru Asahina","actor":"Kathrin Neusser","role":"MAIN"},{"character":"Itsuki Koizumi","actor":"Oliver-Kim Hasper","role":"MAIN"},{"character":"Ryouko Asakura","actor":"Christin Springer","role":"SUPPORTING"},{"character":"Tsuruya","actor":"Anna Predleus","role":"SUPPORTING"},{"character":"Taniguchi","actor":"Jesco Wirthgen","role":"SUPPORTING"},{"character":"Kunikida","actor":"Dirk Petrick","role":"SUPPORTING"},{"character":"Arakawa","actor":"Raimund Krone","role":"SUPPORTING"},{"character":"Sonou Mori","actor":"Nicole Hannak","role":"SUPPORTING"},{"character":"Yutaka Tamaru","actor":"Rainer Fritzsche","role":"SUPPORTING"},{"character":"Keiichi Tamaru","actor":"Uwe Jellinek","role":"SUPPORTING"},{"character":"Kyon no Imouto","actor":"Anja Rybiczka","role":"SUPPORTING"},{"character":"Kiyosumi Morimura","actor":"Patric Tavanti","role":"SUPPORTING"},{"character":"Okabe","actor":"Christoph Banken","role":"SUPPORTING"},{"character":"Umpire","actor":"Reinhard Scheunemann","role":"SUPPORTING"},{"character":"Emiri Kimidori","actor":"Rubina Kuraoka","role":"SUPPORTING"},{"character":"Computer Kenkyuukai Buchou","actor":"Rainer Fritzsche","role":"SUPPORTING"},{"character":"Shamisen","actor":"Patric Tavanti","role":"SUPPORTING"},{"character":"Mai Zaizen","actor":"Svantje Wascher","role":"SUPPORTING"},{"character":"Mizuki Okajima","actor":"Emily Behr","role":"SUPPORTING"}]}
+{
+ "titleId": 849,
+ "updatedAt": "2026-08-15T18:26:16.741Z",
+ "roles": [
+  {
+   "character": "Kyon",
+   "actor": "Michael Baral",
+   "role": "MAIN"
+  },
+  {
+   "character": "Haruhi Suzumiya",
+   "actor": "Oona Plany",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuki Nagato",
+   "actor": "Julia Meynen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mikuru Asahina",
+   "actor": "Kathrin Neusser",
+   "role": "MAIN"
+  },
+  {
+   "character": "Itsuki Koizumi",
+   "actor": "Oliver-Kim Hasper",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ryouko Asakura",
+   "actor": "Christin Springer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsuruya",
+   "actor": "Anna Predleus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Taniguchi",
+   "actor": "Jesco Wirthgen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kunikida",
+   "actor": "Dirk Petrick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Arakawa",
+   "actor": "Raimund Krone",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sonou Mori",
+   "actor": "Nicole Hannak",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yutaka Tamaru",
+   "actor": "Rainer Fritzsche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Keiichi Tamaru",
+   "actor": "Uwe Jellinek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyon no Imouto",
+   "actor": "Anja Rybiczka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kiyosumi Morimura",
+   "actor": "Patric Tavanti",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Okabe",
+   "actor": "Christoph Banken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Umpire",
+   "actor": "Reinhard Scheunemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Emiri Kimidori",
+   "actor": "Rubina Kuraoka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Computer Kenkyuukai Buchou",
+   "actor": "Rainer Fritzsche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shamisen",
+   "actor": "Patric Tavanti",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mai Zaizen",
+   "actor": "Svantje Wascher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mizuki Okajima",
+   "actor": "Emily Behr",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Itsuki Koizumi",
+   "actor": "Kim Hasper",
+   "von": "ann"
+  },
+  {
+   "character": "Kyon's Sister",
+   "actor": "Anja Rybiczka",
+   "von": "ann"
+  },
+  {
+   "character": "Tsuruya-san",
+   "actor": "Anna Predleus",
+   "von": "ann"
+  },
+  {
+   "character": "Ryoko Asakura",
+   "actor": "Christin Springer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=6430"
+}

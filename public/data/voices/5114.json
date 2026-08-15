@@ -1,1 +1,197 @@
-{"titleId":5114,"updatedAt":"2026-08-11T11:20:03.041Z","roles":[{"character":"Alphonse Elric","actor":"Wanja Gerick","role":"MAIN"},{"character":"Edward Elric","actor":"David Turba","role":"MAIN"},{"character":"Rosé Tomas","actor":"Betül Jülide Gülgec","role":"SUPPORTING"},{"character":"Miles","actor":"Tobias Brecklinghaus","role":"SUPPORTING"},{"character":"Paninya","actor":"Katrin Heß","role":"SUPPORTING"},{"character":"May Chang","actor":"Kirstin Hesse","role":"SUPPORTING"},{"character":"Neil","actor":"Stefan Naas","role":"SUPPORTING"},{"character":"Sloth","actor":"Hans Bayer","role":"SUPPORTING"},{"character":"Knox","actor":"Rolf Berg","role":"SUPPORTING"},{"character":"Garfiel","actor":"Markus Haase","role":"SUPPORTING"},{"character":"Shifu","actor":"Volker Wolf","role":"SUPPORTING"},{"character":"Narrator","actor":"Renier Baaken","role":"SUPPORTING"},{"character":"Martel","actor":"Annette Potempa","role":"SUPPORTING"},{"character":"Maria Ross","actor":"Birte Baumgardt","role":"SUPPORTING"},{"character":"Scar Ani","actor":"Thomas Friebe","role":"SUPPORTING"},{"character":"Elicia Hughes","actor":"Sarah Brückner","role":"SUPPORTING"},{"character":"Barry the Chopper","actor":"Arne Obermeyer","role":"SUPPORTING"},{"character":"Gracia Hughes","actor":"Petra Glunz-grosch","role":"SUPPORTING"},{"character":"Scar","actor":"Stephan Schleberger","role":"SUPPORTING"},{"character":"Grumman","actor":"Hans-Gerd Kilbinger","role":"SUPPORTING"},{"character":"Charlie","actor":"Markus Haase","role":"SUPPORTING"}]}
+{
+ "titleId": 5114,
+ "updatedAt": "2026-08-15T18:32:28.294Z",
+ "roles": [
+  {
+   "character": "Alphonse Elric",
+   "actor": "Wanja Gerick",
+   "role": "MAIN"
+  },
+  {
+   "character": "Edward Elric",
+   "actor": "David Turba",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rosé Tomas",
+   "actor": "Betül Jülide Gülgec",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miles",
+   "actor": "Tobias Brecklinghaus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Paninya",
+   "actor": "Katrin Heß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "May Chang",
+   "actor": "Kirstin Hesse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Neil",
+   "actor": "Stefan Naas",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sloth",
+   "actor": "Hans Bayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Knox",
+   "actor": "Rolf Berg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Garfiel",
+   "actor": "Markus Haase",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shifu",
+   "actor": "Volker Wolf",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Renier Baaken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Martel",
+   "actor": "Annette Potempa",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maria Ross",
+   "actor": "Birte Baumgardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Scar Ani",
+   "actor": "Thomas Friebe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Elicia Hughes",
+   "actor": "Sarah Brückner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Barry the Chopper",
+   "actor": "Arne Obermeyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gracia Hughes",
+   "actor": "Petra Glunz-grosch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Scar",
+   "actor": "Stephan Schleberger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Grumman",
+   "actor": "Hans-Gerd Kilbinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Charlie",
+   "actor": "Markus Haase",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Envy",
+   "actor": "Julien Haggege",
+   "von": "ann"
+  },
+  {
+   "character": "Roy Mustang",
+   "actor": "David Nathan",
+   "von": "ann"
+  },
+  {
+   "character": "King Bradley",
+   "actor": "Erich Räuker",
+   "von": "ann"
+  },
+  {
+   "character": "Lust",
+   "actor": "Ilya Welter",
+   "von": "ann"
+  },
+  {
+   "character": "Gluttony",
+   "actor": "Renier Baaken",
+   "von": "ann"
+  },
+  {
+   "character": "Alex Louis Armstrong",
+   "actor": "Detlef Bierstedt",
+   "von": "ann"
+  },
+  {
+   "character": "Fu",
+   "actor": "Hans-Gerd Kilbinger",
+   "von": "ann"
+  },
+  {
+   "character": "Maes Hughes",
+   "actor": "Simon T. Roden",
+   "von": "ann"
+  },
+  {
+   "character": "Riza Hawkeye",
+   "actor": "Gabi Wienand",
+   "von": "ann"
+  },
+  {
+   "character": "Ling Yao",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Winry Rockbell",
+   "actor": "Demet Fey",
+   "von": "ann"
+  },
+  {
+   "character": "Van Hohenheim",
+   "actor": "Olaf Reitz",
+   "von": "ann"
+  },
+  {
+   "character": "Izumi Curtis",
+   "actor": "Kordula Leiße",
+   "von": "ann"
+  },
+  {
+   "character": "Lan Fan",
+   "actor": "Winnie Brandes",
+   "von": "ann"
+  },
+  {
+   "character": "Tim Marcoh",
+   "actor": "Matthias Lühn",
+   "von": "ann"
+  },
+  {
+   "character": "Olivier Mira Armstrong",
+   "actor": "Susanne Reuter",
+   "von": "ann"
+  },
+  {
+   "character": "Jerso",
+   "actor": "Daniel Berger",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=10216"
+}

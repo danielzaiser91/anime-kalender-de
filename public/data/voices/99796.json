@@ -1,1 +1,82 @@
-{"titleId":99796,"updatedAt":"2026-08-11T11:20:03.412Z","roles":[{"character":"Sword","actor":"Bernd Egger","role":"MAIN"},{"character":"Sophie Hennes","actor":"Melanie Hinze","role":"MAIN"},{"character":"Luke","actor":"Jan-Philipp Jarke","role":"MAIN"},{"character":"Gina","actor":"Nora Kunzendorf","role":"SUPPORTING"},{"character":"Zaruba","actor":"Stefan Gossler","role":"SUPPORTING"}]}
+{
+ "titleId": 99796,
+ "updatedAt": "2026-08-15T18:41:39.932Z",
+ "roles": [
+  {
+   "character": "Sword",
+   "actor": "Bernd Egger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sophie Hennes",
+   "actor": "Melanie Hinze",
+   "role": "MAIN"
+  },
+  {
+   "character": "Luke",
+   "actor": "Jan-Philipp Jarke",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gina",
+   "actor": "Nora Kunzendorf",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zaruba",
+   "actor": "Stefan Gossler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chiaki",
+   "actor": "Melinda Rachfahl",
+   "von": "ann"
+  },
+  {
+   "character": "Martin Hennes",
+   "actor": "Alessandro Alioto",
+   "von": "ann"
+  },
+  {
+   "character": "Fei Long",
+   "actor": "Sven Brieger",
+   "von": "ann"
+  },
+  {
+   "character": "Mia",
+   "actor": "Cornelia Waibel",
+   "von": "ann"
+  },
+  {
+   "character": "Bishop",
+   "actor": "Marlon Rosenthal",
+   "von": "ann"
+  },
+  {
+   "character": "Gina Evans",
+   "actor": "Nora Kunzendorf",
+   "von": "ann"
+  },
+  {
+   "character": "Knight",
+   "actor": "Patrick Giese",
+   "von": "ann"
+  },
+  {
+   "character": "Sophie Hennes",
+   "actor": "Marie Hinze",
+   "von": "ann"
+  },
+  {
+   "character": "Luke Harden",
+   "actor": "Philippa Jarke",
+   "von": "ann"
+  },
+  {
+   "character": "Queen",
+   "actor": "Juliane Schlosser",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20043"
+}

@@ -1,1 +1,127 @@
-{"titleId":98443,"updatedAt":"2026-08-11T11:20:03.382Z","roles":[{"character":"Usagi","actor":"Dirk Petrick","role":"MAIN"},{"character":"Sharyuu","actor":"Angelina Geisler","role":"MAIN"},{"character":"Nezumi","actor":"Sebastian Fitzner","role":"MAIN"},{"character":"Niwatori","actor":"Amelie Plaas-Link","role":"MAIN"},{"character":"Ushii","actor":"Florian Hoffmann","role":"MAIN"},{"character":"Dotsuku","actor":"Steven Merting","role":"MAIN"},{"character":"Tora","actor":"Laurine Betz","role":"MAIN"},{"character":"Inounoshishi","actor":"Yeshim Meisheit","role":"MAIN"},{"character":"Elder Tatsumi","actor":"Nick Forsberg","role":"MAIN"},{"character":"Younger Tatsumi","actor":"Fabian Kluckert","role":"MAIN"},{"character":"Uuma","actor":"Peter Sura","role":"MAIN"},{"character":"Hitsujii","actor":"Jan Spitzer","role":"MAIN"}]}
+{
+ "titleId": 98443,
+ "updatedAt": "2026-08-15T18:41:03.915Z",
+ "roles": [
+  {
+   "character": "Usagi",
+   "actor": "Dirk Petrick",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sharyuu",
+   "actor": "Angelina Geisler",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nezumi",
+   "actor": "Sebastian Fitzner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Niwatori",
+   "actor": "Amelie Plaas-Link",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ushii",
+   "actor": "Florian Hoffmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Dotsuku",
+   "actor": "Steven Merting",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tora",
+   "actor": "Laurine Betz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Inounoshishi",
+   "actor": "Yeshim Meisheit",
+   "role": "MAIN"
+  },
+  {
+   "character": "Elder Tatsumi",
+   "actor": "Nick Forsberg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Younger Tatsumi",
+   "actor": "Fabian Kluckert",
+   "role": "MAIN"
+  },
+  {
+   "character": "Uuma",
+   "actor": "Peter Sura",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hitsujii",
+   "actor": "Jan Spitzer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sumihiko Tsujiie / Ram",
+   "actor": "Jan Spitzer",
+   "von": "ann"
+  },
+  {
+   "character": "Duodecuple",
+   "actor": "Rainer Doering",
+   "von": "ann"
+  },
+  {
+   "character": "Tsugiyoshi Sumino / Rat",
+   "actor": "Sebastian Fitzner",
+   "von": "ann"
+  },
+  {
+   "character": "Michio Tsukui / Dog",
+   "actor": "Steven Merting",
+   "von": "ann"
+  },
+  {
+   "character": "Nagayuki Tsumita / Dragon",
+   "actor": "Nick Forsberg",
+   "von": "ann"
+  },
+  {
+   "character": "Eiji Kashii / Ox",
+   "actor": "Florian Hoffmann",
+   "von": "ann"
+  },
+  {
+   "character": "Misaki Yuuki / Monkey",
+   "actor": "Angelina Geisler",
+   "von": "ann"
+  },
+  {
+   "character": "Kanae Aira / Tiger",
+   "actor": "Laurine Betz",
+   "von": "ann"
+  },
+  {
+   "character": "Takeyasu Sumita / Serpent",
+   "actor": "Fabian Kluckert",
+   "von": "ann"
+  },
+  {
+   "character": "Ryouka Niwa / Rooster",
+   "actor": "Amelie Plaas-Link",
+   "von": "ann"
+  },
+  {
+   "character": "Yoshimi Souma / Horse",
+   "actor": "Peter Sura",
+   "von": "ann"
+  },
+  {
+   "character": "Toshiko Inou / Boar",
+   "actor": "Yeşim Meisheit",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19335"
+}

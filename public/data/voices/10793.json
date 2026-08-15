@@ -1,1 +1,107 @@
-{"titleId":10793,"updatedAt":"2026-08-11T11:20:03.113Z","roles":[{"character":"Inori Yuzuriha","actor":"Nina Amerschläger","role":"MAIN"},{"character":"Shuu Ouma","actor":"Markus Haase","role":"MAIN"},{"character":"Shuuichirou Keido","actor":"Wolff von Lindenau","role":"SUPPORTING"},{"character":"Hare Menjou","actor":"Kristin Wöckel","role":"SUPPORTING"},{"character":"Kenji Kido","actor":"Patrick Keller","role":"SUPPORTING"},{"character":"Gai Tsutsugami","actor":"Peter Lehn","role":"SUPPORTING"},{"character":"Souta Tamadate","actor":"Linus Kraus","role":"SUPPORTING"},{"character":"Rowan","actor":"Oliver Jäger","role":"SUPPORTING"},{"character":"Arugo Tsukishima","actor":"Dieter Gring","role":"SUPPORTING"},{"character":"Kanon Kusama","actor":"Gabi Franke","role":"SUPPORTING"},{"character":"Tsugumi","actor":"Tanja Esche","role":"SUPPORTING"},{"character":"Haruka Ouma","actor":"Gisa Bergmann","role":"SUPPORTING"},{"character":"Shibungi","actor":"Mario Hassert","role":"SUPPORTING"}]}
+{
+ "titleId": 10793,
+ "updatedAt": "2026-08-15T18:34:23.071Z",
+ "roles": [
+  {
+   "character": "Inori Yuzuriha",
+   "actor": "Nina Amerschläger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shuu Ouma",
+   "actor": "Markus Haase",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shuuichirou Keido",
+   "actor": "Wolff von Lindenau",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hare Menjou",
+   "actor": "Kristin Wöckel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kenji Kido",
+   "actor": "Patrick Keller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gai Tsutsugami",
+   "actor": "Peter Lehn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Souta Tamadate",
+   "actor": "Linus Kraus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rowan",
+   "actor": "Oliver Jäger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Arugo Tsukishima",
+   "actor": "Dieter Gring",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kanon Kusama",
+   "actor": "Gabi Franke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsugumi",
+   "actor": "Tanja Esche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haruka Ouma",
+   "actor": "Gisa Bergmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shibungi",
+   "actor": "Mario Hassert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shū Ouma",
+   "actor": "Markus Haase",
+   "von": "ann"
+  },
+  {
+   "character": "Hirohide Nanba",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Sōta Tamadate",
+   "actor": "Linus Kraus",
+   "von": "ann"
+  },
+  {
+   "character": "Shuichiro Keido",
+   "actor": "Wolff von Lindenau",
+   "von": "ann"
+  },
+  {
+   "character": "Yahiro Samukawa",
+   "actor": "Isaak Dentler",
+   "von": "ann"
+  },
+  {
+   "character": "Ayase Shinomiya",
+   "actor": "Nora Jokhosha",
+   "von": "ann"
+  },
+  {
+   "character": "Hare Menjō",
+   "actor": "Kristin Wöckel",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=13001"
+}

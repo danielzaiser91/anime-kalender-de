@@ -1,1 +1,157 @@
-{"titleId":101922,"updatedAt":"2026-08-11T11:20:02.751Z","roles":[{"character":"Tanjirou Kamado","actor":"Constantin von Jascheroff","role":"MAIN"},{"character":"Nezuko Kamado","actor":"Julia Meynen","role":"MAIN"},{"character":"Inosuke Hashibira","actor":"Dennis Schmidt-Foß","role":"MAIN"},{"character":"Zenitsu Agatsuma","actor":"Dirk Petrick","role":"MAIN"},{"character":"Muzan Kibutsuji","actor":"Norman Matt","role":"SUPPORTING"},{"character":"Kyoujurou Rengoku","actor":"Tommy Morgenstern","role":"SUPPORTING"},{"character":"Giyuu Tomioka","actor":"Nico Sablik","role":"SUPPORTING"},{"character":"Muichirou Tokitou","actor":"Amadeus Strobl","role":"SUPPORTING"},{"character":"Shinobu Kochou","actor":"Maria Koschny","role":"SUPPORTING"},{"character":"Tengen Uzui","actor":"Tim Knauer","role":"SUPPORTING"},{"character":"Mitsuri Kanroji","actor":"Moira May","role":"SUPPORTING"},{"character":"Sakonji Urokodaki","actor":"Klaus-Dieter Klebsch","role":"SUPPORTING"},{"character":"Sanemi Shinazugawa","actor":"Sebastian Schulz","role":"SUPPORTING"},{"character":"Jigorou Kuwajima","actor":"Michael Pan","role":"SUPPORTING"},{"character":"Genya Shinazugawa","actor":"Julius Jellinek","role":"SUPPORTING"},{"character":"Obanai Iguro","actor":"Tim Sander","role":"SUPPORTING"},{"character":"Gyoumei Himejima","actor":"Alexander Doering","role":"SUPPORTING"},{"character":"Makomo","actor":"Sarah Tkotsch","role":"SUPPORTING"},{"character":"Kagaya Ubuyashiki","actor":"Oliver Feld","role":"SUPPORTING"},{"character":"Sabito","actor":"Ricardo Richter","role":"SUPPORTING"},{"character":"Matsuemon Tennouji","actor":"Gerald Schaale","role":"SUPPORTING"},{"character":"Susamaru","actor":"Nicole Hannak","role":"SUPPORTING"},{"character":"Yahaba","actor":"Tobias Nath","role":"SUPPORTING"},{"character":"Numa Oni","actor":"Ozan Ünal","role":"SUPPORTING"},{"character":"Yushirou","actor":"Patrick Baehr","role":"SUPPORTING"}]}
+{
+ "titleId": 101922,
+ "updatedAt": "2026-08-15T18:43:03.222Z",
+ "roles": [
+  {
+   "character": "Tanjirou Kamado",
+   "actor": "Constantin von Jascheroff",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nezuko Kamado",
+   "actor": "Julia Meynen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Inosuke Hashibira",
+   "actor": "Dennis Schmidt-Foß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Zenitsu Agatsuma",
+   "actor": "Dirk Petrick",
+   "role": "MAIN"
+  },
+  {
+   "character": "Muzan Kibutsuji",
+   "actor": "Norman Matt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyoujurou Rengoku",
+   "actor": "Tommy Morgenstern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Giyuu Tomioka",
+   "actor": "Nico Sablik",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Muichirou Tokitou",
+   "actor": "Amadeus Strobl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinobu Kochou",
+   "actor": "Maria Koschny",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tengen Uzui",
+   "actor": "Tim Knauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mitsuri Kanroji",
+   "actor": "Moira May",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sakonji Urokodaki",
+   "actor": "Klaus-Dieter Klebsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sanemi Shinazugawa",
+   "actor": "Sebastian Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jigorou Kuwajima",
+   "actor": "Michael Pan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Genya Shinazugawa",
+   "actor": "Julius Jellinek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Obanai Iguro",
+   "actor": "Tim Sander",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gyoumei Himejima",
+   "actor": "Alexander Doering",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Makomo",
+   "actor": "Sarah Tkotsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kagaya Ubuyashiki",
+   "actor": "Oliver Feld",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sabito",
+   "actor": "Ricardo Richter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Matsuemon Tennouji",
+   "actor": "Gerald Schaale",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Susamaru",
+   "actor": "Nicole Hannak",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yahaba",
+   "actor": "Tobias Nath",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Numa Oni",
+   "actor": "Ozan Ünal",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yushirou",
+   "actor": "Patrick Baehr",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kasugaigarasu",
+   "actor": "Gerald Schaale",
+   "von": "ann"
+  },
+  {
+   "character": "Shinobu Kocho",
+   "actor": "Maria Koschny",
+   "von": "ann"
+  },
+  {
+   "character": "Tamayo",
+   "actor": "Ulrike Stürzbecher",
+   "von": "ann"
+  },
+  {
+   "character": "Yushiro",
+   "actor": "Patrick Baehr",
+   "von": "ann"
+  },
+  {
+   "character": "Kanao Tsuyuri",
+   "actor": "Lisa May-Mitsching",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=21101"
+}

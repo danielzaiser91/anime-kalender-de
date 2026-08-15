@@ -1,1 +1,132 @@
-{"titleId":892,"updatedAt":"2026-08-11T11:20:02.872Z","roles":[{"character":"Gokuu Son","actor":"Ann Vielhaben","role":"MAIN"},{"character":"Bora","actor":"Frank Muth","role":"MAIN"},{"character":"Chaozu","actor":"Julia Blankenburg","role":"MAIN"},{"character":"Pilaf","actor":"Gabriele Schramm-Philipp","role":"SUPPORTING"},{"character":"Shen Long","actor":"Wolfgang Ziffer","role":"SUPPORTING"},{"character":"Tsurusen'nin","actor":"Michael Pan","role":"SUPPORTING"},{"character":"General Blue","actor":"Thomas Schmuckert","role":"SUPPORTING"},{"character":"Pu'ar","actor":"Viktoria Voigt","role":"SUPPORTING"},{"character":"Narrator","actor":"Roland Hemmo","role":"SUPPORTING"},{"character":"Shu","actor":"Frank Schröder","role":"SUPPORTING"},{"character":"Metallic-gunsou","actor":"Reinhard Scheunemann","role":"SUPPORTING"},{"character":"Mai","actor":"Nadja Diek","role":"SUPPORTING"},{"character":"Lunch","actor":"Sabine Winterfeldt","role":"SUPPORTING"},{"character":"Gajira Norimaki","actor":"Beate Tober","role":"SUPPORTING"},{"character":"Muten Roushi","actor":"Karl Schulz","role":"SUPPORTING"},{"character":"Umigame","actor":"Matthias Klages","role":"SUPPORTING"},{"character":"Tao Pai Pai","actor":"Klaus Lochthove","role":"SUPPORTING"},{"character":"Bulma","actor":"Sonja Spuhl","role":"SUPPORTING"},{"character":"Senbei Norimaki","actor":"Olaf Reichmann","role":"SUPPORTING"},{"character":"Tenshinhan","actor":"Julien Haggege","role":"SUPPORTING"},{"character":"Oolong","actor":"Bernhard Völger","role":"SUPPORTING"},{"character":"Arale Norimaki","actor":"Marie-Luise Schramm","role":"SUPPORTING"},{"character":"Kuririn","actor":"Wanja Gerick","role":"SUPPORTING"},{"character":"Yamcha","actor":"Karlo Hackenberger","role":"SUPPORTING"}]}
+{
+ "titleId": 892,
+ "updatedAt": "2026-08-15T18:26:36.667Z",
+ "roles": [
+  {
+   "character": "Gokuu Son",
+   "actor": "Ann Vielhaben",
+   "role": "MAIN"
+  },
+  {
+   "character": "Bora",
+   "actor": "Frank Muth",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chaozu",
+   "actor": "Julia Blankenburg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Pilaf",
+   "actor": "Gabriele Schramm-Philipp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shen Long",
+   "actor": "Wolfgang Ziffer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsurusen'nin",
+   "actor": "Michael Pan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "General Blue",
+   "actor": "Thomas Schmuckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pu'ar",
+   "actor": "Viktoria Voigt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Roland Hemmo",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shu",
+   "actor": "Frank Schröder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Metallic-gunsou",
+   "actor": "Reinhard Scheunemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mai",
+   "actor": "Nadja Diek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lunch",
+   "actor": "Sabine Winterfeldt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gajira Norimaki",
+   "actor": "Beate Tober",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Muten Roushi",
+   "actor": "Karl Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Umigame",
+   "actor": "Matthias Klages",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tao Pai Pai",
+   "actor": "Klaus Lochthove",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bulma",
+   "actor": "Sonja Spuhl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Senbei Norimaki",
+   "actor": "Olaf Reichmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tenshinhan",
+   "actor": "Julien Haggege",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Oolong",
+   "actor": "Bernhard Völger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Arale Norimaki",
+   "actor": "Marie-Luise Schramm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kuririn",
+   "actor": "Wanja Gerick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yamcha",
+   "actor": "Karlo Hackenberger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Son Goku",
+   "actor": "Ann Vielhaben",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2138"
+}

@@ -1,1 +1,177 @@
-{"titleId":20812,"updatedAt":"2026-08-11T11:20:03.233Z","roles":[{"character":"Aoi Miyamori","actor":"Jamie Lee Blank","role":"MAIN"},{"character":"Ema Yasuhara","actor":"Lisa May-Mitsching","role":"MAIN"},{"character":"Shizuka Sakaki","actor":"Victoria Frenz","role":"MAIN"},{"character":"Misa Toudou","actor":"Laura Oettel","role":"MAIN"},{"character":"Midori Imai","actor":"Winnie Brandes","role":"MAIN"},{"character":"Seiichi Kinoshita","actor":"Martin Bross","role":"SUPPORTING"},{"character":"Akane Uchida","actor":"Katja Liebing","role":"SUPPORTING"},{"character":"Masato Marukawa","actor":"Volker Niederfahrenhorst","role":"SUPPORTING"},{"character":"Mitsuaki Kanno","actor":"Tobias Brecklinghaus","role":"SUPPORTING"},{"character":"Erika Yano","actor":"Rieke Werner","role":"SUPPORTING"},{"character":"Hikaru Hotta","actor":"Ben Steinhoff","role":"SUPPORTING"},{"character":"Chiemi Doumoto","actor":"Milena Karas","role":"SUPPORTING"},{"character":"Mui Kayana","actor":"Ela Paul","role":"SUPPORTING"},{"character":"Sara Satou","actor":"Jana Schölermann","role":"SUPPORTING"},{"character":"Yumi Iguchi","actor":"Fabienne Hesse","role":"SUPPORTING"},{"character":"Yuka Okitsu","actor":"Demet Fey","role":"SUPPORTING"},{"character":"Asuka Fuji","actor":"Kirstin Hesse","role":"SUPPORTING"}]}
+{
+ "titleId": 20812,
+ "updatedAt": "2026-08-15T18:37:39.102Z",
+ "roles": [
+  {
+   "character": "Aoi Miyamori",
+   "actor": "Jamie Lee Blank",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ema Yasuhara",
+   "actor": "Lisa May-Mitsching",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shizuka Sakaki",
+   "actor": "Victoria Frenz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Misa Toudou",
+   "actor": "Laura Oettel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Midori Imai",
+   "actor": "Winnie Brandes",
+   "role": "MAIN"
+  },
+  {
+   "character": "Seiichi Kinoshita",
+   "actor": "Martin Bross",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akane Uchida",
+   "actor": "Katja Liebing",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masato Marukawa",
+   "actor": "Volker Niederfahrenhorst",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mitsuaki Kanno",
+   "actor": "Tobias Brecklinghaus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Erika Yano",
+   "actor": "Rieke Werner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hikaru Hotta",
+   "actor": "Ben Steinhoff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chiemi Doumoto",
+   "actor": "Milena Karas",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mui Kayana",
+   "actor": "Ela Paul",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sara Satou",
+   "actor": "Jana Schölermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yumi Iguchi",
+   "actor": "Fabienne Hesse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuka Okitsu",
+   "actor": "Demet Fey",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Asuka Fuji",
+   "actor": "Kirstin Hesse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masashi Yamada",
+   "actor": "Daniel Werner",
+   "von": "ann"
+  },
+  {
+   "character": "Shigeru Sugie",
+   "actor": "Hans Bayer",
+   "von": "ann"
+  },
+  {
+   "character": "Goutarou Katsuragi",
+   "actor": "Tom Jacobs",
+   "von": "ann"
+  },
+  {
+   "character": "Misato Segawa",
+   "actor": "Silke Linderhaus",
+   "von": "ann"
+  },
+  {
+   "character": "Ryousuke Endou",
+   "actor": "Markus Haase",
+   "von": "ann"
+  },
+  {
+   "character": "Aoi Miyamori",
+   "actor": "Jamie-Lee Blank",
+   "von": "ann"
+  },
+  {
+   "character": "Yuuichirou Shimoyanagi",
+   "actor": "Matthias Kiel",
+   "von": "ann"
+  },
+  {
+   "character": "Tarou Takanashi",
+   "actor": "Dennis Saemann",
+   "von": "ann"
+  },
+  {
+   "character": "Misa Toudou",
+   "actor": "Laura Elßel",
+   "von": "ann"
+  },
+  {
+   "character": "Shun Watanabe",
+   "actor": "Louis Friedemann Thiele",
+   "von": "ann"
+  },
+  {
+   "character": "Yoshiki Sakura",
+   "actor": "Matthias Lühn",
+   "von": "ann"
+  },
+  {
+   "character": "Ema Yasuhara",
+   "actor": "Lisa Mitsching",
+   "von": "ann"
+  },
+  {
+   "character": "Tatsuya Ochiai",
+   "actor": "Patrick Keller",
+   "von": "ann"
+  },
+  {
+   "character": "Hironori Madoka",
+   "actor": "Stefan Naas",
+   "von": "ann"
+  },
+  {
+   "character": "Tsubaki Andou",
+   "actor": "Meri Dogan",
+   "von": "ann"
+  },
+  {
+   "character": "Rinko Ogasawara",
+   "actor": "Signe Zurmühlen",
+   "von": "ann"
+  },
+  {
+   "character": "Yutaka Honda",
+   "actor": "Sascha von Zambelly",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16189"
+}

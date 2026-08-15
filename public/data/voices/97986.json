@@ -1,1 +1,112 @@
-{"titleId":97986,"updatedAt":"2026-08-11T11:20:03.375Z","roles":[{"character":"Riko","actor":"Linda Fölster","role":"MAIN"},{"character":"Reg","actor":"Laurine Betz","role":"MAIN"},{"character":"Marulk","actor":"Jodie Blank","role":"SUPPORTING"},{"character":"Hablog","actor":"Reinhard Scheunemann","role":"SUPPORTING"},{"character":"Nanachi","actor":"Maximiliane Häcke","role":"SUPPORTING"},{"character":"Kiwi","actor":"Sarah Madeleine Tusk","role":"SUPPORTING"},{"character":"Bondrewd","actor":"Oliver Siebeck","role":"SUPPORTING"},{"character":"Jiruo","actor":"Sebastian Schulz","role":"SUPPORTING"},{"character":"Ouzen","actor":"Heike Schroetter","role":"SUPPORTING"},{"character":"Mitty","actor":"Julia Stoepel","role":"SUPPORTING"},{"character":"Lyza","actor":"Sonja Spuhl","role":"SUPPORTING"},{"character":"Simred","actor":"Frank Schröder","role":"SUPPORTING"},{"character":"Nat","actor":"Rubina Kuraoka","role":"SUPPORTING"},{"character":"Shiggy","actor":"Ilona Brokowski","role":"SUPPORTING"},{"character":"Zapo-jii","actor":"Thomas Kästner","role":"BACKGROUND"},{"character":"Yelme","actor":"Philip Süß","role":"BACKGROUND"},{"character":"Beruchero","actor":"Katharina Lopinski","role":"BACKGROUND"},{"character":"Mio","actor":"Daniela Molina","role":"BACKGROUND"},{"character":"Laffi","actor":"Jasmin Arnoldt","role":"BACKGROUND"}]}
+{
+ "titleId": 97986,
+ "updatedAt": "2026-08-15T18:40:50.100Z",
+ "roles": [
+  {
+   "character": "Riko",
+   "actor": "Linda Fölster",
+   "role": "MAIN"
+  },
+  {
+   "character": "Reg",
+   "actor": "Laurine Betz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Marulk",
+   "actor": "Jodie Blank",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hablog",
+   "actor": "Reinhard Scheunemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nanachi",
+   "actor": "Maximiliane Häcke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kiwi",
+   "actor": "Sarah Madeleine Tusk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bondrewd",
+   "actor": "Oliver Siebeck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jiruo",
+   "actor": "Sebastian Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ouzen",
+   "actor": "Heike Schroetter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mitty",
+   "actor": "Julia Stoepel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lyza",
+   "actor": "Sonja Spuhl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Simred",
+   "actor": "Frank Schröder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nat",
+   "actor": "Rubina Kuraoka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shiggy",
+   "actor": "Ilona Brokowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zapo-jii",
+   "actor": "Thomas Kästner",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Yelme",
+   "actor": "Philip Süß",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Beruchero",
+   "actor": "Katharina Lopinski",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Mio",
+   "actor": "Daniela Molina",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Laffi",
+   "actor": "Jasmin Arnoldt",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Ozen",
+   "actor": "Heike Schroetter",
+   "von": "ann"
+  },
+  {
+   "character": "Kiyui",
+   "actor": "Sarah Madeleine Tusk",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18952"
+}

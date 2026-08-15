@@ -1,1 +1,102 @@
-{"titleId":21596,"updatedAt":"2026-08-11T11:20:03.315Z","roles":[{"character":"Koushirou Izumi","actor":"Christian Zeiger","role":"MAIN"}]}
+{
+ "titleId": 21596,
+ "updatedAt": "2026-08-15T18:39:28.873Z",
+ "roles": [
+  {
+   "character": "Koushirou Izumi",
+   "actor": "Christian Zeiger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yamato Ishida",
+   "actor": "Robin Kahnmeyer",
+   "von": "ann"
+  },
+  {
+   "character": "Taichi Yagami",
+   "actor": "Florian Knorrn",
+   "von": "ann"
+  },
+  {
+   "character": "Joe Kido",
+   "actor": "Marius Claren",
+   "von": "ann"
+  },
+  {
+   "character": "Agumon",
+   "actor": "Gerald Schaale",
+   "von": "ann"
+  },
+  {
+   "character": "Gabumon",
+   "actor": "Julien Haggege",
+   "von": "ann"
+  },
+  {
+   "character": "Biyomon",
+   "actor": "Daniela Reidies",
+   "von": "ann"
+  },
+  {
+   "character": "Patamon",
+   "actor": "Hans Hohlbein",
+   "von": "ann"
+  },
+  {
+   "character": "Takeru Takaishi",
+   "actor": "Nicolas Artajo",
+   "von": "ann"
+  },
+  {
+   "character": "Gomamon",
+   "actor": "Rainer Fritzsche",
+   "von": "ann"
+  },
+  {
+   "character": "Hikari Yagami",
+   "actor": "Marie-Luise Schramm",
+   "von": "ann"
+  },
+  {
+   "character": "Tentomon",
+   "actor": "Joachim Kaps",
+   "von": "ann"
+  },
+  {
+   "character": "Gatomon",
+   "actor": "Katrin Zimmermann",
+   "von": "ann"
+  },
+  {
+   "character": "Mimi Tachikawa",
+   "actor": "Giuliana Jakobeit",
+   "von": "ann"
+  },
+  {
+   "character": "Sora Takenouchi",
+   "actor": "Sonja Spuhl",
+   "von": "ann"
+  },
+  {
+   "character": "Koushiro Izumi",
+   "actor": "Christian Zeiger",
+   "von": "ann"
+  },
+  {
+   "character": "Meikuumon",
+   "actor": "Sarah Alles",
+   "von": "ann"
+  },
+  {
+   "character": "Meiko Mochizuki",
+   "actor": "Alice Bauer",
+   "von": "ann"
+  },
+  {
+   "character": "Palmon",
+   "actor": "Gabriele Schramm-Philipp",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18176"
+}

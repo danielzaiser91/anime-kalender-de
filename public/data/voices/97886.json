@@ -1,1 +1,112 @@
-{"titleId":97886,"updatedAt":"2026-08-11T11:20:03.369Z","roles":[{"character":"Leonardo Watch","actor":"Felix Mayer","role":"MAIN"},{"character":"Klaus von Reinherz","actor":"Ingo Albrecht","role":"MAIN"},{"character":"Zapp Renfro","actor":"Uwe Thomsen","role":"MAIN"},{"character":"Deldro Brody","actor":"Olaf Reitz","role":"SUPPORTING"},{"character":"Luciana Estevez","actor":"Mayke Dähn","role":"SUPPORTING"},{"character":"Dog Hummer","actor":"Louis Friedemann Thiele","role":"SUPPORTING"},{"character":"Patrick","actor":"Dieter Brink","role":"SUPPORTING"},{"character":"Zed O'Brien","actor":"Jochen Langner","role":"SUPPORTING"},{"character":"William Macbeth","actor":"Katrin Heß","role":"SUPPORTING"},{"character":"Steven A. Starphase","actor":"Robert Steudtner","role":"SUPPORTING"},{"character":"Gilbert F. Altstein","actor":"Hans Bayer","role":"SUPPORTING"},{"character":"Dr. Gamimodzu","actor":"Thomas Balou Martin","role":"SUPPORTING"},{"character":"K.K.","actor":"Christin Marquitan","role":"SUPPORTING"},{"character":"Sonic","actor":"Richard Westerhaus","role":"SUPPORTING"},{"character":"Chain Sumeragi","actor":"Ann Vielhaben","role":"SUPPORTING"},{"character":"Philip Lenore","actor":"Michael Baral","role":"SUPPORTING"},{"character":"Femt","actor":"Asad Schwarz-Msesilamba","role":"SUPPORTING"},{"character":"Michella Watch","actor":"Winnie Brandes","role":"SUPPORTING"},{"character":"Li Gado","actor":"Sami Reichenbach","role":"SUPPORTING"}]}
+{
+ "titleId": 97886,
+ "updatedAt": "2026-08-15T18:40:39.557Z",
+ "roles": [
+  {
+   "character": "Leonardo Watch",
+   "actor": "Felix Mayer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Klaus von Reinherz",
+   "actor": "Ingo Albrecht",
+   "role": "MAIN"
+  },
+  {
+   "character": "Zapp Renfro",
+   "actor": "Uwe Thomsen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Deldro Brody",
+   "actor": "Olaf Reitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Luciana Estevez",
+   "actor": "Mayke Dähn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dog Hummer",
+   "actor": "Louis Friedemann Thiele",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Patrick",
+   "actor": "Dieter Brink",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zed O'Brien",
+   "actor": "Jochen Langner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "William Macbeth",
+   "actor": "Katrin Heß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Steven A. Starphase",
+   "actor": "Robert Steudtner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gilbert F. Altstein",
+   "actor": "Hans Bayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dr. Gamimodzu",
+   "actor": "Thomas Balou Martin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "K.K.",
+   "actor": "Christin Marquitan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sonic",
+   "actor": "Richard Westerhaus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chain Sumeragi",
+   "actor": "Ann Vielhaben",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Philip Lenore",
+   "actor": "Michael Baral",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Femt",
+   "actor": "Asad Schwarz-Msesilamba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Michella Watch",
+   "actor": "Winnie Brandes",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Li Gado",
+   "actor": "Sami Reichenbach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sonic Speed Monkey",
+   "actor": "Richard Westerhaus",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Luciana Estevez",
+   "actor": "Mayke Dähn",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18900"
+}

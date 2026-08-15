@@ -1,1 +1,112 @@
-{"titleId":11633,"updatedAt":"2026-08-11T11:20:03.121Z","roles":[{"character":"Fuyumi Yanagi","actor":"Katharina Iacobescu","role":"MAIN"},{"character":"Staz Blood","actor":"Tobias John von Freyend","role":"MAIN"},{"character":"Bell Hydra","actor":"Shandra Schadt","role":"MAIN"},{"character":"Wolf","actor":"Patrick Roche","role":"MAIN"},{"character":"Braz D. Blood","actor":"Julian Manuel","role":"MAIN"},{"character":"Mamejirou","actor":"Michele Sterr","role":"SUPPORTING"},{"character":"Akimu Papladon","actor":"Nils Dienemann","role":"SUPPORTING"},{"character":"Daddy Wolf","actor":"Björn-Tilo Kraft","role":"SUPPORTING"},{"character":"Berros","actor":"Angela Wiederhut","role":"SUPPORTING"},{"character":"Liz T. Blood","actor":"Rieke Werner","role":"SUPPORTING"},{"character":"Oniqlo Tenchou","actor":"Thomas Rauscher","role":"SUPPORTING"},{"character":"Goyle","actor":"Patrick Schröder","role":"SUPPORTING"},{"character":"Deku","actor":"Gerhard Jilka","role":"SUPPORTING"},{"character":"Franken Stein","actor":"Thomas Wenke","role":"SUPPORTING"},{"character":"Nell Hydra","actor":"Christian Heiner Wolf","role":"SUPPORTING"},{"character":"Heads Hydra","actor":"Mike Carl","role":"SUPPORTING"}]}
+{
+ "titleId": 11633,
+ "updatedAt": "2026-08-15T18:34:32.367Z",
+ "roles": [
+  {
+   "character": "Fuyumi Yanagi",
+   "actor": "Katharina Iacobescu",
+   "role": "MAIN"
+  },
+  {
+   "character": "Staz Blood",
+   "actor": "Tobias John von Freyend",
+   "role": "MAIN"
+  },
+  {
+   "character": "Bell Hydra",
+   "actor": "Shandra Schadt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Wolf",
+   "actor": "Patrick Roche",
+   "role": "MAIN"
+  },
+  {
+   "character": "Braz D. Blood",
+   "actor": "Julian Manuel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mamejirou",
+   "actor": "Michele Sterr",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akimu Papladon",
+   "actor": "Nils Dienemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Daddy Wolf",
+   "actor": "Björn-Tilo Kraft",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Berros",
+   "actor": "Angela Wiederhut",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Liz T. Blood",
+   "actor": "Rieke Werner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Oniqlo Tenchou",
+   "actor": "Thomas Rauscher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Goyle",
+   "actor": "Patrick Schröder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Deku",
+   "actor": "Gerhard Jilka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Franken Stein",
+   "actor": "Thomas Wenke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nell Hydra",
+   "actor": "Christian Heiner Wolf",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Heads Hydra",
+   "actor": "Mike Carl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hydra Bell",
+   "actor": "Shandra Schadt",
+   "von": "ann"
+  },
+  {
+   "character": "Knell",
+   "actor": "Christian H. Wolf",
+   "von": "ann"
+  },
+  {
+   "character": "Staz C. Blood",
+   "actor": "Tobias John von Freyend",
+   "von": "ann"
+  },
+  {
+   "character": "Akimu",
+   "actor": "Nils Dienemann",
+   "von": "ann"
+  },
+  {
+   "character": "Wolf Daddy",
+   "actor": "Björn-Tilo Kraft",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15136"
+}

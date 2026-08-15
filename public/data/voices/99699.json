@@ -1,1 +1,107 @@
-{"titleId":99699,"updatedAt":"2026-08-11T11:20:03.409Z","roles":[{"character":"Asirpa","actor":"Patrizia Carlucci","role":"MAIN"},{"character":"Saichi Sugimoto","actor":"Sebastian Schulz","role":"MAIN"},{"character":"Yoshitake Shiraishi","actor":"Felix Spieß","role":"MAIN"},{"character":"Narrator","actor":"Stephan Ernst","role":"SUPPORTING"},{"character":"Toshizou Hijikata","actor":"Joachim Kaps","role":"SUPPORTING"},{"character":"Shinpachi Nagakura","actor":"Stefan Bergel","role":"SUPPORTING"},{"character":"Tetsuzou Nihei","actor":"Sven Brieger","role":"SUPPORTING"},{"character":"Youhei Nikaidou","actor":"Otto Strecker","role":"SUPPORTING"},{"character":"Hyakunosuke Ogata","actor":"Sven Gerhardt","role":"SUPPORTING"},{"character":"Genjirou Tanigaki","actor":"Julius Jellinek","role":"SUPPORTING"},{"character":"Tatsuma Ushiyama","actor":"Hans-Eckart Eckhardt","role":"SUPPORTING"},{"character":"Kouhei Nikaidou","actor":"Dirk Talaga","role":"SUPPORTING"},{"character":"Tamai Gochou","actor":"Frank Kirschgens","role":"SUPPORTING"},{"character":"Kiroranke","actor":"Peter Lontzek","role":"SUPPORTING"},{"character":"Osoma","actor":"Saskia Glück","role":"SUPPORTING"},{"character":"Inkarmat","actor":"Josephine Schmidt","role":"SUPPORTING"},{"character":"Kano Ienaga","actor":"Christin Marquitan","role":"SUPPORTING"},{"character":"Huci","actor":"Margot Rothweiler","role":"SUPPORTING"},{"character":"Hajime Tsukishima","actor":"Stefan Bräuler","role":"SUPPORTING"}]}
+{
+ "titleId": 99699,
+ "updatedAt": "2026-08-15T18:41:34.140Z",
+ "roles": [
+  {
+   "character": "Asirpa",
+   "actor": "Patrizia Carlucci",
+   "role": "MAIN"
+  },
+  {
+   "character": "Saichi Sugimoto",
+   "actor": "Sebastian Schulz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yoshitake Shiraishi",
+   "actor": "Felix Spieß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Stephan Ernst",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toshizou Hijikata",
+   "actor": "Joachim Kaps",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinpachi Nagakura",
+   "actor": "Stefan Bergel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tetsuzou Nihei",
+   "actor": "Sven Brieger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Youhei Nikaidou",
+   "actor": "Otto Strecker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hyakunosuke Ogata",
+   "actor": "Sven Gerhardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Genjirou Tanigaki",
+   "actor": "Julius Jellinek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tatsuma Ushiyama",
+   "actor": "Hans-Eckart Eckhardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kouhei Nikaidou",
+   "actor": "Dirk Talaga",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tamai Gochou",
+   "actor": "Frank Kirschgens",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kiroranke",
+   "actor": "Peter Lontzek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Osoma",
+   "actor": "Saskia Glück",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Inkarmat",
+   "actor": "Josephine Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kano Ienaga",
+   "actor": "Christin Marquitan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Huci",
+   "actor": "Margot Rothweiler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hajime Tsukishima",
+   "actor": "Stefan Bräuler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "First Lieutenant Tsurumi",
+   "actor": "Jörg Pintsch",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20206"
+}

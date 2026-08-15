@@ -1,1 +1,82 @@
-{"titleId":98249,"updatedAt":"2026-08-11T11:20:03.378Z","roles":[{"character":"Kai Ashimoto ","actor":"Philip Süß","role":"MAIN"},{"character":"Lu","actor":"Jana Dunja Gries","role":"MAIN"},{"character":"Kunio","actor":"Maximilian Artajo","role":"SUPPORTING"},{"character":"Yuuho","actor":"Julia Bautz","role":"SUPPORTING"},{"character":"Isaki","actor":"Demet Fey","role":"SUPPORTING"},{"character":"Shiira","actor":"Ralf Drexler","role":"SUPPORTING"},{"character":"Teruo Ashimoto","actor":"Lars Schmidtke","role":"SUPPORTING"},{"character":"Kai no Sofu","actor":"Axel Gottschick","role":"SUPPORTING"},{"character":"Kujirai","actor":"Jan Langer","role":"SUPPORTING"},{"character":"Kameda","actor":"Dirk Hardegen","role":"SUPPORTING"},{"character":"Esojima","actor":"Benedikt Hahn","role":"SUPPORTING"},{"character":"Fuguta","actor":"Arne Obermeyer","role":"SUPPORTING"}]}
+{
+ "titleId": 98249,
+ "updatedAt": "2026-08-15T18:40:53.983Z",
+ "roles": [
+  {
+   "character": "Kai Ashimoto ",
+   "actor": "Philip Süß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lu",
+   "actor": "Jana Dunja Gries",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kunio",
+   "actor": "Maximilian Artajo",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuuho",
+   "actor": "Julia Bautz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Isaki",
+   "actor": "Demet Fey",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shiira",
+   "actor": "Ralf Drexler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Teruo Ashimoto",
+   "actor": "Lars Schmidtke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kai no Sofu",
+   "actor": "Axel Gottschick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kujirai",
+   "actor": "Jan Langer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kameda",
+   "actor": "Dirk Hardegen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Esojima",
+   "actor": "Benedikt Hahn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fuguta",
+   "actor": "Arne Obermeyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kai Ashimoto",
+   "actor": "Philip Süß",
+   "von": "ann"
+  },
+  {
+   "character": "Yuho Ebina",
+   "actor": "Julia Bautz",
+   "von": "ann"
+  },
+  {
+   "character": "Kai Ashimoto's Grandfather",
+   "actor": "Axel Gottschick",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19053"
+}

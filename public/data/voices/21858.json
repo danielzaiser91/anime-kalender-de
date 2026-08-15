@@ -1,1 +1,172 @@
-{"titleId":21858,"updatedAt":"2026-08-11T11:20:03.344Z","roles":[{"character":"Sucy Manbavaran","actor":"Flavia Vinzens","role":"MAIN"},{"character":"Lotte Jansson","actor":"Liza Ohm","role":"MAIN"},{"character":"Atsuko Kagari","actor":"Franciska  Friede","role":"MAIN"},{"character":"Amanda O'Neill","actor":"Nadine Schreier","role":"SUPPORTING"},{"character":"Fafnir","actor":"Douglas Welbat","role":"SUPPORTING"},{"character":"Hannah England","actor":"Lenka Arnold","role":"SUPPORTING"},{"character":"Barbara Parker","actor":"Nina Witt","role":"SUPPORTING"},{"character":"Nicholas","actor":"Douglas Welbat","role":"SUPPORTING"},{"character":"Bernadette Cavendish","actor":"Lo Rivera","role":"SUPPORTING"},{"character":"Jasminka Antonenko","actor":"Natascha Pavia","role":"SUPPORTING"},{"character":"Andrew Hanbridge","actor":"Tim Kreuer","role":"SUPPORTING"},{"character":"Mahou Douguya no Tenin","actor":"Jens Wendland","role":"SUPPORTING"},{"character":"Avery","actor":"Sarah Madeleine Tusk","role":"SUPPORTING"},{"character":"Dorlin","actor":"Ursula Sieg","role":"SUPPORTING"},{"character":"Annabel Crème ","actor":"Daniela Reidies","role":"SUPPORTING"},{"character":"Diana Cavendish","actor":"Julia Fölster","role":"SUPPORTING"},{"character":"Samantha Badcock","actor":"Micaëla Kreißler","role":"SUPPORTING"},{"character":"Louis Blackwell","actor":"Jesse Grimm","role":"SUPPORTING"},{"character":"Wangari","actor":"Leoni Kristin Oeffinger","role":"SUPPORTING"},{"character":"Woodward","actor":"Mareen Steinacker","role":"SUPPORTING"},{"character":"Chariot du Nord","actor":"Katharina von Keller","role":"SUPPORTING"}]}
+{
+ "titleId": 21858,
+ "updatedAt": "2026-08-15T18:40:12.335Z",
+ "roles": [
+  {
+   "character": "Sucy Manbavaran",
+   "actor": "Flavia Vinzens",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lotte Jansson",
+   "actor": "Liza Ohm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Atsuko Kagari",
+   "actor": "Franciska  Friede",
+   "role": "MAIN"
+  },
+  {
+   "character": "Amanda O'Neill",
+   "actor": "Nadine Schreier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fafnir",
+   "actor": "Douglas Welbat",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hannah England",
+   "actor": "Lenka Arnold",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Barbara Parker",
+   "actor": "Nina Witt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nicholas",
+   "actor": "Douglas Welbat",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bernadette Cavendish",
+   "actor": "Lo Rivera",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jasminka Antonenko",
+   "actor": "Natascha Pavia",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Andrew Hanbridge",
+   "actor": "Tim Kreuer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mahou Douguya no Tenin",
+   "actor": "Jens Wendland",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Avery",
+   "actor": "Sarah Madeleine Tusk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dorlin",
+   "actor": "Ursula Sieg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Annabel Crème ",
+   "actor": "Daniela Reidies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Diana Cavendish",
+   "actor": "Julia Fölster",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Samantha Badcock",
+   "actor": "Micaëla Kreißler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Louis Blackwell",
+   "actor": "Jesse Grimm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Wangari",
+   "actor": "Leoni Kristin Oeffinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Woodward",
+   "actor": "Mareen Steinacker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chariot du Nord",
+   "actor": "Katharina von Keller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ursula",
+   "actor": "Celine Fontanges",
+   "von": "ann"
+  },
+  {
+   "character": "Andrew Humbridge",
+   "actor": "Tim Kreuer",
+   "von": "ann"
+  },
+  {
+   "character": "Shiny Chariot",
+   "actor": "Katharina von Keller",
+   "von": "ann"
+  },
+  {
+   "character": "Badcock",
+   "actor": "Micaela Kreißler",
+   "von": "ann"
+  },
+  {
+   "character": "Earl of Hanbridge",
+   "actor": "Michael Bideller",
+   "von": "ann"
+  },
+  {
+   "character": "Akko Kagari",
+   "actor": "Franciska Friede",
+   "von": "ann"
+  },
+  {
+   "character": "Frank",
+   "actor": "Daniel Schütter",
+   "von": "ann"
+  },
+  {
+   "character": "Principal Holbrook",
+   "actor": "Marianne Bernhardt",
+   "von": "ann"
+  },
+  {
+   "character": "Lukic",
+   "actor": "Brita Subklew",
+   "von": "ann"
+  },
+  {
+   "character": "Hanna",
+   "actor": "Lenka Arnold",
+   "von": "ann"
+  },
+  {
+   "character": "Jasminka",
+   "actor": "Natascha Pavia",
+   "von": "ann"
+  },
+  {
+   "character": "Professor Nelson",
+   "actor": "Anja Topf",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18486"
+}

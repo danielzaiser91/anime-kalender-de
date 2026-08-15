@@ -1,1 +1,107 @@
-{"titleId":2264,"updatedAt":"2026-08-11T11:20:02.962Z","roles":[{"character":"Leo","actor":"Matthias Klie","role":"MAIN"},{"character":"Lyre","actor":"Uta Kienemann-Zaradic","role":"MAIN"},{"character":"Hamegg","actor":"Pascal Breuer","role":"MAIN"},{"character":"Lune","actor":"Maximilian Belle","role":"MAIN"},{"character":"Lemonade","actor":"Manou Lubowski","role":"SUPPORTING"},{"character":"Shunsaku Ban","actor":"Erich Ludwig","role":"SUPPORTING"},{"character":"Lukio","actor":"Eva Prauser","role":"SUPPORTING"},{"character":"Coco","actor":"Tobias Lelle","role":"SUPPORTING"}]}
+{
+ "titleId": 2264,
+ "updatedAt": "2026-08-15T18:30:21.173Z",
+ "roles": [
+  {
+   "character": "Leo",
+   "actor": "Matthias Klie",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lyre",
+   "actor": "Uta Kienemann-Zaradic",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hamegg",
+   "actor": "Pascal Breuer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lune",
+   "actor": "Maximilian Belle",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lemonade",
+   "actor": "Manou Lubowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shunsaku Ban",
+   "actor": "Erich Ludwig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lukio",
+   "actor": "Eva Prauser",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Coco",
+   "actor": "Tobias Lelle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tommy",
+   "actor": "Hubertus von Lerchenfeld",
+   "von": "ann"
+  },
+  {
+   "character": "Merry",
+   "actor": "Stephanie Kellner",
+   "von": "ann"
+  },
+  {
+   "character": "Ramune",
+   "actor": "Manou Lubowski",
+   "von": "ann"
+  },
+  {
+   "character": "Pagura",
+   "actor": "Manfred Erdmann",
+   "von": "ann"
+  },
+  {
+   "character": "Burazza",
+   "actor": "Reinhard Brock",
+   "von": "ann"
+  },
+  {
+   "character": "Ham-egg",
+   "actor": "Pascal Breuer",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Plus",
+   "actor": "Crock Krumbiegel",
+   "von": "ann"
+  },
+  {
+   "character": "Jack",
+   "actor": "Ulrich Frank",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Moustache",
+   "actor": "Erich Ludwig",
+   "von": "ann"
+  },
+  {
+   "character": "Große Mutter",
+   "actor": "Ilona Grandke",
+   "von": "ann"
+  },
+  {
+   "character": "Lyra",
+   "actor": "Uta Zaradic",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Minus",
+   "actor": "Hans-Rainer Müller",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=3277"
+}

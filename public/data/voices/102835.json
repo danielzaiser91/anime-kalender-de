@@ -1,1 +1,102 @@
-{"titleId":102835,"updatedAt":"2026-08-11T11:20:03.449Z","roles":[{"character":"Milo","actor":"Marie-Isabel Walke","role":"MAIN"},{"character":"Keisaku Asano","actor":"Christian Zeiger","role":"MAIN"},{"character":"Chang Gai Steiner","actor":"Ricardo Richter","role":"MAIN"},{"character":"Marin Temari","actor":"Daniela Molina","role":"MAIN"},{"character":"Daisuke Dojima","actor":"Patrick Keller","role":"MAIN"},{"character":"Chang Lu Steiner","actor":"Jill Böttcher","role":"MAIN"},{"character":"Nicholas Sato","actor":"Wolfgang Wagner","role":"SUPPORTING"},{"character":"Mukyu Isurugi","actor":"Rieke Werner","role":"SUPPORTING"},{"character":"Yumiko Yazawa","actor":"Diana Borgwardt","role":"SUPPORTING"},{"character":"Kanae Izumi","actor":"Gundi Eberhard","role":"SUPPORTING"},{"character":"Chiharu Isurugi","actor":"Dina Kürten","role":"SUPPORTING"},{"character":"Ryohei Kuroiwa","actor":"Peter Flechtner","role":"SUPPORTING"},{"character":"Seiichiro Muta ","actor":"Axel Lutter","role":"SUPPORTING"},{"character":"Mikio Dojima","actor":"Leonhard Mahlich","role":"SUPPORTING"}]}
+{
+ "titleId": 102835,
+ "updatedAt": "2026-08-15T18:42:27.780Z",
+ "roles": [
+  {
+   "character": "Milo",
+   "actor": "Marie-Isabel Walke",
+   "role": "MAIN"
+  },
+  {
+   "character": "Keisaku Asano",
+   "actor": "Christian Zeiger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chang Gai Steiner",
+   "actor": "Ricardo Richter",
+   "role": "MAIN"
+  },
+  {
+   "character": "Marin Temari",
+   "actor": "Daniela Molina",
+   "role": "MAIN"
+  },
+  {
+   "character": "Daisuke Dojima",
+   "actor": "Patrick Keller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chang Lu Steiner",
+   "actor": "Jill Böttcher",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nicholas Sato",
+   "actor": "Wolfgang Wagner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mukyu Isurugi",
+   "actor": "Rieke Werner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yumiko Yazawa",
+   "actor": "Diana Borgwardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kanae Izumi",
+   "actor": "Gundi Eberhard",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chiharu Isurugi",
+   "actor": "Dina Kürten",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryohei Kuroiwa",
+   "actor": "Peter Flechtner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seiichiro Muta ",
+   "actor": "Axel Lutter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mikio Dojima",
+   "actor": "Leonhard Mahlich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mikio Doujima",
+   "actor": "Leonhard Mahlich",
+   "von": "ann"
+  },
+  {
+   "character": "Ryouhei Kuroiwa",
+   "actor": "Peter Flechtner",
+   "von": "ann"
+  },
+  {
+   "character": "Seiichirou Muta",
+   "actor": "Axel Lutter",
+   "von": "ann"
+  },
+  {
+   "character": "Daisuke Doujima",
+   "actor": "Patrick Keller",
+   "von": "ann"
+  },
+  {
+   "character": "Nicholas Satou",
+   "actor": "Wolfgang Wagner",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=21122"
+}

@@ -1,1 +1,82 @@
-{"titleId":2000,"updatedAt":"2026-08-11T11:20:02.951Z","roles":[{"character":"Haruko Mihashi","actor":"Luisa Wietzorek","role":"MAIN"},{"character":"Kijuurou Takazawa","actor":"Gerd Holtenau","role":"MAIN"},{"character":"Takashi Terada","actor":"Jörg Hengstler","role":"MAIN"},{"character":"Roujin C","actor":"Uli Krohm","role":"SUPPORTING"},{"character":"Mitsuru Maeda","actor":"Nicolás Artajo","role":"SUPPORTING"},{"character":"Haru Takazawa","actor":"Iris Artajo","role":"SUPPORTING"},{"character":"Tomoe Satou","actor":"Damineh Hojat","role":"SUPPORTING"},{"character":"Minagawa Buchou","actor":"Helmut Gauß","role":"SUPPORTING"},{"character":"Yoshihiko Hasegawa","actor":"Rainer Fritzsche","role":"SUPPORTING"},{"character":"Nobuko Ooe","actor":"Tanya Kahana","role":"SUPPORTING"}]}
+{
+ "titleId": 2000,
+ "updatedAt": "2026-08-15T18:29:55.249Z",
+ "roles": [
+  {
+   "character": "Haruko Mihashi",
+   "actor": "Luisa Wietzorek",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kijuurou Takazawa",
+   "actor": "Gerd Holtenau",
+   "role": "MAIN"
+  },
+  {
+   "character": "Takashi Terada",
+   "actor": "Jörg Hengstler",
+   "role": "MAIN"
+  },
+  {
+   "character": "Roujin C",
+   "actor": "Uli Krohm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mitsuru Maeda",
+   "actor": "Nicolás Artajo",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haru Takazawa",
+   "actor": "Iris Artajo",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tomoe Satou",
+   "actor": "Damineh Hojat",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Minagawa Buchou",
+   "actor": "Helmut Gauß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yoshihiko Hasegawa",
+   "actor": "Rainer Fritzsche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nobuko Ooe",
+   "actor": "Tanya Kahana",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mitsuru Maeda",
+   "actor": "Nicolas Artajo",
+   "von": "ann"
+  },
+  {
+   "character": "Kijuro Takazawa",
+   "actor": "Gerd Holtenau",
+   "von": "ann"
+  },
+  {
+   "character": "Nobuko Ohe",
+   "actor": "Tanya Kahana",
+   "von": "ann"
+  },
+  {
+   "character": "Haruko",
+   "actor": "Luisa Wietzorek",
+   "von": "ann"
+  },
+  {
+   "character": "Satoh Tomoe",
+   "actor": "Damineh Hojat",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=329"
+}

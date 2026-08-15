@@ -1,1 +1,132 @@
-{"titleId":5277,"updatedAt":"2026-08-11T11:20:03.044Z","roles":[{"character":"Tsukiumi","actor":"Christin Marquitan","role":"MAIN"},{"character":"Minato Sahashi","actor":"Jan Makino","role":"MAIN"},{"character":"Shiina","actor":"Dirk Stollberg","role":"SUPPORTING"},{"character":"Mutsu","actor":"René Dawn-Claude","role":"SUPPORTING"}]}
+{
+ "titleId": 5277,
+ "updatedAt": "2026-08-15T18:32:32.200Z",
+ "roles": [
+  {
+   "character": "Tsukiumi",
+   "actor": "Christin Marquitan",
+   "role": "MAIN"
+  },
+  {
+   "character": "Minato Sahashi",
+   "actor": "Jan Makino",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shiina",
+   "actor": "Dirk Stollberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mutsu",
+   "actor": "René Dawn-Claude",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Matsu",
+   "actor": "Marie Schramm",
+   "von": "ann"
+  },
+  {
+   "character": "Izumi Higa",
+   "actor": "Rainer Fritzsche",
+   "von": "ann"
+  },
+  {
+   "character": "Kakizaki",
+   "actor": "Jaron Löwenberg",
+   "von": "ann"
+  },
+  {
+   "character": "Haihane",
+   "actor": "Silke Matthias",
+   "von": "ann"
+  },
+  {
+   "character": "Kusano",
+   "actor": "Daniela Reidies",
+   "von": "ann"
+  },
+  {
+   "character": "Miya Asama",
+   "actor": "Melanie Hinze",
+   "von": "ann"
+  },
+  {
+   "character": "Kazehana",
+   "actor": "Andrea Solter",
+   "von": "ann"
+  },
+  {
+   "character": "Karasuba",
+   "actor": "Heide Domanowski",
+   "von": "ann"
+  },
+  {
+   "character": "Musubi",
+   "actor": "Tanja Schmitz",
+   "von": "ann"
+  },
+  {
+   "character": "Benitsubasa",
+   "actor": "Esra Vural",
+   "von": "ann"
+  },
+  {
+   "character": "Yukari Sahashi",
+   "actor": "Kaya Möller",
+   "von": "ann"
+  },
+  {
+   "character": "Hayato Mikogami",
+   "actor": "Michael Baral",
+   "von": "ann"
+  },
+  {
+   "character": "Hibiki",
+   "actor": "Juliana Cukier",
+   "von": "ann"
+  },
+  {
+   "character": "Homura/Kagari",
+   "actor": "Dirk Petrick",
+   "von": "ann"
+  },
+  {
+   "character": "Takami Sahashi",
+   "actor": "Sabine Winterfeldt",
+   "von": "ann"
+  },
+  {
+   "character": "Kaoru Seo",
+   "actor": "Felix Spieß",
+   "von": "ann"
+  },
+  {
+   "character": "Akitsu",
+   "actor": "Aline Staskowiak",
+   "von": "ann"
+  },
+  {
+   "character": "Uzume",
+   "actor": "Nicole Hannak",
+   "von": "ann"
+  },
+  {
+   "character": "Natsuo Ichinomiya",
+   "actor": "Roland Wolf",
+   "von": "ann"
+  },
+  {
+   "character": "Hikari",
+   "actor": "Nadine Pasta",
+   "von": "ann"
+  },
+  {
+   "character": "Hiroto Minaka",
+   "actor": "Dirk Bublies",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=11018"
+}

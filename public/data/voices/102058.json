@@ -1,1 +1,47 @@
-{"titleId":102058,"updatedAt":"2026-08-11T11:20:03.287Z","roles":[{"character":"Rudolf","actor":"Daniela Reidies","role":"MAIN"},{"character":"Ippaiattena","actor":"Daniel Welbat","role":"MAIN"}]}
+{
+ "titleId": 102058,
+ "updatedAt": "2026-08-15T18:38:51.793Z",
+ "roles": [
+  {
+   "character": "Rudolf",
+   "actor": "Daniela Reidies",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ippaiattena",
+   "actor": "Daniel Welbat",
+   "role": "MAIN"
+  },
+  {
+   "character": "Devil",
+   "actor": "Konstantin Graudus",
+   "von": "ann"
+  },
+  {
+   "character": "Flecki",
+   "actor": "Christian Rudolf",
+   "von": "ann"
+  },
+  {
+   "character": "Ippai",
+   "actor": "Daniel Welbat",
+   "von": "ann"
+  },
+  {
+   "character": "Misha",
+   "actor": "Merete Brettschneider",
+   "von": "ann"
+  },
+  {
+   "character": "Kuma",
+   "actor": "Hanns Jörg Krumpholz",
+   "von": "ann"
+  },
+  {
+   "character": "Rie",
+   "actor": "Lillith Gebauer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19417"
+}

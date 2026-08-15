@@ -1,1 +1,102 @@
-{"titleId":15227,"updatedAt":"2026-08-11T11:20:03.153Z","roles":[{"character":"Suzu Houjou","actor":"Luisa Wietzorek","role":"MAIN"},{"character":"San Houjou","actor":"Denise Gorzelanny","role":"SUPPORTING"},{"character":"Harumi Kuromura","actor":"Nina Schatton","role":"SUPPORTING"},{"character":"Shuusaku Houjou","actor":"Tobias Nath","role":"SUPPORTING"},{"character":"Keiko Kuromura","actor":"Rubina Kuraoka","role":"SUPPORTING"},{"character":"Tetsu Mizuhara","actor":"Daniel Schütter","role":"SUPPORTING"},{"character":"Rin Shiraki","actor":"Jessica Walther-Gabory","role":"SUPPORTING"},{"character":"Sumi Urano","actor":"Lina Rabea Mohr","role":"SUPPORTING"}]}
+{
+ "titleId": 15227,
+ "updatedAt": "2026-08-15T18:35:26.935Z",
+ "roles": [
+  {
+   "character": "Suzu Houjou",
+   "actor": "Luisa Wietzorek",
+   "role": "MAIN"
+  },
+  {
+   "character": "San Houjou",
+   "actor": "Denise Gorzelanny",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Harumi Kuromura",
+   "actor": "Nina Schatton",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shuusaku Houjou",
+   "actor": "Tobias Nath",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Keiko Kuromura",
+   "actor": "Rubina Kuraoka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tetsu Mizuhara",
+   "actor": "Daniel Schütter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rin Shiraki",
+   "actor": "Jessica Walther-Gabory",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sumi Urano",
+   "actor": "Lina Rabea Mohr",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Keiko",
+   "actor": "Rubina Kuraoka",
+   "von": "ann"
+  },
+  {
+   "character": "Entarou",
+   "actor": "Hans Hohlbein",
+   "von": "ann"
+  },
+  {
+   "character": "Juurou",
+   "actor": "Peter Flechtner",
+   "von": "ann"
+  },
+  {
+   "character": "Kiseno",
+   "actor": "Andrea Aust",
+   "von": "ann"
+  },
+  {
+   "character": "San",
+   "actor": "Denise Gorzelanny",
+   "von": "ann"
+  },
+  {
+   "character": "Shuusaku",
+   "actor": "Tobias Nath",
+   "von": "ann"
+  },
+  {
+   "character": "Suzu",
+   "actor": "Luisa Wietzorek",
+   "von": "ann"
+  },
+  {
+   "character": "Harumi",
+   "actor": "Nina Schatton",
+   "von": "ann"
+  },
+  {
+   "character": "Sumi",
+   "actor": "Lina Rabea Mohr",
+   "von": "ann"
+  },
+  {
+   "character": "Rin",
+   "actor": "Jessica Walther-Gabory",
+   "von": "ann"
+  },
+  {
+   "character": "Tetsu",
+   "actor": "Daniel Schütter",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=17177"
+}

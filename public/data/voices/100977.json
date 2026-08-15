@@ -1,1 +1,142 @@
-{"titleId":100977,"updatedAt":"2026-08-11T11:20:03.440Z","roles":[{"character":"Sekkekkyuu AE3803","actor":"Angelina Markiefka","role":"MAIN"},{"character":"Hakkekkyuu U-1146","actor":"Julian Bayer","role":"MAIN"},{"character":"Kioku Saibou","actor":"Vincent Fallow","role":"SUPPORTING"},{"character":"Helper T Saibou","actor":"Sebastian Griegel","role":"SUPPORTING"},{"character":"Kousankyuu","actor":"Inez Günther","role":"SUPPORTING"},{"character":"Kouenkikyuu","actor":"Karim El Kammouchi","role":"SUPPORTING"},{"character":"Jujousaibou","actor":"Andreas Thiele","role":"SUPPORTING"},{"character":"B Saibou","actor":"Johannes Wolko","role":"SUPPORTING"},{"character":"Macrophage","actor":"Angela Wiederhut","role":"SUPPORTING"},{"character":"Sekkekkyuu AA5100","actor":"Tatjana Pokorny","role":"SUPPORTING"},{"character":"Killer T Saibou","actor":"Christopher Kussin","role":"SUPPORTING"},{"character":"Sekkekkyuu NT4201","actor":"Maren Rainer","role":"SUPPORTING"},{"character":"Seigyosei T Saibou","actor":"Katharina von Daake","role":"SUPPORTING"},{"character":"Kesshouban","actor":"Amira Leisner","role":"SUPPORTING"},{"character":"Gan Saibou","actor":"Martin Bonvicini","role":"SUPPORTING"},{"character":"Narrator","actor":"Janina Dietz","role":"SUPPORTING"},{"character":"Natural Killer Saibou","actor":"Regina Beckhaus","role":"SUPPORTING"}]}
+{
+ "titleId": 100977,
+ "updatedAt": "2026-08-15T18:42:19.737Z",
+ "roles": [
+  {
+   "character": "Sekkekkyuu AE3803",
+   "actor": "Angelina Markiefka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hakkekkyuu U-1146",
+   "actor": "Julian Bayer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kioku Saibou",
+   "actor": "Vincent Fallow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Helper T Saibou",
+   "actor": "Sebastian Griegel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kousankyuu",
+   "actor": "Inez Günther",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kouenkikyuu",
+   "actor": "Karim El Kammouchi",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jujousaibou",
+   "actor": "Andreas Thiele",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "B Saibou",
+   "actor": "Johannes Wolko",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Macrophage",
+   "actor": "Angela Wiederhut",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sekkekkyuu AA5100",
+   "actor": "Tatjana Pokorny",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Killer T Saibou",
+   "actor": "Christopher Kussin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sekkekkyuu NT4201",
+   "actor": "Maren Rainer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seigyosei T Saibou",
+   "actor": "Katharina von Daake",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kesshouban",
+   "actor": "Amira Leisner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gan Saibou",
+   "actor": "Martin Bonvicini",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Janina Dietz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Natural Killer Saibou",
+   "actor": "Regina Beckhaus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eosinophil",
+   "actor": "Inez Günther",
+   "von": "ann"
+  },
+  {
+   "character": "B Cell",
+   "actor": "Johannes Wolko",
+   "von": "ann"
+  },
+  {
+   "character": "Senior Erythrocyte",
+   "actor": "Tatjana Pokorny",
+   "von": "ann"
+  },
+  {
+   "character": "Platelet",
+   "actor": "Amira Leisner",
+   "von": "ann"
+  },
+  {
+   "character": "Natural Killer Cell",
+   "actor": "Regina Beckhaus",
+   "von": "ann"
+  },
+  {
+   "character": "Red Blood Cell",
+   "actor": "Angelina Markiefka",
+   "von": "ann"
+  },
+  {
+   "character": "Dendritic Cell",
+   "actor": "Andreas Thiele",
+   "von": "ann"
+  },
+  {
+   "character": "White Blood Cell",
+   "actor": "Julian Bayer",
+   "von": "ann"
+  },
+  {
+   "character": "Helper T Cell",
+   "actor": "Sebastian Griegel",
+   "von": "ann"
+  },
+  {
+   "character": "Killer T Cell",
+   "actor": "Christopher Kussin",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20564"
+}

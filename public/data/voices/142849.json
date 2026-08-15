@@ -1,1 +1,62 @@
-{"titleId":142849,"updatedAt":"2026-08-11T11:20:03.627Z","roles":[{"character":"Suzu Kanade","actor":"Ness Gerung","role":"MAIN"},{"character":"Shirogane","actor":"Stefan Bräuler","role":"MAIN"},{"character":"Matsuri Kazamaki","actor":"Linus Drews","role":"MAIN"},{"character":"Seigen Kazamaki","actor":"Joachim Kaps","role":"SUPPORTING"},{"character":"Narrator","actor":"Mathias Kunze","role":"BACKGROUND"}]}
+{
+ "titleId": 142849,
+ "updatedAt": "2026-08-15T18:47:48.682Z",
+ "roles": [
+  {
+   "character": "Suzu Kanade",
+   "actor": "Ness Gerung",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shirogane",
+   "actor": "Stefan Bräuler",
+   "role": "MAIN"
+  },
+  {
+   "character": "Matsuri Kazamaki",
+   "actor": "Linus Drews",
+   "role": "MAIN"
+  },
+  {
+   "character": "Seigen Kazamaki",
+   "actor": "Joachim Kaps",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Mathias Kunze",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Garaku Utagawa",
+   "actor": "Julien Haggege",
+   "von": "ann"
+  },
+  {
+   "character": "Lucy Tsukioka",
+   "actor": "Dorothea Zwetkow",
+   "von": "ann"
+  },
+  {
+   "character": "Matsuri Kazamaki",
+   "actor": "Nina Witt",
+   "von": "ann"
+  },
+  {
+   "character": "Souga Ninokuru",
+   "actor": "Dennis Sandmann",
+   "von": "ann"
+  },
+  {
+   "character": "Ponosuke Ninokuru",
+   "actor": "Franziska Trunte",
+   "von": "ann"
+  },
+  {
+   "character": "Yayoi Toba",
+   "actor": "Eleni Möller",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=25065"
+}

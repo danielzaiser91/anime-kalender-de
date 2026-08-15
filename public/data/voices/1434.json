@@ -1,1 +1,62 @@
-{"titleId":1434,"updatedAt":"2026-08-11T11:20:02.917Z","roles":[{"character":"Goemon Ishikawa XIII","actor":"Peter Reinhardt","role":"MAIN"},{"character":"Daisuke Jigen","actor":"Tilo Schmitz","role":"MAIN"},{"character":"Arsène Lupin III","actor":"Peter Flechtner","role":"MAIN"},{"character":"Fujiko Mine","actor":"Ghadah Al-Akel","role":"MAIN"},{"character":"Archer","actor":"Christian Rode","role":"SUPPORTING"},{"character":"Goering","actor":"Jörg Hengstler","role":"SUPPORTING"},{"character":"Kouichi Zenigata","actor":"Stefan Staudinger","role":"SUPPORTING"},{"character":"Diana","actor":"Diana Borgwardt","role":"SUPPORTING"},{"character":"Herr Mafroditte","actor":"Bernd Vollbrecht","role":"SUPPORTING"},{"character":"Harimao","actor":"Lutz Riedel","role":"BACKGROUND"}]}
+{
+ "titleId": 1434,
+ "updatedAt": "2026-08-15T18:28:30.578Z",
+ "roles": [
+  {
+   "character": "Goemon Ishikawa XIII",
+   "actor": "Peter Reinhardt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Daisuke Jigen",
+   "actor": "Tilo Schmitz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Arsène Lupin III",
+   "actor": "Peter Flechtner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Fujiko Mine",
+   "actor": "Ghadah Al-Akel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Archer",
+   "actor": "Christian Rode",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Goering",
+   "actor": "Jörg Hengstler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kouichi Zenigata",
+   "actor": "Stefan Staudinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Diana",
+   "actor": "Diana Borgwardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Herr Mafroditte",
+   "actor": "Bernd Vollbrecht",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Harimao",
+   "actor": "Lutz Riedel",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Arsene Lupin",
+   "actor": "Peter Flechtner",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2094"
+}

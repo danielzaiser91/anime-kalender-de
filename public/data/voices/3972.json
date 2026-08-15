@@ -1,1 +1,47 @@
-{"titleId":3972,"updatedAt":"2026-08-11T11:20:03.021Z","roles":[{"character":"Jack Atlas","actor":"Tobias Nath","role":"MAIN"},{"character":"Yusei Fudou","actor":"Wanja Gerick","role":"MAIN"},{"character":"Crow Hogan","actor":"Dirk Petrick","role":"MAIN"}]}
+{
+ "titleId": 3972,
+ "updatedAt": "2026-08-15T18:32:00.839Z",
+ "roles": [
+  {
+   "character": "Jack Atlas",
+   "actor": "Tobias Nath",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yusei Fudou",
+   "actor": "Wanja Gerick",
+   "role": "MAIN"
+  },
+  {
+   "character": "Crow Hogan",
+   "actor": "Dirk Petrick",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yusei Fudo",
+   "actor": "Wanja Gerick",
+   "von": "ann"
+  },
+  {
+   "character": "Akiza Izinski",
+   "actor": "Victoria Frenz",
+   "von": "ann"
+  },
+  {
+   "character": "Rex Goodwin",
+   "actor": "Felix Spieß",
+   "von": "ann"
+  },
+  {
+   "character": "Leo",
+   "actor": "Luisa Wietzorek",
+   "von": "ann"
+  },
+  {
+   "character": "Luna",
+   "actor": "Soraya Richter",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=9404"
+}

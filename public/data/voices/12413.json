@@ -1,1 +1,112 @@
-{"titleId":12413,"updatedAt":"2026-08-11T11:20:03.130Z","roles":[{"character":"Lehm Brick","actor":"Jörg Hengstler","role":"MAIN"},{"character":"Sofia Velmer","actor":"Daniela Bette-Koch","role":"MAIN"},{"character":"Koko Hekmatyar","actor":"Milena Karas","role":"MAIN"},{"character":"Jonathan Mar","actor":"Sebastian Fitzner","role":"MAIN"}]}
+{
+ "titleId": 12413,
+ "updatedAt": "2026-08-15T18:34:47.999Z",
+ "roles": [
+  {
+   "character": "Lehm Brick",
+   "actor": "Jörg Hengstler",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sofia Velmer",
+   "actor": "Daniela Bette-Koch",
+   "role": "MAIN"
+  },
+  {
+   "character": "Koko Hekmatyar",
+   "actor": "Milena Karas",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jonathan Mar",
+   "actor": "Sebastian Fitzner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lehmbrick",
+   "actor": "Jörg Hengstler",
+   "von": "ann"
+  },
+  {
+   "character": "Curry",
+   "actor": "Josef Tratnik",
+   "von": "ann"
+  },
+  {
+   "character": "Scarecrow",
+   "actor": "Frank Schaff",
+   "von": "ann"
+  },
+  {
+   "character": "Guoming Chan",
+   "actor": "Hans Bayer",
+   "von": "ann"
+  },
+  {
+   "character": "Chinatsu",
+   "actor": "Jana Kilka",
+   "von": "ann"
+  },
+  {
+   "character": "Mildo",
+   "actor": "Kirstin Hesse",
+   "von": "ann"
+  },
+  {
+   "character": "Ugo",
+   "actor": "Oliver Schnelker",
+   "von": "ann"
+  },
+  {
+   "character": "Marlene",
+   "actor": "Julia von Tettenborn",
+   "von": "ann"
+  },
+  {
+   "character": "Sophia Velmer",
+   "actor": "Daniela Bette-Koch",
+   "von": "ann"
+  },
+  {
+   "character": "Lutz",
+   "actor": "Benedikt Hahn",
+   "von": "ann"
+  },
+  {
+   "character": "Renato Socchi",
+   "actor": "Alexis Schvartzman",
+   "von": "ann"
+  },
+  {
+   "character": "Mao",
+   "actor": "Holger Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "Schokolade",
+   "actor": "Fabienne Hesse",
+   "von": "ann"
+  },
+  {
+   "character": "Kasper Hekmatyar",
+   "actor": "David M. Schulze",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Minami Amada",
+   "actor": "Anna-Sophia Lumpe",
+   "von": "ann"
+  },
+  {
+   "character": "Mokoena",
+   "actor": "Robert Heinle",
+   "von": "ann"
+  },
+  {
+   "character": "Renato Socchi",
+   "actor": "Alexis Schvartzman",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=13888"
+}

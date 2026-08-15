@@ -1,1 +1,67 @@
-{"titleId":146637,"updatedAt":"2026-08-11T11:20:03.642Z","roles":[{"character":"Musashi","actor":"Amadeus Strobl","role":"MAIN"},{"character":"Kojirou Kanemaki","actor":"Ozan Ünal","role":"MAIN"},{"character":"Tsugumi Hattori","actor":"Betty Förster","role":"MAIN"},{"character":"Aoshi Sanada","actor":"Ricardo Richter","role":"SUPPORTING"},{"character":"Shunrai Yamamoto","actor":"Josephine Schmidt","role":"SUPPORTING"},{"character":"Kanetatsu Naoe","actor":"Konrad Bösherz","role":"SUPPORTING"},{"character":"Katsumi Amako","actor":"Sebastian Kluckert","role":"SUPPORTING"},{"character":"Tatsuomi Uesugi","actor":"Samuel Zekarias","role":"SUPPORTING"},{"character":"Akihiro Shimazu","actor":"Dennis Herrmann","role":"SUPPORTING"}]}
+{
+ "titleId": 146637,
+ "updatedAt": "2026-08-15T18:48:11.578Z",
+ "roles": [
+  {
+   "character": "Musashi",
+   "actor": "Amadeus Strobl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kojirou Kanemaki",
+   "actor": "Ozan Ünal",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tsugumi Hattori",
+   "actor": "Betty Förster",
+   "role": "MAIN"
+  },
+  {
+   "character": "Aoshi Sanada",
+   "actor": "Ricardo Richter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shunrai Yamamoto",
+   "actor": "Josephine Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kanetatsu Naoe",
+   "actor": "Konrad Bösherz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Katsumi Amako",
+   "actor": "Sebastian Kluckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tatsuomi Uesugi",
+   "actor": "Samuel Zekarias",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akihiro Shimazu",
+   "actor": "Dennis Herrmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Naotora Takeda",
+   "actor": "Florian Hoffmann",
+   "von": "ann"
+  },
+  {
+   "character": "Michiru Saruwatari",
+   "actor": "Daniela Molina",
+   "von": "ann"
+  },
+  {
+   "character": "Yatarou Inuda",
+   "actor": "Martin Schubach",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=25467"
+}

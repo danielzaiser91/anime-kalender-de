@@ -1,1 +1,62 @@
-{"titleId":20666,"updatedAt":"2026-08-11T11:20:03.210Z","roles":[{"character":"Dandy","actor":"Tobias Brecklinghaus","role":"MAIN"},{"character":"QT","actor":"Kirstin Hesse","role":"MAIN"},{"character":"Meow","actor":"Martin Bross","role":"MAIN"},{"character":"Gel Hakase","actor":"Bernd Kuschmann","role":"SUPPORTING"},{"character":"Perry Teitoku","actor":"Thomas Balou Martin","role":"SUPPORTING"},{"character":"Johnny","actor":"Louis Friedemann Thiele","role":"SUPPORTING"}]}
+{
+ "titleId": 20666,
+ "updatedAt": "2026-08-15T18:37:07.025Z",
+ "roles": [
+  {
+   "character": "Dandy",
+   "actor": "Tobias Brecklinghaus",
+   "role": "MAIN"
+  },
+  {
+   "character": "QT",
+   "actor": "Kirstin Hesse",
+   "role": "MAIN"
+  },
+  {
+   "character": "Meow",
+   "actor": "Martin Bross",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gel Hakase",
+   "actor": "Bernd Kuschmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Perry Teitoku",
+   "actor": "Thomas Balou Martin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Johnny",
+   "actor": "Louis Friedemann Thiele",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dr. Gel",
+   "actor": "Bernd Kuschmann",
+   "von": "ann"
+  },
+  {
+   "character": "Honey",
+   "actor": "Rieke Werner",
+   "von": "ann"
+  },
+  {
+   "character": "Perry",
+   "actor": "Thomas Balou Martin",
+   "von": "ann"
+  },
+  {
+   "character": "Bee",
+   "actor": "Philipp Schepmann",
+   "von": "ann"
+  },
+  {
+   "character": "Scarlet",
+   "actor": "Susanne Reuter",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16029"
+}

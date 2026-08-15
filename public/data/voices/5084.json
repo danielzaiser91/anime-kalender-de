@@ -1,1 +1,42 @@
-{"titleId":5084,"updatedAt":"2026-08-11T11:20:03.040Z","roles":[{"character":"Mitsuru","actor":"Sebastian Fitzner","role":"SUPPORTING"},{"character":"Hizuru-sensei","actor":"Antje von der Ahe","role":"SUPPORTING"},{"character":"Nagako Aoki","actor":"Gundi Eberhard","role":"SUPPORTING"}]}
+{
+ "titleId": 5084,
+ "updatedAt": "2026-08-15T18:32:27.354Z",
+ "roles": [
+  {
+   "character": "Mitsuru",
+   "actor": "Sebastian Fitzner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hizuru-sensei",
+   "actor": "Antje von der Ahe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nagako Aoki",
+   "actor": "Gundi Eberhard",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tatsuyoshi's Father",
+   "actor": "Sven Gerhardt",
+   "von": "ann"
+  },
+  {
+   "character": "Kiiko Shimazu",
+   "actor": "Johanna Hintze",
+   "von": "ann"
+  },
+  {
+   "character": "Shinko Aoki",
+   "actor": "Berfin-Rana Caska",
+   "von": "ann"
+  },
+  {
+   "character": "Kiyohara no Motosuke",
+   "actor": "Freimut Götsch",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=10975"
+}

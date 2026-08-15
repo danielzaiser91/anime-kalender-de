@@ -1,1 +1,77 @@
-{"titleId":136707,"updatedAt":"2026-08-11T11:20:03.607Z","roles":[{"character":"Farma de Médicis","actor":"Sarah Alles","role":"MAIN"},{"character":"Eléonore Bonnefoi","actor":"Franziska Trunte","role":"MAIN"},{"character":"Charlotte Soller","actor":"Anni C. Salander","role":"MAIN"},{"character":"Bruno de Médicis","actor":"Frank Kirschgens","role":"SUPPORTING"},{"character":"Blanche de Médicis","actor":"Jamie Lee Blank","role":"SUPPORTING"},{"character":"Beatrice de Médicis","actor":"Dana Friedrich","role":"SUPPORTING"}]}
+{
+ "titleId": 136707,
+ "updatedAt": "2026-08-15T18:47:14.319Z",
+ "roles": [
+  {
+   "character": "Farma de Médicis",
+   "actor": "Sarah Alles",
+   "role": "MAIN"
+  },
+  {
+   "character": "Eléonore Bonnefoi",
+   "actor": "Franziska Trunte",
+   "role": "MAIN"
+  },
+  {
+   "character": "Charlotte Soller",
+   "actor": "Anni C. Salander",
+   "role": "MAIN"
+  },
+  {
+   "character": "Bruno de Médicis",
+   "actor": "Frank Kirschgens",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Blanche de Médicis",
+   "actor": "Jamie Lee Blank",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Beatrice de Médicis",
+   "actor": "Dana Friedrich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Blanche de Médicis",
+   "actor": "Jamie-Lee Blank",
+   "von": "ann"
+  },
+  {
+   "character": "Falma de Médicis",
+   "actor": "Sarah Alles",
+   "von": "ann"
+  },
+  {
+   "character": "Salomon",
+   "actor": "Bastian Sierich",
+   "von": "ann"
+  },
+  {
+   "character": "Cedric Lunault",
+   "actor": "Daniel Kröhnert",
+   "von": "ann"
+  },
+  {
+   "character": "Charlotte \"Lotte\" Soller",
+   "actor": "Anni C. Salander",
+   "von": "ann"
+  },
+  {
+   "character": "Eléonore \"Elen\" Bonnefoi",
+   "actor": "Franziska Trunte",
+   "von": "ann"
+  },
+  {
+   "character": "Pierre",
+   "actor": "Vincent Fallow",
+   "von": "ann"
+  },
+  {
+   "character": "Queen Élisabeth II.",
+   "actor": "Annkathrin BUNDZ",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24536"
+}

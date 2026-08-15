@@ -1,1 +1,87 @@
-{"titleId":21851,"updatedAt":"2026-08-11T11:20:03.342Z","roles":[{"character":"Fudou Nomura","actor":"Max Felder","role":"MAIN"},{"character":"Rin Onigawara","actor":"Sarah Alles","role":"MAIN"},{"character":"Satori Tamaba","actor":"Peggy Pollow","role":"MAIN"},{"character":"Warabi Hanasaka","actor":"Rieke Werner","role":"MAIN"},{"character":"Kirukiru Amou","actor":"Sonja Spuhl","role":"MAIN"},{"character":"Mary Kikakujou","actor":"Daniela Molina","role":"MAIN"},{"character":"Tsukuyo Inaba","actor":"Katie Okwuazu","role":"MAIN"},{"character":"Chouka U. Barazaki","actor":"Anni C. Salander","role":"SUPPORTING"},{"character":"Sassa Kurasaki","actor":"Josefin Hagen","role":"SUPPORTING"},{"character":"Tsunemi Touko","actor":"Ann Vielhaben","role":"SUPPORTING"},{"character":"Nono Mozuno","actor":"Julia Bautz","role":"SUPPORTING"},{"character":"Kinue Tanukihara","actor":"Daniela Reidies","role":"SUPPORTING"},{"character":"Kusuo Masukodera","actor":"Tino Kießling","role":"SUPPORTING"}]}
+{
+ "titleId": 21851,
+ "updatedAt": "2026-08-15T18:40:07.458Z",
+ "roles": [
+  {
+   "character": "Fudou Nomura",
+   "actor": "Max Felder",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rin Onigawara",
+   "actor": "Sarah Alles",
+   "role": "MAIN"
+  },
+  {
+   "character": "Satori Tamaba",
+   "actor": "Peggy Pollow",
+   "role": "MAIN"
+  },
+  {
+   "character": "Warabi Hanasaka",
+   "actor": "Rieke Werner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kirukiru Amou",
+   "actor": "Sonja Spuhl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mary Kikakujou",
+   "actor": "Daniela Molina",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tsukuyo Inaba",
+   "actor": "Katie Okwuazu",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chouka U. Barazaki",
+   "actor": "Anni C. Salander",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sassa Kurasaki",
+   "actor": "Josefin Hagen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsunemi Touko",
+   "actor": "Ann Vielhaben",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nono Mozuno",
+   "actor": "Julia Bautz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kinue Tanukihara",
+   "actor": "Daniela Reidies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kusuo Masukodera",
+   "actor": "Tino Kießling",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nono Mozunono",
+   "actor": "Julia Bautz",
+   "von": "ann"
+  },
+  {
+   "character": "Ui Migii",
+   "actor": "Mia Maron",
+   "von": "ann"
+  },
+  {
+   "character": "Chō-ka U Baragasaki",
+   "actor": "Anni C. Salander",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18970"
+}

@@ -1,1 +1,77 @@
-{"titleId":1292,"updatedAt":"2026-08-11T11:20:02.908Z","roles":[{"character":"Afro Samurai","actor":"Jan-David Rönfeldt","role":"MAIN"},{"character":"Jinno","actor":"Gerrit Schmidt-Foß","role":"SUPPORTING"},{"character":"Yashichi","actor":"Sascha Rotermund","role":"SUPPORTING"},{"character":"Brother One","actor":"Jan Spitzer","role":"SUPPORTING"},{"character":"Ninja Ninja","actor":"Jan-David Rönfeldt","role":"SUPPORTING"},{"character":"Sasuke","actor":"Tammo Kaulbarsch","role":"SUPPORTING"},{"character":"Justice","actor":"Bernd Rumpf","role":"SUPPORTING"},{"character":"Otsuru","actor":"Marie Bierstedt","role":"SUPPORTING"},{"character":"Sword Master","actor":"Klaus-Dieter Klebsch","role":"SUPPORTING"}]}
+{
+ "titleId": 1292,
+ "updatedAt": "2026-08-15T18:28:05.180Z",
+ "roles": [
+  {
+   "character": "Afro Samurai",
+   "actor": "Jan-David Rönfeldt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jinno",
+   "actor": "Gerrit Schmidt-Foß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yashichi",
+   "actor": "Sascha Rotermund",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Brother One",
+   "actor": "Jan Spitzer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ninja Ninja",
+   "actor": "Jan-David Rönfeldt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sasuke",
+   "actor": "Tammo Kaulbarsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Justice",
+   "actor": "Bernd Rumpf",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Otsuru",
+   "actor": "Marie Bierstedt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sword Master",
+   "actor": "Klaus-Dieter Klebsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jinnosuke",
+   "actor": "Gerrit Schmidt-Foß",
+   "von": "ann"
+  },
+  {
+   "character": "Kuma",
+   "actor": "Gerrit Schmidt-Foß",
+   "von": "ann"
+  },
+  {
+   "character": "Bruder 1",
+   "actor": "Jan Spitzer",
+   "von": "ann"
+  },
+  {
+   "character": "Okiku",
+   "actor": "Marie Bierstedt",
+   "von": "ann"
+  },
+  {
+   "character": "Afro Kid",
+   "actor": "Sebastian Fitzner",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=5275"
+}

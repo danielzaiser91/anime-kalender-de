@@ -1,1 +1,162 @@
-{"titleId":110277,"updatedAt":"2026-08-11T11:20:02.751Z","roles":[{"character":"Eren Yeager","actor":"Max Felder","role":"MAIN"},{"character":"Mikasa Ackerman","actor":"Nicole Hannak","role":"MAIN"},{"character":"Armin Arlert","actor":"Christian Zeiger","role":"MAIN"},{"character":"Reiner Braun","actor":"Marios Gavrilis","role":"MAIN"},{"character":"Gabi Braun","actor":"Luisa Wietzorek","role":"MAIN"},{"character":"Falco Grice","actor":"Patrick Baehr","role":"MAIN"},{"character":"Zeke","actor":"Oliver Stritzel","role":"MAIN"},{"character":"Levi","actor":"Florian Halm","role":"SUPPORTING"},{"character":"Sasha Blouse","actor":"Lina Rabea Mohr","role":"SUPPORTING"},{"character":"Connie Springer","actor":"Julius Jellinek","role":"SUPPORTING"},{"character":"Bertolt Hoover","actor":"Tim Knauer","role":"SUPPORTING"},{"character":"Annie Leonhart","actor":"Marieke Oeffinger","role":"SUPPORTING"},{"character":"Jean Kirstein","actor":"René Dawn-Claude","role":"SUPPORTING"},{"character":"Dot Pixis","actor":"Elmar Gutmann","role":"SUPPORTING"},{"character":"Hange Zoe","actor":"Josephine Schmidt","role":"SUPPORTING"},{"character":"Nile Dok","actor":"Christoph Banken","role":"SUPPORTING"},{"character":"Darius Zackly","actor":"Reinhard Scheunemann","role":"SUPPORTING"},{"character":"Keith Shadis","actor":"Klaus-Dieter Klebsch","role":"SUPPORTING"},{"character":"Hitch Dreyse","actor":"Maria Hönig","role":"SUPPORTING"},{"character":"Pieck Finger","actor":"Patrizia Carlucci","role":"SUPPORTING"},{"character":"Porco Galliard","actor":"Nico Sablik","role":"SUPPORTING"},{"character":"Udo","actor":"Sebastian Fitzner","role":"SUPPORTING"}]}
+{
+ "titleId": 110277,
+ "updatedAt": "2026-08-15T18:44:30.678Z",
+ "roles": [
+  {
+   "character": "Eren Yeager",
+   "actor": "Max Felder",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mikasa Ackerman",
+   "actor": "Nicole Hannak",
+   "role": "MAIN"
+  },
+  {
+   "character": "Armin Arlert",
+   "actor": "Christian Zeiger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Reiner Braun",
+   "actor": "Marios Gavrilis",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gabi Braun",
+   "actor": "Luisa Wietzorek",
+   "role": "MAIN"
+  },
+  {
+   "character": "Falco Grice",
+   "actor": "Patrick Baehr",
+   "role": "MAIN"
+  },
+  {
+   "character": "Zeke",
+   "actor": "Oliver Stritzel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Levi",
+   "actor": "Florian Halm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sasha Blouse",
+   "actor": "Lina Rabea Mohr",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Connie Springer",
+   "actor": "Julius Jellinek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bertolt Hoover",
+   "actor": "Tim Knauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Annie Leonhart",
+   "actor": "Marieke Oeffinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jean Kirstein",
+   "actor": "René Dawn-Claude",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dot Pixis",
+   "actor": "Elmar Gutmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hange Zoe",
+   "actor": "Josephine Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nile Dok",
+   "actor": "Christoph Banken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Darius Zackly",
+   "actor": "Reinhard Scheunemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Keith Shadis",
+   "actor": "Klaus-Dieter Klebsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hitch Dreyse",
+   "actor": "Maria Hönig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pieck Finger",
+   "actor": "Patrizia Carlucci",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Porco Galliard",
+   "actor": "Nico Sablik",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Udo",
+   "actor": "Sebastian Fitzner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Colt Grice",
+   "actor": "Sebastian Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "Theo Magath",
+   "actor": "Erich Räuker",
+   "von": "ann"
+  },
+  {
+   "character": "Willy Tybur",
+   "actor": "Oliver Feld",
+   "von": "ann"
+  },
+  {
+   "character": "Jean Kirschtein",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Eren Jäger",
+   "actor": "Max Felder",
+   "von": "ann"
+  },
+  {
+   "character": "Hanji Zoe",
+   "actor": "Josephine Schmidt",
+   "von": "ann"
+  },
+  {
+   "character": "Rainer Braun",
+   "actor": "Marios Gavrilis",
+   "von": "ann"
+  },
+  {
+   "character": "Sasha Braus",
+   "actor": "Lina Rabea Mohr",
+   "von": "ann"
+  },
+  {
+   "character": "Zofia",
+   "actor": "Ronja Peters",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22277"
+}

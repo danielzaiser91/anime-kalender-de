@@ -1,1 +1,27 @@
-{"titleId":1209,"updatedAt":"2026-08-11T11:20:02.901Z","roles":[{"character":"Pepe Benengeli","actor":"Marc Stachel","role":"MAIN"}]}
+{
+ "titleId": 1209,
+ "updatedAt": "2026-08-15T18:27:48.735Z",
+ "roles": [
+  {
+   "character": "Pepe Benengeli",
+   "actor": "Marc Stachel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hernandez",
+   "actor": "Norbert Gastell",
+   "von": "ann"
+  },
+  {
+   "character": "Carmen",
+   "actor": "Veronika A. Neugebauer",
+   "von": "ann"
+  },
+  {
+   "character": "Ciocci",
+   "actor": "Uwe Thomsen",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=3"
+}

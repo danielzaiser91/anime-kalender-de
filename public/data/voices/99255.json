@@ -1,1 +1,217 @@
-{"titleId":99255,"updatedAt":"2026-08-11T11:20:03.399Z","roles":[{"character":"Souma Yukihira","actor":"Raúl Richter","role":"MAIN"},{"character":"Erina Nakiri","actor":"Jana Schölermann","role":"MAIN"},{"character":"Megumi Tadokoro","actor":"Ela Paul","role":"MAIN"},{"character":"Subaru Mimasaka","actor":"Peter Sura","role":"SUPPORTING"},{"character":"Hisako Arato","actor":"Rieke Werner","role":"SUPPORTING"},{"character":"Isami Aldini","actor":"Marco Sven Reinbold","role":"SUPPORTING"},{"character":"Shouji  Satou ","actor":"Dennis Saemann","role":"SUPPORTING"},{"character":"Jun Shiomi","actor":"Annette Potempa","role":"SUPPORTING"},{"character":"Eishi Tsukasa","actor":"Jan van Weyde","role":"SUPPORTING"},{"character":"Akira Hayama","actor":"Arne Obermeyer","role":"SUPPORTING"},{"character":"Ikumi Mito","actor":"Birte Baumgardt","role":"SUPPORTING"},{"character":"Terunori Kuga","actor":"Benjamin Stolz","role":"SUPPORTING"},{"character":"Daigo  Aoki ","actor":"David M. Schulze","role":"SUPPORTING"},{"character":"Lucie Hugo","actor":"Katja Liebing","role":"SUPPORTING"},{"character":"Mayumi Kurase","actor":"Meri Dogan","role":"SUPPORTING"},{"character":"Rindou Kobayashi","actor":"Demet Fey","role":"SUPPORTING"},{"character":"Nene Kinokuni","actor":"Nicole Hise","role":"SUPPORTING"},{"character":"Shun Ibusaki","actor":"Stefan Naas","role":"SUPPORTING"},{"character":"Miyoko Houjou","actor":"Gabriele Wienand","role":"SUPPORTING"},{"character":"Fumio Daimidou","actor":"Sibylle Kuhne","role":"SUPPORTING"},{"character":"Aki Koganei","actor":"Christiane Werk","role":"SUPPORTING"},{"character":"Yuuya Tomita","actor":"Sascha von Zambelly","role":"SUPPORTING"},{"character":"Yuuki Yoshino","actor":"Jodie Blank","role":"SUPPORTING"},{"character":"Satoshi Isshiki","actor":"Louis Friedemann Thiele","role":"SUPPORTING"}]}
+{
+ "titleId": 99255,
+ "updatedAt": "2026-08-15T18:41:16.096Z",
+ "roles": [
+  {
+   "character": "Souma Yukihira",
+   "actor": "Raúl Richter",
+   "role": "MAIN"
+  },
+  {
+   "character": "Erina Nakiri",
+   "actor": "Jana Schölermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Megumi Tadokoro",
+   "actor": "Ela Paul",
+   "role": "MAIN"
+  },
+  {
+   "character": "Subaru Mimasaka",
+   "actor": "Peter Sura",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hisako Arato",
+   "actor": "Rieke Werner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Isami Aldini",
+   "actor": "Marco Sven Reinbold",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shouji  Satou ",
+   "actor": "Dennis Saemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jun Shiomi",
+   "actor": "Annette Potempa",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eishi Tsukasa",
+   "actor": "Jan van Weyde",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akira Hayama",
+   "actor": "Arne Obermeyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ikumi Mito",
+   "actor": "Birte Baumgardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Terunori Kuga",
+   "actor": "Benjamin Stolz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Daigo  Aoki ",
+   "actor": "David M. Schulze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lucie Hugo",
+   "actor": "Katja Liebing",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mayumi Kurase",
+   "actor": "Meri Dogan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rindou Kobayashi",
+   "actor": "Demet Fey",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nene Kinokuni",
+   "actor": "Nicole Hise",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shun Ibusaki",
+   "actor": "Stefan Naas",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miyoko Houjou",
+   "actor": "Gabriele Wienand",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fumio Daimidou",
+   "actor": "Sibylle Kuhne",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aki Koganei",
+   "actor": "Christiane Werk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuuya Tomita",
+   "actor": "Sascha von Zambelly",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuuki Yoshino",
+   "actor": "Jodie Blank",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Satoshi Isshiki",
+   "actor": "Louis Friedemann Thiele",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takumi Aldini",
+   "actor": "Konrad Bösherz",
+   "von": "ann"
+  },
+  {
+   "character": "Azami Nakiri",
+   "actor": "Andreas Meese",
+   "von": "ann"
+  },
+  {
+   "character": "Gin Doujima",
+   "actor": "Stephan Schleberger",
+   "von": "ann"
+  },
+  {
+   "character": "Souma Yukihira",
+   "actor": "Raul Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Erina Nakiri",
+   "actor": "Jana Kilka",
+   "von": "ann"
+  },
+  {
+   "character": "Ryouko Sakaki",
+   "actor": "Corinna Dörenkamp",
+   "von": "ann"
+  },
+  {
+   "character": "Etsuya Eizan",
+   "actor": "Markus Haase",
+   "von": "ann"
+  },
+  {
+   "character": "Ryou Kurokiba",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Shouji Satou",
+   "actor": "Dennis Saemann",
+   "von": "ann"
+  },
+  {
+   "character": "Mea Yanai",
+   "actor": "Winnie Brandes",
+   "von": "ann"
+  },
+  {
+   "character": "Jouichirou Yukihira",
+   "actor": "Tobias Brecklinghaus",
+   "von": "ann"
+  },
+  {
+   "character": "Yua Sasaki",
+   "actor": "Moira May",
+   "von": "ann"
+  },
+  {
+   "character": "Momo Akanegakubo",
+   "actor": "Vivien Faber",
+   "von": "ann"
+  },
+  {
+   "character": "Alice Nakiri",
+   "actor": "Fabienne Hesse",
+   "von": "ann"
+  },
+  {
+   "character": "Daigo Aoki",
+   "actor": "David M. Schulze",
+   "von": "ann"
+  },
+  {
+   "character": "Urara Kawashima",
+   "actor": "Samira Jakobs",
+   "von": "ann"
+  },
+  {
+   "character": "Zenji Marui",
+   "actor": "Felix Mayer",
+   "von": "ann"
+  },
+  {
+   "character": "Rentarou Kusunoki",
+   "actor": "Julian Horeyseck",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19807"
+}

@@ -1,1 +1,112 @@
-{"titleId":1175,"updatedAt":"2026-08-11T11:20:02.899Z","roles":[{"character":"Miku","actor":"Uschi Hugo","role":"MAIN"},{"character":"Sayaka","actor":"Melanie Hinze","role":"MAIN"},{"character":"Nana","actor":"Dascha Lehmann","role":"MAIN"},{"character":"Ginko","actor":"Ranja Bonalana","role":"MAIN"},{"character":"Kinta Marugome","actor":"Jan Kurbjuweit","role":"SUPPORTING"},{"character":"Yoko Shibano","actor":"Schaukje Könning","role":"SUPPORTING"},{"character":"Aquamarine","actor":"Sabine Winterfeldt","role":"SUPPORTING"},{"character":"Tokichiro Harajuku","actor":"Eberhard Prüter","role":"SUPPORTING"},{"character":"Kouzou Shibano","actor":"Werner Ehrlicher","role":"SUPPORTING"},{"character":"Eiichi Suo","actor":"Lutz Schnell","role":"SUPPORTING"},{"character":"Kajiwara","actor":"Helmut Gauß","role":"SUPPORTING"},{"character":"Masayo Harajuku","actor":"Marie Gruber","role":"SUPPORTING"}]}
+{
+ "titleId": 1175,
+ "updatedAt": "2026-08-15T18:27:43.069Z",
+ "roles": [
+  {
+   "character": "Miku",
+   "actor": "Uschi Hugo",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sayaka",
+   "actor": "Melanie Hinze",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nana",
+   "actor": "Dascha Lehmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ginko",
+   "actor": "Ranja Bonalana",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kinta Marugome",
+   "actor": "Jan Kurbjuweit",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yoko Shibano",
+   "actor": "Schaukje Könning",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aquamarine",
+   "actor": "Sabine Winterfeldt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tokichiro Harajuku",
+   "actor": "Eberhard Prüter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kouzou Shibano",
+   "actor": "Werner Ehrlicher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eiichi Suo",
+   "actor": "Lutz Schnell",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kajiwara",
+   "actor": "Helmut Gauß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masayo Harajuku",
+   "actor": "Marie Gruber",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cameraman",
+   "actor": "Tobias Kluckert",
+   "von": "ann"
+  },
+  {
+   "character": "Toukichirou Ohara",
+   "actor": "Eberhard Prüter",
+   "von": "ann"
+  },
+  {
+   "character": "Hansen",
+   "actor": "Lutz Schnell",
+   "von": "ann"
+  },
+  {
+   "character": "Youko Shibano",
+   "actor": "Schaukje Könning",
+   "von": "ann"
+  },
+  {
+   "character": "Naoya Shibano",
+   "actor": "Klaus-Peter Grap",
+   "von": "ann"
+  },
+  {
+   "character": "Dandy Suzuki",
+   "actor": "Detlef Bierstedt",
+   "von": "ann"
+  },
+  {
+   "character": "Kinta Marukome",
+   "actor": "Jan Kurbjuweit",
+   "von": "ann"
+  },
+  {
+   "character": "Saki Kisugi / Aquamarin",
+   "actor": "Sabine Winterfeldt",
+   "von": "ann"
+  },
+  {
+   "character": "Masayo Ohara",
+   "actor": "Marie Gruber",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=45"
+}

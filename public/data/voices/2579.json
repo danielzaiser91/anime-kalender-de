@@ -1,1 +1,72 @@
-{"titleId":2579,"updatedAt":"2026-08-11T11:20:02.981Z","roles":[{"character":"Chico","actor":"Michael Habeck","role":"MAIN"},{"character":"Willy Fog","actor":"Herbert Weicker","role":"MAIN"},{"character":"Romy-hime","actor":"Michaela  Degen","role":"MAIN"},{"character":"Rigodon","actor":"Florian Halm","role":"MAIN"},{"character":"Transfer","actor":"Michael Rüth","role":"SUPPORTING"},{"character":"Rowan Keishi","actor":"Gernot Duda","role":"SUPPORTING"},{"character":"Bully Joshu","actor":"Achim Geisler","role":"SUPPORTING"},{"character":"Dix Keiji","actor":"Arnim André","role":"SUPPORTING"},{"character":"Sullivan Toudou","actor":"Holger Schwiers","role":"SUPPORTING"},{"character":"Narrator","actor":"Pierre Peters-Arnolds","role":"BACKGROUND"}]}
+{
+ "titleId": 2579,
+ "updatedAt": "2026-08-15T18:31:01.135Z",
+ "roles": [
+  {
+   "character": "Chico",
+   "actor": "Michael Habeck",
+   "role": "MAIN"
+  },
+  {
+   "character": "Willy Fog",
+   "actor": "Herbert Weicker",
+   "role": "MAIN"
+  },
+  {
+   "character": "Romy-hime",
+   "actor": "Michaela  Degen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rigodon",
+   "actor": "Florian Halm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Transfer",
+   "actor": "Michael Rüth",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rowan Keishi",
+   "actor": "Gernot Duda",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bully Joshu",
+   "actor": "Achim Geisler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dix Keiji",
+   "actor": "Arnim André",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sullivan Toudou",
+   "actor": "Holger Schwiers",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Pierre Peters-Arnolds",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Prinzessin Romy",
+   "actor": "Michaela Degen",
+   "von": "ann"
+  },
+  {
+   "character": "Inspektor Dix",
+   "actor": "Arnim André",
+   "von": "ann"
+  },
+  {
+   "character": "Willy Fogg",
+   "actor": "Herbert Weicker",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1077"
+}

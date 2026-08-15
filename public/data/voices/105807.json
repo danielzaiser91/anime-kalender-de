@@ -1,1 +1,162 @@
-{"titleId":105807,"updatedAt":"2026-08-11T11:20:03.492Z","roles":[{"character":"Natsu Iwashimizu","actor":"Jennifer Weiß","role":"MAIN"},{"character":"Ango","actor":"Paul-Lino Krenz","role":"MAIN"},{"character":"Takahiro Aramaki","actor":"Lasse Dreyer","role":"MAIN"},{"character":"Arashi Aota","actor":"Nicolas Rathod","role":"MAIN"},{"character":"Hana Suguruno","actor":"Jenny Maria Meyer","role":"MAIN"},{"character":"Mansaku Tsunomata","actor":"Dennis Sandmann","role":"SUPPORTING"},{"character":"Ran Shishigaki","actor":"Bianca Warnek-Steinke","role":"SUPPORTING"},{"character":"Shigeru","actor":"Julian Rehrl","role":"SUPPORTING"},{"character":"Botan Saotome","actor":"Anne Patricia Reetz","role":"SUPPORTING"},{"character":"Fujiko Amacha","actor":"Amelie Plaas-Link","role":"SUPPORTING"},{"character":"Akio Haza","actor":"Bernd Egger","role":"SUPPORTING"},{"character":"Ryou","actor":"Maximilian Spitzer","role":"SUPPORTING"},{"character":"Mitsuru Kagurazaka","actor":"Dina Kürten","role":"SUPPORTING"},{"character":"Semimaru Asai","actor":"Julian Mau","role":"SUPPORTING"},{"character":"Hotaru Kusakuri","actor":"Aliana Schmitz","role":"SUPPORTING"},{"character":"Kurumi Shikano","actor":"Julita Witt","role":"SUPPORTING"},{"character":"Koruri","actor":"Yamuna Kemmerling","role":"SUPPORTING"},{"character":"Fubuki Samejima","actor":"Armin Schlagwein","role":"SUPPORTING"},{"character":"Ukai","actor":"Artur Weimann","role":"SUPPORTING"},{"character":"Matsuri Tendou","actor":"Victoria Frenz","role":"SUPPORTING"},{"character":"Momotarou Nobi","actor":"Lukas Müntefering","role":"SUPPORTING"},{"character":"Ryoya Izayoi","actor":"Georgios Tzitzikos","role":"SUPPORTING"},{"character":"Ayu","actor":"Katharina Palm","role":"SUPPORTING"},{"character":"Takashi Sugurono","actor":"Jörg Pintsch","role":"SUPPORTING"}]}
+{
+ "titleId": 105807,
+ "updatedAt": "2026-08-15T18:43:38.490Z",
+ "roles": [
+  {
+   "character": "Natsu Iwashimizu",
+   "actor": "Jennifer Weiß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ango",
+   "actor": "Paul-Lino Krenz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Takahiro Aramaki",
+   "actor": "Lasse Dreyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Arashi Aota",
+   "actor": "Nicolas Rathod",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hana Suguruno",
+   "actor": "Jenny Maria Meyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mansaku Tsunomata",
+   "actor": "Dennis Sandmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ran Shishigaki",
+   "actor": "Bianca Warnek-Steinke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shigeru",
+   "actor": "Julian Rehrl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Botan Saotome",
+   "actor": "Anne Patricia Reetz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fujiko Amacha",
+   "actor": "Amelie Plaas-Link",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akio Haza",
+   "actor": "Bernd Egger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryou",
+   "actor": "Maximilian Spitzer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mitsuru Kagurazaka",
+   "actor": "Dina Kürten",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Semimaru Asai",
+   "actor": "Julian Mau",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hotaru Kusakuri",
+   "actor": "Aliana Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kurumi Shikano",
+   "actor": "Julita Witt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Koruri",
+   "actor": "Yamuna Kemmerling",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fubuki Samejima",
+   "actor": "Armin Schlagwein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ukai",
+   "actor": "Artur Weimann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Matsuri Tendou",
+   "actor": "Victoria Frenz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Momotarou Nobi",
+   "actor": "Lukas Müntefering",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryoya Izayoi",
+   "actor": "Georgios Tzitzikos",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ayu",
+   "actor": "Katharina Palm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takashi Sugurono",
+   "actor": "Jörg Pintsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaname Mozunoto",
+   "actor": "Bastian Sierich",
+   "von": "ann"
+  },
+  {
+   "character": "Chisa Taiami",
+   "actor": "Daniela Molina",
+   "von": "ann"
+  },
+  {
+   "character": "Hana Sugurono",
+   "actor": "Jenny Maria Meyer",
+   "von": "ann"
+  },
+  {
+   "character": "Akiwo Haza",
+   "actor": "Bernd Egger",
+   "von": "ann"
+  },
+  {
+   "character": "Haru Yukima",
+   "actor": "Sascha Werginz",
+   "von": "ann"
+  },
+  {
+   "character": "Botan Saotome",
+   "actor": "Anne Patricia Nilles",
+   "von": "ann"
+  },
+  {
+   "character": "Ran Shishigaki",
+   "actor": "Bianca Warnek",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=21601"
+}

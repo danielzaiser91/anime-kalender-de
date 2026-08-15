@@ -1,1 +1,57 @@
-{"titleId":20764,"updatedAt":"2026-08-11T11:20:03.225Z","roles":[{"character":"Iona","actor":"Céline Vogt","role":"MAIN"},{"character":"Gunzou Chihaya","actor":"Dirk Stollberg","role":"MAIN"},{"character":"Kyouhei Kashihara","actor":"Marco Sven Reinbold","role":"SUPPORTING"},{"character":"Iori Watanuki","actor":"Chiara Haurand","role":"SUPPORTING"},{"character":"Kirishima","actor":"Birte Baumgardt","role":"SUPPORTING"},{"character":"Nachi","actor":"Kirstin Hesse","role":"SUPPORTING"},{"character":"Shizuka Hozumi","actor":"Ela Paul","role":"SUPPORTING"},{"character":"Haruna","actor":"Jennifer Weiß","role":"SUPPORTING"},{"character":"Kongou","actor":"Demet Fey","role":"SUPPORTING"}]}
+{
+ "titleId": 20764,
+ "updatedAt": "2026-08-15T18:37:23.064Z",
+ "roles": [
+  {
+   "character": "Iona",
+   "actor": "Céline Vogt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gunzou Chihaya",
+   "actor": "Dirk Stollberg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kyouhei Kashihara",
+   "actor": "Marco Sven Reinbold",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Iori Watanuki",
+   "actor": "Chiara Haurand",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kirishima",
+   "actor": "Birte Baumgardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nachi",
+   "actor": "Kirstin Hesse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shizuka Hozumi",
+   "actor": "Ela Paul",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haruna",
+   "actor": "Jennifer Weiß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kongou",
+   "actor": "Demet Fey",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hiei",
+   "actor": "Betül Jülide Gülgec",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16741"
+}

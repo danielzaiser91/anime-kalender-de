@@ -1,1 +1,127 @@
-{"titleId":20829,"updatedAt":"2026-08-11T11:20:03.236Z","roles":[{"character":"Yuuichirou Hyakuya","actor":"Karim El Kammouchi","role":"MAIN"},{"character":"Mikaela Hyakuya","actor":"Felix Mayer","role":"MAIN"},{"character":"Shinoa Hiiragi","actor":"Katharina von Daake","role":"MAIN"},{"character":"Guren Ichinose","actor":"Oliver Scheffel","role":"MAIN"},{"character":"Mitsuba Sanguu","actor":"Patricia Strasburger","role":"MAIN"},{"character":"Shihou Kimizuki","actor":"Benjamin Hirt","role":"MAIN"},{"character":"Yoichi Saotome","actor":"Johannes Wolko","role":"MAIN"},{"character":"Mito Juujou","actor":"Franziska Ball","role":"SUPPORTING"},{"character":"Akane  Hyakuya","actor":"Janne Wetzel","role":"SUPPORTING"},{"character":"Shinya Hiiragi","actor":"Simon Pearce","role":"SUPPORTING"},{"character":"Shigure Yukimi","actor":"Maresa Sedlmeir","role":"SUPPORTING"},{"character":"Ashuramaru","actor":"Maresa Sedlmeir","role":"SUPPORTING"},{"character":"Crowley Eusford","actor":"Louis Friedemann Thiele","role":"SUPPORTING"},{"character":"Krul Tepes","actor":"Laura Preiss","role":"SUPPORTING"},{"character":"Horn  Skuld","actor":"Sonja Reichelt","role":"SUPPORTING"},{"character":"Ferid Bathory","actor":"Dirk Meyer","role":"SUPPORTING"},{"character":"Norito  Goshi","actor":"Stefan Lehnen","role":"SUPPORTING"}]}
+{
+ "titleId": 20829,
+ "updatedAt": "2026-08-15T18:37:41.314Z",
+ "roles": [
+  {
+   "character": "Yuuichirou Hyakuya",
+   "actor": "Karim El Kammouchi",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mikaela Hyakuya",
+   "actor": "Felix Mayer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shinoa Hiiragi",
+   "actor": "Katharina von Daake",
+   "role": "MAIN"
+  },
+  {
+   "character": "Guren Ichinose",
+   "actor": "Oliver Scheffel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mitsuba Sanguu",
+   "actor": "Patricia Strasburger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shihou Kimizuki",
+   "actor": "Benjamin Hirt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yoichi Saotome",
+   "actor": "Johannes Wolko",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mito Juujou",
+   "actor": "Franziska Ball",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akane  Hyakuya",
+   "actor": "Janne Wetzel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinya Hiiragi",
+   "actor": "Simon Pearce",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shigure Yukimi",
+   "actor": "Maresa Sedlmeir",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ashuramaru",
+   "actor": "Maresa Sedlmeir",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Crowley Eusford",
+   "actor": "Louis Friedemann Thiele",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Krul Tepes",
+   "actor": "Laura Preiss",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Horn  Skuld",
+   "actor": "Sonja Reichelt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ferid Bathory",
+   "actor": "Dirk Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Norito  Goshi",
+   "actor": "Stefan Lehnen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuichiro Hyakuya",
+   "actor": "Karim El Kammouchi",
+   "von": "ann"
+  },
+  {
+   "character": "Shinoa Hiragi",
+   "actor": "Katharina von Daake",
+   "von": "ann"
+  },
+  {
+   "character": "Norito Goshi",
+   "actor": "Stefan Lehnen",
+   "von": "ann"
+  },
+  {
+   "character": "Shiho Kimizuki",
+   "actor": "Benjamin Hirt",
+   "von": "ann"
+  },
+  {
+   "character": "Sayuri Hanayori",
+   "actor": "Sabine Gutberlet",
+   "von": "ann"
+  },
+  {
+   "character": "Lacus Welt",
+   "actor": "John Friedmann",
+   "von": "ann"
+  },
+  {
+   "character": "Mito Juujo",
+   "actor": "Franziska Ball",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16357"
+}

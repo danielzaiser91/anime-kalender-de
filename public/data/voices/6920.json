@@ -1,1 +1,122 @@
-{"titleId":6920,"updatedAt":"2026-08-11T11:20:03.068Z","roles":[{"character":"Eric Brooks","actor":"Matti Klemm","role":"MAIN"},{"character":"Makoto","actor":"Ann Vielhaben","role":"MAIN"},{"character":"Kikyo Mikage","actor":"Nico Sablik","role":"SUPPORTING"},{"character":"Deacon Frost","actor":"Frank Muth","role":"SUPPORTING"},{"character":"Noah van Helsing","actor":"Klaus-Dieter Klebsch","role":"SUPPORTING"},{"character":"Lucius Isaac","actor":"Arne Stephan","role":"SUPPORTING"},{"character":"Tara Brooks","actor":"Claudia Gáldy","role":"SUPPORTING"},{"character":"Radu","actor":"Michael Deffert","role":"SUPPORTING"},{"character":"Hayate","actor":"Frank Röth","role":"SUPPORTING"},{"character":"Sakomizu","actor":"Erich Räuker","role":"SUPPORTING"},{"character":"Tanaka","actor":"Rainer Fritzsche","role":"SUPPORTING"},{"character":"Ikeda","actor":"Jan Makino","role":"SUPPORTING"},{"character":"McRay","actor":"Gerald Paradies","role":"SUPPORTING"},{"character":"Lord Howard","actor":"Jan Makino","role":"SUPPORTING"},{"character":"Carol","actor":"Katrin Zimmermann","role":"SUPPORTING"},{"character":"Mattes","actor":"Anne Helm","role":"SUPPORTING"},{"character":"Agus","actor":"Eberhard Haar","role":"SUPPORTING"},{"character":"Lupit","actor":"Nicole Hannak","role":"SUPPORTING"},{"character":"Edgar Frost","actor":"Dirk Stollberg","role":"SUPPORTING"},{"character":"Tanba Yagyu","actor":"Uli Krohm","role":"SUPPORTING"},{"character":"James Howlett","actor":"Oliver Siebeck","role":"SUPPORTING"}]}
+{
+ "titleId": 6920,
+ "updatedAt": "2026-08-15T18:33:14.959Z",
+ "roles": [
+  {
+   "character": "Eric Brooks",
+   "actor": "Matti Klemm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Makoto",
+   "actor": "Ann Vielhaben",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kikyo Mikage",
+   "actor": "Nico Sablik",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Deacon Frost",
+   "actor": "Frank Muth",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Noah van Helsing",
+   "actor": "Klaus-Dieter Klebsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lucius Isaac",
+   "actor": "Arne Stephan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tara Brooks",
+   "actor": "Claudia Gáldy",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Radu",
+   "actor": "Michael Deffert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hayate",
+   "actor": "Frank Röth",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sakomizu",
+   "actor": "Erich Räuker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tanaka",
+   "actor": "Rainer Fritzsche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ikeda",
+   "actor": "Jan Makino",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "McRay",
+   "actor": "Gerald Paradies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lord Howard",
+   "actor": "Jan Makino",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Carol",
+   "actor": "Katrin Zimmermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mattes",
+   "actor": "Anne Helm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Agus",
+   "actor": "Eberhard Haar",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lupit",
+   "actor": "Nicole Hannak",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Edgar Frost",
+   "actor": "Dirk Stollberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tanba Yagyu",
+   "actor": "Uli Krohm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "James Howlett",
+   "actor": "Oliver Siebeck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kikyou Mikage",
+   "actor": "Nico Sablik",
+   "von": "ann"
+  },
+  {
+   "character": "Blade",
+   "actor": "Matti Klemm",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=12367"
+}

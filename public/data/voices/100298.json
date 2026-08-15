@@ -1,1 +1,112 @@
-{"titleId":100298,"updatedAt":"2026-08-11T11:20:03.424Z","roles":[{"character":"Joe","actor":"Patrick Roche","role":"MAIN"},{"character":"Yuuri","actor":"Matthias Klie","role":"MAIN"},{"character":"Miyagi","actor":"Dieter Memel","role":"SUPPORTING"},{"character":"Abuhachi","actor":"Claus Brockmeyer","role":"SUPPORTING"},{"character":"Santa","actor":"Kerstin Dietrich","role":"SUPPORTING"},{"character":"Yukiko Shirato","actor":"Katharina Schwarzmaier","role":"SUPPORTING"},{"character":"Potemkin Higashi","actor":"Patrick Zwingmann","role":"SUPPORTING"},{"character":"Bonjiri","actor":"Angelina Markiefka","role":"SUPPORTING"},{"character":"Fujimaki","actor":"Robinson Reichel","role":"SUPPORTING"},{"character":"Oicho","actor":"Bettina Zech","role":"SUPPORTING"},{"character":"Sachio","actor":"Patricia Strasburger","role":"SUPPORTING"},{"character":"Ghetto Hachiya","actor":"Matthias Ransberger","role":"SUPPORTING"},{"character":"Gansaku Nanbu","actor":"Gerhard Jilka","role":"SUPPORTING"},{"character":"Shark Samejima","actor":"Ole Pfennig","role":"SUPPORTING"},{"character":"Doumoto","actor":"Uwe Kosubek","role":"SUPPORTING"},{"character":"Mikio Shirato","actor":"Martin Bonvicini","role":"SUPPORTING"},{"character":"Goskino","actor":"Matthias Ransberger","role":"SUPPORTING"},{"character":"Marguerite Asamoto","actor":"Ilena Gwisdalla","role":"SUPPORTING"},{"character":"Tatsumi Leonard Aragaki","actor":"Jochen Paletschek","role":"SUPPORTING"},{"character":"Yabunuma","actor":"Alexander Pelz","role":"SUPPORTING"}]}
+{
+ "titleId": 100298,
+ "updatedAt": "2026-08-15T18:41:55.310Z",
+ "roles": [
+  {
+   "character": "Joe",
+   "actor": "Patrick Roche",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuuri",
+   "actor": "Matthias Klie",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miyagi",
+   "actor": "Dieter Memel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Abuhachi",
+   "actor": "Claus Brockmeyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Santa",
+   "actor": "Kerstin Dietrich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yukiko Shirato",
+   "actor": "Katharina Schwarzmaier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Potemkin Higashi",
+   "actor": "Patrick Zwingmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bonjiri",
+   "actor": "Angelina Markiefka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fujimaki",
+   "actor": "Robinson Reichel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Oicho",
+   "actor": "Bettina Zech",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sachio",
+   "actor": "Patricia Strasburger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ghetto Hachiya",
+   "actor": "Matthias Ransberger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gansaku Nanbu",
+   "actor": "Gerhard Jilka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shark Samejima",
+   "actor": "Ole Pfennig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Doumoto",
+   "actor": "Uwe Kosubek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mikio Shirato",
+   "actor": "Martin Bonvicini",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Goskino",
+   "actor": "Matthias Ransberger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marguerite Asamoto",
+   "actor": "Ilena Gwisdalla",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tatsumi Leonard Aragaki",
+   "actor": "Jochen Paletschek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yabunuma",
+   "actor": "Alexander Pelz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Junk Dog",
+   "actor": "Patrick Roche",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20565"
+}

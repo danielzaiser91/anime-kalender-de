@@ -1,1 +1,47 @@
-{"titleId":112609,"updatedAt":"2026-08-11T11:20:02.752Z","roles":[{"character":"Elaina","actor":"Enya-Maria Stewen","role":"MAIN"},{"character":"Saya","actor":"Lea Kalbhenn","role":"SUPPORTING"},{"character":"Fran","actor":"Marieke Oeffinger","role":"SUPPORTING"},{"character":"Elaina no Haha","actor":"Melanie Hinze","role":"SUPPORTING"},{"character":"Elaina no Chichi","actor":"Bernhard Völger","role":"SUPPORTING"},{"character":"Ani","actor":"Philip Süß","role":"SUPPORTING"},{"character":"Emil","actor":"Tom Sielemann","role":"SUPPORTING"}]}
+{
+ "titleId": 112609,
+ "updatedAt": "2026-08-15T18:44:59.273Z",
+ "roles": [
+  {
+   "character": "Elaina",
+   "actor": "Enya-Maria Stewen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Saya",
+   "actor": "Lea Kalbhenn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fran",
+   "actor": "Marieke Oeffinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Elaina no Haha",
+   "actor": "Melanie Hinze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Elaina no Chichi",
+   "actor": "Bernhard Völger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ani",
+   "actor": "Philip Süß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Emil",
+   "actor": "Tom Sielemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Elaina",
+   "actor": "Josephine Schmidt",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22581"
+}

@@ -1,1 +1,57 @@
-{"titleId":100561,"updatedAt":"2026-08-11T11:20:03.430Z","roles":[{"character":"Haruo Sakaki","actor":"Jesse Grimm","role":"MAIN"},{"character":"Yuuko Tani","actor":"Franciska  Friede","role":"MAIN"},{"character":"Adam Bindewald","actor":"Patrick Bach","role":"SUPPORTING"},{"character":"Mulu-Elu Galu-gu","actor":"Martin Sabel","role":"SUPPORTING"},{"character":"Martin Lazzari","actor":"Marcus Just","role":"SUPPORTING"},{"character":"Metphies","actor":"Daniel Schütter","role":"SUPPORTING"},{"character":"Miana","actor":"Julia Fölster","role":"SUPPORTING"},{"character":"Maina","actor":"Linda Fölster","role":"SUPPORTING"}]}
+{
+ "titleId": 100561,
+ "updatedAt": "2026-08-15T18:42:01.929Z",
+ "roles": [
+  {
+   "character": "Haruo Sakaki",
+   "actor": "Jesse Grimm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuuko Tani",
+   "actor": "Franciska  Friede",
+   "role": "MAIN"
+  },
+  {
+   "character": "Adam Bindewald",
+   "actor": "Patrick Bach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mulu-Elu Galu-gu",
+   "actor": "Martin Sabel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Martin Lazzari",
+   "actor": "Marcus Just",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Metphies",
+   "actor": "Daniel Schütter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miana",
+   "actor": "Julia Fölster",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maina",
+   "actor": "Linda Fölster",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuko Tani",
+   "actor": "Franciska Friede",
+   "von": "ann"
+  },
+  {
+   "character": "Rilu-Elu Belu-Be",
+   "actor": "Kai Henrik Möller",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20556"
+}

@@ -1,1 +1,102 @@
-{"titleId":1710,"updatedAt":"2026-08-11T11:20:02.938Z","roles":[{"character":"Enzan Ijuuin","actor":"Sebastian Schulz","role":"MAIN"},{"character":"Blues.EXE","actor":"Gerrit Schmidt-Foß","role":"MAIN"},{"character":"Saloma","actor":"Julia Ziffer","role":"MAIN"},{"character":"Miyuki Kuroi","actor":"Ranja Bonalana","role":"MAIN"},{"character":"Meiru Sakurai","actor":"Ilona Brokowski","role":"MAIN"},{"character":"Iceman.exe","actor":"Tommy Morgenstern","role":"MAIN"},{"character":"Netto Hikari","actor":"David Turba","role":"MAIN"},{"character":"Roll.EXE","actor":"Uschi Hugo","role":"MAIN"},{"character":"Rockman.EXE","actor":"Marcel Collé","role":"MAIN"},{"character":"Mariko Ozono","actor":"Gundi Eberhard","role":"MAIN"},{"character":"MagicMan.EXE","actor":"Andreas Hosang","role":"SUPPORTING"},{"character":"Princess Pride","actor":"Susanne Geier","role":"SUPPORTING"},{"character":"Sharkman.EXE","actor":"Tim Moeseritz","role":"SUPPORTING"},{"character":"Dekao Ooyama","actor":"Jan-David Rönfeldt","role":"SUPPORTING"},{"character":"Kenichi Hino","actor":"David Nathan","role":"SUPPORTING"},{"character":"Aki","actor":"Susanne Kaps","role":"SUPPORTING"},{"character":"Yaito Ayanokouji","actor":"Victoria Frenz","role":"SUPPORTING"},{"character":"Tooru Hikawa","actor":"Fabian Hollwitz","role":"SUPPORTING"}]}
+{
+ "titleId": 1710,
+ "updatedAt": "2026-08-15T18:29:21.541Z",
+ "roles": [
+  {
+   "character": "Enzan Ijuuin",
+   "actor": "Sebastian Schulz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Blues.EXE",
+   "actor": "Gerrit Schmidt-Foß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Saloma",
+   "actor": "Julia Ziffer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miyuki Kuroi",
+   "actor": "Ranja Bonalana",
+   "role": "MAIN"
+  },
+  {
+   "character": "Meiru Sakurai",
+   "actor": "Ilona Brokowski",
+   "role": "MAIN"
+  },
+  {
+   "character": "Iceman.exe",
+   "actor": "Tommy Morgenstern",
+   "role": "MAIN"
+  },
+  {
+   "character": "Netto Hikari",
+   "actor": "David Turba",
+   "role": "MAIN"
+  },
+  {
+   "character": "Roll.EXE",
+   "actor": "Uschi Hugo",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rockman.EXE",
+   "actor": "Marcel Collé",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mariko Ozono",
+   "actor": "Gundi Eberhard",
+   "role": "MAIN"
+  },
+  {
+   "character": "MagicMan.EXE",
+   "actor": "Andreas Hosang",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Princess Pride",
+   "actor": "Susanne Geier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sharkman.EXE",
+   "actor": "Tim Moeseritz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dekao Ooyama",
+   "actor": "Jan-David Rönfeldt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kenichi Hino",
+   "actor": "David Nathan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aki",
+   "actor": "Susanne Kaps",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yaito Ayanokouji",
+   "actor": "Victoria Frenz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tooru Hikawa",
+   "actor": "Fabian Hollwitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "MegaMan",
+   "actor": "Marcel Collé",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2259"
+}

@@ -1,1 +1,122 @@
-{"titleId":127230,"updatedAt":"2026-08-11T11:20:02.754Z","roles":[{"character":"Denji","actor":"Alex Friedland","role":"MAIN"},{"character":"Power","actor":"Franziska Trunte","role":"MAIN"},{"character":"Makima","actor":"Özge Kayalar","role":"MAIN"},{"character":"Aki Hayakawa","actor":"Roman Wolko","role":"MAIN"},{"character":"Pochita","actor":"Charlotte Uhlig","role":"SUPPORTING"},{"character":"Himeno","actor":"Alice Bauer","role":"SUPPORTING"},{"character":"Kishibe","actor":"Johannes Berenz","role":"SUPPORTING"},{"character":"Kobeni Higashiyama","actor":"Emilia Raschewski","role":"SUPPORTING"},{"character":"Hirokazu Arai ","actor":"Dennis Herrmann","role":"SUPPORTING"},{"character":"Samurai Sword","actor":"Tobias Brecklinghaus","role":"SUPPORTING"},{"character":"Akane Sawatari ","actor":"Damineh Hojat","role":"SUPPORTING"},{"character":"Tenshi no Akuma","actor":"Dirk Petrick","role":"SUPPORTING"},{"character":"Bouryoku no Majin","actor":"Fabian Oscar Wien","role":"SUPPORTING"},{"character":"Mirai no Akuma","actor":"Gerald Schaale","role":"SUPPORTING"},{"character":"Zombie no Akuma","actor":"Tobias Lelle","role":"SUPPORTING"},{"character":"Koumori no Akuma","actor":"Oliver Stritzel","role":"SUPPORTING"},{"character":"Hiru no Akuma","actor":"Judith Steinhäuser","role":"SUPPORTING"},{"character":"Michiko Tendou","actor":"Julia Blankenburg","role":"SUPPORTING"},{"character":"Yuutarou Kurose","actor":"Oscar Räuker","role":"SUPPORTING"}]}
+{
+ "titleId": 127230,
+ "updatedAt": "2026-08-15T18:46:16.232Z",
+ "roles": [
+  {
+   "character": "Denji",
+   "actor": "Alex Friedland",
+   "role": "MAIN"
+  },
+  {
+   "character": "Power",
+   "actor": "Franziska Trunte",
+   "role": "MAIN"
+  },
+  {
+   "character": "Makima",
+   "actor": "Özge Kayalar",
+   "role": "MAIN"
+  },
+  {
+   "character": "Aki Hayakawa",
+   "actor": "Roman Wolko",
+   "role": "MAIN"
+  },
+  {
+   "character": "Pochita",
+   "actor": "Charlotte Uhlig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Himeno",
+   "actor": "Alice Bauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kishibe",
+   "actor": "Johannes Berenz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kobeni Higashiyama",
+   "actor": "Emilia Raschewski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hirokazu Arai ",
+   "actor": "Dennis Herrmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Samurai Sword",
+   "actor": "Tobias Brecklinghaus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akane Sawatari ",
+   "actor": "Damineh Hojat",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tenshi no Akuma",
+   "actor": "Dirk Petrick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bouryoku no Majin",
+   "actor": "Fabian Oscar Wien",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mirai no Akuma",
+   "actor": "Gerald Schaale",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zombie no Akuma",
+   "actor": "Tobias Lelle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Koumori no Akuma",
+   "actor": "Oliver Stritzel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hiru no Akuma",
+   "actor": "Judith Steinhäuser",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Michiko Tendou",
+   "actor": "Julia Blankenburg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuutarou Kurose",
+   "actor": "Oscar Räuker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Michiko Tendo",
+   "actor": "Julia Blankenburg",
+   "von": "ann"
+  },
+  {
+   "character": "Akane Sawatari",
+   "actor": "Damineh Hojat",
+   "von": "ann"
+  },
+  {
+   "character": "Yutaro Kurose",
+   "actor": "Oscar Räuker",
+   "von": "ann"
+  },
+  {
+   "character": "Hirokazu Arai",
+   "actor": "Dennis Herrmann",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=23843"
+}

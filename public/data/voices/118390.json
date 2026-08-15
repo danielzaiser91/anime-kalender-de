@@ -1,1 +1,67 @@
-{"titleId":118390,"updatedAt":"2026-08-11T11:20:03.562Z","roles":[{"character":"Kanna","actor":"Josephine Martz","role":"MAIN"},{"character":"Yasha","actor":"Marc Bluhm","role":"MAIN"},{"character":"Shiro","actor":"Josephine Schmidt","role":"MAIN"},{"character":"Ryuujin","actor":"Andreas Conrad","role":"SUPPORTING"},{"character":"Ookuninushi","actor":"Erich Räuker","role":"SUPPORTING"},{"character":"Ebisu","actor":"Thomas Kästner","role":"SUPPORTING"},{"character":"Miki","actor":"Clara Drews","role":"SUPPORTING"}]}
+{
+ "titleId": 118390,
+ "updatedAt": "2026-08-15T18:45:44.662Z",
+ "roles": [
+  {
+   "character": "Kanna",
+   "actor": "Josephine Martz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yasha",
+   "actor": "Marc Bluhm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shiro",
+   "actor": "Josephine Schmidt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ryuujin",
+   "actor": "Andreas Conrad",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ookuninushi",
+   "actor": "Erich Räuker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ebisu",
+   "actor": "Thomas Kästner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miki",
+   "actor": "Clara Drews",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yayoi Hayama",
+   "actor": "Kaya Möller",
+   "von": "ann"
+  },
+  {
+   "character": "Norimasa Hayama",
+   "actor": "Gerrit Hamann",
+   "von": "ann"
+  },
+  {
+   "character": "Ryūjin",
+   "actor": "Andreas Conrad",
+   "von": "ann"
+  },
+  {
+   "character": "Kanna Hayama",
+   "actor": "Josephine Martz",
+   "von": "ann"
+  },
+  {
+   "character": "Yato",
+   "actor": "Marc Bluhm",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22343"
+}

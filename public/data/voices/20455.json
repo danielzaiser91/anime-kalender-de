@@ -1,1 +1,77 @@
-{"titleId":20455,"updatedAt":"2026-08-11T11:20:03.188Z","roles":[{"character":"Super Sonico","actor":"Julia Stoepel","role":"MAIN"},{"character":"Suzu Fujimi","actor":"Victoria Frenz","role":"SUPPORTING"},{"character":"Fuuri Watanuki","actor":"Giovanna Winterfeldt","role":"SUPPORTING"},{"character":"Kitamura","actor":"Michael Baral","role":"SUPPORTING"},{"character":"Ouka Satsurikuin","actor":"Melinda Rachfahl","role":"SUPPORTING"}]}
+{
+ "titleId": 20455,
+ "updatedAt": "2026-08-15T18:36:21.793Z",
+ "roles": [
+  {
+   "character": "Super Sonico",
+   "actor": "Julia Stoepel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Suzu Fujimi",
+   "actor": "Victoria Frenz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fuuri Watanuki",
+   "actor": "Giovanna Winterfeldt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kitamura",
+   "actor": "Michael Baral",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ouka Satsurikuin",
+   "actor": "Melinda Rachfahl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tomi",
+   "actor": "Klaus Lochthove",
+   "von": "ann"
+  },
+  {
+   "character": "Yasu",
+   "actor": "Andreas Hosang",
+   "von": "ann"
+  },
+  {
+   "character": "Kuni",
+   "actor": "Thomas Kästner",
+   "von": "ann"
+  },
+  {
+   "character": "Sonico's Grandmother",
+   "actor": "Sonja Deutsch",
+   "von": "ann"
+  },
+  {
+   "character": "Manager Kitamura",
+   "actor": "Michael Baral",
+   "von": "ann"
+  },
+  {
+   "character": "Suzu Fujimi",
+   "actor": "Soraya Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Emi",
+   "actor": "Katie Pfleghar",
+   "von": "ann"
+  },
+  {
+   "character": "Yumi",
+   "actor": "Sarah Alles",
+   "von": "ann"
+  },
+  {
+   "character": "Yumi",
+   "actor": "Anna Gamburg",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15684"
+}

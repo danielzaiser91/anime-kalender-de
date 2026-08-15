@@ -1,1 +1,72 @@
-{"titleId":3044,"updatedAt":"2026-08-11T11:20:02.998Z","roles":[{"character":"Atlas","actor":"Ozan Ünal","role":"MAIN"},{"character":"Ochanomizu Hakase","actor":"Gerhard Paul","role":"MAIN"},{"character":"Atom Tetsuwan","actor":"Rubina Kuraoka","role":"MAIN"},{"character":"Umatarou Tenma","actor":"Ernst Meincke","role":"SUPPORTING"},{"character":"Hamegg","actor":"Michael Narloch","role":"SUPPORTING"}]}
+{
+ "titleId": 3044,
+ "updatedAt": "2026-08-15T18:31:32.011Z",
+ "roles": [
+  {
+   "character": "Atlas",
+   "actor": "Ozan Ünal",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ochanomizu Hakase",
+   "actor": "Gerhard Paul",
+   "role": "MAIN"
+  },
+  {
+   "character": "Atom Tetsuwan",
+   "actor": "Rubina Kuraoka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Umatarou Tenma",
+   "actor": "Ernst Meincke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hamegg",
+   "actor": "Michael Narloch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ken'ichi",
+   "actor": "Konrad Bösherz",
+   "von": "ann"
+  },
+  {
+   "character": "Naoto",
+   "actor": "Carsten Otto",
+   "von": "ann"
+  },
+  {
+   "character": "Astro Boy",
+   "actor": "Rubina Kuraoka",
+   "von": "ann"
+  },
+  {
+   "character": "Shibugaki",
+   "actor": "Hannes Maurer",
+   "von": "ann"
+  },
+  {
+   "character": "Midori",
+   "actor": "Marie-Luise Schramm",
+   "von": "ann"
+  },
+  {
+   "character": "Sensei Higeoyaji",
+   "actor": "Bodo Wolf",
+   "von": "ann"
+  },
+  {
+   "character": "Prof. Ochanomizu",
+   "actor": "Gerhard Paul",
+   "von": "ann"
+  },
+  {
+   "character": "Detective Tawashi",
+   "actor": "Thomas Hailer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=388"
+}

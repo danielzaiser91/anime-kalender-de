@@ -1,1 +1,67 @@
-{"titleId":142598,"updatedAt":"2026-08-11T11:20:03.625Z","roles":[{"character":"Guy Greenwood","actor":"Christopher Arndt","role":"MAIN"},{"character":"Pete Reston","actor":"Ben Küch","role":"MAIN"},{"character":"Oliver Horn","actor":"Flemming Stein","role":"MAIN"},{"character":"Nanao Hibiya","actor":"Nina Witt","role":"MAIN"},{"character":"Katie Aalto","actor":"Eleni Möller-Architektonidou","role":"MAIN"},{"character":"Michela McFarlane","actor":"Amina Gaede","role":"MAIN"},{"character":"Esmeralda","actor":"Christine Kutschera","role":"SUPPORTING"},{"character":"Teresa Carste","actor":"Sina Zadra","role":"SUPPORTING"}]}
+{
+ "titleId": 142598,
+ "updatedAt": "2026-08-15T18:47:45.370Z",
+ "roles": [
+  {
+   "character": "Guy Greenwood",
+   "actor": "Christopher Arndt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Pete Reston",
+   "actor": "Ben Küch",
+   "role": "MAIN"
+  },
+  {
+   "character": "Oliver Horn",
+   "actor": "Flemming Stein",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nanao Hibiya",
+   "actor": "Nina Witt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Katie Aalto",
+   "actor": "Eleni Möller-Architektonidou",
+   "role": "MAIN"
+  },
+  {
+   "character": "Michela McFarlane",
+   "actor": "Amina Gaede",
+   "role": "MAIN"
+  },
+  {
+   "character": "Esmeralda",
+   "actor": "Christine Kutschera",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Teresa Carste",
+   "actor": "Sina Zadra",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hibiya Nanao",
+   "actor": "Nina Witt",
+   "von": "ann"
+  },
+  {
+   "character": "Katie Aalto",
+   "actor": "Eleni Möller",
+   "von": "ann"
+  },
+  {
+   "character": "Luther Garland",
+   "actor": "Christos Topulos",
+   "von": "ann"
+  },
+  {
+   "character": "Ophelia Salvadori",
+   "actor": "Gundi Schulze",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=25043"
+}

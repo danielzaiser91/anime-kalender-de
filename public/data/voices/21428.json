@@ -1,1 +1,77 @@
-{"titleId":21428,"updatedAt":"2026-08-11T11:20:03.305Z","roles":[{"character":"Haruhiro","actor":"Henning Nöhren","role":"MAIN"},{"character":"Yume","actor":"Jenny Maria Meyer","role":"MAIN"},{"character":"Mary","actor":"Jannika Jira","role":"MAIN"},{"character":"Ranta","actor":"Patrick Bach","role":"MAIN"},{"character":"Shihoru","actor":"Sarah Madeleine Tusk","role":"MAIN"},{"character":"Manato","actor":"Patrick Stamme","role":"MAIN"},{"character":"Moguzo","actor":"Jonas Minthe","role":"MAIN"},{"character":"Barbara","actor":"Vanida Karun","role":"SUPPORTING"},{"character":"Shinohara","actor":"Alexander Merbeth","role":"SUPPORTING"},{"character":"Hounen","actor":"Sven Dahlem","role":"SUPPORTING"},{"character":"Renji","actor":"Daniel Welbat","role":"SUPPORTING"},{"character":"Britney","actor":"Monty Arnold","role":"SUPPORTING"}]}
+{
+ "titleId": 21428,
+ "updatedAt": "2026-08-15T18:39:15.540Z",
+ "roles": [
+  {
+   "character": "Haruhiro",
+   "actor": "Henning Nöhren",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yume",
+   "actor": "Jenny Maria Meyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mary",
+   "actor": "Jannika Jira",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ranta",
+   "actor": "Patrick Bach",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shihoru",
+   "actor": "Sarah Madeleine Tusk",
+   "role": "MAIN"
+  },
+  {
+   "character": "Manato",
+   "actor": "Patrick Stamme",
+   "role": "MAIN"
+  },
+  {
+   "character": "Moguzo",
+   "actor": "Jonas Minthe",
+   "role": "MAIN"
+  },
+  {
+   "character": "Barbara",
+   "actor": "Vanida Karun",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinohara",
+   "actor": "Alexander Merbeth",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hounen",
+   "actor": "Sven Dahlem",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Renji",
+   "actor": "Daniel Welbat",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Britney",
+   "actor": "Monty Arnold",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kikkawa",
+   "actor": "Oliver Böttcher",
+   "von": "ann"
+  },
+  {
+   "character": "Brittany",
+   "actor": "Monty Arnold",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=17732"
+}

@@ -1,1 +1,127 @@
-{"titleId":4752,"updatedAt":"2026-08-11T11:09:14.134Z","roles":[{"character":"Yuuki Cross","actor":"Tanja Schmitz","role":"MAIN"},{"character":"Kaname Kuran","actor":"Rainer Fritzsche","role":"MAIN"},{"character":"Zero Kiryuu","actor":"Jan-David Rönfeldt","role":"MAIN"},{"character":"Rido Kuran","actor":"Tobias Nath","role":"SUPPORTING"},{"character":"Senri Shiki","actor":"Michael Baral","role":"SUPPORTING"},{"character":"Hanabusa Aidou","actor":"Dirk Petrick","role":"SUPPORTING"}]}
+{
+ "titleId": 4752,
+ "updatedAt": "2026-08-15T18:32:16.120Z",
+ "roles": [
+  {
+   "character": "Yuuki Cross",
+   "actor": "Tanja Schmitz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kaname Kuran",
+   "actor": "Rainer Fritzsche",
+   "role": "MAIN"
+  },
+  {
+   "character": "Zero Kiryuu",
+   "actor": "Jan-David Rönfeldt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rido Kuran",
+   "actor": "Tobias Nath",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Senri Shiki",
+   "actor": "Michael Baral",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hanabusa Aidou",
+   "actor": "Dirk Petrick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takuma Ichijou",
+   "actor": "Konrad Bösherz",
+   "von": "ann"
+  },
+  {
+   "character": "Rima Touya",
+   "actor": "Rubina Kuraoka",
+   "von": "ann"
+  },
+  {
+   "character": "Ichiru Kiryu",
+   "actor": "Fabian Hollwitz",
+   "von": "ann"
+  },
+  {
+   "character": "Asatoo Ichijou",
+   "actor": "Jan Spitzer",
+   "von": "ann"
+  },
+  {
+   "character": "Hunter Consultation Chief",
+   "actor": "Jaron Löwenberg",
+   "von": "ann"
+  },
+  {
+   "character": "Akatsuki Kain",
+   "actor": "Christoph Banken",
+   "von": "ann"
+  },
+  {
+   "character": "Maria Kurenai",
+   "actor": "Silvia Mißbach",
+   "von": "ann"
+  },
+  {
+   "character": "Shizuka Hiou",
+   "actor": "Silvia Mißbach",
+   "von": "ann"
+  },
+  {
+   "character": "Yuri Kuran",
+   "actor": "Melanie Hinze",
+   "von": "ann"
+  },
+  {
+   "character": "Kaien Kurosu",
+   "actor": "Fritz Rott",
+   "von": "ann"
+  },
+  {
+   "character": "Yuki Kurosu",
+   "actor": "Tanja Schmitz",
+   "von": "ann"
+  },
+  {
+   "character": "Zero Kiryu",
+   "actor": "Jan-David Rönfeldt",
+   "von": "ann"
+  },
+  {
+   "character": "Tooga Yagari",
+   "actor": "Matti Klemm",
+   "von": "ann"
+  },
+  {
+   "character": "Hanabusa Aido",
+   "actor": "Dirk Petrick",
+   "von": "ann"
+  },
+  {
+   "character": "Sayori Wakaba",
+   "actor": "Julia Stoepel",
+   "von": "ann"
+  },
+  {
+   "character": "Haruka Kuran",
+   "actor": "Dirk Stollberg",
+   "von": "ann"
+  },
+  {
+   "character": "Luca Soen",
+   "actor": "Aline Staskowiak",
+   "von": "ann"
+  },
+  {
+   "character": "Seiren",
+   "actor": "Nicole Hannak",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=10107"
+}

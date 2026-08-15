@@ -1,1 +1,122 @@
-{"titleId":138699,"updatedAt":"2026-08-11T11:20:03.610Z","roles":[{"character":"Dande","actor":"Felix Auer","role":"MAIN"},{"character":"Lillie","actor":"Angelina Markiefka","role":"MAIN"},{"character":"Fleur-de-lis","actor":"Alexander Wohnhaas","role":"MAIN"},{"character":"N Harmonia","actor":"Tobias John von Freyend","role":"MAIN"},{"character":"Ghetsis Harmonia","actor":"Jakob Riedl","role":"MAIN"},{"character":"Jun","actor":"Max Schira","role":"MAIN"},{"character":"Higana","actor":"Laura Maire","role":"MAIN"},{"character":"Tamao","actor":"Katharina von Daake","role":"MAIN"},{"character":"Sakura","actor":"Kerstin Dietrich","role":"MAIN"},{"character":"Satsuki","actor":"Sonja Reichelt","role":"MAIN"},{"character":"Komomo","actor":"Anja Taborsky","role":"MAIN"},{"character":"Koume","actor":"Lara Wurmer","role":"MAIN"},{"character":"Blue","actor":"Katharina von Daake","role":"MAIN"},{"character":"Lusamine","actor":"Anna Ewelina","role":"SUPPORTING"},{"character":"Hop","actor":"Max Schira","role":"SUPPORTING"},{"character":"Jupiter","actor":"Maresa Sedlmeir","role":"SUPPORTING"},{"character":"Kurotsugu","actor":"René Oltmanns","role":"SUPPORTING"},{"character":"Adeku","actor":"Manuel Scheuernstuhl","role":"SUPPORTING"}]}
+{
+ "titleId": 138699,
+ "updatedAt": "2026-08-15T18:47:18.585Z",
+ "roles": [
+  {
+   "character": "Dande",
+   "actor": "Felix Auer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lillie",
+   "actor": "Angelina Markiefka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Fleur-de-lis",
+   "actor": "Alexander Wohnhaas",
+   "role": "MAIN"
+  },
+  {
+   "character": "N Harmonia",
+   "actor": "Tobias John von Freyend",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ghetsis Harmonia",
+   "actor": "Jakob Riedl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jun",
+   "actor": "Max Schira",
+   "role": "MAIN"
+  },
+  {
+   "character": "Higana",
+   "actor": "Laura Maire",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tamao",
+   "actor": "Katharina von Daake",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sakura",
+   "actor": "Kerstin Dietrich",
+   "role": "MAIN"
+  },
+  {
+   "character": "Satsuki",
+   "actor": "Sonja Reichelt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Komomo",
+   "actor": "Anja Taborsky",
+   "role": "MAIN"
+  },
+  {
+   "character": "Koume",
+   "actor": "Lara Wurmer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Blue",
+   "actor": "Katharina von Daake",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lusamine",
+   "actor": "Anna Ewelina",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hop",
+   "actor": "Max Schira",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jupiter",
+   "actor": "Maresa Sedlmeir",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kurotsugu",
+   "actor": "René Oltmanns",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Adeku",
+   "actor": "Manuel Scheuernstuhl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "G-Cis",
+   "actor": "Jakob Riedl",
+   "von": "ann"
+  },
+  {
+   "character": "Samantha",
+   "actor": "Anna Ewelina",
+   "von": "ann"
+  },
+  {
+   "character": "Flordelis",
+   "actor": "Alexander Wohnhaas",
+   "von": "ann"
+  },
+  {
+   "character": "Lilly",
+   "actor": "Angelina Markiefka",
+   "von": "ann"
+  },
+  {
+   "character": "Delion",
+   "actor": "Felix Auer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24698"
+}

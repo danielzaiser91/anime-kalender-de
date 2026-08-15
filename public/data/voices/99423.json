@@ -1,1 +1,127 @@
-{"titleId":99423,"updatedAt":"2026-08-11T11:20:03.403Z","roles":[{"character":"Hiro","actor":"Maximilian Belle","role":"MAIN"},{"character":"Zero Two","actor":"Shanti Chakraborty","role":"MAIN"},{"character":"Ichigo","actor":"Chantal Busse","role":"MAIN"},{"character":"Goro","actor":"Fabian Rohm","role":"MAIN"},{"character":"Miku","actor":"Amira Leisner","role":"MAIN"},{"character":"Zorome","actor":"Sandro Blümel","role":"MAIN"},{"character":"Kokoro","actor":"Katharina von Daake","role":"MAIN"},{"character":"Futoshi","actor":"Malte Wetzel","role":"MAIN"},{"character":"Ikuno","actor":"Dagmar Bittner","role":"MAIN"},{"character":"Mitsuru","actor":"Tobias Kern","role":"MAIN"},{"character":"Franxx Hakase","actor":"Klaus Münster","role":"SUPPORTING"},{"character":"Nana","actor":"Friederike Sipp","role":"SUPPORTING"},{"character":"Hachi","actor":"Julius Braach","role":"SUPPORTING"},{"character":"Kyouryuu no Hime","actor":"Julia Bautz","role":"SUPPORTING"},{"character":"Naomi","actor":"Patricia Strasburger","role":"SUPPORTING"},{"character":"9' Alpha","actor":"Louis Friedemann Thiele","role":"SUPPORTING"},{"character":"9' Delta","actor":"Eleni Möller-Architektonidou","role":"SUPPORTING"},{"character":"9' Beta","actor":"Julian Bayer","role":"SUPPORTING"},{"character":"Fukushuseki","actor":"Gerd Meyer","role":"SUPPORTING"},{"character":"Lemur","actor":"Mark Kuhn","role":"SUPPORTING"},{"character":"9' Epsilon","actor":"Felix Mayer","role":"SUPPORTING"},{"character":"Tarsier","actor":"Pascal Breuer","role":"SUPPORTING"},{"character":"Baboon","actor":"Thomas Höricht","role":"SUPPORTING"}]}
+{
+ "titleId": 99423,
+ "updatedAt": "2026-08-15T18:41:23.982Z",
+ "roles": [
+  {
+   "character": "Hiro",
+   "actor": "Maximilian Belle",
+   "role": "MAIN"
+  },
+  {
+   "character": "Zero Two",
+   "actor": "Shanti Chakraborty",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ichigo",
+   "actor": "Chantal Busse",
+   "role": "MAIN"
+  },
+  {
+   "character": "Goro",
+   "actor": "Fabian Rohm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miku",
+   "actor": "Amira Leisner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Zorome",
+   "actor": "Sandro Blümel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kokoro",
+   "actor": "Katharina von Daake",
+   "role": "MAIN"
+  },
+  {
+   "character": "Futoshi",
+   "actor": "Malte Wetzel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ikuno",
+   "actor": "Dagmar Bittner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mitsuru",
+   "actor": "Tobias Kern",
+   "role": "MAIN"
+  },
+  {
+   "character": "Franxx Hakase",
+   "actor": "Klaus Münster",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nana",
+   "actor": "Friederike Sipp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hachi",
+   "actor": "Julius Braach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyouryuu no Hime",
+   "actor": "Julia Bautz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Naomi",
+   "actor": "Patricia Strasburger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "9' Alpha",
+   "actor": "Louis Friedemann Thiele",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "9' Delta",
+   "actor": "Eleni Möller-Architektonidou",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "9' Beta",
+   "actor": "Julian Bayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fukushuseki",
+   "actor": "Gerd Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lemur",
+   "actor": "Mark Kuhn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "9' Epsilon",
+   "actor": "Felix Mayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tarsier",
+   "actor": "Pascal Breuer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Baboon",
+   "actor": "Thomas Höricht",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Professor Franxx",
+   "actor": "Klaus Münster",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19850"
+}

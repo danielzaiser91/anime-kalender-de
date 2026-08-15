@@ -1,1 +1,92 @@
-{"titleId":12671,"updatedAt":"2026-08-11T11:20:03.132Z","roles":[{"character":"Keldeo","actor":"Tobias John von Freyend","role":"MAIN"},{"character":"Dent","actor":"Tim Schwarzmaier","role":"MAIN"},{"character":"Satoshi","actor":"Caroline Combrinck","role":"MAIN"},{"character":"Kyurem","actor":"Oliver Mink","role":"MAIN"},{"character":"Iris","actor":"Marieke Oeffinger","role":"MAIN"},{"character":"Terrakion","actor":"Michael Schwarzmaier","role":"SUPPORTING"},{"character":"Cobalon","actor":"Andreas Borcherding","role":"SUPPORTING"},{"character":"Joy","actor":"Katharina Iacobescu","role":"SUPPORTING"},{"character":"Kibago","actor":"Farina Brock","role":"SUPPORTING"},{"character":"Virizion","actor":"Kathrin Gaube","role":"SUPPORTING"},{"character":"Malin","actor":"Marcia von Rebay","role":"BACKGROUND"},{"character":"Narrator","actor":"Manfred Trilling","role":"BACKGROUND"},{"character":"Matriarch","actor":"Dagmar Dempe","role":"BACKGROUND"}]}
+{
+ "titleId": 12671,
+ "updatedAt": "2026-08-15T18:34:50.212Z",
+ "roles": [
+  {
+   "character": "Keldeo",
+   "actor": "Tobias John von Freyend",
+   "role": "MAIN"
+  },
+  {
+   "character": "Dent",
+   "actor": "Tim Schwarzmaier",
+   "role": "MAIN"
+  },
+  {
+   "character": "Satoshi",
+   "actor": "Caroline Combrinck",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kyurem",
+   "actor": "Oliver Mink",
+   "role": "MAIN"
+  },
+  {
+   "character": "Iris",
+   "actor": "Marieke Oeffinger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Terrakion",
+   "actor": "Michael Schwarzmaier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cobalon",
+   "actor": "Andreas Borcherding",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Joy",
+   "actor": "Katharina Iacobescu",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kibago",
+   "actor": "Farina Brock",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Virizion",
+   "actor": "Kathrin Gaube",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Malin",
+   "actor": "Marcia von Rebay",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Manfred Trilling",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Matriarch",
+   "actor": "Dagmar Dempe",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Pikachu",
+   "actor": "Ikue Ōtani",
+   "von": "ann"
+  },
+  {
+   "character": "Ash Ketchum",
+   "actor": "Caroline Combrinck",
+   "von": "ann"
+  },
+  {
+   "character": "Benny",
+   "actor": "Tim Schwarzmaier",
+   "von": "ann"
+  },
+  {
+   "character": "Lilia",
+   "actor": "Marieke Oeffinger",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=13845"
+}

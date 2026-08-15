@@ -1,1 +1,97 @@
-{"titleId":20513,"updatedAt":"2026-08-11T11:20:03.207Z","roles":[{"character":"Akane Tsunemori","actor":"Julia Stoepel","role":"MAIN"},{"character":"Sakuya Togane","actor":"Sven Gerhardt","role":"MAIN"},{"character":"Mika Shimotsuki","actor":"Melanie Isakowitz","role":"MAIN"},{"character":"Kirito Kamui","actor":"Konrad Bösherz","role":"MAIN"},{"character":"Nobuchika Ginoza","actor":"Felix Spieß","role":"SUPPORTING"},{"character":"Teppei Sugou","actor":"Stefan Bräuler","role":"SUPPORTING"},{"character":"Yayoi Kunizuka","actor":"Nicole Hannak","role":"SUPPORTING"},{"character":"Jouji Saiga","actor":"Jan Kurbjuweit","role":"SUPPORTING"},{"character":"Shion Karanomori","actor":"Andrea Aust","role":"SUPPORTING"},{"character":"Risa Aoyanagi","actor":"Silke Matthias","role":"SUPPORTING"},{"character":"Sho Hinakawa","actor":"Marcel Mann","role":"SUPPORTING"},{"character":"Shinya Kougami","actor":"Jaron Löwenberg","role":"BACKGROUND"}]}
+{
+ "titleId": 20513,
+ "updatedAt": "2026-08-15T18:37:01.516Z",
+ "roles": [
+  {
+   "character": "Akane Tsunemori",
+   "actor": "Julia Stoepel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sakuya Togane",
+   "actor": "Sven Gerhardt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mika Shimotsuki",
+   "actor": "Melanie Isakowitz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kirito Kamui",
+   "actor": "Konrad Bösherz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nobuchika Ginoza",
+   "actor": "Felix Spieß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Teppei Sugou",
+   "actor": "Stefan Bräuler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yayoi Kunizuka",
+   "actor": "Nicole Hannak",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jouji Saiga",
+   "actor": "Jan Kurbjuweit",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shion Karanomori",
+   "actor": "Andrea Aust",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Risa Aoyanagi",
+   "actor": "Silke Matthias",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sho Hinakawa",
+   "actor": "Marcel Mann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinya Kougami",
+   "actor": "Jaron Löwenberg",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Dominator",
+   "actor": "Schaukje Könning",
+   "von": "ann"
+  },
+  {
+   "character": "Sakuya Tougane",
+   "actor": "Sven Gerhardt",
+   "von": "ann"
+  },
+  {
+   "character": "Joushuu Kasei",
+   "actor": "Beate Gerlach",
+   "von": "ann"
+  },
+  {
+   "character": "Mizue Shisui",
+   "actor": "Anja Mentzendorff",
+   "von": "ann"
+  },
+  {
+   "character": "Shou Hinakawa",
+   "actor": "Marcel Mann",
+   "von": "ann"
+  },
+  {
+   "character": "Kaede Hasuike",
+   "actor": "Jacob Weigert",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15513"
+}

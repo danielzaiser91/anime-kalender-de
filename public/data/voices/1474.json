@@ -1,1 +1,97 @@
-{"titleId":1474,"updatedAt":"2026-08-11T11:20:02.922Z","roles":[{"character":"Kaori Makimura","actor":"Nadja Reichardt","role":"MAIN"},{"character":"Ryou Saeba","actor":"Michael Pan","role":"MAIN"},{"character":"Klaus Steinberg","actor":"Jürgen Kluckert","role":"SUPPORTING"},{"character":"Hayato Ijuuin","actor":"Karl Schulz","role":"SUPPORTING"},{"character":"Kirchmann","actor":"Werner Ziebig","role":"SUPPORTING"},{"character":"Bondal","actor":"Axel Lutter","role":"SUPPORTING"},{"character":"Saeko Nogami","actor":"Liane Rudolph","role":"SUPPORTING"},{"character":"Eugen","actor":"Erich Räuker","role":"SUPPORTING"},{"character":"Reika Nogami","actor":"Sabine Jaeger","role":"SUPPORTING"},{"character":"Miki","actor":"Claudia Gáldy","role":"SUPPORTING"},{"character":"Leibnitz","actor":"Tilo Schmitz","role":"SUPPORTING"},{"character":"Nina Steinberg","actor":"Katrin Zimmermann","role":"SUPPORTING"},{"character":"Gunther","actor":"Michael Iwannek","role":"SUPPORTING"},{"character":"Johann Fredrich Von Herzen","actor":"Helmut Gauß","role":"SUPPORTING"}]}
+{
+ "titleId": 1474,
+ "updatedAt": "2026-08-15T18:28:38.334Z",
+ "roles": [
+  {
+   "character": "Kaori Makimura",
+   "actor": "Nadja Reichardt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ryou Saeba",
+   "actor": "Michael Pan",
+   "role": "MAIN"
+  },
+  {
+   "character": "Klaus Steinberg",
+   "actor": "Jürgen Kluckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hayato Ijuuin",
+   "actor": "Karl Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kirchmann",
+   "actor": "Werner Ziebig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bondal",
+   "actor": "Axel Lutter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Saeko Nogami",
+   "actor": "Liane Rudolph",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eugen",
+   "actor": "Erich Räuker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Reika Nogami",
+   "actor": "Sabine Jaeger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miki",
+   "actor": "Claudia Gáldy",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Leibnitz",
+   "actor": "Tilo Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nina Steinberg",
+   "actor": "Katrin Zimmermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gunther",
+   "actor": "Michael Iwannek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Johann Fredrich Von Herzen",
+   "actor": "Helmut Gauß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Umibôzu",
+   "actor": "Karl Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "Ryo Saeba",
+   "actor": "Michael Pan",
+   "von": "ann"
+  },
+  {
+   "character": "Johann von Herzen",
+   "actor": "Helmut Gauß",
+   "von": "ann"
+  },
+  {
+   "character": "Miki",
+   "actor": "Claudia Galdy",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=548"
+}

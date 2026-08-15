@@ -1,1 +1,42 @@
-{"titleId":139369,"updatedAt":"2026-08-11T11:20:03.612Z","roles":[{"character":"Kate Starven","actor":"Francis Dichmann","role":"MAIN"}]}
+{
+ "titleId": 139369,
+ "updatedAt": "2026-08-15T18:47:20.784Z",
+ "roles": [
+  {
+   "character": "Kate Starven",
+   "actor": "Francis Dichmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rorea",
+   "actor": "Patricia Strasburger",
+   "von": "ann"
+  },
+  {
+   "character": "Kata Starven",
+   "actor": "Francis Dichmann",
+   "von": "ann"
+  },
+  {
+   "character": "Sarasa Feed",
+   "actor": "Lisa Dzyadyk",
+   "von": "ann"
+  },
+  {
+   "character": "Ophelia Millis",
+   "actor": "Laura Preiss",
+   "von": "ann"
+  },
+  {
+   "character": "Maria",
+   "actor": "Kerstin Dietrich",
+   "von": "ann"
+  },
+  {
+   "character": "Iris Lotze",
+   "actor": "Jana Tausendfreund",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24745"
+}

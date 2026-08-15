@@ -1,1 +1,82 @@
-{"titleId":17909,"updatedAt":"2026-08-11T11:20:03.170Z","roles":[{"character":"Yashirou Shimogamo","actor":"Dominic Pühringer","role":"MAIN"},{"character":"Yasaburou Shimogamo","actor":"Tobias John von Freyend","role":"MAIN"},{"character":"Yaichirou Shimogamo","actor":"Tim Schwarzmaier","role":"MAIN"},{"character":"Yajirou Shimogamo","actor":"Paul Sedlmeir","role":"MAIN"},{"character":"Kinkaku Ebisugawa","actor":"Benedikt Gutjan","role":"SUPPORTING"},{"character":"Benten","actor":"Farina Brock","role":"SUPPORTING"},{"character":"Ginkaku Ebisugawa","actor":"Karim El Kammouchi","role":"SUPPORTING"},{"character":"Choutarou Yodogawa","actor":"Gerd Meyer","role":"SUPPORTING"},{"character":"Kaisei Ebisugawa","actor":"Lea Kalbhenn","role":"SUPPORTING"},{"character":"Tousen Shimogamo","actor":"Christine Stichler","role":"SUPPORTING"},{"character":"Souichirou Shimogamo","actor":"Alexander Brem","role":"SUPPORTING"},{"character":"Nyoigatake Yakushibo","actor":"Erich Ludwig","role":"SUPPORTING"},{"character":"Souun Ebisugawa","actor":"Kai Taschner","role":"SUPPORTING"}]}
+{
+ "titleId": 17909,
+ "updatedAt": "2026-08-15T18:35:56.202Z",
+ "roles": [
+  {
+   "character": "Yashirou Shimogamo",
+   "actor": "Dominic Pühringer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yasaburou Shimogamo",
+   "actor": "Tobias John von Freyend",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yaichirou Shimogamo",
+   "actor": "Tim Schwarzmaier",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yajirou Shimogamo",
+   "actor": "Paul Sedlmeir",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kinkaku Ebisugawa",
+   "actor": "Benedikt Gutjan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Benten",
+   "actor": "Farina Brock",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ginkaku Ebisugawa",
+   "actor": "Karim El Kammouchi",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Choutarou Yodogawa",
+   "actor": "Gerd Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaisei Ebisugawa",
+   "actor": "Lea Kalbhenn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tousen Shimogamo",
+   "actor": "Christine Stichler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Souichirou Shimogamo",
+   "actor": "Alexander Brem",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nyoigatake Yakushibo",
+   "actor": "Erich Ludwig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Souun Ebisugawa",
+   "actor": "Kai Taschner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akadama-sensei",
+   "actor": "Erich Ludwig",
+   "von": "ann"
+  },
+  {
+   "character": "Professor Yodogawa",
+   "actor": "Gerd Meyer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15205"
+}

@@ -1,1 +1,32 @@
-{"titleId":3367,"updatedAt":"2026-08-11T11:20:03.006Z","roles":[{"character":"Gonji Abe","actor":"Yoshij Grimm","role":"MAIN"}]}
+{
+ "titleId": 3367,
+ "updatedAt": "2026-08-15T18:31:47.471Z",
+ "roles": [
+  {
+   "character": "Gonji Abe",
+   "actor": "Yoshij Grimm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rieko Sakamoto",
+   "actor": "Julia Ziffer",
+   "von": "ann"
+  },
+  {
+   "character": "Akira Yanagisawa",
+   "actor": "Maximilian Artajo",
+   "von": "ann"
+  },
+  {
+   "character": "Gonji\"Gon\" Abe",
+   "actor": "Yoshij Grimm",
+   "von": "ann"
+  },
+  {
+   "character": "Shizu Miyanaga",
+   "actor": "Laura Elßel",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=7540"
+}

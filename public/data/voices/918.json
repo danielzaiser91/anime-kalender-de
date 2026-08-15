@@ -1,1 +1,137 @@
-{"titleId":918,"updatedAt":"2026-08-11T11:20:02.878Z","roles":[{"character":"Shinpachi Shimura","actor":"Tobias Diakow","role":"MAIN"},{"character":"Gintoki Sakata","actor":"Jacob Weigert","role":"MAIN"},{"character":"Kagura","actor":"Kaya Marie Möller","role":"MAIN"},{"character":"Sadaharu","actor":"Josephine Schmidt","role":"MAIN"},{"character":"Kuriko Matsudaira","actor":"Selina Böttcher","role":"SUPPORTING"},{"character":"Tsuu Terakado","actor":"Mia Diekow","role":"SUPPORTING"},{"character":"Kaikei","actor":"Daniel Welbat","role":"SUPPORTING"},{"character":"Catherine","actor":"Angela Quast","role":"SUPPORTING"}]}
+{
+ "titleId": 918,
+ "updatedAt": "2026-08-15T18:26:51.108Z",
+ "roles": [
+  {
+   "character": "Shinpachi Shimura",
+   "actor": "Tobias Diakow",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gintoki Sakata",
+   "actor": "Jacob Weigert",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kagura",
+   "actor": "Kaya Marie Möller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sadaharu",
+   "actor": "Josephine Schmidt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kuriko Matsudaira",
+   "actor": "Selina Böttcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsuu Terakado",
+   "actor": "Mia Diekow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaikei",
+   "actor": "Daniel Welbat",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Catherine",
+   "actor": "Angela Quast",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Isao Kondou",
+   "actor": "Nicolas König",
+   "von": "ann"
+  },
+  {
+   "character": "Taizou Hasegawa",
+   "actor": "Christian Rudolf",
+   "von": "ann"
+  },
+  {
+   "character": "Shinsuke Takasugi",
+   "actor": "Oliver Böttcher",
+   "von": "ann"
+  },
+  {
+   "character": "Elizabeth",
+   "actor": "Walter Wigand",
+   "von": "ann"
+  },
+  {
+   "character": "Sougo Okita",
+   "actor": "Asad Schwarz",
+   "von": "ann"
+  },
+  {
+   "character": "Kagura",
+   "actor": "Kaya Möller",
+   "von": "ann"
+  },
+  {
+   "character": "Kotarou Katsura",
+   "actor": "Mark Seidenberg",
+   "von": "ann"
+  },
+  {
+   "character": "Ayano Terada",
+   "actor": "Katja Brügger",
+   "von": "ann"
+  },
+  {
+   "character": "Tatsuma Sakamoto",
+   "actor": "Robert Kotulla",
+   "von": "ann"
+  },
+  {
+   "character": "Kyuubei Yagyuu",
+   "actor": "Jennifer Böttcher",
+   "von": "ann"
+  },
+  {
+   "character": "Tae Shimura",
+   "actor": "Arlette Stanschus",
+   "von": "ann"
+  },
+  {
+   "character": "Tama",
+   "actor": "Nadine Schreier",
+   "von": "ann"
+  },
+  {
+   "character": "Ketsuno Ana",
+   "actor": "Dorothee Sturz",
+   "von": "ann"
+  },
+  {
+   "character": "Katakuriko Matsudaira",
+   "actor": "Michael Bideller",
+   "von": "ann"
+  },
+  {
+   "character": "Toushirou Hijikata",
+   "actor": "Achim Buch",
+   "von": "ann"
+  },
+  {
+   "character": "Ayame Sarutobi",
+   "actor": "Jenny Maria Meyer",
+   "von": "ann"
+  },
+  {
+   "character": "Sagaru Yamazaki",
+   "actor": "Timo Kinzel",
+   "von": "ann"
+  },
+  {
+   "character": "Prince Hata",
+   "actor": "Markus Hanse",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=6236"
+}

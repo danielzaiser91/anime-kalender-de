@@ -1,1 +1,77 @@
-{"titleId":20910,"updatedAt":"2026-08-11T11:20:03.258Z","roles":[{"character":"Tanukichi Okuma","actor":"Jan Makino","role":"MAIN"},{"character":"Ayame Kajou","actor":"Alice Bauer","role":"MAIN"},{"character":"Anna Nishikinomiya","actor":"Anna Gamburg","role":"MAIN"},{"character":"Otome Saotome","actor":"Anita Hopt","role":"MAIN"},{"character":"Kosuri Onigashira","actor":"Sarah Alles","role":"SUPPORTING"},{"character":"Master","actor":"Stefan Bergel","role":"SUPPORTING"},{"character":"Hyouka Fuwa","actor":"Laurine Betz","role":"SUPPORTING"},{"character":"Binkan","actor":"Heide Ihlenfeld","role":"SUPPORTING"},{"character":"Oboro Tsukimigusa","actor":"Velia Krause","role":"SUPPORTING"},{"character":"Takuma Ichinose","actor":"Wolfgang Wagner","role":"SUPPORTING"},{"character":"Sophia Nishikinomiya","actor":"Katja Schmitz","role":"SUPPORTING"},{"character":"Raiki Gouriki","actor":"Peter Sura","role":"SUPPORTING"},{"character":"Zenjuurou Okuma","actor":"André Beyer","role":"SUPPORTING"}]}
+{
+ "titleId": 20910,
+ "updatedAt": "2026-08-15T18:38:15.192Z",
+ "roles": [
+  {
+   "character": "Tanukichi Okuma",
+   "actor": "Jan Makino",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ayame Kajou",
+   "actor": "Alice Bauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Anna Nishikinomiya",
+   "actor": "Anna Gamburg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Otome Saotome",
+   "actor": "Anita Hopt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kosuri Onigashira",
+   "actor": "Sarah Alles",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Master",
+   "actor": "Stefan Bergel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hyouka Fuwa",
+   "actor": "Laurine Betz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Binkan",
+   "actor": "Heide Ihlenfeld",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Oboro Tsukimigusa",
+   "actor": "Velia Krause",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takuma Ichinose",
+   "actor": "Wolfgang Wagner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sophia Nishikinomiya",
+   "actor": "Katja Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Raiki Gouriki",
+   "actor": "Peter Sura",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zenjuurou Okuma",
+   "actor": "André Beyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Binkan-chan",
+   "actor": "Heide Ihlenfeld",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16731"
+}

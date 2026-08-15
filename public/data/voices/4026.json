@@ -1,1 +1,122 @@
-{"titleId":4026,"updatedAt":"2026-08-11T11:20:03.021Z","roles":[{"character":"Satoshi","actor":"Veronika Aryana Neugebauer","role":"MAIN"},{"character":"Shaymin","actor":"Farina Brock","role":"MAIN"},{"character":"Takeshi","actor":"Marc Stachel","role":"MAIN"},{"character":"Hikari","actor":"Jana Schölermann","role":"MAIN"},{"character":"Mugen Graceland","actor":"Ole Pfennig","role":"SUPPORTING"},{"character":"Moose","actor":"Patrick Schröder","role":"SUPPORTING"},{"character":"Musashi","actor":"Scarlet Cavadenti","role":"SUPPORTING"},{"character":"Pocchama","actor":"Nicola Grupe-Arnoldi","role":"SUPPORTING"},{"character":"Kojirou","actor":"Matthias Klie","role":"SUPPORTING"},{"character":"Nyarth","actor":"Gerhard Acktun","role":"SUPPORTING"},{"character":"Infi","actor":"Shandra Schadt","role":"SUPPORTING"},{"character":"Joy","actor":"Tatjana Pokorny","role":"SUPPORTING"},{"character":"Zero","actor":"Dirk Meyer","role":"SUPPORTING"},{"character":"Layla","actor":"Shandra Schadt","role":"SUPPORTING"},{"character":"Narrator","actor":"Michael Schwarzmaier","role":"BACKGROUND"}]}
+{
+ "titleId": 4026,
+ "updatedAt": "2026-08-15T18:32:01.751Z",
+ "roles": [
+  {
+   "character": "Satoshi",
+   "actor": "Veronika Aryana Neugebauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shaymin",
+   "actor": "Farina Brock",
+   "role": "MAIN"
+  },
+  {
+   "character": "Takeshi",
+   "actor": "Marc Stachel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hikari",
+   "actor": "Jana Schölermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mugen Graceland",
+   "actor": "Ole Pfennig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Moose",
+   "actor": "Patrick Schröder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Musashi",
+   "actor": "Scarlet Cavadenti",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pocchama",
+   "actor": "Nicola Grupe-Arnoldi",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kojirou",
+   "actor": "Matthias Klie",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nyarth",
+   "actor": "Gerhard Acktun",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Infi",
+   "actor": "Shandra Schadt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Joy",
+   "actor": "Tatjana Pokorny",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zero",
+   "actor": "Dirk Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Layla",
+   "actor": "Shandra Schadt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Michael Schwarzmaier",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Pikachu",
+   "actor": "Ikue Ōtani",
+   "von": "ann"
+  },
+  {
+   "character": "Ash Ketchum",
+   "actor": "Veronika Neugebauer",
+   "von": "ann"
+  },
+  {
+   "character": "Jessie",
+   "actor": "Scarlet Cavadenti",
+   "von": "ann"
+  },
+  {
+   "character": "Mauzi",
+   "actor": "Gerhard Acktun",
+   "von": "ann"
+  },
+  {
+   "character": "Rocko",
+   "actor": "Marc Stachel",
+   "von": "ann"
+  },
+  {
+   "character": "James",
+   "actor": "Matthias Klie",
+   "von": "ann"
+  },
+  {
+   "character": "Lucia",
+   "actor": "Jana Kilka",
+   "von": "ann"
+  },
+  {
+   "character": "Newton",
+   "actor": "Ole Pfenning",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=9201"
+}

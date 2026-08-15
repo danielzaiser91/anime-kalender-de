@@ -1,1 +1,17 @@
-{"titleId":2577,"updatedAt":"2026-08-11T11:20:02.980Z","roles":[{"character":"Tom Sawyer","actor":"Fabian Hollwitz","role":"MAIN"}]}
+{
+ "titleId": 2577,
+ "updatedAt": "2026-08-15T18:30:58.852Z",
+ "roles": [
+  {
+   "character": "Tom Sawyer",
+   "actor": "Fabian Hollwitz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sid Sawyer",
+   "actor": "Carsten Otto",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=439"
+}

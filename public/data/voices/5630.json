@@ -1,1 +1,102 @@
-{"titleId":5630,"updatedAt":"2026-08-11T11:20:03.049Z","roles":[{"character":"Akira Takizawa","actor":"Julius Jellinek","role":"MAIN"},{"character":"Saki Morimi","actor":"Josephine Schmidt","role":"MAIN"},{"character":"Mikuru Katsuhara","actor":"Kristina Tietz","role":"SUPPORTING"},{"character":"Haruo Kasuga","actor":"Fabian Hollwitz","role":"SUPPORTING"},{"character":"Satoshi Ohsugi","actor":"Dirk Stollberg","role":"SUPPORTING"},{"character":"Yutaka Itazu","actor":"Jesco Wirthgen","role":"SUPPORTING"},{"character":"Hajime Hiura","actor":"Oliver Siebeck","role":"SUPPORTING"},{"character":"O-nee","actor":"Katrin Zimmermann","role":"SUPPORTING"},{"character":"Kazuomi Hirasawa","actor":"Felix Spieß","role":"SUPPORTING"},{"character":"Juiz","actor":"Cathlen Gawlich","role":"SUPPORTING"}]}
+{
+ "titleId": 5630,
+ "updatedAt": "2026-08-15T18:32:40.635Z",
+ "roles": [
+  {
+   "character": "Akira Takizawa",
+   "actor": "Julius Jellinek",
+   "role": "MAIN"
+  },
+  {
+   "character": "Saki Morimi",
+   "actor": "Josephine Schmidt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mikuru Katsuhara",
+   "actor": "Kristina Tietz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haruo Kasuga",
+   "actor": "Fabian Hollwitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Satoshi Ohsugi",
+   "actor": "Dirk Stollberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yutaka Itazu",
+   "actor": "Jesco Wirthgen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hajime Hiura",
+   "actor": "Oliver Siebeck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "O-nee",
+   "actor": "Katrin Zimmermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kazuomi Hirasawa",
+   "actor": "Felix Spieß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Juiz",
+   "actor": "Cathlen Gawlich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kuroha Diana Shiratori",
+   "actor": "Victoria Sturm",
+   "von": "ann"
+  },
+  {
+   "character": "Yusei Kondo",
+   "actor": "Alexander Doering",
+   "von": "ann"
+  },
+  {
+   "character": "Jintaro Tsuji",
+   "actor": "Raul Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Ryo Yuki",
+   "actor": "Dirk Petrick",
+   "von": "ann"
+  },
+  {
+   "character": "Onee",
+   "actor": "Katrin Zimmermann",
+   "von": "ann"
+  },
+  {
+   "character": "Asako Morimi",
+   "actor": "Giuliana Jakobeit",
+   "von": "ann"
+  },
+  {
+   "character": "Daiju Mononobe",
+   "actor": "Michael Iwannek",
+   "von": "ann"
+  },
+  {
+   "character": "Satoshi Oosugi",
+   "actor": "Dirk Stollberg",
+   "von": "ann"
+  },
+  {
+   "character": "Kazuomi Hirasawa",
+   "actor": "Robert Glatzeder",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=10474"
+}

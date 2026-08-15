@@ -1,1 +1,67 @@
-{"titleId":1438,"updatedAt":"2026-08-11T11:20:02.918Z","roles":[{"character":"Goemon Ishikawa XIII","actor":"Peter Reinhardt","role":"MAIN"},{"character":"Daisuke Jigen","actor":"Tilo Schmitz","role":"MAIN"},{"character":"Arsène Lupin III","actor":"Peter Flechtner","role":"MAIN"},{"character":"Kouichi Zenigata","actor":"Stefan Staudinger","role":"MAIN"},{"character":"Fujiko Mine","actor":"Ghadah Al-Akel","role":"MAIN"},{"character":"Karen Korinsky","actor":"Katrin Zimmermann","role":"SUPPORTING"},{"character":"Brad","actor":"Reinhard Scheunemann","role":"SUPPORTING"},{"character":"Keith Hayden","actor":"Jan Spitzer","role":"SUPPORTING"},{"character":"John Cloth","actor":"Detlef Bierstedt","role":"SUPPORTING"}]}
+{
+ "titleId": 1438,
+ "updatedAt": "2026-08-15T18:28:32.781Z",
+ "roles": [
+  {
+   "character": "Goemon Ishikawa XIII",
+   "actor": "Peter Reinhardt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Daisuke Jigen",
+   "actor": "Tilo Schmitz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Arsène Lupin III",
+   "actor": "Peter Flechtner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kouichi Zenigata",
+   "actor": "Stefan Staudinger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Fujiko Mine",
+   "actor": "Ghadah Al-Akel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Karen Korinsky",
+   "actor": "Katrin Zimmermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Brad",
+   "actor": "Reinhard Scheunemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Keith Hayden",
+   "actor": "Jan Spitzer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "John Cloth",
+   "actor": "Detlef Bierstedt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Inspektor Zenigata",
+   "actor": "Stefan Staudinger",
+   "von": "ann"
+  },
+  {
+   "character": "Arsene Lupin",
+   "actor": "Peter Flechtner",
+   "von": "ann"
+  },
+  {
+   "character": "Goemon Ishikawa",
+   "actor": "Peter Reinhardt",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2063"
+}

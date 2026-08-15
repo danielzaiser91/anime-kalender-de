@@ -1,1 +1,127 @@
-{"titleId":125367,"updatedAt":"2026-08-11T11:20:03.574Z","roles":[{"character":"Miyuki Shirogane","actor":"Dirk Petrick","role":"MAIN"},{"character":"Kaguya Shinomiya","actor":"Amelie Plaas-Link","role":"MAIN"},{"character":"Chika Fujiwara","actor":"Rieke Werner","role":"MAIN"},{"character":"Yuu Ishigami","actor":"Amadeus Strobl","role":"MAIN"},{"character":"Miko Iino","actor":"Paulina Bachmann","role":"MAIN"},{"character":"Ai Hayasaka","actor":"Magdalena Höfner","role":"SUPPORTING"},{"character":"Moeha Fujiwara","actor":"Betty Förster","role":"SUPPORTING"},{"character":"Erika Kose","actor":"Lana Finn Marti","role":"SUPPORTING"},{"character":"Tsubame Koyasu","actor":"Jamie Lee Blank","role":"SUPPORTING"},{"character":"Adolphe Pescarolo","actor":"Harald Effenberg","role":"SUPPORTING"},{"character":"Momo Ryuuju","actor":"Sisi Forster","role":"SUPPORTING"},{"character":"J Suzuki","actor":"Axel Strothmann","role":"SUPPORTING"},{"character":"Tsubasa Tanuma ","actor":"Ben Hadad","role":"SUPPORTING"},{"character":"Nao Hayasaka","actor":"Franziska Endres","role":"SUPPORTING"},{"character":"Kozue Makihara ","actor":"Liza Simmerlein","role":"SUPPORTING"},{"character":"Kazeno","actor":"Daniel Gärtner","role":"SUPPORTING"},{"character":"Shirogane no Chichi","actor":"Nico Nothnagel","role":"SUPPORTING"},{"character":"Kobachi Osaragi","actor":"Peggy-Sue Emmler","role":"SUPPORTING"},{"character":"Maki Shijo","actor":"Ness Gerung","role":"SUPPORTING"},{"character":"Kei Shirogane","actor":"Josephine Schmidt","role":"SUPPORTING"}]}
+{
+ "titleId": 125367,
+ "updatedAt": "2026-08-15T18:46:08.229Z",
+ "roles": [
+  {
+   "character": "Miyuki Shirogane",
+   "actor": "Dirk Petrick",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kaguya Shinomiya",
+   "actor": "Amelie Plaas-Link",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chika Fujiwara",
+   "actor": "Rieke Werner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuu Ishigami",
+   "actor": "Amadeus Strobl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miko Iino",
+   "actor": "Paulina Bachmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ai Hayasaka",
+   "actor": "Magdalena Höfner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Moeha Fujiwara",
+   "actor": "Betty Förster",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Erika Kose",
+   "actor": "Lana Finn Marti",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsubame Koyasu",
+   "actor": "Jamie Lee Blank",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Adolphe Pescarolo",
+   "actor": "Harald Effenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Momo Ryuuju",
+   "actor": "Sisi Forster",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "J Suzuki",
+   "actor": "Axel Strothmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsubasa Tanuma ",
+   "actor": "Ben Hadad",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nao Hayasaka",
+   "actor": "Franziska Endres",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kozue Makihara ",
+   "actor": "Liza Simmerlein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kazeno",
+   "actor": "Daniel Gärtner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shirogane no Chichi",
+   "actor": "Nico Nothnagel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kobachi Osaragi",
+   "actor": "Peggy-Sue Emmler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maki Shijo",
+   "actor": "Ness Gerung",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kei Shirogane",
+   "actor": "Josephine Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kobachi Osaragi",
+   "actor": "Peggy Sue Emmler",
+   "von": "ann"
+  },
+  {
+   "character": "Tsubame Koyasu",
+   "actor": "Jamie-Lee Blank",
+   "von": "ann"
+  },
+  {
+   "character": "Nagisa Kashiwagi",
+   "actor": "Anni C. Salander",
+   "von": "ann"
+  },
+  {
+   "character": "Maki Shijou",
+   "actor": "Ness Gerung",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24889"
+}

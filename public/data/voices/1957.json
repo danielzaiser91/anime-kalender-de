@@ -1,1 +1,57 @@
-{"titleId":1957,"updatedAt":"2026-08-11T11:20:02.950Z","roles":[{"character":"Scarlet Ohara","actor":"Reinhilt Schneider","role":"MAIN"},{"character":"Yuri Tanima","actor":"Tanja Dohse","role":"MAIN"},{"character":"Hinagiku Tamano","actor":"Sylvie Nogler","role":"MAIN"},{"character":"Momoko Hanasaki","actor":"Tanja Schumann","role":"MAIN"},{"character":"Potamos","actor":"Christine Pappert","role":"SUPPORTING"},{"character":"Limone","actor":"Tobias Schmidt","role":"SUPPORTING"},{"character":"Yousuke Fuuma","actor":"Jannik Endemann","role":"SUPPORTING"},{"character":"Takurou Amano","actor":"Mark Seidenberg","role":"SUPPORTING"},{"character":"Jama-P","actor":"Daniela Reidies","role":"SUPPORTING"}]}
+{
+ "titleId": 1957,
+ "updatedAt": "2026-08-15T18:29:52.574Z",
+ "roles": [
+  {
+   "character": "Scarlet Ohara",
+   "actor": "Reinhilt Schneider",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuri Tanima",
+   "actor": "Tanja Dohse",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hinagiku Tamano",
+   "actor": "Sylvie Nogler",
+   "role": "MAIN"
+  },
+  {
+   "character": "Momoko Hanasaki",
+   "actor": "Tanja Schumann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Potamos",
+   "actor": "Christine Pappert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Limone",
+   "actor": "Tobias Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yousuke Fuuma",
+   "actor": "Jannik Endemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takurou Amano",
+   "actor": "Mark Seidenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jama-P",
+   "actor": "Daniela Reidies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Momoko Hanasaki/Wedding Peach",
+   "actor": "Tanja Schumann",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=3148"
+}

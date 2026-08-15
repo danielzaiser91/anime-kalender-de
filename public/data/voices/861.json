@@ -1,1 +1,57 @@
-{"titleId":861,"updatedAt":"2026-08-11T11:20:02.866Z","roles":[{"character":"Kimihiro Watanuki","actor":"Robin Kahnmeyer","role":"MAIN"},{"character":"Yuuko Ichihara","actor":"Katrin Zimmermann","role":"MAIN"},{"character":"Shizuka Doumeki","actor":"Dennis Schmidt-Foß","role":"MAIN"},{"character":"Maru","actor":"Anne Helm","role":"SUPPORTING"},{"character":"Mokona Modoki","actor":"Rubina Kuraoka","role":"SUPPORTING"}]}
+{
+ "titleId": 861,
+ "updatedAt": "2026-08-15T18:26:22.459Z",
+ "roles": [
+  {
+   "character": "Kimihiro Watanuki",
+   "actor": "Robin Kahnmeyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuuko Ichihara",
+   "actor": "Katrin Zimmermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shizuka Doumeki",
+   "actor": "Dennis Schmidt-Foß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Maru",
+   "actor": "Anne Helm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mokona Modoki",
+   "actor": "Rubina Kuraoka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mokona",
+   "actor": "Rubina Kuraoka",
+   "von": "ann"
+  },
+  {
+   "character": "Shizoku Dômeki",
+   "actor": "Dennis Schmidt-Foß",
+   "von": "ann"
+  },
+  {
+   "character": "Marudashi",
+   "actor": "Anne Helm",
+   "von": "ann"
+  },
+  {
+   "character": "Morodashi",
+   "actor": "Anna Predleus",
+   "von": "ann"
+  },
+  {
+   "character": "Yûko Ichihara",
+   "actor": "Katrin Zimmermann",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=6052"
+}

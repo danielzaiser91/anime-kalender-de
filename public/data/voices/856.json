@@ -1,1 +1,182 @@
-{"titleId":856,"updatedAt":"2026-08-11T11:20:02.865Z","roles":[{"character":"Camyu","actor":"Marie-Luise Schramm","role":"MAIN"},{"character":"Aruruu","actor":"Jamie Lee Blank","role":"MAIN"},{"character":"Yuzuha","actor":"Lydia Morgenstern","role":"MAIN"},{"character":"Karura","actor":"Vera Teltz","role":"MAIN"},{"character":"Kurou","actor":"Marko Bräutigam","role":"MAIN"},{"character":"Benawi","actor":"Viktor Neumann","role":"MAIN"},{"character":"Hakuoro","actor":"Johannes Berenz","role":"MAIN"},{"character":"Urtori","actor":"Sabine Arnhold","role":"MAIN"},{"character":"Oboro","actor":"Ozan Ünal","role":"MAIN"},{"character":"Dorii","actor":"Kathrin Neusser","role":"MAIN"},{"character":"Eruruu","actor":"Marie Bierstedt","role":"MAIN"},{"character":"Guraa","actor":"Kathrin Neusser","role":"MAIN"},{"character":"Touka","actor":"Victoria Sturm","role":"MAIN"},{"character":"Sopoku","actor":"Petra Barthel","role":"SUPPORTING"},{"character":"Hauenkua","actor":"Anke Reitzenstein","role":"SUPPORTING"},{"character":"Sakuya","actor":"Ranja Bonalana","role":"SUPPORTING"},{"character":"Genjimaru","actor":"Hans-Werner Bussinger","role":"SUPPORTING"},{"character":"Kuya Amururineuruka","actor":"Tanya Kahana","role":"SUPPORTING"},{"character":"Suwonkas","actor":"Bernhard Völger","role":"SUPPORTING"},{"character":"Niwe","actor":"Jan Spitzer","role":"SUPPORTING"},{"character":"Tusukuru","actor":"Luise Lunow","role":"SUPPORTING"},{"character":"Derihourai","actor":"Martin Kautz","role":"SUPPORTING"}]}
+{
+ "titleId": 856,
+ "updatedAt": "2026-08-15T18:26:19.585Z",
+ "roles": [
+  {
+   "character": "Camyu",
+   "actor": "Marie-Luise Schramm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Aruruu",
+   "actor": "Jamie Lee Blank",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuzuha",
+   "actor": "Lydia Morgenstern",
+   "role": "MAIN"
+  },
+  {
+   "character": "Karura",
+   "actor": "Vera Teltz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kurou",
+   "actor": "Marko Bräutigam",
+   "role": "MAIN"
+  },
+  {
+   "character": "Benawi",
+   "actor": "Viktor Neumann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hakuoro",
+   "actor": "Johannes Berenz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Urtori",
+   "actor": "Sabine Arnhold",
+   "role": "MAIN"
+  },
+  {
+   "character": "Oboro",
+   "actor": "Ozan Ünal",
+   "role": "MAIN"
+  },
+  {
+   "character": "Dorii",
+   "actor": "Kathrin Neusser",
+   "role": "MAIN"
+  },
+  {
+   "character": "Eruruu",
+   "actor": "Marie Bierstedt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Guraa",
+   "actor": "Kathrin Neusser",
+   "role": "MAIN"
+  },
+  {
+   "character": "Touka",
+   "actor": "Victoria Sturm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sopoku",
+   "actor": "Petra Barthel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hauenkua",
+   "actor": "Anke Reitzenstein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sakuya",
+   "actor": "Ranja Bonalana",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Genjimaru",
+   "actor": "Hans-Werner Bussinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kuya Amururineuruka",
+   "actor": "Tanya Kahana",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Suwonkas",
+   "actor": "Bernhard Völger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Niwe",
+   "actor": "Jan Spitzer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tusukuru",
+   "actor": "Luise Lunow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Derihourai",
+   "actor": "Martin Kautz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nuwangi",
+   "actor": "Konrad Bösherz",
+   "von": "ann"
+  },
+  {
+   "character": "Suonkasu",
+   "actor": "Bernhard Völger",
+   "von": "ann"
+  },
+  {
+   "character": "Camus",
+   "actor": "Marie Schramm",
+   "von": "ann"
+  },
+  {
+   "character": "Eluluu",
+   "actor": "Marie Bierstedt",
+   "von": "ann"
+  },
+  {
+   "character": "Urutori",
+   "actor": "Sabine Arnhold",
+   "von": "ann"
+  },
+  {
+   "character": "Hakuoro",
+   "actor": "Johannes Baasner",
+   "von": "ann"
+  },
+  {
+   "character": "Inkalla",
+   "actor": "Roland Hemmo",
+   "von": "ann"
+  },
+  {
+   "character": "Kuuya Amrulineulka",
+   "actor": "Tanya Kahana",
+   "von": "ann"
+  },
+  {
+   "character": "Dorj",
+   "actor": "Kathrin Neusser",
+   "von": "ann"
+  },
+  {
+   "character": "Gura",
+   "actor": "Kathrin Neusser",
+   "von": "ann"
+  },
+  {
+   "character": "Karula",
+   "actor": "Vera Teltz",
+   "von": "ann"
+  },
+  {
+   "character": "Aruruu",
+   "actor": "Jamie-Lee Blank",
+   "von": "ann"
+  },
+  {
+   "character": "Kurou",
+   "actor": "Marco Bräutigam",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=5746"
+}

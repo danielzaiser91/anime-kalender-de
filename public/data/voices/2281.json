@@ -1,1 +1,142 @@
-{"titleId":2281,"updatedAt":"2026-08-11T11:20:02.963Z","roles":[{"character":"Genshi","actor":"Timm Neu","role":"MAIN"},{"character":"Sora Yamato","actor":"Sonja Spuhl","role":"MAIN"},{"character":"Dyna","actor":"Tommy Morgenstern","role":"MAIN"},{"character":"Oto-tan","actor":"Thomas Wolff","role":"MAIN"},{"character":"Yamato Hakase","actor":"Gerrit Schmidt-Foß","role":"MAIN"},{"character":"Tokio Yamato","actor":"Julien Haggege","role":"MAIN"},{"character":"Hitomi Aino","actor":"Bianca Krahl","role":"MAIN"},{"character":"Kyouichirou Narugami","actor":"Robin Kahnmeyer","role":"SUPPORTING"},{"character":"Mosubii","actor":"Marius Claren","role":"SUPPORTING"},{"character":"Anmon","actor":"Ilona Brokowski","role":"SUPPORTING"}]}
+{
+ "titleId": 2281,
+ "updatedAt": "2026-08-15T18:30:23.393Z",
+ "roles": [
+  {
+   "character": "Genshi",
+   "actor": "Timm Neu",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sora Yamato",
+   "actor": "Sonja Spuhl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Dyna",
+   "actor": "Tommy Morgenstern",
+   "role": "MAIN"
+  },
+  {
+   "character": "Oto-tan",
+   "actor": "Thomas Wolff",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yamato Hakase",
+   "actor": "Gerrit Schmidt-Foß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tokio Yamato",
+   "actor": "Julien Haggege",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hitomi Aino",
+   "actor": "Bianca Krahl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kyouichirou Narugami",
+   "actor": "Robin Kahnmeyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mosubii",
+   "actor": "Marius Claren",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Anmon",
+   "actor": "Ilona Brokowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Merlock Holmes",
+   "actor": "Robin Kahnmeyer",
+   "von": "ann"
+  },
+  {
+   "character": "Nascal",
+   "actor": "Stefan Gossler",
+   "von": "ann"
+  },
+  {
+   "character": "Mite",
+   "actor": "Björn Schalla",
+   "von": "ann"
+  },
+  {
+   "character": "Bindi",
+   "actor": "Ilona Otto",
+   "von": "ann"
+  },
+  {
+   "character": "Uglinator",
+   "actor": "Marius Claren",
+   "von": "ann"
+  },
+  {
+   "character": "Tony Goodman",
+   "actor": "Julien Haggege",
+   "von": "ann"
+  },
+  {
+   "character": "Dino Fishman",
+   "actor": "Tommy Morgenstern",
+   "von": "ann"
+  },
+  {
+   "character": "Pterry",
+   "actor": "Karlo Hackenberger",
+   "von": "ann"
+  },
+  {
+   "character": "Jillian Grey",
+   "actor": "Heike Schroetter",
+   "von": "ann"
+  },
+  {
+   "character": "Peacepoppy",
+   "actor": "Victoria Sturm",
+   "von": "ann"
+  },
+  {
+   "character": "Flint Hammerhead",
+   "actor": "Timm Neu",
+   "von": "ann"
+  },
+  {
+   "character": "Rocky Hammerhead",
+   "actor": "Thomas Wolff",
+   "von": "ann"
+  },
+  {
+   "character": "Old Timer",
+   "actor": "Rüdiger Evers",
+   "von": "ann"
+  },
+  {
+   "character": "Ominito",
+   "actor": "Walter Alich",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Bernard Goodman",
+   "actor": "Gerrit Schmidt-Foß",
+   "von": "ann"
+  },
+  {
+   "character": "Sarah Goodman",
+   "actor": "Sonja Spuhl",
+   "von": "ann"
+  },
+  {
+   "character": "Dark Lord",
+   "actor": "Helmut Gauß",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=314"
+}

@@ -1,1 +1,107 @@
-{"titleId":97985,"updatedAt":"2026-08-11T11:20:03.364Z","roles":[{"character":"Koro-sensei","actor":"Claus-Peter Damitz","role":"MAIN"},{"character":"Nagisa Shiota","actor":"Claudia Schmidt","role":"MAIN"},{"character":"Karma Akabane","actor":"Marco Sven Reinbold","role":"MAIN"},{"character":"Megu Kataoka","actor":"Kerstin Dietrich","role":"SUPPORTING"}]}
+{
+ "titleId": 97985,
+ "updatedAt": "2026-08-15T18:40:35.144Z",
+ "roles": [
+  {
+   "character": "Koro-sensei",
+   "actor": "Claus-Peter Damitz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nagisa Shiota",
+   "actor": "Claudia Schmidt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Karma Akabane",
+   "actor": "Marco Sven Reinbold",
+   "role": "MAIN"
+  },
+  {
+   "character": "Megu Kataoka",
+   "actor": "Kerstin Dietrich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hiroto Maehara",
+   "actor": "Maximilian Belle",
+   "von": "ann"
+  },
+  {
+   "character": "Yuuma Isogai",
+   "actor": "Benjamin Stolz",
+   "von": "ann"
+  },
+  {
+   "character": "Tadaomi Karasuma",
+   "actor": "Tobias Brecklinghaus",
+   "von": "ann"
+  },
+  {
+   "character": "Irina Jelavić",
+   "actor": "Sabina Godec",
+   "von": "ann"
+  },
+  {
+   "character": "Kaede Kayano",
+   "actor": "Patricia Strasburger",
+   "von": "ann"
+  },
+  {
+   "character": "Ritsu",
+   "actor": "Annette Potempa",
+   "von": "ann"
+  },
+  {
+   "character": "Kirara Hazama",
+   "actor": "Lea Kalbhenn",
+   "von": "ann"
+  },
+  {
+   "character": "Rinka Hayami",
+   "actor": "Lea Kalbhenn",
+   "von": "ann"
+  },
+  {
+   "character": "Itona Horibe",
+   "actor": "Karim El Kammouchi",
+   "von": "ann"
+  },
+  {
+   "character": "Rio Nakamura",
+   "actor": "Carolin Sophie Göbel",
+   "von": "ann"
+  },
+  {
+   "character": "Hinata Okano",
+   "actor": "Katharina von Daake",
+   "von": "ann"
+  },
+  {
+   "character": "Yukiko Kanzaki",
+   "actor": "Julia Bautz",
+   "von": "ann"
+  },
+  {
+   "character": "Taiga Okajima",
+   "actor": "Felix Mayer",
+   "von": "ann"
+  },
+  {
+   "character": "Ryuunosuke Chiba",
+   "actor": "Philip Wolf",
+   "von": "ann"
+  },
+  {
+   "character": "Yuzuki Fuwa",
+   "actor": "Patricia Faltin",
+   "von": "ann"
+  },
+  {
+   "character": "Tomohito Sugino",
+   "actor": "Sebastian Griegel",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18899"
+}

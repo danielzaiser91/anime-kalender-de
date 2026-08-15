@@ -1,1 +1,52 @@
-{"titleId":20555,"updatedAt":"2026-08-11T11:20:03.196Z","roles":[{"character":"Anna Sasaki","actor":"Laura Jenni","role":"MAIN"},{"character":"Marnie","actor":"Lara Wurmer","role":"MAIN"},{"character":"Yoriko Sasaki","actor":"Madeleine Stolze","role":"SUPPORTING"},{"character":"Kiyomasa Oiwa","actor":"Andreas Borcherding","role":"SUPPORTING"}]}
+{
+ "titleId": 20555,
+ "updatedAt": "2026-08-15T18:36:37.672Z",
+ "roles": [
+  {
+   "character": "Anna Sasaki",
+   "actor": "Laura Jenni",
+   "role": "MAIN"
+  },
+  {
+   "character": "Marnie",
+   "actor": "Lara Wurmer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yoriko Sasaki",
+   "actor": "Madeleine Stolze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kiyomasa Oiwa",
+   "actor": "Andreas Borcherding",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hisako",
+   "actor": "Claudia Lössl",
+   "von": "ann"
+  },
+  {
+   "character": "Yoriko",
+   "actor": "Madeleine Stolze",
+   "von": "ann"
+  },
+  {
+   "character": "Kiyomasa Ooiwa",
+   "actor": "Andreas Borcherding",
+   "von": "ann"
+  },
+  {
+   "character": "Nobuko Kadoya",
+   "actor": "Lea Kalbhenn",
+   "von": "ann"
+  },
+  {
+   "character": "Setsu Ooiwa",
+   "actor": "Bettina Redlich",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15761"
+}

@@ -1,1 +1,92 @@
-{"titleId":5231,"updatedAt":"2026-08-11T11:09:14.134Z","roles":[{"character":"Yuuto Kidou","actor":"Max Felder","role":"MAIN"},{"character":"Shuuya Gouenji","actor":"Paul Sedlmeir","role":"MAIN"},{"character":"Mamoru Endou","actor":"Maximilian Belle","role":"MAIN"},{"character":"Aki Kino","actor":"Gabrielle Pietermann","role":"SUPPORTING"},{"character":"Furukabu","actor":"Gerhard Jilka","role":"SUPPORTING"},{"character":"Yuuka Gouenji","actor":"Angela Wiederhut","role":"SUPPORTING"},{"character":"Shimozuru Arata","actor":"Tim Schwarzmaier","role":"SUPPORTING"}]}
+{
+ "titleId": 5231,
+ "updatedAt": "2026-08-15T18:32:29.689Z",
+ "roles": [
+  {
+   "character": "Yuuto Kidou",
+   "actor": "Max Felder",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shuuya Gouenji",
+   "actor": "Paul Sedlmeir",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mamoru Endou",
+   "actor": "Maximilian Belle",
+   "role": "MAIN"
+  },
+  {
+   "character": "Aki Kino",
+   "actor": "Gabrielle Pietermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Furukabu",
+   "actor": "Gerhard Jilka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuuka Gouenji",
+   "actor": "Angela Wiederhut",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shimozuru Arata",
+   "actor": "Tim Schwarzmaier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nelly Raimon",
+   "actor": "Caroline Combrinck",
+   "von": "ann"
+  },
+  {
+   "character": "Kevin Dragonfly",
+   "actor": "Dirk Meyer",
+   "von": "ann"
+  },
+  {
+   "character": "Ray Dark",
+   "actor": "Crock Krumbiegel",
+   "von": "ann"
+  },
+  {
+   "character": "Nathan Swift",
+   "actor": "Roman Wolko",
+   "von": "ann"
+  },
+  {
+   "character": "Chester Horse. Jr",
+   "actor": "Gerhard Jilka",
+   "von": "ann"
+  },
+  {
+   "character": "Mark Evans",
+   "actor": "Maximilian Belle",
+   "von": "ann"
+  },
+  {
+   "character": "Jude Sharp",
+   "actor": "Max Felder",
+   "von": "ann"
+  },
+  {
+   "character": "Celia Hills",
+   "actor": "Farina Brock",
+   "von": "ann"
+  },
+  {
+   "character": "Tod Ironside",
+   "actor": "Patrick Roche",
+   "von": "ann"
+  },
+  {
+   "character": "Axel Blaze",
+   "actor": "Paul Sedlmeir",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=10236"
+}

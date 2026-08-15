@@ -1,1 +1,62 @@
-{"titleId":1247,"updatedAt":"2026-08-11T11:20:02.904Z","roles":[{"character":"Billy Kimura","actor":"Simon T. Roden","role":"MAIN"},{"character":"Penny Carter","actor":"Heiko Obermöller","role":"MAIN"},{"character":"James","actor":"Fritz Rott","role":"SUPPORTING"},{"character":"Emely","actor":"Susanne Dobrusskin","role":"SUPPORTING"},{"character":"Narrator","actor":"Renier Baaken","role":"SUPPORTING"},{"character":"Lotta Brest","actor":"Silke Linderhaus","role":"SUPPORTING"},{"character":"Captain Clayton","actor":"Hans Bayer","role":"SUPPORTING"},{"character":"Dr. Brest","actor":"Volker Wolf","role":"SUPPORTING"},{"character":"Margaret Steamson","actor":"Silke Haupt","role":"SUPPORTING"}]}
+{
+ "titleId": 1247,
+ "updatedAt": "2026-08-15T18:27:57.485Z",
+ "roles": [
+  {
+   "character": "Billy Kimura",
+   "actor": "Simon T. Roden",
+   "role": "MAIN"
+  },
+  {
+   "character": "Penny Carter",
+   "actor": "Heiko Obermöller",
+   "role": "MAIN"
+  },
+  {
+   "character": "James",
+   "actor": "Fritz Rott",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Emely",
+   "actor": "Susanne Dobrusskin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Renier Baaken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lotta Brest",
+   "actor": "Silke Linderhaus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Captain Clayton",
+   "actor": "Hans Bayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dr. Brest",
+   "actor": "Volker Wolf",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Margaret Steamson",
+   "actor": "Silke Haupt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "U.N. Army Secretary-General Freeman",
+   "actor": "Andreas Meese",
+   "von": "ann"
+  },
+  {
+   "character": "Maggie",
+   "actor": "Jülide Gülgec",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=6382"
+}

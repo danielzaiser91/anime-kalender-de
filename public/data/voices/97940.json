@@ -1,1 +1,152 @@
-{"titleId":97940,"updatedAt":"2026-08-11T11:09:14.136Z","roles":[{"character":"Asta","actor":"Maximilian Artajo","role":"MAIN"},{"character":"Noelle Silva","actor":"Jodie Blank","role":"MAIN"},{"character":"Yuno","actor":"Jannik Endemann","role":"MAIN"},{"character":"Finral Roulacase","actor":"Sebastian Fitzner","role":"SUPPORTING"},{"character":"Charlotte Roselei","actor":"Heike Beeck","role":"SUPPORTING"},{"character":"Julius Novachrono","actor":"Florian Hoffmann","role":"SUPPORTING"},{"character":"Vanessa Enoteca","actor":"Jasmin Arnoldt","role":"SUPPORTING"},{"character":"Klaus Lunettes","actor":"Nils Nelleßen","role":"SUPPORTING"},{"character":"Mimosa Vermillion","actor":"Angelina Geisler","role":"SUPPORTING"},{"character":"Magna Swing","actor":"Imme Aldag","role":"SUPPORTING"},{"character":"Yami Sukehiro","actor":"Tino Kießling","role":"SUPPORTING"},{"character":"William Vangeance","actor":"René Dawn-Claude","role":"SUPPORTING"},{"character":"Nozel Silva","actor":"Sebastian Kluckert","role":"SUPPORTING"},{"character":"Lily Aquaria","actor":"Leonie Dubuc","role":"SUPPORTING"},{"character":"Gauche Adlai","actor":"Bastian Sierich","role":"SUPPORTING"},{"character":"Charmy Pappitson","actor":"Peggy Pollow","role":"SUPPORTING"},{"character":"Gordon Agrippa","actor":"Samir Fuchs","role":"SUPPORTING"},{"character":"Luck Voltia","actor":"Johannes Walenta","role":"SUPPORTING"},{"character":"Marx Francois","actor":"Julian Mau","role":"SUPPORTING"},{"character":"Gueldre Poizot","actor":"Andreas Conrad","role":"SUPPORTING"},{"character":"Jack the Ripper","actor":"Julien Haggege","role":"SUPPORTING"},{"character":"Rill Boismortier","actor":"Christian Zeiger","role":"SUPPORTING"}]}
+{
+ "titleId": 97940,
+ "updatedAt": "2026-08-15T18:40:48.418Z",
+ "roles": [
+  {
+   "character": "Asta",
+   "actor": "Maximilian Artajo",
+   "role": "MAIN"
+  },
+  {
+   "character": "Noelle Silva",
+   "actor": "Jodie Blank",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuno",
+   "actor": "Jannik Endemann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Finral Roulacase",
+   "actor": "Sebastian Fitzner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Charlotte Roselei",
+   "actor": "Heike Beeck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Julius Novachrono",
+   "actor": "Florian Hoffmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Vanessa Enoteca",
+   "actor": "Jasmin Arnoldt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Klaus Lunettes",
+   "actor": "Nils Nelleßen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mimosa Vermillion",
+   "actor": "Angelina Geisler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Magna Swing",
+   "actor": "Imme Aldag",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yami Sukehiro",
+   "actor": "Tino Kießling",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "William Vangeance",
+   "actor": "René Dawn-Claude",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nozel Silva",
+   "actor": "Sebastian Kluckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lily Aquaria",
+   "actor": "Leonie Dubuc",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gauche Adlai",
+   "actor": "Bastian Sierich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Charmy Pappitson",
+   "actor": "Peggy Pollow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gordon Agrippa",
+   "actor": "Samir Fuchs",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Luck Voltia",
+   "actor": "Johannes Walenta",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marx Francois",
+   "actor": "Julian Mau",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gueldre Poizot",
+   "actor": "Andreas Conrad",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jack the Ripper",
+   "actor": "Julien Haggege",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rill Boismortier",
+   "actor": "Christian Zeiger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Leopold Vermillion",
+   "actor": "Konrad Bösherz",
+   "von": "ann"
+  },
+  {
+   "character": "Julius Nova Chrono",
+   "actor": "Florian Hoffmann",
+   "von": "ann"
+  },
+  {
+   "character": "Fuegoleon Vermilion",
+   "actor": "Benjamin Stöwe",
+   "von": "ann"
+  },
+  {
+   "character": "Nebra Silva",
+   "actor": "Moira May",
+   "von": "ann"
+  },
+  {
+   "character": "Solid Silva",
+   "actor": "Fabian Kluckert",
+   "von": "ann"
+  },
+  {
+   "character": "Lotus Whomalt",
+   "actor": "Sven Fechner",
+   "von": "ann"
+  },
+  {
+   "character": "Nozel Silva",
+   "actor": "Imtiaz Ul-Haque",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19743"
+}

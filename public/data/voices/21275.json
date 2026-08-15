@@ -1,1 +1,82 @@
-{"titleId":21275,"updatedAt":"2026-08-11T11:20:03.286Z","roles":[{"character":"Sougo Amagi","actor":"Benjamin Stolz","role":"MAIN"},{"character":"Felia","actor":"Merete Brettschneider","role":"MAIN"},{"character":"Kaon Lanchester","actor":"Tanja Dohse","role":"MAIN"},{"character":"Mo Ritika Tzetzes Ura","actor":"Winnie Brandes","role":"MAIN"},{"character":"Malvina Aniance","actor":"Daniela Reidies","role":"SUPPORTING"}]}
+{
+ "titleId": 21275,
+ "updatedAt": "2026-08-15T18:38:49.695Z",
+ "roles": [
+  {
+   "character": "Sougo Amagi",
+   "actor": "Benjamin Stolz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Felia",
+   "actor": "Merete Brettschneider",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kaon Lanchester",
+   "actor": "Tanja Dohse",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mo Ritika Tzetzes Ura",
+   "actor": "Winnie Brandes",
+   "role": "MAIN"
+  },
+  {
+   "character": "Malvina Aniance",
+   "actor": "Daniela Reidies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lillian Anatolia",
+   "actor": "Kerstin Draeger",
+   "von": "ann"
+  },
+  {
+   "character": "Jude Pryce",
+   "actor": "Marek Erhardt",
+   "von": "ann"
+  },
+  {
+   "character": "Otto Motou",
+   "actor": "Saskia Weckler",
+   "von": "ann"
+  },
+  {
+   "character": "Roman Valov",
+   "actor": "Oliver Böttcher",
+   "von": "ann"
+  },
+  {
+   "character": "Alfried McCallan",
+   "actor": "Rasmus Borowski",
+   "von": "ann"
+  },
+  {
+   "character": "Garf Zoneboyle",
+   "actor": "Wolf Frass",
+   "von": "ann"
+  },
+  {
+   "character": "Mo Litica Tzetzes Ura",
+   "actor": "Winnie Brandes",
+   "von": "ann"
+  },
+  {
+   "character": "Gus Stewart",
+   "actor": "Philipp Baltus",
+   "von": "ann"
+  },
+  {
+   "character": "Patrick Yang",
+   "actor": "Flemming Stein",
+   "von": "ann"
+  },
+  {
+   "character": "Hajime do Mon",
+   "actor": "Tim Grobe",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=17386"
+}

@@ -1,1 +1,92 @@
-{"titleId":2848,"updatedAt":"2026-08-11T11:20:02.990Z","roles":[{"character":"Coo","actor":"Tanya Kahana","role":"MAIN"},{"character":"Kouichi Uehara","actor":"Patrick Baehr","role":"MAIN"},{"character":"Joshi Ana","actor":"Magdalena Turba","role":"SUPPORTING"},{"character":"Yukari Uehara","actor":"Katrin Zimmermann","role":"SUPPORTING"},{"character":"Nanushi","actor":"Klaus Lochthove","role":"SUPPORTING"},{"character":"Yasuo Uehara","actor":"Stefan Staudinger","role":"SUPPORTING"},{"character":"Sumio Shimizu","actor":"Peter Reinhardt","role":"SUPPORTING"},{"character":"Toshio","actor":"Andreas Müller","role":"SUPPORTING"},{"character":"Sayoko Kikuchi","actor":"Jodie Blank","role":"SUPPORTING"},{"character":"Ossan","actor":"Tilo Schmitz","role":"SUPPORTING"},{"character":"Coo's Father","actor":"Stefan Krause","role":"SUPPORTING"},{"character":"Shokudou no Oba-san","actor":"Denise Gorzelanny","role":"SUPPORTING"},{"character":"Ayana no Haha","actor":"Anja Rybiczka","role":"SUPPORTING"},{"character":"Hitomi Uehara","actor":"Rubina Kuraoka","role":"SUPPORTING"},{"character":"Kijimuna","actor":"Santiago Ziesmer","role":"SUPPORTING"},{"character":"Zashiki-warashi","actor":"Anja Rybiczka","role":"SUPPORTING"}]}
+{
+ "titleId": 2848,
+ "updatedAt": "2026-08-15T18:31:17.522Z",
+ "roles": [
+  {
+   "character": "Coo",
+   "actor": "Tanya Kahana",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kouichi Uehara",
+   "actor": "Patrick Baehr",
+   "role": "MAIN"
+  },
+  {
+   "character": "Joshi Ana",
+   "actor": "Magdalena Turba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yukari Uehara",
+   "actor": "Katrin Zimmermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nanushi",
+   "actor": "Klaus Lochthove",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yasuo Uehara",
+   "actor": "Stefan Staudinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sumio Shimizu",
+   "actor": "Peter Reinhardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toshio",
+   "actor": "Andreas Müller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sayoko Kikuchi",
+   "actor": "Jodie Blank",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ossan",
+   "actor": "Tilo Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Coo's Father",
+   "actor": "Stefan Krause",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shokudou no Oba-san",
+   "actor": "Denise Gorzelanny",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ayana no Haha",
+   "actor": "Anja Rybiczka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hitomi Uehara",
+   "actor": "Rubina Kuraoka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kijimuna",
+   "actor": "Santiago Ziesmer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zashiki-warashi",
+   "actor": "Anja Rybiczka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hitomi",
+   "actor": "Rubina Kuraoka",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=7764"
+}

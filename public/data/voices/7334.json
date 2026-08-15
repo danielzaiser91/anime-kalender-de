@@ -1,1 +1,67 @@
-{"titleId":7334,"updatedAt":"2026-08-11T11:20:03.072Z","roles":[{"character":"Fabia Sheen","actor":"Josephine Schmidt","role":"MAIN"}]}
+{
+ "titleId": 7334,
+ "updatedAt": "2026-08-15T18:33:23.570Z",
+ "roles": [
+  {
+   "character": "Fabia Sheen",
+   "actor": "Josephine Schmidt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lena Isis",
+   "actor": "Rubina Kuraoka",
+   "von": "ann"
+  },
+  {
+   "character": "Barodius",
+   "actor": "Tilo Schmitz",
+   "von": "ann"
+  },
+  {
+   "character": "Stoica Rainer",
+   "actor": "Rainer Fritzsche",
+   "von": "ann"
+  },
+  {
+   "character": "Shun Kazami",
+   "actor": "David Turba",
+   "von": "ann"
+  },
+  {
+   "character": "Marucho Marukura",
+   "actor": "Cathlen Gawlich",
+   "von": "ann"
+  },
+  {
+   "character": "Ren Krawler",
+   "actor": "Alexander Doering",
+   "von": "ann"
+  },
+  {
+   "character": "Coredem",
+   "actor": "Raimund Krone",
+   "von": "ann"
+  },
+  {
+   "character": "Kazarina",
+   "actor": "Heide Domanowski",
+   "von": "ann"
+  },
+  {
+   "character": "Zenet Surrow",
+   "actor": "Esra Vural",
+   "von": "ann"
+  },
+  {
+   "character": "Jake Vallory",
+   "actor": "Jan-David Rönfeldt",
+   "von": "ann"
+  },
+  {
+   "character": "Dan",
+   "actor": "Niclas Lutz",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=11457"
+}

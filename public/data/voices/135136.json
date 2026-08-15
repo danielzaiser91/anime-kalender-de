@@ -1,1 +1,92 @@
-{"titleId":135136,"updatedAt":"2026-08-11T11:20:03.601Z","roles":[{"character":"Noé Archiviste","actor":"Toni Michael Sattler","role":"MAIN"},{"character":"Vanitas","actor":"Tim Kreuer","role":"MAIN"},{"character":"August Ruthven","actor":"Yannik Raiss","role":"SUPPORTING"},{"character":"Mikhail","actor":"Kaya Malin Kröger","role":"SUPPORTING"},{"character":"Loki Oriflamme","actor":"Nils Rieke","role":"SUPPORTING"},{"character":"Chloé d'Apchier","actor":"Jana Dunja Gries","role":"SUPPORTING"},{"character":"Jean-Jacques Chastel","actor":"Bojan Havic","role":"SUPPORTING"},{"character":"Dante","actor":"Vincent Fallow","role":"SUPPORTING"},{"character":"Roland Fortis","actor":"Christian Senger","role":"SUPPORTING"},{"character":"Johann","actor":"Maik Degner","role":"SUPPORTING"},{"character":"Astolfo Granatum","actor":"Jesse Grimm","role":"SUPPORTING"},{"character":"Murr","actor":"Matthias Klimsa","role":"SUPPORTING"},{"character":"Olivier","actor":"Andreas Grötzinger","role":"SUPPORTING"},{"character":"Jeanne","actor":"Runa Pernoda Schaefer","role":"SUPPORTING"}]}
+{
+ "titleId": 135136,
+ "updatedAt": "2026-08-15T18:47:04.445Z",
+ "roles": [
+  {
+   "character": "Noé Archiviste",
+   "actor": "Toni Michael Sattler",
+   "role": "MAIN"
+  },
+  {
+   "character": "Vanitas",
+   "actor": "Tim Kreuer",
+   "role": "MAIN"
+  },
+  {
+   "character": "August Ruthven",
+   "actor": "Yannik Raiss",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mikhail",
+   "actor": "Kaya Malin Kröger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Loki Oriflamme",
+   "actor": "Nils Rieke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chloé d'Apchier",
+   "actor": "Jana Dunja Gries",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jean-Jacques Chastel",
+   "actor": "Bojan Havic",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dante",
+   "actor": "Vincent Fallow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Roland Fortis",
+   "actor": "Christian Senger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Johann",
+   "actor": "Maik Degner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Astolfo Granatum",
+   "actor": "Jesse Grimm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Murr",
+   "actor": "Matthias Klimsa",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Olivier",
+   "actor": "Andreas Grötzinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jeanne",
+   "actor": "Runa Pernoda Schaefer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Luca",
+   "actor": "Malin Steffen",
+   "von": "ann"
+  },
+  {
+   "character": "Dominique de Sade",
+   "actor": "Marnie Aramruck",
+   "von": "ann"
+  },
+  {
+   "character": "Mikhaïl",
+   "actor": "Kaya Malin Kröger",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24207"
+}

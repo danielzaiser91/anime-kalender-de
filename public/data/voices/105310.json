@@ -1,1 +1,147 @@
-{"titleId":105310,"updatedAt":"2026-08-11T11:20:03.491Z","roles":[{"character":"Shinra Kusakabe","actor":"Dennis Saemann","role":"MAIN"},{"character":"Akitaru Oubi","actor":"Daniel Welbat","role":"MAIN"},{"character":"Maki Oze","actor":"Patrizia Carlucci","role":"MAIN"},{"character":"Takehisa Hinawa","actor":"Florian Clyde","role":"MAIN"},{"character":"Arthur Boyle","actor":"Amadeus Strobl","role":"MAIN"},{"character":"Iris","actor":"Daniela Molina","role":"MAIN"},{"character":"Tamaki Kotatsu","actor":"Marie Hinze","role":"MAIN"},{"character":"Princess Hibana","actor":"Lara Trautmann","role":"SUPPORTING"},{"character":"Leonard Burns","actor":"Wolfgang Wagner","role":"SUPPORTING"},{"character":"Huo Yan Li","actor":"Florian Hoffmann","role":"SUPPORTING"},{"character":"Rekka Hoshimiya","actor":"Karlo Hackenberger","role":"SUPPORTING"},{"character":"Karim Flam","actor":"Christoph Banken","role":"SUPPORTING"},{"character":"Benimaru Shinmon","actor":"Tim Knauer","role":"SUPPORTING"},{"character":"Hikage","actor":"Milena Rybiczka","role":"SUPPORTING"},{"character":"Tooru Kishiri","actor":"Asad Schwarz-Msesilamba","role":"SUPPORTING"},{"character":"Hinata","actor":"Milena Rybiczka","role":"SUPPORTING"},{"character":"Konro Sagamiya","actor":"Jaron Löwenberg","role":"SUPPORTING"},{"character":"Conehead","actor":"Reinhard Scheunemann","role":"SUPPORTING"},{"character":"Viktor Licht","actor":"Julien Haggege","role":"SUPPORTING"},{"character":"Joker","actor":"Jan-David Rönfeldt","role":"SUPPORTING"},{"character":"Takeru Noto","actor":"Dirk Petrick","role":"SUPPORTING"},{"character":"Vulcan Joseph","actor":"Nico Sablik","role":"SUPPORTING"},{"character":"Shou Kusakabe","actor":"Jaro Haggège","role":"SUPPORTING"},{"character":"Yuu","actor":"Christian Zeiger","role":"SUPPORTING"},{"character":"Lisa Isaribi","actor":"Melanie Hinze","role":"SUPPORTING"}]}
+{
+ "titleId": 105310,
+ "updatedAt": "2026-08-15T18:43:35.353Z",
+ "roles": [
+  {
+   "character": "Shinra Kusakabe",
+   "actor": "Dennis Saemann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Akitaru Oubi",
+   "actor": "Daniel Welbat",
+   "role": "MAIN"
+  },
+  {
+   "character": "Maki Oze",
+   "actor": "Patrizia Carlucci",
+   "role": "MAIN"
+  },
+  {
+   "character": "Takehisa Hinawa",
+   "actor": "Florian Clyde",
+   "role": "MAIN"
+  },
+  {
+   "character": "Arthur Boyle",
+   "actor": "Amadeus Strobl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Iris",
+   "actor": "Daniela Molina",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tamaki Kotatsu",
+   "actor": "Marie Hinze",
+   "role": "MAIN"
+  },
+  {
+   "character": "Princess Hibana",
+   "actor": "Lara Trautmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Leonard Burns",
+   "actor": "Wolfgang Wagner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Huo Yan Li",
+   "actor": "Florian Hoffmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rekka Hoshimiya",
+   "actor": "Karlo Hackenberger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Karim Flam",
+   "actor": "Christoph Banken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Benimaru Shinmon",
+   "actor": "Tim Knauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hikage",
+   "actor": "Milena Rybiczka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tooru Kishiri",
+   "actor": "Asad Schwarz-Msesilamba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hinata",
+   "actor": "Milena Rybiczka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Konro Sagamiya",
+   "actor": "Jaron Löwenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Conehead",
+   "actor": "Reinhard Scheunemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Viktor Licht",
+   "actor": "Julien Haggege",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Joker",
+   "actor": "Jan-David Rönfeldt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takeru Noto",
+   "actor": "Dirk Petrick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Vulcan Joseph",
+   "actor": "Nico Sablik",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shou Kusakabe",
+   "actor": "Jaro Haggège",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuu",
+   "actor": "Christian Zeiger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lisa Isaribi",
+   "actor": "Melanie Hinze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tooru Kishiri",
+   "actor": "Asad Schwarz",
+   "von": "ann"
+  },
+  {
+   "character": "Huoyen Li",
+   "actor": "Florian Hoffmann",
+   "von": "ann"
+  },
+  {
+   "character": "Hibana",
+   "actor": "Lara Trautmann",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=21852"
+}

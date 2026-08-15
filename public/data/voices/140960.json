@@ -1,1 +1,127 @@
-{"titleId":140960,"updatedAt":"2026-08-11T11:20:03.619Z","roles":[{"character":"Loid Forger","actor":"Tim Knauer","role":"MAIN"},{"character":"Yor Forger","actor":"Daniela Molina","role":"MAIN"},{"character":"Anya Forger","actor":"Lana Finn Marti","role":"MAIN"},{"character":"Yuuri Briar","actor":"Vincent Borko","role":"SUPPORTING"},{"character":"WISE Kyokuchou","actor":"Ulrich Blöcher","role":"SUPPORTING"},{"character":"Millie","actor":"Özge Kayalar","role":"SUPPORTING"},{"character":"Emile Elman","actor":"Jessica Rust","role":"SUPPORTING"},{"character":"Sharon","actor":"Jessica Rust","role":"SUPPORTING"},{"character":"Ewen Egeburg","actor":"Ness Gerung","role":"SUPPORTING"},{"character":"Burns","actor":"Christian Intorp","role":"SUPPORTING"},{"character":"Franky Franklin","actor":"Dirk Petrick","role":"SUPPORTING"},{"character":"Dominic","actor":"Lucas Wecker","role":"SUPPORTING"},{"character":"Jim Hayward","actor":"Christoph Banken","role":"SUPPORTING"},{"character":"Henry Henderson","actor":"Erich Räuker","role":"SUPPORTING"},{"character":"Garden Tenchou","actor":"Felix Würgler","role":"SUPPORTING"},{"character":"Walter Evans","actor":"Jens-Uwe Bogadtke","role":"SUPPORTING"},{"character":"Bill Watkins","actor":"Peter Sura","role":"SUPPORTING"},{"character":"Damian Desmond","actor":"Melinda Rachfahl","role":"SUPPORTING"},{"character":"Murdoch Swan","actor":"Joachim Kaps","role":"SUPPORTING"}]}
+{
+ "titleId": 140960,
+ "updatedAt": "2026-08-15T18:47:35.433Z",
+ "roles": [
+  {
+   "character": "Loid Forger",
+   "actor": "Tim Knauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yor Forger",
+   "actor": "Daniela Molina",
+   "role": "MAIN"
+  },
+  {
+   "character": "Anya Forger",
+   "actor": "Lana Finn Marti",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuuri Briar",
+   "actor": "Vincent Borko",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "WISE Kyokuchou",
+   "actor": "Ulrich Blöcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Millie",
+   "actor": "Özge Kayalar",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Emile Elman",
+   "actor": "Jessica Rust",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sharon",
+   "actor": "Jessica Rust",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ewen Egeburg",
+   "actor": "Ness Gerung",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Burns",
+   "actor": "Christian Intorp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Franky Franklin",
+   "actor": "Dirk Petrick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dominic",
+   "actor": "Lucas Wecker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jim Hayward",
+   "actor": "Christoph Banken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Henry Henderson",
+   "actor": "Erich Räuker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Garden Tenchou",
+   "actor": "Felix Würgler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Walter Evans",
+   "actor": "Jens-Uwe Bogadtke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bill Watkins",
+   "actor": "Peter Sura",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Damian Desmond",
+   "actor": "Melinda Rachfahl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Murdoch Swan",
+   "actor": "Joachim Kaps",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sylvia Sherwood",
+   "actor": "Antje von der Ahe",
+   "von": "ann"
+  },
+  {
+   "character": "Camilla",
+   "actor": "Manja Doering",
+   "von": "ann"
+  },
+  {
+   "character": "Yuri Briar",
+   "actor": "Vincent Borko",
+   "von": "ann"
+  },
+  {
+   "character": "Becky Blackbell",
+   "actor": "Léa Mariage",
+   "von": "ann"
+  },
+  {
+   "character": "Ewen Egeberg",
+   "actor": "Ness Gerung",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24917"
+}

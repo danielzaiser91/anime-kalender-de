@@ -1,1 +1,97 @@
-{"titleId":894,"updatedAt":"2026-08-11T11:20:02.873Z","roles":[{"character":"Gokuu Son","actor":"Tommy Morgenstern","role":"MAIN"},{"character":"Gohan Son","actor":"Kevin Winkel","role":"MAIN"},{"character":"Piccolo","actor":"David Nathan","role":"MAIN"},{"character":"Garlic Junior","actor":"Thomas Petruo","role":"MAIN"},{"character":"Muten Roushi","actor":"Karl Schulz","role":"SUPPORTING"},{"character":"Shen Long","actor":"Wolfgang Ziffer","role":"SUPPORTING"},{"character":"Bulma","actor":"Claudia Urbschat-mingues","role":"SUPPORTING"},{"character":"Nicky","actor":"Christian Gaul","role":"SUPPORTING"},{"character":"Kami","actor":"Rainer Doering","role":"SUPPORTING"},{"character":"Sansho","actor":"Ralph Hensel","role":"SUPPORTING"},{"character":"Kuririn","actor":"Wanja Gerick","role":"SUPPORTING"},{"character":"Ginger","actor":"Dirk Müller","role":"SUPPORTING"},{"character":"Gyuumaou","actor":"Jan Spitzer","role":"SUPPORTING"},{"character":"Chi-Chi","actor":"Julia Ziffer","role":"SUPPORTING"},{"character":"Narrator","actor":"Roland Hemmo","role":"BACKGROUND"}]}
+{
+ "titleId": 894,
+ "updatedAt": "2026-08-15T18:26:37.927Z",
+ "roles": [
+  {
+   "character": "Gokuu Son",
+   "actor": "Tommy Morgenstern",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gohan Son",
+   "actor": "Kevin Winkel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Piccolo",
+   "actor": "David Nathan",
+   "role": "MAIN"
+  },
+  {
+   "character": "Garlic Junior",
+   "actor": "Thomas Petruo",
+   "role": "MAIN"
+  },
+  {
+   "character": "Muten Roushi",
+   "actor": "Karl Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shen Long",
+   "actor": "Wolfgang Ziffer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bulma",
+   "actor": "Claudia Urbschat-mingues",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nicky",
+   "actor": "Christian Gaul",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kami",
+   "actor": "Rainer Doering",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sansho",
+   "actor": "Ralph Hensel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kuririn",
+   "actor": "Wanja Gerick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ginger",
+   "actor": "Dirk Müller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gyuumaou",
+   "actor": "Jan Spitzer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chi-Chi",
+   "actor": "Julia Ziffer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Roland Hemmo",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Son Gokou",
+   "actor": "Tommy Morgenstern",
+   "von": "ann"
+  },
+  {
+   "character": "Garlic Jr",
+   "actor": "Thomas Petruo",
+   "von": "ann"
+  },
+  {
+   "character": "Gott",
+   "actor": "Rainer Doering",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=139"
+}

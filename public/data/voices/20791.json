@@ -1,1 +1,112 @@
-{"titleId":20791,"updatedAt":"2026-08-11T11:20:03.231Z","roles":[{"character":"Shirou Emiya","actor":"Ricardo Richter","role":"MAIN"},{"character":"Sakura Matou","actor":"Rieke Werner","role":"MAIN"},{"character":"Rin Tohsaka","actor":"Jennifer Weiß","role":"MAIN"},{"character":"Artoria Pendragon","actor":"Iris R.  Hassenzahl","role":"MAIN"},{"character":"Cú  Chulainn","actor":"Michael Deffert","role":"SUPPORTING"},{"character":"Shinji Matou","actor":"Marco Sven Reinbold","role":"SUPPORTING"},{"character":"Medusa","actor":"Sonja Spuhl","role":"SUPPORTING"},{"character":"Illyasviel von Einzbern","actor":"Charlotte Uhlig","role":"SUPPORTING"},{"character":"Taiga Fujimura","actor":"Kirstin Hesse","role":"SUPPORTING"},{"character":"Kirei Kotomine","actor":"Tobias Brecklinghaus","role":"SUPPORTING"},{"character":"Archer","actor":"Torsten Sense","role":"SUPPORTING"},{"character":"Gilgamesh","actor":"René Dawn-Claude","role":"SUPPORTING"},{"character":"Soichirou Kuzuki","actor":"Peter Sura","role":"SUPPORTING"},{"character":"Medea","actor":"Dana Friedrich","role":"SUPPORTING"},{"character":"Kiritsugu Emiya","actor":"Michael-Che Koch","role":"SUPPORTING"},{"character":"Issei Ryuudou","actor":"Benjamin Stöwe","role":"SUPPORTING"},{"character":"Zouken Matou","actor":"Bert Stevens","role":"SUPPORTING"},{"character":"Ayako Mitsuzuri","actor":"Laura Preiss","role":"SUPPORTING"},{"character":"Hassan-i-Sabbah","actor":"Martin Sabel","role":"SUPPORTING"}]}
+{
+ "titleId": 20791,
+ "updatedAt": "2026-08-15T18:37:34.683Z",
+ "roles": [
+  {
+   "character": "Shirou Emiya",
+   "actor": "Ricardo Richter",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sakura Matou",
+   "actor": "Rieke Werner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rin Tohsaka",
+   "actor": "Jennifer Weiß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Artoria Pendragon",
+   "actor": "Iris R.  Hassenzahl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Cú  Chulainn",
+   "actor": "Michael Deffert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinji Matou",
+   "actor": "Marco Sven Reinbold",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Medusa",
+   "actor": "Sonja Spuhl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Illyasviel von Einzbern",
+   "actor": "Charlotte Uhlig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Taiga Fujimura",
+   "actor": "Kirstin Hesse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kirei Kotomine",
+   "actor": "Tobias Brecklinghaus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Archer",
+   "actor": "Torsten Sense",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gilgamesh",
+   "actor": "René Dawn-Claude",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Soichirou Kuzuki",
+   "actor": "Peter Sura",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Medea",
+   "actor": "Dana Friedrich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kiritsugu Emiya",
+   "actor": "Michael-Che Koch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Issei Ryuudou",
+   "actor": "Benjamin Stöwe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zouken Matou",
+   "actor": "Bert Stevens",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ayako Mitsuzuri",
+   "actor": "Laura Preiss",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hassan-i-Sabbah",
+   "actor": "Martin Sabel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rider",
+   "actor": "Sonja Spuhl",
+   "von": "ann"
+  },
+  {
+   "character": "Saber",
+   "actor": "Iris Hassenzahl",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16166"
+}

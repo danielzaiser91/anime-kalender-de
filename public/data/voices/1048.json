@@ -1,1 +1,62 @@
-{"titleId":1048,"updatedAt":"2026-08-11T11:20:02.887Z","roles":[{"character":"Shiro Mibu","actor":"Crock Krumbiegel","role":"MAIN"},{"character":"Kyousuke Date","actor":"Stefan Günther","role":"MAIN"},{"character":"Komugi Nakahara","actor":"Shandra Schadt","role":"MAIN"},{"character":"Yui Kirihara","actor":"Manuela Renard","role":"SUPPORTING"},{"character":"Maya Misaki","actor":"Andrea Wick","role":"SUPPORTING"},{"character":"Runa Tokisaka","actor":"Beate Pfeiffer","role":"SUPPORTING"},{"character":"Megumi Akiba","actor":"Caroline Combrinck","role":"SUPPORTING"},{"character":"Asuka Sakurai","actor":"Sonja Reichelt","role":"SUPPORTING"}]}
+{
+ "titleId": 1048,
+ "updatedAt": "2026-08-15T18:27:14.454Z",
+ "roles": [
+  {
+   "character": "Shiro Mibu",
+   "actor": "Crock Krumbiegel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kyousuke Date",
+   "actor": "Stefan Günther",
+   "role": "MAIN"
+  },
+  {
+   "character": "Komugi Nakahara",
+   "actor": "Shandra Schadt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yui Kirihara",
+   "actor": "Manuela Renard",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maya Misaki",
+   "actor": "Andrea Wick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Runa Tokisaka",
+   "actor": "Beate Pfeiffer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Megumi Akiba",
+   "actor": "Caroline Combrinck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Asuka Sakurai",
+   "actor": "Sonja Reichelt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maya Misaki",
+   "actor": "Andrea Imme",
+   "von": "ann"
+  },
+  {
+   "character": "Richard Vincent",
+   "actor": "Thomas Rauscher",
+   "von": "ann"
+  },
+  {
+   "character": "Kyosuke Date",
+   "actor": "Stefan Günther",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=288"
+}

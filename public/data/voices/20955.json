@@ -1,1 +1,67 @@
-{"titleId":20955,"updatedAt":"2026-08-11T11:20:03.247Z","roles":[{"character":"Nashetania Loei Piena Augustra","actor":"Lara Wurmer","role":"MAIN"},{"character":"Fremy Speeddraw","actor":"Leslie-Vanessa Lill","role":"MAIN"},{"character":"Adlet Mayer","actor":"Benjamin Stolz","role":"MAIN"},{"character":"Mora Chester","actor":"Stefanie Dischinger","role":"MAIN"},{"character":"Hans Humpty","actor":"Louis Friedemann Thiele","role":"MAIN"},{"character":"Goldof Auora","actor":"Leonard Hohm","role":"MAIN"},{"character":"Chamo Rosso","actor":"Moira May","role":"MAIN"}]}
+{
+ "titleId": 20955,
+ "updatedAt": "2026-08-15T18:37:59.205Z",
+ "roles": [
+  {
+   "character": "Nashetania Loei Piena Augustra",
+   "actor": "Lara Wurmer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Fremy Speeddraw",
+   "actor": "Leslie-Vanessa Lill",
+   "role": "MAIN"
+  },
+  {
+   "character": "Adlet Mayer",
+   "actor": "Benjamin Stolz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mora Chester",
+   "actor": "Stefanie Dischinger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hans Humpty",
+   "actor": "Louis Friedemann Thiele",
+   "role": "MAIN"
+  },
+  {
+   "character": "Goldof Auora",
+   "actor": "Leonard Hohm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chamo Rosso",
+   "actor": "Moira May",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nachetanya",
+   "actor": "Lara Wurmer",
+   "von": "ann"
+  },
+  {
+   "character": "Chamot Rosso",
+   "actor": "Moira May",
+   "von": "ann"
+  },
+  {
+   "character": "Flamie Speeddraw",
+   "actor": "Leslie-Vanessa Lill",
+   "von": "ann"
+  },
+  {
+   "character": "Maura Chester",
+   "actor": "Stefanie Dischinger",
+   "von": "ann"
+  },
+  {
+   "character": "Goldov Auora",
+   "actor": "Leonard Hohm",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16554"
+}

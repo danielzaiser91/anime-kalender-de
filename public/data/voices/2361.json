@@ -1,1 +1,72 @@
-{"titleId":2361,"updatedAt":"2026-08-11T11:20:02.966Z","roles":[{"character":"Bill Wilcox","actor":"Christian Tramitz","role":"MAIN"},{"character":"Richard Lancelot","actor":"Ekkehardt Belle","role":"MAIN"},{"character":"Shinji Hikari","actor":"Florian Halm","role":"MAIN"},{"character":"Marian Louvre","actor":"Katrin Fröhlich","role":"MAIN"},{"character":"Jesse Blue","actor":"Philipp Moog","role":"SUPPORTING"},{"character":"Hyuza Sotho","actor":"Hartmut Neugebauer","role":"SUPPORTING"}]}
+{
+ "titleId": 2361,
+ "updatedAt": "2026-08-15T18:30:28.199Z",
+ "roles": [
+  {
+   "character": "Bill Wilcox",
+   "actor": "Christian Tramitz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Richard Lancelot",
+   "actor": "Ekkehardt Belle",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shinji Hikari",
+   "actor": "Florian Halm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Marian Louvre",
+   "actor": "Katrin Fröhlich",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jesse Blue",
+   "actor": "Philipp Moog",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hyuza Sotho",
+   "actor": "Hartmut Neugebauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fireball",
+   "actor": "Florian Halm",
+   "von": "ann"
+  },
+  {
+   "character": "Colt",
+   "actor": "Christian Tramitz",
+   "von": "ann"
+  },
+  {
+   "character": "April",
+   "actor": "Katrin Fröhlich",
+   "von": "ann"
+  },
+  {
+   "character": "Nemesis",
+   "actor": "Hartmut Neugebauer",
+   "von": "ann"
+  },
+  {
+   "character": "Jesse Blue",
+   "actor": "Arne Elsholtz",
+   "von": "ann"
+  },
+  {
+   "character": "Ramrod",
+   "actor": "Manfred Erdmann",
+   "von": "ann"
+  },
+  {
+   "character": "Saber Rider",
+   "actor": "Ekkehardt Belle",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2401"
+}

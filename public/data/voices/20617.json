@@ -1,1 +1,102 @@
-{"titleId":20617,"updatedAt":"2026-08-11T11:20:03.203Z","roles":[{"character":"Ronja","actor":"Sarah Kunze","role":"MAIN"},{"character":"Birk","actor":"Ben Hadad","role":"MAIN"},{"character":"Lovis","actor":"Katrin Zimmermann","role":"MAIN"},{"character":"Skalle-Per","actor":"Peter Groeger","role":"MAIN"},{"character":"Mattis","actor":"Matti Klemm","role":"MAIN"},{"character":"Borka","actor":"Tilo Schmitz","role":"SUPPORTING"},{"character":"Tjorm","actor":"Jesco Wirthgen","role":"SUPPORTING"},{"character":"Tjegge","actor":"Rainer Fritzsche","role":"SUPPORTING"},{"character":"Harpie","actor":"Claudia Urbschat-mingues","role":"SUPPORTING"},{"character":"Lill-Klippen","actor":"Henning Nöhren","role":"SUPPORTING"},{"character":"Fjosok","actor":"Tim Moeseritz","role":"SUPPORTING"},{"character":"Knotas","actor":"Peter Reinhardt","role":"SUPPORTING"},{"character":"Sturkas","actor":"Florian Hoffmann","role":"SUPPORTING"},{"character":"Undis","actor":"Christin Marquitan","role":"SUPPORTING"},{"character":"Pelje","actor":"David Turba","role":"SUPPORTING"},{"character":"Narrator","actor":"Daniela Hoffmann","role":"BACKGROUND"}]}
+{
+ "titleId": 20617,
+ "updatedAt": "2026-08-15T18:36:52.732Z",
+ "roles": [
+  {
+   "character": "Ronja",
+   "actor": "Sarah Kunze",
+   "role": "MAIN"
+  },
+  {
+   "character": "Birk",
+   "actor": "Ben Hadad",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lovis",
+   "actor": "Katrin Zimmermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Skalle-Per",
+   "actor": "Peter Groeger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mattis",
+   "actor": "Matti Klemm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Borka",
+   "actor": "Tilo Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tjorm",
+   "actor": "Jesco Wirthgen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tjegge",
+   "actor": "Rainer Fritzsche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Harpie",
+   "actor": "Claudia Urbschat-mingues",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lill-Klippen",
+   "actor": "Henning Nöhren",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fjosok",
+   "actor": "Tim Moeseritz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Knotas",
+   "actor": "Peter Reinhardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sturkas",
+   "actor": "Florian Hoffmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Undis",
+   "actor": "Christin Marquitan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pelje",
+   "actor": "David Turba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Daniela Hoffmann",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Grausedrude",
+   "actor": "Claudia Urbschat-Mingues",
+   "von": "ann"
+  },
+  {
+   "character": "Birk Borkason",
+   "actor": "Ben Hadad",
+   "von": "ann"
+  },
+  {
+   "character": "Lil-Klippen",
+   "actor": "Henning Nöhren",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15840"
+}

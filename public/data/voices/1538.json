@@ -1,1 +1,77 @@
-{"titleId":1538,"updatedAt":"2026-08-11T11:20:02.928Z","roles":[{"character":"Randal Oland","actor":"Peter Lontzek","role":"MAIN"},{"character":"Alice L. Malvin","actor":"Uschi Hugo","role":"MAIN"},{"character":"Oreldo","actor":"Julien Haggege","role":"MAIN"},{"character":"Lionel Taylor","actor":"David Nathan","role":"SUPPORTING"},{"character":"Hans","actor":"Gerald Paradies","role":"SUPPORTING"},{"character":"Septieme Rodelia","actor":"Diana Borgwardt","role":"SUPPORTING"},{"character":"Marielle","actor":"Jill Böttcher","role":"SUPPORTING"},{"character":"Webner","actor":"Katrin Zimmermann","role":"SUPPORTING"},{"character":"Hunks","actor":"Helmut Gauß","role":"SUPPORTING"},{"character":"Lili Stecchin","actor":"Jennifer Weiß","role":"SUPPORTING"},{"character":"Machs","actor":"Dirk Petrick","role":"SUPPORTING"}]}
+{
+ "titleId": 1538,
+ "updatedAt": "2026-08-15T18:28:58.217Z",
+ "roles": [
+  {
+   "character": "Randal Oland",
+   "actor": "Peter Lontzek",
+   "role": "MAIN"
+  },
+  {
+   "character": "Alice L. Malvin",
+   "actor": "Uschi Hugo",
+   "role": "MAIN"
+  },
+  {
+   "character": "Oreldo",
+   "actor": "Julien Haggege",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lionel Taylor",
+   "actor": "David Nathan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hans",
+   "actor": "Gerald Paradies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Septieme Rodelia",
+   "actor": "Diana Borgwardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marielle",
+   "actor": "Jill Böttcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Webner",
+   "actor": "Katrin Zimmermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hunks",
+   "actor": "Helmut Gauß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lili Stecchin",
+   "actor": "Jennifer Weiß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Machs",
+   "actor": "Dirk Petrick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Connery",
+   "actor": "Reinhard Kuhnert",
+   "von": "ann"
+  },
+  {
+   "character": "Martis",
+   "actor": "Dirk Petrick",
+   "von": "ann"
+  },
+  {
+   "character": "Solis",
+   "actor": "Nicole Hannak",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=6552"
+}

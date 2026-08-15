@@ -1,1 +1,92 @@
-{"titleId":97635,"updatedAt":"2026-08-11T11:20:03.370Z","roles":[{"character":"Green Okido","actor":"Flemming Stein","role":"MAIN"},{"character":"Minaki","actor":"Oliver Böttcher","role":"MAIN"},{"character":"Handsome","actor":"Timo Kinzel","role":"MAIN"},{"character":"N Harmonia","actor":"Nils Rieke","role":"MAIN"},{"character":"Akagi","actor":"Martin Lohmann","role":"MAIN"},{"character":"Wataru","actor":"Sascha Draeger","role":"MAIN"},{"character":"Fuuro","actor":"Nina Witt","role":"SUPPORTING"},{"character":"Akuroma","actor":"Patrick Elias","role":"SUPPORTING"},{"character":"Sakaki","actor":"Erik Schäffler","role":"SUPPORTING"},{"character":"Carnet","actor":"Jannika Jira","role":"SUPPORTING"},{"character":"Matiere","actor":"Julia Fölster","role":"SUPPORTING"},{"character":"Kanna","actor":"Kristina von Weltzien","role":"SUPPORTING"},{"character":"Matsubusa","actor":"Volker Hanisch","role":"SUPPORTING"},{"character":"Silver","actor":"Patrick Bach","role":"SUPPORTING"},{"character":"Pluto","actor":"Michael Bideller","role":"SUPPORTING"}]}
+{
+ "titleId": 97635,
+ "updatedAt": "2026-08-15T18:40:41.778Z",
+ "roles": [
+  {
+   "character": "Green Okido",
+   "actor": "Flemming Stein",
+   "role": "MAIN"
+  },
+  {
+   "character": "Minaki",
+   "actor": "Oliver Böttcher",
+   "role": "MAIN"
+  },
+  {
+   "character": "Handsome",
+   "actor": "Timo Kinzel",
+   "role": "MAIN"
+  },
+  {
+   "character": "N Harmonia",
+   "actor": "Nils Rieke",
+   "role": "MAIN"
+  },
+  {
+   "character": "Akagi",
+   "actor": "Martin Lohmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Wataru",
+   "actor": "Sascha Draeger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Fuuro",
+   "actor": "Nina Witt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akuroma",
+   "actor": "Patrick Elias",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sakaki",
+   "actor": "Erik Schäffler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Carnet",
+   "actor": "Jannika Jira",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Matiere",
+   "actor": "Julia Fölster",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kanna",
+   "actor": "Kristina von Weltzien",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Matsubusa",
+   "actor": "Volker Hanisch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Silver",
+   "actor": "Patrick Bach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pluto",
+   "actor": "Michael Bideller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "N",
+   "actor": "Nils Rieke",
+   "von": "ann"
+  },
+  {
+   "character": "LeBelle",
+   "actor": "Timo Kinzel",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18902"
+}

@@ -1,1 +1,182 @@
-{"titleId":1363,"updatedAt":"2026-08-11T11:20:02.913Z","roles":[{"character":"Conan Edogawa","actor":"Tobias Müller","role":"MAIN"},{"character":"Kogorou Mouri","actor":"Jörg Hengstler","role":"MAIN"},{"character":"Ran Mouri","actor":"Giuliana Jakobeit","role":"MAIN"},{"character":"Juzo Megure","actor":"Klaus-Dieter Klebsch","role":"SUPPORTING"},{"character":"Youichiro Shiba","actor":"Christoph Banken","role":"SUPPORTING"},{"character":"Toshirou Odagiri","actor":"Jan Spitzer","role":"SUPPORTING"},{"character":"Ninzaburo Shiratori","actor":"Alexander Doering","role":"SUPPORTING"},{"character":"Sara Shiratori","actor":"Sabine Mazay","role":"SUPPORTING"},{"character":"Nobukatsu Tomonari","actor":"Tilo Schmitz","role":"SUPPORTING"},{"character":"Ai Haibara","actor":"Andrea Loewig","role":"SUPPORTING"},{"character":"Miwako Satou","actor":"Gundi Eberhard","role":"SUPPORTING"},{"character":"Tamotsu Jinno","actor":"Dirk Müller","role":"SUPPORTING"},{"character":"Sonoko Suzuki","actor":"Jill Böttcher","role":"SUPPORTING"},{"character":"Kazunobu Chiba","actor":"Michael Bauer","role":"SUPPORTING"},{"character":"Makoto Tomonari","actor":"Michael Deffert","role":"SUPPORTING"},{"character":"Hiroshi Agasa","actor":"Rüdiger Evers","role":"SUPPORTING"},{"character":"Wataru Takagi","actor":"Karlo Hackenberger","role":"SUPPORTING"},{"character":"Toshiya Odagiri","actor":"Tommy Morgenstern","role":"SUPPORTING"},{"character":"Ayumi Yoshida","actor":"Julia Meynen","role":"SUPPORTING"},{"character":"Midori Kuriyama","actor":"Sabine Mazay","role":"SUPPORTING"},{"character":"Osamu Narasawa","actor":"Tim Moeseritz","role":"SUPPORTING"},{"character":"Genta Kojima","actor":"Michael Iwannek","role":"SUPPORTING"},{"character":"Eri Kisaki","actor":"Sabine Winterfeldt","role":"SUPPORTING"},{"character":"Kyosuke Kazato","actor":"Bernhard Völger","role":"SUPPORTING"},{"character":"Mitsuhiko Tsuburaya","actor":"Fabian Hollwitz","role":"SUPPORTING"}]}
+{
+ "titleId": 1363,
+ "updatedAt": "2026-08-15T18:28:16.597Z",
+ "roles": [
+  {
+   "character": "Conan Edogawa",
+   "actor": "Tobias Müller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kogorou Mouri",
+   "actor": "Jörg Hengstler",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ran Mouri",
+   "actor": "Giuliana Jakobeit",
+   "role": "MAIN"
+  },
+  {
+   "character": "Juzo Megure",
+   "actor": "Klaus-Dieter Klebsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Youichiro Shiba",
+   "actor": "Christoph Banken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toshirou Odagiri",
+   "actor": "Jan Spitzer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ninzaburo Shiratori",
+   "actor": "Alexander Doering",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sara Shiratori",
+   "actor": "Sabine Mazay",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nobukatsu Tomonari",
+   "actor": "Tilo Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ai Haibara",
+   "actor": "Andrea Loewig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miwako Satou",
+   "actor": "Gundi Eberhard",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tamotsu Jinno",
+   "actor": "Dirk Müller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sonoko Suzuki",
+   "actor": "Jill Böttcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kazunobu Chiba",
+   "actor": "Michael Bauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Makoto Tomonari",
+   "actor": "Michael Deffert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hiroshi Agasa",
+   "actor": "Rüdiger Evers",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Wataru Takagi",
+   "actor": "Karlo Hackenberger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toshiya Odagiri",
+   "actor": "Tommy Morgenstern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ayumi Yoshida",
+   "actor": "Julia Meynen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Midori Kuriyama",
+   "actor": "Sabine Mazay",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Osamu Narasawa",
+   "actor": "Tim Moeseritz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Genta Kojima",
+   "actor": "Michael Iwannek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eri Kisaki",
+   "actor": "Sabine Winterfeldt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyosuke Kazato",
+   "actor": "Bernhard Völger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mitsuhiko Tsuburaya",
+   "actor": "Fabian Hollwitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Inspektor Jûzô Megure",
+   "actor": "Klaus-Dieter Klebsch",
+   "von": "ann"
+  },
+  {
+   "character": "Shin'ichi Kudô",
+   "actor": "Tobias Müller",
+   "von": "ann"
+  },
+  {
+   "character": "Chiba",
+   "actor": "Michael Bauer",
+   "von": "ann"
+  },
+  {
+   "character": "Kogorô Môri",
+   "actor": "Jörg Hengstler",
+   "von": "ann"
+  },
+  {
+   "character": "Ai Haibara",
+   "actor": "Andrea-Kathrin Loewig",
+   "von": "ann"
+  },
+  {
+   "character": "Miwako Satô",
+   "actor": "Gundi Eberhard",
+   "von": "ann"
+  },
+  {
+   "character": "Ninzaburô Shiratori",
+   "actor": "Alexander Doering",
+   "von": "ann"
+  },
+  {
+   "character": "Tamaki Jinno",
+   "actor": "Uschi Hugo",
+   "von": "ann"
+  },
+  {
+   "character": "Professor Hiroshi Agasa",
+   "actor": "Rüdiger Evers",
+   "von": "ann"
+  },
+  {
+   "character": "Ran Môri",
+   "actor": "Giuliana Jakobeit",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2682"
+}

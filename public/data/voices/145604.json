@@ -1,1 +1,217 @@
-{"titleId":145604,"updatedAt":"2026-08-11T11:20:03.635Z","roles":[{"character":"Kousetsu","actor":"Laura Oettel","role":"MAIN"},{"character":"Ittoki Sakuraba","actor":"Tom Ferenc","role":"MAIN"},{"character":"Satomi Tsubaki","actor":"Julia Bautz","role":"SUPPORTING"},{"character":"Kirei Kisegawa","actor":"Johanna Thoring","role":"SUPPORTING"},{"character":"Tokisada Kaga","actor":"Christoph Banken","role":"SUPPORTING"},{"character":"Yumika Sakuraba","actor":"Marion Musiol","role":"SUPPORTING"},{"character":"Ryouko Suzunone","actor":"Sabrina Schwarz","role":"SUPPORTING"},{"character":"Housen Ban","actor":"Ulrich Blöcher","role":"SUPPORTING"},{"character":"Suzaku Ban","actor":"Rajko Geith","role":"SUPPORTING"},{"character":"Kidou Minobe","actor":"Johannes Berenz","role":"SUPPORTING"},{"character":"Mitsuzou Moriyama","actor":"Thomas Schmuckert","role":"SUPPORTING"},{"character":"Enhi Takane","actor":"Stefan Bräuler","role":"SUPPORTING"},{"character":"Himura Takane","actor":"Andi Krösing","role":"SUPPORTING"},{"character":"Raiha Tsuge","actor":"Ann Vielhaben","role":"SUPPORTING"},{"character":"Hayato Goshogawara","actor":"Florian Hoffmann","role":"SUPPORTING"},{"character":"Konan Mitsuhashi","actor":"Paulina Bachmann","role":"SUPPORTING"},{"character":"Yachiyo Mochizuki","actor":"Judith Steinhäuser","role":"SUPPORTING"},{"character":"Karajishi Genji","actor":"Stefan Weißenburger","role":"SUPPORTING"},{"character":"Kisuke Ninokuru","actor":"Mathias Kunze","role":"SUPPORTING"},{"character":"Jiraibou Juzen","actor":"Jens-Uwe Bogadtke","role":"SUPPORTING"},{"character":"Nishina Yoshinaka","actor":"Leon Stiehl","role":"SUPPORTING"},{"character":"Benkeimusou","actor":"Harald Effenberg","role":"SUPPORTING"},{"character":"Kuroudo Dazai","actor":"Peter Sura","role":"SUPPORTING"},{"character":"Gantetsu Suzunone","actor":"Kevin Kraus","role":"SUPPORTING"}]}
+{
+ "titleId": 145604,
+ "updatedAt": "2026-08-15T18:48:01.164Z",
+ "roles": [
+  {
+   "character": "Kousetsu",
+   "actor": "Laura Oettel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ittoki Sakuraba",
+   "actor": "Tom Ferenc",
+   "role": "MAIN"
+  },
+  {
+   "character": "Satomi Tsubaki",
+   "actor": "Julia Bautz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kirei Kisegawa",
+   "actor": "Johanna Thoring",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tokisada Kaga",
+   "actor": "Christoph Banken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yumika Sakuraba",
+   "actor": "Marion Musiol",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryouko Suzunone",
+   "actor": "Sabrina Schwarz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Housen Ban",
+   "actor": "Ulrich Blöcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Suzaku Ban",
+   "actor": "Rajko Geith",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kidou Minobe",
+   "actor": "Johannes Berenz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mitsuzou Moriyama",
+   "actor": "Thomas Schmuckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Enhi Takane",
+   "actor": "Stefan Bräuler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Himura Takane",
+   "actor": "Andi Krösing",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Raiha Tsuge",
+   "actor": "Ann Vielhaben",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hayato Goshogawara",
+   "actor": "Florian Hoffmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Konan Mitsuhashi",
+   "actor": "Paulina Bachmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yachiyo Mochizuki",
+   "actor": "Judith Steinhäuser",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Karajishi Genji",
+   "actor": "Stefan Weißenburger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kisuke Ninokuru",
+   "actor": "Mathias Kunze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jiraibou Juzen",
+   "actor": "Jens-Uwe Bogadtke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nishina Yoshinaka",
+   "actor": "Leon Stiehl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Benkeimusou",
+   "actor": "Harald Effenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kuroudo Dazai",
+   "actor": "Peter Sura",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gantetsu Suzunone",
+   "actor": "Kevin Kraus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Enya",
+   "actor": "Erich Räuker",
+   "von": "ann"
+  },
+  {
+   "character": "Kidō Minobe",
+   "actor": "Johannes Berenz",
+   "von": "ann"
+  },
+  {
+   "character": "Jūzen Jiraibо̄",
+   "actor": "Jens-Uwe Bogadtke",
+   "von": "ann"
+  },
+  {
+   "character": "Himura Takamine",
+   "actor": "Andi Krösing",
+   "von": "ann"
+  },
+  {
+   "character": "Samon Katori",
+   "actor": "Peggy Pollow",
+   "von": "ann"
+  },
+  {
+   "character": "Shione Kо̄zuki",
+   "actor": "Melinda Rachfahl",
+   "von": "ann"
+  },
+  {
+   "character": "Enbi Takamine",
+   "actor": "Stefan Bräuler",
+   "von": "ann"
+  },
+  {
+   "character": "Kurōdo Dazai",
+   "actor": "Peter Sura",
+   "von": "ann"
+  },
+  {
+   "character": "Iboro",
+   "actor": "Vincent Borko",
+   "von": "ann"
+  },
+  {
+   "character": "Kishinmaru",
+   "actor": "Marco Rosenberg",
+   "von": "ann"
+  },
+  {
+   "character": "Hayato Goshogawara",
+   "actor": "Sascha Krüger",
+   "von": "ann"
+  },
+  {
+   "character": "Hōsen Ban",
+   "actor": "Ulrich Blöcher",
+   "von": "ann"
+  },
+  {
+   "character": "Genji Karajishi",
+   "actor": "Stefan Weißenburger",
+   "von": "ann"
+  },
+  {
+   "character": "Amadeus Yoshinaka Nishina",
+   "actor": "Leon Stiehl",
+   "von": "ann"
+  },
+  {
+   "character": "Kominami Mitsuhashi",
+   "actor": "Paulina Bachmann",
+   "von": "ann"
+  },
+  {
+   "character": "Kominami Mitsuhashi",
+   "actor": "Julia Vieregge",
+   "von": "ann"
+  },
+  {
+   "character": "Kōsetsu Mie",
+   "actor": "Laura Oettel",
+   "von": "ann"
+  },
+  {
+   "character": "Ryōko Suzunone",
+   "actor": "Sabrina Schwarz",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=25371"
+}

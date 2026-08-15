@@ -1,1 +1,122 @@
-{"titleId":1904,"updatedAt":"2026-08-11T11:20:02.948Z","roles":[{"character":"Karin Takakura","actor":"Rieke Werner","role":"MAIN"},{"character":"Yoritada Minamoto no","actor":"Uwe Thomsen","role":"MAIN"},{"character":"Isato","actor":"Dennis Sonntag","role":"SUPPORTING"},{"character":"Yasutsugu Abe no","actor":"Daniel Käser","role":"SUPPORTING"},{"character":"Yukari","actor":"Daniela Reidies","role":"SUPPORTING"},{"character":"Hisui","actor":"Fabian Körner","role":"SUPPORTING"},{"character":"Misono","actor":"Daniela Reidies","role":"SUPPORTING"},{"character":"Kazuhito","actor":"Birte Baumgardt","role":"SUPPORTING"},{"character":"Katsuzane no Taira","actor":"Dennis Saemann","role":"SUPPORTING"},{"character":"Yukitaka no Fujiwara","actor":"Simon T. Roden","role":"SUPPORTING"},{"character":"Akifumi","actor":"Maximiliane Häcke","role":"SUPPORTING"},{"character":"Motomi no Minamoto","actor":"Marc Stenzel","role":"SUPPORTING"}]}
+{
+ "titleId": 1904,
+ "updatedAt": "2026-08-15T18:29:46.964Z",
+ "roles": [
+  {
+   "character": "Karin Takakura",
+   "actor": "Rieke Werner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yoritada Minamoto no",
+   "actor": "Uwe Thomsen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Isato",
+   "actor": "Dennis Sonntag",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yasutsugu Abe no",
+   "actor": "Daniel Käser",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yukari",
+   "actor": "Daniela Reidies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hisui",
+   "actor": "Fabian Körner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Misono",
+   "actor": "Daniela Reidies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kazuhito",
+   "actor": "Birte Baumgardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Katsuzane no Taira",
+   "actor": "Dennis Saemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yukitaka no Fujiwara",
+   "actor": "Simon T. Roden",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akifumi",
+   "actor": "Maximiliane Häcke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Motomi no Minamoto",
+   "actor": "Marc Stenzel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akram",
+   "actor": "Andreas Meese",
+   "von": "ann"
+  },
+  {
+   "character": "Weißer Drache",
+   "actor": "Karlheinz Tafel",
+   "von": "ann"
+  },
+  {
+   "character": "Fujiwara no Yukitaka",
+   "actor": "Simon T. Roden",
+   "von": "ann"
+  },
+  {
+   "character": "Akifumi",
+   "actor": "Maxi Häcke",
+   "von": "ann"
+  },
+  {
+   "character": "Abe no Yasutsugu",
+   "actor": "Daniel Käser",
+   "von": "ann"
+  },
+  {
+   "character": "Minamoto no Yoritada",
+   "actor": "Uwe Thomsen",
+   "von": "ann"
+  },
+  {
+   "character": "Taira no Katsuzane",
+   "actor": "Dennis Saemann",
+   "von": "ann"
+  },
+  {
+   "character": "Minamoto no Motomi",
+   "actor": "Marc Stenzel",
+   "von": "ann"
+  },
+  {
+   "character": "Tairo no Chitose",
+   "actor": "Kirstin Hesse",
+   "von": "ann"
+  },
+  {
+   "character": "Shirin",
+   "actor": "Edda Fischer",
+   "von": "ann"
+  },
+  {
+   "character": "Minamoto no Tokitomo",
+   "actor": "Thomas Balou Martin",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=5389"
+}

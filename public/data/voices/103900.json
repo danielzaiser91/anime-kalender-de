@@ -1,1 +1,87 @@
-{"titleId":103900,"updatedAt":"2026-08-11T11:20:03.478Z","roles":[{"character":"Nariyuki Yuiga","actor":"Philip Süß","role":"MAIN"},{"character":"Fumino Furuhashi","actor":"Leyla Trebbien","role":"MAIN"},{"character":"Rizu Ogata","actor":"Céline Vogt","role":"MAIN"},{"character":"Uruka Takemoto","actor":"Poetine Alija","role":"MAIN"},{"character":"Mafuyu Kirisu","actor":"Nicole Hise","role":"MAIN"},{"character":"Asumi Kominami","actor":"Eleni Möller-Architektonidou","role":"MAIN"},{"character":"Mizuki Yuiga","actor":"Francis Dichmann","role":"SUPPORTING"},{"character":"Sawako Sekijou","actor":"Fabienne Hesse","role":"SUPPORTING"},{"character":"Chinami Umihara","actor":"Marie-Jeanne Widera","role":"SUPPORTING"},{"character":"Kashima","actor":"Kirstin Hesse","role":"SUPPORTING"},{"character":"Hazuki Yuiga","actor":"Jana Dunja Gries","role":"SUPPORTING"},{"character":"Hanae Yuiga","actor":"Petra Glunz-grosch","role":"SUPPORTING"},{"character":"Machiko","actor":"Lisa Dzyadyk","role":"BACKGROUND"},{"character":"Himura","actor":"Meri Dogan","role":"BACKGROUND"}]}
+{
+ "titleId": 103900,
+ "updatedAt": "2026-08-15T18:43:10.860Z",
+ "roles": [
+  {
+   "character": "Nariyuki Yuiga",
+   "actor": "Philip Süß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Fumino Furuhashi",
+   "actor": "Leyla Trebbien",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rizu Ogata",
+   "actor": "Céline Vogt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Uruka Takemoto",
+   "actor": "Poetine Alija",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mafuyu Kirisu",
+   "actor": "Nicole Hise",
+   "role": "MAIN"
+  },
+  {
+   "character": "Asumi Kominami",
+   "actor": "Eleni Möller-Architektonidou",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mizuki Yuiga",
+   "actor": "Francis Dichmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sawako Sekijou",
+   "actor": "Fabienne Hesse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chinami Umihara",
+   "actor": "Marie-Jeanne Widera",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kashima",
+   "actor": "Kirstin Hesse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hazuki Yuiga",
+   "actor": "Jana Dunja Gries",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hanae Yuiga",
+   "actor": "Petra Glunz-grosch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Machiko",
+   "actor": "Lisa Dzyadyk",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Himura",
+   "actor": "Meri Dogan",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Kazuki Yuiga",
+   "actor": "Yoko Hagino",
+   "von": "ann"
+  },
+  {
+   "character": "Asumi Kominami",
+   "actor": "Eleni Möller",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=21294"
+}

@@ -1,1 +1,147 @@
-{"titleId":21403,"updatedAt":"2026-08-11T11:20:03.301Z","roles":[{"character":"Kazuto Kirigaya","actor":"Patrick Keller","role":"MAIN"},{"character":"Asuna Yuuki","actor":"Lisa May-Mitsching","role":"MAIN"},{"character":"Yuuna Shigemura","actor":"Samira Jakobs","role":"MAIN"},{"character":"Eiji Nochizawa","actor":"Nico Sablik","role":"MAIN"},{"character":"Yui","actor":"Christiane Werk","role":"SUPPORTING"},{"character":"Eugene","actor":"Marlin Wick","role":"SUPPORTING"},{"character":"Akihiko Kayaba","actor":"Torsten Michaelis","role":"SUPPORTING"},{"character":"Seijirou Kikuoka","actor":"Matthias Keller","role":"SUPPORTING"},{"character":"Ryoutarou Tsuboi","actor":"Isaak Dentler","role":"SUPPORTING"},{"character":"Keiko Ayano","actor":"Sarah Madeleine Tusk","role":"SUPPORTING"},{"character":"Rika Shinozaki","actor":"Nina Amerschläger","role":"SUPPORTING"},{"character":"Sakuya","actor":"Ann Vielhaben","role":"SUPPORTING"},{"character":"Shino Asada","actor":"Jennifer Weiß","role":"SUPPORTING"},{"character":"Alicia Rue","actor":"Charlotte Uhlig","role":"SUPPORTING"},{"character":"Suguha Kirigaya","actor":"Julia Meynen","role":"SUPPORTING"},{"character":"Andrew Gilbert Mills","actor":"Dirk Hardegen","role":"SUPPORTING"},{"character":"Shinichi Nagata","actor":"Vincent Borko","role":"SUPPORTING"},{"character":"Dyne","actor":"Oliver Nitsche","role":"BACKGROUND"},{"character":"Kurahashi","actor":"Stefan Naas","role":"BACKGROUND"}]}
+{
+ "titleId": 21403,
+ "updatedAt": "2026-08-15T18:39:12.283Z",
+ "roles": [
+  {
+   "character": "Kazuto Kirigaya",
+   "actor": "Patrick Keller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Asuna Yuuki",
+   "actor": "Lisa May-Mitsching",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuuna Shigemura",
+   "actor": "Samira Jakobs",
+   "role": "MAIN"
+  },
+  {
+   "character": "Eiji Nochizawa",
+   "actor": "Nico Sablik",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yui",
+   "actor": "Christiane Werk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eugene",
+   "actor": "Marlin Wick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akihiko Kayaba",
+   "actor": "Torsten Michaelis",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seijirou Kikuoka",
+   "actor": "Matthias Keller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryoutarou Tsuboi",
+   "actor": "Isaak Dentler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Keiko Ayano",
+   "actor": "Sarah Madeleine Tusk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rika Shinozaki",
+   "actor": "Nina Amerschläger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sakuya",
+   "actor": "Ann Vielhaben",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shino Asada",
+   "actor": "Jennifer Weiß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alicia Rue",
+   "actor": "Charlotte Uhlig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Suguha Kirigaya",
+   "actor": "Julia Meynen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Andrew Gilbert Mills",
+   "actor": "Dirk Hardegen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinichi Nagata",
+   "actor": "Vincent Borko",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dyne",
+   "actor": "Oliver Nitsche",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Kurahashi",
+   "actor": "Stefan Naas",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Lyfa",
+   "actor": "Julia Meynen",
+   "von": "ann"
+  },
+  {
+   "character": "Tetsuhiro Shigemura",
+   "actor": "Bodo Wolf",
+   "von": "ann"
+  },
+  {
+   "character": "Sinon",
+   "actor": "Jennifer Weiß",
+   "von": "ann"
+  },
+  {
+   "character": "Lisbeth",
+   "actor": "Nina Amerschläger",
+   "von": "ann"
+  },
+  {
+   "character": "Klein",
+   "actor": "Isaak Dentler",
+   "von": "ann"
+  },
+  {
+   "character": "Asuna Yuuki",
+   "actor": "Denise Monteiro",
+   "von": "ann"
+  },
+  {
+   "character": "Agil",
+   "actor": "Dirk Hardegen",
+   "von": "ann"
+  },
+  {
+   "character": "Yuna",
+   "actor": "Samira Jakobs",
+   "von": "ann"
+  },
+  {
+   "character": "Keiko Ayano/Silica",
+   "actor": "Sarah Madeleine Tusk",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18141"
+}

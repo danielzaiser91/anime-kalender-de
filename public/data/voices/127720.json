@@ -1,1 +1,132 @@
-{"titleId":127720,"updatedAt":"2026-08-11T11:20:03.581Z","roles":[{"character":"Rudeus Greyrat","actor":"Martin May","role":"MAIN"},{"character":"Eris Boreas Greyrat","actor":"Liza Ohm","role":"MAIN"},{"character":"Roxy Migurdia","actor":"Leoni Kristin Oeffinger","role":"MAIN"},{"character":"Ruijerd Superdia","actor":"Mike Olsowski","role":"MAIN"},{"character":"Sylphiette","actor":"Arlette Stanschus","role":"SUPPORTING"},{"character":"Paul Greyrat","actor":"Markus Hanse","role":"SUPPORTING"},{"character":"Shizuka Nanahoshi","actor":"Samina König","role":"SUPPORTING"},{"character":"Norn Greyrat","actor":"Juno Wellershoff","role":"SUPPORTING"},{"character":"Aisha Greyrat","actor":"Melina Dourtme","role":"SUPPORTING"},{"character":"Lilia","actor":"Sina Zadra","role":"SUPPORTING"},{"character":"Zenith Greyrat","actor":"Nina Witt","role":"SUPPORTING"},{"character":"Elinalise Dragonroad","actor":"Jannika Jira","role":"SUPPORTING"},{"character":"Kishirika Kishirisu","actor":"Daniela Reidies","role":"SUPPORTING"},{"character":"Orsted","actor":"Patrick Stamme","role":"SUPPORTING"},{"character":"Zanoba  Shirone","actor":"Jens Wendland","role":"SUPPORTING"},{"character":"Pax Shirone","actor":"Daniel Kirchberger","role":"SUPPORTING"},{"character":"Hitogami","actor":"Konstantin Graudus","role":"SUPPORTING"},{"character":"Nokopara","actor":"Jürgen Holdorf","role":"SUPPORTING"},{"character":"Blaze","actor":"Erik Schäffler","role":"SUPPORTING"},{"character":"Talhand","actor":"Daniel Welbat","role":"SUPPORTING"},{"character":"Geese Nukadia","actor":"Jonas Minthe","role":"SUPPORTING"},{"character":"Gallus Cleaner","actor":"Marek Erhardt","role":"SUPPORTING"},{"character":"Gustav Dedoldia","actor":"Joshy Peters","role":"SUPPORTING"}]}
+{
+ "titleId": 127720,
+ "updatedAt": "2026-08-15T18:46:25.691Z",
+ "roles": [
+  {
+   "character": "Rudeus Greyrat",
+   "actor": "Martin May",
+   "role": "MAIN"
+  },
+  {
+   "character": "Eris Boreas Greyrat",
+   "actor": "Liza Ohm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Roxy Migurdia",
+   "actor": "Leoni Kristin Oeffinger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ruijerd Superdia",
+   "actor": "Mike Olsowski",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sylphiette",
+   "actor": "Arlette Stanschus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Paul Greyrat",
+   "actor": "Markus Hanse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shizuka Nanahoshi",
+   "actor": "Samina König",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Norn Greyrat",
+   "actor": "Juno Wellershoff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aisha Greyrat",
+   "actor": "Melina Dourtme",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lilia",
+   "actor": "Sina Zadra",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zenith Greyrat",
+   "actor": "Nina Witt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Elinalise Dragonroad",
+   "actor": "Jannika Jira",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kishirika Kishirisu",
+   "actor": "Daniela Reidies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Orsted",
+   "actor": "Patrick Stamme",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zanoba  Shirone",
+   "actor": "Jens Wendland",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pax Shirone",
+   "actor": "Daniel Kirchberger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hitogami",
+   "actor": "Konstantin Graudus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nokopara",
+   "actor": "Jürgen Holdorf",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Blaze",
+   "actor": "Erik Schäffler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Talhand",
+   "actor": "Daniel Welbat",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Geese Nukadia",
+   "actor": "Jonas Minthe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gallus Cleaner",
+   "actor": "Marek Erhardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gustav Dedoldia",
+   "actor": "Joshy Peters",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rudeus Greyrat (Gedanken)",
+   "actor": "Martin May",
+   "von": "ann"
+  },
+  {
+   "character": "Rudeus Greyrat",
+   "actor": "Elise Eikermann",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24164"
+}

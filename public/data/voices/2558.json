@@ -1,1 +1,87 @@
-{"titleId":2558,"updatedAt":"2026-08-11T11:20:02.976Z","roles":[{"character":"Tommy Bangs","actor":"Robert Stadlober","role":"MAIN"},{"character":"Dan","actor":"Gunnar Helm","role":"MAIN"},{"character":"Josephine March","actor":"Heidi Weigelt","role":"MAIN"},{"character":"Nan Harding","actor":"Manja Doering","role":"MAIN"}]}
+{
+ "titleId": 2558,
+ "updatedAt": "2026-08-15T18:30:52.137Z",
+ "roles": [
+  {
+   "character": "Tommy Bangs",
+   "actor": "Robert Stadlober",
+   "role": "MAIN"
+  },
+  {
+   "character": "Dan",
+   "actor": "Gunnar Helm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Josephine March",
+   "actor": "Heidi Weigelt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nan Harding",
+   "actor": "Manja Doering",
+   "role": "MAIN"
+  },
+  {
+   "character": "Emile",
+   "actor": "Michael Bauer",
+   "von": "ann"
+  },
+  {
+   "character": "Theodore 'Teddy' Bhaer",
+   "actor": "Ghadah Al-Akel",
+   "von": "ann"
+  },
+  {
+   "character": "Annie 'Nan' Harding",
+   "actor": "Manja Doering",
+   "von": "ann"
+  },
+  {
+   "character": "Franz Hoffmann",
+   "actor": "Alexander Doering",
+   "von": "ann"
+  },
+  {
+   "character": "Daisy Brooke",
+   "actor": "Anja Stadlober",
+   "von": "ann"
+  },
+  {
+   "character": "Thomas 'Tommy' Bangs",
+   "actor": "Robert Stadlober",
+   "von": "ann"
+  },
+  {
+   "character": "George 'Stuffy' Cole",
+   "actor": "Fabian Schwab",
+   "von": "ann"
+  },
+  {
+   "character": "Jack Ford",
+   "actor": "Marius Götze-Claren",
+   "von": "ann"
+  },
+  {
+   "character": "Fritz Bhaer",
+   "actor": "Detlef Gieß",
+   "von": "ann"
+  },
+  {
+   "character": "Asia",
+   "actor": "Karin Reif",
+   "von": "ann"
+  },
+  {
+   "character": "Silas",
+   "actor": "Werner Senftleben",
+   "von": "ann"
+  },
+  {
+   "character": "Josephine 'Jo' Bhaer",
+   "actor": "Heidi Weigelt",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2078"
+}

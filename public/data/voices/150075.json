@@ -1,1 +1,92 @@
-{"titleId":150075,"updatedAt":"2026-08-11T11:20:03.650Z","roles":[{"character":"Megumin","actor":"Lea Kalbhenn","role":"MAIN"},{"character":"Yunyun","actor":"Rieke Werner","role":"MAIN"},{"character":"Komekko","actor":"Jana Dunja Gries","role":"SUPPORTING"},{"character":"Chomusuke","actor":"Jermain Meyer","role":"SUPPORTING"},{"character":"Arue","actor":"Larissa Koch","role":"SUPPORTING"},{"character":"Funifura","actor":"Katja Brenner","role":"SUPPORTING"},{"character":"Dodonko","actor":"Franziska Trunte","role":"SUPPORTING"},{"character":"Nerimaki","actor":"Josephine Schmidt","role":"SUPPORTING"},{"character":"Poritan","actor":"Jasmin Reißmann","role":"SUPPORTING"},{"character":"Hyoizaburoo","actor":"Peter Sura","role":"SUPPORTING"},{"character":"Yuiyui","actor":"Sonja Spuhl","role":"SUPPORTING"},{"character":"Pucchin","actor":"Phillip Sponbiel","role":"SUPPORTING"},{"character":"Bukkorori","actor":"Sebastian Kluckert","role":"SUPPORTING"},{"character":"Soketto","actor":"Maria Burghardt","role":"SUPPORTING"},{"character":"Chakamiya","actor":"Matthias Klages","role":"SUPPORTING"}]}
+{
+ "titleId": 150075,
+ "updatedAt": "2026-08-15T18:48:24.929Z",
+ "roles": [
+  {
+   "character": "Megumin",
+   "actor": "Lea Kalbhenn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yunyun",
+   "actor": "Rieke Werner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Komekko",
+   "actor": "Jana Dunja Gries",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chomusuke",
+   "actor": "Jermain Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Arue",
+   "actor": "Larissa Koch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Funifura",
+   "actor": "Katja Brenner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dodonko",
+   "actor": "Franziska Trunte",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nerimaki",
+   "actor": "Josephine Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Poritan",
+   "actor": "Jasmin Reißmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hyoizaburoo",
+   "actor": "Peter Sura",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuiyui",
+   "actor": "Sonja Spuhl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pucchin",
+   "actor": "Phillip Sponbiel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bukkorori",
+   "actor": "Sebastian Kluckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Soketto",
+   "actor": "Maria Burghardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chakamiya",
+   "actor": "Matthias Klages",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zesta",
+   "actor": "Erich Räuker",
+   "von": "ann"
+  },
+  {
+   "character": "Cecily",
+   "actor": "Giuliana Jakobeit",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=25731"
+}

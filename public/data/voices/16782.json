@@ -1,1 +1,72 @@
-{"titleId":16782,"updatedAt":"2026-08-11T11:20:03.164Z","roles":[{"character":"Takao Akizuki","actor":"Ricardo Richter","role":"MAIN"},{"character":"Yukari Yukino","actor":"Rubina Kuraoka","role":"MAIN"},{"character":"Souichirou Itou","actor":"Jaron Löwenberg","role":"SUPPORTING"},{"character":"Shouko Aizawa","actor":"Inken Baxmeier","role":"SUPPORTING"},{"character":"Reimi Akizuki","actor":"Dana Friedrich","role":"SUPPORTING"},{"character":"Rika Teramoto","actor":"Julia Stoepel","role":"SUPPORTING"},{"character":"Matsumoto","actor":"Amadeus Strobl","role":"SUPPORTING"},{"character":"Shouta Akizuki","actor":"Jan Makino","role":"SUPPORTING"},{"character":"Satou","actor":"Sarah Tkotsch","role":"SUPPORTING"}]}
+{
+ "titleId": 16782,
+ "updatedAt": "2026-08-15T18:35:49.069Z",
+ "roles": [
+  {
+   "character": "Takao Akizuki",
+   "actor": "Ricardo Richter",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yukari Yukino",
+   "actor": "Rubina Kuraoka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Souichirou Itou",
+   "actor": "Jaron Löwenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shouko Aizawa",
+   "actor": "Inken Baxmeier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Reimi Akizuki",
+   "actor": "Dana Friedrich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rika Teramoto",
+   "actor": "Julia Stoepel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Matsumoto",
+   "actor": "Amadeus Strobl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shouta Akizuki",
+   "actor": "Jan Makino",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Satou",
+   "actor": "Sarah Tkotsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Itou-sensei",
+   "actor": "Jaron Löwenberg",
+   "von": "ann"
+  },
+  {
+   "character": "Shouta's Girlfriend",
+   "actor": "Julia Stoepel",
+   "von": "ann"
+  },
+  {
+   "character": "Aizawa",
+   "actor": "Inken Baxmeier",
+   "von": "ann"
+  },
+  {
+   "character": "Takao's Mother",
+   "actor": "Dana Friedrich",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=14995"
+}

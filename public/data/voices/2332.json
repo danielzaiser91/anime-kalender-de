@@ -1,1 +1,62 @@
-{"titleId":2332,"updatedAt":"2026-08-11T11:20:02.965Z","roles":[{"character":"Ellyse Aldomordish","actor":"Christine Schlembach","role":"MAIN"},{"character":"Titaniva Mu Koshigaya","actor":"Natasa Tolimir","role":"MAIN"},{"character":"Roger Rogers","actor":"Frank Strobelt","role":"SUPPORTING"},{"character":"Mei Lin Jones","actor":"Anabel Schaffer","role":"SUPPORTING"},{"character":"Nichol Hawking","actor":"Dinis Loures","role":"SUPPORTING"},{"character":"Joshua L. Balboa","actor":"Carlos Gundermann","role":"SUPPORTING"},{"character":"Nalerof Aldomordish","actor":"Pit Gregorg","role":"SUPPORTING"},{"character":"Mikhail Diagilev","actor":"Thomas Witte","role":"SUPPORTING"},{"character":"Gaizel","actor":"Joachim Rudolph","role":"SUPPORTING"}]}
+{
+ "titleId": 2332,
+ "updatedAt": "2026-08-15T18:30:25.771Z",
+ "roles": [
+  {
+   "character": "Ellyse Aldomordish",
+   "actor": "Christine Schlembach",
+   "role": "MAIN"
+  },
+  {
+   "character": "Titaniva Mu Koshigaya",
+   "actor": "Natasa Tolimir",
+   "role": "MAIN"
+  },
+  {
+   "character": "Roger Rogers",
+   "actor": "Frank Strobelt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mei Lin Jones",
+   "actor": "Anabel Schaffer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nichol Hawking",
+   "actor": "Dinis Loures",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Joshua L. Balboa",
+   "actor": "Carlos Gundermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nalerof Aldomordish",
+   "actor": "Pit Gregorg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mikhail Diagilev",
+   "actor": "Thomas Witte",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gaizel",
+   "actor": "Joachim Rudolph",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tita",
+   "actor": "Natasa Tolimir",
+   "von": "ann"
+  },
+  {
+   "character": "Elise",
+   "actor": "Christine Schlembach",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=289"
+}

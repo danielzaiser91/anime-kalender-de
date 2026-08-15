@@ -1,1 +1,77 @@
-{"titleId":133175,"updatedAt":"2026-08-11T11:20:03.598Z","roles":[{"character":"Roux Cristasse","actor":"Arlette Stanschus","role":"MAIN"},{"character":"Holt","actor":"Marnie Aramruck","role":"MAIN"},{"character":"Cervil","actor":"Alexander Merbeth","role":"MAIN"},{"character":"Coudeau","actor":"Christopher Groß","role":"MAIN"}]}
+{
+ "titleId": 133175,
+ "updatedAt": "2026-08-15T18:46:57.579Z",
+ "roles": [
+  {
+   "character": "Roux Cristasse",
+   "actor": "Arlette Stanschus",
+   "role": "MAIN"
+  },
+  {
+   "character": "Holt",
+   "actor": "Marnie Aramruck",
+   "role": "MAIN"
+  },
+  {
+   "character": "Cervil",
+   "actor": "Alexander Merbeth",
+   "role": "MAIN"
+  },
+  {
+   "character": "Coudeau",
+   "actor": "Christopher Groß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lilly",
+   "actor": "Daniela Reidies",
+   "von": "ann"
+  },
+  {
+   "character": "Hearthful",
+   "actor": "Simona Pahl",
+   "von": "ann"
+  },
+  {
+   "character": "Gräuel",
+   "actor": "Ivo Möller",
+   "von": "ann"
+  },
+  {
+   "character": "Loux Krystas",
+   "actor": "Arlette Stanschus",
+   "von": "ann"
+  },
+  {
+   "character": "Holdem",
+   "actor": "Jens Wendland",
+   "von": "ann"
+  },
+  {
+   "character": "Albus",
+   "actor": "Jannika Jira",
+   "von": "ann"
+  },
+  {
+   "character": "Kudo",
+   "actor": "Christopher Groß",
+   "von": "ann"
+  },
+  {
+   "character": "Zero",
+   "actor": "Sina Zadra",
+   "von": "ann"
+  },
+  {
+   "character": "Seville",
+   "actor": "Alexander Merbeth",
+   "von": "ann"
+  },
+  {
+   "character": "Laios",
+   "actor": "Antonia Sandrock",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24345"
+}

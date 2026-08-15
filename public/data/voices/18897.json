@@ -1,1 +1,97 @@
-{"titleId":18897,"updatedAt":"2026-08-11T11:20:03.178Z","roles":[{"character":"Raku Ichijou","actor":"Dennis Saemann","role":"MAIN"},{"character":"Chitoge Kirisaki","actor":"Corinna Dorenkamp","role":"MAIN"},{"character":"Kosaki Onodera","actor":"Rieke Werner","role":"MAIN"},{"character":"Marika Tachibana","actor":"Julia von Tettenborn","role":"SUPPORTING"},{"character":"Seishirou Tsugumi","actor":"Maximiliane Häcke","role":"SUPPORTING"},{"character":"Shuu Maiko","actor":"Ben Steinhoff","role":"SUPPORTING"},{"character":"Ruri Miyamoto","actor":"Katrin Heß","role":"SUPPORTING"},{"character":"Claude Ringheart","actor":"Markus Haase","role":"SUPPORTING"},{"character":"Adelt Wogner Kirisaki","actor":"Philipp Schepmann","role":"SUPPORTING"},{"character":"Ryuunosuke Sasaki","actor":"David M. Schulze","role":"SUPPORTING"},{"character":"Kyouko Nichihara","actor":"Christina Puciata","role":"SUPPORTING"},{"character":"Gen Tachibana","actor":"Volker Wolf","role":"SUPPORTING"},{"character":"Nanako Onodera","actor":"Gabriele Wienand","role":"SUPPORTING"},{"character":"Shinobu Honda","actor":"Vanessa Wunsch","role":"SUPPORTING"}]}
+{
+ "titleId": 18897,
+ "updatedAt": "2026-08-15T18:36:07.803Z",
+ "roles": [
+  {
+   "character": "Raku Ichijou",
+   "actor": "Dennis Saemann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chitoge Kirisaki",
+   "actor": "Corinna Dorenkamp",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kosaki Onodera",
+   "actor": "Rieke Werner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Marika Tachibana",
+   "actor": "Julia von Tettenborn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seishirou Tsugumi",
+   "actor": "Maximiliane Häcke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shuu Maiko",
+   "actor": "Ben Steinhoff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ruri Miyamoto",
+   "actor": "Katrin Heß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Claude Ringheart",
+   "actor": "Markus Haase",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Adelt Wogner Kirisaki",
+   "actor": "Philipp Schepmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryuunosuke Sasaki",
+   "actor": "David M. Schulze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyouko Nichihara",
+   "actor": "Christina Puciata",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gen Tachibana",
+   "actor": "Volker Wolf",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nanako Onodera",
+   "actor": "Gabriele Wienand",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinobu Honda",
+   "actor": "Vanessa Wunsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chitoge Kirisaki",
+   "actor": "Corinna Dörenkamp",
+   "von": "ann"
+  },
+  {
+   "character": "Seishirō Tsugumi",
+   "actor": "Maxi Häcke",
+   "von": "ann"
+  },
+  {
+   "character": "Claude",
+   "actor": "Markus Haase",
+   "von": "ann"
+  },
+  {
+   "character": "Raku Ichijō",
+   "actor": "Dennis Saemann",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15349"
+}

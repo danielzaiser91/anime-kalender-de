@@ -1,1 +1,117 @@
-{"titleId":21123,"updatedAt":"2026-08-11T11:20:03.287Z","roles":[{"character":"Toyohisa Shimazu","actor":"Frank Schaff","role":"MAIN"},{"character":"Nobunaga Oda","actor":"Sven Brieger","role":"MAIN"},{"character":"Yoichi Nasu no Suketaka","actor":"Dirk Stollberg","role":"MAIN"},{"character":"Anastasia Nikolaevna Romanova","actor":"Leonie Dubuc","role":"SUPPORTING"},{"character":"Grigori Rasputin","actor":"Torsten Sense","role":"SUPPORTING"},{"character":"The Sundance Kid","actor":"Stefan Kaminsky","role":"SUPPORTING"},{"character":"Abe no Seimei","actor":"Marc Bluhm","role":"SUPPORTING"},{"character":"Butch Cassidy","actor":"Imme Aldag","role":"SUPPORTING"},{"character":"Olminu","actor":"Daniela Molina","role":"SUPPORTING"},{"character":"Kafeto","actor":"Alexander Ziegenbein","role":"SUPPORTING"}]}
+{
+ "titleId": 21123,
+ "updatedAt": "2026-08-15T18:38:51.321Z",
+ "roles": [
+  {
+   "character": "Toyohisa Shimazu",
+   "actor": "Frank Schaff",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nobunaga Oda",
+   "actor": "Sven Brieger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yoichi Nasu no Suketaka",
+   "actor": "Dirk Stollberg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Anastasia Nikolaevna Romanova",
+   "actor": "Leonie Dubuc",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Grigori Rasputin",
+   "actor": "Torsten Sense",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "The Sundance Kid",
+   "actor": "Stefan Kaminsky",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Abe no Seimei",
+   "actor": "Marc Bluhm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Butch Cassidy",
+   "actor": "Imme Aldag",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Olminu",
+   "actor": "Daniela Molina",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kafeto",
+   "actor": "Alexander Ziegenbein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yoshitsune Minamoto",
+   "actor": "Julien Haggege",
+   "von": "ann"
+  },
+  {
+   "character": "Black King",
+   "actor": "Torsten Münchow",
+   "von": "ann"
+  },
+  {
+   "character": "Shara",
+   "actor": "Ozan Ünal",
+   "von": "ann"
+  },
+  {
+   "character": "Easy",
+   "actor": "Josephine Schmidt",
+   "von": "ann"
+  },
+  {
+   "character": "Nasu no Yoichi",
+   "actor": "Dirk Stollberg",
+   "von": "ann"
+  },
+  {
+   "character": "Jeanne d'Arc",
+   "actor": "Laurine Betz",
+   "von": "ann"
+  },
+  {
+   "character": "Saint Germain",
+   "actor": "Marios Gavrilis",
+   "von": "ann"
+  },
+  {
+   "character": "Hannibal Barca",
+   "actor": "Frank Kirschgens",
+   "von": "ann"
+  },
+  {
+   "character": "Olmine",
+   "actor": "Daniela Molina",
+   "von": "ann"
+  },
+  {
+   "character": "Rasputin",
+   "actor": "Torsten Sense",
+   "von": "ann"
+  },
+  {
+   "character": "Toshizou Hijikata",
+   "actor": "Christoph Drobig",
+   "von": "ann"
+  },
+  {
+   "character": "Murasaki",
+   "actor": "Christian Intorp",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18181"
+}

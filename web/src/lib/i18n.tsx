@@ -34,6 +34,8 @@ const TEXTE = {
   'view.wo.short': 'Wo?',
   'view.abo': 'Kalender-Abo',
   'view.newsletter': 'Newsletter',
+  // Steht im Hovertext des Newsletter-Knopfes, sobald ein Abo hinterlegt ist.
+  'news.connectedAs': 'Newsletter aktiv für {mail}',
   'view.impressum': 'Impressum',
   'view.datenschutz': 'Datenschutz',
 
@@ -58,7 +60,7 @@ const TEXTE = {
   'release.disc.hint': 'Kaufbarer Datenträger',
 
   'legend.colour': 'Farbe = Release-Art:',
-  'legend.estimated': 'fortgeschrieben — diese Folge stand noch nicht im Sendeplan',
+  'legend.estimated': 'geschätzter Termin',
   'legend.count': '{count} Termine im Filter · Tasten ← → T',
 
   'filter.search': 'Titel, Studio, Genre, Keyword …',
@@ -129,7 +131,7 @@ const TEXTE = {
   // Der Text sprach bis zum 12.08.2026 von „der neuesten Staffel" — das war die
   // alte, falsche Auswahl des Reihen-Vertreters.
   'db.groupSeasonsHint':
-    'Fasst alle Staffeln, Filme und Specials einer Reihe zu einer Kachel zusammen. Gezeigt wird die erste Staffel; die übrigen stehen in ihrer Detailansicht.',
+    'Fasst alle Staffeln, Filme und Specials einer Reihe zu einer Kachel zusammen. Gezeigt wird die erste Staffel, die übrigen stehen in ihrer Detailansicht.',
   // Titel ohne belegte deutsche Synchro — der Schalter, seine Begründung und
   // die Kennzeichnung an der Kachel. Eingeführt 13.08.2026.
   'db.countSplit': '{mit} mit belegter deutscher Synchro · {ohne} ohne',
@@ -137,10 +139,10 @@ const TEXTE = {
   'db.withoutDubHint':
     'Holt zusätzlich alle Anime, zu denen wir keine deutsche Synchro kennen. Der Schalter beginnt bei jedem Aufruf wieder aus.',
   'db.withoutDubWhy': 'Merken und benachrichtigen lassen, sobald es eine gibt.',
-  'db.withoutDubLoading': 'Wird geladen — das ist die größte Liste der Seite.',
+  'db.withoutDubLoading': 'Wird geladen. Das ist die größte Liste der Seite.',
   'db.noDubBadge': 'keine deutsche Synchro',
   'db.noDubWatch': '☆ merken → Bescheid bei Synchro',
-  'db.noDubWatched': '★ gemerkt — du bekommst Bescheid',
+  'db.noDubWatched': '★ gemerkt',
   'db.seasons': '{count} Staffeln',
   'db.episodes': '{count} Ep.',
 
@@ -155,8 +157,7 @@ const TEXTE = {
   'where.titles': '{count} Einträge',
   'where.titleOne': '1 Eintrag',
   'where.tallyYes': 'deutsche Synchro dort belegt',
-  'where.tallyNo': 'dort nachgesehen: keine deutsche Synchro',
-  'where.tallyOpen': 'Synchro dort nicht belegt — der Anbieter sagt es nicht öffentlich',
+  'where.tallyOpen': 'Der Anbieter macht dazu keine öffentliche Angabe.',
   'where.openAt': 'Bei {name} öffnen',
   'where.more': 'Weitere {count} anzeigen',
   'where.empty': 'Zu den gewählten Filtern ist kein Bezugsweg belegt.',
@@ -173,8 +174,14 @@ const TEXTE = {
     'Merkt alle {count} Teile dieser Reihe auf einmal — auch Filme, Specials und Ableger ohne deutsche Synchro.',
 
   'detail.noDubTitle': 'Keine deutsche Synchro bekannt',
-  'detail.noDubBody': 'Weder erschienen noch angekündigt — deshalb steht hier weder Termin noch Anbieter.',
-  'detail.noDubWatch': '☆ Merken — du bekommst eine Mail, sobald sich das ändert.',
+  'detail.noDubBody': 'Zu diesem Anime ist bisher keine deutsche Fassung bekannt.',
+  // Zwei Fassungen, je nachdem ob ein Newsletter hinterlegt ist. Daniels
+  // Vorgabe (15.08.2026): Der Text soll sagen, was der Stern bewirkt, und
+  // nichts versprechen, was ohne Abo gar nicht passieren kann.
+  'detail.noDubWatchOpen':
+    'Willst du erfahren, wenn dieser Titel eine deutsche Synchro bekommt? Markier ihn mit ☆ und melde dich beim Newsletter an.',
+  'detail.noDubWatchConnected':
+    'Willst du erfahren, wenn dieser Titel eine deutsche Synchro bekommt? Markier ihn mit ☆, wir schreiben dir an {mail}.',
   'detail.noDubWatched': '★ Gemerkt. Du bekommst Bescheid, sobald es eine Synchro gibt.',
 
   // „Deutsche Releases" war zweideutig — es klang nach „hier erschienen",
@@ -198,13 +205,13 @@ const TEXTE = {
   // in Staffeln teilt, steht auf einer Seite, die ihre Staffelliste per
   // JavaScript nachlädt — geprüft ist es also nicht.
   'detail.sharedUrlNote':
-    'Führt zu {count} unserer Einträge — der Anbieter teilt die Reihe möglicherweise anders in Staffeln als wir.',
+    'Führt zu {count} unserer Einträge. Der Anbieter teilt die Reihe womöglich anders in Staffeln.',
   'detail.genres': 'Genres',
   'detail.keywords': 'Keywords',
   'detail.plot': 'Handlung',
   'detail.plotMore': 'mehr anzeigen',
   'detail.plotLess': 'weniger anzeigen',
-  'detail.plotOnlyEnglish': 'Nur in der anderen Sprache verfügbar — eine maschinelle Übersetzung würde den Inhalt verfälschen.',
+  'detail.plotOnlyEnglish': 'Diese Beschreibung gibt es nur auf Englisch.',
   'detail.seasons': 'Alles aus dieser Reihe',
   // Nur noch als Beschriftung des Karussells für Screenreader — sichtbar steht
   // dort nichts mehr: Ein Karussell aus Covern erklärt sich selbst.
@@ -213,7 +220,7 @@ const TEXTE = {
   // (Daniels Regel, 13.08.2026).
   'detail.disputedDate': 'Eine andere Quelle nennt:',
   'detail.disputedDateHint':
-    'wir konnten nicht klären, welcher Tag stimmt. Beide Quellen sind verlinkt, der Kalender führt den erstgenannten.',
+    'beide Quellen sind verlinkt. Der Kalender führt den erstgenannten Tag.',
   // Belegkette eines Termins. Kurz halten: Das steht unter jedem Termin, und
   // gelesen wird es nur von dem kleinen Teil, der wirklich nachprüfen will.
   // Handlung **und** Zielort in einem Knopf — man soll vor dem Klick wissen,
@@ -227,19 +234,19 @@ const TEXTE = {
   'detail.titleEn': 'Englisch',
   'detail.titleNative': 'Original',
   'detail.scoreHint':
-    'Nutzerdurchschnitt von AniList, nicht unsere eigene Wertung — wir bewerten nichts.',
+    'So haben die Nutzer von AniList diesen Anime bewertet.',
   'detail.editionCount': '{count} Ausgaben',
   'detail.preorderAt': 'Vorbestellen bei {shop}',
   'detail.buyAt': 'Kaufen bei {shop}',
-  'detail.olderSources': '{count} ältere Quelle(n)',
+  'detail.olderSources': '{count} ältere Quellen',
   'detail.olderSourcesHide': 'ältere Quellen ausblenden',
-  'detail.sourceStale': 'überholt',
-  'detail.sourceMaybeStale': 'vermutlich überholt',
+  'detail.sourceStale': 'veraltete Info',
+  'detail.sourceMaybeStale': 'veraltete Info',
   'detail.autoSource': 'automatisch übernommen',
   'detail.autoSourceHint':
-    'Der Termin stammt unverändert aus der verlinkten Meldung. Niemand hat gegengelesen, ob sie diesen Titel meint.',
-  'detail.newsHeading': 'Was Meldungen dazu sagen',
-  'detail.newsHint': 'Kein Tag genannt — hier steht, was in der Quelle wörtlich steht.',
+    'Info wurde automatisiert aus der verlinkten Quelle herausgelesen. Für genauere Details die Quelle konsultieren.',
+  'detail.newsHeading': 'Was die Quellen melden',
+  'detail.newsHint': 'Die Quelle nennt keinen Tag. Hier steht ihr Wortlaut.',
   'detail.seasonLoading': 'Wird geladen …',
   'detail.start': 'Start',
   'detail.startCinema': 'Im Kino ab',
@@ -249,7 +256,7 @@ const TEXTE = {
   // seit 2013. Was wir wissen, ist das Datum der Verfügbarkeit — mehr nicht.
   'detail.availableFrom': 'Im Angebot seit',
   'detail.availableFromNote':
-    'Das Datum sagt, seit wann der Titel dort abrufbar ist — nicht, wann die deutsche Fassung erschienen ist. Die kann deutlich älter sein.',
+    'Seit diesem Tag steht der Titel dort im Angebot. Die deutsche Fassung selbst kann älter sein.',
 
   'detail.time': 'Uhrzeit',
   'detail.unknown': 'unbekannt',
@@ -270,30 +277,26 @@ const TEXTE = {
   'detail.addSingle': 'Diese Folge zu Google Calendar hinzufügen',
   'detail.downloadIcs': '.ics laden',
   'detail.downloadIcsHint':
-    'Alle kommenden Folgen als Kalenderdatei — Doppelklick trägt sie in Outlook, Apple Kalender oder Thunderbird ein. Für Google Calendar den Knopf daneben.',
+    'Alle kommenden Folgen als Kalenderdatei. Ein Doppelklick trägt sie in Outlook, Apple Kalender oder Thunderbird ein. Für Google Calendar gibt es den Knopf daneben.',
   'detail.share': 'Teilen',
   'detail.shareHint': 'Kopiert einen Link, der diesen Titel mit eigenem Vorschaubild zeigt',
   'detail.source': 'Quelle',
   'detail.whyNoTime': 'Warum steht hier keine Uhrzeit?',
-  'filter.available': 'streambar',
+  'filter.available': 'stream verfügbar',
   'filter.availableHint':
-    'Nur Titel mit bekanntem Stream. Reine Disc- und Kino-Veröffentlichungen bleiben draußen. Sagt nichts über die Synchro.',
+    'Wir geben unser Bestes, die Verfügbarkeit aller Anime bei allen legalen Streaming-Diensten aktuell zu halten.',
   'detail.estimatedDate': 'Termin abgeleitet',
   'detail.assumedEpisodes': 'Folgenzahl nicht belegt — 12 angenommen',
-  'detail.assumedEpisodesAnisearch': 'Folgenzahl laut aniSearch — dort als vorläufige Schätzung geführt',
+  'detail.assumedEpisodesAnisearch': 'Folgenzahl laut aniSearch, dort als vorläufige Schätzung geführt.',
   'detail.close': 'Schließen',
   'detail.hiddenNote': 'Dieser Titel ist von dir ausgeblendet. Bis du ihn wieder einblendest, wird hier nichts gezeigt.',
   'detail.noMeta': 'Zu diesem Eintrag liegen keine Metadaten vor.',
   'detail.dubYes': 'Deutsche Synchro hier belegt',
-  'detail.dubNo': 'Hier keine deutsche Synchro — Originalton mit Untertiteln',
-  'detail.dubUnknown': 'Deutsche Tonspur hier nicht belegt — beim Anbieter selbst prüfen',
-  'detail.dubNoneKnown': 'Für diesen Anime ist noch keine deutsche Synchro bekannt — hier läuft er mit Untertiteln',
+  'detail.dubUnknown': 'Der Anbieter macht dazu keine öffentliche Angabe.',
   // Bleibt vergleichsweise lang: Hier hängt eine Kaufentscheidung dran, und der
   // Leser kann den Unterschied nicht selbst herleiten.
-  'detail.dubHintDisc':
-    'Die deutsche Synchro ist nur auf Disc belegt — die Streams oben laufen möglicherweise nur im Originalton.',
   'detail.metaFrom': 'Metadaten von AniList',
-  'detail.malMeaning': 'MyAnimeList — die Kennung dieses Anime in der größten Anime-Datenbank.',
+  'detail.malMeaning': 'Die Kennung dieses Anime bei MyAnimeList.',
   'detail.dubProof': 'Synchro belegt über MyDubList ({sources})',
 
   'sub.title': 'Kalender abonnieren',
@@ -325,12 +328,12 @@ const TEXTE = {
   'news.dailyHint': '07:00, alles des Tages',
   'news.autoSync': 'Änderungen werden ab jetzt selbsttätig übernommen.',
   'news.noSyncYet':
-    'Schon abonniert? Dieser Browser ist noch nicht verbunden — gemerkte Titel bleiben hier liegen. Unter „Favoriten verloren?" einen Link anfordern.',
+    'Schon abonniert? Dieser Browser ist noch nicht verbunden, gemerkte Titel bleiben also hier liegen. Unter „Favoriten verloren?" gibt es einen Link.',
   'news.welcomeTitle': 'Abo aktiv',
   'news.welcomeBody': 'Ab jetzt bekommst du die anstehenden Releases mit deutscher Synchro per Mail.',
   'news.favorites': 'Favoriten: {count} Serien',
   'news.favoritesHint': 'Neue Folgen davon stehen in jeder Mail ganz oben.',
-  'news.favoritesNone': 'Noch keine. Markiere Serien im Kalender mit dem Stern — ihre neuen Folgen stehen dann in jeder Mail ganz oben.',
+  'news.favoritesNone': 'Noch keine. Markiere Serien im Kalender mit dem Stern, dann stehen ihre neuen Folgen in jeder Mail ganz oben.',
   'news.syncRunning': 'Favoriten werden abgeglichen …',
   'news.syncOk': 'Favoriten übernommen: {count} Serien. Ab jetzt stehen deren Folgen in deinen Mails ganz oben.',
   'news.platforms': 'Nur diese Plattformen',
@@ -349,7 +352,7 @@ const TEXTE = {
   // Gekürzt: Warum sie verlorengehen können, muss hier nicht stehen — wer das
   // Feld sucht, weiß es bereits.
   'news.restoreBody':
-    'Gemerkte Titel liegen im Browser. Hast du ein Abo, liegen sie auch bei uns — wir schicken dir einen Link, der sie zurückholt.',
+    'Gemerkte Titel liegen im Browser. Hast du ein Abo, liegen sie auch bei uns. Wir schicken dir einen Link, der sie zurückholt.',
   // Ein Satz statt zwei: Dass die Titel auch auf dem Server liegen, ist die
   // Folge — wissen muss man in diesem Moment nur, dass es verbunden ist.
   'news.restoreConnected': 'Dieser Browser ist mit deinem Abo verbunden.',
@@ -371,9 +374,9 @@ const TEXTE = {
   // Weg ist `news.waitNote`: Dass wir zu diesen Titeln wenig führen, ändert für
   // den Leser nichts — er sieht es ohnehin, sobald er einen öffnet.
   'news.waitBody':
-    'Auf eine Serie zu warten, die es auf Deutsch noch nicht gibt, heißt sonst: immer wieder nachsehen und jedes Mal nichts finden.',
+    'Sonst heißt Warten: immer wieder nachsehen und jedes Mal nichts finden.',
   'news.waitHow':
-    'In der Datenbank holt der Schalter „Anime ohne deutsche Synchro" diese Titel dazu. Merke dir einen mit dem Stern — du bekommst eine Mail, sobald es eine Synchro gibt.',
+    'In der Datenbank holt der Schalter „Anime ohne deutsche Synchro" diese Titel dazu. Merke dir einen mit dem Stern, dann bekommst du eine Mail, sobald es eine Synchro gibt.',
 
   'news.howTitle': 'Wie das technisch läuft',
   'news.how':
@@ -381,29 +384,29 @@ const TEXTE = {
 
   'footer.stats': '{titles} Anime mit belegter deutscher Synchro · {releases} Releases · {events} Termine',
   'footer.updated': 'Daten zuletzt aktualisiert:',
-  'footer.sources': 'Quellen & Lizenzen',
+  'footer.sources': 'Quellen',
   'footer.code': 'Quellcode',
   'sources.title': 'Quellen & Lizenzen',
   'sources.intro':
-    'Dieser Kalender führt Daten aus mehreren Quellen zusammen. Manche davon verlangen eine Nennung, alle haben sie verdient.',
+    'Dieser Kalender führt Daten aus mehreren Quellen zusammen. Hier stehen sie alle.',
   'sources.perEntry':
-    'Woher ein einzelner Termin stammt, steht bei jedem Eintrag: Das Detail-Panel nennt unter „Quelle" die Seite, auf der er belegt ist.',
+    'Woher ein einzelner Termin stammt, steht in seiner Detailansicht unter „Quelle".',
 
   // Wie der Bot arbeitet. Für Leser geschrieben, nicht für Entwickler: Jeder
   // Absatz beantwortet eine Frage, die beim Anschauen eines Termins aufkommt.
-  'sources.pipelineTitle': 'Wie die Termine hierher kommen',
-  'sources.howTitle': 'Automatisch, mehrmals täglich',
+  'sources.pipelineTitle': 'Woher beziehen wir die Termine?',
+  'sources.howTitle': 'Wie oft schauen wir nach?',
   'sources.howText':
-    'Stündlich werden die Sendezeiten bei Crunchyroll geprüft, nachts um 4:17 Uhr alle übrigen Quellen — Anime2You, aniSearch, ADN, AniList, TMDB. Neue Termine stehen anschließend ohne Zutun auf der Seite.',
-  'sources.autoTitle': 'Was der Bot selbst einträgt',
+    'Die Sendezeiten bei Crunchyroll prüfen wir stündlich. Alle anderen Quellen einmal pro Nacht: Anime2You, aniSearch, ADN, AniList und TMDB. Was neu dazukommt, steht danach von selbst auf der Seite.',
+  'sources.autoTitle': 'Was trägt der Bot selbst ein?',
   'sources.autoText':
-    'Nennt eine Meldung einen Tag, einen eindeutigen Titel und einen Anbieter, wird daraus ein Termin — gekennzeichnet mit „automatisch übernommen". Bleibt offen, welche Staffel gemeint ist, wird kein Termin daraus. Ein Termin an der falschen Staffel wäre schlimmer als keiner, weil er aussieht, als hätte ihn jemand geprüft.',
-  'sources.unsureTitle': 'Wenn nur ein Monat genannt wird',
+    'Nennt eine Meldung einen Tag, einen klaren Titel und einen Anbieter, wird daraus ein Termin. Er trägt dann den Hinweis „automatisch übernommen". Ist unklar, welche Staffel gemeint ist, bleibt der Termin offen.',
+  'sources.unsureTitle': 'Und wenn nur ein Monat genannt wird?',
   'sources.unsureText':
-    'Aus „im September" wird hier kein Erster. Stattdessen steht die Meldung im Detail-Panel unter „Was Meldungen dazu sagen" — im Wortlaut, mit Datum und Link. Sie entscheiden selbst, was Sie davon halten.',
-  'sources.staleTitle': 'Alte Quellen bleiben stehen',
+    'Dann bleibt es beim Monat. Die Meldung steht in der Detailansicht im Wortlaut, mit Datum und Link zur Quelle.',
+  'sources.staleTitle': 'Was passiert mit alten Quellen?',
   'sources.staleText':
-    'Wird ein Termin verschoben, verschwindet die alte Quelle nicht. Sie wird als „überholt" markiert und bleibt eingeklappt unter dem Termin abrufbar — sonst ließe sich später nicht mehr nachvollziehen, woher der frühere Tag kam.',
+    'Sie bleiben stehen. Verschiebt sich ein Termin, markieren wir die frühere Quelle als veraltet und klappen sie unter dem Termin ein. So bleibt nachvollziehbar, woher der alte Tag kam.',
 }
 
 export type TranslationKey = keyof typeof TEXTE

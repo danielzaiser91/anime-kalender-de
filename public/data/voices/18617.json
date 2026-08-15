@@ -1,1 +1,147 @@
-{"titleId":18617,"updatedAt":"2026-08-11T11:20:03.175Z","roles":[{"character":"Miho Nishizumi","actor":"Samira Jakobs","role":"MAIN"},{"character":"Yukari Akiyama","actor":"Katrin Heß","role":"MAIN"},{"character":"Hana Isuzu","actor":"Demet Fey","role":"MAIN"},{"character":"Saori Takebe","actor":"Patricia Strasburger","role":"MAIN"},{"character":"Mako Reizei","actor":"Jana Schölermann","role":"MAIN"},{"character":"Darjeeling","actor":"Julia von Tettenborn","role":"SUPPORTING"},{"character":"Noriko Isobe","actor":"Nadja Godzina","role":"SUPPORTING"},{"character":"Katyusha","actor":"Rieke Werner","role":"SUPPORTING"},{"character":"Midoriko Sono","actor":"Céline Vogt","role":"SUPPORTING"},{"character":"Ayumi Yamagou","actor":"Esther Brandt","role":"SUPPORTING"},{"character":"Pepperoni","actor":"Luisa Wietzorek","role":"SUPPORTING"},{"character":"Mika","actor":"Jenny Laura Bischoff","role":"SUPPORTING"},{"character":"Assam","actor":"Vivien Faber","role":"SUPPORTING"},{"character":"Shiho Nishizumi","actor":"Katja Liebing","role":"SUPPORTING"},{"character":"Moyoko Gotou","actor":"Céline Vogt","role":"SUPPORTING"},{"character":"Karina Sakaguchi","actor":"Johanna Bergmann","role":"SUPPORTING"},{"character":"Carpaccio","actor":"Signe Zurmühlen","role":"SUPPORTING"},{"character":"Aki","actor":"Jamie Lee Blank","role":"SUPPORTING"}]}
+{
+ "titleId": 18617,
+ "updatedAt": "2026-08-15T18:36:02.286Z",
+ "roles": [
+  {
+   "character": "Miho Nishizumi",
+   "actor": "Samira Jakobs",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yukari Akiyama",
+   "actor": "Katrin Heß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hana Isuzu",
+   "actor": "Demet Fey",
+   "role": "MAIN"
+  },
+  {
+   "character": "Saori Takebe",
+   "actor": "Patricia Strasburger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mako Reizei",
+   "actor": "Jana Schölermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Darjeeling",
+   "actor": "Julia von Tettenborn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Noriko Isobe",
+   "actor": "Nadja Godzina",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Katyusha",
+   "actor": "Rieke Werner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Midoriko Sono",
+   "actor": "Céline Vogt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ayumi Yamagou",
+   "actor": "Esther Brandt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pepperoni",
+   "actor": "Luisa Wietzorek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mika",
+   "actor": "Jenny Laura Bischoff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Assam",
+   "actor": "Vivien Faber",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shiho Nishizumi",
+   "actor": "Katja Liebing",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Moyoko Gotou",
+   "actor": "Céline Vogt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Karina Sakaguchi",
+   "actor": "Johanna Bergmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Carpaccio",
+   "actor": "Signe Zurmühlen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aki",
+   "actor": "Jamie Lee Blank",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mako Reizei",
+   "actor": "Jana Kilka",
+   "von": "ann"
+  },
+  {
+   "character": "Kinuyo Nishi",
+   "actor": "Tanya Kahana",
+   "von": "ann"
+  },
+  {
+   "character": "Nonna",
+   "actor": "Silke Linderhaus",
+   "von": "ann"
+  },
+  {
+   "character": "Aki",
+   "actor": "Jamie-Lee Blank",
+   "von": "ann"
+  },
+  {
+   "character": "Anzu Kadotani",
+   "actor": "Charlotte Uhlig",
+   "von": "ann"
+  },
+  {
+   "character": "Erwin",
+   "actor": "Iris R. Hassenzahl",
+   "von": "ann"
+  },
+  {
+   "character": "Alice Shimada",
+   "actor": "Sarah Tkotsch",
+   "von": "ann"
+  },
+  {
+   "character": "Yuzu Koyama",
+   "actor": "Ela Paul",
+   "von": "ann"
+  },
+  {
+   "character": "Momo Kawashima",
+   "actor": "Betül Jülide Gülgec",
+   "von": "ann"
+  },
+  {
+   "character": "Mika",
+   "actor": "Jenny Bischoff",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16864"
+}

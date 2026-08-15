@@ -1,1 +1,137 @@
-{"titleId":7695,"updatedAt":"2026-08-11T11:20:03.075Z","roles":[{"character":"Zorua","actor":"Nicola Grupe-Arnoldi","role":"MAIN"},{"character":"Satoshi","actor":"Caroline Combrinck","role":"MAIN"},{"character":"Takeshi","actor":"Marc Stachel","role":"MAIN"},{"character":"Kodai","actor":"Stefan Günther","role":"MAIN"},{"character":"Hikari","actor":"Jana Schölermann","role":"MAIN"},{"character":"Nyarth","actor":"Gerhard Acktun","role":"SUPPORTING"},{"character":"Pocchama","actor":"Nicola Grupe-Arnoldi","role":"SUPPORTING"},{"character":"Musashi","actor":"Scarlet Cavadenti","role":"SUPPORTING"},{"character":"Joe","actor":"Hans-Rainer Müller","role":"SUPPORTING"},{"character":"Junsa","actor":"Beate Pfeiffer","role":"SUPPORTING"},{"character":"Kojirou","actor":"Matthias Klie","role":"SUPPORTING"},{"character":"Kurt","actor":"Benedikt Gutjan","role":"SUPPORTING"},{"character":"Goon","actor":"Hans-Georg Panczak","role":"SUPPORTING"},{"character":"Rioka","actor":"Nina Kapust","role":"SUPPORTING"},{"character":"Joy","actor":"Tatjana Pokorny","role":"SUPPORTING"},{"character":"Proof","actor":"Farina Brock","role":"SUPPORTING"},{"character":"Tomo","actor":"Dorothea Anzinger","role":"SUPPORTING"},{"character":"Narrator","actor":"Michael Schwarzmaier","role":"BACKGROUND"}]}
+{
+ "titleId": 7695,
+ "updatedAt": "2026-08-15T18:33:30.681Z",
+ "roles": [
+  {
+   "character": "Zorua",
+   "actor": "Nicola Grupe-Arnoldi",
+   "role": "MAIN"
+  },
+  {
+   "character": "Satoshi",
+   "actor": "Caroline Combrinck",
+   "role": "MAIN"
+  },
+  {
+   "character": "Takeshi",
+   "actor": "Marc Stachel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kodai",
+   "actor": "Stefan Günther",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hikari",
+   "actor": "Jana Schölermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nyarth",
+   "actor": "Gerhard Acktun",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pocchama",
+   "actor": "Nicola Grupe-Arnoldi",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Musashi",
+   "actor": "Scarlet Cavadenti",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Joe",
+   "actor": "Hans-Rainer Müller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Junsa",
+   "actor": "Beate Pfeiffer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kojirou",
+   "actor": "Matthias Klie",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kurt",
+   "actor": "Benedikt Gutjan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Goon",
+   "actor": "Hans-Georg Panczak",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rioka",
+   "actor": "Nina Kapust",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Joy",
+   "actor": "Tatjana Pokorny",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Proof",
+   "actor": "Farina Brock",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tomo",
+   "actor": "Dorothea Anzinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Michael Schwarzmaier",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Celebi",
+   "actor": "Rie Kugimiya",
+   "von": "ann"
+  },
+  {
+   "character": "Ash Ketchum",
+   "actor": "Caroline Combrinck",
+   "von": "ann"
+  },
+  {
+   "character": "Jessie",
+   "actor": "Scarlet Cavadenti",
+   "von": "ann"
+  },
+  {
+   "character": "Mauzi",
+   "actor": "Gerhard Acktun",
+   "von": "ann"
+  },
+  {
+   "character": "Rocko",
+   "actor": "Marc Stachel",
+   "von": "ann"
+  },
+  {
+   "character": "James",
+   "actor": "Matthias Klie",
+   "von": "ann"
+  },
+  {
+   "character": "Lucia",
+   "actor": "Jana Kilka",
+   "von": "ann"
+  },
+  {
+   "character": "Grings Kodai",
+   "actor": "Stefan Günther",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=11206"
+}

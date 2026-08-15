@@ -1,1 +1,77 @@
-{"titleId":132405,"updatedAt":"2026-08-11T11:20:03.597Z","roles":[{"character":"Wakana Gojou","actor":"Benjamin Stöwe","role":"MAIN"},{"character":"Marin Kitagawa","actor":"Gabrielle Pietermann","role":"MAIN"},{"character":"Rune Yamauchi","actor":"Victoria Frenz","role":"SUPPORTING"},{"character":"Miori Gojou","actor":"Jessica Rust","role":"SUPPORTING"},{"character":"Shinju Inui","actor":"Özge Kayalar","role":"SUPPORTING"},{"character":"Sajuna Inui","actor":"Nina Schatton","role":"SUPPORTING"},{"character":"Mirai Tengeji","actor":"Charlotte Uhlig","role":"SUPPORTING"},{"character":"Kaoru Gojou","actor":"Hanns Jörg Krumpholz","role":"SUPPORTING"},{"character":"Nowa Sugaya","actor":"Charlotte Uhlig","role":"SUPPORTING"},{"character":"Neon Nikaidou","actor":"Melanie Isakowitz","role":"SUPPORTING"},{"character":"Daia Yahiro","actor":"Laurine Betz","role":"SUPPORTING"},{"character":"Tae Hanaoka","actor":"Julia Vieregge","role":"SUPPORTING"},{"character":"Narrator","actor":"Isabelle Schmidt","role":"BACKGROUND"}]}
+{
+ "titleId": 132405,
+ "updatedAt": "2026-08-15T18:46:54.189Z",
+ "roles": [
+  {
+   "character": "Wakana Gojou",
+   "actor": "Benjamin Stöwe",
+   "role": "MAIN"
+  },
+  {
+   "character": "Marin Kitagawa",
+   "actor": "Gabrielle Pietermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rune Yamauchi",
+   "actor": "Victoria Frenz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miori Gojou",
+   "actor": "Jessica Rust",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinju Inui",
+   "actor": "Özge Kayalar",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sajuna Inui",
+   "actor": "Nina Schatton",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mirai Tengeji",
+   "actor": "Charlotte Uhlig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaoru Gojou",
+   "actor": "Hanns Jörg Krumpholz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nowa Sugaya",
+   "actor": "Charlotte Uhlig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Neon Nikaidou",
+   "actor": "Melanie Isakowitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Daia Yahiro",
+   "actor": "Laurine Betz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tae Hanaoka",
+   "actor": "Julia Vieregge",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Isabelle Schmidt",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Wakana Gojo",
+   "actor": "Benjamin Stöwe",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24306"
+}

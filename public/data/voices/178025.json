@@ -1,1 +1,87 @@
-{"titleId":178025,"updatedAt":"2026-08-11T11:20:03.731Z","roles":[{"character":"Rudo","actor":"Markus Feustel","role":"MAIN"},{"character":"Enjin","actor":"Daniel Schütter","role":"MAIN"},{"character":"Chiwa","actor":"Katharina Luckschy","role":"SUPPORTING"},{"character":"Regto","actor":"Erik Schäffler","role":"SUPPORTING"},{"character":"Tamsy Caines","actor":"Bojan Havic","role":"SUPPORTING"}]}
+{
+ "titleId": 178025,
+ "updatedAt": "2026-08-15T18:49:48.919Z",
+ "roles": [
+  {
+   "character": "Rudo",
+   "actor": "Markus Feustel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Enjin",
+   "actor": "Daniel Schütter",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chiwa",
+   "actor": "Katharina Luckschy",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Regto",
+   "actor": "Erik Schäffler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tamsy Caines",
+   "actor": "Bojan Havic",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Riyo Reaper",
+   "actor": "Leoni Oeffinger",
+   "von": "ann"
+  },
+  {
+   "character": "Amo Empool",
+   "actor": "Julia Fölster",
+   "von": "ann"
+  },
+  {
+   "character": "Shikage",
+   "actor": "Flemming Stein",
+   "von": "ann"
+  },
+  {
+   "character": "Gris Rubion",
+   "actor": "Christopher Groß",
+   "von": "ann"
+  },
+  {
+   "character": "Jabber Wonger",
+   "actor": "Patrick Stamme",
+   "von": "ann"
+  },
+  {
+   "character": "Zodyl Typhon",
+   "actor": "Vincent Fallow",
+   "von": "ann"
+  },
+  {
+   "character": "Zanka Nijiku",
+   "actor": "Toni Michael Sattler",
+   "von": "ann"
+  },
+  {
+   "character": "Eishia Stilza",
+   "actor": "Amina Gaede",
+   "von": "ann"
+  },
+  {
+   "character": "Rudo Surebrec",
+   "actor": "Markus Feustel",
+   "von": "ann"
+  },
+  {
+   "character": "Delmon Gates",
+   "actor": "Johnny Müller",
+   "von": "ann"
+  },
+  {
+   "character": "Arkha Corvus",
+   "actor": "Alassane Jensen",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=32808"
+}

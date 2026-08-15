@@ -1,1 +1,47 @@
-{"titleId":100785,"updatedAt":"2026-08-11T11:20:03.438Z","roles":[{"character":"Katrielle Layton","actor":"Corinna Dorenkamp","role":"MAIN"},{"character":"Noah Montoir","actor":"Alexander Merbeth","role":"MAIN"},{"character":"Sherlo","actor":"Dirk Hardegen","role":"MAIN"},{"character":"Hershel Layton","actor":"Mario Hassert","role":"SUPPORTING"},{"character":"Luke Triton","actor":"Benjamin Stolz","role":"SUPPORTING"},{"character":"Aspoiro Darjeeling","actor":"Karl Heinz Herber","role":"SUPPORTING"}]}
+{
+ "titleId": 100785,
+ "updatedAt": "2026-08-15T18:42:16.341Z",
+ "roles": [
+  {
+   "character": "Katrielle Layton",
+   "actor": "Corinna Dorenkamp",
+   "role": "MAIN"
+  },
+  {
+   "character": "Noah Montoir",
+   "actor": "Alexander Merbeth",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sherlo",
+   "actor": "Dirk Hardegen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hershel Layton",
+   "actor": "Mario Hassert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Luke Triton",
+   "actor": "Benjamin Stolz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aspoiro Darjeeling",
+   "actor": "Karl Heinz Herber",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Katrielle Layton",
+   "actor": "Corinna Dörenkamp",
+   "von": "ann"
+  },
+  {
+   "character": "Sherl O.C. Kholmes",
+   "actor": "Dirk Hardegen",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20481"
+}

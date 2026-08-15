@@ -1,1 +1,77 @@
-{"titleId":2993,"updatedAt":"2026-08-11T11:20:02.995Z","roles":[{"character":"Moka Akashiya","actor":"Julia von Tettenborn","role":"MAIN"},{"character":"Tsukune Aono","actor":"Marco Sven Reinbold","role":"MAIN"},{"character":"Kurumu Kurono","actor":"Rieke Werner","role":"MAIN"},{"character":"Yukari Sendou","actor":"Nina Amerschläger","role":"MAIN"},{"character":"Mizore Shirayuki","actor":"Kathrin Fiedler","role":"MAIN"},{"character":"Ginei Morioka","actor":"Matthias Keller","role":"SUPPORTING"},{"character":"Nazo Koumori","actor":"Wolff von Lindenau","role":"SUPPORTING"},{"character":"Ruby Toujo","actor":"Katrin Laksberg","role":"SUPPORTING"},{"character":"Ririko Kagome","actor":"Sabina Godec","role":"SUPPORTING"},{"character":"Kuyou","actor":"Stefan Senf","role":"SUPPORTING"},{"character":"Komiya Saizou","actor":"Gilles Karolyi","role":"SUPPORTING"},{"character":"Keito","actor":"Tanja Esche","role":"SUPPORTING"},{"character":"Tadashi Wanibuchi","actor":"Kevin Kasper","role":"SUPPORTING"}]}
+{
+ "titleId": 2993,
+ "updatedAt": "2026-08-15T18:31:26.932Z",
+ "roles": [
+  {
+   "character": "Moka Akashiya",
+   "actor": "Julia von Tettenborn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tsukune Aono",
+   "actor": "Marco Sven Reinbold",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kurumu Kurono",
+   "actor": "Rieke Werner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yukari Sendou",
+   "actor": "Nina Amerschläger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mizore Shirayuki",
+   "actor": "Kathrin Fiedler",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ginei Morioka",
+   "actor": "Matthias Keller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nazo Koumori",
+   "actor": "Wolff von Lindenau",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ruby Toujo",
+   "actor": "Katrin Laksberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ririko Kagome",
+   "actor": "Sabina Godec",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kuyou",
+   "actor": "Stefan Senf",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Komiya Saizou",
+   "actor": "Gilles Karolyi",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Keito",
+   "actor": "Tanja Esche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tadashi Wanibuchi",
+   "actor": "Kevin Kasper",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gin'ei Morioka",
+   "actor": "Matthias Keller",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=8517"
+}

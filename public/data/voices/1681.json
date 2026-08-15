@@ -1,1 +1,77 @@
-{"titleId":1681,"updatedAt":"2026-08-11T11:20:02.936Z","roles":[{"character":"Miina","actor":"Tanya Kahana","role":"MAIN"},{"character":"Wataru Mitani","actor":"Hannes Maurer","role":"MAIN"},{"character":"Mitsuru Ashikawa","actor":"Constantin von Jascheroff","role":"MAIN"},{"character":"Cutts","actor":"Ghadah Al-Akel","role":"MAIN"}]}
+{
+ "titleId": 1681,
+ "updatedAt": "2026-08-15T18:29:14.801Z",
+ "roles": [
+  {
+   "character": "Miina",
+   "actor": "Tanya Kahana",
+   "role": "MAIN"
+  },
+  {
+   "character": "Wataru Mitani",
+   "actor": "Hannes Maurer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mitsuru Ashikawa",
+   "actor": "Constantin von Jascheroff",
+   "role": "MAIN"
+  },
+  {
+   "character": "Cutts",
+   "actor": "Ghadah Al-Akel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kenzi Ishioka",
+   "actor": "Fabian Hollwitz",
+   "von": "ann"
+  },
+  {
+   "character": "Wataru Mitsuya",
+   "actor": "Hannes Maurer",
+   "von": "ann"
+  },
+  {
+   "character": "Akira Mitani",
+   "actor": "Oliver Siebeck",
+   "von": "ann"
+  },
+  {
+   "character": "Bishop Daimon",
+   "actor": "Jan Spitzer",
+   "von": "ann"
+  },
+  {
+   "character": "Kattsu",
+   "actor": "Ghadah Al-Akel",
+   "von": "ann"
+  },
+  {
+   "character": "Monk Rau",
+   "actor": "Gerd Holtenau",
+   "von": "ann"
+  },
+  {
+   "character": "Yunababa",
+   "actor": "Marianne Lutz",
+   "von": "ann"
+  },
+  {
+   "character": "Ki-Kîma",
+   "actor": "Michael Deffert",
+   "von": "ann"
+  },
+  {
+   "character": "Mîna",
+   "actor": "Tanya Kahana",
+   "von": "ann"
+  },
+  {
+   "character": "Göttin des Schicksals",
+   "actor": "Daniela Hoffmann",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=4873"
+}

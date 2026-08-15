@@ -1,1 +1,92 @@
-{"titleId":1412,"updatedAt":"2026-08-11T11:20:02.916Z","roles":[{"character":"Goemon Ishikawa XIII","actor":"Peter Reinhardt","role":"MAIN"},{"character":"Daisuke Jigen","actor":"Tilo Schmitz","role":"MAIN"},{"character":"Kouichi Zenigata","actor":"Stefan Staudinger","role":"MAIN"},{"character":"Fujiko Mine","actor":"Sarah Riedel","role":"MAIN"},{"character":"Arsène Lupin III","actor":"Peter Flechtner","role":"MAIN"},{"character":"Hayate","actor":"Erik Schäffler","role":"SUPPORTING"},{"character":"Gold","actor":"Helmut Gauß","role":"SUPPORTING"},{"character":"Flinch","actor":"Ralf David","role":"SUPPORTING"},{"character":"Mister X","actor":"Engelbert von Nordhausen","role":"SUPPORTING"},{"character":"Lupin II","actor":"Nicolas Böll","role":"SUPPORTING"},{"character":"Poon","actor":"Thomas Wenke","role":"SUPPORTING"},{"character":"Linda","actor":"Patrizia Carlucci","role":"SUPPORTING"},{"character":"Ivanov","actor":"Hubert Burczek","role":"SUPPORTING"},{"character":"Cap","actor":"Marc Skanderberg","role":"SUPPORTING"},{"character":"Tatsu","actor":"Dirk Bublies","role":"SUPPORTING"}]}
+{
+ "titleId": 1412,
+ "updatedAt": "2026-08-15T18:28:26.254Z",
+ "roles": [
+  {
+   "character": "Goemon Ishikawa XIII",
+   "actor": "Peter Reinhardt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Daisuke Jigen",
+   "actor": "Tilo Schmitz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kouichi Zenigata",
+   "actor": "Stefan Staudinger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Fujiko Mine",
+   "actor": "Sarah Riedel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Arsène Lupin III",
+   "actor": "Peter Flechtner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hayate",
+   "actor": "Erik Schäffler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gold",
+   "actor": "Helmut Gauß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Flinch",
+   "actor": "Ralf David",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mister X",
+   "actor": "Engelbert von Nordhausen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lupin II",
+   "actor": "Nicolas Böll",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Poon",
+   "actor": "Thomas Wenke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Linda",
+   "actor": "Patrizia Carlucci",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ivanov",
+   "actor": "Hubert Burczek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cap",
+   "actor": "Marc Skanderberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tatsu",
+   "actor": "Dirk Bublies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Koichi Zenigata",
+   "actor": "Stefan Staudinger",
+   "von": "ann"
+  },
+  {
+   "character": "Fujiko Mine",
+   "actor": "Ghadah Al-Akel",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=886"
+}

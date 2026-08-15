@@ -1,1 +1,152 @@
-{"titleId":13663,"updatedAt":"2026-08-11T11:20:03.141Z","roles":[{"character":"Momo Deviluke","actor":"Josefin Hagen","role":"MAIN"},{"character":"Konjiki no Yami","actor":"Laurine Betz","role":"MAIN"},{"character":"Rito Yuuki","actor":"Benno Lehmann","role":"MAIN"},{"character":"Mea Kurosaki","actor":"Birte Baumgardt","role":"MAIN"},{"character":"Saki Tenjouin","actor":"Jasmin Arnoldt","role":"SUPPORTING"},{"character":"Zastin","actor":"Florian Hoffmann","role":"SUPPORTING"},{"character":"Shizu Murasame","actor":"Alice Bauer","role":"SUPPORTING"},{"character":"Mikan Yuuki","actor":"Leonie Dubuc","role":"SUPPORTING"},{"character":"Nana Deviluke","actor":"Christin Quander","role":"SUPPORTING"},{"character":"Ryouko Mikado","actor":"Dana Friedrich","role":"SUPPORTING"},{"character":"Yui Kotegawa","actor":"Katharina von Daake","role":"SUPPORTING"},{"character":"Mio Sawada","actor":"Daniela Grubert","role":"SUPPORTING"},{"character":"Nemesis","actor":"Juana von Jascheroff","role":"SUPPORTING"},{"character":"Tearju Lunatique","actor":"Jenny Löffler","role":"SUPPORTING"},{"character":"Rin Kujou","actor":"Simone Jaeger","role":"SUPPORTING"},{"character":"Peke","actor":"Silvia Mißbach","role":"SUPPORTING"},{"character":"Azenda","actor":"Magdalena Helmig","role":"SUPPORTING"},{"character":"Lala Deviluke","actor":"Anna Gamburg","role":"SUPPORTING"},{"character":"Nakajima","actor":"Sascha Werginz","role":"SUPPORTING"},{"character":"Risa Momioka","actor":"Jenny Maria Meyer","role":"SUPPORTING"},{"character":"Kenichi Saruyama","actor":"Fabian Kluckert","role":"SUPPORTING"},{"character":"Run Elsie Jewelria","actor":"Peggy Pollow","role":"SUPPORTING"},{"character":"Celine","actor":"Bettina Kenney","role":"SUPPORTING"}]}
+{
+ "titleId": 13663,
+ "updatedAt": "2026-08-15T18:35:01.263Z",
+ "roles": [
+  {
+   "character": "Momo Deviluke",
+   "actor": "Josefin Hagen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Konjiki no Yami",
+   "actor": "Laurine Betz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rito Yuuki",
+   "actor": "Benno Lehmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mea Kurosaki",
+   "actor": "Birte Baumgardt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Saki Tenjouin",
+   "actor": "Jasmin Arnoldt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zastin",
+   "actor": "Florian Hoffmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shizu Murasame",
+   "actor": "Alice Bauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mikan Yuuki",
+   "actor": "Leonie Dubuc",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nana Deviluke",
+   "actor": "Christin Quander",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryouko Mikado",
+   "actor": "Dana Friedrich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yui Kotegawa",
+   "actor": "Katharina von Daake",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mio Sawada",
+   "actor": "Daniela Grubert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nemesis",
+   "actor": "Juana von Jascheroff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tearju Lunatique",
+   "actor": "Jenny Löffler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rin Kujou",
+   "actor": "Simone Jaeger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Peke",
+   "actor": "Silvia Mißbach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Azenda",
+   "actor": "Magdalena Helmig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lala Deviluke",
+   "actor": "Anna Gamburg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nakajima",
+   "actor": "Sascha Werginz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Risa Momioka",
+   "actor": "Jenny Maria Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kenichi Saruyama",
+   "actor": "Fabian Kluckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Run Elsie Jewelria",
+   "actor": "Peggy Pollow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Celine",
+   "actor": "Bettina Kenney",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Momo Belia Deviluke",
+   "actor": "Josefin Hagen",
+   "von": "ann"
+  },
+  {
+   "character": "Yami-chan",
+   "actor": "Laurine Betz",
+   "von": "ann"
+  },
+  {
+   "character": "Haruna Sairenji",
+   "actor": "Melinda Rachfahl",
+   "von": "ann"
+  },
+  {
+   "character": "Lala Satalin Deviluke",
+   "actor": "Anna Gamburg",
+   "von": "ann"
+  },
+  {
+   "character": "Nana Astar Deviluke",
+   "actor": "Christin Quander",
+   "von": "ann"
+  },
+  {
+   "character": "Oshizu",
+   "actor": "Alice Bauer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=14209"
+}

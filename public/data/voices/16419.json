@@ -1,1 +1,177 @@
-{"titleId":16419,"updatedAt":"2026-08-11T11:20:03.161Z","roles":[{"character":"Rikka Hishikawa","actor":"Julia Fölster","role":"MAIN"},{"character":"Alice Yotsuba","actor":"Arlette Stanschus","role":"MAIN"},{"character":"Mana Aida","actor":"Franciska  Friede","role":"MAIN"},{"character":"Makoto Kenzaki","actor":"Nadine Schreier","role":"MAIN"},{"character":"Lance","actor":"Philipp Draeger","role":"MAIN"},{"character":"Aguri Madoka","actor":"Liza Ohm","role":"MAIN"},{"character":"Raquel","actor":"Florentine Draeger","role":"MAIN"},{"character":"Davi","actor":"Tanja Dohse","role":"MAIN"},{"character":"Sharuru","actor":"Jenny Maria Meyer","role":"MAIN"},{"character":"Ira","actor":"Jens Wendland","role":"SUPPORTING"},{"character":"Kentarou Aida","actor":"Michael Bideller","role":"SUPPORTING"},{"character":"Sebastian","actor":"Kai Hendrik Möller","role":"SUPPORTING"},{"character":"Joe Okada","actor":"Flemming Stein","role":"SUPPORTING"},{"character":"Bel","actor":"Walter Wigand","role":"SUPPORTING"},{"character":"Marmo","actor":"Kristina von Weltzien","role":"SUPPORTING"},{"character":"Reina Itsutsuboshi","actor":"Leonie Landa","role":"SUPPORTING"},{"character":"Regina","actor":"Saskia Bellahn","role":"SUPPORTING"},{"character":"Ai","actor":"Daniela Reidies","role":"SUPPORTING"},{"character":"Michiko","actor":"Mathilda Charisius","role":"SUPPORTING"}]}
+{
+ "titleId": 16419,
+ "updatedAt": "2026-08-15T18:35:42.365Z",
+ "roles": [
+  {
+   "character": "Rikka Hishikawa",
+   "actor": "Julia Fölster",
+   "role": "MAIN"
+  },
+  {
+   "character": "Alice Yotsuba",
+   "actor": "Arlette Stanschus",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mana Aida",
+   "actor": "Franciska  Friede",
+   "role": "MAIN"
+  },
+  {
+   "character": "Makoto Kenzaki",
+   "actor": "Nadine Schreier",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lance",
+   "actor": "Philipp Draeger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Aguri Madoka",
+   "actor": "Liza Ohm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Raquel",
+   "actor": "Florentine Draeger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Davi",
+   "actor": "Tanja Dohse",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sharuru",
+   "actor": "Jenny Maria Meyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ira",
+   "actor": "Jens Wendland",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kentarou Aida",
+   "actor": "Michael Bideller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sebastian",
+   "actor": "Kai Hendrik Möller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Joe Okada",
+   "actor": "Flemming Stein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bel",
+   "actor": "Walter Wigand",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marmo",
+   "actor": "Kristina von Weltzien",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Reina Itsutsuboshi",
+   "actor": "Leonie Landa",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Regina",
+   "actor": "Saskia Bellahn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ai",
+   "actor": "Daniela Reidies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Michiko",
+   "actor": "Mathilda Charisius",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dina",
+   "actor": "Daniela Reidies",
+   "von": "ann"
+  },
+  {
+   "character": "Regina",
+   "actor": "Saskia Weckler",
+   "von": "ann"
+  },
+  {
+   "character": "Davi/DB",
+   "actor": "Tanja Dohse",
+   "von": "ann"
+  },
+  {
+   "character": "Rachel/Glitter Diamant",
+   "actor": "Julia Fölster",
+   "von": "ann"
+  },
+  {
+   "character": "Riva",
+   "actor": "Robert Kotulla",
+   "von": "ann"
+  },
+  {
+   "character": "Clara/Glitter Klee",
+   "actor": "Arlette Stanschus",
+   "von": "ann"
+  },
+  {
+   "character": "Mackenzie Mack/Glitter Schwert",
+   "actor": "Nadine Schreier",
+   "von": "ann"
+  },
+  {
+   "character": "Maya's Father",
+   "actor": "Michael Bideller",
+   "von": "ann"
+  },
+  {
+   "character": "Kippie",
+   "actor": "Jenny Maria Meyer",
+   "von": "ann"
+  },
+  {
+   "character": "Maya Aida/Glitter Herz",
+   "actor": "Franciska Friede",
+   "von": "ann"
+  },
+  {
+   "character": "Sebastian",
+   "actor": "Kai Henrik Möller",
+   "von": "ann"
+  },
+  {
+   "character": "Jonathan",
+   "actor": "Flemming Stein",
+   "von": "ann"
+  },
+  {
+   "character": "Gura",
+   "actor": "Wolfgang Berger",
+   "von": "ann"
+  },
+  {
+   "character": "Natalie/Glitter Ace",
+   "actor": "Liza Ohm",
+   "von": "ann"
+  },
+  {
+   "character": "Rory",
+   "actor": "Florentine Draeger",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=14903"
+}

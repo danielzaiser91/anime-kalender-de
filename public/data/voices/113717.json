@@ -1,1 +1,117 @@
-{"titleId":113717,"updatedAt":"2026-08-11T11:20:03.541Z","roles":[{"character":"Bojji","actor":"Sarah Tkotsch","role":"MAIN"},{"character":"Kage","actor":"Sven Plate","role":"MAIN"},{"character":"Bosse","actor":"Kevin Kraus","role":"SUPPORTING"},{"character":"Domas","actor":"Julien Haggege","role":"SUPPORTING"},{"character":"Hiling","actor":"Sonja Spuhl","role":"SUPPORTING"},{"character":"Daida","actor":"Marco Eßer","role":"SUPPORTING"},{"character":"Apeas","actor":"Georgios Tzitzikos","role":"SUPPORTING"},{"character":"Dorshe","actor":"Mario Klischies","role":"SUPPORTING"},{"character":"Bebin","actor":"Stefan Bräuler","role":"SUPPORTING"},{"character":"Hokuro","actor":"Sascha Krüger","role":"SUPPORTING"},{"character":"Sheena","actor":"Dana Friedrich","role":"SUPPORTING"},{"character":"Mahou no Kagami","actor":"Johanna Schmoll","role":"SUPPORTING"},{"character":"Despa","actor":"Lucas Wecker","role":"SUPPORTING"},{"character":"Desha","actor":"Johannes Berenz","role":"SUPPORTING"},{"character":"Sorii","actor":"Martin Schubach","role":"SUPPORTING"},{"character":"Kage Haha","actor":"Katharina Schwarzmaier","role":"SUPPORTING"},{"character":"Ouken","actor":"Dennis Sandmann","role":"SUPPORTING"},{"character":"Mitsumata","actor":"Julian Tennstedt","role":"SUPPORTING"},{"character":"Red","actor":"Heiko Akrap","role":"SUPPORTING"},{"character":"Kingbo","actor":"Sven Brieger","role":"SUPPORTING"}]}
+{
+ "titleId": 113717,
+ "updatedAt": "2026-08-15T18:45:09.106Z",
+ "roles": [
+  {
+   "character": "Bojji",
+   "actor": "Sarah Tkotsch",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kage",
+   "actor": "Sven Plate",
+   "role": "MAIN"
+  },
+  {
+   "character": "Bosse",
+   "actor": "Kevin Kraus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Domas",
+   "actor": "Julien Haggege",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hiling",
+   "actor": "Sonja Spuhl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Daida",
+   "actor": "Marco Eßer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Apeas",
+   "actor": "Georgios Tzitzikos",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dorshe",
+   "actor": "Mario Klischies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bebin",
+   "actor": "Stefan Bräuler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hokuro",
+   "actor": "Sascha Krüger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sheena",
+   "actor": "Dana Friedrich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mahou no Kagami",
+   "actor": "Johanna Schmoll",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Despa",
+   "actor": "Lucas Wecker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Desha",
+   "actor": "Johannes Berenz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sorii",
+   "actor": "Martin Schubach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kage Haha",
+   "actor": "Katharina Schwarzmaier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ouken",
+   "actor": "Dennis Sandmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mitsumata",
+   "actor": "Julian Tennstedt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Red",
+   "actor": "Heiko Akrap",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kingbo",
+   "actor": "Sven Brieger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Königin Shiina",
+   "actor": "Dana Friedrich",
+   "von": "ann"
+  },
+  {
+   "character": "König Bosse",
+   "actor": "Kevin Kraus",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24246"
+}

@@ -1,1 +1,47 @@
-{"titleId":1943,"updatedAt":"2026-08-11T11:20:02.949Z","roles":[{"character":"Paprika","actor":"Veronika Aryana Neugebauer","role":"MAIN"},{"character":"Atsuko Chiba","actor":"Veronika Aryana Neugebauer","role":"MAIN"},{"character":"Toshimi Konakawa","actor":"Gudo Hoegel","role":"MAIN"},{"character":"Kousaku Tokita","actor":"Martin Halm","role":"MAIN"},{"character":"Morio Osanai","actor":"Philipp Brammer","role":"SUPPORTING"},{"character":"Kei Himuro","actor":"Kai Taschner","role":"SUPPORTING"},{"character":"Toratarou Shima","actor":"Horst Sachtleben","role":"SUPPORTING"}]}
+{
+ "titleId": 1943,
+ "updatedAt": "2026-08-15T18:29:50.205Z",
+ "roles": [
+  {
+   "character": "Paprika",
+   "actor": "Veronika Aryana Neugebauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Atsuko Chiba",
+   "actor": "Veronika Aryana Neugebauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Toshimi Konakawa",
+   "actor": "Gudo Hoegel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kousaku Tokita",
+   "actor": "Martin Halm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Morio Osanai",
+   "actor": "Philipp Brammer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kei Himuro",
+   "actor": "Kai Taschner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toratarou Shima",
+   "actor": "Horst Sachtleben",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Atsuko \"Paprika\" Chiba",
+   "actor": "Veronika A. Neugebauer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=6142"
+}

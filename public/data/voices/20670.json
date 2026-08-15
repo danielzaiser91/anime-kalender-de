@@ -1,1 +1,102 @@
-{"titleId":20670,"updatedAt":"2026-08-11T11:20:03.209Z","roles":[{"character":"Sebastian Michaelis","actor":"Bernhard Völger","role":"MAIN"},{"character":"Ciel Phantomhive","actor":"Sebastian Fitzner","role":"MAIN"},{"character":"Charles Grey","actor":"Amadeus Strobl","role":"SUPPORTING"},{"character":"Bardroy","actor":"Felix Spieß","role":"SUPPORTING"},{"character":"Ran Mao","actor":"Josephine Schmidt","role":"SUPPORTING"},{"character":"Tanaka","actor":"Joachim Siebenschuh","role":"SUPPORTING"},{"character":"Lau","actor":"Till Völger","role":"SUPPORTING"},{"character":"Finnian","actor":"Dirk Petrick","role":"SUPPORTING"},{"character":"Snake","actor":"Bastian Sierich","role":"SUPPORTING"},{"character":"Mey-Rin","actor":"Anja Rybiczka","role":"SUPPORTING"}]}
+{
+ "titleId": 20670,
+ "updatedAt": "2026-08-15T18:37:05.912Z",
+ "roles": [
+  {
+   "character": "Sebastian Michaelis",
+   "actor": "Bernhard Völger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ciel Phantomhive",
+   "actor": "Sebastian Fitzner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Charles Grey",
+   "actor": "Amadeus Strobl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bardroy",
+   "actor": "Felix Spieß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ran Mao",
+   "actor": "Josephine Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tanaka",
+   "actor": "Joachim Siebenschuh",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lau",
+   "actor": "Till Völger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Finnian",
+   "actor": "Dirk Petrick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Snake",
+   "actor": "Bastian Sierich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mey-Rin",
+   "actor": "Anja Rybiczka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Agni",
+   "actor": "Jaron Löwenberg",
+   "von": "ann"
+  },
+  {
+   "character": "Soma Asman Kadar",
+   "actor": "Alexander Doering",
+   "von": "ann"
+  },
+  {
+   "character": "Undertaker",
+   "actor": "Michael Pan",
+   "von": "ann"
+  },
+  {
+   "character": "Charles Phips",
+   "actor": "Roman Wolko",
+   "von": "ann"
+  },
+  {
+   "character": "Sir Arthur Conan Doyle",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Baldroy",
+   "actor": "Felix Spieß",
+   "von": "ann"
+  },
+  {
+   "character": "Ran-Mao",
+   "actor": "Josephine Schmidt",
+   "von": "ann"
+  },
+  {
+   "character": "Elizabeth Midford",
+   "actor": "Olivia Büschken",
+   "von": "ann"
+  },
+  {
+   "character": "Mr. Tanaka",
+   "actor": "Joachim Siebenschuh",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16031"
+}

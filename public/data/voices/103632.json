@@ -1,1 +1,172 @@
-{"titleId":103632,"updatedAt":"2026-08-11T11:20:03.467Z","roles":[{"character":"Kumoko","actor":"Manuela Eifrig","role":"MAIN"},{"character":"Schlain Zagan Analeit","actor":"Benjamin Stolz","role":"MAIN"},{"character":"Ariel","actor":"Stephanie Damare","role":"SUPPORTING"},{"character":"Karnatia Seri Anabald","actor":"Nina Witt","role":"SUPPORTING"},{"character":"Filimøs Harrifenas","actor":"Arlette Stanschus","role":"SUPPORTING"},{"character":"Feirune","actor":"Elise Eikermann","role":"SUPPORTING"},{"character":"Suresia Analeit","actor":"Saskia Bellahn","role":"SUPPORTING"},{"character":"Hugo Baint Renxandt","actor":"Ivo Möller","role":"SUPPORTING"},{"character":"Sophia Keren","actor":"Linda Fölster","role":"SUPPORTING"},{"character":"Julius Zagan Analeit","actor":"Marek Harloff","role":"SUPPORTING"},{"character":"Hyrince Quarto","actor":"Toni Michael Sattler","role":"SUPPORTING"},{"character":"D","actor":"Kerstin Draeger","role":"SUPPORTING"},{"character":"Güliedistodiez","actor":"Jens Wendland","role":"SUPPORTING"},{"character":"Potimas Harrifenas","actor":"Marc Schülert","role":"SUPPORTING"},{"character":"Merazophis","actor":"Nils Rieke","role":"SUPPORTING"},{"character":"Wrath","actor":"Robert Knorr","role":"SUPPORTING"},{"character":"Yurin Ullen","actor":"Leoni Kristin Oeffinger","role":"SUPPORTING"},{"character":"Ronandt Orozoi","actor":"Achim Buch","role":"SUPPORTING"},{"character":"Yaana","actor":"Malin Steffen","role":"SUPPORTING"},{"character":"Balto Phthalo","actor":"Flemming Stein","role":"SUPPORTING"},{"character":"Cylis","actor":"Jesse Grimm","role":"SUPPORTING"},{"character":"Buirimus","actor":"Jonas Minthe","role":"SUPPORTING"},{"character":"Agner Ricep","actor":"Tetje Mierendorf","role":"SUPPORTING"},{"character":"Meiges Derra Analeit","actor":"Bernd Stephan","role":"SUPPORTING"},{"character":"Kogou","actor":"Daniel Welbat","role":"SUPPORTING"}]}
+{
+ "titleId": 103632,
+ "updatedAt": "2026-08-15T18:42:55.412Z",
+ "roles": [
+  {
+   "character": "Kumoko",
+   "actor": "Manuela Eifrig",
+   "role": "MAIN"
+  },
+  {
+   "character": "Schlain Zagan Analeit",
+   "actor": "Benjamin Stolz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ariel",
+   "actor": "Stephanie Damare",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Karnatia Seri Anabald",
+   "actor": "Nina Witt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Filimøs Harrifenas",
+   "actor": "Arlette Stanschus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Feirune",
+   "actor": "Elise Eikermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Suresia Analeit",
+   "actor": "Saskia Bellahn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hugo Baint Renxandt",
+   "actor": "Ivo Möller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sophia Keren",
+   "actor": "Linda Fölster",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Julius Zagan Analeit",
+   "actor": "Marek Harloff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hyrince Quarto",
+   "actor": "Toni Michael Sattler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "D",
+   "actor": "Kerstin Draeger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Güliedistodiez",
+   "actor": "Jens Wendland",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Potimas Harrifenas",
+   "actor": "Marc Schülert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Merazophis",
+   "actor": "Nils Rieke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Wrath",
+   "actor": "Robert Knorr",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yurin Ullen",
+   "actor": "Leoni Kristin Oeffinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ronandt Orozoi",
+   "actor": "Achim Buch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yaana",
+   "actor": "Malin Steffen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Balto Phthalo",
+   "actor": "Flemming Stein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cylis",
+   "actor": "Jesse Grimm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Buirimus",
+   "actor": "Jonas Minthe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Agner Ricep",
+   "actor": "Tetje Mierendorf",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Meiges Derra Analeit",
+   "actor": "Bernd Stephan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kogou",
+   "actor": "Daniel Welbat",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "D / Administratorin",
+   "actor": "Kerstin Draeger",
+   "von": "ann"
+  },
+  {
+   "character": "Yurin Ullen",
+   "actor": "Leoni Oeffinger",
+   "von": "ann"
+  },
+  {
+   "character": "Anna",
+   "actor": "Julia Fölster",
+   "von": "ann"
+  },
+  {
+   "character": "Filimos Harrifenas",
+   "actor": "Arlette Stanschus",
+   "von": "ann"
+  },
+  {
+   "character": "Kumoko",
+   "actor": "Manuela Bäcker",
+   "von": "ann"
+  },
+  {
+   "character": "Guliedistodiez",
+   "actor": "Jens Wendland",
+   "von": "ann"
+  },
+  {
+   "character": "The Divine Voice",
+   "actor": "Gabriele Libbach",
+   "von": "ann"
+  },
+  {
+   "character": "Suelecia",
+   "actor": "Saskia Bellahn",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=21180"
+}

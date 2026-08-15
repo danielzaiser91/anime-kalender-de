@@ -1,1 +1,42 @@
-{"titleId":129191,"updatedAt":"2026-08-11T11:20:03.585Z","roles":[{"character":"Alma Lepucius","actor":"Manuela Eifrig","role":"MAIN"},{"character":"Matthias Hildesheimer","actor":"Tim Kreuer","role":"MAIN"},{"character":"Lurie Abendroth","actor":"Arlette Stanschus","role":"MAIN"},{"character":"Iris","actor":"Malin Steffen","role":"MAIN"}]}
+{
+ "titleId": 129191,
+ "updatedAt": "2026-08-15T18:46:32.547Z",
+ "roles": [
+  {
+   "character": "Alma Lepucius",
+   "actor": "Manuela Eifrig",
+   "role": "MAIN"
+  },
+  {
+   "character": "Matthias Hildesheimer",
+   "actor": "Tim Kreuer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lurie Abendroth",
+   "actor": "Arlette Stanschus",
+   "role": "MAIN"
+  },
+  {
+   "character": "Iris",
+   "actor": "Malin Steffen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ruri Abendrot",
+   "actor": "Arlette Stanschus",
+   "von": "ann"
+  },
+  {
+   "character": "Alma Lebsius",
+   "actor": "Manuela Bäcker",
+   "von": "ann"
+  },
+  {
+   "character": "Giluas",
+   "actor": "Vincent Fallow",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24000"
+}

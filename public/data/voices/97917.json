@@ -1,1 +1,112 @@
-{"titleId":97917,"updatedAt":"2026-08-11T11:20:03.371Z","roles":[{"character":"Senpai","actor":"Jan Langer","role":"MAIN"},{"character":"Kurokami no Otome","actor":"Poetine Alija","role":"MAIN"},{"character":"Seitarou Higuchi","actor":"Tim Moeseritz","role":"SUPPORTING"},{"character":"Ryouko Hanuki","actor":"Esra Vural","role":"SUPPORTING"},{"character":"Nise Jougasaki","actor":"Sascha von Zambelly","role":"SUPPORTING"},{"character":"Princess Daruma","actor":"Vivien Faber","role":"SUPPORTING"},{"character":"Noriko Suda","actor":"Nicole Hise","role":"SUPPORTING"},{"character":"Pantsu Soubanchou","actor":"Sven Fechner","role":"SUPPORTING"},{"character":"Furuhonichi no Kamisama","actor":"Rainer Fritzsche","role":"SUPPORTING"},{"character":"Gakuensai Jimukyokuchou","actor":"Benedikt Hahn","role":"SUPPORTING"}]}
+{
+ "titleId": 97917,
+ "updatedAt": "2026-08-15T18:40:42.891Z",
+ "roles": [
+  {
+   "character": "Senpai",
+   "actor": "Jan Langer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kurokami no Otome",
+   "actor": "Poetine Alija",
+   "role": "MAIN"
+  },
+  {
+   "character": "Seitarou Higuchi",
+   "actor": "Tim Moeseritz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryouko Hanuki",
+   "actor": "Esra Vural",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nise Jougasaki",
+   "actor": "Sascha von Zambelly",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Princess Daruma",
+   "actor": "Vivien Faber",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Noriko Suda",
+   "actor": "Nicole Hise",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pantsu Soubanchou",
+   "actor": "Sven Fechner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Furuhonichi no Kamisama",
+   "actor": "Rainer Fritzsche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gakuensai Jimukyokuchou",
+   "actor": "Benedikt Hahn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "God Of The Old Books Market",
+   "actor": "Rainer Fritzsche",
+   "von": "ann"
+  },
+  {
+   "character": "Ri Haku",
+   "actor": "Hans Bayer",
+   "von": "ann"
+  },
+  {
+   "character": "Kousaka",
+   "actor": "Momme Mommsen",
+   "von": "ann"
+  },
+  {
+   "character": "Kiko-san",
+   "actor": "Nicole Hise",
+   "von": "ann"
+  },
+  {
+   "character": "Naoko-san",
+   "actor": "Melinda Rachfahl",
+   "von": "ann"
+  },
+  {
+   "character": "Bookstore Shopkeeper Gabi",
+   "actor": "Bert Stevens",
+   "von": "ann"
+  },
+  {
+   "character": "School Festival Executive Head",
+   "actor": "Benedikt Hahn",
+   "von": "ann"
+  },
+  {
+   "character": "Nise Jogasaki",
+   "actor": "Sascha von Zambelly",
+   "von": "ann"
+  },
+  {
+   "character": "Johnny",
+   "actor": "Julian Horeyseck",
+   "von": "ann"
+  },
+  {
+   "character": "Underpants Leader",
+   "actor": "Sven Fechner",
+   "von": "ann"
+  },
+  {
+   "character": "Todo",
+   "actor": "Ralf Drexler",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18915"
+}

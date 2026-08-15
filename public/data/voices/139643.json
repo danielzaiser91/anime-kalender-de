@@ -1,1 +1,77 @@
-{"titleId":139643,"updatedAt":"2026-08-11T11:20:03.615Z","roles":[{"character":"Natsume Tonai","actor":"Anna Amalie Blomeyer","role":"MAIN"},{"character":"Kousuke Kumagaya","actor":"Tobias Diakow","role":"MAIN"},{"character":"Satoko Tonai","actor":"Olivia Büschken","role":"SUPPORTING"},{"character":"Kanran-sha no Shoujo","actor":"Johanna Schmoll","role":"SUPPORTING"},{"character":"Noppo","actor":"Philip Süß","role":"SUPPORTING"},{"character":"Yuzuru Tachibana","actor":"Linus Drews","role":"SUPPORTING"},{"character":"Taishi Koiwai","actor":"Peggy Pollow","role":"SUPPORTING"},{"character":"Reina Waba","actor":"Lea Kalbhenn","role":"SUPPORTING"},{"character":"Juri Andou","actor":"Melinda Rachfahl","role":"SUPPORTING"},{"character":"Yasuji Kumagaya","actor":"Otto Strecker","role":"SUPPORTING"}]}
+{
+ "titleId": 139643,
+ "updatedAt": "2026-08-15T18:47:28.697Z",
+ "roles": [
+  {
+   "character": "Natsume Tonai",
+   "actor": "Anna Amalie Blomeyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kousuke Kumagaya",
+   "actor": "Tobias Diakow",
+   "role": "MAIN"
+  },
+  {
+   "character": "Satoko Tonai",
+   "actor": "Olivia Büschken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kanran-sha no Shoujo",
+   "actor": "Johanna Schmoll",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Noppo",
+   "actor": "Philip Süß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuzuru Tachibana",
+   "actor": "Linus Drews",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Taishi Koiwai",
+   "actor": "Peggy Pollow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Reina Waba",
+   "actor": "Lea Kalbhenn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Juri Andou",
+   "actor": "Melinda Rachfahl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yasuji Kumagaya",
+   "actor": "Otto Strecker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kosuke Kumagaya",
+   "actor": "Tobias Diakow",
+   "von": "ann"
+  },
+  {
+   "character": "Juri Andō",
+   "actor": "Melinda Rachfahl",
+   "von": "ann"
+  },
+  {
+   "character": "Reina Haba",
+   "actor": "Lea Kalbhenn",
+   "von": "ann"
+  },
+  {
+   "character": "Yasujii Kumagaya",
+   "actor": "Otto Strecker",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24791"
+}

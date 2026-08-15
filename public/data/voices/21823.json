@@ -1,1 +1,147 @@
-{"titleId":21823,"updatedAt":"2026-08-11T11:20:03.338Z","roles":[{"character":"Jean Otus","actor":"Marek Harloff","role":"MAIN"},{"character":"Mauve","actor":"Kristina von Weltzien","role":"MAIN"},{"character":"Nino","actor":"Tobias Diakow","role":"MAIN"},{"character":"Lilium","actor":"Patrick Bach","role":"SUPPORTING"},{"character":"Biscuit","actor":"Robert Kotulla","role":"SUPPORTING"},{"character":"Warbler","actor":"Christos Topoulos","role":"SUPPORTING"},{"character":"Lotta","actor":"Leonie Landa","role":"SUPPORTING"},{"character":"Schwan","actor":"Tammo Kaulbarsch","role":"SUPPORTING"},{"character":"Eider","actor":"Leoni Kristin Oeffinger","role":"SUPPORTING"},{"character":"Falke II","actor":"Achim Schülke","role":"SUPPORTING"},{"character":"Gurus","actor":"Michael Bideller","role":"SUPPORTING"},{"character":"Pastice","actor":"Martin Sabel","role":"SUPPORTING"},{"character":"Rail","actor":"Jannik Endemann","role":"SUPPORTING"},{"character":"Kelly","actor":"Jenny Maria Meyer","role":"SUPPORTING"},{"character":"Pochard","actor":"Kai Henrik Möller","role":"SUPPORTING"},{"character":"Knot","actor":"Jörn Linnenbröker","role":"SUPPORTING"},{"character":"Koruri","actor":"Julian-Elias Henneberg","role":"SUPPORTING"},{"character":"Payne","actor":"Daniel Welbat","role":"SUPPORTING"},{"character":"Spade","actor":"Martin May","role":"SUPPORTING"},{"character":"Maggie","actor":"Timo Kinzel","role":"SUPPORTING"},{"character":"Grossular","actor":"Sascha Rotermund","role":"SUPPORTING"},{"character":"Qvalum","actor":"Achim Buch","role":"SUPPORTING"},{"character":"Moz","actor":"Nina Witt","role":"SUPPORTING"}]}
+{
+ "titleId": 21823,
+ "updatedAt": "2026-08-15T18:40:01.780Z",
+ "roles": [
+  {
+   "character": "Jean Otus",
+   "actor": "Marek Harloff",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mauve",
+   "actor": "Kristina von Weltzien",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nino",
+   "actor": "Tobias Diakow",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lilium",
+   "actor": "Patrick Bach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Biscuit",
+   "actor": "Robert Kotulla",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Warbler",
+   "actor": "Christos Topoulos",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lotta",
+   "actor": "Leonie Landa",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Schwan",
+   "actor": "Tammo Kaulbarsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eider",
+   "actor": "Leoni Kristin Oeffinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Falke II",
+   "actor": "Achim Schülke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gurus",
+   "actor": "Michael Bideller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pastice",
+   "actor": "Martin Sabel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rail",
+   "actor": "Jannik Endemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kelly",
+   "actor": "Jenny Maria Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pochard",
+   "actor": "Kai Henrik Möller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Knot",
+   "actor": "Jörn Linnenbröker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Koruri",
+   "actor": "Julian-Elias Henneberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Payne",
+   "actor": "Daniel Welbat",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Spade",
+   "actor": "Martin May",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maggie",
+   "actor": "Timo Kinzel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Grossular",
+   "actor": "Sascha Rotermund",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Qvalum",
+   "actor": "Achim Buch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Moz",
+   "actor": "Nina Witt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Owl",
+   "actor": "Rasmus Borowski",
+   "von": "ann"
+  },
+  {
+   "character": "Lilium",
+   "actor": "Robert Kotulla",
+   "von": "ann"
+  },
+  {
+   "character": "Pine",
+   "actor": "Daniel Welbat",
+   "von": "ann"
+  },
+  {
+   "character": "Pastis",
+   "actor": "Martin Sabel",
+   "von": "ann"
+  },
+  {
+   "character": "Lotta Otus",
+   "actor": "Leonie Landa",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18461"
+}

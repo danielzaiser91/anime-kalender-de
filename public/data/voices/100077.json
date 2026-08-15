@@ -1,1 +1,107 @@
-{"titleId":100077,"updatedAt":"2026-08-11T11:20:03.416Z","roles":[{"character":"Hina","actor":"Annalena Doss","role":"MAIN"},{"character":"Yoshifumi Nitta","actor":"Jacob Weigert","role":"MAIN"},{"character":"Yassan","actor":"Peter Weis","role":"SUPPORTING"},{"character":"Sayo Aizawa","actor":"Nina Witt","role":"SUPPORTING"},{"character":"Atsushi Yamamoto","actor":"Brian Sommer","role":"SUPPORTING"},{"character":"Tsubasa Matsutani","actor":"Johannes Semm","role":"SUPPORTING"},{"character":"Anzu","actor":"Liza Ohm","role":"SUPPORTING"},{"character":"Kei Ikaruga","actor":"Céline Fontanges","role":"SUPPORTING"},{"character":"Tatsuhiko Naitou","actor":"Erik Schäffler","role":"SUPPORTING"},{"character":"Kiyoshi Baba","actor":"Wolfgang Berger","role":"SUPPORTING"},{"character":"Kengo Tanaka","actor":"Tim Kreuer","role":"SUPPORTING"},{"character":"Takashi Shimoda","actor":"Daniel Axt","role":"SUPPORTING"},{"character":"Mao","actor":"Malin Steffen","role":"SUPPORTING"},{"character":"Mika Nitta","actor":"Jannika Jira","role":"SUPPORTING"},{"character":"Nitta no Haha","actor":"Ulrike Johannson","role":"SUPPORTING"},{"character":"Hitomi Mishima","actor":"Elise Eikermann","role":"SUPPORTING"},{"character":"Yoshihiko Ashikawa","actor":"Bernd Stephan","role":"SUPPORTING"}]}
+{
+ "titleId": 100077,
+ "updatedAt": "2026-08-15T18:41:44.684Z",
+ "roles": [
+  {
+   "character": "Hina",
+   "actor": "Annalena Doss",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yoshifumi Nitta",
+   "actor": "Jacob Weigert",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yassan",
+   "actor": "Peter Weis",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sayo Aizawa",
+   "actor": "Nina Witt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Atsushi Yamamoto",
+   "actor": "Brian Sommer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsubasa Matsutani",
+   "actor": "Johannes Semm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Anzu",
+   "actor": "Liza Ohm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kei Ikaruga",
+   "actor": "Céline Fontanges",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tatsuhiko Naitou",
+   "actor": "Erik Schäffler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kiyoshi Baba",
+   "actor": "Wolfgang Berger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kengo Tanaka",
+   "actor": "Tim Kreuer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takashi Shimoda",
+   "actor": "Daniel Axt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mao",
+   "actor": "Malin Steffen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mika Nitta",
+   "actor": "Jannika Jira",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nitta no Haha",
+   "actor": "Ulrike Johannson",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hitomi Mishima",
+   "actor": "Elise Eikermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yoshihiko Ashikawa",
+   "actor": "Bernd Stephan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Utako Sakura",
+   "actor": "Stephanie Kirchberger",
+   "von": "ann"
+  },
+  {
+   "character": "Sabu",
+   "actor": "Flemming Stein",
+   "von": "ann"
+  },
+  {
+   "character": "Kashira",
+   "actor": "Wolfgang Berger",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20335"
+}

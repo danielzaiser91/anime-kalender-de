@@ -1,1 +1,67 @@
-{"titleId":15037,"updatedAt":"2026-08-11T11:20:03.150Z","roles":[{"character":"Yuka Mochida","actor":"Aliana Schmitz","role":"MAIN"},{"character":"Yoshiki Kishinuma","actor":"Adam Nümm","role":"MAIN"},{"character":"Seiko Shinohara","actor":"Jenny Maria Meyer","role":"MAIN"},{"character":"Ayumi Shinozaki","actor":"Moira May","role":"MAIN"},{"character":"Sachiko Shinozaki","actor":"Inken Baxmeier","role":"MAIN"},{"character":"Naomi Nakashima","actor":"Shanti Chakraborty","role":"MAIN"},{"character":"Satoshi Mochida","actor":"Florian Clyde","role":"MAIN"},{"character":"Mayu Suzumoto","actor":"Melinda Rachfahl","role":"MAIN"},{"character":"Naho Saenoki","actor":"Olivia Büschken","role":"SUPPORTING"},{"character":"Sakutarou Morishige","actor":"Imme Aldag","role":"SUPPORTING"},{"character":"Yuki Kanno","actor":"Jelena Baack","role":"SUPPORTING"}]}
+{
+ "titleId": 15037,
+ "updatedAt": "2026-08-15T18:35:22.802Z",
+ "roles": [
+  {
+   "character": "Yuka Mochida",
+   "actor": "Aliana Schmitz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yoshiki Kishinuma",
+   "actor": "Adam Nümm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Seiko Shinohara",
+   "actor": "Jenny Maria Meyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ayumi Shinozaki",
+   "actor": "Moira May",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sachiko Shinozaki",
+   "actor": "Inken Baxmeier",
+   "role": "MAIN"
+  },
+  {
+   "character": "Naomi Nakashima",
+   "actor": "Shanti Chakraborty",
+   "role": "MAIN"
+  },
+  {
+   "character": "Satoshi Mochida",
+   "actor": "Florian Clyde",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mayu Suzumoto",
+   "actor": "Melinda Rachfahl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Naho Saenoki",
+   "actor": "Olivia Büschken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sakutarou Morishige",
+   "actor": "Imme Aldag",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuki Kanno",
+   "actor": "Jelena Baack",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yui Shishido",
+   "actor": "Jessica Ridder",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=14993"
+}

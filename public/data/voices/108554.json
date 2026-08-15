@@ -1,1 +1,97 @@
-{"titleId":108554,"updatedAt":"2026-08-11T11:20:03.510Z","roles":[{"character":"Shiori Ichinose","actor":"Christopher Kussin","role":"MAIN"},{"character":"Seiji Nanatsuki","actor":"Maximilian Belle","role":"MAIN"},{"character":"Kujaku Nijou","actor":"Jan Langer","role":"MAIN"},{"character":"Rokusuke Endo","actor":"Raik Singer","role":"SUPPORTING"},{"character":"Warlock","actor":"Patrick Zwingmann","role":"SUPPORTING"},{"character":"Cinq Bellemer","actor":"Julia Bautz","role":"SUPPORTING"},{"character":"Nazo no Otoko","actor":"Louis Friedemann Thiele","role":"SUPPORTING"},{"character":"Akane Shikisai","actor":"Irene Weber","role":"SUPPORTING"},{"character":"Zeroemon Kiryuin Sakon","actor":"Matthias Hoff","role":"SUPPORTING"},{"character":"Kuro Shinju","actor":"Kai Schulz","role":"SUPPORTING"}]}
+{
+ "titleId": 108554,
+ "updatedAt": "2026-08-15T18:44:12.817Z",
+ "roles": [
+  {
+   "character": "Shiori Ichinose",
+   "actor": "Christopher Kussin",
+   "role": "MAIN"
+  },
+  {
+   "character": "Seiji Nanatsuki",
+   "actor": "Maximilian Belle",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kujaku Nijou",
+   "actor": "Jan Langer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rokusuke Endo",
+   "actor": "Raik Singer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Warlock",
+   "actor": "Patrick Zwingmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cinq Bellemer",
+   "actor": "Julia Bautz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nazo no Otoko",
+   "actor": "Louis Friedemann Thiele",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akane Shikisai",
+   "actor": "Irene Weber",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zeroemon Kiryuin Sakon",
+   "actor": "Matthias Hoff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kuro Shinju",
+   "actor": "Kai Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seiji 'Rookie' Nanatsuki",
+   "actor": "Maximilian Belle",
+   "von": "ann"
+  },
+  {
+   "character": "Luka Mizuma",
+   "actor": "Louis Friedemann Thiele",
+   "von": "ann"
+  },
+  {
+   "character": "Bellemer 'Ninja' Cinq",
+   "actor": "Julia Bautz",
+   "von": "ann"
+  },
+  {
+   "character": "Kujaku 'Analyzer' Nijou",
+   "actor": "Jan Langer",
+   "von": "ann"
+  },
+  {
+   "character": "Rokusuke 'Sniper' Endou",
+   "actor": "Raik Singer",
+   "von": "ann"
+  },
+  {
+   "character": "Shiori 'Charisma' Ichinose",
+   "actor": "Christopher Kussin",
+   "von": "ann"
+  },
+  {
+   "character": "Akane 'Samurai' Shikisai",
+   "actor": "Irene Weber",
+   "von": "ann"
+  },
+  {
+   "character": "Sakon Zeroemon 'Boss' Kiryuin",
+   "actor": "Matthias Hoff",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22016"
+}

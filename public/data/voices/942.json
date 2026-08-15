@@ -1,1 +1,132 @@
-{"titleId":942,"updatedAt":"2026-08-11T11:20:02.880Z","roles":[{"character":"Adele Roland","actor":"Catrin Dams","role":"MAIN"},{"character":"Firiel Dee","actor":"Kathrin Neusser","role":"MAIN"},{"character":"Roux Ltskin","actor":"Fabian Hollwitz","role":"MAIN"},{"character":"Chrisbart Lot","actor":"Asad Schwarz-Msesilamba","role":"SUPPORTING"},{"character":"Bard","actor":"Felix Spieß","role":"SUPPORTING"},{"character":"Cheviat Leandra","actor":"Silvia Mißbach","role":"SUPPORTING"},{"character":"Riez Liamon","actor":"Dieter Memel","role":"SUPPORTING"},{"character":"Eusis Roland","actor":"Tommy Morgenstern","role":"SUPPORTING"},{"character":"Oset Marie","actor":"Millie Forsberg","role":"SUPPORTING"}]}
+{
+ "titleId": 942,
+ "updatedAt": "2026-08-15T18:26:57.765Z",
+ "roles": [
+  {
+   "character": "Adele Roland",
+   "actor": "Catrin Dams",
+   "role": "MAIN"
+  },
+  {
+   "character": "Firiel Dee",
+   "actor": "Kathrin Neusser",
+   "role": "MAIN"
+  },
+  {
+   "character": "Roux Ltskin",
+   "actor": "Fabian Hollwitz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chrisbart Lot",
+   "actor": "Asad Schwarz-Msesilamba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bard",
+   "actor": "Felix Spieß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cheviat Leandra",
+   "actor": "Silvia Mißbach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Riez Liamon",
+   "actor": "Dieter Memel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eusis Roland",
+   "actor": "Tommy Morgenstern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Oset Marie",
+   "actor": "Millie Forsberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marie Oset",
+   "actor": "Millie Forsberg",
+   "von": "ann"
+  },
+  {
+   "character": "Igraine Burnett",
+   "actor": "Ann Vielhaben",
+   "von": "ann"
+  },
+  {
+   "character": "Vincent",
+   "actor": "Julia Meynen",
+   "von": "ann"
+  },
+  {
+   "character": "Roux Ltskin",
+   "actor": "Hannes Maurer",
+   "von": "ann"
+  },
+  {
+   "character": "Laetitia",
+   "actor": "Magdalena Turba",
+   "von": "ann"
+  },
+  {
+   "character": "Laelia",
+   "actor": "Susanne Kaps",
+   "von": "ann"
+  },
+  {
+   "character": "Ménière",
+   "actor": "Eva-Maria Werth",
+   "von": "ann"
+  },
+  {
+   "character": "Tabitha Holy",
+   "actor": "Margot Rothweiler",
+   "von": "ann"
+  },
+  {
+   "character": "Ravenna",
+   "actor": "Maxi Deutsch",
+   "von": "ann"
+  },
+  {
+   "character": "Liamon Riez",
+   "actor": "Dieter Memel",
+   "von": "ann"
+  },
+  {
+   "character": "Garland",
+   "actor": "Reinhard Scheunemann",
+   "von": "ann"
+  },
+  {
+   "character": "Leandra Cheviat",
+   "actor": "Silvia Mißbach",
+   "von": "ann"
+  },
+  {
+   "character": "Lot Chrisbard",
+   "actor": "Asad Schwarz",
+   "von": "ann"
+  },
+  {
+   "character": "Hyla",
+   "actor": "Tanya Kahana",
+   "von": "ann"
+  },
+  {
+   "character": "Cain Abel",
+   "actor": "Michael Baral",
+   "von": "ann"
+  },
+  {
+   "character": "Cain Abel",
+   "actor": "Felix Spieß",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=6175"
+}

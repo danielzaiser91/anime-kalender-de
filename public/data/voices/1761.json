@@ -1,1 +1,47 @@
-{"titleId":1761,"updatedAt":"2026-08-11T11:20:02.941Z","roles":[{"character":"Golgo 13","actor":"Ole Pfennig","role":"MAIN"},{"character":"Sonia","actor":"Kathrin Simon","role":"MAIN"},{"character":"Robert Hardy","actor":"Leon Rainer","role":"SUPPORTING"},{"character":"Thomas Waltham","actor":"Crock Krumbiegel","role":"SUPPORTING"}]}
+{
+ "titleId": 1761,
+ "updatedAt": "2026-08-15T18:29:29.426Z",
+ "roles": [
+  {
+   "character": "Golgo 13",
+   "actor": "Ole Pfennig",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sonia",
+   "actor": "Kathrin Simon",
+   "role": "MAIN"
+  },
+  {
+   "character": "Robert Hardy",
+   "actor": "Leon Rainer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Thomas Waltham",
+   "actor": "Crock Krumbiegel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Benning",
+   "actor": "Kai Taschner",
+   "von": "ann"
+  },
+  {
+   "character": "Kommandant Gomez",
+   "actor": "Willi Röbke",
+   "von": "ann"
+  },
+  {
+   "character": "Duke Tougou / Golgo 13",
+   "actor": "Ole Pfennig",
+   "von": "ann"
+  },
+  {
+   "character": "Sonia / Bienenkönigin",
+   "actor": "Kathrin Simon",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=319"
+}

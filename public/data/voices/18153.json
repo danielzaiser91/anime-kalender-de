@@ -1,1 +1,72 @@
-{"titleId":18153,"updatedAt":"2026-08-11T11:20:03.172Z","roles":[{"character":"Mirai Kuriyama","actor":"Saskia Bellahn","role":"MAIN"},{"character":"Akihito Kanbara","actor":"Tim Kreuer","role":"MAIN"},{"character":"Mitsuki Nase","actor":"Merete Brettschneider","role":"MAIN"},{"character":"Hiroomi Nase","actor":"Jesse Grimm","role":"MAIN"},{"character":"Ayaka Shindou","actor":"Tanja Dohse","role":"SUPPORTING"},{"character":"Shizuku Ninomiya","actor":"Jennifer Böttcher","role":"SUPPORTING"},{"character":"Yayoi Kanbara","actor":"Nadine Schreier","role":"SUPPORTING"},{"character":"Miroku Fujima","actor":"Rasmus Borowski","role":"SUPPORTING"},{"character":"Sakura Inami","actor":"Manuela Eifrig","role":"SUPPORTING"},{"character":"Izumi Nase","actor":"Kristina von Weltzien","role":"SUPPORTING"},{"character":"Ai Shindou","actor":"Dorothee Sturz","role":"SUPPORTING"}]}
+{
+ "titleId": 18153,
+ "updatedAt": "2026-08-15T18:35:58.484Z",
+ "roles": [
+  {
+   "character": "Mirai Kuriyama",
+   "actor": "Saskia Bellahn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Akihito Kanbara",
+   "actor": "Tim Kreuer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mitsuki Nase",
+   "actor": "Merete Brettschneider",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hiroomi Nase",
+   "actor": "Jesse Grimm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ayaka Shindou",
+   "actor": "Tanja Dohse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shizuku Ninomiya",
+   "actor": "Jennifer Böttcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yayoi Kanbara",
+   "actor": "Nadine Schreier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miroku Fujima",
+   "actor": "Rasmus Borowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sakura Inami",
+   "actor": "Manuela Eifrig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Izumi Nase",
+   "actor": "Kristina von Weltzien",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ai Shindou",
+   "actor": "Dorothee Sturz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mirai Kuriyama",
+   "actor": "Saskia Weckler",
+   "von": "ann"
+  },
+  {
+   "character": "Sakura Inami",
+   "actor": "Manuela Bäcker",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15546"
+}

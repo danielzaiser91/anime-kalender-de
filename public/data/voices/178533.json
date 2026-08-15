@@ -1,1 +1,117 @@
-{"titleId":178533,"updatedAt":"2026-08-11T11:20:03.733Z","roles":[{"character":"Ranma Saotome","actor":"Angela Wiederhut","role":"MAIN"},{"character":"Akane Tendou","actor":"Andrea Wick","role":"MAIN"},{"character":"Ryouga Hibiki","actor":"Daniel Schlauch","role":"SUPPORTING"},{"character":"Shampoo","actor":"Anke Kortemeier","role":"SUPPORTING"},{"character":"Nabiki Tendou","actor":"Sonja Reichelt","role":"SUPPORTING"},{"character":"Kasumi Tendou","actor":"Christine Stichler","role":"SUPPORTING"},{"character":"Tatewaki Kunou","actor":"Manuel Straube","role":"SUPPORTING"},{"character":"Soun Tendou","actor":"Michael Schwarzmaier","role":"SUPPORTING"},{"character":"Azusa Shiratori","actor":"Zina Laus","role":"SUPPORTING"},{"character":"Genma Saotome","actor":"Thomas Rauscher","role":"SUPPORTING"},{"character":"Kodachi Kunou","actor":"Julia Haacke","role":"SUPPORTING"},{"character":"Toufuu Ono","actor":"Hubertus von Lerchenfeld","role":"SUPPORTING"},{"character":"Mikado Sanzenin","actor":"Nicolás Artajo","role":"SUPPORTING"},{"character":"Jusenkyou Guide","actor":"Yu Fang","role":"SUPPORTING"},{"character":"Ichirou","actor":"Tobias John von Freyend","role":"SUPPORTING"},{"character":"Narrator","actor":"Michael Pan","role":"BACKGROUND"}]}
+{
+ "titleId": 178533,
+ "updatedAt": "2026-08-15T18:49:51.308Z",
+ "roles": [
+  {
+   "character": "Ranma Saotome",
+   "actor": "Angela Wiederhut",
+   "role": "MAIN"
+  },
+  {
+   "character": "Akane Tendou",
+   "actor": "Andrea Wick",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ryouga Hibiki",
+   "actor": "Daniel Schlauch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shampoo",
+   "actor": "Anke Kortemeier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nabiki Tendou",
+   "actor": "Sonja Reichelt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kasumi Tendou",
+   "actor": "Christine Stichler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tatewaki Kunou",
+   "actor": "Manuel Straube",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Soun Tendou",
+   "actor": "Michael Schwarzmaier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Azusa Shiratori",
+   "actor": "Zina Laus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Genma Saotome",
+   "actor": "Thomas Rauscher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kodachi Kunou",
+   "actor": "Julia Haacke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toufuu Ono",
+   "actor": "Hubertus von Lerchenfeld",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mikado Sanzenin",
+   "actor": "Nicolás Artajo",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jusenkyou Guide",
+   "actor": "Yu Fang",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ichirou",
+   "actor": "Tobias John von Freyend",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Michael Pan",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Soun Tendo",
+   "actor": "Michael Schwarzmaier",
+   "von": "ann"
+  },
+  {
+   "character": "Kasumi Tendo",
+   "actor": "Christine Stichler",
+   "von": "ann"
+  },
+  {
+   "character": "Nabiki Tendo",
+   "actor": "Sonja Reichelt",
+   "von": "ann"
+  },
+  {
+   "character": "Tatewaki Kuno",
+   "actor": "Manuel Straube",
+   "von": "ann"
+  },
+  {
+   "character": "Akane Tendo",
+   "actor": "Andrea Wick",
+   "von": "ann"
+  },
+  {
+   "character": "Ranma Saotome",
+   "actor": "Florian Knorn",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=32929"
+}

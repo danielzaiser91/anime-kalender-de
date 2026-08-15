@@ -1,1 +1,52 @@
-{"titleId":20786,"updatedAt":"2026-08-11T11:20:03.203Z","roles":[{"character":"Briareos Hecatonchires","actor":"Dirk Bublies","role":"MAIN"},{"character":"Deunan Knute","actor":"Anja Nestler","role":"MAIN"}]}
+{
+ "titleId": 20786,
+ "updatedAt": "2026-08-15T18:36:54.879Z",
+ "roles": [
+  {
+   "character": "Briareos Hecatonchires",
+   "actor": "Dirk Bublies",
+   "role": "MAIN"
+  },
+  {
+   "character": "Deunan Knute",
+   "actor": "Anja Nestler",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nyx",
+   "actor": "Claudia Urbschat-Mingues",
+   "von": "ann"
+  },
+  {
+   "character": "Two Horns",
+   "actor": "Nicolas König",
+   "von": "ann"
+  },
+  {
+   "character": "Matthews",
+   "actor": "Christoph Banken",
+   "von": "ann"
+  },
+  {
+   "character": "Olsen",
+   "actor": "Sven Gerhardt",
+   "von": "ann"
+  },
+  {
+   "character": "Talos",
+   "actor": "Hendrik Martz",
+   "von": "ann"
+  },
+  {
+   "character": "Iris",
+   "actor": "Shanti Chakraborty",
+   "von": "ann"
+  },
+  {
+   "character": "Briareos Hecantochires",
+   "actor": "Dirk Bublies",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16163"
+}

@@ -1,1 +1,117 @@
-{"titleId":98298,"updatedAt":"2026-08-11T11:20:03.371Z","roles":[{"character":"Satoshi","actor":"Felix Mayer","role":"MAIN"},{"character":"Makoto","actor":"Katharina von Daake","role":"MAIN"},{"character":"Pikachu","actor":"Sabine Bohlmann","role":"MAIN"},{"character":"Souji","actor":"Maximilian Belle","role":"MAIN"},{"character":"Joy","actor":"Katharina Iacobescu","role":"SUPPORTING"},{"character":"Cross","actor":"Karim El Kammouchi","role":"SUPPORTING"},{"character":"Musashi","actor":"Scarlet Cavadenti","role":"SUPPORTING"},{"character":"Yukinari Ookido","actor":"Walter von Hauff","role":"SUPPORTING"},{"character":"Nyarth","actor":"Gerhard Acktun","role":"SUPPORTING"},{"character":"Hanako","actor":"Ulla Wagener","role":"SUPPORTING"},{"character":"Bonjii","actor":"Thomas Rauscher","role":"SUPPORTING"},{"character":"Erika","actor":"Sonja Reichelt","role":"SUPPORTING"},{"character":"Kojirou","actor":"Matthias Klie","role":"SUPPORTING"}]}
+{
+ "titleId": 98298,
+ "updatedAt": "2026-08-15T18:40:43.997Z",
+ "roles": [
+  {
+   "character": "Satoshi",
+   "actor": "Felix Mayer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Makoto",
+   "actor": "Katharina von Daake",
+   "role": "MAIN"
+  },
+  {
+   "character": "Pikachu",
+   "actor": "Sabine Bohlmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Souji",
+   "actor": "Maximilian Belle",
+   "role": "MAIN"
+  },
+  {
+   "character": "Joy",
+   "actor": "Katharina Iacobescu",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cross",
+   "actor": "Karim El Kammouchi",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Musashi",
+   "actor": "Scarlet Cavadenti",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yukinari Ookido",
+   "actor": "Walter von Hauff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nyarth",
+   "actor": "Gerhard Acktun",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hanako",
+   "actor": "Ulla Wagener",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bonjii",
+   "actor": "Thomas Rauscher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Erika",
+   "actor": "Sonja Reichelt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kojirou",
+   "actor": "Matthias Klie",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jessie",
+   "actor": "Scarlet Cavadenti",
+   "von": "ann"
+  },
+  {
+   "character": "Meowth",
+   "actor": "Gerhard Acktun",
+   "von": "ann"
+  },
+  {
+   "character": "Delia Ketchum",
+   "actor": "Ulla Wagener",
+   "von": "ann"
+  },
+  {
+   "character": "James",
+   "actor": "Matthias Klie",
+   "von": "ann"
+  },
+  {
+   "character": "Bonji",
+   "actor": "Thomas Rauscher",
+   "von": "ann"
+  },
+  {
+   "character": "Professor Oak",
+   "actor": "Walter von Hauff",
+   "von": "ann"
+  },
+  {
+   "character": "Sorrel",
+   "actor": "Maximilian Belle",
+   "von": "ann"
+  },
+  {
+   "character": "Verity",
+   "actor": "Katharina von Daake",
+   "von": "ann"
+  },
+  {
+   "character": "Ash Ketchum",
+   "actor": "Felix Mayer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19350"
+}

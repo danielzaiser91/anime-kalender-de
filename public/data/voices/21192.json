@@ -1,1 +1,87 @@
-{"titleId":21192,"updatedAt":"2026-08-11T11:20:03.274Z","roles":[{"character":"Mage","actor":"Anja Rybiczka","role":"MAIN"},{"character":"Paladin","actor":"Johanna Schmoll","role":"MAIN"},{"character":"Dark Elf","actor":"Antje Thiele","role":"MAIN"},{"character":"Fighter","actor":"Johanna Blankenburg","role":"MAIN"},{"character":"Chouchou","actor":"Reinhard Scheunemann","role":"SUPPORTING"},{"character":"Maou","actor":"Marco Rosenberg","role":"SUPPORTING"},{"character":"Hikarume","actor":"Marco Rosenberg","role":"SUPPORTING"},{"character":"Hunter","actor":"Nora Kunzendorf","role":"SUPPORTING"},{"character":"Ou","actor":"Matthias Klages","role":"SUPPORTING"},{"character":"Valkyrie ","actor":"Alice Bauer","role":"SUPPORTING"},{"character":"Megami","actor":"Vera Bunk","role":"SUPPORTING"},{"character":"Tenshu","actor":"Jan Kurbjuweit","role":"SUPPORTING"}]}
+{
+ "titleId": 21192,
+ "updatedAt": "2026-08-15T18:38:36.287Z",
+ "roles": [
+  {
+   "character": "Mage",
+   "actor": "Anja Rybiczka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Paladin",
+   "actor": "Johanna Schmoll",
+   "role": "MAIN"
+  },
+  {
+   "character": "Dark Elf",
+   "actor": "Antje Thiele",
+   "role": "MAIN"
+  },
+  {
+   "character": "Fighter",
+   "actor": "Johanna Blankenburg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chouchou",
+   "actor": "Reinhard Scheunemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maou",
+   "actor": "Marco Rosenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hikarume",
+   "actor": "Marco Rosenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hunter",
+   "actor": "Nora Kunzendorf",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ou",
+   "actor": "Matthias Klages",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Valkyrie ",
+   "actor": "Alice Bauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Megami",
+   "actor": "Vera Bunk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tenshu",
+   "actor": "Jan Kurbjuweit",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fighter",
+   "actor": "Julia Blankenburg",
+   "von": "ann"
+  },
+  {
+   "character": "Kunoichi",
+   "actor": "Carmen Katt",
+   "von": "ann"
+  },
+  {
+   "character": "Cleric",
+   "actor": "Ute Noack",
+   "von": "ann"
+  },
+  {
+   "character": "Valkyrie",
+   "actor": "Alice Bauer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=17084"
+}

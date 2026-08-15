@@ -1,1 +1,87 @@
-{"titleId":9041,"updatedAt":"2026-08-11T11:20:03.088Z","roles":[{"character":"Charlotte Dunois","actor":"Lara Wurmer","role":"MAIN"},{"character":"Ichika Orimura","actor":"Felix Mayer","role":"MAIN"},{"character":"Laura Bodewig","actor":"Maresa Sedlmeir","role":"MAIN"},{"character":"Lingyin Huang","actor":"Laura Jenni","role":"MAIN"},{"character":"Houki Shinonono","actor":"Leslie-Vanessa Lill","role":"MAIN"},{"character":"Tabane Shinonono","actor":"Marcia von Rebay","role":"SUPPORTING"},{"character":"Kagura Shijuuin","actor":"Miriam Hinrichs","role":"SUPPORTING"},{"character":"Honne Nohotoke","actor":"Mia Maron","role":"SUPPORTING"},{"character":"Ran Gotanda","actor":"Lea Kalbhenn","role":"SUPPORTING"},{"character":"Maya Yamada","actor":"Zina Laus","role":"SUPPORTING"},{"character":"Chifuyu Orimura","actor":"Laura Preiss","role":"SUPPORTING"},{"character":"Kiyoka Aikawa","actor":"Lara Schmidt","role":"SUPPORTING"},{"character":"Shizune Takatsuki","actor":"Valeria von Junker","role":"SUPPORTING"},{"character":"Yuko Tanimoto","actor":"Melanie Olbert","role":"SUPPORTING"},{"character":"Nagi Kagami","actor":"Angelina Markiefka","role":"SUPPORTING"}]}
+{
+ "titleId": 9041,
+ "updatedAt": "2026-08-15T18:33:47.312Z",
+ "roles": [
+  {
+   "character": "Charlotte Dunois",
+   "actor": "Lara Wurmer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ichika Orimura",
+   "actor": "Felix Mayer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Laura Bodewig",
+   "actor": "Maresa Sedlmeir",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lingyin Huang",
+   "actor": "Laura Jenni",
+   "role": "MAIN"
+  },
+  {
+   "character": "Houki Shinonono",
+   "actor": "Leslie-Vanessa Lill",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tabane Shinonono",
+   "actor": "Marcia von Rebay",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kagura Shijuuin",
+   "actor": "Miriam Hinrichs",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Honne Nohotoke",
+   "actor": "Mia Maron",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ran Gotanda",
+   "actor": "Lea Kalbhenn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maya Yamada",
+   "actor": "Zina Laus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chifuyu Orimura",
+   "actor": "Laura Preiss",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kiyoka Aikawa",
+   "actor": "Lara Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shizune Takatsuki",
+   "actor": "Valeria von Junker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuko Tanimoto",
+   "actor": "Melanie Olbert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nagi Kagami",
+   "actor": "Angelina Markiefka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cecila Alcott",
+   "actor": "Anna Ewelina",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=11769"
+}

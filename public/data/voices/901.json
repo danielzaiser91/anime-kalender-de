@@ -1,1 +1,107 @@
-{"titleId":901,"updatedAt":"2026-08-11T11:20:02.875Z","roles":[{"character":"Vegeta","actor":"Oliver Siebeck","role":"MAIN"},{"character":"Gokuu Son","actor":"Tommy Morgenstern","role":"MAIN"},{"character":"Broly","actor":"Gerrit Schmidt-Foß","role":"MAIN"},{"character":"Paragus","actor":"Martin Keßler","role":"SUPPORTING"},{"character":"Briefs Hakase","actor":"Stefan Staudinger","role":"SUPPORTING"},{"character":"Piccolo","actor":"David Nathan","role":"SUPPORTING"},{"character":"Bulma","actor":"Claudia Urbschat-mingues","role":"SUPPORTING"},{"character":"Kuririn","actor":"Wanja Gerick","role":"SUPPORTING"},{"character":"Muten Roushi","actor":"Karl Schulz","role":"SUPPORTING"},{"character":"Trunks","actor":"Sebastian Schulz","role":"SUPPORTING"},{"character":"Oolong","actor":"Bernhard Völger","role":"SUPPORTING"},{"character":"Chi-Chi","actor":"Julia Ziffer","role":"SUPPORTING"},{"character":"Gohan Son","actor":"Sandro Blümel","role":"SUPPORTING"},{"character":"Vegeta Ou","actor":"Andreas Thieck","role":"BACKGROUND"},{"character":"Kita no Kaiou","actor":"Rüdiger Evers","role":"BACKGROUND"},{"character":"Narrator","actor":"Roland Hemmo","role":"BACKGROUND"}]}
+{
+ "titleId": 901,
+ "updatedAt": "2026-08-15T18:26:44.548Z",
+ "roles": [
+  {
+   "character": "Vegeta",
+   "actor": "Oliver Siebeck",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gokuu Son",
+   "actor": "Tommy Morgenstern",
+   "role": "MAIN"
+  },
+  {
+   "character": "Broly",
+   "actor": "Gerrit Schmidt-Foß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Paragus",
+   "actor": "Martin Keßler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Briefs Hakase",
+   "actor": "Stefan Staudinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Piccolo",
+   "actor": "David Nathan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bulma",
+   "actor": "Claudia Urbschat-mingues",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kuririn",
+   "actor": "Wanja Gerick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Muten Roushi",
+   "actor": "Karl Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Trunks",
+   "actor": "Sebastian Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Oolong",
+   "actor": "Bernhard Völger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chi-Chi",
+   "actor": "Julia Ziffer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gohan Son",
+   "actor": "Sandro Blümel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Vegeta Ou",
+   "actor": "Andreas Thieck",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Kita no Kaiou",
+   "actor": "Rüdiger Evers",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Roland Hemmo",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Son Gohan",
+   "actor": "Sandro Blümel",
+   "von": "ann"
+  },
+  {
+   "character": "Son Goku",
+   "actor": "Tommy Morgenstern",
+   "von": "ann"
+  },
+  {
+   "character": "Brolly",
+   "actor": "Gerrit Schmidt-Foß",
+   "von": "ann"
+  },
+  {
+   "character": "Paragas",
+   "actor": "Martin Keßler",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=986"
+}

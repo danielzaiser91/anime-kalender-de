@@ -1,1 +1,117 @@
-{"titleId":907,"updatedAt":"2026-08-11T11:20:02.877Z","roles":[{"character":"Mikoto Yutaka","actor":"Konrad Bösherz","role":"MAIN"},{"character":"Yuujirou Shihoudani","actor":"Dirk Petrick","role":"MAIN"},{"character":"Tooru Kouno","actor":"Ricardo Richter","role":"MAIN"},{"character":"Megumi Yoshikawa","actor":"Maria Koschny","role":"SUPPORTING"},{"character":"Shuya Arisada","actor":"Karlo Hackenberger","role":"SUPPORTING"},{"character":"Hidetoshi Sakamoto","actor":"Jaron Löwenberg","role":"SUPPORTING"},{"character":"Akira Sakamoto","actor":"Nico Sablik","role":"SUPPORTING"},{"character":"Makoto Yutaka","actor":"Tanya Kahana","role":"SUPPORTING"},{"character":"Natsuru Sakamoto","actor":"Vera Teltz","role":"SUPPORTING"},{"character":"Nanami Sakamoto","actor":"Sabine Winterfeldt","role":"SUPPORTING"},{"character":"Harumi Sakamoto","actor":"Michael Baral","role":"SUPPORTING"},{"character":"Wataru Harue","actor":"Fabian Hollwitz","role":"SUPPORTING"},{"character":"Kaoru Natashou","actor":"Tommy Morgenstern","role":"SUPPORTING"},{"character":"Takahiro Tadasu","actor":"Raúl Richter","role":"SUPPORTING"},{"character":"Fuyuki Sakamoto","actor":"Kathrin Neusser","role":"SUPPORTING"},{"character":"Ryuuzaki","actor":"Jaron Löwenberg","role":"SUPPORTING"}]}
+{
+ "titleId": 907,
+ "updatedAt": "2026-08-15T18:26:48.226Z",
+ "roles": [
+  {
+   "character": "Mikoto Yutaka",
+   "actor": "Konrad Bösherz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuujirou Shihoudani",
+   "actor": "Dirk Petrick",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tooru Kouno",
+   "actor": "Ricardo Richter",
+   "role": "MAIN"
+  },
+  {
+   "character": "Megumi Yoshikawa",
+   "actor": "Maria Koschny",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shuya Arisada",
+   "actor": "Karlo Hackenberger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hidetoshi Sakamoto",
+   "actor": "Jaron Löwenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akira Sakamoto",
+   "actor": "Nico Sablik",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Makoto Yutaka",
+   "actor": "Tanya Kahana",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Natsuru Sakamoto",
+   "actor": "Vera Teltz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nanami Sakamoto",
+   "actor": "Sabine Winterfeldt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Harumi Sakamoto",
+   "actor": "Michael Baral",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Wataru Harue",
+   "actor": "Fabian Hollwitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaoru Natashou",
+   "actor": "Tommy Morgenstern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takahiro Tadasu",
+   "actor": "Raúl Richter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fuyuki Sakamoto",
+   "actor": "Kathrin Neusser",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryuuzaki",
+   "actor": "Jaron Löwenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toru Kouno",
+   "actor": "Ricardo Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Shuuya Arisada",
+   "actor": "Karlo Hackenberger",
+   "von": "ann"
+  },
+  {
+   "character": "Isao Tsuji",
+   "actor": "Rainer Fritzsche",
+   "von": "ann"
+  },
+  {
+   "character": "Takahiro Tadasu",
+   "actor": "Raul Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Yujiro Shihoudani",
+   "actor": "Dirk Petrick",
+   "von": "ann"
+  },
+  {
+   "character": "Masayuki Koshino",
+   "actor": "Tobias Nath",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=6467"
+}

@@ -1,1 +1,102 @@
-{"titleId":99426,"updatedAt":"2026-08-11T11:20:03.402Z","roles":[{"character":"Mari Tamaki","actor":"Leonie Landa","role":"MAIN"},{"character":"Shirase Kobuchizawa","actor":"Nicole Hise","role":"MAIN"},{"character":"Hinata Miyake","actor":"Katrin Heß","role":"MAIN"},{"character":"Yuzuki Shiraishi","actor":"Eleni Möller-Architektonidou","role":"MAIN"},{"character":"Rin Tamaki","actor":"Patricia Faltin","role":"SUPPORTING"},{"character":"Gin Toudou","actor":"Angela Wiederhut","role":"SUPPORTING"},{"character":"Toshio Zaizen","actor":"Sunke Janssen","role":"SUPPORTING"},{"character":"Kanae Maekawa","actor":"Giuliana Jakobeit","role":"SUPPORTING"},{"character":"Yumiko Samejima","actor":"Ann Vielhaben","role":"SUPPORTING"},{"character":"Tamiko Shiraishi","actor":"Silke Haupt","role":"SUPPORTING"},{"character":"Megumi Takahashi","actor":"Melinda Rachfahl","role":"SUPPORTING"},{"character":"Kimari no Haha","actor":"Gabriele Wienand","role":"BACKGROUND"},{"character":"Honami Yasumoto","actor":"Silke Linderhaus","role":"BACKGROUND"},{"character":"Chiaki Mukai","actor":"Hans Bayer","role":"BACKGROUND"},{"character":"Nobue Todoroki","actor":"Sarah Alles","role":"BACKGROUND"},{"character":"Yume Sasaki","actor":"Ilya Welter","role":"BACKGROUND"},{"character":"Dai Himi","actor":"Dirk Hardegen","role":"BACKGROUND"},{"character":"Takako Kobuchizawa","actor":"Annette Potempa","role":"BACKGROUND"}]}
+{
+ "titleId": 99426,
+ "updatedAt": "2026-08-15T18:41:21.323Z",
+ "roles": [
+  {
+   "character": "Mari Tamaki",
+   "actor": "Leonie Landa",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shirase Kobuchizawa",
+   "actor": "Nicole Hise",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hinata Miyake",
+   "actor": "Katrin Heß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuzuki Shiraishi",
+   "actor": "Eleni Möller-Architektonidou",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rin Tamaki",
+   "actor": "Patricia Faltin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gin Toudou",
+   "actor": "Angela Wiederhut",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toshio Zaizen",
+   "actor": "Sunke Janssen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kanae Maekawa",
+   "actor": "Giuliana Jakobeit",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yumiko Samejima",
+   "actor": "Ann Vielhaben",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tamiko Shiraishi",
+   "actor": "Silke Haupt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Megumi Takahashi",
+   "actor": "Melinda Rachfahl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kimari no Haha",
+   "actor": "Gabriele Wienand",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Honami Yasumoto",
+   "actor": "Silke Linderhaus",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Chiaki Mukai",
+   "actor": "Hans Bayer",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Nobue Todoroki",
+   "actor": "Sarah Alles",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Yume Sasaki",
+   "actor": "Ilya Welter",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Dai Himi",
+   "actor": "Dirk Hardegen",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Takako Kobuchizawa",
+   "actor": "Annette Potempa",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Yuzuki Shiraishi",
+   "actor": "Eleni Möller",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19828"
+}

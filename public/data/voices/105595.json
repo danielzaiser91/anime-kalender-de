@@ -1,1 +1,117 @@
-{"titleId":105595,"updatedAt":"2026-08-11T11:20:03.460Z","roles":[{"character":"Hathaway Noa","actor":"Patrick Keller","role":"MAIN"},{"character":"Gigi Andalucia","actor":"Lisa May-Mitsching","role":"MAIN"},{"character":"Kenneth Sleg","actor":"Arne Stephan","role":"MAIN"},{"character":"Kenji Mitsuda","actor":"Valentin Stilu","role":"SUPPORTING"},{"character":"Gawman Nobile","actor":"Jeffrey Wipprecht","role":"SUPPORTING"},{"character":"Mihessia Hence","actor":"Heide Ihlenfeld","role":"SUPPORTING"},{"character":"Hundley Yeoksan","actor":"Sven Gerhardt","role":"SUPPORTING"},{"character":"Raymond Cain","actor":"Stefan Bräuler","role":"SUPPORTING"},{"character":"Gass Huguest","actor":"Ricardo Richter","role":"SUPPORTING"},{"character":"Mace Flower","actor":"Julia Biedermann","role":"SUPPORTING"},{"character":"Kelia Dace","actor":"Greta Galisch de Palma","role":"SUPPORTING"},{"character":"Lane Aim","actor":"Oliver Bender","role":"SUPPORTING"},{"character":"Emeralda Zubin","actor":"Melanie Isakowitz","role":"SUPPORTING"},{"character":"Iram Masam","actor":"Rainer Fritzsche","role":"SUPPORTING"},{"character":"Civet Anhern","actor":"Christian Zeiger","role":"SUPPORTING"}]}
+{
+ "titleId": 105595,
+ "updatedAt": "2026-08-15T18:42:42.054Z",
+ "roles": [
+  {
+   "character": "Hathaway Noa",
+   "actor": "Patrick Keller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gigi Andalucia",
+   "actor": "Lisa May-Mitsching",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kenneth Sleg",
+   "actor": "Arne Stephan",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kenji Mitsuda",
+   "actor": "Valentin Stilu",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gawman Nobile",
+   "actor": "Jeffrey Wipprecht",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mihessia Hence",
+   "actor": "Heide Ihlenfeld",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hundley Yeoksan",
+   "actor": "Sven Gerhardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Raymond Cain",
+   "actor": "Stefan Bräuler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gass Huguest",
+   "actor": "Ricardo Richter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mace Flower",
+   "actor": "Julia Biedermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kelia Dace",
+   "actor": "Greta Galisch de Palma",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lane Aim",
+   "actor": "Oliver Bender",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Emeralda Zubin",
+   "actor": "Melanie Isakowitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Iram Masam",
+   "actor": "Rainer Fritzsche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Civet Anhern",
+   "actor": "Christian Zeiger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Geise H. Hugest",
+   "actor": "Ricardo Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Hundley Yeoksam",
+   "actor": "Sven Gerhardt",
+   "von": "ann"
+  },
+  {
+   "character": "Gigi Andalucia",
+   "actor": "Lisa Mitsching",
+   "von": "ann"
+  },
+  {
+   "character": "Gawman Nobil",
+   "actor": "Jeffrey Wipprecht",
+   "von": "ann"
+  },
+  {
+   "character": "Kelia Dace",
+   "actor": "Greta Galisch",
+   "von": "ann"
+  },
+  {
+   "character": "Emerelda Zubin",
+   "actor": "Melanie Isakowitz",
+   "von": "ann"
+  },
+  {
+   "character": "Minacce Questarghino",
+   "actor": "Otto Strecker",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22960"
+}

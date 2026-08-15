@@ -1,1 +1,57 @@
-{"titleId":8100,"updatedAt":"2026-08-11T11:20:03.078Z","roles":[{"character":"Rare the Hair","actor":"Antje von der Ahe","role":"SUPPORTING"},{"character":"Dr. Easter","actor":"Peter Flechtner","role":"SUPPORTING"}]}
+{
+ "titleId": 8100,
+ "updatedAt": "2026-08-15T18:33:38.529Z",
+ "roles": [
+  {
+   "character": "Rare the Hair",
+   "actor": "Antje von der Ahe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dr. Easter",
+   "actor": "Peter Flechtner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shell Septinos",
+   "actor": "Tommy Morgenstern",
+   "von": "ann"
+  },
+  {
+   "character": "Medium the Fingernail",
+   "actor": "Rainer Fritzsche",
+   "von": "ann"
+  },
+  {
+   "character": "Dimsdale Boiled",
+   "actor": "Oliver Siebeck",
+   "von": "ann"
+  },
+  {
+   "character": "Mince the Wink",
+   "actor": "Torsten Münchow",
+   "von": "ann"
+  },
+  {
+   "character": "Welldone the Pussyhand",
+   "actor": "Erich Räuker",
+   "von": "ann"
+  },
+  {
+   "character": "Fresh the Pike",
+   "actor": "Christian Gaul",
+   "von": "ann"
+  },
+  {
+   "character": "Oeufcoque Penteano",
+   "actor": "Michael Iwannek",
+   "von": "ann"
+  },
+  {
+   "character": "Rune Ballot",
+   "actor": "Anneke Schwabe",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=11338"
+}

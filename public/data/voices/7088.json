@@ -1,1 +1,97 @@
-{"titleId":7088,"updatedAt":"2026-08-11T11:20:03.071Z","roles":[{"character":"Akuto Sai","actor":"Marco Sven Reinbold","role":"MAIN"},{"character":"Keena Soga","actor":"Moira May","role":"MAIN"},{"character":"Korone","actor":"Nora Jokhosha","role":"MAIN"},{"character":"Junko Hattori","actor":"Carolin Sophie Göbel","role":"MAIN"},{"character":"Fujiko Etou","actor":"Dagmar Bittner","role":"MAIN"},{"character":"Hiroshi Miwa","actor":"Claudia Schmidt","role":"SUPPORTING"},{"character":"Mitsuko Torii","actor":"Denise Monteiro","role":"SUPPORTING"},{"character":"Lily Shiraishi","actor":"Katharina von Daake","role":"SUPPORTING"},{"character":"Eiko Teruya","actor":"Katrin Laksberg","role":"SUPPORTING"},{"character":"Michie Ootake","actor":"Nina Amerschläger","role":"SUPPORTING"},{"character":"Etou Ani","actor":"Isaak Dentler","role":"SUPPORTING"},{"character":"Arnoul","actor":"Manuela Stüsser","role":"SUPPORTING"},{"character":"Kouchou","actor":"Helmut Winkelmann","role":"SUPPORTING"},{"character":"Peterhausen","actor":"Richard van Weyden","role":"SUPPORTING"},{"character":"Yuuko Hattori","actor":"Julia Bautz","role":"SUPPORTING"},{"character":"Yamato Bouichirou","actor":"Ricardo Richter","role":"SUPPORTING"}]}
+{
+ "titleId": 7088,
+ "updatedAt": "2026-08-15T18:33:19.146Z",
+ "roles": [
+  {
+   "character": "Akuto Sai",
+   "actor": "Marco Sven Reinbold",
+   "role": "MAIN"
+  },
+  {
+   "character": "Keena Soga",
+   "actor": "Moira May",
+   "role": "MAIN"
+  },
+  {
+   "character": "Korone",
+   "actor": "Nora Jokhosha",
+   "role": "MAIN"
+  },
+  {
+   "character": "Junko Hattori",
+   "actor": "Carolin Sophie Göbel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Fujiko Etou",
+   "actor": "Dagmar Bittner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hiroshi Miwa",
+   "actor": "Claudia Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mitsuko Torii",
+   "actor": "Denise Monteiro",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lily Shiraishi",
+   "actor": "Katharina von Daake",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eiko Teruya",
+   "actor": "Katrin Laksberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Michie Ootake",
+   "actor": "Nina Amerschläger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Etou Ani",
+   "actor": "Isaak Dentler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Arnoul",
+   "actor": "Manuela Stüsser",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kouchou",
+   "actor": "Helmut Winkelmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Peterhausen",
+   "actor": "Richard van Weyden",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuuko Hattori",
+   "actor": "Julia Bautz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yamato Bouichirou",
+   "actor": "Ricardo Richter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bouichirou Yamato",
+   "actor": "Ricardo Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Riri Shiraishi",
+   "actor": "Katharina von Daake",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=11179"
+}

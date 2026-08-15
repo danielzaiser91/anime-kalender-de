@@ -451,13 +451,20 @@ async function handleFavoritesGet(request: Request, env: Env): Promise<Response>
   if (!token) return json(env, { error: 'Kein Abgleich-Schlüssel übergeben.' }, 400)
 
   const row = await env.DB.prepare(
-    "SELECT favorites FROM subscribers WHERE pref_token = ?1 AND status = 'active'",
+    "SELECT favorites, email FROM subscribers WHERE pref_token = ?1 AND status = 'active'",
   )
     .bind(token)
-    .first<{ favorites: string }>()
+    .first<{ favorites: string; email: string }>()
 
   if (!row) return json(env, { error: 'Dieser Abgleich-Schlüssel gehört zu keinem aktiven Abo.' }, 404)
-  return json(env, { ok: true, favorites: [...parseIdList(row.favorites)] })
+  /**
+   * Die Adresse geht mit zurück, damit die Seite sie nennen kann: „Wir
+   * informieren dich über deine hinterlegte Newsletter-E-Mail-Adresse: …"
+   * (Daniel, 15.08.2026). Das ist kein Datenleck — der Schlüssel liegt nur in
+   * dem Browser, in dem das Abo bestätigt wurde, und er beantwortet ohnehin
+   * schon die schärfere Frage, ob es zu dieser Adresse ein Abo gibt.
+   */
+  return json(env, { ok: true, favorites: [...parseIdList(row.favorites)], email: row.email })
 }
 
 async function handleFavorites(request: Request, env: Env): Promise<Response> {

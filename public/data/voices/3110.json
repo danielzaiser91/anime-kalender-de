@@ -1,1 +1,97 @@
-{"titleId":3110,"updatedAt":"2026-08-11T11:20:03.001Z","roles":[{"character":"Jeanie MacDowell","actor":"Angela Wiederhut","role":"MAIN"},{"character":"Steven","actor":"Benedikt Gutjan","role":"MAIN"},{"character":"Will","actor":"Ulrich Bernsdorff","role":"SUPPORTING"},{"character":"Reba","actor":"Margit Weinert","role":"SUPPORTING"},{"character":"Diana","actor":"Christina Hoeltel","role":"SUPPORTING"},{"character":"Freddy MacDowell","actor":"Thomas Rauscher","role":"SUPPORTING"},{"character":"Dr. Sandy","actor":"Peter Musäus","role":"SUPPORTING"},{"character":"Robert Larkin","actor":"Dominik Auer","role":"SUPPORTING"},{"character":"Henry Foster","actor":"Ulf-Jürgen Wagner","role":"SUPPORTING"},{"character":"Larkin Shichou","actor":"Michael Gahr","role":"SUPPORTING"},{"character":"Angela MacDowell","actor":"Simone Brahmann","role":"SUPPORTING"},{"character":"Big Joe","actor":"Manfred Erdmann","role":"SUPPORTING"},{"character":"Ms. Margaret","actor":"Michaela Amler","role":"SUPPORTING"}]}
+{
+ "titleId": 3110,
+ "updatedAt": "2026-08-15T18:31:39.743Z",
+ "roles": [
+  {
+   "character": "Jeanie MacDowell",
+   "actor": "Angela Wiederhut",
+   "role": "MAIN"
+  },
+  {
+   "character": "Steven",
+   "actor": "Benedikt Gutjan",
+   "role": "MAIN"
+  },
+  {
+   "character": "Will",
+   "actor": "Ulrich Bernsdorff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Reba",
+   "actor": "Margit Weinert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Diana",
+   "actor": "Christina Hoeltel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Freddy MacDowell",
+   "actor": "Thomas Rauscher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dr. Sandy",
+   "actor": "Peter Musäus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Robert Larkin",
+   "actor": "Dominik Auer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Henry Foster",
+   "actor": "Ulf-Jürgen Wagner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Larkin Shichou",
+   "actor": "Michael Gahr",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Angela MacDowell",
+   "actor": "Simone Brahmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Big Joe",
+   "actor": "Manfred Erdmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ms. Margaret",
+   "actor": "Michaela Amler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jeannie",
+   "actor": "Angela Wiederhut",
+   "von": "ann"
+  },
+  {
+   "character": "Robert",
+   "actor": "Dominik Auer",
+   "von": "ann"
+  },
+  {
+   "character": "Stephen Foster",
+   "actor": "Benedikt Gutjan",
+   "von": "ann"
+  },
+  {
+   "character": "Henry",
+   "actor": "Ulf-Jürgen Wagner",
+   "von": "ann"
+  },
+  {
+   "character": "Sandy",
+   "actor": "Peter Musäus",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1939"
+}

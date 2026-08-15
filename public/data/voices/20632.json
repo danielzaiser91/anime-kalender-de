@@ -1,1 +1,142 @@
-{"titleId":20632,"updatedAt":"2026-08-11T11:20:03.204Z","roles":[{"character":"Inaho Kaizuka","actor":"Maximilian Artajo","role":"MAIN"},{"character":"Slaine Troyard","actor":"Sebastian Fitzner","role":"MAIN"},{"character":"Asseylum Vers Allusia","actor":"Josephine Schmidt","role":"MAIN"},{"character":"Cruhteo","actor":"Peter Lontzek","role":"SUPPORTING"},{"character":"Calm Craftman","actor":"Bastian Sierich","role":"SUPPORTING"},{"character":"Rayregalia Vers Rayvers","actor":"Gerald Paradies","role":"SUPPORTING"},{"character":"John Humeray","actor":"Robert Glatzeder","role":"SUPPORTING"},{"character":"Souma Yagarai","actor":"Arne Stephan","role":"SUPPORTING"},{"character":"Saazbaum","actor":"André Beyer","role":"SUPPORTING"},{"character":"Okisuke Mikuni","actor":"Dirk Petrick","role":"SUPPORTING"},{"character":"Eddelrittuo","actor":"Charlotte Uhlig","role":"SUPPORTING"},{"character":"Trillram","actor":"Rainer Fritzsche","role":"SUPPORTING"},{"character":"Rayet Areash","actor":"Lydia Morgenstern","role":"SUPPORTING"},{"character":"Femieanne","actor":"Dana Friedrich","role":"SUPPORTING"},{"character":"Yuki  Kaizuka","actor":"Damineh Hojat","role":"SUPPORTING"},{"character":"Darzana Magbaredge","actor":"Ann Vielhaben","role":"SUPPORTING"},{"character":"Vlad","actor":"Steven Merting","role":"SUPPORTING"},{"character":"Nina Klein","actor":"Jodie Blank","role":"SUPPORTING"},{"character":"Kouichirou Marito","actor":"Sven Gerhardt","role":"SUPPORTING"},{"character":"Orlane","actor":"Cornelia Waibel","role":"SUPPORTING"},{"character":"Kaoru Mizusaki","actor":"Tina Haseney","role":"SUPPORTING"},{"character":"Inko Amifumi","actor":"Jennifer Weiß","role":"SUPPORTING"}]}
+{
+ "titleId": 20632,
+ "updatedAt": "2026-08-15T18:36:55.964Z",
+ "roles": [
+  {
+   "character": "Inaho Kaizuka",
+   "actor": "Maximilian Artajo",
+   "role": "MAIN"
+  },
+  {
+   "character": "Slaine Troyard",
+   "actor": "Sebastian Fitzner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Asseylum Vers Allusia",
+   "actor": "Josephine Schmidt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Cruhteo",
+   "actor": "Peter Lontzek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Calm Craftman",
+   "actor": "Bastian Sierich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rayregalia Vers Rayvers",
+   "actor": "Gerald Paradies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "John Humeray",
+   "actor": "Robert Glatzeder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Souma Yagarai",
+   "actor": "Arne Stephan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Saazbaum",
+   "actor": "André Beyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Okisuke Mikuni",
+   "actor": "Dirk Petrick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eddelrittuo",
+   "actor": "Charlotte Uhlig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Trillram",
+   "actor": "Rainer Fritzsche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rayet Areash",
+   "actor": "Lydia Morgenstern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Femieanne",
+   "actor": "Dana Friedrich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuki  Kaizuka",
+   "actor": "Damineh Hojat",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Darzana Magbaredge",
+   "actor": "Ann Vielhaben",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Vlad",
+   "actor": "Steven Merting",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nina Klein",
+   "actor": "Jodie Blank",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kouichirou Marito",
+   "actor": "Sven Gerhardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Orlane",
+   "actor": "Cornelia Waibel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaoru Mizusaki",
+   "actor": "Tina Haseney",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Inko Amifumi",
+   "actor": "Jennifer Weiß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kisaki Matsuribi",
+   "actor": "Ricardo Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Saazbaum",
+   "actor": "Andre Beyer",
+   "von": "ann"
+  },
+  {
+   "character": "Shigou Kakei",
+   "actor": "Jan Makino",
+   "von": "ann"
+  },
+  {
+   "character": "Yuki Kaizuka",
+   "actor": "Damineh Hojat",
+   "von": "ann"
+  },
+  {
+   "character": "Femianne",
+   "actor": "Dana Friedrich",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16028"
+}

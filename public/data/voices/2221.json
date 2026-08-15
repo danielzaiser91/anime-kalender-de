@@ -1,1 +1,62 @@
-{"titleId":2221,"updatedAt":"2026-08-11T11:20:02.959Z","roles":[{"character":"Hashizou Katou","actor":"Jan Rohrbach","role":"MAIN"},{"character":"Yaeko Mitamura","actor":"Anna Grisebach","role":"MAIN"},{"character":"Gou Katou","actor":"Frank Schröder","role":"MAIN"},{"character":"Shigemaru Mitamura","actor":"Michael Christian","role":"SUPPORTING"},{"character":"Satomi Ookawa","actor":"Michael Iwannek","role":"SUPPORTING"},{"character":"Meiko Kajiwara","actor":"Silke Dornow","role":"SUPPORTING"},{"character":"Juliano","actor":"Jürgen Kluckert","role":"SUPPORTING"}]}
+{
+ "titleId": 2221,
+ "updatedAt": "2026-08-15T18:30:14.550Z",
+ "roles": [
+  {
+   "character": "Hashizou Katou",
+   "actor": "Jan Rohrbach",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yaeko Mitamura",
+   "actor": "Anna Grisebach",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gou Katou",
+   "actor": "Frank Schröder",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shigemaru Mitamura",
+   "actor": "Michael Christian",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Satomi Ookawa",
+   "actor": "Michael Iwannek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Meiko Kajiwara",
+   "actor": "Silke Dornow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Juliano",
+   "actor": "Jürgen Kluckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hiroyuki Sugi",
+   "actor": "Michael Bauer",
+   "von": "ann"
+  },
+  {
+   "character": "Hashizou Kato",
+   "actor": "Jan Rohrbach",
+   "von": "ann"
+  },
+  {
+   "character": "Sammy",
+   "actor": "Michael Iwannek",
+   "von": "ann"
+  },
+  {
+   "character": "Yakko Mitamura",
+   "actor": "Anna Grisebach",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1065"
+}

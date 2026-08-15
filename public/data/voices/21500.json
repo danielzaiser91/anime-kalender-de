@@ -1,1 +1,147 @@
-{"titleId":21500,"updatedAt":"2026-08-11T11:20:03.309Z","roles":[{"character":"Palmon","actor":"Gabriele Schramm-Philipp","role":"MAIN"},{"character":"Taichi Yagami","actor":"Florian Knorn","role":"MAIN"},{"character":"Agumon","actor":"Gerald Schaale","role":"MAIN"},{"character":"Patamon","actor":"Hans Hohlbein","role":"MAIN"},{"character":"Hikari Yagami","actor":"Marie-Luise Schramm","role":"MAIN"},{"character":"Piyomon","actor":"Daniela Reidies","role":"MAIN"},{"character":"Gomamon","actor":"Rainer Fritzsche","role":"MAIN"},{"character":"Mimi Tachikawa","actor":"Giuliana Jakobeit","role":"MAIN"},{"character":"Yamato Ishida","actor":"Robin Kahnmeyer","role":"MAIN"},{"character":"Tailmon","actor":"Katrin Zimmermann","role":"MAIN"},{"character":"Koushirou Izumi","actor":"Christian Zeiger","role":"MAIN"},{"character":"Takeru Takaishi","actor":"Nicolás Artajo","role":"MAIN"},{"character":"Jou Kido","actor":"Marius Claren","role":"MAIN"},{"character":"Sora Takenouchi","actor":"Sonja Spuhl","role":"MAIN"},{"character":"Meiko Mochizuki","actor":"Alice Bauer","role":"MAIN"},{"character":"Tentomon","actor":"Joachim Kaps","role":"MAIN"},{"character":"Leomon","actor":"Marlin Wick","role":"SUPPORTING"},{"character":"Gabumon","actor":"Julien Haggege","role":"SUPPORTING"},{"character":"Narrator","actor":"Oliver-Kim Hasper","role":"BACKGROUND"}]}
+{
+ "titleId": 21500,
+ "updatedAt": "2026-08-15T18:39:20.997Z",
+ "roles": [
+  {
+   "character": "Palmon",
+   "actor": "Gabriele Schramm-Philipp",
+   "role": "MAIN"
+  },
+  {
+   "character": "Taichi Yagami",
+   "actor": "Florian Knorn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Agumon",
+   "actor": "Gerald Schaale",
+   "role": "MAIN"
+  },
+  {
+   "character": "Patamon",
+   "actor": "Hans Hohlbein",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hikari Yagami",
+   "actor": "Marie-Luise Schramm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Piyomon",
+   "actor": "Daniela Reidies",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gomamon",
+   "actor": "Rainer Fritzsche",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mimi Tachikawa",
+   "actor": "Giuliana Jakobeit",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yamato Ishida",
+   "actor": "Robin Kahnmeyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tailmon",
+   "actor": "Katrin Zimmermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Koushirou Izumi",
+   "actor": "Christian Zeiger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Takeru Takaishi",
+   "actor": "Nicolás Artajo",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jou Kido",
+   "actor": "Marius Claren",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sora Takenouchi",
+   "actor": "Sonja Spuhl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Meiko Mochizuki",
+   "actor": "Alice Bauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tentomon",
+   "actor": "Joachim Kaps",
+   "role": "MAIN"
+  },
+  {
+   "character": "Leomon",
+   "actor": "Marlin Wick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gabumon",
+   "actor": "Julien Haggege",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Oliver-Kim Hasper",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Taichi Yagami",
+   "actor": "Florian Knorrn",
+   "von": "ann"
+  },
+  {
+   "character": "Joe Kido",
+   "actor": "Marius Claren",
+   "von": "ann"
+  },
+  {
+   "character": "Biyomon",
+   "actor": "Daniela Reidies",
+   "von": "ann"
+  },
+  {
+   "character": "Takeru Takaishi",
+   "actor": "Nicolas Artajo",
+   "von": "ann"
+  },
+  {
+   "character": "Gatomon",
+   "actor": "Katrin Zimmermann",
+   "von": "ann"
+  },
+  {
+   "character": "Koushiro Izumi",
+   "actor": "Christian Zeiger",
+   "von": "ann"
+  },
+  {
+   "character": "Daigo Nishijima",
+   "actor": "Arne Stephan",
+   "von": "ann"
+  },
+  {
+   "character": "Meikuumon",
+   "actor": "Sarah Alles",
+   "von": "ann"
+  },
+  {
+   "character": "Maki Himekawa",
+   "actor": "Runa Aléon",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=17848"
+}

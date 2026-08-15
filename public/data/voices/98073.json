@@ -1,1 +1,102 @@
-{"titleId":98073,"updatedAt":"2026-08-11T11:20:03.363Z","roles":[{"character":"Rin","actor":"Lina Rabea Mohr","role":"MAIN"},{"character":"Finis","actor":"Samira Jakobs","role":"MAIN"},{"character":"Doctor Weisen","actor":"Hans-Jürgen Dittberner","role":"SUPPORTING"},{"character":"Al","actor":"Peggy Pollow","role":"SUPPORTING"},{"character":"Pony Goodlight","actor":"Marieke Oeffinger","role":"SUPPORTING"},{"character":"Corte","actor":"Ann Vielhaben","role":"SUPPORTING"},{"character":"Henry Leobort","actor":"Maximilian Artajo","role":"SUPPORTING"},{"character":"Lood Bernstein IV","actor":"Leonhard Mahlich","role":"SUPPORTING"},{"character":"Bazra  Beamols","actor":"Tilo Schmitz","role":"SUPPORTING"},{"character":"Talgia Hokley","actor":"Friedrich Georg Beckhaus","role":"SUPPORTING"},{"character":"Monika  Looks","actor":"Melinda Rachfahl","role":"SUPPORTING"},{"character":"Mel","actor":"Jasmin Arnoldt","role":"SUPPORTING"}]}
+{
+ "titleId": 98073,
+ "updatedAt": "2026-08-15T18:40:31.968Z",
+ "roles": [
+  {
+   "character": "Rin",
+   "actor": "Lina Rabea Mohr",
+   "role": "MAIN"
+  },
+  {
+   "character": "Finis",
+   "actor": "Samira Jakobs",
+   "role": "MAIN"
+  },
+  {
+   "character": "Doctor Weisen",
+   "actor": "Hans-Jürgen Dittberner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Al",
+   "actor": "Peggy Pollow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pony Goodlight",
+   "actor": "Marieke Oeffinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Corte",
+   "actor": "Ann Vielhaben",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Henry Leobort",
+   "actor": "Maximilian Artajo",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lood Bernstein IV",
+   "actor": "Leonhard Mahlich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bazra  Beamols",
+   "actor": "Tilo Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Talgia Hokley",
+   "actor": "Friedrich Georg Beckhaus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Monika  Looks",
+   "actor": "Melinda Rachfahl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mel",
+   "actor": "Jasmin Arnoldt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bazra Bealmors",
+   "actor": "Tilo Schmitz",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Weisen",
+   "actor": "Hans-Jürgen Dittberner",
+   "von": "ann"
+  },
+  {
+   "character": "Rudo Bernstein IV",
+   "actor": "Leonhard Mahlich",
+   "von": "ann"
+  },
+  {
+   "character": "Henry Leobolt",
+   "actor": "Maximilian Artajo",
+   "von": "ann"
+  },
+  {
+   "character": "Talgia Hawkrey",
+   "actor": "Friedrich Georg Beckhaus",
+   "von": "ann"
+  },
+  {
+   "character": "Allu Lux",
+   "actor": "Olivia Büschken",
+   "von": "ann"
+  },
+  {
+   "character": "Monica Lux",
+   "actor": "Melinda Rachfahl",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19988"
+}

@@ -1,1 +1,42 @@
-{"titleId":21647,"updatedAt":"2026-08-11T11:20:03.316Z","roles":[{"character":"Naho Takamiya","actor":"Lisa Dzyadyk","role":"MAIN"},{"character":"Azusa Murasaka","actor":"Julia Bautz","role":"MAIN"},{"character":"Takako Chino","actor":"Birte Baumgardt","role":"MAIN"},{"character":"Kakeru Naruse","actor":"Philip Süß","role":"MAIN"},{"character":"Hiroto Suwa","actor":"Lasse Dreyer","role":"MAIN"},{"character":"Saku Hagita","actor":"Dennis Saemann","role":"MAIN"}]}
+{
+ "titleId": 21647,
+ "updatedAt": "2026-08-15T18:39:30.902Z",
+ "roles": [
+  {
+   "character": "Naho Takamiya",
+   "actor": "Lisa Dzyadyk",
+   "role": "MAIN"
+  },
+  {
+   "character": "Azusa Murasaka",
+   "actor": "Julia Bautz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Takako Chino",
+   "actor": "Birte Baumgardt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kakeru Naruse",
+   "actor": "Philip Süß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hiroto Suwa",
+   "actor": "Lasse Dreyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Saku Hagita",
+   "actor": "Dennis Saemann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rio Ueda",
+   "actor": "Jana Kilka",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18075"
+}

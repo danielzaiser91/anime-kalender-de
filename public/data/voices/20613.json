@@ -1,1 +1,97 @@
-{"titleId":20613,"updatedAt":"2026-08-11T11:20:03.201Z","roles":[{"character":"Akame","actor":"Marieke Oeffinger","role":"MAIN"},{"character":"Tatsumi","actor":"Louis Friedemann Thiele","role":"MAIN"},{"character":"Leone","actor":"Nina Amerschläger","role":"MAIN"},{"character":"Mine","actor":"Rieke Werner","role":"MAIN"},{"character":"Lubbock","actor":"Benjamin Stolz","role":"MAIN"},{"character":"Esdeath","actor":"Sabina Godec","role":"SUPPORTING"},{"character":"Liver","actor":"Heiko Grauel","role":"SUPPORTING"},{"character":"Kurome","actor":"Julia Bautz","role":"SUPPORTING"},{"character":"Wave","actor":"Philip Süß","role":"SUPPORTING"}]}
+{
+ "titleId": 20613,
+ "updatedAt": "2026-08-15T18:36:48.036Z",
+ "roles": [
+  {
+   "character": "Akame",
+   "actor": "Marieke Oeffinger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tatsumi",
+   "actor": "Louis Friedemann Thiele",
+   "role": "MAIN"
+  },
+  {
+   "character": "Leone",
+   "actor": "Nina Amerschläger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mine",
+   "actor": "Rieke Werner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lubbock",
+   "actor": "Benjamin Stolz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Esdeath",
+   "actor": "Sabina Godec",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Liver",
+   "actor": "Heiko Grauel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kurome",
+   "actor": "Julia Bautz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Wave",
+   "actor": "Philip Süß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaiser",
+   "actor": "Claudia Schmidt",
+   "von": "ann"
+  },
+  {
+   "character": "Susanoo",
+   "actor": "Phil Daub",
+   "von": "ann"
+  },
+  {
+   "character": "Nyau",
+   "actor": "Tanja Esche",
+   "von": "ann"
+  },
+  {
+   "character": "Bulat",
+   "actor": "Erik Borner",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Stylish",
+   "actor": "Matthias Keller",
+   "von": "ann"
+  },
+  {
+   "character": "Najenda",
+   "actor": "Katrin Laksberg",
+   "von": "ann"
+  },
+  {
+   "character": "Seryu Ubiquitous",
+   "actor": "Christiane Werk",
+   "von": "ann"
+  },
+  {
+   "character": "Honest",
+   "actor": "Richard van Weyden",
+   "von": "ann"
+  },
+  {
+   "character": "Sheele",
+   "actor": "Dagmar Bittner",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15919"
+}

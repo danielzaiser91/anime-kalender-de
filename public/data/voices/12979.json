@@ -1,1 +1,117 @@
-{"titleId":12979,"updatedAt":"2026-08-11T11:20:03.133Z","roles":[{"character":"Tenten","actor":"Saskia Bellahn","role":"MAIN"},{"character":"Rock Lee","actor":"Tim Kreuer","role":"MAIN"},{"character":"Neji Hyuuga","actor":"Tim Knauer","role":"MAIN"},{"character":"Guy Might","actor":"Eberhard Haar","role":"MAIN"},{"character":"Naruto Uzumaki","actor":"Henning Nöhren","role":"SUPPORTING"},{"character":"Kiba Inuzuka","actor":"Tammo Kaulbarsch","role":"SUPPORTING"},{"character":"Narrator","actor":"Roman Rossa","role":"SUPPORTING"},{"character":"Orochimaru","actor":"Erik Schäffler","role":"SUPPORTING"},{"character":"Sai","actor":"Nils Rieke","role":"SUPPORTING"}]}
+{
+ "titleId": 12979,
+ "updatedAt": "2026-08-15T18:34:53.641Z",
+ "roles": [
+  {
+   "character": "Tenten",
+   "actor": "Saskia Bellahn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rock Lee",
+   "actor": "Tim Kreuer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Neji Hyuuga",
+   "actor": "Tim Knauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Guy Might",
+   "actor": "Eberhard Haar",
+   "role": "MAIN"
+  },
+  {
+   "character": "Naruto Uzumaki",
+   "actor": "Henning Nöhren",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kiba Inuzuka",
+   "actor": "Tammo Kaulbarsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Roman Rossa",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Orochimaru",
+   "actor": "Erik Schäffler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sai",
+   "actor": "Nils Rieke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Might Guy",
+   "actor": "Eberhard Haar",
+   "von": "ann"
+  },
+  {
+   "character": "Tenten",
+   "actor": "Saskia Weckler",
+   "von": "ann"
+  },
+  {
+   "character": "Ino Yamanaka",
+   "actor": "Celine Fontanges",
+   "von": "ann"
+  },
+  {
+   "character": "Shizune",
+   "actor": "Stephanie Kirchberger",
+   "von": "ann"
+  },
+  {
+   "character": "Chouji Akimichi",
+   "actor": "Tobias Schmidt",
+   "von": "ann"
+  },
+  {
+   "character": "Tsunade",
+   "actor": "Joey Cordevin",
+   "von": "ann"
+  },
+  {
+   "character": "Kabuto Yakushi",
+   "actor": "Patrick Bach",
+   "von": "ann"
+  },
+  {
+   "character": "Kakashi Hatake",
+   "actor": "Martin May",
+   "von": "ann"
+  },
+  {
+   "character": "Hinata Hyuuga",
+   "actor": "Julia Fölster",
+   "von": "ann"
+  },
+  {
+   "character": "Shino Aburame",
+   "actor": "Fabian Harloff",
+   "von": "ann"
+  },
+  {
+   "character": "Sakura Haruno",
+   "actor": "Katharina von Keller",
+   "von": "ann"
+  },
+  {
+   "character": "Shikamaru Nara",
+   "actor": "Jacob Weigert",
+   "von": "ann"
+  },
+  {
+   "character": "Konohamaru Sarutobi",
+   "actor": "Piet Nowatzky",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=13834"
+}

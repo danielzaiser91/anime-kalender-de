@@ -1,1 +1,57 @@
-{"titleId":1475,"updatedAt":"2026-08-11T11:20:02.922Z","roles":[{"character":"Ryou Saeba","actor":"Michael Pan","role":"MAIN"},{"character":"Kaori Makimura","actor":"Nadja Reichardt","role":"MAIN"},{"character":"Gomez","actor":"Reinhard Scheunemann","role":"SUPPORTING"},{"character":"Hayato Ijuuin","actor":"Karl Schulz","role":"SUPPORTING"},{"character":"Claude","actor":"Jörg Hengstler","role":"SUPPORTING"},{"character":"Miki","actor":"Claudia Gáldy","role":"SUPPORTING"},{"character":"Gilliam","actor":"Gerald Paradies","role":"SUPPORTING"},{"character":"Norton","actor":"Erich Räuker","role":"SUPPORTING"},{"character":"Luna","actor":"Alexandra Wilcke","role":"SUPPORTING"}]}
+{
+ "titleId": 1475,
+ "updatedAt": "2026-08-15T18:28:39.436Z",
+ "roles": [
+  {
+   "character": "Ryou Saeba",
+   "actor": "Michael Pan",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kaori Makimura",
+   "actor": "Nadja Reichardt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gomez",
+   "actor": "Reinhard Scheunemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hayato Ijuuin",
+   "actor": "Karl Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Claude",
+   "actor": "Jörg Hengstler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miki",
+   "actor": "Claudia Gáldy",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gilliam",
+   "actor": "Gerald Paradies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Norton",
+   "actor": "Erich Räuker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Luna",
+   "actor": "Alexandra Wilcke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryo Saeba",
+   "actor": "Michael Pan",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=549"
+}

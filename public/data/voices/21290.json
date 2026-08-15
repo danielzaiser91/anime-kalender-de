@@ -1,1 +1,67 @@
-{"titleId":21290,"updatedAt":"2026-08-11T11:20:03.288Z","roles":[{"character":"Hideki Nishimura","actor":"Alexander Merbeth","role":"MAIN"},{"character":"Ako Tamaki","actor":"Linda Fölster","role":"MAIN"},{"character":"Akane Segawa","actor":"Julia Fölster","role":"SUPPORTING"},{"character":"Kyou Goshoin","actor":"Nadine Schreier","role":"SUPPORTING"},{"character":"Nanako Akiyama","actor":"Nina Witt","role":"SUPPORTING"},{"character":"Yui Saito","actor":"Jannika Jira","role":"SUPPORTING"}]}
+{
+ "titleId": 21290,
+ "updatedAt": "2026-08-15T18:38:53.134Z",
+ "roles": [
+  {
+   "character": "Hideki Nishimura",
+   "actor": "Alexander Merbeth",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ako Tamaki",
+   "actor": "Linda Fölster",
+   "role": "MAIN"
+  },
+  {
+   "character": "Akane Segawa",
+   "actor": "Julia Fölster",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyou Goshoin",
+   "actor": "Nadine Schreier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nanako Akiyama",
+   "actor": "Nina Witt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yui Saito",
+   "actor": "Jannika Jira",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akane Segawa/Schwein",
+   "actor": "Julia Fölster",
+   "von": "ann"
+  },
+  {
+   "character": "Kyou Goshouin/Apricot",
+   "actor": "Nadine Schreier",
+   "von": "ann"
+  },
+  {
+   "character": "Ako Tamaki/Ako",
+   "actor": "Linda Fölster",
+   "von": "ann"
+  },
+  {
+   "character": "Nanako Akiyama/Sette",
+   "actor": "Nina Witt",
+   "von": "ann"
+  },
+  {
+   "character": "Yui Saitou/Nekohime",
+   "actor": "Jannika Jira",
+   "von": "ann"
+  },
+  {
+   "character": "Hideki Nishimura/Rusian",
+   "actor": "Alexander Merbeth",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=17514"
+}

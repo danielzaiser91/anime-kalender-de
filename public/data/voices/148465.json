@@ -1,1 +1,37 @@
-{"titleId":148465,"updatedAt":"2026-08-11T11:20:03.648Z","roles":[{"character":"Ryouta Satou","actor":"Flemming Stein","role":"MAIN"},{"character":"Emily Brown","actor":"Amira Leisner","role":"MAIN"},{"character":"Eve Callusleader","actor":"Jana Dunja Gries","role":"SUPPORTING"},{"character":"Erza Monsoon","actor":"Elisa Pioch","role":"SUPPORTING"}]}
+{
+ "titleId": 148465,
+ "updatedAt": "2026-08-15T18:48:22.718Z",
+ "roles": [
+  {
+   "character": "Ryouta Satou",
+   "actor": "Flemming Stein",
+   "role": "MAIN"
+  },
+  {
+   "character": "Emily Brown",
+   "actor": "Amira Leisner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Eve Callusleader",
+   "actor": "Jana Dunja Gries",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Erza Monsoon",
+   "actor": "Elisa Pioch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Celeste",
+   "actor": "Julia Fölster",
+   "von": "ann"
+  },
+  {
+   "character": "Ryota Sato",
+   "actor": "Flemming Stein",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=25657"
+}

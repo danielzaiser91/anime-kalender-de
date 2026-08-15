@@ -1,1 +1,142 @@
-{"titleId":101347,"updatedAt":"2026-08-11T11:20:03.455Z","roles":[{"character":"Hyakkimaru","actor":"Christian Wunderlich","role":"MAIN"},{"character":"Dororo","actor":"Amira Leisner","role":"MAIN"},{"character":"Denkichi","actor":"Tom Jacobs","role":"SUPPORTING"},{"character":"Itachi","actor":"Matthias Kiel","role":"SUPPORTING"},{"character":"Oume","actor":"Catrin Caspari","role":"SUPPORTING"},{"character":"Munetsuna","actor":"Rolf Berg","role":"SUPPORTING"},{"character":"Mio","actor":"Fabienne Hesse","role":"SUPPORTING"},{"character":"Ojiya","actor":"Daniela Bette-Koch","role":"SUPPORTING"},{"character":"Sukeroku","actor":"Céline Vogt","role":"SUPPORTING"},{"character":"Okowa","actor":"Katharina Gast","role":"SUPPORTING"},{"character":"Biwamaru","actor":"Ekkehardt Belle","role":"SUPPORTING"},{"character":"Osushi Niki","actor":"Manja Doering","role":"SUPPORTING"},{"character":"Hibukuro","actor":"Jochen Langner","role":"SUPPORTING"},{"character":"Okaka","actor":"Daniela Bette-Koch","role":"SUPPORTING"},{"character":"Saburota","actor":"Nicolas Böll","role":"SUPPORTING"},{"character":"Kagemitsu Daigo","actor":"Wolfgang Condrus","role":"SUPPORTING"},{"character":"Kaname","actor":"Jonas Frenz","role":"SUPPORTING"},{"character":"Yajiro","actor":"Robert Steudtner","role":"SUPPORTING"},{"character":"Maimai-onba","actor":"Nina Goldberg","role":"SUPPORTING"},{"character":"Narrator","actor":"Josef  Tratnik","role":"SUPPORTING"},{"character":"Nuinokata","actor":"Dorette Hugo","role":"SUPPORTING"},{"character":"Tanosuke Niki","actor":"Uve Teschner","role":"SUPPORTING"},{"character":"Sabame","actor":"Boris Jacoby","role":"SUPPORTING"},{"character":"Jukai","actor":"Thomas Anzenhofer","role":"SUPPORTING"}]}
+{
+ "titleId": 101347,
+ "updatedAt": "2026-08-15T18:42:35.407Z",
+ "roles": [
+  {
+   "character": "Hyakkimaru",
+   "actor": "Christian Wunderlich",
+   "role": "MAIN"
+  },
+  {
+   "character": "Dororo",
+   "actor": "Amira Leisner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Denkichi",
+   "actor": "Tom Jacobs",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Itachi",
+   "actor": "Matthias Kiel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Oume",
+   "actor": "Catrin Caspari",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Munetsuna",
+   "actor": "Rolf Berg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mio",
+   "actor": "Fabienne Hesse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ojiya",
+   "actor": "Daniela Bette-Koch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sukeroku",
+   "actor": "Céline Vogt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Okowa",
+   "actor": "Katharina Gast",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Biwamaru",
+   "actor": "Ekkehardt Belle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Osushi Niki",
+   "actor": "Manja Doering",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hibukuro",
+   "actor": "Jochen Langner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Okaka",
+   "actor": "Daniela Bette-Koch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Saburota",
+   "actor": "Nicolas Böll",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kagemitsu Daigo",
+   "actor": "Wolfgang Condrus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaname",
+   "actor": "Jonas Frenz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yajiro",
+   "actor": "Robert Steudtner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maimai-onba",
+   "actor": "Nina Goldberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Josef  Tratnik",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nuinokata",
+   "actor": "Dorette Hugo",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tanosuke Niki",
+   "actor": "Uve Teschner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sabame",
+   "actor": "Boris Jacoby",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jukai",
+   "actor": "Thomas Anzenhofer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Daigo Kagemitsu",
+   "actor": "Wolfgang Condrus",
+   "von": "ann"
+  },
+  {
+   "character": "Hyogo",
+   "actor": "Oliver Schnelker",
+   "von": "ann"
+  },
+  {
+   "character": "Tahoumaru",
+   "actor": "Patrick Keller",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20779"
+}

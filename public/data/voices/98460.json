@@ -1,1 +1,147 @@
-{"titleId":98460,"updatedAt":"2026-08-11T11:20:03.385Z","roles":[{"character":"Ryo Asuka","actor":"Tobias Kern","role":"MAIN"},{"character":"Akira Fudou","actor":"Domenic Redl","role":"MAIN"},{"character":"Miki Makimura","actor":"Gabrielle Pietermann","role":"MAIN"},{"character":"Professor Fikira","actor":"Wolfgang Müller","role":"SUPPORTING"},{"character":"Jinmen","actor":"Marc Rosenberg","role":"SUPPORTING"},{"character":"Zay","actor":"Daniel Pietzuch","role":"SUPPORTING"},{"character":"Zenon","actor":"Thomas Albus","role":"SUPPORTING"},{"character":"Tare Makimura","actor":"Maximilian Belle","role":"SUPPORTING"},{"character":"Noel Makimura","actor":"Oliver Scheffel","role":"SUPPORTING"},{"character":"Koji Nagasaki","actor":"Patrick Schröder","role":"SUPPORTING"},{"character":"Moyuru Koda","actor":"Max Felder","role":"SUPPORTING"},{"character":"Reijirou Fudou","actor":"Gerd Meyer","role":"SUPPORTING"},{"character":"Miki Kuroda","actor":"Shandra Schadt","role":"SUPPORTING"},{"character":"Psycho Jenny","actor":"Nina Kapust","role":"SUPPORTING"},{"character":"Silene","actor":"Kathrin Gaube","role":"SUPPORTING"},{"character":"Wamu","actor":"Patrick Roche","role":"SUPPORTING"},{"character":"Takahama","actor":"Leonard Hohm","role":"SUPPORTING"},{"character":"Kaim","actor":"Martin Halm","role":"SUPPORTING"},{"character":"Gabi","actor":"Felix Mayer","role":"SUPPORTING"},{"character":"Kaori Fudou","actor":"Stephanie Kellner","role":"SUPPORTING"}]}
+{
+ "titleId": 98460,
+ "updatedAt": "2026-08-15T18:41:05.942Z",
+ "roles": [
+  {
+   "character": "Ryo Asuka",
+   "actor": "Tobias Kern",
+   "role": "MAIN"
+  },
+  {
+   "character": "Akira Fudou",
+   "actor": "Domenic Redl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miki Makimura",
+   "actor": "Gabrielle Pietermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Professor Fikira",
+   "actor": "Wolfgang Müller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jinmen",
+   "actor": "Marc Rosenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zay",
+   "actor": "Daniel Pietzuch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zenon",
+   "actor": "Thomas Albus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tare Makimura",
+   "actor": "Maximilian Belle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Noel Makimura",
+   "actor": "Oliver Scheffel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Koji Nagasaki",
+   "actor": "Patrick Schröder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Moyuru Koda",
+   "actor": "Max Felder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Reijirou Fudou",
+   "actor": "Gerd Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miki Kuroda",
+   "actor": "Shandra Schadt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Psycho Jenny",
+   "actor": "Nina Kapust",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Silene",
+   "actor": "Kathrin Gaube",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Wamu",
+   "actor": "Patrick Roche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takahama",
+   "actor": "Leonard Hohm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaim",
+   "actor": "Martin Halm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gabi",
+   "actor": "Felix Mayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaori Fudou",
+   "actor": "Stephanie Kellner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miko Kuroda",
+   "actor": "Shandra Schadt",
+   "von": "ann"
+  },
+  {
+   "character": "Sirene",
+   "actor": "Kathrin Gaube",
+   "von": "ann"
+  },
+  {
+   "character": "Tarou Makimura",
+   "actor": "Maximilian Belle",
+   "von": "ann"
+  },
+  {
+   "character": "Kouji Nagasaki",
+   "actor": "Patrick Schröder",
+   "von": "ann"
+  },
+  {
+   "character": "Akiko Makimura",
+   "actor": "Andrea Wick",
+   "von": "ann"
+  },
+  {
+   "character": "Moyuru Kouda",
+   "actor": "Max Felder",
+   "von": "ann"
+  },
+  {
+   "character": "Wam",
+   "actor": "Patrick Roche",
+   "von": "ann"
+  },
+  {
+   "character": "Ryou Asuka",
+   "actor": "Tobias Kern",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19982"
+}

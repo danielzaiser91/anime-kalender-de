@@ -1,1 +1,42 @@
-{"titleId":1182,"updatedAt":"2026-08-11T11:20:02.899Z","roles":[{"character":"Kagetsu","actor":"Stefan Günther","role":"MAIN"},{"character":"Tiara","actor":"Jana Schölermann","role":"MAIN"},{"character":"Sara","actor":"Kathrin Gaube","role":"MAIN"},{"character":"Lena","actor":"Marieke Oeffinger","role":"MAIN"},{"character":"Leon","actor":"Manuel  von Radvanyi","role":"SUPPORTING"},{"character":"Japolo","actor":"Daniel Schlauch","role":"SUPPORTING"}]}
+{
+ "titleId": 1182,
+ "updatedAt": "2026-08-15T18:27:44.200Z",
+ "roles": [
+  {
+   "character": "Kagetsu",
+   "actor": "Stefan Günther",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tiara",
+   "actor": "Jana Schölermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sara",
+   "actor": "Kathrin Gaube",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lena",
+   "actor": "Marieke Oeffinger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Leon",
+   "actor": "Manuel  von Radvanyi",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Japolo",
+   "actor": "Daniel Schlauch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tiara",
+   "actor": "Jana Kilka",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=730"
+}

@@ -1,1 +1,87 @@
-{"titleId":1362,"updatedAt":"2026-08-11T11:20:02.913Z","roles":[{"character":"Guile","actor":"Volker Wolf","role":"MAIN"},{"character":"Ryuu","actor":"Daniel Werner","role":"MAIN"},{"character":"Chun-Li","actor":"Ilya Welter","role":"MAIN"},{"character":"Ken Masters","actor":"Stephan Schleberger","role":"MAIN"},{"character":"Balrog","actor":"Rolf Berg","role":"SUPPORTING"},{"character":"Eliza Masters","actor":"Ulrike Hötzel","role":"SUPPORTING"},{"character":"Dee Jay","actor":"Thomas Lang","role":"SUPPORTING"},{"character":"Edmond Honda","actor":"Karlheinz Tafel","role":"SUPPORTING"},{"character":"Sagat","actor":"Peter Harting","role":"SUPPORTING"},{"character":"Fei-Long","actor":"Gregor Höppner","role":"SUPPORTING"},{"character":"Vega","actor":"Reinhard Schulat-Rademacher","role":"SUPPORTING"}]}
+{
+ "titleId": 1362,
+ "updatedAt": "2026-08-15T18:28:15.308Z",
+ "roles": [
+  {
+   "character": "Guile",
+   "actor": "Volker Wolf",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ryuu",
+   "actor": "Daniel Werner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chun-Li",
+   "actor": "Ilya Welter",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ken Masters",
+   "actor": "Stephan Schleberger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Balrog",
+   "actor": "Rolf Berg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eliza Masters",
+   "actor": "Ulrike Hötzel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dee Jay",
+   "actor": "Thomas Lang",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Edmond Honda",
+   "actor": "Karlheinz Tafel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sagat",
+   "actor": "Peter Harting",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fei-Long",
+   "actor": "Gregor Höppner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Vega",
+   "actor": "Reinhard Schulat-Rademacher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cammy White",
+   "actor": "Luise Brings",
+   "von": "ann"
+  },
+  {
+   "character": "Ryu",
+   "actor": "Daniel Werner",
+   "von": "ann"
+  },
+  {
+   "character": "M.Bison",
+   "actor": "Reinhard Schulat",
+   "von": "ann"
+  },
+  {
+   "character": "Cammy White",
+   "actor": "Luise Charlotte Brings",
+   "von": "ann"
+  },
+  {
+   "character": "Old Scientist",
+   "actor": "Viktor Weiss",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2302"
+}

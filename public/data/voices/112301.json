@@ -1,1 +1,107 @@
-{"titleId":112301,"updatedAt":"2026-08-11T11:20:03.533Z","roles":[{"character":"Anos Voldigoad","actor":"Tobias Kern","role":"MAIN"},{"character":"Misha Necron","actor":"Paulina Rümmelein","role":"MAIN"},{"character":"Sasha Necron","actor":"Melanie Olbert","role":"MAIN"},{"character":"Himka Houra","actor":"Miriam Kaufmann","role":"SUPPORTING"},{"character":"Ivis Necron","actor":"Walter von Hauff","role":"SUPPORTING"},{"character":"Melheis Boran","actor":"Gerd Meyer","role":"SUPPORTING"},{"character":"Shelia Nijem","actor":"Jana Dunja Gries","role":"SUPPORTING"},{"character":"Shin Reglia","actor":"Jochen Paletschek","role":"SUPPORTING"},{"character":"Gaios Anzem","actor":"Christian Jungwirth","role":"SUPPORTING"},{"character":"Jessica Arnet","actor":"Nicolle Gonsior","role":"SUPPORTING"},{"character":"Kanon","actor":"Maximilian Belle","role":"SUPPORTING"},{"character":"Emilia Ludowell","actor":"Anke Korte","role":"SUPPORTING"},{"character":"Ydol Anzeo","actor":"Martin Bonvicini","role":"SUPPORTING"},{"character":"Carsa Kurnoah","actor":"Samina König","role":"SUPPORTING"},{"character":"Leorig Indu","actor":"Pascal Breuer","role":"SUPPORTING"},{"character":"Minsheng Xia","actor":"Lara Schmidt","role":"SUPPORTING"}]}
+{
+ "titleId": 112301,
+ "updatedAt": "2026-08-15T18:44:50.260Z",
+ "roles": [
+  {
+   "character": "Anos Voldigoad",
+   "actor": "Tobias Kern",
+   "role": "MAIN"
+  },
+  {
+   "character": "Misha Necron",
+   "actor": "Paulina Rümmelein",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sasha Necron",
+   "actor": "Melanie Olbert",
+   "role": "MAIN"
+  },
+  {
+   "character": "Himka Houra",
+   "actor": "Miriam Kaufmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ivis Necron",
+   "actor": "Walter von Hauff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Melheis Boran",
+   "actor": "Gerd Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shelia Nijem",
+   "actor": "Jana Dunja Gries",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shin Reglia",
+   "actor": "Jochen Paletschek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gaios Anzem",
+   "actor": "Christian Jungwirth",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jessica Arnet",
+   "actor": "Nicolle Gonsior",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kanon",
+   "actor": "Maximilian Belle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Emilia Ludowell",
+   "actor": "Anke Korte",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ydol Anzeo",
+   "actor": "Martin Bonvicini",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Carsa Kurnoah",
+   "actor": "Samina König",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Leorig Indu",
+   "actor": "Pascal Breuer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Minsheng Xia",
+   "actor": "Lara Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gusta",
+   "actor": "Daniel Schlauch",
+   "von": "ann"
+  },
+  {
+   "character": "Ray Gransdori",
+   "actor": "Tobias John von Freyend",
+   "von": "ann"
+  },
+  {
+   "character": "Izabella",
+   "actor": "Ilena Gwisdalla",
+   "von": "ann"
+  },
+  {
+   "character": "Misa Iriologue",
+   "actor": "Amira Leisner",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22555"
+}

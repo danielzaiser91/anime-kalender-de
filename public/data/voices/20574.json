@@ -1,1 +1,102 @@
-{"titleId":20574,"updatedAt":"2026-08-11T11:20:03.199Z","roles":[{"character":"Haruo Yaguchi","actor":"David Kunze","role":"MAIN"},{"character":"Akira Oono","actor":"Sophie Lechtenbrink","role":"MAIN"},{"character":"Koharu Hidaka","actor":"Laura Oettel","role":"MAIN"},{"character":"Koutarou Miyao","actor":"Nico Wiek","role":"SUPPORTING"},{"character":"Namie Yaguchi","actor":"Anja Nestler","role":"SUPPORTING"},{"character":"Reiko Tonoo","actor":"Betty Förster","role":"SUPPORTING"},{"character":"Moemi Gouda","actor":"Magdalena Höfner","role":"SUPPORTING"},{"character":"Jiiya","actor":"Uwe Jellinek","role":"SUPPORTING"},{"character":"Genta Doi","actor":"Linus Drews","role":"SUPPORTING"},{"character":"Chihiro Onizuka","actor":"Ramona Rockenhausen","role":"SUPPORTING"},{"character":"Shougakkou no Sensei","actor":"Michael Bauer","role":"SUPPORTING"},{"character":"Guile","actor":"Samuel Zekarias","role":"BACKGROUND"},{"character":"Zangief","actor":"Sven Brieger","role":"BACKGROUND"}]}
+{
+ "titleId": 20574,
+ "updatedAt": "2026-08-15T18:36:42.681Z",
+ "roles": [
+  {
+   "character": "Haruo Yaguchi",
+   "actor": "David Kunze",
+   "role": "MAIN"
+  },
+  {
+   "character": "Akira Oono",
+   "actor": "Sophie Lechtenbrink",
+   "role": "MAIN"
+  },
+  {
+   "character": "Koharu Hidaka",
+   "actor": "Laura Oettel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Koutarou Miyao",
+   "actor": "Nico Wiek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Namie Yaguchi",
+   "actor": "Anja Nestler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Reiko Tonoo",
+   "actor": "Betty Förster",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Moemi Gouda",
+   "actor": "Magdalena Höfner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jiiya",
+   "actor": "Uwe Jellinek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Genta Doi",
+   "actor": "Linus Drews",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chihiro Onizuka",
+   "actor": "Ramona Rockenhausen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shougakkou no Sensei",
+   "actor": "Michael Bauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Guile",
+   "actor": "Samuel Zekarias",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Zangief",
+   "actor": "Sven Brieger",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Homeroom Teacher",
+   "actor": "Michael Bauer",
+   "von": "ann"
+  },
+  {
+   "character": "Koharu Hidaka",
+   "actor": "Laura Elßel",
+   "von": "ann"
+  },
+  {
+   "character": "Koharu's Father",
+   "actor": "Hanns Jörg Krumpholz",
+   "von": "ann"
+  },
+  {
+   "character": "Maa-kun",
+   "actor": "Bernd Egger",
+   "von": "ann"
+  },
+  {
+   "character": "Reiko Toono",
+   "actor": "Betty Förster",
+   "von": "ann"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Georgios Tzitzikos",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20797"
+}

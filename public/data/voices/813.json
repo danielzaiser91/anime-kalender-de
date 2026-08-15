@@ -1,1 +1,192 @@
-{"titleId":813,"updatedAt":"2026-08-11T11:20:02.864Z","roles":[{"character":"Gohan Son","actor":"Sandro Blümel","role":"MAIN"},{"character":"Gokuu Son","actor":"Tommy Morgenstern","role":"MAIN"},{"character":"Kuririn","actor":"Wanja Gerick","role":"MAIN"},{"character":"Vegeta","actor":"Oliver Siebeck","role":"MAIN"},{"character":"Piccolo","actor":"David Nathan","role":"MAIN"},{"character":"Tenshinhan","actor":"Julien Haggege","role":"SUPPORTING"},{"character":"Paikuhan","actor":"Matthias Deutelmoser","role":"SUPPORTING"},{"character":"Erasa","actor":"Samia Little Elk","role":"SUPPORTING"},{"character":"Yamu","actor":"Reinhard Scheunemann","role":"SUPPORTING"},{"character":"Burter","actor":"Gerald Schaale","role":"SUPPORTING"},{"character":"Nishi no Kaiou","actor":"Frank Ciazynski","role":"SUPPORTING"},{"character":"Minami no Kaiou","actor":"Andreas Müller","role":"SUPPORTING"},{"character":"Higashi no Kaioushin","actor":"Hans Hohlbein","role":"SUPPORTING"},{"character":"Mister Satan","actor":"Elmar Gutmann","role":"SUPPORTING"},{"character":"Ginyu","actor":"Erich Räuker","role":"SUPPORTING"},{"character":"Oolong","actor":"Bernhard Völger","role":"SUPPORTING"},{"character":"Kita no Kaioushin","actor":"Mathias Kunze","role":"SUPPORTING"},{"character":"Trunks","actor":"Sebastian Schulz","role":"SUPPORTING"},{"character":"Dende","actor":"Gabriele Schramm-Philipp","role":"SUPPORTING"},{"character":"Gregory","actor":"Michael Pan","role":"SUPPORTING"},{"character":"Jeice","actor":"Olaf Reichmann","role":"SUPPORTING"}]}
+{
+ "titleId": 813,
+ "updatedAt": "2026-08-15T18:26:15.211Z",
+ "roles": [
+  {
+   "character": "Gohan Son",
+   "actor": "Sandro Blümel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gokuu Son",
+   "actor": "Tommy Morgenstern",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kuririn",
+   "actor": "Wanja Gerick",
+   "role": "MAIN"
+  },
+  {
+   "character": "Vegeta",
+   "actor": "Oliver Siebeck",
+   "role": "MAIN"
+  },
+  {
+   "character": "Piccolo",
+   "actor": "David Nathan",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tenshinhan",
+   "actor": "Julien Haggege",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Paikuhan",
+   "actor": "Matthias Deutelmoser",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Erasa",
+   "actor": "Samia Little Elk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yamu",
+   "actor": "Reinhard Scheunemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Burter",
+   "actor": "Gerald Schaale",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nishi no Kaiou",
+   "actor": "Frank Ciazynski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Minami no Kaiou",
+   "actor": "Andreas Müller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Higashi no Kaioushin",
+   "actor": "Hans Hohlbein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mister Satan",
+   "actor": "Elmar Gutmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ginyu",
+   "actor": "Erich Räuker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Oolong",
+   "actor": "Bernhard Völger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kita no Kaioushin",
+   "actor": "Mathias Kunze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Trunks",
+   "actor": "Sebastian Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dende",
+   "actor": "Gabriele Schramm-Philipp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gregory",
+   "actor": "Michael Pan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jeice",
+   "actor": "Olaf Reichmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Son Gohan",
+   "actor": "Robin Kahnmeyer",
+   "von": "ann"
+  },
+  {
+   "character": "Son Goten",
+   "actor": "Ricardo Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Mirai Trunks",
+   "actor": "Sebastian Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "Bulma",
+   "actor": "Claudia Urbschat-Mingues",
+   "von": "ann"
+  },
+  {
+   "character": "Son Gohan",
+   "actor": "Sandro Blümel",
+   "von": "ann"
+  },
+  {
+   "character": "Krillin",
+   "actor": "Wanja Gerick",
+   "von": "ann"
+  },
+  {
+   "character": "Videl",
+   "actor": "Anna Carlsson",
+   "von": "ann"
+  },
+  {
+   "character": "Son Goten",
+   "actor": "Marius Claren",
+   "von": "ann"
+  },
+  {
+   "character": "Son Goku",
+   "actor": "Tommy Morgenstern",
+   "von": "ann"
+  },
+  {
+   "character": "ChiChi",
+   "actor": "Julia Ziffer",
+   "von": "ann"
+  },
+  {
+   "character": "Son Goku",
+   "actor": "Joseph Rebling",
+   "von": "ann"
+  },
+  {
+   "character": "Yamcha",
+   "actor": "Karlo Hackenberger",
+   "von": "ann"
+  },
+  {
+   "character": "Muten Roshi",
+   "actor": "Karl Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "Lunch",
+   "actor": "Sabine Winterfeldt",
+   "von": "ann"
+  },
+  {
+   "character": "Vegeta",
+   "actor": "Santiago Ziesmer",
+   "von": "ann"
+  },
+  {
+   "character": "Vegeta",
+   "actor": "Santiago Ziesmer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=244"
+}

@@ -1,1 +1,67 @@
-{"titleId":7314,"updatedAt":"2026-08-11T11:20:03.072Z","roles":[{"character":"Koko","actor":"Luisa Wietzorek","role":"MAIN"}]}
+{
+ "titleId": 7314,
+ "updatedAt": "2026-08-15T18:33:22.678Z",
+ "roles": [
+  {
+   "character": "Koko",
+   "actor": "Luisa Wietzorek",
+   "role": "MAIN"
+  },
+  {
+   "character": "Coco's Father",
+   "actor": "Uwe Büschken",
+   "von": "ann"
+  },
+  {
+   "character": "Zammie",
+   "actor": "Gerald Schaale",
+   "von": "ann"
+  },
+  {
+   "character": "Chaley's Father",
+   "actor": "Dieter Memel",
+   "von": "ann"
+  },
+  {
+   "character": "Chaley's Mother",
+   "actor": "Anja Rybiczka",
+   "von": "ann"
+  },
+  {
+   "character": "Bukka-Boo",
+   "actor": "Thomas Wolff",
+   "von": "ann"
+  },
+  {
+   "character": "Coco's Mother",
+   "actor": "Uschi Hugo",
+   "von": "ann"
+  },
+  {
+   "character": "Jii",
+   "actor": "Rüdiger Evers",
+   "von": "ann"
+  },
+  {
+   "character": "Parakeke",
+   "actor": "Hasso Zorn",
+   "von": "ann"
+  },
+  {
+   "character": "Chaley",
+   "actor": "Tanya Kahana",
+   "von": "ann"
+  },
+  {
+   "character": "Goblin elder",
+   "actor": "Uli Krohm",
+   "von": "ann"
+  },
+  {
+   "character": "Coco",
+   "actor": "Luisa Wietzorek",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=9405"
+}

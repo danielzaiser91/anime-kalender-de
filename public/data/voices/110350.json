@@ -1,1 +1,142 @@
-{"titleId":110350,"updatedAt":"2026-08-11T11:20:03.521Z","roles":[{"character":"Akihito Narihisago","actor":"Dominik Auer","role":"MAIN"},{"character":"Hunetarou Momoki","actor":"Vincent Fallow","role":"MAIN"},{"character":"Tamotsu Fukuda","actor":"Leonard Hohm","role":"MAIN"},{"character":"Koharu Hondoumachi","actor":"Maresa Sedlmeir","role":"MAIN"},{"character":"Sarina Tougou","actor":"Angela Wiederhut","role":"SUPPORTING"},{"character":"Keiko Kikuchi","actor":"Angelina Markiefka","role":"SUPPORTING"},{"character":"Masamune Habutae","actor":"Benedikt Gutjan","role":"SUPPORTING"},{"character":"Shiratake Sennosuke","actor":"Tobias Kern","role":"SUPPORTING"},{"character":"Nishio Shirakoma","actor":"Gerd Meyer","role":"SUPPORTING"},{"character":"Kokuryuu Matsuoka","actor":"Robert Dölle","role":"SUPPORTING"},{"character":"Kiki Asukai","actor":"Stephanie Kellner","role":"SUPPORTING"},{"character":"Takuhiko Hayaseura","actor":"Walter von Hauff","role":"SUPPORTING"},{"character":"Nahosi Inami","actor":"Shandra Schadt","role":"SUPPORTING"},{"character":"Kokufu Shirou","actor":"Felix Mayer","role":"SUPPORTING"},{"character":"Genpei Oono","actor":"Gerd Meyer","role":"SUPPORTING"},{"character":"Haruka Kazuta","actor":"Maximilian Belle","role":"SUPPORTING"},{"character":"Muku Narihisago","actor":"Laura Jenni","role":"SUPPORTING"},{"character":"Denshin Katsuyama","actor":"Matthias Klie","role":"SUPPORTING"},{"character":"Nishimura Tsukimaru","actor":"Manou Lubowski","role":"SUPPORTING"},{"character":"Ayako Narihisago","actor":"Ulrike Jennie","role":"SUPPORTING"},{"character":"Wakashika Kazuo","actor":"Johannes Wolko","role":"SUPPORTING"},{"character":"Kouji Fuyukawa","actor":"Uwe Thomsen","role":"SUPPORTING"}]}
+{
+ "titleId": 110350,
+ "updatedAt": "2026-08-15T18:44:31.943Z",
+ "roles": [
+  {
+   "character": "Akihito Narihisago",
+   "actor": "Dominik Auer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hunetarou Momoki",
+   "actor": "Vincent Fallow",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tamotsu Fukuda",
+   "actor": "Leonard Hohm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Koharu Hondoumachi",
+   "actor": "Maresa Sedlmeir",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sarina Tougou",
+   "actor": "Angela Wiederhut",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Keiko Kikuchi",
+   "actor": "Angelina Markiefka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masamune Habutae",
+   "actor": "Benedikt Gutjan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shiratake Sennosuke",
+   "actor": "Tobias Kern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nishio Shirakoma",
+   "actor": "Gerd Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kokuryuu Matsuoka",
+   "actor": "Robert Dölle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kiki Asukai",
+   "actor": "Stephanie Kellner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takuhiko Hayaseura",
+   "actor": "Walter von Hauff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nahosi Inami",
+   "actor": "Shandra Schadt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kokufu Shirou",
+   "actor": "Felix Mayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Genpei Oono",
+   "actor": "Gerd Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haruka Kazuta",
+   "actor": "Maximilian Belle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Muku Narihisago",
+   "actor": "Laura Jenni",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Denshin Katsuyama",
+   "actor": "Matthias Klie",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nishimura Tsukimaru",
+   "actor": "Manou Lubowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ayako Narihisago",
+   "actor": "Ulrike Jennie",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Wakashika Kazuo",
+   "actor": "Johannes Wolko",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kouji Fuyukawa",
+   "actor": "Uwe Thomsen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sakaido/Akihito Narihisago",
+   "actor": "Dominik Auer",
+   "von": "ann"
+  },
+  {
+   "character": "Kazuo Wakashika",
+   "actor": "Johannes Wolko",
+   "von": "ann"
+  },
+  {
+   "character": "Sennosuke Shiratake",
+   "actor": "Tobias Kern",
+   "von": "ann"
+  },
+  {
+   "character": "Shirou Kokufu",
+   "actor": "Felix Mayer",
+   "von": "ann"
+  },
+  {
+   "character": "Funetarou Momoki",
+   "actor": "Vincent Fallow",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22509"
+}

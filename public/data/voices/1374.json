@@ -1,1 +1,77 @@
-{"titleId":1374,"updatedAt":"2026-08-11T11:20:02.915Z","roles":[{"character":"Agito Makishima","actor":"Tommy Morgenstern","role":"MAIN"},{"character":"Shou Fukamachi","actor":"David Turba","role":"MAIN"},{"character":"Mizuki Segawa","actor":"Tanya Kahana","role":"SUPPORTING"},{"character":"Dr Hamical Balkus","actor":"Horst Lampe","role":"SUPPORTING"},{"character":"Masaki Murakami","actor":"Robin Kahnmeyer","role":"SUPPORTING"},{"character":"Oswald Lisker","actor":"Tilo Schmitz","role":"SUPPORTING"},{"character":"Richard Guyot","actor":"Frank Ciazynski","role":"SUPPORTING"},{"character":"Tetsuro Segawa","actor":"Sebastian Schulz","role":"SUPPORTING"}]}
+{
+ "titleId": 1374,
+ "updatedAt": "2026-08-15T18:28:23.432Z",
+ "roles": [
+  {
+   "character": "Agito Makishima",
+   "actor": "Tommy Morgenstern",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shou Fukamachi",
+   "actor": "David Turba",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mizuki Segawa",
+   "actor": "Tanya Kahana",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dr Hamical Balkus",
+   "actor": "Horst Lampe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masaki Murakami",
+   "actor": "Robin Kahnmeyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Oswald Lisker",
+   "actor": "Tilo Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Richard Guyot",
+   "actor": "Frank Ciazynski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tetsuro Segawa",
+   "actor": "Sebastian Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tetsurô Segawa",
+   "actor": "Sebastian Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "Oswald A. Lisker/Guyver II",
+   "actor": "Tilo Schmitz",
+   "von": "ann"
+  },
+  {
+   "character": "Agito Makishima/Guyver III",
+   "actor": "Tommy Morgenstern",
+   "von": "ann"
+  },
+  {
+   "character": "Shô Fukamachi/Guyver I",
+   "actor": "David Turba",
+   "von": "ann"
+  },
+  {
+   "character": "Natsuki Taga",
+   "actor": "Jill Böttcher",
+   "von": "ann"
+  },
+  {
+   "character": "Genzo Makishima",
+   "actor": "Rüdiger Evers",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=5224"
+}

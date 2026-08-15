@@ -1,1 +1,72 @@
-{"titleId":3588,"updatedAt":"2026-08-11T11:20:03.010Z","roles":[{"character":"Death the Kid","actor":"Robert Kotulla","role":"MAIN"},{"character":"Franken Stein","actor":"Martin May","role":"SUPPORTING"}]}
+{
+ "titleId": 3588,
+ "updatedAt": "2026-08-15T18:31:53.156Z",
+ "roles": [
+  {
+   "character": "Death the Kid",
+   "actor": "Robert Kotulla",
+   "role": "MAIN"
+  },
+  {
+   "character": "Franken Stein",
+   "actor": "Martin May",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsubaki Nakatsukasa",
+   "actor": "Kerstin Draeger",
+   "von": "ann"
+  },
+  {
+   "character": "Blair",
+   "actor": "Marion von Stengel",
+   "von": "ann"
+  },
+  {
+   "character": "Patty Thompson",
+   "actor": "Marion von Stengel",
+   "von": "ann"
+  },
+  {
+   "character": "Masamune",
+   "actor": "Leonhard Mahlich",
+   "von": "ann"
+  },
+  {
+   "character": "Soul Eater",
+   "actor": "Rasmus Borowski",
+   "von": "ann"
+  },
+  {
+   "character": "Shinigami",
+   "actor": "Martin May",
+   "von": "ann"
+  },
+  {
+   "character": "Black Star",
+   "actor": "Fabian Harloff",
+   "von": "ann"
+  },
+  {
+   "character": "Crona",
+   "actor": "Robert Kotulla",
+   "von": "ann"
+  },
+  {
+   "character": "Maka Albarn",
+   "actor": "Manuela Bäcker",
+   "von": "ann"
+  },
+  {
+   "character": "Liz Thompson",
+   "actor": "Traudel Sperber",
+   "von": "ann"
+  },
+  {
+   "character": "Medusa Gorgon",
+   "actor": "Traudel Sperber",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=9070"
+}

@@ -1,1 +1,72 @@
-{"titleId":4087,"updatedAt":"2026-08-11T11:20:03.023Z","roles":[{"character":"Michiko Malandro","actor":"Claudia Urbschat-mingues","role":"MAIN"},{"character":"Hana Morenos","actor":"Kaya Marie Möller","role":"MAIN"},{"character":"Atsuko Jackson","actor":"Vera Teltz","role":"MAIN"},{"character":"Natalia Peres","actor":"Anja Rybiczka","role":"SUPPORTING"},{"character":"Feliciano","actor":"Thomas Schmuckert","role":"SUPPORTING"},{"character":"Heiko","actor":"Gerald Paradies","role":"SUPPORTING"},{"character":"Vasily Nabokov","actor":"Jaron Löwenberg","role":"SUPPORTING"},{"character":"Bebel Feng-Yi","actor":"Tanya Kahana","role":"SUPPORTING"},{"character":"Pepê Lima","actor":"Sabine Arnhold","role":"SUPPORTING"}]}
+{
+ "titleId": 4087,
+ "updatedAt": "2026-08-15T18:32:03.978Z",
+ "roles": [
+  {
+   "character": "Michiko Malandro",
+   "actor": "Claudia Urbschat-mingues",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hana Morenos",
+   "actor": "Kaya Marie Möller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Atsuko Jackson",
+   "actor": "Vera Teltz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Natalia Peres",
+   "actor": "Anja Rybiczka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Feliciano",
+   "actor": "Thomas Schmuckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Heiko",
+   "actor": "Gerald Paradies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Vasily Nabokov",
+   "actor": "Jaron Löwenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bebel Feng-Yi",
+   "actor": "Tanya Kahana",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pepê Lima",
+   "actor": "Sabine Arnhold",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinsuke Rodriguez",
+   "actor": "Bernhard Völger",
+   "von": "ann"
+  },
+  {
+   "character": "Hiroshi Morenos",
+   "actor": "Jan Kurbjuweit",
+   "von": "ann"
+  },
+  {
+   "character": "Hachi \"Hatchin\" Morenos",
+   "actor": "Kaya Möller",
+   "von": "ann"
+  },
+  {
+   "character": "Satoshi Batista",
+   "actor": "Matti Klemm",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=9602"
+}

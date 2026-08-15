@@ -1,1 +1,162 @@
-{"titleId":20474,"updatedAt":"2026-08-11T11:20:03.191Z","roles":[{"character":"Joutarou Kuujou","actor":"Uwe Thomsen","role":"MAIN"},{"character":"Joseph Joestar","actor":"Torsten Münchow","role":"MAIN"},{"character":"Mohammed Avdol","actor":"Bernd Egger","role":"MAIN"},{"character":"Noriaki Kakyouin","actor":"Daniel Käser","role":"MAIN"},{"character":"Jean-Pierre Polnareff","actor":"Sebastian Schulz","role":"MAIN"},{"character":"Dio Brando","actor":"Marios Gavrilis","role":"SUPPORTING"},{"character":"Hol Horse","actor":"Frank Schaff","role":"SUPPORTING"},{"character":"Suzie Q","actor":"Philine Peters-Arnolds","role":"SUPPORTING"},{"character":"Narrator","actor":"Armin Schlagwein","role":"SUPPORTING"},{"character":"J. Geil","actor":"Sebastian Christoph Jacob","role":"SUPPORTING"},{"character":"Enya Geil","actor":"Cathlen Gawlich","role":"SUPPORTING"},{"character":"Rubber Soul","actor":"Valentin Stilu","role":"SUPPORTING"},{"character":"Nena","actor":"Ronja Peters","role":"SUPPORTING"},{"character":"Holly Kuujou","actor":"Dascha Lehmann","role":"SUPPORTING"},{"character":"Forever","actor":"Daniel Käser","role":"SUPPORTING"},{"character":"Sherry Polnareff","actor":"Jelena Baack","role":"SUPPORTING"},{"character":"Anne","actor":"Derya Akyol","role":"SUPPORTING"},{"character":"Gray Fly","actor":"Rainer Doering","role":"SUPPORTING"},{"character":"Steely Dan","actor":"Timmo Niesner","role":"SUPPORTING"},{"character":"Devo","actor":"Roman Rossa","role":"SUPPORTING"},{"character":"Cameo","actor":"Hans Bayer","role":"SUPPORTING"},{"character":"Mannish Boy","actor":"Amira Leisner","role":"SUPPORTING"},{"character":"Roses","actor":"Uwe Jellinek","role":"SUPPORTING"},{"character":"ZZ","actor":"Sascha Krüger","role":"SUPPORTING"}]}
+{
+ "titleId": 20474,
+ "updatedAt": "2026-08-15T18:36:28.301Z",
+ "roles": [
+  {
+   "character": "Joutarou Kuujou",
+   "actor": "Uwe Thomsen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Joseph Joestar",
+   "actor": "Torsten Münchow",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mohammed Avdol",
+   "actor": "Bernd Egger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Noriaki Kakyouin",
+   "actor": "Daniel Käser",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jean-Pierre Polnareff",
+   "actor": "Sebastian Schulz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Dio Brando",
+   "actor": "Marios Gavrilis",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hol Horse",
+   "actor": "Frank Schaff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Suzie Q",
+   "actor": "Philine Peters-Arnolds",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Armin Schlagwein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "J. Geil",
+   "actor": "Sebastian Christoph Jacob",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Enya Geil",
+   "actor": "Cathlen Gawlich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rubber Soul",
+   "actor": "Valentin Stilu",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nena",
+   "actor": "Ronja Peters",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Holly Kuujou",
+   "actor": "Dascha Lehmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Forever",
+   "actor": "Daniel Käser",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sherry Polnareff",
+   "actor": "Jelena Baack",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Anne",
+   "actor": "Derya Akyol",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gray Fly",
+   "actor": "Rainer Doering",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Steely Dan",
+   "actor": "Timmo Niesner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Devo",
+   "actor": "Roman Rossa",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cameo",
+   "actor": "Hans Bayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mannish Boy",
+   "actor": "Amira Leisner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Roses",
+   "actor": "Uwe Jellinek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "ZZ",
+   "actor": "Sascha Krüger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Holy Kujo",
+   "actor": "Dascha Lehmann",
+   "von": "ann"
+  },
+  {
+   "character": "Enya",
+   "actor": "Cathlen Gawlich",
+   "von": "ann"
+  },
+  {
+   "character": "J. Geil",
+   "actor": "Sebastian Jacob",
+   "von": "ann"
+  },
+  {
+   "character": "Jotaro Kujo",
+   "actor": "Uwe Thomsen",
+   "von": "ann"
+  },
+  {
+   "character": "Muhammad Avdol",
+   "actor": "Bernd Egger",
+   "von": "ann"
+  },
+  {
+   "character": "Erzähler",
+   "actor": "Armin Schlagwein",
+   "von": "ann"
+  },
+  {
+   "character": "Ann",
+   "actor": "Derya Flechtner",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15692"
+}

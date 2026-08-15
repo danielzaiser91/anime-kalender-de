@@ -1,1 +1,147 @@
-{"titleId":97938,"updatedAt":"2026-08-11T11:20:03.374Z","roles":[{"character":"Boruto Uzumaki","actor":"Daniel Kirchberger","role":"MAIN"},{"character":"Sarada Uchiha","actor":"Josephine Martz","role":"MAIN"},{"character":"Mitsuki","actor":"Janek Schächter","role":"MAIN"},{"character":"Sasuke Uchiha","actor":"Jannik Endemann","role":"SUPPORTING"},{"character":"Naruto Uzumaki","actor":"Henning Nöhren","role":"SUPPORTING"},{"character":"Kakashi Hatake","actor":"Martin May","role":"SUPPORTING"},{"character":"Sakura Haruno","actor":"Katharina von Keller","role":"SUPPORTING"},{"character":"Rock Lee","actor":"Tim Kreuer","role":"SUPPORTING"},{"character":"Anko Mitarashi","actor":"Arlette Stanschus","role":"SUPPORTING"},{"character":"Hinata Hyuuga","actor":"Julia Fölster","role":"SUPPORTING"},{"character":"Gaara","actor":"Robert Kotulla","role":"SUPPORTING"},{"character":"Shikamaru Nara","actor":"Jacob Weigert","role":"SUPPORTING"},{"character":"Chouji Akimichi","actor":"Tobias Schmidt","role":"SUPPORTING"},{"character":"Ino Yamanaka","actor":"Céline Fontanges","role":"SUPPORTING"},{"character":"Temari","actor":"Merete Brettschneider","role":"SUPPORTING"},{"character":"Orochimaru","actor":"Erik Schäffler","role":"SUPPORTING"}]}
+{
+ "titleId": 97938,
+ "updatedAt": "2026-08-15T18:40:47.307Z",
+ "roles": [
+  {
+   "character": "Boruto Uzumaki",
+   "actor": "Daniel Kirchberger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sarada Uchiha",
+   "actor": "Josephine Martz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mitsuki",
+   "actor": "Janek Schächter",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sasuke Uchiha",
+   "actor": "Jannik Endemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Naruto Uzumaki",
+   "actor": "Henning Nöhren",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kakashi Hatake",
+   "actor": "Martin May",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sakura Haruno",
+   "actor": "Katharina von Keller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rock Lee",
+   "actor": "Tim Kreuer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Anko Mitarashi",
+   "actor": "Arlette Stanschus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hinata Hyuuga",
+   "actor": "Julia Fölster",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gaara",
+   "actor": "Robert Kotulla",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shikamaru Nara",
+   "actor": "Jacob Weigert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chouji Akimichi",
+   "actor": "Tobias Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ino Yamanaka",
+   "actor": "Céline Fontanges",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Temari",
+   "actor": "Merete Brettschneider",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Orochimaru",
+   "actor": "Erik Schäffler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hinata Uzumaki",
+   "actor": "Julia Fölster",
+   "von": "ann"
+  },
+  {
+   "character": "Shino Aburame",
+   "actor": "Fabian Harloff",
+   "von": "ann"
+  },
+  {
+   "character": "Himawari Uzumaki",
+   "actor": "Arlette Stanschus",
+   "von": "ann"
+  },
+  {
+   "character": "Chouchou Akimichi",
+   "actor": "Nina Witt",
+   "von": "ann"
+  },
+  {
+   "character": "Kinshiki Ootsutsuki",
+   "actor": "Kailas Mahadevan",
+   "von": "ann"
+  },
+  {
+   "character": "Inojin Yamanaka",
+   "actor": "Florian Marissal",
+   "von": "ann"
+  },
+  {
+   "character": "Shikadai Nara",
+   "actor": "Julian Henneberg",
+   "von": "ann"
+  },
+  {
+   "character": "Konohamaru Sarutobi",
+   "actor": "Moritz Von Zeddelmann",
+   "von": "ann"
+  },
+  {
+   "character": "Iwabee Yuino",
+   "actor": "Marco Rosenberg",
+   "von": "ann"
+  },
+  {
+   "character": "Momoshiki Ootsutsuki",
+   "actor": "Yannik Raiss",
+   "von": "ann"
+  },
+  {
+   "character": "Sumire Kakei",
+   "actor": "Malin Steffen",
+   "von": "ann"
+  },
+  {
+   "character": "Denki Kaminarimon",
+   "actor": "Felix Jordan",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18934"
+}

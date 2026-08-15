@@ -1,1 +1,52 @@
-{"titleId":2154,"updatedAt":"2026-08-11T11:20:02.956Z","roles":[{"character":"Kuro","actor":"Jan Makino","role":"MAIN"},{"character":"Shiro","actor":"Sabine Bohlmann","role":"MAIN"},{"character":"Suzuki","actor":"Ekkehardt Belle","role":"SUPPORTING"},{"character":"Kimura","actor":"Philipp Brammer","role":"SUPPORTING"},{"character":"Snake","actor":"Matthias Klie","role":"SUPPORTING"}]}
+{
+ "titleId": 2154,
+ "updatedAt": "2026-08-15T18:30:06.949Z",
+ "roles": [
+  {
+   "character": "Kuro",
+   "actor": "Jan Makino",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shiro",
+   "actor": "Sabine Bohlmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Suzuki",
+   "actor": "Ekkehardt Belle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kimura",
+   "actor": "Philipp Brammer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Snake",
+   "actor": "Matthias Klie",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fujimura",
+   "actor": "Walter von Hauff",
+   "von": "ann"
+  },
+  {
+   "character": "The Boss",
+   "actor": "Gudo Hoegel",
+   "von": "ann"
+  },
+  {
+   "character": "Chocola",
+   "actor": "Thomas Albus",
+   "von": "ann"
+  },
+  {
+   "character": "Sawada",
+   "actor": "Jakob Riedl",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=6531"
+}

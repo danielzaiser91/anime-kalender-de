@@ -1,1 +1,97 @@
-{"titleId":6880,"updatedAt":"2026-08-11T11:20:03.067Z","roles":[{"character":"Shiro","actor":"Rieke Werner","role":"MAIN"},{"character":"You Takami","actor":"Dirk Meyer","role":"MAIN"},{"character":"Ganta Igarashi","actor":"Maximilian Belle","role":"MAIN"},{"character":"Kiyomasa Senji","actor":"Stefan Günther","role":"MAIN"},{"character":"Genkaku Azuma","actor":"Thomas Darchinger","role":"SUPPORTING"},{"character":"Kiwako Flügel Makina","actor":"Dana Geissler","role":"SUPPORTING"},{"character":"Nagi Kengamine","actor":"Ole Pfennig","role":"SUPPORTING"},{"character":"Kyoko Kasuga","actor":"Lara Wurmer","role":"SUPPORTING"},{"character":"Rinichirou Hagire","actor":"Björn-Tilo Kraft","role":"SUPPORTING"},{"character":"Bundo Rokuro","actor":"Benedikt Gutjan","role":"SUPPORTING"},{"character":"Rei Takashima","actor":"Anke Korte","role":"SUPPORTING"},{"character":"Tsunenaga Tamaki","actor":"Frank Röth","role":"SUPPORTING"},{"character":"Minatsuki Takami","actor":"Katharina Iacobescu","role":"SUPPORTING"},{"character":"Toto Sakigami","actor":"Sophie Rogall","role":"SUPPORTING"},{"character":"Karako Koshio","actor":"Ilena Gwisdalla","role":"SUPPORTING"}]}
+{
+ "titleId": 6880,
+ "updatedAt": "2026-08-15T18:33:10.317Z",
+ "roles": [
+  {
+   "character": "Shiro",
+   "actor": "Rieke Werner",
+   "role": "MAIN"
+  },
+  {
+   "character": "You Takami",
+   "actor": "Dirk Meyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ganta Igarashi",
+   "actor": "Maximilian Belle",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kiyomasa Senji",
+   "actor": "Stefan Günther",
+   "role": "MAIN"
+  },
+  {
+   "character": "Genkaku Azuma",
+   "actor": "Thomas Darchinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kiwako Flügel Makina",
+   "actor": "Dana Geissler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nagi Kengamine",
+   "actor": "Ole Pfennig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyoko Kasuga",
+   "actor": "Lara Wurmer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rinichirou Hagire",
+   "actor": "Björn-Tilo Kraft",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bundo Rokuro",
+   "actor": "Benedikt Gutjan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rei Takashima",
+   "actor": "Anke Korte",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsunenaga Tamaki",
+   "actor": "Frank Röth",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Minatsuki Takami",
+   "actor": "Katharina Iacobescu",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toto Sakigami",
+   "actor": "Sophie Rogall",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Karako Koshio",
+   "actor": "Ilena Gwisdalla",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bundou Rokuro",
+   "actor": "Benedikt Gutjan",
+   "von": "ann"
+  },
+  {
+   "character": "Senji Kiyomasa",
+   "actor": "Stefan Günther",
+   "von": "ann"
+  },
+  {
+   "character": "Makina",
+   "actor": "Dana Geissler",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=11826"
+}

@@ -1,1 +1,147 @@
-{"titleId":114340,"updatedAt":"2026-08-11T11:20:03.546Z","roles":[{"character":"Yuna","actor":"Mayke Dähn","role":"MAIN"},{"character":"Fina","actor":"Jana Dunja Gries","role":"MAIN"},{"character":"Cliff Fochrosé","actor":"Martin Bonvicini","role":"SUPPORTING"},{"character":"Kai","actor":"Laurin Lechenmayr","role":"SUPPORTING"},{"character":"Flora","actor":"Lara Schmidt","role":"SUPPORTING"},{"character":"Gentz","actor":"Michael Gugel","role":"SUPPORTING"},{"character":"Sanya","actor":"Lara Wurmer","role":"SUPPORTING"},{"character":"Noir Fochrosé","actor":"Anni C. Salander","role":"SUPPORTING"},{"character":"Tiermina","actor":"Tatjana Pokorny","role":"SUPPORTING"},{"character":"Enz Roland","actor":"Gerhard Jilka","role":"SUPPORTING"},{"character":"Zarad","actor":"Alexander Wohnhaas","role":"SUPPORTING"},{"character":"Kumayuru","actor":"Amira Leisner","role":"SUPPORTING"},{"character":"Milaine","actor":"Janina Dietz","role":"SUPPORTING"},{"character":"Raaroku","actor":"Marc Rosenberg","role":"SUPPORTING"},{"character":"Damon","actor":"Jochen Paletschek","role":"SUPPORTING"},{"character":"Shuri","actor":"Lisa Dzyadyk","role":"SUPPORTING"},{"character":"Helen","actor":"Anna Ewelina","role":"SUPPORTING"},{"character":"Lara","actor":"Lara Wurmer","role":"SUPPORTING"},{"character":"Gran Farrengram","actor":"Marc Rosenberg","role":"SUPPORTING"},{"character":"Yuura","actor":"Bettina Zech","role":"SUPPORTING"}]}
+{
+ "titleId": 114340,
+ "updatedAt": "2026-08-15T18:45:17.250Z",
+ "roles": [
+  {
+   "character": "Yuna",
+   "actor": "Mayke Dähn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Fina",
+   "actor": "Jana Dunja Gries",
+   "role": "MAIN"
+  },
+  {
+   "character": "Cliff Fochrosé",
+   "actor": "Martin Bonvicini",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kai",
+   "actor": "Laurin Lechenmayr",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Flora",
+   "actor": "Lara Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gentz",
+   "actor": "Michael Gugel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sanya",
+   "actor": "Lara Wurmer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Noir Fochrosé",
+   "actor": "Anni C. Salander",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tiermina",
+   "actor": "Tatjana Pokorny",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Enz Roland",
+   "actor": "Gerhard Jilka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zarad",
+   "actor": "Alexander Wohnhaas",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kumayuru",
+   "actor": "Amira Leisner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Milaine",
+   "actor": "Janina Dietz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Raaroku",
+   "actor": "Marc Rosenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Damon",
+   "actor": "Jochen Paletschek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shuri",
+   "actor": "Lisa Dzyadyk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Helen",
+   "actor": "Anna Ewelina",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lara",
+   "actor": "Lara Wurmer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gran Farrengram",
+   "actor": "Marc Rosenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuura",
+   "actor": "Bettina Zech",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Telmina",
+   "actor": "Tatjana Pokorny",
+   "von": "ann"
+  },
+  {
+   "character": "Atla",
+   "actor": "Ilena Gwisdalla",
+   "von": "ann"
+  },
+  {
+   "character": "Eleanora Foschurose",
+   "actor": "Patricia Strasburger",
+   "von": "ann"
+  },
+  {
+   "character": "Misana Farrengram",
+   "actor": "Mia Maron",
+   "von": "ann"
+  },
+  {
+   "character": "Noire Foschurose",
+   "actor": "Anni C. Salander",
+   "von": "ann"
+  },
+  {
+   "character": "Cliff Foschurose",
+   "actor": "Martin Bonvicini",
+   "von": "ann"
+  },
+  {
+   "character": "Shea Foschurose",
+   "actor": "Angelina Markiefka",
+   "von": "ann"
+  },
+  {
+   "character": "Kumakyu",
+   "actor": "Lara Schmidt",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=23127"
+}

@@ -1,1 +1,17 @@
-{"titleId":4584,"updatedAt":"2026-08-11T11:20:03.031Z","roles":[{"character":"Gina","actor":"Daniela Reidies","role":"SUPPORTING"}]}
+{
+ "titleId": 4584,
+ "updatedAt": "2026-08-15T18:32:12.805Z",
+ "roles": [
+  {
+   "character": "Gina",
+   "actor": "Daniela Reidies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Topo Gigio",
+   "actor": "Hans Hohlbein",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1441"
+}

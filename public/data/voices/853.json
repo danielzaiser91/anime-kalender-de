@@ -1,1 +1,117 @@
-{"titleId":853,"updatedAt":"2026-08-11T11:20:02.865Z","roles":[{"character":"Hikaru Hitachiin","actor":"Nico Sablik","role":"MAIN"},{"character":"Mitsukuni Haninozuka","actor":"Julia Stoepel","role":"MAIN"},{"character":"Haruhi Fujioka","actor":"Katja Primel","role":"MAIN"},{"character":"Kaoru Hitachiin","actor":"Jan Rohrbach","role":"MAIN"},{"character":"Takashi Morinozuka","actor":"Michael Schwager","role":"MAIN"},{"character":"Kyouya Ootori","actor":"Felix Spieß","role":"MAIN"},{"character":"Tamaki Suou","actor":"Asad Schwarz-Msesilamba","role":"MAIN"},{"character":"Kuretake","actor":"Henriette Hübschmann","role":"SUPPORTING"},{"character":"Ryouji Fujioka","actor":"Hans Hohlbein","role":"SUPPORTING"},{"character":"Shima Maezono","actor":"Luise Lunow","role":"SUPPORTING"},{"character":"Shirou Takaouji","actor":"Rubina Kuraoka","role":"SUPPORTING"},{"character":"Tooru Suzushima","actor":"Michael Baral","role":"SUPPORTING"},{"character":"Yuzuru Suoh","actor":"Dirk Müller","role":"SUPPORTING"},{"character":"Fuyumi Ootori","actor":"Viktoria Voigt","role":"SUPPORTING"},{"character":"Kazukiyo Souga","actor":"Niclas Lutz","role":"SUPPORTING"},{"character":"Éclair Tonnerre","actor":"Anna Grisebach","role":"SUPPORTING"},{"character":"Ritsu Kasanoda","actor":"Dirk Bublies","role":"SUPPORTING"},{"character":"Benio Amakusa","actor":"Maxi Deutsch","role":"SUPPORTING"}]}
+{
+ "titleId": 853,
+ "updatedAt": "2026-08-15T18:26:17.880Z",
+ "roles": [
+  {
+   "character": "Hikaru Hitachiin",
+   "actor": "Nico Sablik",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mitsukuni Haninozuka",
+   "actor": "Julia Stoepel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Haruhi Fujioka",
+   "actor": "Katja Primel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kaoru Hitachiin",
+   "actor": "Jan Rohrbach",
+   "role": "MAIN"
+  },
+  {
+   "character": "Takashi Morinozuka",
+   "actor": "Michael Schwager",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kyouya Ootori",
+   "actor": "Felix Spieß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tamaki Suou",
+   "actor": "Asad Schwarz-Msesilamba",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kuretake",
+   "actor": "Henriette Hübschmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryouji Fujioka",
+   "actor": "Hans Hohlbein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shima Maezono",
+   "actor": "Luise Lunow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shirou Takaouji",
+   "actor": "Rubina Kuraoka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tooru Suzushima",
+   "actor": "Michael Baral",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuzuru Suoh",
+   "actor": "Dirk Müller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fuyumi Ootori",
+   "actor": "Viktoria Voigt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kazukiyo Souga",
+   "actor": "Niclas Lutz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Éclair Tonnerre",
+   "actor": "Anna Grisebach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ritsu Kasanoda",
+   "actor": "Dirk Bublies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Benio Amakusa",
+   "actor": "Maxi Deutsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tamaki Suou",
+   "actor": "Asad Schwarz",
+   "von": "ann"
+  },
+  {
+   "character": "Renge Houshakuji",
+   "actor": "Catrin Dams",
+   "von": "ann"
+  },
+  {
+   "character": "Mitsukuni \"Honey\" Haninozuka",
+   "actor": "Julia Stoepel",
+   "von": "ann"
+  },
+  {
+   "character": "Kyoya Ootori",
+   "actor": "Felix Spieß",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=6122"
+}

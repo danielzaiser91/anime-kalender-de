@@ -1,1 +1,67 @@
-{"titleId":869,"updatedAt":"2026-08-11T11:20:02.868Z","roles":[{"character":"Lina Inverse","actor":"Shandra Schadt","role":"MAIN"},{"character":"Saleena","actor":"Kathrin Filzen","role":"MAIN"},{"character":"Gracia Ul Naga Saillune","actor":"Veronika Aryana Neugebauer","role":"MAIN"},{"character":"Galev","actor":"Ulf Jürgen Söhmisch","role":"SUPPORTING"},{"character":"Zahhard","actor":"Thomas Rauscher","role":"SUPPORTING"},{"character":"Onna Kakutouka","actor":"Tolilah Jolas","role":"SUPPORTING"},{"character":"Becker","actor":"Benjamin Brüdern","role":"SUPPORTING"},{"character":"Saleena no Chichi","actor":"Dieter Memel","role":"SUPPORTING"}]}
+{
+ "titleId": 869,
+ "updatedAt": "2026-08-15T18:26:26.861Z",
+ "roles": [
+  {
+   "character": "Lina Inverse",
+   "actor": "Shandra Schadt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Saleena",
+   "actor": "Kathrin Filzen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gracia Ul Naga Saillune",
+   "actor": "Veronika Aryana Neugebauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Galev",
+   "actor": "Ulf Jürgen Söhmisch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zahhard",
+   "actor": "Thomas Rauscher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Onna Kakutouka",
+   "actor": "Tolilah Jolas",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Becker",
+   "actor": "Benjamin Brüdern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Saleena no Chichi",
+   "actor": "Dieter Memel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Naga the Serpent",
+   "actor": "Veronika Neugebauer",
+   "von": "ann"
+  },
+  {
+   "character": "Zachard",
+   "actor": "Thomas Rauscher",
+   "von": "ann"
+  },
+  {
+   "character": "Garev-Sama",
+   "actor": "Ulf Söhmisch",
+   "von": "ann"
+  },
+  {
+   "character": "Selina",
+   "actor": "Kathrin Filzen",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=738"
+}

@@ -1,1 +1,137 @@
-{"titleId":11771,"updatedAt":"2026-08-11T11:20:03.125Z","roles":[{"character":"Tetsuya Kuroko","actor":"Patrick Keller","role":"MAIN"},{"character":"Taiga Kagami","actor":"Adam Nümm","role":"MAIN"},{"character":"Atsushi Murasakibara","actor":"Björn Schalla","role":"SUPPORTING"},{"character":"Shouichi Imayoshi","actor":"Jaron Löwenberg","role":"SUPPORTING"},{"character":"Kazunari Takao","actor":"Fabian Kluckert","role":"SUPPORTING"},{"character":"Shinji Koganei","actor":"Tim Schwarzmaier","role":"SUPPORTING"},{"character":"Kagetora Aida","actor":"Andreas Conrad","role":"SUPPORTING"},{"character":"Satsuki Momoi","actor":"Daniela Molina","role":"SUPPORTING"},{"character":"Ryuuhei Kasuga","actor":"Dennis Sandmann","role":"SUPPORTING"},{"character":"Genta Takeuchi","actor":"Bernd Egger","role":"SUPPORTING"},{"character":"Shintarou Midorima","actor":"René Dawn-Claude","role":"SUPPORTING"},{"character":"Katsunori Harasawa","actor":"Johann Fohl","role":"SUPPORTING"},{"character":"Shinsuke Kimura","actor":"Florens Schmidt","role":"SUPPORTING"},{"character":"Papa Mbai Siki","actor":"Peter Sura","role":"SUPPORTING"},{"character":"Yukio Kasamatsu","actor":"Ricardo Richter","role":"SUPPORTING"},{"character":"Shun Izuki","actor":"Imme Aldag","role":"SUPPORTING"},{"character":"Ryou Sakurai","actor":"Sascha Werginz","role":"SUPPORTING"},{"character":"Kouki Furihata","actor":"Benno Lehmann","role":"SUPPORTING"},{"character":"Riko Aida","actor":"Ronja Peters","role":"SUPPORTING"},{"character":"Ryouta Kise","actor":"Julien Haggege","role":"SUPPORTING"}]}
+{
+ "titleId": 11771,
+ "updatedAt": "2026-08-15T18:34:39.237Z",
+ "roles": [
+  {
+   "character": "Tetsuya Kuroko",
+   "actor": "Patrick Keller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Taiga Kagami",
+   "actor": "Adam Nümm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Atsushi Murasakibara",
+   "actor": "Björn Schalla",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shouichi Imayoshi",
+   "actor": "Jaron Löwenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kazunari Takao",
+   "actor": "Fabian Kluckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinji Koganei",
+   "actor": "Tim Schwarzmaier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kagetora Aida",
+   "actor": "Andreas Conrad",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Satsuki Momoi",
+   "actor": "Daniela Molina",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryuuhei Kasuga",
+   "actor": "Dennis Sandmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Genta Takeuchi",
+   "actor": "Bernd Egger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shintarou Midorima",
+   "actor": "René Dawn-Claude",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Katsunori Harasawa",
+   "actor": "Johann Fohl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinsuke Kimura",
+   "actor": "Florens Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Papa Mbai Siki",
+   "actor": "Peter Sura",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yukio Kasamatsu",
+   "actor": "Ricardo Richter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shun Izuki",
+   "actor": "Imme Aldag",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryou Sakurai",
+   "actor": "Sascha Werginz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kouki Furihata",
+   "actor": "Benno Lehmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Riko Aida",
+   "actor": "Ronja Peters",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryouta Kise",
+   "actor": "Julien Haggege",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Teppei Kiyoshi",
+   "actor": "Fabian Oscar Wien",
+   "von": "ann"
+  },
+  {
+   "character": "Junpei Hyuuga",
+   "actor": "Roman Wolko",
+   "von": "ann"
+  },
+  {
+   "character": "Tomoki Tsugawa",
+   "actor": "Sebastian Kluckert",
+   "von": "ann"
+  },
+  {
+   "character": "Kousuke Wakamatsu",
+   "actor": "Lasse Dreyer",
+   "von": "ann"
+  },
+  {
+   "character": "Taisuke Ootsubo",
+   "actor": "Julian Tennstedt",
+   "von": "ann"
+  },
+  {
+   "character": "Daiki Aomine",
+   "actor": "Florian Clyde",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=13616"
+}

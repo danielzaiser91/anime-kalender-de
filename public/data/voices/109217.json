@@ -1,1 +1,47 @@
-{"titleId":109217,"updatedAt":"2026-08-11T11:20:03.516Z","roles":[{"character":"Sara Grace","actor":"Jennifer Weiß","role":"MAIN"},{"character":"E92","actor":"Bernd Vollbrecht","role":"MAIN"},{"character":"A37","actor":"Anja Nestler","role":"MAIN"},{"character":"Zero","actor":"Johann Fohl","role":"SUPPORTING"},{"character":"S566","actor":"Dirk Petrick","role":"SUPPORTING"},{"character":"Zurich","actor":"Julia Bautz","role":"SUPPORTING"},{"character":"Geneva","actor":"Daniela Hoffmann","role":"SUPPORTING"}]}
+{
+ "titleId": 109217,
+ "updatedAt": "2026-08-15T18:44:23.031Z",
+ "roles": [
+  {
+   "character": "Sara Grace",
+   "actor": "Jennifer Weiß",
+   "role": "MAIN"
+  },
+  {
+   "character": "E92",
+   "actor": "Bernd Vollbrecht",
+   "role": "MAIN"
+  },
+  {
+   "character": "A37",
+   "actor": "Anja Nestler",
+   "role": "MAIN"
+  },
+  {
+   "character": "Zero",
+   "actor": "Johann Fohl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "S566",
+   "actor": "Dirk Petrick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zurich",
+   "actor": "Julia Bautz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Geneva",
+   "actor": "Daniela Hoffmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Geneve",
+   "actor": "Daniela Hoffman",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22602"
+}

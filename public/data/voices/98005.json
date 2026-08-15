@@ -1,1 +1,72 @@
-{"titleId":98005,"updatedAt":"2026-08-11T11:20:03.376Z","roles":[{"character":"Tatara Fujita","actor":"Flemming Stein","role":"MAIN"},{"character":"Shizuku Hanaoka","actor":"Linda Fölster","role":"MAIN"},{"character":"Kiyoharu Hyoudou","actor":"Yannik Raiss","role":"MAIN"},{"character":"Mako Akagi","actor":"Franciska  Friede","role":"SUPPORTING"},{"character":"Kaname Sengoku","actor":"Daniel Schütter","role":"SUPPORTING"},{"character":"Gaju Akagi","actor":"David Berton","role":"SUPPORTING"},{"character":"Akira Koumoto","actor":"Jenny Maria Meyer","role":"SUPPORTING"}]}
+{
+ "titleId": 98005,
+ "updatedAt": "2026-08-15T18:40:50.795Z",
+ "roles": [
+  {
+   "character": "Tatara Fujita",
+   "actor": "Flemming Stein",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shizuku Hanaoka",
+   "actor": "Linda Fölster",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kiyoharu Hyoudou",
+   "actor": "Yannik Raiss",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mako Akagi",
+   "actor": "Franciska  Friede",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaname Sengoku",
+   "actor": "Daniel Schütter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gaju Akagi",
+   "actor": "David Berton",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akira Koumoto",
+   "actor": "Jenny Maria Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masami Kugimiya",
+   "actor": "Nicolas König",
+   "von": "ann"
+  },
+  {
+   "character": "Tomochika Jinbo",
+   "actor": "Daniel Welbat",
+   "von": "ann"
+  },
+  {
+   "character": "Tamaki Tsuburaya",
+   "actor": "Nadine Schreier",
+   "von": "ann"
+  },
+  {
+   "character": "Mako Akagi",
+   "actor": "Franciska Friede",
+   "von": "ann"
+  },
+  {
+   "character": "Karen Banba",
+   "actor": "Annika Tenter",
+   "von": "ann"
+  },
+  {
+   "character": "Marisa Hyoudou",
+   "actor": "Svenja Pages",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18982"
+}

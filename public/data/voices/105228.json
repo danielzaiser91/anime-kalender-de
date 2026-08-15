@@ -1,1 +1,97 @@
-{"titleId":105228,"updatedAt":"2026-08-11T11:20:03.490Z","roles":[{"character":"Kaiman","actor":"Martin Bonvicini","role":"MAIN"},{"character":"Noi","actor":"Angela Wiederhut","role":"MAIN"},{"character":"Shin","actor":"Pascal Breuer","role":"MAIN"},{"character":"Fujita","actor":"Felix Auer","role":"MAIN"},{"character":"Risu","actor":"Tobias John von Freyend","role":"MAIN"},{"character":"Ebisu","actor":"Zina Laus","role":"MAIN"},{"character":"En","actor":"Julian Manuel","role":"MAIN"},{"character":"Chota","actor":"Alexander Wohnhaas","role":"SUPPORTING"},{"character":"Chidaruma","actor":"Jakob Riedl","role":"SUPPORTING"},{"character":"Tanba","actor":"René Oltmanns","role":"SUPPORTING"},{"character":"Asuka","actor":"Sonja Reichelt","role":"SUPPORTING"},{"character":"Turkey","actor":"Hans-Rainer Müller","role":"SUPPORTING"},{"character":"Yaku","actor":"Robinson Reichel","role":"SUPPORTING"},{"character":"Kikurage","actor":"Bettina Zech","role":"SUPPORTING"}]}
+{
+ "titleId": 105228,
+ "updatedAt": "2026-08-15T18:43:34.059Z",
+ "roles": [
+  {
+   "character": "Kaiman",
+   "actor": "Martin Bonvicini",
+   "role": "MAIN"
+  },
+  {
+   "character": "Noi",
+   "actor": "Angela Wiederhut",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shin",
+   "actor": "Pascal Breuer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Fujita",
+   "actor": "Felix Auer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Risu",
+   "actor": "Tobias John von Freyend",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ebisu",
+   "actor": "Zina Laus",
+   "role": "MAIN"
+  },
+  {
+   "character": "En",
+   "actor": "Julian Manuel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chota",
+   "actor": "Alexander Wohnhaas",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chidaruma",
+   "actor": "Jakob Riedl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tanba",
+   "actor": "René Oltmanns",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Asuka",
+   "actor": "Sonja Reichelt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Turkey",
+   "actor": "Hans-Rainer Müller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yaku",
+   "actor": "Robinson Reichel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kikurage",
+   "actor": "Bettina Zech",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Vaux",
+   "actor": "Gerhard Jilka",
+   "von": "ann"
+  },
+  {
+   "character": "Kasukabe",
+   "actor": "Felix Mayer",
+   "von": "ann"
+  },
+  {
+   "character": "Nikaidou",
+   "actor": "Janina Dietz",
+   "von": "ann"
+  },
+  {
+   "character": "Caiman",
+   "actor": "Martin Bonvicini",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22562"
+}

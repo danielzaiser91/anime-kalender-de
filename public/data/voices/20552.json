@@ -1,1 +1,147 @@
-{"titleId":20552,"updatedAt":"2026-08-11T11:20:03.197Z","roles":[{"character":"Yuuya Sakaki","actor":"Philip Süß","role":"MAIN"},{"character":"Yuzu Hiiragi","actor":"Jennifer Weiß","role":"MAIN"},{"character":"Reiji Akaba","actor":"Tim Knauer","role":"MAIN"},{"character":"Edo Phoenix","actor":"Julien Haggege","role":"SUPPORTING"},{"character":"Crow Hogan","actor":"Dirk Petrick","role":"SUPPORTING"},{"character":"Sora Shiunin","actor":"Anja Rybiczka","role":"SUPPORTING"},{"character":"Kaito Tenjou","actor":"Nico Sablik","role":"SUPPORTING"},{"character":"Yuuto","actor":"Tobias Nath","role":"SUPPORTING"},{"character":"Asuka Tenjouin","actor":"Bettina Kenney","role":"SUPPORTING"}]}
+{
+ "titleId": 20552,
+ "updatedAt": "2026-08-15T18:36:39.631Z",
+ "roles": [
+  {
+   "character": "Yuuya Sakaki",
+   "actor": "Philip Süß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuzu Hiiragi",
+   "actor": "Jennifer Weiß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Reiji Akaba",
+   "actor": "Tim Knauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Edo Phoenix",
+   "actor": "Julien Haggege",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Crow Hogan",
+   "actor": "Dirk Petrick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sora Shiunin",
+   "actor": "Anja Rybiczka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaito Tenjou",
+   "actor": "Nico Sablik",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuuto",
+   "actor": "Tobias Nath",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Asuka Tenjouin",
+   "actor": "Bettina Kenney",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Skip Boyle",
+   "actor": "Michael Bauer",
+   "von": "ann"
+  },
+  {
+   "character": "Declan Akaba",
+   "actor": "Tim Knauer",
+   "von": "ann"
+  },
+  {
+   "character": "Shay Obsidian",
+   "actor": "Patrick Baehr",
+   "von": "ann"
+  },
+  {
+   "character": "Claude",
+   "actor": "Thomas Schmuckert",
+   "von": "ann"
+  },
+  {
+   "character": "Aura Sentia",
+   "actor": "Mia Diekow",
+   "von": "ann"
+  },
+  {
+   "character": "Zuzu Boyle",
+   "actor": "Jennifer Weiß",
+   "von": "ann"
+  },
+  {
+   "character": "Yuto",
+   "actor": "Tobias Nath",
+   "von": "ann"
+  },
+  {
+   "character": "Julia Crystal",
+   "actor": "Julia Stoepel",
+   "von": "ann"
+  },
+  {
+   "character": "Dipper",
+   "actor": "Dirk Stollberg",
+   "von": "ann"
+  },
+  {
+   "character": "Gong",
+   "actor": "Peter Lontzek",
+   "von": "ann"
+  },
+  {
+   "character": "Yuya Sakaki",
+   "actor": "Amadeus Strobl",
+   "von": "ann"
+  },
+  {
+   "character": "Henrietta Akaba",
+   "actor": "Claudia Galdy",
+   "von": "ann"
+  },
+  {
+   "character": "Yoko Sakaki",
+   "actor": "Nadine Heidenreich",
+   "von": "ann"
+  },
+  {
+   "character": "Sylvio Sawatari",
+   "actor": "Jeffrey Wipprecht",
+   "von": "ann"
+  },
+  {
+   "character": "Frederick",
+   "actor": "Marcel Mann",
+   "von": "ann"
+  },
+  {
+   "character": "Lulu Obsidian",
+   "actor": "Laurine Betz",
+   "von": "ann"
+  },
+  {
+   "character": "Yugo",
+   "actor": "Heiko Akrap",
+   "von": "ann"
+  },
+  {
+   "character": "Tate",
+   "actor": "Philip Süß",
+   "von": "ann"
+  },
+  {
+   "character": "Serena",
+   "actor": "Jenny Maria Meyer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15764"
+}

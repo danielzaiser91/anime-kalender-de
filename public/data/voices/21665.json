@@ -1,1 +1,132 @@
-{"titleId":21665,"updatedAt":"2026-08-11T11:20:03.317Z","roles":[{"character":"Keith Kazama  Flick ","actor":"Sascha Draeger","role":"MAIN"},{"character":"Minatsuki ","actor":"Robert Kotulla","role":"MAIN"},{"character":"Koku","actor":"Daniel Kirchberger","role":"MAIN"},{"character":"Lily  Hoshina ","actor":"Saskia Bellahn","role":"MAIN"},{"character":"Yuna","actor":"Julia Fölster","role":"SUPPORTING"},{"character":"Boris Meyer","actor":"Wolf Frass","role":"SUPPORTING"},{"character":"Jean Henri Richard","actor":"Tomas Kröger","role":"SUPPORTING"},{"character":"Izanami","actor":"Merete Brettschneider","role":"SUPPORTING"},{"character":"Kamui","actor":"Robin Brosch","role":"SUPPORTING"},{"character":"Brian  Brandon ","actor":"Tim Kreuer","role":"SUPPORTING"},{"character":"Gilbert Ross","actor":"Christos Topoulos","role":"SUPPORTING"},{"character":"Eric  Toga ","actor":"Mark Bremer","role":"SUPPORTING"},{"character":"Kirisame","actor":"Philipp Draeger","role":"SUPPORTING"},{"character":"Kaela  Yoshinaga","actor":"Daniela Reidies","role":"SUPPORTING"},{"character":"Laica","actor":"Mark Seidenberg","role":"SUPPORTING"},{"character":"Mario Luís  Zurita ","actor":"Frank Logemann","role":"SUPPORTING"},{"character":"Quinn","actor":"Holger Umbreit","role":"SUPPORTING"},{"character":"Erika Kazama Flick","actor":"Nina Witt","role":"BACKGROUND"}]}
+{
+ "titleId": 21665,
+ "updatedAt": "2026-08-15T18:39:33.132Z",
+ "roles": [
+  {
+   "character": "Keith Kazama  Flick ",
+   "actor": "Sascha Draeger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Minatsuki ",
+   "actor": "Robert Kotulla",
+   "role": "MAIN"
+  },
+  {
+   "character": "Koku",
+   "actor": "Daniel Kirchberger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lily  Hoshina ",
+   "actor": "Saskia Bellahn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuna",
+   "actor": "Julia Fölster",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Boris Meyer",
+   "actor": "Wolf Frass",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jean Henri Richard",
+   "actor": "Tomas Kröger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Izanami",
+   "actor": "Merete Brettschneider",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kamui",
+   "actor": "Robin Brosch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Brian  Brandon ",
+   "actor": "Tim Kreuer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gilbert Ross",
+   "actor": "Christos Topoulos",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eric  Toga ",
+   "actor": "Mark Bremer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kirisame",
+   "actor": "Philipp Draeger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaela  Yoshinaga",
+   "actor": "Daniela Reidies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Laica",
+   "actor": "Mark Seidenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mario Luís  Zurita ",
+   "actor": "Frank Logemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Quinn",
+   "actor": "Holger Umbreit",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Erika Kazama Flick",
+   "actor": "Nina Witt",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Kaela Yoshinaga",
+   "actor": "Daniela Reidies",
+   "von": "ann"
+  },
+  {
+   "character": "Lily Hoshina",
+   "actor": "Saskia Weckler",
+   "von": "ann"
+  },
+  {
+   "character": "Keith Kazama Flick",
+   "actor": "Sascha Draeger",
+   "von": "ann"
+  },
+  {
+   "character": "Brian Brandon",
+   "actor": "Tim Kreuer",
+   "von": "ann"
+  },
+  {
+   "character": "Minatsuki",
+   "actor": "Robert Kotulla",
+   "von": "ann"
+  },
+  {
+   "character": "Eric Toga",
+   "actor": "Mark Bremer",
+   "von": "ann"
+  },
+  {
+   "character": "Mario Luis Zurita",
+   "actor": "Frank Logemann",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19987"
+}

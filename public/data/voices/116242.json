@@ -1,1 +1,77 @@
-{"titleId":116242,"updatedAt":"2026-08-11T11:20:02.752Z","roles":[{"character":"Yuka Tokitate","actor":"Moira May","role":"MAIN"},{"character":"Iu Shindou","actor":"Victoria Frenz","role":"MAIN"},{"character":"Kusue Hakozaki","actor":"Saskia Glück","role":"MAIN"},{"character":"Yuusuke Yotsuya","actor":"Patrick Baehr","role":"MAIN"},{"character":"Makuah","actor":"Jonas Frenz","role":"SUPPORTING"},{"character":"Bihmsberg","actor":"Armin Schlagwein","role":"SUPPORTING"},{"character":"Tsubasa","actor":"Dennis Herrmann","role":"SUPPORTING"},{"character":"Keita Torii","actor":"Nico Sablik","role":"SUPPORTING"},{"character":"Kahabell","actor":"Laurine Betz","role":"SUPPORTING"},{"character":"Game Master","actor":"Santiago Ziesmer","role":"SUPPORTING"},{"character":"Shindou","actor":"Kevin Kraus","role":"SUPPORTING"},{"character":"Kamilto","actor":"Peter Reinhardt","role":"SUPPORTING"}]}
+{
+ "titleId": 116242,
+ "updatedAt": "2026-08-15T18:45:28.055Z",
+ "roles": [
+  {
+   "character": "Yuka Tokitate",
+   "actor": "Moira May",
+   "role": "MAIN"
+  },
+  {
+   "character": "Iu Shindou",
+   "actor": "Victoria Frenz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kusue Hakozaki",
+   "actor": "Saskia Glück",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuusuke Yotsuya",
+   "actor": "Patrick Baehr",
+   "role": "MAIN"
+  },
+  {
+   "character": "Makuah",
+   "actor": "Jonas Frenz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bihmsberg",
+   "actor": "Armin Schlagwein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsubasa",
+   "actor": "Dennis Herrmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Keita Torii",
+   "actor": "Nico Sablik",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kahabell",
+   "actor": "Laurine Betz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Game Master",
+   "actor": "Santiago Ziesmer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shindou",
+   "actor": "Kevin Kraus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kamilto",
+   "actor": "Peter Reinhardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kahabel",
+   "actor": "Laurine Betz",
+   "von": "ann"
+  },
+  {
+   "character": "Game Master",
+   "actor": "Sven Brieger",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=23492"
+}

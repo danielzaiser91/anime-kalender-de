@@ -1,1 +1,87 @@
-{"titleId":20644,"updatedAt":"2026-08-11T11:20:03.196Z","roles":[{"character":"Satoshi","actor":"Caroline Combrinck","role":"MAIN"},{"character":"Diancie","actor":"Paulina Rümmelein","role":"MAIN"},{"character":"Serena","actor":"Gabrielle Pietermann","role":"MAIN"},{"character":"Citron","actor":"Tobias Kern","role":"MAIN"},{"character":"Eureka ","actor":"Shandra Schadt","role":"MAIN"},{"character":"Marilyn Flame","actor":"Stephanie Marin","role":"SUPPORTING"},{"character":"Ninja Riot","actor":"Oliver Scheffel","role":"SUPPORTING"},{"character":"Argus Steel","actor":"Gerhard Jilka","role":"SUPPORTING"},{"character":"Musashi","actor":"Scarlet Cavadenti","role":"SUPPORTING"},{"character":"Millis Steel","actor":"Jacqueline Belle","role":"SUPPORTING"},{"character":"Kojirou","actor":"Matthias Klie","role":"SUPPORTING"},{"character":"Nyarth","actor":"Gerhard Acktun","role":"SUPPORTING"},{"character":"Narrator","actor":"Manfred Trilling","role":"BACKGROUND"}]}
+{
+ "titleId": 20644,
+ "updatedAt": "2026-08-15T18:36:38.262Z",
+ "roles": [
+  {
+   "character": "Satoshi",
+   "actor": "Caroline Combrinck",
+   "role": "MAIN"
+  },
+  {
+   "character": "Diancie",
+   "actor": "Paulina Rümmelein",
+   "role": "MAIN"
+  },
+  {
+   "character": "Serena",
+   "actor": "Gabrielle Pietermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Citron",
+   "actor": "Tobias Kern",
+   "role": "MAIN"
+  },
+  {
+   "character": "Eureka ",
+   "actor": "Shandra Schadt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Marilyn Flame",
+   "actor": "Stephanie Marin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ninja Riot",
+   "actor": "Oliver Scheffel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Argus Steel",
+   "actor": "Gerhard Jilka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Musashi",
+   "actor": "Scarlet Cavadenti",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Millis Steel",
+   "actor": "Jacqueline Belle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kojirou",
+   "actor": "Matthias Klie",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nyarth",
+   "actor": "Gerhard Acktun",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Manfred Trilling",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Ash Ketchum",
+   "actor": "Caroline Combrinck",
+   "von": "ann"
+  },
+  {
+   "character": "Heureka",
+   "actor": "Shandra Schadt",
+   "von": "ann"
+  },
+  {
+   "character": "Citro",
+   "actor": "Tobias Kern",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15765"
+}

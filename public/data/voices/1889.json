@@ -1,1 +1,122 @@
-{"titleId":1889,"updatedAt":"2026-08-11T11:20:02.948Z","roles":[{"character":"Keiichi Maebara","actor":"Tobias John von Freyend","role":"MAIN"},{"character":"Rena Ryuuguu","actor":"Moira May","role":"MAIN"},{"character":"Mion Sonozaki","actor":"Mayke Dähn","role":"MAIN"},{"character":"Rika Furude","actor":"Gabrielle Pietermann","role":"MAIN"},{"character":"Satoko Houjou","actor":"Helen Malin Blaschke","role":"MAIN"},{"character":"Shion Sonozaki","actor":"Mayke Dähn","role":"MAIN"},{"character":"Hanyuu Furude","actor":"Patricia Strasburger","role":"MAIN"},{"character":"Miyo Takano","actor":"Claudia Urbschat-mingues","role":"MAIN"},{"character":"Satoshi Houjou","actor":"Christian Zeiger","role":"SUPPORTING"},{"character":"Kuraudo Ooishi","actor":"Pierre Peters-Arnolds","role":"SUPPORTING"},{"character":"Rumiko Chie","actor":"Demet Fey","role":"SUPPORTING"},{"character":"Mamoru Akasaka","actor":"Christian Wunderlich","role":"SUPPORTING"},{"character":"Kyousuke Irie","actor":"Nicolas Böll","role":"SUPPORTING"},{"character":"Teppei Houjou","actor":"Dustin Semmelrogge","role":"SUPPORTING"},{"character":"Oryou Sonozaki","actor":"Sibylle Kuhne","role":"SUPPORTING"},{"character":"Jirou Tomitake","actor":"Heiko Obermöller","role":"SUPPORTING"},{"character":"Akane Sonozaki","actor":"Betül Jülide Gülgec","role":"SUPPORTING"},{"character":"Tatsuyoshi Kasai","actor":"Markus Klauk","role":"SUPPORTING"},{"character":"Kiichirou Kimiyoshi","actor":"Axel Gottschick","role":"SUPPORTING"},{"character":"Tetsuro Okonogi","actor":"Bruno Winzen","role":"SUPPORTING"}]}
+{
+ "titleId": 1889,
+ "updatedAt": "2026-08-15T18:29:45.770Z",
+ "roles": [
+  {
+   "character": "Keiichi Maebara",
+   "actor": "Tobias John von Freyend",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rena Ryuuguu",
+   "actor": "Moira May",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mion Sonozaki",
+   "actor": "Mayke Dähn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rika Furude",
+   "actor": "Gabrielle Pietermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Satoko Houjou",
+   "actor": "Helen Malin Blaschke",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shion Sonozaki",
+   "actor": "Mayke Dähn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hanyuu Furude",
+   "actor": "Patricia Strasburger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miyo Takano",
+   "actor": "Claudia Urbschat-mingues",
+   "role": "MAIN"
+  },
+  {
+   "character": "Satoshi Houjou",
+   "actor": "Christian Zeiger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kuraudo Ooishi",
+   "actor": "Pierre Peters-Arnolds",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rumiko Chie",
+   "actor": "Demet Fey",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mamoru Akasaka",
+   "actor": "Christian Wunderlich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyousuke Irie",
+   "actor": "Nicolas Böll",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Teppei Houjou",
+   "actor": "Dustin Semmelrogge",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Oryou Sonozaki",
+   "actor": "Sibylle Kuhne",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jirou Tomitake",
+   "actor": "Heiko Obermöller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akane Sonozaki",
+   "actor": "Betül Jülide Gülgec",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tatsuyoshi Kasai",
+   "actor": "Markus Klauk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kiichirou Kimiyoshi",
+   "actor": "Axel Gottschick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tetsuro Okonogi",
+   "actor": "Bruno Winzen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hanyuu",
+   "actor": "Patricia Strasburger",
+   "von": "ann"
+  },
+  {
+   "character": "Rena Ryugu",
+   "actor": "Moira May",
+   "von": "ann"
+  },
+  {
+   "character": "Satoko Houjou",
+   "actor": "Helen Blaschke",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=7454"
+}

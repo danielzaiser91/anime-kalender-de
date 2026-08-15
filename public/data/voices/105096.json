@@ -1,1 +1,102 @@
-{"titleId":105096,"updatedAt":"2026-08-11T11:20:03.488Z","roles":[{"character":"James Blood","actor":"Benjamin Plath","role":"MAIN"},{"character":"Sarah Sinclair","actor":"Kim Pfeiffer","role":"MAIN"},{"character":"Lennox Gallagher","actor":"Thomas Nicolai","role":"MAIN"},{"character":"Edmond Chandler","actor":"Adam Nümm","role":"MAIN"},{"character":"Harry Creighton","actor":"Benno Lehmann","role":"MAIN"},{"character":"Eve Palmer","actor":"Lisa Marie Becker","role":"SUPPORTING"},{"character":"Steven Martland","actor":"Felix Würgler","role":"SUPPORTING"},{"character":"Fred Faraday","actor":"Hubert Burczek","role":"SUPPORTING"},{"character":"Robert Walter","actor":"Marko Bräutigam","role":"SUPPORTING"},{"character":"Theo Lowe","actor":"Philipp Wirz","role":"SUPPORTING"},{"character":"Geffrey Connor","actor":"Sven Brieger","role":"SUPPORTING"},{"character":"Richard Burner","actor":"Reiner Heise","role":"SUPPORTING"},{"character":"Grimm","actor":"Nico Selbach","role":"SUPPORTING"},{"character":"Monica Campbell","actor":"Katja Schmitz","role":"SUPPORTING"},{"character":"Anna Winehouse","actor":"Karen Schulz-Vobach","role":"SUPPORTING"}]}
+{
+ "titleId": 105096,
+ "updatedAt": "2026-08-15T18:43:29.730Z",
+ "roles": [
+  {
+   "character": "James Blood",
+   "actor": "Benjamin Plath",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sarah Sinclair",
+   "actor": "Kim Pfeiffer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lennox Gallagher",
+   "actor": "Thomas Nicolai",
+   "role": "MAIN"
+  },
+  {
+   "character": "Edmond Chandler",
+   "actor": "Adam Nümm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Harry Creighton",
+   "actor": "Benno Lehmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Eve Palmer",
+   "actor": "Lisa Marie Becker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Steven Martland",
+   "actor": "Felix Würgler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fred Faraday",
+   "actor": "Hubert Burczek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Robert Walter",
+   "actor": "Marko Bräutigam",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Theo Lowe",
+   "actor": "Philipp Wirz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Geffrey Connor",
+   "actor": "Sven Brieger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Richard Burner",
+   "actor": "Reiner Heise",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Grimm",
+   "actor": "Nico Selbach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Monica Campbell",
+   "actor": "Katja Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Anna Winehouse",
+   "actor": "Karen Schulz-Vobach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alan Wyatt",
+   "actor": "Florian Hoffmann",
+   "von": "ann"
+  },
+  {
+   "character": "Douglas Coates",
+   "actor": "Fabian Kluckert",
+   "von": "ann"
+  },
+  {
+   "character": "Professor Gary Evans",
+   "actor": "Freimut Götsch",
+   "von": "ann"
+  },
+  {
+   "character": "Tina Hurst",
+   "actor": "Anni C. Salander",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=21551"
+}

@@ -1,1 +1,182 @@
-{"titleId":3712,"updatedAt":"2026-08-11T11:20:03.012Z","roles":[{"character":"Louise Françoise Le Blanc de La Vallière","actor":"Luisa Wietzorek","role":"MAIN"},{"character":"Saito Hiraga","actor":"Patrick Keller","role":"MAIN"},{"character":"Agnes Chevalier de Milan","actor":"Magdalena Höfner","role":"SUPPORTING"},{"character":"Kirche Augusta Frederica von Anhalt-Zerbst","actor":"Leonie Dubuc","role":"SUPPORTING"},{"character":"Marteau","actor":"Marco Wittorf","role":"SUPPORTING"},{"character":"Henrietta de Tristain","actor":"Johanna Schmoll","role":"SUPPORTING"},{"character":"Julio Chesaré","actor":"Sebastian Kluckert","role":"SUPPORTING"},{"character":"Irukukwu","actor":"Jennifer Weiß","role":"SUPPORTING"},{"character":"Siesta","actor":"Moira May","role":"SUPPORTING"},{"character":"Eléonore Albertine Le Blanc de La Blois de La Vallière","actor":"Dana Friedrich","role":"SUPPORTING"},{"character":"Cattleya Yvette La Baume Le Blanc de La Fontaine","actor":"Laura Oettel","role":"SUPPORTING"},{"character":"Tiffania Westwood","actor":"Samina König","role":"SUPPORTING"},{"character":"Joseph","actor":"Sebastian Christoph Jacob","role":"SUPPORTING"},{"character":"Malicorne de Grandple","actor":"Philipp Stiegemann","role":"SUPPORTING"},{"character":"Vitartial","actor":"Nico Nothnagel","role":"SUPPORTING"},{"character":"Scarron","actor":"Florian Hoffmann","role":"SUPPORTING"},{"character":"Guiche de Gramont","actor":"Dirk Petrick","role":"SUPPORTING"},{"character":"Charlotte Orléans","actor":"Melinda Rachfahl","role":"SUPPORTING"},{"character":"Derflinger","actor":"Santiago Ziesmer","role":"SUPPORTING"},{"character":"Montmorency Margarita la Fère de Montmorency","actor":"Birte Baumgardt","role":"SUPPORTING"},{"character":"Sheffield","actor":"Dina Kürten","role":"SUPPORTING"},{"character":"Jean Colbert","actor":"Stefan Bergel","role":"SUPPORTING"},{"character":"Osmond","actor":"Frank Ciazynski","role":"SUPPORTING"},{"character":"Beatrice Yvonne von Guldenhorf","actor":"Eleni Möller-Architektonidou","role":"SUPPORTING"},{"character":"Jessica","actor":"Julia Bautz","role":"SUPPORTING"}]}
+{
+ "titleId": 3712,
+ "updatedAt": "2026-08-15T18:31:54.416Z",
+ "roles": [
+  {
+   "character": "Louise Françoise Le Blanc de La Vallière",
+   "actor": "Luisa Wietzorek",
+   "role": "MAIN"
+  },
+  {
+   "character": "Saito Hiraga",
+   "actor": "Patrick Keller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Agnes Chevalier de Milan",
+   "actor": "Magdalena Höfner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kirche Augusta Frederica von Anhalt-Zerbst",
+   "actor": "Leonie Dubuc",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marteau",
+   "actor": "Marco Wittorf",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Henrietta de Tristain",
+   "actor": "Johanna Schmoll",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Julio Chesaré",
+   "actor": "Sebastian Kluckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Irukukwu",
+   "actor": "Jennifer Weiß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Siesta",
+   "actor": "Moira May",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eléonore Albertine Le Blanc de La Blois de La Vallière",
+   "actor": "Dana Friedrich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cattleya Yvette La Baume Le Blanc de La Fontaine",
+   "actor": "Laura Oettel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tiffania Westwood",
+   "actor": "Samina König",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Joseph",
+   "actor": "Sebastian Christoph Jacob",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Malicorne de Grandple",
+   "actor": "Philipp Stiegemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Vitartial",
+   "actor": "Nico Nothnagel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Scarron",
+   "actor": "Florian Hoffmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Guiche de Gramont",
+   "actor": "Dirk Petrick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Charlotte Orléans",
+   "actor": "Melinda Rachfahl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Derflinger",
+   "actor": "Santiago Ziesmer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Montmorency Margarita la Fère de Montmorency",
+   "actor": "Birte Baumgardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sheffield",
+   "actor": "Dina Kürten",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jean Colbert",
+   "actor": "Stefan Bergel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Osmond",
+   "actor": "Frank Ciazynski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Beatrice Yvonne von Guldenhorf",
+   "actor": "Eleni Möller-Architektonidou",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jessica",
+   "actor": "Julia Bautz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Direktor Osmond",
+   "actor": "Frank Ciazynski",
+   "von": "ann"
+  },
+  {
+   "character": "Montmorency",
+   "actor": "Birte Baumgardt",
+   "von": "ann"
+  },
+  {
+   "character": "Louise Françoise Le Blanc de La Valliè",
+   "actor": "Luisa Wietzorek",
+   "von": "ann"
+  },
+  {
+   "character": "Irukuku",
+   "actor": "Jennifer Weiß",
+   "von": "ann"
+  },
+  {
+   "character": "Eleanor",
+   "actor": "Dana Friedrich",
+   "von": "ann"
+  },
+  {
+   "character": "Tabitha",
+   "actor": "Melinda Rachfahl",
+   "von": "ann"
+  },
+  {
+   "character": "Kirche von Zerbst",
+   "actor": "Leonie Dubuc",
+   "von": "ann"
+  },
+  {
+   "character": "Vidalshal",
+   "actor": "Nico Nothnagel",
+   "von": "ann"
+  },
+  {
+   "character": "Aniesse Chevalier de Milan",
+   "actor": "Magdalena Höfner",
+   "von": "ann"
+  },
+  {
+   "character": "Cattleya",
+   "actor": "Laura Oettel",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=9200"
+}

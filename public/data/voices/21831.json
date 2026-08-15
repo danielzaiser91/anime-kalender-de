@@ -1,1 +1,142 @@
-{"titleId":21831,"updatedAt":"2026-08-11T11:20:03.338Z","roles":[{"character":"Luffy Monkey","actor":"Daniel Schlauch","role":"MAIN"},{"character":"Franky","actor":"Frank Engelhardt","role":"MAIN"},{"character":"Robin Nico","actor":"Simone Brahmann","role":"MAIN"},{"character":"Zoro Roronoa","actor":"Uwe Thomsen","role":"MAIN"},{"character":"Chopper Tony Tony","actor":"Martin Halm","role":"MAIN"},{"character":"Sanji","actor":"Hubertus von Lerchenfeld","role":"MAIN"},{"character":"Nami","actor":"Stephanie Kellner","role":"MAIN"},{"character":"Usopp","actor":"Dirk Meyer","role":"MAIN"},{"character":"Brook","actor":"Benedikt Gutjan","role":"MAIN"},{"character":"Yukimura","actor":"Tekin Gültekin","role":"SUPPORTING"},{"character":"Lucci Rob","actor":"Manfred Trilling","role":"SUPPORTING"},{"character":"Psycho P","actor":"Dustin Peters","role":"SUPPORTING"},{"character":"Gild Tesoro","actor":"Alexander Brem","role":"SUPPORTING"},{"character":"Naomi Drunk","actor":"Katharina Scheuba","role":"SUPPORTING"},{"character":"Olga Myskina","actor":"Ness Gerung","role":"SUPPORTING"},{"character":"Livia","actor":"Angelina Markiefka","role":"SUPPORTING"},{"character":"Acier Myskina","actor":"Frank Lenart","role":"SUPPORTING"},{"character":"Tanaka","actor":"Sebastian Goder","role":"SUPPORTING"},{"character":"Mad Treasure","actor":"Leonard Hohm","role":"SUPPORTING"}]}
+{
+ "titleId": 21831,
+ "updatedAt": "2026-08-15T18:40:01.991Z",
+ "roles": [
+  {
+   "character": "Luffy Monkey",
+   "actor": "Daniel Schlauch",
+   "role": "MAIN"
+  },
+  {
+   "character": "Franky",
+   "actor": "Frank Engelhardt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Robin Nico",
+   "actor": "Simone Brahmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Zoro Roronoa",
+   "actor": "Uwe Thomsen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chopper Tony Tony",
+   "actor": "Martin Halm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sanji",
+   "actor": "Hubertus von Lerchenfeld",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nami",
+   "actor": "Stephanie Kellner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Usopp",
+   "actor": "Dirk Meyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Brook",
+   "actor": "Benedikt Gutjan",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yukimura",
+   "actor": "Tekin Gültekin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lucci Rob",
+   "actor": "Manfred Trilling",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Psycho P",
+   "actor": "Dustin Peters",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gild Tesoro",
+   "actor": "Alexander Brem",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Naomi Drunk",
+   "actor": "Katharina Scheuba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Olga Myskina",
+   "actor": "Ness Gerung",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Livia",
+   "actor": "Angelina Markiefka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Acier Myskina",
+   "actor": "Frank Lenart",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tanaka",
+   "actor": "Sebastian Goder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mad Treasure",
+   "actor": "Leonard Hohm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lysop",
+   "actor": "Dirk Meyer",
+   "von": "ann"
+  },
+  {
+   "character": "Monkey D.Ruffy",
+   "actor": "Daniel Schlauch",
+   "von": "ann"
+  },
+  {
+   "character": "Nico Robin",
+   "actor": "Simone Brahmann",
+   "von": "ann"
+  },
+  {
+   "character": "Tony Chopper",
+   "actor": "Martin Halm",
+   "von": "ann"
+  },
+  {
+   "character": "Lorenor Zorro",
+   "actor": "Uwe Thomsen",
+   "von": "ann"
+  },
+  {
+   "character": "Livia Miskina",
+   "actor": "Angelina Markiefka",
+   "von": "ann"
+  },
+  {
+   "character": "Acier Miskina",
+   "actor": "Frank Lenart",
+   "von": "ann"
+  },
+  {
+   "character": "Olga Miskina",
+   "actor": "Ness Gerung",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18559"
+}

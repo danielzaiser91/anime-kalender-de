@@ -1,1 +1,82 @@
-{"titleId":156415,"updatedAt":"2026-08-11T11:20:02.759Z","roles":[{"character":"Lloyd de Saloum","actor":"Selina Böttcher","role":"MAIN"},{"character":"Grimoire","actor":"Caroline Werner","role":"MAIN"},{"character":"Ren","actor":"Céline Schwarz","role":"SUPPORTING"},{"character":"Tao","actor":"Eleni Möller-Architektonidou","role":"SUPPORTING"},{"character":"Sylpha","actor":"Josephine Martz","role":"SUPPORTING"},{"character":"Galilea","actor":"Bojan Havic","role":"SUPPORTING"},{"character":"Talia","actor":"Undine Ullmer","role":"SUPPORTING"},{"character":"Babylon","actor":"Brian Sommer","role":"SUPPORTING"},{"character":"Crow","actor":"Andreas Dyszewski","role":"SUPPORTING"}]}
+{
+ "titleId": 156415,
+ "updatedAt": "2026-08-15T18:49:01.960Z",
+ "roles": [
+  {
+   "character": "Lloyd de Saloum",
+   "actor": "Selina Böttcher",
+   "role": "MAIN"
+  },
+  {
+   "character": "Grimoire",
+   "actor": "Caroline Werner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ren",
+   "actor": "Céline Schwarz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tao",
+   "actor": "Eleni Möller-Architektonidou",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sylpha",
+   "actor": "Josephine Martz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Galilea",
+   "actor": "Bojan Havic",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Talia",
+   "actor": "Undine Ullmer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Babylon",
+   "actor": "Brian Sommer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Crow",
+   "actor": "Andreas Dyszewski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shiro",
+   "actor": "Leonie Adam",
+   "von": "ann"
+  },
+  {
+   "character": "Lloyd",
+   "actor": "Selina Böttcher",
+   "von": "ann"
+  },
+  {
+   "character": "Tao",
+   "actor": "Eleni Möller",
+   "von": "ann"
+  },
+  {
+   "character": "Grim",
+   "actor": "Caroline Werner",
+   "von": "ann"
+  },
+  {
+   "character": "Albert de Saloum",
+   "actor": "Ben Küch",
+   "von": "ann"
+  },
+  {
+   "character": "Galilea",
+   "actor": "Bojan Vucetic",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=26536"
+}

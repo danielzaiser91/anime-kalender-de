@@ -1,1 +1,67 @@
-{"titleId":147103,"updatedAt":"2026-08-11T11:20:03.644Z","roles":[{"character":"Kiyoka Kudou","actor":"Patrick Roche","role":"MAIN"},{"character":"Miyo Saimori","actor":"Laura Maire","role":"MAIN"},{"character":"Kouji Tatsuishi","actor":"Maximilian Belle","role":"SUPPORTING"},{"character":"Kaya Saimori","actor":"Farina Brock","role":"SUPPORTING"},{"character":"Yurie","actor":"Alisa-Palmer Stoll","role":"SUPPORTING"},{"character":"Yoshito Godou","actor":"Mio Lechenmayr","role":"SUPPORTING"}]}
+{
+ "titleId": 147103,
+ "updatedAt": "2026-08-15T18:48:16.000Z",
+ "roles": [
+  {
+   "character": "Kiyoka Kudou",
+   "actor": "Patrick Roche",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miyo Saimori",
+   "actor": "Laura Maire",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kouji Tatsuishi",
+   "actor": "Maximilian Belle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaya Saimori",
+   "actor": "Farina Brock",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yurie",
+   "actor": "Alisa-Palmer Stoll",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yoshito Godou",
+   "actor": "Mio Lechenmayr",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kanoko Saimori",
+   "actor": "Sonja Reichelt",
+   "von": "ann"
+  },
+  {
+   "character": "Minoru Tatsuishi",
+   "actor": "Andreas Borcherding",
+   "von": "ann"
+  },
+  {
+   "character": "Koji Tatsuishi",
+   "actor": "Maximilian Belle",
+   "von": "ann"
+  },
+  {
+   "character": "Kiyoka Kudo",
+   "actor": "Patrick Roche",
+   "von": "ann"
+  },
+  {
+   "character": "Shinichi Saimori",
+   "actor": "Stefan Lehnen",
+   "von": "ann"
+  },
+  {
+   "character": "Yoshito Godo",
+   "actor": "Mio Lechenmayr",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=25495"
+}

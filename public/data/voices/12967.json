@@ -1,1 +1,152 @@
-{"titleId":12967,"updatedAt":"2026-08-11T11:20:03.133Z","roles":[{"character":"Pace","actor":"Timo R. Schouren","role":"MAIN"},{"character":"Felicità","actor":"Joyce Ilg","role":"MAIN"},{"character":"Luca","actor":"Marc Stenzel","role":"MAIN"},{"character":"Jolly","actor":"Gilles Karolyi","role":"MAIN"},{"character":"Nova","actor":"Patrick Keller","role":"MAIN"},{"character":"Libertà","actor":"Daniel Käser","role":"MAIN"},{"character":"Dante","actor":"Jochen Langner","role":"MAIN"},{"character":"Debito","actor":"Patricia Strasburger","role":"MAIN"},{"character":"Mondo","actor":"André Beyer","role":"SUPPORTING"},{"character":"Federica ","actor":"Susanne Dobrusskin","role":"SUPPORTING"},{"character":"Nino","actor":"Markus Klauk","role":"SUPPORTING"},{"character":"Alberto","actor":"Ben Steinhoff","role":"SUPPORTING"},{"character":"Moreno","actor":"Tom Jacobs","role":"SUPPORTING"},{"character":"Albero","actor":"Sunke Janssen","role":"SUPPORTING"},{"character":"Sarah","actor":"Moira May","role":"SUPPORTING"},{"character":"Mariella","actor":"Kirstin Hesse","role":"SUPPORTING"},{"character":"Martha","actor":"Petra Glunz-grosch","role":"SUPPORTING"},{"character":"Tinto","actor":"Katharina Gast","role":"SUPPORTING"},{"character":"Sumire","actor":"Brit Gülland","role":"SUPPORTING"},{"character":"Gli Amanti","actor":"Nicole Boguth","role":"SUPPORTING"},{"character":"Giovanna","actor":"Susanne Armin-Zierold","role":"SUPPORTING"},{"character":"Rollo","actor":"Oliver Schnelker","role":"SUPPORTING"},{"character":"Elmo","actor":"Christiane Werk","role":"SUPPORTING"},{"character":"Donatella","actor":"Ann-Cathrin Schaible","role":"SUPPORTING"},{"character":"Giorgio","actor":"Jean Paul Baeck","role":"SUPPORTING"}]}
+{
+ "titleId": 12967,
+ "updatedAt": "2026-08-15T18:34:53.164Z",
+ "roles": [
+  {
+   "character": "Pace",
+   "actor": "Timo R. Schouren",
+   "role": "MAIN"
+  },
+  {
+   "character": "Felicità",
+   "actor": "Joyce Ilg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Luca",
+   "actor": "Marc Stenzel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jolly",
+   "actor": "Gilles Karolyi",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nova",
+   "actor": "Patrick Keller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Libertà",
+   "actor": "Daniel Käser",
+   "role": "MAIN"
+  },
+  {
+   "character": "Dante",
+   "actor": "Jochen Langner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Debito",
+   "actor": "Patricia Strasburger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mondo",
+   "actor": "André Beyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Federica ",
+   "actor": "Susanne Dobrusskin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nino",
+   "actor": "Markus Klauk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alberto",
+   "actor": "Ben Steinhoff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Moreno",
+   "actor": "Tom Jacobs",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Albero",
+   "actor": "Sunke Janssen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sarah",
+   "actor": "Moira May",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mariella",
+   "actor": "Kirstin Hesse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Martha",
+   "actor": "Petra Glunz-grosch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tinto",
+   "actor": "Katharina Gast",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sumire",
+   "actor": "Brit Gülland",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gli Amanti",
+   "actor": "Nicole Boguth",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Giovanna",
+   "actor": "Susanne Armin-Zierold",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rollo",
+   "actor": "Oliver Schnelker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Elmo",
+   "actor": "Christiane Werk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Donatella",
+   "actor": "Ann-Cathrin Schaible",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Giorgio",
+   "actor": "Jean Paul Baeck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mondo",
+   "actor": "Andre Beyer",
+   "von": "ann"
+  },
+  {
+   "character": "Isabella",
+   "actor": "Rieke Werner",
+   "von": "ann"
+  },
+  {
+   "character": "Pace",
+   "actor": "Timo Schouren",
+   "von": "ann"
+  },
+  {
+   "character": "Debito",
+   "actor": "Robert Steudtner",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=14041"
+}

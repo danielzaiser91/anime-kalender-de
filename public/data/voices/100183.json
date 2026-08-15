@@ -1,1 +1,97 @@
-{"titleId":100183,"updatedAt":"2026-08-11T11:20:03.420Z","roles":[{"character":"Karen Kohiruimaki","actor":"Lisa Dzyadyk","role":"MAIN"},{"character":"Goushi Asougi","actor":"Tobias Brecklinghaus","role":"MAIN"},{"character":"Miyu Shinohara","actor":"Janina Dietz","role":"MAIN"},{"character":"Pitohui","actor":"Katharina Iacobescu","role":"MAIN"},{"character":"Shiori Noguchi","actor":"Franziska Ball","role":"SUPPORTING"},{"character":"Shirley","actor":"Patricia Faltin","role":"SUPPORTING"},{"character":"Milana Shidrowa","actor":"Eleni Möller-Architektonidou","role":"SUPPORTING"},{"character":"David","actor":"Dirk Meyer","role":"SUPPORTING"},{"character":"Moe Annaka","actor":"Lara Wurmer","role":"SUPPORTING"},{"character":"Clarence","actor":"Kerstin Dietrich","role":"SUPPORTING"},{"character":"Kana Fujisawa","actor":"Stefanie Dischinger","role":"SUPPORTING"},{"character":"Saki Nitobe","actor":"Katharina von Daake","role":"SUPPORTING"},{"character":"Risa Kusunoki","actor":"Angelina Markiefka","role":"SUPPORTING"},{"character":"Announcer","actor":"Anna Ewelina","role":"BACKGROUND"},{"character":"Kyoukan","actor":"Scarlet Cavadenti","role":"BACKGROUND"}]}
+{
+ "titleId": 100183,
+ "updatedAt": "2026-08-15T18:41:49.780Z",
+ "roles": [
+  {
+   "character": "Karen Kohiruimaki",
+   "actor": "Lisa Dzyadyk",
+   "role": "MAIN"
+  },
+  {
+   "character": "Goushi Asougi",
+   "actor": "Tobias Brecklinghaus",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miyu Shinohara",
+   "actor": "Janina Dietz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Pitohui",
+   "actor": "Katharina Iacobescu",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shiori Noguchi",
+   "actor": "Franziska Ball",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shirley",
+   "actor": "Patricia Faltin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Milana Shidrowa",
+   "actor": "Eleni Möller-Architektonidou",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "David",
+   "actor": "Dirk Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Moe Annaka",
+   "actor": "Lara Wurmer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Clarence",
+   "actor": "Kerstin Dietrich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kana Fujisawa",
+   "actor": "Stefanie Dischinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Saki Nitobe",
+   "actor": "Katharina von Daake",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Risa Kusunoki",
+   "actor": "Angelina Markiefka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Announcer",
+   "actor": "Anna Ewelina",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Kyoukan",
+   "actor": "Scarlet Cavadenti",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "M",
+   "actor": "Tobias Brecklinghaus",
+   "von": "ann"
+  },
+  {
+   "character": "Karen Kohiruimaki/Llenn",
+   "actor": "Lisa Dzyadyk",
+   "von": "ann"
+  },
+  {
+   "character": "Fukajirou",
+   "actor": "Janina Dietz",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20514"
+}

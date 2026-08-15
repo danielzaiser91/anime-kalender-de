@@ -1,1 +1,52 @@
-{"titleId":2163,"updatedAt":"2026-08-11T11:20:02.957Z","roles":[{"character":"Karen Minamino","actor":"Jacqueline Belle","role":"MAIN"},{"character":"Aika Sumeragi","actor":"Malika Bayerwaltes","role":"MAIN"},{"character":"Eri Shinkai","actor":"Gabrielle Pietermann","role":"MAIN"},{"character":"Gouzou Aida","actor":"Gerhard Jilka","role":"SUPPORTING"},{"character":"Nagisa Risako","actor":"Martina Duncker","role":"SUPPORTING"},{"character":"Gust Turbulence","actor":"Patrick Roche","role":"SUPPORTING"}]}
+{
+ "titleId": 2163,
+ "updatedAt": "2026-08-15T18:30:09.250Z",
+ "roles": [
+  {
+   "character": "Karen Minamino",
+   "actor": "Jacqueline Belle",
+   "role": "MAIN"
+  },
+  {
+   "character": "Aika Sumeragi",
+   "actor": "Malika Bayerwaltes",
+   "role": "MAIN"
+  },
+  {
+   "character": "Eri Shinkai",
+   "actor": "Gabrielle Pietermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gouzou Aida",
+   "actor": "Gerhard Jilka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nagisa Risako",
+   "actor": "Martina Duncker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gust Turbulence",
+   "actor": "Patrick Roche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eri Shingai",
+   "actor": "Gabrielle Pietermann",
+   "von": "ann"
+  },
+  {
+   "character": "Gust",
+   "actor": "Patrick Roche",
+   "von": "ann"
+  },
+  {
+   "character": "Risako Nagisa",
+   "actor": "Martina Duncker",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=7170"
+}

@@ -1,1 +1,127 @@
-{"titleId":112153,"updatedAt":"2026-08-11T11:20:03.528Z","roles":[{"character":"Satoshi","actor":"Felix Mayer","role":"MAIN"},{"character":"Gou","actor":"Tobias John von Freyend","role":"MAIN"},{"character":"Koharu Sakuragi","actor":"Julia Bautz","role":"SUPPORTING"},{"character":"Musashi","actor":"Scarlet Cavadenti","role":"SUPPORTING"},{"character":"Kojirou","actor":"Matthias Klie","role":"SUPPORTING"},{"character":"Nyarth","actor":"Gerhard Acktun","role":"SUPPORTING"},{"character":"Junsa","actor":"Angela Quast","role":"SUPPORTING"},{"character":"Narrator","actor":"Manfred Trilling","role":"SUPPORTING"}]}
+{
+ "titleId": 112153,
+ "updatedAt": "2026-08-15T18:44:45.180Z",
+ "roles": [
+  {
+   "character": "Satoshi",
+   "actor": "Felix Mayer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gou",
+   "actor": "Tobias John von Freyend",
+   "role": "MAIN"
+  },
+  {
+   "character": "Koharu Sakuragi",
+   "actor": "Julia Bautz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Musashi",
+   "actor": "Scarlet Cavadenti",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kojirou",
+   "actor": "Matthias Klie",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nyarth",
+   "actor": "Gerhard Acktun",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Junsa",
+   "actor": "Angela Quast",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Manfred Trilling",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jessie",
+   "actor": "Scarlet Cavadenti",
+   "von": "ann"
+  },
+  {
+   "character": "Meowth",
+   "actor": "Gerhard Acktun",
+   "von": "ann"
+  },
+  {
+   "character": "Officer Rocky",
+   "actor": "Angela Wiederhut",
+   "von": "ann"
+  },
+  {
+   "character": "James",
+   "actor": "Matthias Klie",
+   "von": "ann"
+  },
+  {
+   "character": "Professor Magnolia",
+   "actor": "Angelika Bender",
+   "von": "ann"
+  },
+  {
+   "character": "Goh",
+   "actor": "Tobias John von Freyend",
+   "von": "ann"
+  },
+  {
+   "character": "Nurse Joy",
+   "actor": "Katharina Iacobescu",
+   "von": "ann"
+  },
+  {
+   "character": "Chloe",
+   "actor": "Julia Bautz",
+   "von": "ann"
+  },
+  {
+   "character": "Ash Ketchum",
+   "actor": "Felix Mayer",
+   "von": "ann"
+  },
+  {
+   "character": "Chairman Rose",
+   "actor": "Arne Hörmann",
+   "von": "ann"
+  },
+  {
+   "character": "Sonia",
+   "actor": "Zina Laus",
+   "von": "ann"
+  },
+  {
+   "character": "Chrysa",
+   "actor": "Janina Dietz",
+   "von": "ann"
+  },
+  {
+   "character": "Professor Cerise",
+   "actor": "Martin Bonvicini",
+   "von": "ann"
+  },
+  {
+   "character": "Olive",
+   "actor": "Angelina Markiefka",
+   "von": "ann"
+  },
+  {
+   "character": "Ren",
+   "actor": "Leonard Rosemann",
+   "von": "ann"
+  },
+  {
+   "character": "Leon",
+   "actor": "Mio Lechenmayr",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22559"
+}

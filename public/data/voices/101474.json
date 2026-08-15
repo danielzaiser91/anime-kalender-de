@@ -1,1 +1,167 @@
-{"titleId":101474,"updatedAt":"2026-08-11T11:20:03.458Z","roles":[{"character":"Momonga","actor":"Stefan Kaminski","role":"MAIN"},{"character":"Gazef Stronoff","actor":"Tobias Brecklinghaus","role":"MAIN"},{"character":"Cocytus","actor":"Ferenc Husta","role":"SUPPORTING"},{"character":"Climb","actor":"Tobias Kern","role":"SUPPORTING"},{"character":"Baziwood Peshmel","actor":"Markus Klauk","role":"SUPPORTING"},{"character":"Erya Uzruth","actor":"René Dawn-Claude","role":"SUPPORTING"},{"character":"Roberdyck Goltron","actor":"Oliver Schnelker","role":"SUPPORTING"},{"character":"Sebas Tian","actor":"Hans Bayer","role":"SUPPORTING"},{"character":"Albedo","actor":"Uschi Hugo","role":"SUPPORTING"},{"character":"Zenberu Gugu","actor":"Torsten Münchow","role":"SUPPORTING"},{"character":"Yuri Alpha","actor":"Julia von Tettenborn","role":"SUPPORTING"},{"character":"Hamusuke","actor":"Martin Bross","role":"SUPPORTING"},{"character":"Jugem","actor":"Carlos Lobo","role":"SUPPORTING"},{"character":"Pulcinella","actor":"Volker Niederfahrenhorst","role":"SUPPORTING"},{"character":"Barbro Andrean Ierudo Ryle Vaiself","actor":"Jochen Langner","role":"SUPPORTING"},{"character":"Entoma Vasilissa Zeta","actor":"Leslie-Vanessa Lill","role":"SUPPORTING"},{"character":"Solution Epsilon","actor":"Fabienne Hesse","role":"SUPPORTING"},{"character":"Shizu Delta","actor":"Alexandra Yoko Hagino","role":"SUPPORTING"},{"character":"Nemu Emmot","actor":"Amira Leisner","role":"SUPPORTING"},{"character":"Elias Brandt Dale  Raeven","actor":"Andreas Meese","role":"SUPPORTING"},{"character":"Kaijali","actor":"Simon Derksen","role":"SUPPORTING"}]}
+{
+ "titleId": 101474,
+ "updatedAt": "2026-08-15T18:42:38.761Z",
+ "roles": [
+  {
+   "character": "Momonga",
+   "actor": "Stefan Kaminski",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gazef Stronoff",
+   "actor": "Tobias Brecklinghaus",
+   "role": "MAIN"
+  },
+  {
+   "character": "Cocytus",
+   "actor": "Ferenc Husta",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Climb",
+   "actor": "Tobias Kern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Baziwood Peshmel",
+   "actor": "Markus Klauk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Erya Uzruth",
+   "actor": "René Dawn-Claude",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Roberdyck Goltron",
+   "actor": "Oliver Schnelker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sebas Tian",
+   "actor": "Hans Bayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Albedo",
+   "actor": "Uschi Hugo",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zenberu Gugu",
+   "actor": "Torsten Münchow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuri Alpha",
+   "actor": "Julia von Tettenborn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hamusuke",
+   "actor": "Martin Bross",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jugem",
+   "actor": "Carlos Lobo",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pulcinella",
+   "actor": "Volker Niederfahrenhorst",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Barbro Andrean Ierudo Ryle Vaiself",
+   "actor": "Jochen Langner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Entoma Vasilissa Zeta",
+   "actor": "Leslie-Vanessa Lill",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Solution Epsilon",
+   "actor": "Fabienne Hesse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shizu Delta",
+   "actor": "Alexandra Yoko Hagino",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nemu Emmot",
+   "actor": "Amira Leisner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Elias Brandt Dale  Raeven",
+   "actor": "Andreas Meese",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaijali",
+   "actor": "Simon Derksen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Elias Brandt Dale Raeven",
+   "actor": "Andreas Meese",
+   "von": "ann"
+  },
+  {
+   "character": "Demiurge",
+   "actor": "Marcus Off",
+   "von": "ann"
+  },
+  {
+   "character": "Brain Unglaus",
+   "actor": "Heiko Obermöller",
+   "von": "ann"
+  },
+  {
+   "character": "Fluder Paradyne",
+   "actor": "Gerhard Fehn",
+   "von": "ann"
+  },
+  {
+   "character": "Shalltear Bloodfallen",
+   "actor": "Lisa Mitsching",
+   "von": "ann"
+  },
+  {
+   "character": "Mare Bello Fiore",
+   "actor": "Sarah Tkotsch",
+   "von": "ann"
+  },
+  {
+   "character": "Jircniv Rune Farlord El Nix",
+   "actor": "Marco Sven Reinbold",
+   "von": "ann"
+  },
+  {
+   "character": "Aura Bella Fiora",
+   "actor": "Patricia Strasburger",
+   "von": "ann"
+  },
+  {
+   "character": "Enri Emmott",
+   "actor": "Meri Dogan",
+   "von": "ann"
+  },
+  {
+   "character": "Lupusregina Beta",
+   "actor": "Signe Zurmühlen",
+   "von": "ann"
+  },
+  {
+   "character": "Momonga/Ains Ooal Gown",
+   "actor": "Stefan Kaminski",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=21105"
+}

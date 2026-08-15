@@ -1,1 +1,137 @@
-{"titleId":99693,"updatedAt":"2026-08-11T11:20:03.408Z","roles":[{"character":"Ren Amamiya","actor":"Felix Mayer","role":"MAIN"},{"character":"Futaba Sakura","actor":"Amira Leisner","role":"MAIN"},{"character":"Gorou Akechi","actor":"Konrad Bösherz","role":"MAIN"},{"character":"Ann Takamaki","actor":"Ilena Gwisdalla","role":"MAIN"},{"character":"Ryuuji Sakamoto","actor":"Julian Manuel","role":"MAIN"},{"character":"Yuusuke Kitagawa","actor":"Karim El Kammouchi","role":"MAIN"},{"character":"Morgana","actor":"Rieke Werner","role":"MAIN"},{"character":"Makoto Niijima","actor":"Farina Brock","role":"MAIN"},{"character":"Haru Okumura","actor":"Lara Wurmer","role":"MAIN"},{"character":"Wakaba Isshiki","actor":"Dana Geissler","role":"SUPPORTING"},{"character":"Hifumi Togo","actor":"Melanie Olbert","role":"SUPPORTING"},{"character":"Chiken Tokusou Buchou","actor":"Claus Vester","role":"SUPPORTING"},{"character":"Sae Niijima","actor":"Angela Wiederhut","role":"SUPPORTING"},{"character":"Masayoshi Shido","actor":"Christian Reimer","role":"SUPPORTING"},{"character":"Kunikazu Okumura","actor":"Walter von Hauff","role":"SUPPORTING"},{"character":"Sadayo Kawakami","actor":"Katharina Schwarzmaier","role":"SUPPORTING"},{"character":"Sojiro Sakura","actor":"Josef Vossenkuhl","role":"SUPPORTING"},{"character":"Sugimura","actor":"Benedikt Gutjan","role":"SUPPORTING"}]}
+{
+ "titleId": 99693,
+ "updatedAt": "2026-08-15T18:41:30.440Z",
+ "roles": [
+  {
+   "character": "Ren Amamiya",
+   "actor": "Felix Mayer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Futaba Sakura",
+   "actor": "Amira Leisner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gorou Akechi",
+   "actor": "Konrad Bösherz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ann Takamaki",
+   "actor": "Ilena Gwisdalla",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ryuuji Sakamoto",
+   "actor": "Julian Manuel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuusuke Kitagawa",
+   "actor": "Karim El Kammouchi",
+   "role": "MAIN"
+  },
+  {
+   "character": "Morgana",
+   "actor": "Rieke Werner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Makoto Niijima",
+   "actor": "Farina Brock",
+   "role": "MAIN"
+  },
+  {
+   "character": "Haru Okumura",
+   "actor": "Lara Wurmer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Wakaba Isshiki",
+   "actor": "Dana Geissler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hifumi Togo",
+   "actor": "Melanie Olbert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chiken Tokusou Buchou",
+   "actor": "Claus Vester",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sae Niijima",
+   "actor": "Angela Wiederhut",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masayoshi Shido",
+   "actor": "Christian Reimer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kunikazu Okumura",
+   "actor": "Walter von Hauff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sadayo Kawakami",
+   "actor": "Katharina Schwarzmaier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sojiro Sakura",
+   "actor": "Josef Vossenkuhl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sugimura",
+   "actor": "Benedikt Gutjan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Munehisa Iwai",
+   "actor": "Gerhard Acktun",
+   "von": "ann"
+  },
+  {
+   "character": "Tae Takemi",
+   "actor": "Jacqueline Belle",
+   "von": "ann"
+  },
+  {
+   "character": "Caroline",
+   "actor": "Paulina Bohlmann",
+   "von": "ann"
+  },
+  {
+   "character": "Ichiko Ooya",
+   "actor": "Carolin Sophie Göbel",
+   "von": "ann"
+  },
+  {
+   "character": "Masayoshi Shidou",
+   "actor": "Christian Reimer",
+   "von": "ann"
+  },
+  {
+   "character": "Soujirou Sakura",
+   "actor": "Josef Vossenkuhl",
+   "von": "ann"
+  },
+  {
+   "character": "Igor",
+   "actor": "Aart Veder",
+   "von": "ann"
+  },
+  {
+   "character": "Yuuki Mishima",
+   "actor": "Leonard Rosemann",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20469"
+}

@@ -1,1 +1,82 @@
-{"titleId":20839,"updatedAt":"2026-08-11T11:20:03.236Z","roles":[{"character":"Mikoto Kiba","actor":"Sarah Alles","role":"MAIN"},{"character":"Arashi Mikami","actor":"Patrick Keller","role":"MAIN"},{"character":"Oriha Nashida","actor":"Jasmin Arnoldt","role":"MAIN"},{"character":"Yuuko Sagiri","actor":"Cornelia Waibel","role":"SUPPORTING"},{"character":"Jin Masaki","actor":"Christian Intorp","role":"SUPPORTING"},{"character":"Fiona Ran Winchester","actor":"Dana Friedrich","role":"SUPPORTING"},{"character":"Fujino no Musume","actor":"Katharina von Daake","role":"SUPPORTING"},{"character":"Miki Tsurugi","actor":"Jessica Walther-Gabory","role":"SUPPORTING"},{"character":"Isoroku Tatara","actor":"Axel Lutter","role":"SUPPORTING"},{"character":"Sayo Hitsugi","actor":"Bettina Kenney","role":"SUPPORTING"},{"character":"Chikage Hizaki","actor":"Melinda Rachfahl","role":"SUPPORTING"},{"character":"Kominato Hinako","actor":"Anna Gamburg","role":"SUPPORTING"},{"character":"Konomi Suzue","actor":"Leonie Dubuc","role":"SUPPORTING"},{"character":"Masamune Mochizuki","actor":"Matthias Friedrich","role":"SUPPORTING"}]}
+{
+ "titleId": 20839,
+ "updatedAt": "2026-08-15T18:37:44.040Z",
+ "roles": [
+  {
+   "character": "Mikoto Kiba",
+   "actor": "Sarah Alles",
+   "role": "MAIN"
+  },
+  {
+   "character": "Arashi Mikami",
+   "actor": "Patrick Keller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Oriha Nashida",
+   "actor": "Jasmin Arnoldt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuuko Sagiri",
+   "actor": "Cornelia Waibel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jin Masaki",
+   "actor": "Christian Intorp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fiona Ran Winchester",
+   "actor": "Dana Friedrich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fujino no Musume",
+   "actor": "Katharina von Daake",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miki Tsurugi",
+   "actor": "Jessica Walther-Gabory",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Isoroku Tatara",
+   "actor": "Axel Lutter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sayo Hitsugi",
+   "actor": "Bettina Kenney",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chikage Hizaki",
+   "actor": "Melinda Rachfahl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kominato Hinako",
+   "actor": "Anna Gamburg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Konomi Suzue",
+   "actor": "Leonie Dubuc",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masamune Mochizuki",
+   "actor": "Matthias Friedrich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuu Momokino",
+   "actor": "Johanna Dost",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16596"
+}

@@ -1,1 +1,57 @@
-{"titleId":87458,"updatedAt":"2026-08-11T11:20:03.351Z","roles":[{"character":"Haruo Sakaki","actor":"Jesse Grimm","role":"MAIN"},{"character":"Metphies","actor":"Daniel Schütter","role":"MAIN"},{"character":"Yuuko Tani","actor":"Franciska  Friede","role":"MAIN"},{"character":"Martin Lazzari","actor":"Marcus Just","role":"MAIN"},{"character":"Adam Bindewald","actor":"Patrick Bach","role":"SUPPORTING"},{"character":"Mulu-Elu Galu-gu","actor":"Martin Sabel","role":"SUPPORTING"}]}
+{
+ "titleId": 87458,
+ "updatedAt": "2026-08-15T18:40:18.781Z",
+ "roles": [
+  {
+   "character": "Haruo Sakaki",
+   "actor": "Jesse Grimm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Metphies",
+   "actor": "Daniel Schütter",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuuko Tani",
+   "actor": "Franciska  Friede",
+   "role": "MAIN"
+  },
+  {
+   "character": "Martin Lazzari",
+   "actor": "Marcus Just",
+   "role": "MAIN"
+  },
+  {
+   "character": "Adam Bindewald",
+   "actor": "Patrick Bach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mulu-Elu Galu-gu",
+   "actor": "Martin Sabel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuko Tani",
+   "actor": "Franciska Friede",
+   "von": "ann"
+  },
+  {
+   "character": "Rilu-Elu Belu-Be",
+   "actor": "Kai Henrik Möller",
+   "von": "ann"
+  },
+  {
+   "character": "Unberto Mori",
+   "actor": "Wolfgang Berger",
+   "von": "ann"
+  },
+  {
+   "character": "Eliott Leland",
+   "actor": "Robert Knorr",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19389"
+}

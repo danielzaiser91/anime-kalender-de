@@ -1,1 +1,67 @@
-{"titleId":2156,"updatedAt":"2026-08-11T11:20:02.956Z","roles":[{"character":"Julie Makimoto","actor":"Julia Stoepel","role":"MAIN"},{"character":"Danma Kuso","actor":"Niclas Lutz","role":"MAIN"},{"character":"Alice Gehabich","actor":"Cathlen Gawlich","role":"MAIN"},{"character":"Pyrus Dragonoid","actor":"Jaron Löwenberg","role":"MAIN"},{"character":"Chouji Marukura","actor":"Cathlen Gawlich","role":"MAIN"},{"character":"Shun Kazami","actor":"David Turba","role":"MAIN"},{"character":"Runo Misaki","actor":"Julia Meynen","role":"MAIN"},{"character":"Masquerade","actor":"Wanja Gerick","role":"SUPPORTING"},{"character":"Daisy Makimoto","actor":"Tanya Kahana","role":"SUPPORTING"},{"character":"Chan Lee","actor":"Diana Borgwardt","role":"SUPPORTING"}]}
+{
+ "titleId": 2156,
+ "updatedAt": "2026-08-15T18:30:07.886Z",
+ "roles": [
+  {
+   "character": "Julie Makimoto",
+   "actor": "Julia Stoepel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Danma Kuso",
+   "actor": "Niclas Lutz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Alice Gehabich",
+   "actor": "Cathlen Gawlich",
+   "role": "MAIN"
+  },
+  {
+   "character": "Pyrus Dragonoid",
+   "actor": "Jaron Löwenberg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chouji Marukura",
+   "actor": "Cathlen Gawlich",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shun Kazami",
+   "actor": "David Turba",
+   "role": "MAIN"
+  },
+  {
+   "character": "Runo Misaki",
+   "actor": "Julia Meynen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Masquerade",
+   "actor": "Wanja Gerick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Daisy Makimoto",
+   "actor": "Tanya Kahana",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chan Lee",
+   "actor": "Diana Borgwardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marucho Maruko",
+   "actor": "Cathlen Gawlich",
+   "von": "ann"
+  },
+  {
+   "character": "Dan Kuso",
+   "actor": "Niclas Lutz",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=7738"
+}

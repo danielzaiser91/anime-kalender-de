@@ -1,1 +1,137 @@
-{"titleId":101283,"updatedAt":"2026-08-11T11:20:03.452Z","roles":[{"character":"Nagi Kirima","actor":"Lisa May-Mitsching","role":"MAIN"},{"character":"Touka Miyashita","actor":"Mayke Dähn","role":"MAIN"},{"character":"Boogiepop","actor":"Mayke Dähn","role":"MAIN"},{"character":"Kazuko Suema","actor":"Alina Freund","role":"SUPPORTING"},{"character":"Keiji Takeda","actor":"Lars Walther","role":"SUPPORTING"},{"character":"Aya Orihata","actor":"Céline Vogt","role":"SUPPORTING"},{"character":"Minako Yurihara","actor":"Milena Karas","role":"SUPPORTING"},{"character":"Echoes","actor":"Louis Friedemann Thiele","role":"SUPPORTING"},{"character":"Makiko Kisugi","actor":"Kordula Leiße","role":"SUPPORTING"},{"character":"Naoko Kamikishiro","actor":"Jana Schölermann","role":"SUPPORTING"},{"character":"Seiichi Kirima","actor":"Michael-Che Koch","role":"SUPPORTING"},{"character":"Pigeon","actor":"Amira Leisner","role":"SUPPORTING"},{"character":"Masami Saotome","actor":"Daniel Käser","role":"SUPPORTING"},{"character":"Jin Asukai","actor":"Christian Wunderlich","role":"SUPPORTING"},{"character":"Masanori Sasaki","actor":"Andreas Meese","role":"SUPPORTING"},{"character":"Kotoe Kinugawa","actor":"Lea Fleck","role":"SUPPORTING"},{"character":"Shinpei Kuroda","actor":"Matthias Kiel","role":"SUPPORTING"},{"character":"Suiko Minahoshi","actor":"Fabienne Hesse","role":"SUPPORTING"},{"character":"Spooky E","actor":"Dirk Hardegen","role":"SUPPORTING"},{"character":"Gen Sakakibara","actor":"Jochen Langner","role":"SUPPORTING"},{"character":"Kei Niitoki","actor":"Lisa Dzyadyk","role":"SUPPORTING"},{"character":"Masaki Taniguchi","actor":"Markus J. Bachmann","role":"SUPPORTING"},{"character":"Tanaka Shirou","actor":"Patrick Kropp","role":"SUPPORTING"}]}
+{
+ "titleId": 101283,
+ "updatedAt": "2026-08-15T18:42:31.000Z",
+ "roles": [
+  {
+   "character": "Nagi Kirima",
+   "actor": "Lisa May-Mitsching",
+   "role": "MAIN"
+  },
+  {
+   "character": "Touka Miyashita",
+   "actor": "Mayke Dähn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Boogiepop",
+   "actor": "Mayke Dähn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kazuko Suema",
+   "actor": "Alina Freund",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Keiji Takeda",
+   "actor": "Lars Walther",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aya Orihata",
+   "actor": "Céline Vogt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Minako Yurihara",
+   "actor": "Milena Karas",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Echoes",
+   "actor": "Louis Friedemann Thiele",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Makiko Kisugi",
+   "actor": "Kordula Leiße",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Naoko Kamikishiro",
+   "actor": "Jana Schölermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seiichi Kirima",
+   "actor": "Michael-Che Koch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pigeon",
+   "actor": "Amira Leisner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masami Saotome",
+   "actor": "Daniel Käser",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jin Asukai",
+   "actor": "Christian Wunderlich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masanori Sasaki",
+   "actor": "Andreas Meese",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kotoe Kinugawa",
+   "actor": "Lea Fleck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinpei Kuroda",
+   "actor": "Matthias Kiel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Suiko Minahoshi",
+   "actor": "Fabienne Hesse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Spooky E",
+   "actor": "Dirk Hardegen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gen Sakakibara",
+   "actor": "Jochen Langner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kei Niitoki",
+   "actor": "Lisa Dzyadyk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masaki Taniguchi",
+   "actor": "Markus J. Bachmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tanaka Shirou",
+   "actor": "Patrick Kropp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nagi Kirima",
+   "actor": "Lisa Mitsching",
+   "von": "ann"
+  },
+  {
+   "character": "Boogiepop/Touka Miyashita",
+   "actor": "Mayke Dähn",
+   "von": "ann"
+  },
+  {
+   "character": "Kotoe Kinukawa",
+   "actor": "Lea Fleck",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=21201"
+}

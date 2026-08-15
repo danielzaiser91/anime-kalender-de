@@ -1,1 +1,37 @@
-{"titleId":3199,"updatedAt":"2026-08-11T11:20:03.003Z","roles":[{"character":"Nanami Simpson","actor":"Saskia Bellahn","role":"MAIN"},{"character":"Scott Simpson","actor":"Eberhard Haar","role":"MAIN"}]}
+{
+ "titleId": 3199,
+ "updatedAt": "2026-08-15T18:31:41.854Z",
+ "roles": [
+  {
+   "character": "Nanami Simpson",
+   "actor": "Saskia Bellahn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Scott Simpson",
+   "actor": "Eberhard Haar",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nanami Simpson",
+   "actor": "Saskia Heckler",
+   "von": "ann"
+  },
+  {
+   "character": "Terry",
+   "actor": "Tobias Pippig",
+   "von": "ann"
+  },
+  {
+   "character": "Thomas",
+   "actor": "Tobias Pippig",
+   "von": "ann"
+  },
+  {
+   "character": "Nanami Simpson",
+   "actor": "Saskia Weckler",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1961"
+}

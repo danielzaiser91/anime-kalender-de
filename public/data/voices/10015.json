@@ -1,1 +1,137 @@
-{"titleId":10015,"updatedAt":"2026-08-11T11:20:03.101Z","roles":[{"character":"Yuma Tsukumo","actor":"Jan Makino","role":"MAIN"},{"character":"Astral","actor":"Rainer Fritzsche","role":"MAIN"},{"character":"Kotori Mizuki","actor":"Tanja Schmitz","role":"MAIN"},{"character":"Ryoga Kamishiro","actor":"Jesco Wirthgen","role":"SUPPORTING"},{"character":"Takashi Todoroki","actor":"Christian Zeiger","role":"SUPPORTING"},{"character":"Anna Kozuki","actor":"Shanti Chakraborty","role":"SUPPORTING"},{"character":"Haru Tsukumo","actor":"Denise Gorzelanny","role":"SUPPORTING"}]}
+{
+ "titleId": 10015,
+ "updatedAt": "2026-08-15T18:34:07.484Z",
+ "roles": [
+  {
+   "character": "Yuma Tsukumo",
+   "actor": "Jan Makino",
+   "role": "MAIN"
+  },
+  {
+   "character": "Astral",
+   "actor": "Rainer Fritzsche",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kotori Mizuki",
+   "actor": "Tanja Schmitz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ryoga Kamishiro",
+   "actor": "Jesco Wirthgen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takashi Todoroki",
+   "actor": "Christian Zeiger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Anna Kozuki",
+   "actor": "Shanti Chakraborty",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haru Tsukumo",
+   "actor": "Denise Gorzelanny",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nelson Andrews",
+   "actor": "Ricardo Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Kari Tsukumo",
+   "actor": "Ann Vielhaben",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Faker",
+   "actor": "Tobias Lelle",
+   "von": "ann"
+  },
+  {
+   "character": "Cathy Catherine",
+   "actor": "Jill Böttcher",
+   "von": "ann"
+  },
+  {
+   "character": "Yuma Tsukumo",
+   "actor": "Jan Panczak",
+   "von": "ann"
+  },
+  {
+   "character": "Mr. Heartland",
+   "actor": "Thomas Schmuckert",
+   "von": "ann"
+  },
+  {
+   "character": "Kite Tenjo",
+   "actor": "Nico Sablik",
+   "von": "ann"
+  },
+  {
+   "character": "Mr. Heartland",
+   "actor": "Sebastian Jacob",
+   "von": "ann"
+  },
+  {
+   "character": "Mrs. Andrews",
+   "actor": "Heide Domanowski",
+   "von": "ann"
+  },
+  {
+   "character": "Tori Meadows",
+   "actor": "Tanja Schmitz",
+   "von": "ann"
+  },
+  {
+   "character": "Reginald \"Shark\" Kastle",
+   "actor": "Jesco Wirthgen",
+   "von": "ann"
+  },
+  {
+   "character": "Caswell",
+   "actor": "Christian Zeiger",
+   "von": "ann"
+  },
+  {
+   "character": "Hart Tenjo",
+   "actor": "Dirk Stollberg",
+   "von": "ann"
+  },
+  {
+   "character": "Bronk Stone",
+   "actor": "Nick Forsberg",
+   "von": "ann"
+  },
+  {
+   "character": "Quinton",
+   "actor": "Florian Hoffmann",
+   "von": "ann"
+  },
+  {
+   "character": "Flip",
+   "actor": "Andi Krösing",
+   "von": "ann"
+  },
+  {
+   "character": "Quattro",
+   "actor": "Arne Stephan",
+   "von": "ann"
+  },
+  {
+   "character": "Dextra",
+   "actor": "Anja Mentzendorff",
+   "von": "ann"
+  },
+  {
+   "character": "Nistro",
+   "actor": "Marco Wittorf",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=12303"
+}

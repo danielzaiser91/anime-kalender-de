@@ -1,1 +1,57 @@
-{"titleId":5998,"updatedAt":"2026-08-11T11:20:03.051Z","roles":[{"character":"Teo","actor":"Diana Borgwardt","role":"MAIN"},{"character":"Haruka","actor":"Julia Stoepel","role":"MAIN"},{"character":"Haruka no Haha","actor":"Nadine Heidenreich","role":"SUPPORTING"},{"character":"Haruka no Chichi","actor":"Sven Gerhardt","role":"SUPPORTING"},{"character":"Miho","actor":"Giovanna Winterfeldt","role":"SUPPORTING"}]}
+{
+ "titleId": 5998,
+ "updatedAt": "2026-08-15T18:32:45.995Z",
+ "roles": [
+  {
+   "character": "Teo",
+   "actor": "Diana Borgwardt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Haruka",
+   "actor": "Julia Stoepel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Haruka no Haha",
+   "actor": "Nadine Heidenreich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haruka no Chichi",
+   "actor": "Sven Gerhardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miho",
+   "actor": "Giovanna Winterfeldt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Soldier",
+   "actor": "Dirk Müller",
+   "von": "ann"
+  },
+  {
+   "character": "Mabarowa",
+   "actor": "Peter Groeger",
+   "von": "ann"
+  },
+  {
+   "character": "Haruka's Father",
+   "actor": "Sven Gerhardt",
+   "von": "ann"
+  },
+  {
+   "character": "Haruka's Mother",
+   "actor": "Nadine Heidenreich",
+   "von": "ann"
+  },
+  {
+   "character": "Decargot",
+   "actor": "Werner Böhnke",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=10268"
+}

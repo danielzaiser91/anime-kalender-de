@@ -1,1 +1,52 @@
-{"titleId":146233,"updatedAt":"2026-08-11T11:20:03.638Z","roles":[{"character":"Hitamu Kyan","actor":"Angelina Markiefka","role":"MAIN"},{"character":"Kikuru Madan","actor":"Nicolai Mondschein","role":"MAIN"},{"character":"Maidena Angers","actor":"Lisa Dzyadyk","role":"MAIN"},{"character":"Tokishikko Dannar","actor":"Leslie-Vanessa Lill","role":"MAIN"},{"character":"Hanabata Nohkins","actor":"Ilena Gwisdalla","role":"MAIN"},{"character":"Noma Rune","actor":"Johanna Giraud","role":"MAIN"}]}
+{
+ "titleId": 146233,
+ "updatedAt": "2026-08-15T18:48:04.951Z",
+ "roles": [
+  {
+   "character": "Hitamu Kyan",
+   "actor": "Angelina Markiefka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kikuru Madan",
+   "actor": "Nicolai Mondschein",
+   "role": "MAIN"
+  },
+  {
+   "character": "Maidena Angers",
+   "actor": "Lisa Dzyadyk",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tokishikko Dannar",
+   "actor": "Leslie-Vanessa Lill",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hanabata Nohkins",
+   "actor": "Ilena Gwisdalla",
+   "role": "MAIN"
+  },
+  {
+   "character": "Noma Rune",
+   "actor": "Johanna Giraud",
+   "role": "MAIN"
+  },
+  {
+   "character": "Toxico Dannar",
+   "actor": "Leslie-Vanessa Lill",
+   "von": "ann"
+  },
+  {
+   "character": "Esyne",
+   "actor": "Zina Laus",
+   "von": "ann"
+  },
+  {
+   "character": "Enome",
+   "actor": "Lisa Cardinale",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=25426"
+}

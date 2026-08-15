@@ -1,1 +1,92 @@
-{"titleId":6675,"updatedAt":"2026-08-11T11:20:03.062Z","roles":[{"character":"Sonoshee McLaren","actor":"Antje von der Ahe","role":"MAIN"},{"character":"JP","actor":"Jaron Löwenberg","role":"MAIN"},{"character":"Machine Head Tetsujin","actor":"Tilo Schmitz","role":"SUPPORTING"},{"character":"Travastila Anister","actor":"Jesco Wirthgen","role":"SUPPORTING"},{"character":"Boiboi","actor":"Yvonne Greitzke","role":"SUPPORTING"},{"character":"Frisbee","actor":"Daniel Welbat","role":"SUPPORTING"},{"character":"Bosbos","actor":"Damineh Hojat","role":"SUPPORTING"},{"character":"Deyzuna  Otouto","actor":"Axel Lutter","role":"SUPPORTING"},{"character":"Bolt-on Taisa","actor":"Thomas Schmuckert","role":"SUPPORTING"},{"character":"Mogura Oyaji","actor":"Uli Krohm","role":"SUPPORTING"},{"character":"Shinkai","actor":"Rainer Fritzsche","role":"SUPPORTING"},{"character":"Inuki Kumichou","actor":"Gerald Paradies","role":"SUPPORTING"},{"character":"Lynchman","actor":"Jan Spitzer","role":"SUPPORTING"},{"character":"Johnny Boya","actor":"Michael Pan","role":"SUPPORTING"}]}
+{
+ "titleId": 6675,
+ "updatedAt": "2026-08-15T18:33:04.595Z",
+ "roles": [
+  {
+   "character": "Sonoshee McLaren",
+   "actor": "Antje von der Ahe",
+   "role": "MAIN"
+  },
+  {
+   "character": "JP",
+   "actor": "Jaron Löwenberg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Machine Head Tetsujin",
+   "actor": "Tilo Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Travastila Anister",
+   "actor": "Jesco Wirthgen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Boiboi",
+   "actor": "Yvonne Greitzke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Frisbee",
+   "actor": "Daniel Welbat",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bosbos",
+   "actor": "Damineh Hojat",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Deyzuna  Otouto",
+   "actor": "Axel Lutter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bolt-on Taisa",
+   "actor": "Thomas Schmuckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mogura Oyaji",
+   "actor": "Uli Krohm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinkai",
+   "actor": "Rainer Fritzsche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Inuki Kumichou",
+   "actor": "Gerald Paradies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lynchman",
+   "actor": "Jan Spitzer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Johnny Boya",
+   "actor": "Michael Pan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Titan",
+   "actor": "Stefan Staudinger",
+   "von": "ann"
+  },
+  {
+   "character": "Johnny Boy",
+   "actor": "Michael Pan",
+   "von": "ann"
+  },
+  {
+   "character": "Bolton",
+   "actor": "Thomas Schmuckert",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=6456"
+}

@@ -1,1 +1,92 @@
-{"titleId":21815,"updatedAt":"2026-08-11T11:20:03.337Z","roles":[{"character":"Kojou Akatsuki","actor":"Jesse Grimm","role":"MAIN"},{"character":"Yukina Himeragi ","actor":"Franciska  Friede","role":"MAIN"},{"character":"Natsuki Minamiya","actor":"Souzan Alavi","role":"SUPPORTING"},{"character":"Astarte","actor":"Svenja Kelly","role":"SUPPORTING"},{"character":"Motoki Yaze","actor":"Timo Kinzel","role":"SUPPORTING"},{"character":"Asagi Aiba","actor":"Dorothee Sturz","role":"SUPPORTING"},{"character":"Dimitrie Vatler","actor":"Henning Nöhren","role":"SUPPORTING"},{"character":"Sayaka Kirasaka","actor":"Katharina von Keller","role":"SUPPORTING"},{"character":"Shio Hikawa","actor":"Saskia Bellahn","role":"SUPPORTING"},{"character":"Mogwai","actor":"Marcus Just","role":"SUPPORTING"},{"character":"Kanon Kanase","actor":"Emily Seubert","role":"SUPPORTING"},{"character":"La Folia Rihavein","actor":"Sabrina Heuer-Diakow","role":"SUPPORTING"}]}
+{
+ "titleId": 21815,
+ "updatedAt": "2026-08-15T18:39:59.679Z",
+ "roles": [
+  {
+   "character": "Kojou Akatsuki",
+   "actor": "Jesse Grimm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yukina Himeragi ",
+   "actor": "Franciska  Friede",
+   "role": "MAIN"
+  },
+  {
+   "character": "Natsuki Minamiya",
+   "actor": "Souzan Alavi",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Astarte",
+   "actor": "Svenja Kelly",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Motoki Yaze",
+   "actor": "Timo Kinzel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Asagi Aiba",
+   "actor": "Dorothee Sturz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dimitrie Vatler",
+   "actor": "Henning Nöhren",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sayaka Kirasaka",
+   "actor": "Katharina von Keller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shio Hikawa",
+   "actor": "Saskia Bellahn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mogwai",
+   "actor": "Marcus Just",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kanon Kanase",
+   "actor": "Emily Seubert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "La Folia Rihavein",
+   "actor": "Sabrina Heuer-Diakow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gajou Akatsuki",
+   "actor": "Sascha Draeger",
+   "von": "ann"
+  },
+  {
+   "character": "Lydiane Didier",
+   "actor": "Arlette Stanschus",
+   "von": "ann"
+  },
+  {
+   "character": "Kiriha Kisaki",
+   "actor": "Nadine Schreier",
+   "von": "ann"
+  },
+  {
+   "character": "Nagisa Akatsuki",
+   "actor": "Linda Fölster",
+   "von": "ann"
+  },
+  {
+   "character": "Yukina Himeragi",
+   "actor": "Franciska Friede",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18696"
+}

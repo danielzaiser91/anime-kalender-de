@@ -1,1 +1,67 @@
-{"titleId":1827,"updatedAt":"2026-08-11T11:20:02.946Z","roles":[{"character":"Balsa Yonsa","actor":"Diana Borgwardt","role":"MAIN"},{"character":"Tanda","actor":"Michael Baral","role":"MAIN"}]}
+{
+ "titleId": 1827,
+ "updatedAt": "2026-08-15T18:29:40.670Z",
+ "roles": [
+  {
+   "character": "Balsa Yonsa",
+   "actor": "Diana Borgwardt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tanda",
+   "actor": "Michael Baral",
+   "role": "MAIN"
+  },
+  {
+   "character": "Balsa",
+   "actor": "Diana Borgwardt",
+   "von": "ann"
+  },
+  {
+   "character": "Zweite Kaiserin",
+   "actor": "Ghadah Al-Akel",
+   "von": "ann"
+  },
+  {
+   "character": "Kaiser",
+   "actor": "Reinhard Kuhnert",
+   "von": "ann"
+  },
+  {
+   "character": "Sagum",
+   "actor": "Ozan Ünal",
+   "von": "ann"
+  },
+  {
+   "character": "Torogai",
+   "actor": "Marianne Lutz",
+   "von": "ann"
+  },
+  {
+   "character": "Großer Weiser",
+   "actor": "Ernst Meincke",
+   "von": "ann"
+  },
+  {
+   "character": "Shuga",
+   "actor": "Tobias Nath",
+   "von": "ann"
+  },
+  {
+   "character": "Saya",
+   "actor": "Libell Barthel",
+   "von": "ann"
+  },
+  {
+   "character": "Chagum",
+   "actor": "Leo Vornberger",
+   "von": "ann"
+  },
+  {
+   "character": "Toya",
+   "actor": "Tino Hillebrandt",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=6634"
+}

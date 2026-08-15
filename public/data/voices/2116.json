@@ -1,1 +1,67 @@
-{"titleId":2116,"updatedAt":"2026-08-11T11:20:02.954Z","roles":[{"character":"Ryou Ishizaki","actor":"Jens Wawrczeck","role":"MAIN"},{"character":"Kojirou Hyuuga","actor":"David Bunners","role":"MAIN"},{"character":"Tsubasa Oozora","actor":"Christian Rudolf","role":"MAIN"},{"character":"Genzou Wakabayashi","actor":"Sascha Draeger","role":"MAIN"},{"character":"Tarou Misaki","actor":"Konrad Bösherz","role":"MAIN"},{"character":"Ken Wakashimazu","actor":"Lutz Schnell","role":"SUPPORTING"},{"character":"Hikaru Matsuyama","actor":"Marek Harloff","role":"SUPPORTING"},{"character":"Roberto Hongou","actor":"Kai Henrik Möller","role":"SUPPORTING"},{"character":"Tatsuo Mikami","actor":"Eberhard Haar","role":"SUPPORTING"},{"character":"Karl-Heinz Schneider","actor":"Marek Harloff","role":"SUPPORTING"},{"character":"Jun Misugi","actor":"Nicolas König","role":"SUPPORTING"}]}
+{
+ "titleId": 2116,
+ "updatedAt": "2026-08-15T18:30:01.256Z",
+ "roles": [
+  {
+   "character": "Ryou Ishizaki",
+   "actor": "Jens Wawrczeck",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kojirou Hyuuga",
+   "actor": "David Bunners",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tsubasa Oozora",
+   "actor": "Christian Rudolf",
+   "role": "MAIN"
+  },
+  {
+   "character": "Genzou Wakabayashi",
+   "actor": "Sascha Draeger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tarou Misaki",
+   "actor": "Konrad Bösherz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ken Wakashimazu",
+   "actor": "Lutz Schnell",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hikaru Matsuyama",
+   "actor": "Marek Harloff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Roberto Hongou",
+   "actor": "Kai Henrik Möller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tatsuo Mikami",
+   "actor": "Eberhard Haar",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Karl-Heinz Schneider",
+   "actor": "Marek Harloff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jun Misugi",
+   "actor": "Nicolas König",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsubasa Ohzora",
+   "actor": "Christian Rudolf",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=916"
+}

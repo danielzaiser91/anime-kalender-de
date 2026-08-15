@@ -1,1 +1,142 @@
-{"titleId":1519,"updatedAt":"2026-08-11T11:20:02.926Z","roles":[{"character":"Revy","actor":"Antje von der Ahe","role":"MAIN"},{"character":"Rokuro Okajima","actor":"Tobias Nath","role":"MAIN"},{"character":"Dutch","actor":"Thomas Petruo","role":"MAIN"},{"character":"Benny","actor":"Christoph Banken","role":"MAIN"},{"character":"Balalaika","actor":"Peggy Sander","role":"SUPPORTING"},{"character":"Eda","actor":"Christin Marquitan","role":"SUPPORTING"},{"character":"Bai Ji-Shin Chang","actor":"Jaron Löwenberg","role":"SUPPORTING"},{"character":"Lotton","actor":"Tommy Morgenstern","role":"SUPPORTING"},{"character":"Hänsel","actor":"Konrad Bösherz","role":"SUPPORTING"},{"character":"Gretel","actor":"Marie-Luise Schramm","role":"SUPPORTING"},{"character":"Frederica Sawyer","actor":"Ulrike Lau","role":"SUPPORTING"},{"character":"Shenhua","actor":"Petra Barthel","role":"SUPPORTING"},{"character":"Ginji Matsuzaki","actor":"Tommy Morgenstern","role":"SUPPORTING"},{"character":"Bao","actor":"Dirk Müller","role":"SUPPORTING"},{"character":"Janet Bhai","actor":"Daniela Thuar","role":"SUPPORTING"},{"character":"Yolanda","actor":"Ulrike Lau","role":"SUPPORTING"},{"character":"Yukio Washimine","actor":"Kathrin Neusser","role":"SUPPORTING"},{"character":"Verrocchio","actor":"Tim Moeseritz","role":"SUPPORTING"},{"character":"Abrego","actor":"Elmar Gutmann","role":"SUPPORTING"},{"character":"Russel","actor":"Thomas Schmuckert","role":"SUPPORTING"},{"character":"Claude Weaver","actor":"Dirk Müller","role":"SUPPORTING"},{"character":"Chaka","actor":"Rainer Fritzsche","role":"SUPPORTING"},{"character":"Maki","actor":"Rubina Kuraoka","role":"SUPPORTING"},{"character":"Boris","actor":"Raimund Krone","role":"SUPPORTING"},{"character":"Sakharov","actor":"Patric Tavanti","role":"SUPPORTING"}]}
+{
+ "titleId": 1519,
+ "updatedAt": "2026-08-15T18:28:50.707Z",
+ "roles": [
+  {
+   "character": "Revy",
+   "actor": "Antje von der Ahe",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rokuro Okajima",
+   "actor": "Tobias Nath",
+   "role": "MAIN"
+  },
+  {
+   "character": "Dutch",
+   "actor": "Thomas Petruo",
+   "role": "MAIN"
+  },
+  {
+   "character": "Benny",
+   "actor": "Christoph Banken",
+   "role": "MAIN"
+  },
+  {
+   "character": "Balalaika",
+   "actor": "Peggy Sander",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eda",
+   "actor": "Christin Marquitan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bai Ji-Shin Chang",
+   "actor": "Jaron Löwenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lotton",
+   "actor": "Tommy Morgenstern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hänsel",
+   "actor": "Konrad Bösherz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gretel",
+   "actor": "Marie-Luise Schramm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Frederica Sawyer",
+   "actor": "Ulrike Lau",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shenhua",
+   "actor": "Petra Barthel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ginji Matsuzaki",
+   "actor": "Tommy Morgenstern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bao",
+   "actor": "Dirk Müller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Janet Bhai",
+   "actor": "Daniela Thuar",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yolanda",
+   "actor": "Ulrike Lau",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yukio Washimine",
+   "actor": "Kathrin Neusser",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Verrocchio",
+   "actor": "Tim Moeseritz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Abrego",
+   "actor": "Elmar Gutmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Russel",
+   "actor": "Thomas Schmuckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Claude Weaver",
+   "actor": "Dirk Müller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chaka",
+   "actor": "Rainer Fritzsche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maki",
+   "actor": "Rubina Kuraoka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Boris",
+   "actor": "Raimund Krone",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sakharov",
+   "actor": "Patric Tavanti",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Duch",
+   "actor": "Thomas Petruo",
+   "von": "ann"
+  },
+  {
+   "character": "Rock",
+   "actor": "Tobias Nath",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=6832"
+}

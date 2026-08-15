@@ -1,1 +1,77 @@
-{"titleId":100178,"updatedAt":"2026-08-11T11:20:03.395Z","roles":[{"character":"Nozomi Kasaki","actor":"Zina Laus","role":"MAIN"},{"character":"Mizore Yoroizuka","actor":"Katharina Stark","role":"MAIN"},{"character":"Ririka Kenzaki","actor":"Nina Benz","role":"SUPPORTING"},{"character":"Yuuko Yoshikawa","actor":"Patricia Strasburger","role":"SUPPORTING"},{"character":"Natsuki Nakagawa","actor":"Laura Schneider","role":"SUPPORTING"},{"character":"Liz","actor":"Friederike Sipp","role":"SUPPORTING"},{"character":"Shoujo","actor":"Eleni Möller-Architektonidou","role":"SUPPORTING"},{"character":"Reina Kousaka","actor":"Katharina Iacobescu","role":"SUPPORTING"},{"character":"Noboru Taki","actor":"Andreas Thiele","role":"SUPPORTING"},{"character":"Satomi Niiyama","actor":"Natascha Geisler","role":"SUPPORTING"},{"character":"Kumiko Oumae","actor":"Katharina von Daake","role":"BACKGROUND"},{"character":"Sapphire Kawashima","actor":"Sarah Fuhr","role":"BACKGROUND"},{"character":"Masahiro Hashimoto","actor":"Jochen Paletschek","role":"BACKGROUND"}]}
+{
+ "titleId": 100178,
+ "updatedAt": "2026-08-15T18:41:12.897Z",
+ "roles": [
+  {
+   "character": "Nozomi Kasaki",
+   "actor": "Zina Laus",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mizore Yoroizuka",
+   "actor": "Katharina Stark",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ririka Kenzaki",
+   "actor": "Nina Benz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuuko Yoshikawa",
+   "actor": "Patricia Strasburger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Natsuki Nakagawa",
+   "actor": "Laura Schneider",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Liz",
+   "actor": "Friederike Sipp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shoujo",
+   "actor": "Eleni Möller-Architektonidou",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Reina Kousaka",
+   "actor": "Katharina Iacobescu",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Noboru Taki",
+   "actor": "Andreas Thiele",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Satomi Niiyama",
+   "actor": "Natascha Geisler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kumiko Oumae",
+   "actor": "Katharina von Daake",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Sapphire Kawashima",
+   "actor": "Sarah Fuhr",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Masahiro Hashimoto",
+   "actor": "Jochen Paletschek",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Mysterious Girl",
+   "actor": "Eleni Möller",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20444"
+}

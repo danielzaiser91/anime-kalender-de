@@ -36,32 +36,19 @@ function mitHinweis(text: string | undefined, seite: 'oben' | 'unten', kind: Rea
 /**
  * Ob es an diesem Anbieter eine deutsche Synchro gibt.
  *
- * `ohneSynchro` beantwortet die Frage schon auf Titelebene: Für diesen Anime
- * ist überhaupt keine deutsche Fassung bekannt, also kann es an keinem Anbieter
- * eine geben — dort läuft er höchstens untertitelt. Ein Fragezeichen wäre hier
- * falsch, denn es heißt „wir wissen es nicht", und wir wissen es (Daniel,
- * 15.08.2026).
+ * **Es gibt nur noch zwei Zustände: belegt und offen.** Das rote Kreuz ist weg,
+ * und mit ihm die Anbieter, die es getragen hätten — steht fest, dass es dort
+ * keine deutsche Fassung gibt, wird der Verweis gar nicht mehr ausgeliefert
+ * (Daniel, 15.08.2026: „wir interessieren uns als app nur für deutsche
+ * synchros, keine anderen synchron sprachen"). Aussortiert wird beim Bauen,
+ * siehe `build.ts`; hier kann `dub === false` deshalb nicht mehr ankommen.
  */
-export function DubMark({ dub, ohneSynchro }: { dub?: boolean; ohneSynchro?: boolean }) {
+export function DubMark({ dub }: { dub?: boolean }) {
   const { t } = useLang()
-  if (ohneSynchro && dub !== true) {
-    return (
-      <Tooltip text={t('detail.dubNoneKnown')} seite="oben">
-        <span className="text-[11px] font-bold text-red-400">🇩🇪 ✕</span>
-      </Tooltip>
-    )
-  }
   if (dub === true) {
     return (
       <Tooltip text={t('detail.dubYes')} seite="oben">
         <span className="text-[11px] font-bold text-emerald-400">🇩🇪 ✓</span>
-      </Tooltip>
-    )
-  }
-  if (dub === false) {
-    return (
-      <Tooltip text={t('detail.dubNo')} seite="oben">
-        <span className="text-[11px] font-bold text-red-400">🇩🇪 ✕</span>
       </Tooltip>
     )
   }

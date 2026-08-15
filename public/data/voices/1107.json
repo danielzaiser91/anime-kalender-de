@@ -1,1 +1,47 @@
-{"titleId":1107,"updatedAt":"2026-08-11T11:20:02.892Z","roles":[{"character":"Makie","actor":"Veronika Aryana Neugebauer","role":"MAIN"},{"character":"Giuseppe Mayart","actor":"Kai Taschner","role":"SUPPORTING"}]}
+{
+ "titleId": 1107,
+ "updatedAt": "2026-08-15T18:27:24.362Z",
+ "roles": [
+  {
+   "character": "Makie",
+   "actor": "Veronika Aryana Neugebauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Giuseppe Mayart",
+   "actor": "Kai Taschner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Makie",
+   "actor": "Veronika Neugebauer",
+   "von": "ann"
+  },
+  {
+   "character": "Renzaburou Taki",
+   "actor": "Manou Lubowski",
+   "von": "ann"
+  },
+  {
+   "character": "Mr. Shadow",
+   "actor": "Willi Röbke",
+   "von": "ann"
+  },
+  {
+   "character": "Makie",
+   "actor": "Michaela Kametz",
+   "von": "ann"
+  },
+  {
+   "character": "Renzaburou Taki",
+   "actor": "Matthias Haase",
+   "von": "ann"
+  },
+  {
+   "character": "Spider Woman",
+   "actor": "Ulrike Hoetzel",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=959"
+}

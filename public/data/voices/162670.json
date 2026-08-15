@@ -1,1 +1,162 @@
-{"titleId":162670,"updatedAt":"2026-08-11T11:20:03.692Z","roles":[{"character":"Senkuu Ishigami","actor":"Tim Schwarzmaier","role":"MAIN"},{"character":"Kohaku","actor":"Marie Hinze","role":"MAIN"},{"character":"Chrome","actor":"Julian Tennstedt","role":"MAIN"},{"character":"Gen Asagiri","actor":"Patrick Baehr","role":"MAIN"},{"character":"Ryuusui Nanami","actor":"René Dawn-Claude","role":"MAIN"},{"character":"Taiju Ooki","actor":"Nick Forsberg","role":"SUPPORTING"},{"character":"Yuzuriha Ogawa","actor":"Laura Oettel","role":"SUPPORTING"},{"character":"Suika","actor":"Charlotte Uhlig","role":"SUPPORTING"},{"character":"Kaseki","actor":"Elmar Gutmann","role":"SUPPORTING"},{"character":"Ginrou","actor":"Sebastian Fitzner","role":"SUPPORTING"},{"character":"Kinrou","actor":"Roman Wolko","role":"SUPPORTING"},{"character":"You Uei","actor":"Patrick Keller","role":"SUPPORTING"},{"character":"Nikki Hanada","actor":"Josephine Schmidt","role":"SUPPORTING"},{"character":"Ukyou Saionji","actor":"Linus Drews","role":"SUPPORTING"},{"character":"Magma","actor":"Christoph Banken","role":"SUPPORTING"},{"character":"Francois","actor":"Ann Vielhaben","role":"SUPPORTING"},{"character":"Soyuz","actor":"Julius Jellinek","role":"SUPPORTING"},{"character":"Mozu","actor":"Sebastian Schulz","role":"SUPPORTING"},{"character":"Kirisame","actor":"Laurine Betz","role":"SUPPORTING"},{"character":"Ibara","actor":"Joachim Kaps","role":"SUPPORTING"}]}
+{
+ "titleId": 162670,
+ "updatedAt": "2026-08-15T18:49:23.238Z",
+ "roles": [
+  {
+   "character": "Senkuu Ishigami",
+   "actor": "Tim Schwarzmaier",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kohaku",
+   "actor": "Marie Hinze",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chrome",
+   "actor": "Julian Tennstedt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gen Asagiri",
+   "actor": "Patrick Baehr",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ryuusui Nanami",
+   "actor": "René Dawn-Claude",
+   "role": "MAIN"
+  },
+  {
+   "character": "Taiju Ooki",
+   "actor": "Nick Forsberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuzuriha Ogawa",
+   "actor": "Laura Oettel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Suika",
+   "actor": "Charlotte Uhlig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaseki",
+   "actor": "Elmar Gutmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ginrou",
+   "actor": "Sebastian Fitzner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kinrou",
+   "actor": "Roman Wolko",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "You Uei",
+   "actor": "Patrick Keller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nikki Hanada",
+   "actor": "Josephine Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ukyou Saionji",
+   "actor": "Linus Drews",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Magma",
+   "actor": "Christoph Banken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Francois",
+   "actor": "Ann Vielhaben",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Soyuz",
+   "actor": "Julius Jellinek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mozu",
+   "actor": "Sebastian Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kirisame",
+   "actor": "Laurine Betz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ibara",
+   "actor": "Joachim Kaps",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Moz",
+   "actor": "Sebastian Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "François",
+   "actor": "Ann Vielhaben",
+   "von": "ann"
+  },
+  {
+   "character": "Byakuya Ishigami",
+   "actor": "Peter Flechtner",
+   "von": "ann"
+  },
+  {
+   "character": "Senkū Ishigami",
+   "actor": "Tim Schwarzmaier",
+   "von": "ann"
+  },
+  {
+   "character": "Kinrō",
+   "actor": "Roman Wolko",
+   "von": "ann"
+  },
+  {
+   "character": "Ryūsui Nanami",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Ginrō",
+   "actor": "Sebastian Fitzner",
+   "von": "ann"
+  },
+  {
+   "character": "Taijū Ōki",
+   "actor": "Nick Forsberg",
+   "von": "ann"
+  },
+  {
+   "character": "Yō Uei",
+   "actor": "Patrick Keller",
+   "von": "ann"
+  },
+  {
+   "character": "Ukyō Saionji",
+   "actor": "Linus Drews",
+   "von": "ann"
+  },
+  {
+   "character": "Amaryllis",
+   "actor": "Özge Kayalar",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=28620"
+}

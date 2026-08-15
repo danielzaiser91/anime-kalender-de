@@ -1,1 +1,72 @@
-{"titleId":98820,"updatedAt":"2026-08-11T11:20:03.394Z","roles":[{"character":"Ena Komiya","actor":"Vivien Faber","role":"MAIN"},{"character":"Hazuki Morikawa","actor":"Signe Zurmühlen","role":"MAIN"},{"character":"Haruto Souma","actor":"Dennis Saemann","role":"MAIN"},{"character":"Mio Natsume","actor":"Betty Förster","role":"MAIN"},{"character":"Eita Izumi","actor":"Benjamin Stolz","role":"MAIN"},{"character":"Watanabe-sensei","actor":"Thomas Balou Martin","role":"SUPPORTING"},{"character":"Yoriko Inui","actor":"Annette Potempa","role":"SUPPORTING"},{"character":"Momoka Suzuki","actor":"Amira Leisner","role":"SUPPORTING"}]}
+{
+ "titleId": 98820,
+ "updatedAt": "2026-08-15T18:41:11.672Z",
+ "roles": [
+  {
+   "character": "Ena Komiya",
+   "actor": "Vivien Faber",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hazuki Morikawa",
+   "actor": "Signe Zurmühlen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Haruto Souma",
+   "actor": "Dennis Saemann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mio Natsume",
+   "actor": "Betty Förster",
+   "role": "MAIN"
+  },
+  {
+   "character": "Eita Izumi",
+   "actor": "Benjamin Stolz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Watanabe-sensei",
+   "actor": "Thomas Balou Martin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yoriko Inui",
+   "actor": "Annette Potempa",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Momoka Suzuki",
+   "actor": "Amira Leisner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sanae",
+   "actor": "Nadja Godzina",
+   "von": "ann"
+  },
+  {
+   "character": "Mayuko",
+   "actor": "Jana Dunja Gries",
+   "von": "ann"
+  },
+  {
+   "character": "Tooru",
+   "actor": "Michael Borgard",
+   "von": "ann"
+  },
+  {
+   "character": "Momoka",
+   "actor": "Amira Leisner",
+   "von": "ann"
+  },
+  {
+   "character": "Junpei",
+   "actor": "Felix Mayer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19945"
+}

@@ -1,1 +1,52 @@
-{"titleId":2553,"updatedAt":"2026-08-11T11:20:02.974Z","roles":[{"character":"Nello Daas","actor":"Christian Bey","role":"MAIN"},{"character":"Alois Cogez","actor":"Alana Horrigan","role":"MAIN"},{"character":"Jehan Daas","actor":"Walter Reichelt","role":"SUPPORTING"},{"character":"Narrator","actor":"Marianne Wischmann","role":"BACKGROUND"}]}
+{
+ "titleId": 2553,
+ "updatedAt": "2026-08-15T18:30:50.091Z",
+ "roles": [
+  {
+   "character": "Nello Daas",
+   "actor": "Christian Bey",
+   "role": "MAIN"
+  },
+  {
+   "character": "Alois Cogez",
+   "actor": "Alana Horrigan",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jehan Daas",
+   "actor": "Walter Reichelt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Marianne Wischmann",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Georg",
+   "actor": "Manou Lubowski",
+   "von": "ann"
+  },
+  {
+   "character": "Paul",
+   "actor": "Bernd Stephan",
+   "von": "ann"
+  },
+  {
+   "character": "Jehan",
+   "actor": "Walter Reichelt",
+   "von": "ann"
+  },
+  {
+   "character": "Aneka",
+   "actor": "Alana Horrigan",
+   "von": "ann"
+  },
+  {
+   "character": "Niklaas",
+   "actor": "Christian Bey",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=435"
+}

@@ -1,1 +1,142 @@
-{"titleId":20719,"updatedAt":"2026-08-11T11:20:03.219Z","roles":[{"character":"Chaika Trabant","actor":"Gabrielle Pietermann","role":"MAIN"},{"character":"Toru Acura","actor":"Maximilian Belle","role":"MAIN"},{"character":"Akari Acura","actor":"Ilena Gwisdalla","role":"MAIN"},{"character":"Fredrica","actor":"Angela Wiederhut","role":"MAIN"},{"character":"Shin  Acura","actor":"Marcantonio Moschettini","role":"SUPPORTING"},{"character":"Stephan Hartgen","actor":"Josef Vossenkuhl","role":"SUPPORTING"},{"character":"Nikolai Avtotor","actor":"Gerhard Jilka","role":"SUPPORTING"},{"character":"David","actor":"Kai Taschner","role":"SUPPORTING"},{"character":"Guy","actor":"Stefanie Dischinger","role":"SUPPORTING"},{"character":"Viivi Holopainen","actor":"Olivia Powell","role":"SUPPORTING"},{"character":"Leonardo Stora","actor":"Claudia Schmidt","role":"SUPPORTING"},{"character":"Albéric Gillette","actor":"Dirk Meyer","role":"SUPPORTING"},{"character":"Niva Lada","actor":"Paulina Rümmelein","role":"SUPPORTING"},{"character":"Zita Brusasco","actor":"Bettina Zech","role":"SUPPORTING"},{"character":"Chaika Bohdan","actor":"Maresa Sedlmeir","role":"SUPPORTING"},{"character":"Selma Kenworth","actor":"Katharina Schwarzmaier","role":"SUPPORTING"},{"character":"Matthäus Callaway","actor":"Mike Carl","role":"SUPPORTING"},{"character":"Arthur Gaz","actor":"Walter von Hauff","role":"SUPPORTING"}]}
+{
+ "titleId": 20719,
+ "updatedAt": "2026-08-15T18:37:15.623Z",
+ "roles": [
+  {
+   "character": "Chaika Trabant",
+   "actor": "Gabrielle Pietermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Toru Acura",
+   "actor": "Maximilian Belle",
+   "role": "MAIN"
+  },
+  {
+   "character": "Akari Acura",
+   "actor": "Ilena Gwisdalla",
+   "role": "MAIN"
+  },
+  {
+   "character": "Fredrica",
+   "actor": "Angela Wiederhut",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shin  Acura",
+   "actor": "Marcantonio Moschettini",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Stephan Hartgen",
+   "actor": "Josef Vossenkuhl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nikolai Avtotor",
+   "actor": "Gerhard Jilka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "David",
+   "actor": "Kai Taschner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Guy",
+   "actor": "Stefanie Dischinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Viivi Holopainen",
+   "actor": "Olivia Powell",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Leonardo Stora",
+   "actor": "Claudia Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Albéric Gillette",
+   "actor": "Dirk Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Niva Lada",
+   "actor": "Paulina Rümmelein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zita Brusasco",
+   "actor": "Bettina Zech",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chaika Bohdan",
+   "actor": "Maresa Sedlmeir",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Selma Kenworth",
+   "actor": "Katharina Schwarzmaier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Matthäus Callaway",
+   "actor": "Mike Carl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Arthur Gaz",
+   "actor": "Walter von Hauff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alberic Gilette",
+   "actor": "Dirk Meyer",
+   "von": "ann"
+  },
+  {
+   "character": "Frederika",
+   "actor": "Angela Wiederhut",
+   "von": "ann"
+  },
+  {
+   "character": "Tohru Acura",
+   "actor": "Tim Schwarzmaier",
+   "von": "ann"
+  },
+  {
+   "character": "Leonardo Stola",
+   "actor": "Claudia Schmidt",
+   "von": "ann"
+  },
+  {
+   "character": "Mattheus Callaway",
+   "actor": "Mike Carl",
+   "von": "ann"
+  },
+  {
+   "character": "Chaika Travant",
+   "actor": "Gabrielle Pietermann",
+   "von": "ann"
+  },
+  {
+   "character": "Chaika Bogdan",
+   "actor": "Maresa Sedlmeir",
+   "von": "ann"
+  },
+  {
+   "character": "Vivi Holopainen",
+   "actor": "Olivia Powell",
+   "von": "ann"
+  },
+  {
+   "character": "Shin Acura",
+   "actor": "Marcantonio Moschettini",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16117"
+}

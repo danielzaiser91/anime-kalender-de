@@ -1,1 +1,247 @@
-{"titleId":1520,"updatedAt":"2026-08-11T11:20:02.926Z","roles":[{"character":"Kuroo Hazama","actor":"Markus Pfeiffer","role":"MAIN"},{"character":"Andrew","actor":"Daniela Reidies","role":"SUPPORTING"},{"character":"Koichiro Tsuzuki","actor":"Jesco Wirthgen","role":"SUPPORTING"},{"character":"Pinoko","actor":"Diana Borgwardt","role":"SUPPORTING"},{"character":"Acetylene Lamp","actor":"Jan Spitzer","role":"SUPPORTING"},{"character":"Kiriko","actor":"Thomas Schmuckert","role":"SUPPORTING"},{"character":"Rie Fujinami","actor":"Kathrin Neusser","role":"SUPPORTING"},{"character":"Leslie Harris","actor":"Wanja Gerick","role":"SUPPORTING"},{"character":"Catherine","actor":"Silvia Mißbach","role":"SUPPORTING"},{"character":"Ernesto","actor":"Rainer Brandt","role":"SUPPORTING"},{"character":"Stanfield","actor":"Hans-Werner Bussinger","role":"SUPPORTING"},{"character":"Abumaru","actor":"Santiago Ziesmer","role":"SUPPORTING"},{"character":"Jones","actor":"Dieter Okras","role":"SUPPORTING"},{"character":"Taxi Untenshu","actor":"Tim Moeseritz","role":"SUPPORTING"},{"character":"Saburo Taneda","actor":"Frank-Otto Schenk","role":"SUPPORTING"},{"character":"Mariko","actor":"Julia Meynen","role":"SUPPORTING"},{"character":"Armando","actor":"Hans Teuscher","role":"SUPPORTING"},{"character":"Taneda","actor":"Stefan Gossler","role":"SUPPORTING"},{"character":"Bokushi","actor":"Klaus-Peter Grap","role":"SUPPORTING"},{"character":"Tsukiko","actor":"Marie Bierstedt","role":"SUPPORTING"},{"character":"Maria Carnera","actor":"Antje von der Ahe","role":"SUPPORTING"},{"character":"Patterson","actor":"Wolfgang Kühne","role":"SUPPORTING"},{"character":"Yasuhiko Shirabyoshi","actor":"Peter Flechtner","role":"SUPPORTING"},{"character":"Rokujoji","actor":"Thomas Hailer","role":"SUPPORTING"}]}
+{
+ "titleId": 1520,
+ "updatedAt": "2026-08-15T18:28:51.758Z",
+ "roles": [
+  {
+   "character": "Kuroo Hazama",
+   "actor": "Markus Pfeiffer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Andrew",
+   "actor": "Daniela Reidies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Koichiro Tsuzuki",
+   "actor": "Jesco Wirthgen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pinoko",
+   "actor": "Diana Borgwardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Acetylene Lamp",
+   "actor": "Jan Spitzer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kiriko",
+   "actor": "Thomas Schmuckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rie Fujinami",
+   "actor": "Kathrin Neusser",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Leslie Harris",
+   "actor": "Wanja Gerick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Catherine",
+   "actor": "Silvia Mißbach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ernesto",
+   "actor": "Rainer Brandt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Stanfield",
+   "actor": "Hans-Werner Bussinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Abumaru",
+   "actor": "Santiago Ziesmer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jones",
+   "actor": "Dieter Okras",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Taxi Untenshu",
+   "actor": "Tim Moeseritz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Saburo Taneda",
+   "actor": "Frank-Otto Schenk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mariko",
+   "actor": "Julia Meynen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Armando",
+   "actor": "Hans Teuscher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Taneda",
+   "actor": "Stefan Gossler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bokushi",
+   "actor": "Klaus-Peter Grap",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsukiko",
+   "actor": "Marie Bierstedt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maria Carnera",
+   "actor": "Antje von der Ahe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Patterson",
+   "actor": "Wolfgang Kühne",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yasuhiko Shirabyoshi",
+   "actor": "Peter Flechtner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rokujoji",
+   "actor": "Thomas Hailer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lord of Mangetsu",
+   "actor": "Gerald Paradies",
+   "von": "ann"
+  },
+  {
+   "character": "Kaoru Rokujouji",
+   "actor": "Irina von Bentheim",
+   "von": "ann"
+  },
+  {
+   "character": "Cab Driver",
+   "actor": "Tommy Morgenstern",
+   "von": "ann"
+  },
+  {
+   "character": "Princess",
+   "actor": "Maria Koschny",
+   "von": "ann"
+  },
+  {
+   "character": "Captain Maria Carnela",
+   "actor": "Antje von der Ahe",
+   "von": "ann"
+  },
+  {
+   "character": "Andre",
+   "actor": "Stefan Staudinger",
+   "von": "ann"
+  },
+  {
+   "character": "President Kelly",
+   "actor": "Lutz Schnell",
+   "von": "ann"
+  },
+  {
+   "character": "Estefan",
+   "actor": "Karl Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "Karen Aramis",
+   "actor": "Anja Rybiczka",
+   "von": "ann"
+  },
+  {
+   "character": "Lawrence",
+   "actor": "Anja Rybiczka",
+   "von": "ann"
+  },
+  {
+   "character": "Takasugi",
+   "actor": "Reinhard Kuhnert",
+   "von": "ann"
+  },
+  {
+   "character": "Yasuhiko Shirabyoushi",
+   "actor": "Peter Flechtner",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Kiriko",
+   "actor": "Thomas Schmuckert",
+   "von": "ann"
+  },
+  {
+   "character": "Black Jack",
+   "actor": "Markus Pfeiffer",
+   "von": "ann"
+  },
+  {
+   "character": "Rokujouji",
+   "actor": "Thomas Hailer",
+   "von": "ann"
+  },
+  {
+   "character": "General Cruz",
+   "actor": "Axel Lutter",
+   "von": "ann"
+  },
+  {
+   "character": "Michele Rochasse",
+   "actor": "Judith Brandt",
+   "von": "ann"
+  },
+  {
+   "character": "Mr. Patterson",
+   "actor": "Wolfgang Kühne",
+   "von": "ann"
+  },
+  {
+   "character": "Patrick",
+   "actor": "Nicolas Böll",
+   "von": "ann"
+  },
+  {
+   "character": "Armand Rochasse",
+   "actor": "Frank Ciazynski",
+   "von": "ann"
+  },
+  {
+   "character": "Koichirou Tsuzuki",
+   "actor": "Jesco Wirthgen",
+   "von": "ann"
+  },
+  {
+   "character": "Machiko Tsuzuki",
+   "actor": "Sabine Winterfeldt",
+   "von": "ann"
+  },
+  {
+   "character": "Alex Ray",
+   "actor": "Helmut Gauß",
+   "von": "ann"
+  },
+  {
+   "character": "Saranda",
+   "actor": "Anja Godenschweger",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=525"
+}

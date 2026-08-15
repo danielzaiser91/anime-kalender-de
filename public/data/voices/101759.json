@@ -1,1 +1,82 @@
-{"titleId":101759,"updatedAt":"2026-08-11T11:20:03.461Z","roles":[{"character":"Norman","actor":"Melinda Rachfahl","role":"MAIN"},{"character":"Ray","actor":"Sebastian Fitzner","role":"MAIN"},{"character":"Emma","actor":"Marie Hinze","role":"MAIN"},{"character":"Thoma","actor":"Peggy Pollow","role":"SUPPORTING"},{"character":"Conny","actor":"Sarah Tkotsch","role":"SUPPORTING"},{"character":"Gilda","actor":"Jodie Blank","role":"SUPPORTING"},{"character":"Isabella","actor":"Antje von der Ahe","role":"SUPPORTING"},{"character":"Nat","actor":"Josephine Schmidt","role":"SUPPORTING"},{"character":"Phil","actor":"Milena Rybiczka","role":"SUPPORTING"},{"character":"Anna","actor":"Julia Meynen","role":"SUPPORTING"},{"character":"Krone","actor":"Gundi Eberhard","role":"SUPPORTING"},{"character":"Sobo","actor":"Sabine Walkenbach","role":"SUPPORTING"},{"character":"Don","actor":"Linus Drews","role":"SUPPORTING"},{"character":"Lannion","actor":"Charlotte Uhlig","role":"SUPPORTING"}]}
+{
+ "titleId": 101759,
+ "updatedAt": "2026-08-15T18:42:43.587Z",
+ "roles": [
+  {
+   "character": "Norman",
+   "actor": "Melinda Rachfahl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ray",
+   "actor": "Sebastian Fitzner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Emma",
+   "actor": "Marie Hinze",
+   "role": "MAIN"
+  },
+  {
+   "character": "Thoma",
+   "actor": "Peggy Pollow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Conny",
+   "actor": "Sarah Tkotsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gilda",
+   "actor": "Jodie Blank",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Isabella",
+   "actor": "Antje von der Ahe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nat",
+   "actor": "Josephine Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Phil",
+   "actor": "Milena Rybiczka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Anna",
+   "actor": "Julia Meynen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Krone",
+   "actor": "Gundi Eberhard",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sobo",
+   "actor": "Sabine Walkenbach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Don",
+   "actor": "Linus Drews",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lannion",
+   "actor": "Charlotte Uhlig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Izabella",
+   "actor": "Antje von der Ahe",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=21552"
+}

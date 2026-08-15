@@ -1,1 +1,82 @@
-{"titleId":21361,"updatedAt":"2026-08-11T11:20:03.293Z","roles":[{"character":"Lyria","actor":"Moira May","role":"MAIN"},{"character":"Katalina Alize","actor":"Ilena Gwisdalla","role":"MAIN"},{"character":"Vyrn","actor":"Kerstin Dietrich","role":"MAIN"},{"character":"Gran","actor":"Benjamin Stolz","role":"MAIN"},{"character":"Rackam","actor":"Matthias Ransberger","role":"MAIN"},{"character":"Io Euclase","actor":"Lisa Dzyadyk","role":"MAIN"},{"character":"Drang","actor":"Uwe Thomsen","role":"SUPPORTING"},{"character":"Zeta","actor":"Stefanie Dischinger","role":"SUPPORTING"},{"character":"Sturm","actor":"Lea Kalbhenn","role":"SUPPORTING"},{"character":"Soriz","actor":"Gerhard Jilka","role":"SUPPORTING"},{"character":"Sierokarte","actor":"Amira Leisner","role":"SUPPORTING"},{"character":"Eugen","actor":"Stefan Lehnen","role":"SUPPORTING"},{"character":"Yuel","actor":"Laura Preiss","role":"SUPPORTING"},{"character":"Rosetta","actor":"Franziska Ball","role":"SUPPORTING"}]}
+{
+ "titleId": 21361,
+ "updatedAt": "2026-08-15T18:38:59.627Z",
+ "roles": [
+  {
+   "character": "Lyria",
+   "actor": "Moira May",
+   "role": "MAIN"
+  },
+  {
+   "character": "Katalina Alize",
+   "actor": "Ilena Gwisdalla",
+   "role": "MAIN"
+  },
+  {
+   "character": "Vyrn",
+   "actor": "Kerstin Dietrich",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gran",
+   "actor": "Benjamin Stolz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rackam",
+   "actor": "Matthias Ransberger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Io Euclase",
+   "actor": "Lisa Dzyadyk",
+   "role": "MAIN"
+  },
+  {
+   "character": "Drang",
+   "actor": "Uwe Thomsen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zeta",
+   "actor": "Stefanie Dischinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sturm",
+   "actor": "Lea Kalbhenn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Soriz",
+   "actor": "Gerhard Jilka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sierokarte",
+   "actor": "Amira Leisner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eugen",
+   "actor": "Stefan Lehnen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuel",
+   "actor": "Laura Preiss",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rosetta",
+   "actor": "Franziska Ball",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pommern",
+   "actor": "Gerd Meyer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18703"
+}

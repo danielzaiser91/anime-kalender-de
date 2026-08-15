@@ -1,1 +1,157 @@
-{"titleId":5356,"updatedAt":"2026-08-11T11:20:03.047Z","roles":[{"character":"Maria Oosawa","actor":"Kristina Tietz","role":"MAIN"},{"character":"Minoru Minorikawa","actor":"Ozan Ünal","role":"MAIN"},{"character":"Alphard Al Sheya","actor":"Maria Koschny","role":"MAIN"},{"character":"Canaan","actor":"Julia Kaufmann","role":"MAIN"},{"character":"Hakkoh","actor":"Ute Noack","role":"SUPPORTING"},{"character":"Liang Qi","actor":"Natascha Geisler","role":"SUPPORTING"},{"character":"Cummings","actor":"Dirk Bublies","role":"SUPPORTING"},{"character":"Yuri Natsume","actor":"Debora Weigert","role":"SUPPORTING"},{"character":"Nene","actor":"Damineh Hojat","role":"SUPPORTING"},{"character":"Taxi driver","actor":"Werner Ziebig","role":"SUPPORTING"},{"character":"Yunyun","actor":"Marie-Luise Schramm","role":"SUPPORTING"},{"character":"Santana","actor":"Peter Lontzek","role":"SUPPORTING"},{"character":"Siam","actor":"Stefan Gossler","role":"SUPPORTING"},{"character":"Younger Brother","actor":"Constantin von Jascheroff","role":"BACKGROUND"},{"character":"Older Brother","actor":"Eberhard Prüter","role":"BACKGROUND"},{"character":"Assistant Chief of Staff","actor":"Elmar Gutmann","role":"BACKGROUND"},{"character":"Restaurant Owner","actor":"Raimund Krone","role":"BACKGROUND"},{"character":"Undersecretary","actor":"Reinhard Kuhnert","role":"BACKGROUND"},{"character":"Vice-President of the USA","actor":"Reinhard Kuhnert","role":"BACKGROUND"},{"character":"Client","actor":"Andreas Conrad","role":"BACKGROUND"},{"character":"Secretary of State","actor":"Uli Krohm","role":"BACKGROUND"},{"character":"Hatori","actor":"Michael Baral","role":"BACKGROUND"},{"character":"President of the USA","actor":"Ernst Meincke","role":"BACKGROUND"},{"character":"Chairman of the Joints Chiefs of Staff","actor":"Raimund Krone","role":"BACKGROUND"},{"character":"National Security Advisor","actor":"Anja Rybiczka","role":"BACKGROUND"}]}
+{
+ "titleId": 5356,
+ "updatedAt": "2026-08-15T18:32:36.585Z",
+ "roles": [
+  {
+   "character": "Maria Oosawa",
+   "actor": "Kristina Tietz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Minoru Minorikawa",
+   "actor": "Ozan Ünal",
+   "role": "MAIN"
+  },
+  {
+   "character": "Alphard Al Sheya",
+   "actor": "Maria Koschny",
+   "role": "MAIN"
+  },
+  {
+   "character": "Canaan",
+   "actor": "Julia Kaufmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hakkoh",
+   "actor": "Ute Noack",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Liang Qi",
+   "actor": "Natascha Geisler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cummings",
+   "actor": "Dirk Bublies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuri Natsume",
+   "actor": "Debora Weigert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nene",
+   "actor": "Damineh Hojat",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Taxi driver",
+   "actor": "Werner Ziebig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yunyun",
+   "actor": "Marie-Luise Schramm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Santana",
+   "actor": "Peter Lontzek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Siam",
+   "actor": "Stefan Gossler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Younger Brother",
+   "actor": "Constantin von Jascheroff",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Older Brother",
+   "actor": "Eberhard Prüter",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Assistant Chief of Staff",
+   "actor": "Elmar Gutmann",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Restaurant Owner",
+   "actor": "Raimund Krone",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Undersecretary",
+   "actor": "Reinhard Kuhnert",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Vice-President of the USA",
+   "actor": "Reinhard Kuhnert",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Client",
+   "actor": "Andreas Conrad",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Secretary of State",
+   "actor": "Uli Krohm",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Hatori",
+   "actor": "Michael Baral",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "President of the USA",
+   "actor": "Ernst Meincke",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Chairman of the Joints Chiefs of Staff",
+   "actor": "Raimund Krone",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "National Security Advisor",
+   "actor": "Anja Rybiczka",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Yunyun",
+   "actor": "Marie Schramm",
+   "von": "ann"
+  },
+  {
+   "character": "Alphard",
+   "actor": "Maria Koschny",
+   "von": "ann"
+  },
+  {
+   "character": "Kenji Oosawa",
+   "actor": "Sven Gerhardt",
+   "von": "ann"
+  },
+  {
+   "character": "Liang Qi",
+   "actor": "Natascha Geißler",
+   "von": "ann"
+  },
+  {
+   "character": "Hakkou",
+   "actor": "Ute Noack",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=10270"
+}

@@ -1,1 +1,152 @@
-{"titleId":124080,"updatedAt":"2026-08-11T11:20:03.570Z","roles":[{"character":"Izumi Miyamura","actor":"Karim El Kammouchi","role":"MAIN"},{"character":"Kyouko Hori","actor":"Ilona Brokowski","role":"MAIN"},{"character":"Akane Yanagi","actor":"Leonard Rosemann","role":"SUPPORTING"},{"character":"Takako Nishi","actor":"Katharina von Daake","role":"SUPPORTING"},{"character":"Yuuna Okuyama","actor":"Anna Ewelina","role":"SUPPORTING"},{"character":"Motoko Iura","actor":"Amira Leisner","role":"SUPPORTING"},{"character":"Chika Ichijou","actor":"Carolin Kuhlmann","role":"SUPPORTING"},{"character":"Kayo Yashiro","actor":"Claudia Schmidt","role":"SUPPORTING"},{"character":"Yuki Yoshikawa","actor":"Lara Wurmer","role":"SUPPORTING"},{"character":"Makio Tanihara","actor":"François Goeske","role":"SUPPORTING"},{"character":"Shin Yasuda","actor":"Julian Bayer","role":"SUPPORTING"},{"character":"Tooru Ishikawa","actor":"Benjamin Mereis","role":"SUPPORTING"},{"character":"Yuriko Hori","actor":"Janina Dietz","role":"SUPPORTING"},{"character":"Daiki Mizouchi","actor":"Julian Bayer","role":"SUPPORTING"},{"character":"Kakeru Sengoku","actor":"Hubertus von Lerchenfeld","role":"SUPPORTING"},{"character":"Kouichi Shindou","actor":"Tobias Kern","role":"SUPPORTING"},{"character":"Miki Yoshikawa","actor":"Nina Benz","role":"SUPPORTING"},{"character":"Sakura Kouno","actor":"Marget Flach","role":"SUPPORTING"},{"character":"Honoka Sawada","actor":"Lisa Dzyadyk","role":"SUPPORTING"},{"character":"Reiko Terajima","actor":"Janina Dietz","role":"SUPPORTING"},{"character":"Remi Ayasaki","actor":"Jana Dunja Gries","role":"SUPPORTING"},{"character":"Souta Hori","actor":"Leon von Daake","role":"SUPPORTING"},{"character":"Iori Miyamura","actor":"Claudia Schmidt","role":"SUPPORTING"},{"character":"Shuu Iura","actor":"Marco Rosenberg","role":"SUPPORTING"},{"character":"Kyousuke Hori","actor":"Benedikt Gutjan","role":"SUPPORTING"}]}
+{
+ "titleId": 124080,
+ "updatedAt": "2026-08-15T18:45:59.879Z",
+ "roles": [
+  {
+   "character": "Izumi Miyamura",
+   "actor": "Karim El Kammouchi",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kyouko Hori",
+   "actor": "Ilona Brokowski",
+   "role": "MAIN"
+  },
+  {
+   "character": "Akane Yanagi",
+   "actor": "Leonard Rosemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takako Nishi",
+   "actor": "Katharina von Daake",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuuna Okuyama",
+   "actor": "Anna Ewelina",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Motoko Iura",
+   "actor": "Amira Leisner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chika Ichijou",
+   "actor": "Carolin Kuhlmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kayo Yashiro",
+   "actor": "Claudia Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuki Yoshikawa",
+   "actor": "Lara Wurmer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Makio Tanihara",
+   "actor": "François Goeske",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shin Yasuda",
+   "actor": "Julian Bayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tooru Ishikawa",
+   "actor": "Benjamin Mereis",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuriko Hori",
+   "actor": "Janina Dietz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Daiki Mizouchi",
+   "actor": "Julian Bayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kakeru Sengoku",
+   "actor": "Hubertus von Lerchenfeld",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kouichi Shindou",
+   "actor": "Tobias Kern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miki Yoshikawa",
+   "actor": "Nina Benz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sakura Kouno",
+   "actor": "Marget Flach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Honoka Sawada",
+   "actor": "Lisa Dzyadyk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Reiko Terajima",
+   "actor": "Janina Dietz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Remi Ayasaki",
+   "actor": "Jana Dunja Gries",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Souta Hori",
+   "actor": "Leon von Daake",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Iori Miyamura",
+   "actor": "Claudia Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shuu Iura",
+   "actor": "Marco Rosenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyousuke Hori",
+   "actor": "Benedikt Gutjan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyoko Hori",
+   "actor": "Ilona Otto",
+   "von": "ann"
+  },
+  {
+   "character": "Kouichi Shindo",
+   "actor": "Tobias Kern",
+   "von": "ann"
+  },
+  {
+   "character": "Shu Iura",
+   "actor": "Marco Rosenberg",
+   "von": "ann"
+  },
+  {
+   "character": "Toru Ishikawa",
+   "actor": "Benjamin Krause",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=23781"
+}

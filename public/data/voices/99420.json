@@ -1,1 +1,52 @@
-{"titleId":99420,"updatedAt":"2026-08-11T11:20:03.402Z","roles":[{"character":"Chito","actor":"Leonie Landa","role":"MAIN"},{"character":"Yuuri","actor":"Katrin Heß","role":"MAIN"},{"character":"Ishii","actor":"Bettina Weiß","role":"SUPPORTING"},{"character":"Kanazawa","actor":"Axel Malzacher","role":"SUPPORTING"},{"character":"Nuko","actor":"Alma Lühn","role":"SUPPORTING"},{"character":"Jiritsu Kikai","actor":"Christian Wunderlich","role":"SUPPORTING"}]}
+{
+ "titleId": 99420,
+ "updatedAt": "2026-08-15T18:41:20.180Z",
+ "roles": [
+  {
+   "character": "Chito",
+   "actor": "Leonie Landa",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuuri",
+   "actor": "Katrin Heß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ishii",
+   "actor": "Bettina Weiß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kanazawa",
+   "actor": "Axel Malzacher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nuko",
+   "actor": "Alma Lühn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jiritsu Kikai",
+   "actor": "Christian Wunderlich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Grandpa",
+   "actor": "Pierre Peters-Arnolds",
+   "von": "ann"
+  },
+  {
+   "character": "Eringi",
+   "actor": "Alexandra Wilcke",
+   "von": "ann"
+  },
+  {
+   "character": "Autonomous robot",
+   "actor": "Christian Wunderlich",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19827"
+}

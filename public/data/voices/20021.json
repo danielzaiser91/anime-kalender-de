@@ -1,1 +1,57 @@
-{"titleId":20021,"updatedAt":"2026-08-11T11:20:03.186Z","roles":[{"character":"Kazuto Kirigaya","actor":"Patrick Keller","role":"MAIN"},{"character":"Asuna Yuuki","actor":"Denise Monteiro","role":"MAIN"}]}
+{
+ "titleId": 20021,
+ "updatedAt": "2026-08-15T18:36:15.804Z",
+ "roles": [
+  {
+   "character": "Kazuto Kirigaya",
+   "actor": "Patrick Keller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Asuna Yuuki",
+   "actor": "Denise Monteiro",
+   "role": "MAIN"
+  },
+  {
+   "character": "Suguha \"Leafa\" Kirigaya",
+   "actor": "Julia Meynen",
+   "von": "ann"
+  },
+  {
+   "character": "Lisbeth",
+   "actor": "Nina Amerschläger",
+   "von": "ann"
+  },
+  {
+   "character": "Seijirou Kikuoka",
+   "actor": "Matthias Keller",
+   "von": "ann"
+  },
+  {
+   "character": "Klein",
+   "actor": "Isaak Dentler",
+   "von": "ann"
+  },
+  {
+   "character": "Yui",
+   "actor": "Christiane Werk",
+   "von": "ann"
+  },
+  {
+   "character": "Asuna",
+   "actor": "Denise Monteiro",
+   "von": "ann"
+  },
+  {
+   "character": "Silica",
+   "actor": "Clara Dolny",
+   "von": "ann"
+  },
+  {
+   "character": "Andrew Gilbert Mills",
+   "actor": "Dirk Hardegen",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15743"
+}

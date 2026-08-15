@@ -1,1 +1,67 @@
-{"titleId":1638,"updatedAt":"2026-08-11T11:20:02.934Z","roles":[{"character":"Peter Pan","actor":"Philipp Brammer","role":"MAIN"},{"character":"Wendy Darling","actor":"Julia Haacke","role":"MAIN"},{"character":"Tinker Bell","actor":"Claudia Lossl","role":"SUPPORTING"}]}
+{
+ "titleId": 1638,
+ "updatedAt": "2026-08-15T18:29:10.470Z",
+ "roles": [
+  {
+   "character": "Peter Pan",
+   "actor": "Philipp Brammer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Wendy Darling",
+   "actor": "Julia Haacke",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tinker Bell",
+   "actor": "Claudia Lossl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tinkerbell",
+   "actor": "Claudia Lössl",
+   "von": "ann"
+  },
+  {
+   "character": "Tootles",
+   "actor": "Manou Lubowski",
+   "von": "ann"
+  },
+  {
+   "character": "Wendy",
+   "actor": "Julia Haacke",
+   "von": "ann"
+  },
+  {
+   "character": "Smee",
+   "actor": "Klaus Abrahamowski",
+   "von": "ann"
+  },
+  {
+   "character": "John",
+   "actor": "Michel Guillaume",
+   "von": "ann"
+  },
+  {
+   "character": "Michael",
+   "actor": "Julia Laske",
+   "von": "ann"
+  },
+  {
+   "character": "Curly",
+   "actor": "Michaela Amler",
+   "von": "ann"
+  },
+  {
+   "character": "Slightly",
+   "actor": "Marc Rosenberg",
+   "von": "ann"
+  },
+  {
+   "character": "Captain Hook",
+   "actor": "Ekkehardt Belle",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1734"
+}

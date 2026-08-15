@@ -1,1 +1,87 @@
-{"titleId":112444,"updatedAt":"2026-08-11T11:20:03.535Z","roles":[{"character":"Kosame Isshiki","actor":"Manuel Straube","role":"MAIN"},{"character":"Appare Sorano","actor":"Cedric Eich","role":"MAIN"},{"character":"Dylan G. Ordene","actor":"Björn Schalla","role":"SUPPORTING"},{"character":"Chase the Bad","actor":"Peter Sura","role":"SUPPORTING"},{"character":"Hototo","actor":"Giovanna Winterfeldt","role":"SUPPORTING"},{"character":"Richard Riesman","actor":"Torben Liebrecht","role":"SUPPORTING"},{"character":"Xialian Jing","actor":"Lin Gothoni","role":"SUPPORTING"},{"character":"Tristan the Bad","actor":"Tobias Schmidt","role":"SUPPORTING"},{"character":"Sofia Taylor","actor":"Samina König","role":"SUPPORTING"},{"character":"Senchou","actor":"Reinhard Scheunemann","role":"SUPPORTING"},{"character":"Al Lyon","actor":"Tobias Diakow","role":"SUPPORTING"},{"character":"Seth Rich Carter","actor":"Jeremias Koschorz","role":"SUPPORTING"},{"character":"TJ","actor":"Milton Welsh","role":"SUPPORTING"}]}
+{
+ "titleId": 112444,
+ "updatedAt": "2026-08-15T18:44:55.977Z",
+ "roles": [
+  {
+   "character": "Kosame Isshiki",
+   "actor": "Manuel Straube",
+   "role": "MAIN"
+  },
+  {
+   "character": "Appare Sorano",
+   "actor": "Cedric Eich",
+   "role": "MAIN"
+  },
+  {
+   "character": "Dylan G. Ordene",
+   "actor": "Björn Schalla",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chase the Bad",
+   "actor": "Peter Sura",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hototo",
+   "actor": "Giovanna Winterfeldt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Richard Riesman",
+   "actor": "Torben Liebrecht",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Xialian Jing",
+   "actor": "Lin Gothoni",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tristan the Bad",
+   "actor": "Tobias Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sofia Taylor",
+   "actor": "Samina König",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Senchou",
+   "actor": "Reinhard Scheunemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Al Lyon",
+   "actor": "Tobias Diakow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seth Rich Carter",
+   "actor": "Jeremias Koschorz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "TJ",
+   "actor": "Milton Welsh",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dylan G. Oldin",
+   "actor": "Björn Schalla",
+   "von": "ann"
+  },
+  {
+   "character": "Gil T. Cigar",
+   "actor": "Tobias Schmidt",
+   "von": "ann"
+  },
+  {
+   "character": "Xialian Jing",
+   "actor": "Lin Gothóni",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22558"
+}

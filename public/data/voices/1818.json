@@ -1,1 +1,152 @@
-{"titleId":1818,"updatedAt":"2026-08-11T11:20:02.945Z","roles":[{"character":"Clare","actor":"Lisa May-Mitsching","role":"MAIN"},{"character":"Raki","actor":"Dirk Stollberg","role":"MAIN"},{"character":"Bandit Leader ","actor":"Claudio Maniscalo","role":"SUPPORTING"},{"character":"Sophia","actor":"Jill Böttcher","role":"SUPPORTING"},{"character":"Galk","actor":"Sebastian Christoph Jacob","role":"SUPPORTING"},{"character":"Undine","actor":"Anke Reitzenstein","role":"SUPPORTING"},{"character":"Rafaela","actor":"Claudia Gáldy","role":"SUPPORTING"},{"character":"Isley","actor":"Konrad Bösherz","role":"SUPPORTING"},{"character":"Miria","actor":"Silvia Mißbach","role":"SUPPORTING"},{"character":"Sid","actor":"Ricardo Richter","role":"SUPPORTING"},{"character":"Ermita","actor":"Lutz Schnell","role":"SUPPORTING"},{"character":"Jean","actor":"Tanya Kahana","role":"SUPPORTING"},{"character":"Priscilla","actor":"Josephine Schmidt","role":"SUPPORTING"},{"character":"Ophelia","actor":"Ulrike Stürzbecher","role":"SUPPORTING"},{"character":"Deneve","actor":"Heike Beeck","role":"SUPPORTING"},{"character":"Riful","actor":"Rubina Kuraoka","role":"SUPPORTING"},{"character":"Dauf","actor":"Gunnar Helm","role":"SUPPORTING"},{"character":"Orsay","actor":"Axel Lutter","role":"SUPPORTING"},{"character":"Cynthia","actor":"Anita Hopt","role":"SUPPORTING"},{"character":"Noel","actor":"Victoria Sturm","role":"SUPPORTING"},{"character":"Teresa","actor":"Debora Weigert","role":"SUPPORTING"},{"character":"Rimuto","actor":"Andreas Müller","role":"SUPPORTING"},{"character":"Raquel","actor":"Denise Gorzelanny","role":"SUPPORTING"}]}
+{
+ "titleId": 1818,
+ "updatedAt": "2026-08-15T18:29:39.320Z",
+ "roles": [
+  {
+   "character": "Clare",
+   "actor": "Lisa May-Mitsching",
+   "role": "MAIN"
+  },
+  {
+   "character": "Raki",
+   "actor": "Dirk Stollberg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Bandit Leader ",
+   "actor": "Claudio Maniscalo",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sophia",
+   "actor": "Jill Böttcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Galk",
+   "actor": "Sebastian Christoph Jacob",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Undine",
+   "actor": "Anke Reitzenstein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rafaela",
+   "actor": "Claudia Gáldy",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Isley",
+   "actor": "Konrad Bösherz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miria",
+   "actor": "Silvia Mißbach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sid",
+   "actor": "Ricardo Richter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ermita",
+   "actor": "Lutz Schnell",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jean",
+   "actor": "Tanya Kahana",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Priscilla",
+   "actor": "Josephine Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ophelia",
+   "actor": "Ulrike Stürzbecher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Deneve",
+   "actor": "Heike Beeck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Riful",
+   "actor": "Rubina Kuraoka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dauf",
+   "actor": "Gunnar Helm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Orsay",
+   "actor": "Axel Lutter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cynthia",
+   "actor": "Anita Hopt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Noel",
+   "actor": "Victoria Sturm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Teresa",
+   "actor": "Debora Weigert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rimuto",
+   "actor": "Andreas Müller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Raquel",
+   "actor": "Denise Gorzelanny",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Clare",
+   "actor": "Ann Vielhaben",
+   "von": "ann"
+  },
+  {
+   "character": "Rubel",
+   "actor": "Stefan Staudinger",
+   "von": "ann"
+  },
+  {
+   "character": "Helen",
+   "actor": "Gundi Eberhard",
+   "von": "ann"
+  },
+  {
+   "character": "Noelle",
+   "actor": "Victoria Sturm",
+   "von": "ann"
+  },
+  {
+   "character": "Irene",
+   "actor": "Heide Domanowski",
+   "von": "ann"
+  },
+  {
+   "character": "Galatea",
+   "actor": "Katharina Koschny",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=7028"
+}

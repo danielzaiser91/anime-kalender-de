@@ -1,1 +1,127 @@
-{"titleId":108450,"updatedAt":"2026-08-11T11:20:03.507Z","roles":[{"character":"Mika","actor":"Stefan Günther","role":"MAIN"},{"character":"Giraud","actor":"Felix Mayer","role":"MAIN"},{"character":"Vanabelle","actor":"Janina Dietz","role":"MAIN"},{"character":"Takita","actor":"Leslie-Vanessa Lill","role":"MAIN"},{"character":"Mayne","actor":"Anja Taborsky","role":"SUPPORTING"},{"character":"Fei","actor":"Felix Auer","role":"SUPPORTING"},{"character":"Lee","actor":"Hubertus von Lerchenfeld","role":"SUPPORTING"},{"character":"Hiro","actor":"Benjamin Mereis","role":"SUPPORTING"},{"character":"Nanami","actor":"Ilena Gwisdalla","role":"SUPPORTING"},{"character":"Gibbs","actor":"Ole Pfennig","role":"SUPPORTING"},{"character":"Nico","actor":"Pascal Breuer","role":"SUPPORTING"},{"character":"Ascella","actor":"Shandra Schadt","role":"SUPPORTING"},{"character":"Crocco","actor":"Dominik Auer","role":"SUPPORTING"},{"character":"Soraya","actor":"Leonard Rosemann","role":"SUPPORTING"},{"character":"Katja","actor":"Zina Laus","role":"SUPPORTING"},{"character":"Gaga","actor":"Alexander Wohnhaas","role":"SUPPORTING"},{"character":"Berko","actor":"Gerd Meyer","role":"SUPPORTING"},{"character":"Ula","actor":"Alexander Pelz","role":"SUPPORTING"},{"character":"Badakin","actor":"Gerhard Jilka","role":"SUPPORTING"},{"character":"Capella","actor":"Alexandra Schenke","role":"SUPPORTING"},{"character":"Oken","actor":"Leonard Hohm","role":"SUPPORTING"},{"character":"Yoshi","actor":"Sebastian Griegel","role":"SUPPORTING"}]}
+{
+ "titleId": 108450,
+ "updatedAt": "2026-08-15T18:44:02.822Z",
+ "roles": [
+  {
+   "character": "Mika",
+   "actor": "Stefan Günther",
+   "role": "MAIN"
+  },
+  {
+   "character": "Giraud",
+   "actor": "Felix Mayer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Vanabelle",
+   "actor": "Janina Dietz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Takita",
+   "actor": "Leslie-Vanessa Lill",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mayne",
+   "actor": "Anja Taborsky",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fei",
+   "actor": "Felix Auer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lee",
+   "actor": "Hubertus von Lerchenfeld",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hiro",
+   "actor": "Benjamin Mereis",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nanami",
+   "actor": "Ilena Gwisdalla",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gibbs",
+   "actor": "Ole Pfennig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nico",
+   "actor": "Pascal Breuer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ascella",
+   "actor": "Shandra Schadt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Crocco",
+   "actor": "Dominik Auer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Soraya",
+   "actor": "Leonard Rosemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Katja",
+   "actor": "Zina Laus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gaga",
+   "actor": "Alexander Wohnhaas",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Berko",
+   "actor": "Gerd Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ula",
+   "actor": "Alexander Pelz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Badakin",
+   "actor": "Gerhard Jilka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Capella",
+   "actor": "Alexandra Schenke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Oken",
+   "actor": "Leonard Hohm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yoshi",
+   "actor": "Sebastian Griegel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hiro",
+   "actor": "Benjamin Levent Krause",
+   "von": "ann"
+  },
+  {
+   "character": "Faye",
+   "actor": "Felix Auer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=21954"
+}

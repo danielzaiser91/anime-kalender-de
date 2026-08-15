@@ -1,1 +1,52 @@
-{"titleId":1887,"updatedAt":"2026-08-11T11:20:02.948Z","roles":[{"character":"Konata Izumi","actor":"Charlotte Uhlig","role":"MAIN"},{"character":"Miyuki Takara","actor":"Giuliana Jakobeit","role":"MAIN"},{"character":"Tsukasa Hiiragi","actor":"Lisa Dzyadyk","role":"MAIN"},{"character":"Kagami Hiiragi","actor":"Rubina Kuraoka","role":"MAIN"},{"character":"Minoru Shiraishi","actor":"Benedikt Gutjan","role":"SUPPORTING"},{"character":"Akira Kogami","actor":"Samina König","role":"SUPPORTING"}]}
+{
+ "titleId": 1887,
+ "updatedAt": "2026-08-15T18:29:44.830Z",
+ "roles": [
+  {
+   "character": "Konata Izumi",
+   "actor": "Charlotte Uhlig",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miyuki Takara",
+   "actor": "Giuliana Jakobeit",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tsukasa Hiiragi",
+   "actor": "Lisa Dzyadyk",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kagami Hiiragi",
+   "actor": "Rubina Kuraoka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Minoru Shiraishi",
+   "actor": "Benedikt Gutjan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akira Kogami",
+   "actor": "Samina König",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yui Narumi",
+   "actor": "Diana Borgwardt",
+   "von": "ann"
+  },
+  {
+   "character": "Nanako Kuroi",
+   "actor": "Antje von der Ahe",
+   "von": "ann"
+  },
+  {
+   "character": "Kagami Hiiragi",
+   "actor": "Rubina Nath",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=7222"
+}

@@ -1,1 +1,147 @@
-{"titleId":13203,"updatedAt":"2026-08-11T11:20:03.136Z","roles":[{"character":"Kouichi Zenigata","actor":"Stefan Staudinger","role":"MAIN"},{"character":"Arsène Lupin III","actor":"Peter Flechtner","role":"MAIN"},{"character":"Fujiko Mine","actor":"Sarah Riedel","role":"MAIN"},{"character":"Goemon Ishikawa XIII","actor":"Peter Reinhardt","role":"MAIN"},{"character":"Daisuke Jigen","actor":"Tilo Schmitz","role":"MAIN"},{"character":"Oscar","actor":"Marcel Mann","role":"MAIN"},{"character":"Maccherone","actor":"Wolfgang Wagner","role":"SUPPORTING"},{"character":"Kyouso","actor":"Michael Tietz","role":"SUPPORTING"},{"character":"Nora","actor":"Franciska  Friede","role":"SUPPORTING"},{"character":"Angelica","actor":"Olivia Büschken","role":"SUPPORTING"},{"character":"Shihainin","actor":"Jaron Löwenberg","role":"SUPPORTING"},{"character":"Fritz Kaiser","actor":"Roland Hemmo","role":"SUPPORTING"},{"character":"Aiyan Meyer","actor":"Carmen Katt","role":"SUPPORTING"},{"character":"Mangekyou Onna","actor":"Paulina Bachmann","role":"SUPPORTING"},{"character":"Tranc George","actor":"Reinhard Scheunemann","role":"SUPPORTING"},{"character":"Marco","actor":"Mika Hinz","role":"SUPPORTING"},{"character":"Rin Chin Chin","actor":"Marko Bräutigam","role":"SUPPORTING"},{"character":"Sculpin","actor":"Kevin Kraus","role":"SUPPORTING"},{"character":"Ciccolina","actor":"Carolina Vera","role":"SUPPORTING"},{"character":"Louise","actor":"Jana Dunja Gries","role":"SUPPORTING"},{"character":"Fukurou Otoko","actor":"Till Hagen","role":"SUPPORTING"},{"character":"Isolde Brach","actor":"Yamuna Kemmerling","role":"SUPPORTING"},{"character":"Aisha","actor":"Franziska Trunte","role":"SUPPORTING"},{"character":"Penne","actor":"Samir Fuchs","role":"SUPPORTING"},{"character":"Darenzo","actor":"Erich Räuker","role":"SUPPORTING"}]}
+{
+ "titleId": 13203,
+ "updatedAt": "2026-08-15T18:34:56.166Z",
+ "roles": [
+  {
+   "character": "Kouichi Zenigata",
+   "actor": "Stefan Staudinger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Arsène Lupin III",
+   "actor": "Peter Flechtner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Fujiko Mine",
+   "actor": "Sarah Riedel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Goemon Ishikawa XIII",
+   "actor": "Peter Reinhardt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Daisuke Jigen",
+   "actor": "Tilo Schmitz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Oscar",
+   "actor": "Marcel Mann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Maccherone",
+   "actor": "Wolfgang Wagner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyouso",
+   "actor": "Michael Tietz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nora",
+   "actor": "Franciska  Friede",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Angelica",
+   "actor": "Olivia Büschken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shihainin",
+   "actor": "Jaron Löwenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fritz Kaiser",
+   "actor": "Roland Hemmo",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aiyan Meyer",
+   "actor": "Carmen Katt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mangekyou Onna",
+   "actor": "Paulina Bachmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tranc George",
+   "actor": "Reinhard Scheunemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marco",
+   "actor": "Mika Hinz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rin Chin Chin",
+   "actor": "Marko Bräutigam",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sculpin",
+   "actor": "Kevin Kraus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ciccolina",
+   "actor": "Carolina Vera",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Louise",
+   "actor": "Jana Dunja Gries",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fukurou Otoko",
+   "actor": "Till Hagen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Isolde Brach",
+   "actor": "Yamuna Kemmerling",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aisha",
+   "actor": "Franziska Trunte",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Penne",
+   "actor": "Samir Fuchs",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Darenzo",
+   "actor": "Erich Räuker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Inspektor Zenigata",
+   "actor": "Stefan Staudinger",
+   "von": "ann"
+  },
+  {
+   "character": "Eulenkopf",
+   "actor": "Till Hagen",
+   "von": "ann"
+  },
+  {
+   "character": "Graf Louis Yu Almeida",
+   "actor": "Oliver Nitsche",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=14135"
+}

@@ -1,1 +1,152 @@
-{"titleId":10620,"updatedAt":"2026-08-11T11:20:03.109Z","roles":[{"character":"Yukiteru Amano","actor":"Constantin von Jascheroff","role":"MAIN"},{"character":"Yuno Gasai","actor":"Jodie Blank","role":"MAIN"},{"character":"Marco Ikusaba","actor":"Sebastian Schulz","role":"SUPPORTING"},{"character":"Mao Nonosaka","actor":"Linda Fölster","role":"SUPPORTING"},{"character":"Tsubaki Kasugano","actor":"Patrizia Carlucci","role":"SUPPORTING"},{"character":"Aru Akise","actor":"Carsten Otto","role":"SUPPORTING"},{"character":"Kurou Amano","actor":"Florian Halm","role":"SUPPORTING"},{"character":"Rea Amano","actor":"Antje von der Ahe","role":"SUPPORTING"},{"character":"Takao Hiyama","actor":"Peter Sura","role":"SUPPORTING"},{"character":"Saika  Gasai","actor":"Claudia Gáldy","role":"SUPPORTING"},{"character":"Minene Uryuu","actor":"Mia Diekow","role":"SUPPORTING"},{"character":"Masumi Nishijima","actor":"René Dawn-Claude","role":"SUPPORTING"},{"character":"Kamado Ueshita","actor":"Gundi Eberhard","role":"SUPPORTING"},{"character":"John Bacchus","actor":"Klaus-Dieter Klebsch","role":"SUPPORTING"},{"character":"Hinata Hino","actor":"Samira Jakobs","role":"SUPPORTING"},{"character":"Ouji Kousaka","actor":"Wilhelm-Rafael Garth","role":"SUPPORTING"},{"character":"Keigo Kurusu","actor":"Dirk Bublies","role":"SUPPORTING"},{"character":"Deus Ex Machina","actor":"Torsten Michaelis","role":"SUPPORTING"},{"character":"Ryuji  Kurosaki","actor":"Fabian Hollwitz","role":"SUPPORTING"},{"character":"Orin Miyashiro","actor":"Clara Drews","role":"SUPPORTING"},{"character":"Reisuke Houjou","actor":"Helen Malin Blaschke","role":"SUPPORTING"},{"character":"Yomotsu Hirasaka","actor":"Rainer Fritzsche","role":"SUPPORTING"},{"character":"Ushio  Gasai","actor":"Thomas Schmuckert","role":"SUPPORTING"}]}
+{
+ "titleId": 10620,
+ "updatedAt": "2026-08-15T18:34:15.149Z",
+ "roles": [
+  {
+   "character": "Yukiteru Amano",
+   "actor": "Constantin von Jascheroff",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuno Gasai",
+   "actor": "Jodie Blank",
+   "role": "MAIN"
+  },
+  {
+   "character": "Marco Ikusaba",
+   "actor": "Sebastian Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mao Nonosaka",
+   "actor": "Linda Fölster",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsubaki Kasugano",
+   "actor": "Patrizia Carlucci",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aru Akise",
+   "actor": "Carsten Otto",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kurou Amano",
+   "actor": "Florian Halm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rea Amano",
+   "actor": "Antje von der Ahe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takao Hiyama",
+   "actor": "Peter Sura",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Saika  Gasai",
+   "actor": "Claudia Gáldy",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Minene Uryuu",
+   "actor": "Mia Diekow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masumi Nishijima",
+   "actor": "René Dawn-Claude",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kamado Ueshita",
+   "actor": "Gundi Eberhard",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "John Bacchus",
+   "actor": "Klaus-Dieter Klebsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hinata Hino",
+   "actor": "Samira Jakobs",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ouji Kousaka",
+   "actor": "Wilhelm-Rafael Garth",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Keigo Kurusu",
+   "actor": "Dirk Bublies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Deus Ex Machina",
+   "actor": "Torsten Michaelis",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryuji  Kurosaki",
+   "actor": "Fabian Hollwitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Orin Miyashiro",
+   "actor": "Clara Drews",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Reisuke Houjou",
+   "actor": "Helen Malin Blaschke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yomotsu Hirasaka",
+   "actor": "Rainer Fritzsche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ushio  Gasai",
+   "actor": "Thomas Schmuckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Karyuudo Tsukishima",
+   "actor": "Dieter Memel",
+   "von": "ann"
+  },
+  {
+   "character": "Minene Uryu",
+   "actor": "Mia Diekow",
+   "von": "ann"
+  },
+  {
+   "character": "Ai Mikami",
+   "actor": "Sarah Riedel",
+   "von": "ann"
+  },
+  {
+   "character": "Muru-muru",
+   "actor": "Charlotte Uhlig",
+   "von": "ann"
+  },
+  {
+   "character": "Oji Kosaka",
+   "actor": "Wilhelm Garth",
+   "von": "ann"
+  },
+  {
+   "character": "Reisuke Houjou",
+   "actor": "Helen Blaschke",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=12896"
+}

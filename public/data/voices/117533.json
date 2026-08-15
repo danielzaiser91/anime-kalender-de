@@ -1,1 +1,122 @@
-{"titleId":117533,"updatedAt":"2026-08-11T11:20:03.560Z","roles":[{"character":"Hakkekkyuu U-1196","actor":"Laura Preiss","role":"MAIN"},{"character":"Sekkekkyuu AA2153","actor":"Fabian Rohm","role":"MAIN"},{"character":"Sekkekkyuu AD6614","actor":"Gerhard Jilka","role":"SUPPORTING"},{"character":"Jujousaibou","actor":"Leonard Hohm","role":"SUPPORTING"},{"character":"Kesshouban","actor":"Eleni Möller-Architektonidou","role":"SUPPORTING"},{"character":"Narrator","actor":"Markus Kästle","role":"SUPPORTING"},{"character":"Macrophage","actor":"Ilena Gwisdalla","role":"SUPPORTING"},{"character":"Shikyuutai","actor":"Julia Bautz","role":"SUPPORTING"},{"character":"Hakkekkyuu 1212","actor":"Poetine Alija","role":"SUPPORTING"},{"character":"Sertoli Saibou","actor":"Bettina Zech","role":"SUPPORTING"},{"character":"Shikyuutai","actor":"Samina König","role":"SUPPORTING"},{"character":"Hakkekkyuu 8787","actor":"Marie-Jeanne Widera","role":"SUPPORTING"},{"character":"Sekkekkyuu AC1677","actor":"Fabian Wittkowski","role":"SUPPORTING"},{"character":"Kesshouban","actor":"Lara Schmidt","role":"SUPPORTING"},{"character":"Kan Saibou","actor":"Janina Dietz","role":"SUPPORTING"},{"character":"Helper T Saibou","actor":"Hubertus von Lerchenfeld","role":"SUPPORTING"},{"character":"Hakkekkyuu","actor":"Franziska Ball","role":"SUPPORTING"},{"character":"Shu Saibou","actor":"Patrick Zwingmann","role":"SUPPORTING"},{"character":"Killer T Saibou","actor":"Alexander Wohnhaas","role":"SUPPORTING"},{"character":"Nou Saibou","actor":"Arne Hörmann","role":"SUPPORTING"}]}
+{
+ "titleId": 117533,
+ "updatedAt": "2026-08-15T18:45:40.229Z",
+ "roles": [
+  {
+   "character": "Hakkekkyuu U-1196",
+   "actor": "Laura Preiss",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sekkekkyuu AA2153",
+   "actor": "Fabian Rohm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sekkekkyuu AD6614",
+   "actor": "Gerhard Jilka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jujousaibou",
+   "actor": "Leonard Hohm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kesshouban",
+   "actor": "Eleni Möller-Architektonidou",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Markus Kästle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Macrophage",
+   "actor": "Ilena Gwisdalla",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shikyuutai",
+   "actor": "Julia Bautz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hakkekkyuu 1212",
+   "actor": "Poetine Alija",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sertoli Saibou",
+   "actor": "Bettina Zech",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shikyuutai",
+   "actor": "Samina König",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hakkekkyuu 8787",
+   "actor": "Marie-Jeanne Widera",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sekkekkyuu AC1677",
+   "actor": "Fabian Wittkowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kesshouban",
+   "actor": "Lara Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kan Saibou",
+   "actor": "Janina Dietz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Helper T Saibou",
+   "actor": "Hubertus von Lerchenfeld",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hakkekkyuu",
+   "actor": "Franziska Ball",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shu Saibou",
+   "actor": "Patrick Zwingmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Killer T Saibou",
+   "actor": "Alexander Wohnhaas",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nou Saibou",
+   "actor": "Arne Hörmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Leberzelle",
+   "actor": "Janina Dietz",
+   "von": "ann"
+  },
+  {
+   "character": "Kumpel Erythrozyt (AC1677)",
+   "actor": "Fabian Wittkowski",
+   "von": "ann"
+  },
+  {
+   "character": "Bluttplättchen",
+   "actor": "Eleni Möller",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=23613"
+}

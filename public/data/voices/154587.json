@@ -1,1 +1,87 @@
-{"titleId":154587,"updatedAt":"2026-08-11T11:20:03.662Z","roles":[{"character":"Frieren","actor":"Julia Casper","role":"MAIN"},{"character":"Fern","actor":"Linda Fölster","role":"MAIN"},{"character":"Stark","actor":"Janek Schächter","role":"MAIN"},{"character":"Himmel","actor":"Alexander Merbeth","role":"SUPPORTING"},{"character":"Heiter","actor":"Jens Wendland","role":"SUPPORTING"},{"character":"Eisen","actor":"Bojan Havic","role":"SUPPORTING"},{"character":"Flamme","actor":"Jennifer Böttcher","role":"SUPPORTING"},{"character":"Qual","actor":"Martin Sabel","role":"SUPPORTING"},{"character":"Sein","actor":"Malte Meibauer","role":"SUPPORTING"},{"character":"Kraft","actor":"Stefan Brönneke","role":"SUPPORTING"},{"character":"Serie","actor":"Jenny Maria Meyer","role":"SUPPORTING"},{"character":"Linie","actor":"Amira Leisner","role":"SUPPORTING"},{"character":"Granat Hakushaku","actor":"Mike Olsowski","role":"SUPPORTING"}]}
+{
+ "titleId": 154587,
+ "updatedAt": "2026-08-15T18:48:52.960Z",
+ "roles": [
+  {
+   "character": "Frieren",
+   "actor": "Julia Casper",
+   "role": "MAIN"
+  },
+  {
+   "character": "Fern",
+   "actor": "Linda Fölster",
+   "role": "MAIN"
+  },
+  {
+   "character": "Stark",
+   "actor": "Janek Schächter",
+   "role": "MAIN"
+  },
+  {
+   "character": "Himmel",
+   "actor": "Alexander Merbeth",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Heiter",
+   "actor": "Jens Wendland",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eisen",
+   "actor": "Bojan Havic",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Flamme",
+   "actor": "Jennifer Böttcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Qual",
+   "actor": "Martin Sabel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sein",
+   "actor": "Malte Meibauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kraft",
+   "actor": "Stefan Brönneke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Serie",
+   "actor": "Jenny Maria Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Linie",
+   "actor": "Amira Leisner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Granat Hakushaku",
+   "actor": "Mike Olsowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Graf Granat",
+   "actor": "Mike Olsowski",
+   "von": "ann"
+  },
+  {
+   "character": "Eisen",
+   "actor": "Bojan Vucetic",
+   "von": "ann"
+  },
+  {
+   "character": "Sense",
+   "actor": "Amina Gaede",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=26334"
+}

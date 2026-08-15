@@ -1,1 +1,92 @@
-{"titleId":21410,"updatedAt":"2026-08-11T11:20:03.301Z","roles":[{"character":"Ikta Solork","actor":"Jonas Minthe","role":"MAIN"},{"character":"Yatorishino Igsem","actor":"Jannika Jira","role":"MAIN"},{"character":"Torway Remion","actor":"Jesse Grimm","role":"MAIN"},{"character":"Matthew Tetdrich","actor":"Tobias Schmidt","role":"MAIN"},{"character":"Haroma Becker","actor":"Saskia Bellahn","role":"MAIN"},{"character":"Shamille Kitra Katvarnmaninik","actor":"Manuela Eifrig","role":"MAIN"},{"character":"Nirva Gin","actor":"Constantin von Westphalen","role":"SUPPORTING"},{"character":"Jean Alkiniks","actor":"Benjamin Stolz","role":"SUPPORTING"},{"character":"Sarihaslag Remion","actor":"Ivo Möller","role":"SUPPORTING"},{"character":"Suya Mitcalif","actor":"Joey Cordevin","role":"SUPPORTING"}]}
+{
+ "titleId": 21410,
+ "updatedAt": "2026-08-15T18:39:11.035Z",
+ "roles": [
+  {
+   "character": "Ikta Solork",
+   "actor": "Jonas Minthe",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yatorishino Igsem",
+   "actor": "Jannika Jira",
+   "role": "MAIN"
+  },
+  {
+   "character": "Torway Remion",
+   "actor": "Jesse Grimm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Matthew Tetdrich",
+   "actor": "Tobias Schmidt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Haroma Becker",
+   "actor": "Saskia Bellahn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shamille Kitra Katvarnmaninik",
+   "actor": "Manuela Eifrig",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nirva Gin",
+   "actor": "Constantin von Westphalen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jean Alkiniks",
+   "actor": "Benjamin Stolz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sarihaslag Remion",
+   "actor": "Ivo Möller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Suya Mitcalif",
+   "actor": "Joey Cordevin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haroma Becker",
+   "actor": "Saskia Weckler",
+   "von": "ann"
+  },
+  {
+   "character": "Torway Remeon",
+   "actor": "Jesse Grimm",
+   "von": "ann"
+  },
+  {
+   "character": "Chamille Kitra Katvarnmaninik",
+   "actor": "Manuela Bäcker",
+   "von": "ann"
+  },
+  {
+   "character": "Senpa Sazaluf",
+   "actor": "Martin Brücker",
+   "von": "ann"
+  },
+  {
+   "character": "Tamtooktsk Safida",
+   "actor": "Hanns Jörg Krumpholz",
+   "von": "ann"
+  },
+  {
+   "character": "Nanaku Daru",
+   "actor": "Leonie Landa",
+   "von": "ann"
+  },
+  {
+   "character": "Ikuta Solork",
+   "actor": "Jonas Minthe",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=17755"
+}

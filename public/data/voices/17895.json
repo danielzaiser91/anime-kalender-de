@@ -1,1 +1,72 @@
-{"titleId":17895,"updatedAt":"2026-08-11T11:20:03.170Z","roles":[{"character":"Kouko Kaga","actor":"Lydia Morgenstern","role":"MAIN"},{"character":"Banri Tada","actor":"Tim Schwarzmaier","role":"MAIN"},{"character":"Mitsuo Yanagisawa","actor":"Vincent Fallow","role":"MAIN"},{"character":"Nana Hayashida","actor":"Samina König","role":"MAIN"},{"character":"Chinami Oka","actor":"Jodie Blank","role":"MAIN"},{"character":"Sao","actor":"Julia Bautz","role":"SUPPORTING"},{"character":"Shii","actor":"Jasmin Reißmann","role":"SUPPORTING"},{"character":"Takaya Satou","actor":"Patrick Keller","role":"SUPPORTING"},{"character":"Nana","actor":"Vera Bunk","role":"SUPPORTING"},{"character":"Kosshii","actor":"Sebastian Kluckert","role":"SUPPORTING"}]}
+{
+ "titleId": 17895,
+ "updatedAt": "2026-08-15T18:35:55.168Z",
+ "roles": [
+  {
+   "character": "Kouko Kaga",
+   "actor": "Lydia Morgenstern",
+   "role": "MAIN"
+  },
+  {
+   "character": "Banri Tada",
+   "actor": "Tim Schwarzmaier",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mitsuo Yanagisawa",
+   "actor": "Vincent Fallow",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nana Hayashida",
+   "actor": "Samina König",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chinami Oka",
+   "actor": "Jodie Blank",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sao",
+   "actor": "Julia Bautz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shii",
+   "actor": "Jasmin Reißmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takaya Satou",
+   "actor": "Patrick Keller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nana",
+   "actor": "Vera Bunk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kosshii",
+   "actor": "Sebastian Kluckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kōko Kaga",
+   "actor": "Lydia Morgenstern",
+   "von": "ann"
+  },
+  {
+   "character": "Takaya Satou / 2D-Boy",
+   "actor": "Patrick Keller",
+   "von": "ann"
+  },
+  {
+   "character": "Nana Sempai",
+   "actor": "Vera Bunk",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15548"
+}

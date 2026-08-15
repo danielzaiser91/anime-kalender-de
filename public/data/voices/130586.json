@@ -1,1 +1,112 @@
-{"titleId":130586,"updatedAt":"2026-08-11T11:20:03.590Z","roles":[{"character":"Ard Meteor","actor":"Sebastian Kluckert","role":"MAIN"},{"character":"Ireena Olhyde","actor":"Anni C. Salander","role":"MAIN"},{"character":"Ginny de Salvan","actor":"Sarah Tkotsch","role":"MAIN"},{"character":"Sylphy Marheaven","actor":"Moira May","role":"SUPPORTING"},{"character":"Olivia Vine","actor":"Sophie Lechtenbrink","role":"SUPPORTING"},{"character":"Lydia Beginsgate","actor":"Marieke Oeffinger","role":"SUPPORTING"},{"character":"Veda Hazard","actor":"Lea Kalbhenn","role":"SUPPORTING"},{"character":"Lizer Belfenix","actor":"Sven Brieger","role":"SUPPORTING"},{"character":"Alvarto Egzex","actor":"Oliver-Kim Hasper","role":"SUPPORTING"},{"character":"Elzard","actor":"Magdalena Höfner","role":"SUPPORTING"},{"character":"Carla Meteor","actor":"Özge Kayalar","role":"SUPPORTING"},{"character":"Elraldo","actor":"Tom Sielemann","role":"SUPPORTING"}]}
+{
+ "titleId": 130586,
+ "updatedAt": "2026-08-15T18:46:42.286Z",
+ "roles": [
+  {
+   "character": "Ard Meteor",
+   "actor": "Sebastian Kluckert",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ireena Olhyde",
+   "actor": "Anni C. Salander",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ginny de Salvan",
+   "actor": "Sarah Tkotsch",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sylphy Marheaven",
+   "actor": "Moira May",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Olivia Vine",
+   "actor": "Sophie Lechtenbrink",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lydia Beginsgate",
+   "actor": "Marieke Oeffinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Veda Hazard",
+   "actor": "Lea Kalbhenn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lizer Belfenix",
+   "actor": "Sven Brieger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alvarto Egzex",
+   "actor": "Oliver-Kim Hasper",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Elzard",
+   "actor": "Magdalena Höfner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Carla Meteor",
+   "actor": "Özge Kayalar",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Elraldo",
+   "actor": "Tom Sielemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alvarto Exex",
+   "actor": "Kim Hasper",
+   "von": "ann"
+  },
+  {
+   "character": "Golde",
+   "actor": "Gerald Schaale",
+   "von": "ann"
+  },
+  {
+   "character": "Varvatos",
+   "actor": "Sebastian Kluckert",
+   "von": "ann"
+  },
+  {
+   "character": "Ginny Fin de Salvan",
+   "actor": "Sarah Tkotsch",
+   "von": "ann"
+  },
+  {
+   "character": "Verda El Hazard",
+   "actor": "Lea Kalbhenn",
+   "von": "ann"
+  },
+  {
+   "character": "Lizer Bellphoenix",
+   "actor": "Sven Brieger",
+   "von": "ann"
+  },
+  {
+   "character": "Ireena Litz de Olhyde",
+   "actor": "Anni C. Salander",
+   "von": "ann"
+  },
+  {
+   "character": "Olivia vel Vine",
+   "actor": "Sophie Lechtenbrink",
+   "von": "ann"
+  },
+  {
+   "character": "Ard Meteor",
+   "actor": "Jonas Lauenstein",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24746"
+}

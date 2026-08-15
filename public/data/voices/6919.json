@@ -1,1 +1,97 @@
-{"titleId":6919,"updatedAt":"2026-08-11T11:20:03.068Z","roles":[{"character":"Scott Summers","actor":"Tobias Nath","role":"MAIN"},{"character":"Hisako Ichiki","actor":"Lisa May-Mitsching","role":"MAIN"}]}
+{
+ "titleId": 6919,
+ "updatedAt": "2026-08-15T18:33:13.803Z",
+ "roles": [
+  {
+   "character": "Scott Summers",
+   "actor": "Tobias Nath",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hisako Ichiki",
+   "actor": "Lisa May-Mitsching",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jun Sanada",
+   "actor": "Ricardo Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Wolverine",
+   "actor": "Oliver Siebeck",
+   "von": "ann"
+  },
+  {
+   "character": "Ororo Munroe/Storm",
+   "actor": "Marie Bierstedt",
+   "von": "ann"
+  },
+  {
+   "character": "Hisako's Mother",
+   "actor": "Anja Rybiczka",
+   "von": "ann"
+  },
+  {
+   "character": "Professor X",
+   "actor": "Reinhard Kuhnert",
+   "von": "ann"
+  },
+  {
+   "character": "Emma Frost",
+   "actor": "Andrea Solter",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Hank McCoy/Beast",
+   "actor": "Axel Lutter",
+   "von": "ann"
+  },
+  {
+   "character": "Neuron",
+   "actor": "Uli Krohm",
+   "von": "ann"
+  },
+  {
+   "character": "Scott Summers/Cyclops",
+   "actor": "Tobias Nath",
+   "von": "ann"
+  },
+  {
+   "character": "Mastermind",
+   "actor": "Ronald Nitschke",
+   "von": "ann"
+  },
+  {
+   "character": "Yui Sasaki",
+   "actor": "Sabine Sebastian",
+   "von": "ann"
+  },
+  {
+   "character": "Kyoko",
+   "actor": "Katie Pfleghar",
+   "von": "ann"
+  },
+  {
+   "character": "Hisako Ichiki",
+   "actor": "Lisa Mitsching",
+   "von": "ann"
+  },
+  {
+   "character": "Hisako's Father",
+   "actor": "Oliver Bender",
+   "von": "ann"
+  },
+  {
+   "character": "Jean Grey",
+   "actor": "Velia Krause",
+   "von": "ann"
+  },
+  {
+   "character": "Riko Nirasaki",
+   "actor": "Giovanna Winterfeldt",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=12366"
+}

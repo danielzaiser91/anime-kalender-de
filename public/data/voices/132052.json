@@ -1,1 +1,42 @@
-{"titleId":132052,"updatedAt":"2026-08-11T11:20:03.597Z","roles":[{"character":"Nagi Umino","actor":"Rajko Geith","role":"MAIN"},{"character":"Erika Amano","actor":"Julia Bautz","role":"MAIN"},{"character":"Hiro Segawa","actor":"Anni C. Salander","role":"MAIN"},{"character":"Sachi Umino","actor":"Milena Rybiczka","role":"MAIN"}]}
+{
+ "titleId": 132052,
+ "updatedAt": "2026-08-15T18:46:52.004Z",
+ "roles": [
+  {
+   "character": "Nagi Umino",
+   "actor": "Rajko Geith",
+   "role": "MAIN"
+  },
+  {
+   "character": "Erika Amano",
+   "actor": "Julia Bautz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hiro Segawa",
+   "actor": "Anni C. Salander",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sachi Umino",
+   "actor": "Milena Rybiczka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shion Asuma",
+   "actor": "Marco Rosenberg",
+   "von": "ann"
+  },
+  {
+   "character": "Shion Asuma",
+   "actor": "Michael Gugel",
+   "von": "ann"
+  },
+  {
+   "character": "Souichirou Amano",
+   "actor": "Florens Schmidt",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24241"
+}

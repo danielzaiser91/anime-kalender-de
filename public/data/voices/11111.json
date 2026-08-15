@@ -1,1 +1,117 @@
-{"titleId":11111,"updatedAt":"2026-08-11T11:20:03.115Z","roles":[{"character":"Mei Misaki","actor":"Linda Fölster","role":"MAIN"},{"character":"Kouichi Sakakibara","actor":"Henning Nöhren","role":"MAIN"},{"character":"Yukari Sakuragi","actor":"Charlotte Uhlig","role":"SUPPORTING"},{"character":"Kubodera-sensei","actor":"Matthias Klie","role":"SUPPORTING"},{"character":"Tomoko Inose","actor":"Silke Matthias","role":"SUPPORTING"},{"character":"Tatsuji Chibiki","actor":"Torsten Sense","role":"SUPPORTING"},{"character":"Ikuo Takabayashi","actor":"Konrad Bösherz","role":"SUPPORTING"},{"character":"Sanae Mizuno","actor":"Laurine Betz","role":"SUPPORTING"},{"character":"Noboru Saruta","actor":"Sebastian Fitzner","role":"SUPPORTING"},{"character":"Makoto Ouji","actor":"Marcel Mann","role":"SUPPORTING"},{"character":"Tamie Mikami","actor":"Margot Rothweiler","role":"SUPPORTING"},{"character":"Naoya Teshigawara","actor":"René Dawn-Claude","role":"SUPPORTING"},{"character":"Reiko Mikami","actor":"Jasmin Arnoldt","role":"SUPPORTING"},{"character":"Yousuke Sakakibara","actor":"Gerrit Hamann","role":"SUPPORTING"},{"character":"Yuuya Mochizuki","actor":"Christian Zeiger","role":"SUPPORTING"},{"character":"Yumi Ogura","actor":"Rieke Werner","role":"SUPPORTING"},{"character":"Junta Nakao","actor":"Fabian Oscar Wien","role":"SUPPORTING"},{"character":"Tomohiko Kazami","actor":"Michael Ernst","role":"SUPPORTING"},{"character":"Aya Ayano","actor":"Sarah Tkotsch","role":"SUPPORTING"}]}
+{
+ "titleId": 11111,
+ "updatedAt": "2026-08-15T18:34:26.317Z",
+ "roles": [
+  {
+   "character": "Mei Misaki",
+   "actor": "Linda Fölster",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kouichi Sakakibara",
+   "actor": "Henning Nöhren",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yukari Sakuragi",
+   "actor": "Charlotte Uhlig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kubodera-sensei",
+   "actor": "Matthias Klie",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tomoko Inose",
+   "actor": "Silke Matthias",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tatsuji Chibiki",
+   "actor": "Torsten Sense",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ikuo Takabayashi",
+   "actor": "Konrad Bösherz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sanae Mizuno",
+   "actor": "Laurine Betz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Noboru Saruta",
+   "actor": "Sebastian Fitzner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Makoto Ouji",
+   "actor": "Marcel Mann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tamie Mikami",
+   "actor": "Margot Rothweiler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Naoya Teshigawara",
+   "actor": "René Dawn-Claude",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Reiko Mikami",
+   "actor": "Jasmin Arnoldt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yousuke Sakakibara",
+   "actor": "Gerrit Hamann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuuya Mochizuki",
+   "actor": "Christian Zeiger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yumi Ogura",
+   "actor": "Rieke Werner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Junta Nakao",
+   "actor": "Fabian Oscar Wien",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tomohiko Kazami",
+   "actor": "Michael Ernst",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aya Ayano",
+   "actor": "Sarah Tkotsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shouji Kubodera",
+   "actor": "Matthias Klie",
+   "von": "ann"
+  },
+  {
+   "character": "Izumi Akazawa",
+   "actor": "Marieke Oeffinger",
+   "von": "ann"
+  },
+  {
+   "character": "Takako Sugiura",
+   "actor": "Josephine Schmidt",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=13258"
+}

@@ -1,1 +1,97 @@
-{"titleId":14669,"updatedAt":"2026-08-11T11:20:03.146Z","roles":[{"character":"Ryouko Satou","actor":"Angelina Geisler","role":"MAIN"},{"character":"Ichirou Satou","actor":"Julian Mau","role":"MAIN"},{"character":"Satou no Ane","actor":"Alma Maja Ernst","role":"SUPPORTING"},{"character":"Shinako Kobato","actor":"Jenny Maria Meyer","role":"SUPPORTING"},{"character":"Yamamoto","actor":"Phillip Sponbiel","role":"SUPPORTING"},{"character":"Tatsuo Andou","actor":"Christopher Kohn","role":"SUPPORTING"},{"character":"Kinoshita","actor":"Heiko Akrap","role":"SUPPORTING"},{"character":"Oda","actor":"Betty Weber","role":"SUPPORTING"},{"character":"Dorisen","actor":"Konrad Bösherz","role":"SUPPORTING"},{"character":"Hino","actor":"Betty Weber","role":"SUPPORTING"},{"character":"Hakui no Otoko","actor":"Matthias Klages","role":"SUPPORTING"},{"character":"Osamu Suzuki","actor":"David Denemark","role":"SUPPORTING"},{"character":"Itou","actor":"Leonhard Geffke","role":"SUPPORTING"},{"character":"Yumina Ooshima","actor":"Anita Hopt","role":"SUPPORTING"},{"character":"Mother Satou","actor":"Katja Hiller","role":"SUPPORTING"},{"character":"Kume","actor":"Björn Bonn","role":"SUPPORTING"},{"character":"Yuuta Takahashi","actor":"Daniel Faltin","role":"SUPPORTING"}]}
+{
+ "titleId": 14669,
+ "updatedAt": "2026-08-15T18:35:13.451Z",
+ "roles": [
+  {
+   "character": "Ryouko Satou",
+   "actor": "Angelina Geisler",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ichirou Satou",
+   "actor": "Julian Mau",
+   "role": "MAIN"
+  },
+  {
+   "character": "Satou no Ane",
+   "actor": "Alma Maja Ernst",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinako Kobato",
+   "actor": "Jenny Maria Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yamamoto",
+   "actor": "Phillip Sponbiel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tatsuo Andou",
+   "actor": "Christopher Kohn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kinoshita",
+   "actor": "Heiko Akrap",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Oda",
+   "actor": "Betty Weber",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dorisen",
+   "actor": "Konrad Bösherz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hino",
+   "actor": "Betty Weber",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hakui no Otoko",
+   "actor": "Matthias Klages",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Osamu Suzuki",
+   "actor": "David Denemark",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Itou",
+   "actor": "Leonhard Geffke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yumina Ooshima",
+   "actor": "Anita Hopt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mother Satou",
+   "actor": "Katja Hiller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kume",
+   "actor": "Björn Bonn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuuta Takahashi",
+   "actor": "Daniel Faltin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinako Kobata",
+   "actor": "Jenny Maria Meyer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=13894"
+}

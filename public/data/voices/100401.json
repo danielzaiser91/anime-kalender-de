@@ -1,1 +1,82 @@
-{"titleId":100401,"updatedAt":"2026-08-11T11:20:03.425Z","roles":[{"character":"Kai Ichinose","actor":"Maximilian Belle","role":"MAIN"},{"character":"Shuuhei Amamiya","actor":"Tobias Kern","role":"MAIN"},{"character":"Daigaku Kanehira","actor":"Henry Engels","role":"SUPPORTING"},{"character":"Takako Maruyama","actor":"Shandra Schadt","role":"SUPPORTING"},{"character":"Reiko Ichinose","actor":"Stephanie Kellner","role":"SUPPORTING"},{"character":"Namie Amamiya","actor":"Katharina Müller-Elmau","role":"SUPPORTING"},{"character":"Sousuke Ajino","actor":"Manfred Trilling","role":"SUPPORTING"}]}
+{
+ "titleId": 100401,
+ "updatedAt": "2026-08-15T18:41:57.540Z",
+ "roles": [
+  {
+   "character": "Kai Ichinose",
+   "actor": "Maximilian Belle",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shuuhei Amamiya",
+   "actor": "Tobias Kern",
+   "role": "MAIN"
+  },
+  {
+   "character": "Daigaku Kanehira",
+   "actor": "Henry Engels",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takako Maruyama",
+   "actor": "Shandra Schadt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Reiko Ichinose",
+   "actor": "Stephanie Kellner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Namie Amamiya",
+   "actor": "Katharina Müller-Elmau",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sousuke Ajino",
+   "actor": "Manfred Trilling",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Youichirou Amamiya",
+   "actor": "Martin Halm",
+   "von": "ann"
+  },
+  {
+   "character": "Jean-Jacques Serrault",
+   "actor": "Walter von Hauff",
+   "von": "ann"
+  },
+  {
+   "character": "Koutarou Shiba",
+   "actor": "Patrick Schröder",
+   "von": "ann"
+  },
+  {
+   "character": "Lech Szymanowski",
+   "actor": "Tobias John von Freyend",
+   "von": "ann"
+  },
+  {
+   "character": "Takeshi Saga",
+   "actor": "Jakob Riedl",
+   "von": "ann"
+  },
+  {
+   "character": "Karol Adamski",
+   "actor": "Karim El Kammouchi",
+   "von": "ann"
+  },
+  {
+   "character": "Arisa",
+   "actor": "Laura Jenni",
+   "von": "ann"
+  },
+  {
+   "character": "Kousei Hirata",
+   "actor": "Oliver Scheffel",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20596"
+}

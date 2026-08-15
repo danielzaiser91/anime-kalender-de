@@ -1,1 +1,87 @@
-{"titleId":1252,"updatedAt":"2026-08-11T11:20:02.905Z","roles":[{"character":"Jean Roque Raltique","actor":"Hubertus von Lerchenfeld","role":"MAIN"},{"character":"Nadia la Arwall","actor":"Beate Pfeiffer","role":"MAIN"},{"character":"Fuzzy","actor":"Gabrielle Pietermann","role":"MAIN"},{"character":"Nemo","actor":"Reinhard Brock","role":"SUPPORTING"},{"character":"Giegar","actor":"Michael Schwarzmaier","role":"SUPPORTING"},{"character":"Medina La Lugensius Electra","actor":"Alexandra Ludwig","role":"SUPPORTING"},{"character":"Sanson","actor":"Oliver Mink","role":"SUPPORTING"},{"character":"Hanson","actor":"Jan Koester","role":"SUPPORTING"},{"character":"Gargoyle","actor":"Peter Musäus","role":"SUPPORTING"},{"character":"Grandis Granva","actor":"Martina Duncker","role":"SUPPORTING"},{"character":"Marie en Carlsberg","actor":"Nicola Grupe-Arnoldi","role":"SUPPORTING"},{"character":"Frei","actor":"Andreas Borcherding","role":"SUPPORTING"}]}
+{
+ "titleId": 1252,
+ "updatedAt": "2026-08-15T18:28:00.733Z",
+ "roles": [
+  {
+   "character": "Jean Roque Raltique",
+   "actor": "Hubertus von Lerchenfeld",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nadia la Arwall",
+   "actor": "Beate Pfeiffer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Fuzzy",
+   "actor": "Gabrielle Pietermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nemo",
+   "actor": "Reinhard Brock",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Giegar",
+   "actor": "Michael Schwarzmaier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Medina La Lugensius Electra",
+   "actor": "Alexandra Ludwig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sanson",
+   "actor": "Oliver Mink",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hanson",
+   "actor": "Jan Koester",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gargoyle",
+   "actor": "Peter Musäus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Grandis Granva",
+   "actor": "Martina Duncker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marie en Carlsberg",
+   "actor": "Nicola Grupe-Arnoldi",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Frei",
+   "actor": "Andreas Borcherding",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jean",
+   "actor": "Hubertus von Lerchenfeld",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Geiger",
+   "actor": "Michael Schwarzmaier",
+   "von": "ann"
+  },
+  {
+   "character": "Nadia",
+   "actor": "Beate Pfeiffer",
+   "von": "ann"
+  },
+  {
+   "character": "Grandis Granva",
+   "actor": "Marina Duncker",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=618"
+}

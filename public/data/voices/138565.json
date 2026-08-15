@@ -1,1 +1,127 @@
-{"titleId":138565,"updatedAt":"2026-08-11T11:20:03.610Z","roles":[{"character":"Fushi","actor":"Linus Drews","role":"MAIN"},{"character":"March","actor":"Charlotte Uhlig","role":"SUPPORTING"},{"character":"Gugu","actor":"Ricardo Richter","role":"SUPPORTING"},{"character":"Tonari","actor":"Antje von der Ahe","role":"SUPPORTING"},{"character":"Bonchien Nicoli La Tasty Peach Uralis","actor":"René Dawn-Claude","role":"SUPPORTING"},{"character":"Kansatsu-sha","actor":"Frank Schaff","role":"SUPPORTING"},{"character":"Parona","actor":"Gabrielle Pietermann","role":"SUPPORTING"},{"character":"Hisame","actor":"Milena Rybiczka","role":"SUPPORTING"},{"character":"Rean Cropp","actor":"Saskia Glück","role":"SUPPORTING"},{"character":"Sander","actor":"Jaro Haggège","role":"SUPPORTING"},{"character":"Kahaku","actor":"Dirk Petrick","role":"SUPPORTING"},{"character":"Mia","actor":"Lea Kalbhenn","role":"SUPPORTING"},{"character":"Cyrilla","actor":"Alexander Doering","role":"SUPPORTING"},{"character":"Todo","actor":"Jessica Rust","role":"SUPPORTING"}]}
+{
+ "titleId": 138565,
+ "updatedAt": "2026-08-15T18:47:17.467Z",
+ "roles": [
+  {
+   "character": "Fushi",
+   "actor": "Linus Drews",
+   "role": "MAIN"
+  },
+  {
+   "character": "March",
+   "actor": "Charlotte Uhlig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gugu",
+   "actor": "Ricardo Richter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tonari",
+   "actor": "Antje von der Ahe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bonchien Nicoli La Tasty Peach Uralis",
+   "actor": "René Dawn-Claude",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kansatsu-sha",
+   "actor": "Frank Schaff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Parona",
+   "actor": "Gabrielle Pietermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hisame",
+   "actor": "Milena Rybiczka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rean Cropp",
+   "actor": "Saskia Glück",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sander",
+   "actor": "Jaro Haggège",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kahaku",
+   "actor": "Dirk Petrick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mia",
+   "actor": "Lea Kalbhenn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cyrilla",
+   "actor": "Alexander Doering",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Todo",
+   "actor": "Jessica Rust",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hairo Rich",
+   "actor": "Julien Haggege",
+   "von": "ann"
+  },
+  {
+   "character": "Kai Renald Rawle",
+   "actor": "Jaron Löwenberg",
+   "von": "ann"
+  },
+  {
+   "character": "Cylira",
+   "actor": "Alexander Doering",
+   "von": "ann"
+  },
+  {
+   "character": "Der Beobachter/Erzähler",
+   "actor": "Frank Schaff",
+   "von": "ann"
+  },
+  {
+   "character": "Messar Robin Bastar",
+   "actor": "Felix Spieß",
+   "von": "ann"
+  },
+  {
+   "character": "Alme",
+   "actor": "Laurine Betz",
+   "von": "ann"
+  },
+  {
+   "character": "Yuiss",
+   "actor": "Anni C. Salander",
+   "von": "ann"
+  },
+  {
+   "character": "Sera",
+   "actor": "Julia Vieregge",
+   "von": "ann"
+  },
+  {
+   "character": "Cam",
+   "actor": "Daniel Zillmann",
+   "von": "ann"
+  },
+  {
+   "character": "Pocoa",
+   "actor": "Emilia Raschewski",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24694"
+}

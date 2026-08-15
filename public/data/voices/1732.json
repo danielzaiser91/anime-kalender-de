@@ -1,1 +1,162 @@
-{"titleId":1732,"updatedAt":"2026-08-11T11:20:02.940Z","roles":[{"character":"Asuna Kagurazaka","actor":"Tanya Kahana","role":"MAIN"},{"character":"Konoka Konoe","actor":"Jill Böttcher","role":"MAIN"},{"character":"Negi Springfield","actor":"Rubina Kuraoka","role":"MAIN"},{"character":"Nodoka Miyazaki","actor":"Millie Forsberg","role":"MAIN"},{"character":"Yue Ayase","actor":"Catrin Dams","role":"MAIN"},{"character":"Makie Sasaki","actor":"Sonja Spuhl","role":"SUPPORTING"},{"character":"Mana Tatsumiya","actor":"Carmen Katt","role":"SUPPORTING"},{"character":"Kazumi Asakura","actor":"Marie-Luise Schramm","role":"SUPPORTING"},{"character":"Fuuka Narutaki","actor":"Anna Predleus","role":"SUPPORTING"},{"character":"Ako Izumi","actor":"Christin Springer","role":"SUPPORTING"},{"character":"Fumika Narutaki","actor":"Anna Predleus","role":"SUPPORTING"},{"character":"Setsuna Sakurazaki","actor":"Esra Vural","role":"SUPPORTING"},{"character":"Ayaka Yukihiro","actor":"Magdalena Turba","role":"SUPPORTING"},{"character":"Sayo Aisaka","actor":"Maria Koschny","role":"SUPPORTING"},{"character":"Evangeline Athanasia Katherine McDowell","actor":"Diana Borgwardt","role":"SUPPORTING"},{"character":"Chachamaru Karakuri","actor":"Sarah Riedel","role":"SUPPORTING"},{"character":"Yuuna Akashi","actor":"Maria Sumner","role":"SUPPORTING"},{"character":"Madoka Kugimiya","actor":"Svantje Wascher","role":"SUPPORTING"},{"character":"Misa Kakizaki","actor":"Luisa Wietzorek","role":"SUPPORTING"},{"character":"Satomi Hakase","actor":"Svantje Wascher","role":"SUPPORTING"},{"character":"Ku Fei","actor":"Bianca Krahl","role":"SUPPORTING"},{"character":"Natsumi Murakami","actor":"Gabriele Schramm-Philipp","role":"SUPPORTING"}]}
+{
+ "titleId": 1732,
+ "updatedAt": "2026-08-15T18:29:26.080Z",
+ "roles": [
+  {
+   "character": "Asuna Kagurazaka",
+   "actor": "Tanya Kahana",
+   "role": "MAIN"
+  },
+  {
+   "character": "Konoka Konoe",
+   "actor": "Jill Böttcher",
+   "role": "MAIN"
+  },
+  {
+   "character": "Negi Springfield",
+   "actor": "Rubina Kuraoka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nodoka Miyazaki",
+   "actor": "Millie Forsberg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yue Ayase",
+   "actor": "Catrin Dams",
+   "role": "MAIN"
+  },
+  {
+   "character": "Makie Sasaki",
+   "actor": "Sonja Spuhl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mana Tatsumiya",
+   "actor": "Carmen Katt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kazumi Asakura",
+   "actor": "Marie-Luise Schramm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fuuka Narutaki",
+   "actor": "Anna Predleus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ako Izumi",
+   "actor": "Christin Springer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fumika Narutaki",
+   "actor": "Anna Predleus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Setsuna Sakurazaki",
+   "actor": "Esra Vural",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ayaka Yukihiro",
+   "actor": "Magdalena Turba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sayo Aisaka",
+   "actor": "Maria Koschny",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Evangeline Athanasia Katherine McDowell",
+   "actor": "Diana Borgwardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chachamaru Karakuri",
+   "actor": "Sarah Riedel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuuna Akashi",
+   "actor": "Maria Sumner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Madoka Kugimiya",
+   "actor": "Svantje Wascher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Misa Kakizaki",
+   "actor": "Luisa Wietzorek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Satomi Hakase",
+   "actor": "Svantje Wascher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ku Fei",
+   "actor": "Bianca Krahl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Natsumi Murakami",
+   "actor": "Gabriele Schramm-Philipp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaede",
+   "actor": "Ann Vielhaben",
+   "von": "ann"
+  },
+  {
+   "character": "Haruna Saotome",
+   "actor": "Ilona Otto",
+   "von": "ann"
+  },
+  {
+   "character": "Evangeline",
+   "actor": "Diana Borgwardt",
+   "von": "ann"
+  },
+  {
+   "character": "Chizuru",
+   "actor": "Anja Rybiczka",
+   "von": "ann"
+  },
+  {
+   "character": "Yuna",
+   "actor": "Maria Sumner",
+   "von": "ann"
+  },
+  {
+   "character": "Setsuna",
+   "actor": "Esra Vural",
+   "von": "ann"
+  },
+  {
+   "character": "Chachamaru",
+   "actor": "Sarah Riedel",
+   "von": "ann"
+  },
+  {
+   "character": "Fuka",
+   "actor": "Anna Predleus",
+   "von": "ann"
+  },
+  {
+   "character": "Fumika",
+   "actor": "Anna Predleus",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=7205"
+}

@@ -1,1 +1,137 @@
-{"titleId":100112,"updatedAt":"2026-08-11T11:20:03.417Z","roles":[{"character":"Shin  Wolford","actor":"Florian Marissal","role":"MAIN"},{"character":"Sicily von Claude","actor":"Malin Steffen","role":"MAIN"},{"character":"August von Earlshide","actor":"Flemming Stein","role":"MAIN"},{"character":"Oliver Schtrom","actor":"Daniel Schütter","role":"SUPPORTING"},{"character":"Mark Bean","actor":"Daniel Axt","role":"SUPPORTING"},{"character":"Olivia Stone","actor":"Sina Zadra","role":"SUPPORTING"},{"character":"Julius von Littenheim","actor":"Julian-Elias Henneberg","role":"SUPPORTING"},{"character":"Thor von Fregel","actor":"Lino Dohse","role":"SUPPORTING"},{"character":"Diseum von Earlshide","actor":"Joshy Peters","role":"SUPPORTING"},{"character":"Yuri Carlton","actor":"Jannika Jira","role":"SUPPORTING"},{"character":"Melinda Bowen","actor":"Mica Mylo","role":"SUPPORTING"},{"character":"Tony Freed","actor":"Daniel Kirchberger","role":"SUPPORTING"},{"character":"Maria von Messina","actor":"Nina Witt","role":"SUPPORTING"},{"character":"Lynn Hughes","actor":"Selina Böttcher","role":"SUPPORTING"},{"character":"Merlin Wolford","actor":"Tim Grobe","role":"SUPPORTING"},{"character":"Alice Corner","actor":"Daniela Reidies","role":"SUPPORTING"},{"character":"May von Earlshide","actor":"Josephine Martz","role":"SUPPORTING"}]}
+{
+ "titleId": 100112,
+ "updatedAt": "2026-08-15T18:41:45.448Z",
+ "roles": [
+  {
+   "character": "Shin  Wolford",
+   "actor": "Florian Marissal",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sicily von Claude",
+   "actor": "Malin Steffen",
+   "role": "MAIN"
+  },
+  {
+   "character": "August von Earlshide",
+   "actor": "Flemming Stein",
+   "role": "MAIN"
+  },
+  {
+   "character": "Oliver Schtrom",
+   "actor": "Daniel Schütter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mark Bean",
+   "actor": "Daniel Axt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Olivia Stone",
+   "actor": "Sina Zadra",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Julius von Littenheim",
+   "actor": "Julian-Elias Henneberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Thor von Fregel",
+   "actor": "Lino Dohse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Diseum von Earlshide",
+   "actor": "Joshy Peters",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuri Carlton",
+   "actor": "Jannika Jira",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Melinda Bowen",
+   "actor": "Mica Mylo",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tony Freed",
+   "actor": "Daniel Kirchberger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maria von Messina",
+   "actor": "Nina Witt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lynn Hughes",
+   "actor": "Selina Böttcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Merlin Wolford",
+   "actor": "Tim Grobe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alice Corner",
+   "actor": "Daniela Reidies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "May von Earlshide",
+   "actor": "Josephine Martz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Diseum von Earlsheid",
+   "actor": "Joshy Peters",
+   "von": "ann"
+  },
+  {
+   "character": "Christina Hayden",
+   "actor": "Franciska Friede",
+   "von": "ann"
+  },
+  {
+   "character": "Siegfried Marquez",
+   "actor": "Jacob Weigert",
+   "von": "ann"
+  },
+  {
+   "character": "Thor von Flegel",
+   "actor": "Lino Dohse",
+   "von": "ann"
+  },
+  {
+   "character": "Tony Freyd",
+   "actor": "Daniel Kirchberger",
+   "von": "ann"
+  },
+  {
+   "character": "Shin Wolford",
+   "actor": "Florian Marissal",
+   "von": "ann"
+  },
+  {
+   "character": "Lawrence",
+   "actor": "Brian Sommer",
+   "von": "ann"
+  },
+  {
+   "character": "Sizilien von Klode",
+   "actor": "Malin Steffen",
+   "von": "ann"
+  },
+  {
+   "character": "Melida Bowen",
+   "actor": "Mica Mylo",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=21419"
+}

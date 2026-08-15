@@ -1,1 +1,77 @@
-{"titleId":1550,"updatedAt":"2026-08-11T11:20:02.929Z","roles":[{"character":"Kozue Ayuhara","actor":"Daniela Reidies","role":"MAIN"},{"character":"Midori Hayakawa","actor":"Marion von Stengel","role":"MAIN"},{"character":"Kyouko Makimura","actor":"Sygun Liewald","role":"SUPPORTING"},{"character":"Ooki","actor":"Ursula Berlinghof","role":"SUPPORTING"},{"character":"Sanjou Michiru","actor":"Brigitte Böttrich","role":"SUPPORTING"},{"character":"Tsutomu Ichinose","actor":"Marek Erhardt","role":"SUPPORTING"},{"character":"Daigou Inokuma","actor":"Thomas Schüler","role":"SUPPORTING"},{"character":"Yumi Katsuragi","actor":"Tina Eschmann","role":"SUPPORTING"},{"character":"Nakazawa","actor":"Maria Bachmann","role":"SUPPORTING"},{"character":"Keiko Kashiwagi","actor":"Katja Seker","role":"SUPPORTING"},{"character":"Fukuda","actor":"Brigitte Böttrich","role":"SUPPORTING"},{"character":"Ikezaki","actor":"Margrit Straßburger","role":"SUPPORTING"},{"character":"Shunsuke Hongou","actor":"Kai Henrik Möller","role":"SUPPORTING"}]}
+{
+ "titleId": 1550,
+ "updatedAt": "2026-08-15T18:29:01.646Z",
+ "roles": [
+  {
+   "character": "Kozue Ayuhara",
+   "actor": "Daniela Reidies",
+   "role": "MAIN"
+  },
+  {
+   "character": "Midori Hayakawa",
+   "actor": "Marion von Stengel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kyouko Makimura",
+   "actor": "Sygun Liewald",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ooki",
+   "actor": "Ursula Berlinghof",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sanjou Michiru",
+   "actor": "Brigitte Böttrich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsutomu Ichinose",
+   "actor": "Marek Erhardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Daigou Inokuma",
+   "actor": "Thomas Schüler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yumi Katsuragi",
+   "actor": "Tina Eschmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nakazawa",
+   "actor": "Maria Bachmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Keiko Kashiwagi",
+   "actor": "Katja Seker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fukuda",
+   "actor": "Brigitte Böttrich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ikezaki",
+   "actor": "Margrit Straßburger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shunsuke Hongou",
+   "actor": "Kai Henrik Möller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mila",
+   "actor": "Daniela Reidies",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1186"
+}

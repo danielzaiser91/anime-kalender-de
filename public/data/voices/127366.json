@@ -1,1 +1,82 @@
-{"titleId":127366,"updatedAt":"2026-08-11T11:20:03.579Z","roles":[{"character":"Yuka Tokitate","actor":"Moira May","role":"MAIN"},{"character":"Keita Torii","actor":"Nico Sablik","role":"MAIN"},{"character":"Kusue Hakozaki","actor":"Saskia Glück","role":"MAIN"},{"character":"Iu Shindou","actor":"Franziska Trunte","role":"MAIN"},{"character":"Yuusuke Yotsuya","actor":"Patrick Baehr","role":"MAIN"},{"character":"Kahabell","actor":"Laurine Betz","role":"SUPPORTING"},{"character":"Glenda Carter","actor":"Sonja Spuhl","role":"SUPPORTING"},{"character":"Thanzamer","actor":"Paul Matzke","role":"SUPPORTING"},{"character":"Cantil","actor":"Nick Forsberg","role":"SUPPORTING"},{"character":"Aoiu","actor":"Jasmin Arnoldt","role":"SUPPORTING"},{"character":"Yana","actor":"Laura Oettel","role":"SUPPORTING"}]}
+{
+ "titleId": 127366,
+ "updatedAt": "2026-08-15T18:46:18.609Z",
+ "roles": [
+  {
+   "character": "Yuka Tokitate",
+   "actor": "Moira May",
+   "role": "MAIN"
+  },
+  {
+   "character": "Keita Torii",
+   "actor": "Nico Sablik",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kusue Hakozaki",
+   "actor": "Saskia Glück",
+   "role": "MAIN"
+  },
+  {
+   "character": "Iu Shindou",
+   "actor": "Franziska Trunte",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuusuke Yotsuya",
+   "actor": "Patrick Baehr",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kahabell",
+   "actor": "Laurine Betz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Glenda Carter",
+   "actor": "Sonja Spuhl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Thanzamer",
+   "actor": "Paul Matzke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cantil",
+   "actor": "Nick Forsberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aoiu",
+   "actor": "Jasmin Arnoldt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yana",
+   "actor": "Laura Oettel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Katz",
+   "actor": "Konrad Bösherz",
+   "von": "ann"
+  },
+  {
+   "character": "Iu Shindo",
+   "actor": "Victoria Frenz",
+   "von": "ann"
+  },
+  {
+   "character": "Yūsuke Yotsuya",
+   "actor": "Patrick Baehr",
+   "von": "ann"
+  },
+  {
+   "character": "Yana",
+   "actor": "Laura Elßel",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=23853"
+}

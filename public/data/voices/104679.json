@@ -1,1 +1,127 @@
-{"titleId":104679,"updatedAt":"2026-08-11T11:20:03.486Z","roles":[{"character":"Hikari Kokura","actor":"Anja Rybiczka","role":"MAIN"},{"character":"Erika  Meinohama","actor":"Vera Bunk","role":"MAIN"},{"character":"Izumi Shibusawa","actor":"Antje von der Ahe","role":"MAIN"},{"character":"Yukio Igarashi","actor":"Gundi Eberhard","role":"MAIN"},{"character":"Rei Asakura","actor":"Andrea Cleven","role":"SUPPORTING"},{"character":"Kozakura Konno","actor":"Nicole Hannak","role":"SUPPORTING"},{"character":"Tohko Yosomiya","actor":"Nadja Stutterheim","role":"SUPPORTING"},{"character":"Misa Kuroi","actor":"Stefanie Masnik","role":"SUPPORTING"},{"character":"Haruna Tani","actor":"Stephanie Henze","role":"SUPPORTING"},{"character":"Nodoka Ogura","actor":"Lara Lamberti","role":"SUPPORTING"},{"character":"Chiyo Satou","actor":"Sylke Block","role":"SUPPORTING"},{"character":"Maho Kogomori","actor":"Dawn Patricia Robinson","role":"SUPPORTING"},{"character":"Ryouko Mochizuki","actor":"Paulina Bachmann","role":"SUPPORTING"},{"character":"Neneko Wada","actor":"Vanessa Most","role":"SUPPORTING"},{"character":"Akira Shinonome","actor":"Maxi Geithner","role":"SUPPORTING"},{"character":"Yuuko Tsurumaki","actor":"Margrit Straßburger","role":"SUPPORTING"},{"character":"Sayu Kaijima","actor":"Ariane Seeger","role":"SUPPORTING"},{"character":"Karen Sakashita","actor":"Angelina Geisler","role":"SUPPORTING"},{"character":"Anri Meinohama","actor":"Kathleen Bauer","role":"SUPPORTING"},{"character":"Yayoi Hayamine","actor":"Lucia Patricia Bayer","role":"SUPPORTING"},{"character":"Tae Nakagawa","actor":"Patricia Faltin","role":"SUPPORTING"},{"character":"Ako Touma","actor":"Lena Tiemann","role":"SUPPORTING"}]}
+{
+ "titleId": 104679,
+ "updatedAt": "2026-08-15T18:43:24.628Z",
+ "roles": [
+  {
+   "character": "Hikari Kokura",
+   "actor": "Anja Rybiczka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Erika  Meinohama",
+   "actor": "Vera Bunk",
+   "role": "MAIN"
+  },
+  {
+   "character": "Izumi Shibusawa",
+   "actor": "Antje von der Ahe",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yukio Igarashi",
+   "actor": "Gundi Eberhard",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rei Asakura",
+   "actor": "Andrea Cleven",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kozakura Konno",
+   "actor": "Nicole Hannak",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tohko Yosomiya",
+   "actor": "Nadja Stutterheim",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Misa Kuroi",
+   "actor": "Stefanie Masnik",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haruna Tani",
+   "actor": "Stephanie Henze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nodoka Ogura",
+   "actor": "Lara Lamberti",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chiyo Satou",
+   "actor": "Sylke Block",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maho Kogomori",
+   "actor": "Dawn Patricia Robinson",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryouko Mochizuki",
+   "actor": "Paulina Bachmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Neneko Wada",
+   "actor": "Vanessa Most",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akira Shinonome",
+   "actor": "Maxi Geithner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuuko Tsurumaki",
+   "actor": "Margrit Straßburger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sayu Kaijima",
+   "actor": "Ariane Seeger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Karen Sakashita",
+   "actor": "Angelina Geisler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Anri Meinohama",
+   "actor": "Kathleen Bauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yayoi Hayamine",
+   "actor": "Lucia Patricia Bayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tae Nakagawa",
+   "actor": "Patricia Faltin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ako Touma",
+   "actor": "Lena Tiemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Erika Meinohama",
+   "actor": "Vera Bunk",
+   "von": "ann"
+  },
+  {
+   "character": "Nadoko Ogura",
+   "actor": "Lara Lamberti",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22361"
+}

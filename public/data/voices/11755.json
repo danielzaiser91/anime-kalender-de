@@ -1,1 +1,102 @@
-{"titleId":11755,"updatedAt":"2026-08-11T11:20:03.124Z","roles":[{"character":"Pyunma","actor":"Steven Merting","role":"MAIN"},{"character":"Françoise Arnoul","actor":"Esra Vural","role":"MAIN"},{"character":"Joe Shimamura","actor":"Konrad Bösherz","role":"MAIN"},{"character":"Jet Link","actor":"Michael Deffert","role":"MAIN"},{"character":"Albert Heinrich","actor":"Rainer Fritzsche","role":"MAIN"},{"character":"Great Britain","actor":"Viktor Neumann","role":"MAIN"},{"character":"Ivan Whisky","actor":"Katrin Zimmermann","role":"MAIN"},{"character":"Geronimo Jr.","actor":"Matti Klemm","role":"MAIN"}]}
+{
+ "titleId": 11755,
+ "updatedAt": "2026-08-15T18:34:34.581Z",
+ "roles": [
+  {
+   "character": "Pyunma",
+   "actor": "Steven Merting",
+   "role": "MAIN"
+  },
+  {
+   "character": "Françoise Arnoul",
+   "actor": "Esra Vural",
+   "role": "MAIN"
+  },
+  {
+   "character": "Joe Shimamura",
+   "actor": "Konrad Bösherz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jet Link",
+   "actor": "Michael Deffert",
+   "role": "MAIN"
+  },
+  {
+   "character": "Albert Heinrich",
+   "actor": "Rainer Fritzsche",
+   "role": "MAIN"
+  },
+  {
+   "character": "Great Britain",
+   "actor": "Viktor Neumann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ivan Whisky",
+   "actor": "Katrin Zimmermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Geronimo Jr.",
+   "actor": "Matti Klemm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Cyborg 009 / Joe Shimamura",
+   "actor": "Konrad Bösherz",
+   "von": "ann"
+  },
+  {
+   "character": "Cyborg 007 / Great Britain",
+   "actor": "Viktor Neumann",
+   "von": "ann"
+  },
+  {
+   "character": "Cyborg 006 / Chang Changku",
+   "actor": "Hans Hohlbein",
+   "von": "ann"
+  },
+  {
+   "character": "Cyborg 004 / Albert Heinrich",
+   "actor": "Rainer Fritzsche",
+   "von": "ann"
+  },
+  {
+   "character": "Void",
+   "actor": "Andreas Müller",
+   "von": "ann"
+  },
+  {
+   "character": "Prof. Isaac Gilmore",
+   "actor": "Peter Reinhardt",
+   "von": "ann"
+  },
+  {
+   "character": "Cyborg 002 / Jet Link",
+   "actor": "Michael Deffert",
+   "von": "ann"
+  },
+  {
+   "character": "Cyborg 003 / Françoise Arnoul",
+   "actor": "Esra Vural",
+   "von": "ann"
+  },
+  {
+   "character": "Cyborg 005 / Geronimo Jr.",
+   "actor": "Matti Klemm",
+   "von": "ann"
+  },
+  {
+   "character": "Cyborg 001 / Ivan Whisky",
+   "actor": "Katrin Zimmermann",
+   "von": "ann"
+  },
+  {
+   "character": "Cyborg 008 / Pyunma",
+   "actor": "Steven Merting",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=13645"
+}

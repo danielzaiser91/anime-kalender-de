@@ -1,1 +1,142 @@
-{"titleId":100668,"updatedAt":"2026-08-11T11:20:03.432Z","roles":[{"character":"Yue","actor":"Laura Maire","role":"MAIN"},{"character":"Hajime Nagumo","actor":"Martin Bonvicini","role":"MAIN"},{"character":"Shia Haulia","actor":"Jana Dunja Gries","role":"MAIN"},{"character":"Tio Klarus","actor":"Janina Dietz","role":"MAIN"},{"character":"Taeko Sugawara","actor":"Kerstin Dietrich","role":"SUPPORTING"},{"character":"Eliheid S. B. Heiligh","actor":"Marc Rosenberg","role":"SUPPORTING"},{"character":"Cam Haulia","actor":"Mike Carl","role":"SUPPORTING"},{"character":"Nana Miyazaki","actor":"Zina Laus","role":"SUPPORTING"},{"character":"Kaori Shirasaki","actor":"Eleni Möller-Architektonidou","role":"SUPPORTING"},{"character":"Kouki Amanogawa","actor":"Mio Lechenmayr","role":"SUPPORTING"},{"character":"Yuuka Sonobe","actor":"Melanie Olbert","role":"SUPPORTING"},{"character":"Aiko Hatayama","actor":"Katharina von Daake","role":"SUPPORTING"},{"character":"Kousuke Endou","actor":"Christian Hanisch","role":"SUPPORTING"},{"character":"Myuu","actor":"Samina König","role":"SUPPORTING"},{"character":"Meld Loggins","actor":"Stefan Lehnen","role":"SUPPORTING"},{"character":"Cattleya","actor":"Cindy Kepke","role":"SUPPORTING"},{"character":"Shizuku Yaegashi","actor":"Angelina Markiefka","role":"SUPPORTING"},{"character":"Nia","actor":"Katharina Iacobescu","role":"SUPPORTING"},{"character":"Ishtar Langbard","actor":"Gerhard Acktun","role":"SUPPORTING"},{"character":"Kharga Klarus","actor":"Mike Carl","role":"BACKGROUND"},{"character":"Riiman","actor":"Christopher Kussin","role":"BACKGROUND"}]}
+{
+ "titleId": 100668,
+ "updatedAt": "2026-08-15T18:42:07.256Z",
+ "roles": [
+  {
+   "character": "Yue",
+   "actor": "Laura Maire",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hajime Nagumo",
+   "actor": "Martin Bonvicini",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shia Haulia",
+   "actor": "Jana Dunja Gries",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tio Klarus",
+   "actor": "Janina Dietz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Taeko Sugawara",
+   "actor": "Kerstin Dietrich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eliheid S. B. Heiligh",
+   "actor": "Marc Rosenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cam Haulia",
+   "actor": "Mike Carl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nana Miyazaki",
+   "actor": "Zina Laus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaori Shirasaki",
+   "actor": "Eleni Möller-Architektonidou",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kouki Amanogawa",
+   "actor": "Mio Lechenmayr",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuuka Sonobe",
+   "actor": "Melanie Olbert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aiko Hatayama",
+   "actor": "Katharina von Daake",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kousuke Endou",
+   "actor": "Christian Hanisch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Myuu",
+   "actor": "Samina König",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Meld Loggins",
+   "actor": "Stefan Lehnen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cattleya",
+   "actor": "Cindy Kepke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shizuku Yaegashi",
+   "actor": "Angelina Markiefka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nia",
+   "actor": "Katharina Iacobescu",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ishtar Langbard",
+   "actor": "Gerhard Acktun",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kharga Klarus",
+   "actor": "Mike Carl",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Riiman",
+   "actor": "Christopher Kussin",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Shea Haulia",
+   "actor": "Jana Dunja Gries",
+   "von": "ann"
+  },
+  {
+   "character": "Daisuke Hiyama",
+   "actor": "Benjamin Levent Krause",
+   "von": "ann"
+  },
+  {
+   "character": "Ryotarou Sakagami",
+   "actor": "Julian Bayer",
+   "von": "ann"
+  },
+  {
+   "character": "Kaori Shirasaki",
+   "actor": "Eleni Möller",
+   "von": "ann"
+  },
+  {
+   "character": "Kouki Amenogawa",
+   "actor": "Mio Lechenmayr",
+   "von": "ann"
+  },
+  {
+   "character": "Myu",
+   "actor": "Samina König",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20363"
+}

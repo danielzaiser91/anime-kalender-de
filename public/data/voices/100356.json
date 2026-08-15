@@ -1,1 +1,37 @@
-{"titleId":100356,"updatedAt":"2026-08-11T11:20:03.480Z","roles":[{"character":"Angelino","actor":"Oliver-Kim Hasper","role":"MAIN"},{"character":"Vinz","actor":"Gerrit Schmidt-Foß","role":"MAIN"},{"character":"Luna","actor":"Giuliana Jakobeit","role":"MAIN"},{"character":"Willy","actor":"David Turba","role":"SUPPORTING"},{"character":"Mr. K","actor":"Klaus-Dieter Klebsch","role":"SUPPORTING"}]}
+{
+ "titleId": 100356,
+ "updatedAt": "2026-08-15T18:43:15.287Z",
+ "roles": [
+  {
+   "character": "Angelino",
+   "actor": "Oliver-Kim Hasper",
+   "role": "MAIN"
+  },
+  {
+   "character": "Vinz",
+   "actor": "Gerrit Schmidt-Foß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Luna",
+   "actor": "Giuliana Jakobeit",
+   "role": "MAIN"
+  },
+  {
+   "character": "Willy",
+   "actor": "David Turba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mr. K",
+   "actor": "Klaus-Dieter Klebsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Angelino",
+   "actor": "Kim Hasper",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22356"
+}

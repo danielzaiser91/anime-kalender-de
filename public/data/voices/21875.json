@@ -1,1 +1,107 @@
-{"titleId":21875,"updatedAt":"2026-08-11T11:20:03.348Z","roles":[{"character":"Couronna Dola","actor":"Winnie Brandes","role":"MAIN"},{"character":"Schwi Dola","actor":"Paulina Rümmelein","role":"MAIN"},{"character":"Riku Dola","actor":"Björn Schalla","role":"MAIN"},{"character":"Izuna Hatsuse","actor":"Céline Vogt","role":"SUPPORTING"},{"character":"Sora","actor":"Björn Schalla","role":"SUPPORTING"},{"character":"Think Nirvalen","actor":"Ela Paul","role":"SUPPORTING"},{"character":"Shiro","actor":"Paulina Rümmelein","role":"SUPPORTING"},{"character":"Nonna Zell","actor":"Meri Dogan","role":"SUPPORTING"},{"character":"Stephanie Dola","actor":"Winnie Brandes","role":"SUPPORTING"},{"character":"Azriel","actor":"Vivien Faber","role":"SUPPORTING"},{"character":"Jibril","actor":"Milena Karas","role":"SUPPORTING"},{"character":"Ivan Zell","actor":"Jan Langer","role":"SUPPORTING"},{"character":"Tet","actor":"Patricia Strasburger","role":"SUPPORTING"},{"character":"Einzig","actor":"Tobias Brecklinghaus","role":"SUPPORTING"},{"character":"Artosh","actor":"Tom Jacobs","role":"SUPPORTING"},{"character":"Raphael","actor":"Mayke Dähn","role":"BACKGROUND"}]}
+{
+ "titleId": 21875,
+ "updatedAt": "2026-08-15T18:40:16.341Z",
+ "roles": [
+  {
+   "character": "Couronna Dola",
+   "actor": "Winnie Brandes",
+   "role": "MAIN"
+  },
+  {
+   "character": "Schwi Dola",
+   "actor": "Paulina Rümmelein",
+   "role": "MAIN"
+  },
+  {
+   "character": "Riku Dola",
+   "actor": "Björn Schalla",
+   "role": "MAIN"
+  },
+  {
+   "character": "Izuna Hatsuse",
+   "actor": "Céline Vogt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sora",
+   "actor": "Björn Schalla",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Think Nirvalen",
+   "actor": "Ela Paul",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shiro",
+   "actor": "Paulina Rümmelein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nonna Zell",
+   "actor": "Meri Dogan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Stephanie Dola",
+   "actor": "Winnie Brandes",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Azriel",
+   "actor": "Vivien Faber",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jibril",
+   "actor": "Milena Karas",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ivan Zell",
+   "actor": "Jan Langer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tet",
+   "actor": "Patricia Strasburger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Einzig",
+   "actor": "Tobias Brecklinghaus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Artosh",
+   "actor": "Tom Jacobs",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Raphael",
+   "actor": "Mayke Dähn",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Riku Dora",
+   "actor": "Björn Schalla",
+   "von": "ann"
+  },
+  {
+   "character": "Shuvi Dora",
+   "actor": "Paulina Bohlmann",
+   "von": "ann"
+  },
+  {
+   "character": "Koron Dora",
+   "actor": "Winnie Brandes",
+   "von": "ann"
+  },
+  {
+   "character": "Shinku Nilvaren",
+   "actor": "Ela Paul",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19405"
+}

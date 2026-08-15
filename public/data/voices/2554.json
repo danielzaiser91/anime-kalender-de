@@ -1,1 +1,117 @@
-{"titleId":2554,"updatedAt":"2026-08-11T11:20:02.975Z","roles":[{"character":"Pollyanna Whittier","actor":"Diana Borgwardt","role":"MAIN"},{"character":"Jimmy Bean","actor":"Daniela Reidies","role":"MAIN"},{"character":"Polly Harrington","actor":"Karin Schröder","role":"MAIN"},{"character":"John Whittier","actor":"Ingo Albrecht","role":"SUPPORTING"},{"character":"Ruth Carew","actor":"Rita Engelmann","role":"SUPPORTING"},{"character":"Mrs. White","actor":"Eva-Maria Werth","role":"SUPPORTING"},{"character":"Nancy","actor":"Ulrike Mai","role":"SUPPORTING"},{"character":"Narrator","actor":"Heinz Theo Branding","role":"SUPPORTING"},{"character":"Thomas Chilton","actor":"Leon Boden","role":"SUPPORTING"},{"character":"Mary","actor":"Natascha Rybakowski","role":"SUPPORTING"},{"character":"John Pendleton","actor":"Lothar Blumhagen","role":"SUPPORTING"}]}
+{
+ "titleId": 2554,
+ "updatedAt": "2026-08-15T18:30:51.278Z",
+ "roles": [
+  {
+   "character": "Pollyanna Whittier",
+   "actor": "Diana Borgwardt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jimmy Bean",
+   "actor": "Daniela Reidies",
+   "role": "MAIN"
+  },
+  {
+   "character": "Polly Harrington",
+   "actor": "Karin Schröder",
+   "role": "MAIN"
+  },
+  {
+   "character": "John Whittier",
+   "actor": "Ingo Albrecht",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ruth Carew",
+   "actor": "Rita Engelmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mrs. White",
+   "actor": "Eva-Maria Werth",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nancy",
+   "actor": "Ulrike Mai",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Heinz Theo Branding",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Thomas Chilton",
+   "actor": "Leon Boden",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mary",
+   "actor": "Natascha Rybakowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "John Pendleton",
+   "actor": "Lothar Blumhagen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Della Wetherby",
+   "actor": "Maja Dürr",
+   "von": "ann"
+  },
+  {
+   "character": "Pollyanna",
+   "actor": "Diana Borgwardt",
+   "von": "ann"
+  },
+  {
+   "character": "Tom Peyson",
+   "actor": "Hans Nitschke",
+   "von": "ann"
+  },
+  {
+   "character": "Charlie Ames",
+   "actor": "Bernd Rumpf",
+   "von": "ann"
+  },
+  {
+   "character": "Edward Kent",
+   "actor": "Walter Alich",
+   "von": "ann"
+  },
+  {
+   "character": "Ezra",
+   "actor": "Christel Merian",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Chilton",
+   "actor": "Leon Boden",
+   "von": "ann"
+  },
+  {
+   "character": "Mrs. Snow",
+   "actor": "Sigrid Lagemann",
+   "von": "ann"
+  },
+  {
+   "character": "Nancy Hartley",
+   "actor": "Ulrike Mai",
+   "von": "ann"
+  },
+  {
+   "character": "Jaime",
+   "actor": "Ben Hoffmeister",
+   "von": "ann"
+  },
+  {
+   "character": "Sadie Dean",
+   "actor": "Nicolette Röwekamp",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1057"
+}

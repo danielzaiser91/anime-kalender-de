@@ -1,1 +1,57 @@
-{"titleId":131586,"updatedAt":"2026-08-11T11:20:03.595Z","roles":[{"character":"Shinei Nouzen","actor":"Jesse Grimm","role":"MAIN"},{"character":"Anju Emma","actor":"Simona Pahl","role":"MAIN"},{"character":"Kurena Kukumila","actor":"Emily Seubert","role":"MAIN"},{"character":"Theoto Rikka","actor":"Alexander Merbeth","role":"MAIN"},{"character":"Frederica Rosenfort","actor":"Julia Fölster","role":"MAIN"},{"character":"Raiden Shuga","actor":"Jörn Linnenbröker","role":"MAIN"},{"character":"Vladilena Milizé","actor":"Franciska  Friede","role":"SUPPORTING"},{"character":"Ernst Zimmerman","actor":"Martin Brücker","role":"SUPPORTING"}]}
+{
+ "titleId": 131586,
+ "updatedAt": "2026-08-15T18:46:49.323Z",
+ "roles": [
+  {
+   "character": "Shinei Nouzen",
+   "actor": "Jesse Grimm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Anju Emma",
+   "actor": "Simona Pahl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kurena Kukumila",
+   "actor": "Emily Seubert",
+   "role": "MAIN"
+  },
+  {
+   "character": "Theoto Rikka",
+   "actor": "Alexander Merbeth",
+   "role": "MAIN"
+  },
+  {
+   "character": "Frederica Rosenfort",
+   "actor": "Julia Fölster",
+   "role": "MAIN"
+  },
+  {
+   "character": "Raiden Shuga",
+   "actor": "Jörn Linnenbröker",
+   "role": "MAIN"
+  },
+  {
+   "character": "Vladilena Milizé",
+   "actor": "Franciska  Friede",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ernst Zimmerman",
+   "actor": "Martin Brücker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ernst Zimmermann",
+   "actor": "Martin Brücker",
+   "von": "ann"
+  },
+  {
+   "character": "Vladilena Milizé",
+   "actor": "Franciska Friede",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24481"
+}

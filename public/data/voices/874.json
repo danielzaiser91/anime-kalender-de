@@ -1,1 +1,92 @@
-{"titleId":874,"updatedAt":"2026-08-11T11:20:02.869Z","roles":[{"character":"Guilmon","actor":"Bernhard Völger","role":"MAIN"},{"character":"Takato Matsuda","actor":"Konrad Bösherz","role":"MAIN"},{"character":"Culumon","actor":"Andreschka Großmann","role":"MAIN"},{"character":"Jianliang Lee","actor":"Carsten Otto","role":"MAIN"},{"character":"Impmon","actor":"Stefan Krause","role":"MAIN"},{"character":"Terriermon","actor":"Maja Dürr","role":"MAIN"},{"character":"Renamon","actor":"Olaf Reichmann","role":"MAIN"},{"character":"Ruki Makino","actor":"Luise Helm","role":"MAIN"},{"character":"Ryou Akiyama","actor":"Tobias Müller","role":"SUPPORTING"},{"character":"Kenta Kitagawa","actor":"Nikolai Dreißig","role":"SUPPORTING"},{"character":"Shaochung Lee","actor":"Victoria Frenz","role":"SUPPORTING"},{"character":"Mitsuo Yamaki","actor":"Tim Moeseritz","role":"SUPPORTING"},{"character":"Hirokazu Shioda","actor":"Niclas Lutz","role":"SUPPORTING"}]}
+{
+ "titleId": 874,
+ "updatedAt": "2026-08-15T18:26:29.160Z",
+ "roles": [
+  {
+   "character": "Guilmon",
+   "actor": "Bernhard Völger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Takato Matsuda",
+   "actor": "Konrad Bösherz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Culumon",
+   "actor": "Andreschka Großmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jianliang Lee",
+   "actor": "Carsten Otto",
+   "role": "MAIN"
+  },
+  {
+   "character": "Impmon",
+   "actor": "Stefan Krause",
+   "role": "MAIN"
+  },
+  {
+   "character": "Terriermon",
+   "actor": "Maja Dürr",
+   "role": "MAIN"
+  },
+  {
+   "character": "Renamon",
+   "actor": "Olaf Reichmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ruki Makino",
+   "actor": "Luise Helm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ryou Akiyama",
+   "actor": "Tobias Müller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kenta Kitagawa",
+   "actor": "Nikolai Dreißig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shaochung Lee",
+   "actor": "Victoria Frenz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mitsuo Yamaki",
+   "actor": "Tim Moeseritz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hirokazu Shioda",
+   "actor": "Niclas Lutz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jenrya Lee",
+   "actor": "Carsten Otto",
+   "von": "ann"
+  },
+  {
+   "character": "Leomon",
+   "actor": "Gerald Paradies",
+   "von": "ann"
+  },
+  {
+   "character": "Ryo Akiyama",
+   "actor": "Tobias Müller",
+   "von": "ann"
+  },
+  {
+   "character": "Calumon",
+   "actor": "Andreschka Großmann",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2171"
+}

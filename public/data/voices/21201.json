@@ -1,1 +1,117 @@
-{"titleId":21201,"updatedAt":"2026-08-11T11:20:03.274Z","roles":[{"character":"Theodor Eberbach","actor":"Benjamin Mereis","role":"MAIN"},{"character":"Irisdina Bernhard","actor":"Ulla Wagener","role":"MAIN"},{"character":"Lise Hohenstein","actor":"Lea Kalbhenn","role":"MAIN"},{"character":"Katia Waldheim","actor":"Lisa Dzyadyk","role":"MAIN"},{"character":"Anett Hosenfeld","actor":"Kerstin Dietrich","role":"SUPPORTING"},{"character":"Erich Schmidt","actor":"Thomas Höricht","role":"SUPPORTING"},{"character":"Gretel Jeckeln","actor":"Nicole Hise","role":"SUPPORTING"},{"character":"Sylwia Krzasińska","actor":"Jo Kern","role":"SUPPORTING"},{"character":"Circe Steinhoff","actor":"Moira May","role":"SUPPORTING"},{"character":"Thi-Lan Pham","actor":"Dagmar Bittner","role":"SUPPORTING"},{"character":"Heinz Axmann","actor":"Manfred Trilling","role":"SUPPORTING"},{"character":"Walther Krüger","actor":"Christian Jungwirth","role":"SUPPORTING"}]}
+{
+ "titleId": 21201,
+ "updatedAt": "2026-08-15T18:38:37.567Z",
+ "roles": [
+  {
+   "character": "Theodor Eberbach",
+   "actor": "Benjamin Mereis",
+   "role": "MAIN"
+  },
+  {
+   "character": "Irisdina Bernhard",
+   "actor": "Ulla Wagener",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lise Hohenstein",
+   "actor": "Lea Kalbhenn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Katia Waldheim",
+   "actor": "Lisa Dzyadyk",
+   "role": "MAIN"
+  },
+  {
+   "character": "Anett Hosenfeld",
+   "actor": "Kerstin Dietrich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Erich Schmidt",
+   "actor": "Thomas Höricht",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gretel Jeckeln",
+   "actor": "Nicole Hise",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sylwia Krzasińska",
+   "actor": "Jo Kern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Circe Steinhoff",
+   "actor": "Moira May",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Thi-Lan Pham",
+   "actor": "Dagmar Bittner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Heinz Axmann",
+   "actor": "Manfred Trilling",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Walther Krüger",
+   "actor": "Christian Jungwirth",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Beatrix Brehme",
+   "actor": "Shandra Schadt",
+   "von": "ann"
+  },
+  {
+   "character": "Franz Heim",
+   "actor": "Dieter Memel",
+   "von": "ann"
+  },
+  {
+   "character": "Joachim Balck",
+   "actor": "Mike Carl",
+   "von": "ann"
+  },
+  {
+   "character": "Walther Kruger",
+   "actor": "Christian Jungwirth",
+   "von": "ann"
+  },
+  {
+   "character": "Suzy Dzap",
+   "actor": "Ilena Gwisdalla",
+   "von": "ann"
+  },
+  {
+   "character": "Kirke Steinhoff",
+   "actor": "Moira May",
+   "von": "ann"
+  },
+  {
+   "character": "Pham Thi Lan",
+   "actor": "Dagmar Bittner",
+   "von": "ann"
+  },
+  {
+   "character": "Theodor Eberbach",
+   "actor": "Benjamin Levent Krause",
+   "von": "ann"
+  },
+  {
+   "character": "Sylvia Krzasińska",
+   "actor": "Jo Kern",
+   "von": "ann"
+  },
+  {
+   "character": "Beatrix Brehme",
+   "actor": "Janina Dietz",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=17670"
+}

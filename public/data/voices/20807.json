@@ -1,1 +1,77 @@
-{"titleId":20807,"updatedAt":"2026-08-11T11:09:14.136Z","roles":[{"character":"Kiyoshi Fujino","actor":"Felix Auer","role":"MAIN"},{"character":"Reiji Andou","actor":"Karim El Kammouchi","role":"MAIN"},{"character":"Takehito Morokuzu","actor":"Fabian Rohm","role":"MAIN"},{"character":"Jouji Nezu","actor":"Amir Yarahi","role":"MAIN"},{"character":"Shingo Wakamoto","actor":"Paul Deny","role":"MAIN"},{"character":"Kurihara","actor":"Holger Schwiers","role":"SUPPORTING"},{"character":"Anzu Yokoyama","actor":"Anna Ewelina","role":"SUPPORTING"},{"character":"Chiyo Kurihara","actor":"Sabine Bohlmann","role":"SUPPORTING"},{"character":"Kate Takenomiya","actor":"Shirin Lotze","role":"SUPPORTING"},{"character":"Mari Kurihara","actor":"Bettina Zech","role":"SUPPORTING"},{"character":"Hana Midorikawa","actor":"Ilena Gwisdalla","role":"SUPPORTING"},{"character":"Meiko Shiraki","actor":"Stefanie Dischinger","role":"SUPPORTING"}]}
+{
+ "titleId": 20807,
+ "updatedAt": "2026-08-15T18:38:22.777Z",
+ "roles": [
+  {
+   "character": "Kiyoshi Fujino",
+   "actor": "Felix Auer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Reiji Andou",
+   "actor": "Karim El Kammouchi",
+   "role": "MAIN"
+  },
+  {
+   "character": "Takehito Morokuzu",
+   "actor": "Fabian Rohm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jouji Nezu",
+   "actor": "Amir Yarahi",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shingo Wakamoto",
+   "actor": "Paul Deny",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kurihara",
+   "actor": "Holger Schwiers",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Anzu Yokoyama",
+   "actor": "Anna Ewelina",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chiyo Kurihara",
+   "actor": "Sabine Bohlmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kate Takenomiya",
+   "actor": "Shirin Lotze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mari Kurihara",
+   "actor": "Bettina Zech",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hana Midorikawa",
+   "actor": "Ilena Gwisdalla",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Meiko Shiraki",
+   "actor": "Stefanie Dischinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Reiji 'Andre' Andou",
+   "actor": "Karim El Kammouchi",
+   "von": "ann"
+  },
+  {
+   "character": "Jouji 'Joe' Nezu",
+   "actor": "Amir Yarahi",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16838"
+}

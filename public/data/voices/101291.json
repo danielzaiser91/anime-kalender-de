@@ -1,1 +1,67 @@
-{"titleId":101291,"updatedAt":"2026-08-11T11:20:03.451Z","roles":[{"character":"Sakuta Azusagawa","actor":"Malte Wetzel","role":"MAIN"},{"character":"Mai Sakurajima","actor":"Marcia von Rebay","role":"MAIN"},{"character":"Tomoe Koga","actor":"Rieke Werner","role":"MAIN"},{"character":"Rio Futaba","actor":"Shandra Schadt","role":"MAIN"},{"character":"Nodoka Toyohama","actor":"Paulina Rümmelein","role":"MAIN"},{"character":"Kaede Azusagawa","actor":"Alexandra Schenke","role":"MAIN"},{"character":"Shouko Makinohara","actor":"Melanie Olbert","role":"SUPPORTING"},{"character":"Saki Kamisato","actor":"Gabrielle Pietermann","role":"SUPPORTING"},{"character":"Yuuma Kunimi","actor":"Felix Mayer","role":"SUPPORTING"},{"character":"Yousuke Maesawa","actor":"Leonard Hohm","role":"BACKGROUND"},{"character":"Mai no Haha","actor":"Uta Kienemann-Zaradic","role":"BACKGROUND"}]}
+{
+ "titleId": 101291,
+ "updatedAt": "2026-08-15T18:42:29.938Z",
+ "roles": [
+  {
+   "character": "Sakuta Azusagawa",
+   "actor": "Malte Wetzel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mai Sakurajima",
+   "actor": "Marcia von Rebay",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tomoe Koga",
+   "actor": "Rieke Werner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rio Futaba",
+   "actor": "Shandra Schadt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nodoka Toyohama",
+   "actor": "Paulina Rümmelein",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kaede Azusagawa",
+   "actor": "Alexandra Schenke",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shouko Makinohara",
+   "actor": "Melanie Olbert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Saki Kamisato",
+   "actor": "Gabrielle Pietermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuuma Kunimi",
+   "actor": "Felix Mayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yousuke Maesawa",
+   "actor": "Leonard Hohm",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Mai no Haha",
+   "actor": "Uta Kienemann-Zaradic",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Nodoka Toyohama",
+   "actor": "Paulina Bohlmann",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20848"
+}

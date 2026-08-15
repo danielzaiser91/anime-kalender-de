@@ -1,1 +1,82 @@
-{"titleId":1121,"updatedAt":"2026-08-11T11:20:02.894Z","roles":[{"character":"Takeshi","actor":"Marc Stachel","role":"MAIN"},{"character":"Masato","actor":"Solveig Duda","role":"MAIN"},{"character":"Jirachi","actor":"Sabine Bohlmann","role":"MAIN"},{"character":"Haruka","actor":"Stephanie Kellner","role":"MAIN"},{"character":"Satoshi","actor":"Veronika Aryana Neugebauer","role":"MAIN"},{"character":"Butler","actor":"Manou Lubowski","role":"SUPPORTING"},{"character":"Musashi","actor":"Claudia Lossl","role":"SUPPORTING"},{"character":"Bogii","actor":"Gerhard Jilka","role":"SUPPORTING"}]}
+{
+ "titleId": 1121,
+ "updatedAt": "2026-08-15T18:27:28.608Z",
+ "roles": [
+  {
+   "character": "Takeshi",
+   "actor": "Marc Stachel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Masato",
+   "actor": "Solveig Duda",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jirachi",
+   "actor": "Sabine Bohlmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Haruka",
+   "actor": "Stephanie Kellner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Satoshi",
+   "actor": "Veronika Aryana Neugebauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Butler",
+   "actor": "Manou Lubowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Musashi",
+   "actor": "Claudia Lossl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bogii",
+   "actor": "Gerhard Jilka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jessie",
+   "actor": "Claudia Lössl",
+   "von": "ann"
+  },
+  {
+   "character": "Ash Ketchum",
+   "actor": "Veronika Neugebauer",
+   "von": "ann"
+  },
+  {
+   "character": "Maike",
+   "actor": "Stephanie Kellner",
+   "von": "ann"
+  },
+  {
+   "character": "Mauzi",
+   "actor": "Gerhard Acktun",
+   "von": "ann"
+  },
+  {
+   "character": "Rocko",
+   "actor": "Marc Stachel",
+   "von": "ann"
+  },
+  {
+   "character": "James",
+   "actor": "Matthias Klie",
+   "von": "ann"
+  },
+  {
+   "character": "Max",
+   "actor": "Solveig Duda",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2388"
+}

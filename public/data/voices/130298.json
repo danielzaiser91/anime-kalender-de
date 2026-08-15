@@ -1,1 +1,132 @@
-{"titleId":130298,"updatedAt":"2026-08-11T11:20:03.589Z","roles":[{"character":"Cid Kagenou","actor":"Benjamin Mereis","role":"MAIN"},{"character":"Alpha","actor":"Angelina Markiefka","role":"MAIN"},{"character":"Beta","actor":"Anna Ewelina","role":"MAIN"},{"character":"Gamma","actor":"Tatjana Pokorny","role":"SUPPORTING"},{"character":"Delta","actor":"Lara Schmidt","role":"SUPPORTING"},{"character":"Epsilon","actor":"Andrea Wick","role":"SUPPORTING"},{"character":"Claire Kagenou","actor":"Friederike Sipp","role":"SUPPORTING"},{"character":"Alexia Midgar","actor":"Leslie-Vanessa Lill","role":"SUPPORTING"},{"character":"Rose Oriana","actor":"Alina Freund","role":"SUPPORTING"},{"character":"Nu","actor":"Francis Dichmann","role":"SUPPORTING"},{"character":"Sherry Barnett","actor":"Melanie Olbert","role":"SUPPORTING"},{"character":"Iris  Midgar","actor":"Maren Rainer","role":"SUPPORTING"},{"character":"Akane Nishino","actor":"Zina Laus","role":"SUPPORTING"},{"character":"Zeta","actor":"Cindy Kepke","role":"SUPPORTING"},{"character":"Hyoro Gali","actor":"Julian Manuel","role":"SUPPORTING"},{"character":"Jaga Imo","actor":"Mio Lechenmayr","role":"SUPPORTING"},{"character":"Eta","actor":"Eileen Fuhrmann","role":"SUPPORTING"},{"character":"Zenon Griffey","actor":"Felix Auer","role":"SUPPORTING"},{"character":"Glen","actor":"Christopher Kussin","role":"SUPPORTING"},{"character":"Marco Granger","actor":"Nino Kerl","role":"SUPPORTING"},{"character":"Lutheran Barnett","actor":"Alexander Pelz","role":"SUPPORTING"},{"character":"Rex","actor":"Oliver Scheffel","role":"SUPPORTING"}]}
+{
+ "titleId": 130298,
+ "updatedAt": "2026-08-15T18:46:41.864Z",
+ "roles": [
+  {
+   "character": "Cid Kagenou",
+   "actor": "Benjamin Mereis",
+   "role": "MAIN"
+  },
+  {
+   "character": "Alpha",
+   "actor": "Angelina Markiefka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Beta",
+   "actor": "Anna Ewelina",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gamma",
+   "actor": "Tatjana Pokorny",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Delta",
+   "actor": "Lara Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Epsilon",
+   "actor": "Andrea Wick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Claire Kagenou",
+   "actor": "Friederike Sipp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alexia Midgar",
+   "actor": "Leslie-Vanessa Lill",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rose Oriana",
+   "actor": "Alina Freund",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nu",
+   "actor": "Francis Dichmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sherry Barnett",
+   "actor": "Melanie Olbert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Iris  Midgar",
+   "actor": "Maren Rainer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akane Nishino",
+   "actor": "Zina Laus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zeta",
+   "actor": "Cindy Kepke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hyoro Gali",
+   "actor": "Julian Manuel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jaga Imo",
+   "actor": "Mio Lechenmayr",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eta",
+   "actor": "Eileen Fuhrmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zenon Griffey",
+   "actor": "Felix Auer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Glen",
+   "actor": "Christopher Kussin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marco Granger",
+   "actor": "Nino Kerl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lutheran Barnett",
+   "actor": "Alexander Pelz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rex",
+   "actor": "Oliver Scheffel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Iris Midgar",
+   "actor": "Maren Rainer",
+   "von": "ann"
+  },
+  {
+   "character": "Hyoro Gari",
+   "actor": "Julian Manuel",
+   "von": "ann"
+  },
+  {
+   "character": "Cid Kagenou/Shadow",
+   "actor": "Benjamin Mereis",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24085"
+}

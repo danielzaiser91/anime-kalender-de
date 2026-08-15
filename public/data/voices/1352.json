@@ -1,1 +1,52 @@
-{"titleId":1352,"updatedAt":"2026-08-11T11:20:02.911Z","roles":[{"character":"Shunsuke Sengoku","actor":"Stefan Günther","role":"MAIN"},{"character":"Juuzou Hasegawa","actor":"Walter von Hauff","role":"MAIN"},{"character":"Gabimaru Rikiya","actor":"Christoph Jablonka","role":"MAIN"},{"character":"Merill Yanagawa","actor":"Niko Macoulis","role":"MAIN"},{"character":"Kyoko Jonochi","actor":"Shandra Schadt","role":"SUPPORTING"}]}
+{
+ "titleId": 1352,
+ "updatedAt": "2026-08-15T18:28:11.983Z",
+ "roles": [
+  {
+   "character": "Shunsuke Sengoku",
+   "actor": "Stefan Günther",
+   "role": "MAIN"
+  },
+  {
+   "character": "Juuzou Hasegawa",
+   "actor": "Walter von Hauff",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gabimaru Rikiya",
+   "actor": "Christoph Jablonka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Merill Yanagawa",
+   "actor": "Niko Macoulis",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kyoko Jonochi",
+   "actor": "Shandra Schadt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Juzo Hasegawa",
+   "actor": "Walter von Hauff",
+   "von": "ann"
+  },
+  {
+   "character": "Gabimaru Goggles Rikiya",
+   "actor": "Christoph Jablonka",
+   "von": "ann"
+  },
+  {
+   "character": "Merrill \"Benten\" Yanagawa",
+   "actor": "Niko Macoulis",
+   "von": "ann"
+  },
+  {
+   "character": "Sengoku Syunsuke",
+   "actor": "Stefan Günther",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=567"
+}

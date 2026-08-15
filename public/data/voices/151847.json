@@ -1,1 +1,77 @@
-{"titleId":151847,"updatedAt":"2026-08-11T11:20:03.655Z","roles":[{"character":"Raeliana McMillan","actor":"Franciska  Friede","role":"MAIN"},{"character":"Noah Wynknight","actor":"Oliver Bender","role":"MAIN"},{"character":"Adam  Taylor","actor":"Tom Ferenc","role":"SUPPORTING"},{"character":"Francis Brooks","actor":"Tim Kreuer","role":"SUPPORTING"}]}
+{
+ "titleId": 151847,
+ "updatedAt": "2026-08-15T18:48:33.902Z",
+ "roles": [
+  {
+   "character": "Raeliana McMillan",
+   "actor": "Franciska  Friede",
+   "role": "MAIN"
+  },
+  {
+   "character": "Noah Wynknight",
+   "actor": "Oliver Bender",
+   "role": "MAIN"
+  },
+  {
+   "character": "Adam  Taylor",
+   "actor": "Tom Ferenc",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Francis Brooks",
+   "actor": "Tim Kreuer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jake Langston",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Katy McMillan",
+   "actor": "Daniela Brabetz-Thuar",
+   "von": "ann"
+  },
+  {
+   "character": "Noah Voltaire Wynknight",
+   "actor": "Oliver Bender",
+   "von": "ann"
+  },
+  {
+   "character": "John Dane McMillan",
+   "actor": "Sven Brieger",
+   "von": "ann"
+  },
+  {
+   "character": "Raeliana McMillan/Rinko Hanasaki",
+   "actor": "Franciska Friede",
+   "von": "ann"
+  },
+  {
+   "character": "Rosemary McMillan",
+   "actor": "Johanna Schmoll",
+   "von": "ann"
+  },
+  {
+   "character": "Nick Maddocks",
+   "actor": "Michael Gugel",
+   "von": "ann"
+  },
+  {
+   "character": "Adam Taylor",
+   "actor": "Tom Ferenc",
+   "von": "ann"
+  },
+  {
+   "character": "Gideon Jura",
+   "actor": "Marc Skanderberg",
+   "von": "ann"
+  },
+  {
+   "character": "Elma",
+   "actor": "Sandra Schreiber",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=26018"
+}

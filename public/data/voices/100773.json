@@ -1,1 +1,182 @@
-{"titleId":100773,"updatedAt":"2026-08-11T11:20:03.437Z","roles":[{"character":"Souma Yukihira","actor":"Raúl Richter","role":"MAIN"},{"character":"Erina Nakiri","actor":"Jana Schölermann","role":"MAIN"},{"character":"Megumi Tadokoro","actor":"Ela Paul","role":"MAIN"},{"character":"Alice Nakiri","actor":"Fabienne Hesse","role":"SUPPORTING"},{"character":"Takumi Aldini","actor":"Konrad Bösherz","role":"SUPPORTING"},{"character":"Eizan Etsuya","actor":"Markus Haase","role":"SUPPORTING"},{"character":"Tousuke  Megishima ","actor":"Vincent Fallow","role":"SUPPORTING"},{"character":"Osaji Kita","actor":"Axel Gottschick","role":"SUPPORTING"},{"character":"Anne","actor":"Jasmin Arnoldt","role":"SUPPORTING"},{"character":"Urara Kawashima","actor":"Samira Jakobs","role":"SUPPORTING"},{"character":"Jun Shiomi","actor":"Annette Potempa","role":"SUPPORTING"},{"character":"Momo Akanegakubo","actor":"Vivien Faber","role":"SUPPORTING"},{"character":"Ryouko Sakaki","actor":"Corinna Dorenkamp","role":"SUPPORTING"},{"character":"Fumio Daimidou","actor":"Sibylle Kuhne","role":"SUPPORTING"},{"character":"Akira Hayama","actor":"Arne Obermeyer","role":"SUPPORTING"},{"character":"Nao Sadatsuka","actor":"Mayke Dähn","role":"SUPPORTING"},{"character":"Shingo Andou","actor":"Vittorio Alfieri","role":"SUPPORTING"},{"character":"Eishi Tsukasa","actor":"Jan van Weyde","role":"SUPPORTING"},{"character":"Jouichirou Yukihira","actor":"Tobias Brecklinghaus","role":"SUPPORTING"},{"character":"Daigo  Aoki ","actor":"David M. Schulze","role":"SUPPORTING"},{"character":"Shun Ibusaki","actor":"Stefan Naas","role":"SUPPORTING"},{"character":"Histoire","actor":"Dirc Simpson","role":"SUPPORTING"},{"character":"Endo","actor":"Michael-Che Koch","role":"SUPPORTING"},{"character":"Rindou Kobayashi","actor":"Demet Fey","role":"SUPPORTING"}]}
+{
+ "titleId": 100773,
+ "updatedAt": "2026-08-15T18:42:15.269Z",
+ "roles": [
+  {
+   "character": "Souma Yukihira",
+   "actor": "Raúl Richter",
+   "role": "MAIN"
+  },
+  {
+   "character": "Erina Nakiri",
+   "actor": "Jana Schölermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Megumi Tadokoro",
+   "actor": "Ela Paul",
+   "role": "MAIN"
+  },
+  {
+   "character": "Alice Nakiri",
+   "actor": "Fabienne Hesse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takumi Aldini",
+   "actor": "Konrad Bösherz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eizan Etsuya",
+   "actor": "Markus Haase",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tousuke  Megishima ",
+   "actor": "Vincent Fallow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Osaji Kita",
+   "actor": "Axel Gottschick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Anne",
+   "actor": "Jasmin Arnoldt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Urara Kawashima",
+   "actor": "Samira Jakobs",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jun Shiomi",
+   "actor": "Annette Potempa",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Momo Akanegakubo",
+   "actor": "Vivien Faber",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryouko Sakaki",
+   "actor": "Corinna Dorenkamp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fumio Daimidou",
+   "actor": "Sibylle Kuhne",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akira Hayama",
+   "actor": "Arne Obermeyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nao Sadatsuka",
+   "actor": "Mayke Dähn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shingo Andou",
+   "actor": "Vittorio Alfieri",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eishi Tsukasa",
+   "actor": "Jan van Weyde",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jouichirou Yukihira",
+   "actor": "Tobias Brecklinghaus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Daigo  Aoki ",
+   "actor": "David M. Schulze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shun Ibusaki",
+   "actor": "Stefan Naas",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Histoire",
+   "actor": "Dirc Simpson",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Endo",
+   "actor": "Michael-Che Koch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rindou Kobayashi",
+   "actor": "Demet Fey",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Azami Nakiri",
+   "actor": "Andreas Meese",
+   "von": "ann"
+  },
+  {
+   "character": "Souma Yukihira",
+   "actor": "Raul Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Erina Nakiri",
+   "actor": "Jana Kilka",
+   "von": "ann"
+  },
+  {
+   "character": "Ryouko Sakaki",
+   "actor": "Corinna Dörenkamp",
+   "von": "ann"
+  },
+  {
+   "character": "Ryou Kurokiba",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Hisako Arato",
+   "actor": "Rieke Werner",
+   "von": "ann"
+  },
+  {
+   "character": "Ikumi Mito",
+   "actor": "Birte Baumgardt",
+   "von": "ann"
+  },
+  {
+   "character": "Terunori Kuga",
+   "actor": "Benjamin Stolz",
+   "von": "ann"
+  },
+  {
+   "character": "Nene Kinokuni",
+   "actor": "Nicole Hise",
+   "von": "ann"
+  },
+  {
+   "character": "Yuuki Yoshino",
+   "actor": "Jodie Blank",
+   "von": "ann"
+  },
+  {
+   "character": "Zenji Marui",
+   "actor": "Felix Mayer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=20599"
+}

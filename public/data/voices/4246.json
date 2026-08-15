@@ -1,1 +1,52 @@
-{"titleId":4246,"updatedAt":"2026-08-11T11:20:03.027Z","roles":[{"character":"Gidget","actor":"Cathlen Gawlich","role":"SUPPORTING"}]}
+{
+ "titleId": 4246,
+ "updatedAt": "2026-08-15T18:32:10.581Z",
+ "roles": [
+  {
+   "character": "Gidget",
+   "actor": "Cathlen Gawlich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dominic",
+   "actor": "Bernhard Völger",
+   "von": "ann"
+  },
+  {
+   "character": "Holland",
+   "actor": "Olaf Reichmann",
+   "von": "ann"
+  },
+  {
+   "character": "Eureka",
+   "actor": "Julia Meynen",
+   "von": "ann"
+  },
+  {
+   "character": "Renton",
+   "actor": "Raul Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Braya Mattingly",
+   "actor": "Uli Krohm",
+   "von": "ann"
+  },
+  {
+   "character": "Coda Lovell",
+   "actor": "Isabella Grothe",
+   "von": "ann"
+  },
+  {
+   "character": "Anemone",
+   "actor": "Julia Stoepel",
+   "von": "ann"
+  },
+  {
+   "character": "Talho Yuuki",
+   "actor": "Claudia Galdy",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=9750"
+}

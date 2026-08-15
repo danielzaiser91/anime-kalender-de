@@ -1,1 +1,97 @@
-{"titleId":99425,"updatedAt":"2026-08-11T11:20:03.403Z","roles":[{"character":"Lio Fotia","actor":"Patrick Baehr","role":"MAIN"},{"character":"Galo Thymos","actor":"Tommy Morgenstern","role":"MAIN"},{"character":"Heris Ardebit","actor":"Corinna Dorenkamp","role":"SUPPORTING"},{"character":"Kray Foresight","actor":"Nicolas Böll","role":"SUPPORTING"},{"character":"Gueira","actor":"David M. Schulze","role":"SUPPORTING"},{"character":"Aina Ardebit","actor":"Katharina Gast","role":"SUPPORTING"},{"character":"Vulcan Haestus","actor":"Marco Kröger","role":"SUPPORTING"},{"character":"Remi Puguna","actor":"Robert Steudtner","role":"SUPPORTING"},{"character":"Vinny","actor":"Björn Schalla","role":"SUPPORTING"},{"character":"Varys Truss","actor":"Uwe Thomsen","role":"SUPPORTING"},{"character":"Biar Colossus","actor":"Silke Linderhaus","role":"SUPPORTING"},{"character":"Lucia Fex","actor":"Mayke Dähn","role":"SUPPORTING"},{"character":"Meis","actor":"Daniel Käser","role":"SUPPORTING"},{"character":"Ignis Ex","actor":"Martin Keßler","role":"SUPPORTING"},{"character":"Thyma","actor":"Katrin Heß","role":"SUPPORTING"}]}
+{
+ "titleId": 99425,
+ "updatedAt": "2026-08-15T18:41:22.316Z",
+ "roles": [
+  {
+   "character": "Lio Fotia",
+   "actor": "Patrick Baehr",
+   "role": "MAIN"
+  },
+  {
+   "character": "Galo Thymos",
+   "actor": "Tommy Morgenstern",
+   "role": "MAIN"
+  },
+  {
+   "character": "Heris Ardebit",
+   "actor": "Corinna Dorenkamp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kray Foresight",
+   "actor": "Nicolas Böll",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gueira",
+   "actor": "David M. Schulze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aina Ardebit",
+   "actor": "Katharina Gast",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Vulcan Haestus",
+   "actor": "Marco Kröger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Remi Puguna",
+   "actor": "Robert Steudtner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Vinny",
+   "actor": "Björn Schalla",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Varys Truss",
+   "actor": "Uwe Thomsen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Biar Colossus",
+   "actor": "Silke Linderhaus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lucia Fex",
+   "actor": "Mayke Dähn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Meis",
+   "actor": "Daniel Käser",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ignis Ex",
+   "actor": "Martin Keßler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Thyma",
+   "actor": "Katrin Heß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Heris Ardebit",
+   "actor": "Corinna Dörenkamp",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Deus Prometh",
+   "actor": "Engelbert von Nordhausen",
+   "von": "ann"
+  },
+  {
+   "character": "Vary Truss",
+   "actor": "Uwe Thomsen",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=21767"
+}

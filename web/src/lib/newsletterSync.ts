@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useSyncExternalStore } from 'react'
 
 /**
  * Hält die im Newsletter gespeicherten Favoriten aktuell.
@@ -17,8 +17,64 @@ import { useEffect, useRef } from 'react'
  */
 const TOKEN_KEY = 'newsletterSyncToken'
 const SENT_KEY = 'newsletterSyncSent'
+const MAIL_KEY = 'newsletterMail'
 const WORKER_URL = import.meta.env.VITE_NEWSLETTER_API ?? ''
 const DEBOUNCE_MS = 2500
+
+/**
+ * Der Verbindungszustand als **globaler** Wert, nicht als Einzelabfrage.
+ *
+ * Ob ein Newsletter hinterlegt ist, beeinflusst inzwischen mehrere Stellen der
+ * Oberfläche: den Newsletter-Knopf im Kopf, den Merken-Hinweis im Detail-Panel,
+ * die Newsletter-Seite selbst. Jede davon `localStorage` direkt lesen zu lassen
+ * hätte zwei Fehler: Der Wert wäre an jeder Stelle ein anderer Schnappschuss,
+ * und eine Änderung erreichte die anderen Stellen erst beim nächsten
+ * Seitenaufbau (Daniel, 15.08.2026: „den verbindungszustand solltest du global
+ * als variable zur verfügung haben").
+ *
+ * Umgesetzt als winziger Store mit `useSyncExternalStore`: Ein Schreibvorgang
+ * benachrichtigt alle Abonnenten, und React zeichnet neu. Ein `storage`-Ereignis
+ * genügt dafür nicht — das feuert nur in **anderen** Tabs, nicht in dem, der
+ * geschrieben hat.
+ */
+export interface NewsletterVerbindung {
+  verbunden: boolean
+  mail?: string
+}
+
+const horcher = new Set<() => void>()
+let stand: NewsletterVerbindung = lies()
+
+function lies(): NewsletterVerbindung {
+  const token = localStorage.getItem(TOKEN_KEY) ?? undefined
+  return { verbunden: !!token, mail: localStorage.getItem(MAIL_KEY) ?? undefined }
+}
+
+function melden(): void {
+  stand = lies()
+  for (const h of horcher) h()
+}
+
+function abonnieren(cb: () => void): () => void {
+  horcher.add(cb)
+  // Andere Tabs melden sich über `storage` — dort greift der Browser selbst.
+  const ausFremdemTab = () => melden()
+  window.addEventListener('storage', ausFremdemTab)
+  return () => {
+    horcher.delete(cb)
+    window.removeEventListener('storage', ausFremdemTab)
+  }
+}
+
+/** Der aktuelle Verbindungszustand, überall in der Oberfläche gleich. */
+export function useNewsletterVerbindung(): NewsletterVerbindung {
+  return useSyncExternalStore(
+    abonnieren,
+    () => stand,
+    // Beim Vorabrendern gibt es keinen `localStorage`.
+    () => ({ verbunden: false }),
+  )
+}
 
 export function getSyncToken(): string | undefined {
   return localStorage.getItem(TOKEN_KEY) ?? undefined
@@ -26,11 +82,33 @@ export function getSyncToken(): string | undefined {
 
 export function setSyncToken(token: string): void {
   localStorage.setItem(TOKEN_KEY, token)
+  melden()
 }
 
 export function clearSyncToken(): void {
   localStorage.removeItem(TOKEN_KEY)
   localStorage.removeItem(SENT_KEY)
+  localStorage.removeItem(MAIL_KEY)
+  melden()
+}
+
+/**
+ * Die Adresse, an die wir schreiben — damit die Seite sie nennen kann.
+ *
+ * Ohne sie musste jeder Hinweis im Konjunktiv bleiben („falls du ein Abo
+ * hast"). Mit ihr steht dort, was tatsächlich passiert: „Wir informieren dich
+ * über deine hinterlegte Newsletter-E-Mail-Adresse: …" (Daniel, 15.08.2026).
+ *
+ * Sie liegt neben dem Abgleich-Schlüssel im selben Browser und wird mit ihm
+ * zusammen gelöscht. Der Dienst liefert sie nur gegen diesen Schlüssel aus.
+ */
+export function getSyncMail(): string | undefined {
+  return localStorage.getItem(MAIL_KEY) ?? undefined
+}
+
+export function setSyncMail(mail: string): void {
+  localStorage.setItem(MAIL_KEY, mail)
+  melden()
 }
 
 /** Sendet die Liste und meldet, ob der Schlüssel noch gilt. */
@@ -60,12 +138,20 @@ export async function pushFavorites(token: string, favorites: number[]): Promise
  */
 export async function pullFavorites(token: string): Promise<number[]> {
   const res = await fetch(`${WORKER_URL}/favorites?token=${encodeURIComponent(token)}`)
-  const body = (await res.json()) as { ok?: boolean; favorites?: number[]; error?: string }
+  const body = (await res.json()) as {
+    ok?: boolean
+    favorites?: number[]
+    email?: string
+    error?: string
+  }
   if (res.status === 404) {
     clearSyncToken()
     throw new Error(body.error ?? 'Abo nicht mehr vorhanden')
   }
   if (!res.ok || !body.ok) throw new Error(body.error ?? 'Abruf fehlgeschlagen')
+  // Der Dienst liefert die Adresse mit; sie bleibt hier liegen, damit die
+  // Oberfläche sie nennen kann, statt im Konjunktiv zu bleiben.
+  if (body.email) setSyncMail(body.email)
   return body.favorites ?? []
 }
 

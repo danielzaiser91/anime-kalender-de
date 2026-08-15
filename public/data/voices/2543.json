@@ -1,1 +1,47 @@
-{"titleId":2543,"updatedAt":"2026-08-11T11:09:14.134Z","roles":[{"character":"Robin Huntington","actor":"David Nathan","role":"MAIN"}]}
+{
+ "titleId": 2543,
+ "updatedAt": "2026-08-15T18:30:43.437Z",
+ "roles": [
+  {
+   "character": "Robin Huntington",
+   "actor": "David Nathan",
+   "role": "MAIN"
+  },
+  {
+   "character": "Will",
+   "actor": "Simon Jäger",
+   "von": "ann"
+  },
+  {
+   "character": "Mutch",
+   "actor": "Björn Schalla",
+   "von": "ann"
+  },
+  {
+   "character": "Robin Hood",
+   "actor": "David Nathan",
+   "von": "ann"
+  },
+  {
+   "character": "Gilbert",
+   "actor": "Stefan Fredrich",
+   "von": "ann"
+  },
+  {
+   "character": "Little John",
+   "actor": "Oliver Feld",
+   "von": "ann"
+  },
+  {
+   "character": "Herford",
+   "actor": "Alexander Herzog",
+   "von": "ann"
+  },
+  {
+   "character": "Winnifred",
+   "actor": "Eva Michaelis",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1745"
+}

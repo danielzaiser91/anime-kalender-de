@@ -1,1 +1,87 @@
-{"titleId":138379,"updatedAt":"2026-08-11T11:20:03.609Z","roles":[{"character":"Jun Kuramochi","actor":"Daniel Schlauch","role":"MAIN"},{"character":"Tamaki Tsuru","actor":"Zina Laus","role":"MAIN"},{"character":"Musuka","actor":"Hans Bayer","role":"SUPPORTING"},{"character":"Ryouhei Nanba","actor":"Uwe Thomsen","role":"SUPPORTING"},{"character":"Yukari Muroi","actor":"Julia Bautz","role":"SUPPORTING"},{"character":"Eita Naruhara","actor":"Tobias John von Freyend","role":"SUPPORTING"},{"character":"Ayako Maki","actor":"Marie-Jeanne Widera","role":"SUPPORTING"}]}
+{
+ "titleId": 138379,
+ "updatedAt": "2026-08-15T18:47:16.379Z",
+ "roles": [
+  {
+   "character": "Jun Kuramochi",
+   "actor": "Daniel Schlauch",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tamaki Tsuru",
+   "actor": "Zina Laus",
+   "role": "MAIN"
+  },
+  {
+   "character": "Musuka",
+   "actor": "Hans Bayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryouhei Nanba",
+   "actor": "Uwe Thomsen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yukari Muroi",
+   "actor": "Julia Bautz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eita Naruhara",
+   "actor": "Tobias John von Freyend",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ayako Maki",
+   "actor": "Marie-Jeanne Widera",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eita Narihara",
+   "actor": "Tobias John von Freyend",
+   "von": "ann"
+  },
+  {
+   "character": "Ryōhei Nanba",
+   "actor": "Uwe Thomsen",
+   "von": "ann"
+  },
+  {
+   "character": "Kaoru Mochida",
+   "actor": "Patricia Strasburger",
+   "von": "ann"
+  },
+  {
+   "character": "Sato",
+   "actor": "Amira Leisner",
+   "von": "ann"
+  },
+  {
+   "character": "Harukaze Aihara",
+   "actor": "Oliver Scheffel",
+   "von": "ann"
+  },
+  {
+   "character": "Kaede Hatori",
+   "actor": "Max Schira",
+   "von": "ann"
+  },
+  {
+   "character": "Yō Asahina",
+   "actor": "Peter Frerich",
+   "von": "ann"
+  },
+  {
+   "character": "Daisuke Sorachi",
+   "actor": "Malte Wetzel",
+   "von": "ann"
+  },
+  {
+   "character": "Chizuru Yano",
+   "actor": "Nicolle Gonsior",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24663"
+}

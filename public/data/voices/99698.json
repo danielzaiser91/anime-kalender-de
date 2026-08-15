@@ -1,1 +1,92 @@
-{"titleId":99698,"updatedAt":"2026-08-11T11:20:03.408Z","roles":[{"character":"Nobuaki Kanazawa","actor":"Julian Tennstedt","role":"MAIN"},{"character":"Chiemi Honda","actor":"Jennifer Weiß","role":"MAIN"},{"character":"Naoya Hashimoto","actor":"Paul-Lino Krenz","role":"MAIN"},{"character":"Rina Minami","actor":"Betty Förster","role":"SUPPORTING"},{"character":"Minako Nakao","actor":"Jenny van der Wall","role":"SUPPORTING"},{"character":"Natsuko Honda","actor":"Olivia Büschken","role":"SUPPORTING"},{"character":"Riona Matsumoto","actor":"Leonie Dubuc","role":"SUPPORTING"},{"character":"Takuya Sakamoto","actor":"Vincent Borko","role":"SUPPORTING"},{"character":"Yousuke Ueda","actor":"Tom Raczko","role":"SUPPORTING"},{"character":"Haruka Momoki","actor":"Luisa Casper","role":"SUPPORTING"},{"character":"Kana Ueda","actor":"Aliana Schmitz","role":"SUPPORTING"},{"character":"Ria Iwamura","actor":"Sophie Lechtenbrink","role":"SUPPORTING"},{"character":"Ryou Sugisawa","actor":"Magdalena Höfner","role":"SUPPORTING"},{"character":"Keita Yamashita","actor":"Volkmar Leif Gilbert","role":"SUPPORTING"}]}
+{
+ "titleId": 99698,
+ "updatedAt": "2026-08-15T18:41:31.231Z",
+ "roles": [
+  {
+   "character": "Nobuaki Kanazawa",
+   "actor": "Julian Tennstedt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chiemi Honda",
+   "actor": "Jennifer Weiß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Naoya Hashimoto",
+   "actor": "Paul-Lino Krenz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rina Minami",
+   "actor": "Betty Förster",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Minako Nakao",
+   "actor": "Jenny van der Wall",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Natsuko Honda",
+   "actor": "Olivia Büschken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Riona Matsumoto",
+   "actor": "Leonie Dubuc",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takuya Sakamoto",
+   "actor": "Vincent Borko",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yousuke Ueda",
+   "actor": "Tom Raczko",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haruka Momoki",
+   "actor": "Luisa Casper",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kana Ueda",
+   "actor": "Aliana Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ria Iwamura",
+   "actor": "Sophie Lechtenbrink",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryou Sugisawa",
+   "actor": "Magdalena Höfner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Keita Yamashita",
+   "actor": "Volkmar Leif Gilbert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kenta Akamatsu",
+   "actor": "Bernd Egger",
+   "von": "ann"
+  },
+  {
+   "character": "Aimi Murazumi",
+   "actor": "Vera Bunk",
+   "von": "ann"
+  },
+  {
+   "character": "Mitsuki Yukimura",
+   "actor": "Saskia Glück",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19973"
+}

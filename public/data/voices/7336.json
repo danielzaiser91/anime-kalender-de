@@ -1,1 +1,107 @@
-{"titleId":7336,"updatedAt":"2026-08-11T11:20:03.073Z","roles":[{"character":"Joe Shimamura","actor":"Norbert Gescher","role":"MAIN"},{"character":"Pyunma","actor":"Heinz Theo Branding","role":"MAIN"},{"character":"Chang Changku","actor":"Gerd Duwner","role":"MAIN"},{"character":"Françoise Arnoul","actor":"Ina Patzlaff","role":"MAIN"},{"character":"Great Britain","actor":"Horst Gentzen","role":"MAIN"},{"character":"Jet Link","actor":"Manfred Lehmann","role":"MAIN"},{"character":"Albert Heinrich","actor":"Ronald Nitschke","role":"MAIN"},{"character":"Saba","actor":"Frank Schaff","role":"SUPPORTING"},{"character":"Commander Garro","actor":"Karl Schulz","role":"SUPPORTING"},{"character":"Princess Tamara","actor":"Alexandra Lange","role":"SUPPORTING"},{"character":"Isaac Gilmore","actor":"Jürgen Kluckert","role":"SUPPORTING"},{"character":"Emperor Zoa","actor":"Jochen Schröder","role":"SUPPORTING"},{"character":"Narrator","actor":"Michael Nowka","role":"BACKGROUND"}]}
+{
+ "titleId": 7336,
+ "updatedAt": "2026-08-15T18:33:24.692Z",
+ "roles": [
+  {
+   "character": "Joe Shimamura",
+   "actor": "Norbert Gescher",
+   "role": "MAIN"
+  },
+  {
+   "character": "Pyunma",
+   "actor": "Heinz Theo Branding",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chang Changku",
+   "actor": "Gerd Duwner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Françoise Arnoul",
+   "actor": "Ina Patzlaff",
+   "role": "MAIN"
+  },
+  {
+   "character": "Great Britain",
+   "actor": "Horst Gentzen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jet Link",
+   "actor": "Manfred Lehmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Albert Heinrich",
+   "actor": "Ronald Nitschke",
+   "role": "MAIN"
+  },
+  {
+   "character": "Saba",
+   "actor": "Frank Schaff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Commander Garro",
+   "actor": "Karl Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Princess Tamara",
+   "actor": "Alexandra Lange",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Isaac Gilmore",
+   "actor": "Jürgen Kluckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Emperor Zoa",
+   "actor": "Jochen Schröder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Michael Nowka",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "007 / Great Britain",
+   "actor": "Horst Gentzen",
+   "von": "ann"
+  },
+  {
+   "character": "008 / Pyunma",
+   "actor": "Heinz Theo Branding",
+   "von": "ann"
+  },
+  {
+   "character": "009 / Joe Shimamura",
+   "actor": "Norbert Gescher",
+   "von": "ann"
+  },
+  {
+   "character": "004 / Albert Heinrich",
+   "actor": "Ronald Nitschke",
+   "von": "ann"
+  },
+  {
+   "character": "002 / Jet Link",
+   "actor": "Manfred Lehmann",
+   "von": "ann"
+  },
+  {
+   "character": "006 / Chang Changku",
+   "actor": "Gerd Duwner",
+   "von": "ann"
+  },
+  {
+   "character": "003 / Françoise Arnoul",
+   "actor": "Ina Patzlaff",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1839"
+}

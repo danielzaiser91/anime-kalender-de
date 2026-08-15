@@ -1,1 +1,92 @@
-{"titleId":21116,"updatedAt":"2026-08-11T11:20:03.266Z","roles":[{"character":"Mirei Shikishima","actor":"Lisa May-Mitsching","role":"MAIN"},{"character":"Mamori Tokonome","actor":"Angelina Geisler","role":"MAIN"},{"character":"Momoka Sagara","actor":"Lin Gothoni","role":"SUPPORTING"},{"character":"Noe Ooya","actor":"Amelie Plaas-Link","role":"SUPPORTING"},{"character":"Lady J","actor":"Wicki Kalaitzi","role":"SUPPORTING"},{"character":"D5","actor":"Alma Maja Ernst","role":"SUPPORTING"},{"character":"Hibiki Kenjo","actor":"Anja Rybiczka","role":"SUPPORTING"},{"character":"Torino Kazami","actor":"Anja Rybiczka","role":"SUPPORTING"},{"character":"E9","actor":"Maria Hönig","role":"SUPPORTING"}]}
+{
+ "titleId": 21116,
+ "updatedAt": "2026-08-15T18:38:28.621Z",
+ "roles": [
+  {
+   "character": "Mirei Shikishima",
+   "actor": "Lisa May-Mitsching",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mamori Tokonome",
+   "actor": "Angelina Geisler",
+   "role": "MAIN"
+  },
+  {
+   "character": "Momoka Sagara",
+   "actor": "Lin Gothoni",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Noe Ooya",
+   "actor": "Amelie Plaas-Link",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lady J",
+   "actor": "Wicki Kalaitzi",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "D5",
+   "actor": "Alma Maja Ernst",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hibiki Kenjo",
+   "actor": "Anja Rybiczka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Torino Kazami",
+   "actor": "Anja Rybiczka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "E9",
+   "actor": "Maria Hönig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kasumi Shigure",
+   "actor": "Shanti Chakraborty",
+   "von": "ann"
+  },
+  {
+   "character": "Mirei Shikishima",
+   "actor": "Lisa Mitsching",
+   "von": "ann"
+  },
+  {
+   "character": "Aoi Miyasato",
+   "actor": "Lisa Braun",
+   "von": "ann"
+  },
+  {
+   "character": "Charlotte Scherzen",
+   "actor": "Laurine Betz",
+   "von": "ann"
+  },
+  {
+   "character": "Akira Hiiragi",
+   "actor": "Simone Jaeger",
+   "von": "ann"
+  },
+  {
+   "character": "Rein Hasumi",
+   "actor": "Anna Gamburg",
+   "von": "ann"
+  },
+  {
+   "character": "Momoko Kouzuki",
+   "actor": "Leonie Dubuc",
+   "von": "ann"
+  },
+  {
+   "character": "Momoka Sagara",
+   "actor": "Lin Gothóni",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16893"
+}

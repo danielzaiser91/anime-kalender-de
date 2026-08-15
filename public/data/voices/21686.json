@@ -1,1 +1,57 @@
-{"titleId":21686,"updatedAt":"2026-08-11T11:20:03.322Z","roles":[{"character":"Kae Serinuma","actor":"Franciska  Friede","role":"MAIN"},{"character":"Yuusuke Igarashi","actor":"Jesse Grimm","role":"MAIN"},{"character":"Nozomu Nanashima","actor":"Flemming Stein","role":"MAIN"},{"character":"Asuma Mutsumi","actor":"Daniel Schütter","role":"MAIN"},{"character":"Hayato Shinomiya","actor":"Julian-Elias Henneberg","role":"MAIN"},{"character":"Shima Nishina","actor":"Leonie Landa","role":"MAIN"},{"character":"Amane Nakano","actor":"Manuela Eifrig","role":"SUPPORTING"}]}
+{
+ "titleId": 21686,
+ "updatedAt": "2026-08-15T18:39:35.572Z",
+ "roles": [
+  {
+   "character": "Kae Serinuma",
+   "actor": "Franciska  Friede",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuusuke Igarashi",
+   "actor": "Jesse Grimm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nozomu Nanashima",
+   "actor": "Flemming Stein",
+   "role": "MAIN"
+  },
+  {
+   "character": "Asuma Mutsumi",
+   "actor": "Daniel Schütter",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hayato Shinomiya",
+   "actor": "Julian-Elias Henneberg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shima Nishina",
+   "actor": "Leonie Landa",
+   "role": "MAIN"
+  },
+  {
+   "character": "Amane Nakano",
+   "actor": "Manuela Eifrig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Amane Nakano",
+   "actor": "Manuela Bäcker",
+   "von": "ann"
+  },
+  {
+   "character": "Kae Serinuma",
+   "actor": "Franciska Friede",
+   "von": "ann"
+  },
+  {
+   "character": "Hayato Shinomiya",
+   "actor": "Julian Henneberg",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18135"
+}

@@ -1,1 +1,57 @@
-{"titleId":106240,"updatedAt":"2026-08-11T11:20:03.494Z","roles":[{"character":"Naomi Katagaki","actor":"Florian Clyde","role":"MAIN"},{"character":"Ruri Ichigyou","actor":"Alina Freund","role":"MAIN"},{"character":"Naomi Katagaki","actor":"Nicolas Rathod","role":"MAIN"},{"character":"Yiyi Xu","actor":"Milena Karas","role":"SUPPORTING"},{"character":"Tsunehisa Senko","actor":"Martin Bross","role":"SUPPORTING"},{"character":"Misuzu Kadenokouji","actor":"Amira Leisner","role":"SUPPORTING"},{"character":"Karasu","actor":"Céline Vogt","role":"SUPPORTING"}]}
+{
+ "titleId": 106240,
+ "updatedAt": "2026-08-15T18:43:41.888Z",
+ "roles": [
+  {
+   "character": "Naomi Katagaki",
+   "actor": "Florian Clyde",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ruri Ichigyou",
+   "actor": "Alina Freund",
+   "role": "MAIN"
+  },
+  {
+   "character": "Naomi Katagaki",
+   "actor": "Nicolas Rathod",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yiyi Xu",
+   "actor": "Milena Karas",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsunehisa Senko",
+   "actor": "Martin Bross",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Misuzu Kadenokouji",
+   "actor": "Amira Leisner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Karasu",
+   "actor": "Céline Vogt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ii Shu",
+   "actor": "Milena Karas",
+   "von": "ann"
+  },
+  {
+   "character": "Krähe",
+   "actor": "Céline Vogt",
+   "von": "ann"
+  },
+  {
+   "character": "Ruri Ichigyō",
+   "actor": "Alina Freund",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22139"
+}

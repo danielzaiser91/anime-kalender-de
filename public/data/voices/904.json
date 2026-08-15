@@ -1,1 +1,72 @@
-{"titleId":904,"updatedAt":"2026-08-11T11:20:02.876Z","roles":[{"character":"Broly","actor":"Gerrit Schmidt-Foß","role":"MAIN"},{"character":"Jinzouningen 18-gou","actor":"Diana Borgwardt","role":"MAIN"},{"character":"Trunks","actor":"Arda Vural","role":"MAIN"},{"character":"Goten Son","actor":"Ricardo Richter","role":"MAIN"},{"character":"Jagar Butta","actor":"Andreas Mannkopff","role":"SUPPORTING"},{"character":"Kuririn","actor":"Wanja Gerick","role":"SUPPORTING"},{"character":"Men Men","actor":"Axel Lutter","role":"SUPPORTING"},{"character":"Collie Hakase","actor":"Kaspar Eichel","role":"SUPPORTING"},{"character":"Mister Satan","actor":"Elmar Gutmann","role":"SUPPORTING"},{"character":"Kitoushi","actor":"Reinhard Scheunemann","role":"SUPPORTING"},{"character":"Gokuu Son","actor":"Tommy Morgenstern","role":"SUPPORTING"}]}
+{
+ "titleId": 904,
+ "updatedAt": "2026-08-15T18:26:46.599Z",
+ "roles": [
+  {
+   "character": "Broly",
+   "actor": "Gerrit Schmidt-Foß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jinzouningen 18-gou",
+   "actor": "Diana Borgwardt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Trunks",
+   "actor": "Arda Vural",
+   "role": "MAIN"
+  },
+  {
+   "character": "Goten Son",
+   "actor": "Ricardo Richter",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jagar Butta",
+   "actor": "Andreas Mannkopff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kuririn",
+   "actor": "Wanja Gerick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Men Men",
+   "actor": "Axel Lutter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Collie Hakase",
+   "actor": "Kaspar Eichel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mister Satan",
+   "actor": "Elmar Gutmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kitoushi",
+   "actor": "Reinhard Scheunemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gokuu Son",
+   "actor": "Tommy Morgenstern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Son Goten",
+   "actor": "Ricardo Richter",
+   "von": "ann"
+  },
+  {
+   "character": "C 18",
+   "actor": "Diana Borgwardt",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=989"
+}

@@ -1,1 +1,107 @@
-{"titleId":9989,"updatedAt":"2026-08-11T11:20:03.101Z","roles":[{"character":"Jinta Yadomi","actor":"Jannik Endemann","role":"MAIN"},{"character":"Meiko Honma","actor":"Linda Fölster","role":"MAIN"},{"character":"Naruko Anjou","actor":"Lina Rabea Mohr","role":"MAIN"},{"character":"Atsumu Matsuyuki","actor":"Jan Makino","role":"MAIN"},{"character":"Chiriko Tsurumi","actor":"Lydia Morgenstern","role":"MAIN"},{"character":"Tetsudo Hisakawa","actor":"René Dawn-Claude","role":"MAIN"},{"character":"Haruna","actor":"Birte Baumgardt","role":"SUPPORTING"},{"character":"Aki","actor":"Rieke Werner","role":"SUPPORTING"},{"character":"Naruko no Haha","actor":"Mareile Moeller","role":"SUPPORTING"},{"character":"Irene Honma","actor":"Gundi Eberhard","role":"SUPPORTING"},{"character":"Manabu Honma","actor":"Sven Brieger","role":"SUPPORTING"},{"character":"Satoshi Honma","actor":"Vincent Borko","role":"SUPPORTING"},{"character":"Atsushi Yadomi","actor":"Uwe Büschken","role":"SUPPORTING"},{"character":"Touko Yadomi","actor":"Marion Musiol","role":"SUPPORTING"},{"character":"Minako","actor":"Alice Bauer","role":"SUPPORTING"},{"character":"Yama","actor":"Klaus Lochthove","role":"SUPPORTING"}]}
+{
+ "titleId": 9989,
+ "updatedAt": "2026-08-15T18:34:06.266Z",
+ "roles": [
+  {
+   "character": "Jinta Yadomi",
+   "actor": "Jannik Endemann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Meiko Honma",
+   "actor": "Linda Fölster",
+   "role": "MAIN"
+  },
+  {
+   "character": "Naruko Anjou",
+   "actor": "Lina Rabea Mohr",
+   "role": "MAIN"
+  },
+  {
+   "character": "Atsumu Matsuyuki",
+   "actor": "Jan Makino",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chiriko Tsurumi",
+   "actor": "Lydia Morgenstern",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tetsudo Hisakawa",
+   "actor": "René Dawn-Claude",
+   "role": "MAIN"
+  },
+  {
+   "character": "Haruna",
+   "actor": "Birte Baumgardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aki",
+   "actor": "Rieke Werner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Naruko no Haha",
+   "actor": "Mareile Moeller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Irene Honma",
+   "actor": "Gundi Eberhard",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Manabu Honma",
+   "actor": "Sven Brieger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Satoshi Honma",
+   "actor": "Vincent Borko",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Atsushi Yadomi",
+   "actor": "Uwe Büschken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Touko Yadomi",
+   "actor": "Marion Musiol",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Minako",
+   "actor": "Alice Bauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yama",
+   "actor": "Klaus Lochthove",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tetsudou Hisakawa",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Jintan (child)",
+   "actor": "Luisa Wietzorek",
+   "von": "ann"
+  },
+  {
+   "character": "Yukiatsu (child)",
+   "actor": "Josephine Schmidt",
+   "von": "ann"
+  },
+  {
+   "character": "Poppo (child)",
+   "actor": "Charlotte Uhlig",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=12368"
+}

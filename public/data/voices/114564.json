@@ -1,1 +1,92 @@
-{"titleId":114564,"updatedAt":"2026-08-11T11:20:03.544Z","roles":[{"character":"Satoshi","actor":"Felix Mayer","role":"MAIN"},{"character":"Coco","actor":"Maximilian Belle","role":"MAIN"},{"character":"Musashi","actor":"Scarlet Cavadenti","role":"SUPPORTING"},{"character":"Kojirou","actor":"Matthias Klie","role":"SUPPORTING"},{"character":"Nyarth","actor":"Gerhard Acktun","role":"SUPPORTING"},{"character":"Karen","actor":"Bettina Zech","role":"SUPPORTING"},{"character":"Zed","actor":"Dustin Peters","role":"SUPPORTING"},{"character":"Zarude","actor":"Stefan Günther","role":"SUPPORTING"},{"character":"Narrator","actor":"Manfred Trilling","role":"BACKGROUND"}]}
+{
+ "titleId": 114564,
+ "updatedAt": "2026-08-15T18:45:11.471Z",
+ "roles": [
+  {
+   "character": "Satoshi",
+   "actor": "Felix Mayer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Coco",
+   "actor": "Maximilian Belle",
+   "role": "MAIN"
+  },
+  {
+   "character": "Musashi",
+   "actor": "Scarlet Cavadenti",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kojirou",
+   "actor": "Matthias Klie",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nyarth",
+   "actor": "Gerhard Acktun",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Karen",
+   "actor": "Bettina Zech",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zed",
+   "actor": "Dustin Peters",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zarude",
+   "actor": "Stefan Günther",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Manfred Trilling",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Jessie",
+   "actor": "Scarlet Cavadenti",
+   "von": "ann"
+  },
+  {
+   "character": "Mauzi",
+   "actor": "Gerhard Acktun",
+   "von": "ann"
+  },
+  {
+   "character": "James",
+   "actor": "Matthias Klie",
+   "von": "ann"
+  },
+  {
+   "character": "Dada-Zarude",
+   "actor": "Stefan Günther",
+   "von": "ann"
+  },
+  {
+   "character": "Koko",
+   "actor": "Maximilian Belle",
+   "von": "ann"
+  },
+  {
+   "character": "Sharon",
+   "actor": "Bettina Zech",
+   "von": "ann"
+  },
+  {
+   "character": "Ash Ketchum",
+   "actor": "Felix Mayer",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Zett",
+   "actor": "Dustin Peters",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=23540"
+}

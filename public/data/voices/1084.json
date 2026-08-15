@@ -1,1 +1,22 @@
-{"titleId":1084,"updatedAt":"2026-08-11T11:20:02.890Z","roles":[{"character":"Iori Yoshizuki","actor":"Rubina Kuraoka","role":"MAIN"},{"character":"Yasumasa Teratani","actor":"Jesco Wirthgen","role":"SUPPORTING"}]}
+{
+ "titleId": 1084,
+ "updatedAt": "2026-08-15T18:27:19.844Z",
+ "roles": [
+  {
+   "character": "Iori Yoshizuki",
+   "actor": "Rubina Kuraoka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yasumasa Teratani",
+   "actor": "Jesco Wirthgen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seto Ichitaka",
+   "actor": "Ricardo Richter",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1834"
+}

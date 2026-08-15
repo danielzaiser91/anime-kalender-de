@@ -1,1 +1,82 @@
-{"titleId":20159,"updatedAt":"2026-08-11T11:20:03.187Z","roles":[{"character":"Red","actor":"Christian Zeiger","role":"MAIN"},{"character":"Green Okido","actor":"Konrad Bösherz","role":"MAIN"},{"character":"Reina","actor":"Julia Stoepel","role":"SUPPORTING"},{"character":"Mama","actor":"Antje von der Ahe","role":"SUPPORTING"},{"character":"Takeshi","actor":"Michael Deffert","role":"SUPPORTING"},{"character":"Yukinari Ookido","actor":"Thomas Schmuckert","role":"SUPPORTING"},{"character":"Sakaki","actor":"Oliver Siebeck","role":"SUPPORTING"},{"character":"Fuji","actor":"Frank-Otto Schenk","role":"SUPPORTING"}]}
+{
+ "titleId": 20159,
+ "updatedAt": "2026-08-15T18:36:18.019Z",
+ "roles": [
+  {
+   "character": "Red",
+   "actor": "Christian Zeiger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Green Okido",
+   "actor": "Konrad Bösherz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Reina",
+   "actor": "Julia Stoepel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mama",
+   "actor": "Antje von der Ahe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takeshi",
+   "actor": "Michael Deffert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yukinari Ookido",
+   "actor": "Thomas Schmuckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sakaki",
+   "actor": "Oliver Siebeck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fuji",
+   "actor": "Frank-Otto Schenk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Green",
+   "actor": "Konrad Bösherz",
+   "von": "ann"
+  },
+  {
+   "character": "Mr. Fuji",
+   "actor": "Frank-Otto Schenk",
+   "von": "ann"
+  },
+  {
+   "character": "Giovanni",
+   "actor": "Oliver Siebeck",
+   "von": "ann"
+  },
+  {
+   "character": "Red's mother",
+   "actor": "Antje von der Ahe",
+   "von": "ann"
+  },
+  {
+   "character": "Prof. Oak",
+   "actor": "Thomas Schmuckert",
+   "von": "ann"
+  },
+  {
+   "character": "Brock",
+   "actor": "Michael Deffert",
+   "von": "ann"
+  },
+  {
+   "character": "Siegfried",
+   "actor": "Steven Merting",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15574"
+}

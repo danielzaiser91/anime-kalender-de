@@ -1,1 +1,147 @@
-{"titleId":2001,"updatedAt":"2026-08-11T11:20:02.951Z","roles":[{"character":"Simon","actor":"Fabian Hollwitz","role":"MAIN"},{"character":"Youko Littner","actor":"Josephine Schmidt","role":"MAIN"},{"character":"Kamina","actor":"Jaron Löwenberg","role":"MAIN"},{"character":"Nia Teppelin","actor":"Julia Stoepel","role":"MAIN"},{"character":"Leeron Littner","actor":"Jan Kurbjuweit","role":"SUPPORTING"},{"character":"Rossiu Adai","actor":"Dirk Petrick","role":"SUPPORTING"},{"character":"Viral","actor":"Tobias Nath","role":"SUPPORTING"},{"character":"Adiane","actor":"Ulrike Johannson","role":"SUPPORTING"},{"character":"Cytomander","actor":"Dirk Stollberg","role":"SUPPORTING"},{"character":"Guame","actor":"Eberhard Prüter","role":"SUPPORTING"},{"character":"Darry Adai","actor":"Carmen Katt","role":"SUPPORTING"},{"character":"Kittan Bachika","actor":"Felix Spieß","role":"SUPPORTING"},{"character":"Kiyoh Bachika","actor":"Catrin Dams","role":"SUPPORTING"},{"character":"Kinon Bachika","actor":"Millie Forsberg","role":"SUPPORTING"},{"character":"Kiyal Bachika","actor":"Luisa Wietzorek","role":"SUPPORTING"},{"character":"Boota","actor":"Hannes Maurer","role":"SUPPORTING"},{"character":"Anti-Spiral","actor":"Oliver Siebeck","role":"SUPPORTING"},{"character":"Lordgenome","actor":"Jan Spitzer","role":"SUPPORTING"},{"character":"Artenborough Cortich","actor":"Jesco Wirthgen","role":"SUPPORTING"},{"character":"Leyte Jokin","actor":"Heike Schroetter","role":"SUPPORTING"},{"character":"Thymilph","actor":"Tilo Schmitz","role":"SUPPORTING"},{"character":"Magin","actor":"Reinhard Scheunemann","role":"SUPPORTING"},{"character":"Zoushi Kanai","actor":"Rainer Fritzsche","role":"SUPPORTING"}]}
+{
+ "titleId": 2001,
+ "updatedAt": "2026-08-15T18:29:55.826Z",
+ "roles": [
+  {
+   "character": "Simon",
+   "actor": "Fabian Hollwitz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Youko Littner",
+   "actor": "Josephine Schmidt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kamina",
+   "actor": "Jaron Löwenberg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nia Teppelin",
+   "actor": "Julia Stoepel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Leeron Littner",
+   "actor": "Jan Kurbjuweit",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rossiu Adai",
+   "actor": "Dirk Petrick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Viral",
+   "actor": "Tobias Nath",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Adiane",
+   "actor": "Ulrike Johannson",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cytomander",
+   "actor": "Dirk Stollberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Guame",
+   "actor": "Eberhard Prüter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Darry Adai",
+   "actor": "Carmen Katt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kittan Bachika",
+   "actor": "Felix Spieß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kiyoh Bachika",
+   "actor": "Catrin Dams",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kinon Bachika",
+   "actor": "Millie Forsberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kiyal Bachika",
+   "actor": "Luisa Wietzorek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Boota",
+   "actor": "Hannes Maurer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Anti-Spiral",
+   "actor": "Oliver Siebeck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lordgenome",
+   "actor": "Jan Spitzer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Artenborough Cortich",
+   "actor": "Jesco Wirthgen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Leyte Jokin",
+   "actor": "Heike Schroetter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Thymilph",
+   "actor": "Tilo Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Magin",
+   "actor": "Reinhard Scheunemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zoushi Kanai",
+   "actor": "Rainer Fritzsche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kidd Coega",
+   "actor": "Ricardo Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Ailak Coega",
+   "actor": "Karlo Hackenberger",
+   "von": "ann"
+  },
+  {
+   "character": "Cortitch",
+   "actor": "Jesco Wirthgen",
+   "von": "ann"
+  },
+  {
+   "character": "Dari Adai",
+   "actor": "Carmen Katt",
+   "von": "ann"
+  },
+  {
+   "character": "Yoko Littner",
+   "actor": "Josephine Schmidt",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=6698"
+}

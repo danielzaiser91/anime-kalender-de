@@ -1,1 +1,77 @@
-{"titleId":16680,"updatedAt":"2026-08-11T11:20:03.164Z","roles":[{"character":"Satoshi","actor":"Caroline Combrinck","role":"MAIN"},{"character":"Iris","actor":"Marieke Oeffinger","role":"MAIN"},{"character":"Musashi","actor":"Scarlet Cavadenti","role":"SUPPORTING"},{"character":"Joy","actor":"Katharina Iacobescu","role":"SUPPORTING"}]}
+{
+ "titleId": 16680,
+ "updatedAt": "2026-08-15T18:35:46.760Z",
+ "roles": [
+  {
+   "character": "Satoshi",
+   "actor": "Caroline Combrinck",
+   "role": "MAIN"
+  },
+  {
+   "character": "Iris",
+   "actor": "Marieke Oeffinger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Musashi",
+   "actor": "Scarlet Cavadenti",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Joy",
+   "actor": "Katharina Iacobescu",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ash Ketchum",
+   "actor": "Caroline Combrinck",
+   "von": "ann"
+  },
+  {
+   "character": "Jessie",
+   "actor": "Scarlet Cavadenti",
+   "von": "ann"
+  },
+  {
+   "character": "Mauzi",
+   "actor": "Gerhard Acktun",
+   "von": "ann"
+  },
+  {
+   "character": "James",
+   "actor": "Matthias Klie",
+   "von": "ann"
+  },
+  {
+   "character": "Eric",
+   "actor": "Benedikt Gutjan",
+   "von": "ann"
+  },
+  {
+   "character": "Benny",
+   "actor": "Tim Schwarzmaier",
+   "von": "ann"
+  },
+  {
+   "character": "Lilia",
+   "actor": "Marieke Oeffinger",
+   "von": "ann"
+  },
+  {
+   "character": "Genesect",
+   "actor": "Leslie-Vanessa Lill",
+   "von": "ann"
+  },
+  {
+   "character": "Mewtwo",
+   "actor": "Franziska Ball",
+   "von": "ann"
+  },
+  {
+   "character": "Red Genesect",
+   "actor": "Christoph Felchner",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=14974"
+}

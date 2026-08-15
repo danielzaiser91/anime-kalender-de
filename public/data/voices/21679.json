@@ -1,1 +1,172 @@
-{"titleId":21679,"updatedAt":"2026-08-11T11:20:03.318Z","roles":[{"character":"Atsushi Nakajima","actor":"Sebastian Fitzner","role":"MAIN"},{"character":"Osamu Dazai","actor":"Timo Kinzel","role":"MAIN"},{"character":"Doppo Kunikida","actor":"Christian Rudolf","role":"MAIN"},{"character":"Ranpo Edogawa","actor":"Asad Schwarz-Msesilamba","role":"SUPPORTING"},{"character":"Nathaniel Hawthorne","actor":"Jens Wendland","role":"SUPPORTING"},{"character":"Fyodor Dostoyevsky","actor":"Patrick Elias","role":"SUPPORTING"},{"character":"Andre Gide","actor":"Constantin von Westphalen","role":"SUPPORTING"},{"character":"Naomi Tanizaki","actor":"Alina Degener","role":"SUPPORTING"},{"character":"Howard Lovecraft","actor":"Tim Grobe","role":"SUPPORTING"},{"character":"Kirako Haruno","actor":"Annika Tenter","role":"SUPPORTING"},{"character":"Herman  Melville","actor":"Kai Henrik Möller","role":"SUPPORTING"},{"character":"Chuuya Nakahara","actor":"Tammo Kaulbarsch","role":"SUPPORTING"},{"character":"Ougai Mori","actor":"Robert Kotulla","role":"SUPPORTING"},{"character":"Margaret Mitchell","actor":"Natascha Pavia","role":"SUPPORTING"},{"character":"Santouka  Taneda","actor":"Michael Bideller","role":"SUPPORTING"},{"character":"Junichirou Tanizaki","actor":"Nils Rieke","role":"SUPPORTING"},{"character":"Motojirou Kajii","actor":"Rasmus Borowski","role":"SUPPORTING"},{"character":"Edgar Poe","actor":"Jonas Anders","role":"SUPPORTING"},{"character":"Ryuurou Hirotsu","actor":"Robin Brosch","role":"SUPPORTING"},{"character":"Kenji Miyazawa","actor":"Felix Strüven","role":"SUPPORTING"},{"character":"Ichiyou Higuchi","actor":"Jennifer Böttcher","role":"SUPPORTING"},{"character":"Lucy Montgomery","actor":"Nadine Schreier","role":"SUPPORTING"},{"character":"Ango Sakaguchi","actor":"Marcus Just","role":"SUPPORTING"}]}
+{
+ "titleId": 21679,
+ "updatedAt": "2026-08-15T18:39:34.248Z",
+ "roles": [
+  {
+   "character": "Atsushi Nakajima",
+   "actor": "Sebastian Fitzner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Osamu Dazai",
+   "actor": "Timo Kinzel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Doppo Kunikida",
+   "actor": "Christian Rudolf",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ranpo Edogawa",
+   "actor": "Asad Schwarz-Msesilamba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nathaniel Hawthorne",
+   "actor": "Jens Wendland",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fyodor Dostoyevsky",
+   "actor": "Patrick Elias",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Andre Gide",
+   "actor": "Constantin von Westphalen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Naomi Tanizaki",
+   "actor": "Alina Degener",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Howard Lovecraft",
+   "actor": "Tim Grobe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kirako Haruno",
+   "actor": "Annika Tenter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Herman  Melville",
+   "actor": "Kai Henrik Möller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chuuya Nakahara",
+   "actor": "Tammo Kaulbarsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ougai Mori",
+   "actor": "Robert Kotulla",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Margaret Mitchell",
+   "actor": "Natascha Pavia",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Santouka  Taneda",
+   "actor": "Michael Bideller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Junichirou Tanizaki",
+   "actor": "Nils Rieke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Motojirou Kajii",
+   "actor": "Rasmus Borowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Edgar Poe",
+   "actor": "Jonas Anders",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryuurou Hirotsu",
+   "actor": "Robin Brosch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kenji Miyazawa",
+   "actor": "Felix Strüven",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ichiyou Higuchi",
+   "actor": "Jennifer Böttcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lucy Montgomery",
+   "actor": "Nadine Schreier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ango Sakaguchi",
+   "actor": "Marcus Just",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kouyou Ozaki",
+   "actor": "Marion von Stengel",
+   "von": "ann"
+  },
+  {
+   "character": "Ranpo Edogawa",
+   "actor": "Asad Schwarz",
+   "von": "ann"
+  },
+  {
+   "character": "Francis F",
+   "actor": "Tetje Mierendorf",
+   "von": "ann"
+  },
+  {
+   "character": "Yukichi Fukuzawa",
+   "actor": "Daniel Welbat",
+   "von": "ann"
+  },
+  {
+   "character": "Lovecraft",
+   "actor": "Tim Grobe",
+   "von": "ann"
+  },
+  {
+   "character": "John S",
+   "actor": "Julian Henneberg",
+   "von": "ann"
+  },
+  {
+   "character": "Akiko Yosano",
+   "actor": "Jannika Jira",
+   "von": "ann"
+  },
+  {
+   "character": "Kyouka Izumi",
+   "actor": "Sarah Madeleine Tusk",
+   "von": "ann"
+  },
+  {
+   "character": "Ryuunosuke Akutagawa",
+   "actor": "Daniel Schütter",
+   "von": "ann"
+  },
+  {
+   "character": "Sakunosuke Oda",
+   "actor": "Johannes Klaußner",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18709"
+}

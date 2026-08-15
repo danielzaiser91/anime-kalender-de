@@ -1,1 +1,132 @@
-{"titleId":15451,"updatedAt":"2026-08-11T11:20:03.155Z","roles":[{"character":"Yuuto Kiba","actor":"Amadeus Strobl","role":"MAIN"},{"character":"Akeno Himejima","actor":"Ute Noack","role":"MAIN"},{"character":"Issei Hyoudou","actor":"Jeffrey Wipprecht","role":"MAIN"},{"character":"Asia Argento","actor":"Heide Ihlenfeld","role":"MAIN"},{"character":"Koneko Toujou","actor":"Elke Appelt","role":"MAIN"},{"character":"Rias Gremory","actor":"Carmen Katt","role":"MAIN"},{"character":"Gasper Vladi","actor":"Sarah Alles","role":"MAIN"},{"character":"Aika Kiryuu","actor":"Sarah Méndez García","role":"SUPPORTING"},{"character":"Ddraig","actor":"Hans-Eckart Eckhardt","role":"SUPPORTING"},{"character":"Vali Lucifer","actor":"Bastian Sierich","role":"SUPPORTING"},{"character":"Grayfia Lucifuge","actor":"Anja Nestler","role":"SUPPORTING"},{"character":"Matsuda","actor":"Daniel Gärtner","role":"SUPPORTING"},{"character":"Azazel","actor":"Simon Derksen","role":"SUPPORTING"},{"character":"Motohama","actor":"Fabian Oscar Wien","role":"SUPPORTING"},{"character":"Genshirou Saji","actor":"René Dawn-Claude","role":"SUPPORTING"},{"character":"Serafall Leviathan","actor":"Amelie Plaas-Link","role":"SUPPORTING"},{"character":"Tsubaki Shinra","actor":"Antje Thiele","role":"SUPPORTING"},{"character":"Sirzechs Lucifer","actor":"Steven Merting","role":"SUPPORTING"}]}
+{
+ "titleId": 15451,
+ "updatedAt": "2026-08-15T18:35:31.262Z",
+ "roles": [
+  {
+   "character": "Yuuto Kiba",
+   "actor": "Amadeus Strobl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Akeno Himejima",
+   "actor": "Ute Noack",
+   "role": "MAIN"
+  },
+  {
+   "character": "Issei Hyoudou",
+   "actor": "Jeffrey Wipprecht",
+   "role": "MAIN"
+  },
+  {
+   "character": "Asia Argento",
+   "actor": "Heide Ihlenfeld",
+   "role": "MAIN"
+  },
+  {
+   "character": "Koneko Toujou",
+   "actor": "Elke Appelt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rias Gremory",
+   "actor": "Carmen Katt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gasper Vladi",
+   "actor": "Sarah Alles",
+   "role": "MAIN"
+  },
+  {
+   "character": "Aika Kiryuu",
+   "actor": "Sarah Méndez García",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ddraig",
+   "actor": "Hans-Eckart Eckhardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Vali Lucifer",
+   "actor": "Bastian Sierich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Grayfia Lucifuge",
+   "actor": "Anja Nestler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Matsuda",
+   "actor": "Daniel Gärtner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Azazel",
+   "actor": "Simon Derksen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Motohama",
+   "actor": "Fabian Oscar Wien",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Genshirou Saji",
+   "actor": "René Dawn-Claude",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Serafall Leviathan",
+   "actor": "Amelie Plaas-Link",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsubaki Shinra",
+   "actor": "Antje Thiele",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sirzechs Lucifer",
+   "actor": "Steven Merting",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Irina Shidō",
+   "actor": "Nicole Hannak",
+   "von": "ann"
+  },
+  {
+   "character": "Yūto Kiba",
+   "actor": "Amadeus Strobl",
+   "von": "ann"
+  },
+  {
+   "character": "Zenovia",
+   "actor": "Nadine Leopold",
+   "von": "ann"
+  },
+  {
+   "character": "Koneko Tōjō",
+   "actor": "Elke Appelt",
+   "von": "ann"
+  },
+  {
+   "character": "Issei Hyōdō",
+   "actor": "Jeffrey Wipprecht",
+   "von": "ann"
+  },
+  {
+   "character": "Sona Sitri",
+   "actor": "Maria Hönig",
+   "von": "ann"
+  },
+  {
+   "character": "Aika Kiryū",
+   "actor": "Sarah Méndez",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15204"
+}

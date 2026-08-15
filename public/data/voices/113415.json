@@ -1,1 +1,242 @@
-{"titleId":113415,"updatedAt":"2026-08-11T11:20:03.539Z","roles":[{"character":"Megumi Fushiguro","actor":"Jannik Endemann","role":"MAIN"},{"character":"Yuuji Itadori","actor":"Jan Rohrbach","role":"MAIN"},{"character":"Nobara Kugisaki","actor":"Katharina Schwarzmaier","role":"MAIN"},{"character":"Satoru Gojou","actor":"René Dawn-Claude","role":"MAIN"},{"character":"Kento Nanami","actor":"Oliver Feld","role":"SUPPORTING"},{"character":"Yoshinobu Gakuganji","actor":"Raimund Krone","role":"SUPPORTING"},{"character":"Takeshi Iguchi","actor":"Peter Lontzek","role":"SUPPORTING"},{"character":"Haruta Shigemo","actor":"Dirk Petrick","role":"SUPPORTING"},{"character":"Hanami","actor":"Gundi Eberhard","role":"SUPPORTING"},{"character":"Masamichi Yaga","actor":"Peter Sura","role":"SUPPORTING"},{"character":"Takagi","actor":"Stefan Bräuler","role":"SUPPORTING"},{"character":"Takuma Ino","actor":"Fabian Kluckert","role":"SUPPORTING"},{"character":"Akari Nitta","actor":"Magdalena Turba","role":"SUPPORTING"},{"character":"Mahito","actor":"Dirk Stollberg","role":"SUPPORTING"},{"character":"Shouko Ieiri","actor":"Gundi Eberhard","role":"SUPPORTING"},{"character":"Nagi Yoshino","actor":"Isabelle Schmidt","role":"SUPPORTING"},{"character":"Shouta Itou","actor":"Jeffrey Wipprecht","role":"SUPPORTING"},{"character":"Takeda","actor":"Uwe Jellinek","role":"SUPPORTING"},{"character":"Jougo","actor":"Michael Iwannek","role":"SUPPORTING"},{"character":"Kiyotaka Ijichi","actor":"Oliver Nitsche","role":"SUPPORTING"},{"character":"Noritoshi  Kamo","actor":"Tim Knauer","role":"SUPPORTING"},{"character":"Sotomura","actor":"Patrick Giese","role":"SUPPORTING"},{"character":"Sukuna","actor":"Tommy Morgenstern","role":"SUPPORTING"},{"character":"Suguru Getou","actor":"Matthias Deutelmoser","role":"SUPPORTING"},{"character":"Junpei Yoshino","actor":"Konrad Bösherz","role":"SUPPORTING"}]}
+{
+ "titleId": 113415,
+ "updatedAt": "2026-08-15T18:45:04.798Z",
+ "roles": [
+  {
+   "character": "Megumi Fushiguro",
+   "actor": "Jannik Endemann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuuji Itadori",
+   "actor": "Jan Rohrbach",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nobara Kugisaki",
+   "actor": "Katharina Schwarzmaier",
+   "role": "MAIN"
+  },
+  {
+   "character": "Satoru Gojou",
+   "actor": "René Dawn-Claude",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kento Nanami",
+   "actor": "Oliver Feld",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yoshinobu Gakuganji",
+   "actor": "Raimund Krone",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takeshi Iguchi",
+   "actor": "Peter Lontzek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haruta Shigemo",
+   "actor": "Dirk Petrick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hanami",
+   "actor": "Gundi Eberhard",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masamichi Yaga",
+   "actor": "Peter Sura",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takagi",
+   "actor": "Stefan Bräuler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takuma Ino",
+   "actor": "Fabian Kluckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akari Nitta",
+   "actor": "Magdalena Turba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mahito",
+   "actor": "Dirk Stollberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shouko Ieiri",
+   "actor": "Gundi Eberhard",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nagi Yoshino",
+   "actor": "Isabelle Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shouta Itou",
+   "actor": "Jeffrey Wipprecht",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takeda",
+   "actor": "Uwe Jellinek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jougo",
+   "actor": "Michael Iwannek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kiyotaka Ijichi",
+   "actor": "Oliver Nitsche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Noritoshi  Kamo",
+   "actor": "Tim Knauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sotomura",
+   "actor": "Patrick Giese",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sukuna",
+   "actor": "Tommy Morgenstern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Suguru Getou",
+   "actor": "Matthias Deutelmoser",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Junpei Yoshino",
+   "actor": "Konrad Bösherz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ultimate Mechamaru",
+   "actor": "Ricardo Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Hanami",
+   "actor": "Claudia Urbschat-Mingues",
+   "von": "ann"
+  },
+  {
+   "character": "Utahime Iori",
+   "actor": "Ann Vielhaben",
+   "von": "ann"
+  },
+  {
+   "character": "Kazumi Miwa",
+   "actor": "Julia Meynen",
+   "von": "ann"
+  },
+  {
+   "character": "Kechizu",
+   "actor": "Gerald Schaale",
+   "von": "ann"
+  },
+  {
+   "character": "Ryōmen Sukuna",
+   "actor": "Tommy Morgenstern",
+   "von": "ann"
+  },
+  {
+   "character": "Noritoshi Kamo",
+   "actor": "Tim Knauer",
+   "von": "ann"
+  },
+  {
+   "character": "Shoko Ieri",
+   "actor": "Gundi Eberhard",
+   "von": "ann"
+  },
+  {
+   "character": "Esou",
+   "actor": "Christoph Banken",
+   "von": "ann"
+  },
+  {
+   "character": "Suguru Geto",
+   "actor": "Matthias Deutelmoser",
+   "von": "ann"
+  },
+  {
+   "character": "Chousou",
+   "actor": "Marcel Collé",
+   "von": "ann"
+  },
+  {
+   "character": "Yūji Itadori",
+   "actor": "Jan Rohrbach",
+   "von": "ann"
+  },
+  {
+   "character": "Jogo",
+   "actor": "Michael Iwannek",
+   "von": "ann"
+  },
+  {
+   "character": "Satoru Gojō",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Momo Nishimiya",
+   "actor": "Charlotte Uhlig",
+   "von": "ann"
+  },
+  {
+   "character": "Mei Mei",
+   "actor": "Natascha Geißler",
+   "von": "ann"
+  },
+  {
+   "character": "Aoi Toudou",
+   "actor": "Daniel Welbat",
+   "von": "ann"
+  },
+  {
+   "character": "Maki Zenin",
+   "actor": "Alice Bauer",
+   "von": "ann"
+  },
+  {
+   "character": "Toge Inumaki",
+   "actor": "Carlos Fanselow",
+   "von": "ann"
+  },
+  {
+   "character": "Naobito Zenin",
+   "actor": "Wolfgang Wagner",
+   "von": "ann"
+  },
+  {
+   "character": "Mai Zenin",
+   "actor": "Anne Düe",
+   "von": "ann"
+  },
+  {
+   "character": "Panda",
+   "actor": "Daniel Zillmann",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22944"
+}

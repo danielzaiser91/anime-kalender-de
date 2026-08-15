@@ -1,1 +1,62 @@
-{"titleId":21498,"updatedAt":"2026-08-11T11:20:03.309Z","roles":[{"character":"Oyassan","actor":"Peter Flechtner","role":"SUPPORTING"}]}
+{
+ "titleId": 21498,
+ "updatedAt": "2026-08-15T18:39:19.459Z",
+ "roles": [
+  {
+   "character": "Oyassan",
+   "actor": "Peter Flechtner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fusata",
+   "actor": "Julien Haggege",
+   "von": "ann"
+  },
+  {
+   "character": "Tae",
+   "actor": "Magdalena Turba",
+   "von": "ann"
+  },
+  {
+   "character": "Cibo",
+   "actor": "Melanie Hinze",
+   "von": "ann"
+  },
+  {
+   "character": "Pop",
+   "actor": "Peter Flechtner",
+   "von": "ann"
+  },
+  {
+   "character": "Sutezo",
+   "actor": "Julius Jellinek",
+   "von": "ann"
+  },
+  {
+   "character": "Killy",
+   "actor": "Ozan Ünal",
+   "von": "ann"
+  },
+  {
+   "character": "Atsuji",
+   "actor": "Amadeus Strobl",
+   "von": "ann"
+  },
+  {
+   "character": "Zuru",
+   "actor": "Olivia Büschken",
+   "von": "ann"
+  },
+  {
+   "character": "Sanakan",
+   "actor": "Alice Bauer",
+   "von": "ann"
+  },
+  {
+   "character": "Administration Authority",
+   "actor": "Katja Hiller",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=17828"
+}

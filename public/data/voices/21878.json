@@ -1,1 +1,97 @@
-{"titleId":21878,"updatedAt":"2026-08-11T11:20:03.350Z","roles":[{"character":"Gabriel Tenma White","actor":"Jenny Maria Meyer","role":"MAIN"},{"character":"Satanichia Kurumizawa McDowell","actor":"Liza Ohm","role":"MAIN"},{"character":"Vignette Tsukinose April","actor":"Josephine Martz","role":"MAIN"},{"character":"Raphiel Shiraha Ainsworth","actor":"Malin Steffen","role":"MAIN"},{"character":"Master","actor":"Ingo Abel","role":"SUPPORTING"},{"character":"Haniel Tenma White","actor":"Linda Fölster","role":"SUPPORTING"},{"character":"Tanaka","actor":"Sarah Madeleine Tusk","role":"SUPPORTING"},{"character":"Satania no Chichi","actor":"Yannik Raiss","role":"SUPPORTING"},{"character":"Tapris Sugarbell Chisaki","actor":"Elise Eikermann","role":"SUPPORTING"},{"character":"Machiko","actor":"Leonie Landa","role":"SUPPORTING"},{"character":"Martiel","actor":"Jennifer Böttcher","role":"SUPPORTING"},{"character":"Zeruel Tenma White","actor":"Céline Fontanges","role":"SUPPORTING"},{"character":"Ueno","actor":"Arlette Stanschus","role":"SUPPORTING"}]}
+{
+ "titleId": 21878,
+ "updatedAt": "2026-08-15T18:40:17.600Z",
+ "roles": [
+  {
+   "character": "Gabriel Tenma White",
+   "actor": "Jenny Maria Meyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Satanichia Kurumizawa McDowell",
+   "actor": "Liza Ohm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Vignette Tsukinose April",
+   "actor": "Josephine Martz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Raphiel Shiraha Ainsworth",
+   "actor": "Malin Steffen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Master",
+   "actor": "Ingo Abel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haniel Tenma White",
+   "actor": "Linda Fölster",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tanaka",
+   "actor": "Sarah Madeleine Tusk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Satania no Chichi",
+   "actor": "Yannik Raiss",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tapris Sugarbell Chisaki",
+   "actor": "Elise Eikermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Machiko",
+   "actor": "Leonie Landa",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Martiel",
+   "actor": "Jennifer Böttcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zeruel Tenma White",
+   "actor": "Céline Fontanges",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ueno",
+   "actor": "Arlette Stanschus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Vignette April Tsukinose",
+   "actor": "Josephine Martz",
+   "von": "ann"
+  },
+  {
+   "character": "Gabriel White Tenma",
+   "actor": "Jenny Maria Meyer",
+   "von": "ann"
+  },
+  {
+   "character": "Satania Kurumizawa McDowell",
+   "actor": "Liza Ohm",
+   "von": "ann"
+  },
+  {
+   "character": "Tabris",
+   "actor": "Elise Eikermann",
+   "von": "ann"
+  },
+  {
+   "character": "Raphiel Ainsworth Shiraha",
+   "actor": "Malin Steffen",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18671"
+}

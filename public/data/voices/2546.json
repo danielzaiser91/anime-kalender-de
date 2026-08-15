@@ -1,1 +1,47 @@
-{"titleId":2546,"updatedAt":"2026-08-11T11:20:02.973Z","roles":[{"character":"Annette Burnier","actor":"Maren Rainer","role":"MAIN"},{"character":"Daniel Burnier","actor":"Nicola Grupe-Arnoldi","role":"MAIN"}]}
+{
+ "titleId": 2546,
+ "updatedAt": "2026-08-15T18:30:46.608Z",
+ "roles": [
+  {
+   "character": "Annette Burnier",
+   "actor": "Maren Rainer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Daniel Burnier",
+   "actor": "Nicola Grupe-Arnoldi",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tante Martha",
+   "actor": "Margit Weinert",
+   "von": "ann"
+  },
+  {
+   "character": "Annette",
+   "actor": "M. Rainer",
+   "von": "ann"
+  },
+  {
+   "character": "Annettes Vater",
+   "actor": "Thomas Rauscher",
+   "von": "ann"
+  },
+  {
+   "character": "Marianne",
+   "actor": "Shandra Schadt",
+   "von": "ann"
+  },
+  {
+   "character": "Annette",
+   "actor": "Maren Rainer",
+   "von": "ann"
+  },
+  {
+   "character": "Madame Morell",
+   "actor": "Maria Böhme",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=442"
+}

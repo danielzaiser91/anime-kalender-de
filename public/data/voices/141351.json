@@ -1,1 +1,127 @@
-{"titleId":141351,"updatedAt":"2026-08-11T11:20:03.621Z","roles":[{"character":"Mary Saotome","actor":"Saskia Bellahn","role":"MAIN"},{"character":"Tsuzura Hanatemari","actor":"Eleni Möller-Architektonidou","role":"MAIN"},{"character":"Yukimi Togakushi","actor":"Marnie Aramruck","role":"MAIN"},{"character":"Sachiko  Juraku","actor":"Jennifer Böttcher","role":"SUPPORTING"},{"character":"Aoi Mibuomi","actor":"Flemming Stein","role":"SUPPORTING"},{"character":"Mikura Sado","actor":"Annalena Doss","role":"SUPPORTING"},{"character":"Sakura Miharutaki","actor":"Freya Trampert","role":"SUPPORTING"},{"character":"Midari Ikishima","actor":"Franciska  Friede","role":"SUPPORTING"},{"character":"Ren Kochi","actor":"Janek Schächter","role":"SUPPORTING"},{"character":"Nobuya Sera","actor":"Marek Harloff","role":"SUPPORTING"},{"character":"Kokoro Aiura","actor":"Sina Zadra","role":"SUPPORTING"},{"character":"Mamoru Kuonji","actor":"Ivo Möller","role":"SUPPORTING"},{"character":"Sayaka Igarashi","actor":"Jenny Maria Meyer","role":"SUPPORTING"},{"character":"Chitose Inui","actor":"Elena Zvirbulis","role":"SUPPORTING"},{"character":"Kurumi Kurume","actor":"Gundi Schulze","role":"SUPPORTING"},{"character":"Kanade Musubi","actor":"Brian Sommer","role":"SUPPORTING"},{"character":"Haruto Kibashira","actor":"Alexander Merbeth","role":"SUPPORTING"},{"character":"Kirari Momobami","actor":"Liza Ohm","role":"BACKGROUND"},{"character":"Runa Yomozuki","actor":"Daniela Reidies","role":"BACKGROUND"},{"character":"Shikaisha (MC)","actor":"Tanja Dohse","role":"BACKGROUND"},{"character":"Ririka Momobami","actor":"Liza Ohm","role":"BACKGROUND"}]}
+{
+ "titleId": 141351,
+ "updatedAt": "2026-08-15T18:47:38.774Z",
+ "roles": [
+  {
+   "character": "Mary Saotome",
+   "actor": "Saskia Bellahn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tsuzura Hanatemari",
+   "actor": "Eleni Möller-Architektonidou",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yukimi Togakushi",
+   "actor": "Marnie Aramruck",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sachiko  Juraku",
+   "actor": "Jennifer Böttcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aoi Mibuomi",
+   "actor": "Flemming Stein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mikura Sado",
+   "actor": "Annalena Doss",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sakura Miharutaki",
+   "actor": "Freya Trampert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Midari Ikishima",
+   "actor": "Franciska  Friede",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ren Kochi",
+   "actor": "Janek Schächter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nobuya Sera",
+   "actor": "Marek Harloff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kokoro Aiura",
+   "actor": "Sina Zadra",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mamoru Kuonji",
+   "actor": "Ivo Möller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sayaka Igarashi",
+   "actor": "Jenny Maria Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chitose Inui",
+   "actor": "Elena Zvirbulis",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kurumi Kurume",
+   "actor": "Gundi Schulze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kanade Musubi",
+   "actor": "Brian Sommer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haruto Kibashira",
+   "actor": "Alexander Merbeth",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kirari Momobami",
+   "actor": "Liza Ohm",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Runa Yomozuki",
+   "actor": "Daniela Reidies",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Shikaisha (MC)",
+   "actor": "Tanja Dohse",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Ririka Momobami",
+   "actor": "Liza Ohm",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Mary Saotome",
+   "actor": "Saskia Weckler",
+   "von": "ann"
+  },
+  {
+   "character": "Sachiko Juraku",
+   "actor": "Jennifer Böttcher",
+   "von": "ann"
+  },
+  {
+   "character": "Tsuzura Hanatemari",
+   "actor": "Eleni Möller",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24957"
+}

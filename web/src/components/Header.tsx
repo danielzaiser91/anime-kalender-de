@@ -5,6 +5,7 @@ import { addDays, addMonths, formatDateLong, monthName, startOfWeek, todayIso } 
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import { InstallButton } from './InstallPrompt.tsx'
 import { Tooltip } from './ui.tsx'
+import { useNewsletterVerbindung } from '../lib/newsletterSync.ts'
 
 function ThemeToggle() {
   const { t } = useLang()
@@ -55,6 +56,8 @@ export function Header({
     else if (step === 'agenda') onDate(addDays(date, dir * 14))
     else onDate(addDays(date, dir * 7))
   }
+
+  const verbindung = useNewsletterVerbindung()
 
   const label = (() => {
     if (view === 'monat') {
@@ -108,19 +111,46 @@ export function Header({
             >
               {t('view.abo')}
             </button>
-            <button
-              type="button"
-              onClick={() => onView('newsletter')}
-              aria-label={t('view.newsletter')}
-              className="cursor-pointer rounded-lg bg-sky-500 px-3 py-2 text-sm font-medium text-white transition hover:bg-sky-400"
+            {/*
+              Der Knopf zeigt, ob ein Newsletter hinterlegt ist.
+
+              Ohne diese Auskunft blieb der auffälligste Knopf im Kopf stumm:
+              Er sah bei einem Abonnenten genauso aus wie bei jemandem, der noch
+              nie davon gehört hat, und lud damit dauerhaft zu etwas ein, das
+              längst erledigt ist (Daniel, 15.08.2026). Verbunden heißt jetzt
+              grün mit Häkchen, dazu die hinterlegte Adresse im Hovertext.
+            */}
+            <Tooltip
+              text={
+                verbindung.verbunden
+                  ? t('news.connectedAs', { mail: verbindung.mail ?? '' })
+                  : t('view.newsletter')
+              }
             >
-              {/* Auf schmalen Schirmen genügt das Symbol — der Knopf ist der
-                  auffälligste im Kopf, seine Bedeutung geht nicht verloren. */}
-              <span className="sm:hidden" aria-hidden="true">
-                ✉
-              </span>
-              <span className="hidden sm:inline">{t('view.newsletter')}</span>
-            </button>
+              <button
+                type="button"
+                onClick={() => onView('newsletter')}
+                aria-label={t('view.newsletter')}
+                className={[
+                  'cursor-pointer rounded-lg px-3 py-2 text-sm font-medium text-white transition',
+                  verbindung.verbunden
+                    ? 'bg-emerald-600 hover:bg-emerald-500'
+                    : 'bg-sky-500 hover:bg-sky-400',
+                ].join(' ')}
+              >
+                {/* Auf schmalen Schirmen genügt das Symbol — der Knopf ist der
+                    auffälligste im Kopf, seine Bedeutung geht nicht verloren. */}
+                <span className="sm:hidden" aria-hidden="true">
+                  ✉
+                </span>
+                <span className="hidden sm:inline">{t('view.newsletter')}</span>
+                {verbindung.verbunden && (
+                  <span className="ml-1.5" aria-hidden="true">
+                    ✓
+                  </span>
+                )}
+              </button>
+            </Tooltip>
             <ThemeToggle />
           </div>
         </div>

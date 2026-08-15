@@ -1,1 +1,117 @@
-{"titleId":20853,"updatedAt":"2026-08-11T11:20:03.238Z","roles":[{"character":"Inaho Kaizuka","actor":"Maximilian Artajo","role":"MAIN"},{"character":"Lemrina Vers Envers","actor":"Julia Stoepel","role":"MAIN"},{"character":"Slaine Troyard","actor":"Sebastian Fitzner","role":"MAIN"},{"character":"Asseylum Vers Allusia","actor":"Josephine Schmidt","role":"MAIN"},{"character":"Calm Craftman","actor":"Bastian Sierich","role":"SUPPORTING"},{"character":"Yuki  Kaizuka","actor":"Damineh Hojat","role":"SUPPORTING"},{"character":"Eddelrittuo","actor":"Charlotte Uhlig","role":"SUPPORTING"},{"character":"Inko Amifumi","actor":"Jennifer Weiß","role":"SUPPORTING"},{"character":"Rayet Areash","actor":"Lydia Morgenstern","role":"SUPPORTING"},{"character":"Klancain","actor":"Patrick Baehr","role":"SUPPORTING"},{"character":"Darzana Magbaredge","actor":"Ann Vielhaben","role":"SUPPORTING"},{"character":"Harklight","actor":"René Dawn-Claude","role":"SUPPORTING"},{"character":"Kouichirou Marito","actor":"Sven Gerhardt","role":"SUPPORTING"},{"character":"Mazuurek","actor":"Frank Schaff","role":"SUPPORTING"},{"character":"Saazbaum","actor":"André Beyer","role":"SUPPORTING"},{"character":"Nina Klein","actor":"Jodie Blank","role":"SUPPORTING"},{"character":"Barouhcruz","actor":"Viktor Neumann","role":"SUPPORTING"}]}
+{
+ "titleId": 20853,
+ "updatedAt": "2026-08-15T18:37:45.726Z",
+ "roles": [
+  {
+   "character": "Inaho Kaizuka",
+   "actor": "Maximilian Artajo",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lemrina Vers Envers",
+   "actor": "Julia Stoepel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Slaine Troyard",
+   "actor": "Sebastian Fitzner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Asseylum Vers Allusia",
+   "actor": "Josephine Schmidt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Calm Craftman",
+   "actor": "Bastian Sierich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuki  Kaizuka",
+   "actor": "Damineh Hojat",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eddelrittuo",
+   "actor": "Charlotte Uhlig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Inko Amifumi",
+   "actor": "Jennifer Weiß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rayet Areash",
+   "actor": "Lydia Morgenstern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Klancain",
+   "actor": "Patrick Baehr",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Darzana Magbaredge",
+   "actor": "Ann Vielhaben",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Harklight",
+   "actor": "René Dawn-Claude",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kouichirou Marito",
+   "actor": "Sven Gerhardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mazuurek",
+   "actor": "Frank Schaff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Saazbaum",
+   "actor": "André Beyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nina Klein",
+   "actor": "Jodie Blank",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Barouhcruz",
+   "actor": "Viktor Neumann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Saazbaum",
+   "actor": "Andre Beyer",
+   "von": "ann"
+  },
+  {
+   "character": "Kaoru Mizusaki",
+   "actor": "Tina Haseney",
+   "von": "ann"
+  },
+  {
+   "character": "Edelrittuo",
+   "actor": "Charlotte Uhlig",
+   "von": "ann"
+  },
+  {
+   "character": "Yuki Kaizuka",
+   "actor": "Damineh Hojat",
+   "von": "ann"
+  },
+  {
+   "character": "Souma Yagarai",
+   "actor": "Arne Stephan",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16305"
+}

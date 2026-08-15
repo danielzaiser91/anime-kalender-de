@@ -1,1 +1,122 @@
-{"titleId":18679,"updatedAt":"2026-08-11T11:20:03.177Z","roles":[{"character":"Satsuki Kiryuuin","actor":"Sandra Lühr","role":"MAIN"},{"character":"Ryuuko Matoi","actor":"Gundi Eberhard","role":"MAIN"},{"character":"Senketsu","actor":"Matthias Keller","role":"MAIN"},{"character":"Mako Mankanshoku","actor":"Annette Potempa","role":"MAIN"},{"character":"Barazou Mankanshoku","actor":"Sascha Nathan","role":"SUPPORTING"},{"character":"Shirou Iori","actor":"Florian Hoffmann","role":"SUPPORTING"},{"character":"Sukuyo Mankanshoku","actor":"Gabi Franke","role":"SUPPORTING"},{"character":"Aikurou Mikisugi","actor":"Peter Lehn","role":"SUPPORTING"},{"character":"Sanzou Soroi","actor":"Thomas Dehler","role":"SUPPORTING"},{"character":"Maiko Oogure","actor":"Tanja Esche","role":"SUPPORTING"},{"character":"Nui Harime","actor":"Sonia Muratore","role":"SUPPORTING"},{"character":"Ira Gamagoori","actor":"Dirk Hardegen","role":"SUPPORTING"},{"character":"Uzu Sanageyama","actor":"David M. Schulze","role":"SUPPORTING"},{"character":"Tsumugu Kinagase","actor":"Richard van Weyden","role":"SUPPORTING"},{"character":"Houka Inumuta","actor":"René Dawn-Claude","role":"SUPPORTING"},{"character":"Takaharu Fukuroda","actor":"Linus Kraus","role":"SUPPORTING"},{"character":"Ragyou Kiryuuin","actor":"Corinna Maria Lechler","role":"SUPPORTING"},{"character":"Nonon Jakuzure","actor":"Nina Amerschläger","role":"SUPPORTING"},{"character":"Omiko Hakodate","actor":"Iris R.  Hassenzahl","role":"SUPPORTING"},{"character":"Rei Hououmaru","actor":"Carolin Sophie Göbel","role":"SUPPORTING"}]}
+{
+ "titleId": 18679,
+ "updatedAt": "2026-08-15T18:36:05.656Z",
+ "roles": [
+  {
+   "character": "Satsuki Kiryuuin",
+   "actor": "Sandra Lühr",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ryuuko Matoi",
+   "actor": "Gundi Eberhard",
+   "role": "MAIN"
+  },
+  {
+   "character": "Senketsu",
+   "actor": "Matthias Keller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mako Mankanshoku",
+   "actor": "Annette Potempa",
+   "role": "MAIN"
+  },
+  {
+   "character": "Barazou Mankanshoku",
+   "actor": "Sascha Nathan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shirou Iori",
+   "actor": "Florian Hoffmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sukuyo Mankanshoku",
+   "actor": "Gabi Franke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aikurou Mikisugi",
+   "actor": "Peter Lehn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sanzou Soroi",
+   "actor": "Thomas Dehler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maiko Oogure",
+   "actor": "Tanja Esche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nui Harime",
+   "actor": "Sonia Muratore",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ira Gamagoori",
+   "actor": "Dirk Hardegen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Uzu Sanageyama",
+   "actor": "David M. Schulze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsumugu Kinagase",
+   "actor": "Richard van Weyden",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Houka Inumuta",
+   "actor": "René Dawn-Claude",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takaharu Fukuroda",
+   "actor": "Linus Kraus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ragyou Kiryuuin",
+   "actor": "Corinna Maria Lechler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nonon Jakuzure",
+   "actor": "Nina Amerschläger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Omiko Hakodate",
+   "actor": "Iris R.  Hassenzahl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rei Hououmaru",
+   "actor": "Carolin Sophie Göbel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Houka Inomota",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Aikuro Mikisugi",
+   "actor": "Peter Lehn",
+   "von": "ann"
+  },
+  {
+   "character": "Ragyou Kiryuin",
+   "actor": "Corinna Maria Lechler",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15336"
+}

@@ -1,1 +1,127 @@
-{"titleId":20605,"updatedAt":"2026-08-11T11:20:03.202Z","roles":[{"character":"Ken Kaneki","actor":"Ricardo Richter","role":"MAIN"},{"character":"Touka Kirishima","actor":"Sarah Alles","role":"MAIN"},{"character":"Juuzou Suzuya","actor":"Katrin Zimmermann","role":"SUPPORTING"},{"character":"Hideyoshi Nagachika","actor":"Jeffrey Wipprecht","role":"SUPPORTING"},{"character":"Seidou Takizawa","actor":"Heiko Akrap","role":"SUPPORTING"},{"character":"Kousuke Houji","actor":"Andreas Conrad","role":"SUPPORTING"},{"character":"Rize Kamishiro","actor":"Giuliana Jakobeit","role":"SUPPORTING"},{"character":"Ryouko Fueguchi","actor":"Nicole Hannak","role":"SUPPORTING"},{"character":"Yoshimura","actor":"Thomas Kästner","role":"SUPPORTING"},{"character":"Hinami Fueguchi","actor":"Sarah Tkotsch","role":"SUPPORTING"},{"character":"Uta","actor":"Daniel Gärtner","role":"SUPPORTING"},{"character":"Kureo Mado","actor":"Axel Lutter","role":"SUPPORTING"},{"character":"Itsuki Marude","actor":"Thomas Schmuckert","role":"SUPPORTING"},{"character":"Koutarou Amon","actor":"Florian Hoffmann","role":"SUPPORTING"},{"character":"Itori","actor":"Kaya Marie Möller","role":"SUPPORTING"},{"character":"Shuu Tsukiyama","actor":"Dirk Stollberg","role":"SUPPORTING"},{"character":"Yukinori Shinohara","actor":"Uwe Jellinek","role":"SUPPORTING"}]}
+{
+ "titleId": 20605,
+ "updatedAt": "2026-08-15T18:36:51.532Z",
+ "roles": [
+  {
+   "character": "Ken Kaneki",
+   "actor": "Ricardo Richter",
+   "role": "MAIN"
+  },
+  {
+   "character": "Touka Kirishima",
+   "actor": "Sarah Alles",
+   "role": "MAIN"
+  },
+  {
+   "character": "Juuzou Suzuya",
+   "actor": "Katrin Zimmermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hideyoshi Nagachika",
+   "actor": "Jeffrey Wipprecht",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seidou Takizawa",
+   "actor": "Heiko Akrap",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kousuke Houji",
+   "actor": "Andreas Conrad",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rize Kamishiro",
+   "actor": "Giuliana Jakobeit",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryouko Fueguchi",
+   "actor": "Nicole Hannak",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yoshimura",
+   "actor": "Thomas Kästner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hinami Fueguchi",
+   "actor": "Sarah Tkotsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Uta",
+   "actor": "Daniel Gärtner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kureo Mado",
+   "actor": "Axel Lutter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Itsuki Marude",
+   "actor": "Thomas Schmuckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Koutarou Amon",
+   "actor": "Florian Hoffmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Itori",
+   "actor": "Kaya Marie Möller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shuu Tsukiyama",
+   "actor": "Dirk Stollberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yukinori Shinohara",
+   "actor": "Uwe Jellinek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yakumo Oomori",
+   "actor": "Joachim Kaps",
+   "von": "ann"
+  },
+  {
+   "character": "Itori",
+   "actor": "Kaya Möller",
+   "von": "ann"
+  },
+  {
+   "character": "Kazuichi Banjou",
+   "actor": "Jesco Wirthgen",
+   "von": "ann"
+  },
+  {
+   "character": "Nishiki Nishio",
+   "actor": "Dirk Petrick",
+   "von": "ann"
+  },
+  {
+   "character": "Liz Kamishiro",
+   "actor": "Giuliana Jakobeit",
+   "von": "ann"
+  },
+  {
+   "character": "Renji Yomo",
+   "actor": "Johannes Berenz",
+   "von": "ann"
+  },
+  {
+   "character": "Ayato Kirishima",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16087"
+}

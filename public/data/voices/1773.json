@@ -1,1 +1,82 @@
-{"titleId":1773,"updatedAt":"2026-08-11T11:20:02.941Z","roles":[{"character":"Kenshirou","actor":"Tobias Nath","role":"MAIN"},{"character":"Raoh","actor":"Bernd Vollbrecht","role":"MAIN"},{"character":"Reina","actor":"Ghadah Al-Akel","role":"MAIN"},{"character":"Souther","actor":"Jan Spitzer","role":"SUPPORTING"},{"character":"Toki","actor":"Leonhard Mahlich","role":"SUPPORTING"},{"character":"Shuu","actor":"Rainer Doering","role":"SUPPORTING"},{"character":"Lin","actor":"Tanja Schmitz","role":"SUPPORTING"},{"character":"Bat","actor":"Fabian Hollwitz","role":"SUPPORTING"},{"character":"Yuria","actor":"Catrin Dams","role":"SUPPORTING"},{"character":"Souga","actor":"Olaf Reichmann","role":"SUPPORTING"},{"character":"Narrator","actor":"Gundi Eberhard","role":"SUPPORTING"},{"character":"Shiba","actor":"Patrick Baehr","role":"SUPPORTING"},{"character":"Toyo","actor":"Almut Zydra","role":"SUPPORTING"}]}
+{
+ "titleId": 1773,
+ "updatedAt": "2026-08-15T18:29:30.301Z",
+ "roles": [
+  {
+   "character": "Kenshirou",
+   "actor": "Tobias Nath",
+   "role": "MAIN"
+  },
+  {
+   "character": "Raoh",
+   "actor": "Bernd Vollbrecht",
+   "role": "MAIN"
+  },
+  {
+   "character": "Reina",
+   "actor": "Ghadah Al-Akel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Souther",
+   "actor": "Jan Spitzer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toki",
+   "actor": "Leonhard Mahlich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shuu",
+   "actor": "Rainer Doering",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lin",
+   "actor": "Tanja Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bat",
+   "actor": "Fabian Hollwitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuria",
+   "actor": "Catrin Dams",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Souga",
+   "actor": "Olaf Reichmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Gundi Eberhard",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shiba",
+   "actor": "Patrick Baehr",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toyo",
+   "actor": "Almut Zydra",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Soga",
+   "actor": "Olaf Reichmann",
+   "von": "ann"
+  },
+  {
+   "character": "Shu",
+   "actor": "Rainer Doering",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=5025"
+}

@@ -1,1 +1,27 @@
-{"titleId":1795,"updatedAt":"2026-08-11T11:20:02.943Z","roles":[{"character":"Kei","actor":"Josefine Lössl","role":"MAIN"},{"character":"Yuri","actor":"Frauke Vetter","role":"MAIN"},{"character":"Dick","actor":"Dirk Mühlbach","role":"SUPPORTING"}]}
+{
+ "titleId": 1795,
+ "updatedAt": "2026-08-15T18:29:34.889Z",
+ "roles": [
+  {
+   "character": "Kei",
+   "actor": "Josefine Lössl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuri",
+   "actor": "Frauke Vetter",
+   "role": "MAIN"
+  },
+  {
+   "character": "Dick",
+   "actor": "Dirk Mühlbach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "DLC Executive",
+   "actor": "Dirk Mühlbach",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=594"
+}

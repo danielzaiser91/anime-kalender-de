@@ -1,1 +1,182 @@
-{"titleId":16498,"updatedAt":"2026-08-11T11:20:03.161Z","roles":[{"character":"Eren Yeager","actor":"Max Felder","role":"MAIN"},{"character":"Mikasa Ackerman","actor":"Nicole Hannak","role":"MAIN"},{"character":"Armin Arlert","actor":"Christian Zeiger","role":"MAIN"},{"character":"Levi","actor":"Florian Halm","role":"SUPPORTING"},{"character":"Sasha Blouse","actor":"Lina Rabea Mohr","role":"SUPPORTING"},{"character":"Reiner Braun","actor":"Marios Gavrilis","role":"SUPPORTING"},{"character":"Connie Springer","actor":"Julius Jellinek","role":"SUPPORTING"},{"character":"Bertolt Hoover","actor":"Tim Knauer","role":"SUPPORTING"},{"character":"Annie Leonhart","actor":"Marieke Oeffinger","role":"SUPPORTING"},{"character":"Hannes","actor":"Tim Moeseritz","role":"SUPPORTING"},{"character":"Erwin Smith","actor":"Peter Flechtner","role":"SUPPORTING"},{"character":"Jean Kirstein","actor":"René Dawn-Claude","role":"SUPPORTING"},{"character":"Carla Yeager","actor":"Melanie Hinze","role":"SUPPORTING"},{"character":"Grisha Yeager","actor":"Frank Röth","role":"SUPPORTING"},{"character":"Marco Bott","actor":"Konrad Bösherz","role":"SUPPORTING"},{"character":"Krista Lenz","actor":"Jodie Blank","role":"SUPPORTING"},{"character":"Thomas Wagner","actor":"Ricardo Richter","role":"SUPPORTING"},{"character":"Dot Pixis","actor":"Elmar Gutmann","role":"SUPPORTING"},{"character":"Petra Ral","actor":"Kristina Tietz","role":"SUPPORTING"},{"character":"Mike Zacharias","actor":"Matti Klemm","role":"SUPPORTING"},{"character":"Hange Zoe","actor":"Josephine Schmidt","role":"SUPPORTING"},{"character":"Darius Zackly","actor":"Reinhard Scheunemann","role":"SUPPORTING"},{"character":"Nick","actor":"Robert Missler","role":"SUPPORTING"},{"character":"Keiji","actor":"Martin Schubach","role":"SUPPORTING"},{"character":"Marlo Freudenberg","actor":"Florian Hoffmann","role":"SUPPORTING"}]}
+{
+ "titleId": 16498,
+ "updatedAt": "2026-08-15T18:35:43.492Z",
+ "roles": [
+  {
+   "character": "Eren Yeager",
+   "actor": "Max Felder",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mikasa Ackerman",
+   "actor": "Nicole Hannak",
+   "role": "MAIN"
+  },
+  {
+   "character": "Armin Arlert",
+   "actor": "Christian Zeiger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Levi",
+   "actor": "Florian Halm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sasha Blouse",
+   "actor": "Lina Rabea Mohr",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Reiner Braun",
+   "actor": "Marios Gavrilis",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Connie Springer",
+   "actor": "Julius Jellinek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bertolt Hoover",
+   "actor": "Tim Knauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Annie Leonhart",
+   "actor": "Marieke Oeffinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hannes",
+   "actor": "Tim Moeseritz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Erwin Smith",
+   "actor": "Peter Flechtner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jean Kirstein",
+   "actor": "René Dawn-Claude",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Carla Yeager",
+   "actor": "Melanie Hinze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Grisha Yeager",
+   "actor": "Frank Röth",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marco Bott",
+   "actor": "Konrad Bösherz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Krista Lenz",
+   "actor": "Jodie Blank",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Thomas Wagner",
+   "actor": "Ricardo Richter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dot Pixis",
+   "actor": "Elmar Gutmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Petra Ral",
+   "actor": "Kristina Tietz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mike Zacharias",
+   "actor": "Matti Klemm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hange Zoe",
+   "actor": "Josephine Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Darius Zackly",
+   "actor": "Reinhard Scheunemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nick",
+   "actor": "Robert Missler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Keiji",
+   "actor": "Martin Schubach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marlo Freudenberg",
+   "actor": "Florian Hoffmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marco Bodt",
+   "actor": "Konrad Bösherz",
+   "von": "ann"
+  },
+  {
+   "character": "Berthold Fubar",
+   "actor": "Tim Knauer",
+   "von": "ann"
+  },
+  {
+   "character": "Annie Leonhardt",
+   "actor": "Marieke Oeffinger",
+   "von": "ann"
+  },
+  {
+   "character": "Ymir",
+   "actor": "Esra Vural",
+   "von": "ann"
+  },
+  {
+   "character": "Jean Kirschstein",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Eren Jäger",
+   "actor": "Max Felder",
+   "von": "ann"
+  },
+  {
+   "character": "Hanji Zoe",
+   "actor": "Josephine Schmidt",
+   "von": "ann"
+  },
+  {
+   "character": "Mikasa Ackermann",
+   "actor": "Nicole Hannak",
+   "von": "ann"
+  },
+  {
+   "character": "Christa Renz",
+   "actor": "Jodie Blank",
+   "von": "ann"
+  },
+  {
+   "character": "Sasha Braus",
+   "actor": "Lina Rabea Mohr",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=14950"
+}

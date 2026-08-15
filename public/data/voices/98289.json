@@ -1,1 +1,77 @@
-{"titleId":98289,"updatedAt":"2026-08-11T11:20:03.379Z","roles":[{"character":"Valt Aoi","actor":"Sebastian Fitzner","role":"MAIN"},{"character":"Rantarou Kiyama","actor":"Julian Tennstedt","role":"MAIN"},{"character":"Free De La Hoya","actor":"Dirk Petrick","role":"SUPPORTING"},{"character":"Shu Kurenai","actor":"Bastian Sierich","role":"SUPPORTING"},{"character":"Silas Karlisle","actor":"Sebastian Kluckert","role":"SUPPORTING"},{"character":"Kit Lopez","actor":"Anja Rybiczka","role":"SUPPORTING"}]}
+{
+ "titleId": 98289,
+ "updatedAt": "2026-08-15T18:40:56.162Z",
+ "roles": [
+  {
+   "character": "Valt Aoi",
+   "actor": "Sebastian Fitzner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rantarou Kiyama",
+   "actor": "Julian Tennstedt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Free De La Hoya",
+   "actor": "Dirk Petrick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shu Kurenai",
+   "actor": "Bastian Sierich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Silas Karlisle",
+   "actor": "Sebastian Kluckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kit Lopez",
+   "actor": "Anja Rybiczka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Christina Kuroda",
+   "actor": "Diana Borgwardt",
+   "von": "ann"
+  },
+  {
+   "character": "Kitt Lopez",
+   "actor": "Anja Rybiczka",
+   "von": "ann"
+  },
+  {
+   "character": "Cuza Ackerman",
+   "actor": "Julia Blankenburg",
+   "von": "ann"
+  },
+  {
+   "character": "Wakiya Murasaki",
+   "actor": "Christian Zeiger",
+   "von": "ann"
+  },
+  {
+   "character": "Honey Guten",
+   "actor": "Jennifer Weiß",
+   "von": "ann"
+  },
+  {
+   "character": "Trad Vasquez",
+   "actor": "Florian Hoffmann",
+   "von": "ann"
+  },
+  {
+   "character": "Shuu Kurenai",
+   "actor": "Bastian Sierich",
+   "von": "ann"
+  },
+  {
+   "character": "Shasa Guten",
+   "actor": "Anni C. Salander",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19030"
+}

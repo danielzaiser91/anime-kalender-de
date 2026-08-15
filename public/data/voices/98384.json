@@ -1,1 +1,107 @@
-{"titleId":98384,"updatedAt":"2026-08-11T11:20:03.380Z","roles":[{"character":"Atsushi Nakajima","actor":"Sebastian Fitzner","role":"MAIN"},{"character":"Kyouka Izumi","actor":"Sarah Madeleine Tusk","role":"MAIN"},{"character":"Osamu Dazai","actor":"Timo Kinzel","role":"MAIN"},{"character":"Ryuunosuke Akutagawa","actor":"Daniel Schütter","role":"MAIN"},{"character":"Chuuya Nakahara","actor":"Tammo Kaulbarsch","role":"MAIN"},{"character":"Tatsuhiko  Shibusawa","actor":"Martin Sabel","role":"MAIN"},{"character":"Fyodor Dostoyevsky","actor":"Patrick Elias","role":"MAIN"},{"character":"Kenji Miyazawa","actor":"Felix Strüven","role":"SUPPORTING"},{"character":"Ranpo Edogawa","actor":"Asad Schwarz-Msesilamba","role":"SUPPORTING"},{"character":"Yukichi Fukuzawa","actor":"Daniel Welbat","role":"SUPPORTING"},{"character":"Ango Sakaguchi","actor":"Marcus Just","role":"SUPPORTING"},{"character":"Ougai Mori","actor":"Robert Kotulla","role":"SUPPORTING"},{"character":"Junichirou Tanizaki","actor":"Nils Rieke","role":"SUPPORTING"},{"character":"Mizuki Tsujimura","actor":"Runa Pernoda Schaefer","role":"SUPPORTING"},{"character":"Akiko Yosano","actor":"Jannika Jira","role":"SUPPORTING"}]}
+{
+ "titleId": 98384,
+ "updatedAt": "2026-08-15T18:40:59.473Z",
+ "roles": [
+  {
+   "character": "Atsushi Nakajima",
+   "actor": "Sebastian Fitzner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kyouka Izumi",
+   "actor": "Sarah Madeleine Tusk",
+   "role": "MAIN"
+  },
+  {
+   "character": "Osamu Dazai",
+   "actor": "Timo Kinzel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ryuunosuke Akutagawa",
+   "actor": "Daniel Schütter",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chuuya Nakahara",
+   "actor": "Tammo Kaulbarsch",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tatsuhiko  Shibusawa",
+   "actor": "Martin Sabel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Fyodor Dostoyevsky",
+   "actor": "Patrick Elias",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kenji Miyazawa",
+   "actor": "Felix Strüven",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ranpo Edogawa",
+   "actor": "Asad Schwarz-Msesilamba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yukichi Fukuzawa",
+   "actor": "Daniel Welbat",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ango Sakaguchi",
+   "actor": "Marcus Just",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ougai Mori",
+   "actor": "Robert Kotulla",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Junichirou Tanizaki",
+   "actor": "Nils Rieke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mizuki Tsujimura",
+   "actor": "Runa Pernoda Schaefer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akiko Yosano",
+   "actor": "Jannika Jira",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Doppo Kunikida",
+   "actor": "Christian Rudolf",
+   "von": "ann"
+  },
+  {
+   "character": "Ranpo Edogawa",
+   "actor": "Asad Schwarz",
+   "von": "ann"
+  },
+  {
+   "character": "Shibusawa Tatsuhiko",
+   "actor": "Martin Sabel",
+   "von": "ann"
+  },
+  {
+   "character": "Naomi Tanizaki",
+   "actor": "Alina Degener",
+   "von": "ann"
+  },
+  {
+   "character": "Sakunosuke Oda",
+   "actor": "Johannes Klaußner",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19773"
+}

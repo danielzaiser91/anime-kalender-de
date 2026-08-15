@@ -1,1 +1,182 @@
-{"titleId":98659,"updatedAt":"2026-08-11T11:20:03.393Z","roles":[{"character":"Kiyotaka Ayanokouji","actor":"Bastian Sierich","role":"MAIN"},{"character":"Suzune Horikita","actor":"Patrizia Carlucci","role":"MAIN"},{"character":"Kikyou Kushida","actor":"Franziska Trunte","role":"MAIN"},{"character":"Airi Sakura","actor":"Jennifer Weiß","role":"MAIN"},{"character":"Arisu Sakayanagi","actor":"Celina Gaschina","role":"SUPPORTING"},{"character":"Satsuki Shinohara","actor":"Daniela Kälin","role":"SUPPORTING"},{"character":"Hideo Sotomura","actor":"Christian Intorp","role":"SUPPORTING"},{"character":"Mei-Yu Wang","actor":"Mascha Raykhman","role":"SUPPORTING"},{"character":"Ryuuji Kanzaki","actor":"Jonas Schmidt-Foss","role":"SUPPORTING"},{"character":"Chihiro Shiranami","actor":"Anna Herrmann","role":"SUPPORTING"},{"character":"Kei Karuizawa","actor":"Ness Gerung","role":"SUPPORTING"},{"character":"Chie Hoshinomiya","actor":"Johanna Schmoll","role":"SUPPORTING"},{"character":"Yahiko Totsuka","actor":"Mario Klischies","role":"SUPPORTING"},{"character":"Rokusuke Kouenji","actor":"Tim Gössler","role":"SUPPORTING"},{"character":"Chiaki Matsushita","actor":"Julia Bautz","role":"SUPPORTING"},{"character":"Kouhei Katsuragi","actor":"Georgios Tzitzikos","role":"SUPPORTING"},{"character":"Daichi Ishizaki","actor":"Sebastian Borucki","role":"SUPPORTING"},{"character":"Honami Ichinose","actor":"Özge Kayalar","role":"SUPPORTING"},{"character":"Kakeru Ryuuen","actor":"Fabian Oscar Wien","role":"SUPPORTING"},{"character":"Ken Sudou","actor":"Jermain Meyer","role":"SUPPORTING"},{"character":"Albert Yamada","actor":"Frank Kirschgens","role":"SUPPORTING"}]}
+{
+ "titleId": 98659,
+ "updatedAt": "2026-08-15T18:41:08.377Z",
+ "roles": [
+  {
+   "character": "Kiyotaka Ayanokouji",
+   "actor": "Bastian Sierich",
+   "role": "MAIN"
+  },
+  {
+   "character": "Suzune Horikita",
+   "actor": "Patrizia Carlucci",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kikyou Kushida",
+   "actor": "Franziska Trunte",
+   "role": "MAIN"
+  },
+  {
+   "character": "Airi Sakura",
+   "actor": "Jennifer Weiß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Arisu Sakayanagi",
+   "actor": "Celina Gaschina",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Satsuki Shinohara",
+   "actor": "Daniela Kälin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hideo Sotomura",
+   "actor": "Christian Intorp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mei-Yu Wang",
+   "actor": "Mascha Raykhman",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryuuji Kanzaki",
+   "actor": "Jonas Schmidt-Foss",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chihiro Shiranami",
+   "actor": "Anna Herrmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kei Karuizawa",
+   "actor": "Ness Gerung",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chie Hoshinomiya",
+   "actor": "Johanna Schmoll",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yahiko Totsuka",
+   "actor": "Mario Klischies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rokusuke Kouenji",
+   "actor": "Tim Gössler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chiaki Matsushita",
+   "actor": "Julia Bautz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kouhei Katsuragi",
+   "actor": "Georgios Tzitzikos",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Daichi Ishizaki",
+   "actor": "Sebastian Borucki",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Honami Ichinose",
+   "actor": "Özge Kayalar",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kakeru Ryuuen",
+   "actor": "Fabian Oscar Wien",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ken Sudou",
+   "actor": "Jermain Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Albert Yamada",
+   "actor": "Frank Kirschgens",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sae Chabashira",
+   "actor": "Antje von der Ahe",
+   "von": "ann"
+  },
+  {
+   "character": "Kakeru Ryūen",
+   "actor": "Fabian Oscar Wien",
+   "von": "ann"
+  },
+  {
+   "character": "Kiyotaka Ayanokōji",
+   "actor": "Bastian Sierich",
+   "von": "ann"
+  },
+  {
+   "character": "Manabu Horikita",
+   "actor": "Lucas Wecker",
+   "von": "ann"
+  },
+  {
+   "character": "Teruhiko Yukimura",
+   "actor": "Alexander Gaida",
+   "von": "ann"
+  },
+  {
+   "character": "Kikyō Kushida",
+   "actor": "Franziska Trunte",
+   "von": "ann"
+  },
+  {
+   "character": "Mio Ibuki",
+   "actor": "Daniela Kälin",
+   "von": "ann"
+  },
+  {
+   "character": "Ken Sudō",
+   "actor": "Jermain Meyer",
+   "von": "ann"
+  },
+  {
+   "character": "Kanji Ike",
+   "actor": "Tom Ferenc",
+   "von": "ann"
+  },
+  {
+   "character": "Maya Satō",
+   "actor": "Norma Anthes",
+   "von": "ann"
+  },
+  {
+   "character": "Kokoro Inogashira",
+   "actor": "Sabrina Gundlach",
+   "von": "ann"
+  },
+  {
+   "character": "Rokusuke Kōenji",
+   "actor": "Tim Gössler",
+   "von": "ann"
+  },
+  {
+   "character": "Mei-Yu Wang",
+   "actor": "Maria Mascha Raykhman",
+   "von": "ann"
+  },
+  {
+   "character": "Yōsuke Hirata",
+   "actor": "Levin Jäger",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19544"
+}

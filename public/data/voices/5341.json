@@ -1,1 +1,72 @@
-{"titleId":5341,"updatedAt":"2026-08-11T11:20:03.046Z","roles":[{"character":"Holo","actor":"Julia Bautz","role":"MAIN"},{"character":"Kraft Lawrence","actor":"Louis Friedemann Thiele","role":"MAIN"},{"character":"Fleur Boland","actor":"Iris R.  Hassenzahl","role":"SUPPORTING"},{"character":"Dian Rubens","actor":"Petra Glunz-grosch","role":"SUPPORTING"},{"character":"Mark","actor":"Tobias Brecklinghaus","role":"SUPPORTING"},{"character":"Fermi Amarty","actor":"Philip Süß","role":"SUPPORTING"},{"character":"Merta","actor":"Poetine Alija","role":"SUPPORTING"},{"character":"Helena","actor":"Franziska Trunte","role":"SUPPORTING"}]}
+{
+ "titleId": 5341,
+ "updatedAt": "2026-08-15T18:32:35.186Z",
+ "roles": [
+  {
+   "character": "Holo",
+   "actor": "Julia Bautz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kraft Lawrence",
+   "actor": "Louis Friedemann Thiele",
+   "role": "MAIN"
+  },
+  {
+   "character": "Fleur Boland",
+   "actor": "Iris R.  Hassenzahl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dian Rubens",
+   "actor": "Petra Glunz-grosch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mark",
+   "actor": "Tobias Brecklinghaus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fermi Amarty",
+   "actor": "Philip Süß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Merta",
+   "actor": "Poetine Alija",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Helena",
+   "actor": "Franziska Trunte",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Diana Rubens",
+   "actor": "Petra Glunz-Grosch",
+   "von": "ann"
+  },
+  {
+   "character": "Eu Lunt",
+   "actor": "Yoko Hagino",
+   "von": "ann"
+  },
+  {
+   "character": "Ghe Batos",
+   "actor": "Thomas Balou Martin",
+   "von": "ann"
+  },
+  {
+   "character": "Marc Cole",
+   "actor": "Tobias Brecklinghaus",
+   "von": "ann"
+  },
+  {
+   "character": "Fermi Amarti",
+   "actor": "Philip Süß",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=10269"
+}

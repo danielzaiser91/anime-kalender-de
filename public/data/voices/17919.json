@@ -1,1 +1,47 @@
-{"titleId":17919,"updatedAt":"2026-08-11T11:20:03.170Z","roles":[{"character":"Subaru","actor":"Samira Jakobs","role":"MAIN"},{"character":"Itsuki","actor":"Anne Ballhaus","role":"MAIN"},{"character":"Aoi","actor":"Anna Gamburg","role":"MAIN"},{"character":"Pleiadian","actor":"Rieke Werner","role":"MAIN"},{"character":"Nanako","actor":"Rieke Werner","role":"MAIN"},{"character":"Hikaru","actor":"Charlotte Uhlig","role":"MAIN"},{"character":"Minato","actor":"Konrad Bösherz","role":"MAIN"}]}
+{
+ "titleId": 17919,
+ "updatedAt": "2026-08-15T18:35:57.399Z",
+ "roles": [
+  {
+   "character": "Subaru",
+   "actor": "Samira Jakobs",
+   "role": "MAIN"
+  },
+  {
+   "character": "Itsuki",
+   "actor": "Anne Ballhaus",
+   "role": "MAIN"
+  },
+  {
+   "character": "Aoi",
+   "actor": "Anna Gamburg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Pleiadian",
+   "actor": "Rieke Werner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nanako",
+   "actor": "Rieke Werner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hikaru",
+   "actor": "Charlotte Uhlig",
+   "role": "MAIN"
+  },
+  {
+   "character": "Minato",
+   "actor": "Konrad Bösherz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Elnath",
+   "actor": "Peggy Pollow",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16641"
+}

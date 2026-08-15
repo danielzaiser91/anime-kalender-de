@@ -1,1 +1,52 @@
-{"titleId":6172,"updatedAt":"2026-08-11T11:20:03.055Z","roles":[{"character":"Jenis Quatlane","actor":"Kristina von Weltzien","role":"MAIN"},{"character":"Hershel Layton","actor":"Mario Hassert","role":"MAIN"}]}
+{
+ "titleId": 6172,
+ "updatedAt": "2026-08-15T18:32:51.719Z",
+ "roles": [
+  {
+   "character": "Jenis Quatlane",
+   "actor": "Kristina von Weltzien",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hershel Layton",
+   "actor": "Mario Hassert",
+   "role": "MAIN"
+  },
+  {
+   "character": "Clamp Grosky",
+   "actor": "Gerald Paradies",
+   "von": "ann"
+  },
+  {
+   "character": "Jean Descole",
+   "actor": "Stefan Gossler",
+   "von": "ann"
+  },
+  {
+   "character": "Oswald Whistler",
+   "actor": "Jan Spitzer",
+   "von": "ann"
+  },
+  {
+   "character": "Janice Quatlane",
+   "actor": "Kristina von Weltzien",
+   "von": "ann"
+  },
+  {
+   "character": "Professor Layton",
+   "actor": "Mario Hassert",
+   "von": "ann"
+  },
+  {
+   "character": "Luke Triton",
+   "actor": "Sophia Längert",
+   "von": "ann"
+  },
+  {
+   "character": "Emmy Altava",
+   "actor": "Linn MacKenzie",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=10673"
+}

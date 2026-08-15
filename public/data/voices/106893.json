@@ -1,1 +1,72 @@
-{"titleId":106893,"updatedAt":"2026-08-11T11:20:03.497Z","roles":[{"character":"Tilarna Exedilika","actor":"Sara Wegner","role":"MAIN"},{"character":"Kei Matoba","actor":"Christopher Kussin","role":"MAIN"},{"character":"Jamie Austin","actor":"Saskia Haisch","role":"SUPPORTING"},{"character":"Aleksandr Godnov","actor":"Mathias Förster","role":"SUPPORTING"},{"character":"Tony Mcbee","actor":"Antonio F. Lopes","role":"SUPPORTING"},{"character":"Kenny","actor":"Omid-Paul Eftekhari","role":"SUPPORTING"},{"character":"Cecil Epps","actor":"Caro Mendelski","role":"SUPPORTING"},{"character":"Jack Roth","actor":"Olaf Creutzburg","role":"SUPPORTING"},{"character":"Cameron Estefan","actor":"Anja Taborsky","role":"SUPPORTING"},{"character":"Biz O'naill","actor":"Johannes Bahr","role":"SUPPORTING"}]}
+{
+ "titleId": 106893,
+ "updatedAt": "2026-08-15T18:43:47.385Z",
+ "roles": [
+  {
+   "character": "Tilarna Exedilika",
+   "actor": "Sara Wegner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kei Matoba",
+   "actor": "Christopher Kussin",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jamie Austin",
+   "actor": "Saskia Haisch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aleksandr Godnov",
+   "actor": "Mathias Förster",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tony Mcbee",
+   "actor": "Antonio F. Lopes",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kenny",
+   "actor": "Omid-Paul Eftekhari",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cecil Epps",
+   "actor": "Caro Mendelski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jack Roth",
+   "actor": "Olaf Creutzburg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cameron Estefan",
+   "actor": "Anja Taborsky",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Biz O'naill",
+   "actor": "Johannes Bahr",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zelada",
+   "actor": "Ekkehardt Belle",
+   "von": "ann"
+  },
+  {
+   "character": "Bill Zimmer",
+   "actor": "Raik Singer",
+   "von": "ann"
+  },
+  {
+   "character": "Alexander Godnov",
+   "actor": "Mathias Förster",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22012"
+}

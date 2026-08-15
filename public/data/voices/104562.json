@@ -1,1 +1,62 @@
-{"titleId":104562,"updatedAt":"2026-08-11T11:20:03.485Z","roles":[{"character":"Shin Hazama","actor":"Maximilian Belle","role":"MAIN"},{"character":"Kotori Izumi","actor":"Julia Bautz","role":"MAIN"},{"character":"Jin","actor":"Tobias Kern","role":"SUPPORTING"},{"character":"Miko","actor":"Leslie-Vanessa Lill","role":"SUPPORTING"},{"character":"Niko","actor":"Alina Freund","role":"SUPPORTING"},{"character":"Kotoko","actor":"Laura Jenni","role":"SUPPORTING"},{"character":"Narrator","actor":"Matthias Kupfer","role":"BACKGROUND"}]}
+{
+ "titleId": 104562,
+ "updatedAt": "2026-08-15T18:43:21.929Z",
+ "roles": [
+  {
+   "character": "Shin Hazama",
+   "actor": "Maximilian Belle",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kotori Izumi",
+   "actor": "Julia Bautz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jin",
+   "actor": "Tobias Kern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miko",
+   "actor": "Leslie-Vanessa Lill",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Niko",
+   "actor": "Alina Freund",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kotoko",
+   "actor": "Laura Jenni",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Matthias Kupfer",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Shuu Izumi",
+   "actor": "Ole Pfennig",
+   "von": "ann"
+  },
+  {
+   "character": "Genji Hazama",
+   "actor": "Mike Carl",
+   "von": "ann"
+  },
+  {
+   "character": "Jin Hazama",
+   "actor": "Tobias Kern",
+   "von": "ann"
+  },
+  {
+   "character": "Kotoko Izumi",
+   "actor": "Laura Jenni",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=21491"
+}

@@ -1,1 +1,72 @@
-{"titleId":139273,"updatedAt":"2026-08-11T11:20:03.612Z","roles":[{"character":"Amuro Ray","actor":"Marco Eßer","role":"MAIN"},{"character":"Cucuruz Doan","actor":"Florian Hoffmann","role":"MAIN"},{"character":"Bright Noa","actor":"Jaron Löwenberg","role":"SUPPORTING"},{"character":"Marcos","actor":"Amadeus Strobl","role":"SUPPORTING"},{"character":"Job John","actor":"Sebastian Kluckert","role":"SUPPORTING"}]}
+{
+ "titleId": 139273,
+ "updatedAt": "2026-08-15T18:47:19.677Z",
+ "roles": [
+  {
+   "character": "Amuro Ray",
+   "actor": "Marco Eßer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Cucuruz Doan",
+   "actor": "Florian Hoffmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Bright Noa",
+   "actor": "Jaron Löwenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marcos",
+   "actor": "Amadeus Strobl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Job John",
+   "actor": "Sebastian Kluckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lope",
+   "actor": "Anja Rybiczka",
+   "von": "ann"
+  },
+  {
+   "character": "Kai Shiden",
+   "actor": "Felix Spieß",
+   "von": "ann"
+  },
+  {
+   "character": "Egba Atler",
+   "actor": "Sven Gerhardt",
+   "von": "ann"
+  },
+  {
+   "character": "Dora",
+   "actor": "Jennifer Weiß",
+   "von": "ann"
+  },
+  {
+   "character": "Guido",
+   "actor": "Sarah Alles",
+   "von": "ann"
+  },
+  {
+   "character": "Amado",
+   "actor": "Nico Stank",
+   "von": "ann"
+  },
+  {
+   "character": "Mateo",
+   "actor": "Derya Flechtner",
+   "von": "ann"
+  },
+  {
+   "character": "Julian",
+   "actor": "Melina Witez",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24727"
+}

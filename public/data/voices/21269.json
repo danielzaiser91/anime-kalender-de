@@ -1,1 +1,152 @@
-{"titleId":21269,"updatedAt":"2026-08-11T11:20:03.283Z","roles":[{"character":"Kuro","actor":"Bastian Sierich","role":"MAIN"},{"character":"Mahiru Shirota","actor":"Valentin Stilu","role":"MAIN"},{"character":"Tsubaki","actor":"Imme Aldag","role":"SUPPORTING"},{"character":"Ryuusei","actor":"Patrick Keller","role":"SUPPORTING"},{"character":"Eisuke Doudou","actor":"Roland Wolf","role":"SUPPORTING"},{"character":"Junichirou Kurumamori","actor":"Marc Bluhm","role":"SUPPORTING"},{"character":"Belkia","actor":"René Dawn-Claude","role":"SUPPORTING"},{"character":"Rosen Crantz","actor":"Florian Hoffmann","role":"SUPPORTING"},{"character":"Marry","actor":"Peggy Pollow","role":"SUPPORTING"},{"character":"Tetsu Sendagaya","actor":"Simon Derksen","role":"SUPPORTING"},{"character":"Tsurugi Kamiya","actor":"Dennis Sandmann","role":"SUPPORTING"},{"character":"World End","actor":"Florian Clyde","role":"SUPPORTING"},{"character":"Shamrock","actor":"Peter Sura","role":"SUPPORTING"},{"character":"Mikuni Arisuin","actor":"Jeremias Koschorz","role":"SUPPORTING"},{"character":"Hugh the Dark Algernon III","actor":"Christian Zeiger","role":"SUPPORTING"},{"character":"Syuuhei Tsuyuki","actor":"Michael Bauer","role":"SUPPORTING"},{"character":"Lilac","actor":"Peter Sura","role":"SUPPORTING"},{"character":"Snow Lily","actor":"Arne Stephan","role":"SUPPORTING"},{"character":"Doubt Doubt","actor":"Frank Kirschgens","role":"SUPPORTING"},{"character":"Higan","actor":"Sven Brieger","role":"SUPPORTING"},{"character":"Ophelia","actor":"Eva Thärichen","role":"SUPPORTING"},{"character":"Misono Arisuin","actor":"Sebastian Kluckert","role":"SUPPORTING"},{"character":"Sakuya Watanuki","actor":"Julien Haggege","role":"SUPPORTING"},{"character":"Johannes Faustus","actor":"Jeffrey Wipprecht","role":"SUPPORTING"},{"character":"Koyuki","actor":"Sebastian Fitzner","role":"SUPPORTING"}]}
+{
+ "titleId": 21269,
+ "updatedAt": "2026-08-15T18:38:45.273Z",
+ "roles": [
+  {
+   "character": "Kuro",
+   "actor": "Bastian Sierich",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mahiru Shirota",
+   "actor": "Valentin Stilu",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tsubaki",
+   "actor": "Imme Aldag",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryuusei",
+   "actor": "Patrick Keller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eisuke Doudou",
+   "actor": "Roland Wolf",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Junichirou Kurumamori",
+   "actor": "Marc Bluhm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Belkia",
+   "actor": "René Dawn-Claude",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rosen Crantz",
+   "actor": "Florian Hoffmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marry",
+   "actor": "Peggy Pollow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tetsu Sendagaya",
+   "actor": "Simon Derksen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsurugi Kamiya",
+   "actor": "Dennis Sandmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "World End",
+   "actor": "Florian Clyde",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shamrock",
+   "actor": "Peter Sura",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mikuni Arisuin",
+   "actor": "Jeremias Koschorz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hugh the Dark Algernon III",
+   "actor": "Christian Zeiger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Syuuhei Tsuyuki",
+   "actor": "Michael Bauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lilac",
+   "actor": "Peter Sura",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Snow Lily",
+   "actor": "Arne Stephan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Doubt Doubt",
+   "actor": "Frank Kirschgens",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Higan",
+   "actor": "Sven Brieger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ophelia",
+   "actor": "Eva Thärichen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Misono Arisuin",
+   "actor": "Sebastian Kluckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sakuya Watanuki",
+   "actor": "Julien Haggege",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Johannes Faustus",
+   "actor": "Jeffrey Wipprecht",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Koyuki",
+   "actor": "Sebastian Fitzner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lawless",
+   "actor": "Asad Schwarz",
+   "von": "ann"
+  },
+  {
+   "character": "Old Child",
+   "actor": "Christian Zeiger",
+   "von": "ann"
+  },
+  {
+   "character": "Belukia",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Misono Alicein",
+   "actor": "Sebastian Kluckert",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=17328"
+}

@@ -1,1 +1,82 @@
-{"titleId":20678,"updatedAt":"2026-08-11T11:20:03.206Z","roles":[{"character":"Basara Toujou","actor":"Oliver Scheffel","role":"MAIN"},{"character":"Mio Naruse","actor":"Katharina von Daake","role":"MAIN"},{"character":"Yuki Nonaka","actor":"Leslie-Vanessa Lill","role":"MAIN"},{"character":"Maria Naruse","actor":"Mia Maron","role":"MAIN"},{"character":"Jin  Toujou","actor":"Mike Carl","role":"SUPPORTING"},{"character":"Shella","actor":"Sonja Reichelt","role":"SUPPORTING"},{"character":"Kurumi Nonaka","actor":"Patricia Strasburger","role":"SUPPORTING"},{"character":"Zest","actor":"Franziska Ball","role":"SUPPORTING"},{"character":"Chisato Hasegawa","actor":"Stefanie Dischinger","role":"SUPPORTING"},{"character":"Yahiro Takigawa","actor":"Leonard Hohm","role":"SUPPORTING"}]}
+{
+ "titleId": 20678,
+ "updatedAt": "2026-08-15T18:36:57.326Z",
+ "roles": [
+  {
+   "character": "Basara Toujou",
+   "actor": "Oliver Scheffel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mio Naruse",
+   "actor": "Katharina von Daake",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuki Nonaka",
+   "actor": "Leslie-Vanessa Lill",
+   "role": "MAIN"
+  },
+  {
+   "character": "Maria Naruse",
+   "actor": "Mia Maron",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jin  Toujou",
+   "actor": "Mike Carl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shella",
+   "actor": "Sonja Reichelt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kurumi Nonaka",
+   "actor": "Patricia Strasburger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zest",
+   "actor": "Franziska Ball",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chisato Hasegawa",
+   "actor": "Stefanie Dischinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yahiro Takigawa",
+   "actor": "Leonard Hohm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mamoru Sakazaki",
+   "actor": "Dirk Meyer",
+   "von": "ann"
+  },
+  {
+   "character": "Zolgear",
+   "actor": "Gerhard Jilka",
+   "von": "ann"
+  },
+  {
+   "character": "Jin Toujou",
+   "actor": "Mike Carl",
+   "von": "ann"
+  },
+  {
+   "character": "Kyouichi Shiba",
+   "actor": "Louis Friedemann Thiele",
+   "von": "ann"
+  },
+  {
+   "character": "Takashi Hayase",
+   "actor": "Felix Mayer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16252"
+}

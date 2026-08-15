@@ -1,1 +1,117 @@
-{"titleId":1118,"updatedAt":"2026-08-11T11:20:02.893Z","roles":[{"character":"Takeshi","actor":"Marc Stachel","role":"MAIN"},{"character":"Mii Snowdon","actor":"Sabine Bohlmann","role":"MAIN"},{"character":"Satoshi","actor":"Caroline Combrinck","role":"MAIN"},{"character":"Kasumi","actor":"Angela Wiederhut","role":"MAIN"},{"character":"Entei","actor":"Crock Krumbiegel","role":"MAIN"},{"character":"Kenji","actor":"Dirk Meyer","role":"SUPPORTING"},{"character":"Sully Snowdon","actor":"Crock Krumbiegel","role":"SUPPORTING"},{"character":"Nyarth","actor":"Gerhard Acktun","role":"SUPPORTING"},{"character":"Musashi","actor":"Scarlet Cavadenti","role":"SUPPORTING"},{"character":"Yukinari Ookido","actor":"Achim Geisler","role":"SUPPORTING"},{"character":"Kojirou","actor":"Matthias Klie","role":"SUPPORTING"},{"character":"Narrator","actor":"Frank Schaff","role":"SUPPORTING"},{"character":"John","actor":"Manou Lubowski","role":"SUPPORTING"},{"character":"Rin","actor":"Veronika Aryana Neugebauer","role":"SUPPORTING"},{"character":"Hanako","actor":"Marion Hartmann","role":"SUPPORTING"}]}
+{
+ "titleId": 1118,
+ "updatedAt": "2026-08-15T18:27:26.405Z",
+ "roles": [
+  {
+   "character": "Takeshi",
+   "actor": "Marc Stachel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mii Snowdon",
+   "actor": "Sabine Bohlmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Satoshi",
+   "actor": "Caroline Combrinck",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kasumi",
+   "actor": "Angela Wiederhut",
+   "role": "MAIN"
+  },
+  {
+   "character": "Entei",
+   "actor": "Crock Krumbiegel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kenji",
+   "actor": "Dirk Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sully Snowdon",
+   "actor": "Crock Krumbiegel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nyarth",
+   "actor": "Gerhard Acktun",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Musashi",
+   "actor": "Scarlet Cavadenti",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yukinari Ookido",
+   "actor": "Achim Geisler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kojirou",
+   "actor": "Matthias Klie",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Frank Schaff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "John",
+   "actor": "Manou Lubowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rin",
+   "actor": "Veronika Aryana Neugebauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hanako",
+   "actor": "Marion Hartmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Molly Hale",
+   "actor": "Sabine Bohlmann",
+   "von": "ann"
+  },
+  {
+   "character": "Ash Ketchum",
+   "actor": "Caroline Combrinck",
+   "von": "ann"
+  },
+  {
+   "character": "Jessie",
+   "actor": "Scarlet Cavadenti",
+   "von": "ann"
+  },
+  {
+   "character": "Mauzi",
+   "actor": "Gerhard Acktun",
+   "von": "ann"
+  },
+  {
+   "character": "Misty",
+   "actor": "Angela Wiederhut",
+   "von": "ann"
+  },
+  {
+   "character": "Rocko",
+   "actor": "Marc Stachel",
+   "von": "ann"
+  },
+  {
+   "character": "James",
+   "actor": "Matthias Klie",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=831"
+}

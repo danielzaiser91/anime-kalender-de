@@ -1,1 +1,202 @@
-{"titleId":1699,"updatedAt":"2026-08-11T11:20:02.938Z","roles":[{"character":"Romeo Candorebanto Montague","actor":"Konrad Bösherz","role":"MAIN"},{"character":"Juliet Fiammata Asto Capulet","actor":"Julia Stoepel","role":"MAIN"},{"character":"Emilia","actor":"Wicki Kalaitzi","role":"SUPPORTING"},{"character":"Curio","actor":"Sebastian Schulz","role":"SUPPORTING"},{"character":"Cerimon","actor":"Tommy Morgenstern","role":"SUPPORTING"},{"character":"Conrad","actor":"Kaspar Eichel","role":"SUPPORTING"},{"character":"Tubal","actor":"Stefan Staudinger","role":"SUPPORTING"},{"character":"William","actor":"Christian Gaul","role":"SUPPORTING"},{"character":"Antonio","actor":"Darvin Werland","role":"SUPPORTING"},{"character":"Petruchio","actor":"Wilhelm-Rafael Garth","role":"SUPPORTING"},{"character":"Ariel","actor":"Marianne Lutz","role":"SUPPORTING"},{"character":"Laertes Montague","actor":"Jörg Hengstler","role":"SUPPORTING"},{"character":"Mercutio","actor":"Felix Spieß","role":"SUPPORTING"},{"character":"Ophelia","actor":"Uschi Hugo","role":"SUPPORTING"},{"character":"Lancelot's Wife","actor":"Aline Staskowiak","role":"SUPPORTING"},{"character":"Lord Capulet","actor":"Uwe Jellinek","role":"SUPPORTING"},{"character":"Tybalt","actor":"Martin Kautz","role":"SUPPORTING"},{"character":"Francisco","actor":"Julius Jellinek","role":"SUPPORTING"},{"character":"Vittorio de Frescobaldi","actor":"Matthias Klages","role":"SUPPORTING"},{"character":"Regan","actor":"Kaya Marie Möller","role":"SUPPORTING"},{"character":"Camilo","actor":"Jan Spitzer","role":"SUPPORTING"},{"character":"Titus","actor":"Uwe Jellinek","role":"SUPPORTING"},{"character":"Benvolio de Frescobaldi","actor":"Sandro Blümel","role":"SUPPORTING"},{"character":"Narrator","actor":"Manuel Vaessen","role":"SUPPORTING"}]}
+{
+ "titleId": 1699,
+ "updatedAt": "2026-08-15T18:29:19.681Z",
+ "roles": [
+  {
+   "character": "Romeo Candorebanto Montague",
+   "actor": "Konrad Bösherz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Juliet Fiammata Asto Capulet",
+   "actor": "Julia Stoepel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Emilia",
+   "actor": "Wicki Kalaitzi",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Curio",
+   "actor": "Sebastian Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cerimon",
+   "actor": "Tommy Morgenstern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Conrad",
+   "actor": "Kaspar Eichel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tubal",
+   "actor": "Stefan Staudinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "William",
+   "actor": "Christian Gaul",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Antonio",
+   "actor": "Darvin Werland",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Petruchio",
+   "actor": "Wilhelm-Rafael Garth",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ariel",
+   "actor": "Marianne Lutz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Laertes Montague",
+   "actor": "Jörg Hengstler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mercutio",
+   "actor": "Felix Spieß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ophelia",
+   "actor": "Uschi Hugo",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lancelot's Wife",
+   "actor": "Aline Staskowiak",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lord Capulet",
+   "actor": "Uwe Jellinek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tybalt",
+   "actor": "Martin Kautz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Francisco",
+   "actor": "Julius Jellinek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Vittorio de Frescobaldi",
+   "actor": "Matthias Klages",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Regan",
+   "actor": "Kaya Marie Möller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Camilo",
+   "actor": "Jan Spitzer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Titus",
+   "actor": "Uwe Jellinek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Benvolio de Frescobaldi",
+   "actor": "Sandro Blümel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Manuel Vaessen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Romeo",
+   "actor": "Konrad Bösherz",
+   "von": "ann"
+  },
+  {
+   "character": "Pietro",
+   "actor": "Bernhard Völger",
+   "von": "ann"
+  },
+  {
+   "character": "Giovanni",
+   "actor": "Gerald Paradies",
+   "von": "ann"
+  },
+  {
+   "character": "Benvolio",
+   "actor": "Sandro Blümel",
+   "von": "ann"
+  },
+  {
+   "character": "Lancelot",
+   "actor": "Rainer Fritzsche",
+   "von": "ann"
+  },
+  {
+   "character": "Lord Montague",
+   "actor": "Jörg Hengstler",
+   "von": "ann"
+  },
+  {
+   "character": "Portia",
+   "actor": "Schaukje Könning",
+   "von": "ann"
+  },
+  {
+   "character": "Hermione",
+   "actor": "Jill Böttcher",
+   "von": "ann"
+  },
+  {
+   "character": "Paolo",
+   "actor": "Tim Moeseritz",
+   "von": "ann"
+  },
+  {
+   "character": "Orphelia",
+   "actor": "Uschi Hugo",
+   "von": "ann"
+  },
+  {
+   "character": "Tubal",
+   "actor": "Thomas Hailer",
+   "von": "ann"
+  },
+  {
+   "character": "Legan",
+   "actor": "Kaya Möller",
+   "von": "ann"
+  },
+  {
+   "character": "Cordelia",
+   "actor": "Isabelle Schmidt",
+   "von": "ann"
+  },
+  {
+   "character": "Juliet",
+   "actor": "Julia Stoepel",
+   "von": "ann"
+  },
+  {
+   "character": "Antonio",
+   "actor": "Darwin Werland",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=7087"
+}

@@ -1,1 +1,122 @@
-{"titleId":110354,"updatedAt":"2026-08-11T11:20:03.522Z","roles":[{"character":"Michiru Kagemori","actor":"Saskia Glück","role":"MAIN"},{"character":"Nazuna  Hiwatashi","actor":"Anja Rybiczka","role":"MAIN"},{"character":"Shirou Oogami","actor":"Bernhard Völger","role":"MAIN"},{"character":"Gem Horner","actor":"Michael Pan","role":"SUPPORTING"},{"character":"Hiromu Yaba","actor":"Hans Hohlbein","role":"SUPPORTING"},{"character":"Dante","actor":"Stefan Gossler","role":"SUPPORTING"},{"character":"Kouichi Ishizaki","actor":"Bastian Sierich","role":"SUPPORTING"},{"character":"Gran Grandma","actor":"Pierre Peters-Arnolds","role":"SUPPORTING"},{"character":"Barbara Rose","actor":"Gundi Eberhard","role":"SUPPORTING"},{"character":"Elsa","actor":"Diana Borgwardt","role":"SUPPORTING"},{"character":"Alan Sylvasta","actor":"Sebastian Kluckert","role":"SUPPORTING"},{"character":"Marie Itami","actor":"Marie-Luise Schramm","role":"SUPPORTING"},{"character":"Lisa","actor":"Tanja Schmitz","role":"SUPPORTING"},{"character":"Shiramizu Souri","actor":"Sven Gerhardt","role":"SUPPORTING"},{"character":"Youta","actor":"Patricia Faltin","role":"SUPPORTING"},{"character":"Jackie","actor":"Derya Akyol","role":"SUPPORTING"},{"character":"Juliano Flip","actor":"Marco Kröger","role":"SUPPORTING"},{"character":"Nina Flip","actor":"Jodie Blank","role":"SUPPORTING"},{"character":"Pingua","actor":"Fabian Oscar Wien","role":"SUPPORTING"},{"character":"Yuuji Tachiki","actor":"Uwe Büschken","role":"SUPPORTING"}]}
+{
+ "titleId": 110354,
+ "updatedAt": "2026-08-15T18:44:35.111Z",
+ "roles": [
+  {
+   "character": "Michiru Kagemori",
+   "actor": "Saskia Glück",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nazuna  Hiwatashi",
+   "actor": "Anja Rybiczka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shirou Oogami",
+   "actor": "Bernhard Völger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gem Horner",
+   "actor": "Michael Pan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hiromu Yaba",
+   "actor": "Hans Hohlbein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dante",
+   "actor": "Stefan Gossler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kouichi Ishizaki",
+   "actor": "Bastian Sierich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gran Grandma",
+   "actor": "Pierre Peters-Arnolds",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Barbara Rose",
+   "actor": "Gundi Eberhard",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Elsa",
+   "actor": "Diana Borgwardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alan Sylvasta",
+   "actor": "Sebastian Kluckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marie Itami",
+   "actor": "Marie-Luise Schramm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lisa",
+   "actor": "Tanja Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shiramizu Souri",
+   "actor": "Sven Gerhardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Youta",
+   "actor": "Patricia Faltin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jackie",
+   "actor": "Derya Akyol",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Juliano Flip",
+   "actor": "Marco Kröger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nina Flip",
+   "actor": "Jodie Blank",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pingua",
+   "actor": "Fabian Oscar Wien",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuuji Tachiki",
+   "actor": "Uwe Büschken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shirou Ogami",
+   "actor": "Bernhard Völger",
+   "von": "ann"
+  },
+  {
+   "character": "Barbaray Rose",
+   "actor": "Gundi Eberhard",
+   "von": "ann"
+  },
+  {
+   "character": "Nazuna Hiwatashi",
+   "actor": "Anja Rybiczka",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22924"
+}

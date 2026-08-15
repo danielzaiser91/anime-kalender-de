@@ -1,1 +1,57 @@
-{"titleId":1049,"updatedAt":"2026-08-11T11:20:02.887Z","roles":[{"character":"Gauche","actor":"Pierre Peters-Arnolds","role":"MAIN"},{"character":"Child Tanuki","actor":"Christina Hoeltel","role":"SUPPORTING"},{"character":"Cat","actor":"Helga Anders","role":"SUPPORTING"},{"character":"Field Mouse Mom","actor":"Eva Berthold","role":"SUPPORTING"},{"character":"Chairman","actor":"Bruno W. Pantel","role":"SUPPORTING"},{"character":"President","actor":"Walter Reichelt","role":"BACKGROUND"},{"character":"Cuckoo","actor":"Oliver Grimm","role":"BACKGROUND"},{"character":"Cello leader","actor":"Leo Bardischewski","role":"BACKGROUND"}]}
+{
+ "titleId": 1049,
+ "updatedAt": "2026-08-15T18:27:15.572Z",
+ "roles": [
+  {
+   "character": "Gauche",
+   "actor": "Pierre Peters-Arnolds",
+   "role": "MAIN"
+  },
+  {
+   "character": "Child Tanuki",
+   "actor": "Christina Hoeltel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cat",
+   "actor": "Helga Anders",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Field Mouse Mom",
+   "actor": "Eva Berthold",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chairman",
+   "actor": "Bruno W. Pantel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "President",
+   "actor": "Walter Reichelt",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Cuckoo",
+   "actor": "Oliver Grimm",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Cello leader",
+   "actor": "Leo Bardischewski",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Katze",
+   "actor": "Helga Anders",
+   "von": "ann"
+  },
+  {
+   "character": "Goshu",
+   "actor": "Pierre Peters-Arnolds",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=898"
+}

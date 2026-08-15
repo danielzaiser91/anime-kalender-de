@@ -1,1 +1,77 @@
-{"titleId":128034,"updatedAt":"2026-08-11T11:20:03.581Z","roles":[{"character":"Musashi","actor":"Amadeus Strobl","role":"MAIN"},{"character":"Kojirou Kanemaki","actor":"Ozan Ünal","role":"MAIN"},{"character":"Tsugumi Hattori","actor":"Betty Förster","role":"MAIN"},{"character":"Naotora Takeda","actor":"Florian Hoffmann","role":"SUPPORTING"},{"character":"Aoshi Sanada","actor":"Ricardo Richter","role":"SUPPORTING"},{"character":"Shunrai Yamamoto","actor":"Josephine Schmidt","role":"SUPPORTING"},{"character":"Jisai Kanemaki","actor":"Peter Flechtner","role":"SUPPORTING"}]}
+{
+ "titleId": 128034,
+ "updatedAt": "2026-08-15T18:46:23.001Z",
+ "roles": [
+  {
+   "character": "Musashi",
+   "actor": "Amadeus Strobl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kojirou Kanemaki",
+   "actor": "Ozan Ünal",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tsugumi Hattori",
+   "actor": "Betty Förster",
+   "role": "MAIN"
+  },
+  {
+   "character": "Naotora Takeda",
+   "actor": "Florian Hoffmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aoshi Sanada",
+   "actor": "Ricardo Richter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shunrai Yamamoto",
+   "actor": "Josephine Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jisai Kanemaki",
+   "actor": "Peter Flechtner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mitsuru Osafune",
+   "actor": "Melanie Hinze",
+   "von": "ann"
+  },
+  {
+   "character": "Hideo Kosameda",
+   "actor": "Fabian Oscar Wien",
+   "von": "ann"
+  },
+  {
+   "character": "Shirō Inukai",
+   "actor": "Frank Schaff",
+   "von": "ann"
+  },
+  {
+   "character": "Kojirō Kanemaki",
+   "actor": "Ozan Ünal",
+   "von": "ann"
+  },
+  {
+   "character": "Obsidian-Göttin",
+   "actor": "Melanie Isakowitz",
+   "von": "ann"
+  },
+  {
+   "character": "Michiru Saruwatari",
+   "actor": "Daniela Molina",
+   "von": "ann"
+  },
+  {
+   "character": "Nanao Inusaka",
+   "actor": "Jessica Rust",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24572"
+}

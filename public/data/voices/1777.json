@@ -1,1 +1,37 @@
-{"titleId":1777,"updatedAt":"2026-08-11T11:20:02.942Z","roles":[{"character":"Tieh","actor":"Viktor Neumann","role":"MAIN"},{"character":"Lakshi","actor":"Debora Weigert","role":"MAIN"},{"character":"Boice","actor":"Jörg Hengstler","role":"MAIN"},{"character":"Gaten Rakumu","actor":"Tilo Schmitz","role":"SUPPORTING"}]}
+{
+ "titleId": 1777,
+ "updatedAt": "2026-08-15T18:29:31.495Z",
+ "roles": [
+  {
+   "character": "Tieh",
+   "actor": "Viktor Neumann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lakshi",
+   "actor": "Debora Weigert",
+   "role": "MAIN"
+  },
+  {
+   "character": "Boice",
+   "actor": "Jörg Hengstler",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gaten Rakumu",
+   "actor": "Tilo Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bois",
+   "actor": "Jörg Hengstler",
+   "von": "ann"
+  },
+  {
+   "character": "Arun Harad",
+   "actor": "Oliver Feld",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1173"
+}

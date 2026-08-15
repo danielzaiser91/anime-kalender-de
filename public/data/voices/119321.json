@@ -1,1 +1,67 @@
-{"titleId":119321,"updatedAt":"2026-08-11T11:20:03.564Z","roles":[{"character":"Aya Tsuru","actor":"Zoe Durakovic","role":"MAIN"},{"character":"Bella Yaga","actor":"Kathrin Gaube","role":"MAIN"},{"character":"Mandrake","actor":"Götz Otto","role":"MAIN"},{"character":"Cook","actor":"Thomas Wenke","role":"SUPPORTING"},{"character":"Enchou","actor":"Uschi Wolff","role":"SUPPORTING"},{"character":"Thomas","actor":"Markus Pfeiffer","role":"SUPPORTING"},{"character":"Selma","actor":"Tatjana Pokorny","role":"SUPPORTING"},{"character":"Aya no Hahaoya","actor":"Angelina Markiefka","role":"SUPPORTING"},{"character":"Custard","actor":"Jona Timmermanns","role":"SUPPORTING"},{"character":"Phyllis","actor":"Rosalie Seidl","role":"BACKGROUND"}]}
+{
+ "titleId": 119321,
+ "updatedAt": "2026-08-15T18:45:50.298Z",
+ "roles": [
+  {
+   "character": "Aya Tsuru",
+   "actor": "Zoe Durakovic",
+   "role": "MAIN"
+  },
+  {
+   "character": "Bella Yaga",
+   "actor": "Kathrin Gaube",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mandrake",
+   "actor": "Götz Otto",
+   "role": "MAIN"
+  },
+  {
+   "character": "Cook",
+   "actor": "Thomas Wenke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Enchou",
+   "actor": "Uschi Wolff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Thomas",
+   "actor": "Markus Pfeiffer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Selma",
+   "actor": "Tatjana Pokorny",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aya no Hahaoya",
+   "actor": "Angelina Markiefka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Custard",
+   "actor": "Jona Timmermanns",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Phyllis",
+   "actor": "Rosalie Seidl",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Ayas Mutter",
+   "actor": "Angelina Markiefka",
+   "von": "ann"
+  },
+  {
+   "character": "Aya",
+   "actor": "Zoe Duraković",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=23478"
+}

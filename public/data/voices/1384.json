@@ -1,1 +1,87 @@
-{"titleId":1384,"updatedAt":"2026-08-11T11:20:02.916Z","roles":[{"character":"Larva","actor":"Dennis Schmidt-Foß","role":"MAIN"},{"character":"Himiko Se","actor":"Cathlen Gawlich","role":"MAIN"},{"character":"Miyu Yamano","actor":"Rubina Kuraoka","role":"MAIN"},{"character":"Ryouko","actor":"Julia Meynen","role":"SUPPORTING"},{"character":"Miyu's Mom","actor":"Anja Rybiczka","role":"SUPPORTING"},{"character":"Miyu's Dad","actor":"Mario von Jascheroff","role":"SUPPORTING"},{"character":"Narrator","actor":"Jan Spitzer","role":"SUPPORTING"},{"character":"Miyahito","actor":"Ricardo Richter","role":"SUPPORTING"},{"character":"Ranka","actor":"Jill Böttcher","role":"SUPPORTING"},{"character":"Armored Shinma","actor":"Reinhard Scheunemann","role":"SUPPORTING"},{"character":"Kei Yuzuki","actor":"Julien Haggege","role":"SUPPORTING"},{"character":"Lemures","actor":"Mario von Jascheroff","role":"SUPPORTING"},{"character":"Akiko","actor":"Julia Meynen","role":"SUPPORTING"}]}
+{
+ "titleId": 1384,
+ "updatedAt": "2026-08-15T18:28:25.045Z",
+ "roles": [
+  {
+   "character": "Larva",
+   "actor": "Dennis Schmidt-Foß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Himiko Se",
+   "actor": "Cathlen Gawlich",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miyu Yamano",
+   "actor": "Rubina Kuraoka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ryouko",
+   "actor": "Julia Meynen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miyu's Mom",
+   "actor": "Anja Rybiczka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miyu's Dad",
+   "actor": "Mario von Jascheroff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Jan Spitzer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miyahito",
+   "actor": "Ricardo Richter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ranka",
+   "actor": "Jill Böttcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Armored Shinma",
+   "actor": "Reinhard Scheunemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kei Yuzuki",
+   "actor": "Julien Haggege",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lemures",
+   "actor": "Mario von Jascheroff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akiko",
+   "actor": "Julia Meynen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miyu",
+   "actor": "Rubina Kuraoka",
+   "von": "ann"
+  },
+  {
+   "character": "Kei",
+   "actor": "Julien Haggege",
+   "von": "ann"
+  },
+  {
+   "character": "Himiko",
+   "actor": "Cathlen Gawlich",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=92"
+}

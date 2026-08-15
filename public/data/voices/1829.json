@@ -1,1 +1,72 @@
-{"titleId":1829,"updatedAt":"2026-08-11T11:20:02.946Z","roles":[{"character":"Ged","actor":"Ekkehardt Belle","role":"MAIN"},{"character":"Therru","actor":"Farina Brock","role":"MAIN"},{"character":"Arren","actor":"Manuel Straube","role":"MAIN"},{"character":"Tenar","actor":"Kathrin Simon","role":"MAIN"},{"character":"Kokuou","actor":"Walter von Hauff","role":"SUPPORTING"},{"character":"Kumo","actor":"Susanne von Medvey","role":"SUPPORTING"},{"character":"Usagi","actor":"Gerd Meyer","role":"SUPPORTING"},{"character":"Ouhi","actor":"Martina Duncker","role":"SUPPORTING"}]}
+{
+ "titleId": 1829,
+ "updatedAt": "2026-08-15T18:29:41.449Z",
+ "roles": [
+  {
+   "character": "Ged",
+   "actor": "Ekkehardt Belle",
+   "role": "MAIN"
+  },
+  {
+   "character": "Therru",
+   "actor": "Farina Brock",
+   "role": "MAIN"
+  },
+  {
+   "character": "Arren",
+   "actor": "Manuel Straube",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tenar",
+   "actor": "Kathrin Simon",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kokuou",
+   "actor": "Walter von Hauff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kumo",
+   "actor": "Susanne von Medvey",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Usagi",
+   "actor": "Gerd Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ouhi",
+   "actor": "Martina Duncker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Königin",
+   "actor": "Martina Dunker",
+   "von": "ann"
+  },
+  {
+   "character": "Prinz Arren",
+   "actor": "Manuel Straube",
+   "von": "ann"
+  },
+  {
+   "character": "König",
+   "actor": "Walter von Hauff",
+   "von": "ann"
+  },
+  {
+   "character": "Hare",
+   "actor": "Gerd Meyer",
+   "von": "ann"
+  },
+  {
+   "character": "Theru",
+   "actor": "Farina Brock",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=6147"
+}

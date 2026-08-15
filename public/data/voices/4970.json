@@ -1,1 +1,37 @@
-{"titleId":4970,"updatedAt":"2026-08-11T11:20:03.038Z","roles":[{"character":"Afro Samurai","actor":"Jan-David Rönfeldt","role":"MAIN"},{"character":"Sio","actor":"Kaya Marie Möller","role":"MAIN"},{"character":"Ninja Ninja","actor":"Jan-David Rönfeldt","role":"SUPPORTING"},{"character":"Rokutarou","actor":"Oliver Stritzel","role":"SUPPORTING"}]}
+{
+ "titleId": 4970,
+ "updatedAt": "2026-08-15T18:32:23.958Z",
+ "roles": [
+  {
+   "character": "Afro Samurai",
+   "actor": "Jan-David Rönfeldt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sio",
+   "actor": "Kaya Marie Möller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ninja Ninja",
+   "actor": "Jan-David Rönfeldt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rokutarou",
+   "actor": "Oliver Stritzel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tomoe",
+   "actor": "Claudia Urbschat-Mingues",
+   "von": "ann"
+  },
+  {
+   "character": "Rokutaro / Afro's Vater",
+   "actor": "Oliver Stritzel",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=10181"
+}

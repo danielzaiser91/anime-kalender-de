@@ -1,1 +1,127 @@
-{"titleId":21509,"updatedAt":"2026-08-11T11:20:03.310Z","roles":[{"character":"Makoto Naegi","actor":"Philip Süß","role":"MAIN"},{"character":"Kyouko Kirigiri","actor":"Johanna Dost","role":"MAIN"},{"character":"Aoi Asahina","actor":"Sarah Alles","role":"MAIN"},{"character":"Kyousuke Munakata","actor":"Florian Clyde","role":"MAIN"},{"character":"Ryouta Mitarai","actor":"Rahul Chakraborty","role":"SUPPORTING"},{"character":"Monaka","actor":"Daniela Grubert","role":"SUPPORTING"},{"character":"Kouichi Kizakura","actor":"Henning Vogt","role":"SUPPORTING"},{"character":"Sayaka Maizono","actor":"Jennifer Weiß","role":"SUPPORTING"},{"character":"Monokuma","actor":"Santiago Ziesmer","role":"SUPPORTING"},{"character":"Great Gozu","actor":"Nico Nothnagel","role":"SUPPORTING"},{"character":"Byakuya Togami","actor":"Christopher Kohn","role":"SUPPORTING"},{"character":"Monomi","actor":"Anja Rybiczka","role":"SUPPORTING"},{"character":"Chisa Yukizome","actor":"Melinda Rachfahl","role":"SUPPORTING"},{"character":"Touko Fukawa","actor":"Alice Bauer","role":"SUPPORTING"},{"character":"Kazuo Tengan","actor":"Matthias Friedrich","role":"SUPPORTING"},{"character":"Daisaku Bandai","actor":"Bettina Kenney","role":"SUPPORTING"},{"character":"Komaru Naegi","actor":"Luisa Casper","role":"SUPPORTING"},{"character":"Junko Enoshima","actor":"Peggy Pollow","role":"SUPPORTING"},{"character":"Ruruka Andou","actor":"Katharina von Daake","role":"SUPPORTING"},{"character":"Seiko Kimura","actor":"Laurine Betz","role":"SUPPORTING"},{"character":"Juuzou Sakakura","actor":"Kevin Kraus","role":"SUPPORTING"},{"character":"Sounosuke Izayoi","actor":"Phillip Sponbiel","role":"SUPPORTING"}]}
+{
+ "titleId": 21509,
+ "updatedAt": "2026-08-15T18:39:23.342Z",
+ "roles": [
+  {
+   "character": "Makoto Naegi",
+   "actor": "Philip Süß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kyouko Kirigiri",
+   "actor": "Johanna Dost",
+   "role": "MAIN"
+  },
+  {
+   "character": "Aoi Asahina",
+   "actor": "Sarah Alles",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kyousuke Munakata",
+   "actor": "Florian Clyde",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ryouta Mitarai",
+   "actor": "Rahul Chakraborty",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Monaka",
+   "actor": "Daniela Grubert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kouichi Kizakura",
+   "actor": "Henning Vogt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sayaka Maizono",
+   "actor": "Jennifer Weiß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Monokuma",
+   "actor": "Santiago Ziesmer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Great Gozu",
+   "actor": "Nico Nothnagel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Byakuya Togami",
+   "actor": "Christopher Kohn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Monomi",
+   "actor": "Anja Rybiczka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chisa Yukizome",
+   "actor": "Melinda Rachfahl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Touko Fukawa",
+   "actor": "Alice Bauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kazuo Tengan",
+   "actor": "Matthias Friedrich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Daisaku Bandai",
+   "actor": "Bettina Kenney",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Komaru Naegi",
+   "actor": "Luisa Casper",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Junko Enoshima",
+   "actor": "Peggy Pollow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ruruka Andou",
+   "actor": "Katharina von Daake",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seiko Kimura",
+   "actor": "Laurine Betz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Juuzou Sakakura",
+   "actor": "Kevin Kraus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sounosuke Izayoi",
+   "actor": "Phillip Sponbiel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Usami",
+   "actor": "Anja Rybiczka",
+   "von": "ann"
+  },
+  {
+   "character": "Monaka Towa",
+   "actor": "Daniela Grubert",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18159"
+}

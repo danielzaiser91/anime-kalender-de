@@ -1,1 +1,52 @@
-{"titleId":1248,"updatedAt":"2026-08-11T11:20:02.905Z","roles":[{"character":"Dolores Hayes","actor":"Dascha Lehmann","role":"MAIN"},{"character":"Radium Lavans","actor":"Sebastian Schulz","role":"MAIN"},{"character":"Viola Gyune","actor":"Gundi Eberhard","role":"MAIN"},{"character":"Rachel Links","actor":"Heide Domanowski","role":"SUPPORTING"},{"character":"Melissa","actor":"Claudia Urbschat-mingues","role":"SUPPORTING"}]}
+{
+ "titleId": 1248,
+ "updatedAt": "2026-08-15T18:27:58.719Z",
+ "roles": [
+  {
+   "character": "Dolores Hayes",
+   "actor": "Dascha Lehmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Radium Lavans",
+   "actor": "Sebastian Schulz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Viola Gyune",
+   "actor": "Gundi Eberhard",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rachel Links",
+   "actor": "Heide Domanowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Melissa",
+   "actor": "Claudia Urbschat-mingues",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Radium Levans",
+   "actor": "Sebastian Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "Rachel",
+   "actor": "Peggy Sander",
+   "von": "ann"
+  },
+  {
+   "character": "Dolores",
+   "actor": "Dascha Lehmann",
+   "von": "ann"
+  },
+  {
+   "character": "Viola",
+   "actor": "Gundi Eberhard",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2052"
+}

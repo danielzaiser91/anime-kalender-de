@@ -1,1 +1,47 @@
-{"titleId":97682,"updatedAt":"2026-08-11T11:20:03.360Z","roles":[{"character":"Zero","actor":"Luisa Wietzorek","role":"MAIN"},{"character":"Youhei","actor":"Jörg Hengstler","role":"MAIN"},{"character":"Albus","actor":"Olivia Büschken","role":"SUPPORTING"},{"character":"Juusanban","actor":"Dennis Schmidt-Foß","role":"SUPPORTING"},{"character":"Holdem","actor":"Dirk Bublies","role":"SUPPORTING"}]}
+{
+ "titleId": 97682,
+ "updatedAt": "2026-08-15T18:40:28.482Z",
+ "roles": [
+  {
+   "character": "Zero",
+   "actor": "Luisa Wietzorek",
+   "role": "MAIN"
+  },
+  {
+   "character": "Youhei",
+   "actor": "Jörg Hengstler",
+   "role": "MAIN"
+  },
+  {
+   "character": "Albus",
+   "actor": "Olivia Büschken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Juusanban",
+   "actor": "Dennis Schmidt-Foß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Holdem",
+   "actor": "Dirk Bublies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mercenary",
+   "actor": "Jörg Hengstler",
+   "von": "ann"
+  },
+  {
+   "character": "Sorena",
+   "actor": "Katrin Zimmermann",
+   "von": "ann"
+  },
+  {
+   "character": "Thirteen",
+   "actor": "Dennis Schmidt-Foß",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19014"
+}

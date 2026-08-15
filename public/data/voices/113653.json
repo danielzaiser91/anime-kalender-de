@@ -1,1 +1,122 @@
-{"titleId":113653,"updatedAt":"2026-08-11T11:20:03.517Z","roles":[{"character":"Conan Edogawa","actor":"Tobias Müller","role":"MAIN"},{"character":"Shuuichi Akai","actor":"Martin Kautz","role":"MAIN"},{"character":"Shukichi Haneda","actor":"René Dawn-Claude","role":"MAIN"},{"character":"Masumi Sera","actor":"Esra Vural","role":"MAIN"},{"character":"Mary","actor":"Antje von der Ahe","role":"MAIN"},{"character":"Ran Mouri","actor":"Giuliana Jakobeit","role":"MAIN"},{"character":"James Black","actor":"Dieter Memel","role":"SUPPORTING"},{"character":"Ai Haibara","actor":"Andrea Loewig","role":"SUPPORTING"},{"character":"Ayumi Yoshida","actor":"Julia Meynen","role":"SUPPORTING"},{"character":"Mitsuhiko Tsuburaya","actor":"Fabian Hollwitz","role":"SUPPORTING"},{"character":"Genta Kojima","actor":"Michael Iwannek","role":"SUPPORTING"},{"character":"Yumi Miyamoto","actor":"Diana Borgwardt","role":"SUPPORTING"},{"character":"Andre Camel","actor":"Hans-Eckart Eckhardt","role":"SUPPORTING"},{"character":"Jodie Starling","actor":"Victoria Sturm","role":"SUPPORTING"}]}
+{
+ "titleId": 113653,
+ "updatedAt": "2026-08-15T18:44:25.172Z",
+ "roles": [
+  {
+   "character": "Conan Edogawa",
+   "actor": "Tobias Müller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shuuichi Akai",
+   "actor": "Martin Kautz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shukichi Haneda",
+   "actor": "René Dawn-Claude",
+   "role": "MAIN"
+  },
+  {
+   "character": "Masumi Sera",
+   "actor": "Esra Vural",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mary",
+   "actor": "Antje von der Ahe",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ran Mouri",
+   "actor": "Giuliana Jakobeit",
+   "role": "MAIN"
+  },
+  {
+   "character": "James Black",
+   "actor": "Dieter Memel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ai Haibara",
+   "actor": "Andrea Loewig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ayumi Yoshida",
+   "actor": "Julia Meynen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mitsuhiko Tsuburaya",
+   "actor": "Fabian Hollwitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Genta Kojima",
+   "actor": "Michael Iwannek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yumi Miyamoto",
+   "actor": "Diana Borgwardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Andre Camel",
+   "actor": "Hans-Eckart Eckhardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jodie Starling",
+   "actor": "Victoria Sturm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinichi Kudo",
+   "actor": "Tobias Müller",
+   "von": "ann"
+  },
+  {
+   "character": "Kogoro Mori",
+   "actor": "Jörg Hengstler",
+   "von": "ann"
+  },
+  {
+   "character": "Mary Sera",
+   "actor": "Antje von der Ahe",
+   "von": "ann"
+  },
+  {
+   "character": "Sonoko Suzuki",
+   "actor": "Jill Böttcher",
+   "von": "ann"
+  },
+  {
+   "character": "Elly Ishioka",
+   "actor": "Anja Rybiczka",
+   "von": "ann"
+  },
+  {
+   "character": "Hiroshi Agasa",
+   "actor": "Frank Ciazynski",
+   "von": "ann"
+  },
+  {
+   "character": "Ran Mori",
+   "actor": "Giuliana Jakobeit",
+   "von": "ann"
+  },
+  {
+   "character": "Shuichi Akai",
+   "actor": "Martin Kautz",
+   "von": "ann"
+  },
+  {
+   "character": "Subaru Okiya",
+   "actor": "Sven Gerhardt",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22901"
+}

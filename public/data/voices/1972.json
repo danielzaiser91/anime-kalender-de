@@ -1,1 +1,37 @@
-{"titleId":1972,"updatedAt":"2026-08-11T11:20:02.951Z","roles":[{"character":"Holmes","actor":"Douglas Welbat","role":"MAIN"}]}
+{
+ "titleId": 1972,
+ "updatedAt": "2026-08-15T18:29:53.508Z",
+ "roles": [
+  {
+   "character": "Holmes",
+   "actor": "Douglas Welbat",
+   "role": "MAIN"
+  },
+  {
+   "character": "Dr. Watson",
+   "actor": "Gottfried Kramer",
+   "von": "ann"
+  },
+  {
+   "character": "Sherlock Holmes",
+   "actor": "Douglas Welbat",
+   "von": "ann"
+  },
+  {
+   "character": "Professor Moriarty",
+   "actor": "Achim Schülke",
+   "von": "ann"
+  },
+  {
+   "character": "Smiley",
+   "actor": "Thomas Karallus",
+   "von": "ann"
+  },
+  {
+   "character": "Inspektor Lestrade",
+   "actor": "Harald Halgardt",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=290"
+}

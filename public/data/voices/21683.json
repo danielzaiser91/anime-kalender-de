@@ -1,1 +1,72 @@
-{"titleId":21683,"updatedAt":"2026-08-11T11:20:03.335Z","roles":[{"character":"Shion Yazawa","actor":"Lara Wurmer","role":"MAIN"},{"character":"Nagisa Yukiai","actor":"Amira Leisner","role":"MAIN"},{"character":"Ayame Nakahara","actor":"Patricia Strasburger","role":"MAIN"},{"character":"Shizuku Dobashi","actor":"Zina Laus","role":"MAIN"},{"character":"Kaede Tatsunokuchi","actor":"Alina Freund","role":"MAIN"},{"character":"Yuu Hamasuka","actor":"Leslie-Vanessa Lill","role":"MAIN"},{"character":"Otoha Biwakouji","actor":"Gabrielle Pietermann","role":"MAIN"},{"character":"Taigo Koyurugi","actor":"Leonard Rosemann","role":"SUPPORTING"},{"character":"Akane Yazawa","actor":"Jacqueline Belle","role":"SUPPORTING"},{"character":"Shouki Kawabukuro","actor":"Maximilian Belle","role":"SUPPORTING"},{"character":"Nagisa no Sobo","actor":"Dagmar Dempe","role":"SUPPORTING"}]}
+{
+ "titleId": 21683,
+ "updatedAt": "2026-08-15T18:39:57.468Z",
+ "roles": [
+  {
+   "character": "Shion Yazawa",
+   "actor": "Lara Wurmer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nagisa Yukiai",
+   "actor": "Amira Leisner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ayame Nakahara",
+   "actor": "Patricia Strasburger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shizuku Dobashi",
+   "actor": "Zina Laus",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kaede Tatsunokuchi",
+   "actor": "Alina Freund",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuu Hamasuka",
+   "actor": "Leslie-Vanessa Lill",
+   "role": "MAIN"
+  },
+  {
+   "character": "Otoha Biwakouji",
+   "actor": "Gabrielle Pietermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Taigo Koyurugi",
+   "actor": "Leonard Rosemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akane Yazawa",
+   "actor": "Jacqueline Belle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shouki Kawabukuro",
+   "actor": "Maximilian Belle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nagisa no Sobo",
+   "actor": "Dagmar Dempe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Saburou Kawabukuro",
+   "actor": "Walter von Hauff",
+   "von": "ann"
+  },
+  {
+   "character": "Nagisa's Grandmother",
+   "actor": "Dagmar Dempe",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19386"
+}

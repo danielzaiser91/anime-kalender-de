@@ -1,1 +1,77 @@
-{"titleId":21049,"updatedAt":"2026-08-11T11:20:03.259Z","roles":[{"character":"Arata Kaizaki","actor":"Johannes Walenta","role":"MAIN"},{"character":"Chizuru Hishiro","actor":"Daniela Molina","role":"MAIN"},{"character":"Ryou Yoake","actor":"Sebastian Kluckert","role":"MAIN"},{"character":"An Onoya","actor":"Shanti Chakraborty","role":"MAIN"},{"character":"Rena Kariu","actor":"Giovanna Winterfeldt","role":"MAIN"},{"character":"Kazuomi Ooga","actor":"Max Felder","role":"MAIN"},{"character":"Nobunaga Asaji","actor":"Jan Andreesen","role":"SUPPORTING"},{"character":"Kokoro Amatsu","actor":"Sabine Winterfeldt","role":"SUPPORTING"},{"character":"Saiki Michiru","actor":"Jana Kozewa","role":"SUPPORTING"},{"character":"Honoka Tamarai","actor":"Katie Okwuazu","role":"SUPPORTING"},{"character":"Akira Inukai","actor":"Alexander Gaida","role":"SUPPORTING"}]}
+{
+ "titleId": 21049,
+ "updatedAt": "2026-08-15T18:38:17.403Z",
+ "roles": [
+  {
+   "character": "Arata Kaizaki",
+   "actor": "Johannes Walenta",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chizuru Hishiro",
+   "actor": "Daniela Molina",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ryou Yoake",
+   "actor": "Sebastian Kluckert",
+   "role": "MAIN"
+  },
+  {
+   "character": "An Onoya",
+   "actor": "Shanti Chakraborty",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rena Kariu",
+   "actor": "Giovanna Winterfeldt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kazuomi Ooga",
+   "actor": "Max Felder",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nobunaga Asaji",
+   "actor": "Jan Andreesen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kokoro Amatsu",
+   "actor": "Sabine Winterfeldt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Saiki Michiru",
+   "actor": "Jana Kozewa",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Honoka Tamarai",
+   "actor": "Katie Okwuazu",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akira Inukai",
+   "actor": "Alexander Gaida",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Koushi Usa",
+   "actor": "Marc Bluhm",
+   "von": "ann"
+  },
+  {
+   "character": "Sumire Inukai",
+   "actor": "Jelena Baack",
+   "von": "ann"
+  },
+  {
+   "character": "Michiru Saiki",
+   "actor": "Jana Kozewa",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16917"
+}

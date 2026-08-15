@@ -1,1 +1,52 @@
-{"titleId":20964,"updatedAt":"2026-08-11T11:20:03.248Z","roles":[{"character":"Yuuta Iridatsu","actor":"Benjamin Stolz","role":"MAIN"},{"character":"Mikatan Narugino","actor":"Samira Jakobs","role":"MAIN"},{"character":"Ito Hikiotani","actor":"Esther Brandt","role":"MAIN"},{"character":"Meika Daihatsu","actor":"Winnie Brandes","role":"MAIN"},{"character":"Rabura Chichibu","actor":"Daniela Bette-Koch","role":"MAIN"},{"character":"Chiranosuke","actor":"Martin Bross","role":"MAIN"}]}
+{
+ "titleId": 20964,
+ "updatedAt": "2026-08-15T18:38:01.990Z",
+ "roles": [
+  {
+   "character": "Yuuta Iridatsu",
+   "actor": "Benjamin Stolz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mikatan Narugino",
+   "actor": "Samira Jakobs",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ito Hikiotani",
+   "actor": "Esther Brandt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Meika Daihatsu",
+   "actor": "Winnie Brandes",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rabura Chichibu",
+   "actor": "Daniela Bette-Koch",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chiranosuke",
+   "actor": "Martin Bross",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chihaya Tomoda",
+   "actor": "Dennis Saemann",
+   "von": "ann"
+  },
+  {
+   "character": "Chihaya Tomoda",
+   "actor": "Marco Sven Reinbold",
+   "von": "ann"
+  },
+  {
+   "character": "Ryuuto Teraoka",
+   "actor": "Jan van Weyde",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16579"
+}

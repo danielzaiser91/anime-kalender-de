@@ -1,1 +1,87 @@
-{"titleId":107625,"updatedAt":"2026-08-11T11:20:03.500Z","roles":[{"character":"Smile","actor":"Jennifer Weiß","role":"MAIN"},{"character":"Cherry","actor":"Volkmar Leif Gilbert","role":"MAIN"},{"character":"Tsubaki Fujiyama","actor":"Daniela Hoffmann","role":"SUPPORTING"},{"character":"Kouichi","actor":"Otto Strecker","role":"SUPPORTING"},{"character":"Fujiyama","actor":"Thomas Kästner","role":"SUPPORTING"},{"character":"Maria","actor":"Anja Nestler","role":"SUPPORTING"},{"character":"Beaver","actor":"Vincent Borko","role":"SUPPORTING"},{"character":"Miyuki","actor":"Amelie Plaas-Link","role":"SUPPORTING"},{"character":"Toughboy","actor":"Dennis Sandmann","role":"SUPPORTING"},{"character":"Nami","actor":"Julia Bautz","role":"SUPPORTING"},{"character":"Julie","actor":"Helen Malin Blaschke","role":"SUPPORTING"},{"character":"Marie","actor":"Yamuna Kemmerling","role":"SUPPORTING"},{"character":"Japan","actor":"Heiko Akrap","role":"SUPPORTING"}]}
+{
+ "titleId": 107625,
+ "updatedAt": "2026-08-15T18:43:51.759Z",
+ "roles": [
+  {
+   "character": "Smile",
+   "actor": "Jennifer Weiß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Cherry",
+   "actor": "Volkmar Leif Gilbert",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tsubaki Fujiyama",
+   "actor": "Daniela Hoffmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kouichi",
+   "actor": "Otto Strecker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fujiyama",
+   "actor": "Thomas Kästner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maria",
+   "actor": "Anja Nestler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Beaver",
+   "actor": "Vincent Borko",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miyuki",
+   "actor": "Amelie Plaas-Link",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toughboy",
+   "actor": "Dennis Sandmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nami",
+   "actor": "Julia Bautz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Julie",
+   "actor": "Helen Malin Blaschke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marie",
+   "actor": "Yamuna Kemmerling",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Japan",
+   "actor": "Heiko Akrap",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mr. Fujiyama",
+   "actor": "Thomas Kästner",
+   "von": "ann"
+  },
+  {
+   "character": "Juri Hoshino",
+   "actor": "Helen Blaschke",
+   "von": "ann"
+  },
+  {
+   "character": "Mari",
+   "actor": "Yamuna Kemmerling",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22941"
+}

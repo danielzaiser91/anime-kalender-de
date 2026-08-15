@@ -1,1 +1,147 @@
-{"titleId":1816,"updatedAt":"2026-08-11T11:20:02.944Z","roles":[{"character":"Sonic the Hedgehog","actor":"Marc Stachel","role":"MAIN"},{"character":"Knuckles the Echidna","actor":"Claus-Peter Damitz","role":"MAIN"},{"character":"Amy Rose","actor":"Shandra Schadt","role":"MAIN"},{"character":"Ivo Robotnik","actor":"Hartmut Neugebauer","role":"MAIN"},{"character":"Miles Prower","actor":"Anke Kortemeier","role":"MAIN"},{"character":"Christopher Thorndyke","actor":"Stephanie Kellner","role":"MAIN"},{"character":"Shadow the Hedgehog","actor":"Jan Makino","role":"SUPPORTING"},{"character":"Helen","actor":"Maren Rainer","role":"SUPPORTING"},{"character":"Bocoe","actor":"Reinhard Brock","role":"SUPPORTING"},{"character":"Big the Cat","actor":"Manfred Erdmann","role":"SUPPORTING"},{"character":"Nelson Thorndyke","actor":"Crock Krumbiegel","role":"SUPPORTING"},{"character":"Jerome Wise","actor":"Claus Brockmeyer","role":"SUPPORTING"},{"character":"Vector the Crocodile","actor":"Willi Röbke","role":"SUPPORTING"},{"character":"Espio the Chameleon","actor":"Dirk Meyer","role":"SUPPORTING"},{"character":"Lindsey Thorndyke","actor":"Katrin Fröhlich","role":"SUPPORTING"},{"character":"Ella","actor":"Anita Höfer","role":"SUPPORTING"},{"character":"Daniel","actor":"Andrea Wick","role":"SUPPORTING"},{"character":"Tikal the Echidna","actor":"Kathrin Gaube","role":"SUPPORTING"},{"character":"Sam Speed","actor":"Martin Halm","role":"SUPPORTING"}]}
+{
+ "titleId": 1816,
+ "updatedAt": "2026-08-15T18:29:38.336Z",
+ "roles": [
+  {
+   "character": "Sonic the Hedgehog",
+   "actor": "Marc Stachel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Knuckles the Echidna",
+   "actor": "Claus-Peter Damitz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Amy Rose",
+   "actor": "Shandra Schadt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ivo Robotnik",
+   "actor": "Hartmut Neugebauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miles Prower",
+   "actor": "Anke Kortemeier",
+   "role": "MAIN"
+  },
+  {
+   "character": "Christopher Thorndyke",
+   "actor": "Stephanie Kellner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shadow the Hedgehog",
+   "actor": "Jan Makino",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Helen",
+   "actor": "Maren Rainer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bocoe",
+   "actor": "Reinhard Brock",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Big the Cat",
+   "actor": "Manfred Erdmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nelson Thorndyke",
+   "actor": "Crock Krumbiegel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jerome Wise",
+   "actor": "Claus Brockmeyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Vector the Crocodile",
+   "actor": "Willi Röbke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Espio the Chameleon",
+   "actor": "Dirk Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lindsey Thorndyke",
+   "actor": "Katrin Fröhlich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ella",
+   "actor": "Anita Höfer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Daniel",
+   "actor": "Andrea Wick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tikal the Echidna",
+   "actor": "Kathrin Gaube",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sam Speed",
+   "actor": "Martin Halm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cream",
+   "actor": "Sabine Bohlmann",
+   "von": "ann"
+  },
+  {
+   "character": "Rouge the Bat",
+   "actor": "Simone Brahmann",
+   "von": "ann"
+  },
+  {
+   "character": "Miles \"Tails\" Prower",
+   "actor": "Anke Kortemeier",
+   "von": "ann"
+  },
+  {
+   "character": "Sonic",
+   "actor": "Marc Stachel",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Eggman",
+   "actor": "Hartmut Neugebauer",
+   "von": "ann"
+  },
+  {
+   "character": "Chuck Thorndyke",
+   "actor": "Willi Röbke",
+   "von": "ann"
+  },
+  {
+   "character": "Dark Oak",
+   "actor": "Crock Krumbiegel",
+   "von": "ann"
+  },
+  {
+   "character": "Cosmo",
+   "actor": "Kathrin Gaube",
+   "von": "ann"
+  },
+  {
+   "character": "Topaz",
+   "actor": "Kathrin Gaube",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2266"
+}

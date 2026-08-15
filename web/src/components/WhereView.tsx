@@ -163,16 +163,11 @@ function AnbieterKarte({
         {/* Die Bilanz nur dort, wo es überhaupt eine gibt: Bei den
             Weiterverkäufern ist jeder Eintrag offen, dreimal dieselbe Zahl
             sagt nichts. */}
-        {bilanz.ja + bilanz.nein > 0 && (
+        {bilanz.ja > 0 && (
           <span className="flex shrink-0 items-center gap-2 text-[11px]">
             {bilanz.ja > 0 && (
               <Tooltip text={t('where.tallyYes')} seite="oben">
                 <span className="font-semibold text-emerald-500">✓ {bilanz.ja}</span>
-              </Tooltip>
-            )}
-            {bilanz.nein > 0 && (
-              <Tooltip text={t('where.tallyNo')} seite="oben">
-                <span className="font-semibold text-red-400">✕ {bilanz.nein}</span>
               </Tooltip>
             )}
             {bilanz.offen > 0 && (

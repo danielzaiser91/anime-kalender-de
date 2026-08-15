@@ -18,6 +18,7 @@ import {
 } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useShare } from '../lib/share.ts'
+import { useNewsletterVerbindung } from '../lib/newsletterSync.ts'
 import { FORMAT_DE } from '@shared/mappings.ts'
 import {
   Button,
@@ -855,6 +856,7 @@ export function DetailPanel({
   onOpenTitle: (id: number) => void
 }) {
   const { t, tGenre, tKeyword } = useLang()
+  const verbindung = useNewsletterVerbindung()
   const today = todayIso()
   const title: Title | undefined = data.titleById.get(titleId)
   const releases = data.releasesByTitle.get(titleId) ?? []
@@ -1116,14 +1118,6 @@ export function DetailPanel({
       quelle: { name: 'anilist.co', url: `https://anilist.co/anime/${titleId}` },
     }
   })()
-  // Hinweis nur, wenn die Synchro ausschließlich auf Disc belegt ist, es aber
-  // Streams gibt — genau der Fall, in dem ein Plattform-Logo sonst zu viel
-  // verspricht.
-  const dubOnlyOnDisc =
-    releases.length > 0 &&
-    releases.every((r) => r.releaseType === 'disc') &&
-    title.streams.length > 0 &&
-    title.streams.every((s) => s.dub !== true)
   const keywords = allKeywords ? title.keywords : title.keywords.slice(0, KEYWORD_PREVIEW)
 
   return (
@@ -1468,9 +1462,28 @@ export function DetailPanel({
                   <p className="mt-1 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
                     {t('detail.noDubBody')}
                   </p>
+                  {/*
+                    Der Hinweis sagt, was der Stern **bewirkt**, und das hängt
+                    davon ab, ob ein Newsletter hinterlegt ist.
+
+                    Vorher stand hier „☆ Merken — du bekommst eine Mail, sobald
+                    sich das ändert." Das versprach eine Mail an jemanden, der
+                    womöglich gar nicht abonniert hat (Daniel, 15.08.2026:
+                    „schwammig formuliert und nutzer können es leicht falsch
+                    verstehen"). Jetzt steht bei einem verbundenen Browser die
+                    Adresse da, an die wir tatsächlich schreiben, und bei einem
+                    unverbundenen der zweite nötige Schritt.
+                  */}
                   <p className="mt-2 text-xs leading-relaxed text-amber-600 dark:text-amber-400">
-                    {favorites.has(title.id) ? t('detail.noDubWatched') : t('detail.noDubWatch')}
+                    {verbindung.verbunden
+                      ? t('detail.noDubWatchConnected', { mail: verbindung.mail ?? '' })
+                      : t('detail.noDubWatchOpen')}
                   </p>
+                  {favorites.has(title.id) && (
+                    <p className="mt-1 text-xs font-medium text-amber-600 dark:text-amber-400">
+                      {t('detail.noDubWatched')}
+                    </p>
+                  )}
                 </section>
               ) : (
               <section className="rounded-xl border border-slate-200 p-3 dark:border-white/10">
@@ -1530,7 +1543,7 @@ export function DetailPanel({
                       </Tooltip>
                     )}
                     <span className="ml-auto">
-                      <DubMark dub={s.dub} ohneSynchro={title.ohneSynchro} />
+                      <DubMark dub={s.dub} />
                     </span>
                   </a>
                 ))}
@@ -1552,11 +1565,6 @@ export function DetailPanel({
                   </a>
                 ))}
               </div>
-              {dubOnlyOnDisc && (
-                <p className="mt-2 rounded-lg bg-amber-500/10 px-2 py-1.5 text-[11px] leading-snug text-amber-600 dark:text-amber-400">
-                  {t('detail.dubHintDisc')}
-                </p>
-              )}
             </div>
           )}
 

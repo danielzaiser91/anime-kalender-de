@@ -1,1 +1,157 @@
-{"titleId":117612,"updatedAt":"2026-08-11T11:20:03.561Z","roles":[{"character":"Liscia Elfrieden","actor":"Katharina von Daake","role":"MAIN"},{"character":"Kazuya Souma","actor":"Marco Rosenberg","role":"MAIN"},{"character":"Aisha Udgard","actor":"Runa Pernoda Schaefer","role":"MAIN"},{"character":"Georg Carmine","actor":"Michael Prelle","role":"SUPPORTING"},{"character":"Elisha Elfrieden","actor":"Annic-Barbara Fenske","role":"SUPPORTING"},{"character":"Yuno","actor":"Eleni Möller-Architektonidou","role":"SUPPORTING"},{"character":"Excel Walter","actor":"Vanessa Czapla","role":"SUPPORTING"},{"character":"Albert Elfrieden","actor":"Detlef Tams","role":"SUPPORTING"},{"character":"Halbert Magna","actor":"Marco Schäffler","role":"SUPPORTING"},{"character":"Juna Doma","actor":"Nadine Schreier","role":"SUPPORTING"},{"character":"Castor Vargas","actor":"Maik Degner","role":"SUPPORTING"},{"character":"Glaive Magna","actor":"Erik Schäffler","role":"SUPPORTING"},{"character":"Jeanne Euphoria","actor":"Julia Casper","role":"SUPPORTING"},{"character":"Narrator","actor":"Wolfgang Häntsch","role":"SUPPORTING"},{"character":"Gatsby Colbert","actor":"Hendrik Heiler","role":"SUPPORTING"},{"character":"Hakuya Kwonmin","actor":"Jesse Grimm","role":"SUPPORTING"},{"character":"Maria Euphoria","actor":"Maria Wardzinska","role":"SUPPORTING"},{"character":"Ludwin Arcs","actor":"Patrick Stamme","role":"SUPPORTING"},{"character":"Wodan Udgard","actor":"Markus Hanse","role":"SUPPORTING"},{"character":"Carla Vargas","actor":"Liza Simmerlein","role":"SUPPORTING"},{"character":"Roroa Amidonia","actor":"Kaya Malin Kröger","role":"SUPPORTING"},{"character":"Sebastian Silverdeer","actor":"Sven Dahlem","role":"SUPPORTING"},{"character":"Poncho Panacotta","actor":"Claudiu Mark Draghici","role":"SUPPORTING"}]}
+{
+ "titleId": 117612,
+ "updatedAt": "2026-08-15T18:45:41.525Z",
+ "roles": [
+  {
+   "character": "Liscia Elfrieden",
+   "actor": "Katharina von Daake",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kazuya Souma",
+   "actor": "Marco Rosenberg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Aisha Udgard",
+   "actor": "Runa Pernoda Schaefer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Georg Carmine",
+   "actor": "Michael Prelle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Elisha Elfrieden",
+   "actor": "Annic-Barbara Fenske",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuno",
+   "actor": "Eleni Möller-Architektonidou",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Excel Walter",
+   "actor": "Vanessa Czapla",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Albert Elfrieden",
+   "actor": "Detlef Tams",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Halbert Magna",
+   "actor": "Marco Schäffler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Juna Doma",
+   "actor": "Nadine Schreier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Castor Vargas",
+   "actor": "Maik Degner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Glaive Magna",
+   "actor": "Erik Schäffler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jeanne Euphoria",
+   "actor": "Julia Casper",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Wolfgang Häntsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gatsby Colbert",
+   "actor": "Hendrik Heiler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hakuya Kwonmin",
+   "actor": "Jesse Grimm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maria Euphoria",
+   "actor": "Maria Wardzinska",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ludwin Arcs",
+   "actor": "Patrick Stamme",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Wodan Udgard",
+   "actor": "Markus Hanse",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Carla Vargas",
+   "actor": "Liza Simmerlein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Roroa Amidonia",
+   "actor": "Kaya Malin Kröger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sebastian Silverdeer",
+   "actor": "Sven Dahlem",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Poncho Panacotta",
+   "actor": "Claudiu Mark Draghici",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaede Foxia",
+   "actor": "Jana Dunja Gries",
+   "von": "ann"
+  },
+  {
+   "character": "Juna Douma",
+   "actor": "Nadine Schreier",
+   "von": "ann"
+  },
+  {
+   "character": "Gaius Amidonia",
+   "actor": "Tim Grobe",
+   "von": "ann"
+  },
+  {
+   "character": "Kazuya Sōma",
+   "actor": "Marco Rosenberg",
+   "von": "ann"
+  },
+  {
+   "character": "Kaya Malin Kröger",
+   "actor": "Roroa Amidonia",
+   "von": "ann"
+  },
+  {
+   "character": "Julius Amidonia",
+   "actor": "Bojan Vucetic",
+   "von": "ann"
+  },
+  {
+   "character": "Tomoe Inui",
+   "actor": "Carolin Guhl",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=23754"
+}

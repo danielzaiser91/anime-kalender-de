@@ -1,1 +1,107 @@
-{"titleId":20521,"updatedAt":"2026-08-11T11:20:03.189Z","roles":[{"character":"Nice","actor":"Christian Zeiger","role":"MAIN"},{"character":"Murasaki","actor":"Tim Knauer","role":"MAIN"},{"character":"Three","actor":"Klaus Lochthove","role":"SUPPORTING"},{"character":"Shinji Toyosaki","actor":"Jan Makino","role":"SUPPORTING"},{"character":"Master","actor":"Hans-Jürgen Wolf","role":"SUPPORTING"},{"character":"Hajime","actor":"Soraya Richter","role":"SUPPORTING"},{"character":"Gasquet","actor":"Andreas Müller","role":"SUPPORTING"},{"character":"Art","actor":"Jan Kurbjuweit","role":"SUPPORTING"},{"character":"Mao","actor":"Michael Baral","role":"SUPPORTING"},{"character":"Koneko","actor":"Esra Vural","role":"SUPPORTING"},{"character":"Theo","actor":"Dirk Petrick","role":"SUPPORTING"},{"character":"Ratio","actor":"Matti Klemm","role":"SUPPORTING"},{"character":"Rei","actor":"Maria Hönig","role":"SUPPORTING"},{"character":"Birthday","actor":"Asad Schwarz-Msesilamba","role":"SUPPORTING"},{"character":"Azusa","actor":"Giuliana Jakobeit","role":"SUPPORTING"},{"character":"Honey","actor":"Tanja Schmitz","role":"SUPPORTING"},{"character":"Moral","actor":"Felix Spieß","role":"SUPPORTING"}]}
+{
+ "titleId": 20521,
+ "updatedAt": "2026-08-15T18:36:23.816Z",
+ "roles": [
+  {
+   "character": "Nice",
+   "actor": "Christian Zeiger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Murasaki",
+   "actor": "Tim Knauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Three",
+   "actor": "Klaus Lochthove",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinji Toyosaki",
+   "actor": "Jan Makino",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Master",
+   "actor": "Hans-Jürgen Wolf",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hajime",
+   "actor": "Soraya Richter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gasquet",
+   "actor": "Andreas Müller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Art",
+   "actor": "Jan Kurbjuweit",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mao",
+   "actor": "Michael Baral",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Koneko",
+   "actor": "Esra Vural",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Theo",
+   "actor": "Dirk Petrick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ratio",
+   "actor": "Matti Klemm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rei",
+   "actor": "Maria Hönig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Birthday",
+   "actor": "Asad Schwarz-Msesilamba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Azusa",
+   "actor": "Giuliana Jakobeit",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Honey",
+   "actor": "Tanja Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Moral",
+   "actor": "Felix Spieß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nice",
+   "actor": "Patrick Baehr",
+   "von": "ann"
+  },
+  {
+   "character": "Birthday",
+   "actor": "Asad Schwarz",
+   "von": "ann"
+  },
+  {
+   "character": "Momoka",
+   "actor": "Yvonne Greitzke",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15752"
+}

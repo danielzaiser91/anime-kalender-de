@@ -1,1 +1,122 @@
-{"titleId":21639,"updatedAt":"2026-08-11T11:20:03.316Z","roles":[{"character":"Nozomi Kaminashi","actor":"Josephine Schmidt","role":"MAIN"},{"character":"Sayaka Miyata","actor":"Magdalena Höfner","role":"MAIN"},{"character":"Kazane Aoba","actor":"Daniela Molina","role":"MAIN"},{"character":"Non Toyoguchi","actor":"Lea Kalbhenn","role":"MAIN"},{"character":"Rin Rokudou","actor":"Rieke Werner","role":"SUPPORTING"},{"character":"Miku Kobayakawa","actor":"Cornelia Waibel","role":"SUPPORTING"},{"character":"Nami Nanase","actor":"Daniela Grubert","role":"SUPPORTING"},{"character":"Saya Kogatana","actor":"Marie Hinze","role":"SUPPORTING"},{"character":"Satomi  Shiomi","actor":"Melinda Rachfahl","role":"SUPPORTING"},{"character":"Mai Itoeda","actor":"Leonie Dubuc","role":"SUPPORTING"},{"character":"Kotone Fujisaki","actor":"Peggy Pollow","role":"SUPPORTING"},{"character":"Akari Fuyuzora","actor":"Leonie Dubuc","role":"SUPPORTING"},{"character":"Midori Morimoto","actor":"Daniela Reidies","role":"SUPPORTING"},{"character":"Nagisa Ujibe","actor":"Jenny Löffler","role":"SUPPORTING"},{"character":"Hikari Muromachi","actor":"Vera Bunk","role":"SUPPORTING"},{"character":"Hanabi Kawai","actor":"Sarah Alles","role":"SUPPORTING"},{"character":"Kyouko Shirayuki","actor":"Birte Baumgardt","role":"SUPPORTING"},{"character":"Ayase Kurogiri","actor":"Ann Vielhaben","role":"SUPPORTING"},{"character":"Mio Kusakai","actor":"Ronja Peters","role":"SUPPORTING"},{"character":"Atsuko Yoshida","actor":"Sandra Maria Fronterré","role":"SUPPORTING"},{"character":"Kaho Fuyuzora","actor":"Leonie Dubuc","role":"SUPPORTING"}]}
+{
+ "titleId": 21639,
+ "updatedAt": "2026-08-15T18:39:29.795Z",
+ "roles": [
+  {
+   "character": "Nozomi Kaminashi",
+   "actor": "Josephine Schmidt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sayaka Miyata",
+   "actor": "Magdalena Höfner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kazane Aoba",
+   "actor": "Daniela Molina",
+   "role": "MAIN"
+  },
+  {
+   "character": "Non Toyoguchi",
+   "actor": "Lea Kalbhenn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rin Rokudou",
+   "actor": "Rieke Werner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miku Kobayakawa",
+   "actor": "Cornelia Waibel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nami Nanase",
+   "actor": "Daniela Grubert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Saya Kogatana",
+   "actor": "Marie Hinze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Satomi  Shiomi",
+   "actor": "Melinda Rachfahl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mai Itoeda",
+   "actor": "Leonie Dubuc",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kotone Fujisaki",
+   "actor": "Peggy Pollow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akari Fuyuzora",
+   "actor": "Leonie Dubuc",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Midori Morimoto",
+   "actor": "Daniela Reidies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nagisa Ujibe",
+   "actor": "Jenny Löffler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hikari Muromachi",
+   "actor": "Vera Bunk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hanabi Kawai",
+   "actor": "Sarah Alles",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyouko Shirayuki",
+   "actor": "Birte Baumgardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ayase Kurogiri",
+   "actor": "Ann Vielhaben",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mio Kusakai",
+   "actor": "Ronja Peters",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Atsuko Yoshida",
+   "actor": "Sandra Maria Fronterré",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaho Fuyuzora",
+   "actor": "Leonie Dubuc",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kanaze Aoba",
+   "actor": "Daniela Molina",
+   "von": "ann"
+  },
+  {
+   "character": "Yuuko Ooshima",
+   "actor": "Annabelle Mandeng",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18413"
+}

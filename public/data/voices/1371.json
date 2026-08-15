@@ -1,1 +1,177 @@
-{"titleId":1371,"updatedAt":"2026-08-11T11:20:02.915Z","roles":[{"character":"Nagi","actor":"Daniel Claus","role":"MAIN"},{"character":"Hi no Tori","actor":"Heide Domanowski","role":"MAIN"},{"character":"Hiko Saruta","actor":"Uli Krohm","role":"MAIN"},{"character":"Rock Holmes","actor":"David Turba","role":"SUPPORTING"},{"character":"Acetylene Lamp","actor":"Jörg Hengstler","role":"SUPPORTING"},{"character":"Narrator","actor":"Rainer Brandt","role":"SUPPORTING"}]}
+{
+ "titleId": 1371,
+ "updatedAt": "2026-08-15T18:28:21.812Z",
+ "roles": [
+  {
+   "character": "Nagi",
+   "actor": "Daniel Claus",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hi no Tori",
+   "actor": "Heide Domanowski",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hiko Saruta",
+   "actor": "Uli Krohm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rock Holmes",
+   "actor": "David Turba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Acetylene Lamp",
+   "actor": "Jörg Hengstler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Rainer Brandt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Leona",
+   "actor": "Robin Kahnmeyer",
+   "von": "ann"
+  },
+  {
+   "character": "Masato Yamanobe",
+   "actor": "Robin Kahnmeyer",
+   "von": "ann"
+  },
+  {
+   "character": "Dorfvorstand",
+   "actor": "Uwe Büschken",
+   "von": "ann"
+  },
+  {
+   "character": "Ninigi",
+   "actor": "Uwe Büschken",
+   "von": "ann"
+  },
+  {
+   "character": "Guzuri",
+   "actor": "Karlo Hackenberger",
+   "von": "ann"
+  },
+  {
+   "character": "Sakonnoosuke",
+   "actor": "Maria Koschny",
+   "von": "ann"
+  },
+  {
+   "character": "Lamp",
+   "actor": "Jörg Hengstler",
+   "von": "ann"
+  },
+  {
+   "character": "Frauen",
+   "actor": "Marie Bierstedt",
+   "von": "ann"
+  },
+  {
+   "character": "Reiko",
+   "actor": "Marie Bierstedt",
+   "von": "ann"
+  },
+  {
+   "character": "Susanoo",
+   "actor": "Stefan Staudinger",
+   "von": "ann"
+  },
+  {
+   "character": "Hinaku",
+   "actor": "Sonja Scherff",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Nielsen",
+   "actor": "Dieter Memel",
+   "von": "ann"
+  },
+  {
+   "character": "Yumihiko Amano",
+   "actor": "Erich Räuker",
+   "von": "ann"
+  },
+  {
+   "character": "Masato Yamanobe [Alt]",
+   "actor": "Horst Lampe",
+   "von": "ann"
+  },
+  {
+   "character": "Chihiro",
+   "actor": "Marie-Luise Schramm",
+   "von": "ann"
+  },
+  {
+   "character": "Tamami",
+   "actor": "Marie-Luise Schramm",
+   "von": "ann"
+  },
+  {
+   "character": "Rock",
+   "actor": "David Turba",
+   "von": "ann"
+  },
+  {
+   "character": "Dorfbewohner",
+   "actor": "Gunnar Helm",
+   "von": "ann"
+  },
+  {
+   "character": "Robita",
+   "actor": "Thomas Schmuckert",
+   "von": "ann"
+  },
+  {
+   "character": "Toke Karo Jindayu Hanawa",
+   "actor": "Hans-Werner Bussinger",
+   "von": "ann"
+  },
+  {
+   "character": "Phoenix",
+   "actor": "Heide Domanowski",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Saruta",
+   "actor": "Uli Krohm",
+   "von": "ann"
+  },
+  {
+   "character": "Iemasa",
+   "actor": "Uli Krohm",
+   "von": "ann"
+  },
+  {
+   "character": "Uraji",
+   "actor": "Matti Klemm",
+   "von": "ann"
+  },
+  {
+   "character": "Yao Bikuni",
+   "actor": "Helga Sasse",
+   "von": "ann"
+  },
+  {
+   "character": "Uzume",
+   "actor": "Natascha Petz",
+   "von": "ann"
+  },
+  {
+   "character": "Takeru",
+   "actor": "Michael Iwannek",
+   "von": "ann"
+  },
+  {
+   "character": "Himiko",
+   "actor": "Karin Schröder",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=3459"
+}

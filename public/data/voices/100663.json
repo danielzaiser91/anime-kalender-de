@@ -1,1 +1,62 @@
-{"titleId":100663,"updatedAt":"2026-08-11T11:20:03.431Z","roles":[{"character":"Shinjirou Hayata","actor":"Vincent Borko","role":"MAIN"},{"character":"Shin Hayata","actor":"Thomas Kästner","role":"SUPPORTING"},{"character":"Dan Moroboshi","actor":"Julian Tennstedt","role":"SUPPORTING"},{"character":"Seiji Hokuto","actor":"Julian Rehrl","role":"SUPPORTING"},{"character":"Rena Sayama","actor":"Moira May","role":"SUPPORTING"},{"character":"Adad","actor":"Jörg Pintsch","role":"SUPPORTING"}]}
+{
+ "titleId": 100663,
+ "updatedAt": "2026-08-15T18:42:04.244Z",
+ "roles": [
+  {
+   "character": "Shinjirou Hayata",
+   "actor": "Vincent Borko",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shin Hayata",
+   "actor": "Thomas Kästner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dan Moroboshi",
+   "actor": "Julian Tennstedt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seiji Hokuto",
+   "actor": "Julian Rehrl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rena Sayama",
+   "actor": "Moira May",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Adad",
+   "actor": "Jörg Pintsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mitsuhiro Ide",
+   "actor": "Uwe Büschken",
+   "von": "ann"
+  },
+  {
+   "character": "Yousuke Endou",
+   "actor": "Sven Gerhardt",
+   "von": "ann"
+  },
+  {
+   "character": "Edo",
+   "actor": "Felix Würgler",
+   "von": "ann"
+  },
+  {
+   "character": "Jack",
+   "actor": "Paul Matzke",
+   "von": "ann"
+  },
+  {
+   "character": "Bemular",
+   "actor": "Christian Holdt",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=21602"
+}

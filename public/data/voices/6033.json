@@ -1,1 +1,182 @@
-{"titleId":6033,"updatedAt":"2026-08-11T11:20:03.052Z","roles":[{"character":"Vegeta","actor":"Florian Hoffmann","role":"MAIN"},{"character":"Piccolo","actor":"Felix Spieß","role":"MAIN"},{"character":"Gohan Son","actor":"Olivia Büschken","role":"MAIN"},{"character":"Gokuu Son","actor":"Amadeus Strobl","role":"MAIN"},{"character":"Kuririn","actor":"Daniel Gärtner","role":"MAIN"},{"character":"Dende","actor":"Christian Zeiger","role":"SUPPORTING"},{"character":"Tenshinhan","actor":"Sven Gerhardt","role":"SUPPORTING"},{"character":"Noufu","actor":"Klaus Lochthove","role":"SUPPORTING"},{"character":"Nappa","actor":"Gerald Paradies","role":"SUPPORTING"},{"character":"Chaozu","actor":"Julia Blankenburg","role":"SUPPORTING"},{"character":"Mr. Popo","actor":"Michael Bauer","role":"SUPPORTING"},{"character":"Jinzouningen 19-gou","actor":"Marlin Wick","role":"SUPPORTING"},{"character":"Ginyu","actor":"Erich Räuker","role":"SUPPORTING"},{"character":"Trunks","actor":"Sebastian Kluckert","role":"SUPPORTING"},{"character":"Muten Roushi","actor":"Karl Schulz","role":"SUPPORTING"},{"character":"Jeice","actor":"Gerrit Hamann","role":"SUPPORTING"},{"character":"Kita no Kaiou","actor":"Rüdiger Evers","role":"SUPPORTING"},{"character":"Oolong","actor":"Bernhard Völger","role":"SUPPORTING"},{"character":"Cold Daiou","actor":"Marco Kröger","role":"SUPPORTING"},{"character":"Shen Long","actor":"Mathias Kunze","role":"SUPPORTING"},{"character":"Raditz","actor":"Nick Forsberg","role":"SUPPORTING"},{"character":"Recoome","actor":"Marlin Wick","role":"SUPPORTING"}]}
+{
+ "titleId": 6033,
+ "updatedAt": "2026-08-15T18:32:47.107Z",
+ "roles": [
+  {
+   "character": "Vegeta",
+   "actor": "Florian Hoffmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Piccolo",
+   "actor": "Felix Spieß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gohan Son",
+   "actor": "Olivia Büschken",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gokuu Son",
+   "actor": "Amadeus Strobl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kuririn",
+   "actor": "Daniel Gärtner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Dende",
+   "actor": "Christian Zeiger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tenshinhan",
+   "actor": "Sven Gerhardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Noufu",
+   "actor": "Klaus Lochthove",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nappa",
+   "actor": "Gerald Paradies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chaozu",
+   "actor": "Julia Blankenburg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mr. Popo",
+   "actor": "Michael Bauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jinzouningen 19-gou",
+   "actor": "Marlin Wick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ginyu",
+   "actor": "Erich Räuker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Trunks",
+   "actor": "Sebastian Kluckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Muten Roushi",
+   "actor": "Karl Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jeice",
+   "actor": "Gerrit Hamann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kita no Kaiou",
+   "actor": "Rüdiger Evers",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Oolong",
+   "actor": "Bernhard Völger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cold Daiou",
+   "actor": "Marco Kröger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shen Long",
+   "actor": "Mathias Kunze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Raditz",
+   "actor": "Nick Forsberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Recoome",
+   "actor": "Marlin Wick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yamchu",
+   "actor": "Karlo Hackenberger",
+   "von": "ann"
+  },
+  {
+   "character": "Muten Roshi",
+   "actor": "Karl Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "Yajirobi",
+   "actor": "Stephan Schleberger",
+   "von": "ann"
+  },
+  {
+   "character": "Meister Kaio",
+   "actor": "Rüdiger Evers",
+   "von": "ann"
+  },
+  {
+   "character": "Gott",
+   "actor": "Rainer Doering",
+   "von": "ann"
+  },
+  {
+   "character": "Freezer",
+   "actor": "Thomas Schmuckert",
+   "von": "ann"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Roland Hemmo",
+   "von": "ann"
+  },
+  {
+   "character": "Chao-Zu",
+   "actor": "Julia Blankenburg",
+   "von": "ann"
+  },
+  {
+   "character": "Bulma",
+   "actor": "Carmen Katt",
+   "von": "ann"
+  },
+  {
+   "character": "Chichi",
+   "actor": "Jennifer Weiß",
+   "von": "ann"
+  },
+  {
+   "character": "Son Goku",
+   "actor": "Amadeus Strobl",
+   "von": "ann"
+  },
+  {
+   "character": "Son Gohan",
+   "actor": "Olivia Büschken",
+   "von": "ann"
+  },
+  {
+   "character": "Krillin",
+   "actor": "Daniel Gärtner",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=10877"
+}

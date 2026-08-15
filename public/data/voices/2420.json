@@ -1,1 +1,67 @@
-{"titleId":2420,"updatedAt":"2026-08-11T11:20:02.969Z","roles":[{"character":"Jack Wakeman","actor":"Dennis Schmidt-Foß","role":"MAIN"},{"character":"Windy Wakeman","actor":"Schaukje Könning","role":"MAIN"},{"character":"Jim Floyd","actor":"Matthias Hinze","role":"MAIN"},{"character":"Breckenridge","actor":"Hans Teuscher","role":"SUPPORTING"},{"character":"China","actor":"Claudia Urbschat-mingues","role":"SUPPORTING"},{"character":"Cooper","actor":"Gerhard Paul","role":"SUPPORTING"},{"character":"Gordon","actor":"Roland Hemmo","role":"SUPPORTING"}]}
+{
+ "titleId": 2420,
+ "updatedAt": "2026-08-15T18:30:35.756Z",
+ "roles": [
+  {
+   "character": "Jack Wakeman",
+   "actor": "Dennis Schmidt-Foß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Windy Wakeman",
+   "actor": "Schaukje Könning",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jim Floyd",
+   "actor": "Matthias Hinze",
+   "role": "MAIN"
+  },
+  {
+   "character": "Breckenridge",
+   "actor": "Hans Teuscher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "China",
+   "actor": "Claudia Urbschat-mingues",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cooper",
+   "actor": "Gerhard Paul",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gordon",
+   "actor": "Roland Hemmo",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jack",
+   "actor": "Dennis Schmidt-Foß",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Breckenridge",
+   "actor": "Hans Teuscher",
+   "von": "ann"
+  },
+  {
+   "character": "Windy",
+   "actor": "Schaukje Könning",
+   "von": "ann"
+  },
+  {
+   "character": "Lily",
+   "actor": "Silvia Mißbach",
+   "von": "ann"
+  },
+  {
+   "character": "Shepard",
+   "actor": "Kaspar Eichel",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2577"
+}

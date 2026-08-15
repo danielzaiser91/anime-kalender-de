@@ -1,1 +1,122 @@
-{"titleId":21311,"updatedAt":"2026-08-11T11:20:03.290Z","roles":[{"character":"Atsushi Nakajima","actor":"Sebastian Fitzner","role":"MAIN"},{"character":"Osamu Dazai","actor":"Timo Kinzel","role":"MAIN"},{"character":"Ryuunosuke Akutagawa","actor":"Daniel Schütter","role":"MAIN"},{"character":"Doppo Kunikida","actor":"Christian Rudolf","role":"MAIN"},{"character":"Yukichi Fukuzawa","actor":"Daniel Welbat","role":"SUPPORTING"},{"character":"Akiko Yosano","actor":"Jannika Jira","role":"SUPPORTING"},{"character":"Elise","actor":"Elise Eikermann","role":"SUPPORTING"},{"character":"Francis Fitzgerald","actor":"Tetje Mierendorf","role":"SUPPORTING"},{"character":"Naomi Tanizaki","actor":"Alina Degener","role":"SUPPORTING"},{"character":"Rokuzou Taguchi","actor":"Tommaso Cacciapuoti","role":"SUPPORTING"},{"character":"Chuuya Nakahara","actor":"Tammo Kaulbarsch","role":"SUPPORTING"},{"character":"Minoura","actor":"Johann Fohl","role":"SUPPORTING"},{"character":"Motojirou Kajii","actor":"Rasmus Borowski","role":"SUPPORTING"},{"character":"Ichiyou Higuchi","actor":"Jennifer Böttcher","role":"SUPPORTING"},{"character":"Nobuko Sasaki","actor":"Nina Witt","role":"SUPPORTING"},{"character":"Ranpo Edogawa","actor":"Asad Schwarz-Msesilamba","role":"SUPPORTING"},{"character":"Kyouka Izumi","actor":"Sarah Madeleine Tusk","role":"SUPPORTING"},{"character":"Junsa Sugimoto","actor":"Flemming Stein","role":"SUPPORTING"},{"character":"Junichirou Tanizaki","actor":"Nils Rieke","role":"SUPPORTING"},{"character":"Ougai Mori","actor":"Robert Kotulla","role":"SUPPORTING"},{"character":"Ryuurou Hirotsu","actor":"Robin Brosch","role":"SUPPORTING"}]}
+{
+ "titleId": 21311,
+ "updatedAt": "2026-08-15T18:38:55.104Z",
+ "roles": [
+  {
+   "character": "Atsushi Nakajima",
+   "actor": "Sebastian Fitzner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Osamu Dazai",
+   "actor": "Timo Kinzel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ryuunosuke Akutagawa",
+   "actor": "Daniel Schütter",
+   "role": "MAIN"
+  },
+  {
+   "character": "Doppo Kunikida",
+   "actor": "Christian Rudolf",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yukichi Fukuzawa",
+   "actor": "Daniel Welbat",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akiko Yosano",
+   "actor": "Jannika Jira",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Elise",
+   "actor": "Elise Eikermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Francis Fitzgerald",
+   "actor": "Tetje Mierendorf",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Naomi Tanizaki",
+   "actor": "Alina Degener",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rokuzou Taguchi",
+   "actor": "Tommaso Cacciapuoti",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chuuya Nakahara",
+   "actor": "Tammo Kaulbarsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Minoura",
+   "actor": "Johann Fohl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Motojirou Kajii",
+   "actor": "Rasmus Borowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ichiyou Higuchi",
+   "actor": "Jennifer Böttcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nobuko Sasaki",
+   "actor": "Nina Witt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ranpo Edogawa",
+   "actor": "Asad Schwarz-Msesilamba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyouka Izumi",
+   "actor": "Sarah Madeleine Tusk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Junsa Sugimoto",
+   "actor": "Flemming Stein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Junichirou Tanizaki",
+   "actor": "Nils Rieke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ougai Mori",
+   "actor": "Robert Kotulla",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryuurou Hirotsu",
+   "actor": "Robin Brosch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ranpo Edogawa",
+   "actor": "Asad Schwarz",
+   "von": "ann"
+  },
+  {
+   "character": "Kenji Miyazawa",
+   "actor": "Felix Strüven",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=17693"
+}

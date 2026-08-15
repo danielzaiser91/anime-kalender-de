@@ -1,1 +1,242 @@
-{"titleId":131681,"updatedAt":"2026-08-11T11:20:03.595Z","roles":[{"character":"Eren Yeager","actor":"Max Felder","role":"MAIN"},{"character":"Mikasa Ackerman","actor":"Nicole Hannak","role":"MAIN"},{"character":"Armin Arlert","actor":"Christian Zeiger","role":"MAIN"},{"character":"Gabi Braun","actor":"Luisa Wietzorek","role":"MAIN"},{"character":"Falco Grice","actor":"Patrick Baehr","role":"MAIN"},{"character":"Zeke","actor":"Oliver Stritzel","role":"MAIN"},{"character":"Reiner Braun","actor":"Marios Gavrilis","role":"MAIN"},{"character":"Connie Springer","actor":"Jan Makino","role":"MAIN"},{"character":"Jean Kirstein","actor":"René Dawn-Claude","role":"MAIN"},{"character":"Levi","actor":"Florian Halm","role":"SUPPORTING"},{"character":"Annie Leonhart","actor":"Marieke Oeffinger","role":"SUPPORTING"},{"character":"Carla Yeager","actor":"Melanie Hinze","role":"SUPPORTING"},{"character":"Grisha Yeager","actor":"Frank Röth","role":"SUPPORTING"},{"character":"Krista Lenz","actor":"Laura Oettel","role":"SUPPORTING"},{"character":"Dot Pixis","actor":"Elmar Gutmann","role":"SUPPORTING"},{"character":"Hange Zoe","actor":"Josephine Schmidt","role":"SUPPORTING"},{"character":"Nile Dok","actor":"Christoph Banken","role":"SUPPORTING"},{"character":"Keith Shadis","actor":"Klaus-Dieter Klebsch","role":"SUPPORTING"},{"character":"Hitch Dreyse","actor":"Maria Hönig","role":"SUPPORTING"},{"character":"Pieck Finger","actor":"Patrizia Carlucci","role":"SUPPORTING"},{"character":"Porco Galliard","actor":"Nico Sablik","role":"SUPPORTING"},{"character":"Colt Grice","actor":"Sebastian Schulz","role":"SUPPORTING"},{"character":"Frieda Reiss","actor":"Marie Bierstedt","role":"SUPPORTING"},{"character":"Floch Forster","actor":"Tim Schwarzmaier","role":"SUPPORTING"},{"character":"Annie no Chichi","actor":"Uwe Büschken","role":"SUPPORTING"}]}
+{
+ "titleId": 131681,
+ "updatedAt": "2026-08-15T18:46:49.776Z",
+ "roles": [
+  {
+   "character": "Eren Yeager",
+   "actor": "Max Felder",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mikasa Ackerman",
+   "actor": "Nicole Hannak",
+   "role": "MAIN"
+  },
+  {
+   "character": "Armin Arlert",
+   "actor": "Christian Zeiger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gabi Braun",
+   "actor": "Luisa Wietzorek",
+   "role": "MAIN"
+  },
+  {
+   "character": "Falco Grice",
+   "actor": "Patrick Baehr",
+   "role": "MAIN"
+  },
+  {
+   "character": "Zeke",
+   "actor": "Oliver Stritzel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Reiner Braun",
+   "actor": "Marios Gavrilis",
+   "role": "MAIN"
+  },
+  {
+   "character": "Connie Springer",
+   "actor": "Jan Makino",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jean Kirstein",
+   "actor": "René Dawn-Claude",
+   "role": "MAIN"
+  },
+  {
+   "character": "Levi",
+   "actor": "Florian Halm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Annie Leonhart",
+   "actor": "Marieke Oeffinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Carla Yeager",
+   "actor": "Melanie Hinze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Grisha Yeager",
+   "actor": "Frank Röth",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Krista Lenz",
+   "actor": "Laura Oettel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dot Pixis",
+   "actor": "Elmar Gutmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hange Zoe",
+   "actor": "Josephine Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nile Dok",
+   "actor": "Christoph Banken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Keith Shadis",
+   "actor": "Klaus-Dieter Klebsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hitch Dreyse",
+   "actor": "Maria Hönig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pieck Finger",
+   "actor": "Patrizia Carlucci",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Porco Galliard",
+   "actor": "Nico Sablik",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Colt Grice",
+   "actor": "Sebastian Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Frieda Reiss",
+   "actor": "Marie Bierstedt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Floch Forster",
+   "actor": "Tim Schwarzmaier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Annie no Chichi",
+   "actor": "Uwe Büschken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Colt",
+   "actor": "Sebastian Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "Keith",
+   "actor": "Klaus-Dieter Klebsch",
+   "von": "ann"
+  },
+  {
+   "character": "Zeke",
+   "actor": "Oliver Siebeck",
+   "von": "ann"
+  },
+  {
+   "character": "Magath",
+   "actor": "Erich Räuker",
+   "von": "ann"
+  },
+  {
+   "character": "Falco",
+   "actor": "Patrick Baehr",
+   "von": "ann"
+  },
+  {
+   "character": "Pixis",
+   "actor": "Elmar Gutmann",
+   "von": "ann"
+  },
+  {
+   "character": "Porco",
+   "actor": "Nico Sablik",
+   "von": "ann"
+  },
+  {
+   "character": "Flocke",
+   "actor": "Tim Schwarzmaier",
+   "von": "ann"
+  },
+  {
+   "character": "Onyankopon",
+   "actor": "Roman Wolko",
+   "von": "ann"
+  },
+  {
+   "character": "Armin",
+   "actor": "Christian Zeiger",
+   "von": "ann"
+  },
+  {
+   "character": "Jean",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Eren",
+   "actor": "Max Felder",
+   "von": "ann"
+  },
+  {
+   "character": "Gabi",
+   "actor": "Luisa Wietzorek",
+   "von": "ann"
+  },
+  {
+   "character": "Hanji",
+   "actor": "Josephine Schmidt",
+   "von": "ann"
+  },
+  {
+   "character": "Mikasa",
+   "actor": "Nicole Hannak",
+   "von": "ann"
+  },
+  {
+   "character": "Connie",
+   "actor": "Jan Makino",
+   "von": "ann"
+  },
+  {
+   "character": "Yelena",
+   "actor": "Giovanna Winterfeldt",
+   "von": "ann"
+  },
+  {
+   "character": "Reiner",
+   "actor": "Marios Gavrilis",
+   "von": "ann"
+  },
+  {
+   "character": "Nicolo",
+   "actor": "Julian Tennstedt",
+   "von": "ann"
+  },
+  {
+   "character": "Pieck",
+   "actor": "Patrizia Carlucci",
+   "von": "ann"
+  },
+  {
+   "character": "Kaya",
+   "actor": "Derya Flechtner",
+   "von": "ann"
+  },
+  {
+   "character": "Luise",
+   "actor": "Johanna Thoring",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24648"
+}

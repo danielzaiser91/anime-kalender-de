@@ -1,1 +1,97 @@
-{"titleId":20771,"updatedAt":"2026-08-11T11:20:03.226Z","roles":[{"character":"Karen Jinryou","actor":"Olivia Büschken","role":"MAIN"},{"character":"Hakua Shiodome","actor":"Anni C. Salander","role":"MAIN"},{"character":"Aika Tenkuubashi","actor":"Sarah Tkotsch","role":"MAIN"},{"character":"Reiko  Arisugawa ","actor":"Amelie Plaas-Link","role":"MAIN"},{"character":"Kimito Kagurazaka","actor":"Ricardo Richter","role":"MAIN"},{"character":"Sakimori","actor":"Leonie Dubuc","role":"SUPPORTING"},{"character":"Sayuri Kimachi","actor":"Tina Haseney","role":"SUPPORTING"},{"character":"Masaomi Arisugawa","actor":"Benjamin Kiesewetter","role":"SUPPORTING"},{"character":"Mizuho Suehiro","actor":"Anja Rybiczka","role":"SUPPORTING"},{"character":"Houko Arisugawa","actor":"Ann Vielhaben","role":"SUPPORTING"},{"character":"Miyuki Kujou","actor":"Jamie Lee Blank","role":"SUPPORTING"},{"character":"Eri  Hanae","actor":"Jenny Maria Meyer","role":"SUPPORTING"},{"character":"Kae Toujou","actor":"Inken Baxmeier","role":"SUPPORTING"},{"character":"Maya Mibu","actor":"Angelina Geisler","role":"SUPPORTING"},{"character":"Uranaishi Moon","actor":"Wanda Worch","role":"BACKGROUND"}]}
+{
+ "titleId": 20771,
+ "updatedAt": "2026-08-15T18:37:24.938Z",
+ "roles": [
+  {
+   "character": "Karen Jinryou",
+   "actor": "Olivia Büschken",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hakua Shiodome",
+   "actor": "Anni C. Salander",
+   "role": "MAIN"
+  },
+  {
+   "character": "Aika Tenkuubashi",
+   "actor": "Sarah Tkotsch",
+   "role": "MAIN"
+  },
+  {
+   "character": "Reiko  Arisugawa ",
+   "actor": "Amelie Plaas-Link",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kimito Kagurazaka",
+   "actor": "Ricardo Richter",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sakimori",
+   "actor": "Leonie Dubuc",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sayuri Kimachi",
+   "actor": "Tina Haseney",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masaomi Arisugawa",
+   "actor": "Benjamin Kiesewetter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mizuho Suehiro",
+   "actor": "Anja Rybiczka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Houko Arisugawa",
+   "actor": "Ann Vielhaben",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miyuki Kujou",
+   "actor": "Jamie Lee Blank",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eri  Hanae",
+   "actor": "Jenny Maria Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kae Toujou",
+   "actor": "Inken Baxmeier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maya Mibu",
+   "actor": "Angelina Geisler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Uranaishi Moon",
+   "actor": "Wanda Worch",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Miyuki Kujou",
+   "actor": "Jamie-Lee Blank",
+   "von": "ann"
+  },
+  {
+   "character": "Reiko Arisugawa",
+   "actor": "Amelie Plaas-Link",
+   "von": "ann"
+  },
+  {
+   "character": "Eri Hanae",
+   "actor": "Jenny Maria Meyer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16726"
+}

@@ -1,1 +1,67 @@
-{"titleId":104721,"updatedAt":"2026-08-11T11:20:03.487Z","roles":[{"character":"Arnelia","actor":"Irene Weber","role":"MAIN"},{"character":"Harami Sanno","actor":"Katharina Gast","role":"MAIN"},{"character":"K Kusanagi","actor":"Caro Mendelski","role":"MAIN"},{"character":"Ran","actor":"Sara Wegner","role":"MAIN"},{"character":"Mai Maisaka","actor":"Nicole Silbermann","role":"MAIN"},{"character":"Kumi Honamanuma","actor":"Carolin Sophie Göbel","role":"SUPPORTING"},{"character":"Ron","actor":"Sascha Kirschberger","role":"SUPPORTING"},{"character":"Yuuko Washinomiya","actor":"Viola Müller","role":"SUPPORTING"},{"character":"Leonard","actor":"Giovanni Gagliano","role":"SUPPORTING"}]}
+{
+ "titleId": 104721,
+ "updatedAt": "2026-08-15T18:43:26.331Z",
+ "roles": [
+  {
+   "character": "Arnelia",
+   "actor": "Irene Weber",
+   "role": "MAIN"
+  },
+  {
+   "character": "Harami Sanno",
+   "actor": "Katharina Gast",
+   "role": "MAIN"
+  },
+  {
+   "character": "K Kusanagi",
+   "actor": "Caro Mendelski",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ran",
+   "actor": "Sara Wegner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mai Maisaka",
+   "actor": "Nicole Silbermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kumi Honamanuma",
+   "actor": "Carolin Sophie Göbel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ron",
+   "actor": "Sascha Kirschberger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuuko Washinomiya",
+   "actor": "Viola Müller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Leonard",
+   "actor": "Giovanni Gagliano",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Valvaran",
+   "actor": "Sandra Lühr",
+   "von": "ann"
+  },
+  {
+   "character": "Kumi Hon'amanuma",
+   "actor": "Carolin Sophie Göbel",
+   "von": "ann"
+  },
+  {
+   "character": "Harami Mino",
+   "actor": "Katharina Lichtblau",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=21515"
+}

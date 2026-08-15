@@ -1,1 +1,57 @@
-{"titleId":20754,"updatedAt":"2026-08-11T11:20:03.224Z","roles":[{"character":"Yuki Takeya","actor":"Julia Fölster","role":"MAIN"},{"character":"Kurumi Ebisuzawa","actor":"Manuela Eifrig","role":"MAIN"},{"character":"Yuuri Wakasa","actor":"Leoni Kristin Oeffinger","role":"MAIN"},{"character":"Miki Naoki","actor":"Saskia Bellahn","role":"MAIN"},{"character":"Megumi Sakura","actor":"Stephanie Damare","role":"SUPPORTING"},{"character":"Kei Shidou","actor":"Liza Ohm","role":"SUPPORTING"}]}
+{
+ "titleId": 20754,
+ "updatedAt": "2026-08-15T18:37:20.823Z",
+ "roles": [
+  {
+   "character": "Yuki Takeya",
+   "actor": "Julia Fölster",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kurumi Ebisuzawa",
+   "actor": "Manuela Eifrig",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuuri Wakasa",
+   "actor": "Leoni Kristin Oeffinger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miki Naoki",
+   "actor": "Saskia Bellahn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Megumi Sakura",
+   "actor": "Stephanie Damare",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kei Shidou",
+   "actor": "Liza Ohm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miki Naoki",
+   "actor": "Saskia Weckler",
+   "von": "ann"
+  },
+  {
+   "character": "Megumi Sakura",
+   "actor": "Stephanie Kirchberger",
+   "von": "ann"
+  },
+  {
+   "character": "Yuuri Wakasa",
+   "actor": "Leoni Oeffinger",
+   "von": "ann"
+  },
+  {
+   "character": "Kurumi Ebisuzawa",
+   "actor": "Manuela Bäcker",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=16603"
+}

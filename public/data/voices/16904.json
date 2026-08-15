@@ -1,1 +1,117 @@
-{"titleId":16904,"updatedAt":"2026-08-11T11:20:03.166Z","roles":[{"character":"Anna Kushina","actor":"Winnie Brandes","role":"MAIN"},{"character":"Neko","actor":"Patricia Strasburger","role":"MAIN"},{"character":"Kuroh Yatogami","actor":"Arne Stephan","role":"MAIN"},{"character":"Saruhiko Fushimi","actor":"Louis Friedemann Thiele","role":"SUPPORTING"},{"character":"Douhan  Hirasaka","actor":"Corinna Dorenkamp","role":"SUPPORTING"},{"character":"Misaki Yata","actor":"Dennis Saemann","role":"SUPPORTING"},{"character":"Yashiro Isana","actor":"Nicolás Artajo","role":"SUPPORTING"},{"character":"Rikio Kamamoto","actor":"David M. Schulze","role":"SUPPORTING"},{"character":"Seri Awashima","actor":"Birte Baumgardt","role":"SUPPORTING"},{"character":"Izumo Kusanagi","actor":"Heiko Obermöller","role":"SUPPORTING"},{"character":"Reisi Munakata","actor":"Norman Matt","role":"SUPPORTING"},{"character":"Kukuri Yukizome","actor":"Samira Jakobs","role":"SUPPORTING"},{"character":"Mikoto Suoh","actor":"Tobias Brecklinghaus","role":"SUPPORTING"},{"character":"Nagare Hisui","actor":"Julian Manuel","role":"SUPPORTING"},{"character":"Tatara Totsuka","actor":"Dirk Stollberg","role":"SUPPORTING"},{"character":"Yukari Mishakuji","actor":"Julien Haggege","role":"SUPPORTING"}]}
+{
+ "titleId": 16904,
+ "updatedAt": "2026-08-15T18:35:51.187Z",
+ "roles": [
+  {
+   "character": "Anna Kushina",
+   "actor": "Winnie Brandes",
+   "role": "MAIN"
+  },
+  {
+   "character": "Neko",
+   "actor": "Patricia Strasburger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kuroh Yatogami",
+   "actor": "Arne Stephan",
+   "role": "MAIN"
+  },
+  {
+   "character": "Saruhiko Fushimi",
+   "actor": "Louis Friedemann Thiele",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Douhan  Hirasaka",
+   "actor": "Corinna Dorenkamp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Misaki Yata",
+   "actor": "Dennis Saemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yashiro Isana",
+   "actor": "Nicolás Artajo",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rikio Kamamoto",
+   "actor": "David M. Schulze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seri Awashima",
+   "actor": "Birte Baumgardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Izumo Kusanagi",
+   "actor": "Heiko Obermöller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Reisi Munakata",
+   "actor": "Norman Matt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kukuri Yukizome",
+   "actor": "Samira Jakobs",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mikoto Suoh",
+   "actor": "Tobias Brecklinghaus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nagare Hisui",
+   "actor": "Julian Manuel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tatara Totsuka",
+   "actor": "Dirk Stollberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yukari Mishakuji",
+   "actor": "Julien Haggege",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yashiro Isana",
+   "actor": "Nicolas Artajo",
+   "von": "ann"
+  },
+  {
+   "character": "Reishi Munakata",
+   "actor": "Norman Matt",
+   "von": "ann"
+  },
+  {
+   "character": "Douhan Hirasaka",
+   "actor": "Corinna Dörenkamp",
+   "von": "ann"
+  },
+  {
+   "character": "Mikoto Suou",
+   "actor": "Tobias Brecklinghaus",
+   "von": "ann"
+  },
+  {
+   "character": "Kurou Yatogami",
+   "actor": "Arne Stephan",
+   "von": "ann"
+  },
+  {
+   "character": "Kotosaka",
+   "actor": "Stefan Naas",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=15350"
+}

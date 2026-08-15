@@ -1,1 +1,112 @@
-{"titleId":11763,"updatedAt":"2026-08-11T11:20:03.125Z","roles":[{"character":"Sakura Hagiwara","actor":"Jenny Maria Meyer","role":"MAIN"},{"character":"Elena Miyazawa","actor":"Anna Gamburg","role":"MAIN"},{"character":"Misaki\r\n Toyoda","actor":"Susanne Geier","role":"MAIN"},{"character":"Rio Kazama","actor":"Sarah Riedel","role":"MAIN"},{"character":"Makoto Kirishima","actor":"Maria Sumner","role":"SUPPORTING"},{"character":"Seiichi\r\n Inoba","actor":"Thomas Schmuckert","role":"SUPPORTING"},{"character":"Yuho\r\n Mochidzuki","actor":"Jennifer Bischof","role":"SUPPORTING"},{"character":"Kaichou","actor":"Michael Wiesner","role":"SUPPORTING"},{"character":"Juri Sanada","actor":"Peggy Pollow","role":"SUPPORTING"},{"character":"Kanae Fujishita","actor":"Sarah Alles","role":"SUPPORTING"},{"character":"Moe Fukuoka","actor":"Shanti Chakraborty","role":"SUPPORTING"},{"character":"Jackal\r\n Toujou","actor":"Sonja Spuhl","role":"SUPPORTING"},{"character":"Nanami\r\n Kanno","actor":"Daniela Grubert","role":"SUPPORTING"},{"character":"Aika Hayase","actor":"Sophie Lechtenbrink","role":"SUPPORTING"}]}
+{
+ "titleId": 11763,
+ "updatedAt": "2026-08-15T18:34:38.709Z",
+ "roles": [
+  {
+   "character": "Sakura Hagiwara",
+   "actor": "Jenny Maria Meyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Elena Miyazawa",
+   "actor": "Anna Gamburg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Misaki\r\n Toyoda",
+   "actor": "Susanne Geier",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rio Kazama",
+   "actor": "Sarah Riedel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Makoto Kirishima",
+   "actor": "Maria Sumner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seiichi\r\n Inoba",
+   "actor": "Thomas Schmuckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuho\r\n Mochidzuki",
+   "actor": "Jennifer Bischof",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaichou",
+   "actor": "Michael Wiesner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Juri Sanada",
+   "actor": "Peggy Pollow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kanae Fujishita",
+   "actor": "Sarah Alles",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Moe Fukuoka",
+   "actor": "Shanti Chakraborty",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jackal\r\n Toujou",
+   "actor": "Sonja Spuhl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nanami\r\n Kanno",
+   "actor": "Daniela Grubert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aika Hayase",
+   "actor": "Sophie Lechtenbrink",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryou Nishihara",
+   "actor": "Victoria Frenz",
+   "von": "ann"
+  },
+  {
+   "character": "Seiichi Inoba",
+   "actor": "Thomas Schmuckert",
+   "von": "ann"
+  },
+  {
+   "character": "Misaki Toyoda",
+   "actor": "Susanne Herrmann",
+   "von": "ann"
+  },
+  {
+   "character": "Jackal Toujou",
+   "actor": "Sonja Spuhl",
+   "von": "ann"
+  },
+  {
+   "character": "Chinatsu Suzumoto",
+   "actor": "Sarah Méndez",
+   "von": "ann"
+  },
+  {
+   "character": "Nanami Kanno",
+   "actor": "Daniela Grubert",
+   "von": "ann"
+  },
+  {
+   "character": "Yuuho Mochizuki",
+   "actor": "Jennifer Bischof",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=13628"
+}

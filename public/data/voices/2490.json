@@ -1,1 +1,82 @@
-{"titleId":2490,"updatedAt":"2026-08-11T11:20:02.972Z","roles":[{"character":"Luffy Monkey","actor":"Daniel Schlauch","role":"MAIN"},{"character":"Robin Nico","actor":"Simone Brahmann","role":"MAIN"},{"character":"Zoro Roronoa","actor":"Philipp Brammer","role":"MAIN"},{"character":"Chopper Tony Tony","actor":"Martin Halm","role":"MAIN"},{"character":"Nami","actor":"Stephanie Kellner","role":"MAIN"},{"character":"Usopp","actor":"Dirk Meyer","role":"MAIN"},{"character":"Sanji","actor":"Hubertus von Lerchenfeld","role":"MAIN"},{"character":"Bentham","actor":"Pierre Peters-Arnolds","role":"SUPPORTING"},{"character":"Buggy","actor":"Gudo Hoegel","role":"SUPPORTING"}]}
+{
+ "titleId": 2490,
+ "updatedAt": "2026-08-15T18:30:41.057Z",
+ "roles": [
+  {
+   "character": "Luffy Monkey",
+   "actor": "Daniel Schlauch",
+   "role": "MAIN"
+  },
+  {
+   "character": "Robin Nico",
+   "actor": "Simone Brahmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Zoro Roronoa",
+   "actor": "Philipp Brammer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chopper Tony Tony",
+   "actor": "Martin Halm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nami",
+   "actor": "Stephanie Kellner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Usopp",
+   "actor": "Dirk Meyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sanji",
+   "actor": "Hubertus von Lerchenfeld",
+   "role": "MAIN"
+  },
+  {
+   "character": "Bentham",
+   "actor": "Pierre Peters-Arnolds",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Buggy",
+   "actor": "Gudo Hoegel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lysop",
+   "actor": "Dirk Meyer",
+   "von": "ann"
+  },
+  {
+   "character": "Monkey D. Ruffy",
+   "actor": "Daniel Schlauch",
+   "von": "ann"
+  },
+  {
+   "character": "Lorenor Zorro",
+   "actor": "Philipp Brammer",
+   "von": "ann"
+  },
+  {
+   "character": "Nico Robin",
+   "actor": "Simone Brahmann",
+   "von": "ann"
+  },
+  {
+   "character": "Bon Curry",
+   "actor": "Pierre Peters-Arnolds",
+   "von": "ann"
+  },
+  {
+   "character": "Tony Chopper",
+   "actor": "Martin Halm",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=6529"
+}

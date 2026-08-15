@@ -1,1 +1,137 @@
-{"titleId":934,"updatedAt":"2026-08-11T11:20:02.879Z","roles":[{"character":"Keiichi Maebara","actor":"Domenic Redl","role":"MAIN"},{"character":"Rena Ryuuguu","actor":"Moira May","role":"MAIN"},{"character":"Mion Sonozaki","actor":"Mayke Dähn","role":"MAIN"},{"character":"Rika Furude","actor":"Gabrielle Pietermann","role":"MAIN"},{"character":"Satoko Houjou","actor":"Helen Malin Blaschke","role":"MAIN"},{"character":"Shion Sonozaki","actor":"Mayke Dähn","role":"MAIN"},{"character":"Satoshi Houjou","actor":"Christian Zeiger","role":"SUPPORTING"},{"character":"Kuraudo Ooishi","actor":"Pierre Peters-Arnolds","role":"SUPPORTING"},{"character":"Miyo Takano","actor":"Claudia Urbschat-mingues","role":"SUPPORTING"},{"character":"Toshiki Inukai","actor":"Katrin Heß","role":"SUPPORTING"},{"character":"Rumiko Chie","actor":"Demet Fey","role":"SUPPORTING"},{"character":"Mamoru Akasaka","actor":"Christian Wunderlich","role":"SUPPORTING"},{"character":"Kyousuke Irie","actor":"Nicolas Böll","role":"SUPPORTING"},{"character":"Teppei Houjou","actor":"Dustin Semmelrogge","role":"SUPPORTING"},{"character":"Oryou Sonozaki","actor":"Sibylle Kuhne","role":"SUPPORTING"},{"character":"Jirou Tomitake","actor":"Heiko Obermöller","role":"SUPPORTING"},{"character":"Rina Mamiya","actor":"Jenny Laura Bischoff","role":"SUPPORTING"},{"character":"Akane Sonozaki","actor":"Betül Jülide Gülgec","role":"SUPPORTING"},{"character":"Tatsuyoshi Kasai","actor":"Markus Klauk","role":"SUPPORTING"},{"character":"Kiichirou Kimiyoshi","actor":"Axel Gottschick","role":"SUPPORTING"},{"character":"Aiko Maebara","actor":"Katja Liebing","role":"SUPPORTING"}]}
+{
+ "titleId": 934,
+ "updatedAt": "2026-08-15T18:26:53.211Z",
+ "roles": [
+  {
+   "character": "Keiichi Maebara",
+   "actor": "Domenic Redl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rena Ryuuguu",
+   "actor": "Moira May",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mion Sonozaki",
+   "actor": "Mayke Dähn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rika Furude",
+   "actor": "Gabrielle Pietermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Satoko Houjou",
+   "actor": "Helen Malin Blaschke",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shion Sonozaki",
+   "actor": "Mayke Dähn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Satoshi Houjou",
+   "actor": "Christian Zeiger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kuraudo Ooishi",
+   "actor": "Pierre Peters-Arnolds",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miyo Takano",
+   "actor": "Claudia Urbschat-mingues",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toshiki Inukai",
+   "actor": "Katrin Heß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rumiko Chie",
+   "actor": "Demet Fey",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mamoru Akasaka",
+   "actor": "Christian Wunderlich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyousuke Irie",
+   "actor": "Nicolas Böll",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Teppei Houjou",
+   "actor": "Dustin Semmelrogge",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Oryou Sonozaki",
+   "actor": "Sibylle Kuhne",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jirou Tomitake",
+   "actor": "Heiko Obermöller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rina Mamiya",
+   "actor": "Jenny Laura Bischoff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akane Sonozaki",
+   "actor": "Betül Jülide Gülgec",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tatsuyoshi Kasai",
+   "actor": "Markus Klauk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kiichirou Kimiyoshi",
+   "actor": "Axel Gottschick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aiko Maebara",
+   "actor": "Katja Liebing",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rumiko Chie",
+   "actor": "Milena Karas",
+   "von": "ann"
+  },
+  {
+   "character": "Rena Ryugu",
+   "actor": "Moira May",
+   "von": "ann"
+  },
+  {
+   "character": "Satoko Houjou",
+   "actor": "Helen Blaschke",
+   "von": "ann"
+  },
+  {
+   "character": "Kyousuke Irie",
+   "actor": "Nicolas Alexander Boll",
+   "von": "ann"
+  },
+  {
+   "character": "Rumiko Chie",
+   "actor": "Svenja Wasser",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=6134"
+}

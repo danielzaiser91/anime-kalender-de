@@ -1,1 +1,47 @@
-{"titleId":126546,"updatedAt":"2026-08-11T11:20:03.577Z","roles":[{"character":"Rio","actor":"Flemming Stein","role":"MAIN"},{"character":"Celia Claire","actor":"Leonie Landa","role":"MAIN"},{"character":"Latifa ","actor":"Elise Eikermann","role":"MAIN"},{"character":"Miharu Ayase ","actor":"Julia Fölster","role":"SUPPORTING"},{"character":"Aishia","actor":"Arlette Stanschus","role":"SUPPORTING"}]}
+{
+ "titleId": 126546,
+ "updatedAt": "2026-08-15T18:46:13.913Z",
+ "roles": [
+  {
+   "character": "Rio",
+   "actor": "Flemming Stein",
+   "role": "MAIN"
+  },
+  {
+   "character": "Celia Claire",
+   "actor": "Leonie Landa",
+   "role": "MAIN"
+  },
+  {
+   "character": "Latifa ",
+   "actor": "Elise Eikermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miharu Ayase ",
+   "actor": "Julia Fölster",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aishia",
+   "actor": "Arlette Stanschus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miharu Ayase",
+   "actor": "Julia Fölster",
+   "von": "ann"
+  },
+  {
+   "character": "Rio/Haruto Amakawa",
+   "actor": "Flemming Stein",
+   "von": "ann"
+  },
+  {
+   "character": "Latifa",
+   "actor": "Elise Eikermann",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=24139"
+}

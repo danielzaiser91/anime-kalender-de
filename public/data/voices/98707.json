@@ -1,1 +1,167 @@
-{"titleId":98707,"updatedAt":"2026-08-11T11:20:03.393Z","roles":[{"character":"Phosphophyllite","actor":"Patricia Strasburger","role":"MAIN"},{"character":"Shinsha","actor":"Corinna Dorenkamp","role":"SUPPORTING"},{"character":"Diamond","actor":"Rieke Werner","role":"SUPPORTING"},{"character":"Bort","actor":"Milena Karas","role":"SUPPORTING"},{"character":"Rutile","actor":"Samina König","role":"SUPPORTING"},{"character":"Alexandrite","actor":"Nicole Hise","role":"SUPPORTING"},{"character":"Yellow Diamond","actor":"Julia Koep","role":"SUPPORTING"},{"character":"Jade","actor":"Betül Jülide Gülgec","role":"SUPPORTING"},{"character":"Morganite","actor":"Mayke Dähn","role":"SUPPORTING"},{"character":"Goshenite","actor":"Signe Zurmühlen","role":"SUPPORTING"},{"character":"Hemimorphite","actor":"Kerstin Kramer","role":"SUPPORTING"},{"character":"Watermelon Tourmaline","actor":"Francis Dichmann","role":"SUPPORTING"},{"character":"Sphene","actor":"Esther Brandt","role":"SUPPORTING"},{"character":"Ventricosus","actor":"Cathlen Gawlich","role":"SUPPORTING"},{"character":"Obsidian","actor":"Poetine Alija","role":"SUPPORTING"}]}
+{
+ "titleId": 98707,
+ "updatedAt": "2026-08-15T18:41:09.427Z",
+ "roles": [
+  {
+   "character": "Phosphophyllite",
+   "actor": "Patricia Strasburger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shinsha",
+   "actor": "Corinna Dorenkamp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Diamond",
+   "actor": "Rieke Werner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bort",
+   "actor": "Milena Karas",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rutile",
+   "actor": "Samina König",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alexandrite",
+   "actor": "Nicole Hise",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yellow Diamond",
+   "actor": "Julia Koep",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jade",
+   "actor": "Betül Jülide Gülgec",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Morganite",
+   "actor": "Mayke Dähn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Goshenite",
+   "actor": "Signe Zurmühlen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hemimorphite",
+   "actor": "Kerstin Kramer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Watermelon Tourmaline",
+   "actor": "Francis Dichmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sphene",
+   "actor": "Esther Brandt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ventricosus",
+   "actor": "Cathlen Gawlich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Obsidian",
+   "actor": "Poetine Alija",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cinnabarit",
+   "actor": "Corinna Dörenkamp",
+   "von": "ann"
+  },
+  {
+   "character": "Diamant",
+   "actor": "Rieke Werner",
+   "von": "ann"
+  },
+  {
+   "character": "Hemimorphit",
+   "actor": "Kerstin Kramer",
+   "von": "ann"
+  },
+  {
+   "character": "Alexandrit",
+   "actor": "Nicole Hise",
+   "von": "ann"
+  },
+  {
+   "character": "Phosphophyllit",
+   "actor": "Patricia Strasburger",
+   "von": "ann"
+  },
+  {
+   "character": "Zirkon",
+   "actor": "Jana Dunja Gries",
+   "von": "ann"
+  },
+  {
+   "character": "Benitoit",
+   "actor": "Vivien Faber",
+   "von": "ann"
+  },
+  {
+   "character": "Sphen",
+   "actor": "Esther Brandt",
+   "von": "ann"
+  },
+  {
+   "character": "Neptunit",
+   "actor": "Tabea Hilbert",
+   "von": "ann"
+  },
+  {
+   "character": "Wassermelonen-Turmalin",
+   "actor": "Francis Dichmann",
+   "von": "ann"
+  },
+  {
+   "character": "Peridot",
+   "actor": "Lilian Zahn",
+   "von": "ann"
+  },
+  {
+   "character": "Euklas",
+   "actor": "Lisa Dzyadyk",
+   "von": "ann"
+  },
+  {
+   "character": "Goshenit",
+   "actor": "Signe Zurmühlen",
+   "von": "ann"
+  },
+  {
+   "character": "Gelber Diamant",
+   "actor": "Julia Koep",
+   "von": "ann"
+  },
+  {
+   "character": "Morganit",
+   "actor": "Mayke Dähn",
+   "von": "ann"
+  },
+  {
+   "character": "Rutil",
+   "actor": "Samina König",
+   "von": "ann"
+  },
+  {
+   "character": "Roter Beryll",
+   "actor": "Camilla Renschke",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=19614"
+}

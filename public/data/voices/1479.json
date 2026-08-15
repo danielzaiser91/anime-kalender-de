@@ -1,1 +1,37 @@
-{"titleId":1479,"updatedAt":"2026-08-11T11:20:02.924Z","roles":[{"character":"Sayuri Asagiri","actor":"Diana Borgwardt","role":"MAIN"},{"character":"Kaori Makimura","actor":"Nadja Reichardt","role":"MAIN"}]}
+{
+ "titleId": 1479,
+ "updatedAt": "2026-08-15T18:28:44.153Z",
+ "roles": [
+  {
+   "character": "Sayuri Asagiri",
+   "actor": "Diana Borgwardt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kaori Makimura",
+   "actor": "Nadja Reichardt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Umibozu",
+   "actor": "Karl Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "Ryo Saeba",
+   "actor": "Michael Pan",
+   "von": "ann"
+  },
+  {
+   "character": "Saeko Nogami",
+   "actor": "Liane Rudolph",
+   "von": "ann"
+  },
+  {
+   "character": "Miki",
+   "actor": "Claudia Galdy",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=554"
+}

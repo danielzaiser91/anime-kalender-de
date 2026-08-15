@@ -1,1 +1,102 @@
-{"titleId":110353,"updatedAt":"2026-08-11T11:20:03.521Z","roles":[{"character":"Natsume","actor":"Bettina Zech","role":"MAIN"},{"character":"Kaburagi","actor":"Christopher Kussin","role":"MAIN"},{"character":"Mikey","actor":"Claus-Peter Damitz","role":"SUPPORTING"},{"character":"Minato","actor":"Leonard Hohm","role":"SUPPORTING"},{"character":"Turkey","actor":"John Friedmann","role":"SUPPORTING"},{"character":"Fei","actor":"Katharina von Daake","role":"SUPPORTING"},{"character":"Donatello","actor":"Gerhard Jilka","role":"SUPPORTING"},{"character":"Linmei","actor":"Katharina Iacobescu","role":"SUPPORTING"},{"character":"Hugin","actor":"Jochen Paletschek","role":"SUPPORTING"},{"character":"Kurenai","actor":"Angelina Markiefka","role":"SUPPORTING"},{"character":"Munin ","actor":"Katharina Iacobescu","role":"SUPPORTING"},{"character":"Fennel","actor":"Uwe Thomsen","role":"SUPPORTING"},{"character":"Jill ","actor":"Marget Flach","role":"SUPPORTING"},{"character":"Pipe","actor":"Katharina von Daake","role":"SUPPORTING"},{"character":"Sarkozy ","actor":"Timothy Peach","role":"SUPPORTING"},{"character":"Muro","actor":"Martin Schülke","role":"BACKGROUND"}]}
+{
+ "titleId": 110353,
+ "updatedAt": "2026-08-15T18:44:34.017Z",
+ "roles": [
+  {
+   "character": "Natsume",
+   "actor": "Bettina Zech",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kaburagi",
+   "actor": "Christopher Kussin",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mikey",
+   "actor": "Claus-Peter Damitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Minato",
+   "actor": "Leonard Hohm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Turkey",
+   "actor": "John Friedmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fei",
+   "actor": "Katharina von Daake",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Donatello",
+   "actor": "Gerhard Jilka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Linmei",
+   "actor": "Katharina Iacobescu",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hugin",
+   "actor": "Jochen Paletschek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kurenai",
+   "actor": "Angelina Markiefka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Munin ",
+   "actor": "Katharina Iacobescu",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fennel",
+   "actor": "Uwe Thomsen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jill ",
+   "actor": "Marget Flach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pipe",
+   "actor": "Katharina von Daake",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sarkozy ",
+   "actor": "Timothy Peach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Muro",
+   "actor": "Martin Schülke",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Sarkozy",
+   "actor": "Timothy Peach",
+   "von": "ann"
+  },
+  {
+   "character": "Mindy",
+   "actor": "Judith Peres",
+   "von": "ann"
+  },
+  {
+   "character": "Jill",
+   "actor": "Marget Flach",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=22721"
+}

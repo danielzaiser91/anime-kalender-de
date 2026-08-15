@@ -1,1 +1,97 @@
-{"titleId":153152,"updatedAt":"2026-08-11T11:20:03.656Z","roles":[{"character":"Anna Yamada","actor":"Peggy-Sue Emmler","role":"MAIN"},{"character":"Kyoutarou Ichikawa","actor":"Sebastian Fitzner","role":"MAIN"},{"character":"Kana Ichikawa","actor":"Jana Dunja Gries","role":"SUPPORTING"},{"character":"Chihiro Kobayashi","actor":"Eleni Möller-Architektonidou","role":"SUPPORTING"},{"character":"Moeko Sekine","actor":"Anni C. Salander","role":"SUPPORTING"},{"character":"Serina Yoshida","actor":"Clara Drews","role":"SUPPORTING"},{"character":"Shou Adachi","actor":"Volkmar Leif Gilbert","role":"SUPPORTING"},{"character":"Kenta Kanzaki","actor":"Oliver Szerkus","role":"SUPPORTING"},{"character":"Chikara Oota","actor":"Alexander Gaida","role":"SUPPORTING"},{"character":"Honoka Hara","actor":"Emilia Raschewski","role":"SUPPORTING"},{"character":"Haruya Nanjou","actor":"Tobias John von Freyend","role":"SUPPORTING"},{"character":"Mamiya","actor":"Paulina Bachmann","role":"SUPPORTING"},{"character":"Rin Kanaoya","actor":"Sabrina Schwarz","role":"SUPPORTING"}]}
+{
+ "titleId": 153152,
+ "updatedAt": "2026-08-15T18:48:36.071Z",
+ "roles": [
+  {
+   "character": "Anna Yamada",
+   "actor": "Peggy-Sue Emmler",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kyoutarou Ichikawa",
+   "actor": "Sebastian Fitzner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kana Ichikawa",
+   "actor": "Jana Dunja Gries",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chihiro Kobayashi",
+   "actor": "Eleni Möller-Architektonidou",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Moeko Sekine",
+   "actor": "Anni C. Salander",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Serina Yoshida",
+   "actor": "Clara Drews",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shou Adachi",
+   "actor": "Volkmar Leif Gilbert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kenta Kanzaki",
+   "actor": "Oliver Szerkus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chikara Oota",
+   "actor": "Alexander Gaida",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Honoka Hara",
+   "actor": "Emilia Raschewski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haruya Nanjou",
+   "actor": "Tobias John von Freyend",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mamiya",
+   "actor": "Paulina Bachmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rin Kanaoya",
+   "actor": "Sabrina Schwarz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Anna Yamada",
+   "actor": "Peggy Sue Emmler",
+   "von": "ann"
+  },
+  {
+   "character": "Kyōtarō Ichikawa",
+   "actor": "Sebastian Fitzner",
+   "von": "ann"
+  },
+  {
+   "character": "Chikara Ōta",
+   "actor": "Alexander Gaida",
+   "von": "ann"
+  },
+  {
+   "character": "Shō Adachi",
+   "actor": "Volkmar Leif Gilbert",
+   "von": "ann"
+  },
+  {
+   "character": "Chihiro Kobayashi",
+   "actor": "Eleni Möller",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=26168"
+}

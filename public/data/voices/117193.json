@@ -1,1 +1,242 @@
-{"titleId":117193,"updatedAt":"2026-08-11T11:20:03.559Z","roles":[{"character":"Izuku Midoriya","actor":"Sebastian Fitzner","role":"MAIN"},{"character":"Katsuki Bakugou","actor":"Daniel Käser","role":"MAIN"},{"character":"Shouto Todoroki","actor":"Amadeus Strobl","role":"MAIN"},{"character":"Ochako Uraraka","actor":"Meri Dogan","role":"SUPPORTING"},{"character":"Tenya Iida","actor":"Arne Stephan","role":"SUPPORTING"},{"character":"Tsuyu Asui","actor":"Charlotte Uhlig","role":"SUPPORTING"},{"character":"Toshinori Yagi","actor":"Matti Klemm","role":"SUPPORTING"},{"character":"Shouta Aizawa","actor":"Michael-Che Koch","role":"SUPPORTING"},{"character":"Momo Yaoyorozu","actor":"Milena Karas","role":"SUPPORTING"},{"character":"Eijirou Kirishima","actor":"Dennis Saemann","role":"SUPPORTING"},{"character":"Minoru Mineta","actor":"Esther Brandt","role":"SUPPORTING"},{"character":"Mina Ashido","actor":"Rieke Werner","role":"SUPPORTING"},{"character":"Denki Kaminari","actor":"Benjamin Stolz","role":"SUPPORTING"},{"character":"Hanta Sero","actor":"Patrick Mölleken","role":"SUPPORTING"},{"character":"Mashirao Ojiro","actor":"Marco Sven Reinbold","role":"SUPPORTING"},{"character":"Kyouka Jirou","actor":"Birte Baumgardt","role":"SUPPORTING"},{"character":"Fumikage Tokoyami","actor":"Michael Borgard","role":"SUPPORTING"},{"character":"Mezou Shouji","actor":"Oliver El-Fayoumy","role":"SUPPORTING"},{"character":"Tooru Hagakure","actor":"Signe Zurmühlen","role":"SUPPORTING"},{"character":"Rikidou Satou","actor":"David M. Schulze","role":"SUPPORTING"},{"character":"Mirio Togata","actor":"Jan Makino","role":"SUPPORTING"}]}
+{
+ "titleId": 117193,
+ "updatedAt": "2026-08-15T18:45:38.635Z",
+ "roles": [
+  {
+   "character": "Izuku Midoriya",
+   "actor": "Sebastian Fitzner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Katsuki Bakugou",
+   "actor": "Daniel Käser",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shouto Todoroki",
+   "actor": "Amadeus Strobl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ochako Uraraka",
+   "actor": "Meri Dogan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tenya Iida",
+   "actor": "Arne Stephan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsuyu Asui",
+   "actor": "Charlotte Uhlig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toshinori Yagi",
+   "actor": "Matti Klemm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shouta Aizawa",
+   "actor": "Michael-Che Koch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Momo Yaoyorozu",
+   "actor": "Milena Karas",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eijirou Kirishima",
+   "actor": "Dennis Saemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Minoru Mineta",
+   "actor": "Esther Brandt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mina Ashido",
+   "actor": "Rieke Werner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Denki Kaminari",
+   "actor": "Benjamin Stolz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hanta Sero",
+   "actor": "Patrick Mölleken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mashirao Ojiro",
+   "actor": "Marco Sven Reinbold",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyouka Jirou",
+   "actor": "Birte Baumgardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fumikage Tokoyami",
+   "actor": "Michael Borgard",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mezou Shouji",
+   "actor": "Oliver El-Fayoumy",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tooru Hagakure",
+   "actor": "Signe Zurmühlen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rikidou Satou",
+   "actor": "David M. Schulze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mirio Togata",
+   "actor": "Jan Makino",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dabi",
+   "actor": "Ricardo Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Re-Destro",
+   "actor": "Peter Flechtner",
+   "von": "ann"
+  },
+  {
+   "character": "All Might",
+   "actor": "Matti Klemm",
+   "von": "ann"
+  },
+  {
+   "character": "Mina Ashido/Pinky",
+   "actor": "Rieke Werner",
+   "von": "ann"
+  },
+  {
+   "character": "Kyōka Jirō/Earphone Jack",
+   "actor": "Birte Baumgardt",
+   "von": "ann"
+  },
+  {
+   "character": "Katsuki Bakugo",
+   "actor": "Daniel Käser",
+   "von": "ann"
+  },
+  {
+   "character": "Eijiro Kirishima/Red Riot",
+   "actor": "Dennis Saemann",
+   "von": "ann"
+  },
+  {
+   "character": "Tsuyu Asui/Froppy",
+   "actor": "Charlotte Uhlig",
+   "von": "ann"
+  },
+  {
+   "character": "Izuku Midoriya/Deku",
+   "actor": "Sebastian Fitzner",
+   "von": "ann"
+  },
+  {
+   "character": "Shōta Aizawa",
+   "actor": "Michael-Che Koch",
+   "von": "ann"
+  },
+  {
+   "character": "Hanta Sero/Cellophane",
+   "actor": "Patrick Mölleken",
+   "von": "ann"
+  },
+  {
+   "character": "Shōto Todoroki",
+   "actor": "Amadeus Strobl",
+   "von": "ann"
+  },
+  {
+   "character": "Denki Kaminari/Chargebolt",
+   "actor": "Benjamin Stolz",
+   "von": "ann"
+  },
+  {
+   "character": "Momo Yaoyorozu/Creati",
+   "actor": "Milena Karas",
+   "von": "ann"
+  },
+  {
+   "character": "Tenya Iida/Ingenium",
+   "actor": "Arne Stephan",
+   "von": "ann"
+  },
+  {
+   "character": "Mashirao Ojiro/Tailman",
+   "actor": "Marco Sven Reinbold",
+   "von": "ann"
+  },
+  {
+   "character": "Yuga Aoyama/Can't Stop Twinkling",
+   "actor": "Tom Raczko",
+   "von": "ann"
+  },
+  {
+   "character": "Minoru Mineta/Grape Juice",
+   "actor": "Esther Brandt",
+   "von": "ann"
+  },
+  {
+   "character": "Fumikage Tokoyami/Tsukuyomi",
+   "actor": "Michael Borgard",
+   "von": "ann"
+  },
+  {
+   "character": "Rikido Sato/Sugarman",
+   "actor": "David M. Schulze",
+   "von": "ann"
+  },
+  {
+   "character": "Ochaco Uraraka/Uravity",
+   "actor": "Meri Dogan",
+   "von": "ann"
+  },
+  {
+   "character": "All For One",
+   "actor": "Peter Sura",
+   "von": "ann"
+  },
+  {
+   "character": "Kōji Kōda/Anima",
+   "actor": "Marco Rosenberg",
+   "von": "ann"
+  },
+  {
+   "character": "Enji Todoroki/Endeavor",
+   "actor": "Marko Bräutigam",
+   "von": "ann"
+  },
+  {
+   "character": "Mezo Shoji/Tentacole",
+   "actor": "Oliver El-Fayoumy",
+   "von": "ann"
+  },
+  {
+   "character": "Keigo Takami/Hawks",
+   "actor": "Vlad Chiriac",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=23862"
+}

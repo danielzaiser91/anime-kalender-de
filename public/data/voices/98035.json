@@ -1,1 +1,222 @@
-{"titleId":98035,"updatedAt":"2026-08-11T11:20:03.376Z","roles":[{"character":"Astolfo","actor":"Katharina von Daake","role":"MAIN"},{"character":"Jeanne  d'Arc","actor":"Maresa Sedlmeir","role":"MAIN"},{"character":"Sieg","actor":"Maximilian Belle","role":"MAIN"},{"character":"Vlad III","actor":"Matthias Klie","role":"SUPPORTING"},{"character":"Kairi Shishigou","actor":"Thomas Wenke","role":"SUPPORTING"},{"character":"Chiron ","actor":"Max Felder","role":"SUPPORTING"},{"character":"Shirou Tokisada Amakusa ","actor":"Johannes Wolko","role":"SUPPORTING"},{"character":"Jack the Ripper","actor":"Leslie-Vanessa Lill","role":"SUPPORTING"},{"character":"Mordred Pendragon","actor":"Ilena Gwisdalla","role":"SUPPORTING"},{"character":"Kuro no Caster","actor":"Markus Pfeiffer","role":"SUPPORTING"},{"character":"Serge","actor":"Walter von Hauff","role":"SUPPORTING"},{"character":"Fiore Forvedge Yggdmillennia","actor":"Laura Maire","role":"SUPPORTING"},{"character":"William  Shakespeare","actor":"Thomas Albus","role":"SUPPORTING"},{"character":"Justeaze Lizrich von Einzbern","actor":"Bettina Zech","role":"SUPPORTING"},{"character":"Atalanta ","actor":"Janina Dietz","role":"SUPPORTING"},{"character":"Roche Frain Yggdmillennia","actor":"Paulina Rümmelein","role":"SUPPORTING"},{"character":"Caules Forvedge  Yggdmillennia","actor":"Domenic Redl","role":"SUPPORTING"},{"character":"Toole","actor":"Regina Beckhaus","role":"SUPPORTING"},{"character":"Karna ","actor":"Karim El Kammouchi","role":"SUPPORTING"},{"character":"Celenike Icecolle Yggdmillennia","actor":"Kathrin Gaube","role":"SUPPORTING"},{"character":"Waver Velvet","actor":"Manou Lubowski","role":"SUPPORTING"},{"character":"Gilles de Rais","actor":"Claus-Peter Damitz","role":"SUPPORTING"},{"character":"Gordes Musik Yggdmillennia","actor":"Thomas Rauscher","role":"SUPPORTING"}]}
+{
+ "titleId": 98035,
+ "updatedAt": "2026-08-15T18:40:51.731Z",
+ "roles": [
+  {
+   "character": "Astolfo",
+   "actor": "Katharina von Daake",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jeanne  d'Arc",
+   "actor": "Maresa Sedlmeir",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sieg",
+   "actor": "Maximilian Belle",
+   "role": "MAIN"
+  },
+  {
+   "character": "Vlad III",
+   "actor": "Matthias Klie",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kairi Shishigou",
+   "actor": "Thomas Wenke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chiron ",
+   "actor": "Max Felder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shirou Tokisada Amakusa ",
+   "actor": "Johannes Wolko",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jack the Ripper",
+   "actor": "Leslie-Vanessa Lill",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mordred Pendragon",
+   "actor": "Ilena Gwisdalla",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kuro no Caster",
+   "actor": "Markus Pfeiffer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Serge",
+   "actor": "Walter von Hauff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fiore Forvedge Yggdmillennia",
+   "actor": "Laura Maire",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "William  Shakespeare",
+   "actor": "Thomas Albus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Justeaze Lizrich von Einzbern",
+   "actor": "Bettina Zech",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Atalanta ",
+   "actor": "Janina Dietz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Roche Frain Yggdmillennia",
+   "actor": "Paulina Rümmelein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Caules Forvedge  Yggdmillennia",
+   "actor": "Domenic Redl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toole",
+   "actor": "Regina Beckhaus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Karna ",
+   "actor": "Karim El Kammouchi",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Celenike Icecolle Yggdmillennia",
+   "actor": "Kathrin Gaube",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Waver Velvet",
+   "actor": "Manou Lubowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gilles de Rais",
+   "actor": "Claus-Peter Damitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gordes Musik Yggdmillennia",
+   "actor": "Thomas Rauscher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Assassin of Red",
+   "actor": "Anke Kortemeier",
+   "von": "ann"
+  },
+  {
+   "character": "Lancer of Black",
+   "actor": "Matthias Klie",
+   "von": "ann"
+  },
+  {
+   "character": "Rider of Red",
+   "actor": "Benedikt Gutjan",
+   "von": "ann"
+  },
+  {
+   "character": "Caster of Black",
+   "actor": "Markus Pfeiffer",
+   "von": "ann"
+  },
+  {
+   "character": "Shirou Kotomine",
+   "actor": "Johannes Wolko",
+   "von": "ann"
+  },
+  {
+   "character": "Berserker of Black",
+   "actor": "Lara Wurmer",
+   "von": "ann"
+  },
+  {
+   "character": "Reika Rikudou",
+   "actor": "Jacqueline Belle",
+   "von": "ann"
+  },
+  {
+   "character": "Caster of Red",
+   "actor": "Thomas Albus",
+   "von": "ann"
+  },
+  {
+   "character": "Archer of Black",
+   "actor": "Max Felder",
+   "von": "ann"
+  },
+  {
+   "character": "Darnic Prestone Yggdmillennia",
+   "actor": "Patrick Roche",
+   "von": "ann"
+  },
+  {
+   "character": "Roche Icecolle Yggdmillennia",
+   "actor": "Paulina Bohlmann",
+   "von": "ann"
+  },
+  {
+   "character": "Saber of Red",
+   "actor": "Ilena Gwisdalla",
+   "von": "ann"
+  },
+  {
+   "character": "Ruler",
+   "actor": "Maresa Sedlmeir",
+   "von": "ann"
+  },
+  {
+   "character": "Lancer of Red",
+   "actor": "Karim El Kammouchi",
+   "von": "ann"
+  },
+  {
+   "character": "Assassin of Black",
+   "actor": "Leslie-Vanessa Lill",
+   "von": "ann"
+  },
+  {
+   "character": "Saber of Black",
+   "actor": "Sebastian Winkler",
+   "von": "ann"
+  },
+  {
+   "character": "Rider of Black",
+   "actor": "Katharina von Daake",
+   "von": "ann"
+  },
+  {
+   "character": "Caules Forvedge Yggdmillennia",
+   "actor": "Domenic Redl",
+   "von": "ann"
+  },
+  {
+   "character": "Archer of Red",
+   "actor": "Janina Dietz",
+   "von": "ann"
+  },
+  {
+   "character": "Berserker of Red",
+   "actor": "Alexander Wohnhaas",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=18983"
+}

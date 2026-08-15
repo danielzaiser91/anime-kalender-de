@@ -1,1 +1,92 @@
-{"titleId":107727,"updatedAt":"2026-08-11T11:20:03.501Z","roles":[{"character":"Haru","actor":"Kerstin Dietrich","role":"MAIN"},{"character":"Yuu","actor":"Tobias Kern","role":"MAIN"},{"character":"Asha","actor":"Janina Dietz","role":"SUPPORTING"},{"character":"Danba","actor":"Claudia Schmidt","role":"SUPPORTING"},{"character":"Kotona","actor":"Janina Dietz","role":"SUPPORTING"}]}
+{
+ "titleId": 107727,
+ "updatedAt": "2026-08-15T18:43:56.180Z",
+ "roles": [
+  {
+   "character": "Haru",
+   "actor": "Kerstin Dietrich",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuu",
+   "actor": "Tobias Kern",
+   "role": "MAIN"
+  },
+  {
+   "character": "Asha",
+   "actor": "Janina Dietz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Danba",
+   "actor": "Claudia Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kotona",
+   "actor": "Janina Dietz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Saki Mishima / Bertha",
+   "actor": "Angela Wiederhut",
+   "von": "ann"
+  },
+  {
+   "character": "Fidelius Astrum",
+   "actor": "Thomas Rauscher",
+   "von": "ann"
+  },
+  {
+   "character": "Galeroth Felgrimm",
+   "actor": "Dieter Memel",
+   "von": "ann"
+  },
+  {
+   "character": "Dandy",
+   "actor": "Claudia Schmidt",
+   "von": "ann"
+  },
+  {
+   "character": "Haru Ichihara",
+   "actor": "Maximilian Belle",
+   "von": "ann"
+  },
+  {
+   "character": "Old Man",
+   "actor": "Erich Ludwig",
+   "von": "ann"
+  },
+  {
+   "character": "Bauer Larden",
+   "actor": "Matthias Kupfer",
+   "von": "ann"
+  },
+  {
+   "character": "Yu Ninomiya",
+   "actor": "Tobias Kern",
+   "von": "ann"
+  },
+  {
+   "character": "Handy",
+   "actor": "Bettina Zech",
+   "von": "ann"
+  },
+  {
+   "character": "Gnauss Wisden",
+   "actor": "Oliver Scheffel",
+   "von": "ann"
+  },
+  {
+   "character": "Kotona Takashima / Astrid",
+   "actor": "Janina Dietz",
+   "von": "ann"
+  },
+  {
+   "character": "Barton Rosch",
+   "actor": "Alexander Wohnhaas",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=21794"
+}

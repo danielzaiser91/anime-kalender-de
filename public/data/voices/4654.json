@@ -1,1 +1,67 @@
-{"titleId":4654,"updatedAt":"2026-08-11T11:20:03.033Z","roles":[{"character":"Touma Kamijou","actor":"Maximilian Belle","role":"MAIN"},{"character":"Index Librorum Prohibitorum","actor":"Amira Leisner","role":"MAIN"},{"character":"Komoe Tsukuyomi","actor":"Mia Durakovic","role":"SUPPORTING"},{"character":"Stiyl Magnus","actor":"Xiduo Zhao","role":"SUPPORTING"},{"character":"Kaori Kanzaki","actor":"Angela Wiederhut","role":"SUPPORTING"},{"character":"Mikoto Misaka","actor":"Alina Freund","role":"SUPPORTING"}]}
+{
+ "titleId": 4654,
+ "updatedAt": "2026-08-15T18:32:15.745Z",
+ "roles": [
+  {
+   "character": "Touma Kamijou",
+   "actor": "Maximilian Belle",
+   "role": "MAIN"
+  },
+  {
+   "character": "Index Librorum Prohibitorum",
+   "actor": "Amira Leisner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Komoe Tsukuyomi",
+   "actor": "Mia Durakovic",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Stiyl Magnus",
+   "actor": "Xiduo Zhao",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaori Kanzaki",
+   "actor": "Angela Wiederhut",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mikoto Misaka",
+   "actor": "Alina Freund",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toma Kamijo",
+   "actor": "Maximilian Belle",
+   "von": "ann"
+  },
+  {
+   "character": "Motoharu Tsuchimikado",
+   "actor": "Benjamin Stolz",
+   "von": "ann"
+  },
+  {
+   "character": "Kuroko Shirai",
+   "actor": "Katharina von Daake",
+   "von": "ann"
+  },
+  {
+   "character": "Index",
+   "actor": "Amira Leisner",
+   "von": "ann"
+  },
+  {
+   "character": "Accelerator",
+   "actor": "Felix Mayer",
+   "von": "ann"
+  },
+  {
+   "character": "Komoe Tsukuyomi",
+   "actor": "Mia Duraković",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=10044"
+}

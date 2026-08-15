@@ -1,1 +1,62 @@
-{"titleId":9135,"updatedAt":"2026-08-11T11:20:03.089Z","roles":[{"character":"Julia Crichton","actor":"Jennifer Weiß","role":"MAIN"}]}
+{
+ "titleId": 9135,
+ "updatedAt": "2026-08-15T18:33:48.310Z",
+ "roles": [
+  {
+   "character": "Julia Crichton",
+   "actor": "Jennifer Weiß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Melvin Voyager",
+   "actor": "Christoph Banken",
+   "von": "ann"
+  },
+  {
+   "character": "Ashley Crichton",
+   "actor": "Jan Kurbjuweit",
+   "von": "ann"
+  },
+  {
+   "character": "Alex Louis Armstrong",
+   "actor": "Tino Kießling",
+   "von": "ann"
+  },
+  {
+   "character": "Riza Hawkeye",
+   "actor": "Claudia Galdy",
+   "von": "ann"
+  },
+  {
+   "character": "Roy Mustang",
+   "actor": "Steven Merting",
+   "von": "ann"
+  },
+  {
+   "character": "Alphonse Elric",
+   "actor": "Andi Krösing",
+   "von": "ann"
+  },
+  {
+   "character": "Wolf Chimera",
+   "actor": "Felix Würgler",
+   "von": "ann"
+  },
+  {
+   "character": "Edward Elric",
+   "actor": "Klemens Fuhrmann",
+   "von": "ann"
+  },
+  {
+   "character": "Winry Rockbell",
+   "actor": "Sarah Tkotsch",
+   "von": "ann"
+  },
+  {
+   "character": "Miranda",
+   "actor": "Elke Appelt",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=12180"
+}

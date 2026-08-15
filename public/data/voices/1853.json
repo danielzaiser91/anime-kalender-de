@@ -1,1 +1,87 @@
-{"titleId":1853,"updatedAt":"2026-08-11T11:20:02.947Z","roles":[{"character":"Seiji Hayami","actor":"Gerald Schaale","role":"MAIN"},{"character":"Honey Kisaragi","actor":"Gundi Eberhard","role":"MAIN"},{"character":"Seira Hazuki","actor":"Bianca Krahl","role":"SUPPORTING"},{"character":"Daemon Abashiri","actor":"Wolfgang Ostberg","role":"SUPPORTING"},{"character":"Prince Zera","actor":"David Nathan","role":"SUPPORTING"},{"character":"Tarantula Panther","actor":"Viktoria Voigt","role":"SUPPORTING"},{"character":"Panther Zora","actor":"Rita Engelmann","role":"SUPPORTING"},{"character":"Takeshi Kisaragi","actor":"Hubertus Bengsch","role":"SUPPORTING"},{"character":"Natsuko Aki","actor":"Ghadah Al-Akel","role":"SUPPORTING"},{"character":"Miharu Tsuneni","actor":"Heike Schroetter","role":"SUPPORTING"},{"character":"Sister Jill","actor":"Peggy Sander","role":"SUPPORTING"}]}
+{
+ "titleId": 1853,
+ "updatedAt": "2026-08-15T18:29:43.681Z",
+ "roles": [
+  {
+   "character": "Seiji Hayami",
+   "actor": "Gerald Schaale",
+   "role": "MAIN"
+  },
+  {
+   "character": "Honey Kisaragi",
+   "actor": "Gundi Eberhard",
+   "role": "MAIN"
+  },
+  {
+   "character": "Seira Hazuki",
+   "actor": "Bianca Krahl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Daemon Abashiri",
+   "actor": "Wolfgang Ostberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Prince Zera",
+   "actor": "David Nathan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tarantula Panther",
+   "actor": "Viktoria Voigt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Panther Zora",
+   "actor": "Rita Engelmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takeshi Kisaragi",
+   "actor": "Hubertus Bengsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Natsuko Aki",
+   "actor": "Ghadah Al-Akel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miharu Tsuneni",
+   "actor": "Heike Schroetter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sister Jill",
+   "actor": "Peggy Sander",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Prince Twilight",
+   "actor": "David Nathan",
+   "von": "ann"
+  },
+  {
+   "character": "Schuldirektor Danbei",
+   "actor": "Wolfgang Ostberg",
+   "von": "ann"
+  },
+  {
+   "character": "Lehrerin Miharu",
+   "actor": "Heike Schroetter",
+   "von": "ann"
+  },
+  {
+   "character": "Honey Kisaragi / Cutey Honey",
+   "actor": "Gundi Eberhard",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Takeshi Kisaragi",
+   "actor": "Hubertus Bengsch",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=565"
+}

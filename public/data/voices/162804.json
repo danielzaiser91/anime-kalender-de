@@ -1,1 +1,57 @@
-{"titleId":162804,"updatedAt":"2026-08-11T11:20:03.684Z","roles":[{"character":"Alisa Kujou","actor":"Lisa Dzyadyk","role":"MAIN"},{"character":"Masachika Kuze","actor":"Christian Zeiger","role":"MAIN"},{"character":"Yuki Suou","actor":"Lisa May-Mitsching","role":"SUPPORTING"},{"character":"Mariya Kujou","actor":"Gabrielle Pietermann","role":"SUPPORTING"},{"character":"Takeshi Maruyama","actor":"Oliver Szerkus","role":"SUPPORTING"},{"character":"Hikaru Kiyomiya","actor":"Tom Ferenc","role":"SUPPORTING"}]}
+{
+ "titleId": 162804,
+ "updatedAt": "2026-08-15T18:49:17.974Z",
+ "roles": [
+  {
+   "character": "Alisa Kujou",
+   "actor": "Lisa Dzyadyk",
+   "role": "MAIN"
+  },
+  {
+   "character": "Masachika Kuze",
+   "actor": "Christian Zeiger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuki Suou",
+   "actor": "Lisa May-Mitsching",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mariya Kujou",
+   "actor": "Gabrielle Pietermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takeshi Maruyama",
+   "actor": "Oliver Szerkus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hikaru Kiyomiya",
+   "actor": "Tom Ferenc",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maria 'Masha' Mikhailovna Kujō",
+   "actor": "Gabrielle Pietermann",
+   "von": "ann"
+  },
+  {
+   "character": "Alisa 'Alya' Mikhailovna Kujō",
+   "actor": "Lisa Dzyadyk",
+   "von": "ann"
+  },
+  {
+   "character": "Hikaru Kiomiya",
+   "actor": "Tom Ferenc",
+   "von": "ann"
+  },
+  {
+   "character": "Yuki Suō",
+   "actor": "Lisa May-Mitsching",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=27443"
+}

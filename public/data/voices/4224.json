@@ -1,1 +1,127 @@
-{"titleId":4224,"updatedAt":"2026-08-11T11:20:03.026Z","roles":[{"character":"Taiga Aisaka","actor":"Luisa Wietzorek","role":"MAIN"},{"character":"Minori Kushieda","actor":"Moira May","role":"MAIN"},{"character":"Yuusaku Kitamura","actor":"Konrad Bösherz","role":"MAIN"},{"character":"Ami Kawashima","actor":"Magdalena Turba","role":"MAIN"},{"character":"Ryuuji Takasu","actor":"Ozan Ünal","role":"MAIN"},{"character":"Kouji Haruta","actor":"Marcel Mann","role":"SUPPORTING"},{"character":"Yuu Aisaka","actor":"Antje Thiele","role":"SUPPORTING"},{"character":"Maya Kihara","actor":"Lisa May-Mitsching","role":"SUPPORTING"},{"character":"Hisamitsu Noto","actor":"Christopher Kohn","role":"SUPPORTING"},{"character":"Yuri Koigakubo","actor":"Jasmin Arnoldt","role":"SUPPORTING"},{"character":"Sumire Kanou","actor":"Marieke Oeffinger","role":"SUPPORTING"},{"character":"Nanako Kashii","actor":"Maria Hönig","role":"SUPPORTING"},{"character":"Yasuko Takasu","actor":"Anita Hopt","role":"SUPPORTING"},{"character":"Rikurou Aisaka","actor":"Julien Haggege","role":"SUPPORTING"},{"character":"Inko-chan","actor":"Santiago Ziesmer","role":"SUPPORTING"},{"character":"Sakura Kanou","actor":"Heide Ihlenfeld","role":"SUPPORTING"},{"character":"Seiji Takasu","actor":"Uwe Jellinek","role":"SUPPORTING"},{"character":"Kouta Tomiie","actor":"Fabian Kluckert","role":"SUPPORTING"},{"character":"Sonoko Takasu","actor":"Gabriele Schramm-Philipp","role":"SUPPORTING"}]}
+{
+ "titleId": 4224,
+ "updatedAt": "2026-08-15T18:32:10.213Z",
+ "roles": [
+  {
+   "character": "Taiga Aisaka",
+   "actor": "Luisa Wietzorek",
+   "role": "MAIN"
+  },
+  {
+   "character": "Minori Kushieda",
+   "actor": "Moira May",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuusaku Kitamura",
+   "actor": "Konrad Bösherz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ami Kawashima",
+   "actor": "Magdalena Turba",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ryuuji Takasu",
+   "actor": "Ozan Ünal",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kouji Haruta",
+   "actor": "Marcel Mann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuu Aisaka",
+   "actor": "Antje Thiele",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maya Kihara",
+   "actor": "Lisa May-Mitsching",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hisamitsu Noto",
+   "actor": "Christopher Kohn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuri Koigakubo",
+   "actor": "Jasmin Arnoldt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sumire Kanou",
+   "actor": "Marieke Oeffinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nanako Kashii",
+   "actor": "Maria Hönig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yasuko Takasu",
+   "actor": "Anita Hopt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rikurou Aisaka",
+   "actor": "Julien Haggege",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Inko-chan",
+   "actor": "Santiago Ziesmer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sakura Kanou",
+   "actor": "Heide Ihlenfeld",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seiji Takasu",
+   "actor": "Uwe Jellinek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kouta Tomiie",
+   "actor": "Fabian Kluckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sonoko Takasu",
+   "actor": "Gabriele Schramm-Philipp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yusaku Kitamura",
+   "actor": "Konrad Bösherz",
+   "von": "ann"
+  },
+  {
+   "character": "Sumire Kano",
+   "actor": "Marieke Oeffinger",
+   "von": "ann"
+  },
+  {
+   "character": "Inko",
+   "actor": "Santiago Ziesmer",
+   "von": "ann"
+  },
+  {
+   "character": "Ryuuji Takau",
+   "actor": "Ozan Ünal",
+   "von": "ann"
+  },
+  {
+   "character": "Maya Kihara",
+   "actor": "Lisa Mitsching",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=10050"
+}
