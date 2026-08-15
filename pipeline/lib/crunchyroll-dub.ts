@@ -49,30 +49,42 @@ export interface Urteil {
 /**
  * Beurteilt die Einträge, die auf **eine** Crunchyroll-Adresse zeigen.
  *
- * Vier Fälle, streng nach abnehmender Sicherheit:
+ * Drei Fälle, streng nach abnehmender Sicherheit:
  *
- * 1. **Keine deutsche Tonspur auf der ganzen Seite.** Dann hat keiner unserer
- *    Einträge dort eine — ohne jede Zuordnung. Das ist der häufigste Fall und
- *    der sicherste: Es wird nur widerlegt, nie behauptet.
- * 2. **Kein einziger Block enthält eine deutsche Folge.** Dasselbe Ergebnis auf
- *    anderem Weg; kommt vor, wenn die Audio-Zeile Deutsch führt, aber nur wegen
- *    eines Trailers oder einer Folge, die inzwischen weg ist.
- * 3. **Jeder Block ist vollständig deutsch.** Dann ist jeder unserer Einträge
- *    deutsch, egal wie die Blöcke geschnitten sind — auch hier ohne Zuordnung.
- * 4. **Gemischt.** Erst hier wird gerechnet, und nur mit exakt aufgehenden
+ * 1. **Kein einziger Block enthält eine deutsche Folge.** Die Audio-Zeile führt
+ *    Deutsch, die Folgenliste aber nicht — das kommt vor, wenn Deutsch nur an
+ *    einem Trailer hängt oder an einer Folge, die inzwischen weg ist.
+ * 2. **Jeder Block ist vollständig deutsch.** Dann ist jeder unserer Einträge
+ *    deutsch, egal wie die Blöcke geschnitten sind — ohne jede Zuordnung.
+ * 3. **Gemischt.** Erst hier wird gerechnet, und nur mit exakt aufgehenden
  *    Summen (dieselbe Regel wie bei ADN). Geht sie nicht auf, bleibt alles
  *    offen. Lieber ein Fragezeichen als eine falsche Zahl.
+ *
+ * ## Warum „keine deutsche Tonspur auf der Seite" **kein** Fall mehr ist
+ *
+ * Bis zum 15.08.2026 stand hier ein vierter, vorgeblich sicherster Fall: Fehlt
+ * „Deutsch" in der Audio-Zeile, bekamen alle Einträge dieser Adresse `dub:
+ * false` — mit der Begründung, es werde ja „nur widerlegt, nie behauptet".
+ *
+ * Diese Begründung ist falsch, und zwar aus einem Grund, der beim Schreiben
+ * übersehen wurde: **Crunchyroll zeigt nicht allen dasselbe.** Nicht angemeldet,
+ * angemeldet ohne Abo und angemeldet mit Abo sind drei verschiedene Ansichten
+ * (Daniel, 15.08.2026). Unser Scraper ruft ohne Anmeldung ab und sieht damit
+ * nicht, *was es gibt*, sondern *was ein Gast sehen darf*. Ein fehlendes
+ * „Deutsch" ist unter dieser Bedingung keine Widerlegung, sondern eine
+ * Nichtauskunft — und `dub: false` daraus zu machen ist genau die Sorte
+ * Falschangabe, gegen die dieses Projekt gebaut ist.
+ *
+ * Der Messwert passte dazu: Der Lauf vom 12./13.08.2026 fand auf nur **151 von
+ * 917** Seiten überhaupt Deutsch und führte „Frieren: Beyond Journey's End" als
+ * Seite ohne deutsche Tonspur.
+ *
+ * Ein `false` kann jetzt nur noch aus der **Folgenliste** kommen (Fall 1 und 3)
+ * — oder von einem Menschen aus `data/dub-confirmed.yaml`.
  */
 export function beurteile(serie: CrSerie, unsere: Title[]): Urteil[] {
   if (!unsere.length) return []
-
-  if (!serie.deutschImAngebot) {
-    return unsere.map((t) => ({
-      titleId: t.id,
-      dub: false,
-      grund: 'Serienseite führt keine deutsche Tonspur',
-    }))
-  }
+  if (!serie.deutschImAngebot) return []
 
   const staffeln = serie.staffeln ?? []
   if (!staffeln.length) return []

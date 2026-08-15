@@ -212,13 +212,25 @@ console.log('\nCrunchyroll: fremde Staffelfehler nicht nachbauen:')
 {
   const t = (id: number, episodes: number, jahr: number): Title => titel(id, `T${id}`, episodes, jahr, 'SUMMER')
 
-  // 1) Keine deutsche Tonspur auf der Seite — beide Einträge sicher „nein",
-  //    ganz ohne Zuordnung.
+  /**
+   * 1) Keine deutsche Tonspur in der Audio-Zeile — **kein** Urteil.
+   *
+   * Diese Zusicherung stand bis zum 15.08.2026 genau andersherum („beide
+   * false") und hat die falsche Regel nicht etwa verhindert, sondern
+   * festgeschrieben. Der Denkfehler: Ein Abruf ohne Anmeldung sieht bei
+   * Crunchyroll nicht, was es gibt, sondern was ein Gast sehen darf — nicht
+   * angemeldet, angemeldet ohne Abo und mit Abo sind drei Ansichten (Daniel,
+   * 15.08.2026). 975 Einträge trugen daraufhin ein `dub: false`, das nichts
+   * belegte, darunter Frieren.
+   *
+   * Sie steht jetzt in der Gegenrichtung und bewacht denselben Fehler von der
+   * anderen Seite: Wer die alte Bequemlichkeit wieder einbaut, fällt hier auf.
+   */
   const ohne = beurteile({ url: 'u', deutschImAngebot: false, geprueftAm: '2026-08-12' }, [
     t(1, 12, 2020),
     t(2, 12, 2021),
   ])
-  pruefe('ohne deutsche Tonspur: beide false', ohne.length === 2 && ohne.every((u) => !u.dub), ohne)
+  pruefe('Gast-Ansicht ohne Deutsch belegt nichts: kein Urteil', ohne.length === 0, ohne)
 
   // 2) Alles vollständig deutsch — beide „ja", ebenfalls ohne Zuordnung.
   const voll = beurteile(

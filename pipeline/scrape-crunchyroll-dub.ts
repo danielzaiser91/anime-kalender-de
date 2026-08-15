@@ -46,6 +46,7 @@ import { chromium, type Page } from 'playwright'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import type { Title } from '../shared/types.ts'
+import { addDays, todayIso } from '../shared/time.ts'
 import type { CrSerie, CrStaffel } from './lib/crunchyroll-dub.ts'
 
 const CHROME =
@@ -60,6 +61,20 @@ const LIMIT = zahl('--limit', 0)
 const NUR = args.indexOf('--nur') >= 0 ? args[args.indexOf('--nur') + 1] : undefined
 /** Ignoriert den vorhandenen Stand und holt alles neu. */
 const NEU = args.includes('--neu')
+/**
+ * Ab wann eine gelesene Seite erneut drankommt.
+ *
+ * Der Grund für die Wiedervorlage: Bis zum 15.08.2026 entstand die
+ * Kandidatenliste aus `stream.dub === undefined` — also aus „noch nie
+ * beantwortet". Was einmal als `false` im Datensatz stand, fiel damit dauerhaft
+ * aus der Warteschlange, und ein Falschnegativ konnte sich nie mehr korrigieren.
+ * Genau das ist der wahrscheinlichere Fall, seit klar ist, dass Crunchyroll
+ * Gästen weniger zeigt als Angemeldeten.
+ *
+ * Vier Wochen sind ein Kompromiss: Eine Synchro erscheint nicht wöchentlich neu,
+ * und 917 Seiten wöchentlich zu holen wäre Last ohne Gegenwert.
+ */
+const WIEDERVORLAGE_TAGE = zahl('--alter', 28)
 
 /** Was auf einer Folgenkachel steht. */
 type Tonspur = 'deutsch' | 'fremd' | 'keine'
@@ -238,10 +253,19 @@ async function serieLesen(page: Page, url: string): Promise<CrSerie> {
 
 async function main(): Promise<void> {
   const titles = readJson<Title[]>('public/data/titles.json', [])
+  /**
+   * **Alle** Crunchyroll-Adressen, nicht nur die unbeantworteten.
+   *
+   * Vorher stand hier `s.dub === undefined`. Das klang sparsam und war eine
+   * Einbahnstraße: Eine Adresse, die einmal ein `false` erzeugt hatte, kam nie
+   * wieder vor — die Antwort verhinderte ihre eigene Überprüfung. Aussortiert
+   * wird jetzt weiter unten nach dem **Alter** der letzten Prüfung, und das ist
+   * ein Kriterium, das sich von selbst wieder öffnet.
+   */
   const offen = new Set<string>()
   for (const t of titles) {
     for (const s of t.streams) {
-      if (s.platform === 'crunchyroll' && s.dub === undefined) offen.add(s.url)
+      if (s.platform === 'crunchyroll') offen.add(s.url)
     }
   }
   let adressen = [...offen].sort()
@@ -260,12 +284,18 @@ async function main(): Promise<void> {
   const bestand = new Map<string, CrSerie>(
     NEU ? [] : readJson<{ serien: CrSerie[] }>('data/crunchyroll-dub.json', { serien: [] }).serien.map((s) => [s.url, s]),
   )
-  const schonDa = adressen.filter((u) => bestand.has(u)).length
-  adressen = adressen.filter((u) => !bestand.has(u))
+  // Frisch genug ist, was innerhalb der Wiedervorlagefrist gelesen wurde.
+  const grenze = addDays(todayIso(), -WIEDERVORLAGE_TAGE)
+  const frisch = (u: string) => {
+    const s = bestand.get(u)
+    return s ? s.geprueftAm >= grenze : false
+  }
+  const schonDa = adressen.filter(frisch).length
+  adressen = adressen.filter((u) => !frisch(u))
   if (LIMIT > 0) adressen = adressen.slice(0, LIMIT)
   log(
     `Crunchyroll: ${adressen.length} Serienadressen offen` +
-      (schonDa ? ` (${schonDa} bereits gelesen, werden übersprungen)` : ''),
+      (schonDa ? ` (${schonDa} in den letzten ${WIEDERVORLAGE_TAGE} Tagen gelesen, werden übersprungen)` : ''),
   )
   if (!adressen.length) {
     log('Nichts zu tun.')

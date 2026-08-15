@@ -854,12 +854,23 @@ function main(): void {
 
   // --- Titel aufbauen -------------------------------------------------------
   const titles = new Map<number, Title>()
+  /**
+   * Beginn der japanischen Ausstrahlung, nur für den Bau.
+   *
+   * Bewusst **nicht** in `Title`: Das Feld beantwortet genau eine Frage im
+   * Build („lief das in Japan schon?") und wäre in `titles.json` bei 2.750
+   * Einträgen Ladelast ohne Gegenwert — die Oberfläche zeigt das japanische
+   * Startdatum nirgends.
+   */
+  const jpStart = new Map<number, string>()
 
   for (const [malId, media] of Object.entries(byMal)) {
     if (!media?.id) continue
     if (media.isAdult) continue
     const confidence = confidenceRaw[malId] ?? 'low'
     titles.set(media.id, titleFromMedia(media, confidence))
+    const start = isoDate(media.startDate)
+    if (start) jpStart.set(media.id, start)
   }
 
   // Kuratierte Titel können auf AniList-Einträge zeigen, die nicht über MyDubList kamen.
@@ -867,6 +878,8 @@ function main(): void {
     if (!media?.id || titles.has(media.id)) continue
     const confidence = media.idMal ? (confidenceRaw[media.idMal] ?? 'normal') : 'normal'
     titles.set(media.id, titleFromMedia(media, confidence))
+    const start = isoDate(media.startDate)
+    if (start) jpStart.set(media.id, start)
   }
 
   // --- Reihen zusammenführen -------------------------------------------------
@@ -1728,6 +1741,42 @@ function main(): void {
     console.error(`\n${pruefung.fehler.length} Widersprüche im erzeugten Datensatz — nichts geschrieben.`)
     process.exit(1)
   }
+
+  /**
+   * Titel, deren japanische Ausstrahlung noch gar nicht begonnen hat, gehören
+   * hinter den Toggle „Anime ohne deutsche Synchro".
+   *
+   * Daniels Begründung ist zwingend (15.08.2026): „wenn nichtmal jap release,
+   * dann logischerweise kein de release." Eine deutsche Synchro entsteht aus
+   * einer japanischen Fassung; gibt es die noch nicht, kann es die Synchro auch
+   * nicht geben. Was MyDubList dazu führt, ist dann eine **Ankündigung**, und
+   * die im selben Topf mit erschienenen Synchros zu führen macht aus einer
+   * Ankündigung eine Tatsache.
+   *
+   * Der Filter ist bewusst grob — das ist er auch in Daniels Auswahl gewesen.
+   * Die schärfere Regel („mindestens eine Folge auf Deutsch erschienen") setzt
+   * eine verlässliche Synchro-Erkennung voraus, und die ist es gerade nicht:
+   * Crunchyroll zeigt Gästen weniger als Angemeldeten, siehe CLAUDE.md. Eine
+   * scharfe Regel auf unscharfen Daten würde Titel verstecken, die längst
+   * synchronisiert sind.
+   *
+   * Verloren geht dabei nichts: Die Titel stehen weiter in `ohne-synchro.json`,
+   * sind über den Toggle auffindbar, lassen sich merken, und der Newsletter
+   * meldet sich, sobald eine Synchro belegt ist.
+   */
+  const mitRelease = new Set(releases.map((r) => r.titleId))
+  const heuteIso = todayIso()
+  let nochNichtGelaufen = 0
+  for (const id of [...titles.keys()]) {
+    if (mitRelease.has(id)) continue
+    // Ohne bekanntes Startdatum wird nichts entfernt — Unwissen ist kein Beleg.
+    const start = jpStart.get(id)
+    if (!start || start <= heuteIso) continue
+    titles.delete(id)
+    nochNichtGelaufen++
+  }
+  if (nochNichtGelaufen)
+    log(`${nochNichtGelaufen} Titel hinter den Toggle verschoben: japanische Ausstrahlung steht noch aus`)
 
   // --- Meta -----------------------------------------------------------------
   const allTitles = [...titles.values()]
