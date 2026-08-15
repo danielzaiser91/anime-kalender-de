@@ -27,6 +27,10 @@ CREATE TABLE IF NOT EXISTS subscribers (
   restore_token TEXT,
   restore_expires TEXT,
   restore_sent_at TEXT,
+  -- Befristeter Abgleich-Link für die Newsletter-Mails — siehe migrations/005.
+  -- Der `pref_token` darf seit dem 14.08.2026 keine Mail mehr verlassen.
+  sync_token TEXT,
+  sync_expires TEXT,
   favorites_at TEXT,
   created_at   TEXT NOT NULL,
   created_ip   TEXT,

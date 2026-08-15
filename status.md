@@ -15,7 +15,6 @@ _(leer)_
 | **`pref_token` ist unbefristet — entschärfen** | 2 | Der Abgleich-Schlüssel steht in **jeder** Newsletter-Mail und gilt ewig. Wer eine weitergeleitete Mail sieht oder einen Screenshot davon, kann die Favoriten dieses Abos dauerhaft ändern. Dieselbe Schwäche wie die am 14.08.2026 geschlossene Übernahme-Lücke, nur leiser. Daniel hatte am 14.08. die Wahl „erst den pref_token entschärfen" — er wählte den Magic Link zuerst; das hier bleibt offen. Entwurf: kurzlebiger Schlüssel je Mail, oder der Abgleich läuft künftig über denselben Einmal-Link wie die Wiederherstellung |
 | **Prüfliste „Wo läuft es" abarbeiten** (Dauerauftrag) | — | 1.732 Anbieter-Verweise ohne belegte Synchro, Liste: `data/dub-pruefliste.md`, erzeugt mit `npm run data:dub-checks`. Daniel arbeitet sie in Zehnerschritten ab; ich lege den Batch vor, er meldet je Nummer ja/nein, ich trage es in `data/dub-confirmed.yaml` ein und baue neu. **Stand: Batch 1 bis 3 ausgewertet, 65 Prüfungen eingetragen — 33 Angaben belegt, 32 tote Verweise entfernt.** Crunchyroll ist seit 13.08.2026 weitgehend maschinell belegt (234 ja / 988 nein / **25 offen**); die Handarbeit verteilt sich jetzt auf Netflix (727), YouTube (528) und Prime Video (219) — Anbieter, die die Sprachfassung nirgends öffentlich nennen. Kurzschrift der Antworten (`1`/`0`/`x`, mehrere je Zeile mit Punkt) steht im Kopf der Liste und in der `CLAUDE.md`. Je Batch kurz sagen, woher der Verweis stammt und warum er unsicher ist |
 | ~~News-Quellen für Sendepausen~~ — **Filter gebaut, Rest verworfen** | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
-| **Inazuma Eleven S1: aniSearchs 25.09. aufklären** | 1 | **Wartet auf eine Quelle, die es noch nicht gibt** — kein offener Arbeitsauftrag. Unser **04.09.2026** ist belegt: Der Anime2You-Artikel „24 Blu-ray-Termine verschoben" (31.07.2026) nennt Inazuma Eleven ausdrücklich, verschoben vom 14.08. auf den 04.09. aniSearch führt **25.09.** — weder der alte noch der neue Termin. **Am 13.08.2026 fünf Händler geprüft, keiner nennt einen Tag:** jpc kennt den Titel nicht, Akiba Pass nicht, Anime Planet nicht (auch nicht unter Neuheiten/Vorbestellungen), Amazon antwortete mit HTTP 503, und der Verlag selbst (animoon-publishing.de, Vorbestellung offen, 64,99 €) schreibt nur „September 26" **ohne Tag**. Ebenfalls erledigt: Es sind nicht zwei Label — aniSearch führt als Publisher ebenfalls AniMoon, nicht Kazé. **Wiedervorlage, sobald ein Händler einen konkreten Liefertag nennt.** Bis dahin bleibt unser Termin stehen, weil er der einzige belegte ist |
 
 
 ### Terminiert (läuft von allein)
@@ -164,6 +163,17 @@ verschoben, Best-of, Recap.
   abgenommen.
 
 ## Archiv
+
+- 📌 **Datenlage Inazuma Eleven S1 — kein offener Punkt, sondern der Normalzustand.**
+  Unser **04.09.2026** ist belegt (Anime2You, „24 Blu-ray-Termine verschoben", 31.07.2026,
+  verschoben vom 14.08.). aniSearch führt den **25.09.**, AniMoon selbst nur „September 26"
+  ohne Tag; am 13.08.2026 fünf Händler geprüft, keiner nennt einen Liefertag. Der
+  Zweitkandidat steht über `disputedDates` im Detail-Panel, verlinkt und als unsicher
+  gekennzeichnet — damit ist die Sache abgeschlossen.
+  **Nicht mehr im Footer zählen** (Daniel, 14.08.2026): Auf künftige Terminangaben zu warten
+  ist die tägliche Arbeit dieses Projekts und kein Rückstand. Ein Punkt entsteht daraus erst
+  wieder, wenn eine Quelle etwas Neues sagt — und das meldet der Datenlauf von selbst.
+
 
 - ✅ **Favoriten gehen nicht mehr verloren** (14.08.2026, live). Gemerkte Titel lagen nur im
   Browser: Browserdaten gelöscht, Gerät gewechselt, neues Handy — weg. iOS-Safari räumt den

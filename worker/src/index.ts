@@ -314,6 +314,42 @@ async function handleRestore(request: Request, env: Env): Promise<Response> {
 }
 
 /**
+ * Löst den befristeten Abgleich-Link aus einer Newsletter-Mail ein.
+ *
+ * Bis zum 14.08.2026 stand der `pref_token` **selbst** in jeder Mail. Er gilt
+ * unbefristet — wer jemals eine weitergeleitete Mail sah oder einen Screenshot
+ * davon, konnte die gemerkten Titel dieses Abos dauerhaft ändern, Monate
+ * später noch.
+ *
+ * Jetzt verlässt der Dauerschlüssel den Server nicht mehr. In der Mail steht
+ * ein eigener, nach dreißig Tagen verfallender Schlüssel; erst sein Einlösen
+ * übergibt den `pref_token` an den Browser. Anders als beim Wiederherstellen
+ * wird er **nicht** sofort entwertet: Dieselbe Mail auf zwei Geräten zu öffnen
+ * ist ein normaler Vorgang, kein Angriff.
+ */
+async function handleSync(request: Request, env: Env): Promise<Response> {
+  const token = (new URL(request.url).searchParams.get('token') ?? '').trim()
+  if (!token) return page('Link nicht gültig', 'Dieser Link ist unvollständig.', env.SITE_URL)
+
+  const row = await env.DB.prepare(
+    "SELECT id, pref_token, sync_expires FROM subscribers WHERE sync_token = ?1 AND status = 'active'",
+  )
+    .bind(token)
+    .first<{ id: string; pref_token: string; sync_expires: string | null }>()
+
+  if (!row || !row.sync_expires || Date.parse(row.sync_expires) < Date.now()) {
+    return page(
+      'Link abgelaufen',
+      'Abgleich-Links aus dem Newsletter gelten dreißig Tage. Nimm den Link aus einer neueren Mail — oder fordere auf der Newsletter-Seite unter „Favoriten verloren?" einen neuen an.',
+      env.SITE_URL,
+    )
+  }
+
+  const schluessel = await sichereSchluessel(env, row.id, row.pref_token)
+  return Response.redirect(`${env.SITE_URL.replace(/\/$/, '')}/#/newsletter?sync=${schluessel}`, 302)
+}
+
+/**
  * Der Klick aus der Mail: Einmal-Link einlösen und zurück auf die Seite.
  *
  * Der Schlüssel wird sofort entwertet — ein zweiter Klick, etwa aus dem
@@ -626,9 +662,19 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
 
       const base = (env.WORKER_URL || '').replace(/\/$/, '')
       const unsubUrl = `${base}/unsubscribe?token=${sub.unsub_token}`
-      const syncUrl = sub.pref_token
-        ? `${env.SITE_URL.replace(/\/$/, '')}/#/newsletter?sync=${sub.pref_token}`
-        : undefined
+      /**
+       * Befristeter Abgleich-Link statt des Dauerschlüssels.
+       *
+       * Der `pref_token` verlässt den Server nicht mehr (siehe `handleSync`).
+       * Je Versand entsteht ein neuer, dreißig Tage gültiger Schlüssel — eine
+       * drei Monate alte weitergeleitete Mail führt damit ins Leere, eine
+       * gestern empfangene funktioniert.
+       */
+      const syncToken = crypto.randomUUID()
+      await env.DB.prepare('UPDATE subscribers SET sync_token = ?1, sync_expires = ?2 WHERE id = ?3')
+        .bind(syncToken, new Date(now.getTime() + 30 * 24 * 60 * 60_000).toISOString(), sub.id)
+        .run()
+      const syncUrl = `${base}/sync?token=${syncToken}`
       const mail = digestMail(events, frequency, env.SITE_URL, unsubUrl, {
         favorites,
         syncUrl,
@@ -853,6 +899,8 @@ export default {
         return handleRestore(request, env)
       case '/restore/confirm':
         return handleRestoreConfirm(request, env)
+      case '/sync':
+        return handleSync(request, env)
       case '/debug/digest': {
         // Versand von Hand auslösen, ohne bis 07:00 zu warten. Nur mit dem
         // Secret DEBUG_TOKEN erreichbar; ohne gesetztes Secret abgeschaltet.
