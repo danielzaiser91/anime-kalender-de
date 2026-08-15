@@ -181,11 +181,30 @@ verschiedene, und genau ihre Vermischung war der Fehler bei Crunchyroll.
   verschiedene Ansichten je nach Anmeldestatus; ein Direktabruf am 15.08. lief zusätzlich in die
   Bot-Sperre (313 Zeichen Seiteninhalt).
 
-- **JustWatch** — verworfen (15.08.2026, nachgeprüft in der Doku selbst). Die Partner-API führt
-  auf Angebotsebene zwar `audioLanguage` und `subtitleLanguage`, **beide sind in sämtlichen
-  Beispielen der Dokumentation leere Zeichenketten**. JustWatch beantwortet „wo läuft es", nicht
-  „in welcher Sprache". Dazu: Zugang nur mit Partnervertrag und Partner-Token, und für die
-  inoffiziellen Endpunkte untersagt JustWatch die kommerzielle Nutzung.
+- **JustWatch** — für die Synchro-Frage verworfen, für die **Termin**-Frage der aussichtsreichste
+  offene Kandidat (15.08.2026, Doku vollständig gelesen).
+
+  Verworfen für Tonspuren: Das dokumentierte Offer-Objekt führt `monetization_type`,
+  `provider_id`, `presentation_type` (nur `sd`/`hd`), `date_created`, `retail_price`, `currency`
+  und `urls` — **kein Feld für die Tonspur**. `audioLanguage`/`subtitleLanguage` tauchen nur in
+  kodierten Adressparametern auf und sind in allen Beispielen leer. `original_language` ist die
+  Produktionssprache, bei Anime also Japanisch.
+
+  Interessant ist etwas anderes: Für noch nicht verfügbare Titel liefert die API statt `offers`
+  ein `upcoming`-Feld mit `release_window_from`, `release_window_to`, `release_type`, `country`
+  und `provider_id`. Das ist genau unsere Kalenderfrage für Netflix, Prime Video und Disney+ —
+  die Anbieter, für die Anime2You bisher unsere **einzige** Quelle ist. Ein Zeitfenster statt
+  eines Tages passt außerdem zu unserem Umgang mit Unsicherheit.
+
+  Zwei weitere Passgenauigkeiten: `id_type` akzeptiert `tmdb`, und TMDB-Kennungen haben wir
+  bereits — die Zuordnung wäre ohne Titelraten. Und Serien lassen sich je `season_number`
+  abfragen, also in unserer Staffel-Granularität.
+
+  Preis: Zugang nur mit **Partnervertrag** und Partner-Token, und jede Einbindung muss „branded
+  links to the JustWatch website" zeigen. Letzteres ist mit diesem Projekt vereinbar (wir
+  verlinken Quellen ohnehin, und es ist unkommerziell) — der Vertrag ist eine Entscheidung, die
+  Daniel treffen muss. Die inoffiziellen Endpunkte scheiden aus: JustWatch untersagt dort die
+  kommerzielle Nutzung, und sie sind ungeschützt gegen Änderungen.
   Quelle: <https://apis.justwatch.com/docs/api/>
 - **TMDB `watch/providers`** — verworfen. Die Antwort enthält je Anbieter nur `provider_id`,
   `provider_name`, `logo_path`, `display_priority` und die Verfügbarkeitsart (`flatrate`, `rent`,
