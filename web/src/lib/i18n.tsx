@@ -35,7 +35,10 @@ const TEXTE = {
   'view.abo': 'Kalender-Abo',
   'view.newsletter': 'Newsletter',
   // Steht im Hovertext des Newsletter-Knopfes, sobald ein Abo hinterlegt ist.
-  'news.connectedAs': 'Newsletter aktiv für {mail}',
+  'news.connectedAs': 'Browser ist verbunden mit folgender Newsletter-E-Mail-Adresse: {mail}',
+  // Fällt an, solange die Adresse noch nicht im Browser liegt: Wer vor dem
+  // 15.08.2026 verbunden hat, bekommt sie erst beim nächsten Abgleich.
+  'news.connectedNoMail': 'Browser ist mit einem Newsletter-Abo verbunden.',
   'view.impressum': 'Impressum',
   'view.datenschutz': 'Datenschutz',
 

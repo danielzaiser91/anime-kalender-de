@@ -122,9 +122,11 @@ export function Header({
             */}
             <Tooltip
               text={
-                verbindung.verbunden
-                  ? t('news.connectedAs', { mail: verbindung.mail ?? '' })
-                  : t('view.newsletter')
+                !verbindung.verbunden
+                  ? t('view.newsletter')
+                  : verbindung.mail
+                    ? t('news.connectedAs', { mail: verbindung.mail })
+                    : t('news.connectedNoMail')
               }
             >
               <button
