@@ -182,9 +182,9 @@ const TEXTE = {
   // Vorgabe (15.08.2026): Der Text soll sagen, was der Stern bewirkt, und
   // nichts versprechen, was ohne Abo gar nicht passieren kann.
   'detail.noDubWatchOpen':
-    'Willst du erfahren, wenn dieser Titel eine deutsche Synchro bekommt? Markier ihn mit ☆ und melde dich beim Newsletter an.',
+    'Interessiert dich dieser Titel und du möchtest direkt informiert werden, wenn es Termine gibt? Dann markier ihn mit dem ☆ und meld dich beim Newsletter an.',
   'detail.noDubWatchConnected':
-    'Willst du erfahren, wenn dieser Titel eine deutsche Synchro bekommt? Markier ihn mit ☆, wir schreiben dir an {mail}.',
+    'Interessiert dich dieser Titel und du möchtest direkt informiert werden, wenn es Termine gibt? Dann markier ihn mit dem ☆, wir schreiben dir an {mail}.',
   'detail.noDubWatched': '★ Gemerkt. Du bekommst Bescheid, sobald es eine Synchro gibt.',
 
   // „Deutsche Releases" war zweideutig — es klang nach „hier erschienen",
@@ -223,7 +223,7 @@ const TEXTE = {
   // (Daniels Regel, 13.08.2026).
   'detail.disputedDate': 'Eine andere Quelle nennt:',
   'detail.disputedDateHint':
-    'beide Quellen sind verlinkt. Der Kalender führt den erstgenannten Tag.',
+    'Welcher Tag stimmt, ist offen. Oben steht der, mit dem wir rechnen.',
   // Belegkette eines Termins. Kurz halten: Das steht unter jedem Termin, und
   // gelesen wird es nur von dem kleinen Teil, der wirklich nachprüfen will.
   // Handlung **und** Zielort in einem Knopf — man soll vor dem Klick wissen,
@@ -253,6 +253,8 @@ const TEXTE = {
   'detail.autoSourceHint':
     'Info wurde automatisiert aus der verlinkten Quelle herausgelesen. Für genauere Details die Quelle konsultieren.',
   'detail.newsHeading': 'Was die Quellen melden',
+  'detail.newsShow': 'Mehr Details ({count})',
+  'detail.newsHide': 'Details ausblenden',
   'detail.newsHint': 'Die Quelle nennt keinen Tag. Hier steht ihr Wortlaut.',
   'detail.seasonLoading': 'Wird geladen …',
   'detail.start': 'Start',

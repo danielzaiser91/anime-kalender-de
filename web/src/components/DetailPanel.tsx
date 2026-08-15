@@ -204,7 +204,13 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
               </a>
             </span>
           ))}
-          {' — '}
+          {/*
+            Kein Gedankenstrich. Er stand hier im Bauteil statt im Text und
+            überlebte deshalb den Durchgang durch alle Oberflächentexte
+            (Daniel, 15.08.2026: „das ist eindeutig ki, kein mensch macht das").
+            Wo ein Satz endet, steht ein Punkt.
+          */}
+          {'. '}
           {t('detail.disputedDateHint')}
         </p>
       ) : null}
@@ -369,7 +375,13 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
       {events.length > 1 && !alleTermine && (
         <button
           type="button"
-          onClick={() => setAlleTermine(true)}
+          onClick={() => {
+            // Ein Klick, alle Termine. Vorher klappte er die Liste auf, zeigte
+            // acht davon und verlangte denselben Klick ein zweites Mal (Daniel,
+            // 15.08.2026).
+            setAlleTermine(true)
+            setShowAll(true)
+          }}
           className="mt-2 cursor-pointer text-xs text-sky-500 hover:underline"
         >
           {t('detail.showAllDates', { count: events.length })}
@@ -549,6 +561,7 @@ function Quellenliste({ release }: { release: Release }) {
 function Meldungen({ titleId }: { titleId: number }) {
   const { t } = useLang()
   const [liste, setListe] = useState<Meldung[]>([])
+  const [offen, setOffen] = useState(false)
 
   useEffect(() => {
     let aktuell = true
@@ -563,9 +576,26 @@ function Meldungen({ titleId }: { titleId: number }) {
   if (!liste.length) return null
 
   return (
-    <div>
-      <SectionTitle>{t('detail.newsHeading')}</SectionTitle>
-      <p className="mb-2 text-xs text-slate-500 dark:text-slate-400">{t('detail.newsHint')}</p>
+    <div className="mt-2">
+      {/*
+        Ein Aufklapper statt eines eigenen Abschnitts, und er sitzt beim Termin.
+
+        Vorher stand der Block weit unten zwischen „Wo läuft es" und „Handlung",
+        mit eigener Überschrift und einer wiederholten Quellenzeile — dieselbe
+        Adresse, die drei Zeilen weiter oben schon unter dem Termin steht
+        (Daniel, 15.08.2026). Was eine Zusatzangabe zum Termin ist, gehört zum
+        Termin und bleibt bis zum Klick zusammengefaltet.
+      */}
+      <button
+        type="button"
+        onClick={() => setOffen((o) => !o)}
+        className="cursor-pointer text-xs text-sky-500 hover:underline"
+      >
+        {offen ? t('detail.newsHide') : t('detail.newsShow', { count: liste.length })}
+      </button>
+      {!offen ? null : (
+      <>
+      <p className="mb-2 mt-2 text-xs text-slate-500 dark:text-slate-400">{t('detail.newsHint')}</p>
       <ul className="space-y-2">
         {liste.map((m) => (
           <li
@@ -591,6 +621,8 @@ function Meldungen({ titleId }: { titleId: number }) {
           </li>
         ))}
       </ul>
+      </>
+      )}
     </div>
   )
 }
@@ -1478,6 +1510,11 @@ export function DetailPanel({
                 <Tooltip text={t('detail.scoreHint')} seite="oben">
                   <span className="inline-flex cursor-help items-baseline gap-1 rounded bg-slate-200/70 px-1.5 py-0.5 text-[11px] dark:bg-white/10">
                     <span className="font-normal text-slate-500 dark:text-slate-400">AniList</span>
+                    {/* Der Stern macht auf einen Blick klar, dass es eine
+                        Wertung ist und keine Folgenzahl (Daniel, 15.08.2026). */}
+                    <span className="text-amber-400" aria-hidden="true">
+                      ★
+                    </span>
                     <span className="font-semibold tabular-nums">{(title.score / 10).toFixed(1)}</span>
                   </span>
                 </Tooltip>
@@ -1538,6 +1575,9 @@ export function DetailPanel({
                   <ReleaseBlock key={gruppe[0].slug} release={gruppe[0]} today={today} />
                 ),
               )}
+              {/* Zusatzangaben zum Termin gehören zum Termin, nicht in einen
+                  eigenen Abschnitt weiter unten (Daniel, 15.08.2026). */}
+              <Meldungen titleId={title.id} />
             </div>
           ) : (
             /*
@@ -1733,8 +1773,6 @@ export function DetailPanel({
               </p>
             </div>
           )}
-
-          <Meldungen titleId={title.id} />
 
           {title.hasVoices && <VoiceCast titleId={title.id} />}
 

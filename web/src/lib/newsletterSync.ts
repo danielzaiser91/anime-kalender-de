@@ -257,10 +257,19 @@ export async function ladeEinstellungen(token: string): Promise<Einstellungen> {
   if (!WORKER_URL) throw new Error('Der Newsletter-Dienst ist in dieser Installation nicht verbunden.')
   const res = await fetch(`${WORKER_URL}/prefs?token=${encodeURIComponent(token)}`)
   const body = await alsJson<Partial<Einstellungen> & { ok?: boolean; error?: string }>(res)
-  if (res.status === 404) {
-    clearSyncToken()
-    throw new Error(body.error ?? 'Abo nicht mehr vorhanden')
-  }
+  /**
+   * **Hier wird der Schlüssel nicht gelöscht**, auch nicht bei 404.
+   *
+   * Ein 404 von diesem Weg heißt zweierlei: „dieses Abo gibt es nicht" oder
+   * „diesen Endpunkt gibt es nicht". Am 15.08.2026 war es das Zweite — der
+   * Client sprach `/prefs` an, bevor der Worker die Route hatte, deutete die
+   * Antwort als erloschenes Abo und trennte Daniels Browser. Die Ansicht
+   * sprang nach dem Laden sichtbar zurück.
+   *
+   * Verbindlich über ein Abo entscheidet allein `/favorites`; diese Abfrage
+   * meldet einen Fehler und lässt alles andere in Ruhe.
+   */
+  if (res.status === 404) throw new Error(body.error ?? 'Einstellungen sind gerade nicht abrufbar.')
   if (!res.ok || !body.ok) throw new Error(body.error ?? 'Abruf fehlgeschlagen')
   if (body.email) setSyncMail(body.email)
   return {

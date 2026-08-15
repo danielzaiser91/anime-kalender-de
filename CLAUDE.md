@@ -288,6 +288,27 @@ Der Worker in `worker/` ist optional. Ohne gesetztes `VITE_NEWSLETTER_API` zeigt
 einen ehrlichen Hinweis statt eines kaputten Buttons. DSGVO-Pflichten (Double-Opt-in,
 Abmeldelink, Impressum, Datenschutzerklärung) sind kein Nice-to-have — nichts davon entfernen.
 
+## Der Worker läuft dem Web-Client immer hinterher
+
+**Neue Endpunkte sind erst da, wenn `wrangler deploy` gelaufen ist — die Seite ist es schon beim
+nächsten Push.** Zwischen beidem liegt ein Fenster, in dem der Client eine Route anspricht, die
+es noch nicht gibt. Der Worker antwortet dann mit `404 Unbekannter Pfad`, und das sieht genauso
+aus wie „dieses Abo gibt es nicht".
+
+Am 15.08.2026 hat genau das Daniels Newsletter-Verbindung gekappt: Die neue Abfrage `/prefs`
+bekam vom laufenden Worker ein 404, wertete es als erloschenes Abo und rief `clearSyncToken()`.
+Sichtbar war es als Flackern — die verbundene Ansicht erschien für unter einer Sekunde und
+sprang dann zurück.
+
+Daraus zwei Regeln:
+
+- **Ein 404 darf nur dort etwas löschen, wo die Route sicher existiert.** Über den Bestand eines
+  Abos entscheidet allein `/favorites`; jede andere Abfrage meldet einen Fehler und lässt den
+  Schlüssel in Ruhe.
+- **Zerstörende Schlüsse brauchen einen zweiten Beleg.** „Der Server antwortet nicht wie
+  erwartet" ist kein Beweis dafür, dass Nutzerdaten weg sind — es ist meist der Beweis, dass ein
+  Deploy fehlt.
+
 ## Caches: die Adresse ist die Version
 
 Datenadressen tragen den Datenstand (`/data/events.json?v=20260812142619`), eingesetzt in

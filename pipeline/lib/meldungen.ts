@@ -170,8 +170,35 @@ function reihenTeil(basis: Title, alle: Title[], text: string): Title | undefine
   if (!teil.nummer) return undefined
 
   const reihe = basis.franchiseId ?? basis.id
-  const mitglieder = alle
-    .filter((t) => (t.franchiseId ?? t.id) === reihe)
+  const inReihe = alle.filter((t) => (t.franchiseId ?? t.id) === reihe)
+
+  /**
+   * **Zuerst am Namen suchen, erst dann zählen.**
+   *
+   * Die Zählung über die Liste der TV-Einträge geht schief, sobald unsere
+   * Staffelaufteilung nicht der des Artikels entspricht — und das ist der
+   * Normalfall. Bei Re:ZERO führen wir „Season 2 Part 2" als eigenen Eintrag;
+   * die vierte Position unserer Liste ist deshalb Staffel 3, und eine Meldung
+   * über Staffel 4 landete am falschen Titel (Daniel, 15.08.2026: „im wortlaut
+   * von staffel 4 geredet wird, das panel aber staffel 3 ist").
+   *
+   * Trägt ein Titel die Zahl im Namen — „Staffel 4", „Season 4" —, ist das die
+   * verlässliche Auskunft. Sie kommt aus derselben Quelle wie der Artikel und
+   * nicht aus unserer Sortierung.
+   */
+  if (teil.art === 'staffel') {
+    // Doppelte Rückstriche sind Pflicht: In einem Template-Literal wäre ein
+    // einfaches \\b ein Backspace-Zeichen statt einer Wortgrenze, und die
+    // Suche träfe nie. Genau daran scheiterte der erste Anlauf (15.08.2026).
+    const imNamen = new RegExp(`(staffel|season)\\s*0*${teil.nummer}\\b`, 'i')
+    const treffer = inReihe.filter((t) =>
+      [t.titleDe, t.titleEn, t.titleRomaji].some((n) => n && imNamen.test(n)),
+    )
+    if (treffer.length === 1) return treffer[0]
+    if (treffer.length > 1) return undefined
+  }
+
+  const mitglieder = inReihe
     /**
      * „Staffel" heißt `TV`, nicht „alles außer Film". Specials und OVAs stehen
      * chronologisch zwischen den Staffeln und verschieben die Zählung: Beim
@@ -201,9 +228,16 @@ export function meldungenAus(vorschlaege: Vorschlag[], titel: Title[], heute: st
       ? titel.find((t) => t.id === v.titleId)
       : findeTitel(v.articleTitle, titel)?.titel
     if (!gefunden) continue
-    // Die Meldung darf am Reihenkopf hängen, wenn die Staffel unklar ist — sie
-    // behauptet ja keinen Termin, sie zitiert.
-    const treffer = reihenTeil(gefunden, titel, v.articleTitle) ?? gefunden
+    /**
+     * Lässt sich die Staffel nicht auflösen, wird die Meldung **verworfen**.
+     *
+     * Vorher hing sie ersatzweise am Reihenkopf, mit der Begründung, sie
+     * behaupte ja keinen Termin, sondern zitiere nur. Das war ein Trugschluss:
+     * Ein Zitat über Staffel 4 unter Staffel 3 ist genauso falsch wie ein
+     * Termin dort, nur schwerer zu bemerken.
+     */
+    const treffer = reihenTeil(gefunden, titel, v.articleTitle)
+    if (!treffer) continue
 
     const text = `${v.articleTitle} ${(v.dates ?? []).map((d) => d.context).join(' ')}`
     if (!TERMIN_WOERTER.test(text)) continue
