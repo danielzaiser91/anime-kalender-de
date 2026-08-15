@@ -33,8 +33,24 @@ function mitHinweis(text: string | undefined, seite: 'oben' | 'unten', kind: Rea
  * gebraucht wird — unter dem Titel und in der Ansicht „Wo sehen?". Zwei
  * Fassungen desselben Zeichens liefen sonst auseinander.
  */
-export function DubMark({ dub }: { dub?: boolean }) {
+/**
+ * Ob es an diesem Anbieter eine deutsche Synchro gibt.
+ *
+ * `ohneSynchro` beantwortet die Frage schon auf Titelebene: Für diesen Anime
+ * ist überhaupt keine deutsche Fassung bekannt, also kann es an keinem Anbieter
+ * eine geben — dort läuft er höchstens untertitelt. Ein Fragezeichen wäre hier
+ * falsch, denn es heißt „wir wissen es nicht", und wir wissen es (Daniel,
+ * 15.08.2026).
+ */
+export function DubMark({ dub, ohneSynchro }: { dub?: boolean; ohneSynchro?: boolean }) {
   const { t } = useLang()
+  if (ohneSynchro && dub !== true) {
+    return (
+      <Tooltip text={t('detail.dubNoneKnown')} seite="oben">
+        <span className="text-[11px] font-bold text-red-400">🇩🇪 ✕</span>
+      </Tooltip>
+    )
+  }
   if (dub === true) {
     return (
       <Tooltip text={t('detail.dubYes')} seite="oben">

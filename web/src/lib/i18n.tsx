@@ -267,6 +267,7 @@ const TEXTE = {
   'detail.dubYes': 'Deutsche Synchro hier belegt',
   'detail.dubNo': 'Hier keine deutsche Synchro — Originalton mit Untertiteln',
   'detail.dubUnknown': 'Deutsche Tonspur hier nicht belegt — beim Anbieter selbst prüfen',
+  'detail.dubNoneKnown': 'Für diesen Anime ist noch keine deutsche Synchro bekannt — hier läuft er mit Untertiteln',
   // Bleibt vergleichsweise lang: Hier hängt eine Kaufentscheidung dran, und der
   // Leser kann den Unterschied nicht selbst herleiten.
   'detail.dubHintDisc':

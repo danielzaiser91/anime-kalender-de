@@ -974,7 +974,13 @@ export function DetailPanel({
               */}
               <div className="relative">
                 <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
-                {favorites.has(title.id) && reihenIds.length > 1 && (
+                {/*
+                  Nicht mehr an „dieser Titel ist gemerkt" gekoppelt (Daniel,
+                  15.08.2026): Wer eine ganze Reihe merken will, will meist
+                  genau das — und nicht erst einen einzelnen Teil merken müssen,
+                  um den Knopf dafür zu Gesicht zu bekommen.
+                */}
+                {reihenIds.length > 1 && (
                   <div className="absolute right-0 top-full mt-1 flex items-center gap-1">
                     <ReihenStern
                       alleGemerkt={reihenIds.every((id) => favorites.has(id))}
@@ -1167,7 +1173,7 @@ export function DetailPanel({
                       </Tooltip>
                     )}
                     <span className="ml-auto">
-                      <DubMark dub={s.dub} />
+                      <DubMark dub={s.dub} ohneSynchro={title.ohneSynchro} />
                     </span>
                   </a>
                 ))}
