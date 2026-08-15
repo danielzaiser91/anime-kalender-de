@@ -884,14 +884,23 @@ function Wissenswert() {
     { titel: t('sources.staleTitle'), text: t('sources.staleText') },
   ]
   return (
-    <div className="mt-8 space-y-4">
-      <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">
+    <div className="mt-10 space-y-5">
+      {/*
+        Der Bereichstitel muss sich von seinen Unterfragen abheben.
+
+        Vorher war er `text-lg font-bold`, die Fragen darunter `font-semibold`
+        in Grundgröße — zwei Stufen, die im Fließtext fast gleich aussehen
+        (Daniel, 15.08.2026: „visuell ist er zu identisch zu den untergeordneten
+        Überschriften"). Jetzt trennen ihn drei Dinge: Größe, eine Linie
+        darunter und mehr Abstand.
+      */}
+      <h2 className="border-b border-slate-200 pb-2 text-2xl font-bold text-slate-900 dark:border-white/10 dark:text-slate-100">
         {t('sources.pipelineTitle')}
       </h2>
       {bloecke.map((b) => (
         <div key={b.titel}>
           <h3 className="font-semibold text-slate-800 dark:text-slate-100">{b.titel}</h3>
-          <p>{b.text}</p>
+          <p className="mt-0.5">{b.text}</p>
         </div>
       ))}
     </div>

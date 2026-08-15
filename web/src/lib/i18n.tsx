@@ -284,7 +284,7 @@ const TEXTE = {
   'detail.whyNoTime': 'Warum steht hier keine Uhrzeit?',
   'filter.available': 'stream verfügbar',
   'filter.availableHint':
-    'Wir geben unser Bestes, die Verfügbarkeit aller Anime bei allen legalen Streaming-Diensten aktuell zu halten.',
+    'Filtert Ergebnisse auf bestätigte Streaming-Verfügbarkeit.',
   'detail.estimatedDate': 'Termin abgeleitet',
   'detail.assumedEpisodes': 'Folgenzahl nicht belegt — 12 angenommen',
   'detail.assumedEpisodesAnisearch': 'Folgenzahl laut aniSearch, dort als vorläufige Schätzung geführt.',
