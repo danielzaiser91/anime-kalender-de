@@ -181,8 +181,24 @@ verschiedene, und genau ihre Vermischung war der Fehler bei Crunchyroll.
   verschiedene Ansichten je nach Anmeldestatus; ein Direktabruf am 15.08. lief zusätzlich in die
   Bot-Sperre (313 Zeichen Seiteninhalt).
 
-- **JustWatch** — für die Synchro-Frage verworfen, für die **Termin**-Frage der aussichtsreichste
-  offene Kandidat (15.08.2026, Doku vollständig gelesen).
+- **JustWatch** — **vollständig verworfen** (15.08.2026), auch für die Terminfrage.
+
+  Zwischenzeitlich stand hier, die `upcoming`-Zeitfenster machten JustWatch zum
+  aussichtsreichsten Kandidaten für Termine. Das war aus der **Feldliste** geschlossen und nicht
+  gemessen — der Fehler, gegen den die Regel „prüfen und belegen" gerichtet ist. Die Messung
+  danach kippt es:
+
+  - Die deutsche Übersicht „demnächst verfügbare Serien" führt **104 Titel für ganz
+    Deutschland**, über alle Anbieter zusammen, und darunter ist Anime praktisch nicht
+    vertreten. Unser Datensatz hat allein 181 Releases und 689 Termine.
+  - Gegenprobe an einem belegten Fall: Für „The Dangers in My Heart" führt JustWatch nur die
+    **bestehende** Verfügbarkeit. Der Netflix-Start von Staffel 2 am 20.08.2026, den wir aus
+    Anime2You haben, steht dort nicht.
+
+  JustWatch beantwortet „wo läuft es **jetzt**" — und das beantworten AniList, TMDB und aniSearch
+  für uns bereits. Ein Partnervertrag für eine Auskunft, die wir haben, und ohne die, die uns
+  fehlt, lohnt nicht. Der Vollständigkeit halber bleibt unten stehen, was die API kann und was
+  eine Partnerschaft verlangt hätte.
 
   Verworfen für Tonspuren: Das dokumentierte Offer-Objekt führt `monetization_type`,
   `provider_id`, `presentation_type` (nur `sd`/`hd`), `date_created`, `retail_price`, `currency`
