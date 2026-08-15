@@ -1764,11 +1764,40 @@ function main(): void {
    * sind über den Toggle auffindbar, lassen sich merken, und der Newsletter
    * meldet sich, sobald eine Synchro belegt ist.
    */
+  // Welche Titel haben deutsche Sprechrollen? Nur der Merker wandert in den
+  // Datensatz — die Rollen selbst holt die Oberfläche beim Aufklappen aus
+  // `public/data/voices/<id>.json`. Das Verzeichnis füllt `data:voices`, das
+  // vor diesem Lauf gelaufen sein muss; fehlt es, bleibt der Merker aus und
+  // die Oberfläche zeigt den Bereich schlicht nicht an.
+  const mitStimmen = new Set<number>()
+  if (existsSync(VOICES_DIR)) {
+    for (const datei of readdirSync(VOICES_DIR)) {
+      if (!datei.endsWith('.json')) continue
+      try {
+        const inhalt = JSON.parse(readFileSync(`${VOICES_DIR}/${datei}`, 'utf8')) as {
+          roles?: unknown[]
+        }
+        if (inhalt.roles?.length) mitStimmen.add(Number(datei.replace('.json', '')))
+      } catch {
+        // Kaputte Datei überspringen — der nächste Sprecher-Lauf schreibt sie neu.
+      }
+    }
+  }
+
   const mitRelease = new Set(releases.map((r) => r.titleId))
   const heuteIso = todayIso()
   let nochNichtGelaufen = 0
   for (const id of [...titles.keys()]) {
     if (mitRelease.has(id)) continue
+    /**
+     * Deutsche Sprechrollen schlagen jede Ableitung.
+     *
+     * Ein deutscher Sprecher zu einer Rolle belegt, dass eine deutsche Fassung
+     * **existiert** — das ist kein Indiz, sondern eine Auskunft. Sie gilt auch
+     * gegen ein japanisches Startdatum in der Zukunft: AniList führt für
+     * Vorabveröffentlichungen und Kinofassungen mitunter beides.
+     */
+    if (mitStimmen.has(id)) continue
     // Ohne bekanntes Startdatum wird nichts entfernt — Unwissen ist kein Beleg.
     const start = jpStart.get(id)
     if (!start || start <= heuteIso) continue
@@ -1833,25 +1862,6 @@ function main(): void {
   }
   const synopses: Record<number, SynopsisEintrag> = {}
 
-  // Welche Titel haben deutsche Sprechrollen? Nur der Merker wandert in den
-  // Datensatz — die Rollen selbst holt die Oberfläche beim Aufklappen aus
-  // `public/data/voices/<id>.json`. Das Verzeichnis füllt `data:voices`, das
-  // vor diesem Lauf gelaufen sein muss; fehlt es, bleibt der Merker aus und
-  // die Oberfläche zeigt den Bereich schlicht nicht an.
-  const mitStimmen = new Set<number>()
-  if (existsSync(VOICES_DIR)) {
-    for (const datei of readdirSync(VOICES_DIR)) {
-      if (!datei.endsWith('.json')) continue
-      try {
-        const inhalt = JSON.parse(readFileSync(`${VOICES_DIR}/${datei}`, 'utf8')) as {
-          roles?: unknown[]
-        }
-        if (inhalt.roles?.length) mitStimmen.add(Number(datei.replace('.json', '')))
-      } catch {
-        // Kaputte Datei überspringen — der nächste Sprecher-Lauf schreibt sie neu.
-      }
-    }
-  }
 
   /**
    * Die Quelle aus dem Beschreibungstext herauslösen.

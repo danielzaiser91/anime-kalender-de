@@ -141,6 +141,55 @@ Wochen Feed gelesen werden — sonst baut man eine Mustererkennung für einen Fa
 Praxis dreimal im Jahr gibt. Kandidaten für Signalwörter: Pause, pausiert, Sendepause, entfällt,
 verschoben, Best-of, Recap.
 
+## Recherche Synchro-Belege (15.08.2026)
+
+**Anlass:** Nach der Rücknahme der Crunchyroll-Gastauskunft standen 2.678 Anbieter-Verweise auf
+„unbekannt". Daniel hat sich gegen angemeldetes Crawling und für eine unabhängige Quelle
+entschieden.
+
+**Ergebnis: Die beste Quelle liegt seit dem 11.08.2026 im Repo und wurde für diese Frage nie
+benutzt** — die deutschen Sprechrollen von AniList unter `public/data/voices/<id>.json`.
+
+- **1.746 von 2.758 Titeln haben deutsche Sprechrollen.** Ein deutscher Sprecher zu einer Rolle
+  ist ein direkter Beleg dafür, dass eine deutsche Fassung existiert — kein Indiz, kein
+  Rückschluss über Verfügbarkeit.
+- **1.543 davon haben weder einen deutschen Termin noch einen belegten Stream.** Für sie ist das
+  bislang die einzige Auskunft, die wir maschinell haben, und sie lag ungenutzt herum.
+- **Frieren: Beyond Journey's End: 13 deutsche Rollen** (Julia Casper, Linda Fölster, Janek
+  Schächter, Alexander Merbeth). Damit ist belegt, dass Crunchyrolls `deutschImAngebot: false`
+  ein Falschnegativ war — Daniels Einschätzung vom 15.08. bestätigt sich.
+
+**Grenze der Quelle, und sie ist scharf:** Sprechrollen belegen, **dass** es eine deutsche
+Fassung gibt — nicht, **wo** sie läuft. Ein `stream.dub = true` darf daraus nicht abgeleitet
+werden; die Frage „gibt es eine Synchro" und die Frage „hat dieser Anbieter sie" sind zwei
+verschiedene, und genau ihre Vermischung war der Fehler bei Crunchyroll.
+
+### Geprüfte und verworfene Kandidaten
+
+- **AnimeSchedule (v3)** — verworfen. Die API kennt zu Tonspuren nur `subPremier`, `dubPremier`,
+  `subTime`, `dubTime`, und alle vier sind laut eigener Dokumentation ausdrücklich auf
+  **Englisch** bezogen. Es gibt kein Feld für eine andere Sprache. Die `StreamEntry`-Objekte
+  führen Plattform und Adresse, aber keine Sprachangabe.
+  Quelle: <https://animeschedule.net/api/v3/documentation/anime>
+- **MyDubList** — bleibt als Bestandsquelle, taugt aber nicht für diese Frage. Die Stufen sind
+  reine Quellenzählungen (`low` ≥ 1 Quelle … `very-high` ≥ 4), und es gibt **keine**
+  Unterscheidung zwischen „Synchro existiert" und „Synchro angekündigt".
+  Quelle: <https://github.com/Joelis57/MyDubList>
+- **Deutsche Synchronkartei** — rechtlich ausgeschlossen, unverändert seit 11.08.2026:
+  „Insbesondere ist ein automatisiertes Auslesen des Internetangebots nicht gestattet."
+- **Crunchyroll selbst** — als Quelle über sich selbst ungeeignet, siehe CLAUDE.md. Drei
+  verschiedene Ansichten je nach Anmeldestatus; ein Direktabruf am 15.08. lief zusätzlich in die
+  Bot-Sperre (313 Zeichen Seiteninhalt).
+
+### Offen
+
+- **JustWatch** — noch nicht bewertet. Es gibt eine offizielle API (<https://apis.justwatch.com/docs/api/>),
+  die aber an eine Partnerschaft gebunden scheint; die kursierenden GraphQL-Zugriffe sind
+  inoffiziell. Vor einer Zeile Abrufcode sind Nutzungsbedingungen und Rate Limits zu lesen.
+- **aniSearch-API** — Anfrage seit 09.08.2026 unbeantwortet.
+- **Anime News Network** — Encyclopedia-API führt Cast nach Sprache; ungeprüft, ob deutscher Cast
+  dort breiter gepflegt ist als bei AniList.
+
 ## Entscheidungen
 
 - **Keine Fallback-Kette über Wikipedia für Beschreibungen** (11.08.2026). Am 11.08. gemessen
