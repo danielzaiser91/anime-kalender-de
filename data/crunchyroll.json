@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-15T10:43:15.478Z",
+  "scrapedAt": "2026-08-15T11:37:37.344Z",
   "window": {
     "from": "2026-08-03",
     "to": "2026-08-23"
@@ -443,7 +443,7 @@
       "weeklyConfirmed": true
     },
     "welcome to demon school iruma kun s4": {
-      "time": "12:25",
+      "time": "13:30",
       "weekday": 5,
       "dates": [
         "2026-05-30",
@@ -455,7 +455,8 @@
         "2026-07-11",
         "2026-07-18",
         "2026-07-25",
-        "2026-08-01"
+        "2026-08-01",
+        "2026-08-15"
       ],
       "rawTitle": "Welcome to Demon School! Iruma-kun Staffel 4 (Deutsch)",
       "seriesId": "G6NVG970Y",
@@ -500,6 +501,10 @@
         {
           "date": "2026-08-01",
           "episode": 18
+        },
+        {
+          "date": "2026-08-15",
+          "episode": 19
         }
       ],
       "earliest": {
@@ -1354,6 +1359,16 @@
       "date": "2026-08-15",
       "time": "11:30",
       "episode": 15,
+      "german": true
+    },
+    {
+      "key": "welcome to demon school iruma kun s4",
+      "rawTitle": "Welcome to Demon School! Iruma-kun Staffel 4 (Deutsch)",
+      "seriesId": "G6NVG970Y",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6NVG970Y/welcome-to-demon-school-iruma-kun",
+      "date": "2026-08-15",
+      "time": "13:30",
+      "episode": 19,
       "german": true
     }
   ]
