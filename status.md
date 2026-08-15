@@ -200,8 +200,20 @@ verschiedene, und genau ihre Vermischung war der Fehler bei Crunchyroll.
   bereits — die Zuordnung wäre ohne Titelraten. Und Serien lassen sich je `season_number`
   abfragen, also in unserer Staffel-Granularität.
 
+  **Ablauf der Partnerschaft** (15.08.2026 recherchiert): Formular auf der Produktseite oder Mail
+  an `data-partner@justwatch.com` → Vertrag („Once the contract is concluded") → ein eindeutiger
+  Partner-Token, der an jede Anfrage angehängt wird. Drei Bezugsformen stehen zur Wahl: API,
+  Daten-Abzug („data dump") und Widget.
+
+  **Kosten sind nirgends öffentlich.** Weder die API-Doku noch der Content-Partner-Leitfaden,
+  das Partnerportal, die Produktseite oder das offizielle WordPress-Plugin nennen einen Preis
+  oder eine kostenlose Stufe. Es ist ein Vertriebsgespräch, kein Self-Service — ob ein
+  unkommerzielles Projekt etwas zahlt, klärt erst die Anfrage. Nicht behaupten, es sei
+  kostenlos.
+
   Preis: Zugang nur mit **Partnervertrag** und Partner-Token, und jede Einbindung muss „branded
-  links to the JustWatch website" zeigen. Letzteres ist mit diesem Projekt vereinbar (wir
+  links to the JustWatch website" zeigen — Ankertext „JustWatch" oder das Logo mit alt-Text, und
+  der Link muss in die länderspezifische Unterseite des jeweiligen Titels führen. Letzteres ist mit diesem Projekt vereinbar (wir
   verlinken Quellen ohnehin, und es ist unkommerziell) — der Vertrag ist eine Entscheidung, die
   Daniel treffen muss. Die inoffiziellen Endpunkte scheiden aus: JustWatch untersagt dort die
   kommerzielle Nutzung, und sie sind ungeschützt gegen Änderungen.
