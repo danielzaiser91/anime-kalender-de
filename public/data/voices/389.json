@@ -1,1 +1,112 @@
-{"titleId":389,"updatedAt":"2026-08-11T11:20:02.824Z","roles":[{"character":"Nue","actor":"Heiko Obermöller","role":"MAIN"},{"character":"Yurine","actor":"Gabriele Wienand","role":"MAIN"},{"character":"Yousuke Otoha","actor":"Simon T. Roden","role":"MAIN"},{"character":"Reiji","actor":"René Dawn-Claude","role":"SUPPORTING"},{"character":"Narumi Kure","actor":"Lars Schmidtke","role":"SUPPORTING"},{"character":"Chizuru","actor":"Demet Fey","role":"SUPPORTING"},{"character":"Amefurikozou","actor":"Maximiliane Häcke","role":"SUPPORTING"},{"character":"Suiko","actor":"Reinhard Schulat-Rademacher","role":"SUPPORTING"},{"character":"Hinaru","actor":"Corinna Dorenkamp","role":"SUPPORTING"},{"character":"Eko Hoshunin","actor":"Stephan Schleberger","role":"SUPPORTING"},{"character":"Tsuchigumo","actor":"Ilya Welter","role":"SUPPORTING"},{"character":"Wanyuudou","actor":"Volker Wolf","role":"SUPPORTING"}]}
+{
+ "titleId": 389,
+ "updatedAt": "2026-08-15T18:24:32.461Z",
+ "roles": [
+  {
+   "character": "Nue",
+   "actor": "Heiko Obermöller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yurine",
+   "actor": "Gabriele Wienand",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yousuke Otoha",
+   "actor": "Simon T. Roden",
+   "role": "MAIN"
+  },
+  {
+   "character": "Reiji",
+   "actor": "René Dawn-Claude",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narumi Kure",
+   "actor": "Lars Schmidtke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chizuru",
+   "actor": "Demet Fey",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Amefurikozou",
+   "actor": "Maximiliane Häcke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Suiko",
+   "actor": "Reinhard Schulat-Rademacher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hinaru",
+   "actor": "Corinna Dorenkamp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eko Hoshunin",
+   "actor": "Stephan Schleberger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsuchigumo",
+   "actor": "Ilya Welter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Wanyuudou",
+   "actor": "Volker Wolf",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Suiko",
+   "actor": "Reinhard Schulat",
+   "von": "ann"
+  },
+  {
+   "character": "Eko",
+   "actor": "Stephan Schleberger",
+   "von": "ann"
+  },
+  {
+   "character": "Sawada",
+   "actor": "Detlef Bierstedt",
+   "von": "ann"
+  },
+  {
+   "character": "Otoha",
+   "actor": "Simon T. Roden",
+   "von": "ann"
+  },
+  {
+   "character": "Minoru Sagisaka",
+   "actor": "Hans-Gerd Kilbinger",
+   "von": "ann"
+  },
+  {
+   "character": "Hinaru",
+   "actor": "Corinna Dörenkamp",
+   "von": "ann"
+  },
+  {
+   "character": "Homura",
+   "actor": "Silke Linderhaus",
+   "von": "ann"
+  },
+  {
+   "character": "Amefurikozou",
+   "actor": "Maxi Häcke",
+   "von": "ann"
+  },
+  {
+   "character": "Yurine",
+   "actor": "Gabi Wienand",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=5002"
+}

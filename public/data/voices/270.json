@@ -1,1 +1,107 @@
-{"titleId":270,"updatedAt":"2026-08-11T11:20:02.811Z","roles":[{"character":"Alucard","actor":"Torsten Münchow","role":"MAIN"},{"character":"Integra Fairbrook Wingates Hellsing","actor":"Simone Brahmann","role":"MAIN"},{"character":"Seras Victoria","actor":"Shandra Schadt","role":"MAIN"},{"character":"Luke Valentine","actor":"Claus-Peter Damitz","role":"SUPPORTING"},{"character":"Helena","actor":"Michaela Amler","role":"SUPPORTING"},{"character":"Arthur Hellsing","actor":"Michael Habeck","role":"SUPPORTING"},{"character":"Richard Hellsing","actor":"Manfred Erdmann","role":"SUPPORTING"},{"character":"Enrico Maxwell","actor":"Jörg Stuttmann","role":"SUPPORTING"},{"character":"Jessica","actor":"Kathrin Höhne","role":"SUPPORTING"},{"character":"Jan Valentine","actor":"Benedikt Weber","role":"SUPPORTING"},{"character":"Alexander Anderson","actor":"Oliver Stritzel","role":"SUPPORTING"},{"character":"Leif aka Huger","actor":"Benedikt Weber","role":"SUPPORTING"},{"character":"Walter C. Dornez","actor":"Dieter Memel","role":"SUPPORTING"},{"character":"Incognito","actor":"Claus Brockmeyer","role":"SUPPORTING"},{"character":"Peter Fargusen","actor":"Peter Musäus","role":"SUPPORTING"}]}
+{
+ "titleId": 270,
+ "updatedAt": "2026-08-15T18:23:57.060Z",
+ "roles": [
+  {
+   "character": "Alucard",
+   "actor": "Torsten Münchow",
+   "role": "MAIN"
+  },
+  {
+   "character": "Integra Fairbrook Wingates Hellsing",
+   "actor": "Simone Brahmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Seras Victoria",
+   "actor": "Shandra Schadt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Luke Valentine",
+   "actor": "Claus-Peter Damitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Helena",
+   "actor": "Michaela Amler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Arthur Hellsing",
+   "actor": "Michael Habeck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Richard Hellsing",
+   "actor": "Manfred Erdmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Enrico Maxwell",
+   "actor": "Jörg Stuttmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jessica",
+   "actor": "Kathrin Höhne",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jan Valentine",
+   "actor": "Benedikt Weber",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alexander Anderson",
+   "actor": "Oliver Stritzel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Leif aka Huger",
+   "actor": "Benedikt Weber",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Walter C. Dornez",
+   "actor": "Dieter Memel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Incognito",
+   "actor": "Claus Brockmeyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Peter Fargusen",
+   "actor": "Peter Musäus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lady Integra Wingates Hellsing",
+   "actor": "Simone Brahmann",
+   "von": "ann"
+  },
+  {
+   "character": "Victoria Sellars",
+   "actor": "Shandra Schadt",
+   "von": "ann"
+  },
+  {
+   "character": "Walther",
+   "actor": "Dieter Memel",
+   "von": "ann"
+  },
+  {
+   "character": "Peter Ferguson",
+   "actor": "Peter Masäus",
+   "von": "ann"
+  },
+  {
+   "character": "Maxwell",
+   "actor": "Jörg Stuttmann",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=387"
+}

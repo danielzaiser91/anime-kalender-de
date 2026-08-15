@@ -1,1 +1,117 @@
-{"titleId":5,"updatedAt":"2026-08-11T11:20:02.778Z","roles":[{"character":"Spike Spiegel","actor":"Martin Halm","role":"MAIN"},{"character":"Faye Valentine","actor":"Marion Sawatzki","role":"MAIN"},{"character":"Electra Ovilo","actor":"Elisabeth Günther","role":"MAIN"},{"character":"Jet Black","actor":"Bert Franzke","role":"MAIN"},{"character":"Vincent Volaju","actor":"Ekkehardt Belle","role":"MAIN"},{"character":"Edward Wong Hau Pepelu Tivrusky IV","actor":"Sabine Bohlmann","role":"MAIN"},{"character":"Captain","actor":"Michael Schwarzmaier","role":"SUPPORTING"},{"character":"Bull","actor":"Thomas Rau","role":"SUPPORTING"},{"character":"Old Lady","actor":"Ilona Grandke","role":"SUPPORTING"},{"character":"Steve","actor":"Ole Pfennig","role":"SUPPORTING"},{"character":"Lee Samson","actor":"Dominik Auer","role":"SUPPORTING"},{"character":"Punch","actor":"Thomas Rauscher","role":"SUPPORTING"},{"character":"Cashier","actor":"Beate Pfeiffer","role":"SUPPORTING"},{"character":"Judy","actor":"Michele Sterr","role":"SUPPORTING"},{"character":"Bob","actor":"Reinhard Brock","role":"SUPPORTING"},{"character":"Rasheed","actor":"Ulrich Frank","role":"SUPPORTING"},{"character":"Colonel","actor":"Norbert Gastell","role":"SUPPORTING"},{"character":"Renji","actor":"Crock Krumbiegel","role":"SUPPORTING"},{"character":"Harris","actor":"Walter von Hauff","role":"SUPPORTING"}]}
+{
+ "titleId": 5,
+ "updatedAt": "2026-08-15T18:22:22.908Z",
+ "roles": [
+  {
+   "character": "Spike Spiegel",
+   "actor": "Martin Halm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Faye Valentine",
+   "actor": "Marion Sawatzki",
+   "role": "MAIN"
+  },
+  {
+   "character": "Electra Ovilo",
+   "actor": "Elisabeth Günther",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jet Black",
+   "actor": "Bert Franzke",
+   "role": "MAIN"
+  },
+  {
+   "character": "Vincent Volaju",
+   "actor": "Ekkehardt Belle",
+   "role": "MAIN"
+  },
+  {
+   "character": "Edward Wong Hau Pepelu Tivrusky IV",
+   "actor": "Sabine Bohlmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Captain",
+   "actor": "Michael Schwarzmaier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bull",
+   "actor": "Thomas Rau",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Old Lady",
+   "actor": "Ilona Grandke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Steve",
+   "actor": "Ole Pfennig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lee Samson",
+   "actor": "Dominik Auer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Punch",
+   "actor": "Thomas Rauscher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cashier",
+   "actor": "Beate Pfeiffer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Judy",
+   "actor": "Michele Sterr",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bob",
+   "actor": "Reinhard Brock",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rasheed",
+   "actor": "Ulrich Frank",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Colonel",
+   "actor": "Norbert Gastell",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Renji",
+   "actor": "Crock Krumbiegel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Harris",
+   "actor": "Walter von Hauff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Edward Wong Hau Pepelu Tivrosky IV",
+   "actor": "Sabine Bohlmann",
+   "von": "ann"
+  },
+  {
+   "character": "Faye Valentine",
+   "actor": "Antje von der Ahe",
+   "von": "ann"
+  },
+  {
+   "character": "Electra",
+   "actor": "Elisabeth Günther",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=353"
+}

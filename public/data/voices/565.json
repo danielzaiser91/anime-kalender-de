@@ -1,1 +1,67 @@
-{"titleId":565,"updatedAt":"2026-08-11T11:20:02.847Z","roles":[{"character":"Scarlett St. Johns","actor":"Gabrielle Pietermann","role":"MAIN"},{"character":"James Steam","actor":"Tim Schwarzmaier","role":"MAIN"},{"character":"Eikokusha Gensui","actor":"Joachim Höppner","role":"SUPPORTING"},{"character":"Emma Redmond","actor":"Jacqueline Belle","role":"SUPPORTING"},{"character":"Ray no Haha","actor":"Dagmar Dempe","role":"SUPPORTING"},{"character":"James Steam","actor":"Thomas Fritsch","role":"SUPPORTING"},{"character":"Edward Steam","actor":"Christian Tramitz","role":"SUPPORTING"}]}
+{
+ "titleId": 565,
+ "updatedAt": "2026-08-15T18:25:34.718Z",
+ "roles": [
+  {
+   "character": "Scarlett St. Johns",
+   "actor": "Gabrielle Pietermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "James Steam",
+   "actor": "Tim Schwarzmaier",
+   "role": "MAIN"
+  },
+  {
+   "character": "Eikokusha Gensui",
+   "actor": "Joachim Höppner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Emma Redmond",
+   "actor": "Jacqueline Belle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ray no Haha",
+   "actor": "Dagmar Dempe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "James Steam",
+   "actor": "Thomas Fritsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Edward Steam",
+   "actor": "Christian Tramitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "David",
+   "actor": "Philipp Brammer",
+   "von": "ann"
+  },
+  {
+   "character": "Eddie Steam",
+   "actor": "Christian Tramitz",
+   "von": "ann"
+  },
+  {
+   "character": "Robert Stevenson",
+   "actor": "Walter von Hauff",
+   "von": "ann"
+  },
+  {
+   "character": "Ray Steam",
+   "actor": "Tim Schwarzmaier",
+   "von": "ann"
+  },
+  {
+   "character": "Scarlett O'Hara",
+   "actor": "Gabrielle Pietermann",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2161"
+}

@@ -1,1 +1,107 @@
-{"titleId":154,"updatedAt":"2026-08-11T11:20:02.796Z","roles":[{"character":"Johann Faust VIII","actor":"Manfred Trilling","role":"MAIN"},{"character":"Yoh Asakura","actor":"Hubertus von Lerchenfeld","role":"MAIN"},{"character":"Anna Kyouyama","actor":"Beate Pfeiffer","role":"MAIN"},{"character":"Horohoro","actor":"Dirk Meyer","role":"MAIN"},{"character":"Ren Tao","actor":"Manuel Straube","role":"MAIN"},{"character":"Amidamaru","actor":"Crock Krumbiegel","role":"MAIN"},{"character":"Ryuunosuke Umemiya","actor":"Claus-Peter Damitz","role":"MAIN"},{"character":"Hao Asakura","actor":"Hubertus von Lerchenfeld","role":"MAIN"},{"character":"Manta Oyamada","actor":"Andrea Wick","role":"MAIN"},{"character":"Chocolove McDonell","actor":"Philipp Brammer","role":"MAIN"},{"character":"Opacho","actor":"Andrea Wick","role":"SUPPORTING"},{"character":"Bason","actor":"Gerhard Jilka","role":"SUPPORTING"},{"character":"Millie","actor":"Sabine Bohlmann","role":"SUPPORTING"},{"character":"Jun Tao","actor":"Kathrin Gaube","role":"SUPPORTING"}]}
+{
+ "titleId": 154,
+ "updatedAt": "2026-08-15T18:23:13.710Z",
+ "roles": [
+  {
+   "character": "Johann Faust VIII",
+   "actor": "Manfred Trilling",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yoh Asakura",
+   "actor": "Hubertus von Lerchenfeld",
+   "role": "MAIN"
+  },
+  {
+   "character": "Anna Kyouyama",
+   "actor": "Beate Pfeiffer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Horohoro",
+   "actor": "Dirk Meyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ren Tao",
+   "actor": "Manuel Straube",
+   "role": "MAIN"
+  },
+  {
+   "character": "Amidamaru",
+   "actor": "Crock Krumbiegel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ryuunosuke Umemiya",
+   "actor": "Claus-Peter Damitz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hao Asakura",
+   "actor": "Hubertus von Lerchenfeld",
+   "role": "MAIN"
+  },
+  {
+   "character": "Manta Oyamada",
+   "actor": "Andrea Wick",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chocolove McDonell",
+   "actor": "Philipp Brammer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Opacho",
+   "actor": "Andrea Wick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bason",
+   "actor": "Gerhard Jilka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Millie",
+   "actor": "Sabine Bohlmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jun Tao",
+   "actor": "Kathrin Gaube",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Horo Horo",
+   "actor": "Dirk Meyer",
+   "von": "ann"
+  },
+  {
+   "character": "Choco Love",
+   "actor": "Philipp Brammer",
+   "von": "ann"
+  },
+  {
+   "character": "Manta Oyamada",
+   "actor": "Andrea Imme",
+   "von": "ann"
+  },
+  {
+   "character": "Len Tao",
+   "actor": "Manuel Straube",
+   "von": "ann"
+  },
+  {
+   "character": "Anna",
+   "actor": "Beate Pfeiffer",
+   "von": "ann"
+  },
+  {
+   "character": "Bokutou no Ryuu",
+   "actor": "Claus-Peter Damitz",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1174"
+}

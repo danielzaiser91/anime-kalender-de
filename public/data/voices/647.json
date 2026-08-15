@@ -1,1 +1,122 @@
-{"titleId":647,"updatedAt":"2026-08-11T11:20:02.854Z","roles":[{"character":"Tenma Morimura","actor":"Dennis Saemann","role":"MAIN"},{"character":"Akuram","actor":"Andreas Meese","role":"MAIN"},{"character":"Yasuaki Abe no","actor":"Daniel Käser","role":"MAIN"},{"character":"Shimon Nagareyama","actor":"Maximiliane Häcke","role":"MAIN"},{"character":"Tomomasa Tachibana no","actor":"Fabian Körner","role":"MAIN"},{"character":"Takamichi Fujiwara no","actor":"Simon T. Roden","role":"MAIN"},{"character":"Yorihisa Minamoto no","actor":"Uwe Thomsen","role":"MAIN"},{"character":"Eisen","actor":"Marc Stenzel","role":"MAIN"},{"character":"Sefuru","actor":"Birte Baumgardt","role":"MAIN"},{"character":"Inori","actor":"Dennis Sonntag","role":"MAIN"},{"character":"Akane Motomiya","actor":"Rieke Werner","role":"MAIN"},{"character":"Shirin","actor":"Edda Fischer","role":"SUPPORTING"},{"character":"Iktidal","actor":"Thomas Balou Martin","role":"SUPPORTING"},{"character":"Fuji-hime","actor":"Daniela Reidies","role":"SUPPORTING"}]}
+{
+ "titleId": 647,
+ "updatedAt": "2026-08-15T18:25:51.334Z",
+ "roles": [
+  {
+   "character": "Tenma Morimura",
+   "actor": "Dennis Saemann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Akuram",
+   "actor": "Andreas Meese",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yasuaki Abe no",
+   "actor": "Daniel Käser",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shimon Nagareyama",
+   "actor": "Maximiliane Häcke",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tomomasa Tachibana no",
+   "actor": "Fabian Körner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Takamichi Fujiwara no",
+   "actor": "Simon T. Roden",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yorihisa Minamoto no",
+   "actor": "Uwe Thomsen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Eisen",
+   "actor": "Marc Stenzel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sefuru",
+   "actor": "Birte Baumgardt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Inori",
+   "actor": "Dennis Sonntag",
+   "role": "MAIN"
+  },
+  {
+   "character": "Akane Motomiya",
+   "actor": "Rieke Werner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shirin",
+   "actor": "Edda Fischer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Iktidal",
+   "actor": "Thomas Balou Martin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fuji-hime",
+   "actor": "Daniela Reidies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fujihime",
+   "actor": "Daniela Reidies",
+   "von": "ann"
+  },
+  {
+   "character": "Akram",
+   "actor": "Andreas Meese",
+   "von": "ann"
+  },
+  {
+   "character": "Fujiwara no Takamichi",
+   "actor": "Simon T. Roden",
+   "von": "ann"
+  },
+  {
+   "character": "Tachibana no Tomomasa",
+   "actor": "Fabian Körner",
+   "von": "ann"
+  },
+  {
+   "character": "Shimon Nagareyama",
+   "actor": "Maxi Häcke",
+   "von": "ann"
+  },
+  {
+   "character": "Ran",
+   "actor": "Jülide Gülgec",
+   "von": "ann"
+  },
+  {
+   "character": "Abe no Yasuaki",
+   "actor": "Daniel Käser",
+   "von": "ann"
+  },
+  {
+   "character": "Minamoto no Yorihisa",
+   "actor": "Uwe Thomsen",
+   "von": "ann"
+  },
+  {
+   "character": "Azusa",
+   "actor": "Kirstin Hesse",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=3139"
+}

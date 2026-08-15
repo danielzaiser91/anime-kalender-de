@@ -1,1 +1,122 @@
-{"titleId":226,"updatedAt":"2026-08-11T11:20:02.806Z","roles":[{"character":"Lucy","actor":"Samia Little Elk","role":"MAIN"},{"character":"Mayu","actor":"Kathrin Neusser","role":"MAIN"},{"character":"Yuka","actor":"Julia Kaufmann","role":"MAIN"},{"character":"Kouta","actor":"Jesco Wirthgen","role":"MAIN"},{"character":"Nana","actor":"Rubina Kuraoka","role":"MAIN"},{"character":"Bando","actor":"Gerald Paradies","role":"SUPPORTING"},{"character":"Kakuzawa Choukan","actor":"Engelbert von Nordhausen","role":"SUPPORTING"},{"character":"3-Ban","actor":"Julia Meynen","role":"SUPPORTING"},{"character":"Kanae","actor":"Julia Meynen","role":"SUPPORTING"},{"character":"Kisaragi","actor":"Ghadah Al-Akel","role":"SUPPORTING"},{"character":"Shirakawa","actor":"Marina Krogull","role":"SUPPORTING"},{"character":"Saitou","actor":"Silvia Mißbach","role":"SUPPORTING"},{"character":"Hiromi Kurama","actor":"Ulrike Stürzbecher","role":"SUPPORTING"},{"character":"Mariko Kurama","actor":"Jennifer Weiß","role":"SUPPORTING"},{"character":"Tomoo","actor":"Nicola Devico Mamone","role":"SUPPORTING"},{"character":"Arakawa","actor":"Gundi Eberhard","role":"SUPPORTING"},{"character":"Kakuzawa Kyouju","actor":"Markus Haase","role":"SUPPORTING"},{"character":"Kurama","actor":"Erich Räuker","role":"SUPPORTING"}]}
+{
+ "titleId": 226,
+ "updatedAt": "2026-08-15T18:23:43.169Z",
+ "roles": [
+  {
+   "character": "Lucy",
+   "actor": "Samia Little Elk",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mayu",
+   "actor": "Kathrin Neusser",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuka",
+   "actor": "Julia Kaufmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kouta",
+   "actor": "Jesco Wirthgen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nana",
+   "actor": "Rubina Kuraoka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Bando",
+   "actor": "Gerald Paradies",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kakuzawa Choukan",
+   "actor": "Engelbert von Nordhausen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "3-Ban",
+   "actor": "Julia Meynen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kanae",
+   "actor": "Julia Meynen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kisaragi",
+   "actor": "Ghadah Al-Akel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shirakawa",
+   "actor": "Marina Krogull",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Saitou",
+   "actor": "Silvia Mißbach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hiromi Kurama",
+   "actor": "Ulrike Stürzbecher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mariko Kurama",
+   "actor": "Jennifer Weiß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tomoo",
+   "actor": "Nicola Devico Mamone",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Arakawa",
+   "actor": "Gundi Eberhard",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kakuzawa Kyouju",
+   "actor": "Markus Haase",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kurama",
+   "actor": "Erich Räuker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bandou",
+   "actor": "Gerald Paradies",
+   "von": "ann"
+  },
+  {
+   "character": "Director Kakuzawa",
+   "actor": "Engelbert von Nordhausen",
+   "von": "ann"
+  },
+  {
+   "character": "Lucy/Nyu",
+   "actor": "Samia Little Elk",
+   "von": "ann"
+  },
+  {
+   "character": "Mariko",
+   "actor": "Jennifer Weiß",
+   "von": "ann"
+  },
+  {
+   "character": "Kouta",
+   "actor": "Robert Schmalz",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=4148"
+}

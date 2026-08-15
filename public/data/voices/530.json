@@ -1,1 +1,147 @@
-{"titleId":530,"updatedAt":"2026-08-11T11:09:14.133Z","roles":[{"character":"Usagi Tsukino","actor":"Sabine Bohlmann","role":"MAIN"},{"character":"Makoto Kino","actor":"Veronika Aryana Neugebauer","role":"MAIN"},{"character":"Artemis","actor":"Bernd Stephan","role":"MAIN"},{"character":"Luna","actor":"Ulli Philipp","role":"MAIN"},{"character":"Ami Mizuno","actor":"Stefanie von Lerchenfeld","role":"MAIN"},{"character":"Mamoru Chiba","actor":"Matthias von Stegmann","role":"MAIN"},{"character":"Minako Aino","actor":"Claudia Lossl","role":"MAIN"},{"character":"Rei Hino","actor":"Julia Haacke","role":"MAIN"},{"character":"Queen Serenity","actor":"Helga Trumper","role":"SUPPORTING"},{"character":"Jumeau","actor":"Ditte Schupp","role":"SUPPORTING"},{"character":"Yuuichirou Kumada","actor":"Axel Malzacher","role":"SUPPORTING"},{"character":"Queen Metalia","actor":"Ilona Grandke","role":"SUPPORTING"},{"character":"Mayumi Osaka","actor":"Dagmar Heller","role":"SUPPORTING"},{"character":"Joseito","actor":"Jennifer Böttcher","role":"SUPPORTING"},{"character":"Mikan Shiratori","actor":"Irina Wanka","role":"SUPPORTING"},{"character":"Jadeite","actor":"Kai Taschner","role":"SUPPORTING"},{"character":"Kijin Shinokawa","actor":"Alexander Brem","role":"SUPPORTING"},{"character":"Haruna Sakurada","actor":"Uschi Wolff","role":"SUPPORTING"},{"character":"Saeko Yamamoto","actor":"Katrin Fröhlich","role":"SUPPORTING"},{"character":"Garoben","actor":"Michaela Amler","role":"SUPPORTING"},{"character":"Morga","actor":"Dagmar Heller","role":"SUPPORTING"}]}
+{
+ "titleId": 530,
+ "updatedAt": "2026-08-15T18:25:22.016Z",
+ "roles": [
+  {
+   "character": "Usagi Tsukino",
+   "actor": "Sabine Bohlmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Makoto Kino",
+   "actor": "Veronika Aryana Neugebauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Artemis",
+   "actor": "Bernd Stephan",
+   "role": "MAIN"
+  },
+  {
+   "character": "Luna",
+   "actor": "Ulli Philipp",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ami Mizuno",
+   "actor": "Stefanie von Lerchenfeld",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mamoru Chiba",
+   "actor": "Matthias von Stegmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Minako Aino",
+   "actor": "Claudia Lossl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rei Hino",
+   "actor": "Julia Haacke",
+   "role": "MAIN"
+  },
+  {
+   "character": "Queen Serenity",
+   "actor": "Helga Trumper",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jumeau",
+   "actor": "Ditte Schupp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuuichirou Kumada",
+   "actor": "Axel Malzacher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Queen Metalia",
+   "actor": "Ilona Grandke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mayumi Osaka",
+   "actor": "Dagmar Heller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Joseito",
+   "actor": "Jennifer Böttcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mikan Shiratori",
+   "actor": "Irina Wanka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jadeite",
+   "actor": "Kai Taschner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kijin Shinokawa",
+   "actor": "Alexander Brem",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haruna Sakurada",
+   "actor": "Uschi Wolff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Saeko Yamamoto",
+   "actor": "Katrin Fröhlich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Garoben",
+   "actor": "Michaela Amler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Morga",
+   "actor": "Dagmar Heller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Prinzessin Serenity",
+   "actor": "Sabine Bohlmann",
+   "von": "ann"
+  },
+  {
+   "character": "Tsukino Usagi/Sailor Moon",
+   "actor": "Sabine Bohlmann",
+   "von": "ann"
+  },
+  {
+   "character": "Aino Minako/Sailor Venus",
+   "actor": "Claudia Lössl",
+   "von": "ann"
+  },
+  {
+   "character": "Kino Makoto/Sailor Jupiter",
+   "actor": "Veronika Neugebauer",
+   "von": "ann"
+  },
+  {
+   "character": "Hino Rei/Sailor Mars",
+   "actor": "Julia Haacke",
+   "von": "ann"
+  },
+  {
+   "character": "Mizuno Ami/Sailor Merkur",
+   "actor": "Stefanie Beba",
+   "von": "ann"
+  },
+  {
+   "character": "Königin Perilia",
+   "actor": "Karin Kernke",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=363"
+}

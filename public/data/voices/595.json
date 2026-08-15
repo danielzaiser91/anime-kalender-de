@@ -1,1 +1,87 @@
-{"titleId":595,"updatedAt":"2026-08-11T11:20:02.850Z","roles":[{"character":"Kakyo Kuzuki","actor":"Timmo Niesner","role":"MAIN"},{"character":"Kamui Shirou","actor":"Sebastian Schulz","role":"MAIN"},{"character":"Fuuma Monou","actor":"Gerrit Schmidt-Foß","role":"MAIN"},{"character":"Subaru Sumeragi","actor":"Tobias Müller","role":"SUPPORTING"},{"character":"Yuuto Kigai","actor":"Tobias Kluckert","role":"SUPPORTING"},{"character":"Hinoto","actor":"Giuliana Jakobeit","role":"SUPPORTING"},{"character":"Seishirou Sakurazuka","actor":"Matthias Hinze","role":"SUPPORTING"},{"character":"Arashi Kishu","actor":"Maria Koschny","role":"SUPPORTING"},{"character":"Kanoe","actor":"Heide Domanowski","role":"SUPPORTING"},{"character":"Nataku","actor":"David Turba","role":"SUPPORTING"},{"character":"Karen Kasumi","actor":"Peggy Sander","role":"SUPPORTING"},{"character":"Kusanagi Shiyu","actor":"Dennis Schmidt-Foß","role":"SUPPORTING"},{"character":"Yuzuriha Nekoi","actor":"Rubina Kuraoka","role":"SUPPORTING"},{"character":"Satsuki Yatouji","actor":"Julia Kaufmann","role":"SUPPORTING"},{"character":"Sorata Arisugawa","actor":"Robin Kahnmeyer","role":"SUPPORTING"}]}
+{
+ "titleId": 595,
+ "updatedAt": "2026-08-15T18:25:41.509Z",
+ "roles": [
+  {
+   "character": "Kakyo Kuzuki",
+   "actor": "Timmo Niesner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kamui Shirou",
+   "actor": "Sebastian Schulz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Fuuma Monou",
+   "actor": "Gerrit Schmidt-Foß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Subaru Sumeragi",
+   "actor": "Tobias Müller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuuto Kigai",
+   "actor": "Tobias Kluckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hinoto",
+   "actor": "Giuliana Jakobeit",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seishirou Sakurazuka",
+   "actor": "Matthias Hinze",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Arashi Kishu",
+   "actor": "Maria Koschny",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kanoe",
+   "actor": "Heide Domanowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nataku",
+   "actor": "David Turba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Karen Kasumi",
+   "actor": "Peggy Sander",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kusanagi Shiyu",
+   "actor": "Dennis Schmidt-Foß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuzuriha Nekoi",
+   "actor": "Rubina Kuraoka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Satsuki Yatouji",
+   "actor": "Julia Kaufmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sorata Arisugawa",
+   "actor": "Robin Kahnmeyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kamui Shiro",
+   "actor": "Sebastian Schulz",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=608"
+}

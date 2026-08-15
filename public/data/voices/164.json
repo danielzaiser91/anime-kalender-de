@@ -1,1 +1,67 @@
-{"titleId":164,"updatedAt":"2026-08-11T11:20:02.798Z","roles":[{"character":"San","actor":"Stefanie von Lerchenfeld","role":"MAIN"},{"character":"Ashitaka","actor":"Alexander Brem","role":"MAIN"},{"character":"Toki","actor":"Claudia Lossl","role":"SUPPORTING"},{"character":"Okkotonushi","actor":"Jochen Striebeck","role":"SUPPORTING"},{"character":"Gonza","actor":"Holger Schwiers","role":"SUPPORTING"},{"character":"Kaya","actor":"Shandra Schadt","role":"SUPPORTING"},{"character":"Bou Jiko","actor":"Mogens von Gadow","role":"SUPPORTING"},{"character":"Hii-sama","actor":"Alice Franz","role":"SUPPORTING"},{"character":"Eboshi Gozen","actor":"Marietta Meade","role":"SUPPORTING"},{"character":"Kohroku","actor":"Claus Brockmeyer","role":"SUPPORTING"},{"character":"Moro no Kimi","actor":"Mady Rahl","role":"SUPPORTING"}]}
+{
+ "titleId": 164,
+ "updatedAt": "2026-08-15T18:23:21.186Z",
+ "roles": [
+  {
+   "character": "San",
+   "actor": "Stefanie von Lerchenfeld",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ashitaka",
+   "actor": "Alexander Brem",
+   "role": "MAIN"
+  },
+  {
+   "character": "Toki",
+   "actor": "Claudia Lossl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Okkotonushi",
+   "actor": "Jochen Striebeck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gonza",
+   "actor": "Holger Schwiers",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaya",
+   "actor": "Shandra Schadt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bou Jiko",
+   "actor": "Mogens von Gadow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hii-sama",
+   "actor": "Alice Franz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eboshi Gozen",
+   "actor": "Marietta Meade",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kohroku",
+   "actor": "Claus Brockmeyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Moro no Kimi",
+   "actor": "Mady Rahl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "San",
+   "actor": "Stefanie Beba",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=197"
+}

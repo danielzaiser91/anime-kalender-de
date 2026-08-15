@@ -1,1 +1,197 @@
-{"titleId":481,"updatedAt":"2026-08-11T11:09:14.132Z","roles":[{"character":"Yuugi Mutou","actor":"Konrad Bösherz","role":"MAIN"},{"character":"Yami Yuugi","actor":"Sebastian Schulz","role":"MAIN"},{"character":"Anzu Mazaki","actor":"Rubina Kuraoka","role":"MAIN"},{"character":"Hiroto Honda","actor":"Oliver-Kim Hasper","role":"MAIN"},{"character":"Ryou Bakura","actor":"Constantin von Jascheroff","role":"MAIN"},{"character":"Katsuya Jonouchi","actor":"Robin Kahnmeyer","role":"MAIN"},{"character":"Yami Bakura","actor":"Peter Reinhardt","role":"MAIN"},{"character":"Seto Kaiba","actor":"Gerrit Schmidt-Foß","role":"MAIN"},{"character":"Mokuba Kaiba","actor":"Ricardo Richter","role":"SUPPORTING"},{"character":"Insector Haga","actor":"Mario von Jascheroff","role":"SUPPORTING"},{"character":"Kyuu","actor":"Bernd Schramm","role":"SUPPORTING"},{"character":"Kisara","actor":"Julia Kaufmann","role":"SUPPORTING"},{"character":"Yami no Kamen","actor":"Michael Telloke","role":"SUPPORTING"},{"character":"Dartz","actor":"Björn Schalla","role":"SUPPORTING"},{"character":"Bobasa","actor":"Tom Deininger","role":"SUPPORTING"},{"character":"Gozaburo Kaiba","actor":"Engelbert von Nordhausen","role":"SUPPORTING"},{"character":"Chris","actor":"Julia Meynen","role":"SUPPORTING"},{"character":"Marik Ishtar","actor":"Klaus-Dieter Klebsch","role":"SUPPORTING"},{"character":"Mai Kujaku","actor":"Irina von Bentheim","role":"SUPPORTING"},{"character":"Siegfried von Schroider","actor":"Viktor Neumann","role":"SUPPORTING"},{"character":"Vivian Wong","actor":"Bianca Krahl","role":"SUPPORTING"}]}
+{
+ "titleId": 481,
+ "updatedAt": "2026-08-15T18:25:04.327Z",
+ "roles": [
+  {
+   "character": "Yuugi Mutou",
+   "actor": "Konrad Bösherz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yami Yuugi",
+   "actor": "Sebastian Schulz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Anzu Mazaki",
+   "actor": "Rubina Kuraoka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hiroto Honda",
+   "actor": "Oliver-Kim Hasper",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ryou Bakura",
+   "actor": "Constantin von Jascheroff",
+   "role": "MAIN"
+  },
+  {
+   "character": "Katsuya Jonouchi",
+   "actor": "Robin Kahnmeyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yami Bakura",
+   "actor": "Peter Reinhardt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Seto Kaiba",
+   "actor": "Gerrit Schmidt-Foß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mokuba Kaiba",
+   "actor": "Ricardo Richter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Insector Haga",
+   "actor": "Mario von Jascheroff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyuu",
+   "actor": "Bernd Schramm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kisara",
+   "actor": "Julia Kaufmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yami no Kamen",
+   "actor": "Michael Telloke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dartz",
+   "actor": "Björn Schalla",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bobasa",
+   "actor": "Tom Deininger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gozaburo Kaiba",
+   "actor": "Engelbert von Nordhausen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chris",
+   "actor": "Julia Meynen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marik Ishtar",
+   "actor": "Klaus-Dieter Klebsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mai Kujaku",
+   "actor": "Irina von Bentheim",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Siegfried von Schroider",
+   "actor": "Viktor Neumann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Vivian Wong",
+   "actor": "Bianca Krahl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yugi Mutou",
+   "actor": "Konrad Bösherz",
+   "von": "ann"
+  },
+  {
+   "character": "Joey Wheeler",
+   "actor": "Robin Kahnmeyer",
+   "von": "ann"
+  },
+  {
+   "character": "Tristan Taylor",
+   "actor": "Kim Hasper",
+   "von": "ann"
+  },
+  {
+   "character": "Téa Gardner",
+   "actor": "Rubina Kuraoka",
+   "von": "ann"
+  },
+  {
+   "character": "Yami Yugi",
+   "actor": "Sebastian Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "Mai Valentine",
+   "actor": "Irina von Bentheim",
+   "von": "ann"
+  },
+  {
+   "character": "Duke Devlin",
+   "actor": "Dennis Schmidt-Foß",
+   "von": "ann"
+  },
+  {
+   "character": "Ishizu Ishtar",
+   "actor": "Claudia Urbschat-Mingues",
+   "von": "ann"
+  },
+  {
+   "character": "Marik Ishtar",
+   "actor": "Charles Rettinghaus",
+   "von": "ann"
+  },
+  {
+   "character": "Yami Marik",
+   "actor": "Klaus-Dieter Klebsch",
+   "von": "ann"
+  },
+  {
+   "character": "Yami Bakura",
+   "actor": "David Nathan",
+   "von": "ann"
+  },
+  {
+   "character": "Weevil Underwood",
+   "actor": "Mario von Jascheroff",
+   "von": "ann"
+  },
+  {
+   "character": "Maximillion Pegasus",
+   "actor": "Till Hagen",
+   "von": "ann"
+  },
+  {
+   "character": "Solomon Muto",
+   "actor": "Peter Groeger",
+   "von": "ann"
+  },
+  {
+   "character": "Bakura",
+   "actor": "Constantin von Jascheroff",
+   "von": "ann"
+  },
+  {
+   "character": "Akunadin",
+   "actor": "Christian Rode",
+   "von": "ann"
+  },
+  {
+   "character": "Rex Raptor",
+   "actor": "Marius Götze-Claren",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=5074"
+}

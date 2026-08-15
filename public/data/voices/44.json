@@ -1,1 +1,67 @@
-{"titleId":44,"updatedAt":"2026-08-11T11:20:02.784Z","roles":[{"character":"Kenshin Himura","actor":"René Dawn-Claude","role":"MAIN"},{"character":"Tomoe Yukishiro","actor":"Antje von der Ahe","role":"MAIN"},{"character":"Kogoro Katsura","actor":"Thomas Schmuckert","role":"SUPPORTING"},{"character":"Souji Okita","actor":"Jan Makino","role":"SUPPORTING"},{"character":"Isami Kondo","actor":"Raimund Krone","role":"SUPPORTING"},{"character":"Toshizo Hijikata","actor":"Andi Krösing","role":"SUPPORTING"},{"character":"Tatsumi","actor":"Sven Gerhardt","role":"SUPPORTING"},{"character":"Shinsaku Takasugi","actor":"Oliver Betke","role":"SUPPORTING"},{"character":"Enishi Yukishiro","actor":"Dirk Petrick","role":"SUPPORTING"},{"character":"Hajime Saitou","actor":"Sebastian Christoph Jacob","role":"SUPPORTING"},{"character":"Seijuurou Hiko","actor":"Jaron Löwenberg","role":"SUPPORTING"}]}
+{
+ "titleId": 44,
+ "updatedAt": "2026-08-15T18:22:38.848Z",
+ "roles": [
+  {
+   "character": "Kenshin Himura",
+   "actor": "René Dawn-Claude",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tomoe Yukishiro",
+   "actor": "Antje von der Ahe",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kogoro Katsura",
+   "actor": "Thomas Schmuckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Souji Okita",
+   "actor": "Jan Makino",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Isami Kondo",
+   "actor": "Raimund Krone",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toshizo Hijikata",
+   "actor": "Andi Krösing",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tatsumi",
+   "actor": "Sven Gerhardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinsaku Takasugi",
+   "actor": "Oliver Betke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Enishi Yukishiro",
+   "actor": "Dirk Petrick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hajime Saitou",
+   "actor": "Sebastian Christoph Jacob",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seijuurou Hiko",
+   "actor": "Jaron Löwenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Iizuka",
+   "actor": "Rainer Doering",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=210"
+}

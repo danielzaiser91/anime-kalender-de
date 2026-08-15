@@ -1,1 +1,122 @@
-{"titleId":451,"updatedAt":"2026-08-11T11:20:02.831Z","roles":[{"character":"Kagome Higurashi","actor":"Ulrike Jennie","role":"MAIN"},{"character":"Sesshoumaru","actor":"Pascal Breuer","role":"MAIN"},{"character":"Inuyasha","actor":"Dominik Auer","role":"MAIN"},{"character":"Takemaru ","actor":"Matthias Klie","role":"MAIN"},{"character":"Miroku","actor":"Florian Halm","role":"SUPPORTING"},{"character":"Yuka","actor":"Kathrin Gaube","role":"SUPPORTING"},{"character":"Myoga","actor":"Walter von Hauff","role":"SUPPORTING"},{"character":"Totosai","actor":"Erich Ludwig","role":"SUPPORTING"},{"character":"Rin","actor":"Caroline Schwarzmaier","role":"SUPPORTING"},{"character":"Ayumi","actor":"Ute Bronder","role":"SUPPORTING"},{"character":"Souta Higurashi","actor":"Beate Pfeiffer","role":"SUPPORTING"},{"character":"Sango","actor":"Angela Wiederhut","role":"SUPPORTING"},{"character":"Mama","actor":"Maria Böhme","role":"SUPPORTING"},{"character":"Jaken","actor":"Kai Taschner","role":"SUPPORTING"},{"character":"Inu no Taisho","actor":"Michael Brennicke","role":"SUPPORTING"},{"character":"Grandpa Higurashi","actor":"Thomas Reiner","role":"SUPPORTING"},{"character":"Izayoi","actor":"Marieke Oeffinger","role":"SUPPORTING"},{"character":"Shippo","actor":"Julia Haacke","role":"SUPPORTING"},{"character":"Eri","actor":"Claudia Schmidt","role":"SUPPORTING"}]}
+{
+ "titleId": 451,
+ "updatedAt": "2026-08-15T18:24:53.444Z",
+ "roles": [
+  {
+   "character": "Kagome Higurashi",
+   "actor": "Ulrike Jennie",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sesshoumaru",
+   "actor": "Pascal Breuer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Inuyasha",
+   "actor": "Dominik Auer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Takemaru ",
+   "actor": "Matthias Klie",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miroku",
+   "actor": "Florian Halm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuka",
+   "actor": "Kathrin Gaube",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Myoga",
+   "actor": "Walter von Hauff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Totosai",
+   "actor": "Erich Ludwig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rin",
+   "actor": "Caroline Schwarzmaier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ayumi",
+   "actor": "Ute Bronder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Souta Higurashi",
+   "actor": "Beate Pfeiffer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sango",
+   "actor": "Angela Wiederhut",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mama",
+   "actor": "Maria Böhme",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jaken",
+   "actor": "Kai Taschner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Inu no Taisho",
+   "actor": "Michael Brennicke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Grandpa Higurashi",
+   "actor": "Thomas Reiner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Izayoi",
+   "actor": "Marieke Oeffinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shippo",
+   "actor": "Julia Haacke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eri",
+   "actor": "Claudia Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Inu Yasha",
+   "actor": "Dominik Auer",
+   "von": "ann"
+  },
+  {
+   "character": "Takemaru",
+   "actor": "Matthias Klie",
+   "von": "ann"
+  },
+  {
+   "character": "Sesshsomaru",
+   "actor": "Pascal Breuer",
+   "von": "ann"
+  },
+  {
+   "character": "Saya",
+   "actor": "Gudo Hoegel",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2981"
+}

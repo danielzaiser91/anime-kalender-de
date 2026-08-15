@@ -1,1 +1,72 @@
-{"titleId":51,"updatedAt":"2026-08-11T11:20:02.786Z","roles":[{"character":"Sara Mudou","actor":"Rubina Kuraoka","role":"MAIN"},{"character":"Kurai","actor":"Julia Meynen","role":"MAIN"},{"character":"Setsuna Mudou","actor":"Sebastian Schulz","role":"MAIN"},{"character":"Rosiel","actor":"Gerrit Schmidt-Foß","role":"SUPPORTING"},{"character":"Arachne","actor":"Ghadah Al-Akel","role":"SUPPORTING"},{"character":"Katan","actor":"Tobias Kluckert","role":"SUPPORTING"},{"character":"Yue Katou","actor":"Dennis Schmidt-Foß","role":"SUPPORTING"},{"character":"Sakuya Kira","actor":"Ricardo Richter","role":"SUPPORTING"},{"character":"Alexiel","actor":"Ghadah Al-Akel","role":"SUPPORTING"},{"character":"Adam Kadmon","actor":"Thomas Nero Wolff","role":"SUPPORTING"}]}
+{
+ "titleId": 51,
+ "updatedAt": "2026-08-15T18:22:44.697Z",
+ "roles": [
+  {
+   "character": "Sara Mudou",
+   "actor": "Rubina Kuraoka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kurai",
+   "actor": "Julia Meynen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Setsuna Mudou",
+   "actor": "Sebastian Schulz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rosiel",
+   "actor": "Gerrit Schmidt-Foß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Arachne",
+   "actor": "Ghadah Al-Akel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Katan",
+   "actor": "Tobias Kluckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yue Katou",
+   "actor": "Dennis Schmidt-Foß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sakuya Kira",
+   "actor": "Ricardo Richter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alexiel",
+   "actor": "Ghadah Al-Akel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Adam Kadmon",
+   "actor": "Thomas Nero Wolff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sara Mudo",
+   "actor": "Rubina Kuraoka",
+   "von": "ann"
+  },
+  {
+   "character": "Setsuna Mudo",
+   "actor": "Sebastian Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "as Seraphita/Adam Kadamon",
+   "actor": "Thomas Nero Wolff",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=458"
+}

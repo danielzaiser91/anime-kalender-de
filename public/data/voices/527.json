@@ -1,1 +1,142 @@
-{"titleId":527,"updatedAt":"2026-08-11T11:20:02.841Z","roles":[{"character":"Kenji","actor":"Dirk Meyer","role":"MAIN"},{"character":"Kojirou","actor":"Matthias Klie","role":"MAIN"},{"character":"Pikachu","actor":"Sabine Bohlmann","role":"MAIN"},{"character":"Narrator","actor":"Michael Schwarzmaier","role":"MAIN"},{"character":"Musashi","actor":"Scarlet Cavadenti","role":"MAIN"},{"character":"Togepy","actor":"Nicola Grupe-Arnoldi","role":"MAIN"},{"character":"Kasumi","actor":"Angela Wiederhut","role":"MAIN"},{"character":"Takeshi","actor":"Marc Stachel","role":"MAIN"},{"character":"Satoshi","actor":"Veronika Aryana Neugebauer","role":"MAIN"},{"character":"Nyarth","actor":"Gerhard Acktun","role":"MAIN"},{"character":"Toru","actor":"Clemens Ostermann","role":"SUPPORTING"},{"character":"Masaki Sonezaki","actor":"Dominik Auer","role":"SUPPORTING"},{"character":"Junichi","actor":"Roman Wolko","role":"SUPPORTING"},{"character":"Yamato","actor":"Sonja Reichelt","role":"SUPPORTING"},{"character":"Kurumi","actor":"Christine Stichler","role":"SUPPORTING"},{"character":"Ruriko","actor":"Claudia Lossl","role":"SUPPORTING"},{"character":"Botan","actor":"Ulrike Jennie","role":"SUPPORTING"}]}
+{
+ "titleId": 527,
+ "updatedAt": "2026-08-15T18:25:19.169Z",
+ "roles": [
+  {
+   "character": "Kenji",
+   "actor": "Dirk Meyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kojirou",
+   "actor": "Matthias Klie",
+   "role": "MAIN"
+  },
+  {
+   "character": "Pikachu",
+   "actor": "Sabine Bohlmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Michael Schwarzmaier",
+   "role": "MAIN"
+  },
+  {
+   "character": "Musashi",
+   "actor": "Scarlet Cavadenti",
+   "role": "MAIN"
+  },
+  {
+   "character": "Togepy",
+   "actor": "Nicola Grupe-Arnoldi",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kasumi",
+   "actor": "Angela Wiederhut",
+   "role": "MAIN"
+  },
+  {
+   "character": "Takeshi",
+   "actor": "Marc Stachel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Satoshi",
+   "actor": "Veronika Aryana Neugebauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nyarth",
+   "actor": "Gerhard Acktun",
+   "role": "MAIN"
+  },
+  {
+   "character": "Toru",
+   "actor": "Clemens Ostermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masaki Sonezaki",
+   "actor": "Dominik Auer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Junichi",
+   "actor": "Roman Wolko",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yamato",
+   "actor": "Sonja Reichelt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kurumi",
+   "actor": "Christine Stichler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ruriko",
+   "actor": "Claudia Lossl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Botan",
+   "actor": "Ulrike Jennie",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jessie",
+   "actor": "Nicola Grupe",
+   "von": "ann"
+  },
+  {
+   "character": "Ash Ketchum",
+   "actor": "Caroline Combrinck",
+   "von": "ann"
+  },
+  {
+   "character": "Ash Ketchum",
+   "actor": "Veronika Neugebauer",
+   "von": "ann"
+  },
+  {
+   "character": "Jessie",
+   "actor": "Scarlet Cavadenti",
+   "von": "ann"
+  },
+  {
+   "character": "Professor Eich",
+   "actor": "Achim Geisler",
+   "von": "ann"
+  },
+  {
+   "character": "Misty",
+   "actor": "Angela Wiederhut",
+   "von": "ann"
+  },
+  {
+   "character": "Erzähler",
+   "actor": "Michael Schwarzmaier",
+   "von": "ann"
+  },
+  {
+   "character": "Officer Rocky",
+   "actor": "Stefanie Beba",
+   "von": "ann"
+  },
+  {
+   "character": "James",
+   "actor": "Matthias Klie",
+   "von": "ann"
+  },
+  {
+   "character": "Delia Ketchum",
+   "actor": "Marion Hartmann",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=270"
+}

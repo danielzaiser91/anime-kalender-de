@@ -1,1 +1,77 @@
-{"titleId":227,"updatedAt":"2026-08-11T11:20:02.806Z","roles":[{"character":"Haruko Haruhara","actor":"Shandra Schadt","role":"MAIN"},{"character":"Naota Nandaba","actor":"Benjamin Münchow","role":"MAIN"},{"character":"Mamimi Samejima","actor":"Beate Pfeiffer","role":"MAIN"},{"character":"Eri Ninamori","actor":"Sonja Reichelt","role":"SUPPORTING"},{"character":"Amarao","actor":"Oliver Mink","role":"SUPPORTING"},{"character":"Kitsurubami","actor":"Eva Maria Höcherl","role":"SUPPORTING"},{"character":"Kamon Nandaba","actor":"Gerhard Acktun","role":"SUPPORTING"},{"character":"Masashi Masamune","actor":"Daniel Krause","role":"SUPPORTING"},{"character":"Gaku Manabe","actor":"Clemens Ostermann","role":"SUPPORTING"},{"character":"Miyu Miyu","actor":"Torsten Münchow","role":"SUPPORTING"},{"character":"Takkun","actor":"Claudia Schmidt","role":"SUPPORTING"},{"character":"Shigekuni Nandaba","actor":"Michael Habeck","role":"BACKGROUND"}]}
+{
+ "titleId": 227,
+ "updatedAt": "2026-08-15T18:23:43.792Z",
+ "roles": [
+  {
+   "character": "Haruko Haruhara",
+   "actor": "Shandra Schadt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Naota Nandaba",
+   "actor": "Benjamin Münchow",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mamimi Samejima",
+   "actor": "Beate Pfeiffer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Eri Ninamori",
+   "actor": "Sonja Reichelt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Amarao",
+   "actor": "Oliver Mink",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kitsurubami",
+   "actor": "Eva Maria Höcherl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kamon Nandaba",
+   "actor": "Gerhard Acktun",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masashi Masamune",
+   "actor": "Daniel Krause",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gaku Manabe",
+   "actor": "Clemens Ostermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miyu Miyu",
+   "actor": "Torsten Münchow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takkun",
+   "actor": "Claudia Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shigekuni Nandaba",
+   "actor": "Michael Habeck",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Naota Nandaba",
+   "actor": "Ben Müchow",
+   "von": "ann"
+  },
+  {
+   "character": "Naota Nandaba",
+   "actor": "Ben Münchow",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=277"
+}

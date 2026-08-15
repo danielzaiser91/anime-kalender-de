@@ -1,1 +1,87 @@
-{"titleId":26,"updatedAt":"2026-08-11T11:20:02.782Z","roles":[{"character":"Ran","actor":"Marie-Luise Schramm","role":"MAIN"},{"character":"Ichise","actor":"Gerrit Schmidt-Foß","role":"MAIN"},{"character":"Shinji","actor":"Nicolas Böll","role":"MAIN"},{"character":"Keigo Oonishi","actor":"Stefan Gossler","role":"MAIN"},{"character":"Motoharu Kimata","actor":"Tilo Schmitz","role":"SUPPORTING"},{"character":"Yoshii Kazuho","actor":"Erich Räuker","role":"SUPPORTING"},{"character":"Haru","actor":"Tommy Morgenstern","role":"SUPPORTING"},{"character":"Toyama Haruhiko","actor":"Albert Obitz","role":"SUPPORTING"},{"character":"Bunken Kohakura","actor":"Stefan Staudinger","role":"SUPPORTING"},{"character":"Eriko Kaneda","actor":"Claudia Urbschat-mingues","role":"SUPPORTING"},{"character":"Yoko","actor":"Maria Koschny","role":"SUPPORTING"}]}
+{
+ "titleId": 26,
+ "updatedAt": "2026-08-15T18:22:30.310Z",
+ "roles": [
+  {
+   "character": "Ran",
+   "actor": "Marie-Luise Schramm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ichise",
+   "actor": "Gerrit Schmidt-Foß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shinji",
+   "actor": "Nicolas Böll",
+   "role": "MAIN"
+  },
+  {
+   "character": "Keigo Oonishi",
+   "actor": "Stefan Gossler",
+   "role": "MAIN"
+  },
+  {
+   "character": "Motoharu Kimata",
+   "actor": "Tilo Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yoshii Kazuho",
+   "actor": "Erich Räuker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haru",
+   "actor": "Tommy Morgenstern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toyama Haruhiko",
+   "actor": "Albert Obitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bunken Kohakura",
+   "actor": "Stefan Staudinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eriko Kaneda",
+   "actor": "Claudia Urbschat-mingues",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yoko",
+   "actor": "Maria Koschny",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eriko Kaneda (Doc)",
+   "actor": "Claudia Urbschat-Mingues",
+   "von": "ann"
+  },
+  {
+   "character": "Ran",
+   "actor": "Marie Schramm",
+   "von": "ann"
+  },
+  {
+   "character": "Kano",
+   "actor": "Marius Claren",
+   "von": "ann"
+  },
+  {
+   "character": "Hal",
+   "actor": "Tommy Morgenstern",
+   "von": "ann"
+  },
+  {
+   "character": "Kazuo Yoshii",
+   "actor": "Erich Räuker",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2304"
+}

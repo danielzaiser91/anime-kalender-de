@@ -1,1 +1,67 @@
-{"titleId":522,"updatedAt":"2026-08-11T11:20:02.840Z","roles":[{"character":"Rock Holmes","actor":"Philipp Brammer","role":"MAIN"},{"character":"Tima","actor":"Sabine Bohlmann","role":"MAIN"},{"character":"Kenichi Shikishima","actor":"Marc Stachel","role":"MAIN"},{"character":"Acetylene Lamp","actor":"Dirk Galuba","role":"SUPPORTING"},{"character":"President Boon","actor":"Manfred Erdmann","role":"SUPPORTING"},{"character":"Pero","actor":"Manfred Trilling","role":"SUPPORTING"},{"character":"Shunsaku Ban","actor":"Kai Taschner","role":"SUPPORTING"},{"character":"Duke Red","actor":"Ekkehardt Belle","role":"SUPPORTING"},{"character":"Atlas","actor":"Niko Macoulis","role":"SUPPORTING"},{"character":"Makeru Butamo","actor":"Michael Habeck","role":"SUPPORTING"}]}
+{
+ "titleId": 522,
+ "updatedAt": "2026-08-15T18:25:16.855Z",
+ "roles": [
+  {
+   "character": "Rock Holmes",
+   "actor": "Philipp Brammer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tima",
+   "actor": "Sabine Bohlmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kenichi Shikishima",
+   "actor": "Marc Stachel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Acetylene Lamp",
+   "actor": "Dirk Galuba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "President Boon",
+   "actor": "Manfred Erdmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pero",
+   "actor": "Manfred Trilling",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shunsaku Ban",
+   "actor": "Kai Taschner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Duke Red",
+   "actor": "Ekkehardt Belle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Atlas",
+   "actor": "Niko Macoulis",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Makeru Butamo",
+   "actor": "Michael Habeck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rock",
+   "actor": "Philipp Brammer",
+   "von": "ann"
+  },
+  {
+   "character": "Kenichi",
+   "actor": "Marc Stachel",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=176"
+}

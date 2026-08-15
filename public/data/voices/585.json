@@ -1,1 +1,52 @@
-{"titleId":585,"updatedAt":"2026-08-11T11:20:02.849Z","roles":[{"character":"Seiji Amasawa","actor":"Max Felder","role":"MAIN"},{"character":"Shizuku Tsukishima","actor":"Gabrielle Pietermann","role":"MAIN"},{"character":"Humbert von Gikkingen Danshaku","actor":"Manou Lubowski","role":"SUPPORTING"},{"character":"Yuko Harada","actor":"Jacqueline Belle","role":"SUPPORTING"},{"character":"Asako Tsukishima","actor":"Claudia Lossl","role":"SUPPORTING"},{"character":"Seiya Tsukishima","actor":"Gerd Meyer","role":"SUPPORTING"},{"character":"Shiho Tsukishima","actor":"Maren Rainer","role":"SUPPORTING"},{"character":"Nishi Shiro","actor":"Erich Ludwig","role":"SUPPORTING"}]}
+{
+ "titleId": 585,
+ "updatedAt": "2026-08-15T18:25:39.153Z",
+ "roles": [
+  {
+   "character": "Seiji Amasawa",
+   "actor": "Max Felder",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shizuku Tsukishima",
+   "actor": "Gabrielle Pietermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Humbert von Gikkingen Danshaku",
+   "actor": "Manou Lubowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuko Harada",
+   "actor": "Jacqueline Belle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Asako Tsukishima",
+   "actor": "Claudia Lossl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seiya Tsukishima",
+   "actor": "Gerd Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shiho Tsukishima",
+   "actor": "Maren Rainer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nishi Shiro",
+   "actor": "Erich Ludwig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shiro Nishi",
+   "actor": "Erich Ludwig",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=847"
+}

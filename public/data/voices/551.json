@@ -1,1 +1,77 @@
-{"titleId":551,"updatedAt":"2026-08-11T11:20:02.846Z","roles":[{"character":"Baki Hanma","actor":"Linus Kraus","role":"MAIN"},{"character":"Katsumi Orochi","actor":"Christoph Bautz","role":"SUPPORTING"},{"character":"Jack Hammer","actor":"Matthias Lühn","role":"SUPPORTING"},{"character":"Kiyosumi Katou","actor":"Erik Borner","role":"SUPPORTING"},{"character":"Doppo Orochi","actor":"Gordon Piedesack","role":"SUPPORTING"},{"character":"Koushou Shinogi","actor":"Michael-Che Koch","role":"SUPPORTING"},{"character":"Kozue Matsumoto","actor":"Tanja Esche","role":"SUPPORTING"},{"character":"Chiharu Shiba","actor":"Oliver Wronka","role":"SUPPORTING"},{"character":"Kaiou Retsu","actor":"Martin Schäfer","role":"SUPPORTING"},{"character":"Yuujirou Hanma","actor":"Rolf Buschpeter","role":"SUPPORTING"},{"character":"Kureha Shinogi","actor":"Matthias Keller","role":"SUPPORTING"},{"character":"Kaoru Hanayama","actor":"Djamil Deininger","role":"SUPPORTING"},{"character":"Gouki Shibukawa","actor":"Peter Heusch","role":"SUPPORTING"}]}
+{
+ "titleId": 551,
+ "updatedAt": "2026-08-15T18:25:32.498Z",
+ "roles": [
+  {
+   "character": "Baki Hanma",
+   "actor": "Linus Kraus",
+   "role": "MAIN"
+  },
+  {
+   "character": "Katsumi Orochi",
+   "actor": "Christoph Bautz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jack Hammer",
+   "actor": "Matthias Lühn",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kiyosumi Katou",
+   "actor": "Erik Borner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Doppo Orochi",
+   "actor": "Gordon Piedesack",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Koushou Shinogi",
+   "actor": "Michael-Che Koch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kozue Matsumoto",
+   "actor": "Tanja Esche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chiharu Shiba",
+   "actor": "Oliver Wronka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaiou Retsu",
+   "actor": "Martin Schäfer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuujirou Hanma",
+   "actor": "Rolf Buschpeter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kureha Shinogi",
+   "actor": "Matthias Keller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaoru Hanayama",
+   "actor": "Djamil Deininger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gouki Shibukawa",
+   "actor": "Peter Heusch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yujiro Hanma",
+   "actor": "Rolf Buschpeter",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2036"
+}

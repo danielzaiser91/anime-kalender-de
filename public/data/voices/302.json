@@ -1,1 +1,82 @@
-{"titleId":302,"updatedAt":"2026-08-11T11:20:02.814Z","roles":[{"character":"Conan","actor":"Sarah Alles","role":"MAIN"},{"character":"Jimsy","actor":"Peggy Pollow","role":"MAIN"},{"character":"Lanna","actor":"Saskia Glück","role":"MAIN"},{"character":"Kuzuu","actor":"Thomas Schmuckert","role":"SUPPORTING"},{"character":"Gucchi","actor":"Klaus-Peter Grap","role":"SUPPORTING"},{"character":"Ojii","actor":"Reinhard Scheunemann","role":"SUPPORTING"},{"character":"Lepka","actor":"Bernd Egger","role":"SUPPORTING"},{"character":"Patch","actor":"Ingo Albrecht","role":"SUPPORTING"},{"character":"Dongoroth","actor":"Stefan Bräuler","role":"SUPPORTING"},{"character":"Monsley","actor":"Sonja Spuhl","role":"SUPPORTING"},{"character":"Dyce","actor":"Matthias Klages","role":"SUPPORTING"}]}
+{
+ "titleId": 302,
+ "updatedAt": "2026-08-15T18:24:04.923Z",
+ "roles": [
+  {
+   "character": "Conan",
+   "actor": "Sarah Alles",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jimsy",
+   "actor": "Peggy Pollow",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lanna",
+   "actor": "Saskia Glück",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kuzuu",
+   "actor": "Thomas Schmuckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gucchi",
+   "actor": "Klaus-Peter Grap",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ojii",
+   "actor": "Reinhard Scheunemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lepka",
+   "actor": "Bernd Egger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Patch",
+   "actor": "Ingo Albrecht",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dongoroth",
+   "actor": "Stefan Bräuler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Monsley",
+   "actor": "Sonja Spuhl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dyce",
+   "actor": "Matthias Klages",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kuzu",
+   "actor": "Thomas Schmuckert",
+   "von": "ann"
+  },
+  {
+   "character": "Gutch",
+   "actor": "Klaus-Peter Grap",
+   "von": "ann"
+  },
+  {
+   "character": "Lana",
+   "actor": "Saskia Glück",
+   "von": "ann"
+  },
+  {
+   "character": "Luke",
+   "actor": "Jermain Meyer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=899"
+}

@@ -1,1 +1,42 @@
-{"titleId":620,"updatedAt":"2026-08-11T11:20:02.853Z","roles":[{"character":"Yuuta","actor":"Sebastian Schulz","role":"MAIN"},{"character":"Masato","actor":"Diana Borgwardt","role":"SUPPORTING"},{"character":"Rin","actor":"Rubina Kuraoka","role":"SUPPORTING"},{"character":"Nae Kogure","actor":"Antje von der Ahe","role":"SUPPORTING"},{"character":"Towa Kannagi","actor":"Ghadah Al-Akel","role":"SUPPORTING"}]}
+{
+ "titleId": 620,
+ "updatedAt": "2026-08-15T18:25:49.100Z",
+ "roles": [
+  {
+   "character": "Yuuta",
+   "actor": "Sebastian Schulz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Masato",
+   "actor": "Diana Borgwardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rin",
+   "actor": "Rubina Kuraoka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nae Kogure",
+   "actor": "Antje von der Ahe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Towa Kannagi",
+   "actor": "Ghadah Al-Akel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuta",
+   "actor": "Sebastian Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "Mana",
+   "actor": "Julia Kaufmann",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2976"
+}

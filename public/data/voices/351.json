@@ -1,1 +1,137 @@
-{"titleId":351,"updatedAt":"2026-08-11T11:20:02.819Z","roles":[{"character":"Aiko Senoo","actor":"Anke Kortemeier","role":"MAIN"},{"character":"Onpu Segawa","actor":"Sonja Reichelt","role":"MAIN"},{"character":"Hazuki Fujiwara","actor":"Christine Stichler","role":"MAIN"},{"character":"Hana Makihatayama","actor":"Nicola Grupe-Arnoldi","role":"MAIN"},{"character":"Pop Harukaze","actor":"Andrea Wick","role":"MAIN"},{"character":"Doremi Harukaze","actor":"Simone Brahmann","role":"MAIN"},{"character":"Majorika","actor":"Inez Günther","role":"MAIN"},{"character":"Reika Tamaki","actor":"Nicola Grupe-Arnoldi","role":"SUPPORTING"},{"character":"Rere","actor":"Daniela Arden","role":"SUPPORTING"},{"character":"Lala","actor":"Melanie Manstein","role":"SUPPORTING"},{"character":"Miho Segawa","actor":"Inez Günther","role":"SUPPORTING"},{"character":"Seki-sensei","actor":"Christina Rössler","role":"SUPPORTING"},{"character":"Tooru","actor":"Roman Wolko","role":"SUPPORTING"},{"character":"Fafa","actor":"Andrea Wick","role":"SUPPORTING"},{"character":"Tetsuya Kotake","actor":"Ditte Schupp","role":"SUPPORTING"},{"character":"Alexander T. Oyajiide","actor":"Florian Halm","role":"SUPPORTING"},{"character":"Leon","actor":"Johannes Wolko","role":"SUPPORTING"},{"character":"Haruka Harukaze","actor":"Alisa Palmer","role":"SUPPORTING"},{"character":"Majokai no Joou-sama","actor":"Daniela Arden","role":"SUPPORTING"},{"character":"Dela","actor":"Dorothea Anzinger","role":"SUPPORTING"},{"character":"Yuki","actor":"Dorothea Anzinger","role":"SUPPORTING"}]}
+{
+ "titleId": 351,
+ "updatedAt": "2026-08-15T18:24:21.419Z",
+ "roles": [
+  {
+   "character": "Aiko Senoo",
+   "actor": "Anke Kortemeier",
+   "role": "MAIN"
+  },
+  {
+   "character": "Onpu Segawa",
+   "actor": "Sonja Reichelt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hazuki Fujiwara",
+   "actor": "Christine Stichler",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hana Makihatayama",
+   "actor": "Nicola Grupe-Arnoldi",
+   "role": "MAIN"
+  },
+  {
+   "character": "Pop Harukaze",
+   "actor": "Andrea Wick",
+   "role": "MAIN"
+  },
+  {
+   "character": "Doremi Harukaze",
+   "actor": "Simone Brahmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Majorika",
+   "actor": "Inez Günther",
+   "role": "MAIN"
+  },
+  {
+   "character": "Reika Tamaki",
+   "actor": "Nicola Grupe-Arnoldi",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rere",
+   "actor": "Daniela Arden",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lala",
+   "actor": "Melanie Manstein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miho Segawa",
+   "actor": "Inez Günther",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seki-sensei",
+   "actor": "Christina Rössler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tooru",
+   "actor": "Roman Wolko",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fafa",
+   "actor": "Andrea Wick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tetsuya Kotake",
+   "actor": "Ditte Schupp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alexander T. Oyajiide",
+   "actor": "Florian Halm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Leon",
+   "actor": "Johannes Wolko",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haruka Harukaze",
+   "actor": "Alisa Palmer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Majokai no Joou-sama",
+   "actor": "Daniela Arden",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dela",
+   "actor": "Dorothea Anzinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuki",
+   "actor": "Dorothea Anzinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mahorca",
+   "actor": "Inez Günther",
+   "von": "ann"
+  },
+  {
+   "character": "Sophie Seno",
+   "actor": "Anke Kortemeier",
+   "von": "ann"
+  },
+  {
+   "character": "Emilie Fujiwara",
+   "actor": "Christine Stichler",
+   "von": "ann"
+  },
+  {
+   "character": "Nicole Segawa",
+   "actor": "Sonja Reichelt",
+   "von": "ann"
+  },
+  {
+   "character": "Bibi Harukaze",
+   "actor": "Andrea Wick",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1652"
+}

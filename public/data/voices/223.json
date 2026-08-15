@@ -1,1 +1,152 @@
-{"titleId":223,"updatedAt":"2026-08-11T11:20:02.805Z","roles":[{"character":"Kuririn","actor":"Norman Matt","role":"MAIN"},{"character":"Yamcha","actor":"Andreas Meese","role":"MAIN"},{"character":"Gokuu Son","actor":"Corinna Dorenkamp","role":"MAIN"},{"character":"Bulma","actor":"Katja Liebing","role":"MAIN"},{"character":"Muten Roushi","actor":"Heinz Ostermann","role":"MAIN"},{"character":"Sergeant Major Purple","actor":"Volker Wolf","role":"SUPPORTING"},{"character":"Tsukutsun Tsun","actor":"Phil Daub","role":"SUPPORTING"},{"character":"Namu","actor":"Daniel Werner","role":"SUPPORTING"},{"character":"General Blue","actor":"Markus Pfeiffer","role":"SUPPORTING"},{"character":"Tarou Soramame","actor":"Roman Rossa","role":"SUPPORTING"},{"character":"Toninjinka","actor":"Renier Baaken","role":"SUPPORTING"},{"character":"Yajirobe","actor":"Stephan Schleberger","role":"SUPPORTING"},{"character":"Kami","actor":"Jürg Löw","role":"SUPPORTING"},{"character":"Akkuman","actor":"Fabian Körner","role":"SUPPORTING"},{"character":"Staff Officer Black","actor":"Claudius Zimmermann","role":"SUPPORTING"},{"character":"Bora","actor":"Matthias Haase","role":"SUPPORTING"},{"character":"Pu'ar","actor":"Frauke Poolman","role":"SUPPORTING"},{"character":"Tao Pai Pai","actor":"Rolf Berg","role":"SUPPORTING"},{"character":"Narrator","actor":"Josef  Tratnik","role":"SUPPORTING"}]}
+{
+ "titleId": 223,
+ "updatedAt": "2026-08-15T18:23:41.418Z",
+ "roles": [
+  {
+   "character": "Kuririn",
+   "actor": "Norman Matt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yamcha",
+   "actor": "Andreas Meese",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gokuu Son",
+   "actor": "Corinna Dorenkamp",
+   "role": "MAIN"
+  },
+  {
+   "character": "Bulma",
+   "actor": "Katja Liebing",
+   "role": "MAIN"
+  },
+  {
+   "character": "Muten Roushi",
+   "actor": "Heinz Ostermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sergeant Major Purple",
+   "actor": "Volker Wolf",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsukutsun Tsun",
+   "actor": "Phil Daub",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Namu",
+   "actor": "Daniel Werner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "General Blue",
+   "actor": "Markus Pfeiffer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tarou Soramame",
+   "actor": "Roman Rossa",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toninjinka",
+   "actor": "Renier Baaken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yajirobe",
+   "actor": "Stephan Schleberger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kami",
+   "actor": "Jürg Löw",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akkuman",
+   "actor": "Fabian Körner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Staff Officer Black",
+   "actor": "Claudius Zimmermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bora",
+   "actor": "Matthias Haase",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pu'ar",
+   "actor": "Frauke Poolman",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tao Pai Pai",
+   "actor": "Rolf Berg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Josef  Tratnik",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Oolong",
+   "actor": "Gregor Höppner",
+   "von": "ann"
+  },
+  {
+   "character": "Pool",
+   "actor": "Frauke Poolman",
+   "von": "ann"
+  },
+  {
+   "character": "Muten Roshi",
+   "actor": "Heinz Ostermann",
+   "von": "ann"
+  },
+  {
+   "character": "Lunch",
+   "actor": "Luise Brings",
+   "von": "ann"
+  },
+  {
+   "character": "Mai",
+   "actor": "Brit Gülland",
+   "von": "ann"
+  },
+  {
+   "character": "Chi Chi",
+   "actor": "Ilya Welter",
+   "von": "ann"
+  },
+  {
+   "character": "Son Goku",
+   "actor": "Frank Schaff",
+   "von": "ann"
+  },
+  {
+   "character": "Son Goku",
+   "actor": "Corinna Dörenkamp",
+   "von": "ann"
+  },
+  {
+   "character": "Tenshihan",
+   "actor": "Vittorio Alfieri",
+   "von": "ann"
+  },
+  {
+   "character": "Lunch",
+   "actor": "Luise Charlotte Brings",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=243"
+}

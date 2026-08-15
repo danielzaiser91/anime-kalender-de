@@ -1,1 +1,57 @@
-{"titleId":523,"updatedAt":"2026-08-11T11:20:02.841Z","roles":[{"character":"Satsuki Kusakabe","actor":"Maresa Sedlmeir","role":"MAIN"},{"character":"Mei Kusakabe","actor":"Paulina Rümmelein","role":"MAIN"},{"character":"Totoro","actor":"Gerhard Jilka","role":"MAIN"},{"character":"Yasuko Kusakabe","actor":"Christine Stichler","role":"SUPPORTING"},{"character":"Kanta Oogaki","actor":"Moritz Günther","role":"SUPPORTING"},{"character":"Tatsuo Kusakabe","actor":"Philipp Brammer","role":"SUPPORTING"}]}
+{
+ "titleId": 523,
+ "updatedAt": "2026-08-15T18:25:17.832Z",
+ "roles": [
+  {
+   "character": "Satsuki Kusakabe",
+   "actor": "Maresa Sedlmeir",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mei Kusakabe",
+   "actor": "Paulina Rümmelein",
+   "role": "MAIN"
+  },
+  {
+   "character": "Totoro",
+   "actor": "Gerhard Jilka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yasuko Kusakabe",
+   "actor": "Christine Stichler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kanta Oogaki",
+   "actor": "Moritz Günther",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tatsuo Kusakabe",
+   "actor": "Philipp Brammer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Großmutter",
+   "actor": "Monika John",
+   "von": "ann"
+  },
+  {
+   "character": "Satsuki Kusakabe",
+   "actor": "Marisa Sedlmeier",
+   "von": "ann"
+  },
+  {
+   "character": "Mei Kusakabe",
+   "actor": "Paulina Bohlmann",
+   "von": "ann"
+  },
+  {
+   "character": "Kanta",
+   "actor": "Moritz Günther",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=534"
+}

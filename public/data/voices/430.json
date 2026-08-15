@@ -1,1 +1,232 @@
-{"titleId":430,"updatedAt":"2026-08-11T11:20:02.828Z","roles":[{"character":"Alphonse Elric","actor":"Wanja Gerick","role":"MAIN"},{"character":"Alfons Heiderich","actor":"Wanja Gerick","role":"MAIN"},{"character":"Edward Elric","actor":"David Turba","role":"MAIN"},{"character":"Noah","actor":"Silke Linderhaus","role":"MAIN"},{"character":"Wrath","actor":"Hannes Maurer","role":"SUPPORTING"},{"character":"Pinako Rockbell","actor":"Sibylle Kuhne","role":"SUPPORTING"},{"character":"Gracia Hughes","actor":"Petra Glunz-grosch","role":"SUPPORTING"},{"character":"Winry Rockbell","actor":"Marie Bierstedt","role":"SUPPORTING"},{"character":"Izumi Curtis","actor":"Kordula Leiße","role":"SUPPORTING"},{"character":"Fritz Lang","actor":"Erich Räuker","role":"SUPPORTING"},{"character":"Riza Hawkeye","actor":"Gabriele Wienand","role":"SUPPORTING"},{"character":"Sheska","actor":"Corinna Dorenkamp","role":"SUPPORTING"},{"character":"Denny Brosh","actor":"Nico Sablik","role":"SUPPORTING"},{"character":"Roy Mustang","actor":"David Nathan","role":"SUPPORTING"},{"character":"Van Hohenheim","actor":"Olaf Reitz","role":"SUPPORTING"},{"character":"Envy","actor":"Julien Haggege","role":"SUPPORTING"},{"character":"Jean Havoc","actor":"Philipp Schepmann","role":"SUPPORTING"},{"character":"Rudolf Hess","actor":"Gregor Höppner","role":"SUPPORTING"},{"character":"Maria Ross","actor":"Brit Gülland","role":"SUPPORTING"},{"character":"Dietlinde Eckart","actor":"Michaela Kametz","role":"SUPPORTING"},{"character":"Sig Curtis","actor":"Reinhard Schulat-Rademacher","role":"SUPPORTING"},{"character":"Kain Fuery","actor":"Vittorio Alfieri","role":"SUPPORTING"},{"character":"Gluttony","actor":"Renier Baaken","role":"SUPPORTING"}]}
+{
+ "titleId": 430,
+ "updatedAt": "2026-08-15T18:24:43.604Z",
+ "roles": [
+  {
+   "character": "Alphonse Elric",
+   "actor": "Wanja Gerick",
+   "role": "MAIN"
+  },
+  {
+   "character": "Alfons Heiderich",
+   "actor": "Wanja Gerick",
+   "role": "MAIN"
+  },
+  {
+   "character": "Edward Elric",
+   "actor": "David Turba",
+   "role": "MAIN"
+  },
+  {
+   "character": "Noah",
+   "actor": "Silke Linderhaus",
+   "role": "MAIN"
+  },
+  {
+   "character": "Wrath",
+   "actor": "Hannes Maurer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pinako Rockbell",
+   "actor": "Sibylle Kuhne",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gracia Hughes",
+   "actor": "Petra Glunz-grosch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Winry Rockbell",
+   "actor": "Marie Bierstedt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Izumi Curtis",
+   "actor": "Kordula Leiße",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fritz Lang",
+   "actor": "Erich Räuker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Riza Hawkeye",
+   "actor": "Gabriele Wienand",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sheska",
+   "actor": "Corinna Dorenkamp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Denny Brosh",
+   "actor": "Nico Sablik",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Roy Mustang",
+   "actor": "David Nathan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Van Hohenheim",
+   "actor": "Olaf Reitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Envy",
+   "actor": "Julien Haggege",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jean Havoc",
+   "actor": "Philipp Schepmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rudolf Hess",
+   "actor": "Gregor Höppner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maria Ross",
+   "actor": "Brit Gülland",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dietlinde Eckart",
+   "actor": "Michaela Kametz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sig Curtis",
+   "actor": "Reinhard Schulat-Rademacher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kain Fuery",
+   "actor": "Vittorio Alfieri",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gluttony",
+   "actor": "Renier Baaken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alphonse Heiderich",
+   "actor": "Wanja Gerick",
+   "von": "ann"
+  },
+  {
+   "character": "Winry",
+   "actor": "Marie Bierstedt",
+   "von": "ann"
+  },
+  {
+   "character": "Hess",
+   "actor": "Gregor Höppner",
+   "von": "ann"
+  },
+  {
+   "character": "Falman",
+   "actor": "Andreas Meese",
+   "von": "ann"
+  },
+  {
+   "character": "Fritz Lang / Mabuse",
+   "actor": "Erich Räuker",
+   "von": "ann"
+  },
+  {
+   "character": "Glacier",
+   "actor": "Petra Glunz-Grosch",
+   "von": "ann"
+  },
+  {
+   "character": "Oma Pinako",
+   "actor": "Sibylle Kuhne",
+   "von": "ann"
+  },
+  {
+   "character": "Hanussen",
+   "actor": "Volker Wolf",
+   "von": "ann"
+  },
+  {
+   "character": "Sigu",
+   "actor": "Reinhard Schulat",
+   "von": "ann"
+  },
+  {
+   "character": "Louise Armstrong",
+   "actor": "Detlef Bierstedt",
+   "von": "ann"
+  },
+  {
+   "character": "Izumi",
+   "actor": "Kordula Leiße",
+   "von": "ann"
+  },
+  {
+   "character": "Hughes",
+   "actor": "Simon T. Roden",
+   "von": "ann"
+  },
+  {
+   "character": "Haushofer",
+   "actor": "Hans Bayer",
+   "von": "ann"
+  },
+  {
+   "character": "Lyra",
+   "actor": "Tanja Schmitz",
+   "von": "ann"
+  },
+  {
+   "character": "Sheska",
+   "actor": "Corinna Dörenkamp",
+   "von": "ann"
+  },
+  {
+   "character": "Fury",
+   "actor": "Vittorio Alfieri",
+   "von": "ann"
+  },
+  {
+   "character": "Havoc",
+   "actor": "Philipp Schepmann",
+   "von": "ann"
+  },
+  {
+   "character": "Noa",
+   "actor": "Silke Linderhaus",
+   "von": "ann"
+  },
+  {
+   "character": "Huskisson",
+   "actor": "Thomas Friebe",
+   "von": "ann"
+  },
+  {
+   "character": "Riza Hawkeye",
+   "actor": "Gabi Wienand",
+   "von": "ann"
+  },
+  {
+   "character": "Rose",
+   "actor": "Jülide Gülgec",
+   "von": "ann"
+  },
+  {
+   "character": "Hohenheim",
+   "actor": "Olaf Reitz",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=4176"
+}

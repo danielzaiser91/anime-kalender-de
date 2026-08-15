@@ -1,1 +1,62 @@
-{"titleId":142,"updatedAt":"2026-08-11T11:20:02.794Z","roles":[{"character":"Maron Kusakabe","actor":"Sylvie Nogler","role":"MAIN"},{"character":"Chiaki Nagoya","actor":"Tilman Borck","role":"MAIN"},{"character":"Miyako Toudaiji","actor":"Christine Pappert","role":"MAIN"},{"character":"Finn Fish","actor":"Kristina von Weltzien","role":"MAIN"},{"character":"Yamato Minazuki","actor":"Leonhard Mahlich","role":"SUPPORTING"},{"character":"Access Time","actor":"Tim Knauer","role":"SUPPORTING"},{"character":"Myst","actor":"Céline Fontanges","role":"SUPPORTING"}]}
+{
+ "titleId": 142,
+ "updatedAt": "2026-08-15T18:23:07.240Z",
+ "roles": [
+  {
+   "character": "Maron Kusakabe",
+   "actor": "Sylvie Nogler",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chiaki Nagoya",
+   "actor": "Tilman Borck",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miyako Toudaiji",
+   "actor": "Christine Pappert",
+   "role": "MAIN"
+  },
+  {
+   "character": "Finn Fish",
+   "actor": "Kristina von Weltzien",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yamato Minazuki",
+   "actor": "Leonhard Mahlich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Access Time",
+   "actor": "Tim Knauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Myst",
+   "actor": "Céline Fontanges",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maron/Jeanne",
+   "actor": "Sylvie Lüder-Nogler",
+   "von": "ann"
+  },
+  {
+   "character": "Access",
+   "actor": "Tim Knauer",
+   "von": "ann"
+  },
+  {
+   "character": "Chiaki/Sindbad",
+   "actor": "Tilman Borck",
+   "von": "ann"
+  },
+  {
+   "character": "Fynn Fish",
+   "actor": "Kristina von Weltzien",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=362"
+}

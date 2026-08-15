@@ -1,1 +1,117 @@
-{"titleId":534,"updatedAt":"2026-08-11T11:20:02.843Z","roles":[{"character":"Lina Inverse","actor":"Shandra Schadt","role":"MAIN"},{"character":"Zelgadis Graywords","actor":"Florian Halm","role":"MAIN"},{"character":"Gourry Gabriev","actor":"Hubertus von Lerchenfeld","role":"MAIN"},{"character":"Amelia Wil Tesla Saillune","actor":"Sabine Bohlmann","role":"MAIN"},{"character":"Vrumugun","actor":"Tobias Lelle","role":"SUPPORTING"},{"character":"Zorom","actor":"Horst Sachtleben","role":"SUPPORTING"},{"character":"Zangulus","actor":"Dominik Auer","role":"SUPPORTING"},{"character":"Dilgear","actor":"Thomas Albus","role":"SUPPORTING"},{"character":"Rezo","actor":"Marc Stachel","role":"SUPPORTING"},{"character":"Ruby Eye Shabranigdo","actor":"Ekkehardt Belle","role":"SUPPORTING"},{"character":"Copy Rezo","actor":"Pascal Breuer","role":"SUPPORTING"},{"character":"Noonsa","actor":"Kai Taschner","role":"SUPPORTING"},{"character":"Eris","actor":"Sonja Reichelt","role":"SUPPORTING"},{"character":"Saman","actor":"Horst Sachtleben","role":"SUPPORTING"},{"character":"Philionel El Di Saillune","actor":"Tommi Piper","role":"SUPPORTING"},{"character":"Sylphiel Nels Laada","actor":"Anke Kortemeier","role":"SUPPORTING"},{"character":"Rodimus","actor":"Manfred Erdmann","role":"SUPPORTING"}]}
+{
+ "titleId": 534,
+ "updatedAt": "2026-08-15T18:25:25.355Z",
+ "roles": [
+  {
+   "character": "Lina Inverse",
+   "actor": "Shandra Schadt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Zelgadis Graywords",
+   "actor": "Florian Halm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gourry Gabriev",
+   "actor": "Hubertus von Lerchenfeld",
+   "role": "MAIN"
+  },
+  {
+   "character": "Amelia Wil Tesla Saillune",
+   "actor": "Sabine Bohlmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Vrumugun",
+   "actor": "Tobias Lelle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zorom",
+   "actor": "Horst Sachtleben",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zangulus",
+   "actor": "Dominik Auer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dilgear",
+   "actor": "Thomas Albus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rezo",
+   "actor": "Marc Stachel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ruby Eye Shabranigdo",
+   "actor": "Ekkehardt Belle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Copy Rezo",
+   "actor": "Pascal Breuer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Noonsa",
+   "actor": "Kai Taschner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eris",
+   "actor": "Sonja Reichelt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Saman",
+   "actor": "Horst Sachtleben",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Philionel El Di Saillune",
+   "actor": "Tommi Piper",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sylphiel Nels Laada",
+   "actor": "Anke Kortemeier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rodimus",
+   "actor": "Manfred Erdmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Amelia Vil Tesla Sailoon",
+   "actor": "Sabine Bohlmann",
+   "von": "ann"
+  },
+  {
+   "character": "Zelgadis Greywords",
+   "actor": "Florian Halm",
+   "von": "ann"
+  },
+  {
+   "character": "Sylphiel",
+   "actor": "Anke Kortemeier",
+   "von": "ann"
+  },
+  {
+   "character": "Rezo",
+   "actor": "Pascal Breuer",
+   "von": "ann"
+  },
+  {
+   "character": "Zolf",
+   "actor": "Claus Brockmeyer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=657"
+}

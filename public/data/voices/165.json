@@ -1,1 +1,142 @@
-{"titleId":165,"updatedAt":"2026-08-11T11:20:02.799Z","roles":[{"character":"Quon Kisaragi","actor":"Beate Pfeiffer","role":"MAIN"},{"character":"Haruka Shitow","actor":"Tolilah Jolas","role":"MAIN"},{"character":"Reika Mishima","actor":"Maren Rainer","role":"MAIN"},{"character":"Ayato Kamina","actor":"Daniel Krause","role":"MAIN"},{"character":"Megumi Shitow","actor":"Kathrin Gaube","role":"SUPPORTING"},{"character":"Shirow Watari","actor":"Christoph Jablonka","role":"SUPPORTING"},{"character":"Souichi Yakumo","actor":"Clemens Ostermann","role":"SUPPORTING"},{"character":"Mamoru Torigai","actor":"Manuel  von Radvanyi","role":"SUPPORTING"},{"character":"Elvy Hadhiyat","actor":"Michaela  Degen","role":"SUPPORTING"},{"character":"Helena von Baehbem","actor":"Christine Stichler","role":"SUPPORTING"},{"character":"Maya Kamina","actor":"Susanne von Medvey","role":"SUPPORTING"},{"character":"Jin Kunugi","actor":"Walter von Hauff","role":"SUPPORTING"},{"character":"Itsuki Kisaragi","actor":"Johannes Raspe","role":"SUPPORTING"},{"character":"Sayoko Nanamori","actor":"Alisa Palmer","role":"SUPPORTING"},{"character":"Hiroko Asahina","actor":"Caroline Combrinck","role":"SUPPORTING"},{"character":"Makoto Isshiki","actor":"Armin Berger","role":"SUPPORTING"},{"character":"Masayoshi Kuki","actor":"Manfred Trilling","role":"SUPPORTING"}]}
+{
+ "titleId": 165,
+ "updatedAt": "2026-08-15T18:23:21.611Z",
+ "roles": [
+  {
+   "character": "Quon Kisaragi",
+   "actor": "Beate Pfeiffer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Haruka Shitow",
+   "actor": "Tolilah Jolas",
+   "role": "MAIN"
+  },
+  {
+   "character": "Reika Mishima",
+   "actor": "Maren Rainer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ayato Kamina",
+   "actor": "Daniel Krause",
+   "role": "MAIN"
+  },
+  {
+   "character": "Megumi Shitow",
+   "actor": "Kathrin Gaube",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shirow Watari",
+   "actor": "Christoph Jablonka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Souichi Yakumo",
+   "actor": "Clemens Ostermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mamoru Torigai",
+   "actor": "Manuel  von Radvanyi",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Elvy Hadhiyat",
+   "actor": "Michaela  Degen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Helena von Baehbem",
+   "actor": "Christine Stichler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maya Kamina",
+   "actor": "Susanne von Medvey",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jin Kunugi",
+   "actor": "Walter von Hauff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Itsuki Kisaragi",
+   "actor": "Johannes Raspe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sayoko Nanamori",
+   "actor": "Alisa Palmer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hiroko Asahina",
+   "actor": "Caroline Combrinck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Makoto Isshiki",
+   "actor": "Armin Berger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masayoshi Kuki",
+   "actor": "Manfred Trilling",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Elvy Hadhiyat",
+   "actor": "Michaela Degen",
+   "von": "ann"
+  },
+  {
+   "character": "Ernst von Bähbem",
+   "actor": "Thomas Reiner",
+   "von": "ann"
+  },
+  {
+   "character": "Helena Bähbem",
+   "actor": "Christine Stichler",
+   "von": "ann"
+  },
+  {
+   "character": "Souichi Yagumo",
+   "actor": "Clemens Ostermann",
+   "von": "ann"
+  },
+  {
+   "character": "Johji Futagami",
+   "actor": "Torsten Münchow",
+   "von": "ann"
+  },
+  {
+   "character": "Reika Mishima",
+   "actor": "Maren Reiner",
+   "von": "ann"
+  },
+  {
+   "character": "Mamoru Torigai",
+   "actor": "Manuel von Radvanyi",
+   "von": "ann"
+  },
+  {
+   "character": "Shougo Rikudoh",
+   "actor": "Ulf Söhmisch",
+   "von": "ann"
+  },
+  {
+   "character": "Kim Hotaru",
+   "actor": "Katharina Mai",
+   "von": "ann"
+  },
+  {
+   "character": "Megumi Shitow",
+   "actor": "Kathi Gaube",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=849"
+}

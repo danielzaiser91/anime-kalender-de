@@ -1,1 +1,142 @@
-{"titleId":207,"updatedAt":"2026-08-11T11:20:02.804Z","roles":[{"character":"Parn","actor":"Timmo Niesner","role":"MAIN"},{"character":"Deedlit","actor":"Beate Pfeiffer","role":"MAIN"},{"character":"Shiris","actor":"Michele Sterr","role":"SUPPORTING"},{"character":"Karla","actor":"Martina Duncker","role":"SUPPORTING"},{"character":"Ghim","actor":"Norbert Gastell","role":"SUPPORTING"},{"character":"Etoh","actor":"Stefan Krause","role":"SUPPORTING"},{"character":"Leylia","actor":"Shandra Schadt","role":"SUPPORTING"},{"character":"Narrator","actor":"Egon Lux","role":"SUPPORTING"},{"character":"Woodchuck","actor":"Philipp Moog","role":"SUPPORTING"},{"character":"Ashram","actor":"Claus-Peter Damitz","role":"SUPPORTING"},{"character":"Orson","actor":"Daniel Krause","role":"SUPPORTING"},{"character":"Pirotessa  Merestianna","actor":"Ute Bronder","role":"SUPPORTING"},{"character":"Wagnard","actor":"Torsten Münchow","role":"SUPPORTING"},{"character":"Kashue","actor":"Manou Lubowski","role":"SUPPORTING"},{"character":"Fahn","actor":"Ulf Jürgen Söhmisch","role":"SUPPORTING"},{"character":"Wort","actor":"Egon Lux","role":"SUPPORTING"},{"character":"Slayn","actor":"Jacques Breuer","role":"SUPPORTING"},{"character":"Beld","actor":"Willi Röbke","role":"SUPPORTING"}]}
+{
+ "titleId": 207,
+ "updatedAt": "2026-08-15T18:23:36.853Z",
+ "roles": [
+  {
+   "character": "Parn",
+   "actor": "Timmo Niesner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Deedlit",
+   "actor": "Beate Pfeiffer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shiris",
+   "actor": "Michele Sterr",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Karla",
+   "actor": "Martina Duncker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ghim",
+   "actor": "Norbert Gastell",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Etoh",
+   "actor": "Stefan Krause",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Leylia",
+   "actor": "Shandra Schadt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Egon Lux",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Woodchuck",
+   "actor": "Philipp Moog",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ashram",
+   "actor": "Claus-Peter Damitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Orson",
+   "actor": "Daniel Krause",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pirotessa  Merestianna",
+   "actor": "Ute Bronder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Wagnard",
+   "actor": "Torsten Münchow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kashue",
+   "actor": "Manou Lubowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fahn",
+   "actor": "Ulf Jürgen Söhmisch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Wort",
+   "actor": "Egon Lux",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Slayn",
+   "actor": "Jacques Breuer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Beld",
+   "actor": "Willi Röbke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Woodchuck",
+   "actor": "Phillip Moog",
+   "von": "ann"
+  },
+  {
+   "character": "King Kashew",
+   "actor": "Manou Lubowski",
+   "von": "ann"
+  },
+  {
+   "character": "Karlla/Lailia",
+   "actor": "Martina Dunker",
+   "von": "ann"
+  },
+  {
+   "character": "Vagnard",
+   "actor": "Torsten Münchow",
+   "von": "ann"
+  },
+  {
+   "character": "Belt",
+   "actor": "Willi Röbke",
+   "von": "ann"
+  },
+  {
+   "character": "Neese",
+   "actor": "Tolilah Jolas",
+   "von": "ann"
+  },
+  {
+   "character": "King Fawn",
+   "actor": "Ulf Söhmisch",
+   "von": "ann"
+  },
+  {
+   "character": "Pirotess",
+   "actor": "Ute Bronder",
+   "von": "ann"
+  },
+  {
+   "character": "Fiana",
+   "actor": "Mara Scherzinger",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=394"
+}

@@ -1,1 +1,127 @@
-{"titleId":777,"updatedAt":"2026-08-11T11:20:02.860Z","roles":[{"character":"Alucard","actor":"Torsten Münchow","role":"MAIN"},{"character":"Seras Victoria","actor":"Shandra Schadt","role":"MAIN"},{"character":"Integra Fairbrook Wingates Hellsing","actor":"Simone Brahmann","role":"MAIN"},{"character":"Jan Valentine","actor":"Benedikt Weber","role":"SUPPORTING"},{"character":"Heinkel Wolfe","actor":"Stefanie Dischinger","role":"SUPPORTING"},{"character":"Walter C. Dornez","actor":"Dieter Memel","role":"SUPPORTING"},{"character":"Enrico Maxwell","actor":"Matthias Klie","role":"SUPPORTING"},{"character":"Leif aka Huger","actor":"Benedikt Weber","role":"SUPPORTING"},{"character":"Doc","actor":"Gerd Meyer","role":"SUPPORTING"},{"character":"Alexander Anderson","actor":"Oliver Stritzel","role":"SUPPORTING"},{"character":"Arthur Hellsing","actor":"Christian Mey","role":"SUPPORTING"},{"character":"Yumie Takagi","actor":"Bettina Zech","role":"SUPPORTING"},{"character":"Shelby M. Penwood","actor":"Ulf Jürgen Söhmisch","role":"SUPPORTING"},{"character":"Rip Van Winkle","actor":"Melanie Manstein","role":"SUPPORTING"},{"character":"Richard Hellsing","actor":"Manfred Erdmann","role":"SUPPORTING"},{"character":"Hugh Irons","actor":"Fred Maire","role":"SUPPORTING"},{"character":"The Major","actor":"Gerhard Jilka","role":"SUPPORTING"},{"character":"Luke Valentine","actor":"Claus-Peter Damitz","role":"SUPPORTING"}]}
+{
+ "titleId": 777,
+ "updatedAt": "2026-08-15T18:26:01.527Z",
+ "roles": [
+  {
+   "character": "Alucard",
+   "actor": "Torsten Münchow",
+   "role": "MAIN"
+  },
+  {
+   "character": "Seras Victoria",
+   "actor": "Shandra Schadt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Integra Fairbrook Wingates Hellsing",
+   "actor": "Simone Brahmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jan Valentine",
+   "actor": "Benedikt Weber",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Heinkel Wolfe",
+   "actor": "Stefanie Dischinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Walter C. Dornez",
+   "actor": "Dieter Memel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Enrico Maxwell",
+   "actor": "Matthias Klie",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Leif aka Huger",
+   "actor": "Benedikt Weber",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Doc",
+   "actor": "Gerd Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alexander Anderson",
+   "actor": "Oliver Stritzel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Arthur Hellsing",
+   "actor": "Christian Mey",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yumie Takagi",
+   "actor": "Bettina Zech",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shelby M. Penwood",
+   "actor": "Ulf Jürgen Söhmisch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rip Van Winkle",
+   "actor": "Melanie Manstein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Richard Hellsing",
+   "actor": "Manfred Erdmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hugh Irons",
+   "actor": "Fred Maire",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "The Major",
+   "actor": "Gerhard Jilka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Luke Valentine",
+   "actor": "Claus-Peter Damitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lady Integra Wingates Hellsing",
+   "actor": "Simone Brahmann",
+   "von": "ann"
+  },
+  {
+   "character": "Walther",
+   "actor": "Dieter Memel",
+   "von": "ann"
+  },
+  {
+   "character": "Sir Islands",
+   "actor": "Fred Maire",
+   "von": "ann"
+  },
+  {
+   "character": "Sir Arthur Hellsing",
+   "actor": "Manfred Erdmann",
+   "von": "ann"
+  },
+  {
+   "character": "Sir Penwood",
+   "actor": "Ulf Söhmisch",
+   "von": "ann"
+  },
+  {
+   "character": "Max Montana",
+   "actor": "Gerhard Jilka",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=5114"
+}

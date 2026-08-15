@@ -1,1 +1,132 @@
-{"titleId":449,"updatedAt":"2026-08-11T11:20:02.831Z","roles":[{"character":"Kagome Higurashi","actor":"Ulrike Jennie","role":"MAIN"},{"character":"Inuyasha","actor":"Dominik Auer","role":"MAIN"},{"character":"Miroku","actor":"Florian Halm","role":"SUPPORTING"},{"character":"Shion","actor":"Farina Brock","role":"SUPPORTING"},{"character":"Sesshoumaru","actor":"Pascal Breuer","role":"SUPPORTING"},{"character":"Jaken","actor":"Kai Taschner","role":"SUPPORTING"},{"character":"Roku","actor":"Claudia Schmidt","role":"SUPPORTING"},{"character":"Rin","actor":"Caroline Schwarzmaier","role":"SUPPORTING"},{"character":"Juura","actor":"Philipp Brammer","role":"SUPPORTING"},{"character":"Sango","actor":"Angela Wiederhut","role":"SUPPORTING"},{"character":"Kyoura","actor":"Philipp Moog","role":"SUPPORTING"},{"character":"Ai","actor":"Sabine Bohlmann","role":"SUPPORTING"},{"character":"Asagi","actor":"Melanie Manstein","role":"SUPPORTING"},{"character":"Dai","actor":"Marieke Oeffinger","role":"SUPPORTING"},{"character":"Kikyou","actor":"Claudia Lossl","role":"SUPPORTING"},{"character":"Ryuura","actor":"Ole Pfennig","role":"SUPPORTING"},{"character":"Shippo","actor":"Julia Haacke","role":"SUPPORTING"},{"character":"Moegi","actor":"Jacqueline Belle","role":"SUPPORTING"}]}
+{
+ "titleId": 449,
+ "updatedAt": "2026-08-15T18:24:51.229Z",
+ "roles": [
+  {
+   "character": "Kagome Higurashi",
+   "actor": "Ulrike Jennie",
+   "role": "MAIN"
+  },
+  {
+   "character": "Inuyasha",
+   "actor": "Dominik Auer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miroku",
+   "actor": "Florian Halm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shion",
+   "actor": "Farina Brock",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sesshoumaru",
+   "actor": "Pascal Breuer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jaken",
+   "actor": "Kai Taschner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Roku",
+   "actor": "Claudia Schmidt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rin",
+   "actor": "Caroline Schwarzmaier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Juura",
+   "actor": "Philipp Brammer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sango",
+   "actor": "Angela Wiederhut",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyoura",
+   "actor": "Philipp Moog",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ai",
+   "actor": "Sabine Bohlmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Asagi",
+   "actor": "Melanie Manstein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dai",
+   "actor": "Marieke Oeffinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kikyou",
+   "actor": "Claudia Lossl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryuura",
+   "actor": "Ole Pfennig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shippo",
+   "actor": "Julia Haacke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Moegi",
+   "actor": "Jacqueline Belle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kikyou",
+   "actor": "Claudia Lössl",
+   "von": "ann"
+  },
+  {
+   "character": "Jura",
+   "actor": "Philipp Brammer",
+   "von": "ann"
+  },
+  {
+   "character": "Shippou",
+   "actor": "Julia Haacke",
+   "von": "ann"
+  },
+  {
+   "character": "Inu Yasha",
+   "actor": "Dominik Auer",
+   "von": "ann"
+  },
+  {
+   "character": "Asagi",
+   "actor": "Melanie Jung",
+   "von": "ann"
+  },
+  {
+   "character": "Kyura",
+   "actor": "Philipp Moog",
+   "von": "ann"
+  },
+  {
+   "character": "Ryura",
+   "actor": "Ole Pfennig",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=4228"
+}

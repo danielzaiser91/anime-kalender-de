@@ -1,1 +1,142 @@
-{"titleId":67,"updatedAt":"2026-08-11T11:20:02.789Z","roles":[{"character":"Gennosuke Kouga","actor":"Stefan Günther","role":"MAIN"},{"character":"Oboro Iga","actor":"Gabrielle Pietermann","role":"MAIN"},{"character":"Tenzen Yakushiji","actor":"Walter von Hauff","role":"MAIN"},{"character":"Hyouma Muroga","actor":"Claus-Peter Damitz","role":"SUPPORTING"},{"character":"Danjo Kouga","actor":"Claus-Peter Damitz","role":"SUPPORTING"},{"character":"Shougen Kazamachi","actor":"Gerhard Jilka","role":"SUPPORTING"},{"character":"Josuke Udono","actor":"Christoph Jablonka","role":"SUPPORTING"},{"character":"Jyubei Jimushi","actor":"Ole Pfennig","role":"SUPPORTING"},{"character":"Saemon Kisaragi","actor":"Andreas Borcherding","role":"SUPPORTING"},{"character":"Gyoubu Kasumi","actor":"Ole Pfennig","role":"SUPPORTING"},{"character":"Kagerou","actor":"Melanie Manstein","role":"SUPPORTING"},{"character":"Okoi","actor":"Caroline Combrinck","role":"SUPPORTING"},{"character":"Ogen Iga","actor":"Andrea Wick","role":"SUPPORTING"},{"character":"Yashamaru","actor":"Benjamin Münchow","role":"SUPPORTING"},{"character":"Rousai Azuki","actor":"Fred Maire","role":"SUPPORTING"},{"character":"Jingoro Amayo","actor":"Jörg Stuttmann","role":"SUPPORTING"},{"character":"Akeginu","actor":"Simone Brahmann","role":"SUPPORTING"},{"character":"Hotarubi","actor":"Kathrin Gaube","role":"SUPPORTING"},{"character":"Nenki Mino","actor":"Christian Schult","role":"SUPPORTING"},{"character":"Koshirou Chikuma","actor":"Johannes Raspe","role":"SUPPORTING"},{"character":"Munenori Yagyu","actor":"Michael Vogtmann","role":"SUPPORTING"},{"character":"Narrator","actor":"Dieter Memel","role":"SUPPORTING"}]}
+{
+ "titleId": 67,
+ "updatedAt": "2026-08-15T18:22:54.655Z",
+ "roles": [
+  {
+   "character": "Gennosuke Kouga",
+   "actor": "Stefan Günther",
+   "role": "MAIN"
+  },
+  {
+   "character": "Oboro Iga",
+   "actor": "Gabrielle Pietermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tenzen Yakushiji",
+   "actor": "Walter von Hauff",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hyouma Muroga",
+   "actor": "Claus-Peter Damitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Danjo Kouga",
+   "actor": "Claus-Peter Damitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shougen Kazamachi",
+   "actor": "Gerhard Jilka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Josuke Udono",
+   "actor": "Christoph Jablonka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jyubei Jimushi",
+   "actor": "Ole Pfennig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Saemon Kisaragi",
+   "actor": "Andreas Borcherding",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gyoubu Kasumi",
+   "actor": "Ole Pfennig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kagerou",
+   "actor": "Melanie Manstein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Okoi",
+   "actor": "Caroline Combrinck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ogen Iga",
+   "actor": "Andrea Wick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yashamaru",
+   "actor": "Benjamin Münchow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rousai Azuki",
+   "actor": "Fred Maire",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jingoro Amayo",
+   "actor": "Jörg Stuttmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Akeginu",
+   "actor": "Simone Brahmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hotarubi",
+   "actor": "Kathrin Gaube",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nenki Mino",
+   "actor": "Christian Schult",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Koshirou Chikuma",
+   "actor": "Johannes Raspe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Munenori Yagyu",
+   "actor": "Michael Vogtmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Dieter Memel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Azuki Rousai",
+   "actor": "Fred Maire",
+   "von": "ann"
+  },
+  {
+   "character": "Chikuma Koshirou",
+   "actor": "Johannes Raspe",
+   "von": "ann"
+  },
+  {
+   "character": "Gennosuke Koga",
+   "actor": "Stefan Günther",
+   "von": "ann"
+  },
+  {
+   "character": "Ogen",
+   "actor": "Andrea Wick",
+   "von": "ann"
+  },
+  {
+   "character": "Ogen",
+   "actor": "Ingeborg Solbrig",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=4318"
+}

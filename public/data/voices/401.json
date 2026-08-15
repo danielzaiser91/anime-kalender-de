@@ -1,1 +1,117 @@
-{"titleId":401,"updatedAt":"2026-08-11T11:20:02.825Z","roles":[{"character":"Sanosuke Sagara","actor":"Manuel Straube","role":"MAIN"},{"character":"Kenshin Himura","actor":"Clemens Ostermann","role":"MAIN"},{"character":"Kaoru Kamiya","actor":"Melanie Manstein","role":"MAIN"},{"character":"Yahiko Myojin","actor":"Jan Makino","role":"MAIN"},{"character":"Kenji Himura","actor":"Dirk Meyer","role":"SUPPORTING"},{"character":"Megumi Takani","actor":"Schaukje Könning","role":"SUPPORTING"},{"character":"Jinei Udoh","actor":"Claus-Peter Damitz","role":"SUPPORTING"},{"character":"Enishi Yukishiro","actor":"Dirk Petrick","role":"SUPPORTING"},{"character":"Chizuru Raikouji","actor":"Anita Hopt","role":"SUPPORTING"},{"character":"Tsubame Sanjou","actor":"Maximiliane Häcke","role":"SUPPORTING"},{"character":"Aritomo Yamagata","actor":"Gerhard Acktun","role":"SUPPORTING"},{"character":"Seijuurou Hiko","actor":"Jaron Löwenberg","role":"SUPPORTING"}]}
+{
+ "titleId": 401,
+ "updatedAt": "2026-08-15T18:24:34.762Z",
+ "roles": [
+  {
+   "character": "Sanosuke Sagara",
+   "actor": "Manuel Straube",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kenshin Himura",
+   "actor": "Clemens Ostermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kaoru Kamiya",
+   "actor": "Melanie Manstein",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yahiko Myojin",
+   "actor": "Jan Makino",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kenji Himura",
+   "actor": "Dirk Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Megumi Takani",
+   "actor": "Schaukje Könning",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jinei Udoh",
+   "actor": "Claus-Peter Damitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Enishi Yukishiro",
+   "actor": "Dirk Petrick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chizuru Raikouji",
+   "actor": "Anita Hopt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsubame Sanjou",
+   "actor": "Maximiliane Häcke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aritomo Yamagata",
+   "actor": "Gerhard Acktun",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seijuurou Hiko",
+   "actor": "Jaron Löwenberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsubame Sanjou",
+   "actor": "Michaela Degen",
+   "von": "ann"
+  },
+  {
+   "character": "Kaoru Kamiya",
+   "actor": "Melanie Jung",
+   "von": "ann"
+  },
+  {
+   "character": "Seijuro Hiko",
+   "actor": "Jaron Löwenberg",
+   "von": "ann"
+  },
+  {
+   "character": "Sanosuke",
+   "actor": "Alexander Doering",
+   "von": "ann"
+  },
+  {
+   "character": "Kenji Himura",
+   "actor": "Asad Schwarz",
+   "von": "ann"
+  },
+  {
+   "character": "Tsubame Sanjo",
+   "actor": "Maxi Häcke",
+   "von": "ann"
+  },
+  {
+   "character": "Kaoru Kamiya",
+   "actor": "Katrin Zimmermann",
+   "von": "ann"
+  },
+  {
+   "character": "Kenshin Himura",
+   "actor": "René Dawn-Claude",
+   "von": "ann"
+  },
+  {
+   "character": "Chizuru",
+   "actor": "Anita Hopt",
+   "von": "ann"
+  },
+  {
+   "character": "Yahiko Myoujin",
+   "actor": "Jan Makino",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=310"
+}

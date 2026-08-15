@@ -1,1 +1,132 @@
-{"titleId":317,"updatedAt":"2026-08-11T11:20:02.816Z","roles":[{"character":"Sephiroth","actor":"Simon Jäger","role":"MAIN"},{"character":"Tifa Lockhart","actor":"Shandra Schadt","role":"MAIN"},{"character":"Kadaj","actor":"Marc Stachel","role":"MAIN"},{"character":"Cloud Strife","actor":"Björn Schalla","role":"MAIN"},{"character":"Zack Fair","actor":"Clemens Ostermann","role":"SUPPORTING"},{"character":"Yazoo","actor":"Niko Macoulis","role":"SUPPORTING"},{"character":"Barret Wallace","actor":"Dieter Memel","role":"SUPPORTING"},{"character":"Elena","actor":"Solveig Duda","role":"SUPPORTING"},{"character":"Vincent Valentine","actor":"Dietmar Wunder","role":"SUPPORTING"},{"character":"Cait Sith","actor":"Jakob Riedl","role":"SUPPORTING"},{"character":"Rude","actor":"Oliver Stritzel","role":"SUPPORTING"},{"character":"Rufus Shinra","actor":"Crock Krumbiegel","role":"SUPPORTING"},{"character":"Marlene Wallace","actor":"Maresa Sedlmeir","role":"SUPPORTING"},{"character":"Reno","actor":"Philipp Brammer","role":"SUPPORTING"},{"character":"Yuffie Kisaragi","actor":"Ilona Brokowski","role":"SUPPORTING"},{"character":"Cid Highwind","actor":"Christoph Jablonka","role":"SUPPORTING"},{"character":"Loz","actor":"Andreas Borcherding","role":"SUPPORTING"},{"character":"Denzel","actor":"Tobias John von Freyend","role":"SUPPORTING"},{"character":"Aerith Gainsborough","actor":"Manja Doering","role":"SUPPORTING"},{"character":"Red XIII","actor":"Marcus Off","role":"SUPPORTING"},{"character":"Tseng","actor":"Martin Halm","role":"SUPPORTING"},{"character":"Reeve Tuesti","actor":"Frank Engelhardt","role":"SUPPORTING"}]}
+{
+ "titleId": 317,
+ "updatedAt": "2026-08-15T18:24:09.238Z",
+ "roles": [
+  {
+   "character": "Sephiroth",
+   "actor": "Simon Jäger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tifa Lockhart",
+   "actor": "Shandra Schadt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kadaj",
+   "actor": "Marc Stachel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Cloud Strife",
+   "actor": "Björn Schalla",
+   "role": "MAIN"
+  },
+  {
+   "character": "Zack Fair",
+   "actor": "Clemens Ostermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yazoo",
+   "actor": "Niko Macoulis",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Barret Wallace",
+   "actor": "Dieter Memel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Elena",
+   "actor": "Solveig Duda",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Vincent Valentine",
+   "actor": "Dietmar Wunder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cait Sith",
+   "actor": "Jakob Riedl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rude",
+   "actor": "Oliver Stritzel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rufus Shinra",
+   "actor": "Crock Krumbiegel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marlene Wallace",
+   "actor": "Maresa Sedlmeir",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Reno",
+   "actor": "Philipp Brammer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuffie Kisaragi",
+   "actor": "Ilona Brokowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cid Highwind",
+   "actor": "Christoph Jablonka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Loz",
+   "actor": "Andreas Borcherding",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Denzel",
+   "actor": "Tobias John von Freyend",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aerith Gainsborough",
+   "actor": "Manja Doering",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Red XIII",
+   "actor": "Marcus Off",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tseng",
+   "actor": "Martin Halm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Reeve Tuesti",
+   "actor": "Frank Engelhardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuffie Kisaragi",
+   "actor": "Ilona Otto",
+   "von": "ann"
+  },
+  {
+   "character": "Barrett Wallace",
+   "actor": "Dieter Memel",
+   "von": "ann"
+  },
+  {
+   "character": "Marlene Wallace",
+   "actor": "Marisa Sedlmeier",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=3344"
+}

@@ -1,1 +1,87 @@
-{"titleId":322,"updatedAt":"2026-08-11T11:20:02.816Z","roles":[{"character":"Yukari Hayasaka","actor":"Gabriele Wienand","role":"MAIN"},{"character":"George Koizumi","actor":"Markus Pfeiffer","role":"MAIN"},{"character":"Arashi Nagase","actor":"Dieter Maise","role":"MAIN"},{"character":"Miwako Sakurada","actor":"Sarah Brückner","role":"MAIN"},{"character":"Isabella Yamamoto","actor":"Ilya Welter","role":"MAIN"},{"character":"Hiroyuki Tokumori","actor":"Heiko Obermöller","role":"SUPPORTING"},{"character":"Tsutomu Yamaguchi","actor":"David Turba","role":"SUPPORTING"},{"character":"Seiji Kisaragi","actor":"Simon T. Roden","role":"SUPPORTING"},{"character":"Risa Kanzaki","actor":"Silke Haupt","role":"SUPPORTING"},{"character":"Alice Yamaguchi","actor":"Katja Liebing","role":"SUPPORTING"},{"character":"Mikako Kouda","actor":"Corinna Dorenkamp","role":"SUPPORTING"},{"character":"Kaori Aso","actor":"Katja Liebing","role":"SUPPORTING"},{"character":"Yukino Koizumi","actor":"Susanne Dobrusskin","role":"SUPPORTING"}]}
+{
+ "titleId": 322,
+ "updatedAt": "2026-08-15T18:24:11.503Z",
+ "roles": [
+  {
+   "character": "Yukari Hayasaka",
+   "actor": "Gabriele Wienand",
+   "role": "MAIN"
+  },
+  {
+   "character": "George Koizumi",
+   "actor": "Markus Pfeiffer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Arashi Nagase",
+   "actor": "Dieter Maise",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miwako Sakurada",
+   "actor": "Sarah Brückner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Isabella Yamamoto",
+   "actor": "Ilya Welter",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hiroyuki Tokumori",
+   "actor": "Heiko Obermöller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsutomu Yamaguchi",
+   "actor": "David Turba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seiji Kisaragi",
+   "actor": "Simon T. Roden",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Risa Kanzaki",
+   "actor": "Silke Haupt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alice Yamaguchi",
+   "actor": "Katja Liebing",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mikako Kouda",
+   "actor": "Corinna Dorenkamp",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaori Aso",
+   "actor": "Katja Liebing",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yukino Koizumi",
+   "actor": "Susanne Dobrusskin",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Isabella",
+   "actor": "Ilya Welter",
+   "von": "ann"
+  },
+  {
+   "character": "Jouji \"George\" Koizumi",
+   "actor": "Markus Pfeiffer",
+   "von": "ann"
+  },
+  {
+   "character": "Yukari \"Caroline\" Hayasaka",
+   "actor": "Gabi Wienand",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=5081"
+}

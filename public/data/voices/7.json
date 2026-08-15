@@ -1,1 +1,72 @@
-{"titleId":7,"updatedAt":"2026-08-11T11:20:02.779Z","roles":[{"character":"Haruto Sakaki","actor":"Dominik Auer","role":"MAIN"},{"character":"Amon","actor":"Claus-Peter Damitz","role":"MAIN"},{"character":"Miho Karasuma","actor":"Kathrin Gaube","role":"MAIN"},{"character":"Yurika Doujima","actor":"Leoni Kristin Oeffinger","role":"MAIN"},{"character":"Robin Sena","actor":"Shandra Schadt","role":"MAIN"},{"character":"Michael Lee","actor":"Dirk Meyer","role":"MAIN"},{"character":"Takuma Zaizen","actor":"Randolf Kronberg","role":"SUPPORTING"},{"character":"Touko Masaki","actor":"Simone Brahmann","role":"SUPPORTING"},{"character":"Nagira Shunji","actor":"Stephan Hoffmann","role":"SUPPORTING"}]}
+{
+ "titleId": 7,
+ "updatedAt": "2026-08-15T18:22:25.054Z",
+ "roles": [
+  {
+   "character": "Haruto Sakaki",
+   "actor": "Dominik Auer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Amon",
+   "actor": "Claus-Peter Damitz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miho Karasuma",
+   "actor": "Kathrin Gaube",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yurika Doujima",
+   "actor": "Leoni Kristin Oeffinger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Robin Sena",
+   "actor": "Shandra Schadt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Michael Lee",
+   "actor": "Dirk Meyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Takuma Zaizen",
+   "actor": "Randolf Kronberg",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Touko Masaki",
+   "actor": "Simone Brahmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nagira Shunji",
+   "actor": "Stephan Hoffmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shohei Hattori",
+   "actor": "Dominik Auer",
+   "von": "ann"
+  },
+  {
+   "character": "Haruto Sakaki",
+   "actor": "Johannes Raspe",
+   "von": "ann"
+  },
+  {
+   "character": "Master/Yuji Kobari",
+   "actor": "Ole Pfennig",
+   "von": "ann"
+  },
+  {
+   "character": "Yurika Doujima",
+   "actor": "Leoni Oeffinger",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=913"
+}

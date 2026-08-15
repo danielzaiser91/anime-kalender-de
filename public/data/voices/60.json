@@ -1,1 +1,147 @@
-{"titleId":60,"updatedAt":"2026-08-11T11:20:02.788Z","roles":[{"character":"Chrno","actor":"Hannes Maurer","role":"MAIN"},{"character":"Azmaria Hendric","actor":"Rubina Kuraoka","role":"MAIN"},{"character":"Satella Harvenheit","actor":"Andrea Aust","role":"MAIN"},{"character":"Rosette Christopher","actor":"Marie-Luise Schramm","role":"MAIN"},{"character":"Rizelle","actor":"Evelyn Meyka","role":"SUPPORTING"},{"character":"Aion","actor":"Marcus Off","role":"SUPPORTING"},{"character":"Florette Harvenheit","actor":"Anne Helm","role":"SUPPORTING"},{"character":"Carv","actor":"Raimund Krone","role":"SUPPORTING"},{"character":"Ewan Remington","actor":"Alexander Doering","role":"SUPPORTING"},{"character":"Joshua Christopher","actor":"Konrad Bösherz","role":"SUPPORTING"},{"character":"Kate Valentine","actor":"Liane Rudolph","role":"SUPPORTING"},{"character":"Mary Magdalene","actor":"Marie-Luise Schramm","role":"SUPPORTING"},{"character":"Shader","actor":"Silvia Mißbach","role":"SUPPORTING"},{"character":"Genai","actor":"Nicolas Böll","role":"SUPPORTING"},{"character":"Koushaku Duffau","actor":"Erich Räuker","role":"SUPPORTING"},{"character":"Edward Hamilton","actor":"Karl Schulz","role":"SUPPORTING"},{"character":"Sister Anna","actor":"Catrin Dams","role":"SUPPORTING"},{"character":"Shishaku Lerajie","actor":"Rainer Doering","role":"SUPPORTING"}]}
+{
+ "titleId": 60,
+ "updatedAt": "2026-08-15T18:22:49.133Z",
+ "roles": [
+  {
+   "character": "Chrno",
+   "actor": "Hannes Maurer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Azmaria Hendric",
+   "actor": "Rubina Kuraoka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Satella Harvenheit",
+   "actor": "Andrea Aust",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rosette Christopher",
+   "actor": "Marie-Luise Schramm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rizelle",
+   "actor": "Evelyn Meyka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aion",
+   "actor": "Marcus Off",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Florette Harvenheit",
+   "actor": "Anne Helm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Carv",
+   "actor": "Raimund Krone",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ewan Remington",
+   "actor": "Alexander Doering",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Joshua Christopher",
+   "actor": "Konrad Bösherz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kate Valentine",
+   "actor": "Liane Rudolph",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mary Magdalene",
+   "actor": "Marie-Luise Schramm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shader",
+   "actor": "Silvia Mißbach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Genai",
+   "actor": "Nicolas Böll",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Koushaku Duffau",
+   "actor": "Erich Räuker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Edward Hamilton",
+   "actor": "Karl Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sister Anna",
+   "actor": "Catrin Dams",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shishaku Lerajie",
+   "actor": "Rainer Doering",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Joshua Christopher",
+   "actor": "Robin Kahnmeyer",
+   "von": "ann"
+  },
+  {
+   "character": "Rosette Christopher",
+   "actor": "Marie Schramm",
+   "von": "ann"
+  },
+  {
+   "character": "Schwester Mary",
+   "actor": "Ann Vielhaben",
+   "von": "ann"
+  },
+  {
+   "character": "Chrono",
+   "actor": "Hannes Maurer",
+   "von": "ann"
+  },
+  {
+   "character": "Steiner Münchhausen",
+   "actor": "Jan Spitzer",
+   "von": "ann"
+  },
+  {
+   "character": "Edward \"Senior\" Hamilton",
+   "actor": "Karl Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "Pater Juan Remington",
+   "actor": "Alexander Doering",
+   "von": "ann"
+  },
+  {
+   "character": "Florete \"Fiole\" Havenhait",
+   "actor": "Anne Helm",
+   "von": "ann"
+  },
+  {
+   "character": "Schwester Claire",
+   "actor": "Annika Desch",
+   "von": "ann"
+  },
+  {
+   "character": "Schwester Anne",
+   "actor": "Catrin Dams",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2884"
+}

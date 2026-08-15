@@ -554,7 +554,27 @@ function unterscheidung(name: string, alle: string[]): string {
   if (alle.length < 2) return name
   let gemeinsam = 0
   while (gemeinsam < name.length && alle.every((n) => n[gemeinsam] === name[gemeinsam])) gemeinsam++
-  const rest = name.slice(gemeinsam).replace(/^[\s:–—-]+/, '').trim()
+  /**
+   * **Auf die letzte Wortgrenze zurück.** Ein Abzug Zeichen für Zeichen
+   * schneidet mitten im Wort: Bei „Banana Fish – Vol. 1" und „… Vol. 2" ist der
+   * gemeinsame Anfang „Banana Fish – Vol. ", übrig bliebe die nackte Ziffer
+   * „1". Genau so stand es am 15.08.2026 im Panel, und „1" allein sagt nichts.
+   * Zurück bis zum letzten Leerzeichen bleibt „Vol. 1" — die Auskunft, die
+   * gemeint war.
+   */
+  const saeubern = (ab: number) => name.slice(ab).replace(/^[\s:–—-]+/, '').trim()
+  let rest = saeubern(gemeinsam)
+  /**
+   * Solange der Rest kein einziges Buchstabenzeichen trägt, ist er noch kein
+   * Wort — dann wird ein Wort weiter zurückgegangen. „1" wird so zu „Vol. 1".
+   * Die Schleife endet spätestens am Anfang des Namens.
+   */
+  while (!/\p{L}/u.test(rest) && gemeinsam > 0) {
+    const vorheriges = name.lastIndexOf(' ', gemeinsam - 1)
+    if (vorheriges < 0) break
+    gemeinsam = vorheriges
+    rest = saeubern(gemeinsam)
+  }
   return rest || name
 }
 
@@ -572,7 +592,16 @@ function ReleaseGruppe({ releases, today }: { releases: Release[]; today: string
   const { t } = useLang()
   const erste = releases[0]
   const namen = releases.map((r) => r.name)
-  const alleQuellen = [...new Set(releases.flatMap((r) => r.sources))]
+  /**
+   * Je Seite ein Eintrag, auch wenn mehrere Artikel von dort stammen.
+   *
+   * Bei Banana Fish standen zwei verschiedene Anime2You-Artikel hinter den zwei
+   * Ausgaben — angezeigt wurde „Quelle: anime2you.de, anime2you.de", und das
+   * las sich wie ein Fehler statt wie zwei Belege (15.08.2026). Gezeigt wird
+   * jetzt jede Seite einmal, verlinkt auf den ersten Artikel; die übrigen sind
+   * über die Quellenhistorie weiterhin vollständig im Datensatz.
+   */
+  const alleQuellen = [...new Map(releases.flatMap((r) => r.sources).map((s) => [hostname(s), s])).values()]
 
   return (
     <section className="rounded-xl border border-slate-200 p-3 dark:border-white/10">
@@ -978,6 +1007,12 @@ export function DetailPanel({
    * hinausgeht, ist das Unterscheidende. Bleibt nichts übrig — der Teil heißt
    * genau wie die Reihe, typisch für die erste Staffel —, treten Format und
    * Jahr an seine Stelle, denn „2023" unterscheidet immer noch.
+   *
+   * **Nur innerhalb einer Reihe.** Bei einem Titel, der allein steht, gibt es
+   * nichts zu unterscheiden, und der Rückfall auf das Jahr wird zur Absurdität:
+   * Über „Banana Fish" stand am 15.08.2026 in großer, fetter Schrift „2018".
+   * Deshalb prüft die Ausgabestelle zusätzlich, ob die Reihe überhaupt mehr als
+   * einen Teil hat.
    */
   const teilName = useMemo(() => {
     if (!title) return ''
@@ -1288,7 +1323,7 @@ export function DetailPanel({
               weitere Reihenteile hat schlicht keinen unterscheidenden Zusatz;
               dann trägt ihn die Zeile über dem Karussell allein.
             */}
-            {teilName !== reihenName && (
+            {reihenTeile.length > 1 && teilName !== reihenName && (
               <div className="flex items-start gap-2">
                 <h3 className="flex-1 text-xl font-bold leading-tight text-slate-900 dark:text-white">
                   {teilName}

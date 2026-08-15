@@ -1,1 +1,57 @@
-{"titleId":438,"updatedAt":"2026-08-11T11:20:02.830Z","roles":[{"character":"Zwei","actor":"Heiko Obermöller","role":"MAIN"},{"character":"Ein","actor":"Alice von Lindenau","role":"MAIN"},{"character":"Scythe Master","actor":"Jürg Löw","role":"SUPPORTING"},{"character":"Raymond McGuire","actor":"Thomas Friebe","role":"SUPPORTING"},{"character":"Claudia McCunnen","actor":"Ilya Welter","role":"SUPPORTING"},{"character":"Lizzie Garland","actor":"Michaela Kametz","role":"SUPPORTING"},{"character":"Issac Wisemel","actor":"Gregor Höppner","role":"SUPPORTING"}]}
+{
+ "titleId": 438,
+ "updatedAt": "2026-08-15T18:24:48.009Z",
+ "roles": [
+  {
+   "character": "Zwei",
+   "actor": "Heiko Obermöller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ein",
+   "actor": "Alice von Lindenau",
+   "role": "MAIN"
+  },
+  {
+   "character": "Scythe Master",
+   "actor": "Jürg Löw",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Raymond McGuire",
+   "actor": "Thomas Friebe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Claudia McCunnen",
+   "actor": "Ilya Welter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lizzie Garland",
+   "actor": "Michaela Kametz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Issac Wisemel",
+   "actor": "Gregor Höppner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Isaac Wisemel",
+   "actor": "Gregor Höppner",
+   "von": "ann"
+  },
+  {
+   "character": "Zwei / Reiji Azuma",
+   "actor": "Heiko Obermöller",
+   "von": "ann"
+  },
+  {
+   "character": "Eins",
+   "actor": "Alice von Lindenau",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2651"
+}

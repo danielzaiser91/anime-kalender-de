@@ -1,1 +1,87 @@
-{"titleId":338,"updatedAt":"2026-08-11T11:20:02.818Z","roles":[{"character":"Oscar François de Jarjayes","actor":"Diana Borgwardt","role":"MAIN"},{"character":"André Grandier","actor":"Oliver Rohrbeck","role":"MAIN"},{"character":"Marie Antoinette","actor":"Marie Bierstedt","role":"MAIN"},{"character":"Hans Axel von Fersen","actor":"Gerald Schaale","role":"MAIN"},{"character":"Rosalie Lamorliere","actor":"Daniela Reidies","role":"MAIN"},{"character":"Alain de Soisson","actor":"Johannes Berenz","role":"SUPPORTING"},{"character":"Bernard Chatelet","actor":"Matthias Klages","role":"SUPPORTING"},{"character":"Jeanne de la Motte","actor":"Dascha Lehmann","role":"SUPPORTING"},{"character":"Orleans Kou Philippe","actor":"Klaus-Dieter Klebsch","role":"SUPPORTING"},{"character":"Louis 15-sei","actor":"Helmut Krauss","role":"SUPPORTING"},{"character":"Victor Clement de Girodelle","actor":"David Nathan","role":"SUPPORTING"},{"character":"Louis 16-sei","actor":"Frank Schröder","role":"SUPPORTING"},{"character":"Regnier de Jarjeyes","actor":"Stefan Staudinger","role":"SUPPORTING"},{"character":"Diane de Soissons","actor":"Anna Grisebach","role":"SUPPORTING"}]}
+{
+ "titleId": 338,
+ "updatedAt": "2026-08-15T18:24:16.357Z",
+ "roles": [
+  {
+   "character": "Oscar François de Jarjayes",
+   "actor": "Diana Borgwardt",
+   "role": "MAIN"
+  },
+  {
+   "character": "André Grandier",
+   "actor": "Oliver Rohrbeck",
+   "role": "MAIN"
+  },
+  {
+   "character": "Marie Antoinette",
+   "actor": "Marie Bierstedt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hans Axel von Fersen",
+   "actor": "Gerald Schaale",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rosalie Lamorliere",
+   "actor": "Daniela Reidies",
+   "role": "MAIN"
+  },
+  {
+   "character": "Alain de Soisson",
+   "actor": "Johannes Berenz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bernard Chatelet",
+   "actor": "Matthias Klages",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jeanne de la Motte",
+   "actor": "Dascha Lehmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Orleans Kou Philippe",
+   "actor": "Klaus-Dieter Klebsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Louis 15-sei",
+   "actor": "Helmut Krauss",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Victor Clement de Girodelle",
+   "actor": "David Nathan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Louis 16-sei",
+   "actor": "Frank Schröder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Regnier de Jarjeyes",
+   "actor": "Stefan Staudinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Diane de Soissons",
+   "actor": "Anna Grisebach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Oscar de Jarjayes",
+   "actor": "Diana Borgwardt",
+   "von": "ann"
+  },
+  {
+   "character": "André",
+   "actor": "Oliver Rohrbeck",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=451"
+}

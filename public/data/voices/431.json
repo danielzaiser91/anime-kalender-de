@@ -1,1 +1,52 @@
-{"titleId":431,"updatedAt":"2026-08-11T11:20:02.829Z","roles":[{"character":"Howl","actor":"Robert Stadlober","role":"MAIN"},{"character":"Sophie Hatter","actor":"Sunnyi Melles","role":"MAIN"},{"character":"Lettie Hatter","actor":"Claudia Lossl","role":"SUPPORTING"},{"character":"Markl","actor":"Kevin Iannotta","role":"SUPPORTING"},{"character":"Calcifer","actor":"Gerald Schaale","role":"SUPPORTING"},{"character":"Arechi no Majo","actor":"Barbara Ratthey","role":"SUPPORTING"}]}
+{
+ "titleId": 431,
+ "updatedAt": "2026-08-15T18:24:45.372Z",
+ "roles": [
+  {
+   "character": "Howl",
+   "actor": "Robert Stadlober",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sophie Hatter",
+   "actor": "Sunnyi Melles",
+   "role": "MAIN"
+  },
+  {
+   "character": "Lettie Hatter",
+   "actor": "Claudia Lossl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Markl",
+   "actor": "Kevin Iannotta",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Calcifer",
+   "actor": "Gerald Schaale",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Arechi no Majo",
+   "actor": "Barbara Ratthey",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hexe",
+   "actor": "Barbara Ratthey",
+   "von": "ann"
+  },
+  {
+   "character": "Hauro",
+   "actor": "Robert Stadlober",
+   "von": "ann"
+  },
+  {
+   "character": "Madam Suliman",
+   "actor": "Maddalena Kerrh",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=889"
+}

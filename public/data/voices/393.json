@@ -1,1 +1,82 @@
-{"titleId":393,"updatedAt":"2026-08-11T11:20:02.825Z","roles":[{"character":"Van Fanel","actor":"Robin Kahnmeyer","role":"MAIN"},{"character":"Hitomi Kanzaki","actor":"Julia Meynen","role":"MAIN"},{"character":"Mogura Otoko","actor":"Helmut Krauss","role":"SUPPORTING"},{"character":"Allen Schezar","actor":"Peter Flechtner","role":"SUPPORTING"},{"character":"Millerna Sara Aston","actor":"Antje von der Ahe","role":"SUPPORTING"},{"character":"Dilandau Albatou","actor":"Claudia Urbschat-mingues","role":"SUPPORTING"},{"character":"Jajuka","actor":"Reinhard Kuhnert","role":"SUPPORTING"},{"character":"Folken Fanel","actor":"Bernd Vollbrecht","role":"SUPPORTING"},{"character":"Merle","actor":"Christin Marquitan","role":"SUPPORTING"},{"character":"Dryden Fassa","actor":"Stefan Gossler","role":"SUPPORTING"},{"character":"Gaddes","actor":"Michael Bauer","role":"SUPPORTING"}]}
+{
+ "titleId": 393,
+ "updatedAt": "2026-08-15T18:24:33.564Z",
+ "roles": [
+  {
+   "character": "Van Fanel",
+   "actor": "Robin Kahnmeyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hitomi Kanzaki",
+   "actor": "Julia Meynen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mogura Otoko",
+   "actor": "Helmut Krauss",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Allen Schezar",
+   "actor": "Peter Flechtner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Millerna Sara Aston",
+   "actor": "Antje von der Ahe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dilandau Albatou",
+   "actor": "Claudia Urbschat-mingues",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jajuka",
+   "actor": "Reinhard Kuhnert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Folken Fanel",
+   "actor": "Bernd Vollbrecht",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Merle",
+   "actor": "Christin Marquitan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dryden Fassa",
+   "actor": "Stefan Gossler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gaddes",
+   "actor": "Michael Bauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Van",
+   "actor": "Robin Kahnmeyer",
+   "von": "ann"
+  },
+  {
+   "character": "Dilandau",
+   "actor": "Claudia Urbschat-Mingues",
+   "von": "ann"
+  },
+  {
+   "character": "Millerna",
+   "actor": "Antje von der Ahe",
+   "von": "ann"
+  },
+  {
+   "character": "Folken",
+   "actor": "Bernd Vollbrecht",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=351"
+}

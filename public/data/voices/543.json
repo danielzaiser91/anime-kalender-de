@@ -1,1 +1,117 @@
-{"titleId":543,"updatedAt":"2026-08-11T11:20:02.845Z","roles":[{"character":"D","actor":"Oliver Stritzel","role":"MAIN"},{"character":"D no Hidarite","actor":"Achim Geisler","role":"MAIN"},{"character":"Meier Link","actor":"Crock Krumbiegel","role":"SUPPORTING"},{"character":"Kyle Marcus","actor":"Tobias Lelle","role":"SUPPORTING"},{"character":"Leila Marcus","actor":"Christine Stichler","role":"SUPPORTING"},{"character":"Alan Elbourne","actor":"Manfred Trilling","role":"SUPPORTING"},{"character":"Charlotte Elbourne","actor":"Julia Haacke","role":"SUPPORTING"},{"character":"Nolt Marcus","actor":"Christoph Jablonka","role":"SUPPORTING"},{"character":"Benge","actor":"Kai Taschner","role":"SUPPORTING"},{"character":"Barbarois Chouro","actor":"Norbert Gastell","role":"SUPPORTING"},{"character":"Grove Marcus","actor":"Martin Halm","role":"SUPPORTING"},{"character":"Borgoff Marcus","actor":"Holger Schwiers","role":"SUPPORTING"},{"character":"Caroline","actor":"Martina Duncker","role":"SUPPORTING"},{"character":"Mashira","actor":"Ole Pfennig","role":"SUPPORTING"},{"character":"John Elbourne","actor":"Horst Raspe","role":"SUPPORTING"},{"character":"Carmilla","actor":"Katharina Lopinski","role":"SUPPORTING"}]}
+{
+ "titleId": 543,
+ "updatedAt": "2026-08-15T18:25:30.280Z",
+ "roles": [
+  {
+   "character": "D",
+   "actor": "Oliver Stritzel",
+   "role": "MAIN"
+  },
+  {
+   "character": "D no Hidarite",
+   "actor": "Achim Geisler",
+   "role": "MAIN"
+  },
+  {
+   "character": "Meier Link",
+   "actor": "Crock Krumbiegel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyle Marcus",
+   "actor": "Tobias Lelle",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Leila Marcus",
+   "actor": "Christine Stichler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alan Elbourne",
+   "actor": "Manfred Trilling",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Charlotte Elbourne",
+   "actor": "Julia Haacke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nolt Marcus",
+   "actor": "Christoph Jablonka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Benge",
+   "actor": "Kai Taschner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Barbarois Chouro",
+   "actor": "Norbert Gastell",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Grove Marcus",
+   "actor": "Martin Halm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Borgoff Marcus",
+   "actor": "Holger Schwiers",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Caroline",
+   "actor": "Martina Duncker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mashira",
+   "actor": "Ole Pfennig",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "John Elbourne",
+   "actor": "Horst Raspe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Carmilla",
+   "actor": "Katharina Lopinski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Grove",
+   "actor": "Martin Halm",
+   "von": "ann"
+  },
+  {
+   "character": "Leila",
+   "actor": "Christine Stichler",
+   "von": "ann"
+  },
+  {
+   "character": "Left Hand",
+   "actor": "Joachim Geisler",
+   "von": "ann"
+  },
+  {
+   "character": "Borgoff",
+   "actor": "Holger Schwiers",
+   "von": "ann"
+  },
+  {
+   "character": "Nolt",
+   "actor": "Christoph Jablonka",
+   "von": "ann"
+  },
+  {
+   "character": "Kyle",
+   "actor": "Tobias Lelle",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=238"
+}

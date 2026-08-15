@@ -1,1 +1,47 @@
-{"titleId":539,"updatedAt":"2026-08-11T11:20:02.844Z","roles":[{"character":"Tenchi Masaki","actor":"Dinis Loures","role":"MAIN"},{"character":"Ryouko Hakubi","actor":"Adeline Schebesch","role":"MAIN"},{"character":"Ayeka Masaki Jurai","actor":"Stefanie Albrecht","role":"MAIN"},{"character":"Sasami Masaki Jurai","actor":"Heidi Schließer","role":"MAIN"},{"character":"Nobuyuki Masaki","actor":"Lutz Glombeck","role":"SUPPORTING"},{"character":"Katsuhito Masaki","actor":"Hannes Seebauer","role":"SUPPORTING"}]}
+{
+ "titleId": 539,
+ "updatedAt": "2026-08-15T18:25:29.830Z",
+ "roles": [
+  {
+   "character": "Tenchi Masaki",
+   "actor": "Dinis Loures",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ryouko Hakubi",
+   "actor": "Adeline Schebesch",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ayeka Masaki Jurai",
+   "actor": "Stefanie Albrecht",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sasami Masaki Jurai",
+   "actor": "Heidi Schließer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nobuyuki Masaki",
+   "actor": "Lutz Glombeck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Katsuhito Masaki",
+   "actor": "Hannes Seebauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryouko",
+   "actor": "Adeline Schebesch",
+   "von": "ann"
+  },
+  {
+   "character": "Sasami",
+   "actor": "Heidi Schliesser",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=919"
+}

@@ -1,1 +1,42 @@
-{"titleId":793,"updatedAt":"2026-08-11T11:20:02.862Z","roles":[{"character":"Kimihiro Watanuki","actor":"Robin Kahnmeyer","role":"MAIN"},{"character":"Yuuko Ichihara","actor":"Katrin Zimmermann","role":"MAIN"},{"character":"Shizuka Doumeki","actor":"Tobias Kluckert","role":"MAIN"},{"character":"Tomoyo","actor":"Ilona Brokowski","role":"SUPPORTING"},{"character":"Mokona Modoki","actor":"Rubina Kuraoka","role":"SUPPORTING"}]}
+{
+ "titleId": 793,
+ "updatedAt": "2026-08-15T18:26:08.146Z",
+ "roles": [
+  {
+   "character": "Kimihiro Watanuki",
+   "actor": "Robin Kahnmeyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuuko Ichihara",
+   "actor": "Katrin Zimmermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shizuka Doumeki",
+   "actor": "Tobias Kluckert",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tomoyo",
+   "actor": "Ilona Brokowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mokona Modoki",
+   "actor": "Rubina Kuraoka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mokona",
+   "actor": "Rubina Kuraoka",
+   "von": "ann"
+  },
+  {
+   "character": "Shizuka Domeki",
+   "actor": "Tobias Kluckert",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=4212"
+}

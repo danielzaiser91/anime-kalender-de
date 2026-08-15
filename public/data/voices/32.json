@@ -1,1 +1,157 @@
-{"titleId":32,"updatedAt":"2026-08-11T11:20:02.783Z","roles":[{"character":"Shinji Ikari","actor":"Hannes Maurer","role":"MAIN"},{"character":"Misato Katsuragi","actor":"Julia Kaufmann","role":"MAIN"},{"character":"Rei Ayanami","actor":"Marie Bierstedt","role":"MAIN"},{"character":"Asuka Langley Souryuu","actor":"Julia Ziffer","role":"MAIN"},{"character":"Ritsuko Akagi","actor":"Cornelia Waibel","role":"SUPPORTING"},{"character":"Shigeru Aoba","actor":"Fritz Rott","role":"SUPPORTING"},{"character":"Kohzou Fuyutsuki","actor":"Sven Riemann","role":"SUPPORTING"},{"character":"Makoto Hyuuga","actor":"Norman Matt","role":"SUPPORTING"},{"character":"Maya Ibuki","actor":"Tanja Schmitz","role":"SUPPORTING"},{"character":"Gendou Ikari","actor":"Erich Räuker","role":"SUPPORTING"},{"character":"Yui Ikari","actor":"Franziska Lather","role":"SUPPORTING"},{"character":"Ryouji Kaji","actor":"Stephan Schleberger","role":"SUPPORTING"},{"character":"Kaworu Nagisa","actor":"Jeremias Koschorz","role":"SUPPORTING"},{"character":"Keel Lorentz","actor":"Horst Lampe","role":"SUPPORTING"},{"character":"Kyouko Zeppelin Souryuu","actor":"Alexandra Meyer","role":"SUPPORTING"}]}
+{
+ "titleId": 32,
+ "updatedAt": "2026-08-15T18:22:34.753Z",
+ "roles": [
+  {
+   "character": "Shinji Ikari",
+   "actor": "Hannes Maurer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Misato Katsuragi",
+   "actor": "Julia Kaufmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rei Ayanami",
+   "actor": "Marie Bierstedt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Asuka Langley Souryuu",
+   "actor": "Julia Ziffer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ritsuko Akagi",
+   "actor": "Cornelia Waibel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shigeru Aoba",
+   "actor": "Fritz Rott",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kohzou Fuyutsuki",
+   "actor": "Sven Riemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Makoto Hyuuga",
+   "actor": "Norman Matt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maya Ibuki",
+   "actor": "Tanja Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gendou Ikari",
+   "actor": "Erich Räuker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yui Ikari",
+   "actor": "Franziska Lather",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryouji Kaji",
+   "actor": "Stephan Schleberger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaworu Nagisa",
+   "actor": "Jeremias Koschorz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Keel Lorentz",
+   "actor": "Horst Lampe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyouko Zeppelin Souryuu",
+   "actor": "Alexandra Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Asuka Langley Sohryu",
+   "actor": "Julia Ziffer",
+   "von": "ann"
+  },
+  {
+   "character": "Ritsuko Akagi",
+   "actor": "Peggy Sander",
+   "von": "ann"
+  },
+  {
+   "character": "Maya Ibuki",
+   "actor": "Maria Koschny",
+   "von": "ann"
+  },
+  {
+   "character": "Rei Ayaname",
+   "actor": "Marie Bierstedt",
+   "von": "ann"
+  },
+  {
+   "character": "Gendo Ikari",
+   "actor": "Erich Räuker",
+   "von": "ann"
+  },
+  {
+   "character": "Lorenz Kiel",
+   "actor": "Horst Lampe",
+   "von": "ann"
+  },
+  {
+   "character": "Ryoji Kaji",
+   "actor": "Marcel Collé",
+   "von": "ann"
+  },
+  {
+   "character": "Lorenz Kiel",
+   "actor": "Bernd Kuschmann",
+   "von": "ann"
+  },
+  {
+   "character": "Shinji Ikari",
+   "actor": "Christian Zeiger",
+   "von": "ann"
+  },
+  {
+   "character": "Misato Katsuragi",
+   "actor": "Anna Amalie Blomeyer",
+   "von": "ann"
+  },
+  {
+   "character": "Ryouji Kaji",
+   "actor": "Daniel Kröhnert",
+   "von": "ann"
+  },
+  {
+   "character": "Maya Ibuki",
+   "actor": "Flavia Vinzens",
+   "von": "ann"
+  },
+  {
+   "character": "Asuka Langley Soryu",
+   "actor": "Johanna Dost",
+   "von": "ann"
+  },
+  {
+   "character": "Rei Ayanami",
+   "actor": "Franziska Lather",
+   "von": "ann"
+  },
+  {
+   "character": "Gendo Ikari",
+   "actor": "Urs Remond",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=419"
+}

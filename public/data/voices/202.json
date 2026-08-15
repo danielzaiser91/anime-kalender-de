@@ -1,1 +1,142 @@
-{"titleId":202,"updatedAt":"2026-08-11T11:20:02.803Z","roles":[{"character":"Kiba","actor":"Marius Claren","role":"MAIN"},{"character":"Cheza","actor":"Magdalena Turba","role":"MAIN"},{"character":"Tsume","actor":"David Nathan","role":"MAIN"},{"character":"Toboe","actor":"David Turba","role":"MAIN"},{"character":"Hige","actor":"Oliver-Kim Hasper","role":"MAIN"},{"character":"Rou Ookami","actor":"Werner Ehrlicher","role":"SUPPORTING"},{"character":"Hebitsukai-onna","actor":"Tanja Geke","role":"SUPPORTING"},{"character":"Darcia III","actor":"Jörg Hengstler","role":"SUPPORTING"},{"character":"Iyek","actor":"Viktor Neumann","role":"SUPPORTING"},{"character":"Cole","actor":"Gundi Eberhard","role":"SUPPORTING"},{"character":"Bartender 2","actor":"Michael Bauer","role":"SUPPORTING"},{"character":"Hubb Lebowski","actor":"Peter Flechtner","role":"SUPPORTING"},{"character":"Fukurou","actor":"Reinhard Kuhnert","role":"SUPPORTING"},{"character":"Cher Degre","actor":"Anke Reitzenstein","role":"SUPPORTING"},{"character":"Myuu","actor":"Julia Kaufmann","role":"SUPPORTING"},{"character":"Darcia I","actor":"Rainer Brandt","role":"SUPPORTING"},{"character":"Quent Yaiden","actor":"Klaus-Dieter Klebsch","role":"SUPPORTING"},{"character":"Neige","actor":"Antje von der Ahe","role":"SUPPORTING"},{"character":"Leara","actor":"Manja Doering","role":"SUPPORTING"},{"character":"Moss","actor":"Kaspar Eichel","role":"SUPPORTING"},{"character":"Harmona","actor":"Ulrike Stürzbecher","role":"SUPPORTING"},{"character":"Zali","actor":"Bernd Schramm","role":"SUPPORTING"},{"character":"Dakkan-tai Taichou","actor":"Michael Telloke","role":"SUPPORTING"},{"character":"Jagara","actor":"Martina Treger","role":"SUPPORTING"},{"character":"Blue","actor":"Debora Weigert","role":"SUPPORTING"}]}
+{
+ "titleId": 202,
+ "updatedAt": "2026-08-15T18:23:33.514Z",
+ "roles": [
+  {
+   "character": "Kiba",
+   "actor": "Marius Claren",
+   "role": "MAIN"
+  },
+  {
+   "character": "Cheza",
+   "actor": "Magdalena Turba",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tsume",
+   "actor": "David Nathan",
+   "role": "MAIN"
+  },
+  {
+   "character": "Toboe",
+   "actor": "David Turba",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hige",
+   "actor": "Oliver-Kim Hasper",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rou Ookami",
+   "actor": "Werner Ehrlicher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hebitsukai-onna",
+   "actor": "Tanja Geke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Darcia III",
+   "actor": "Jörg Hengstler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Iyek",
+   "actor": "Viktor Neumann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cole",
+   "actor": "Gundi Eberhard",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bartender 2",
+   "actor": "Michael Bauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hubb Lebowski",
+   "actor": "Peter Flechtner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fukurou",
+   "actor": "Reinhard Kuhnert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cher Degre",
+   "actor": "Anke Reitzenstein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Myuu",
+   "actor": "Julia Kaufmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Darcia I",
+   "actor": "Rainer Brandt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Quent Yaiden",
+   "actor": "Klaus-Dieter Klebsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Neige",
+   "actor": "Antje von der Ahe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Leara",
+   "actor": "Manja Doering",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Moss",
+   "actor": "Kaspar Eichel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Harmona",
+   "actor": "Ulrike Stürzbecher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Zali",
+   "actor": "Bernd Schramm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dakkan-tai Taichou",
+   "actor": "Michael Telloke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jagara",
+   "actor": "Martina Treger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Blue",
+   "actor": "Debora Weigert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hige",
+   "actor": "Kim Hasper",
+   "von": "ann"
+  },
+  {
+   "character": "Darcia",
+   "actor": "Jörg Hengstler",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1806"
+}

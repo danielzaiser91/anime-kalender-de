@@ -1,1 +1,77 @@
-{"titleId":381,"updatedAt":"2026-08-11T11:20:02.822Z","roles":[{"character":"Miiru Kamashiro","actor":"Gabrielle Pietermann","role":"MAIN"},{"character":"Chiriko","actor":"Adela Florow","role":"MAIN"},{"character":"Chichiri","actor":"Dirk Meyer","role":"MAIN"},{"character":"Tasuki","actor":"Florian Bauer","role":"MAIN"},{"character":"Tamahome","actor":"Roland Peek","role":"MAIN"},{"character":"Miaka Yuuki","actor":"Marieke Oeffinger","role":"MAIN"},{"character":"Tenkou","actor":"Crock Krumbiegel","role":"SUPPORTING"},{"character":"Tetsuya Kajiwara","actor":"Claus-Peter Damitz","role":"SUPPORTING"},{"character":"Keisuke Yuuki","actor":"Stefan Günther","role":"SUPPORTING"},{"character":"Yui Hongo","actor":"Kathrin Gaube","role":"SUPPORTING"},{"character":"Ren Shigyou","actor":"Clemens Ostermann","role":"SUPPORTING"},{"character":"Houki","actor":"Melanie Manstein","role":"SUPPORTING"},{"character":"Taiitsukun","actor":"Margit Weinert","role":"SUPPORTING"}]}
+{
+ "titleId": 381,
+ "updatedAt": "2026-08-15T18:24:29.541Z",
+ "roles": [
+  {
+   "character": "Miiru Kamashiro",
+   "actor": "Gabrielle Pietermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chiriko",
+   "actor": "Adela Florow",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chichiri",
+   "actor": "Dirk Meyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tasuki",
+   "actor": "Florian Bauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tamahome",
+   "actor": "Roland Peek",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miaka Yuuki",
+   "actor": "Marieke Oeffinger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tenkou",
+   "actor": "Crock Krumbiegel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tetsuya Kajiwara",
+   "actor": "Claus-Peter Damitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Keisuke Yuuki",
+   "actor": "Stefan Günther",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yui Hongo",
+   "actor": "Kathrin Gaube",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ren Shigyou",
+   "actor": "Clemens Ostermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Houki",
+   "actor": "Melanie Manstein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Taiitsukun",
+   "actor": "Margit Weinert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miaka Yûki",
+   "actor": "Marieke Oeffinger",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=5541"
+}

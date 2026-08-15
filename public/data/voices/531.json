@@ -1,1 +1,87 @@
-{"titleId":531,"updatedAt":"2026-08-11T11:20:02.842Z","roles":[{"character":"Usagi Tsukino","actor":"Inez Günther","role":"MAIN"},{"character":"Makoto Kino","actor":"Veronika Aryana Neugebauer","role":"MAIN"},{"character":"Ami Mizuno","actor":"Stefanie von Lerchenfeld","role":"MAIN"},{"character":"Fiore","actor":"Benedikt Weber","role":"MAIN"},{"character":"Mamoru Chiba","actor":"Dominik Auer","role":"MAIN"},{"character":"Chibiusa","actor":"Nicola Grupe-Arnoldi","role":"MAIN"},{"character":"Xenian Flower","actor":"Melanie Manstein","role":"MAIN"},{"character":"Minako Aino","actor":"Claudia Lossl","role":"MAIN"},{"character":"Rei Hino","actor":"Julia Haacke","role":"MAIN"},{"character":"Artemis","actor":"Bernd Stephan","role":"SUPPORTING"},{"character":"Luna","actor":"Mara Winzer","role":"SUPPORTING"}]}
+{
+ "titleId": 531,
+ "updatedAt": "2026-08-15T18:25:22.702Z",
+ "roles": [
+  {
+   "character": "Usagi Tsukino",
+   "actor": "Inez Günther",
+   "role": "MAIN"
+  },
+  {
+   "character": "Makoto Kino",
+   "actor": "Veronika Aryana Neugebauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ami Mizuno",
+   "actor": "Stefanie von Lerchenfeld",
+   "role": "MAIN"
+  },
+  {
+   "character": "Fiore",
+   "actor": "Benedikt Weber",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mamoru Chiba",
+   "actor": "Dominik Auer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chibiusa",
+   "actor": "Nicola Grupe-Arnoldi",
+   "role": "MAIN"
+  },
+  {
+   "character": "Xenian Flower",
+   "actor": "Melanie Manstein",
+   "role": "MAIN"
+  },
+  {
+   "character": "Minako Aino",
+   "actor": "Claudia Lossl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rei Hino",
+   "actor": "Julia Haacke",
+   "role": "MAIN"
+  },
+  {
+   "character": "Artemis",
+   "actor": "Bernd Stephan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Luna",
+   "actor": "Mara Winzer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Minako Aino/Sailor Venus",
+   "actor": "Claudia Lössl",
+   "von": "ann"
+  },
+  {
+   "character": "Makoto Kino/Sailor Jupiter",
+   "actor": "Veronika Neugebauer",
+   "von": "ann"
+  },
+  {
+   "character": "Rei Hino/Sailor Mars",
+   "actor": "Julia Haacke",
+   "von": "ann"
+  },
+  {
+   "character": "Bunny Tsukino/Sailor Moon",
+   "actor": "Inez Günther",
+   "von": "ann"
+  },
+  {
+   "character": "Ami Mizuno/Sailor Merkur",
+   "actor": "Stefanie Beba",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=811"
+}

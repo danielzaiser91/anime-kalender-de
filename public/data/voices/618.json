@@ -1,1 +1,27 @@
-{"titleId":618,"updatedAt":"2026-08-11T11:20:02.853Z","roles":[{"character":"Shigure","actor":"Rubina Kuraoka","role":"MAIN"}]}
+{
+ "titleId": 618,
+ "updatedAt": "2026-08-15T18:25:48.249Z",
+ "roles": [
+  {
+   "character": "Shigure",
+   "actor": "Rubina Kuraoka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tsubute",
+   "actor": "Ricardo Richter",
+   "von": "ann"
+  },
+  {
+   "character": "Jubei Kibagami",
+   "actor": "Nicolas Artajo",
+   "von": "ann"
+  },
+  {
+   "character": "Dakuan",
+   "actor": "Klaus Jepsen",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1013"
+}

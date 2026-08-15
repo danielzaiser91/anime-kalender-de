@@ -1,1 +1,197 @@
-{"titleId":532,"updatedAt":"2026-08-11T11:20:02.842Z","roles":[{"character":"Usagi Tsukino","actor":"Inez Günther","role":"MAIN"},{"character":"Michiru Kaiou","actor":"Ulrike Jennie","role":"MAIN"},{"character":"Chibiusa","actor":"Nicola Grupe-Arnoldi","role":"MAIN"},{"character":"Ami Mizuno","actor":"Stefanie von Lerchenfeld","role":"MAIN"},{"character":"Souichi Tomoe","actor":"Thomas Rauscher","role":"MAIN"},{"character":"Minako Aino","actor":"Claudia Lossl","role":"MAIN"},{"character":"Setsuna Meiou","actor":"Ulla Wagener","role":"MAIN"},{"character":"Hotaru Tomoe","actor":"Andrea Wick","role":"MAIN"},{"character":"Rei Hino","actor":"Julia Haacke","role":"MAIN"},{"character":"Makoto Kino","actor":"Veronika Aryana Neugebauer","role":"MAIN"},{"character":"Haruka Tenou","actor":"Anke Korte","role":"MAIN"},{"character":"Mamoru Chiba","actor":"Dominik Auer","role":"MAIN"},{"character":"Tellu","actor":"Michele Sterr","role":"SUPPORTING"},{"character":"U-Ndokai","actor":"Jennifer Böttcher","role":"SUPPORTING"},{"character":"Grandpa Hino","actor":"Gerd Wiedenhofen","role":"SUPPORTING"},{"character":"U-Ikasaman","actor":"Jennifer Böttcher","role":"SUPPORTING"},{"character":"Mimete","actor":"Melanie Manstein","role":"SUPPORTING"},{"character":"U-tomodachi","actor":"Beate Pfeiffer","role":"SUPPORTING"},{"character":"Kaolinite","actor":"Michèle Tichawsky","role":"SUPPORTING"},{"character":"Scar","actor":"Solveig Duda","role":"SUPPORTING"},{"character":"Toden","actor":"Ulla Wagener","role":"SUPPORTING"},{"character":"Artemis","actor":"Bernd Stephan","role":"SUPPORTING"},{"character":"Motoki Furuhata","actor":"Hubertus von Lerchenfeld","role":"SUPPORTING"},{"character":"Hurdler","actor":"Monika Kockott","role":"SUPPORTING"},{"character":"Mistress 9","actor":"Shandra Schadt","role":"SUPPORTING"}]}
+{
+ "titleId": 532,
+ "updatedAt": "2026-08-15T18:25:23.896Z",
+ "roles": [
+  {
+   "character": "Usagi Tsukino",
+   "actor": "Inez Günther",
+   "role": "MAIN"
+  },
+  {
+   "character": "Michiru Kaiou",
+   "actor": "Ulrike Jennie",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chibiusa",
+   "actor": "Nicola Grupe-Arnoldi",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ami Mizuno",
+   "actor": "Stefanie von Lerchenfeld",
+   "role": "MAIN"
+  },
+  {
+   "character": "Souichi Tomoe",
+   "actor": "Thomas Rauscher",
+   "role": "MAIN"
+  },
+  {
+   "character": "Minako Aino",
+   "actor": "Claudia Lossl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Setsuna Meiou",
+   "actor": "Ulla Wagener",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hotaru Tomoe",
+   "actor": "Andrea Wick",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rei Hino",
+   "actor": "Julia Haacke",
+   "role": "MAIN"
+  },
+  {
+   "character": "Makoto Kino",
+   "actor": "Veronika Aryana Neugebauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Haruka Tenou",
+   "actor": "Anke Korte",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mamoru Chiba",
+   "actor": "Dominik Auer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tellu",
+   "actor": "Michele Sterr",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "U-Ndokai",
+   "actor": "Jennifer Böttcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Grandpa Hino",
+   "actor": "Gerd Wiedenhofen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "U-Ikasaman",
+   "actor": "Jennifer Böttcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mimete",
+   "actor": "Melanie Manstein",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "U-tomodachi",
+   "actor": "Beate Pfeiffer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaolinite",
+   "actor": "Michèle Tichawsky",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Scar",
+   "actor": "Solveig Duda",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toden",
+   "actor": "Ulla Wagener",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Artemis",
+   "actor": "Bernd Stephan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Motoki Furuhata",
+   "actor": "Hubertus von Lerchenfeld",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hurdler",
+   "actor": "Monika Kockott",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mistress 9",
+   "actor": "Shandra Schadt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chibi Usa/Sailor Chibi Moon",
+   "actor": "Nicola Grupe",
+   "von": "ann"
+  },
+  {
+   "character": "Minako Aino/Sailor Venus",
+   "actor": "Claudia Lössl",
+   "von": "ann"
+  },
+  {
+   "character": "Kino Makoto/Sailor Jupiter",
+   "actor": "Veronika Neugebauer",
+   "von": "ann"
+  },
+  {
+   "character": "Rei Hino/Sailor Mars",
+   "actor": "Julia Haacke",
+   "von": "ann"
+  },
+  {
+   "character": "Bunny Tsukino/Sailor Moon",
+   "actor": "Inez Günther",
+   "von": "ann"
+  },
+  {
+   "character": "Hotaru Tomoe/Sailor Saturn",
+   "actor": "Andrea Imme",
+   "von": "ann"
+  },
+  {
+   "character": "Mistress 9",
+   "actor": "Andrea Imme",
+   "von": "ann"
+  },
+  {
+   "character": "Tenou Haruka/Sailor Uranus",
+   "actor": "Anke Korte",
+   "von": "ann"
+  },
+  {
+   "character": "Mamoru Chiba/Tuxedo Mask",
+   "actor": "Dominik Auer",
+   "von": "ann"
+  },
+  {
+   "character": "Ami Mizuno/Sailor Merkur",
+   "actor": "Stefanie Beba",
+   "von": "ann"
+  },
+  {
+   "character": "Kaiou Michiru/Sailor Neptun",
+   "actor": "Ulrike Jennie",
+   "von": "ann"
+  },
+  {
+   "character": "Meiou Setsuna/Sailor Pluto",
+   "actor": "Ulla Wagener",
+   "von": "ann"
+  },
+  {
+   "character": "Meiou Setsuna/Sailor Pluto",
+   "actor": "Sacha Holzheimer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=80"
+}

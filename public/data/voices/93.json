@@ -1,1 +1,177 @@
-{"titleId":93,"updatedAt":"2026-08-11T11:20:02.791Z","roles":[{"character":"Lacus Clyne","actor":"Anne Helm","role":"MAIN"},{"character":"Cagalli Yula Athha","actor":"Rubina Kuraoka","role":"MAIN"},{"character":"Athrun Zala","actor":"Nico Sablik","role":"MAIN"},{"character":"Kira Yamato","actor":"Ricardo Richter","role":"MAIN"},{"character":"Yzak Joule","actor":"Michael Wiesner","role":"SUPPORTING"},{"character":"Uzumi Nara Athha","actor":"Jan Spitzer","role":"SUPPORTING"},{"character":"Dearka Elsman","actor":"Ozan Ünal","role":"SUPPORTING"},{"character":"Siegel Clyne","actor":"Walter Alich","role":"SUPPORTING"},{"character":"Ledonir Kisaka","actor":"Andreas Hosang","role":"SUPPORTING"},{"character":"Ahmed El Fasi","actor":"Julius Jellinek","role":"SUPPORTING"},{"character":"Haro","actor":"Diana Borgwardt","role":"SUPPORTING"},{"character":"Reverend Malchio","actor":"Karlo Hackenberger","role":"SUPPORTING"},{"character":"Juri Wu Nien","actor":"Diana Borgwardt","role":"SUPPORTING"},{"character":"Miguel Aiman","actor":"Tim Sander","role":"SUPPORTING"},{"character":"Dalida Lolaha Chandra II","actor":"Nicola Devico Mamone","role":"SUPPORTING"},{"character":"George Allster","actor":"Sebastian Schulz","role":"SUPPORTING"},{"character":"Eileen Canaver","actor":"Maja Dürr","role":"SUPPORTING"},{"character":"Patrick Zala","actor":"Klaus Lochthove","role":"SUPPORTING"},{"character":"Kuzzey Buskirk","actor":"Hannes Maurer","role":"SUPPORTING"},{"character":"Kojirou Murdoch","actor":"Tilo Schmitz","role":"SUPPORTING"},{"character":"Sahib Ashman","actor":"Frank Muth","role":"SUPPORTING"},{"character":"Murrue Ramius","actor":"Katrin Zimmermann","role":"SUPPORTING"},{"character":"Rau Creuset","actor":"Sebastian Schulz","role":"SUPPORTING"}]}
+{
+ "titleId": 93,
+ "updatedAt": "2026-08-15T18:23:00.204Z",
+ "roles": [
+  {
+   "character": "Lacus Clyne",
+   "actor": "Anne Helm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Cagalli Yula Athha",
+   "actor": "Rubina Kuraoka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Athrun Zala",
+   "actor": "Nico Sablik",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kira Yamato",
+   "actor": "Ricardo Richter",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yzak Joule",
+   "actor": "Michael Wiesner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Uzumi Nara Athha",
+   "actor": "Jan Spitzer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dearka Elsman",
+   "actor": "Ozan Ünal",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Siegel Clyne",
+   "actor": "Walter Alich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ledonir Kisaka",
+   "actor": "Andreas Hosang",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ahmed El Fasi",
+   "actor": "Julius Jellinek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haro",
+   "actor": "Diana Borgwardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Reverend Malchio",
+   "actor": "Karlo Hackenberger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Juri Wu Nien",
+   "actor": "Diana Borgwardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miguel Aiman",
+   "actor": "Tim Sander",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dalida Lolaha Chandra II",
+   "actor": "Nicola Devico Mamone",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "George Allster",
+   "actor": "Sebastian Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eileen Canaver",
+   "actor": "Maja Dürr",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Patrick Zala",
+   "actor": "Klaus Lochthove",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kuzzey Buskirk",
+   "actor": "Hannes Maurer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kojirou Murdoch",
+   "actor": "Tilo Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sahib Ashman",
+   "actor": "Frank Muth",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Murrue Ramius",
+   "actor": "Katrin Zimmermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rau Creuset",
+   "actor": "Sebastian Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sai Argyle",
+   "actor": "Konrad Bösherz",
+   "von": "ann"
+  },
+  {
+   "character": "Rau Le Creuset",
+   "actor": "Sebastian Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "Flay Allster",
+   "actor": "Ilona Otto",
+   "von": "ann"
+  },
+  {
+   "character": "Murata Azrael",
+   "actor": "Julien Haggege",
+   "von": "ann"
+  },
+  {
+   "character": "Hallo",
+   "actor": "Diana Borgwardt",
+   "von": "ann"
+  },
+  {
+   "character": "Miriallia Haw",
+   "actor": "Jill Böttcher",
+   "von": "ann"
+  },
+  {
+   "character": "Tolle Koenig",
+   "actor": "Till Völger",
+   "von": "ann"
+  },
+  {
+   "character": "Nicol Amarfi",
+   "actor": "Benjamin Seidel",
+   "von": "ann"
+  },
+  {
+   "character": "Andrew Waltfeld",
+   "actor": "Matthias Hinze",
+   "von": "ann"
+  },
+  {
+   "character": "Natale Badgiruel",
+   "actor": "Silvia Mißbach",
+   "von": "ann"
+  },
+  {
+   "character": "Mu La Flaga",
+   "actor": "Sebastian Christoph Jacob",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=883"
+}

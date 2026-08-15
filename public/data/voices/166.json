@@ -1,1 +1,107 @@
-{"titleId":166,"updatedAt":"2026-08-11T11:20:02.799Z","roles":[{"character":"Kirara","actor":"Marie Bierstedt","role":"MAIN"},{"character":"Shichiroji","actor":"Simon T. Roden","role":"MAIN"},{"character":"Kikuchiyo","actor":"Hans Bayer","role":"MAIN"},{"character":"Kyuzo","actor":"Markus Pfeiffer","role":"MAIN"},{"character":"Kambei Shimada","actor":"Detlef Bierstedt","role":"MAIN"},{"character":"Rikichi","actor":"Stephan Schleberger","role":"MAIN"},{"character":"Gorobei Katayama","actor":"Volker Wolf","role":"MAIN"},{"character":"Komachi","actor":"Katja Liebing","role":"MAIN"},{"character":"Ukyo","actor":"Norman Matt","role":"MAIN"},{"character":"Heihachi Hayashida","actor":"Heiko Obermöller","role":"MAIN"},{"character":"Katsushiro Okamoto","actor":"Julien Haggege","role":"MAIN"},{"character":"Masamune","actor":"Matthias Haase","role":"SUPPORTING"},{"character":"Ayamaro","actor":"Renier Baaken","role":"SUPPORTING"},{"character":"Yukino","actor":"Ilya Welter","role":"SUPPORTING"},{"character":"Manzou","actor":"Fritz Rott","role":"SUPPORTING"},{"character":"Honoka","actor":"Sarah Brückner","role":"SUPPORTING"}]}
+{
+ "titleId": 166,
+ "updatedAt": "2026-08-15T18:23:23.091Z",
+ "roles": [
+  {
+   "character": "Kirara",
+   "actor": "Marie Bierstedt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shichiroji",
+   "actor": "Simon T. Roden",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kikuchiyo",
+   "actor": "Hans Bayer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kyuzo",
+   "actor": "Markus Pfeiffer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kambei Shimada",
+   "actor": "Detlef Bierstedt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rikichi",
+   "actor": "Stephan Schleberger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gorobei Katayama",
+   "actor": "Volker Wolf",
+   "role": "MAIN"
+  },
+  {
+   "character": "Komachi",
+   "actor": "Katja Liebing",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ukyo",
+   "actor": "Norman Matt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Heihachi Hayashida",
+   "actor": "Heiko Obermöller",
+   "role": "MAIN"
+  },
+  {
+   "character": "Katsushiro Okamoto",
+   "actor": "Julien Haggege",
+   "role": "MAIN"
+  },
+  {
+   "character": "Masamune",
+   "actor": "Matthias Haase",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ayamaro",
+   "actor": "Renier Baaken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yukino",
+   "actor": "Ilya Welter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Manzou",
+   "actor": "Fritz Rott",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Honoka",
+   "actor": "Sarah Brückner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kirara Mikumari",
+   "actor": "Marie Bierstedt",
+   "von": "ann"
+  },
+  {
+   "character": "Kyuzou",
+   "actor": "Markus Pfeiffer",
+   "von": "ann"
+  },
+  {
+   "character": "Shichirouji",
+   "actor": "Simon T. Roden",
+   "von": "ann"
+  },
+  {
+   "character": "Komachi Mikumari",
+   "actor": "Katja Liebing",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=3127"
+}

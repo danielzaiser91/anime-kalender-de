@@ -1,1 +1,127 @@
-{"titleId":452,"updatedAt":"2026-08-11T11:20:02.832Z","roles":[{"character":"Menoumaru Hyouga","actor":"Manou Lubowski","role":"MAIN"},{"character":"Kagome Higurashi","actor":"Ulrike Jennie","role":"MAIN"},{"character":"Inuyasha","actor":"Dominik Auer","role":"MAIN"},{"character":"Miroku","actor":"Florian Halm","role":"SUPPORTING"},{"character":"Souta Higurashi","actor":"Beate Pfeiffer","role":"SUPPORTING"},{"character":"Myoga","actor":"Walter von Hauff","role":"SUPPORTING"},{"character":"Kaede","actor":"Ilona Grandke","role":"SUPPORTING"},{"character":"Sesshoumaru","actor":"Pascal Breuer","role":"SUPPORTING"},{"character":"Mama","actor":"Maria Böhme","role":"SUPPORTING"},{"character":"Rin","actor":"Caroline Schwarzmaier","role":"SUPPORTING"},{"character":"Jaken","actor":"Kai Taschner","role":"SUPPORTING"},{"character":"Sango","actor":"Angela Wiederhut","role":"SUPPORTING"},{"character":"Grandpa Higurashi","actor":"Thomas Reiner","role":"SUPPORTING"},{"character":"Hari","actor":"Sonja Reichelt","role":"SUPPORTING"},{"character":"Kikyou","actor":"Claudia Lossl","role":"SUPPORTING"},{"character":"Ruri","actor":"Stefanie von Lerchenfeld","role":"SUPPORTING"},{"character":"Shippo","actor":"Julia Haacke","role":"SUPPORTING"},{"character":"Hachiemon","actor":"Michael Rüth","role":"SUPPORTING"}]}
+{
+ "titleId": 452,
+ "updatedAt": "2026-08-15T18:24:54.560Z",
+ "roles": [
+  {
+   "character": "Menoumaru Hyouga",
+   "actor": "Manou Lubowski",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kagome Higurashi",
+   "actor": "Ulrike Jennie",
+   "role": "MAIN"
+  },
+  {
+   "character": "Inuyasha",
+   "actor": "Dominik Auer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Miroku",
+   "actor": "Florian Halm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Souta Higurashi",
+   "actor": "Beate Pfeiffer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Myoga",
+   "actor": "Walter von Hauff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaede",
+   "actor": "Ilona Grandke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sesshoumaru",
+   "actor": "Pascal Breuer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mama",
+   "actor": "Maria Böhme",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rin",
+   "actor": "Caroline Schwarzmaier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jaken",
+   "actor": "Kai Taschner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sango",
+   "actor": "Angela Wiederhut",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Grandpa Higurashi",
+   "actor": "Thomas Reiner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hari",
+   "actor": "Sonja Reichelt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kikyou",
+   "actor": "Claudia Lossl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ruri",
+   "actor": "Stefanie von Lerchenfeld",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shippo",
+   "actor": "Julia Haacke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hachiemon",
+   "actor": "Michael Rüth",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kikyou",
+   "actor": "Claudia Lössl",
+   "von": "ann"
+  },
+  {
+   "character": "Menoumaru",
+   "actor": "Manou Lubowski",
+   "von": "ann"
+  },
+  {
+   "character": "Shippou",
+   "actor": "Julia Haacke",
+   "von": "ann"
+  },
+  {
+   "character": "Inu Yasha",
+   "actor": "Dominik Auer",
+   "von": "ann"
+  },
+  {
+   "character": "Kaede-Sama",
+   "actor": "Ilona Grandke",
+   "von": "ann"
+  },
+  {
+   "character": "Rin",
+   "actor": "Caro Schwarzmeier",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=294"
+}

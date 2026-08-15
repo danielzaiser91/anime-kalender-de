@@ -1,1 +1,77 @@
-{"titleId":572,"updatedAt":"2026-08-11T11:20:02.848Z","roles":[{"character":"Kushana","actor":"Claudia Lossl","role":"MAIN"},{"character":"Asbel","actor":"Stefan Günther","role":"MAIN"},{"character":"Nausicaä","actor":"Anke Kortemeier","role":"MAIN"},{"character":"Yupa","actor":"Claus Brockmeyer","role":"MAIN"},{"character":"Obaba","actor":"Ilona Grandke","role":"SUPPORTING"},{"character":"Kurotowa","actor":"Matthias Klie","role":"SUPPORTING"},{"character":"Mito","actor":"Bert Franzke","role":"SUPPORTING"},{"character":"Gol","actor":"Manfred Erdmann","role":"SUPPORTING"},{"character":"Gikuri","actor":"Bernd Simon","role":"SUPPORTING"}]}
+{
+ "titleId": 572,
+ "updatedAt": "2026-08-15T18:25:37.038Z",
+ "roles": [
+  {
+   "character": "Kushana",
+   "actor": "Claudia Lossl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Asbel",
+   "actor": "Stefan Günther",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nausicaä",
+   "actor": "Anke Kortemeier",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yupa",
+   "actor": "Claus Brockmeyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Obaba",
+   "actor": "Ilona Grandke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kurotowa",
+   "actor": "Matthias Klie",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mito",
+   "actor": "Bert Franzke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gol",
+   "actor": "Manfred Erdmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gikuri",
+   "actor": "Bernd Simon",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kushana",
+   "actor": "Claudia Lössl",
+   "von": "ann"
+  },
+  {
+   "character": "Muzu",
+   "actor": "Norbert Gastell",
+   "von": "ann"
+  },
+  {
+   "character": "Kurotawa",
+   "actor": "Matthias Klie",
+   "von": "ann"
+  },
+  {
+   "character": "Goru",
+   "actor": "Manfred Erdmann",
+   "von": "ann"
+  },
+  {
+   "character": "Mädchen",
+   "actor": "Lara Wurmer",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=180"
+}

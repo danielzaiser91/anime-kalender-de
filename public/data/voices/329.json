@@ -1,1 +1,102 @@
-{"titleId":329,"updatedAt":"2026-08-11T11:20:02.817Z","roles":[{"character":"Ai Tanabe","actor":"Jill Böttcher","role":"MAIN"},{"character":"Hachirota Hoshino","actor":"Constantin von Jascheroff","role":"MAIN"},{"character":"Edelgard Rivera","actor":"Maria Sumner","role":"SUPPORTING"},{"character":"Arvind Lavie","actor":"Santiago Ziesmer","role":"SUPPORTING"},{"character":"Kyutaro Hoshino","actor":"Nico Sablik","role":"SUPPORTING"},{"character":"Werner Locksmith","actor":"Matthias Klages","role":"SUPPORTING"},{"character":"Fee Carmichael","actor":"Arianne Borbach","role":"SUPPORTING"},{"character":"Nono","actor":"Rubina Kuraoka","role":"SUPPORTING"},{"character":"Colin Clifford","actor":"Dirk Petrick","role":"SUPPORTING"},{"character":"Howard","actor":"Tilo Schmitz","role":"SUPPORTING"},{"character":"Yuri Mihalkov","actor":"Oliver Feld","role":"SUPPORTING"},{"character":"Goro Hoshino","actor":"Rainer Doering","role":"SUPPORTING"},{"character":"Sasha","actor":"Sebastian Schulz","role":"SUPPORTING"},{"character":"Hakim Ashmead","actor":"Klaus Lochthove","role":"SUPPORTING"},{"character":"Narrator","actor":"Uwe Büschken","role":"SUPPORTING"},{"character":"Claire Rondo","actor":"Cathlen Gawlich","role":"SUPPORTING"},{"character":"Philippe Myers","actor":"Roland Hemmo","role":"SUPPORTING"}]}
+{
+ "titleId": 329,
+ "updatedAt": "2026-08-15T18:24:13.769Z",
+ "roles": [
+  {
+   "character": "Ai Tanabe",
+   "actor": "Jill Böttcher",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hachirota Hoshino",
+   "actor": "Constantin von Jascheroff",
+   "role": "MAIN"
+  },
+  {
+   "character": "Edelgard Rivera",
+   "actor": "Maria Sumner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Arvind Lavie",
+   "actor": "Santiago Ziesmer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kyutaro Hoshino",
+   "actor": "Nico Sablik",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Werner Locksmith",
+   "actor": "Matthias Klages",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fee Carmichael",
+   "actor": "Arianne Borbach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nono",
+   "actor": "Rubina Kuraoka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Colin Clifford",
+   "actor": "Dirk Petrick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Howard",
+   "actor": "Tilo Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yuri Mihalkov",
+   "actor": "Oliver Feld",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Goro Hoshino",
+   "actor": "Rainer Doering",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sasha",
+   "actor": "Sebastian Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hakim Ashmead",
+   "actor": "Klaus Lochthove",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Uwe Büschken",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Claire Rondo",
+   "actor": "Cathlen Gawlich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Philippe Myers",
+   "actor": "Roland Hemmo",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Philip Myers",
+   "actor": "Oliver Feld",
+   "von": "ann"
+  },
+  {
+   "character": "Ai Tanabe",
+   "actor": "Anne Helm",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2654"
+}

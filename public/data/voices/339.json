@@ -1,1 +1,67 @@
-{"titleId":339,"updatedAt":"2026-08-11T11:20:02.818Z","roles":[{"character":"Lain Iwakura","actor":"Manja Doering","role":"MAIN"},{"character":"Mika Iwakura","actor":"Diana Borgwardt","role":"SUPPORTING"},{"character":"Yasuo Iwakura","actor":"Detlef Bierstedt","role":"SUPPORTING"},{"character":"Karl Haushofer","actor":"Bernd Schramm","role":"SUPPORTING"},{"character":"J.J","actor":"Tim Sander","role":"SUPPORTING"},{"character":"Masami Eiri","actor":"Till Hagen","role":"SUPPORTING"},{"character":"Chisa Yomoda","actor":"Antje von der Ahe","role":"SUPPORTING"},{"character":"Reika Yamamoto","actor":"Marie-Luise Schramm","role":"SUPPORTING"},{"character":"Miho Iwakura","actor":"Sabine Arnhold","role":"SUPPORTING"},{"character":"Tarou","actor":"Sven Plate","role":"SUPPORTING"},{"character":"Arisu Mizuki","actor":"Sonja Spuhl","role":"SUPPORTING"}]}
+{
+ "titleId": 339,
+ "updatedAt": "2026-08-15T18:24:17.202Z",
+ "roles": [
+  {
+   "character": "Lain Iwakura",
+   "actor": "Manja Doering",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mika Iwakura",
+   "actor": "Diana Borgwardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yasuo Iwakura",
+   "actor": "Detlef Bierstedt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Karl Haushofer",
+   "actor": "Bernd Schramm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "J.J",
+   "actor": "Tim Sander",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masami Eiri",
+   "actor": "Till Hagen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chisa Yomoda",
+   "actor": "Antje von der Ahe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Reika Yamamoto",
+   "actor": "Marie-Luise Schramm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Miho Iwakura",
+   "actor": "Sabine Arnhold",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tarou",
+   "actor": "Sven Plate",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Arisu Mizuki",
+   "actor": "Sonja Spuhl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lain",
+   "actor": "Manja Doering",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=166"
+}

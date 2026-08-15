@@ -1,1 +1,67 @@
-{"titleId":420,"updatedAt":"2026-08-11T11:20:02.828Z","roles":[{"character":"Yuu Ominae","actor":"Sebastian Schulz","role":"MAIN"},{"character":"McDougal","actor":"Rubina Kuraoka","role":"MAIN"},{"character":"Little Boy","actor":"Eberhard Prüter","role":"SUPPORTING"},{"character":"Jean Jacquemonde","actor":"Simon Jäger","role":"SUPPORTING"},{"character":"Margaret","actor":"Irina von Bentheim","role":"SUPPORTING"},{"character":"Yamamoto","actor":"Bodo Wolf","role":"SUPPORTING"},{"character":"Fat Man","actor":"Tilo Schmitz","role":"SUPPORTING"},{"character":"Meisel Hakase","actor":"Eric Vaessen","role":"SUPPORTING"}]}
+{
+ "titleId": 420,
+ "updatedAt": "2026-08-15T18:24:43.029Z",
+ "roles": [
+  {
+   "character": "Yuu Ominae",
+   "actor": "Sebastian Schulz",
+   "role": "MAIN"
+  },
+  {
+   "character": "McDougal",
+   "actor": "Rubina Kuraoka",
+   "role": "MAIN"
+  },
+  {
+   "character": "Little Boy",
+   "actor": "Eberhard Prüter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jean Jacquemonde",
+   "actor": "Simon Jäger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Margaret",
+   "actor": "Irina von Bentheim",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yamamoto",
+   "actor": "Bodo Wolf",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Fat Man",
+   "actor": "Tilo Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Meisel Hakase",
+   "actor": "Eric Vaessen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Oberst MacDougall",
+   "actor": "Rubina Kuraoka",
+   "von": "ann"
+  },
+  {
+   "character": "Yû Ominae",
+   "actor": "Sebastian Schulz",
+   "von": "ann"
+  },
+  {
+   "character": "Jean Jacques Mondo",
+   "actor": "Simon Jäger",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Meisel",
+   "actor": "Eric Vaessen",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=224"
+}

@@ -1,1 +1,207 @@
-{"titleId":552,"updatedAt":"2026-08-11T11:20:02.847Z","roles":[{"character":"Gomamon","actor":"Rainer Fritzsche","role":"MAIN"},{"character":"Sora Takenouchi","actor":"Sonja Spuhl","role":"MAIN"},{"character":"Koushirou Izumi","actor":"Julia Blankenburg","role":"MAIN"},{"character":"Takeru Takaishi","actor":"Ilona Brokowski","role":"MAIN"},{"character":"Mimi Tachikawa","actor":"Giuliana Jakobeit","role":"MAIN"},{"character":"Palmon","actor":"Gabriele Schramm-Philipp","role":"MAIN"},{"character":"Tentomon","actor":"Joachim Kaps","role":"MAIN"},{"character":"Yamato Ishida","actor":"Robin Kahnmeyer","role":"MAIN"},{"character":"Piyomon","actor":"Daniela Reidies","role":"MAIN"},{"character":"Taichi Yagami","actor":"Florian Knorn","role":"MAIN"},{"character":"Tailmon","actor":"Katrin Zimmermann","role":"MAIN"},{"character":"Hikari Yagami","actor":"Marie-Luise Schramm","role":"MAIN"},{"character":"Jou Kido","actor":"Marius Claren","role":"MAIN"},{"character":"Gabumon","actor":"Julien Haggege","role":"MAIN"},{"character":"Agumon","actor":"Gerald Schaale","role":"MAIN"},{"character":"Patamon","actor":"Hans Hohlbein","role":"MAIN"},{"character":"Devimon","actor":"Klaus-Dieter Klebsch","role":"SUPPORTING"},{"character":"LadyDevimon","actor":"Christin Marquitan","role":"SUPPORTING"},{"character":"Wizarmon","actor":"Georg Tryphon","role":"SUPPORTING"}]}
+{
+ "titleId": 552,
+ "updatedAt": "2026-08-15T18:25:33.642Z",
+ "roles": [
+  {
+   "character": "Gomamon",
+   "actor": "Rainer Fritzsche",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sora Takenouchi",
+   "actor": "Sonja Spuhl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Koushirou Izumi",
+   "actor": "Julia Blankenburg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Takeru Takaishi",
+   "actor": "Ilona Brokowski",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mimi Tachikawa",
+   "actor": "Giuliana Jakobeit",
+   "role": "MAIN"
+  },
+  {
+   "character": "Palmon",
+   "actor": "Gabriele Schramm-Philipp",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tentomon",
+   "actor": "Joachim Kaps",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yamato Ishida",
+   "actor": "Robin Kahnmeyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Piyomon",
+   "actor": "Daniela Reidies",
+   "role": "MAIN"
+  },
+  {
+   "character": "Taichi Yagami",
+   "actor": "Florian Knorn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tailmon",
+   "actor": "Katrin Zimmermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hikari Yagami",
+   "actor": "Marie-Luise Schramm",
+   "role": "MAIN"
+  },
+  {
+   "character": "Jou Kido",
+   "actor": "Marius Claren",
+   "role": "MAIN"
+  },
+  {
+   "character": "Gabumon",
+   "actor": "Julien Haggege",
+   "role": "MAIN"
+  },
+  {
+   "character": "Agumon",
+   "actor": "Gerald Schaale",
+   "role": "MAIN"
+  },
+  {
+   "character": "Patamon",
+   "actor": "Hans Hohlbein",
+   "role": "MAIN"
+  },
+  {
+   "character": "Devimon",
+   "actor": "Klaus-Dieter Klebsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "LadyDevimon",
+   "actor": "Christin Marquitan",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Wizarmon",
+   "actor": "Georg Tryphon",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Leomon",
+   "actor": "Gerald Paradies",
+   "von": "ann"
+  },
+  {
+   "character": "Demidevimon",
+   "actor": "Gerrit Schmidt-Foß",
+   "von": "ann"
+  },
+  {
+   "character": "Hikari Yagami",
+   "actor": "Marie Schramm",
+   "von": "ann"
+  },
+  {
+   "character": "Ogremon",
+   "actor": "Klaus Lochthove",
+   "von": "ann"
+  },
+  {
+   "character": "Takeru Takaishi",
+   "actor": "Ilona Otto",
+   "von": "ann"
+  },
+  {
+   "character": "Taichi Yagami",
+   "actor": "Florian Knorrn",
+   "von": "ann"
+  },
+  {
+   "character": "Mimi Tachikawa",
+   "actor": "Giuliana Wendt",
+   "von": "ann"
+  },
+  {
+   "character": "Sora Takenouchi",
+   "actor": "Sonja Scherff",
+   "von": "ann"
+  },
+  {
+   "character": "Koushiro Izumi",
+   "actor": "Julia Blankenberg",
+   "von": "ann"
+  },
+  {
+   "character": "Greymon",
+   "actor": "Gerald Schaale",
+   "von": "ann"
+  },
+  {
+   "character": "Tentomon",
+   "actor": "Achim Kaps",
+   "von": "ann"
+  },
+  {
+   "character": "Biyomon",
+   "actor": "Daniela Reidies",
+   "von": "ann"
+  },
+  {
+   "character": "Gatomon",
+   "actor": "Katrin Zimmermann",
+   "von": "ann"
+  },
+  {
+   "character": "Togemon",
+   "actor": "Gabriele Schramm-Philipp",
+   "von": "ann"
+  },
+  {
+   "character": "Andromon",
+   "actor": "Peter Reinhardt",
+   "von": "ann"
+  },
+  {
+   "character": "Whamon",
+   "actor": "Marlin Wick",
+   "von": "ann"
+  },
+  {
+   "character": "Piedmon",
+   "actor": "Walter Alich",
+   "von": "ann"
+  },
+  {
+   "character": "Etemon",
+   "actor": "Tom Deininger",
+   "von": "ann"
+  },
+  {
+   "character": "Gennai",
+   "actor": "Gerd Holtenau",
+   "von": "ann"
+  },
+  {
+   "character": "Wizardmon",
+   "actor": "Georg Tryphon",
+   "von": "ann"
+  },
+  {
+   "character": "Centarumon",
+   "actor": "Helmut Gauß",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=794"
+}

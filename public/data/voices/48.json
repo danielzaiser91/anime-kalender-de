@@ -1,1 +1,82 @@
-{"titleId":48,"updatedAt":"2026-08-11T11:20:02.785Z","roles":[{"character":"Tsukasa","actor":"Daniel Krause","role":"MAIN"},{"character":"Subaru","actor":"Michele Sterr","role":"MAIN"},{"character":"Bear","actor":"Crock Krumbiegel","role":"MAIN"},{"character":"Mimiru","actor":"Shandra Schadt","role":"MAIN"},{"character":"Balmung","actor":"Manou Lubowski","role":"SUPPORTING"},{"character":"Crim","actor":"Oliver Mink","role":"SUPPORTING"},{"character":"Helba","actor":"Ute Bronder","role":"SUPPORTING"},{"character":"Morganna Mode Gone","actor":"Simone Brahmann","role":"SUPPORTING"},{"character":"Harald Hoerwick","actor":"Manfred Trilling","role":"SUPPORTING"},{"character":"BT","actor":"Tolilah Jolas","role":"SUPPORTING"},{"character":"Sora","actor":"Walter von Hauff","role":"SUPPORTING"},{"character":"Aura","actor":"Kathrin Gaube","role":"SUPPORTING"},{"character":"Silver Knight","actor":"Torsten Münchow","role":"SUPPORTING"},{"character":"A-20","actor":"Beate Pfeiffer","role":"SUPPORTING"}]}
+{
+ "titleId": 48,
+ "updatedAt": "2026-08-15T18:22:41.486Z",
+ "roles": [
+  {
+   "character": "Tsukasa",
+   "actor": "Daniel Krause",
+   "role": "MAIN"
+  },
+  {
+   "character": "Subaru",
+   "actor": "Michele Sterr",
+   "role": "MAIN"
+  },
+  {
+   "character": "Bear",
+   "actor": "Crock Krumbiegel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mimiru",
+   "actor": "Shandra Schadt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Balmung",
+   "actor": "Manou Lubowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Crim",
+   "actor": "Oliver Mink",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Helba",
+   "actor": "Ute Bronder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Morganna Mode Gone",
+   "actor": "Simone Brahmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Harald Hoerwick",
+   "actor": "Manfred Trilling",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "BT",
+   "actor": "Tolilah Jolas",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sora",
+   "actor": "Walter von Hauff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aura",
+   "actor": "Kathrin Gaube",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Silver Knight",
+   "actor": "Torsten Münchow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "A-20",
+   "actor": "Beate Pfeiffer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sora",
+   "actor": "Oliver Stritzel",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=605"
+}

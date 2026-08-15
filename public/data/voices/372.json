@@ -1,1 +1,132 @@
-{"titleId":372,"updatedAt":"2026-08-11T11:20:02.821Z","roles":[{"character":"Cerberus","actor":"Stefan Staudinger","role":"MAIN"},{"character":"Xiaolang Li","actor":"David Turba","role":"MAIN"},{"character":"Sakura Kinomoto","actor":"Manja Doering","role":"MAIN"},{"character":"Touya Kinomoto","actor":"Julien Haggege","role":"SUPPORTING"},{"character":"Yukito Tsukishiro","actor":"Oliver-Kim Hasper","role":"SUPPORTING"},{"character":"Rika Sasaki","actor":"Julia Meynen","role":"SUPPORTING"},{"character":"Yue","actor":"Oliver-Kim Hasper","role":"SUPPORTING"},{"character":"Sonomi Daidouji","actor":"Sabine Arnhold","role":"SUPPORTING"},{"character":"Eriol Hiiragizawa","actor":"Timmo Niesner","role":"SUPPORTING"},{"character":"Tomoyo Daidouji","actor":"Giuliana Jakobeit","role":"SUPPORTING"},{"character":"Nothing","actor":"Gundi Eberhard","role":"SUPPORTING"},{"character":"Takashi Yamazaki","actor":"Sebastian Schulz","role":"SUPPORTING"},{"character":"Kaho Mizuki","actor":"Victoria Sturm","role":"SUPPORTING"},{"character":"Meiling Li","actor":"Anna Carlsson","role":"SUPPORTING"},{"character":"Chiharu Mihara","actor":"Sonja Spuhl","role":"SUPPORTING"},{"character":"Naoko Yanagisawa","actor":"Ilona Brokowski","role":"SUPPORTING"}]}
+{
+ "titleId": 372,
+ "updatedAt": "2026-08-15T18:24:25.851Z",
+ "roles": [
+  {
+   "character": "Cerberus",
+   "actor": "Stefan Staudinger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Xiaolang Li",
+   "actor": "David Turba",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sakura Kinomoto",
+   "actor": "Manja Doering",
+   "role": "MAIN"
+  },
+  {
+   "character": "Touya Kinomoto",
+   "actor": "Julien Haggege",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yukito Tsukishiro",
+   "actor": "Oliver-Kim Hasper",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Rika Sasaki",
+   "actor": "Julia Meynen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yue",
+   "actor": "Oliver-Kim Hasper",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sonomi Daidouji",
+   "actor": "Sabine Arnhold",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eriol Hiiragizawa",
+   "actor": "Timmo Niesner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tomoyo Daidouji",
+   "actor": "Giuliana Jakobeit",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nothing",
+   "actor": "Gundi Eberhard",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Takashi Yamazaki",
+   "actor": "Sebastian Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaho Mizuki",
+   "actor": "Victoria Sturm",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Meiling Li",
+   "actor": "Anna Carlsson",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chiharu Mihara",
+   "actor": "Sonja Spuhl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Naoko Yanagisawa",
+   "actor": "Ilona Brokowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yukito Tsukishiro/Yue",
+   "actor": "Kim Hasper",
+   "von": "ann"
+  },
+  {
+   "character": "Meilin Li",
+   "actor": "Anna Carlsson",
+   "von": "ann"
+  },
+  {
+   "character": "Fujitaka Kinomoto",
+   "actor": "Uwe Büschken",
+   "von": "ann"
+  },
+  {
+   "character": "Naoko Yanagisawa",
+   "actor": "Ilona Otto",
+   "von": "ann"
+  },
+  {
+   "character": "Rika Sasaki",
+   "actor": "Susanne Kaps",
+   "von": "ann"
+  },
+  {
+   "character": "Kerberos",
+   "actor": "Stefan Staudinger",
+   "von": "ann"
+  },
+  {
+   "character": "Nothing Card",
+   "actor": "Gundi Eberhard",
+   "von": "ann"
+  },
+  {
+   "character": "Li-Shaoran",
+   "actor": "David Turba",
+   "von": "ann"
+  },
+  {
+   "character": "Yoshiyuki Terada",
+   "actor": "Johannes Berenz",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2026"
+}

@@ -1,1 +1,97 @@
-{"titleId":459,"updatedAt":"2026-08-11T11:20:02.832Z","roles":[{"character":"Luffy Monkey","actor":"Daniel Schlauch","role":"MAIN"},{"character":"Zoro Roronoa","actor":"Philipp Brammer","role":"MAIN"},{"character":"Nami","actor":"Stephanie Kellner","role":"MAIN"},{"character":"Usopp","actor":"Dirk Meyer","role":"MAIN"},{"character":"Tobio","actor":"Claudia Schmidt","role":"MAIN"},{"character":"El Drago","actor":"Willi Röbke","role":"MAIN"},{"character":"Ganzo","actor":"John-Alexander Döring","role":"SUPPORTING"},{"character":"Woonan","actor":"Julian Manuel","role":"SUPPORTING"},{"character":"Danny","actor":"Paul Sedlmeir","role":"SUPPORTING"},{"character":"Denny","actor":"Gerd Meyer","role":"SUPPORTING"},{"character":"Donny","actor":"Niko Macoulis","role":"SUPPORTING"},{"character":"Narrator","actor":"Reinhard Brock","role":"BACKGROUND"}]}
+{
+ "titleId": 459,
+ "updatedAt": "2026-08-15T18:24:55.648Z",
+ "roles": [
+  {
+   "character": "Luffy Monkey",
+   "actor": "Daniel Schlauch",
+   "role": "MAIN"
+  },
+  {
+   "character": "Zoro Roronoa",
+   "actor": "Philipp Brammer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nami",
+   "actor": "Stephanie Kellner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Usopp",
+   "actor": "Dirk Meyer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tobio",
+   "actor": "Claudia Schmidt",
+   "role": "MAIN"
+  },
+  {
+   "character": "El Drago",
+   "actor": "Willi Röbke",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ganzo",
+   "actor": "John-Alexander Döring",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Woonan",
+   "actor": "Julian Manuel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Danny",
+   "actor": "Paul Sedlmeir",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Denny",
+   "actor": "Gerd Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Donny",
+   "actor": "Niko Macoulis",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Narrator",
+   "actor": "Reinhard Brock",
+   "role": "BACKGROUND"
+  },
+  {
+   "character": "Lysop",
+   "actor": "Dirk Meyer",
+   "von": "ann"
+  },
+  {
+   "character": "Monkey D. Ruffy",
+   "actor": "Daniel Schlauch",
+   "von": "ann"
+  },
+  {
+   "character": "Lorenor Zorro",
+   "actor": "Philipp Brammer",
+   "von": "ann"
+  },
+  {
+   "character": "Woonan",
+   "actor": "Matthias Klie",
+   "von": "ann"
+  },
+  {
+   "character": "Ganzo",
+   "actor": "Walter von Hauff",
+   "von": "ann"
+  },
+  {
+   "character": "El Dorago",
+   "actor": "Willi Röbke",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=3708"
+}

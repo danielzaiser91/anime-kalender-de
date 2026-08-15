@@ -1,1 +1,67 @@
-{"titleId":513,"updatedAt":"2026-08-11T11:20:02.839Z","roles":[{"character":"Pazu","actor":"Nicola Devico Mamone","role":"MAIN"},{"character":"Muska","actor":"Claus-Peter Damitz","role":"MAIN"},{"character":"Sheeta","actor":"Natalie Löwenberg","role":"MAIN"},{"character":"Dola","actor":"Ilona Grandke","role":"MAIN"},{"character":"Pom Jii-san","actor":"Werner Uschkurat","role":"SUPPORTING"},{"character":"Duffy Oyakata","actor":"Thorsten Nindel","role":"SUPPORTING"},{"character":"Henri","actor":"Jens-Holger Kretschmer","role":"SUPPORTING"},{"character":"Lui","actor":"Claus Brockmeyer","role":"SUPPORTING"},{"character":"Mouro Shougun","actor":"Manfred Erdmann","role":"SUPPORTING"},{"character":"Charles","actor":"Christoph Jablonka","role":"SUPPORTING"}]}
+{
+ "titleId": 513,
+ "updatedAt": "2026-08-15T18:25:14.561Z",
+ "roles": [
+  {
+   "character": "Pazu",
+   "actor": "Nicola Devico Mamone",
+   "role": "MAIN"
+  },
+  {
+   "character": "Muska",
+   "actor": "Claus-Peter Damitz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sheeta",
+   "actor": "Natalie Löwenberg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Dola",
+   "actor": "Ilona Grandke",
+   "role": "MAIN"
+  },
+  {
+   "character": "Pom Jii-san",
+   "actor": "Werner Uschkurat",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Duffy Oyakata",
+   "actor": "Thorsten Nindel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Henri",
+   "actor": "Jens-Holger Kretschmer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lui",
+   "actor": "Claus Brockmeyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mouro Shougun",
+   "actor": "Manfred Erdmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Charles",
+   "actor": "Christoph Jablonka",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pazu",
+   "actor": "Nico Mamone",
+   "von": "ann"
+  },
+  {
+   "character": "Sheeta",
+   "actor": "Nathalie Loewenberg",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=481"
+}

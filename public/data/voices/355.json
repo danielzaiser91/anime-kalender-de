@@ -1,1 +1,137 @@
-{"titleId":355,"updatedAt":"2026-08-11T11:20:02.820Z","roles":[{"character":"Shana","actor":"Samina König","role":"MAIN"},{"character":"Kazumi Yoshida","actor":"Marie Hinze","role":"MAIN"},{"character":"Yuuji Sakai","actor":"Tim Schwarzmaier","role":"MAIN"},{"character":"Mathilde Saint-Omer","actor":"Alice Bauer","role":"SUPPORTING"},{"character":"Alastor","actor":"Ingo Albrecht","role":"SUPPORTING"},{"character":"Sydonay","actor":"Kevin Kraus","role":"SUPPORTING"},{"character":"Yukari Hirai","actor":"Sarah Tkotsch","role":"SUPPORTING"},{"character":"Margery Daw","actor":"Katharina Schwarzmaier","role":"SUPPORTING"},{"character":"Vine","actor":"Dirk Petrick","role":"SUPPORTING"},{"character":"Merihim","actor":"Julian Tennstedt","role":"SUPPORTING"},{"character":"Bel Peol","actor":"Jenny Löffler","role":"SUPPORTING"},{"character":"Domino","actor":"Jermain Meyer","role":"SUPPORTING"},{"character":"Tiriel","actor":"Jamie Lee Blank","role":"SUPPORTING"},{"character":"Wilhelmina Carmel","actor":"Ronja Peters","role":"SUPPORTING"},{"character":"Lamies","actor":"Klaus-Dieter Klebsch","role":"SUPPORTING"},{"character":"Tenmoku Ikko","actor":"Engelbert von Nordhausen","role":"SUPPORTING"},{"character":"Tiamat","actor":"Dana Friedrich","role":"SUPPORTING"},{"character":"Hayato Ike","actor":"Sascha Werginz","role":"SUPPORTING"},{"character":"Eita Tanaka","actor":"Simon Köslich","role":"SUPPORTING"},{"character":"Hecate","actor":"Anni C. Salander","role":"SUPPORTING"},{"character":"Friagne","actor":"Florian Hoffmann","role":"SUPPORTING"},{"character":"Sorath","actor":"Peggy Pollow","role":"SUPPORTING"},{"character":"Chigusa Sakai","actor":"Daniela Molina","role":"SUPPORTING"},{"character":"Khamsin Nbhw","actor":"Sebastian Fitzner","role":"SUPPORTING"}]}
+{
+ "titleId": 355,
+ "updatedAt": "2026-08-15T18:24:22.534Z",
+ "roles": [
+  {
+   "character": "Shana",
+   "actor": "Samina König",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kazumi Yoshida",
+   "actor": "Marie Hinze",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuuji Sakai",
+   "actor": "Tim Schwarzmaier",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mathilde Saint-Omer",
+   "actor": "Alice Bauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Alastor",
+   "actor": "Ingo Albrecht",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sydonay",
+   "actor": "Kevin Kraus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yukari Hirai",
+   "actor": "Sarah Tkotsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Margery Daw",
+   "actor": "Katharina Schwarzmaier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Vine",
+   "actor": "Dirk Petrick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Merihim",
+   "actor": "Julian Tennstedt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bel Peol",
+   "actor": "Jenny Löffler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Domino",
+   "actor": "Jermain Meyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tiriel",
+   "actor": "Jamie Lee Blank",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Wilhelmina Carmel",
+   "actor": "Ronja Peters",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lamies",
+   "actor": "Klaus-Dieter Klebsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tenmoku Ikko",
+   "actor": "Engelbert von Nordhausen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tiamat",
+   "actor": "Dana Friedrich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hayato Ike",
+   "actor": "Sascha Werginz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eita Tanaka",
+   "actor": "Simon Köslich",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hecate",
+   "actor": "Anni C. Salander",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Friagne",
+   "actor": "Florian Hoffmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sorath",
+   "actor": "Peggy Pollow",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chigusa Sakai",
+   "actor": "Daniela Molina",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Khamsin Nbhw",
+   "actor": "Sebastian Fitzner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marcosias",
+   "actor": "Hanns Jörg Krumpholz",
+   "von": "ann"
+  },
+  {
+   "character": "Keisaku Satou",
+   "actor": "Imme Aldag",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=5943"
+}

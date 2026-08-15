@@ -1,1 +1,77 @@
-{"titleId":19,"updatedAt":"2026-08-11T11:20:02.780Z","roles":[{"character":"Kenzou Tenma","actor":"Sven Gerhardt","role":"MAIN"},{"character":"Johan Liebert","actor":"Carlos Fanselow","role":"MAIN"},{"character":"Anna Liebert","actor":"Janin Stenzel","role":"MAIN"},{"character":"Heinrich Runge","actor":"Peter Flechtner","role":"MAIN"},{"character":"Eva Heinemann","actor":"Julia Blankenburg","role":"MAIN"},{"character":"Wolfgang Grimmer","actor":"Sven Plate","role":"SUPPORTING"},{"character":"Dieter","actor":"Nina Schatton","role":"SUPPORTING"},{"character":"Roberto","actor":"Ulrich Blöcher","role":"SUPPORTING"},{"character":"Julius Reichwein","actor":"Lutz Riedel","role":"SUPPORTING"}]}
+{
+ "titleId": 19,
+ "updatedAt": "2026-08-15T18:22:27.935Z",
+ "roles": [
+  {
+   "character": "Kenzou Tenma",
+   "actor": "Sven Gerhardt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Johan Liebert",
+   "actor": "Carlos Fanselow",
+   "role": "MAIN"
+  },
+  {
+   "character": "Anna Liebert",
+   "actor": "Janin Stenzel",
+   "role": "MAIN"
+  },
+  {
+   "character": "Heinrich Runge",
+   "actor": "Peter Flechtner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Eva Heinemann",
+   "actor": "Julia Blankenburg",
+   "role": "MAIN"
+  },
+  {
+   "character": "Wolfgang Grimmer",
+   "actor": "Sven Plate",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Dieter",
+   "actor": "Nina Schatton",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Roberto",
+   "actor": "Ulrich Blöcher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Julius Reichwein",
+   "actor": "Lutz Riedel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kenzou Tenma",
+   "actor": "Peter Flechtner",
+   "von": "ann"
+  },
+  {
+   "character": "Heinrich Runge",
+   "actor": "Sven Gerhardt",
+   "von": "ann"
+  },
+  {
+   "character": "Dr. Julius Reichwein",
+   "actor": "Lutz Riedel",
+   "von": "ann"
+  },
+  {
+   "character": "Johann Liebert",
+   "actor": "Carlos Fanselow",
+   "von": "ann"
+  },
+  {
+   "character": "Nina Fortner / Anna Liebert",
+   "actor": "Janin Stenzel",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=3750"
+}

@@ -1,1 +1,112 @@
-{"titleId":467,"updatedAt":"2026-08-11T11:20:02.835Z","roles":[{"character":"Batou","actor":"Tilo Schmitz","role":"MAIN"},{"character":"Togusa","actor":"Klaus-Peter Grap","role":"MAIN"},{"character":"Daisuke Aramaki","actor":"Hasso Zorn","role":"MAIN"},{"character":"Motoko Kusanagi","actor":"Christin Marquitan","role":"MAIN"},{"character":"Aoi","actor":"Tommy Morgenstern","role":"SUPPORTING"},{"character":"Pazu","actor":"Thomas Schmuckert","role":"SUPPORTING"},{"character":"Daido","actor":"Engelbert von Nordhausen","role":"SUPPORTING"},{"character":"Gayle Yasuoka","actor":"Reinhard Scheunemann","role":"SUPPORTING"},{"character":"Pavlo Zaitsev","actor":"Thomas Nero Wolff","role":"SUPPORTING"},{"character":"Ishikawa","actor":"Erich Räuker","role":"SUPPORTING"},{"character":"Foreign Minister","actor":"Klaus-Dieter Klebsch","role":"SUPPORTING"},{"character":"Tachikoma","actor":"Sabine Mazay","role":"SUPPORTING"},{"character":"Marco Amoretti","actor":"F.G.M. Stegers","role":"SUPPORTING"},{"character":"Bosuerinofu Cruzkowa","actor":"Andrea Solter","role":"SUPPORTING"},{"character":"Niimi","actor":"Stefan Staudinger","role":"SUPPORTING"},{"character":"Saori Tsujisaki","actor":"Sonja Spuhl","role":"SUPPORTING"},{"character":"Sano","actor":"Sabine Arnhold","role":"SUPPORTING"},{"character":"Kubota","actor":"Joachim Kaps","role":"SUPPORTING"},{"character":"Yamaguchi","actor":"Sebastian Christoph Jacob","role":"SUPPORTING"},{"character":"Ran","actor":"Heike Beeck","role":"SUPPORTING"}]}
+{
+ "titleId": 467,
+ "updatedAt": "2026-08-15T18:25:01.189Z",
+ "roles": [
+  {
+   "character": "Batou",
+   "actor": "Tilo Schmitz",
+   "role": "MAIN"
+  },
+  {
+   "character": "Togusa",
+   "actor": "Klaus-Peter Grap",
+   "role": "MAIN"
+  },
+  {
+   "character": "Daisuke Aramaki",
+   "actor": "Hasso Zorn",
+   "role": "MAIN"
+  },
+  {
+   "character": "Motoko Kusanagi",
+   "actor": "Christin Marquitan",
+   "role": "MAIN"
+  },
+  {
+   "character": "Aoi",
+   "actor": "Tommy Morgenstern",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pazu",
+   "actor": "Thomas Schmuckert",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Daido",
+   "actor": "Engelbert von Nordhausen",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gayle Yasuoka",
+   "actor": "Reinhard Scheunemann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Pavlo Zaitsev",
+   "actor": "Thomas Nero Wolff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ishikawa",
+   "actor": "Erich Räuker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Foreign Minister",
+   "actor": "Klaus-Dieter Klebsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tachikoma",
+   "actor": "Sabine Mazay",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Marco Amoretti",
+   "actor": "F.G.M. Stegers",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bosuerinofu Cruzkowa",
+   "actor": "Andrea Solter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Niimi",
+   "actor": "Stefan Staudinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Saori Tsujisaki",
+   "actor": "Sonja Spuhl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sano",
+   "actor": "Sabine Arnhold",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kubota",
+   "actor": "Joachim Kaps",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yamaguchi",
+   "actor": "Sebastian Christoph Jacob",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ran",
+   "actor": "Heike Beeck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "\"Major\" Motoko Kusanagi",
+   "actor": "Christin Marquitan",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=910"
+}

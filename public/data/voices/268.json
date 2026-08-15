@@ -1,1 +1,132 @@
-{"titleId":268,"updatedAt":"2026-08-11T11:20:02.810Z","roles":[{"character":"Kintarou Ooe","actor":"Timmo Niesner","role":"MAIN"},{"character":"Onna Shachou","actor":"Heide Domanowski","role":"MAIN"},{"character":"Naoko Katsuda","actor":"Dascha Lehmann","role":"MAIN"},{"character":"Noriko","actor":"Julia Ziffer","role":"MAIN"},{"character":"Ayuko Hayamizu","actor":"Peggy Sander","role":"MAIN"},{"character":"Reiko Terayama","actor":"Diana Borgwardt","role":"MAIN"},{"character":"Chie","actor":"Berenice Weichert","role":"MAIN"},{"character":"Yuka Kanzaki","actor":"Sonja Spuhl","role":"SUPPORTING"},{"character":"Kaseifu","actor":"Maresi Bischoff-Hanft","role":"SUPPORTING"},{"character":"Tatsuya Engawa","actor":"Robin Kahnmeyer","role":"SUPPORTING"},{"character":"Shain B","actor":"Viktoria Voigt","role":"SUPPORTING"},{"character":"Shain C","actor":"Angela Ringer","role":"SUPPORTING"},{"character":"Shain D","actor":"Heike Beeck","role":"SUPPORTING"},{"character":"Shain A","actor":"Silvia Mißbach","role":"SUPPORTING"},{"character":"Shain E","actor":"Maria Sumner","role":"SUPPORTING"},{"character":"Jitenshaya Shunin","actor":"Peter Groeger","role":"SUPPORTING"},{"character":"Jitenshaya Okusan","actor":"Maresi Bischoff-Hanft","role":"SUPPORTING"},{"character":"Noriko Katsuda","actor":"Anja Godenschweger","role":"SUPPORTING"},{"character":"Sakata","actor":"Tilo Schmitz","role":"SUPPORTING"},{"character":"Yakuza A","actor":"Karl Schulz","role":"SUPPORTING"},{"character":"Yakuza A","actor":"Karl Schulz","role":"SUPPORTING"},{"character":"Yakuza B","actor":"Eberhard Prüter","role":"SUPPORTING"},{"character":"Shachou","actor":"Michael Telloke","role":"SUPPORTING"}]}
+{
+ "titleId": 268,
+ "updatedAt": "2026-08-15T18:23:55.017Z",
+ "roles": [
+  {
+   "character": "Kintarou Ooe",
+   "actor": "Timmo Niesner",
+   "role": "MAIN"
+  },
+  {
+   "character": "Onna Shachou",
+   "actor": "Heide Domanowski",
+   "role": "MAIN"
+  },
+  {
+   "character": "Naoko Katsuda",
+   "actor": "Dascha Lehmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Noriko",
+   "actor": "Julia Ziffer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ayuko Hayamizu",
+   "actor": "Peggy Sander",
+   "role": "MAIN"
+  },
+  {
+   "character": "Reiko Terayama",
+   "actor": "Diana Borgwardt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Chie",
+   "actor": "Berenice Weichert",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yuka Kanzaki",
+   "actor": "Sonja Spuhl",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaseifu",
+   "actor": "Maresi Bischoff-Hanft",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tatsuya Engawa",
+   "actor": "Robin Kahnmeyer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shain B",
+   "actor": "Viktoria Voigt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shain C",
+   "actor": "Angela Ringer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shain D",
+   "actor": "Heike Beeck",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shain A",
+   "actor": "Silvia Mißbach",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shain E",
+   "actor": "Maria Sumner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jitenshaya Shunin",
+   "actor": "Peter Groeger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Jitenshaya Okusan",
+   "actor": "Maresi Bischoff-Hanft",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Noriko Katsuda",
+   "actor": "Anja Godenschweger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sakata",
+   "actor": "Tilo Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yakuza A",
+   "actor": "Karl Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yakuza A",
+   "actor": "Karl Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yakuza B",
+   "actor": "Eberhard Prüter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shachou",
+   "actor": "Michael Telloke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kintaro Oe",
+   "actor": "Timmo Niesner",
+   "von": "ann"
+  },
+  {
+   "character": "Ayuko Hayami",
+   "actor": "Peggy Sander",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=373"
+}

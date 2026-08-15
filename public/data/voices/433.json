@@ -1,1 +1,32 @@
-{"titleId":433,"updatedAt":"2026-08-11T11:20:02.829Z","roles":[{"character":"Hiroki Fujisawa","actor":"Tim Knauer","role":"MAIN"},{"character":"Sayuri Sawatari","actor":"Mia Diekow","role":"MAIN"},{"character":"Takuya Shirakawa","actor":"Tobias Schmidt","role":"MAIN"},{"character":"Okabe","actor":"Eberhard Haar","role":"SUPPORTING"}]}
+{
+ "titleId": 433,
+ "updatedAt": "2026-08-15T18:24:45.730Z",
+ "roles": [
+  {
+   "character": "Hiroki Fujisawa",
+   "actor": "Tim Knauer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sayuri Sawatari",
+   "actor": "Mia Diekow",
+   "role": "MAIN"
+  },
+  {
+   "character": "Takuya Shirakawa",
+   "actor": "Tobias Schmidt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Okabe",
+   "actor": "Eberhard Haar",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tomizawa",
+   "actor": "Mario Grete",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2324"
+}

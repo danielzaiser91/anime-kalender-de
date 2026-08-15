@@ -1,1 +1,27 @@
-{"titleId":405,"updatedAt":"2026-08-11T11:20:02.826Z","roles":[{"character":"Saya","actor":"Corinna Dorenkamp","role":"MAIN"},{"character":"David","actor":"Hans Bayer","role":"SUPPORTING"}]}
+{
+ "titleId": 405,
+ "updatedAt": "2026-08-15T18:24:35.947Z",
+ "roles": [
+  {
+   "character": "Saya",
+   "actor": "Corinna Dorenkamp",
+   "role": "MAIN"
+  },
+  {
+   "character": "David",
+   "actor": "Hans Bayer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sharon",
+   "actor": "Sarah Brückner",
+   "von": "ann"
+  },
+  {
+   "character": "Saya",
+   "actor": "Corinna Dörenkamp",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=7"
+}

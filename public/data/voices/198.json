@@ -1,1 +1,112 @@
-{"titleId":198,"updatedAt":"2026-08-11T11:20:02.802Z","roles":[{"character":"Chouji Suitengu","actor":"Manfred Trilling","role":"MAIN"},{"character":"Tatsumi Saiga","actor":"Oliver Mink","role":"MAIN"},{"character":"Kagura Tennouzu","actor":"Marieke Oeffinger","role":"MAIN"},{"character":"Shinsen Tennouzu","actor":"Bettina Kenter","role":"SUPPORTING"},{"character":"Nishiya","actor":"Wolfgang Schatz","role":"SUPPORTING"},{"character":"Tsujidou","actor":"Martina Duncker","role":"SUPPORTING"},{"character":"Ginji Niihari","actor":"Thorsten Nindel","role":"SUPPORTING"},{"character":"Hibari Ginza","actor":"Veronika Aryana Neugebauer","role":"SUPPORTING"},{"character":"Kamiya-souri","actor":"Manfred Erdmann","role":"SUPPORTING"},{"character":"Bob","actor":"Jörg Stuttmann","role":"SUPPORTING"},{"character":"Ekoda","actor":"Hans-Georg Panczak","role":"SUPPORTING"},{"character":"Genba Ryougoku","actor":"Johannes Raspe","role":"SUPPORTING"},{"character":"Kaoru Koganei","actor":"Simone Brahmann","role":"SUPPORTING"},{"character":"Makabe","actor":"Thomas Albus","role":"SUPPORTING"},{"character":"Seijirou Togoshi","actor":"Walter von Hauff","role":"SUPPORTING"},{"character":"Seiji Ochiai","actor":"Christian Schult","role":"SUPPORTING"},{"character":"Katsuya Shirogane","actor":"Claus-Peter Damitz","role":"SUPPORTING"},{"character":"Toshiki Mizunokuchi","actor":"Ulf-Jürgen Wagner","role":"SUPPORTING"}]}
+{
+ "titleId": 198,
+ "updatedAt": "2026-08-15T18:23:31.300Z",
+ "roles": [
+  {
+   "character": "Chouji Suitengu",
+   "actor": "Manfred Trilling",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tatsumi Saiga",
+   "actor": "Oliver Mink",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kagura Tennouzu",
+   "actor": "Marieke Oeffinger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shinsen Tennouzu",
+   "actor": "Bettina Kenter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nishiya",
+   "actor": "Wolfgang Schatz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsujidou",
+   "actor": "Martina Duncker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ginji Niihari",
+   "actor": "Thorsten Nindel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hibari Ginza",
+   "actor": "Veronika Aryana Neugebauer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kamiya-souri",
+   "actor": "Manfred Erdmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Bob",
+   "actor": "Jörg Stuttmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ekoda",
+   "actor": "Hans-Georg Panczak",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Genba Ryougoku",
+   "actor": "Johannes Raspe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaoru Koganei",
+   "actor": "Simone Brahmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Makabe",
+   "actor": "Thomas Albus",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seijirou Togoshi",
+   "actor": "Walter von Hauff",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seiji Ochiai",
+   "actor": "Christian Schult",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Katsuya Shirogane",
+   "actor": "Claus-Peter Damitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toshiki Mizunokuchi",
+   "actor": "Ulf-Jürgen Wagner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Seijiru Togoshi",
+   "actor": "Walter von Hauff",
+   "von": "ann"
+  },
+  {
+   "character": "Shinsen Tennozu",
+   "actor": "Bettina Kenter",
+   "von": "ann"
+  },
+  {
+   "character": "Niihari",
+   "actor": "Thorsten Nindel",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=4579"
+}

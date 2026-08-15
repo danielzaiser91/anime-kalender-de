@@ -1,1 +1,142 @@
-{"titleId":189,"updatedAt":"2026-08-11T11:20:02.801Z","roles":[{"character":"Motoko Aoyama","actor":"Maxi Deutsch","role":"MAIN"},{"character":"Shinobu Maehara","actor":"Giuliana Jakobeit","role":"MAIN"},{"character":"Naru Narusegawa","actor":"Maria Koschny","role":"MAIN"},{"character":"Kaolla Suu","actor":"Julia Meynen","role":"MAIN"},{"character":"Keitarou Urashima","actor":"Oliver-Kim Hasper","role":"MAIN"},{"character":"Mitsune Konno","actor":"Sonja Spuhl","role":"MAIN"},{"character":"Mutsumi Otohime","actor":"Ilona Brokowski","role":"SUPPORTING"},{"character":"Lamba Luu","actor":"Sebastian Schulz","role":"SUPPORTING"},{"character":"Mei Narusegawa","actor":"Dascha Lehmann","role":"SUPPORTING"},{"character":"Sachiyo Matsumoto","actor":"Annika Desch","role":"SUPPORTING"},{"character":"Masayuki Haitani","actor":"Tobias Müller","role":"SUPPORTING"},{"character":"Shinobu no Haha","actor":"Sabine Mazay","role":"SUPPORTING"},{"character":"Ken Akamatsu","actor":"Sebastian Christoph Jacob","role":"SUPPORTING"},{"character":"Haruka Urashima","actor":"Katrin Zimmermann","role":"SUPPORTING"},{"character":"Kikuko Onoue","actor":"Susanne Geier","role":"SUPPORTING"},{"character":"Kentarou Sakata","actor":"Julien Haggege","role":"SUPPORTING"},{"character":"Emi Ichikawa","actor":"Maria Sumner","role":"SUPPORTING"},{"character":"Yashuhara Maehara","actor":"Peter Reinhardt","role":"SUPPORTING"},{"character":"Sarah McDougal","actor":"Kathrin Neusser","role":"SUPPORTING"},{"character":"Tsuruko Aoyama","actor":"Angela Ringer","role":"SUPPORTING"},{"character":"Amalla Suu","actor":"Samia Little Elk","role":"SUPPORTING"}]}
+{
+ "titleId": 189,
+ "updatedAt": "2026-08-15T18:23:27.105Z",
+ "roles": [
+  {
+   "character": "Motoko Aoyama",
+   "actor": "Maxi Deutsch",
+   "role": "MAIN"
+  },
+  {
+   "character": "Shinobu Maehara",
+   "actor": "Giuliana Jakobeit",
+   "role": "MAIN"
+  },
+  {
+   "character": "Naru Narusegawa",
+   "actor": "Maria Koschny",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kaolla Suu",
+   "actor": "Julia Meynen",
+   "role": "MAIN"
+  },
+  {
+   "character": "Keitarou Urashima",
+   "actor": "Oliver-Kim Hasper",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mitsune Konno",
+   "actor": "Sonja Spuhl",
+   "role": "MAIN"
+  },
+  {
+   "character": "Mutsumi Otohime",
+   "actor": "Ilona Brokowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lamba Luu",
+   "actor": "Sebastian Schulz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mei Narusegawa",
+   "actor": "Dascha Lehmann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sachiyo Matsumoto",
+   "actor": "Annika Desch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Masayuki Haitani",
+   "actor": "Tobias Müller",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shinobu no Haha",
+   "actor": "Sabine Mazay",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ken Akamatsu",
+   "actor": "Sebastian Christoph Jacob",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Haruka Urashima",
+   "actor": "Katrin Zimmermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kikuko Onoue",
+   "actor": "Susanne Geier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kentarou Sakata",
+   "actor": "Julien Haggege",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Emi Ichikawa",
+   "actor": "Maria Sumner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Yashuhara Maehara",
+   "actor": "Peter Reinhardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sarah McDougal",
+   "actor": "Kathrin Neusser",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tsuruko Aoyama",
+   "actor": "Angela Ringer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Amalla Suu",
+   "actor": "Samia Little Elk",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Keitaro Urashima",
+   "actor": "Kim Hasper",
+   "von": "ann"
+  },
+  {
+   "character": "Su Kaolla",
+   "actor": "Julia Meynen",
+   "von": "ann"
+  },
+  {
+   "character": "Mutsumi Otohime",
+   "actor": "Ilona Otto",
+   "von": "ann"
+  },
+  {
+   "character": "Shinobu Maehara",
+   "actor": "Giuliana Wendt",
+   "von": "ann"
+  },
+  {
+   "character": "Sarah McDougal",
+   "actor": "Julia Ziffer",
+   "von": "ann"
+  },
+  {
+   "character": "Mitsune \"Kitsune\" Konno",
+   "actor": "Sonja Scherff",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=168"
+}

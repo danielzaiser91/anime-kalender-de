@@ -1,1 +1,97 @@
-{"titleId":46,"updatedAt":"2026-08-11T11:20:02.785Z","roles":[{"character":"Shigure Takimi","actor":"Matthias Deutelmoser","role":"MAIN"},{"character":"Sanosuke Sagara","actor":"Alexander Doering","role":"MAIN"},{"character":"Kenshin Himura","actor":"René Dawn-Claude","role":"MAIN"},{"character":"Yahiko Myojin","actor":"Jan Makino","role":"MAIN"},{"character":"Kaoru Kamiya","actor":"Katrin Zimmermann","role":"MAIN"},{"character":"Suzume Gensai","actor":"Maximiliane Häcke","role":"SUPPORTING"},{"character":"Aritomo Yamagata","actor":"Helmut Gauß","role":"SUPPORTING"},{"character":"Toshiyoshi Kawaji","actor":"Stefan Staudinger","role":"SUPPORTING"},{"character":"Gentatsu Takatsuki","actor":"Peter Lontzek","role":"SUPPORTING"},{"character":"Ayame Gensai","actor":"Katie Pfleghar","role":"SUPPORTING"},{"character":"Toki Takatsuki","actor":"Anita Hopt","role":"SUPPORTING"},{"character":"Hajime Saitou","actor":"Sebastian Christoph Jacob","role":"SUPPORTING"}]}
+{
+ "titleId": 46,
+ "updatedAt": "2026-08-15T18:22:39.586Z",
+ "roles": [
+  {
+   "character": "Shigure Takimi",
+   "actor": "Matthias Deutelmoser",
+   "role": "MAIN"
+  },
+  {
+   "character": "Sanosuke Sagara",
+   "actor": "Alexander Doering",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kenshin Himura",
+   "actor": "René Dawn-Claude",
+   "role": "MAIN"
+  },
+  {
+   "character": "Yahiko Myojin",
+   "actor": "Jan Makino",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kaoru Kamiya",
+   "actor": "Katrin Zimmermann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Suzume Gensai",
+   "actor": "Maximiliane Häcke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Aritomo Yamagata",
+   "actor": "Helmut Gauß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toshiyoshi Kawaji",
+   "actor": "Stefan Staudinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gentatsu Takatsuki",
+   "actor": "Peter Lontzek",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ayame Gensai",
+   "actor": "Katie Pfleghar",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Toki Takatsuki",
+   "actor": "Anita Hopt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hajime Saitou",
+   "actor": "Sebastian Christoph Jacob",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Eibin Tamono",
+   "actor": "Bernd Vollbrecht",
+   "von": "ann"
+  },
+  {
+   "character": "Tsunan Tsukioka",
+   "actor": "Asad Schwarz",
+   "von": "ann"
+  },
+  {
+   "character": "Takimi Shigure",
+   "actor": "Matthias Deutelmoser",
+   "von": "ann"
+  },
+  {
+   "character": "Yahiko Myojin",
+   "actor": "Jan Panczak",
+   "von": "ann"
+  },
+  {
+   "character": "Hajime Saito",
+   "actor": "Sebastian Jacob",
+   "von": "ann"
+  },
+  {
+   "character": "Yasuharu Musashino",
+   "actor": "Felix Spieß",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=217"
+}

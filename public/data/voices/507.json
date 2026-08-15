@@ -1,1 +1,67 @@
-{"titleId":507,"updatedAt":"2026-08-11T11:20:02.838Z","roles":[{"character":"Shuuichi Shindou","actor":"Ozan Ünal","role":"MAIN"},{"character":"Eiri Uesugi","actor":"Dennis Schmidt-Foß","role":"MAIN"},{"character":"Tohma Seguchi","actor":"Oliver-Kim Hasper","role":"MAIN"},{"character":"Hiroshi Nakano","actor":"Nico Sablik","role":"MAIN"},{"character":"Noriko Ukai","actor":"Katrin Zimmermann","role":"SUPPORTING"},{"character":"Suguru Fujisaki","actor":"Raúl Richter","role":"SUPPORTING"},{"character":"Ryuuichi Sakuma","actor":"David Turba","role":"SUPPORTING"},{"character":"Maiko Shindou","actor":"Diana Borgwardt","role":"SUPPORTING"},{"character":"Sakano","actor":"Wanja Gerick","role":"SUPPORTING"},{"character":"Claude Winchester","actor":"Gerrit Schmidt-Foß","role":"SUPPORTING"},{"character":"Tatsuha Uesugi","actor":"Hannes Maurer","role":"SUPPORTING"}]}
+{
+ "titleId": 507,
+ "updatedAt": "2026-08-15T18:25:11.395Z",
+ "roles": [
+  {
+   "character": "Shuuichi Shindou",
+   "actor": "Ozan Ünal",
+   "role": "MAIN"
+  },
+  {
+   "character": "Eiri Uesugi",
+   "actor": "Dennis Schmidt-Foß",
+   "role": "MAIN"
+  },
+  {
+   "character": "Tohma Seguchi",
+   "actor": "Oliver-Kim Hasper",
+   "role": "MAIN"
+  },
+  {
+   "character": "Hiroshi Nakano",
+   "actor": "Nico Sablik",
+   "role": "MAIN"
+  },
+  {
+   "character": "Noriko Ukai",
+   "actor": "Katrin Zimmermann",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Suguru Fujisaki",
+   "actor": "Raúl Richter",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryuuichi Sakuma",
+   "actor": "David Turba",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maiko Shindou",
+   "actor": "Diana Borgwardt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Sakano",
+   "actor": "Wanja Gerick",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Claude Winchester",
+   "actor": "Gerrit Schmidt-Foß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tatsuha Uesugi",
+   "actor": "Hannes Maurer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Suguru Fujisaki",
+   "actor": "Raul Richter",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=625"
+}

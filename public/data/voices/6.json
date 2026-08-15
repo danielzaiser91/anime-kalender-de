@@ -1,1 +1,67 @@
-{"titleId":6,"updatedAt":"2026-08-11T11:20:02.779Z","roles":[{"character":"Milly Thompson","actor":"Katja Liebing","role":"MAIN"},{"character":"Vash the Stampede","actor":"Stephan Schleberger","role":"MAIN"},{"character":"Meryl Stryfe","actor":"Susanne Dobrusskin","role":"MAIN"},{"character":"Nicholas D. Wolfwood","actor":"Simon T. Roden","role":"MAIN"},{"character":"Rai-Dei the Blade","actor":"Volker Wolf","role":"SUPPORTING"},{"character":"Chapel the Evergreen","actor":"Gregor Höppner","role":"SUPPORTING"},{"character":"Cliff Schezar","actor":"Hans-Gerd Kilbinger","role":"SUPPORTING"},{"character":"Midvalley the Hornfreak","actor":"Markus Pfeiffer","role":"SUPPORTING"},{"character":"Kaite","actor":"Maximiliane Häcke","role":"SUPPORTING"},{"character":"Lina","actor":"Tanja Schmitz","role":"SUPPORTING"}]}
+{
+ "titleId": 6,
+ "updatedAt": "2026-08-15T18:22:23.982Z",
+ "roles": [
+  {
+   "character": "Milly Thompson",
+   "actor": "Katja Liebing",
+   "role": "MAIN"
+  },
+  {
+   "character": "Vash the Stampede",
+   "actor": "Stephan Schleberger",
+   "role": "MAIN"
+  },
+  {
+   "character": "Meryl Stryfe",
+   "actor": "Susanne Dobrusskin",
+   "role": "MAIN"
+  },
+  {
+   "character": "Nicholas D. Wolfwood",
+   "actor": "Simon T. Roden",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rai-Dei the Blade",
+   "actor": "Volker Wolf",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Chapel the Evergreen",
+   "actor": "Gregor Höppner",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cliff Schezar",
+   "actor": "Hans-Gerd Kilbinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Midvalley the Hornfreak",
+   "actor": "Markus Pfeiffer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaite",
+   "actor": "Maximiliane Häcke",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Lina",
+   "actor": "Tanja Schmitz",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Meryl Strife",
+   "actor": "Susanne Dobrusskin",
+   "von": "ann"
+  },
+  {
+   "character": "Legato Bluesummers",
+   "actor": "Philipp Schepmann",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=88"
+}

@@ -1,1 +1,197 @@
-{"titleId":30,"updatedAt":"2026-08-11T11:20:02.783Z","roles":[{"character":"Shinji Ikari","actor":"Hannes Maurer","role":"MAIN"},{"character":"Misato Katsuragi","actor":"Julia Kaufmann","role":"MAIN"},{"character":"Rei Ayanami","actor":"Marie Bierstedt","role":"MAIN"},{"character":"Asuka Langley Souryuu","actor":"Julia Ziffer","role":"MAIN"},{"character":"Kensuke Aida","actor":"Gerrit Schmidt-Foß","role":"SUPPORTING"},{"character":"Ritsuko Akagi","actor":"Cornelia Waibel","role":"SUPPORTING"},{"character":"Shigeru Aoba","actor":"Rainer Fritzsche","role":"SUPPORTING"},{"character":"Kohzou Fuyutsuki","actor":"Hans-Werner Bussinger","role":"SUPPORTING"},{"character":"Hikari Horaki","actor":"Ilona Brokowski","role":"SUPPORTING"},{"character":"Makoto Hyuuga","actor":"Frank Schröder","role":"SUPPORTING"},{"character":"Maya Ibuki","actor":"Maria Koschny","role":"SUPPORTING"},{"character":"Gendou Ikari","actor":"Erich Räuker","role":"SUPPORTING"},{"character":"Ryouji Kaji","actor":"Marcel Collé","role":"SUPPORTING"},{"character":"Kaworu Nagisa","actor":"Markus Pfeiffer","role":"SUPPORTING"},{"character":"Touji Suzuhara","actor":"Julien Haggege","role":"SUPPORTING"},{"character":"Shiro Tokita","actor":"Robert Glatzeder","role":"SUPPORTING"},{"character":"Keel Lorentz","actor":"Horst Lampe","role":"SUPPORTING"},{"character":"Naoko Akagi","actor":"Heide Domanowski","role":"SUPPORTING"}]}
+{
+ "titleId": 30,
+ "updatedAt": "2026-08-15T18:22:33.245Z",
+ "roles": [
+  {
+   "character": "Shinji Ikari",
+   "actor": "Hannes Maurer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Misato Katsuragi",
+   "actor": "Julia Kaufmann",
+   "role": "MAIN"
+  },
+  {
+   "character": "Rei Ayanami",
+   "actor": "Marie Bierstedt",
+   "role": "MAIN"
+  },
+  {
+   "character": "Asuka Langley Souryuu",
+   "actor": "Julia Ziffer",
+   "role": "MAIN"
+  },
+  {
+   "character": "Kensuke Aida",
+   "actor": "Gerrit Schmidt-Foß",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ritsuko Akagi",
+   "actor": "Cornelia Waibel",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shigeru Aoba",
+   "actor": "Rainer Fritzsche",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kohzou Fuyutsuki",
+   "actor": "Hans-Werner Bussinger",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hikari Horaki",
+   "actor": "Ilona Brokowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Makoto Hyuuga",
+   "actor": "Frank Schröder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Maya Ibuki",
+   "actor": "Maria Koschny",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Gendou Ikari",
+   "actor": "Erich Räuker",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ryouji Kaji",
+   "actor": "Marcel Collé",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kaworu Nagisa",
+   "actor": "Markus Pfeiffer",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Touji Suzuhara",
+   "actor": "Julien Haggege",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shiro Tokita",
+   "actor": "Robert Glatzeder",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Keel Lorentz",
+   "actor": "Horst Lampe",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Naoko Akagi",
+   "actor": "Heide Domanowski",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Hikari Horaki",
+   "actor": "Ilona Otto",
+   "von": "ann"
+  },
+  {
+   "character": "Toji Suzuhara",
+   "actor": "Julien Haggege",
+   "von": "ann"
+  },
+  {
+   "character": "Asuka Langley Sohryu",
+   "actor": "Julia Ziffer",
+   "von": "ann"
+  },
+  {
+   "character": "Ritsuko Akagi",
+   "actor": "Peggy Sander",
+   "von": "ann"
+  },
+  {
+   "character": "Gendo Ikari",
+   "actor": "Erich Räuker",
+   "von": "ann"
+  },
+  {
+   "character": "Keel Lorenz",
+   "actor": "Horst Lampe",
+   "von": "ann"
+  },
+  {
+   "character": "Lorenz Kiel",
+   "actor": "Horst Lampe",
+   "von": "ann"
+  },
+  {
+   "character": "Kouzou Fuyutsuki",
+   "actor": "Hans-Werner Bussinger",
+   "von": "ann"
+  },
+  {
+   "character": "Shinji Ikari",
+   "actor": "Christian Zeiger",
+   "von": "ann"
+  },
+  {
+   "character": "Misato Katsuragi",
+   "actor": "Anna Amalie Blomeyer",
+   "von": "ann"
+  },
+  {
+   "character": "Shigeru Aoba",
+   "actor": "Henning Nöhren",
+   "von": "ann"
+  },
+  {
+   "character": "Ryouji Kaji",
+   "actor": "Daniel Kröhnert",
+   "von": "ann"
+  },
+  {
+   "character": "Maya Ibuki",
+   "actor": "Flavia Vinzens",
+   "von": "ann"
+  },
+  {
+   "character": "Asuka Langley Soryu",
+   "actor": "Johanna Dost",
+   "von": "ann"
+  },
+  {
+   "character": "Hikari Horaki",
+   "actor": "Anni C. Salander",
+   "von": "ann"
+  },
+  {
+   "character": "Toji Suzuhara",
+   "actor": "Volkmar Leif Gilbert",
+   "von": "ann"
+  },
+  {
+   "character": "Kouzou Fuyutsuki",
+   "actor": "Sven Riemann",
+   "von": "ann"
+  },
+  {
+   "character": "Rei Ayanami",
+   "actor": "Franziska Lather",
+   "von": "ann"
+  },
+  {
+   "character": "Gendo Ikari",
+   "actor": "Urs Remond",
+   "von": "ann"
+  },
+  {
+   "character": "Kensuke Aida",
+   "actor": "Frederic Böhle",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=49"
+}

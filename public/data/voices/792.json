@@ -1,1 +1,127 @@
-{"titleId":792,"updatedAt":"2026-08-11T11:20:02.861Z","roles":[{"character":"Ranma Saotome","actor":"Angela Wiederhut","role":"MAIN"},{"character":"Akane Tendou","actor":"Andrea Wick","role":"MAIN"},{"character":"Ryouga Hibiki","actor":"Daniel Schlauch","role":"SUPPORTING"},{"character":"Genma Saotome","actor":"Thomas Rauscher","role":"SUPPORTING"},{"character":"Shampoo","actor":"Anke Kortemeier","role":"SUPPORTING"},{"character":"Soun Tendou","actor":"Michael Schwarzmaier","role":"SUPPORTING"},{"character":"Tatewaki Kunou","actor":"Manuel Straube","role":"SUPPORTING"},{"character":"Nabiki Tendou","actor":"Sonja Reichelt","role":"SUPPORTING"},{"character":"Ukyo Kuonji","actor":"Anna Carlsson","role":"SUPPORTING"},{"character":"Mousse","actor":"Jan Makino","role":"SUPPORTING"},{"character":"Happousai","actor":"Osman Ragheb","role":"SUPPORTING"},{"character":"Cologne","actor":"Gisela Fritsch","role":"SUPPORTING"},{"character":"Kasumi Tendou","actor":"Christine Stichler","role":"SUPPORTING"},{"character":"Touma","actor":"Oliver-Kim Hasper","role":"SUPPORTING"}]}
+{
+ "titleId": 792,
+ "updatedAt": "2026-08-15T18:26:07.039Z",
+ "roles": [
+  {
+   "character": "Ranma Saotome",
+   "actor": "Angela Wiederhut",
+   "role": "MAIN"
+  },
+  {
+   "character": "Akane Tendou",
+   "actor": "Andrea Wick",
+   "role": "MAIN"
+  },
+  {
+   "character": "Ryouga Hibiki",
+   "actor": "Daniel Schlauch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Genma Saotome",
+   "actor": "Thomas Rauscher",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Shampoo",
+   "actor": "Anke Kortemeier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Soun Tendou",
+   "actor": "Michael Schwarzmaier",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Tatewaki Kunou",
+   "actor": "Manuel Straube",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Nabiki Tendou",
+   "actor": "Sonja Reichelt",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Ukyo Kuonji",
+   "actor": "Anna Carlsson",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Mousse",
+   "actor": "Jan Makino",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Happousai",
+   "actor": "Osman Ragheb",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Cologne",
+   "actor": "Gisela Fritsch",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Kasumi Tendou",
+   "actor": "Christine Stichler",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Touma",
+   "actor": "Oliver-Kim Hasper",
+   "role": "SUPPORTING"
+  },
+  {
+   "character": "Prinz Toma",
+   "actor": "Kim Hasper",
+   "von": "ann"
+  },
+  {
+   "character": "Soun Tendo",
+   "actor": "Michael Schwarzmaier",
+   "von": "ann"
+  },
+  {
+   "character": "Kasumi Tendo",
+   "actor": "Christine Stichler",
+   "von": "ann"
+  },
+  {
+   "character": "Nabiki Tendo",
+   "actor": "Sonja Reichelt",
+   "von": "ann"
+  },
+  {
+   "character": "Ranma Saotome",
+   "actor": "Clemens Ostermann",
+   "von": "ann"
+  },
+  {
+   "character": "Tatewaki Kuno",
+   "actor": "Manuel Straube",
+   "von": "ann"
+  },
+  {
+   "character": "Cologne",
+   "actor": "Marianne Wischmann",
+   "von": "ann"
+  },
+  {
+   "character": "Mousse",
+   "actor": "Jan Panczak",
+   "von": "ann"
+  },
+  {
+   "character": "Happosai",
+   "actor": "Osman Ragheb",
+   "von": "ann"
+  },
+  {
+   "character": "Akane Tendo",
+   "actor": "Andrea Wick",
+   "von": "ann"
+  }
+ ],
+ "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1533"
+}
