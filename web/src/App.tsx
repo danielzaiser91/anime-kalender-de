@@ -257,7 +257,7 @@ export default function App() {
           ))}
 
         {route.view === 'abo' && <SubscribeView meta={data.meta} />}
-        {route.view === 'newsletter' && <NewsletterView meta={data.meta} />}
+        {route.view === 'newsletter' && <NewsletterView meta={data.meta} data={data} />}
         {route.view === 'quellen' && <SourcesView meta={data.meta} />}
         {route.view === 'impressum' && <ImpressumView />}
         {route.view === 'datenschutz' && <DatenschutzView />}

@@ -328,7 +328,8 @@ const TEXTE = {
   'news.restoreSent':
     'Falls für diese Adresse ein Abo besteht, ist eine Mail unterwegs. Der Link darin gilt dreißig Minuten und lässt sich einmal benutzen.',
   'news.restoreSafety': 'Die Mail geht nur an das eingetragene Postfach.',
-  'news.syncMerged': '{dazu} Titel von deinem Abo übernommen, jetzt {count} insgesamt.',
+  'news.mergedTitle': '{count} Titel von deinem Abo übernommen',
+  'news.mergedBody': 'Nicht gewollt? Häkchen entfernen.',
 
   'news.waitTitle': 'Warten, ohne nachzusehen',
   'news.waitBody':

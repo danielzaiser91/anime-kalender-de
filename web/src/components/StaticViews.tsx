@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import type { DataMeta, PlatformId } from '@shared/types.ts'
 import { PLATFORMS } from '@shared/types.ts'
-import { absoluteFeedUrl } from '../lib/data.ts'
+import { absoluteFeedUrl, loadAllTitles, loadOhneSynchro, type Dataset } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
-import { useFavorites } from '../lib/favorites.ts'
+import { favoritenErgaenzen, useFavorites } from '../lib/favorites.ts'
 import {
   getSyncToken,
   pullFavorites,
@@ -155,7 +155,7 @@ export function SubscribeView({ meta }: { meta: DataMeta }) {
 
 type FormState = 'idle' | 'sending' | 'ok' | 'error'
 
-export function NewsletterView({ meta }: { meta: DataMeta }) {
+export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }) {
   const { t } = useLang()
   const { favorites, toggle: toggleFavorit } = useFavorites()
   const [email, setEmail] = useState('')
@@ -163,8 +163,17 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
   /** Formular trotz bestehender Verbindung zeigen — für den Fall eines toten Schlüssels. */
   const [restoreOffen, setRestoreOffen] = useState(false)
   const [abmeldeState, setAbmeldeState] = useState<'idle' | 'fragt' | 'laeuft' | 'weg'>('idle')
-  /** Wie viele Titel beim Verbinden vom Server dazukamen — für die Rückmeldung. */
-  const [uebernommen, setUebernommen] = useState(0)
+  /**
+   * Was beim Verbinden vom Server dazukam — für die Rückmeldung mit Abwahl.
+   *
+   * Die Vereinigung ist die richtige Vorgabe, aber sie holt auch zurück, was
+   * jemand absichtlich entfernt hatte. Deshalb wird **nach** dem Verbinden
+   * gezeigt, was dazugekommen ist, statt vorher zu fragen: Wer nichts tut, hat
+   * den vollständigen Stand, und wer etwas nicht will, hakt es ab (Daniels
+   * Entscheidung, 14.08.2026, gegen eine eigene Vergleichsseite).
+   */
+  const [uebernommen, setUebernommen] = useState<number[]>([])
+  const [namen, setNamen] = useState<Map<number, string>>(new Map())
   const [frequency, setFrequency] = useState<'daily' | 'weekly'>('weekly')
   const [platforms, setPlatforms] = useState<PlatformId[]>([])
   const [consent, setConsent] = useState(false)
@@ -222,8 +231,9 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
       .catch(() => [] as number[])
       .then((vomServer) => {
         const vereint = [...new Set([...favorites, ...vomServer])].sort((a, b) => a - b)
-        for (const id of vomServer) if (!favorites.has(id)) toggleFavorit(id)
-        setUebernommen(vomServer.filter((id) => !favorites.has(id)).length)
+        // Ergänzen statt umschalten — siehe `favoritenErgaenzen`.
+        favoritenErgaenzen(vomServer)
+        setUebernommen(vomServer.filter((id) => !favorites.has(id)))
         return pushFavorites(token, vereint)
       })
 
@@ -232,11 +242,7 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
         setSyncState('ok')
         // Die Meldung sagt, was tatsächlich passiert ist: Kamen Titel vom
         // Server dazu, ist das die Nachricht — sonst genügt die Gesamtzahl.
-        setSyncMessage(
-          uebernommen > 0
-            ? t('news.syncMerged', { count, dazu: uebernommen })
-            : t('news.syncOk', { count }),
-        )
+        setSyncMessage(t('news.syncOk', { count }))
       })
       .catch((err: Error) => {
         setSyncState('error')
@@ -245,6 +251,39 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
     // Nur beim Öffnen. Spätere Änderungen übernimmt der Abgleich in App.tsx.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  /**
+   * Namen der übernommenen Titel — nur dann geholt, wenn es welche gibt.
+   *
+   * Die Newsletter-Seite kennt sonst nur Kennungen. Der vollständige Bestand
+   * ist mehrere Megabyte groß und wird deshalb ausschließlich in diesem
+   * seltenen Moment nachgeladen, und auch dann nur so weit, wie nötig: erst der
+   * gepflegte Bestand, und nur wenn danach noch Kennungen offen sind, die Liste
+   * der Titel ohne deutsche Synchro.
+   */
+  useEffect(() => {
+    if (!uebernommen.length) return
+    let alive = true
+    const sammeln = (quelle: { id: number; titleDe?: string; titleEn?: string; titleRomaji?: string }[]) => {
+      if (!alive) return
+      setNamen((bisher) => {
+        const neu = new Map(bisher)
+        for (const t of quelle) {
+          if (uebernommen.includes(t.id)) neu.set(t.id, t.titleDe ?? t.titleEn ?? t.titleRomaji ?? `#${t.id}`)
+        }
+        return neu
+      })
+    }
+    sammeln([...data.titleById.values()])
+    loadAllTitles(data).then((alle) => {
+      sammeln(alle)
+      const offen = uebernommen.filter((id) => !alle.some((t) => t.id === id) && !data.titleById.has(id))
+      if (offen.length) loadOhneSynchro(data).then(sammeln)
+    })
+    return () => {
+      alive = false
+    }
+  }, [uebernommen, data])
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -300,6 +339,37 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
         >
           {syncState === 'sending' ? t('news.syncRunning') : syncMessage}
         </div>
+      )}
+
+      {/*
+        Was vom Abo dazukam — mit der Möglichkeit, es wieder abzuwählen.
+
+        Kein Zwischenschritt und keine Pflicht: Wer nichts tut, behält alles.
+        Das Abwählen entfernt den Titel lokal; der Abgleich in `App.tsx` schickt
+        die neue Liste von selbst hinterher.
+      */}
+      {uebernommen.length > 0 && (
+        <Card>
+          <SectionTitle>{t('news.mergedTitle', { count: uebernommen.length })}</SectionTitle>
+          <p className="text-sm text-slate-600 dark:text-slate-300">{t('news.mergedBody')}</p>
+          <ul className="mt-3 grid gap-1 sm:grid-cols-2">
+            {uebernommen.map((id) => (
+              <li key={id}>
+                <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-700 dark:text-slate-200">
+                  <input
+                    type="checkbox"
+                    checked={favorites.has(id)}
+                    onChange={() => toggleFavorit(id)}
+                    className="size-4 cursor-pointer accent-amber-400"
+                  />
+                  <span className={favorites.has(id) ? '' : 'text-slate-400 line-through dark:text-slate-500'}>
+                    {namen.get(id) ?? `#${id}`}
+                  </span>
+                </label>
+              </li>
+            ))}
+          </ul>
+        </Card>
       )}
 
       <Card>
