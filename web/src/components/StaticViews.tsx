@@ -163,6 +163,8 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
   /** Formular trotz bestehender Verbindung zeigen — für den Fall eines toten Schlüssels. */
   const [restoreOffen, setRestoreOffen] = useState(false)
   const [abmeldeState, setAbmeldeState] = useState<'idle' | 'fragt' | 'laeuft' | 'weg'>('idle')
+  /** Wie viele Titel beim Verbinden vom Server dazukamen — für die Rückmeldung. */
+  const [uebernommen, setUebernommen] = useState(0)
   const [frequency, setFrequency] = useState<'daily' | 'weekly'>('weekly')
   const [platforms, setPlatforms] = useState<PlatformId[]>([])
   const [consent, setConsent] = useState(false)
@@ -200,19 +202,41 @@ export function NewsletterView({ meta }: { meta: DataMeta }) {
      * Auf dem gewöhnlichen Weg (Bestätigung, Abgleich-Link aus dem Newsletter)
      * bleibt es beim Schicken: Dort ist der Browser die Quelle der Wahrheit.
      */
-    const wiederherstellung = params.get('restored') === '1'
-    const arbeit = wiederherstellung
-      ? pullFavorites(token).then((vomServer) => {
-          const vereint = [...new Set([...favorites, ...vomServer])].sort((a, b) => a - b)
-          for (const id of vomServer) if (!favorites.has(id)) toggleFavorit(id)
-          return pushFavorites(token, vereint)
-        })
-      : pushFavorites(token, [...favorites])
+    /**
+     * Verbinden heißt **immer vereinigen**, nie überschreiben.
+     *
+     * Anfangs galt das nur für den Wiederherstellungslink; der gewöhnliche
+     * Abgleich-Link aus der Mail schickte stattdessen die lokale Liste hoch.
+     * Damit zerstörte er den Serverstand, und zwar in genau dem Fall, für den
+     * es ihn gibt (Daniels Ablauf, 14.08.2026): merken, abonnieren, weiter
+     * merken, Browserdaten löschen, neu merken, Link aus einer alten Mail
+     * anklicken. Der frische Browser kennt nur die letzte Markierung — und
+     * überschrieb damit alles, was vorher auf dem Server lag.
+     *
+     * Die Unterscheidung nach `restored` war ohnehin erfunden: Einen Browser
+     * zu verbinden bedeutet in beiden Fällen dasselbe, nämlich dass aus zwei
+     * Listen eine wird. Danach ist der Browser wieder die Quelle der Wahrheit
+     * — Abwählen wirkt also weiterhin, nur eben nicht im Moment des Verbindens.
+     */
+    const arbeit = pullFavorites(token)
+      .catch(() => [] as number[])
+      .then((vomServer) => {
+        const vereint = [...new Set([...favorites, ...vomServer])].sort((a, b) => a - b)
+        for (const id of vomServer) if (!favorites.has(id)) toggleFavorit(id)
+        setUebernommen(vomServer.filter((id) => !favorites.has(id)).length)
+        return pushFavorites(token, vereint)
+      })
 
     arbeit
       .then((count) => {
         setSyncState('ok')
-        setSyncMessage(t(wiederherstellung ? 'news.restoreOk' : 'news.syncOk', { count }))
+        // Die Meldung sagt, was tatsächlich passiert ist: Kamen Titel vom
+        // Server dazu, ist das die Nachricht — sonst genügt die Gesamtzahl.
+        setSyncMessage(
+          uebernommen > 0
+            ? t('news.syncMerged', { count, dazu: uebernommen })
+            : t('news.syncOk', { count }),
+        )
       })
       .catch((err: Error) => {
         setSyncState('error')
