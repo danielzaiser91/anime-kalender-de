@@ -390,12 +390,12 @@ const TEXTE = {
   'news.mergedTitle': '{count} Titel von deinem Abo übernommen',
   'news.mergedBody': 'Nicht gewollt? Häkchen entfernen.',
 
-  'news.waitTitle': 'Warten, ohne nachzusehen',
+  'news.waitTitle': 'Kein ständiges Nachsehen mehr!',
   // Gekürzt nach der Regel „Texte für Nutzer so kurz wie möglich" (14.08.2026).
   // Weg ist `news.waitNote`: Dass wir zu diesen Titeln wenig führen, ändert für
   // den Leser nichts — er sieht es ohnehin, sobald er einen öffnet.
   'news.waitBody':
-    'Sonst heißt Warten: immer wieder nachsehen und jedes Mal nichts finden.',
+    'Bleib über alle Neuerscheinungen auf dem Laufenden und werde informiert, sobald es neue Infos zur deutschen Synchro für deine Favoriten gibt.',
   'news.waitHow':
     'In der Datenbank holt der Schalter „Anime ohne deutsche Synchro" diese Titel dazu. Merke dir einen mit dem Stern, dann bekommst du eine Mail, sobald es eine Synchro gibt.',
 
