@@ -1,6 +1,23 @@
 {
-  "scrapedAt": "2026-08-15T04:53:17.926Z",
+  "scrapedAt": "2026-08-16T04:54:19.163Z",
   "proposals": [
+    {
+      "articleTitle": "Acht Anime-Neuzugänge bald auf Disney+ verfügbar",
+      "articleUrl": "https://www.anime2you.de/news/1041622/disney-plus-one-piece-und-mehr/",
+      "publishedAt": "2026-08-15",
+      "category": "streaming",
+      "platforms": [
+        "disneyplus"
+      ],
+      "dates": [
+        {
+          "iso": "2026-08-29",
+          "context": "ffeln. Wir fassen zusammen. Acht Anime-Neuzugänge Den Anfang macht am 29. August 2026 die dritte Staffel des Anime-Klassikers »Yu-Gi-Oh!« mi"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Deutsche Synchro von Teil 2 der vierten »Re:ZERO«-Staffel startet später",
       "articleUrl": "https://www.anime2you.de/news/1040288/re-zero-staffel-4-teil-2-synchro-startet-spaeter/",
