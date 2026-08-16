@@ -20,6 +20,30 @@ const index = args.indexOf('--max-age')
 /** Wie viele Tage eine Quelle schweigen darf, bevor es ein Problem ist. */
 const MAX_AGE_DAYS = index >= 0 ? Number(args[index + 1]) : 4
 
+/**
+ * Quellen, die seltener laufen als der Nachtlauf — mit ihrer eigenen Frist.
+ *
+ * Der Anlass: Am 16.08.2026 schlug die Prüfung Alarm, weil `adn-catalog` seit
+ * 5,1 Tagen nichts geliefert hatte. Kaputt war nichts. Der ADN-Katalog wird
+ * **wöchentlich** geholt, montags um 5:41 — gegen eine Frist von vier Tagen
+ * gemessen, meldet er sich also ab jedem Freitag als stumm. Eine Warnung, die
+ * jede Woche zuverlässig zu Unrecht kommt, ist schlimmer als keine: Man hört
+ * auf hinzusehen.
+ *
+ * Die Frist ist jeweils die Taktung plus zwei Tage Luft — ein einzelner
+ * ausgefallener Lauf soll noch keinen Alarm auslösen, zwei hintereinander schon.
+ */
+const FRISTEN: Record<string, number> = {
+  // Wöchentlich, montags.
+  'adn-catalog': 9,
+  'anilist-voices': 9,
+  'anime-offline-database': 9,
+  'ann-voices': 9,
+  // Läuft wöchentlich, holt aber nur, was älter als 28 Tage ist — ein Lauf
+  // ohne neue Seiten meldet trotzdem seinen Bestand.
+  'crunchyroll-dub': 9,
+}
+
 function daysSince(iso: string | undefined): number {
   if (!iso) return Number.POSITIVE_INFINITY
   return (Date.now() - new Date(iso).getTime()) / 86_400_000
@@ -38,8 +62,9 @@ function main(): void {
   for (const name of names) {
     const state = health[name]
     const age = daysSince(state.lastOk)
+    const frist = FRISTEN[name] ?? MAX_AGE_DAYS
     const label = Number.isFinite(age) ? `${age.toFixed(1)} Tage` : 'noch nie'
-    if (age > MAX_AGE_DAYS) {
+    if (age > frist) {
       stale.push(name)
       warn(`${name}: seit ${label} nichts geliefert (zuletzt ${state.lastCount} Treffer)${
         state.lastError ? ` — ${state.lastError}` : ''

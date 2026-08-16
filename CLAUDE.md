@@ -288,6 +288,28 @@ Der Worker in `worker/` ist optional. Ohne gesetztes `VITE_NEWSLETTER_API` zeigt
 einen ehrlichen Hinweis statt eines kaputten Buttons. DSGVO-Pflichten (Double-Opt-in,
 Abmeldelink, Impressum, Datenschutzerklärung) sind kein Nice-to-have — nichts davon entfernen.
 
+## Ein neuer Abruf braucht drei Dinge, nicht eines
+
+Ein Abrufskript zu schreiben ist der kleinere Teil. Ohne die beiden anderen ist es entweder
+wirkungslos oder es macht Lärm:
+
+1. **Ein Platz in einem Workflow.** Sonst läuft es genau einmal — von Hand — und veraltet danach
+   still. Am 16.08.2026 standen `data:ann:ids`, `data:ann:voices` und `data:cr-dub` in keinem
+   einzigen Workflow; die ANN-Daten wären nach der ersten Nacht eingefroren.
+2. **Eine Zeile in `tools/commit-data.sh`.** Sonst wirft der `git reset` im CI-Lauf weg, was
+   gerade geholt wurde. Die Prüfung in `tools/check-workflows.mjs` fängt das ab.
+3. **Eine Frist in `pipeline/check-sources.ts`.** Die Vorgabe sind vier Tage, und die passt nur
+   für tägliche Abrufe.
+
+**Punkt drei ist der, den man vergisst.** Der ADN-Katalog wird wöchentlich geholt, montags um
+5:41. Gegen die Vier-Tage-Frist gemessen meldet er sich ab jedem Freitag als stumm — am
+16.08.2026 kam deshalb eine Fehlermail für einen Lauf, an dem nichts kaputt war. Eine Warnung,
+die jede Woche zuverlässig zu Unrecht kommt, ist schlimmer als keine: Man hört auf hinzusehen,
+und die echte Störung geht darin unter.
+
+Die Frist ist die Taktung plus zwei Tage Luft. Ein ausgefallener Lauf soll noch keinen Alarm
+auslösen, zwei hintereinander schon.
+
 ## Der Worker läuft dem Web-Client immer hinterher
 
 **Neue Endpunkte sind erst da, wenn `wrangler deploy` gelaufen ist — die Seite ist es schon beim

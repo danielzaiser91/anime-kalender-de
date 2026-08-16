@@ -88,6 +88,24 @@ jobs:
         continue-on-error: true
         run: npm run data:voices -- --limit 400
 
+      - name: Zuordnung zu Anime News Network
+        # Der Offline-Datensatz von manami-project wird woechentlich neu gebaut.
+        continue-on-error: true
+        run: npm run data:ann:ids
+
+      - name: Deutsche Sprechrollen von Anime News Network
+        # Eine Anfrage pro Sekunde, wie ANN es vorschreibt. Geholt wird nur, was
+        # noch nicht im Archiv liegt — nach dem ersten vollen Lauf sind das
+        # wenige Titel je Woche.
+        continue-on-error: true
+        run: npm run data:ann:voices
+
+      - name: Crunchyroll-Serienseiten auf deutsche Tonspur
+        # Wiedervorlage nach 28 Tagen, gedeckelt: Ein voller Durchgang ueber 900
+        # Seiten dauert Stunden und muss nicht in einem Lauf passieren.
+        continue-on-error: true
+        run: npm run data:cr-dub -- --limit 250
+
       - name: Anime2You
         continue-on-error: true
         run: npm run data:anime2you
