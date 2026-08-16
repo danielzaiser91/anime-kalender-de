@@ -642,7 +642,19 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
         (Daniels Datenschutz-Einwand, 14.08.2026).
       */}
       <Card>
-        <SectionTitle>{t('news.restoreTitle')}</SectionTitle>
+        {/*
+          Die Überschrift richtet sich nach dem Zustand.
+
+          „Favoriten verloren?" ist die Frage eines Menschen, der etwas sucht.
+          Wer verbunden ist, sucht nichts — für ihn war die Überschrift eine
+          Frage ohne Anlass, und der Knopf darunter hieß „Trotzdem einen
+          Wiederherstellungslink anfordern", als müsse er sich rechtfertigen
+          (Daniel, 16.08.2026). Verbunden heißt der Kasten jetzt nach dem, was
+          er zeigt: dieses Gerät.
+        */}
+        <SectionTitle>
+          {t(autoSync && !restoreOffen ? 'news.deviceTitle' : 'news.restoreTitle')}
+        </SectionTitle>
         {/*
           Wer verbunden ist, braucht das Formular nicht.
 

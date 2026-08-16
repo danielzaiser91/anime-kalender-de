@@ -366,6 +366,8 @@ const TEXTE = {
   // Kalender steht (Daniel, 13.08.2026 — aus eigener Erfahrung beschrieben).
   // Wiederherstellung der Favoriten per E-Mail-Link (14.08.2026).
   'news.restoreTitle': 'Favoriten verloren?',
+  // Verbunden: Der Kasten zeigt kein Problem, sondern dieses Gerät.
+  'news.deviceTitle': 'Dieses Gerät',
   // Gekürzt: Warum sie verlorengehen können, muss hier nicht stehen — wer das
   // Feld sucht, weiß es bereits.
   'news.restoreBody':
@@ -373,7 +375,9 @@ const TEXTE = {
   // Ein Satz statt zwei: Dass die Titel auch auf dem Server liegen, ist die
   // Folge — wissen muss man in diesem Moment nur, dass es verbunden ist.
   'news.restoreConnected': 'Dieser Browser ist mit deinem Abo verbunden.',
-  'news.restoreAnyway': 'Trotzdem einen Wiederherstellungslink anfordern',
+  // Der Link ist kein Notbehelf, sondern der Weg, ein weiteres Gerät zu
+  // verbinden — genau dafür braucht man ihn, wenn hier schon alles stimmt.
+  'news.restoreAnyway': 'Link für ein anderes Gerät anfordern',
   'news.unsub': 'Abo beenden',
   'news.unsubConfirm': 'Wirklich abmelden?',
   'news.unsubYes': 'Ja, abmelden',
