@@ -69,6 +69,15 @@ Dieses Projekt lebt davon, dass die Termine stimmen. Deshalb gilt ausnahmslos:
   Ist ein Treffer schon vergeben, wird deshalb die nächste Schreibweise probiert, nicht
   aufgegeben. Die Zusicherung dazu steht in `check-logic.ts` — wer den Melder weicher stellt, um
   einen grünen Lauf zu bekommen, bricht sie.
+- **Es gewinnt der beste Treffer, nicht der erste — und kurze Wörter entscheiden.** Ein
+  Namensabgleich, der Wörter unter vier Zeichen wegwirft, wirft genau die Kürzel weg, die eine
+  Nebenausgabe von der Hauptserie trennen: `OVA`, `ONA`, `OAD`, `TV`. „Wolf's Rain OVA" (4 Folgen)
+  sah dadurch wie „Wolf's Rain" aus und gewann gegen die Serie (26) — für eine ADN-Kennung mit 30
+  Folgen, was den Build abbrach (17.08.2026). Diese vier Kürzel zählen deshalb mit; Füllwörter wie
+  „the", „no", „to" weiterhin nicht. `bewerteTreffer` wertet je Titelschreibweise (geteilte Wörter
+  doppelt, fremde einfach dagegen) und lässt den **japanischen** Titel außen vor: Sein
+  lateinischer Rest verliert genau das unterscheidende Wort — „To LOVEる -とらぶる- ダークネス"
+  schrumpft auf „love", und „Darkness" ist weg.
 - **Ein Vorfilter verschiebt, er löscht nicht.** Wer aus dem Hauptbestand fällt, muss hinter dem
   Toggle ankommen, und zwar nachweislich: Sich darauf zu verlassen, dass der AniList-Katalog ihn
   von selbst wieder mitbringt, ging bei acht von neun Titeln gut — der neunte war über keinen Weg
