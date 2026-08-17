@@ -404,6 +404,13 @@ export function passtZuSerie(show: AdnName, media: TrefferTitel): boolean {
  * die Passung sagen. Geteilte Wörter zählen doppelt, fremde einfach dagegen —
  * „Darkness" ist genau das Wort, das den falschen Treffer verrät.
  *
+ * **Und was der Treffer von unserem Namen nicht abdeckt, zählt ebenfalls
+ * dagegen.** Ohne diesen Teil war „ONE PIECE" für „One Piece" und für „One Piece
+ * • Le Film" gleich gut: In beiden Fällen ein geteiltes Wort, kein fremdes. Bei
+ * Gleichstand entschied die Reihenfolge im Katalog, der Film bekam die Serie, und
+ * One Piece stand am Ende ohne jede Zuordnung da (17.08.2026). „Film" ist das
+ * Wort, das dem Treffer fehlt — also muss es ihn etwas kosten.
+ *
  * Der **japanische** Titel bleibt hier außen vor, obwohl `passtZuSerie` ihn
  * benutzt. Er besteht aus Zeichen, die die Wortzerlegung wegwirft, und was übrig
  * bleibt, ist zufällig: „To LOVEる -とらぶる- ダークネス" schrumpft auf „love"
@@ -412,6 +419,10 @@ export function passtZuSerie(show: AdnName, media: TrefferTitel): boolean {
  */
 export function bewerteTreffer(show: AdnName, media: TrefferTitel): number {
   const unsere = new Set([...woerterVon(show.title), ...woerterVon(show.originalTitle ?? '')])
+  // Für die Deckung zählt der **Anzeigename**, nicht die Vereinigung beider
+  // Schreibweisen: Der Originaltitel bringt oft eine zweite Zerlegung derselben
+  // Wörter mit, und die wäre nie vollständig abdeckbar.
+  const zuDecken = woerterVon(show.title)
   let beste = Number.NEGATIVE_INFINITY
   for (const name of [media.title.romaji, media.title.english]) {
     if (!name) continue
@@ -423,7 +434,9 @@ export function bewerteTreffer(show: AdnName, media: TrefferTitel): number {
       if (unsere.has(wort)) geteilt++
       else fremd++
     }
-    beste = Math.max(beste, geteilt * 2 - fremd)
+    let fehlend = 0
+    for (const wort of zuDecken) if (!ihre.has(wort)) fehlend++
+    beste = Math.max(beste, geteilt * 2 - fremd - fehlend)
   }
   return beste === Number.NEGATIVE_INFINITY ? 0 : beste
 }

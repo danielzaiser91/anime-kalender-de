@@ -364,6 +364,17 @@ Quelle: <https://www.animenewsnetwork.com/encyclopedia/api.php>
 
 ## Archiv
 
+- ✅ **Das Favicon ist angemeldet, wie Google es verlangt** (17.08.2026, live). In der
+  Ergebnisliste stand der graue Standard-Globus, aniSearch daneben mit seinem Logo (Daniels
+  Screenshot). Angemeldet waren nur ein SVG und ein 32×32-PNG; Googles Dokumentation empfiehlt
+  „larger than 48x48px". Jetzt kommen ein 96er PNG und ein echtes `/favicon.ico` dazu — letzteres
+  gab es überhaupt nicht, jede Anfrage dorthin lief in die 404-Seite. Live geprüft: 200 mit
+  `image/vnd.microsoft.icon` beziehungsweise `image/png`, und im Kopf stehen alle vier `rel`-Werte,
+  die Google akzeptiert.
+
+  **Wann es in der Suche erscheint, entscheidet Google**, nicht wir: „Crawling can take anywhere
+  from several days to several weeks." Behoben ist die Ursache, nicht schon das Ergebnis.
+
 - ✅ **Der Wochenlauf schreibt wieder — und verliert nichts mehr, wenn er scheitert**
   (17.08.2026). Seit dem 10.08. hatte der wöchentliche Tiefendurchlauf dreimal nichts
   committet. Ursache war ein einziger Titel: ADN führt „To Love-Ru" unter zwei Kennungen (217

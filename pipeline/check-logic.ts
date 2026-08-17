@@ -227,6 +227,24 @@ console.log('\nADN-Zuordnung: der beste Treffer, nicht der erste:')
   ])
   pruefe('Wolf’s Rain: die OVA ist kein Volltreffer', volltreffer(wolf, serie) && !volltreffer(wolf, ova))
 
+  /**
+   * Fall 3: „One Piece" gegen „One Piece • Le Film" — der Gleichstand.
+   *
+   * Beide teilen mit „ONE PIECE" genau ein Wort und bringen kein fremdes mit;
+   * ohne die Deckungsprüfung standen sie gleich, und die Reihenfolge im Katalog
+   * entschied. Der Film gewann, und die Serie stand ohne jede Zuordnung da —
+   * schlimmer als der Fehler, der davor behoben werden sollte. „Film" ist das
+   * Wort, das der Treffer nicht abdeckt, und genau das kostet ihn jetzt.
+   */
+  const opSerie = { title: 'One Piece', originalTitle: 'One Piece' }
+  const opFilm = { title: 'One Piece • Le Film', originalTitle: 'One Piece • Le Film' }
+  const onePiece = titel('ONE PIECE', 'ONE PIECE')
+  pruefe(
+    'One Piece: die Serie schlägt ihren Film um denselben Eintrag',
+    bewerteTreffer(opSerie, onePiece) > bewerteTreffer(opFilm, onePiece),
+    [bewerteTreffer(opSerie, onePiece), bewerteTreffer(opFilm, onePiece)],
+  )
+
   // Und die Grenze kippt nicht ins Gegenteil: Füllwörter bleiben draußen, sonst
   // machte „The" aus jedem fremden Titel einen Halbtreffer.
   const the = { title: 'The Rising of the Shield Hero', originalTitle: '' }

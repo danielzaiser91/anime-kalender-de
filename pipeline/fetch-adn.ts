@@ -395,7 +395,19 @@ async function fetchCatalog(): Promise<AdnShow[]> {
    * kostete das Sammeln fünfmal so viele Abfragen bei AniList.
    */
   const kandidaten = new Map<AdnShow, { id: number; punkte: number }[]>()
+  /**
+   * Fortschritt melden, sonst schweigt diese Phase.
+   *
+   * Sie ist die langsamste des ganzen Laufs — bis zu sechs AniList-Abfragen je
+   * Serie, gedeckelt auf dessen Ratenlimit — und schrieb bisher nur Warnungen.
+   * Am 17.08.2026 waren neun Minuten Stille nicht von einem Hänger zu
+   * unterscheiden; nachweisen ließ sich der Betrieb nur über den Zähler in den
+   * Antwort-Kopfzeilen von AniList. Eine Zeile je zwanzig Serien genügt.
+   */
+  let nachgeschlagen = 0
   for (const show of out) {
+    if (++nachgeschlagen % 20 === 0)
+      log(`  Zuordnung ${nachgeschlagen}/${out.length} — ${kandidaten.size} mit Kandidaten`)
     try {
       const gefunden = new Map<number, number>()
       // Beide Namen anbieten: Der Originaltitel trägt oft Makra und
