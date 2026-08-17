@@ -1,0 +1,25 @@
+-- Der Dauerschlüssel bekommt eine gleitende Frist.
+--
+-- Anwenden mit:
+--   wrangler d1 execute anime-kalender --file=./migrations/006-gleitende-frist-dauerschluessel.sql
+--   wrangler d1 execute anime-kalender --remote --file=./migrations/006-gleitende-frist-dauerschluessel.sql
+--
+-- Migration 005 hat den `pref_token` aus den Mails geholt: Dort steht seit dem
+-- 14.08.2026 ein eigener Schlüssel mit dreißig Tagen Frist, und erst sein
+-- Einlösen übergibt den Dauerschlüssel an den Browser. Eine weitergeleitete Mail
+-- nützt einem Fremden damit nur, solange sie frisch ist.
+--
+-- Offen blieb der Dauerschlüssel selbst. Er läuft nie ab, und `handleSync` hängt
+-- ihn beim Weiterleiten an die Adresse (`/#/newsletter?sync=<pref_token>`) — er
+-- landet also im Browserverlauf und bleibt dort gültig, solange es das Abo gibt.
+--
+-- Eine feste Frist wäre hier falsch: Sie träfe genau die Leute, die alles richtig
+-- machen, und würde ihnen ohne Anlass die Verbindung kappen. Deshalb eine
+-- **gleitende**: Jede Benutzung schiebt sie um zwölf Monate weiter. Wer die Seite
+-- benutzt, bleibt verbunden; ein Schlüssel aus einem Verlauf, den niemand mehr
+-- anfasst, verfällt.
+--
+-- `NULL` heißt „noch keine Frist" und gilt. Damit verliert kein bestehendes Abo
+-- seine Verbindung: Die Frist entsteht bei der ersten Benutzung nach dem Deploy.
+
+ALTER TABLE subscribers ADD COLUMN pref_expires TEXT;

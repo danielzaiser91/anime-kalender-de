@@ -10,8 +10,7 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **▶ HIER WEITERMACHEN: `pref_token` ist unbefristet — entschärfen** | 2 | Der Abgleich-Schlüssel steht in **jeder** Newsletter-Mail und gilt ewig. Wer eine weitergeleitete Mail sieht oder einen Screenshot davon, kann die Favoriten dieses Abos dauerhaft ändern. Dieselbe Schwäche wie die am 14.08.2026 geschlossene Übernahme-Lücke, nur leiser. Daniel hatte am 14.08. die Wahl „erst den pref_token entschärfen" — er wählte den Magic Link zuerst; das hier bleibt offen. Entwurf: kurzlebiger Schlüssel je Mail, oder der Abgleich läuft künftig über denselben Einmal-Link wie die Wiederherstellung |
-| **Prüfliste „Wo läuft es" abarbeiten** (Dauerauftrag) | — | 1.732 Anbieter-Verweise ohne belegte Synchro, Liste: `data/dub-pruefliste.md`, erzeugt mit `npm run data:dub-checks`. Daniel arbeitet sie in Zehnerschritten ab; ich lege den Batch vor, er meldet je Nummer ja/nein, ich trage es in `data/dub-confirmed.yaml` ein und baue neu. **Stand: Batch 1 bis 3 ausgewertet, 65 Prüfungen eingetragen — 33 Angaben belegt, 32 tote Verweise entfernt.** Crunchyroll ist seit 13.08.2026 weitgehend maschinell belegt (234 ja / 988 nein / **25 offen**); die Handarbeit verteilt sich jetzt auf Netflix (727), YouTube (528) und Prime Video (219) — Anbieter, die die Sprachfassung nirgends öffentlich nennen. Kurzschrift der Antworten (`1`/`0`/`x`, mehrere je Zeile mit Punkt) steht im Kopf der Liste und in der `CLAUDE.md`. Je Batch kurz sagen, woher der Verweis stammt und warum er unsicher ist |
+| **▶ HIER WEITERMACHEN: Prüfliste „Wo läuft es" abarbeiten** (Dauerauftrag) | — | 1.732 Anbieter-Verweise ohne belegte Synchro, Liste: `data/dub-pruefliste.md`, erzeugt mit `npm run data:dub-checks`. Daniel arbeitet sie in Zehnerschritten ab; ich lege den Batch vor, er meldet je Nummer ja/nein, ich trage es in `data/dub-confirmed.yaml` ein und baue neu. **Stand: Batch 1 bis 3 ausgewertet, 65 Prüfungen eingetragen — 33 Angaben belegt, 32 tote Verweise entfernt.** Crunchyroll ist seit 13.08.2026 weitgehend maschinell belegt (234 ja / 988 nein / **25 offen**); die Handarbeit verteilt sich jetzt auf Netflix (727), YouTube (528) und Prime Video (219) — Anbieter, die die Sprachfassung nirgends öffentlich nennen. Kurzschrift der Antworten (`1`/`0`/`x`, mehrere je Zeile mit Punkt) steht im Kopf der Liste und in der `CLAUDE.md`. Je Batch kurz sagen, woher der Verweis stammt und warum er unsicher ist |
 | ~~News-Quellen für Sendepausen~~ — **Filter gebaut, Rest verworfen** | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
 
 
@@ -391,6 +390,26 @@ Quelle: <https://www.animenewsnetwork.com/encyclopedia/api.php>
   und war über keinen Weg mehr erreichbar. Verschobene Titel werden jetzt gesammelt und in
   `ohne-synchro.json` nachgetragen. Ein Titel, den man nirgends findet, ist stillschweigend
   gestrichen — und gestrichen wird nur, was eine Quelle aktiv widerlegt.
+
+- ✅ **Der Dauerschlüssel läuft jetzt ab — ohne jemanden zu trennen** (17.08.2026, live).
+  Die alte Notiz („der Abgleich-Schlüssel steht in **jeder** Newsletter-Mail und gilt ewig") war
+  zur Hälfte überholt: Seit dem 14.08.2026 steht in der Mail ein eigener `sync_token` mit dreißig
+  Tagen Frist, und erst sein Einlösen an `/sync` übergibt den Dauerschlüssel. Offen war der
+  Dauerschlüssel selbst — er hatte kein Ablaufdatum, und `handleSync` hängt ihn beim Weiterleiten
+  an die Adresse (`/#/newsletter?sync=…`), er liegt also im Browserverlauf.
+
+  Eine feste Frist wäre die falsche Antwort gewesen: Sie hätte genau die Leute getroffen, die
+  alles richtig machen. Jetzt gleitet sie — `pref_expires`, bei jeder Benutzung um zwölf Monate
+  weitergeschoben, Prüfen und Weiterschieben in **einer** SQL-Anweisung, damit dazwischen kein
+  Zeitfenster liegt. Der Einmal-Link aus der Mail **setzt** die Frist statt sie zu prüfen: Wer
+  Postfachzugriff nachweist, belebt einen verfallenen Schlüssel wieder.
+
+  Geprüft, nicht angenommen: Die sechs Fälle der SQL-Bedingung (keine Frist, gültig, abgelaufen,
+  gekündigtes Abo, unbekannter Schlüssel, derselbe Wert erneut) liefen gegen eine **lokale**
+  D1-Kopie — der letzte Fall entscheidet, ob ein zweiter Aufruf in derselben Sekunde noch gilt,
+  und SQLite zählt ihn als Änderung. Danach Migration 006 und Deploy; am laufenden Dienst
+  gegengeprüft: unbekannter Schlüssel → 404, und beide Bestandsabos stehen weiter auf
+  `pref_expires IS NULL`, also gültig. Niemand hat seine Verbindung verloren.
 
 - ✅ **Abmelden aus dem verbundenen Browser** (16.08.2026, live). Wer verbunden ist, beendet sein
   Abo jetzt direkt auf der Newsletter-Seite, zweistufig. Vorher hing der Abmeldelink allein am

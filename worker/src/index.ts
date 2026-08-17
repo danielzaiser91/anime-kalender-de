@@ -214,6 +214,45 @@ async function sichereSchluessel(env: Env, id: string, vorhanden: string | null 
   return neu
 }
 
+/** Um wie viel jede Benutzung die Frist des Dauerschlüssels weiterschiebt. */
+const PREF_FRIST_TAGE = 365
+
+/**
+ * Prüft den Dauerschlüssel und schiebt seine Frist weiter — in einem Zug.
+ *
+ * Migration 005 hat den `pref_token` aus den Mails geholt; in der Mail steht
+ * seither ein eigener Schlüssel mit dreißig Tagen Frist. Der Dauerschlüssel
+ * selbst blieb unbefristet, und `handleSync` hängt ihn beim Weiterleiten an die
+ * Adresse (`/#/newsletter?sync=…`) — er liegt damit im Browserverlauf und war
+ * dort gültig, solange es das Abo gibt.
+ *
+ * Eine **feste** Frist wäre die falsche Antwort: Sie träfe genau die Leute, die
+ * alles richtig machen, und kappte ihnen ohne Anlass die Verbindung. Die Frist
+ * gleitet deshalb — jede Benutzung schiebt sie um zwölf Monate. Wer die Seite
+ * benutzt, bleibt verbunden; ein Schlüssel, den niemand mehr anfasst, verfällt.
+ *
+ * `NULL` gilt. Deshalb verliert beim Deploy kein bestehendes Abo seine
+ * Verbindung: Die Frist entsteht bei der ersten Benutzung danach.
+ *
+ * Prüfen und Weiterschieben stehen absichtlich in **einer** Anweisung. Zwei
+ * Abfragen hintereinander wären ein Zeitfenster, in dem zwischen „gilt noch" und
+ * „verlängert" etwas anderes passieren kann — und sie wären auch nicht kürzer.
+ */
+async function schluesselErneuert(env: Env, token: string): Promise<boolean> {
+  const jetzt = Date.now()
+  const ergebnis = await env.DB.prepare(
+    `UPDATE subscribers SET pref_expires = ?1
+     WHERE pref_token = ?2 AND status = 'active'
+       AND (pref_expires IS NULL OR pref_expires > ?3)`,
+  )
+    .bind(new Date(jetzt + PREF_FRIST_TAGE * 86_400_000).toISOString(), token, new Date(jetzt).toISOString())
+    .run()
+  return !!ergebnis.meta.changes
+}
+
+/** Dieselbe Auskunft für jeden abgelaufenen oder unbekannten Schlüssel. */
+const SCHLUESSEL_UNGUELTIG = 'Dieser Abgleich-Schlüssel gehört zu keinem aktiven Abo.'
+
 /**
  * Zähler je Schlüssel und Zeitfenster — gibt `true`, wenn noch Platz ist.
  *
@@ -346,6 +385,17 @@ async function handleSync(request: Request, env: Env): Promise<Response> {
   }
 
   const schluessel = await sichereSchluessel(env, row.id, row.pref_token)
+  /**
+   * Die Frist wird hier **gesetzt**, nicht geprüft.
+   *
+   * Wer diesen Link einlöst, hat gerade Zugriff auf das Postfach nachgewiesen —
+   * den stärksten Nachweis, den dieser Dienst kennt. Ein Dauerschlüssel, der
+   * zwischenzeitlich verfallen war, lebt damit wieder auf; ihn stattdessen
+   * abzulehnen wäre die eine Antwort, die dem Berechtigten nicht hilft.
+   */
+  await env.DB.prepare('UPDATE subscribers SET pref_expires = ?1 WHERE id = ?2')
+    .bind(new Date(Date.now() + PREF_FRIST_TAGE * 86_400_000).toISOString(), row.id)
+    .run()
   return Response.redirect(`${env.SITE_URL.replace(/\/$/, '')}/#/newsletter?sync=${schluessel}`, 302)
 }
 
@@ -449,6 +499,7 @@ async function handleConfirm(request: Request, env: Env): Promise<Response> {
 async function handleFavoritesGet(request: Request, env: Env): Promise<Response> {
   const token = (new URL(request.url).searchParams.get('token') ?? '').trim()
   if (!token) return json(env, { error: 'Kein Abgleich-Schlüssel übergeben.' }, 400)
+  if (!(await schluesselErneuert(env, token))) return json(env, { error: SCHLUESSEL_UNGUELTIG }, 404)
 
   const row = await env.DB.prepare(
     "SELECT favorites, email FROM subscribers WHERE pref_token = ?1 AND status = 'active'",
@@ -456,7 +507,7 @@ async function handleFavoritesGet(request: Request, env: Env): Promise<Response>
     .bind(token)
     .first<{ favorites: string; email: string }>()
 
-  if (!row) return json(env, { error: 'Dieser Abgleich-Schlüssel gehört zu keinem aktiven Abo.' }, 404)
+  if (!row) return json(env, { error: SCHLUESSEL_UNGUELTIG }, 404)
   /**
    * Die Adresse geht mit zurück, damit die Seite sie nennen kann: „Wir
    * informieren dich über deine hinterlegte Newsletter-E-Mail-Adresse: …"
@@ -477,6 +528,7 @@ async function handleFavorites(request: Request, env: Env): Promise<Response> {
 
   const token = (payload.token ?? '').trim()
   if (!token) return json(env, { error: 'Kein Abgleich-Schlüssel übergeben.' }, 400)
+  if (!(await schluesselErneuert(env, token))) return json(env, { error: SCHLUESSEL_UNGUELTIG }, 404)
 
   const favorites = cleanIdList(payload.favorites)
   const result = await env.DB.prepare(
@@ -521,6 +573,7 @@ async function handleFavorites(request: Request, env: Env): Promise<Response> {
 async function handlePrefsGet(request: Request, env: Env): Promise<Response> {
   const token = (new URL(request.url).searchParams.get('token') ?? '').trim()
   if (!token) return json(env, { error: 'Kein Abgleich-Schlüssel übergeben.' }, 400)
+  if (!(await schluesselErneuert(env, token))) return json(env, { error: SCHLUESSEL_UNGUELTIG }, 404)
 
   const row = await env.DB.prepare(
     "SELECT email, frequency, platforms FROM subscribers WHERE pref_token = ?1 AND status = 'active'",
@@ -528,7 +581,7 @@ async function handlePrefsGet(request: Request, env: Env): Promise<Response> {
     .bind(token)
     .first<{ email: string; frequency: string; platforms: string }>()
 
-  if (!row) return json(env, { error: 'Dieser Abgleich-Schlüssel gehört zu keinem aktiven Abo.' }, 404)
+  if (!row) return json(env, { error: SCHLUESSEL_UNGUELTIG }, 404)
   return json(env, {
     ok: true,
     email: row.email,
@@ -546,6 +599,7 @@ async function handlePrefsPost(request: Request, env: Env): Promise<Response> {
   }
   const token = (payload.token ?? '').trim()
   if (!token) return json(env, { error: 'Kein Abgleich-Schlüssel übergeben.' }, 400)
+  if (!(await schluesselErneuert(env, token))) return json(env, { error: SCHLUESSEL_UNGUELTIG }, 404)
 
   const frequency = payload.frequency === 'daily' ? 'daily' : 'weekly'
   const platforms = (payload.platforms ?? []).filter((p) => /^[a-z]+$/.test(p)).join(',')
@@ -571,10 +625,22 @@ async function handleUnsubscribeByPref(request: Request, env: Env): Promise<Resp
   }
   const token = (payload.token ?? '').trim()
   if (!token) return json(env, { error: 'Kein Abgleich-Schlüssel übergeben.' }, 400)
+  /**
+   * Auch hier gilt die Frist — Löschen ist die folgenreichste Handlung im ganzen
+   * Dienst, und ein Schlüssel aus einem alten Browserverlauf soll sie nicht
+   * auslösen können. Niemand bleibt dadurch gefangen: Der Abmeldelink in **jeder**
+   * Mail hängt am `unsub_token` und ist von dieser Frist unberührt.
+   *
+   * In der Oberfläche kann der Fall ohnehin kaum eintreten. Über den Bestand des
+   * Abos entscheidet allein `/favorites`; sagt es „unbekannt", räumt der Browser
+   * seinen Schlüssel weg und zeigt sich als nicht verbunden — der Knopf ist dann
+   * gar nicht da.
+   */
+  if (!(await schluesselErneuert(env, token))) return json(env, { error: SCHLUESSEL_UNGUELTIG }, 404)
 
   const result = await env.DB.prepare('DELETE FROM subscribers WHERE pref_token = ?1').bind(token).run()
   if (!result.meta.changes) {
-    return json(env, { error: 'Dieser Abgleich-Schlüssel gehört zu keinem Abo.' }, 404)
+    return json(env, { error: SCHLUESSEL_UNGUELTIG }, 404)
   }
   return json(env, { ok: true })
 }
