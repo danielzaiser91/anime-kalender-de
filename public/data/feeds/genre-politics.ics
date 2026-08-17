@@ -515,6 +515,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:cr-GT00378078@2026-08-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260815T160000Z
+DTEND:20260815T163000Z
+SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Katalogtitel\nDetails: htt
+ ps://anime-kalender.de/#/release/cr-GT00378078
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:clevatess-s2@2026-08-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260819T120000Z
