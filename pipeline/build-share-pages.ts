@@ -204,8 +204,129 @@ function main(): void {
     writeFileSync(resolve(dir, 'index.html'), seite, 'utf8')
   }
 
-  log(`${releases.length} Teilen-Seiten unter dist/r/ geschrieben`)
+  /**
+   * Eine echte Übersicht, die jede Teilen-Seite intern verlinkt.
+   *
+   * Der Befund vom 17.08.2026 in der Search Console: **171 von 183 Seiten
+   * „Gefunden – zurzeit nicht indexiert"**, dazu zwei „Gecrawlt – nicht
+   * indexiert". Der Inhalt war nicht das Problem — die Teilen-Seiten tragen
+   * Titel, Beschreibung und Terminliste im ausgelieferten HTML. Es fehlte etwas
+   * anderes: **jeder interne Link**.
+   *
+   * Die Startseite ist eine Einzelseitenanwendung; ihre Verweise sind
+   * Hash-Adressen und entstehen erst durch JavaScript. Im ausgelieferten HTML
+   * stand `<div id="root"></div>` und sonst nichts. Google kannte die 183
+   * Adressen also ausschließlich aus der Sitemap, und eine Seite, auf die
+   * nirgends verlinkt wird, gilt als unwichtig. Genau das drückt „Gefunden –
+   * zurzeit nicht indexiert" aus.
+   *
+   * Zwei Seiten schließen die Lücke: diese Übersicht verlinkt alle Termine, und
+   * die Startseite verlinkt die Übersicht samt der nächsten Termine.
+   */
+  schreibeUebersicht(releases, titleById, today, before, after, ROOT_TAG)
+  schreibeStartseite(releases, titleById, today, template, ROOT_TAG)
+
+  log(`${releases.length} Teilen-Seiten, Übersicht und Startseite geschrieben`)
   writeSitemap(releases)
+}
+
+/** Gemeinsamer Rahmen für die beiden vorgerenderten Seiten. */
+const STIL =
+  'max-width:52rem;margin:0 auto;padding:2rem 1.25rem;color:#d7dced;' +
+  'font-family:system-ui,sans-serif;line-height:1.6;'
+
+function terminZeile(release: Release, titel: Title | undefined): string {
+  const name = esc(release.name || titel?.titleDe || titel?.titleEn || release.slug)
+  const datum = release.schedule.firstEpisodeDate.split('-').reverse().join('.')
+  const anbieter = esc(PLATFORMS[release.platform]?.name ?? release.platform)
+  return (
+    `      <li><a href="${SITE}r/${release.slug}/" style="color:#7dd3fc;">${name}</a>` +
+    ` — ${datum}, ${anbieter}</li>\n`
+  )
+}
+
+function schreibeUebersicht(
+  releases: Release[],
+  titleById: Map<number, Title>,
+  today: string,
+  before: string,
+  after: string,
+  rootTag: string,
+): void {
+  const sortiert = [...releases].sort((a, b) =>
+    b.schedule.firstEpisodeDate.localeCompare(a.schedule.firstEpisodeDate),
+  )
+  const kommend = sortiert.filter((r) => r.schedule.firstEpisodeDate >= today).reverse()
+  const vergangen = sortiert.filter((r) => r.schedule.firstEpisodeDate < today)
+
+  const liste = (rs: Release[]) =>
+    rs.map((r) => terminZeile(r, titleById.get(r.titleId))).join('')
+
+  const inhalt =
+    `<article style="${STIL}">\n` +
+    `      <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">Alle Termine mit deutscher Synchronisation</h1>\n` +
+    `      <p style="margin:0 0 1.5rem;color:#9aa5bd;">${releases.length} Veröffentlichungen, ` +
+    `${kommend.length} davon stehen noch an.</p>\n` +
+    (kommend.length
+      ? `      <h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">Kommende Termine</h2>\n` +
+        `      <ul style="margin:0 0 2rem;padding-left:1.2rem;">\n${liste(kommend)}      </ul>\n`
+      : '') +
+    `      <h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">Bereits erschienen</h2>\n` +
+    `      <ul style="margin:0 0 2rem;padding-left:1.2rem;">\n${liste(vergangen)}      </ul>\n` +
+    `      <p><a href="${SITE}" style="color:#7dd3fc;">Zum Kalender</a></p>\n` +
+    `    </article>`
+
+  const kopf =
+    `    <title>Alle Anime-Termine mit deutscher Synchro — Anime-Kalender DE</title>\n` +
+    `    <meta name="description" content="Vollständige Liste aller ${releases.length} Anime-Veröffentlichungen mit deutscher Synchronisation: Termin, Anbieter und Details je Titel." />\n` +
+    `    <link rel="canonical" href="${SITE}termine/" />\n`
+
+  const dir = resolve(DIST, 'termine')
+  mkdirSync(dir, { recursive: true })
+  writeFileSync(
+    resolve(dir, 'index.html'),
+    (before + kopf + after).replace(rootTag, `<div id="root">${inhalt}</div>`),
+    'utf8',
+  )
+}
+
+/**
+ * Die Startseite bekommt Inhalt, den ein Crawler ohne JavaScript sieht.
+ *
+ * Vorher lieferte sie `<div id="root"></div>` — kein Text, kein Link, nichts,
+ * wovon aus Google weiterlaufen könnte. React ersetzt den Inhalt beim Mounten,
+ * für Besucher ändert sich also nichts.
+ */
+function schreibeStartseite(
+  releases: Release[],
+  titleById: Map<number, Title>,
+  today: string,
+  template: string,
+  rootTag: string,
+): void {
+  const naechste = [...releases]
+    .filter((r) => r.schedule.firstEpisodeDate >= today)
+    .sort((a, b) => a.schedule.firstEpisodeDate.localeCompare(b.schedule.firstEpisodeDate))
+    .slice(0, 20)
+
+  const inhalt =
+    `<article style="${STIL}">\n` +
+    `      <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">Anime-Kalender DE</h1>\n` +
+    `      <p style="margin:0 0 1.5rem;">Alle Anime, für die es eine deutsche Synchronfassung gibt oder geben wird — mit Termin, Anbieter und Kalender-Export.</p>\n` +
+    (naechste.length
+      ? `      <h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">Als nächstes</h2>\n` +
+        `      <ul style="margin:0 0 1.5rem;padding-left:1.2rem;">\n` +
+        naechste.map((r) => terminZeile(r, titleById.get(r.titleId))).join('') +
+        `      </ul>\n`
+      : '') +
+    `      <p><a href="${SITE}termine/" style="color:#7dd3fc;">Alle ${releases.length} Termine ansehen</a></p>\n` +
+    `    </article>`
+
+  writeFileSync(
+    resolve(DIST, 'index.html'),
+    template.replace(rootTag, `<div id="root">${inhalt}</div>`),
+    'utf8',
+  )
 }
 
 /**
@@ -222,9 +343,12 @@ function main(): void {
  * dieselbe Startseite indexieren.
  */
 function writeSitemap(releases: Release[]): void {
+  // Die Übersicht gehört dazu: Sie ist der Einstieg zu allen Teilen-Seiten.
   const today = todayIso()
   const urls = [
     { loc: SITE, priority: '1.0', changefreq: 'daily' },
+    // Der Einstieg zu allen Teilen-Seiten — er muss selbst gefunden werden.
+    { loc: `${SITE}termine/`, priority: '0.9', changefreq: 'daily' },
     ...releases.map((r) => ({
       loc: `${SITE}r/${r.slug}/`,
       priority: '0.7',
