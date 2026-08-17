@@ -91,6 +91,11 @@ jobs:
         run: npm run data:og
 
       - name: Änderungen committen
+        # `always()`, aus demselben Grund wie im Wochenlauf: Bricht der Aufbau an
+        # einem Widerspruch ab, sind die Quellen dieses Laufs das Einzige, was
+        # ihn reparieren kann — und aniSearch gibt eine Seite pro Sekunde her.
+        # Der Job bleibt rot, die Ernte bleibt da.
+        if: always()
         run: |
           bash tools/commit-data.sh "chore(data): Datensatz automatisch aktualisiert"
 

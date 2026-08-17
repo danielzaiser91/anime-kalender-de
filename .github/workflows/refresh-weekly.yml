@@ -125,6 +125,17 @@ jobs:
         run: npm run data:og
 
       - name: Änderungen committen
+        # `always()`, damit ein gescheiterter Aufbau nicht die Ernte mitnimmt.
+        #
+        # Dieser Lauf befragt fünf fremde Server mit Ratenlimits und braucht dafür
+        # eine knappe Stunde. Am 17.08.2026 brach der Build am Ende ab (zwei
+        # ADN-Kennungen auf einem Anime), der Commit-Schritt lief nie, und die
+        # gesamte Ernte ging mit dem Runner unter — dreimal in Folge, jedes Mal
+        # dieselbe Last auf denselben fremden Servern.
+        #
+        # Der Job bleibt trotzdem rot, wenn der Aufbau scheitert: Die Fehlermail
+        # soll kommen. Nur die Quellen sollen sie überleben.
+        if: always()
         run: |
           bash tools/commit-data.sh "chore(data): wöchentlicher Tiefendurchlauf"
 

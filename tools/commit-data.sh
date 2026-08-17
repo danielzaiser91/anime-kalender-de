@@ -109,10 +109,26 @@ for versuch in $(seq 1 "$VERSUCHE"); do
 
     # Erzeugnisse passen jetzt weder zum einen noch zum anderen Stand — neu
     # bauen ist die einzige richtige Antwort.
-    npm run data:build
+    #
+    # Scheitert der Aufbau, ist das **kein** Grund, hier auszusteigen. Der Build
+    # bricht bewusst ab, wenn er einen Widerspruch findet (siehe
+    # `pipeline/lib/pruefung.ts`) — und genau dann wären die Quellen dieses Laufs
+    # das Einzige, was ihn retten kann. Unter `set -e` riss ein solcher Abbruch
+    # bis zum 17.08.2026 auch die Quellen mit: Der Wochenlauf vom selben Tag hat
+    # 57 Minuten lang fünf fremde Server befragt und alles verworfen.
+    if ! npm run data:build; then
+      echo "::warning::Der Neuaufbau ist gescheitert. Die Quellen werden trotzdem committet — sie sind der teure Teil, die Erzeugnisse baut der nächste Lauf neu."
+      AUFBAU_KAPUTT=1
+    fi
   fi
 
-  git add "${ERZEUGNISSE[@]}" "${QUELLEN[@]}" 2>/dev/null || true
+  # Ohne gelungenen Aufbau bleiben die Erzeugnisse außen vor: Sie stehen dann auf
+  # dem Fernstand, und den noch einmal zu committen wäre bestenfalls ein Leerlauf.
+  if [ "${AUFBAU_KAPUTT:-0}" = 1 ]; then
+    git add "${QUELLEN[@]}" 2>/dev/null || true
+  else
+    git add "${ERZEUGNISSE[@]}" "${QUELLEN[@]}" 2>/dev/null || true
+  fi
 
   if git diff --staged --quiet; then
     echo "Keine Änderung — nichts zu committen."
