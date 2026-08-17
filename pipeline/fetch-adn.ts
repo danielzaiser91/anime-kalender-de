@@ -22,7 +22,7 @@ import { resolve } from 'node:path'
 import { gzipSync } from 'node:zlib'
 import { addDays, diffDays, todayIso } from '../shared/time.ts'
 import { log, readJson, ROOT, sleep, warn, writeJson } from './lib/util.ts'
-import { searchMedia, type AniListMedia } from './lib/anilist.ts'
+import { searchMedia } from './lib/anilist.ts'
 import { recordSource } from './lib/health.ts'
 import {
   bestimmeRhythmus,
@@ -378,45 +378,78 @@ async function fetchCatalog(): Promise<AdnShow[]> {
    * Folgen bei 26 vorhandenen". Drei Wochenläufe in Folge haben deshalb nichts
    * geschrieben (10.–17.08.2026).
    *
-   * Ist der Treffer schon vergeben, wird deshalb die **nächste** Suchvariante
-   * probiert statt aufgegeben. Genau dafür gibt es die Varianten: Die kürzeste
-   * findet den Reihenkopf, eine längere den richtigen Teil. Bleibt am Ende keine
-   * übrig, hat die Serie eben keine Zuordnung — ein falsch zugeordneter Titel
-   * ist schlimmer als ein fehlender.
+   * Deshalb wird erst **gesammelt** und dann **vergeben**, in zwei Durchgängen.
    *
-   * Und es gewinnt nicht mehr der erste zulässige Treffer, sondern der **beste**
-   * (siehe `bewerteTreffer`). Ein Volltreffer bricht die Suche sofort ab, sonst
-   * kostete die Verbesserung fünfmal so viele Abfragen bei AniList.
+   * Der erste Anlauf am 17.08.2026 vergab sofort, nach „wer zuerst kommt" — und
+   * das ging nach hinten los: „One Piece • Le Film" griff sich AniList 21, also
+   * die **Serie**, und die eigentliche One-Piece-Serie verlor daraufhin alle
+   * sieben Sagas. Wer zuerst dran ist, entscheidet die Reihenfolge im Katalog,
+   * und die sagt nichts über die Passung.
+   *
+   * Jetzt gewinnt je Anime die Serie mit der höchsten Punktzahl (siehe
+   * `bewerteTreffer`); die Unterlegenen weichen auf ihren nächstbesten Kandidaten
+   * aus. Bleibt keiner übrig, hat eine Serie eben keine Zuordnung — ein falsch
+   * zugeordneter Titel ist schlimmer als ein fehlender.
+   *
+   * Ein Volltreffer bricht die Suche nach weiteren Schreibweisen ab, sonst
+   * kostete das Sammeln fünfmal so viele Abfragen bei AniList.
    */
-  const vergeben = new Map<number, string>()
+  const kandidaten = new Map<AdnShow, { id: number; punkte: number }[]>()
   for (const show of out) {
     try {
-      let bester: { media: AniListMedia; punkte: number } | undefined
+      const gefunden = new Map<number, number>()
       // Beide Namen anbieten: Der Originaltitel trägt oft Makra und
       // Zirkumflexe, der Anzeigename ist die schlichtere Schreibweise —
       // „Haikyū!!" gegen „Haikyu!!". Welcher trifft, weiß man vorher nicht.
       for (const begriff of sucheVarianten(show.originalTitle, show.title)) {
         const media = await searchMedia(begriff)
         if (!media?.id || !passtZuSerie(show, media)) continue
-        if (vergeben.has(media.id)) {
-          warn(
-            `ADN-Katalog: "${show.title}" (${show.showId}) fand AniList ${media.id}, ` +
-              `aber den führt schon "${vergeben.get(media.id)}" — nächste Schreibweise.`,
-          )
-          continue
-        }
-        const punkte = bewerteTreffer(show, media)
-        if (!bester || punkte > bester.punkte) bester = { media, punkte }
+        gefunden.set(media.id, bewerteTreffer(show, media))
         if (volltreffer(show, media)) break
       }
-      if (bester) {
-        vergeben.set(bester.media.id, show.title)
-        show.anilistId = bester.media.id
-      }
+      if (gefunden.size)
+        kandidaten.set(
+          show,
+          [...gefunden].map(([id, punkte]) => ({ id, punkte })).sort((a, b) => b.punkte - a.punkte),
+        )
     } catch (err) {
       warn(`ADN-Katalog: Suche für "${show.title}" fehlgeschlagen: ${(err as Error).message}`)
     }
   }
+
+  /**
+   * Vergabe: der beste Bewerber je Anime gewinnt, die anderen weichen aus.
+   *
+   * Absichtlich schlicht gehalten — keine optimale Zuordnung, sondern eine
+   * gierige. Es wird immer das stärkste noch offene Paar genommen; wer dabei
+   * leer ausgeht, bekommt seinen nächstbesten Kandidaten. Bei 77 Serien ist der
+   * Unterschied zu einer optimalen Lösung nicht zu bemerken, der zum vorherigen
+   * „wer zuerst kommt" sehr wohl.
+   */
+  const vergeben = new Map<number, AdnShow>()
+  const offen = new Set(kandidaten.keys())
+  // Jede Runde vergibt genau eine Serie, mehr als eine je Bewerber kann es also
+  // nicht geben. Die Grenze ist nur ein Riegel gegen eine Endlosschleife.
+  let runde = 0
+  while (offen.size && runde++ <= kandidaten.size) {
+    let beste: { show: AdnShow; id: number; punkte: number } | undefined
+    for (const show of offen) {
+      const naechster = kandidaten.get(show)!.find((k) => !vergeben.has(k.id))
+      if (!naechster) continue
+      if (!beste || naechster.punkte > beste.punkte) beste = { show, id: naechster.id, punkte: naechster.punkte }
+    }
+    if (!beste) break
+    vergeben.set(beste.id, beste.show)
+    beste.show.anilistId = beste.id
+    offen.delete(beste.show)
+  }
+  for (const show of offen) {
+    warn(
+      `ADN-Katalog: "${show.title}" (${show.showId}) bleibt ohne Zuordnung — ` +
+        `alle ${kandidaten.get(show)!.length} Kandidaten sind an besser passende Serien vergeben.`,
+    )
+  }
+
   const zugeordnet = out.filter((s) => s.anilistId).length
   log(`ADN-Katalog: ${zugeordnet} von ${out.length} einem Anime zugeordnet`)
   return out

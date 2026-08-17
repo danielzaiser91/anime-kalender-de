@@ -5,7 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="dark light" />
     <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
-    <link rel="icon" href="/icons/favicon-32.png" sizes="32x32" />
+    <link rel="icon" href="/icons/favicon-32.png" sizes="32x32" type="image/png" />
+    <!-- Diese Zeile ist für Google da, nicht für den Browser-Tab.
+         In der Ergebnisliste stand statt unseres Symbols der graue Globus
+         (17.08.2026). Angemeldet waren nur das SVG und ein 32er PNG, und die
+         Google-Dokumentation empfiehlt ausdrücklich mehr als 48 Pixel: „we
+         recommend using a favicon that's larger than 48x48px so that it looks
+         good on various surfaces". Ein Rastersymbol in 96 Pixeln nimmt Googlebot
+         jede Ausrede — SVG steht auf seiner Liste, aber sicher ist sicher. -->
+    <link rel="icon" href="/icons/favicon-96.png" sizes="96x96" type="image/png" />
     <!-- Apple liest weder das Manifest noch die icon-Liste; es braucht diese
          eine Zeile, sonst landet ein Bildschirmfoto auf dem Home-Bildschirm. -->
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />

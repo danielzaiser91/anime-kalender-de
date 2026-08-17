@@ -60,6 +60,41 @@ async function write(name: string, size: number, inset: number, rounded: boolean
   writeFileSync(resolve(OUT, name), png)
 }
 
+/**
+ * Schreibt `public/favicon.ico` — die Adresse, die niemand anmeldet und trotzdem
+ * jeder abfragt.
+ *
+ * Browser und Suchmaschinen holen `/favicon.ico` auch ohne `<link>`-Angabe. Bei
+ * uns lief das bis zum 17.08.2026 in die 404-Seite, also in 1,6 KB HTML für jeden,
+ * der vorbeikommt. Googles Dokumentation verlangt die Datei nicht — sie will ein
+ * `<link>` —, aber sie kostet fast nichts und beendet einen Dauerfehler.
+ *
+ * Ein ICO ist hier nur eine Hülle: Seit Windows Vista darf darin ein PNG stecken,
+ * und genau das tun wir. Sechs Byte Verzeichniskopf, sechzehn Byte Eintrag, dann
+ * die PNG-Daten — kein Fremdpaket nötig.
+ */
+async function schreibeIco(): Promise<void> {
+  const kante = 48
+  const png = await sharp(icon(kante, 0.04, true)).png({ compressionLevel: 9 }).toBuffer()
+
+  const kopf = Buffer.alloc(6)
+  kopf.writeUInt16LE(0, 0) // reserviert, immer 0
+  kopf.writeUInt16LE(1, 2) // Typ 1 = Symbol
+  kopf.writeUInt16LE(1, 4) // ein einziges Bild
+
+  const eintrag = Buffer.alloc(16)
+  eintrag.writeUInt8(kante, 0) // Breite
+  eintrag.writeUInt8(kante, 1) // Höhe
+  eintrag.writeUInt8(0, 2) // keine Farbtabelle
+  eintrag.writeUInt8(0, 3) // reserviert
+  eintrag.writeUInt16LE(1, 4) // Farbebenen
+  eintrag.writeUInt16LE(32, 6) // Bit je Bildpunkt
+  eintrag.writeUInt32LE(png.length, 8)
+  eintrag.writeUInt32LE(kopf.length + eintrag.length, 12) // Beginn der Bilddaten
+
+  writeFileSync(resolve(ROOT, 'public/favicon.ico'), Buffer.concat([kopf, eintrag, png]))
+}
+
 async function main(): Promise<void> {
   mkdirSync(OUT, { recursive: true })
 
@@ -74,7 +109,23 @@ async function main(): Promise<void> {
   // Fallback für Browser, die kein SVG-Favicon mögen.
   await write('favicon-32.png', 32, 0.04, true)
 
+  /**
+   * Für Google: ein Rastersymbol **über** 48 Pixeln.
+   *
+   * In der Ergebnisliste stand statt unseres Symbols der graue Standard-Globus
+   * (Daniel, 17.08.2026, Screenshot). Angemeldet waren nur das SVG und ein 32er
+   * PNG — und die Google-Dokumentation ist an dieser Stelle eindeutig: „Your
+   * favicon must be a square (1:1 aspect ratio) that's at least 8x8px. While the
+   * minimum size requirement is 8x8px, we recommend using a favicon that's larger
+   * than 48x48px so that it looks good on various surfaces."
+   *
+   * 96 statt 64, damit die Kante auf einem Bildschirm mit doppelter Dichte noch
+   * sauber bleibt. Die Datei kostet unter zwei Kilobyte.
+   */
+  await write('favicon-96.png', 96, 0.04, true)
+
   writeFileSync(resolve(OUT, 'icon.svg'), icon(512, 0.08, true))
+  await schreibeIco()
   log('App-Symbole in public/icons/ erzeugt')
 }
 

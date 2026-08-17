@@ -62,6 +62,28 @@ export function pruefeErgebnis(
 
     if (!r.sources?.length) fehler.push(`${at}: keine Quelle angegeben`)
 
+    /**
+     * Ein Slug wird zu einer Adresse und zu einem Ordnernamen.
+     *
+     * Aus `Release.slug` entsteht `/r/<slug>/` — eine echte Datei im Bauwerk, ein
+     * Eintrag in der Sitemap, ein geteilter Link. Ein Leerzeichen wird darin zu
+     * `%20`, ein Doppelpunkt ist unter Windows überhaupt kein Dateiname.
+     *
+     * Am 17.08.2026 kam One Piece in den ADN-Katalog, dessen Staffeln „Saga 1 :
+     * East Blue" heißen. Der Slug lautete `adn-561-sSaga 1 : East Blue-20190520`,
+     * und der Bau der Teilen-Seiten brach mit `ENOENT` ab — eine Fehlermeldung,
+     * die nach einem fehlenden Ordner klingt und nichts über die Ursache sagt.
+     * Hier fällt es künftig mit Namen und Grund auf.
+     *
+     * **Großbuchstaben sind erlaubt**, auch wenn sie unschön sind: Die
+     * Crunchyroll-Slugs tragen deren Kennung im Original (`cr-GT00371857`), und
+     * das sind 21 live erreichbare Adressen. Eine Prüfung, die sie verbietet,
+     * verbietet nicht einen Fehler, sondern den Bestand.
+     */
+    if (!/^[A-Za-z0-9._-]+$/.test(r.slug)) {
+      fehler.push(`${at}: der Slug enthält Zeichen, die in einer Adresse nichts zu suchen haben`)
+    }
+
     if (s.lastEpisodeDate && s.lastEpisodeDate < s.firstEpisodeDate) {
       fehler.push(`${at}: lastEpisodeDate ${s.lastEpisodeDate} liegt vor firstEpisodeDate ${s.firstEpisodeDate}`)
     }

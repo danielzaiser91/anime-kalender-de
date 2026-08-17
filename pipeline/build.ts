@@ -478,9 +478,34 @@ function fskFromAdnAge(age: string | undefined): Fsk | undefined {
  * dann kommt Staffel und Termin dazu, und bei einem Block über mehrere
  * AniList-Staffeln zusätzlich deren Kennung.
  */
+/**
+ * Die Staffelangabe von ADN ist ein **Text**, keine Zahl.
+ *
+ * Bei den meisten Serien steht dort „1" oder „2", und solange das so war, ging
+ * die Angabe ungefiltert in den Slug. Dann kam One Piece in den Katalog, und
+ * seine Staffeln heißen „Saga 1 : East Blue". Daraus wurde der Slug
+ * `adn-561-sSaga 1 : East Blue-20190520`, und der Bau der Teilen-Seiten brach ab:
+ * Ein Doppelpunkt ist unter Windows kein gültiger Dateiname (17.08.2026).
+ *
+ * Auch ohne diesen Abbruch wäre es falsch. Aus einem Slug wird `/r/<slug>/` —
+ * eine echte Adresse, und die verträgt keine Leerzeichen und keinen Doppelpunkt,
+ * sondern bekäme Prozentzeichen an Stellen, an denen niemand sie lesen will.
+ *
+ * Rein numerische Angaben bleiben unverändert, damit keine bestehende Adresse
+ * stirbt: `s2` bleibt `s2`.
+ */
+function slugTeil(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
+
 function adnSlug(showId: number, block: AdnBlock, titleId: number | undefined, einBlock: boolean): string {
   if (einBlock && titleId === undefined) return `adn-${showId}`
-  const teile = [`adn-${showId}`, block.season ? `s${block.season}` : 'x', block.firstDate.replace(/-/g, '')]
+  const teile = [`adn-${showId}`, block.season ? `s${slugTeil(block.season)}` : 'x', block.firstDate.replace(/-/g, '')]
   if (titleId !== undefined) teile.push(String(titleId))
   return teile.join('-')
 }
@@ -495,6 +520,10 @@ function adnSlug(showId: number, block: AdnBlock, titleId: number | undefined, e
  */
 function adnBlockName(showTitle: string, block: AdnBlock, blockAnzahl: number): string {
   if (blockAnzahl <= 1 || !block.season) return showTitle
+  // Trägt der Block einen eigenen Namen, wird er genannt statt gezählt: One
+  // Piece heißt bei ADN „Saga 1 : East Blue", und „ADN-Staffel Saga 1 : East
+  // Blue" wäre eine Zählung vor einem Namen, der schon eine ist.
+  if (!/^\d+$/.test(block.season)) return `${showTitle} – ${block.season.replace(/\s*:\s*/, ': ')}`
   return `${showTitle} – ADN-Staffel ${block.season}`
 }
 
