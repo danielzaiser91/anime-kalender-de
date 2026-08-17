@@ -331,6 +331,27 @@ Daraus zwei Regeln:
   erwartet" ist kein Beweis dafür, dass Nutzerdaten weg sind — es ist meist der Beweis, dass ein
   Deploy fehlt.
 
+## Ein Slug ist eine Adresse, und Adressen dürfen nicht wandern
+
+Aus `Release.slug` wird `/r/<slug>/` — eine echte Datei im Bauwerk, in der Sitemap, in
+Suchmaschinen und in jedem geteilten Link. **Ändert sich der Slug, stirbt eine Adresse.**
+
+Deshalb darf in einen Slug nur, was sich nicht ändert. Titel und Anbieter sind stabil, ein
+**Datum ist es nicht**: Am 16.08.2026 trugen die automatisch übernommenen Termine ihr Datum im
+Slug (`auto-171018-disc-2026-10-30`), und Termine verschieben sich in dieser Branche dauernd —
+jede Verschiebung hätte eine neue Adresse erzeugt und die alte als 404 zurückgelassen. Google
+hat es am selben Tag gemeldet.
+
+Dazu gehört das Gegenstück: Eine Adresse, die es wirklich nicht mehr gibt, braucht eine
+brauchbare Antwort. `public/404.html` ist diese Antwort — mit `noindex`, damit Google die
+Fehlerseite nicht selbst in den Index nimmt und anschließend als Fehler zurückmeldet.
+
+**Und jede erreichbare Adresse braucht ein `canonical`.** Die Seite liegt unter drei Adressen:
+`anime-kalender.de`, `www.anime-kalender.de` und `danielzaiser91.github.io/anime-kalender-de`.
+Die beiden hinteren leiten um, aber ohne `canonical` bleibt es Googles Vermutung, welche gilt —
+und die Search Console meldet „Seite mit Weiterleitung". Die Zeile steht im `social`-Block von
+`web/index.html`, damit `build-share-pages.ts` sie je Teilen-Seite gegen deren eigene tauscht.
+
 ## Caches: die Adresse ist die Version
 
 Datenadressen tragen den Datenstand (`/data/events.json?v=20260812142619`), eingesetzt in

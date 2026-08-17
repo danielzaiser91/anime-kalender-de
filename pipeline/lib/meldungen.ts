@@ -362,7 +362,19 @@ export function releasesAus(
     }
 
     out.push({
-      slug: `auto-${treffer.id}-${platform}-${tag}`,
+      /**
+       * **Kein Datum im Slug.**
+       *
+       * Aus dem Slug wird die Teilen-Adresse `/r/<slug>/`, eine echte Datei im
+       * Bauwerk. Stand das Datum darin, erzeugte jede Terminverschiebung eine
+       * neue Adresse und ließ die alte als 404 zurück — bei Terminen, die sich
+       * erfahrungsgemäß dauernd verschieben, ein eingebauter Fehlerlieferant.
+       * Google hat genau das am 16.08.2026 gemeldet.
+       *
+       * Titel und Anbieter identifizieren das Release ohnehin eindeutig; mehr
+       * als eines je Kombination lässt `releasesAus` nicht zu.
+       */
+      slug: `auto-${treffer.id}-${platform}`,
       titleId: treffer.id,
       name,
       platform: platform as Release['platform'],

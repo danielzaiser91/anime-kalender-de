@@ -1303,14 +1303,14 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-171018-disc-2026-10-30@2026-10-30@anime-kalender-de
+UID:auto-171018-disc@2026-10-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261030
 DTEND;VALUE=DATE:20261031
 SUMMARY:DAN DA DAN (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-17
- 1018-disc-2026-10-30
+ 1018-disc
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
