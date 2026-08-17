@@ -1,6 +1,6 @@
 # Status: anime-kalender-de
 
-Stand: 11.08.2026 · Live: https://anime-kalender.de/
+Stand: 17.08.2026 · Live: https://anime-kalender.de/
 
 ## Task Queue
 
@@ -10,9 +10,7 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **▶ HIER WEITERMACHEN: Abmelden aus dem verbundenen Browser** | 1 | Daniels Wunsch vom 14.08.2026, 01:30 Uhr: „abbestellen sollte man in dem Fall aber können." Wer verbunden ist, sieht auf der Newsletter-Seite jetzt „Dieser Browser ist mit deinem Abo verbunden" — kann das Abo dort aber nicht beenden, weil der Abmeldelink am `unsub_token` hängt und die Seite nur den `pref_token` kennt. **War schon gebaut und auf seine Ansage hin wieder zurückgenommen** (Commit-Stand sauber, nichts liegen geblieben). Der Entwurf: `/unsubscribe` nimmt zusätzlich POST mit `{token: prefToken}` und löscht die Zeile über `pref_token` — dasselbe Vertrauensniveau, denn auch der stammt aus einer Mail an dieses Postfach. In der Oberfläche ein Knopf neben der Verbunden-Meldung, **zweistufig** (erst „Abo beenden", dann „Wirklich?"), weil Löschen nicht umkehrbar ist. Danach `wrangler deploy` |
-| **Sichtprüfung: verbundener Zustand auf der Newsletter-Seite** | 1 | Die Änderung vom 14.08.2026 (Formular nur zeigen, wenn nicht verbunden) ist mit tsc und Build geprüft, **optisch nicht**. Zu prüfen: Wie sieht der Kasten „Favoriten verloren?" aus, wenn `autoSync` wahr ist, und ob die Zeile „Trotzdem einen Wiederherstellungslink anfordern" das Formular sauber aufklappt |
-| **`pref_token` ist unbefristet — entschärfen** | 2 | Der Abgleich-Schlüssel steht in **jeder** Newsletter-Mail und gilt ewig. Wer eine weitergeleitete Mail sieht oder einen Screenshot davon, kann die Favoriten dieses Abos dauerhaft ändern. Dieselbe Schwäche wie die am 14.08.2026 geschlossene Übernahme-Lücke, nur leiser. Daniel hatte am 14.08. die Wahl „erst den pref_token entschärfen" — er wählte den Magic Link zuerst; das hier bleibt offen. Entwurf: kurzlebiger Schlüssel je Mail, oder der Abgleich läuft künftig über denselben Einmal-Link wie die Wiederherstellung |
+| **▶ HIER WEITERMACHEN: `pref_token` ist unbefristet — entschärfen** | 2 | Der Abgleich-Schlüssel steht in **jeder** Newsletter-Mail und gilt ewig. Wer eine weitergeleitete Mail sieht oder einen Screenshot davon, kann die Favoriten dieses Abos dauerhaft ändern. Dieselbe Schwäche wie die am 14.08.2026 geschlossene Übernahme-Lücke, nur leiser. Daniel hatte am 14.08. die Wahl „erst den pref_token entschärfen" — er wählte den Magic Link zuerst; das hier bleibt offen. Entwurf: kurzlebiger Schlüssel je Mail, oder der Abgleich läuft künftig über denselben Einmal-Link wie die Wiederherstellung |
 | **Prüfliste „Wo läuft es" abarbeiten** (Dauerauftrag) | — | 1.732 Anbieter-Verweise ohne belegte Synchro, Liste: `data/dub-pruefliste.md`, erzeugt mit `npm run data:dub-checks`. Daniel arbeitet sie in Zehnerschritten ab; ich lege den Batch vor, er meldet je Nummer ja/nein, ich trage es in `data/dub-confirmed.yaml` ein und baue neu. **Stand: Batch 1 bis 3 ausgewertet, 65 Prüfungen eingetragen — 33 Angaben belegt, 32 tote Verweise entfernt.** Crunchyroll ist seit 13.08.2026 weitgehend maschinell belegt (234 ja / 988 nein / **25 offen**); die Handarbeit verteilt sich jetzt auf Netflix (727), YouTube (528) und Prime Video (219) — Anbieter, die die Sprachfassung nirgends öffentlich nennen. Kurzschrift der Antworten (`1`/`0`/`x`, mehrere je Zeile mit Punkt) steht im Kopf der Liste und in der `CLAUDE.md`. Je Batch kurz sagen, woher der Verweis stammt und warum er unsicher ist |
 | ~~News-Quellen für Sendepausen~~ — **Filter gebaut, Rest verworfen** | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
 
@@ -361,6 +359,45 @@ Quelle: <https://www.animenewsnetwork.com/encyclopedia/api.php>
   abgenommen.
 
 ## Archiv
+
+- ✅ **Der Wochenlauf schreibt wieder — und verliert nichts mehr, wenn er scheitert**
+  (17.08.2026). Seit dem 10.08. hatte der wöchentliche Tiefendurchlauf dreimal nichts
+  committet. Ursache war ein einziger Titel: ADN führt „To Love-Ru" unter zwei Kennungen (217
+  und 670), beide mit 26 Folgen, und die Namenssuche gab beiden denselben AniList-Eintrag 3455.
+  `passtZuSerie` nimmt einen Reihenkopf an, sobald ein Wort geteilt wird — bei „To Love-Ru -
+  Darkness" gegen „To Love Ru" ist das „love". Die Prüfung meldete zu Recht „zusammen 52 Folgen
+  bei 26 vorhandenen" und brach ab.
+
+  Der Abbruch war richtig, seine Reichweite nicht. Drei Änderungen:
+
+  - **Zuordnung** (`fetch-adn.ts`): Ein bereits vergebener AniList-Eintrag lässt die nächste
+    Schreibweise probieren statt aufzugeben. Genau dafür gibt es die Suchvarianten.
+  - **Sperre** (`build.ts`): Sie galt je Serienkennung, weil sie innerhalb der Schleife stand.
+    Jetzt gilt sie über alle ADN-Serien.
+  - **Zusicherung** (`check-logic.ts`): Der Fall steht mit seinen echten Zahlen als Prüfung im
+    Weg. Wer den Melder weicher stellt, um einen grünen Lauf zu bekommen, bricht sie.
+
+  Dazu die Härtung, die den eigentlichen Schaden verhindert: Der Commit-Schritt lief hinter dem
+  Aufbau **ohne** `if: always()`. Ein Abbruch nahm damit die ganze Ernte mit — knapp eine Stunde
+  Abrufe bei ADN, AniList, ANN, Crunchyroll und aniSearch, dreimal dieselbe Last auf denselben
+  fremden Servern. Quellen sind teuer erkauft, Erzeugnisse entstehen in Sekunden; jetzt
+  überleben die Quellen einen roten Lauf, und rot bleibt er, damit die Meldung kommt.
+  `commit-data.sh` bricht dafür auch nicht mehr an seinem eigenen internen Neuaufbau ab.
+
+- ✅ **Kein Titel fällt mehr zwischen Hauptbestand und Toggle** (17.08.2026). Der Vorfilter für
+  Titel, deren japanische Ausstrahlung noch aussteht, löschte sie aus dem Hauptbestand und
+  verließ sich darauf, dass sie über den AniList-Katalog hinter dem Toggle wieder auftauchen.
+  Bei acht von neun stimmte das; „Xiao Mao Diao Yu" (215520) stand in keinem der beiden Bestände
+  und war über keinen Weg mehr erreichbar. Verschobene Titel werden jetzt gesammelt und in
+  `ohne-synchro.json` nachgetragen. Ein Titel, den man nirgends findet, ist stillschweigend
+  gestrichen — und gestrichen wird nur, was eine Quelle aktiv widerlegt.
+
+- ✅ **Abmelden aus dem verbundenen Browser** (16.08.2026, live). Wer verbunden ist, beendet sein
+  Abo jetzt direkt auf der Newsletter-Seite, zweistufig. Vorher hing der Abmeldelink allein am
+  `unsub_token` aus der Mail, den die Seite nicht kennt. `/unsubscribe` nimmt zusätzlich POST mit
+  dem `pref_token`; dasselbe Vertrauensniveau, denn auch der kam per Mail an dieses Postfach. Am
+  17.08.2026 am laufenden Worker gegengeprüft: Die Route antwortet routenspezifisch, ist also
+  deployt.
 
 - 📌 **Datenlage Inazuma Eleven S1 — kein offener Punkt, sondern der Normalzustand.**
   Unser **04.09.2026** ist belegt (Anime2You, „24 Blu-ray-Termine verschoben", 31.07.2026,
