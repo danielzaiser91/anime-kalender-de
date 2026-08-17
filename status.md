@@ -315,6 +315,32 @@ Quelle: <https://www.animenewsnetwork.com/encyclopedia/api.php>
 
 ## Entscheidungen
 
+- **Die Regel „mindestens eine Folge auf Deutsch erschienen" wird nicht umgesetzt** (17.08.2026).
+  Daniel hatte sie am 15.08. vorgegeben: Titel ohne eine einzige erschienene deutsche Folge
+  gehören hinter den Toggle „Anime ohne deutsche Synchro". Gemessen, bevor gebaut wurde — und die
+  Messung widerlegt die Umsetzbarkeit.
+
+  Als Beleg für „eine deutsche Fassung existiert" stehen drei Dinge zur Verfügung: ein Release mit
+  Datum, deutsche Sprechrollen (AniList oder ANN) oder ein bestätigter Stream. Fehlen alle drei und
+  behauptet nur eine einzige Quelle die Synchro (`dubConfidence: 'low'`), trifft die Regel
+  **361 von 2.760 Titeln**.
+
+  Darunter sind **Frieren: Beyond Journey's End Staffel 2** und **Fire Force Staffel 3 Teil 2** —
+  beide laut Daniel (15.08.2026) vollständig deutsch synchronisiert, keine Folge ohne Synchro. Sie
+  tragen keine Sprechrollen, weil AniList und ANN ihre Besetzungslisten für laufende Serien erst
+  mit Verzögerung führen, und keinen Termin, weil wir keinen belegt haben.
+
+  Die Regel würde also genau das tun, wovor Daniel gewarnt hat, und sie verletzt den
+  Projektgrundsatz aus `CLAUDE.md`: „Ein Eintrag wird nur gestrichen, wenn eine Quelle ihn
+  **aktiv widerlegt** — nicht, weil er unbestätigt ist." Fehlender Beleg ist kein Gegenbeleg.
+
+  **Schwelle für eine Neubewertung:** Sobald es eine verlässliche Auskunft über die deutsche
+  Tonspur laufender Serien gibt — ein angemeldeter Crunchyroll-Abruf oder eine andere Quelle, die
+  je Titel Ja oder Nein sagt. Dann ist „keine Folge auf Deutsch" ein Befund statt einer Lücke, und
+  die Regel trägt. Der grobe Vorfilter bleibt bis dahin in Kraft: Titel, deren japanische
+  Ausstrahlung noch nicht begonnen hat, stehen schon hinter dem Toggle.
+
+
 - **Keine Fallback-Kette über Wikipedia für Beschreibungen** (11.08.2026). Am 11.08. gemessen
   statt geschätzt: Es fehlen nur noch **70** von 2.753 Beschreibungen (nicht 516 — die Zahl
   stammte von vor dem vollständigen aniSearch-Bestand), und von diesen 70 haben **2** einen
