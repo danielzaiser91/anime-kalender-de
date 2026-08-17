@@ -70,8 +70,21 @@ jobs:
           VITE_NEWSLETTER_API: ${{ vars.NEWSLETTER_API_URL }}
         run: npm run build
 
-      - name: SPA-Fallback für Direktaufrufe
-        run: cp dist/index.html dist/404.html
+      # Hier stand bis zum 17.08.2026 ein SPA-Fallback: cp dist/index.html
+      # dist/404.html. Er ist weg, und zwar aus zwei Gründen.
+      #
+      # Erstens braucht ihn diese Anwendung nicht. Sie routet über den Hash;
+      # echte Pfade gibt es nur drei — /, /termine/ und /r/<slug>/ —, und alle
+      # drei liegen als Datei im Bauwerk. Ein anderer Pfad ist wirklich nicht
+      # vorhanden.
+      #
+      # Zweitens richtete er Schaden an: Seit die Startseite vorgerenderten
+      # Inhalt trägt, lieferte jeder unbekannte Pfad eine vollständig
+      # aussehende Seite unter dem Status 404 aus. Für Google ist das eine
+      # „Soft 404" — er sieht Inhalt, wo ein Fehler gemeldet wird.
+      #
+      # public/404.html übernimmt: richtiger Status, passender Inhalt, ein Weg
+      # zurück zum Kalender, und noindex.
 
       - uses: actions/upload-pages-artifact@v3
         with:
