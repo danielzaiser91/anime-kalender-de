@@ -195,6 +195,35 @@ export function staffelBloecke(show: AdnShow): AdnBlock[] {
   return bloecke
 }
 
+/**
+ * Fasst eine ganze ADN-Serie wieder zu einem einzigen Block zusammen.
+ *
+ * `staffelBloecke` schneidet nach Staffel und Lieferwelle — richtig, solange die
+ * Schnitte etwas bedeuten. Bei One Piece bedeuten sie nichts: ADN teilt die 515
+ * deutschen Folgen in zwölf Blöcke mit Namen wie „Saga 2 : Alabasta", und AniList
+ * führt für die ganze Serie **einen** Eintrag. Kein Block lässt sich also einer
+ * eigenen Staffel zuordnen, alle zwölf zeigen auf denselben Titel, und die Sperre
+ * gegen doppelte Titel warf elf davon weg — 505 belegte Folgen für nichts
+ * (17.08.2026).
+ *
+ * Findet die Staffelsuche für **keinen** Block einen eigenen Teil, waren die
+ * Schnitte Lieferwellen und keine Staffeln. Dann ist ein Release über alles die
+ * ehrlichere Auskunft als eines über den ersten Zehntel.
+ */
+export function alsEinBlock(show: AdnShow): AdnBlock {
+  const daten = show.episodes.map((e) => e.date).sort()
+  return {
+    showId: show.showId,
+    episodes: show.episodes,
+    rhythm: bestimmeRhythmus(show.episodes),
+    firstDate: daten[0],
+    lastDate: daten[daten.length - 1],
+    nummern: [...new Set(show.episodes.map((e) => e.episode).filter((n): n is number => !!n))].sort(
+      (a, b) => a - b,
+    ),
+  }
+}
+
 const JAHRESZEIT: Record<string, number> = { WINTER: 0, SPRING: 1, SUMMER: 2, FALL: 3 }
 
 /**

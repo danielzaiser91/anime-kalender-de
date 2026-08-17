@@ -83,6 +83,26 @@ ERZEUGNISSE=(public/data public/og)
 git config user.name "github-actions[bot]"
 git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+# Der `git reset --hard` weiter unten rettet ausschließlich die Pfade aus
+# `QUELLEN`. Alles andere ist danach weg — auch **eigene Commits**, die noch
+# nicht gepusht sind.
+#
+# In der CI kann das nicht passieren: Dort steht HEAD beim Start immer auf
+# `origin/main`. Von Hand schon: Am 17.08.2026 lag hier ein frischer Commit mit
+# der One-Piece-Reparatur, der Fernstand hatte sich inzwischen bewegt, und der
+# Reset hat ihn samt Arbeitsstand gelöscht. Zurückgeholt hat ihn nur das Reflog.
+#
+# Deshalb bricht das Skript ab, statt zu löschen. Es entscheidet nicht, was
+# wichtiger ist — das entscheidet, wer es aufgerufen hat.
+git fetch origin main --quiet
+EIGENE="$(git rev-list --count origin/main..HEAD)"
+if [ "$EIGENE" -gt 0 ]; then
+  echo "::error::$EIGENE eigene(r) Commit(s) sind noch nicht auf origin/main. Der Reset in diesem Skript wuerde sie loeschen."
+  echo "Erst pushen (git push), dann dieses Skript erneut aufrufen."
+  git log --oneline origin/main..HEAD
+  exit 1
+fi
+
 for versuch in $(seq 1 "$VERSUCHE"); do
   git fetch origin main --quiet
 

@@ -14,6 +14,7 @@ import { dubKey, loadDubChecks } from './lib/dub-confirmed.ts'
 import { beurteile, type CrDubData } from './lib/crunchyroll-dub.ts'
 import type { TmdbInfo } from './lib/tmdb.ts'
 import {
+  alsEinBlock,
   ordneBloeckeZuStaffeln,
   staffelBloecke,
   staffelnDesFranchise,
@@ -1547,7 +1548,7 @@ function main(): void {
      * Wochenterminen bis 2027. Neun der 37 ADN-Serien führen mehrere Staffeln
      * unter einer Kennung.
      */
-    const bloecke = staffelBloecke(show)
+    let bloecke = staffelBloecke(show)
     /**
      * Ein einzelner Block braucht keine Staffelsuche — er **ist** die Serie.
      *
@@ -1573,7 +1574,24 @@ function main(): void {
       !passtInDenTitel && serienTitel?.franchiseId
         ? staffelnDesFranchise(titles.values(), serienTitel.franchiseId)
         : []
-    const zuordnungen = ordneBloeckeZuStaffeln(bloecke, staffeln)
+    let zuordnungen = ordneBloeckeZuStaffeln(bloecke, staffeln)
+    /**
+     * Lieferwellen sind keine Staffeln.
+     *
+     * Findet die Suche für **keinen** Block einen eigenen Reihenteil, dann haben
+     * die Schnitte nichts bedeutet — alle Blöcke zeigen auf denselben Titel, und
+     * die Sperre gegen doppelte Titel behält den ersten und wirft den Rest weg.
+     * Bei One Piece kostete das 505 der 515 belegten deutschen Folgen: ADN teilt
+     * sie in zwölf „Sagas", AniList kennt für die Serie einen einzigen Eintrag.
+     *
+     * Ein Release über alles ist dann die ehrlichere Auskunft als eines über den
+     * ersten Zehntel. Der Slug bleibt dabei `adn-<id>` — dieselbe Adresse wie bei
+     * jeder anderen einblockigen Serie.
+     */
+    if (bloecke.length > 1 && zuordnungen.every((z) => !z.teile.length)) {
+      bloecke = [alsEinBlock(show)]
+      zuordnungen = ordneBloeckeZuStaffeln(bloecke, staffeln)
+    }
     adnBloecke += bloecke.length
     // Nur wenn es bei einem einzigen Block bleibt, behält das Release seinen
     // alten Slug — geteilte Links und Merklisten sollen nicht ins Leere laufen.

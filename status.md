@@ -10,8 +10,7 @@ _(leer)_
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **▶ HIER WEITERMACHEN: Zwei ADN-Bestände werden untertrieben** | 3 | Gefunden am 17.08.2026 beim Aufräumen der ADN-Zuordnung — beides sind **Untertreibungen, keine Falschangaben**, deshalb kein Notfall. **One Piece:** ADN führt 515 deutsche Folgen unter Kennung 561, aufgeteilt in acht „Sagas". AniList kennt für die Serie nur **einen** Eintrag (21), also lässt sich keine Saga einer eigenen Staffel zuordnen; es überlebt der erste Block mit 10 Folgen, die übrigen 505 fallen unter die Doppel-Sperre. Richtig wäre **ein** Release über alle 515. Entwurf: Ergibt die Staffelsuche für **keinen** Block einen eigenen Titel, die Blöcke wieder zu einem zusammenfassen, statt sieben davon zu verwerfen. **To Love-Ru - Darkness:** ADN-Kennung 217 bündelt 26 Folgen, der AniList-Eintrag 13663 hat 12 (Darkness und Darkness 2nd sind getrennt). Die Summe geht nicht auf, also entsteht gar kein Release — nach Projektgrundsatz richtig, aber der Bestand fehlt. Zu prüfen, ob 12 + 12 + Specials sauber aufgehen |
-| **Prüfliste „Wo läuft es" abarbeiten** (Dauerauftrag) | — | 1.732 Anbieter-Verweise ohne belegte Synchro, Liste: `data/dub-pruefliste.md`, erzeugt mit `npm run data:dub-checks`. Daniel arbeitet sie in Zehnerschritten ab; ich lege den Batch vor, er meldet je Nummer ja/nein, ich trage es in `data/dub-confirmed.yaml` ein und baue neu. **Stand: Batch 1 bis 3 ausgewertet, 65 Prüfungen eingetragen — 33 Angaben belegt, 32 tote Verweise entfernt.** Crunchyroll ist seit 13.08.2026 weitgehend maschinell belegt (234 ja / 988 nein / **25 offen**); die Handarbeit verteilt sich jetzt auf Netflix (727), YouTube (528) und Prime Video (219) — Anbieter, die die Sprachfassung nirgends öffentlich nennen. Kurzschrift der Antworten (`1`/`0`/`x`, mehrere je Zeile mit Punkt) steht im Kopf der Liste und in der `CLAUDE.md`. Je Batch kurz sagen, woher der Verweis stammt und warum er unsicher ist |
+| **▶ HIER WEITERMACHEN: Prüfliste „Wo läuft es" abarbeiten** (Dauerauftrag) | — | 1.732 Anbieter-Verweise ohne belegte Synchro, Liste: `data/dub-pruefliste.md`, erzeugt mit `npm run data:dub-checks`. Daniel arbeitet sie in Zehnerschritten ab; ich lege den Batch vor, er meldet je Nummer ja/nein, ich trage es in `data/dub-confirmed.yaml` ein und baue neu. **Stand: Batch 1 bis 3 ausgewertet, 65 Prüfungen eingetragen — 33 Angaben belegt, 32 tote Verweise entfernt.** Crunchyroll ist seit 13.08.2026 weitgehend maschinell belegt (234 ja / 988 nein / **25 offen**); die Handarbeit verteilt sich jetzt auf Netflix (727), YouTube (528) und Prime Video (219) — Anbieter, die die Sprachfassung nirgends öffentlich nennen. Kurzschrift der Antworten (`1`/`0`/`x`, mehrere je Zeile mit Punkt) steht im Kopf der Liste und in der `CLAUDE.md`. Je Batch kurz sagen, woher der Verweis stammt und warum er unsicher ist |
 | ~~News-Quellen für Sendepausen~~ — **Filter gebaut, Rest verworfen** | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
 
 
@@ -364,6 +363,34 @@ Quelle: <https://www.animenewsnetwork.com/encyclopedia/api.php>
   abgenommen.
 
 ## Archiv
+
+- ✅ **One Piece steht wieder vollständig da — 515 statt 10 Folgen** (17.08.2026). ADN teilt die
+  deutschen Folgen in zwölf Blöcke mit Namen wie „Saga 2 : Alabasta". AniList kennt für die Serie
+  **einen** Eintrag, und in unserem Bestand hat die Reihe außer ihm nur zwei Mitglieder (den
+  Pilotfilm von 1998 und Fishman Island). Also fand die Staffelsuche für keinen einzigen Block
+  einen eigenen Teil, alle zwölf zeigten auf denselben Titel, und die Sperre gegen Doppelungen
+  behielt den ersten — zehn Folgen — und warf 505 weg.
+
+  Neue Regel: Findet die Suche für **keinen** Block einen eigenen Reihenteil, waren die Schnitte
+  Lieferwellen und keine Staffeln; dann wird die Serie wieder zu einem Release zusammengefasst.
+  Ergebnis: ein Eintrag über alle 515 Folgen, „Im Angebot seit 20.05.2019", und **ein** einziger
+  Kalendereintrag statt 515. Der Slug bleibt `adn-561`, also stirbt keine Adresse. Fünf
+  Zusicherungen in `check-logic.ts`.
+
+- 📌 **To Love-Ru - Darkness bleibt ohne Release — und das ist die richtige Antwort.**
+  ADN-Kennung 217 bündelt 26 Folgen unter „Staffel 3". Der Bestand kennt Darkness (12) und
+  Darkness 2nd (12); zusammen 24, nicht 26 — die beiden übrigen sind Sonderfolgen, und die lässt
+  `staffelnDesFranchise` bewusst draußen, weil sie jede Folgenzahl-Rechnung sprengen.
+
+  Ohne aufgehende Summe gibt es drei Möglichkeiten, und zwei davon sind falsch: 26 Folgen auf den
+  Zwölfteiler „Darkness" zu buchen wäre eine Falschangabe, und der Treffer über die reine
+  Folgenzahl führte auf „To LOVE-Ru" (26 Folgen) — die **Originalserie**, die ADN unter einer
+  eigenen Kennung führt. Bleibt die dritte: kein Release. Das ist der Projektgrundsatz aus
+  `CLAUDE.md`, wörtlich — „Geht die Summe nicht exakt auf, bleibt der Block lieber unzugeordnet,
+  als einen fremden Titel mitzubringen."
+
+  **Kein offener Punkt mehr.** Er würde erst wieder einer, wenn AniList die beiden Sonderfolgen
+  als Staffelmitglieder führte oder ADN die Kennung aufteilte.
 
 - ✅ **Das Favicon ist angemeldet, wie Google es verlangt** (17.08.2026, live). In der
   Ergebnisliste stand der graue Standard-Globus, aniSearch daneben mit seinem Logo (Daniels

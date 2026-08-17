@@ -18,6 +18,7 @@
  */
 import { expandEvents } from '../shared/logic.ts'
 import {
+  alsEinBlock,
   bestimmeRhythmus,
   bewerteTreffer,
   ordneBloeckeZuStaffeln,
@@ -249,6 +250,45 @@ console.log('\nADN-Zuordnung: der beste Treffer, nicht der erste:')
   // machte „The" aus jedem fremden Titel einen Halbtreffer.
   const the = { title: 'The Rising of the Shield Hero', originalTitle: '' }
   pruefe('Füllwörter zählen weiterhin nicht', bewerteTreffer(the, titel('The Eminence in Shadow')) <= 0, bewerteTreffer(the, titel('The Eminence in Shadow')))
+}
+
+console.log('\nLieferwellen sind keine Staffeln:')
+{
+  /**
+   * One Piece, verkleinert: ADN teilt die deutschen Folgen in „Sagas", AniList
+   * kennt für die Serie einen einzigen Eintrag. Kein Block lässt sich also einer
+   * eigenen Staffel zuordnen, alle zeigen auf denselben Titel, und die Sperre
+   * gegen Doppelungen behielt den ersten und warf den Rest weg — 505 der 515
+   * belegten Folgen (17.08.2026).
+   */
+  const wellen: AdnShow = {
+    showId: 561,
+    title: 'One Piece',
+    url: 'https://animationdigitalnetwork.com/de/video/561',
+    // Wochentakt je Saga, sonst zerfällt jede Folge in einen eigenen Block —
+    // `staffelBloecke` schneidet ohne Wochentakt nach Termin.
+    episodes: [
+      ...folgen(10, '2019-05-20', 'Saga 1', 1, 7),
+      ...folgen(12, '2019-09-20', 'Saga 2', 11, 7),
+      ...folgen(8, '2020-02-20', 'Saga 3', 23, 7),
+    ],
+    batch: true,
+  }
+  const bloecke = staffelBloecke(wellen)
+  pruefe('drei Sagas ergeben drei Blöcke', bloecke.length === 3, bloecke.length)
+  // Keine Staffeln im Datensatz — genau die Lage bei One Piece.
+  const ohneStaffeln = ordneBloeckeZuStaffeln(bloecke, [])
+  pruefe('ohne Reihenteile bekommt kein Block einen eigenen Titel', ohneStaffeln.every((z) => !z.teile.length))
+
+  const einer = alsEinBlock(wellen)
+  pruefe('zusammengefasst bleibt keine Folge liegen', einer.episodes.length === 30, einer.episodes.length)
+  const alleDaten = wellen.episodes.map((e) => e.date).sort()
+  pruefe(
+    'der Zeitraum umspannt alle Wellen',
+    einer.firstDate === alleDaten[0] && einer.lastDate === alleDaten[alleDaten.length - 1],
+    [einer.firstDate, einer.lastDate],
+  )
+  pruefe('die Folgennummern laufen durch', einer.nummern.length === 30 && einer.nummern[29] === 30, einer.nummern.length)
 }
 
 console.log('\nGegenprobe des erzeugten Datensatzes:')
