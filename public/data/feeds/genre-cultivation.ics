@@ -26,13 +26,13 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1294-s1-20250516@2025-05-16@anime-kalender-de
+UID:adn-1294@2025-05-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250516T100000Z
 DTEND:20250516T103000Z
 SUMMARY:Super Cube
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-1294-s1-20250516
+ me-kalender.de/#/release/adn-1294
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT

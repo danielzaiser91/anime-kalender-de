@@ -6,13 +6,13 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Pirates
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:adn-561-ssaga-1-east-blue-20190520@2019-05-20@anime-kalender-de
+UID:adn-561@2019-05-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20190520T183500Z
 DTEND:20190520T190500Z
 SUMMARY:ONE PIECE
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-561-ssaga-1-east-blue-20190520
+ me-kalender.de/#/release/adn-561
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
