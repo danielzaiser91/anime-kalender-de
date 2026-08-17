@@ -19,9 +19,11 @@
 import { expandEvents } from '../shared/logic.ts'
 import {
   bestimmeRhythmus,
+  bewerteTreffer,
   ordneBloeckeZuStaffeln,
   staffelBloecke,
   staffelnDesFranchise,
+  volltreffer,
   type AdnEpisode,
   type AdnShow,
 } from './lib/adn.ts'
@@ -175,6 +177,60 @@ console.log('\nStaffeln trennen und zuordnen:')
     'Gun Gale Online wird übersprungen, nicht eingerechnet',
     !zuordnung[2].teile.some((t) => t.title.id === 100183),
   )
+}
+
+console.log('\nADN-Zuordnung: der beste Treffer, nicht der erste:')
+{
+  /**
+   * Die beiden Fehlgriffe vom 17.08.2026, mit den echten Titeln.
+   *
+   * Beide entstanden aus derselben Ursache: `passtZuSerie` lässt jeden Treffer
+   * durch, der ein aussagekräftiges Wort teilt, und früher gewann der erste
+   * zulässige. Beide sind teuer geworden — der zweite hat den Build abgebrochen.
+   */
+  const titel = (romaji: string, english?: string) => ({ title: { romaji, english: english ?? null, native: null } })
+
+  // Fall 1: „Motto To Love-Ru" gegen die Fortsetzung und den Reihenkopf. Alle
+  // drei teilen „love", alle drei haben 12 bzw. 26 Folgen — die Stückzahl trennt
+  // sie nicht, nur das Wort „Darkness" und die vollständige Deckung.
+  const motto = { title: 'Motto To Love-Ru', originalTitle: 'Motto To Love-Ru' }
+  const richtig = titel('Motto To LOVE-Ru', 'Motto To Love Ru')
+  const darkness = titel('To LOVE-Ru Darkness', 'To Love Ru Darkness')
+  const kopf = titel('To LOVE-Ru', 'To Love Ru')
+  pruefe(
+    'Motto To Love-Ru: die eigene Staffel schlägt Darkness',
+    bewerteTreffer(motto, richtig) > bewerteTreffer(motto, darkness),
+    [bewerteTreffer(motto, richtig), bewerteTreffer(motto, darkness)],
+  )
+  pruefe(
+    'Motto To Love-Ru: die eigene Staffel schlägt den Reihenkopf',
+    bewerteTreffer(motto, richtig) > bewerteTreffer(motto, kopf),
+    [bewerteTreffer(motto, richtig), bewerteTreffer(motto, kopf)],
+  )
+  pruefe('Motto To Love-Ru: nur die eigene Staffel ist ein Volltreffer', volltreffer(motto, richtig) && !volltreffer(motto, darkness))
+
+  /**
+   * Fall 2: „Wolf's Rain" gegen seine OVA — der Fall, der den Build abbrach.
+   *
+   * „OVA" hat drei Buchstaben und fiel damit durch die Vier-Zeichen-Grenze der
+   * Wortzerlegung. „Wolf's Rain OVA" sah dadurch wie vollständige Deckung aus,
+   * die Suche brach beim ersten Treffer ab, und der Datensatz behauptete 30
+   * Folgen für einen Eintrag mit vier. Deshalb zählen `ova`, `ona`, `oad` und
+   * `tv` mit, obwohl sie kürzer sind — sie sind Werktypen, keine Füllwörter.
+   */
+  const wolf = { title: "Wolf's Rain", originalTitle: "Wolf's Rain" }
+  const serie = titel("Wolf's Rain")
+  const ova = titel("Wolf's Rain OVA")
+  pruefe('Wolf’s Rain: die Serie schlägt ihre OVA', bewerteTreffer(wolf, serie) > bewerteTreffer(wolf, ova), [
+    bewerteTreffer(wolf, serie),
+    bewerteTreffer(wolf, ova),
+  ])
+  pruefe('Wolf’s Rain: die OVA ist kein Volltreffer', volltreffer(wolf, serie) && !volltreffer(wolf, ova))
+
+  // Und die Grenze kippt nicht ins Gegenteil: Füllwörter bleiben draußen, sonst
+  // machte „The" aus jedem fremden Titel einen Halbtreffer.
+  const the = { title: 'The Rising of the Shield Hero', originalTitle: '' }
+  pruefe('Füllwörter zählen weiterhin nicht', bewerteTreffer(the, titel('The Eminence in Shadow')) <= 0, bewerteTreffer(the, titel('The Eminence in Shadow')))
 }
 
 console.log('\nGegenprobe des erzeugten Datensatzes:')

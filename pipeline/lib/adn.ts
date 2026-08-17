@@ -324,3 +324,127 @@ export function ordneBloeckeZuStaffeln(bloecke: AdnBlock[], staffeln: Title[]): 
   }
   return out
 }
+
+// --- Zuordnung einer ADN-Serie zu einem AniList-Eintrag ---------------------
+//
+// Diese drei Funktionen gehören zum Abruf, stehen aber hier, damit
+// `check-logic.ts` sie prüfen kann, ohne `fetch-adn.ts` zu importieren — jene
+// Datei ruft beim Laden ihr `main()` auf, ein Import wäre ein Abruf.
+
+/** Nur die Titelschreibweisen, die für die Zuordnung gebraucht werden. */
+export interface TrefferTitel {
+  title: { romaji?: string | null; english?: string | null; native?: string | null }
+}
+
+/** Was von einer ADN-Serie in die Zuordnung eingeht. */
+export interface AdnName {
+  title: string
+  originalTitle?: string
+}
+
+/**
+ * Kurze Wörter, die trotzdem zählen.
+ *
+ * Die Vier-Zeichen-Grenze hält Füllwörter draußen („no", „the", „to") und traf
+ * dabei genau die Kürzel, die eine Nebenausgabe von der Hauptserie
+ * unterscheiden. „Wolf's Rain OVA" sah damit wie „Wolf's Rain" aus, wurde als
+ * vollständige Deckung gewertet, und der Build brach ab: 30 Folgen für einen
+ * Eintrag, der vier hat (17.08.2026).
+ *
+ * Die Liste bleibt absichtlich kurz. Jedes weitere Kürzel muss ein Werktyp sein,
+ * kein Füllwort — sonst kippt die Grenze in ihr Gegenteil.
+ */
+const KURZ_ABER_WICHTIG = new Set(['ova', 'ona', 'oad', 'tv'])
+
+function woerterVon(s: string): Set<string> {
+  return new Set(
+    s
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[̀-ͯ]/g, '')
+      .split(/[^a-z0-9]+/)
+      .filter((w) => w.length >= 4 || KURZ_ABER_WICHTIG.has(w)),
+  )
+}
+
+/**
+ * Gegenprobe für einen Suchtreffer — greift die kurzen Varianten ab.
+ *
+ * Die Kürzung auf den Namenskern rettet Fälle wie „Chinjuu Shima" gegen
+ * „Chinjuu-jima", trifft mit zwei Wörtern aber auch beliebiges: „no Bouken"
+ * fand „The Enchanted Journey", „to Kaizoku Tachi" fand „Galactic Pirates" —
+ * beides keine One-Piece-Filme. Ein falsch zugeordneter Titel ist schlimmer
+ * als ein fehlender: Er bringt Cover, Beschreibung und Genres eines fremden
+ * Werks mit.
+ *
+ * Deshalb muss der Treffer ein aussagekräftiges Wort mit dem ADN-Titel teilen.
+ * Kurze Füllwörter zählen nicht — sonst genügte „no" oder „the".
+ */
+export function passtZuSerie(show: AdnName, media: TrefferTitel): boolean {
+  const unsere = new Set([...woerterVon(show.title), ...woerterVon(show.originalTitle ?? '')])
+  const ihre = woerterVon(
+    [media.title.romaji, media.title.english, media.title.native].filter(Boolean).join(' '),
+  )
+  for (const wort of unsere) if (ihre.has(wort)) return true
+  return false
+}
+
+/**
+ * Wie gut ein Treffer passt — nicht nur, ob er passt.
+ *
+ * `passtZuSerie` ist ein Türsteher, kein Schiedsrichter: Es lässt jeden Treffer
+ * durch, der **ein** aussagekräftiges Wort teilt. Für eine Reihe mit mehreren
+ * Staffeln ist das zu wenig. „Motto To Love-Ru" (ADN 684, 12 Folgen) landete am
+ * 17.08.2026 auf AniList 13663 „To LOVE-Ru Darkness" statt auf 9181 „Motto To
+ * LOVE-Ru" — geteilt war „love", und der erste zulässige Treffer gewann. Beide
+ * haben 12 Folgen, die Stückzahl trennt sie also nicht.
+ *
+ * Gewertet wird je Titelschreibweise einzeln, nicht über alle zusammen: Ein
+ * englischer Zweitname bringt sonst lauter fremde Wörter mit, die nichts über
+ * die Passung sagen. Geteilte Wörter zählen doppelt, fremde einfach dagegen —
+ * „Darkness" ist genau das Wort, das den falschen Treffer verrät.
+ *
+ * Der **japanische** Titel bleibt hier außen vor, obwohl `passtZuSerie` ihn
+ * benutzt. Er besteht aus Zeichen, die die Wortzerlegung wegwirft, und was übrig
+ * bleibt, ist zufällig: „To LOVEる -とらぶる- ダークネス" schrumpft auf „love"
+ * zusammen — das verräterische „Darkness" verschwindet, und der falsche Treffer
+ * sieht plötzlich sauber aus. Als Türsteher taugt er, als Schiedsrichter nicht.
+ */
+export function bewerteTreffer(show: AdnName, media: TrefferTitel): number {
+  const unsere = new Set([...woerterVon(show.title), ...woerterVon(show.originalTitle ?? '')])
+  let beste = Number.NEGATIVE_INFINITY
+  for (const name of [media.title.romaji, media.title.english]) {
+    if (!name) continue
+    const ihre = woerterVon(name)
+    if (!ihre.size) continue
+    let geteilt = 0
+    let fremd = 0
+    for (const wort of ihre) {
+      if (unsere.has(wort)) geteilt++
+      else fremd++
+    }
+    beste = Math.max(beste, geteilt * 2 - fremd)
+  }
+  return beste === Number.NEGATIVE_INFINITY ? 0 : beste
+}
+
+/**
+ * Deckt der Treffer den ADN-Namen vollständig und ohne Zutaten?
+ *
+ * Nur dann wird die Suche abgebrochen. Das hält die Kosten dort, wo sie liegen —
+ * ein Abruf je Serie im Normalfall — und lässt die zweifelhaften Fälle
+ * weitersuchen, statt den ersten Halbtreffer zu nehmen.
+ */
+export function volltreffer(show: AdnName, media: TrefferTitel): boolean {
+  const unsere = woerterVon(show.title)
+  if (!unsere.size) return false
+  // Ohne den japanischen Titel, aus demselben Grund wie bei `bewerteTreffer`:
+  // Sein lateinischer Rest deckt sich zufällig mit fast jedem Reihennamen.
+  for (const name of [media.title.romaji, media.title.english]) {
+    if (!name) continue
+    const ihre = woerterVon(name)
+    if (!ihre.size) continue
+    if ([...unsere].every((w) => ihre.has(w)) && [...ihre].every((w) => unsere.has(w))) return true
+  }
+  return false
+}

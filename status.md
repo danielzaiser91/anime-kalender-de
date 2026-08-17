@@ -307,8 +307,13 @@ Quelle: <https://www.animenewsnetwork.com/encyclopedia/api.php>
 ### Offen
 
 - **aniSearch-API** — Anfrage seit 09.08.2026 unbeantwortet.
-- **Anime News Network** — Encyclopedia-API führt Cast nach Sprache; ungeprüft, ob deutscher Cast
-  dort breiter gepflegt ist als bei AniList.
+- ~~**Anime News Network** — ungeprüft, ob deutscher Cast dort breiter gepflegt ist als bei
+  AniList.~~ **Am 16.08.2026 gemessen und angebunden.** Die Encyclopedia-API führt Sprechrollen je
+  Sprache (`<cast lang="DE">`), erlaubt eine Anfrage pro Sekunde und verlangt Quellenangabe samt
+  Verweis auf den Eintrag. Die Zuordnung AniList → ANN kommt aus dem Offline-Datensatz von
+  manami-project (8.876 Kennungen). Ergebnis: **218 Titel mehr mit belegten deutschen
+  Sprechrollen, 8.737 Rollen** — ANN pflegt den deutschen Cast tatsächlich breiter. Läuft
+  wöchentlich (`data:ann:ids`, `data:ann:voices`), Rohantworten liegen unter `data/ann-raw/`.
 
 ## Entscheidungen
 

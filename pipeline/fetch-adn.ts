@@ -24,7 +24,15 @@ import { addDays, diffDays, todayIso } from '../shared/time.ts'
 import { log, readJson, ROOT, sleep, warn, writeJson } from './lib/util.ts'
 import { searchMedia, type AniListMedia } from './lib/anilist.ts'
 import { recordSource } from './lib/health.ts'
-import { bestimmeRhythmus, type AdnData, type AdnEpisode, type AdnShow } from './lib/adn.ts'
+import {
+  bestimmeRhythmus,
+  bewerteTreffer,
+  passtZuSerie,
+  volltreffer,
+  type AdnData,
+  type AdnEpisode,
+  type AdnShow,
+} from './lib/adn.ts'
 
 // Weiterhin von hier aus verfügbar — die Typen wanderten nach `lib/adn.ts`,
 // weil `build.ts` sie braucht, diese Datei aber beim Laden ihr `main()` startet.
@@ -195,36 +203,6 @@ function sucheVarianten(...titel: (string | undefined)[]): string[] {
   return [...new Set(varianten)]
 }
 
-/**
- * Gegenprobe für einen Suchtreffer — greift die kurzen Varianten ab.
- *
- * Die Kürzung auf den Namenskern rettet Fälle wie „Chinjuu Shima" gegen
- * „Chinjuu-jima", trifft mit zwei Wörtern aber auch beliebiges: „no Bouken"
- * fand „The Enchanted Journey", „to Kaizoku Tachi" fand „Galactic Pirates" —
- * beides keine One-Piece-Filme. Ein falsch zugeordneter Titel ist schlimmer
- * als ein fehlender: Er bringt Cover, Beschreibung und Genres eines fremden
- * Werks mit.
- *
- * Deshalb muss der Treffer ein aussagekräftiges Wort mit dem ADN-Titel teilen.
- * Kurze Füllwörter zählen nicht — sonst genügte „no" oder „the".
- */
-function passtZuSerie(show: { title: string; originalTitle?: string }, media: AniListMedia): boolean {
-  const woerterVon = (s: string) =>
-    new Set(
-      s
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/[̀-ͯ]/g, '')
-        .split(/[^a-z0-9]+/)
-        .filter((w) => w.length >= 4),
-    )
-  const unsere = new Set([...woerterVon(show.title), ...woerterVon(show.originalTitle ?? '')])
-  const ihre = woerterVon(
-    [media.title.romaji, media.title.english, media.title.native].filter(Boolean).join(' '),
-  )
-  for (const wort of unsere) if (ihre.has(wort)) return true
-  return false
-}
 
 /** Ordnet Folgen nach Staffel, dann Nummer, dann Termin. */
 function sortiereFolgen(episodes: AdnEpisode[]): void {
@@ -405,27 +383,35 @@ async function fetchCatalog(): Promise<AdnShow[]> {
    * findet den Reihenkopf, eine längere den richtigen Teil. Bleibt am Ende keine
    * übrig, hat die Serie eben keine Zuordnung — ein falsch zugeordneter Titel
    * ist schlimmer als ein fehlender.
+   *
+   * Und es gewinnt nicht mehr der erste zulässige Treffer, sondern der **beste**
+   * (siehe `bewerteTreffer`). Ein Volltreffer bricht die Suche sofort ab, sonst
+   * kostete die Verbesserung fünfmal so viele Abfragen bei AniList.
    */
   const vergeben = new Map<number, string>()
   for (const show of out) {
     try {
+      let bester: { media: AniListMedia; punkte: number } | undefined
       // Beide Namen anbieten: Der Originaltitel trägt oft Makra und
       // Zirkumflexe, der Anzeigename ist die schlichtere Schreibweise —
       // „Haikyū!!" gegen „Haikyu!!". Welcher trifft, weiß man vorher nicht.
       for (const begriff of sucheVarianten(show.originalTitle, show.title)) {
         const media = await searchMedia(begriff)
         if (!media?.id || !passtZuSerie(show, media)) continue
-        const schon = vergeben.get(media.id)
-        if (schon) {
+        if (vergeben.has(media.id)) {
           warn(
             `ADN-Katalog: "${show.title}" (${show.showId}) fand AniList ${media.id}, ` +
-              `aber den führt schon "${schon}" — nächste Schreibweise.`,
+              `aber den führt schon "${vergeben.get(media.id)}" — nächste Schreibweise.`,
           )
           continue
         }
-        vergeben.set(media.id, show.title)
-        show.anilistId = media.id
-        break
+        const punkte = bewerteTreffer(show, media)
+        if (!bester || punkte > bester.punkte) bester = { media, punkte }
+        if (volltreffer(show, media)) break
+      }
+      if (bester) {
+        vergeben.set(bester.media.id, show.title)
+        show.anilistId = bester.media.id
       }
     } catch (err) {
       warn(`ADN-Katalog: Suche für "${show.title}" fehlgeschlagen: ${(err as Error).message}`)
