@@ -1502,6 +1502,24 @@ function main(): void {
    * der Gültigkeitsbereich war zu eng.
    */
   const belegteTitel = new Set<number>()
+  /**
+   * Wem ein Titel aus eigener Kennung zusteht — der starke Anspruch.
+   *
+   * Zwei Wege führen im Folgenden zu einem Titel: die im Katalogabruf
+   * nachgeschlagene `anilistId` der Serie, und ein Treffer über die Folgenzahl
+   * innerhalb der Reihe. Der erste ist eine Zuordnung, der zweite eine Schätzung
+   * — und die Schätzung einer Serie darf der Zuordnung einer anderen nicht
+   * zuvorkommen.
+   *
+   * Genau das passierte am 17.08.2026: Ein Ein-Folgen-Block landete über die
+   * Folgenzahl auf „ONE PIECE", und als die echte One-Piece-Serie an die Reihe
+   * kam, war ihr eigener Titel vergeben — alle sieben Sagas fielen heraus.
+   */
+  const starkerAnspruch = new Map<number, number>()
+  for (const show of adn.shows) {
+    const eigen = show.anilistId ? titles.get(show.anilistId) : undefined
+    if (eigen && !starkerAnspruch.has(eigen.id)) starkerAnspruch.set(eigen.id, show.showId)
+  }
   for (const show of adn.shows) {
     if (!show.episodes.length) continue
     if (curatedAdnShows.has(normalizeTitle(show.title))) continue
@@ -1530,9 +1548,31 @@ function main(): void {
      * unter einer Kennung.
      */
     const bloecke = staffelBloecke(show)
-    const staffeln = serienTitel?.franchiseId
-      ? staffelnDesFranchise(titles.values(), serienTitel.franchiseId)
-      : []
+    /**
+     * Ein einzelner Block braucht keine Staffelsuche — er **ist** die Serie.
+     *
+     * `ordneBloeckeZuStaffeln` ordnet über die Folgenzahl innerhalb der Reihe zu,
+     * und das ist für einen Film die falsche Frage. Die acht One-Piece-Filme haben
+     * je eine Folge; die Suche fand darum bei allen achten denselben Reihenteil
+     * mit einer Folge — „MONSTERS: Ippaku Sanjou Hiryuu Jigoku", den Pilotfilm von
+     * 1998 — und überschrieb damit die Zuordnung, die der Katalogabruf für jeden
+     * Film einzeln und richtig nachgeschlagen hatte (17.08.2026).
+     *
+     * Steht die Kennung fest, gibt es nur einen Block, **und passt dessen
+     * Folgenzahl in den Titel**, dann gewinnt die Kennung. Alle drei Bedingungen
+     * sind nötig: „To Love-Ru - Darkness" kommt bei ADN als **ein** Block mit 26
+     * Folgen, während der AniList-Eintrag 12 hat — dort umfasst ein einzelner
+     * Block eben doch mehrere Staffeln, und die Suche muss laufen, sonst behauptet
+     * der Datensatz 26 Folgen für einen Zwölfteiler.
+     */
+    const passtInDenTitel =
+      bloecke.length === 1 &&
+      serienTitel?.episodes !== undefined &&
+      bloecke[0].episodes.length <= serienTitel.episodes
+    const staffeln =
+      !passtInDenTitel && serienTitel?.franchiseId
+        ? staffelnDesFranchise(titles.values(), serienTitel.franchiseId)
+        : []
     const zuordnungen = ordneBloeckeZuStaffeln(bloecke, staffeln)
     adnBloecke += bloecke.length
     // Nur wenn es bei einem einzigen Block bleibt, behält das Release seinen
@@ -1561,6 +1601,17 @@ function main(): void {
           warn(
             `ADN ${show.showId} (${show.title}): Staffel ${block.season ?? '?'} mit ${block.episodes.length} Folgen ` +
               `zeigt auf "${title.titleRomaji ?? title.id}", der schon aus einer anderen ADN-Serie stammt — übersprungen.`,
+          )
+          continue
+        }
+        // Der Titel gehört einer anderen Serie aus deren eigener Kennung. Ihn
+        // über einen Folgenzahl-Treffer wegzunehmen hieße, eine Schätzung gegen
+        // eine Zuordnung zu stellen.
+        const inhaber = title ? starkerAnspruch.get(title.id) : undefined
+        if (inhaber !== undefined && inhaber !== show.showId) {
+          warn(
+            `ADN ${show.showId} (${show.title}): Staffel ${block.season ?? '?'} mit ${block.episodes.length} Folgen ` +
+              `zeigt auf "${title!.titleRomaji ?? title!.id}", der laut Katalog zu ADN ${inhaber} gehört — übersprungen.`,
           )
           continue
         }
