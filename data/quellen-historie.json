@@ -2538,5 +2538,23 @@
       "sagt": "2022-09-14",
       "stand": "aktuell"
     }
+  ],
+  "adn-561": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
+      "gesehenAm": "2026-08-17",
+      "sagt": "2019-05-20",
+      "stand": "aktuell"
+    }
+  ],
+  "adn-1294": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
+      "gesehenAm": "2026-08-17",
+      "sagt": "2025-05-16",
+      "stand": "aktuell"
+    }
   ]
 }
