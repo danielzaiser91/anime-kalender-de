@@ -6,13 +6,53 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Slice of Life
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:adn-278@2024-07-11@anime-kalender-de
+UID:adn-1134-s1-20231001@2023-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20240711T070000Z
-DTEND:20240711T073000Z
-SUMMARY:Beyond the Boundary
+DTSTART:20231001T070000Z
+DTEND:20231001T073000Z
+SUMMARY:Free! -Iwatobi Swim Club-
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-278
+ me-kalender.de/#/release/adn-1134-s1-20231001
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1134-s2-20231001@2023-10-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20231001T070000Z
+DTEND:20231001T073000Z
+SUMMARY:Free! -Eternal Summer-
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1134-s2-20231001
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1134-s3-20231001@2023-10-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20231001T070000Z
+DTEND:20231001T073000Z
+SUMMARY:Free! -Dive to the Future-
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1134-s3-20231001
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1180@2024-04-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240409T070000Z
+DTEND:20240409T073000Z
+SUMMARY:Free! -Timeless Medley- The Promise
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1180
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1177@2024-04-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240409T070000Z
+DTEND:20240409T073000Z
+SUMMARY:Free! -Take Your Marks-
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1177
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -26,16 +66,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-03-31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250331T123000Z
-DTEND:20250331T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 1/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1272@2025-04-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250406T083000Z
@@ -43,16 +73,6 @@ DTEND:20250406T090000Z
 SUMMARY:Witch Watch – Folge 1/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1168@2025-04-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250407T123000Z
-DTEND:20250407T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 2/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -66,16 +86,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-04-14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250414T123000Z
-DTEND:20250414T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 3/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1272@2025-04-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250420T083000Z
@@ -83,16 +93,6 @@ DTEND:20250420T090000Z
 SUMMARY:Witch Watch – Folge 3/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1168@2025-04-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250421T123000Z
-DTEND:20250421T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 4/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -106,16 +106,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-04-28@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250428T123000Z
-DTEND:20250428T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 5/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1272@2025-05-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250504T083000Z
@@ -123,16 +113,6 @@ DTEND:20250504T090000Z
 SUMMARY:Witch Watch – Folge 5/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1168@2025-05-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250505T123000Z
-DTEND:20250505T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 6/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -146,16 +126,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-05-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250512T123000Z
-DTEND:20250512T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 7/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1272@2025-05-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250518T083000Z
@@ -163,16 +133,6 @@ DTEND:20250518T090000Z
 SUMMARY:Witch Watch – Folge 7/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1168@2025-05-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250519T123000Z
-DTEND:20250519T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 8/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -186,16 +146,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-05-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250526T123000Z
-DTEND:20250526T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 9/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1272@2025-06-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250601T083000Z
@@ -203,16 +153,6 @@ DTEND:20250601T090000Z
 SUMMARY:Witch Watch – Folge 9/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1168@2025-06-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250602T123000Z
-DTEND:20250602T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 10/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -226,16 +166,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-06-09@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250609T123000Z
-DTEND:20250609T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 11/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1272@2025-06-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250615T083000Z
@@ -243,16 +173,6 @@ DTEND:20250615T090000Z
 SUMMARY:Witch Watch – Folge 11/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1168@2025-06-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250616T123000Z
-DTEND:20250616T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 12/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -266,16 +186,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-06-23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250623T123000Z
-DTEND:20250623T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 13/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1272@2025-06-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250629T083000Z
@@ -283,16 +193,6 @@ DTEND:20250629T090000Z
 SUMMARY:Witch Watch – Folge 13/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1168@2025-06-30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250630T123000Z
-DTEND:20250630T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 14/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -306,16 +206,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-07-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250707T123000Z
-DTEND:20250707T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 15/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1272@2025-07-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250713T083000Z
@@ -323,16 +213,6 @@ DTEND:20250713T090000Z
 SUMMARY:Witch Watch – Folge 15/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1168@2025-07-14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250714T123000Z
-DTEND:20250714T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 16/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -346,16 +226,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-07-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250721T123000Z
-DTEND:20250721T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 17/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1272@2025-07-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250727T083000Z
@@ -363,16 +233,6 @@ DTEND:20250727T090000Z
 SUMMARY:Witch Watch – Folge 17/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1168@2025-07-28@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250728T123000Z
-DTEND:20250728T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 18/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -386,16 +246,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-08-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250804T123000Z
-DTEND:20250804T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 19/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1272@2025-08-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250810T083000Z
@@ -403,16 +253,6 @@ DTEND:20250810T090000Z
 SUMMARY:Witch Watch – Folge 19/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1168@2025-08-11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250811T123000Z
-DTEND:20250811T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 20/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -426,16 +266,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-08-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250818T123000Z
-DTEND:20250818T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 21/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1272@2025-08-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250824T083000Z
@@ -443,16 +273,6 @@ DTEND:20250824T090000Z
 SUMMARY:Witch Watch – Folge 21/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1168@2025-08-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250825T123000Z
-DTEND:20250825T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 22/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -466,16 +286,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-09-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250901T123000Z
-DTEND:20250901T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 23/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1272@2025-09-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250907T083000Z
@@ -483,16 +293,6 @@ DTEND:20250907T090000Z
 SUMMARY:Witch Watch – Folge 23/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1168@2025-09-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250908T123000Z
-DTEND:20250908T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 24/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -516,23 +316,13 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1037-s1-20260213@2026-02-13@anime-kalender-de
+UID:adn-1329@2025-09-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20260213T080000Z
-DTEND:20260213T083000Z
-SUMMARY:The Dangers in My Heart
+DTSTART:20250923T070000Z
+DTEND:20250923T073000Z
+SUMMARY:Love Hina
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-1037-s1-20260213
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1037-s2-20260213@2026-02-13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260213T080000Z
-DTEND:20260213T083000Z
-SUMMARY:The Dangers in My Heart Staffel 2
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-1037-s2-20260213
+ me-kalender.de/#/release/adn-1329
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT

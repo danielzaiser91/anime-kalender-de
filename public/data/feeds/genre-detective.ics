@@ -6,6 +6,16 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Detective
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:adn-336@2026-03-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260304T080000Z
+DTEND:20260304T083000Z
+SUMMARY:Magic Kaito 1412
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-336
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:detektiv-conan-movie-29-kino@2026-08-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260825

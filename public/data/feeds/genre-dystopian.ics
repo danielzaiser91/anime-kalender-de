@@ -6,6 +6,26 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Dystopian
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:adn-561-ssaga-1-east-blue-20190520@2019-05-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20190520T183500Z
+DTEND:20190520T190500Z
+SUMMARY:ONE PIECE
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-561-ssaga-1-east-blue-20190520
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1143@2024-08-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240816T070000Z
+DTEND:20240816T073000Z
+SUMMARY:Wolf's Rain
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1143
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-662@2025-07-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250715T070000Z
@@ -49,6 +69,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1375@2026-04-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260401T140000Z
+DTEND:20260401T143000Z
+SUMMARY:Dorohedoro – Folge 1/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00371893@2026-04-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260408T140000Z
@@ -58,6 +88,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GT00371893
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1375@2026-04-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260408T140000Z
+DTEND:20260408T143000Z
+SUMMARY:Dorohedoro – Folge 2/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00371893@2026-04-15@anime-kalender-de
@@ -71,6 +111,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1375@2026-04-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260415T140000Z
+DTEND:20260415T143000Z
+SUMMARY:Dorohedoro – Folge 3/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00371893@2026-04-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260422T140000Z
@@ -80,6 +130,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GT00371893
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1375@2026-04-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260422T140000Z
+DTEND:20260422T143000Z
+SUMMARY:Dorohedoro – Folge 4/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00371893@2026-04-29@anime-kalender-de
@@ -93,6 +153,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1375@2026-04-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260429T140000Z
+DTEND:20260429T143000Z
+SUMMARY:Dorohedoro – Folge 5/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00371893@2026-05-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260506T140000Z
@@ -102,6 +172,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GT00371893
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1375@2026-05-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260506T140000Z
+DTEND:20260506T143000Z
+SUMMARY:Dorohedoro – Folge 6/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00371893@2026-05-13@anime-kalender-de
@@ -115,6 +195,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1375@2026-05-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260513T140000Z
+DTEND:20260513T143000Z
+SUMMARY:Dorohedoro – Folge 7/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00371893@2026-05-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260520T140000Z
@@ -126,6 +216,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1375@2026-05-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260520T140000Z
+DTEND:20260520T143000Z
+SUMMARY:Dorohedoro – Folge 8/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00371893@2026-05-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260527T140000Z
@@ -134,6 +234,16 @@ SUMMARY:Dorohedoro Staffel 2 – Folge 11/11
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GT00371893
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1375@2026-05-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260527T140000Z
+DTEND:20260527T143000Z
+SUMMARY:Dorohedoro – Folge 9/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:ghost-in-the-shell-2026@2026-07-07@anime-kalender-de

@@ -6,13 +6,13 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Revenge
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:adn-1311@2025-07-11@anime-kalender-de
+UID:adn-1100@2025-02-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20250711T153000Z
-DTEND:20250711T160000Z
-SUMMARY:Tougen Anki – Folge 1/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+DTSTART:20250206T080000Z
+DTEND:20250206T083000Z
+SUMMARY:The Demon Sword Master of Excalibur Academy
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1100
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -26,233 +26,135 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-07-18@anime-kalender-de
+UID:adn-1333@2025-10-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20250718T153000Z
-DTEND:20250718T160000Z
-SUMMARY:Tougen Anki – Folge 2/24
+DTSTART:20251003T150000Z
+DTEND:20251003T153000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 1/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+ ttps://anime-kalender.de/#/release/adn-1333
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-07-25@anime-kalender-de
+UID:adn-1333@2025-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20250725T153000Z
-DTEND:20250725T160000Z
-SUMMARY:Tougen Anki – Folge 3/24
+DTSTART:20251010T150000Z
+DTEND:20251010T153000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 2/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+ ttps://anime-kalender.de/#/release/adn-1333
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-08-01@anime-kalender-de
+UID:adn-1333@2025-10-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20250801T153000Z
-DTEND:20250801T160000Z
-SUMMARY:Tougen Anki – Folge 4/24
+DTSTART:20251017T150000Z
+DTEND:20251017T153000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 3/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+ ttps://anime-kalender.de/#/release/adn-1333
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-08-08@anime-kalender-de
+UID:adn-1333@2025-10-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20250808T153000Z
-DTEND:20250808T160000Z
-SUMMARY:Tougen Anki – Folge 5/24
+DTSTART:20251024T150000Z
+DTEND:20251024T153000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 4/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+ ttps://anime-kalender.de/#/release/adn-1333
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-08-15@anime-kalender-de
+UID:adn-1333@2025-10-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20250815T153000Z
-DTEND:20250815T160000Z
-SUMMARY:Tougen Anki – Folge 6/24
+DTSTART:20251031T160000Z
+DTEND:20251031T163000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 5/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+ ttps://anime-kalender.de/#/release/adn-1333
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-08-22@anime-kalender-de
+UID:adn-1333@2025-11-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20250822T153000Z
-DTEND:20250822T160000Z
-SUMMARY:Tougen Anki – Folge 7/24
+DTSTART:20251107T160000Z
+DTEND:20251107T163000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 6/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+ ttps://anime-kalender.de/#/release/adn-1333
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-08-29@anime-kalender-de
+UID:adn-1333@2025-11-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20250829T153000Z
-DTEND:20250829T160000Z
-SUMMARY:Tougen Anki – Folge 8/24
+DTSTART:20251114T160000Z
+DTEND:20251114T163000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 7/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+ ttps://anime-kalender.de/#/release/adn-1333
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-09-05@anime-kalender-de
+UID:adn-1333@2025-11-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20250905T153000Z
-DTEND:20250905T160000Z
-SUMMARY:Tougen Anki – Folge 9/24
+DTSTART:20251121T160000Z
+DTEND:20251121T163000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 8/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+ ttps://anime-kalender.de/#/release/adn-1333
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-09-12@anime-kalender-de
+UID:adn-1333@2025-11-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20250912T153000Z
-DTEND:20250912T160000Z
-SUMMARY:Tougen Anki – Folge 10/24
+DTSTART:20251128T160000Z
+DTEND:20251128T163000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 9/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+ ttps://anime-kalender.de/#/release/adn-1333
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-09-19@anime-kalender-de
+UID:adn-1333@2025-12-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20250919T153000Z
-DTEND:20250919T160000Z
-SUMMARY:Tougen Anki – Folge 11/24
+DTSTART:20251205T160000Z
+DTEND:20251205T163000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 10/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+ ttps://anime-kalender.de/#/release/adn-1333
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-09-26@anime-kalender-de
+UID:adn-1333@2025-12-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20250926T153000Z
-DTEND:20250926T160000Z
-SUMMARY:Tougen Anki – Folge 12/24
+DTSTART:20251212T160000Z
+DTEND:20251212T163000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 11/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+ ttps://anime-kalender.de/#/release/adn-1333
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-10-03@anime-kalender-de
+UID:adn-1333@2025-12-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20251003T153000Z
-DTEND:20251003T160000Z
-SUMMARY:Tougen Anki – Folge 13/24
+DTSTART:20251219T160000Z
+DTEND:20251219T163000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 12/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1311@2025-10-10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20251010T153000Z
-DTEND:20251010T160000Z
-SUMMARY:Tougen Anki – Folge 14/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1311@2025-10-17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20251017T153000Z
-DTEND:20251017T160000Z
-SUMMARY:Tougen Anki – Folge 15/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1311@2025-10-24@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20251024T153000Z
-DTEND:20251024T160000Z
-SUMMARY:Tougen Anki – Folge 16/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1311@2025-10-31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20251031T163000Z
-DTEND:20251031T170000Z
-SUMMARY:Tougen Anki – Folge 17/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1311@2025-11-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20251107T163000Z
-DTEND:20251107T170000Z
-SUMMARY:Tougen Anki – Folge 18/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1311@2025-11-14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20251114T163000Z
-DTEND:20251114T170000Z
-SUMMARY:Tougen Anki – Folge 19/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1311@2025-11-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20251121T163000Z
-DTEND:20251121T170000Z
-SUMMARY:Tougen Anki – Folge 20/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1311@2025-11-28@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20251128T163000Z
-DTEND:20251128T170000Z
-SUMMARY:Tougen Anki – Folge 21/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1311@2025-12-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20251205T163000Z
-DTEND:20251205T170000Z
-SUMMARY:Tougen Anki – Folge 22/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1311@2025-12-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20251212T163000Z
-DTEND:20251212T170000Z
-SUMMARY:Tougen Anki – Folge 23/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1311@2025-12-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20251219T163000Z
-DTEND:20251219T170000Z
-SUMMARY:Tougen Anki – Folge 24/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+ ttps://anime-kalender.de/#/release/adn-1333
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -289,6 +191,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1375@2026-04-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260401T140000Z
+DTEND:20260401T143000Z
+SUMMARY:Dorohedoro – Folge 1/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00371893@2026-04-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260408T140000Z
@@ -298,6 +210,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GT00371893
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1375@2026-04-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260408T140000Z
+DTEND:20260408T143000Z
+SUMMARY:Dorohedoro – Folge 2/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00371893@2026-04-15@anime-kalender-de
@@ -311,6 +233,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1375@2026-04-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260415T140000Z
+DTEND:20260415T143000Z
+SUMMARY:Dorohedoro – Folge 3/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00371893@2026-04-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260422T140000Z
@@ -320,6 +252,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GT00371893
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1375@2026-04-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260422T140000Z
+DTEND:20260422T143000Z
+SUMMARY:Dorohedoro – Folge 4/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00371893@2026-04-29@anime-kalender-de
@@ -333,6 +275,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1375@2026-04-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260429T140000Z
+DTEND:20260429T143000Z
+SUMMARY:Dorohedoro – Folge 5/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00371893@2026-05-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260506T140000Z
@@ -342,6 +294,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GT00371893
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1375@2026-05-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260506T140000Z
+DTEND:20260506T143000Z
+SUMMARY:Dorohedoro – Folge 6/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00371893@2026-05-13@anime-kalender-de
@@ -355,6 +317,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1375@2026-05-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260513T140000Z
+DTEND:20260513T143000Z
+SUMMARY:Dorohedoro – Folge 7/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00371893@2026-05-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260520T140000Z
@@ -366,6 +338,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1375@2026-05-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260520T140000Z
+DTEND:20260520T143000Z
+SUMMARY:Dorohedoro – Folge 8/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00371893@2026-05-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260527T140000Z
@@ -374,6 +356,16 @@ SUMMARY:Dorohedoro Staffel 2 – Folge 11/11
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GT00371893
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1375@2026-05-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260527T140000Z
+DTEND:20260527T143000Z
+SUMMARY:Dorohedoro – Folge 9/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-07-29@anime-kalender-de

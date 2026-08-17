@@ -6,123 +6,563 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:adn-971-s1-20221013@2022-10-13@anime-kalender-de
+UID:adn-344-s1-20150112@2015-01-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20221013T165500Z
-DTEND:20221013T172500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 1 & 2 – Folge 1/23
+DTSTART:20150112T224000Z
+DTEND:20150112T231000Z
+SUMMARY:Assassination Classroom – Folge 1/22
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s1-20221013
+ ttps://anime-kalender.de/#/release/adn-344-s1-20150112
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-971-s1-20221013@2022-10-20@anime-kalender-de
+UID:adn-344-s1-20150112@2015-01-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20221020T165500Z
-DTEND:20221020T172500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 1 & 2 – Folge 2/23
+DTSTART:20150119T224000Z
+DTEND:20150119T231000Z
+SUMMARY:Assassination Classroom – Folge 2/22
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s1-20221013
+ ttps://anime-kalender.de/#/release/adn-344-s1-20150112
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-971-s1-20221013@2022-10-27@anime-kalender-de
+UID:adn-344-s1-20150112@2015-01-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20221027T165500Z
-DTEND:20221027T172500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 1 & 2 – Folge 3/23
+DTSTART:20150126T224000Z
+DTEND:20150126T231000Z
+SUMMARY:Assassination Classroom – Folge 3/22
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s1-20221013
+ ttps://anime-kalender.de/#/release/adn-344-s1-20150112
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-971-s1-20221013@2022-11-03@anime-kalender-de
+UID:adn-344-s1-20150112@2015-02-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20221103T175500Z
-DTEND:20221103T182500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 1 & 2 – Folge 4/23
+DTSTART:20150202T224000Z
+DTEND:20150202T231000Z
+SUMMARY:Assassination Classroom – Folge 4/22
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s1-20221013
+ ttps://anime-kalender.de/#/release/adn-344-s1-20150112
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-971-s1-20221013@2022-11-10@anime-kalender-de
+UID:adn-344-s1-20150112@2015-02-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20221110T175500Z
-DTEND:20221110T182500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 1 & 2 – Folge 5/23
+DTSTART:20150209T224000Z
+DTEND:20150209T231000Z
+SUMMARY:Assassination Classroom – Folge 5/22
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s1-20221013
+ ttps://anime-kalender.de/#/release/adn-344-s1-20150112
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-971-s1-20221013@2022-11-17@anime-kalender-de
+UID:adn-344-s1-20150112@2015-02-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20221117T175500Z
-DTEND:20221117T182500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 1 & 2 – Folge 6/23
+DTSTART:20150216T224000Z
+DTEND:20150216T231000Z
+SUMMARY:Assassination Classroom – Folge 6/22
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s1-20221013
+ ttps://anime-kalender.de/#/release/adn-344-s1-20150112
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-971-s1-20221013@2022-11-24@anime-kalender-de
+UID:adn-344-s1-20150112@2015-02-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20221124T175500Z
-DTEND:20221124T182500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 1 & 2 – Folge 7/23
+DTSTART:20150223T224000Z
+DTEND:20150223T231000Z
+SUMMARY:Assassination Classroom – Folge 7/22
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s1-20221013
+ ttps://anime-kalender.de/#/release/adn-344-s1-20150112
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-971-s1-20221013@2022-12-01@anime-kalender-de
+UID:adn-344-s1-20150112@2015-03-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20221201T175500Z
-DTEND:20221201T182500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 1 & 2 – Folge 8/23
+DTSTART:20150302T224000Z
+DTEND:20150302T231000Z
+SUMMARY:Assassination Classroom – Folge 8/22
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s1-20221013
+ ttps://anime-kalender.de/#/release/adn-344-s1-20150112
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-971-s1-20221013@2022-12-08@anime-kalender-de
+UID:adn-344-s1-20150112@2015-03-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20221208T175500Z
-DTEND:20221208T182500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 1 & 2 – Folge 9/23
+DTSTART:20150309T224000Z
+DTEND:20150309T231000Z
+SUMMARY:Assassination Classroom – Folge 9/22
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s1-20221013
+ ttps://anime-kalender.de/#/release/adn-344-s1-20150112
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-971-s1-20221013@2022-12-15@anime-kalender-de
+UID:adn-344-s1-20150112@2015-03-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20221215T175500Z
-DTEND:20221215T182500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 1 & 2 – Folge 10/23
+DTSTART:20150316T224000Z
+DTEND:20150316T231000Z
+SUMMARY:Assassination Classroom – Folge 10/22
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s1-20221013
+ ttps://anime-kalender.de/#/release/adn-344-s1-20150112
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-971-s1-20221013@2022-12-22@anime-kalender-de
+UID:adn-344-s1-20150112@2015-03-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20221222T175500Z
-DTEND:20221222T182500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 1 & 2 – Folge 11/23
+DTSTART:20150323T224000Z
+DTEND:20150323T231000Z
+SUMMARY:Assassination Classroom – Folge 11/22
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s1-20221013
+ ttps://anime-kalender.de/#/release/adn-344-s1-20150112
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-971-s1-20221013@2022-12-29@anime-kalender-de
+UID:adn-344-s1-20150112@2015-03-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20221229T175500Z
-DTEND:20221229T182500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 1 & 2 – Folge 12/23
+DTSTART:20150330T214000Z
+DTEND:20150330T221000Z
+SUMMARY:Assassination Classroom – Folge 12/22
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s1-20221013
+ ttps://anime-kalender.de/#/release/adn-344-s1-20150112
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s1-20150112@2015-04-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20150406T214000Z
+DTEND:20150406T221000Z
+SUMMARY:Assassination Classroom – Folge 13/22
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s1-20150112
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s1-20150112@2015-04-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20150413T214000Z
+DTEND:20150413T221000Z
+SUMMARY:Assassination Classroom – Folge 14/22
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s1-20150112
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s1-20150112@2015-04-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20150420T214000Z
+DTEND:20150420T221000Z
+SUMMARY:Assassination Classroom – Folge 15/22
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s1-20150112
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s1-20150112@2015-04-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20150427T214000Z
+DTEND:20150427T221000Z
+SUMMARY:Assassination Classroom – Folge 16/22
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s1-20150112
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s1-20150112@2015-05-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20150504T214000Z
+DTEND:20150504T221000Z
+SUMMARY:Assassination Classroom – Folge 17/22
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s1-20150112
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s1-20150112@2015-05-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20150511T214000Z
+DTEND:20150511T221000Z
+SUMMARY:Assassination Classroom – Folge 18/22
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s1-20150112
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s1-20150112@2015-05-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20150518T214000Z
+DTEND:20150518T221000Z
+SUMMARY:Assassination Classroom – Folge 19/22
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s1-20150112
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s1-20150112@2015-05-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20150525T214000Z
+DTEND:20150525T221000Z
+SUMMARY:Assassination Classroom – Folge 20/22
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s1-20150112
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s1-20150112@2015-06-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20150601T214000Z
+DTEND:20150601T221000Z
+SUMMARY:Assassination Classroom – Folge 21/22
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s1-20150112
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s1-20150112@2015-06-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20150608T214000Z
+DTEND:20150608T221000Z
+SUMMARY:Assassination Classroom – Folge 22/22
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s1-20150112
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-01-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160107T180000Z
+DTEND:20160107T183000Z
+SUMMARY:Assassination Classroom Second Season – Folge 1/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-01-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160114T180000Z
+DTEND:20160114T183000Z
+SUMMARY:Assassination Classroom Second Season – Folge 2/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-01-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160121T180000Z
+DTEND:20160121T183000Z
+SUMMARY:Assassination Classroom Second Season – Folge 3/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-01-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160128T180000Z
+DTEND:20160128T183000Z
+SUMMARY:Assassination Classroom Second Season – Folge 4/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-02-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160204T180000Z
+DTEND:20160204T183000Z
+SUMMARY:Assassination Classroom Second Season – Folge 5/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-02-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160211T180000Z
+DTEND:20160211T183000Z
+SUMMARY:Assassination Classroom Second Season – Folge 6/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-02-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160218T180000Z
+DTEND:20160218T183000Z
+SUMMARY:Assassination Classroom Second Season – Folge 7/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-02-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160225T180000Z
+DTEND:20160225T183000Z
+SUMMARY:Assassination Classroom Second Season – Folge 8/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-03-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160303T180000Z
+DTEND:20160303T183000Z
+SUMMARY:Assassination Classroom Second Season – Folge 9/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-03-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160310T180000Z
+DTEND:20160310T183000Z
+SUMMARY:Assassination Classroom Second Season – Folge 10/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-03-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160317T180000Z
+DTEND:20160317T183000Z
+SUMMARY:Assassination Classroom Second Season – Folge 11/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-03-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160324T180000Z
+DTEND:20160324T183000Z
+SUMMARY:Assassination Classroom Second Season – Folge 12/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-03-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160331T170000Z
+DTEND:20160331T173000Z
+SUMMARY:Assassination Classroom Second Season – Folge 13/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-04-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160407T170000Z
+DTEND:20160407T173000Z
+SUMMARY:Assassination Classroom Second Season – Folge 14/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-04-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160414T170000Z
+DTEND:20160414T173000Z
+SUMMARY:Assassination Classroom Second Season – Folge 15/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-04-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160421T170000Z
+DTEND:20160421T173000Z
+SUMMARY:Assassination Classroom Second Season – Folge 16/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-04-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160428T170000Z
+DTEND:20160428T173000Z
+SUMMARY:Assassination Classroom Second Season – Folge 17/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-05-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160505T170000Z
+DTEND:20160505T173000Z
+SUMMARY:Assassination Classroom Second Season – Folge 18/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-05-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160512T170000Z
+DTEND:20160512T173000Z
+SUMMARY:Assassination Classroom Second Season – Folge 19/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-05-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160519T170000Z
+DTEND:20160519T173000Z
+SUMMARY:Assassination Classroom Second Season – Folge 20/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-05-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160526T170000Z
+DTEND:20160526T173000Z
+SUMMARY:Assassination Classroom Second Season – Folge 21/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-06-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160602T170000Z
+DTEND:20160602T173000Z
+SUMMARY:Assassination Classroom Second Season – Folge 22/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-06-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160609T170000Z
+DTEND:20160609T173000Z
+SUMMARY:Assassination Classroom Second Season – Folge 23/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-06-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160616T170000Z
+DTEND:20160616T173000Z
+SUMMARY:Assassination Classroom Second Season – Folge 24/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-344-s2-20160107@2016-06-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20160623T170000Z
+DTEND:20160623T173000Z
+SUMMARY:Assassination Classroom Second Season – Folge 25/25
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-344-s2-20160107
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-561-ssaga-1-east-blue-20190520@2019-05-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20190520T183500Z
+DTEND:20190520T190500Z
+SUMMARY:ONE PIECE
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-561-ssaga-1-east-blue-20190520
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-906@2022-07-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220706T150000Z
+DTEND:20220706T153000Z
+SUMMARY:One Piece The Movie: The Dead End Adventure
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-906
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-907@2022-07-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220706T150000Z
+DTEND:20220706T153000Z
+SUMMARY:One Piece: The Curse of the Sacred Sword
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-907
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-905@2022-07-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220706T150000Z
+DTEND:20220706T153000Z
+SUMMARY:One Piece: Chopper’s Kingdom on the Island of Strange Animals
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-905
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-925@2022-08-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220810T150000Z
+DTEND:20220810T153000Z
+SUMMARY:One Piece: Episode Of Chopper +: The Miracle Winter Cherry Blossom
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-925
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-923@2022-08-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220810T150000Z
+DTEND:20220810T153000Z
+SUMMARY:One Piece: Mega Mecha Soldier of Karakuri Castle
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-923
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-920@2022-08-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220810T150000Z
+DTEND:20220810T153000Z
+SUMMARY:One Piece: Baron Omatsuri and the Secret Island
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-920
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-918@2022-08-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220824T150000Z
+DTEND:20220824T153000Z
+SUMMARY:Steins\;Gate
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-918
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-948@2022-09-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220914T150000Z
+DTEND:20220914T153000Z
+SUMMARY:One Piece Film: Strong World
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-948
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -136,113 +576,53 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-971-s1-20221013@2023-01-05@anime-kalender-de
+UID:adn-991@2023-01-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20230105T175500Z
-DTEND:20230105T182500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 1 & 2 – Folge 13/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s1-20221013
+DTSTART:20230117T160000Z
+DTEND:20230117T163000Z
+SUMMARY:Steins\;Gate 0
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-991
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-971-s1-20221013@2023-01-12@anime-kalender-de
+UID:adn-1139-s1-20231001@2023-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20230112T175500Z
-DTEND:20230112T182500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 1 & 2 – Folge 14/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s1-20221013
+DTSTART:20231001T070000Z
+DTEND:20231001T073000Z
+SUMMARY:Rosario + Vampire
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1139-s1-20231001
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-971-s1-20221013@2023-01-19@anime-kalender-de
+UID:adn-1139-s2-20231001@2023-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20230119T175500Z
-DTEND:20230119T182500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 1 & 2 – Folge 15/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s1-20221013
+DTSTART:20231001T070000Z
+DTEND:20231001T073000Z
+SUMMARY:Rosario + Vampire Capu2
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1139-s2-20231001
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-971-s1-20221013@2023-01-26@anime-kalender-de
+UID:adn-1137@2023-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20230126T175500Z
-DTEND:20230126T182500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 1 & 2 – Folge 16/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s1-20221013
+DTSTART:20231001T070000Z
+DTEND:20231001T073000Z
+SUMMARY:LOVE STAGE!!
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1137
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-971-s1-20221013@2023-02-02@anime-kalender-de
+UID:adn-1142@2023-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20230202T175500Z
-DTEND:20230202T182500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 1 & 2 – Folge 17/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s1-20221013
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-971-s1-20221013@2023-02-09@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20230209T175500Z
-DTEND:20230209T182500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 1 & 2 – Folge 18/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s1-20221013
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-971-s1-20221013@2023-02-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20230216T175500Z
-DTEND:20230216T182500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 1 & 2 – Folge 19/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s1-20221013
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-971-s1-20221013@2023-02-23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20230223T175500Z
-DTEND:20230223T182500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 1 & 2 – Folge 20/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s1-20221013
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-971-s1-20221013@2023-03-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20230302T175500Z
-DTEND:20230302T182500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 1 & 2 – Folge 21/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s1-20221013
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-971-s1-20221013@2023-03-09@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20230309T175500Z
-DTEND:20230309T182500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 1 & 2 – Folge 22/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s1-20221013
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-971-s1-20221013@2023-03-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20230316T175500Z
-DTEND:20230316T182500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 1 & 2 – Folge 23/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s1-20221013
+DTSTART:20231001T070000Z
+DTEND:20231001T073000Z
+SUMMARY:Cautious Hero: The Hero Is Overpowered but Overly Cautious
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1142
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -296,43 +676,53 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-971-s2-20240111@2024-01-11@anime-kalender-de
+UID:adn-1136@2023-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20240111T165500Z
-DTEND:20240111T172500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 3 & 4 – Folge 1/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s2-20240111
+DTSTART:20231001T070000Z
+DTEND:20231001T073000Z
+SUMMARY:Kenichi: The Mightiest Disciple
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1136
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-971-s2-20240111@2024-01-18@anime-kalender-de
+UID:adn-1134-s1-20231001@2023-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20240118T165500Z
-DTEND:20240118T172500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 3 & 4 – Folge 2/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s2-20240111
+DTSTART:20231001T070000Z
+DTEND:20231001T073000Z
+SUMMARY:Free! -Iwatobi Swim Club-
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1134-s1-20231001
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-971-s2-20240111@2024-01-25@anime-kalender-de
+UID:adn-1134-s2-20231001@2023-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20240125T165500Z
-DTEND:20240125T172500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 3 & 4 – Folge 3/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s2-20240111
+DTSTART:20231001T070000Z
+DTEND:20231001T073000Z
+SUMMARY:Free! -Eternal Summer-
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1134-s2-20231001
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-971-s2-20240111@2024-02-01@anime-kalender-de
+UID:adn-1134-s3-20231001@2023-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20240201T165500Z
-DTEND:20240201T172500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 3 & 4 – Folge 4/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s2-20240111
+DTSTART:20231001T070000Z
+DTEND:20231001T073000Z
+SUMMARY:Free! -Dive to the Future-
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1134-s3-20231001
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1106@2024-01-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240121T150000Z
+DTEND:20240121T153000Z
+SUMMARY:MONSTERS: 103 Mercies Dragon Damnation
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1106
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -346,213 +736,103 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-971-s2-20240111@2024-02-08@anime-kalender-de
+UID:adn-1180@2024-04-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20240208T165500Z
-DTEND:20240208T172500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 3 & 4 – Folge 5/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s2-20240111
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-971-s2-20240111@2024-02-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20240215T165500Z
-DTEND:20240215T172500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 3 & 4 – Folge 6/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s2-20240111
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-971-s2-20240111@2024-02-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20240222T165500Z
-DTEND:20240222T172500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 3 & 4 – Folge 7/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s2-20240111
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-971-s2-20240111@2024-02-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20240229T165500Z
-DTEND:20240229T172500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 3 & 4 – Folge 8/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s2-20240111
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-971-s2-20240111@2024-03-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20240307T165500Z
-DTEND:20240307T172500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 3 & 4 – Folge 9/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s2-20240111
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-971-s2-20240111@2024-03-14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20240314T165500Z
-DTEND:20240314T172500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 3 & 4 – Folge 10/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s2-20240111
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-971-s2-20240111@2024-03-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20240321T165500Z
-DTEND:20240321T172500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 3 & 4 – Folge 11/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s2-20240111
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-971-s2-20240111@2024-03-28@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20240328T165500Z
-DTEND:20240328T172500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 3 & 4 – Folge 12/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s2-20240111
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-971-s2-20240111@2024-04-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20240404T155500Z
-DTEND:20240404T162500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 3 & 4 – Folge 13/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s2-20240111
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-971-s2-20240111@2024-04-11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20240411T155500Z
-DTEND:20240411T162500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 3 & 4 – Folge 14/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s2-20240111
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-971-s2-20240111@2024-04-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20240418T155500Z
-DTEND:20240418T162500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 3 & 4 – Folge 15/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s2-20240111
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-971-s2-20240111@2024-04-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20240425T155500Z
-DTEND:20240425T162500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 3 & 4 – Folge 16/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s2-20240111
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-971-s2-20240111@2024-05-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20240502T155500Z
-DTEND:20240502T162500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 3 & 4 – Folge 17/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s2-20240111
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-971-s2-20240111@2024-05-09@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20240509T155500Z
-DTEND:20240509T162500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 3 & 4 – Folge 18/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s2-20240111
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-971-s2-20240111@2024-05-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20240516T155500Z
-DTEND:20240516T162500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 3 & 4 – Folge 19/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s2-20240111
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-971-s2-20240111@2024-05-23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20240523T155500Z
-DTEND:20240523T162500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 3 & 4 – Folge 20/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s2-20240111
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-971-s2-20240111@2024-05-30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20240530T155500Z
-DTEND:20240530T162500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 3 & 4 – Folge 21/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s2-20240111
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1197@2024-06-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20240606T070000Z
-DTEND:20240606T073000Z
-SUMMARY:Aesthetica of a Rogue Hero
+DTSTART:20240409T070000Z
+DTEND:20240409T073000Z
+SUMMARY:Free! -Timeless Medley- The Promise
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-1197
+ me-kalender.de/#/release/adn-1180
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-971-s2-20240111@2024-06-06@anime-kalender-de
+UID:adn-1177@2024-04-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20240606T155500Z
-DTEND:20240606T162500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 3 & 4 – Folge 22/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s2-20240111
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-971-s2-20240111@2024-06-13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20240613T155500Z
-DTEND:20240613T162500Z
-SUMMARY:Urusei Yatsura (2022) Staffeln 3 & 4 – Folge 23/23
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-971-s2-20240111
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-278@2024-07-11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20240711T070000Z
-DTEND:20240711T073000Z
-SUMMARY:Beyond the Boundary
+DTSTART:20240409T070000Z
+DTEND:20240409T073000Z
+SUMMARY:Free! -Take Your Marks-
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-278
+ me-kalender.de/#/release/adn-1177
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1183@2024-04-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240416T070000Z
+DTEND:20240416T073000Z
+SUMMARY:Haikyuu!! the Movie: The Winner and the Loser
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1183
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1182@2024-04-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240416T070000Z
+DTEND:20240416T073000Z
+SUMMARY:Haikyu!! the Movie: The End and the Beginning
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1182
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1184@2024-04-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240416T070000Z
+DTEND:20240416T073000Z
+SUMMARY:Haikyu!! The Movie: Talent and Sense
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1184
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1141-s1-20240510@2024-05-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240510T070000Z
+DTEND:20240510T073000Z
+SUMMARY:The Testament of Sister New Devil
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1141-s1-20240510
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1141-s2-20240510@2024-05-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240510T070000Z
+DTEND:20240510T073000Z
+SUMMARY:The Testament of Sister New Devil BURST
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1141-s2-20240510
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1201@2024-06-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240613T070000Z
+DTEND:20240613T073000Z
+SUMMARY:Clannad: The Motion Picture
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1201
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1140@2024-07-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240703T070000Z
+DTEND:20240703T073000Z
+SUMMARY:Steins\;Gate The Movie – Load Region of Déjà Vu
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1140
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-654@2024-07-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240718T070000Z
+DTEND:20240718T073000Z
+SUMMARY:Sankarea: Undying Love
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-654
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -576,23 +856,33 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-684@2024-09-05@anime-kalender-de
+UID:adn-1133@2024-08-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20240905T070000Z
-DTEND:20240905T073000Z
-SUMMARY:Motto To Love Ru
+DTSTART:20240808T070000Z
+DTEND:20240808T073000Z
+SUMMARY:Demon King Daimao
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-684
+ me-kalender.de/#/release/adn-1133
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-217@2024-09-05@anime-kalender-de
+UID:adn-1143@2024-08-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240816T070000Z
+DTEND:20240816T073000Z
+SUMMARY:Wolf's Rain
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1143
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-670@2024-09-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20240905T070000Z
 DTEND:20240905T073000Z
 SUMMARY:To Love Ru
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-217
+ me-kalender.de/#/release/adn-670
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -616,16 +906,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1160-s1-20241003-171018@2024-10-03@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20241003T160000Z
-DTEND:20241003T163000Z
-SUMMARY:DAN DA DAN – Folge 1/12
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-171018
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1233@2024-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241010T150000Z
@@ -633,16 +913,6 @@ DTEND:20241010T153000Z
 SUMMARY:Loner Life in Another World – Folge 3/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1233
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160-s1-20241003-171018@2024-10-10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20241010T160000Z
-DTEND:20241010T163000Z
-SUMMARY:DAN DA DAN – Folge 2/12
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-171018
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -656,16 +926,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1160-s1-20241003-171018@2024-10-17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20241017T160000Z
-DTEND:20241017T163000Z
-SUMMARY:DAN DA DAN – Folge 3/12
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-171018
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1233@2024-10-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241024T150000Z
@@ -673,16 +933,6 @@ DTEND:20241024T153000Z
 SUMMARY:Loner Life in Another World – Folge 5/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1233
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160-s1-20241003-171018@2024-10-24@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20241024T160000Z
-DTEND:20241024T163000Z
-SUMMARY:DAN DA DAN – Folge 4/12
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-171018
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -696,16 +946,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1160-s1-20241003-171018@2024-10-31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20241031T170000Z
-DTEND:20241031T173000Z
-SUMMARY:DAN DA DAN – Folge 5/12
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-171018
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1233@2024-11-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241107T160000Z
@@ -713,16 +953,6 @@ DTEND:20241107T163000Z
 SUMMARY:Loner Life in Another World – Folge 7/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1233
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160-s1-20241003-171018@2024-11-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20241107T170000Z
-DTEND:20241107T173000Z
-SUMMARY:DAN DA DAN – Folge 6/12
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-171018
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -736,16 +966,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1160-s1-20241003-171018@2024-11-14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20241114T170000Z
-DTEND:20241114T173000Z
-SUMMARY:DAN DA DAN – Folge 7/12
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-171018
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1233@2024-11-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241121T160000Z
@@ -753,16 +973,6 @@ DTEND:20241121T163000Z
 SUMMARY:Loner Life in Another World – Folge 9/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1233
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160-s1-20241003-171018@2024-11-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20241121T170000Z
-DTEND:20241121T173000Z
-SUMMARY:DAN DA DAN – Folge 8/12
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-171018
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -776,16 +986,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1160-s1-20241003-171018@2024-11-28@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20241128T170000Z
-DTEND:20241128T173000Z
-SUMMARY:DAN DA DAN – Folge 9/12
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-171018
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1233@2024-12-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241205T160000Z
@@ -793,16 +993,6 @@ DTEND:20241205T163000Z
 SUMMARY:Loner Life in Another World – Folge 11/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1233
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160-s1-20241003-171018@2024-12-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20241205T170000Z
-DTEND:20241205T173000Z
-SUMMARY:DAN DA DAN – Folge 10/12
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-171018
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -816,26 +1006,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1160-s1-20241003-171018@2024-12-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20241212T170000Z
-DTEND:20241212T173000Z
-SUMMARY:DAN DA DAN – Folge 11/12
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-171018
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160-s1-20241003-171018@2024-12-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20241219T170000Z
-DTEND:20241219T173000Z
-SUMMARY:DAN DA DAN – Folge 12/12
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-171018
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1164@2025-01-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250110T080000Z
@@ -846,23 +1016,33 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1122@2025-01-24@anime-kalender-de
+UID:adn-405-s1-20250115@2025-01-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20250124T080000Z
-DTEND:20250124T083000Z
-SUMMARY:My Instant Death Ability is Overpowered
+DTSTART:20250115T080000Z
+DTEND:20250115T083000Z
+SUMMARY:My Hero Academia
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-1122
+ me-kalender.de/#/release/adn-405-s1-20250115
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-03-31@anime-kalender-de
+UID:adn-405-s2-20250115@2025-01-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20250331T123000Z
-DTEND:20250331T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 1/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
+DTSTART:20250115T080000Z
+DTEND:20250115T083000Z
+SUMMARY:My Hero Academia Staffel 2
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-405-s2-20250115
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1100@2025-02-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250206T080000Z
+DTEND:20250206T083000Z
+SUMMARY:The Demon Sword Master of Excalibur Academy
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1100
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -876,16 +1056,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-04-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250407T123000Z
-DTEND:20250407T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 2/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1272@2025-04-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250413T083000Z
@@ -893,16 +1063,6 @@ DTEND:20250413T090000Z
 SUMMARY:Witch Watch – Folge 2/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1168@2025-04-14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250414T123000Z
-DTEND:20250414T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 3/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -916,16 +1076,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-04-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250421T123000Z
-DTEND:20250421T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 4/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1272@2025-04-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250427T083000Z
@@ -933,16 +1083,6 @@ DTEND:20250427T090000Z
 SUMMARY:Witch Watch – Folge 4/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1168@2025-04-28@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250428T123000Z
-DTEND:20250428T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 5/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -956,16 +1096,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-05-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250505T123000Z
-DTEND:20250505T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 6/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1272@2025-05-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250511T083000Z
@@ -976,13 +1106,13 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-05-12@anime-kalender-de
+UID:adn-1294-s1-20250516@2025-05-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20250512T123000Z
-DTEND:20250512T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 7/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
+DTSTART:20250516T100000Z
+DTEND:20250516T103000Z
+SUMMARY:Super Cube
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1294-s1-20250516
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -996,16 +1126,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-05-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250519T123000Z
-DTEND:20250519T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 8/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1272@2025-05-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250525T083000Z
@@ -1013,16 +1133,6 @@ DTEND:20250525T090000Z
 SUMMARY:Witch Watch – Folge 8/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1168@2025-05-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250526T123000Z
-DTEND:20250526T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 9/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -1036,16 +1146,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-06-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250602T123000Z
-DTEND:20250602T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 10/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1272@2025-06-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250608T083000Z
@@ -1056,13 +1156,13 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-06-09@anime-kalender-de
+UID:adn-1305@2025-06-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20250609T123000Z
-DTEND:20250609T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 11/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
+DTSTART:20250611T070000Z
+DTEND:20250611T073000Z
+SUMMARY:Sword Art Online EXTRA EDITION
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1305
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -1086,6 +1186,16 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1309@2025-06-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250611T070000Z
+DTEND:20250611T073000Z
+SUMMARY:Sword Art Online the Movie: Ordinal Scale
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1309
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-1272@2025-06-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250615T083000Z
@@ -1093,16 +1203,6 @@ DTEND:20250615T090000Z
 SUMMARY:Witch Watch – Folge 11/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1168@2025-06-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250616T123000Z
-DTEND:20250616T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 12/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -1116,16 +1216,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-06-23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250623T123000Z
-DTEND:20250623T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 13/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1272@2025-06-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250629T083000Z
@@ -1133,26 +1223,6 @@ DTEND:20250629T090000Z
 SUMMARY:Witch Watch – Folge 13/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1168@2025-06-30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250630T123000Z
-DTEND:20250630T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 14/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160-s1-20241003-185660@2025-07-03@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250703T160000Z
-DTEND:20250703T163000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Folge 1/12
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-185660
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -1166,36 +1236,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-07-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250707T123000Z
-DTEND:20250707T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 15/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160-s1-20241003-185660@2025-07-10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250710T160000Z
-DTEND:20250710T163000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Folge 2/12
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-185660
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1311@2025-07-11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250711T153000Z
-DTEND:20250711T160000Z
-SUMMARY:Tougen Anki – Folge 1/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1272@2025-07-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250713T083000Z
@@ -1203,16 +1243,6 @@ DTEND:20250713T090000Z
 SUMMARY:Witch Watch – Folge 15/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1168@2025-07-14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250714T123000Z
-DTEND:20250714T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 16/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -1256,26 +1286,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1160-s1-20241003-185660@2025-07-17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250717T160000Z
-DTEND:20250717T163000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Folge 3/12
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-185660
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1311@2025-07-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250718T153000Z
-DTEND:20250718T160000Z
-SUMMARY:Tougen Anki – Folge 2/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1272@2025-07-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250720T083000Z
@@ -1283,36 +1293,6 @@ DTEND:20250720T090000Z
 SUMMARY:Witch Watch – Folge 16/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1168@2025-07-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250721T123000Z
-DTEND:20250721T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 17/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160-s1-20241003-185660@2025-07-24@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250724T160000Z
-DTEND:20250724T163000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Folge 4/12
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-185660
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1311@2025-07-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250725T153000Z
-DTEND:20250725T160000Z
-SUMMARY:Tougen Anki – Folge 3/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -1326,33 +1306,13 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-07-28@anime-kalender-de
+UID:adn-1315@2025-07-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20250728T123000Z
-DTEND:20250728T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 18/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160-s1-20241003-185660@2025-07-31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250731T160000Z
-DTEND:20250731T163000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Folge 5/12
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-185660
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1311@2025-08-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250801T153000Z
-DTEND:20250801T160000Z
-SUMMARY:Tougen Anki – Folge 4/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+DTSTART:20250729T070000Z
+DTEND:20250729T073000Z
+SUMMARY:Sword Art Online Alternative: Gun Gale Online
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1315
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -1366,36 +1326,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-08-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250804T123000Z
-DTEND:20250804T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 19/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160-s1-20241003-185660@2025-08-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250807T160000Z
-DTEND:20250807T163000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Folge 6/12
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-185660
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1311@2025-08-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250808T153000Z
-DTEND:20250808T160000Z
-SUMMARY:Tougen Anki – Folge 5/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1272@2025-08-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250810T083000Z
@@ -1403,16 +1333,6 @@ DTEND:20250810T090000Z
 SUMMARY:Witch Watch – Folge 19/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1168@2025-08-11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250811T123000Z
-DTEND:20250811T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 20/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -1426,26 +1346,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1160-s1-20241003-185660@2025-08-14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250814T160000Z
-DTEND:20250814T163000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Folge 7/12
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-185660
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1311@2025-08-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250815T153000Z
-DTEND:20250815T160000Z
-SUMMARY:Tougen Anki – Folge 6/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1272@2025-08-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250817T083000Z
@@ -1453,16 +1353,6 @@ DTEND:20250817T090000Z
 SUMMARY:Witch Watch – Folge 20/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1168@2025-08-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250818T123000Z
-DTEND:20250818T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 21/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -1476,26 +1366,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1160-s1-20241003-185660@2025-08-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250821T160000Z
-DTEND:20250821T163000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Folge 8/12
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-185660
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1311@2025-08-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250822T153000Z
-DTEND:20250822T160000Z
-SUMMARY:Tougen Anki – Folge 7/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1272@2025-08-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250824T083000Z
@@ -1503,36 +1373,6 @@ DTEND:20250824T090000Z
 SUMMARY:Witch Watch – Folge 21/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1168@2025-08-25@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250825T123000Z
-DTEND:20250825T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 22/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160-s1-20241003-185660@2025-08-28@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250828T160000Z
-DTEND:20250828T163000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Folge 9/12
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-185660
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1311@2025-08-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250829T153000Z
-DTEND:20250829T160000Z
-SUMMARY:Tougen Anki – Folge 8/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -1546,16 +1386,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-09-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250901T123000Z
-DTEND:20250901T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 23/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1325@2025-09-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250904T070000Z
@@ -1563,26 +1393,6 @@ DTEND:20250904T073000Z
 SUMMARY:Alderamin on the Sky
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-1325
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160-s1-20241003-185660@2025-09-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250904T160000Z
-DTEND:20250904T163000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Folge 10/12
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-185660
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1311@2025-09-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250905T153000Z
-DTEND:20250905T160000Z
-SUMMARY:Tougen Anki – Folge 9/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -1596,36 +1406,6 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1168@2025-09-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250908T123000Z
-DTEND:20250908T130000Z
-SUMMARY:Sword of the Demon Hunter – Folge 24/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1168
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160-s1-20241003-185660@2025-09-11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250911T160000Z
-DTEND:20250911T163000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Folge 11/12
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-185660
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1311@2025-09-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250912T153000Z
-DTEND:20250912T160000Z
-SUMMARY:Tougen Anki – Folge 10/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-1272@2025-09-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250914T083000Z
@@ -1633,26 +1413,6 @@ DTEND:20250914T090000Z
 SUMMARY:Witch Watch – Folge 24/25
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1272
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1160-s1-20241003-185660@2025-09-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250918T160000Z
-DTEND:20250918T163000Z
-SUMMARY:DAN DA DAN (Staffel 2) – Folge 12/12
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1160-s1-20241003-185660
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1311@2025-09-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250919T153000Z
-DTEND:20250919T160000Z
-SUMMARY:Tougen Anki – Folge 11/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -1666,53 +1426,67 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-09-26@anime-kalender-de
+UID:adn-1329@2025-09-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20250926T153000Z
-DTEND:20250926T160000Z
-SUMMARY:Tougen Anki – Folge 12/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+DTSTART:20250923T070000Z
+DTEND:20250923T073000Z
+SUMMARY:Love Hina
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1329
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-10-03@anime-kalender-de
+UID:adn-1333@2025-10-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20251003T153000Z
-DTEND:20251003T160000Z
-SUMMARY:Tougen Anki – Folge 13/24
+DTSTART:20251003T150000Z
+DTEND:20251003T153000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 1/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+ ttps://anime-kalender.de/#/release/adn-1333
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-10-10@anime-kalender-de
+UID:adn-1333@2025-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20251010T153000Z
-DTEND:20251010T160000Z
-SUMMARY:Tougen Anki – Folge 14/24
+DTSTART:20251010T150000Z
+DTEND:20251010T153000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 2/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+ ttps://anime-kalender.de/#/release/adn-1333
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-10-17@anime-kalender-de
+UID:adn-1333@2025-10-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20251017T153000Z
-DTEND:20251017T160000Z
-SUMMARY:Tougen Anki – Folge 15/24
+DTSTART:20251017T150000Z
+DTEND:20251017T153000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 3/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+ ttps://anime-kalender.de/#/release/adn-1333
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-10-24@anime-kalender-de
+UID:adn-1326@2025-10-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20251024T153000Z
-DTEND:20251024T160000Z
-SUMMARY:Tougen Anki – Folge 16/24
+DTSTART:20251024T070000Z
+DTEND:20251024T073000Z
+SUMMARY:Keijo!!!!!!!!
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1326
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1333@2025-10-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251024T150000Z
+DTEND:20251024T153000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 4/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+ ttps://anime-kalender.de/#/release/adn-1333
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -1726,53 +1500,47 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-10-31@anime-kalender-de
+UID:adn-1333@2025-10-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20251031T163000Z
-DTEND:20251031T170000Z
-SUMMARY:Tougen Anki – Folge 17/24
+DTSTART:20251031T160000Z
+DTEND:20251031T163000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 5/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+ ttps://anime-kalender.de/#/release/adn-1333
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-11-07@anime-kalender-de
+UID:adn-1333@2025-11-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20251107T163000Z
-DTEND:20251107T170000Z
-SUMMARY:Tougen Anki – Folge 18/24
+DTSTART:20251107T160000Z
+DTEND:20251107T163000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 6/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+ ttps://anime-kalender.de/#/release/adn-1333
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-11-14@anime-kalender-de
+UID:adn-1333@2025-11-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20251114T163000Z
-DTEND:20251114T170000Z
-SUMMARY:Tougen Anki – Folge 19/24
+DTSTART:20251114T160000Z
+DTEND:20251114T163000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 7/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+ ttps://anime-kalender.de/#/release/adn-1333
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-11-21@anime-kalender-de
+UID:adn-1333@2025-11-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20251121T163000Z
-DTEND:20251121T170000Z
-SUMMARY:Tougen Anki – Folge 20/24
+DTSTART:20251121T160000Z
+DTEND:20251121T163000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 8/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-427-s2-20251126@2025-11-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20251126T080000Z
-DTEND:20251126T083000Z
-SUMMARY:Sailor Moon R
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-427-s2-20251126
+ ttps://anime-kalender.de/#/release/adn-1333
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -1786,43 +1554,57 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-11-28@anime-kalender-de
+UID:adn-427-s2-20251126@2025-11-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20251128T163000Z
-DTEND:20251128T170000Z
-SUMMARY:Tougen Anki – Folge 21/24
-DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+DTSTART:20251126T080000Z
+DTEND:20251126T083000Z
+SUMMARY:Sailor Moon R
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-427-s2-20251126
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-12-05@anime-kalender-de
+UID:adn-1333@2025-11-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20251205T163000Z
-DTEND:20251205T170000Z
-SUMMARY:Tougen Anki – Folge 22/24
+DTSTART:20251128T160000Z
+DTEND:20251128T163000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 9/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+ ttps://anime-kalender.de/#/release/adn-1333
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-12-12@anime-kalender-de
+UID:adn-1333@2025-12-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20251212T163000Z
-DTEND:20251212T170000Z
-SUMMARY:Tougen Anki – Folge 23/24
+DTSTART:20251205T160000Z
+DTEND:20251205T163000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 10/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+ ttps://anime-kalender.de/#/release/adn-1333
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1311@2025-12-19@anime-kalender-de
+UID:adn-1333@2025-12-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20251219T163000Z
-DTEND:20251219T170000Z
-SUMMARY:Tougen Anki – Folge 24/24
+DTSTART:20251212T160000Z
+DTEND:20251212T163000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 11/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
- ttps://anime-kalender.de/#/release/adn-1311
+ ttps://anime-kalender.de/#/release/adn-1333
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1333@2025-12-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251219T160000Z
+DTEND:20251219T163000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 12/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1333
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -1857,26 +1639,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GNVHKN933
 CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1037-s1-20260213@2026-02-13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260213T080000Z
-DTEND:20260213T083000Z
-SUMMARY:The Dangers in My Heart
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-1037-s1-20260213
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1037-s2-20260213@2026-02-13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260213T080000Z
-DTEND:20260213T083000Z
-SUMMARY:The Dangers in My Heart Staffel 2
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-1037-s2-20260213
-CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GW4HM7WK9@2026-02-15@anime-kalender-de
@@ -1948,6 +1710,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-336@2026-03-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260304T080000Z
+DTEND:20260304T083000Z
+SUMMARY:Magic Kaito 1412
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-336
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GW4HM7WK9@2026-03-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260308T093000Z
@@ -1969,6 +1741,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GNVHKN933
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1374@2026-03-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260311T080000Z
+DTEND:20260311T083000Z
+SUMMARY:Magical Girl Spec-Ops Asuka
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1374
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GW4HM7WK9@2026-03-15@anime-kalender-de
@@ -2094,6 +1876,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1375@2026-04-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260401T140000Z
+DTEND:20260401T143000Z
+SUMMARY:Dorohedoro – Folge 1/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-G6NVG970Y@2026-04-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260404T102500Z
@@ -2148,6 +1940,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1375@2026-04-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260408T140000Z
+DTEND:20260408T143000Z
+SUMMARY:Dorohedoro – Folge 2/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-G6NVG970Y@2026-04-11@anime-kalender-de
@@ -2216,6 +2018,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1375@2026-04-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260415T140000Z
+DTEND:20260415T143000Z
+SUMMARY:Dorohedoro – Folge 3/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-G6NVG970Y@2026-04-18@anime-kalender-de
@@ -2296,6 +2108,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1375@2026-04-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260422T140000Z
+DTEND:20260422T143000Z
+SUMMARY:Dorohedoro – Folge 4/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:adn-329@2026-04-24@anime-kalender-de
@@ -2419,6 +2241,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1375@2026-04-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260429T140000Z
+DTEND:20260429T143000Z
+SUMMARY:Dorohedoro – Folge 5/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-G24H1NWKE@2026-04-29@anime-kalender-de
@@ -2566,6 +2398,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1375@2026-05-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260506T140000Z
+DTEND:20260506T143000Z
+SUMMARY:Dorohedoro – Folge 6/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-G24H1NWKE@2026-05-06@anime-kalender-de
@@ -2726,6 +2568,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1375@2026-05-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260513T140000Z
+DTEND:20260513T143000Z
+SUMMARY:Dorohedoro – Folge 7/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-G24H1NWKE@2026-05-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260513T193000Z
@@ -2884,6 +2736,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1375@2026-05-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260520T140000Z
+DTEND:20260520T143000Z
+SUMMARY:Dorohedoro – Folge 8/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-G24H1NWKE@2026-05-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260520T193000Z
@@ -3034,6 +2896,16 @@ SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 8/19
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1375@2026-05-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260527T140000Z
+DTEND:20260527T143000Z
+SUMMARY:Dorohedoro – Folge 9/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-G24H1NWKE@2026-05-27@anime-kalender-de
@@ -3223,6 +3095,26 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GT00365598
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1391-s1-20260605-384@2026-06-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260605T070000Z
+DTEND:20260605T073000Z
+SUMMARY:Gantz
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1391-s1-20260605-384
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1391-s1-20260605-395@2026-06-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260605T070000Z
+DTEND:20260605T073000Z
+SUMMARY:Gantz: Second Stage
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1391-s1-20260605-395
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-06-05@anime-kalender-de
@@ -3698,26 +3590,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GNVHKN933
 CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-190-s1-20260629@2026-06-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260629T070000Z
-DTEND:20260629T073000Z
-SUMMARY:Gunslinger Girl
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-190-s1-20260629
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-190-s2-20260629@2026-06-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260629T070000Z
-DTEND:20260629T073000Z
-SUMMARY:Gunslinger Girl -Il Teatrino-
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-190-s2-20260629
-CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00371857@2026-06-30@anime-kalender-de
@@ -4383,7 +4255,7 @@ UID:adn-1354@2026-07-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260724T070000Z
 DTEND:20260724T073000Z
-SUMMARY:Parasyte -the maxim-
+SUMMARY:Parasyte: The Maxim
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-1354
 CATEGORIES:ADN
@@ -5164,7 +5036,7 @@ UID:adn-1415@2026-08-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260817T070000Z
 DTEND:20260817T073000Z
-SUMMARY:LOVE and LIES
+SUMMARY:Love & Lies
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-1415
 CATEGORIES:ADN

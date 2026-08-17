@@ -6,23 +6,53 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Magic
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:adn-1197@2024-06-06@anime-kalender-de
+UID:adn-907@2022-07-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20240606T070000Z
-DTEND:20240606T073000Z
-SUMMARY:Aesthetica of a Rogue Hero
+DTSTART:20220706T150000Z
+DTEND:20220706T153000Z
+SUMMARY:One Piece: The Curse of the Sacred Sword
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-1197
+ me-kalender.de/#/release/adn-907
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-278@2024-07-11@anime-kalender-de
+UID:adn-1142@2023-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20240711T070000Z
-DTEND:20240711T073000Z
-SUMMARY:Beyond the Boundary
+DTSTART:20231001T070000Z
+DTEND:20231001T073000Z
+SUMMARY:Cautious Hero: The Hero Is Overpowered but Overly Cautious
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-278
+ me-kalender.de/#/release/adn-1142
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1141-s1-20240510@2024-05-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240510T070000Z
+DTEND:20240510T073000Z
+SUMMARY:The Testament of Sister New Devil
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1141-s1-20240510
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1141-s2-20240510@2024-05-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240510T070000Z
+DTEND:20240510T073000Z
+SUMMARY:The Testament of Sister New Devil BURST
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1141-s2-20240510
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1133@2024-08-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240808T070000Z
+DTEND:20240808T073000Z
+SUMMARY:Demon King Daimao
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1133
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -146,13 +176,13 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1122@2025-01-24@anime-kalender-de
+UID:adn-1100@2025-02-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20250124T080000Z
-DTEND:20250124T083000Z
-SUMMARY:My Instant Death Ability is Overpowered
+DTSTART:20250206T080000Z
+DTEND:20250206T083000Z
+SUMMARY:The Demon Sword Master of Excalibur Academy
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-1122
+ me-kalender.de/#/release/adn-1100
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -416,6 +446,50 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1333@2025-10-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251003T150000Z
+DTEND:20251003T153000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 1/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1333
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1333@2025-10-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251010T150000Z
+DTEND:20251010T153000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 2/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1333
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1333@2025-10-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251017T150000Z
+DTEND:20251017T153000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 3/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1333
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1333@2025-10-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251024T150000Z
+DTEND:20251024T153000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 4/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1333
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-427-s1-20251029@2025-10-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251029T080000Z
@@ -426,6 +500,50 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1333@2025-10-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251031T160000Z
+DTEND:20251031T163000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 5/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1333
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1333@2025-11-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251107T160000Z
+DTEND:20251107T163000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 6/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1333
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1333@2025-11-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251114T160000Z
+DTEND:20251114T163000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 7/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1333
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1333@2025-11-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251121T160000Z
+DTEND:20251121T163000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 8/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1333
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-427-s2-20251126@2025-11-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251126T080000Z
@@ -433,6 +551,50 @@ DTEND:20251126T083000Z
 SUMMARY:Sailor Moon R
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-427-s2-20251126
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1333@2025-11-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251128T160000Z
+DTEND:20251128T163000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 9/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1333
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1333@2025-12-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251205T160000Z
+DTEND:20251205T163000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 10/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1333
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1333@2025-12-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251212T160000Z
+DTEND:20251212T163000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 11/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1333
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1333@2025-12-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251219T160000Z
+DTEND:20251219T163000Z
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I'm Out for Revenge! – Folge 12/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1333
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -490,6 +652,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-336@2026-03-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260304T080000Z
+DTEND:20260304T083000Z
+SUMMARY:Magic Kaito 1412
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-336
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GW4HM7WK9@2026-03-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260308T093000Z
@@ -499,6 +671,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GW4HM7WK9
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1374@2026-03-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260311T080000Z
+DTEND:20260311T083000Z
+SUMMARY:Magical Girl Spec-Ops Asuka
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1374
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GW4HM7WK9@2026-03-15@anime-kalender-de
@@ -577,6 +759,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1375@2026-04-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260401T140000Z
+DTEND:20260401T143000Z
+SUMMARY:Dorohedoro – Folge 1/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-G6NVG970Y@2026-04-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260404T102500Z
@@ -619,6 +811,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1375@2026-04-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260408T140000Z
+DTEND:20260408T143000Z
+SUMMARY:Dorohedoro – Folge 2/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-G6NVG970Y@2026-04-11@anime-kalender-de
@@ -665,6 +867,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1375@2026-04-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260415T140000Z
+DTEND:20260415T143000Z
+SUMMARY:Dorohedoro – Folge 3/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-G6NVG970Y@2026-04-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260418T102500Z
@@ -709,6 +921,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1375@2026-04-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260422T140000Z
+DTEND:20260422T143000Z
+SUMMARY:Dorohedoro – Folge 4/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-G6NVG970Y@2026-04-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260425T102500Z
@@ -751,6 +973,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1375@2026-04-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260429T140000Z
+DTEND:20260429T143000Z
+SUMMARY:Dorohedoro – Folge 5/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-G24H1NWKE@2026-04-29@anime-kalender-de
@@ -831,6 +1063,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1375@2026-05-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260506T140000Z
+DTEND:20260506T143000Z
+SUMMARY:Dorohedoro – Folge 6/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-G24H1NWKE@2026-05-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260506T193000Z
@@ -907,6 +1149,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1375@2026-05-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260513T140000Z
+DTEND:20260513T143000Z
+SUMMARY:Dorohedoro – Folge 7/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-G24H1NWKE@2026-05-13@anime-kalender-de
@@ -987,6 +1239,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1375@2026-05-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260520T140000Z
+DTEND:20260520T143000Z
+SUMMARY:Dorohedoro – Folge 8/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-G24H1NWKE@2026-05-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260520T193000Z
@@ -1061,6 +1323,16 @@ SUMMARY:Re:ZERO -Starting Life in Another World- Staffel 4 – Folge 8/19
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1375@2026-05-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260527T140000Z
+DTEND:20260527T143000Z
+SUMMARY:Dorohedoro – Folge 9/11
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1375
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-G24H1NWKE@2026-05-27@anime-kalender-de
@@ -1901,17 +2173,6 @@ SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 14/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-G6793XKZY
 CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:the-ribbon-hero-netflix@2026-08-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260808
-DTEND;VALUE=DATE:20260809
-SUMMARY:The Ribbon Hero
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Film\nUhrzeit noch nicht bestä
- tigt.\nDetails: https://anime-kalender.de/#/release/the-ribbon-hero-netfli
- x
-CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:though-i-am-an-inept-villainess@2026-08-09@anime-kalender-de

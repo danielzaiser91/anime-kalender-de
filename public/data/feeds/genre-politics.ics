@@ -6,6 +6,16 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Politics
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:adn-561-ssaga-1-east-blue-20190520@2019-05-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20190520T183500Z
+DTEND:20190520T190500Z
+SUMMARY:ONE PIECE
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-561-ssaga-1-east-blue-20190520
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-1325@2025-09-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250904T070000Z
@@ -222,16 +232,6 @@ SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 9/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-G6793XKZY
 CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-190-s2-20260629@2026-06-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260629T070000Z
-DTEND:20260629T073000Z
-SUMMARY:Gunslinger Girl -Il Teatrino-
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-190-s2-20260629
-CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-07-03@anime-kalender-de
@@ -512,16 +512,6 @@ DTEND:20260815T100000Z
 SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 15/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-G6793XKZY
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00378078@2026-08-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260815T160000Z
-DTEND:20260815T163000Z
-SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Katalogtitel\nDetails: htt
- ps://anime-kalender.de/#/release/cr-GT00378078
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT

@@ -56,6 +56,86 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1134-s1-20231001@2023-10-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20231001T070000Z
+DTEND:20231001T073000Z
+SUMMARY:Free! -Iwatobi Swim Club-
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1134-s1-20231001
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1134-s2-20231001@2023-10-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20231001T070000Z
+DTEND:20231001T073000Z
+SUMMARY:Free! -Eternal Summer-
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1134-s2-20231001
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1134-s3-20231001@2023-10-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20231001T070000Z
+DTEND:20231001T073000Z
+SUMMARY:Free! -Dive to the Future-
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1134-s3-20231001
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1180@2024-04-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240409T070000Z
+DTEND:20240409T073000Z
+SUMMARY:Free! -Timeless Medley- The Promise
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1180
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1177@2024-04-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240409T070000Z
+DTEND:20240409T073000Z
+SUMMARY:Free! -Take Your Marks-
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1177
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1183@2024-04-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240416T070000Z
+DTEND:20240416T073000Z
+SUMMARY:Haikyuu!! the Movie: The Winner and the Loser
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1183
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1182@2024-04-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240416T070000Z
+DTEND:20240416T073000Z
+SUMMARY:Haikyu!! the Movie: The End and the Beginning
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1182
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1184@2024-04-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240416T070000Z
+DTEND:20240416T073000Z
+SUMMARY:Haikyu!! The Movie: Talent and Sense
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1184
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-22@2025-08-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250814T070000Z
@@ -63,6 +143,16 @@ DTEND:20250814T073000Z
 SUMMARY:Air Gear
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-22
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1326@2025-10-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251024T070000Z
+DTEND:20251024T073000Z
+SUMMARY:Keijo!!!!!!!!
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1326
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT

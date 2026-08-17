@@ -6,6 +6,26 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Superhero
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:adn-405-s1-20250115@2025-01-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250115T080000Z
+DTEND:20250115T083000Z
+SUMMARY:My Hero Academia
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-405-s1-20250115
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-405-s2-20250115@2025-01-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250115T080000Z
+DTEND:20250115T083000Z
+SUMMARY:My Hero Academia Staffel 2
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-405-s2-20250115
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-427-s1-20251029@2025-10-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251029T080000Z
@@ -64,17 +84,6 @@ SUMMARY:My Hero Academia I am a hero too
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Katalogtitel\nDetails: htt
  ps://anime-kalender.de/#/release/cr-G6NQ5DWZ6
 CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:the-ribbon-hero-netflix@2026-08-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260808
-DTEND;VALUE=DATE:20260809
-SUMMARY:The Ribbon Hero
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Film\nUhrzeit noch nicht bestä
- tigt.\nDetails: https://anime-kalender.de/#/release/the-ribbon-hero-netfli
- x
-CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:my-hero-academia-vigilantes-s1-box@2026-09-04@anime-kalender-de

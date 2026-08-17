@@ -6,13 +6,13 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Isekai
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:adn-1197@2024-06-06@anime-kalender-de
+UID:adn-1142@2023-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20240606T070000Z
-DTEND:20240606T073000Z
-SUMMARY:Aesthetica of a Rogue Hero
+DTSTART:20231001T070000Z
+DTEND:20231001T073000Z
+SUMMARY:Cautious Hero: The Hero Is Overpowered but Overly Cautious
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-1197
+ me-kalender.de/#/release/adn-1142
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -136,13 +136,13 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-1122@2025-01-24@anime-kalender-de
+UID:adn-1305@2025-06-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20250124T080000Z
-DTEND:20250124T083000Z
-SUMMARY:My Instant Death Ability is Overpowered
+DTSTART:20250611T070000Z
+DTEND:20250611T073000Z
+SUMMARY:Sword Art Online EXTRA EDITION
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-1122
+ me-kalender.de/#/release/adn-1305
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -163,6 +163,16 @@ DTEND:20250611T073000Z
 SUMMARY:Sword Art Online II
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-442-s2-20250611
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1309@2025-06-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250611T070000Z
+DTEND:20250611T073000Z
+SUMMARY:Sword Art Online the Movie: Ordinal Scale
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1309
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT

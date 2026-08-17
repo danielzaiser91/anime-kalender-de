@@ -6,6 +6,16 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Reincarnation
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:adn-1100@2025-02-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250206T080000Z
+DTEND:20250206T083000Z
+SUMMARY:The Demon Sword Master of Excalibur Academy
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1100
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-G24H1NWKE@2026-04-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260429T193000Z

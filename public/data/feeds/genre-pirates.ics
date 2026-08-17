@@ -1,0 +1,88 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//anime-kalender-de//Anime-Kalender DE//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Anime-Kalender DE – Pirates
+X-WR-TIMEZONE:Europe/Berlin
+BEGIN:VEVENT
+UID:adn-561-ssaga-1-east-blue-20190520@2019-05-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20190520T183500Z
+DTEND:20190520T190500Z
+SUMMARY:ONE PIECE
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-561-ssaga-1-east-blue-20190520
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-906@2022-07-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220706T150000Z
+DTEND:20220706T153000Z
+SUMMARY:One Piece The Movie: The Dead End Adventure
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-906
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-907@2022-07-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220706T150000Z
+DTEND:20220706T153000Z
+SUMMARY:One Piece: The Curse of the Sacred Sword
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-907
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-905@2022-07-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220706T150000Z
+DTEND:20220706T153000Z
+SUMMARY:One Piece: Chopper’s Kingdom on the Island of Strange Animals
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-905
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-925@2022-08-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220810T150000Z
+DTEND:20220810T153000Z
+SUMMARY:One Piece: Episode Of Chopper +: The Miracle Winter Cherry Blossom
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-925
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-923@2022-08-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220810T150000Z
+DTEND:20220810T153000Z
+SUMMARY:One Piece: Mega Mecha Soldier of Karakuri Castle
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-923
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-920@2022-08-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220810T150000Z
+DTEND:20220810T153000Z
+SUMMARY:One Piece: Baron Omatsuri and the Secret Island
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-920
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-948@2022-09-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220914T150000Z
+DTEND:20220914T153000Z
+SUMMARY:One Piece Film: Strong World
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-948
+CATEGORIES:ADN
+END:VEVENT
+END:VCALENDAR

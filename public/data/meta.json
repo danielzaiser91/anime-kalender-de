@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-08-17T16:49:59.593Z",
-  "titleCount": 2760,
-  "releaseCount": 182,
-  "eventCount": 691,
+  "generatedAt": "2026-08-17T17:30:43.555Z",
+  "titleCount": 2751,
+  "releaseCount": 216,
+  "eventCount": 677,
   "genres": [
     "Action",
     "Adventure",
@@ -464,7 +464,10 @@
     2025,
     2024,
     2023,
-    2022
+    2022,
+    2019,
+    2016,
+    2015
   ],
   "attribution": [
     "Dub-Daten: MyDubList (https://mydublist.com) — CC BY 4.0",
