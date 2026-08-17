@@ -181,7 +181,7 @@ function reihenFuerKatalog(
  * ab. Beides wird gebraucht: die Kennung zum Aussortieren, die Reihe zum
  * Zusammenführen — siehe `reihenFuerKatalog`.
  */
-function schreibeOhneSynchro(bekannt: Map<number, number>): void {
+function schreibeOhneSynchro(bekannt: Map<number, number>, verschoben: Title[] = []): void {
   const katalog = readJson<{ eintraege?: KatalogEintrag[] }>('data/cache/anilist-katalog.json', {})
   const eintraege = katalog.eintraege ?? []
   if (!eintraege.length) {
@@ -255,8 +255,29 @@ function schreibeOhneSynchro(bekannt: Map<number, number>): void {
       }
     })
 
-  writeJson(`${OUT}/ohne-synchro.json`, ohne)
-  log(`Ohne deutsche Synchro: ${ohne.length} Titel (aus ${eintraege.length} im AniList-Katalog)`)
+  /**
+   * Wer aus dem Hauptbestand verschoben wurde, muss hier ankommen — auch wenn
+   * der Katalog ihn nicht führt.
+   *
+   * Bis zum 17.08.2026 verließ sich der Vorfilter darauf, dass ein verschobener
+   * Titel über den AniList-Katalog von selbst wieder auftaucht. Bei acht von
+   * neun stimmte das. Der neunte, „Xiao Mao Diao Yu" (215520), stand in keinem
+   * der beiden Bestände und war damit über keinen Weg mehr erreichbar — auch
+   * nicht mit eingeschaltetem Toggle.
+   *
+   * Ein Titel, den man nirgends findet, ist stillschweigend gestrichen, und das
+   * verbietet der Projektgrundsatz: Gestrichen wird nur, was eine Quelle aktiv
+   * widerlegt. Ein fehlender Katalogeintrag widerlegt nichts.
+   */
+  const vorhanden = new Set(ohne.map((t) => t.id))
+  const nachgetragen = verschoben.filter((t) => !vorhanden.has(t.id))
+  const alle = [...ohne, ...nachgetragen.map((t) => ({ ...t, dubConfidence: 'low' as const, ohneSynchro: true }))]
+
+  writeJson(`${OUT}/ohne-synchro.json`, alle)
+  log(
+    `Ohne deutsche Synchro: ${alle.length} Titel (aus ${eintraege.length} im AniList-Katalog` +
+      (nachgetragen.length ? `, ${nachgetragen.length} aus dem Hauptbestand nachgetragen)` : ')'),
+  )
 }
 
 /** Wo die Quellen jedes Termins über Läufe hinweg aufbewahrt werden. */
@@ -1436,6 +1457,22 @@ function main(): void {
   )
   let adnAdded = 0
   let adnBloecke = 0
+  /**
+   * Kein Anime zweimal aus ADN — **über alle Serien hinweg**.
+   *
+   * Diese Sperre stand bis zum 17.08.2026 innerhalb der Schleife und wirkte
+   * deshalb nur je Serienkennung. Über zwei Kennungen hinweg griff sie nicht,
+   * und genau das brach den Wochenlauf: ADN führt „To Love-Ru" unter zwei
+   * Kennungen (217 und 670), beide mit 26 Folgen, und beide ordneten sich
+   * demselben AniList-Eintrag 3455 zu. Die Prüfung im Build meldete zu Recht
+   * „zusammen 52 Folgen bei 26 vorhandenen" und brach ab — womit der ganze
+   * Wochenlauf nichts schrieb, dreimal in Folge seit dem 10.08.2026.
+   *
+   * Der Kommentar an der Sperre war immer richtig: Ein Titel mit zwei
+   * widersprüchlichen Folgenzahlen ist schlimmer als ein fehlender Eintrag. Nur
+   * der Gültigkeitsbereich war zu eng.
+   */
+  const belegteTitel = new Set<number>()
   for (const show of adn.shows) {
     if (!show.episodes.length) continue
     if (curatedAdnShows.has(normalizeTitle(show.title))) continue
@@ -1481,7 +1518,6 @@ function main(): void {
      * längst vergeben war. Ein Titel mit zwei widersprüchlichen Folgenzahlen
      * ist schlimmer als ein fehlender Eintrag.
      */
-    const belegteTitel = new Set<number>()
 
     for (const { block, teile, unscharf } of zuordnungen) {
       // Ohne aufgehende Rechnung deckt der Block genau einen Titel ab: den der
@@ -1495,7 +1531,7 @@ function main(): void {
         if (title && belegteTitel.has(title.id)) {
           warn(
             `ADN ${show.showId} (${show.title}): Staffel ${block.season ?? '?'} mit ${block.episodes.length} Folgen ` +
-              `lässt sich keiner eigenen AniList-Staffel zuordnen — übersprungen, statt "${title.titleRomaji ?? title.id}" doppelt zu führen.`,
+              `zeigt auf "${title.titleRomaji ?? title.id}", der schon aus einer anderen ADN-Serie stammt — übersprungen.`,
           )
           continue
         }
@@ -1827,7 +1863,14 @@ function main(): void {
 
   const mitRelease = new Set(releases.map((r) => r.titleId))
   const heuteIso = todayIso()
-  let nochNichtGelaufen = 0
+  /**
+   * Die Verschobenen werden aufbewahrt, nicht weggeworfen.
+   *
+   * `schreibeOhneSynchro` bekommt sie unten übergeben und trägt nach, wer nicht
+   * schon über den AniList-Katalog dorthin gelangt. Ohne diese Liste hing es vom
+   * Zufall ab, ob ein Titel hinter dem Toggle wieder auftaucht.
+   */
+  const verschoben: Title[] = []
   for (const id of [...titles.keys()]) {
     if (mitRelease.has(id)) continue
     /**
@@ -1842,11 +1885,12 @@ function main(): void {
     // Ohne bekanntes Startdatum wird nichts entfernt — Unwissen ist kein Beleg.
     const start = jpStart.get(id)
     if (!start || start <= heuteIso) continue
+    const titel = titles.get(id)
+    if (titel) verschoben.push(titel)
     titles.delete(id)
-    nochNichtGelaufen++
   }
-  if (nochNichtGelaufen)
-    log(`${nochNichtGelaufen} Titel hinter den Toggle verschoben: japanische Ausstrahlung steht noch aus`)
+  if (verschoben.length)
+    log(`${verschoben.length} Titel hinter den Toggle verschoben: japanische Ausstrahlung steht noch aus`)
 
   // --- Meta -----------------------------------------------------------------
   const allTitles = [...titles.values()]
@@ -1957,7 +2001,7 @@ function main(): void {
   writeJson(`${OUT}/titles.json`, slim)
   // Kennung → Reihe: das Erste sortiert die schon gepflegten Titel aus, das
   // Zweite hält Reihen zusammen, die über die Grenze der beiden Bestände gehen.
-  schreibeOhneSynchro(new Map(slim.map((t) => [t.id, t.franchiseId ?? t.id])))
+  schreibeOhneSynchro(new Map(slim.map((t) => [t.id, t.franchiseId ?? t.id])), verschoben)
   schreibeNeuMitSynchro(slim, releases)
   // Synopsen in Gruppen statt in einer Datei.
   //

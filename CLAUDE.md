@@ -59,6 +59,21 @@ Dieses Projekt lebt davon, dass die Termine stimmen. Deshalb gilt ausnahmslos:
   **Folgenzahl**, nicht über den Namen: ADN-Staffel 3 von SAO hat 47 Folgen = Alicization 24 +
   War of Underworld 12 + Part 2 11. Geht die Summe nicht exakt auf, bleibt der Block lieber
   unzugeordnet, als einen fremden Titel mitzubringen.
+- **Umgekehrt gilt es auch: ein Anime gehört genau einer Serienkennung.** ADN führt „To Love-Ru"
+  unter 217 **und** 670, beide mit 26 Folgen. Die Namenssuche gibt für Fortsetzungen gern den
+  Reihenkopf zurück, und `passtZuSerie` nimmt ihn an, sobald ein Wort geteilt wird — bei
+  „To Love-Ru - Darkness" gegen „To Love Ru" ist das „love". Beide Kennungen beanspruchten
+  AniList 3455, `pruefeErgebnis` meldete zu Recht „zusammen 52 Folgen bei 26 vorhandenen" und
+  brach ab. **Drei Wochenläufe in Folge haben deshalb nichts geschrieben** (10.–17.08.2026): Der
+  Abbruch schützt den Datensatz, aber er verwirft auch alles andere, was der Lauf geholt hat.
+  Ist ein Treffer schon vergeben, wird deshalb die nächste Schreibweise probiert, nicht
+  aufgegeben. Die Zusicherung dazu steht in `check-logic.ts` — wer den Melder weicher stellt, um
+  einen grünen Lauf zu bekommen, bricht sie.
+- **Ein Vorfilter verschiebt, er löscht nicht.** Wer aus dem Hauptbestand fällt, muss hinter dem
+  Toggle ankommen, und zwar nachweislich: Sich darauf zu verlassen, dass der AniList-Katalog ihn
+  von selbst wieder mitbringt, ging bei acht von neun Titeln gut — der neunte war über keinen Weg
+  mehr erreichbar. Ein Titel, den man nirgends findet, ist stillschweigend gestrichen, und
+  gestrichen wird nur, was eine Quelle aktiv widerlegt.
 - **„Im Angebot seit" ist nicht „erschienen am".** Nimmt eine Plattform einen Katalogtitel auf,
   kennt sie nur das Datum ihrer eigenen Aufnahme. Für SAO war das der 11.06.2025 — die deutsche
   Fassung gibt es seit 2013, die von Alicization seit August 2019 auf Disc. Deshalb trägt jedes

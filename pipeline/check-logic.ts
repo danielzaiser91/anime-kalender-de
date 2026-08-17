@@ -206,6 +206,35 @@ console.log('\nGegenprobe des erzeugten Datensatzes:')
   }
   const ok = pruefeErgebnis([sauber], [{ ...erfundeneTermine[0], releaseSlug: 'adn-442-s1', date: '2025-06-11', episode: undefined, releaseType: 'batch' }], titles, '2026-08-12')
   pruefe('der reparierte Eintrag geht durch', ok.fehler.length === 0, ok.fehler)
+
+  /**
+   * Der Fall, der drei Wochenläufe gekostet hat (10.–17.08.2026).
+   *
+   * ADN führt „To Love-Ru" unter zwei Kennungen, 217 und 670, beide mit 26
+   * Folgen. Die Zuordnung gab beiden denselben AniList-Eintrag 3455, und die
+   * Prüfung brach ab: „zusammen 52 Folgen bei 26 vorhandenen". Der Abbruch war
+   * richtig — er hat einen falschen Datensatz verhindert. Falsch war, dass die
+   * Zuordnung überhaupt zwei Kennungen auf einen Titel legen konnte.
+   *
+   * Diese Zusicherung hält den Melder fest. Wer sie in Zukunft weicher stellt,
+   * um „endlich wieder einen grünen Lauf" zu bekommen, bricht sie und muss die
+   * Zuordnung reparieren statt den Melder.
+   */
+  const doppelt: Release[] = [
+    { slug: 'adn-217', titleId: 3455, name: 'To LOVE-Ru', platform: 'adn', releaseType: 'batch', dateMeaning: 'available-from', schedule: { firstEpisodeDate: '2025-01-10', episodeCount: 26, lastEpisodeDate: '2025-01-10' }, year: 2025, sources: ['https://animationdigitalnetwork.com/de/'] },
+    { slug: 'adn-670', titleId: 3455, name: 'To LOVE-Ru', platform: 'adn', releaseType: 'batch', dateMeaning: 'available-from', schedule: { firstEpisodeDate: '2025-03-14', episodeCount: 26, lastEpisodeDate: '2025-03-14' }, year: 2025, sources: ['https://animationdigitalnetwork.com/de/'] },
+  ]
+  const zwei = pruefeErgebnis(
+    doppelt,
+    doppelt.map((r, i) => ({ id: `t${i}`, releaseSlug: r.slug, titleId: 3455, date: r.schedule.firstEpisodeDate, episode: undefined, releaseType: 'batch' as const, platform: 'adn' as const, name: r.name })),
+    new Map<number, Title>([[3455, titel(3455, 'To LOVE-Ru', 26, 2008, 'SPRING')]]),
+    '2026-08-17',
+  )
+  pruefe(
+    'zwei ADN-Kennungen auf einem Titel werden gemeldet',
+    zwei.fehler.some((f) => f.includes('52 Folgen bei 26')),
+    zwei.fehler,
+  )
 }
 
 console.log('\nCrunchyroll: fremde Staffelfehler nicht nachbauen:')

@@ -389,6 +389,24 @@ async function fetchCatalog(): Promise<AdnShow[]> {
   // „Chinjuu-jima". Acht Filme mit belegter deutscher Synchro fielen deshalb
   // heraus. Die Suche kostet eine Anfrage je Treffer und rettet sie.
   log(`ADN-Katalog: ${out.length} Treffer, Zuordnung wird nachgeschlagen…`)
+  /**
+   * Zwei ADN-Serien dürfen nicht denselben Anime beanspruchen.
+   *
+   * ADN führt „To Love-Ru" unter zwei Kennungen, 217 und 670, beide mit 26
+   * Folgen. Die Suche liefert für Fortsetzungen gern den Reihenkopf zurück, und
+   * `passtZuSerie` nimmt ihn an, sobald ein Wort geteilt wird — bei „To Love-Ru
+   * - Darkness" gegen „To Love Ru" ist das „love". So beanspruchten beide
+   * Kennungen AniList 3455, und die Prüfung im Build brach ab: „zusammen 52
+   * Folgen bei 26 vorhandenen". Drei Wochenläufe in Folge haben deshalb nichts
+   * geschrieben (10.–17.08.2026).
+   *
+   * Ist der Treffer schon vergeben, wird deshalb die **nächste** Suchvariante
+   * probiert statt aufgegeben. Genau dafür gibt es die Varianten: Die kürzeste
+   * findet den Reihenkopf, eine längere den richtigen Teil. Bleibt am Ende keine
+   * übrig, hat die Serie eben keine Zuordnung — ein falsch zugeordneter Titel
+   * ist schlimmer als ein fehlender.
+   */
+  const vergeben = new Map<number, string>()
   for (const show of out) {
     try {
       // Beide Namen anbieten: Der Originaltitel trägt oft Makra und
@@ -396,10 +414,18 @@ async function fetchCatalog(): Promise<AdnShow[]> {
       // „Haikyū!!" gegen „Haikyu!!". Welcher trifft, weiß man vorher nicht.
       for (const begriff of sucheVarianten(show.originalTitle, show.title)) {
         const media = await searchMedia(begriff)
-        if (media?.id && passtZuSerie(show, media)) {
-          show.anilistId = media.id
-          break
+        if (!media?.id || !passtZuSerie(show, media)) continue
+        const schon = vergeben.get(media.id)
+        if (schon) {
+          warn(
+            `ADN-Katalog: "${show.title}" (${show.showId}) fand AniList ${media.id}, ` +
+              `aber den führt schon "${schon}" — nächste Schreibweise.`,
+          )
+          continue
         }
+        vergeben.set(media.id, show.title)
+        show.anilistId = media.id
+        break
       }
     } catch (err) {
       warn(`ADN-Katalog: Suche für "${show.title}" fehlgeschlagen: ${(err as Error).message}`)
