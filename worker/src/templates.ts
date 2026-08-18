@@ -275,6 +275,14 @@ export interface DigestOptions {
   syncUrl?: string
   /** Direktlinks zum Anbieter, je Release-Slug. */
   links?: Map<string, ReleaseLink>
+  /**
+   * Adresse, die den Rhythmus mit einem Klick umstellt.
+   *
+   * Fehlt sie, zeigt der Link wie früher auf die Newsletter-Seite — dann heißt er
+   * auch anders, denn dort passiert nichts von selbst. Bis zum 17.08.2026 stand
+   * über diesem Weg „Auf wöchentlich umstellen", und umgestellt wurde nichts.
+   */
+  rhythmusUrl?: string
   /** Gemerkte Titel, die seit der letzten Mail eine Synchro bekommen haben. */
   neuMitSynchro?: NeuMitSynchro[]
 }
@@ -386,7 +394,9 @@ export function digestMail(
     // Rhythmus gewählt hat — und findet auch nicht, wo er das ändert.
     `Das hier ist der <strong style="color:#cbd5e1;">${rhythmus.name}</strong> — er kommt ${rhythmus.wann}.
      Du erhältst ihn, weil du das Abo bestätigt hast.<br>
-     <a href="${siteUrl}#/newsletter" style="color:#7dd3fc;">Auf ${rhythmus.andere} umstellen</a> ·
+     <a href="${options.rhythmusUrl ?? `${siteUrl}#/newsletter`}" style="color:#7dd3fc;">${
+       options.rhythmusUrl ? `Auf ${rhythmus.andere} umstellen` : 'Rhythmus ändern'
+     }</a> ·
      <a href="${unsubUrl}" style="color:#7dd3fc;">Abmelden</a> ·
      <a href="${siteUrl}#/datenschutz" style="color:#7dd3fc;">Datenschutz</a>${
        options.syncUrl ? ` · <a href="${options.syncUrl}" style="color:#7dd3fc;">Favoriten abgleichen</a>` : ''
@@ -412,7 +422,9 @@ export function digestMail(
     `Kalender: ${siteUrl}\n` +
     (options.syncUrl ? `Favoriten abgleichen: ${options.syncUrl}\n` : '') +
     `\nDas hier ist der ${rhythmus.name} — er kommt ${rhythmus.wann}.\n` +
-    `Auf ${rhythmus.andere} umstellen: ${siteUrl}#/newsletter\n` +
+    (options.rhythmusUrl
+      ? `Auf ${rhythmus.andere} umstellen: ${options.rhythmusUrl}\n`
+      : `Rhythmus ändern: ${siteUrl}#/newsletter\n`) +
     `Abmelden: ${unsubUrl}`
 
   return { subject, html, text }

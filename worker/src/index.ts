@@ -4,6 +4,7 @@
  *   POST /subscribe          — Anmeldung, verschickt die Bestätigungsmail (Double-Opt-in)
  *   GET  /confirm?token=…    — Bestätigung, ab hier ist das Abo aktiv
  *   GET  /unsubscribe?token=…— Abmeldung, löscht den Datensatz
+ *   GET  /rhythmus?token=…    — Rhythmus aus der Mail umstellen
  *   GET  /health             — Status
  *   cron stündlich           — versendet um 07:00 Berliner Zeit Tages- bzw. Wochen-Digest
  *
@@ -395,6 +396,52 @@ async function handleSync(request: Request, env: Env): Promise<Response> {
    */
   await env.DB.prepare('UPDATE subscribers SET pref_expires = ?1 WHERE id = ?2')
     .bind(new Date(Date.now() + PREF_FRIST_TAGE * 86_400_000).toISOString(), row.id)
+    .run()
+  return Response.redirect(`${env.SITE_URL.replace(/\/$/, '')}/#/newsletter?sync=${schluessel}`, 302)
+}
+
+/**
+ * Der Knopf „Auf wöchentlich umstellen" aus der Mail — und er stellt jetzt um.
+ *
+ * Bis zum 17.08.2026 zeigte er auf `…#/newsletter`, ohne jeden Parameter. Er
+ * öffnete also nur die Seite, die den unveränderten Rhythmus anzeigt. Daniel hat
+ * geklickt, „Täglich" stand weiter da, und das ist genau das Versprechen, das ein
+ * Knopf mit dieser Aufschrift gibt und nicht halten konnte.
+ *
+ * Ein Klick erledigt jetzt beides: den Rhythmus setzen **und** den Browser mit
+ * dem Abo verbinden. Der Ausweis ist derselbe befristete Schlüssel wie bei
+ * `/sync` — er steht ohnehin in derselben Mail, und wer sie lesen kann, ist der
+ * Berechtigte.
+ *
+ * Ein GET, das etwas ändert, ist hier vertretbar: Ein Mail-Programm kann nur
+ * GET, der Vorgang ist ohne Verlust umkehrbar (zwei Rhythmen, ein Klick zurück),
+ * und ein Mail-Scanner, der den Link vorab öffnet, stellt bestenfalls einmal auf
+ * denselben Wert. Für das Abmelden gilt das ausdrücklich nicht — Löschen ist
+ * nicht umkehrbar, dort bleibt es bei der Bestätigungsseite.
+ */
+async function handleRhythmus(request: Request, env: Env): Promise<Response> {
+  const url = new URL(request.url)
+  const token = (url.searchParams.get('token') ?? '').trim()
+  const auf = url.searchParams.get('auf') === 'daily' ? 'daily' : 'weekly'
+  if (!token) return page('Link nicht gültig', 'Dieser Link ist unvollständig.', env.SITE_URL)
+
+  const row = await env.DB.prepare(
+    "SELECT id, pref_token, sync_expires FROM subscribers WHERE sync_token = ?1 AND status = 'active'",
+  )
+    .bind(token)
+    .first<{ id: string; pref_token: string; sync_expires: string | null }>()
+
+  if (!row || !row.sync_expires || Date.parse(row.sync_expires) < Date.now()) {
+    return page(
+      'Link abgelaufen',
+      'Links aus dem Newsletter gelten dreißig Tage. Nimm den Link aus einer neueren Mail — oder stell den Rhythmus auf der Newsletter-Seite um.',
+      env.SITE_URL,
+    )
+  }
+
+  const schluessel = await sichereSchluessel(env, row.id, row.pref_token)
+  await env.DB.prepare('UPDATE subscribers SET frequency = ?1, pref_expires = ?2 WHERE id = ?3')
+    .bind(auf, new Date(Date.now() + PREF_FRIST_TAGE * 86_400_000).toISOString(), row.id)
     .run()
   return Response.redirect(`${env.SITE_URL.replace(/\/$/, '')}/#/newsletter?sync=${schluessel}`, 302)
 }
@@ -806,9 +853,13 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
         .bind(syncToken, new Date(now.getTime() + 30 * 24 * 60 * 60_000).toISOString(), sub.id)
         .run()
       const syncUrl = `${base}/sync?token=${syncToken}`
+      // Der Umstell-Knopf zeigt auf den jeweils **anderen** Rhythmus — was in
+      // der Mail steht, ist ja der aktuelle.
+      const rhythmusUrl = `${base}/rhythmus?token=${syncToken}&auf=${frequency === 'daily' ? 'weekly' : 'daily'}`
       const mail = digestMail(events, frequency, env.SITE_URL, unsubUrl, {
         favorites,
         syncUrl,
+        rhythmusUrl,
         links,
         neuMitSynchro,
       })
@@ -1037,6 +1088,10 @@ export default {
         return handleRestoreConfirm(request, env)
       case '/sync':
         return handleSync(request, env)
+      case '/rhythmus':
+        // Der Umstell-Knopf aus der Mail. Setzt den Rhythmus und verbindet den
+        // Browser gleich mit — ein Klick, beide Wirkungen.
+        return handleRhythmus(request, env)
       case '/debug/digest': {
         // Versand von Hand auslösen, ohne bis 07:00 zu warten. Nur mit dem
         // Secret DEBUG_TOKEN erreichbar; ohne gesetztes Secret abgeschaltet.
