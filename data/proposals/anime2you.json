@@ -1,6 +1,21 @@
 {
-  "scrapedAt": "2026-08-17T05:03:16.133Z",
+  "scrapedAt": "2026-08-18T04:58:23.943Z",
   "proposals": [
+    {
+      "articleTitle": "Amazon startet große Rabattaktion mit über 500 Anime-Produkten",
+      "articleUrl": "https://www.anime2you.de/news/1042209/amazon-couchella-2026-rabattaktion/",
+      "publishedAt": "2026-08-17",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-08-30",
+          "context": "ammen. DVDs und Blu-rays im Angebot Im Rahmen der Aktion, die bis zum 30. August 2026 läuft, bietet Amazon verschiedene Anime-Komplettboxen"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Acht Anime-Neuzugänge bald auf Disney+ verfügbar",
       "articleUrl": "https://www.anime2you.de/news/1041622/disney-plus-one-piece-und-mehr/",
