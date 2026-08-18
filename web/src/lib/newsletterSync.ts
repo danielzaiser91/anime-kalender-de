@@ -258,18 +258,36 @@ export async function ladeEinstellungen(token: string): Promise<Einstellungen> {
   const res = await fetch(`${WORKER_URL}/prefs?token=${encodeURIComponent(token)}`)
   const body = await alsJson<Partial<Einstellungen> & { ok?: boolean; error?: string }>(res)
   /**
-   * **Hier wird der Schlüssel nicht gelöscht**, auch nicht bei 404.
+   * Ein 404 von hier wird **nachgeprüft**, nicht geglaubt und nicht ignoriert.
    *
-   * Ein 404 von diesem Weg heißt zweierlei: „dieses Abo gibt es nicht" oder
-   * „diesen Endpunkt gibt es nicht". Am 15.08.2026 war es das Zweite — der
-   * Client sprach `/prefs` an, bevor der Worker die Route hatte, deutete die
-   * Antwort als erloschenes Abo und trennte Daniels Browser. Die Ansicht
-   * sprang nach dem Laden sichtbar zurück.
+   * Er heißt zweierlei: „dieses Abo gibt es nicht" oder „diesen Endpunkt gibt es
+   * nicht". Am 15.08.2026 war es das Zweite — der Client sprach `/prefs` an,
+   * bevor der Worker die Route hatte, und trennte Daniels Browser. Die Antwort
+   * darauf war, hier **gar nichts** mehr zu löschen. Das erzeugte am 18.08.2026
+   * den umgekehrten Fehler: Nach einer Abmeldung aus der Mail behauptete die
+   * Seite oben „gehört zu keinem aktiven Abo" und unten „dieser Browser ist mit
+   * deinem Abo verbunden" — und zwar dauerhaft, denn niemand fragte je die
+   * Stelle, die es wissen muss.
    *
-   * Verbindlich über ein Abo entscheidet allein `/favorites`; diese Abfrage
-   * meldet einen Fehler und lässt alles andere in Ruhe.
+   * Beides löst derselbe Griff: einen zweiten Beleg holen. Über den Bestand
+   * eines Abos entscheidet `/favorites`; sagt auch die Route „kenne ich nicht",
+   * räumt sie den Schlüssel selbst weg, und die Oberfläche zeigt wieder den
+   * Anmeldezustand. Antwortet sie dagegen normal, fehlt hier nur ein Endpunkt —
+   * dann bleibt alles, wie es ist.
    */
-  if (res.status === 404) throw new Error(body.error ?? 'Einstellungen sind gerade nicht abrufbar.')
+  if (res.status === 404) {
+    try {
+      await pullFavorites(token)
+    } catch {
+      // `pullFavorites` hat bei einem 404 bereits abgeräumt. Ein anderer Fehler
+      // (offline, Zeitüberschreitung) beweist nichts und ändert deshalb nichts.
+    }
+    throw new Error(
+      getSyncToken()
+        ? (body.error ?? 'Einstellungen sind gerade nicht abrufbar.')
+        : 'Dieses Abo gibt es nicht mehr — dieser Browser ist jetzt getrennt.',
+    )
+  }
   if (!res.ok || !body.ok) throw new Error(body.error ?? 'Abruf fehlgeschlagen')
   if (body.email) setSyncMail(body.email)
   return {

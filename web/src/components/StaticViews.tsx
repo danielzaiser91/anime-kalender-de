@@ -169,13 +169,26 @@ function AboEinstellungen({ meta, onWechseln }: { meta: DataMeta; onWechseln: ()
   const [stand, setStand] = useState<Einstellungen | undefined>()
   const [fehler, setFehler] = useState('')
   const [speichert, setSpeichert] = useState<'idle' | 'laeuft' | 'ok'>('idle')
+  /**
+   * Eigener Zustand statt `!stand`.
+   *
+   * „Wird geladen" hing vorher allein daran, dass noch nichts angekommen war —
+   * und blieb deshalb nach einem Fehler für immer stehen. Am 18.08.2026 stand so
+   * eine rote Fehlermeldung direkt über einem Ladehinweis, der nie endete
+   * (Daniel: „egal wie lange ich warte, nix passiert").
+   */
+  const [laedt, setLaedt] = useState(true)
 
   useEffect(() => {
     const token = getSyncToken()
-    if (!token) return
+    if (!token) {
+      setLaedt(false)
+      return
+    }
     ladeEinstellungen(token)
       .then(setStand)
       .catch((e: Error) => setFehler(e.message))
+      .finally(() => setLaedt(false))
   }, [])
 
   function sichern(werte: { frequency: 'daily' | 'weekly'; platforms: string[] }) {
@@ -195,9 +208,9 @@ function AboEinstellungen({ meta, onWechseln }: { meta: DataMeta; onWechseln: ()
     <Card>
       <SectionTitle>{t('news.yourSubscription')}</SectionTitle>
       {fehler && <p className="mb-2 text-sm text-red-400">{fehler}</p>}
-      {!stand ? (
+      {laedt ? (
         <p className="text-sm text-slate-400">{t('news.loadingPrefs')}</p>
-      ) : (
+      ) : !stand ? null : (
         <div className="flex flex-col gap-4">
           <p className="text-sm text-slate-600 dark:text-slate-300">
             {t('news.connectedAs', { mail: stand.email })}
@@ -298,8 +311,24 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
   const [syncState, setSyncState] = useState<'idle' | 'sending' | 'ok' | 'error'>('idle')
   const [syncMessage, setSyncMessage] = useState('')
   const [welcome, setWelcome] = useState(false)
-  const autoSync = !!getSyncToken()
   const verbindung = useNewsletterVerbindung()
+  /**
+   * Aus dem **reaktiven** Zustand, nicht aus einem Direktzugriff.
+   *
+   * `!!getSyncToken()` war ein Schnappschuss beim Zeichnen: Wurde der Schlüssel
+   * danach weggeräumt — weil das Abo nicht mehr existiert —, bemerkte diese
+   * Ansicht es nicht und zeigte weiter „verbunden". Genau daran hing der
+   * widersprüchliche Zustand vom 18.08.2026.
+   */
+  const autoSync = verbindung.verbunden
+  /**
+   * Wann der Kasten „Dieses Gerät" statt des Wiederherstellungs-Formulars steht.
+   *
+   * Nach dem Abbestellen ist die Verbindung im selben Augenblick weg — und mit
+   * ihr wäre der Satz „Abo beendet" verschwunden, bevor ihn jemand liest.
+   * Übrig bliebe ein Formular, das aussieht, als sei nichts passiert.
+   */
+  const zeigeGeraet = (autoSync || abmeldeState === 'weg') && !restoreOffen
   /** Bewusst aufklappbar: Eine neue Adresse ist eine neue Anmeldung. */
   const [adresseWechseln, setAdresseWechseln] = useState(false)
   const adminToken = readAdminToken()
@@ -653,7 +682,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
           er zeigt: dieses Gerät.
         */}
         <SectionTitle>
-          {t(autoSync && !restoreOffen ? 'news.deviceTitle' : 'news.restoreTitle')}
+          {t(zeigeGeraet ? 'news.deviceTitle' : 'news.restoreTitle')}
         </SectionTitle>
         {/*
           Wer verbunden ist, braucht das Formular nicht.
@@ -664,11 +693,13 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
           trotzdem: Ein Schlüssel kann ungültig geworden sein, und dann ist der
           Link der einzige Weg zurück.
         */}
-        {autoSync && !restoreOffen ? (
+        {zeigeGeraet ? (
           <>
-            <p className="rounded-lg bg-emerald-500/10 px-3 py-2 text-sm text-emerald-600 dark:text-emerald-400">
-              ✓ {t('news.restoreConnected')}
-            </p>
+            {abmeldeState !== 'weg' && (
+              <p className="rounded-lg bg-emerald-500/10 px-3 py-2 text-sm text-emerald-600 dark:text-emerald-400">
+                ✓ {t('news.restoreConnected')}
+              </p>
+            )}
             <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1">
               <button
                 type="button"

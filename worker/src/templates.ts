@@ -397,7 +397,11 @@ export function digestMail(
      <a href="${options.rhythmusUrl ?? `${siteUrl}#/newsletter`}" style="color:#7dd3fc;">${
        options.rhythmusUrl ? `Auf ${rhythmus.andere} umstellen` : 'Rhythmus ändern'
      }</a> ·
-     <a href="${unsubUrl}" style="color:#7dd3fc;">Abmelden</a> ·
+     <!-- „Abmelden" allein sagt nicht, wovon — in einer Mail mit mehreren Links
+          daneben liest es sich wie „vom Kalender abmelden" oder wie ein
+          Ausloggen. Daniel hat am 18.08.2026 alle Fußzeilen-Links durchgeklickt
+          und dabei sein Abo beendet, ohne es zu wollen. -->
+     <a href="${unsubUrl}" style="color:#7dd3fc;">Newsletter abbestellen</a> ·
      <a href="${siteUrl}#/datenschutz" style="color:#7dd3fc;">Datenschutz</a>${
        options.syncUrl ? ` · <a href="${options.syncUrl}" style="color:#7dd3fc;">Favoriten abgleichen</a>` : ''
      }`,
@@ -425,7 +429,7 @@ export function digestMail(
     (options.rhythmusUrl
       ? `Auf ${rhythmus.andere} umstellen: ${options.rhythmusUrl}\n`
       : `Rhythmus ändern: ${siteUrl}#/newsletter\n`) +
-    `Abmelden: ${unsubUrl}`
+    `Newsletter abbestellen: ${unsubUrl}`
 
   return { subject, html, text }
 }
