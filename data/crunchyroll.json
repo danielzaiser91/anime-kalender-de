@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-19T13:13:57.742Z",
+  "scrapedAt": "2026-08-19T14:00:57.653Z",
   "window": {
     "from": "2026-08-10",
     "to": "2026-08-30"
@@ -888,7 +888,8 @@
       "dates": [
         "2026-07-29",
         "2026-08-05",
-        "2026-08-12"
+        "2026-08-12",
+        "2026-08-19"
       ],
       "rawTitle": "Saga of Tanya the Evil Staffel 2 (Deutsch)",
       "seriesId": "GR9P57W96",
@@ -905,6 +906,10 @@
         {
           "date": "2026-08-12",
           "episode": 3
+        },
+        {
+          "date": "2026-08-19",
+          "episode": 4
         }
       ],
       "earliest": {
@@ -1427,6 +1432,16 @@
       "date": "2026-08-19",
       "time": "14:00",
       "episode": 7,
+      "german": true
+    },
+    {
+      "key": "saga of tanya the evil s2",
+      "rawTitle": "Saga of Tanya the Evil Staffel 2 (Deutsch)",
+      "seriesId": "GR9P57W96",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GR9P57W96/saga-of-tanya-the-evil",
+      "date": "2026-08-19",
+      "time": "15:30",
+      "episode": 4,
       "german": true
     }
   ]
