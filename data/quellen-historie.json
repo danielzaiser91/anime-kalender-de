@@ -2572,5 +2572,28 @@
       "sagt": "2026-07-28",
       "stand": "aktuell"
     }
+  ],
+  "mushoku-tensei-s3": [
+    {
+      "url": "https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026",
+      "name": "anisearch.de",
+      "gesehenAm": "2026-08-19",
+      "sagt": "2026-08-19",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1022385/crunchyroll-sommer-2026-synchros/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-08-19",
+      "sagt": "2026-08-19",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/simulcastcalendar",
+      "name": "crunchyroll.com",
+      "gesehenAm": "2026-08-19",
+      "sagt": "2026-08-19",
+      "stand": "aktuell"
+    }
   ]
 }

@@ -2945,14 +2945,23 @@ DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestätig
 CATEGORIES:Kino
 END:VEVENT
 BEGIN:VEVENT
+UID:mushoku-tensei-s3@2026-08-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260819T113000Z
+DTEND:20260819T120000Z
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 1/14
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/mushoku-tensei-s3
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:clevatess-s2@2026-08-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260819T120000Z
 DTEND:20260819T123000Z
 SUMMARY:Clevatess – Staffel 2 – Folge 7/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/clevatess-s2
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/clevatess-s2
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -3112,6 +3121,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:mushoku-tensei-s3@2026-08-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260826T113000Z
+DTEND:20260826T120000Z
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 2/14
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/mushoku-tensei-s3
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:clevatess-s2@2026-08-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260826T120000Z
@@ -3265,6 +3285,17 @@ SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 9/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/skeleton-knight-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:mushoku-tensei-s3@2026-09-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260902T113000Z
+DTEND:20260902T120000Z
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 3/14
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/mushoku-tensei-s3
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -3513,6 +3544,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:mushoku-tensei-s3@2026-09-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260909T113000Z
+DTEND:20260909T120000Z
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 4/14
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/mushoku-tensei-s3
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:clevatess-s2@2026-09-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260909T120000Z
@@ -3622,6 +3664,17 @@ SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 11/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/skeleton-knight-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:mushoku-tensei-s3@2026-09-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260916T113000Z
+DTEND:20260916T120000Z
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 5/14
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/mushoku-tensei-s3
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -3770,6 +3823,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:mushoku-tensei-s3@2026-09-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260923T113000Z
+DTEND:20260923T120000Z
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 6/14
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/mushoku-tensei-s3
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:clevatess-s2@2026-09-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260923T120000Z
@@ -3846,6 +3910,17 @@ SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 21/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6793XKZY
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:mushoku-tensei-s3@2026-09-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260930T113000Z
+DTEND:20260930T120000Z
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 7/14
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/mushoku-tensei-s3
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -3950,6 +4025,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:mushoku-tensei-s3@2026-10-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261007T113000Z
+DTEND:20261007T120000Z
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 8/14
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/mushoku-tensei-s3
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T133000Z
@@ -4014,6 +4100,17 @@ SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 23/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-G6793XKZY
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:mushoku-tensei-s3@2026-10-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261014T113000Z
+DTEND:20261014T120000Z
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 9/14
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/mushoku-tensei-s3
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -4095,6 +4192,39 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:mushoku-tensei-s3@2026-10-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261021T113000Z
+DTEND:20261021T120000Z
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 10/14
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/mushoku-tensei-s3
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:mushoku-tensei-s3@2026-10-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261028T123000Z
+DTEND:20261028T130000Z
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 11/14
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/mushoku-tensei-s3
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:mushoku-tensei-s3@2026-11-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261104T123000Z
+DTEND:20261104T130000Z
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 12/14
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/mushoku-tensei-s3
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:spice-and-wolf-2024-vol3@2026-11-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261106
@@ -4104,6 +4234,28 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/spice-a
  nd-wolf-2024-vol3
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:mushoku-tensei-s3@2026-11-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261111T123000Z
+DTEND:20261111T130000Z
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 13/14
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/mushoku-tensei-s3
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:mushoku-tensei-s3@2026-11-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261118T123000Z
+DTEND:20261118T130000Z
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 14/14
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/mushoku-tensei-s3
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:virgin-road-vol-3-2026-11-20@2026-11-20@anime-kalender-de

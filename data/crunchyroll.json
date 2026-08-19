@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-19T05:49:56.840Z",
+  "scrapedAt": "2026-08-19T13:10:19.986Z",
   "window": {
     "from": "2026-08-10",
     "to": "2026-08-30"
@@ -731,7 +731,8 @@
         "2026-07-22",
         "2026-07-29",
         "2026-08-05",
-        "2026-08-12"
+        "2026-08-12",
+        "2026-08-19"
       ],
       "rawTitle": "Clevatess Staffel 2 (Deutsch)",
       "seriesId": "G8DHV78ZM",
@@ -760,6 +761,10 @@
         {
           "date": "2026-08-12",
           "episode": 6
+        },
+        {
+          "date": "2026-08-19",
+          "episode": 7
         }
       ],
       "earliest": {
@@ -1240,6 +1245,27 @@
         "episode": 4
       },
       "weeklyConfirmed": false
+    },
+    "mushoku tensei jobless reincarnation s3": {
+      "time": "13:30",
+      "weekday": 2,
+      "dates": [
+        "2026-08-19"
+      ],
+      "rawTitle": "Mushoku Tensei: Jobless Reincarnation Season 3 (Deutsch)",
+      "seriesId": "G24H1N3MP",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G24H1N3MP/mushoku-tensei-jobless-reincarnation",
+      "observations": [
+        {
+          "date": "2026-08-19",
+          "episode": 1
+        }
+      ],
+      "earliest": {
+        "date": "2026-08-19",
+        "episode": 1
+      },
+      "weeklyConfirmed": false
     }
   },
   "slots": [
@@ -1371,6 +1397,36 @@
       "date": "2026-08-18",
       "time": "10:30",
       "episode": 4,
+      "german": true
+    },
+    {
+      "key": "mushoku tensei jobless reincarnation s3",
+      "rawTitle": "Mushoku Tensei: Jobless Reincarnation Season 3 (Deutsch)",
+      "seriesId": "G24H1N3MP",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G24H1N3MP/mushoku-tensei-jobless-reincarnation",
+      "date": "2026-08-19",
+      "time": "13:00",
+      "episode": 1,
+      "german": true
+    },
+    {
+      "key": "mushoku tensei jobless reincarnation s3",
+      "rawTitle": "Mushoku Tensei: Jobless Reincarnation Season 3 (Deutsch)",
+      "seriesId": "G24H1N3MP",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G24H1N3MP/mushoku-tensei-jobless-reincarnation",
+      "date": "2026-08-19",
+      "time": "13:30",
+      "episode": 2,
+      "german": true
+    },
+    {
+      "key": "clevatess s2",
+      "rawTitle": "Clevatess Staffel 2 (Deutsch)",
+      "seriesId": "G8DHV78ZM",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G8DHV78ZM/clevatess",
+      "date": "2026-08-19",
+      "time": "14:00",
+      "episode": 7,
       "german": true
     }
   ]
