@@ -1,6 +1,20 @@
 {
-  "scrapedAt": "2026-08-18T04:58:23.943Z",
+  "scrapedAt": "2026-08-19T04:57:53.135Z",
   "proposals": [
+    {
+      "articleTitle": "Sechs Blu-ray-Termine von AniMoon und Crunchyroll verschoben",
+      "articleUrl": "https://www.anime2you.de/news/1042244/animoon-crunchyroll-sechs-verschiebungen/",
+      "publishedAt": "2026-08-18",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "pause": "verschoben",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Amazon startet große Rabattaktion mit über 500 Anime-Produkten",
       "articleUrl": "https://www.anime2you.de/news/1042209/amazon-couchella-2026-rabattaktion/",
@@ -495,10 +509,6 @@
         "kino"
       ],
       "dates": [
-        {
-          "iso": "2026-08-18",
-          "context": ". Kinostart im August 2026 »Chihiros Reise ins Zauberland« ist ab dem 18. August 2026 im Verleih von Wild Bunch Germany sowohl mit deutscher"
-        },
         {
           "month": "2026-08",
           "context": "die große Leinwand zurück. Wir fassen die Details zusammen. Kinostart im August 2026 »Chihiros Reise ins Zauberland« ist ab dem 18. August 2"
