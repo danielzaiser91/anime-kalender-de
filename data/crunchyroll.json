@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-19T14:56:06.101Z",
+  "scrapedAt": "2026-08-19T21:53:48.789Z",
   "window": {
     "from": "2026-08-10",
     "to": "2026-08-30"
@@ -924,7 +924,8 @@
       "dates": [
         "2026-07-29",
         "2026-08-05",
-        "2026-08-12"
+        "2026-08-12",
+        "2026-08-19"
       ],
       "rawTitle": "Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Staffel 2 (Deutsch)",
       "seriesId": "G0XHWM0D3",
@@ -941,6 +942,10 @@
         {
           "date": "2026-08-12",
           "episode": 3
+        },
+        {
+          "date": "2026-08-19",
+          "episode": 4
         }
       ],
       "earliest": {
@@ -955,7 +960,8 @@
       "dates": [
         "2026-07-29",
         "2026-08-05",
-        "2026-08-12"
+        "2026-08-12",
+        "2026-08-19"
       ],
       "rawTitle": "Tomb Raider King Staffel 1 (Deutsch)",
       "seriesId": "GT00378123",
@@ -972,6 +978,10 @@
         {
           "date": "2026-08-12",
           "episode": 3
+        },
+        {
+          "date": "2026-08-19",
+          "episode": 4
         }
       ],
       "earliest": {
@@ -1252,7 +1262,7 @@
       "weeklyConfirmed": false
     },
     "mushoku tensei jobless reincarnation s3": {
-      "time": "13:30",
+      "time": "17:00",
       "weekday": 2,
       "dates": [
         "2026-08-19"
@@ -1441,6 +1451,36 @@
       "seriesUrl": "https://www.crunchyroll.com/de/series/GR9P57W96/saga-of-tanya-the-evil",
       "date": "2026-08-19",
       "time": "15:30",
+      "episode": 4,
+      "german": true
+    },
+    {
+      "key": "mushoku tensei jobless reincarnation s3",
+      "rawTitle": "Mushoku Tensei: Jobless Reincarnation Season 3 (Deutsch)",
+      "seriesId": "G24H1N3MP",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G24H1N3MP/mushoku-tensei-jobless-reincarnation",
+      "date": "2026-08-19",
+      "time": "17:00",
+      "episode": 3,
+      "german": true
+    },
+    {
+      "key": "trapped in a dating sim the world of otome games is tough for mobs s2",
+      "rawTitle": "Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Staffel 2 (Deutsch)",
+      "seriesId": "G0XHWM0D3",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G0XHWM0D3/trapped-in-a-dating-sim-the-world-of-otome-games-is-tough-for-mobs",
+      "date": "2026-08-19",
+      "time": "17:30",
+      "episode": 4,
+      "german": true
+    },
+    {
+      "key": "tomb raider king s1",
+      "rawTitle": "Tomb Raider King Staffel 1 (Deutsch)",
+      "seriesId": "GT00378123",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00378123/tomb-raider-king",
+      "date": "2026-08-19",
+      "time": "19:15",
       "episode": 4,
       "german": true
     }
