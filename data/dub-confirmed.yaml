@@ -612,3 +612,29 @@
   dub: true
   checkedAt: '2026-08-20'
   note: 8 Folgen verfügbar, bis Folge 6 mit deutscher Synchro.
+
+# 2.5 Dimensional Seduction, geprüft von Daniel am 20.08.2026.
+#
+# Ein Titel, der die Trennlinie dieses Projekts gut zeigt: Die deutsche Synchro
+# **gibt es** — auf Disc, in vier Ausgaben bei AniMoon. Im Stream gibt es sie
+# nirgends. Der Prime-Treffer ist der ADN-Kanal auf Amazon, und ADN führt den
+# Titel ohne deutsche Tonspur; der Crunchyroll-Kanal auf Prime ist tot.
+- anilistId: 158559
+  title: 2.5 Dimensional Seduction
+  platform: crunchyroll
+  dub: false
+  checkedAt: '2026-08-20'
+
+- anilistId: 158559
+  title: 2.5 Dimensional Seduction
+  platform: adn
+  dub: false
+  checkedAt: '2026-08-20'
+  note: Alte Adressform aus AniList, nicht aus unserem Katalog — dort steht der Titel ohne vde.
+
+- anilistId: 158559
+  title: 2.5 Dimensional Seduction
+  platform: primevideo
+  dub: false
+  checkedAt: '2026-08-20'
+  note: Treffer ist der ADN-Kanal auf Amazon, dort ohne deutsche Tonspur. Der Crunchyroll-Kanal führt ins Leere.

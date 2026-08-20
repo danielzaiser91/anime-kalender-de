@@ -39,3 +39,26 @@
       url: https://www.amazon.de/gp/video/detail/B0H3LKZ67T
   sources:
     - https://www.amazon.de/gp/video/detail/B0H3LKZ67T
+
+# Die deutsche Fassung gibt es hier nur auf Disc — vier Ausgaben beim Verlag
+# selbst (Daniel, 20.08.2026). Die Termine auf den Seiten nennen nur den Monat:
+# Vol. 1 Juli 2025, Vol. 2 Februar 2026, Vol. 3 März 2026, Vol. 4 September 2026.
+# Unser Termin für Vol. 4 (04.09.2026) stammt aus einer Shop-Angabe und ist
+# genauer; er widerspricht dem Verlag nicht.
+- anilistId: 158559
+  title: 2.5 Dimensional Seduction
+  links:
+    - name: AniMoon — Vol. 1
+      url: https://animoon-publishing.de/products/2-5-dimensional-seduction-vol-1
+      kind: buy
+    - name: AniMoon — Vol. 2
+      url: https://animoon-publishing.de/products/2-5-dimensional-seduction-vol-2
+      kind: buy
+    - name: AniMoon — Vol. 3
+      url: https://animoon-publishing.de/products/2-5-dimensional-seduction-vol-3
+      kind: buy
+    - name: AniMoon — Vol. 4
+      url: https://animoon-publishing.de/products/2-5-dimensional-seduction-vol-4
+      kind: buy
+  sources:
+    - https://animoon-publishing.de/products/2-5-dimensional-seduction-vol-1

@@ -1854,6 +1854,28 @@ function main(): void {
   if (ytEntfernt) log(`${ytEntfernt} YouTube-Verweise entfernt: dort ist in Deutschland kein Video abrufbar`)
 
   /**
+   * Auch Kaufwege können ins Leere führen.
+   *
+   * Die Bereinigung fasste bis zum 20.08.2026 nur `streams` an. In den
+   * `watchLinks` standen daneben **188** Adressen, die mit 404 oder einer
+   * Regionssperre antworten — dieselbe Prüfung, dieselben Befunde, nur nie
+   * angewendet. Aufgefallen ist es, weil Daniel einen Kaufweg anklickte, der
+   * nicht funktionierte.
+   */
+  let kaufwegeEntfernt = 0
+  for (const title of titles.values()) {
+    if (!title.watchLinks?.length) continue
+    const vorher = title.watchLinks.length
+    title.watchLinks = title.watchLinks.filter((w) => {
+      const s = linkBefunde[w.url]?.status
+      return !(s === 404 || s === 'region')
+    })
+    kaufwegeEntfernt += vorher - title.watchLinks.length
+    if (!title.watchLinks.length) delete title.watchLinks
+  }
+  if (kaufwegeEntfernt) log(`${kaufwegeEntfernt} Kaufwege entfernt: die Seite dahinter ist weg oder hier gesperrt`)
+
+  /**
    * Ein Suchlink weicht der echten Produktseite.
    *
    * AniList liefert für die meisten Titel keinen Deeplink zu Prime Video,
