@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useMemo, useState } from 'react'
-import type { Meldung, Quelle, Release, ReleaseEvent, Title } from '@shared/types.ts'
+import type { Meldung, Quelle, Release, ReleaseEvent, Title, WatchLink } from '@shared/types.ts'
 import { PLATFORMS } from '@shared/types.ts'
 import { expandEvents, lastEpisodeDate, releaseStatus, titleStatus } from '@shared/logic.ts'
 import { buildIcs, googleCalendarUrl } from '@shared/ics.ts'
@@ -645,6 +645,98 @@ function Meldungen({ titleId }: { titleId: number }) {
  * Zeile führt, aber nur mit dem, was sie **unterscheidet** — der Serientitel
  * steht dort ausschließlich im Seitenkopf.
  */
+/**
+ * Ein Shop in einer Zeile — mit allen Ausgaben nebeneinander.
+ *
+ * Bei einem einzigen Eintrag ist die ganze Zeile der Verweis, wie bisher. Bei
+ * mehreren steht der Shop links und daneben die Ausgaben als kleine Knöpfe: vier
+ * Ausgaben bei AniMoon sind eine Auskunft, keine vier Zeilen.
+ */
+function ShopZeile({
+  gruppe,
+  hinweis,
+}: {
+  gruppe: { shop: string; eintraege: { label?: string; url: string }[] }
+  hinweis: string
+}) {
+  const rahmen =
+    'flex items-center gap-2 rounded-lg border border-slate-200 px-2 py-1.5 dark:border-white/10'
+
+  if (gruppe.eintraege.length === 1) {
+    return (
+      <a
+        href={gruppe.eintraege[0].url}
+        target="_blank"
+        rel="noreferrer noopener"
+        className={`${rahmen} cursor-pointer transition hover:border-slate-300 hover:bg-slate-100/60 dark:hover:border-white/25 dark:hover:bg-white/5`}
+      >
+        <span className="text-xs font-medium text-slate-700 dark:text-slate-200">{gruppe.shop}</span>
+        <span className="ml-auto text-[11px] text-slate-400 dark:text-slate-500">{hinweis}</span>
+      </a>
+    )
+  }
+
+  return (
+    <div className={`${rahmen} flex-wrap`}>
+      <span className="text-xs font-medium text-slate-700 dark:text-slate-200">{gruppe.shop}</span>
+      <span className="flex flex-wrap items-center gap-1">
+        {gruppe.eintraege.map((e) => (
+          <a
+            key={e.url}
+            href={e.url}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="cursor-pointer rounded-md border border-slate-200 px-1.5 py-0.5 text-[11px] text-slate-600 transition hover:border-slate-400 hover:bg-slate-100/60 dark:border-white/15 dark:text-slate-300 dark:hover:border-white/30 dark:hover:bg-white/5"
+          >
+            {e.label}
+          </a>
+        ))}
+      </span>
+      <span className="ml-auto text-[11px] text-slate-400 dark:text-slate-500">{hinweis}</span>
+    </div>
+  )
+}
+
+/**
+ * Fasst die Bezugswege eines Shops zu einer Zeile zusammen.
+ *
+ * Vorher stand jede Ausgabe in einer eigenen Zeile: „AniMoon — Vol. 1",
+ * „AniMoon — Vol. 2", „AniMoon — Vol. 3", „AniMoon — Vol. 4" untereinander. Das
+ * sind vier Zeilen für eine Auskunft — nämlich, dass es die Serie bei AniMoon in
+ * vier Ausgaben gibt (Daniel, 20.08.2026).
+ *
+ * Gruppiert wird nach **Hostnamen**, nicht nach Anzeigenamen: Derselbe Shop
+ * schreibt sich in unseren Daten mal so, mal anders, die Adresse nicht. Der
+ * Anzeigename kommt aus dem gemeinsamen Teil vor dem Gedankenstrich; steht dort
+ * nichts Gemeinsames, bleibt der volle Name stehen.
+ */
+function gruppiereKaufwege(links: WatchLink[]): { shop: string; eintraege: { label?: string; url: string }[] }[] {
+  const nachHost = new Map<string, WatchLink[]>()
+  for (const l of links) {
+    let host = l.url
+    try {
+      host = new URL(l.url).hostname.replace(/^www\./, '')
+    } catch {
+      // Keine gültige Adresse — dann steht der Eintrag eben für sich allein.
+    }
+    const liste = nachHost.get(host) ?? []
+    liste.push(l)
+    nachHost.set(host, liste)
+  }
+
+  return [...nachHost.values()].map((liste) => {
+    const geteilt = liste.map((l) => l.name.split(/\s+—\s+/))
+    const gemeinsam = geteilt.every((t) => t.length > 1 && t[0] === geteilt[0][0])
+    if (liste.length === 1 || !gemeinsam) {
+      return { shop: liste[0].name, eintraege: liste.map((l) => ({ url: l.url })) }
+    }
+    return {
+      shop: geteilt[0][0],
+      eintraege: liste.map((l, i) => ({ label: geteilt[i].slice(1).join(' — '), url: l.url })),
+    }
+  })
+}
+
 function gruppiereReleases(releases: Release[]): Release[][] {
   const nachSchluessel = new Map<string, Release[]>()
   for (const r of releases) {
@@ -1235,6 +1327,22 @@ export function DetailPanel({
   // Der englische Rückfall bleibt bewusst, obwohl die Oberfläche seit dem
   // 10.08.2026 einsprachig ist: Er stammt nicht aus einer Übersetzung der
   // Seite, sondern aus der Quelle. Für rund 700 der 2.750 Titel gibt es
+  /**
+   * Kaufwege getrennt und nach Shop gebündelt.
+   *
+   * Getrennt, weil „Ansehen" und „Kaufen" zwei verschiedene Fragen sind.
+   * Gebündelt, weil vier Ausgaben desselben Verlags eine Auskunft sind.
+   */
+  const kaufwege = useMemo(
+    () => gruppiereKaufwege((title.watchLinks ?? []).filter((w) => w.kind === 'buy')),
+    [title],
+  )
+  /** Alles, was man ansehen kann — Plattformen und Anbieter ohne eigene. */
+  const ansehen = useMemo(
+    () => [...title.streams, ...(title.watchLinks ?? []).filter((w) => w.kind === 'stream')],
+    [title],
+  )
+
   // nirgends eine deutsche Inhaltsangabe — dort wäre die Alternative eine
   // leere Fläche.
   const plot = (() => {
@@ -1660,6 +1768,16 @@ export function DetailPanel({
             <div>
               <SectionTitle>{t('detail.whereToWatch')}</SectionTitle>
               <div className="flex flex-col gap-1.5">
+                {/*
+                  Die Überschrift steht nur da, wenn es auch etwas zu kaufen
+                  gibt. Sonst wäre sie eine Trennung ohne zweite Seite — und
+                  eine Zeile, die nichts sagt.
+                */}
+                {kaufwege.length > 0 && ansehen.length > 0 && (
+                  <div className="text-[11px] font-medium uppercase tracking-wide text-slate-400 dark:text-slate-500">
+                    {t('where.stream')}
+                  </div>
+                )}
                 {title.streams.map((s) => (
                   <a
                     key={s.platform}
@@ -1692,22 +1810,35 @@ export function DetailPanel({
                   </a>
                 ))}
 
-                {/* Anbieter ohne eigene Plattform — Streams stehen zuerst,
-                    weil ein Abo näher liegt als ein Kauf. */}
-                {(title.watchLinks ?? []).map((w) => (
-                  <a
-                    key={w.url}
-                    href={w.url}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="flex cursor-pointer items-center gap-2 rounded-lg border border-slate-200 px-2 py-1.5 transition hover:border-slate-300 hover:bg-slate-100/60 dark:border-white/10 dark:hover:border-white/25 dark:hover:bg-white/5"
-                  >
-                    <span className="text-xs font-medium text-slate-700 dark:text-slate-200">{w.name}</span>
-                    <span className="ml-auto text-[11px] text-slate-400 dark:text-slate-500">
-                      {t(w.kind === 'buy' ? 'detail.linkBuy' : 'detail.linkStream')}
-                    </span>
-                  </a>
+                {/*
+                  Anbieter ohne eigene Plattform, nach Shop gebündelt.
+
+                  Vier Ausgaben einer Serie bei demselben Verlag sind **eine**
+                  Auskunft, keine vier — deshalb steht der Shop einmal da und die
+                  Ausgaben nebeneinander (Daniel, 20.08.2026).
+                */}
+                {gruppiereKaufwege((title.watchLinks ?? []).filter((w) => w.kind === 'stream')).map((g) => (
+                  <ShopZeile key={g.shop + g.eintraege[0].url} gruppe={g} hinweis={t('detail.linkStream')} />
                 ))}
+
+                {kaufwege.length > 0 && (
+                  <>
+                    {/*
+                      Eigene Überschrift, sobald es etwas zu kaufen gibt.
+
+                      „Ansehen" und „Kaufen" sind zwei verschiedene Fragen: Wer
+                      ein Abo hat, will nicht zur Kasse, und wer die Disc sucht,
+                      interessiert sich nicht für Streams. In einer Liste musste
+                      man jede Zeile einzeln lesen, um sie zu trennen.
+                    */}
+                    <div className="mt-2 text-[11px] font-medium uppercase tracking-wide text-slate-400 dark:text-slate-500">
+                      {t('where.buy')}
+                    </div>
+                    {kaufwege.map((g) => (
+                      <ShopZeile key={g.shop + g.eintraege[0].url} gruppe={g} hinweis={t('detail.linkBuy')} />
+                    ))}
+                  </>
+                )}
               </div>
             </div>
           )}
