@@ -37,6 +37,25 @@ herausgeholt, wenn der User es sagt.
 | Synchronstudios als Quelle | 8 | **Recherche am 11.08.2026 gemacht, Ergebnis ernüchternd.** Oxygen Sound Studios führt unter [o2studios.com/de/projekte](https://o2studios.com/de/projekte/) eine reine Referenzliste: „Chainsaw Man – Der Film Reze Arc — Deutsche Synchronisation", ohne jedes Datum und ohne Status. Violetmedia ist von hier aus nicht erreichbar (TLS-Handshake bricht ab, wie schon bei aniverse.de). Ein Studio nennt also, **dass** es eine Fassung macht — nicht **wann** sie kommt. Das ist nachvollziehbar: Der Termin gehört dem Lizenznehmer, nicht dem Studio. **Rest-Nutzen:** Die Projektlisten wären ein Beleg dafür, dass eine deutsche Fassung überhaupt existiert oder entsteht — für die `dubConfidence`, nicht für den Kalender. Als Terminquelle zurückgestellt; eine Anfrage lohnt nur, wenn ein Studio überhaupt Termine kennt und nennen dürfte |
 
 ### Zu besprechen
+
+**Kalender-Abo enthält ein Jahrzehnt Vergangenheit** (gemessen 20.08.2026). Das ausgelieferte
+`all.ics` führt **742 Termine, davon 641 in der Vergangenheit** — 86 Prozent, zurück bis zum
+12.01.2015. Wer das Abo einträgt, bekommt das alles in seinen Kalender.
+
+**Warum ich es nicht einfach geändert habe:** Ich hatte ein Rückblick-Fenster von zwölf Monaten
+eingebaut und wieder zurückgenommen. Der Nutzen ist kleiner, als er klingt — Kalenderprogramme
+zeigen Vergangenes nur, wer zurückblättert —, die Kehrseite dagegen konkret: Bei jedem
+Abonnenten **verschwinden** Einträge, die er heute sieht. Das wirkt nach außen, und dafür gilt
+die Rückfrageregel.
+
+Gemessene Wirkung, falls du es willst: 365 Tage Rückblick lassen 453 statt 742 Termine übrig
+(ältester dann 21.08.2025), die Datei schrumpft von 348 auf 243 KB. Alle 101 künftigen Termine
+bleiben in jedem Fall drin, und `events.json` auf der Seite bleibt vollständig — die
+Vergangenheit ist dort weiter durchblätterbar.
+
+Drei Möglichkeiten: so lassen, zwölf Monate, oder enger (90 Tage lassen ungefähr 150 vergangene
+stehen).
+
 _(leer)_
 
 ### Warten auf Feedback
