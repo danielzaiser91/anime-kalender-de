@@ -21,6 +21,7 @@ nicht als „jetzt möglich" — entschieden und eingeplant ist beides schon, es
 
 | Wann | Was | Aufgabe |
 |---|---|---|
+| **20.08.2026, ab 13:45** | **Wochenlauf nachsehen** — von Hand angestoßen am 20.08. um 12:31 Uhr, Lauf-Nummer 32359320442. Der letzte vollständige Wochenlauf brauchte **57 Minuten** (17.08., 06:03–07:00 UTC); dieser hat mehr zu tun, weil die ADN-Warteschlange von 179 auf 242 Serien gewachsen ist und die Zuordnungsphase am AniList-Ratenlimit hängt. **Erwartetes Ende: 13:30 bis 13:50 Uhr.** Abfragen mit `gh run list --workflow refresh-weekly.yml --limit 1 --repo danielzaiser91/anime-kalender-de`. Zu prüfen: Ist er grün, hat der ADN-Katalog wieder ~109 Serien mit Synchro, und lief der neue YouTube-Schritt durch (er sollte „0 fällig" melden, weil der Bestand vom selben Tag stammt) | erster Lauf mit vereinigter ADN-Warteschlange und YouTube-Prüfung |
 | 24.08.2026, 10:00 | DMARC-Politik von `p=none` auf `p=quarantine` heben **und `rua=` streichen** — vorher die bis dahin eingegangenen Berichte prüfen; bei einem `fail` oder einer fremden Absender-IP wird nicht umgestellt. Die täglichen Berichtsmails hören damit auf (Daniels Entscheidung 12.08.2026); Preis dafür: keine Belegkette für ein späteres `p=reject` und keine Warnung bei gefälschten Absendern | `dmarc-policy-anime-kalender` |
 
 ### Später (nice to have)
