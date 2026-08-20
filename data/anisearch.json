@@ -166061,7 +166061,90 @@
         "url": "https://www.amazon.de/dp/B09LXD43SC?tag=anisearch.de-21"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:25.740Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Cop Craft",
+          "titleNative": "コップクラフト",
+          "status": "Abgeschlossen",
+          "released": "09.07.2019 - 01.10.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "Cop Craft",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "08.07.2019 - 30.09.2019",
+          "publisher": [
+            "FUNimation",
+            "Madman Entertainment",
+            "Manga Entertainment Ltd."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Cop Craft",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "17.09.2019 - 30.09.2019",
+          "publisher": [
+            "Anime House GmbH"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Cop Craft",
+          "status": "Abgeschlossen",
+          "released": "?",
+          "publisher": [
+            "Funimation LATAM"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Cop Craft",
+          "status": "Abgeschlossen",
+          "released": "08.07.2019 - 30.09.2019",
+          "publisher": [
+            "Wakanim SAS"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "runtimeMinutes": 24,
+      "season": "Sommer 2019",
+      "studios": [
+        "Millepensee Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Shouji GATOU",
+          "role": "Original Work"
+        },
+        {
+          "name": "Shin ITAGAKI",
+          "role": "Direction"
+        },
+        {
+          "name": "Hiromi KIMURA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Taku IWASAKI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "Copcraft",
+          "url": "https://copcraft.tv/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:31:12.099Z"
   },
   "106896": {
     "anisearchId": 14139,
@@ -166147,7 +166230,65 @@
         "url": "https://www.youtube.com/watch?v=NLxZ9r0a1pQ"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:23.524Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Miru Tights",
+          "titleNative": "みるタイツ",
+          "status": "Abgeschlossen",
+          "released": "11.05.2019 - 27.07.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "Miru Tights",
+          "status": "Abgeschlossen",
+          "released": "11.05.2019 - 27.07.2019",
+          "publisher": [
+            "WWWave of America Corp."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Miru Tights",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "10.07.2026",
+          "publisher": [
+            "polyband Medien GmbH"
+          ]
+        }
+      ],
+      "format": "Web",
+      "episodes": 12,
+      "runtimeMinutes": 4,
+      "season": "Frühling 2019",
+      "studios": [
+        "Yokohama Animation Lab"
+      ],
+      "staff": [
+        {
+          "name": "Yomu",
+          "role": "Original Work"
+        },
+        {
+          "name": "Yuuki OGAWA",
+          "role": "Direction"
+        },
+        {
+          "name": "Shade",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Mirutights",
+          "url": "https://mirutights.jp/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:30:57.931Z"
   },
   "107012": {
     "anisearchId": 14099,
@@ -166166,13 +166307,204 @@
         "url": "https://store.sky.de/product/wonderland-das-konigreich-im-keller/eabf44a8-0653-4cd7-bdd4-cb354937eec1"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:26.852Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Birthday Wonderland",
+          "titleNative": "バースデー・ワンダーランド",
+          "status": "Abgeschlossen",
+          "released": "26.04.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "The Wonderland",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "31.01.2020",
+          "publisher": [
+            "Anime Limited (UK)",
+            "Eleven Arts"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Wonderland: Das Königreich im Keller",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "18.06.2020",
+          "publisher": [
+            "KSM Anime"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "The Wonderland",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "24.11.2019",
+          "publisher": [
+            "KEM Media",
+            "Selecta Visión S.L.U."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Wonderland, le Royaume sans Pluie",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "24.07.2019",
+          "publisher": [
+            "Anime Limited (France)",
+            "Art House Films"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "The Wonderland",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "19.11.2019",
+          "publisher": [
+            "Dynit SRL"
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 115,
+      "season": "Frühling 2019",
+      "studios": [
+        "SIGNAL.MD, Inc."
+      ],
+      "staff": [
+        {
+          "name": "Sachiko KASHIWABA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Keiichi HARA",
+          "role": "Direction"
+        }
+      ],
+      "adaptedFrom": "Novel",
+      "websites": [
+        {
+          "name": "Warnerbros",
+          "url": "https://wwws.warnerbros.co.jp/birthdaywonderland/"
+        }
+      ],
+      "synonyms": [
+        "Chikashitsu kara no Fushigi na Tabi",
+        "Wonderland Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:31:19.174Z"
   },
   "107068": {
     "anisearchId": 14102,
     "descriptionDe": "»Karakai Jouzu no Takagi-san«, die Anime-Adaption zu Souichirou Yamamotos gleichnamigem Manga, geht in ihre zweite Runde und für den jungen Nishikata heißt das, dass er noch mehr von Takagis Neckereien und Sticheleien auszuhalten hat …! Während es in der Beziehung ihrer beiden Freunde Mano und Nakai auch im Wasserpark mit seiner großen Rutsche und der Legende ebendieser nicht so richtig vorangehen will, konnte zumindest die Sitzordnung im Klassenraum wiederhergestellt werden. Doch auch wenn Nishikata insgeheim in Takagi verliebt ist, ist nicht klar, ob er darüber froh sein sollte oder nicht … Denn eines ist klar: Takagi wird ihm auch in Staffel 2 das Leben schwer machen! \n\nQuelle: www.anisearch.de/anime/14102",
     "streams": [],
-    "fetchedAt": "2026-08-09T11:22:27.977Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Karakai Jouzu no Takagi-san 2",
+          "titleNative": "Karakai Jōzu no Takagi-san 2",
+          "status": "Abgeschlossen",
+          "released": "07.07.2019 - 22.09.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "Teasing Master Takagi-san: Season 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "06.12.2019",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Karakai Jozu no Takagi-san: Staffel 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "06.12.2019",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Takagi-san: Experta en bromas pesadas - Temporada 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "06.12.2019",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Karakai Jouzu no Takagi-san: Saison 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "06.12.2019",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Karakai Jozu no Takagi-san: Stagione 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "06.12.2019",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "runtimeMinutes": 24,
+      "season": "Sommer 2019",
+      "studios": [
+        "Shin-ei Animation Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Souichirou YAMAMOTO",
+          "role": "Original Work"
+        },
+        {
+          "name": "Hiroaki AKAGI",
+          "role": "Direction"
+        },
+        {
+          "name": "Aya TAKANO",
+          "role": "Character Design"
+        },
+        {
+          "name": "Hiroaki TSUTSUMI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Takagi3",
+          "url": "https://takagi3.me/"
+        }
+      ],
+      "synonyms": [
+        "Nicht schon wieder",
+        "Takagi-san! Staffel 2",
+        "Skilled Teaser Takagi-san 2nd Season",
+        "Teasing Master Takagi-san S2 Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:31:26.282Z"
   },
   "107202": {
     "anisearchId": 14107,
@@ -166187,7 +166519,83 @@
         "url": "https://akibapasstv.vhx.tv/products/free-road-to-the-world-the-dream-de"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:29.088Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Gekijouban Free! Road to the World - Yume",
+          "titleNative": "Gekijōban Free! Road to the World - Yume",
+          "status": "Abgeschlossen",
+          "released": "05.07.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "Free! Road to the World - the Dream",
+          "status": "Abgeschlossen",
+          "released": "18.09.2020",
+          "publisher": [
+            "Madman Entertainment",
+            "FUNimation"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Free!: Road to the World - The Dream",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "01.10.2020",
+          "publisher": [
+            "peppermint anime GmbH"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Free! Road to the World - the Dream",
+          "status": "Abgeschlossen",
+          "released": "?",
+          "publisher": [
+            "Funimation LATAM"
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 99,
+      "season": "Sommer 2019",
+      "studios": [
+        "Kyoto Animation Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Eisaku KAWANAMI",
+          "role": "Direction"
+        },
+        {
+          "name": "Futoshi NISHIYA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Tatsuya KATOU",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "Kyotoanimation",
+          "url": "https://www.kyotoanimation.co.jp/works/freeRW/"
+        },
+        {
+          "name": "Rw Iwatobi Sc",
+          "url": "https://rw.iwatobi-sc.com"
+        }
+      ],
+      "synonyms": [
+        "Free!: Road to the World - the Dream",
+        "Gekijouban Free! Dive to the Future Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:31:33.349Z"
   },
   "107226": {
     "anisearchId": 14108,
@@ -166202,7 +166610,100 @@
         "url": "https://www.crunchyroll.com/how-heavy-are-the-dumbbells-you-lift"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:30.217Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Dumbbell Nan Kilo Moteru?",
+          "titleNative": "ダンベル何キロ持てる？",
+          "status": "Abgeschlossen",
+          "released": "03.07.2019 - 18.09.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "How Heavy Are the Dumbbells You Lift?",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "03.07.2019 - 18.09.2019",
+          "publisher": [
+            "FUNimation",
+            "Madman Entertainment",
+            "Manga Entertainment Ltd.",
+            "Wakanim Nordic"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "How Heavy Are the Dumbbells You Lift?",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "03.07.2019 - 18.09.2019",
+          "publisher": [
+            "Kazé Deutschland"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "How Heavy Are the Dumbbells You Lift?",
+          "status": "Abgeschlossen",
+          "released": "?",
+          "publisher": [
+            "Funimation LATAM"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Dumbbell : Combien tu peux soulever ?",
+          "status": "Abgeschlossen",
+          "released": "03.07.2019 - 18.09.2019",
+          "publisher": [
+            "Kana Home Video"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "How Heavy Are the Dumbbells You Lift?",
+          "status": "Abgeschlossen",
+          "released": "31.12.2022",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "runtimeMinutes": 24,
+      "season": "Sommer 2019",
+      "studios": [
+        "Doga Kobo"
+      ],
+      "staff": [
+        {
+          "name": "Yabako SANDROVICH",
+          "role": "Original Work"
+        },
+        {
+          "name": "Mitsue YAMAZAKI",
+          "role": "Direction"
+        },
+        {
+          "name": "Ai KIKUCHI",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Dumbbell Anime",
+          "url": "https://dumbbell-anime.jp/"
+        }
+      ],
+      "synonyms": [
+        "How Many Kilograms Are the Dumbbells You Lift?",
+        "How Much Heavy Dumbbells Can You Lift? Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:31:40.452Z"
   },
   "107313": {
     "anisearchId": 14265,
@@ -166213,7 +166714,88 @@
         "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/fujiko-mines-lge-unbekannt-822260?ssid=424587"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:46.918Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Lupin the IIIrd: Mine Fujiko no Uso",
+          "titleNative": "LUPIN THE IIIRD 峰不二子の嘘",
+          "status": "Abgeschlossen",
+          "released": "31.05.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "Lupin the IIIrd: Fujiko’s Lie",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "04.11.2019",
+          "publisher": [
+            "TMS Entertainment Co., Ltd.",
+            "Discotek Media"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Lupin III.: Fujiko Mines Lüge",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "30.08.2021",
+          "publisher": [
+            "Kazé Deutschland"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Lupin III: La bugia di Fujiko Mine",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "23.11.2020",
+          "publisher": [
+            "PLAION S.r.l."
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 56,
+      "season": "Frühling 2019",
+      "studios": [
+        "Telecom Animation Film"
+      ],
+      "staff": [
+        {
+          "name": "Monkey Punch",
+          "role": "Original Work"
+        },
+        {
+          "name": "Takeshi KOIKE",
+          "role": "Direction"
+        },
+        {
+          "name": "Takeshi KOIKE",
+          "role": "Character Design"
+        },
+        {
+          "name": "James SHIMOJI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Twitter",
+          "url": "https://twitter.com/lupin3_series"
+        },
+        {
+          "name": "Lupin 3rd",
+          "url": "https://lupin-3rd.net/fujiko-mine/"
+        }
+      ],
+      "synonyms": [
+        "Lupin the 3rd: Fujiko’s Lie Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:33:27.092Z"
   },
   "107351": {
     "anisearchId": 12676,
@@ -166513,7 +167095,29 @@
     "anisearchId": 14572,
     "descriptionDe": "Eine kurze Inhaltsangabe zum Anime „Kakegurui Picture Drama“ würde vielen Anime- und Manga-Fans weiterhelfen. Du kennst diesen Anime bereits? Dann unterstütze aniSearch und füge eine kurze Beschreibung zum Inhalt des Anime „Kakegurui Picture Drama“ über unsere Eintragsmaske hinzu. Damit hilfst Du der gesamten deutschsprachigen Anime- und Manga-Community! \n\nQuelle: www.anisearch.de/anime/14572",
     "streams": [],
-    "fetchedAt": "2026-08-09T11:22:24.625Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kakegurui Picture Drama",
+          "titleNative": "賭ケグルイ ピクチャードラマ",
+          "status": "Abgeschlossen",
+          "released": "13.10.2017 - 09.02.2018"
+        }
+      ],
+      "format": "Bonus",
+      "episodes": 3,
+      "runtimeMinutes": 2,
+      "season": "Herbst 2017",
+      "studios": [
+        "MAPPA Co., Ltd."
+      ],
+      "adaptedFrom": "Manga",
+      "synonyms": [
+        "Kakegurui Specials"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:31:05.000Z"
   },
   "107625": {
     "anisearchId": 14157,
@@ -166524,7 +167128,100 @@
         "url": "https://www.netflix.com/title/81400497"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:31.332Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Cider no You ni Kotoba ga Wakiagaru",
+          "titleNative": "Cider no Yō ni Kotoba ga Wakiagaru",
+          "status": "Abgeschlossen",
+          "released": "22.07.2021"
+        },
+        {
+          "language": "Englisch",
+          "title": "Words Bubble Up Like Soda Pop",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "22.07.2021",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Words Bubble Up Like Soda Pop",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "22.07.2021",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Palabras que burbujean como un refresco",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "22.07.2021",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Nos mots comme des bulles",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "22.07.2021",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Words Bubble Up Like Soda Pop",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "22.07.2021",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 87,
+      "season": "Sommer 2021",
+      "studios": [
+        "SIGNAL.MD, Inc.",
+        "Sublimation Inc."
+      ],
+      "staff": [
+        {
+          "name": "Kyouhei ISHIGURO",
+          "role": "Direction"
+        },
+        {
+          "name": "Yukiko AIKEI",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Cider Kotoba",
+          "url": "http://cider-kotoba.jp/"
+        },
+        {
+          "name": "Signal Md",
+          "url": "https://www.signal-md.co.jp/works/cider-kotoba/"
+        }
+      ],
+      "synonyms": [
+        "Words Welling Up Like Cider Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:31:47.527Z"
   },
   "107660": {
     "anisearchId": 14153,
@@ -166535,7 +167232,100 @@
         "url": "https://www.netflix.com/title/81054847"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:32.447Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Beastars",
+          "titleNative": "ビースターズ",
+          "status": "Abgeschlossen",
+          "released": "08.10.2019 - 26.12.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "Beastars",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "13.03.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Beastars",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "13.03.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Beastars",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "13.03.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Beastars",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "13.03.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Beastars",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "13.03.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "runtimeMinutes": 23,
+      "season": "Herbst 2019",
+      "studios": [
+        "Orange Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Paru ITAGAKI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Shin’ichi MATSUMI",
+          "role": "Direction"
+        },
+        {
+          "name": "Nao OOTSU",
+          "role": "Character Design"
+        },
+        {
+          "name": "Satoru KOUSAKI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Bst Anime",
+          "url": "https://bst-anime.com/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:31:54.625Z"
   },
   "107663": {
     "anisearchId": 14160,
@@ -166546,7 +167336,94 @@
         "url": "https://www.joyn.de/serien/astra-lost-in-space"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:34.701Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kanata no Astra",
+          "titleNative": "彼方のアストラ",
+          "status": "Abgeschlossen",
+          "released": "03.07.2019 - 18.09.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "Astra Lost in Space",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "03.07.2019 - 18.09.2019",
+          "publisher": [
+            "FUNimation",
+            "Madman Entertainment",
+            "Manga Entertainment Ltd.",
+            "Wakanim Nordic"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Astra Lost in Space",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "24.07.2020 - 21.08.2020",
+          "publisher": [
+            "LEONINE Anime"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Astra Lost in Space",
+          "status": "Abgeschlossen",
+          "released": "?",
+          "publisher": [
+            "Funimation LATAM"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Astra Lost in Space",
+          "status": "Abgeschlossen",
+          "released": "12.07.2023",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "runtimeMinutes": 28,
+      "season": "Sommer 2019",
+      "studios": [
+        "Lerche"
+      ],
+      "staff": [
+        {
+          "name": "Kenta SHINOHARA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Masaomi ANDOU",
+          "role": "Direction"
+        },
+        {
+          "name": "Keiko KUROSAWA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Masaru YOKOYAMA"
+        },
+        {
+          "name": "Nobuaki NOBUSAWA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Astra Anime",
+          "url": "https://astra-anime.com/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:32:08.939Z"
   },
   "107693": {
     "anisearchId": 14154,
@@ -166565,7 +167442,108 @@
         "url": "https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:33.568Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Mairimashita! Iruma-kun",
+          "titleNative": "魔入りました！ 入間くん",
+          "status": "Abgeschlossen",
+          "released": "05.10.2019 - 07.03.2020"
+        },
+        {
+          "language": "Englisch",
+          "title": "Welcome to Demon School! Iruma-kun",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "05.10.2019 - 07.03.2020",
+          "publisher": [
+            "Crunchyroll",
+            "Sentai",
+            "Anime Limited (UK)",
+            "Muse Communication Co.,Ltd."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Welcome to Demon School! Iruma-kun",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "05.10.2019 - 07.03.2020",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Welcome to Demon-School! Iruma-kun",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "05.10.2019 - 07.03.2020",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Welcome to Demon-School! Iruma-kun",
+          "status": "Abgeschlossen",
+          "released": "05.10.2019 - 07.03.2020",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Welcome to Demon-School! Iruma-kun",
+          "status": "Abgeschlossen",
+          "released": "05.10.2019 - 07.03.2020",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 23,
+      "runtimeMinutes": 25,
+      "season": "Herbst 2019",
+      "studios": [
+        "BANDAI NAMCO Pictures Inc."
+      ],
+      "staff": [
+        {
+          "name": "Osamu NISHI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Makoto MORIWAKI",
+          "role": "Direction"
+        },
+        {
+          "name": "Keiko YAMAMOTO"
+        },
+        {
+          "name": "Toshihiko SANO",
+          "role": "Character Design"
+        },
+        {
+          "name": "Akimitsu HONMA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/nep_irumakun"
+        },
+        {
+          "name": "Nhk Character",
+          "url": "https://www.nhk-character.com/chara/iruma/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:32:01.698Z"
   },
   "107717": {
     "anisearchId": 14169,
@@ -166580,7 +167558,117 @@
         "url": "https://www.crunchyroll.com/miss-kobayashis-dragon-maid"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:36.942Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kobayashi-san Chi no Maid Dragon S",
+          "titleNative": "小林さんちのメイドラゴン S",
+          "status": "Abgeschlossen",
+          "released": "08.07.2021 - 23.09.2021"
+        },
+        {
+          "language": "Englisch",
+          "title": "Miss Kobayashi’s Dragon Maid S",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "07.07.2021 - 22.09.2021",
+          "publisher": [
+            "Crunchyroll",
+            "FUNimation"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Miss Kobayashi’s Dragon Maid S",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "07.07.2021 - 22.09.2021",
+          "publisher": [
+            "Crunchyroll",
+            "Kazé Deutschland"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Miss Kobayashi’s Dragon Maid S",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "07.07.2021 - 22.09.2021",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Miss Kobayashi’s Dragon Maid : Saison 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "07.07.2021 - 22.09.2021",
+          "publisher": [
+            "Wakanim SAS",
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Miss Kobayashi’s Dragon Maid S",
+          "status": "Abgeschlossen",
+          "released": "07.07.2021 - 22.09.2021",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "runtimeMinutes": 24,
+      "season": "Sommer 2021",
+      "studios": [
+        "Kyoto Animation Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Cool Kyoushinja",
+          "role": "Original Work"
+        },
+        {
+          "name": "Tatsuya ISHIHARA",
+          "role": "Direction"
+        },
+        {
+          "name": "Miku KADOWAKI",
+          "role": "Character Design"
+        },
+        {
+          "name": "Kenji KONDOU"
+        },
+        {
+          "name": "Kotringo"
+        },
+        {
+          "name": "Masumi ITOU"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Twitter",
+          "url": "https://twitter.com/maidragon_anime"
+        },
+        {
+          "name": "Maidragon",
+          "url": "https://maidragon.jp/2nd/"
+        }
+      ],
+      "synonyms": [
+        "Miss Kobayashi’s Dragon Maid 2",
+        "The Dragon Maid of Kobayashi-san 2",
+        "Miss Kobayashi’s Dragon Maid: Season 2",
+        "Miss Kobayashi’s Dragon Maid: Staffel 2 Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:32:23.137Z"
   },
   "107727": {
     "anisearchId": 14170,
@@ -166591,7 +167679,96 @@
         "url": "https://www.netflix.com/title/81093113"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:35.818Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Ni no Kuni",
+          "titleNative": "二ノ国",
+          "status": "Abgeschlossen",
+          "released": "23.08.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "Ni no Kuni",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "16.01.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Ni no Kuni",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "16.01.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "NiNoKuni",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "16.01.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "NiNoKuni",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "16.01.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Ni no Kuni",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "16.01.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 106,
+      "season": "Sommer 2019",
+      "studios": [
+        "OLM, Inc."
+      ],
+      "staff": [
+        {
+          "name": "Level-5 Inc.",
+          "role": "Original Work"
+        },
+        {
+          "name": "Yoshiyuki MOMOSE",
+          "role": "Direction"
+        },
+        {
+          "name": "Joe HISAISHI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Videospiel",
+      "websites": [
+        {
+          "name": "Warnerbros",
+          "url": "https://wwws.warnerbros.co.jp/ninokunijp/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:32:16.019Z"
   },
   "107905": {
     "anisearchId": 14177,
@@ -166602,7 +167779,96 @@
         "url": "https://www.netflix.com/title/81170086"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:38.057Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Dragon Quest: Your Story",
+          "titleNative": "ラゴンクエスト ユア・ストーリー",
+          "status": "Abgeschlossen",
+          "released": "02.08.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "Dragon Quest: Your Story",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "13.02.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Deine Geschichte in Dragon Quest",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "13.02.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Dragon Quest Your Story",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "13.02.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Dragon Quest: Your Story",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "13.02.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Dragon Quest: Your Story",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "13.02.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 103,
+      "season": "Sommer 2019",
+      "studios": [
+        "Robot Communications Inc.",
+        "Shirogumi Inc."
+      ],
+      "staff": [
+        {
+          "name": "Ryuuichi YAGI",
+          "role": "Direction"
+        },
+        {
+          "name": "Kouichi SUGIYAMA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Videospiel",
+      "websites": [
+        {
+          "name": "Dq Movie",
+          "url": "https://dq-movie.com/"
+        }
+      ],
+      "synonyms": [
+        "Dragon Quest V: Hand of the Heavenly Bride Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:32:30.242Z"
   },
   "107961": {
     "anisearchId": 14184,
@@ -166613,7 +167879,93 @@
         "url": "https://www.crunchyroll.com/series/GQWH0MX4W/hensuki---are-you-willing-to-fall-in-love-with-a-pervert-as-long-as-shes-a-cutie"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:40.284Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kawaikereba Hentai demo Suki ni Natte Kuremasu ka?",
+          "titleNative": "可愛ければ変態でも好きになってくれますか？",
+          "status": "Abgeschlossen",
+          "released": "08.07.2019 - 23.09.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "Hensuki: Are You Willing to Fall in Love with a Pervert, as Long as She’s a Cutie?",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "08.07.2019 - 23.09.2019",
+          "publisher": [
+            "FUNimation",
+            "Madman Entertainment"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Hensuki: Are You Willing to Fall in Love with a Pervert, as Long as She’s a Cutie?",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "08.07.2019 - 23.09.2019",
+          "publisher": [
+            "Kazé Deutschland"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Hensuki: Are You Willing to Fall in Love with a Pervert, as Long as She’s a Cutie?",
+          "status": "Abgeschlossen",
+          "released": "18.11.2020",
+          "publisher": [
+            "Funimation LATAM"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Hensuki: Are you willing to fall in love with a pervert, as long as she’s a cutie?",
+          "status": "Abgeschlossen",
+          "released": "08.07.2019 - 23.09.2019",
+          "publisher": [
+            "Animation Digital Network"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "runtimeMinutes": 24,
+      "season": "Sommer 2019",
+      "studios": [
+        "GEEK TOYS Inc."
+      ],
+      "staff": [
+        {
+          "name": "Tomo HANAMA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Itsuki IMAZAKI",
+          "role": "Direction"
+        },
+        {
+          "name": "Yousuke ITOU",
+          "role": "Character Design"
+        },
+        {
+          "name": "Youichi SAKAI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "Hensuki",
+          "url": "https://hensuki.com/"
+        }
+      ],
+      "synonyms": [
+        "HenSuki",
+        "Will You Please Like Hentai If It’s Cute? Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:32:44.438Z"
   },
   "108241": {
     "anisearchId": 14236,
@@ -166640,7 +167992,102 @@
         "url": "https://akibapasstv.vhx.tv/products/gleipnir-de-season-1"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:42.500Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Gleipnir",
+          "titleNative": "グレイプニル",
+          "status": "Abgeschlossen",
+          "released": "05.04.2020 - 28.06.2020"
+        },
+        {
+          "language": "Englisch",
+          "title": "Gleipnir",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "05.04.2020 - 28.06.2020",
+          "publisher": [
+            "FUNimation",
+            "Wakanim Nordic",
+            "Manga Entertainment Ltd.",
+            "Madman Entertainment"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Gleipnir",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "05.04.2020 - 28.06.2020",
+          "publisher": [
+            "Wakanim DE",
+            "peppermint anime GmbH"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Gleipnir",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "?",
+          "publisher": [
+            "Funimation LATAM"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Gleipnir",
+          "status": "Abgeschlossen",
+          "released": "05.04.2020 - 28.06.2020",
+          "publisher": [
+            "Wakanim SAS"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Gleipnir",
+          "status": "Abgeschlossen",
+          "released": "06.04.2020 - 29.06.2020",
+          "publisher": [
+            "Dynit SRL"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 13,
+      "runtimeMinutes": 24,
+      "season": "Frühling 2020",
+      "studios": [
+        "Pine Jam"
+      ],
+      "staff": [
+        {
+          "name": "Sun TAKEDA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Kazuhiro YONEDA",
+          "role": "Direction"
+        },
+        {
+          "name": "Takahiro KISHIDA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Ryouhei SATAKA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Gleipnir Anime",
+          "url": "https://gleipnir-anime.com/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:32:58.652Z"
   },
   "108260": {
     "anisearchId": 13781,
@@ -166764,7 +168211,96 @@
         "url": "https://www.crunchyroll.com/tsugumomo/episode-1-the-troubleshooters-office-794656?ssid=370804"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:43.612Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Tsugu Tsugumomo",
+          "titleNative": "継つぐもも",
+          "status": "Abgeschlossen",
+          "released": "05.04.2020 - 21.06.2020"
+        },
+        {
+          "language": "Englisch",
+          "title": "Tsugumomo 2",
+          "status": "Abgeschlossen",
+          "released": "05.04.2020 - 21.06.2020",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Tsugumomo 2",
+          "status": "Abgeschlossen",
+          "released": "05.04.2020 - 21.06.2020",
+          "publisher": [
+            "Crunchyroll",
+            "Nipponart GmbH"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Tsugumomo 2",
+          "status": "Abgeschlossen",
+          "released": "05.04.2020 - 21.06.2020",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Tsugumomo 2",
+          "status": "Abgeschlossen",
+          "released": "05.04.2020 - 21.06.2020",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Tsugumomo 2",
+          "status": "Abgeschlossen",
+          "released": "05.04.2020 - 21.06.2020",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "runtimeMinutes": 24,
+      "season": "Frühling 2020",
+      "studios": [
+        "ZERO-G, Inc."
+      ],
+      "staff": [
+        {
+          "name": "Ryouichi KURAYA",
+          "role": "Direction"
+        },
+        {
+          "name": "Kiyotaka NAKAHARA",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/tsugumomo_anime"
+        },
+        {
+          "name": "Web Archive (Tsugumomo)",
+          "url": "https://web.archive.org/web/20220617033612/https://tsugumomo.com/"
+        }
+      ],
+      "synonyms": [
+        "Tsugumomo: Season 2",
+        "Tsugumomo: Staffel 2 Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:33:05.764Z"
   },
   "108307": {
     "anisearchId": 14240,
@@ -166783,7 +168319,97 @@
         "url": "https://www.crunchyroll.com/series/GR75253JY/psycho-pass"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:49.136Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Psycho-Pass 3",
+          "titleNative": "サイコパス 3",
+          "status": "Abgeschlossen",
+          "released": "24.10.2019 - 13.12.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "Psycho-Pass 3",
+          "status": "Abgeschlossen",
+          "released": "24.10.2019 - 12.12.2019",
+          "publisher": [
+            "Amazon.com, Inc.",
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Psycho-Pass 3",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "24.10.2019 - 12.12.2019",
+          "publisher": [
+            "Amazon.com, Inc.",
+            "Kazé Deutschland"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Psycho-Pass 3",
+          "status": "Abgeschlossen",
+          "released": "10.2019 - 12.2019",
+          "publisher": [
+            "Amazon.com, Inc.",
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Psycho-Pass 3",
+          "status": "Abgeschlossen",
+          "released": "10.2019 - 12.2019",
+          "publisher": [
+            "Amazon.com, Inc.",
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Psycho-Pass 3",
+          "status": "Abgeschlossen",
+          "released": "10.2019 - 12.2019",
+          "publisher": [
+            "Amazon.com, Inc.",
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 8,
+      "runtimeMinutes": 46,
+      "season": "Herbst 2019",
+      "studios": [
+        "Production I.G., Inc."
+      ],
+      "staff": [
+        {
+          "name": "Naoyoshi SHIOTANI",
+          "role": "Direction"
+        },
+        {
+          "name": "Naoyuki ONDA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Yuugo KANNO",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Psycho Pass",
+          "url": "https://psycho-pass.com/3rd/index.php"
+        }
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:33:41.282Z"
   },
   "108353": {
     "anisearchId": 14239,
@@ -166794,7 +168420,107 @@
         "url": "https://www.netflix.com/title/81050064"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:48.020Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Spriggan (2022)",
+          "titleNative": "スプリガン （2022）",
+          "status": "Abgeschlossen",
+          "released": "18.06.2022"
+        },
+        {
+          "language": "Englisch",
+          "title": "Spriggan",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "18.06.2022",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Spriggan",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "18.06.2022",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Spriggan",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "18.06.2022",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Spriggan",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "18.06.2022",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Spriggan",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "18.06.2022",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        }
+      ],
+      "format": "Web",
+      "episodes": 6,
+      "runtimeMinutes": 44,
+      "season": "Sommer 2022",
+      "studios": [
+        "David Production Inc."
+      ],
+      "staff": [
+        {
+          "name": "Hiroshi TAKASHIGE"
+        },
+        {
+          "name": "Ryouji MINAGAWA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Hiroshi KOBAYASHI",
+          "role": "Direction"
+        },
+        {
+          "name": "Shuuhei HANDA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Taisei IWASAKI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Twitter",
+          "url": "https://twitter.com/spriggan_anime"
+        },
+        {
+          "name": "Spriggan Anime",
+          "url": "https://spriggan-anime.jp"
+        }
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:33:34.185Z"
   },
   "108356": {
     "anisearchId": 14248,
@@ -166805,7 +168531,94 @@
         "url": "https://www.netflix.com/title/80992784"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:51.351Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Dragon’s Dogma",
+          "titleNative": "ドラゴンズドグマ",
+          "status": "Abgeschlossen",
+          "released": "17.09.2020"
+        },
+        {
+          "language": "Englisch",
+          "title": "Dragon’s Dogma",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "17.09.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Dragon’s Dogma",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "17.09.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Dragon’s Dogma",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "17.09.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Dragon’s Dogma",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "17.09.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Dragon’s Dogma",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "17.09.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        }
+      ],
+      "format": "Web",
+      "episodes": 7,
+      "runtimeMinutes": 26,
+      "season": "Herbst 2020",
+      "studios": [
+        "Sublimation Inc."
+      ],
+      "staff": [
+        {
+          "name": "Capcom Co., Ltd.",
+          "role": "Original Work"
+        },
+        {
+          "name": "Shin’ya SUGAI",
+          "role": "Direction"
+        },
+        {
+          "name": "Iku NISHIMURA",
+          "role": "Character Design"
+        },
+        {
+          "name": "牧野忠義",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Videospiel"
+    },
+    "fetchedAt": "2026-08-20T11:33:55.468Z"
   },
   "108357": {
     "anisearchId": 14246,
@@ -166816,7 +168629,96 @@
         "url": "https://www.netflix.com/title/80996247"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:50.244Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Vampire in the Garden",
+          "titleNative": "ヴァンパイア・イン・ザ・ガーデン",
+          "status": "Abgeschlossen",
+          "released": "16.05.2022"
+        },
+        {
+          "language": "Englisch",
+          "title": "Vampire in the Garden",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "16.05.2022",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Vampire in the Garden",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "16.05.2022",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Un vampiro en el jardín",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "16.05.2022",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Vampire in the Garden",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "16.05.2022",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Vampire in the Garden",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "16.05.2022",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        }
+      ],
+      "format": "Web",
+      "episodes": 5,
+      "runtimeMinutes": 26,
+      "season": "Frühling 2022",
+      "studios": [
+        "WIT STUDIO, Inc."
+      ],
+      "staff": [
+        {
+          "name": "Ryoutarou MAKIHARA",
+          "role": "Direction"
+        },
+        {
+          "name": "Tetsuya NISHIO",
+          "role": "Character Design"
+        },
+        {
+          "name": "Yoshihiro IKE",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Witstudio",
+          "url": "https://www.witstudio.co.jp/works/2022/05/550.html"
+        }
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:33:48.377Z"
   },
   "108388": {
     "anisearchId": 14244,
@@ -166831,7 +168733,102 @@
         "url": "https://www.crunchyroll.com/high-school-prodigies-have-it-easy-even-in-another-world"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:52.469Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Choujin Koukousei-tachi wa Isekai demo Yoyuu de Ikinuku You desu!",
+          "titleNative": "Chōjin Kōkōsei-tachi wa Isekai demo Yoyū de Ikinuku Yō desu!",
+          "status": "Abgeschlossen",
+          "released": "03.10.2019 - 19.12.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "High School Prodigies Have It Easy Even in Another World!",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "03.10.2019 - 19.12.2019",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "High School Prodigies Have It Easy Even in Another World!",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "03.10.2019 - 19.12.2019",
+          "publisher": [
+            "Crunchyroll",
+            "Kazé Deutschland"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "High School Prodigies Have It Easy Even in Another World",
+          "status": "Abgeschlossen",
+          "released": "03.10.2019 - 19.12.2019",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "High School Prodigies Have It Easy Even in Another World",
+          "status": "Abgeschlossen",
+          "released": "03.10.2019 - 19.12.2019",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "High School Prodigies Have It Easy Even in Another World",
+          "status": "Abgeschlossen",
+          "released": "03.10.2019 - 19.12.2019",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "runtimeMinutes": 24,
+      "season": "Herbst 2019",
+      "studios": [
+        "project No.9"
+      ],
+      "staff": [
+        {
+          "name": "Riku MISORA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Shinsuke YANAGI",
+          "role": "Direction"
+        },
+        {
+          "name": "Akane YANO",
+          "role": "Character Design"
+        },
+        {
+          "name": "Hiromi MIZUTANI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "Choyoyu",
+          "url": "https://choyoyu.com/"
+        }
+      ],
+      "synonyms": [
+        "Choujin Koukousei-tachi wa Isekai de mo Yoyuu de Ikinuku You desu!",
+        "Choyoyu! High School Prodigies Have It Easy Even in Another World! Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:34:02.582Z"
   },
   "108430": {
     "anisearchId": 14250,
@@ -166850,7 +168847,99 @@
         "url": "https://www.crunchyroll.com/given"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:54.694Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Given",
+          "titleNative": "ギヴン",
+          "status": "Abgeschlossen",
+          "released": "12.07.2019 - 20.09.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "Given",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "11.07.2019 - 19.09.2019",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Given",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "11.07.2019 - 19.09.2019",
+          "publisher": [
+            "Crunchyroll",
+            "Kazé Deutschland"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Given",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "11.07.2019 - 19.09.2019",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Given",
+          "status": "Abgeschlossen",
+          "released": "11.07.2019 - 19.09.2019",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Given",
+          "status": "Abgeschlossen",
+          "released": "11.07.2019 - 19.09.2019",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 11,
+      "runtimeMinutes": 23,
+      "season": "Sommer 2019",
+      "studios": [
+        "Lerche"
+      ],
+      "staff": [
+        {
+          "name": "Natsuki KIZU",
+          "role": "Original Work"
+        },
+        {
+          "name": "Hikaru YAMAGUCHI",
+          "role": "Direction"
+        },
+        {
+          "name": "Mina OOSAWA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Michiru",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Given Anime",
+          "url": "https://given-anime.com/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:34:16.791Z"
   },
   "108450": {
     "anisearchId": 14251,
@@ -166861,7 +168950,102 @@
         "url": "https://www.netflix.com/title/80992788"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:53.575Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kuutei Dragons",
+          "titleNative": "Kūtei Dragons",
+          "status": "Abgeschlossen",
+          "released": "09.01.2020"
+        },
+        {
+          "language": "Englisch",
+          "title": "Drifting Dragons",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "30.04.2020",
+          "publisher": [
+            "Netflix, Inc.",
+            "Sentai",
+            "MVM Entertainment Ltd."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Queen Zaza: Die letzten Drachenfänger",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "30.04.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Drifting Dragons",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "30.04.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Drifting Dragons",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "30.04.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Drifting Dragons",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "30.04.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        }
+      ],
+      "format": "Web",
+      "episodes": 12,
+      "runtimeMinutes": 23,
+      "season": "Winter 2019/20",
+      "studios": [
+        "Polygon Pictures Inc."
+      ],
+      "staff": [
+        {
+          "name": "Taku KUWABARA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Tadahiro YOSHIHIRA",
+          "role": "Direction"
+        },
+        {
+          "name": "Masaru YOKOYAMA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Drifting Dragons",
+          "url": "https://drifting-dragons.jp/"
+        }
+      ],
+      "synonyms": [
+        "Airborne Dragons",
+        "Quin Zaza: Die letzten Drachenfänger Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:34:09.686Z"
   },
   "108463": {
     "anisearchId": 14253,
@@ -166880,7 +169064,100 @@
         "url": "https://akibapassshop.de/Toilet-bound-Hanako-kun-Season-1-DIGITAL-Deutsche-Synchronfassung-DE?ref=anisearch"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:55.820Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Jibaku Shounen Hanako-kun",
+          "titleNative": "Jibaku Shōnen Hanako-kun",
+          "status": "Abgeschlossen",
+          "released": "10.01.2020 - 27.03.2020"
+        },
+        {
+          "language": "Englisch",
+          "title": "Toilet-Bound Hanako-kun",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "09.01.2020 - 27.03.2020",
+          "publisher": [
+            "FUNimation",
+            "Wakanim Nordic",
+            "Madman Entertainment",
+            "Manga Entertainment Ltd."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Toilet-Bound Hanako-kun",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "10.01.2020 - 27.03.2020",
+          "publisher": [
+            "Wakanim DE",
+            "peppermint anime GmbH"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Toilet-Bound Hanako-kun",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "18.11.2020",
+          "publisher": [
+            "Funimation LATAM"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Toilet-Bound Hanako-kun",
+          "status": "Abgeschlossen",
+          "released": "10.01.2020 - 27.03.2020",
+          "publisher": [
+            "Wakanim SAS"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "runtimeMinutes": 24,
+      "season": "Winter 2019/20",
+      "studios": [
+        "Lerche"
+      ],
+      "staff": [
+        {
+          "name": "Iro AIDA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Masaomi ANDOU",
+          "role": "Direction"
+        },
+        {
+          "name": "Mayuka ITOU",
+          "role": "Character Design"
+        },
+        {
+          "name": "Hiroshi TAKAKI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Twitter",
+          "url": "https://twitter.com/hanakokun_info"
+        },
+        {
+          "name": "TBS",
+          "url": "https://www.tbs.co.jp/anime/hanakokun/"
+        }
+      ],
+      "synonyms": [
+        "Mein Schulgeist Hanako Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:34:23.899Z"
   },
   "108465": {
     "anisearchId": 14254,
@@ -166899,7 +169176,108 @@
         "url": "https://www.crunchyroll.com/mushoku-tensei-jobless-reincarnation"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:56.963Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Mushoku Tensei: Isekai Ittara Honki Dasu",
+          "titleNative": "無職転生 ～異世界行ったら本気だす～",
+          "status": "Abgeschlossen",
+          "released": "11.01.2021 - 22.03.2021"
+        },
+        {
+          "language": "Englisch",
+          "title": "Mushoku Tensei: Jobless Reincarnation",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "10.01.2021 - 21.03.2021",
+          "publisher": [
+            "FUNimation",
+            "Wakanim Nordic",
+            "Madman Entertainment"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Mushoku Tensei: Jobless Reincarnation",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "10.01.2021 - 21.03.2021",
+          "publisher": [
+            "Wakanim DE"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Mushoku Tensei: Jobless Reincarnation",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "12.01.2021 - 21.03.2021",
+          "publisher": [
+            "Funimation LATAM"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Mushoku Tensei : Jobless Reincarnation",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "10.01.2021 - 21.03.2021",
+          "publisher": [
+            "Wakanim SAS"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Mushoku Tensei: Jobless Reincarnation",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "29.03.2022",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 11,
+      "runtimeMinutes": 24,
+      "season": "Winter 2020/21",
+      "studios": [
+        "StudioBind Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Rifujin na Magonote",
+          "role": "Original Work"
+        },
+        {
+          "name": "Manabu OKAMOTO",
+          "role": "Direction"
+        },
+        {
+          "name": "Kazutaka SUGIYAMA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Yoshiaki FUJISAWA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "Mushokutensei",
+          "url": "https://mushokutensei.jp/"
+        }
+      ],
+      "synonyms": [
+        "Jobless Reincarnation: It Will Be All Out If I Go to Another World",
+        "MT",
+        "Mushoku Tensei",
+        "Jobless Reincarnation Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:34:31.149Z"
   },
   "108478": {
     "anisearchId": 14255,
@@ -166914,7 +169292,104 @@
         "url": "https://www.crunchyroll.com/no-guns-life"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:58.089Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "No Guns Life",
+          "titleNative": "ノー・ガンズ・ライフ",
+          "status": "Abgeschlossen",
+          "released": "11.10.2019 - 27.12.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "No Guns Life",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "10.10.2019 - 26.12.2019",
+          "publisher": [
+            "FUNimation",
+            "Madman Entertainment",
+            "Wakanim Nordic",
+            "Manga Entertainment Ltd."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "No Guns Life",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "10.10.2019 - 26.12.2019",
+          "publisher": [
+            "Kazé Deutschland"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "No Guns Life",
+          "status": "Abgeschlossen",
+          "released": "?",
+          "publisher": [
+            "Funimation LATAM"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "No Guns Life",
+          "status": "Abgeschlossen",
+          "released": "10.10.2019 - 26.12.2019",
+          "publisher": [
+            "Wakanim SAS"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "No Guns Life",
+          "status": "Abgeschlossen",
+          "released": "10.10.2019 - 26.12.2019",
+          "publisher": [
+            "Dynit SRL"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "runtimeMinutes": 24,
+      "season": "Herbst 2019",
+      "studios": [
+        "MADHOUSE Inc."
+      ],
+      "staff": [
+        {
+          "name": "Tasuku KARASUMA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Naoyuki ITOU",
+          "role": "Direction"
+        },
+        {
+          "name": "Masanori SHINO",
+          "role": "Character Design"
+        },
+        {
+          "name": "Kenji KAWAI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Nogunslife",
+          "url": "https://nogunslife.com/"
+        }
+      ],
+      "synonyms": [
+        "NGL",
+        "No Guns Life: The Way of Life of a Man Loading a Magazine Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:34:38.248Z"
   },
   "108487": {
     "anisearchId": 14261,
@@ -166937,7 +169412,75 @@
         "url": "https://store.maxdome.de/fragtime-mo44894328"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:59.206Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Fragtime",
+          "titleNative": "フラグタイム",
+          "status": "Abgeschlossen",
+          "released": "22.11.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "Fragtime",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "18.08.2020",
+          "publisher": [
+            "Sentai"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Fragtime",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "25.08.2020",
+          "publisher": [
+            "Kazé Deutschland"
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 59,
+      "season": "Herbst 2019",
+      "studios": [
+        "EAST FISH STUDIO lnc.",
+        "Tear Studio Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Sato",
+          "role": "Original Work"
+        },
+        {
+          "name": "Takuya SATOU",
+          "role": "Direction"
+        },
+        {
+          "name": "Tomoko SUDOU",
+          "role": "Character Design"
+        },
+        {
+          "name": "rionos",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Frag Time",
+          "url": "https://frag-time.com/"
+        }
+      ],
+      "synonyms": [
+        "Flag Time",
+        "Flagtime"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:34:45.345Z"
   },
   "108489": {
     "anisearchId": 14263,
@@ -166956,7 +169499,99 @@
         "url": "https://www.crunchyroll.com/my-teen-romantic-comedy-snafu"
       }
     ],
-    "fetchedAt": "2026-08-09T11:23:00.325Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Yahari Ore no Seishun Lovecome wa Machigatte Iru. Kan",
+          "titleNative": "やはり俺の青春ラブコメはまちがっている。完",
+          "status": "Abgeschlossen",
+          "released": "10.07.2020 - 25.09.2020"
+        },
+        {
+          "language": "Englisch",
+          "title": "My Teen Romantic Comedy SNAFU: Climax!",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "10.07.2020 - 24.09.2020",
+          "publisher": [
+            "Sentai",
+            "Crunchyroll",
+            "Madman Entertainment"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "My Teen Romantic Comedy SNAFU: Climax",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "10.07.2020 - 24.09.2020",
+          "publisher": [
+            "AniMoon Publishing GmbH"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "My Teen Romantic Comedy: SNAFU Climax!",
+          "status": "Abgeschlossen",
+          "released": "10.07.2020 - 24.09.2020",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "My Teen Romantic Comedy SNAFU : Climax",
+          "status": "Abgeschlossen",
+          "released": "10.07.2020 - 24.09.2020",
+          "publisher": [
+            "Animation Digital Network"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "runtimeMinutes": 24,
+      "season": "Sommer 2020",
+      "studios": [
+        "feel."
+      ],
+      "staff": [
+        {
+          "name": "Wataru WATARI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Kei OIKAWA",
+          "role": "Direction"
+        },
+        {
+          "name": "Yuuichi TANAKA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Kakeru ISHIHAMA"
+        },
+        {
+          "name": "Kuniyuki TAKAHASHI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "TBS",
+          "url": "https://www.tbs.co.jp/anime/oregairu/"
+        }
+      ],
+      "synonyms": [
+        "My Teenage RomCom SNAFU 3",
+        "My Youth Romantic Comedy Is Wrong as I Expected 3",
+        "Oregairu 3",
+        "Yahari Ore no Seishun Love Comedy wa Machigatteiru. Kan Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:34:52.451Z"
   },
   "108511": {
     "anisearchId": 14266,
@@ -166971,7 +169606,117 @@
         "url": "https://www.crunchyroll.com/that-time-i-got-reincarnated-as-a-slime"
       }
     ],
-    "fetchedAt": "2026-08-09T11:23:01.462Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Tensei Shitara Slime datta Ken Dai 2 Ki",
+          "titleNative": "転生したらスライムだった件 第2期",
+          "status": "Abgeschlossen",
+          "released": "12.01.2021 - 30.03.2021"
+        },
+        {
+          "language": "Englisch",
+          "title": "That Time I Got Reincarnated as a Slime: Season 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "12.01.2021 - 30.03.2021",
+          "publisher": [
+            "Crunchyroll",
+            "FUNimation",
+            "Madman Entertainment",
+            "Manga Entertainment Ltd.",
+            "Wakanim Nordic"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "12.01.2021 - 30.03.2021",
+          "publisher": [
+            "Crunchyroll",
+            "Kazé Deutschland"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "That Time I Got Reincarnated as a Slime Season 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "12.01.2021 - 30.03.2021",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Moi, quand je me réincarne en Slime (Saison 2)",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "12.01.2021 - 30.03.2021",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "That Time I Got Reincarnated as a Slime Season 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "12.01.2021 - 30.03.2021",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "runtimeMinutes": 24,
+      "season": "Winter 2020/21",
+      "studios": [
+        "8bit Corp, Inc."
+      ],
+      "staff": [
+        {
+          "name": "Fuse"
+        },
+        {
+          "name": "Mitz Vah"
+        },
+        {
+          "name": "Taiki KAWAKAMI"
+        },
+        {
+          "name": "Atsushi NAKAYAMA",
+          "role": "Direction"
+        },
+        {
+          "name": "Ryouma EBATA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Elements Garden",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "Ten Sura",
+          "url": "https://www.ten-sura.com/anime/tensura"
+        }
+      ],
+      "synonyms": [
+        "Meine Wiedergeburt als Schleim in einer anderen Welt (2021)",
+        "Tensei Shitara Slime datta Ken (2021)",
+        "Tensura Season 2",
+        "That Time I Got Reincarnated as a Slime (2021)",
+        "That Time I Got Reincarnated as a Slime: Staffel 2 Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:34:59.564Z"
   },
   "108522": {
     "anisearchId": 15175,
@@ -166982,7 +169727,107 @@
         "url": "https://www.netflix.com/title/80204451"
       }
     ],
-    "fetchedAt": "2026-08-09T11:23:02.589Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Baki: Dai Raitaisai Hen",
+          "titleNative": "バキ 大擂台賽編",
+          "status": "Abgeschlossen",
+          "released": "04.06.2020"
+        },
+        {
+          "language": "Englisch",
+          "title": "Baki: The Great Raitai Tournament Saga",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "04.06.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Baki: Die Saga vom Raitai-Turnier",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "04.06.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Baki: Saga del Gran Toreo de Raitai",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "04.06.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Baki : La saga du grand tournoi de Raitai",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "04.06.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Baki: La saga del grande torneo Raitai",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "04.06.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        }
+      ],
+      "format": "Web",
+      "episodes": 13,
+      "runtimeMinutes": 24,
+      "season": "Sommer 2020",
+      "studios": [
+        "TMS Entertainment Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Keisuke ITAGAKI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Toshiki HIRANO",
+          "role": "Direction"
+        },
+        {
+          "name": "Fujio SUZUKI"
+        },
+        {
+          "name": "Shingo ISHIKAWA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Kenji FUJISAWA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Baki Anime",
+          "url": "https://baki-anime.jp/"
+        }
+      ],
+      "synonyms": [
+        "Baki (2020)",
+        "Baki 2nd Season Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:35:06.670Z"
   },
   "108553": {
     "anisearchId": 14407,
@@ -167009,13 +169854,186 @@
         "url": "https://store.maxdome.de/my-hero-academia-heroes-rising-mo44856683"
       }
     ],
-    "fetchedAt": "2026-08-09T11:23:03.714Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Boku no Hero Academia the Movie: Heroes:Rising",
+          "titleNative": "僕のヒーローアカデミア THE MOVIE ヒーローズ：ライジング",
+          "status": "Abgeschlossen",
+          "released": "20.12.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "My Hero Academia The Movie: Heroes Rising",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "26.02.2020",
+          "publisher": [
+            "FUNimation",
+            "Madman Entertainment",
+            "Manga Entertainment Ltd.",
+            "Periscoop Film"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "My Hero Academia: The Movie - Heroes Rising",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "11.06.2021",
+          "publisher": [
+            "Kazé Deutschland"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "My Hero Academia: El Despertar de los Héroes",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "13.03.2020",
+          "publisher": [
+            "Selecta Visión S.L.U.",
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "My Hero Academia : Heroes Rising",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "20.08.2020",
+          "publisher": [
+            "Kazé France"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "My Hero Academia The Movie: Heroes Rising",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "24.12.2020",
+          "publisher": [
+            "Dynit SRL"
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 104,
+      "season": "Winter 2019/20",
+      "studios": [
+        "BONES Inc."
+      ],
+      "staff": [
+        {
+          "name": "Kouhei HORIKOSHI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Kenji NAGASAKI",
+          "role": "Direction"
+        },
+        {
+          "name": "Yoshihiko UMAKOSHI",
+          "role": "Character Design"
+        },
+        {
+          "name": "Yuuki HAYASHI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Heroaca Movie",
+          "url": "https://heroaca-movie.com/2019/"
+        }
+      ],
+      "synonyms": [
+        "Boku no Hero Academia the Movie 2 Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:35:13.766Z"
   },
   "108554": {
     "anisearchId": 14278,
     "descriptionDe": "In dem Original-Anime »Special 7: Special Crime Investigation Unit« tauchen wir ein in eine Welt voller Elfen, Zwerge, Vampire, Homunkuli und Menschen. Vor langer, langer Zeit wurde diese Welt noch von den mächtigen Drachen beherrscht, doch mittlerweile sind diese einst so majestätischen Kreaturen fast vollständig verschwunden. Die wenigen Drachen, die in dieser modernen Welt noch existieren, leben nun zusammen und ihr äußeres Erscheinungsbild hat sich dem von Menschen angepasst.\n\nTokio im Jahr 2X19: Während die Welt eine Zeit relativen Friedens genießt, rührt sich im Verborgenen eine Gruppe von Unholden, die diesen Frieden zu stören versuchen. Diese Gruppe, die sich als »Nine« bezeichnet hat es sich zur Aufgabe gemacht, die Macht der Drachen zu erlangen – und dabei ist ihnen jedes Mittel recht. Als Reaktion auf das Chaos, das »Nine« verursacht, gründete die Polizei eine Spezialeinheit, die aus den verschiedensten Spezialisten besteht, die sich »Nine« in den Weg stellen sollen: »Special 7«! Diese Spezialisten haben die Grenzen gewöhnlicher Menschen jedoch weit hinter sich gelassen und besitzen Fähigkeiten, die sie so stark vom »Fußvolk« unterscheiden, dass dieses insgeheim schon gegen sie rebelliert. In diese Spezialeinheit tritt auch der junge Seiji Nanatsuki ein, der sich von den Neckereien seiner Kollegen nicht unterkriegen lässt und sich mutig an die Lösung der Fälle rund um »Nine« macht. \n\nQuelle: www.anisearch.de/anime/14278",
     "streams": [],
-    "fetchedAt": "2026-08-09T11:23:04.817Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Keishichou Tokumu Bu Tokushu Kyouakuhan Taisaku Shitsu Dai Nana Ka: Tokunana",
+          "titleNative": "Keishichō Tokumu Bu Tokushu Kyōakuhan Taisaku Shitsu Dai Nana Ka: Tokunana",
+          "status": "Abgeschlossen",
+          "released": "06.10.2019 - 29.12.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "Special 7: Special Crime Investigation Unit",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "06.10.2019 - 29.12.2019",
+          "publisher": [
+            "FUNimation",
+            "Wakanim Nordic",
+            "Madman Entertainment"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Special 7: Special Crime Investigation Unit",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "30.12.2020 - 17.03.2021",
+          "publisher": [
+            "Anime House GmbH"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Special 7: Special Crime Investigation Unit",
+          "status": "Abgeschlossen",
+          "released": "?",
+          "publisher": [
+            "Funimation LATAM"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "runtimeMinutes": 24,
+      "season": "Herbst 2019",
+      "studios": [
+        "Anima&Company"
+      ],
+      "staff": [
+        {
+          "name": "Harume KOSAKA",
+          "role": "Direction"
+        },
+        {
+          "name": "Hiroya IIJIMA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Ryou TAKAHASHI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Tokunana",
+          "url": "https://www.tokunana.jp/"
+        }
+      ],
+      "synonyms": [
+        "Special Crime Investigation Unit - Special 7 Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:35:20.827Z"
   },
   "108577": {
     "anisearchId": 14279,
@@ -167030,7 +170048,100 @@
         "url": "https://store.maxdome.de/her-blue-sky-mo40424259"
       }
     ],
-    "fetchedAt": "2026-08-09T11:23:05.937Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Sora no Aosa o Shiru Hito yo",
+          "titleNative": "空の青さを知る人よ",
+          "status": "Abgeschlossen",
+          "released": "11.10.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "Her Blue Sky",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "12.12.2019",
+          "publisher": [
+            "Encore Films Pte. Ltd.",
+            "Netflix, Inc.",
+            "Anime Limited (UK)"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Her Blue Sky",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "09.06.2020",
+          "publisher": [
+            "KSM Anime"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Her Blue Sky",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "04.12.2020",
+          "publisher": [
+            "Selecta Visión S.L.U."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Her Blue Sky",
+          "status": "Abgeschlossen",
+          "released": "16.03.2025",
+          "publisher": [
+            "Anime Limited (France)"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "A te che conosci l’azzurro del cielo",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "19.11.2020",
+          "publisher": [
+            "PLAION S.r.l."
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 108,
+      "season": "Herbst 2019",
+      "studios": [
+        "CloverWorks Inc."
+      ],
+      "staff": [
+        {
+          "name": "Chou Heiwa Busters",
+          "role": "Original Work"
+        },
+        {
+          "name": "Tatsuyuki NAGAI",
+          "role": "Direction"
+        },
+        {
+          "name": "Masayoshi TANAKA",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Soraaoproject",
+          "url": "https://soraaoproject.jp/"
+        }
+      ],
+      "synonyms": [
+        "Sora no Aosa wo Shiru Hito yo Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:35:27.930Z"
   },
   "108581": {
     "anisearchId": 14280,
@@ -167041,7 +170152,104 @@
         "url": "https://www.netflix.com/title/80997338"
       }
     ],
-    "fetchedAt": "2026-08-09T11:23:07.051Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Hi Score Girl II",
+          "titleNative": "ハイスコアガール II",
+          "status": "Abgeschlossen",
+          "released": "26.10.2019 - 21.12.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "Hi Score Girl II",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "09.04.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Hi Score Girl II",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "09.04.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Hi Score Girl Temporada 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "09.04.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Hi Score Girl Saison 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "09.04.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Hi Score Girl II",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "09.04.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 9,
+      "runtimeMinutes": 24,
+      "season": "Herbst 2019",
+      "studios": [
+        "J.C.STAFF Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Rensuke OSHIKIRI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Yoshiki YAMAKAWA",
+          "role": "Direction"
+        },
+        {
+          "name": "Mitsuru KUWABATA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Youko SHIMOMURA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Hi Score Girl",
+          "url": "https://hi-score-girl.com/"
+        }
+      ],
+      "synonyms": [
+        "Hi Score Girl 2",
+        "High Score Girl 2 Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:35:35.031Z"
   },
   "108598": {
     "anisearchId": 14282,
@@ -167052,7 +170260,104 @@
         "url": "https://www.netflix.com/title/80156799"
       }
     ],
-    "fetchedAt": "2026-08-09T11:23:08.154Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Levius",
+          "titleNative": "レビウス",
+          "status": "Abgeschlossen",
+          "released": "28.11.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "Levius",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "28.11.2019",
+          "publisher": [
+            "Netflix, Inc.",
+            "VIZ Media, LLC",
+            "Anime Limited (UK)"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Levius",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "28.11.2019",
+          "publisher": [
+            "Netflix, Inc.",
+            "Anime Limited (UK)"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Levius",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "28.11.2019",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Levius",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "28.11.2019",
+          "publisher": [
+            "Netflix, Inc.",
+            "Anime Limited (France)"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Levius",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "28.11.2019",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        }
+      ],
+      "format": "Web",
+      "episodes": 12,
+      "runtimeMinutes": 25,
+      "season": "Herbst 2019",
+      "studios": [
+        "Polygon Pictures Inc."
+      ],
+      "staff": [
+        {
+          "name": "Haruhisa NAKATA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Keisuke IDE",
+          "role": "Direction"
+        },
+        {
+          "name": "Yuuki MORIYAMA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Yuugo KANNO",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Levius",
+          "url": "https://levius.net/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:35:42.110Z"
   },
   "108623": {
     "anisearchId": 14327,
@@ -167063,7 +170368,100 @@
         "url": "https://www.amazon.de/dp/B09B8TR63Q?tag=anisearch.de-21"
       }
     ],
-    "fetchedAt": "2026-08-09T11:23:09.285Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Goblin Slayer: Goblin’s Crown",
+          "titleNative": "ゴブリンスレイヤー GOBLIN’S CROWN",
+          "status": "Abgeschlossen",
+          "released": "01.02.2020"
+        },
+        {
+          "language": "Englisch",
+          "title": "Goblin Slayer: Goblin’s Crown",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "28.07.2020",
+          "publisher": [
+            "Crunchyroll",
+            "FUNimation",
+            "Madman Entertainment",
+            "Manga Entertainment Ltd."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Goblin Slayer: Goblin’s Crown",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "06.09.2020",
+          "publisher": [
+            "AniMoon Publishing GmbH"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Goblin Slayer: La Corona del Goblin",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "28.07.2020",
+          "publisher": [
+            "Crunchyroll",
+            "Selecta Visión S.L.U."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Goblin Slayer : Goblin’s Crown",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "26.05.2021",
+          "publisher": [
+            "Anime Limited (France)"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Goblin Slayer: Goblin’s Crown",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "01.02.2021",
+          "publisher": [
+            "Dynit SRL"
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 60,
+      "season": "Winter 2019/20",
+      "studios": [
+        "WHITE FOX Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Kumo KAGYUU",
+          "role": "Original Work"
+        },
+        {
+          "name": "Takaharu OZAKI",
+          "role": "Direction"
+        },
+        {
+          "name": "Takashi NAGAYOSHI",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "Goblinslayer",
+          "url": "https://www.goblinslayer.jp/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:35:49.203Z"
   },
   "108626": {
     "anisearchId": 14293,
@@ -167082,7 +170480,86 @@
         "url": "https://store.maxdome.de/human-lost-mo37433567"
       }
     ],
-    "fetchedAt": "2026-08-09T11:23:10.403Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Human Lost",
+          "status": "Abgeschlossen",
+          "released": "29.11.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "Human Lost",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "22.10.2019",
+          "publisher": [
+            "FUNimation",
+            "Manga Entertainment Ltd."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Human Lost",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "26.11.2019",
+          "publisher": [
+            "LEONINE Anime"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Human Lost",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "26.06.2020",
+          "publisher": [
+            "Selecta Visión S.L.U."
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Human Lost: Lo Squalificato",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "18.11.2021",
+          "publisher": [
+            "PLAION S.r.l."
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 109,
+      "season": "Herbst 2019",
+      "studios": [
+        "Polygon Pictures Inc."
+      ],
+      "staff": [
+        {
+          "name": "Fuminori KIZAKI",
+          "role": "Direction"
+        },
+        {
+          "name": "Yuusuke KOZAKI",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Novel",
+      "websites": [
+        {
+          "name": "Human Lost",
+          "url": "https://human-lost.jp/"
+        }
+      ],
+      "synonyms": [
+        "No Longer Human",
+        "Ningen Shikkaku (人間失格) Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:35:56.285Z"
   },
   "108631": {
     "anisearchId": 14287,
@@ -167097,7 +170574,109 @@
         "url": "https://www.crunchyroll.com/series/GR3KVPQER/cells-at-work"
       }
     ],
-    "fetchedAt": "2026-08-09T11:23:11.526Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Hataraku Saibou!!",
+          "titleNative": "Hataraku Saibō!!",
+          "status": "Abgeschlossen",
+          "released": "09.01.2021 - 26.02.2021"
+        },
+        {
+          "language": "Englisch",
+          "title": "Cells at Work!!",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "07.01.2021 - 25.02.2021",
+          "publisher": [
+            "Aniplex of America Inc.",
+            "Madman Entertainment",
+            "Wakanim Nordic"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Cells at Work!! Staffel 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "07.01.2021 - 25.02.2021",
+          "publisher": [
+            "Wakanim DE"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Cells at Work!!",
+          "status": "Abgeschlossen",
+          "released": "08.01.2021 - 25.02.2021",
+          "publisher": [
+            "Funimation LATAM",
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Les Brigades Immunitaires Saison 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "07.01.2021 - 25.02.2021",
+          "publisher": [
+            "Wakanim SAS"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Cells at Work!! (Seconda Stagione)",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "08.01.2021 - 26.03.2021",
+          "publisher": [
+            "Yamato Video S.r.l."
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 8,
+      "runtimeMinutes": 24,
+      "season": "Winter 2020/21",
+      "studios": [
+        "David Production Inc."
+      ],
+      "staff": [
+        {
+          "name": "Akane SHIMIZU",
+          "role": "Original Work"
+        },
+        {
+          "name": "Hirofumi OGURA",
+          "role": "Direction"
+        },
+        {
+          "name": "Takahiko YOSHIDA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Ken’ichirou SUEHIRO"
+        },
+        {
+          "name": "Yuumao",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Hataraku Saibou",
+          "url": "https://hataraku-saibou.com/"
+        }
+      ],
+      "synonyms": [
+        "Hataraku Saibou 2",
+        "Cells at Work! 2 Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:36:03.376Z"
   },
   "108632": {
     "anisearchId": 14302,
@@ -167108,7 +170687,106 @@
         "url": "https://www.crunchyroll.com/series/GRGG9798R/rezero--starting-life-in-another-world-"
       }
     ],
-    "fetchedAt": "2026-08-09T11:23:12.651Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Re:Zero kara Hajimeru Isekai Seikatsu (2020)",
+          "titleNative": "Re:ゼロから始める異世界生活 (2020)",
+          "status": "Abgeschlossen",
+          "released": "08.07.2020 - 30.09.2020"
+        },
+        {
+          "language": "Englisch",
+          "title": "Re:Zero - Starting Life in Another World Season 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "08.07.2020 - 30.09.2020",
+          "publisher": [
+            "Crunchyroll",
+            "Muse Communication Co.,Ltd.",
+            "Anime Limited (UK)"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Re:Zero - Starting Life in Another World Season 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "08.07.2020 - 30.09.2020",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Re:Zero - Starting Life in Another World Season 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "08.07.2020 - 30.09.2020",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Re:Zero - Starting Life in Another World (Season 2)",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "08.07.2020 - 30.09.2020",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Re:Zero - Starting Life in Another World Season 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "08.07.2020 - 30.09.2020",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 13,
+      "runtimeMinutes": 26,
+      "season": "Sommer 2020",
+      "studios": [
+        "WHITE FOX Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Tappei NAGATSUKI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Masaharu WATANABE",
+          "role": "Direction"
+        },
+        {
+          "name": "Kyuuta SAKAI",
+          "role": "Character Design"
+        },
+        {
+          "name": "Ken’ichirou SUEHIRO",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "Re Zero Anime",
+          "url": "https://re-zero-anime.jp/tv2/"
+        }
+      ],
+      "synonyms": [
+        "Re:Zero kara Hajimeru Isekai Seikatsu 2nd Season",
+        "ReZero 2 Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:36:10.461Z"
   },
   "108725": {
     "anisearchId": 14315,
@@ -167127,7 +170805,116 @@
         "url": "https://www.crunchyroll.com/the-promised-neverland"
       }
     ],
-    "fetchedAt": "2026-08-09T11:23:17.113Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Yakusoku no Neverland (2021)",
+          "titleNative": "約束のネバーランド （2021）",
+          "status": "Abgeschlossen",
+          "released": "07.01.2021 - 26.03.2021"
+        },
+        {
+          "language": "Englisch",
+          "title": "The Promised Neverland Season 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "06.01.2021 - 25.03.2021",
+          "publisher": [
+            "Aniplex of America Inc.",
+            "Madman Entertainment",
+            "Wakanim Nordic"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "The Promised Neverland Staffel 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "06.01.2021 - 25.03.2021",
+          "publisher": [
+            "Wakanim DE",
+            "peppermint anime GmbH"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "The Promised Neverland Season 2",
+          "status": "Abgeschlossen",
+          "released": "09.01.2021 - 25.03.2021",
+          "publisher": [
+            "Funimation LATAM"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "The Promised Neverland Saison 2",
+          "status": "Abgeschlossen",
+          "released": "06.01.2021 - 25.03.2021",
+          "publisher": [
+            "Wakanim SAS"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "The Promised Neverland Stagione 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "11.01.2021 - 27.03.2021",
+          "publisher": [
+            "Dynit SRL"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 11,
+      "runtimeMinutes": 23,
+      "season": "Winter 2020/21",
+      "studios": [
+        "CloverWorks Inc."
+      ],
+      "staff": [
+        {
+          "name": "Kaiu SHIRAI"
+        },
+        {
+          "name": "Posuka DEMIZU",
+          "role": "Original Work"
+        },
+        {
+          "name": "Mamoru KANBE",
+          "role": "Direction"
+        },
+        {
+          "name": "Kazuaki SHIMADA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Takahiro OBATA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Twitter",
+          "url": "https://twitter.com/yakuneba_staff"
+        },
+        {
+          "name": "Neverland Anime",
+          "url": "https://neverland-anime.com/"
+        },
+        {
+          "name": "Neverland Animeusa",
+          "url": "https://neverland-animeusa.com/"
+        }
+      ],
+      "synonyms": [
+        "TPN 2",
+        "Yakuneba 2 Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:36:31.753Z"
   },
   "108759": {
     "anisearchId": 14323,
@@ -167367,13 +171154,128 @@
         "url": "https://www.tvnow.de/serien/bakugan-battle-planet-18700"
       }
     ],
-    "fetchedAt": "2026-08-09T11:23:18.226Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Bakugan: Battle Planet",
+          "titleNative": "爆丸バトルプラネット",
+          "status": "Abgeschlossen",
+          "released": "01.04.2019 - 30.03.2020"
+        },
+        {
+          "language": "Englisch",
+          "title": "Bakugan: Battle Planet",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "17.12.2018 - 15.11.2019"
+        },
+        {
+          "language": "Deutsch",
+          "title": "Bakugan: Battle Planet",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "27.05.2019 - 24.07.2020"
+        },
+        {
+          "language": "Spanisch",
+          "title": "Bakugan: Battle Planet",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "17.05.2019 - 2020"
+        },
+        {
+          "language": "Italienisch",
+          "title": "Bakugan: Battle Planet",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "11.05.2019 - 07.10.2020 Alle anzeigen"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 50,
+      "runtimeMinutes": 25,
+      "season": "Frühling 2019",
+      "studios": [
+        "TMS Entertainment Co., Ltd."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "TV Tokyo",
+          "url": "https://www.tv-tokyo.co.jp/anime/bakugan-bp/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:36:38.843Z"
   },
   "108853": {
     "anisearchId": 14182,
     "descriptionDe": "In »Beyblade Burst Rise«, dem neuesten Anime-Ableger des »Beyblade«-Franchise, folgen wir dem blonden Jungen Drum Kouryuu. Dieser ist im Besitz der sogenannten Ace Dragon Beyblade und damit zögert er nicht lang, um es direkt mit der ganzen Welt aufnehmen zu wollen! Sein Ziel ist nichts Geringeres als das »Light of Bey«!\n\nFolge Drum Kouryuu, wie er spannende Beyblade-Matches bestreiten und sich mit mächtigen und talentierten Gegnern messen muss, um der Beste im Sport zu werden. Kann er sein Ziel erreichen?Anmerkung:\nBei der deutschen TV-Veröffentlichung werden jeweils zwei aufeinanderfolgende originale Episoden zu einer Folge mit einem einheitlichen Titel zusammengefasst.",
     "streams": [],
-    "fetchedAt": "2026-08-09T11:22:39.169Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Beyblade Burst Gachi",
+          "titleNative": "ベイブレードバースト ガチ",
+          "status": "Abgeschlossen",
+          "released": "05.04.2019 - 27.03.2020"
+        },
+        {
+          "language": "Englisch",
+          "title": "Beyblade Burst Rise",
+          "status": "Laufend",
+          "dubbed": true,
+          "released": "21.12.2019 - ?"
+        },
+        {
+          "language": "Deutsch",
+          "title": "Beyblade Burst Rise",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "10.08.2020 - 15.10.2020",
+          "publisher": [
+            "m4e AG"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Beyblade Burst Rise",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "?"
+        },
+        {
+          "language": "Französisch",
+          "title": "Beyblade Burst Rise",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "14.03.2020 - ?"
+        }
+      ],
+      "format": "Web",
+      "episodes": 52,
+      "runtimeMinutes": 12,
+      "season": "Frühling 2019",
+      "studios": [
+        "OLM, Inc."
+      ],
+      "staff": [
+        {
+          "name": "Hiro MORITA",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "synonyms": [
+        "Beyblade Burst 4",
+        "Beyblade Burst GT",
+        "Beyblade Burst Season 4",
+        "Beyblade Burst Staffel 4 Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:32:37.338Z"
   },
   "108928": {
     "anisearchId": 14343,
@@ -167384,19 +171286,178 @@
         "url": "https://www.netflix.com/title/80050063"
       }
     ],
-    "fetchedAt": "2026-08-09T11:23:21.560Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Nanatsu no Taizai: Kamigami no Gekirin",
+          "titleNative": "七つの大罪 神々の逆鱗",
+          "status": "Abgeschlossen",
+          "released": "09.10.2019 - 25.03.2020"
+        },
+        {
+          "language": "Englisch",
+          "title": "The Seven Deadly Sins: Imperial Wrath of the Gods",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "06.08.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "The Seven Deadly Sins: Kaiserlicher Zorn der Götter",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "06.08.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "The Seven Deadly Sins: Imperial Wrath of the Gods",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "06.08.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "The Seven Deadly Sins : La colère impériale des dieux",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "06.08.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "The Seven Deadly Sins: L’ira degli dei",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "06.08.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 24,
+      "runtimeMinutes": 24,
+      "season": "Herbst 2019",
+      "studios": [
+        "Studio DEEN Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Nakaba SUZUKI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Susumu NISHIZAWA",
+          "role": "Direction"
+        },
+        {
+          "name": "Hiroyuki SAWANO"
+        },
+        {
+          "name": "Takafumi WADA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "7 Taizai",
+          "url": "https://www.7-taizai.net/"
+        }
+      ],
+      "synonyms": [
+        "Nanatsu no Taizai: Season 3",
+        "The Seven Deadly Sins: Season 3 Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:37:00.140Z"
   },
   "108942": {
     "anisearchId": 13955,
     "descriptionDe": "Wir begleiten wieder Eren, Mikasa und Co. in ihrem alltäglichen Leben. Jedoch sind sie dieses Mal das neu gegründete Team des Levi-Squads und bemühen sich unentwegt allen Aufgaben des Hauptgefreiten gerecht zu werden.Anmerkung:\nBei »Attack on Titan Chibi Theater: Go Get ’em, New Levi Squad!« handelt es sich um »Attack on Titan«-Chibi-Parodiefolgen, die auf den japanischen DVDs und Blu-rays als Specials enthalten sind. Jede der sieben Discs beinhaltet ein Video, das jeweils drei Geschichten enthält, die die Chibi-Parodiefolgen aus den vorherigen Specials fortsetzen.",
     "streams": [],
-    "fetchedAt": "2026-08-09T11:22:44.715Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Shingeki no Kyojin: Chimi Chara Gekijou - Tondeke! Shinsei Levi-han",
+          "titleNative": "Shingeki no Kyojin: Chimi Chara Gekijō - Tondeke! Shinsei Levi-han",
+          "status": "Abgeschlossen",
+          "released": "17.10.2018 - 18.09.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "Attack on Titan Chibi Theater: Go Get ’em, New Levi Squad!",
+          "status": "Abgeschlossen",
+          "released": "06.08.2019 - 17.03.2020",
+          "publisher": [
+            "FUNimation",
+            "Manga Entertainment Ltd.",
+            "Madman Entertainment"
+          ]
+        }
+      ],
+      "format": "Bonus",
+      "episodes": 7,
+      "runtimeMinutes": 2,
+      "season": "Herbst 2018",
+      "studios": [
+        "WIT STUDIO, Inc."
+      ],
+      "adaptedFrom": "Manga",
+      "synonyms": [
+        "Attack on Titan Season 3 Picture Drama",
+        "Attack on Titan Season 3 Special",
+        "Attack on Titan: Chimi Chara Theater: Fly! New Levi Squad"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:33:12.860Z"
   },
   "108944": {
     "anisearchId": 13865,
     "descriptionDe": "Maria als Sukkubus zeigt die neuesten Teile ihrer erotischen Videosammlung. Sie erzählt voller Stolz, was in dem Video alles vorkommen soll, bis zu dem Moment, an dem Mio auffällt, dass es einen großen Unterschied zwischen Marias Worten und dem Video gibt. Danach kann Maria nur noch die Flucht ergreifen. \n\nQuelle: www.anisearch.de/anime/13865",
     "streams": [],
-    "fetchedAt": "2026-08-09T11:22:45.816Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Shinmai Maou no Testament Departures: Maria no Hizou Eizou",
+          "titleNative": "Shinmai Maō no Testament Departures: Maria no Hizō Eizō",
+          "status": "Abgeschlossen",
+          "released": "28.03.2018"
+        },
+        {
+          "language": "Deutsch",
+          "title": "The Testament of Sister New Devil: Departures Special",
+          "status": "Abgeschlossen",
+          "released": "31.08.2018",
+          "publisher": [
+            "peppermint anime GmbH"
+          ]
+        }
+      ],
+      "format": "Bonus",
+      "episodes": 1,
+      "runtimeMinutes": 6,
+      "season": "Frühling 2018",
+      "adaptedFrom": "Light Novel",
+      "synonyms": [
+        "The Testament of Sister New Devil: Departures - Marias erotische Videosammlung"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:33:19.955Z"
   },
   "108945": {
     "anisearchId": 14729,
@@ -167407,7 +171468,76 @@
         "url": "https://www.crunchyroll.com/watch/G9DU9E4QG/saitama-and-the-mediocre-gang"
       }
     ],
-    "fetchedAt": "2026-08-09T11:23:22.675Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "One Punch Man Season 2 Specials",
+          "titleNative": "ワンパンマン SEASON2 Specials",
+          "status": "Abgeschlossen",
+          "released": "25.10.2019 - 27.03.2020"
+        },
+        {
+          "language": "Englisch",
+          "title": "One Punch Man Season 2 OVAs",
+          "status": "Abgeschlossen",
+          "released": "10.11.2020",
+          "publisher": [
+            "VIZ Media, LLC",
+            "Madman Entertainment",
+            "Manga Entertainment Ltd.",
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "One Punch Man Season 2 OVAs",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "03.12.2020 - 15.04.2021",
+          "publisher": [
+            "Kazé Deutschland",
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "One Punch Man Season 2 OVAs",
+          "status": "Abgeschlossen",
+          "released": "03.10.2025",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "One Punch Man Season 2 OVAs",
+          "status": "Abgeschlossen",
+          "released": "03.10.2025",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "One Punch Man Season 2 OVAs",
+          "status": "Abgeschlossen",
+          "released": "03.10.2025",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "format": "Bonus",
+      "episodes": 6,
+      "runtimeMinutes": 12,
+      "season": "Herbst 2019",
+      "adaptedFrom": "Manga",
+      "synonyms": [
+        "One Punch Man 2nd Season Specials Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:37:07.207Z"
   },
   "108972": {
     "anisearchId": 10180,
@@ -167585,13 +171715,146 @@
         "url": "https://www.crunchyroll.com/sing-yesterday-for-me"
       }
     ],
-    "fetchedAt": "2026-08-09T11:23:23.797Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Yesterday o Utatte",
+          "titleNative": "イエスタデイをうたって",
+          "status": "Abgeschlossen",
+          "released": "05.04.2020 - 21.06.2020"
+        },
+        {
+          "language": "Englisch",
+          "title": "Sing “Yesterday” for Me",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "04.04.2020 - 20.06.2020",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Sing “Yesterday” for Me",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "04.04.2020 - 20.06.2020",
+          "publisher": [
+            "Crunchyroll",
+            "Kazé Deutschland"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Sing “Yesterday” for Me",
+          "status": "Abgeschlossen",
+          "released": "04.04.2020 - 20.06.2020",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Sing “Yesterday” for Me",
+          "status": "Abgeschlossen",
+          "released": "04.04.2020 - 20.06.2020",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Sing “Yesterday” for Me",
+          "status": "Abgeschlossen",
+          "released": "04.04.2020 - 20.06.2020",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "runtimeMinutes": 23,
+      "season": "Frühling 2020",
+      "studios": [
+        "Doga Kobo"
+      ],
+      "staff": [
+        {
+          "name": "Kei TOUME",
+          "role": "Original Work"
+        },
+        {
+          "name": "Yoshiyuki FUJIWARA",
+          "role": "Direction"
+        },
+        {
+          "name": "Jun’ichirou TANIGUCHI",
+          "role": "Character Design"
+        },
+        {
+          "name": "agehasprings"
+        },
+        {
+          "name": "Takaaki KONDOU",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Singyesterday",
+          "url": "https://singyesterday.com/"
+        }
+      ],
+      "synonyms": [
+        "Yesterday wo Utatte Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:37:14.340Z"
   },
   "109085": {
     "anisearchId": 15365,
     "descriptionDe": "Die Charaktere aus »Cells at Work« finden sich in Situationen wieder, in denen Probleme aus der Arbeitswelt, speziell der Unterhaltungsbranche, behandelt werden. Es geht um Quizshow-Auftritte, psychologische Beratungen, die unerwünschte Einmischung in andere Arbeitsbereiche, Mobbing und Belästigung durch Vorgesetzte sowie Fehler bei der Arbeit durch übertriebenen Geltungsdrang …Anmerkung:\nDiese Bonusepisoden lagen den Volumes 3 bis 7 der japanischen DVD- und Blu-ray-Ausgabe des TV-Anime mit je einer Folge pro Volume bei.",
     "streams": [],
-    "fetchedAt": "2026-08-09T11:23:15.983Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Hataraku Saibou: Original Short Anime",
+          "titleNative": "Hataraku Saibō: Original Short Anime",
+          "status": "Abgeschlossen",
+          "released": "24.10.2018 - 27.02.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "Cells at Work!: Animated Shorts",
+          "status": "Abgeschlossen",
+          "released": "27.08.2019",
+          "publisher": [
+            "Aniplex of America Inc.",
+            "MVM Entertainment Ltd.",
+            "Madman Entertainment"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Cells at Work!: Mini-Specials",
+          "status": "Abgeschlossen",
+          "released": "21.09.2020",
+          "publisher": [
+            "peppermint anime GmbH"
+          ]
+        }
+      ],
+      "format": "Bonus",
+      "episodes": 5,
+      "runtimeMinutes": 5,
+      "season": "Herbst 2018",
+      "adaptedFrom": "Originalwerk"
+    },
+    "fetchedAt": "2026-08-20T11:36:24.645Z"
   },
   "109190": {
     "anisearchId": 14357,
@@ -167610,7 +171873,110 @@
         "url": "https://store.maxdome.de/violet-evergarden-und-das-band-der-freundschaft-mo37825582"
       }
     ],
-    "fetchedAt": "2026-08-09T11:23:26.026Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Violet Evergarden Gaiden: Eien to Jidou Shuki Ningyou",
+          "titleNative": "Violet Evergarden Gaiden: Eien to Jidō Shuki Ningyō",
+          "status": "Abgeschlossen",
+          "released": "06.09.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "Violet Evergarden: Eternity and the Auto Memories Doll",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "05.12.2019",
+          "publisher": [
+            "Madman Entertainment",
+            "FUNimation",
+            "Anime Limited (UK)",
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Violet Evergarden und das Band der Freundschaft",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "28.01.2020",
+          "publisher": [
+            "LEONINE Anime",
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Violet Evergarden Gaiden: La eternidad y la muñeca de recuerdos automáticos",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "14.02.2020",
+          "publisher": [
+            "Netflix, Inc.",
+            "KEM Media"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Violet Evergarden: Eternité et la poupée de souvenirs automatiques",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "02.04.2020",
+          "publisher": [
+            "Euroz00m",
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Violet Evergarden: Eternity and the Auto Memory Doll",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "02.04.2020",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 91,
+      "season": "Herbst 2019",
+      "studios": [
+        "Kyoto Animation Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Kana AKATSUKI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Haruka FUJITA",
+          "role": "Direction"
+        },
+        {
+          "name": "Akiko TAKASE",
+          "role": "Character Design"
+        },
+        {
+          "name": "Evan CALL",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Violet Evergarden",
+          "url": "https://www.violet-evergarden.jp/sidestory/"
+        }
+      ],
+      "synonyms": [
+        "Violet Evergarden Side-Story: Eternity and the Auto Memories Doll",
+        "Violet Evergarden: Eternity and the Auto Memory Doll Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:37:28.534Z"
   },
   "109217": {
     "anisearchId": 14413,
@@ -167621,7 +171987,90 @@
         "url": "https://www.netflix.com/title/80992783"
       }
     ],
-    "fetchedAt": "2026-08-09T11:23:24.909Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Eden",
+          "titleNative": "エデン",
+          "status": "Abgeschlossen",
+          "released": "27.05.2021"
+        },
+        {
+          "language": "Englisch",
+          "title": "Eden",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "27.05.2021",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Eden",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "27.05.2021",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Edén",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "27.05.2021",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Eden",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "27.05.2021",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Eden",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "27.05.2021",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        }
+      ],
+      "format": "Web",
+      "episodes": 4,
+      "runtimeMinutes": 25,
+      "season": "Frühling 2021",
+      "studios": [
+        "CGCG STUDIO, Inc."
+      ],
+      "staff": [
+        {
+          "name": "Yasuhiro IRIE",
+          "role": "Direction"
+        },
+        {
+          "name": "Toshihiro KAWAMOTO",
+          "role": "Character Design"
+        },
+        {
+          "name": "Kevin PENKIN",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk"
+    },
+    "fetchedAt": "2026-08-20T11:37:21.409Z"
   },
   "109261": {
     "anisearchId": 14395,
@@ -167774,7 +172223,101 @@
         "url": "https://www.crunchyroll.com/mob-psycho-100/mob-psycho-100-ii-german-dub-unknown-789736?ssid=360619"
       }
     ],
-    "fetchedAt": "2026-08-09T11:23:19.329Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Mob Psycho 100: Daiikkai Rei toka Soudansho Ian Ryokou - Kokoro Mitasu Iyashi no Tabi",
+          "titleNative": "Mob Psycho 100: Daīkkai Rei toka Sōdansho Ian Ryokō - Kokoro Mitasu Iyashi no Tabi",
+          "status": "Abgeschlossen",
+          "released": "25.09.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "Mob Psycho 100: The First Spirits and Such Company Trip - A Journey that Mends the Heart and Heals the Soul",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "24.09.2019",
+          "publisher": [
+            "FUNimation",
+            "Crunchyroll",
+            "Manga Entertainment Ltd."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Mob Psycho 100 II OVA: Der erste superbillige Ausflug des PS-Büros",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "25.09.2019",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Mob Psycho 100 II OVA",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "24.09.2019",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Mob Psycho 100 II OVA",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "25.09.2019",
+          "publisher": [
+            "Crunchyroll",
+            "Anime Limited (France)"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Mob Psycho 100 II OVA",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "25.09.2019",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "format": "OVA",
+      "episodes": 1,
+      "runtimeMinutes": 24,
+      "season": "Herbst 2019",
+      "studios": [
+        "BONES Inc."
+      ],
+      "staff": [
+        {
+          "name": "ONE",
+          "role": "Original Work"
+        },
+        {
+          "name": "Yuzuru TACHIKAWA",
+          "role": "Direction"
+        },
+        {
+          "name": "Yoshimichi KAMEDA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Kenji KAWAI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "synonyms": [
+        "Mob Psycho 100: The Spirits and Such Consultation Office’s First Company Outing - A Healing Trip That Warms the Heart",
+        "Mob Psycho: Der erste superbillige Ausflug der Berater für Geister und so Zeugs ~ Eine erholsame Reise für Herz und Seele Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:36:45.940Z"
   },
   "109911": {
     "anisearchId": 14439,
@@ -167980,7 +172523,35 @@
     "anisearchId": 14638,
     "descriptionDe": "Eine kurze Inhaltsangabe zum Anime „Persona 5 the Animation: Ein magischer Valentinstag“ würde vielen Anime- und Manga-Fans weiterhelfen. Du kennst diesen Anime bereits? Dann unterstütze aniSearch und füge eine kurze Beschreibung zum Inhalt des Anime „Persona 5 the Animation: Ein magischer Valentinstag“ über unsere Eintragsmaske hinzu. Damit hilfst Du der gesamten deutschsprachigen Anime- und Manga-Community! \n\nQuelle: www.anisearch.de/anime/14638",
     "streams": [],
-    "fetchedAt": "2026-08-09T11:23:13.753Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Persona 5 the Animation: A Magical Valentine’s Day",
+          "status": "Abgeschlossen",
+          "released": "26.06.2019"
+        },
+        {
+          "language": "Deutsch",
+          "title": "Persona 5 the Animation: Ein magischer Valentinstag",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "25.06.2020",
+          "publisher": [
+            "peppermint anime GmbH"
+          ]
+        }
+      ],
+      "format": "Bonus",
+      "episodes": 1,
+      "runtimeMinutes": 30,
+      "season": "Sommer 2019",
+      "studios": [
+        "CloverWorks Inc."
+      ],
+      "adaptedFrom": "Videospiel"
+    },
+    "fetchedAt": "2026-08-20T11:36:17.542Z"
   },
   "110277": {
     "anisearchId": 14484,
@@ -169315,7 +173886,51 @@
     "anisearchId": 14367,
     "descriptionDe": "Die vier Paare, die sich in der Hauptserie zusammengefunden haben, machen einen gemeinsamen Ausflug in eine andere Stadt mit einer Übernachtung und einer Besichtigungstour am nächsten Tag. Bei der Zimmerreservierung ist etwas schief gegangen und dadurch sind nur noch zwei Doppelzimmer verfügbar. Damit müssen sich zwei Pärchen eine andere Übernachtungsmöglichkeiten suchen … \n\nQuelle: www.anisearch.de/anime/14367",
     "streams": [],
-    "fetchedAt": "2026-08-09T11:23:20.438Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Nande Koko ni Sensei ga!? (2019)",
+          "titleNative": "なんでここに先生が！？ （2019）",
+          "status": "Abgeschlossen",
+          "released": "11.12.2019"
+        },
+        {
+          "language": "Englisch",
+          "title": "Why the Hell Are You Here, Teacher!? OVA",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "26.05.2020",
+          "publisher": [
+            "Sentai",
+            "Madman Entertainment",
+            "MVM Entertainment Ltd."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Why the Hell Are You Here, Teacher!? Episode 13",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "06.05.2021",
+          "publisher": [
+            "Kazé Deutschland"
+          ]
+        }
+      ],
+      "format": "Bonus",
+      "episodes": 1,
+      "runtimeMinutes": 12,
+      "season": "Winter 2019/20",
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Nankoko Anime",
+          "url": "https://www.nankoko-anime.com/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:36:53.025Z"
   },
   "113936": {
     "anisearchId": 14818,
@@ -169423,7 +174038,106 @@
         "url": "https://animationdigitalnetwork.de/video/fire-force-saison-2"
       }
     ],
-    "fetchedAt": "2026-08-09T11:24:54.366Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "En’en no Shouboutai Ni no Shou",
+          "titleNative": "En’en no Shōbōtai (2020)",
+          "status": "Abgeschlossen",
+          "released": "04.07.2020 - 12.12.2020"
+        },
+        {
+          "language": "Englisch",
+          "title": "Fire Force Season 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "03.07.2020 - 11.12.2020",
+          "publisher": [
+            "FUNimation",
+            "Crunchyroll",
+            "Madman Entertainment",
+            "Wakanim Nordic",
+            "Manga Entertainment Ltd."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Fire Force Staffel 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "03.07.2020 - 11.12.2020",
+          "publisher": [
+            "Wakanim DE",
+            "peppermint anime GmbH"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Fire Force Temporada 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "07.2020 - 12.2020",
+          "publisher": [
+            "Coalise Estudio",
+            "Funimation LATAM"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Fire Force : Saison 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "03.07.2020 - 11.12.2020",
+          "publisher": [
+            "Wakanim SAS",
+            "Kana Home Video"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Fire Force 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "03.07.2020 - 11.12.2020",
+          "publisher": [
+            "Yamato Video S.r.l."
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 24,
+      "runtimeMinutes": 24,
+      "season": "Sommer 2020",
+      "studios": [
+        "David Production Inc."
+      ],
+      "staff": [
+        {
+          "name": "Atsushi OOKUBO",
+          "role": "Original Work"
+        },
+        {
+          "name": "Tatsuma MINAMIKAWA",
+          "role": "Direction"
+        },
+        {
+          "name": "Hideyuki MORIOKA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Ken’ichirou SUEHIRO",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "synonyms": [
+        "Enen no Shouboutai 2",
+        "Fire Brigade of Flames 2",
+        "Fire Force 2 Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:30:29.539Z"
   },
   "114308": {
     "anisearchId": 14847,
@@ -172877,7 +177591,86 @@
         "url": "https://www.netflix.com/title/80991329"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:41.380Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Südkorea",
+          "title": "Larva Island Season 2",
+          "titleNative": "라바 아일랜드 시즌2",
+          "status": "Abgeschlossen",
+          "released": "01.03.2019"
+        },
+        {
+          "language": "Japanisch",
+          "title": "Larva Island Dai 2 Ki",
+          "titleNative": "ラーパドアイランド 第2期",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "01.03.2019",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Englisch",
+          "title": "Larva Island Season 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "01.03.2019",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Larva Island Staffel 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "01.03.2019",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Isla Larva Temporada 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "01.03.2019",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Larva Island Saison 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "01.03.2019",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Larva Island Stagione 2",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "01.03.2019",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        }
+      ],
+      "format": "Web",
+      "episodes": 13,
+      "runtimeMinutes": 8,
+      "season": "Frühling 2019",
+      "synonyms": [
+        "Larva 5th Season Alle anzeigen"
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:32:51.537Z"
   },
   "133007": {
     "anisearchId": 16217,
@@ -176237,7 +181030,94 @@
         "url": "https://www.netflix.com/title/81251383"
       }
     ],
-    "fetchedAt": "2026-08-09T11:22:22.411Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Moonrise",
+          "titleNative": "ムーンライズ",
+          "status": "Abgeschlossen",
+          "released": "10.04.2025"
+        },
+        {
+          "language": "Englisch",
+          "title": "Moonrise",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "10.04.2025",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Moonrise",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "10.04.2025",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Rebelión lunar",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "10.04.2025",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Moonrise",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "10.04.2025",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Moonrise",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "10.04.2025",
+          "publisher": [
+            "Netflix, Inc."
+          ]
+        }
+      ],
+      "format": "Web",
+      "episodes": 18,
+      "runtimeMinutes": 25,
+      "season": "Frühling 2025",
+      "studios": [
+        "WIT STUDIO, Inc."
+      ],
+      "staff": [
+        {
+          "name": "Tou UBUKATA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Masashi KOIZUKA",
+          "role": "Direction"
+        },
+        {
+          "name": "Ayumi YAMADA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Ryou KAWASAKI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk"
+    },
+    "fetchedAt": "2026-08-20T11:30:50.835Z"
   },
   "150672": {
     "anisearchId": 17452,
@@ -180702,7 +185582,103 @@
         "url": "https://animationdigitalnetwork.com/de/video/1331-hero-without-a-class-who-even-needs-skills"
       }
     ],
-    "fetchedAt": "2026-08-10T17:25:02.440Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Mushoku no Eiyuu: Betsu ni Skill nanka Iranakattan da ga",
+          "titleNative": "Mushoku no Eiyū: Betsu ni Skill nanka Iranakattan da ga",
+          "status": "Abgeschlossen",
+          "released": "24.09.2025 - 10.12.2025"
+        },
+        {
+          "language": "Englisch",
+          "title": "Hero Without a Class: Who Even Needs Skills?!",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "24.09.2025 - 10.12.2025",
+          "publisher": [
+            "HIDIVE, LLC",
+            "MediaLink Entertainment Limited"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Der Held ohne Klasse: Der Aufstieg eines Talentlosen",
+          "status": "Abgeschlossen",
+          "released": "24.09.2025 - 10.12.2025",
+          "publisher": [
+            "Animation Digital Network (DE)"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Hero Without a Class: Who Even Needs Skills?!",
+          "status": "Abgeschlossen",
+          "released": "24.09.2025 - 10.12.2025",
+          "publisher": [
+            "Animation Digital Network"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Hero Without a Class: L’eroe senza classe - non è che mi servissero le skill",
+          "status": "Abgeschlossen",
+          "released": "30.09.2025 - 10.12.2025",
+          "publisher": [
+            "Yamato Video S.r.l."
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "runtimeMinutes": 24,
+      "season": "Herbst 2025",
+      "studios": [
+        "studio A-CAT"
+      ],
+      "staff": [
+        {
+          "name": "Shichio KUZU",
+          "role": "Original Work"
+        },
+        {
+          "name": "Kaoru YABANA",
+          "role": "Direction"
+        },
+        {
+          "name": "Takayuki CHIBA"
+        },
+        {
+          "name": "Xuewen XU",
+          "role": "Character Design"
+        },
+        {
+          "name": "Kent ASAHINA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "Twitter",
+          "url": "https://twitter.com/mushoku_eiyu"
+        },
+        {
+          "name": "Mushoku Eiyu Anime",
+          "url": "https://mushoku-eiyu-anime.com/"
+        }
+      ],
+      "synonyms": [
+        "Mushoku no Eiyuu: Betsu ni Skill nanka Iranakattanda ga",
+        "Hero Without a Class",
+        "I Did Not Need Something Like Skills as an Unemployed Hero",
+        "The Classless Hero: I Didn’t Need Skills Anyway",
+        "The Hero Who Has No Class. No Need Any Skills",
+        "It’s Okay."
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:30:36.635Z"
   },
   "170130": {
     "anisearchId": 18759,
@@ -186165,7 +191141,103 @@
         "url": "https://animationdigitalnetwork.com/de/video/1396-dive-in-wonderland/31684-film-1"
       }
     ],
-    "fetchedAt": "2026-08-10T17:42:58.948Z"
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Fushigi no Kuni de Alice to: Dive in Wonderland",
+          "titleNative": "不思議の国でアリスと -Dive in Wonderland-",
+          "status": "Abgeschlossen",
+          "released": "29.08.2025"
+        },
+        {
+          "language": "Englisch",
+          "title": "Alice in Wonderland: Dive in Wonderland",
+          "status": "Abgeschlossen",
+          "released": "18.01.2026",
+          "publisher": [
+            "Animation Digital Network"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Alice im Wunderland: Dive in Wonderland",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "13.01.2026",
+          "publisher": [
+            "Animation Digital Network (DE)"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "status": "Zukünftig",
+          "released": "?",
+          "publisher": [
+            "Animation Digital Network"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Alice au pays des merveilles : Dive in Wonderland",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "14.01.2026",
+          "publisher": [
+            "Animation Digital Network"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Alice nel Paese delle Meraviglie: Dive in Wonderland",
+          "status": "Abgeschlossen",
+          "released": "25.01.2026",
+          "publisher": [
+            "Animation Digital Network"
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 95,
+      "season": "Sommer 2025",
+      "studios": [
+        "P.A. Works Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Lewis CARROLL",
+          "role": "Original Work"
+        },
+        {
+          "name": "Toshiya SHINOHARA",
+          "role": "Direction"
+        },
+        {
+          "name": "Kousuke KAWATSURA"
+        },
+        {
+          "name": "Mio FUJISHIMA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Kotringo",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Novel",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/alice_movie2025"
+        },
+        {
+          "name": "Sh Anime Shochiku",
+          "url": "https://sh-anime.shochiku.co.jp/alice-movie/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-08-20T11:30:43.753Z"
   },
   "186497": {
     "anisearchId": 20149,

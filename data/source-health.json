@@ -1,37 +1,37 @@
 {
   "adn": {
-    "lastOk": "2026-08-20T05:00:42.568Z",
-    "lastRun": "2026-08-20T05:00:42.568Z",
-    "lastCount": 4
+    "lastOk": "2026-08-20T11:04:29.628Z",
+    "lastRun": "2026-08-20T11:04:29.628Z",
+    "lastCount": 9
   },
   "anime2you": {
-    "lastOk": "2026-08-20T05:00:47.407Z",
-    "lastRun": "2026-08-20T05:00:47.407Z",
+    "lastOk": "2026-08-20T11:30:27.817Z",
+    "lastRun": "2026-08-20T11:30:27.817Z",
     "lastCount": 27
   },
   "crunchyroll": {
-    "lastOk": "2026-08-20T09:53:15.501Z",
-    "lastRun": "2026-08-20T09:53:15.501Z",
-    "lastCount": 13
+    "lastOk": "2026-08-20T11:02:26.849Z",
+    "lastRun": "2026-08-20T11:02:26.849Z",
+    "lastCount": 30
   },
   "anisearch": {
-    "lastOk": "2026-08-20T05:24:27.332Z",
-    "lastRun": "2026-08-20T05:24:27.332Z",
-    "lastCount": 200
+    "lastOk": "2026-08-20T11:37:34.583Z",
+    "lastRun": "2026-08-20T11:37:34.583Z",
+    "lastCount": 60
   },
   "adn-catalog": {
-    "lastOk": "2026-08-20T10:29:49.279Z",
-    "lastRun": "2026-08-20T10:29:49.279Z",
+    "lastOk": "2026-08-20T11:24:12.515Z",
+    "lastRun": "2026-08-20T11:24:12.515Z",
     "lastCount": 109
   },
   "crunchyroll-dub": {
-    "lastOk": "2026-08-13T05:03:48.190Z",
-    "lastRun": "2026-08-13T05:03:48.190Z",
-    "lastCount": 917
+    "lastOk": "2026-08-20T11:30:22.439Z",
+    "lastRun": "2026-08-20T11:30:22.439Z",
+    "lastCount": 957
   },
   "anime-offline-database": {
-    "lastOk": "2026-08-15T18:10:33.456Z",
-    "lastRun": "2026-08-15T18:10:33.456Z",
+    "lastOk": "2026-08-20T11:24:14.423Z",
+    "lastRun": "2026-08-20T11:24:14.423Z",
     "lastCount": 8876
   },
   "ann-voices": {
@@ -41,7 +41,13 @@
   },
   "youtube-check": {
     "lastOk": "2026-08-20T10:24:21.980Z",
-    "lastRun": "2026-08-20T10:24:21.980Z",
-    "lastCount": 510
+    "lastRun": "2026-08-20T11:30:22.731Z",
+    "lastCount": 0,
+    "lastError": "nichts zu prüfen"
+  },
+  "anilist-voices": {
+    "lastOk": "2026-08-20T11:24:12.841Z",
+    "lastRun": "2026-08-20T11:24:12.841Z",
+    "lastCount": 2753
   }
 }

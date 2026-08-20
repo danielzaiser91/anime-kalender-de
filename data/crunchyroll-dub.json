@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-13T05:03:48.188Z",
+  "scrapedAt": "2026-08-20T11:30:22.438Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/that-time-i-got-reincarnated-as-a-slime",
@@ -7040,6 +7040,1013 @@
       "url": "https://www.google.com/url?sa=t&source=web&rct=j&url=https://www.crunchyroll.com/de/series/GVDHX8QGP/nana&ved=2ahUKEwifi8P_yuj9AhUgVqQEHZuMD9gQFnoECA0QAQ&usg=AOvVaw3qlL5BTTbccRkl1ygyWy9T",
       "deutschImAngebot": false,
       "geprueftAm": "2026-08-13",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "http://www.crunchyroll.com/de/blue-exorcist",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Blue Exorcist",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 0,
+          "fremd": 25
+        },
+        {
+          "name": "Blue Exorcist: Kyoto Saga",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 12
+        },
+        {
+          "name": "Blue Exorcist -Shimane Illuminati Saga-",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Blue Exorcist -Beyond the Snow Saga-",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Blue Exorcist -The Blue Night Saga-",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://crunchyroll.com/de/series/GEXH3W8DG/the-case-study-of-vanitas",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 24,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://crunchyroll.com/de/series/GT00365598/tamons-b-side",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://crunchyroll.com/de/series/GT00371860/mistress-kanan-is-devilishly-easy",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/im-standing-on-a-million-lives",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "I'm Standing on a Million Lives",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "I'm Standing on a Million Lives Season 2",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/remonster",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/G0XHWM0D3/trapped-in-a-dating-sim-the-world-of-otome-games-is-tough-for-mobs",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Staffel 1",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 2",
+          "folgen": 7,
+          "kacheln": 7,
+          "deutsch": 4,
+          "fremd": 1
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/G24H1NWKE/the-beginning-after-the-end",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Staffel 1",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 2",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 12
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/G5PHNM717/my-one-hit-kill-sister",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/G649PJ0JY/blue-exorcist",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Blue Exorcist",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 0,
+          "fremd": 25
+        },
+        {
+          "name": "Blue Exorcist: Kyoto Saga",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 12
+        },
+        {
+          "name": "Blue Exorcist -Shimane Illuminati Saga-",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Blue Exorcist -Beyond the Snow Saga-",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Blue Exorcist -The Blue Night Saga-",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/G6793XKZY/ascendance-of-a-bookworm",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Season 1",
+          "folgen": 14,
+          "kacheln": 14,
+          "deutsch": 0,
+          "fremd": 14
+        },
+        {
+          "name": "Season 2",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 12
+        },
+        {
+          "name": "Season 3",
+          "folgen": 10,
+          "kacheln": 10,
+          "deutsch": 0,
+          "fremd": 10
+        },
+        {
+          "name": "OVAs",
+          "folgen": 1,
+          "kacheln": 2,
+          "deutsch": 0,
+          "fremd": 1
+        },
+        {
+          "name": "Extras",
+          "folgen": 1,
+          "kacheln": 2,
+          "deutsch": 0,
+          "fremd": 1
+        },
+        {
+          "name": "Staffel 4",
+          "folgen": 18,
+          "kacheln": 18,
+          "deutsch": 15,
+          "fremd": 1
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/G6NQ5DWZ6/my-hero-academia",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Season 1",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        },
+        {
+          "name": "Season 2",
+          "folgen": 26,
+          "kacheln": 26,
+          "deutsch": 26,
+          "fremd": 0
+        },
+        {
+          "name": "Season 3",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 0,
+          "fremd": 25
+        },
+        {
+          "name": "Season 4",
+          "folgen": 27,
+          "kacheln": 27,
+          "deutsch": 0,
+          "fremd": 27
+        },
+        {
+          "name": "Season 5",
+          "folgen": 27,
+          "kacheln": 27,
+          "deutsch": 0,
+          "fremd": 27
+        },
+        {
+          "name": "Season 6",
+          "folgen": 26,
+          "kacheln": 26,
+          "deutsch": 26,
+          "fremd": 0
+        },
+        {
+          "name": "Memories",
+          "folgen": 4,
+          "kacheln": 4,
+          "deutsch": 4,
+          "fremd": 0
+        },
+        {
+          "name": "Season 7",
+          "folgen": 21,
+          "kacheln": 21,
+          "deutsch": 21,
+          "fremd": 0
+        },
+        {
+          "name": "FINAL SEASON",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "I am a hero too",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/G6NVG970Y/welcome-to-demon-school-iruma-kun",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Staffel 1",
+          "folgen": 23,
+          "kacheln": 23,
+          "deutsch": 23,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 2",
+          "folgen": 21,
+          "kacheln": 21,
+          "deutsch": 21,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 3",
+          "folgen": 21,
+          "kacheln": 21,
+          "deutsch": 21,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 4",
+          "folgen": 18,
+          "kacheln": 18,
+          "deutsch": 18,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/G6QWV3976/rent-a-girlfriend",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Season 1",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Season 2",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Season 3",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Season 4",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Season 5",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/G8DHV78ZM/clevatess",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Staffel 1",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 2",
+          "folgen": 7,
+          "kacheln": 7,
+          "deutsch": 7,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/G8DHV7WJP/skeleton-knight-in-another-world",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Season 1",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 2",
+          "folgen": 7,
+          "kacheln": 7,
+          "deutsch": 7,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GG5H5X3EE/campfire-cooking-in-another-world-with-my-absurd-skill",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Staffel 1",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 2",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GJ0H7QG4E/i-was-reincarnated-as-the-7th-prince-so-i-can-take-my-time-perfecting-my-magical-ability",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "S1: Season 1",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "S2: Season 2",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GNVHKN933/the-100-girlfriends-who-really-really-really-really-really-love-you",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Season 1",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Season 2",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Season 3",
+          "folgen": 7,
+          "kacheln": 7,
+          "deutsch": 4,
+          "fremd": 1
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GQWH0M17X/ill-become-a-villainess-who-goes-down-in-history",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GQWH0MPQ7/the-caf-terrace-and-its-goddesses",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 24,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GR9P57W96/saga-of-tanya-the-evil",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Season 1",
+          "folgen": 12,
+          "kacheln": 13,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Saga of Tanya the Evil - the Movie -",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 0,
+          "fremd": 1
+        },
+        {
+          "name": "Saga of Tanya the Evil: Operation Desert Pasta",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 0,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 2",
+          "folgen": 7,
+          "kacheln": 7,
+          "deutsch": 4,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GRGG9798R",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Staffel 1 (Director's Cut)",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        },
+        {
+          "name": "OVAs",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 2",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 25,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 3",
+          "folgen": 16,
+          "kacheln": 16,
+          "deutsch": 16,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 4",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 11,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GRGG9798R/rezero--starting-life-in-another-world-",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Staffel 1 (Director's Cut)",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        },
+        {
+          "name": "OVAs",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 2",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 25,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 3",
+          "folgen": 16,
+          "kacheln": 16,
+          "deutsch": 16,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 4",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 11,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GRVN8MNQY/classroom-of-the-elite",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Season 1",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Classroom of the Elite Staffel 2",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        },
+        {
+          "name": "Classroom of the Elite Staffel 3",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        },
+        {
+          "name": "4th Season: Second Year, First Semester",
+          "folgen": 16,
+          "kacheln": 16,
+          "deutsch": 16,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GT00362253/the-warrior-princess-and-the-barbaric-king",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GT00365568/hana-kimi",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Staffel 1",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 2",
+          "folgen": 9,
+          "kacheln": 9,
+          "deutsch": 4,
+          "fremd": 3
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GT00371857/marriagetoxin",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 13,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GT00371881/though-i-am-an-inept-villainess",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 6,
+          "kacheln": 6,
+          "deutsch": 3,
+          "fremd": 1
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GT00371893/",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Season 1",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 0,
+          "fremd": 13
+        },
+        {
+          "name": "Season 2",
+          "folgen": 11,
+          "kacheln": 11,
+          "deutsch": 11,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GT00371893/dorohedoro",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Season 1",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 0,
+          "fremd": 13
+        },
+        {
+          "name": "Season 2",
+          "folgen": 11,
+          "kacheln": 11,
+          "deutsch": 11,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GT00377907/black-torch",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 7,
+          "kacheln": 7,
+          "deutsch": 7,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GT00378123/",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Staffel 1",
+          "folgen": 7,
+          "kacheln": 7,
+          "deutsch": 4,
+          "fremd": 1
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GVDHX8504/reborn-as-a-vending-machine-i-now-wander-the-dungeon",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Season 1",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Season 2",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Season 3",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GW4HM7WK9/wistoria-wand-and-sword",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Wistoria: Wand and Sword",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Season 2",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GY4PD7Z06/the-quintessential-quintuplets",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Season 1",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Season 2",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "Specials",
+          "folgen": 4,
+          "kacheln": 4,
+          "deutsch": 4,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GYZJ43JMR/that-time-i-got-reincarnated-as-a-slime",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Staffel 1",
+          "folgen": 24,
+          "kacheln": 25,
+          "deutsch": 24,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 2",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 25,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 3",
+          "folgen": 25,
+          "kacheln": 26,
+          "deutsch": 25,
+          "fremd": 0
+        },
+        {
+          "name": "Staffel 4",
+          "folgen": 18,
+          "kacheln": 18,
+          "deutsch": 16,
+          "fremd": 0
+        },
+        {
+          "name": "OVA Season 1",
+          "folgen": 5,
+          "kacheln": 5,
+          "deutsch": 5,
+          "fremd": 0
+        },
+        {
+          "name": "Meine Wiedergeburt als Schleim in einer anderen Welt: Der Traum von Coleus",
+          "folgen": 3,
+          "kacheln": 3,
+          "deutsch": 3,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-case-study-of-vanitas",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 24,
+          "kacheln": 24,
+          "deutsch": 24,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/wandering-witch-the-journey-of-elaina",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-20"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GE00379883JAJP/my-hero-academia-i-am-a-hero-too",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-20",
       "fehler": "keine Audio-Zeile gefunden"
     }
   ]

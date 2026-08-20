@@ -6,46 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Shoujo
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:adn-427-s1-20251029@2025-10-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20251029T080000Z
-DTEND:20251029T083000Z
-SUMMARY:Sailor Moon – Staffel 1
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-427-s1-20251029
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-427-s2-20251126@2025-11-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20251126T080000Z
-DTEND:20251126T083000Z
-SUMMARY:Sailor Moon R
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-427-s2-20251126
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-427-s3-20251223@2025-12-23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20251223T080000Z
-DTEND:20251223T083000Z
-SUMMARY:Sailor Moon S
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-427-s3-20251223
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-427-s4-20260401@2026-04-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260401T070000Z
-DTEND:20260401T073000Z
-SUMMARY:Sailor Moon SuperS
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-427-s4-20260401
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00365598@2026-05-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260507T150000Z
@@ -90,13 +50,13 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-427-s5-20260601@2026-06-01@anime-kalender-de
+UID:adn-427@2026-06-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260601T070000Z
 DTEND:20260601T073000Z
-SUMMARY:Sailor Moon Sailor Stars
+SUMMARY:Sailor Moon
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-427-s5-20260601
+ me-kalender.de/#/release/adn-427
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -206,6 +166,17 @@ SUMMARY:Fruits Basket (2019) Fruits Basket: Die finale Staffel
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Katalogtitel\nDetails: htt
  ps://anime-kalender.de/#/release/cr-G6ZJMGEXY
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:the-ribbon-hero-netflix@2026-08-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260808
+DTEND;VALUE=DATE:20260809
+SUMMARY:The Ribbon Hero
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Film\nUhrzeit noch nicht bestä
+ tigt.\nDetails: https://anime-kalender.de/#/release/the-ribbon-hero-netfli
+ x
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:banana-fish-vol1@2026-08-21@anime-kalender-de
