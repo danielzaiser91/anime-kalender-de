@@ -392,6 +392,32 @@ dieselbe Datei, egal was darin steht.
 - Jeder Cache im Service Worker hat eine Obergrenze. Ohne sie wächst er still: einmal 313 MB
   Cover (10.08.2026), einmal 400 KB Programmdateien je Deploy (12.08.2026).
 
+## Wie der Stand geprüft wird, ohne Daniels Rechner
+
+Alle Datenläufe arbeiten auf GitHubs Rechnern und committen selbst — stündlich die
+Sendezeiten, täglich alle Quellen, montags der Tiefendurchlauf. Ob Daniels PC läuft, spielt für
+den Datenbestand keine Rolle.
+
+**Zu Beginn jeder Sitzung wird deshalb der Stand abgefragt, nicht vermutet:**
+
+```bash
+gh run list --limit 8 --repo danielzaiser91/anime-kalender-de
+```
+
+Dazu die beiden Dateien, die den Stand dauerhaft festhalten und im Repo liegen — sie sind auch
+dann lesbar, wenn gerade kein Lauf sichtbar ist:
+
+- **`data/source-health.json`** — je Quelle der Zeitpunkt des letzten erfolgreichen Abrufs.
+  `npm run data:check` misst ihn gegen die Frist aus `pipeline/check-sources.ts` und macht den
+  Lauf rot, wenn eine Quelle stumm geworden ist. **Das ist der Alarm**, und er kommt als
+  Fehlermail von GitHub.
+- **`public/data/meta.json`** — `generatedAt`, `titleCount`, `releaseCount`, `eventCount` des
+  zuletzt ausgelieferten Datensatzes. Dieselben Zahlen stehen im Seitenfuß.
+
+Eine Meldung an mich, wenn ein Lauf **erfolgreich** durch ist, gibt es nicht — GitHub meldet nur
+Fehler. Wer sie will, legt einen Discord-Webhook an; eingehängt ist er in zwei Zeilen. Bis dahin
+gilt: nachsehen statt annehmen.
+
 ## Vor dem Commit
 
 ```bash
