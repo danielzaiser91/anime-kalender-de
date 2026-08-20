@@ -386,6 +386,37 @@ Quelle: <https://www.animenewsnetwork.com/encyclopedia/api.php>
 
 ## Archiv
 
+- ✅ **Jeder fünfte Anbieter-Verweis führte auf eine Fehlerseite** (20.08.2026). Aufgefallen bei
+  einer Stichprobe, dann vollständig gemessen: **195 von 945 prüfbaren Adressen antworten mit 404**.
+  Aufgeschlüsselt:
+
+  | Anbieter | Verweise | davon tot |
+  |---|---|---|
+  | Netflix | 596 | **174 (29 %)** |
+  | Amazon / Prime Video | 261 | 9 (3 %) |
+  | Disney+ | 39 | 4 (10 %) |
+  | Joyn | 8 | **6 (75 %)** |
+  | RTL+ | 27 | 0 |
+
+  Bei Netflix erklärt sich der hohe Anteil: Die Kennungen stammen aus einem weltweiten Bestand, und
+  viele dieser Titel stehen im **deutschen** Katalog gar nicht. Aus derselben Leitung antworten 422
+  andere mit 200 — es ist also keine Bot-Abwehr, sondern der Befund, den auch ein Besucher bekäme.
+
+  Im Datensatz waren es 220 Verweise, weil Adressen bei mehreren Titeln stehen. Titel ganz ohne
+  Bezugsquelle steigen dadurch von 665 auf 683 — und das ist die ehrlichere Zahl: Diese 18 hatten
+  vorher nur einen kaputten Link. Seit demselben Tag sagen sie das auch („Kein Anbieter bekannt").
+
+  **Crunchyroll und ADN werden nicht geprüft.** Beide antworten jedem Skript mit 403; das wäre kein
+  Befund über den Verweis, sondern der Nachweis, dass wir kein Browser sind. Entfernt wird ohnehin
+  nur bei einem harten 404 — Zeitüberschreitung, 403 und Netzfehler ändern nichts.
+
+- 📌 **Und ein Fehler in der eigenen Arbeit desselben Tages**, gefunden beim Nachmessen: Die
+  YouTube-Prüfung bildete ihre Warteschlange allein aus `titles.json` — aus der der Build tote
+  Verweise entfernt. Ein einmal als tot erfasster Verweis wäre nie wieder geprüft worden, ein
+  Falschbefund für immer einer. Das ist wörtlich die Falle, der `CLAUDE.md` einen eigenen Abschnitt
+  widmet. Beide Prüfungen bilden ihre Schlange jetzt aus der Vereinigung von Datensatz und allem je
+  Geprüften; `check-links.ts` hatte es von Anfang an so.
+
 - ✅ **Der Wochenlauf ist grün — zum ersten Mal seit dem 10.08.2026** (20.08., 66 Minuten). Alle
   Schritte erfolgreich, auch der neue YouTube-Schritt: In der CI waren 3 Adressen fällig und wurden
   geprüft, das Secret trägt also. Geschrieben: 2.760 Titel, 245 Releases, 892 Termine. Damit ist die
