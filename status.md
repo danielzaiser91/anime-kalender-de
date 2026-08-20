@@ -386,6 +386,53 @@ Quelle: <https://www.animenewsnetwork.com/encyclopedia/api.php>
 
 ## Archiv
 
+- ✅ **Der Wochenlauf ist grün — zum ersten Mal seit dem 10.08.2026** (20.08., 66 Minuten). Alle
+  Schritte erfolgreich, auch der neue YouTube-Schritt: In der CI waren 3 Adressen fällig und wurden
+  geprüft, das Secret trägt also. Geschrieben: 2.760 Titel, 245 Releases, 892 Termine. Damit ist die
+  Reparatur der ADN-Zuordnung am echten Lauf bestätigt, nicht nur lokal.
+
+- ✅ **ADN verliert keine Serien mehr** (20.08.2026). Die Serienliste von ADN ist von Lauf zu Lauf
+  verschieden — 179 gegen 176 am selben Tag —, und der Katalog wurde jedes Mal allein aus dem
+  aktuellen Lauf gebaut. **25 Serien mit belegter Synchro lagen im eigenen Archiv und fehlten
+  trotzdem im Katalog: 762 Folgen**, darunter Yu-Gi-Oh! mit 236, Fire Force, Clannad und DAN DA DAN.
+  Die Warteschlange ist jetzt die Vereinigung aus aktueller Liste, letztem Katalog und Archiv — 242
+  statt 179 Serien, 109 statt 81 mit Synchro. Ob eine Serie bleibt, entscheidet weiterhin allein die
+  frische Antwort; verliert ADN eine Lizenz, fällt sie heraus.
+
+  Aufgefallen ist es, weil Daniel „Sword of the Demon Hunter" bei ADN offen im Angebot fand, während
+  unsere Seite „DE ?" zeigte. Der Sprachcode `vde` stand auf allen 24 Folgen in unserem Archiv.
+
+- ✅ **Tote YouTube-Verweise werden erkannt und entfernt** (20.08.2026). Neues Skript gegen die
+  offizielle Data API v3 — kein Auslesen der Seite, das untersagt YouTube, und die Ländersperre
+  steht ohnehin nur in der API (`regionRestriction`), nicht im Seitenquelltext. Befund: **Von 460
+  bewertbaren Adressen führten 362 ins Leere** — 290 Playlists vollständig landgesperrt, 46
+  Einzelvideos hier nicht abrufbar, 17 gelöscht, 9 ohne Inhalt. Brauchbar sind 95. Der Build
+  entfernt sie; im Datensatz waren es 397 Verweise, weil Adressen bei mehreren Titeln stehen.
+  Kanäle bleiben unangetastet — ein Kanal ist keine Folgenliste. Wiedervorlage nach 30 Tagen, denn
+  Lizenzen kehren zurück.
+
+- ✅ **Die Kalenderansicht war für Vorleseprogramme nicht begehbar** (20.08.2026). Bei einer
+  Durchsicht gefunden: **keine einzige Überschrift** auf Kalender, Datenbank und „Wo sehen?" — kein
+  `h1`, gar nichts —, dazu über zweihundert `span[role="note"]`. Das ist die Rolle für eine
+  Anmerkung am Rande; das Element war aber der Auslöser, der eine zeigt, und mit seiner Blase gar
+  nicht verknüpft. Jetzt trägt jede Ansicht eine unsichtbare `h1`, die Wochentage sind `h2`, und der
+  Auslöser zeigt über `aria-describedby` auf seine Blase. Am ausgelieferten Programmcode
+  gegengeprüft: `role="note"` kommt dort nicht mehr vor.
+
+- ✅ **„Kein Anbieter bekannt" statt gar nichts** (20.08.2026). Bei 665 von 2.760 Titeln fiel der
+  ganze Abschnitt „Wo läuft es" weg, sobald wir keine Bezugsquelle kannten. Für einen Besucher waren
+  damit zwei sehr verschiedene Dinge nicht zu unterscheiden: „läuft nirgends" und „wissen wir
+  nicht". Bei „.hack//SIGN" etwa ist die deutsche Synchro über Sprechrollen belegt, nur weiß niemand,
+  wo man sie heute noch sehen kann. Ein Satz beendet das Suchen auf dieser Seite.
+
+- 📌 **Geprüft und für gut befunden** (20.08.2026), damit es niemand ein zweites Mal misst: Die
+  Startseite lädt in 317 ms mit 6 Anfragen und 204 KB, ohne einen einzigen Konsolenfehler. Auf 375
+  Pixeln gibt es keinen waagrechten Überlauf, und von 201 Tippzielen sind nur 5 unter 24 Pixeln.
+  Bilder, Knöpfe und Eingabefelder tragen durchgehend Beschriftungen. Die Karten in Kalender und
+  Datenbank sind mit Enter und Leertaste bedienbar — der leere `onkeydown` im DOM täuscht, React
+  hängt seine Behandlung an den Wurzelknoten.
+
+
 - ✅ **One Piece steht wieder vollständig da — 515 statt 10 Folgen** (17.08.2026). ADN teilt die
   deutschen Folgen in zwölf Blöcke mit Namen wie „Saga 2 : Alabasta". AniList kennt für die Serie
   **einen** Eintrag, und in unserem Bestand hat die Reihe außer ihm nur zwei Mitglieder (den
