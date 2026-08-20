@@ -5,12 +5,21 @@ Stand: 17.08.2026 · Live: https://anime-kalender.de/
 ## Task Queue
 
 ### In Arbeit
-_(leer)_
+
+**Beides läuft seit dem 21.08.2026, 00:35 Uhr in der Cloud** — angestoßen über
+`.github/workflows/claude-auftrag.yml`, Ergebnis kommt jeweils als Pull Request.
+Zwei Aufträge laufen nacheinander, nicht parallel (eine Sperre verhindert zwei
+widersprüchliche PRs am selben Repo).
+
+| Aufgabe | SP | Lauf | Notiz |
+|---|---|---|---|
+| **Abweichungen vom Wochentakt eintragbar machen** | 3 | [32424585115](https://github.com/danielzaiser91/anime-kalender-de/actions/runs/32424585115) | Vorrangregel in `build.ts`: von Hand eingetragenes `schedule.observed` schlägt die Ableitung aus `observedEpisodes(slot)`, statt von ihr überschrieben zu werden. Testfall Mushoku Tensei S3 (erste drei Folgen am 19.08.2026 auf einmal). Zweig `claude/abweichungen-vom-wochentakt` |
+| **React-Hooks-Regeln in die Prüfkette** | 2 | [32424595802](https://github.com/danielzaiser91/anime-kalender-de/actions/runs/32424595802) | Anlass ist der weiße Bildschirm vom 20.08.2026 (React #310, Hooks hinter einem frühen `return`). Prüfkette **und** `tsc` waren dabei grün — gefunden wurde es nur durch einen Blick auf die laufende Seite. Schlanke Flat-Config, nur `rules-of-hooks` (Fehler) und `exhaustive-deps` (Warnung), eingehängt in npm-Skript, `CLAUDE.md` und Deploy-Workflow. Zweig `claude/react-hooks-in-die-pruefkette` |
+
 
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **▶ HIER WEITERMACHEN: Abweichungen vom Wochentakt eintragbar machen** | 3 | **Angefangen am 21.08.2026, Anzeige fertig, Datenweg offen.** Daniel: „das muss so etwas zulassen, das wöchentlich ist gut als default, aber es gibt immer abweichungen pausen, verschiebungen mehrere auf einmal etc." **Fertig ist:** Laufende Staffeln zeigen „3/14" statt „14", und mehrere Folgen am selben Tag bekommen unterscheidbare Termin-Kennungen (die Folgennummer wird nur angehängt, wo sie gebraucht wird — sonst würde jede UID im Kalender-Abo wechseln). **Offen ist der Weg, es einzutragen:** `schedule.observed` kann mehrere Folgen an einem Datum verankern, aber `build.ts` überschreibt das Feld bei Crunchyroll-Titeln komplett aus `observedEpisodes(slot)` (Zeile 1281). Eine Angabe aus `data/curated/*.yaml` kommt also gar nicht an. Nötig: eine Vorrangregel — was von Hand eingetragen wurde, schlägt die Ableitung, so wie überall sonst im Projekt. **Erster Fall zum Nachprüfen:** Mushoku Tensei Staffel 3 (`mushoku-tensei-s3`, AniList 178789). Am 19.08.2026 erschienen die **ersten drei Folgen auf einmal**, danach wöchentlich; wir führen nur Folge 1 und rechnen ab dort weiter — die Terminliste ist also um zwei Folgen verschoben, und die neue Anzeige zeigt „1/14" statt „3/14". Belegt durch Daniels Blick auf Crunchyroll am 21.08.2026 |
 | **Prüfliste „Wo läuft es" abarbeiten** (Dauerauftrag) | — | 1.732 Anbieter-Verweise ohne belegte Synchro, Liste: `data/dub-pruefliste.md`, erzeugt mit `npm run data:dub-checks`. Daniel arbeitet sie in Zehnerschritten ab; ich lege den Batch vor, er meldet je Nummer ja/nein, ich trage es in `data/dub-confirmed.yaml` ein und baue neu. **Stand: Batch 1 bis 3 ausgewertet, 65 Prüfungen eingetragen — 33 Angaben belegt, 32 tote Verweise entfernt.** Crunchyroll ist seit 13.08.2026 weitgehend maschinell belegt (234 ja / 988 nein / **25 offen**); die Handarbeit verteilt sich jetzt auf Netflix (727), YouTube (528) und Prime Video (219) — Anbieter, die die Sprachfassung nirgends öffentlich nennen. Kurzschrift der Antworten (`1`/`0`/`x`, mehrere je Zeile mit Punkt) steht im Kopf der Liste und in der `CLAUDE.md`. Je Batch kurz sagen, woher der Verweis stammt und warum er unsicher ist |
 | ~~News-Quellen für Sendepausen~~ — **Filter gebaut, Rest verworfen** | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
 
