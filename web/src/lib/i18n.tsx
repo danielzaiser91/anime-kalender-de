@@ -202,6 +202,11 @@ const TEXTE = {
   'detail.linkBuy': 'kaufen oder leihen',
 
   'detail.whereToWatch': 'Wo läuft es',
+  // Steht bei den Titeln, zu denen wir keinen Anbieter kennen — 665 von 2.760.
+  // Ein Satz, weil er eine Aufgabe hat: das Suchen auf dieser Seite beenden.
+  // Ohne ihn fehlte der Abschnitt ganz, und „läuft nirgends" war von „wissen
+  // wir nicht" nicht zu unterscheiden.
+  'detail.whereUnknown': 'Kein Anbieter bekannt.',
   'detail.sharedUrl': '{count} Einträge',
   // Bewusst „kann abweichen", nicht „weicht ab": Belegt ist nur, dass mehrere
   // unserer Einträge auf dieselbe Adresse zeigen. Wie der Anbieter seinerseits

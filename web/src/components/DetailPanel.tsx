@@ -1713,6 +1713,27 @@ export function DetailPanel({
           )}
 
           {/*
+            Kein Anbieter? Dann steht das da — statt gar nichts.
+
+            Bis zum 20.08.2026 wurde der ganze Abschnitt weggelassen, sobald wir
+            keine Bezugsquelle kannten. Das betraf **665 von 2.760 Titeln**, und
+            für einen Besucher waren zwei sehr verschiedene Dinge nicht zu
+            unterscheiden: „läuft nirgends" und „wissen wir nicht". Bei
+            „.hack//SIGN" etwa ist die deutsche Synchro über Sprechrollen belegt,
+            nur weiß niemand, wo man sie heute noch sehen kann.
+
+            Das ist genau der Fall, für den der Projektgrundsatz „Unsicheres
+            kennzeichnen statt weglassen" gemacht ist. Ein Satz, kein Absatz: Er
+            hat die eine Aufgabe, das Suchen auf dieser Seite zu beenden.
+          */}
+          {title.streams.length === 0 && (title.watchLinks?.length ?? 0) === 0 && (
+            <div>
+              <SectionTitle>{t('detail.whereToWatch')}</SectionTitle>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{t('detail.whereUnknown')}</p>
+            </div>
+          )}
+
+          {/*
             Hier stand „Alles aus dieser Reihe" — dieselben Einträge, die zwei
             Handbreit darüber schon im Umschalter stehen. Zwei Listen mit
             identischem Inhalt sind keine doppelte Auskunft, sondern doppelte
