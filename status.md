@@ -34,7 +34,6 @@ herausgeholt, wenn der User es sagt.
 | Idee | SP | Notiz |
 |---|---|---|
 | **Status-Widget ausbauen** | 3 | Liegt fertig und benutzbar unter `C:codeai__assets	oolslauf-statusindex.html`, Verknüpfung auf dem Schreibtisch, im Werkzeugkasten dokumentiert. **Pausiert am 20.08.2026 auf Daniels Ansage.** Offen wären: mehrere Repos gleichzeitig (das `REPOS`-Array kann es schon, es ist nur eines eingetragen), eine Fassung fürs Handy (die Datei braucht dafür nur einen erreichbaren Ort), und ein Fenster, das oben bleibt. Grenze, die bleibt: **nur öffentliche Repos** — ohne Anmeldung liefert die GitHub-API nichts anderes aus, und ein Token in einer Datei auf dem Schreibtisch wäre der falsche Handel |
-| **Claude in der CI scharfstellen** | 2 | Der Workflow `.github/workflows/claude-reparatur.yml` steht committet und ist **wirkungslos, solange das Secret fehlt** — er springt bei einem roten Datenlauf an, liest das Protokoll und öffnet einen Reparatur-PR. **Pausiert am 20.08.2026.** Es fehlen genau zwei Handgriffe von Daniel: die Claude-GitHub-App am Repo (prüfen unter github.com/settings/installations — womöglich schon installiert, die Fehlerseite danach war Claudes Einstellungsseite, die Team/Enterprise verlangt, nicht die Installation selbst), und ein Abo-Token aus `claude setup-token`. Das braucht die eigenständige CLI (`npm i -g @anthropic-ai/claude-code`); die Desktop-App bringt keine mit. Anmeldung läuft über das Abo, nicht über eine getrennte API-Rechnung |
 | Synchronstudios als Quelle | 8 | **Recherche am 11.08.2026 gemacht, Ergebnis ernüchternd.** Oxygen Sound Studios führt unter [o2studios.com/de/projekte](https://o2studios.com/de/projekte/) eine reine Referenzliste: „Chainsaw Man – Der Film Reze Arc — Deutsche Synchronisation", ohne jedes Datum und ohne Status. Violetmedia ist von hier aus nicht erreichbar (TLS-Handshake bricht ab, wie schon bei aniverse.de). Ein Studio nennt also, **dass** es eine Fassung macht — nicht **wann** sie kommt. Das ist nachvollziehbar: Der Termin gehört dem Lizenznehmer, nicht dem Studio. **Rest-Nutzen:** Die Projektlisten wären ein Beleg dafür, dass eine deutsche Fassung überhaupt existiert oder entsteht — für die `dubConfidence`, nicht für den Kalender. Als Terminquelle zurückgestellt; eine Anfrage lohnt nur, wenn ein Studio überhaupt Termine kennt und nennen dürfte |
 
 ### Zu besprechen
@@ -386,6 +385,20 @@ Quelle: <https://www.animenewsnetwork.com/encyclopedia/api.php>
   abgenommen.
 
 ## Archiv
+
+- ✅ **Claude arbeitet jetzt auch in der Cloud, mit ausgeschaltetem PC** (21.08.2026). Daniels
+  Frage war: „könnte so ein task nach unserer cli einrichtung in der cloud weitergearbeitet werden
+  während mein pc aus ist?" Antwort: ja, und es ist eingerichtet. Das Abo-Token aus
+  `claude setup-token` liegt als Repo-Secret `CLAUDE_CODE_OAUTH_TOKEN`; damit ist
+  `.github/workflows/claude-reparatur.yml` scharf — bei einem roten Datenlauf liest Claude das
+  Protokoll und öffnet einen Reparatur-PR, ohne dass hier jemand am Rechner sitzt.
+  **Belegt, nicht angenommen:** ein Wegwerf-Workflow lief am 20.08. um 22:16 (Lauf 32423507534)
+  und lieferte `is_error: false`, `num_turns: 1`, Modell `claude-sonnet-5`. Danach wieder gelöscht.
+  **Die Lehre daraus steht in `ai_agent_learnings.md` als Kategorie 30:** Der erste Probelauf
+  meldete `success`, obwohl gar kein Claude gelaufen war — ohne `actions/checkout` bricht die
+  Action nach 250 ms in `configureGitAuth` ab (`fatal: not in a git directory`) und **schluckt den
+  Fehler**. Ein grüner Haken ist bei dieser Action kein Beleg; der Beleg ist der JSON-Block
+  `"type": "result"` im Protokoll.
 
 - ✅ **Jeder fünfte Anbieter-Verweis führte auf eine Fehlerseite** (20.08.2026). Aufgefallen bei
   einer Stichprobe, dann vollständig gemessen: **195 von 945 prüfbaren Adressen antworten mit 404**.
