@@ -6,6 +6,16 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Mystery
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:adn-1132@2024-07-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240729T070000Z
+DTEND:20240729T073000Z
+SUMMARY:Black Bullet
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1132
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-1143@2024-08-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20240816T070000Z
@@ -16,6 +26,176 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1168@2025-03-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250331T123000Z
+DTEND:20250331T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 1/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-04-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250407T123000Z
+DTEND:20250407T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 2/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-04-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250414T123000Z
+DTEND:20250414T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 3/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-04-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250421T123000Z
+DTEND:20250421T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 4/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-04-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250428T123000Z
+DTEND:20250428T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 5/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-05-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250505T123000Z
+DTEND:20250505T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 6/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-05-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250512T123000Z
+DTEND:20250512T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 7/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-05-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250519T123000Z
+DTEND:20250519T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 8/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-05-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250526T123000Z
+DTEND:20250526T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 9/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-06-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250602T123000Z
+DTEND:20250602T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 10/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-06-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250609T123000Z
+DTEND:20250609T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 11/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-06-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250616T123000Z
+DTEND:20250616T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 12/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-06-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250623T123000Z
+DTEND:20250623T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 13/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-06-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250630T123000Z
+DTEND:20250630T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 14/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-07-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250707T123000Z
+DTEND:20250707T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 15/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-07-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250711T153000Z
+DTEND:20250711T160000Z
+SUMMARY:Tougen Anki – Folge 1/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-07-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250714T123000Z
+DTEND:20250714T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 16/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-662@2025-07-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250715T070000Z
@@ -23,6 +203,336 @@ DTEND:20250715T073000Z
 SUMMARY:Attack on Titan
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-662
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-07-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250718T153000Z
+DTEND:20250718T160000Z
+SUMMARY:Tougen Anki – Folge 2/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-07-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250721T123000Z
+DTEND:20250721T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 17/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-07-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250725T153000Z
+DTEND:20250725T160000Z
+SUMMARY:Tougen Anki – Folge 3/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-07-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250728T123000Z
+DTEND:20250728T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 18/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-08-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250801T153000Z
+DTEND:20250801T160000Z
+SUMMARY:Tougen Anki – Folge 4/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-08-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250804T123000Z
+DTEND:20250804T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 19/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-08-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250808T153000Z
+DTEND:20250808T160000Z
+SUMMARY:Tougen Anki – Folge 5/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-08-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250811T123000Z
+DTEND:20250811T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 20/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-08-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250815T153000Z
+DTEND:20250815T160000Z
+SUMMARY:Tougen Anki – Folge 6/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-08-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250818T123000Z
+DTEND:20250818T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 21/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-08-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250822T153000Z
+DTEND:20250822T160000Z
+SUMMARY:Tougen Anki – Folge 7/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-08-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250825T123000Z
+DTEND:20250825T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 22/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-08-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250829T153000Z
+DTEND:20250829T160000Z
+SUMMARY:Tougen Anki – Folge 8/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-09-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250901T123000Z
+DTEND:20250901T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 23/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-09-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250905T153000Z
+DTEND:20250905T160000Z
+SUMMARY:Tougen Anki – Folge 9/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-09-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250908T123000Z
+DTEND:20250908T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 24/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-310@2025-09-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250911T070000Z
+DTEND:20250911T073000Z
+SUMMARY:Brynhildr in the Darkness
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-310
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-09-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250912T153000Z
+DTEND:20250912T160000Z
+SUMMARY:Tougen Anki – Folge 10/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-09-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250919T153000Z
+DTEND:20250919T160000Z
+SUMMARY:Tougen Anki – Folge 11/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-09-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250926T153000Z
+DTEND:20250926T160000Z
+SUMMARY:Tougen Anki – Folge 12/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-10-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251003T153000Z
+DTEND:20251003T160000Z
+SUMMARY:Tougen Anki – Folge 13/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-10-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251010T153000Z
+DTEND:20251010T160000Z
+SUMMARY:Tougen Anki – Folge 14/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-347@2025-10-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251015T070000Z
+DTEND:20251015T073000Z
+SUMMARY:Death Parade
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-347
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-10-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251017T153000Z
+DTEND:20251017T160000Z
+SUMMARY:Tougen Anki – Folge 15/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-10-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251024T153000Z
+DTEND:20251024T160000Z
+SUMMARY:Tougen Anki – Folge 16/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-10-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251031T163000Z
+DTEND:20251031T170000Z
+SUMMARY:Tougen Anki – Folge 17/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-11-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251107T163000Z
+DTEND:20251107T170000Z
+SUMMARY:Tougen Anki – Folge 18/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-11-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251114T163000Z
+DTEND:20251114T170000Z
+SUMMARY:Tougen Anki – Folge 19/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-11-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251121T163000Z
+DTEND:20251121T170000Z
+SUMMARY:Tougen Anki – Folge 20/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-11-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251128T163000Z
+DTEND:20251128T170000Z
+SUMMARY:Tougen Anki – Folge 21/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-12-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251205T163000Z
+DTEND:20251205T170000Z
+SUMMARY:Tougen Anki – Folge 22/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-12-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251212T163000Z
+DTEND:20251212T170000Z
+SUMMARY:Tougen Anki – Folge 23/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-12-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251219T163000Z
+DTEND:20251219T170000Z
+SUMMARY:Tougen Anki – Folge 24/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT

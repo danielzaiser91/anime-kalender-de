@@ -6,6 +6,26 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Gore
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:adn-322@2023-04-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20230410T150000Z
+DTEND:20230410T153000Z
+SUMMARY:Akame ga Kill!
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-322
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1131@2023-10-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20231001T070000Z
+DTEND:20231001T073000Z
+SUMMARY:UQ Holder!
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1131
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-662@2025-07-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250715T070000Z
@@ -33,6 +53,16 @@ DTEND:20250821T073000Z
 SUMMARY:Terra Formars
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-340
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-310@2025-09-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250911T070000Z
+DTEND:20250911T073000Z
+SUMMARY:Brynhildr in the Darkness
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-310
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -423,6 +453,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GRGG9798R
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-190-s1-20260629@2026-06-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260629T070000Z
+DTEND:20260629T073000Z
+SUMMARY:Gunslinger Girl
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-190-s1-20260629
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-07-01@anime-kalender-de

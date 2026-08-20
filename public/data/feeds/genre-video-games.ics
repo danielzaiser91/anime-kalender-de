@@ -6,16 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Video Games
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:adn-1305@2025-06-11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250611T070000Z
-DTEND:20250611T073000Z
-SUMMARY:Sword Art Online EXTRA EDITION
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-1305
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-442-s1-20250611@2025-06-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250611T070000Z
@@ -43,6 +33,16 @@ DTEND:20250611T073000Z
 SUMMARY:Sword Art Online the Movie: Ordinal Scale
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-1309
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1305@2025-06-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250611T070000Z
+DTEND:20250611T073000Z
+SUMMARY:Sword Art Online EXTRA EDITION
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1305
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT

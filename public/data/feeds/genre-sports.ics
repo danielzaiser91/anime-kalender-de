@@ -86,6 +86,16 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1181@2024-04-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240409T070000Z
+DTEND:20240409T073000Z
+SUMMARY:High Speed! -Free! Starting Days-
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1181
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-1180@2024-04-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20240409T070000Z
@@ -106,6 +116,26 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1185@2024-04-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240416T070000Z
+DTEND:20240416T073000Z
+SUMMARY:Haikyu!! The Movie: Battle of Concepts
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1185
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1184@2024-04-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240416T070000Z
+DTEND:20240416T073000Z
+SUMMARY:Haikyu!! The Movie: Talent and Sense
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1184
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-1183@2024-04-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20240416T070000Z
@@ -123,16 +153,6 @@ DTEND:20240416T073000Z
 SUMMARY:Haikyu!! the Movie: The End and the Beginning
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-1182
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1184@2024-04-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20240416T070000Z
-DTEND:20240416T073000Z
-SUMMARY:Haikyu!! The Movie: Talent and Sense
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-1184
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT

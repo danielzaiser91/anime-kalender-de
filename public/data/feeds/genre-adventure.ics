@@ -16,6 +16,16 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-905@2022-07-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220706T150000Z
+DTEND:20220706T153000Z
+SUMMARY:One Piece: Chopper’s Kingdom on the Island of Strange Animals
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-905
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-906@2022-07-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20220706T150000Z
@@ -33,26 +43,6 @@ DTEND:20220706T153000Z
 SUMMARY:One Piece: The Curse of the Sacred Sword
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-907
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-905@2022-07-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20220706T150000Z
-DTEND:20220706T153000Z
-SUMMARY:One Piece: Chopper’s Kingdom on the Island of Strange Animals
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-905
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-925@2022-08-10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20220810T150000Z
-DTEND:20220810T153000Z
-SUMMARY:One Piece: Episode Of Chopper +: The Miracle Winter Cherry Blossom
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-925
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -76,6 +66,16 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-925@2022-08-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20220810T150000Z
+DTEND:20220810T153000Z
+SUMMARY:One Piece: Episode Of Chopper +: The Miracle Winter Cherry Blossom
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-925
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-948@2022-09-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20220914T150000Z
@@ -93,6 +93,16 @@ DTEND:20230104T083000Z
 SUMMARY:Dragon Ball Super
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-999
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-322@2023-04-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20230410T150000Z
+DTEND:20230410T153000Z
+SUMMARY:Akame ga Kill!
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-322
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -236,6 +246,16 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1261@2024-12-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20241206T080000Z
+DTEND:20241206T083000Z
+SUMMARY:Yu-Gi-Oh! – Staffel 2
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1261
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-1233@2024-12-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20241212T160000Z
@@ -266,6 +286,16 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1122@2025-01-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250124T080000Z
+DTEND:20250124T083000Z
+SUMMARY:My Instant Death Ability is Overpowered
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1122
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-1294@2025-05-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20250516T100000Z
@@ -273,16 +303,6 @@ DTEND:20250516T103000Z
 SUMMARY:Super Cube
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-1294
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1305@2025-06-11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250611T070000Z
-DTEND:20250611T073000Z
-SUMMARY:Sword Art Online EXTRA EDITION
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-1305
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -313,6 +333,16 @@ DTEND:20250611T073000Z
 SUMMARY:Sword Art Online the Movie: Ordinal Scale
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-1309
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1305@2025-06-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250611T070000Z
+DTEND:20250611T073000Z
+SUMMARY:Sword Art Online EXTRA EDITION
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1305
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -356,6 +386,26 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1331@2025-09-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250924T130000Z
+DTEND:20250924T133000Z
+SUMMARY:Hero Without a Class: Who Even Needs Skills?! – Folge 1/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1331
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1331@2025-10-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251001T130000Z
+DTEND:20251001T133000Z
+SUMMARY:Hero Without a Class: Who Even Needs Skills?! – Folge 2/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1331
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-1333@2025-10-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251003T150000Z
@@ -364,6 +414,16 @@ SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
  n\, I'm Out for Revenge! – Folge 1/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1333
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1331@2025-10-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251008T130000Z
+DTEND:20251008T133000Z
+SUMMARY:Hero Without a Class: Who Even Needs Skills?! – Folge 3/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1331
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -378,6 +438,16 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1331@2025-10-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251015T130000Z
+DTEND:20251015T133000Z
+SUMMARY:Hero Without a Class: Who Even Needs Skills?! – Folge 4/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1331
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-1333@2025-10-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251017T150000Z
@@ -386,6 +456,16 @@ SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
  n\, I'm Out for Revenge! – Folge 3/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1333
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1331@2025-10-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251022T130000Z
+DTEND:20251022T133000Z
+SUMMARY:Hero Without a Class: Who Even Needs Skills?! – Folge 5/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1331
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -410,6 +490,16 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1331@2025-10-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251029T140000Z
+DTEND:20251029T143000Z
+SUMMARY:Hero Without a Class: Who Even Needs Skills?! – Folge 6/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1331
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-1333@2025-10-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251031T160000Z
@@ -418,6 +508,16 @@ SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
  n\, I'm Out for Revenge! – Folge 5/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1333
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1331@2025-11-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251105T140000Z
+DTEND:20251105T143000Z
+SUMMARY:Hero Without a Class: Who Even Needs Skills?! – Folge 7/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1331
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -432,6 +532,16 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1331@2025-11-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251112T140000Z
+DTEND:20251112T143000Z
+SUMMARY:Hero Without a Class: Who Even Needs Skills?! – Folge 8/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1331
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-1333@2025-11-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251114T160000Z
@@ -440,6 +550,16 @@ SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
  n\, I'm Out for Revenge! – Folge 7/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1333
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1331@2025-11-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251119T140000Z
+DTEND:20251119T143000Z
+SUMMARY:Hero Without a Class: Who Even Needs Skills?! – Folge 9/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1331
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -454,6 +574,16 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1331@2025-11-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251126T140000Z
+DTEND:20251126T143000Z
+SUMMARY:Hero Without a Class: Who Even Needs Skills?! – Folge 10/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1331
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-1333@2025-11-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251128T160000Z
@@ -465,6 +595,16 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1331@2025-12-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251203T140000Z
+DTEND:20251203T143000Z
+SUMMARY:Hero Without a Class: Who Even Needs Skills?! – Folge 11/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1331
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-1333@2025-12-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251205T160000Z
@@ -473,6 +613,16 @@ SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
  n\, I'm Out for Revenge! – Folge 10/12
 DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
  ttps://anime-kalender.de/#/release/adn-1333
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1331@2025-12-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251210T140000Z
+DTEND:20251210T143000Z
+SUMMARY:Hero Without a Class: Who Even Needs Skills?! – Folge 12/12
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1331
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -1160,6 +1310,16 @@ DTEND:20260601T073000Z
 SUMMARY:Sailor Moon Sailor Stars
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-427-s5-20260601
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1396@2026-06-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260601T070000Z
+DTEND:20260601T073000Z
+SUMMARY:Fushigi ‌no ‌Kuni ‌de ‌Alice to: Dive ‌in ‌Wonderland
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1396
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT

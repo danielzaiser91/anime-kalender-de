@@ -6,6 +6,486 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Demons
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:adn-562-s1-20190705@2019-07-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20190705T172500Z
+DTEND:20190705T175500Z
+SUMMARY:Fire Force – Folge 1/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s1-20190705
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s1-20190705@2019-07-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20190712T172500Z
+DTEND:20190712T175500Z
+SUMMARY:Fire Force – Folge 2/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s1-20190705
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s1-20190705@2019-07-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20190719T172500Z
+DTEND:20190719T175500Z
+SUMMARY:Fire Force – Folge 3/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s1-20190705
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s1-20190705@2019-07-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20190726T172500Z
+DTEND:20190726T175500Z
+SUMMARY:Fire Force – Folge 4/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s1-20190705
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s1-20190705@2019-08-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20190802T172500Z
+DTEND:20190802T175500Z
+SUMMARY:Fire Force – Folge 5/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s1-20190705
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s1-20190705@2019-08-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20190809T172500Z
+DTEND:20190809T175500Z
+SUMMARY:Fire Force – Folge 6/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s1-20190705
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s1-20190705@2019-08-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20190816T172500Z
+DTEND:20190816T175500Z
+SUMMARY:Fire Force – Folge 7/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s1-20190705
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s1-20190705@2019-08-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20190823T172500Z
+DTEND:20190823T175500Z
+SUMMARY:Fire Force – Folge 8/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s1-20190705
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s1-20190705@2019-08-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20190830T172500Z
+DTEND:20190830T175500Z
+SUMMARY:Fire Force – Folge 9/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s1-20190705
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s1-20190705@2019-09-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20190906T172500Z
+DTEND:20190906T175500Z
+SUMMARY:Fire Force – Folge 10/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s1-20190705
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s1-20190705@2019-09-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20190913T172500Z
+DTEND:20190913T175500Z
+SUMMARY:Fire Force – Folge 11/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s1-20190705
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s1-20190705@2019-09-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20190920T172500Z
+DTEND:20190920T175500Z
+SUMMARY:Fire Force – Folge 12/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s1-20190705
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s1-20190705@2019-09-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20190927T172500Z
+DTEND:20190927T175500Z
+SUMMARY:Fire Force – Folge 13/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s1-20190705
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s1-20190705@2019-10-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20191004T172500Z
+DTEND:20191004T175500Z
+SUMMARY:Fire Force – Folge 14/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s1-20190705
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s1-20190705@2019-10-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20191011T172500Z
+DTEND:20191011T175500Z
+SUMMARY:Fire Force – Folge 15/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s1-20190705
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s1-20190705@2019-10-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20191018T172500Z
+DTEND:20191018T175500Z
+SUMMARY:Fire Force – Folge 16/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s1-20190705
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s1-20190705@2019-10-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20191025T172500Z
+DTEND:20191025T175500Z
+SUMMARY:Fire Force – Folge 17/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s1-20190705
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s1-20190705@2019-11-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20191101T182500Z
+DTEND:20191101T185500Z
+SUMMARY:Fire Force – Folge 18/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s1-20190705
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s1-20190705@2019-11-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20191108T182500Z
+DTEND:20191108T185500Z
+SUMMARY:Fire Force – Folge 19/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s1-20190705
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s1-20190705@2019-11-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20191115T182500Z
+DTEND:20191115T185500Z
+SUMMARY:Fire Force – Folge 20/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s1-20190705
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s1-20190705@2019-11-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20191122T182500Z
+DTEND:20191122T185500Z
+SUMMARY:Fire Force – Folge 21/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s1-20190705
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s1-20190705@2019-11-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20191129T182500Z
+DTEND:20191129T185500Z
+SUMMARY:Fire Force – Folge 22/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s1-20190705
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s1-20190705@2019-12-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20191206T182500Z
+DTEND:20191206T185500Z
+SUMMARY:Fire Force – Folge 23/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s1-20190705
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s1-20190705@2019-12-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20191213T182500Z
+DTEND:20191213T185500Z
+SUMMARY:Fire Force – Folge 24/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s1-20190705
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-07-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200703T175500Z
+DTEND:20200703T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 1/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-07-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200710T175500Z
+DTEND:20200710T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 2/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-07-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200717T175500Z
+DTEND:20200717T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 3/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-07-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200724T175500Z
+DTEND:20200724T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 4/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-07-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200731T175500Z
+DTEND:20200731T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 5/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-08-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200807T175500Z
+DTEND:20200807T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 6/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-08-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200814T175500Z
+DTEND:20200814T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 7/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-08-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200821T175500Z
+DTEND:20200821T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 8/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-08-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200828T175500Z
+DTEND:20200828T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 9/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-09-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200904T175500Z
+DTEND:20200904T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 10/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-09-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200911T175500Z
+DTEND:20200911T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 11/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-09-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200918T175500Z
+DTEND:20200918T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 12/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-09-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200925T175500Z
+DTEND:20200925T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 13/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-10-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20201002T175500Z
+DTEND:20201002T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 14/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-10-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20201009T175500Z
+DTEND:20201009T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 15/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-10-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20201016T175500Z
+DTEND:20201016T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 16/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-10-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20201023T175500Z
+DTEND:20201023T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 17/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-10-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20201030T185500Z
+DTEND:20201030T192500Z
+SUMMARY:Fire Force Staffel 2 – Folge 18/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-11-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20201106T185500Z
+DTEND:20201106T192500Z
+SUMMARY:Fire Force Staffel 2 – Folge 19/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-11-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20201113T185500Z
+DTEND:20201113T192500Z
+SUMMARY:Fire Force Staffel 2 – Folge 20/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20201120T185500Z
+DTEND:20201120T192500Z
+SUMMARY:Fire Force Staffel 2 – Folge 21/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-11-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20201127T185500Z
+DTEND:20201127T192500Z
+SUMMARY:Fire Force Staffel 2 – Folge 22/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-12-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20201204T185500Z
+DTEND:20201204T192500Z
+SUMMARY:Fire Force Staffel 2 – Folge 23/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-12-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20201211T185500Z
+DTEND:20201211T192500Z
+SUMMARY:Fire Force Staffel 2 – Folge 24/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-1142@2023-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20231001T070000Z
@@ -46,6 +526,16 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-278@2024-07-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240711T070000Z
+DTEND:20240711T073000Z
+SUMMARY:Beyond the Boundary
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-278
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-1133@2024-08-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20240808T070000Z
@@ -66,6 +556,406 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1168@2025-03-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250331T123000Z
+DTEND:20250331T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 1/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-04-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250407T123000Z
+DTEND:20250407T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 2/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-04-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250414T123000Z
+DTEND:20250414T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 3/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-04-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250421T123000Z
+DTEND:20250421T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 4/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-04-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250428T123000Z
+DTEND:20250428T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 5/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-05-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250505T123000Z
+DTEND:20250505T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 6/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-05-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250512T123000Z
+DTEND:20250512T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 7/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-05-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250519T123000Z
+DTEND:20250519T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 8/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-05-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250526T123000Z
+DTEND:20250526T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 9/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-06-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250602T123000Z
+DTEND:20250602T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 10/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-06-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250609T123000Z
+DTEND:20250609T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 11/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-06-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250616T123000Z
+DTEND:20250616T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 12/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-06-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250623T123000Z
+DTEND:20250623T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 13/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-06-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250630T123000Z
+DTEND:20250630T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 14/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-07-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250707T123000Z
+DTEND:20250707T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 15/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-07-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250711T153000Z
+DTEND:20250711T160000Z
+SUMMARY:Tougen Anki – Folge 1/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-07-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250714T123000Z
+DTEND:20250714T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 16/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-07-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250718T153000Z
+DTEND:20250718T160000Z
+SUMMARY:Tougen Anki – Folge 2/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-07-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250721T123000Z
+DTEND:20250721T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 17/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-07-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250725T153000Z
+DTEND:20250725T160000Z
+SUMMARY:Tougen Anki – Folge 3/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-07-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250728T123000Z
+DTEND:20250728T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 18/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-08-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250801T153000Z
+DTEND:20250801T160000Z
+SUMMARY:Tougen Anki – Folge 4/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-08-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250804T123000Z
+DTEND:20250804T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 19/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-08-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250808T153000Z
+DTEND:20250808T160000Z
+SUMMARY:Tougen Anki – Folge 5/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-08-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250811T123000Z
+DTEND:20250811T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 20/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-08-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250815T153000Z
+DTEND:20250815T160000Z
+SUMMARY:Tougen Anki – Folge 6/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-08-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250818T123000Z
+DTEND:20250818T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 21/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-08-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250822T153000Z
+DTEND:20250822T160000Z
+SUMMARY:Tougen Anki – Folge 7/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-08-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250825T123000Z
+DTEND:20250825T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 22/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-08-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250829T153000Z
+DTEND:20250829T160000Z
+SUMMARY:Tougen Anki – Folge 8/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-09-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250901T123000Z
+DTEND:20250901T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 23/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-09-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250905T153000Z
+DTEND:20250905T160000Z
+SUMMARY:Tougen Anki – Folge 9/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1168@2025-09-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250908T123000Z
+DTEND:20250908T130000Z
+SUMMARY:Sword of the Demon Hunter – Folge 24/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1168
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-09-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250912T153000Z
+DTEND:20250912T160000Z
+SUMMARY:Tougen Anki – Folge 10/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-09-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250919T153000Z
+DTEND:20250919T160000Z
+SUMMARY:Tougen Anki – Folge 11/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-09-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20250926T153000Z
+DTEND:20250926T160000Z
+SUMMARY:Tougen Anki – Folge 12/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-10-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251003T153000Z
+DTEND:20251003T160000Z
+SUMMARY:Tougen Anki – Folge 13/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-10-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251010T153000Z
+DTEND:20251010T160000Z
+SUMMARY:Tougen Anki – Folge 14/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-10-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251017T153000Z
+DTEND:20251017T160000Z
+SUMMARY:Tougen Anki – Folge 15/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-10-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251024T153000Z
+DTEND:20251024T160000Z
+SUMMARY:Tougen Anki – Folge 16/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-427-s1-20251029@2025-10-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251029T080000Z
@@ -76,6 +966,46 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-1311@2025-10-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251031T163000Z
+DTEND:20251031T170000Z
+SUMMARY:Tougen Anki – Folge 17/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-11-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251107T163000Z
+DTEND:20251107T170000Z
+SUMMARY:Tougen Anki – Folge 18/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-11-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251114T163000Z
+DTEND:20251114T170000Z
+SUMMARY:Tougen Anki – Folge 19/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-11-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251121T163000Z
+DTEND:20251121T170000Z
+SUMMARY:Tougen Anki – Folge 20/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-427-s2-20251126@2025-11-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20251126T080000Z
@@ -83,6 +1013,46 @@ DTEND:20251126T083000Z
 SUMMARY:Sailor Moon R
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-427-s2-20251126
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-11-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251128T163000Z
+DTEND:20251128T170000Z
+SUMMARY:Tougen Anki – Folge 21/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-12-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251205T163000Z
+DTEND:20251205T170000Z
+SUMMARY:Tougen Anki – Folge 22/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-12-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251212T163000Z
+DTEND:20251212T170000Z
+SUMMARY:Tougen Anki – Folge 23/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1311@2025-12-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251219T163000Z
+DTEND:20251219T170000Z
+SUMMARY:Tougen Anki – Folge 24/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-1311
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT

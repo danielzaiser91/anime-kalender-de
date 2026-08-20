@@ -6,6 +6,246 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Military
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-07-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200703T175500Z
+DTEND:20200703T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 1/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-07-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200710T175500Z
+DTEND:20200710T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 2/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-07-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200717T175500Z
+DTEND:20200717T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 3/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-07-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200724T175500Z
+DTEND:20200724T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 4/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-07-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200731T175500Z
+DTEND:20200731T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 5/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-08-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200807T175500Z
+DTEND:20200807T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 6/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-08-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200814T175500Z
+DTEND:20200814T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 7/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-08-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200821T175500Z
+DTEND:20200821T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 8/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-08-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200828T175500Z
+DTEND:20200828T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 9/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-09-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200904T175500Z
+DTEND:20200904T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 10/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-09-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200911T175500Z
+DTEND:20200911T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 11/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-09-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200918T175500Z
+DTEND:20200918T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 12/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-09-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20200925T175500Z
+DTEND:20200925T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 13/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-10-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20201002T175500Z
+DTEND:20201002T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 14/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-10-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20201009T175500Z
+DTEND:20201009T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 15/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-10-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20201016T175500Z
+DTEND:20201016T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 16/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-10-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20201023T175500Z
+DTEND:20201023T182500Z
+SUMMARY:Fire Force Staffel 2 – Folge 17/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-10-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20201030T185500Z
+DTEND:20201030T192500Z
+SUMMARY:Fire Force Staffel 2 – Folge 18/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-11-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20201106T185500Z
+DTEND:20201106T192500Z
+SUMMARY:Fire Force Staffel 2 – Folge 19/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-11-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20201113T185500Z
+DTEND:20201113T192500Z
+SUMMARY:Fire Force Staffel 2 – Folge 20/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20201120T185500Z
+DTEND:20201120T192500Z
+SUMMARY:Fire Force Staffel 2 – Folge 21/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-11-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20201127T185500Z
+DTEND:20201127T192500Z
+SUMMARY:Fire Force Staffel 2 – Folge 22/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-12-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20201204T185500Z
+DTEND:20201204T192500Z
+SUMMARY:Fire Force Staffel 2 – Folge 23/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-562-s2-20200703@2020-12-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20201211T185500Z
+DTEND:20201211T192500Z
+SUMMARY:Fire Force Staffel 2 – Folge 24/24
+DESCRIPTION:Plattform: ADN\nRelease-Art: Wöchentlich (Simuldub)\nDetails: h
+ ttps://anime-kalender.de/#/release/adn-562-s2-20200703
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-991@2023-01-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20230117T160000Z
@@ -13,6 +253,16 @@ DTEND:20230117T163000Z
 SUMMARY:Steins\;Gate 0
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-991
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1132@2024-07-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20240729T070000Z
+DTEND:20240729T073000Z
+SUMMARY:Black Bullet
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1132
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT

@@ -26,6 +26,16 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-322@2023-04-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20230410T150000Z
+DTEND:20230410T153000Z
+SUMMARY:Akame ga Kill!
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-322
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-1140@2024-07-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20240703T070000Z
@@ -33,6 +43,16 @@ DTEND:20240703T073000Z
 SUMMARY:Steins\;Gate The Movie – Load Region of Déjà Vu
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-1140
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-347@2025-10-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251015T070000Z
+DTEND:20251015T073000Z
+SUMMARY:Death Parade
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-347
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT

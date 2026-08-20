@@ -20,9 +20,9 @@
     "lastCount": 200
   },
   "adn-catalog": {
-    "lastOk": "2026-08-17T17:26:52.168Z",
-    "lastRun": "2026-08-17T17:26:52.168Z",
-    "lastCount": 81
+    "lastOk": "2026-08-20T10:29:49.279Z",
+    "lastRun": "2026-08-20T10:29:49.279Z",
+    "lastCount": 109
   },
   "crunchyroll-dub": {
     "lastOk": "2026-08-13T05:03:48.190Z",
@@ -38,5 +38,10 @@
     "lastOk": "2026-08-15T18:50:08.139Z",
     "lastRun": "2026-08-15T18:50:08.139Z",
     "lastCount": 1382
+  },
+  "youtube-check": {
+    "lastOk": "2026-08-20T10:24:21.980Z",
+    "lastRun": "2026-08-20T10:24:21.980Z",
+    "lastCount": 510
   }
 }
