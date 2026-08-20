@@ -54,10 +54,23 @@ type Bestand = Record<string, Befund>
 
 const heute = () => new Date().toISOString().slice(0, 10)
 
+/**
+ * Playlist, Einzelvideo — oder Kanal.
+ *
+ * Kanal ist der Auffangfall, und das mit Absicht: YouTube kennt für Kanäle
+ * mindestens vier Schreibweisen (`/channel/UC…`, `/c/Name`, `/user/Name`, `/@Name`)
+ * und dazu die nackte Kurzform `/precure`. Eine Liste davon wäre immer
+ * unvollständig — am 20.08.2026 fielen genau diese drei durch und blieben
+ * dauerhaft in der Warteschlange stehen, ohne je geprüft zu werden.
+ *
+ * Was weder Playlist noch Video ist, ist auf YouTube eine Kanalseite. Bewertet
+ * wird sie ohnehin nicht: Was auf einem Kanal liegt, sagt nichts darüber, ob
+ * **dieser** Titel dort abrufbar ist.
+ */
 function art(url: string): Befund['art'] | undefined {
   if (/[?&]list=/.test(url)) return 'playlist'
   if (/[?&]v=/.test(url) || /youtu\.be\//.test(url)) return 'video'
-  if (/youtube\.com\/(channel\/|c\/|@)/.test(url)) return 'kanal'
+  if (/youtube\.com\//.test(url)) return 'kanal'
   return undefined
 }
 
@@ -161,10 +174,25 @@ async function main(): Promise<void> {
   const roh = JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as unknown
   const titles = (Array.isArray(roh) ? roh : Object.values(roh as object).find(Array.isArray)) as Title[]
 
-  const adressen = new Set<string>()
-  for (const t of titles) for (const s of t.streams ?? []) if (s.platform === 'youtube') adressen.add(s.url)
-
   const bestand = readJson<Bestand>(DATEI, {})
+
+  /**
+   * Die Warteschlange ist die **Vereinigung**, nicht der aktuelle Datensatz.
+   *
+   * Ein Verweis, den dieser Lauf als tot erfasst, wird vom Build aus
+   * `titles.json` entfernt — und stünde beim nächsten Mal nicht mehr in der
+   * Liste, aus der sich die Warteschlange bildet. Er käme also nie wieder dran,
+   * und ein Falschbefund wäre für immer einer.
+   *
+   * Genau davor warnt der Abschnitt „Ein Abruf, der nur ergänzt, veraltet
+   * zwangsläufig" in `CLAUDE.md`, und ich bin am 20.08.2026 beim ersten Anlauf
+   * hineingelaufen. Deshalb: alles, was je geprüft wurde, bleibt in der Schlange
+   * — die Wiedervorlage entscheidet über das Alter, nicht über „schon
+   * beantwortet". Kommt eine Lizenz zurück, findet der nächste Lauf es, und der
+   * Build nimmt den Verweis von selbst wieder auf.
+   */
+  const adressen = new Set<string>(Object.keys(bestand))
+  for (const t of titles) for (const s of t.streams ?? []) if (s.platform === 'youtube') adressen.add(s.url)
   const grenze = new Date(Date.now() - ALTER * 86_400_000).toISOString().slice(0, 10)
   /**
    * Wiedervorlage nach Alter, nicht nach „schon geprüft".
