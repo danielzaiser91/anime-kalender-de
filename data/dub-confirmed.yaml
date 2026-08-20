@@ -471,3 +471,39 @@
   available: false
   checkedAt: '2026-08-20'
   note: Playlist zeigt „24 nicht verfügbare Videos werden nicht angezeigt" und sonst nichts.
+
+# ---------------------------------------------------------------------------
+# Batch 4, geprüft von Daniel am 20.08.2026
+# ---------------------------------------------------------------------------
+# „The Dangers in My Heart" ist ein lehrreicher Fall: Der Prime-Treffer ist in
+# Wahrheit der **ADN-Kanal auf Amazon**, kein gewöhnliches Prime-Angebot. Wer nur
+# Prime hat, kann den Titel dort nicht sehen — er braucht ein ADN-Abo, ob nun
+# über Amazon oder direkt. Deshalb steht der Prime-Verweis hier auf „nicht
+# verfügbar", während der ADN-Verweis die Synchro trägt.
+#
+# Belegt ist die Synchro über ADN selbst, und zwar vollständig: Daniel hat Staffel
+# 1 und 2 dort geöffnet, alle Folgen bis zur letzten liegen auf Deutsch vor.
+# Amazons Zeile „Wiedergabesprachen: Deutsch, 日本語" allein hätte nicht genügt —
+# sie steht dort für die ganze Reihe, auch wenn nur eine Folge synchronisiert
+# wäre. Genau dieselbe Falle wie bei Crunchyroll.
+
+- anilistId: 153152
+  title: The Dangers in My Heart
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-20'
+  note: Suchtreffer führt auf den ADN-Kanal, nicht auf ein Prime-Angebot. Mit Prime allein nicht ansehbar.
+
+- anilistId: 166216
+  title: The Dangers in My Heart – Staffel 2
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-20'
+  note: '„In deiner Region nicht mehr auf Prime Video verfügbar" — die Seite antwortet dabei mit HTTP 200.'
+
+- anilistId: 170221
+  title: The Dangers in My Heart – Special
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-20'
+  note: Kein passender Treffer in der Amazon-Suche.

@@ -1805,7 +1805,8 @@ function main(): void {
        * und ADN antworten jedem Skript mit 403; sie werden gar nicht erst
        * geprüft, sonst verwürfe diese Zeile reihenweise gültige Verweise.
        */
-      if (linkBefunde[stream.url]?.status === 404) {
+      const befund = linkBefunde[stream.url]?.status
+      if (befund === 404 || befund === 'region') {
         totEntfernt++
         return false
       }

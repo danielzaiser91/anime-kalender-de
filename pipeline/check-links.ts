@@ -13,10 +13,12 @@
  * (Bei ADN ist das ohne Belang: Dessen Bestand kommt ohnehin aus der offiziellen
  * Schnittstelle, die sauber antwortet.)
  *
- * **Nur ein hartes 404 zählt.** Zeitüberschreitung, 403 und Netzfehler beweisen
- * nichts über den Verweis, sondern etwas über den Weg dorthin — sie ändern
- * nichts. Das ist derselbe Grundsatz wie überall hier: gestrichen wird nur, was
- * eine Quelle aktiv widerlegt.
+ * **Zwei Befunde entfernen einen Verweis: ein hartes 404 — und Amazons Satz „In
+ * deiner Region nicht mehr auf Prime Video verfügbar", der mit HTTP 200 kommt.**
+ * Zeitüberschreitung, 403 und Netzfehler beweisen dagegen nichts über den
+ * Verweis, sondern etwas über den Weg dorthin; sie ändern nichts. Das ist
+ * derselbe Grundsatz wie überall hier: gestrichen wird nur, was eine Quelle
+ * aktiv widerlegt.
  *
  * Aufruf: npx tsx pipeline/check-links.ts [--alter 30] [--limit 300]
  */
@@ -54,6 +56,27 @@ type Bestand = Record<string, Befund>
 
 const heute = () => new Date().toISOString().slice(0, 10)
 
+/**
+ * Prime-Video-Seiten sagen „nicht verfügbar" mit HTTP **200**.
+ *
+ * Daniel öffnete am 20.08.2026 unseren Verweis auf Staffel 2 von „The Dangers in
+ * My Heart" und fand dort: „In deiner Region nicht mehr auf Prime Video
+ * verfügbar." Die Seite lädt tadellos, der Statuscode ist 200 — die reine
+ * Statusprüfung sieht davon nichts.
+ *
+ * Deshalb wird bei Amazon-Video-Seiten der Text mitgelesen. Der Griff bleibt
+ * eng: **eine** feste Wendung, kein Herumraten an verschlüsselten Klassennamen.
+ * Daniels kopierter Selektor lautete `#dv-action-box > div > div > div > div >
+ * div.FrkFbz > div.ZsR2Ti > div > button > span` — solche Namen wechseln mit
+ * jedem Deploy, der Satz nicht.
+ *
+ * Erlaubt ist der Blick: Amazons robots.txt sperrt `/gp/video/api`, `/settings`,
+ * `/library` und `/watchlist` — die Detailseite ausdrücklich **nicht**. Und es
+ * ist derselbe Abruf wie bisher, nur dass die Antwort auch gelesen wird.
+ */
+const AMAZON_VIDEO = /amazon\.[a-z.]+\/(gp\/video\/detail|dp)\//i
+const NICHT_IN_REGION = /In deiner Region nicht mehr auf Prime Video verfügbar/i
+
 async function pruefe(url: string): Promise<Befund> {
   try {
     const res = await fetch(url, {
@@ -61,6 +84,10 @@ async function pruefe(url: string): Promise<Befund> {
       signal: AbortSignal.timeout(8000),
       headers: { 'User-Agent': 'anime-kalender.de/1.0 (+https://anime-kalender.de; danielzaiser91@googlemail.com)' },
     })
+    if (res.ok && AMAZON_VIDEO.test(url)) {
+      const text = await res.text()
+      if (NICHT_IN_REGION.test(text)) return { status: 'region', geprueftAm: heute() }
+    }
     return { status: res.status, geprueftAm: heute() }
   } catch (err) {
     return { status: (err as Error).name === 'TimeoutError' ? 'timeout' : 'fehler', geprueftAm: heute() }
@@ -98,14 +125,14 @@ async function main(): Promise<void> {
   let geprueft = 0
   for (const url of arbeit) {
     bestand[url] = await pruefe(url)
-    if (bestand[url].status === 404) tot++
-    if (++geprueft % 100 === 0) log(`  ${geprueft}/${arbeit.length} — ${tot} tot`)
+    if (bestand[url].status === 404 || bestand[url].status === 'region') tot++
+    if (++geprueft % 100 === 0) log(`  ${geprueft}/${arbeit.length} — ${tot} unbrauchbar`)
     await sleep(700)
   }
 
   writeJson(DATEI, bestand)
-  const gesamtTot = Object.values(bestand).filter((b) => b.status === 404).length
-  log(`Verweise: ${geprueft} geprüft, ${tot} davon tot. Im Bestand insgesamt ${gesamtTot} mit 404.`)
+  const gesamtTot = Object.values(bestand).filter((b) => b.status === 404 || b.status === 'region').length
+  log(`Verweise: ${geprueft} geprüft, ${tot} davon unbrauchbar. Im Bestand insgesamt ${gesamtTot} unbrauchbar.`)
   if (!geprueft && offen.length) warn('Nichts geprüft, obwohl etwas fällig war — Aufruf prüfen.')
   recordSource('link-check', geprueft, geprueft ? undefined : 'nichts fällig')
 }
