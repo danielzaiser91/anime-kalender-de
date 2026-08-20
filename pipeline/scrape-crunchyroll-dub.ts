@@ -187,10 +187,38 @@ async function naechsteStaffel(page: Page, bisher: string): Promise<boolean> {
 async function serieLesen(page: Page, url: string): Promise<CrSerie> {
   const heute = new Date().toISOString().slice(0, 10)
   await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 })
-  await page.waitForTimeout(4500)
 
-  const audio = await page.evaluate(() => (document.body.innerText.match(/^Audio:.*$/m) ?? [''])[0])
-  if (!audio) return { url, deutschImAngebot: false, geprueftAm: heute, fehler: 'keine Audio-Zeile gefunden' }
+  /**
+   * Erst warten, bis die Audio-Zeile **da** ist — nicht stur 4,5 Sekunden.
+   *
+   * `domcontentloaded` feuert, sobald das erste HTML geparst ist: vor der
+   * Weiterleitung von der alten Slug-Adresse auf `/series/<id>/` und vor dem
+   * Aufbau der Anwendung. Der feste Schlaf danach traf das Ziel oft nicht, und
+   * dann las der Scraper die Zeile der **vorherigen** Seite.
+   *
+   * Die Zahlen dazu, gemessen am Lauf vom 20.08.2026: Über die Slug-Form fand
+   * er auf nur 12 Prozent der Seiten Deutsch, über die `/series/`-Form auf 39
+   * Prozent. Dieselben Seiten, dreifacher Unterschied — der Verdacht kam von
+   * Daniel („wartet der Scraper evtl. die Weiterleitung nicht ab?"), und er
+   * stimmte.
+   */
+  const audio = await page
+    .waitForFunction(() => (document.body.innerText.match(/^Audio:.*$/m) ?? [''])[0] || null, undefined, {
+      timeout: 20000,
+    })
+    .then((h) => h.jsonValue() as Promise<string>)
+    .catch(() => '')
+
+  /**
+   * Keine Zeile heißt **nicht gesehen**, nicht „kein Deutsch".
+   *
+   * Hier stand `deutschImAngebot: false` — ein Fehlschlag als Befund, und damit
+   * genau der Fehler, den dieses Projekt an drei anderen Stellen schon einmal
+   * gemacht hat. Daniel am 20.08.2026: „dann mach dass er erst prüft ob er das
+   * Element überhaupt findet, und dann ‚Nicht gefunden' statt ‚nicht auf
+   * deutsch'."
+   */
+  if (!audio) return { url, geprueftAm: heute, fehler: 'keine Audio-Zeile gefunden' }
 
   // Stufe 1 — und für die meisten Seiten schon das Ende.
   if (!/\bDeutsch\b/.test(audio)) return { url, deutschImAngebot: false, geprueftAm: heute }

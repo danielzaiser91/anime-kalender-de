@@ -27,7 +27,21 @@ export interface CrStaffel {
 
 export interface CrSerie {
   url: string
-  deutschImAngebot: boolean
+  /**
+   * `undefined` heißt **nicht gesehen**, nicht „kein Deutsch".
+   *
+   * Bis zum 20.08.2026 war das Feld ein schlichtes `boolean`, und jede Seite,
+   * auf der die Audio-Zeile fehlte, wurde als `false` verbucht — ein
+   * Fehlschlag als Befund. Der Unterschied ist an den Zahlen abzulesen: Von 767
+   * Nicht-Funden hatten **202** überhaupt keine Audio-Zeile, und die alte
+   * Slug-Adressform kam nur auf 12 Prozent Erfolg gegenüber 39 Prozent bei
+   * `/series/<id>/` — dieselbe Seite, nur einmal vor und einmal nach der
+   * Weiterleitung gelesen (Daniels Verdacht, 20.08.2026, und er stimmte).
+   *
+   * Deshalb drei Zustände statt zwei: `true` belegt, `false` belegt das
+   * Gegenteil, `undefined` sagt „wir haben es nicht gesehen".
+   */
+  deutschImAngebot?: boolean
   staffeln?: CrStaffel[]
   geprueftAm: string
   fehler?: string

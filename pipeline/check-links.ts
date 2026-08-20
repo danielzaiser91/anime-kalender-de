@@ -97,8 +97,25 @@ async function pruefe(url: string): Promise<Befund> {
     if (res.ok && AMAZON_VIDEO.test(url)) {
       const text = await res.text()
       if (NICHT_IN_REGION.test(text)) return { status: 'region', geprueftAm: heute() }
+      /**
+       * `prime` wird nur gesetzt, wenn es **zutrifft** — nie auf `false`.
+       *
+       * Der erste Anlauf am 20.08.2026 schrieb bei jedem Nicht-Treffer ein
+       * `false`, und davon standen 427 im Bestand. Bei der Gegenprobe lieferten
+       * dieselben Adressen dann `true`: Amazon hatte beim Massenlauf offenbar
+       * zwischendurch etwas anderes ausgeliefert — eine Zwischenseite, keine
+       * Produktseite. Der Statuscode war trotzdem 200.
+       *
+       * Damit war es derselbe Fehler wie beim Crunchyroll-Scraper, den Daniel am
+       * selben Abend fand: ein misslungener Abruf, gespeichert als Befund. Für
+       * den einzigen Zweck dieses Feldes — darf diese Adresse einen Suchlink
+       * ersetzen? — genügt das Ja. Ein fehlendes `prime` heißt „unbekannt", und
+       * unbekannt ersetzt nichts.
+       */
       const titel = /<title>([^<]{0,160})/.exec(text)?.[1] ?? ''
-      return { status: res.status, geprueftAm: heute(), prime: /\|\s*Prime Video/i.test(titel) }
+      const befund: Befund = { status: res.status, geprueftAm: heute() }
+      if (/\|\s*Prime Video/i.test(titel)) befund.prime = true
+      return befund
     }
     return { status: res.status, geprueftAm: heute() }
   } catch (err) {
