@@ -119,6 +119,19 @@ jobs:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: npm run data:youtube
 
+      - name: Anbieter-Verweise auf tote Seiten prüfen
+        # Eine Stichprobe am 20.08.2026 fand bei Joyn 9 von 11 und bei Aniverse
+        # 9 von 30 Verweisen mit 404 — ein Versprechen auf eine Fehlerseite.
+        #
+        # Crunchyroll und ADN bleiben absichtlich außen vor: Sie antworten jedem
+        # Skript mit 403, das wäre kein Befund. Entfernt wird ohnehin nur bei
+        # einem harten 404; Zeitüberschreitung und 403 ändern nichts.
+        #
+        # Gedeckelt, damit nicht jede Woche 945 fremde Seiten auf einmal
+        # abgeklopft werden. Wiedervorlage nach 30 Tagen.
+        continue-on-error: true
+        run: npm run data:links -- --limit 400
+
       - name: Anime2You
         continue-on-error: true
         run: npm run data:anime2you

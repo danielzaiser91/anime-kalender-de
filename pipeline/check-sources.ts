@@ -44,6 +44,8 @@ const FRISTEN: Record<string, number> = {
   'crunchyroll-dub': 9,
   // Wöchentlich, wie der Lauf, der sie füllt.
   'youtube-check': 9,
+  // Wöchentlich, wie der Lauf, der sie füllt.
+  'link-check': 9,
 }
 
 function daysSince(iso: string | undefined): number {

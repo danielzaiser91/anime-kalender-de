@@ -1752,9 +1752,12 @@ function main(): void {
   let geprueft = 0
   let entfernt = 0
   let ytEntfernt = 0
+  let totEntfernt = 0
   const checks = new Map(loadDubChecks().map((c) => [dubKey(c.anilistId, c.platform), c]))
   /** Befund je YouTube-Adresse aus `pipeline/check-youtube.ts`. */
   const youtubeBefunde = readJson<Record<string, { art: string; inDE: number }>>('data/youtube-check.json', {})
+  /** Antwortstatus je Anbieter-Adresse aus `pipeline/check-links.ts`. */
+  const linkBefunde = readJson<Record<string, { status: number | string }>>('data/link-check.json', {})
   for (const title of titles.values()) {
     /**
      * Tote Verweise verschwinden, statt ein „✕" zu bekommen.
@@ -1789,6 +1792,23 @@ function main(): void {
         ytEntfernt++
         return false
       }
+      /**
+       * Führt der Verweis überhaupt noch irgendwohin?
+       *
+       * `pipeline/check-links.ts` misst es für die Anbieter, deren Antwort etwas
+       * bedeutet. Eine Stichprobe am 20.08.2026 fand bei Joyn 9 von 11 und bei
+       * Aniverse 9 von 30 Verweisen mit 404 — ein Versprechen auf eine
+       * Fehlerseite.
+       *
+       * **Nur ein hartes 404 entfernt.** Zeitüberschreitung, 403 und Netzfehler
+       * sagen etwas über den Weg dorthin, nicht über den Verweis. Crunchyroll
+       * und ADN antworten jedem Skript mit 403; sie werden gar nicht erst
+       * geprüft, sonst verwürfe diese Zeile reihenweise gültige Verweise.
+       */
+      if (linkBefunde[stream.url]?.status === 404) {
+        totEntfernt++
+        return false
+      }
       const check = checks.get(dubKey(title.id, stream.platform))
       if (check?.available === false) {
         entfernt++
@@ -1804,6 +1824,7 @@ function main(): void {
   if (checks.size) {
     log(`${geprueft} geprüfte Synchro-Angaben übernommen, ${entfernt} tote Verweise entfernt (${checks.size} Prüfungen)`)
   }
+  if (totEntfernt) log(`${totEntfernt} Verweise entfernt: die Seite dahinter antwortet mit 404`)
   if (ytEntfernt) log(`${ytEntfernt} YouTube-Verweise entfernt: dort ist in Deutschland kein Video abrufbar`)
 
   /**
