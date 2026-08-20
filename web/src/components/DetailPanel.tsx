@@ -1265,6 +1265,22 @@ export function DetailPanel({
    * öffnen, sonst zeigt das Panel „keine Metadaten".
    */
   const [wechselt, setWechselt] = useState(false)
+
+  /**
+   * Kaufwege getrennt und nach Shop gebündelt.
+   *
+   * Getrennt, weil „Ansehen" und „Kaufen" zwei verschiedene Fragen sind.
+   * Gebündelt, weil vier Ausgaben desselben Verlags eine Auskunft sind.
+   */
+  const kaufwege = useMemo(
+    () => gruppiereKaufwege((title?.watchLinks ?? []).filter((w) => w.kind === 'buy')),
+    [title],
+  )
+  /** Alles, was man ansehen kann — Plattformen und Anbieter ohne eigene. */
+  const ansehen = useMemo(
+    () => [...(title?.streams ?? []), ...(title?.watchLinks ?? []).filter((w) => w.kind === 'stream')],
+    [title],
+  )
   const wechsleZu = (id: number) => {
     if (id === titleId) return
     if (data.titleById.has(id)) {
@@ -1327,21 +1343,6 @@ export function DetailPanel({
   // Der englische Rückfall bleibt bewusst, obwohl die Oberfläche seit dem
   // 10.08.2026 einsprachig ist: Er stammt nicht aus einer Übersetzung der
   // Seite, sondern aus der Quelle. Für rund 700 der 2.750 Titel gibt es
-  /**
-   * Kaufwege getrennt und nach Shop gebündelt.
-   *
-   * Getrennt, weil „Ansehen" und „Kaufen" zwei verschiedene Fragen sind.
-   * Gebündelt, weil vier Ausgaben desselben Verlags eine Auskunft sind.
-   */
-  const kaufwege = useMemo(
-    () => gruppiereKaufwege((title.watchLinks ?? []).filter((w) => w.kind === 'buy')),
-    [title],
-  )
-  /** Alles, was man ansehen kann — Plattformen und Anbieter ohne eigene. */
-  const ansehen = useMemo(
-    () => [...title.streams, ...(title.watchLinks ?? []).filter((w) => w.kind === 'stream')],
-    [title],
-  )
 
   // nirgends eine deutsche Inhaltsangabe — dort wäre die Alternative eine
   // leere Fläche.
