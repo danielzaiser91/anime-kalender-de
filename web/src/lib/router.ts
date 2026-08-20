@@ -71,7 +71,6 @@ function readLists(params: URLSearchParams, prefix: '' | 'x'): FilterLists {
   const lists = emptyLists()
   for (const key of LIST_KEYS) {
     const raw = splitList(params.get(prefix + LIST_PARAM[key]))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ;(lists as any)[key] = NUMERIC_KEYS.has(key) ? raw.map(Number) : raw
   }
   return lists
