@@ -1,0 +1,92 @@
+name: Claude — roten Datenlauf untersuchen
+
+# Springt an, wenn ein Datenlauf rot geworden ist, liest sein Protokoll, sucht
+# die Ursache und öffnet einen Pull Request mit der Reparatur.
+#
+# Warum als **eigener** Workflow und nicht als letzter Schritt im Datenlauf:
+# Der Datenlauf bricht bei einem Fehler ab, und ein Schritt dahinter liefe dann
+# nur mit `if: always()` — mitten in einem Job, dessen Arbeitsverzeichnis schon
+# in einem halben Zustand ist. Über `workflow_run` startet die Untersuchung mit
+# einem sauberen Auscheckvorgang, kennt aber die Nummer des gescheiterten Laufs.
+#
+# Anmeldung über `CLAUDE_CODE_OAUTH_TOKEN`, nicht über einen API-Schlüssel:
+# Dieses Token hängt an Daniels Abo, ein Lauf hier erzeugt also keine getrennte
+# API-Rechnung. Erzeugt wird es lokal mit `claude setup-token`.
+
+on:
+  workflow_run:
+    workflows:
+      - 'Täglich — alle Quellen'
+      - 'Wöchentlich — tiefer Durchlauf'
+      - 'Stündlich — Sendezeiten'
+    types: [completed]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  id-token: write
+  actions: read
+
+# Ein roter Lauf genügt. Läuft schon eine Untersuchung, wartet die nächste —
+# zwei Claudes am selben Repo erzeugen zwei widersprüchliche Pull Requests.
+concurrency:
+  group: claude-reparatur
+  cancel-in-progress: false
+
+jobs:
+  untersuchen:
+    if: github.event.workflow_run.conclusion == 'failure'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          # Die Vorgeschichte wird gebraucht: Fast jede Ursache lässt sich
+          # daran ablesen, was sich seit dem letzten grünen Lauf geändert hat.
+          fetch-depth: 50
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # Ohne diese Zeile passiert nichts: Die Action lehnt Bots als Auslöser
+          # ab, damit sie sich nicht selbst in eine Schleife ruft — und unsere
+          # Datenläufe committen als `github-actions[bot]`.
+          allowed_bots: 'github-actions[bot]'
+          claude_args: |
+            --max-turns 30
+            --allowedTools "Bash,Read,Edit,Write,Grep,Glob"
+          prompt: |
+            Der Datenlauf „${{ github.event.workflow_run.name }}" ist fehlgeschlagen.
+            Lauf-Nummer: ${{ github.event.workflow_run.id }}
+            Protokoll: gh run view ${{ github.event.workflow_run.id }} --repo ${{ github.repository }} --log-failed
+
+            Deine Aufgabe, in dieser Reihenfolge:
+
+            1. Lies das Protokoll des fehlgeschlagenen Schritts und benenne die
+               Ursache. Rate nicht — zitiere die Zeile, an der es bricht.
+            2. Entscheide, ob es ein Fehler im Code ist oder eine fremde Quelle,
+               die sich geändert hat oder ausgefallen ist. Bei einem Ausfall einer
+               fremden Quelle ist **nichts zu reparieren**: Dann öffnest du keinen
+               Pull Request, sondern schreibst deinen Befund in ein Issue.
+            3. Ist es ein Fehler im Code, repariere ihn so knapp wie möglich und
+               öffne einen Pull Request.
+
+            Verbindlich dabei:
+
+            - `CLAUDE.md` im Wurzelverzeichnis gilt. Dort stehen die Grundsätze
+              dieses Projekts, besonders: Nichts behaupten, was nicht belegt ist.
+            - Die Prüfkette muss vor dem Pull Request grün sein:
+              `npm run data:validate && npm run check:logic && npx tsc -b && npm run check:worker && npm run build`
+            - Ist der Fehler ein Widerspruch im Datensatz (`pruefeErgebnis` bricht
+              ab), dann ist der Melder **nicht** das Problem. Ihn weicher zu
+              stellen, um einen grünen Lauf zu bekommen, ist ausdrücklich falsch —
+              repariere die Ursache und lass die Zusicherung stehen.
+            - Kommentare, Commit-Nachricht und Pull-Request-Text auf Deutsch.
