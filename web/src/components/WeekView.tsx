@@ -254,10 +254,19 @@ export function WeekView({
                     : 'border-slate-200 text-slate-600 dark:border-white/10 dark:text-slate-400',
                 ].join(' ')}
               >
-                <span className="text-xs font-semibold uppercase tracking-wider">
+                {/*
+                  `h2` statt `span`: Der Tag ist die Überschrift seiner Spalte.
+                  Am Aussehen ändert das nichts — Tailwind setzt Überschriften
+                  auf `font-size: inherit` zurück, die Klassen bestimmen es
+                  weiterhin allein. Es ändert, wer die Seite überhaupt
+                  durchqueren kann: Die Kalenderansicht hatte am 20.08.2026
+                  **keine einzige** Überschrift, also auch keinen Sprungpunkt
+                  für jemanden, der sie vorgelesen bekommt.
+                */}
+                <h2 className="text-xs font-semibold uppercase tracking-wider">
                   {weekdayName(date, true)}
                   {isToday && <span className="ml-1 normal-case tracking-normal">· {t('week.today')}</span>}
-                </span>
+                </h2>
                 <span className="text-xs tabular-nums opacity-80">{formatDate(date).slice(0, 5)}</span>
               </header>
 

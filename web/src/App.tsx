@@ -162,12 +162,39 @@ export default function App() {
 
   const isCalendar = route.view === 'woche' || route.view === 'monat' || route.view === 'agenda'
   const showFilters = isCalendar || route.view === 'datenbank' || route.view === 'wo'
+  /**
+   * Name der Ansicht für die unsichtbare Überschrift — leer heißt: keine setzen.
+   *
+   * Ausgeschrieben statt über `t(\`view.${route.view}\`)` zusammengesetzt: Die
+   * Ansichtsliste enthält auch `quellen`, und dafür gibt es keinen Text. Ein
+   * dynamischer Schlüssel verdeckt das nur, bis er zur Laufzeit ins Leere greift.
+   */
+  const ansichtsName =
+    route.view === 'woche' ? t('view.woche')
+    : route.view === 'monat' ? t('view.monat')
+    : route.view === 'agenda' ? t('view.agenda')
+    : route.view === 'datenbank' ? t('view.datenbank')
+    : route.view === 'wo' ? t('view.wo')
+    : ''
 
   return (
     <div className="flex min-h-full flex-col">
       <Header view={route.view} date={route.date} onView={setView} onDate={(d) => navigate({ date: d })} />
 
       <main className="mx-auto w-full max-w-[1600px] flex-1 px-4 py-4">
+        {/*
+          Eine Überschrift, die keiner sieht und viele brauchen.
+
+          Kalender, Datenbank und „Wo sehen?" hatten am 20.08.2026 **keine
+          einzige** Überschrift — kein `h1`, gar nichts. Wer die Seite vorgelesen
+          bekommt, hat damit keinen einzigen Sprungpunkt, und für Suchmaschinen
+          fehlt die Angabe, worum es auf dieser Ansicht geht.
+
+          Nur für diese drei: Die festen Seiten (Newsletter, Abo, Datenschutz)
+          bringen ihre eigene Überschrift mit, und zwei `h1` auf einer Seite
+          wären keine Verbesserung, sondern ein zweiter Fehler.
+        */}
+        {ansichtsName && <h1 className="sr-only">{`Anime-Kalender DE — ${ansichtsName}`}</h1>}
         {showFilters && (
           <div className="mb-4 flex flex-col gap-2">
             <FilterBar

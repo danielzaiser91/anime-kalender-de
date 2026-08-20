@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState, type ReactNode } from 'react'
+import { useId, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { FSK_COLORS, PLATFORMS, RELEASE_TYPES } from '@shared/types.ts'
 import type { Fsk, PlatformId, ReleaseStatus, ReleaseType } from '@shared/types.ts'
@@ -602,6 +602,15 @@ export function Tooltip({
   const [offen, setOffen] = useState(false)
   const anker = useRef<HTMLSpanElement>(null)
   const blase = useRef<HTMLSpanElement>(null)
+  /**
+   * Kennung, mit der der Auslöser auf seine Blase zeigt.
+   *
+   * Ohne sie standen beide unverbunden nebeneinander: Die Blase trug zwar
+   * `role="tooltip"`, aber nichts sagte, **wozu** sie gehört. Wer die Seite
+   * vorgelesen bekommt, landete auf einem Haltepunkt, der nichts erklärte —
+   * und davon gibt es auf der Startseite über zweihundert.
+   */
+  const blasenId = useId()
 
   /**
    * Position im Fenster, einmal je Öffnen gemessen.
@@ -659,7 +668,20 @@ export function Tooltip({
     >
       <span
         tabIndex={0}
-        role="note"
+        /*
+          `aria-describedby` statt `role="note"`.
+
+          Hier stand `role="note"` — die Rolle für eine Anmerkung am Rande. Das
+          Element ist aber keine Anmerkung, sondern der **Auslöser**, der eine
+          zeigt. Vorlesende Programme kündigten damit auf der Startseite über
+          zweihundert „Anmerkungen" an, ohne je zu verraten, was darin steht:
+          Die Blase daneben trug zwar `role="tooltip"`, war aber mit nichts
+          verknüpft (gefunden am 20.08.2026 bei einer Durchsicht der Seite).
+
+          Richtig ist das Paar: Der Auslöser zeigt auf die Blase, sobald sie da
+          ist. `tabIndex` bleibt — sonst erreicht sie nur, wer eine Maus hat.
+        */
+        aria-describedby={offen ? blasenId : undefined}
         /*
           `inline-flex` statt `inline`: Ein Inline-Element bezieht seine Höhe aus
           der Zeilenhöhe, nicht aus seinem Inhalt. Eine Plakette mit Hovertext
@@ -679,6 +701,7 @@ export function Tooltip({
         createPortal(
           <span
             ref={blase}
+            id={blasenId}
             role="tooltip"
             style={
               pos
