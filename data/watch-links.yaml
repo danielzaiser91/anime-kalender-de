@@ -21,3 +21,21 @@
   sources:
     - https://www.anisearch.com/anime/6438,hack-quantum
     - https://www.werstreamt.es/film/details/680079/hackquantum/
+
+# Prime-Video-Adressen, die Daniel beim Prüfen von Batch 4 herausgesucht hat
+# (20.08.2026). Sie ersetzen den Suchlink, den AniList uns hinterlässt.
+- anilistId: 171025
+  title: Magilumiere Magical Girls Inc.
+  streams:
+    - platform: primevideo
+      url: https://www.amazon.de/gp/video/detail/B0DDJ1CH7R
+  sources:
+    - https://www.amazon.de/gp/video/detail/B0DDJ1CH7R
+
+- anilistId: 185692
+  title: Magilumiere Magical Girls Inc. – Staffel 2
+  streams:
+    - platform: primevideo
+      url: https://www.amazon.de/gp/video/detail/B0H3LKZ67T
+  sources:
+    - https://www.amazon.de/gp/video/detail/B0H3LKZ67T

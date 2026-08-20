@@ -103,7 +103,7 @@ for (const datei of ['data/cache/anilist-media.json', 'data/cache/anilist-by-id.
   }
 }
 
-const kuratierteUrls = new Set(loadWatchLinks().flatMap((w) => w.links.map((l) => l.url)))
+const kuratierteUrls = new Set(loadWatchLinks().flatMap((w) => (w.links ?? []).map((l) => l.url)))
 const bereitsGeprueft = new Set(loadDubChecks().map((c) => dubKey(c.anilistId, c.platform)))
 
 /**

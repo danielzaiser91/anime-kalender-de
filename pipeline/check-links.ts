@@ -50,6 +50,16 @@ interface Befund {
   /** HTTP-Status, oder ein Wort, wenn es gar nicht erst dazu kam. */
   status: number | string
   geprueftAm: string
+  /**
+   * Ist diese Amazon-Seite ein **Prime-Video-Eintrag**?
+   *
+   * Der Unterschied entscheidet, ob die Adresse einen Suchlink ersetzen darf.
+   * Amazon schreibt ihn in den Seitentitel: „Amazon.de: <Titel> ansehen | Prime
+   * Video" steht über einem Video, über einer Disc steht er nicht. aniSearch
+   * führt beide unter demselben Anbieternamen `amazon`, deshalb lässt sich das
+   * nicht aus den Daten ableiten — nur an der Seite ablesen.
+   */
+  prime?: boolean
 }
 
 type Bestand = Record<string, Befund>
@@ -87,6 +97,8 @@ async function pruefe(url: string): Promise<Befund> {
     if (res.ok && AMAZON_VIDEO.test(url)) {
       const text = await res.text()
       if (NICHT_IN_REGION.test(text)) return { status: 'region', geprueftAm: heute() }
+      const titel = /<title>([^<]{0,160})/.exec(text)?.[1] ?? ''
+      return { status: res.status, geprueftAm: heute(), prime: /\|\s*Prime Video/i.test(titel) }
     }
     return { status: res.status, geprueftAm: heute() }
   } catch (err) {
@@ -111,6 +123,18 @@ async function main(): Promise<void> {
   const adressen = new Set<string>(Object.keys(bestand))
   for (const t of titles) {
     for (const s of t.streams ?? []) if (PRUEFBAR.has(s.platform)) adressen.add(s.url)
+    /**
+     * Auch die Amazon-Adressen aus `watchLinks` — sie sind der Ersatz für die
+     * Suchlinks.
+     *
+     * Am 20.08.2026 waren **225 von 226** Prime-Verweisen bloße Suchen: AniList
+     * liefert für die meisten Titel keinen Deeplink. Für 137 davon steht die
+     * echte Adresse längst in unserem aniSearch-Bestand, nur unter dem
+     * Anbieternamen `amazon`, der bei uns als Kauf gilt. Ob dahinter ein Video
+     * oder eine Disc liegt, verrät erst der Seitentitel — also wird sie hier
+     * mitgeprüft, und `build.ts` entscheidet danach.
+     */
+    for (const w of t.watchLinks ?? []) if (AMAZON_VIDEO.test(w.url)) adressen.add(w.url)
   }
 
   const grenze = new Date(Date.now() - ALTER * 86_400_000).toISOString().slice(0, 10)

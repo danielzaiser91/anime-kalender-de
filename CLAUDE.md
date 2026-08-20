@@ -145,6 +145,17 @@ Zwei Folgen daraus:
 | `0` | keine deutsche Synchro, nur Untertitel | `dub: false`, Verweis bleibt mit ✕ |
 | `x` | kein Video: nicht verfügbar, tot, Weiterleitung | `available: false`, Verweis wird entfernt |
 
+Zwei Wendungen kommen so oft vor, dass Daniel sie am 20.08.2026 abgekürzt hat:
+
+| Kurzform | Was er gesehen hat | wird zu |
+|---|---|---|
+| **„schief-Error"** | Der Treffer steht in der Suche, beim Klick kommt „Da ist etwas schief gelaufen" | `available: false` |
+| **„404"** | Weiterleitung auf die Startseite des Anbieters, der Titel ist dort nicht zu finden — **kein echter** HTTP-404, aber als Rückmeldung kürzer | `available: false` |
+
+Beide meinen dasselbe Ergebnis und unterscheiden sich nur darin, wie der Anbieter sein Nein
+mitteilt. Festgehalten wird die Unterscheidung trotzdem in der `note`: Sie sagt, ob eine Adresse
+kaputt ist oder ein Angebot verschwunden.
+
 Mehrere Einträge in einer Zeile werden mit Punkt getrennt in derselben Reihenfolge beantwortet
 (`1.0` = erster ja, zweiter nein). Eine einzelne Angabe gilt für alle Einträge der Zeile.
 Beispiel für einen ganzen Batch: `1-x 2-1 3-1.0 4-x`.

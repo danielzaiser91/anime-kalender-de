@@ -51,7 +51,17 @@ export function loadCurated(): CuratedEntry[] {
 export interface CuratedWatch {
   anilistId: number
   title?: string
-  links: { name: string; url: string; kind: 'stream' | 'buy' }[]
+  links?: { name: string; url: string; kind: 'stream' | 'buy' }[]
+  /**
+   * Echte Adresse fuer eine der bekannten Plattformen.
+   *
+   * Am 20.08.2026 gemessen: **225 von 226 Prime-Verweisen waren blosse
+   * Suchlinks** — AniList liefert fuer die meisten Titel keinen brauchbaren
+   * Deeplink, und wir schicken den Besucher lieber zur Suche als ins Nichts.
+   * Wer die Produktseite von Hand heraussucht, traegt sie hier ein; sie ersetzt
+   * dann die Suche.
+   */
+  streams?: { platform: string; url: string }[]
   sources: string[]
 }
 
@@ -66,7 +76,7 @@ export function loadWatchLinks(): CuratedWatch[] {
   const file = resolve(ROOT, 'data/watch-links.yaml')
   try {
     const parsed = yaml.load(readFileSync(file, 'utf8')) as CuratedWatch[] | null
-    return (parsed ?? []).filter((e) => e?.anilistId && e.links?.length)
+    return (parsed ?? []).filter((e) => e?.anilistId && (e.links?.length || e.streams?.length))
   } catch {
     return []
   }

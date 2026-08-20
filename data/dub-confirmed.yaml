@@ -15,9 +15,17 @@
 # wichtig:
 #
 #   dub: true         Deutsche Synchro dort vorhanden.
-#   dub: false        Dort **nur** Originalton mit Untertiteln. Der Verweis
-#                     bleibt stehen und trägt „🇩🇪 ✕" — die Auskunft ist ja
-#                     brauchbar.
+#   dub: false        Dort **nur** Originalton mit Untertiteln. Der Verweis wird
+#                     **entfernt** — diese Seite beantwortet eine Frage, und
+#                     zwar wo ein Anime auf Deutsch zu sehen ist (Daniel,
+#                     15.08.2026: „wir interessieren uns als app nur für
+#                     deutsche synchros"). Hier stand bis zum 20.08.2026, der
+#                     Verweis bleibe mit einem „🇩🇪 ✕" stehen; das war seit
+#                     jener Ansage überholt.
+#
+#                     Der Unterschied zu `available: false` bleibt trotzdem
+#                     wichtig, denn er hält fest, **warum** nichts dasteht: hier
+#                     „gibt es, aber nicht auf Deutsch", dort „gibt es nicht".
 #   available: false  Der Titel ist dort gar nicht (mehr) zu haben: „Videos
 #                     nicht verfügbar", oder der Verweis leitet auf die
 #                     Startseite. Der Verweis wird **entfernt**. Ein „✕" wäre
@@ -507,3 +515,100 @@
   available: false
   checkedAt: '2026-08-20'
   note: Kein passender Treffer in der Amazon-Suche.
+
+# --- Nummern 2 bis 10 -------------------------------------------------------
+
+- anilistId: 153152
+  title: The Dangers in My Heart
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-20'
+  note: Staffel 1 mit deutscher Synchro.
+
+- anilistId: 199
+  title: Chihiros Reise ins Zauberland
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-20'
+
+- anilistId: 98320
+  title: LOVE and LIES
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-20'
+  note: Im Suchergebnis enthalten, der Treffer endet aber auf „Da ist etwas schief gelaufen".
+
+# Bleach: Die vier Einträge zeigen auf dieselbe Disney+-Adresse, eine Prüfung
+# beantwortet sie alle. Die ersten drei Staffeln sind synchronisiert, die vierte
+# liegt derzeit nur untertitelt vor — deshalb steht dort `false` und nicht
+# `available: false`: Das Angebot gibt es, nur nicht auf Deutsch.
+- anilistId: 116674
+  title: 'BLEACH: Thousand-Year Blood War'
+  platform: disneyplus
+  dub: true
+  checkedAt: '2026-08-20'
+
+- anilistId: 159322
+  title: 'BLEACH: Thousand-Year Blood War – The Separation'
+  platform: disneyplus
+  dub: true
+  checkedAt: '2026-08-20'
+
+- anilistId: 169755
+  title: 'BLEACH: Thousand-Year Blood War – The Conflict'
+  platform: disneyplus
+  dub: true
+  checkedAt: '2026-08-20'
+
+- anilistId: 185874
+  title: 'BLEACH: Thousand-Year Blood War – The Calamity'
+  platform: disneyplus
+  dub: false
+  checkedAt: '2026-08-20'
+  note: Derzeit nur mit Untertiteln, anders als die drei Staffeln davor.
+
+- anilistId: 183161
+  title: The Beginning After the End
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-20'
+  note: Leitet auf die Netflix-Startseite weiter, der Titel ist dort nicht zu finden.
+
+- anilistId: 209961
+  title: 'SHIBOYUGI – Playing Death Games to Put Food on the Table'
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-20'
+  note: Deutsche Tonspur auswählbar.
+
+- anilistId: 171025
+  title: Magilumiere Magical Girls Inc.
+  platform: primevideo
+  dub: true
+  checkedAt: '2026-08-20'
+  note: Audio Deutsch. Echte Produktseite in watch-links.yaml hinterlegt.
+
+- anilistId: 185692
+  title: Magilumiere Magical Girls Inc. – Staffel 2
+  platform: primevideo
+  dub: true
+  checkedAt: '2026-08-20'
+  note: Audio Deutsch. Echte Produktseite in watch-links.yaml hinterlegt.
+
+# Die beiden folgenden sind noch im Erscheinen: Die Synchro liegt nicht für alle
+# Folgen vor. `dub: true` ist trotzdem richtig — eine deutsche Fassung gibt es
+# dort, sie wächst nur noch. Die Folgenstände stehen in der Notiz, damit später
+# nachvollziehbar ist, worauf sich die Prüfung bezog.
+- anilistId: 103303
+  title: Sparks of Tomorrow
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-20'
+  note: Bis Folge 7 auf Deutsch; Folge 8 laut Netflix am 23.08.2026, ohne Uhrzeit.
+
+- anilistId: 207141
+  title: Chainsmoker Cat
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-20'
+  note: 8 Folgen verfügbar, bis Folge 6 mit deutscher Synchro.

@@ -1069,7 +1069,19 @@ function main(): void {
       continue
     }
     const existing = title.watchLinks ?? []
-    const curated = entry.links.filter((l) => !existing.some((e) => e.url === l.url))
+    const curated = (entry.links ?? []).filter((l) => !existing.some((e) => e.url === l.url))
+    /**
+     * Eine von Hand herausgesuchte Produktseite ersetzt die Suche.
+     *
+     * AniList liefert fuer die meisten Titel keinen Deeplink, deshalb steht dort
+     * ein Suchlink — am 20.08.2026 bei **225 von 226** Prime-Verweisen. Wer die
+     * echte Adresse eintraegt, hat nachgesehen; das schlaegt die Suche.
+     */
+    for (const s of entry.streams ?? []) {
+      const vorhanden = title.streams.find((x) => x.platform === s.platform)
+      if (vorhanden) vorhanden.url = s.url
+      else title.streams.push({ platform: s.platform as PlatformId, url: s.url })
+    }
     title.watchLinks = [...curated, ...existing].sort((a, b) =>
       a.kind === b.kind ? 0 : a.kind === 'stream' ? -1 : 1,
     )
@@ -1757,7 +1769,7 @@ function main(): void {
   /** Befund je YouTube-Adresse aus `pipeline/check-youtube.ts`. */
   const youtubeBefunde = readJson<Record<string, { art: string; inDE: number }>>('data/youtube-check.json', {})
   /** Antwortstatus je Anbieter-Adresse aus `pipeline/check-links.ts`. */
-  const linkBefunde = readJson<Record<string, { status: number | string }>>('data/link-check.json', {})
+  const linkBefunde = readJson<Record<string, { status: number | string; prime?: boolean }>>('data/link-check.json', {})
   for (const title of titles.values()) {
     /**
      * Tote Verweise verschwinden, statt ein „✕" zu bekommen.
@@ -1788,6 +1800,19 @@ function main(): void {
        * dort liegt, sagt nichts über diesen Titel.
        */
       const yt = stream.platform === 'youtube' ? youtubeBefunde[stream.url] : undefined
+      /**
+       * Kanaladressen fliegen raus, ohne Prüfung.
+       *
+       * Ein Kanal ist keine Folgenliste: Er beantwortet nicht, ob **dieser**
+       * Titel dort zu sehen ist, sondern zeigt irgendwas vom Sender. Bis zum
+       * 20.08.2026 blieben sie stehen, weil sie sich nicht bewerten lassen —
+       * genau das ist aber der Grund, sie wegzulassen (Daniel: „YouTube-
+       * Verlinkungen zu Kanälen statt Videos/Playlists direkt streichen").
+       */
+      if (yt?.art === 'kanal') {
+        ytEntfernt++
+        return false
+      }
       if (yt && yt.art !== 'kanal' && yt.inDE === 0) {
         ytEntfernt++
         return false
@@ -1827,6 +1852,38 @@ function main(): void {
   }
   if (totEntfernt) log(`${totEntfernt} Verweise entfernt: die Seite dahinter antwortet mit 404`)
   if (ytEntfernt) log(`${ytEntfernt} YouTube-Verweise entfernt: dort ist in Deutschland kein Video abrufbar`)
+
+  /**
+   * Ein Suchlink weicht der echten Produktseite.
+   *
+   * AniList liefert für die meisten Titel keinen Deeplink zu Prime Video,
+   * deshalb steht dort eine Suche — am 20.08.2026 bei **225 von 226**
+   * Verweisen. Das ist besser als ins Nichts zu schicken, aber schlechter als
+   * die Seite selbst: Daniel musste beim Prüfen jedes Mal erst den richtigen
+   * Treffer heraussuchen („zu mühselig, alles von Hand zu prüfen").
+   *
+   * Für 137 dieser Titel steht die echte Adresse längst in unserem
+   * aniSearch-Bestand — nur unter dem Anbieternamen `amazon`, der bei uns als
+   * **Kauf** gilt. Ob dahinter ein Video oder eine Disc liegt, lässt sich den
+   * Daten nicht ansehen; es steht im Seitentitel, und genau den liest
+   * `check-links.ts` mit („Amazon.de: … ansehen | Prime Video").
+   *
+   * Ersetzt wird deshalb nur, was **belegt** ein Prime-Video-Eintrag ist und
+   * mit 200 antwortet. Alles andere bleibt die Suche.
+   */
+  let ersetzt = 0
+  for (const title of titles.values()) {
+    const prime = title.streams.find((s) => s.platform === 'primevideo')
+    if (!prime || !/amazon\.[a-z.]+\/s\?/.test(prime.url)) continue
+    const echt = (title.watchLinks ?? []).find((w) => {
+      const b = linkBefunde[w.url]
+      return b?.prime === true && b.status === 200
+    })
+    if (!echt) continue
+    prime.url = echt.url
+    ersetzt++
+  }
+  if (ersetzt) log(`${ersetzt} Prime-Suchlinks durch die echte Produktseite ersetzt`)
 
   /**
    * Was auf Crunchyrolls Serienseiten steht — als Beleg, nicht als Vorbild.
