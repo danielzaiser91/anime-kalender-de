@@ -106,6 +106,19 @@ jobs:
         continue-on-error: true
         run: npm run data:cr-dub -- --limit 250
 
+      - name: YouTube-Verweise auf Abrufbarkeit in Deutschland
+        # Die offizielle Data API v3, nicht das Auslesen der Seite: YouTube
+        # untersagt automatisierte Zugriffe ausserhalb der API, und die API
+        # nennt die Laendersperre als regionRestriction ausdruecklich -- im
+        # Seitenquelltext steht sie nicht.
+        #
+        # Rund 1.100 Einheiten je vollem Durchgang, das Tageskontingent sind
+        # 10.000. Wiedervorlage nach 30 Tagen, denn Lizenzen kehren zurueck.
+        continue-on-error: true
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: npm run data:youtube
+
       - name: Anime2You
         continue-on-error: true
         run: npm run data:anime2you

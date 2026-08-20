@@ -77,6 +77,10 @@ QUELLEN=(
   # Ergebnis des Crunchyroll-Synchro-Laufs. Steht hier vorsorglich: Läuft er
   # eines Tages in der CI, wären 918 Seitenabrufe sonst nach einem Reset weg.
   data/crunchyroll-dub.json
+  # Ergebnis der YouTube-Prüfung: je Adresse, wie viele der dort verlinkten
+  # Videos in Deutschland überhaupt abrufbar sind. Ohne diese Zeile würfe der
+  # Reset sie weg, und der nächste Lauf befragte dieselben 513 Adressen erneut.
+  data/youtube-check.json
 )
 ERZEUGNISSE=(public/data public/og)
 

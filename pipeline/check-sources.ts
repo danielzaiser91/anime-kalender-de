@@ -42,6 +42,8 @@ const FRISTEN: Record<string, number> = {
   // Läuft wöchentlich, holt aber nur, was älter als 28 Tage ist — ein Lauf
   // ohne neue Seiten meldet trotzdem seinen Bestand.
   'crunchyroll-dub': 9,
+  // Wöchentlich, wie der Lauf, der sie füllt.
+  'youtube-check': 9,
 }
 
 function daysSince(iso: string | undefined): number {

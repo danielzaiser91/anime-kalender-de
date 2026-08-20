@@ -17,9 +17,9 @@
  *
  * Aufruf: npx tsx pipeline/fetch-adn.ts [--from -30] [--to 60]
  */
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { gzipSync } from 'node:zlib'
+import { gunzipSync, gzipSync } from 'node:zlib'
 import { addDays, diffDays, todayIso } from '../shared/time.ts'
 import { log, readJson, ROOT, sleep, warn, writeJson } from './lib/util.ts'
 import { searchMedia } from './lib/anilist.ts'
@@ -241,6 +241,28 @@ function archiviereSerie(showId: number, videos: AdnVideo[]): void {
 }
 
 /**
+ * Liest Kennung, Namen und Freigabe einer Serie aus dem Archiv.
+ *
+ * Die Rohantwort trägt zu jeder Folge den vollständigen `show`-Block. Damit
+ * lässt sich eine Serie, die in der aktuellen Liste fehlt, wieder in die
+ * Warteschlange stellen — ohne einen einzigen zusätzlichen Abruf.
+ */
+function archivKopf(showId: number): { id: number; title: string; originalTitle?: string; age?: string } | undefined {
+  try {
+    const roh = JSON.parse(gunzipSync(readFileSync(`${ARCHIV_DIR}/${showId}.json.gz`)).toString()) as {
+      videos?: { show?: { id?: number; title?: string; originalTitle?: string; age?: string } }[]
+    }
+    const show = roh.videos?.find((v) => v.show?.title)?.show
+    if (!show?.title) return undefined
+    return { id: showId, title: show.title, originalTitle: show.originalTitle ?? undefined, age: show.age ?? undefined }
+  } catch {
+    // Kaputte oder fremdformatige Datei — dann eben nicht. Der nächste Lauf
+    // schreibt sie neu, sobald die Serie wieder in der Liste auftaucht.
+    return undefined
+  }
+}
+
+/**
  * Holt **alle** Folgen einer Serie — seitenweise.
  *
  * Hier stand `?limit=100` ohne `offset`. Das war kein Limit, sondern stiller
@@ -310,8 +332,50 @@ async function fetchCatalog(): Promise<AdnShow[]> {
     leerlauf = nachId.size === vorher ? leerlauf + 1 : 0
     await sleep(400)
   }
-  const alle = [...nachId.values()]
-  log(`ADN-Katalog: ${alle.length} Serien gelistet, wird je Serie auf deutsche Synchro geprüft…`)
+  /**
+   * Was wir schon einmal gesehen haben, wird wieder gefragt.
+   *
+   * Die Serienliste von ADN ist **von Lauf zu Lauf verschieden**: Sie ist
+   * unsortiert, bricht bei `offset=200` mitten in einer Seite ab, und zwei Läufe
+   * am selben Tag liefern verschiedene Teilmengen — am 20.08.2026 einmal 179 und
+   * einmal 176 Serien. Wer den Katalog jedes Mal allein aus dem aktuellen Lauf
+   * baut, verliert alles, was diesmal zufällig fehlte.
+   *
+   * Und das war kein kleiner Verlust: 25 Serien mit **belegter** deutscher
+   * Synchro lagen bereits im eigenen Archiv und fehlten trotzdem im Katalog —
+   * zusammen 762 Folgen, darunter Yu-Gi-Oh! mit 236, Fire Force, Clannad und
+   * DAN DA DAN. Aufgefallen ist es, weil Daniel „Sword of the Demon Hunter" bei
+   * ADN offen im Angebot fand, während unsere Seite „DE ?" zeigte.
+   *
+   * Die Warteschlange ist deshalb die **Vereinigung**: aktuelle Liste, letzter
+   * Katalog, Archiv. Das ist dieselbe Regel wie überall hier — eine Warteschlange
+   * bildet sich nach dem Alter, nicht danach, ob eine Frage schon einmal
+   * beantwortet wurde.
+   *
+   * **Trotzdem wächst der Katalog nicht blind.** Gefragt wird nur, wer schon
+   * einmal da war; ob er bleibt, entscheidet allein die frische Antwort. Nimmt
+   * ADN eine Serie aus dem Angebot — weil eine Lizenz ausläuft —, liefert der
+   * Abruf kein `vde` mehr, und sie fällt heraus.
+   */
+  const zusaetzlich = new Map<number, { id: number; title: string; originalTitle?: string; age?: string }>()
+  for (const s of readJson<AdnData>('data/adn-catalog.json', { scrapedAt: '', window: { from: '', to: '' }, shows: [] }).shows) {
+    if (!nachId.has(s.showId)) zusaetzlich.set(s.showId, { id: s.showId, title: s.title, originalTitle: s.originalTitle, age: s.age })
+  }
+  if (existsSync(ARCHIV_DIR)) {
+    for (const datei of readdirSync(ARCHIV_DIR)) {
+      if (!datei.endsWith('.json.gz')) continue
+      const id = Number(datei.replace('.json.gz', ''))
+      if (!Number.isInteger(id) || nachId.has(id) || zusaetzlich.has(id)) continue
+      const kopf = archivKopf(id)
+      if (kopf) zusaetzlich.set(id, kopf)
+    }
+  }
+
+  const alle = [...nachId.values(), ...zusaetzlich.values()]
+  log(
+    `ADN-Katalog: ${alle.length} Serien in der Warteschlange (${nachId.size} aus der aktuellen Liste, ` +
+      `${zusaetzlich.size} aus früheren Läufen), wird je Serie auf deutsche Synchro geprüft…`,
+  )
 
   const out: AdnShow[] = []
   let geprueft = 0

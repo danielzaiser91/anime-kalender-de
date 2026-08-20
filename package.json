@@ -36,7 +36,8 @@
     "check:worker": "tsc --noEmit -p worker/tsconfig.json",
     "data:katalog": "tsx pipeline/fetch-anilist-katalog.ts",
     "data:ann:ids": "tsx pipeline/fetch-ann-ids.ts",
-    "data:ann:voices": "tsx pipeline/fetch-ann-voices.ts"
+    "data:ann:voices": "tsx pipeline/fetch-ann-voices.ts",
+    "data:youtube": "tsx pipeline/check-youtube.ts"
   },
   "dependencies": {
     "react": "^19.1.0",

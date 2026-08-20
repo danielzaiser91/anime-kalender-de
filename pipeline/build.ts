@@ -1751,7 +1751,10 @@ function main(): void {
    */
   let geprueft = 0
   let entfernt = 0
+  let ytEntfernt = 0
   const checks = new Map(loadDubChecks().map((c) => [dubKey(c.anilistId, c.platform), c]))
+  /** Befund je YouTube-Adresse aus `pipeline/check-youtube.ts`. */
+  const youtubeBefunde = readJson<Record<string, { art: string; inDE: number }>>('data/youtube-check.json', {})
   for (const title of titles.values()) {
     /**
      * Tote Verweise verschwinden, statt ein „✕" zu bekommen.
@@ -1763,6 +1766,29 @@ function main(): void {
      * gar nicht gibt.
      */
     title.streams = title.streams.filter((stream) => {
+      /**
+       * Was YouTube selbst über seine Verweise sagt.
+       *
+       * `pipeline/check-youtube.ts` fragt je Adresse die offizielle Data API:
+       * Wie viele der dort liegenden Videos sind **in Deutschland** abrufbar?
+       * Null heißt, der Verweis führt einen Besucher hier ins Leere — sei es,
+       * weil die Playlist gelöscht ist, weil sie keine Videos führt, oder weil
+       * alle auf einen anderen Erdteil beschränkt sind.
+       *
+       * Das war der Normalfall, nicht die Ausnahme: Von 460 bewertbaren
+       * Adressen führten am 20.08.2026 **362** ins Leere, allein 290 wegen einer
+       * Ländersperre (Daniels Fund: eine Playlist zu „Sword of the Demon
+       * Hunter", deren 24 Videos auf den asiatisch-pazifischen Raum beschränkt
+       * sind und chinesische Untertitel tragen).
+       *
+       * Kanäle bleiben unangetastet — ein Kanal ist keine Folgenliste, und was
+       * dort liegt, sagt nichts über diesen Titel.
+       */
+      const yt = stream.platform === 'youtube' ? youtubeBefunde[stream.url] : undefined
+      if (yt && yt.art !== 'kanal' && yt.inDE === 0) {
+        ytEntfernt++
+        return false
+      }
       const check = checks.get(dubKey(title.id, stream.platform))
       if (check?.available === false) {
         entfernt++
@@ -1778,6 +1804,7 @@ function main(): void {
   if (checks.size) {
     log(`${geprueft} geprüfte Synchro-Angaben übernommen, ${entfernt} tote Verweise entfernt (${checks.size} Prüfungen)`)
   }
+  if (ytEntfernt) log(`${ytEntfernt} YouTube-Verweise entfernt: dort ist in Deutschland kein Video abrufbar`)
 
   /**
    * Was auf Crunchyrolls Serienseiten steht — als Beleg, nicht als Vorbild.
