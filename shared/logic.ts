@@ -197,5 +197,28 @@ export function expandEvents(release: Release): ReleaseEvent[] {
       estimated: s.observed?.[episode] ? undefined : lastAnchor ? true : s.estimated,
     })
   }
+
+  /**
+   * Mehrere Folgen an einem Tag brauchen unterscheidbare Kennungen.
+   *
+   * Der Wochentakt ist ein guter Vorgabewert, aber Abweichungen sind der
+   * Normalfall — Pausen, Verschiebungen, und ein Auftakt mit mehreren Folgen auf
+   * einmal. Bei „Mushoku Tensei" Staffel 3 erschienen am 19.08.2026 die ersten
+   * **drei** Folgen zusammen (Daniel, 21.08.2026); über `observed` lässt sich das
+   * eintragen, nur trugen die drei Termine dann dieselbe Kennung
+   * `slug@datum` — dieselbe React-Kennung in der Liste und dieselbe UID im
+   * Kalender-Abo, wo drei Einträge zu einem verschmolzen wären.
+   *
+   * Angehängt wird die Folgennummer **nur dort, wo sie gebraucht wird**. Jede
+   * Kennung, die schon eindeutig ist, bleibt unverändert — sonst bekäme jeder
+   * Abonnent seinen gesamten Kalender neu eingetragen, weil eine geänderte UID
+   * für sein Programm ein anderer Termin ist.
+   */
+  const proDatum = new Map<string, number>()
+  for (const ev of events) proDatum.set(ev.date, (proDatum.get(ev.date) ?? 0) + 1)
+  for (const ev of events) {
+    if ((proDatum.get(ev.date) ?? 0) > 1) ev.id = `${ev.id}#${ev.episode}`
+  }
+
   return events
 }

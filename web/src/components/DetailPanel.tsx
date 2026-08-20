@@ -98,6 +98,23 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
     const first = Math.max(1, release.schedule.firstEpisodeNumber ?? 1)
     return first === 1 ? String(count) : `${first}–${first + count - 1}`
   }, [release.schedule.episodeCount, release.schedule.firstEpisodeNumber])
+
+  /**
+   * Wie viele Folgen schon da sind — aber nur, solange noch welche kommen.
+   *
+   * „14" beantwortet, wie lang die Staffel wird. Die Frage beim Reinschauen ist
+   * eine andere: Wie viel kann ich jetzt sehen? Deshalb steht bei einer
+   * laufenden Serie **3/14** statt einer nackten Vierzehn (Daniel, 21.08.2026).
+   *
+   * Gezählt wird aus denselben Terminen, die auch die Liste darunter füllt —
+   * sonst widerspräche sich die Seite selbst. Ist alles erschienen, bleibt es
+   * bei der schlichten Zahl: „14/14" sagt nichts, was „14" nicht auch sagt.
+   */
+  const erschienen = useMemo(() => {
+    const heute = todayIso()
+    const raus = events.filter((e) => e.date <= heute).length
+    return raus > 0 && raus < events.length ? raus : undefined
+  }, [events])
   const [showAll, setShowAll] = useState(false)
   /** Die volle Terminliste erscheint erst auf Wunsch. */
   const [alleTermine, setAlleTermine] = useState(false)
@@ -270,7 +287,15 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
                 Spanne statt einer nackten Anzahl. „11" neben einer Liste, die
                 bei „2." anfängt, liest sich sonst wie ein Widerspruch.
               */}
-              {episodeSpan ?? '—'}
+              {erschienen !== undefined && episodeSpan ? (
+                <>
+                  <span className="text-sky-500 dark:text-sky-400">{erschienen}</span>
+                  <span className="text-slate-400">/</span>
+                  {episodeSpan}
+                </>
+              ) : (
+                (episodeSpan ?? '—')
+              )}
               {release.schedule.episodeCountAssumed && (
                 <span className="ml-1 text-amber-500">
                   <Tooltip
