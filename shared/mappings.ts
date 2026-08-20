@@ -560,6 +560,24 @@ export const PLATFORM_PRIORITY: PlatformId[] = [
 ]
 
 /** Macht aus einer globalen Streaming-URL die deutsche Variante. */
+/**
+ * Netflix ohne fremden Landespfad.
+ *
+ * Am 20.08.2026 trugen 17 Verweise einen: `/gt/` für Guatemala, `/to/` für
+ * Tonga, dazu `/tw/`, `/in/`, `/us/`, `/gb/` und `/mx/`. So entsteht das, wenn
+ * eine Kennung aus einem weltweiten Bestand übernommen wird — für einen
+ * deutschen Kalender ist es falsch, und der Besucher kommt bestenfalls über eine
+ * Umleitung ans Ziel.
+ *
+ * Anders als bei Crunchyroll und Disney+ wird hier **kein** deutsches Kürzel
+ * eingesetzt, sondern das fremde entfernt: `netflix.com/title/<id>` ist die
+ * landesneutrale Form, Netflix löst sie selbst zur Region des Betrachters auf.
+ * 545 der 562 Verweise benutzen sie ohnehin schon.
+ */
+export function netflixNeutral(url: string): string {
+  return url.replace(/(netflix\.com)\/[a-z]{2}(\/title\/\d+)/i, '$1$2')
+}
+
 export function germanizeUrl(platform: PlatformId, url: string): string {
   if (platform === 'crunchyroll') {
     return url.replace(/crunchyroll\.com\/(?!de\/)/, 'crunchyroll.com/de/')
@@ -567,6 +585,7 @@ export function germanizeUrl(platform: PlatformId, url: string): string {
   if (platform === 'disneyplus') {
     return url.replace(/disneyplus\.com\/(?!de-de\/)/, 'disneyplus.com/de-de/')
   }
+  if (platform === 'netflix') return netflixNeutral(url)
   return url
 }
 
@@ -801,6 +820,9 @@ export function providerKind(provider: string): 'stream' | 'buy' {
 export function stripAffiliate(url: string): string {
   const obidos = /^https?:\/\/(?:www\.)?amazon\.([a-z.]+)\/exec\/obidos\/ASIN\/([A-Z0-9]{10})/i.exec(url)
   if (obidos) return `https://www.amazon.${obidos[1]}/dp/${obidos[2]}`
+  // Fremde Landespfade fliegen hier ebenfalls raus — siehe `netflixNeutral`.
+  // Diesen Weg nehmen die Verweise von aniSearch, `germanizeUrl` den von AniList.
+  if (/netflix\.com\/[a-z]{2}\/title\//i.test(url)) return netflixNeutral(url)
   try {
     const parsed = new URL(url)
     for (const key of ['tag', 'ascsubtag', 'linkCode', 'ref_', 'affiliate', 'utm_source', 'utm_medium']) {
