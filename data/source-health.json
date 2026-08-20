@@ -40,14 +40,18 @@
     "lastCount": 1382
   },
   "youtube-check": {
-    "lastOk": "2026-08-20T10:24:21.980Z",
-    "lastRun": "2026-08-20T11:30:22.731Z",
-    "lastCount": 0,
-    "lastError": "nichts zu prüfen"
+    "lastOk": "2026-08-20T12:03:26.405Z",
+    "lastRun": "2026-08-20T12:03:26.405Z",
+    "lastCount": 3
   },
   "anilist-voices": {
     "lastOk": "2026-08-20T11:24:12.841Z",
     "lastRun": "2026-08-20T11:24:12.841Z",
     "lastCount": 2753
+  },
+  "link-check": {
+    "lastOk": "2026-08-20T12:26:43.310Z",
+    "lastRun": "2026-08-20T12:26:43.310Z",
+    "lastCount": 885
   }
 }
