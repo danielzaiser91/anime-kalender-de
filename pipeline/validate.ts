@@ -1,5 +1,9 @@
 /** Prüft die kuratierten Daten, bevor sie in einen Build wandern. */
+import { existsSync, readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import yaml from 'js-yaml'
 import { loadCurated } from './lib/curated.ts'
+import { ROOT } from './lib/util.ts'
 import { log } from './lib/util.ts'
 import { PLATFORMS, RELEASE_TYPES } from '../shared/types.ts'
 
@@ -42,6 +46,30 @@ function main(): void {
 
     if (e.releaseType === 'disc' && e.platform !== 'disc')
       errors.push(`${at}: releaseType "disc" gehört zu platform "disc"`)
+  }
+
+  /**
+   * Lassen sich die übrigen YAML-Dateien überhaupt lesen?
+   *
+   * `loadCurated` deckt nur `data/curated/` ab. Am 20.08.2026 stand in
+   * `dub-confirmed.yaml` ein Titel mit Doppelpunkt ohne Anführungszeichen —
+   * `title: BLEACH: Thousand-Year Blood War`. Das zerlegt die Datei, und der
+   * Fehler fiel erst im Build auf, nachdem `data:validate` längst „keine
+   * Fehler" gemeldet hatte. Die Prüfung ist das billigere Tor; hier gehört er
+   * hin.
+   *
+   * Geprüft wird nur, ob sich die Datei lesen lässt — der Inhalt hat seine
+   * eigenen Prüfungen an der Stelle, die ihn benutzt.
+   */
+  for (const datei of ['data/dub-confirmed.yaml', 'data/watch-links.yaml']) {
+    const pfad = resolve(ROOT, datei)
+    if (!existsSync(pfad)) continue
+    try {
+      const inhalt = yaml.load(readFileSync(pfad, 'utf8'))
+      if (inhalt !== null && !Array.isArray(inhalt)) errors.push(`${datei}: erwartet eine Liste`)
+    } catch (err) {
+      errors.push(`${datei}: ${(err as Error).message.split('\n')[0]}`)
+    }
   }
 
   if (errors.length) {
