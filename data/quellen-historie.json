@@ -2595,5 +2595,14 @@
       "sagt": "2026-08-19",
       "stand": "aktuell"
     }
+  ],
+  "adn-587": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
+      "gesehenAm": "2026-08-20",
+      "sagt": "2026-08-24",
+      "stand": "aktuell"
+    }
   ]
 }
