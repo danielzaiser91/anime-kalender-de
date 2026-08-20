@@ -82,3 +82,12 @@ jobs:
       - name: Änderungen committen
         run: |
           bash tools/commit-data.sh "chore(data): Sendezeiten aktualisiert"
+
+      - name: Ergebnis nach Discord melden
+        # Nur bei einem Fehlschlag. Dieser Lauf läuft täglich beziehungsweise
+        # stündlich; eine Erfolgsmeldung wäre Lärm in einem Kanal, den auch
+        # andere lesen.
+        if: failure()
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: bash tools/discord-melden.sh "Stündliche Sendezeiten" "${{ job.status }}"

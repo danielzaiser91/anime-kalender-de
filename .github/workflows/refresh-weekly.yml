@@ -157,3 +157,11 @@ jobs:
 
       - name: Quellen auf Schweigen prüfen
         run: npm run data:check
+
+      - name: Ergebnis nach Discord melden
+        # Immer, auch bei einem Fehlschlag — eine Meldung, die genau dann
+        # ausbleibt, wenn etwas kaputt ist, wäre die falsche herum.
+        if: always()
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: bash tools/discord-melden.sh "Wöchentlicher Tiefendurchlauf" "${{ job.status }}"
