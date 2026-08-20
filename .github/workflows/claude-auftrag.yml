@@ -1,0 +1,114 @@
+name: Claude — Auftrag abarbeiten
+
+# Von Hand angestoßener Arbeitsauftrag. Gedacht für abgegrenzte Aufgaben, die
+# über Nacht laufen sollen, während hier niemand am Rechner sitzt.
+#
+# Das Ergebnis ist **immer ein Pull Request**, nie ein Push auf main: main geht
+# über `deploy.yml` direkt auf die Live-Seite, und was ohne Gegenblick dort
+# landet, ist eine Veröffentlichung ohne Freigabe.
+#
+# Anmeldung über `CLAUDE_CODE_OAUTH_TOKEN` (Daniels Abo, keine getrennte
+# API-Rechnung). Ohne `actions/checkout` bricht die Action still ab und der Lauf
+# meldet trotzdem success — siehe ai_agent_learnings.md, Kategorie 30.
+
+on:
+  workflow_dispatch:
+    inputs:
+      auftrag:
+        description: 'Was zu tun ist (wird wörtlich an Claude übergeben)'
+        required: true
+        type: string
+      zweig:
+        description: 'Name des Zweigs für den Pull Request'
+        required: true
+        type: string
+      modell:
+        description: 'Modell'
+        required: false
+        default: 'claude-opus-5'
+        type: string
+      schritte:
+        description: 'Obergrenze an Zügen'
+        required: false
+        default: '60'
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  id-token: write
+  actions: read
+
+# Zwei Claudes am selben Repo erzeugen widersprüchliche Pull Requests. Ein
+# zweiter Auftrag wartet deshalb, statt parallel zu laufen.
+concurrency:
+  group: claude-auftrag
+  cancel-in-progress: false
+
+jobs:
+  arbeiten:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 50
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - uses: anthropics/claude-code-action@v1
+        env:
+          GH_TOKEN: ${{ github.token }}
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          allowed_bots: 'github-actions[bot]'
+          claude_args: |
+            --max-turns ${{ inputs.schritte }}
+            --model ${{ inputs.modell }}
+            --allowedTools "Bash,Read,Edit,Write,Grep,Glob"
+          prompt: |
+            Arbeitsauftrag für dieses Repo. Du arbeitest allein, es sitzt niemand
+            daneben — frage nicht nach, sondern entscheide und begründe im Pull
+            Request, was du entschieden hast.
+
+            ## Der Auftrag
+
+            ${{ inputs.auftrag }}
+
+            ## Wie du arbeitest
+
+            1. **Erst nachsehen, dann ändern.** Lies die genannten Dateien wirklich,
+               statt aus ihren Namen zu schließen.
+            2. Ändere so wenig wie möglich, aber den Auftrag vollständig. Bleibt ein
+               Teil blockiert, erledige alle übrigen und schreibe im Pull Request
+               ausdrücklich, was du weggelassen hast und warum.
+            3. **Prüfkette muss grün sein, bevor du committest:**
+               `npm run data:validate && npm run check:logic && npx tsc -b && npm run check:worker && npm run build`
+            4. Committe auf einen neuen Zweig `${{ inputs.zweig }}` und öffne einen
+               Pull Request gegen `main`:
+               `git switch -c ${{ inputs.zweig }} && git add -A && git commit && git push -u origin ${{ inputs.zweig }} && gh pr create --fill`
+               **Niemals direkt auf `main` pushen** — das deployt sofort auf die
+               Live-Seite.
+            5. In den Pull-Request-Text gehören: was geändert wurde, womit du es
+               belegt hast, und was du bewusst nicht angefasst hast.
+
+            ## Verbindlich
+
+            - `CLAUDE.md` im Wurzelverzeichnis gilt vollständig. Der wichtigste Satz
+              daraus: **nichts behaupten, was nicht belegt ist.** Kein geratener
+              Termin, keine geratene Folgenzahl, keine geratene Uhrzeit — lieber
+              „unbekannt" als eine plausible Falschangabe.
+            - Eine Zusicherung, die abbricht, ist nicht das Problem. Sie weicher zu
+              stellen, um einen grünen Lauf zu bekommen, ist ausdrücklich falsch.
+            - Alles auf Deutsch: Kommentare, Commit-Nachricht, Pull-Request-Text.
+              Fachbegriffe bleiben Fachbegriffe, keine erfundene Eindeutschung.
+            - Kommentare erklären das **Warum**, nicht das Was — so wie die
+              vorhandenen im Projekt. Ein Kommentar, der die Zeile darunter noch
+              einmal auf Deutsch sagt, wird nicht geschrieben.
