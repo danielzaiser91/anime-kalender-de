@@ -13,7 +13,8 @@ widersprüchliche PRs am selben Repo).
 
 | Aufgabe | SP | Lauf | Notiz |
 |---|---|---|---|
-| **Abweichungen vom Wochentakt eintragbar machen** | 3 | [32424585115](https://github.com/danielzaiser91/anime-kalender-de/actions/runs/32424585115) | Vorrangregel in `build.ts`: von Hand eingetragenes `schedule.observed` schlägt die Ableitung aus `observedEpisodes(slot)`, statt von ihr überschrieben zu werden. Testfall Mushoku Tensei S3 (erste drei Folgen am 19.08.2026 auf einmal). Zweig `claude/abweichungen-vom-wochentakt` |
+| **Erfundene Termine durch durchlaufende Folgenzählung** | 5 | [Lauf 32461914436](https://github.com/danielzaiser91/anime-kalender-de/actions/runs/32461914436) | **Live-Fehler, gemessen am 21.08.2026.** „Wistoria: Wand and Sword Staffel 2" führt auf der Seite zwölf Termine vom 08.02. bis 26.04.2026 — die Staffel lief nachweislich vom 31.05. bis 19.07., belegt durch acht Folgen in unserem **eigenen** Kalenderabruf (`observed` 17–24). Alle zwölf angezeigten Termine sind erfunden, die acht belegten fehlen. Ursache: Crunchyroll zählt die Reihe durch (Staffel 2 = Folgen 13–24), AniList zählt je Staffel (12). Ohne `firstEpisodeNumber` rechnet `build.ts` aus „Folge 17 am 31.05." einen Start am 08.02. zurück. **Umfang:** 18 Releases mit zusammen 129 zurückgerechneten Terminen; nicht alle davon sind falsch. Zweig `claude/durchlaufende-folgenzaehlung` |
+| **Crunchyroll-Rückstand nachholen** | 1 | [Lauf 32461498580](https://github.com/danielzaiser91/anime-kalender-de/actions/runs/32461498580) | 769 Serienadressen ohne frische Tonspur-Prüfung, gemessen am 21.08.2026. Gemessener Takt: 6,7 s je Serie, also rund 85 Minuten — nicht vier Wochen, wie ich zuerst gerechnet hatte. Der Deckel `--limit 250` im Wochenlauf schützt dessen Laufzeit, nicht Crunchyroll, ist bei 954 Adressen und 28 Tagen Wiedervorlage aber zugleich genau die Erhaltungsrate: Ein Rückstand baut sich damit nie ab. Dafür gibt es jetzt `crunchyroll-nachholen.yml` |
 | **React-Hooks-Regeln in die Prüfkette** | 2 | [32424595802](https://github.com/danielzaiser91/anime-kalender-de/actions/runs/32424595802) | Anlass ist der weiße Bildschirm vom 20.08.2026 (React #310, Hooks hinter einem frühen `return`). Prüfkette **und** `tsc` waren dabei grün — gefunden wurde es nur durch einen Blick auf die laufende Seite. Schlanke Flat-Config, nur `rules-of-hooks` (Fehler) und `exhaustive-deps` (Warnung), eingehängt in npm-Skript, `CLAUDE.md` und Deploy-Workflow. Zweig `claude/react-hooks-in-die-pruefkette` |
 
 
@@ -21,7 +22,6 @@ widersprüchliche PRs am selben Repo).
 | Aufgabe | SP | Notiz |
 |---|---|---|
 | **Prüfliste „Wo läuft es" abarbeiten** (Dauerauftrag) | — | 1.732 Anbieter-Verweise ohne belegte Synchro, Liste: `data/dub-pruefliste.md`, erzeugt mit `npm run data:dub-checks`. Daniel arbeitet sie in Zehnerschritten ab; ich lege den Batch vor, er meldet je Nummer ja/nein, ich trage es in `data/dub-confirmed.yaml` ein und baue neu. **Stand: Batch 1 bis 3 ausgewertet, 65 Prüfungen eingetragen — 33 Angaben belegt, 32 tote Verweise entfernt.** Crunchyroll ist seit 13.08.2026 weitgehend maschinell belegt (234 ja / 988 nein / **25 offen**); die Handarbeit verteilt sich jetzt auf Netflix (727), YouTube (528) und Prime Video (219) — Anbieter, die die Sprachfassung nirgends öffentlich nennen. Kurzschrift der Antworten (`1`/`0`/`x`, mehrere je Zeile mit Punkt) steht im Kopf der Liste und in der `CLAUDE.md`. Je Batch kurz sagen, woher der Verweis stammt und warum er unsicher ist |
-| **Crunchyroll-Nachprüfung braucht vier Wochenläufe** | 1 | Gemessen am 21.08.2026: `data/crunchyroll-dub.json` führt noch 190 Serien, alle mit belegter deutscher Fassung — die 767 Nicht-Befunde des kaputten Scrapers sind zur Neuprüfung freigegeben. Der Wochenlauf holt sie mit `data:cr-dub -- --limit 250` nach, das sind **vier Wochenläufe bis Mitte September**. Von Daniels Rechner in einem Rutsch nachzuholen wäre der falsche Weg: Ein Direktabruf lief am 15.08.2026 in Crunchyrolls Bot-Sperre, und die Taktung ist Absicht. Bleibt zu entscheiden, ob das Limit steigt (dann von GitHubs Adresse aus, nicht von hier) oder ob vier Wochen in Ordnung sind |
 | ~~News-Quellen für Sendepausen~~ — **Filter gebaut, Rest verworfen** | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
 
 
@@ -395,6 +395,18 @@ Quelle: <https://www.animenewsnetwork.com/encyclopedia/api.php>
   abgenommen.
 
 ## Archiv
+
+- ✅ **Abweichungen vom Wochentakt sind eintragbar** (21.08.2026, erarbeitet in der Cloud,
+  hier nachgemessen). Ein kuratiertes `schedule.observed` wird jetzt über die aus dem
+  Crunchyroll-Kalender abgeleiteten Beobachtungen gelegt statt von ihnen überschrieben —
+  dieselbe Vorrangregel wie bei `data/dub-confirmed.yaml`. Erster Fall: Mushoku Tensei
+  Staffel 3, Folgen 1 bis 3 am 19.08.2026 gemeinsam erschienen. **Am erzeugten Datensatz
+  gemessen:** drei Termine am 19.08. mit den Kennungen `#1`/`#2`/`#3`, nächster Termin am
+  26.08. ist Folge **4** statt Folge 2, Ende am 04.11. statt 18.11., Anzeige **3/14** statt
+  1/14. Dabei mitgefunden und mitrepariert: `lastEpisodeDate()` kannte die Stützpunkte aus
+  `observed` nicht und widersprach der Terminliste darunter; vier Releases bekommen dadurch
+  ihr richtiges Enddatum. Ebenfalls mitgefunden: `npm run check:worker` lief in einem frischen
+  Checkout gar nicht — `@cloudflare/workers-types` fehlte in `package.json`.
 
 - ✅ **Claude arbeitet jetzt auch in der Cloud, mit ausgeschaltetem PC** (21.08.2026). Daniels
   Frage war: „könnte so ein task nach unserer cli einrichtung in der cloud weitergearbeitet werden
