@@ -61,6 +61,8 @@ const LIMIT = zahl('--limit', 0)
 const NUR = args.indexOf('--nur') >= 0 ? args[args.indexOf('--nur') + 1] : undefined
 /** Ignoriert den vorhandenen Stand und holt alles neu. */
 const NEU = args.includes('--neu')
+/** Nur die Seiten, bei denen der letzte Lauf einen Fehler vermerkt hat. */
+const NUR_FEHLER = args.includes('--nur-fehler')
 /**
  * Ab wann eine gelesene Seite erneut drankommt.
  *
@@ -202,6 +204,25 @@ async function serieLesen(page: Page, url: string): Promise<CrSerie> {
    * Daniel („wartet der Scraper evtl. die Weiterleitung nicht ab?"), und er
    * stimmte.
    */
+  /**
+   * Erst fragen, ob es die Serie überhaupt noch gibt.
+   *
+   * Crunchyroll sagt es selbst: „Leider sind die Videos dieser Serie nicht mehr
+   * verfügbar." Das steht sofort da und braucht kein Warten. Ohne diese Abfrage
+   * lief der Abruf in den Zwanzig-Sekunden-Ablauf der Audio-Zeile und meldete
+   * „keine Audio-Zeile gefunden" — eine Nicht-Antwort auf eine Seite, die klar
+   * antwortet (Daniel, 21.08.2026, an „Dragon Ball" gezeigt).
+   *
+   * Der Zeitgewinn ist nebenbei erheblich: 472 der 800 geprüften Serien trugen
+   * diesen Fehler, und jede davon hat zwanzig Sekunden gewartet.
+   */
+  const wegBanner = await page
+    .evaluate(() => (document.body.innerText.match(/^.*nicht mehr verfügbar.*$/m) ?? [])[0] ?? null)
+    .catch(() => null)
+  if (wegBanner) {
+    return { url, nichtVerfuegbar: true, geprueftAm: heute, fehler: wegBanner.trim() }
+  }
+
   const audio = await page
     .waitForFunction(() => (document.body.innerText.match(/^Audio:.*$/m) ?? [''])[0] || null, undefined, {
       timeout: 20000,
@@ -314,16 +335,29 @@ async function main(): Promise<void> {
   )
   // Frisch genug ist, was innerhalb der Wiedervorlagefrist gelesen wurde.
   const grenze = addDays(todayIso(), -WIEDERVORLAGE_TAGE)
+  /**
+   * Gezielt die Seiten erneut prüfen, bei denen der letzte Lauf nichts sagen
+   * konnte.
+   *
+   * Anlass: Am 21.08.2026 kam die Erkennung des Banners „Leider sind die Videos
+   * dieser Serie nicht mehr verfügbar" dazu. Die 472 Seiten, die vorher mit
+   * „keine Audio-Zeile gefunden" endeten, haben ihre Antwort damit schon in der
+   * Seite stehen — nur konnte sie niemand lesen. Sie einzeln nachzuholen
+   * kostet eine knappe Stunde; alle 952 noch einmal zu holen wären zwei, und
+   * die frisch geprüften brächten dabei nichts Neues.
+   */
   const frisch = (u: string) => {
     const s = bestand.get(u)
-    return s ? s.geprueftAm >= grenze : false
+    if (!s) return false
+    if (NUR_FEHLER) return !s.fehler
+    return s.geprueftAm >= grenze
   }
   const schonDa = adressen.filter(frisch).length
   adressen = adressen.filter((u) => !frisch(u))
   if (LIMIT > 0) adressen = adressen.slice(0, LIMIT)
   log(
     `Crunchyroll: ${adressen.length} Serienadressen offen` +
-      (schonDa ? ` (${schonDa} in den letzten ${WIEDERVORLAGE_TAGE} Tagen gelesen, werden übersprungen)` : ''),
+      (schonDa ? (NUR_FEHLER ? ` (${schonDa} ohne Fehler beim letzten Mal, werden übersprungen)` : ` (${schonDa} in den letzten ${WIEDERVORLAGE_TAGE} Tagen gelesen, werden übersprungen)`) : ''),
   )
   if (!adressen.length) {
     log('Nichts zu tun.')

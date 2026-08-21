@@ -2017,7 +2017,29 @@ function main(): void {
       }
     }
     let belegt = 0
+    let verschwunden = 0
     for (const serie of crDub.serien) {
+      /**
+       * „Leider sind die Videos dieser Serie nicht mehr verfügbar."
+       *
+       * Crunchyroll sagt es selbst — dann gibt es dort kein Angebot mehr, und
+       * ein Verweis darauf führt Besucher ins Leere. Das ist `available: false`
+       * und ausdrücklich **nicht** `dub: false`: Es fehlt das Angebot, nicht die
+       * deutsche Fassung (Daniel, 21.08.2026, an „Dragon Ball" gezeigt).
+       *
+       * Der Verweis wird entfernt, so wie bei jeder anderen toten Adresse auch.
+       * Kommt die Serie zurück, bringt der nächste Katalogabruf sie mit.
+       */
+      if (serie.nichtVerfuegbar) {
+        for (const title of nachUrl.get(serie.url) ?? []) {
+          const vorher = title.streams.length
+          title.streams = title.streams.filter(
+            (s) => !(s.platform === 'crunchyroll' && s.url === serie.url),
+          )
+          verschwunden += vorher - title.streams.length
+        }
+        continue
+      }
       for (const urteil of beurteile(serie, nachUrl.get(serie.url) ?? [])) {
         const title = titles.get(urteil.titleId)
         const stream = title?.streams.find((s) => s.platform === 'crunchyroll' && s.url === serie.url)
@@ -2027,6 +2049,7 @@ function main(): void {
       }
     }
     log(`${belegt} Synchro-Angaben aus den Crunchyroll-Serienseiten belegt (${crDub.serien.length} Seiten gelesen)`)
+    if (verschwunden) log(`${verschwunden} Crunchyroll-Verweise entfernt — die Serie ist dort nicht mehr verfügbar`)
   }
 
   /**

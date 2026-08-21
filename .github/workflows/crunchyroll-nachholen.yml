@@ -29,6 +29,11 @@ on:
         required: false
         default: '28'
         type: string
+      nur_fehler:
+        description: 'Nur die Seiten, bei denen der letzte Lauf einen Fehler vermerkt hat'
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: write
@@ -81,7 +86,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Crunchyroll-Serienseiten auf deutsche Tonspur
-        run: npm run data:cr-dub -- --limit ${{ inputs.limit }} --alter ${{ inputs.alter }}
+        run: npm run data:cr-dub -- --limit ${{ inputs.limit }} --alter ${{ inputs.alter }}${{ inputs.nur_fehler && ' --nur-fehler' || '' }}
 
       - name: Ergebnis sichern
         # Auch nach einem Abbruch: Was geholt wurde, ist geholt. Ein zweiter

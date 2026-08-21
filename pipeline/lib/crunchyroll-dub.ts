@@ -42,6 +42,20 @@ export interface CrSerie {
    * Gegenteil, `undefined` sagt „wir haben es nicht gesehen".
    */
   deutschImAngebot?: boolean
+  /**
+   * Crunchyroll sagt selbst, dass es die Serie nicht mehr gibt.
+   *
+   * Auf der Seite steht dann ein Banner: „Leider sind die Videos dieser Serie
+   * nicht mehr verfügbar." Bis zum 21.08.2026 hat der Abruf daraus nichts
+   * gemacht — er wartete zwanzig Sekunden auf eine Audio-Zeile, die es nie
+   * geben würde, und meldete „keine Audio-Zeile gefunden". Eine Nicht-Antwort,
+   * obwohl die Seite eine klare Antwort gibt (Daniel, 21.08.2026, an
+   * „Dragon Ball" gezeigt).
+   *
+   * Das ist `available: false` und nicht `dub: false`: Es gibt dort kein
+   * Angebot, nicht ein Angebot ohne deutsche Fassung.
+   */
+  nichtVerfuegbar?: boolean
   staffeln?: CrStaffel[]
   geprueftAm: string
   fehler?: string
