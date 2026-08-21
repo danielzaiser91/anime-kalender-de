@@ -38,6 +38,7 @@ import {
 } from './lib/adn-sprachen.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { beurteile } from './lib/crunchyroll-dub.ts'
+import { kennungAusZiel, staffelAuszaehlen } from './lib/crunchyroll-api.ts'
 import {
   bestandAus,
   belegtDeutsch,
@@ -635,6 +636,120 @@ console.log('\nCrunchyroll: fremde Staffelfehler nicht nachbauen:')
     sauber.length === 2 && sauber[0].dub === true && sauber[1].dub === false,
     sauber,
   )
+
+  /**
+   * 7) Der Gun-Gale-Fall: Wir führen nur die **zweite** Staffel dieser Adresse.
+   *
+   * Zwei Blöcke zu je zwölf Folgen, der erste ohne deutsche Folge, der zweite
+   * vollständig deutsch. Unser einziger Eintrag ist der zweite — aber das
+   * Anlegen beginnt beim ersten Block, und zwölf ist zwölf. Herausgekommen
+   * wäre „Gun Gale Online II ohne deutsche Folge" für eine Staffel, die
+   * durchgehend deutsch ist (21.08.2026, aus der Content-API).
+   *
+   * Sichtbar wurde es erst mit der genaueren Quelle: Die Serienseite las beide
+   * Blöcke als vollständig deutsch, damit zog Fall 2 und die Zuordnung kam gar
+   * nicht erst dran.
+   */
+  const nurZweite = beurteile(
+    {
+      url: 'u',
+      deutschImAngebot: true,
+      geprueftAm: '2026-08-21',
+      staffeln: [
+        { name: 'Gun Gale Online', folgen: 12, kacheln: 12, deutsch: 0, fremd: 12 },
+        { name: 'Gun Gale Online II', folgen: 12, kacheln: 12, deutsch: 12, fremd: 0 },
+      ],
+    },
+    [t(2, 12, 2024)],
+  )
+  pruefe('weniger Einträge als Blöcke: kein Urteil, statt am falschen Block zu rechnen', nurZweite.length === 0, nurZweite)
+}
+
+/**
+ * Die Content-API zählt nach `versions`, nicht nach `is_dubbed`.
+ *
+ * `is_dubbed` steht auf `true`, sobald es **irgendeine** Synchronfassung gibt.
+ * Bei „Mushoku Tensei" Staffel 3 tragen es auch die Folgen 4 und 5, obwohl dort
+ * nur Englisch, Italienisch, Spanisch und Portugiesisch vorliegen (Daniel,
+ * 21.08.2026). Wer das Feld benutzte, hielte jede Folge für deutsch
+ * synchronisiert — und weil das Feld genau dann falsch ist, wenn es darauf
+ * ankommt, fällt es beim Nachsehen an Stichproben nicht auf.
+ *
+ * Nachgestellt ist der echte Fall: acht Folgen, die ersten drei mit deutscher
+ * Fassung, alle acht mit fremden Synchronfassungen.
+ */
+{
+  console.log('\n8) Crunchyroll-Content-API: Tonspuren je Folge')
+  const version = (locale: string, guid: string, original = false) => ({ audio_locale: locale, guid, original })
+  const mushoku = Array.from({ length: 8 }, (_, i) => ({
+    episode_number: i + 1,
+    is_dubbed: true,
+    versions: [
+      version('ja-JP', `GE0037445${i}JAJP`, true),
+      version('en-US', `GE0037445${i}ENUS`),
+      version('it-IT', `GE0037445${i}ITIT`),
+      ...(i < 3 ? [version('de-DE', `GE0037445${i}DEDE`)] : []),
+    ],
+  }))
+  const gezaehlt = staffelAuszaehlen(mushoku)
+  const deutsch = [...gezaehlt.jeFolge.values()].filter((x) => x === 'deutsch').length
+  const fremd = [...gezaehlt.jeFolge.values()].filter((x) => x === 'fremd').length
+  pruefe('drei von acht Folgen deutsch, nicht acht von acht', deutsch === 3, deutsch)
+  pruefe('die übrigen fünf gelten als fremd vertont, nicht als deutsch', fremd === 5, fremd)
+  pruefe(
+    'je deutscher Folge genau eine Kennung, und zwar die de-DE-Fassung',
+    gezaehlt.deutscheFolgen.length === 3 && gezaehlt.deutscheFolgen.every((f) => f.guid.endsWith('DEDE')),
+    gezaehlt.deutscheFolgen,
+  )
+
+  /**
+   * Dieselbe Folge zweimal, einmal deutsch und einmal nicht.
+   *
+   * Crunchyroll führt Folgen doppelt und hat sogar zwei Wähler-Einträge zur
+   * selben Staffel (Daniel, 12.08.2026). Gezählt wird deshalb je Folgennummer,
+   * und die deutsche Fassung schlägt die fremde — sonst hinge das Ergebnis
+   * daran, in welcher Reihenfolge die Schnittstelle antwortet.
+   */
+  const doppelt = staffelAuszaehlen([
+    { episode_number: 1, versions: [version('ja-JP', 'a', true)] },
+    { episode_number: 1, versions: [version('ja-JP', 'a', true), version('de-DE', 'aDEDE')] },
+    { episode_number: 2, versions: [version('ja-JP', 'b', true), version('de-DE', 'bDEDE')] },
+    { episode_number: 2, versions: [version('ja-JP', 'b', true)] },
+  ])
+  pruefe(
+    'doppelt geführte Folgen zählen einmal, und zwar deutsch',
+    doppelt.jeFolge.size === 2 && [...doppelt.jeFolge.values()].every((x) => x === 'deutsch'),
+    [...doppelt.jeFolge],
+  )
+
+  /**
+   * Ein misslungener Seitenaufruf ist eine Nichtauskunft, keine fremde Serie.
+   *
+   * Der teuerste Fehler dieses Abrufs, gemessen am 21.08.2026: Crunchyroll zog
+   * nach rund 300 Serien die Bot-Sperre, jedes weitere `page.goto` schlug fehl
+   * — und weil ein fehlgeschlagener Aufruf die Seite nicht wechselt, stand im
+   * Browser weiter die Aufwärmseite. 91 fremde Adressen bekamen deren
+   * Staffelliste zugeschrieben, „sing-a-bit-of-harmony" mitsamt
+   * „JUJUTSU KAISEN: 24/24".
+   */
+  const zielFaelle: [string, string | undefined][] = [
+    ['about:blank', undefined],
+    ['https://www.crunchyroll.com/de/series/GRDV0019R', undefined],
+    ['https://www.crunchyroll.com/de/series/GRDV0019R/jujutsu-kaisen', 'GRDV0019R'],
+    ['https://www.crunchyroll.com/de/watch/GE00374453/eine-folge', undefined],
+    ['https://www.crunchyroll.com/de/sing-a-bit-of-harmony', undefined],
+  ]
+  for (const [ziel, soll] of zielFaelle) {
+    const ist = kennungAusZiel(ziel)
+    pruefe(`Kennung aus „${ziel.slice(0, 58)}" ist ${soll ?? 'keine'}`, ist === soll, ist)
+  }
+
+  // Folgen ohne Nummer (Filme, Specials) dürfen nicht zu einer verschmelzen.
+  const ohneNummer = staffelAuszaehlen([
+    { versions: [version('ja-JP', 'x', true)] },
+    { versions: [version('ja-JP', 'y', true), version('de-DE', 'yDEDE')] },
+  ])
+  pruefe('Folgen ohne Nummer bleiben getrennt', ohneNummer.jeFolge.size === 2, [...ohneNummer.jeFolge])
 }
 
 /**
