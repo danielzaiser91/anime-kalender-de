@@ -36,6 +36,7 @@
  * **Maßgeblich ist ausschließlich `de-DE` in `versions`.**
  */
 import type { Browser, Page } from 'playwright'
+import type { CrDeutscheFolge } from './crunchyroll-dub.ts'
 import { sleep, warn } from './util.ts'
 
 const CHROME =
@@ -46,6 +47,14 @@ const AUFWAERM_SEITE = 'https://www.crunchyroll.com/de/series/GRDV0019R'
 
 /** Die Tonspur, um die es geht. Steht als Zeichenkette in `versions`. */
 export const DEUTSCH = 'de-DE'
+
+/**
+ * Was über eine einzelne Folge zu sagen ist.
+ *
+ * Dieselben drei Werte wie beim Lesen der Folgenkacheln, damit beide Wege
+ * dasselbe zählen und vergleichbar bleiben.
+ */
+export type Tonspur = 'deutsch' | 'fremd' | 'keine'
 
 /** Eine Tonspur-Fassung eines Objekts. */
 export interface CrVersion {
@@ -310,6 +319,36 @@ export class CrunchyrollApi {
   async schliessen(): Promise<void> {
     await this.page.close().catch(() => undefined)
   }
+}
+
+/**
+ * Zählt aus, wie viele deutsche Folgen eine Staffel hat.
+ *
+ * Je Folgennummer nur einmal — Crunchyroll führt dieselbe Folge mehrfach auf.
+ * Eine deutsche Fassung schlägt dabei eine fremde: Steht dieselbe Nummer
+ * zweimal da, einmal mit und einmal ohne deutsche Tonspur, gibt es sie deutsch.
+ * Das ist dieselbe Regel wie bei der Kachelauswertung; sie stammt aus Daniels
+ * Befund vom 12.08.2026, dass es sogar zwei Wähler-Einträge zur selben Staffel
+ * gibt.
+ */
+export function staffelAuszaehlen(folgen: { episode_number?: number | null; versions?: { audio_locale: string; guid: string; original?: boolean }[] }[]): {
+  jeFolge: Map<string, Tonspur>
+  deutscheFolgen: CrDeutscheFolge[]
+} {
+  const jeFolge = new Map<string, Tonspur>()
+  const deutscheFolgen = new Map<string, CrDeutscheFolge>()
+  folgen.forEach((f, i) => {
+    const nummer = typeof f.episode_number === 'number' ? f.episode_number : undefined
+    const schluessel = nummer !== undefined ? `E${nummer}` : `#${i}`
+    const ton: Tonspur = hatDeutsch(f.versions) ? 'deutsch' : nurFremdeSynchro(f.versions) ? 'fremd' : 'keine'
+    const guid = deutscheKennung(f.versions)
+    if (guid) deutscheFolgen.set(guid, { nummer, guid })
+    const bisher = jeFolge.get(schluessel)
+    if (bisher === 'deutsch') return
+    if (bisher === 'fremd' && ton === 'keine') return
+    jeFolge.set(schluessel, ton)
+  })
+  return { jeFolge, deutscheFolgen: [...deutscheFolgen.values()] }
 }
 
 /** Trägt dieses Objekt eine deutsche Tonspur? */

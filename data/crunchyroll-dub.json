@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-21T18:34:46.545Z",
+  "scrapedAt": "2026-08-21T18:36:42.871Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -25937,6 +25937,573 @@
       "quelle": "api",
       "geprueftAm": "2026-08-21",
       "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    {
+      "url": "https://www.crunchyroll.com/kokoro-connect",
+      "seriesId": "GR5VJ0V8R",
+      "quelle": "api",
+      "geprueftAm": "2026-08-21",
+      "nichtVerfuegbar": true,
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+    },
+    {
+      "url": "https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-/episode-13-799361?ssid=387047",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/love-stage/episode-11-841216",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lu-over-the-wall/lu-over-the-wall-unbekannt-811213?ssid=399959",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/daisuke-jigens-grabstein-unbekannt-822025?ssid=423942",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/fujiko-mines-lge-unbekannt-822260?ssid=424587",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/goemon-ishikawa-der-es-blut-regnen-lsst-unbekannt-822028?ssid=423944",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/lupin-iii-the-first-unbekannt-827115?ssid=429156",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-the-castle-of-cagliostro/lupin-iii-das-schloss-des-cagliostro-unbekannt-817943?ssid=414931",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-brenne-zantetsuken-der-goldene-drache-unbekannt-813890?ssid=407178",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-das-geheimnis-des-twilight-gemini-der-diamant-der-dmmerung-unbekannt-813886?ssid=407187",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-der-schatz-des-harimao-unbekannt-813894?ssid=407180",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-mordbefehl-an-lupin-der-hllentrip-unbekannt-813888?ssid=407176",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/night-is-short-walk-on-girl/night-is-short-walk-on-girl-unbekannt-811211?ssid=399939",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/one-punch-man",
+      "seriesId": "G63K98PZ6",
+      "quelle": "api",
+      "geprueftAm": "2026-08-21",
+      "nichtVerfuegbar": true,
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+    },
+    {
+      "url": "https://www.crunchyroll.com/ride-your-wave/ride-your-wave-unbekannt-806160?ssid=392654",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/G0XHWM5K7/babylon",
+      "seriesId": "G0XHWM5K7",
+      "quelle": "api",
+      "geprueftAm": "2026-08-21",
+      "nichtVerfuegbar": true,
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/G3KHEVD7E/digimon-frontier",
+      "seriesId": "G3KHEVD7E",
+      "quelle": "api",
+      "geprueftAm": "2026-08-21",
+      "nichtVerfuegbar": true,
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/G6DKW52DR/inuyasha",
+      "seriesId": "G6DKW52DR",
+      "quelle": "api",
+      "geprueftAm": "2026-08-21",
+      "nichtVerfuegbar": true,
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GEXH3W414/princess-principal",
+      "seriesId": "GEXH3W414",
+      "quelle": "api",
+      "geprueftAm": "2026-08-21",
+      "nichtVerfuegbar": true,
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GMEHMENQM/magic-kaito",
+      "seriesId": "GMEHMENQM",
+      "quelle": "api",
+      "geprueftAm": "2026-08-21",
+      "nichtVerfuegbar": true,
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GNVHKN972/digimon-savers",
+      "seriesId": "GNVHKN972",
+      "quelle": "api",
+      "geprueftAm": "2026-08-21",
+      "nichtVerfuegbar": true,
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GP5HJ84EX/bobobo-bo-bo-bobo",
+      "seriesId": "GP5HJ84EX",
+      "quelle": "api",
+      "geprueftAm": "2026-08-21",
+      "nichtVerfuegbar": true,
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GQWH0M1EX/saber-rider-and-the-star-sheriffs",
+      "seriesId": "GQWH0M1EX",
+      "quelle": "api",
+      "geprueftAm": "2026-08-21",
+      "nichtVerfuegbar": true,
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GR2P1ZEMR/riddle-story-of-devil",
+      "seriesId": "GR2P1ZEMR",
+      "quelle": "api",
+      "geprueftAm": "2026-08-21",
+      "nichtVerfuegbar": true,
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GR5VKGGPR/invaders-of-the-rokujyoma",
+      "seriesId": "GR5VKGGPR",
+      "quelle": "api",
+      "geprueftAm": "2026-08-21",
+      "nichtVerfuegbar": true,
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GRGGQ914R/daimidaler-prince-vs-penguin-empire",
+      "seriesId": "GRGGQ914R",
+      "quelle": "api",
+      "geprueftAm": "2026-08-21",
+      "nichtVerfuegbar": true,
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GVDHX8DM5",
+      "seriesId": "GVDHX8DM5",
+      "quelle": "api",
+      "geprueftAm": "2026-08-21",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "86 EIGHTY-SIX",
+          "staffelId": "GR09CXQJ5",
+          "folgen": 23,
+          "kacheln": 26,
+          "deutsch": 23,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GEVUZ8PX1",
+              "verfuegbarAb": "2026-08-13T15:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GZ7UVPPP4",
+              "verfuegbarAb": "2026-08-13T15:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G9DUEDDGW",
+              "verfuegbarAb": "2026-08-13T15:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GMKUX54NQ",
+              "verfuegbarAb": "2026-08-13T15:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GX9UQK929",
+              "verfuegbarAb": "2026-08-13T15:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "G31UX70ND",
+              "verfuegbarAb": "2026-08-13T15:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GK9U380WN",
+              "verfuegbarAb": "2026-08-13T15:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "G0DUN9179",
+              "verfuegbarAb": "2026-08-13T15:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GPWUK07ZN",
+              "verfuegbarAb": "2026-08-13T15:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GQJUGEK3M",
+              "verfuegbarAb": "2026-08-13T15:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "G4VUQM295",
+              "verfuegbarAb": "2026-08-13T15:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GPWUK587P",
+              "verfuegbarAb": "2026-08-13T15:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "GD9UVW7P0",
+              "verfuegbarAb": "2026-08-13T15:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "G14U4EZ11",
+              "verfuegbarAb": "2026-08-13T15:00:00Z"
+            },
+            {
+              "nummer": 15,
+              "guid": "GWDU8K43G",
+              "verfuegbarAb": "2026-08-13T15:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "G8WUNW9NQ",
+              "verfuegbarAb": "2026-08-13T15:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "G2XU0323Z",
+              "verfuegbarAb": "2026-08-13T15:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "GN7UD7G84",
+              "verfuegbarAb": "2026-08-13T15:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "G4VUQXJDZ",
+              "verfuegbarAb": "2026-08-13T15:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "GMKUX4VK0",
+              "verfuegbarAb": "2026-08-13T15:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "GG1U2ENQW",
+              "verfuegbarAb": "2026-08-13T15:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "GG1U23MD7",
+              "verfuegbarAb": "2026-08-13T15:00:00Z"
+            },
+            {
+              "nummer": 23,
+              "guid": "G50UZ7E51",
+              "verfuegbarAb": "2026-08-13T15:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GYJ0HW59G/digimon-tamers",
+      "seriesId": "GYJ0HW59G",
+      "quelle": "api",
+      "geprueftAm": "2026-08-21",
+      "nichtVerfuegbar": true,
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GZJH3D7G9/captain-tsubasa",
+      "seriesId": "GZJH3D7G9",
+      "quelle": "api",
+      "geprueftAm": "2026-08-21",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "Captain Tsubasa",
+          "staffelId": "GY3VC2P2G",
+          "folgen": 52,
+          "kacheln": 91,
+          "deutsch": 0,
+          "fremd": 52,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Captain Tsubasa 2018",
+          "staffelId": "GY5VCD74E",
+          "folgen": 52,
+          "kacheln": 91,
+          "deutsch": 0,
+          "fremd": 52,
+          "deutscheFassung": false
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/seven-days-war/seven-days-war-unbekannt-821929?ssid=423562",
+      "seriesId": "G9VHN9DGZ",
+      "quelle": "api",
+      "geprueftAm": "2026-08-21",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Seven Days War",
+          "staffelId": "GYZXCM7XM",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GEVUZGWWP",
+              "verfuegbarAb": "2021-12-02T17:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/the-dragon-dentist/deomu-the-dragon-dentist-unbekannt-811630?ssid=401190",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/the-empire-of-corpses/the-empire-of-corpses-unknown-808170?ssid=395057",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/tsubasa-reservoir-chronicle",
+      "seriesId": "GVDHX8GMK",
+      "quelle": "api",
+      "geprueftAm": "2026-08-21",
+      "nichtVerfuegbar": true,
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+    },
+    {
+      "url": "https://www.crunchyroll.com/typhoon-noruda/typhoon-noruda-unbekannt-859032",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/uq-holder",
+      "seriesId": "G3KHEV339",
+      "quelle": "api",
+      "geprueftAm": "2026-08-21",
+      "nichtVerfuegbar": true,
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/G2XU0D874",
+      "seriesId": "GP5HJ84XV",
+      "quelle": "api",
+      "geprueftAm": "2026-08-21",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "A Silent Voice",
+          "staffelId": "G6P8CX40K",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GMEE00111886DEDE",
+              "verfuegbarAb": "2026-03-20T00:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/G4VUQVNJ8/",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/G50UZ54W0/the-scarlet-alibi-german-dub",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/G50UZV2GM/",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/G9DU9E4QG/saitama-and-the-mediocre-gang",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/GG1U2NW9Q",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/GJWUQN11K/",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/GK9U31019/",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/GK9U3Z4XE/",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/GMEE00351144DEDE",
+      "seriesId": "G8DHV7809",
+      "quelle": "api",
+      "geprueftAm": "2026-08-21",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Demon Slayer: Kimetsu no Yaiba Infinity Castle I",
+          "staffelId": "GMSE00351144JAJP",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GMEE00351144DEDE",
+              "verfuegbarAb": "2026-07-28T15:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/GPWU8KM42/the-shadow-that-snuck-up-too-close",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/GQJUGQWMW/",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378",
+      "quelle": "api",
+      "nichtVerfuegbar": true,
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
     }
   ]
 }

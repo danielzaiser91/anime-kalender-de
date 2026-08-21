@@ -1,5 +1,5 @@
 {
-  "aufgeloestAm": "2026-08-21T18:34:46.549Z",
+  "aufgeloestAm": "2026-08-21T18:36:42.874Z",
   "adressen": {
     "http://www.crunchyroll.com/de/a-place-further-than-the-universe": {
       "seriesId": "GYK541EPR",
@@ -2115,6 +2115,186 @@
       "ziel": "https://www.crunchyroll.com/de/senran-kagura?__cf_chl_rt_tk=rkhTkFCqEO5aIpTE0jsH8Dtu_qDab6cm4CyaONZJbdQ-1787337005-1.0.1.1-5xZ_9jOgcGQmp3sBR_jrBzt9sHlmpe6PuQfyC4ZTzuI",
       "geprueftAm": "2026-08-21",
       "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/kokoro-connect": {
+      "seriesId": "GR5VJ0V8R",
+      "ziel": "https://www.crunchyroll.com/de/series/GR5VJ0V8R/kokoro-connect",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-/episode-13-799361?ssid=387047": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G0DUN3W45?ssid=387047",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/love-stage/episode-11-841216": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G50UZ7KND",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/lu-over-the-wall/lu-over-the-wall-unbekannt-811213?ssid=399959": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GPWUK08J3/lu-over-the-wall?ssid=399959",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/lupin-the-3rd-movies/daisuke-jigens-grabstein-unbekannt-822025?ssid=423942": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GQJUG9M42?ssid=423942",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/lupin-the-3rd-movies/fujiko-mines-lge-unbekannt-822260?ssid=424587": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GZ7UVXD2P?ssid=424587",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/lupin-the-3rd-movies/goemon-ishikawa-der-es-blut-regnen-lsst-unbekannt-822028?ssid=423944": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GG1U2EX7N?ssid=423944",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/lupin-the-3rd-movies/lupin-iii-the-first-unbekannt-827115?ssid=429156": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GEVUZG2DZ?ssid=429156",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/lupin-the-3rd-the-castle-of-cagliostro/lupin-iii-das-schloss-des-cagliostro-unbekannt-817943?ssid=414931": {
+      "ziel": "https://www.crunchyroll.com/de/lupin-the-3rd-the-castle-of-cagliostro/lupin-iii-das-schloss-des-cagliostro-unbekannt-817943?ssid=414931",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-brenne-zantetsuken-der-goldene-drache-unbekannt-813890?ssid=407178": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GJWU2JM5N?ssid=407178",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-das-geheimnis-des-twilight-gemini-der-diamant-der-dmmerung-unbekannt-813886?ssid=407187": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G9DUEDX7G?ssid=407187",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-der-schatz-des-harimao-unbekannt-813894?ssid=407180": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GVWU0PVQ8?ssid=407180",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-mordbefehl-an-lupin-der-hllentrip-unbekannt-813888?ssid=407176": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G4VUQM3ZV?ssid=407176",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/night-is-short-walk-on-girl/night-is-short-walk-on-girl-unbekannt-811211?ssid=399939": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GVWU0P8X1/night-is-short-walk-on-girl?ssid=399939",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G50UZENW4/okkos-inn?ssid=397785",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/one-punch-man": {
+      "seriesId": "G63K98PZ6",
+      "ziel": "https://www.crunchyroll.com/de/series/G63K98PZ6/one-punch-man",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/ride-your-wave/ride-your-wave-unbekannt-806160?ssid=392654": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GMKUXZ287/ride-your-wave?ssid=392654",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/seven-days-war/seven-days-war-unbekannt-821929?ssid=423562": {
+      "seriesId": "G9VHN9DGZ",
+      "ziel": "https://www.crunchyroll.com/de/watch/GEVUZGWWP?ssid=423562",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/the-dragon-dentist/deomu-the-dragon-dentist-unbekannt-811630?ssid=401190": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GX9UQK3W8?ssid=401190",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/the-empire-of-corpses/the-empire-of-corpses-unknown-808170?ssid=395057": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G0DUN3D8G/the-empire-of-corpses?ssid=395057",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/tsubasa-reservoir-chronicle": {
+      "seriesId": "GVDHX8GMK",
+      "ziel": "https://www.crunchyroll.com/de/series/GVDHX8GMK/tsubasa-reservoir-chronicle",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/typhoon-noruda/typhoon-noruda-unbekannt-859032": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G7PU4ZZJ1",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/uq-holder": {
+      "seriesId": "G3KHEV339",
+      "ziel": "https://www.crunchyroll.com/de/series/G3KHEV339/uq-holder",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/watch/G2XU0D874": {
+      "seriesId": "GP5HJ84XV",
+      "ziel": "https://www.crunchyroll.com/de/watch/G2XU0D874",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/watch/G4VUQVNJ8/": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G4VUQVNJ8",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/watch/G50UZ54W0/the-scarlet-alibi-german-dub": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G50UZ54W0/the-scarlet-alibi-german-dub",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/watch/G50UZV2GM/": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G50UZV2GM",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/watch/G9DU9E4QG/saitama-and-the-mediocre-gang": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G9DU9E4QG/saitama-and-the-mediocre-gang",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/watch/GG1U2NW9Q": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GG1U2NW9Q",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/watch/GJWUQN11K/": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GJWUQN11K",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/watch/GK9U31019/": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GK9U31019",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/watch/GK9U3Z4XE/": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GK9U3Z4XE",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/watch/GMEE00351144DEDE": {
+      "seriesId": "G8DHV7809",
+      "ziel": "https://www.crunchyroll.com/de/watch/GMEE00351144DEDE",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/watch/GPWU8KM42/the-shadow-that-snuck-up-too-close": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GPWU8KM42/the-shadow-that-snuck-up-too-close",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/watch/GQJUGQWMW/": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GQJUGQWMW",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
+    },
+    "https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G31UX0ZNQ",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden"
     }
   }
 }

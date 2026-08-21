@@ -38,6 +38,7 @@ import {
 } from './lib/adn-sprachen.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { beurteile } from './lib/crunchyroll-dub.ts'
+import { staffelAuszaehlen } from './lib/crunchyroll-api.ts'
 import {
   bestandAus,
   belegtDeutsch,
@@ -635,6 +636,71 @@ console.log('\nCrunchyroll: fremde Staffelfehler nicht nachbauen:')
     sauber.length === 2 && sauber[0].dub === true && sauber[1].dub === false,
     sauber,
   )
+}
+
+/**
+ * Die Content-API zählt nach `versions`, nicht nach `is_dubbed`.
+ *
+ * `is_dubbed` steht auf `true`, sobald es **irgendeine** Synchronfassung gibt.
+ * Bei „Mushoku Tensei" Staffel 3 tragen es auch die Folgen 4 und 5, obwohl dort
+ * nur Englisch, Italienisch, Spanisch und Portugiesisch vorliegen (Daniel,
+ * 21.08.2026). Wer das Feld benutzte, hielte jede Folge für deutsch
+ * synchronisiert — und weil das Feld genau dann falsch ist, wenn es darauf
+ * ankommt, fällt es beim Nachsehen an Stichproben nicht auf.
+ *
+ * Nachgestellt ist der echte Fall: acht Folgen, die ersten drei mit deutscher
+ * Fassung, alle acht mit fremden Synchronfassungen.
+ */
+{
+  console.log('\n8) Crunchyroll-Content-API: Tonspuren je Folge')
+  const version = (locale: string, guid: string, original = false) => ({ audio_locale: locale, guid, original })
+  const mushoku = Array.from({ length: 8 }, (_, i) => ({
+    episode_number: i + 1,
+    is_dubbed: true,
+    versions: [
+      version('ja-JP', `GE0037445${i}JAJP`, true),
+      version('en-US', `GE0037445${i}ENUS`),
+      version('it-IT', `GE0037445${i}ITIT`),
+      ...(i < 3 ? [version('de-DE', `GE0037445${i}DEDE`)] : []),
+    ],
+  }))
+  const gezaehlt = staffelAuszaehlen(mushoku)
+  const deutsch = [...gezaehlt.jeFolge.values()].filter((x) => x === 'deutsch').length
+  const fremd = [...gezaehlt.jeFolge.values()].filter((x) => x === 'fremd').length
+  pruefe('drei von acht Folgen deutsch, nicht acht von acht', deutsch === 3, deutsch)
+  pruefe('die übrigen fünf gelten als fremd vertont, nicht als deutsch', fremd === 5, fremd)
+  pruefe(
+    'je deutscher Folge genau eine Kennung, und zwar die de-DE-Fassung',
+    gezaehlt.deutscheFolgen.length === 3 && gezaehlt.deutscheFolgen.every((f) => f.guid.endsWith('DEDE')),
+    gezaehlt.deutscheFolgen,
+  )
+
+  /**
+   * Dieselbe Folge zweimal, einmal deutsch und einmal nicht.
+   *
+   * Crunchyroll führt Folgen doppelt und hat sogar zwei Wähler-Einträge zur
+   * selben Staffel (Daniel, 12.08.2026). Gezählt wird deshalb je Folgennummer,
+   * und die deutsche Fassung schlägt die fremde — sonst hinge das Ergebnis
+   * daran, in welcher Reihenfolge die Schnittstelle antwortet.
+   */
+  const doppelt = staffelAuszaehlen([
+    { episode_number: 1, versions: [version('ja-JP', 'a', true)] },
+    { episode_number: 1, versions: [version('ja-JP', 'a', true), version('de-DE', 'aDEDE')] },
+    { episode_number: 2, versions: [version('ja-JP', 'b', true), version('de-DE', 'bDEDE')] },
+    { episode_number: 2, versions: [version('ja-JP', 'b', true)] },
+  ])
+  pruefe(
+    'doppelt geführte Folgen zählen einmal, und zwar deutsch',
+    doppelt.jeFolge.size === 2 && [...doppelt.jeFolge.values()].every((x) => x === 'deutsch'),
+    [...doppelt.jeFolge],
+  )
+
+  // Folgen ohne Nummer (Filme, Specials) dürfen nicht zu einer verschmelzen.
+  const ohneNummer = staffelAuszaehlen([
+    { versions: [version('ja-JP', 'x', true)] },
+    { versions: [version('ja-JP', 'y', true), version('de-DE', 'yDEDE')] },
+  ])
+  pruefe('Folgen ohne Nummer bleiben getrennt', ohneNummer.jeFolge.size === 2, [...ohneNummer.jeFolge])
 }
 
 /**

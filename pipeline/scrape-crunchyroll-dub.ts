@@ -59,15 +59,15 @@ import { recordSource } from './lib/health.ts'
 import { fortschrittsMelder } from './lib/lauf-fortschritt.ts'
 import type { Title } from '../shared/types.ts'
 import { addDays, todayIso } from '../shared/time.ts'
-import type { CrDeutscheFolge, CrSerie, CrStaffel } from './lib/crunchyroll-dub.ts'
+import type { CrSerie, CrStaffel } from './lib/crunchyroll-dub.ts'
 import { crunchyrollSeriesId } from './lib/crunchyroll.ts'
 import {
   BUENDEL,
   CrunchyrollApi,
-  deutscheKennung,
   hatDeutsch,
-  nurFremdeSynchro,
+  staffelAuszaehlen,
   type CrApiObjekt,
+  type Tonspur,
 } from './lib/crunchyroll-api.ts'
 
 const CHROME =
@@ -102,9 +102,6 @@ const WIEDERVORLAGE_TAGE = zahl('--alter', 28)
 const SEITENANZEIGE = args.includes('--seitenanzeige')
 /** Pause zwischen zwei API-Aufrufen. Die Taktung bleibt rücksichtsvoll. */
 const PAUSE_MS = zahl('--pause', 250)
-
-/** Was auf einer Folgenkachel steht. */
-type Tonspur = 'deutsch' | 'fremd' | 'keine'
 
 // Die Typen stehen in `lib/crunchyroll-dub.ts` — dort, wo auch die Auswertung
 // wohnt. Zwei Fassungen desselben Typs laufen unweigerlich auseinander.
@@ -177,36 +174,6 @@ async function serieHinterFolge(api: CrunchyrollApi, url: string): Promise<strin
   if (!guid) return undefined
   const antwort = await api.objekte([guid])
   return (antwort?.data as CrApiObjekt[] | undefined)?.[0]?.episode_metadata?.series_id
-}
-
-/**
- * Zählt aus, wie viele deutsche Folgen eine Staffel hat.
- *
- * Je Folgennummer nur einmal — Crunchyroll führt dieselbe Folge mehrfach auf.
- * Eine deutsche Fassung schlägt dabei eine fremde: Steht dieselbe Nummer
- * zweimal da, einmal mit und einmal ohne deutsche Tonspur, gibt es sie deutsch.
- * Das ist dieselbe Regel wie bei der Kachelauswertung; sie stammt aus Daniels
- * Befund vom 12.08.2026, dass es sogar zwei Wähler-Einträge zur selben Staffel
- * gibt.
- */
-function staffelAuszaehlen(folgen: { episode_number?: number | null; versions?: { audio_locale: string; guid: string; original?: boolean }[] }[]): {
-  jeFolge: Map<string, Tonspur>
-  deutscheFolgen: CrDeutscheFolge[]
-} {
-  const jeFolge = new Map<string, Tonspur>()
-  const deutscheFolgen = new Map<string, CrDeutscheFolge>()
-  folgen.forEach((f, i) => {
-    const nummer = typeof f.episode_number === 'number' ? f.episode_number : undefined
-    const schluessel = nummer !== undefined ? `E${nummer}` : `#${i}`
-    const ton: Tonspur = hatDeutsch(f.versions) ? 'deutsch' : nurFremdeSynchro(f.versions) ? 'fremd' : 'keine'
-    const guid = deutscheKennung(f.versions)
-    if (guid) deutscheFolgen.set(guid, { nummer, guid })
-    const bisher = jeFolge.get(schluessel)
-    if (bisher === 'deutsch') return
-    if (bisher === 'fremd' && ton === 'keine') return
-    jeFolge.set(schluessel, ton)
-  })
-  return { jeFolge, deutscheFolgen: [...deutscheFolgen.values()] }
 }
 
 /**
