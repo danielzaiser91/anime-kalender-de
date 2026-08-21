@@ -83,6 +83,21 @@ Dieses Projekt lebt davon, dass die Termine stimmen. Deshalb gilt ausnahmslos:
   von selbst wieder mitbringt, ging bei acht von neun Titeln gut — der neunte war über keinen Weg
   mehr erreichbar. Ein Titel, den man nirgends findet, ist stillschweigend gestrichen, und
   gestrichen wird nur, was eine Quelle aktiv widerlegt.
+- **„Früheste Beobachtung" ist nicht „erste Folge".** `earliest` in `data/crunchyroll.json` ist
+  der früheste Tag, den ein Abruf **gesehen** hat — der Kalender holt ein Fenster von acht bis
+  zwölf Wochen, was davor lief, steht dort nie. Bei „Wistoria: Wand and Sword" Staffel 2 ist
+  das der 31.05.2026 mit Folge 17; die Staffel begann am 03.05.2026 mit Folge 13 (Daniel,
+  21.08.2026, bestätigt durch einen Artikel vom 04.05.2026). Wer die beiden verwechselt,
+  verschiebt eine ganze Staffel — der Datensatz führte dafür zwölf Termine von Februar bis
+  April, und keinen einzigen echten. Dieselbe Verwechslung ist mir am 21.08.2026 auch in der
+  **Beschreibung** des Fehlers unterlaufen, nicht nur dem Code: „die Staffel lief vom 31.05.
+  bis 19.07." stand in einem Auftrag, der genau diesen Fehler beheben sollte.
+
+- **Der erste Eintrag einer Staffelliste ist nicht deren erste Folge.** Crunchyroll führt unter
+  „Wistoria" Staffel 2 an erster Stelle ein Rückblick-Special **ohne** deutsche Synchro. Wer
+  nach Position zählt statt nach Folgennummer, verschiebt die ganze Staffel um eins und nimmt
+  einen untertitelten Eintrag in einen Synchro-Kalender auf (Daniel, 21.08.2026).
+
 - **„Im Angebot seit" ist nicht „erschienen am".** Nimmt eine Plattform einen Katalogtitel auf,
   kennt sie nur das Datum ihrer eigenen Aufnahme. Für SAO war das der 11.06.2025 — die deutsche
   Fassung gibt es seit 2013, die von Alicization seit August 2019 auf Disc. Deshalb trägt jedes
