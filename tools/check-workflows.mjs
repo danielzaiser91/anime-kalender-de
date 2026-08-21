@@ -164,6 +164,43 @@ for (const datei of readdirSync(DIR).filter((f) => f.endsWith('.yml') || f.endsW
   }
 }
 
+const startetPipeline = (zeile) => {
+  const t = zeile.trim()
+  return t.startsWith('run: npm run data:') || t.startsWith('run: npm run check:')
+}
+
+/**
+ * Ein Schritt, der ein Pipeline-Skript startet, braucht `LAUF_TOKEN`.
+ *
+ * Ohne das Token meldet `fortschrittsMelder()` still gar nichts — kein Fehler,
+ * keine Warnung, nur eine Anzeige, die keine Zahl zeigt. Real am 21.08.2026:
+ * Ein Lauf stand dreieinhalb Minuten ohne Fortschritt da, weil das Token nur
+ * bei den An- und Abmeldeschritten stand, nicht beim Scraper selbst. Daniel
+ * hat es gemeldet, nicht der Code.
+ *
+ * Dasselbe Muster wie beim `STREAMING_API_KEY` am selben Tag: Ein Secret zu
+ * setzen genügt nicht, es muss in dem Schritt stehen, der es braucht.
+ */
+for (const datei of readdirSync(DIR).filter((f) => f.endsWith('.yml') || f.endsWith('.yaml'))) {
+  const inhalt = readFileSync(resolve(DIR, datei), 'utf8')
+  // Nur Workflows, die überhaupt Statusmeldungen kennen.
+  if (!inhalt.includes('lauf-melden.sh')) continue
+  const zeilen = inhalt.split(ZEILENENDE)
+
+  for (let i = 0; i < zeilen.length; i++) {
+    if (!startetPipeline(zeilen[i])) continue
+    let k = i
+    while (k > 0 && !SCHRITTKOPF.test(zeilen[k])) k--
+    if (!zeilen.slice(k, i).some((z) => z.includes('LAUF_TOKEN'))) {
+      console.error(
+        `✗ ${datei}, Zeile ${i + 1}: Pipeline-Schritt ohne LAUF_TOKEN — ` +
+          'der Fortschritt käme in der Statusanzeige nie an',
+      )
+      fehler++
+    }
+  }
+}
+
 if (fehler) {
   console.error(`\n${fehler} Problem(e) in den Workflow-Dateien.`)
   process.exit(1)

@@ -67,6 +67,7 @@ jobs:
 
       - name: Rohdaten holen
         env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
           SITE_URL: ${{ vars.SITE_URL }}
         run: npm run data:fetch
@@ -75,17 +76,23 @@ jobs:
         # Schlägt der Lauf fehl (Seitenumbau, Ausfall), bleiben die zuletzt
         # gespeicherten Zeiten stehen — der Build läuft trotzdem weiter.
         continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:crunchyroll
 
       - name: ADN-Kalender lesen
         # Liefert Datum, Uhrzeit UND Sprachfassung — die einzige Quelle neben
         # Crunchyroll, die die Synchro selbst ausweist.
         continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:adn
 
       - name: Nachrichtenlage bei Anime2You prüfen
         # Erzeugt nur Vorschläge für die Kuratierung, keine Termine.
         continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:anime2you
 
       - name: Deutsche Texte und Anbieter von aniSearch
@@ -99,14 +106,19 @@ jobs:
         # Kontingent und Takt stehen im Skript (200 Titel, alle sechs Sekunden).
         # Der Bestand liegt im Repo und geht nicht verloren.
         continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:anisearch
 
       - name: Datensatz bauen
         env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           SITE_URL: ${{ vars.SITE_URL }}
         run: npm run data:build
 
       - name: Vorschaubilder für neue Releases erzeugen
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:og
 
       - name: Änderungen committen
@@ -122,6 +134,8 @@ jobs:
       # anschlägt. Ein roter Lauf schickt dem Betreiber eine Mail — das ist die
       # Meldung „eine Quelle ist stumm geworden", ohne eigene Infrastruktur.
       - name: Quellen auf Schweigen prüfen
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:check
 
       - name: Ergebnis nach Discord melden

@@ -79,6 +79,7 @@ jobs:
       - name: Rohdaten holen, falls kein Cache da ist
         if: steps.cache.outputs.cache-matched-key == ''
         env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
           SITE_URL: ${{ vars.SITE_URL }}
         run: npm run data:fetch
@@ -92,10 +93,13 @@ jobs:
 
       - name: Datensatz bauen
         env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           SITE_URL: ${{ vars.SITE_URL }}
         run: npm run data:build
 
       - name: Vorschaubilder für neue Releases
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:og
 
       - name: Änderungen committen

@@ -71,6 +71,7 @@ jobs:
 
       - name: Rohdaten holen
         env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
           SITE_URL: ${{ vars.SITE_URL }}
         run: npm run data:fetch
@@ -85,6 +86,8 @@ jobs:
       # unangetastet stehen — sie ist committet.
       - name: AniList-Gesamtkatalog
         continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:katalog
 
       - name: Crunchyroll — zwölf Wochen
@@ -100,16 +103,22 @@ jobs:
         # im Angebot liegt, taucht dort nie auf und fehlte deshalb dauerhaft.
         # Rund 580 Abfragen — zu viel für den Tageslauf, richtig für diesen.
         continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:adn:catalog
 
       - name: Deutsche Synchronsprecher
         # Holt nur, was fehlt oder älter als ein halbes Jahr ist.
         continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:voices -- --limit 400
 
       - name: Zuordnung zu Anime News Network
         # Der Offline-Datensatz von manami-project wird woechentlich neu gebaut.
         continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:ann:ids
 
       - name: Deutsche Sprechrollen von Anime News Network
@@ -117,12 +126,16 @@ jobs:
         # noch nicht im Archiv liegt — nach dem ersten vollen Lauf sind das
         # wenige Titel je Woche.
         continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:ann:voices
 
       - name: Crunchyroll-Serienseiten auf deutsche Tonspur
         # Wiedervorlage nach 28 Tagen, gedeckelt: Ein voller Durchgang ueber 900
         # Seiten dauert Stunden und muss nicht in einem Lauf passieren.
         continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:cr-dub -- --limit 250
 
       - name: YouTube-Verweise auf Abrufbarkeit in Deutschland
@@ -135,6 +148,7 @@ jobs:
         # 10.000. Wiedervorlage nach 30 Tagen, denn Lizenzen kehren zurueck.
         continue-on-error: true
         env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: npm run data:youtube
 
@@ -149,24 +163,33 @@ jobs:
         # Gedeckelt, damit nicht jede Woche 945 fremde Seiten auf einmal
         # abgeklopft werden. Wiedervorlage nach 30 Tagen.
         continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:links -- --limit 400
 
       - name: Anime2You
         continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:anime2you
 
       - name: Deutsche Texte und Anbieter von aniSearch
         # Nur ein Kontingent je Lauf, eine Anfrage pro Sekunde. Der Bestand
         # füllt sich über die Tage; er liegt im Repo und geht nie verloren.
         continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:anisearch -- --limit 60
 
       - name: Datensatz bauen
         env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           SITE_URL: ${{ vars.SITE_URL }}
         run: npm run data:build
 
       - name: Vorschaubilder
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:og
 
       - name: Änderungen committen
@@ -185,9 +208,13 @@ jobs:
           bash tools/commit-data.sh "chore(data): wöchentlicher Tiefendurchlauf"
 
       - name: Was noch kuratiert werden müsste
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:report >> $GITHUB_STEP_SUMMARY
 
       - name: Quellen auf Schweigen prüfen
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:check
 
       - name: Ergebnis nach Discord melden

@@ -86,6 +86,8 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Crunchyroll-Serienseiten auf deutsche Tonspur
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:cr-dub -- --limit ${{ inputs.limit }} --alter ${{ inputs.alter }}${{ inputs.nur_fehler && ' --nur-fehler' || '' }}
 
       - name: Ergebnis sichern

@@ -69,18 +69,24 @@ jobs:
       - run: npm ci
 
       - name: Kuratierte Daten prüfen
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:validate
 
       # Ein kaputter Workflow meldet sich nicht — er verschwindet lautlos aus
       # der Übersicht und läuft nie wieder. Diese Prüfung ist der einzige Ort,
       # der das bemerkt, bevor ein Nachtlauf ausbleibt.
       - name: Workflow-Dateien prüfen
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run check:workflows
 
       # Die Zusicherungen aus der Prüfkette vor dem Commit. Sie gehören auch
       # hierher: Die Nachtläufe committen ohne menschlichen Blick, und der
       # Fehler vom 12.08.2026 (196 erfundene Termine) entstand genau dort.
       - name: Zusicherungen prüfen
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run check:logic && npm run check:search
 
       # Hooks-Regeln sieht weder `tsc -b` noch der Vite-Build: Ein Verstoß ist
@@ -91,6 +97,8 @@ jobs:
       # hier steht sie eigens, damit der Lauf den Fehler beim Namen nennt
       # statt ihn als Baufehler zu melden.
       - name: Hooks-Regeln prüfen
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run check:hooks
 
       - name: Bauen
