@@ -1072,6 +1072,24 @@ export async function runMonitor(
  * statt der sonst geltenden Beschränkung auf die eigene Seite: Die Anzeige läuft
  * als Datei vom Schreibtisch und hätte sonst den Ursprung `null`.
  */
+/**
+ * Zeitstempel in genau dem Format, in dem SQLite vergleichen kann.
+ *
+ * `datetime('now')` liefert `2026-08-21 13:00:48`, `toISOString()` dagegen
+ * `2026-08-21T13:30:24.525Z`. SQLite vergleicht diese Spalte als **Text**, und
+ * an Position 10 steht dann `T` (0x54) gegen ein Leerzeichen (0x20) — jeder
+ * unserer Werte galt damit als neuer, unabhängig vom Datum. Die Folge: Weder
+ * der Drei-Tage-Filter noch das Aufräumen nach vierzehn Tagen haben je
+ * gegriffen, und niemandem wäre es aufgefallen, weil beide stumm zu viel
+ * durchließen statt zu wenig (gefunden am 21.08.2026).
+ *
+ * Deshalb: Millisekunden weg, und die Abfragen rechnen mit `strftime` im
+ * selben Format.
+ */
+const ISO_JETZT = "strftime('%Y-%m-%dT%H:%M:%SZ', 'now'"
+function jetztIso(): string {
+  return new Date().toISOString().slice(0, 19) + 'Z'
+}
 async function handleLauf(request: Request, env: Env): Promise<Response> {
   const offen = { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
   const antwort = (body: unknown, status = 200) =>
@@ -1080,14 +1098,32 @@ async function handleLauf(request: Request, env: Env): Promise<Response> {
   if (request.method === 'GET') {
     // Was älter als drei Tage ist, interessiert niemanden mehr und würde die
     // Anzeige nur verstopfen.
+    /**
+     * Was die Anzeige zeigt — und was nicht mehr.
+     *
+     * Daniel am 21.08.2026: „fertige statuse sollen verschwinden, vorallem wenn
+     * sie von dir abgenommen und weiterbearbeitet wurden." Eine Übersicht, in
+     * der Abgehaktes stehen bleibt, verliert genau das, wofür sie da ist.
+     *
+     * Drei Stufen:
+     *   laeuft   — immer sichtbar, das ist der Zweck
+     *   ok       — eine halbe Stunde lang, damit ein Abschluss nicht unbemerkt
+     *              vorbeigeht, wenn gerade niemand hinsieht
+     *   fehler   — bleibt stehen, bis ihn jemand abnimmt. Ein roter Lauf, der
+     *              von selbst verschwindet, ist schlimmer als keine Anzeige.
+     *   erledigt — sofort weg. Das setze ich, wenn ich einen Lauf durchgesehen
+     *              und weiterverarbeitet habe.
+     */
     const { results } = await env.DB.prepare(
       `SELECT lauf_id, repo, workflow, auftrag, zustand, begonnen_am, gemeldet_am, url, notiz
          FROM lauf_status
-        WHERE gemeldet_am > datetime('now', '-3 days')
-        ORDER BY (zustand = 'laeuft') DESC, gemeldet_am DESC
+        WHERE zustand != 'erledigt'
+          AND gemeldet_am > ${ISO_JETZT}, '-3 days')
+          AND (zustand != 'ok' OR gemeldet_am > ${ISO_JETZT}, '-30 minutes'))
+        ORDER BY (zustand = 'laeuft') DESC, (zustand = 'fehler') DESC, gemeldet_am DESC
         LIMIT 40`,
     ).all()
-    return antwort({ jetzt: new Date().toISOString(), laeufe: results ?? [] })
+    return antwort({ jetzt: jetztIso(), laeufe: results ?? [] })
   }
 
   if (request.method !== 'POST') return antwort({ error: 'GET oder POST erwartet' }, 405)
@@ -1107,11 +1143,11 @@ async function handleLauf(request: Request, env: Env): Promise<Response> {
   const laufId = (daten.lauf_id ?? '').trim()
   const zustand = (daten.zustand ?? '').trim()
   if (!laufId) return antwort({ error: 'lauf_id fehlt' }, 400)
-  if (!['laeuft', 'ok', 'fehler', 'abgebrochen'].includes(zustand)) {
-    return antwort({ error: 'zustand muss laeuft, ok, fehler oder abgebrochen sein' }, 400)
+  if (!['laeuft', 'ok', 'fehler', 'abgebrochen', 'erledigt'].includes(zustand)) {
+    return antwort({ error: 'zustand muss laeuft, ok, fehler, abgebrochen oder erledigt sein' }, 400)
   }
 
-  const jetzt = new Date().toISOString()
+  const jetzt = jetztIso()
   await env.DB.prepare(
     `INSERT INTO lauf_status (lauf_id, repo, workflow, auftrag, zustand, begonnen_am, gemeldet_am, url, notiz)
      VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)
@@ -1135,7 +1171,9 @@ async function handleLauf(request: Request, env: Env): Promise<Response> {
     .run()
 
   // Aufräumen im Vorbeigehen: kein eigener Cron für zwei Zeilen Hausputz.
-  await env.DB.prepare("DELETE FROM lauf_status WHERE gemeldet_am < datetime('now', '-14 days')").run()
+  await env.DB.prepare(
+    `DELETE FROM lauf_status WHERE gemeldet_am < ${ISO_JETZT}, '-14 days')`,
+  ).run()
 
   return antwort({ ok: true, lauf_id: laufId, zustand })
 }
