@@ -2,9 +2,28 @@ import type { Release, ReleaseEvent, ReleaseStatus, Title } from './types.ts'
 import { addDays, todayIso } from './time.ts'
 
 /**
+ * Beobachtete Folgen als Stützpunkte, aufsteigend nach Folgennummer.
+ *
+ * Steht an einer Stelle im Code und wird von beiden Rechnungen benutzt, weil
+ * ein Auseinanderlaufen genau die Art Widerspruch erzeugt, an der der Kalender
+ * schon einmal zerbrochen ist: hier „letzte Folge am 18.11.", darunter eine
+ * Terminliste, die am 04.11. endet.
+ */
+function stuetzpunkte(s: Release['schedule']): { episode: number; date: string }[] {
+  return Object.entries(s.observed ?? {})
+    .map(([episode, date]) => ({ episode: Number(episode), date }))
+    .filter((a) => a.episode > 0 && a.date)
+    .sort((a, b) => a.episode - b.episode)
+}
+
+/**
  * Letzter Termin eines Releases im deutschen Dub.
  * Bei `weekly` aus Startdatum + Folgenzahl + Sendepausen berechnet,
  * sonst identisch mit dem Startdatum.
+ *
+ * Gerechnet wird ab der letzten Beobachtung, nicht ab dem Start: Erschienen
+ * drei Folgen an einem Tag, ist die Reihe zwei Wochen früher durch, als der
+ * reine Wochentakt ausrechnet.
  */
 export function lastEpisodeDate(release: Release): string | undefined {
   const s = release.schedule
@@ -12,10 +31,13 @@ export function lastEpisodeDate(release: Release): string | undefined {
   if (release.releaseType !== 'weekly') return s.firstEpisodeDate
   if (!s.episodeCount || s.episodeCount < 1) return undefined
   const skips = new Set(s.skipDates ?? [])
-  let date = s.firstEpisodeDate
-  let produced = 1
+  const first = Math.max(1, s.firstEpisodeNumber ?? 1)
+  const letzte = first + s.episodeCount - 1
+  const anker = stuetzpunkte(s).filter((a) => a.episode >= first && a.episode <= letzte).at(-1)
+  let date = anker?.date ?? s.firstEpisodeDate
+  let produced = anker?.episode ?? first
   let guard = 0
-  while (produced < s.episodeCount && guard++ < 400) {
+  while (produced < letzte && guard++ < 400) {
     date = addDays(date, 7)
     if (!skips.has(date)) produced++
   }
@@ -146,10 +168,7 @@ export function expandEvents(release: Release): ReleaseEvent[] {
    * nicht geraten. Alles jenseits der letzten Beobachtung bleibt Fortschreibung
    * und wird als solche gekennzeichnet.
    */
-  const anchors = Object.entries(s.observed ?? {})
-    .map(([episode, date]) => ({ episode: Number(episode), date }))
-    .filter((a) => a.episode > 0 && a.date)
-    .sort((a, b) => a.episode - b.episode)
+  const anchors = stuetzpunkte(s)
   const lastAnchor = anchors[anchors.length - 1]
 
   const dateOf = (episode: number): string => {

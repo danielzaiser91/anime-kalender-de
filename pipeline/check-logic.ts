@@ -16,7 +16,7 @@
  *
  * Aufruf: npm run check:logic
  */
-import { expandEvents } from '../shared/logic.ts'
+import { expandEvents, lastEpisodeDate } from '../shared/logic.ts'
 import {
   alsEinBlock,
   bestimmeRhythmus,
@@ -30,6 +30,7 @@ import {
 } from './lib/adn.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { beurteile } from './lib/crunchyroll-dub.ts'
+import { beobachtungenZusammenfuehren } from './lib/crunchyroll.ts'
 import type { Release, Title } from '../shared/types.ts'
 
 let fehler = 0
@@ -507,6 +508,69 @@ console.log('\nCrunchyroll: fremde Staffelfehler nicht nachbauen:')
   seit['4'] = '2026-08-20'
   const spaeter = Object.keys(seit).filter((id) => seit[id] >= grenze && seit[id] !== angelegtAm)
   pruefe('Synchro-Historie: ein späterer Zugang wird gemeldet', spaeter.length === 1 && spaeter[0] === '4', spaeter)
+}
+
+/**
+ * Was ein Mensch eingetragen hat, überlebt den nächsten Kalenderlauf.
+ *
+ * Der Vorrang stand überall im Projekt, nur nicht hier: `schedule.observed`
+ * wurde beim Bau durch die Kalenderablesung **ersetzt**, und ein von Hand
+ * eingetragener Mehrfachstart war beim nächsten Lauf wieder weg. Nachgestellt
+ * wird der reale Fall — Crunchyroll zeigt für „Mushoku Tensei" Staffel 3 eine
+ * Kachel am 19.08.2026, tatsächlich lagen dort drei Folgen (Daniel,
+ * 21.08.2026).
+ */
+console.log('\nBeobachtungen zusammenführen:')
+{
+  const ausKalender = { 1: '2026-08-19' }
+  const vonHand = { 2: '2026-08-19', 3: '2026-08-19' }
+  const zusammen = beobachtungenZusammenfuehren(ausKalender, vonHand)
+  pruefe(
+    'kuratierte Beobachtungen gehen nicht verloren',
+    zusammen?.[2] === '2026-08-19' && zusammen?.[3] === '2026-08-19',
+    zusammen,
+  )
+  pruefe('die abgeleitete bleibt daneben stehen', zusammen?.[1] === '2026-08-19', zusammen)
+
+  const kollision = beobachtungenZusammenfuehren({ 1: '2026-08-12' }, { 1: '2026-08-19' })
+  pruefe('bei gleicher Folgennummer gewinnt die Handeintragung', kollision?.[1] === '2026-08-19', kollision)
+
+  pruefe('ohne jede Beobachtung bleibt das Feld leer', beobachtungenZusammenfuehren({}, undefined) === undefined)
+
+  // Und das Ergebnis muss im Sendeplan ankommen: drei Termine am selben Tag,
+  // unterscheidbare Kennungen, und Folge 4 eine Woche nach dem Auftakt.
+  const release: Release = {
+    slug: 'mushoku-tensei-s3',
+    titleId: 178789,
+    name: 'Mushoku Tensei',
+    platform: 'crunchyroll',
+    releaseType: 'weekly',
+    schedule: { firstEpisodeDate: '2026-08-19', episodeCount: 14, observed: zusammen },
+    year: 2026,
+    sources: ['https://www.crunchyroll.com/de/'],
+  }
+  const events = expandEvents(release)
+  const amAuftakt = events.filter((e) => e.date === '2026-08-19')
+  pruefe('drei Folgen am 19.08.2026', amAuftakt.length === 3, amAuftakt.map((e) => e.episode))
+  pruefe('drei unterscheidbare Kennungen', new Set(amAuftakt.map((e) => e.id)).size === 3, amAuftakt.map((e) => e.id))
+  pruefe(
+    'Folge 4 eine Woche nach dem Auftakt',
+    events.find((e) => e.episode === 4)?.date === '2026-08-26',
+    events.find((e) => e.episode === 4)?.date,
+  )
+  pruefe('am Ende stehen 14 Folgen', events.length === 14 && events.at(-1)?.episode === 14, events.length)
+
+  /**
+   * Die Seite darf sich nicht selbst widersprechen: Die Zeile „Letzte Folge"
+   * kommt aus `lastEpisodeDate`, die Liste darunter aus `expandEvents`. Ohne
+   * die Stützpunkte rechnete die erste stur 13 Wochen ab dem Start und
+   * behauptete den 18.11.2026, während die Liste am 04.11.2026 endete.
+   */
+  pruefe(
+    'letzte Folge und Terminliste enden am selben Tag',
+    lastEpisodeDate(release) === events.at(-1)?.date,
+    { berechnet: lastEpisodeDate(release), liste: events.at(-1)?.date },
+  )
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
