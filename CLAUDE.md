@@ -156,6 +156,29 @@ Zwei Folgen daraus:
   Folgen, „Mushoku Tensei" drei mit 61. Zugeordnet wird über Folgennummern, nie über
   Staffelnummern.
 
+
+- **Wo der Abruf steht, entscheidet, was er sieht — und Cloud-Läufe stehen in den USA.** Der
+  Crunchyroll-Lauf vom 21.08.2026 lief auf GitHub-Runnern und hat **1.655 geprüfte Folgen in
+  592 Serien** mit `eligible_region: "US"` archiviert, ausnahmslos. Zwei Folgen daraus, und die
+  zweite ist die wichtigere:
+
+  - **Ein `de-DE` in `versions` ist trotzdem ein Beleg.** Die Sprachliste eines Objekts nennt
+    die Fassungen, die es gibt — dass die US-Antwort sie kennt, macht sie nicht falsch. Die 226
+    Serien mit deutscher Folge bleiben also gültig, und die Kontrollgruppe bestätigt sie: 24 von
+    Hand geprüfte Fälle, 24 Treffer.
+  - **Ein fehlendes `de-DE` belegt gar nichts.** „Fairy Tail" trägt in der US-Antwort für alle
+    drei Blöcke nur `ja-JP, en-US` — Daniel sieht in Deutschland die Folgen 1 bis 277 auf
+    Deutsch (22.08.2026). Dasselbe gilt für die Verfügbarkeit: „Dragon Ball" und „Dragon Ball Z"
+    liefern vollständige Folgenlisten, während die deutsche Seite „Leider sind die Videos dieser
+    Serie nicht mehr verfügbar" zeigt.
+
+  Deshalb steigt `beurteile()` bei `deutschImAngebot: false` aus, und das bleibt so, solange die
+  Abrufe nicht aus deutscher Sicht kommen. Im ausgelieferten Datensatz steht bei **keinem** der
+  1.116 Crunchyroll-Verweise ein `dub: false` — die Regel hat gehalten.
+
+  **Verworfen, weil gemessen:** `availability_ends` taugt nicht als Ersatz. Dragon Ball (weg)
+  und JoJo (sichtbar) tragen beide den 31.12.2025; von 592 Serien hätten 445 als „abgelaufen"
+  gegolten, darunter „Lycoris Recoil", das Daniel am 22.08.2026 als normal sichtbar bestätigt hat.
 - **Aus dem Fragezeichen wird ein Häkchen nur durch Nachsehen.** Geprüfte Fälle stehen in
   `data/dub-confirmed.yaml`, mit Datum. `dub: false` ist genauso wertvoll wie `true`.
 - **Was ein Mensch geprüft hat, schlägt jede Ableitung** — der Eintrag gilt auch gegen ein

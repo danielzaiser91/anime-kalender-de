@@ -806,3 +806,29 @@
   dub: false
   checkedAt: '2026-08-22'
   note: 'Titelseite zeigt nur „Erinnern", keine Folge abspielbar — keine deutsche Fassung dort zu sehen'
+
+# Fairy Tail bei Crunchyroll, von Daniel geprüft am 22.08.2026. Seine Angabe:
+# „s1-175 s2-[176 bis 277] s3-0" — die ersten 277 Folgen deutsch, der letzte
+# Block nicht. Das deckt sich mit unserer Aufteilung 175 + 102 + 51.
+#
+# Der Fall ist der Beleg dafür, dass die Content-API aus der Cloud eine andere
+# Frage beantwortet als ein Browser aus Deutschland: Dort steht für alle drei
+# Blöcke nur „ja-JP, en-US".
+- anilistId: 6702
+  title: Fairy Tail
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-22'
+  note: 'Folgen 1 bis 175 mit deutscher Tonspur'
+- anilistId: 20626
+  title: Fairy Tail Series 2
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-22'
+  note: 'Folgen 176 bis 277 mit deutscher Tonspur'
+- anilistId: 99749
+  title: Fairy Tail Final Season
+  platform: crunchyroll
+  dub: false
+  checkedAt: '2026-08-22'
+  note: 'Letzter Block ohne deutsche Tonspur'
