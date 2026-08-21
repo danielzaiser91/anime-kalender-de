@@ -87,22 +87,25 @@ function reihenNummer() {
   return ausPfad || ausQuery || (ausZustand ? String(ausZustand) : null)
 }
 
-function keineFolgeSichtbar() {
-  // Ohne erkennbare Reihe ist das hier irgendeine Netflix-Seite.
-  if (!reihenNummer()) return false
-  const text = document.body.innerText || ''
-  const hatErinnern = /\bErinnern\b|\bRemind me\b/.test(text)
-  const hatAbspielen = Array.from(document.querySelectorAll('a, button')).some((el) =>
-    /^\s*(Abspielen|Play|Weiterschauen|Resume|Folge \d+ abspielen)\s*$/i.test((el.textContent || '').trim()),
-  )
-  return hatErinnern && !hatAbspielen
-}
-
+/**
+ * Ohne Tonspuren gibt es genau einen sinnvollen Befund: „hier ist nichts
+ * abspielbar" — und der muss meldbar sein, ohne dass die Erweiterung ihn selbst
+ * erkennt.
+ *
+ * Die erste Fassung wollte klug sein und prüfte, ob ein Abspielknopf fehlt.
+ * Auf Netflix liegt die Titelkarte aber als Überlagerung über der Startseite,
+ * und deren Abspielknopf zählte mit — der Knopf blieb grau, obwohl die Reihe
+ * keine einzige Folge hatte (Daniel, 22.08.2026, mit Bild: „diese serie hat
+ * keine folge, das muss ich doch auch melden können").
+ *
+ * Jetzt entscheidet der Mensch. Läuft eine Folge, liest die Erweiterung die
+ * Tonspuren und meldet sie; läuft keine, meldet der Knopf „nicht abrufbar".
+ * Was davon zutrifft, sieht Daniel besser als jede Heuristik.
+ */
 function beschriftung(spuren) {
   if (!spuren) {
-    if (keineFolgeSichtbar()) return { text: 'Keine Folge abspielbar — melden', klasse: 'ak-nein', aktiv: true }
-    if (reihenNummer()) return { text: 'Warte auf eine laufende Folge …', klasse: 'ak-leer', aktiv: false }
-    return { text: 'Kein Titel erkannt', klasse: 'ak-leer', aktiv: false }
+    if (!reihenNummer()) return { text: 'Kein Titel erkannt', klasse: 'ak-leer', aktiv: false }
+    return { text: 'Keine Folge abspielbar — melden', klasse: 'ak-nein', aktiv: true }
   }
   const { deutsch, echte } = urteil(spuren)
   return deutsch
@@ -112,8 +115,10 @@ function beschriftung(spuren) {
 
 async function melden() {
   const spuren = spurenLesen()
-  const ohneFolge = !spuren && keineFolgeSichtbar()
-  if (!spuren && !ohneFolge) return zeigeErgebnis('Keine Tonspuren gefunden — läuft eine Folge?', false)
+  // Ohne Tonspuren ist der Befund „nicht abrufbar" — der häufigste Fall der
+  // Prüfliste. Nur ohne erkennbare Reihe geht gar nichts.
+  const ohneFolge = !spuren
+  if (!reihenNummer()) return zeigeErgebnis('Kein Titel erkannt — Titelseite öffnen', false)
 
   const { deutsch, echte } = spuren ? urteil(spuren) : { deutsch: false, echte: [] }
   const { token } = await chrome.storage.sync.get('token')
