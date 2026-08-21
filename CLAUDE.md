@@ -343,6 +343,19 @@ bleiben englisch (`releaseType`, `firstEpisodeDate`), damit sie zu den Fremd-API
 - `shared/` wird von Pipeline, Web-App **und** Worker importiert. Nichts hier hineinschreiben,
   was Node-APIs oder DOM braucht.
 - Statusberechnung (`airing`/`abgeschlossen`/`tba`/`unbekannt`) steht in `shared/logic.ts` und
+- **Diese Statusberechnung nie selbst nachbauen — auch nicht für ein Hilfsskript.**
+  `schedule.lastEpisodeDate` ist bei den meisten Releases **nicht gesetzt**; es entsteht zur
+  Laufzeit aus Startdatum, Folgenzahl und Sendepausen. Wer das Feld direkt liest und sein
+  Fehlen als „läuft noch" auslegt, erklärt jede abgeschlossene Reihe für laufend. Real am
+  21.08.2026: Eine Arbeitsliste meldete „Dorohedoro Staffel 2 — läuft, 11/11" für eine
+  Staffel, die seit dem 27.05. durch ist. Daniel hat es gemeldet, nicht der Code.
+
+  Dazu gehört ein zweiter Griff: **Ein Anbieter-Verweis gehört zum Release seiner eigenen
+  Plattform.** Nimmt man je Titel einfach das Release mit dem spätesten Termin, macht ein
+  künftiger Disc-Termin aus „auf Netflix längst fertig" ein „läuft noch, 0/51" — die Disc hat
+  mit Netflix nichts zu tun. Nach der Berichtigung beider Fehler blieben von elf angeblich
+  laufenden Netflix-Reihen **null** übrig.
+
   wird nie gespeichert, sondern immer gegen das heutige Datum gerechnet.
 - Zeitzonen laufen ausschließlich über `shared/time.ts`. Alle Datumsangaben im Datensatz sind
   Ortszeit Europe/Berlin; die Umrechnung nach UTC für ICS und Google Calendar passiert dort

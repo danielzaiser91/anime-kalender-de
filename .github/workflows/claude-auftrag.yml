@@ -56,6 +56,14 @@ jobs:
           ref: main
           fetch-depth: 50
 
+      # Meldet der Statusanzeige, dass hier etwas läuft. Ohne LAUF_TOKEN
+      # passiert nichts — eine fehlende Meldung darf keinen Lauf rot machen.
+      - name: Lauf anmelden
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+          LAUF_AUFTRAG: ${{ inputs.zweig }}
+        run: bash tools/lauf-melden.sh laeuft
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -66,6 +74,13 @@ jobs:
       - uses: anthropics/claude-code-action@v1
         env:
           GH_TOKEN: ${{ github.token }}
+          # Ohne diese Zeilen sieht der Lauf die Schlüssel nicht — sie liegen
+          # zwar als Repo-Secret bereit, erreichen den Prozess aber nur, wenn
+          # sie hier stehen. Am 21.08.2026 hat ein Auftrag deshalb die ganze
+          # Anbindung gebaut und keinen einzigen Abruf zustande gebracht.
+          STREAMING_API_KEY: ${{ secrets.STREAMING_API_KEY }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           allowed_bots: 'github-actions[bot]'
@@ -124,3 +139,11 @@ jobs:
             - Kommentare erklären das **Warum**, nicht das Was — so wie die
               vorhandenen im Projekt. Ein Kommentar, der die Zeile darunter noch
               einmal auf Deutsch sagt, wird nicht geschrieben.
+
+      # Läuft auch nach einem Fehler: Der rote Lauf ist der, den man sehen will.
+      - name: Lauf abmelden
+        if: always()
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+          LAUF_AUFTRAG: ${{ inputs.zweig }}
+        run: bash tools/lauf-melden.sh "${{ job.status == 'success' && 'ok' || job.status == 'cancelled' && 'abgebrochen' || 'fehler' }}"

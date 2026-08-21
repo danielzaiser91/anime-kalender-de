@@ -92,6 +92,43 @@ for (const pfad of [...geschrieben].sort()) {
   }
 }
 
+const ZEILENENDE = new RegExp(String.raw`?
+`)
+const JOBKOPF = new RegExp(String.raw`^ {2}[A-Za-z0-9_-]+:s*$`)
+const AUSCHECKEN = new RegExp('uses: actions/checkout@')
+/**
+ * Statusmeldungen brauchen das Skript, das sie aufruft — und das liegt erst
+ * nach dem Auscheckvorgang da.
+ *
+ * Real am 21.08.2026: Die Abmeldung landete in `deploy.yml` im Job "deploy",
+ * der ohne Auscheckvorgang auskommt. Der Schritt läuft mit `if: always()`,
+ * wäre also an `bash: tools/lauf-melden.sh: No such file` gescheitert — und
+ * hätte damit jeden erfolgreichen Deploy rot gemacht.
+ */
+for (const datei of readdirSync(DIR).filter((f) => f.endsWith('.yml') || f.endsWith('.yaml'))) {
+  const zeilen = readFileSync(resolve(DIR, datei), 'utf8').split(ZEILENENDE)
+
+  const jobs = []
+  let inJobs = false
+  zeilen.forEach((z, i) => {
+    if (z.trim() === 'jobs:') { inJobs = true; return }
+    if (inJobs && JOBKOPF.test(z)) jobs.push({ name: z.trim().replace(':', ''), i })
+  })
+
+  for (let n = 0; n < jobs.length; n++) {
+    const bis = n + 1 < jobs.length ? jobs[n + 1].i : zeilen.length
+    const block = zeilen.slice(jobs[n].i, bis).join('\n')
+    if (!block.includes('lauf-melden.sh')) continue
+    if (!AUSCHECKEN.test(block)) {
+      console.error(
+        `✗ ${datei} › Job "${jobs[n].name}" meldet den Laufstatus, hat aber keinen ` +
+          'Auscheckvorgang — das Skript liegt dort nicht und der Schritt scheitert',
+      )
+      fehler++
+    }
+  }
+}
+
 if (fehler) {
   console.error(`\n${fehler} Problem(e) in den Workflow-Dateien.`)
   process.exit(1)

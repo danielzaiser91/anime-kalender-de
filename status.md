@@ -44,7 +44,8 @@ herausgeholt, wenn der User es sagt.
 
 | Idee | SP | Notiz |
 |---|---|---|
-| **Status-Widget ausbauen** | 3 | Liegt fertig und benutzbar unter `C:codeai__assets	oolslauf-statusindex.html`, Verknüpfung auf dem Schreibtisch, im Werkzeugkasten dokumentiert. **Pausiert am 20.08.2026 auf Daniels Ansage.** Offen wären: mehrere Repos gleichzeitig (das `REPOS`-Array kann es schon, es ist nur eines eingetragen), eine Fassung fürs Handy (die Datei braucht dafür nur einen erreichbaren Ort), und ein Fenster, das oben bleibt. Grenze, die bleibt: **nur öffentliche Repos** — ohne Anmeldung liefert die GitHub-API nichts anderes aus, und ein Token in einer Datei auf dem Schreibtisch wäre der falsche Handel |
+| **Angabe je Folgenbereich statt ja/nein** | 3 | Heute kennt `data/dub-confirmed.yaml` nur „hat deutsche Synchro" oder „hat keine" — je Verweis, für die ganze Reihe. Bei Black Clover auf Netflix stimmt beides nicht: Folgen 1 bis 155 sind deutsch, 156 bis 171 nicht (Daniel, 21.08.2026). Derzeit steht es als `dub: true` mit einer Notiz, die niemand auswerten kann. **Die Bezugsgröße muss die werkinterne Folgennummer sein, nicht die Staffel des Anbieters** — Daniel am 21.08.2026: „jeder anbieter kann die folgen beliebig in staffeln sortieren, das macht crunchy manchmal ganz anders im vergleich zu prime oder netflix". Netflix teilt Black Clover in vier Staffeln, Crunchyroll zählt bis 170 durch. Eine Angabe „ab Staffel 4 nicht" wäre also anbieterabhängig und damit wertlos |
+| **Statusanzeige fürs Handy** | 2 | Die Anzeige liegt unter `C:codeai__assets	oolslauf-status` und startet seit dem 21.08.2026 beim Anmelden von selbst (`Laufstatus.vbs` im Autostart). Für das Handy müsste die Datei nur irgendwo erreichbar liegen — sie fragt eine einzige Adresse ab und braucht keinen Schlüssel. **Zurückgestellt am 21.08.2026:** „die idee mit handy brauchen wir erstmal nicht". Der zweite Rest, ein Fenster das immer oben bleibt, ist mit dem Autostart hinfällig — Daniel schiebt es sich einmal am Monitor zurecht |
 | Synchronstudios als Quelle | 8 | **Recherche am 11.08.2026 gemacht, Ergebnis ernüchternd.** Oxygen Sound Studios führt unter [o2studios.com/de/projekte](https://o2studios.com/de/projekte/) eine reine Referenzliste: „Chainsaw Man – Der Film Reze Arc — Deutsche Synchronisation", ohne jedes Datum und ohne Status. Violetmedia ist von hier aus nicht erreichbar (TLS-Handshake bricht ab, wie schon bei aniverse.de). Ein Studio nennt also, **dass** es eine Fassung macht — nicht **wann** sie kommt. Das ist nachvollziehbar: Der Termin gehört dem Lizenznehmer, nicht dem Studio. **Rest-Nutzen:** Die Projektlisten wären ein Beleg dafür, dass eine deutsche Fassung überhaupt existiert oder entsteht — für die `dubConfidence`, nicht für den Kalender. Als Terminquelle zurückgestellt; eine Anfrage lohnt nur, wenn ein Studio überhaupt Termine kennt und nennen dürfte |
 
 ### Zu besprechen
@@ -260,6 +261,25 @@ verschiedene, und genau ihre Vermischung war der Fehler bei Crunchyroll.
   Preis: Zugang nur mit **Partnervertrag** und Partner-Token, und jede Einbindung muss „branded
   links to the JustWatch website" zeigen — Ankertext „JustWatch" oder das Logo mit alt-Text, und
   der Link muss in die länderspezifische Unterseite des jeweiligen Titels führen.
+
+  **Nachtrag 21.08.2026 — auch für die Sprachfrage gemessen und verworfen.** Daniel bat um
+  eine Quelle, die Handarbeit ganz erspart. JustWatch wäre der naheliegende Kandidat: Die
+  öffentliche GraphQL-Schnittstelle unter `apis.justwatch.com/graphql` braucht keinen
+  Schlüssel, und beide robots.txt (`www.` und `apis.`) enthalten `Disallow:` ohne Wert,
+  erlauben also alles. Sie kennt unsere Titel sogar folgengenau — für „Thunder 3" liefert sie
+  zwölf Episoden mit Titeln.
+
+  **Aber `audioLanguages` ist leer.** Gemessen an zwei Titeln, Serien- wie Episodenebene:
+  „Thunder 3" (2026) und „Beastars" (2019) liefern für jedes Netflix-Angebot
+  `audioLanguages: []` und `subtitleLanguages: []`. Damit ist JustWatch genau dort blind, wo
+  wir es bräuchten. Das deckt sich mit einem fremden Erfahrungsbericht, der dieselbe Aufgabe
+  löst ([ma.ttias.be](https://ma.ttias.be/finding-dutch-audio-across-streaming-services/)):
+  Der Autor nutzt JustWatch als Grundgerüst und die Streaming Availability API, um genau
+  diese Sprachlücken zu füllen.
+
+  Die beworbene Produkt-API von JustWatch ist davon unberührt — sie läuft weiter über einen
+  Partnervertrag (`data-partner@justwatch.com`) und ist damit aus denselben Gründen
+  ausgeschlossen wie am 11.08.2026 festgestellt.
 
 - **JustWatchs privater GraphQL-Endpunkt** (`https://apis.justwatch.com/graphql`) — verworfen
   (15.08.2026). Anlass war eine kursierende Anleitung, die ihn mit Puppeteer und

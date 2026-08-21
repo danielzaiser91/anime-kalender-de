@@ -6,6 +6,7 @@ import { type AniListMedia, type KatalogEintrag } from './lib/anilist.ts'
 import {
   beobachtungenZusammenfuehren,
   crunchyrollSeriesId,
+  durchlaufendeZaehlung,
   normalizeTitle,
   type CrunchyrollData,
   type CrunchyrollEntry,
@@ -26,6 +27,7 @@ import {
   type AdnBlock,
   type AdnData,
 } from './lib/adn.ts'
+import { beurteileAdnVerweis, ladeAdnArchiv } from './lib/adn-sprachen.ts'
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { clearDir, log, readJson, slugify, warn, writeJson, writeText } from './lib/util.ts'
 import { SYNOPSIS_GROUPS } from '../shared/types.ts'
@@ -1109,6 +1111,20 @@ function main(): void {
     if (entry.seriesId) crBySeriesId.set(entry.seriesId, entry)
   }
   /**
+   * Wie weit der Kalender inhaltlich reicht — der letzte Tag, für den er
+   * überhaupt eine deutsche Folge führt.
+   *
+   * Nicht zu verwechseln mit `crunchyroll.window.to`: Das ist der abgesuchte
+   * Zeitraum, also wie weit **wir gefragt** haben. Am 21.08.2026 ging der Abruf
+   * bis zum 30.08., die letzte deutsche Kachel im gesamten Kalender stand aber
+   * auf dem 19.08. — Crunchyroll kündigt Synchronfolgen praktisch nicht vor.
+   * Nur gegen diese Marke gemessen sagt ein fehlender Folgetermin etwas aus.
+   */
+  const crKalenderBis = Object.values(crunchyroll.german)
+    .flatMap((e) => e.dates ?? [])
+    .sort()
+    .at(-1)
+  /**
    * AniList-Titel über ihre Crunchyroll-Serien-ID auffindbar machen.
    *
    * Bewusst eine Liste je Serie, kein einzelner Titel: Crunchyroll führt alle
@@ -1264,6 +1280,7 @@ function main(): void {
     // Angaben aus dem Crunchyroll-Kalender einsetzen. Sie kommen direkt vom
     // Anbieter und schlagen deshalb jede abgeleitete Angabe.
     const sources = [...(entry.sources ?? [])]
+    let durchzaehlungHinweis: string | undefined
     if (entry.platform === 'crunchyroll') {
       const slot = findCrunchyroll(platformUrl, entry.titleDe ?? name)
       if (slot) {
@@ -1287,6 +1304,30 @@ function main(): void {
         // Kachel zeigt.
         const seen = beobachtungenZusammenfuehren(observedEpisodes(slot), entry.schedule.observed)
         if (seen) schedule.observed = seen
+        /**
+         * Dieselbe durchlaufende Zählung wie unten bei den automatisch
+         * ergänzten Simuldubs — und aus demselben Grund angefasst: Ein Start,
+         * der ohnehin nur abgeleitet ist (`estimated`), darf nicht auf einer
+         * Folge 1 stehen, die es in diesem Release gar nicht gibt.
+         *
+         * Angerührt wird nur, was der Kalender selbst hergeleitet hat. Eine von
+         * Hand gesetzte Startnummer bleibt, wie überall in diesem Projekt.
+         */
+        if (entry.schedule.estimated && !entry.schedule.firstEpisodeNumber) {
+          const durchgezaehlt = durchlaufendeZaehlung(
+            seen,
+            schedule.episodeCountAssumed ? undefined : schedule.episodeCount,
+            crKalenderBis,
+          )
+          if (durchgezaehlt) {
+            schedule.firstEpisodeNumber = durchgezaehlt.firstEpisodeNumber
+            schedule.firstEpisodeDate = durchgezaehlt.firstEpisodeDate
+            schedule.episodeCount = durchgezaehlt.episodeCount
+            delete schedule.episodeCountAssumed
+            delete schedule.episodeCountSource
+            durchzaehlungHinweis = durchgezaehlt.note
+          }
+        }
         sources.push(CR_CALENDAR_URL)
       } else if (entry.schedule.estimated && crunchyroll.window && overlapsWindow(schedule, crunchyroll.window)) {
         // Die Serie müsste im abgesuchten Zeitraum laufen, und der Kalender
@@ -1316,10 +1357,13 @@ function main(): void {
       fsk,
       publisher: entry.publisher,
       edition: entry.edition,
-      note: entry.note,
+      note: entry.note ?? durchzaehlungHinweis,
       disputedDates: entry.disputedDates,
       schedule,
-      year: releaseYear,
+      // Aus dem Termin, der am Ende dasteht — nicht aus dem kuratierten. Der
+      // Kalender kann ihn verschoben haben, und über den Jahresfilter der
+      // Oberfläche entscheidet der ausgelieferte Termin.
+      year: Number(schedule.firstEpisodeDate.slice(0, 4)),
       sources: [...new Set(sources)],
     })
   }
@@ -1413,8 +1457,8 @@ function main(): void {
 
     const derived = derivedStart(slot)
     if (!derived) continue
-    const firstEpisodeDate = derived.date
-    const releaseYear = Number(firstEpisodeDate.slice(0, 4))
+    let firstEpisodeDate = derived.date
+    let releaseYear = Number(firstEpisodeDate.slice(0, 4))
 
     let episodeCount = title?.episodes
     let episodeCountAssumed = false
@@ -1434,6 +1478,33 @@ function main(): void {
       if (ausAnisearch && episodeCount === ausAnisearch.count) episodeCountSource = 'anisearch'
     }
 
+    /**
+     * Crunchyroll zählt die Reihe durch, AniList je Staffel.
+     *
+     * Steht die kleinste gesehene Folgennummer über dem, was die Staffel
+     * hergibt, gehört sie zu keiner Zählung ab Folge 1 — dann ist der oben
+     * zurückgerechnete Start eine Erfindung. Als belegte Staffellänge zählt
+     * dabei nur eine, die nicht selbst geraten ist; die Untergrenze aus den
+     * Beobachtungen wäre ein Zirkelschluss.
+     */
+    const beobachtet = observedEpisodes(slot)
+    let note: string | undefined
+    let firstEpisodeNumber: number | undefined
+    const durchgezaehlt = durchlaufendeZaehlung(
+      beobachtet,
+      episodeCountAssumed ? undefined : episodeCount,
+      crKalenderBis,
+    )
+    if (durchgezaehlt) {
+      firstEpisodeNumber = durchgezaehlt.firstEpisodeNumber
+      firstEpisodeDate = durchgezaehlt.firstEpisodeDate
+      releaseYear = Number(firstEpisodeDate.slice(0, 4))
+      episodeCount = durchgezaehlt.episodeCount
+      episodeCountAssumed = false
+      episodeCountSource = undefined
+      note = durchgezaehlt.note
+    }
+
     releases.push({
       slug,
       titleId: title?.id ?? -1,
@@ -1442,8 +1513,10 @@ function main(): void {
       platformUrl: slot.seriesUrl,
       releaseType: 'weekly',
       fsk: title?.fsk,
+      note,
       schedule: {
         firstEpisodeDate,
+        firstEpisodeNumber,
         time: slot.time,
         episodeCount,
         episodeCountAssumed,
@@ -1456,7 +1529,7 @@ function main(): void {
         // steht trotzdem hier, damit ohne nummerierte Kachel kein leeres Feld
         // im Datensatz landet — und damit die Regel an beiden Stellen dieselbe
         // ist, falls je ein kuratierter Eintrag hierher durchfällt.
-        observed: beobachtungenZusammenfuehren(observedEpisodes(slot), undefined),
+        observed: beobachtungenZusammenfuehren(beobachtet, undefined),
       },
       year: releaseYear,
       sources: [CR_CALENDAR_URL],
@@ -2019,6 +2092,52 @@ function main(): void {
   }
 
   /**
+   * Was ADN uns längst gesagt hat — nachgelesen im eigenen Archiv.
+   *
+   * ADN nennt je Folge die Sprachen (`vde` = deutsche Synchro, `vostde` =
+   * Untertitel), und die Rohantworten liegen seit dem 11.08.2026 unter
+   * `data/adn-raw/`. Ein `dub: true` entstand daraus bisher aber nur auf einem
+   * Umweg: über einen **Release**. Wo kein Termin herauskam — Katalogtitel,
+   * Filme, OVAs —, blieb der Verweis bei „🇩🇪 ?", obwohl die Auskunft im Haus lag
+   * (am 21.08.2026 bei 63 von 161 ADN-Verweisen).
+   *
+   * Wie eng ausgewertet wird und warum das keine menschliche Prüfung ersetzt,
+   * steht in `lib/adn-sprachen.ts`. Hier zählt nur die Reihenfolge: Der Block
+   * läuft **nach** `dub-confirmed.yaml` und rührt nur an, was noch `undefined`
+   * ist. Ein Beispiel dafür, warum das nicht anders geht, ist KILL BLUE — der
+   * Verweis trägt `dub: true` aus einer Anime2You-Meldung über eine Synchro ab
+   * dem 24.08.2026, während das Archiv vom 21.08. zu Recht zwölf Folgen ohne
+   * `vde` führt. Beide Angaben stimmen; die jüngere gewinnt.
+   */
+  const adnArchiv = ladeAdnArchiv()
+  if (adnArchiv.serien.size) {
+    let adnJa = 0
+    let adnNein = 0
+    const adnOffen: string[] = []
+    for (const title of titles.values()) {
+      for (const stream of title.streams) {
+        if (stream.platform !== 'adn' || stream.dub !== undefined) continue
+        const befund = beurteileAdnVerweis(stream.url, adnArchiv)
+        if (befund.dub === undefined) {
+          adnOffen.push(`${title.id}: ${befund.grund}`)
+          continue
+        }
+        stream.dub = befund.dub
+        if (befund.dub) adnJa++
+        else adnNein++
+      }
+    }
+    log(
+      `${adnJa + adnNein} ADN-Verweise aus dem Archiv belegt (${adnJa}× deutsche Synchro, ${adnNein}× nur Untertitel; ` +
+        `${adnArchiv.folgenMitVde} von ${adnArchiv.folgenGesamt} Folgen aus ${adnArchiv.serien.size} Serien tragen vde)`,
+    )
+    // Die offenen Fälle stehen im Protokoll, damit sie nicht still liegenbleiben:
+    // Das Archiv wächst mit jedem Montagslauf, und was heute fehlt, kann nächste
+    // Woche beantwortet sein.
+    if (adnOffen.length) log(`${adnOffen.length} ADN-Verweise bleiben offen — ${adnOffen.join('; ')}`)
+  }
+
+  /**
    * Anbieter ohne deutsche Synchro fliegen ganz raus.
    *
    * Bis zum 15.08.2026 blieben sie stehen und trugen ein rotes „🇩🇪 ✕" — die
@@ -2393,11 +2512,31 @@ function main(): void {
   // Erst leeren: Genres kommen und gehen, sonst blieben alte Feeds als Leichen
   // im Repository liegen und würden weiter ausgeliefert.
   clearDir(`${OUT}/feeds`)
+  /**
+   * Wie viel Vergangenheit ein Abo mitbringt.
+   *
+   * Gemessen am 20.08.2026: `all.ics` führte 742 Termine, davon **641 in der
+   * Vergangenheit**, zurück bis zum 12.01.2015. Wer das Abo einträgt, bekam
+   * zehn Jahre alte Einträge in seinen Kalender.
+   *
+   * Eine Woche, nicht ein Jahr — Daniel am 21.08.2026: „wenn jemand heute ein
+   * abo abschließt ist er nur an zukünftigen interessiert, also max 1 woche
+   * zurück". Die Woche fängt den einen Fall ab, für den Vergangenes im Abo
+   * zählt: eine Folge, die man vor ein paar Tagen verpasst hat.
+   *
+   * Die Seite selbst ist davon **nicht** betroffen — `events.json` bleibt
+   * vollständig, die Vergangenheit ist dort weiter durchblätterbar. Es geht
+   * allein um das, was in fremde Kalender wandert.
+   */
+  const ABO_RUECKBLICK_TAGE = 7
+  const aboGrenze = addDays(todayIso(), -ABO_RUECKBLICK_TAGE)
+  const aboEvents = events.filter((e) => e.date >= aboGrenze)
+
   const siteUrl = process.env.SITE_URL ?? 'https://anime-kalender.de/'
-  writeText(`${OUT}/feeds/all.ics`, buildIcs(events, { siteUrl, calendarName: 'Anime-Kalender DE' }))
+  writeText(`${OUT}/feeds/all.ics`, buildIcs(aboEvents, { siteUrl, calendarName: 'Anime-Kalender DE' }))
 
   for (const platform of platforms) {
-    const subset = events.filter((e) => e.platform === platform)
+    const subset = aboEvents.filter((e) => e.platform === platform)
     if (!subset.length) continue
     writeText(
       `${OUT}/feeds/platform-${platform}.ics`,
@@ -2407,7 +2546,7 @@ function main(): void {
 
   const titleById = new Map(allTitles.map((t) => [t.id, t]))
   for (const genre of genres) {
-    const subset = events.filter((e) => titleById.get(e.titleId)?.genres.includes(genre))
+    const subset = aboEvents.filter((e) => titleById.get(e.titleId)?.genres.includes(genre))
     if (subset.length < 3) continue
     writeText(
       `${OUT}/feeds/genre-${slugify(genre)}.ics`,
@@ -2418,6 +2557,7 @@ function main(): void {
   log(`Titel: ${meta.titleCount}`)
   log(`Releases: ${meta.releaseCount}`)
   log(`Termine: ${meta.eventCount}`)
+  log(`Abo-Feeds: ${aboEvents.length} Termine (Rückblick ${ABO_RUECKBLICK_TAGE} Tage, ab ${aboGrenze})`)
   log(`Genres: ${genres.length}, Keywords: ${keywords.length}`)
 }
 

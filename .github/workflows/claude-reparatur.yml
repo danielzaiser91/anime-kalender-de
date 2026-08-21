@@ -46,6 +46,13 @@ jobs:
           # daran ablesen, was sich seit dem letzten grünen Lauf geändert hat.
           fetch-depth: 50
 
+      # Meldet der Statusanzeige, dass hier etwas läuft. Ohne LAUF_TOKEN
+      # passiert nichts — eine fehlende Meldung darf keinen Lauf rot machen.
+      - name: Lauf anmelden
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash tools/lauf-melden.sh laeuft
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -90,3 +97,10 @@ jobs:
               stellen, um einen grünen Lauf zu bekommen, ist ausdrücklich falsch —
               repariere die Ursache und lass die Zusicherung stehen.
             - Kommentare, Commit-Nachricht und Pull-Request-Text auf Deutsch.
+
+      # Läuft auch nach einem Fehler: Der rote Lauf ist der, den man sehen will.
+      - name: Lauf abmelden
+        if: always()
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash tools/lauf-melden.sh "${{ job.status == 'success' && 'ok' || job.status == 'cancelled' && 'abgebrochen' || 'fehler' }}"

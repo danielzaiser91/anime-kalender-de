@@ -29,6 +29,13 @@ import {
   type AdnEpisode,
   type AdnShow,
 } from './lib/adn.ts'
+import {
+  beurteileAdnVerweis,
+  leeresArchiv,
+  nimmSerieAuf,
+  zerlegeAdnAdresse,
+  type AdnRohVideo,
+} from './lib/adn-sprachen.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { beurteile } from './lib/crunchyroll-dub.ts'
 import {
@@ -40,7 +47,11 @@ import {
   uebernehmbar,
   type MotnEpisode,
 } from './lib/motn.ts'
-import { beobachtungenZusammenfuehren } from './lib/crunchyroll.ts'
+import {
+  beobachtungenZusammenfuehren,
+  durchlaufendeZaehlung,
+  DURCHZAEHLUNG_UNKLAR,
+} from './lib/crunchyroll.ts'
 import type { Release, Title } from '../shared/types.ts'
 
 let fehler = 0
@@ -362,6 +373,145 @@ console.log('\nGegenprobe des erzeugten Datensatzes:')
   )
 }
 
+/**
+ * Crunchyroll zählt die Reihe durch, AniList zählt je Staffel.
+ *
+ * Der Fall vom 21.08.2026: „Wistoria: Wand and Sword Staffel 2" stand mit zwölf
+ * Terminen vom 08.02. bis 26.04.2026 im Datensatz. Belegt war das Gegenteil —
+ * Staffel 2 lief vom 03.05. bis 19.07.2026 als Folgen 13 bis 24. Alle zwölf
+ * ausgelieferten Termine waren erfunden, und kein einziger belegter stand drin.
+ *
+ * Nachgestellt werden beide Hälften: die Ableitung, die den Fehler erzeugte,
+ * und die Gegenprobe, die ihn künftig abfängt.
+ */
+console.log('\nDurchlaufende Folgenzählung:')
+{
+  const wistoria: Record<number, string> = {
+    17: '2026-05-31',
+    18: '2026-06-07',
+    19: '2026-06-14',
+    20: '2026-06-21',
+    21: '2026-06-28',
+    22: '2026-07-05',
+    23: '2026-07-12',
+    24: '2026-07-19',
+  }
+  /**
+   * Wie weit der Kalender am 21.08.2026 inhaltlich reichte: bis zum 19.08. Der
+   * abgesuchte Zeitraum ging bis zum 30.08., aber Crunchyroll kündigt
+   * Synchronfolgen praktisch nicht vor — hinter dem 19.08. stand im ganzen
+   * Kalender keine einzige deutsche Kachel mehr.
+   *
+   * Für Wistoria reicht das: Folge 25 hätte am 26.07. stehen müssen, einen
+   * Monat vor dieser Marke. Sie steht nicht da, also endete die Staffel bei 24.
+   */
+  const kalenderBis = '2026-08-19'
+
+  const z = durchlaufendeZaehlung(wistoria, 12, kalenderBis)
+  pruefe('Wistoria: Staffel 2 beginnt bei Folge 13', z?.firstEpisodeNumber === 13, z)
+  pruefe('Wistoria: Start am 03.05.2026', z?.firstEpisodeDate === '2026-05-03', z?.firstEpisodeDate)
+  pruefe('Wistoria: zwölf Folgen bleiben zwölf', z?.episodeCount === 12, z?.episodeCount)
+
+  // Eine Staffel, die wirklich bei eins beginnt und nur aus dem Abruffenster
+  // gerutscht ist, wird nicht angefasst — die Rückrechnung ist dort richtig.
+  pruefe(
+    'Folge 5 in einem Zwölfteiler ist kein Fall für die Korrektur',
+    durchlaufendeZaehlung({ 5: '2026-05-26', 6: '2026-06-02' }, 12, kalenderBis) === undefined,
+  )
+
+  /**
+   * „The 100 Girlfriends" Staffel 3, der zweite große Fall vom 21.08.2026: 24
+   * zurückgerechnete Termine ab Februar. Die Reihe läuft aber noch — Folge 28
+   * lief am 16.08., Folge 29 stünde am 23.08. und damit hinter allem, was der
+   * Kalender zeigt. Ihr Ausbleiben belegt nichts.
+   *
+   * Damit ist die Startnummer nicht zu bestimmen: Bei zwölf Folgen je Staffel
+   * käme jede Zahl von 17 bis 25 in Frage. Geraten wird keine — geführt wird,
+   * was gesehen wurde. (Anker auf Folge 28 hätte Folge 17 ergeben, also
+   * dieselbe Erfindung wie zuvor, nur um acht Wochen versetzt.)
+   */
+  const laeuftNoch = durchlaufendeZaehlung(
+    { 25: '2026-07-26', 26: '2026-08-02', 27: '2026-08-09', 28: '2026-08-16' },
+    12,
+    kalenderBis,
+  )
+  pruefe(
+    'noch laufende Reihe: nur das Belegte, keine Rückrechnung',
+    laeuftNoch?.firstEpisodeNumber === 25 &&
+      laeuftNoch?.firstEpisodeDate === '2026-07-26' &&
+      laeuftNoch?.episodeCount === 4 &&
+      laeuftNoch?.note === DURCHZAEHLUNG_UNKLAR,
+    laeuftNoch,
+  )
+
+  // Und ohne belegte Staffellänge erst recht nicht — dann fehlt jeder Anker.
+  const ohneFolgenzahl = durchlaufendeZaehlung({ 25: '2026-07-26' }, undefined, kalenderBis)
+  pruefe(
+    'ohne belegte Staffellänge bleibt es beim Belegten',
+    ohneFolgenzahl?.firstEpisodeNumber === 25 && ohneFolgenzahl?.episodeCount === 1,
+    ohneFolgenzahl,
+  )
+
+  // Und der Sendeplan muss am Ende genau das ergeben: Folge 13 am 03.05.,
+  // Folge 17 am 31.05. als belegter Stützpunkt, Folge 24 am 19.07.
+  const release: Release = {
+    slug: 'cr-GW4HM7WK9',
+    titleId: 182300,
+    name: 'Wistoria: Wand and Sword Staffel 2',
+    platform: 'crunchyroll',
+    releaseType: 'weekly',
+    schedule: {
+      firstEpisodeDate: z?.firstEpisodeDate ?? '',
+      firstEpisodeNumber: z?.firstEpisodeNumber,
+      episodeCount: z?.episodeCount,
+      observed: wistoria,
+    },
+    year: 2026,
+    sources: ['https://www.crunchyroll.com/de/simulcastcalendar'],
+  }
+  const termine = expandEvents(release)
+  pruefe('zwölf Termine, Folge 13 bis 24', termine.length === 12 && termine.at(-1)?.episode === 24, termine.length)
+  pruefe('Folge 13 am 03.05.2026', termine[0]?.date === '2026-05-03', termine[0]?.date)
+  pruefe(
+    'Folge 17 am 31.05.2026 — belegt, nicht gerechnet',
+    termine.find((e) => e.episode === 17)?.date === '2026-05-31',
+    termine.find((e) => e.episode === 17)?.date,
+  )
+  pruefe('Folge 24 am 19.07.2026', termine.at(-1)?.date === '2026-07-19', termine.at(-1)?.date)
+
+  /**
+   * Die Gegenprobe am erzeugten Datensatz: Der Stand vom 21.08.2026 muss
+   * auffallen, ohne dass jemand von Crunchyrolls Zählweise weiß. „Der letzte
+   * Termin liegt vor der frühesten belegten Beobachtung" reicht dafür.
+   */
+  const alt: Release = {
+    ...release,
+    schedule: {
+      firstEpisodeDate: '2026-02-08',
+      episodeCount: 12,
+      observed: wistoria,
+    },
+  }
+  const gemeldet = pruefeErgebnis(
+    [alt],
+    expandEvents(alt),
+    new Map<number, Title>([[182300, titel(182300, 'Wistoria: Wand and Sword Season 2', 12, 2026, 'SPRING')]]),
+    '2026-08-21',
+  )
+  pruefe(
+    'Termine vor der frühesten Beobachtung werden gemeldet',
+    gemeldet.fehler.some((f) => f.includes('vor der frühesten belegten')),
+    gemeldet.fehler,
+  )
+  const repariert = pruefeErgebnis(
+    [release],
+    expandEvents(release),
+    new Map<number, Title>([[182300, titel(182300, 'Wistoria: Wand and Sword Season 2', 12, 2026, 'SPRING')]]),
+    '2026-08-21',
+  )
+  pruefe('der reparierte Sendeplan geht durch', repariert.fehler.length === 0, repariert.fehler)
+}
+
 console.log('\nCrunchyroll: fremde Staffelfehler nicht nachbauen:')
 {
   const t = (id: number, episodes: number, jahr: number): Title => titel(id, `T${id}`, episodes, jahr, 'SUMMER')
@@ -518,6 +668,71 @@ console.log('\nCrunchyroll: fremde Staffelfehler nicht nachbauen:')
   seit['4'] = '2026-08-20'
   const spaeter = Object.keys(seit).filter((id) => seit[id] >= grenze && seit[id] !== angelegtAm)
   pruefe('Synchro-Historie: ein späterer Zugang wird gemeldet', spaeter.length === 1 && spaeter[0] === '4', spaeter)
+}
+
+/**
+ * Das ADN-Archiv beantwortet nur, wonach der Verweis fragt.
+ *
+ * Die Auskunft ist verlockend eindeutig — `vde` steht je Folge in der
+ * Rohantwort —, und genau deshalb ist die Versuchung groß, sie weiter zu
+ * spannen, als sie trägt. Eine ADN-Serienkennung ist ein Franchise, keine
+ * Staffel: Unter 1375 liegen beide Staffeln von Dorohedoro, elf Folgen der
+ * zweiten mit deutscher Fassung und dreizehn der ersten ohne. Wer daraus für
+ * einen Verweis auf die nackte Serienseite irgendetwas ableitet, rät.
+ *
+ * Der zweite Fall steht hier, weil er beim Bau tatsächlich zugeschlagen hat:
+ * `animationdigitalnetwork.de/video/50-nuances-de-gras` ist „Plus-Sized Elf"
+ * unter seinem französischen Namen, und die 50 davor ist keine Serienkennung.
+ * Unter der alten Adresse steht dort ein Name, unter der neuen eine Zahl.
+ */
+console.log('\nADN-Sprachen aus dem Archiv:')
+{
+  const folgenRoh = (anzahl: number, season: string, abId: number, vde: boolean): AdnRohVideo[] =>
+    Array.from({ length: anzahl }, (_, i) => ({
+      id: abId + i,
+      season,
+      languages: vde ? ['vostde', 'vde'] : ['vostde'],
+      show: { url: `https://animationdigitalnetwork.com/de/video/1375-dorohedoro` },
+    }))
+
+  const archiv = leeresArchiv()
+  nimmSerieAuf(archiv, '1375', [...folgenRoh(13, '1', 100, false), ...folgenRoh(11, '2', 200, true)])
+  nimmSerieAuf(archiv, '1069', folgenRoh(70, '1', 900, false))
+  const urteil = (url: string) => beurteileAdnVerweis(url, archiv).dub
+
+  pruefe(
+    'eine Folge mit vde belegt die deutsche Fassung',
+    urteil('https://animationdigitalnetwork.com/de/video/1375-dorohedoro/205-folge-6') === true,
+  )
+  pruefe(
+    'der Staffelverweis wertet nur seine eigene Staffel',
+    urteil('https://animationdigitalnetwork.com/de/video/1375-dorohedoro?s=2') === true,
+  )
+  pruefe(
+    'die gemischte Serie ohne Staffelangabe bleibt offen',
+    urteil('https://animationdigitalnetwork.com/de/video/1375-dorohedoro') === undefined,
+  )
+  pruefe(
+    'eine Folge ohne vde spricht nur für ihre eigene Staffel',
+    urteil('https://animationdigitalnetwork.com/de/video/1375-dorohedoro/105-ova-13') === false,
+  )
+  pruefe(
+    'keine einzige Folge mit vde ist ein belegtes Nein',
+    urteil('https://animationdigitalnetwork.com/de/video/1069-cardcaptor-sakura') === false,
+  )
+  pruefe(
+    'eine Serie ohne Archivdatei heißt unbekannt, nicht nein',
+    urteil('https://animationdigitalnetwork.com/de/video/4711-kiznaiver') === undefined,
+  )
+  pruefe(
+    'die alte Adresse trägt keine Serienkennung',
+    zerlegeAdnAdresse('https://animationdigitalnetwork.de/video/50-nuances-de-gras').showId === undefined,
+    zerlegeAdnAdresse('https://animationdigitalnetwork.de/video/50-nuances-de-gras'),
+  )
+  pruefe(
+    'die neue Adresse trägt sie sehr wohl',
+    zerlegeAdnAdresse('https://animationdigitalnetwork.com/de/video/1329-love-hina/29929-folge-26').showId === '1329',
+  )
 }
 
 /**

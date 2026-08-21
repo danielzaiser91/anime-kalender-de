@@ -638,3 +638,163 @@
   dub: false
   checkedAt: '2026-08-20'
   note: Treffer ist der ADN-Kanal auf Amazon, dort ohne deutsche Tonspur. Der Crunchyroll-Kanal führt ins Leere.
+
+# --- Batch 21.08.2026 -------------------------------------------------------
+
+- anilistId: 481
+  title: Yu-Gi-Oh! – Staffel 2
+  platform: netflix
+  dub: false
+  checkedAt: '2026-08-21'
+
+# Netflix teilt die Reihe in vier Staffeln (1–51, 52–102, 104–155, 156–171) und
+# zählt 171 Folgen; AniList und Crunchyroll führen 170. Eine Folge ist bei
+# Netflix also doppelt oder anders geschnitten — welche, ist offen.
+#
+# Für die Anzeige bleibt es bei „ja": Es gibt dort eine deutsche Fassung, und
+# zwar für die große Mehrheit der Folgen. Dass die letzten sechzehn fehlen, ist
+# eine Angabe, die unser Datensatz derzeit nicht führen kann — es gibt kein Feld
+# für eine Teilmenge. Steht als Aufgabe in status.md.
+- anilistId: 97940
+  title: Black Clover – Staffel 1
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-21'
+  note: >-
+    Folgen 1 bis 155 auf Deutsch, ab 156 nicht (Daniel, 21.08.2026).
+    Crunchyroll hat alle Folgen synchronisiert und endet bei 170.
+
+# Eine Prüfung, fünf Einträge: Alle Demon-Slayer-Arcs teilen sich bei Netflix
+# dieselbe Adresse (81091393), und dort sind alle Arcs vollständig auf Deutsch
+# (Daniel, 21.08.2026).
+- anilistId: 101922
+  title: Demon Slayer – Staffel 1
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-21'
+
+- anilistId: 129874
+  title: Demon Slayer – Mugen Train Arc
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-21'
+
+- anilistId: 142329
+  title: Demon Slayer – Entertainment District Arc
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-21'
+
+- anilistId: 145139
+  title: Demon Slayer – Swordsmith Village Arc
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-21'
+
+- anilistId: 166240
+  title: Demon Slayer – Hashira Training Arc
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-21'
+
+- anilistId: 180367
+  title: Witch Watch
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-21'
+  note: Alle 25 Folgen auf Deutsch.
+
+- anilistId: 177474
+  title: Tougen Anki
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-21'
+  note: Alle 24 Folgen auf Deutsch.
+
+# Netflix führt im Auswahlfeld nur Staffel 1 und 2. Daniels Vermutung: Der
+# Dienst nimmt eine Staffel erst auf, wenn sie vollständig ist — dann wäre das
+# hier kein Nein für immer, sondern ein Noch-nicht. Der Verweis wird entfernt,
+# denn es gibt dort nichts zu sehen; kommt die Staffel später dazu, bringt der
+# Katalogabruf sie zurück.
+- anilistId: 178789
+  title: Mushoku Tensei – Staffel 3
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-21'
+  note: >-
+    Nur Staffel 1 und 2 im Auswahlfeld (Daniel, 21.08.2026). Vermutlich nimmt
+    Netflix die Staffel erst nach ihrem Abschluss auf.
+
+- anilistId: 112609
+  title: Elainas Reise
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-21'
+  note: Weiterleitung auf die Startseite.
+
+- anilistId: 188139
+  title: Though I Am an Inept Villainess
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-21'
+  note: Weiterleitung auf die Startseite.
+
+# 23 deutsche Folgen unter einer Adresse — das ist genau Staffel 1 (12) plus
+# Staffel 2 (11). Das Extra „Ma no Omake" bleibt deshalb offen: Es ist die eine
+# Folge, die in der Rechnung fehlt, und geraten wird hier nicht.
+- anilistId: 105228
+  title: Dorohedoro
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-21'
+
+- anilistId: 173172
+  title: Dorohedoro Season 2
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-21'
+
+# Unter dieser Adresse steht bei Netflix nur Staffel 1 — kein Auswahlfeld wie
+# bei den anderen Titeln (Daniel, 21.08.2026). Ob Netflix die weiteren Staffeln
+# unter eigenen Adressen führt, ist offen; solange das ungeklärt ist, bleiben
+# sie hier ohne Angabe, statt aus einem fehlenden Auswahlfeld ein Nein zu machen.
+- anilistId: 101280
+  title: That Time I Got Reincarnated as a Slime
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-21'
+  note: Alle 24 Folgen der ersten Staffel auf Deutsch.
+
+# Nachtrag zur Zeile darüber: Die Netflix-Suche nach „Schleim" liefert **einen**
+# Eintrag, und der trägt „24 Folgen" (Daniel, 21.08.2026, mit Bildbeleg). Netflix
+# führt also nur die erste Staffel — die weiteren gibt es dort nicht, auch nicht
+# unter eigenen Adressen. Die fünf Verweise darauf werden entfernt.
+- anilistId: 108511
+  title: That Time I Got Reincarnated as a Slime Season 2
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-21'
+
+- anilistId: 116742
+  title: That Time I Got Reincarnated as a Slime Season 2 Part 2
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-21'
+
+- anilistId: 156822
+  title: That Time I Got Reincarnated as a Slime Season 3
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-21'
+
+- anilistId: 161802
+  title: 'That Time I Got Reincarnated as a Slime: Visions of Coleus'
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-21'
+
+- anilistId: 182205
+  title: Meine Wiedergeburt als Schleim in einer anderen Welt – Staffel 4
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-21'
