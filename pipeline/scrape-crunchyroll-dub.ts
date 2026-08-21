@@ -225,6 +225,10 @@ async function serieLesen(page: Page, url: string): Promise<CrSerie> {
         const text = document.body.innerText
         const weg = text.match(/^.*nicht mehr verfügbar.*$/m)
         if (weg) return { art: 'weg', zeile: weg[0] }
+        // Crunchyrolls eigene Fehlerseite. Sie steht sofort da und ist an ihrer
+        // Länge zu erkennen — rund 1.160 Zeichen, immer derselbe Text.
+        const fehlt = text.match(/^404 - Seite nicht gefunden.*$/m)
+        if (fehlt) return { art: 'fehlt', zeile: fehlt[0] }
         const ton = text.match(/^Audio:.*$/m)
         if (ton) return { art: 'audio', zeile: ton[0] }
         return null
@@ -241,7 +245,22 @@ async function serieLesen(page: Page, url: string): Promise<CrSerie> {
    * Das ist `available: false` und nicht `dub: false`: Es fehlt das Angebot,
    * nicht die deutsche Fassung (Daniel, 21.08.2026, an „Dragon Ball" gezeigt).
    */
-  if (befund?.art === 'weg') {
+  if (befund?.art === 'weg' || befund?.art === 'fehlt') {
+    /**
+     * Zwei Wege, dasselbe Ergebnis — und der Unterschied gehört trotzdem
+     * festgehalten.
+     *
+     * „Leider sind die Videos dieser Serie nicht mehr verfügbar" heißt: Es gab
+     * ein Angebot, es ist weg. „404 - Seite nicht gefunden" heißt: Diese
+     * Adresse führt ins Nichts, meist eine veraltete Slug-Form aus AniList.
+     * Beides ist `available: false`, aber die Notiz sagt, welches von beidem.
+     *
+     * Die 404-Erkennung kam am 21.08.2026 dazu, nachdem der Reparaturlauf mit
+     * 23 Sekunden je Serie hochgerechnet 216 Minuten gebraucht hätte — bei
+     * einem Timeout von 180. Fünf Stichproben zeigten: immer 1.508 Zeichen,
+     * nie eine Audio-Zeile, nie ein Banner. Es waren Fehlerseiten, und die
+     * stehen nach 250 Millisekunden fest.
+     */
     return { url, nichtVerfuegbar: true, geprueftAm: heute, fehler: befund.zeile.trim() }
   }
 
