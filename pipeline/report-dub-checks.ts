@@ -42,6 +42,19 @@ interface Offen {
   herkunft: string
 }
 
+/**
+ * Anbieter, die ein laufendes Abo verlangen, um überhaupt nachsehen zu können.
+ *
+ * Daniel am 21.08.2026: „ich hol mir kein rtl+ abo um das zu prüfen". Eine
+ * Zeile, die niemand ohne laufende Kosten prüfen kann, gehört nicht in eine
+ * Arbeitsliste — dort steht, was heute abzuarbeiten ist.
+ *
+ * Verloren geht dabei nichts: Diese Zeilen wandern nach
+ * `data/dub-pruefliste-zurueckgestellt.md` und bleiben auffindbar, falls sich
+ * die Lage ändert.
+ */
+const ZURUECKGESTELLT = new Set<PlatformId>(['rtlplus'])
+
 /** Eine Reihe auf einem Anbieter — das ist eine Zeile der Liste. */
 interface Zeile {
   reihenId: number
@@ -215,9 +228,13 @@ for (const z of zeilen) {
 }
 zeilen.sort((a, b) => b.datum.localeCompare(a.datum) || a.reihe.localeCompare(b.reihe, 'de'))
 
-const offenGesamt = zeilen.reduce((n, z) => n + z.offen.length, 0)
+// Getrennt statt gefiltert: Was hier herausfällt, landet in einer eigenen Datei.
+const zurueckgestellt = zeilen.filter((z) => ZURUECKGESTELLT.has(z.platform))
+const zuPruefen = zeilen.filter((z) => !ZURUECKGESTELLT.has(z.platform))
+
+const offenGesamt = zuPruefen.reduce((n, z) => n + z.offen.length, 0)
 const nachPlattform = new Map<PlatformId, number>()
-for (const z of zeilen) nachPlattform.set(z.platform, (nachPlattform.get(z.platform) ?? 0) + z.offen.length)
+for (const z of zuPruefen) nachPlattform.set(z.platform, (nachPlattform.get(z.platform) ?? 0) + z.offen.length)
 
 /**
  * Kurzname eines Eintrags innerhalb seiner Reihe.
@@ -244,7 +261,7 @@ function kurzname(reihe: string, name: string): string {
 const md: string[] = [
   '# Prüfliste: Wo läuft es wirklich auf Deutsch?',
   '',
-  `Stand ${heute} · **${offenGesamt} offene Verweise** in **${zeilen.length} Zeilen**.`,
+  `Stand ${heute} · **${offenGesamt} offene Verweise** in **${zuPruefen.length} Zeilen**.`,
   '',
   'Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört',
   'nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.',
@@ -284,7 +301,7 @@ const md: string[] = [
   '|---|---|---|---|',
 ]
 
-zeilen.forEach((z, i) => {
+zuPruefen.forEach((z, i) => {
   const eintraege = z.offen
     .map((o) => `[${kurzname(z.reihe, o.name).replace(/\|/g, '\\|')}](${o.url})`)
     .join(' · ')
@@ -302,5 +319,35 @@ md.push(
 )
 
 writeText('data/dub-pruefliste.md', md.join('\n'))
-log(`Prüfliste geschrieben: ${zeilen.length} Zeilen, ${offenGesamt} offene Verweise`)
+log(`Prüfliste geschrieben: ${zuPruefen.length} Zeilen, ${offenGesamt} offene Verweise`)
 for (const [p, n] of [...nachPlattform.entries()].sort((a, b) => b[1] - a[1])) log(`  · ${p}: ${n}`)
+
+/**
+ * Die zurückgestellten Anbieter bekommen eine eigene Datei.
+ *
+ * Sie aus dem Bestand zu werfen wäre falsch: Was hier steht, ist weiterhin
+ * offen — nur eben nicht von Hand prüfbar, weil es ein laufendes Abo verlangt.
+ * In der Arbeitsliste hätte es nichts verloren, denn dort steht, was jemand
+ * heute abarbeiten kann.
+ */
+const zurueck: string[] = [
+  '# Zurückgestellt: nur mit Abo prüfbar',
+  '',
+  `Stand ${heute} · **${zurueckgestellt.reduce((n, z) => n + z.offen.length, 0)} offene Verweise** in **${zurueckgestellt.length} Zeilen**.`,
+  '',
+  'Diese Verweise stehen **nicht** in `data/dub-pruefliste.md`: Wer sie prüfen will, braucht ein',
+  'laufendes Abo beim Anbieter. Daniel am 21.08.2026: „ich hol mir kein rtl+ abo um das zu prüfen".',
+  'Auf der Seite tragen sie weiterhin „🇩🇪 ?" — das ist die ehrliche Angabe.',
+  '',
+  'Erzeugt von `npm run data:dub-checks`, nicht von Hand pflegen. Wird eine Zeile doch geprüft,',
+  'gehört das Ergebnis wie sonst auch nach `data/dub-confirmed.yaml`.',
+  '',
+  '| # | Datum | Reihe | Offen |',
+  '|---|---|---|---|',
+]
+zurueckgestellt.forEach((z, i) => {
+  const eintraege = z.offen.map((o) => `[${kurzname(z.reihe, o.name)}](${o.url})`).join(' · ')
+  zurueck.push(`| ${i + 1} | ${z.datum} | ${z.reihe} | ${eintraege} |`)
+})
+zurueck.push('')
+writeText('data/dub-pruefliste-zurueckgestellt.md', zurueck.join('\n'))
