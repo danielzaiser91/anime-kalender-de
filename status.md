@@ -1,23 +1,14 @@
 # Status: anime-kalender-de
 
-Stand: 17.08.2026 · Live: https://anime-kalender.de/
+Stand: 21.08.2026 · Live: https://anime-kalender.de/
 
 ## Task Queue
 
 ### In Arbeit
 
-**Beides läuft seit dem 21.08.2026, 00:35 Uhr in der Cloud** — angestoßen über
-`.github/workflows/claude-auftrag.yml`, Ergebnis kommt jeweils als Pull Request.
-Zwei Aufträge laufen nacheinander, nicht parallel (eine Sperre verhindert zwei
-widersprüchliche PRs am selben Repo).
-
 | Aufgabe | SP | Lauf | Notiz |
 |---|---|---|---|
-| **Erfundene Termine durch durchlaufende Folgenzählung** | 5 | [Lauf 32461914436](https://github.com/danielzaiser91/anime-kalender-de/actions/runs/32461914436) | **Live-Fehler, gemessen am 21.08.2026.** „Wistoria: Wand and Sword Staffel 2" führt auf der Seite zwölf Termine vom 08.02. bis 26.04.2026 — die Staffel lief nachweislich vom 31.05. bis 19.07., belegt durch acht Folgen in unserem **eigenen** Kalenderabruf (`observed` 17–24). Alle zwölf angezeigten Termine sind erfunden, die acht belegten fehlen. Ursache: Crunchyroll zählt die Reihe durch (Staffel 2 = Folgen 13–24), AniList zählt je Staffel (12). Ohne `firstEpisodeNumber` rechnet `build.ts` aus „Folge 17 am 31.05." einen Start am 08.02. zurück. **Umfang:** 18 Releases mit zusammen 129 zurückgerechneten Terminen; nicht alle davon sind falsch. Zweig `claude/durchlaufende-folgenzaehlung` |
-| **Crunchyroll-Rückstand nachholen** | 1 | [Lauf 32461498580](https://github.com/danielzaiser91/anime-kalender-de/actions/runs/32461498580) | 769 Serienadressen ohne frische Tonspur-Prüfung, gemessen am 21.08.2026. Gemessener Takt: 6,7 s je Serie, also rund 85 Minuten — nicht vier Wochen, wie ich zuerst gerechnet hatte. Der Deckel `--limit 250` im Wochenlauf schützt dessen Laufzeit, nicht Crunchyroll, ist bei 954 Adressen und 28 Tagen Wiedervorlage aber zugleich genau die Erhaltungsrate: Ein Rückstand baut sich damit nie ab. Dafür gibt es jetzt `crunchyroll-nachholen.yml` |
-| **Deutsche Tonspuren maschinell belegen (Streaming Availability API)** | 8 | [Lauf 32465194981](https://github.com/danielzaiser91/anime-kalender-de/actions/runs/32465194981) | Anbindung steht vollständig, **aber ohne einen einzigen Abruf**: `claude-auftrag.yml` reicht `STREAMING_API_KEY` nicht an den Lauf durch, der Schlüssel ist in der Umgebung schlicht nicht da (API antwortet ohne ihn mit 401, geprüft am 21.08.2026). Gebaut sind Abruf mit hartem Anfragen-Budget und gzip-Archiv, Zuordnung über Folgennummern, Übernahme im Build (nur Netflix, nur `true`, nie aus einem laufenden Release), Kontrollmessung als Prüfschritt und `data/dub-batches.md` mit 59 Paketen zu je 20 Zeilen. **Was fehlt:** die Messung selbst und die Datenübernahme — beides braucht eine Zeile `env:` im Workflow, sie steht als Diff im Pull Request. Zweig `claude/netflix-tonspuren` |
-| **React-Hooks-Regeln in die Prüfkette** | 2 | [32424595802](https://github.com/danielzaiser91/anime-kalender-de/actions/runs/32424595802) | Anlass ist der weiße Bildschirm vom 20.08.2026 (React #310, Hooks hinter einem frühen `return`). Prüfkette **und** `tsc` waren dabei grün — gefunden wurde es nur durch einen Blick auf die laufende Seite. Schlanke Flat-Config, nur `rules-of-hooks` (Fehler) und `exhaustive-deps` (Warnung), eingehängt in npm-Skript, `CLAUDE.md` und Deploy-Workflow. Zweig `claude/react-hooks-in-die-pruefkette` |
-
+| **Crunchyroll-Tonspuren aus der Content-API statt aus der Seitenanzeige** | 8 | [Lauf 32515015912](https://github.com/danielzaiser91/anime-kalender-de/actions/runs/32515015912) · [PR #6](https://github.com/danielzaiser91/anime-kalender-de/pull/6) | Zehn Tage lang wurden Serienseiten gerendert und Textmuster gelesen: 5 bis 23 Sekunden je Abruf, Staffelebene, übersetzungsabhängig. Die Seite selbst holt dieselben Angaben als JSON über `/content/v2/cms/…` — 70 bis 200 Millisekunden, **je Folge** statt je Staffel, mit `versions[].audio_locale`. Token gibt es anonym (`POST /auth/v1/token`, `Basic Y3Jfd2ViOg==`), Sammelabrufe über `objects/<id1>,<id2>` sparen Tausende Einzelaufrufe. Der Lauf schreibt die Rohantworten mit nach `data/crunchyroll-raw/` — deshalb stehen dort dreistellige Dateizahlen, das ist Archiv, kein Arbeitsstand |
 
 ### Queue
 | Aufgabe | SP | Notiz |
