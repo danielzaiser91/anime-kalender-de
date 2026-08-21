@@ -25,3 +25,7 @@
 
 .ak-melder.ak-erfolg { background: #1a3a24; border-color: #3fb950; }
 .ak-melder.ak-fehler { background: #3a1a1a; border-color: #f85149; }
+
+/* Ein Knopf, der gerade nichts zu melden hat, bleibt sichtbar — aber
+   erkennbar untätig. */
+.ak-melder:disabled { opacity: .55; cursor: default; }

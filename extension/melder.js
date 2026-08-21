@@ -68,35 +68,46 @@ function urteil(spuren) {
  * Auf einer Titelseite ohne abspielbare Folge gibt es nichts zu lesen — und
  * trotzdem etwas zu melden.
  *
- * Daniel am 22.08.2026 beim ersten Titel der Prüfliste („Pokémon – Sonne und
- * Mond"): „hier sollte auch ein button kommen, es gibt keine episode zum
- * anklicken". Genau das ist ein Befund: Steht dort nur „Erinnern" oder gar
- * nichts, gibt es die Reihe auf Netflix nicht zu sehen — und der Weg zurück
- * zur Liste soll nicht über einen zweiten Handgriff führen.
+ * Daniel am 22.08.2026 beim ersten Titel der Prüfliste: „hier sollte auch ein
+ * button kommen, es gibt keine episode zum anklicken". Steht dort nur
+ * „Erinnern", gibt es die Reihe auf Netflix nicht zu sehen — das ist ein
+ * Befund, kein Fehlschlag.
  *
- * Erkannt wird es an der Seite selbst, nicht am Fehlen der Tonspuren: Auf einer
- * Titelseite mit Folgen steht ein Abspielknopf. Fehlt der und findet sich
- * stattdessen „Erinnern", ist die Reihe angekündigt, aber nicht abrufbar.
+ * **Der Pfad taugt nicht als Erkennungsmerkmal.** Ein Klick auf
+ * `netflix.com/title/<nummer>` landet in aller Regel nicht dort: Netflix
+ * schiebt die Startseite darunter und zeigt den Titel als Überlagerung, die
+ * Adresse lautet dann `/de/?jbv=<nummer>` oder `/browse?jbv=…`. Die erste
+ * Fassung dieser Prüfung sah deshalb nichts (22.08.2026, gemeldet mit Bild).
+ * Erkannt wird jetzt die Überlagerung selbst.
  */
+function reihenNummer() {
+  const ausPfad = /\/title\/(\d+)/.exec(location.pathname)?.[1]
+  const ausQuery = new URLSearchParams(location.search).get('jbv')
+  const ausZustand = window.netflix?.reactContext?.models?.playerModel?.data?.videoId
+  return ausPfad || ausQuery || (ausZustand ? String(ausZustand) : null)
+}
+
 function keineFolgeSichtbar() {
-  if (!location.pathname.startsWith('/title/') && !location.pathname.startsWith('/de/title/')) return false
+  // Ohne erkennbare Reihe ist das hier irgendeine Netflix-Seite.
+  if (!reihenNummer()) return false
   const text = document.body.innerText || ''
   const hatErinnern = /\bErinnern\b|\bRemind me\b/.test(text)
   const hatAbspielen = Array.from(document.querySelectorAll('a, button')).some((el) =>
-    /^\s*(Abspielen|Play|Weiterschauen|Resume)\s*$/i.test(el.textContent || ''),
+    /^\s*(Abspielen|Play|Weiterschauen|Resume|Folge \d+ abspielen)\s*$/i.test((el.textContent || '').trim()),
   )
   return hatErinnern && !hatAbspielen
 }
 
 function beschriftung(spuren) {
   if (!spuren) {
-    if (keineFolgeSichtbar()) return { text: 'Keine Folge abspielbar — melden', klasse: 'ak-nein' }
-    return { text: 'Keine Tonspuren gefunden', klasse: 'ak-leer' }
+    if (keineFolgeSichtbar()) return { text: 'Keine Folge abspielbar — melden', klasse: 'ak-nein', aktiv: true }
+    if (reihenNummer()) return { text: 'Warte auf eine laufende Folge …', klasse: 'ak-leer', aktiv: false }
+    return { text: 'Kein Titel erkannt', klasse: 'ak-leer', aktiv: false }
   }
   const { deutsch, echte } = urteil(spuren)
   return deutsch
-    ? { text: `Deutsch melden (${echte.length} Spuren)`, klasse: 'ak-ja' }
-    : { text: `Kein Deutsch melden (${echte.length} Spuren)`, klasse: 'ak-nein' }
+    ? { text: `Deutsch melden (${echte.length} Spuren)`, klasse: 'ak-ja', aktiv: true }
+    : { text: `Kein Deutsch melden (${echte.length} Spuren)`, klasse: 'ak-nein', aktiv: true }
 }
 
 async function melden() {
@@ -162,12 +173,19 @@ function zeigeErgebnis(text, gutgegangen) {
   }, 3500)
 }
 
+/**
+ * Der Knopf ist immer da, sobald ein Titel erkennbar ist.
+ *
+ * Erste Fassung blendete ihn nur ein, wenn Tonspuren zu lesen waren — und
+ * verschwand damit genau in dem Fall, den Daniel am häufigsten sieht. Ein
+ * Knopf, der nichts sagt, ist besser als keiner: Er zeigt, dass die
+ * Erweiterung lebt, und sagt, worauf sie wartet.
+ */
 function knopfZeigen() {
   const spuren = spurenLesen()
-  // Der Knopf erscheint auch ohne Tonspuren, sobald die Seite erkennbar eine
-  // Titelseite ohne abspielbare Folge ist — sonst müsste Daniel für den
-  // häufigsten Befund („gibt es dort gar nicht") die Erweiterung verlassen.
-  if (!spuren && !keineFolgeSichtbar()) {
+  const { text, klasse, aktiv } = beschriftung(spuren)
+
+  if (!reihenNummer() && !spuren) {
     if (knopf) { knopf.remove(); knopf = null }
     return
   }
@@ -177,7 +195,7 @@ function knopfZeigen() {
     knopf.addEventListener('click', melden)
     document.body.appendChild(knopf)
   }
-  const { text, klasse } = beschriftung(spuren)
+  knopf.disabled = !aktiv
   if (!knopf.classList.contains('ak-erfolg') && !knopf.classList.contains('ak-fehler')) {
     knopf.textContent = text
     knopf.classList.remove('ak-ja', 'ak-nein', 'ak-leer')
