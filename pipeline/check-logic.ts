@@ -22,6 +22,7 @@ import {
   bestimmeRhythmus,
   bewerteTreffer,
   ordneBloeckeZuStaffeln,
+  passtZuSerie,
   staffelBloecke,
   staffelnDesFranchise,
   volltreffer,
@@ -35,6 +36,7 @@ import {
   belegtDeutsch,
   hatDeutschenTon,
   ordneFolgenZuStaffeln,
+  ordneShowsZu,
   uebernehmbar,
   type MotnEpisode,
 } from './lib/motn.ts'
@@ -641,7 +643,13 @@ console.log('\nStreaming Availability API:')
     },
     '2026-08-21',
   )
-  pruefe('die Serienebene bringt kein Crunchyroll in den Bestand', !frieren?.dienste.crunchyroll, frieren?.dienste)
+  pruefe(
+    'die Serienebene bringt keinen Dienst in den Bestand',
+    // Auf Serienebene steht dort Crunchyroll mit deutschem Ton. Erfasst ist
+    // trotzdem nur, was die Folgen selbst tragen — hier also Netflix.
+    !frieren?.dienste.crunchyroll && !!frieren?.dienste.netflix,
+    frieren?.dienste,
+  )
   pruefe('28 Netflix-Folgen mit deutschem Ton', frieren?.dienste.netflix?.deutsch.length === 28, frieren?.dienste.netflix?.deutsch.length)
   pruefe('die leere Folge 29 wird nirgends gelistet', !frieren?.dienste.netflix?.gelistet.includes(29))
 
@@ -704,6 +712,39 @@ console.log('\nStreaming Availability API:')
   const thunder = { gelistet: [1, 2, 3, 4, 5, 6], deutsch: [1, 2, 3, 4, 5, 6] }
   pruefe('Folgen 1 bis 6 sind belegt', belegtDeutsch(thunder, 1, 6))
   pruefe('Folge 7 ist nicht belegt, nur unbekannt', !belegtDeutsch(thunder, 1, 7))
+
+  /**
+   * Ein geteiltes Wort ist keine Zuordnung.
+   *
+   * Gemessen am 21.08.2026 gegen den echten Datensatz: Ein Bestand mit der
+   * einen Serie „Akashic Records of Bastard Magic Instructor" (12 Folgen) zog
+   * über das Wort „magic" fünf fremde Reihen an — MASHLE, The Saint's Magic
+   * Power is Omnipotent, Anti-Magic Academy, Magic Maker. Alle haben zwölf
+   * Folgen, also ging bei allen auch die Folgenrechnung auf. Was sie trennt,
+   * ist die vollständige Wortdeckung und das Jahr.
+   */
+  const richtig = titel(21700, 'Akashic Records of Bastard Magic Instructor', 12, 2017, 'SPRING')
+  const fremd = titel(151801, 'MASHLE: MAGIC AND MUSCLES', 12, 2023, 'SPRING')
+  const zuordnungen = ordneShowsZu(
+    [richtig, fremd],
+    {
+      tt6741278: {
+        imdbId: 'tt6741278',
+        titel: 'Akashic Records of Bastard Magic Instructor',
+        jahr: 2017,
+        folgen: 12,
+        dienste: { netflix: { gelistet: [1], deutsch: [1] } },
+        geprueftAm: '2026-08-21',
+      },
+    },
+    () => [],
+    { passtZuSerie, bewerteTreffer, volltreffer },
+  )
+  pruefe(
+    'nur die passende Reihe bekommt eine Zuordnung',
+    zuordnungen.length === 1 && zuordnungen[0].titleId === 21700,
+    zuordnungen.map((z) => z.titleId),
+  )
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')

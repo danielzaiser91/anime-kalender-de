@@ -80,21 +80,38 @@ export interface MotnShow {
 }
 
 /**
- * Welche Dienste dieser Quelle wir überhaupt lesen.
+ * Welche Dienste dieser Quelle wir **erfassen**.
  *
- * Crunchyroll und ADN fehlen mit Absicht: Für Crunchyroll widerspricht die
- * Quelle sich selbst (Grenze 2), und für ADN ist der Sprachcode `vde` je Folge
- * die bessere Auskunft — sie liegt bereits im Haus. Prime Video und Disney+
- * werden mitgeholt, aber getrennt ausgewiesen und in der Kontrollmessung eigens
- * beurteilt; übernommen wird bis auf Weiteres nur Netflix.
+ * Nicht dasselbe wie `UEBERNOMMEN`, und der Unterschied ist der Grund, warum
+ * Crunchyroll hier steht, obwohl aus dieser Quelle nie eine Crunchyroll-Angabe
+ * in den Datensatz geht: **Crunchyroll ist unser Prüfstein.** Für 190 Serien
+ * wissen wir aus `data/crunchyroll-dub.json` unabhängig, ob dort eine deutsche
+ * Tonspur liegt — für Netflix wissen wir es fast nirgends. Würde die
+ * Crunchyroll-Angabe schon beim Erfassen weggeworfen, hätte die
+ * Kontrollmessung nichts, woran sie die Quelle messen könnte, und „erst
+ * messen, dann glauben" wäre ein Satz ohne Deckung.
+ *
+ * ADN fehlt: Ob und unter welcher Kennung diese Quelle ADN überhaupt führt, ist
+ * nicht belegt — geprüft ist nur, dass bei „Frieren" `crunchyroll`, `netflix`
+ * und `prime` unter `streamingOptions.de` stehen (21.08.2026). Eine geratene
+ * Kennung fände nie etwas und sähe dabei aus wie eine Auskunft.
  */
 export const DIENSTE: Record<string, PlatformId> = {
   netflix: 'netflix',
   prime: 'primevideo',
   disney: 'disneyplus',
+  crunchyroll: 'crunchyroll',
 }
 
-/** Was die Pipeline aus dieser Quelle in den Datensatz übernimmt. */
+/**
+ * Was die Pipeline aus dieser Quelle in den Datensatz übernimmt — nur Netflix.
+ *
+ * Crunchyroll bleibt draußen, weil die Quelle sich dort selbst widerspricht
+ * (Grenze 2) und wir eine eigene, bessere Auskunft im Haus haben. Prime Video
+ * und Disney+ bleiben draußen, bis die Kontrollmessung für sie eine
+ * Trefferquote zeigt — sie werden erfasst und in `data/motn-messung.md` eigens
+ * ausgewiesen, mehr nicht.
+ */
 export const UEBERNOMMEN: PlatformId[] = ['netflix']
 
 /** Befund je Dienst für **eine** Serie der Quelle. */
@@ -296,8 +313,8 @@ export function belegtDeutsch(befund: MotnDienstBefund, von: number, bis: number
  * „liegt dort auf Deutsch", sondern „lag dort", und das ist keine Antwort auf
  * unsere Frage. Der Verweis fällt damit von selbst wieder in die Prüfliste.
  */
-export function nochGueltig(befund: MotnDienstBefund, heute: string): boolean {
-  return !befund.laeuftAusAm || befund.laeuftAusAm > heute
+export function nochGueltig(laeuftAusAm: string | undefined, heute: string): boolean {
+  return !laeuftAusAm || laeuftAusAm > heute
 }
 
 // --- Zuordnung: welche Serie der Quelle gehört zu welchem unserer Titel ------
@@ -333,22 +350,24 @@ function alsTrefferTitel(k: MotnKandidat) {
   return { title: { romaji: k.originalTitel ?? null, english: k.titel || null, native: null } }
 }
 
-/**
- * Der Suchtreffer, der gemeint ist — oder keiner.
- *
- * `bewerteTreffer` und `volltreffer` kommen aus dem ADN-Abgleich und lösen dort
- * genau dieses Problem: Es gewinnt der beste Treffer, nicht der erste, und
- * kurze Kürzel wie „OVA" entscheiden mit. Für die **automatische** Übernahme
- * genügt der beste Treffer allerdings nicht — verlangt wird ein Volltreffer,
- * also vollständige Wortdeckung ohne Zutaten. „Im Zweifel offen lassen": Eine
- * falsche Automatik kostet mehr als eine Zeile Handarbeit.
- */
+/** Die Namensbewertung aus `lib/adn.ts`, hereingereicht statt fest verdrahtet. */
 export interface MotnVergleich {
   passtZuSerie: (a: { title: string }, b: ReturnType<typeof alsTrefferTitel>) => boolean
   bewerteTreffer: (a: { title: string }, b: ReturnType<typeof alsTrefferTitel>) => number
   volltreffer: (a: { title: string }, b: ReturnType<typeof alsTrefferTitel>) => boolean
 }
 
+/**
+ * Der Suchtreffer, der gemeint ist — oder keiner.
+ *
+ * `bewerteTreffer` und `volltreffer` kommen aus dem ADN-Abgleich und lösen dort
+ * genau dieses Problem: Es gewinnt der beste Treffer, nicht der erste, und
+ * kurze Kürzel wie „OVA" entscheiden mit. Für die **automatische** Übernahme
+ * genügt der beste Treffer allerdings nicht — verlangt wird zusätzlich ein
+ * Volltreffer, also vollständige Wortdeckung ohne Zutaten, und ein passendes
+ * Jahr. „Im Zweifel offen lassen": Eine falsche Automatik kostet mehr als eine
+ * Zeile Handarbeit.
+ */
 export function besterShow(
   name: string,
   jahr: number | undefined,
@@ -379,7 +398,13 @@ export interface MotnBeleg {
   bis: number
   /** Jede Folge des Bereichs trägt deutschen Ton — der Beleg. */
   deutsch: boolean
-  /** Titel, Jahr und Folgenzahl haben alle drei gepasst. */
+  /**
+   * Titel, Jahr und Folgenzahl haben alle drei gepasst.
+   *
+   * `ordneShowsZu` liefert nichts anderes — das Feld ist die zweite Sicherung
+   * an der Stelle, an der geschrieben wird (`uebernehmbar`), und die Zusicherung
+   * in `check-logic.ts` hängt daran. Zwei von dreien reichen nicht.
+   */
   eindeutig: boolean
   seit?: string
   laeuftAusAm?: string
@@ -417,6 +442,7 @@ export function ordneShowsZu(
 
   const belege: MotnBeleg[] = []
   const erledigt = new Set<number>()
+  const gesehen = new Set<string>()
 
   for (const title of titles) {
     if (erledigt.has(title.id)) continue
@@ -437,15 +463,36 @@ export function ordneShowsZu(
     const bestand = shows[treffer.kandidat.imdbId]
     if (!bestand) continue
 
+    /**
+     * Ein Halbtreffer ist kein Treffer — er wird gar nicht erst geführt.
+     *
+     * Gemessen am 21.08.2026 an einem Bestand aus zwei Serien: Das Wort „magic"
+     * zog fünf fremde Reihen an („MASHLE", „The Saint's Magic Power is
+     * Omnipotent", „Anti-Magic Academy", „Magic Maker"), und weil alle fünf
+     * zwölf Folgen haben, ging bei jeder auch die Folgenrechnung auf.
+     * `passtZuSerie` ist eben ein Türsteher, kein Schiedsrichter — ein einziges
+     * geteiltes Wort genügt ihm.
+     *
+     * Die Übernahme hätte sie ohnehin abgelehnt. Aber sie stünden im Bericht
+     * und in der Kontrollmessung, und dort wären sie das Gegenteil von
+     * hilfreich: Sie würden gegen fremde Belege gemessen und die Quote nach
+     * Belieben verschieben.
+     */
+    if (!treffer.voll || !treffer.jahrPasst) continue
+
     const bereiche = ordneFolgenZuStaffeln(bestand.folgen, staffeln)
     // Ohne aufgehende Folgenrechnung gibt es keine Zuordnung — und damit auch
     // keinen halben Beleg. Die Reihe bleibt vollständig in der Handarbeit.
     if (!bereiche) continue
-    const eindeutig = treffer.voll && treffer.jahrPasst
 
     for (const bereich of bereiche) {
       erledigt.add(bereich.titleId)
       for (const [platform, befund] of Object.entries(bestand.dienste) as [PlatformId, MotnDienstBefund][]) {
+        // Eine Staffel kann über mehrere ihrer Geschwister erreicht werden;
+        // zweimal derselbe Beleg wäre in jeder Zählung ein Fehler.
+        const schluessel = `${bereich.titleId}|${platform}`
+        if (gesehen.has(schluessel)) continue
+        gesehen.add(schluessel)
         belege.push({
           titleId: bereich.titleId,
           platform,
@@ -453,7 +500,7 @@ export function ordneShowsZu(
           von: bereich.von,
           bis: bereich.bis,
           deutsch: belegtDeutsch(befund, bereich.von, bereich.bis),
-          eindeutig,
+          eindeutig: true,
           seit: befund.seit,
           laeuftAusAm: befund.laeuftAusAm,
         })
@@ -485,7 +532,7 @@ export function uebernehmbar(beleg: MotnBeleg, laeuft: boolean, heute: string): 
   if (!beleg.deutsch || !beleg.eindeutig) return false
   if (!UEBERNOMMEN.includes(beleg.platform)) return false
   if (laeuft) return false
-  if (beleg.laeuftAusAm && beleg.laeuftAusAm <= heute) return false
+  if (!nochGueltig(beleg.laeuftAusAm, heute)) return false
   return true
 }
 

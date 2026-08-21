@@ -11,6 +11,9 @@ steht, welche Einträge dieser Reihe dort noch offen sind — bereits Bestätigt
 
 Sortiert von heute in die Vergangenheit, ausschließlich Titel, die es schon gibt.
 
+Zum Abarbeiten gibt es dieselben Zeilen in `dub-batches.md` — nach Nutzen sortiert und in
+Paketen zu je zwanzig.
+
 ## Wie geantwortet wird
 
 Kurzschrift, damit ein Batch in einer Zeile beantwortet werden kann (Daniel, 12.08.2026):
