@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Anime-Kalender: Synchro melden",
   "description": "Blendet bei Netflix, Crunchyroll und Prime Video einen Knopf ein, der die vorhandenen Tonspuren an den Anime-Kalender meldet.",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "permissions": [
     "storage"
   ],
@@ -10,6 +10,18 @@
     "https://newsletter.animekalender.workers.dev/*"
   ],
   "content_scripts": [
+    {
+      "matches": [
+        "https://www.netflix.com/*",
+        "https://www.crunchyroll.com/*",
+        "https://www.amazon.de/*"
+      ],
+      "js": [
+        "leser.js"
+      ],
+      "world": "MAIN",
+      "run_at": "document_idle"
+    },
     {
       "matches": [
         "https://www.netflix.com/*",
