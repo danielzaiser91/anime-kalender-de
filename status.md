@@ -13,9 +13,6 @@ Stand: 21.08.2026 · Live: https://anime-kalender.de/
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **Schrittmeldung in die vier Datenläufe nachziehen** | 2 | `deploy.yml` meldet seit dem 21.08.2026 sieben Schritte als `n/7` an die Statusanzeige, belegt im Lauf 32517576468 („5/7 · Hooks-Regeln geprüft"). Dieselbe Mechanik fehlt in `refresh-hourly`, `refresh-data`, `refresh-weekly` und `tonspuren-monatlich`. Dort kommt eine Besonderheit dazu: Während eines Schritts meldet das Pipeline-Skript seine eigene, feinere Zählung („233/594 Serien"). Erst prüfen, ob sich beide in der Anzeige sauber ablösen, dann verteilen |
-| **TMDB-Warteschlange nach Alter statt „noch nie geholt"** | 2 | `fetch-tmdb.ts` bildet seine Liste über `!cache[t.id]` — dieselbe Falle wie bei aniSearch und Crunchyroll: Was einmal geholt wurde, kommt nie wieder dran, und ein Titel, dessen Kennung sich ändert, bleibt für immer falsch. Betrifft 1.248 Titel. Die `CLAUDE.md` verlangt Wiedervorlage über `fetchedAt`; das ist der letzte Abruf, der es noch nicht tut |
-| **`loadEnv()` entdoppeln** | 1 | Zwei Pipeline-Dateien tragen je eine eigene Fassung derselben Funktion, statt sie aus `lib/util.ts` zu holen. Fällt bei jeder Änderung an der Schlüsselbehandlung doppelt an |
 | **56 Arbeitspakete aus `data/dub-batches.md`** | 5 | Je 20 Netflix-Zeilen mit Verweis, erzeugt aus dem Streaming-API-Lauf. **Wartet auf den Crunchyroll-Content-API-Umbau:** Der ändert die Herkunft der Synchro-Angaben je Folge, und eine von Hand abgearbeitete Liste gegen den alten Stand wäre danach teils gegenstandslos |
 | **126 Netflix-Titel, die keine Quelle beantwortet** | 3 | `data/netflix-von-hand.md`, erzeugt mit `npm run data:netflix-rest`. Die Streaming Availability API kennt diese Titel nicht, Netflix selbst darf nicht abgerufen werden. Weg: Daniel öffnet den Verweis, startet eine Folge, drückt den Knopf der Erweiterung aus `extension/`; `npm run data:pruefungen` holt die Meldungen ab. **Erst starten, wenn der Crunchyroll-Umbau durch ist** — sonst konkurrieren zwei Handarbeitslisten um dieselben Abende |
 | **Prüfliste „Wo läuft es" abarbeiten** (Dauerauftrag) | — | 1.732 Anbieter-Verweise ohne belegte Synchro, Liste: `data/dub-pruefliste.md`, erzeugt mit `npm run data:dub-checks`. Daniel arbeitet sie in Zehnerschritten ab; ich lege den Batch vor, er meldet je Nummer ja/nein, ich trage es in `data/dub-confirmed.yaml` ein und baue neu. **Stand: Batch 1 bis 3 ausgewertet, 65 Prüfungen eingetragen — 33 Angaben belegt, 32 tote Verweise entfernt.** Crunchyroll ist seit 13.08.2026 weitgehend maschinell belegt (234 ja / 988 nein / **25 offen**); die Handarbeit verteilt sich jetzt auf Netflix (727), YouTube (528) und Prime Video (219) — Anbieter, die die Sprachfassung nirgends öffentlich nennen. Kurzschrift der Antworten (`1`/`0`/`x`, mehrere je Zeile mit Punkt) steht im Kopf der Liste und in der `CLAUDE.md`. Je Batch kurz sagen, woher der Verweis stammt und warum er unsicher ist |
@@ -597,6 +594,37 @@ ein Mensch auf der Seite ablesen könnte, weil sie je Folge kommt.
 
 ## Archiv
 
+- ✅ **Alle Läufe melden ihre Schritte** (21.08.2026). Nach `deploy.yml` jetzt auch
+  `refresh-hourly` (4 Schritte), `refresh-data` (8), `refresh-weekly` (18),
+  `tonspuren-monatlich` (2) und `crunchyroll-nachholen` (1). **Live belegt:** Der von Hand
+  angestoßene Stundenlauf 32519352698 zeigte „1/4 · Rohdaten holen" und endete mit „4/4 ·
+  Vorschaubilder für neue Releases", parallel dazu der Deploy mit „5/7 · Hooks-Regeln geprüft".
+
+  Die Frage dahinter war, wie sich zwei Zählweisen im selben Lauf vertragen: Der Schrittzähler
+  sagt „3/8 Rohdaten geholt", das Pipeline-Skript darin meldet „233/594 Serien". Beide
+  schreiben dieselben drei Felder, und der Worker setzte sie einzeln per `COALESCE` — ein
+  Melder ohne Gesamtzahl hätte die 594 seines Vorgängers geerbt. Die drei Felder sind deshalb
+  jetzt eine Gruppe. Gegen den ausgerollten Worker durchgespielt: Schritt 3/8, dann eine
+  Meldung mit 12 ohne Gesamtzahl → „12/null" statt „12/594", danach eine Meldung ohne
+  Fortschritt → Werte bleiben stehen.
+
+- ✅ **TMDB holt nach Alter nach, nicht nach „schon mal geholt"** (21.08.2026). `fetchedAt` je
+  Eintrag, `--alter` mit 60 Tagen als Vorgabe, ältestes zuerst. Probelauf: „2761 von 2761
+  Titeln fällig (10 noch nie geholt, Rest älter als 60 Tage)". Dabei fiel auf, dass dieser
+  Abruf keine der drei Voraussetzungen aus der `CLAUDE.md` hatte: kein Platz in einem
+  Workflow — er lief einmal von Hand und veraltete danach still —, keine Zeile in
+  `tools/commit-data.sh` (ein CI-Lauf hätte `data/tmdb-titles.json` verworfen) und keine Frist
+  in `check-sources.ts`. Alle drei nachgezogen: Wochenlauf mit `--limit 400`, Frist neun Tage,
+  Bestandsmeldung über `recordSource()`.
+
+- ✅ **`loadEnv()` liegt in `pipeline/lib/util.ts`** (21.08.2026) statt als identische Kopie in
+  `fetch.ts` und `fetch-tmdb-titles.ts`. Im Trockenlauf geprüft: drei Werte aus `.env` gelesen,
+  ein bereits gesetzter bleibt stehen — das ist die Eigenschaft, auf die sich die Cloud
+  verlässt, wo die Schlüssel aus den Repo-Secrets kommen.
+
+- ✅ **Crunchyroll-Rückstand ist abgearbeitet** (21.08.2026, nebenbei gemessen). Der
+  Nachhollauf 32519594875 meldete „0 Serienadressen offen (911 in den letzten 28 Tagen
+  gelesen)". Heute früh waren es 769 offene.
 - ✅ **Kalender-Abo führt keine zehn Jahre Vergangenheit mehr** (21.08.2026, Daniels
   Entscheidung: sieben Tage Rückblick). `all.ics` führte am 20.08.2026 noch **742 Termine,
   davon 641 in der Vergangenheit** — zurück bis zum 12.01.2015, 348 KB. Wer das Abo eintrug,
