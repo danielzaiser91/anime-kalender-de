@@ -504,6 +504,44 @@ Browser-Kontext abfragen. Gemessen: 1.310 ms Aufwärmen, danach 70 bis 208 ms je
 und einige Verwaltungspfade. **`/content/` und `/auth/` stehen nicht darauf** — ebenso wenig
 wie `/series/`, das dieses Projekt seit dem 12.08.2026 liest.
 
+## NACHTRAG — das Verfügbarkeitsdatum steht woanders (21.08.2026)
+
+**Daniel hat einen Fehler in meiner ersten Messung gefunden:** Ich hatte
+„F1 ab 04.07., F3 ab 12.07." notiert. Das sind die Daten der **japanischen**
+Fassung. Die deutschen Folgen 1 bis 3 erschienen alle am **19.08.2026**.
+
+Der Grund: `/content/v2/cms/seasons/<id>/episodes` liefert die Episoden der
+**Originalstaffel**, auch wenn man die Kennung der deutschen Fassung einsetzt.
+Das Feld `versions` je Episode sagt zwar, **dass** es eine deutsche Fassung gibt,
+aber die Datumsfelder gehören zur japanischen.
+
+**Die deutsche Fassung ist ein eigenes Objekt** und wird über ihre eigene
+Kennung abgefragt:
+
+    GET /content/v2/cms/objects/<guid der de-DE-Fassung>?locale=de-DE
+
+Für „Mushoku Tensei" Staffel 3, Folge 1 (`GE00374453DEDE`):
+
+    audio_locale:            de-DE
+    premium_available_date:  2026-08-19T11:00:00Z   ← der deutsche Termin
+    episode_air_date:        2026-07-04T00:00:00Z   ← japanische Ausstrahlung
+    availability_starts:     9998-11-30             ← Platzhalter, unbrauchbar
+
+**Damit ist es mehr als eine Sprachauskunft.** `premium_available_date` der
+deutschen Fassung ist ein **belegter Termin je Folge, mit Uhrzeit** — genau das,
+was dieses Projekt bisher aus Kalenderkacheln zusammensuchen musste. Die
+11:00 UTC sind 13:00 Ortszeit.
+
+**Der Weg je Folge ist damit dreistufig:**
+
+    1. seasons  → Staffeln und deren `versions`
+    2. episodes → Folgen der Originalstaffel, je Folge `versions`
+    3. objects  → die de-DE-Kennung aus `versions`, dort steht der deutsche Termin
+
+Ob Schritt 3 sich für mehrere Kennungen auf einmal abfragen lässt
+(`objects/<guid1>,<guid2>,…`), ist **ungeprüft** — bei Crunchyroll ist diese Form
+sonst üblich und würde die Zahl der Aufrufe stark senken.
+
 ### Was daran hängt
 
 969 der 1.914 offenen Verweise in der Prüfliste sind Crunchyroll. Sie sind damit nicht mehr
