@@ -1196,6 +1196,84 @@ async function handleLauf(request: Request, env: Env): Promise<Response> {
   return antwort({ ok: true, lauf_id: laufId, zustand })
 }
 
+/**
+ * Prüfergebnisse aus dem Browser entgegennehmen.
+ *
+ * Der Weg (Daniels Vorschlag, 21.08.2026): Er öffnet einen Titel beim Anbieter,
+ * eine Chrome-Erweiterung blendet einen Knopf ein, der Klick schickt hierher,
+ * was auf der Seite steht. Danach der nächste Titel.
+ *
+ * Warum das etwas anderes ist als ein Scraper: Die Seite hat **er** geöffnet.
+ * `robots.txt` richtet sich an automatische Clients — ein Mensch mit einer
+ * Erweiterung ist keiner. Ein Programm, das dieselben Adressen von sich aus
+ * abklappert, wäre einer, und deshalb bleibt Netflix für uns gesperrt.
+ *
+ * CORS ist hier offen wie bei `/lauf`: Die Erweiterung läuft auf
+ * `netflix.com`, nicht auf unserer Seite. Geschrieben wird nur mit Token.
+ */
+async function handlePruefung(request: Request, env: Env): Promise<Response> {
+  const offen = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+  }
+  const antwort = (body: unknown, status = 200) =>
+    new Response(JSON.stringify(body), { status, headers: offen })
+
+  if (request.method === 'GET') {
+    // Die Pipeline holt sich, was noch nicht übernommen wurde.
+    const token = new URL(request.url).searchParams.get('token') ?? ''
+    if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
+    const { results } = await env.DB.prepare(
+      `SELECT id, plattform, url, sprachen, befund, titel, folgen, notiz, gemeldet_am
+         FROM pruefung WHERE uebernommen = 0 ORDER BY gemeldet_am LIMIT 500`,
+    ).all()
+    return antwort({ pruefungen: results ?? [] })
+  }
+
+  if (request.method !== 'POST') return antwort({ error: 'GET oder POST erwartet' }, 405)
+
+  const token = request.headers.get('X-Lauf-Token') ?? ''
+  if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
+
+  let daten: Record<string, unknown>
+  try {
+    daten = (await request.json()) as Record<string, unknown>
+  } catch {
+    return antwort({ error: 'Kein gültiges JSON' }, 400)
+  }
+
+  const url = String(daten.url ?? '').trim()
+  const befund = String(daten.befund ?? '').trim()
+  if (!url) return antwort({ error: 'url fehlt' }, 400)
+  if (!['dub', 'kein_dub', 'weg'].includes(befund)) {
+    return antwort({ error: 'befund muss dub, kein_dub oder weg sein' }, 400)
+  }
+
+  // Wird derselbe Titel zweimal geschickt, gilt der jüngere Blick.
+  await env.DB.prepare('DELETE FROM pruefung WHERE url = ?1 AND uebernommen = 0').bind(url).run()
+
+  await env.DB.prepare(
+    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, notiz, gemeldet_am)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)`,
+  )
+    .bind(
+      String(daten.plattform ?? 'unbekannt'),
+      url,
+      daten.sprachen ? JSON.stringify(daten.sprachen) : null,
+      befund,
+      daten.titel ? String(daten.titel).slice(0, 200) : null,
+      zahlOderNull(daten.folgen),
+      daten.notiz ? String(daten.notiz).slice(0, 500) : null,
+      jetztIso(),
+    )
+    .run()
+
+  const offen2 = await env.DB.prepare('SELECT COUNT(*) AS n FROM pruefung WHERE uebernommen = 0').first<{
+    n: number
+  }>()
+  return antwort({ ok: true, befund, offen: offen2?.n ?? 0 })
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url)
@@ -1203,7 +1281,7 @@ export default {
     if (request.method === 'OPTIONS') {
       // Der Laufstatus wird auch von einer Datei auf dem Schreibtisch gelesen;
       // die hat den Ursprung `null` und käme an der sonstigen Beschränkung nicht vorbei.
-      if (url.pathname === '/lauf') {
+      if (url.pathname === '/lauf' || url.pathname === '/pruefung') {
         return new Response(null, {
           headers: {
             'Access-Control-Allow-Origin': '*',
@@ -1285,6 +1363,8 @@ export default {
         ).all()
         return json(env, { sites: results ?? [] })
       }
+      case '/pruefung':
+        return handlePruefung(request, env)
       case '/lauf':
         return handleLauf(request, env)
       case '/health': {

@@ -1,0 +1,27 @@
+/* Der Knopf sitzt unten rechts, außerhalb von Netflix' eigenen Bedienelementen.
+   Absichtlich nicht in der Steuerleiste: Die baut Netflix bei jedem
+   Zustandswechsel neu auf, und ein Knopf darin verschwindet ständig. */
+.ak-melder {
+  position: fixed;
+  right: 20px;
+  bottom: 96px;
+  z-index: 2147483000;
+  padding: 10px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  background: #161b22;
+  color: #e6edf3;
+  font: 600 13px/1.2 "Segoe UI", system-ui, sans-serif;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  transition: background .15s ease, border-color .15s ease;
+}
+.ak-melder:hover { border-color: #58a6ff; }
+
+/* Die Farbe sagt, was der Klick melden würde — noch bevor er passiert. */
+.ak-melder.ak-ja   { border-left: 3px solid #3fb950; }
+.ak-melder.ak-nein { border-left: 3px solid #d29922; }
+.ak-melder.ak-leer { border-left: 3px solid #8b949e; opacity: .7; }
+
+.ak-melder.ak-erfolg { background: #1a3a24; border-color: #3fb950; }
+.ak-melder.ak-fehler { background: #3a1a1a; border-color: #f85149; }

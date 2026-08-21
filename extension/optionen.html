@@ -1,0 +1,33 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Anime-Kalender: Synchro melden</title>
+<style>
+  body { font: 14px/1.5 "Segoe UI", system-ui, sans-serif; max-width: 32rem; margin: 2rem auto; padding: 0 1rem;
+         background: #0d1117; color: #e6edf3; }
+  h1 { font-size: 17px; margin-bottom: .3rem; }
+  p { color: #8b949e; }
+  input { width: 100%; padding: .5rem; margin: .4rem 0 1rem; background: #161b22; color: #e6edf3;
+          border: 1px solid #30363d; border-radius: 6px; font-family: ui-monospace, monospace; }
+  button { padding: .5rem 1rem; background: #161b22; color: #e6edf3; border: 1px solid #30363d;
+           border-radius: 6px; cursor: pointer; font: inherit; }
+  button:hover { border-color: #58a6ff; }
+  #stand { margin-left: .8rem; color: #3fb950; }
+</style>
+
+<h1>Synchro melden</h1>
+<p>
+  Der Knopf erscheint, sobald eine Folge läuft. Er liest die Tonspuren, die der Player ohnehin
+  geladen hat, und schickt sie auf Klick an den Anime-Kalender. Audiodeskriptionen werden dabei
+  aussortiert — sie sind keine Synchronfassung.
+</p>
+
+<label for="token">Token</label>
+<input id="token" type="password" autocomplete="off" placeholder="LAUF_TOKEN">
+<button id="speichern">Speichern</button><span id="stand"></span>
+
+<p style="margin-top:2rem">
+  Dasselbe Token wie das Repo-Secret <code>LAUF_TOKEN</code>. Es steht in
+  <code>my_secrets.md</code>.
+</p>
+
+<script src="optionen.js"></script>
