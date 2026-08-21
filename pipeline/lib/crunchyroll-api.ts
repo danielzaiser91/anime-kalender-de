@@ -156,12 +156,29 @@ export class CrunchyrollApi {
   /**
    * Ein Aufruf im Browser-Kontext.
    *
-   * Gibt `undefined` zurück, wenn die Antwort kein brauchbares JSON ist — das
-   * ist ausdrücklich **keine** Aussage über den Inhalt, sondern eine
-   * Nichtauskunft, und der Aufrufer muss sie als solche behandeln.
+   * Der Status kommt mit zurück, und zwar immer. Der Unterschied zwischen „404
+   * — diese Kennung gibt es nicht" und „gerade keine Auskunft" ist genau der
+   * zwischen einem Befund und einer Nichtauskunft, und wer ihn einebnet, macht
+   * aus einer Störung eine Aussage über den Inhalt.
+   *
+   * **Wiederholt wird alles außer 404.** Am 21.08.2026 fielen im ersten
+   * Volllauf 59 von 510 Serien mit „hat nicht geantwortet" aus — darunter
+   * „Goblin Slayer" und „Rent-a-Girlfriend", also unzweifelhaft vorhandene
+   * Serien, und zwar verstreut zwischen gelungenen Abrufen. Eine einmalige
+   * Störung darf keine Serie für vier Wochen als unbeantwortet zurücklassen.
    */
-  private async hole(pfad: string, versuch = 0): Promise<{ status: number; text: string } | undefined> {
+  private async hole(pfad: string, versuch = 0): Promise<{ status: number; text: string }> {
     if (!this.token || Date.now() > this.gueltigBis) await this.aufwaermen()
+    /**
+     * Der Aufruf läuft im Kontext der geladenen Seite — die muss deshalb auf
+     * crunchyroll.com stehen.
+     *
+     * `seitenBefund()` folgt Weiterleitungen, und unter unseren
+     * Crunchyroll-Verweisen steckte eine Amazon-Adresse. Von dort aus ist
+     * derselbe `fetch` plötzlich ein fremder Ursprung, und der Browser bricht
+     * ihn ab, bevor Crunchyroll ihn je sieht.
+     */
+    if (!this.page.url().startsWith('https://www.crunchyroll.com')) await this.aufwaermen()
     const antwort = await this.page
       .evaluate(
         async ([p, tok]) => {
@@ -173,21 +190,30 @@ export class CrunchyrollApi {
       .catch((err: Error) => ({ status: 0, text: err.message }))
     await sleep(this.pauseMs)
 
-    // 401 heißt: Token abgelaufen. 429 und 5xx heißen: zu schnell oder Störung.
-    // Beides ist ein Grund zum Nachwärmen und Wiederholen, keiner ist ein Befund.
-    if ((antwort.status === 401 || antwort.status === 429 || antwort.status >= 500) && versuch < 3) {
-      warn(`Crunchyroll-API ${antwort.status} bei ${pfad.slice(0, 70)} — Versuch ${versuch + 2}`)
-      await sleep(2 ** versuch * 2000)
-      if (antwort.status === 401) await this.aufwaermen()
-      return this.hole(pfad, versuch + 1)
+    if (antwort.status === 200 || antwort.status === 404 || versuch >= 3) {
+      if (antwort.status !== 200 && antwort.status !== 404) {
+        warn(`Crunchyroll-API ${antwort.status} bei ${pfad.slice(0, 70)} — aufgegeben`)
+      }
+      return antwort
     }
-    return antwort.status === 200 ? antwort : undefined
+    warn(`Crunchyroll-API ${antwort.status} bei ${pfad.slice(0, 70)} — Versuch ${versuch + 2}`)
+    // Ein abgelaufenes Token ist der häufigste Grund; ein neues kostet zwei
+    // Sekunden und heilt auch die Fälle, in denen der Browser-Kontext hakt.
+    await sleep(2 ** versuch * 2000)
+    await this.aufwaermen()
+    return this.hole(pfad, versuch + 1)
   }
 
-  /** Rohantwort und ausgewertete Liste — die Rohantwort wandert ins Archiv. */
+  /**
+   * Rohantwort und ausgewertete Liste — die Rohantwort wandert ins Archiv.
+   *
+   * `undefined` heißt **Nichtauskunft**, `data: []` heißt „die Schnittstelle
+   * kennt dazu nichts". Der Aufrufer muss beides auseinanderhalten.
+   */
   private async liste<T>(pfad: string): Promise<{ roh: string; data: T[] } | undefined> {
     const antwort = await this.hole(pfad)
-    if (!antwort) return undefined
+    if (antwort.status === 404) return { roh: antwort.text, data: [] }
+    if (antwort.status !== 200) return undefined
     try {
       const j = JSON.parse(antwort.text) as Antwort<T>
       return { roh: antwort.text, data: j.data ?? [] }
@@ -236,13 +262,22 @@ export class CrunchyrollApi {
    * `art` ist `undefined`, wenn die Seite weder Kennung noch Fehlermeldung
    * hergibt — das ist eine Nichtauskunft und ausdrücklich kein Befund.
    */
-  async seitenBefund(url: string): Promise<{ seriesId?: string; ziel: string; art?: 'weg' | 'fehlt'; zeile?: string }> {
+  async seitenBefund(
+    url: string,
+    /**
+     * Auch dann nach einer Fehlermeldung sehen, wenn die Kennung schon dasteht.
+     *
+     * Der Regelfall ist `false`: Wer nur die Kennung sucht, hat sie mit der
+     * Weiterleitung, und weiterzuwarten kostet Sekunden für nichts. Beim
+     * Gegenprüfen einer leeren Staffelliste ist es umgekehrt — dort steht die
+     * Kennung immer, und gesucht wird gerade die Meldung.
+     */
+    aufMeldungWarten = false,
+  ): Promise<{ seriesId?: string; ziel: string; art?: 'weg' | 'fehlt'; zeile?: string }> {
     await this.page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 }).catch(() => undefined)
     const ziel = this.page.url()
     const seriesId = /\/series\/([A-Z0-9]+)/i.exec(ziel)?.[1]
-    // Auf der Kennung ist die Frage beantwortet; die Fehlerseiten interessieren
-    // nur dort, wo keine kam.
-    if (seriesId) {
+    if (seriesId && !aufMeldungWarten) {
       await sleep(this.pauseMs)
       return { seriesId, ziel }
     }
@@ -269,7 +304,7 @@ export class CrunchyrollApi {
       .then((h) => h.jsonValue())
       .catch(() => null)
     await sleep(this.pauseMs)
-    return { ziel, art: befund?.art, zeile: befund?.zeile.trim() }
+    return { seriesId, ziel, art: befund?.art, zeile: befund?.zeile.trim() }
   }
 
   async schliessen(): Promise<void> {

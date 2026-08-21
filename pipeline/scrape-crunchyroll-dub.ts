@@ -265,12 +265,19 @@ async function serieLesenApi(api: CrunchyrollApi, url: string, seriesId: string)
     objects: [],
   }
 
-  // Eine Serienkennung ohne Staffeln ist eine **Nichtauskunft**, kein „keine
-  // Synchro". Ob es die Serie noch gibt, entscheidet die Seite selbst — und nur
-  // sie, weil daran das Entfernen von Verweisen hängt.
+  /**
+   * Eine Kennung ohne Staffeln ist für sich genommen eine **Nichtauskunft**.
+   *
+   * Was daraus wird, entscheidet die Seite — und nur sie, weil an
+   * `nichtVerfuegbar` das Entfernen von Verweisen hängt und ein zerstörender
+   * Schluss einen zweiten Beleg braucht. Der Abgleich am 21.08.2026 zeigte, dass
+   * beide dasselbe meinen: „Durarara!!", „Nisekoi" und „91 Days" liefern
+   * `total: 0`, und auf ihrer Seite steht „Leider sind die Videos dieser Serie
+   * nicht mehr verfügbar." Genommen wird trotzdem die Seite, nicht die Zahl.
+   */
   if (!staffelAntwort.data.length) {
     archiviere(seriesId, archiv)
-    const befund = await api.seitenBefund(url)
+    const befund = await api.seitenBefund(url, true)
     if (befund.art) return { ...kopf, nichtVerfuegbar: true, fehler: befund.zeile }
     return { ...kopf, fehler: 'Content-API kennt keine Staffel zu dieser Kennung' }
   }
@@ -802,7 +809,9 @@ async function main(): Promise<void> {
       const serie = schon ? { ...schon, url } : await serieLesenApi(api, url, seriesId)
       if (!schon) jeSerie.set(seriesId, serie)
       bestand.set(url, serie)
-      if (!serie.deutschImAngebot) ohneDeutsch++
+      // Gezählt wird nur, wo die Antwort auch eine ist: „nicht verfügbar" und
+      // „keine Auskunft" sind kein „ohne deutsche Tonspur".
+      if (serie.deutschImAngebot === false) ohneDeutsch++
       melden(i, kurz, serie)
     } catch (err) {
       // Wie beim alten Weg: Ein Fehlschlag wird nicht gespeichert. Die Adresse
