@@ -28,7 +28,11 @@
     // deren Sprachen haben mit der Reihe nichts zu tun.
     if (!location.pathname.startsWith('/watch/')) return null
     const api = window.netflix?.appContext?.state?.playerApp?.getAPI?.()
-    const sitzungen = api?.videoPlayer?.getAllPlayerSessionIds?.() ?? []
+    const alle = api?.videoPlayer?.getAllPlayerSessionIds?.() ?? []
+    // „motion-billboard" ist die Vorschau auf der Titelseite, „trailer" spricht
+    // für sich. Beide haben eigene Tonspuren, die mit der Reihe nichts zu tun
+    // haben.
+    const sitzungen = alle.filter((id) => !/motion-billboard|trailer|preview/i.test(String(id)))
     if (!sitzungen.length) return null
     const player = api.videoPlayer.getVideoPlayerBySessionId(sitzungen[0])
     const spuren = player?.getAudioTrackList?.() ?? []
