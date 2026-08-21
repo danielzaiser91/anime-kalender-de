@@ -1,0 +1,121 @@
+name: Monatlich — Tonspuren von der Streaming Availability API
+
+# Netflix untersagt in seiner robots.txt jeden automatisierten Abruf. Diese
+# Quelle ist deshalb der einzige Weg, für 552 Netflix-Verweise überhaupt eine
+# Sprachangabe zu bekommen — und sie deckt Prime Video und Disney+ gleich mit ab.
+#
+# Warum monatlich und nicht täglich: Das Kontingent sind 1.000 Anfragen im Monat
+# und es setzt am Monatsersten zurück. Ein täglicher Lauf verbrauchte es in den
+# ersten Tagen und stünde den Rest des Monats ohne da.
+#
+# Der Zweite ist bewusst gewählt: einen Tag nach dem Reset, damit ein
+# fehlgeschlagener Lauf noch Luft hat.
+
+on:
+  schedule:
+    # Am 2. jedes Monats um 04:17 UTC.
+    - cron: '17 4 2 * *'
+  workflow_dispatch:
+    inputs:
+      budget:
+        description: 'Wie viele Anfragen dieser Lauf höchstens verbraucht'
+        required: false
+        default: '800'
+        type: string
+      alter:
+        description: 'Wiedervorlage in Tagen — was jünger ist, wird übersprungen'
+        required: false
+        default: '60'
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daten
+  cancel-in-progress: false
+
+jobs:
+  tonspuren:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      # Sofort anmelden, noch vor allem anderen.
+      #
+      # Der Schritt weiter unten braucht das ausgecheckte Skript und läuft
+      # deshalb erst nach Checkout und npm-Einrichtung — das sind dreißig bis
+      # sechzig Sekunden, in denen die Statusanzeige nichts weiß. Daniel am
+      # 21.08.2026: „der läuft sogar schon seit 1min aber ist erst jetzt in
+      # der app aufgetaucht."
+      #
+      # Ein curl braucht nichts als das Token. Schlägt er fehl, läuft der Job
+      # weiter — die spätere Anmeldung holt es nach.
+      - name: Sofort anmelden
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: |
+          if [ -z "$LAUF_TOKEN" ]; then exit 0; fi
+          printf '{"lauf_id":"%s","repo":"%s","workflow":"%s","zustand":"laeuft","url":"%s","notiz":"wird eingerichtet"}' \
+            "$GITHUB_RUN_ID" "$GITHUB_REPOSITORY" "$GITHUB_WORKFLOW" \
+            "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" > /tmp/anmeldung.json
+          curl -sS --max-time 10 -X POST "https://newsletter.animekalender.workers.dev/lauf" \
+            -H "Content-Type: application/json" -H "X-Lauf-Token: $LAUF_TOKEN" \
+            --data-binary @/tmp/anmeldung.json > /dev/null || true
+
+
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      # Meldet der Statusanzeige, dass hier etwas läuft. Ohne LAUF_TOKEN
+      # passiert nichts — eine fehlende Meldung darf keinen Lauf rot machen.
+      # Das Meldeskript an einen Ort legen, den kein Zweigwechsel wegnimmt.
+      #
+      # Am 21.08.2026 hat ein Auftrags-Lauf seinen eigenen Zweig angelegt und
+      # ist dorthin gewechselt — auf dem gab es `tools/lauf-melden.sh` noch
+      # nicht. Die Abmeldung scheiterte mit Exit 127 und machte einen Lauf rot,
+      # dessen Arbeit fertig und richtig war.
+      - name: Melder bereitlegen
+        run: |
+          cp tools/lauf-melden.sh "$RUNNER_TEMP/lauf-melden.sh"
+          echo "MELDER=$RUNNER_TEMP/lauf-melden.sh" >> "$GITHUB_ENV"
+
+      - name: Lauf anmelden
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" laeuft
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Tonspuren holen
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+          STREAMING_API_KEY: ${{ secrets.STREAMING_API_KEY }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+        run: npm run data:motn -- --budget ${{ inputs.budget || '800' }} --alter ${{ inputs.alter || '60' }}
+
+      - name: Messung gegen die eigenen Belege
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:motn:check >> $GITHUB_STEP_SUMMARY
+
+      - name: Ergebnis sichern
+        if: always()
+        run: |
+          bash tools/commit-data.sh "chore(data): Tonspuren von der Streaming Availability API"
+
+      # Läuft auch nach einem Fehler: Der rote Lauf ist der, den man sehen will.
+      - name: Lauf abmelden
+        continue-on-error: true
+        if: always()
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" "${{ job.status == 'success' && 'ok' || job.status == 'cancelled' && 'abgebrochen' || 'fehler' }}"
