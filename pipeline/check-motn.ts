@@ -61,12 +61,13 @@ if (!Object.keys(motn.shows ?? {}).length) {
   process.exit(0)
 }
 
+const tmdbLink = tmdbZuordnung(readJson('data/tmdb-titles.json', {}), motn.tmdb)
 const belege = ordneShowsZu(
   titles,
   motn.shows,
   (t) => (t.franchiseId ? staffelnDesFranchise(titles, t.franchiseId) : []),
   { passtZuSerie, bewerteTreffer, volltreffer },
-  tmdbZuordnung(readJson('data/tmdb-titles.json', {}), motn.tmdb),
+  tmdbLink,
 )
 const titleById = new Map(titles.map((t) => [t.id, t]))
 
@@ -290,6 +291,71 @@ if (widerspruch.length) {
     ),
     '',
   )
+}
+
+// --- Was die strenge Regel kostet -------------------------------------------
+//
+// Der Preis der Regel „die Folgenzahl muss exakt aufgehen", in Titeln
+// ausgedrückt statt in Absätzen: Serien, die bei Netflix nachweislich deutschen
+// Ton tragen und trotzdem keinen einzigen Beleg erzeugen, weil unsere
+// Staffelaufteilung nicht auf die Folgenliste der Quelle passt.
+//
+// Sie stehen hier, damit die Handarbeit sie findet. Sie bleiben offen, und das
+// ist richtig: Die Quelle nummeriert ihre Folgen nicht, unsere Zuordnung läuft
+// über die Position in der Liste, und der erste Eintrag einer Liste ist nicht
+// deren erste Folge (CLAUDE.md, „Wistoria"). Wer bei 26 Einträgen für 25 Folgen
+// rät, welcher der überzählige ist, verschiebt im Zweifel eine ganze Staffel.
+
+/**
+ * Rückweg: Serie der Quelle → unser Titel, der zu ihr geführt hat.
+ *
+ * Ohne ihn wäre die Liste unten unbrauchbar. Der Bestand enthält auch, was die
+ * **Titelsuche** nebenbei mitgebracht hat — „Power Rangers", „Masha and the
+ * Bear", „LEGO DREAMZzz". Die stehen dort zu Recht (weggeworfen wird beim
+ * Scrapen nichts), aber sie sind keine offene Handarbeit, sondern Beifang. Wer
+ * beides in einer Liste ohne Unterschied sieht, sucht sich an ihnen dumm.
+ */
+const zuUnserem = new Map<string, string>()
+for (const title of titles) {
+  for (const imdbId of tmdbLink(title)) if (!zuUnserem.has(imdbId)) zuUnserem.set(imdbId, anzeigeName(title))
+}
+for (const [id, eintrag] of Object.entries(motn.gesucht ?? {})) {
+  const t = titleById.get(Number(id))
+  if (eintrag.imdbId && t && !zuUnserem.has(eintrag.imdbId)) zuUnserem.set(eintrag.imdbId, anzeigeName(t))
+}
+
+const zugeordnet = new Set(belege.map((b) => b.imdbId))
+const ungeklaert = Object.values(motn.shows)
+  .filter(
+    (s) => !zugeordnet.has(s.imdbId) && (s.dienste.netflix?.deutsch.length ?? 0) > 0 && zuUnserem.has(s.imdbId),
+  )
+  .sort((a, b) => (b.dienste.netflix?.deutsch.length ?? 0) - (a.dienste.netflix?.deutsch.length ?? 0))
+
+if (ungeklaert.length) {
+  md.push(
+    '## Deutscher Ton bei Netflix, aber keine Zuordnung',
+    '',
+    `**${ungeklaert.length} Serien** trägt die Quelle mit deutschem Netflix-Ton, ohne dass ein Beleg`,
+    'daraus wird. Fast immer ist es die Folgenrechnung: Die Quelle nummeriert ihre Folgen nicht,',
+    'zugeordnet wird über die **Position** in ihrer Liste, und die geht nur auf, wenn die Länge',
+    'exakt zu unserer Staffelaufteilung passt. 26 Einträge für 25 Folgen heißen, dass irgendwo ein',
+    'Special dazwischenliegt — welches, sagt die Quelle nicht.',
+    '',
+    'Diese Zeilen sind **Handarbeit**, keine Lücke im Abruf. Ein zweiter Abruf bringt dieselbe',
+    'Antwort.',
+    '',
+    '| unser Titel | Serie laut Quelle | Jahr | Folgen in der Liste | ihr `episodeCount` | Netflix-Folgen mit deutschem Ton |',
+    '|---|---|---|---|---|---|',
+    ...ungeklaert
+      .slice(0, 60)
+      .map(
+        (s) =>
+          `| ${(zuUnserem.get(s.imdbId) ?? '—').replace(/\|/g, '\\|')} | ${(s.titel || s.imdbId).replace(/\|/g, '\\|')} | ` +
+          `${s.jahr ?? '—'} | ${s.folgen} | ${s.folgenLautQuelle ?? '='} | ${s.dienste.netflix?.deutsch.length ?? 0} |`,
+      ),
+    '',
+  )
+  if (ungeklaert.length > 60) md.push(`… und ${ungeklaert.length - 60} weitere.`, '')
 }
 
 if (verzuege.length) {
