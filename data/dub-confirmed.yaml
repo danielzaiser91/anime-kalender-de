@@ -798,3 +798,11 @@
   platform: netflix
   available: false
   checkedAt: '2026-08-21'
+
+# Aus der Netflix-Liste, von Hand geprüft am 22.08.2026.
+- anilistId: 97634
+  title: 'Pokémon the Series: Sun & Moon'
+  platform: netflix
+  dub: false
+  checkedAt: '2026-08-22'
+  note: 'Titelseite zeigt nur „Erinnern", keine Folge abspielbar — keine deutsche Fassung dort zu sehen'

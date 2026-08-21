@@ -64,8 +64,35 @@ function urteil(spuren) {
   return { deutsch, echte }
 }
 
+/**
+ * Auf einer Titelseite ohne abspielbare Folge gibt es nichts zu lesen — und
+ * trotzdem etwas zu melden.
+ *
+ * Daniel am 22.08.2026 beim ersten Titel der Prüfliste („Pokémon – Sonne und
+ * Mond"): „hier sollte auch ein button kommen, es gibt keine episode zum
+ * anklicken". Genau das ist ein Befund: Steht dort nur „Erinnern" oder gar
+ * nichts, gibt es die Reihe auf Netflix nicht zu sehen — und der Weg zurück
+ * zur Liste soll nicht über einen zweiten Handgriff führen.
+ *
+ * Erkannt wird es an der Seite selbst, nicht am Fehlen der Tonspuren: Auf einer
+ * Titelseite mit Folgen steht ein Abspielknopf. Fehlt der und findet sich
+ * stattdessen „Erinnern", ist die Reihe angekündigt, aber nicht abrufbar.
+ */
+function keineFolgeSichtbar() {
+  if (!location.pathname.startsWith('/title/') && !location.pathname.startsWith('/de/title/')) return false
+  const text = document.body.innerText || ''
+  const hatErinnern = /\bErinnern\b|\bRemind me\b/.test(text)
+  const hatAbspielen = Array.from(document.querySelectorAll('a, button')).some((el) =>
+    /^\s*(Abspielen|Play|Weiterschauen|Resume)\s*$/i.test(el.textContent || ''),
+  )
+  return hatErinnern && !hatAbspielen
+}
+
 function beschriftung(spuren) {
-  if (!spuren) return { text: 'Keine Tonspuren gefunden', klasse: 'ak-leer' }
+  if (!spuren) {
+    if (keineFolgeSichtbar()) return { text: 'Keine Folge abspielbar — melden', klasse: 'ak-nein' }
+    return { text: 'Keine Tonspuren gefunden', klasse: 'ak-leer' }
+  }
   const { deutsch, echte } = urteil(spuren)
   return deutsch
     ? { text: `Deutsch melden (${echte.length} Spuren)`, klasse: 'ak-ja' }
@@ -74,9 +101,10 @@ function beschriftung(spuren) {
 
 async function melden() {
   const spuren = spurenLesen()
-  if (!spuren) return zeigeErgebnis('Keine Tonspuren gefunden — läuft eine Folge?', false)
+  const ohneFolge = !spuren && keineFolgeSichtbar()
+  if (!spuren && !ohneFolge) return zeigeErgebnis('Keine Tonspuren gefunden — läuft eine Folge?', false)
 
-  const { deutsch, echte } = urteil(spuren)
+  const { deutsch, echte } = spuren ? urteil(spuren) : { deutsch: false, echte: [] }
   const { token } = await chrome.storage.sync.get('token')
   if (!token) return zeigeErgebnis('Kein Token hinterlegt — siehe Einstellungen', false)
 
@@ -89,14 +117,20 @@ async function melden() {
         // Die Titelseite, nicht die Abspieladresse — danach sucht die Pipeline.
         url: adresseDerReihe(),
         sprachen: echte.map((s) => `${s.code}|${s.name}`),
-        befund: deutsch ? 'dub' : 'kein_dub',
+        // `weg` heißt: Die Reihe ist dort nicht zu sehen. Das ist etwas anderes
+        // als „keine deutsche Fassung" und wird in der Pipeline auch anders
+        // behandelt (available: false statt dub: false).
+        befund: ohneFolge ? 'weg' : deutsch ? 'dub' : 'kein_dub',
         titel: document.title.replace(/\s*-\s*Netflix\s*$/i, '').trim() || null,
-        notiz: `${echte.length} Tonspuren, ${spuren.length - echte.length} Audiodeskriptionen`,
+        notiz: ohneFolge
+          ? 'Titelseite ohne abspielbare Folge — nur „Erinnern"'
+          : `${echte.length} Tonspuren, ${spuren.length - echte.length} Audiodeskriptionen`,
       }),
     })
     const daten = await antwort.json().catch(() => ({}))
     if (!antwort.ok) return zeigeErgebnis(daten.error ?? `Fehler ${antwort.status}`, false)
-    zeigeErgebnis(deutsch ? `Deutsch gemeldet (${daten.offen} offen)` : `Kein Deutsch gemeldet (${daten.offen} offen)`, true)
+    const kopf = ohneFolge ? 'Als nicht abrufbar gemeldet' : deutsch ? 'Deutsch gemeldet' : 'Kein Deutsch gemeldet'
+    zeigeErgebnis(`${kopf} (${daten.offen} offen)`, true)
   } catch (err) {
     zeigeErgebnis(`Nicht erreichbar: ${err.message}`, false)
   }
@@ -130,7 +164,10 @@ function zeigeErgebnis(text, gutgegangen) {
 
 function knopfZeigen() {
   const spuren = spurenLesen()
-  if (!spuren) {
+  // Der Knopf erscheint auch ohne Tonspuren, sobald die Seite erkennbar eine
+  // Titelseite ohne abspielbare Folge ist — sonst müsste Daniel für den
+  // häufigsten Befund („gibt es dort gar nicht") die Erweiterung verlassen.
+  if (!spuren && !keineFolgeSichtbar()) {
     if (knopf) { knopf.remove(); knopf = null }
     return
   }
