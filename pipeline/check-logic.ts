@@ -745,6 +745,57 @@ console.log('\nStreaming Availability API:')
     zuordnungen.length === 1 && zuordnungen[0].titleId === 21700,
     zuordnungen.map((z) => z.titleId),
   )
+
+  /**
+   * Grenze 5 — ein Kanal im fremden Abo ist nicht der Katalog des Anbieters.
+   *
+   * Am 21.08.2026 am ersten echten Abruf sichtbar geworden und an 130 Serien
+   * bestätigt: Neben `netflix` und `crunchyroll` steht bei „Frieren" ein
+   * dritter Eintrag mit `service.id = "prime"`, `type = "addon"` und
+   * `addon.id = "crunchyrollde"` — der Crunchyroll-Kanal bei Amazon. Wer nur
+   * `service.id` liest, schreibt Prime Video 24 deutsche Folgen zu, die es dort
+   * nicht gibt.
+   *
+   * Der Kanal wird trotzdem **erfasst**, weil die Kontrollmessung ohne ihn fast
+   * leer bliebe: Der Dienst `crunchyroll` führte 2.252 Folgeneinträge mit 108
+   * `deu`, der Kanal `crunchyrollde` 1.158 mit 1.093.
+   */
+  const mitKanal = bestandAus(
+    {
+      imdbId: 'tt00000001',
+      title: 'Kanalprobe',
+      firstAirYear: 2023,
+      seasons: [
+        {
+          seasonNumber: 1,
+          episodes: [
+            {
+              episodeNumber: 1,
+              seasonNumber: 1,
+              streamingOptions: {
+                de: [{ service: { id: 'prime' }, type: 'addon', addon: { id: 'crunchyrollde' }, audios: [{ language: 'deu' }] }],
+              },
+            },
+          ],
+        },
+      ],
+    },
+    '2026-08-21',
+  )
+  pruefe('ein Kanal landet nicht im Katalog seines Basisdienstes', !mitKanal?.dienste.primevideo, mitKanal?.dienste)
+  pruefe('ein Kanal wird eigens geführt', mitKanal?.addons?.crunchyrollde?.deutsch.length === 1, mitKanal?.addons)
+
+  /**
+   * Und die Zusicherung, an der alles hängt: Ein Beleg aus einem Kanal geht
+   * **nie** in den Datensatz, auch wenn sonst alles passt. Er belegt die
+   * Sprachfassung, nicht das Angebot des Anbieters, unter dem er läuft — und
+   * „Crunchyroll bei Amazon hat Folge 3 auf Deutsch" ist keine Aussage über
+   * crunchyroll.com und schon gar keine über Netflix.
+   */
+  pruefe(
+    'ein Beleg aus einem Kanal wird nie übernommen',
+    !uebernehmbar({ ...beleg, kanal: 'crunchyrollde' }, false, '2026-08-21'),
+  )
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
