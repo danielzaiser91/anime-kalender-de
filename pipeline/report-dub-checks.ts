@@ -136,10 +136,13 @@ function herkunftVon(titleId: number, url: string): string {
 
 /** Letzter bekannter deutscher Termin eines Titels. */
 const letzterTermin = new Map<number, string>()
+/** Titel, für die noch ein Termin aussteht — sie wiegen beim Sortieren schwerer. */
+const mitAnstehendemTermin = new Set<number>()
 for (const r of releases) {
   const ende = lastEpisodeDate(r) ?? r.schedule.firstEpisodeDate
   const bisher = letzterTermin.get(r.titleId)
   if (!bisher || ende > bisher) letzterTermin.set(r.titleId, ende)
+  if ((lastEpisodeDate(r) ?? r.schedule.firstEpisodeDate) > heute) mitAnstehendemTermin.add(r.titleId)
 }
 
 const titleById = new Map(titles.map((t) => [t.id, t]))
@@ -272,6 +275,9 @@ const md: string[] = [
   '',
   'Sortiert von heute in die Vergangenheit, ausschließlich Titel, die es schon gibt.',
   '',
+  'Zum Abarbeiten gibt es dieselben Zeilen in `dub-batches.md` — nach Nutzen sortiert und in',
+  'Paketen zu je zwanzig.',
+  '',
   '## Wie geantwortet wird',
   '',
   'Kurzschrift, damit ein Batch in einer Zeile beantwortet werden kann (Daniel, 12.08.2026):',
@@ -321,6 +327,97 @@ md.push(
 writeText('data/dub-pruefliste.md', md.join('\n'))
 log(`Prüfliste geschrieben: ${zuPruefen.length} Zeilen, ${offenGesamt} offene Verweise`)
 for (const [p, n] of [...nachPlattform.entries()].sort((a, b) => b[1] - a[1])) log(`  · ${p}: ${n}`)
+
+// --- Arbeitspakete zu je zwanzig Zeilen --------------------------------------
+//
+// Daniels Zuschnitt vom 21.08.2026: „mir den Rest in 20er-Batches zum Prüfen
+// geben." Dieselben Zeilen wie oben, nur zweimal anders geordnet als die
+// Prüfliste, und beides ist Absicht:
+//
+//  * **Nach Nutzen statt nach Datum.** Der Aufwand je Zeile ist immer derselbe
+//    — Verweis öffnen, hinsehen, eine Ziffer schreiben. Der Ertrag ist es
+//    nicht: Eine Reihe mit 120 Folgen und einem anstehenden Termin bringt mehr
+//    als ein Einzelfilm von 2009.
+//  * **Durchgehend von 1 bis N.** Daniels Rückmeldungen beziehen sich auf diese
+//    Nummern („1-x 2-1 3-1.0"). Eine Lücke oder ein Neustart je Paket würde
+//    zwei Antworten auf dieselbe Nummer erzeugen.
+
+const PAKETGROESSE = 20
+
+/**
+ * Wie viel eine Zeile bringt.
+ *
+ * Folgen, weil jede beantwortete Reihe so viele Einträge auf einmal klärt. Der
+ * anstehende Termin kommt oben drauf, weil dort jemand wartet — bei allem
+ * anderen ist es ein Katalogtitel, der auch nächste Woche noch da ist.
+ */
+function nutzen(z: Zeile): number {
+  const folgen = z.offen.reduce((n, o) => n + (titleById.get(o.titleId)?.episodes ?? 1), 0)
+  const anstehend = z.offen.some((o) => mitAnstehendemTermin.has(o.titleId))
+  return folgen + (anstehend ? 1000 : 0)
+}
+
+// Auf zuPruefen, nicht auf zeilen: Die zurückgestellten Anbieter (RTL+) haben
+// in einem Arbeitspaket nichts verloren — sie sind ohne Abo nicht prüfbar.
+const nachNutzen = [...zuPruefen].sort(
+  (a, b) => nutzen(b) - nutzen(a) || b.datum.localeCompare(a.datum) || a.reihe.localeCompare(b.reihe, 'de'),
+)
+
+const batches: string[] = [
+  '# Arbeitspakete: Wo läuft es wirklich auf Deutsch?',
+  '',
+  `Stand ${heute} · **${offenGesamt} offene Verweise** in **${nachNutzen.length} Zeilen**,`,
+  `aufgeteilt in **${Math.ceil(nachNutzen.length / PAKETGROESSE)} Pakete** zu je ${PAKETGROESSE}.`,
+  '',
+  'Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in',
+  '`dub-pruefliste.md`, nur nach Nutzen sortiert statt nach Datum: Was viele Folgen oder einen',
+  'anstehenden Termin hat, steht vorn. Der Aufwand je Zeile ist gleich, der Ertrag nicht.',
+  '',
+  '**Die Nummern laufen durch von 1 bis N.** Sie sind die Anschrift für die Antworten und',
+  'ändern sich beim nächsten Lauf — ein Paket also bitte beantworten, bevor die Liste neu',
+  'gebaut wird.',
+  '',
+  '## Wie geantwortet wird',
+  '',
+  '| Zeichen | Bedeutung | wird zu |',
+  '|---|---|---|',
+  '| `1` | hat deutsche Synchro | `dub: true` |',
+  '| `0` | keine deutsche Synchro, nur Untertitel | `dub: false` — Verweis bleibt mit ✕ |',
+  '| `x` | kein Video: nicht verfügbar, Verweis tot, Weiterleitung | `available: false` — Verweis wird entfernt |',
+  '',
+  'Zwei Kurzformen für das, was am häufigsten vorkommt (Daniel, 20.08.2026) — beide bedeuten',
+  '`x` und unterscheiden sich nur darin, wie der Anbieter sein Nein mitteilt:',
+  '',
+  '| Kurzform | Was du siehst |',
+  '|---|---|',
+  '| **schief-Error** | Der Treffer steht in der Suche, beim Klick kommt „Da ist etwas schief gelaufen" |',
+  '| **404** | Weiterleitung auf die Startseite, der Titel ist dort nicht zu finden |',
+  '',
+  'Mehrere Einträge in einer Zeile werden mit Punkt getrennt in derselben Reihenfolge',
+  'beantwortet (`1.0` = erster ja, zweiter nein). Eine einzelne Angabe gilt für alle Einträge',
+  'der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.',
+  '',
+]
+
+for (let start = 0; start < nachNutzen.length; start += PAKETGROESSE) {
+  const paket = nachNutzen.slice(start, start + PAKETGROESSE)
+  batches.push(
+    `## Paket ${Math.floor(start / PAKETGROESSE) + 1} — Zeilen ${start + 1} bis ${start + paket.length}`,
+    '',
+    '| # | Anbieter | Reihe | Noch zu bestätigen |',
+    '|---|---|---|---|',
+    ...paket.map((z, i) => {
+      const eintraege = z.offen
+        .map((o) => `[${kurzname(z.reihe, o.name).replace(/\|/g, '\\|')}](${o.url})`)
+        .join(' · ')
+      return `| ${start + i + 1} | ${PLATFORMS[z.platform].name} | ${z.reihe.replace(/\|/g, '\\|')} | ${eintraege} |`
+    }),
+    '',
+  )
+}
+
+writeText('data/dub-batches.md', batches.join('\n'))
+log(`Arbeitspakete geschrieben: ${Math.ceil(nachNutzen.length / PAKETGROESSE)} Pakete zu je ${PAKETGROESSE} Zeilen`)
 
 /**
  * Die zurückgestellten Anbieter bekommen eine eigene Datei.

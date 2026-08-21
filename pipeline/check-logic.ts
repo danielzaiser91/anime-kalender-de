@@ -22,6 +22,7 @@ import {
   bestimmeRhythmus,
   bewerteTreffer,
   ordneBloeckeZuStaffeln,
+  passtZuSerie,
   staffelBloecke,
   staffelnDesFranchise,
   volltreffer,
@@ -37,6 +38,15 @@ import {
 } from './lib/adn-sprachen.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { beurteile } from './lib/crunchyroll-dub.ts'
+import {
+  bestandAus,
+  belegtDeutsch,
+  hatDeutschenTon,
+  ordneFolgenZuStaffeln,
+  ordneShowsZu,
+  uebernehmbar,
+  type MotnEpisode,
+} from './lib/motn.ts'
 import {
   beobachtungenZusammenfuehren,
   durchlaufendeZaehlung,
@@ -785,6 +795,221 @@ console.log('\nBeobachtungen zusammenführen:')
     'letzte Folge und Terminliste enden am selben Tag',
     lastEpisodeDate(release) === events.at(-1)?.date,
     { berechnet: lastEpisodeDate(release), liste: events.at(-1)?.date },
+  )
+}
+
+/**
+ * Die Streaming Availability API belegt nur, was da ist — nie, was fehlt.
+ *
+ * Vier Grenzen dieser Quelle wurden am 21.08.2026 gemessen, und jede davon
+ * kostet eine Zeile Code, die man beim nächsten Umbau versehentlich wegräumen
+ * kann. Deshalb steht hier je Grenze ein Fall.
+ *
+ * Der teuerste Irrtum wäre der dritte: Aus einem Schweigen ein Nein zu machen
+ * hat diesem Projekt schon 975 falsche Angaben eingebracht. Folge 7 von
+ * „Thunderbolt Fantasy" war am 19.08.2026 fällig, lag am 21.08. auf Netflix in
+ * deutscher Fassung, und die API kannte sie nicht.
+ */
+console.log('\nStreaming Availability API:')
+{
+  const folge = (nummer: number, dienst: string, ton: string[], untertitel: string[] = []): MotnEpisode => ({
+    episodeNumber: nummer,
+    seasonNumber: 1,
+    streamingOptions: {
+      de: [
+        {
+          service: { id: dienst },
+          audios: ton.map((language) => ({ language })),
+          subtitles: untertitel.map((language) => ({ closedCaptions: false, locale: { language } })),
+        },
+      ],
+    },
+  })
+
+  // Grenze 1: `audios` belegt, `subtitles` nicht. Die Trennlinie des Projekts.
+  pruefe('deu unter audios ist ein Beleg', hatDeutschenTon({ audios: [{ language: 'deu' }] }))
+  pruefe(
+    'deu nur unter subtitles belegt nichts',
+    !hatDeutschenTon({ audios: [{ language: 'jpn' }], subtitles: [{ locale: { language: 'deu' } }] }),
+  )
+
+  /**
+   * Grenze 2: Die Serienebene widerspricht der eigenen Episodenebene. Bei
+   * „Frieren" meldet sie deutschen Ton bei Crunchyroll, während alle 28
+   * Crunchyroll-Episoden `audios: [jpn]` tragen. Gelesen wird deshalb nur die
+   * Episodenebene — und Crunchyroll gar nicht.
+   */
+  const frieren = bestandAus(
+    {
+      imdbId: 'tt22248376',
+      title: 'Frieren: Beyond Journey’s End',
+      firstAirYear: 2023,
+      streamingOptions: { de: [{ service: { id: 'crunchyroll' }, audios: [{ language: 'deu' }] }] },
+      seasons: [
+        {
+          seasonNumber: 1,
+          episodes: [
+            ...Array.from({ length: 28 }, (_, i) => folge(i + 1, 'netflix', ['jpn', 'deu'])),
+            // Die laufende zweite Staffel steht dort als leerer Platzhalter.
+            { episodeNumber: 29, seasonNumber: 1, title: 'Episode 29' },
+          ],
+        },
+      ],
+    },
+    '2026-08-21',
+  )
+  pruefe(
+    'die Serienebene bringt keinen Dienst in den Bestand',
+    // Auf Serienebene steht dort Crunchyroll mit deutschem Ton. Erfasst ist
+    // trotzdem nur, was die Folgen selbst tragen — hier also Netflix.
+    !frieren?.dienste.crunchyroll && !!frieren?.dienste.netflix,
+    frieren?.dienste,
+  )
+  pruefe('28 Netflix-Folgen mit deutschem Ton', frieren?.dienste.netflix?.deutsch.length === 28, frieren?.dienste.netflix?.deutsch.length)
+  pruefe('die leere Folge 29 wird nirgends gelistet', !frieren?.dienste.netflix?.gelistet.includes(29))
+
+  /**
+   * Grenze 3: Die Staffelzählung der Quelle ist eine andere als unsere.
+   * „Frieren" ist dort **eine** Staffel mit 39 Folgen, bei uns sind es 28 + 11.
+   * Zugeordnet wird deshalb über Folgennummern.
+   */
+  const s1 = titel(52991, 'Frieren', 28, 2023, 'FALL')
+  const s2 = titel(176496, 'Frieren Staffel 2', 11, 2026, 'WINTER')
+  const bereiche = ordneFolgenZuStaffeln(39, [s1, s2])
+  pruefe('39 Folgen der Quelle sind unsere 28 + 11', bereiche?.length === 2, bereiche)
+  pruefe('Staffel 2 beginnt bei Folge 29', bereiche?.[1]?.von === 29 && bereiche?.[1]?.bis === 39, bereiche?.[1])
+
+  /**
+   * Geht die Rechnung nicht auf, gibt es **keine** Zuordnung. Bei „Sword Art
+   * Online" haben Staffel 2 und Alicization beide 24 Folgen — die Zahl trennt
+   * sie nicht, also ist sie kein Beweis.
+   */
+  const sao2 = titel(20594, 'Sword Art Online II', 24, 2014, 'SUMMER')
+  const alicization = titel(100182, 'Sword Art Online: Alicization', 24, 2018, 'FALL')
+  pruefe(
+    'zwei gleich lange Staffeln ergeben keine Zuordnung',
+    ordneFolgenZuStaffeln(24, [titel(11757, 'Sword Art Online', 25, 2012, 'SUMMER'), sao2, alicization]) === undefined,
+  )
+
+  /**
+   * Grenze 4 — und die schärfste Regel: Aus dieser Quelle entsteht nie ein
+   * `dub: false`, und aus einem **laufenden** Release entsteht gar nichts. Bei
+   * Mushoku Tensei Staffel 3 meldete sie null deutsche Folgen, während seit dem
+   * 19.08.2026 drei belegt sind.
+   */
+  const beleg = {
+    titleId: 178789,
+    platform: 'netflix' as const,
+    imdbId: 'tt13293588',
+    von: 1,
+    bis: 12,
+    deutsch: true,
+    eindeutig: true,
+  }
+  pruefe('abgeschlossen und eindeutig: übernommen', uebernehmbar(beleg, false, '2026-08-21'))
+  pruefe('laufendes Release: nichts wird übernommen', !uebernehmbar(beleg, true, '2026-08-21'))
+  pruefe('unvollständige Zuordnung: nichts wird übernommen', !uebernehmbar({ ...beleg, eindeutig: false }, false, '2026-08-21'))
+  pruefe(
+    'Crunchyroll kommt aus dieser Quelle nie in den Datensatz',
+    !uebernehmbar({ ...beleg, platform: 'crunchyroll' }, false, '2026-08-21'),
+  )
+  pruefe(
+    'ein abgelaufenes Angebot belegt nichts mehr',
+    !uebernehmbar({ ...beleg, laeuftAusAm: '2026-08-01' }, false, '2026-08-21'),
+  )
+
+  /**
+   * Eine Folge ohne Eintrag heißt „noch nicht bekannt", nicht „ohne deutschen
+   * Ton" — der Beleg gilt deshalb nur, wenn **jede** Folge des Bereichs ihn
+   * trägt. Genau der Fall `thunder-3`: Folgen 1 bis 6 mit deutschem Ton, ab 7
+   * keine Netflix-Option, und Folge 7 gibt es trotzdem.
+   */
+  const thunder = { gelistet: [1, 2, 3, 4, 5, 6], deutsch: [1, 2, 3, 4, 5, 6] }
+  pruefe('Folgen 1 bis 6 sind belegt', belegtDeutsch(thunder, 1, 6))
+  pruefe('Folge 7 ist nicht belegt, nur unbekannt', !belegtDeutsch(thunder, 1, 7))
+
+  /**
+   * Ein geteiltes Wort ist keine Zuordnung.
+   *
+   * Gemessen am 21.08.2026 gegen den echten Datensatz: Ein Bestand mit der
+   * einen Serie „Akashic Records of Bastard Magic Instructor" (12 Folgen) zog
+   * über das Wort „magic" fünf fremde Reihen an — MASHLE, The Saint's Magic
+   * Power is Omnipotent, Anti-Magic Academy, Magic Maker. Alle haben zwölf
+   * Folgen, also ging bei allen auch die Folgenrechnung auf. Was sie trennt,
+   * ist die vollständige Wortdeckung und das Jahr.
+   */
+  const richtig = titel(21700, 'Akashic Records of Bastard Magic Instructor', 12, 2017, 'SPRING')
+  const fremd = titel(151801, 'MASHLE: MAGIC AND MUSCLES', 12, 2023, 'SPRING')
+  const zuordnungen = ordneShowsZu(
+    [richtig, fremd],
+    {
+      tt6741278: {
+        imdbId: 'tt6741278',
+        titel: 'Akashic Records of Bastard Magic Instructor',
+        jahr: 2017,
+        folgen: 12,
+        dienste: { netflix: { gelistet: [1], deutsch: [1] } },
+        geprueftAm: '2026-08-21',
+      },
+    },
+    () => [],
+    { passtZuSerie, bewerteTreffer, volltreffer },
+  )
+  pruefe(
+    'nur die passende Reihe bekommt eine Zuordnung',
+    zuordnungen.length === 1 && zuordnungen[0].titleId === 21700,
+    zuordnungen.map((z) => z.titleId),
+  )
+
+  /**
+   * Grenze 5 — ein Kanal im fremden Abo ist nicht der Katalog des Anbieters.
+   *
+   * Am 21.08.2026 am ersten echten Abruf sichtbar geworden und an 130 Serien
+   * bestätigt: Neben `netflix` und `crunchyroll` steht bei „Frieren" ein
+   * dritter Eintrag mit `service.id = "prime"`, `type = "addon"` und
+   * `addon.id = "crunchyrollde"` — der Crunchyroll-Kanal bei Amazon. Wer nur
+   * `service.id` liest, schreibt Prime Video 24 deutsche Folgen zu, die es dort
+   * nicht gibt.
+   *
+   * Der Kanal wird trotzdem **erfasst**, weil die Kontrollmessung ohne ihn fast
+   * leer bliebe: Der Dienst `crunchyroll` führte 2.252 Folgeneinträge mit 108
+   * `deu`, der Kanal `crunchyrollde` 1.158 mit 1.093.
+   */
+  const mitKanal = bestandAus(
+    {
+      imdbId: 'tt00000001',
+      title: 'Kanalprobe',
+      firstAirYear: 2023,
+      seasons: [
+        {
+          seasonNumber: 1,
+          episodes: [
+            {
+              episodeNumber: 1,
+              seasonNumber: 1,
+              streamingOptions: {
+                de: [{ service: { id: 'prime' }, type: 'addon', addon: { id: 'crunchyrollde' }, audios: [{ language: 'deu' }] }],
+              },
+            },
+          ],
+        },
+      ],
+    },
+    '2026-08-21',
+  )
+  pruefe('ein Kanal landet nicht im Katalog seines Basisdienstes', !mitKanal?.dienste.primevideo, mitKanal?.dienste)
+  pruefe('ein Kanal wird eigens geführt', mitKanal?.addons?.crunchyrollde?.deutsch.length === 1, mitKanal?.addons)
+
+  /**
+   * Und die Zusicherung, an der alles hängt: Ein Beleg aus einem Kanal geht
+   * **nie** in den Datensatz, auch wenn sonst alles passt. Er belegt die
+   * Sprachfassung, nicht das Angebot des Anbieters, unter dem er läuft — und
+   * „Crunchyroll bei Amazon hat Folge 3 auf Deutsch" ist keine Aussage über
+   * crunchyroll.com und schon gar keine über Netflix.
+   */
+  pruefe(
+    'ein Beleg aus einem Kanal wird nie übernommen',
+    !uebernehmbar({ ...beleg, kanal: 'crunchyrollde' }, false, '2026-08-21'),
   )
 }
 

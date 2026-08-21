@@ -8,6 +8,27 @@ selbst oder an der Art ändert, wie Termine zustande kommen.
 
 ## Unveröffentlicht
 
+### Woher wir künftig wissen, ob Netflix eine deutsche Tonspur hat
+
+Bei Netflix, Prime Video und Disney+ stand hinter jedem Verweis ein „🇩🇪 ?" — keiner der drei
+sagt öffentlich, in welcher Sprache er einen Titel anbietet, und Netflix untersagt das Auslesen
+seiner Seiten ausdrücklich. 784 Verweise ließen sich deshalb nur von Hand klären, einer nach dem
+anderen.
+
+Die Streaming Availability API nennt die Tonspur je Folge, und zwar getrennt von den
+Untertiteln. Genau diese Trennung ist der Grund, sie überhaupt zu benutzen: Ein Titel mit
+deutschen Untertiteln ist für diesen Kalender kein Treffer.
+
+Übernommen wird daraus **nur Netflix**, nur ein Ja und nur bei abgeschlossenen Staffeln. Der
+Grund steht in der Messung: Die Quelle hinkt ein paar Tage hinterher, kennt eine gerade
+erschienene Folge also noch nicht — ihr Schweigen ist deshalb kein „gibt es dort nicht". Für
+Crunchyroll und ADN bleibt es bei unseren eigenen Quellen; deren Angaben widersprechen sich in
+dieser API selbst.
+
+Sobald daraus die erste Angabe auf der Seite steht, erscheint die Quelle unter „Quellen &
+Lizenzen" — ohne den Hinweis kommt keine ihrer Angaben auf die Seite.
+
+
 ### Wenn der Anbieter anders zählt als wir
 
 Bei „The Café Terrace and Its Goddesses" führt Crunchyroll **eine** Staffel mit 24 Folgen, wo
