@@ -441,6 +441,75 @@ to pull information" — die Daten sind also von derselben Sperre bedroht, die u
 Scrapen verbietet. Bleibt als Vergleichsquelle brauchbar.
 
 
+## Crunchyrolls eigene Content-API — der Weg, der alle Textmuster ersetzt
+
+**Gefunden am 21.08.2026 auf Daniels Vorschlag** („prüf ob du die infos direkt aus crunchy
+network traffic lesen kannst, dann brauch man nicht auf seitenelemente warten"). Die
+Serienseite ist eine React-Anwendung; sie holt ihre Daten selbst über eine JSON-Schnittstelle,
+und die ist ungleich besser als alles, was sich aus dem gerenderten Text ablesen lässt.
+
+### Die drei Aufrufe
+
+    POST /auth/v1/token
+         authorization: Basic Y3Jfd2ViOg==      (das ist „cr_web:", anonym)
+         content-type:  application/x-www-form-urlencoded
+         body:          grant_type=client_id
+
+    GET  /content/v2/cms/series/<serienId>/seasons?locale=de-DE
+    GET  /content/v2/cms/seasons/<staffelId>/episodes?locale=de-DE
+         authorization: Bearer <access_token>
+
+### Was drinsteht
+
+**Je Staffel** ein Feld `versions` mit jeder Tonspur-Fassung:
+
+    "versions": [
+      {"audio_locale":"ja-JP","guid":"GS00374452JAJP","original":true},
+      {"audio_locale":"de-DE","guid":"GS00374452DEDE","original":false},
+      …
+    ]
+
+**Je Episode** dasselbe Feld — und damit die Frage, an der dieses Projekt hängt, folgengenau
+beantwortet. Für „Mushoku Tensei" Staffel 3 am 21.08.2026:
+
+    F1  ab 04.07.  ja-JP, en-US, pt-BR, es-419, es-ES, it-IT, de-DE   → deutsch
+    F2  ab 04.07.  … de-DE                                             → deutsch
+    F3  ab 12.07.  … de-DE                                             → deutsch
+    F4  ab 19.07.  ja-JP, en-US, it-IT, es-ES, pt-BR, es-419           → nein
+    F5–F8                                                              → nein
+
+**Drei von acht.** Genau der Stand, den Daniel am selben Tag von Hand festgestellt hatte.
+Dazu liefert jede Episode ein `premium_available_date` — das Datum, an dem sie verfügbar wurde.
+
+### Warum das alles ändert
+
+| | Serienseite lesen | Content-API |
+|---|---|---|
+| Zeit je Serie | 5 bis 23 Sekunden | **70 bis 200 Millisekunden** |
+| Grundlage | Textmuster im gerenderten HTML | strukturiertes JSON |
+| Sprachangabe | „Audio: Deutsch" irgendwo auf der Seite | `audio_locale` je Fassung |
+| Folgengenau | nein, nur Staffelzählung über Kacheln | **ja** |
+| Übersetzungsabhängig | ja — die Zeile heißt auf jeder Sprachfassung anders | nein |
+
+### Die Grenze: nur aus dem Browser heraus
+
+Ein Direktabruf mit `fetch` bekommt Cloudflares Bot-Sperre („Just a moment…", HTTP 403). Der
+Weg führt weiterhin über Playwright — aber nur noch **einmal** zum Aufwärmen: Eine Seite laden,
+das Token aus dem Netzwerkverkehr mitnehmen, danach alle Serien über `page.evaluate(fetch)` im
+Browser-Kontext abfragen. Gemessen: 1.310 ms Aufwärmen, danach 70 bis 208 ms je Serie.
+
+### Rechtslage
+
+`crunchyroll.com/robots.txt` sperrt `/showtag`, Suche, Konto, Merkliste, Verlauf, Bezahlseiten
+und einige Verwaltungspfade. **`/content/` und `/auth/` stehen nicht darauf** — ebenso wenig
+wie `/series/`, das dieses Projekt seit dem 12.08.2026 liest.
+
+### Was daran hängt
+
+969 der 1.914 offenen Verweise in der Prüfliste sind Crunchyroll. Sie sind damit nicht mehr
+Handarbeit, sondern ein Abruf von wenigen Minuten — und die Antwort ist genauer als alles, was
+ein Mensch auf der Seite ablesen könnte, weil sie je Folge kommt.
+
 ## Entscheidungen
 
 - **Die Regel „mindestens eine Folge auf Deutsch erschienen" wird nicht umgesetzt** (17.08.2026).
