@@ -432,10 +432,26 @@ gilt: nachsehen statt annehmen.
 ## Vor dem Commit
 
 ```bash
-npm run data:validate && npm run check:logic && npx tsc -b && npm run check:worker && npm run build
+npm run data:validate && npm run check:logic && npx tsc -b && npm run check:worker && npm run check:hooks && npm run build
 ```
 
 **`npm run check:worker` nicht weglassen.** Das Haupt-`tsconfig.json` deckt nur `web/src`,
 `pipeline` und `shared` ab — `worker/` hat ein eigenes und wird von `tsc -b` **nicht** erfasst.
 Am 12.08.2026 meldete `tsc -b` „sauber" für Code, in dem fünfmal eine gelöschte Variable stand;
 der Fehler wäre erst beim `wrangler deploy` aufgefallen.
+
+**`npm run check:hooks` steht dort, weil `tsc` die Hooks-Regeln nicht sehen kann.** Für den
+Compiler ist `useMemo(…)` ein gewöhnlicher Funktionsaufruf mit passenden Typen; dass React
+seine Hooks über die Zahl und Reihenfolge der Aufrufe je Renderdurchlauf zuordnet, steht in
+keinem Typ und lässt sich in keinem prüfen. Am 20.08.2026 lagen zwei `useMemo` hinter dem
+`if (!title) return` des Detail-Panels: bei geschlossenem Panel liefen sie nicht, beim Öffnen
+schon. React brach mit Fehler #310 die ganze Anwendung ab, die Seite war weiß — und der
+Service Worker lieferte das kaputte Bundle weiter aus. Die vollständige Prüfkette war grün,
+`tsc -b` auch. Der Lauf ist rot bei `react-hooks/rules-of-hooks`;
+`react-hooks/exhaustive-deps` bleibt Warnung, weil die Regel bekannte Fehlalarme hat.
+
+Dieselbe Prüfung hängt zusätzlich vorne in `npm run build` — dort, wo sie niemand vergessen
+kann. Ein Deploy-Schritt schützt nur den einen Workflow, der ihn trägt; als erster Schritt des
+Baus gilt sie überall, wo diese Seite entsteht. Der Deploy wird dadurch rot, bevor ein `dist/`
+existiert. In der Prüfkette oben steht sie trotzdem eigens, damit ein Verstoß beim Namen
+genannt wird und nicht als Baufehler erscheint.

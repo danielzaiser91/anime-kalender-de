@@ -64,6 +64,16 @@ jobs:
       - name: Zusicherungen prüfen
         run: npm run check:logic && npm run check:search
 
+      # Hooks-Regeln sieht weder `tsc -b` noch der Vite-Build: Ein Verstoß ist
+      # gültiges TypeScript und baut fehlerfrei durch — er schlägt erst im
+      # Browser zu. Am 20.08.2026 ging die ganze Seite deshalb weiß auf den
+      # Server (React #310), und der Service Worker hielt das kaputte Bundle
+      # danach am Leben. Die Prüfung läuft zwar ohnehin in `npm run build`;
+      # hier steht sie eigens, damit der Lauf den Fehler beim Namen nennt
+      # statt ihn als Baufehler zu melden.
+      - name: Hooks-Regeln prüfen
+        run: npm run check:hooks
+
       - name: Bauen
         env:
           PAGES_BASE: /
