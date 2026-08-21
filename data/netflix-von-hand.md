@@ -1,6 +1,6 @@
 # Netflix: was kein Automat beantworten kann
 
-Stand 2026-08-21 · **126 Titel**.
+Stand 2026-08-21 · **124 Titel**.
 
 Diese Titel kennt die Streaming Availability API nicht — ein zweiter Abruf bringt nichts.
 Netflix selbst darf nicht abgerufen werden (`robots.txt`). Bleibt der Blick von Hand.
@@ -85,57 +85,55 @@ Erzeugt von `npm run data:netflix-rest`, nicht von Hand pflegen.
 | 70 | JUJUTSU KAISEN Season 3: The Culling Game Part 1 | 12 | 2026 | [öffnen](https://www.netflix.com/title/81278456) |
 | 71 | DAN DA DAN (Staffel 2) | 12 | 2025 | [öffnen](https://www.netflix.com/title/81736884) |
 | 72 | Ranma1/2 (2024) Season 2 | 12 | 2025 | [öffnen](https://www.netflix.com/title/81301833) |
-| 73 | KILL BLUE | 12 | 2026 | [öffnen](https://www.netflix.com/title/82757009) |
-| 74 | Anohana: The Flower We Saw That Day | 11 | 2011 | [öffnen](https://www.netflix.com/browse?jbv=80075178&jbp=0&jbr=11) |
-| 75 | PSYCHO-PASS 2 | 11 | 2014 | [öffnen](https://www.netflix.com/title/80006146) |
-| 76 | Darwin's Game | 11 | 2020 | [öffnen](https://www.netflix.com/title/81234353) |
-| 77 | KONOSUBA -God's blessing on this wonderful world! 3 | 11 | 2024 | [öffnen](https://www.netflix.com/title/80131674) |
-| 78 | Pokémon: To Be a Pokémon Master: Ultimate Journeys: The Series | 11 | 2023 | [öffnen](https://www.netflix.com/title/81706101) |
-| 79 | SHIBOYUGI: Playing Death Games to Put Food on the Table | 11 | 2026 | [öffnen](https://www.netflix.com/title/82047155) |
-| 80 | Oshi no Ko – Staffel 3 | 11 | 2026 | [öffnen](https://www.netflix.com/title/81684733) |
-| 81 | Aggretsuko: Season 2 | 10 | 2019 | [öffnen](https://www.netflix.com/title/80198505) |
-| 82 | Hi Score Girl II | 9 | 2019 | [öffnen](https://www.netflix.com/title/80997338) |
-| 83 | Rilakkuma's Theme Park Adventure | 8 | 2022 | [öffnen](https://www.netflix.com/title/81341765) |
-| 84 | Knights of the Zodiac: Saint Seiya Part 2 | 6 | 2020 | [öffnen](https://www.netflix.com/title/80186926) |
-| 85 | SPRIGGAN (ONA) | 6 | 2022 | [öffnen](https://www.netflix.com/title/81050064) |
-| 86 | ULTRAMAN Season 2 | 6 | 2022 | [öffnen](https://www.netflix.com/title/80231373) |
-| 87 | Pokémon Concierge: Season 1: Part 2 | 4 | 2025 | [öffnen](http://netflix.com/pokemonconcierge) |
-| 88 | Cyborg 009 vs Devilman | 3 | 2015 | [öffnen](http://www.netflix.com/title/80094557) |
-| 89 | Princess Mononoke | 1 | 1997 | [öffnen](https://www.netflix.com/title/28630857) |
-| 90 | My Neighbors the Yamadas | 1 | 1999 | [öffnen](https://www.netflix.com/title/70035035) |
-| 91 | Howl‘s Moving Castle | 1 | 2004 | [öffnen](https://www.netflix.com/title/70028883) |
-| 92 | Naruto the Movie: Ninja Clash in the Land of Snow | 1 | 2004 | [öffnen](https://www.netflix.com/title/70074559) |
-| 93 | InuYasha the Movie 4: Fire on the Mystic Island | 1 | 2004 | [öffnen](https://www.netflix.com/title/70052492) |
-| 94 | Kiki's Delivery Service | 1 | 1989 | [öffnen](https://www.netflix.com/title/60027106) |
-| 95 | Castle in the Sky | 1 | 1986 | [öffnen](https://www.netflix.com/title/60027393) |
-| 96 | My Neighbor Totoro | 1 | 1988 | [öffnen](https://www.netflix.com/title/60032294) |
-| 97 | Nausicaä of the Valley of the Wind | 1 | 1984 | [öffnen](https://www.netflix.com/title/70019062) |
-| 98 | Grave of the Fireflies | 1 | 1988 | [öffnen](https://www.netflix.com/title/557010) |
-| 99 | The Cat Returns | 1 | 2002 | [öffnen](https://www.netflix.com/title/70019058) |
-| 100 | Ocean Waves | 1 | 1993 | [öffnen](https://www.netflix.com/title/80158668) |
-| 101 | Tales from Earthsea | 1 | 2006 | [öffnen](https://www.netflix.com/title/70142821) |
-| 102 | The Secret World of Arrietty | 1 | 2010 | [öffnen](https://www.netflix.com/title/70216227) |
-| 103 | Kizumonogatari Part 1: Tekketsu | 1 | 2016 | [öffnen](https://www.netflix.com/title/80097748) |
-| 104 | From Up on Poppy Hill | 1 | 2011 | [öffnen](https://www.netflix.com/title/70262786) |
-| 105 | Berserk: The Golden Age Arc I - The Egg of the King | 1 | 2012 | [öffnen](https://www.netflix.com/title/70258995) |
-| 106 | Iron Man: Rise of Technovore | 1 | 2013 | [öffnen](https://www.netflix.com/title/70267410) |
-| 107 | The Wind Rises | 1 | 2013 | [öffnen](https://www.netflix.com/title/70293674) |
-| 108 | The Tale of The Princess Kaguya | 1 | 2013 | [öffnen](https://www.netflix.com/title/80013552) |
-| 109 | When Marnie Was There | 1 | 2014 | [öffnen](https://www.netflix.com/title/80036398) |
-| 110 | The Boy and the Beast | 1 | 2015 | [öffnen](https://www.netflix.com/title/80063800) |
-| 111 | Fate/Grand Order: First Order | 1 | 2016 | [öffnen](https://www.netflix.com/title/80213886) |
-| 112 | Mary and The Witch's Flower | 1 | 2017 | [öffnen](https://www.netflix.com/title/80217130) |
-| 113 | The Boy and the Heron | 1 | 2023 | [öffnen](https://www.netflix.com/title/81725555) |
-| 114 | Godzilla: City on the Edge of Battle | 1 | 2018 | [öffnen](https://www.netflix.com/title/80180376) |
-| 115 | Violet Evergarden: Special | 1 | 2018 | [öffnen](https://www.netflix.com/title/81010662) |
-| 116 | Godzilla: The Planet Eater | 1 | 2018 | [öffnen](https://www.netflix.com/title/80198623) |
-| 117 | Dragon Quest: Your Story | 1 | 2019 | [öffnen](https://www.netflix.com/title/81170086) |
-| 118 | Altered Carbon: Resleeved | 1 | 2020 | [öffnen](https://www.netflix.com/title/81001991) |
-| 119 | STAND BY ME Doraemon 2 | 1 | 2020 | [öffnen](https://www.netflix.com/title/81451264) |
-| 120 | A Whisker Away | 1 | 2020 | [öffnen](https://www.netflix.com/title/81281872) |
-| 121 | Earwig and the Witch | 1 | 2020 | [öffnen](https://www.netflix.com/title/81316559) |
-| 122 | Bright: Samurai Soul | 1 | 2021 | [öffnen](https://www.netflix.com/title/81001990) |
-| 123 | Drifting Home | 1 | 2022 | [öffnen](https://www.netflix.com/title/81328781) |
-| 124 | Baki Hanma VS Kengan Ashura | 1 | 2024 | [öffnen](https://www.netflix.com/title/81648184) |
-| 125 | Mononoke The Movie: Chapter Ⅲ - The Curse of the Serpent | 1 | 2026 | [öffnen](https://www.netflix.com/title/82012956) |
-| 126 | Cosmic Princess Kaguya! | 1 | 2026 | [öffnen](https://www.netflix.com/title/81756595) |
+| 73 | Anohana: The Flower We Saw That Day | 11 | 2011 | [öffnen](https://www.netflix.com/browse?jbv=80075178&jbp=0&jbr=11) |
+| 74 | PSYCHO-PASS 2 | 11 | 2014 | [öffnen](https://www.netflix.com/title/80006146) |
+| 75 | Darwin's Game | 11 | 2020 | [öffnen](https://www.netflix.com/title/81234353) |
+| 76 | KONOSUBA -God's blessing on this wonderful world! 3 | 11 | 2024 | [öffnen](https://www.netflix.com/title/80131674) |
+| 77 | Pokémon: To Be a Pokémon Master: Ultimate Journeys: The Series | 11 | 2023 | [öffnen](https://www.netflix.com/title/81706101) |
+| 78 | SHIBOYUGI: Playing Death Games to Put Food on the Table | 11 | 2026 | [öffnen](https://www.netflix.com/title/82047155) |
+| 79 | Oshi no Ko – Staffel 3 | 11 | 2026 | [öffnen](https://www.netflix.com/title/81684733) |
+| 80 | Aggretsuko: Season 2 | 10 | 2019 | [öffnen](https://www.netflix.com/title/80198505) |
+| 81 | Hi Score Girl II | 9 | 2019 | [öffnen](https://www.netflix.com/title/80997338) |
+| 82 | Rilakkuma's Theme Park Adventure | 8 | 2022 | [öffnen](https://www.netflix.com/title/81341765) |
+| 83 | Knights of the Zodiac: Saint Seiya Part 2 | 6 | 2020 | [öffnen](https://www.netflix.com/title/80186926) |
+| 84 | SPRIGGAN (ONA) | 6 | 2022 | [öffnen](https://www.netflix.com/title/81050064) |
+| 85 | ULTRAMAN Season 2 | 6 | 2022 | [öffnen](https://www.netflix.com/title/80231373) |
+| 86 | Pokémon Concierge: Season 1: Part 2 | 4 | 2025 | [öffnen](http://netflix.com/pokemonconcierge) |
+| 87 | Cyborg 009 vs Devilman | 3 | 2015 | [öffnen](http://www.netflix.com/title/80094557) |
+| 88 | Princess Mononoke | 1 | 1997 | [öffnen](https://www.netflix.com/title/28630857) |
+| 89 | My Neighbors the Yamadas | 1 | 1999 | [öffnen](https://www.netflix.com/title/70035035) |
+| 90 | Howl‘s Moving Castle | 1 | 2004 | [öffnen](https://www.netflix.com/title/70028883) |
+| 91 | Naruto the Movie: Ninja Clash in the Land of Snow | 1 | 2004 | [öffnen](https://www.netflix.com/title/70074559) |
+| 92 | InuYasha the Movie 4: Fire on the Mystic Island | 1 | 2004 | [öffnen](https://www.netflix.com/title/70052492) |
+| 93 | Kiki's Delivery Service | 1 | 1989 | [öffnen](https://www.netflix.com/title/60027106) |
+| 94 | Castle in the Sky | 1 | 1986 | [öffnen](https://www.netflix.com/title/60027393) |
+| 95 | My Neighbor Totoro | 1 | 1988 | [öffnen](https://www.netflix.com/title/60032294) |
+| 96 | Nausicaä of the Valley of the Wind | 1 | 1984 | [öffnen](https://www.netflix.com/title/70019062) |
+| 97 | Grave of the Fireflies | 1 | 1988 | [öffnen](https://www.netflix.com/title/557010) |
+| 98 | The Cat Returns | 1 | 2002 | [öffnen](https://www.netflix.com/title/70019058) |
+| 99 | Ocean Waves | 1 | 1993 | [öffnen](https://www.netflix.com/title/80158668) |
+| 100 | Tales from Earthsea | 1 | 2006 | [öffnen](https://www.netflix.com/title/70142821) |
+| 101 | The Secret World of Arrietty | 1 | 2010 | [öffnen](https://www.netflix.com/title/70216227) |
+| 102 | Kizumonogatari Part 1: Tekketsu | 1 | 2016 | [öffnen](https://www.netflix.com/title/80097748) |
+| 103 | From Up on Poppy Hill | 1 | 2011 | [öffnen](https://www.netflix.com/title/70262786) |
+| 104 | Berserk: The Golden Age Arc I - The Egg of the King | 1 | 2012 | [öffnen](https://www.netflix.com/title/70258995) |
+| 105 | Iron Man: Rise of Technovore | 1 | 2013 | [öffnen](https://www.netflix.com/title/70267410) |
+| 106 | The Wind Rises | 1 | 2013 | [öffnen](https://www.netflix.com/title/70293674) |
+| 107 | The Tale of The Princess Kaguya | 1 | 2013 | [öffnen](https://www.netflix.com/title/80013552) |
+| 108 | When Marnie Was There | 1 | 2014 | [öffnen](https://www.netflix.com/title/80036398) |
+| 109 | The Boy and the Beast | 1 | 2015 | [öffnen](https://www.netflix.com/title/80063800) |
+| 110 | Fate/Grand Order: First Order | 1 | 2016 | [öffnen](https://www.netflix.com/title/80213886) |
+| 111 | Mary and The Witch's Flower | 1 | 2017 | [öffnen](https://www.netflix.com/title/80217130) |
+| 112 | The Boy and the Heron | 1 | 2023 | [öffnen](https://www.netflix.com/title/81725555) |
+| 113 | Godzilla: City on the Edge of Battle | 1 | 2018 | [öffnen](https://www.netflix.com/title/80180376) |
+| 114 | Violet Evergarden: Special | 1 | 2018 | [öffnen](https://www.netflix.com/title/81010662) |
+| 115 | Godzilla: The Planet Eater | 1 | 2018 | [öffnen](https://www.netflix.com/title/80198623) |
+| 116 | Dragon Quest: Your Story | 1 | 2019 | [öffnen](https://www.netflix.com/title/81170086) |
+| 117 | Altered Carbon: Resleeved | 1 | 2020 | [öffnen](https://www.netflix.com/title/81001991) |
+| 118 | STAND BY ME Doraemon 2 | 1 | 2020 | [öffnen](https://www.netflix.com/title/81451264) |
+| 119 | A Whisker Away | 1 | 2020 | [öffnen](https://www.netflix.com/title/81281872) |
+| 120 | Earwig and the Witch | 1 | 2020 | [öffnen](https://www.netflix.com/title/81316559) |
+| 121 | Bright: Samurai Soul | 1 | 2021 | [öffnen](https://www.netflix.com/title/81001990) |
+| 122 | Drifting Home | 1 | 2022 | [öffnen](https://www.netflix.com/title/81328781) |
+| 123 | Baki Hanma VS Kengan Ashura | 1 | 2024 | [öffnen](https://www.netflix.com/title/81648184) |
+| 124 | Cosmic Princess Kaguya! | 1 | 2026 | [öffnen](https://www.netflix.com/title/81756595) |
