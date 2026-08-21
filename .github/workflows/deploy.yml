@@ -42,6 +42,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Meldet der Statusanzeige, dass hier etwas läuft. Ohne LAUF_TOKEN
+      # passiert nichts — eine fehlende Meldung darf keinen Lauf rot machen.
+      - name: Lauf anmelden
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash tools/lauf-melden.sh laeuft
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -99,6 +106,16 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
+
+      # Abmeldung im selben Job wie die Anmeldung. Der Job "deploy" darunter
+      # hat keinen Auscheckvorgang — dort gäbe es dieses Skript gar nicht,
+      # und ein gescheiterter Meldeschritt hätte jeden erfolgreichen Deploy
+      # rot gemacht.
+      - name: Lauf abmelden
+        if: always()
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash tools/lauf-melden.sh "${{ job.status == 'success' && 'ok' || job.status == 'cancelled' && 'abgebrochen' || 'fehler' }}"
 
   deploy:
     needs: build

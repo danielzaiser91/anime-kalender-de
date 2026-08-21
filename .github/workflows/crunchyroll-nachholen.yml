@@ -50,6 +50,14 @@ jobs:
         with:
           ref: main
 
+      # Meldet der Statusanzeige, dass hier etwas läuft. Ohne LAUF_TOKEN
+      # passiert nichts — eine fehlende Meldung darf keinen Lauf rot machen.
+      - name: Lauf anmelden
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+          LAUF_AUFTRAG: Crunchyroll-Rückstand, Limit ${{ inputs.limit }}
+        run: bash tools/lauf-melden.sh laeuft
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -70,3 +78,11 @@ jobs:
         if: always()
         run: |
           bash tools/commit-data.sh "chore(data): Crunchyroll-Rückstand nachgeholt"
+
+      # Läuft auch nach einem Fehler: Der rote Lauf ist der, den man sehen will.
+      - name: Lauf abmelden
+        if: always()
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+          LAUF_AUFTRAG: Crunchyroll-Rückstand, Limit ${{ inputs.limit }}
+        run: bash tools/lauf-melden.sh "${{ job.status == 'success' && 'ok' || job.status == 'cancelled' && 'abgebrochen' || 'fehler' }}"

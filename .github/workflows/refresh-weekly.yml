@@ -31,6 +31,13 @@ jobs:
           # den Stand von vor seiner Wartezeit aus und scheitert am Push.
           ref: main
 
+      # Meldet der Statusanzeige, dass hier etwas läuft. Ohne LAUF_TOKEN
+      # passiert nichts — eine fehlende Meldung darf keinen Lauf rot machen.
+      - name: Lauf anmelden
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash tools/lauf-melden.sh laeuft
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -178,3 +185,10 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: bash tools/discord-melden.sh "Wöchentlicher Tiefendurchlauf" "${{ job.status }}"
+
+      # Läuft auch nach einem Fehler: Der rote Lauf ist der, den man sehen will.
+      - name: Lauf abmelden
+        if: always()
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash tools/lauf-melden.sh "${{ job.status == 'success' && 'ok' || job.status == 'cancelled' && 'abgebrochen' || 'fehler' }}"

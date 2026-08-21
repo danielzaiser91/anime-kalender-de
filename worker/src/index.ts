@@ -35,6 +35,8 @@ export interface Env extends MailEnv {
   ALLOWED_ORIGIN: string
   /** Optional. Ist es gesetzt, lässt sich der Versand über /debug/digest auslösen. */
   DEBUG_TOKEN?: string
+  /** Optional. Nur damit dürfen Läufe ihren Zustand melden. Fehlt es, ist /lauf schreibgeschützt. */
+  LAUF_TOKEN?: string
   /** Empfänger der Überwachungsmeldungen. Fehlt sie, wird nur geprüft, nicht gemeldet. */
   MONITOR_EMAIL?: string
 }
@@ -1054,11 +1056,108 @@ export async function runMonitor(
   return log.join('; ')
 }
 
+/**
+ * Zustand der Cloud-Läufe — melden und abfragen.
+ *
+ * Warum überhaupt hier und nicht über die GitHub-API: Die erlaubt ohne
+ * Anmeldung 60 Abrufe je Stunde. Eine Anzeige, die alle zehn Sekunden nachsieht,
+ * verbraucht das in vier Minuten. Ein Token in eine Datei auf dem Schreibtisch zu
+ * legen war die Alternative und ist der schlechtere Handel.
+ *
+ * Der zweite Grund wiegt schwerer: Ein Lauf weiß, was er tut. Die GitHub-API
+ * sieht nur „Claude — Auftrag abarbeiten", der Lauf selbst kennt seinen Auftrag.
+ *
+ * GET ist offen — es sind Metadaten öffentlicher Läufe in einem öffentlichen
+ * Repo. Deshalb bekommt dieser eine Pfad `Access-Control-Allow-Origin: *`
+ * statt der sonst geltenden Beschränkung auf die eigene Seite: Die Anzeige läuft
+ * als Datei vom Schreibtisch und hätte sonst den Ursprung `null`.
+ */
+async function handleLauf(request: Request, env: Env): Promise<Response> {
+  const offen = { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+  const antwort = (body: unknown, status = 200) =>
+    new Response(JSON.stringify(body), { status, headers: offen })
+
+  if (request.method === 'GET') {
+    // Was älter als drei Tage ist, interessiert niemanden mehr und würde die
+    // Anzeige nur verstopfen.
+    const { results } = await env.DB.prepare(
+      `SELECT lauf_id, repo, workflow, auftrag, zustand, begonnen_am, gemeldet_am, url, notiz
+         FROM lauf_status
+        WHERE gemeldet_am > datetime('now', '-3 days')
+        ORDER BY (zustand = 'laeuft') DESC, gemeldet_am DESC
+        LIMIT 40`,
+    ).all()
+    return antwort({ jetzt: new Date().toISOString(), laeufe: results ?? [] })
+  }
+
+  if (request.method !== 'POST') return antwort({ error: 'GET oder POST erwartet' }, 405)
+
+  // Ohne gesetztes Secret bleibt der Pfad lesbar, aber nicht beschreibbar —
+  // sonst könnte jeder Beliebige falsche Läufe melden.
+  const token = request.headers.get('X-Lauf-Token') ?? ''
+  if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
+
+  let daten: Record<string, string | undefined>
+  try {
+    daten = (await request.json()) as Record<string, string | undefined>
+  } catch {
+    return antwort({ error: 'Kein gültiges JSON' }, 400)
+  }
+
+  const laufId = (daten.lauf_id ?? '').trim()
+  const zustand = (daten.zustand ?? '').trim()
+  if (!laufId) return antwort({ error: 'lauf_id fehlt' }, 400)
+  if (!['laeuft', 'ok', 'fehler', 'abgebrochen'].includes(zustand)) {
+    return antwort({ error: 'zustand muss laeuft, ok, fehler oder abgebrochen sein' }, 400)
+  }
+
+  const jetzt = new Date().toISOString()
+  await env.DB.prepare(
+    `INSERT INTO lauf_status (lauf_id, repo, workflow, auftrag, zustand, begonnen_am, gemeldet_am, url, notiz)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)
+     ON CONFLICT(lauf_id) DO UPDATE SET
+       zustand = excluded.zustand,
+       gemeldet_am = excluded.gemeldet_am,
+       notiz = COALESCE(excluded.notiz, lauf_status.notiz),
+       auftrag = COALESCE(excluded.auftrag, lauf_status.auftrag)`,
+  )
+    .bind(
+      laufId,
+      daten.repo ?? '',
+      daten.workflow ?? '',
+      daten.auftrag ?? null,
+      zustand,
+      daten.begonnen_am ?? jetzt,
+      jetzt,
+      daten.url ?? null,
+      daten.notiz ?? null,
+    )
+    .run()
+
+  // Aufräumen im Vorbeigehen: kein eigener Cron für zwei Zeilen Hausputz.
+  await env.DB.prepare("DELETE FROM lauf_status WHERE gemeldet_am < datetime('now', '-14 days')").run()
+
+  return antwort({ ok: true, lauf_id: laufId, zustand })
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url)
 
-    if (request.method === 'OPTIONS') return new Response(null, { headers: cors(env) })
+    if (request.method === 'OPTIONS') {
+      // Der Laufstatus wird auch von einer Datei auf dem Schreibtisch gelesen;
+      // die hat den Ursprung `null` und käme an der sonstigen Beschränkung nicht vorbei.
+      if (url.pathname === '/lauf') {
+        return new Response(null, {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type, X-Lauf-Token',
+          },
+        })
+      }
+      return new Response(null, { headers: cors(env) })
+    }
 
     switch (url.pathname) {
       case '/subscribe':
@@ -1130,6 +1229,8 @@ export default {
         ).all()
         return json(env, { sites: results ?? [] })
       }
+      case '/lauf':
+        return handleLauf(request, env)
       case '/health': {
         const count = await env.DB.prepare(
           "SELECT COUNT(*) AS n FROM subscribers WHERE status = 'active'",
