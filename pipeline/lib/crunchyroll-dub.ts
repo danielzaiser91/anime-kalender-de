@@ -75,6 +75,30 @@ export interface CrSerie {
    */
   quelle?: 'api' | 'seitenanzeige'
   /**
+   * Aus welchem **Länderkatalog** die Angaben stammen — `de`, `us`, oder gar nicht.
+   *
+   * Das entscheidende Feld dieser Datei, seit es zwei Stände gibt. Crunchyroll
+   * leitet die Region aus der IP des Abrufs ab; GitHub-Runner stehen in den
+   * USA, und aus US-Sicht trägt „Fairy Tail" durchgehend `ja-JP, en-US`,
+   * während in Deutschland 277 Folgen deutsch sind (Daniel, 22.08.2026). Ein
+   * fehlendes `de-DE` aus dem US-Katalog belegt deshalb **nichts** — aus dem
+   * deutschen belegt es das Gegenteil.
+   *
+   * `undefined` heißt „Region nicht belegt" und wird behandelt wie `us`: Alle
+   * Einträge aus den Läufen bis zum 21.08.2026 tragen es nicht, und sie sind
+   * ausnahmslos US (1.655 geprüfte Folgen mit `eligible_region: "US"`).
+   */
+  katalog?: string
+  /**
+   * Staffelname und `versions` sagen Verschiedenes.
+   *
+   * Kein Fehler und kein Grund, etwas nicht zu übernehmen — `versions`
+   * entscheidet. Das Feld ist die Buchführung darüber, wie oft die Kontrolle
+   * danebenliegt; sähe man hier ein Muster, wäre der Denkfehler unserer, nicht
+   * Crunchyrolls.
+   */
+  namensWiderspruch?: string
+  /**
    * `undefined` heißt **nicht gesehen**, nicht „kein Deutsch".
    *
    * Bis zum 20.08.2026 war das Feld ein schlichtes `boolean`, und jede Seite,
@@ -154,15 +178,44 @@ export interface Urteil {
  * 917** Seiten überhaupt Deutsch und führte „Frieren: Beyond Journey's End" als
  * Seite ohne deutsche Tonspur.
  *
- * Ein `false` kann jetzt nur noch aus der **Folgenliste** kommen (Fall 1 und 3)
- * — oder von einem Menschen aus `data/dub-confirmed.yaml`.
+ * Ein `false` kann deshalb nur aus der **Folgenliste** kommen (Fall 1 und 3),
+ * aus dem **deutschen Katalog** (siehe unten) — oder von einem Menschen aus
+ * `data/dub-confirmed.yaml`.
+ *
+ * ## Was der deutsche Katalog daran ändert
+ *
+ * Seit dem 22.08.2026 liest der Abruf über ein Zugangspaket von einer deutschen
+ * Leitung (`lib/crunchyroll-api.ts`). Damit steht in `versions` das, was ein
+ * Besucher in Deutschland zu sehen bekommt — und ein fehlendes `de-DE` ist dann
+ * keine Nichtauskunft mehr, sondern eine Aussage. „Fairy Tail Final Season"
+ * trägt dort `ja-JP` und sonst nichts, während die ersten beiden Blöcke `de-DE`
+ * führen; genau so hat Daniel es von Hand gesehen.
+ *
+ * Das gilt **ausschließlich** für `katalog === 'de'`. Alles andere — der alte
+ * Bestand, der Browser-Weg, ein Lauf aus einer dritten Region — bleibt bei der
+ * Vorsichtsregel, und zwar auch dann, wenn es „bestimmt auch deutsch gemeint"
+ * ist. Die Trennlinie ist der Beleg, nicht die Wahrscheinlichkeit.
  */
 export function beurteile(serie: CrSerie, unsere: Title[]): Urteil[] {
   if (!unsere.length) return []
-  if (!serie.deutschImAngebot) return []
 
   const staffeln = serie.staffeln ?? []
   if (!staffeln.length) return []
+
+  if (!serie.deutschImAngebot) {
+    /**
+     * Aus dem US-Katalog wird hier nie ein Nein.
+     *
+     * Der Grund steht oben: Dort fehlt `de-DE` auch bei Serien, die in
+     * Deutschland vollständig synchronisiert vorliegen.
+     */
+    if (serie.katalog !== 'de') return []
+    return unsere.map((t) => ({
+      titleId: t.id,
+      dub: false,
+      grund: `deutscher Katalog führt in ${staffeln.length} Blöcken keine deutsche Fassung`,
+    }))
+  }
 
   const gesamtDeutsch = staffeln.reduce((n, s) => n + s.deutsch, 0)
   if (gesamtDeutsch === 0) {
