@@ -260,6 +260,25 @@ verschiedene, und genau ihre Vermischung war der Fehler bei Crunchyroll.
   links to the JustWatch website" zeigen — Ankertext „JustWatch" oder das Logo mit alt-Text, und
   der Link muss in die länderspezifische Unterseite des jeweiligen Titels führen.
 
+  **Nachtrag 21.08.2026 — auch für die Sprachfrage gemessen und verworfen.** Daniel bat um
+  eine Quelle, die Handarbeit ganz erspart. JustWatch wäre der naheliegende Kandidat: Die
+  öffentliche GraphQL-Schnittstelle unter `apis.justwatch.com/graphql` braucht keinen
+  Schlüssel, und beide robots.txt (`www.` und `apis.`) enthalten `Disallow:` ohne Wert,
+  erlauben also alles. Sie kennt unsere Titel sogar folgengenau — für „Thunder 3" liefert sie
+  zwölf Episoden mit Titeln.
+
+  **Aber `audioLanguages` ist leer.** Gemessen an zwei Titeln, Serien- wie Episodenebene:
+  „Thunder 3" (2026) und „Beastars" (2019) liefern für jedes Netflix-Angebot
+  `audioLanguages: []` und `subtitleLanguages: []`. Damit ist JustWatch genau dort blind, wo
+  wir es bräuchten. Das deckt sich mit einem fremden Erfahrungsbericht, der dieselbe Aufgabe
+  löst ([ma.ttias.be](https://ma.ttias.be/finding-dutch-audio-across-streaming-services/)):
+  Der Autor nutzt JustWatch als Grundgerüst und die Streaming Availability API, um genau
+  diese Sprachlücken zu füllen.
+
+  Die beworbene Produkt-API von JustWatch ist davon unberührt — sie läuft weiter über einen
+  Partnervertrag (`data-partner@justwatch.com`) und ist damit aus denselben Gründen
+  ausgeschlossen wie am 11.08.2026 festgestellt.
+
 - **JustWatchs privater GraphQL-Endpunkt** (`https://apis.justwatch.com/graphql`) — verworfen
   (15.08.2026). Anlass war eine kursierende Anleitung, die ihn mit Puppeteer und
   `--disable-web-security` plus `setBypassCSP(true)` anspricht und dabei die Kopfzeilen der
