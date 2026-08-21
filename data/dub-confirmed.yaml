@@ -841,3 +841,12 @@
   available: false
   checkedAt: '2026-08-21'
   note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+# Aus dem Browser gemeldet, von Hand zugeordnet: Die Erweiterung schickte die
+# Folgennummer (81005377) statt der Reihe (81005375). Behoben in v0.8.0.
+- anilistId: 392
+  title: 'Yu Yu Hakusho: Ghostfiles'
+  platform: netflix
+  dub: false
+  checkedAt: '2026-08-22'
+  note: 'Tonspuren im Player: Japanisch [Original], Englisch — kein Deutsch'

@@ -1294,6 +1294,7 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
       `SELECT id, plattform, url, sprachen, befund, titel, folgen, notiz, gemeldet_am
          FROM pruefung WHERE uebernommen = 0 ORDER BY gemeldet_am LIMIT 500`,
     ).all()
+
     return antwort({ pruefungen: results ?? [] })
   }
 
@@ -1307,6 +1308,24 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
     daten = (await request.json()) as Record<string, unknown>
   } catch {
     return antwort({ error: 'Kein gültiges JSON' }, 400)
+  }
+
+  /**
+   * Abhaken, was die Pipeline wirklich eingetragen hat.
+   *
+   * Vorher markierte der Abruf selbst alles Gelieferte als übernommen — auch
+   * eine Meldung, die sich nicht zuordnen ließ. Die war damit still verloren
+   * (22.08.2026). Jetzt sagt die Pipeline, was angekommen ist.
+   */
+  if (Array.isArray(daten.uebernommen)) {
+    const ids = (daten.uebernommen as unknown[]).map(Number).filter((n) => Number.isInteger(n) && n > 0)
+    if (!ids.length) return antwort({ ok: true, markiert: 0 })
+    await env.DB.prepare(
+      `UPDATE pruefung SET uebernommen = 1 WHERE id IN (${ids.map(() => '?').join(',')})`,
+    )
+      .bind(...ids)
+      .run()
+    return antwort({ ok: true, markiert: ids.length })
   }
 
   const url = String(daten.url ?? '').trim()

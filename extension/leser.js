@@ -33,13 +33,23 @@
     return spuren.map((s) => ({ code: s.bcp47 ?? s.language ?? '', name: s.displayName ?? '' }))
   }
 
+  let letzteReihe = null
+
   function reihenNummer() {
     const ausPfad = /\/title\/(\d+)/.exec(location.pathname)?.[1]
     const ausQuery = new URLSearchParams(location.search).get('jbv')
     const ausWatch = /\/watch\/(\d+)/.exec(location.pathname)?.[1]
     const modelle = window.netflix?.reactContext?.models
     const ausZustand = modelle?.playerModel?.data?.videoId ?? null
-    return ausPfad || ausQuery || (ausZustand ? String(ausZustand) : null) || ausWatch || null
+    const ausTitelseite = ausPfad || ausQuery
+    if (ausTitelseite) letzteReihe = ausTitelseite
+    // Auf einer Abspielseite ist die Nummer in der Adresse die der **Folge**.
+    // Dann gilt die zuletzt gesehene Titelseite; nur wenn es keine gab, bleibt
+    // die Folgennummer als letzter Ausweg.
+    if (ausTitelseite) return ausTitelseite
+    if (letzteReihe) return letzteReihe
+    const ausAhne = window.netflix?.reactContext?.models?.playerModel?.data?.ancestorId
+    return (ausAhne ? String(ausAhne) : null) || (ausZustand ? String(ausZustand) : null) || ausWatch || null
   }
 
   // --- Mithören ------------------------------------------------------------
@@ -49,15 +59,16 @@
    * vorkommen. Netflix lädt sein halbes Frontend über `pathEvaluator` und
    * `metadata`; die Namen der Felder wechseln, die Begriffe nicht.
    */
-  const INTERESSANT = /pathEvaluator|metadata|playerApi|shakti|episodes|videos/i
-  const SPRACHFELD = /audioLocale|audioTracks|audio_locale|languages|soundtrack|trackIds|dubbed/i
+  const INTERESSANT = /pathEvaluator|metadata|playerApi|shakti|episodes|videos|manifest|licensedManifest/i
+  const SPRACHFELD = /audioLocale|audioTracks|audio_locale|languages|soundtrack|trackIds|dubbed|"de-DE"|Deutsch/i
 
   const gesehen = new Set()
 
   function pruefeAntwort(url, text) {
     if (!text || text.length < 200) return
-    if (!INTERESSANT.test(url)) return
-    if (!SPRACHFELD.test(text)) return
+    // Eines von beidem genuegt: der Pfad sieht nach Metadaten aus, oder der
+    // Inhalt nennt Sprachen. Sonst faellt genau das durch, was wir suchen.
+    if (!INTERESSANT.test(url) && !SPRACHFELD.test(text)) return
     const schluessel = url.split('?')[0]
     if (gesehen.has(schluessel)) return
     gesehen.add(schluessel)

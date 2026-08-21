@@ -72,10 +72,17 @@ for (const t of liste) {
   }
 }
 
-const heute = new Date().toISOString().slice(0, 10)
+/** Ein Zeitpunkt als Datum in Ortszeit Europe/Berlin. */
+function berlinDatum(iso: string): string {
+  return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Berlin' }).format(new Date(iso))
+}
+
+const heute = berlinDatum(new Date().toISOString())
 const zeilen: string[] = []
 let uebernommen = 0
 const offenGeblieben: string[] = []
+/** Kennungen der Meldungen, die wirklich eingetragen wurden. */
+const erledigteIds = new Set<number>()
 
 for (const p of pruefungen) {
   const ids = nachUrl.get(p.url) ?? []
@@ -92,12 +99,15 @@ for (const p of pruefungen) {
     zeilen.push(`  platform: ${p.plattform}`)
     if (p.befund === 'weg') zeilen.push('  available: false')
     else zeilen.push(`  dub: ${p.befund === 'dub'}`)
-    zeilen.push(`  checkedAt: '${p.gemeldet_am.slice(0, 10)}'`)
+    // Ortszeit, nicht UTC: Eine Meldung um 00:41 Uhr trug sonst das Datum
+    // des Vortags (22.08.2026).
+    zeilen.push(`  checkedAt: '${berlinDatum(p.gemeldet_am)}'`)
     const notiz = [sprachen.length ? `Tonspuren: ${sprachen.join(', ')}` : '', p.notiz ?? '']
       .filter(Boolean)
       .join(' — ')
     if (notiz) zeilen.push(`  note: ${JSON.stringify(notiz)}`)
     uebernommen++
+    erledigteIds.add(p.id)
   }
 }
 
@@ -110,4 +120,16 @@ if (zeilen.length) {
 
 log(`${pruefungen.length} Prüfungen abgeholt, ${uebernommen} Einträge geschrieben`)
 for (const o of offenGeblieben) warn(o)
-log('Die Prüfungen bleiben im Worker stehen, bis sie dort als übernommen markiert werden.')
+if (erledigteIds.size) {
+  const quittung = await fetch(`${WORKER}/pruefung`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': TOKEN },
+    body: JSON.stringify({ uebernommen: [...erledigteIds] }),
+  })
+  log(quittung.ok
+    ? `${erledigteIds.size} Meldungen im Worker abgehakt`
+    : `Abhaken fehlgeschlagen (HTTP ${quittung.status}) — sie kommen beim nächsten Lauf erneut`)
+}
+if (offenGeblieben.length) {
+  warn(`${offenGeblieben.length} Meldung(en) bleiben im Briefkasten, bis sie zugeordnet sind.`)
+}
