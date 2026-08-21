@@ -764,3 +764,37 @@
   dub: true
   checkedAt: '2026-08-21'
   note: Alle 24 Folgen der ersten Staffel auf Deutsch.
+
+# Nachtrag zur Zeile darüber: Die Netflix-Suche nach „Schleim" liefert **einen**
+# Eintrag, und der trägt „24 Folgen" (Daniel, 21.08.2026, mit Bildbeleg). Netflix
+# führt also nur die erste Staffel — die weiteren gibt es dort nicht, auch nicht
+# unter eigenen Adressen. Die fünf Verweise darauf werden entfernt.
+- anilistId: 108511
+  title: That Time I Got Reincarnated as a Slime Season 2
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-21'
+
+- anilistId: 116742
+  title: That Time I Got Reincarnated as a Slime Season 2 Part 2
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-21'
+
+- anilistId: 156822
+  title: That Time I Got Reincarnated as a Slime Season 3
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-21'
+
+- anilistId: 161802
+  title: 'That Time I Got Reincarnated as a Slime: Visions of Coleus'
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-21'
+
+- anilistId: 182205
+  title: Meine Wiedergeburt als Schleim in einer anderen Welt – Staffel 4
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-21'
