@@ -14,3 +14,8 @@ data/cache/
 # so einem Protokoll notfalls den Datensatz zurückgewinnen.
 crdub-*.log
 katalog-*.log
+
+# Von tsc erzeugt. Lag bis zum 21.08.2026 im Repo und war der einzige
+# Konfliktpunkt beim Merge des Crunchyroll-Umbaus — eine generierte Datei,
+# die zwei Zweige zwangsläufig verschieden schreiben.
+tsconfig.tsbuildinfo
