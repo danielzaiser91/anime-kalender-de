@@ -205,30 +205,47 @@ async function serieLesen(page: Page, url: string): Promise<CrSerie> {
    * stimmte.
    */
   /**
-   * Erst fragen, ob es die Serie überhaupt noch gibt.
+   * Auf das Erste warten, was die Seite zu sagen hat — Banner oder Audio-Zeile.
    *
-   * Crunchyroll sagt es selbst: „Leider sind die Videos dieser Serie nicht mehr
-   * verfügbar." Das steht sofort da und braucht kein Warten. Ohne diese Abfrage
-   * lief der Abruf in den Zwanzig-Sekunden-Ablauf der Audio-Zeile und meldete
-   * „keine Audio-Zeile gefunden" — eine Nicht-Antwort auf eine Seite, die klar
-   * antwortet (Daniel, 21.08.2026, an „Dragon Ball" gezeigt).
+   * Beides erscheint erst, wenn die Seite fertig gerendert ist; die Seite wird
+   * mit `domcontentloaded` geladen, und zu dem Zeitpunkt steht keines von
+   * beiden da. Ein erster Versuch am 21.08.2026 fragte den Banner direkt nach
+   * dem Laden ab und fand nie einen — der Abruf lief weiter in den
+   * Zwanzig-Sekunden-Ablauf der Audio-Zeile, genau wie vorher. Aufgefallen ist
+   * es nur, weil Daniel fragte, ob der Lauf überhaupt geprüft sei; zu dem
+   * Zeitpunkt arbeitete er bereits seit zwei Stunden an 594 Seiten für nichts.
    *
-   * Der Zeitgewinn ist nebenbei erheblich: 472 der 800 geprüften Serien trugen
-   * diesen Fehler, und jede davon hat zwanzig Sekunden gewartet.
+   * Ein einziges Warten auf beide Möglichkeiten ist die Antwort — und nebenbei
+   * schneller als zwei nacheinander.
    */
-  const wegBanner = await page
-    .evaluate(() => (document.body.innerText.match(/^.*nicht mehr verfügbar.*$/m) ?? [])[0] ?? null)
+  const befund = await page
+    .waitForFunction(
+      () => {
+        const text = document.body.innerText
+        const weg = text.match(/^.*nicht mehr verfügbar.*$/m)
+        if (weg) return { art: 'weg', zeile: weg[0] }
+        const ton = text.match(/^Audio:.*$/m)
+        if (ton) return { art: 'audio', zeile: ton[0] }
+        return null
+      },
+      undefined,
+      { timeout: 20000 },
+    )
+    .then((h) => h.jsonValue() as Promise<{ art: string; zeile: string }>)
     .catch(() => null)
-  if (wegBanner) {
-    return { url, nichtVerfuegbar: true, geprueftAm: heute, fehler: wegBanner.trim() }
+
+  /**
+   * Crunchyroll sagt selbst, dass es die Serie nicht mehr gibt.
+   *
+   * Das ist `available: false` und nicht `dub: false`: Es fehlt das Angebot,
+   * nicht die deutsche Fassung (Daniel, 21.08.2026, an „Dragon Ball" gezeigt).
+   */
+  if (befund?.art === 'weg') {
+    return { url, nichtVerfuegbar: true, geprueftAm: heute, fehler: befund.zeile.trim() }
   }
 
-  const audio = await page
-    .waitForFunction(() => (document.body.innerText.match(/^Audio:.*$/m) ?? [''])[0] || null, undefined, {
-      timeout: 20000,
-    })
-    .then((h) => h.jsonValue() as Promise<string>)
-    .catch(() => '')
+  const audio = befund?.art === 'audio' ? befund.zeile : ''
+
 
   /**
    * Keine Zeile heißt **nicht gesehen**, nicht „kein Deutsch".
