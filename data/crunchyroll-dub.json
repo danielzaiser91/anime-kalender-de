@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-21T11:03:19.949Z",
+  "scrapedAt": "2026-08-21T14:21:58.780Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/that-time-i-got-reincarnated-as-a-slime",
@@ -7784,6 +7784,842 @@
     },
     {
       "url": "https://www.crunchyroll.com/de/the-boy-and-the-beast",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-day-i-became-a-god",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-future-diary",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-garden-of-sinners/episode-1-overlooking-view-thanatos-763069",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-garden-of-sinners/episode-2-murder-speculation-part-a-and-nothing-heart-763071",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-garden-of-sinners/episode-3-remaining-sense-of-pain-ever-cry-never-life-763073",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-garden-of-sinners/episode-4-the-hollow-shrine-garan-no-dou-763077",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-garden-of-sinners/episode-5-paradox-paradigm-763123",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-garden-of-sinners/episode-6-oblivion-recording-fairy-tale-763079",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-garden-of-sinners/episode-7-murder-speculation-part-b-not-nothing-heart-763181",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-garden-of-sinners/episode-8-epilogue-763085",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-girl-who-leapt-through-time",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-journey/",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-magnificent-kotobuki",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-misfit-of-demon-king-academy",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-ones-within",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-saints-magic-power-is-omnipotent",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-slayers",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-testament-of-sister-new-devil",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-wonderful-wizard-of-oz",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/the-wonderland",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/toilet-bound-hanako-kun",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/tokyo-ghoul",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/trigun",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/trinity-blood",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/trinity-seven",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/tsugumomo",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/tsugumomo/",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/undefeated-bahamut-chronicle",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/valkyrie-drive-mermaid-",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/venus-versus-virus",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/G0DUMXDPZ/rascal-does-not-dream-of-a-sister-venturing-out",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/G14UVQ5D5/one-piece-fan-letter",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/G2XUNVJMN/hoshinas-day-off",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/G2XUNX9N2/code-white",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/G3WF2491E/jin-roh",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/G7PU3D1ZN/one-piece-film-strong-world",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/G7PU3DWNQ/given-the-movie-to-the-sea",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/G7PU4100M/scherzo-of-deep-night",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/G8WU7P112/dragon-ball-z-battle-of-gods",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/G8WUNMMMW/attack-on-titan-final-season-the-final-chapters-special-1",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GD9UE9XZ7/haikyu-the-dumpster-battle",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GE00365925JAJP/jujutsu-kaisen-hidden-inventory--premature-death--the-movie",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GE00367387JAJP/i-need-to-be-in-----",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GE00379883JAJP/my-hero-academia-i-am-a-hero-too",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GG1UXVQZ3/kaiju-no-8-mission-recon",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GMKUEMXMJ/given-the-movie-hiiragi-mix",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GR2P1377R/legend-of-the-sanada",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GVWU0K5WN/sword-art-online-the-movie--progressive--aria-of-a-starless-night",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GVWU827QE/one-piece-film-the-desert-princess-and-the-pirates-adventures-in-alabasta--",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GVWU8N5DG/blue-lock-the-movie--episode-nagi-",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GWDU73EX8/rascal-does-not-dream-of-a-knapsack-kid",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GX9U34WGN/one-piece-film-z",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GX9UQJE85",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GYNQJG40Y/the-15th-anniversary-special-episode",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/watch/GZ4FVQE90/fantastic-adventures-of-unico",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/we-never-learn-bokuben",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/welcome-to-the-n-h-k",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/why-the-hell-are-you-here-teacher",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/wise-mans-grandchild",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/witch-hunter-robin",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/witchblade",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/wolf-children",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/wolfs-rain",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/wz",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/x",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/xxxholic",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/yamadas-first-time-b-gata-h-kei",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/yashahime-princess-half-demon",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/yes-no-or-maybe",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/your-name",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/yu-gi-oh-arc-v",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/yu-gi-oh-zexal",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/yu-yu-hakusho",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/zombie-land-saga",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "ZOMBIE LAND SAGA",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        },
+        {
+          "name": "ZOMBIE LAND SAGA REVENGE",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/dears/episode-10-is-it-a-golden-ball-811701?ssid=401214",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-1-der-tickende-wolkenkratzer-unbekannt-810163",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-12-die-partitur-des-grauens-unbekannt-811393?ssid=400590",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-14-das-verlorene-schiff-im-himmel-unbekannt-811396?ssid=400599",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-15-die-15-minuten-der-stille-unbekannt-811397?ssid=400596",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-16-der-11-strmer-unbekannt-811399?ssid=400598",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-17-detektiv-auf-hoher-see-unbekannt-812230?ssid=402659",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-18-der-scharfschtze-aus-einer-anderen-dimension-unbekannt-812231",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-2-das-14-ziel-unbekannt-810165",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-21-der-purpurrote-liebesbrief-unbekannt-812236?ssid=402669",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-22-zero-der-vollstrecker-unbekannt-812237?ssid=402670",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-23-die-stahlblaue-faust-unbekannt-857862",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-24-die-scharlachrote-kugel-unbekannt-867288",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-3-der-magier-des-letzten-jahrhunderts-unbekannt-810166",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-4-der-killer-in-ihren-augen-unbekannt-810167",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-5-countdown-zum-himmel-unbekannt-810169?ssid=398572",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-6-das-phantom-der-baker-street-unbekannt-810184?ssid=398574",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan/detektiv-conan-tv-special-episode-one-der-geschrumpfte-meisterdetektiv-unbekannt-821630?ssid=422962",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/detektiv-conan/detektiv-conan-tv-special-lupin-iii-vs-detektiv-conan-unbekannt-812798?ssid=404716",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/doreiku-the-animation",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/fairy-tail-movies/fairy-tail-the-movie-phoenix-princess-unbekannt-821316?ssid=422327",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/flip-flappers",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/flowers-of-evil",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/fragtime/fragtime-unbekannt-813782?ssid=406732",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/genocidal-organ/genocidal-organ-unbekannt-807915?ssid=394444",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/grimgar-ashes-and-illusions",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/harmony/harmony-unbekannt-807914?ssid=394443",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/ikki-tousen",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Ikki Tousen: OVA Season 1",
+          "folgen": 3,
+          "kacheln": 3,
+          "deutsch": 3,
+          "fremd": 0
+        },
+        {
+          "name": "Ikki Tousen: OVA Season 2",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 0,
+          "fremd": 2
+        }
+      ],
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/k-on",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/k-on/episode-14-807608?ssid=394401",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/k-on/episode-27-809423?ssid=397229",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/k-on/k-on-the-movie-unbekannt-822264?ssid=424604",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/kandagawa-jet-girls",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/kase-san-and-morning-glories/kase-san-and-morning-glories-unbekannt-813883",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/kokoro-connect",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-/episode-13-799361?ssid=387047",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/love-stage/episode-11-841216",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lu-over-the-wall/lu-over-the-wall-unbekannt-811213?ssid=399959",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/daisuke-jigens-grabstein-unbekannt-822025?ssid=423942",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/fujiko-mines-lge-unbekannt-822260?ssid=424587",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/goemon-ishikawa-der-es-blut-regnen-lsst-unbekannt-822028?ssid=423944",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/lupin-iii-the-first-unbekannt-827115?ssid=429156",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-the-castle-of-cagliostro/lupin-iii-das-schloss-des-cagliostro-unbekannt-817943?ssid=414931",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-brenne-zantetsuken-der-goldene-drache-unbekannt-813890?ssid=407178",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-das-geheimnis-des-twilight-gemini-der-diamant-der-dmmerung-unbekannt-813886?ssid=407187",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-der-schatz-des-harimao-unbekannt-813894?ssid=407180",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-mordbefehl-an-lupin-der-hllentrip-unbekannt-813888?ssid=407176",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/night-is-short-walk-on-girl/night-is-short-walk-on-girl-unbekannt-811211?ssid=399939",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/one-punch-man",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/ride-your-wave/ride-your-wave-unbekannt-806160?ssid=392654",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/G0XHWM5K7/babylon",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/G3KHEVD7E/digimon-frontier",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/G6DKW52DR/inuyasha",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GEXH3W414/princess-principal",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GMEHMENQM/magic-kaito",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GNVHKN972/digimon-savers",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GP5HJ84EX/bobobo-bo-bo-bobo",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GQWH0M1EX/saber-rider-and-the-star-sheriffs",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GR2P1ZEMR/riddle-story-of-devil",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GR5VKGGPR/invaders-of-the-rokujyoma",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GRGGQ914R/daimidaler-prince-vs-penguin-empire",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GVDHX8DM5",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "einzige Staffel",
+          "folgen": 24,
+          "kacheln": 26,
+          "deutsch": 23,
+          "fremd": 0
+        }
+      ],
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GYJ0HW59G/digimon-tamers",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GZJH3D7G9/captain-tsubasa",
+      "deutschImAngebot": false,
+      "geprueftAm": "2026-08-21"
+    },
+    {
+      "url": "https://www.crunchyroll.com/seven-days-war/seven-days-war-unbekannt-821929?ssid=423562",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/the-dragon-dentist/deomu-the-dragon-dentist-unbekannt-811630?ssid=401190",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/the-empire-of-corpses/the-empire-of-corpses-unknown-808170?ssid=395057",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/tsubasa-reservoir-chronicle",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/typhoon-noruda/typhoon-noruda-unbekannt-859032",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/uq-holder",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/G2XU0D874",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/G4VUQVNJ8/",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/G50UZ54W0/the-scarlet-alibi-german-dub",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/G50UZV2GM/",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/G9DU9E4QG/saitama-and-the-mediocre-gang",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/GG1U2NW9Q",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/GJWUQN11K/",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/GK9U31019/",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/GK9U3Z4XE/",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/GMEE00351144DEDE",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/GPWU8KM42/the-shadow-that-snuck-up-too-close",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/watch/GQJUGQWMW/",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Audio-Zeile gefunden"
+    },
+    {
+      "url": "https://www.google.com/url?sa=t&source=web&rct=j&url=https://www.crunchyroll.com/de/series/GVDHX8QGP/nana&ved=2ahUKEwifi8P_yuj9AhUgVqQEHZuMD9gQFnoECA0QAQ&usg=AOvVaw3qlL5BTTbccRkl1ygyWy9T",
       "geprueftAm": "2026-08-21",
       "fehler": "keine Audio-Zeile gefunden"
     }
