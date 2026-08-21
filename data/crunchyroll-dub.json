@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-21T17:34:05.043Z",
+  "scrapedAt": "2026-08-21T17:42:53.401Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/that-time-i-got-reincarnated-as-a-slime",
@@ -4151,8 +4151,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/cardcaptor-sakura-the-movie",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "404 - Seite nicht gefunden"
     },
     {
       "url": "http://www.crunchyroll.com/de/case-closed",
@@ -4467,8 +4468,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/hamatora",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "404 - Seite nicht gefunden"
     },
     {
       "url": "http://www.crunchyroll.com/de/henneko-the-hentai-prince-and-the-stony-cat-",
@@ -4556,8 +4558,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/kite-liberator",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "404 - Seite nicht gefunden"
     },
     {
       "url": "http://www.crunchyroll.com/de/kiznaiver",
@@ -4601,8 +4604,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/little-nemo-adventures-in-slumberland",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "404 - Seite nicht gefunden"
     },
     {
       "url": "http://www.crunchyroll.com/de/love-chunibyo-other-delusions",
@@ -5024,8 +5028,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/sin-the-movie",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "404 - Seite nicht gefunden"
     },
     {
       "url": "http://www.crunchyroll.com/de/so-i-cant-play-h",
@@ -5035,8 +5040,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/terraformars",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "404 - Seite nicht gefunden"
     },
     {
       "url": "http://www.crunchyroll.com/de/the-asterisk-war",
@@ -5055,8 +5061,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/the-knight-in-the-area",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "404 - Seite nicht gefunden"
     },
     {
       "url": "http://www.crunchyroll.com/de/the-perfect-insider",
