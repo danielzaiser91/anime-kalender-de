@@ -3,9 +3,9 @@
  * glauben.
  *
  * Bevor auch nur ein Wert dieser Quelle in den Datensatz geht, wird sie gegen
- * das gehalten, was wir schon **unabhängig** wissen: die Crunchyroll-Seiten aus
- * `data/crunchyroll-dub.json`, die ADN-Releases mit belegtem `vde`, und alles,
- * was ein Mensch in `data/dub-confirmed.yaml` bestätigt hat. Verglichen wird
+ * das gehalten, was wir schon **unabhängig** wissen: die 190 Crunchyroll-Seiten
+ * aus `data/crunchyroll-dub.json` und die 39 Angaben, die ein Mensch in
+ * `data/dub-confirmed.yaml` bestätigt hat. Verglichen wird
  * ausschließlich gegen Rohdaten, nie gegen `public/data/titles.json` — dort
  * steht am Ende auch das, was diese Quelle selbst geschrieben hat, und eine
  * Quelle, die sich selbst bestätigt, misst nichts.
@@ -79,13 +79,24 @@ for (const check of loadDubChecks()) {
   bekannt.set(dubKey(check.anilistId, check.platform), { dub: check.dub, quelle: 'Handprüfung' })
 }
 
-// ADN führt den Sprachcode `vde` je Folge — ein Release dort ist ein Beleg.
-for (const release of releases) {
-  if (release.platform !== 'adn' || release.titleId < 0) continue
-  const key = dubKey(release.titleId, 'adn')
-  if (!bekannt.has(key)) bekannt.set(key, { dub: true, quelle: 'ADN (vde)' })
-}
+/**
+ * ADN fehlt hier bewusst.
+ *
+ * Der Sprachcode `vde` je Folge wäre ein erstklassiger Prüfstein — nur führt
+ * diese Quelle ADN gar nicht. Belegt ist am 21.08.2026 einzig, dass bei
+ * „Frieren" `crunchyroll`, `netflix` und `prime` unter `streamingOptions.de`
+ * stehen. Eine Vergleichszeile, die nie greift, sieht aus wie eine Prüfung und
+ * ist keine.
+ */
 
+/**
+ * Crunchyroll trägt diese Messung.
+ *
+ * 190 Serienseiten mit belegter Tonspur je Folge stehen sieben Handprüfungen
+ * bei Netflix gegenüber. Ohne sie hätte die Messung fast keine Grundlage — und
+ * genau deshalb wird Crunchyroll aus dieser Quelle **erfasst**, obwohl aus ihr
+ * nie eine Crunchyroll-Angabe in den Datensatz geht.
+ */
 const crDub = readJson<CrDubData>('data/crunchyroll-dub.json', { scrapedAt: '', serien: [] })
 const nachUrl = new Map<string, Title[]>()
 for (const title of titles) {
@@ -194,7 +205,7 @@ const md: string[] = [
   '',
   `Bestand: **${Object.keys(motn.shows).length} Serien** der Quelle, davon **${belege.length} Zuordnungen**`,
   `zu unseren Einträgen. Davon ließen sich **${verglichen}** gegen einen unabhängigen Beleg halten`,
-  '(Handprüfung, ADN-Sprachcode `vde`, Crunchyroll-Serienseite).',
+  '(Handprüfung oder Crunchyroll-Serienseite).',
   '',
   '| | Zahl |',
   '|---|---|',
@@ -213,9 +224,13 @@ const md: string[] = [
     .sort((a, b) => b[1].verglichen - a[1].verglichen)
     .map(([p, z]) => `| ${p} | ${z.verglichen} | ${z.bestaetigt} | ${z.widerspruch} | ${z.schweigen} |`),
   '',
-  'Übernommen wird ausschließlich **Netflix** — für Crunchyroll und ADN haben wir bessere Quellen',
-  'im Haus, und die Crunchyroll-Angaben dieser Quelle widersprechen sich selbst. Prime Video und',
-  'Disney+ stehen hier zur Beurteilung, gehen aber nicht in den Datensatz.',
+  '**Crunchyroll ist hier der Prüfstein, nicht das Ziel.** Für 190 Serien wissen wir aus unserem',
+  'eigenen Abruf, ob dort eine deutsche Tonspur liegt — für Netflix wissen wir es fast nirgends',
+  '(sieben Handprüfungen, Stand 21.08.2026). Ohne die Crunchyroll-Zeile wäre diese Messung leer.',
+  '',
+  'Übernommen wird trotzdem ausschließlich **Netflix**: Die Crunchyroll-Angaben dieser Quelle',
+  'widersprechen sich zwischen Serien- und Episodenebene selbst, und für Prime Video und Disney+',
+  'fehlt bislang jede Trefferquote.',
   '',
 ]
 
