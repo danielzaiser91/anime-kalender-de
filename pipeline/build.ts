@@ -1355,7 +1355,10 @@ function main(): void {
       note: entry.note ?? durchzaehlungHinweis,
       disputedDates: entry.disputedDates,
       schedule,
-      year: releaseYear,
+      // Aus dem Termin, der am Ende dasteht — nicht aus dem kuratierten. Der
+      // Kalender kann ihn verschoben haben, und über den Jahresfilter der
+      // Oberfläche entscheidet der ausgelieferte Termin.
+      year: Number(schedule.firstEpisodeDate.slice(0, 4)),
       sources: [...new Set(sources)],
     })
   }
