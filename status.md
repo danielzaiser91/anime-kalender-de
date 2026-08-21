@@ -347,6 +347,79 @@ Quelle: <https://www.animenewsnetwork.com/encyclopedia/api.php>
   Sprechrollen, 8.737 Rollen** — ANN pflegt den deutschen Cast tatsächlich breiter. Läuft
   wöchentlich (`data:ann:ids`, `data:ann:voices`), Rohantworten liegen unter `data/ann-raw/`.
 
+## Recherche Sprachangaben ohne Handarbeit (21.08.2026)
+
+**Anlass:** Daniel fragte, wofür er bei der Prüfliste noch gebraucht wird. Gemessene
+Verteilung der 1.971 offenen Verweise: Crunchyroll 969, Netflix 532, Prime Video 214,
+YouTube 92, ADN 61, RTL+ 42, Disney+ 38, Aniverse 21, Joyn 2.
+
+**Netflix scrapen ist ausgeschlossen, und zwar nicht technisch.** `netflix.com/robots.txt`
+beginnt mit:
+
+    User-agent: *
+    Disallow: /
+
+Danach folgt eine Liste namentlich erlaubter Suchmaschinen-Bots (Googlebot, Applebot,
+bingbot, Baiduspider, Yandex und weitere). Wir stehen nicht darauf. Das ist eine
+ausgesprochene Absage, kein Hindernis — abgehakt, nicht aufgeschoben.
+
+**Amazon ist nicht gesperrt.** `amazon.de/robots.txt` verbietet unter `/gp/video/` nur
+`api`, `settings`, `library`, `watchlist` und `mystuff` — also Konto- und
+Schnittstellenpfade. Produktseiten sind nicht ausgenommen.
+
+### Geprüfte Quellen
+
+| Quelle | Audio-Sprachen? | Urteil |
+|---|---|---|
+| [Streaming Availability API](https://www.movieofthenight.com/about/api) (Movie of the Night) | ja, ISO-639-2 je Streaming-Option | **aussichtsreichste Quelle**, siehe unten |
+| [uNoGS](https://unogs.com/) | ja, je Titel und Land | Rückfallebene — siehe Bedenken unten |
+| JustWatch | ungeprüft für Audio | am 15.08.2026 als Terminquelle gemessen und verworfen (104 künftige Titel für ganz Deutschland, fast kein Anime); für Sprachen nicht erneut geprüft |
+| TMDB | nein | führt Anbieter je Land, aber keine Tonspuren |
+
+### Streaming Availability API — die Zahlen
+
+- **Kostenlose Stufe: 1.000 Anfragen im Monat**, ohne Zahlungsdaten
+  ([Preisseite](https://www.movieofthenight.com/about/api/pricing)). Bezahlt ab 49 USD/Monat
+  für 25.000 Anfragen.
+- **Katalog statt Einzelabfrage:** `GET /shows/search/filters` filtert nach `country`,
+  `catalogs` (bis zu 32 Dienste, mit Typ: subscription/free/rent/buy/addon), `show_type`,
+  `genres`, Jahr und Bewertung. Cursor-Paginierung über `hasMore`/`nextCursor`, 15 bis 20
+  Ergebnisse je Anfrage. Der deutsche Anime-Katalog eines Anbieters ist damit eine Sache von
+  ein bis zwei Dutzend Anfragen, nicht von 532.
+- **Deckt mehr ab als Netflix:** 66 Länder, und in der Filterliste stehen Netflix, Prime
+  Video, Disney+ und weitere. Eine Anbindung könnte also Netflix **und** Prime **und**
+  Disney+ auf einmal erledigen — das sind zusammen 784 der offenen Verweise.
+- **Nutzungsbedingungen** ([TERMS.md](https://github.com/movieofthenight/streaming-availability-api/blob/main/TERMS.md)),
+  im Wortlaut geprüft:
+  - Speichern erlaubt, auch dauerhaft: „Once The API User's subscription ends, The API User
+    can still keep the data retrieved from the API".
+  - Anzeige auf der eigenen Seite erlaubt, **mit sichtbarer Quellenangabe**: „The API User
+    shall give an attribution to The API Provider", „visible to the users of the
+    website/application", verlinkt auf movieofthenight.com/about/api.
+  - Verboten ist das Weiterverkaufen und Weiterverteilen der Daten: „shall not
+    reshare/resell/redistribute the streaming availability data". Betrifft uns nicht.
+  - Kommerzielle Nutzung ausdrücklich gestattet.
+  - Die Bildbandbreite ist auf 1 GB im Monat begrenzt — für uns unerheblich, wir brauchen
+    Metadaten, keine Bilder.
+
+**Was fehlt:** ein API-Schlüssel. Den kann nur Daniel anlegen — ein Konto zu eröffnen ist
+mir verwehrt. Danach gehört er nach `my_secrets.md` und als Repo-Secret ins Projekt.
+
+**Was vor der ersten Anzeige zu prüfen ist:** ob die Audio-Angaben stimmen. Wir haben eine
+Kontrollgruppe im Haus — 190 über Crunchyroll belegte Fälle, 98 über ADN belegte, dazu
+`data/dub-confirmed.yaml` mit Daniels eigenen Prüfungen. Eine fremde Quelle wird daran
+gemessen, bevor ihr geglaubt wird.
+
+### uNoGS als Rückfallebene
+
+[unogs.com](https://unogs.com/) ist aktiv und führt je Titel Land, Audio-Sprachen,
+Untertitel und Ablaufdaten; Zugang über RapidAPI, kostenlose Stufe 100 Anfragen am Tag.
+Zwei Gründe, warum es die zweite Wahl ist: Es ist **eine Anfrage je Titel** statt eines
+Katalogs, und die Betreiber schreiben selbst, dass „Netflix make it harder and harder for us
+to pull information" — die Daten sind also von derselben Sperre bedroht, die uns das
+Scrapen verbietet. Bleibt als Vergleichsquelle brauchbar.
+
+
 ## Entscheidungen
 
 - **Die Regel „mindestens eine Folge auf Deutsch erschienen" wird nicht umgesetzt** (17.08.2026).
