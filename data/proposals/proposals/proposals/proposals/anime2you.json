@@ -1,6 +1,88 @@
 {
-  "scrapedAt": "2026-08-17T05:03:16.133Z",
+  "scrapedAt": "2026-08-20T11:30:27.818Z",
   "proposals": [
+    {
+      "articleTitle": "Netflix: Alle Anime-Neuzugänge im September 2026",
+      "articleUrl": "https://www.anime2you.de/news/1042851/netflix-anime-neu-im-september-2026/",
+      "publishedAt": "2026-08-19",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "month": "2026-09",
+          "context": "Netflix: Alle Anime-Neuzugänge im September 2026 Der Streaming-Dienst Netflix baut sein Anime-Program"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Netflix-Termin des dritten »Mononoke«-Films + Trailer",
+      "articleUrl": "https://www.anime2you.de/news/1042775/dritter-mononoke-film-netflix-termin/",
+      "publishedAt": "2026-08-19",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "iso": "2026-09-29",
+          "context": "uen Trailer und ein Visual gibt es weiter unten in diesem Artikel. Ab 29. September 2026 Der dritte Kinoableger mit dem Titel »Mononoke the"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Disc-Releasetermin von »Good Luck Girl« steht fest + Design",
+      "articleUrl": "https://www.anime2you.de/news/1042831/good-luck-girl-disc-releasetermin/",
+      "publishedAt": "2026-08-19",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-11-20",
+          "context": "sowie einen Sammelschuber beinhaltet, kommt nach aktueller Planung am 20. November 2026 in einer […] Der Beitrag Disc-Releasetermin von »G"
+        },
+        {
+          "month": "2026-11",
+          "context": "Girl!« bekannt. Erste Produktbilder findet ihr weiter unten. Release ab November 2026 Das erste Volume von »Good Luck Girl!«, das die erste"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Sechs Blu-ray-Termine von AniMoon und Crunchyroll verschoben",
+      "articleUrl": "https://www.anime2you.de/news/1042244/animoon-crunchyroll-sechs-verschiebungen/",
+      "publishedAt": "2026-08-18",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "pause": "verschoben",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Amazon startet große Rabattaktion mit über 500 Anime-Produkten",
+      "articleUrl": "https://www.anime2you.de/news/1042209/amazon-couchella-2026-rabattaktion/",
+      "publishedAt": "2026-08-17",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-08-30",
+          "context": "ammen. DVDs und Blu-rays im Angebot Im Rahmen der Aktion, die bis zum 30. August 2026 läuft, bietet Amazon verschiedene Anime-Komplettboxen"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Acht Anime-Neuzugänge bald auf Disney+ verfügbar",
       "articleUrl": "https://www.anime2you.de/news/1041622/disney-plus-one-piece-und-mehr/",
@@ -480,10 +562,6 @@
         "kino"
       ],
       "dates": [
-        {
-          "iso": "2026-08-18",
-          "context": ". Kinostart im August 2026 »Chihiros Reise ins Zauberland« ist ab dem 18. August 2026 im Verleih von Wild Bunch Germany sowohl mit deutscher"
-        },
         {
           "month": "2026-08",
           "context": "die große Leinwand zurück. Wir fassen die Details zusammen. Kinostart im August 2026 »Chihiros Reise ins Zauberland« ist ab dem 18. August 2"
