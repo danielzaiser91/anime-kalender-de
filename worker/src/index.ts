@@ -1115,6 +1115,10 @@ async function handleLauf(request: Request, env: Env): Promise<Response> {
      *   laeuft   — immer sichtbar, das ist der Zweck
      *   ok       — eine halbe Stunde lang, damit ein Abschluss nicht unbemerkt
      *              vorbeigeht, wenn gerade niemand hinsieht
+     *   abgebrochen — ebenso. Ein Abbruch ist fast immer gewollt: Am 21.08.2026
+     *              standen neun davon in der Anzeige, alle von Hand gestoppt,
+     *              weil der jeweils nächste Anlauf besser war. Sie verstopften
+     *              die Übersicht, ohne dass jemand sie hätte abnehmen müssen.
      *   fehler   — bleibt stehen, bis ihn jemand abnimmt. Ein roter Lauf, der
      *              von selbst verschwindet, ist schlimmer als keine Anzeige.
      *   erledigt — sofort weg. Das setze ich, wenn ich einen Lauf durchgesehen
@@ -1126,7 +1130,7 @@ async function handleLauf(request: Request, env: Env): Promise<Response> {
          FROM lauf_status
         WHERE zustand != 'erledigt'
           AND gemeldet_am > ${ISO_JETZT}, '-3 days')
-          AND (zustand != 'ok' OR gemeldet_am > ${ISO_JETZT}, '-30 minutes'))
+          AND (zustand NOT IN ('ok', 'abgebrochen') OR gemeldet_am > ${ISO_JETZT}, '-30 minutes'))
         ORDER BY (zustand = 'laeuft') DESC, (zustand = 'fehler') DESC, gemeldet_am DESC
         LIMIT 40`,
     ).all()

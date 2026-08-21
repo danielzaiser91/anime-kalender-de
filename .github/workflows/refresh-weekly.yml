@@ -25,6 +25,30 @@ jobs:
   tief:
     runs-on: ubuntu-latest
     steps:
+      # Sofort anmelden, noch vor allem anderen.
+      #
+      # Der Schritt weiter unten braucht das ausgecheckte Skript und läuft
+      # deshalb erst nach Checkout und npm-Einrichtung — das sind dreißig bis
+      # sechzig Sekunden, in denen die Statusanzeige nichts weiß. Daniel am
+      # 21.08.2026: „der läuft sogar schon seit 1min aber ist erst jetzt in
+      # der app aufgetaucht."
+      #
+      # Ein curl braucht nichts als das Token. Schlägt er fehl, läuft der Job
+      # weiter — die spätere Anmeldung holt es nach.
+      - name: Sofort anmelden
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: |
+          if [ -z "$LAUF_TOKEN" ]; then exit 0; fi
+          printf '{"lauf_id":"%s","repo":"%s","workflow":"%s","zustand":"laeuft","url":"%s","notiz":"wird eingerichtet"}' \
+            "$GITHUB_RUN_ID" "$GITHUB_REPOSITORY" "$GITHUB_WORKFLOW" \
+            "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" > /tmp/anmeldung.json
+          curl -sS --max-time 10 -X POST "https://newsletter.animekalender.workers.dev/lauf" \
+            -H "Content-Type: application/json" -H "X-Lauf-Token: $LAUF_TOKEN" \
+            --data-binary @/tmp/anmeldung.json > /dev/null || true
+
+
       - uses: actions/checkout@v4
         with:
           # Siehe refresh-hourly.yml: ohne `ref` checkt ein eingereihter Lauf
