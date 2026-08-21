@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-21T16:03:36.894Z",
+  "scrapedAt": "2026-08-21T17:11:06.124Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/that-time-i-got-reincarnated-as-a-slime",
@@ -4014,8 +4014,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/91-days",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -4118,8 +4119,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/blast-of-tempest",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/blue-submarine-no-6",
@@ -4138,8 +4140,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/cardcaptor-sakura",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/cardcaptor-sakura-clear-card",
@@ -4213,8 +4216,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/dagashi-kashi",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/dears",
@@ -4243,8 +4247,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/dragon-half",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/erased",
@@ -4258,8 +4263,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/eureka-seven",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/eyeshield-21",
@@ -4278,8 +4284,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/fatekaleid-liner-prisma-illya",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/fatezero",
@@ -4328,13 +4335,15 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/gate",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/gingitsune-messenger-fox-of-the-gods",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/gintama",
@@ -4343,8 +4352,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/girls-und-panzer",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/go-lion",
@@ -4462,8 +4472,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/henneko-the-hentai-prince-and-the-stony-cat-",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/hinamatsuri",
@@ -4584,8 +4595,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/lance-n-masques",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/little-nemo-adventures-in-slumberland",
@@ -4594,8 +4606,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/love-chunibyo-other-delusions",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/love-live-sunshine",
@@ -4701,8 +4714,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/motto-to-love-ru",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/my-first-girlfriend-is-a-gal",
@@ -4788,13 +4802,15 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/my-teen-romantic-comedy-snafu",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/mysterious-girlfriend-x",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/nagi-no-asukara-nagi-asu-a-lull-in-the-sea",
@@ -4823,13 +4839,15 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/ookami",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/orange",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/overlord",
@@ -4868,8 +4886,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/relife",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/rezero-starting-life-in-another-world-",
@@ -4915,8 +4934,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/rokka",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/saekano-how-to-raise-a-boring-girlfriend-",
@@ -4965,8 +4985,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/samurai-pizza-cats",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/samurai-warriors",
@@ -4980,8 +5001,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/school-live",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/sengoku-night-blood",
@@ -4990,13 +5012,15 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/shamanic-princess",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/sherlock-hound",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/sin-the-movie",
@@ -5005,8 +5029,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/so-i-cant-play-h",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/terraformars",
@@ -5040,8 +5065,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/the-pet-girl-of-sakurasou",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/the-testament-of-sister-new-devil",
@@ -5050,18 +5076,21 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/to-love-ru",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/to-love-ru-darkness",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/toradora",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/touken-ranbu-hanamaru",
@@ -5070,8 +5099,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/triage-x",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/trinity-seven",
@@ -5080,13 +5110,15 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/tsukigakirei",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/twocar",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/usagi-drop",
@@ -5100,8 +5132,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/world-conquest-zvezda-plot ",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/yona",
@@ -5135,8 +5168,9 @@
     },
     {
       "url": "http://www.crunchyroll.com/de/yuuna-and-the-haunted-hot-springs",
+      "nichtVerfuegbar": true,
       "geprueftAm": "2026-08-21",
-      "fehler": "keine Audio-Zeile gefunden"
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     },
     {
       "url": "http://www.crunchyroll.com/de/zombie-loan",
