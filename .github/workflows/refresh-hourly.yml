@@ -40,10 +40,22 @@ jobs:
 
       # Meldet der Statusanzeige, dass hier etwas läuft. Ohne LAUF_TOKEN
       # passiert nichts — eine fehlende Meldung darf keinen Lauf rot machen.
+      # Das Meldeskript an einen Ort legen, den kein Zweigwechsel wegnimmt.
+      #
+      # Am 21.08.2026 hat ein Auftrags-Lauf seinen eigenen Zweig angelegt und
+      # ist dorthin gewechselt — auf dem gab es `tools/lauf-melden.sh` noch
+      # nicht. Die Abmeldung scheiterte mit Exit 127 und machte einen Lauf rot,
+      # dessen Arbeit fertig und richtig war.
+      - name: Melder bereitlegen
+        run: |
+          cp tools/lauf-melden.sh "$RUNNER_TEMP/lauf-melden.sh"
+          echo "MELDER=$RUNNER_TEMP/lauf-melden.sh" >> "$GITHUB_ENV"
+
       - name: Lauf anmelden
+        continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: bash tools/lauf-melden.sh laeuft
+        run: bash "$MELDER" laeuft
 
       - uses: actions/setup-node@v4
         with:
@@ -101,7 +113,8 @@ jobs:
 
       # Läuft auch nach einem Fehler: Der rote Lauf ist der, den man sehen will.
       - name: Lauf abmelden
+        continue-on-error: true
         if: always()
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: bash tools/lauf-melden.sh "${{ job.status == 'success' && 'ok' || job.status == 'cancelled' && 'abgebrochen' || 'fehler' }}"
+        run: bash "$MELDER" "${{ job.status == 'success' && 'ok' || job.status == 'cancelled' && 'abgebrochen' || 'fehler' }}"

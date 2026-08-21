@@ -129,6 +129,41 @@ for (const datei of readdirSync(DIR).filter((f) => f.endsWith('.yml') || f.endsW
   }
 }
 
+const istMeldeaufruf = (zeile) =>
+  zeile.includes('run: bash ') && (zeile.includes('MELDER') || zeile.includes('lauf-melden.sh'))
+const SCHRITTKOPF = new RegExp(String.raw`^ {6}- name: `)
+
+/**
+ * Ein Meldeschritt darf einen Lauf niemals rot machen.
+ *
+ * Real am 21.08.2026: Ein Auftrags-Lauf legte seinen eigenen Zweig an und
+ * wechselte dorthin — auf dem gab es `tools/lauf-melden.sh` noch nicht. Die
+ * Abmeldung scheiterte mit `bash: No such file or directory` (Exit 127) und
+ * machte einen Lauf rot, dessen Arbeit fertig und richtig war. Die
+ * Statusanzeige zeigte ihn danach als „vermutlich abgestürzt".
+ *
+ * Zwei Sicherungen greifen seitdem: Das Skript liegt in `$RUNNER_TEMP`, wo kein
+ * Zweigwechsel es wegnimmt, und der Schritt trägt `continue-on-error: true`.
+ * Geprüft wird hier die zweite — sie ist die, die auch bei einer noch
+ * unbekannten Ursache trägt.
+ */
+for (const datei of readdirSync(DIR).filter((f) => f.endsWith('.yml') || f.endsWith('.yaml'))) {
+  const zeilen = readFileSync(resolve(DIR, datei), 'utf8').split(ZEILENENDE)
+  for (let i = 0; i < zeilen.length; i++) {
+    if (!istMeldeaufruf(zeilen[i])) continue
+    let k = i
+    while (k > 0 && !SCHRITTKOPF.test(zeilen[k])) k--
+    const kopf = zeilen.slice(k, i + 1).join('\n')
+    if (!kopf.includes('continue-on-error: true')) {
+      console.error(
+        `✗ ${datei}, Zeile ${i + 1}: Der Meldeschritt hat kein \`continue-on-error: true\` — ` +
+          'eine gescheiterte Statusmeldung würde den ganzen Lauf rot machen',
+      )
+      fehler++
+    }
+  }
+}
+
 if (fehler) {
   console.error(`\n${fehler} Problem(e) in den Workflow-Dateien.`)
   process.exit(1)
