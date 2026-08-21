@@ -13,12 +13,16 @@ import {
 import { loadCurated, loadWatchLinks, type CuratedEntry } from './lib/curated.ts'
 import { dubKey, loadDubChecks } from './lib/dub-confirmed.ts'
 import { beurteile, type CrDubData } from './lib/crunchyroll-dub.ts'
+import { LEER as MOTN_LEER, ordneShowsZu, uebernehmbar, type MotnDaten } from './lib/motn.ts'
 import type { TmdbInfo } from './lib/tmdb.ts'
 import {
   alsEinBlock,
+  bewerteTreffer,
   ordneBloeckeZuStaffeln,
+  passtZuSerie,
   staffelBloecke,
   staffelnDesFranchise,
+  volltreffer,
   type AdnBlock,
   type AdnData,
 } from './lib/adn.ts'
@@ -38,7 +42,7 @@ import type {
   Title,
   WatchLink,
 } from '../shared/types.ts'
-import { expandEvents } from '../shared/logic.ts'
+import { expandEvents, releaseStatus } from '../shared/logic.ts'
 import { eindeutschenStaffel, nachAusstrahlung } from '../shared/titles.ts'
 import { addDays, todayIso } from '../shared/time.ts'
 import { buildIcs } from '../shared/ics.ts'
@@ -1953,6 +1957,67 @@ function main(): void {
   }
 
   /**
+   * Deutsche Tonspuren von der Streaming Availability API — nur Netflix.
+   *
+   * Diese Quelle nennt je Folge die `audios`, getrennt von den `subtitles`. Für
+   * Netflix ist sie die einzige maschinenlesbare Auskunft überhaupt: 532
+   * Verweise standen deshalb dauerhaft auf „🇩🇪 ?", und Netflix untersagt das
+   * Auslesen seiner Seiten in der robots.txt.
+   *
+   * **Drei Regeln, jede aus einer Messung vom 21.08.2026** (Herleitung in
+   * `lib/motn.ts`):
+   *
+   *  1. **Nie ein `false`.** Die Quelle hinkt mindestens zwei Tage hinterher —
+   *     Folge 7 von „Thunderbolt Fantasy" war am 19.08. fällig, lag am 21.08.
+   *     auf Netflix in deutscher Fassung, und die API kannte sie nicht. Ihr
+   *     Schweigen ist kein Nein. Gesetzt wird ausschließlich `true`.
+   *  2. **Nichts aus einem laufenden Release.** Bei einer laufenden Staffel
+   *     entscheidet der Verzug darüber, was die Quelle zeigt; dort bleibt es
+   *     beim Crunchyroll-Abruf und bei der Handarbeit. Die Zusicherung steht
+   *     unten als `laeuft`, nicht als Kommentar.
+   *  3. **Nur Netflix.** Für Crunchyroll widerspricht die Quelle sich selbst,
+   *     für ADN ist der Sprachcode `vde` je Folge besser — beide liegen im
+   *     Haus. Prime Video und Disney+ werden geholt und ausgewiesen, aber nicht
+   *     übernommen, solange die Kontrollmessung sie nicht trägt.
+   */
+  const motn = readJson<MotnDaten>('data/motn.json', MOTN_LEER)
+  const heuteMotn = todayIso()
+  let motnBelege = 0
+  if (Object.keys(motn.shows ?? {}).length) {
+    /**
+     * Läuft zu diesem Titel gerade etwas?
+     *
+     * Der Status wird nie gespeichert, sondern immer gegen heute gerechnet
+     * (`shared/logic.ts`) — also auch hier, statt aus einem Feld gelesen.
+     */
+    const laeuft = new Set<number>()
+    for (const release of releases) {
+      if (releaseStatus(release, heuteMotn) === 'airing') laeuft.add(release.titleId)
+    }
+
+    const alle = [...titles.values()]
+    const belege = ordneShowsZu(
+      alle,
+      motn.shows,
+      (t) => (t.franchiseId ? staffelnDesFranchise(alle, t.franchiseId) : []),
+      { passtZuSerie, bewerteTreffer, volltreffer },
+    )
+    let ausgelassenLaufend = 0
+    for (const beleg of belege) {
+      if (beleg.deutsch && beleg.eindeutig && laeuft.has(beleg.titleId)) ausgelassenLaufend++
+      if (!uebernehmbar(beleg, laeuft.has(beleg.titleId), heuteMotn)) continue
+      const stream = titles.get(beleg.titleId)?.streams.find((s) => s.platform === beleg.platform)
+      if (!stream || stream.dub !== undefined) continue
+      stream.dub = true
+      motnBelege++
+    }
+    log(
+      `${motnBelege} Synchro-Angaben über die Streaming Availability API belegt ` +
+        `(${Object.keys(motn.shows).length} Serien im Bestand, ${ausgelassenLaufend} laufende ausgelassen)`,
+    )
+  }
+
+  /**
    * Anbieter ohne deutsche Synchro fliegen ganz raus.
    *
    * Bis zum 15.08.2026 blieben sie stehen und trugen ein rotes „🇩🇪 ✕" — die
@@ -2162,6 +2227,21 @@ function main(): void {
       'Deutsche Inhaltsangaben & Bezugsquellen: aniSearch (https://www.anisearch.de)',
       'ID-Zuordnung: anime-offline-database (https://github.com/manami-project/anime-offline-database) — ODbL v1.0',
       'Termine: aniSearch, Anime2You — siehe Quellenangabe je Eintrag',
+      /**
+       * Pflicht, nicht Höflichkeit — und deshalb an dieselbe Zahl gebunden.
+       *
+       * Die Nutzungsbedingungen der Streaming Availability API verlangen einen
+       * für Nutzer sichtbaren Hinweis mit Link. Er steht hier bedingt, damit
+       * beides zusammen wahr bleibt: Ohne Hinweis kommt keine Angabe dieser
+       * Quelle auf die Seite, und ohne eine solche Angabe nennen wir keine
+       * Quelle, die wir gar nicht benutzt haben.
+       */
+      ...(motnBelege
+        ? [
+            'Welche Folgen auf Netflix eine deutsche Tonspur haben: Streaming Availability API ' +
+              '(https://www.movieofthenight.com/about/api)',
+          ]
+        : []),
     ],
   }
 

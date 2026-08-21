@@ -463,6 +463,32 @@ export function ordneShowsZu(
   return belege
 }
 
+/**
+ * Darf dieser Beleg in den Datensatz? Die Zusicherung dieser Quelle.
+ *
+ * Sie steht als Funktion da und nicht als Kommentar im Build, damit
+ * `check-logic.ts` sie nachstellen kann — jede der vier Bedingungen ist eine
+ * Messung vom 21.08.2026, und keine davon darf beim nächsten Umbau still
+ * verschwinden:
+ *
+ *  * **`deutsch`** — nur ein `audios` mit `deu` über den ganzen Folgenbereich.
+ *    Kein `false` aus dieser Quelle, nirgends.
+ *  * **`eindeutig`** — Titel, Jahr und Folgenzahl haben alle drei gepasst. Zwei
+ *    von dreien reichen nicht.
+ *  * **nicht `laeuft`** — bei einer laufenden Staffel entscheidet der Verzug
+ *    der Quelle darüber, was sie zeigt. Bei Mushoku Tensei Staffel 3 wären das
+ *    null deutsche Folgen gewesen, während drei belegt sind.
+ *  * **nicht abgelaufen** — ein `expiresOn` in der Vergangenheit sagt „lag
+ *    dort", und das ist keine Antwort auf unsere Frage.
+ */
+export function uebernehmbar(beleg: MotnBeleg, laeuft: boolean, heute: string): boolean {
+  if (!beleg.deutsch || !beleg.eindeutig) return false
+  if (!UEBERNOMMEN.includes(beleg.platform)) return false
+  if (laeuft) return false
+  if (beleg.laeuftAusAm && beleg.laeuftAusAm <= heute) return false
+  return true
+}
+
 /** Wortzerlegung für die Vorauswahl — bewusst grob, sie filtert nur vor. */
 function woerter(s: string): string[] {
   return [

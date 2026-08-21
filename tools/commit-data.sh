@@ -84,6 +84,22 @@ QUELLEN=(
   # Antwortstatus je Anbieter-Adresse. Ohne diese Zeile fängt der nächste
   # Lauf wieder bei null an und klopft 945 fremde Seiten erneut ab.
   data/link-check.json
+  # Deutsche Tonspuren von der Streaming Availability API. Die teuerste Quelle
+  # im Bestand, gemessen in Kontingent: 1.000 Anfragen im **Monat**, und in der
+  # Datei steht neben den Ergebnissen auch der Verbrauch je Monat und der
+  # Cursor des Katalogdurchlaufs. Würfe der Reset sie weg, begänne der nächste
+  # Lauf den Katalog von vorn — und der Zähler stünde wieder auf null, während
+  # die Anfragen längst verbraucht sind.
+  data/motn.json
+  # Die Rohantworten dazu. Aus demselben Grund wie `data/ann-raw`: Ein später
+  # gebrauchtes Feld muss eine Änderung am Parser sein können, kein zweiter
+  # Lauf gegen ein Monatskontingent.
+  data/motn-raw
+  # Kontrollmessung und Arbeitslisten. Sie entstehen aus dem Datensatz, aber
+  # ein Mensch arbeitet mit ihnen — sie gehören ins Repo, nicht in den Lauf.
+  data/motn-messung.md
+  data/dub-pruefliste.md
+  data/dub-batches.md
 )
 ERZEUGNISSE=(public/data public/og)
 
