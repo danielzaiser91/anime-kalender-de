@@ -180,6 +180,39 @@ Zwei Folgen daraus:
   und JoJo (sichtbar) tragen beide den 31.12.2025; von 592 Serien hätten 445 als „abgelaufen"
   gegolten, darunter „Lycoris Recoil", das Daniel am 22.08.2026 als normal sichtbar bestätigt hat.
 
+
+- **Der deutsche Katalog ist erreichbar — über ein Zugangspaket von hier.** Crunchyroll leitet
+  die Region aus der **IP des Abrufs** ab; kein Parameter und kein Header ändert daran etwas
+  (20 Versuche, `docs/messung-crunchyroll-region.md`). Die CloudFront-Signatur, die den Zugang
+  zum CMS trägt, enthält jedoch **nur eine Zeitbedingung, keine IP-Bindung**. Ein Paket, das an
+  Daniels Leitung entsteht, gilt deshalb auch von einem Rechner in den USA — belegt am
+  22.08.2026 im Lauf 32537041109 am Prüfstein „Fairy Tail":
+
+  ```
+  Fairy Tail (German Dub)           | ja-JP,de-DE
+  Fairy Tail                        | ja-JP,de-DE
+  Fairy Tail Series 2 (German Dub)  | ja-JP,de-DE
+  Fairy Tail Staffel 2              | ja-JP,de-DE
+  Fairy Tail Final Season           | ja-JP
+  ```
+
+  Genau der Stand, den Daniel von Hand gesehen hatte — Folgen 1 bis 277 deutsch, der letzte
+  Block nicht. Aus derselben Serie meldet die US-Antwort bei allen Blöcken `ja-JP, en-US`.
+
+  Drei Einzelheiten, die den Weg tragen:
+  - **`beta-api.crunchyroll.com` hat keine Bot-Sperre.** Derselbe Aufruf gegen
+    `www.crunchyroll.com` endet in Cloudflares „Just a moment…" (HTTP 403), aus der Cloud wie
+    von hier. Über die beta-api genügt ein gewöhnlicher `fetch` mit Browser-Kennung — kein
+    Playwright, kein Aufwärmen.
+  - **Das Bearer-Token braucht der CMS-Pfad nicht.** Die Signatur allein genügt, und sie gilt
+    **24 Stunden** statt einer.
+  - **Der ältere CMS-Pfad führt je Tonspur eine eigene Staffel** („Fairy Tail (German Dub)").
+    Die deutsche Fassung ist dort also nicht nur eine Sprachangabe, sondern ein eigener Block.
+
+  Geholt wird das Paket mit `node tools/cr-zugang-holen.mjs --secret`; es landet als Repo-Secret
+  `CR_ZUGANG`. **Muss auf einem Rechner in Deutschland laufen** und ist nach einem Tag
+  wertlos — ein Lauf, der es braucht, holt sich also entweder ein frisches oder meldet, dass
+  seines abgelaufen ist.
 - **Netflix gibt die Sprachen erst mit dem Player heraus — gemessen, nicht vermutet.** Am
   22.08.2026 auf einer offenen Titelseite mit zwei Konsolen-Skripten geprüft:
   `models.graphql.data` umfasst 6.797 Zeichen und enthält Profile und Benachrichtigungen, null
