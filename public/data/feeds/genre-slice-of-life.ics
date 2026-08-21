@@ -27,17 +27,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:hana-kimi-s2@2026-08-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260819T160000Z
-DTEND:20260819T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 6/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/hana-kimi-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:sword-of-the-demon-hunter-vol1@2026-08-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260820
@@ -82,6 +71,16 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
+UID:hana-kimi-s2@2026-08-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260821T160000Z
+DTEND:20260821T163000Z
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 6/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/hana-kimi-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-G6793XKZY@2026-08-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260822T093000Z
@@ -104,10 +103,10 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:hana-kimi-s2@2026-08-26@anime-kalender-de
+UID:hana-kimi-s2@2026-08-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20260826T160000Z
-DTEND:20260826T163000Z
+DTSTART:20260828T160000Z
+DTEND:20260828T163000Z
 SUMMARY:Hana-Kimi – Staffel 2 – Folge 7/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
@@ -148,10 +147,10 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:hana-kimi-s2@2026-09-02@anime-kalender-de
+UID:hana-kimi-s2@2026-09-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20260902T160000Z
-DTEND:20260902T163000Z
+DTSTART:20260904T160000Z
+DTEND:20260904T163000Z
 SUMMARY:Hana-Kimi – Staffel 2 – Folge 8/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
@@ -226,10 +225,10 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:hana-kimi-s2@2026-09-09@anime-kalender-de
+UID:hana-kimi-s2@2026-09-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20260909T160000Z
-DTEND:20260909T163000Z
+DTSTART:20260911T160000Z
+DTEND:20260911T163000Z
 SUMMARY:Hana-Kimi – Staffel 2 – Folge 9/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
@@ -259,17 +258,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:hana-kimi-s2@2026-09-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260916T160000Z
-DTEND:20260916T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 10/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/hana-kimi-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:witch-watch-vol2@2026-09-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260917
@@ -279,6 +267,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/witch-w
  atch-vol2
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-09-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260918T160000Z
+DTEND:20260918T163000Z
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 10/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/hana-kimi-s2
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:call-of-the-night-staffel-2-vol-1-2026-09-18@2026-09-18@anime-kalender-
@@ -315,10 +314,10 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:hana-kimi-s2@2026-09-23@anime-kalender-de
+UID:hana-kimi-s2@2026-09-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20260923T160000Z
-DTEND:20260923T163000Z
+DTSTART:20260925T160000Z
+DTEND:20260925T163000Z
 SUMMARY:Hana-Kimi – Staffel 2 – Folge 11/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
@@ -348,10 +347,10 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:hana-kimi-s2@2026-09-30@anime-kalender-de
+UID:hana-kimi-s2@2026-10-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20260930T160000Z
-DTEND:20260930T163000Z
+DTSTART:20261002T160000Z
+DTEND:20261002T163000Z
 SUMMARY:Hana-Kimi – Staffel 2 – Folge 12/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
@@ -415,10 +414,10 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:hana-kimi-s2@2026-10-07@anime-kalender-de
+UID:hana-kimi-s2@2026-10-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261007T160000Z
-DTEND:20261007T163000Z
+DTSTART:20261009T160000Z
+DTEND:20261009T163000Z
 SUMMARY:Hana-Kimi – Staffel 2 – Folge 13/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-

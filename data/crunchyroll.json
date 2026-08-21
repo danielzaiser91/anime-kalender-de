@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-21T13:14:33.395Z",
+  "scrapedAt": "2026-08-21T16:08:00.798Z",
   "window": {
     "from": "2026-08-10",
     "to": "2026-08-30"
@@ -817,11 +817,12 @@
     },
     "hana kimi s2": {
       "time": "18:00",
-      "weekday": 2,
+      "weekday": 4,
       "dates": [
         "2026-07-22",
         "2026-07-29",
-        "2026-08-05"
+        "2026-08-05",
+        "2026-08-21"
       ],
       "rawTitle": "Hana-Kimi Staffel 2 (Deutsch)",
       "seriesId": "GT00365568",
@@ -838,6 +839,10 @@
         {
           "date": "2026-08-05",
           "episode": 4
+        },
+        {
+          "date": "2026-08-21",
+          "episode": 6
         }
       ],
       "earliest": {
@@ -1482,6 +1487,16 @@
       "date": "2026-08-19",
       "time": "19:15",
       "episode": 4,
+      "german": true
+    },
+    {
+      "key": "hana kimi s2",
+      "rawTitle": "Hana-Kimi Staffel 2 (Deutsch)",
+      "seriesId": "GT00365568",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00365568/hana-kimi",
+      "date": "2026-08-21",
+      "time": "18:00",
+      "episode": 6,
       "german": true
     }
   ]
