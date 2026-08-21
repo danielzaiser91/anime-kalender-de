@@ -213,6 +213,24 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:anisearch -- --limit 60
 
+      # TMDB: deutsche Handlung, FSK und Anbieter je Titel.
+      #
+      # Stand bis zum 21.08.2026 lief dieser Abruf in **keinem** Workflow — er
+      # war einmal von Hand gestartet worden und veraltete danach still. Genau
+      # der Fall, den die `CLAUDE.md` als „ein neuer Abruf braucht drei Dinge"
+      # beschreibt.
+      #
+      # 400 je Woche bei 2.761 Titeln und 60 Tagen Wiedervorlage: Ein voller
+      # Durchgang dauert damit sieben Wochen — zu wenig. Der Deckel schützt die
+      # Laufzeit dieses Workflows; wird der Rückstand zu groß, holt ihn ein
+      # Lauf von Hand mit höherem `--limit` auf.
+      - name: TMDB-Angaben auffrischen
+        continue-on-error: true
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:tmdb -- --limit 400
+
       - name: Datensatz bauen
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}

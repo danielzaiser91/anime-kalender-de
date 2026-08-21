@@ -13,25 +13,31 @@
  *
  * Aufruf: npm run data:tmdb   [-- --force] [-- --limit 200]
  */
-import { existsSync, readFileSync } from 'node:fs'
-import { resolve } from 'node:path'
 import type { Fsk, PlatformId, Title } from '../shared/types.ts'
-import { ROOT, fetchJson, log, readJson, sleep, warn, writeJson } from './lib/util.ts'
+import { loadEnv, fetchJson, log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { readOffers, type TmdbOffer } from './lib/tmdb.ts'
-
-/** .env einlesen, damit der Schlüssel nicht bei jedem Aufruf gesetzt werden muss. */
-function loadEnv(): void {
-  const envPath = resolve(ROOT, '.env')
-  if (!existsSync(envPath)) return
-  for (const line of readFileSync(envPath, 'utf8').split(/\r?\n/)) {
-    const m = /^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/.exec(line)
-    if (m && !process.env[m[1]]) process.env[m[1]] = m[2].replace(/^["']|["']$/g, '')
-  }
-}
+import { recordSource } from './lib/health.ts'
 
 const args = process.argv.slice(2)
 const FORCE = args.includes('--force')
 const LIMIT = Number(args[args.indexOf('--limit') + 1]) || Infinity
+
+/**
+ * Wiedervorlage nach Alter, nicht nach „schon mal geholt".
+ *
+ * Bis zum 21.08.2026 bildete dieser Lauf seine Liste über `!cache[t.id]` — wer
+ * einmal drin war, kam nie wieder dran. Das ist dieselbe Falle, die bei
+ * aniSearch und Crunchyroll je einen Datenbestand eingefroren hat (siehe
+ * `CLAUDE.md`, Abschnitt „Ein Abruf, der nur ergänzt, veraltet zwangsläufig"),
+ * und sie wiegt hier doppelt: Ein `miss` verhinderte seine eigene Korrektur,
+ * und die Anbieterliste je Titel blieb auf dem Stand ihres ersten Abrufs
+ * stehen — obwohl Lizenzen auslaufen und Titel aus Angeboten verschwinden.
+ *
+ * 60 Tage, weil sich Handlung und FSK praktisch nie ändern und die Anbieter
+ * selten. Bei 2.753 Titeln sind das rund 46 Abrufe am Tag; der Wochenlauf holt
+ * sie mit `--limit 400` in einem Rutsch.
+ */
+const ALTER_TAGE = Number(args[args.indexOf('--alter') + 1]) || 60
 const BASE = 'https://api.themoviedb.org/3'
 const CACHE_PATH = 'data/tmdb-titles.json'
 
@@ -46,8 +52,10 @@ export interface TmdbTitle {
   offers?: TmdbOffer[]
   /** TMDBs Anbieterseite für die Region — dort stehen die Einzellinks. */
   justwatchUrl?: string
-  /** Nichts gefunden — verhindert, dass jeder Lauf erneut sucht. */
+  /** Nichts gefunden. Kein Dauerzustand: Nach `--alter` Tagen wird erneut gesucht. */
   miss?: true
+  /** Wann dieser Eintrag zuletzt von TMDB geholt wurde (ISO-Datum). */
+  fetchedAt?: string
 }
 
 const FSK_VALUES: Fsk[] = [0, 6, 12, 16, 18]
@@ -204,13 +212,26 @@ async function main(): Promise<void> {
   const titles = readJson<Title[]>('public/data/titles.json', [])
   const cache = readJson<Record<string, TmdbTitle>>(CACHE_PATH, {})
 
-  const todo = titles.filter((t) => FORCE || !cache[t.id]).slice(0, LIMIT)
-  log(`TMDB: ${todo.length} von ${titles.length} Titeln offen`)
-
+  /**
+   * Ältestes zuerst — und was noch nie geholt wurde, ganz nach vorn.
+   *
+   * Ein Eintrag ohne `fetchedAt` stammt aus der Zeit vor dieser Änderung; sein
+   * Alter ist unbekannt und damit im Zweifel groß.
+   */
+  const grenze = new Date(Date.now() - ALTER_TAGE * 86400_000).toISOString()
+  const faellig = titles
+    .filter((t) => FORCE || !cache[t.id] || (cache[t.id].fetchedAt ?? '') < grenze)
+    .sort((a, b) => (cache[a.id]?.fetchedAt ?? '').localeCompare(cache[b.id]?.fetchedAt ?? ''))
+  const todo = faellig.slice(0, LIMIT)
+  const nie = faellig.filter((t) => !cache[t.id]).length
+  log(
+    `TMDB: ${faellig.length} von ${titles.length} Titeln fällig ` +
+      `(${nie} noch nie geholt, Rest älter als ${ALTER_TAGE} Tage), ${todo.length} in diesem Lauf`,
+  )
   let done = 0
   let withOverview = 0
   for (const title of todo) {
-    cache[title.id] = await lookup(apiKey, title)
+    cache[title.id] = { ...(await lookup(apiKey, title)), fetchedAt: new Date().toISOString() }
     if (cache[title.id].overviewDe) withOverview++
     done++
     if (done % 100 === 0) {
@@ -221,6 +242,7 @@ async function main(): Promise<void> {
   }
 
   writeJson(CACHE_PATH, cache)
+  recordSource('tmdb-titles', done)
   const total = Object.values(cache).filter((c) => c.overviewDe).length
   log(`Fertig: ${done} abgefragt, ${total} Titel mit deutscher Handlung im Bestand`)
 }

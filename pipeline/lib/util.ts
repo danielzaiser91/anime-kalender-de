@@ -4,6 +4,22 @@ import { fileURLToPath } from 'node:url'
 
 export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..')
 
+/**
+ * `.env` einlesen, damit die Schlüssel nicht bei jedem Aufruf gesetzt werden müssen.
+ *
+ * Bereits gesetzte Umgebungsvariablen gewinnen — in der Cloud kommen die
+ * Schlüssel aus den Repo-Secrets, und eine lokal liegengebliebene `.env` darf
+ * sie dort nicht überschreiben.
+ */
+export function loadEnv(): void {
+  const envPath = resolve(ROOT, '.env')
+  if (!existsSync(envPath)) return
+  for (const line of readFileSync(envPath, 'utf8').split(/\r?\n/)) {
+    const m = /^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/.exec(line)
+    if (m && !process.env[m[1]]) process.env[m[1]] = m[2].replace(/^["']|["']$/g, '')
+  }
+}
+
 export function sleep(ms: number): Promise<void> {
   return new Promise((r) => setTimeout(r, ms))
 }

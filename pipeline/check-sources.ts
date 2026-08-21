@@ -44,6 +44,8 @@ const FRISTEN: Record<string, number> = {
   'crunchyroll-dub': 9,
   // Wöchentlich, wie der Lauf, der sie füllt.
   'youtube-check': 9,
+  // Wöchentlich, 400 Titel je Lauf gegen 60 Tage Wiedervorlage.
+  'tmdb-titles': 9,
   // Wöchentlich, wie der Lauf, der sie füllt.
   'link-check': 9,
   /**

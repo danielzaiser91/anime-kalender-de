@@ -8,12 +8,10 @@
  *
  * Aufruf: npm run data:fetch  [-- --force] [-- --skip-anilist]
  */
-import { existsSync, readFileSync } from 'node:fs'
-import { resolve } from 'node:path'
 import { mediaByMalIds, searchMedia, type AniListMedia } from './lib/anilist.ts'
 import { loadCurated } from './lib/curated.ts'
 import { lookupTmdb, type TmdbInfo } from './lib/tmdb.ts'
-import { ROOT, fetchJson, log, readJson, warn, writeJson } from './lib/util.ts'
+import { loadEnv, fetchJson, log, readJson, warn, writeJson } from './lib/util.ts'
 
 const args = process.argv.slice(2)
 const FORCE = args.includes('--force')
@@ -26,15 +24,6 @@ const MYDUBLIST_BASE =
 const TMDB_PATH = 'data/tmdb.json'
 const TIERS = ['low', 'normal', 'high', 'very-high'] as const
 type Tier = (typeof TIERS)[number]
-
-function loadEnv(): void {
-  const envPath = resolve(ROOT, '.env')
-  if (!existsSync(envPath)) return
-  for (const line of readFileSync(envPath, 'utf8').split(/\r?\n/)) {
-    const m = /^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/.exec(line)
-    if (m && !process.env[m[1]]) process.env[m[1]] = m[2].replace(/^["']|["']$/g, '')
-  }
-}
 
 async function fetchDubList(): Promise<Record<number, Tier>> {
   const confidence: Record<number, Tier> = {}
