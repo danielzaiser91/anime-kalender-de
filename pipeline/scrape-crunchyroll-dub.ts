@@ -64,6 +64,7 @@ import { crunchyrollSeriesId } from './lib/crunchyroll.ts'
 import {
   BUENDEL,
   CrunchyrollApi,
+  CrunchyrollGesperrt,
   hatDeutsch,
   staffelAuszaehlen,
   type CrApiObjekt,
@@ -117,8 +118,17 @@ const WIEDERVORLAGE_TAGE = zahl('--alter', 28)
 const FEHLER_TAGE = zahl('--fehler-alter', 7)
 /** Rückfallebene: die gerenderte Seite lesen statt der Content-API. */
 const SEITENANZEIGE = args.includes('--seitenanzeige')
-/** Pause zwischen zwei API-Aufrufen. Die Taktung bleibt rücksichtsvoll. */
-const PAUSE_MS = zahl('--pause', 250)
+/**
+ * Pause zwischen zwei Aufrufen. Die Taktung bleibt rücksichtsvoll.
+ *
+ * 400 statt 250 Millisekunden, und das ist gemessen, nicht geschätzt: Mit 250
+ * lief der Lauf vom 21.08.2026 nach rund 300 Serien in 25 Minuten in
+ * Crunchyrolls Bot-Sperre (HTTP 403, danach kein Token mehr). Die Sperre löste
+ * sich nach einer Viertelstunde von selbst. Schneller zu fahren, als der
+ * Betreiber es duldet, bringt nichts ein — der Lauf endet dann früher, statt
+ * mehr zu schaffen.
+ */
+const PAUSE_MS = zahl('--pause', 400)
 
 // Die Typen stehen in `lib/crunchyroll-dub.ts` — dort, wo auch die Auswertung
 // wohnt. Zwei Fassungen desselben Typs laufen unweigerlich auseinander.
@@ -728,6 +738,7 @@ async function main(): Promise<void> {
   const jeSerie = new Map<string, CrSerie>()
   let neuAufgeloest = 0
   let ohneKennung = 0
+  let gesperrt = false
 
   for (const [i, url] of adressen.entries()) {
     const kurz = url.replace(/^https?:\/\/(www\.)?crunchyroll\.com\/de\//, '')
@@ -810,6 +821,22 @@ async function main(): Promise<void> {
       if (serie.deutschImAngebot === false) ohneDeutsch++
       melden(i, kurz, serie)
     } catch (err) {
+      /**
+       * Eine geschlossene Tür wird nicht 200-mal angeklopft.
+       *
+       * Am 21.08.2026 zog Crunchyroll nach rund 300 Serien die Bot-Sperre. Der
+       * Lauf machte weiter, scheiterte an jeder weiteren Adresse — und weil
+       * `page.goto` fehlschlug, ohne die Seite zu wechseln, schrieb er 91
+       * Adressen die Staffelliste der Aufwärmseite zu. Beides ist behoben; hier
+       * steht die zweite Hälfte davon: aufhören, sichern, den Rest beim
+       * nächsten Lauf holen.
+       */
+      if (err instanceof CrunchyrollGesperrt) {
+        gesperrt = true
+        warn(`Crunchyroll hat nach ${i} Adressen dichtgemacht: ${(err as Error).message}`)
+        warn('Der Lauf endet hier. Was gelesen ist, bleibt; der Rest kommt beim nächsten Lauf dran.')
+        break
+      }
       // Wie beim alten Weg: Ein Fehlschlag wird nicht gespeichert. Die Adresse
       // bleibt offen und kommt beim nächsten Lauf erneut dran.
       warn(`${url}: ${(err as Error).message.slice(0, 100)}`)
@@ -837,6 +864,10 @@ async function main(): Promise<void> {
   )
   if (neuAufgeloest) log(`${neuAufgeloest} Adressen neu in eine Serienkennung aufgelöst, ${ohneKennung} ohne Kennung`)
   log(`${termine} deutsche Folgen mit belegtem Termin aus der Content-API`)
+  // Kein Fehler-Exit: Die Sperre ist kein kaputter Lauf, sondern ein früh
+  // beendeter. Ein roter Lauf für etwas, das sich von selbst wieder öffnet,
+  // wäre eine Warnung, auf die man aufhört hinzusehen.
+  if (gesperrt) log('Abgebrochen wegen Crunchyrolls Bot-Sperre — der Rest steht beim nächsten Lauf wieder offen.')
 }
 
 main().catch((err) => {

@@ -45,6 +45,16 @@ const CHROME =
 /** Irgendeine Serienseite; sie dient nur dazu, ein Token einzusammeln. */
 const AUFWAERM_SEITE = 'https://www.crunchyroll.com/de/series/GRDV0019R'
 
+/**
+ * Crunchyroll antwortet nicht mehr — der Lauf endet hier, er wird nicht
+ * fortgesetzt.
+ *
+ * Eigener Fehlertyp, damit der Aufrufer ihn von „diese eine Serie ging schief"
+ * unterscheiden kann. Weiterzumachen hieße, gegen eine geschlossene Tür zu
+ * laufen, und zwar einmal je verbleibender Adresse.
+ */
+export class CrunchyrollGesperrt extends Error {}
+
 /** Die Tonspur, um die es geht. Steht als Zeichenkette in `versions`. */
 export const DEUTSCH = 'de-DE'
 
@@ -155,11 +165,33 @@ export class CrunchyrollApi {
     await this.aufwaermen()
   }
 
-  private async aufwaermen(): Promise<void> {
+  /**
+   * Holt ein Token — und erkennt, wenn Crunchyroll dichtgemacht hat.
+   *
+   * Gemessen am 21.08.2026: Nach rund 300 Serien in 25 Minuten antwortete die
+   * Content-API mit 403, und die Aufwärmseite lieferte kein Token mehr. Das ist
+   * die Bot-Sperre, und sie ist der Grund, warum hier zurückgewichen statt
+   * weitergemacht wird: Der Lauf davor hat nach der Sperre noch 200 Adressen
+   * angefragt — jede vergeblich, jede zusätzliche Last auf einem Server, der
+   * gerade „nein" gesagt hat.
+   *
+   * Erst zwei Pausen von einer und zwei Minuten, dann Schluss. Was bis dahin
+   * gelesen ist, bleibt; der Rest kommt beim nächsten Lauf dran.
+   */
+  private async aufwaermen(versuch = 0): Promise<void> {
     this.token = ''
-    await this.page.goto(AUFWAERM_SEITE, { waitUntil: 'domcontentloaded', timeout: 60000 })
-    for (let i = 0; i < 60 && !this.token; i++) await this.page.waitForTimeout(250)
-    if (!this.token) throw new Error('kein Zugangstoken aus dem Netzwerkverkehr — Crunchyroll hat den Weg geändert')
+    await this.page.goto('about:blank').catch(() => undefined)
+    await this.page.goto(AUFWAERM_SEITE, { waitUntil: 'domcontentloaded', timeout: 60000 }).catch(() => undefined)
+    for (let i = 0; i < 40 && !this.token; i++) await this.page.waitForTimeout(250)
+    if (this.token) return
+    if (versuch >= 2) {
+      throw new CrunchyrollGesperrt(
+        'kein Zugangstoken aus dem Netzwerkverkehr — entweder die Bot-Sperre oder ein geänderter Weg',
+      )
+    }
+    warn(`Crunchyroll liefert kein Zugangstoken — ${versuch + 1}. Versuch, Pause ${(versuch + 1) * 60} s`)
+    await sleep((versuch + 1) * 60000)
+    return this.aufwaermen(versuch + 1)
   }
 
   /**
@@ -283,12 +315,47 @@ export class CrunchyrollApi {
      */
     aufMeldungWarten = false,
   ): Promise<{ seriesId?: string; ziel: string; art?: 'weg' | 'fehlt'; zeile?: string }> {
+    /**
+     * Erst leerräumen, dann laden.
+     *
+     * `goto` schlägt fehl, ohne die Seite zu wechseln — steht dann noch die
+     * **vorherige** Seite im Browser, liefert `page.url()` deren Adresse, und
+     * aus der wird prompt eine Serienkennung gelesen. Am 21.08.2026 war das
+     * kein Gedankenspiel: Crunchyroll zog nach rund 300 Serien die Bot-Sperre,
+     * jeder weitere Aufruf scheiterte, und im Browser stand die Aufwärmseite —
+     * „Jujutsu Kaisen". **91 fremde Adressen bekamen dessen Staffelliste
+     * zugeschrieben**, „sing-a-bit-of-harmony" mitsamt „JUJUTSU KAISEN: 24/24".
+     *
+     * `about:blank` macht aus dem Fehlschlag wieder eine Nichtauskunft: Es gibt
+     * dann keine Adresse mehr, aus der sich etwas herauslesen ließe.
+     */
+    await this.page.goto('about:blank').catch(() => undefined)
     await this.page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 }).catch(() => undefined)
     const ziel = this.page.url()
-    const seriesId = /\/series\/([A-Z0-9]+)/i.exec(ziel)?.[1]
+    /**
+     * Die eigene Aufwärmseite ist nie ein Ergebnis.
+     *
+     * Ein Gürtel zum Hosenträger oben: Landet der Aufruf ausgerechnet auf der
+     * Adresse, die dieser Abruf selbst als Startseite benutzt, ist das kein
+     * Befund über die angefragte Adresse. Der echte Verweis auf dieselbe Serie
+     * trägt den Slug (`/series/GRDV0019R/jujutsu-kaisen`) und bleibt gültig.
+     */
+    const seriesId = ziel === AUFWAERM_SEITE ? undefined : /\/series\/([A-Z0-9]+)/i.exec(ziel)?.[1]
     if (seriesId && !aufMeldungWarten) {
       await sleep(this.pauseMs)
       return { seriesId, ziel }
+    }
+    /**
+     * Eine Folgenseite ist keine Fehlerseite — hier ist nichts abzuwarten.
+     *
+     * Landet die Adresse auf `/watch/<guid>`, steht die Auskunft schon da: Die
+     * Folgenkennung führt über `objects` zur Serie. Die fünf Sekunden unten
+     * wären fünf Sekunden Warten auf eine Meldung, die auf einer funktionierenden
+     * Seite nie erscheint — bei 39 Folgenverweisen und jedem Lauf.
+     */
+    if (!aufMeldungWarten && /\/watch\/[A-Z0-9]+/i.test(ziel)) {
+      await sleep(this.pauseMs)
+      return { ziel }
     }
     /**
      * Fünf Sekunden, nicht zwanzig.
