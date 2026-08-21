@@ -1,5 +1,5 @@
 {
-  "aufgeloestAm": "2026-08-21T19:07:30.032Z",
+  "aufgeloestAm": "2026-08-21T19:35:52.220Z",
   "adressen": {
     "http://www.crunchyroll.com/de/a-place-further-than-the-universe": {
       "seriesId": "GYK541EPR",
@@ -746,21 +746,6 @@
       "ziel": "https://www.crunchyroll.com/de/watch/GK9U3MN17",
       "geprueftAm": "2026-08-21"
     },
-    "https://www.amazon.de/dp/B0C9H2BQWM": {
-      "ziel": "https://www.amazon.de/dp/B0C9H2BQWM",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse"
-    },
-    "https://www.crunchyroll.com/amagi-brilliant-park/episode-14-800072?ssid=387020": {
-      "ziel": "https://www.crunchyroll.com/de/watch/GX9UQDQ1W?ssid=387020",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/armed-girls-machiavellism/episode-13-799297?ssid=385722": {
-      "ziel": "https://www.crunchyroll.com/de/watch/G8WUNDVDX?ssid=385722",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
     "https://www.crunchyroll.com/atom-the-beginning": {
       "seriesId": "GVDHX8JD2",
       "ziel": "https://www.crunchyroll.com/de/series/GVDHX8JD2/atom-the-beginning",
@@ -770,21 +755,6 @@
       "seriesId": "G6WE21DG6",
       "ziel": "https://www.crunchyroll.com/de/series/G6WE21DG6/beautiful-bones-sakurakos-investigation-",
       "geprueftAm": "2026-08-21"
-    },
-    "https://www.crunchyroll.com/beauty-water/beauty-water-unbekannt-859030": {
-      "ziel": "https://www.crunchyroll.com/de/beauty-water/beauty-water-unbekannt-859030",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/brave-story/brave-story-unbekannt-821310?ssid=422329": {
-      "ziel": "https://www.crunchyroll.com/de/watch/GMKUX43PD?ssid=422329",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/cencoroll-connect/de-cencoroll-connect-unbekannt-850430": {
-      "ziel": "https://www.crunchyroll.com/de/watch/GJWU25970",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
     },
     "https://www.crunchyroll.com/coppelion": {
       "seriesId": "G1XHJV210",
@@ -1241,16 +1211,6 @@
       "ziel": "https://www.crunchyroll.com/de/series/GYW4455K6/emma-a-victorian-romance",
       "geprueftAm": "2026-08-21"
     },
-    "https://www.crunchyroll.com/de/en-gb/fategrand-order-absolute-demonic-front-babylonia": {
-      "ziel": "https://www.crunchyroll.com/de/en-gb/fategrand-order-absolute-demonic-front-babylonia",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/de/en-gb/tokyo-ghoul": {
-      "ziel": "https://www.crunchyroll.com/de/en-gb/tokyo-ghoul",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
     "https://www.crunchyroll.com/de/ergo-proxy": {
       "seriesId": "GYQ42D876",
       "ziel": "https://www.crunchyroll.com/de/series/GYQ42D876/ergo-proxy",
@@ -1385,11 +1345,6 @@
       "seriesId": "GY8VM8MWY",
       "ziel": "https://www.crunchyroll.com/de/series/GY8VM8MWY/haikyu",
       "geprueftAm": "2026-08-21"
-    },
-    "https://www.crunchyroll.com/de/haikyu-dubs/episode-3-special-feature-the-spring-tournament-of-their-youth-848359": {
-      "ziel": "https://www.crunchyroll.com/de/watch/GPWUK14GG/special-feature-the-spring-tournament-of-their-youth",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
     },
     "https://www.crunchyroll.com/de/haikyu/-779529": {
       "seriesId": "GY8VM8MWY",
@@ -1560,11 +1515,6 @@
       "seriesId": "GRDV0019R",
       "ziel": "https://www.crunchyroll.com/de/series/GRDV0019R/jujutsu-kaisen",
       "geprueftAm": "2026-08-21"
-    },
-    "https://www.crunchyroll.com/de/jungle-emperor-leo": {
-      "ziel": "https://www.crunchyroll.com/de/watch/GRMGZJ1GR/jungle-emperor-leo",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
     },
     "https://www.crunchyroll.com/de/junji-ito-collection": {
       "seriesId": "G68V4NDJ6",
@@ -1921,11 +1871,6 @@
       "ziel": "https://www.crunchyroll.com/de/series/GVDHX8PMM/orient",
       "geprueftAm": "2026-08-21"
     },
-    "https://www.crunchyroll.com/de/origin-spirits-of-the-past": {
-      "ziel": "https://www.crunchyroll.com/de/watch/GYE52493R/origin-spirits-of-the-past",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
     "https://www.crunchyroll.com/de/otherside-picnic": {
       "seriesId": "GEXH3WGGV",
       "ziel": "https://www.crunchyroll.com/de/series/GEXH3WGGV/otherside-picnic",
@@ -2121,110 +2066,20 @@
       "ziel": "https://www.crunchyroll.com/de/series/GR5VJ0V8R/kokoro-connect",
       "geprueftAm": "2026-08-21"
     },
-    "https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-/episode-13-799361?ssid=387047": {
-      "ziel": "https://www.crunchyroll.com/de/watch/G0DUN3W45?ssid=387047",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/love-stage/episode-11-841216": {
-      "ziel": "https://www.crunchyroll.com/de/watch/G50UZ7KND",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/lu-over-the-wall/lu-over-the-wall-unbekannt-811213?ssid=399959": {
-      "ziel": "https://www.crunchyroll.com/de/watch/GPWUK08J3/lu-over-the-wall?ssid=399959",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/lupin-the-3rd-movies/daisuke-jigens-grabstein-unbekannt-822025?ssid=423942": {
-      "ziel": "https://www.crunchyroll.com/de/watch/GQJUG9M42?ssid=423942",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/lupin-the-3rd-movies/fujiko-mines-lge-unbekannt-822260?ssid=424587": {
-      "ziel": "https://www.crunchyroll.com/de/watch/GZ7UVXD2P?ssid=424587",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/lupin-the-3rd-movies/goemon-ishikawa-der-es-blut-regnen-lsst-unbekannt-822028?ssid=423944": {
-      "ziel": "https://www.crunchyroll.com/de/watch/GG1U2EX7N?ssid=423944",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/lupin-the-3rd-movies/lupin-iii-the-first-unbekannt-827115?ssid=429156": {
-      "ziel": "https://www.crunchyroll.com/de/watch/GEVUZG2DZ?ssid=429156",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/lupin-the-3rd-the-castle-of-cagliostro/lupin-iii-das-schloss-des-cagliostro-unbekannt-817943?ssid=414931": {
-      "ziel": "https://www.crunchyroll.com/de/lupin-the-3rd-the-castle-of-cagliostro/lupin-iii-das-schloss-des-cagliostro-unbekannt-817943?ssid=414931",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-brenne-zantetsuken-der-goldene-drache-unbekannt-813890?ssid=407178": {
-      "ziel": "https://www.crunchyroll.com/de/watch/GJWU2JM5N?ssid=407178",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-das-geheimnis-des-twilight-gemini-der-diamant-der-dmmerung-unbekannt-813886?ssid=407187": {
-      "ziel": "https://www.crunchyroll.com/de/watch/G9DUEDX7G?ssid=407187",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-der-schatz-des-harimao-unbekannt-813894?ssid=407180": {
-      "ziel": "https://www.crunchyroll.com/de/watch/GVWU0PVQ8?ssid=407180",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-mordbefehl-an-lupin-der-hllentrip-unbekannt-813888?ssid=407176": {
-      "ziel": "https://www.crunchyroll.com/de/watch/G4VUQM3ZV?ssid=407176",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/night-is-short-walk-on-girl/night-is-short-walk-on-girl-unbekannt-811211?ssid=399939": {
-      "ziel": "https://www.crunchyroll.com/de/watch/GVWU0P8X1/night-is-short-walk-on-girl?ssid=399939",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785": {
-      "ziel": "https://www.crunchyroll.com/de/watch/G50UZENW4/okkos-inn?ssid=397785",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
     "https://www.crunchyroll.com/one-punch-man": {
       "seriesId": "G63K98PZ6",
       "ziel": "https://www.crunchyroll.com/de/series/G63K98PZ6/one-punch-man",
       "geprueftAm": "2026-08-21"
-    },
-    "https://www.crunchyroll.com/ride-your-wave/ride-your-wave-unbekannt-806160?ssid=392654": {
-      "ziel": "https://www.crunchyroll.com/de/watch/GMKUXZ287/ride-your-wave?ssid=392654",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
     },
     "https://www.crunchyroll.com/seven-days-war/seven-days-war-unbekannt-821929?ssid=423562": {
       "seriesId": "G9VHN9DGZ",
       "ziel": "https://www.crunchyroll.com/de/watch/GEVUZGWWP?ssid=423562",
       "geprueftAm": "2026-08-21"
     },
-    "https://www.crunchyroll.com/the-dragon-dentist/deomu-the-dragon-dentist-unbekannt-811630?ssid=401190": {
-      "ziel": "https://www.crunchyroll.com/de/watch/GX9UQK3W8?ssid=401190",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/the-empire-of-corpses/the-empire-of-corpses-unknown-808170?ssid=395057": {
-      "ziel": "https://www.crunchyroll.com/de/watch/G0DUN3D8G/the-empire-of-corpses?ssid=395057",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
     "https://www.crunchyroll.com/tsubasa-reservoir-chronicle": {
       "seriesId": "GVDHX8GMK",
       "ziel": "https://www.crunchyroll.com/de/series/GVDHX8GMK/tsubasa-reservoir-chronicle",
       "geprueftAm": "2026-08-21"
-    },
-    "https://www.crunchyroll.com/typhoon-noruda/typhoon-noruda-unbekannt-859032": {
-      "ziel": "https://www.crunchyroll.com/de/watch/G7PU4ZZJ1",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
     },
     "https://www.crunchyroll.com/uq-holder": {
       "seriesId": "G3KHEV339",
@@ -2236,65 +2091,1074 @@
       "ziel": "https://www.crunchyroll.com/de/watch/G2XU0D874",
       "geprueftAm": "2026-08-21"
     },
-    "https://www.crunchyroll.com/watch/G4VUQVNJ8/": {
-      "ziel": "https://www.crunchyroll.com/de/watch/G4VUQVNJ8",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/watch/G50UZ54W0/the-scarlet-alibi-german-dub": {
-      "ziel": "https://www.crunchyroll.com/de/watch/G50UZ54W0/the-scarlet-alibi-german-dub",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/watch/G50UZV2GM/": {
-      "ziel": "https://www.crunchyroll.com/de/watch/G50UZV2GM",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/watch/G9DU9E4QG/saitama-and-the-mediocre-gang": {
-      "ziel": "https://www.crunchyroll.com/de/watch/G9DU9E4QG/saitama-and-the-mediocre-gang",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/watch/GG1U2NW9Q": {
-      "ziel": "https://www.crunchyroll.com/de/watch/GG1U2NW9Q",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/watch/GJWUQN11K/": {
-      "ziel": "https://www.crunchyroll.com/de/watch/GJWUQN11K",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/watch/GK9U31019/": {
-      "ziel": "https://www.crunchyroll.com/de/watch/GK9U31019",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
-    "https://www.crunchyroll.com/watch/GK9U3Z4XE/": {
-      "ziel": "https://www.crunchyroll.com/de/watch/GK9U3Z4XE",
-      "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
-    },
     "https://www.crunchyroll.com/watch/GMEE00351144DEDE": {
       "seriesId": "G8DHV7809",
       "ziel": "https://www.crunchyroll.com/de/watch/GMEE00351144DEDE",
       "geprueftAm": "2026-08-21"
     },
+    "https://www.crunchyroll.com/de/servamp": {
+      "seriesId": "GR2PQ7J2R",
+      "ziel": "https://www.crunchyroll.com/de/series/GR2PQ7J2R/servamp",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/shakugan-no-shana": {
+      "seriesId": "GYW4EJZ26",
+      "ziel": "https://www.crunchyroll.com/de/series/GYW4EJZ26/shakugan-no-shana",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/she-professed-herself-pupil-of-the-wise-man": {
+      "seriesId": "GG5H5X070",
+      "ziel": "https://www.crunchyroll.com/de/series/GG5H5X070/she-professed-herself-pupil-of-the-wise-man",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/shikimoris-not-just-a-cutie": {
+      "seriesId": "GNVHKN7M4",
+      "ziel": "https://www.crunchyroll.com/de/series/GNVHKN7M4/shikimoris-not-just-a-cutie",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/shimoneta-a-boring-world-where-the-concept-of-dirty-jokes-doesnt-exist": {
+      "seriesId": "G6EXV1Z1R",
+      "ziel": "https://www.crunchyroll.com/de/series/G6EXV1Z1R/shimoneta-a-boring-world-where-the-concept-of-dirty-jokes-doesnt-exist",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/shin-ikki-tousen": {
+      "seriesId": "G3KHEVQVQ",
+      "ziel": "https://www.crunchyroll.com/de/series/G3KHEVQVQ/shin-ikki-tousen",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/shomin-sample": {
+      "seriesId": "G8DHV728E",
+      "ziel": "https://www.crunchyroll.com/de/series/G8DHV728E/shomin-sample",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/sing-a-bit-of-harmony": {
+      "seriesId": "G9VHN977K",
+      "ziel": "https://www.crunchyroll.com/de/series/G9VHN977K/sing-a-bit-of-harmony",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/sing-yesterday-for-me": {
+      "seriesId": "GYVDV1N0Y",
+      "ziel": "https://www.crunchyroll.com/de/series/GYVDV1N0Y/sing-yesterday-for-me",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/skeleton-knight-in-another-world": {
+      "seriesId": "G8DHV7WJP",
+      "ziel": "https://www.crunchyroll.com/de/series/G8DHV7WJP/skeleton-knight-in-another-world",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/snow-white-with-the-red-hair": {
+      "seriesId": "GRZJ7QN86",
+      "ziel": "https://www.crunchyroll.com/de/series/GRZJ7QN86/snow-white-with-the-red-hair",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/so-im-a-spider-so-what": {
+      "seriesId": "G79H23G0D",
+      "ziel": "https://www.crunchyroll.com/de/series/G79H23G0D/so-im-a-spider-so-what",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/solo-leveling": {
+      "seriesId": "GDKHZEJ0K",
+      "ziel": "https://www.crunchyroll.com/de/series/GDKHZEJ0K/solo-leveling",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/solty-rei": {
+      "seriesId": "G6K57D78Y",
+      "ziel": "https://www.crunchyroll.com/de/series/G6K57D78Y/solty-rei",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/sorcerer-hunters": {
+      "seriesId": "G6NVG359Y",
+      "ziel": "https://www.crunchyroll.com/de/series/G6NVG359Y/sorcerer-hunters",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/soul-eater": {
+      "seriesId": "GYX0ZW80R",
+      "ziel": "https://www.crunchyroll.com/de/series/GYX0ZW80R/soul-eater",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/soul-hunter": {
+      "seriesId": "G6DQ2JX3R",
+      "ziel": "https://www.crunchyroll.com/de/series/G6DQ2JX3R/soul-hunter",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/space-dandy": {
+      "seriesId": "G63K4W296",
+      "ziel": "https://www.crunchyroll.com/de/series/G63K4W296/space-dandy",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/special-7-special-crime-investigation-unit": {
+      "seriesId": "GMEHMEW1G",
+      "ziel": "https://www.crunchyroll.com/de/series/GMEHMEW1G/special-7-special-crime-investigation-unit",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/speed-grapher": {
+      "seriesId": "GRWEJGZQR",
+      "ziel": "https://www.crunchyroll.com/de/series/GRWEJGZQR/speed-grapher",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/spice-and-wolf": {
+      "seriesId": "G6GG38246",
+      "ziel": "https://www.crunchyroll.com/de/series/G6GG38246/spice-and-wolf",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/spy-x-family": {
+      "seriesId": "G4PH0WXVJ",
+      "ziel": "https://www.crunchyroll.com/de/series/G4PH0WXVJ/spy-x-family",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/star-blazers-space-battleship-yamato": {
+      "seriesId": "G65V4P4K6",
+      "ziel": "https://www.crunchyroll.com/de/series/G65V4P4K6/star-blazers-space-battleship-yamato",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/steinsgate": {
+      "seriesId": "GYWE7W5GY",
+      "ziel": "https://www.crunchyroll.com/de/series/GYWE7W5GY/steinsgate",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/steinsgate-0": {
+      "seriesId": "GYW4D15K6",
+      "ziel": "https://www.crunchyroll.com/de/series/GYW4D15K6/steinsgate-0",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/strike-the-blood": {
+      "seriesId": "GRX0M59K6",
+      "ziel": "https://www.crunchyroll.com/de/series/GRX0M59K6/strike-the-blood",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/super-hxeros": {
+      "seriesId": "GJ0H7QXJ8",
+      "ziel": "https://www.crunchyroll.com/de/series/GJ0H7QXJ8/super-hxeros",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/swan-lake": {
+      "seriesId": "GYXJWMP86",
+      "ziel": "https://www.crunchyroll.com/de/series/GYXJWMP86/swan-lake",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/sword-art-online": {
+      "seriesId": "GR49G9VP6",
+      "ziel": "https://www.crunchyroll.com/de/series/GR49G9VP6/sword-art-online",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/sword-art-online/sword-art-online-the-movie-ordinal-scale-sword-art-online-the-movie-ordinal-scale-sub-820972": {
+      "seriesId": "GMTE00114968",
+      "ziel": "https://www.crunchyroll.com/de/watch/G50UZ4DMV/sword-art-online-the-movie-ordinal-scale-sub",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/sword-of-the-stranger": {
+      "seriesId": "G24H107GQ",
+      "ziel": "https://www.crunchyroll.com/de/series/G24H107GQ/sword-of-the-stranger",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/talentless-nana": {
+      "seriesId": "GJ0H7Q87Z",
+      "ziel": "https://www.crunchyroll.com/de/series/GJ0H7Q87Z/talentless-nana",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/tales-of-symphonia-the-animation": {
+      "seriesId": "G1XHJV84J",
+      "ziel": "https://www.crunchyroll.com/de/series/G1XHJV84J/tales-of-symphonia-the-animation",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/tales-of-zestiria-the-x": {
+      "seriesId": "G5PHNM4WD",
+      "ziel": "https://www.crunchyroll.com/de/series/G5PHNM4WD/tales-of-zestiria-the-x",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/tenjho-tenge": {
+      "seriesId": "GR5VXM03R",
+      "ziel": "https://www.crunchyroll.com/de/series/GR5VXM03R/tenjho-tenge",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/terror-in-resonance": {
+      "seriesId": "G675W00MR",
+      "ziel": "https://www.crunchyroll.com/de/series/G675W00MR/terror-in-resonance",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/that-time-i-got-reincarnated-as-a-slime": {
+      "seriesId": "GYZJ43JMR",
+      "ziel": "https://www.crunchyroll.com/de/series/GYZJ43JMR/that-time-i-got-reincarnated-as-a-slime",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-boy-and-the-beast": {
+      "seriesId": "G1XHJV29J",
+      "ziel": "https://www.crunchyroll.com/de/series/G1XHJV29J/the-boy-and-the-beast",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-case-study-of-vanitas": {
+      "seriesId": "GEXH3W8DG",
+      "ziel": "https://www.crunchyroll.com/de/series/GEXH3W8DG/the-case-study-of-vanitas",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-dawn-of-the-witch": {
+      "seriesId": "G5PHNM403",
+      "ziel": "https://www.crunchyroll.com/de/series/G5PHNM403/the-dawn-of-the-witch",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-day-i-became-a-god": {
+      "seriesId": "G3KHEV3MV",
+      "ziel": "https://www.crunchyroll.com/de/series/G3KHEV3MV/the-day-i-became-a-god",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-detective-is-already-dead": {
+      "seriesId": "G24H1N334",
+      "ziel": "https://www.crunchyroll.com/de/series/G24H1N334/the-detective-is-already-dead",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-disappearance-of-haruhi-suzumiya": {
+      "seriesId": "GDKHZEJVG",
+      "ziel": "https://www.crunchyroll.com/de/series/GDKHZEJVG/the-disappearance-of-haruhi-suzumiya",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-dungeon-of-black-company": {
+      "seriesId": "GP5HJ85WM",
+      "ziel": "https://www.crunchyroll.com/de/series/GP5HJ85WM/the-dungeon-of-black-company",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-future-diary": {
+      "seriesId": "GYGGXPQ2Y",
+      "ziel": "https://www.crunchyroll.com/de/series/GYGGXPQ2Y/the-future-diary",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-garden-of-sinners/episode-1-overlooking-view-thanatos-763069": {
+      "seriesId": "G6DK07N7R",
+      "ziel": "https://www.crunchyroll.com/de/watch/GY5P2QX3Y/overlooking-view-thanatos",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-garden-of-sinners/episode-2-murder-speculation-part-a-and-nothing-heart-763071": {
+      "seriesId": "G6DK07N7R",
+      "ziel": "https://www.crunchyroll.com/de/watch/GRG5N29DR/murder-speculation-part-a-and-nothing-heart",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-garden-of-sinners/episode-3-remaining-sense-of-pain-ever-cry-never-life-763073": {
+      "seriesId": "G6DK07N7R",
+      "ziel": "https://www.crunchyroll.com/de/watch/GREXE9K0Y/remaining-sense-of-pain-ever-cry-never-life",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-garden-of-sinners/episode-4-the-hollow-shrine-garan-no-dou-763077": {
+      "seriesId": "G6DK07N7R",
+      "ziel": "https://www.crunchyroll.com/de/watch/G69VG0MEY/the-hollow-shrine-garan-no-dou",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-garden-of-sinners/episode-5-paradox-paradigm-763123": {
+      "seriesId": "G6DK07N7R",
+      "ziel": "https://www.crunchyroll.com/de/watch/G64P2JMER/paradox-paradigm",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-garden-of-sinners/episode-6-oblivion-recording-fairy-tale-763079": {
+      "seriesId": "G6DK07N7R",
+      "ziel": "https://www.crunchyroll.com/de/watch/G6J07315R/oblivion-recording-fairy-tale",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-garden-of-sinners/episode-7-murder-speculation-part-b-not-nothing-heart-763181": {
+      "seriesId": "G6DK07N7R",
+      "ziel": "https://www.crunchyroll.com/de/watch/G6KEDMP96/murder-speculation-part-b-not-nothing-heart",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-garden-of-sinners/episode-8-epilogue-763085": {
+      "seriesId": "G6DK07N7R",
+      "ziel": "https://www.crunchyroll.com/de/watch/GRVD9ZXDR/epilogue",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-girl-who-leapt-through-time": {
+      "seriesId": "G4PH0WZVE",
+      "ziel": "https://www.crunchyroll.com/de/series/G4PH0WZVE/the-girl-who-leapt-through-time",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-god-of-high-school": {
+      "seriesId": "GRVD0ZDQR",
+      "ziel": "https://www.crunchyroll.com/de/series/GRVD0ZDQR/the-god-of-high-school",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-greatest-demon-lord-is-reborn-as-a-typical-nobody": {
+      "seriesId": "GKEH2G4KD",
+      "ziel": "https://www.crunchyroll.com/de/series/GKEH2G4KD/the-greatest-demon-lord-is-reborn-as-a-typical-nobody",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-hidden-dungeon-only-i-can-enter": {
+      "seriesId": "G3KHEV5QQ",
+      "ziel": "https://www.crunchyroll.com/de/series/G3KHEV5QQ/the-hidden-dungeon-only-i-can-enter",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-journey/": {
+      "seriesId": "GZJH3DJ2X",
+      "ziel": "https://www.crunchyroll.com/de/series/GZJH3DJ2X/the-journey",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-magnificent-kotobuki": {
+      "seriesId": "G63K58E96",
+      "ziel": "https://www.crunchyroll.com/de/series/G63K58E96/the-magnificent-kotobuki",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-melancholy-of-haruhi-suzumiya": {
+      "seriesId": "GRGG7701R",
+      "ziel": "https://www.crunchyroll.com/de/series/GRGG7701R/the-melancholy-of-haruhi-suzumiya",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-misfit-of-demon-king-academy": {
+      "seriesId": "GY243NN0R",
+      "ziel": "https://www.crunchyroll.com/de/series/GY243NN0R/the-misfit-of-demon-king-academy",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-ones-within": {
+      "seriesId": "GDKHZEDXD",
+      "ziel": "https://www.crunchyroll.com/de/series/GDKHZEDXD/the-ones-within",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-promised-neverland": {
+      "seriesId": "GYVD2K1WY",
+      "ziel": "https://www.crunchyroll.com/de/series/GYVD2K1WY/the-promised-neverland",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-quintessential-quintuplets": {
+      "seriesId": "GY4PD7Z06",
+      "ziel": "https://www.crunchyroll.com/de/series/GY4PD7Z06/the-quintessential-quintuplets",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-rising-of-the-shield-hero": {
+      "seriesId": "G6W4QKX0R",
+      "ziel": "https://www.crunchyroll.com/de/series/G6W4QKX0R/the-rising-of-the-shield-hero",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-saints-magic-power-is-omnipotent": {
+      "seriesId": "G1XHJV3P3",
+      "ziel": "https://www.crunchyroll.com/de/series/G1XHJV3P3/the-saints-magic-power-is-omnipotent",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-slayers": {
+      "seriesId": "G6244M37Y",
+      "ziel": "https://www.crunchyroll.com/de/series/G6244M37Y/the-slayers",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-slime-diaries": {
+      "seriesId": "GG5H5X7JV",
+      "ziel": "https://www.crunchyroll.com/de/series/GG5H5X7JV/the-slime-diaries",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-stranger-by-the-shore/": {
+      "seriesId": "GVDHX8J9G",
+      "ziel": "https://www.crunchyroll.com/de/series/GVDHX8J9G/the-stranger-by-the-shore",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-testament-of-sister-new-devil": {
+      "seriesId": "G67570P3R",
+      "ziel": "https://www.crunchyroll.com/de/series/G67570P3R/the-testament-of-sister-new-devil",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-wonderful-wizard-of-oz": {
+      "seriesId": "GY1XD4M9Y",
+      "ziel": "https://www.crunchyroll.com/de/series/GY1XD4M9Y/the-wonderful-wizard-of-oz",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/the-wonderland": {
+      "seriesId": "GMEHME8NZ",
+      "ziel": "https://www.crunchyroll.com/de/series/GMEHME8NZ/the-wonderland",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/to-your-eternity": {
+      "seriesId": "GG5H5XMWV",
+      "ziel": "https://www.crunchyroll.com/de/series/GG5H5XMWV/to-your-eternity",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/toilet-bound-hanako-kun": {
+      "seriesId": "G24H1N3ZP",
+      "ziel": "https://www.crunchyroll.com/de/series/G24H1N3ZP/toilet-bound-hanako-kun",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/tokyo-ghoul": {
+      "seriesId": "G6NV7Z50Y",
+      "ziel": "https://www.crunchyroll.com/de/series/G6NV7Z50Y/tokyo-ghoul",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/tokyo-revengers": {
+      "seriesId": "G3KHEVMN1",
+      "ziel": "https://www.crunchyroll.com/de/series/G3KHEVMN1/tokyo-revengers",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/tomo-chan-is-a-girl": {
+      "seriesId": "G0XHWM5Q4",
+      "ziel": "https://www.crunchyroll.com/de/series/G0XHWM5Q4/tomo-chan-is-a-girl",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/tonikawa-over-the-moon-for-you": {
+      "seriesId": "GRWMGGQ86",
+      "ziel": "https://www.crunchyroll.com/de/series/GRWMGGQ86/tonikawa-over-the-moon-for-you",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/tower-of-god": {
+      "seriesId": "G6J0G49DR",
+      "ziel": "https://www.crunchyroll.com/de/series/G6J0G49DR/tower-of-god",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/trapped-in-a-dating-sim-the-world-of-otome-games-is-tough-for-mobs": {
+      "seriesId": "G0XHWM0D3",
+      "ziel": "https://www.crunchyroll.com/de/series/G0XHWM0D3/trapped-in-a-dating-sim-the-world-of-otome-games-is-tough-for-mobs",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/tribe-nine": {
+      "seriesId": "GG5H5X0Z8",
+      "ziel": "https://www.crunchyroll.com/de/series/GG5H5X0Z8/tribe-nine",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/trigun": {
+      "seriesId": "GYP58QMMY",
+      "ziel": "https://www.crunchyroll.com/de/series/GYP58QMMY/trigun",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/trinity-blood": {
+      "seriesId": "GYX0D9QNR",
+      "ziel": "https://www.crunchyroll.com/de/series/GYX0D9QNR/trinity-blood",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/trinity-seven": {
+      "seriesId": "G60914JM6",
+      "ziel": "https://www.crunchyroll.com/de/series/G60914JM6/trinity-seven",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/tsugumomo": {
+      "seriesId": "G675QE8JR",
+      "ziel": "https://www.crunchyroll.com/de/series/G675QE8JR/tsugumomo",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/tsugumomo/": {
+      "seriesId": "G675QE8JR",
+      "ziel": "https://www.crunchyroll.com/de/series/G675QE8JR/tsugumomo",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/undefeated-bahamut-chronicle": {
+      "seriesId": "GR24V8926",
+      "ziel": "https://www.crunchyroll.com/de/series/GR24V8926/undefeated-bahamut-chronicle",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/uzaki-chan-wants-to-hang-out": {
+      "seriesId": "GNVHKN7KZ",
+      "ziel": "https://www.crunchyroll.com/de/series/GNVHKN7KZ/uzaki-chan-wants-to-hang-out",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/valkyrie-drive-mermaid-": {
+      "seriesId": "GNVHKDMW8",
+      "ziel": "https://www.crunchyroll.com/de/series/GNVHKDMW8/valkyrie-drive-mermaid-",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/vampire-knight": {
+      "seriesId": "GR24GNVM6",
+      "ziel": "https://www.crunchyroll.com/de/series/GR24GNVM6/vampire-knight",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/venus-versus-virus": {
+      "seriesId": "GP5HJ812E",
+      "ziel": "https://www.crunchyroll.com/de/series/GP5HJ812E/venus-versus-virus",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/wandering-witch-the-journey-of-elaina": {
+      "seriesId": "G79H23VNQ",
+      "ziel": "https://www.crunchyroll.com/de/series/G79H23VNQ/wandering-witch-the-journey-of-elaina",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/G0DUMXDPZ/rascal-does-not-dream-of-a-sister-venturing-out": {
+      "seriesId": "GYW4MG9G6",
+      "ziel": "https://www.crunchyroll.com/de/watch/G0DUMXDPZ/rascal-does-not-dream-of-a-sister-venturing-out",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/G14UVQ5D5/one-piece-fan-letter": {
+      "seriesId": "GRMG8ZQZR",
+      "ziel": "https://www.crunchyroll.com/de/watch/G14UVQ5D5/one-piece-fan-letter",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/G2XUNVJMN/hoshinas-day-off": {
+      "seriesId": "GG5H5XQ7D",
+      "ziel": "https://www.crunchyroll.com/de/watch/G2XUNVJMN/hoshinas-day-off",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/G2XUNX9N2/code-white": {
+      "seriesId": "GMTE00335490",
+      "ziel": "https://www.crunchyroll.com/de/watch/G2XUNX9N2/code-white",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/G3WF2491E/jin-roh": {
+      "seriesId": "GMTE00111913",
+      "ziel": "https://www.crunchyroll.com/de/watch/G3WF2491E/jin-roh",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/G7PU3D1ZN/one-piece-film-strong-world": {
+      "seriesId": "G5PHNMWX9",
+      "ziel": "https://www.crunchyroll.com/de/watch/G7PU3D1ZN/one-piece-film-strong-world",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/G7PU3DWNQ/given-the-movie-to-the-sea": {
+      "seriesId": "GMTE00266947",
+      "ziel": "https://www.crunchyroll.com/de/watch/G7PU3DWNQ/given-the-movie-to-the-sea",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/G7PU4100M/scherzo-of-deep-night": {
+      "seriesId": "GT00194374",
+      "ziel": "https://www.crunchyroll.com/de/watch/G7PU4100M/scherzo-of-deep-night",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/G8WU7P112/dragon-ball-z-battle-of-gods": {
+      "seriesId": "GMTE00002919",
+      "ziel": "https://www.crunchyroll.com/de/watch/G8WU7P112/dragon-ball-z-battle-of-gods",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/G8WUNMMMW/attack-on-titan-final-season-the-final-chapters-special-1": {
+      "seriesId": "GR751KNZY",
+      "ziel": "https://www.crunchyroll.com/de/watch/G8WUNMMMW/attack-on-titan-final-season-the-final-chapters-special-1",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/GD9UE9XZ7/haikyu-the-dumpster-battle": {
+      "seriesId": "GY8VM8MWY",
+      "ziel": "https://www.crunchyroll.com/de/watch/GD9UE9XZ7/haikyu-the-dumpster-battle",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/GE00365925JAJP/jujutsu-kaisen-hidden-inventory--premature-death--the-movie": {
+      "seriesId": "GRDV0019R",
+      "ziel": "https://www.crunchyroll.com/de/watch/GE00365925JAJP/jujutsu-kaisen-hidden-inventory--premature-death--the-movie",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/GE00367387JAJP/i-need-to-be-in-----": {
+      "seriesId": "GT00365787",
+      "ziel": "https://www.crunchyroll.com/de/watch/GE00367387JAJP/i-need-to-be-in-----",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/GE00379883JAJP/my-hero-academia-i-am-a-hero-too": {
+      "seriesId": "G6NQ5DWZ6",
+      "ziel": "https://www.crunchyroll.com/de/watch/GE00379883JAJP/my-hero-academia-i-am-a-hero-too",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/GG1UXVQZ3/kaiju-no-8-mission-recon": {
+      "seriesId": "GG5H5XQ7D",
+      "ziel": "https://www.crunchyroll.com/de/watch/GG1UXVQZ3/kaiju-no-8-mission-recon",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/GMKUEMXMJ/given-the-movie-hiiragi-mix": {
+      "seriesId": "GMTE00266946",
+      "ziel": "https://www.crunchyroll.com/de/watch/GMKUEMXMJ/given-the-movie-hiiragi-mix",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/GR2P1377R/legend-of-the-sanada": {
+      "seriesId": "G63V729XY",
+      "ziel": "https://www.crunchyroll.com/de/watch/GR2P1377R/legend-of-the-sanada",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/GVWU0K5WN/sword-art-online-the-movie--progressive--aria-of-a-starless-night": {
+      "seriesId": "GT00194374",
+      "ziel": "https://www.crunchyroll.com/de/watch/GVWU0K5WN/sword-art-online-the-movie--progressive--aria-of-a-starless-night",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/GVWU827QE/one-piece-film-the-desert-princess-and-the-pirates-adventures-in-alabasta--": {
+      "seriesId": "G5PHNMWX9",
+      "ziel": "https://www.crunchyroll.com/de/watch/GVWU827QE/one-piece-film-the-desert-princess-and-the-pirates-adventures-in-alabasta--",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/GVWU8N5DG/blue-lock-the-movie--episode-nagi-": {
+      "seriesId": "G4PH0WEKE",
+      "ziel": "https://www.crunchyroll.com/de/watch/GVWU8N5DG/blue-lock-the-movie--episode-nagi-",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/GWDU73EX8/rascal-does-not-dream-of-a-knapsack-kid": {
+      "seriesId": "GYW4MG9G6",
+      "ziel": "https://www.crunchyroll.com/de/watch/GWDU73EX8/rascal-does-not-dream-of-a-knapsack-kid",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/GX9U34WGN/one-piece-film-z": {
+      "seriesId": "G5PHNMWX9",
+      "ziel": "https://www.crunchyroll.com/de/watch/GX9U34WGN/one-piece-film-z",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/GX9UQJE85": {
+      "seriesId": "G6NQ5DWZ6",
+      "ziel": "https://www.crunchyroll.com/de/watch/GX9UQJE85",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/GYNQJG40Y/the-15th-anniversary-special-episode": {
+      "seriesId": "GRMG8ZQZR",
+      "ziel": "https://www.crunchyroll.com/de/watch/GYNQJG40Y/the-15th-anniversary-special-episode",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/watch/GZ4FVQE90/fantastic-adventures-of-unico": {
+      "seriesId": "GMTE00192518",
+      "ziel": "https://www.crunchyroll.com/de/watch/GZ4FVQE90/fantastic-adventures-of-unico",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/we-never-learn-bokuben": {
+      "seriesId": "GR8DN8XDR",
+      "ziel": "https://www.crunchyroll.com/de/series/GR8DN8XDR/we-never-learn-bokuben",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/welcome-to-demon-school-iruma-kun": {
+      "seriesId": "G6NVG970Y",
+      "ziel": "https://www.crunchyroll.com/de/series/G6NVG970Y/welcome-to-demon-school-iruma-kun",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/welcome-to-the-n-h-k": {
+      "seriesId": "G6MGNDGW6",
+      "ziel": "https://www.crunchyroll.com/de/series/G6MGNDGW6/welcome-to-the-n-h-k",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/why-the-hell-are-you-here-teacher": {
+      "seriesId": "G63K9XG96",
+      "ziel": "https://www.crunchyroll.com/de/series/G63K9XG96/why-the-hell-are-you-here-teacher",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/wise-mans-grandchild": {
+      "seriesId": "G63K95846",
+      "ziel": "https://www.crunchyroll.com/de/series/G63K95846/wise-mans-grandchild",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/witch-hunter-robin": {
+      "seriesId": "G1XHJVWK5",
+      "ziel": "https://www.crunchyroll.com/de/series/G1XHJVWK5/witch-hunter-robin",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/witchblade": {
+      "seriesId": "G619MDQ1Y",
+      "ziel": "https://www.crunchyroll.com/de/series/G619MDQ1Y/witchblade",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/wolf-children": {
+      "seriesId": "G4PH0WZ1K",
+      "ziel": "https://www.crunchyroll.com/de/series/G4PH0WZ1K/wolf-children",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/wolfs-rain": {
+      "seriesId": "GY1XMV90Y",
+      "ziel": "https://www.crunchyroll.com/de/series/GY1XMV90Y/wolfs-rain",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/wz": {
+      "seriesId": "G60XZ8MER",
+      "ziel": "https://www.crunchyroll.com/de/series/G60XZ8MER/wz",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/x": {
+      "seriesId": "G1XHJVWV5",
+      "ziel": "https://www.crunchyroll.com/de/series/G1XHJVWV5/x",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/xxxholic": {
+      "seriesId": "GMEHME89G",
+      "ziel": "https://www.crunchyroll.com/de/series/GMEHME89G/xxxholic",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/yamadas-first-time-b-gata-h-kei": {
+      "seriesId": "GRW4GQK2Y",
+      "ziel": "https://www.crunchyroll.com/de/series/GRW4GQK2Y/yamadas-first-time-b-gata-h-kei",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/yashahime-princess-half-demon": {
+      "seriesId": "G63W41KD6",
+      "ziel": "https://www.crunchyroll.com/de/series/G63W41KD6/yashahime-princess-half-demon",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/yes-no-or-maybe": {
+      "seriesId": "G79H23KWW",
+      "ziel": "https://www.crunchyroll.com/de/series/G79H23KWW/yes-no-or-maybe",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/your-name": {
+      "seriesId": "G9VHN9PK3",
+      "ziel": "https://www.crunchyroll.com/de/series/G9VHN9PK3/your-name",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/yu-gi-oh-arc-v": {
+      "seriesId": "GYDQ77GZ6",
+      "ziel": "https://www.crunchyroll.com/de/series/GYDQ77GZ6/yu-gi-oh-arc-v",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/yu-gi-oh-zexal": {
+      "seriesId": "GRDQD8PDY",
+      "ziel": "https://www.crunchyroll.com/de/series/GRDQD8PDY/yu-gi-oh-zexal",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/yu-yu-hakusho": {
+      "seriesId": "GR9PKENW6",
+      "ziel": "https://www.crunchyroll.com/de/series/GR9PKENW6/yu-yu-hakusho",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/de/zombie-land-saga": {
+      "seriesId": "GRJ0K7X5Y",
+      "ziel": "https://www.crunchyroll.com/de/series/GRJ0K7X5Y/zombie-land-saga",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/dears/episode-10-is-it-a-golden-ball-811701?ssid=401214": {
+      "seriesId": "GRZXD528Y",
+      "ziel": "https://www.crunchyroll.com/de/watch/GQJUGEW09/is-it-a-golden-ball?ssid=401214",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/doreiku-the-animation": {
+      "seriesId": "GVDHX8PKD",
+      "ziel": "https://www.crunchyroll.com/de/series/GVDHX8PKD/doreiku-the-animation",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/flip-flappers": {
+      "seriesId": "GYDQNWNG6",
+      "ziel": "https://www.crunchyroll.com/de/series/GYDQNWNG6/flip-flappers",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/flowers-of-evil": {
+      "seriesId": "GR751923Y",
+      "ziel": "https://www.crunchyroll.com/de/series/GR751923Y/flowers-of-evil",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/grimgar-ashes-and-illusions": {
+      "seriesId": "GRVNX917Y",
+      "ziel": "https://www.crunchyroll.com/de/series/GRVNX917Y/grimgar-ashes-and-illusions",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/ikki-tousen": {
+      "seriesId": "G24H1NZXD",
+      "ziel": "https://www.crunchyroll.com/de/series/G24H1NZXD/ikki-tousen",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/k-on": {
+      "seriesId": "GXJHM3N2E",
+      "ziel": "https://www.crunchyroll.com/de/series/GXJHM3N2E/k-on",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.crunchyroll.com/kandagawa-jet-girls": {
+      "seriesId": "GMEHMEWJM",
+      "ziel": "https://www.crunchyroll.com/de/series/GMEHMEWJM/kandagawa-jet-girls",
+      "geprueftAm": "2026-08-21"
+    },
+    "https://www.amazon.de/dp/B0C9H2BQWM": {
+      "ziel": "https://www.amazon.de/dp/B0C9H2BQWM",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/amagi-brilliant-park/episode-14-800072?ssid=387020": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GX9UQDQ1W?ssid=387020",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/armed-girls-machiavellism/episode-13-799297?ssid=385722": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G8WUNDVDX?ssid=385722",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/beauty-water/beauty-water-unbekannt-859030": {
+      "ziel": "https://www.crunchyroll.com/de/beauty-water/beauty-water-unbekannt-859030",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden",
+      "art": "fehlt"
+    },
+    "https://www.crunchyroll.com/brave-story/brave-story-unbekannt-821310?ssid=422329": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GMKUX43PD?ssid=422329",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/cencoroll-connect/de-cencoroll-connect-unbekannt-850430": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GJWU25970",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/de/en-gb/fategrand-order-absolute-demonic-front-babylonia": {
+      "ziel": "https://www.crunchyroll.com/de/en-gb/fategrand-order-absolute-demonic-front-babylonia",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden",
+      "art": "fehlt"
+    },
+    "https://www.crunchyroll.com/de/en-gb/tokyo-ghoul": {
+      "ziel": "https://www.crunchyroll.com/de/en-gb/tokyo-ghoul",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden",
+      "art": "fehlt"
+    },
+    "https://www.crunchyroll.com/de/haikyu-dubs/episode-3-special-feature-the-spring-tournament-of-their-youth-848359": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GPWUK14GG/special-feature-the-spring-tournament-of-their-youth",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/de/jungle-emperor-leo": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GRMGZJ1GR/jungle-emperor-leo",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/de/origin-spirits-of-the-past": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GYE52493R/origin-spirits-of-the-past",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GRE5PEVV6/street-fighter-ii-the-animated-movie",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-1-der-tickende-wolkenkratzer-unbekannt-810163": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GD9UV2ZQP",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-12-die-partitur-des-grauens-unbekannt-811393?ssid=400590": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GPWUK08Q5?ssid=400590",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-14-das-verlorene-schiff-im-himmel-unbekannt-811396?ssid=400599": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GZ7UVPD78?ssid=400599",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-15-die-15-minuten-der-stille-unbekannt-811397?ssid=400596": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GD9UV2ENK?ssid=400596",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-16-der-11-strmer-unbekannt-811399?ssid=400598": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G50UZEM25?ssid=400598",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-17-detektiv-auf-hoher-see-unbekannt-812230?ssid=402659": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GWDU8PZ8G?ssid=402659",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-18-der-scharfschtze-aus-einer-anderen-dimension-unbekannt-812231": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GG1U2DP23",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-2-das-14-ziel-unbekannt-810165": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G50UZENXP",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-21-der-purpurrote-liebesbrief-unbekannt-812236?ssid=402669": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GX9UQK8QZ?ssid=402669",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-22-zero-der-vollstrecker-unbekannt-812237?ssid=402670": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G4VUQM4Q1?ssid=402670",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-23-die-stahlblaue-faust-unbekannt-857862": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G0DUN1437",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-24-die-scharlachrote-kugel-unbekannt-867288": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GWDU8X9J7",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-3-der-magier-des-letzten-jahrhunderts-unbekannt-810166": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GWDU8PME1",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-4-der-killer-in-ihren-augen-unbekannt-810167": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GG1U2D54G",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-5-countdown-zum-himmel-unbekannt-810169?ssid=398572": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GEVUZ83XX?ssid=398572",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-6-das-phantom-der-baker-street-unbekannt-810184?ssid=398574": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GZ7UVP3EJ?ssid=398574",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/detektiv-conan/detektiv-conan-tv-special-episode-one-der-geschrumpfte-meisterdetektiv-unbekannt-821630?ssid=422962": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G4VUQXQZ8?ssid=422962",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/detektiv-conan/detektiv-conan-tv-special-lupin-iii-vs-detektiv-conan-unbekannt-812798?ssid=404716": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GX9UQKVVN?ssid=404716",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/fairy-tail-movies/fairy-tail-the-movie-phoenix-princess-unbekannt-821316?ssid=422327": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GZ7UVXMEJ?ssid=422327",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/fragtime/fragtime-unbekannt-813782?ssid=406732": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G0DUN93QX?ssid=406732",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/genocidal-organ/genocidal-organ-unbekannt-807915?ssid=394444": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GPWUKQZMQ/project-itoh-genocidal-organ?ssid=394444",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/harmony/harmony-unbekannt-807914?ssid=394443": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G31UXPW8M/project-itoh-harmony?ssid=394443",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/k-on/episode-14-807608?ssid=394401": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GK9U3ZD58?ssid=394401",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/k-on/episode-27-809423?ssid=397229": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G14U4XQK7?ssid=397229",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/k-on/k-on-the-movie-unbekannt-822264?ssid=424604": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GWDU8K7EW?ssid=424604",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/kase-san-and-morning-glories/kase-san-and-morning-glories-unbekannt-813883": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G0DUN934P",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-/episode-13-799361?ssid=387047": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G0DUN3W45?ssid=387047",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/love-stage/episode-11-841216": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G50UZ7KND",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/lu-over-the-wall/lu-over-the-wall-unbekannt-811213?ssid=399959": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GPWUK08J3/lu-over-the-wall?ssid=399959",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/lupin-the-3rd-movies/daisuke-jigens-grabstein-unbekannt-822025?ssid=423942": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GQJUG9M42?ssid=423942",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/lupin-the-3rd-movies/fujiko-mines-lge-unbekannt-822260?ssid=424587": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GZ7UVXD2P?ssid=424587",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/lupin-the-3rd-movies/goemon-ishikawa-der-es-blut-regnen-lsst-unbekannt-822028?ssid=423944": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GG1U2EX7N?ssid=423944",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/lupin-the-3rd-movies/lupin-iii-the-first-unbekannt-827115?ssid=429156": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GEVUZG2DZ?ssid=429156",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/lupin-the-3rd-the-castle-of-cagliostro/lupin-iii-das-schloss-des-cagliostro-unbekannt-817943?ssid=414931": {
+      "ziel": "https://www.crunchyroll.com/de/lupin-the-3rd-the-castle-of-cagliostro/lupin-iii-das-schloss-des-cagliostro-unbekannt-817943?ssid=414931",
+      "geprueftAm": "2026-08-21",
+      "fehler": "404 - Seite nicht gefunden",
+      "art": "fehlt"
+    },
+    "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-brenne-zantetsuken-der-goldene-drache-unbekannt-813890?ssid=407178": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GJWU2JM5N?ssid=407178",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-das-geheimnis-des-twilight-gemini-der-diamant-der-dmmerung-unbekannt-813886?ssid=407187": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G9DUEDX7G?ssid=407187",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-der-schatz-des-harimao-unbekannt-813894?ssid=407180": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GVWU0PVQ8?ssid=407180",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-mordbefehl-an-lupin-der-hllentrip-unbekannt-813888?ssid=407176": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G4VUQM3ZV?ssid=407176",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/night-is-short-walk-on-girl/night-is-short-walk-on-girl-unbekannt-811211?ssid=399939": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GVWU0P8X1/night-is-short-walk-on-girl?ssid=399939",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G50UZENW4/okkos-inn?ssid=397785",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/ride-your-wave/ride-your-wave-unbekannt-806160?ssid=392654": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GMKUXZ287/ride-your-wave?ssid=392654",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/the-dragon-dentist/deomu-the-dragon-dentist-unbekannt-811630?ssid=401190": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GX9UQK3W8?ssid=401190",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/the-empire-of-corpses/the-empire-of-corpses-unknown-808170?ssid=395057": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G0DUN3D8G/the-empire-of-corpses?ssid=395057",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/typhoon-noruda/typhoon-noruda-unbekannt-859032": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G7PU4ZZJ1",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/watch/G4VUQVNJ8/": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G4VUQVNJ8",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/watch/G50UZ54W0/the-scarlet-alibi-german-dub": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G50UZ54W0/the-scarlet-alibi-german-dub",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/watch/G50UZV2GM/": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G50UZV2GM",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/watch/G9DU9E4QG/saitama-and-the-mediocre-gang": {
+      "ziel": "https://www.crunchyroll.com/de/watch/G9DU9E4QG/saitama-and-the-mediocre-gang",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/watch/GG1U2NW9Q": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GG1U2NW9Q",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/watch/GJWUQN11K/": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GJWUQN11K",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/watch/GK9U31019/": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GK9U31019",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/watch/GK9U3Z4XE/": {
+      "ziel": "https://www.crunchyroll.com/de/watch/GK9U3Z4XE",
+      "geprueftAm": "2026-08-21",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
     "https://www.crunchyroll.com/watch/GPWU8KM42/the-shadow-that-snuck-up-too-close": {
       "ziel": "https://www.crunchyroll.com/de/watch/GPWU8KM42/the-shadow-that-snuck-up-too-close",
       "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "https://www.crunchyroll.com/watch/GQJUGQWMW/": {
       "ziel": "https://www.crunchyroll.com/de/watch/GQJUGQWMW",
       "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378": {
       "ziel": "https://www.crunchyroll.com/de/watch/G31UX0ZNQ",
       "geprueftAm": "2026-08-21",
-      "fehler": "404 - Seite nicht gefunden"
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     }
   }
 }
