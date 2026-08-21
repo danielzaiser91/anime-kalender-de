@@ -6,50 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Iyashikei
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-07-28@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260728T083000Z
-DTEND:20260728T090000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 1/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/you-and-i-are-polar-opposites-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-08-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260804T083000Z
-DTEND:20260804T090000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 2/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/you-and-i-are-polar-opposites-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:campfire-cooking-s1-box@2026-08-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260807
-DTEND;VALUE=DATE:20260808
-SUMMARY:Campfire Cooking in Another World – Staffel 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/campfir
- e-cooking-s1-box
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-08-11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260811T083000Z
-DTEND:20260811T090000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 3/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/you-and-i-are-polar-opposites-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:you-and-i-are-polar-opposites-s2@2026-08-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260818T083000Z

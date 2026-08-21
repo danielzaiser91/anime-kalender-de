@@ -6,514 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Politics
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:adn-561@2019-05-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20190520T183500Z
-DTEND:20190520T190500Z
-SUMMARY:ONE PIECE
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-561
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-322@2023-04-10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20230410T150000Z
-DTEND:20230410T153000Z
-SUMMARY:Akame ga Kill!
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-322
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-1325@2025-09-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20250904T070000Z
-DTEND:20250904T073000Z
-SUMMARY:Alderamin on the Sky
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-1325
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:steel-ball-run-1st-stage@2026-03-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260319
-DTEND;VALUE=DATE:20260320
-SUMMARY:JoJo's Bizarre Adventure: Steel Ball Run – 1st STAGE
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/#/release/steel-ball-run
- -1st-stage
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-05-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260501T150000Z
-DTEND:20260501T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
- lge 1/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GYZJ43JMR
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6793XKZY@2026-05-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260502T093000Z
-DTEND:20260502T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 1/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-G6793XKZY
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-05-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260508T150000Z
-DTEND:20260508T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
- lge 2/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GYZJ43JMR
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6793XKZY@2026-05-09@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260509T093000Z
-DTEND:20260509T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 2/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-G6793XKZY
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-05-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260515T150000Z
-DTEND:20260515T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
- lge 3/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GYZJ43JMR
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6793XKZY@2026-05-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260516T093000Z
-DTEND:20260516T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 3/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-G6793XKZY
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-05-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260522T150000Z
-DTEND:20260522T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
- lge 4/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GYZJ43JMR
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6793XKZY@2026-05-23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260523T093000Z
-DTEND:20260523T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 4/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-G6793XKZY
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-05-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260529T150000Z
-DTEND:20260529T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
- lge 5/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6793XKZY@2026-05-30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260530T093000Z
-DTEND:20260530T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 5/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-G6793XKZY
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-06-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260605T150000Z
-DTEND:20260605T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
- lge 6/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6793XKZY@2026-06-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260606T093000Z
-DTEND:20260606T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 6/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-G6793XKZY
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-06-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260612T150000Z
-DTEND:20260612T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
- lge 7/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6793XKZY@2026-06-13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260613T093000Z
-DTEND:20260613T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 7/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-G6793XKZY
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-06-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260619T150000Z
-DTEND:20260619T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
- lge 8/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6793XKZY@2026-06-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260620T093000Z
-DTEND:20260620T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 8/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-G6793XKZY
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-06-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260626T150000Z
-DTEND:20260626T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
- lge 9/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6793XKZY@2026-06-27@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260627T093000Z
-DTEND:20260627T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 9/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-G6793XKZY
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-190-s2-20260629@2026-06-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260629T070000Z
-DTEND:20260629T073000Z
-SUMMARY:Gunslinger Girl -Il Teatrino-
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-190-s2-20260629
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-07-03@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260703T150000Z
-DTEND:20260703T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
- lge 10/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6793XKZY@2026-07-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260704T093000Z
-DTEND:20260704T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 10/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-G6793XKZY
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:clevatess-s2@2026-07-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260708T120000Z
-DTEND:20260708T123000Z
-SUMMARY:Clevatess – Staffel 2 – Folge 1/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/clevatess-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-07-10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260710T150000Z
-DTEND:20260710T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
- lge 11/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6793XKZY@2026-07-11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260711T093000Z
-DTEND:20260711T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 11/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-G6793XKZY
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:clevatess-s2@2026-07-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260715T120000Z
-DTEND:20260715T123000Z
-SUMMARY:Clevatess – Staffel 2 – Folge 2/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/clevatess-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-07-17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260717T150000Z
-DTEND:20260717T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
- lge 12/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6793XKZY@2026-07-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260718T093000Z
-DTEND:20260718T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 12/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-G6793XKZY
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:clevatess-s2@2026-07-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260722T120000Z
-DTEND:20260722T123000Z
-SUMMARY:Clevatess – Staffel 2 – Folge 3/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/clevatess-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-07-24@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260724T150000Z
-DTEND:20260724T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
- lge 13/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:venus-wars-kino-2026@2026-07-28@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260728
-DTEND;VALUE=DATE:20260729
-SUMMARY:Venus Wars (2K-Remaster)
-DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestätig
- t.\nDetails: https://anime-kalender.de/#/release/venus-wars-kino-2026
-CATEGORIES:Kino
-END:VEVENT
-BEGIN:VEVENT
-UID:clevatess-s2@2026-07-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260729T120000Z
-DTEND:20260729T123000Z
-SUMMARY:Clevatess – Staffel 2 – Folge 4/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/clevatess-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:saga-of-tanya-the-evil-s2@2026-07-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260729T133000Z
-DTEND:20260729T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 1/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-07-31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260731T150000Z
-DTEND:20260731T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
- lge 14/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6793XKZY@2026-08-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260801T093000Z
-DTEND:20260801T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 13/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-G6793XKZY
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:clevatess-s2@2026-08-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260805T120000Z
-DTEND:20260805T123000Z
-SUMMARY:Clevatess – Staffel 2 – Folge 5/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/clevatess-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:saga-of-tanya-the-evil-s2@2026-08-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260805T133000Z
-DTEND:20260805T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 2/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-08-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260807T150000Z
-DTEND:20260807T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
- lge 15/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:attack-on-titan-final-season-steelbook@2026-08-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260807
-DTEND;VALUE=DATE:20260808
-SUMMARY:Attack on Titan – Finale Staffel (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/attack-
- on-titan-final-season-steelbook
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:black-clover-s3-bundle@2026-08-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260807
-DTEND;VALUE=DATE:20260808
-SUMMARY:Black Clover – Staffel 3 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/black-c
- lover-s3-bundle
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:villainess-who-goes-down-in-history-box@2026-08-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260807
-DTEND;VALUE=DATE:20260808
-SUMMARY:I'll Become a Villainess Who Goes Down in History (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/villain
- ess-who-goes-down-in-history-box
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:worlds-end-harem-vol2@2026-08-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260807
-DTEND;VALUE=DATE:20260808
-SUMMARY:World's End Harem – Vol. 2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/worlds-
- end-harem-vol2
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6793XKZY@2026-08-08@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260808T093000Z
-DTEND:20260808T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 14/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-G6793XKZY
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:clevatess-s2@2026-08-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260812T120000Z
-DTEND:20260812T123000Z
-SUMMARY:Clevatess – Staffel 2 – Folge 6/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/clevatess-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:saga-of-tanya-the-evil-s2@2026-08-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260812T133000Z
-DTEND:20260812T140000Z
-SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 3/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/saga-of-tanya-the-evil-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-08-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260814T150000Z
@@ -532,16 +24,6 @@ DTEND:20260815T100000Z
 SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 15/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-G6793XKZY
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00378078@2026-08-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260815T160000Z
-DTEND:20260815T163000Z
-SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Katalogtitel\nDetails: htt
- ps://anime-kalender.de/#/release/cr-GT00378078
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -565,11 +47,31 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-08-19@anime-kalender-de
+UID:mushoku-tensei-s3@2026-08-19#1@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260819T150000Z
 DTEND:20260819T153000Z
 SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 1/14
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/mushoku-tensei-s3
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:mushoku-tensei-s3@2026-08-19#2@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260819T150000Z
+DTEND:20260819T153000Z
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 2/14
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/mushoku-tensei-s3
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:mushoku-tensei-s3@2026-08-19#3@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260819T150000Z
+DTEND:20260819T153000Z
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 3/14
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/mushoku-tensei-s3
 CATEGORIES:Crunchyroll
@@ -646,7 +148,7 @@ UID:mushoku-tensei-s3@2026-08-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260826T150000Z
 DTEND:20260826T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 2/14
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 4/14
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/mushoku-tensei-s3
@@ -713,7 +215,7 @@ UID:mushoku-tensei-s3@2026-09-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260902T150000Z
 DTEND:20260902T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 3/14
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 5/14
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/mushoku-tensei-s3
@@ -814,7 +316,7 @@ UID:mushoku-tensei-s3@2026-09-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260909T150000Z
 DTEND:20260909T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 4/14
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 6/14
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/mushoku-tensei-s3
@@ -870,7 +372,7 @@ UID:mushoku-tensei-s3@2026-09-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260916T150000Z
 DTEND:20260916T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 5/14
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 7/14
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/mushoku-tensei-s3
@@ -937,7 +439,7 @@ UID:mushoku-tensei-s3@2026-09-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260923T150000Z
 DTEND:20260923T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 6/14
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 8/14
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/mushoku-tensei-s3
@@ -1005,7 +507,7 @@ UID:mushoku-tensei-s3@2026-09-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260930T150000Z
 DTEND:20260930T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 7/14
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 9/14
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/mushoku-tensei-s3
@@ -1074,7 +576,7 @@ UID:mushoku-tensei-s3@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T150000Z
 DTEND:20261007T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 8/14
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 10/14
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/mushoku-tensei-s3
@@ -1131,7 +633,7 @@ UID:mushoku-tensei-s3@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T150000Z
 DTEND:20261014T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 9/14
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 11/14
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/mushoku-tensei-s3
@@ -1176,7 +678,7 @@ UID:mushoku-tensei-s3@2026-10-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261021T150000Z
 DTEND:20261021T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 10/14
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 12/14
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/mushoku-tensei-s3
@@ -1199,7 +701,7 @@ UID:mushoku-tensei-s3@2026-10-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261028T160000Z
 DTEND:20261028T163000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 11/14
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 13/14
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/mushoku-tensei-s3
@@ -1222,7 +724,7 @@ UID:mushoku-tensei-s3@2026-11-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261104T160000Z
 DTEND:20261104T163000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 12/14
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 14/14
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/mushoku-tensei-s3
@@ -1252,17 +754,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-11-11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261111T160000Z
-DTEND:20261111T163000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 13/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-11-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261113
@@ -1273,17 +764,6 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrzei
  t noch nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/stee
  l-ball-run-2nd-3rd-stage
 CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-11-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261118T160000Z
-DTEND:20261118T163000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 14/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-11-20@anime-kalender-de
