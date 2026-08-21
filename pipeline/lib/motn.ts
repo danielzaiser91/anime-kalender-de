@@ -34,12 +34,23 @@
  *     sind. Bei Netflix („Thunderbolt Fantasy") war sie dagegen folgengenau und
  *     bestätigte unseren einzigen Beleg. Deshalb zählt hier **nur Netflix** —
  *     für Crunchyroll und ADN haben wir eigene, bessere Quellen im Haus.
+ *  5. **Ein Kanal im Abo eines anderen Anbieters ist nicht dessen Katalog.**
+ *     Erst am 21.08.2026 am echten Abruf sichtbar geworden: Bei „Frieren" steht
+ *     unter `netflix` und `crunchyroll` je ein Eintrag — und ein dritter mit
+ *     `service.id = "prime"`, `type = "addon"`, `addon.id = "crunchyrollde"`.
+ *     Das ist der Crunchyroll-Kanal bei Amazon, nicht Prime Videos eigenes
+ *     Angebot. Wer nur `service.id` liest, schreibt Prime Video 24 deutsche
+ *     Folgen zu, die es dort gar nicht gibt. `dienstId` liefert deshalb nur für
+ *     Optionen **ohne** `addon` eine Plattform; Kanäle werden getrennt unter
+ *     `addons` geführt (siehe `MotnBestand`).
  */
 import type { PlatformId, Title } from '../../shared/types.ts'
 
 /** Eine Anbieter-Option, wie die API sie je Folge liefert. */
 export interface MotnOption {
   service?: { id?: string } | string
+  /** Gesetzt, wenn das Angebot über einen Kanal im Abo läuft — siehe Grenze 5. */
+  addon?: { id?: string } | string
   type?: string
   link?: string
   audios?: { language?: string; region?: string }[]
@@ -137,7 +148,30 @@ export interface MotnBestand {
   jahr?: number
   /** Wie viele Folgen die Quelle führt. Grundlage jeder Zuordnung. */
   folgen: number
+  /**
+   * Was die Quelle selbst als `episodeCount` angibt.
+   *
+   * Nicht dasselbe wie `folgen`, und der Unterschied ist eine Messung: Bei
+   * „Frieren" steht oben `episodeCount: 38`, während die Staffelliste derselben
+   * Antwort 39 Einträge hat. Zugeordnet wird über `folgen` — nur die
+   * Listenlänge sagt, an welcher Stelle eine Folge steht. Das Feld steht hier,
+   * damit der Bericht benennen kann, woran eine Zuordnung gescheitert ist.
+   */
+  folgenLautQuelle?: number
   dienste: Partial<Record<PlatformId, MotnDienstBefund>>
+  /**
+   * Kanäle im Abo eines anderen Anbieters, je Kanalkennung — `crunchyrollde`
+   * etwa (Grenze 5).
+   *
+   * Getrennt geführt und **nirgends** in den Datensatz übernommen: Ein Kanal ist
+   * ein eigenes Angebot mit eigener Adresse, und wir führen ihn nicht als
+   * Plattform. Er steht hier, weil die Kontrollmessung ihn braucht — bei
+   * „Frieren" trägt der Crunchyroll-Kanal deutschen Ton, während dieselbe Quelle
+   * für Crunchyroll selbst nur `jpn` führt. Genau dieser Unterschied ist die
+   * Auskunft, und ihn wegzuwerfen hieße, die Messung um ihre Grundlage zu
+   * bringen.
+   */
+  addons?: Record<string, MotnDienstBefund>
   geprueftAm: string
 }
 
@@ -157,9 +191,18 @@ export interface MotnDaten {
    * Wäre sie hier gespeichert, wäre eine einmal falsche Zuordnung endgültig.
    */
   gesucht: Record<string, { imdbId: string | null; geprueftAm: string }>
+  /**
+   * Gedächtnis des Direktabrufs: `tv/209867` → gefundene `imdbId` oder `null`.
+   *
+   * Wie `gesucht` nur die Warteschlange, keine Zuordnung. Der Schlüssel ist die
+   * TMDB-Kennung aus `data/tmdb-titles.json` und **nicht** unsere Titel-ID:
+   * Mehrere unserer Staffeln teilen sich dieselbe TMDB-Serie, und jede einzeln
+   * zu fragen wäre dieselbe Antwort zum vielfachen Preis.
+   */
+  tmdb: Record<string, { imdbId: string | null; geprueftAm: string }>
 }
 
-export const LEER: MotnDaten = { fetchedAt: '', verbrauch: {}, shows: {}, gesucht: {} }
+export const LEER: MotnDaten = { fetchedAt: '', verbrauch: {}, shows: {}, gesucht: {}, tmdb: {} }
 
 /**
  * Deutscher Ton — und ausschließlich `audios`.
@@ -173,9 +216,24 @@ export function hatDeutschenTon(option: MotnOption): boolean {
   return (option.audios ?? []).some((a) => a?.language === 'deu')
 }
 
+function rohId(wert: { id?: string } | string | undefined): string | undefined {
+  return typeof wert === 'string' ? wert : wert?.id
+}
+
+/**
+ * Der Dienst, dem dieses Angebot gehört — oder keiner, wenn es ein Kanal ist.
+ *
+ * Grenze 5: Ein `addon` läuft zwar über das Abo des Basisdienstes, gehört aber
+ * nicht zu dessen Katalog. Die Option ohne diese Unterscheidung zu lesen hieße,
+ * Prime Video den Bestand von Crunchyroll zuzuschlagen.
+ */
 function dienstId(option: MotnOption): string | undefined {
-  const s = option.service
-  return typeof s === 'string' ? s : s?.id
+  return addonId(option) ? undefined : rohId(option.service)
+}
+
+/** Die Kennung des Kanals, über den das Angebot läuft — `crunchyrollde` etwa. */
+export function addonId(option: MotnOption): string | undefined {
+  return rohId(option.addon)
 }
 
 function isoAus(sekunden: number | undefined): string | undefined {
@@ -207,13 +265,17 @@ export function bestandAus(show: MotnShow, heute: string): MotnBestand | undefin
   if (!show.imdbId) return undefined
   const folgen = folgenInReihenfolge(show)
   const dienste: Partial<Record<PlatformId, MotnDienstBefund>> = {}
+  const addons: Record<string, MotnDienstBefund> = {}
 
   folgen.forEach((folge, i) => {
     const nummer = i + 1
     for (const option of folge.streamingOptions?.de ?? []) {
-      const plattform = DIENSTE[dienstId(option) ?? '']
-      if (!plattform) continue
-      const befund = (dienste[plattform] ??= { gelistet: [], deutsch: [] })
+      const kanal = addonId(option)
+      const plattform = kanal ? undefined : DIENSTE[dienstId(option) ?? '']
+      if (!plattform && !kanal) continue
+      const befund = plattform
+        ? (dienste[plattform] ??= { gelistet: [], deutsch: [] })
+        : (addons[kanal as string] ??= { gelistet: [], deutsch: [] })
       befund.gelistet.push(nummer)
       if (hatDeutschenTon(option)) befund.deutsch.push(nummer)
       const seit = isoAus(option.availableSince)
@@ -229,7 +291,9 @@ export function bestandAus(show: MotnShow, heute: string): MotnBestand | undefin
     originalTitel: show.originalTitle,
     jahr: show.firstAirYear,
     folgen: folgen.length,
+    ...(show.episodeCount && show.episodeCount !== folgen.length ? { folgenLautQuelle: show.episodeCount } : {}),
     dienste,
+    ...(Object.keys(addons).length ? { addons } : {}),
     geprueftAm: heute,
   }
 }
@@ -423,6 +487,22 @@ export function ordneShowsZu(
   shows: Record<string, MotnBestand>,
   reihenVon: (title: Title) => Title[],
   vergleiche: MotnVergleich,
+  /**
+   * Zusätzliche Kandidaten je Titel, gefunden über die **TMDB-Kennung** statt
+   * über den Namen.
+   *
+   * Warum das nötig wurde: Der Wortindex weiter unten findet eine Serie nur,
+   * wenn unser Titel und ihrer ein Wort von vier Zeichen teilen. „Solo Leveling"
+   * heißt bei uns romanisiert „Ore dake Level Up na Ken" — kein geteiltes Wort,
+   * kein Kandidat, obwohl der Abruf sie über die Kennung gezielt geholt hat.
+   *
+   * Es ist eine **Vorauswahl**, kein Freifahrtschein: Die Annahme unten prüft
+   * weiterhin Titel, Jahr und Folgenzahl. Die Kennung kommt aus unserem eigenen
+   * `data/tmdb-titles.json`, und die ist selbst über eine Namenssuche entstanden
+   * — sie zu glauben, ohne sie zu prüfen, hieße einen Namensabgleich durch einen
+   * anderen zu ersetzen.
+   */
+  zusatzKandidaten?: (title: Title) => string[],
 ): MotnBeleg[] {
   /**
    * Vorauswahl über geteilte Wörter.
@@ -455,6 +535,15 @@ export function ordneShowsZu(
     const kandidaten = new Map<string, MotnBestand>()
     for (const wort of woerter(name)) {
       for (const b of index.get(wort) ?? []) kandidaten.set(b.imdbId, b)
+    }
+    // Über die Kennung geholte Serien kommen für jede Staffel der Reihe dazu,
+    // nicht nur für den Vertreter: Gefragt wurde je Titel, geantwortet wird je
+    // Reihe.
+    for (const staffel of staffeln) {
+      for (const imdbId of zusatzKandidaten?.(staffel) ?? []) {
+        const b = shows[imdbId]
+        if (b) kandidaten.set(b.imdbId, b)
+      }
     }
     if (!kandidaten.size) continue
 

@@ -45,6 +45,8 @@ import { log, readJson, ROOT, sleep, slugify, warn, writeJson } from './lib/util
 import { recordSource } from './lib/health.ts'
 import { bestandAus, besterShow, LEER, suchName, type MotnDaten, type MotnShow } from './lib/motn.ts'
 import { bewerteTreffer, passtZuSerie, staffelnDesFranchise, volltreffer } from './lib/adn.ts'
+import { loadDubChecks } from './lib/dub-confirmed.ts'
+import { beurteile, type CrDubData } from './lib/crunchyroll-dub.ts'
 import { addDays, todayIso } from '../shared/time.ts'
 import type { Title } from '../shared/types.ts'
 
@@ -69,6 +71,12 @@ const BUDGET = zahl('--budget', 120)
 const WIEDERVORLAGE_TAGE = zahl('--alter', 60)
 const NUR_KATALOG = args.includes('--nur-katalog')
 const NUR_TITEL = args.includes('--nur-titel')
+/**
+ * Der Katalogdurchlauf ist seit der ersten echten Messung **abgewählt**, nicht
+ * gelöscht: 10 Serien je Anfrage über den gesamten deutschen Netflix-Katalog
+ * (21.08.2026, siehe `nachTmdb`). Wer ihn braucht, schaltet ihn eigens ein.
+ */
+const KATALOG = args.includes('--katalog') || NUR_KATALOG
 /** Ignoriert den gespeicherten Cursor und beginnt den Katalog von vorn. */
 const KATALOG_NEU = args.includes('--katalog-neu')
 
@@ -79,9 +87,12 @@ const monat = heute.slice(0, 7)
 const daten: MotnDaten = { ...LEER, ...readJson<MotnDaten>('data/motn.json', LEER) }
 daten.shows ??= {}
 daten.gesucht ??= {}
+daten.tmdb ??= {}
 daten.verbrauch ??= {}
 
 let anfragen = 0
+/** Was die Quelle selbst als Rest des Monatskontingents meldet. */
+let uebrig = Number.POSITIVE_INFINITY
 
 /**
  * Ein Abruf — und der einzige Ort, an dem das Kontingent belastet wird.
@@ -91,24 +102,51 @@ let anfragen = 0
  * hieße, sich das Kontingent schönzurechnen — und genau davon hat niemand
  * etwas, wenn die Quelle am 20. des Monats stumm schaltet.
  */
-async function hole<T>(pfad: string, archivName: string): Promise<T | undefined> {
-  if (anfragen >= BUDGET) return undefined
+type Antwort<T> =
+  /** Die Quelle hat geantwortet. */
+  | { art: 'ok'; wert: T }
+  /** Sie kennt diesen Eintrag nicht — für **diese** Anfrage, nicht für den Lauf. */
+  | { art: 'nichts' }
+  /** Kontingent oder Budget am Ende: Der Lauf hört auf zu fragen. */
+  | { art: 'ende' }
+
+async function hole<T>(pfad: string, archivName: string): Promise<Antwort<T>> {
+  if (anfragen >= BUDGET) return { art: 'ende' }
   anfragen++
   daten.verbrauch[monat] = (daten.verbrauch[monat] ?? 0) + 1
   const res = await fetch(`${BASIS}${pfad}`, {
     headers: { 'X-API-Key': SCHLUESSEL as string },
   })
+  /**
+   * Der Rest des Monats, direkt von der Quelle.
+   *
+   * Unser eigener Zähler in `verbrauch` ist eine Buchhaltung, kein Messwert: Er
+   * kennt nur die Läufe, die er selbst gesehen hat. Der Kopfzeilenwert ist die
+   * Wahrheit, und mit ihm hört der Lauf von selbst auf, bevor er gegen die Wand
+   * läuft — statt hinterher zu erfahren, dass er sie schon getroffen hat.
+   */
+  const rest = Number(res.headers.get('x-quota-granted')) - Number(res.headers.get('x-quota-used'))
+  if (Number.isFinite(rest)) uebrig = rest
   if (res.status === 429) {
     warn('Kontingent erschöpft (429) — der Lauf endet hier, der Bestand bleibt erhalten.')
-    return undefined
+    return { art: 'ende' }
   }
+  /**
+   * Ein 404 gilt der Anfrage, nicht der Quelle.
+   *
+   * Vorher brach der Lauf bei jedem `!res.ok` ab. Beim Katalog war das richtig —
+   * dort ist eine fehlende Seite das Ende des Durchlaufs. Beim Abruf je Titel
+   * wäre es fatal: Eine Serie, die diese Quelle nicht führt, beendete sonst den
+   * ganzen Lauf, und die Anfragen dahinter wären für nichts verbraucht.
+   */
+  if (res.status === 404) return { art: 'nichts' }
   if (!res.ok) {
     warn(`${res.status} ${res.statusText} bei ${pfad.slice(0, 80)}`)
-    return undefined
+    return { art: 'ende' }
   }
   const text = await res.text()
   archiviere(archivName, text)
-  return JSON.parse(text) as T
+  return { art: 'ok', wert: JSON.parse(text) as T }
 }
 
 /**
@@ -138,6 +176,55 @@ interface SuchAntwort {
   shows?: MotnShow[]
   hasMore?: boolean
   nextCursor?: string
+}
+
+/**
+ * Phase 0 — Direktabruf über die TMDB-Kennung. Der Hauptweg.
+ *
+ * **Warum nicht der Katalog, wie ursprünglich geplant.** Am 21.08.2026 mit dem
+ * echten Schlüssel gemessen: Eine Katalogseite mit `series_granularity=episode`
+ * liefert **10 Serien** (436 KB), nicht die veranschlagten 15 bis 20. Der
+ * deutsche Netflix-Katalog wären damit einige hundert Anfragen für einen
+ * Durchlauf, von denen der allergrößte Teil auf Serien entfiele, die uns nichts
+ * angehen — „Mercy for None" stand als erster Treffer da. Das gesamte
+ * Monatskontingent für einen Katalog, in dem unsere 549 Titel eine Minderheit
+ * sind.
+ *
+ * Der Direktabruf kostet dagegen **eine** Anfrage je Serie, und zwar genau für
+ * die, die wir wissen wollen. `/shows/tv/209867` liefert dieselben Episodendaten
+ * wie der Katalog (geprüft an „Frieren": 39 Folgen, 28 davon bei Netflix, alle
+ * mit `deu`).
+ *
+ * **Und er ist der genauere Weg.** Die Titelsuche liefert Namen, die verglichen
+ * werden müssen; die Kennung ist eine Kennung. Geprüft wird trotzdem weiter —
+ * `data/tmdb-titles.json` ist selbst über eine Namenssuche entstanden.
+ */
+async function nachTmdb(schluessel: string[]): Promise<number> {
+  const grenze = addDays(heute, -WIEDERVORLAGE_TAGE)
+  const warteschlange = schluessel.filter((k) => {
+    const bekannt = daten.tmdb[k]
+    return !bekannt || bekannt.geprueftAm < grenze
+  })
+  log(`Direktabruf: ${warteschlange.length} von ${schluessel.length} Kennungen fällig, ${BUDGET - anfragen} Anfragen übrig`)
+
+  let gefunden = 0
+  for (const key of warteschlange) {
+    if (anfragen >= BUDGET || uebrig <= 0) break
+    const res = await hole<MotnShow>(
+      `/shows/${key}?country=de&series_granularity=episode`,
+      `tmdb-${key.replace('/', '-')}`,
+    )
+    if (res.art === 'ende') break
+    const bestand = res.art === 'ok' ? merken(res.wert) : undefined
+    // Auch das „nichts gefunden" wird festgehalten — aber mit Datum, damit die
+    // Frist es wieder in die Warteschlange holt. Ein `null` ohne Datum wäre eine
+    // Antwort, die ihre eigene Überprüfung verhindert.
+    daten.tmdb[key] = { imdbId: bestand?.imdbId ?? null, geprueftAm: heute }
+    if (bestand) gefunden++
+    if (anfragen % 25 === 0) log(`  ${anfragen}/${BUDGET} Anfragen, ${gefunden} Serien, Rest im Monat: ${uebrig}`)
+    await sleep(250)
+  }
+  return gefunden
 }
 
 /**
@@ -172,8 +259,9 @@ async function katalog(): Promise<number> {
      * also steht sein Prüfwert da.
      */
     const name = cursor ? `katalog-netflix-${createHash('sha1').update(cursor).digest('hex').slice(0, 12)}` : 'katalog-netflix-start'
-    const antwort = await hole<SuchAntwort>(`/shows/search/filters?${query}`, name)
-    if (!antwort) break
+    const res = await hole<SuchAntwort>(`/shows/search/filters?${query}`, name)
+    if (res.art !== 'ok') break
+    const antwort = res.wert
     for (const show of antwort.shows ?? []) if (merken(show)) neu++
     log(`  Katalog Seite ${seite + 1}: ${antwort.shows?.length ?? 0} Serien (${anfragen}/${BUDGET} Anfragen)`)
     if (!antwort.hasMore || !antwort.nextCursor) {
@@ -230,11 +318,12 @@ async function titelsuche(titles: Title[], offen: Title[]): Promise<number> {
       show_type: 'series',
       series_granularity: 'episode',
     })
-    const antwort = await hole<MotnShow[] | SuchAntwort>(
+    const res = await hole<MotnShow[] | SuchAntwort>(
       `/shows/search/title?${query}`,
       `titel-${slugify(name) || String(title.id)}`,
     )
-    if (!antwort) break
+    if (res.art === 'ende') break
+    const antwort = res.art === 'ok' ? res.wert : []
     const shows = Array.isArray(antwort) ? antwort : (antwort.shows ?? [])
     const kandidaten = shows.map(merken).filter((b): b is NonNullable<typeof b> => !!b)
 
@@ -257,6 +346,35 @@ async function titelsuche(titles: Title[], offen: Title[]): Promise<number> {
   return gefunden
 }
 
+/**
+ * Titel, für die wir **unabhängig** von dieser Quelle wissen, ob es eine
+ * deutsche Fassung gibt — die Prüfsteine der Kontrollmessung.
+ *
+ * Dieselben zwei Quellen wie in `check-motn.ts`, und aus demselben Grund
+ * dieselben: eine Handprüfung aus `data/dub-confirmed.yaml` oder eine
+ * Crunchyroll-Serienseite mit ausgezählten Tonspuren. ADN fehlt, weil diese
+ * Quelle ADN nicht führt.
+ */
+function kontrollmenge(titles: Title[]): Set<number> {
+  const ids = new Set<number>()
+  for (const check of loadDubChecks()) if (typeof check.dub === 'boolean') ids.add(check.anilistId)
+
+  const crDub = readJson<CrDubData>('data/crunchyroll-dub.json', { scrapedAt: '', serien: [] })
+  const nachUrl = new Map<string, Title[]>()
+  for (const title of titles) {
+    for (const stream of title.streams) {
+      if (stream.platform !== 'crunchyroll') continue
+      const liste = nachUrl.get(stream.url) ?? []
+      liste.push(title)
+      nachUrl.set(stream.url, liste)
+    }
+  }
+  for (const serie of crDub.serien) {
+    for (const urteil of beurteile(serie, nachUrl.get(serie.url) ?? [])) ids.add(urteil.titleId)
+  }
+  return ids
+}
+
 async function main(): Promise<void> {
   if (!SCHLUESSEL) {
     // Kein Abbruch mit Fehlercode: In einem Lauf ohne hinterlegten Schlüssel
@@ -267,35 +385,76 @@ async function main(): Promise<void> {
   }
 
   const titles = readJson<Title[]>('public/data/titles.json', [])
+  const tmdbTitel = readJson<Record<string, { tmdbId?: number; kind?: string }>>('data/tmdb-titles.json', {})
+  const tmdbKey = (t: Title): string | undefined => {
+    const e = tmdbTitel[String(t.id)]
+    return e?.tmdbId && e.kind ? `${e.kind}/${e.tmdbId}` : undefined
+  }
+
   /**
    * Wen wir überhaupt fragen: Titel mit einem Verweis auf einen der Dienste,
    * deren Sprachfassung wir noch nicht kennen.
    *
    * Nach `dub === undefined` **und** nach Alter — der Alterfilter steckt in
-   * `titelsuche`. Hier steht nur, wen die Quelle beantworten könnte.
+   * `titelsuche` und `nachTmdb`. Hier steht nur, wen die Quelle beantworten
+   * könnte.
    */
   const offen = titles.filter((t) =>
     t.streams.some((s) => s.dub === undefined && (s.platform === 'netflix' || s.platform === 'primevideo' || s.platform === 'disneyplus')),
   )
   log(`${offen.length} Titel mit offener Sprachangabe bei Netflix, Prime Video oder Disney+`)
 
+  /**
+   * Die Kontrollmenge kommt **vor** dem Rest in die Warteschlange.
+   *
+   * Sie ist der Grund, warum überhaupt etwas übernommen werden darf: Ohne
+   * Serien, für die wir unabhängig wissen, ob es eine deutsche Fassung gibt,
+   * misst `check-motn.ts` nichts. Stünde sie hinten, entschiede das Budget
+   * darüber, ob die Messung stattfindet — und ein Lauf ohne Messung ist ein Lauf
+   * ohne Erlaubnis.
+   */
+  const kontrolle = kontrollmenge(titles)
+  log(`Kontrollmenge: ${kontrolle.size} Titel mit unabhängigem Beleg`)
+
+  const nutzen = (t: Title) => (kontrolle.has(t.id) ? 1_000_000 : 0) + (t.episodes ?? 0)
+  const schluessel: string[] = []
+  const gesehen = new Set<string>()
+  for (const t of [...titles].filter((t) => kontrolle.has(t.id) || offen.includes(t)).sort((a, b) => nutzen(b) - nutzen(a))) {
+    const key = tmdbKey(t)
+    if (!key || gesehen.has(key)) continue
+    gesehen.add(key)
+    schluessel.push(key)
+  }
+
+  let ausTmdb = 0
+  if (!NUR_TITEL && !NUR_KATALOG) {
+    log('Phase 0 — Direktabruf über die TMDB-Kennung')
+    ausTmdb = await nachTmdb(schluessel)
+  }
   let ausKatalog = 0
-  if (!NUR_TITEL) {
+  if (KATALOG) {
     log('Phase 1 — deutscher Netflix-Katalog')
     ausKatalog = await katalog()
   }
   let ausSuche = 0
   if (!NUR_KATALOG && anfragen < BUDGET) {
-    log('Phase 2 — Titelsuche für das, was der Katalog nicht hergab')
-    ausSuche = await titelsuche(titles, offen)
+    log('Phase 2 — Titelsuche für Titel ohne TMDB-Kennung')
+    ausSuche = await titelsuche(
+      titles,
+      offen.filter((t) => !tmdbKey(t)),
+    )
   }
 
   daten.fetchedAt = new Date().toISOString()
   writeJson('data/motn.json', daten, true)
   recordSource('motn', Object.keys(daten.shows).length, anfragen ? undefined : 'keine Anfrage abgesetzt')
 
-  log(`Fertig. ${Object.keys(daten.shows).length} Serien im Bestand (${ausKatalog} aus dem Katalog, ${ausSuche} über die Titelsuche).`)
+  log(
+    `Fertig. ${Object.keys(daten.shows).length} Serien im Bestand ` +
+      `(${ausTmdb} über die TMDB-Kennung, ${ausKatalog} aus dem Katalog, ${ausSuche} über die Titelsuche).`,
+  )
   log(`Verbrauch: ${anfragen} Anfragen in diesem Lauf, ${daten.verbrauch[monat]} im Monat ${monat} von 1.000.`)
+  if (Number.isFinite(uebrig)) log(`Die Quelle selbst meldet ${uebrig} Anfragen als Rest des Monats.`)
 }
 
 main().catch((err) => {
