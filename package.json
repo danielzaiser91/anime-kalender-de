@@ -41,7 +41,9 @@
     "data:youtube": "tsx pipeline/check-youtube.ts",
     "data:links": "tsx pipeline/check-links.ts",
     "data:motn": "tsx pipeline/fetch-motn.ts",
-    "data:motn:check": "tsx pipeline/check-motn.ts"
+    "data:motn:check": "tsx pipeline/check-motn.ts",
+    "data:pruefungen": "tsx pipeline/fetch-pruefungen.ts",
+    "data:netflix-rest": "node pipeline/list-netflix-rest.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",
