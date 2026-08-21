@@ -42,6 +42,17 @@ QUELLEN=(
   # nie, und bei bewegtem Fernstand warf der Reset sie weg. Der Lauf tat also
   # jede Woche dieselbe Arbeit umsonst.
   data/adn-catalog.json
+  # Die ADN-Rohantworten, rund 5 KB je Serie. Sie standen hier nie — und weil
+  # `git add` nur diese Liste kennt, hat **kein** CI-Lauf je eine archiviert:
+  # Der Bestand wuchs nur, wenn jemand von Hand committete (zuletzt am
+  # 21.08.2026, „206 ADN-Rohantworten nachgetragen"). Seit der Build die
+  # Sprachangabe je Folge aus diesem Archiv liest, ist das keine verschenkte
+  # Bequemlichkeit mehr, sondern eine Quelle, die nicht mitwächst.
+  data/adn-raw
+  # Dasselbe für aniSearch: 110 Seiten liegen im Repo, jede weitere, die ein
+  # Lauf holt, fiele ohne diese Zeile unter den Tisch — und ein Abruf über 2.612
+  # Seiten ist genau das, was das Archiv ersparen soll.
+  data/anisearch-raw
   data/tmdb.json
   data/anime-ids.json
   data/curated-ids.json

@@ -23,6 +23,7 @@ import {
   type AdnBlock,
   type AdnData,
 } from './lib/adn.ts'
+import { beurteileAdnVerweis, ladeAdnArchiv } from './lib/adn-sprachen.ts'
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { clearDir, log, readJson, slugify, warn, writeJson, writeText } from './lib/util.ts'
 import { SYNOPSIS_GROUPS } from '../shared/types.ts'
@@ -2022,6 +2023,52 @@ function main(): void {
       }
     }
     log(`${belegt} Synchro-Angaben aus den Crunchyroll-Serienseiten belegt (${crDub.serien.length} Seiten gelesen)`)
+  }
+
+  /**
+   * Was ADN uns längst gesagt hat — nachgelesen im eigenen Archiv.
+   *
+   * ADN nennt je Folge die Sprachen (`vde` = deutsche Synchro, `vostde` =
+   * Untertitel), und die Rohantworten liegen seit dem 11.08.2026 unter
+   * `data/adn-raw/`. Ein `dub: true` entstand daraus bisher aber nur auf einem
+   * Umweg: über einen **Release**. Wo kein Termin herauskam — Katalogtitel,
+   * Filme, OVAs —, blieb der Verweis bei „🇩🇪 ?", obwohl die Auskunft im Haus lag
+   * (am 21.08.2026 bei 63 von 161 ADN-Verweisen).
+   *
+   * Wie eng ausgewertet wird und warum das keine menschliche Prüfung ersetzt,
+   * steht in `lib/adn-sprachen.ts`. Hier zählt nur die Reihenfolge: Der Block
+   * läuft **nach** `dub-confirmed.yaml` und rührt nur an, was noch `undefined`
+   * ist. Ein Beispiel dafür, warum das nicht anders geht, ist KILL BLUE — der
+   * Verweis trägt `dub: true` aus einer Anime2You-Meldung über eine Synchro ab
+   * dem 24.08.2026, während das Archiv vom 21.08. zu Recht zwölf Folgen ohne
+   * `vde` führt. Beide Angaben stimmen; die jüngere gewinnt.
+   */
+  const adnArchiv = ladeAdnArchiv()
+  if (adnArchiv.serien.size) {
+    let adnJa = 0
+    let adnNein = 0
+    const adnOffen: string[] = []
+    for (const title of titles.values()) {
+      for (const stream of title.streams) {
+        if (stream.platform !== 'adn' || stream.dub !== undefined) continue
+        const befund = beurteileAdnVerweis(stream.url, adnArchiv)
+        if (befund.dub === undefined) {
+          adnOffen.push(`${title.id}: ${befund.grund}`)
+          continue
+        }
+        stream.dub = befund.dub
+        if (befund.dub) adnJa++
+        else adnNein++
+      }
+    }
+    log(
+      `${adnJa + adnNein} ADN-Verweise aus dem Archiv belegt (${adnJa}× deutsche Synchro, ${adnNein}× nur Untertitel; ` +
+        `${adnArchiv.folgenMitVde} von ${adnArchiv.folgenGesamt} Folgen aus ${adnArchiv.serien.size} Serien tragen vde)`,
+    )
+    // Die offenen Fälle stehen im Protokoll, damit sie nicht still liegenbleiben:
+    // Das Archiv wächst mit jedem Montagslauf, und was heute fehlt, kann nächste
+    // Woche beantwortet sein.
+    if (adnOffen.length) log(`${adnOffen.length} ADN-Verweise bleiben offen — ${adnOffen.join('; ')}`)
   }
 
   /**
