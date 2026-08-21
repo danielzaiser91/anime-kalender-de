@@ -13,9 +13,13 @@ Stand: 21.08.2026 · Live: https://anime-kalender.de/
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
+| **Schrittmeldung in die vier Datenläufe nachziehen** | 2 | `deploy.yml` meldet seit dem 21.08.2026 sieben Schritte als `n/7` an die Statusanzeige, belegt im Lauf 32517576468 („5/7 · Hooks-Regeln geprüft"). Dieselbe Mechanik fehlt in `refresh-hourly`, `refresh-data`, `refresh-weekly` und `tonspuren-monatlich`. Dort kommt eine Besonderheit dazu: Während eines Schritts meldet das Pipeline-Skript seine eigene, feinere Zählung („233/594 Serien"). Erst prüfen, ob sich beide in der Anzeige sauber ablösen, dann verteilen |
+| **TMDB-Warteschlange nach Alter statt „noch nie geholt"** | 2 | `fetch-tmdb.ts` bildet seine Liste über `!cache[t.id]` — dieselbe Falle wie bei aniSearch und Crunchyroll: Was einmal geholt wurde, kommt nie wieder dran, und ein Titel, dessen Kennung sich ändert, bleibt für immer falsch. Betrifft 1.248 Titel. Die `CLAUDE.md` verlangt Wiedervorlage über `fetchedAt`; das ist der letzte Abruf, der es noch nicht tut |
+| **`loadEnv()` entdoppeln** | 1 | Zwei Pipeline-Dateien tragen je eine eigene Fassung derselben Funktion, statt sie aus `lib/util.ts` zu holen. Fällt bei jeder Änderung an der Schlüsselbehandlung doppelt an |
+| **56 Arbeitspakete aus `data/dub-batches.md`** | 5 | Je 20 Netflix-Zeilen mit Verweis, erzeugt aus dem Streaming-API-Lauf. **Wartet auf den Crunchyroll-Content-API-Umbau:** Der ändert die Herkunft der Synchro-Angaben je Folge, und eine von Hand abgearbeitete Liste gegen den alten Stand wäre danach teils gegenstandslos |
+| **126 Netflix-Titel, die keine Quelle beantwortet** | 3 | `data/netflix-von-hand.md`, erzeugt mit `npm run data:netflix-rest`. Die Streaming Availability API kennt diese Titel nicht, Netflix selbst darf nicht abgerufen werden. Weg: Daniel öffnet den Verweis, startet eine Folge, drückt den Knopf der Erweiterung aus `extension/`; `npm run data:pruefungen` holt die Meldungen ab. **Erst starten, wenn der Crunchyroll-Umbau durch ist** — sonst konkurrieren zwei Handarbeitslisten um dieselben Abende |
 | **Prüfliste „Wo läuft es" abarbeiten** (Dauerauftrag) | — | 1.732 Anbieter-Verweise ohne belegte Synchro, Liste: `data/dub-pruefliste.md`, erzeugt mit `npm run data:dub-checks`. Daniel arbeitet sie in Zehnerschritten ab; ich lege den Batch vor, er meldet je Nummer ja/nein, ich trage es in `data/dub-confirmed.yaml` ein und baue neu. **Stand: Batch 1 bis 3 ausgewertet, 65 Prüfungen eingetragen — 33 Angaben belegt, 32 tote Verweise entfernt.** Crunchyroll ist seit 13.08.2026 weitgehend maschinell belegt (234 ja / 988 nein / **25 offen**); die Handarbeit verteilt sich jetzt auf Netflix (727), YouTube (528) und Prime Video (219) — Anbieter, die die Sprachfassung nirgends öffentlich nennen. Kurzschrift der Antworten (`1`/`0`/`x`, mehrere je Zeile mit Punkt) steht im Kopf der Liste und in der `CLAUDE.md`. Je Batch kurz sagen, woher der Verweis stammt und warum er unsicher ist |
 | ~~News-Quellen für Sendepausen~~ — **Filter gebaut, Rest verworfen** | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
-
 
 ### Terminiert (läuft von allein)
 
@@ -24,6 +28,9 @@ nicht als „jetzt möglich" — entschieden und eingeplant ist beides schon, es
 
 | Wann | Was | Aufgabe |
 |---|---|---|
+| stündlich :23 | **Sendezeiten** | `refresh-hourly.yml`, Crunchyroll-Kalender über drei Wochen. Committet nur bei echter Änderung |
+| täglich 06:17 | **Alle Quellen** | `refresh-data.yml`: AniList, Crunchyroll, ADN, Anime2You, aniSearch, danach `data:check` als Wachhund gegen stumm gewordene Quellen |
+| 02.09.2026, 06:17 | **Tonspuren bei Netflix, Prime und Disney+** | `tonspuren-monatlich.yml`, 800 der 1.000 Monatsabrufe der Streaming Availability API. Läuft am 2. jedes Monats, einen Tag nach dem Zurücksetzen des Kontingents |
 | montags 07:41 | **Wöchentlicher Tiefendurchlauf** | Läuft von allein (`cron: 41 5 * * 1`), nächster am 24.08.2026. Steht hier, damit er nicht als Aufgabe verwechselt wird — anzustoßen ist nichts. Nur wenn er rot wird, springt `claude-reparatur.yml` an und öffnet einen Pull Request |
 | 24.08.2026, 10:00 | DMARC-Politik von `p=none` auf `p=quarantine` heben **und `rua=` streichen** — vorher die bis dahin eingegangenen Berichte prüfen; bei einem `fail` oder einer fremden Absender-IP wird nicht umgestellt. Die täglichen Berichtsmails hören damit auf (Daniels Entscheidung 12.08.2026); Preis dafür: keine Belegkette für ein späteres `p=reject` und keine Warnung bei gefälschten Absendern | `dmarc-policy-anime-kalender` |
 
@@ -40,24 +47,6 @@ herausgeholt, wenn der User es sagt.
 | Synchronstudios als Quelle | 8 | **Recherche am 11.08.2026 gemacht, Ergebnis ernüchternd.** Oxygen Sound Studios führt unter [o2studios.com/de/projekte](https://o2studios.com/de/projekte/) eine reine Referenzliste: „Chainsaw Man – Der Film Reze Arc — Deutsche Synchronisation", ohne jedes Datum und ohne Status. Violetmedia ist von hier aus nicht erreichbar (TLS-Handshake bricht ab, wie schon bei aniverse.de). Ein Studio nennt also, **dass** es eine Fassung macht — nicht **wann** sie kommt. Das ist nachvollziehbar: Der Termin gehört dem Lizenznehmer, nicht dem Studio. **Rest-Nutzen:** Die Projektlisten wären ein Beleg dafür, dass eine deutsche Fassung überhaupt existiert oder entsteht — für die `dubConfidence`, nicht für den Kalender. Als Terminquelle zurückgestellt; eine Anfrage lohnt nur, wenn ein Studio überhaupt Termine kennt und nennen dürfte |
 
 ### Zu besprechen
-
-**Kalender-Abo enthält ein Jahrzehnt Vergangenheit** (gemessen 20.08.2026). Das ausgelieferte
-`all.ics` führt **742 Termine, davon 641 in der Vergangenheit** — 86 Prozent, zurück bis zum
-12.01.2015. Wer das Abo einträgt, bekommt das alles in seinen Kalender.
-
-**Warum ich es nicht einfach geändert habe:** Ich hatte ein Rückblick-Fenster von zwölf Monaten
-eingebaut und wieder zurückgenommen. Der Nutzen ist kleiner, als er klingt — Kalenderprogramme
-zeigen Vergangenes nur, wer zurückblättert —, die Kehrseite dagegen konkret: Bei jedem
-Abonnenten **verschwinden** Einträge, die er heute sieht. Das wirkt nach außen, und dafür gilt
-die Rückfrageregel.
-
-Gemessene Wirkung, falls du es willst: 365 Tage Rückblick lassen 453 statt 742 Termine übrig
-(ältester dann 21.08.2025), die Datei schrumpft von 348 auf 243 KB. Alle 101 künftigen Termine
-bleiben in jedem Fall drin, und `events.json` auf der Seite bleibt vollständig — die
-Vergangenheit ist dort weiter durchblätterbar.
-
-Drei Möglichkeiten: so lassen, zwölf Monate, oder enger (90 Tage lassen ungefähr 150 vergangene
-stehen).
 
 _(leer)_
 
@@ -608,6 +597,25 @@ ein Mensch auf der Seite ablesen könnte, weil sie je Folge kommt.
 
 ## Archiv
 
+- ✅ **Kalender-Abo führt keine zehn Jahre Vergangenheit mehr** (21.08.2026, Daniels
+  Entscheidung: sieben Tage Rückblick). `all.ics` führte am 20.08.2026 noch **742 Termine,
+  davon 641 in der Vergangenheit** — zurück bis zum 12.01.2015, 348 KB. Wer das Abo eintrug,
+  bekam das alles in seinen Kalender. **Live nachgemessen am 21.08.2026:**
+  `https://anime-kalender.de/data/feeds/all.ics` liefert **232 Termine**. Alle künftigen sind
+  drin; `events.json` auf der Seite bleibt vollständig, die Vergangenheit ist dort weiter
+  durchblätterbar.
+
+- ✅ **Die Statusanzeige zeigt Zweck, Ziel und Fortschritt je Lauf** (21.08.2026). Vorher stand
+  je Lauf eine Zeile, die je nach Lauf etwas anderes trug — bei drei Auftrags-Läufen dreimal
+  denselben Workflow-Namen. Jetzt liefert **der Lauf selbst** die Angaben (`LAUF_ZWECK`,
+  `LAUF_ZIEL` als `env` am Job), der Worker hält sie in zwei neuen Spalten, die Anzeige zeigt
+  drei Zeilen. `deploy.yml` meldet zusätzlich seine sieben Schritte einzeln — belegt im Lauf
+  32517576468 mit „5/7 · Hooks-Regeln geprüft". Die Prüfung `check:workflows` macht einen Lauf
+  rot, der sich meldet, ohne seinen Zweck zu nennen; Gegentest gemacht.
+
+  Zwei Fehler im Fortschritt fielen dabei auf und sind behoben: `git rev-list --count HEAD`
+  zählte die mitgeklonte Historie mit (`fetch-depth: 50`), die Zahl begann also bei 50 — und
+  „121 Dateien offen" waren Rohdaten aus einem Testabruf, kein Arbeitsstand.
 - ✅ **Wochenlauf vom 20.08.2026 nachgesehen** — Lauf 32359320442, grün durch. Der Eintrag stand
   bis zum 21.08.2026 unter „terminiert" und wanderte von dort in den Footer, wo ich ihn als
   „anzustoßen" führte. Beides falsch: Der Lauf war erledigt, und angestoßen wird er ohnehin nie
