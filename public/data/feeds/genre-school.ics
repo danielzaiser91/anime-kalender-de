@@ -1306,6 +1306,16 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-427-s1-20251029@2025-10-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20251029T080000Z
+DTEND:20251029T083000Z
+SUMMARY:Sailor Moon – Staffel 1
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-427-s1-20251029
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GNVHKN933@2026-02-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260208T150000Z
@@ -1804,16 +1814,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GNVHKN933
 CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-427@2026-06-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260601T070000Z
-DTEND:20260601T073000Z
-SUMMARY:Sailor Moon
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-427
-CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GRVN8MNQY@2026-06-03@anime-kalender-de
@@ -2484,6 +2484,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/cr-GNVHKN933
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-198113-adn@2026-08-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260824
+DTEND;VALUE=DATE:20260825
+SUMMARY:KILL BLUE
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/#/release/auto-198113-adn
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:you-and-i-are-polar-opposites-s2@2026-08-25@anime-kalender-de
