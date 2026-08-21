@@ -30,7 +30,7 @@ on:
       schritte:
         description: 'Obergrenze an Zügen'
         required: false
-        default: '60'
+        default: '150'
         type: string
 
 permissions:
@@ -91,12 +91,24 @@ jobs:
                ausdrücklich, was du weggelassen hast und warum.
             3. **Prüfkette muss grün sein, bevor du committest:**
                `npm run data:validate && npm run check:logic && npx tsc -b && npm run check:worker && npm run build`
-            4. Committe auf einen neuen Zweig `${{ inputs.zweig }}` und öffne einen
+            4. **Push früh, nicht erst am Ende.** Sobald die erste Änderung steht,
+               legst du den Zweig `${{ inputs.zweig }}` an und pushst ihn — auch
+               unfertig. Danach arbeitest du weiter und pushst nach. Läuft dieser
+               Lauf in seine Obergrenze an Zügen, ist sonst **alles weg**: Der
+               Rechner wird abgeräumt, und niemand kann nachsehen, wie weit du
+               warst. Genau das ist am 20.08.2026 passiert.
+            5. **Dateien unter `.github/workflows/` kannst du nicht ändern.** Das
+               Token dieses Laufs hat kein `workflows`-Recht, der Push wird
+               abgelehnt. Brauchst du dort eine Änderung, schreib sie als Diff in
+               den Pull-Request-Text, statt es zu versuchen.
+            6. **`npm run build` dauert Minuten.** Ruf ihn gezielt auf, nicht nach
+               jeder Zeile — sonst geht die Laufzeit fürs Bauen statt für die Arbeit drauf.
+            7. Committe auf den Zweig `${{ inputs.zweig }}` und öffne einen
                Pull Request gegen `main`:
                `git switch -c ${{ inputs.zweig }} && git add -A && git commit && git push -u origin ${{ inputs.zweig }} && gh pr create --fill`
                **Niemals direkt auf `main` pushen** — das deployt sofort auf die
                Live-Seite.
-            5. In den Pull-Request-Text gehören: was geändert wurde, womit du es
+            8. In den Pull-Request-Text gehören: was geändert wurde, womit du es
                belegt hast, und was du bewusst nicht angefasst hast.
 
             ## Verbindlich
