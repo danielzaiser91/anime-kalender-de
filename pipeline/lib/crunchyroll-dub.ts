@@ -16,6 +16,30 @@
  */
 import type { Title } from '../../shared/types.ts'
 
+/**
+ * Eine Folge, für die die Content-API eine deutsche Fassung führt.
+ *
+ * `verfuegbarAb` ist das `premium_available_date` **des deutschen Objekts**,
+ * nicht das der Folge in der Staffelliste. Der Unterschied ist der ganze Punkt:
+ * `/seasons/<id>/episodes` liefert immer die Episoden der Originalstaffel, und
+ * deren Datumsfelder gehören zur japanischen Ausstrahlung. Für „Mushoku Tensei"
+ * Staffel 3 stand dort der 04.07.2026 — die deutschen Folgen erschienen am
+ * 19.08.2026 (Daniel, 21.08.2026).
+ *
+ * Das Feld wird derzeit von nichts ausgewertet. Es steht hier, weil es
+ * ohnehin über die Leitung geht, sobald die deutsche Kennung gelesen wird, und
+ * weil es ein **belegter deutscher Termin mit Uhrzeit** ist — die Terminlogik
+ * daran anzuschließen ist eine eigene Aufgabe.
+ */
+export interface CrDeutscheFolge {
+  /** Folgennummer, wie Crunchyroll sie führt. Fehlt bei Filmen und Specials. */
+  nummer?: number
+  /** Kennung der deutschen Fassung (`…DEDE`). */
+  guid: string
+  /** `premium_available_date` der deutschen Fassung, ISO in UTC. */
+  verfuegbarAb?: string
+}
+
 export interface CrStaffel {
   name: string
   /** Verschiedene Folgennummern — nicht die Zahl der Kacheln. */
@@ -23,10 +47,33 @@ export interface CrStaffel {
   kacheln: number
   deutsch: number
   fremd: number
+  /** Crunchyrolls Staffelkennung. Nur über die Content-API zu haben. */
+  staffelId?: string
+  /**
+   * Führt die Staffel selbst eine `de-DE`-Fassung in `versions`?
+   *
+   * Das ist die Angabe eine Ebene über den Folgen und **nicht** dasselbe wie
+   * `deutsch === folgen`: Eine laufende Staffel trägt die deutsche Fassung,
+   * lange bevor alle ihre Folgen sie haben.
+   */
+  deutscheFassung?: boolean
+  /** Je deutscher Folge die Kennung und der belegte deutsche Termin. */
+  deutscheFolgen?: CrDeutscheFolge[]
 }
 
 export interface CrSerie {
   url: string
+  /** Crunchyrolls Serienkennung, etwa `GRDV0019R`. Der Schlüssel zur API. */
+  seriesId?: string
+  /**
+   * Woher die Angaben stammen.
+   *
+   * `'api'` ist der Regelweg über die Content-API. `'seitenanzeige'` ist die
+   * Rückfallebene, die die gerenderte Serienseite liest — langsam, gröber und
+   * von Crunchyrolls Übersetzungen abhängig. Das Feld steht hier, damit ein
+   * späterer Vergleich weiß, was er vergleicht; alte Einträge tragen es nicht.
+   */
+  quelle?: 'api' | 'seitenanzeige'
   /**
    * `undefined` heißt **nicht gesehen**, nicht „kein Deutsch".
    *

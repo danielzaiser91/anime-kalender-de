@@ -88,6 +88,18 @@ QUELLEN=(
   # Ergebnis des Crunchyroll-Synchro-Laufs. Steht hier vorsorglich: Läuft er
   # eines Tages in der CI, wären 918 Seitenabrufe sonst nach einem Reset weg.
   data/crunchyroll-dub.json
+  # Adresse → Serienkennung. Ein Gedächtnis, kein Zwischenspeicher: Die alte
+  # Slug-Form `/de/<slug>` trägt keine Kennung, und sie herauszufinden kostet
+  # einen vollen Seitenaufruf je Adresse. Würfe der Reset die Datei weg, zahlte
+  # jeder Lauf diesen Preis erneut — 676 Seitenaufrufe auf einem fremden Server
+  # für eine Angabe, die sich nie ändert.
+  data/crunchyroll-series-ids.json
+  # Die Rohantworten der Content-API. Aus demselben Grund wie `data/adn-raw`:
+  # Ein später gebrauchtes Feld muss eine Änderung am Parser sein können und
+  # nicht ein zweiter Lauf über 959 Serien. Hier hängt konkret der deutsche
+  # Termin je Folge daran — er liegt schon in diesen Dateien, ausgewertet wird
+  # er noch nicht.
+  data/crunchyroll-raw
   # Ergebnis der YouTube-Prüfung: je Adresse, wie viele der dort verlinkten
   # Videos in Deutschland überhaupt abrufbar sind. Ohne diese Zeile würfe der
   # Reset sie weg, und der nächste Lauf befragte dieselben 513 Adressen erneut.

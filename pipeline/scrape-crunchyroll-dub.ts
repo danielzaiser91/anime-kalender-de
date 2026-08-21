@@ -1,30 +1,34 @@
 /**
- * Liest auf den Crunchyroll-Serienseiten nach, welche Folgen deutsch vertont
- * sind.
+ * Liest bei Crunchyroll nach, welche Folgen deutsch vertont sind.
  *
  * Warum überhaupt: Ein Stream-Verweis sagt nur, **dass** ein Titel dort läuft.
  * Für 1.156 Crunchyroll-Verweise stand deshalb dauerhaft „🇩🇪 ?" — und die von
  * Hand abzuarbeiten hieße, jede einzelne Seite selbst zu öffnen.
  *
- * Was die Seite hergibt, und zwar genau:
+ * ## Der Regelweg: Crunchyrolls eigene Content-API
  *
- *   Audio: Japanese, Deutsch, English, …     ← Kopf der Serienseite
- *   Synchro | Untertitel                     ← unter einer Folgenkachel
- *   Synchro English | Untertitel             ← Synchro ja, aber englisch
- *   Untertitel                               ← gar keine Synchro
+ * Die Serienseite ist eine React-Anwendung und holt ihre Daten selbst über eine
+ * JSON-Schnittstelle. Genau die wird hier abgefragt — Aufrufe, Felder und
+ * Grenzen stehen in `lib/crunchyroll-api.ts`. Drei Stufen je Serie:
  *
- * Das nackte „Synchro" ohne Sprachzusatz ist die **deutsche** Fassung: Die
- * Seite läuft in deutscher Auslieferung, und Crunchyroll benennt dort nur die
- * fremden Tonspuren ausdrücklich.
+ *   1. `seasons`  → je Staffel Titel, Folgenzahl und `versions`
+ *   2. `episodes` → je Folge `versions`; **hier** entscheidet sich, wie viele
+ *                   Folgen einer Staffel deutsch sind („3 von 8")
+ *   3. `objects`  → die deutschen Kennungen aus Stufe 2, gebündelt. Nur dort
+ *                   steht der **deutsche** Termin; die `episodes`-Antwort führt
+ *                   immer die Daten der Originalstaffel.
  *
- * **Zwei Stufen, und die erste spart fast die ganze Arbeit** (Daniels Zuschnitt
- * vom 12.08.2026): Fehlt „Deutsch" in der Audio-Zeile, gibt es auf der ganzen
- * Seite keine deutsche Folge — dann ist die Seite nach einem Ladevorgang
- * erledigt, ohne Scrollen und ohne Staffelwechsel. Erst wenn Deutsch vorkommt,
- * wird genauer hingesehen; denn die Audio-Zeile steht schon da, wenn eine
- * **einzige** Folge deutsch ist. Bei „That Time I Got Reincarnated as a Slime"
- * etwa fehlt den letzten beiden Folgen der vierten Staffel die deutsche
- * Fassung noch.
+ * Maßgeblich ist ausschließlich `de-DE` in `versions`. `is_dubbed` steht schon
+ * auf `true`, wenn es irgendeine Synchronfassung gibt — wer danach ginge, hielte
+ * jede Folge für deutsch synchronisiert.
+ *
+ * ## Die Rückfallebene: die gerenderte Seite lesen (`--seitenanzeige`)
+ *
+ * Der alte Weg steht weiter unten und bleibt aufrufbar, falls Crunchyroll die
+ * Schnittstelle ändert. Er ist **langsam** — 17 bis 23 Sekunden je Serie gegen
+ * 70 bis 250 Millisekunden — und gröber: Er liest Textmuster („Audio: Deutsch",
+ * „Synchro | Untertitel"), hängt damit an Crunchyrolls Übersetzungen und kennt
+ * die Folgen nur als Kacheln. Er wird nicht gepflegt, sondern verwahrt.
  *
  * ## Zur Kennung — eine bewusste Ausnahme
  *
@@ -36,19 +40,35 @@
  * Titel und ohne Inhalt (geprüft am 12.08.2026). Es gibt also keinen ehrlichen
  * Weg zu diesen Daten, sondern nur diesen oder gar keinen.
  *
- * Was dafür spricht, ihn zu gehen: `robots.txt` erlaubt `/series/` ausdrücklich
- * (gesperrt sind Suche, Konto, Merkliste, Bezahlseiten), es gibt kein
- * Crawl-delay, und der Abruf ist selten und langsam getaktet.
+ * Was dafür spricht, ihn zu gehen: `robots.txt` erlaubt `/series/`, `/content/`
+ * und `/auth/` ausdrücklich (gesperrt sind Suche, Konto, Merkliste,
+ * Bezahlseiten — geprüft am 21.08.2026), es gibt kein Crawl-delay, und der
+ * Abruf bleibt getaktet: Auch 200 Millisekunden je Aufruf werden nicht
+ * ausgereizt, es bleibt eine Pause dazwischen.
  *
  * Aufruf: npm run data:cr-dub [-- --limit 10] [-- --nur <urlteil>]
+ *                             [-- --seitenanzeige] [-- --pause 250]
  */
 import { chromium, type Page } from 'playwright'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import { gzipSync } from 'node:zlib'
+import { ROOT } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { fortschrittsMelder } from './lib/lauf-fortschritt.ts'
 import type { Title } from '../shared/types.ts'
 import { addDays, todayIso } from '../shared/time.ts'
-import type { CrSerie, CrStaffel } from './lib/crunchyroll-dub.ts'
+import type { CrDeutscheFolge, CrSerie, CrStaffel } from './lib/crunchyroll-dub.ts'
+import { crunchyrollSeriesId } from './lib/crunchyroll.ts'
+import {
+  BUENDEL,
+  CrunchyrollApi,
+  deutscheKennung,
+  hatDeutsch,
+  nurFremdeSynchro,
+  type CrApiObjekt,
+} from './lib/crunchyroll-api.ts'
 
 const CHROME =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36'
@@ -78,6 +98,10 @@ const NUR_FEHLER = args.includes('--nur-fehler')
  * und 917 Seiten wöchentlich zu holen wäre Last ohne Gegenwert.
  */
 const WIEDERVORLAGE_TAGE = zahl('--alter', 28)
+/** Rückfallebene: die gerenderte Seite lesen statt der Content-API. */
+const SEITENANZEIGE = args.includes('--seitenanzeige')
+/** Pause zwischen zwei API-Aufrufen. Die Taktung bleibt rücksichtsvoll. */
+const PAUSE_MS = zahl('--pause', 250)
 
 /** Was auf einer Folgenkachel steht. */
 type Tonspur = 'deutsch' | 'fremd' | 'keine'
@@ -85,6 +109,207 @@ type Tonspur = 'deutsch' | 'fremd' | 'keine'
 // Die Typen stehen in `lib/crunchyroll-dub.ts` — dort, wo auch die Auswertung
 // wohnt. Zwei Fassungen desselben Typs laufen unweigerlich auseinander.
 export type { CrStaffel, CrSerie } from './lib/crunchyroll-dub.ts'
+
+// ───────────────────────── Der Regelweg: Content-API ─────────────────────────
+
+/** Wohin die Rohantworten je Serie wandern. */
+const ARCHIV_DIR = resolve(ROOT, 'data/crunchyroll-raw')
+
+/**
+ * Legt die Rohantworten einer Serie gzip-komprimiert ab.
+ *
+ * `CLAUDE.md`, „Beim Scrapen nichts wegwerfen": Der Abruf ist der teure und der
+ * schädliche Teil, nicht das Speichern. Bei ADN war genau das am 12.08.2026
+ * real — die Staffelangabe war längst über die Leitung gegangen und der einzige
+ * Weg zu ihr trotzdem ein kompletter zweiter Lauf.
+ *
+ * Eine Datei je Serie, unverändert nicht neu geschrieben: Git speichert binäre
+ * Dateien vollständig neu, ein Sammelarchiv landete sonst bei jedem Lauf in
+ * voller Größe in der Historie.
+ */
+function archiviere(seriesId: string, inhalt: unknown): void {
+  if (!existsSync(ARCHIV_DIR)) mkdirSync(ARCHIV_DIR, { recursive: true })
+  const pfad = `${ARCHIV_DIR}/${seriesId}.json.gz`
+  const neu = gzipSync(JSON.stringify(inhalt), { level: 9 })
+  if (existsSync(pfad) && readFileSync(pfad).equals(neu)) return
+  writeFileSync(pfad, neu)
+}
+
+/**
+ * Was zu einer Adresse an Serienkennung bekannt ist.
+ *
+ * Die Datei ist ein Gedächtnis, kein Zwischenspeicher: Eine Slug-Adresse in die
+ * `/series/`-Form aufzulösen kostet einen vollen Seitenaufruf, und das Ergebnis
+ * ändert sich nie — eine Serienkennung ist stabil. Ohne diese Datei zahlte
+ * jeder Lauf denselben Preis erneut, und zwar auf einem fremden Server.
+ */
+interface KennungsEintrag {
+  seriesId?: string
+  /** Wohin die Adresse geführt hat — bei einem Fehlschlag der Beleg dafür. */
+  ziel?: string
+  geprueftAm: string
+  fehler?: string
+}
+interface KennungsDatei {
+  aufgeloestAm: string
+  adressen: Record<string, KennungsEintrag>
+}
+const KENNUNGS_DATEI = 'data/crunchyroll-series-ids.json'
+
+/**
+ * Zählt aus, wie viele deutsche Folgen eine Staffel hat.
+ *
+ * Je Folgennummer nur einmal — Crunchyroll führt dieselbe Folge mehrfach auf.
+ * Eine deutsche Fassung schlägt dabei eine fremde: Steht dieselbe Nummer
+ * zweimal da, einmal mit und einmal ohne deutsche Tonspur, gibt es sie deutsch.
+ * Das ist dieselbe Regel wie bei der Kachelauswertung; sie stammt aus Daniels
+ * Befund vom 12.08.2026, dass es sogar zwei Wähler-Einträge zur selben Staffel
+ * gibt.
+ */
+function staffelAuszaehlen(folgen: { episode_number?: number | null; versions?: { audio_locale: string; guid: string; original?: boolean }[] }[]): {
+  jeFolge: Map<string, Tonspur>
+  deutscheFolgen: CrDeutscheFolge[]
+} {
+  const jeFolge = new Map<string, Tonspur>()
+  const deutscheFolgen = new Map<string, CrDeutscheFolge>()
+  folgen.forEach((f, i) => {
+    const nummer = typeof f.episode_number === 'number' ? f.episode_number : undefined
+    const schluessel = nummer !== undefined ? `E${nummer}` : `#${i}`
+    const ton: Tonspur = hatDeutsch(f.versions) ? 'deutsch' : nurFremdeSynchro(f.versions) ? 'fremd' : 'keine'
+    const guid = deutscheKennung(f.versions)
+    if (guid) deutscheFolgen.set(guid, { nummer, guid })
+    const bisher = jeFolge.get(schluessel)
+    if (bisher === 'deutsch') return
+    if (bisher === 'fremd' && ton === 'keine') return
+    jeFolge.set(schluessel, ton)
+  })
+  return { jeFolge, deutscheFolgen: [...deutscheFolgen.values()] }
+}
+
+/**
+ * Holt zu den deutschen Kennungen den **deutschen** Termin.
+ *
+ * Warum das ein eigener Aufruf ist: `/seasons/<id>/episodes` liefert immer die
+ * Episoden der Originalstaffel, auch wenn man die Kennung der deutschen Fassung
+ * einsetzt. `versions` sagt dort zwar, *dass* es eine deutsche Fassung gibt,
+ * aber alle Datumsfelder gehören zur japanischen Ausstrahlung. Für „Mushoku
+ * Tensei" Staffel 3 stand dort der 04.07.2026 — die deutschen Folgen erschienen
+ * am 19.08.2026 (Daniel, 21.08.2026).
+ *
+ * Übernommen wird ein Datum nur, wenn das Objekt selbst `audio_locale: de-DE`
+ * meldet. Ein Objekt, das etwas anderes zurückgibt, als angefragt wurde, ist
+ * kein Beleg für irgendetwas.
+ */
+async function deutscheTermine(
+  api: CrunchyrollApi,
+  guids: string[],
+  archiv: unknown[],
+): Promise<Map<string, string>> {
+  const termine = new Map<string, string>()
+  for (let i = 0; i < guids.length; i += BUENDEL) {
+    const antwort = await api.objekte(guids.slice(i, i + BUENDEL))
+    if (!antwort) continue
+    archiv.push(JSON.parse(antwort.roh))
+    for (const objekt of antwort.data as CrApiObjekt[]) {
+      const m = objekt.episode_metadata
+      if (m?.audio_locale !== 'de-DE' || !m.premium_available_date) continue
+      termine.set(objekt.id, m.premium_available_date)
+    }
+  }
+  return termine
+}
+
+/**
+ * Liest eine Serie über die Content-API.
+ *
+ * Was hier **nicht** passiert: Crunchyrolls Staffeleinteilung wird nicht
+ * übernommen. Sie ist ausschließlich Beleg für die Tonspur — unsere Einteilung
+ * kommt von AniList und bleibt maßgeblich (`lib/crunchyroll-dub.ts`). Die API
+ * ändert daran nichts, sie macht die Auskunft nur genauer.
+ */
+async function serieLesenApi(api: CrunchyrollApi, url: string, seriesId: string): Promise<CrSerie> {
+  const heute = todayIso()
+  const kopf: CrSerie = { url, seriesId, quelle: 'api', geprueftAm: heute }
+  const staffelAntwort = await api.staffeln(seriesId)
+  if (!staffelAntwort) return { ...kopf, fehler: 'Content-API hat auf die Staffelliste nicht geantwortet' }
+
+  const archiv: { seriesId: string; url: string; holtAm: string; seasons: unknown; episodes: Record<string, unknown>; objects: unknown[] } = {
+    seriesId,
+    url,
+    holtAm: new Date().toISOString(),
+    seasons: JSON.parse(staffelAntwort.roh),
+    episodes: {},
+    objects: [],
+  }
+
+  // Eine Serienkennung ohne Staffeln ist eine **Nichtauskunft**, kein „keine
+  // Synchro". Ob es die Serie noch gibt, entscheidet die Seite selbst — und nur
+  // sie, weil daran das Entfernen von Verweisen hängt.
+  if (!staffelAntwort.data.length) {
+    archiviere(seriesId, archiv)
+    const befund = await api.seitenBefund(url)
+    if (befund.art) return { ...kopf, nichtVerfuegbar: true, fehler: befund.zeile }
+    return { ...kopf, fehler: 'Content-API kennt keine Staffel zu dieser Kennung' }
+  }
+
+  const staffeln: CrStaffel[] = []
+  const gesehen = new Set<string>()
+  let unvollstaendig = false
+  for (const st of staffelAntwort.data) {
+    if (gesehen.has(st.id)) continue
+    gesehen.add(st.id)
+
+    const folgenAntwort = await api.folgen(st.id)
+    /**
+     * Eine Staffel, die nicht antwortet, macht die **ganze** Serie unbrauchbar.
+     *
+     * `beurteile()` rechnet Blocksummen gegen unsere Staffeln; eine fehlende
+     * Staffel verschöbe jede Zuordnung danach. Und „alle Blöcke vollständig
+     * deutsch" wäre bei einem fehlenden Block schlicht falsch. Lieber gar keine
+     * Aussage als eine aus lückenhafter Grundlage.
+     */
+    if (!folgenAntwort) {
+      unvollstaendig = true
+      break
+    }
+    archiv.episodes[st.id] = JSON.parse(folgenAntwort.roh)
+
+    const { jeFolge, deutscheFolgen } = staffelAuszaehlen(folgenAntwort.data)
+    const tonspuren = [...jeFolge.values()]
+    const termine = deutscheFolgen.length
+      ? await deutscheTermine(api, deutscheFolgen.map((f) => f.guid), archiv.objects)
+      : new Map<string, string>()
+    staffeln.push({
+      name: st.title || `Staffel ${st.season_number ?? '?'}`,
+      staffelId: st.id,
+      folgen: jeFolge.size,
+      kacheln: folgenAntwort.data.length,
+      deutsch: tonspuren.filter((t) => t === 'deutsch').length,
+      fremd: tonspuren.filter((t) => t === 'fremd').length,
+      deutscheFassung: hatDeutsch(st.versions),
+      deutscheFolgen: deutscheFolgen.length
+        ? deutscheFolgen.map((f) => ({ ...f, verfuegbarAb: termine.get(f.guid) }))
+        : undefined,
+    })
+  }
+  archiviere(seriesId, archiv)
+
+  const deutschImAngebot =
+    staffelAntwort.data.some((st) => hatDeutsch(st.versions)) || staffeln.some((s) => s.deutsch > 0)
+  if (unvollstaendig) {
+    return { ...kopf, deutschImAngebot, fehler: 'mindestens eine Staffel hat keine Folgenliste geliefert' }
+  }
+  return { ...kopf, deutschImAngebot, staffeln }
+}
+
+// ─────────────────── Rückfallebene: die gerenderte Seite lesen ───────────────
+//
+// Alles ab hier ist der Weg von vor dem 21.08.2026 und wird nur noch mit
+// `--seitenanzeige` aufgerufen. Er bleibt, weil er ohne die Content-API
+// auskommt: Ändert Crunchyroll die Schnittstelle, ist er die einzige Auskunft,
+// die noch da ist. Zu wissen ist über ihn zweierlei — er braucht 17 bis 23
+// Sekunden je Serie statt 70 bis 250 Millisekunden, und er liest Textmuster
+// („Audio: Deutsch"), hängt also an Crunchyrolls Übersetzungen.
 
 /**
  * Liest die Tonspur einer Folgenkachel.
@@ -187,7 +412,7 @@ async function naechsteStaffel(page: Page, bisher: string): Promise<boolean> {
   return false
 }
 
-async function serieLesen(page: Page, url: string): Promise<CrSerie> {
+async function serieLesenSeitenanzeige(page: Page, url: string): Promise<CrSerie> {
   const heute = new Date().toISOString().slice(0, 10)
   await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 })
 
@@ -261,7 +486,7 @@ async function serieLesen(page: Page, url: string): Promise<CrSerie> {
      * nie eine Audio-Zeile, nie ein Banner. Es waren Fehlerseiten, und die
      * stehen nach 250 Millisekunden fest.
      */
-    return { url, nichtVerfuegbar: true, geprueftAm: heute, fehler: befund.zeile.trim() }
+    return { url, quelle: 'seitenanzeige', nichtVerfuegbar: true, geprueftAm: heute, fehler: befund.zeile.trim() }
   }
 
   const audio = befund?.art === 'audio' ? befund.zeile : ''
@@ -276,10 +501,10 @@ async function serieLesen(page: Page, url: string): Promise<CrSerie> {
    * Element überhaupt findet, und dann ‚Nicht gefunden' statt ‚nicht auf
    * deutsch'."
    */
-  if (!audio) return { url, geprueftAm: heute, fehler: 'keine Audio-Zeile gefunden' }
+  if (!audio) return { url, quelle: 'seitenanzeige', geprueftAm: heute, fehler: 'keine Audio-Zeile gefunden' }
 
   // Stufe 1 — und für die meisten Seiten schon das Ende.
-  if (!/\bDeutsch\b/.test(audio)) return { url, deutschImAngebot: false, geprueftAm: heute }
+  if (!/\bDeutsch\b/.test(audio)) return { url, quelle: 'seitenanzeige', deutschImAngebot: false, geprueftAm: heute }
 
   /**
    * Stufe 2: jede Staffel einzeln zählen.
@@ -334,7 +559,7 @@ async function serieLesen(page: Page, url: string): Promise<CrSerie> {
     await page.evaluate(() => window.scrollTo(0, 0))
   }
 
-  return { url, deutschImAngebot: true, staffeln, geprueftAm: heute }
+  return { url, quelle: 'seitenanzeige', deutschImAngebot: true, staffeln, geprueftAm: heute }
 }
 
 async function main(): Promise<void> {
@@ -407,46 +632,177 @@ async function main(): Promise<void> {
   const melde = fortschrittsMelder(adressen.length)
 
   const browser = await chromium.launch()
-  const page = await browser.newPage({ userAgent: CHROME, locale: 'de-DE', viewport: { width: 1600, height: 1200 } })
   let ohneDeutsch = 0
 
   /** Schreibt den Stand — alles Bekannte plus alles gerade Gelesene. */
   const sichern = () =>
     writeJson('data/crunchyroll-dub.json', { scrapedAt: new Date().toISOString(), serien: [...bestand.values()] }, true)
 
+  /**
+   * Ein Zeilenprotokoll je Serie, damit ein Abbruch nachvollziehbar bleibt.
+   *
+   * Bei „3 von 8" steht die Zahl hier, nicht nur in der Datei — das ist die
+   * Angabe, die es vorher nirgends gab.
+   */
+  const melden = (i: number, kurz: string, serie: CrSerie) =>
+    log(
+      `  ${i + 1}/${adressen.length} ${serie.nichtVerfuegbar ? '✕' : serie.deutschImAngebot ? '🇩🇪' : serie.fehler ? '?' : '—'} ${kurz.slice(0, 52)}` +
+        (serie.staffeln?.length
+          ? ` (${serie.staffeln.map((s) => `${s.name}: ${s.deutsch}/${s.folgen}`).join(', ')})`
+          : serie.fehler
+            ? ` — ${serie.fehler.slice(0, 60)}`
+            : ''),
+    )
+
+  if (SEITENANZEIGE) {
+    const page = await browser.newPage({ userAgent: CHROME, locale: 'de-DE', viewport: { width: 1600, height: 1200 } })
+    for (const [i, url] of adressen.entries()) {
+      const kurz = url.replace(/^https?:\/\/(www\.)?crunchyroll\.com\/de\//, '')
+      try {
+        const serie = await serieLesenSeitenanzeige(page, url)
+        bestand.set(url, serie)
+        if (!serie.deutschImAngebot) ohneDeutsch++
+        melden(i, kurz, serie)
+      } catch (err) {
+        /**
+         * Ein Fehlschlag wird **nicht** als „keine Synchro" gespeichert.
+         *
+         * Sonst stünde ein Zeitüberschreitungs-Fehler später als belegtes Nein
+         * im Datensatz — und der Wiederaufsatz würde die Seite nie wieder
+         * anfassen. Sie bleibt offen und kommt beim nächsten Lauf erneut dran.
+         */
+        warn(`${url}: ${(err as Error).message.slice(0, 100)}`)
+      }
+      if (i % 10 === 9) sichern()
+      void melde(i + 1, kurz)
+      await sleep(1500)
+    }
+    await browser.close()
+    sichern()
+    recordSource('crunchyroll-dub', bestand.size, bestand.size ? undefined : 'keine Seite gelesen')
+    log(`Fertig: ${bestand.size} Seiten im Bestand, davon ${ohneDeutsch} in diesem Lauf ohne deutsche Tonspur`)
+    return
+  }
+
+  const api = new CrunchyrollApi(browser, PAUSE_MS)
+  await api.oeffnen()
+
+  const kennungen = readJson<KennungsDatei>(KENNUNGS_DATEI, { aufgeloestAm: '', adressen: {} })
+  const kennungenSichern = () =>
+    writeJson(KENNUNGS_DATEI, { aufgeloestAm: new Date().toISOString(), adressen: kennungen.adressen }, true)
+
+  /**
+   * Eine Serie wird je Lauf **einmal** geholt, nicht einmal je Adresse.
+   *
+   * Der Bestand ist nach Adresse geschlüsselt, und dieselbe Serie steht mehrfach
+   * darin: `http://` und `https://`, Slug-Form und `/series/`-Form. Von 959
+   * Adressen führen 283 die Kennung schon selbst; die übrigen lösen sich beim
+   * Auflösen reihenweise auf dieselben Kennungen auf. Ohne diese Zwischenablage
+   * wäre jede Dublette ein zweiter vollständiger Abruf über alle Staffeln.
+   */
+  const jeSerie = new Map<string, CrSerie>()
+  let neuAufgeloest = 0
+  let ohneKennung = 0
+
   for (const [i, url] of adressen.entries()) {
     const kurz = url.replace(/^https?:\/\/(www\.)?crunchyroll\.com\/de\//, '')
     try {
-      const serie = await serieLesen(page, url)
+      /**
+       * Schritt 1: die Serienkennung.
+       *
+       * Steht sie in der Adresse, ist nichts zu tun. Sonst kostet sie einen
+       * Seitenaufruf — und der wird festgehalten, damit er einmalig bleibt.
+       * Eine Adresse, die schon als „nicht verfügbar" im Bestand steht, wird
+       * dabei nicht noch einmal angefasst: Sie hat ihre Antwort.
+       */
+      let seriesId = crunchyrollSeriesId(url) ?? kennungen.adressen[url]?.seriesId
+      if (!seriesId && !kennungen.adressen[url] && !bestand.get(url)?.nichtVerfuegbar) {
+        const befund = await api.seitenBefund(url)
+        kennungen.adressen[url] = {
+          seriesId: befund.seriesId,
+          ziel: befund.ziel,
+          geprueftAm: todayIso(),
+          fehler: befund.seriesId ? undefined : (befund.zeile ?? 'keine Serienkennung hinter dieser Adresse'),
+        }
+        neuAufgeloest++
+        seriesId = befund.seriesId
+        // Die Seite hat gerade selbst gesagt, dass es die Serie nicht gibt.
+        // Das ist derselbe Beleg wie beim alten Weg — und er kostet hier keinen
+        // zusätzlichen Aufruf, weil die Seite ohnehin geladen wurde.
+        if (!seriesId && befund.art) {
+          const serie: CrSerie = {
+            url,
+            quelle: 'api',
+            nichtVerfuegbar: true,
+            geprueftAm: todayIso(),
+            fehler: befund.zeile,
+          }
+          bestand.set(url, serie)
+          melden(i, kurz, serie)
+          if (i % 10 === 9) {
+            sichern()
+            kennungenSichern()
+          }
+          void melde(i + 1, kurz)
+          continue
+        }
+      }
+
+      if (!seriesId) {
+        ohneKennung++
+        /**
+         * Ohne Kennung ist über diese Adresse nichts zu sagen — und „nichts zu
+         * sagen" ist ein `fehler`, kein `deutschImAngebot: false`. Ein
+         * Fehlschlag als Befund ist der Fehler, den dieses Projekt an vier
+         * Stellen schon gemacht hat.
+         */
+        const serie: CrSerie = {
+          url,
+          quelle: 'api',
+          geprueftAm: todayIso(),
+          fehler: kennungen.adressen[url]?.fehler ?? 'keine Serienkennung zu dieser Adresse',
+        }
+        bestand.set(url, serie)
+        melden(i, kurz, serie)
+        if (i % 10 === 9) sichern()
+        void melde(i + 1, kurz)
+        continue
+      }
+
+      const schon = jeSerie.get(seriesId)
+      const serie = schon ? { ...schon, url } : await serieLesenApi(api, url, seriesId)
+      if (!schon) jeSerie.set(seriesId, serie)
       bestand.set(url, serie)
       if (!serie.deutschImAngebot) ohneDeutsch++
-      log(
-        `  ${i + 1}/${adressen.length} ${serie.deutschImAngebot ? '🇩🇪' : '—'} ${kurz.slice(0, 52)}` +
-          (serie.staffeln ? ` (${serie.staffeln.map((s) => `${s.name}: ${s.deutsch}/${s.folgen}`).join(', ')})` : ''),
-      )
+      melden(i, kurz, serie)
     } catch (err) {
-      /**
-       * Ein Fehlschlag wird **nicht** als „keine Synchro" gespeichert.
-       *
-       * Sonst stünde ein Zeitüberschreitungs-Fehler später als belegtes Nein im
-       * Datensatz — und der Wiederaufsatz würde die Seite nie wieder anfassen.
-       * Sie bleibt offen und kommt beim nächsten Lauf erneut dran.
-       */
+      // Wie beim alten Weg: Ein Fehlschlag wird nicht gespeichert. Die Adresse
+      // bleibt offen und kommt beim nächsten Lauf erneut dran.
       warn(`${url}: ${(err as Error).message.slice(0, 100)}`)
     }
-    // Alle zehn Seiten sichern: Ein Abbruch kostet dann höchstens zehn Abrufe.
-    if (i % 10 === 9) sichern()
-    // Nicht abwarten: Der Lauf hat mit der Statusanzeige nichts zu schaffen,
-    // und 594 Wartezeiten von je einer Zehntelsekunde wären Minuten für nichts.
-    // Ein Fehlschlag darf hier ohnehin nichts bewirken.
+    if (i % 10 === 9) {
+      sichern()
+      kennungenSichern()
+    }
     void melde(i + 1, kurz)
-    await sleep(1500)
   }
+
+  await api.schliessen()
   await browser.close()
 
   sichern()
-  recordSource('crunchyroll-dub', bestand.size, bestand.size ? undefined : 'keine Seite gelesen')
-  log(`Fertig: ${bestand.size} Seiten im Bestand, davon ${ohneDeutsch} in diesem Lauf ohne deutsche Tonspur`)
+  kennungenSichern()
+  recordSource('crunchyroll-dub', bestand.size, bestand.size ? undefined : 'keine Serie gelesen')
+  const termine = [...jeSerie.values()].reduce(
+    (n, s) => n + (s.staffeln ?? []).reduce((m, st) => m + (st.deutscheFolgen ?? []).filter((f) => f.verfuegbarAb).length, 0),
+    0,
+  )
+  log(
+    `Fertig: ${bestand.size} Adressen im Bestand, ${jeSerie.size} Serien in diesem Lauf gelesen, ` +
+      `${ohneDeutsch} davon ohne deutsche Tonspur`,
+  )
+  if (neuAufgeloest) log(`${neuAufgeloest} Adressen neu in eine Serienkennung aufgelöst, ${ohneKennung} ohne Kennung`)
+  log(`${termine} deutsche Folgen mit belegtem Termin aus der Content-API`)
 }
 
 main().catch((err) => {
