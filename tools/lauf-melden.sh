@@ -9,6 +9,7 @@
 #   bash tools/lauf-melden.sh laeuft   "Auftrag: netflix-tonspuren"
 #   bash tools/lauf-melden.sh ok       "769 Serien geprüft"
 #   bash tools/lauf-melden.sh fehler   "Prüfkette rot"
+#   bash tools/lauf-melden.sh schritt "Seite gebaut"   (zählt einen Schritt weiter)
 #
 # Nötig: LAUF_TOKEN als Secret. Fehlt es, endet das Skript still und ohne
 # Fehler — eine fehlende Statusmeldung darf niemals einen Datenlauf rot machen.
@@ -47,6 +48,30 @@ ZWECK="$(saeubern "$ZWECK")"
 ZIEL="$(saeubern "$ZIEL")"
 NOTIZ="$(saeubern "$NOTIZ")"
 
+# Ein Lauf aus lauter Einzelschritten kann seinen Fortschritt zählen.
+#
+#   bash lauf-melden.sh schritt "Seite gebaut"
+#
+# Jeder Aufruf zählt einen Schritt weiter und meldet ihn als `n/LAUF_SCHRITTE`.
+# Die Anzeige macht daraus einen Balken und eine Prozentzahl. Daniel am
+# 21.08.2026: „dort müsste es auch möglich sein die einzelnen deploy schritte
+# als fortschrittschritte und prozentzahl aufzuzeigen."
+#
+# Der Zähler liegt in einer Datei, weil jeder Schritt eines Workflows in einer
+# eigenen Shell läuft — eine Variable überlebt das nicht.
+if [ "$ZUSTAND" = "schritt" ]; then
+  ZAEHLER="${RUNNER_TEMP:-/tmp}/lauf-schritt.txt"
+  N=$(( $(cat "$ZAEHLER" 2>/dev/null || echo 0) + 1 ))
+  printf '%s' "$N" > "$ZAEHLER"
+  ZUSTAND="laeuft"
+  TEXT="$NOTIZ"
+  NOTIZ=""
+  FORTSCHRITT_JSON=",
+  \"fortschritt\": $N,
+  \"fortschritt_gesamt\": ${LAUF_SCHRITTE:-0},
+  \"fortschritt_text\": \"$TEXT\""
+fi
+
 # Über eine Datei statt über die Kommandozeile: Anführungszeichen und Umlaute in
 # der Notiz haben sonst schon ganze Meldungen zerlegt.
 TMP="$(mktemp)"
@@ -60,7 +85,7 @@ cat > "$TMP" <<JSON
   "ziel": "${ZIEL}",
   "zustand": "${ZUSTAND}",
   "url": "${URL}",
-  "notiz": "${NOTIZ}"
+  "notiz": "${NOTIZ}"${FORTSCHRITT_JSON:-}
 }
 JSON
 

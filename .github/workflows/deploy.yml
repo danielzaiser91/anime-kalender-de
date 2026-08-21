@@ -41,6 +41,7 @@ jobs:
     env:
       LAUF_ZWECK: "Veröffentlicht den aktuellen Stand von anime-kalender.de"
       LAUF_ZIEL: "Prüfkette grün, neuer Stand auf GitHub Pages"
+      LAUF_SCHRITTE: '7'
     # Ein gescheiterter Datenlauf soll nichts veröffentlichen. Bei den anderen
     # Auslösern (push, workflow_dispatch) ist das Feld leer, deshalb die
     # Oder-Bedingung — sonst würde der Deploy von Hand nie mehr starten.
@@ -100,10 +101,22 @@ jobs:
 
       - run: npm ci
 
+      - name: Fortschritt — Abhängigkeiten installiert
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Abhängigkeiten installiert"
+
       - name: Kuratierte Daten prüfen
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:validate
+
+      - name: Fortschritt — Kuratierte Daten geprüft
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Kuratierte Daten geprüft"
 
       # Ein kaputter Workflow meldet sich nicht — er verschwindet lautlos aus
       # der Übersicht und läuft nie wieder. Diese Prüfung ist der einzige Ort,
@@ -113,6 +126,12 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run check:workflows
 
+      - name: Fortschritt — Workflow-Dateien geprüft
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Workflow-Dateien geprüft"
+
       # Die Zusicherungen aus der Prüfkette vor dem Commit. Sie gehören auch
       # hierher: Die Nachtläufe committen ohne menschlichen Blick, und der
       # Fehler vom 12.08.2026 (196 erfundene Termine) entstand genau dort.
@@ -120,6 +139,12 @@ jobs:
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run check:logic && npm run check:search
+
+      - name: Fortschritt — Zusicherungen geprüft
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Zusicherungen geprüft"
 
       # Hooks-Regeln sieht weder `tsc -b` noch der Vite-Build: Ein Verstoß ist
       # gültiges TypeScript und baut fehlerfrei durch — er schlägt erst im
@@ -133,11 +158,23 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run check:hooks
 
+      - name: Fortschritt — Hooks-Regeln geprüft
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Hooks-Regeln geprüft"
+
       - name: Bauen
         env:
           PAGES_BASE: /
           VITE_NEWSLETTER_API: ${{ vars.NEWSLETTER_API_URL }}
         run: npm run build
+
+      - name: Fortschritt — Seite gebaut
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Seite gebaut"
 
       # Hier stand bis zum 17.08.2026 ein SPA-Fallback: cp dist/index.html
       # dist/404.html. Er ist weg, und zwar aus zwei Gründen.
@@ -158,6 +195,12 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
+
+      - name: Fortschritt — Artefakt hochgeladen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Artefakt hochgeladen"
 
       # Abmeldung im selben Job wie die Anmeldung. Der Job "deploy" darunter
       # hat keinen Auscheckvorgang — dort gäbe es dieses Skript gar nicht,
