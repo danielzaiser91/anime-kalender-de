@@ -104,6 +104,30 @@ export function pruefeErgebnis(
       }
     }
 
+    /**
+     * Die Staffel war fertig, bevor wir ihre erste Folge gesehen haben.
+     *
+     * In einem Satz der Widerspruch, an dem „Wistoria: Wand and Sword Staffel
+     * 2" am 21.08.2026 hing: zwölf Termine vom 08.02. bis 26.04.2026 im
+     * Datensatz, während der Kalender die Folgen 17 bis 24 zwischen dem 31.05.
+     * und dem 19.07.2026 belegt hatte. Crunchyroll zählt die Reihe durch,
+     * AniList je Staffel — die Rückrechnung ab Folge 1 landete drei Monate zu
+     * früh, und keiner der acht belegten Termine stand noch drin.
+     *
+     * Eine Beobachtung ist der eine Punkt, an dem der Sendeplan die
+     * Wirklichkeit berührt. Läuft die Terminliste vollständig an ihr vorbei,
+     * ist nicht die Beobachtung falsch, sondern alles, was daraus gerechnet
+     * wurde.
+     */
+    const beobachtet = Object.values(s.observed ?? {}).filter(Boolean).sort()
+    const termine = (eventsProSlug.get(r.slug) ?? []).map((e) => e.date).sort()
+    if (beobachtet.length && termine.length && termine[termine.length - 1] < beobachtet[0]) {
+      fehler.push(
+        `${at}: letzter Termin ${termine[termine.length - 1]} liegt vor der frühesten belegten ` +
+          `Beobachtung ${beobachtet[0]} — die Staffel wäre fertig gewesen, bevor wir ihre erste Folge gesehen haben`,
+      )
+    }
+
     const title = titles.get(r.titleId)
     if (title?.episodes && s.episodeCount) {
       const diff = s.episodeCount - title.episodes

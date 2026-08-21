@@ -30,7 +30,11 @@ import {
 } from './lib/adn.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { beurteile } from './lib/crunchyroll-dub.ts'
-import { beobachtungenZusammenfuehren } from './lib/crunchyroll.ts'
+import {
+  beobachtungenZusammenfuehren,
+  durchlaufendeZaehlung,
+  DURCHZAEHLUNG_UNKLAR,
+} from './lib/crunchyroll.ts'
 import type { Release, Title } from '../shared/types.ts'
 
 let fehler = 0
@@ -350,6 +354,138 @@ console.log('\nGegenprobe des erzeugten Datensatzes:')
     zwei.fehler.some((f) => f.includes('52 Folgen bei 26')),
     zwei.fehler,
   )
+}
+
+/**
+ * Crunchyroll zählt die Reihe durch, AniList zählt je Staffel.
+ *
+ * Der Fall vom 21.08.2026: „Wistoria: Wand and Sword Staffel 2" stand mit zwölf
+ * Terminen vom 08.02. bis 26.04.2026 im Datensatz. Belegt war das Gegenteil —
+ * Staffel 2 lief vom 03.05. bis 19.07.2026 als Folgen 13 bis 24. Alle zwölf
+ * ausgelieferten Termine waren erfunden, und kein einziger belegter stand drin.
+ *
+ * Nachgestellt werden beide Hälften: die Ableitung, die den Fehler erzeugte,
+ * und die Gegenprobe, die ihn künftig abfängt.
+ */
+console.log('\nDurchlaufende Folgenzählung:')
+{
+  const wistoria: Record<number, string> = {
+    17: '2026-05-31',
+    18: '2026-06-07',
+    19: '2026-06-14',
+    20: '2026-06-21',
+    21: '2026-06-28',
+    22: '2026-07-05',
+    23: '2026-07-12',
+    24: '2026-07-19',
+  }
+  // Das Fenster des Laufs vom 21.08.2026: Es reicht weit über den 19.07. hinaus
+  // und zeigt dort keine Folge mehr — Folge 24 ist damit die letzte.
+  const fenster = '2026-08-30'
+
+  const z = durchlaufendeZaehlung(wistoria, 12, fenster)
+  pruefe('Wistoria: Staffel 2 beginnt bei Folge 13', z?.firstEpisodeNumber === 13, z)
+  pruefe('Wistoria: Start am 03.05.2026', z?.firstEpisodeDate === '2026-05-03', z?.firstEpisodeDate)
+  pruefe('Wistoria: zwölf Folgen bleiben zwölf', z?.episodeCount === 12, z?.episodeCount)
+
+  // Eine Staffel, die wirklich bei eins beginnt und nur aus dem Abruffenster
+  // gerutscht ist, wird nicht angefasst — die Rückrechnung ist dort richtig.
+  pruefe(
+    'Folge 5 in einem Zwölfteiler ist kein Fall für die Korrektur',
+    durchlaufendeZaehlung({ 5: '2026-05-26', 6: '2026-06-02' }, 12, fenster) === undefined,
+  )
+
+  /**
+   * „The 100 Girlfriends" Staffel 3: Folge 25 aufwärts, aber AniList kennt für
+   * die Staffel keine Folgenzahl. Ohne sie lässt sich der Anfang nicht
+   * bestimmen — und dann wird er auch nicht geraten. Bis zum 21.08.2026 stand
+   * hier eine aus den Beobachtungen selbst gebaute „Staffel mit 29 Folgen",
+   * also ein Zirkelschluss, und daraus 24 erfundene Termine ab Februar.
+   */
+  const ohneFolgenzahl = durchlaufendeZaehlung(
+    { 25: '2026-07-26', 26: '2026-08-02', 27: '2026-08-09', 28: '2026-08-16' },
+    undefined,
+    fenster,
+  )
+  pruefe(
+    'ohne belegte Staffellänge bleibt es beim Belegten',
+    ohneFolgenzahl?.firstEpisodeNumber === 25 &&
+      ohneFolgenzahl?.firstEpisodeDate === '2026-07-26' &&
+      ohneFolgenzahl?.episodeCount === 4 &&
+      ohneFolgenzahl?.note === DURCHZAEHLUNG_UNKLAR,
+    ohneFolgenzahl,
+  )
+
+  /**
+   * Läuft die Reihe noch, ist die letzte gesehene Folge kein Anker: Der
+   * Kalender hat über sie hinaus nichts gesehen, weil er dort noch nicht war.
+   * Aus „Folge 24 am 19.07." darf dann keine Staffel 13–24 werden.
+   */
+  const nochNichtVorbei = durchlaufendeZaehlung(wistoria, 12, '2026-07-20')
+  pruefe(
+    'noch laufende Reihe: kein Ende, also nur das Belegte',
+    nochNichtVorbei?.firstEpisodeNumber === 17 && nochNichtVorbei?.episodeCount === 8,
+    nochNichtVorbei,
+  )
+
+  // Und der Sendeplan muss am Ende genau das ergeben: Folge 13 am 03.05.,
+  // Folge 17 am 31.05. als belegter Stützpunkt, Folge 24 am 19.07.
+  const release: Release = {
+    slug: 'cr-GW4HM7WK9',
+    titleId: 182300,
+    name: 'Wistoria: Wand and Sword Staffel 2',
+    platform: 'crunchyroll',
+    releaseType: 'weekly',
+    schedule: {
+      firstEpisodeDate: z?.firstEpisodeDate ?? '',
+      firstEpisodeNumber: z?.firstEpisodeNumber,
+      episodeCount: z?.episodeCount,
+      observed: wistoria,
+    },
+    year: 2026,
+    sources: ['https://www.crunchyroll.com/de/simulcastcalendar'],
+  }
+  const termine = expandEvents(release)
+  pruefe('zwölf Termine, Folge 13 bis 24', termine.length === 12 && termine.at(-1)?.episode === 24, termine.length)
+  pruefe('Folge 13 am 03.05.2026', termine[0]?.date === '2026-05-03', termine[0]?.date)
+  pruefe(
+    'Folge 17 am 31.05.2026 — belegt, nicht gerechnet',
+    termine.find((e) => e.episode === 17)?.date === '2026-05-31',
+    termine.find((e) => e.episode === 17)?.date,
+  )
+  pruefe('Folge 24 am 19.07.2026', termine.at(-1)?.date === '2026-07-19', termine.at(-1)?.date)
+
+  /**
+   * Die Gegenprobe am erzeugten Datensatz: Der Stand vom 21.08.2026 muss
+   * auffallen, ohne dass jemand von Crunchyrolls Zählweise weiß. „Der letzte
+   * Termin liegt vor der frühesten belegten Beobachtung" reicht dafür.
+   */
+  const alt: Release = {
+    ...release,
+    schedule: {
+      firstEpisodeDate: '2026-02-08',
+      episodeCount: 12,
+      observed: wistoria,
+    },
+  }
+  const gemeldet = pruefeErgebnis(
+    [alt],
+    expandEvents(alt),
+    new Map<number, Title>([[182300, titel(182300, 'Wistoria: Wand and Sword Season 2', 12, 2026, 'SPRING')]]),
+    '2026-08-21',
+  )
+  pruefe(
+    'Termine vor der frühesten Beobachtung werden gemeldet',
+    gemeldet.fehler.some((f) => f.includes('vor der frühesten belegten')),
+    gemeldet.fehler,
+  )
+  const repariert = pruefeErgebnis(
+    [release],
+    expandEvents(release),
+    new Map<number, Title>([[182300, titel(182300, 'Wistoria: Wand and Sword Season 2', 12, 2026, 'SPRING')]]),
+    '2026-08-21',
+  )
+  pruefe('der reparierte Sendeplan geht durch', repariert.fehler.length === 0, repariert.fehler)
 }
 
 console.log('\nCrunchyroll: fremde Staffelfehler nicht nachbauen:')

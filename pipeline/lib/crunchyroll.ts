@@ -1,5 +1,6 @@
 /** Typen und Titel-Normalisierung für die Crunchyroll-Daten — ohne Playwright,
  *  damit der Build sie importieren kann, ohne einen Browser zu starten. */
+import { addDays } from '../../shared/time.ts'
 
 export interface CrunchyrollSlot {
   /** Normalisierter Titel ohne Sprach-Suffix, als Schlüssel zum Zuordnen. */
@@ -88,6 +89,105 @@ export function beobachtungenZusammenfuehren(
 ): Record<number, string> | undefined {
   const zusammen = { ...abgeleitet, ...kuratiert }
   return Object.keys(zusammen).length ? zusammen : undefined
+}
+
+/**
+ * Womit gerechnet wird, wenn die Staffellänge nirgends belegt ist.
+ *
+ * Die Zahl erfindet keine Folgenzahl — sie verhindert eine Rückrechnung. Wer im
+ * Kalender bei Folge 25 einsteigt, kann in keiner Staffel stecken, die bei eins
+ * anfängt, egal wie großzügig man sie schätzt.
+ */
+const VORGABE_STAFFELLAENGE = 12
+
+/**
+ * Was aus einer durchlaufenden Zählung folgt: Startnummer, Starttermin und die
+ * Zahl der Folgen, die dieses Release wirklich abdeckt.
+ */
+export interface Durchzaehlung {
+  firstEpisodeNumber: number
+  firstEpisodeDate: string
+  episodeCount: number
+  /** Warum die Zählung nicht bei eins beginnt — gehört an den Release. */
+  note: string
+}
+
+export const DURCHZAEHLUNG_BELEGT =
+  'Crunchyroll zählt die Reihe durch: Diese Staffel setzt mitten in der Zählung ein.'
+export const DURCHZAEHLUNG_UNKLAR =
+  'Crunchyroll zählt die Reihe durch. Wo die Staffel beginnt, ist nicht belegt — ' +
+  'geführt sind deshalb nur die im Kalender gesehenen Folgen.'
+
+/**
+ * Zählt Crunchyroll diese Reihe durch — und wenn ja, ab welcher Folge?
+ *
+ * Crunchyroll nummeriert über alle Staffeln hinweg, AniList je Staffel. Für
+ * „Wistoria: Wand and Sword Staffel 2" heißt das: Crunchyroll führt die Folgen
+ * 13 bis 24, AniList zählt zwölf. Ohne diese Unterscheidung rechnete der Build
+ * aus „Folge 17 am 31.05.2026" einen Start am 08.02.2026 zurück und legte dort
+ * die Folgen 1 bis 12 hin — zwölf Termine, die es nie gab, während die acht
+ * belegten Termine aus dem Fenster [1..12] herausfielen und als Stützpunkte
+ * nicht einmal mehr wirkten (gemessen am 21.08.2026, gemeldet von Daniel).
+ *
+ * Das Kennzeichen ist einfach: Liegt die kleinste beobachtete Folgennummer über
+ * dem, was die Staffel hergibt, kann sie nicht zu einer Zählung ab Folge 1
+ * gehören.
+ *
+ * Wo die Staffel dann **anfängt**, ist die zweite Frage, und sie ist nur mit
+ * zwei Belegen zu beantworten:
+ *
+ *  1. die Staffellänge — aus AniList oder aniSearch, nicht die Vorgabe;
+ *  2. die letzte Folge — belegt dadurch, dass der Kalender über den letzten
+ *     gesehenen Termin hinausgesehen und dort nichts mehr gefunden hat. Das ist
+ *     derselbe Schluss, mit dem `overlapsWindow` in `build.ts` eine ganze
+ *     behauptete Synchro verwirft.
+ *
+ * Fehlt einer der beiden, wird **nicht** geschätzt: Dann bleibt der Zeitraum
+ * auf die gesehenen Folgen beschränkt. Eine zweite Vermutung über die erste zu
+ * legen wäre genau der Fehler, um den es hier geht.
+ *
+ * `fensterBis` ist das Ende des abgesuchten Kalenderzeitraums. Achtung: Die
+ * früheste Beobachtung ist **nicht** der Staffelstart — der Kalender zeigt nur
+ * ein Fenster von Wochen, und was davor lief, steht dort nie.
+ */
+export function durchlaufendeZaehlung(
+  beobachtet: Record<number, string> | undefined,
+  belegteFolgenzahl: number | undefined,
+  fensterBis: string | undefined,
+  startnummer = 1,
+): Durchzaehlung | undefined {
+  const gesehen = beobachtet ?? {}
+  const nummern = Object.keys(gesehen)
+    .map(Number)
+    .filter((n) => n > 0 && gesehen[n])
+    .sort((a, b) => a - b)
+  if (!nummern.length) return undefined
+
+  const kleinste = nummern[0]
+  const groesste = nummern[nummern.length - 1]
+  if (kleinste <= startnummer + (belegteFolgenzahl ?? VORGABE_STAFFELLAENGE) - 1) return undefined
+
+  const nurBelegtes: Durchzaehlung = {
+    firstEpisodeNumber: kleinste,
+    firstEpisodeDate: gesehen[kleinste],
+    episodeCount: groesste - kleinste + 1,
+    note: DURCHZAEHLUNG_UNKLAR,
+  }
+  if (!belegteFolgenzahl) return nurBelegtes
+  // Mehr gesehene Folgen, als die Staffel haben soll: Dann stimmt die
+  // Folgenzahl nicht, und auf ihr lässt sich nichts aufbauen.
+  if (groesste - kleinste + 1 > belegteFolgenzahl) return nurBelegtes
+  // Hat der Kalender über die letzte gesehene Folge hinausgesehen? Sonst läuft
+  // die Reihe womöglich weiter, und ihr Ende ist kein Anker.
+  if (!fensterBis || addDays(gesehen[groesste], 7) > fensterBis) return nurBelegtes
+
+  const firstEpisodeNumber = groesste - belegteFolgenzahl + 1
+  return {
+    firstEpisodeNumber,
+    firstEpisodeDate: addDays(gesehen[kleinste], -7 * (kleinste - firstEpisodeNumber)),
+    episodeCount: belegteFolgenzahl,
+    note: DURCHZAEHLUNG_BELEGT,
+  }
 }
 
 /** Zieht die Serien-ID aus einer Crunchyroll-URL. */
