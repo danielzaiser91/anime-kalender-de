@@ -832,3 +832,12 @@
   dub: false
   checkedAt: '2026-08-22'
   note: 'Letzter Block ohne deutsche Tonspur'
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-21 ---
+
+- anilistId: 112153
+  title: "Pokémon Journeys: The Series"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-21'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
