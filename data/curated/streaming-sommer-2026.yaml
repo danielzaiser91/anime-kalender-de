@@ -49,12 +49,22 @@
   titleDe: "Mushoku Tensei: Jobless Reincarnation – Staffel 3"
   platform: crunchyroll
   releaseType: weekly
+  note: "Zum Start am 19.08.2026 standen die Folgen 1 bis 3 gemeinsam bereit, danach geht es im Wochentakt weiter."
   schedule:
     firstEpisodeDate: "2026-07-05"
     estimated: true
+    # Sichtprüfung auf Crunchyroll (Daniel, 21.08.2026): Am 19.08.2026 lagen die
+    # Folgen 1 bis 3 gemeinsam vor. Der Kalenderabruf vom selben Tag kennt dazu
+    # nur eine einzige Kachel — „Folge 1", 19.08., 17:00 — und rechnete deshalb
+    # Folge 2 auf den 26.08. Die beiden Nachträge sind gesehen, nicht gerechnet.
+    observed:
+      1: "2026-08-19"
+      2: "2026-08-19"
+      3: "2026-08-19"
   sources:
     - https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026
     - https://www.anime2you.de/news/1022385/crunchyroll-sommer-2026-synchros/
+    - https://www.crunchyroll.com/de/series/G24H1N3MP/mushoku-tensei-jobless-reincarnation
 
 - slug: saga-of-tanya-the-evil-s2
   anilistId: 135865

@@ -4,6 +4,7 @@
  */
 import { type AniListMedia, type KatalogEintrag } from './lib/anilist.ts'
 import {
+  beobachtungenZusammenfuehren,
   crunchyrollSeriesId,
   normalizeTitle,
   type CrunchyrollData,
@@ -1277,9 +1278,11 @@ function main(): void {
           schedule.estimated = observed.assumed
           if (!observed.assumed) delete schedule.estimated
         }
-        // Gesehene Einzeltermine gewinnen gegen jede Hochrechnung.
-        const seen = observedEpisodes(slot)
-        if (Object.keys(seen).length) schedule.observed = seen
+        // Gesehene Einzeltermine gewinnen gegen jede Hochrechnung — und der
+        // Mensch gegen den Kalender, der von einem Mehrfachstart nur eine
+        // Kachel zeigt.
+        const seen = beobachtungenZusammenfuehren(observedEpisodes(slot), entry.schedule.observed)
+        if (seen) schedule.observed = seen
         sources.push(CR_CALENDAR_URL)
       } else if (entry.schedule.estimated && crunchyroll.window && overlapsWindow(schedule, crunchyroll.window)) {
         // Die Serie müsste im abgesuchten Zeitraum laufen, und der Kalender
@@ -1444,7 +1447,12 @@ function main(): void {
         // Uhrzeit und Wochentag sind belegt; nur der zurückgerechnete Start
         // bleibt eine Annahme, solange die Wochentaktung nicht bestätigt ist.
         estimated: derived.assumed,
-        observed: observedEpisodes(slot),
+        // Hier gibt es nichts zusammenzuführen: In diese Schleife kommt nur,
+        // wozu kein kuratierter Eintrag existiert (`usedCrKeys`). Der Aufruf
+        // steht trotzdem hier, damit ohne nummerierte Kachel kein leeres Feld
+        // im Datensatz landet — und damit die Regel an beiden Stellen dieselbe
+        // ist, falls je ein kuratierter Eintrag hierher durchfällt.
+        observed: beobachtungenZusammenfuehren(observedEpisodes(slot), undefined),
       },
       year: releaseYear,
       sources: [CR_CALENDAR_URL],

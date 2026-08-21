@@ -69,6 +69,27 @@ export function normalizeTitle(raw: string): string {
     .trim()
 }
 
+/**
+ * Legt kuratierte Folgentermine über die aus dem Kalender abgelesenen.
+ *
+ * Der Kalender zeigt je Tag eine Kachel, und die trägt eine Folgennummer — für
+ * einen Auftakt mit drei Folgen an einem Tag also die einer einzigen davon. Was
+ * dort nicht steht, kann nur ein Mensch nachtragen, und dann darf der nächste
+ * Lauf es ihm nicht wieder wegnehmen: Bei einer Kollision derselben
+ * Folgennummer gewinnt die Handeintragung, wie überall sonst in diesem Projekt
+ * (siehe `data/dub-confirmed.yaml`).
+ *
+ * Der Wochentakt bleibt davon unberührt — er trägt weiter alles, wofür niemand
+ * etwas Abweichendes eingetragen hat.
+ */
+export function beobachtungenZusammenfuehren(
+  abgeleitet: Record<number, string>,
+  kuratiert: Record<number, string> | undefined,
+): Record<number, string> | undefined {
+  const zusammen = { ...abgeleitet, ...kuratiert }
+  return Object.keys(zusammen).length ? zusammen : undefined
+}
+
 /** Zieht die Serien-ID aus einer Crunchyroll-URL. */
 export function crunchyrollSeriesId(url: string | undefined): string | undefined {
   return url ? (/\/series\/([A-Z0-9]+)/i.exec(url)?.[1] ?? undefined) : undefined
