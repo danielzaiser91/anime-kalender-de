@@ -753,3 +753,14 @@
   platform: netflix
   dub: true
   checkedAt: '2026-08-21'
+
+# Unter dieser Adresse steht bei Netflix nur Staffel 1 — kein Auswahlfeld wie
+# bei den anderen Titeln (Daniel, 21.08.2026). Ob Netflix die weiteren Staffeln
+# unter eigenen Adressen führt, ist offen; solange das ungeklärt ist, bleiben
+# sie hier ohne Angabe, statt aus einem fehlenden Auswahlfeld ein Nein zu machen.
+- anilistId: 101280
+  title: That Time I Got Reincarnated as a Slime
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-21'
+  note: Alle 24 Folgen der ersten Staffel auf Deutsch.
