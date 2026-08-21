@@ -38,7 +38,7 @@ import {
 } from './lib/adn-sprachen.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { beurteile } from './lib/crunchyroll-dub.ts'
-import { staffelAuszaehlen } from './lib/crunchyroll-api.ts'
+import { kennungAusZiel, staffelAuszaehlen } from './lib/crunchyroll-api.ts'
 import {
   bestandAus,
   belegtDeutsch,
@@ -694,6 +694,28 @@ console.log('\nCrunchyroll: fremde Staffelfehler nicht nachbauen:')
     doppelt.jeFolge.size === 2 && [...doppelt.jeFolge.values()].every((x) => x === 'deutsch'),
     [...doppelt.jeFolge],
   )
+
+  /**
+   * Ein misslungener Seitenaufruf ist eine Nichtauskunft, keine fremde Serie.
+   *
+   * Der teuerste Fehler dieses Abrufs, gemessen am 21.08.2026: Crunchyroll zog
+   * nach rund 300 Serien die Bot-Sperre, jedes weitere `page.goto` schlug fehl
+   * — und weil ein fehlgeschlagener Aufruf die Seite nicht wechselt, stand im
+   * Browser weiter die Aufwärmseite. 91 fremde Adressen bekamen deren
+   * Staffelliste zugeschrieben, „sing-a-bit-of-harmony" mitsamt
+   * „JUJUTSU KAISEN: 24/24".
+   */
+  const zielFaelle: [string, string | undefined][] = [
+    ['about:blank', undefined],
+    ['https://www.crunchyroll.com/de/series/GRDV0019R', undefined],
+    ['https://www.crunchyroll.com/de/series/GRDV0019R/jujutsu-kaisen', 'GRDV0019R'],
+    ['https://www.crunchyroll.com/de/watch/GE00374453/eine-folge', undefined],
+    ['https://www.crunchyroll.com/de/sing-a-bit-of-harmony', undefined],
+  ]
+  for (const [ziel, soll] of zielFaelle) {
+    const ist = kennungAusZiel(ziel)
+    pruefe(`Kennung aus „${ziel.slice(0, 58)}" ist ${soll ?? 'keine'}`, ist === soll, ist)
+  }
 
   // Folgen ohne Nummer (Filme, Specials) dürfen nicht zu einer verschmelzen.
   const ohneNummer = staffelAuszaehlen([

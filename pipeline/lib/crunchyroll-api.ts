@@ -59,6 +59,26 @@ export class CrunchyrollGesperrt extends Error {}
 export const DEUTSCH = 'de-DE'
 
 /**
+ * Die Serienkennung aus der Adresse, auf der ein Seitenaufruf gelandet ist.
+ *
+ * Eigene Funktion, weil hier der teuerste Fehler dieses Abrufs saß und eine
+ * Zusicherung ihn festhalten können muss (`check-logic.ts`): Schlägt
+ * `page.goto` fehl, wechselt der Browser die Seite **nicht**, und `page.url()`
+ * liefert die Adresse der vorherigen. Am 21.08.2026 stand dort nach
+ * Crunchyrolls Bot-Sperre die Aufwärmseite, und 91 fremde Adressen bekamen die
+ * Staffelliste von „Jujutsu Kaisen" zugeschrieben.
+ *
+ * Zwei Adressen sind deshalb ausdrücklich kein Ergebnis: `about:blank` (dorthin
+ * wird vor jedem Aufruf geräumt) und die Aufwärmseite selbst. Der echte Verweis
+ * auf dieselbe Serie trägt den Slug und bleibt gültig.
+ */
+export function kennungAusZiel(ziel: string): string | undefined {
+  if (!ziel.startsWith('https://www.crunchyroll.com/')) return undefined
+  if (ziel === AUFWAERM_SEITE) return undefined
+  return /\/series\/([A-Z0-9]+)/i.exec(ziel)?.[1]
+}
+
+/**
  * Was über eine einzelne Folge zu sagen ist.
  *
  * Dieselben drei Werte wie beim Lesen der Folgenkacheln, damit beide Wege
@@ -332,15 +352,7 @@ export class CrunchyrollApi {
     await this.page.goto('about:blank').catch(() => undefined)
     await this.page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 }).catch(() => undefined)
     const ziel = this.page.url()
-    /**
-     * Die eigene Aufwärmseite ist nie ein Ergebnis.
-     *
-     * Ein Gürtel zum Hosenträger oben: Landet der Aufruf ausgerechnet auf der
-     * Adresse, die dieser Abruf selbst als Startseite benutzt, ist das kein
-     * Befund über die angefragte Adresse. Der echte Verweis auf dieselbe Serie
-     * trägt den Slug (`/series/GRDV0019R/jujutsu-kaisen`) und bleibt gültig.
-     */
-    const seriesId = ziel === AUFWAERM_SEITE ? undefined : /\/series\/([A-Z0-9]+)/i.exec(ziel)?.[1]
+    const seriesId = kennungAusZiel(ziel)
     if (seriesId && !aufMeldungWarten) {
       await sleep(this.pauseMs)
       return { seriesId, ziel }
