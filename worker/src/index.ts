@@ -1090,6 +1090,12 @@ const ISO_JETZT = "strftime('%Y-%m-%dT%H:%M:%SZ', 'now'"
 function jetztIso(): string {
   return new Date().toISOString().slice(0, 19) + 'Z'
 }
+/** Aus der Meldung eine Zahl machen — oder nichts, wenn dort keine steht. */
+function zahlOderNull(wert: unknown): number | null {
+  const n = Number(wert)
+  return Number.isFinite(n) && n >= 0 ? Math.round(n) : null
+}
+
 async function handleLauf(request: Request, env: Env): Promise<Response> {
   const offen = { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
   const antwort = (body: unknown, status = 200) =>
@@ -1115,7 +1121,8 @@ async function handleLauf(request: Request, env: Env): Promise<Response> {
      *              und weiterverarbeitet habe.
      */
     const { results } = await env.DB.prepare(
-      `SELECT lauf_id, repo, workflow, auftrag, zustand, begonnen_am, gemeldet_am, url, notiz
+      `SELECT lauf_id, repo, workflow, auftrag, zustand, begonnen_am, gemeldet_am, url, notiz,
+              fortschritt, fortschritt_gesamt, fortschritt_text
          FROM lauf_status
         WHERE zustand != 'erledigt'
           AND gemeldet_am > ${ISO_JETZT}, '-3 days')
@@ -1149,13 +1156,17 @@ async function handleLauf(request: Request, env: Env): Promise<Response> {
 
   const jetzt = jetztIso()
   await env.DB.prepare(
-    `INSERT INTO lauf_status (lauf_id, repo, workflow, auftrag, zustand, begonnen_am, gemeldet_am, url, notiz)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)
+    `INSERT INTO lauf_status (lauf_id, repo, workflow, auftrag, zustand, begonnen_am, gemeldet_am, url, notiz,
+                             fortschritt, fortschritt_gesamt, fortschritt_text)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)
      ON CONFLICT(lauf_id) DO UPDATE SET
        zustand = excluded.zustand,
        gemeldet_am = excluded.gemeldet_am,
        notiz = COALESCE(excluded.notiz, lauf_status.notiz),
-       auftrag = COALESCE(excluded.auftrag, lauf_status.auftrag)`,
+       auftrag = COALESCE(excluded.auftrag, lauf_status.auftrag),
+       fortschritt = COALESCE(excluded.fortschritt, lauf_status.fortschritt),
+       fortschritt_gesamt = COALESCE(excluded.fortschritt_gesamt, lauf_status.fortschritt_gesamt),
+       fortschritt_text = COALESCE(excluded.fortschritt_text, lauf_status.fortschritt_text)`,
   )
     .bind(
       laufId,
@@ -1167,6 +1178,9 @@ async function handleLauf(request: Request, env: Env): Promise<Response> {
       jetzt,
       daten.url ?? null,
       daten.notiz ?? null,
+      zahlOderNull(daten.fortschritt),
+      zahlOderNull(daten.fortschritt_gesamt),
+      daten.fortschritt_text ?? null,
     )
     .run()
 

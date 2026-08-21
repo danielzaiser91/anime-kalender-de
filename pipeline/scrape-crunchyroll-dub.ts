@@ -45,6 +45,7 @@
 import { chromium, type Page } from 'playwright'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
+import { fortschrittsMelder } from './lib/lauf-fortschritt.ts'
 import type { Title } from '../shared/types.ts'
 import { addDays, todayIso } from '../shared/time.ts'
 import type { CrSerie, CrStaffel } from './lib/crunchyroll-dub.ts'
@@ -381,6 +382,11 @@ async function main(): Promise<void> {
     return
   }
 
+  // Der Fortschritt geht an die Statusanzeige, damit von außen sichtbar ist,
+  // ob dieser Lauf bei Seite 3 oder bei Seite 500 steht. Lokal ohne Token tut
+  // der Melder nichts.
+  const melde = fortschrittsMelder(adressen.length)
+
   const browser = await chromium.launch()
   const page = await browser.newPage({ userAgent: CHROME, locale: 'de-DE', viewport: { width: 1600, height: 1200 } })
   let ohneDeutsch = 0
@@ -390,11 +396,11 @@ async function main(): Promise<void> {
     writeJson('data/crunchyroll-dub.json', { scrapedAt: new Date().toISOString(), serien: [...bestand.values()] }, true)
 
   for (const [i, url] of adressen.entries()) {
+    const kurz = url.replace(/^https?:\/\/(www\.)?crunchyroll\.com\/de\//, '')
     try {
       const serie = await serieLesen(page, url)
       bestand.set(url, serie)
       if (!serie.deutschImAngebot) ohneDeutsch++
-      const kurz = url.replace(/^https?:\/\/(www\.)?crunchyroll\.com\/de\//, '')
       log(
         `  ${i + 1}/${adressen.length} ${serie.deutschImAngebot ? '🇩🇪' : '—'} ${kurz.slice(0, 52)}` +
           (serie.staffeln ? ` (${serie.staffeln.map((s) => `${s.name}: ${s.deutsch}/${s.folgen}`).join(', ')})` : ''),
@@ -411,6 +417,10 @@ async function main(): Promise<void> {
     }
     // Alle zehn Seiten sichern: Ein Abbruch kostet dann höchstens zehn Abrufe.
     if (i % 10 === 9) sichern()
+    // Nicht abwarten: Der Lauf hat mit der Statusanzeige nichts zu schaffen,
+    // und 594 Wartezeiten von je einer Zehntelsekunde wären Minuten für nichts.
+    // Ein Fehlschlag darf hier ohnehin nichts bewirken.
+    void melde(i + 1, kurz)
     await sleep(1500)
   }
   await browser.close()
