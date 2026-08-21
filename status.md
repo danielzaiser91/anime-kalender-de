@@ -542,6 +542,26 @@ Ob Schritt 3 sich für mehrere Kennungen auf einmal abfragen lässt
 (`objects/<guid1>,<guid2>,…`), ist **ungeprüft** — bei Crunchyroll ist diese Form
 sonst üblich und würde die Zahl der Aufrufe stark senken.
 
+### Drei weitere Befunde vom 21.08.2026
+
+**Der Sammelabruf trägt.** `objects/<guid1>,<guid2>,<guid3>?locale=de-DE` liefert alle
+angefragten Objekte auf einmal. Damit ist die Skalierungsfrage beantwortet: Statt eines
+Aufrufs je Folge — bei 959 Serien über zehntausend — genügen wenige Bündel.
+
+**Die Quelle kündigt nichts an.** Folge 4 und 5 von „Mushoku Tensei" Staffel 3 führen in
+`versions` schlicht kein `de-DE`: keine Kennung, kein künftiges Datum, kein Hinweis. Die
+Schnittstelle sagt „ist da" oder „ist nicht da" — sie sagt nie „kommt am". Für die Vorschau
+bleibt es beim Kalenderabruf und bei der Fortschreibung.
+
+**`is_dubbed` ist eine Falle und darf nicht benutzt werden.** Das Feld steht auf `true`, sobald
+es **irgendeine** Synchronfassung gibt — bei Folge 4 und 5 also auch, obwohl dort nur Englisch,
+Italienisch, Spanisch und Portugiesisch vorliegen. Wer danach ginge, hielte jede Folge für
+deutsch synchronisiert. Maßgeblich ist ausschließlich `de-DE` in `versions`.
+
+**Die Uhrzeiten sind echt und einzeln.** Die drei deutschen Folgen erschienen am 19.08.2026 um
+11:00, 11:30 und 15:00 UTC — also nicht als ein Block zur selben Minute. Das Projekt führt
+`schedule.time` bisher nur, wo es belegt ist; hier wäre es belegt.
+
 ### Was daran hängt
 
 969 der 1.914 offenen Verweise in der Prüfliste sind Crunchyroll. Sie sind damit nicht mehr
