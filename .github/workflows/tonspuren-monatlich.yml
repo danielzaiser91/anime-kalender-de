@@ -46,6 +46,7 @@ jobs:
     env:
       LAUF_ZWECK: "Prüft Tonspuren bei Netflix, Prime Video und Disney+ über die Streaming Availability API"
       LAUF_ZIEL: "bis zu ${{ inputs.budget || '800' }} Abrufe des Monatskontingents nutzen"
+      LAUF_SCHRITTE: '2'
     timeout-minutes: 90
     steps:
       # Sofort anmelden, noch vor allem anderen.
@@ -109,11 +110,23 @@ jobs:
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
         run: npm run data:motn -- --budget ${{ inputs.budget || '800' }} --alter ${{ inputs.alter || '60' }}
 
+      - name: Fortschritt — Tonspuren holen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Tonspuren holen"
+
       - name: Messung gegen die eigenen Belege
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:motn:check >> $GITHUB_STEP_SUMMARY
+
+      - name: Fortschritt — Messung gegen die eigenen Belege
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Messung gegen die eigenen Belege"
 
       - name: Ergebnis sichern
         if: always()

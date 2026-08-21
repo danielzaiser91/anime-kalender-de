@@ -28,6 +28,7 @@ jobs:
     env:
       LAUF_ZWECK: "Aktualisiert täglich alle Datenquellen von anime-kalender.de"
       LAUF_ZIEL: "AniList, Crunchyroll, ADN, Anime2You und aniSearch einlesen, Datensatz neu bauen"
+      LAUF_SCHRITTE: '8'
     steps:
       # Sofort anmelden, noch vor allem anderen.
       #
@@ -104,6 +105,12 @@ jobs:
           SITE_URL: ${{ vars.SITE_URL }}
         run: npm run data:fetch
 
+      - name: Fortschritt — Rohdaten holen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Rohdaten holen"
+
       - name: Deutsche Sendezeiten von Crunchyroll lesen
         # Schlägt der Lauf fehl (Seitenumbau, Ausfall), bleiben die zuletzt
         # gespeicherten Zeiten stehen — der Build läuft trotzdem weiter.
@@ -111,6 +118,12 @@ jobs:
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:crunchyroll
+
+      - name: Fortschritt — Deutsche Sendezeiten von Crunchyroll lesen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Deutsche Sendezeiten von Crunchyroll lesen"
 
       - name: ADN-Kalender lesen
         # Liefert Datum, Uhrzeit UND Sprachfassung — die einzige Quelle neben
@@ -120,12 +133,24 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:adn
 
+      - name: Fortschritt — ADN-Kalender lesen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "ADN-Kalender lesen"
+
       - name: Nachrichtenlage bei Anime2You prüfen
         # Erzeugt nur Vorschläge für die Kuratierung, keine Termine.
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:anime2you
+
+      - name: Fortschritt — Nachrichtenlage bei Anime2You prüfen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Nachrichtenlage bei Anime2You prüfen"
 
       - name: Deutsche Texte und Anbieter von aniSearch
         # Vom 09. bis 10.08.2026 ausgesetzt: anisearch.de war vom Anschluss des
@@ -142,16 +167,34 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:anisearch
 
+      - name: Fortschritt — Deutsche Texte und Anbieter von aniSearch
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Deutsche Texte und Anbieter von aniSearch"
+
       - name: Datensatz bauen
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           SITE_URL: ${{ vars.SITE_URL }}
         run: npm run data:build
 
+      - name: Fortschritt — Datensatz bauen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Datensatz bauen"
+
       - name: Vorschaubilder für neue Releases erzeugen
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:og
+
+      - name: Fortschritt — Vorschaubilder für neue Releases erzeugen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Vorschaubilder für neue Releases erzeugen"
 
       - name: Änderungen committen
         # `always()`, aus demselben Grund wie im Wochenlauf: Bricht der Aufbau an
@@ -169,6 +212,12 @@ jobs:
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:check
+
+      - name: Fortschritt — Quellen auf Schweigen prüfen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Quellen auf Schweigen prüfen"
 
       - name: Ergebnis nach Discord melden
         # Nur bei einem Fehlschlag. Dieser Lauf läuft täglich beziehungsweise

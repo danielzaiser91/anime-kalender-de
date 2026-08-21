@@ -1163,6 +1163,7 @@ async function handleLauf(request: Request, env: Env): Promise<Response> {
     `INSERT INTO lauf_status (lauf_id, repo, workflow, auftrag, zweck, ziel, zustand, begonnen_am, gemeldet_am, url, notiz,
                              fortschritt, fortschritt_gesamt, fortschritt_text)
      VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)
+     -- ?15 sagt nur, ob diese Meldung überhaupt einen Fortschritt enthält.
      ON CONFLICT(lauf_id) DO UPDATE SET
        zustand = excluded.zustand,
        gemeldet_am = excluded.gemeldet_am,
@@ -1170,9 +1171,9 @@ async function handleLauf(request: Request, env: Env): Promise<Response> {
        auftrag = COALESCE(excluded.auftrag, lauf_status.auftrag),
        zweck = COALESCE(excluded.zweck, lauf_status.zweck),
        ziel = COALESCE(excluded.ziel, lauf_status.ziel),
-       fortschritt = COALESCE(excluded.fortschritt, lauf_status.fortschritt),
-       fortschritt_gesamt = COALESCE(excluded.fortschritt_gesamt, lauf_status.fortschritt_gesamt),
-       fortschritt_text = COALESCE(excluded.fortschritt_text, lauf_status.fortschritt_text)`,
+       fortschritt = CASE WHEN ?15 = 1 THEN excluded.fortschritt ELSE lauf_status.fortschritt END,
+       fortschritt_gesamt = CASE WHEN ?15 = 1 THEN excluded.fortschritt_gesamt ELSE lauf_status.fortschritt_gesamt END,
+       fortschritt_text = CASE WHEN ?15 = 1 THEN excluded.fortschritt_text ELSE lauf_status.fortschritt_text END`,
   )
     .bind(
       laufId,
@@ -1189,6 +1190,7 @@ async function handleLauf(request: Request, env: Env): Promise<Response> {
       zahlOderNull(daten.fortschritt),
       zahlOderNull(daten.fortschritt_gesamt),
       daten.fortschritt_text ?? null,
+      daten.fortschritt === undefined ? 0 : 1,
     )
     .run()
 

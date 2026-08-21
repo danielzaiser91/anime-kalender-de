@@ -35,6 +35,7 @@ jobs:
     env:
       LAUF_ZWECK: "Hält die Sendetermine von anime-kalender.de stündlich aktuell"
       LAUF_ZIEL: "Crunchyroll-Kalender der nächsten drei Wochen einlesen und Datensatz bauen"
+      LAUF_SCHRITTE: '4'
     steps:
       # Sofort anmelden, noch vor allem anderen.
       #
@@ -116,6 +117,12 @@ jobs:
           SITE_URL: ${{ vars.SITE_URL }}
         run: npm run data:fetch
 
+      - name: Fortschritt — Rohdaten holen, falls kein Cache da ist
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Rohdaten holen, falls kein Cache da ist"
+
       - name: Browser installieren
         run: npx playwright install --with-deps chromium
 
@@ -123,16 +130,34 @@ jobs:
         # Drei Wochen genügen stündlich; der Wochenlauf schaut weiter zurück.
         run: npx tsx pipeline/scrape-crunchyroll.ts --weeks 3
 
+      - name: Fortschritt — Crunchyroll-Kalender lesen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Crunchyroll-Kalender lesen"
+
       - name: Datensatz bauen
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           SITE_URL: ${{ vars.SITE_URL }}
         run: npm run data:build
 
+      - name: Fortschritt — Datensatz bauen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Datensatz bauen"
+
       - name: Vorschaubilder für neue Releases
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:og
+
+      - name: Fortschritt — Vorschaubilder für neue Releases
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Vorschaubilder für neue Releases"
 
       - name: Änderungen committen
         run: |

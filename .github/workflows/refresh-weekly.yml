@@ -32,6 +32,7 @@ jobs:
     env:
       LAUF_ZWECK: "Wöchentlicher Tiefendurchlauf über alle Quellen von anime-kalender.de"
       LAUF_ZIEL: "ADN-Katalog, Sprechrollen, Crunchyroll-Synchro (250) und aniSearch (60) prüfen"
+      LAUF_SCHRITTE: '18'
     steps:
       # Sofort anmelden, noch vor allem anderen.
       #
@@ -108,6 +109,12 @@ jobs:
           SITE_URL: ${{ vars.SITE_URL }}
         run: npm run data:fetch
 
+      - name: Fortschritt — Rohdaten holen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Rohdaten holen"
+
       # Der Gesamtkatalog von AniList — die Grundlage für die Titel **ohne**
       # deutsche Synchro. Wöchentlich reicht: Neue Anime tauchen langsam auf,
       # und der Lauf kostet rund 600 Abfragen. Er setzt auf dem Cache auf und
@@ -122,13 +129,31 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:katalog
 
+      - name: Fortschritt — AniList-Gesamtkatalog
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "AniList-Gesamtkatalog"
+
       - name: Crunchyroll — zwölf Wochen
         continue-on-error: true
         run: npx tsx pipeline/scrape-crunchyroll.ts --weeks 12
 
+      - name: Fortschritt — Crunchyroll — zwölf Wochen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Crunchyroll — zwölf Wochen"
+
       - name: ADN — ein halbes Jahr voraus
         continue-on-error: true
         run: npx tsx pipeline/fetch-adn.ts --from -90 --to 180
+
+      - name: Fortschritt — ADN — ein halbes Jahr voraus
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "ADN — ein halbes Jahr voraus"
 
       - name: ADN — vollständiger Katalog
         # Der Kalender zeigt nur, was neu erscheint. Eine Serie, die komplett
@@ -139,6 +164,12 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:adn:catalog
 
+      - name: Fortschritt — ADN — vollständiger Katalog
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "ADN — vollständiger Katalog"
+
       - name: Deutsche Synchronsprecher
         # Holt nur, was fehlt oder älter als ein halbes Jahr ist.
         continue-on-error: true
@@ -146,12 +177,24 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:voices -- --limit 400
 
+      - name: Fortschritt — Deutsche Synchronsprecher
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Deutsche Synchronsprecher"
+
       - name: Zuordnung zu Anime News Network
         # Der Offline-Datensatz von manami-project wird woechentlich neu gebaut.
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:ann:ids
+
+      - name: Fortschritt — Zuordnung zu Anime News Network
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Zuordnung zu Anime News Network"
 
       - name: Deutsche Sprechrollen von Anime News Network
         # Eine Anfrage pro Sekunde, wie ANN es vorschreibt. Geholt wird nur, was
@@ -162,6 +205,12 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:ann:voices
 
+      - name: Fortschritt — Deutsche Sprechrollen von Anime News Network
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Deutsche Sprechrollen von Anime News Network"
+
       - name: Crunchyroll-Serienseiten auf deutsche Tonspur
         # Wiedervorlage nach 28 Tagen, gedeckelt: Ein voller Durchgang ueber 900
         # Seiten dauert Stunden und muss nicht in einem Lauf passieren.
@@ -169,6 +218,12 @@ jobs:
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:cr-dub -- --limit 250
+
+      - name: Fortschritt — Crunchyroll-Serienseiten auf deutsche Tonspur
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Crunchyroll-Serienseiten auf deutsche Tonspur"
 
       - name: YouTube-Verweise auf Abrufbarkeit in Deutschland
         # Die offizielle Data API v3, nicht das Auslesen der Seite: YouTube
@@ -183,6 +238,12 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: npm run data:youtube
+
+      - name: Fortschritt — YouTube-Verweise auf Abrufbarkeit in Deutschland
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "YouTube-Verweise auf Abrufbarkeit in Deutschland"
 
       - name: Anbieter-Verweise auf tote Seiten prüfen
         # Eine Stichprobe am 20.08.2026 fand bei Joyn 9 von 11 und bei Aniverse
@@ -199,11 +260,23 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:links -- --limit 400
 
+      - name: Fortschritt — Anbieter-Verweise auf tote Seiten prüfen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Anbieter-Verweise auf tote Seiten prüfen"
+
       - name: Anime2You
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:anime2you
+
+      - name: Fortschritt — Anime2You
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Anime2You"
 
       - name: Deutsche Texte und Anbieter von aniSearch
         # Nur ein Kontingent je Lauf, eine Anfrage pro Sekunde. Der Bestand
@@ -212,6 +285,12 @@ jobs:
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:anisearch -- --limit 60
+
+      - name: Fortschritt — Deutsche Texte und Anbieter von aniSearch
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Deutsche Texte und Anbieter von aniSearch"
 
       # TMDB: deutsche Handlung, FSK und Anbieter je Titel.
       #
@@ -231,16 +310,34 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:tmdb -- --limit 400
 
+      - name: Fortschritt — TMDB-Angaben auffrischen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "TMDB-Angaben auffrischen"
+
       - name: Datensatz bauen
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           SITE_URL: ${{ vars.SITE_URL }}
         run: npm run data:build
 
+      - name: Fortschritt — Datensatz bauen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Datensatz bauen"
+
       - name: Vorschaubilder
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:og
+
+      - name: Fortschritt — Vorschaubilder
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Vorschaubilder"
 
       - name: Änderungen committen
         # `always()`, damit ein gescheiterter Aufbau nicht die Ernte mitnimmt.
@@ -262,10 +359,22 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:report >> $GITHUB_STEP_SUMMARY
 
+      - name: Fortschritt — Was noch kuratiert werden müsste
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Was noch kuratiert werden müsste"
+
       - name: Quellen auf Schweigen prüfen
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:check
+
+      - name: Fortschritt — Quellen auf Schweigen prüfen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Quellen auf Schweigen prüfen"
 
       - name: Ergebnis nach Discord melden
         # Immer, auch bei einem Fehlschlag — eine Meldung, die genau dann

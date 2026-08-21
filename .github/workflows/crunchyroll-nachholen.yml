@@ -55,6 +55,7 @@ jobs:
     env:
       LAUF_ZWECK: "Holt den Rückstand bei den Crunchyroll-Synchro-Prüfungen nach"
       LAUF_ZIEL: "bis zu ${{ inputs.limit }} Serien bei Crunchyroll prüfen"
+      LAUF_SCHRITTE: '1'
     # Der Standard von 360 Minuten wäre großzügiger als nötig; 3 Stunden decken
     # auch einen vollen Durchgang über alle 954 Adressen ab.
     timeout-minutes: 180
@@ -121,6 +122,12 @@ jobs:
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:cr-dub -- --limit ${{ inputs.limit }} --alter ${{ inputs.alter }}${{ inputs.nur_fehler && ' --nur-fehler' || '' }}
+
+      - name: Fortschritt — Crunchyroll-Serienseiten auf deutsche Tonspur
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Crunchyroll-Serienseiten auf deutsche Tonspur"
 
       - name: Ergebnis sichern
         # Auch nach einem Abbruch: Was geholt wurde, ist geholt. Ein zweiter
