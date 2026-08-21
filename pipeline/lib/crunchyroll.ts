@@ -138,22 +138,31 @@ export const DURCHZAEHLUNG_UNKLAR =
  *
  *  1. die Staffellänge — aus AniList oder aniSearch, nicht die Vorgabe;
  *  2. die letzte Folge — belegt dadurch, dass der Kalender über den letzten
- *     gesehenen Termin hinausgesehen und dort nichts mehr gefunden hat. Das ist
- *     derselbe Schluss, mit dem `overlapsWindow` in `build.ts` eine ganze
+ *     gesehenen Termin hinausgereicht und dort nichts mehr gefunden hat. Das
+ *     ist derselbe Schluss, mit dem `overlapsWindow` in `build.ts` eine ganze
  *     behauptete Synchro verwirft.
  *
  * Fehlt einer der beiden, wird **nicht** geschätzt: Dann bleibt der Zeitraum
  * auf die gesehenen Folgen beschränkt. Eine zweite Vermutung über die erste zu
  * legen wäre genau der Fehler, um den es hier geht.
  *
- * `fensterBis` ist das Ende des abgesuchten Kalenderzeitraums. Achtung: Die
- * früheste Beobachtung ist **nicht** der Staffelstart — der Kalender zeigt nur
- * ein Fenster von Wochen, und was davor lief, steht dort nie.
+ * `kalenderBis` ist der letzte Tag, für den der Kalender **überhaupt** eine
+ * deutsche Folge führt — nicht das Ende des abgesuchten Zeitraums. Der
+ * Unterschied ist der ganze Punkt: Am 21.08.2026 lief der Abruf bis zum 30.08.,
+ * die letzte deutsche Kachel im gesamten Kalender stand aber auf dem 19.08.
+ * Crunchyroll kündigt Synchronfolgen also kaum vor. Gegen das abgesuchte
+ * Fenster gemessen sah jede gerade laufende Reihe abgeschlossen aus, und „The
+ * 100 Girlfriends Staffel 3" hätte statt bei Folge 25 bei Folge 17 begonnen —
+ * dieselbe Erfindung eine Ebene höher.
+ *
+ * Und noch einmal, weil hier alles daran hängt: Die früheste Beobachtung ist
+ * **nicht** der Staffelstart. Der Kalender zeigt nur ein Fenster von Wochen;
+ * was davor lief, steht dort nie.
  */
 export function durchlaufendeZaehlung(
   beobachtet: Record<number, string> | undefined,
   belegteFolgenzahl: number | undefined,
-  fensterBis: string | undefined,
+  kalenderBis: string | undefined,
   startnummer = 1,
 ): Durchzaehlung | undefined {
   const gesehen = beobachtet ?? {}
@@ -177,9 +186,10 @@ export function durchlaufendeZaehlung(
   // Mehr gesehene Folgen, als die Staffel haben soll: Dann stimmt die
   // Folgenzahl nicht, und auf ihr lässt sich nichts aufbauen.
   if (groesste - kleinste + 1 > belegteFolgenzahl) return nurBelegtes
-  // Hat der Kalender über die letzte gesehene Folge hinausgesehen? Sonst läuft
-  // die Reihe womöglich weiter, und ihr Ende ist kein Anker.
-  if (!fensterBis || addDays(gesehen[groesste], 7) > fensterBis) return nurBelegtes
+  // Hätte die nächste Folge schon im Kalender stehen müssen? Nur dann ist das
+  // Ausbleiben ein Beleg für das Ende — sonst läuft die Reihe weiter, und ihre
+  // letzte gesehene Folge taugt nicht als Anker.
+  if (!kalenderBis || addDays(gesehen[groesste], 7) > kalenderBis) return nurBelegtes
 
   const firstEpisodeNumber = groesste - belegteFolgenzahl + 1
   return {

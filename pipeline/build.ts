@@ -1106,6 +1106,20 @@ function main(): void {
     if (entry.seriesId) crBySeriesId.set(entry.seriesId, entry)
   }
   /**
+   * Wie weit der Kalender inhaltlich reicht — der letzte Tag, für den er
+   * überhaupt eine deutsche Folge führt.
+   *
+   * Nicht zu verwechseln mit `crunchyroll.window.to`: Das ist der abgesuchte
+   * Zeitraum, also wie weit **wir gefragt** haben. Am 21.08.2026 ging der Abruf
+   * bis zum 30.08., die letzte deutsche Kachel im gesamten Kalender stand aber
+   * auf dem 19.08. — Crunchyroll kündigt Synchronfolgen praktisch nicht vor.
+   * Nur gegen diese Marke gemessen sagt ein fehlender Folgetermin etwas aus.
+   */
+  const crKalenderBis = Object.values(crunchyroll.german)
+    .flatMap((e) => e.dates ?? [])
+    .sort()
+    .at(-1)
+  /**
    * AniList-Titel über ihre Crunchyroll-Serien-ID auffindbar machen.
    *
    * Bewusst eine Liste je Serie, kein einzelner Titel: Crunchyroll führt alle
@@ -1298,7 +1312,7 @@ function main(): void {
           const durchgezaehlt = durchlaufendeZaehlung(
             seen,
             schedule.episodeCountAssumed ? undefined : schedule.episodeCount,
-            crunchyroll.window?.to,
+            crKalenderBis,
           )
           if (durchgezaehlt) {
             schedule.firstEpisodeNumber = durchgezaehlt.firstEpisodeNumber
@@ -1471,7 +1485,7 @@ function main(): void {
     const durchgezaehlt = durchlaufendeZaehlung(
       beobachtet,
       episodeCountAssumed ? undefined : episodeCount,
-      crunchyroll.window?.to,
+      crKalenderBis,
     )
     if (durchgezaehlt) {
       firstEpisodeNumber = durchgezaehlt.firstEpisodeNumber

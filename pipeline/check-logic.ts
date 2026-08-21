@@ -379,11 +379,18 @@ console.log('\nDurchlaufende Folgenzählung:')
     23: '2026-07-12',
     24: '2026-07-19',
   }
-  // Das Fenster des Laufs vom 21.08.2026: Es reicht weit über den 19.07. hinaus
-  // und zeigt dort keine Folge mehr — Folge 24 ist damit die letzte.
-  const fenster = '2026-08-30'
+  /**
+   * Wie weit der Kalender am 21.08.2026 inhaltlich reichte: bis zum 19.08. Der
+   * abgesuchte Zeitraum ging bis zum 30.08., aber Crunchyroll kündigt
+   * Synchronfolgen praktisch nicht vor — hinter dem 19.08. stand im ganzen
+   * Kalender keine einzige deutsche Kachel mehr.
+   *
+   * Für Wistoria reicht das: Folge 25 hätte am 26.07. stehen müssen, einen
+   * Monat vor dieser Marke. Sie steht nicht da, also endete die Staffel bei 24.
+   */
+  const kalenderBis = '2026-08-19'
 
-  const z = durchlaufendeZaehlung(wistoria, 12, fenster)
+  const z = durchlaufendeZaehlung(wistoria, 12, kalenderBis)
   pruefe('Wistoria: Staffel 2 beginnt bei Folge 13', z?.firstEpisodeNumber === 13, z)
   pruefe('Wistoria: Start am 03.05.2026', z?.firstEpisodeDate === '2026-05-03', z?.firstEpisodeDate)
   pruefe('Wistoria: zwölf Folgen bleiben zwölf', z?.episodeCount === 12, z?.episodeCount)
@@ -392,40 +399,40 @@ console.log('\nDurchlaufende Folgenzählung:')
   // gerutscht ist, wird nicht angefasst — die Rückrechnung ist dort richtig.
   pruefe(
     'Folge 5 in einem Zwölfteiler ist kein Fall für die Korrektur',
-    durchlaufendeZaehlung({ 5: '2026-05-26', 6: '2026-06-02' }, 12, fenster) === undefined,
+    durchlaufendeZaehlung({ 5: '2026-05-26', 6: '2026-06-02' }, 12, kalenderBis) === undefined,
   )
 
   /**
-   * „The 100 Girlfriends" Staffel 3: Folge 25 aufwärts, aber AniList kennt für
-   * die Staffel keine Folgenzahl. Ohne sie lässt sich der Anfang nicht
-   * bestimmen — und dann wird er auch nicht geraten. Bis zum 21.08.2026 stand
-   * hier eine aus den Beobachtungen selbst gebaute „Staffel mit 29 Folgen",
-   * also ein Zirkelschluss, und daraus 24 erfundene Termine ab Februar.
+   * „The 100 Girlfriends" Staffel 3, der zweite große Fall vom 21.08.2026: 24
+   * zurückgerechnete Termine ab Februar. Die Reihe läuft aber noch — Folge 28
+   * lief am 16.08., Folge 29 stünde am 23.08. und damit hinter allem, was der
+   * Kalender zeigt. Ihr Ausbleiben belegt nichts.
+   *
+   * Damit ist die Startnummer nicht zu bestimmen: Bei zwölf Folgen je Staffel
+   * käme jede Zahl von 17 bis 25 in Frage. Geraten wird keine — geführt wird,
+   * was gesehen wurde. (Anker auf Folge 28 hätte Folge 17 ergeben, also
+   * dieselbe Erfindung wie zuvor, nur um acht Wochen versetzt.)
    */
-  const ohneFolgenzahl = durchlaufendeZaehlung(
+  const laeuftNoch = durchlaufendeZaehlung(
     { 25: '2026-07-26', 26: '2026-08-02', 27: '2026-08-09', 28: '2026-08-16' },
-    undefined,
-    fenster,
+    12,
+    kalenderBis,
   )
+  pruefe(
+    'noch laufende Reihe: nur das Belegte, keine Rückrechnung',
+    laeuftNoch?.firstEpisodeNumber === 25 &&
+      laeuftNoch?.firstEpisodeDate === '2026-07-26' &&
+      laeuftNoch?.episodeCount === 4 &&
+      laeuftNoch?.note === DURCHZAEHLUNG_UNKLAR,
+    laeuftNoch,
+  )
+
+  // Und ohne belegte Staffellänge erst recht nicht — dann fehlt jeder Anker.
+  const ohneFolgenzahl = durchlaufendeZaehlung({ 25: '2026-07-26' }, undefined, kalenderBis)
   pruefe(
     'ohne belegte Staffellänge bleibt es beim Belegten',
-    ohneFolgenzahl?.firstEpisodeNumber === 25 &&
-      ohneFolgenzahl?.firstEpisodeDate === '2026-07-26' &&
-      ohneFolgenzahl?.episodeCount === 4 &&
-      ohneFolgenzahl?.note === DURCHZAEHLUNG_UNKLAR,
+    ohneFolgenzahl?.firstEpisodeNumber === 25 && ohneFolgenzahl?.episodeCount === 1,
     ohneFolgenzahl,
-  )
-
-  /**
-   * Läuft die Reihe noch, ist die letzte gesehene Folge kein Anker: Der
-   * Kalender hat über sie hinaus nichts gesehen, weil er dort noch nicht war.
-   * Aus „Folge 24 am 19.07." darf dann keine Staffel 13–24 werden.
-   */
-  const nochNichtVorbei = durchlaufendeZaehlung(wistoria, 12, '2026-07-20')
-  pruefe(
-    'noch laufende Reihe: kein Ende, also nur das Belegte',
-    nochNichtVorbei?.firstEpisodeNumber === 17 && nochNichtVorbei?.episodeCount === 8,
-    nochNichtVorbei,
   )
 
   // Und der Sendeplan muss am Ende genau das ergeben: Folge 13 am 03.05.,
