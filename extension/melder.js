@@ -35,12 +35,45 @@ const IST_DEUTSCH = (code, name) =>
 // --- Was die Seite gerade hergibt -------------------------------------------
 
 let stand = { spuren: null, reihe: null, titel: '' }
+/** Reihen, die in dieser Sitzung schon gemeldet wurden. */
+const gemeldet = new Set()
+/** Netzfunde, die noch nicht weitergereicht wurden. */
+const funde = []
 
 window.addEventListener('message', (e) => {
-  if (e.source !== window || e.data?.marke !== 'ak-spuren') return
-  stand = { spuren: e.data.spuren, reihe: e.data.reihe, titel: e.data.titel }
-  knopfZeigen()
+  if (e.source !== window) return
+  if (e.data?.marke === 'ak-spuren') {
+    stand = { spuren: e.data.spuren, reihe: e.data.reihe, titel: e.data.titel }
+    knopfZeigen()
+    return
+  }
+  if (e.data?.marke === 'ak-netzfund') {
+    funde.push(e.data)
+    void fundSchicken(e.data)
+  }
 })
+
+/**
+ * Was Netflix im Hintergrund lädt, einmal je Adresse an den Kalender melden.
+ *
+ * Der Zweck ist eine einzige Frage: Steht in diesen Antworten schon, welche
+ * Sprachen eine Reihe hat? Wenn ja, erspart das die Handarbeit — dann liest die
+ * Erweiterung beim Öffnen mit, statt dass jemand jede Folge startet.
+ * Geschickt werden nur Feldnamen und kurze Fundstellen, nicht die Antwort.
+ */
+async function fundSchicken(fund) {
+  const { token } = await chrome.storage.sync.get('token')
+  if (!token) return
+  try {
+    await fetch(WORKER.replace('/pruefung', '/netzfund'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
+      body: JSON.stringify(fund),
+    })
+  } catch {
+    /* Ein Fundbericht darf nie im Weg stehen. */
+  }
+}
 
 // --- Knopf ------------------------------------------------------------------
 
@@ -58,6 +91,12 @@ function urteil(spuren) {
  * erkennt. Was zutrifft, sieht Daniel besser als jede Heuristik.
  */
 function beschriftung(spuren) {
+  // Gemeldet wird je **Reihe**, nicht je Folge: Netflix führt die Tonspuren am
+  // Titel, nicht an der einzelnen Episode. Einmal genügt (Daniel, 22.08.2026:
+  // „muss ich jede folge durchgehen und alle einzeln melden?").
+  if (stand.reihe && gemeldet.has(stand.reihe)) {
+    return { text: 'Diese Reihe ist gemeldet ✓', klasse: 'ak-leer', aktiv: false }
+  }
   if (!spuren) {
     if (!stand.reihe) return { text: 'Kein Titel erkannt', klasse: 'ak-leer', aktiv: false }
     return { text: 'Keine Folge abspielbar — melden', klasse: 'ak-nein', aktiv: true }
@@ -95,6 +134,7 @@ async function melden() {
     })
     const daten = await antwort.json().catch(() => ({}))
     if (!antwort.ok) return zeigeErgebnis(daten.error ?? `Fehler ${antwort.status}`, false)
+    gemeldet.add(stand.reihe)
     const kopf = ohneFolge ? 'Als nicht abrufbar gemeldet' : deutsch ? 'Deutsch gemeldet' : 'Kein Deutsch gemeldet'
     zeigeErgebnis(`${kopf} · ${daten.offen} wartet auf Übernahme`, true)
   } catch (err) {

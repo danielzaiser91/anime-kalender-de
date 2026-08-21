@@ -1096,6 +1096,67 @@ function zahlOderNull(wert: unknown): number | null {
   return Number.isFinite(n) && n >= 0 ? Math.round(n) : null
 }
 
+/**
+ * Was Netflix im Hintergrund lädt, entgegennehmen.
+ *
+ * Die Erweiterung hört mit, während Daniel eine Seite ansieht, und schickt
+ * Feldnamen und kurze Fundstellen — nicht die Antworten selbst. Die Frage
+ * dahinter ist, ob Netflix die Sprachangaben ohnehin ausliefert; dann erübrigt
+ * sich die Handarbeit (Daniel, 22.08.2026).
+ *
+ * GET gibt die Funde zurück, damit die Pipeline sie auswerten kann. Beides
+ * hinter demselben Token wie `/pruefung`.
+ */
+async function handleNetzfund(request: Request, env: Env): Promise<Response> {
+  const offen = { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+  const antwort = (body: unknown, status = 200) =>
+    new Response(JSON.stringify(body), { status, headers: offen })
+
+  if (request.method === 'GET') {
+    const token = new URL(request.url).searchParams.get('token') ?? ''
+    if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
+    const { results } = await env.DB.prepare(
+      'SELECT id, url, reihe, laenge, felder, proben, gemeldet_am FROM netzfund ORDER BY gemeldet_am DESC LIMIT 200',
+    ).all()
+    return antwort({ funde: results ?? [] })
+  }
+
+  if (request.method !== 'POST') return antwort({ error: 'GET oder POST erwartet' }, 405)
+  const token = request.headers.get('X-Lauf-Token') ?? ''
+  if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
+
+  let daten: Record<string, unknown>
+  try {
+    daten = (await request.json()) as Record<string, unknown>
+  } catch {
+    return antwort({ error: 'Kein gültiges JSON' }, 400)
+  }
+
+  const url = String(daten.url ?? '').slice(0, 500)
+  if (!url) return antwort({ error: 'url fehlt' }, 400)
+
+  // Derselbe Pfad zweimal bringt nichts Neues.
+  const schon = await env.DB.prepare('SELECT id FROM netzfund WHERE url = ?1').bind(url).first()
+  if (schon) return antwort({ ok: true, doppelt: true })
+
+  await env.DB.prepare(
+    `INSERT INTO netzfund (url, reihe, laenge, felder, proben, gemeldet_am)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6)`,
+  )
+    .bind(
+      url,
+      daten.reihe ? String(daten.reihe).slice(0, 40) : null,
+      Number(daten.laenge) || 0,
+      JSON.stringify(daten.felder ?? []).slice(0, 4000),
+      JSON.stringify(daten.proben ?? []).slice(0, 4000),
+      jetztIso(),
+    )
+    .run()
+
+  const anzahl = await env.DB.prepare('SELECT COUNT(*) AS n FROM netzfund').first<{ n: number }>()
+  return antwort({ ok: true, funde: anzahl?.n ?? 0 })
+}
+
 async function handleLauf(request: Request, env: Env): Promise<Response> {
   const offen = { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
   const antwort = (body: unknown, status = 200) =>
@@ -1287,7 +1348,7 @@ export default {
     if (request.method === 'OPTIONS') {
       // Der Laufstatus wird auch von einer Datei auf dem Schreibtisch gelesen;
       // die hat den Ursprung `null` und käme an der sonstigen Beschränkung nicht vorbei.
-      if (url.pathname === '/lauf' || url.pathname === '/pruefung') {
+      if (url.pathname === '/lauf' || url.pathname === '/pruefung' || url.pathname === '/netzfund') {
         return new Response(null, {
           headers: {
             'Access-Control-Allow-Origin': '*',
@@ -1369,6 +1430,8 @@ export default {
         ).all()
         return json(env, { sites: results ?? [] })
       }
+      case '/netzfund':
+        return handleNetzfund(request, env)
       case '/pruefung':
         return handlePruefung(request, env)
       case '/lauf':
