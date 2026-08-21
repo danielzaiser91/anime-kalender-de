@@ -46,6 +46,7 @@
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260821.1",
     "@tailwindcss/vite": "^4.1.7",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.15.0",
