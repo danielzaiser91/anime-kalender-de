@@ -180,6 +180,7 @@ jobs:
           # sie hier stehen. Am 21.08.2026 hat ein Auftrag deshalb die ganze
           # Anbindung gebaut und keinen einzigen Abruf zustande gebracht.
           STREAMING_API_KEY: ${{ secrets.STREAMING_API_KEY }}
+          CR_ZUGANG: ${{ secrets.CR_ZUGANG }}
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         with:
