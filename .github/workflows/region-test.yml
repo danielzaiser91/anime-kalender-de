@@ -1,0 +1,77 @@
+name: Crunchyroll — Regionstest mit fremdem Token
+
+# Einmaliger Versuch, von Hand angestoßen: Trägt ein Zugangspaket, das an einer
+# deutschen Leitung entstanden ist, auch von einem Rechner in den USA?
+#
+# Hintergrund: Crunchyroll leitet die Region aus der IP des Abrufs ab und
+# schreibt sie in zwei signierte Gebilde — das Token („country": "DE") und den
+# CMS-Bucket („/DE/M2/-"). GitHub-Runner stehen in den USA und bekommen deshalb
+# den US-Katalog. Die Signatur enthält aber nur eine **Zeit**bedingung, keine
+# IP-Bindung (gemessen 22.08.2026, docs/messung-crunchyroll-region.md).
+#
+# Der Prüfstein ist „Fairy Tail": In Deutschland tragen die Folgen 1 bis 277
+# eine deutsche Tonspur, in der US-Antwort steht bei allen drei Blöcken nur
+# `ja-JP, en-US`.
+#
+# Die Werte sind anonym und laufen nach einer Stunde (Token) beziehungsweise
+# einem Tag (Signatur) ab. Sie stehen deshalb als Eingabe und nicht als Secret.
+
+on:
+  workflow_dispatch:
+    inputs:
+      paket:
+        description: 'JSON aus dem Konsolen-Skript (token, bucket, policy, signature, key_pair_id)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  messen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Wo dieser Rechner steht
+        run: curl -sS --max-time 10 https://ipinfo.io/json | head -20
+
+      - name: Prüfstein mit dem mitgebrachten Zugang
+        env:
+          PAKET: ${{ inputs.paket }}
+        run: |
+          node -e '
+            const p = JSON.parse(process.env.PAKET)
+            const S = "G6DQDD3WR"          // Fairy Tail
+            const zeig = (was, daten) => {
+              const roh = JSON.stringify(daten)
+              const staffeln = (daten.data ?? daten.items ?? []).map((s) => ({
+                titel: s.title,
+                sprachen: (s.versions ?? []).map((v) => v.audio_locale).join(",") || (s.audio_locales ?? []).join(",") || "—",
+              }))
+              console.log("\n### " + was)
+              console.log("   de-DE im Text:", (roh.match(/de-DE/g) ?? []).length)
+              for (const s of staffeln) console.log("   -", (s.titel ?? "?").slice(0, 40), "|", s.sprachen)
+            }
+
+            ;(async () => {
+              // 1. Der übliche Weg, mit dem mitgebrachten Bearer-Token.
+              const a = await fetch(`https://www.crunchyroll.com/content/v2/cms/series/${S}/seasons?locale=de-DE`, {
+                headers: { authorization: "Bearer " + p.token },
+              })
+              console.log("Content-API:", a.status)
+              if (a.ok) zeig("Content-API mit deutschem Token", await a.json())
+              else console.log("   Text:", (await a.text()).slice(0, 200))
+
+              // 2. Der ältere CMS-Pfad, der die Signatur mitbringt.
+              const b = new URL(`https://beta-api.crunchyroll.com/cms/v2${p.bucket}/seasons`)
+              b.searchParams.set("series_id", S)
+              b.searchParams.set("locale", "de-DE")
+              b.searchParams.set("Policy", p.policy)
+              b.searchParams.set("Signature", p.signature)
+              b.searchParams.set("Key-Pair-Id", p.key_pair_id)
+              const c = await fetch(b, { headers: { authorization: "Bearer " + p.token } })
+              console.log("\nCMS v2:", c.status)
+              if (c.ok) zeig("CMS v2 mit deutscher Signatur", await c.json())
+              else console.log("   Text:", (await c.text()).slice(0, 200))
+            })().catch((e) => { console.log("FEHLER:", e.message); process.exit(1) })
+          '
