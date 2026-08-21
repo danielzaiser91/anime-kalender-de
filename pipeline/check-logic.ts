@@ -636,6 +636,33 @@ console.log('\nCrunchyroll: fremde Staffelfehler nicht nachbauen:')
     sauber.length === 2 && sauber[0].dub === true && sauber[1].dub === false,
     sauber,
   )
+
+  /**
+   * 7) Der Gun-Gale-Fall: Wir führen nur die **zweite** Staffel dieser Adresse.
+   *
+   * Zwei Blöcke zu je zwölf Folgen, der erste ohne deutsche Folge, der zweite
+   * vollständig deutsch. Unser einziger Eintrag ist der zweite — aber das
+   * Anlegen beginnt beim ersten Block, und zwölf ist zwölf. Herausgekommen
+   * wäre „Gun Gale Online II ohne deutsche Folge" für eine Staffel, die
+   * durchgehend deutsch ist (21.08.2026, aus der Content-API).
+   *
+   * Sichtbar wurde es erst mit der genaueren Quelle: Die Serienseite las beide
+   * Blöcke als vollständig deutsch, damit zog Fall 2 und die Zuordnung kam gar
+   * nicht erst dran.
+   */
+  const nurZweite = beurteile(
+    {
+      url: 'u',
+      deutschImAngebot: true,
+      geprueftAm: '2026-08-21',
+      staffeln: [
+        { name: 'Gun Gale Online', folgen: 12, kacheln: 12, deutsch: 0, fremd: 12 },
+        { name: 'Gun Gale Online II', folgen: 12, kacheln: 12, deutsch: 12, fremd: 0 },
+      ],
+    },
+    [t(2, 12, 2024)],
+  )
+  pruefe('weniger Einträge als Blöcke: kein Urteil, statt am falschen Block zu rechnen', nurZweite.length === 0, nurZweite)
 }
 
 /**

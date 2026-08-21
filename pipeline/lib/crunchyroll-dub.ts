@@ -193,6 +193,27 @@ export function beurteile(serie: CrSerie, unsere: Title[]): Urteil[] {
    * Grenze darüber, ob unsere Staffel 4 vollständig deutsch ist oder nicht —
    * und diese Grenze lässt sich aus Summen nicht erraten.
    */
+  /**
+   * Die Reihe muss vorne anfangen, sonst wird nicht gerechnet.
+   *
+   * Das Anlegen unserer Einträge an die Blöcke beginnt beim ersten Block — es
+   * unterstellt also, dass unsere Liste dieselbe Reihe von vorn abbildet. Haben
+   * wir **weniger** Einträge als Crunchyroll Blöcke, stimmt das nicht mehr, und
+   * die Folgenzahl allein merkt es nicht: Unter der Adresse
+   * `sword-art-online-alternative-gun-gale-online` führt Crunchyroll zwei
+   * Blöcke zu je zwölf Folgen, „Gun Gale Online" (keine deutsche Folge) und
+   * „Gun Gale Online II" (vollständig deutsch). Unser einziger Eintrag unter
+   * dieser Adresse ist **die zweite** Staffel, ebenfalls zwölf Folgen — die
+   * Summe ging auf, und sie ging am falschen Block auf. Herausgekommen wäre
+   * „Gun Gale Online II ohne deutsche Folge" für eine Staffel, die
+   * durchgehend deutsch ist (21.08.2026).
+   *
+   * Vorher fiel das nicht auf, weil die Serienseite alle Blöcke als
+   * vollständig deutsch las und damit Fall 2 zog. Die genauere Auskunft der
+   * Content-API legt die Lücke frei.
+   */
+  if (unsere.length < staffeln.length) return []
+
   const sortiert = unsere.slice().sort((a, b) => (a.jpYear ?? 0) - (b.jpYear ?? 0) || a.id - b.id)
   const urteile: Urteil[] = []
   let zeiger = 0

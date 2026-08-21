@@ -180,6 +180,17 @@ interface KennungsEintrag {
   ziel?: string
   geprueftAm: string
   fehler?: string
+  /**
+   * Was die Seite selbst gesagt hat: `weg` das Banner, `fehlt` die 404-Seite.
+   *
+   * Ohne dieses Feld ging der Befund beim zweiten Lesen verloren. Der Ablauf
+   * dahinter: Eine Adresse ohne Serienkennung wird nicht bei jedem Lauf neu
+   * aufgerufen — geschieht das nicht, stand vom letzten Mal nur die Textzeile
+   * da, und aus „Crunchyroll sagt selbst, es gibt die Seite nicht" wurde ein
+   * „keine Auskunft" (37 Adressen am 21.08.2026). Die Zeile ist der Beleg, das
+   * Feld ist der Befund.
+   */
+  art?: 'weg' | 'fehlt'
 }
 interface KennungsDatei {
   aufgeloestAm: string
@@ -767,6 +778,7 @@ async function main(): Promise<void> {
           ziel: befund.ziel,
           geprueftAm: todayIso(),
           fehler: seriesId ? undefined : (befund.zeile ?? 'keine Serienkennung hinter dieser Adresse'),
+          art: seriesId ? undefined : befund.art,
         }
         neuAufgeloest++
         // Die Seite hat gerade selbst gesagt, dass es die Serie nicht gibt.
@@ -799,10 +811,14 @@ async function main(): Promise<void> {
          * Fehlschlag als Befund ist der Fehler, den dieses Projekt an vier
          * Stellen schon gemacht hat.
          */
+        // Hat die Seite beim Auflösen selbst gesagt, dass es sie nicht gibt,
+        // bleibt das ein Befund — auch dann, wenn sie diesmal nicht noch einmal
+        // aufgerufen wurde.
         const serie: CrSerie = {
           url,
           quelle: 'api',
           geprueftAm: todayIso(),
+          nichtVerfuegbar: kennungen.adressen[url]?.art ? true : undefined,
           fehler: kennungen.adressen[url]?.fehler ?? 'keine Serienkennung zu dieser Adresse',
         }
         bestand.set(url, serie)
