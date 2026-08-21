@@ -28,6 +28,13 @@ import {
   type AdnEpisode,
   type AdnShow,
 } from './lib/adn.ts'
+import {
+  beurteileAdnVerweis,
+  leeresArchiv,
+  nimmSerieAuf,
+  zerlegeAdnAdresse,
+  type AdnRohVideo,
+} from './lib/adn-sprachen.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { beurteile } from './lib/crunchyroll-dub.ts'
 import { beobachtungenZusammenfuehren } from './lib/crunchyroll.ts'
@@ -508,6 +515,71 @@ console.log('\nCrunchyroll: fremde Staffelfehler nicht nachbauen:')
   seit['4'] = '2026-08-20'
   const spaeter = Object.keys(seit).filter((id) => seit[id] >= grenze && seit[id] !== angelegtAm)
   pruefe('Synchro-Historie: ein späterer Zugang wird gemeldet', spaeter.length === 1 && spaeter[0] === '4', spaeter)
+}
+
+/**
+ * Das ADN-Archiv beantwortet nur, wonach der Verweis fragt.
+ *
+ * Die Auskunft ist verlockend eindeutig — `vde` steht je Folge in der
+ * Rohantwort —, und genau deshalb ist die Versuchung groß, sie weiter zu
+ * spannen, als sie trägt. Eine ADN-Serienkennung ist ein Franchise, keine
+ * Staffel: Unter 1375 liegen beide Staffeln von Dorohedoro, elf Folgen der
+ * zweiten mit deutscher Fassung und dreizehn der ersten ohne. Wer daraus für
+ * einen Verweis auf die nackte Serienseite irgendetwas ableitet, rät.
+ *
+ * Der zweite Fall steht hier, weil er beim Bau tatsächlich zugeschlagen hat:
+ * `animationdigitalnetwork.de/video/50-nuances-de-gras` ist „Plus-Sized Elf"
+ * unter seinem französischen Namen, und die 50 davor ist keine Serienkennung.
+ * Unter der alten Adresse steht dort ein Name, unter der neuen eine Zahl.
+ */
+console.log('\nADN-Sprachen aus dem Archiv:')
+{
+  const folgenRoh = (anzahl: number, season: string, abId: number, vde: boolean): AdnRohVideo[] =>
+    Array.from({ length: anzahl }, (_, i) => ({
+      id: abId + i,
+      season,
+      languages: vde ? ['vostde', 'vde'] : ['vostde'],
+      show: { url: `https://animationdigitalnetwork.com/de/video/1375-dorohedoro` },
+    }))
+
+  const archiv = leeresArchiv()
+  nimmSerieAuf(archiv, '1375', [...folgenRoh(13, '1', 100, false), ...folgenRoh(11, '2', 200, true)])
+  nimmSerieAuf(archiv, '1069', folgenRoh(70, '1', 900, false))
+  const urteil = (url: string) => beurteileAdnVerweis(url, archiv).dub
+
+  pruefe(
+    'eine Folge mit vde belegt die deutsche Fassung',
+    urteil('https://animationdigitalnetwork.com/de/video/1375-dorohedoro/205-folge-6') === true,
+  )
+  pruefe(
+    'der Staffelverweis wertet nur seine eigene Staffel',
+    urteil('https://animationdigitalnetwork.com/de/video/1375-dorohedoro?s=2') === true,
+  )
+  pruefe(
+    'die gemischte Serie ohne Staffelangabe bleibt offen',
+    urteil('https://animationdigitalnetwork.com/de/video/1375-dorohedoro') === undefined,
+  )
+  pruefe(
+    'eine Folge ohne vde spricht nur für ihre eigene Staffel',
+    urteil('https://animationdigitalnetwork.com/de/video/1375-dorohedoro/105-ova-13') === false,
+  )
+  pruefe(
+    'keine einzige Folge mit vde ist ein belegtes Nein',
+    urteil('https://animationdigitalnetwork.com/de/video/1069-cardcaptor-sakura') === false,
+  )
+  pruefe(
+    'eine Serie ohne Archivdatei heißt unbekannt, nicht nein',
+    urteil('https://animationdigitalnetwork.com/de/video/4711-kiznaiver') === undefined,
+  )
+  pruefe(
+    'die alte Adresse trägt keine Serienkennung',
+    zerlegeAdnAdresse('https://animationdigitalnetwork.de/video/50-nuances-de-gras').showId === undefined,
+    zerlegeAdnAdresse('https://animationdigitalnetwork.de/video/50-nuances-de-gras'),
+  )
+  pruefe(
+    'die neue Adresse trägt sie sehr wohl',
+    zerlegeAdnAdresse('https://animationdigitalnetwork.com/de/video/1329-love-hina/29929-folge-26').showId === '1329',
+  )
 }
 
 /**

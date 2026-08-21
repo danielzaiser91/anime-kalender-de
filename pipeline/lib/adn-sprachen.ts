@@ -101,22 +101,53 @@ export interface AdnBefund {
   grund: string
 }
 
-/**
- * Liest das Archiv einmal ein.
- *
- * 241 Dateien zu je rund 9 KB, entpackt in weniger als einer Sekunde — billiger
- * als eine Zwischendatei, die zwangsläufig veraltet, sobald der Montagslauf das
- * Archiv erweitert. Die Quelle ist im Repo, also ist der Befund immer so aktuell
- * wie der letzte Abruf.
- */
-export function ladeAdnArchiv(): AdnArchiv {
-  const archiv: AdnArchiv = {
+export function leeresArchiv(): AdnArchiv {
+  return {
     serien: new Map(),
     folgeZuSerie: new Map(),
     slugZuSerie: new Map(),
     folgenGesamt: 0,
     folgenMitVde: 0,
   }
+}
+
+/** Nimmt die Folgenliste einer Serie in den Bestand — aus einer Datei oder aus einem Prüffall. */
+export function nimmSerieAuf(archiv: AdnArchiv, showId: string, videos: AdnRohVideo[]): void {
+  const serie: ArchivSerie = { showId, folgen: new Map() }
+  for (const video of videos) {
+    if (video?.id === undefined) continue
+    const id = String(video.id)
+    serie.folgen.set(id, {
+      vde: (video.languages ?? []).includes('vde'),
+      season: video.season ?? null,
+    })
+    archiv.folgeZuSerie.set(id, showId)
+    if (!serie.slug) serie.slug = slugAus(video.show?.url)
+  }
+  if (!serie.folgen.size) return
+  archiv.serien.set(showId, serie)
+  for (const folge of serie.folgen.values()) {
+    archiv.folgenGesamt++
+    if (folge.vde) archiv.folgenMitVde++
+  }
+  if (serie.slug) {
+    const liste = archiv.slugZuSerie.get(serie.slug) ?? []
+    liste.push(showId)
+    archiv.slugZuSerie.set(serie.slug, liste)
+  }
+}
+
+/**
+ * Liest das Archiv einmal ein.
+ *
+ * 241 Dateien zu je rund 5 KB, entpackt in weniger als einer Sekunde — billiger
+ * als eine Zwischendatei, die zwangsläufig veraltet, sobald der Montagslauf das
+ * Archiv erweitert. Die Quelle liegt im Repo, also ist der Befund immer so
+ * aktuell wie der letzte Abruf, und ein Nein von heute kann nächste Woche
+ * wieder ein Ja werden, ohne dass jemand eine Warteschlange aufräumen muss.
+ */
+export function ladeAdnArchiv(): AdnArchiv {
+  const archiv = leeresArchiv()
   if (!existsSync(ARCHIV_DIR)) return archiv
 
   for (const datei of readdirSync(ARCHIV_DIR)) {
@@ -130,34 +161,12 @@ export function ladeAdnArchiv(): AdnArchiv {
       warn(`ADN-Archiv: ${datei} ist nicht lesbar — übersprungen.`)
       continue
     }
-    const showId = String(roh.showId ?? datei.replace('.json.gz', ''))
-    const serie: ArchivSerie = { showId, folgen: new Map() }
-    for (const video of roh.videos ?? []) {
-      if (video?.id === undefined) continue
-      const id = String(video.id)
-      serie.folgen.set(id, {
-        vde: (video.languages ?? []).includes('vde'),
-        season: video.season ?? null,
-      })
-      archiv.folgeZuSerie.set(id, showId)
-      if (!serie.slug) serie.slug = slugAus(video.show?.url)
-    }
-    if (!serie.folgen.size) continue
-    archiv.serien.set(showId, serie)
-    for (const folge of serie.folgen.values()) {
-      archiv.folgenGesamt++
-      if (folge.vde) archiv.folgenMitVde++
-    }
-    if (serie.slug) {
-      const liste = archiv.slugZuSerie.get(serie.slug) ?? []
-      liste.push(showId)
-      archiv.slugZuSerie.set(serie.slug, liste)
-    }
+    nimmSerieAuf(archiv, String(roh.showId ?? datei.replace('.json.gz', '')), roh.videos ?? [])
   }
   return archiv
 }
 
-interface AdnRohVideo {
+export interface AdnRohVideo {
   id?: number
   languages?: string[]
   season?: string | null
