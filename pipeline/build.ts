@@ -13,7 +13,7 @@ import {
 import { loadCurated, loadWatchLinks, type CuratedEntry } from './lib/curated.ts'
 import { dubKey, loadDubChecks } from './lib/dub-confirmed.ts'
 import { beurteile, type CrDubData } from './lib/crunchyroll-dub.ts'
-import { LEER as MOTN_LEER, ordneShowsZu, uebernehmbar, type MotnDaten } from './lib/motn.ts'
+import { LEER as MOTN_LEER, ordneShowsZu, tmdbZuordnung, uebernehmbar, type MotnDaten } from './lib/motn.ts'
 import type { TmdbInfo } from './lib/tmdb.ts'
 import {
   alsEinBlock,
@@ -2001,6 +2001,7 @@ function main(): void {
       motn.shows,
       (t) => (t.franchiseId ? staffelnDesFranchise(alle, t.franchiseId) : []),
       { passtZuSerie, bewerteTreffer, volltreffer },
+      tmdbZuordnung(readJson('data/tmdb-titles.json', {}), motn.tmdb),
     )
     let ausgelassenLaufend = 0
     for (const beleg of belege) {

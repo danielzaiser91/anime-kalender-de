@@ -34,11 +34,11 @@ import { log, readJson, ROOT, warn, writeText } from './lib/util.ts'
 import { dubKey, loadDubChecks } from './lib/dub-confirmed.ts'
 import { beurteile, type CrDubData } from './lib/crunchyroll-dub.ts'
 import { bewerteTreffer, passtZuSerie, staffelnDesFranchise, volltreffer } from './lib/adn.ts'
-import { DIENSTE, LEER, ordneShowsZu, type MotnBeleg, type MotnDaten } from './lib/motn.ts'
+import { DIENSTE, LEER, ordneShowsZu, tmdbZuordnung, type MotnBeleg, type MotnDaten } from './lib/motn.ts'
 import { releaseStatus } from '../shared/logic.ts'
 import { anzeigeName } from '../shared/titles.ts'
 import { todayIso } from '../shared/time.ts'
-import type { PlatformId, Release, Title } from '../shared/types.ts'
+import type { Release, Title } from '../shared/types.ts'
 
 /**
  * Wie viele harte Widersprüche der Lauf hinnimmt.
@@ -66,6 +66,7 @@ const belege = ordneShowsZu(
   motn.shows,
   (t) => (t.franchiseId ? staffelnDesFranchise(titles, t.franchiseId) : []),
   { passtZuSerie, bewerteTreffer, volltreffer },
+  tmdbZuordnung(readJson('data/tmdb-titles.json', {}), motn.tmdb),
 )
 const titleById = new Map(titles.map((t) => [t.id, t]))
 
@@ -80,14 +81,25 @@ for (const check of loadDubChecks()) {
 }
 
 /**
- * ADN fehlt hier bewusst.
+ * ADN ist doch ein Prüfstein — über den Umweg des Amazon-Kanals.
  *
- * Der Sprachcode `vde` je Folge wäre ein erstklassiger Prüfstein — nur führt
- * diese Quelle ADN gar nicht. Belegt ist am 21.08.2026 einzig, dass bei
- * „Frieren" `crunchyroll`, `netflix` und `prime` unter `streamingOptions.de`
- * stehen. Eine Vergleichszeile, die nie greift, sieht aus wie eine Prüfung und
- * ist keine.
+ * Hier stand bis zum ersten echten Abruf, diese Quelle führe ADN gar nicht.
+ * Das war eine Annahme aus einer einzigen Antwort, und sie ist **widerlegt**:
+ * Unter der Kanalkennung `animedigitalde` führt sie ADN sehr wohl (21.08.2026,
+ * gemessen an 130 Serien). Damit zählen unsere 98 ADN-Verweise mit belegtem
+ * `dub: true` — der Sprachcode `vde` je Folge stammt aus ADNs eigener
+ * Schnittstelle und ist von dieser Quelle vollständig unabhängig.
+ *
+ * Nur `true` wird übernommen: Ein fehlendes `vde` bei uns heißt „nicht
+ * gefunden", nicht „gibt es nicht", und wäre als Prüfstein wertlos.
  */
+for (const title of titles) {
+  for (const stream of title.streams) {
+    if (stream.platform !== 'adn' || stream.dub !== true) continue
+    const key = dubKey(title.id, 'adn')
+    if (!bekannt.has(key)) bekannt.set(key, { dub: true, quelle: 'ADN-Sprachcode vde' })
+  }
+}
 
 /**
  * Crunchyroll trägt diese Messung.
@@ -125,14 +137,17 @@ interface Zeile {
 const bestaetigt: Zeile[] = []
 const widerspruch: Zeile[] = []
 const schweigen: Zeile[] = []
-const jePlattform = new Map<PlatformId, { verglichen: number; bestaetigt: number; widerspruch: number; schweigen: number }>()
+const jePlattform = new Map<string, { verglichen: number; bestaetigt: number; widerspruch: number; schweigen: number }>()
 
 for (const beleg of belege) {
   const unser = bekannt.get(dubKey(beleg.titleId, beleg.platform))
   if (!unser) continue
   const name = anzeigeName(titleById.get(beleg.titleId) ?? { id: beleg.titleId })
   const zeile: Zeile = { beleg, name, unser }
-  const z = jePlattform.get(beleg.platform) ?? { verglichen: 0, bestaetigt: 0, widerspruch: 0, schweigen: 0 }
+  // Kanal und Anbieter getrennt zählen: Bei Crunchyroll unterscheiden sich die
+  // beiden um den Faktor zehn, und eine Summe darüber verdeckt genau das.
+  const spur = beleg.kanal ? `${beleg.platform} — Kanal \`${beleg.kanal}\`` : beleg.platform
+  const z = jePlattform.get(spur) ?? { verglichen: 0, bestaetigt: 0, widerspruch: 0, schweigen: 0 }
   z.verglichen++
   if (unser.dub && beleg.deutsch) {
     bestaetigt.push(zeile)
@@ -146,7 +161,7 @@ for (const beleg of belege) {
     schweigen.push(zeile)
     z.schweigen++
   }
-  jePlattform.set(beleg.platform, z)
+  jePlattform.set(spur, z)
 }
 
 // --- Verzug: wie weit hinkt die Quelle unserem Stand hinterher? --------------
@@ -198,6 +213,21 @@ for (const release of releases) {
 const verglichen = bestaetigt.length + widerspruch.length + schweigen.length
 const quote = verglichen ? widerspruch.length / verglichen : 0
 
+/**
+ * Wie viele Vergleiche überhaupt ein Widerspruch **werden** konnten.
+ *
+ * Die Zahl, ohne die „0 Widersprüche" nichts heißt. Ein Widerspruch entsteht nur
+ * gegen ein belegtes **Nein**, und davon haben wir kaum welche: Am 21.08.2026
+ * trugen 11 Titel im ganzen Datensatz eine belegte Absage, 7 davon mit
+ * TMDB-Kennung. Mehr Anfragen ändern daran nichts — die Decke liegt in unserem
+ * eigenen Bestand, nicht im Kontingent.
+ *
+ * Ohne diese Zeile läse sich der Bericht wie ein Freispruch. Er ist einer für
+ * die Richtung, die wir messen konnten, und für die andere ist er ein leeres
+ * Blatt.
+ */
+const gegenNein = bestaetigt.concat(widerspruch, schweigen).filter((z) => !z.unser.dub).length
+
 const md: string[] = [
   '# Kontrollmessung: Streaming Availability API',
   '',
@@ -216,6 +246,13 @@ const md: string[] = [
   '**Nur die mittlere Zeile ist ein Widerspruch.** Die untere ist der bekannte Verzug der Quelle:',
   'Sie belegt, was da ist, nie was fehlt (siehe `pipeline/lib/motn.ts`).',
   '',
+  `**Wie belastbar die Null ist: ${gegenNein} der ${verglichen} Vergleiche standen gegen ein belegtes *Nein*.**`,
+  'Nur die können überhaupt ein Widerspruch werden — die übrigen messen, ob die Quelle eine',
+  'bekannte Synchro auch kennt, nicht ob sie eine erfindet. Die Decke dafür liegt in unserem',
+  'eigenen Bestand: Belegte Absagen gibt es kaum, und mehr Anfragen an die Quelle ändern das',
+  'nicht. Was diese Messung also sagt, ist „sie hat noch nie deutschen Ton behauptet, wo wir',
+  'das Gegenteil belegt haben" — nicht „sie tut es nie".',
+  '',
   '## Je Anbieter',
   '',
   '| Anbieter | verglichen | bestätigt | widersprochen | Quelle schweigt |',
@@ -228,7 +265,14 @@ const md: string[] = [
   'eigenen Abruf, ob dort eine deutsche Tonspur liegt — für Netflix wissen wir es fast nirgends',
   '(sieben Handprüfungen, Stand 21.08.2026). Ohne die Crunchyroll-Zeile wäre diese Messung leer.',
   '',
-  'Übernommen wird trotzdem ausschließlich **Netflix**: Die Crunchyroll-Angaben dieser Quelle',
+  '**Der Prüfstein hängt am Kanal, nicht am Anbieter.** Die Zeile `crunchyroll` und die Zeile',
+  '`crunchyroll — Kanal crunchyrollde` messen dieselben Serien und kommen zu ganz verschiedenen',
+  'Ergebnissen: Unter dem Anbieter selbst führt die Quelle fast nur `jpn`, unter dem Kanal (das',
+  'ist Crunchyroll im Amazon-Abo) steht die deutsche Tonspur. Ein Kanal geht **nie** in den',
+  'Datensatz — er hat eine eigene Adresse und ein eigenes Abo. Als Prüfstein taugt er, weil die',
+  'Frage dieselbe ist: Gibt es diese Folge auf Deutsch?',
+  '',
+  'Übernommen wird ausschließlich **Netflix**: Die Crunchyroll-Angaben dieser Quelle',
   'widersprechen sich zwischen Serien- und Episodenebene selbst, und für Prime Video und Disney+',
   'fehlt bislang jede Trefferquote.',
   '',

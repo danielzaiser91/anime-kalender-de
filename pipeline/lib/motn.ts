@@ -125,6 +125,32 @@ export const DIENSTE: Record<string, PlatformId> = {
  */
 export const UEBERNOMMEN: PlatformId[] = ['netflix']
 
+/**
+ * Welcher Kanal welchem Anbieter **für die Messung** entspricht — und nur dafür.
+ *
+ * Am 21.08.2026 an 130 abgerufenen Serien gemessen, und es ist der Befund, der
+ * die Kontrollmessung überhaupt erst möglich macht: Der Dienst `crunchyroll`
+ * führt 2.252 Folgeneinträge, davon **108** mit `deu`. Derselbe Bestand führt
+ * unter dem Kanal `crunchyrollde` (Crunchyroll im Amazon-Abo) 1.158
+ * Folgeneinträge, davon **1.093** mit `deu`. Die deutsche Tonspur steht bei
+ * dieser Quelle also im Kanal, nicht beim Anbieter selbst.
+ *
+ * Genauso `animedigitalde`: Die Behauptung im Kopf von `check-motn.ts`, diese
+ * Quelle führe ADN gar nicht, ist damit **widerlegt** — sie führt ADN, aber als
+ * Amazon-Kanal. Damit sind auch unsere ADN-Belege (Sprachcode `vde`) ein
+ * Prüfstein und nicht mehr nur ein guter Gedanke.
+ *
+ * **Nichts davon geht in den Datensatz.** Ein Kanal hat eine eigene Adresse und
+ * ein eigenes Abo; „Crunchyroll bei Amazon führt Folge 3 auf Deutsch" ist keine
+ * Aussage über crunchyroll.com. Als *Prüfstein* taugt er trotzdem: Ob eine
+ * deutsche Tonspur existiert, ist dieselbe Frage.
+ */
+export const KANAL_ZU_ANBIETER: Record<string, PlatformId> = {
+  crunchyrollde: 'crunchyroll',
+  animedigitalde: 'adn',
+  aniversede: 'aniverse',
+}
+
 /** Befund je Dienst für **eine** Serie der Quelle. */
 export interface MotnDienstBefund {
   /**
@@ -452,6 +478,31 @@ export function besterShow(
   return beste && { kandidat: beste.kandidat, voll: beste.voll, jahrPasst: beste.jahrPasst }
 }
 
+/**
+ * Der Weg von unserem Titel zur Serie der Quelle über die TMDB-Kennung.
+ *
+ * Zwei Schritte, beide aus Dateien, die neu entstehen können: unsere Titel-ID →
+ * TMDB-Kennung (`data/tmdb-titles.json`) → `imdbId` (das, was der Abruf
+ * geantwortet hat). Gespeichert ist damit nur, **was die Quelle gesagt hat** —
+ * die Zuordnung selbst rechnet sich bei jedem Build neu, und ein einmal falscher
+ * Treffer schreibt sich nicht fest.
+ *
+ * Die Funktion nimmt beide Tabellen entgegen, statt sie zu lesen: Diese Datei
+ * wird von der Pipeline **und** von den Zusicherungen benutzt und darf keine
+ * Datei anfassen.
+ */
+export function tmdbZuordnung(
+  tmdbTitel: Record<string, { tmdbId?: number; kind?: string }>,
+  tmdb: MotnDaten['tmdb'],
+): (title: Title) => string[] {
+  return (title) => {
+    const e = tmdbTitel[String(title.id)]
+    if (!e?.tmdbId || !e.kind) return []
+    const treffer = tmdb?.[`${e.kind}/${e.tmdbId}`]?.imdbId
+    return treffer ? [treffer] : []
+  }
+}
+
 /** Was die Quelle über einen unserer Titel bei einem Anbieter sagt. */
 export interface MotnBeleg {
   titleId: number
@@ -470,6 +521,15 @@ export interface MotnBeleg {
    * in `check-logic.ts` hängt daran. Zwei von dreien reichen nicht.
    */
   eindeutig: boolean
+  /**
+   * Kennung des Kanals, wenn dieser Beleg aus einem Kanal stammt statt aus dem
+   * Katalog des Anbieters (`crunchyrollde` etwa).
+   *
+   * Gesetzt heißt: **nur für die Messung**, nie für den Datensatz. `uebernehmbar`
+   * lehnt jeden Beleg mit gesetztem Feld ab, und `check-logic.ts` stellt genau
+   * das nach.
+   */
+  kanal?: string
   seit?: string
   laeuftAusAm?: string
 }
@@ -574,12 +634,28 @@ export function ordneShowsZu(
     // keinen halben Beleg. Die Reihe bleibt vollständig in der Handarbeit.
     if (!bereiche) continue
 
+    /**
+     * Anbieter und Kanäle in einer Liste — der Kanal trägt seine Kennung mit.
+     *
+     * Ein Kanal steht in derselben Schleife, weil er dieselbe Rechnung braucht
+     * (Folgenbereich, Vollständigkeit, Gültigkeit). Getrennt bleibt er über
+     * `kanal`, und daran hängt die Zusicherung, dass er nie geschrieben wird.
+     */
+    const quellen: [PlatformId, MotnDienstBefund, string | undefined][] = [
+      ...(Object.entries(bestand.dienste) as [PlatformId, MotnDienstBefund][]).map(
+        ([p, b]) => [p, b, undefined] as [PlatformId, MotnDienstBefund, undefined],
+      ),
+      ...Object.entries(bestand.addons ?? [])
+        .filter(([kanal]) => KANAL_ZU_ANBIETER[kanal])
+        .map(([kanal, b]) => [KANAL_ZU_ANBIETER[kanal], b, kanal] as [PlatformId, MotnDienstBefund, string]),
+    ]
+
     for (const bereich of bereiche) {
       erledigt.add(bereich.titleId)
-      for (const [platform, befund] of Object.entries(bestand.dienste) as [PlatformId, MotnDienstBefund][]) {
+      for (const [platform, befund, kanal] of quellen) {
         // Eine Staffel kann über mehrere ihrer Geschwister erreicht werden;
         // zweimal derselbe Beleg wäre in jeder Zählung ein Fehler.
-        const schluessel = `${bereich.titleId}|${platform}`
+        const schluessel = `${bereich.titleId}|${platform}|${kanal ?? ''}`
         if (gesehen.has(schluessel)) continue
         gesehen.add(schluessel)
         belege.push({
@@ -590,6 +666,7 @@ export function ordneShowsZu(
           bis: bereich.bis,
           deutsch: belegtDeutsch(befund, bereich.von, bereich.bis),
           eindeutig: true,
+          ...(kanal ? { kanal } : {}),
           seit: befund.seit,
           laeuftAusAm: befund.laeuftAusAm,
         })
@@ -619,6 +696,9 @@ export function ordneShowsZu(
  */
 export function uebernehmbar(beleg: MotnBeleg, laeuft: boolean, heute: string): boolean {
   if (!beleg.deutsch || !beleg.eindeutig) return false
+  // Ein Kanal ist ein fremdes Angebot mit eigener Adresse — er belegt die
+  // Sprachfassung, nicht das Angebot des Anbieters, unter dem er läuft.
+  if (beleg.kanal) return false
   if (!UEBERNOMMEN.includes(beleg.platform)) return false
   if (laeuft) return false
   if (!nochGueltig(beleg.laeuftAusAm, heute)) return false
