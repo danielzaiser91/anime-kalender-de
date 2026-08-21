@@ -36,6 +36,22 @@ import {
   type CrunchyrollSeiten,
 } from './crunchyroll-api.ts'
 
+/**
+ * Die Kennung gibt es, der Katalog führt sie nicht.
+ *
+ * Aus deutscher Sicht ist das keine Störung, sondern eine Auskunft: 25 der 60
+ * Serien der Stichprobe vom 22.08.2026 antworten mit `total: 0` bei HTTP 200 —
+ * „Trigun", „Soul Eater", „Spice and Wolf" und andere sind in Deutschland
+ * schlicht nicht abrufbar, während der US-Katalog volle Folgenlisten liefert.
+ *
+ * Zu `nichtVerfuegbar` wird daraus trotzdem nichts: Daran hängt das Entfernen
+ * von Verweisen, und ein zerstörender Schluss braucht einen zweiten Beleg. Der
+ * zweite Beleg wäre Crunchyrolls eigene Fehlerseite — die aber liest ein
+ * Cloud-Lauf aus **US-Sicht**, und dort ist die Serie da. Bis der Seitenaufruf
+ * ebenfalls deutsch antwortet, bleibt es bei der Nichtauskunft.
+ */
+export const KEINE_STAFFEL = 'Content-API kennt keine Staffel zu dieser Kennung'
+
 /** Wohin die Rohantworten je Serie wandern. */
 const ARCHIV_DIR = resolve(ROOT, 'data/crunchyroll-raw')
 
@@ -59,7 +75,11 @@ const ARCHIV_DIR = resolve(ROOT, 'data/crunchyroll-raw')
  * Dateien vollständig neu, ein Sammelarchiv landete sonst bei jedem Lauf in
  * voller Größe in der Historie.
  */
-export function archiviere(seriesId: string, katalog: string | undefined, inhalt: unknown): void {
+export function archiviere(seriesId: string, quelle: CrQuelle, inhalt: unknown): void {
+  // Ein Lauf gegen das Archiv schreibt es nicht neu — sonst prüfte man den
+  // Parser gegen Daten, die er beim letzten Prüflauf selbst erzeugt hat.
+  if (quelle.ausArchiv) return
+  const katalog = quelle.katalog
   if (!existsSync(ARCHIV_DIR)) mkdirSync(ARCHIV_DIR, { recursive: true })
   const pfad = `${ARCHIV_DIR}/${seriesId}${katalog ? `.${katalog}` : ''}.json.gz`
   const neu = gzipSync(JSON.stringify(inhalt), { level: 9 })
@@ -163,11 +183,11 @@ export async function serieLesen(
    * Seite, nicht die Zahl.
    */
   if (!staffelAntwort.data.length) {
-    archiviere(seriesId, quelle.katalog, archiv)
-    if (!seiten) return { ...kopf, fehler: 'Content-API kennt keine Staffel zu dieser Kennung' }
+    archiviere(seriesId, quelle, archiv)
+    if (!seiten) return { ...kopf, fehler: KEINE_STAFFEL }
     const befund = await (await seiten()).seitenBefund(url, true)
     if (befund.art) return { ...kopf, nichtVerfuegbar: true, fehler: befund.zeile }
-    return { ...kopf, fehler: 'Content-API kennt keine Staffel zu dieser Kennung' }
+    return { ...kopf, fehler: KEINE_STAFFEL }
   }
 
   const staffeln: CrStaffel[] = []
@@ -222,7 +242,7 @@ export async function serieLesen(
         : undefined,
     })
   }
-  archiviere(seriesId, quelle.katalog, archiv)
+  archiviere(seriesId, quelle, archiv)
 
   const deutschImAngebot =
     staffelAntwort.data.some((st) => hatDeutsch(st.versions)) || staffeln.some((s) => s.deutsch > 0)
@@ -230,20 +250,27 @@ export async function serieLesen(
   /**
    * Der Staffelname ist die Kontrolle, nicht der Beleg.
    *
-   * Im deutschen Katalog trägt die Synchronfassung einen eigenen Block mit der
-   * Fassung im Titel („Fairy Tail (German Dub)"). Wo Name und `versions`
-   * dasselbe sagen, bestätigen sie einander; wo nicht, **gewinnt `versions`** —
-   * ein Titel ist Redaktion, eine Fassungsliste ist Bestand. Der Fall wird
-   * trotzdem festgehalten, weil ein Muster darin ein Hinweis auf einen
-   * Denkfehler wäre und keiner auf einen Einzelfall.
+   * Bei älteren Titeln trägt die Synchronfassung einen eigenen Block mit der
+   * Fassung im Namen: „Fairy Tail (German Dub)", Slug `-german-dub`. Wo das so
+   * ist und `versions` dasselbe sagt, bestätigen sich beide.
+   *
+   * **Ein fehlender Namenszusatz ist dagegen kein Widerspruch**, sondern
+   * Schweigen — und zwar der Regelfall. Gemessen am 22.08.2026 an 20 Serien mit
+   * belegter deutscher Fassung: Bei neueren Titeln heißen **alle** neun
+   * Sprachblöcke gleich („Staffel 1", „Tower of God"), die Fassung steht nur in
+   * `audio_locale` und `versions`. Acht der 20 hätten so als Widerspruch
+   * gegolten, ohne dass irgendetwas widersprüchlich wäre.
+   *
+   * Festgehalten wird deshalb nur die eine Richtung, in der wirklich zwei
+   * Aussagen kollidieren: Ein Name nennt die deutsche Fassung, `versions` kennt
+   * sie nicht. Dann **gewinnt `versions`** — ein Titel ist Redaktion, eine
+   * Fassungsliste ist Bestand —, und der Fall gehört in den Bericht.
    */
   const imNamen = staffelAntwort.data.some((st) => nameNenntDeutsch(st.title, st.slug_title))
   const namensWiderspruch =
-    imNamen === deutschImAngebot
-      ? undefined
-      : imNamen
-        ? 'ein Staffelname nennt die deutsche Fassung, versions führt kein de-DE'
-        : 'versions führt de-DE, kein Staffelname nennt die deutsche Fassung'
+    imNamen && !deutschImAngebot
+      ? 'ein Staffelname nennt die deutsche Fassung, versions führt kein de-DE'
+      : undefined
 
   if (unvollstaendig) {
     return {

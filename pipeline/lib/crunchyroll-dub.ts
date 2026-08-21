@@ -90,12 +90,15 @@ export interface CrSerie {
    */
   katalog?: string
   /**
-   * Staffelname und `versions` sagen Verschiedenes.
+   * Ein Staffelname nennt die deutsche Fassung, `versions` kennt sie nicht.
    *
-   * Kein Fehler und kein Grund, etwas nicht zu übernehmen — `versions`
-   * entscheidet. Das Feld ist die Buchführung darüber, wie oft die Kontrolle
-   * danebenliegt; sähe man hier ein Muster, wäre der Denkfehler unserer, nicht
-   * Crunchyrolls.
+   * Kein Grund, etwas nicht zu übernehmen — `versions` entscheidet. Das Feld
+   * ist die Buchführung darüber, wie oft die Kontrolle danebenliegt; sähe man
+   * hier ein Muster, wäre der Denkfehler unserer, nicht Crunchyrolls.
+   *
+   * Die Gegenrichtung steht bewusst **nicht** hier drin: Dass kein Block
+   * „(German Dub)" heißt, ist bei neueren Titeln der Regelfall (dort heißen
+   * alle neun Sprachblöcke gleich) und sagt über die Tonspur nichts.
    */
   namensWiderspruch?: string
   /**

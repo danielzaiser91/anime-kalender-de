@@ -244,6 +244,14 @@ export interface CrQuelle {
    * darf (`beurteile()` in `crunchyroll-dub.ts`).
    */
   readonly katalog?: string
+  /**
+   * Diese Quelle liest ein Archiv und ruft nichts ab.
+   *
+   * Wichtig für `serieLesen`: Ein Lauf gegen das Archiv darf das Archiv nicht
+   * überschreiben. Sonst prüfte man den Parser gegen Daten, die er beim letzten
+   * Prüflauf selbst geschrieben hat.
+   */
+  readonly ausArchiv?: boolean
   staffeln(seriesId: string): Promise<{ roh: string; data: CrApiStaffel[] } | undefined>
   folgen(staffelId: string): Promise<{ roh: string; data: CrApiFolge[] } | undefined>
   objekte(guids: string[]): Promise<{ roh: string; data: CrApiObjekt[] } | undefined>
