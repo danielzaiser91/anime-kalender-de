@@ -16,9 +16,14 @@
 
 <h1>Synchro melden</h1>
 <p>
-  Der Knopf erscheint, sobald eine Folge läuft. Er liest die Tonspuren, die der Player ohnehin
-  geladen hat, und schickt sie auf Klick an den Anime-Kalender. Audiodeskriptionen werden dabei
-  aussortiert — sie sind keine Synchronfassung.
+  <b>So läuft es:</b> Titel öffnen, eine Folge starten, dann unten rechts auf den Knopf klicken.
+  Er liest die Tonspuren, die der Player ohnehin geladen hat — Audiodeskriptionen sortiert er
+  aus, die sind keine Synchronfassung. Gibt es gar keine Folge zum Abspielen, meldet derselbe
+  Knopf „nicht abrufbar“.
+</p>
+<p>
+  <b>Wichtig:</b> Der Knopf liest die Sprachen nur, während eine Folge läuft. Auf der
+  Übersichtsseite stehen sie nirgends — dort weiß auch Netflix selbst nichts davon.
 </p>
 
 <label for="token">Token</label>
@@ -27,7 +32,7 @@
 
 <p style="margin-top:2rem">
   Dasselbe Token wie das Repo-Secret <code>LAUF_TOKEN</code>. Es steht in
-  <code>my_secrets.md</code>.
+  <code>my_secrets.md</code>. Ohne Token sagt der Knopf beim Klick Bescheid.
 </p>
 
 <script src="optionen.js"></script>

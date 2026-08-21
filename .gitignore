@@ -19,3 +19,8 @@ katalog-*.log
 # Konfliktpunkt beim Merge des Crunchyroll-Umbaus — eine generierte Datei,
 # die zwei Zweige zwangsläufig verschieden schreiben.
 tsconfig.tsbuildinfo
+
+# Gepackte Erweiterung und ihr privater Schluessel. Die .pem ist die Identitaet
+# der Erweiterung — wer sie hat, kann Updates unter derselben Kennung ausliefern.
+extension.crx
+extension.pem

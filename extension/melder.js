@@ -122,7 +122,7 @@ async function melden() {
 
   const { deutsch, echte } = spuren ? urteil(spuren) : { deutsch: false, echte: [] }
   const { token } = await chrome.storage.sync.get('token')
-  if (!token) return zeigeErgebnis('Kein Token hinterlegt — siehe Einstellungen', false)
+  if (!token) return zeigeErgebnis('Kein Token — Rechtsklick aufs Symbol, dann Optionen', false)
 
   try {
     const antwort = await fetch(WORKER, {
