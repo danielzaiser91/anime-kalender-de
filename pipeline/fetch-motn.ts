@@ -40,6 +40,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { gzipSync } from 'node:zlib'
+import { createHash } from 'node:crypto'
 import { log, readJson, ROOT, sleep, slugify, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { bestandAus, besterShow, LEER, suchName, type MotnDaten, type MotnShow } from './lib/motn.ts'
@@ -162,10 +163,16 @@ async function katalog(): Promise<number> {
       order_by: 'original_title',
     })
     if (cursor) query.set('cursor', cursor)
-    const antwort = await hole<SuchAntwort>(
-      `/shows/search/filters?${query}`,
-      `katalog-netflix-${slugify(cursor ?? 'start').slice(0, 40) || 'start'}`,
-    )
+    /**
+     * Der Archivname kommt aus dem Cursor, nicht aus der Seitennummer.
+     *
+     * Ein Durchlauf läuft über mehrere Wochen; „Seite 3" wäre beim nächsten Lauf
+     * eine andere Seite und überschriebe die alte. Der Cursor selbst ist
+     * undurchsichtig und beliebig lang — gekürzt wäre er nicht mehr eindeutig,
+     * also steht sein Prüfwert da.
+     */
+    const name = cursor ? `katalog-netflix-${createHash('sha1').update(cursor).digest('hex').slice(0, 12)}` : 'katalog-netflix-start'
+    const antwort = await hole<SuchAntwort>(`/shows/search/filters?${query}`, name)
     if (!antwort) break
     for (const show of antwort.shows ?? []) if (merken(show)) neu++
     log(`  Katalog Seite ${seite + 1}: ${antwort.shows?.length ?? 0} Serien (${anfragen}/${BUDGET} Anfragen)`)
