@@ -73,5 +73,11 @@ jobs:
               console.log("\nCMS v2:", c.status)
               if (c.ok) zeig("CMS v2 mit deutscher Signatur", await c.json())
               else console.log("   Text:", (await c.text()).slice(0, 200))
+              // Und derselbe Aufruf **ohne** Token: Traegt die Signatur allein,
+              // haelt ein Paket 24 Stunden statt einer.
+              const d = await fetch(b)
+              console.log("CMS v2 ohne Token:", d.status)
+              if (d.ok) zeig("CMS v2 ohne Bearer", await d.json())
+              else console.log("   Text:", (await d.text()).slice(0, 160))
             })().catch((e) => { console.log("FEHLER:", e.message); process.exit(1) })
           '
