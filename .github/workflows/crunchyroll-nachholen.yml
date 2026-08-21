@@ -1,0 +1,72 @@
+name: Crunchyroll — Rückstand nachholen
+
+# Einmaliger Nachhol-Lauf für die Tonspur-Prüfung, von Hand angestoßen.
+#
+# Warum es diesen Workflow gibt: Im Wochenlauf steht `data:cr-dub --limit 250`.
+# Dieser Deckel schützt **die Laufzeit des Wochenlaufs**, nicht Crunchyroll —
+# ein voller Durchgang dauert länger als der ganze restliche Tiefendurchlauf.
+# Bei 954 Adressen und 28 Tagen Wiedervorlage sind 250 pro Woche aber genau die
+# Erhaltungsrate: Ein Rückstand baut sich damit nicht ab, er bleibt stehen.
+#
+# Gemessen am 21.08.2026: 6,7 Sekunden je Serie (9 Serien in 59 s im Lauf
+# 32359320442). 769 offene Adressen sind also rund 85 Minuten — hier, wo kein
+# anderer Schritt dahinter wartet, ist das kein Problem.
+#
+# Warum in der Cloud und nicht auf Daniels Rechner: Ein Direktabruf von dort
+# lief am 15.08.2026 in Crunchyrolls Bot-Sperre, und die trifft dann auch ihn
+# selbst beim normalen Surfen.
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: 'Obergrenze an Serien (0 = alle offenen)'
+        required: false
+        default: '0'
+        type: string
+      alter:
+        description: 'Wiedervorlage in Tagen — was jünger ist, wird übersprungen'
+        required: false
+        default: '28'
+        type: string
+
+permissions:
+  contents: write
+
+# Dieselbe Gruppe wie die Datenläufe: Zwei Läufe, die `data/` committen,
+# überschreiben sich sonst gegenseitig.
+concurrency:
+  group: daten
+  cancel-in-progress: false
+
+jobs:
+  nachholen:
+    runs-on: ubuntu-latest
+    # Der Standard von 360 Minuten wäre großzügiger als nötig; 3 Stunden decken
+    # auch einen vollen Durchgang über alle 954 Adressen ab.
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Browser installieren
+        run: npx playwright install --with-deps chromium
+
+      - name: Crunchyroll-Serienseiten auf deutsche Tonspur
+        run: npm run data:cr-dub -- --limit ${{ inputs.limit }} --alter ${{ inputs.alter }}
+
+      - name: Ergebnis sichern
+        # Auch nach einem Abbruch: Was geholt wurde, ist geholt. Ein zweiter
+        # Durchgang über dieselben Seiten wäre dieselbe Last auf einem fremden
+        # Server, nur ohne Gegenwert.
+        if: always()
+        run: |
+          bash tools/commit-data.sh "chore(data): Crunchyroll-Rückstand nachgeholt"
