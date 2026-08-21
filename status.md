@@ -568,6 +568,68 @@ deutsch synchronisiert. Maßgeblich ist ausschließlich `de-DE` in `versions`.
 Handarbeit, sondern ein Abruf von wenigen Minuten — und die Antwort ist genauer als alles, was
 ein Mensch auf der Seite ablesen könnte, weil sie je Folge kommt.
 
+### Umgesetzt am 21.08.2026 — und was die Messung ergeben hat
+
+`scrape-crunchyroll-dub.ts` liest den Regelweg jetzt über die API; die Seitenanzeige bleibt
+als Rückfallebene hinter `--seitenanzeige`. Gelesen wurden **alle 911 Crunchyroll-Adressen**
+aus `titles.json`, 693 verschiedene Serien, 17.686 Folgen.
+
+**Die Serienkennung** steht nur in 280 der 911 Adressen (31 %); 592 tragen die alte
+Slug-Form, 39 zeigen auf eine einzelne Folge. Die Slug-Form löst sich über die Weiterleitung
+auf (rund 900 ms je Adresse), der Folgenverweis über `objects` → `series_id`. Beides steht
+in `data/crunchyroll-series-ids.json` und kostet damit **einmal** einen Seitenaufruf.
+
+**Der Vergleich mit der Seitenanzeige** (Stand `main` vom selben Tag, 17:42):
+
+| alt → neu | Adressen |
+|---|---|
+| keine Auskunft → beantwortet | **488** |
+| beide „deutsch" / beide „kein Deutsch" | 314 |
+| beide ohne Auskunft | 65 |
+| **Widerspruch** | 44 |
+
+Von den 44 Widersprüchen sagt der alte Weg 33-mal „deutsch", wo die API keine deutsche
+Fassung findet. **Die API hat recht**, und zwar gemessen: Für „High School DxD",
+„Steins;Gate 0", „Vampire Knight", „Space Dandy", „Plastic Memories", „Zom 100",
+„NieR:Automata" und „The Promised Neverland" nennt die Serienseite selbst als Tonspuren
+„Japanese, English" — kein Deutsch. Und dieselbe **alte** Programmzeile, heute noch einmal
+auf „High School DxD" losgelassen, meldet ebenfalls kein Deutsch. Der alte Weg gibt also auf
+dieselbe Adresse binnen weniger Stunden zwei verschiedene Antworten; er ist nicht
+reproduzierbar. Die übrigen elf Widersprüche sind Serien, die Crunchyroll inzwischen aus dem
+Angebot genommen hat („Leider sind die Videos dieser Serie nicht mehr verfügbar").
+
+**Kontrollgruppe** `data/dub-confirmed.yaml`, 24 von Hand geprüfte Crunchyroll-Fälle: neuer
+Weg 24 richtig, 0 falsch, 0 stumm; alter Weg 19 richtig, 0 falsch, 5 stumm.
+
+**Die Termine sind da:** 4.826 deutsche Folgen tragen ein `premium_available_date` ihrer
+eigenen de-DE-Fassung — ein belegter deutscher Termin mit Uhrzeit, je Folge. Ausgewertet
+wird davon noch nichts; er liegt in `data/crunchyroll-dub.json` und in den Rohantworten
+unter `data/crunchyroll-raw/` (693 Dateien, 11 MB gzip).
+
+**„3 von 8" gibt es jetzt wirklich:** 20 Staffeln sind nur teilweise deutsch. Diese Angabe
+war über die Serienseite gar nicht zu haben. Für den Datensatz heißt der Umstieg: 138 Titel
+bekommen ein Urteil, das sie vorher nicht hatten, 50 verlieren eines (weil die Zuordnung
+nicht sauber aufgeht), keiner dreht sich um.
+
+**Widerspricht die Staffelebene der Folgenebene?** Nein — anders als bei der Streaming
+Availability API. Über alle 693 Serien gibt es **keine einzige** Staffel, die `de-DE` in
+ihren `versions` führt und keine einzige deutsche Folge hat.
+
+### Zwei Grenzen, beide teuer bezahlt
+
+**Crunchyroll sperrt nach rund 300 Serien.** Mit 250 ms Pause zwischen den Aufrufen kam nach
+25 Minuten HTTP 403, danach lieferte auch die Aufwärmseite kein Token mehr; nach einer
+Viertelstunde ging es wieder. Mit 400 ms Pause liefen 409 Adressen am Stück durch. Die Pause
+ist deshalb jetzt 400 ms, und die Sperre beendet den Lauf, statt ihn ins Leere weiterlaufen
+zu lassen.
+
+**Ein misslungener `page.goto` wechselt die Seite nicht.** Während der Sperre scheiterte
+jeder Seitenaufruf — und `page.url()` lieferte weiter die Adresse der Aufwärmseite, also
+„Jujutsu Kaisen". **91 fremde Adressen bekamen dessen Staffelliste zugeschrieben**,
+„sing-a-bit-of-harmony" mitsamt „JUJUTSU KAISEN: 24/24". Die Einträge sind entfernt, vor
+jedem Aufruf wird auf `about:blank` geräumt, und die Aufwärmseite gilt nie als Ergebnis
+(`kennungAusZiel`, zugesichert in `check-logic.ts`).
+
 ## Entscheidungen
 
 - **Die Regel „mindestens eine Folge auf Deutsch erschienen" wird nicht umgesetzt** (17.08.2026).
