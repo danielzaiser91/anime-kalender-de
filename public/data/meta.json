@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-08-21T10:39:17.172Z",
-  "titleCount": 2751,
-  "releaseCount": 249,
-  "eventCount": 879,
+  "generatedAt": "2026-08-21T11:06:15.078Z",
+  "titleCount": 2761,
+  "releaseCount": 250,
+  "eventCount": 880,
   "genres": [
     "Action",
     "Adventure",
@@ -478,6 +478,7 @@
     "FSK & Anbieter: TMDB (https://www.themoviedb.org), Anbieterdaten von JustWatch",
     "Deutsche Inhaltsangaben & Bezugsquellen: aniSearch (https://www.anisearch.de)",
     "ID-Zuordnung: anime-offline-database (https://github.com/manami-project/anime-offline-database) — ODbL v1.0",
-    "Termine: aniSearch, Anime2You — siehe Quellenangabe je Eintrag"
+    "Termine: aniSearch, Anime2You — siehe Quellenangabe je Eintrag",
+    "Welche Folgen auf Netflix eine deutsche Tonspur haben: Streaming Availability API (https://www.movieofthenight.com/about/api)"
   ]
 }
