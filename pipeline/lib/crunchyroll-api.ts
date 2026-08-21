@@ -84,6 +84,7 @@ export interface CrApiObjekt {
     premium_available_date?: string
     episode_air_date?: string
     season_id?: string
+    series_id?: string
   }
 }
 

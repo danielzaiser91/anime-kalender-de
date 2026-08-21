@@ -142,6 +142,13 @@ function archiviere(seriesId: string, inhalt: unknown): void {
  * `/series/`-Form aufzulösen kostet einen vollen Seitenaufruf, und das Ergebnis
  * ändert sich nie — eine Serienkennung ist stabil. Ohne diese Datei zahlte
  * jeder Lauf denselben Preis erneut, und zwar auf einem fremden Server.
+ *
+ * **Ein Fehlschlag ist dagegen nicht endgültig.** Steht kein `seriesId` darin,
+ * kommt die Adresse nach der Wiedervorlagefrist erneut dran. Sonst wäre die
+ * Datei genau der Filter, vor dem `CLAUDE.md` warnt: „hole, was noch fehlt"
+ * macht jede Antwort endgültig, und ein Falschbefund kann sich nicht mehr
+ * korrigieren. Bei der Kennung selbst ist das unbedenklich, beim Nicht-Finden
+ * nicht.
  */
 interface KennungsEintrag {
   seriesId?: string
@@ -155,6 +162,22 @@ interface KennungsDatei {
   adressen: Record<string, KennungsEintrag>
 }
 const KENNUNGS_DATEI = 'data/crunchyroll-series-ids.json'
+
+/**
+ * Manche Verweise zeigen auf eine **Folge**, nicht auf die Serie.
+ *
+ * `/de/watch/<guid>/<slug>` — 37 der 911 Adressen sahen so aus oder leiteten
+ * dorthin um, und ein Seitenaufruf brachte dort naturgemäß keine Serienkennung.
+ * Die Folgenkennung steht aber in der Adresse selbst, und `objects` nennt zu
+ * jeder Folge ihre `series_id`. Das ist ein API-Aufruf statt eines
+ * Seitenaufrufs — billiger als der Weg, der hier gescheitert ist.
+ */
+async function serieHinterFolge(api: CrunchyrollApi, url: string): Promise<string | undefined> {
+  const guid = /\/watch\/([A-Z0-9]+)/i.exec(url)?.[1]
+  if (!guid) return undefined
+  const antwort = await api.objekte([guid])
+  return (antwort?.data as CrApiObjekt[] | undefined)?.[0]?.episode_metadata?.series_id
+}
 
 /**
  * Zählt aus, wie viele deutsche Folgen eine Staffel hat.
@@ -716,16 +739,22 @@ async function main(): Promise<void> {
        * dabei nicht noch einmal angefasst: Sie hat ihre Antwort.
        */
       let seriesId = crunchyrollSeriesId(url) ?? kennungen.adressen[url]?.seriesId
-      if (!seriesId && !kennungen.adressen[url] && !bestand.get(url)?.nichtVerfuegbar) {
+      const bekannt = kennungen.adressen[url]
+      // Ein gefundener Eintrag hält ewig, ein Fehlschlag nur bis zur
+      // Wiedervorlage — siehe `KennungsEintrag`.
+      const nochmal = !bekannt || (!bekannt.seriesId && (NUR_FEHLER || bekannt.geprueftAm < grenze))
+      if (!seriesId && nochmal && !bestand.get(url)?.nichtVerfuegbar) {
         const befund = await api.seitenBefund(url)
+        // Zeigt der Verweis auf eine einzelne Folge, steht die Serie nicht auf
+        // der Seite, aber in der Folgenkennung.
+        seriesId = befund.seriesId ?? (await serieHinterFolge(api, befund.ziel)) ?? (await serieHinterFolge(api, url))
         kennungen.adressen[url] = {
-          seriesId: befund.seriesId,
+          seriesId,
           ziel: befund.ziel,
           geprueftAm: todayIso(),
-          fehler: befund.seriesId ? undefined : (befund.zeile ?? 'keine Serienkennung hinter dieser Adresse'),
+          fehler: seriesId ? undefined : (befund.zeile ?? 'keine Serienkennung hinter dieser Adresse'),
         }
         neuAufgeloest++
-        seriesId = befund.seriesId
         // Die Seite hat gerade selbst gesagt, dass es die Serie nicht gibt.
         // Das ist derselbe Beleg wie beim alten Weg — und er kostet hier keinen
         // zusätzlichen Aufruf, weil die Seite ohnehin geladen wurde.
