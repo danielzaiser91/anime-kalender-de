@@ -38,6 +38,14 @@ jobs:
   untersuchen:
     if: github.event.workflow_run.conclusion == 'failure'
     runs-on: ubuntu-latest
+    # Zweck und Ziel gehen an die Statusanzeige mit. Ohne sie steht dort nur
+    # der Workflow-Name, und der sagt bei drei Auftrags-Läufen dreimal
+    # dasselbe (Daniel, 21.08.2026: „Zweck sollte kurz beschreiben wofür
+    # dieser lauf ist"). Der Lauf weiß es, die Anzeige nicht — also liefert
+    # er es mit.
+    env:
+      LAUF_ZWECK: "Untersucht einen rot gelaufenen Datenlauf von anime-kalender.de"
+      LAUF_ZIEL: "Ursache benennen und, wenn möglich, als Pull Request beheben"
     steps:
       # Sofort anmelden, noch vor allem anderen.
       #

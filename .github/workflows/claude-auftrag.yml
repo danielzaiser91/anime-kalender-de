@@ -22,6 +22,11 @@ on:
         description: 'Name des Zweigs für den Pull Request'
         required: true
         type: string
+      zweck:
+        description: 'Eine Zeile für die Statusanzeige: wofür ist dieser Lauf?'
+        required: false
+        default: ''
+        type: string
       modell:
         description: 'Modell'
         required: false
@@ -49,6 +54,14 @@ concurrency:
 jobs:
   arbeiten:
     runs-on: ubuntu-latest
+    # Zweck und Ziel gehen an die Statusanzeige mit. Ohne sie steht dort nur
+    # der Workflow-Name, und der sagt bei drei Auftrags-Läufen dreimal
+    # dasselbe (Daniel, 21.08.2026: „Zweck sollte kurz beschreiben wofür
+    # dieser lauf ist"). Der Lauf weiß es, die Anzeige nicht — also liefert
+    # er es mit.
+    env:
+      LAUF_ZWECK: "${{ inputs.zweck || format('Arbeitsauftrag an Claude: {0}', inputs.zweig) }}"
+      LAUF_ZIEL: "Pull Request auf Zweig ${{ inputs.zweig }}, Prüfkette grün"
     timeout-minutes: 120
     steps:
       # Sofort anmelden, noch vor allem anderen.
@@ -67,8 +80,9 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: |
           if [ -z "$LAUF_TOKEN" ]; then exit 0; fi
-          printf '{"lauf_id":"%s","repo":"%s","workflow":"%s","zustand":"laeuft","url":"%s","notiz":"wird eingerichtet"}' \
+          printf '{"lauf_id":"%s","repo":"%s","workflow":"%s","zweck":"%s","ziel":"%s","zustand":"laeuft","url":"%s","notiz":"wird eingerichtet"}' \
             "$GITHUB_RUN_ID" "$GITHUB_REPOSITORY" "$GITHUB_WORKFLOW" \
+            "$(printf %s "$LAUF_ZWECK" | tr -d '\\"')" "$(printf %s "$LAUF_ZIEL" | tr -d '\\"')" \
             "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" > /tmp/anmeldung.json
           curl -sS --max-time 10 -X POST "https://newsletter.animekalender.workers.dev/lauf" \
             -H "Content-Type: application/json" -H "X-Lauf-Token: $LAUF_TOKEN" \
@@ -110,10 +124,20 @@ jobs:
       # Lebenszeichen mit Inhalt, solange der Auftrag arbeitet.
       #
       # Ein Auftrags-Lauf hat keine zählbare Menge wie „560 von 959 Serien" — er
-      # schreibt Code. Was sich trotzdem zählen lässt: wie viele Dateien er
-      # bisher angefasst hat. Das ist kein Prozentwert, aber es unterscheidet
-      # „denkt nach" von „schreibt gerade" und zeigt, ob überhaupt etwas
-      # entsteht (Daniel, 21.08.2026: „warum keine progress bar?").
+      # schreibt Code, und wie viel davon noch kommt, weiß er selbst nicht.
+      # Gemeldet wird deshalb, was sich ehrlich messen lässt:
+      #
+      #   Balken  die verbrauchte Zeit gegen die Obergrenze des Jobs. Das ist
+      #           kein Arbeitsfortschritt, aber es beantwortet die Frage, die
+      #           Daniel am 21.08.2026 gestellt hat: „ich sehe nicht wieviele
+      #           noch offen sind, es ist wirklich schlecht das einzuschätzen."
+      #   Text    Commits seit Beginn und der Betreff des letzten. Daran ist
+      #           ablesbar, woran er gerade sitzt.
+      #
+      # Was hier früher stand — „51 Commits" — war Unsinn: `git rev-list` zählt
+      # die mitgeklonte Historie mit (fetch-depth 50), die Zahl begann also bei
+      # 50. Und „121 Dateien offen" waren 121 Rohdaten-Dateien aus einem
+      # Testabruf, kein Arbeitsstand.
       #
       # Läuft im Hintergrund und endet mit dem Job.
       - name: Fortschritt im Hintergrund melden
@@ -121,15 +145,25 @@ jobs:
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           LAUF_AUFTRAG: ${{ inputs.zweig }}
+          LAUF_GRENZE_MIN: '120'
         run: |
           if [ -z "$LAUF_TOKEN" ]; then exit 0; fi
+          START_SEK=$(date +%s)
+          START_COMMITS=$(git rev-list --count HEAD 2>/dev/null || echo 0)
+          export START_SEK START_COMMITS
           nohup bash -c '
             while true; do
               sleep 30
+              MIN=$(( ( $(date +%s) - START_SEK ) / 60 ))
               N=$(git status --porcelain 2>/dev/null | wc -l | tr -d " ")
-              C=$(git rev-list --count HEAD 2>/dev/null || echo 0)
-              printf "{\"lauf_id\":\"%s\",\"zustand\":\"laeuft\",\"auftrag\":\"%s\",\"fortschritt\":%s,\"fortschritt_text\":\"%s Dateien offen, %s Commits\"}" \
-                "$GITHUB_RUN_ID" "$LAUF_AUFTRAG" "$N" "$N" "$C" > /tmp/fortschritt.json
+              C=$(( $(git rev-list --count HEAD 2>/dev/null || echo 0) - START_COMMITS ))
+              [ "$C" -lt 0 ] && C=0
+              LETZTER=$(git log -1 --format=%s 2>/dev/null | tr -d "\\\\\"" | cut -c1-60)
+              TEXT="$C Commits"
+              [ -n "$LETZTER" ] && [ "$C" -gt 0 ] && TEXT="$TEXT · zuletzt: $LETZTER"
+              [ "$N" -gt 0 ] && TEXT="$TEXT · $N Dateien ungespeichert"
+              printf "{\"lauf_id\":\"%s\",\"zustand\":\"laeuft\",\"auftrag\":\"%s\",\"fortschritt\":%s,\"fortschritt_gesamt\":%s,\"fortschritt_text\":\"%s\"}" \
+                "$GITHUB_RUN_ID" "$LAUF_AUFTRAG" "$MIN" "$LAUF_GRENZE_MIN" "$TEXT" > /tmp/fortschritt.json
               curl -sS --max-time 8 -X POST "https://newsletter.animekalender.workers.dev/lauf" \
                 -H "Content-Type: application/json" -H "X-Lauf-Token: $LAUF_TOKEN" \
                 --data-binary @/tmp/fortschritt.json > /dev/null 2>&1 || true

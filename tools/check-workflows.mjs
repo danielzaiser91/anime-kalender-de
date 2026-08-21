@@ -92,9 +92,12 @@ for (const pfad of [...geschrieben].sort()) {
   }
 }
 
-const ZEILENENDE = new RegExp(String.raw`?
-`)
-const JOBKOPF = new RegExp(String.raw`^ {2}[A-Za-z0-9_-]+:s*$`)
+// Muster als Literal, nicht über `new RegExp(String.raw…)`: Der Weg über einen
+// String hat hier schon zweimal Backslashes verloren (21.08.2026), und beide
+// Male war das Ergebnis eine Prüfung, die stumm nichts mehr fand. Ein Literal
+// steht so in der Datei, wie es gilt.
+const ZEILENENDE = /\r?\n/
+const JOBKOPF = /^ {2}[A-Za-z0-9_-]+:\s*$/
 const AUSCHECKEN = new RegExp('uses: actions/checkout@')
 /**
  * Statusmeldungen brauchen das Skript, das sie aufruft — und das liegt erst
@@ -195,6 +198,42 @@ for (const datei of readdirSync(DIR).filter((f) => f.endsWith('.yml') || f.endsW
       console.error(
         `✗ ${datei}, Zeile ${i + 1}: Pipeline-Schritt ohne LAUF_TOKEN — ` +
           'der Fortschritt käme in der Statusanzeige nie an',
+      )
+      fehler++
+    }
+  }
+}
+
+
+/**
+ * Ein Job, der sich bei der Statusanzeige meldet, sagt auch, wofür er läuft.
+ *
+ * Ohne `LAUF_ZWECK` steht in der Anzeige nur der Workflow-Name. Bei den drei
+ * Auftrags-Läufen ist das dreimal derselbe Text, und bei den Datenläufen sagt
+ * er nichts über Umfang oder Ziel. Daniel am 21.08.2026: „ich sehe nicht
+ * wieviele noch offen sind, es ist wirklich schlecht das einzuschätzen."
+ *
+ * Geprüft wird auf Job-Ebene, weil die Meldeschritte über den ganzen Job
+ * verteilt sind — Anmeldung oben, Abmeldung unten, Fortschritt dazwischen.
+ */
+for (const datei of readdirSync(DIR).filter((f) => f.endsWith('.yml') || f.endsWith('.yaml'))) {
+  const zeilen = readFileSync(resolve(DIR, datei), 'utf8').split(ZEILENENDE)
+  const jobs = []
+  let inJobs = false
+  zeilen.forEach((z, i) => {
+    if (z.trim() === 'jobs:') { inJobs = true; return }
+    if (inJobs && JOBKOPF.test(z)) jobs.push({ name: z.trim().replace(':', ''), i })
+  })
+
+  for (let n = 0; n < jobs.length; n++) {
+    const bis = n + 1 < jobs.length ? jobs[n + 1].i : zeilen.length
+    const block = zeilen.slice(jobs[n].i, bis).join('\n')
+    if (!block.includes('lauf-melden.sh')) continue
+    for (const feld of ['LAUF_ZWECK', 'LAUF_ZIEL']) {
+      if (block.includes(feld + ':')) continue
+      console.error(
+        `✗ ${datei} › Job "${jobs[n].name}" meldet den Laufstatus, setzt aber kein ${feld} — ` +
+          'die Statusanzeige zeigte dann nur den Workflow-Namen',
       )
       fehler++
     }

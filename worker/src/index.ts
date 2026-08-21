@@ -1125,7 +1125,7 @@ async function handleLauf(request: Request, env: Env): Promise<Response> {
      *              und weiterverarbeitet habe.
      */
     const { results } = await env.DB.prepare(
-      `SELECT lauf_id, repo, workflow, auftrag, zustand, begonnen_am, gemeldet_am, url, notiz,
+      `SELECT lauf_id, repo, workflow, auftrag, zweck, ziel, zustand, begonnen_am, gemeldet_am, url, notiz,
               fortschritt, fortschritt_gesamt, fortschritt_text
          FROM lauf_status
         WHERE zustand != 'erledigt'
@@ -1160,14 +1160,16 @@ async function handleLauf(request: Request, env: Env): Promise<Response> {
 
   const jetzt = jetztIso()
   await env.DB.prepare(
-    `INSERT INTO lauf_status (lauf_id, repo, workflow, auftrag, zustand, begonnen_am, gemeldet_am, url, notiz,
+    `INSERT INTO lauf_status (lauf_id, repo, workflow, auftrag, zweck, ziel, zustand, begonnen_am, gemeldet_am, url, notiz,
                              fortschritt, fortschritt_gesamt, fortschritt_text)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)
      ON CONFLICT(lauf_id) DO UPDATE SET
        zustand = excluded.zustand,
        gemeldet_am = excluded.gemeldet_am,
        notiz = COALESCE(excluded.notiz, lauf_status.notiz),
        auftrag = COALESCE(excluded.auftrag, lauf_status.auftrag),
+       zweck = COALESCE(excluded.zweck, lauf_status.zweck),
+       ziel = COALESCE(excluded.ziel, lauf_status.ziel),
        fortschritt = COALESCE(excluded.fortschritt, lauf_status.fortschritt),
        fortschritt_gesamt = COALESCE(excluded.fortschritt_gesamt, lauf_status.fortschritt_gesamt),
        fortschritt_text = COALESCE(excluded.fortschritt_text, lauf_status.fortschritt_text)`,
@@ -1177,6 +1179,8 @@ async function handleLauf(request: Request, env: Env): Promise<Response> {
       daten.repo ?? '',
       daten.workflow ?? '',
       daten.auftrag ?? null,
+      daten.zweck ?? null,
+      daten.ziel ?? null,
       zustand,
       daten.begonnen_am ?? jetzt,
       jetzt,
