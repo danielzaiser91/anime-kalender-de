@@ -98,6 +98,23 @@ const NUR_FEHLER = args.includes('--nur-fehler')
  * und 917 Seiten wöchentlich zu holen wäre Last ohne Gegenwert.
  */
 const WIEDERVORLAGE_TAGE = zahl('--alter', 28)
+/**
+ * Wie lange eine **Nichtauskunft** ihre eigene Wiederholung blockiert.
+ *
+ * Ein Eintrag mit `fehler` ist keine Antwort — er sagt, dass gerade nichts zu
+ * erfahren war. Die Wiedervorlage von vier Wochen gilt trotzdem für ihn, und
+ * das ist am 21.08.2026 teuer geworden: Ein Lauf mit noch fehlender
+ * Wiederholung schrieb 371-mal „keine Serienkennung hinter dieser Adresse" und
+ * 204-mal „Staffelliste hat nicht geantwortet". Der Lauf danach — mit der
+ * Wiederholung — rührte diese 575 Adressen nicht mehr an: Sie galten als frisch
+ * geprüft. Eine einmalige Störung hätte damit 575 Serien für vier Wochen
+ * stillgelegt, und zwar genau die, über die wir nichts wissen.
+ *
+ * Sieben Tage statt eines Tages, weil manche Adressen dauerhaft nichts hergeben
+ * (tote Slugs ohne Fehlerseite). Die kosten dann einen Seitenaufruf je Woche
+ * statt einen je Lauf.
+ */
+const FEHLER_TAGE = zahl('--fehler-alter', 7)
 /** Rückfallebene: die gerenderte Seite lesen statt der Content-API. */
 const SEITENANZEIGE = args.includes('--seitenanzeige')
 /** Pause zwischen zwei API-Aufrufen. Die Taktung bleibt rücksichtsvoll. */
@@ -594,6 +611,7 @@ async function main(): Promise<void> {
   )
   // Frisch genug ist, was innerhalb der Wiedervorlagefrist gelesen wurde.
   const grenze = addDays(todayIso(), -WIEDERVORLAGE_TAGE)
+  const fehlerGrenze = addDays(todayIso(), -FEHLER_TAGE)
   /**
    * Gezielt die Seiten erneut prüfen, bei denen der letzte Lauf nichts sagen
    * konnte.
@@ -609,14 +627,24 @@ async function main(): Promise<void> {
     const s = bestand.get(u)
     if (!s) return false
     if (NUR_FEHLER) return !s.fehler
-    return s.geprueftAm >= grenze
+    /**
+     * „Nicht verfügbar" ist ein Befund, „hat nicht geantwortet" ist keiner.
+     *
+     * Beide tragen einen `fehler` — bei `nichtVerfuegbar` ist er die Zeile, mit
+     * der Crunchyroll selbst sagt, dass es das Angebot nicht mehr gibt. Alles
+     * andere mit `fehler` ist eine Nichtauskunft und kommt früher wieder dran.
+     */
+    const befund = s.nichtVerfuegbar === true || !s.fehler
+    return s.geprueftAm >= (befund ? grenze : fehlerGrenze)
   }
   const schonDa = adressen.filter(frisch).length
+  const nachgefasst = adressen.filter((u) => !frisch(u) && bestand.get(u)?.fehler).length
   adressen = adressen.filter((u) => !frisch(u))
   if (LIMIT > 0) adressen = adressen.slice(0, LIMIT)
   log(
     `Crunchyroll: ${adressen.length} Serienadressen offen` +
-      (schonDa ? (NUR_FEHLER ? ` (${schonDa} ohne Fehler beim letzten Mal, werden übersprungen)` : ` (${schonDa} in den letzten ${WIEDERVORLAGE_TAGE} Tagen gelesen, werden übersprungen)`) : ''),
+      (schonDa ? (NUR_FEHLER ? ` (${schonDa} ohne Fehler beim letzten Mal, werden übersprungen)` : ` (${schonDa} in den letzten ${WIEDERVORLAGE_TAGE} Tagen gelesen, werden übersprungen)`) : '') +
+      (nachgefasst ? `, darunter ${nachgefasst} ohne Auskunft aus einem früheren Lauf` : ''),
   )
   if (!adressen.length) {
     log('Nichts zu tun.')
@@ -715,8 +743,9 @@ async function main(): Promise<void> {
       let seriesId = crunchyrollSeriesId(url) ?? kennungen.adressen[url]?.seriesId
       const bekannt = kennungen.adressen[url]
       // Ein gefundener Eintrag hält ewig, ein Fehlschlag nur bis zur
-      // Wiedervorlage — siehe `KennungsEintrag`.
-      const nochmal = !bekannt || (!bekannt.seriesId && (NUR_FEHLER || bekannt.geprueftAm < grenze))
+      // Wiedervorlage — siehe `KennungsEintrag`. Und weil ein Fehlschlag keine
+      // Auskunft ist, gilt für ihn die kurze Frist.
+      const nochmal = !bekannt || (!bekannt.seriesId && (NUR_FEHLER || bekannt.geprueftAm < fehlerGrenze))
       if (!seriesId && nochmal && !bestand.get(url)?.nichtVerfuegbar) {
         const befund = await api.seitenBefund(url)
         // Zeigt der Verweis auf eine einzelne Folge, steht die Serie nicht auf
