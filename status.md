@@ -6,15 +6,13 @@ Stand: 21.08.2026 · Live: https://anime-kalender.de/
 
 ### In Arbeit
 
-| Aufgabe | SP | Lauf | Notiz |
-|---|---|---|---|
-| **Crunchyroll-Tonspuren aus der Content-API statt aus der Seitenanzeige** | 8 | [Lauf 32515015912](https://github.com/danielzaiser91/anime-kalender-de/actions/runs/32515015912) · [PR #6](https://github.com/danielzaiser91/anime-kalender-de/pull/6) | Zehn Tage lang wurden Serienseiten gerendert und Textmuster gelesen: 5 bis 23 Sekunden je Abruf, Staffelebene, übersetzungsabhängig. Die Seite selbst holt dieselben Angaben als JSON über `/content/v2/cms/…` — 70 bis 200 Millisekunden, **je Folge** statt je Staffel, mit `versions[].audio_locale`. Token gibt es anonym (`POST /auth/v1/token`, `Basic Y3Jfd2ViOg==`), Sammelabrufe über `objects/<id1>,<id2>` sparen Tausende Einzelaufrufe. Der Lauf schreibt die Rohantworten mit nach `data/crunchyroll-raw/` — deshalb stehen dort dreistellige Dateizahlen, das ist Archiv, kein Arbeitsstand |
+_(nichts unterwegs)_
 
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **56 Arbeitspakete aus `data/dub-batches.md`** | 5 | Je 20 Netflix-Zeilen mit Verweis, erzeugt aus dem Streaming-API-Lauf. **Wartet auf den Crunchyroll-Content-API-Umbau:** Der ändert die Herkunft der Synchro-Angaben je Folge, und eine von Hand abgearbeitete Liste gegen den alten Stand wäre danach teils gegenstandslos |
-| **126 Netflix-Titel, die keine Quelle beantwortet** | 3 | `data/netflix-von-hand.md`, erzeugt mit `npm run data:netflix-rest`. Die Streaming Availability API kennt diese Titel nicht, Netflix selbst darf nicht abgerufen werden. Weg: Daniel öffnet den Verweis, startet eine Folge, drückt den Knopf der Erweiterung aus `extension/`; `npm run data:pruefungen` holt die Meldungen ab. **Erst starten, wenn der Crunchyroll-Umbau durch ist** — sonst konkurrieren zwei Handarbeitslisten um dieselben Abende |
+| **56 Arbeitspakete aus `data/dub-batches.md`** | 5 | Je 20 Netflix-Zeilen mit Verweis, erzeugt aus dem Streaming-API-Lauf. **Frei seit dem Merge von PR #6 (21.08.2026).** Vor dem Vorlegen neu erzeugen: Der neue Bestand hat 488 Adressen beantwortet, die vorher offen waren — ein Teil der 56 Pakete dürfte sich damit erledigt haben |
+| **126 Netflix-Titel, die keine Quelle beantwortet** | 3 | `data/netflix-von-hand.md`, erzeugt mit `npm run data:netflix-rest`. Die Streaming Availability API kennt diese Titel nicht, Netflix selbst darf nicht abgerufen werden. Weg: Daniel öffnet den Verweis, startet eine Folge, drückt den Knopf der Erweiterung aus `extension/`; `npm run data:pruefungen` holt die Meldungen ab. **Frei seit dem Merge von PR #6 (21.08.2026).** Die Liste vorher neu erzeugen, damit sie den neuen Stand trifft |
 | **Prüfliste „Wo läuft es" abarbeiten** (Dauerauftrag) | — | 1.732 Anbieter-Verweise ohne belegte Synchro, Liste: `data/dub-pruefliste.md`, erzeugt mit `npm run data:dub-checks`. Daniel arbeitet sie in Zehnerschritten ab; ich lege den Batch vor, er meldet je Nummer ja/nein, ich trage es in `data/dub-confirmed.yaml` ein und baue neu. **Stand: Batch 1 bis 3 ausgewertet, 65 Prüfungen eingetragen — 33 Angaben belegt, 32 tote Verweise entfernt.** Crunchyroll ist seit 13.08.2026 weitgehend maschinell belegt (234 ja / 988 nein / **25 offen**); die Handarbeit verteilt sich jetzt auf Netflix (727), YouTube (528) und Prime Video (219) — Anbieter, die die Sprachfassung nirgends öffentlich nennen. Kurzschrift der Antworten (`1`/`0`/`x`, mehrere je Zeile mit Punkt) steht im Kopf der Liste und in der `CLAUDE.md`. Je Batch kurz sagen, woher der Verweis stammt und warum er unsicher ist |
 | ~~News-Quellen für Sendepausen~~ — **Filter gebaut, Rest verworfen** | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
 
@@ -656,6 +654,31 @@ jedem Aufruf wird auf `about:blank` geräumt, und die Aufwärmseite gilt nie als
 
 ## Archiv
 
+- ✅ **Crunchyrolls Tonspuren kommen aus der Content-API** (21.08.2026, [PR #6](https://github.com/danielzaiser91/anime-kalender-de/pull/6),
+  Merge-Commit 9afdd11e). 911 Adressen, 693 Serien, 17.686 Folgen in einem Lauf gelesen —
+  vorher 5 bis 23 Sekunden je Seite, jetzt 3 bis 5. **488 Adressen bekommen eine Auskunft, die
+  der alte Weg nie geben konnte**; 44 widersprechen ihm, und in allen 44 hat die API recht.
+
+  **Selbst nachgeprüft, nicht übernommen:** Kontrollgruppe aus `data/dub-confirmed.yaml` 24
+  richtig / 0 falsch / 0 stumm; die Zahlen des Berichts nachgezählt (313 deutsch, 426 ohne, 107
+  nicht mehr verfügbar, 65 ohne Auskunft, 20 teilweise deutsche Staffeln, 4.826 deutsche Folgen
+  mit belegtem Termin); der Streitfall „High School DxD" aus der archivierten Rohantwort belegt
+  — `versions` trägt `ja-JP` und `en-US`, kein Deutsch, bei `is_dubbed: true`. Mushoku Tensei
+  Staffel 3 stimmt mit Daniels eigenem Befund überein: 3 von 8 deutsch, Folgen 1 bis 3 am
+  19.08.2026 um 11:00, 11:30 und 15:00 UTC.
+
+  **Wer über die 911 Adressen statt über die 693 Serien zählt, bekommt andere Zahlen** (37
+  statt 20 teilweise deutsche Staffeln, 8.434 statt 4.826 Termine) — mehrere Adressen zeigen
+  auf dieselbe Serie. Das ist beim Nachrechnen der erste Fallstrick.
+
+  Drei Fehler hat der Lauf dabei gefunden und behoben: ein misslungener `page.goto` gab die
+  **vorige** Seite zurück und hängte 91 Adressen die Staffelliste von „Jujutsu Kaisen" an;
+  Crunchyroll sperrt nach rund 300 Serien für eine Viertelstunde; und eine Nichtauskunft galt
+  als „frisch geprüft" und blockierte damit vier Wochen lang ihre eigene Wiederholung.
+
+  Nachgezogen, weil der Cloud-Lauf keine `workflows`-Rechte hat: Deckel im Wochenlauf von 250
+  auf 300. Ebenfalls dabei: `tsconfig.tsbuildinfo` liegt nicht mehr im Repo — sie war der
+  einzige Konflikt dieses Merges.
 - ✅ **Alle Läufe melden ihre Schritte** (21.08.2026). Nach `deploy.yml` jetzt auch
   `refresh-hourly` (4 Schritte), `refresh-data` (8), `refresh-weekly` (18),
   `tonspuren-monatlich` (2) und `crunchyroll-nachholen` (1). **Live belegt:** Der von Hand
