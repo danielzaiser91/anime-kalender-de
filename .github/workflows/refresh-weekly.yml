@@ -212,12 +212,19 @@ jobs:
         run: bash "$MELDER" schritt "Deutsche Sprechrollen von Anime News Network"
 
       - name: Crunchyroll-Serienseiten auf deutsche Tonspur
-        # Wiedervorlage nach 28 Tagen, gedeckelt: Ein voller Durchgang ueber 900
-        # Seiten dauert Stunden und muss nicht in einem Lauf passieren.
+        # Wiedervorlage nach 28 Tagen. Der Deckel von 250 stammte aus der Zeit
+        # der Seitenanzeige, als eine Serie 17 bis 23 Sekunden kostete — über
+        # die Content-API sind es 3 bis 5. Er bleibt trotzdem, nur höher:
+        # Crunchyroll sperrt nach rund 300 Serien für eine Viertelstunde
+        # (gemessen im Lauf vom 21.08.2026, bei 250 ms Pause nach 25 Minuten
+        # HTTP 403). Bei 400 ms Pause liefen 409 Adressen am Stück durch.
+        #
+        # 300 je Woche gegen 911 Adressen und 28 Tage Wiedervorlage: Das trägt
+        # den Bestand und lässt Luft, wenn ein Lauf ausfällt.
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run data:cr-dub -- --limit 250
+        run: npm run data:cr-dub -- --limit 300
 
       - name: Fortschritt — Crunchyroll-Serienseiten auf deutsche Tonspur
         continue-on-error: true
