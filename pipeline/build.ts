@@ -6,6 +6,7 @@ import { type AniListMedia, type KatalogEintrag } from './lib/anilist.ts'
 import {
   beobachtungenZusammenfuehren,
   crunchyrollSeriesId,
+  durchlaufendeZaehlung,
   normalizeTitle,
   type CrunchyrollData,
   type CrunchyrollEntry,
@@ -1105,6 +1106,20 @@ function main(): void {
     if (entry.seriesId) crBySeriesId.set(entry.seriesId, entry)
   }
   /**
+   * Wie weit der Kalender inhaltlich reicht — der letzte Tag, für den er
+   * überhaupt eine deutsche Folge führt.
+   *
+   * Nicht zu verwechseln mit `crunchyroll.window.to`: Das ist der abgesuchte
+   * Zeitraum, also wie weit **wir gefragt** haben. Am 21.08.2026 ging der Abruf
+   * bis zum 30.08., die letzte deutsche Kachel im gesamten Kalender stand aber
+   * auf dem 19.08. — Crunchyroll kündigt Synchronfolgen praktisch nicht vor.
+   * Nur gegen diese Marke gemessen sagt ein fehlender Folgetermin etwas aus.
+   */
+  const crKalenderBis = Object.values(crunchyroll.german)
+    .flatMap((e) => e.dates ?? [])
+    .sort()
+    .at(-1)
+  /**
    * AniList-Titel über ihre Crunchyroll-Serien-ID auffindbar machen.
    *
    * Bewusst eine Liste je Serie, kein einzelner Titel: Crunchyroll führt alle
@@ -1260,6 +1275,7 @@ function main(): void {
     // Angaben aus dem Crunchyroll-Kalender einsetzen. Sie kommen direkt vom
     // Anbieter und schlagen deshalb jede abgeleitete Angabe.
     const sources = [...(entry.sources ?? [])]
+    let durchzaehlungHinweis: string | undefined
     if (entry.platform === 'crunchyroll') {
       const slot = findCrunchyroll(platformUrl, entry.titleDe ?? name)
       if (slot) {
@@ -1283,6 +1299,30 @@ function main(): void {
         // Kachel zeigt.
         const seen = beobachtungenZusammenfuehren(observedEpisodes(slot), entry.schedule.observed)
         if (seen) schedule.observed = seen
+        /**
+         * Dieselbe durchlaufende Zählung wie unten bei den automatisch
+         * ergänzten Simuldubs — und aus demselben Grund angefasst: Ein Start,
+         * der ohnehin nur abgeleitet ist (`estimated`), darf nicht auf einer
+         * Folge 1 stehen, die es in diesem Release gar nicht gibt.
+         *
+         * Angerührt wird nur, was der Kalender selbst hergeleitet hat. Eine von
+         * Hand gesetzte Startnummer bleibt, wie überall in diesem Projekt.
+         */
+        if (entry.schedule.estimated && !entry.schedule.firstEpisodeNumber) {
+          const durchgezaehlt = durchlaufendeZaehlung(
+            seen,
+            schedule.episodeCountAssumed ? undefined : schedule.episodeCount,
+            crKalenderBis,
+          )
+          if (durchgezaehlt) {
+            schedule.firstEpisodeNumber = durchgezaehlt.firstEpisodeNumber
+            schedule.firstEpisodeDate = durchgezaehlt.firstEpisodeDate
+            schedule.episodeCount = durchgezaehlt.episodeCount
+            delete schedule.episodeCountAssumed
+            delete schedule.episodeCountSource
+            durchzaehlungHinweis = durchgezaehlt.note
+          }
+        }
         sources.push(CR_CALENDAR_URL)
       } else if (entry.schedule.estimated && crunchyroll.window && overlapsWindow(schedule, crunchyroll.window)) {
         // Die Serie müsste im abgesuchten Zeitraum laufen, und der Kalender
@@ -1312,10 +1352,13 @@ function main(): void {
       fsk,
       publisher: entry.publisher,
       edition: entry.edition,
-      note: entry.note,
+      note: entry.note ?? durchzaehlungHinweis,
       disputedDates: entry.disputedDates,
       schedule,
-      year: releaseYear,
+      // Aus dem Termin, der am Ende dasteht — nicht aus dem kuratierten. Der
+      // Kalender kann ihn verschoben haben, und über den Jahresfilter der
+      // Oberfläche entscheidet der ausgelieferte Termin.
+      year: Number(schedule.firstEpisodeDate.slice(0, 4)),
       sources: [...new Set(sources)],
     })
   }
@@ -1409,8 +1452,8 @@ function main(): void {
 
     const derived = derivedStart(slot)
     if (!derived) continue
-    const firstEpisodeDate = derived.date
-    const releaseYear = Number(firstEpisodeDate.slice(0, 4))
+    let firstEpisodeDate = derived.date
+    let releaseYear = Number(firstEpisodeDate.slice(0, 4))
 
     let episodeCount = title?.episodes
     let episodeCountAssumed = false
@@ -1430,6 +1473,33 @@ function main(): void {
       if (ausAnisearch && episodeCount === ausAnisearch.count) episodeCountSource = 'anisearch'
     }
 
+    /**
+     * Crunchyroll zählt die Reihe durch, AniList je Staffel.
+     *
+     * Steht die kleinste gesehene Folgennummer über dem, was die Staffel
+     * hergibt, gehört sie zu keiner Zählung ab Folge 1 — dann ist der oben
+     * zurückgerechnete Start eine Erfindung. Als belegte Staffellänge zählt
+     * dabei nur eine, die nicht selbst geraten ist; die Untergrenze aus den
+     * Beobachtungen wäre ein Zirkelschluss.
+     */
+    const beobachtet = observedEpisodes(slot)
+    let note: string | undefined
+    let firstEpisodeNumber: number | undefined
+    const durchgezaehlt = durchlaufendeZaehlung(
+      beobachtet,
+      episodeCountAssumed ? undefined : episodeCount,
+      crKalenderBis,
+    )
+    if (durchgezaehlt) {
+      firstEpisodeNumber = durchgezaehlt.firstEpisodeNumber
+      firstEpisodeDate = durchgezaehlt.firstEpisodeDate
+      releaseYear = Number(firstEpisodeDate.slice(0, 4))
+      episodeCount = durchgezaehlt.episodeCount
+      episodeCountAssumed = false
+      episodeCountSource = undefined
+      note = durchgezaehlt.note
+    }
+
     releases.push({
       slug,
       titleId: title?.id ?? -1,
@@ -1438,8 +1508,10 @@ function main(): void {
       platformUrl: slot.seriesUrl,
       releaseType: 'weekly',
       fsk: title?.fsk,
+      note,
       schedule: {
         firstEpisodeDate,
+        firstEpisodeNumber,
         time: slot.time,
         episodeCount,
         episodeCountAssumed,
@@ -1452,7 +1524,7 @@ function main(): void {
         // steht trotzdem hier, damit ohne nummerierte Kachel kein leeres Feld
         // im Datensatz landet — und damit die Regel an beiden Stellen dieselbe
         // ist, falls je ein kuratierter Eintrag hierher durchfällt.
-        observed: beobachtungenZusammenfuehren(observedEpisodes(slot), undefined),
+        observed: beobachtungenZusammenfuehren(beobachtet, undefined),
       },
       year: releaseYear,
       sources: [CR_CALENDAR_URL],
