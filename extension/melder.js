@@ -99,7 +99,7 @@ function beschriftung(spuren) {
   }
   if (!spuren) {
     if (!stand.reihe) return { text: 'Kein Titel erkannt', klasse: 'ak-leer', aktiv: false }
-    return { text: 'Keine Folge abspielbar — melden', klasse: 'ak-nein', aktiv: true }
+    return { text: 'Keine Folge gesehen — als nicht abrufbar melden', klasse: 'ak-nein', aktiv: true }
   }
   const { deutsch, echte } = urteil(spuren)
   return deutsch

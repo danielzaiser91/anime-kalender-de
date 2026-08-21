@@ -24,6 +24,9 @@
   // --- Der Player ----------------------------------------------------------
 
   function netflixSpuren() {
+    // Nur im echten Abspieler. Auf einer Titelseite läuft die Vorschau, und
+    // deren Sprachen haben mit der Reihe nichts zu tun.
+    if (!location.pathname.startsWith('/watch/')) return null
     const api = window.netflix?.appContext?.state?.playerApp?.getAPI?.()
     const sitzungen = api?.videoPlayer?.getAllPlayerSessionIds?.() ?? []
     if (!sitzungen.length) return null
