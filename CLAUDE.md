@@ -179,6 +179,24 @@ Zwei Folgen daraus:
   **Verworfen, weil gemessen:** `availability_ends` taugt nicht als Ersatz. Dragon Ball (weg)
   und JoJo (sichtbar) tragen beide den 31.12.2025; von 592 Serien hätten 445 als „abgelaufen"
   gegolten, darunter „Lycoris Recoil", das Daniel am 22.08.2026 als normal sichtbar bestätigt hat.
+
+- **Netflix gibt die Sprachen erst mit dem Player heraus — gemessen, nicht vermutet.** Am
+  22.08.2026 auf einer offenen Titelseite mit zwei Konsolen-Skripten geprüft:
+  `models.graphql.data` umfasst 6.797 Zeichen und enthält Profile und Benachrichtigungen, null
+  Treffer für `audioLocale`, `de-DE` oder `Deutsch`; im übrigen Seitenzustand stehen nur
+  Oberflächentexte. Erst beim Abspielen lädt Netflix ein Manifest
+  (`/playapi/cadmium/manifest/1`, rund 198 KB) mit `audioTracks`, `language` und
+  `languageDescription`.
+
+  Daraus folgt der Ablauf in `data/netflix-von-hand.md`: **Abspielen** verlinkt direkt auf
+  `/watch/<reihe>`, der Player startet, die Erweiterung liest, ein Klick meldet.
+
+- **Was auf der Titelseite läuft, ist nicht die Serie.** Der Player führt dort eine Sitzung
+  namens `motion-billboard-…` — die Vorschau des Hero-Elements der **Startseite**, die hinter
+  dem Titel-Overlay weiterläuft. Für „Pokémon Sonne & Mond", eine Reihe ohne eine einzige
+  abrufbare Folge, meldete sie 18 Sprachen samt Deutsch: die des Films im Hintergrund
+  (`movieId 82819831` gegen Reihe `80186475`). Die Erweiterung verwirft Sitzungen mit
+  `motion-billboard`, `trailer` oder `preview` im Namen und liest nur auf `/watch/`.
 - **Aus dem Fragezeichen wird ein Häkchen nur durch Nachsehen.** Geprüfte Fälle stehen in
   `data/dub-confirmed.yaml`, mit Datum. `dub: false` ist genauso wertvoll wie `true`.
 - **Was ein Mensch geprüft hat, schlägt jede Ableitung** — der Eintrag gilt auch gegen ein

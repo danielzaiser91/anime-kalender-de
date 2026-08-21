@@ -13,6 +13,9 @@ for (const t of liste) {
     folgen: t.episodes ?? 0,
     jahr: t.jpYear ?? 0,
     url: nf.url,
+    // Aus /title/<nummer> wird /watch/<nummer>: Netflix startet damit die erste
+    // Folge, und nur im laufenden Player stehen die Tonspuren.
+    spielen: (nf.url ?? '').replace('/title/', '/watch/'),
   })
 }
 // Nach Nutzen: viele Folgen zuerst — der Aufwand je Zeile ist gleich, der Ertrag nicht.
@@ -26,9 +29,14 @@ const md = [
   'Diese Titel kennt die Streaming Availability API nicht — ein zweiter Abruf bringt nichts.',
   'Netflix selbst darf nicht abgerufen werden (`robots.txt`). Bleibt der Blick von Hand.',
   '',
-  '**Ablauf mit der Erweiterung aus `extension/`:** Verweis öffnen, eine Folge starten, den Knopf',
-  'unten rechts drücken. Er sagt schon vorher, was er melden würde — grün heißt deutsche Tonspur',
-  'gefunden, gelb heißt keine. Danach die nächste Zeile.',
+  '**Ablauf mit der Erweiterung aus `extension/`:** Auf **Abspielen** klicken — Netflix startet',
+  'damit die erste Folge —, dann den Knopf unten rechts drücken und zurück. Er sagt schon vorher,',
+  'was er melden würde: grün heißt deutsche Tonspur gefunden, gelb heißt keine.',
+  '',
+  '**Warum abspielen sein muss:** Auf der Titelseite liefert Netflix keine Sprachangabe — geprüft',
+  'am 22.08.2026 im Seitenzustand und im Netzwerkverkehr. Sie entstehen erst mit dem Player.',
+  'Landet **Abspielen** auf der Titelseite statt im Player, gibt es dort keine Folge; dann meldet',
+  'derselbe Knopf „nicht abrufbar".',
   '',
   'Erzeugt von `npm run data:netflix-rest`, nicht von Hand pflegen.',
   '',
@@ -36,7 +44,7 @@ const md = [
   '|---|---|---:|---:|---|',
 ]
 zeilen.forEach((z, i) => {
-  md.push(`| ${i + 1} | ${z.name.replace(/\|/g, '\|')} | ${z.folgen || '—'} | ${z.jahr || '—'} | [öffnen](${z.url}) |`)
+  md.push(`| ${i + 1} | ${z.name.replace(/\|/g, '\|')} | ${z.folgen || '—'} | ${z.jahr || '—'} | [Abspielen](${z.spielen}) · [Titelseite](${z.url}) |`)
 })
 md.push('')
 fs.writeFileSync('data/netflix-von-hand.md', md.join('\n'))
