@@ -140,6 +140,22 @@ Zwei Folgen daraus:
    Falschnegativ ist damit dauerhaft. Wiedervorlage muss über das Alter der Prüfung
    laufen, nicht über „noch nie geprüft".
 
+- **Eine fremde Anbieter-Schnittstelle belegt nur, was da ist — nie, was fehlt.** Geprüft am
+  21.08.2026 an der [Streaming Availability API](https://www.movieofthenight.com/about/api)
+  (Movie of the Night): Sie liefert Tonspuren je Folge, getrennt nach `audios` und
+  `subtitles`, und traf bei `thunder-3` unseren belegten Stand — Folgen 1 bis 6 mit deutschem
+  Ton auf Netflix. Folge 7 kannte sie nicht, **obwohl sie seit dem 19.08. auf Netflix in
+  deutscher Fassung liegt** (Daniel, 21.08.2026). Mindestens zwei Tage Verzug. Ein fehlender
+  Eintrag heißt dort „noch nicht bekannt", und aus dieser Quelle wird deshalb nie ein
+  `dub: false`.
+
+  Zwei weitere gemessene Grenzen derselben Quelle: Ihre **Serienebene widerspricht ihrer
+  eigenen Episodenebene** — bei „Frieren" meldet sie oben deutschen Ton bei Crunchyroll,
+  während alle 28 Crunchyroll-Episoden `audios: [{"language":"jpn"}]` tragen. Und ihre
+  **Staffelzählung ist eine andere als unsere**: „Frieren" ist dort eine Staffel mit 39
+  Folgen, „Mushoku Tensei" drei mit 61. Zugeordnet wird über Folgennummern, nie über
+  Staffelnummern.
+
 - **Aus dem Fragezeichen wird ein Häkchen nur durch Nachsehen.** Geprüfte Fälle stehen in
   `data/dub-confirmed.yaml`, mit Datum. `dub: false` ist genauso wertvoll wie `true`.
 - **Was ein Mensch geprüft hat, schlägt jede Ableitung** — der Eintrag gilt auch gegen ein
