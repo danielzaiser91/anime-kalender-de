@@ -18,6 +18,9 @@
  * geöffnet hat. Es wird nichts angefordert.
  */
 ;(() => {
+  // Seit dem 22.08.2026 laeuft dieses Skript nur auf Netflix. Crunchyroll
+  // lesen wir ueber die Content-API; dort hat die Erweiterung nichts mehr zu
+  // suchen, und was sie nicht anfasst, kann sie auch nicht stoeren.
   const MARKE = 'ak-spuren'
   const FUND = 'ak-netzfund'
 
@@ -91,18 +94,34 @@
     )
   }
 
+  /**
+   * Mitlesen, ohne sich in den Weg zu stellen.
+   *
+   * Die erste Fassung war `async` und wartete mit `await` auf die Antwort. Damit
+   * lag mein Skript im Aufrufpfad jeder einzelnen Anfrage — und jede, die die
+   * Seite selbst abbricht (Crunchyroll tut das laufend), landete als
+   * „Uncaught (in promise) TypeError: Failed to fetch" in der Fehlerliste der
+   * Erweiterung, mit `leser.js` als Verursacher (Daniel, 22.08.2026, mit Bild).
+   *
+   * Jetzt wird die ursprüngliche Zusage unverändert zurückgegeben und nur
+   * nebenher mitgelesen. Was dort schiefgeht, gehört mir und wird geschluckt;
+   * was der Seite schiefgeht, bleibt ihres.
+   */
   const echtesFetch = window.fetch
-  window.fetch = async function (...args) {
-    const antwort = await echtesFetch.apply(this, args)
+  window.fetch = function (...args) {
+    const zusage = echtesFetch.apply(this, args)
     try {
-      const url = typeof args[0] === 'string' ? args[0] : args[0]?.url ?? ''
+      const url = typeof args[0] === 'string' ? args[0] : (args[0]?.url ?? '')
       if (INTERESSANT.test(url)) {
-        antwort.clone().text().then((t) => pruefeAntwort(url, t)).catch(() => {})
+        zusage
+          .then((antwort) => antwort.clone().text())
+          .then((text) => pruefeAntwort(url, text))
+          .catch(() => {})
       }
     } catch {
       /* Mithören darf die Seite nie stören. */
     }
-    return antwort
+    return zusage
   }
 
   const echtesOeffnen = XMLHttpRequest.prototype.open
