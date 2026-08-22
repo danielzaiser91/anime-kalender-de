@@ -110,16 +110,24 @@
 
 .ak-liste { overflow-y: auto; padding: 6px 0; }
 
+/* Die Zeile darf umbrechen. Bei „One Piece" teilt Netflix in sieben Arcs, das
+   sind vierzehn Kürzel — sie drängten den Titel auf null Breite, und die Zeile
+   war nicht mehr zuzuordnen (Daniel, 22.08.2026: „One Piece label + link nicht
+   in liste"). */
 .ak-zeile {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
-  gap: 12px;
+  gap: 6px 12px;
   padding: 7px 16px;
 }
 .ak-zeile:hover { background: rgba(255, 255, 255, 0.04); }
 
+/* Der Titel behält seine Breite, statt zwischen den Kürzeln zu verschwinden.
+   Er darf schrumpfen, aber nicht unter das, was noch lesbar ist. */
 .ak-titel {
-  flex: 1;
+  flex: 1 1 220px;
+  min-width: 160px;
   color: #79c0ff;
   text-decoration: none;
   overflow: hidden;
@@ -128,7 +136,15 @@
 }
 .ak-titel:hover { text-decoration: underline; }
 
-.ak-folgen { display: flex; flex-wrap: wrap; gap: 4px; }
+/* Die Kürzel rücken nach rechts und brechen dort um — bei vielen Staffeln
+   stehen sie dann unter dem Titel statt vor ihm. */
+.ak-folgen {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px;
+}
 
 /* Die Kürzel sind kein Schmuck: Sie sagen, welche Folge zu öffnen ist. Erledigte
    bleiben stehen statt zu verschwinden — sonst wüsste beim nächsten Mal niemand
