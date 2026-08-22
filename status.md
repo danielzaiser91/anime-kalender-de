@@ -12,10 +12,9 @@ Stand: 22.08.2026 · Live: https://anime-kalender.de/
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **Meldungen ohne Zuordnung auflösen** | 1 | `data/meldungen-ohne-zuordnung.md`: drei Meldungen, deren Adresse unser Datensatz nicht kennt. Anbieter führen denselben Titel unter mehreren Kennungen — Daniels JJK-Seite meldete `title/80237957`, wir kennen JJK als `title/81278456`. Für zwei davon (Beyblade Burst Surge, QuadDrive) steht ein Namensvorschlag da, der nur bestätigt werden muss; bei JJK fehlte der Serientitel, weil das Mitlesen noch nicht griff. **Stimmt ein Vorschlag, gehört die gemeldete Adresse als zusätzlicher Verweis an den Titel** — dann trifft auch die nächste Meldung |
+| **Reihenfolge: neue Anime zuerst** | — | Daniels Vorgabe vom 23.08.2026: „im fokus stehen neue anime, das ist das aller wichtigste". Was 2016 und aelter ist, kommt zuletzt — auch dann, wenn dort mehr Luecken sind. Ein Kalender lebt von dem, was demnaechst laeuft; ein Katalogtitel von 2005 ist Nachschlagewerk. |
 | **Crunchyroll: 172 Befunde aus dem US-Katalog nachziehen** | 2 | **Der deutsche Katalog ist erreichbar, seit dem 22.08.2026 belegt:** Der Worker frischt das Zugangspaket selbst auf — gemessen um 16:14 Uhr, geholt über eine Londoner Leitung, `land: DE`, Bucket `/DE/M2/-`, gültig 24 Stunden. Im Archiv tragen **762 Serien `katalog: de`**, und die Zahl mit belegter deutscher Fassung ist von 226 auf **406** gestiegen. Offen sind die **172 Serien mit `katalog: "us"`** und 25 ohne Angabe aus dem Lauf vom 21.08.2026. Sie sind nicht veraltet, sie beantworten eine andere Frage — die Wiedervorlage schützte sie trotzdem. Seit dem 22.08.2026 schlägt der Katalog die Frist, damit kommen sie von selbst wieder dran |
 | **„Nicht mehr im Angebot" ohne Seitenanzeige erkennen** | 3 | Die Content-API meldet den Rückzug einer Serie **nicht**: Für „Dragon Ball" und „Dragon Ball Z" liefert sie 153 bzw. 291 Folgen, die Seite zeigt das Banner „Leider sind die Videos dieser Serie nicht mehr verfügbar" (Daniel, 22.08.2026). Beide Reihen stehen dadurch als erster Eintrag in `data/dub-batches.md` — 19 tote Verweise in einer Zeile. **Widerlegt am 22.08.2026:** `availability_ends` trennt die Fälle nicht — Dragon Ball (weg) und JoJo (sichtbar) tragen beide den 31.12.2025, und Daniel hat JoJo wie Lycoris Recoil als normal sichtbar bestätigt. Die Ursache ist eine andere und steht in der Zeile darüber: Der Lauf sah den US-Katalog. Drei Gruppen gemessen: 57 Serien mit Ende 12/2025 (darunter Dragon Ball Z **und Fairy Tail**), 226 mit Enden aus 2022, 220 ohne jedes Ende. Daniels erste Runde passt dazu: Ende 12/2025 → Banner; Ende 2022 (Conan, Gintama, Yu-Gi-Oh! GX) → sichtbar; ohne Ende (One Piece) → sichtbar. **Entscheidet sich an zwei, drei weiteren Prüfungen aus der 12/2025-Gruppe.** Vorher wird nichts umgestellt — ein Feldname ist keine Bedeutung |
-| **Negativ-Befund der Crunchyroll-API belastbar machen** | 2 | Die API führt **366 Serien mit 12.223 Folgen** als „keine deutsche Fassung". Übernommen wird davon nichts: `beurteile()` steigt bei `deutschImAngebot: false` sofort aus, weil ein fehlendes Deutsch in der **Gast-Ansicht** der alten Seitenanzeige nichts bewies. Ob das für die API auch gilt, ist ungeprüft — die Kontrollgruppe in `data/dub-confirmed.yaml` enthält **24 Positiv-Fälle und keinen einzigen Negativ-Fall** (nachgezählt am 21.08.2026). Sechs Serien liegen Daniel zur Prüfung vor; bestätigt er sie, fallen rund 426 Verweise aus der Handarbeit — etwa zehn Arbeitspakete |
 | **Prime Video: 240 Verweise ohne Sprachangabe** | 5 | Der groesste offene Posten nach dem Netflix-Abend. Nur 5 von 245 Verweisen sind belegt. Die Erweiterung koennte dieselbe Arbeit leisten wie bei Netflix, muesste aber auf Amazons Seite umgebaut werden — andere Technik, unbekannter Aufwand. **Erster Schritt waere eine Messung, keine Umsetzung:** Nennt der Player seine Tonspuren im Netzwerkverkehr, so wie Netflix es tut? |
 | **Sieben Netflix-Titel mit offener Staffel** | 1 | Netflix ist am 22.08.2026 von 258 offenen Adressen auf sieben gefallen, **340 Synchros sind belegt und 145 tote Verweise entfernt**. Was bleibt: ONE PIECE (sieben Arcs), KONOSUBA, Kakegurui, Ghost in the Shell SAC_2045, Pokémon Horizons, DAN DA DAN, BEYBLADE X — je eine bis sieben Staffeln. Die Erweiterung zeigt sie, sobald Daniel sie oeffnet |
 | **YouTube: 87 Verweise ohne Sprachangabe** | 2 | Am 23.08.2026 alle 93 ueber YouTubes oEmbed geprueft (dokumentiert, ohne Schluessel, robots.txt erlaubt es). **Sechs Belege eingetragen** — dort nennt der Videotitel die Sprache ausdruecklich, und die Kanaele sind KSM Anime und Crunchyroll Extras Deutschland. **Kein einziger Verweis ist geloescht**, neun sind kostenpflichtig (HTTP 401 bei oEmbed, Kauf- und Leihfilme bei YouTube Movies). Was bleibt, steht in `data/youtube-pruefliste.md`: acht deutsche Verleihtitel ohne Sprachangabe, 70 ohne jeden Hinweis. Die Data API mit Schluessel wuerde die Tonspuren nennen — das waere eine eigene Entscheidung |
@@ -728,6 +727,27 @@ weder offiziell noch in den inoffiziellen Doku-Repos.
   abgenommen.
 
 ## Archiv
+
+### 23.08.2026 — der Crunchyroll-Negativbefund war laengst belastbar
+
+Die Aufgabe stand seit dem 21.08. offen: 366 Serien galten als „keine deutsche Fassung", und
+uebernommen wurde davon nichts. Der Grund war gut — ein fehlendes Deutsch in der **Gast-Ansicht**
+bewies nichts, 975 Falschangaben hatten das gezeigt.
+
+Mit dem deutschen Zugang vom 22.08. ist die Frage eine andere, und der Code entscheidet bereits
+so: `beurteile()` macht aus `deutschImAngebot: false` genau dann ein Nein, wenn `katalog === "de"`
+ist. Aus dem US-Katalog nie.
+
+**Die Kontrollgruppe bestaetigt es:** 26 von 26 Handbelegen stimmen mit dem DE-Katalog ueberein,
+kein einziger Widerspruch. Und die Zahl selbst ist gefallen — statt 366 sind es 100 Negativ-
+Befunde, alle aus dem deutschen Katalog, keiner mit Fehlermeldung.
+
+Daniels Frage traf den Punkt: „warum kann bei crunchy ueberhaupt ein schiefstand sein? seit wir
+den lauf mit auth token gemacht haben ... sollte es doch perfekt sein fuer alle?" — Es war
+perfekt, nur stand die alte Vorsicht noch in der Aufgabenliste.
+
+Wirkung im Datensatz: 491 Synchro-Angaben aus den Serienseiten belegt, 188 Verweise ohne deutsche
+Synchro entfernt.
 
 ### 22./23.08.2026 — Netflix von Hand, mit einer Erweiterung, die mitlernt
 
