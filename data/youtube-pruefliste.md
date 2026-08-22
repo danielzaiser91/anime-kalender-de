@@ -13,7 +13,6 @@ aber „meist" ist kein Beleg.
 
 | Unser Titel | Videotitel | Kanal | Verweis |
 |---|---|---|---|
-| Pokémon the Series: Diamond and Pearl | Lucia startet durch! | Pokémon: Diamant & Perl | Komplette Folge | Offizieller Pokémon Youtube Kanal | [öffnen](https://www.youtube.com/watch?v=0v5cczQXBR0) |
 
 ## Hinter einer Kasse
 
@@ -35,7 +34,7 @@ verschwindet, ist eine Entscheidung, keine Messung.
 
 ## Ohne Hinweis auf die Sprache
 
-37 Verweise, deren Videotitel nichts verrät. Für die hilft nur Hinsehen —
+35 Verweise, deren Videotitel nichts verrät. Für die hilft nur Hinsehen —
 oder die Data API mit Schlüssel, die auch die Tonspuren nennt.
 
 | Unser Titel | Videotitel | Kanal | Verweis |
@@ -53,7 +52,6 @@ oder die Data API mit Schlüssel, die auch die Tonspuren nennt.
 | B-Daman Crossfire | B-Daman Crossfire | AnimangaPLUS | [öffnen](https://www.youtube.com/playlist?list=PL4o1lot_6q1EHL3vw_t4BGuHK6uBHyETT) |
 | Attack on Titan Part I: Crimson Bow and Arrow | Full Movie | Attack on Titan Part 1 - Guren no Yumiya - (English Dub) | Anime Manga Official | [öffnen](https://www.youtube.com/watch?v=AHT772bRkMY) |
 | Attack on Titan Part II: Wings of Freedom | Full Movie | Attack on Titan Part 2 - Jiyuu no Tsubasa - (English Dub) | Anime Manga Official | [öffnen](https://www.youtube.com/watch?v=oVlEVivdY-Y) |
-| Pokémon Omega Ruby and Pokémon Alpha Sapphire Animated Trailer | Anime-Trailer zu Pokémon Omega Rubin und Pokémon Alpha Saphir | Offizieller Pokémon Youtube Kanal | [öffnen](https://www.youtube.com/watch?v=KlgsUzl_IrI) |
 | Pokémon Mystery Dungeon: Gates to Infinity | Pokémon Mystery Dungeon: Gates to Infinity (Part 1) | The Official Pokémon YouTube channel | [öffnen](https://www.youtube.com/watch?v=zbwSAruo3QU) |
 | Pokémon Generations | ポケモンジェネレーションズ | ポケモン公式YouTubeチャンネル | [öffnen](https://www.youtube.com/playlist?list=PLBE2D9BnJJUr3eL0gJwgbWbXqPaOFZI5p) |
 | Ookami Heart | ORESAMA - オオカミハート(F.O.ver.)［OFFICIAL MUSIC VIDEO］ | VAP OFFICIAL MUSIC CHANNEL | [öffnen](https://www.youtube.com/watch?v=PwAgOqNvFGA) |
@@ -72,7 +70,6 @@ oder die Data API mit Schlüssel, die auch die Tonspuren nennt.
 | Kaguya-sama: Love is War -Ultra Romantic- "Yu Ishigami Wants to Chat" | Kaguya-sama: Love Is War -Ultra Romantic- Season 3  |  Teaser Video - "Yu Ishigami Wants to Chat" | Aniplex USA | [öffnen](https://www.youtube.com/watch?v=cxTxrKrYkcY) |
 | Calico Critters: Mini Episodes -Peony- | Calico Critters Mini Episodes Season 4 -Peony- | CALICO CRITTERS Official | [öffnen](https://www.youtube.com/playlist?list=PLduwKEaYhJ45z5Gf4Nj3jmsMvOFcpTikR) |
 | Em-Shade! Shorts | 【ちびキャラアニメ】かげじつ！ | KADOKAWAanime | [öffnen](https://youtube.com/playlist?list=PL3ongWuaWwZNBggs9x1Qcya3nRJzfMbkK) |
-| Challenge the World! | Die Pokémon-Weltmeisterschaften 2023 | Offizieller Trailer | Offizieller Pokémon Youtube Kanal | [öffnen](https://www.youtube.com/watch?v=kZOw6YgJVhM) |
 | Pokémon: Paldean Winds | Pokémon: Paldean Winds | The Official Pokémon YouTube channel | [öffnen](https://www.youtube.com/playlist?list=PLQWzKIaERirzLZWMu3M89ZEpsDt9YtDBM) |
 | Detective Pikachu & the Mystery of the Missing Flan | Detective Pikachu & the Mystery of the Missing Flan 🍮🔎 | The Official Pokémon YouTube channel | [öffnen](https://www.youtube.com/watch?v=5yQSUimraSU) |
 | Super Cube | 【👑PLATIN MEMBERS ONLY 】Super Cube | English Ver. | FULL #fantasy #shounen #adventure | 爱奇艺国漫 iQIYI Animation - Get the iQIYI APP | [öffnen](https://www.youtube.com/playlist?list=PLTndXYWs2JgG2PxW3hisgJze2P5iKnO2s) |

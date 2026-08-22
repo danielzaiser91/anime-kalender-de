@@ -15536,3 +15536,180 @@
   dub: true
   checkedAt: '2026-08-23'
   note: RTL+ ist rein deutschsprachig (Daniel, 23.08.2026).
+
+# YouTube: was der Kanalname über die Sprache sagt.
+#
+# Er ist kein Beweis, aber ein starkes Zeichen — und zwar in beide Richtungen:
+# Ein Kanal namens „Offizieller Pokémon Youtube Kanal" richtet sich an deutsche
+# Zuschauer, „The Official Pokémon YouTube channel" und
+# „ポケモン公式YouTubeチャンネル" sind dieselbe Marke in anderen Sprachen.
+#
+# Gewertet ist nur, wo die Sprache **benannt** ist. „Anime Manga Official" sagt
+# nichts und bleibt offen; ebenso jeder Kanal, auf den beide Muster passen.
+#
+# Geprüft am 23.08.2026, nachdem die Tonspur-Angabe der Videoseite bei diesen
+# 13 fehlte — sie gibt es nur bei Filmen und Serien aus YouTubes eigenem
+# Angebot, nicht bei hochgeladenen Videos.
+
+- anilistId: 1565
+  title: "Pokémon the Series: Diamond and Pearl"
+  platform: youtube
+  dub: true
+  checkedAt: '2026-08-23'
+  note: "Kanal: „Offizieller Pokémon Youtube Kanal\""
+
+- anilistId: 2578
+  title: "Tao Tao Ehonkan Sekai Doubutsu Banashi"
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-23'
+  note: "Kanal: „Studio100 KIDS Français\""
+
+- anilistId: 5231
+  title: "Inazuma Eleven – Staffel 1"
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-23'
+  note: "Kanal: „Arait Play English\""
+
+- anilistId: 20956
+  title: "Pokémon Omega Ruby and Pokémon Alpha Sapphire Animated Trailer"
+  platform: youtube
+  dub: true
+  checkedAt: '2026-08-23'
+  note: "Kanal: „Offizieller Pokémon Youtube Kanal\""
+
+- anilistId: 97635
+  title: "Pokémon Generations"
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-23'
+  note: "Kanal: „ポケモン公式YouTubeチャンネル\""
+
+- anilistId: 187052
+  title: "Calico Critters: Mini Episodes"
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-23'
+  note: "Kanal: „シルバニア ファミリー 公式チャンネル\""
+
+- anilistId: 145850
+  title: "GREEN DA KA RA x Mirai no Mirai"
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-23'
+  note: "Kanal: „スタジオ地図 / STUDIO CHIZU\""
+
+- anilistId: 115107
+  title: "DIGIMON ADVENTURE 20th memorial story"
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-23'
+  note: "Kanal: „東映アニメーション公式YouTubeチャンネル\""
+
+- anilistId: 119964
+  title: "POKÉTOON"
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-23'
+  note: "Kanal: „ポケモン公式YouTubeチャンネル\""
+
+- anilistId: 145564
+  title: "Bing Shang Yuxian"
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-23'
+  note: "Kanal: „咪咕动漫 MIGU Animation\""
+
+- anilistId: 167418
+  title: "Challenge the World!"
+  platform: youtube
+  dub: true
+  checkedAt: '2026-08-23'
+  note: "Kanal: „Offizieller Pokémon Youtube Kanal\""
+
+- anilistId: 166442
+  title: "Super Cube"
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-23'
+  note: "Kanal: „爱奇艺国漫 iQIYI Animation - Get the iQIYI APP\""
+
+- anilistId: 186559
+  title: "Pokémon: Dragonite and the Special Delivery"
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-23'
+  note: "Kanal: „ポケモン公式YouTubeチャンネル\""
+
+# YouTube: Videotitel, die eine **andere** Fassung benennen.
+
+- anilistId: 288
+  title: "Beyblade"
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-23'
+  note: "Videotitel nennt die Fassung: „BEYBLADE EN Episodes\""
+
+- anilistId: 629
+  title: "Magic User's Club!"
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-23'
+  note: "Videotitel nennt die Fassung: „Magic User's Club (Sub)\""
+
+- anilistId: 1668
+  title: "Beyblade G Revolution"
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-23'
+  note: "Videotitel nennt die Fassung: „BEYBLADE GREVOLUTION EN Episodes\""
+
+- anilistId: 1669
+  title: "Beyblade V-Force"
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-23'
+  note: "Videotitel nennt die Fassung: „BEYBLADE VForce EN Episodes\""
+
+- anilistId: 20691
+  title: "Attack on Titan Part I: Crimson Bow and Arrow"
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-23'
+  note: "Videotitel nennt die Fassung: „Full Movie | Attack on Titan Part 1 - Guren no Yumiya - (English Dub)\""
+
+- anilistId: 20692
+  title: "Attack on Titan Part II: Wings of Freedom"
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-23'
+  note: "Videotitel nennt die Fassung: „Full Movie | Attack on Titan Part 2 - Jiyuu no Tsubasa - (English Dub)\""
+
+- anilistId: 99643
+  title: "Ookami Heart"
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-23'
+  note: "Videotitel nennt die Fassung: „ORESAMA - オオカミハート(F.O.ver.)［OFFICIAL MUSIC VIDEO］\""
+
+- anilistId: 100465
+  title: "Attack on Titan: The Roar of Awakening"
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-23'
+  note: "Videotitel nennt die Fassung: „Full Movie | Attack on Titan Season 2 the Movie: Roar of Awakening (English Sub)\""
+
+- anilistId: 112803
+  title: "No Guns Life Season 2"
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-23'
+  note: "Videotitel nennt die Fassung: „NO GUNS LIFE S2 [English Sub]\""
+
+- anilistId: 156001
+  title: "Em-Shade! Shorts"
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-23'
+  note: "Videotitel nennt die Fassung: „【ちびキャラアニメ】かげじつ！\""
