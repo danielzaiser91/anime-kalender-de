@@ -83,6 +83,7 @@ const liste: Array<{
   episodes?: number
   jpYear?: number
   jpSeason?: string
+  format?: string
   streams?: Array<{ platform: string; url: string }>
 }> =
   Array.isArray(titles) ? titles : (titles.titles ?? Object.values(titles))
@@ -158,10 +159,22 @@ const erledigteIds = new Set<number>()
  */
 const JAHRESZEIT: Record<string, number> = { WINTER: 0, SPRING: 1, SUMMER: 2, FALL: 3 }
 function staffelnDerAdresse(ids: number[]): Staffeleintrag[] {
-  const eintraege = ids
+  const alle = ids
     .map((id) => liste.find((x) => x.id === id))
     .filter((t): t is NonNullable<typeof t> => Boolean(t?.episodes))
-  if (eintraege.length !== ids.length) return []
+  /**
+   * OVAs und Specials zählen nicht als eigene Staffeln.
+   *
+   * Der Anbieter rechnet sie als Folgen der Staffel mit: Netflix meldet für
+   * HAIKYU!! vier Staffeln zu 26, 26, 11 und 27 Folgen, unsere Einträge an
+   * derselben Adresse sind 25, **1**, 25, **1** — die beiden Einsen sind OVAs.
+   * Der Reihe nach gepaart ergibt das Unsinn, und die Zuordnung verweigerte
+   * sich zu Recht (22.08.2026). Ohne sie stimmt die Reihenfolge.
+   *
+   * Ein Titel, an dessen Adresse **nur** Filme hängen, bleibt unberührt.
+   */
+  const serien = alle.filter((t) => t.format === 'TV' || t.format === 'ONA')
+  const eintraege = serien.length ? serien : alle
   return eintraege
     .sort((a, b) => {
       const jahr = (a.jpYear ?? 0) - (b.jpYear ?? 0)

@@ -231,6 +231,21 @@ export function ordneNachStaffelliste(
    * uns) und „BAKI-DOU". Die Folgenzahlen bleiben dabei in der Zählung des
    * Anbieters — sie sind es, die im Player stehen.
    */
+  /**
+   * Führt der Anbieter **eine** Staffel und wir mehrere, entscheidet die Summe.
+   *
+   * Netflix zeigt BAKI-DOU als eine Staffel mit 25 Folgen, AniList als zwei mit
+   * 13 und 12 — zusammen genau 25 (Daniel, 22.08.2026). Dann ist klar, dass es
+   * dieselbe Sache ist, nur anders geschnitten. Alles gehört zur ersten unserer
+   * Staffeln; wo genau die Grenze liegt, sagt die Folgennummer der Meldung.
+   */
+  if (sortiert.length === 1 && unsere.length > 1) {
+    const summe = unsere.reduce((n, u) => n + u.folgen, 0)
+    if (Math.abs(summe - sortiert[0]!.folgen) <= 3) {
+      return { paare: [{ anbieter: sortiert[0]!, unser: unsere[0]! }], ohneEntsprechung: [] }
+    }
+  }
+
   if (unsere.length === 1) {
     return {
       paare: sortiert.map((a) => ({ anbieter: a, unser: unsere[0]! })),
@@ -253,7 +268,21 @@ export function ordneNachStaffelliste(
   for (let i = 0; i < sortiert.length; i++) {
     const a = sortiert[i]!
     const u = unsere[i]!
-    if (a.folgen !== u.folgen) {
+    /**
+     * Ein paar Folgen Unterschied sind keine Abweichung, sondern OVAs.
+     *
+     * Der Anbieter rechnet Specials und Bonusfolgen der Staffel zu, AniList
+     * führt sie getrennt: KONOSUBA hat bei Netflix 11, 11 und 13 Folgen, bei
+     * uns 10, 10 und 11 — jedes Mal genau die eine OVA am Ende (22.08.2026).
+     * Bei drei solchen Differenzen verweigerte sich die Zuordnung, obwohl sie
+     * offensichtlich richtig war.
+     *
+     * Drei Folgen Spielraum, und nur bei Staffeln ab fünf Folgen: Bei einer
+     * Reihe mit drei Teilen wäre derselbe Abstand ein völlig anderer Titel.
+     */
+    const abstand = Math.abs(a.folgen - u.folgen)
+    const kleinereZahl = Math.min(a.folgen, u.folgen)
+    if (abstand > 0 && (abstand > 3 || kleinereZahl < 5)) {
       abweichungen.push(`Staffel ${a.seq}: Anbieter ${a.folgen} Folgen, wir ${u.folgen} (${u.titel})`)
     }
     paare.push({ anbieter: a, unser: u })

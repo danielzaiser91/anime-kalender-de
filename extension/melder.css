@@ -181,10 +181,7 @@
 .ak-tot:disabled { cursor: default; opacity: .55; }
 .ak-tot.ak-frage { border-color: #f85149; color: #f85149; }
 
-/* Abgearbeitetes bleibt sichtbar, tritt aber zurück: Wer die Liste durchgeht,
-   soll sehen, was er schon hatte, ohne dass es die offenen Titel verdeckt. */
-.ak-zeile.ak-abgehakt { opacity: .45; }
-.ak-zeile.ak-abgehakt:hover { opacity: .8; }
+/* Wie Abgearbeitetes aussieht, steht weiter unten beim Umschalter. */
 
 /* Zweite Stufe: Aus dieser Staffel wurde schon etwas gemeldet, nur nicht genau
    diese Folge. Netflix bietet beim Öffnen oft die zuletzt gesehene an — dann

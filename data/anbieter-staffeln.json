@@ -917,26 +917,8 @@
   "staffeln": [
    {
     "seq": 1,
-    "name": "St. 1",
-    "folgen": 23,
-    "erste": 1
-   },
-   {
-    "seq": 2,
-    "name": "St. 2",
-    "folgen": 11,
-    "erste": 1
-   },
-   {
-    "seq": 3,
-    "name": "St. 3",
-    "folgen": 25,
-    "erste": 1
-   },
-   {
-    "seq": 4,
-    "name": "St. 4",
-    "folgen": 19,
+    "name": "",
+    "folgen": 45,
     "erste": 1
    }
   ],
