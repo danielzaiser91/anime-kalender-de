@@ -34,7 +34,7 @@ const IST_DEUTSCH = (code, name) =>
 
 // --- Was die Seite gerade hergibt -------------------------------------------
 
-let stand = { spuren: null, reihe: null, titel: '' }
+let stand = { spuren: null, reihe: null, folge: null, titel: '' }
 /** Reihen, die in dieser Sitzung schon gemeldet wurden. */
 const gemeldet = new Set()
 /** Netzfunde, die noch nicht weitergereicht wurden. */
@@ -43,7 +43,7 @@ const funde = []
 window.addEventListener('message', (e) => {
   if (e.source !== window) return
   if (e.data?.marke === 'ak-spuren') {
-    stand = { spuren: e.data.spuren, reihe: e.data.reihe, titel: e.data.titel }
+    stand = { spuren: e.data.spuren, reihe: e.data.reihe, folge: e.data.folge, titel: e.data.titel }
     knopfZeigen()
     return
   }
@@ -91,6 +91,9 @@ function urteil(spuren) {
  * erkennt. Was zutrifft, sieht Daniel besser als jede Heuristik.
  */
 function beschriftung(spuren) {
+  if (!stand.reihe) {
+    return { text: 'Über die Titelseite öffnen — sonst fehlt die Reihe', klasse: 'ak-leer', aktiv: false }
+  }
   // Gemeldet wird je **Reihe**, nicht je Folge: Netflix führt die Tonspuren am
   // Titel, nicht an der einzelnen Episode. Einmal genügt (Daniel, 22.08.2026:
   // „muss ich jede folge durchgehen und alle einzeln melden?").
@@ -127,6 +130,8 @@ async function melden() {
         sprachen: echte.map((s) => `${s.code}|${s.name}`),
         befund: ohneFolge ? 'weg' : deutsch ? 'dub' : 'kein_dub',
         titel: (stand.titel || '').replace(/\s*-\s*Netflix\s*$/i, '').trim() || null,
+        // Die laufende Folge als Beleg, nie als Ersatz fuer die Reihe.
+        folge: stand.folge,
         notiz: ohneFolge
           ? 'Titelseite ohne abspielbare Folge — nur „Erinnern"'
           : `${echte.length} Tonspuren, ${spuren.length - echte.length} Audiodeskriptionen`,

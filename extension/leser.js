@@ -43,23 +43,51 @@
     return spuren.map((s) => ({ code: s.bcp47 ?? s.language ?? '', name: s.displayName ?? '' }))
   }
 
+  /**
+   * Die Reihe, zu der eine Meldung gehört — und warum das nicht der Player weiß.
+   *
+   * Ein Klick auf `/watch/<reihe>` leitet Netflix intern auf `/watch/<folge>`
+   * um. In der Adresse steht danach die **Folge**, und genau die wurde gemeldet:
+   * Neun von zwölf Meldungen aus Batch 1 trugen eine Kennung, die unser
+   * Datensatz nicht kennt (22.08.2026).
+   *
+   * Der Player hilft nicht weiter. Gemessen im laufenden Abspieler: Die Sitzung
+   * kennt nur `movieId` — die Folge —, keine `ancestorId`, keine `seriesId`,
+   * und im Seitenzustand steht dazu nichts. Deshalb drei Quellen in dieser
+   * Reihenfolge, und wenn keine trägt, wird **nichts** gemeldet:
+   *
+   * 1. Die Adresse, wenn sie eine Titelseite ist (`/title/<nummer>` oder `?jbv=`).
+   * 2. Die zuletzt gesehene Titelseite dieser Sitzung — wer von dort auf
+   *    „Abspielen" klickt, hat sie eben noch offen gehabt.
+   * 3. Ein Verweis auf `/title/<nummer>` im Seiteninhalt. Im Abspieler führt
+   *    der Weg zurück zur Reihe über einen solchen Link.
+   */
   let letzteReihe = null
 
   function reihenNummer() {
     const ausPfad = /\/title\/(\d+)/.exec(location.pathname)?.[1]
     const ausQuery = new URLSearchParams(location.search).get('jbv')
-    const ausWatch = /\/watch\/(\d+)/.exec(location.pathname)?.[1]
-    const modelle = window.netflix?.reactContext?.models
-    const ausZustand = modelle?.playerModel?.data?.videoId ?? null
     const ausTitelseite = ausPfad || ausQuery
-    if (ausTitelseite) letzteReihe = ausTitelseite
-    // Auf einer Abspielseite ist die Nummer in der Adresse die der **Folge**.
-    // Dann gilt die zuletzt gesehene Titelseite; nur wenn es keine gab, bleibt
-    // die Folgennummer als letzter Ausweg.
-    if (ausTitelseite) return ausTitelseite
+    if (ausTitelseite) {
+      letzteReihe = ausTitelseite
+      return ausTitelseite
+    }
     if (letzteReihe) return letzteReihe
-    const ausAhne = window.netflix?.reactContext?.models?.playerModel?.data?.ancestorId
-    return (ausAhne ? String(ausAhne) : null) || (ausZustand ? String(ausZustand) : null) || ausWatch || null
+    const ausInhalt = /\/title\/(\d+)/.exec(
+      Array.from(document.querySelectorAll('a[href*="/title/"]'))
+        .map((a) => a.getAttribute('href') ?? '')
+        .join(' '),
+    )?.[1]
+    if (ausInhalt) {
+      letzteReihe = ausInhalt
+      return ausInhalt
+    }
+    return null
+  }
+
+  /** Die laufende Folge — nur als Beleg, nie als Ersatz für die Reihe. */
+  function folgenNummer() {
+    return /\/watch\/(\d+)/.exec(location.pathname)?.[1] ?? null
   }
 
   // --- Mithören ------------------------------------------------------------
@@ -140,7 +168,7 @@
 
   function melden() {
     window.postMessage(
-      { marke: MARKE, spuren: netflixSpuren(), reihe: reihenNummer(), titel: document.title },
+      { marke: MARKE, spuren: netflixSpuren(), reihe: reihenNummer(), folge: folgenNummer(), titel: document.title },
       '*',
     )
   }

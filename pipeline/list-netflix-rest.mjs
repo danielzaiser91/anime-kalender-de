@@ -29,14 +29,14 @@ const md = [
   'Diese Titel kennt die Streaming Availability API nicht — ein zweiter Abruf bringt nichts.',
   'Netflix selbst darf nicht abgerufen werden (`robots.txt`). Bleibt der Blick von Hand.',
   '',
-  '**Ablauf mit der Erweiterung aus `extension/`:** Auf **Abspielen** klicken — Netflix startet',
-  'damit die erste Folge —, dann den Knopf unten rechts drücken und zurück. Er sagt schon vorher,',
-  'was er melden würde: grün heißt deutsche Tonspur gefunden, gelb heißt keine.',
+  '**Ablauf mit der Erweiterung aus `extension/`:** Titelseite öffnen, dort auf **Abspielen**',
+  'klicken, dann den Knopf unten rechts drücken und zurück. Er sagt schon vorher, was er melden',
+  'würde: grün heißt deutsche Tonspur gefunden, gelb heißt keine.',
   '',
-  '**Warum abspielen sein muss:** Auf der Titelseite liefert Netflix keine Sprachangabe — geprüft',
-  'am 22.08.2026 im Seitenzustand und im Netzwerkverkehr. Sie entstehen erst mit dem Player.',
-  'Landet **Abspielen** auf der Titelseite statt im Player, gibt es dort keine Folge; dann meldet',
-  'derselbe Knopf „nicht abrufbar".',
+  '**Der Umweg über die Titelseite ist nötig:** Ein Klick direkt auf die Abspieladresse leitet',
+  'Netflix auf die erste **Folge** um, und deren Kennung kennt unser Datensatz nicht — neun von',
+  'zwölf Meldungen aus Batch 1 waren deshalb nicht zuzuordnen (22.08.2026). Von der Titelseite',
+  'aus merkt sich die Erweiterung die Reihe; ohne sie meldet der Knopf gar nicht erst.',
   '',
   'Erzeugt von `npm run data:netflix-rest`, nicht von Hand pflegen.',
   '',
@@ -44,7 +44,7 @@ const md = [
   '|---|---|---:|---:|---|',
 ]
 zeilen.forEach((z, i) => {
-  md.push(`| ${i + 1} | ${z.name.replace(/\|/g, '\|')} | ${z.folgen || '—'} | ${z.jahr || '—'} | [Abspielen](${z.spielen}) · [Titelseite](${z.url}) |`)
+  md.push(`| ${i + 1} | ${z.name.replace(/\|/g, '\|')} | ${z.folgen || '—'} | ${z.jahr || '—'} | [öffnen](${z.url}) |`)
 })
 md.push('')
 fs.writeFileSync('data/netflix-von-hand.md', md.join('\n'))
