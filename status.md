@@ -1790,3 +1790,93 @@ fielen lautlos aus dem Lauf, statt in `data/meldungen-ohne-zuordnung.md` zu land
   sich bewusst **nicht** selbst
 - ✅ Prime-Video-Links laufen über amazon.de. Die ASIN ist **nicht** marktübergreifend gleich —
   das Umschreiben von `amazon.com` auf `amazon.de` führte zuverlässig auf eine Fehlerseite
+
+
+## Amazon nennt Tonspur und Abo-Bedingung selbst (23.08.2026, gemessen)
+
+Anlass: Daniels Frage, ob der Grund für das Kauf-Symbol strukturiert in der Seite steht.
+Gemessen an *Naruto Shippuden* (`B0CWDYLZ1S`), drei Staffeln einzeln abgerufen, **ohne Anmeldung**.
+
+### Was in der Seite steht
+
+| Feld | Wert im Beispiel | Taugt wofür |
+|---|---|---|
+| `audioTracks` **je Folge** | `["Deutsch","日本語"]` | Synchro-Beleg, feiner als alles bisherige |
+| `benefitId` je Staffel | `Prime`, `aniversede`, `crunchyrollde` | Zugangsart (Abo / welches Abo) |
+| `cast` | Tobias Pippig, Henning Nöhren | deutsche Sprecher = zweiter Synchro-Beleg |
+| `studios`, `categorizedGenres`, `releaseYear`, `episodeNumber`, `subtitles` | Pierrot Co., Action/Anime/Abenteuer | Stammdaten-Abgleich |
+| `seasonLink` / `seasonId` | alle 9 Staffeln im Quelltext der Serienseite | Staffel-Adressen ohne Raten |
+
+### Der entscheidende Befund
+
+**`benefitId` ist kontounabhängig, `entitlementType` nicht.** `benefitId` sagt, *welches Abo
+nötig ist*; `entitlementType` sagt, *ob dieses Konto es hat* — anonym steht dort bei allen
+Staffeln „Unentitled", auch bei denen, die Daniel im Prime-Abo sieht. Gelesen wird also
+ausschließlich `benefitId`.
+
+Messung, die Daniels Beobachtung bestätigt:
+
+```
+Staffel 1 (B0CWDYLZ1S)  Prime, aniversede, crunchyrollde   20/20 Folgen mit Deutsch
+Staffel 4 (B0FBJWV6MJ)  aniversede                         24/24 Folgen mit Deutsch  ← kein Prime, daher das Schloss
+Staffel 9 (B07VP6VPVR)  Prime, aniversede                  13/13 Folgen mit Deutsch
+```
+
+Damit wird die frühere Einschätzung „Zugangsart anonym nicht messbar" **zurückgenommen**. Sie
+galt für `entitlementType` und wurde fälschlich auf die ganze Frage übertragen.
+
+### Folgenschärfe
+
+Amazon meldet einzelne Folgen ehrlich als nur-japanisch (S1F3 „Neue Teams, alte Feinde",
+S4F5 „Die drei Tabus des Shinobi"). Diese Auflösung hat sonst keine Quelle im Projekt.
+
+### Grenze: ein Abruf je Staffel
+
+Die Serienseite trägt nur die Angebote der **geladenen** Staffel. `benefitId` je Staffel
+verlangt daher `?ref_=atv_dp_season_select_sN` einzeln. Die Staffel-Adressen selbst stehen
+vollständig im Quelltext der Serienseite — kein Raten nötig.
+
+### Umfang eines Laufs (gemessen an `data/anisearch.json`)
+
+- 1.073 Titel mit Amazon-Verweis, 1.195 verschiedene Adressen
+- davon **1.181 in der Form `/dp/`** — die ist mehrdeutig: Video **oder** Disc. Genau diese
+  Trennung ist der erste Zweck des Laufs.
+- nur 14 sind bereits eindeutig `/gp/video/detail/`
+- Staffel-Abrufe kommen obendrauf, erst nach Schritt 1 bezifferbar
+
+### Rechtslage — geprüft am 23.08.2026, und sie verbietet den Lauf
+
+**`robots.txt` allein wäre kein Hindernis.** Kein pauschales `Disallow: /` für `*`; gesperrt
+sind Kontofunktionen (`/gp/video/library`, `/watchlist`, `/mystuff`, `/profiles`, `/search`,
+`/auth`, `/api`), nicht die Detailseiten. `/gp/video/detail/` und `/dp/` kommen als Sperre
+nicht vor, ein `Crawl-delay` fehlt. **Aber:** 100 KI-Bots sind einzeln mit `Disallow: /`
+aufgeführt (Bytespider, AI2Bot, Andibot …) — die Absicht ist unmissverständlich, auch wenn
+unser Abrufer namentlich nicht dabei wäre.
+
+**Die Nutzungsbedingungen entscheiden die Frage — dagegen.** Wortlaut von
+[amazon.de, nodeId=508088](https://www.amazon.de/gp/help/customer/display.html?nodeId=508088):
+
+> „Insbesondere dürfen Sie ohne die ausdrückliche schriftliche Zustimmung von Amazon.de kein
+> Data Mining, keine Robots oder ähnliche Datensammel- und Extraktionsprogramme einsetzen, um
+> irgendwelche wesentlichen Teile eines Amazon Services zur Wiederverwendung zu extrahieren
+> (gleichgültig ob einmalig oder mehrfach). Sie dürfen ferner ohne die ausdrückliche
+> schriftliche Zustimmung von Amazon.de keine eigene Datenbank herstellen […]"
+
+Ein Lauf über 1.195 Adressen plus Staffelseiten, dessen Ergebnis in unsere Datenbank wandert,
+ist genau der beschriebene Fall — „gleichgültig ob einmalig oder mehrfach" schließt auch den
+einmaligen Nachtlauf ein. **Der Lauf findet daher nicht statt.**
+
+Nicht betroffen: die drei Handabrufe vom 23.08.2026, mit denen der Befund oben gemessen wurde.
+Drei angesehene Seiten sind kein systematisches Extrahieren wesentlicher Teile.
+
+### Der gangbare Weg: derselbe wie bei Netflix
+
+Was ein Bot nicht darf, darf ein Mensch, der die Seite ohnehin ansieht. Für Netflix
+(`robots.txt: Disallow: /`) steht dieser Weg längst: Die Chrome-Erweiterung liest mit, während
+Daniel die Seite offen hat, und meldet den Befund. Amazon ließe sich mit derselben Mechanik
+bedienen — die Felder sind bekannt (`audioTracks`, `benefitId`), sie stehen in der geladenen
+Seite, und die Erweiterung liest bereits Netzwerkantworten mit.
+
+Vorteil gegenüber Netflix: Amazon nennt die Tonspur **je Folge** und das nötige Abo **je
+Staffel** — ein einziger Seitenaufruf trägt also deutlich mehr als bei Netflix, wo Daniel je
+Folge klicken muss.
