@@ -1518,6 +1518,28 @@ export default {
         .then((msg) => console.log(`[digest] ${msg}`))
         .catch((err) => console.error('[digest] fehlgeschlagen', err)),
     )
+    /**
+     * Welches Land bekommt ein Cron-Lauf?
+     *
+     * Von Daniels Leitung aus antwortet der Worker aus London und Crunchyroll
+     * gibt ihm `DE`; ruft ein Rechner aus den USA denselben Endpunkt auf,
+     * läuft er in San Jose und bekommt `US` (gemessen 22.08.2026). Cloudflare
+     * führt einen Worker also dort aus, wo die Anfrage ankommt. Ein Cron-Lauf
+     * hat keinen Aufrufer — wo er landet, ist damit noch nicht gesagt, und
+     * genau das entscheidet, ob sich die Erneuerung des Crunchyroll-Zugangs
+     * ohne Daniels Rechner automatisieren lässt.
+     */
+    ctx.waitUntil(
+      crunchyrollLand('cron')
+        .then((m) =>
+          env.DB.prepare(
+            'INSERT INTO netzfund (url, reihe, laenge, felder, proben, gemeldet_am) VALUES (?1, ?2, ?3, ?4, ?5, ?6)',
+          )
+            .bind('messung:cron-land', String(m.land ?? '?'), 0, JSON.stringify(m), '[]', jetztIso())
+            .run(),
+        )
+        .catch((err) => console.error('[land] fehlgeschlagen', err)),
+    )
     ctx.waitUntil(
       runMonitor(env, now)
         .then((msg) => console.log(`[monitor] ${msg}`))
