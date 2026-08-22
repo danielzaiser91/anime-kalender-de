@@ -8,7 +8,6 @@ Stand: 22.08.2026 · Live: https://anime-kalender.de/
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **Staffelaufteilung aus Netflix mitlesen** (Extension v0.23.0) | 3 | **Als harmlos belegt, greift noch nicht.** Zwei Anläufe haben Netflix lahmgelegt (NSES-UHX): erst `window.fetch` und `XMLHttpRequest.prototype.open` ersetzt (Netflix setzt beide danach selbst neu — wirkungslos), dann dieselben Stellen hinter einen Zugriffsschutz gelegt (Netflix liest beim eigenen Wrappen zuerst den bestehenden Wert, bekam unsere Hülle, beide riefen einander auf → *Maximum call stack size exceeded*). **Der dritte Weg setzt am Ergebnis an, nicht am Aufruf**, nach Daniels Einwand vom 22.08.2026: „man muss ja nicht direkt fetch überschreiben". Sein JJK-Test mit v0.22.0 lief sauber durch — Player heil, Folge 59 richtig gelesen. **Gesehen hat der Griff aber nichts:** `serientitel` und `staffeln` fehlten in allen Meldungen, Netflix holt die Metadaten also per `fetch`, nicht per XHR (der Header `ui/xhrUnclassified` ist nur ein Name, den der Client selbst setzt). v0.23.0 umhüllt zusätzlich `Response.prototype.json` — dieselbe Bauart, dieselbe Sicherung: die native Funktion liegt in einer Closure, der Rückgabewert ist unverändert der native. **Zwei Wege sind ausgeschlossen:** `PerformanceObserver` sieht nur Adresse, Zeit und Größe; `chrome.webRequest` gibt es in Manifest v3 ohne Body-Zugriff, allein `chrome.debugger` käme dran und hängt ein Debugger-Banner an den Browser. **Erkenntnisse offen:** Greift v0.23.0, gehört „am Ergebnis ansetzen statt am Aufruf" in den Skill `netzwerkverkehr-statt-scraping` — bricht Netflix ein drittes Mal, gehört stattdessen dorthin, dass fremde Seiten überhaupt nicht angefasst werden und das DOM (`data-uia="season-pane"`) der einzige Weg bleibt |
 
 ### Queue
 | Aufgabe | SP | Notiz |
@@ -727,6 +726,31 @@ weder offiziell noch in den inoffiziellen Doku-Repos.
   abgenommen.
 
 ## Archiv
+
+### 22.08.2026 — Netflix mitlesen: am Ergebnis, nicht am Aufruf
+
+Drei Anläufe, zwei davon haben Netflix mitten in Daniels Sitzung lahmgelegt (NSES-UHX):
+`window.fetch` und `XMLHttpRequest.prototype.open` zu ersetzen war wirkungslos (Netflix setzt
+beide danach selbst neu); dieselben Stellen hinter einen Zugriffsschutz zu legen war schlimmer
+— Netflix las beim eigenen Wrappen zuerst den bestehenden Wert, bekam die Hülle, und beide
+riefen einander auf. *Maximum call stack size exceeded*, die Seite lud nicht mehr.
+
+Daniels Einwand wies den Weg: „man muss ja nicht direkt fetch überschreiben". Umhüllt wird
+jetzt, was die Seite **liest** — `Response.prototype.json` und der Getter von
+`XMLHttpRequest.prototype.responseText`. Die native Funktion liegt in einer Closure, niemand
+kann sie verdrängen, niemand verwendet unseren Wert als „Original" weiter.
+
+**Was es einbrachte**, gleich bei der ersten Meldung (v0.23.0, 18:29 Uhr): Netflix meldet zu
+Sword Art Online `[{seq:1, folgen:25, erste:1}, {seq:2, folgen:24, erste:1}]`. Das `erste: 1`
+widerlegte die Annahme, der Anbieter zähle über die Staffeln hinweg durch — bei Jujutsu Kaisen
+tut er es (bis 59), hier nicht. Die Umrechnung hätte Daniels Folge 24 der zweiten Staffel an
+„Sword Art Online" geschrieben statt an „Alicization", und der Befund hätte ausgesehen wie ein
+geprüfter. Aus derselben Antwort folgte, dass Netflix nur zwei der vier Staffeln unter dieser
+Adresse führt; die beiden „War of Underworld"-Verweise sind entfernt.
+
+Die Regel steht im Skill `netzwerkverkehr-statt-scraping`, samt der beiden Wege, die
+ausgeschlossen sind (`PerformanceObserver` sieht keinen Inhalt, `chrome.webRequest` gibt es in
+Manifest v3 ohne Body-Zugriff).
 
 ### 22.08.2026 — Folgenbereiche: wo der deutsche Ton aufhört
 
