@@ -14,7 +14,7 @@
  *
  * Aufruf: npm run data:pruefungen
  */
-import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import {
   beschreibeBereiche,
@@ -459,6 +459,17 @@ if (zeilen.length && !TROCKEN) {
  * Die Datei ist Arbeitsvorrat, kein Datensatz: Jede Zeile braucht ein
  * menschliches Ja, bevor die Adresse in `data/` landet.
  */
+/**
+ * Ist nichts mehr offen, verschwindet die Datei.
+ *
+ * Sie blieb sonst mit dem letzten Stand liegen und behauptete Arbeit, die es
+ * nicht mehr gibt — am 23.08.2026 standen dort drei Zeilen, deren Meldungen
+ * längst abgehakt waren.
+ */
+if (!ohneZuordnung.length && !TROCKEN && existsSync(resolve(ROOT, 'data/meldungen-ohne-zuordnung.md'))) {
+  rmSync(resolve(ROOT, 'data/meldungen-ohne-zuordnung.md'))
+  log('data/meldungen-ohne-zuordnung.md entfernt — nichts mehr offen')
+}
 if (ohneZuordnung.length && !TROCKEN) {
   const kopf = [
     '# Meldungen ohne Zuordnung',
