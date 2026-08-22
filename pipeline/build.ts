@@ -12,6 +12,7 @@ import {
   type CrunchyrollEntry,
 } from './lib/crunchyroll.ts'
 import { loadCurated, loadWatchLinks, type CuratedEntry } from './lib/curated.ts'
+import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
 import { dubKey, loadDubChecks } from './lib/dub-confirmed.ts'
 import { beurteile, type CrDubData } from './lib/crunchyroll-dub.ts'
 import { LEER as MOTN_LEER, ordneShowsZu, tmdbZuordnung, uebernehmbar, type MotnDaten } from './lib/motn.ts'
@@ -635,8 +636,16 @@ function mapStreams(media: AniListMedia): StreamLink[] {
   const out: StreamLink[] = []
   const displayTitle = media.title.english ?? media.title.romaji ?? ''
 
-  for (const link of media.externalLinks ?? []) {
-    if (link.type !== 'STREAMING') continue
+  for (const roh of media.externalLinks ?? []) {
+    if (roh.type !== 'STREAMING') continue
+    /**
+     * Auch AniList führt Weiterleitungen statt Zielen.
+     *
+     * Bei „NANA" stand dort eine Google-Trefferadresse, die auf Crunchyroll
+     * zeigt (22.08.2026). Unverändert gespeichert ist das ein Verweis auf eine
+     * Suchmaschine — der Abruflauf fand hinter ihr nie eine Serienkennung.
+     */
+    const link = { ...roh, url: entwirreWeiterleitung(roh.url) }
     const platform = platformFromSite(link.site)
     if (!platform) continue
     if (out.some((s) => s.platform === platform)) continue
@@ -1003,18 +1012,48 @@ function main(): void {
   // Anbieter von aniSearch dazunehmen. Die decken genau die Lücke, die AniList
   // lässt: alte Katalogtitel, die nur noch als DVD oder bei einem kleinen
   // Dienst zu haben sind.
+  let fremdeAdressen = 0
+  let umsortiert = 0
   for (const title of titles.values()) {
     const extra = anisearch[title.id]
     if (!extra?.streams?.length) continue
     const watchLinks: WatchLink[] = []
     for (const { provider, url: raw } of extra.streams) {
-      const url = stripAffiliate(raw)
+      const url = stripAffiliate(entwirreWeiterleitung(raw))
       const platform = anisearchPlatform(provider)
       if (platform) {
+        /**
+         * Der Name nennt den Anbieter, die Adresse muss ihn auch tragen.
+         *
+         * Bei aniSearch stehen beide getrennt, und sie gehören nicht immer
+         * zusammen: Unter „Crunchyroll" fanden sich am 22.08.2026 ein
+         * Amazon-Link („Attack on Titan: The Roar of Awakening") und eine
+         * Google-Weiterleitung („NANA"). Beide landeten als Crunchyroll-Verweis
+         * im Datensatz und kosteten bei jedem Abruflauf einen Aufruf, ohne je
+         * etwas zu liefern.
+         */
+        let ziel = platform
+        if (!adressePasst(url, platform)) {
+          /**
+           * Nicht wegwerfen, sondern richtig einsortieren.
+           *
+           * Von 33 falsch einsortierten Adressen zeigten am 22.08.2026 alle auf
+           * Amazon — 30 unter „Aniverse", 3 unter „Crunchyroll". Sie zu
+           * verwerfen hätte 33 gültige Kaufwege gekostet. Nur was zu **gar
+           * keinem** bekannten Anbieter führt, fällt raus.
+           */
+          const echt = plattformAusAdresse(url)
+          if (!echt) {
+            fremdeAdressen++
+            continue
+          }
+          ziel = echt
+          umsortiert++
+        }
         // Kennt unsere Plattformliste den Dienst, gehört er zu den Streams —
         // aber nur, wenn dort nicht schon ein Link steht.
-        if (!title.streams.some((s) => s.platform === platform)) {
-          title.streams.push({ platform, url })
+        if (!title.streams.some((s) => s.platform === ziel)) {
+          title.streams.push({ platform: ziel, url })
         }
         continue
       }
@@ -1036,6 +1075,8 @@ function main(): void {
       (a, b) => PLATFORM_PRIORITY.indexOf(a.platform) - PLATFORM_PRIORITY.indexOf(b.platform),
     )
   }
+  if (umsortiert) log(`${umsortiert} aniSearch-Verweise umsortiert: Adresse gehört zu einem anderen Anbieter als dem genannten`)
+  if (fremdeAdressen) log(`${fremdeAdressen} aniSearch-Verweise verworfen: Adresse führt zu gar keinem bekannten Anbieter`)
 
   // Angebote von TMDB (Datenbasis JustWatch) — dieselbe Quelle, aus der auch
   // werstreamt.es schöpft. Bisher behielten wir davon nur die Dienste mit

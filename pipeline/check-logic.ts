@@ -37,6 +37,7 @@ import {
   type AdnRohVideo,
 } from './lib/adn-sprachen.ts'
 import { beschreibeBereiche, bildeBereiche, ordneFolgeZu, verteileAufStaffeln } from './lib/folgenbereiche.ts'
+import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
 import { dubGrenze } from '../shared/dub-grenze.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
@@ -1544,6 +1545,47 @@ console.log('\nStreaming Availability API:')
       { from: 156, to: 171, dub: false },
       { from: 1, to: 155, dub: true },
     ])?.n === 155)
+}
+
+/**
+ * Adressen, die nicht zu dem Anbieter gehören, unter dem sie stehen.
+ */
+{
+  console.log('\nAnbieter und Adresse zusammenbringen')
+
+  pruefe('eine Google-Trefferadresse wird auf ihr Ziel aufgelöst',
+    entwirreWeiterleitung('https://www.google.com/url?sa=t&url=https://www.crunchyroll.com/de/series/GY8VEQ95Y/nana')
+      === 'https://www.crunchyroll.com/de/series/GY8VEQ95Y/nana')
+  pruefe('eine gewöhnliche Adresse bleibt unangetastet',
+    entwirreWeiterleitung('https://www.crunchyroll.com/de/series/GY8VEQ95Y/nana')
+      === 'https://www.crunchyroll.com/de/series/GY8VEQ95Y/nana')
+  pruefe('Unsinn wirft nicht, sondern kommt zurück',
+    entwirreWeiterleitung('kein-url') === 'kein-url')
+
+  /**
+   * Die Zusicherung, die 94 Verweise gerettet hat: `animationdigitalnetwork.de`
+   * ist ADNs deutsche Domain (75 von 76 Verweisen), `tvnow.de` der alte Name
+   * von RTL+. Eine unvollständige Hosttabelle wirft gültige Verweise weg, und
+   * zwar stillschweigend.
+   */
+  pruefe('ADN wird unter seiner deutschen Domain erkannt',
+    adressePasst('https://animationdigitalnetwork.de/video/one-piece', 'adn'))
+  pruefe('TVNow zählt als RTL+',
+    adressePasst('https://www.tvnow.de/serien/pokemon-master-quest-19162', 'rtlplus'))
+  pruefe('eine Amazon-Adresse gehört nicht zu Crunchyroll',
+    !adressePasst('https://www.amazon.de/dp/B0C9H2BQWM', 'crunchyroll'))
+
+  /**
+   * Und die, auf die es beim Retten ankommt: Eine falsch einsortierte Adresse
+   * wird **umsortiert**, nicht weggeworfen. Von 33 solchen Fällen zeigten alle
+   * auf Amazon — sie zu verwerfen hätte 33 gültige Kaufwege gekostet.
+   */
+  pruefe('eine Amazon-Adresse findet zu Prime Video',
+    plattformAusAdresse('https://www.amazon.de/dp/B0C9H2BQWM') === 'primevideo')
+  pruefe('was zu keinem bekannten Anbieter führt, bleibt ohne Zuordnung',
+    plattformAusAdresse('https://example.com/irgendwas') === undefined)
+  pruefe('Unterdomänen zählen mit',
+    plattformAusAdresse('https://beta.crunchyroll.com/de/series/X') === 'crunchyroll')
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')

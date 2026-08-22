@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-22T15:20:20.978Z",
+  "scrapedAt": "2026-08-22T15:21:20.428Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -18446,9 +18446,8 @@
     {
       "url": "https://www.crunchyroll.com/armed-girls-machiavellism/episode-13-799297?ssid=385722",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/atom-the-beginning",
@@ -18479,16 +18478,14 @@
     {
       "url": "https://www.crunchyroll.com/brave-story/brave-story-unbekannt-821310?ssid=422329",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/cencoroll-connect/de-cencoroll-connect-unbekannt-850430",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/coppelion",
@@ -26728,9 +26725,8 @@
     {
       "url": "https://www.crunchyroll.com/de/haikyu-dubs/episode-3-special-feature-the-spring-tournament-of-their-youth-848359",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/de/haikyu/-779529",
@@ -31291,9 +31287,8 @@
     {
       "url": "https://www.crunchyroll.com/de/jungle-emperor-leo",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/de/junji-ito-collection",
@@ -38100,9 +38095,8 @@
     {
       "url": "https://www.crunchyroll.com/de/origin-spirits-of-the-past",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/de/otherside-picnic",
@@ -67208,9 +67202,9 @@
       "url": "https://www.crunchyroll.com/de/watch/G7PU3DWNQ/given-the-movie-to-the-sea",
       "seriesId": "GMTE00266947",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "Content-API kennt keine Staffel zu dieser Kennung",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-08-22",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "https://www.crunchyroll.com/de/watch/G7PU4100M/scherzo-of-deep-night",
@@ -72738,128 +72732,110 @@
     {
       "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-1-der-tickende-wolkenkratzer-unbekannt-810163",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-12-die-partitur-des-grauens-unbekannt-811393?ssid=400590",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-14-das-verlorene-schiff-im-himmel-unbekannt-811396?ssid=400599",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-15-die-15-minuten-der-stille-unbekannt-811397?ssid=400596",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-16-der-11-strmer-unbekannt-811399?ssid=400598",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-17-detektiv-auf-hoher-see-unbekannt-812230?ssid=402659",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-18-der-scharfschtze-aus-einer-anderen-dimension-unbekannt-812231",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-2-das-14-ziel-unbekannt-810165",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-21-der-purpurrote-liebesbrief-unbekannt-812236?ssid=402669",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-22-zero-der-vollstrecker-unbekannt-812237?ssid=402670",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-23-die-stahlblaue-faust-unbekannt-857862",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-24-die-scharlachrote-kugel-unbekannt-867288",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-3-der-magier-des-letzten-jahrhunderts-unbekannt-810166",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-4-der-killer-in-ihren-augen-unbekannt-810167",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-5-countdown-zum-himmel-unbekannt-810169?ssid=398572",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-6-das-phantom-der-baker-street-unbekannt-810184?ssid=398574",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan/detektiv-conan-tv-special-episode-one-der-geschrumpfte-meisterdetektiv-unbekannt-821630?ssid=422962",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/detektiv-conan/detektiv-conan-tv-special-lupin-iii-vs-detektiv-conan-unbekannt-812798?ssid=404716",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/doreiku-the-animation",
@@ -72873,9 +72849,8 @@
     {
       "url": "https://www.crunchyroll.com/fairy-tail-movies/fairy-tail-the-movie-phoenix-princess-unbekannt-821316?ssid=422327",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/flip-flappers",
@@ -72898,16 +72873,14 @@
     {
       "url": "https://www.crunchyroll.com/fragtime/fragtime-unbekannt-813782?ssid=406732",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/genocidal-organ/genocidal-organ-unbekannt-807915?ssid=394444",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/grimgar-ashes-and-illusions",
@@ -72921,9 +72894,8 @@
     {
       "url": "https://www.crunchyroll.com/harmony/harmony-unbekannt-807914?ssid=394443",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/ikki-tousen",
@@ -73115,23 +73087,20 @@
     {
       "url": "https://www.crunchyroll.com/k-on/episode-14-807608?ssid=394401",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/k-on/episode-27-809423?ssid=397229",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/k-on/k-on-the-movie-unbekannt-822264?ssid=424604",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/kandagawa-jet-girls",
@@ -73145,9 +73114,8 @@
     {
       "url": "https://www.crunchyroll.com/kase-san-and-morning-glories/kase-san-and-morning-glories-unbekannt-813883",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/kokoro-connect",
@@ -73161,51 +73129,44 @@
     {
       "url": "https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-/episode-13-799361?ssid=387047",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/love-stage/episode-11-841216",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/lu-over-the-wall/lu-over-the-wall-unbekannt-811213?ssid=399959",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/daisuke-jigens-grabstein-unbekannt-822025?ssid=423942",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/fujiko-mines-lge-unbekannt-822260?ssid=424587",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/goemon-ishikawa-der-es-blut-regnen-lsst-unbekannt-822028?ssid=423944",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/lupin-iii-the-first-unbekannt-827115?ssid=429156",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/lupin-the-3rd-the-castle-of-cagliostro/lupin-iii-das-schloss-des-cagliostro-unbekannt-817943?ssid=414931",
@@ -73218,44 +73179,38 @@
     {
       "url": "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-brenne-zantetsuken-der-goldene-drache-unbekannt-813890?ssid=407178",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-das-geheimnis-des-twilight-gemini-der-diamant-der-dmmerung-unbekannt-813886?ssid=407187",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-der-schatz-des-harimao-unbekannt-813894?ssid=407180",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-mordbefehl-an-lupin-der-hllentrip-unbekannt-813888?ssid=407176",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/night-is-short-walk-on-girl/night-is-short-walk-on-girl-unbekannt-811211?ssid=399939",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/one-punch-man",
@@ -73269,9 +73224,8 @@
     {
       "url": "https://www.crunchyroll.com/ride-your-wave/ride-your-wave-unbekannt-806160?ssid=392654",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/series/G0XHWM5K7/babylon",
@@ -73744,16 +73698,14 @@
     {
       "url": "https://www.crunchyroll.com/the-dragon-dentist/deomu-the-dragon-dentist-unbekannt-811630?ssid=401190",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/the-empire-of-corpses/the-empire-of-corpses-unknown-808170?ssid=395057",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/tsubasa-reservoir-chronicle",
@@ -73767,9 +73719,8 @@
     {
       "url": "https://www.crunchyroll.com/typhoon-noruda/typhoon-noruda-unbekannt-859032",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/uq-holder",
@@ -73809,58 +73760,50 @@
     {
       "url": "https://www.crunchyroll.com/watch/G4VUQVNJ8/",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/watch/G50UZ54W0/the-scarlet-alibi-german-dub",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/watch/G50UZV2GM/",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/watch/G9DU9E4QG/saitama-and-the-mediocre-gang",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/watch/GG1U2NW9Q",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/watch/GJWUQN11K/",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/watch/GK9U31019/",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/watch/GK9U3Z4XE/",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/watch/GMEE00351144DEDE",
@@ -73891,23 +73834,20 @@
     {
       "url": "https://www.crunchyroll.com/watch/GPWU8KM42/the-shadow-that-snuck-up-too-close",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/watch/GQJUGQWMW/",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/de/servamp",
@@ -75412,9 +75352,8 @@
     {
       "url": "https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/de/strike-the-blood",
@@ -80947,9 +80886,9 @@
       "url": "https://www.google.com/url?sa=t&source=web&rct=j&url=https://www.crunchyroll.com/de/series/GVDHX8QGP/nana&ved=2ahUKEwifi8P_yuj9AhUgVqQEHZuMD9gQFnoECA0QAQ&usg=AOvVaw3qlL5BTTbccRkl1ygyWy9T",
       "seriesId": "GVDHX8QGP",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "Content-API kennt keine Staffel zu dieser Kennung",
-      "katalog": "us"
+      "katalog": "de",
+      "geprueftAm": "2026-08-22",
+      "fehler": "Content-API kennt keine Staffel zu dieser Kennung"
     },
     {
       "url": "http://www.crunchyroll.com/de/91-days",
