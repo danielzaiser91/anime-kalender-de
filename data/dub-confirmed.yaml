@@ -850,3 +850,84 @@
   dub: false
   checkedAt: '2026-08-22'
   note: 'Tonspuren im Player: Japanisch [Original], Englisch — kein Deutsch'
+
+# Netflix-Batch 1, von Daniel im Player geprüft und bestätigt (22.08.2026).
+# Gemeldet über die Erweiterung; die Zuordnung von Hand, weil die Erweiterung
+# damals noch die Folgen- statt der Reihenkennung schickte (behoben in v0.12.0).
+
+- anilistId: 19
+  title: "Monster"
+  platform: netflix
+  dub: false
+  checkedAt: '2026-08-22'
+  note: "Tonspuren im Player: 2, kein Deutsch"
+
+- anilistId: 146646
+  title: "Baki Hanma Season 2"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "17 Tonspuren, darunter Deutsch"
+
+- anilistId: 1
+  title: "Cowboy Bebop"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "8 Tonspuren, darunter Deutsch"
+
+- anilistId: 146722
+  title: "JoJo's Bizarre Adventure: STONE OCEAN Part 2"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "9 Tonspuren, darunter Deutsch"
+
+- anilistId: 170942
+  title: "Blue Box"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "16 Tonspuren, darunter Deutsch"
+
+- anilistId: 136430
+  title: "Vinland Saga – Staffel 2"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "9 Tonspuren, darunter Deutsch"
+
+- anilistId: 15
+  title: "Eyeshield 21"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "2 Tonspuren, darunter Deutsch"
+
+- anilistId: 154587
+  title: "Frieren: Beyond Journey’s End"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "4 Tonspuren, darunter Deutsch"
+
+- anilistId: 176508
+  title: "Shangri-La Frontier Season 2"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "8 Tonspuren, darunter Deutsch"
+
+- anilistId: 21236
+  title: "Beyblade Burst"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge"
+
+- anilistId: 232
+  title: "Cardcaptor Sakura"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge"
