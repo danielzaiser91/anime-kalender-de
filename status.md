@@ -16,8 +16,10 @@ Stand: 22.08.2026 · Live: https://anime-kalender.de/
 | **Crunchyroll: 172 Befunde aus dem US-Katalog nachziehen** | 2 | **Der deutsche Katalog ist erreichbar, seit dem 22.08.2026 belegt:** Der Worker frischt das Zugangspaket selbst auf — gemessen um 16:14 Uhr, geholt über eine Londoner Leitung, `land: DE`, Bucket `/DE/M2/-`, gültig 24 Stunden. Im Archiv tragen **762 Serien `katalog: de`**, und die Zahl mit belegter deutscher Fassung ist von 226 auf **406** gestiegen. Offen sind die **172 Serien mit `katalog: "us"`** und 25 ohne Angabe aus dem Lauf vom 21.08.2026. Sie sind nicht veraltet, sie beantworten eine andere Frage — die Wiedervorlage schützte sie trotzdem. Seit dem 22.08.2026 schlägt der Katalog die Frist, damit kommen sie von selbst wieder dran |
 | **„Nicht mehr im Angebot" ohne Seitenanzeige erkennen** | 3 | Die Content-API meldet den Rückzug einer Serie **nicht**: Für „Dragon Ball" und „Dragon Ball Z" liefert sie 153 bzw. 291 Folgen, die Seite zeigt das Banner „Leider sind die Videos dieser Serie nicht mehr verfügbar" (Daniel, 22.08.2026). Beide Reihen stehen dadurch als erster Eintrag in `data/dub-batches.md` — 19 tote Verweise in einer Zeile. **Widerlegt am 22.08.2026:** `availability_ends` trennt die Fälle nicht — Dragon Ball (weg) und JoJo (sichtbar) tragen beide den 31.12.2025, und Daniel hat JoJo wie Lycoris Recoil als normal sichtbar bestätigt. Die Ursache ist eine andere und steht in der Zeile darüber: Der Lauf sah den US-Katalog. Drei Gruppen gemessen: 57 Serien mit Ende 12/2025 (darunter Dragon Ball Z **und Fairy Tail**), 226 mit Enden aus 2022, 220 ohne jedes Ende. Daniels erste Runde passt dazu: Ende 12/2025 → Banner; Ende 2022 (Conan, Gintama, Yu-Gi-Oh! GX) → sichtbar; ohne Ende (One Piece) → sichtbar. **Entscheidet sich an zwei, drei weiteren Prüfungen aus der 12/2025-Gruppe.** Vorher wird nichts umgestellt — ein Feldname ist keine Bedeutung |
 | **Negativ-Befund der Crunchyroll-API belastbar machen** | 2 | Die API führt **366 Serien mit 12.223 Folgen** als „keine deutsche Fassung". Übernommen wird davon nichts: `beurteile()` steigt bei `deutschImAngebot: false` sofort aus, weil ein fehlendes Deutsch in der **Gast-Ansicht** der alten Seitenanzeige nichts bewies. Ob das für die API auch gilt, ist ungeprüft — die Kontrollgruppe in `data/dub-confirmed.yaml` enthält **24 Positiv-Fälle und keinen einzigen Negativ-Fall** (nachgezählt am 21.08.2026). Sechs Serien liegen Daniel zur Prüfung vor; bestätigt er sie, fallen rund 426 Verweise aus der Handarbeit — etwa zehn Arbeitspakete |
-| **38 Arbeitspakete aus `data/dub-batches.md`** | 5 | Je 20 Zeilen mit Verweis, neu erzeugt am 22.08.2026 (vorher 46 Pakete). Verteilung der offenen Verweise: Netflix 310, Prime Video 212, YouTube 92, Disney+ 38, Aniverse 20, ADN 7, Joyn 2 |
-| **74 Netflix-Titel, die keine Quelle beantwortet** | 2 | `data/netflix-von-hand.md`, neu erzeugt am 22.08.2026 — von 126 auf 74 gesunken, weil der neue Bestand 488 Adressen beantwortet hat. Die Streaming Availability API kennt diese Titel nicht, Netflix selbst darf nicht abgerufen werden. Weg: Daniel öffnet den Verweis und startet eine Folge; die Erweiterung meldet von selbst, `npm run data:pruefungen` holt die Meldungen ab. **Bei mehreren Staffeln lohnen erste und letzte Folge** — weicht der Befund ab, trägt der Datensatz seit dem 22.08.2026 die Grenze ein statt eines pauschalen Ja |
+| **Prime Video: 240 Verweise ohne Sprachangabe** | 5 | Der groesste offene Posten nach dem Netflix-Abend. Nur 5 von 245 Verweisen sind belegt. Die Erweiterung koennte dieselbe Arbeit leisten wie bei Netflix, muesste aber auf Amazons Seite umgebaut werden — andere Technik, unbekannter Aufwand. **Erster Schritt waere eine Messung, keine Umsetzung:** Nennt der Player seine Tonspuren im Netzwerkverkehr, so wie Netflix es tut? |
+| **Sieben Netflix-Titel mit offener Staffel** | 1 | Netflix ist am 22.08.2026 von 258 offenen Adressen auf sieben gefallen, **340 Synchros sind belegt und 145 tote Verweise entfernt**. Was bleibt: ONE PIECE (sieben Arcs), KONOSUBA, Kakegurui, Ghost in the Shell SAC_2045, Pokémon Horizons, DAN DA DAN, BEYBLADE X — je eine bis sieben Staffeln. Die Erweiterung zeigt sie, sobald Daniel sie oeffnet |
+| **YouTube: 87 Verweise ohne Sprachangabe** | 2 | Am 23.08.2026 alle 93 ueber YouTubes oEmbed geprueft (dokumentiert, ohne Schluessel, robots.txt erlaubt es). **Sechs Belege eingetragen** — dort nennt der Videotitel die Sprache ausdruecklich, und die Kanaele sind KSM Anime und Crunchyroll Extras Deutschland. **Kein einziger Verweis ist geloescht**, neun sind kostenpflichtig (HTTP 401 bei oEmbed, Kauf- und Leihfilme bei YouTube Movies). Was bleibt, steht in `data/youtube-pruefliste.md`: acht deutsche Verleihtitel ohne Sprachangabe, 70 ohne jeden Hinweis. Die Data API mit Schluessel wuerde die Tonspuren nennen — das waere eine eigene Entscheidung |
+| **RTL+: 36 Verweise, Sprache nicht ermittelbar** | 1 | Am 23.08.2026 alle 42 geprueft. **RTL+ nennt die Tonspur nirgends:** Der `TVSeries`-Block nach schema.org hat Name, Beschreibung, Adresse und Bild, sonst nichts. Das einzige `inLanguage: "de"` gehoert zur `WebPage` — es ist die Sprache der Seite und stuende auch ueber einem Video mit Originalton. Dass dort fast nur synchronisierte Fassungen laufen, ist plausibel und kein Beleg. Was ging: der Titelabgleich, **ein Verweis fuehrte zum falschen Titel** (Demon Slayer zeigte auf den Mugen-Train-Film, eingetragen). Rest in `data/rtlplus-pruefliste.md` |
 | **Prüfliste „Wo läuft es" abarbeiten** (Dauerauftrag) | — | 1.732 Anbieter-Verweise ohne belegte Synchro, Liste: `data/dub-pruefliste.md`, erzeugt mit `npm run data:dub-checks`. Daniel arbeitet sie in Zehnerschritten ab; ich lege den Batch vor, er meldet je Nummer ja/nein, ich trage es in `data/dub-confirmed.yaml` ein und baue neu. **Stand: Batch 1 bis 3 ausgewertet, 65 Prüfungen eingetragen — 33 Angaben belegt, 32 tote Verweise entfernt.** Crunchyroll ist seit 13.08.2026 weitgehend maschinell belegt (234 ja / 988 nein / **25 offen**); die Handarbeit verteilt sich jetzt auf Netflix (727), YouTube (528) und Prime Video (219) — Anbieter, die die Sprachfassung nirgends öffentlich nennen. Kurzschrift der Antworten (`1`/`0`/`x`, mehrere je Zeile mit Punkt) steht im Kopf der Liste und in der `CLAUDE.md`. Je Batch kurz sagen, woher der Verweis stammt und warum er unsicher ist |
 | ~~News-Quellen für Sendepausen~~ — **Filter gebaut, Rest verworfen** | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
 
@@ -726,6 +728,31 @@ weder offiziell noch in den inoffiziellen Doku-Repos.
   abgenommen.
 
 ## Archiv
+
+### 22./23.08.2026 — Netflix von Hand, mit einer Erweiterung, die mitlernt
+
+Daniel hat an einem Abend **352 Netflix-Pruefungen** gemeldet: 178 belegte deutsche Synchros,
+24 Titel ohne deutschen Ton, 145 Verweise, die ins Leere fuehren. Die offenen Adressen fielen
+von 258 auf sieben.
+
+Die 145 toten Verweise sind dabei so wertvoll wie die Belege: Netflix leitet einen
+verschwundenen Titel auf die Startseite um, und das sieht fuer jede automatische Pruefung wie
+HTTP 200 aus. Kein Automat haette sie gefunden.
+
+**Die Erweiterung lernte im Lauf des Abends, was Netflix ihr sagt.** Sie meldet seit v0.23.0
+die Staffelaufteilung mit — und die widerlegte gleich mehrere Annahmen: Netflix zaehlt bei
+Jujutsu Kaisen ueber alle Staffeln durch (Staffel 7 beginnt bei Folge 146), bei Sword Art
+Online faengt jede Staffel neu bei 1 an. Wer das umrechnet statt es zu lesen, schreibt Befunde
+an die falsche Staffel. Netflix rechnet ausserdem OVAs als Folgen der Staffel mit, waehrend
+AniList sie getrennt fuehrt: HAIKYU!! hat dort 26 statt 25 Folgen, KONOSUBA 11 statt 10.
+
+**Ein Fehler ist mir dabei zweimal unterlaufen**, und beide Male hat Daniel ihn gemeldet: Die
+Erweiterung schickte Befunde zu Serien, die er einfach ansah — erst „Heroes" ohne jede
+Einschraenkung, dann noch einmal, weil eine Bruecke fuer abweichende Kennungen zu breit war.
+Sie verlangt jetzt, dass der Name passt.
+
+**Der Ertrag fuer die Seite:** 340 belegte Netflix-Synchros statt 178 am Vortag, und 145
+Kacheln weniger, die jemanden ins Leere geschickt haetten.
 
 ### 22.08.2026 — Netflix mitlesen: am Ergebnis, nicht am Aufruf
 
