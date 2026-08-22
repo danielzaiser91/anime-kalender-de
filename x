@@ -1,4 +1,5 @@
-/* Der Knopf sitzt unten rechts, außerhalb von Netflix' eigenen Bedienelementen.
+<!doctype html><meta charset="utf-8"><title>Dialog-Vorschau</title>
+<style>/* Der Knopf sitzt unten rechts, außerhalb von Netflix' eigenen Bedienelementen.
    Absichtlich nicht in der Steuerleiste: Die baut Netflix bei jedem
    Zustandswechsel neu auf, und ein Knopf darin verschwindet ständig. */
 .ak-melder {
@@ -146,3 +147,26 @@
   color: #7ee787;
 }
 .ak-hinweis { color: #8b949e; font-size: 11px; }
+
+body{margin:0;background:#141414;height:100vh}</style>
+<body>
+<button class="ak-uebersicht">Anime-Kalender 256</button>
+<div class="ak-dialog"><div class="ak-kasten">
+<div class="ak-kopf"><strong>256 Titel zu prüfen</strong>
+<input class="ak-suche" type="search" placeholder="Suchen"><button class="ak-zu">×</button></div>
+<div class="ak-liste">
+<div class="ak-zeile"><a class="ak-titel" href="#">7SEEDS</a><div class="ak-folgen"><span class="ak-folge" title="noch offen">2e01</span><span class="ak-folge" title="noch offen">2e12</span></div></div>
+<div class="ak-zeile"><a class="ak-titel" href="#">7th Time Loop: The Villainess Enjoys a Carefree Life Married to Her Worst Enemy!</a><div class="ak-folgen"><span class="ak-folge" title="noch offen">1e01</span><span class="ak-folge" title="noch offen">1e12</span></div></div>
+<div class="ak-zeile"><a class="ak-titel" href="#">86 EIGHTY-SIX</a><div class="ak-folgen"><span class="ak-folge" title="noch offen">1e01</span><span class="ak-folge" title="noch offen">1e11</span><span class="ak-folge" title="noch offen">2e01</span><span class="ak-folge" title="noch offen">2e12</span></div></div>
+<div class="ak-zeile"><a class="ak-titel" href="#">A Whisker Away</a><div class="ak-folgen"><span class="ak-folge" title="noch offen">1e01</span></div></div>
+<div class="ak-zeile"><a class="ak-titel" href="#">Aggretsuko</a><div class="ak-folgen"><span class="ak-folge" title="noch offen">1e01</span><span class="ak-folge" title="noch offen">1e10</span><span class="ak-folge" title="noch offen">2e01</span><span class="ak-folge" title="noch offen">2e10</span><span class="ak-folge" title="noch offen">3e01</span><span class="ak-folge" title="noch offen">3e10</span><span class="ak-folge" title="noch offen">4e01</span><span class="ak-folge" title="noch offen">4e10</span><span class="ak-folge" title="noch offen">5e01</span><span class="ak-folge" title="noch offen">5e10</span></div></div>
+<div class="ak-zeile"><a class="ak-titel" href="#">Aggretsuko: We Wish You A Metal Christmas</a><div class="ak-folgen"><span class="ak-folge" title="noch offen">1e01</span></div></div>
+<div class="ak-zeile"><a class="ak-titel" href="#">AJIN: Demi-Human</a><div class="ak-folgen"><span class="ak-folge" title="noch offen">1e01</span><span class="ak-folge" title="noch offen">1e13</span><span class="ak-folge" title="noch offen">2e01</span><span class="ak-folge" title="noch offen">2e13</span></div></div>
+<div class="ak-zeile"><a class="ak-titel" href="#">Akira</a><div class="ak-folgen"><span class="ak-folge" title="noch offen">1e01</span></div></div>
+<div class="ak-zeile"><a class="ak-titel" href="#">Altered Carbon: Resleeved</a><div class="ak-folgen"><span class="ak-folge" title="noch offen">1e01</span></div></div>
+<div class="ak-zeile"><a class="ak-titel" href="#">Angel Beats!</a><div class="ak-folgen"><span class="ak-folge" title="noch offen">1e01</span><span class="ak-folge" title="noch offen">1e13</span></div></div>
+<div class="ak-zeile"><a class="ak-titel" href="#">Angels of Death</a><div class="ak-folgen"><span class="ak-folge" title="noch offen">1e01</span><span class="ak-folge" title="noch offen">1e12</span></div></div>
+<div class="ak-zeile"><a class="ak-titel" href="#">Appleseed Alpha</a><div class="ak-folgen"><span class="ak-folge" title="noch offen">1e01</span></div></div>
+<div class="ak-zeile"><a class="ak-titel" href="#">Baki Hanma</a><div class="ak-folgen"><span class="ak-folge" title="noch offen">1e01</span><span class="ak-folge" title="noch offen">1e12</span></div></div>
+<div class="ak-zeile"><a class="ak-titel" href="#">Baki Hanma VS Kengan Ashura</a><div class="ak-folgen"><span class="ak-folge" title="noch offen">1e01</span></div></div>
+</div></div></div>

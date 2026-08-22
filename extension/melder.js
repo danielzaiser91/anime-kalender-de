@@ -65,6 +65,32 @@ const listeGeladen = fetch(chrome.runtime.getURL('offene-netflix.json'))
     // Ohne Liste lieber gar nichts tun als alles melden.
     offeneTitel = {}
   })
+  .then(() => uebersichtZeigen())
+
+/**
+ * Netflix wechselt die Seite ohne Neuladen — der Knopf muss mitbekommen, ob
+ * gerade der Player läuft.
+ *
+ * `popstate` allein genügt nicht: Es feuert nur beim Zurück-Knopf, nicht bei
+ * einem Klick auf eine Kachel. Deshalb zusätzlich ein Blick auf die Adresse,
+ * sobald sich am Seiteninhalt etwas tut.
+ */
+let letzterPfad = location.pathname
+function pfadPruefen() {
+  if (location.pathname === letzterPfad) return
+  letzterPfad = location.pathname
+  dialogSchliessen()
+  uebersichtZeigen()
+}
+window.addEventListener('popstate', pfadPruefen)
+// Ein Beobachter über den ganzen Baum wäre hier teuer: Netflix baut beim Stöbern
+// unablässig Kacheln um, und jede Änderung riefe die Prüfung erneut auf. Ein
+// Blick pro Sekunde kostet nichts und merkt jeden Wechsel früh genug.
+//
+// `history.pushState` zu überschreiben wäre der kürzere Weg und der falsche —
+// genau daran ist der Netzwerk-Mitschnitt zweimal gescheitert (NSES-UHX,
+// 22.08.2026). An fremden Seiten wird nichts ersetzt, was sie selbst aufrufen.
+setInterval(pfadPruefen, 1000)
 
 /** Steht dieser Titel auf der Liste? */
 function istGesucht() {
@@ -271,6 +297,9 @@ async function melden({ automatisch = false } = {}) {
       return zeigeErgebnis(daten.error ?? `Fehler ${antwort.status}`, false)
     }
     gemeldet.add(stand.reihe)
+    // Für die Übersicht: Diese Folge ist durch. Kein Beleg — der steht im
+    // Datensatz —, sondern eine Gedächtnisstütze beim Abarbeiten.
+    void merkeErledigt(stand.reihe, stand.staffel, stand.folgeNr)
     gesendet.set(schluessel(), deutsch ? 'deutsch' : 'kein_deutsch')
     const kopf = ohneFolge ? 'Als nicht abrufbar gemeldet' : deutsch ? 'Deutsche Tonspur gemeldet' : 'Kein Deutsch gemeldet'
     zeigeErgebnis(kopf, true)
@@ -320,4 +349,209 @@ function knopfZeigen() {
     knopf.classList.remove('ak-ja', 'ak-nein', 'ak-leer')
     knopf.classList.add(klasse)
   }
+}
+
+// --- Die Übersicht: was noch zu prüfen ist -----------------------------------
+
+/**
+ * Ein zweiter Knopf, der nur **außerhalb** des Players erscheint.
+ *
+ * Daniels Wunsch vom 22.08.2026: Beim Fernsehen soll nichts stören, aber auf
+ * den Übersichts- und Stöberseiten will er sehen, wie viel noch offen ist —
+ * und von dort direkt losarbeiten können, statt eine Liste in einer Datei zu
+ * suchen.
+ *
+ * Die Trennung läuft über die Adresse: `/watch/` heißt, der Player läuft.
+ */
+function imPlayer() {
+  return location.pathname.startsWith('/watch/')
+}
+
+/** Was diese Installation schon gemeldet hat — überlebt einen Neustart. */
+let erledigt = {}
+const erledigtGeladen = chrome.storage.local
+  .get('erledigt')
+  .then((x) => {
+    erledigt = x.erledigt ?? {}
+  })
+  .catch(() => {
+    erledigt = {}
+  })
+
+/** Eine Folge in Daniels Kurzform: Staffel, `e`, zweistellige Folge. */
+function folgenKuerzel(staffel, folge) {
+  return `${staffel}e${String(folge).padStart(2, '0')}`
+}
+
+/**
+ * Welche Folgen einer Adresse sich lohnen.
+ *
+ * **Erste und letzte je Staffel.** Sind beide gleich, ist die Staffel
+ * einheitlich; weichen sie ab, liegt die Grenze dazwischen — bei Black Clover
+ * nach Folge 155, bei My Hero Academia in Staffel 7. Eine Staffel mit einer
+ * einzigen Folge braucht nur einen Eintrag.
+ */
+function empfohleneFolgen(eintrag) {
+  const raus = []
+  for (const s of eintrag.staffeln) {
+    if (!s.offen) continue
+    raus.push(folgenKuerzel(s.nr, 1))
+    if (s.folgen > 1) raus.push(folgenKuerzel(s.nr, s.folgen))
+  }
+  return raus
+}
+
+function istErledigt(id, kuerzel) {
+  return Boolean(erledigt[String(id)]?.includes(kuerzel))
+}
+
+/** Eine Meldung als erledigt vermerken — für die Anzeige, nicht als Beleg. */
+async function merkeErledigt(id, staffel, folge) {
+  if (!id || !staffel || !folge) return
+  const schluessel = String(id)
+  const kuerzel = folgenKuerzel(staffel, folge)
+  const bisher = erledigt[schluessel] ?? []
+  if (bisher.includes(kuerzel)) return
+  erledigt[schluessel] = [...bisher, kuerzel]
+  try {
+    await chrome.storage.local.set({ erledigt })
+  } catch {
+    /* Ohne Speicher bleibt die Anzeige unvollständig, mehr nicht. */
+  }
+}
+
+let uebersichtKnopf = null
+
+function uebersichtZeigen() {
+  if (imPlayer() || !offeneTitel || !Object.keys(offeneTitel).length) {
+    if (uebersichtKnopf) {
+      uebersichtKnopf.remove()
+      uebersichtKnopf = null
+    }
+    return
+  }
+  if (!uebersichtKnopf) {
+    uebersichtKnopf = document.createElement('button')
+    uebersichtKnopf.className = 'ak-uebersicht'
+    uebersichtKnopf.addEventListener('click', dialogOeffnen)
+    document.body.appendChild(uebersichtKnopf)
+  }
+  const offeneAdressen = Object.keys(offeneTitel).length
+  uebersichtKnopf.textContent = `Anime-Kalender ${offeneAdressen}`
+  uebersichtKnopf.title = `${offeneAdressen} Titel warten auf eine Prüfung`
+}
+
+let dialog = null
+
+function dialogSchliessen() {
+  if (dialog) {
+    dialog.remove()
+    dialog = null
+  }
+  document.removeEventListener('keydown', beiEscape)
+}
+
+function beiEscape(e) {
+  if (e.key === 'Escape') dialogSchliessen()
+}
+
+/**
+ * Die Liste der offenen Titel, zum Durchklicken.
+ *
+ * Bewusst ohne Netflix' eigene Bausteine: Die Seite baut ihre Oberfläche bei
+ * jedem Wechsel neu auf, und was daran hängt, verschwindet mit ihr. Dieser
+ * Dialog steht für sich, direkt am `body`.
+ */
+function dialogOeffnen() {
+  if (dialog) {
+    dialogSchliessen()
+    return
+  }
+  dialog = document.createElement('div')
+  dialog.className = 'ak-dialog'
+
+  const kasten = document.createElement('div')
+  kasten.className = 'ak-kasten'
+  dialog.appendChild(kasten)
+
+  const kopf = document.createElement('div')
+  kopf.className = 'ak-kopf'
+  const eintraege = Object.entries(offeneTitel).sort((a, b) => a[1].titel.localeCompare(b[1].titel, 'de'))
+  const titelzeile = document.createElement('strong')
+  titelzeile.textContent = `${eintraege.length} Titel zu prüfen`
+  kopf.appendChild(titelzeile)
+
+  const suche = document.createElement('input')
+  suche.className = 'ak-suche'
+  suche.type = 'search'
+  suche.placeholder = 'Suchen'
+  kopf.appendChild(suche)
+
+  const zu = document.createElement('button')
+  zu.className = 'ak-zu'
+  zu.textContent = '×'
+  zu.title = 'Schließen (Esc)'
+  zu.addEventListener('click', dialogSchliessen)
+  kopf.appendChild(zu)
+  kasten.appendChild(kopf)
+
+  /**
+   * Eine Zeile je Titel: Name, die Folgen zum Anklicken, ihr Stand.
+   *
+   * Die Folgenkürzel sind selbst Verweise — ein Klick öffnet die Titelseite in
+   * einem neuen Tab. Direkt auf eine Folge zu verweisen geht nicht: Netflix
+   * leitet dann auf eine Folgen-Kennung um, die unser Datensatz nicht kennt
+   * (neun von zwölf Meldungen aus Batch 1 waren deshalb nicht zuzuordnen).
+   */
+  const liste = document.createElement('div')
+  liste.className = 'ak-liste'
+  for (const [id, eintrag] of eintraege) {
+    const zeile = document.createElement('div')
+    zeile.className = 'ak-zeile'
+    zeile.dataset.suchtext = eintrag.titel.toLowerCase()
+
+    const link = document.createElement('a')
+    link.className = 'ak-titel'
+    link.href = `https://www.netflix.com/title/${id}`
+    link.target = '_blank'
+    link.rel = 'noreferrer noopener'
+    link.textContent = eintrag.titel || `Titel ${id}`
+    zeile.appendChild(link)
+
+    const folgen = document.createElement('div')
+    folgen.className = 'ak-folgen'
+    const empfohlen = empfohleneFolgen(eintrag)
+    if (!empfohlen.length) {
+      const leer = document.createElement('span')
+      leer.className = 'ak-hinweis'
+      leer.textContent = 'keine Folgenangabe'
+      folgen.appendChild(leer)
+    }
+    for (const kuerzel of empfohlen) {
+      const marke = document.createElement('span')
+      const fertig = istErledigt(id, kuerzel)
+      marke.className = fertig ? 'ak-folge ak-fertig' : 'ak-folge'
+      marke.textContent = kuerzel
+      marke.title = fertig ? 'schon gemeldet' : 'noch offen'
+      folgen.appendChild(marke)
+    }
+    zeile.appendChild(folgen)
+    liste.appendChild(zeile)
+  }
+  kasten.appendChild(liste)
+
+  suche.addEventListener('input', () => {
+    const wort = suche.value.trim().toLowerCase()
+    for (const zeile of liste.children) {
+      zeile.style.display = !wort || zeile.dataset.suchtext.includes(wort) ? '' : 'none'
+    }
+  })
+
+  // Ein Klick neben den Kasten schließt — wie überall sonst auch.
+  dialog.addEventListener('click', (e) => {
+    if (e.target === dialog) dialogSchliessen()
+  })
+  document.addEventListener('keydown', beiEscape)
+  document.body.appendChild(dialog)
+  suche.focus()
 }
