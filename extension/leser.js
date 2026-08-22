@@ -192,19 +192,57 @@
     window.__akMeta = metadaten
   }
 
-  // Kein Mitschnitt mehr — zweimal hat er Netflix lahmgelegt (22.08.2026).
-  //
-  // Der zweite Anlauf mit Zugriffsschutz endete in einer Endlosschleife:
-  // Netflix liest beim eigenen Wrappen zuerst den bestehenden Wert von
-  // XMLHttpRequest.prototype.open und bekam durch unseren Getter unsere
-  // Huelle. Deren Aufruf landete wieder bei Netflix Wrapper — Maximum call
-  // stack size exceeded, Fehlercode NSES-UHX.
-  //
-  // Das ist nicht reparierbar: Wer den bestehenden Wert liest, bevor er
-  // seinen eigenen setzt, baut die Schleife zwangslaeufig. Die
-  // Staffelaufteilung kommt deshalb aus dem DOM, wo sie ohnehin steht.
+  // --- Mitlesen -------------------------------------------------------------
 
-  // --- Takt ----------------------------------------------------------------
+  /**
+   * Die Metadaten-Antwort mitlesen — am Ergebnis, nicht am Aufruf.
+   *
+   * Zwei Anläufe sind gescheitert, beide mit Fehlercode NSES-UHX:
+   *
+   * 1. `window.fetch` und `XMLHttpRequest.prototype.open` ersetzen — Netflix
+   *    setzt beide danach selbst neu, unsere Hüllen waren weg. Harmlos, aber
+   *    wirkungslos.
+   * 2. Dieselben Stellen hinter einen Zugriffsschutz legen — Netflix liest beim
+   *    eigenen Wrappen zuerst den bestehenden Wert, bekam unsere Hülle, und
+   *    beide riefen einander auf. *Maximum call stack size exceeded*, die Seite
+   *    lud nicht mehr.
+   *
+   * Der Unterschied jetzt: `responseText` ist eine Eigenschaft, die Netflix
+   * **liest** und nie ersetzt. Der native Getter liegt in einer Closure, damit
+   * kann ihn niemand verdrängen, und niemand verwendet unseren Wert als
+   * „Original" weiter — die Schleife von Anlauf 2 kann nicht entstehen.
+   *
+   * **Und es darf nichts kosten:** Gelesen wird nur bei einer einzigen Adresse,
+   * jede Zeile liegt in einem `try`, und der Rückgabewert ist immer der native.
+   * Geht bei uns etwas schief, merkt die Seite davon nichts.
+   */
+  const METADATEN_ADRESSE = 'memberapi/release/metadata'
+
+  try {
+    const beschreibung = Object.getOwnPropertyDescriptor(XMLHttpRequest.prototype, 'responseText')
+    const nativGetter = beschreibung?.get
+    if (nativGetter) {
+      Object.defineProperty(XMLHttpRequest.prototype, 'responseText', {
+        configurable: true,
+        enumerable: beschreibung.enumerable,
+        get() {
+          const text = nativGetter.call(this)
+          try {
+            const url = String(this.responseURL ?? '')
+            if (url.includes(METADATEN_ADRESSE) && typeof text === 'string' && text.length > 100) {
+              window.__akGesehen = (window.__akGesehen ?? 0) + 1
+              lesMetadaten(text)
+            }
+          } catch (err) {
+            window.__akMetaFehler = err.message
+          }
+          return text
+        },
+      })
+    }
+  } catch {
+    /* Ohne Mitlesen bleibt der Weg über die Titelzeile. */
+  }
 
   function melden() {
     // Die Nummer in der Adresse ist beim Abspielen die der Folge — genau die
