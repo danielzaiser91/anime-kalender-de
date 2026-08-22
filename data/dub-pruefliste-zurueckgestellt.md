@@ -1,6 +1,6 @@
 # Zurückgestellt: nur mit Abo prüfbar
 
-Stand 2026-08-21 · **42 offene Verweise** in **8 Zeilen**.
+Stand 2026-08-22 · **42 offene Verweise** in **8 Zeilen**.
 
 Diese Verweise stehen **nicht** in `data/dub-pruefliste.md`: Wer sie prüfen will, braucht ein
 laufendes Abo beim Anbieter. Daniel am 21.08.2026: „ich hol mir kein rtl+ abo um das zu prüfen".
