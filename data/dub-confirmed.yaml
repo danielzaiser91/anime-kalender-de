@@ -2666,3 +2666,863 @@
   dub: true
   checkedAt: '2026-08-22'
   note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-22 ---
+
+- anilistId: 101281
+  title: "Carole & Tuesday"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 12
+      dub: true
+      checked: [1, 12]
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 1535
+  title: "Death Note"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: false
+      checked: [1]
+    - from: 37
+      to: 37
+      dub: true
+      checked: [37]
+  checkedAt: '2026-08-22'
+  note: "Folge 1 ohne deutschen Ton, 2–36 ungeprüft, Folge 37 mit deutschem Ton — Tonspuren: ja|Japanisch [Original] — 1 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 103275
+  title: "Fate/Grand Order Absolute Demonic Front: Babylonia"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 22
+      dub: true
+      checked: [1, 21, 22]
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–22 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 110349
+  title: "Great Pretender"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 14
+      dub: true
+      checked: [1, 9, 14]
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–14 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 97918
+  title: "Kabaneri of the Iron Fortress: The Battle of Unato"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 3
+      dub: true
+      checked: [1, 3]
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–3 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 114448
+  title: "Knights of the Zodiac: Saint Seiya Part 2"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–6 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, zh-TW|Mandarin (Guoyu), pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 10 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 102976
+  title: "KONOSUBA -God's blessing on this wonderful world!- Legend of Crimson"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 21377
+  title: "Kuroko's Basketball: Last Game"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 21516
+  title: "Kuromukuro"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 13
+      dub: true
+      checked: [1, 13]
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — 10 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 100341
+  title: "LAST HOPE"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 13
+      dub: true
+      checked: [1, 13]
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 20628
+  title: "Legend of the Galactic Heroes: Die Neue These"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 192002
+  title: "Lost in Starlight"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ko|Koreanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, ar|Arabisch, fil|Filipino, hi|Hindi, id|Indonesisch, ja|Japanisch, zh-TW|Mandarin (Guoyu), pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), ta|Tamil, te|Telugu, th|Thailändisch, cs|Tschechisch, hu|Ungarisch — 21 Tonspuren, 13 Audiodeskriptionen"
+
+- anilistId: 136149
+  title: "maboroshi"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], pl|Polnisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, id|Indonesisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch, hu|Ungarisch, vi|Vietnamesisch — 12 Tonspuren, 3 Audiodeskriptionen"
+
+- anilistId: 21394
+  title: "Magi: Adventure of Sinbad"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 14513
+  title: "Magi: The Labyrinth of Magic"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 20790
+  title: "Magic Kaito 1412"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 97981
+  title: "Mary and The Witch's Flower"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, da|Dänisch, fi|Finnisch, he|Hebräisch, nb|Norwegisch, pl|Polnisch, pt|Portugiesisch (Portugal), sv|Schwedisch, th|Thailändisch, cs|Tschechisch, hu|Ungarisch — 16 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 100298
+  title: "Megalobox"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 204949
+  title: "Milky☆Subway: The Galactic Limited Express – the Movie"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, hi|Hindi, id|Indonesisch, zh|Mandarin, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch — 16 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 105595
+  title: "Mobile Suit Gundam Hathaway"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 103887
+  title: "Modest Heroes: Ponoc Short Films Theatre, Volume 1"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 179852
+  title: "Mononoke The Movie: Chapter II - The Ashes of Rage"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, hi|Hindi, id|Indonesisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, hu|Ungarisch — 14 Tonspuren, 4 Audiodeskriptionen"
+
+- anilistId: 151117
+  title: "Mononoke The Movie: The Phantom in the Rain"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, hi|Hindi, id|Indonesisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, hu|Ungarisch — 14 Tonspuren, 4 Audiodeskriptionen"
+
+- anilistId: 167404
+  title: "MONSTERS: 103 Mercies Dragon Damnation"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 8 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 154768
+  title: "My Dress-Up Darling Season 2"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 108553
+  title: "My Hero Academia: Heroes Rising"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 100723
+  title: "My Hero Academia: Two Heroes"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 154965
+  title: "My Love Story with Yamada-kun at Lv999"
+  platform: netflix
+  dub: false
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–13 ohne deutschen Ton — Tonspuren: ja|Japanisch [Original], uk|Ukrainisch, tr|Türkisch, ru|Russisch, fr|Französisch, en|Englisch, ar|Arabisch, el|Griechisch, it|Italienisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), cs|Tschechisch, hu|Ungarisch — 15 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 523
+  title: "My Neighbor Totoro"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, ru|Russisch, fr|Französisch, en|Englisch, ar|Arabisch, da|Dänisch, fi|Finnisch, hi|Hindi, id|Indonesisch, it|Italienisch, ca|Katalanisch, ko|Koreanisch, ms|Malaiisch, zh|Mandarin, nl|Niederländisch, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, vi|Vietnamesisch — 27 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 415
+  title: "My Neighbors the Yamadas"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, ru|Russisch, fr|Französisch, en|Englisch, id|Indonesisch, it|Italienisch, ko|Koreanisch, zh|Mandarin, pl|Polnisch, es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, vi|Vietnamesisch — 15 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 148080
+  title: "My Oni Girl"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, hi|Hindi, id|Indonesisch, ko|Koreanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch — 16 Tonspuren, 7 Audiodeskriptionen"
+
+- anilistId: 2472
+  title: "Naruto Shippuden the Movie"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 10589
+  title: "Naruto Shippuden the Movie: Blood Prison"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 4437
+  title: "Naruto Shippuden the Movie: Bonds"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 8246
+  title: "Naruto Shippuden the Movie: The Lost Tower"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 6325
+  title: "Naruto Shippuden the Movie: The Will of Fire"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 2144
+  title: "Naruto the Movie: Guardians of the Crescent Moon Kingdom"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 936
+  title: "Naruto the Movie: Legend of the Stone of Gelel"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 442
+  title: "Naruto the Movie: Ninja Clash in the Land of Snow"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 572
+  title: "Nausicaä of the Valley of the Wind"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, ru|Russisch, fr|Französisch, en|Englisch, da|Dänisch, fi|Finnisch, id|Indonesisch, it|Italienisch, ca|Katalanisch, ko|Koreanisch, zh|Mandarin, es-ES|Spanisch (Spanien), th|Thailändisch, vi|Vietnamesisch — 16 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 31
+  title: "Neon Genesis Evangelion: Death & Rebirth"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 32
+  title: "Neon Genesis Evangelion: The End of Evangelion"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 116982
+  title: "New Gods: Nezha Reborn"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, zh-CN|Mandarin (Putonghua) [Original], it|Italienisch, fr|Französisch, es|Spanisch (Lateinamerika), en|Englisch, yue|Kantonesisch, zh-TW|Mandarin (Guoyu), pt-BR|Portugiesisch (Brasilien), th|Thailändisch, vi|Vietnamesisch — 11 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 107727
+  title: "NiNoKuni"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, ko|Koreanisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch, vi|Vietnamesisch — 11 Tonspuren, 2 Audiodeskriptionen"
+
+- anilistId: 19815
+  title: "No Game, No Life"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 21128
+  title: "Noragami Aragoto"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 743
+  title: "Ocean Waves"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), fi|Finnisch, id|Indonesisch, ko|Koreanisch, zh|Mandarin, th|Thailändisch, vi|Vietnamesisch — 11 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 182469
+  title: "ONE PIECE FAN LETTER"
+  platform: netflix
+  dub: false
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: ja|Japanisch [Original] — 1 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 141902
+  title: "One Piece Film: Red"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 1029
+  title: "Only Yesterday"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, ru|Russisch, fr|Französisch, en|Englisch, id|Indonesisch, it|Italienisch, ko|Koreanisch, zh|Mandarin, es-ES|Spanisch (Spanien), th|Thailändisch, vi|Vietnamesisch — 13 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 20832
+  title: "Overlord"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 110364
+  title: "Pac-Man and the Ghostly Adventures"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 1943
+  title: "Paprika"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 527
+  title: "Pokémon"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 52
+      dub: true
+      checked: [1, 52]
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–52 mit deutschem Ton — Tonspuren: de|Deutsch, nl|Niederländisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, ar|Arabisch, da|Dänisch, fi|Finnisch, he|Hebräisch, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika) — 16 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 98298
+  title: "Pokémon the Movie: I Choose You!"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 114564
+  title: "Pokémon the Movie: Secrets of the Jungle"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: en|Englisch [Original], de|Deutsch, uk|Ukrainisch, tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, el|Griechisch, he|Hebräisch, hi|Hindi, id|Indonesisch, it|Italienisch, hr|Kroatisch, ms|Malaiisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch, vi|Vietnamesisch — 30 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 100744
+  title: "Pokémon the Movie: The Power of Us"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 106287
+  title: "Pokémon: Mewtwo Strikes Back—Evolution"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: en|Englisch [Original], de|Deutsch, tr|Türkisch, ru|Russisch, nl|Niederländisch, ja|Japanisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, el|Griechisch, he|Hebräisch, hi|Hindi, id|Indonesisch, it|Italienisch, hr|Kroatisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch, vi|Vietnamesisch — 29 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 158870
+  title: "Pokémon: To Be a Pokémon Master: Ultimate Journeys: The Series"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 1030
+  title: "Pom Poko"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, fi|Finnisch, id|Indonesisch, ko|Koreanisch, zh|Mandarin, sv|Schwedisch, es-ES|Spanisch (Spanien), th|Thailändisch, vi|Vietnamesisch — 14 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 2890
+  title: "Ponyo"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, ru|Russisch, fr|Französisch, en|Englisch, ar|Arabisch, da|Dänisch, fi|Finnisch, hi|Hindi, id|Indonesisch, it|Italienisch, ko|Koreanisch, ms|Malaiisch, zh|Mandarin, nl|Niederländisch, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, vi|Vietnamesisch — 26 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 416
+  title: "Porco Rosso"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, ru|Russisch, fr|Französisch, en|Englisch, da|Dänisch, fi|Finnisch, id|Indonesisch, it|Italienisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, sv|Schwedisch, es-ES|Spanisch (Spanien), th|Thailändisch, vi|Vietnamesisch — 17 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 148149
+  title: "Pretty Guardian Sailor Moon Cosmos The Movie: Part 1"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folge 1 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 164
+  title: "Princess Mononoke"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, ru|Russisch, fr|Französisch, en|Englisch, ar|Arabisch, da|Dänisch, fi|Finnisch, hi|Hindi, id|Indonesisch, it|Italienisch, ko|Koreanisch, ms|Malaiisch, zh|Mandarin, nl|Niederländisch, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, vi|Vietnamesisch — 25 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 13601
+  title: "PSYCHO-PASS"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 20513
+  title: "PSYCHO-PASS 2"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 877
+  title: "NANA"
+  platform: netflix
+  dub: false
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–47 ohne deutschen Ton — Tonspuren: ja|Japanisch [Original] — 1 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 142794
+  title: "Pokémon: The Arceus Chronicles"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, el|Griechisch, he|Hebräisch, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), cs|Tschechisch, hu|Ungarisch — 22 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 20514
+  title: "PSYCHO-PASS: The Movie"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 9756
+  title: "Puella Magi Madoka Magica"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 101291
+  title: "Rascal Does Not Dream of Bunny Girl Senpai"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 97768
+  title: "Record of Grancrest War"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 139587
+  title: "Reincarnated as a Sword"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 125440
+  title: "Rilakkuma's Theme Park Adventure"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–8 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, id|Indonesisch, yue|Kantonesisch, ko|Koreanisch, zh-TW|Mandarin (Guoyu), pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch, cs|Tschechisch, hu|Ungarisch — 16 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 13667
+  title: "Road to Ninja: Naruto the Movie"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 158926
+  title: "Ron Kamonohashi's Forbidden Deductions"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
+
+- anilistId: 185773
+  title: "Scarlet"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], pl|Polnisch, fr|Französisch, en|Englisch, hi|Hindi, ta|Tamil, te|Telugu, th|Thailändisch — 9 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 20993
+  title: "Seraph of the End: Battle in Nagoya"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 119675
+  title: "SHAMAN KING (2021)"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–52 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 180746
+  title: "SHIBOYUGI: Playing Death Games to Put Food on the Table"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 12
+      dub: true
+      checked: [1, 12]
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 101361
+  title: "Sirius the Jaeger"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 20515
+  title: "STAND BY ME Doraemon"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, ru|Russisch, fr|Französisch, en|Englisch, ar|Arabisch, fil|Filipino, hi|Hindi, id|Indonesisch, it|Italienisch, ko|Koreanisch, zh-TW|Mandarin (Guoyu), nl|Niederländisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), th|Thailändisch, cs|Tschechisch, hu|Ungarisch — 22 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 122575
+  title: "STAND BY ME Doraemon 2"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, ru|Russisch, fr|Französisch, en|Englisch, ar|Arabisch, hi|Hindi, id|Indonesisch, it|Italienisch, zh-TW|Mandarin (Guoyu), nl|Niederländisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), cs|Tschechisch, hu|Ungarisch — 20 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 142770
+  title: "Suzume"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch — 4 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 108353
+  title: "SPRIGGAN (ONA)"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–6 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 10 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 20875
+  title: "SWORDGAI The Animation"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 101471
+  title: "SWORDGAI The Animation Part II"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 3
+      to: 3
+      dub: true
+      checked: [3]
+  checkedAt: '2026-08-22'
+  note: "Folge 3 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 100183
+  title: "Sword Art Online Alternative: Gun Gale Online"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 169930
+  title: "T・P BON"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 12
+      dub: true
+      checked: [1, 3, 12]
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es|Spanisch (Lateinamerika), en|Englisch, pt-BR|Portugiesisch (Brasilien), th|Thailändisch — 8 Tonspuren, 2 Audiodeskriptionen"
+
+- anilistId: 21087
+  title: "One-Punch Man"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
+
+- anilistId: 97668
+  title: "One-Punch Man Season 2"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
+
+- anilistId: 153800
+  title: "One-Punch Man Season 3"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
+
+- anilistId: 178533
+  title: "Ranma1/2 (2024)"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, hi|Hindi, id|Indonesisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch, hu|Ungarisch — 12 Tonspuren, 2 Audiodeskriptionen"
+
+- anilistId: 185731
+  title: "Ranma1/2 (2024) Season 2"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, hi|Hindi, id|Indonesisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch, hu|Ungarisch — 12 Tonspuren, 2 Audiodeskriptionen"
+
+- anilistId: 1829
+  title: "Tales from Earthsea"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, ru|Russisch, fr|Französisch, en|Englisch, fi|Finnisch, id|Indonesisch, it|Italienisch, ko|Koreanisch, zh|Mandarin, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, vi|Vietnamesisch — 15 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 107068
+  title: "Teasing Master Takagi-san Season 2"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 20968
+  title: "The Anthem of the Heart"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 21131
+  title: "The Asterisk War"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 20981
+  title: "The Boy and the Beast"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 109979
+  title: "The Boy and the Heron"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, bg|Bulgarisch, yue|Kantonesisch, ko|Koreanisch, zh-TW|Mandarin (Guoyu), es|Spanisch (Lateinamerika), th|Thailändisch, cs|Tschechisch, hu|Ungarisch — 14 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 597
+  title: "The Cat Returns"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, fi|Finnisch, id|Indonesisch, ca|Katalanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, es-ES|Spanisch (Spanien), th|Thailändisch, vi|Vietnamesisch — 16 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 21804
+  title: "The Disastrous Life of Saiki K."
+  platform: netflix
+  dub: false
+  dubRanges:
+    - from: 1
+      to: 24
+      dub: false
+      checked: [1, 2, 24]
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–24 ohne deutschen Ton — Tonspuren: ja|Japanisch [Original] — 1 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 112625
+  title: "The Disastrous Life of Saiki K.: Reawakened"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–6 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 130298
+  title: "The Eminence in Shadow"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 20
+      to: 20
+      dub: true
+      checked: [20]
+  checkedAt: '2026-08-22'
+  note: "Folge 20 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], fr|Französisch — 3 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 161964
+  title: "The Eminence in Shadow Season 2"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], fr|Französisch — 3 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 16782
+  title: "The Garden of Words"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 142494
+  title: "The Imaginary"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, nl|Niederländisch, fr|Französisch, en|Englisch, ar|Arabisch, fil|Filipino, hi|Hindi, id|Indonesisch, it|Italienisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch — 18 Tonspuren, 9 Audiodeskriptionen"
+
+- anilistId: 16870
+  title: "The Last: Naruto the Movie"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 112301
+  title: "The Misfit of Demon King Academy: History’s Strongest Demon King Reincarnates and Goes to School with His Descendants"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 13759
+  title: "The Pet Girl of Sakurasou"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 131520
+  title: "The Quintessential Quintuplets Movie"
+  platform: netflix
+  dub: false
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: ja|Japanisch [Original] — 1 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 186497
+  title: "The Ramparts of Ice"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+  checkedAt: '2026-08-22'
+  note: "Folge 1 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, ar|Arabisch, hi|Hindi, ko|Koreanisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 12 Tonspuren, 4 Audiodeskriptionen"
