@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-22T08:51:44.024Z",
+  "scrapedAt": "2026-08-22T09:46:33.123Z",
   "window": {
     "from": "2026-08-10",
     "to": "2026-08-30"
@@ -385,7 +385,8 @@
         "2026-07-18",
         "2026-08-01",
         "2026-08-08",
-        "2026-08-15"
+        "2026-08-15",
+        "2026-08-22"
       ],
       "rawTitle": "Ascendance of a Bookworm Staffel 4 (Deutsch)",
       "seriesId": "G6793XKZY",
@@ -434,6 +435,10 @@
         {
           "date": "2026-08-15",
           "episode": 15
+        },
+        {
+          "date": "2026-08-22",
+          "episode": 16
         }
       ],
       "earliest": {
@@ -1497,6 +1502,16 @@
       "date": "2026-08-21",
       "time": "18:00",
       "episode": 6,
+      "german": true
+    },
+    {
+      "key": "ascendance of a bookworm s4",
+      "rawTitle": "Ascendance of a Bookworm Staffel 4 (Deutsch)",
+      "seriesId": "G6793XKZY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6793XKZY/ascendance-of-a-bookworm",
+      "date": "2026-08-22",
+      "time": "11:30",
+      "episode": 16,
       "german": true
     }
   ]
