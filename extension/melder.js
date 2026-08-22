@@ -54,6 +54,7 @@ window.addEventListener('message', (e) => {
       titel: e.data.titel,
     }
     knopfZeigen()
+    vielleichtSenden()
     return
   }
   if (e.data?.marke === 'ak-netzfund') {
@@ -82,6 +83,35 @@ async function fundSchicken(fund) {
   } catch {
     /* Ein Fundbericht darf nie im Weg stehen. */
   }
+}
+
+/**
+ * Von selbst melden, sobald alles beisammen ist.
+ *
+ * Daniels Zuschnitt (22.08.2026): „sobald daten gesammelt, soll die extension
+ * die daten abschicken … so beschränkt sich mein manueller aufwand auf link
+ * anklicken -> episode auswählen und warten."
+ *
+ * Beisammen heißt: eine Reihe aus Netflix' Metadaten **und** eine Tonspurliste
+ * aus dem Abspieler. Beides trifft ein paar Sekunden nach dem Start ein; bis
+ * dahin sagt der Knopf, worauf er wartet.
+ *
+ * Je Folge wird genau einmal gesendet. Der Schlüssel ist Reihe plus
+ * Folgennummer — wer dieselbe Folge noch einmal öffnet, löst nichts aus, wer
+ * zur nächsten springt, schon.
+ */
+const gesendet = new Map()
+
+function schluessel() {
+  return `${stand.reihe}:${stand.folgeNr ?? '—'}`
+}
+
+function vielleichtSenden() {
+  if (!stand.reihe || !stand.spuren) return
+  const k = schluessel()
+  if (gesendet.has(k)) return
+  gesendet.set(k, 'unterwegs')
+  void melden({ automatisch: true })
 }
 
 // --- Knopf ------------------------------------------------------------------
@@ -117,31 +147,47 @@ function keineFolgeVorhanden() {
   return /\bErinnern\b|\bRemind me\b/.test(text)
 }
 
+/**
+ * Was der Knopf anzeigt — er meldet inzwischen von selbst.
+ *
+ * Vier Lagen, und keine davon verlangt noch einen Klick, solange alles läuft:
+ *
+ * 1. **Schon gesendet** — das Ergebnis steht da, damit sichtbar ist, was ankam.
+ * 2. **Im Player, Tonspuren gelesen** — wird gerade geschickt.
+ * 3. **Titelseite mit Folgen** — hier gibt es nichts zu lesen; der Knopf sagt,
+ *    was zu tun ist.
+ * 4. **Titelseite ohne Folgen** — erkennbar an „Erinnern". Das ist ein Befund,
+ *    und den meldet ein Klick, weil hier nichts von selbst eintrifft.
+ */
 function beschriftung(spuren) {
   if (!stand.reihe) {
     return { text: 'Über die Titelseite öffnen — sonst fehlt die Reihe', klasse: 'ak-leer', aktiv: false }
+  }
+  const stand_ = gesendet.get(schluessel())
+  if (stand_ && stand_ !== 'unterwegs') {
+    const wo = stand.folgeNr ? ` (${stand.staffel && stand.staffeln?.length > 1 ? `St. ${stand.staffel}, ` : ''}Flg. ${stand.folgeNr})` : ''
+    return {
+      text: stand_ === 'deutsch' ? `Deutsch gesendet${wo} ✓` : `Kein Deutsch gesendet${wo} ✓`,
+      klasse: stand_ === 'deutsch' ? 'ak-ja' : 'ak-nein',
+      aktiv: false,
+    }
   }
   if (!spuren) {
     if (keineFolgeVorhanden()) {
       return { text: 'Keine Folge da — als nicht abrufbar melden', klasse: 'ak-nein', aktiv: true }
     }
-    return { text: 'Auf Abspielen klicken, dann hier melden', klasse: 'ak-leer', aktiv: false }
+    return { text: 'Auf Abspielen klicken, dann läuft es von selbst', klasse: 'ak-leer', aktiv: false }
   }
-  // Die Zahl der Tonspuren stand hier bis zum 22.08.2026 und stiftete nur
-  // Verwirrung: Uns interessiert eine einzige Sprache. Der Knopf nennt jetzt den
-  // Befund und die Handlung, sonst nichts. Daniel: „mach die 3 spuren weg, das
-  // verwirrt mich und uns interessiert sowieso nur die deutsche tonspur."
   const { deutsch } = urteil(spuren)
-  // Woran der Leser erkennt, was gleich gemeldet wird.
   const wo = stand.folgeNr
     ? ` (${stand.staffel && stand.staffeln?.length > 1 ? `St. ${stand.staffel}, ` : ''}Flg. ${stand.folgeNr})`
     : ''
   return deutsch
-    ? { text: `Deutsche Tonspur${wo} — jetzt melden`, klasse: 'ak-ja', aktiv: true }
-    : { text: `Keine deutsche Tonspur${wo} — jetzt melden`, klasse: 'ak-nein', aktiv: true }
+    ? { text: `Deutsche Tonspur${wo} — wird gesendet …`, klasse: 'ak-ja', aktiv: false }
+    : { text: `Keine deutsche Tonspur${wo} — wird gesendet …`, klasse: 'ak-nein', aktiv: false }
 }
 
-async function melden() {
+async function melden({ automatisch = false } = {}) {
   const spuren = stand.spuren
   const ohneFolge = !spuren && keineFolgeVorhanden()
   if (!stand.reihe) return zeigeErgebnis('Kein Titel erkannt — Titelseite öffnen', false)
@@ -179,11 +225,16 @@ async function melden() {
       }),
     })
     const daten = await antwort.json().catch(() => ({}))
-    if (!antwort.ok) return zeigeErgebnis(daten.error ?? `Fehler ${antwort.status}`, false)
+    if (!antwort.ok) {
+      gesendet.delete(schluessel())
+      return zeigeErgebnis(daten.error ?? `Fehler ${antwort.status}`, false)
+    }
     gemeldet.add(stand.reihe)
+    gesendet.set(schluessel(), deutsch ? 'deutsch' : 'kein_deutsch')
     const kopf = ohneFolge ? 'Als nicht abrufbar gemeldet' : deutsch ? 'Deutsche Tonspur gemeldet' : 'Kein Deutsch gemeldet'
     zeigeErgebnis(kopf, true)
   } catch (err) {
+    gesendet.delete(schluessel())
     zeigeErgebnis(`Nicht erreichbar: ${err.message}`, false)
   }
 }
