@@ -210,3 +210,11 @@
   cursor: pointer;
 }
 .ak-umschalter:hover { border-color: #58a6ff; color: #e6edf3; }
+
+/* Alles gemeldet: Der Knopf bleibt erreichbar, drängt sich aber nicht mehr auf. */
+.ak-uebersicht.ak-fertig {
+  border-color: rgba(63, 185, 80, 0.4);
+  color: #7ee787;
+  opacity: .7;
+}
+.ak-uebersicht.ak-fertig:hover { opacity: 1; }

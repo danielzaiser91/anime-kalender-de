@@ -776,17 +776,26 @@ function uebersichtZeigen() {
    * Titel, auch bevor ein Datenlauf die Liste neu erzeugt.
    */
   const offeneAdressen = Object.entries(offeneTitel).filter(([id, e]) => !fertig(id, e)).length
-  // Ist nichts mehr offen, verschwindet der Knopf ganz. Eine „0" ist kein
-  // Hinweis, sondern nur noch ein Fleck auf dem Bild.
-  if (!offeneAdressen && !dialog) {
-    uebersichtKnopf.remove()
-    uebersichtKnopf = null
-    return
-  }
   const gesamt = Object.keys(offeneTitel).length
-  uebersichtKnopf.textContent = `Anime-Kalender ${offeneAdressen}`
-  uebersichtKnopf.title =
-    offeneAdressen === gesamt
+  /**
+   * Ist alles gemeldet, zeigt der Knopf keine Zahl mehr — verschwindet aber
+   * nicht.
+   *
+   * Eine „0" wäre ein Arbeitsvorrat, den es nicht gibt (Daniel, 23.08.2026:
+   * „dort sollen nur nicht gemeldete gezählt werden"). Ihn ganz zu entfernen
+   * nimmt aber den Zugang zur Liste, und die will man auch dann noch öffnen —
+   * um nachzusehen, was schon durch ist. Also bleibt er als Häkchen stehen.
+   *
+   * Ganz weg ist er erst, wenn die Liste selbst leer ist: Dann hat ein
+   * Datenlauf die Meldungen übernommen, und es gibt wirklich nichts mehr.
+   */
+  uebersichtKnopf.classList.toggle('ak-fertig', !offeneAdressen)
+  uebersichtKnopf.textContent = offeneAdressen
+    ? `Anime-Kalender ${offeneAdressen}`
+    : 'Anime-Kalender ✓'
+  uebersichtKnopf.title = !offeneAdressen
+    ? `Alles gemeldet — ${gesamt} Titel, zum Nachsehen anklicken`
+    : offeneAdressen === gesamt
       ? `${offeneAdressen} Titel warten auf eine Prüfung`
       : `${offeneAdressen} von ${gesamt} Titeln warten noch — der Rest ist gemeldet, aber noch nicht eingespielt`
 }
