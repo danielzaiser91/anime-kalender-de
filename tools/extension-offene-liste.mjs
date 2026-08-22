@@ -19,7 +19,7 @@
  *
  * Aufruf: node tools/extension-offene-liste.mjs
  */
-import { readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -49,17 +49,59 @@ for (const t of titel) {
   }
 }
 
+/**
+ * Was der Anbieter über seine eigenen Staffeln gesagt hat.
+ *
+ * Sie schlägt unsere Aufteilung, und zwar in beide Richtungen:
+ *
+ * - Netflix führt BAKI-DOU als **eine** Staffel mit 25 Folgen, wir als zwei mit
+ *   13 und 12. Die Empfehlung „2e01" schickte Daniel zu einer Staffel, die es
+ *   dort nicht gibt (22.08.2026).
+ * - Bei My Hero Academia zählt Netflix über alle Staffeln durch: Staffel 7
+ *   beginnt bei Folge 146. Eine Empfehlung „7e01" wäre ins Leere gegangen, und
+ *   der Vermerk nach der Meldung („7e170") hätte nie zu ihr gepasst — deshalb
+ *   färbte sich nichts ein.
+ *
+ * Bekannt ist sie erst nach der ersten Prüfung eines Titels. Bis dahin bleibt
+ * unsere Aufteilung die beste Schätzung.
+ */
+const struktur = existsSync(resolve(wurzel, 'data/anbieter-staffeln.json'))
+  ? JSON.parse(readFileSync(resolve(wurzel, 'data/anbieter-staffeln.json'), 'utf8'))
+  : {}
+
 const offen = {}
 for (const [id, eintraege] of jeAdresse) {
   // Eine Adresse kommt auf die Liste, sobald **eine** ihrer Staffeln offen ist.
   if (!eintraege.some((e) => e.dub === undefined)) continue
   const sortiert = [...eintraege].sort((a, b) => vergleiche(a.t, b.t))
+  const gemeldet = struktur[id]?.staffeln
+  if (gemeldet?.length) {
+    // Der Anbieter hat selbst gesagt, wie er teilt — dann gilt seine Zählung,
+    // denn genau die steht im Player und landet später im Vermerk.
+    offen[id] = {
+      titel: sortiert[0].t.titleDe ?? sortiert[0].t.titleEn ?? sortiert[0].t.titleRomaji ?? '',
+      staffeln: gemeldet.map((s) => ({
+        nr: s.seq,
+        name: s.name ?? `Staffel ${s.seq}`,
+        folgen: s.folgen,
+        // Die Nummer der ersten Folge — bei durchgezählten Reihen nicht 1.
+        erste: s.erste ?? 1,
+        film: eintraege.length === 1 && eintraege[0].t.format === 'MOVIE',
+        offen: true,
+      })),
+      laut: 'anbieter',
+    }
+    continue
+  }
   offen[id] = {
     titel: sortiert[0].t.titleDe ?? sortiert[0].t.titleEn ?? sortiert[0].t.titleRomaji ?? '',
     staffeln: sortiert.map((e, i) => ({
       nr: i + 1,
       name: e.t.titleDe ?? e.t.titleEn ?? e.t.titleRomaji ?? '',
       folgen: e.t.episodes ?? 0,
+      // Ein Film hat keine Folge zum Auswählen — man startet ihn einfach.
+      // Ohne diese Angabe stand in der Liste „1e01" (Daniel, 22.08.2026).
+      film: e.t.format === 'MOVIE' || e.t.format === 'SPECIAL' || e.t.format === 'OVA',
       // Was hier schon beantwortet ist, muss niemand mehr anklicken.
       offen: e.dub === undefined,
     })),

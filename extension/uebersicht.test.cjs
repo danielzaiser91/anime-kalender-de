@@ -52,8 +52,25 @@ pruefe('erste und letzte Folge je offener Staffel',
   empfohleneFolgen(mehrteilig))
 pruefe('eine beantwortete Staffel taucht nicht auf',
   !empfohleneFolgen(mehrteilig).some((k) => k.startsWith('2e')))
-pruefe('eine Staffel mit einer Folge bekommt einen Eintrag',
-  JSON.stringify(empfohleneFolgen({ staffeln: [{ nr: 1, folgen: 1, offen: true }] })) === JSON.stringify(['1e01']))
+/**
+ * Eine Staffel mit einer einzigen Folge ist in aller Regel ein Film oder ein
+ * Special — dort gibt es nichts auszuwählen. Bis zum 22.08.2026 stand hier
+ * „1e01", was Daniel zu Recht als Unsinn meldete: „filme in der liste werden
+ * als 1e01 gemeldet, obwohl es filme und keine serien sind."
+ */
+pruefe('eine Staffel mit einer Folge gilt als Film',
+  JSON.stringify(empfohleneFolgen({ staffeln: [{ nr: 1, folgen: 1, offen: true }] })) === JSON.stringify(['Film']),
+  empfohleneFolgen({ staffeln: [{ nr: 1, folgen: 1, offen: true }] }))
+
+// Die Faelle, an denen die Einfaerbung scheiterte (Daniel, 22.08.2026).
+pruefe('durchgezaehlte Staffeln bekommen die Nummern des Anbieters',
+  JSON.stringify(empfohleneFolgen({ staffeln: [{ nr: 7, folgen: 25, erste: 146, offen: true }] })) === JSON.stringify(['7e146', '7e170']),
+  empfohleneFolgen({ staffeln: [{ nr: 7, folgen: 25, erste: 146, offen: true }] }))
+pruefe('ein Film bekommt kein Folgenkuerzel',
+  JSON.stringify(empfohleneFolgen({ staffeln: [{ nr: 1, folgen: 1, film: true, offen: true }] })) === JSON.stringify(['Film']),
+  empfohleneFolgen({ staffeln: [{ nr: 1, folgen: 1, film: true, offen: true }] }))
+pruefe('ohne Anbieterangabe beginnt es bei 1',
+  JSON.stringify(empfohleneFolgen({ staffeln: [{ nr: 1, folgen: 13, offen: true }] })) === JSON.stringify(['1e01', '1e13']))
 
 erledigt = { '12345': ['1e01'] }
 pruefe('gemeldete Folgen gelten als erledigt', istErledigt('12345', '1e01'))

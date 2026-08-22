@@ -272,7 +272,16 @@ async function melden({ automatisch = false } = {}) {
     gemeldet.add(stand.reihe)
     // Für die Übersicht: Diese Folge ist durch. Kein Beleg — der steht im
     // Datensatz —, sondern eine Gedächtnisstütze beim Abarbeiten.
-    void merkeErledigt(stand.reihe, stand.staffel, stand.folgeNr)
+    /**
+     * Eine „keine Folge abrufbar"-Meldung trägt keine Folgennummer.
+     *
+     * Sie fiel deshalb durch `merkeErledigt`, das eine Folge verlangt — Daniel
+     * meldete Batman Ninja von der Übersichtsseite und sah den Eintrag
+     * unverändert weiß (22.08.2026). Vermerkt wird jetzt dasselbe wie beim
+     * Tot-Knopf der Liste: Der Verweis führt zu nichts Abspielbarem.
+     */
+    if (ohneFolge) void merkeTot(stand.reihe)
+    else void merkeErledigt(stand.reihe, stand.staffel, stand.folgeNr)
     gesendet.set(schluessel(), deutsch ? 'deutsch' : 'kein_deutsch')
     const kopf = ohneFolge ? 'Als nicht abrufbar gemeldet' : deutsch ? 'Deutsche Tonspur gemeldet' : 'Kein Deutsch gemeldet'
     zeigeErgebnis(kopf, true)
@@ -376,8 +385,28 @@ function empfohleneFolgen(eintrag) {
   const raus = []
   for (const s of eintrag.staffeln) {
     if (!s.offen) continue
-    raus.push(folgenKuerzel(s.nr, 1))
-    if (s.folgen > 1) raus.push(folgenKuerzel(s.nr, s.folgen))
+    // Ein Film hat keine Folgen — „1e01" wäre dort eine Anweisung ins Leere
+    // (Daniel, 22.08.2026: „filme in der liste werden als 1e01 gemeldet,
+    // obwohl es filme und keine serien sind").
+    if (s.film || s.folgen <= 1) {
+      raus.push(eintrag.staffeln.length > 1 ? `Film ${s.nr}` : 'Film')
+      continue
+    }
+    /**
+     * Die Nummern des **Anbieters**, nicht unsere.
+     *
+     * Netflix zählt bei manchen Reihen über die Staffeln hinweg durch: My Hero
+     * Academia beginnt Staffel 7 bei Folge 146 und endet bei 170. Eine
+     * Empfehlung „7e01" schickt dorthin, wo nichts ist — und der Vermerk nach
+     * der Meldung heißt „7e170" und trifft nie auf „7e01". Genau daran ist die
+     * Einfärbung gescheitert (Daniel, 22.08.2026).
+     *
+     * `erste` steht erst da, wenn der Anbieter selbst gesprochen hat. Bis dahin
+     * ist unsere Aufteilung die beste Schätzung, und die beginnt bei 1.
+     */
+    const erste = s.erste ?? 1
+    raus.push(folgenKuerzel(s.nr, erste))
+    raus.push(folgenKuerzel(s.nr, erste + s.folgen - 1))
   }
   return raus
 }
@@ -399,6 +428,28 @@ function istErledigt(id, kuerzel) {
  * Deshalb zwei Stufen: Die genaue Folge färbt sich grün, die übrigen Kürzel
  * derselben Staffel bekommen einen Rahmen — „hier war schon jemand".
  */
+/**
+ * Die Staffelnummer hinter einem Kürzel — auch hinter „Film 2".
+ *
+ * Gemeldet wird immer als Folge: Ein Film ist für den Player die erste Folge
+ * seiner Staffel, also steht im Speicher „1e01". In der Liste steht „Film".
+ * Ohne diese Übersetzung färbte sich das Zeichen nie (Daniel, 22.08.2026).
+ */
+function staffelAusKuerzel(kuerzel) {
+  const film = /^Film(?:\s+(\d+))?$/.exec(kuerzel)
+  if (film) return Number(film[1] ?? 1)
+  const zahl = Number(kuerzel.split('e')[0])
+  return Number.isFinite(zahl) ? zahl : null
+}
+
+/** Gilt dieses Kürzel als erledigt — egal ob Folge oder Film? */
+function kuerzelErledigt(id, kuerzel) {
+  if (istErledigt(id, kuerzel)) return true
+  if (!kuerzel.startsWith('Film')) return false
+  const nr = staffelAusKuerzel(kuerzel)
+  return nr !== null && staffelAngefasst(id, nr)
+}
+
 function staffelAngefasst(id, staffel) {
   const vorsatz = String(staffel) + 'e'
   return (erledigt[String(id)] ?? []).some((k) => k.startsWith(vorsatz))
@@ -414,6 +465,25 @@ function staffelAngefasst(id, staffel) {
  * genau **eine** offene Staffel, ist sie gemeint; gibt es mehrere, bleibt es
  * ohne Vermerk, denn dann wäre jede Wahl geraten.
  */
+/**
+ * Einen Verweis als „führt zu nichts" vermerken.
+ *
+ * Zwei Wege enden hier: der Knopf im Player, wenn die Titelseite keine
+ * abspielbare Folge hat, und der Knopf in der Liste. Beide sagen dasselbe, also
+ * soll auch dasselbe dastehen.
+ */
+async function merkeTot(id) {
+  if (!id) return
+  const schluessel = String(id)
+  if ((erledigt[schluessel] ?? []).includes('tot')) return
+  erledigt[schluessel] = [...(erledigt[schluessel] ?? []), 'tot']
+  try {
+    await chrome.storage.local.set({ erledigt })
+  } catch {
+    /* Ohne Speicher bleibt die Anzeige unvollständig, mehr nicht. */
+  }
+}
+
 async function merkeErledigt(id, staffel, folge) {
   if (!id || !folge) return
   /**
@@ -532,7 +602,7 @@ async function dialogOeffnen() {
    * Er soll dann wenigstens nicht mehr obenauf liegen.
    */
   const fertig = (id, e) =>
-    istErledigt(id, 'tot') || empfohleneFolgen(e).every((k) => istErledigt(id, k))
+    istErledigt(id, 'tot') || empfohleneFolgen(e).every((k) => kuerzelErledigt(id, k))
   const eintraege = Object.entries(offeneTitel).sort((a, b) => {
     const d = Number(fertig(a[0], a[1])) - Number(fertig(b[0], b[1]))
     return d || a[1].titel.localeCompare(b[1].titel, 'de')
@@ -605,9 +675,9 @@ async function dialogOeffnen() {
     }
     for (const kuerzel of empfohlen) {
       const marke = document.createElement('span')
-      const fertig = istErledigt(id, kuerzel)
-      const staffel = kuerzel.split('e')[0]
-      const angefasst = !fertig && staffelAngefasst(id, staffel)
+      const fertig = kuerzelErledigt(id, kuerzel)
+      const staffel = staffelAusKuerzel(kuerzel)
+      const angefasst = !fertig && staffel !== null && staffelAngefasst(id, staffel)
       marke.className = 'ak-folge' + (fertig ? ' ak-fertig' : angefasst ? ' ak-angefasst' : '')
       marke.textContent = kuerzel
       marke.title = fertig
@@ -655,7 +725,7 @@ async function dialogOeffnen() {
     zeile.appendChild(tot)
 
     // Was durch ist, bleibt sichtbar, tritt aber zurück.
-    if (istErledigt(id, 'tot') || empfohlen.every((k) => istErledigt(id, k))) {
+    if (istErledigt(id, 'tot') || empfohlen.every((k) => kuerzelErledigt(id, k))) {
       zeile.classList.add('ak-abgehakt')
     }
     liste.appendChild(zeile)
@@ -739,14 +809,7 @@ async function totMelden(id, titel) {
       const daten = await antwort.json().catch(() => ({}))
       return { ok: false, text: daten.error ?? `Fehler ${antwort.status}` }
     }
-    // Auch der tote Verweis ist erledigte Arbeit und soll so aussehen.
-    const schluessel = String(id)
-    erledigt[schluessel] = [...(erledigt[schluessel] ?? []), 'tot']
-    try {
-      await chrome.storage.local.set({ erledigt })
-    } catch {
-      /* Ohne Speicher bleibt die Anzeige unvollständig, mehr nicht. */
-    }
+    await merkeTot(id)
     return { ok: true, text: 'als tot gemeldet' }
   } catch (err) {
     return { ok: false, text: `Nicht erreichbar: ${err.message}` }

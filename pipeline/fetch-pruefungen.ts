@@ -14,7 +14,7 @@
  *
  * Aufruf: npm run data:pruefungen
  */
-import { readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import {
   beschreibeBereiche,
@@ -123,6 +123,21 @@ const zeilen: string[] = []
 let uebernommen = 0
 const offenGeblieben: string[] = []
 /** Meldungen, deren Adresse unser Datensatz nicht kennt — samt Namensvorschlag. */
+/**
+ * Wie der Anbieter seine Staffeln selbst einteilt, je Adresse.
+ *
+ * Das ist die einzige verlässliche Grundlage für die Frage „welche Folge soll
+ * ich anklicken": Netflix führt BAKI-DOU als **eine** Staffel mit 25 Folgen,
+ * unser Datensatz als zwei mit 13 und 12 (Daniel, 22.08.2026: „es gibt keine
+ * staffel 2, wie die liste es behauptet"). Und bei My Hero Academia zählt
+ * Netflix über alle Staffeln durch — Staffel 7 beginnt bei Folge 146.
+ *
+ * Wer hier rät, schickt jemanden zu einer Folge, die es nicht gibt.
+ */
+const anbieterStruktur: Record<string, unknown> = existsSync(resolve(ROOT, 'data/anbieter-staffeln.json'))
+  ? JSON.parse(readFileSync(resolve(ROOT, 'data/anbieter-staffeln.json'), 'utf8'))
+  : {}
+
 const ohneZuordnung: Array<{
   url: string
   name: string
@@ -260,6 +275,13 @@ for (const gruppe of jeAdresse.values()) {
    * auf eine Seite, die sie nicht enthält. Das ist Netflix' eigene Auskunft,
    * kein Rückschluss, und wird wie die Tonspuren behandelt.
    */
+  // Was der Anbieter über sich sagt, wird behalten — auch wenn die Zuordnung
+  // danach scheitert. Es ist die Grundlage für die nächste Prüfrunde.
+  if (anbieterStaffeln?.length) {
+    const kennung = /\/title\/(\d+)/.exec(p.url)?.[1]
+    if (kennung) anbieterStruktur[kennung] = { staffeln: anbieterStaffeln, gemeldetAm: heute }
+  }
+
   const zuordnung =
     anbieterStaffeln && staffeln.length ? ordneNachStaffelliste(anbieterStaffeln, staffeln) : undefined
   const nichtGefuehrt = new Set(zuordnung?.ohneEntsprechung.map((x) => x.id) ?? [])
@@ -422,6 +444,14 @@ if (ohneZuordnung.length && !TROCKEN) {
   })
   writeFileSync(resolve(ROOT, 'data/meldungen-ohne-zuordnung.md'), [...kopf, ...tabelle, ''].join('\n'))
   log(`${ohneZuordnung.length} Meldung(en) ohne Zuordnung in data/meldungen-ohne-zuordnung.md`)
+}
+
+if (Object.keys(anbieterStruktur).length && !TROCKEN) {
+  writeFileSync(
+    resolve(ROOT, 'data/anbieter-staffeln.json'),
+    JSON.stringify(anbieterStruktur, null, 1) + '\n',
+  )
+  log(`Staffelaufteilung von ${Object.keys(anbieterStruktur).length} Adressen gesichert`)
 }
 
 log(`${pruefungen.length} Prüfungen abgeholt, ${uebernommen} Einträge geschrieben`)

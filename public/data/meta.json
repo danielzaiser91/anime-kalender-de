@@ -1,8 +1,15 @@
 {
+<<<<<<< HEAD
   "generatedAt": "2026-08-22T19:40:11.618Z",
   "titleCount": 2761,
   "releaseCount": 250,
   "eventCount": 891,
+=======
+  "generatedAt": "2026-08-22T19:45:15.615Z",
+  "titleCount": 2751,
+  "releaseCount": 249,
+  "eventCount": 890,
+>>>>>>> cb616eb8 (fix(extension): Kuerzel folgen der Zaehlung des Anbieters)
   "genres": [
     "Action",
     "Adventure",
