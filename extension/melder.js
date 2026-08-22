@@ -102,9 +102,51 @@ function staffelnVon(id, eintrag) {
   }))
 }
 
-/** Steht dieser Titel auf der Liste? */
+/**
+ * Was zuletzt aus der Liste heraus geöffnet wurde — für zehn Minuten.
+ *
+ * Der Tab, in dem geklickt wurde, hinterlegt es; `chrome.storage.local` teilen
+ * alle Tabs.
+ */
+let zuletztGeoeffnet = null
+
+/**
+ * Steht dieser Titel auf der Liste?
+ *
+ * **Auch dann, wenn Netflix eine andere Kennung nennt als wir führen.** Bei
+ * „Ranma1/2" blieb die Erweiterung stumm: Der Player meldete eine Kennung, die
+ * in unserer Liste nicht vorkommt, also galt der Titel als nicht gesucht — und
+ * vier Prüfungen gingen verloren, ohne dass irgendwo etwas stand (Daniel,
+ * 22.08.2026: „alle gemeldet, alle bleiben weiß").
+ *
+ * Wer aus der Liste heraus geklickt hat, meint den Titel, den er angeklickt
+ * hat. Das zählt.
+ */
+/**
+ * Welche Kennung gemeint ist — unsere, wenn Netflix eine fremde nennt.
+ *
+ * Kennt die Liste die Kennung des Players, ist sie es. Sonst gilt, was zuletzt
+ * aus der Liste heraus geöffnet wurde.
+ */
+function gemeinteReihe() {
+  if (stand.reihe && offeneTitel[String(stand.reihe)] !== undefined) return stand.reihe
+  if (
+    zuletztGeoeffnet?.id &&
+    offeneTitel[zuletztGeoeffnet.id] !== undefined &&
+    Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 10 * 60 * 1000
+  ) {
+    return zuletztGeoeffnet.id
+  }
+  return stand.reihe
+}
+
 function istGesucht() {
-  return Boolean(stand.reihe && offeneTitel && offeneTitel[String(stand.reihe)] !== undefined)
+  if (stand.reihe && offeneTitel[String(stand.reihe)] !== undefined) return true
+  return Boolean(
+    zuletztGeoeffnet?.id &&
+      offeneTitel[zuletztGeoeffnet.id] !== undefined &&
+      Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 10 * 60 * 1000,
+  )
 }
 
 window.addEventListener('message', (e) => {
@@ -287,8 +329,16 @@ async function melden({ automatisch = false } = {}) {
       headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
       body: JSON.stringify({
         plattform: 'netflix',
-        // Die Titelseite, nicht die Abspieladresse — danach sucht die Pipeline.
-        url: `https://www.netflix.com/title/${stand.reihe}`,
+        /**
+         * Die Titelseite, nicht die Abspieladresse — danach sucht die Pipeline.
+         *
+         * **Und die Kennung, unter der wir den Titel führen**, wenn Netflix eine
+         * andere nennt: Bei „Ranma1/2" meldete der Player eine Kennung, die
+         * unser Datensatz nicht kennt. Die Meldung wäre angekommen und hätte
+         * niemandem gehört. Wer aus der Liste heraus geklickt hat, meint den
+         * Titel, den er angeklickt hat.
+         */
+        url: `https://www.netflix.com/title/${gemeinteReihe()}`,
         sprachen: echte.map((s) => `${s.code}|${s.name}`),
         befund: ohneFolge ? 'weg' : deutsch ? 'dub' : 'kein_dub',
         titel: (stand.titel || '').replace(/\s*-\s*Netflix\s*$/i, '').trim() || null,
@@ -324,8 +374,8 @@ async function melden({ automatisch = false } = {}) {
      * unverändert weiß (22.08.2026). Vermerkt wird jetzt dasselbe wie beim
      * Tot-Knopf der Liste: Der Verweis führt zu nichts Abspielbarem.
      */
-    if (ohneFolge) void merkeTot(stand.reihe)
-    else void merkeErledigt(stand.reihe, stand.staffel, stand.folgeNr)
+    if (ohneFolge) void merkeTot(gemeinteReihe())
+    else void merkeErledigt(gemeinteReihe(), stand.staffel, stand.folgeNr)
     // Was Netflix über seine Staffeln sagt, gilt ab sofort — nicht erst nach
     // dem nächsten Datenlauf.
     if (stand.staffeln?.length && stand.reihe) {
@@ -410,10 +460,11 @@ function imPlayer() {
 /** Was diese Installation schon gemeldet hat — überlebt einen Neustart. */
 let erledigt = {}
 const erledigtGeladen = chrome.storage.local
-  .get(['erledigt', 'anbieterStaffeln'])
+  .get(['erledigt', 'anbieterStaffeln', 'zuletztGeoeffnet'])
   .then((x) => {
     erledigt = x.erledigt ?? {}
     anbieterStaffeln = x.anbieterStaffeln ?? {}
+    zuletztGeoeffnet = x.zuletztGeoeffnet ?? null
   })
   .catch(() => {
     erledigt = {}
@@ -728,7 +779,12 @@ async function dialogOeffnen() {
     return d || a[1].titel.localeCompare(b[1].titel, 'de')
   })
   const titelzeile = document.createElement('strong')
-  titelzeile.textContent = `${eintraege.length} Titel zu prüfen`
+  // Dieselbe Zahl wie am Knopf — sonst steht oben 146, während unten 78 steht.
+  const nochOffen = eintraege.filter(([id, e]) => !fertig(id, e)).length
+  titelzeile.textContent =
+    nochOffen === eintraege.length
+      ? `${eintraege.length} Titel zu prüfen`
+      : `${nochOffen} Titel zu prüfen · ${eintraege.length - nochOffen} gemeldet`
   kopf.appendChild(titelzeile)
 
   const suche = document.createElement('input')
@@ -971,6 +1027,11 @@ async function totMelden(id, titel) {
  */
 chrome.storage.onChanged.addListener((aenderungen, bereich) => {
   if (bereich !== 'local') return
+  // Ein Klick in einem anderen Tab sagt uns, welcher Titel gemeint ist.
+  if (aenderungen.zuletztGeoeffnet) {
+    zuletztGeoeffnet = aenderungen.zuletztGeoeffnet.newValue ?? null
+    uebersichtZeigen()
+  }
   // Eine neu gemeldete Staffelaufteilung ändert die empfohlenen Folgen und
   // damit auch, was als erledigt gilt.
   if (aenderungen.anbieterStaffeln) {

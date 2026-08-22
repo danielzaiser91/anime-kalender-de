@@ -219,6 +219,25 @@ export function ordneNachStaffelliste(
    * Dann wird gar nicht gepaart. Die fehlenden Verweise sind das eigentliche
    * Ergebnis — sie stehen im Problemtext und gehören von Hand ergänzt.
    */
+  /**
+   * Ein einziger Eintrag nimmt alles auf, was der Anbieter dort führt.
+   *
+   * Netflix teilt „One Piece" in sieben Arcs — East Blue, Grand Line, Drum,
+   * Alabasta, Egghead 1 und 2, Elbaph (Daniel, 22.08.2026, mit Bild). Unser
+   * Datensatz kennt einen Eintrag. Von einer falschen Reihenfolge kann hier
+   * nichts kommen: Es gibt nur eine, und alles gehört dazu.
+   *
+   * Dasselbe bei „Carole & Tuesday" (zwei Teile bei Netflix, ein Eintrag bei
+   * uns) und „BAKI-DOU". Die Folgenzahlen bleiben dabei in der Zählung des
+   * Anbieters — sie sind es, die im Player stehen.
+   */
+  if (unsere.length === 1) {
+    return {
+      paare: sortiert.map((a) => ({ anbieter: a, unser: unsere[0]! })),
+      ohneEntsprechung: [],
+    }
+  }
+
   if (sortiert.length > unsere.length) {
     return {
       paare: [],

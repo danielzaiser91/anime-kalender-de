@@ -1649,14 +1649,24 @@ console.log('\nStreaming Availability API:')
     jjk?.staffel.id === 172463 && jjk.folgeInStaffel === 12, jjk)
 
   /**
-   * Und die Zusicherung, die eine falsche Zuordnung verhindert: Stimmen die
-   * Folgenzahlen nicht überein, ist die Reihenfolge falsch — dann wird **gar
-   * nichts** zugeordnet. Ein falsch zugeordneter Befund sieht aus wie ein
-   * geprüfter.
+   * Und die Zusicherung, die eine falsche Zuordnung verhindert: Stimmen bei
+   * **mehreren** Einträgen die Folgenzahlen nicht überein, ist die Reihenfolge
+   * falsch — dann wird gar nichts zugeordnet. Ein falsch zugeordneter Befund
+   * sieht aus wie ein geprüfter.
+   *
+   * Bei einem einzigen Eintrag gilt das nicht: Dort gibt es keine Reihenfolge,
+   * die falsch sein könnte, und eine abweichende Zahl sagt nur, dass der
+   * Anbieter anders zählt.
    */
   const schief = ordneNachStaffelliste(
-    [{ seq: 1, name: 'St. 1', folgen: 13, erste: 1 }],
-    [{ id: 1, titel: 'irgendwas', folgen: 25 }],
+    [
+      { seq: 1, name: 'St. 1', folgen: 13, erste: 1 },
+      { seq: 2, name: 'St. 2', folgen: 12, erste: 1 },
+    ],
+    [
+      { id: 1, titel: 'irgendwas', folgen: 25 },
+      { id: 2, titel: 'irgendwas anderes', folgen: 24 },
+    ],
   )
   pruefe('abweichende Folgenzahlen verhindern jede Zuordnung',
     schief.paare.length === 0 && Boolean(schief.problem), schief)
@@ -1685,6 +1695,27 @@ console.log('\nStreaming Availability API:')
     { id: 21459, titel: 'My Hero Academia', folgen: 13 },
     { id: 139630, titel: 'My Hero Academia Season 6', folgen: 25 },
   ]
+  /**
+   * Ein einziger Eintrag nimmt alles auf, was der Anbieter dort führt.
+   *
+   * Netflix teilt „One Piece" in sieben Arcs, unser Datensatz kennt einen
+   * Eintrag (Daniel, 22.08.2026). Von einer falschen Reihenfolge kann hier
+   * nichts kommen: Es gibt nur eine, und alles gehört dazu.
+   */
+  const opNetflix = [
+    { seq: 1, name: 'East Blue', folgen: 61, erste: 1 },
+    { seq: 2, name: 'Ankunft auf der Grand Line', folgen: 16, erste: 62 },
+    { seq: 3, name: 'Drum', folgen: 15, erste: 78 },
+  ]
+  const opUnser = [{ id: 21, titel: 'ONE PIECE', folgen: 0 }]
+  const op = ordneNachStaffelliste(opNetflix, opUnser)
+  pruefe('sieben Arcs, ein Eintrag: alles wird zugeordnet',
+    op.paare.length === 3 && op.paare.every((p) => p.unser.id === 21), op.problem)
+  pruefe('und eine Meldung aus Arc 1 landet dort',
+    ordneMeldungZu({ folge: 61, staffel: 1 }, opUnser, opNetflix)?.staffel.id === 21)
+  pruefe('auch eine aus einem späteren Arc',
+    ordneMeldungZu({ folge: 78, staffel: 3 }, opUnser, opNetflix)?.staffel.id === 21)
+
   const mha = ordneNachStaffelliste(mhaNetflix, mhaUnser)
   pruefe('fehlen uns Verweise, wird gar nicht gepaart',
     mha.paare.length === 0 && Boolean(mha.problem), mha.problem)
