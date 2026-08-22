@@ -36,6 +36,7 @@ import {
   zerlegeAdnAdresse,
   type AdnRohVideo,
 } from './lib/adn-sprachen.ts'
+import { beschreibeBereiche, bildeBereiche } from './lib/folgenbereiche.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { beurteile } from './lib/crunchyroll-dub.ts'
 import {
@@ -1311,6 +1312,102 @@ console.log('\nStreaming Availability API:')
   pruefe(
     'ein Beleg aus einem Kanal wird nie übernommen',
     !uebernehmbar({ ...beleg, kanal: 'crunchyrollde' }, false, '2026-08-21'),
+  )
+}
+
+/**
+ * Folgenbereiche aus Einzelmeldungen — Daniels Fall vom 22.08.2026.
+ *
+ * Vorher schrieb jede Meldung ein `dub` für die **ganze** Reihe; seine sieben
+ * Meldungen zu einer Serie hoben einander auf, und am Ende stand „kein
+ * Deutsch", obwohl er Folgen mit deutschem Ton gesehen hatte.
+ */
+{
+  console.log('\nFolgenbereiche aus Einzelmeldungen')
+
+  // Sein Beispiel im Wortlaut: „melden von 1,3,4,13 müsste reichen, um daraus
+  // die infos zu ziehen das 1-3 keine und 4-13 eine synchro haben."
+  const daniel = bildeBereiche([
+    { folge: 1, dub: false },
+    { folge: 3, dub: false },
+    { folge: 4, dub: true },
+    { folge: 13, dub: true },
+  ])
+  pruefe(
+    'aus 1,3,4,13 werden zwei Bereiche',
+    daniel.bereiche.length === 2,
+    daniel.bereiche,
+  )
+  pruefe(
+    '1–3 ohne, 4–13 mit deutschem Ton',
+    daniel.bereiche[0]?.von === 1 && daniel.bereiche[0]?.bis === 3 && !daniel.bereiche[0]?.dub &&
+      daniel.bereiche[1]?.von === 4 && daniel.bereiche[1]?.bis === 13 && daniel.bereiche[1]?.dub === true,
+    daniel.bereiche,
+  )
+  pruefe(
+    'die belegten Folgen bleiben von den gefolgerten unterscheidbar',
+    JSON.stringify(daniel.bereiche[0]?.belegt) === '[1,3]',
+    daniel.bereiche[0]?.belegt,
+  )
+
+  // Black Clover, der reale Fall aus `data/dub-confirmed.yaml`: 1–155 deutsch,
+  // 156–171 nicht.
+  const bc = bildeBereiche([
+    { folge: 1, dub: true },
+    { folge: 155, dub: true },
+    { folge: 156, dub: false },
+    { folge: 171, dub: false },
+  ])
+  pruefe(
+    'Black Clover kippt bei 156',
+    bc.bereiche.length === 2 && bc.bereiche[0]?.bis === 155 && bc.bereiche[1]?.von === 156,
+    bc.bereiche,
+  )
+
+  /**
+   * Die Zusicherung, auf die es ankommt: **Zwischen zwei ungleichen Befunden
+   * wird nichts geraten.** Aus „3 ohne" und „6 mit" darf nicht „3–5 ohne"
+   * werden — wo die Grenze liegt, weiß niemand, und eine geratene Grenze sieht
+   * aus wie ein Befund.
+   */
+  const lueckig = bildeBereiche([
+    { folge: 3, dub: false },
+    { folge: 6, dub: true },
+  ])
+  pruefe(
+    'zwischen ungleichen Befunden wird die Lücke nicht gefüllt',
+    lueckig.bereiche[0]?.bis === 3 && lueckig.bereiche[1]?.von === 6,
+    lueckig.bereiche,
+  )
+  pruefe(
+    'und die Lücke wird benannt statt verschwiegen',
+    beschreibeBereiche(lueckig.bereiche).includes('4–5 ungeprüft'),
+    beschreibeBereiche(lueckig.bereiche),
+  )
+
+  // Zwei Meldungen zur selben Folge: die jüngere gilt, der Widerspruch wird
+  // gemeldet statt stillschweigend aufgelöst.
+  const streit = bildeBereiche([
+    { folge: 5, dub: false },
+    { folge: 5, dub: true },
+  ])
+  pruefe(
+    'ein Widerspruch zur selben Folge wird gemeldet',
+    streit.widersprueche.includes(5) && streit.bereiche[0]?.dub === true,
+    streit,
+  )
+
+  // Reihenfolge und Unsinn dürfen nichts kaputt machen.
+  const wirr = bildeBereiche([
+    { folge: 13, dub: true },
+    { folge: 1, dub: false },
+    { folge: 0, dub: true },
+    { folge: Number.NaN, dub: true },
+  ])
+  pruefe(
+    'unsortierte Eingaben und Unsinn stören nicht',
+    wirr.bereiche.length === 2 && wirr.bereiche[0]?.von === 1 && wirr.bereiche[1]?.von === 13,
+    wirr.bereiche,
   )
 }
 

@@ -16,6 +16,7 @@
  */
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { beschreibeBereiche, bildeBereiche } from './lib/folgenbereiche.ts'
 import { log, ROOT, warn } from './lib/util.ts'
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
@@ -29,6 +30,8 @@ interface Pruefung {
   befund: 'dub' | 'kein_dub' | 'weg'
   titel: string | null
   folgen: number | null
+  folge_nr: number | null
+  staffel: number | null
   notiz: string | null
   gemeldet_am: string
 }
@@ -84,12 +87,40 @@ const offenGeblieben: string[] = []
 /** Kennungen der Meldungen, die wirklich eingetragen wurden. */
 const erledigteIds = new Set<number>()
 
+/**
+ * Meldungen zur selben Adresse gehören zusammen.
+ *
+ * Bis zum 22.08.2026 schrieb jede Meldung ein `dub` für die **ganze** Reihe.
+ * Daniel prüfte sieben Folgen einer Serie, sechs davon ohne deutschen Ton — am
+ * Ende stand „kein Deutsch", obwohl er die deutsche Fassung gesehen hatte. Sein
+ * Urteil: „wenn die extension alle 7 auf kein deutsch gesetzt hat ist die logik
+ * komplett schlecht". Deshalb wird jetzt erst gebündelt, dann gefolgert.
+ */
+const jeAdresse = new Map<string, Pruefung[]>()
 for (const p of pruefungen) {
+  const schluessel = `${p.plattform}\u0000${p.url}`
+  jeAdresse.set(schluessel, [...(jeAdresse.get(schluessel) ?? []), p])
+}
+
+for (const gruppe of jeAdresse.values()) {
+  const p = gruppe[gruppe.length - 1]!
   const ids = nachUrl.get(p.url) ?? []
   if (!ids.length) {
     offenGeblieben.push(`${p.url} — im Datensatz nicht gefunden`)
     continue
   }
+
+  // Ein „weg" hebt alles auf: Was der Anbieter nicht mehr zeigt, hat keine
+  // Folgenbereiche mehr.
+  const weg = gruppe.find((x) => x.befund === 'weg')
+
+  const meldungen = gruppe
+    .filter((x) => x.befund !== 'weg' && x.folge_nr != null)
+    .map((x) => ({ folge: x.folge_nr as number, dub: x.befund === 'dub' }))
+  const { bereiche, widersprueche } = meldungen.length
+    ? bildeBereiche(meldungen)
+    : { bereiche: [], widersprueche: [] as number[] }
+
   const sprachen = p.sprachen ? (JSON.parse(p.sprachen) as string[]) : []
   for (const id of ids) {
     const t = liste.find((x) => x.id === id)
@@ -97,18 +128,38 @@ for (const p of pruefungen) {
     zeilen.push(`- anilistId: ${id}`)
     if (t?.titleDe || t?.titleEn) zeilen.push(`  title: ${JSON.stringify(t.titleDe ?? t.titleEn)}`)
     zeilen.push(`  platform: ${p.plattform}`)
-    if (p.befund === 'weg') zeilen.push('  available: false')
-    else zeilen.push(`  dub: ${p.befund === 'dub'}`)
+    if (weg) {
+      zeilen.push('  available: false')
+    } else if (bereiche.length) {
+      // Die Gesamtangabe bleibt stehen, damit alles Bestehende sie weiter
+      // liest — sie sagt jetzt „irgendwo in dieser Reihe gibt es deutschen
+      // Ton", und die Bereiche darunter sagen, wo.
+      zeilen.push(`  dub: ${bereiche.some((b) => b.dub)}`)
+      zeilen.push('  dubRanges:')
+      for (const b of bereiche) {
+        zeilen.push(`    - from: ${b.von}`)
+        zeilen.push(`      to: ${b.bis}`)
+        zeilen.push(`      dub: ${b.dub}`)
+        zeilen.push(`      checked: [${b.belegt.join(', ')}]`)
+      }
+    } else {
+      zeilen.push(`  dub: ${p.befund === 'dub'}`)
+    }
     // Ortszeit, nicht UTC: Eine Meldung um 00:41 Uhr trug sonst das Datum
     // des Vortags (22.08.2026).
     zeilen.push(`  checkedAt: '${berlinDatum(p.gemeldet_am)}'`)
-    const notiz = [sprachen.length ? `Tonspuren: ${sprachen.join(', ')}` : '', p.notiz ?? '']
+    const notiz = [
+      bereiche.length ? beschreibeBereiche(bereiche) : '',
+      sprachen.length ? `Tonspuren: ${sprachen.join(', ')}` : '',
+      widersprueche.length ? `Widersprüchliche Meldungen zu Folge ${widersprueche.join(', ')}` : '',
+      p.notiz ?? '',
+    ]
       .filter(Boolean)
       .join(' — ')
     if (notiz) zeilen.push(`  note: ${JSON.stringify(notiz)}`)
     uebernommen++
-    erledigteIds.add(p.id)
   }
+  for (const x of gruppe) erledigteIds.add(x.id)
 }
 
 if (zeilen.length) {

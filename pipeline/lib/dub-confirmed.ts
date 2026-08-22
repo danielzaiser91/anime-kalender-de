@@ -43,6 +43,20 @@ export interface DubCheck {
   url?: string
   checkedAt: string
   note?: string
+
+  /**
+   * Wo in der Reihe der deutsche Ton liegt — wenn er nicht überall liegt.
+   *
+   * Bei Black Clover auf Netflix sind die Folgen 1 bis 155 deutsch, 156 bis 171
+   * nicht. `dub` allein kann das nicht sagen; es steht dann auf `true` und
+   * bedeutet „irgendwo in dieser Reihe gibt es deutschen Ton", die Bereiche
+   * sagen, wo genau. Erzeugt aus Daniels Einzelmeldungen, siehe
+   * `pipeline/lib/folgenbereiche.ts`.
+   *
+   * `checked` nennt die Folgen, für die eine echte Meldung vorliegt — alles
+   * dazwischen ist gefolgert, und zwar nur zwischen **gleichen** Befunden.
+   */
+  dubRanges?: Array<{ from: number; to: number; dub: boolean; checked?: number[] }>
 }
 
 const DATEI = resolve(ROOT, 'data', 'dub-confirmed.yaml')
