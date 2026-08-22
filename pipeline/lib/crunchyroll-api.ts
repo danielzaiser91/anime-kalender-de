@@ -144,6 +144,55 @@ export function ladeZugang(roh = process.env.CR_ZUGANG): CrZugang {
 }
 
 /**
+ * Das Zugangspaket beschaffen: erst aus der Umgebung, sonst beim Worker.
+ *
+ * Ein Paket gilt 24 Stunden. Ein Repo-Secret von Hand nachzulegen hieße, dass
+ * jeder Wochenlauf an einem abgelaufenen Paket scheitert, sobald niemand daran
+ * denkt — deshalb hält der Worker eines vor.
+ *
+ * **Wie er zu einem deutschen kommt, ohne dass jemand etwas tut:** Cloudflare
+ * führt einen Worker dort aus, wo die eingehende Anfrage ankommt. Daniels
+ * Statusanzeige startet mit seinem Rechner und fragt den Worker im
+ * Sekundentakt ab; bei jeder dieser Anfragen prüft er, ob sein Paket älter als
+ * sechs Stunden ist, und holt sonst ein neues — mit deutscher Sicht, weil die
+ * Anfrage aus Deutschland kam. Gemessen am 22.08.2026: von dort aus antwortet
+ * er aus London mit `country: DE`, von einem GitHub-Runner aufgerufen aus San
+ * Jose mit `US`. Gespeichert wird nur `DE`.
+ */
+export async function beschaffeZugang(): Promise<CrZugang> {
+  // 1. Was in der Umgebung steht, hat Vorrang — es ist das schnellste und
+  //    erlaubt, einen Lauf gezielt mit einem bestimmten Paket zu fahren.
+  try {
+    return ladeZugang()
+  } catch (err) {
+    if (!(err instanceof ZugangspaketFehlt)) throw err
+    const grund = err.message
+    const token = process.env.LAUF_TOKEN
+    if (!token) throw new ZugangspaketFehlt(`${grund} Und ohne LAUF_TOKEN ist auch der Worker nicht zu fragen.`)
+
+    const worker = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
+    let antwort: Response
+    try {
+      antwort = await fetch(`${worker}/cr-zugang?token=${encodeURIComponent(token)}`)
+    } catch (netz) {
+      throw new ZugangspaketFehlt(`${grund} Der Worker ist nicht erreichbar: ${(netz as Error).message}`)
+    }
+    if (antwort.status === 410) {
+      throw new ZugangspaketFehlt(
+        'Das Paket im Worker ist abgelaufen. Es frischt sich auf, sobald Daniels Statusanzeige läuft — ' +
+          'sie startet mit seinem Rechner.',
+      )
+    }
+    if (!antwort.ok) {
+      throw new ZugangspaketFehlt(`${grund} Der Worker antwortet mit HTTP ${antwort.status}.`)
+    }
+    const paket = (await antwort.json()) as Record<string, string>
+    // Der Worker nennt das Ablaufdatum `gilt_bis`, die Umgebung `gueltig_bis`.
+    return ladeZugang(JSON.stringify({ ...paket, gueltig_bis: paket.gilt_bis ?? paket.gueltig_bis }))
+  }
+}
+
+/**
  * Die Serienkennung aus der Adresse, auf der ein Seitenaufruf gelandet ist.
  *
  * Eigene Funktion, weil hier der teuerste Fehler dieses Abrufs saß und eine

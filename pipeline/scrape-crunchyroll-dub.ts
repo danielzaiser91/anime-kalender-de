@@ -74,7 +74,7 @@ import {
   CrunchyrollCms,
   CrunchyrollSeiten,
   ZugangspaketFehlt,
-  ladeZugang,
+  beschaffeZugang,
   type CrQuelle,
   type Tonspur,
 } from './lib/crunchyroll-api.ts'
@@ -460,7 +460,7 @@ async function main(): Promise<void> {
    * Statusanzeige „läuft". Ein Lauf, der aus einem Grund scheitert, der schon
    * vor dem Start feststand, soll das auch vor dem Start sagen.
    */
-  const zugang = SEITENANZEIGE || BROWSER ? undefined : ladeZugang()
+  const zugang = SEITENANZEIGE || BROWSER ? undefined : await beschaffeZugang()
   if (zugang) log(`Zugangspaket für ${zugang.land}, Bucket ${zugang.bucket}, gültig bis ${zugang.gueltig_bis}`)
 
   const titles = readJson<Title[]>('public/data/titles.json', [])

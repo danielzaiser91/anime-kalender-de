@@ -32,7 +32,7 @@ import { beurteile, type CrDubData, type CrSerie } from './lib/crunchyroll-dub.t
 import { KEINE_STAFFEL, serieLesen } from './lib/crunchyroll-lesen.ts'
 import {
   CrunchyrollCms,
-  ladeZugang,
+  beschaffeZugang,
   ZugangspaketFehlt,
   type CrApiFolge,
   type CrApiObjekt,
@@ -135,7 +135,7 @@ class ArchivQuelle implements CrQuelle {
 
 async function main(): Promise<void> {
   // Ohne Abruf braucht es kein Paket — der Bucket steht im Archiv.
-  const zugang = ARCHIV ? undefined : ladeZugang()
+  const zugang = ARCHIV ? undefined : await beschaffeZugang()
   if (zugang) log(`Zugangspaket für ${zugang.land}, Bucket ${zugang.bucket}, gültig bis ${zugang.gueltig_bis}`)
   else log('Aus dem Archiv gerechnet — kein einziger Abruf.')
   const cms = zugang ? new CrunchyrollCms(zugang, PAUSE_MS) : undefined
