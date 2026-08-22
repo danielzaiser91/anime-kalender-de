@@ -130,12 +130,50 @@ let zuletztGeoeffnet = null
  * Kennt die Liste die Kennung des Players, ist sie es. Sonst gilt, was zuletzt
  * aus der Liste heraus geöffnet wurde.
  */
+/** Zwei Titel auf ihren Kern bringen, um sie vergleichen zu können. */
+function namensKern(text) {
+  return String(text ?? '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '')
+}
+
+/**
+ * Trägt die geöffnete Zeile denselben Namen wie das, was gerade läuft?
+ *
+ * **Diese Prüfung ist der Unterschied zwischen Hilfe und Schaden.** Ohne sie
+ * galt jeder Titel als gesucht, solange irgendwann in den letzten zehn Minuten
+ * aus der Liste geklickt worden war — und Daniel bekam eine Meldung zu
+ * „Heroes" untergeschoben, während er die Serie einfach ansah (22.08.2026,
+ * zum zweiten Mal an diesem Tag).
+ *
+ * Verglichen werden die Namen ohne Sonder- und Leerzeichen, und es genügt,
+ * wenn einer im anderen steckt: Netflix nennt „Ranma1/2 (2024)", unsere Liste
+ * „Ranma1/2 (2024)" — aber auch „HAIKYU!!" gegen „Haikyu!! To The Top" soll
+ * passen.
+ */
+function nameStimmt() {
+  const eintrag = zuletztGeoeffnet?.id ? offeneTitel[zuletztGeoeffnet.id] : null
+  if (!eintrag) return false
+  const laufend = namensKern(stand.serientitel || stand.titel)
+  const gemeint = namensKern(eintrag.titel)
+  if (!laufend || !gemeint) return false
+  return laufend.includes(gemeint) || gemeint.includes(laufend)
+}
+
+/**
+ * Welche Kennung gemeint ist — unsere, wenn Netflix eine fremde nennt.
+ *
+ * Kennt die Liste die Kennung des Players, ist sie es. Sonst gilt, was zuletzt
+ * aus der Liste heraus geöffnet wurde — **aber nur, wenn der Name dazu passt**
+ * und der Klick nicht länger als fünf Minuten her ist.
+ */
 function gemeinteReihe() {
   if (stand.reihe && offeneTitel[String(stand.reihe)] !== undefined) return stand.reihe
   if (
     zuletztGeoeffnet?.id &&
     offeneTitel[zuletztGeoeffnet.id] !== undefined &&
-    Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 10 * 60 * 1000
+    Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 5 * 60 * 1000 &&
+    nameStimmt()
   ) {
     return zuletztGeoeffnet.id
   }
@@ -147,7 +185,8 @@ function istGesucht() {
   return Boolean(
     zuletztGeoeffnet?.id &&
       offeneTitel[zuletztGeoeffnet.id] !== undefined &&
-      Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 10 * 60 * 1000,
+      Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 5 * 60 * 1000 &&
+      nameStimmt(),
   )
 }
 

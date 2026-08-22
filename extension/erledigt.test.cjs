@@ -124,6 +124,28 @@ pruefe('ohne Vermerke ist nichts erledigt',
   pruefe('ein toter Verweis ist immer erledigt', fertig([], true))
 }
 
+
+/**
+ * Die Bruecke zwischen abweichenden Kennungen darf nicht zu breit sein.
+ *
+ * Ohne Namensabgleich galt jeder Titel als gesucht, solange irgendwann in den
+ * letzten Minuten aus der Liste geklickt worden war — Daniel bekam eine Meldung
+ * zu „Heroes" untergeschoben, waehrend er die Serie einfach ansah (22.08.2026).
+ */
+{
+  const kern = (t) => String(t ?? '').toLowerCase().replace(/[^a-z0-9]+/g, '')
+  const passt = (laufend, gemeint) => {
+    const a = kern(laufend), b = kern(gemeint)
+    if (!a || !b) return false
+    return a.includes(b) || b.includes(a)
+  }
+  pruefe('„Heroes" passt nicht zu „Kakegurui"', !passt('Heroes', 'Kakegurui'))
+  pruefe('derselbe Titel passt', passt('Ranma1/2 (2024)', 'Ranma1/2 (2024)'))
+  pruefe('eine Fortsetzung passt zum Reihennamen', passt('Haikyu!! To The Top', 'HAIKYU!!'))
+  pruefe('Sonderzeichen stoeren nicht', passt('KONOSUBA -God\u0027s blessing', 'KONOSUBA God s blessing'))
+  pruefe('ohne Namen gilt nichts', !passt('', 'Kakegurui') && !passt('Heroes', ''))
+}
+
 const fehler = faelle.filter((x) => !x).length
 console.log(fehler ? `\n${fehler} Fall/Fälle durchgefallen` : '\n✓ Geprüftes wird sichtbar')
 process.exit(fehler ? 1 : 0)
