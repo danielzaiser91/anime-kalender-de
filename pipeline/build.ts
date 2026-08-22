@@ -1850,6 +1850,7 @@ function main(): void {
   let entfernt = 0
   let ytEntfernt = 0
   let totEntfernt = 0
+  let adressen = 0
   const checks = new Map(loadDubChecks().map((c) => [dubKey(c.anilistId, c.platform), c]))
   /** Befund je YouTube-Adresse aus `pipeline/check-youtube.ts`. */
   const youtubeBefunde = readJson<Record<string, { art: string; inDE: number }>>('data/youtube-check.json', {})
@@ -1929,11 +1930,19 @@ function main(): void {
         stream.dub = check.dub
         geprueft++
       }
+      // Eine von Hand gefundene Adresse schlägt jede geratene.
+      if (check?.url) {
+        stream.url = check.url
+        adressen++
+      }
       return true
     })
   }
   if (checks.size) {
     log(`${geprueft} geprüfte Synchro-Angaben übernommen, ${entfernt} tote Verweise entfernt (${checks.size} Prüfungen)`)
+  }
+  if (adressen) {
+    log(`${adressen} Anbieter-Adressen durch die von Hand geprüfte ersetzt`)
   }
   if (totEntfernt) log(`${totEntfernt} Verweise entfernt: die Seite dahinter antwortet mit 404`)
   if (ytEntfernt) log(`${ytEntfernt} YouTube-Verweise entfernt: dort ist in Deutschland kein Video abrufbar`)

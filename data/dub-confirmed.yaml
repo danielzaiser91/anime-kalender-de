@@ -953,3 +953,14 @@
   available: false
   checkedAt: '2026-08-22'
   note: 'Keine Staffel von Beyblade Burst ist auf Netflix Deutschland abrufbar'
+
+# Monster bei Prime Video — Daniel am 22.08.2026 von Hand geprüft: deutsche
+# Synchro für alle Folgen. Die Adresse steht dabei, weil der Verweis im
+# Datensatz auf eine Suchseite führte; aniSearchs Produktseite antwortet mit 404.
+- anilistId: 19
+  title: Monster
+  platform: primevideo
+  dub: true
+  url: https://www.amazon.de/gp/video/detail/B0B649YPX3
+  checkedAt: '2026-08-22'
+  note: 'Alle 74 Folgen mit deutscher Tonspur'

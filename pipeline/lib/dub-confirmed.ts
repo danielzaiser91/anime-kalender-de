@@ -33,6 +33,14 @@ export interface DubCheck {
    * Verweisen waren tot, nicht untertitelt).
    */
   available?: boolean
+  /**
+   * Die richtige Adresse, falls die im Datensatz danebenliegt.
+   *
+   * Bei Prime Video ist das der Regelfall: Dort steht meist eine Suche, weil
+   * weder AniList noch aniSearch eine belastbare Produktseite liefern. Wer
+   * beim Prüfen die echte Seite offen hatte, trägt sie hier ein.
+   */
+  url?: string
   checkedAt: string
   note?: string
 }
