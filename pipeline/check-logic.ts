@@ -38,6 +38,7 @@ import {
 } from './lib/adn-sprachen.ts'
 import { beschreibeBereiche, bildeBereiche, ordneFolgeZu, verteileAufStaffeln } from './lib/folgenbereiche.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
+import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { beurteile } from './lib/crunchyroll-dub.ts'
 import {
   bucketLand,
@@ -1463,6 +1464,49 @@ console.log('\nStreaming Availability API:')
     verteilt.map((v) => v.ganz))
   pruefe('von der vierten sind es die Folgen 1–2',
     verteilt[3]?.von === 1 && verteilt[3]?.bis === 2, verteilt[3])
+}
+
+/**
+ * Vom gemeldeten Browser-Zustand zurück zu unserem Datensatz.
+ */
+{
+  console.log('\nAdressen und Titel zuordnen')
+
+  /**
+   * Der Fall, der eine gültige Prüfung stillschweigend verworfen hat: Unser
+   * Datensatz führt „K" als `http://www.netflix.com/title/80040118`, Daniels
+   * Browser meldete dieselbe Seite als `https://…` (22.08.2026).
+   */
+  pruefe(
+    'http und https treffen dieselbe Seite',
+    schluesselAdresse('http://www.netflix.com/title/80040118') ===
+      schluesselAdresse('https://www.netflix.com/title/80040118'),
+  )
+  pruefe(
+    'www, Schrägstrich am Ende und Herkunftsangaben stören nicht',
+    schluesselAdresse('https://netflix.com/title/80040118/') ===
+      schluesselAdresse('https://www.netflix.com/title/80040118?trackId=99'),
+  )
+  pruefe(
+    'verschiedene Titel bleiben verschieden',
+    schluesselAdresse('https://www.netflix.com/title/80040118') !==
+      schluesselAdresse('https://www.netflix.com/title/80040119'),
+  )
+
+  pruefe(
+    'der Anbietername fällt aus dem Seitentitel',
+    titelSchluessel('Beyblade Burst Surge – Netflix') === titelSchluessel('Beyblade Burst Surge'),
+  )
+  /**
+   * Und die Zusicherung, die den Vorschlag zum Vorschlag macht: Zwei Serien,
+   * die ein einziges Wort trennt, dürfen **nicht** denselben Schlüssel
+   * bekommen. Sonst schriebe ein Namensvergleich irgendwann einen Befund an
+   * die falsche Serie.
+   */
+  pruefe(
+    'Surge und Rise fallen nicht zusammen',
+    titelSchluessel('Beyblade Burst Surge') !== titelSchluessel('Beyblade Burst Rise'),
+  )
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')

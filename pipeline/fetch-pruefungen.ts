@@ -23,6 +23,7 @@ import {
   type Staffeleintrag,
 } from './lib/folgenbereiche.ts'
 import { log, ROOT, warn } from './lib/util.ts'
+import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
 const TOKEN = process.env.LAUF_TOKEN
@@ -39,6 +40,7 @@ interface Pruefung {
   folgen: number | null
   folge_nr: number | null
   staffel: number | null
+  serientitel: string | null
   notiz: string | null
   gemeldet_am: string
 }
@@ -73,6 +75,7 @@ const liste: Array<{
   id: number
   titleDe?: string
   titleEn?: string
+  titleRomaji?: string
   episodes?: number
   jpYear?: number
   jpSeason?: string
@@ -84,9 +87,25 @@ const nachUrl = new Map<string, number[]>()
 for (const t of liste) {
   for (const s of t.streams ?? []) {
     if (!s.url) continue
-    const liste2 = nachUrl.get(s.url) ?? []
+    const k = schluesselAdresse(s.url)
+    const liste2 = nachUrl.get(k) ?? []
     liste2.push(t.id)
-    nachUrl.set(s.url, liste2)
+    nachUrl.set(k, liste2)
+  }
+}
+
+/**
+ * Der Rückweg von einem Namen zu unseren Kennungen.
+ *
+ * Nur für Meldungen, deren Adresse nichts trifft — und nur als Vorschlag.
+ */
+const nachTitel = new Map<string, number[]>()
+for (const t of liste) {
+  for (const name of [t.titleDe, t.titleEn, t.titleRomaji]) {
+    if (!name) continue
+    const k = titelSchluessel(name)
+    if (!k) continue
+    nachTitel.set(k, [...(nachTitel.get(k) ?? []), t.id])
   }
 }
 
@@ -99,6 +118,14 @@ const heute = berlinDatum(new Date().toISOString())
 const zeilen: string[] = []
 let uebernommen = 0
 const offenGeblieben: string[] = []
+/** Meldungen, deren Adresse unser Datensatz nicht kennt — samt Namensvorschlag. */
+const ohneZuordnung: Array<{
+  url: string
+  name: string
+  plattform: string
+  befund: string
+  vorschlag: number[]
+}> = []
 /** Kennungen der Meldungen, die wirklich eingetragen wurden. */
 const erledigteIds = new Set<number>()
 
@@ -142,9 +169,16 @@ for (const p of pruefungen) {
 
 for (const gruppe of jeAdresse.values()) {
   const p = gruppe[gruppe.length - 1]!
-  const ids = nachUrl.get(p.url) ?? []
+  const ids = nachUrl.get(schluesselAdresse(p.url)) ?? []
   if (!ids.length) {
-    offenGeblieben.push(`${p.url} — im Datensatz nicht gefunden`)
+    // Der Titel ist die letzte Chance — und nur ein Vorschlag: Ein Name ist
+    // eine Ähnlichkeit, kein Beleg.
+    const name = p.serientitel ?? p.titel ?? ''
+    const geraten = name ? (nachTitel.get(titelSchluessel(name)) ?? []) : []
+    ohneZuordnung.push({ url: p.url, name, plattform: p.plattform, befund: p.befund, vorschlag: geraten })
+    offenGeblieben.push(
+      `${p.url} — im Datensatz nicht gefunden${geraten.length ? ` (Vorschlag: #${geraten.join(', #')})` : ''}`,
+    )
     continue
   }
 
@@ -234,10 +268,47 @@ if (zeilen.length && !TROCKEN) {
   writeFileSync(p, alt.trimEnd() + '\n' + kopf + '\n' + zeilen.join('\n') + '\n')
 }
 
+/**
+ * Was keine Zuordnung fand, wird sichtbar abgelegt statt vergessen.
+ *
+ * Bis zum 22.08.2026 fielen solche Meldungen lautlos aus dem Lauf und blieben
+ * für immer im Briefkasten liegen — die Arbeit war getan und ging verloren.
+ * Die Datei ist Arbeitsvorrat, kein Datensatz: Jede Zeile braucht ein
+ * menschliches Ja, bevor die Adresse in `data/` landet.
+ */
+if (ohneZuordnung.length && !TROCKEN) {
+  const kopf = [
+    '# Meldungen ohne Zuordnung',
+    '',
+    'Der Browser hat diese Seiten gemeldet, unser Datensatz kennt die Adresse aber',
+    'nicht. Anbieter führen denselben Titel oft unter mehreren Kennungen — Jujutsu',
+    'Kaisen meldete sich als `title/80237957`, bei uns steht `title/81278456`.',
+    '',
+    'Der Vorschlag stammt aus einem Namensvergleich und ist **kein Beleg**:',
+    '„Beyblade Burst Surge" und „Beyblade Burst Rise" trennt ein Wort. Stimmt er,',
+    'gehört die gemeldete Adresse als zusätzlicher Verweis an den Titel; stimmt er',
+    'nicht, gehört die Zeile gestrichen.',
+    '',
+    `Stand: ${heute}`,
+    '',
+    '| Anbieter | Gemeldete Adresse | Name laut Seite | Befund | Vorschlag |',
+    '|---|---|---|---|---|',
+  ]
+  const tabelle = ohneZuordnung.map((o) => {
+    const namen = o.vorschlag.map((id) => {
+      const t = liste.find((x) => x.id === id)
+      return `#${id} ${t?.titleDe ?? t?.titleEn ?? ''}`.trim()
+    })
+    return `| ${o.plattform} | ${o.url} | ${o.name || '—'} | ${o.befund} | ${namen.join('<br>') || '—'} |`
+  })
+  writeFileSync(resolve(ROOT, 'data/meldungen-ohne-zuordnung.md'), [...kopf, ...tabelle, ''].join('\n'))
+  log(`${ohneZuordnung.length} Meldung(en) ohne Zuordnung in data/meldungen-ohne-zuordnung.md`)
+}
+
 log(`${pruefungen.length} Prüfungen abgeholt, ${uebernommen} Einträge geschrieben`)
 for (const o of offenGeblieben) warn(o)
 if (TROCKEN) {
-  console.log(zeilen.join(String.fromCharCode(10)))
+  console.log(zeilen.join('\n'))
   log(String(erledigteIds.size) + " Meldungen blieben im Briefkasten (Trockenlauf)")
   process.exit(0)
 }
