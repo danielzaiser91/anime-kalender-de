@@ -964,3 +964,583 @@
   url: https://www.amazon.de/gp/video/detail/B0B649YPX3
   checkedAt: '2026-08-22'
   note: 'Alle 74 Folgen mit deutscher Tonspur'
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-22 ---
+
+- anilistId: 6707
+  title: "Black Butler II"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 9136
+  title: "Black Butler II OVA"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 179054
+  title: "Black Butler: Emerald Witch Arc"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 14719
+  title: "JoJo's Bizarre Adventure (TV)"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 20474
+  title: "JoJo's Bizarre Adventure: Stardust Crusaders"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 20799
+  title: "JoJo's Bizarre Adventure: Stardust Crusaders - Battle in Egypt"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 21450
+  title: "JoJo's Bizarre Adventure: Diamond is Unbreakable"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 102883
+  title: "JoJo's Bizarre Adventure: Golden Wind"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 131942
+  title: "JoJo's Bizarre Adventure: STONE OCEAN"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 146722
+  title: "JoJo's Bizarre Adventure: STONE OCEAN Part 2"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 20617
+  title: "Ronja, the Robber's Daughter"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 1575
+  title: "Code Geass: Lelouch of the Rebellion"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 2904
+  title: "Code Geass: Lelouch of the Rebellion R2"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 11771
+  title: "Kuroko's Basketball"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 16894
+  title: "Kuroko's Basketball 2"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 16916
+  title: "Kuroko's Basketball: Tip Off"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 20725
+  title: "Kuroko's Basketball 3"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 21459
+  title: "My Hero Academia"
+  platform: netflix
+  dub: false
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: ja|Japanisch [Original], fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 7 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 21856
+  title: "My Hero Academia Season 2"
+  platform: netflix
+  dub: false
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: ja|Japanisch [Original], fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 7 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 100166
+  title: "My Hero Academia Season 3"
+  platform: netflix
+  dub: false
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: ja|Japanisch [Original], fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 7 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 104276
+  title: "My Hero Academia Season 4"
+  platform: netflix
+  dub: false
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: ja|Japanisch [Original], fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 7 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 117193
+  title: "My Hero Academia Season 5"
+  platform: netflix
+  dub: false
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: ja|Japanisch [Original], fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 7 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 122349
+  title: "My Hero Academia: Make It! Do-or-Die Survival Training"
+  platform: netflix
+  dub: false
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: ja|Japanisch [Original], fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 7 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 163139
+  title: "My Hero Academia – Staffel 7"
+  platform: netflix
+  dub: false
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: ja|Japanisch [Original], fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 7 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 21858
+  title: "Little Witch Academia (TV)"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — 10 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 4654
+  title: "A Certain Magical Index"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 8937
+  title: "A Certain Magical Index II"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 6213
+  title: "A Certain Scientific Railgun"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 16049
+  title: "A Certain Scientific Railgun S"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 20789
+  title: "The Seven Deadly Sins"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 21385
+  title: "The Seven Deadly Sins: Signs of A Holy War"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 99539
+  title: "The Seven Deadly Sins: Revival of the Commandments"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 108928
+  title: "The Seven Deadly Sins: Imperial Wrath of the Gods"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 116752
+  title: "The Seven Deadly Sins: Dragon's Judgement"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 105310
+  title: "Fire Force"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 114236
+  title: "Fire Force Season 2"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 161645
+  title: "Die Tagebücher der Apothekerin – Staffel 1"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], fr|Französisch — 3 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 176301
+  title: "The Apothecary Diaries Season 2"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], fr|Französisch — 3 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 195600
+  title: "Daemons of the Shadow Realm"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, ar|Arabisch, hi|Hindi, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), ta|Tamil, te|Telugu, th|Thailändisch — 13 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 113415
+  title: "JUJUTSU KAISEN"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 145064
+  title: "JUJUTSU KAISEN Season 2"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 172463
+  title: "JUJUTSU KAISEN Season 3: The Culling Game Part 1"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 143277
+  title: "Urusei Yatsura (2022) Seasons 1 & 2"
+  platform: netflix
+  dub: false
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: ja|Japanisch [Original] — 1 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 155645
+  title: "Urusei Yatsura (2022) Seasons 3 & 4"
+  platform: netflix
+  dub: false
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: ja|Japanisch [Original] — 1 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 109639
+  title: "Dino Girl Gauko"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, ru|Russisch, fr|Französisch, en|Englisch, ar|Arabisch, da|Dänisch, fi|Finnisch, el|Griechisch, he|Hebräisch, hi|Hindi, id|Indonesisch, it|Italienisch, ko|Koreanisch, zh|Mandarin, nl|Niederländisch, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, hu|Ungarisch, vi|Vietnamesisch — 28 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 115794
+  title: "Dino Girl Gauko Season 2"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, ru|Russisch, fr|Französisch, en|Englisch, ar|Arabisch, da|Dänisch, fi|Finnisch, el|Griechisch, he|Hebräisch, hi|Hindi, id|Indonesisch, it|Italienisch, ko|Koreanisch, zh|Mandarin, nl|Niederländisch, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, hu|Ungarisch, vi|Vietnamesisch — 28 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 100891
+  title: "KENGAN ASHURA Part I"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 111048
+  title: "KENGAN ASHURA Part II"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 146638
+  title: "KENGAN ASHURA Season 2"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 169692
+  title: "KENGAN ASHURA Season 2 Part.2"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 5081
+  title: "Bakemonogatari"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 137822
+  title: "BLUE LOCK"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, ar|Arabisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 9 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 163146
+  title: "BLUE LOCK Season 2"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, ar|Arabisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 9 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 384
+  title: "Gantz"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 395
+  title: "Gantz: Second Stage"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 20923
+  title: "Food Wars!"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 21518
+  title: "Food Wars! The Second Plate"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 99255
+  title: "Food Wars! The Third Plate"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 109963
+  title: "Food Wars! The Fourth Plate"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 119837
+  title: "Larva Island"
+  platform: netflix
+  dub: false
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: en|Englisch [Original], ko|Koreanisch — 2 Tonspuren, 2 Audiodeskriptionen"
+
+- anilistId: 132477
+  title: "Larva Island Season 2"
+  platform: netflix
+  dub: false
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: en|Englisch [Original], ko|Koreanisch — 2 Tonspuren, 2 Audiodeskriptionen"
+
+- anilistId: 97888
+  title: "BAKI"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, ar|Arabisch, fil|Filipino, hi|Hindi, id|Indonesisch, ko|Koreanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, hu|Ungarisch, vi|Vietnamesisch — 18 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 108522
+  title: "Baki: The Great Raitai Tournament Saga"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, ar|Arabisch, fil|Filipino, hi|Hindi, id|Indonesisch, ko|Koreanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, hu|Ungarisch, vi|Vietnamesisch — 18 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 20458
+  title: "The Irregular at Magic High School"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 112300
+  title: "The Irregular at Magic High School: Visitor Arc"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 116674
+  title: "BLEACH: Thousand-Year Blood War"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 140960
+  title: "SPY x FAMILY"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch — 4 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 142838
+  title: "SPY x FAMILY Cour 2"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch — 4 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 150672
+  title: "OSHI NO KO"
+  platform: netflix
+  dub: false
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: ja|Japanisch [Original], th|Thailändisch — 2 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 166531
+  title: "OSHI NO KO Season 2"
+  platform: netflix
+  dub: false
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: ja|Japanisch [Original], th|Thailändisch — 2 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 182587
+  title: "Oshi no Ko – Staffel 3"
+  platform: netflix
+  dub: false
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: ja|Japanisch [Original], th|Thailändisch — 2 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 147103
+  title: "My Happy Marriage"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, hi|Hindi, id|Indonesisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch, vi|Vietnamesisch — 16 Tonspuren, 5 Audiodeskriptionen"
+
+- anilistId: 167486
+  title: "My Happy Marriage: The Shape of My Happiness"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, hi|Hindi, id|Indonesisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch, vi|Vietnamesisch — 16 Tonspuren, 5 Audiodeskriptionen"
+
+- anilistId: 169441
+  title: "My Happy Marriage Season 2"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, hi|Hindi, id|Indonesisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch, vi|Vietnamesisch — 16 Tonspuren, 5 Audiodeskriptionen"
+
+# --- Nachträge aus Batch 2, von Daniel im Chat gemeldet (22.08.2026) ---
+#
+# Diese Fälle konnte die Erweiterung nicht auseinanderhalten: Netflix führt
+# mehrere unserer Staffeln unter **einer** Reihe, und eine Meldung gilt dann für
+# alle. Wo der Befund je Staffel verschieden ist, entscheidet der Mensch.
+#
+# Der letzte Eintrag zu einem Titel gewinnt — deshalb stehen die Korrekturen
+# hier unten.
+
+# My Hero Academia: „staffel 6,1 hat deutsche synchro, staffel 7,5,4,3,2 keine".
+# Alle sieben teilen sich die Adresse 80135674, die Meldung setzte sie deshalb
+# gemeinsam auf „kein Deutsch".
+- anilistId: 21459
+  title: My Hero Academia
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: 'Staffel 1 mit deutscher Tonspur; Staffeln 2 bis 5 und 7 ohne'
+- anilistId: 139630
+  title: My Hero Academia – Staffel 6
+  platform: netflix
+  dub: true
+  url: https://www.netflix.com/title/80135674
+  checkedAt: '2026-08-22'
+  note: 'Staffel 6 mit deutscher Tonspur, unter derselben Netflix-Reihe wie Staffel 1'
+
+# Larva Island: „S1 folge 1-3 kein deutsch, folge 4-13 deutsch, staffel 2
+# deutsch komplett". Beide Staffeln liegen unter einer Adresse.
+- anilistId: 119837
+  title: Larva Island
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: 'Folgen 4 bis 13 mit deutscher Tonspur, Folgen 1 bis 3 ohne'
+- anilistId: 132477
+  title: Larva Island Season 2
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: 'Vollständig mit deutscher Tonspur'
+
+# „A little princess sara leitet auf main page weiter." Unsere Adresse zeigt auf
+# die saudi-arabische Fassung (netflix.com/sa-en/…) — von Deutschland aus
+# landet man auf der Startseite.
+- anilistId: 2547
+  title: A Little Princess Sara
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: 'Verweis führt auf die Startseite; unsere Adresse zeigt auf die Fassung für Saudi-Arabien'
+
+# „auf netflix gibt es nur staffel 1 und 2" — Staffel 3 und 4 sind dort nicht im
+# Angebot, nicht bloß ohne deutsche Fassung.
+- anilistId: 155645
+  title: Urusei Yatsura (2022) Seasons 3 & 4
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: 'Netflix führt nur Staffel 1 und 2; die tragen keine deutsche Tonspur'

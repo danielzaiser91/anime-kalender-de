@@ -1938,6 +1938,25 @@ function main(): void {
       return true
     })
   }
+  /**
+   * Verweise, die es nur von Hand gibt.
+   *
+   * Steht in `dub-confirmed.yaml` eine Adresse zu einer Plattform, die der
+   * Titel gar nicht führt, wird sie angelegt. Der Fall entsteht, wo ein
+   * Anbieter mehrere unserer Staffeln unter einer Reihe zeigt und die Quellen
+   * deshalb nur eine davon kennen.
+   */
+  let ergaenzt = 0
+  for (const title of titles.values()) {
+    for (const check of checks.values()) {
+      if (check.anilistId !== title.id || !check.url) continue
+      if (title.streams.some((s) => s.platform === check.platform)) continue
+      title.streams.push({ platform: check.platform, url: check.url, dub: check.dub })
+      ergaenzt++
+    }
+  }
+  if (ergaenzt) log(`${ergaenzt} Verweise aus geprüften Adressen ergänzt`)
+
   if (checks.size) {
     log(`${geprueft} geprüfte Synchro-Angaben übernommen, ${entfernt} tote Verweise entfernt (${checks.size} Prüfungen)`)
   }
