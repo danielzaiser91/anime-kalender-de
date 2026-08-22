@@ -38,7 +38,14 @@ import {
 } from './lib/adn-sprachen.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { beurteile } from './lib/crunchyroll-dub.ts'
-import { kennungAusZiel, staffelAuszaehlen } from './lib/crunchyroll-api.ts'
+import {
+  bucketLand,
+  hauptStaffeln,
+  kennungAusZiel,
+  ladeZugang,
+  nameNenntDeutsch,
+  staffelAuszaehlen,
+} from './lib/crunchyroll-api.ts'
 import {
   bestandAus,
   belegtDeutsch,
@@ -537,6 +544,68 @@ console.log('\nCrunchyroll: fremde Staffelfehler nicht nachbauen:')
   ])
   pruefe('Gast-Ansicht ohne Deutsch belegt nichts: kein Urteil', ohne.length === 0, ohne)
 
+  /**
+   * 1b) Dieselbe Auskunft, aber aus dem **US-Katalog** — weiterhin kein Urteil.
+   *
+   * Der Grund ist seit dem 22.08.2026 präziser als „Gast gegen Angemeldeter":
+   * Crunchyroll leitet die Region aus der IP ab, GitHub-Runner stehen in den
+   * USA, und dort trägt „Fairy Tail" durchgehend `ja-JP, en-US` — während
+   * Daniel in Deutschland 277 deutsche Folgen sieht. Alle 1.655 Folgen des
+   * Laufs vom 21.08.2026 tragen `eligible_region: "US"`.
+   *
+   * Ein Block **mit** Folgen macht daran nichts besser: Die Folgenliste ist
+   * vollständig, sie ist nur die falsche.
+   */
+  const ausUs = beurteile(
+    {
+      url: 'u',
+      katalog: 'us',
+      deutschImAngebot: false,
+      geprueftAm: '2026-08-21',
+      staffeln: [{ name: 'Fairy Tail', folgen: 175, kacheln: 175, deutsch: 0, fremd: 175 }],
+    },
+    [t(1, 175, 2009)],
+  )
+  pruefe('US-Katalog ohne de-DE: kein Urteil', ausUs.length === 0, ausUs)
+
+  /**
+   * 1c) Aus dem **deutschen** Katalog ist dasselbe Schweigen ein Nein.
+   *
+   * „Fairy Tail Final Season" trägt dort `ja-JP` und sonst nichts, während die
+   * ersten beiden Blöcke `de-DE` führen — genau der Stand, den Daniel von Hand
+   * gesehen hat (22.08.2026). Ein Katalog, der die deutsche Fassung der
+   * Nachbarstaffeln kennt und diese nicht, sagt etwas aus.
+   *
+   * Die Zusicherung bewacht beide Richtungen: Wer das `katalog`-Feld wegnimmt
+   * oder es hier weglässt, verliert einen belegten Befund; wer die Bedingung
+   * lockert, holt sich 426 unbelegte Neins zurück.
+   */
+  const ausDe = beurteile(
+    {
+      url: 'u',
+      katalog: 'de',
+      deutschImAngebot: false,
+      geprueftAm: '2026-08-22',
+      staffeln: [{ name: 'Fairy Tail Final Season', folgen: 51, kacheln: 51, deutsch: 0, fremd: 51 }],
+    },
+    [t(1, 51, 2018)],
+  )
+  pruefe(
+    'deutscher Katalog ohne de-DE: belegtes Nein',
+    ausDe.length === 1 && ausDe[0].dub === false,
+    ausDe,
+  )
+
+  /**
+   * 1d) Ohne gelesene Blöcke bleibt es auch im deutschen Katalog beim Schweigen.
+   *
+   * Eine leere Staffelliste heißt „diese Kennung führt hier nichts" — das ist
+   * eine Nichtauskunft und wird oben zu `nichtVerfuegbar` oder zu einem
+   * `fehler`, aber nie zu einer Aussage über die Tonspur.
+   */
+  const leerDe = beurteile({ url: 'u', katalog: 'de', deutschImAngebot: false, geprueftAm: '2026-08-22' }, [t(1, 12, 2020)])
+  pruefe('deutscher Katalog ohne jeden Block: kein Urteil', leerDe.length === 0, leerDe)
+
   // 2) Alles vollständig deutsch — beide „ja", ebenfalls ohne Zuordnung.
   const voll = beurteile(
     {
@@ -750,6 +819,123 @@ console.log('\nCrunchyroll: fremde Staffelfehler nicht nachbauen:')
     { versions: [version('ja-JP', 'y', true), version('de-DE', 'yDEDE')] },
   ])
   pruefe('Folgen ohne Nummer bleiben getrennt', ohneNummer.jeFolge.size === 2, [...ohneNummer.jeFolge])
+}
+
+/**
+ * Der deutsche Katalog führt je Tonspur eine eigene Staffel.
+ *
+ * Der echte Fall, gemessen am 22.08.2026: „Fairy Tail" liefert über
+ * `/cms/v2/DE/M2/-/seasons` **fünf** Blöcke statt der drei aus `/content/v2` —
+ * zu den Staffeln 1 und 2 kommt je ein Block „(German Dub)". Ungefiltert zählte
+ * die Serie dieselben Folgen zweimal, und `beurteile()` legte unsere Staffeln
+ * an Blöcken an, die es als eigene Staffeln gar nicht gibt.
+ */
+{
+  console.log('\n9) Crunchyroll: je Tonspur eine Staffel — wieder zusammenlegen')
+  const st = (id: string, title: string, original: string, deutsch?: string) => ({
+    id,
+    title,
+    slug_title: title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+    versions: [
+      { audio_locale: 'ja-JP', guid: original, original: true },
+      ...(deutsch ? [{ audio_locale: 'de-DE', guid: deutsch, original: false }] : []),
+    ],
+  })
+  const fairyTail = [
+    st('GRWEC397X', 'Fairy Tail (German Dub)', 'GYQ4KKN16', 'GRWEC397X'),
+    st('GYQ4KKN16', 'Fairy Tail', 'GYQ4KKN16', 'GRWEC397X'),
+    st('G65VCD2G9', 'Fairy Tail Series 2 (German Dub)', 'GR5VKXN8R', 'G65VCD2G9'),
+    st('GR5VKXN8R', 'Fairy Tail Staffel 2', 'GR5VKXN8R', 'G65VCD2G9'),
+    st('GY5PJVE7Y', 'Fairy Tail Final Season', 'GY5PJVE7Y'),
+  ]
+  const haupt = hauptStaffeln(fairyTail)
+  pruefe('aus fünf Blöcken werden drei', haupt.length === 3, haupt.map((s) => s.title))
+  /**
+   * Genommen wird der **Originalblock**, nicht der deutsche.
+   *
+   * Der deutsche Block enthält nur die Folgen, die es deutsch gibt — er wäre
+   * immer zu 100 Prozent deutsch, und „15 von 17" ließe sich daran nie ablesen.
+   * Am Originalblock hängt die vollständige Folgenliste, und jede Folge nennt
+   * in ihrem eigenen `versions`, ob es sie deutsch gibt.
+   */
+  pruefe(
+    'gewählt ist je Paar der Originalblock',
+    haupt.map((s) => s.id).join(',') === 'GYQ4KKN16,GR5VKXN8R,GY5PJVE7Y',
+    haupt.map((s) => s.id),
+  )
+  // Fehlt der Originalblock im Katalog, bleibt der vorhandene Block stehen —
+  // sonst fiele eine Staffel ersatzlos aus der Zählung.
+  const nurDub = hauptStaffeln([st('GRWEC397X', 'Nur die Synchro', 'GYQ4KKN16', 'GRWEC397X')])
+  pruefe('ohne Originalblock bleibt der vorhandene', nurDub.length === 1 && nurDub[0].id === 'GRWEC397X', nurDub)
+
+  /**
+   * Der Name ist die Kontrolle, `versions` ist der Beleg.
+   *
+   * Er darf nie selbst entscheiden: „German" im Titel eines Blocks sagt nichts
+   * darüber, welche seiner Folgen deutsch vorliegen, und ein Block ohne diesen
+   * Zusatz kann die deutsche Fassung trotzdem führen.
+   */
+  pruefe('„(German Dub)" wird als Nennung erkannt', nameNenntDeutsch('Fairy Tail (German Dub)'))
+  pruefe('der Slug genügt auch', nameNenntDeutsch(undefined, 'fairy-tail-german-dub'))
+  pruefe('ein gewöhnlicher Staffelname nennt nichts', !nameNenntDeutsch('Fairy Tail Staffel 2', 'fairy-tail-series-2'))
+}
+
+/**
+ * Ohne gültiges Zugangspaket wird nicht abgerufen — und schon gar nicht geraten.
+ *
+ * Die Regel, um die es geht: Ein Lauf, der unbemerkt die falsche Region liest,
+ * ist schlimmer als keiner. Er schreibt Befunde in den Datensatz, die für
+ * Deutschland nichts belegen, und niemand sieht es der Datei an. Deshalb prüft
+ * `ladeZugang()` vor dem ersten Abruf, und deshalb wirft es, statt etwas
+ * zurückzugeben.
+ */
+{
+  console.log('\n10) Crunchyroll-Zugangspaket: fehlt oder abgelaufen heißt Abbruch')
+  const paket = (gueltigBis: string) =>
+    JSON.stringify({
+      land: 'DE',
+      bucket: '/DE/M2/-',
+      policy: 'p',
+      signature: 's',
+      key_pair_id: 'k',
+      gueltig_bis: gueltigBis,
+    })
+  const wirft = (roh: string | undefined): string | undefined => {
+    try {
+      ladeZugang(roh)
+      return undefined
+    } catch (err) {
+      return (err as Error).message
+    }
+  }
+  // Leerzeichenkette statt `undefined`: Ein weggelassenes Argument greift auf
+  // `process.env.CR_ZUGANG` zurück, und im CI ist das gesetzt.
+  pruefe('ungesetztes CR_ZUGANG: Abbruch', (wirft('') ?? '').includes('Kein Zugangspaket'), wirft(''))
+  pruefe('CR_ZUGANG aus Leerzeichen: Abbruch', wirft('   ') !== undefined)
+  pruefe('kaputtes JSON: Abbruch', (wirft('{nope') ?? '').includes('kein JSON'), wirft('{nope'))
+  pruefe(
+    'unvollständiges Paket: Abbruch mit Namen des fehlenden Feldes',
+    (wirft(JSON.stringify({ land: 'DE', bucket: '/DE/M2/-' })) ?? '').includes('signature'),
+    wirft(JSON.stringify({ land: 'DE', bucket: '/DE/M2/-' })),
+  )
+  const abgelaufen = wirft(paket('2020-01-01T00:00:00Z'))
+  pruefe(
+    'abgelaufenes Paket: Abbruch mit dem Befehl zum Erneuern',
+    (abgelaufen ?? '').includes('abgelaufen') && (abgelaufen ?? '').includes('cr-zugang-holen.mjs'),
+    abgelaufen,
+  )
+  const gueltig = new Date(Date.now() + 3600_000).toISOString()
+  pruefe('gültiges Paket kommt durch', ladeZugang(paket(gueltig)).bucket === '/DE/M2/-')
+
+  /**
+   * Die Region steht im **Bucket**, nicht im Feld daneben.
+   *
+   * Unterschrieben ist der Pfad `/DE/M2/-`; `land` ist eine Beigabe aus der
+   * Token-Antwort. Wo beide auseinandergehen, gilt die Signatur — sie ist es,
+   * die den Katalog öffnet.
+   */
+  pruefe('das Land kommt aus dem Bucket', bucketLand('/DE/M2/-') === 'DE', bucketLand('/DE/M2/-'))
+  pruefe('ein Bucket ohne Land liefert nichts', bucketLand('/M2/-') === undefined, bucketLand('/M2/-'))
 }
 
 /**

@@ -172,9 +172,9 @@ Zwei Folgen daraus:
     liefern vollständige Folgenlisten, während die deutsche Seite „Leider sind die Videos dieser
     Serie nicht mehr verfügbar" zeigt.
 
-  Deshalb steigt `beurteile()` bei `deutschImAngebot: false` aus, und das bleibt so, solange die
-  Abrufe nicht aus deutscher Sicht kommen. Im ausgelieferten Datensatz steht bei **keinem** der
-  1.116 Crunchyroll-Verweise ein `dub: false` — die Regel hat gehalten.
+  Deshalb steigt `beurteile()` bei `deutschImAngebot: false` aus — **außer** der Eintrag trägt
+  `katalog: 'de'` (siehe den nächsten Abschnitt). Im ausgelieferten Datensatz steht bei **keinem**
+  der 1.116 Crunchyroll-Verweise ein `dub: false` — die Regel hat gehalten.
 
   **Verworfen, weil gemessen:** `availability_ends` taugt nicht als Ersatz. Dragon Ball (weg)
   und JoJo (sichtbar) tragen beide den 31.12.2025; von 592 Serien hätten 445 als „abgelaufen"
@@ -213,6 +213,44 @@ Zwei Folgen daraus:
   `CR_ZUGANG`. **Muss auf einem Rechner in Deutschland laufen** und ist nach einem Tag
   wertlos — ein Lauf, der es braucht, holt sich also entweder ein frisches oder meldet, dass
   seines abgelaufen ist.
+
+- **Aus dem deutschen Katalog wird ein fehlendes `de-DE` zum Beleg — aus keinem anderen.** Seit
+  dem 22.08.2026 läuft `data:cr-dub` über die beta-api mit diesem Paket, und jeder Eintrag trägt
+  `katalog`. Nur bei `'de'` macht `beurteile()` daraus ein `dub: false`; alles ohne belegte
+  Region (der Altbestand, der Browser-Weg hinter `--browser`) bleibt bei der Vorsichtsregel.
+  Fehlt das Paket oder ist es abgelaufen, **bricht der Lauf ab** und weicht nicht still auf den
+  US-Katalog aus: Ein Lauf, der unbemerkt die falsche Region liest, ist schlimmer als keiner.
+
+  Gemessen an 60 Serien (`docs/messung-crunchyroll-de-katalog.md`, Stichprobe geschichtet nach
+  bisherigem Befund):
+
+  | | Zahl |
+  |---|---|
+  | „kein Deutsch", in Wahrheit deutsch | 3 von 32 |
+  | „kein Deutsch", jetzt **belegt** | 10 von 32 |
+  | Verweise mit belegtem Urteil | 20 → 38 |
+  | im deutschen Katalog gar nicht geführt | 25 von 60 |
+
+  Drei Einzelheiten, die man beim Weiterbauen braucht:
+
+  - **Der ältere CMS-Pfad führt je Tonspur eine eigene Staffel.** „Tower of God" hat dort 18
+    Blöcke für zwei Staffeln, einen je Sprache. `hauptStaffeln()` legt sie über `original` in
+    `versions` wieder zusammen und nimmt den **Originalblock** — nur an ihm hängt die
+    vollständige Folgenliste. Am deutschen Block wäre jede Staffel zu 100 Prozent deutsch, und
+    „15 von 17" ließe sich nie mehr ablesen.
+  - **Der Namenszusatz „(German Dub)" ist die Kontrolle, nicht der Beleg — und er fehlt meistens.**
+    Bei älteren Titeln trägt die Synchronfassung ihn („Fairy Tail (German Dub)", „Michiko &
+    Hatchin (German Dub)"), bei neueren heißen alle neun Sprachblöcke gleich („Staffel 1").
+    Sein Fehlen ist deshalb Schweigen und kein Widerspruch; nur die Gegenrichtung — Name nennt
+    Deutsch, `versions` kennt es nicht — wird festgehalten, und dort gewinnt `versions`.
+  - **„Kennt der deutsche Katalog nicht" ist nicht `nichtVerfuegbar`.** 25 der 60 Serien
+    antworten mit HTTP 200 und `total: 0`; „Trigun", „Soul Eater" und „Spice and Wolf" gibt es
+    hier schlicht nicht. Daraus einen Verweis zu **entfernen** verlangte einen zweiten Beleg,
+    und der zweite Beleg wäre Crunchyrolls eigene Fehlerseite — die ein Cloud-Lauf weiterhin
+    aus US-Sicht liest. Umgekehrt gilt dasselbe: „Flowers of Evil" und „Digimon Savers" stehen
+    im Bestand als `nichtVerfuegbar`, weil die **US-Seite** das Banner zeigte; der deutsche
+    Katalog führt beide, „Flowers of Evil" mit 13 deutschen Folgen. Wo eine Serienkennung
+    bekannt ist, entscheidet deshalb der Katalog und nicht die Seite.
 - **Netflix gibt die Sprachen erst mit dem Player heraus — gemessen, nicht vermutet.** Am
   22.08.2026 auf einer offenen Titelseite mit zwei Konsolen-Skripten geprüft:
   `models.graphql.data` umfasst 6.797 Zeichen und enthält Profile und Benachrichtigungen, null
