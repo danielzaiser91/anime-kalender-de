@@ -310,6 +310,18 @@
     )
   }
 
-  setInterval(melden, 1500)
+  /**
+   * Vier Blicke pro Sekunde statt einem alle anderthalb.
+   *
+   * Daniel am 22.08.2026: „der text sollte schneller den echten zustand
+   * anzeigen, da ist irgendeine random verzögerung eingebaut." Die Verzögerung
+   * war nicht zufällig, sondern genau dieser Takt — zwischen dem Umschalten der
+   * Tonspur und der nächsten Prüfung lagen bis zu 1,5 Sekunden, und so lange
+   * zeigte der Knopf den alten Stand.
+   *
+   * Der Preis ist gering: Gelesen wird die Tonspurliste des Players und eine
+   * Überschrift, kein Netzabruf.
+   */
+  setInterval(melden, 250)
   melden()
 })()

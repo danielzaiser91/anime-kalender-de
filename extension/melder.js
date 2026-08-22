@@ -284,14 +284,22 @@ async function melden({ automatisch = false } = {}) {
 
 function zeigeErgebnis(text, gutgegangen) {
   if (!knopf) return
-  const alt = knopf.textContent
   knopf.textContent = text
   knopf.classList.add(gutgegangen ? 'ak-erfolg' : 'ak-fehler')
-  setTimeout(() => {
-    knopf.classList.remove('ak-erfolg', 'ak-fehler')
-    knopf.textContent = alt
-  }, 3500)
+  clearTimeout(zurueckstellen)
+  /**
+   * Danach den **jetzigen** Zustand zeigen, nicht den gemerkten alten.
+   *
+   * Vorher hielt diese Funktion den Text fest, der beim Melden dastand, und
+   * setzte ihn dreieinhalb Sekunden später zurück — inzwischen hatte der Nutzer
+   * aber längst die Folge gewechselt, und der Knopf log für die nächste Runde.
+   */
+  zurueckstellen = setTimeout(() => {
+    knopf?.classList.remove('ak-erfolg', 'ak-fehler')
+    knopfZeigen()
+  }, 2000)
 }
+let zurueckstellen = null
 
 function knopfEntfernen() {
   if (knopf) {
@@ -378,9 +386,23 @@ function istErledigt(id, kuerzel) {
   return Boolean(erledigt[String(id)]?.includes(kuerzel))
 }
 
-/** Eine Meldung als erledigt vermerken — für die Anzeige, nicht als Beleg. */
+/**
+ * Eine Meldung als erledigt vermerken — für die Anzeige, nicht als Beleg.
+ *
+ * **Die Staffel darf fehlen.** Netflix nennt sie nicht überall: Bei einer Serie
+ * mit nur einer Staffel steht in der Titelzeile bloß „Flg. 3", und der erste
+ * Anlauf verwarf solche Meldungen still — Daniel meldete zwei Folgen von
+ * 7SEEDS und sah die Liste danach unverändert (22.08.2026). Hat der Titel
+ * genau **eine** offene Staffel, ist sie gemeint; gibt es mehrere, bleibt es
+ * ohne Vermerk, denn dann wäre jede Wahl geraten.
+ */
 async function merkeErledigt(id, staffel, folge) {
-  if (!id || !staffel || !folge) return
+  if (!id || !folge) return
+  if (!staffel) {
+    const offene = (offeneTitel[String(id)]?.staffeln ?? []).filter((x) => x.offen)
+    if (offene.length !== 1) return
+    staffel = offene[0].nr
+  }
   const schluessel = String(id)
   const kuerzel = folgenKuerzel(staffel, folge)
   const bisher = erledigt[schluessel] ?? []
@@ -435,10 +457,23 @@ function beiEscape(e) {
  * jedem Wechsel neu auf, und was daran hängt, verschwindet mit ihr. Dieser
  * Dialog steht für sich, direkt am `body`.
  */
-function dialogOeffnen() {
+async function dialogOeffnen() {
   if (dialog) {
     dialogSchliessen()
     return
+  }
+  /**
+   * Den Stand frisch holen, nicht den vom Seitenaufbau nehmen.
+   *
+   * Gemeldet wird im Player (`/watch/…`), nachgesehen auf der Stöberseite —
+   * das sind zwei Seitenaufrufe mit je eigenem Skript. Was der eine speichert,
+   * kennt der andere erst nach einem Blick in den Speicher.
+   */
+  try {
+    const x = await chrome.storage.local.get('erledigt')
+    erledigt = x.erledigt ?? {}
+  } catch {
+    /* Dann eben mit dem Stand von vorhin. */
   }
   dialog = document.createElement('div')
   dialog.className = 'ak-dialog'
