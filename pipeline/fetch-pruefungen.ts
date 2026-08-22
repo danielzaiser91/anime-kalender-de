@@ -19,7 +19,10 @@ import { resolve } from 'node:path'
 import {
   beschreibeBereiche,
   bildeBereiche,
+  ordneMeldungZu,
+  ordneNachStaffelliste,
   verteileAufStaffeln,
+  type AnbieterStaffel,
   type Staffeleintrag,
 } from './lib/folgenbereiche.ts'
 import { log, ROOT, warn } from './lib/util.ts'
@@ -40,6 +43,7 @@ interface Pruefung {
   folgen: number | null
   folge_nr: number | null
   staffel: number | null
+  staffeln: string | null
   serientitel: string | null
   notiz: string | null
   gemeldet_am: string
@@ -204,13 +208,90 @@ for (const gruppe of jeAdresse.values()) {
    * geprüft ausgewiesen, obwohl niemand sie angesehen hat.
    */
   const staffeln = staffelnDerAdresse(ids)
-  const verteilbar = bereiche.length > 0 && staffeln.length > 1
+
+  /**
+   * Was der Anbieter selbst über seine Staffeln sagt — wenn er es gesagt hat.
+   *
+   * Seit Erweiterung v0.23.0 liest der Browser die Metadaten der Seite mit und
+   * schickt die Aufteilung mit. Sie schlägt jede Rechnung: Netflix zählt bei
+   * Jujutsu Kaisen über die Staffeln hinweg durch (bis 59), bei Sword Art
+   * Online fängt jede Staffel wieder bei 1 an. Wer das umrechnet statt es zu
+   * lesen, schreibt Befunde an die falsche Staffel.
+   */
+  const anbieterStaffeln: AnbieterStaffel[] | undefined = (() => {
+    const roh = [...gruppe].reverse().find((x) => x.staffeln)?.staffeln
+    if (!roh) return undefined
+    try {
+      const liste = JSON.parse(roh) as AnbieterStaffel[]
+      return Array.isArray(liste) && liste.length ? liste : undefined
+    } catch {
+      return undefined
+    }
+  })()
+
+  /**
+   * Die Meldungen den Staffeln zuschlagen, je eine Liste von Bereichen.
+   *
+   * Ohne die Aufteilung des Anbieters bleibt es beim alten Weg: Bereiche über
+   * die ganze Reihe, danach über die Folgenzahlen verteilt.
+   */
+  const jeStaffel = new Map<number, Array<{ folge: number; dub: boolean }>>()
+  if (anbieterStaffeln && staffeln.length) {
+    for (const m of gruppe) {
+      if (m.befund === 'weg' || m.folge_nr == null || m.folge_nr < 1) continue
+      const treffer = ordneMeldungZu(
+        { folge: m.folge_nr, staffel: m.staffel },
+        staffeln,
+        anbieterStaffeln,
+      )
+      if (!treffer) continue
+      const bisher = jeStaffel.get(treffer.staffel.id) ?? []
+      bisher.push({ folge: treffer.folgeInStaffel, dub: m.befund === 'dub' })
+      jeStaffel.set(treffer.staffel.id, bisher)
+    }
+  }
+
+  /**
+   * Unsere Einträge, für die der Anbieter gar keine Staffel führt.
+   *
+   * Bei Sword Art Online meldet Netflix zwei Staffeln (25 und 24 Folgen),
+   * unser Datensatz führt vier Einträge an derselben Adresse. Die beiden
+   * „War of Underworld"-Staffeln laufen dort also nicht — der Verweis zeigt
+   * auf eine Seite, die sie nicht enthält. Das ist Netflix' eigene Auskunft,
+   * kein Rückschluss, und wird wie die Tonspuren behandelt.
+   */
+  const nichtGefuehrt = new Set(
+    anbieterStaffeln && staffeln.length
+      ? ordneNachStaffelliste(anbieterStaffeln, staffeln).ohneEntsprechung.map((x) => x.id)
+      : [],
+  )
+
+  const verteilbar = bereiche.length > 0 && staffeln.length > 1 && !anbieterStaffeln
 
   for (const id of ids) {
     const t = liste.find((x) => x.id === id)
     /** Die Bereiche dieser Staffel, in ihrer eigenen Zählung. */
     let eigene = bereiche
-    if (verteilbar) {
+    if (nichtGefuehrt.has(id)) {
+      // Der Anbieter führt diese Staffel nicht — dann ist der Verweis falsch,
+      // und über den deutschen Ton ist damit nichts gesagt.
+      zeilen.push('')
+      zeilen.push(`- anilistId: ${id}`)
+      if (t?.titleDe || t?.titleEn) zeilen.push(`  title: ${JSON.stringify(t.titleDe ?? t.titleEn)}`)
+      zeilen.push(`  platform: ${p.plattform}`)
+      zeilen.push('  available: false')
+      zeilen.push(`  checkedAt: '${berlinDatum(p.gemeldet_am)}'`)
+      zeilen.push(
+        `  note: ${JSON.stringify(`Der Anbieter führt unter dieser Adresse nur ${anbieterStaffeln!.length} Staffel(n); diese ist nicht darunter`)}`,
+      )
+      uebernommen++
+      continue
+    }
+    if (anbieterStaffeln) {
+      const meldungen = jeStaffel.get(id)
+      if (!meldungen?.length) continue
+      eigene = bildeBereiche(meldungen).bereiche
+    } else if (verteilbar) {
       eigene = bereiche
         .flatMap((b) => verteileAufStaffeln(b, staffeln))
         .filter((v) => v.staffel.id === id)

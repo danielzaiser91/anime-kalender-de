@@ -36,7 +36,14 @@ import {
   zerlegeAdnAdresse,
   type AdnRohVideo,
 } from './lib/adn-sprachen.ts'
-import { beschreibeBereiche, bildeBereiche, ordneFolgeZu, verteileAufStaffeln } from './lib/folgenbereiche.ts'
+import {
+  beschreibeBereiche,
+  bildeBereiche,
+  ordneFolgeZu,
+  ordneMeldungZu,
+  ordneNachStaffelliste,
+  verteileAufStaffeln,
+} from './lib/folgenbereiche.ts'
 import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
 import { dubGrenze } from '../shared/dub-grenze.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
@@ -1586,6 +1593,74 @@ console.log('\nStreaming Availability API:')
     plattformAusAdresse('https://example.com/irgendwas') === undefined)
   pruefe('Unterdomänen zählen mit',
     plattformAusAdresse('https://beta.crunchyroll.com/de/series/X') === 'crunchyroll')
+}
+
+/**
+ * Die Staffelliste des Anbieters schlägt jede Rechnung.
+ */
+{
+  console.log('\nGemeldete Staffelliste statt Umrechnung')
+
+  // Netflix' eigene Auskunft zu Sword Art Online (Daniel, 22.08.2026).
+  const netflixSao = [
+    { seq: 1, name: 'St. 1', folgen: 25, erste: 1 },
+    { seq: 2, name: 'St. 2', folgen: 24, erste: 1 },
+  ]
+  const unsereSao = [
+    { id: 11757, titel: 'Sword Art Online', folgen: 25 },
+    { id: 100182, titel: 'Alicization', folgen: 24 },
+    { id: 108759, titel: 'War of Underworld', folgen: 12 },
+    { id: 114308, titel: 'War of Underworld Part 2', folgen: 11 },
+  ]
+
+  const sao = ordneNachStaffelliste(netflixSao, unsereSao)
+  pruefe('die ersten beiden Staffeln finden ihren Eintrag',
+    sao.paare.length === 2 && sao.paare[1]?.unser.id === 100182, sao.paare.map((p) => p.unser.id))
+  pruefe('was Netflix nicht führt, bleibt ohne Entsprechung',
+    sao.ohneEntsprechung.length === 2 && sao.ohneEntsprechung[0]?.id === 108759,
+    sao.ohneEntsprechung.map((s) => s.id))
+
+  /**
+   * Der Kern: Netflix zählt bei SAO **nicht** durch (`erste: 1` in beiden
+   * Staffeln). Folge 24 der zweiten Staffel ist Alicizations letzte — die
+   * Umrechnung hätte daraus Folge 24 der **ersten** Staffel gemacht.
+   */
+  const daniel = ordneMeldungZu({ folge: 24, staffel: 2 }, unsereSao, netflixSao)
+  pruefe('Daniels Meldung landet bei Alicization, Folge 24',
+    daniel?.staffel.id === 100182 && daniel.folgeInStaffel === 24, daniel)
+  const ohneListe = ordneMeldungZu({ folge: 24, staffel: 2 }, unsereSao)
+  pruefe('ohne Staffelliste hätte dieselbe Meldung die erste Staffel getroffen',
+    ohneListe?.staffel.id === 11757, ohneListe)
+
+  // Jujutsu Kaisen, der umgekehrte Fall: Netflix zählt durch.
+  const jjkNetflix = [
+    { seq: 1, name: 'St. 1', folgen: 24, erste: 1 },
+    { seq: 2, name: 'St. 2', folgen: 23, erste: 25 },
+    { seq: 3, name: 'St. 3', folgen: 12, erste: 48 },
+  ]
+  const jjkUnser = [
+    { id: 113415, titel: 'JJK', folgen: 24 },
+    { id: 145064, titel: 'JJK 2', folgen: 23 },
+    { id: 172463, titel: 'JJK 3', folgen: 12 },
+  ]
+  const jjk = ordneMeldungZu({ folge: 59, staffel: 3 }, jjkUnser, jjkNetflix)
+  pruefe('durchgezählte Folge 59 wird zur zwölften der dritten Staffel',
+    jjk?.staffel.id === 172463 && jjk.folgeInStaffel === 12, jjk)
+
+  /**
+   * Und die Zusicherung, die eine falsche Zuordnung verhindert: Stimmen die
+   * Folgenzahlen nicht überein, ist die Reihenfolge falsch — dann wird **gar
+   * nichts** zugeordnet. Ein falsch zugeordneter Befund sieht aus wie ein
+   * geprüfter.
+   */
+  const schief = ordneNachStaffelliste(
+    [{ seq: 1, name: 'St. 1', folgen: 13, erste: 1 }],
+    [{ id: 1, titel: 'irgendwas', folgen: 25 }],
+  )
+  pruefe('abweichende Folgenzahlen verhindern jede Zuordnung',
+    schief.paare.length === 0 && Boolean(schief.problem), schief)
+  pruefe('eine Folge außerhalb der Staffel wird nicht zugeordnet',
+    ordneMeldungZu({ folge: 99, staffel: 2 }, unsereSao, netflixSao) === null)
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')

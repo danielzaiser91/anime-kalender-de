@@ -1616,3 +1616,31 @@
   checkedAt: '2026-08-22'
   note: >-
     Adresse leitet auf die Startseite um, Suche zeigt keine Kachel der Serie.
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-22 ---
+
+- anilistId: 100182
+  title: "Sword Art Online: Alicization"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 24
+      to: 24
+      dub: true
+      checked: [24]
+  checkedAt: '2026-08-22'
+  note: "Folge 24 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 108759
+  title: "Sword Art Online: Alicization - War of Underworld"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Der Anbieter führt unter dieser Adresse nur 2 Staffel(n); diese ist nicht darunter"
+
+- anilistId: 114308
+  title: "Sword Art Online: Alicization - War of Underworld Part 2"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Der Anbieter führt unter dieser Adresse nur 2 Staffel(n); diese ist nicht darunter"

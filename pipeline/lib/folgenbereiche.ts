@@ -162,3 +162,81 @@ export function verteileAufStaffeln(
   }
   return ergebnis
 }
+
+/** Eine Staffel, wie der Anbieter sie selbst meldet. */
+export interface AnbieterStaffel {
+  seq: number
+  name: string
+  folgen: number
+  /** Die Nummer der ersten Folge — 1, wenn der Anbieter je Staffel neu zählt. */
+  erste: number
+}
+
+/**
+ * Die Staffelliste des Anbieters auf unsere Einträge legen.
+ *
+ * **Das schlägt jede Rechnung.** Bis zum 22.08.2026 rechnete `ordneFolgeZu` die
+ * Folgennummer über die Staffelgrenzen hinweg um, weil Netflix bei Jujutsu
+ * Kaisen durchzählt (bis 59). Bei Sword Art Online tut es das **nicht**: Die
+ * gemeldete Liste ist `[{seq:1, folgen:25, erste:1}, {seq:2, folgen:24,
+ * erste:1}]` — jede Staffel fängt wieder bei 1 an. Die Zählweise ist je Serie
+ * verschieden, und geraten hätte hier eine Meldung an die falsche Staffel
+ * geschrieben.
+ *
+ * Liegt die Liste vor, wird also nicht mehr gerechnet, sondern gelesen.
+ *
+ * **Die Folgenzahl ist die Kontrolle**, nicht bloß Beiwerk: Stimmt sie bei
+ * einem Paar nicht überein, ist die Reihenfolge falsch, und dann wird gar
+ * nichts zugeordnet. Ein falsch zugeordneter Befund sieht aus wie ein geprüfter.
+ */
+export function ordneNachStaffelliste(
+  anbieter: AnbieterStaffel[],
+  unsere: Staffeleintrag[],
+): {
+  paare: Array<{ anbieter: AnbieterStaffel; unser: Staffeleintrag }>
+  /** Unsere Einträge, für die der Anbieter gar keine Staffel führt. */
+  ohneEntsprechung: Staffeleintrag[]
+  /** Warum keine Zuordnung zustande kam — leer, wenn alles passt. */
+  problem?: string
+} {
+  const sortiert = [...anbieter].sort((a, b) => a.seq - b.seq)
+  const paare: Array<{ anbieter: AnbieterStaffel; unser: Staffeleintrag }> = []
+  for (let i = 0; i < Math.min(sortiert.length, unsere.length); i++) {
+    const a = sortiert[i]!
+    const u = unsere[i]!
+    if (a.folgen !== u.folgen) {
+      return {
+        paare: [],
+        ohneEntsprechung: [],
+        problem: `Staffel ${a.seq} hat beim Anbieter ${a.folgen} Folgen, bei uns ${u.folgen} (${u.titel})`,
+      }
+    }
+    paare.push({ anbieter: a, unser: u })
+  }
+  return { paare, ohneEntsprechung: unsere.slice(sortiert.length) }
+}
+
+/**
+ * Eine gemeldete Folge auf unseren Eintrag bringen — der ganze Weg auf einmal.
+ *
+ * Kennt der Anbieter seine Staffeln, entscheidet seine Liste. Sonst bleibt die
+ * Umrechnung über die Folgenzahlen, und die trägt nur, wo durchgezählt wird.
+ */
+export function ordneMeldungZu(
+  meldung: { folge: number; staffel?: number | null },
+  unsere: Staffeleintrag[],
+  anbieter?: AnbieterStaffel[],
+): { staffel: Staffeleintrag; folgeInStaffel: number } | null {
+  if (anbieter?.length && meldung.staffel) {
+    const { paare } = ordneNachStaffelliste(anbieter, unsere)
+    const paar = paare.find((p) => p.anbieter.seq === meldung.staffel)
+    if (!paar) return null
+    // `erste` sagt, wo die Zählung dieser Staffel beginnt — bei 1, wenn der
+    // Anbieter je Staffel neu zählt, sonst beim Fortlauf.
+    const inStaffel = meldung.folge - paar.anbieter.erste + 1
+    if (inStaffel < 1 || inStaffel > paar.unser.folgen) return null
+    return { staffel: paar.unser, folgeInStaffel: inStaffel }
+  }
+  const ergebnis = ordneFolgeZu(meldung.folge, unsere)
+  return ergebnis ? { staffel: ergebnis.staffel, folgeInStaffel: ergebnis.folgeInStaffel } : null
+}
