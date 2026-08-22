@@ -80,14 +80,25 @@ for (const [id, eintraege] of jeAdresse) {
     // denn genau die steht im Player und landet später im Vermerk.
     offen[id] = {
       titel: sortiert[0].t.titleDe ?? sortiert[0].t.titleEn ?? sortiert[0].t.titleRomaji ?? '',
-      staffeln: gemeldet.map((s) => ({
+      staffeln: gemeldet.map((s, i) => ({
         nr: s.seq,
         name: s.name ?? `Staffel ${s.seq}`,
         folgen: s.folgen,
         // Die Nummer der ersten Folge — bei durchgezählten Reihen nicht 1.
         erste: s.erste ?? 1,
         film: eintraege.length === 1 && eintraege[0].t.format === 'MOVIE',
-        offen: true,
+        /**
+         * Ob diese Staffel noch offen ist, weiß nur unser Datensatz.
+         *
+         * Der Anbieter sagt, **wie** er teilt — nicht, was wir schon geprüft
+         * haben. Ohne diesen Abgleich standen bei Aggretsuko plötzlich wieder
+         * alle fünf Staffeln da, obwohl zwei davon belegt sind (22.08.2026).
+         *
+         * Gepaart wird der Reihe nach. Reicht unsere Liste nicht so weit,
+         * gilt die Staffel als offen: Lieber einmal zu viel gefragt als eine
+         * Lücke, von der niemand weiß.
+         */
+        offen: sortiert[i] ? sortiert[i].dub === undefined : true,
       })),
       laut: 'anbieter',
     }

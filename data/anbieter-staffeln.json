@@ -1,4 +1,56 @@
 {
+ "80043576": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "St. 1",
+    "folgen": 13,
+    "erste": 1
+   },
+   {
+    "seq": 2,
+    "name": "St. 2",
+    "folgen": 13,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-08-22"
+ },
+ "80198505": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "St. 1",
+    "folgen": 10,
+    "erste": 1
+   },
+   {
+    "seq": 2,
+    "name": "St. 2",
+    "folgen": 10,
+    "erste": 1
+   },
+   {
+    "seq": 3,
+    "name": "St. 3",
+    "folgen": 10,
+    "erste": 1
+   },
+   {
+    "seq": 4,
+    "name": "St. 4",
+    "folgen": 10,
+    "erste": 1
+   },
+   {
+    "seq": 5,
+    "name": "St. 5",
+    "folgen": 10,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-08-22"
+ },
  "81054847": {
   "staffeln": [
    {
