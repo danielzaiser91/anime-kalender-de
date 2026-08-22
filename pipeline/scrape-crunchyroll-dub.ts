@@ -75,6 +75,7 @@ import {
   CrunchyrollSeiten,
   ZugangspaketFehlt,
   beschaffeZugang,
+  bucketLand,
   type CrQuelle,
   type Tonspur,
 } from './lib/crunchyroll-api.ts'
@@ -531,6 +532,14 @@ async function main(): Promise<void> {
    */
   const zugang = SEITENANZEIGE || BROWSER ? undefined : await beschaffeZugang()
   if (zugang) log(`Zugangspaket für ${zugang.land}, Bucket ${zugang.bucket}, gültig bis ${zugang.gueltig_bis}`)
+  /**
+   * Aus welchem Katalog dieser Lauf fragt — schon hier, nicht erst bei `quelle`.
+   *
+   * Die Auswahl der Adressen weiter unten braucht die Antwort, und die läuft
+   * lange vor dem Aufbau der Quelle. Der Bucket ist unterschrieben, `land`
+   * steht nur daneben; im Zweifel gilt, was in der Signatur steht.
+   */
+  const katalogJetzt = zugang ? (bucketLand(zugang.bucket) ?? zugang.land).toLowerCase() : undefined
 
   const titles = readJson<Title[]>('public/data/titles.json', [])
   /**
@@ -583,6 +592,20 @@ async function main(): Promise<void> {
   const frisch = (u: string) => {
     const s = bestand.get(u)
     if (!s) return false
+    /**
+     * Ein Befund aus einem anderen Katalog ist keiner — egal wie jung er ist.
+     *
+     * Der Lauf vom 21.08.2026 lief von einem US-Runner und schrieb 172 Serien
+     * mit `katalog: "us"` fort. Diese Antworten sind nicht *veraltet*, sie
+     * beantworten eine **andere Frage**: „Fairy Tail" hat in Deutschland 277
+     * deutsche Folgen und in der US-Antwort keine einzige. Die Frist schützte
+     * sie trotzdem — vier Wochen lang wäre die falsche Auskunft stehen
+     * geblieben, obwohl ein deutscher Zugang längst da war.
+     *
+     * Deshalb entscheidet der Katalog **vor** dem Datum: Was aus einer anderen
+     * Region stammt als der Zugang, mit dem wir gerade fragen, kommt neu dran.
+     */
+    if (katalogJetzt && s.katalog && s.katalog !== katalogJetzt) return false
     if (NUR_FEHLER) return !s.fehler
     /**
      * „Nicht verfügbar" ist ein Befund, „hat nicht geantwortet" ist keiner.

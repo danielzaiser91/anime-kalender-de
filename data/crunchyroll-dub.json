@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-22T08:44:14.022Z",
+  "scrapedAt": "2026-08-22T15:20:20.978Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -18434,16 +18434,14 @@
     {
       "url": "https://www.amazon.de/dp/B0C9H2BQWM",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/amagi-brilliant-park/episode-14-800072?ssid=387020",
       "quelle": "api",
-      "geprueftAm": "2026-08-21",
-      "fehler": "keine Serienkennung hinter dieser Adresse",
-      "katalog": "us"
+      "geprueftAm": "2026-08-22",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     {
       "url": "https://www.crunchyroll.com/armed-girls-machiavellism/episode-13-799297?ssid=385722",

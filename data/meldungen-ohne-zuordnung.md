@@ -11,8 +11,8 @@ nicht, gehört die Zeile gestrichen.
 
 Stand: 2026-08-22
 
-| Anbieter | Gemeldete Adresse | Name laut Seite | Befund | Vorschlag |
-|---|---|---|---|---|
-| netflix | https://www.netflix.com/title/81567663 | Beyblade Burst Surge – Netflix | weg | #116786 Beyblade Burst Surge |
-| netflix | https://www.netflix.com/title/81670673 | Beyblade Burst QuadDrive – Netflix | weg | #130253 Beyblade Burst QuadDrive |
-| netflix | https://www.netflix.com/title/80237957 | Netflix | dub | — |
+| Anbieter | Gemeldete Adresse | Name laut Seite | Befund | Vorschlag | Zu tun |
+|---|---|---|---|---|---|
+| netflix | https://www.netflix.com/title/81567663 | Beyblade Burst Surge – Netflix | weg | #116786 Beyblade Burst Surge | nichts — wir führen dort keinen Verweis |
+| netflix | https://www.netflix.com/title/81670673 | Beyblade Burst QuadDrive – Netflix | weg | #130253 Beyblade Burst QuadDrive | nichts — wir führen dort keinen Verweis |
+| netflix | https://www.netflix.com/title/80237957 | Netflix | dub | — | Titel von Hand suchen |

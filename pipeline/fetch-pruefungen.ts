@@ -291,15 +291,31 @@ if (ohneZuordnung.length && !TROCKEN) {
     '',
     `Stand: ${heute}`,
     '',
-    '| Anbieter | Gemeldete Adresse | Name laut Seite | Befund | Vorschlag |',
-    '|---|---|---|---|---|',
+    '| Anbieter | Gemeldete Adresse | Name laut Seite | Befund | Vorschlag | Zu tun |',
+    '|---|---|---|---|---|---|',
   ]
   const tabelle = ohneZuordnung.map((o) => {
     const namen = o.vorschlag.map((id) => {
       const t = liste.find((x) => x.id === id)
       return `#${id} ${t?.titleDe ?? t?.titleEn ?? ''}`.trim()
     })
-    return `| ${o.plattform} | ${o.url} | ${o.name || '—'} | ${o.befund} | ${namen.join('<br>') || '—'} |`
+    // Ein „weg" an einem Titel, der diesen Anbieter ohnehin nicht führt, ist
+    // schon abgebildet — dann bleibt nichts zu tun, und das gehört dazu.
+    // Sonst liest jemand die Zeile, öffnet den Verweis und stellt fest, dass
+    // die Arbeit längst getan ist.
+    const erledigt =
+      o.befund === 'weg' &&
+      o.vorschlag.length > 0 &&
+      o.vorschlag.every((id) => {
+        const t = liste.find((x) => x.id === id)
+        return !t?.streams?.some((st) => st.platform === o.plattform)
+      })
+    const zuTun = !o.vorschlag.length
+      ? 'Titel von Hand suchen'
+      : erledigt
+        ? 'nichts — wir führen dort keinen Verweis'
+        : 'Vorschlag bestätigen, dann Adresse eintragen'
+    return `| ${o.plattform} | ${o.url} | ${o.name || '—'} | ${o.befund} | ${namen.join('<br>') || '—'} | ${zuTun} |`
   })
   writeFileSync(resolve(ROOT, 'data/meldungen-ohne-zuordnung.md'), [...kopf, ...tabelle, ''].join('\n'))
   log(`${ohneZuordnung.length} Meldung(en) ohne Zuordnung in data/meldungen-ohne-zuordnung.md`)
