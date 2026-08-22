@@ -608,6 +608,75 @@ jeder Seitenaufruf — und `page.url()` lieferte weiter die Adresse der Aufwärm
 jedem Aufruf wird auf `about:blank` geräumt, und die Aufwärmseite gilt nie als Ergebnis
 (`kennungAusZiel`, zugesichert in `check-logic.ts`).
 
+## Rechtliche Einordnung der Crunchyroll-Content-API (geprüft 22.08.2026)
+
+**Nutzungsbedingungen** — Fassung vom 22.08.2026 unter <https://www.crunchyroll.com/tos/>
+(Gatsby-Seite, Text nur nach dem Rendern sichtbar; deutsche Fassung `?lang=de`, wortgleich
+aufgebaut). **Kein Änderungsdatum im Dokument.** Drei Klauseln treffen uns, alle in
+**Abschnitt 5 „Access and Use of Services"**:
+
+> **Automated Access:** Employ any robot, spider, scraper, deep-link, mod, hack, exploit,
+> cheat utility, trainer, or other automated data gathering or extraction tool, program, or
+> algorithm to access, acquire, modify, copy, monitor, or otherwise interfere with any portion
+> of the Services or Content.
+
+> **Integration and Indexing:** Incorporate the Content into, or stream or retransmit the
+> Content via, any hardware or software application, or make it available via frames or in-line
+> links. Furthermore, you are strictly prohibited from creating, recreating, distributing, or
+> advertising an index of any significant portion of the Content without express written
+> authorization from Crunchyroll.
+
+> **Commercial Exploitation:** Build or operate a business utilizing the Services, whether or
+> not for profit.
+
+Dazu **Abschnitt 4**: Lizenz „solely for your personal, non-commercial purposes". Und der
+Einstieg: „By creating an Account, clicking ‚I agree', **or otherwise accessing or using any
+Service**, you are binding yourself to these Terms" — die Bedingungen greifen also auch ohne
+Konto. **Der Wortlaut deckt unser Vorgehen ab; ein Vertragsverstoß liegt vor.** Abschnitt 17
+nennt als Rechtsfolge ausschließlich, dass Crunchyroll Konten sperren darf („restrict, suspend,
+or terminate any Account for any reason at any time") — keine Vertragsstrafe.
+
+**robots.txt** (abgerufen 22.08.2026):
+- `www.crunchyroll.com/robots.txt` — 39 Zeilen, ein `User-agent: *`-Block. Gesperrt sind
+  `/showtag`, Suche, `/user`, `*/account`, `*/watchlist`, `*/history`, `*/crunchylists`,
+  `*/payments/`, `/vilos/` und Verwaltungspfade. **`/content/`, `/auth/`, `/index/` und `/cms/`
+  stehen nicht darauf.**
+- `beta-api.crunchyroll.com/robots.txt` — **HTTP 502** (Cloudflare, keine Datei). Nach
+  RFC 9309 §2.3.1.4 ist eine per 5xx unerreichbare robots.txt „undefined" und ein Crawler
+  „MUST assume complete disallow" — formal also ein Nein für die API-Domain, allerdings aus
+  einem Serverfehler heraus, nicht aus einer Absicht.
+
+**Belegte Folgen — nur Video, nie Metadaten.** Im Register `github/dmca` liegen 35
+Crunchyroll-Meldungen (2018 bis 2026-06). Ziel war **ausnahmslos** Wiedergabe, Download oder
+DRM-Umgehung: `Crunchy-DL/Crunchy-Downloader` (16.06.2026, ausdrücklich 17 U.S.C. §1201),
+`hayase-app`, `Dantotsu`, `aniyomi-extensions`, `powanime`, diverse Sora-Module. **Kein
+einziger Fall betrifft ein Projekt, das nur Metadaten liest.** `crunchy-labs/crunchy-cli`
+(634 Sterne) steht auf keiner Liste; es ist archiviert, weil Crunchyroll am 14.03.2024 die
+DRM-freien Streams abschaltete (Issue #362), nicht wegen einer Abmahnung.
+`crunchy-labs/crunchyroll-rs` wird weiterentwickelt (letzter Push 15.08.2026).
+`hyugogirubato/KeyDive` ist online — aber ein Widevine-Werkzeug und damit eine andere
+Rechtskategorie (§1201), die uns nicht berührt. Konto-Sperren wegen API-Nutzung: **keine
+belegte Meldung gefunden** (Suche über Issues beider crunchy-labs-Repos und Websuche).
+
+**Crunchyrolls eigene Auskunft zu IP-Sperren**
+([Hilfeartikel 18933076022676](https://help.crunchyroll.com/hc/en-us/articles/18933076022676-Why-was-my-IP-banned),
+abgerufen 22.08.2026) nennt als Ursachen VPN, Browser-Erweiterungen und geteilte Netze, als
+Abhilfe einen Router-Neustart für eine neue IP. **Automatisierung wird dort nicht erwähnt, eine
+Sperrdauer nicht genannt.** Ein dokumentiertes Rate Limit für die Content-API existiert nicht —
+weder offiziell noch in den inoffiziellen Doku-Repos.
+
+**Gemessen am 22.08.2026** (ein einzelner Abruf von Daniels Anschluss):
+- `POST /auth/v1/token` mit `Basic Y3Jfd2ViOg==` und `grant_type=client_id` → HTTP 200,
+  `expires_in: 3600`, JWT-Nutzteil `"anonymous_id": ""`, `"client_id": "cr_web"`.
+- **`"country": "DE"`** und CMS-Bucket **`/DE/M2/-`** — von hier aus kommt also die deutsche
+  Region ohne Konto. Der US-Befund vom 21.08. lag an den US-GitHub-Runnern, nicht am Verfahren.
+- Der CloudFront-Zugang aus `/index/v2` läuft **24 Stunden** (`expires`
+  `2026-08-23T08:25:55Z`). Die 403 vom 21.08.2026 nach ~25 Minuten war deshalb **keine
+  abgelaufene Signatur, sondern eine Drosselung an der Kante** — sie traf auch den
+  Token-Endpunkt und löste sich nach einer Viertelstunde von selbst.
+- Ein Direktabruf per `curl` gegen `beta-api.crunchyroll.com` funktioniert; nur
+  `www.crunchyroll.com` hängt hinter Cloudflares Bot-Sperre.
+
 ## Entscheidungen
 
 - **Die Regel „mindestens eine Folge auf Deutsch erschienen" wird nicht umgesetzt** (17.08.2026).
