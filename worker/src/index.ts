@@ -1467,7 +1467,8 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
     const token = new URL(request.url).searchParams.get('token') ?? ''
     if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
     const { results } = await env.DB.prepare(
-      `SELECT id, plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, notiz, gemeldet_am
+      `SELECT id, plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln,
+              serientitel, notiz, gemeldet_am
          FROM pruefung WHERE uebernommen = 0 ORDER BY gemeldet_am LIMIT 500`,
     ).all()
 
@@ -1522,8 +1523,8 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
     .run()
 
   await env.DB.prepare(
-    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, notiz, gemeldet_am)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)`,
+    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)`,
   )
     .bind(
       String(daten.plattform ?? 'unbekannt'),
@@ -1537,6 +1538,10 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
       // scheren.
       zahlOderNull(daten.folge_nr),
       zahlOderNull(daten.staffel),
+      // Die Aufteilung des Anbieters, als JSON — sie ist der Schlüssel, um die
+      // Meldung später einer unserer Staffeln zuzuordnen.
+      daten.staffeln ? JSON.stringify(daten.staffeln).slice(0, 4000) : null,
+      daten.serientitel ? String(daten.serientitel).slice(0, 200) : null,
       daten.notiz ? String(daten.notiz).slice(0, 500) : null,
       jetztIso(),
     )

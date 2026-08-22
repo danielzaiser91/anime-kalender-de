@@ -132,6 +132,62 @@
     return /\/watch\/(\d+)/.exec(location.pathname)?.[1] ?? null
   }
 
+  // --- Netflix' eigene Auskunft über die Reihe ------------------------------
+
+  /**
+   * Was die Seite selbst über Serie, Staffeln und Folgen weiß.
+   *
+   * Beim Abspielen holt Netflix
+    if (url.includes('memberapi/release/metadata')) lesMetadaten(text)
+   * was das Raten überflüssig macht (Daniel hat den Aufruf am 22.08.2026 im
+   * Netzwerkverkehr gefunden):
+   *
+   *     video.id            die **Serie** — nicht die Folge
+   *     video.currentEpisode die gerade laufende Folge
+   *     video.seasons[]     je Staffel: seq, shortName, episodes[]
+   *     episodes[].seq      die Folgennummer **innerhalb** der Staffel
+   *
+   * Damit ist die Zuordnung exakt: Wir wissen, welche Folge welcher Staffel
+   * gerade läuft und wie viele Folgen jede Staffel hat. Der Umweg über die
+   * Titelzeile des Abspielers entfällt.
+   */
+  let metadaten = null
+
+  function lesMetadaten(text) {
+    let daten
+    try {
+      daten = JSON.parse(text)
+    } catch {
+      return
+    }
+    const v = daten?.video
+    if (!v?.id || !Array.isArray(v.seasons)) return
+
+    const staffeln = v.seasons.map((s) => ({
+      seq: s.seq,
+      name: s.shortName ?? s.longName ?? null,
+      folgen: (s.episodes ?? []).length,
+      erste: (s.episodes ?? [])[0]?.seq ?? null,
+    }))
+
+    let laufend = null
+    for (const s of v.seasons) {
+      for (const e of s.episodes ?? []) {
+        if (e.episodeId === v.currentEpisode || e.id === v.currentEpisode) {
+          laufend = { staffel: s.seq, folge: e.seq, titel: e.title ?? null }
+        }
+      }
+    }
+
+    metadaten = {
+      reihe: String(v.id),
+      titel: v.title ?? null,
+      art: v.type ?? null,
+      staffeln,
+      laufend,
+    }
+  }
+
   // --- Mithören ------------------------------------------------------------
 
   /**
@@ -209,6 +265,17 @@
   // --- Takt ----------------------------------------------------------------
 
   function melden() {
+    // Was Netflix selbst sagt, schlägt jede Ableitung aus der Titelzeile.
+    const ausMeta = metadaten
+      ? {
+          reihe: metadaten.reihe,
+          folge_nr: metadaten.laufend?.folge ?? null,
+          staffel: metadaten.laufend?.staffel ?? null,
+          staffeln: metadaten.staffeln,
+          serientitel: metadaten.titel,
+          art: metadaten.art,
+        }
+      : {}
     window.postMessage(
       {
         marke: MARKE,
@@ -216,6 +283,7 @@
         reihe: reihenNummer(),
         folge: folgenNummer(),
         ...folgeUndStaffel(),
+        ...ausMeta,
         titel: document.title,
       },
       '*',

@@ -34,7 +34,7 @@ const IST_DEUTSCH = (code, name) =>
 
 // --- Was die Seite gerade hergibt -------------------------------------------
 
-let stand = { spuren: null, reihe: null, folge: null, folgeNr: null, staffel: null, titel: '' }
+let stand = { spuren: null, reihe: null, folge: null, folgeNr: null, staffel: null, staffeln: null, serientitel: null, titel: '' }
 /** Reihen, die in dieser Sitzung schon gemeldet wurden. */
 const gemeldet = new Set()
 /** Netzfunde, die noch nicht weitergereicht wurden. */
@@ -49,6 +49,8 @@ window.addEventListener('message', (e) => {
       folge: e.data.folge,
       folgeNr: e.data.folge_nr ?? e.data.folgeNr ?? null,
       staffel: e.data.staffel ?? null,
+      staffeln: e.data.staffeln ?? null,
+      serientitel: e.data.serientitel ?? null,
       titel: e.data.titel,
     }
     knopfZeigen()
@@ -130,9 +132,13 @@ function beschriftung(spuren) {
   // Befund und die Handlung, sonst nichts. Daniel: „mach die 3 spuren weg, das
   // verwirrt mich und uns interessiert sowieso nur die deutsche tonspur."
   const { deutsch } = urteil(spuren)
+  // Woran der Leser erkennt, was gleich gemeldet wird.
+  const wo = stand.folgeNr
+    ? ` (${stand.staffel && stand.staffeln?.length > 1 ? `St. ${stand.staffel}, ` : ''}Flg. ${stand.folgeNr})`
+    : ''
   return deutsch
-    ? { text: 'Deutsche Tonspur gefunden — jetzt melden', klasse: 'ak-ja', aktiv: true }
-    : { text: 'Keine deutsche Tonspur — jetzt melden', klasse: 'ak-nein', aktiv: true }
+    ? { text: `Deutsche Tonspur${wo} — jetzt melden`, klasse: 'ak-ja', aktiv: true }
+    : { text: `Keine deutsche Tonspur${wo} — jetzt melden`, klasse: 'ak-nein', aktiv: true }
 }
 
 async function melden() {
@@ -162,6 +168,11 @@ async function melden() {
         // welchen Bereich die Auskunft gilt.
         folge_nr: stand.folgeNr,
         staffel: stand.staffel,
+        // Wie die Reihe beim Anbieter aufgeteilt ist: je Staffel die Zahl der
+        // Folgen. Damit lässt sich eine Meldung später einer unserer Staffeln
+        // zuordnen, auch wenn der Anbieter anders einteilt.
+        staffeln: stand.staffeln,
+        serientitel: stand.serientitel,
         notiz: ohneFolge
           ? 'Titelseite ohne abspielbare Folge — nur „Erinnern"'
           : `${echte.length} Tonspuren, ${spuren.length - echte.length} Audiodeskriptionen`,
