@@ -364,6 +364,29 @@
   ],
   "gemeldetAm": "2026-08-22"
  },
+ "80231373": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "St. 1",
+    "folgen": 13,
+    "erste": 1
+   },
+   {
+    "seq": 2,
+    "name": "St. 2",
+    "folgen": 6,
+    "erste": 1
+   },
+   {
+    "seq": 3,
+    "name": "St. 3",
+    "folgen": 12,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-08-22"
+ },
  "80986797": {
   "staffeln": [
    {
@@ -428,6 +451,17 @@
     "name": "St. 2",
     "folgen": 9,
     "erste": 16
+   }
+  ],
+  "gemeldetAm": "2026-08-22"
+ },
+ "81010662": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "",
+    "folgen": 1,
+    "erste": 1
    }
   ],
   "gemeldetAm": "2026-08-22"
@@ -545,6 +579,23 @@
   ],
   "gemeldetAm": "2026-08-22"
  },
+ "81099976": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "St. 1",
+    "folgen": 13,
+    "erste": 1
+   },
+   {
+    "seq": 2,
+    "name": "St. 2",
+    "folgen": 13,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-08-22"
+ },
  "81176966": {
   "staffeln": [
    {
@@ -628,12 +679,40 @@
   ],
   "gemeldetAm": "2026-08-22"
  },
+ "81249833": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "St. 1",
+    "folgen": 24,
+    "erste": 1
+   },
+   {
+    "seq": 2,
+    "name": "St. 2",
+    "folgen": 24,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-08-22"
+ },
  "81276500": {
   "staffeln": [
    {
     "seq": 1,
     "name": "",
     "folgen": 6,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-08-22"
+ },
+ "81280998": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "St. 1",
+    "folgen": 4,
     "erste": 1
    }
   ],
@@ -711,12 +790,40 @@
   ],
   "gemeldetAm": "2026-08-22"
  },
+ "81442091": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "",
+    "folgen": 12,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-08-22"
+ },
  "81497635": {
   "staffeln": [
    {
     "seq": 1,
     "name": "St. 1",
     "folgen": 12,
+    "erste": 1
+   },
+   {
+    "seq": 2,
+    "name": "St. 2",
+    "folgen": 12,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-08-22"
+ },
+ "81562396": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "St. 1",
+    "folgen": 24,
     "erste": 1
    },
    {

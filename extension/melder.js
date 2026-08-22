@@ -97,7 +97,9 @@ function staffelnVon(id, eintrag) {
     name: s.name || `Staffel ${s.seq}`,
     folgen: s.folgen,
     erste: s.erste ?? 1,
-    film: eintrag.staffeln[i]?.film ?? false,
+    // `film` kann aus der Meldung kommen (Netflix nannte weder Staffel noch
+    // Folge) oder aus unserem Datensatz.
+    film: s.film ?? eintrag.staffeln[i]?.film ?? false,
     offen: eintrag.staffeln[i]?.offen ?? true,
   }))
 }
@@ -381,8 +383,21 @@ async function melden({ automatisch = false } = {}) {
     // Unter **unserer** Kennung ablegen, nicht unter Netflix'. Sonst sucht die
     // Liste vergeblich: Bei „Ranma1/2" nennt der Player eine andere, und die
     // Kürzel blieben in unserer Zählung stehen (2e01 statt 2e13).
-    if (stand.staffeln?.length && gemeinteReihe()) {
-      anbieterStaffeln[String(gemeinteReihe())] = stand.staffeln
+    const reihe = gemeinteReihe()
+    if (stand.staffeln?.length && reihe) {
+      anbieterStaffeln[String(reihe)] = stand.staffeln
+      void chrome.storage.local.set({ anbieterStaffeln }).catch(() => {})
+    } else if (reihe && !stand.staffeln && !stand.folgeNr && spuren) {
+      /**
+       * Weder Staffelliste noch Folgennummer, aber Tonspuren — das ist ein Film.
+       *
+       * „Pokémon: The Arceus Chronicles" führen wir als Serie mit vier Folgen;
+       * bei Netflix ist es ein Film von einer Stunde, und die Liste schickte
+       * Daniel zu „1e04", die es dort nicht gibt (22.08.2026). Der Player
+       * schweigt in genau diesem Fall zu Staffeln **und** Folgen — daraus lässt
+       * sich die Sache ablesen, ohne dass jemand sie melden muss.
+       */
+      anbieterStaffeln[String(reihe)] = [{ seq: 1, name: 'Film', folgen: 1, erste: 1, film: true }]
       void chrome.storage.local.set({ anbieterStaffeln }).catch(() => {})
     }
     gesendet.set(schluessel(), deutsch ? 'deutsch' : 'kein_deutsch')
