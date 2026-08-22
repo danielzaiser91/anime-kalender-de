@@ -15497,3 +15497,42 @@
   dub: true
   checkedAt: '2026-08-22'
   note: "Folgen 1–10 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, yue|Kantonesisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 9 Tonspuren, 1 Audiodeskriptionen"
+
+# RTL+, Rest: die Titel, die sich eine Adresse teilen, und ein toter Verweis.
+
+- anilistId: 14093
+  title: "Pokémon BW: Rival Destinies"
+  platform: rtlplus
+  available: false
+  checkedAt: '2026-08-23'
+  note: >-
+    Der Verweis leitet auf die Startseite um — den Titel gibt es dort nicht mehr.
+    Geprüft am 23.08.2026; HTTP 200 allein sagt hier nichts.
+
+- anilistId: 101922
+  title: "Demon Slayer – Staffel 1"
+  platform: rtlplus
+  dub: true
+  checkedAt: '2026-08-23'
+  note: RTL+ ist rein deutschsprachig (Daniel, 23.08.2026).
+
+- anilistId: 142329
+  title: "Demon Slayer: Kimetsu no Yaiba Entertainment District Arc"
+  platform: rtlplus
+  dub: true
+  checkedAt: '2026-08-23'
+  note: RTL+ ist rein deutschsprachig (Daniel, 23.08.2026).
+
+- anilistId: 129874
+  title: "Demon Slayer: Kimetsu no Yaiba Mugen Train Arc"
+  platform: rtlplus
+  dub: true
+  checkedAt: '2026-08-23'
+  note: RTL+ ist rein deutschsprachig (Daniel, 23.08.2026).
+
+- anilistId: 145139
+  title: "Demon Slayer: Kimetsu no Yaiba Swordsmith Village Arc"
+  platform: rtlplus
+  dub: true
+  checkedAt: '2026-08-23'
+  note: RTL+ ist rein deutschsprachig (Daniel, 23.08.2026).

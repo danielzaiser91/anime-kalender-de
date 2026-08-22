@@ -64,8 +64,21 @@ for (const [i, v] of arbeit.entries()) {
   let befund
   try {
     const antwort = await fetch(v.url, { redirect: 'follow' })
-    if (!antwort.ok) {
-      befund = { status: antwort.status, lebt: false }
+    /**
+     * Eine Weiterleitung auf die Startseite ist ein toter Verweis mit HTTP 200.
+     *
+     * „Pokémon BW: Rival Destinies" antwortete mit 200 und landete auf
+     * `plus.rtl.de/` — der Titel existiert dort nicht mehr. Der erste Entwurf
+     * zählte ihn als lebend, weil nur der Status geprüft wurde; die Endadresse
+     * stand daneben und wurde nicht angesehen (23.08.2026).
+     *
+     * Dieselbe Falle bei Netflix: 145 Verweise leiteten auf die Startseite um
+     * und sahen für jede automatische Prüfung gesund aus.
+     */
+    const gelandet = new URL(antwort.url ?? v.url)
+    const aufStartseite = gelandet.pathname === '/' || gelandet.pathname === ''
+    if (!antwort.ok || aufStartseite) {
+      befund = { status: antwort.status, lebt: false, endAdresse: antwort.url, aufStartseite }
       tot++
     } else {
       const html = await antwort.text()
