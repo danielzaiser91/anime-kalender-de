@@ -32,6 +32,24 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      # Welches Land bekommt der Worker, wenn ein Rechner aus den USA ihn
+      # aufruft? Cloudflare führt einen Worker dort aus, wo die eingehende
+      # Anfrage ankommt — die Antwort entscheidet, ob sich die Erneuerung des
+      # Zugangspakets vollständig automatisieren lässt.
+      - name: Land des Workers aus US-Sicht
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: |
+          echo "--- Worker, von hier aus aufgerufen:"
+          curl -sS "https://newsletter.animekalender.workers.dev/land?token=$LAUF_TOKEN"
+          echo
+          echo "--- Crunchyroll direkt von diesem Rechner:"
+          curl -sS -X POST https://beta-api.crunchyroll.com/auth/v1/token \
+            -H 'authorization: Basic Y3Jfd2ViOg==' \
+            -H 'content-type: application/x-www-form-urlencoded' \
+            -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/139.0.0.0 Safari/537.36' \
+            -d 'grant_type=client_id' | head -c 400
+          echo
       - name: Wo dieser Rechner steht
         run: curl -sS --max-time 10 https://ipinfo.io/json | head -20
 

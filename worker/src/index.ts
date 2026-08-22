@@ -1097,6 +1097,47 @@ function zahlOderNull(wert: unknown): number | null {
 }
 
 /**
+ * Welches Land schreibt Crunchyroll diesem Worker zu?
+ *
+ * Die Frage entscheidet, ob sich die Erneuerung des Zugangspakets vollständig
+ * automatisieren lässt. Crunchyroll leitet die Region aus der IP des Abrufs ab;
+ * ein Worker ruft mit der Adresse des Rechenzentrums an, in dem er gerade läuft.
+ * Cloudflare führt einen Worker dort aus, wo die **eingehende** Anfrage ankommt
+ * — ein Aufruf aus Deutschland landet also in Frankfurt, einer aus den USA
+ * nicht. Was bei einem **Cron**-Lauf passiert, ist damit noch nicht gesagt, und
+ * genau das misst dieser Endpunkt über die Zeit mit.
+ *
+ * Er ruft nur `/auth/v1/token` an — ein anonymes Token, kein Konto, kein Inhalt.
+ */
+async function handleLand(request: Request, env: Env): Promise<Response> {
+  const kopf = { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+  const token = request.headers.get('X-Lauf-Token') ?? new URL(request.url).searchParams.get('token') ?? ''
+  if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) {
+    return new Response(JSON.stringify({ error: 'Nicht erlaubt' }), { status: 403, headers: kopf })
+  }
+
+  const messung = await crunchyrollLand(request.cf?.colo as string | undefined)
+  return new Response(JSON.stringify(messung, null, 1), { headers: kopf })
+}
+
+/** Holt ein anonymes Token und gibt zurück, welches Land darin steht. */
+async function crunchyrollLand(colo?: string): Promise<Record<string, unknown>> {
+  const antwort = await fetch('https://beta-api.crunchyroll.com/auth/v1/token', {
+    method: 'POST',
+    headers: {
+      authorization: 'Basic Y3Jfd2ViOg==',
+      'content-type': 'application/x-www-form-urlencoded',
+      'user-agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36',
+    },
+    body: 'grant_type=client_id',
+  })
+  if (!antwort.ok) return { fehler: `HTTP ${antwort.status}`, colo, gemessen_am: jetztIso() }
+  const daten = (await antwort.json()) as { country?: string; access_token?: string }
+  return { land: daten.country, colo, gemessen_am: jetztIso() }
+}
+
+/**
  * Was Netflix im Hintergrund lädt, entgegennehmen.
  *
  * Die Erweiterung hört mit, während Daniel eine Seite ansieht, und schickt
@@ -1449,6 +1490,8 @@ export default {
         ).all()
         return json(env, { sites: results ?? [] })
       }
+      case '/land':
+        return handleLand(request, env)
       case '/netzfund':
         return handleNetzfund(request, env)
       case '/pruefung':
