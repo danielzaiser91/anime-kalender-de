@@ -118,10 +118,14 @@ function beschriftung(spuren) {
     }
     return { text: 'Auf Abspielen klicken, dann hier melden', klasse: 'ak-leer', aktiv: false }
   }
-  const { deutsch, echte } = urteil(spuren)
+  // Die Zahl der Tonspuren stand hier bis zum 22.08.2026 und stiftete nur
+  // Verwirrung: Uns interessiert eine einzige Sprache. Der Knopf nennt jetzt den
+  // Befund und die Handlung, sonst nichts. Daniel: „mach die 3 spuren weg, das
+  // verwirrt mich und uns interessiert sowieso nur die deutsche tonspur."
+  const { deutsch } = urteil(spuren)
   return deutsch
-    ? { text: `Deutsch melden (${echte.length} Spuren)`, klasse: 'ak-ja', aktiv: true }
-    : { text: `Kein Deutsch melden (${echte.length} Spuren)`, klasse: 'ak-nein', aktiv: true }
+    ? { text: 'Deutsche Tonspur gefunden — jetzt melden', klasse: 'ak-ja', aktiv: true }
+    : { text: 'Keine deutsche Tonspur — jetzt melden', klasse: 'ak-nein', aktiv: true }
 }
 
 async function melden() {
@@ -155,8 +159,8 @@ async function melden() {
     const daten = await antwort.json().catch(() => ({}))
     if (!antwort.ok) return zeigeErgebnis(daten.error ?? `Fehler ${antwort.status}`, false)
     gemeldet.add(stand.reihe)
-    const kopf = ohneFolge ? 'Als nicht abrufbar gemeldet' : deutsch ? 'Deutsch gemeldet' : 'Kein Deutsch gemeldet'
-    zeigeErgebnis(`${kopf} · ${daten.offen} wartet auf Übernahme`, true)
+    const kopf = ohneFolge ? 'Als nicht abrufbar gemeldet' : deutsch ? 'Deutsche Tonspur gemeldet' : 'Kein Deutsch gemeldet'
+    zeigeErgebnis(kopf, true)
   } catch (err) {
     zeigeErgebnis(`Nicht erreichbar: ${err.message}`, false)
   }
