@@ -155,6 +155,12 @@ const TEXTE = {
   'where.summary': '{mit} von {gesamt} Anime haben einen belegten Bezugsweg, verteilt auf {anbieter} Anbieter.',
   'where.stream': 'Ansehen',
   'where.streamHint': 'Abo, werbefinanziert oder kostenlos',
+  // Die drei Arten, an einen Titel zu kommen. Kurz gehalten, weil sie als
+  // Zwischenüberschrift zwischen den Anbietern stehen — „Ohne Kosten" statt
+  // „Kostenlos verfügbar", „Mit Abo" statt „Mit einem Abonnement".
+  'where.zugang.kostenlos': 'Ohne Kosten',
+  'where.zugang.abo': 'Mit Abo',
+  'where.zugang.kauf': 'Kaufen oder leihen',
   'where.buy': 'Kaufen oder leihen',
   'where.buyHint': 'einmaliger Preis je Titel oder Staffel',
   'where.titles': '{count} Einträge',

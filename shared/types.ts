@@ -1,3 +1,4 @@
+import type { Zugangsart } from './zugangsart.ts'
 /** Gemeinsame Typen für Pipeline, Web-App und Newsletter-Worker. */
 
 export type PlatformId =
@@ -123,6 +124,8 @@ export interface StreamLink {
    * Umgerechnet wird beim Einlesen der Prüfungen, nicht hier.
    */
   dubRanges?: Array<{ from: number; to: number; dub: boolean }>
+  /** Was es kostet — siehe `shared/zugangsart.ts`. */
+  zugang?: Zugangsart
   /**
    * Wie viele unserer Einträge diese eine Adresse bedient.
    *
@@ -156,6 +159,14 @@ export interface WatchLink {
   url: string
   /** Ansehen oder erwerben — Streams stehen in der Oberfläche zuerst. */
   kind: 'stream' | 'buy'
+  /**
+   * Was es kostet: nichts, ein Abo, oder Geld pro Titel.
+   *
+   * `kind` trennt Ansehen von Erwerben, aber nicht Abo von kostenlos — und für
+   * einen Besucher ist genau das der Unterschied (Daniel, 23.08.2026). Wird
+   * beim Bauen aus Name und Adresse bestimmt, siehe `shared/zugangsart.ts`.
+   */
+  zugang?: Zugangsart
 }
 
 export interface Title {

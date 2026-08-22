@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useMemo, useState } from 'react'
 import type { Meldung, Quelle, Release, ReleaseEvent, Title, WatchLink } from '@shared/types.ts'
 import { dubGrenze } from '@shared/dub-grenze.ts'
+import type { Zugangsart } from '@shared/zugangsart.ts'
 import { PLATFORMS } from '@shared/types.ts'
 import { expandEvents, lastEpisodeDate, releaseStatus, titleStatus } from '@shared/logic.ts'
 import { buildIcs, googleCalendarUrl } from '@shared/ics.ts'
@@ -1307,6 +1308,32 @@ export function DetailPanel({
     () => [...(title?.streams ?? []), ...(title?.watchLinks ?? []).filter((w) => w.kind === 'stream')],
     [title],
   )
+
+  /**
+   * Streaming, aufgeteilt nach dem, was es kostet.
+   *
+   * Daniel am 23.08.2026: „wir brauchen bereich streaming und disc, und unter
+   * streaming die kategorien kostenlos, abo, kauf/leih." Für einen Besucher ist
+   * genau das der Unterschied — wer kein Netflix hat, dem nützt ein
+   * Netflix-Eintrag nichts, und wer eine Folge frei sehen kann, will das oben
+   * stehen haben.
+   *
+   * Die Reihenfolge ist deshalb kostenlos → Abo → Kauf: von „sofort" zu „kostet".
+   */
+  const sortiertNachZugang = useMemo(() => {
+    const arten: Zugangsart[] = ['kostenlos', 'abo', 'kauf']
+    const gruppen = arten.map((art) => ({
+      art,
+      plattformen: (title?.streams ?? []).filter((s) => (s.zugang ?? 'abo') === art),
+      shops: gruppiereKaufwege(
+        (title?.watchLinks ?? []).filter((w) => w.kind === 'stream' && (w.zugang ?? 'abo') === art),
+      ),
+    }))
+    const belegte = gruppen.filter((g) => g.plattformen.length || g.shops.length)
+    // Die Überschrift steht nur da, wo es etwas zu trennen gibt: Bei einem
+    // Titel, der nur mit Abo läuft, wäre „Mit Abo" eine Zeile ohne zweite Seite.
+    return belegte.map((g) => ({ ...g, zeigeUeberschrift: belegte.length > 1 }))
+  }, [title])
   const wechsleZu = (id: number) => {
     if (id === titleId) return
     if (data.titleById.has(id)) {
@@ -1804,12 +1831,29 @@ export function DetailPanel({
                   gibt. Sonst wäre sie eine Trennung ohne zweite Seite — und
                   eine Zeile, die nichts sagt.
                 */}
-                {kaufwege.length > 0 && ansehen.length > 0 && (
+                {/*
+                  Streaming trägt jetzt drei Unterüberschriften: kostenlos, Abo,
+                  Kauf. Für einen Besucher ist das der eigentliche Unterschied —
+                  wer kein Abo hat, dem nützt ein Netflix-Eintrag nichts
+                  (Daniel, 23.08.2026).
+
+                  Die Überschrift steht nur da, wo es auch etwas zu trennen gibt:
+                  Bei einem Titel, der nur bei Crunchyroll läuft, wäre „Mit Abo"
+                  eine Zeile ohne zweite Seite.
+                */}
+                {ansehen.length > 0 && (
                   <div className="text-[11px] font-medium uppercase tracking-wide text-slate-400 dark:text-slate-500">
                     {t('where.stream')}
                   </div>
                 )}
-                {title.streams.map((s) => (
+                {sortiertNachZugang.map(({ art, plattformen, shops, zeigeUeberschrift }) => (
+                  <Fragment key={art}>
+                    {zeigeUeberschrift && (
+                      <div className="mt-1 text-[10px] font-medium uppercase tracking-wide text-slate-400/90 dark:text-slate-500">
+                        {t(`where.zugang.${art}` as never)}
+                      </div>
+                    )}
+                    {plattformen.map((s) => (
                   <a
                     key={s.platform}
                     href={s.url}
@@ -1847,17 +1891,18 @@ export function DetailPanel({
                       <DubMark dub={s.dub} />
                     </span>
                   </a>
-                ))}
+                    ))}
+                    {/*
+                      Anbieter ohne eigene Plattform, nach Shop gebündelt.
 
-                {/*
-                  Anbieter ohne eigene Plattform, nach Shop gebündelt.
-
-                  Vier Ausgaben einer Serie bei demselben Verlag sind **eine**
-                  Auskunft, keine vier — deshalb steht der Shop einmal da und die
-                  Ausgaben nebeneinander (Daniel, 20.08.2026).
-                */}
-                {gruppiereKaufwege((title.watchLinks ?? []).filter((w) => w.kind === 'stream')).map((g) => (
-                  <ShopZeile key={g.shop + g.eintraege[0].url} gruppe={g} hinweis={t('detail.linkStream')} />
+                      Vier Ausgaben einer Serie bei demselben Verlag sind **eine**
+                      Auskunft, keine vier — deshalb steht der Shop einmal da und
+                      die Ausgaben nebeneinander (Daniel, 20.08.2026).
+                    */}
+                    {shops.map((g) => (
+                      <ShopZeile key={g.shop + g.eintraege[0].url} gruppe={g} hinweis={t('detail.linkStream')} />
+                    ))}
+                  </Fragment>
                 ))}
 
                 {kaufwege.length > 0 && (

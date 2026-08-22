@@ -13,6 +13,7 @@ import {
 } from './lib/crunchyroll.ts'
 import { loadCurated, loadWatchLinks, type CuratedEntry } from './lib/curated.ts'
 import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
+import { zugangsart } from '../shared/zugangsart.ts'
 import { dubKey, loadDubChecks } from './lib/dub-confirmed.ts'
 import { beurteile, type CrDubData } from './lib/crunchyroll-dub.ts'
 import { LEER as MOTN_LEER, ordneShowsZu, tmdbZuordnung, uebernehmbar, type MotnDaten } from './lib/motn.ts'
@@ -2002,6 +2003,18 @@ function main(): void {
     }
   }
   if (ergaenzt) log(`${ergaenzt} Verweise aus geprüften Adressen ergänzt`)
+
+  /**
+   * Jedem Verweis seine Zugangsart geben.
+   *
+   * Steht spät, damit auch die ergänzten und umsortierten Verweise sie bekommen.
+   * Was es kostet, entscheidet `shared/zugangsart.ts` aus Name, Adresse und der
+   * Angabe des Anbieters selbst — `kind: 'buy'` ist die stärkste davon.
+   */
+  for (const title of titles.values()) {
+    for (const s of title.streams ?? []) s.zugang = zugangsart(s.platform, undefined, s.url)
+    for (const w of title.watchLinks ?? []) w.zugang = zugangsart(w.name, w.kind, w.url)
+  }
 
   if (checks.size) {
     log(`${geprueft} geprüfte Synchro-Angaben übernommen, ${entfernt} tote Verweise entfernt (${checks.size} Prüfungen)`)
