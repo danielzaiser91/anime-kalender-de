@@ -776,6 +776,13 @@ function uebersichtZeigen() {
    * Titel, auch bevor ein Datenlauf die Liste neu erzeugt.
    */
   const offeneAdressen = Object.entries(offeneTitel).filter(([id, e]) => !fertig(id, e)).length
+  // Ist nichts mehr offen, verschwindet der Knopf ganz. Eine „0" ist kein
+  // Hinweis, sondern nur noch ein Fleck auf dem Bild.
+  if (!offeneAdressen && !dialog) {
+    uebersichtKnopf.remove()
+    uebersichtKnopf = null
+    return
+  }
   const gesamt = Object.keys(offeneTitel).length
   uebersichtKnopf.textContent = `Anime-Kalender ${offeneAdressen}`
   uebersichtKnopf.title =
@@ -792,6 +799,9 @@ function dialogSchliessen() {
     dialog = null
   }
   document.removeEventListener('keydown', beiEscape)
+  // Die Zahl am Knopf mitziehen: Wer im Dialog etwas abgehakt hat, soll das
+  // draußen sehen. Am 23.08.2026 stand oben „Alles geprüft" und unten „7".
+  uebersichtZeigen()
 }
 
 function beiEscape(e) {

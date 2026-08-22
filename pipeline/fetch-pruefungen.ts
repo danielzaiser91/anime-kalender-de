@@ -122,6 +122,7 @@ function berlinDatum(iso: string): string {
 const heute = berlinDatum(new Date().toISOString())
 const zeilen: string[] = []
 let uebernommen = 0
+let selbstZugeordnet = 0
 const offenGeblieben: string[] = []
 /** Meldungen, deren Adresse unser Datensatz nicht kennt — samt Namensvorschlag. */
 /**
@@ -201,7 +202,7 @@ for (const p of pruefungen) {
 
 for (const gruppe of jeAdresse.values()) {
   const p = gruppe[gruppe.length - 1]!
-  const ids = nachUrl.get(schluesselAdresse(p.url)) ?? []
+  let ids = nachUrl.get(schluesselAdresse(p.url)) ?? []
   if (!ids.length) {
     // Der Titel ist die letzte Chance — und nur ein Vorschlag: Ein Name ist
     // eine Ähnlichkeit, kein Beleg.
@@ -227,11 +228,31 @@ for (const gruppe of jeAdresse.values()) {
         if (k === schluessel || k.startsWith(schluessel + ' ')) geraten = [...geraten, ...ids]
       }
     }
-    ohneZuordnung.push({ url: p.url, name, plattform: p.plattform, befund: p.befund, vorschlag: geraten })
-    offenGeblieben.push(
-      `${p.url} — im Datensatz nicht gefunden${geraten.length ? ` (Vorschlag: #${geraten.join(', #')})` : ''}`,
-    )
-    continue
+    /**
+     * Ein **exakter** Namenstreffer auf genau einen Titel entscheidet selbst.
+     *
+     * Daniel am 23.08.2026: „was soll ich genau machen ... was genau soll denn
+     * verbunden werden". Bei „NANA", „The Disastrous Life of Saiki K." und „My
+     * Love Story with Yamada-kun at Lv999" hiess der gemeldete Name **genau** so
+     * wie unserer — da gibt es nichts zu entscheiden, nur etwas einzutragen.
+     *
+     * Vorgelegt wird nur noch, was mehrdeutig ist: mehrere Treffer, ein
+     * ungefährer, oder gar keiner.
+     */
+    const eindeutig = [...new Set(geraten)]
+    const unserName = eindeutig.length === 1 ? (liste.find((x) => x.id === eindeutig[0])?.titleDe ?? liste.find((x) => x.id === eindeutig[0])?.titleEn ?? '') : ''
+    if (eindeutig.length === 1 && unserName && titelSchluessel(name) === titelSchluessel(unserName)) {
+      // Der Name stimmt **genau** — da gibt es nichts zu entscheiden, nur
+      // etwas einzutragen. Die Adresse ist neu und kommt gleich mit.
+      ids = eindeutig
+      selbstZugeordnet++
+    } else {
+      ohneZuordnung.push({ url: p.url, name, plattform: p.plattform, befund: p.befund, vorschlag: eindeutig })
+      offenGeblieben.push(
+        `${p.url} — im Datensatz nicht gefunden${eindeutig.length ? ` (Vorschlag: ${eindeutig.join(', ')})` : ''}`,
+      )
+      continue
+    }
   }
 
   // Ein „weg" hebt alles auf: Was der Anbieter nicht mehr zeigt, hat keine
@@ -382,6 +403,10 @@ for (const gruppe of jeAdresse.values()) {
     zeilen.push(`- anilistId: ${id}`)
     if (t?.titleDe || t?.titleEn) zeilen.push(`  title: ${JSON.stringify(t.titleDe ?? t.titleEn)}`)
     zeilen.push(`  platform: ${p.plattform}`)
+    // Kam die Zuordnung über den Namen zustande, kennt unser Datensatz die
+    // Adresse noch nicht — dann gehört sie mit hinein, sonst bleibt der Befund
+    // ohne Verweis stehen.
+    if (!nachUrl.has(schluesselAdresse(p.url))) zeilen.push(`  url: ${p.url}`)
     if (weg) {
       zeilen.push('  available: false')
     } else if (eigene.length) {
@@ -449,13 +474,33 @@ if (ohneZuordnung.length && !TROCKEN) {
     '',
     `Stand: ${heute}`,
     '',
+    '## Was hier zu tun ist',
+    '',
+    'Die Erweiterung hat einen Befund gemeldet, aber unser Datensatz kennt die Adresse',
+    'nicht. Drei Fälle, drei Handgriffe:',
+    '',
+    '- **„nichts"** — erledigt sich von selbst, nur der Vollständigkeit halber aufgeführt.',
+    '- **„Vorschlag bestätigen"** — stimmt der vorgeschlagene Titel? Dann sag Bescheid,',
+    '  ich trage die Adresse als Verweis ein und übernehme den Befund.',
+    '- **„Titel von Hand suchen"** — die Seite hat keinen Serientitel gemeldet. Öffne die',
+    '  Adresse und sag mir, welcher Anime das ist; den Rest mache ich.',
+    '',
     '| Anbieter | Gemeldete Adresse | Name laut Seite | Befund | Vorschlag | Zu tun |',
     '|---|---|---|---|---|---|',
   ]
   const tabelle = ohneZuordnung.map((o) => {
+    /**
+     * Kein `#` vor der Kennung.
+     *
+     * Markdown-Ansichten deuten `#154965` als Verweis auf ein GitHub-Ticket und
+     * führen ins Leere (Daniel, 23.08.2026: „die hashtag-nummern führen zu
+     * github 404"). Verlinkt wird stattdessen die Titelseite bei AniList — dort
+     * steht, worum es geht.
+     */
     const namen = o.vorschlag.map((id) => {
       const t = liste.find((x) => x.id === id)
-      return `#${id} ${t?.titleDe ?? t?.titleEn ?? ''}`.trim()
+      const name = t?.titleDe ?? t?.titleEn ?? String(id)
+      return `[${name}](https://anilist.co/anime/${id})`
     })
     // Ein „weg" an einem Titel, der diesen Anbieter ohnehin nicht führt, ist
     // schon abgebildet — dann bleibt nichts zu tun, und das gehört dazu.
@@ -501,7 +546,10 @@ if (Object.keys(anbieterStruktur).length && !TROCKEN) {
   log(`Staffelaufteilung von ${Object.keys(anbieterStruktur).length} Adressen gesichert`)
 }
 
-log(`${pruefungen.length} Prüfungen abgeholt, ${uebernommen} Einträge geschrieben`)
+log(
+  `${pruefungen.length} Prüfungen abgeholt, ${uebernommen} Einträge geschrieben` +
+    (selbstZugeordnet ? `, ${selbstZugeordnet} über den Namen zugeordnet` : ''),
+)
 for (const o of offenGeblieben) warn(o)
 if (TROCKEN) {
   console.log(zeilen.join('\n'))

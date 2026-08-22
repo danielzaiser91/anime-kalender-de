@@ -11,11 +11,19 @@ nicht, gehört die Zeile gestrichen.
 
 Stand: 2026-08-23
 
+## Was hier zu tun ist
+
+Die Erweiterung hat einen Befund gemeldet, aber unser Datensatz kennt die Adresse
+nicht. Drei Fälle, drei Handgriffe:
+
+- **„nichts"** — erledigt sich von selbst, nur der Vollständigkeit halber aufgeführt.
+- **„Vorschlag bestätigen"** — stimmt der vorgeschlagene Titel? Dann sag Bescheid,
+  ich trage die Adresse als Verweis ein und übernehme den Befund.
+- **„Titel von Hand suchen"** — die Seite hat keinen Serientitel gemeldet. Öffne die
+  Adresse und sag mir, welcher Anime das ist; den Rest mache ich.
+
 | Anbieter | Gemeldete Adresse | Name laut Seite | Befund | Vorschlag | Zu tun |
 |---|---|---|---|---|---|
 | netflix | https://www.netflix.com/title/80237957 | Netflix | dub | — | Titel von Hand suchen |
-| netflix | https://www.netflix.com/title/81685150 | My Love Story with Yamada-kun at Lv999 | kein_dub | #154965 My Love Story with Yamada-kun at Lv999<br>#154965 My Love Story with Yamada-kun at Lv999 | Vorschlag bestätigen, dann Adresse eintragen |
 | netflix | https://www.netflix.com/title/81947352 | Netflix | kein_dub | — | Titel von Hand suchen |
-| netflix | https://www.netflix.com/title/70205010 | NANA | kein_dub | #877 NANA<br>#877 NANA | Vorschlag bestätigen, dann Adresse eintragen |
-| netflix | https://www.netflix.com/title/80117781 | The Disastrous Life of Saiki K. | kein_dub | #21804 The Disastrous Life of Saiki K. | Vorschlag bestätigen, dann Adresse eintragen |
 | netflix | https://www.netflix.com/title/81717895 | Netflix | kein_dub | — | Titel von Hand suchen |
