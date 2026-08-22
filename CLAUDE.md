@@ -588,8 +588,16 @@ gilt: nachsehen statt annehmen.
 ## Vor dem Commit
 
 ```bash
-npm run data:validate && npm run check:logic && npx tsc -b && npm run check:worker && npm run check:hooks && npm run build
+npm run data:validate && npm run check:logic && npm run typecheck && npm run check:worker && npm run check:hooks && npm run build
 ```
+
+**Jedes `tsc` hier braucht `--noEmit`, und die Skripte setzen es.** Ohne das legt `tsc -b`
+neben jede `.ts`/`.tsx` eine übersetzte `.js` — 85 Dateien in `web/src` und `shared`. Sie
+stehen in `.gitignore`, richten also keinen Schaden im Repo an, aber der **nächste** Schritt
+der Kette fällt über sie: `eslint web/src` liest die erzeugten `.js` mit und bricht mit
+„Definition for rule 'react-hooks/exhaustive-deps' was not found" ab (real am 22.08.2026). Der
+Fehler zeigt dann auf eine Datei, die niemand geschrieben hat. Aufräumen lässt sich das nur von
+Hand — deshalb steht `--noEmit` seit dem 22.08.2026 fest in `typecheck` und `build`.
 
 **`npm run check:worker` nicht weglassen.** Das Haupt-`tsconfig.json` deckt nur `web/src`,
 `pipeline` und `shared` ab — `worker/` hat ein eigenes und wird von `tsc -b` **nicht** erfasst.
