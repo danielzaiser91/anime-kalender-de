@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useMemo, useState } from 'react'
 import type { Meldung, Quelle, Release, ReleaseEvent, Title, WatchLink } from '@shared/types.ts'
+import { dubGrenze } from '@shared/dub-grenze.ts'
 import { PLATFORMS } from '@shared/types.ts'
 import { expandEvents, lastEpisodeDate, releaseStatus, titleStatus } from '@shared/logic.ts'
 import { buildIcs, googleCalendarUrl } from '@shared/ics.ts'
@@ -1834,7 +1835,15 @@ export function DetailPanel({
                         </span>
                       </Tooltip>
                     )}
-                    <span className="ml-auto">
+                    <span className="ml-auto flex items-center gap-1.5">
+                      {(() => {
+                        const grenze = dubGrenze(s.dubRanges)
+                        return grenze ? (
+                          <span className="text-[10px] text-slate-400 dark:text-slate-500">
+                            {t(grenze.schluessel, { n: grenze.n })}
+                          </span>
+                        ) : null
+                      })()}
                       <DubMark dub={s.dub} />
                     </span>
                   </a>

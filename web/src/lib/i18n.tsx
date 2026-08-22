@@ -214,6 +214,14 @@ const TEXTE = {
   // JavaScript nachlädt — geprüft ist es also nicht.
   'detail.sharedUrlNote':
     'Führt zu {count} unserer Einträge. Der Anbieter teilt die Reihe womöglich anders in Staffeln.',
+  // Steht nur, wo der deutsche Ton **mittendrin** aufhört oder anfängt — bei
+  // Black Clover auf Netflix ab Folge 156. Ist die ganze Staffel deutsch, sagt
+  // das Häkchen daneben schon alles, und eine zweite Angabe wäre Lärm.
+  //
+  // „Flg." ist Netflix' eigene Abkürzung; wer aus dem Player kommt, liest sie
+  // dort genauso.
+  'detail.dubUntil': 'Deutsch bis Flg. {n}',
+  'detail.dubFrom': 'Deutsch ab Flg. {n}',
   'detail.genres': 'Genres',
   'detail.keywords': 'Keywords',
   'detail.plot': 'Handlung',

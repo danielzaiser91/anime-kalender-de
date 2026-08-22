@@ -37,6 +37,7 @@ import {
   type AdnRohVideo,
 } from './lib/adn-sprachen.ts'
 import { beschreibeBereiche, bildeBereiche, ordneFolgeZu, verteileAufStaffeln } from './lib/folgenbereiche.ts'
+import { dubGrenze } from '../shared/dub-grenze.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { beurteile } from './lib/crunchyroll-dub.ts'
@@ -1507,6 +1508,42 @@ console.log('\nStreaming Availability API:')
     'Surge und Rise fallen nicht zusammen',
     titelSchluessel('Beyblade Burst Surge') !== titelSchluessel('Beyblade Burst Rise'),
   )
+}
+
+/**
+ * Die Zeile, die im Detail-Panel neben dem Anbieter steht.
+ */
+{
+  console.log('\nGrenze des deutschen Tons im Detail-Panel')
+
+  pruefe('ganz deutsch sagt nichts Zusätzliches',
+    dubGrenze([{ from: 1, to: 24, dub: true }]) === null)
+  pruefe('gar nicht deutsch sagt nichts Zusätzliches',
+    dubGrenze([{ from: 1, to: 24, dub: false }]) === null)
+  pruefe('ohne Bereiche bleibt es still',
+    dubGrenze(undefined) === null && dubGrenze([]) === null)
+
+  // Black Clover auf Netflix: 1–155 deutsch, 156–171 nicht.
+  const bc = dubGrenze([
+    { from: 1, to: 155, dub: true },
+    { from: 156, to: 171, dub: false },
+  ])
+  pruefe('Black Clover nennt die letzte deutsche Folge',
+    bc?.schluessel === 'detail.dubUntil' && bc.n === 155, bc)
+
+  // Der umgekehrte Fall: erst ohne, dann mit.
+  const spaeter = dubGrenze([
+    { from: 1, to: 3, dub: false },
+    { from: 4, to: 13, dub: true },
+  ])
+  pruefe('fängt Deutsch später an, steht die erste deutsche Folge da',
+    spaeter?.schluessel === 'detail.dubFrom' && spaeter.n === 4, spaeter)
+
+  pruefe('unsortierte Bereiche stören nicht',
+    dubGrenze([
+      { from: 156, to: 171, dub: false },
+      { from: 1, to: 155, dub: true },
+    ])?.n === 155)
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')

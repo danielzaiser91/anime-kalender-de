@@ -112,6 +112,18 @@ export interface StreamLink {
    */
   dub?: boolean
   /**
+   * Wo in dieser Staffel der deutsche Ton liegt — wenn er nicht überall liegt.
+   *
+   * Bei Black Clover auf Netflix sind die Folgen 1 bis 155 deutsch, 156 bis 171
+   * nicht. `dub` allein kann das nicht sagen; es steht dann auf `true` und
+   * bedeutet „irgendwo hier gibt es deutschen Ton", die Bereiche sagen, wo.
+   *
+   * Die Nummern zählen **innerhalb dieser Staffel**, nicht durch: Netflix zählt
+   * Jujutsu Kaisen bis 59 durch, unsere dritte Staffel hat die Folgen 1 bis 12.
+   * Umgerechnet wird beim Einlesen der Prüfungen, nicht hier.
+   */
+  dubRanges?: Array<{ from: number; to: number; dub: boolean }>
+  /**
    * Wie viele unserer Einträge diese eine Adresse bedient.
    *
    * Fehlt, wenn es nur einer ist. Steht dort eine Zahl, führt die Plattform

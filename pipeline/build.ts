@@ -1930,6 +1930,11 @@ function main(): void {
         stream.dub = check.dub
         geprueft++
       }
+      // Wo der deutsche Ton aufhört, steht nur in den Bereichen. Sie kommen
+      // fertig auf diese Staffel umgerechnet aus fetch-pruefungen.ts.
+      if (check?.dubRanges?.length) {
+        stream.dubRanges = check.dubRanges.map((r) => ({ from: r.from, to: r.to, dub: r.dub }))
+      }
       // Eine von Hand gefundene Adresse schlägt jede geratene.
       if (check?.url) {
         stream.url = check.url

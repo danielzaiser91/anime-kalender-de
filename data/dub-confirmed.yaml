@@ -648,17 +648,23 @@
   checkedAt: '2026-08-21'
 
 # Netflix teilt die Reihe in vier Staffeln (1–51, 52–102, 104–155, 156–171) und
-# zählt 171 Folgen; AniList und Crunchyroll führen 170. Eine Folge ist bei
-# Netflix also doppelt oder anders geschnitten — welche, ist offen.
+# zählt 171 Folgen; AniList und Crunchyroll führen 170. Die 103 fehlt in Netflix'
+# eigener Aufteilung — welche Folge dort anders geschnitten ist, bleibt offen.
 #
-# Für die Anzeige bleibt es bei „ja": Es gibt dort eine deutsche Fassung, und
-# zwar für die große Mehrheit der Folgen. Dass die letzten sechzehn fehlen, ist
-# eine Angabe, die unser Datensatz derzeit nicht führen kann — es gibt kein Feld
-# für eine Teilmenge. Steht als Aufgabe in status.md.
+# Die Zahlen unten sind deshalb **Netflix' Zählung**, nicht unsere: Wer dem
+# Verweis folgt, liest sie dort genauso, und darum geht es bei dieser Angabe.
+# Gegenüber unseren 170 Folgen kann die Grenze um eins verschoben sein.
 - anilistId: 97940
   title: Black Clover – Staffel 1
   platform: netflix
   dub: true
+  dubRanges:
+    - from: 1
+      to: 155
+      dub: true
+    - from: 156
+      to: 170
+      dub: false
   checkedAt: '2026-08-21'
   note: >-
     Folgen 1 bis 155 auf Deutsch, ab 156 nicht (Daniel, 21.08.2026).
@@ -1544,3 +1550,23 @@
   available: false
   checkedAt: '2026-08-22'
   note: 'Netflix führt nur Staffel 1 und 2; die tragen keine deutsche Tonspur'
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-22 ---
+
+- anilistId: 14467
+  title: "K"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 11757
+  title: "Sword Art Online"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+  checkedAt: '2026-08-22'
+  note: "Folge 1 mit deutschem Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
