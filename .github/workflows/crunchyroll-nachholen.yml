@@ -120,6 +120,9 @@ jobs:
 
       - name: Crunchyroll-Serienseiten auf deutsche Tonspur
         env:
+          # Ohne das Paket bricht der Lauf ab, statt still den US-Katalog zu
+          # lesen. Es gilt 24 Stunden — ein Lauf braucht also ein frisches.
+          CR_ZUGANG: ${{ secrets.CR_ZUGANG }}
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:cr-dub -- --limit ${{ inputs.limit }} --alter ${{ inputs.alter }}${{ inputs.nur_fehler && ' --nur-fehler' || '' }}
 

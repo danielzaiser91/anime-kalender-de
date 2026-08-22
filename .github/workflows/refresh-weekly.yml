@@ -223,6 +223,9 @@ jobs:
         # den Bestand und lässt Luft, wenn ein Lauf ausfällt.
         continue-on-error: true
         env:
+          # Ohne das Paket bricht der Lauf ab, statt still den US-Katalog zu
+          # lesen. Es gilt 24 Stunden — ein Lauf braucht also ein frisches.
+          CR_ZUGANG: ${{ secrets.CR_ZUGANG }}
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:cr-dub -- --limit 300
 
