@@ -430,6 +430,9 @@ const TEXTE = {
   'sources.unsureTitle': 'Und wenn nur ein Monat genannt wird?',
   'sources.unsureText':
     'Dann bleibt es beim Monat. Die Meldung steht in der Detailansicht im Wortlaut, mit Datum und Link zur Quelle.',
+  'sources.catalogTitle': 'Woher kommen Sprachen und Folgenzahlen?',
+  'sources.catalogText':
+    'Aus den öffentlich abrufbaren Katalogdaten der Anbieter — dort steht je Folge, welche Tonspuren es gibt. Wir übernehmen daraus nur Tatsachen: Sprache, Folgenzahl, Datum. Keine Texte, keine Bilder, keine Videos. Die Anbieter betreiben diese Seite nicht und unterstützen sie nicht.',
   'sources.staleTitle': 'Was passiert mit alten Quellen?',
   'sources.staleText':
     'Sie bleiben stehen. Verschiebt sich ein Termin, markieren wir die frühere Quelle als veraltet und klappen sie unter dem Termin ein. So bleibt nachvollziehbar, woher der alte Tag kam.',

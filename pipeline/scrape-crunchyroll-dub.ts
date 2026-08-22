@@ -106,6 +106,7 @@ const NUR_FEHLER = args.includes('--nur-fehler')
  * Vier Wochen sind ein Kompromiss: Eine Synchro erscheint nicht wöchentlich neu,
  * und 917 Seiten wöchentlich zu holen wäre Last ohne Gegenwert.
  */
+const ALTER_GESETZT = args.includes('--alter')
 const WIEDERVORLAGE_TAGE = zahl('--alter', 28)
 /**
  * Wie lange eine **Nichtauskunft** ihre eigene Wiederholung blockiert.
@@ -146,7 +147,7 @@ const BROWSER = args.includes('--browser')
  * Betreiber es duldet, bringt nichts ein — der Lauf endet dann früher, statt
  * mehr zu schaffen.
  */
-const PAUSE_MS = zahl('--pause', 400)
+const PAUSE_MS = zahl('--pause', 500)
 
 // Die Typen stehen in `lib/crunchyroll-dub.ts` — dort, wo auch die Auswertung
 // wohnt. Zwei Fassungen desselben Typs laufen unweigerlich auseinander.
@@ -451,6 +452,74 @@ async function serieLesenSeitenanzeige(page: Page, url: string): Promise<CrSerie
   return { url, quelle: 'seitenanzeige', deutschImAngebot: true, staffeln, geprueftAm: heute }
 }
 
+/**
+ * Wie oft eine Adresse drankommt — je nachdem, ob sich dort etwas bewegt.
+ *
+ * Bis zum 22.08.2026 galt für alle 959 Adressen dieselbe Frist von vier Wochen.
+ * Das behandelt eine Serie von 2009, die seit Jahren unverändert dasteht,
+ * genauso wie eine, die nächste Woche eine neue Folge bekommt — und weil ein
+ * Lauf bei 300 Adressen gedeckelt ist, dauert ein voller Durchgang 3,2 Wochen.
+ *
+ * Daniels Vorschlag (22.08.2026): „es könnte sinn machen die liste auch
+ * aufzuteilen nach wichtigen und weniger wichtigen titeln. und entsprechend die
+ * häufigkeit der polls anpassen."
+ *
+ * Die Staffelung, gemessen am Bestand:
+ *
+ * | Gruppe                 | Titel | Frist    | Abrufe/Woche |
+ * |------------------------|------:|---------:|-------------:|
+ * | anstehender Termin     |    56 |   7 Tage |           56 |
+ * | ab 2024 erschienen     |   139 |  14 Tage |           70 |
+ * | 2015 bis 2023          |   568 |  28 Tage |          142 |
+ * | vor 2015               |   355 |  90 Tage |           27 |
+ * |                        |       |          |      **295** |
+ *
+ * Das passt unter den Deckel von 300, den Crunchyrolls Drosselung setzt — und
+ * die 56 Titel, bei denen wirklich etwas passiert, sind viermal so oft dran wie
+ * vorher.
+ *
+ * `--alter <tage>` schaltet die Staffelung ab und setzt eine feste Frist für
+ * alle. Das bleibt der Weg für gezielte Läufe.
+ */
+const FRIST_TERMIN = 7
+const FRIST_JUNG = 14
+const FRIST_MITTEL = 28
+const FRIST_ALT = 90
+
+/** Titel, für die ein Termin in der Zukunft steht. */
+function titelMitTermin(): Set<number> {
+  const events = readJson<Array<{ titleId: number; date: string }>>('public/data/events.json', [])
+  const heute = todayIso()
+  const menge = new Set<number>()
+  for (const e of events) if (e.date >= heute) menge.add(e.titleId)
+  return menge
+}
+
+/**
+ * Die Frist je Adresse. Zeigen mehrere Titel auf dieselbe Adresse — bei Demon
+ * Slayer sind es fünf —, gewinnt die kürzeste: Ein Termin an einem davon macht
+ * die ganze Adresse interessant.
+ */
+function fristenJeAdresse(titles: Title[]): Map<string, number> {
+  const mitTermin = titelMitTermin()
+  const fristen = new Map<string, number>()
+  for (const t of titles) {
+    const frist = mitTermin.has(t.id)
+      ? FRIST_TERMIN
+      : (t.jpYear ?? 0) >= 2024
+        ? FRIST_JUNG
+        : (t.jpYear ?? 0) >= 2015
+          ? FRIST_MITTEL
+          : FRIST_ALT
+    for (const s of t.streams) {
+      if (s.platform !== 'crunchyroll') continue
+      const bisher = fristen.get(s.url)
+      if (bisher === undefined || frist < bisher) fristen.set(s.url, frist)
+    }
+  }
+  return fristen
+}
+
 async function main(): Promise<void> {
   /**
    * Das Zugangspaket wird als **Erstes** geprüft, nicht beim ersten Abruf.
@@ -495,8 +564,10 @@ async function main(): Promise<void> {
   const bestand = new Map<string, CrSerie>(
     NEU ? [] : readJson<{ serien: CrSerie[] }>('data/crunchyroll-dub.json', { serien: [] }).serien.map((s) => [s.url, s]),
   )
-  // Frisch genug ist, was innerhalb der Wiedervorlagefrist gelesen wurde.
-  const grenze = addDays(todayIso(), -WIEDERVORLAGE_TAGE)
+  // Frisch genug ist, was innerhalb seiner eigenen Frist gelesen wurde — die
+  // hängt daran, ob sich bei diesem Titel überhaupt etwas bewegt.
+  const fristen = ALTER_GESETZT ? new Map<string, number>() : fristenJeAdresse(titles)
+  const grenzeFuer = (u: string) => addDays(todayIso(), -(fristen.get(u) ?? WIEDERVORLAGE_TAGE))
   const fehlerGrenze = addDays(todayIso(), -FEHLER_TAGE)
   /**
    * Gezielt die Seiten erneut prüfen, bei denen der letzte Lauf nichts sagen
@@ -521,7 +592,7 @@ async function main(): Promise<void> {
      * andere mit `fehler` ist eine Nichtauskunft und kommt früher wieder dran.
      */
     const befund = s.nichtVerfuegbar === true || !s.fehler
-    return s.geprueftAm >= (befund ? grenze : fehlerGrenze)
+    return s.geprueftAm >= (befund ? grenzeFuer(u) : fehlerGrenze)
   }
   const schonDa = adressen.filter(frisch).length
   const nachgefasst = adressen.filter((u) => !frisch(u) && bestand.get(u)?.fehler).length
@@ -529,7 +600,7 @@ async function main(): Promise<void> {
   if (LIMIT > 0) adressen = adressen.slice(0, LIMIT)
   log(
     `Crunchyroll: ${adressen.length} Serienadressen offen` +
-      (schonDa ? (NUR_FEHLER ? ` (${schonDa} ohne Fehler beim letzten Mal, werden übersprungen)` : ` (${schonDa} in den letzten ${WIEDERVORLAGE_TAGE} Tagen gelesen, werden übersprungen)`) : '') +
+      (schonDa ? (NUR_FEHLER ? ` (${schonDa} ohne Fehler beim letzten Mal, werden übersprungen)` : ` (${schonDa} innerhalb ihrer Frist gelesen, werden übersprungen)`) : '') +
       (nachgefasst ? `, darunter ${nachgefasst} ohne Auskunft aus einem früheren Lauf` : ''),
   )
   if (!adressen.length) {

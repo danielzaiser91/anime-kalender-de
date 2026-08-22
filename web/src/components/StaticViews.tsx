@@ -1058,6 +1058,7 @@ function Wissenswert() {
     { titel: t('sources.howTitle'), text: t('sources.howText') },
     { titel: t('sources.autoTitle'), text: t('sources.autoText') },
     { titel: t('sources.unsureTitle'), text: t('sources.unsureText') },
+    { titel: t('sources.catalogTitle'), text: t('sources.catalogText') },
     { titel: t('sources.staleTitle'), text: t('sources.staleText') },
   ]
   return (
