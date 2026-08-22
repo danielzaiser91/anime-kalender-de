@@ -85,15 +85,20 @@ pruefe('ohne Vermerke ist nichts erledigt',
   const nimmt = (staffeln) => {
     const offene = staffeln.filter((x) => x.offen)
     if (offene.length !== 1) return false
-    if (!offene[0].film && offene[0].folgen > 1) return false
     return true
   }
   pruefe('ein Film mit einer Folge wird vermerkt',
     nimmt([{ nr: 1, folgen: 1, film: true, offen: true }]))
   pruefe('ein Anthologie-Film mit drei Episoden auch',
     nimmt([{ nr: 1, folgen: 3, film: true, offen: true }]))
-  pruefe('eine Serie ohne Folgenangabe nicht — da waere jede Wahl geraten',
-    !nimmt([{ nr: 1, folgen: 13, film: false, offen: true }]))
+  /**
+   * Auch eine Serie ohne Folgenangabe wird vermerkt, wenn nur eine Staffel
+   * offen ist: „Pokémon: The Arceus Chronicles" fuehren wir als Serie mit vier
+   * Folgen, bei Netflix ist es ein Film — und der nennt keine Folge. Wer keine
+   * Auswahl vorfindet, hat gesehen, was es dort gibt (Daniel, 22.08.2026).
+   */
+  pruefe('eine Serie ohne Folgenangabe wird bei einer offenen Staffel vermerkt',
+    nimmt([{ nr: 1, folgen: 13, film: false, offen: true }]))
   pruefe('bei zwei offenen Staffeln wird nichts vermerkt',
     !nimmt([{ nr: 1, folgen: 1, film: true, offen: true }, { nr: 2, folgen: 1, film: true, offen: true }]))
   pruefe('eine beantwortete Staffel zaehlt nicht mit',

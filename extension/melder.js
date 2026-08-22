@@ -564,8 +564,20 @@ async function merkeErledigt(id, staffel, folge) {
      * und die Meldung blieb ohne Vermerk (Daniel, 22.08.2026). Wer einen Film
      * meldet, meint den Film; eine Auswahl gibt es dort nicht.
      */
+    /**
+     * Nennt der Anbieter keine Folge, gibt es dort auch keine Auswahl.
+     *
+     * „Pokémon: The Arceus Chronicles" führen wir als Serie mit vier Folgen —
+     * bei Netflix ist es ein Film (Daniel, 22.08.2026). Die Meldung kam ohne
+     * Folgennummer, und die alte Bedingung „nur bei Filmen" verwarf sie: Der
+     * Eintrag blieb weiß, obwohl die Auskunft im Briefkasten lag.
+     *
+     * Bei genau einer offenen Staffel ist trotzdem klar, was gemeint war —
+     * wer keine Folgenauswahl vorfindet, hat gesehen, was es dort gibt. Der
+     * Vermerk ist ohnehin nur eine Gedächtnisstütze; der Befund selbst liegt
+     * beim Worker.
+     */
     if (offene.length !== 1) return
-    if (!offene[0].film && offene[0].folgen > 1) return
     staffel = staffel || offene[0].nr
     folge = offene[0].erste ?? 1
   }
