@@ -66,3 +66,12 @@ Stand: 2026-08-22
 | netflix | https://www.netflix.com/title/80037677 | The Last: Naruto the Movie – Netflix | weg | #16870 The Last: Naruto the Movie<br>#16870 The Last: Naruto the Movie | nichts — wir führen dort keinen Verweis |
 | netflix | https://www.netflix.com/title/81165091 | The Pet Girl of Sakurasou – Netflix | weg | #13759 The Pet Girl of Sakurasou | nichts — wir führen dort keinen Verweis |
 | netflix | https://www.netflix.com/title/81717895 | Netflix | kein_dub | — | Titel von Hand suchen |
+| netflix | https://www.netflix.com/title/80023687 | Tokyo Ghoul – Netflix | weg | #20605 Tokyo Ghoul<br>#20605 Tokyo Ghoul | nichts — wir führen dort keinen Verweis |
+| netflix | https://www.netflix.com/title/80049275 | Toradora! – Netflix | weg | #4224 Toradora!<br>#4224 Toradora! | nichts — wir führen dort keinen Verweis |
+| netflix | https://www.netflix.com/title/81022603 | Undefeated Bahamut Chronicle – Netflix | weg | #21188 Undefeated Bahamut Chronicle | nichts — wir führen dort keinen Verweis |
+| netflix | https://www.netflix.com/title/81172898 | Weathering with you - Das Mädchen, das die Sonne berührte – Netflix | weg | — | Titel von Hand suchen |
+| netflix | https://www.netflix.com/title/70205687 | Marvel Anime: Wolverine – Netflix | weg | — | Titel von Hand suchen |
+| netflix | https://www.netflix.com/title/70205688 | Marvel Anime: X-Men – Netflix | weg | — | Titel von Hand suchen |
+| netflix | https://www.netflix.com/title/82030192 | YAIBA: Samurai Legend | weg | #177476 YAIBA: Samurai Legend | nichts — wir führen dort keinen Verweis |
+| netflix | https://www.netflix.com/title/80106136 | Yo-Kai Watch – Netflix | weg | #19157 Yo-kai Watch | nichts — wir führen dort keinen Verweis |
+| netflix | https://www.netflix.com/title/80161371 | Your Name. – Gestern, heute und für immer – Netflix | weg | — | Titel von Hand suchen |
