@@ -129,8 +129,19 @@ QUELLEN=(
 )
 ERZEUGNISSE=(public/data public/og)
 
-git config user.name "github-actions[bot]"
-git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+# Die Bot-Identität gilt **nur für den Commit dieses Skripts**, nicht für das
+# Repo.
+#
+# Bis zum 22.08.2026 stand hier `git config user.name …` ohne `--global`. Das
+# schreibt in `.git/config` und bleibt dort stehen — in der CI harmlos, weil
+# der Arbeitsordner nach dem Lauf verschwindet. Wird das Skript aber **von
+# Hand** ausgeführt, färbt es jeden späteren Commit in diesem Ordner: 177
+# Commits zwischen dem 17. und 22.08.2026 tragen den Bot als Autor, darunter
+# Handarbeit. `git blame` zeigt dort einen Automaten, der nie am Werk war.
+#
+# `git -c` unten setzt beides nur für den einen Aufruf.
+BOT_NAME="github-actions[bot]"
+BOT_MAIL="41898282+github-actions[bot]@users.noreply.github.com"
 
 # Der `git reset --hard` weiter unten rettet ausschließlich die Pfade aus
 # `QUELLEN`. Alles andere ist danach weg — auch **eigene Commits**, die noch
@@ -204,7 +215,7 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     exit 0
   fi
 
-  git commit -m "$NACHRICHT" --quiet
+  git -c user.name="$BOT_NAME" -c user.email="$BOT_MAIL" commit -m "$NACHRICHT" --quiet
 
   if git push --quiet 2>/dev/null; then
     echo "Gepusht (Versuch $versuch)."
