@@ -192,9 +192,98 @@
     window.__akMeta = metadaten
   }
 
-  // Der Mitschnitt ist herausgenommen (22.08.2026): Der Versuch, ihn gegen
-  // Netflix' eigene Wrapper zu behaupten, hat die Seite mit NSES-UHX
-  // lahmgelegt. Die Tonspuren kommen über den Player, und der genügt.
+  // --- Mithören -------------------------------------------------------------
+
+  /**
+   * Die Metadaten-Antwort mitlesen, ohne der Seite im Weg zu stehen.
+   *
+   * **Warum ein Zugriffsschutz und keine Zuweisung:** Netflix setzt
+   * `window.fetch` und `XMLHttpRequest.prototype.open` nach unserem Skript neu
+   * und verkettet dabei nichts. Ein schlichtes Überschreiben ist danach weg
+   * (gemessen 22.08.2026: beide Hüllen verschwunden, null Antworten gesehen).
+   * Mit einem Getter bekommt jeder Leser unsere Hülle, und ein Setter legt
+   * fest, was die Hülle **innen** aufruft — Netflix' eigener Wrapper landet
+   * damit unter unserem, statt ihn zu verdrängen.
+   *
+   * **Der Fehler, der Netflix lahmgelegt hat** (NSES-UHX, 22.08.2026): Die
+   * XHR-Hülle rief weiter `urOeffnen` auf, also die Fassung von ganz zu Beginn.
+   * Netflix' Wrapper wurde brav entgegengenommen und nie ausgeführt; ohne
+   * dessen `x-netflix.*`-Header scheitert dort jede Anfrage. Es ist genau
+   * **eine** Stelle, und sie heißt jetzt `aktuellesOeffnen`.
+   *
+   * **Die Regel, die daraus folgt:** Was hier passiert, darf einen Aufruf nie
+   * verhindern. Jeder Schritt liegt in einem eigenen `try`, und im Zweifel
+   * geht die Anfrage durch, ohne dass wir etwas mitbekommen.
+   */
+  const INTERESSANT = /memberapi\/release\/metadata/i
+
+  function mitlesen(url, text) {
+    try {
+      window.__akGesehen = (window.__akGesehen ?? 0) + 1
+      if (INTERESSANT.test(String(url))) lesMetadaten(text)
+    } catch (err) {
+      window.__akMetaFehler = err.message
+    }
+  }
+
+  // fetch
+  let aktuellerFetch = window.fetch
+  const fetchHuelle = function (...args) {
+    const zusage = aktuellerFetch.apply(this, args)
+    try {
+      const url = typeof args[0] === 'string' ? args[0] : (args[0]?.url ?? '')
+      if (INTERESSANT.test(url) && zusage?.then) {
+        zusage
+          .then((antwort) => antwort.clone().text())
+          .then((text) => mitlesen(url, text))
+          .catch(() => {})
+      }
+    } catch {
+      /* Mithören darf die Seite nie stören. */
+    }
+    return zusage
+  }
+  try {
+    Object.defineProperty(window, 'fetch', {
+      configurable: true,
+      get: () => fetchHuelle,
+      set: (neu) => {
+        aktuellerFetch = neu
+      },
+    })
+  } catch {
+    /* Geht der Zugriffsschutz nicht, wird eben nicht mitgehört. */
+  }
+
+  // XMLHttpRequest
+  let aktuellesOeffnen = XMLHttpRequest.prototype.open
+  const oeffnenHuelle = function (methode, url, ...rest) {
+    try {
+      this.addEventListener('load', () => {
+        try {
+          if (typeof this.responseText === 'string') mitlesen(url, this.responseText)
+        } catch {
+          /* siehe oben */
+        }
+      })
+    } catch {
+      /* siehe oben */
+    }
+    // Immer die **zuletzt gesetzte** Fassung — sonst fällt Netflix' eigener
+    // Wrapper aus der Kette, und die Seite bricht ab.
+    return aktuellesOeffnen.call(this, methode, url, ...rest)
+  }
+  try {
+    Object.defineProperty(XMLHttpRequest.prototype, 'open', {
+      configurable: true,
+      get: () => oeffnenHuelle,
+      set: (neu) => {
+        aktuellesOeffnen = neu
+      },
+    })
+  } catch {
+    /* siehe oben */
+  }
 
   // --- Takt ----------------------------------------------------------------
 
