@@ -191,6 +191,42 @@
     window.__akMeta = metadaten
   }
 
+  /**
+   * Die Metadaten selbst holen, statt auf sie zu warten.
+   *
+   * Der Mitschnitt ist gescheitert, und zwar messbar: Netflix ersetzt sowohl
+   * `window.fetch` als auch `XMLHttpRequest.prototype.open` **nach** unserem
+   * Skript — beide Wrapper waren nach dem Laden weg, null Antworten gesehen
+   * (Daniel, 22.08.2026). Dagegen anzukämpfen hieße, den Zeitpunkt zu erraten,
+   * an dem Netflix fertig ist.
+   *
+   * **Warum ein eigener Abruf hier vertretbar ist:** Es ist dieselbe Adresse,
+   * die die Seite in derselben Sekunde selbst geholt hat, mit denselben
+   * Anmeldedaten, ausgelöst dadurch, dass ein Mensch eine Folge gestartet hat.
+   * Was `robots.txt` untersagt, ist das systematische Abklappern durch ein
+   * Programm — hier wird nichts abgeklappert: eine Folge, ein Abruf, und nur
+   * die, die gerade offen ist. Ohne Nutzerklick passiert nichts.
+   */
+  let holtGerade = null
+
+  async function holeMetadaten(movieId) {
+    if (!movieId || holtGerade === movieId) return
+    holtGerade = movieId
+    const adresse =
+      '/nq/website/memberapi/release/metadata' +
+      `?movieid=${encodeURIComponent(movieId)}&imageFormat=webp&withSize=true&materialize=true`
+    try {
+      const antwort = await fetch(adresse, { credentials: 'include', headers: { accept: '*/*' } })
+      if (!antwort.ok) {
+        window.__akMetaFehler = `HTTP ${antwort.status}`
+        return
+      }
+      lesMetadaten(await antwort.text())
+    } catch (err) {
+      window.__akMetaFehler = err.message
+    }
+  }
+
   // --- Mithören ------------------------------------------------------------
 
   /**
@@ -225,21 +261,22 @@
   }
 
   /**
-   * Mitlesen, ohne sich in den Weg zu stellen.
+   * Mithören, ohne sich abhängen zu lassen.
    *
-   * Die erste Fassung war `async` und wartete mit `await` auf die Antwort. Damit
-   * lag mein Skript im Aufrufpfad jeder einzelnen Anfrage — und jede, die die
-   * Seite selbst abbricht (Crunchyroll tut das laufend), landete als
-   * „Uncaught (in promise) TypeError: Failed to fetch" in der Fehlerliste der
-   * Erweiterung, mit `leser.js` als Verursacher (Daniel, 22.08.2026, mit Bild).
+   * Die erste Fassung hat `window.fetch` und `XMLHttpRequest.prototype.open`
+   * schlicht ersetzt — und war nach dem Laden weg: Netflix setzt beide selbst
+   * neu und verkettet dabei nichts. Gemessen am 22.08.2026: beide Wrapper
+   * verschwunden, null Antworten gesehen.
    *
-   * Jetzt wird die ursprüngliche Zusage unverändert zurückgegeben und nur
-   * nebenher mitgelesen. Was dort schiefgeht, gehört mir und wird geschluckt;
-   * was der Seite schiefgeht, bleibt ihres.
+   * Der Ausweg ist ein **Zugriffsschutz** statt einer Zuweisung. Wer
+   * `window.fetch` liest, bekommt immer unsere Hülle; wer ihm etwas zuweist,
+   * ersetzt nur das, was die Hülle innen aufruft. Netflix darf also weiter
+   * seinen eigenen Wrapper setzen — er landet unter unserem, statt ihn zu
+   * verdrängen.
    */
-  const echtesFetch = window.fetch
-  window.fetch = function (...args) {
-    const zusage = echtesFetch.apply(this, args)
+  let echterFetch = window.fetch
+  const huelleFetch = function (...args) {
+    const zusage = echterFetch.apply(this, args)
     try {
       const url = typeof args[0] === 'string' ? args[0] : (args[0]?.url ?? '')
       if (INTERESSANT.test(url)) {
@@ -253,9 +290,20 @@
     }
     return zusage
   }
+  try {
+    Object.defineProperty(window, 'fetch', {
+      configurable: true,
+      get: () => huelleFetch,
+      set: (neu) => {
+        echterFetch = neu
+      },
+    })
+  } catch {
+    window.fetch = huelleFetch
+  }
 
   const echtesOeffnen = XMLHttpRequest.prototype.open
-  XMLHttpRequest.prototype.open = function (methode, url, ...rest) {
+  const huelleOeffnen = function (methode, url, ...rest) {
     this.addEventListener('load', () => {
       try {
         if (typeof this.responseText === 'string') pruefeAntwort(String(url), this.responseText)
@@ -265,10 +313,24 @@
     })
     return echtesOeffnen.call(this, methode, url, ...rest)
   }
+  let echtesOeffnenAktuell = echtesOeffnen
+  try {
+    Object.defineProperty(XMLHttpRequest.prototype, 'open', {
+      configurable: true,
+      get: () => huelleOeffnen,
+      set: (neu) => {
+        echtesOeffnenAktuell = neu
+      },
+    })
+  } catch {
+    XMLHttpRequest.prototype.open = huelleOeffnen
+  }
 
   // --- Takt ----------------------------------------------------------------
 
   function melden() {
+    // Die Nummer in der Adresse ist beim Abspielen die der Folge — genau die
+    // erwartet der Metadaten-Endpunkt als `movieid`.
     // Was Netflix selbst sagt, schlägt jede Ableitung aus der Titelzeile.
     const ausMeta = metadaten
       ? {
