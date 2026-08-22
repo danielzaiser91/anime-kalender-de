@@ -1069,9 +1069,15 @@ function pfadPruefen() {
 window.addEventListener('popstate', pfadPruefen)
 setInterval(pfadPruefen, 1000)
 
-// Und einmal sofort: Beim Laden einer Stöberseite soll der Knopf da sein, ohne
-// dass erst ein Wechsel nötig wäre.
-uebersichtZeigen()
+/**
+ * Der erste Blick wartet auf den gespeicherten Stand.
+ *
+ * `uebersichtZeigen()` zählt, was noch offen ist — und das steht in `erledigt`,
+ * das aus `chrome.storage.local` kommt und damit asynchron. Beim Start lief die
+ * Zählung vorher: Der Knopf zeigte 7, während der Dialog daneben „Alles
+ * geprüft" sagte (Daniel, 23.08.2026, nach dem Neuladen).
+ */
+void erledigtGeladen.then(() => uebersichtZeigen())
 
 /**
  * Einen Verweis als tot melden — direkt aus der Liste, ohne ihn zu öffnen.
