@@ -40,6 +40,37 @@ const gemeldet = new Set()
 /** Netzfunde, die noch nicht weitergereicht wurden. */
 const funde = []
 
+/**
+ * Die Titel, bei denen eine Prüfung noch etwas bringt.
+ *
+ * Daniel am 22.08.2026, während er eine Serie sah: „die extension stört beim
+ * gucken und will ich da nicht sehen" — kurz zuvor war ein Befund zu „Heroes"
+ * angekommen, einer amerikanischen Serie.
+ *
+ * Ohne Treffer in dieser Liste bleibt die Erweiterung vollständig still: kein
+ * Knopf, keine Meldung, keine Spur auf der Seite. Das ist der Normalfall — 256
+ * Titel stehen darin, Netflix führt Zehntausende.
+ *
+ * Die Liste liegt im Paket (`tools/extension-offene-liste.mjs` erzeugt sie),
+ * nicht im Netz: Ein Abruf je Seitenaufruf wäre Last ohne Gewinn, und die
+ * Erweiterung wird ohnehin neu geladen, wenn sich etwas ändert.
+ */
+let offeneTitel = null
+const listeGeladen = fetch(chrome.runtime.getURL('offene-netflix.json'))
+  .then((a) => a.json())
+  .then((j) => {
+    offeneTitel = j
+  })
+  .catch(() => {
+    // Ohne Liste lieber gar nichts tun als alles melden.
+    offeneTitel = {}
+  })
+
+/** Steht dieser Titel auf der Liste? */
+function istGesucht() {
+  return Boolean(stand.reihe && offeneTitel && offeneTitel[String(stand.reihe)] !== undefined)
+}
+
 window.addEventListener('message', (e) => {
   if (e.source !== window) return
   if (e.data?.marke === 'ak-spuren') {
@@ -53,8 +84,18 @@ window.addEventListener('message', (e) => {
       serientitel: e.data.serientitel ?? null,
       titel: e.data.titel,
     }
-    knopfZeigen()
-    vielleichtSenden()
+    // Erst wenn die Liste da ist — sonst entschiede der Zufall des Ladens
+    // darüber, ob ein Titel als gesucht gilt.
+    void listeGeladen.then(() => {
+      // Beim Wechsel auf einen Titel, der nicht auf der Liste steht, muss der
+      // Knopf des vorigen weg — Netflix wechselt die Seite ohne Neuladen.
+      if (!istGesucht()) {
+        knopfEntfernen()
+        return
+      }
+      knopfZeigen()
+      vielleichtSenden()
+    })
     return
   }
   if (e.data?.marke === 'ak-netzfund') {
@@ -250,10 +291,20 @@ function zeigeErgebnis(text, gutgegangen) {
   }, 3500)
 }
 
+function knopfEntfernen() {
+  if (knopf) {
+    knopf.remove()
+    knopf = null
+  }
+}
+
 function knopfZeigen() {
   const { spuren, reihe } = stand
-  if (!reihe && !spuren) {
-    if (knopf) { knopf.remove(); knopf = null }
+  // Zweite Sicherung an der Stelle, die tatsächlich in die Seite schreibt: Wer
+  // hier ankommt, ohne dass der Titel gesucht ist, hat einen Weg gefunden, den
+  // niemand vorgesehen hat.
+  if ((!reihe && !spuren) || !istGesucht()) {
+    knopfEntfernen()
     return
   }
   if (!knopf) {

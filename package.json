@@ -43,7 +43,8 @@
     "data:motn": "tsx pipeline/fetch-motn.ts",
     "data:motn:check": "tsx pipeline/check-motn.ts",
     "data:pruefungen": "tsx pipeline/fetch-pruefungen.ts",
-    "data:netflix-rest": "node pipeline/list-netflix-rest.mjs"
+    "data:netflix-rest": "node pipeline/list-netflix-rest.mjs",
+    "data:extension-liste": "node tools/extension-offene-liste.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",
