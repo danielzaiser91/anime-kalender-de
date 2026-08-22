@@ -2361,3 +2361,160 @@
   available: false
   checkedAt: '2026-08-22'
   note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-22 ---
+
+- anilistId: 21496
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 117756
+  title: "Ghost in the Shell: SAC_2045 Season 2"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, hi|Hindi, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 10 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 138899
+  title: "Ghost in the Shell: SAC_2045 Sustainable War"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, hi|Hindi, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 10 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 918
+  title: "Gintama"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
+
+- anilistId: 14131
+  title: "Girls und Panzer"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 12191
+  title: "Glitter Force"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 16419
+  title: "Glitter Force Doki Doki"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 20849
+  title: "God Eater"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 101165
+  title: "GOBLIN SLAYER"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 100561
+  title: "Godzilla: City on the Edge of Battle"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, zh|Mandarin, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 10 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 87458
+  title: "Godzilla: Planet of the Monsters"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folge 1 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, zh|Mandarin, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 10 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 102353
+  title: "Godzilla: The Planet Eater"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, zh|Mandarin, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 10 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 21361
+  title: "Granblue Fantasy: The Animation"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 578
+  title: "Grave of the Fireflies"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, id|Indonesisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch — 11 Tonspuren, 2 Audiodeskriptionen"
+
+- anilistId: 10793
+  title: "Guilty Crown"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 10719
+  title: "Haganai"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 14967
+  title: "Haganai NEXT"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 166703
+  title: "GUNDAM: Requiem for Vengeance"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–6 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, ja|Japanisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 2 Audiodeskriptionen"
+
+- anilistId: 6867
+  title: "Halo Legends"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-22 ---
+
+- anilistId: 8074
+  title: "High School of the Dead"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 163132
+  title: "Horimiya: The Missing Pieces"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 431
+  title: "Howl‘s Moving Castle"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], ru|Russisch, nl|Niederländisch, fr|Französisch, en|Englisch, ar|Arabisch, da|Dänisch, fi|Finnisch, hi|Hindi, id|Indonesisch, it|Italienisch, ca|Katalanisch, ko|Koreanisch, ms|Malaiisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, vi|Vietnamesisch — 25 Tonspuren, 0 Audiodeskriptionen"
