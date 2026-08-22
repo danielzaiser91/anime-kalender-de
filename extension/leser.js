@@ -244,6 +244,44 @@
     /* Ohne Mitlesen bleibt der Weg über die Titelzeile. */
   }
 
+  /**
+   * Derselbe Griff für den `fetch`-Weg — am Ergebnis, nicht am Aufruf.
+   *
+   * Der XHR-Griff darüber ist am 22.08.2026 harmlos durchgelaufen (JJK-Test),
+   * hat aber nichts gesehen: `serientitel` und `staffeln` fehlten in allen
+   * Meldungen. Netflix holt die Metadaten also per `fetch`; der Header
+   * `ui/xhrUnclassified` aus Daniels curl ist nur ein Name, den der Client
+   * selbst setzt, keine Aussage über XMLHttpRequest.
+   *
+   * `Response.prototype.json` zu umhüllen ist aus demselben Grund sicher wie
+   * der Getter: Die native Funktion liegt in einer Closure, Netflix ersetzt sie
+   * nicht, und der Rückgabewert ist unverändert der native. **Kein `clone()`
+   * nötig** — wir lesen das fertige Objekt, nicht den Datenstrom, und
+   * verbrauchen damit nichts.
+   */
+  try {
+    const urJson = Response.prototype.json
+    Response.prototype.json = function () {
+      const versprechen = urJson.call(this)
+      try {
+        const url = String(this.url ?? '')
+        if (url.includes(METADATEN_ADRESSE)) {
+          void versprechen
+            .then((daten) => {
+              window.__akGesehen = (window.__akGesehen ?? 0) + 1
+              lesMetadaten(JSON.stringify(daten))
+            })
+            .catch(() => {})
+        }
+      } catch (err) {
+        window.__akMetaFehler = err.message
+      }
+      return versprechen
+    }
+  } catch {
+    /* Ohne Mitlesen bleibt der Weg über die Titelzeile. */
+  }
+
   function melden() {
     // Die Nummer in der Adresse ist beim Abspielen die der Folge — genau die
     // erwartet der Metadaten-Endpunkt als `movieid`.

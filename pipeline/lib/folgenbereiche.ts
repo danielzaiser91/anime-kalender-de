@@ -77,9 +77,88 @@ export function beschreibeBereiche(bereiche: Folgenbereich[]): string {
     if (vorheriges && b.von > vorheriges + 1) {
       teile.push(`${vorheriges + 1}–${b.von - 1} ungeprüft`)
     }
-    const spanne = b.von === b.bis ? `${b.von}` : `${b.von}–${b.bis}`
-    teile.push(`${spanne} ${b.dub ? 'mit' : 'ohne'} deutschen Ton`)
+    const spanne = b.von === b.bis ? `Folge ${b.von}` : `Folgen ${b.von}–${b.bis}`
+    teile.push(`${spanne} ${b.dub ? 'mit deutschem' : 'ohne deutschen'} Ton`)
     vorheriges = b.bis
   }
   return teile.join(', ')
+}
+
+/**
+ * Ein Eintrag unseres Datensatzes, wie ihn die Zuordnung braucht.
+ *
+ * `folgen` ist die Folgenzahl **dieser** Staffel, nicht die der Reihe.
+ */
+export interface Staffeleintrag {
+  id: number
+  titel: string
+  folgen: number
+}
+
+/**
+ * Eine durchgezählte Anbieternummer auf unsere Staffeln umrechnen.
+ *
+ * Netflix zählt Jujutsu Kaisen durch: Folge 59 heißt dort „Die Sendai-Barriere"
+ * (Daniel, 22.08.2026, mit Bild). Unser Datensatz führt dieselbe Adresse an
+ * drei AniList-Einträgen mit 24, 23 und 12 Folgen — 24 + 23 + 12 = 59. Die 59
+ * gehört also in die dritte Staffel, als deren zwölfte Folge.
+ *
+ * **Die Reihenfolge der Staffeln muss stimmen**, sonst rechnet das hier
+ * zuverlässig falsch. Sie kommt von außen (nach Erstausstrahlung sortiert),
+ * nicht aus der AniList-Kennung — die steigt zwar meistens mit der Zeit, aber
+ * eben nur meistens.
+ *
+ * Fällt die Nummer hinter die letzte bekannte Folge, kommt `null` zurück: Dann
+ * kennt der Anbieter mehr Folgen als wir, und raten hilft niemandem.
+ */
+export function ordneFolgeZu(
+  folge: number,
+  staffeln: Staffeleintrag[],
+): { staffel: Staffeleintrag; folgeInStaffel: number; index: number } | null {
+  let gezaehlt = 0
+  for (let i = 0; i < staffeln.length; i++) {
+    const s = staffeln[i]!
+    if (folge <= gezaehlt + s.folgen) {
+      return { staffel: s, folgeInStaffel: folge - gezaehlt, index: i }
+    }
+    gezaehlt += s.folgen
+  }
+  return null
+}
+
+/**
+ * Einen Folgenbereich auf die Staffeln verteilen, die er berührt.
+ *
+ * Black Clover auf Netflix: 1–155 deutsch, 156–171 nicht. Unser Datensatz kennt
+ * vier Staffeln — der erste Bereich deckt drei davon ganz und die vierte
+ * teilweise. Genau diese Teilung steht hier: je Staffel, wie viele Folgen des
+ * Bereichs in ihr liegen und ob sie **ganz** darin liegt.
+ *
+ * Nur eine vollständig abgedeckte Staffel darf einen Befund für die ganze
+ * Staffel bekommen. Bei einer angeschnittenen wäre „hat deutschen Ton" eine
+ * Aussage über Folgen, die niemand geprüft hat.
+ */
+export function verteileAufStaffeln(
+  bereich: { von: number; bis: number; dub: boolean },
+  staffeln: Staffeleintrag[],
+): Array<{ staffel: Staffeleintrag; von: number; bis: number; ganz: boolean; dub: boolean }> {
+  const ergebnis: Array<{ staffel: Staffeleintrag; von: number; bis: number; ganz: boolean; dub: boolean }> = []
+  let gezaehlt = 0
+  for (const s of staffeln) {
+    const erste = gezaehlt + 1
+    const letzte = gezaehlt + s.folgen
+    const von = Math.max(bereich.von, erste)
+    const bis = Math.min(bereich.bis, letzte)
+    if (von <= bis) {
+      ergebnis.push({
+        staffel: s,
+        von: von - gezaehlt,
+        bis: bis - gezaehlt,
+        ganz: von === erste && bis === letzte,
+        dub: bereich.dub,
+      })
+    }
+    gezaehlt = letzte
+  }
+  return ergebnis
 }

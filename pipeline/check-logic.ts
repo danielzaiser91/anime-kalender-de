@@ -36,7 +36,7 @@ import {
   zerlegeAdnAdresse,
   type AdnRohVideo,
 } from './lib/adn-sprachen.ts'
-import { beschreibeBereiche, bildeBereiche } from './lib/folgenbereiche.ts'
+import { beschreibeBereiche, bildeBereiche, ordneFolgeZu, verteileAufStaffeln } from './lib/folgenbereiche.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { beurteile } from './lib/crunchyroll-dub.ts'
 import {
@@ -1409,6 +1409,60 @@ console.log('\nStreaming Availability API:')
     wirr.bereiche.length === 2 && wirr.bereiche[0]?.von === 1 && wirr.bereiche[1]?.von === 13,
     wirr.bereiche,
   )
+}
+
+/**
+ * Durchgezählte Anbieternummern auf unsere Staffeln umrechnen.
+ *
+ * Netflix zählt Jujutsu Kaisen durch. Daniel am 22.08.2026, mit Bild aus dem
+ * Player: „staffel 1 (bis 24) staffel 2 (bis 47) staffel 3 (bis 59)" — Folge 59
+ * heißt dort „Die Sendai-Barriere". Unser Datensatz führt dieselbe Adresse an
+ * drei AniList-Einträgen mit 24, 23 und 12 Folgen.
+ */
+{
+  console.log('\nDurchgezählte Folgen den Staffeln zuordnen')
+
+  const jjk = [
+    { id: 113415, titel: 'JUJUTSU KAISEN', folgen: 24 },
+    { id: 145064, titel: 'JUJUTSU KAISEN Season 2', folgen: 23 },
+    { id: 172463, titel: 'JUJUTSU KAISEN Season 3', folgen: 12 },
+  ]
+
+  pruefe('Folge 24 ist die letzte der ersten Staffel',
+    ordneFolgeZu(24, jjk)?.staffel.id === 113415 && ordneFolgeZu(24, jjk)?.folgeInStaffel === 24,
+    ordneFolgeZu(24, jjk))
+  pruefe('Folge 25 ist die erste der zweiten',
+    ordneFolgeZu(25, jjk)?.staffel.id === 145064 && ordneFolgeZu(25, jjk)?.folgeInStaffel === 1,
+    ordneFolgeZu(25, jjk))
+  pruefe('Folge 47 ist die letzte der zweiten',
+    ordneFolgeZu(47, jjk)?.staffel.id === 145064 && ordneFolgeZu(47, jjk)?.folgeInStaffel === 23,
+    ordneFolgeZu(47, jjk))
+  pruefe('Folge 59 ist die zwölfte der dritten — Daniels Fall',
+    ordneFolgeZu(59, jjk)?.staffel.id === 172463 && ordneFolgeZu(59, jjk)?.folgeInStaffel === 12,
+    ordneFolgeZu(59, jjk))
+  pruefe('hinter der letzten bekannten Folge wird nicht geraten',
+    ordneFolgeZu(60, jjk) === null, ordneFolgeZu(60, jjk))
+
+  /**
+   * Black Clover, der reale Fall: 1–155 deutsch, 156–171 nicht. Nur eine
+   * **ganz** abgedeckte Staffel darf einen Befund für die ganze Staffel
+   * bekommen — bei einer angeschnittenen wäre es eine Aussage über Folgen, die
+   * niemand geprüft hat.
+   */
+  const bc = [
+    { id: 1, titel: 'Staffel 1', folgen: 51 },
+    { id: 2, titel: 'Staffel 2', folgen: 51 },
+    { id: 3, titel: 'Staffel 3', folgen: 51 },
+    { id: 4, titel: 'Staffel 4', folgen: 18 },
+  ]
+  const verteilt = verteileAufStaffeln({ von: 1, bis: 155, dub: true }, bc)
+  pruefe('der Bereich 1–155 berührt alle vier Staffeln',
+    verteilt.length === 4, verteilt.map((v) => v.staffel.id))
+  pruefe('die ersten drei liegen ganz darin, die vierte nur angeschnitten',
+    verteilt[0]?.ganz && verteilt[1]?.ganz && verteilt[2]?.ganz && verteilt[3]?.ganz === false,
+    verteilt.map((v) => v.ganz))
+  pruefe('von der vierten sind es die Folgen 1–2',
+    verteilt[3]?.von === 1 && verteilt[3]?.bis === 2, verteilt[3])
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
