@@ -496,7 +496,23 @@ async function merkeTot(id) {
 }
 
 async function merkeErledigt(id, staffel, folge) {
-  if (!id || !folge) return
+  if (!id) return
+  /**
+   * Ein Film hat keine Folgennummer — und braucht auch keine.
+   *
+   * Netflix nennt bei „Castle in the Sky" weder Staffel noch Folge; die Meldung
+   * kam mit beidem leer an und fiel deshalb durch. Das Zeichen „Film" blieb
+   * weiß, obwohl die Auskunft im Briefkasten lag (Daniel, 22.08.2026).
+   *
+   * Hat der Titel genau eine offene Staffel mit einer einzigen Folge, ist klar,
+   * was gemeint war.
+   */
+  if (!folge) {
+    const offene = (offeneTitel[String(id)]?.staffeln ?? []).filter((x) => x.offen)
+    if (offene.length !== 1 || offene[0].folgen > 1) return
+    staffel = staffel || offene[0].nr
+    folge = offene[0].erste ?? 1
+  }
   /**
    * Kennt die Liste diese Kennung nicht, war es vielleicht eine andere.
    *
@@ -691,11 +707,25 @@ async function dialogOeffnen() {
       const angefasst = !fertig && staffel !== null && staffelAngefasst(id, staffel)
       marke.className = 'ak-folge' + (fertig ? ' ak-fertig' : angefasst ? ' ak-angefasst' : '')
       marke.textContent = kuerzel
+      /**
+       * Der Tooltip nennt die Zahl, die die Kachel **nicht** zeigt.
+       *
+       * Netflix zählt bei manchen Reihen über die Staffeln hinweg durch: Bei
+       * „Carole & Tuesday" heißt die letzte Folge von Teil 2 dort **24**, es ist
+       * aber die zwölfte des Teils. Auf der Kachel steht Netflix' Zahl — die
+       * sieht Daniel im Player. Wer wissen will, die wievielte es innerhalb der
+       * Staffel ist, findet es hier.
+       */
+      const nr = Number(kuerzel.split('e')[1])
+      const dieStaffel = eintrag.staffeln.find((x) => x.nr === staffel)
+      const eigene =
+        dieStaffel?.erste > 1 && Number.isFinite(nr) ? nr - dieStaffel.erste + 1 : null
+      const zusatz = eigene ? ` (Folge ${eigene} dieser Staffel)` : ''
       marke.title = fertig
-        ? 'genau diese Folge ist gemeldet'
+        ? `genau diese Folge ist gemeldet${zusatz}`
         : angefasst
           ? `aus Staffel ${staffel} ist schon etwas gemeldet: ${(erledigt[String(id)] ?? []).filter((k) => k.startsWith(staffel + 'e')).join(', ')}`
-          : 'noch offen'
+          : `noch offen${zusatz}`
       folgen.appendChild(marke)
     }
     zeile.appendChild(folgen)
