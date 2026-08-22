@@ -142,8 +142,19 @@ async function fundSchicken(fund) {
  */
 const gesendet = new Map()
 
+/**
+ * Was eine Meldung eindeutig macht — Reihe, **Staffel** und Folge.
+ *
+ * Ohne die Staffel trugen Staffel 3 Folge 1 und Staffel 4 Folge 1 denselben
+ * Schlüssel. Die zweite galt damit als längst gesendet und ging nie raus,
+ * während der Knopf den Erfolgstext der ersten weiterzeigte: „Deutsch gesendet
+ * (St. 4, Flg. 1)" stand da, im Briefkasten lag nur Staffel 3 (Daniel,
+ * 22.08.2026, mit Bild).
+ *
+ * Das ist die schlimmste Sorte Fehler: Er meldet Erfolg und tut nichts.
+ */
 function schluessel() {
-  return `${stand.reihe}:${stand.folgeNr ?? '—'}`
+  return `${stand.reihe}:${stand.staffel ?? '—'}:${stand.folgeNr ?? '—'}`
 }
 
 function vielleichtSenden() {

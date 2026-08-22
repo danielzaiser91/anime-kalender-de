@@ -50,6 +50,27 @@ erledigt = {}
 pruefe('ohne Vermerke ist nichts erledigt',
   !istErledigt('123', '1e01') && !staffelAngefasst('123', 1))
 
+
+/**
+ * Der Schlüssel, der eine Meldung eindeutig macht.
+ *
+ * Ohne die Staffel trugen Staffel 3 Folge 1 und Staffel 4 Folge 1 denselben
+ * Schlüssel — die zweite Meldung galt als längst gesendet und ging nie raus,
+ * während der Knopf den Erfolgstext der ersten weiterzeigte (Daniel,
+ * 22.08.2026). Ein Fehler, der Erfolg meldet und nichts tut.
+ */
+{
+  const bau = (stand) => `${stand.reihe}:${stand.staffel ?? '—'}:${stand.folgeNr ?? '—'}`
+  pruefe('gleiche Folge in verschiedenen Staffeln bleibt unterscheidbar',
+    bau({ reihe: '80198505', staffel: 3, folgeNr: 1 }) !== bau({ reihe: '80198505', staffel: 4, folgeNr: 1 }))
+  pruefe('dieselbe Folge derselben Staffel bleibt dieselbe',
+    bau({ reihe: '80198505', staffel: 3, folgeNr: 1 }) === bau({ reihe: '80198505', staffel: 3, folgeNr: 1 }))
+  pruefe('ohne Staffelangabe trennt weiterhin die Folge',
+    bau({ reihe: 'x', folgeNr: 1 }) !== bau({ reihe: 'x', folgeNr: 2 }))
+  pruefe('verschiedene Reihen bleiben getrennt',
+    bau({ reihe: 'a', staffel: 1, folgeNr: 1 }) !== bau({ reihe: 'b', staffel: 1, folgeNr: 1 }))
+}
+
 const fehler = faelle.filter((x) => !x).length
 console.log(fehler ? `\n${fehler} Fall/Fälle durchgefallen` : '\n✓ Geprüftes wird sichtbar')
 process.exit(fehler ? 1 : 0)
