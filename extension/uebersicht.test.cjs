@@ -7,7 +7,7 @@
  */
 const { readFileSync } = require('node:fs')
 const quelle = readFileSync(__dirname + '/melder.js', 'utf8')
-const liste = JSON.parse(readFileSync(__dirname + '/offene-netflix.json', 'utf8'))
+const liste = (() => { const g = {}; new Function('globalThis', readFileSync(__dirname + '/offene-netflix.js', 'utf8'))(g); return g.AK_OFFENE_TITEL })()
 
 // Die drei Funktionen aus der Quelle holen, statt sie hier nachzubauen — eine
 // zweite Fassung liefe unweigerlich auseinander.

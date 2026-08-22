@@ -55,42 +55,19 @@ const funde = []
  * nicht im Netz: Ein Abruf je Seitenaufruf wäre Last ohne Gewinn, und die
  * Erweiterung wird ohnehin neu geladen, wenn sich etwas ändert.
  */
-let offeneTitel = null
-const listeGeladen = fetch(chrome.runtime.getURL('offene-netflix.json'))
-  .then((a) => a.json())
-  .then((j) => {
-    offeneTitel = j
-  })
-  .catch(() => {
-    // Ohne Liste lieber gar nichts tun als alles melden.
-    offeneTitel = {}
-  })
-  .then(() => uebersichtZeigen())
-
 /**
- * Netflix wechselt die Seite ohne Neuladen — der Knopf muss mitbekommen, ob
- * gerade der Player läuft.
+ * Die Liste liegt als eigenes Content-Script bei und setzt `AK_OFFENE_TITEL`.
  *
- * `popstate` allein genügt nicht: Es feuert nur beim Zurück-Knopf, nicht bei
- * einem Klick auf eine Kachel. Deshalb zusätzlich ein Blick auf die Adresse,
- * sobald sich am Seiteninhalt etwas tut.
+ * Der erste Anlauf holte sie per `fetch(chrome.runtime.getURL(…))` — und
+ * scheiterte still an Netflix' Sicherheitsregeln: Die Seite lässt keine Abrufe
+ * auf `chrome-extension://` zu. Die Erweiterung blieb stumm, kein Knopf, keine
+ * Meldung (Daniel, 22.08.2026, mit Bild von netflix.com/browse).
+ *
+ * Ein Content-Script lädt der Browser dagegen selbst, bevor die Seite etwas
+ * dazu sagen kann. `offene-netflix.js` steht im Manifest **vor** dieser Datei,
+ * die Liste ist hier also schon da.
  */
-let letzterPfad = location.pathname
-function pfadPruefen() {
-  if (location.pathname === letzterPfad) return
-  letzterPfad = location.pathname
-  dialogSchliessen()
-  uebersichtZeigen()
-}
-window.addEventListener('popstate', pfadPruefen)
-// Ein Beobachter über den ganzen Baum wäre hier teuer: Netflix baut beim Stöbern
-// unablässig Kacheln um, und jede Änderung riefe die Prüfung erneut auf. Ein
-// Blick pro Sekunde kostet nichts und merkt jeden Wechsel früh genug.
-//
-// `history.pushState` zu überschreiben wäre der kürzere Weg und der falsche —
-// genau daran ist der Netzwerk-Mitschnitt zweimal gescheitert (NSES-UHX,
-// 22.08.2026). An fremden Seiten wird nichts ersetzt, was sie selbst aufrufen.
-setInterval(pfadPruefen, 1000)
+const offeneTitel = globalThis.AK_OFFENE_TITEL ?? {}
 
 /** Steht dieser Titel auf der Liste? */
 function istGesucht() {
@@ -110,18 +87,14 @@ window.addEventListener('message', (e) => {
       serientitel: e.data.serientitel ?? null,
       titel: e.data.titel,
     }
-    // Erst wenn die Liste da ist — sonst entschiede der Zufall des Ladens
-    // darüber, ob ein Titel als gesucht gilt.
-    void listeGeladen.then(() => {
-      // Beim Wechsel auf einen Titel, der nicht auf der Liste steht, muss der
-      // Knopf des vorigen weg — Netflix wechselt die Seite ohne Neuladen.
-      if (!istGesucht()) {
-        knopfEntfernen()
-        return
-      }
-      knopfZeigen()
-      vielleichtSenden()
-    })
+    // Beim Wechsel auf einen Titel, der nicht auf der Liste steht, muss der
+    // Knopf des vorigen weg — Netflix wechselt die Seite ohne Neuladen.
+    if (!istGesucht()) {
+      knopfEntfernen()
+      return
+    }
+    knopfZeigen()
+    vielleichtSenden()
     return
   }
   if (e.data?.marke === 'ak-netzfund') {
@@ -555,3 +528,33 @@ function dialogOeffnen() {
   document.body.appendChild(dialog)
   suche.focus()
 }
+
+// --- Start ------------------------------------------------------------------
+
+/**
+ * Netflix wechselt die Seite ohne Neuladen — der Knopf muss mitbekommen, ob
+ * gerade der Player läuft.
+ *
+ * `popstate` allein genügt nicht: Es feuert beim Zurück-Knopf, nicht bei einem
+ * Klick auf eine Kachel. Ein Beobachter über den ganzen Baum wäre das andere
+ * Extrem — Netflix baut beim Stöbern unablässig Kacheln um, und jede Änderung
+ * riefe die Prüfung erneut auf. Ein Blick pro Sekunde kostet nichts und merkt
+ * jeden Wechsel früh genug.
+ *
+ * `history.pushState` zu überschreiben wäre der kürzeste Weg und der falsche:
+ * Genau daran ist der Netzwerk-Mitschnitt zweimal gescheitert (NSES-UHX,
+ * 22.08.2026). An fremden Seiten wird nichts ersetzt, was sie selbst aufrufen.
+ */
+let letzterPfad = location.pathname
+function pfadPruefen() {
+  if (location.pathname === letzterPfad) return
+  letzterPfad = location.pathname
+  dialogSchliessen()
+  uebersichtZeigen()
+}
+window.addEventListener('popstate', pfadPruefen)
+setInterval(pfadPruefen, 1000)
+
+// Und einmal sofort: Beim Laden einer Stöberseite soll der Knopf da sein, ohne
+// dass erst ein Wechsel nötig wäre.
+uebersichtZeigen()

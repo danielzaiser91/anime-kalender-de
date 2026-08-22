@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Anime-Kalender: Synchro melden",
   "description": "Meldet bei Netflix die Tonspuren der Titel, deren deutsche Synchro im Anime-Kalender noch offen ist. Bei allen anderen Seiten bleibt sie still.",
-  "version": "0.25.0",
+  "version": "0.26.0",
   "permissions": [
     "storage"
   ],
@@ -25,6 +25,7 @@
         "https://www.netflix.com/*"
       ],
       "js": [
+        "offene-netflix.js",
         "melder.js"
       ],
       "css": [

@@ -66,7 +66,18 @@ for (const [id, eintraege] of jeAdresse) {
   }
 }
 
-const ziel = resolve(wurzel, 'extension/offene-netflix.json')
-writeFileSync(ziel, JSON.stringify(offen) + '\n')
+const ziel = resolve(wurzel, 'extension/offene-netflix.js')
+/**
+ * Als Skript, nicht als JSON.
+ *
+ * Der Weg über `fetch(chrome.runtime.getURL(…))` scheiterte an Netflix'
+ * Sicherheitsregeln: Die Seite lässt keine Abrufe auf `chrome-extension://` zu,
+ * und die Erweiterung blieb stumm — kein Knopf, keine Meldung (Daniel,
+ * 22.08.2026, mit Bild von netflix.com/browse).
+ *
+ * Ein Content-Script wird dagegen vom Browser selbst geladen, bevor die Seite
+ * etwas dazu sagen kann. Daran kommt keine Regel der Seite heran.
+ */
+writeFileSync(ziel, 'globalThis.AK_OFFENE_TITEL = ' + JSON.stringify(offen) + '\n')
 const staffeln = Object.values(offen).reduce((n, o) => n + o.staffeln.filter((s) => s.offen).length, 0)
 console.log(`${Object.keys(offen).length} Netflix-Adressen mit ${staffeln} offenen Staffeln`)

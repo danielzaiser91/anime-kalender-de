@@ -9,7 +9,7 @@
  * Titel als gesucht, und schweigt sie bei allem anderen?
  */
 const { readFileSync } = require('node:fs')
-const liste = JSON.parse(readFileSync(__dirname + '/offene-netflix.json', 'utf8'))
+const liste = (() => { const g = {}; new Function('globalThis', readFileSync(__dirname + '/offene-netflix.js', 'utf8'))(g); return g.AK_OFFENE_TITEL })()
 
 let stand = {}
 let offeneTitel = liste
