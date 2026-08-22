@@ -847,10 +847,7 @@ async function dialogOeffnen() {
   const titelzeile = document.createElement('strong')
   // Dieselbe Zahl wie am Knopf — sonst steht oben 146, während unten 78 steht.
   const nochOffen = eintraege.filter(([id, e]) => !fertig(id, e)).length
-  titelzeile.textContent =
-    nochOffen === eintraege.length
-      ? `${eintraege.length} Titel zu prüfen`
-      : `${nochOffen} Titel zu prüfen · ${eintraege.length - nochOffen} gemeldet`
+  titelzeile.textContent = nochOffen ? `${nochOffen} Titel zu prüfen` : 'Alles geprüft'
   kopf.appendChild(titelzeile)
 
   const suche = document.createElement('input')
@@ -858,6 +855,27 @@ async function dialogOeffnen() {
   suche.type = 'search'
   suche.placeholder = 'Suchen'
   kopf.appendChild(suche)
+
+  /**
+   * Erledigtes ist standardmäßig weg.
+   *
+   * Es blieb sichtbar, damit erkennbar ist, was schon durch ist — bei elf
+   * abgehakten Zeilen und null offenen ist das aber nur noch Ballast (Daniel,
+   * 22.08.2026: „warum sehe ich diese 11 noch in der liste ausgegraut?").
+   * Wer nachsehen will, klappt sie auf.
+   */
+  if (eintraege.length - nochOffen > 0) {
+    const umschalter = document.createElement('button')
+    umschalter.className = 'ak-umschalter'
+    umschalter.textContent = `${eintraege.length - nochOffen} gemeldet zeigen`
+    umschalter.addEventListener('click', () => {
+      const zeigen = kasten.classList.toggle('ak-mit-erledigten')
+      umschalter.textContent = zeigen
+        ? `${eintraege.length - nochOffen} gemeldet ausblenden`
+        : `${eintraege.length - nochOffen} gemeldet zeigen`
+    })
+    kopf.appendChild(umschalter)
+  }
 
   const zu = document.createElement('button')
   zu.className = 'ak-zu'

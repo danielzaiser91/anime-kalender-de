@@ -194,3 +194,22 @@
   border-color: rgba(210, 168, 255, 0.55);
   color: #d2a8ff;
 }
+
+/* Erledigtes ist standardmäßig ausgeblendet und wird über den Umschalter im
+   Kopf sichtbar. Es ganz zu löschen wäre falsch — wer eine Staffel doppelt
+   prüft, soll sehen, dass sie schon durch ist. */
+.ak-zeile.ak-abgehakt { display: none; }
+.ak-kasten.ak-mit-erledigten .ak-zeile.ak-abgehakt { display: flex; opacity: .45; }
+.ak-kasten.ak-mit-erledigten .ak-zeile.ak-abgehakt:hover { opacity: .8; }
+
+.ak-umschalter {
+  flex: 0 0 auto;
+  padding: 4px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 6px;
+  background: none;
+  color: #8b949e;
+  font: 500 11px/1.5 "Segoe UI", system-ui, sans-serif;
+  cursor: pointer;
+}
+.ak-umschalter:hover { border-color: #58a6ff; color: #e6edf3; }
