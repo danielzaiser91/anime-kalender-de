@@ -1770,13 +1770,17 @@ export function DetailPanel({
                   {title.fsk !== undefined && <FskBadge fsk={title.fsk} />}
                 </div>
                 <dl className="grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-slate-600 dark:text-slate-300">
-                  <dt className="text-slate-400">{t('detail.availableFrom')}</dt>
+                  <dt className="text-slate-400">
+                    {t(status === 'erschienen' ? 'detail.releasedLabel' : 'detail.availableFrom')}
+                  </dt>
                   <dd>
                     <Tooltip
                       text={t(status === 'erschienen' ? 'detail.releasedNoDate' : 'detail.noRelease')}
                       unterstrichen
                     >
-                      <span className="opacity-70">{t('detail.unknown')}</span>
+                      <span className="opacity-70">
+                        {t(status === 'erschienen' ? 'detail.releasedValue' : 'detail.unknown')}
+                      </span>
                     </Tooltip>
                   </dd>
                 </dl>

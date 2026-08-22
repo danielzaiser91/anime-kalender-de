@@ -269,6 +269,11 @@ const TEXTE = {
   // „Sword Art Online" am 11.06.2025 ins Angebot, die deutsche Fassung gibt es
   // seit 2013. Was wir wissen, ist das Datum der Verfügbarkeit — mehr nicht.
   'detail.availableFrom': 'Erscheinungstermin',
+  // Für Titel, deren deutsche Fassung längst draußen ist: Die Zeile nennt
+  // zuerst, dass es sie gibt. „Erscheinungstermin: unbekannt" allein las sich
+  // wie „kommt vielleicht noch" (Daniel, 22.08.2026).
+  'detail.releasedLabel': 'Deutsche Synchro',
+  'detail.releasedValue': 'vorhanden, Termin nicht erfasst',
   'detail.availableFromNote':
     'Seit diesem Tag steht der Titel dort im Angebot. Die deutsche Fassung selbst kann älter sein.',
 

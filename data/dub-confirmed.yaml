@@ -931,3 +931,25 @@
   available: false
   checkedAt: '2026-08-22'
   note: "Titelseite ohne abspielbare Folge"
+
+# Beyblade Burst, alle Staffeln — Daniel am 22.08.2026: „keine der staffeln von
+# beyblade burst sind auf netflix deutschland verfügbar (weder deutsch noch
+# andere sprachen)". Geprüft an der Hauptreihe und den Staffelseiten.
+- anilistId: 101115
+  title: Beyblade Burst Turbo
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: 'Keine Staffel von Beyblade Burst ist auf Netflix Deutschland abrufbar'
+- anilistId: 116786
+  title: Beyblade Burst Surge
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: 'Keine Staffel von Beyblade Burst ist auf Netflix Deutschland abrufbar'
+- anilistId: 130253
+  title: Beyblade Burst QuadDrive
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: 'Keine Staffel von Beyblade Burst ist auf Netflix Deutschland abrufbar'
