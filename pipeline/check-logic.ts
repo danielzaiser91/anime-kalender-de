@@ -1661,6 +1661,49 @@ console.log('\nStreaming Availability API:')
     schief.paare.length === 0 && Boolean(schief.problem), schief)
   pruefe('eine Folge außerhalb der Staffel wird nicht zugeordnet',
     ordneMeldungZu({ folge: 99, staffel: 2 }, unsereSao, netflixSao) === null)
+
+  /**
+   * Der Fall, der die Paarung fast falsch gemacht hätte.
+   *
+   * Netflix führt „My Hero Academia" in sieben Staffeln (Daniel, 22.08.2026).
+   * An unserer Adresse hängen nur zwei Einträge: Staffel 1 und Staffel **6** —
+   * für die vier dazwischen hat nie jemand einen Verweis eingetragen. Von vorn
+   * gepaart würde Netflix' zweite Staffel mit unserer sechsten verheiratet, und
+   * weil beide 25 Folgen haben, merkt die Folgenzahl-Kontrolle nichts davon.
+   */
+  const mhaNetflix = [
+    { seq: 1, name: 'St. 1', folgen: 13, erste: 1 },
+    { seq: 2, name: 'St. 2', folgen: 25, erste: 15 },
+    { seq: 3, name: 'St. 3', folgen: 25, erste: 41 },
+    { seq: 4, name: 'St. 4', folgen: 25, erste: 66 },
+    { seq: 5, name: 'St. 5', folgen: 25, erste: 93 },
+    { seq: 6, name: 'St. 6', folgen: 25, erste: 120 },
+    { seq: 7, name: 'St. 7', folgen: 25, erste: 146 },
+  ]
+  const mhaUnser = [
+    { id: 21459, titel: 'My Hero Academia', folgen: 13 },
+    { id: 139630, titel: 'My Hero Academia Season 6', folgen: 25 },
+  ]
+  const mha = ordneNachStaffelliste(mhaNetflix, mhaUnser)
+  pruefe('fehlen uns Verweise, wird gar nicht gepaart',
+    mha.paare.length === 0 && Boolean(mha.problem), mha.problem)
+  pruefe('und keine Meldung landet an der falschen Staffel',
+    ordneMeldungZu({ folge: 170, staffel: 7 }, mhaUnser, mhaNetflix) === null)
+
+  /**
+   * Die Gegenprobe: Wären alle sieben Staffeln bei uns verzeichnet, müsste
+   * Daniels Folge 170 als 25. Folge der siebten ankommen — Netflix zählt hier
+   * durch, mit `erste: 146`.
+   */
+  const mhaVoll = [
+    { id: 1, titel: 'S1', folgen: 13 }, { id: 2, titel: 'S2', folgen: 25 },
+    { id: 3, titel: 'S3', folgen: 25 }, { id: 4, titel: 'S4', folgen: 25 },
+    { id: 5, titel: 'S5', folgen: 25 }, { id: 6, titel: 'S6', folgen: 25 },
+    { id: 7, titel: 'S7', folgen: 25 },
+  ]
+  const treffer = ordneMeldungZu({ folge: 170, staffel: 7 }, mhaVoll, mhaNetflix)
+  pruefe('vollständig verzeichnet wäre Folge 170 die 25. der siebten Staffel',
+    treffer?.staffel.id === 7 && treffer.folgeInStaffel === 25, treffer)
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')

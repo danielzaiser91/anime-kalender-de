@@ -260,11 +260,31 @@ for (const gruppe of jeAdresse.values()) {
    * auf eine Seite, die sie nicht enthält. Das ist Netflix' eigene Auskunft,
    * kein Rückschluss, und wird wie die Tonspuren behandelt.
    */
-  const nichtGefuehrt = new Set(
-    anbieterStaffeln && staffeln.length
-      ? ordneNachStaffelliste(anbieterStaffeln, staffeln).ohneEntsprechung.map((x) => x.id)
-      : [],
-  )
+  const zuordnung =
+    anbieterStaffeln && staffeln.length ? ordneNachStaffelliste(anbieterStaffeln, staffeln) : undefined
+  const nichtGefuehrt = new Set(zuordnung?.ohneEntsprechung.map((x) => x.id) ?? [])
+
+  /**
+   * Eine Meldung, die niemand zuordnen kann, ist trotzdem Arbeit gewesen.
+   *
+   * Bei „My Hero Academia" führt Netflix sieben Staffeln, an unserer Adresse
+   * hängen zwei Einträge — die Paarung verweigert sich zu Recht. Ohne diesen
+   * Zweig wäre Daniels Befund („Staffel 7, Folge 170, kein deutscher Ton")
+   * lautlos verfallen, obwohl er die eigentliche Auskunft enthält: Uns fehlen
+   * fünf Verweise, und die Serie läuft dort weiter, als wir wissen.
+   */
+  if (zuordnung?.problem && gruppe.some((x) => x.folge_nr != null)) {
+    const name = p.serientitel ?? p.titel ?? ''
+    ohneZuordnung.push({
+      url: p.url,
+      name: name ? `${name} — ${zuordnung.problem}` : zuordnung.problem,
+      plattform: p.plattform,
+      befund: gruppe.map((x) => `St.${x.staffel ?? '?'}/Flg.${x.folge_nr ?? '?'} ${x.befund}`).join(', '),
+      vorschlag: ids,
+    })
+    offenGeblieben.push(`${p.url} — ${zuordnung.problem}`)
+    continue
+  }
 
   const verteilbar = bereiche.length > 0 && staffeln.length > 1 && !anbieterStaffeln
 

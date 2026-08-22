@@ -200,8 +200,37 @@ export function ordneNachStaffelliste(
   problem?: string
 } {
   const sortiert = [...anbieter].sort((a, b) => a.seq - b.seq)
+
+  /**
+   * Der Reihe nach paaren geht nur in **einer** Richtung.
+   *
+   * Führt der Anbieter **weniger** Staffeln als wir, sind seine die ersten
+   * unserer Reihe: Netflix zeigt von Sword Art Online zwei Staffeln (25 und 24
+   * Folgen), unsere ersten beiden haben genau diese Zahlen, die übrigen zwei
+   * laufen dort nicht. Paaren von vorn ist richtig.
+   *
+   * Führt er **mehr**, stimmt die Reihenfolge nicht mehr. Bei „My Hero
+   * Academia" führt Netflix sieben Staffeln, an unserer Adresse hängen nur zwei
+   * Einträge — Staffel 1 und Staffel **6**, weil für die vier dazwischen nie
+   * jemand einen Verweis eingetragen hat (Daniel, 22.08.2026). Von vorn gepaart
+   * würde Netflix' zweite Staffel mit unserer sechsten verheiratet; beide haben
+   * 25 Folgen, und die Folgenzahl-Kontrolle merkt nichts davon.
+   *
+   * Dann wird gar nicht gepaart. Die fehlenden Verweise sind das eigentliche
+   * Ergebnis — sie stehen im Problemtext und gehören von Hand ergänzt.
+   */
+  if (sortiert.length > unsere.length) {
+    return {
+      paare: [],
+      ohneEntsprechung: [],
+      problem:
+        `Der Anbieter führt ${sortiert.length} Staffel(n), unser Datensatz nur ${unsere.length} an dieser Adresse — ` +
+        `uns fehlen Verweise, und ohne sie ist keine Zuordnung sicher`,
+    }
+  }
+
   const paare: Array<{ anbieter: AnbieterStaffel; unser: Staffeleintrag }> = []
-  for (let i = 0; i < Math.min(sortiert.length, unsere.length); i++) {
+  for (let i = 0; i < sortiert.length; i++) {
     const a = sortiert[i]!
     const u = unsere[i]!
     if (a.folgen !== u.folgen) {

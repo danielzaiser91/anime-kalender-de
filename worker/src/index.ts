@@ -1091,7 +1091,18 @@ function jetztIso(): string {
   return new Date().toISOString().slice(0, 19) + 'Z'
 }
 /** Aus der Meldung eine Zahl machen — oder nichts, wenn dort keine steht. */
+/**
+ * Eine Zahl, oder ehrlich nichts.
+ *
+ * `Number(null)` ist **0**, und `0 >= 0` bestand die Prüfung — eine Angabe, die
+ * es nicht gab, kam als Zahl Null in der Datenbank an. Bei jedem geöffneten
+ * Titel entstand so eine Meldung „Folge 0, Staffel 0" (Daniel, 22.08.2026,
+ * viermal beobachtet). Null sieht aus wie eine Angabe, ist aber keine.
+ *
+ * Dasselbe gilt für den leeren String: `Number('')` ist ebenfalls 0.
+ */
 function zahlOderNull(wert: unknown): number | null {
+  if (wert === null || wert === undefined || wert === '') return null
   const n = Number(wert)
   return Number.isFinite(n) && n >= 0 ? Math.round(n) : null
 }
