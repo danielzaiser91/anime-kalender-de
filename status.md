@@ -6,7 +6,9 @@ Stand: 22.08.2026 · Live: https://anime-kalender.de/
 
 ### In Arbeit
 
-_(nichts unterwegs)_
+| Aufgabe | SP | Notiz |
+|---|---|---|
+| **Staffelaufteilung aus Netflix mitlesen** (Extension v0.22.0) | 3 | **Wartet auf Daniels Test.** Zwei Anläufe haben Netflix lahmgelegt (NSES-UHX): erst `window.fetch` und `XMLHttpRequest.prototype.open` ersetzt (Netflix setzt beide danach selbst neu — wirkungslos), dann dieselben Stellen hinter einen Zugriffsschutz gelegt (Netflix liest beim eigenen Wrappen zuerst den bestehenden Wert, bekam unsere Hülle, beide riefen einander auf → *Maximum call stack size exceeded*). **Der dritte Weg setzt am Ergebnis an, nicht am Aufruf**, nach Daniels Einwand vom 22.08.2026: „man muss ja nicht direkt fetch überschreiben". `responseText` ist eine Eigenschaft, die Netflix **liest** und nie ersetzt; der native Getter liegt in einer Closure, niemand kann ihn verdrängen, niemand verwendet unseren Wert als „Original" weiter — die Schleife aus Anlauf 2 kann nicht entstehen. Geprüft in `extension/mitlesen.test.cjs`, dritter Fall: die Seite wrappt selbst, kein Stapelüberlauf. **Zwei Wege wurden dabei ausgeschlossen und brauchen keinen weiteren Versuch:** `PerformanceObserver` mit `resource`-Einträgen sieht nur Adresse, Zeit und Größe, nie den Inhalt; `chrome.webRequest` gibt es in Manifest v3 ohne Body-Zugriff, allein `chrome.debugger` käme dran und hängt ein Debugger-Banner an den Browser. **Erkenntnisse offen:** Trägt der Weg, gehört „am Ergebnis ansetzen statt am Aufruf" in den Skill `netzwerkverkehr-statt-scraping` — bricht Netflix ein drittes Mal, gehört stattdessen dorthin, dass fremde Seiten überhaupt nicht angefasst werden und das DOM (`data-uia="season-pane"`) der einzige Weg bleibt |
 
 ### Queue
 | Aufgabe | SP | Notiz |
