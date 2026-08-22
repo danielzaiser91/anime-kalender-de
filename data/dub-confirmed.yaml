@@ -1644,3 +1644,77 @@
   available: false
   checkedAt: '2026-08-22'
   note: "Der Anbieter führt unter dieser Adresse nur 2 Staffel(n); diese ist nicht darunter"
+
+# My Hero Academia: die fehlenden Netflix-Verweise.
+#
+# Netflix führt die Reihe unter einer Adresse in sieben Staffeln und meldet
+# ihre Längen selbst: 13, 25, 25, 25, 25, 25, 25 (Daniel, 22.08.2026, aus den
+# Metadaten der Seite). Unsere sieben Fernsehstaffeln haben 13, 25, 25, 25,
+# 25, 25, 21 — sechs Zahlen in Folge treffen exakt.
+#
+# Verzeichnet waren bisher nur Staffel 1 und Staffel 6; für die fünf übrigen
+# hatte nie eine Quelle einen Verweis. Sie stehen hier, weil die Übereinstimmung
+# der Reihe nach sie belegt — nicht, weil jemand jede einzeln geöffnet hätte.
+#
+# Die Abweichung bei Staffel 7 (Netflix 25, wir 21) bleibt offen: Netflix
+# rechnet dort Folgen mit, die AniList nicht führt. Für die Zuordnung ist das
+# unerheblich — die sechs Treffer davor legen die Reihenfolge fest.
+
+- anilistId: 21856
+  title: My Hero Academia Season 2
+  platform: netflix
+  url: https://www.netflix.com/title/80135674
+  checkedAt: '2026-08-22'
+  note: >-
+    Verweis aus Netflix' eigener Staffelliste erschlossen; die Folgenzahlen
+    der Reihe nach stimmen überein.
+
+- anilistId: 100166
+  title: My Hero Academia Season 3
+  platform: netflix
+  url: https://www.netflix.com/title/80135674
+  checkedAt: '2026-08-22'
+  note: >-
+    Verweis aus Netflix' eigener Staffelliste erschlossen; die Folgenzahlen
+    der Reihe nach stimmen überein.
+
+- anilistId: 104276
+  title: My Hero Academia Season 4
+  platform: netflix
+  url: https://www.netflix.com/title/80135674
+  checkedAt: '2026-08-22'
+  note: >-
+    Verweis aus Netflix' eigener Staffelliste erschlossen; die Folgenzahlen
+    der Reihe nach stimmen überein.
+
+- anilistId: 117193
+  title: My Hero Academia Season 5
+  platform: netflix
+  url: https://www.netflix.com/title/80135674
+  checkedAt: '2026-08-22'
+  note: >-
+    Verweis aus Netflix' eigener Staffelliste erschlossen; die Folgenzahlen
+    der Reihe nach stimmen überein.
+
+- anilistId: 163139
+  title: My Hero Academia Season 7
+  platform: netflix
+  url: https://www.netflix.com/title/80135674
+  checkedAt: '2026-08-22'
+  note: >-
+    Verweis aus Netflix' eigener Staffelliste erschlossen; die Folgenzahlen
+    der Reihe nach stimmen überein.
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-22 ---
+
+- anilistId: 163139
+  title: "My Hero Academia – Staffel 7"
+  platform: netflix
+  dub: false
+  dubRanges:
+    - from: 25
+      to: 25
+      dub: false
+      checked: [25]
+  checkedAt: '2026-08-22'
+  note: "Folge 25 ohne deutschen Ton — Tonspuren: ja|Japanisch [Original], th|Thailändisch — 2 Tonspuren, 0 Audiodeskriptionen"

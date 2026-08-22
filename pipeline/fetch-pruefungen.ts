@@ -273,7 +273,9 @@ for (const gruppe of jeAdresse.values()) {
    * lautlos verfallen, obwohl er die eigentliche Auskunft enthält: Uns fehlen
    * fünf Verweise, und die Serie läuft dort weiter, als wir wissen.
    */
-  if (zuordnung?.problem && gruppe.some((x) => x.folge_nr != null)) {
+  // Ein Problemtext neben gültigen Paaren ist nur eine Anmerkung — abgebrochen
+  // wird erst, wenn gar keine Zuordnung zustande kam.
+  if (zuordnung?.problem && !zuordnung.paare.length && gruppe.some((x) => x.folge_nr != null)) {
     const name = p.serientitel ?? p.titel ?? ''
     ohneZuordnung.push({
       url: p.url,

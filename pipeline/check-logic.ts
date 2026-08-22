@@ -1704,6 +1704,45 @@ console.log('\nStreaming Availability API:')
   const treffer = ordneMeldungZu({ folge: 170, staffel: 7 }, mhaVoll, mhaNetflix)
   pruefe('vollständig verzeichnet wäre Folge 170 die 25. der siebten Staffel',
     treffer?.staffel.id === 7 && treffer.folgeInStaffel === 25, treffer)
+
+  /**
+   * Die Nachsicht mit **einer** abweichenden Zahl — und ihre Grenze.
+   *
+   * Netflix meldet für My Hero Academia 13, 25, 25, 25, 25, 25, 25; unsere
+   * sieben Staffeln haben 13, 25, 25, 25, 25, 25, **21**. Sechs Zahlen in Folge
+   * treffen exakt; dass die siebte abweicht, liegt an unterschiedlicher Zählung,
+   * nicht an falscher Reihenfolge.
+   */
+  const mhaVollUnser = [
+    { id: 21459, titel: 'S1', folgen: 13 }, { id: 21856, titel: 'S2', folgen: 25 },
+    { id: 100166, titel: 'S3', folgen: 25 }, { id: 104276, titel: 'S4', folgen: 25 },
+    { id: 117193, titel: 'S5', folgen: 25 }, { id: 139630, titel: 'S6', folgen: 25 },
+    { id: 163139, titel: 'S7', folgen: 21 },
+  ]
+  const mhaGepaart = ordneNachStaffelliste(mhaNetflix, mhaVollUnser)
+  pruefe('sechs exakte Treffer tragen eine Ausnahme',
+    mhaGepaart.paare.length === 7 && mhaGepaart.paare[6]?.unser.id === 163139,
+    mhaGepaart.problem)
+  pruefe('die Abweichung wird trotzdem benannt',
+    Boolean(mhaGepaart.problem?.includes('Staffel 7')), mhaGepaart.problem)
+  pruefe('Daniels Folge 170 landet damit an Staffel 7',
+    ordneMeldungZu({ folge: 170, staffel: 7 }, mhaVollUnser, mhaNetflix)?.staffel.id === 163139)
+
+  /**
+   * Die Grenze: Ohne exakte Treffer ist die Abweichung nicht die Ausnahme,
+   * sondern der ganze Befund.
+   */
+  pruefe('eine einzelne falsche Zahl ohne Rückhalt ordnet nichts zu',
+    ordneNachStaffelliste(
+      [{ seq: 1, name: 'St. 1', folgen: 13, erste: 1 }, { seq: 2, name: 'St. 2', folgen: 25, erste: 14 }],
+      [{ id: 1, titel: 'A', folgen: 13 }, { id: 2, titel: 'B', folgen: 12 }],
+    ).paare.length === 0)
+  pruefe('zwei Abweichungen ordnen nie zu',
+    ordneNachStaffelliste(
+      [{ seq: 1, name: '1', folgen: 13, erste: 1 }, { seq: 2, name: '2', folgen: 25, erste: 14 },
+       { seq: 3, name: '3', folgen: 25, erste: 39 }],
+      [{ id: 1, titel: 'A', folgen: 13 }, { id: 2, titel: 'B', folgen: 12 }, { id: 3, titel: 'C', folgen: 11 }],
+    ).paare.length === 0)
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')

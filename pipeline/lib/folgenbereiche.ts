@@ -230,19 +230,43 @@ export function ordneNachStaffelliste(
   }
 
   const paare: Array<{ anbieter: AnbieterStaffel; unser: Staffeleintrag }> = []
+  const abweichungen: string[] = []
   for (let i = 0; i < sortiert.length; i++) {
     const a = sortiert[i]!
     const u = unsere[i]!
     if (a.folgen !== u.folgen) {
-      return {
-        paare: [],
-        ohneEntsprechung: [],
-        problem: `Staffel ${a.seq} hat beim Anbieter ${a.folgen} Folgen, bei uns ${u.folgen} (${u.titel})`,
-      }
+      abweichungen.push(`Staffel ${a.seq}: Anbieter ${a.folgen} Folgen, wir ${u.folgen} (${u.titel})`)
     }
     paare.push({ anbieter: a, unser: u })
   }
-  return { paare, ohneEntsprechung: unsere.slice(sortiert.length) }
+
+  /**
+   * Eine einzelne Abweichung kippt die Reihenfolge nicht — mehrere schon.
+   *
+   * Bei „My Hero Academia" meldet Netflix 13, 25, 25, 25, 25, 25, 25; unsere
+   * sieben Staffeln haben 13, 25, 25, 25, 25, 25, **21**. Sechs Zahlen in Folge
+   * treffen exakt — dass die siebte abweicht, liegt an unterschiedlicher
+   * Zählung (Netflix rechnet dort Folgen mit, die AniList nicht führt), nicht
+   * an einer falschen Reihenfolge.
+   *
+   * Weichen dagegen **zwei oder mehr** ab, ist die Reihe verschoben, und dann
+   * wird gar nichts zugeordnet: Ein falsch zugeordneter Befund sieht aus wie
+   * ein geprüfter.
+   *
+   * **Und die Nachsicht braucht Rückhalt.** Bei einer einzigen Staffel, deren
+   * Zahl nicht stimmt, bestätigt nichts die Reihenfolge — dann ist die
+   * Abweichung nicht die Ausnahme, sondern der ganze Befund. Erst ab zwei
+   * exakten Treffern trägt die Reihe eine Ausnahme.
+   */
+  const exakt = paare.length - abweichungen.length
+  if (abweichungen.length > 1 || (abweichungen.length === 1 && exakt < 2)) {
+    return { paare: [], ohneEntsprechung: [], problem: abweichungen.join('; ') }
+  }
+  return {
+    paare,
+    ohneEntsprechung: unsere.slice(sortiert.length),
+    problem: abweichungen[0],
+  }
 }
 
 /**
@@ -263,7 +287,11 @@ export function ordneMeldungZu(
     // `erste` sagt, wo die Zählung dieser Staffel beginnt — bei 1, wenn der
     // Anbieter je Staffel neu zählt, sonst beim Fortlauf.
     const inStaffel = meldung.folge - paar.anbieter.erste + 1
-    if (inStaffel < 1 || inStaffel > paar.unser.folgen) return null
+    // Gegen die Folgenzahl des **Anbieters** geprüft, nicht gegen unsere: Wie
+    // viele Folgen seine Staffel hat, weiß er besser. Bei My Hero Academia
+    // zählt Netflix in Staffel 7 fünfundzwanzig Folgen, AniList einundzwanzig —
+    // Daniels Folge 170 ist dort die 25. und läge außerhalb unserer Zählung.
+    if (inStaffel < 1 || inStaffel > paar.anbieter.folgen) return null
     return { staffel: paar.unser, folgeInStaffel: inStaffel }
   }
   const ergebnis = ordneFolgeZu(meldung.folge, unsere)

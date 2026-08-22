@@ -67,12 +67,24 @@ export function loadDubChecks(): DubCheck[] {
   if (!Array.isArray(raw)) return []
   const out: DubCheck[] = []
   for (const item of raw as DubCheck[]) {
-    // Ein halb ausgefüllter Eintrag ist gefährlicher als keiner: Er nimmt den
-    // Verweis aus der Prüfliste, ohne etwas zu belegen. Deshalb hier laut
-    // meckern statt still überspringen.
-    if (!item?.anilistId || (typeof item.dub !== 'boolean' && item.available !== false)) {
+    /**
+     * Ein halb ausgefüllter Eintrag ist gefährlicher als keiner: Er nimmt den
+     * Verweis aus der Prüfliste, ohne etwas zu belegen. Deshalb hier laut
+     * meckern statt still überspringen.
+     *
+     * **Ein Eintrag, der nur eine Adresse trägt, ist aber nicht halb** — er
+     * beantwortet eine andere Frage: *wo* die Staffel läuft, nicht *ob* sie
+     * deutschen Ton hat. Bei My Hero Academia meldete Netflix seine sieben
+     * Staffeln samt Längen, unser Datensatz kannte für fünf davon keinen
+     * Verweis (22.08.2026). Diese fünf Adressen zu verwerfen, weil niemand die
+     * Tonspur geprüft hat, hätte die Auskunft weggeworfen, die tatsächlich
+     * vorlag. Die Synchro bleibt dann schlicht ungeprüft — wie vorher.
+     */
+    const traegtEtwas =
+      typeof item?.dub === 'boolean' || item?.available === false || Boolean(item?.url)
+    if (!item?.anilistId || !traegtEtwas) {
       warn(
-        `dub-confirmed.yaml: Eintrag braucht entweder dub: true/false oder available: false — übersprungen (${JSON.stringify(item)})`,
+        `dub-confirmed.yaml: Eintrag braucht dub: true/false, available: false oder eine url — übersprungen (${JSON.stringify(item)})`,
       )
       continue
     }
@@ -84,12 +96,37 @@ export function loadDubChecks(): DubCheck[] {
       warn(`dub-confirmed.yaml: ${item.anilistId}/${item.platform} ohne checkedAt`)
       continue
     }
-    out.push(item)
+    const schluessel = dubKey(item.anilistId, item.platform)
+    const vorhanden = out.findIndex((x) => dubKey(x.anilistId, x.platform) === schluessel)
+    if (vorhanden >= 0) out[vorhanden] = verschmelze(out[vorhanden]!, item)
+    else out.push(item)
   }
   return out
 }
 
 /** Schlüssel für den Abgleich: ein Anime auf einer Plattform. */
+/**
+ * Mehrere Zeilen zu demselben Verweis sind **Ergänzungen**, keine Konkurrenten.
+ *
+ * `build.ts` legt die Prüfungen in eine Map nach Titel und Plattform — dabei
+ * überschrieb der letzte Eintrag alle früheren **vollständig**. Bei My Hero
+ * Academia Staffel 7 standen am 22.08.2026 drei Zeilen: eine mit dem Befund aus
+ * einer früheren Prüfung, eine mit der erschlossenen Netflix-Adresse, eine mit
+ * Daniels Meldung samt Folgenbereich. Übrig blieb die letzte — und mit ihr
+ * verschwand die Adresse, ohne die der Verweis gar nicht erst entsteht.
+ *
+ * Verschmolzen wird feldweise: Ein späterer Wert ersetzt einen früheren, ein
+ * **fehlender** Wert löscht nichts. Die Reihenfolge in der Datei entscheidet
+ * damit weiterhin, welcher Befund gilt — aber nur dort, wo tatsächlich zwei
+ * Befunde stehen.
+ */
+function verschmelze(alt: DubCheck, neu: DubCheck): DubCheck {
+  return {
+    ...alt,
+    ...Object.fromEntries(Object.entries(neu).filter(([, v]) => v !== undefined && v !== null)),
+  } as DubCheck
+}
+
 export function dubKey(anilistId: number, platform: string): string {
   return `${anilistId}|${platform}`
 }
