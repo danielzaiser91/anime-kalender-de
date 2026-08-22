@@ -69,6 +69,39 @@ const funde = []
  */
 const offeneTitel = globalThis.AK_OFFENE_TITEL ?? {}
 
+/**
+ * Was Netflix beim Prüfen über seine Staffeln gesagt hat — sofort verwendbar.
+ *
+ * Die mitgelieferte Liste kennt nur unsere Aufteilung, bis ein Datenlauf die
+ * gemeldete übernimmt. Bis dahin standen dort falsche Kürzel: „2e01 2e12" bei
+ * Forest of Piano, wo Netflix „2e13" bis „2e24" zählt — die Meldung war
+ * richtig, das Zeichen blieb rosa (Daniel, 22.08.2026).
+ *
+ * Was der Player meldet, wird deshalb hier behalten und schlägt die
+ * mitgelieferte Angabe. Wirksam ab der ersten geprüften Folge, ohne Neuladen.
+ */
+let anbieterStaffeln = {}
+
+/** Die Staffeln eines Titels — was der Anbieter sagte, sonst was wir wissen. */
+function staffelnVon(id, eintrag) {
+  const gemeldet = anbieterStaffeln[String(id)]
+  if (!gemeldet?.length) return eintrag.staffeln
+  /**
+   * Die Anbieterzählung übernehmen, den Offen-Status behalten.
+   *
+   * Der Anbieter sagt, **wie** er teilt — was wir schon geprüft haben, steht
+   * nur in unserer Liste. Reicht sie nicht so weit, gilt die Staffel als offen.
+   */
+  return gemeldet.map((s, i) => ({
+    nr: s.seq,
+    name: s.name || `Staffel ${s.seq}`,
+    folgen: s.folgen,
+    erste: s.erste ?? 1,
+    film: eintrag.staffeln[i]?.film ?? false,
+    offen: eintrag.staffeln[i]?.offen ?? true,
+  }))
+}
+
 /** Steht dieser Titel auf der Liste? */
 function istGesucht() {
   return Boolean(stand.reihe && offeneTitel && offeneTitel[String(stand.reihe)] !== undefined)
@@ -293,6 +326,12 @@ async function melden({ automatisch = false } = {}) {
      */
     if (ohneFolge) void merkeTot(stand.reihe)
     else void merkeErledigt(stand.reihe, stand.staffel, stand.folgeNr)
+    // Was Netflix über seine Staffeln sagt, gilt ab sofort — nicht erst nach
+    // dem nächsten Datenlauf.
+    if (stand.staffeln?.length && stand.reihe) {
+      anbieterStaffeln[String(stand.reihe)] = stand.staffeln
+      void chrome.storage.local.set({ anbieterStaffeln }).catch(() => {})
+    }
     gesendet.set(schluessel(), deutsch ? 'deutsch' : 'kein_deutsch')
     const kopf = ohneFolge ? 'Als nicht abrufbar gemeldet' : deutsch ? 'Deutsche Tonspur gemeldet' : 'Kein Deutsch gemeldet'
     zeigeErgebnis(kopf, true)
@@ -371,9 +410,10 @@ function imPlayer() {
 /** Was diese Installation schon gemeldet hat — überlebt einen Neustart. */
 let erledigt = {}
 const erledigtGeladen = chrome.storage.local
-  .get('erledigt')
+  .get(['erledigt', 'anbieterStaffeln'])
   .then((x) => {
     erledigt = x.erledigt ?? {}
+    anbieterStaffeln = x.anbieterStaffeln ?? {}
   })
   .catch(() => {
     erledigt = {}
@@ -509,7 +549,16 @@ async function merkeErledigt(id, staffel, folge) {
    */
   if (!folge) {
     const offene = (offeneTitel[String(id)]?.staffeln ?? []).filter((x) => x.offen)
-    if (offene.length !== 1 || offene[0].folgen > 1) return
+    /**
+     * Bei einem Film zählt nicht, wie viele Folgen wir führen.
+     *
+     * „Flavors of Youth" ist ein Anthologie-Film und steht bei AniList mit drei
+     * Episoden — die Bedingung „höchstens eine Folge" schloss ihn deshalb aus,
+     * und die Meldung blieb ohne Vermerk (Daniel, 22.08.2026). Wer einen Film
+     * meldet, meint den Film; eine Auswahl gibt es dort nicht.
+     */
+    if (offene.length !== 1) return
+    if (!offene[0].film && offene[0].folgen > 1) return
     staffel = staffel || offene[0].nr
     folge = offene[0].erste ?? 1
   }
@@ -629,7 +678,8 @@ async function dialogOeffnen() {
    * Er soll dann wenigstens nicht mehr obenauf liegen.
    */
   const fertig = (id, e) =>
-    istErledigt(id, 'tot') || empfohleneFolgen(e).every((k) => kuerzelErledigt(id, k))
+    istErledigt(id, 'tot') ||
+    empfohleneFolgen({ ...e, staffeln: staffelnVon(id, e) }).every((k) => kuerzelErledigt(id, k))
   const eintraege = Object.entries(offeneTitel).sort((a, b) => {
     const d = Number(fertig(a[0], a[1])) - Number(fertig(b[0], b[1]))
     return d || a[1].titel.localeCompare(b[1].titel, 'de')
@@ -693,7 +743,8 @@ async function dialogOeffnen() {
 
     const folgen = document.createElement('div')
     folgen.className = 'ak-folgen'
-    const empfohlen = empfohleneFolgen(eintrag)
+    const staffeln = staffelnVon(id, eintrag)
+    const empfohlen = empfohleneFolgen({ ...eintrag, staffeln })
     if (!empfohlen.length) {
       const leer = document.createElement('span')
       leer.className = 'ak-hinweis'
@@ -717,7 +768,7 @@ async function dialogOeffnen() {
        * Staffel ist, findet es hier.
        */
       const nr = Number(kuerzel.split('e')[1])
-      const dieStaffel = eintrag.staffeln.find((x) => x.nr === staffel)
+      const dieStaffel = staffeln.find((x) => x.nr === staffel)
       const eigene =
         dieStaffel?.erste > 1 && Number.isFinite(nr) ? nr - dieStaffel.erste + 1 : null
       const zusatz = eigene ? ` (Folge ${eigene} dieser Staffel)` : ''

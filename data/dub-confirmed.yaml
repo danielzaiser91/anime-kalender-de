@@ -2092,3 +2092,272 @@
   dub: true
   checkedAt: '2026-08-22'
   note: "Folgen 1–24 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, ar|Arabisch, hi|Hindi, id|Indonesisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 12 Tonspuren, 1 Audiodeskriptionen"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-22 ---
+
+- anilistId: 7088
+  title: "Demon King Daimao"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 20931
+  title: "Death Parade"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 140002
+  title: "Detective Conan: Zero's Tea Time"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–6 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, hi|Hindi, id|Indonesisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch — 15 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 140005
+  title: "Detective Conan: The Culprit Hanzawa"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, hi|Hindi, id|Indonesisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch — 15 Tonspuren, 3 Audiodeskriptionen"
+
+- anilistId: 98460
+  title: "Devilman Crybaby"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–10 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 99531
+  title: "Devils' Line"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 3576
+  title: "Dinosaur King"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 107905
+  title: "Dragon Quest: Your Story"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 139643
+  title: "Drifting Home"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, id|Indonesisch, ko|Koreanisch, zh-TW|Mandarin (Guoyu), pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, cs|Tschechisch, hu|Ungarisch — 16 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 6746
+  title: "Durarara!!"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 119321
+  title: "Earwig and the Witch"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], ru|Russisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), hi|Hindi, ko|Koreanisch, zh|Mandarin, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), es|Spanisch (Lateinamerika), th|Thailändisch — 13 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 21123
+  title: "DRIFTERS"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 21234
+  title: "ERASED"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 98035
+  title: "Fate/Apocrypha"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 105333
+  title: "Dr. STONE"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 24
+      to: 24
+      dub: true
+      checked: [24]
+  checkedAt: '2026-08-22'
+  note: "Folge 24 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch — 4 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 113936
+  title: "Dr. STONE: STONE WARS"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 11
+      to: 11
+      dub: true
+      checked: [11]
+  checkedAt: '2026-08-22'
+  note: "Folge 11 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch — 4 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 131518
+  title: "Dr. STONE New World"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Der Anbieter führt unter dieser Adresse nur 3 Staffel(n); diese ist nicht darunter"
+
+- anilistId: 142876
+  title: "Dr. STONE Special Episode – RYUSUI"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 23
+      dub: true
+      checked: [1, 23]
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–23 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch — 4 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 162670
+  title: "Dr. STONE New World Part 2"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Der Anbieter führt unter dieser Adresse nur 3 Staffel(n); diese ist nicht darunter"
+
+- anilistId: 21717
+  title: "Fate/EXTRA Last Encore"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 97815
+  title: "Fate/Grand Order: First Order"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 20791
+  title: "Fate/stay night [Heaven's Feel] I. presage flower"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 21718
+  title: "Fate/stay night [Heaven's Feel] II. lost butterfly"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 21719
+  title: "Fate/stay night [Heaven’s Feel] III. spring song"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 19603
+  title: "Fate/stay night: Unlimited Blade Works"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+  checkedAt: '2026-08-22'
+  note: "Folge 1 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-22 ---
+
+- anilistId: 20792
+  title: "Fate/stay night: Unlimited Blade Works 2nd Season"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 1361
+  title: "Final Fantasy: The Spirits Within"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: en|Englisch [Original], de|Deutsch, tr|Türkisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), hi|Hindi, pl|Polnisch — 8 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 100401
+  title: "Forest of Piano"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 103049
+  title: "Forest of Piano Season 2"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 101231
+  title: "Flavors of Youth"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, zh|Mandarin, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 9 Tonspuren, 1 Audiodeskriptionen"
+
+- anilistId: 18507
+  title: "Free! -Iwatobi Swim Club-"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 20614
+  title: "Free! -Eternal Summer-"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 10029
+  title: "From Up on Poppy Hill"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, ru|Russisch, fr|Französisch, en|Englisch, fi|Finnisch, id|Indonesisch, it|Italienisch, ko|Koreanisch, zh|Mandarin, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es-ES|Spanisch (Spanien), th|Thailändisch, vi|Vietnamesisch — 16 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 121
+  title: "Fullmetal Alchemist"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 5114
+  title: "Fullmetal Alchemist: Brotherhood"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""

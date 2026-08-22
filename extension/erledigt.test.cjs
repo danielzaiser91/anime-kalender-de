@@ -71,6 +71,35 @@ pruefe('ohne Vermerke ist nichts erledigt',
     bau({ reihe: 'a', staffel: 1, folgeNr: 1 }) !== bau({ reihe: 'b', staffel: 1, folgeNr: 1 }))
 }
 
+
+/**
+ * Ein Film wird gemeldet, ohne dass Netflix eine Folge nennt.
+ *
+ * Zweimal am 22.08.2026 blieb das Zeichen „Film" weiß, obwohl die Meldung im
+ * Briefkasten lag: erst weil der Vermerk eine Folgennummer verlangte, dann weil
+ * „Flavors of Youth" als Anthologie-Film mit drei Episoden verzeichnet ist und
+ * an der Bedingung „höchstens eine Folge" scheiterte.
+ */
+{
+  // Die Entscheidung aus merkeErledigt, nachgestellt.
+  const nimmt = (staffeln) => {
+    const offene = staffeln.filter((x) => x.offen)
+    if (offene.length !== 1) return false
+    if (!offene[0].film && offene[0].folgen > 1) return false
+    return true
+  }
+  pruefe('ein Film mit einer Folge wird vermerkt',
+    nimmt([{ nr: 1, folgen: 1, film: true, offen: true }]))
+  pruefe('ein Anthologie-Film mit drei Episoden auch',
+    nimmt([{ nr: 1, folgen: 3, film: true, offen: true }]))
+  pruefe('eine Serie ohne Folgenangabe nicht — da waere jede Wahl geraten',
+    !nimmt([{ nr: 1, folgen: 13, film: false, offen: true }]))
+  pruefe('bei zwei offenen Staffeln wird nichts vermerkt',
+    !nimmt([{ nr: 1, folgen: 1, film: true, offen: true }, { nr: 2, folgen: 1, film: true, offen: true }]))
+  pruefe('eine beantwortete Staffel zaehlt nicht mit',
+    nimmt([{ nr: 1, folgen: 1, film: true, offen: false }, { nr: 2, folgen: 3, film: true, offen: true }]))
+}
+
 const fehler = faelle.filter((x) => !x).length
 console.log(fehler ? `\n${fehler} Fall/Fälle durchgefallen` : '\n✓ Geprüftes wird sichtbar')
 process.exit(fehler ? 1 : 0)
