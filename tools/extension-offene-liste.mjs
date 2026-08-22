@@ -71,9 +71,35 @@ const struktur = existsSync(resolve(wurzel, 'data/anbieter-staffeln.json'))
 
 const offen = {}
 for (const [id, eintraege] of jeAdresse) {
-  // Eine Adresse kommt auf die Liste, sobald **eine** ihrer Staffeln offen ist.
-  if (!eintraege.some((e) => e.dub === undefined)) continue
-  const sortiert = [...eintraege].sort((a, b) => vergleiche(a.t, b.t))
+  /**
+   * Gefragt wird nur nach dem, was auch angezeigt wird.
+   *
+   * Sonst steht ein Titel auf der Liste, weil eine OVA offen ist, zeigt aber nur
+   * Serienstaffeln — und die sind alle beantwortet. Bei Haikyu!! war genau das
+   * der Fall: vier abgehakte Staffeln, und trotzdem eine Zeile mit nichts zu tun.
+   *
+   * Netflix zählt die OVAs ohnehin als Folgen der Staffeln mit: Es meldet
+   * 26 + 26 + 11 + 27 = 90 Folgen, unsere fünf Fernsehstaffeln haben 85, die
+   * vier OVA-Einträge zusammen fünf. Wer die Staffel prüft, hat die OVA mit
+   * geprüft.
+   */
+  const serien = eintraege.filter((e) => e.t.format === 'TV' || e.t.format === 'ONA')
+  const zuZeigen = serien.length ? serien : eintraege
+  if (!zuZeigen.some((e) => e.dub === undefined)) continue
+  /**
+   * OVAs und Specials fallen weg, wo Serienstaffeln dieselbe Adresse haben.
+   *
+   * An Haikyu!!s Netflix-Seite hängen neun unserer Einträge: fünf Fernsehstaffeln
+   * und vier OVAs dazwischen. Netflix führt die OVAs nicht als eigene Staffeln —
+   * es zeigt fünf. In der Liste standen sie trotzdem, und weil sie auf den
+   * Positionen 2, 4, 6 und 8 lagen, hieß es dort „Film 2, Film 4, Film 6,
+   * Film 8" bei einer Serie (Daniel, 22.08.2026: „komische liste und komisches
+   * haiku!!").
+   *
+   * Ein Titel, an dessen Adresse **nur** Filme hängen, bleibt unberührt — dort
+   * ist der Film die Sache selbst, nicht das Beiwerk.
+   */
+  const sortiert = [...zuZeigen].sort((a, b) => vergleiche(a.t, b.t))
   const gemeldet = struktur[id]?.staffeln
   if (gemeldet?.length) {
     // Der Anbieter hat selbst gesagt, wie er teilt — dann gilt seine Zählung,
@@ -112,7 +138,10 @@ for (const [id, eintraege] of jeAdresse) {
       folgen: e.t.episodes ?? 0,
       // Ein Film hat keine Folge zum Auswählen — man startet ihn einfach.
       // Ohne diese Angabe stand in der Liste „1e01" (Daniel, 22.08.2026).
-      film: e.t.format === 'MOVIE' || e.t.format === 'SPECIAL' || e.t.format === 'OVA',
+      // Nur ein echter Film ist ein Film. OVAs und Specials sind meist Folgen
+      // einer Staffel und werden oben ohnehin ausgefiltert, wo eine Serie
+      // dieselbe Adresse hat.
+      film: e.t.format === 'MOVIE',
       // Was hier schon beantwortet ist, muss niemand mehr anklicken.
       offen: e.dub === undefined,
     })),
