@@ -105,6 +105,25 @@ pruefe('ohne Vermerke ist nichts erledigt',
     nimmt([{ nr: 1, folgen: 1, film: true, offen: false }, { nr: 2, folgen: 3, film: true, offen: true }]))
 }
 
+
+/**
+ * Keine Empfehlung heißt nicht „erledigt".
+ *
+ * `[].every(…)` ist immer wahr — ein Titel ohne empfohlene Folgen galt damit
+ * als vollständig geprüft. Nach einer einzigen Meldung fiel die Zahl am Knopf
+ * von 11 auf 0 (Daniel, 22.08.2026).
+ */
+{
+  const fertig = (kuerzel, tot = false) => {
+    if (tot) return true
+    if (!kuerzel.length) return false
+    return kuerzel.every(() => true)
+  }
+  pruefe('ein Titel ohne Empfehlungen gilt nicht als erledigt', !fertig([]))
+  pruefe('ein Titel mit erledigten Empfehlungen schon', fertig(['1e01']))
+  pruefe('ein toter Verweis ist immer erledigt', fertig([], true))
+}
+
 const fehler = faelle.filter((x) => !x).length
 console.log(fehler ? `\n${fehler} Fall/Fälle durchgefallen` : '\n✓ Geprüftes wird sichtbar')
 process.exit(fehler ? 1 : 0)

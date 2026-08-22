@@ -696,12 +696,21 @@ async function merkeErledigt(id, staffel, folge) {
  * Sortierung — deshalb steht sie hier einmal und nicht zweimal.
  */
 function fertig(id, eintrag) {
-  return (
-    istErledigt(id, 'tot') ||
-    empfohleneFolgen({ ...eintrag, staffeln: staffelnVon(id, eintrag) }).every((k) =>
-      kuerzelErledigt(id, k),
-    )
-  )
+  if (istErledigt(id, 'tot')) return true
+  const kuerzel = empfohleneFolgen({ ...eintrag, staffeln: staffelnVon(id, eintrag) })
+  /**
+   * **Keine Empfehlung heißt nicht „erledigt".**
+   *
+   * `[].every(…)` ist immer wahr — ein Titel ohne empfohlene Folgen galt damit
+   * als vollständig geprüft. Nach einer einzigen Meldung fiel die Zahl am Knopf
+   * von 11 auf 0 (Daniel, 22.08.2026), weil die frisch gemeldete Struktur bei
+   * mehreren Titeln keine offene Staffel mehr übrig ließ und die leere Liste
+   * jedes Mal als „fertig" durchging.
+   *
+   * Wo nichts zu empfehlen ist, ist auch nichts belegt.
+   */
+  if (!kuerzel.length) return false
+  return kuerzel.every((k) => kuerzelErledigt(id, k))
 }
 
 let uebersichtKnopf = null
@@ -944,7 +953,7 @@ async function dialogOeffnen() {
     zeile.appendChild(tot)
 
     // Was durch ist, bleibt sichtbar, tritt aber zurück.
-    if (istErledigt(id, 'tot') || empfohlen.every((k) => kuerzelErledigt(id, k))) {
+    if (istErledigt(id, 'tot') || (empfohlen.length > 0 && empfohlen.every((k) => kuerzelErledigt(id, k)))) {
       zeile.classList.add('ak-abgehakt')
     }
     liste.appendChild(zeile)
