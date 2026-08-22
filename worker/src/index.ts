@@ -1467,7 +1467,7 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
     const token = new URL(request.url).searchParams.get('token') ?? ''
     if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
     const { results } = await env.DB.prepare(
-      `SELECT id, plattform, url, sprachen, befund, titel, folgen, notiz, gemeldet_am
+      `SELECT id, plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, notiz, gemeldet_am
          FROM pruefung WHERE uebernommen = 0 ORDER BY gemeldet_am LIMIT 500`,
     ).all()
 
@@ -1512,11 +1512,18 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
   }
 
   // Wird derselbe Titel zweimal geschickt, gilt der jüngere Blick.
-  await env.DB.prepare('DELETE FROM pruefung WHERE url = ?1 AND uebernommen = 0').bind(url).run()
+  const folgeNr = zahlOderNull(daten.folge_nr)
+  await env.DB.prepare(
+    folgeNr === null
+      ? 'DELETE FROM pruefung WHERE url = ?1 AND uebernommen = 0 AND folge_nr IS NULL'
+      : 'DELETE FROM pruefung WHERE url = ?1 AND uebernommen = 0 AND folge_nr = ?2',
+  )
+    .bind(...(folgeNr === null ? [url] : [url, folgeNr]))
+    .run()
 
   await env.DB.prepare(
-    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, notiz, gemeldet_am)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)`,
+    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, notiz, gemeldet_am)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)`,
   )
     .bind(
       String(daten.plattform ?? 'unbekannt'),
@@ -1525,6 +1532,11 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
       befund,
       daten.titel ? String(daten.titel).slice(0, 200) : null,
       zahlOderNull(daten.folgen),
+      // Die Nummer der Folge, auf die sich die Meldung bezieht — daraus bildet
+      // die Auswertung Bereiche, statt eine ganze Reihe über einen Kamm zu
+      // scheren.
+      zahlOderNull(daten.folge_nr),
+      zahlOderNull(daten.staffel),
       daten.notiz ? String(daten.notiz).slice(0, 500) : null,
       jetztIso(),
     )

@@ -34,7 +34,7 @@ const IST_DEUTSCH = (code, name) =>
 
 // --- Was die Seite gerade hergibt -------------------------------------------
 
-let stand = { spuren: null, reihe: null, folge: null, titel: '' }
+let stand = { spuren: null, reihe: null, folge: null, folgeNr: null, staffel: null, titel: '' }
 /** Reihen, die in dieser Sitzung schon gemeldet wurden. */
 const gemeldet = new Set()
 /** Netzfunde, die noch nicht weitergereicht wurden. */
@@ -43,7 +43,14 @@ const funde = []
 window.addEventListener('message', (e) => {
   if (e.source !== window) return
   if (e.data?.marke === 'ak-spuren') {
-    stand = { spuren: e.data.spuren, reihe: e.data.reihe, folge: e.data.folge, titel: e.data.titel }
+    stand = {
+      spuren: e.data.spuren,
+      reihe: e.data.reihe,
+      folge: e.data.folge,
+      folgeNr: e.data.folge_nr ?? e.data.folgeNr ?? null,
+      staffel: e.data.staffel ?? null,
+      titel: e.data.titel,
+    }
     knopfZeigen()
     return
   }
@@ -151,6 +158,10 @@ async function melden() {
         titel: (stand.titel || '').replace(/\s*-\s*Netflix\s*$/i, '').trim() || null,
         // Die laufende Folge als Beleg, nie als Ersatz fuer die Reihe.
         folge: stand.folge,
+        // Die Nummer der laufenden Folge — daraus leitet die Pipeline ab, für
+        // welchen Bereich die Auskunft gilt.
+        folge_nr: stand.folgeNr,
+        staffel: stand.staffel,
         notiz: ohneFolge
           ? 'Titelseite ohne abspielbare Folge — nur „Erinnern"'
           : `${echte.length} Tonspuren, ${spuren.length - echte.length} Audiodeskriptionen`,

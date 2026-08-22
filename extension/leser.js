@@ -85,6 +85,48 @@
     return null
   }
 
+  /**
+   * Welche Folge gerade läuft — aus der Titelzeile des Abspielers.
+   *
+   * Die Player-Schnittstelle gibt es nicht her: Gemessen am 22.08.2026 kennt
+   * die Sitzung nur `movieId`, und im Seitenzustand steht weder
+   * `episodeNumber` noch `seasonNumber`. Netflix baut die Zeile aber aus festen
+   * Bausteinen, und die stehen in seinen eigenen Übersetzungen:
+   *
+   *     player.status.bar.episodic.single.season
+   *       "<h4>{SHOW_TITLE}</h4><span>Flg. {EPISODE_NUMBER}</span><span>{EPISODE_TITLE}</span>"
+   *     player.season.episode.title
+   *       "{SEASON_ABR}: Flg. {EPISODE} „{TITLE}“"
+   *
+   * Gelesen wird deshalb „St. 2" und „Flg. 5" — auf Englisch „S2" und „E5".
+   * Fehlt die Staffel, ist es eine Reihe ohne Staffelzählung; dann zählt allein
+   * die Folgennummer, und das ist ohnehin die Größe, mit der wir rechnen.
+   */
+  function folgeUndStaffel() {
+    const knoten =
+      document.querySelector('[data-uia*="video-title"]') ??
+      document.querySelector('.video-title') ??
+      document.querySelector('.ltr-1472ymd')
+    const text = (knoten?.innerText ?? '').replace(/\s+/g, ' ')
+    if (!text) return { folge: null, staffel: null, zeile: null }
+
+    // Erst Netflix' eigenes Kürzel, dann das ausgeschriebene Wort.
+    //
+    // Der Episodentitel darf selbst „Folge 1" heißen — real bei „The Cleaning
+    // Lady": „The Cleaning LadyFlg. 1Folge 1" (Daniel, 22.08.2026). Wer nur
+    // nach der ersten Zahl sucht, trifft dort zufällig richtig; steht die Zahl
+    // aber im Serientitel, trifft er daneben. Deshalb hat das Kürzel Vorrang.
+    const kuerzel = /(?:Flg\.|Ep\.|\bE)\s*(\d{1,4})/i.exec(text)?.[1]
+    const wort = /(?:Folge|Episode)\s*(\d{1,4})/i.exec(text)?.[1]
+    const folge = kuerzel ?? wort
+    const staffel = /(?:St\.|Staffel|Season|\bS)\s*(\d{1,2})\s*[:.]?\s*(?:Flg\.|E)/i.exec(text)?.[1]
+    return {
+      folge_nr: folge ? Number(folge) : null,
+      staffel: staffel ? Number(staffel) : null,
+      zeile: text.slice(0, 120),
+    }
+  }
+
   /** Die laufende Folge — nur als Beleg, nie als Ersatz für die Reihe. */
   function folgenNummer() {
     return /\/watch\/(\d+)/.exec(location.pathname)?.[1] ?? null
@@ -168,7 +210,14 @@
 
   function melden() {
     window.postMessage(
-      { marke: MARKE, spuren: netflixSpuren(), reihe: reihenNummer(), folge: folgenNummer(), titel: document.title },
+      {
+        marke: MARKE,
+        spuren: netflixSpuren(),
+        reihe: reihenNummer(),
+        folge: folgenNummer(),
+        ...folgeUndStaffel(),
+        titel: document.title,
+      },
       '*',
     )
   }
