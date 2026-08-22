@@ -133,3 +133,91 @@ Kalender    ICS-Feeds statisch + Google-Template-Links clientseitig
 
 Der Kalender funktioniert damit **vollständig ohne Backend**. Der Worker ist ein optionales
 Anbauteil, das nur der Newsletter braucht.
+
+---
+
+## Netflix + deutsche Tonspur: welche Quelle kann das? (Stand 22.08.2026)
+
+Frage ist nicht „gibt es eine deutsche Synchro" (gelöst über AniList-Sprechrollen, ANN,
+MyDubList), sondern **„läuft die deutsche Fassung auf Netflix"** — Plattform und Sprache
+zusammen. Alle Angaben unten am 22.08.2026 selbst geprüft, außer wo „ungeprüft" steht.
+
+| Quelle | Audio-Sprache? | DE? | Kosten | Bedingungen | Urteil |
+|---|---|---|---|---|---|
+| **Streaming Availability API** (Movie of the Night) | **ja**, `audios`/`subtitles` je Streaming-Option und Folge | ja (66 Länder, Netflix DE gelistet) | 1.000 Anfragen/Monat frei, ab 49 USD für 25.000 | Speichern + Anzeigen erlaubt, Quellenangabe Pflicht, kein Weiterverkauf | **angebunden, bleibt erste Wahl** |
+| **uNoGS** (`/titlecountries`, RapidAPI `unogsng`) | **ja**, `audio` + `subtitle` je Land | ja | BASIC 100 Anfragen/**Tag** frei, Überzug 0,10 USD je Anfrage; PRO 10 USD/Monat für 30.000 | Website-ToS verbietet „republish" und kommerzielle Verwertung | **nicht messen** — Bestand sichtbar verwahrlost, ToS gegen uns |
+| **JustWatch** (GraphQL, robots.txt erlaubt alles) | Feld `audioLanguages` vorhanden — **bei Netflix leer** | ja | — | ToS-Graubereich | **erledigt, gemessen** |
+| **TMDB** `/watch/providers` | **nein** | ja | frei | Quellenangabe „JustWatch" Pflicht | ausgeschlossen |
+| **Watchmode** | **nein** (kein `audio` in der OpenAPI 1.1.7) | ja (54 Länder) | frei 2.500/Monat, nicht kommerziell, max. 3 Länder, Cache-Löschpflicht nach 30 Tagen; bezahlt ab 349 USD/Monat | Quellenangabe Pflicht auf Free | ausgeschlossen |
+| **Reelgood Partner API** | keine Angabe zu Audio | 25+ Länder | kein Listenpreis, nur Vertrieb | Lizenzvertrag | ausgeschlossen |
+| **Simkl** | zeigt Dub/Untertitel, **Daten von JustWatch** | ja | frei | — | erbt JustWatchs Netflix-Lücke |
+| **aniSearch.de** (Archiv liegt im Repo) | **indirekt**: deutscher Release-Eintrag mit `dubbed-1` **und** Publisher | ja | 0 (schon angebunden) | robots.txt erlaubt uns | **einzige neue Spur, die es wert ist** |
+
+### Gemessen: JustWatch führt für Netflix keine Tonspuren
+
+Drei Titel am 22.08.2026 über die Seitenzustände von `justwatch.com/de` gelesen
+(One Piece, Sakamoto Days, Blue Eye Samurai). Das Angebotsobjekt trägt das Feld
+`audioLanguages({"language":"de"})`:
+
+- Crunchyroll, Amazon Video, ADN: gefüllt (`['de','ja']` bei ADN/One Piece).
+- **Netflix und „Netflix Standard with Ads": bei allen drei Titeln leer** — auch bei
+  Blue Eye Samurai, einer Netflix-Eigenproduktion mit deutscher Fassung.
+
+Damit ist auch erklärt, warum TMDB nichts liefert: TMDBs Anbieterdaten stammen von JustWatch.
+`robots.txt` von justwatch.com sagt `Disallow:` (nichts gesperrt) — die Sperre ist also keine
+technische, sondern eine sachliche: **die Daten sind dort nicht.**
+
+### Gemessen: TMDB nennt nur den Anbieter
+
+`GET /3/tv/95479/watch/providers` → der `DE`-Block hat genau `link`, `buy`, `flatrate`, und je
+Anbieter nur `provider_id`, `provider_name`, `logo_path`, `display_priority`. Keine Tonspur.
+Die Doku sagt dazu: „In order to use this data you must attribute the source of the data as
+JustWatch."
+
+### uNoGS: die Schnittstelle kann es, der Bestand ist das Problem
+
+Die Endpunkte stehen (`/search` mit `audio`- und `countrylist`-Filter, `/titlecountries` gibt
+`audio` und `subtitle` je Land) — belegt über die Connector-Referenz von Microsoft
+(`learn.microsoft.com/en-us/connectors/unofficialnetflixsip/`, Stand 25.04.2025). Dagegen steht:
+
+- Sitemap zuletzt erneuert **05.04.2026**, die Serien-Sitemap enthält 267 Einträge mit
+  `lastmod` aus **2015**.
+- RapidAPI-Eintrag `unogsng` zuletzt geändert **10.04.2026** (Status ACTIVE, angelegt 2019).
+- Forum: neuestes Thema **17.07.2026** „No more videos about to expire" — unbeantwortet;
+  davor **05.11.2025** „uNoGS Possible discontinue" („isn't updating the new movies and
+  series") — ebenfalls unbeantwortet. `forum.unogs.com` hat ein **abgelaufenes Zertifikat**
+  (nur `forum.uno.gs` antwortet).
+- Die Nutzungsbedingungen (Beitrag vom 06.05.2015) verbieten „republish material from this
+  website" und „reproduce, duplicate, copy or otherwise exploit material on this website for a
+  commercial purpose" sowie „systematic or automated data collection" ohne schriftliche
+  Zustimmung. Wir speichern und zeigen an — das passt nicht zusammen.
+
+**Ungeprüft** bleibt, ob die API selbst aktuelle Daten liefert: Der Zugang braucht ein
+RapidAPI-Konto, das nur Daniel anlegen kann. Vorher lohnt es nicht.
+
+### aniSearch: Plattform und Sprache stehen dort in einer Zeile
+
+Der Releases-Block einer aniSearch-Seite führt je Sprachfassung Status, Datum und **Publisher**:
+
+```html
+<li><div class="title" lang="de">… Deutsch …</div>
+    <div class="status">… <a class="dubbed dubbed-1">Synchronisiert</a></div>
+    <div class="released">Veröffentlicht: 16.06.2023</div>
+    <div class="company">Publisher: <a>Netflix, Inc.</a></div></li>
+```
+
+Auswertung des **schon vorhandenen** Archivs `data/anisearch-raw/` (310 Seiten, kein einziger
+neuer Abruf): 308 Seiten haben einen deutschen Eintrag, 292 davon „Synchronisiert",
+**43 davon mit Publisher „Netflix, Inc.", alle 43 synchronisiert.** Häufigste Publisher:
+Crunchyroll 157, Netflix 43, KSM 21, peppermint 19.
+
+Gegenprobe an den offenen Netflix-Titeln (123 Stück, die die Streaming Availability API nicht
+kennt): 106 haben noch keine archivierte aniSearch-Seite, 17 haben eine — davon **4 mit
+Publisher Netflix** (Bright: Samurai Soul, Drifting Home, Baki Hanma S2, ULTRAMAN Final Season),
+13 mit anderem Publisher (meist Crunchyroll).
+
+**Grenze der Quelle, ehrlich benannt:** „Publisher" ist der deutsche Lizenzgeber, nicht die
+Plattform von heute. Publisher Netflix + „Synchronisiert" ist ein starker Beleg dafür, dass die
+deutsche Fassung **auf Netflix** entstanden ist; ein anderer Publisher ist **kein** Gegenbeleg
+(Frieren steht dort unter Crunchyroll und läuft trotzdem auf Netflix). Taugt also als
+zusätzlicher Ja-Beleg, nie als Nein.
