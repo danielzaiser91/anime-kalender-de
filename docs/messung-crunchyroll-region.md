@@ -206,3 +206,17 @@ Bleibt es bei der IP, sind es drei Wege, in dieser Reihenfolge:
 **An der Pipeline wurde nichts geändert.** Es gibt keinen Weg zu beschreiben, der funktioniert, und
 die vorhandene Vorsichtsregel ist genau die richtige: Sie behandelt den US-Katalog schon heute als
 das, was er ist — eine Quelle, die belegen kann, was da ist, und nie, was fehlt.
+
+## Nachtrag vom 22.08.2026: Weg 1 in einer Fassung, die ohne Daniels PC auskommt
+
+Der dritte Weg oben („weiter mit dem US-Katalog leben") ist überholt, und zwar durch eine Lücke in
+Versuch 16: Die CloudFront-Signatur enthält **nur eine Zeitbedingung, keine IP-Bindung**. Ein Paket,
+das an einer deutschen Leitung entsteht, öffnet den deutschen Katalog deshalb auch von einem
+Rechner in den USA — es muss nur einmal am Tag von dort geholt werden
+(`tools/cr-zugang-holen.mjs`), nicht jeder Abruf.
+
+Was dieses Dokument misst, bleibt richtig: **Kein Parameter und kein Header** bringt einen
+US-Abruf in den deutschen Katalog. Der Schlüssel ist die Unterschrift, nicht die Anfrage.
+
+Der Abruf `data:cr-dub` läuft seit dem 22.08.2026 auf diesem Weg; die Auswirkung steht in
+[messung-crunchyroll-de-katalog.md](messung-crunchyroll-de-katalog.md).

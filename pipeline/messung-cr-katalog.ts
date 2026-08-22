@@ -27,6 +27,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { gunzipSync } from 'node:zlib'
 import type { Title } from '../shared/types.ts'
+import { todayIso } from '../shared/time.ts'
 import { beurteile, type CrDubData, type CrSerie } from './lib/crunchyroll-dub.ts'
 import { KEINE_STAFFEL, serieLesen } from './lib/crunchyroll-lesen.ts'
 import {
@@ -265,9 +266,13 @@ async function main(): Promise<void> {
   const bericht = [
     '# Der deutsche Katalog gegen den alten Bestand — Stichprobe von ' + zeilen.length + ' Serien',
     '',
-    `Gemessen am ${new Date().toISOString().slice(0, 10)} mit \`npx tsx pipeline/messung-cr-katalog.ts\`,`,
+    `Gemessen am ${todayIso()} mit \`npx tsx pipeline/messung-cr-katalog.ts\`,`,
     `Bucket \`/DE/M2/-\`, ${PAUSE_MS} ms Pause zwischen den Abrufen. Der alte Stand stammt aus`,
     `\`data/crunchyroll-dub.json\` (Lauf vom ${bestand.scrapedAt.slice(0, 10)}, US-Katalog).`,
+    '',
+    `Die Stichprobe ist **geschichtet und systematisch** gezogen: ${gesamt} Serien des Bestands nach`,
+    'bisherigem Befund gruppiert, je Gruppe anteilig jede k-te Kennung. Keine Zufallszahl, keine',
+    'Handauswahl — der Lauf ist wiederholbar, und niemand kann sich die Fälle aussuchen.',
     '',
     '## Was sich verschiebt',
     '',

@@ -1,8 +1,12 @@
 # Der deutsche Katalog gegen den alten Bestand — Stichprobe von 60 Serien
 
-Gemessen am 2026-08-21 mit `npx tsx pipeline/messung-cr-katalog.ts`,
+Gemessen am 2026-08-22 mit `npx tsx pipeline/messung-cr-katalog.ts`,
 Bucket `/DE/M2/-`, 400 ms Pause zwischen den Abrufen. Der alte Stand stammt aus
 `data/crunchyroll-dub.json` (Lauf vom 2026-08-21, US-Katalog).
+
+Die Stichprobe ist **geschichtet und systematisch** gezogen: 693 Serien des Bestands nach
+bisherigem Befund gruppiert, je Gruppe anteilig jede k-te Kennung. Keine Zufallszahl, keine
+Handauswahl — der Lauf ist wiederholbar, und niemand kann sich die Fälle aussuchen.
 
 ## Was sich verschiebt
 
