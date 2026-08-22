@@ -574,8 +574,21 @@ export const PLATFORM_PRIORITY: PlatformId[] = [
  * landesneutrale Form, Netflix löst sie selbst zur Region des Betrachters auf.
  * 545 der 562 Verweise benutzen sie ohnehin schon.
  */
+/**
+ * Auch die Form mit Sprache: `netflix.com/id-en/title/…`.
+ *
+ * Der Ausdruck kannte nur den nackten Ländercode (`/de/`, `/jp/`). Netflix hängt
+ * aber oft noch die Oberflächensprache an — `id-en` ist Indonesien auf Englisch.
+ * Solche Adressen leiten in Deutschland auf die Startseite um, und genau das ist
+ * Daniel am 22.08.2026 bei „7th Time Loop" passiert: „link is dead (gets
+ * redirected to homepage)". Tot war der Verweis nicht, nur in der falschen Region.
+ *
+ * Betroffen waren vier Verweise — dreimal `id-en`, einmal `jp-en` —, und keiner
+ * davon wäre je aufgefallen: Die Verweisprüfung sieht eine Weiterleitung auf die
+ * Startseite als HTTP 200.
+ */
 export function netflixNeutral(url: string): string {
-  return url.replace(/(netflix\.com)\/[a-z]{2}(\/title\/\d+)/i, '$1$2')
+  return url.replace(/(netflix\.com)\/[a-z]{2}(-[a-z]{2})?(\/title\/\d+)/i, '$1$3')
 }
 
 export function germanizeUrl(platform: PlatformId, url: string): string {

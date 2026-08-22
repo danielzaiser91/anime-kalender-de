@@ -146,3 +146,26 @@
   color: #7ee787;
 }
 .ak-hinweis { color: #8b949e; font-size: 11px; }
+
+/* Der Knopf für tote Verweise: klein, farblos, am Rand. Er wird selten
+   gebraucht, und ein Fehlklick meldet eine Serie als verschwunden, die es noch
+   gibt — deshalb fragt er einmal nach, statt aufzufallen. */
+.ak-tot {
+  flex: 0 0 auto;
+  min-width: 78px;
+  padding: 2px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 4px;
+  background: none;
+  color: #8b949e;
+  font: 500 11px/1.5 "Segoe UI", system-ui, sans-serif;
+  cursor: pointer;
+}
+.ak-tot:hover:not(:disabled) { border-color: #f85149; color: #f85149; }
+.ak-tot:disabled { cursor: default; opacity: .55; }
+.ak-tot.ak-frage { border-color: #f85149; color: #f85149; }
+
+/* Abgearbeitetes bleibt sichtbar, tritt aber zurück: Wer die Liste durchgeht,
+   soll sehen, was er schon hatte, ohne dass es die offenen Titel verdeckt. */
+.ak-zeile.ak-abgehakt { opacity: .45; }
+.ak-zeile.ak-abgehakt:hover { opacity: .8; }

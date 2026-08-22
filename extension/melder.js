@@ -484,7 +484,20 @@ async function dialogOeffnen() {
 
   const kopf = document.createElement('div')
   kopf.className = 'ak-kopf'
-  const eintraege = Object.entries(offeneTitel).sort((a, b) => a[1].titel.localeCompare(b[1].titel, 'de'))
+  /**
+   * Offenes zuerst, Erledigtes ans Ende.
+   *
+   * Daniel am 22.08.2026: „7seeds already checked but still in list." Die Liste
+   * selbst entsteht beim Datenlauf und weiß nichts von Meldungen, die noch im
+   * Briefkasten liegen — bis dahin steht ein abgearbeiteter Titel weiter drin.
+   * Er soll dann wenigstens nicht mehr obenauf liegen.
+   */
+  const fertig = (id, e) =>
+    istErledigt(id, 'tot') || empfohleneFolgen(e).every((k) => istErledigt(id, k))
+  const eintraege = Object.entries(offeneTitel).sort((a, b) => {
+    const d = Number(fertig(a[0], a[1])) - Number(fertig(b[0], b[1]))
+    return d || a[1].titel.localeCompare(b[1].titel, 'de')
+  })
   const titelzeile = document.createElement('strong')
   titelzeile.textContent = `${eintraege.length} Titel zu prüfen`
   kopf.appendChild(titelzeile)
@@ -544,6 +557,46 @@ async function dialogOeffnen() {
       folgen.appendChild(marke)
     }
     zeile.appendChild(folgen)
+
+    /**
+     * Der Knopf für einen Verweis, der ins Leere führt.
+     *
+     * Er steht bewusst am Rand und ohne Farbe: Er wird selten gebraucht, und
+     * ein Fehlklick meldet eine Serie als verschwunden, die es noch gibt.
+     * Deshalb fragt er einmal nach.
+     */
+    const tot = document.createElement('button')
+    tot.className = 'ak-tot'
+    tot.textContent = istErledigt(id, 'tot') ? 'tot gemeldet' : 'tot?'
+    tot.disabled = istErledigt(id, 'tot')
+    tot.title = 'Verweis führt nicht mehr zum Titel'
+    tot.addEventListener('click', async () => {
+      if (tot.dataset.sicher !== 'ja') {
+        tot.dataset.sicher = 'ja'
+        tot.textContent = 'wirklich?'
+        tot.classList.add('ak-frage')
+        setTimeout(() => {
+          if (tot.dataset.sicher !== 'ja') return
+          tot.dataset.sicher = ''
+          tot.textContent = 'tot?'
+          tot.classList.remove('ak-frage')
+        }, 4000)
+        return
+      }
+      tot.disabled = true
+      tot.textContent = '…'
+      const { ok, text } = await totMelden(id, eintrag.titel)
+      tot.classList.remove('ak-frage')
+      tot.textContent = ok ? 'tot gemeldet' : text
+      tot.disabled = ok
+      if (ok) zeile.classList.add('ak-abgehakt')
+    })
+    zeile.appendChild(tot)
+
+    // Was durch ist, bleibt sichtbar, tritt aber zurück.
+    if (istErledigt(id, 'tot') || empfohlen.every((k) => istErledigt(id, k))) {
+      zeile.classList.add('ak-abgehakt')
+    }
     liste.appendChild(zeile)
   }
   kasten.appendChild(liste)
@@ -593,3 +646,48 @@ setInterval(pfadPruefen, 1000)
 // Und einmal sofort: Beim Laden einer Stöberseite soll der Knopf da sein, ohne
 // dass erst ein Wechsel nötig wäre.
 uebersichtZeigen()
+
+/**
+ * Einen Verweis als tot melden — direkt aus der Liste, ohne ihn zu öffnen.
+ *
+ * Daniel am 22.08.2026: „7th time loop link is dead (gets redirected to
+ * homepage) — make possible to mark entries as dead links." Vorher hätte er die
+ * Seite öffnen, das Ausbleiben des Players abwarten und den Knopf drücken
+ * müssen — für eine Adresse, die gar nicht mehr existiert.
+ *
+ * Gemeldet wird derselbe Befund, den die Titelseite ohne abspielbare Folge
+ * liefert: `weg`. Die Pipeline entfernt den Verweis daraufhin aus dem Datensatz.
+ */
+async function totMelden(id, titel) {
+  const { token } = await chrome.storage.sync.get('token')
+  if (!token) return { ok: false, text: 'Kein Token — Rechtsklick aufs Symbol, dann Optionen' }
+  try {
+    const antwort = await fetch(WORKER, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
+      body: JSON.stringify({
+        plattform: 'netflix',
+        url: `https://www.netflix.com/title/${id}`,
+        sprachen: [],
+        befund: 'weg',
+        titel: titel || null,
+        notiz: 'Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um',
+      }),
+    })
+    if (!antwort.ok) {
+      const daten = await antwort.json().catch(() => ({}))
+      return { ok: false, text: daten.error ?? `Fehler ${antwort.status}` }
+    }
+    // Auch der tote Verweis ist erledigte Arbeit und soll so aussehen.
+    const schluessel = String(id)
+    erledigt[schluessel] = [...(erledigt[schluessel] ?? []), 'tot']
+    try {
+      await chrome.storage.local.set({ erledigt })
+    } catch {
+      /* Ohne Speicher bleibt die Anzeige unvollständig, mehr nicht. */
+    }
+    return { ok: true, text: 'als tot gemeldet' }
+  } catch (err) {
+    return { ok: false, text: `Nicht erreichbar: ${err.message}` }
+  }
+}

@@ -46,6 +46,7 @@ import {
 } from './lib/folgenbereiche.ts'
 import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
 import { dubGrenze } from '../shared/dub-grenze.ts'
+import { netflixNeutral } from '../shared/mappings.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { beurteile } from './lib/crunchyroll-dub.ts'
@@ -1743,6 +1744,32 @@ console.log('\nStreaming Availability API:')
        { seq: 3, name: '3', folgen: 25, erste: 39 }],
       [{ id: 1, titel: 'A', folgen: 13 }, { id: 2, titel: 'B', folgen: 12 }, { id: 3, titel: 'C', folgen: 11 }],
     ).paare.length === 0)
+}
+
+/**
+ * Netflix-Adressen ohne Regionspfad.
+ */
+{
+  console.log('\nNetflix-Adressen neutral machen')
+
+  pruefe('der nackte Ländercode fällt weg',
+    netflixNeutral('https://www.netflix.com/de/title/70302573') === 'https://www.netflix.com/title/70302573')
+
+  /**
+   * Der Fall, der wie ein toter Verweis aussah: `id-en` ist Indonesien auf
+   * Englisch. In Deutschland leitet die Adresse auf die Startseite um — Daniel
+   * am 22.08.2026: „7th time loop link is dead (gets redirected to homepage)."
+   * Tot war sie nicht, nur in der falschen Region, und die Verweisprüfung sieht
+   * eine Weiterleitung auf die Startseite als HTTP 200.
+   */
+  pruefe('Land **und** Sprache fallen weg',
+    netflixNeutral('https://www.netflix.com/id-en/title/81747897') === 'https://www.netflix.com/title/81747897')
+  pruefe('dasselbe für jp-en',
+    netflixNeutral('https://www.netflix.com/jp-en/title/80237814') === 'https://www.netflix.com/title/80237814')
+  pruefe('eine neutrale Adresse bleibt, wie sie ist',
+    netflixNeutral('https://www.netflix.com/title/70302573') === 'https://www.netflix.com/title/70302573')
+  pruefe('was keine Titeladresse ist, wird nicht angefasst',
+    netflixNeutral('https://www.netflix.com/browse') === 'https://www.netflix.com/browse')
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')

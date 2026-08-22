@@ -1718,3 +1718,12 @@
       checked: [25]
   checkedAt: '2026-08-22'
   note: "Folge 25 ohne deutschen Ton — Tonspuren: ja|Japanisch [Original], th|Thailändisch — 2 Tonspuren, 0 Audiodeskriptionen"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-22 ---
+
+- anilistId: 112686
+  title: "7SEEDS Part 2"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-22'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
