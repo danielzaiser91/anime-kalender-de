@@ -86,23 +86,37 @@ function urteil(spuren) {
 }
 
 /**
- * Ohne Tonspuren gibt es genau einen sinnvollen Befund: „hier ist nichts
- * abspielbar" — und der muss meldbar sein, ohne dass die Erweiterung ihn selbst
- * erkennt. Was zutrifft, sieht Daniel besser als jede Heuristik.
+ * Was der Knopf anbietet, hängt davon ab, wo er steht.
+ *
+ * Drei Lagen, und die mittlere hat gefehlt:
+ *
+ * 1. **Im Player, Tonspuren gelesen** — melden, was dasteht.
+ * 2. **Auf der Titelseite mit Folgen** — hier gibt es nichts zu lesen. Der
+ *    Knopf sagt, was zu tun ist, und bleibt untätig. Vorher bot er „als nicht
+ *    abrufbar melden" an, und das ist bei einer Reihe mit 24 Folgen schlicht
+ *    falsch (Daniel, 22.08.2026, bei „Die Tagebücher der Apothekerin").
+ * 3. **Auf einer Titelseite ohne Folgen** — erkennbar an „Erinnern": Netflix
+ *    bietet dort nur an, zu benachrichtigen. Das ist ein Befund, und nur dann
+ *    ist die Meldung „nicht abrufbar" richtig.
+ *
+ * Der Abspielknopf taugt nicht als Unterscheidung: Auf Netflix liegt die
+ * Titelkarte als Überlagerung über der Startseite, und deren Abspielknopf zählt
+ * mit — daran ist die erste Fassung gescheitert.
  */
+function keineFolgeVorhanden() {
+  const text = document.body.innerText || ''
+  return /\bErinnern\b|\bRemind me\b/.test(text)
+}
+
 function beschriftung(spuren) {
   if (!stand.reihe) {
     return { text: 'Über die Titelseite öffnen — sonst fehlt die Reihe', klasse: 'ak-leer', aktiv: false }
   }
-  // Gemeldet wird je **Reihe**, nicht je Folge: Netflix führt die Tonspuren am
-  // Titel, nicht an der einzelnen Episode. Einmal genügt (Daniel, 22.08.2026:
-  // „muss ich jede folge durchgehen und alle einzeln melden?").
-  if (stand.reihe && gemeldet.has(stand.reihe)) {
-    return { text: 'Diese Reihe ist gemeldet ✓', klasse: 'ak-leer', aktiv: false }
-  }
   if (!spuren) {
-    if (!stand.reihe) return { text: 'Kein Titel erkannt', klasse: 'ak-leer', aktiv: false }
-    return { text: 'Keine Folge gesehen — als nicht abrufbar melden', klasse: 'ak-nein', aktiv: true }
+    if (keineFolgeVorhanden()) {
+      return { text: 'Keine Folge da — als nicht abrufbar melden', klasse: 'ak-nein', aktiv: true }
+    }
+    return { text: 'Auf Abspielen klicken, dann hier melden', klasse: 'ak-leer', aktiv: false }
   }
   const { deutsch, echte } = urteil(spuren)
   return deutsch
@@ -112,8 +126,9 @@ function beschriftung(spuren) {
 
 async function melden() {
   const spuren = stand.spuren
-  const ohneFolge = !spuren
+  const ohneFolge = !spuren && keineFolgeVorhanden()
   if (!stand.reihe) return zeigeErgebnis('Kein Titel erkannt — Titelseite öffnen', false)
+  if (!spuren && !ohneFolge) return zeigeErgebnis('Erst auf Abspielen klicken', false)
 
   const { deutsch, echte } = spuren ? urteil(spuren) : { deutsch: false, echte: [] }
   const { token } = await chrome.storage.sync.get('token')
