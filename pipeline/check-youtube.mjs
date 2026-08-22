@@ -68,6 +68,48 @@ let gelesen = 0
 let tot = 0
 let kasse = 0
 let deutsch = 0
+let belegt = 0
+
+/**
+ * Die Tonspur, die YouTube selbst auf der Seite nennt.
+ *
+ * Daniel am 23.08.2026, mit Bild: „da steht doch eindeutig audio deutsch, also
+ * musst du es auch automatisch bekommen können." Er hat recht — die Angabe
+ * steht **strukturiert** im HTML, gleich dreifach:
+ *
+ *     {"metadataRowRenderer":{"title":{"runs":[{"text":"Audio"}]},
+ *                             "contents":[{"simpleText":"Deutsch"}]}}
+ *     {"metadataLineRenderer":{"text":{"simpleText":"Audio: Deutsch"}}}
+ *     {"factoidRenderer":{"value":{"simpleText":"Deutsch"},
+ *                         "label":{"simpleText":"Hauptsprache"}}}
+ *
+ * Das ist kein Auslesen der Seitenanzeige, sondern die JSON-Fracht, aus der
+ * sich die Seite selbst bedient — ein Abruf, kein Rendern. `robots.txt` sperrt
+ * `/watch` nicht (nur `/watch_ajax` und Verwandte).
+ *
+ * **Die Angabe gibt es nur, wo YouTube sie kennt** — bei Filmen und Serien aus
+ * dem eigenen Angebot. Ein hochgeladenes Video hat sie nicht; dort kommt `null`
+ * zurück, und das heißt „unbekannt", nicht „kein Deutsch".
+ */
+async function tonspur(url) {
+  try {
+    const antwort = await fetch(url, { headers: { 'Accept-Language': 'de-DE,de;q=0.9' } })
+    if (!antwort.ok) return null
+    const html = await antwort.text()
+    const muster = [
+      /\{"text":"Audio"\}\]\},"contents":\[\{"simpleText":"([^"]+)"/,
+      /"simpleText":"Audio: ([^"]+)"/,
+      /"value":\{"simpleText":"([^"]+)"\},"label":\{"simpleText":"Hauptsprache"/,
+    ]
+    for (const m of muster) {
+      const treffer = m.exec(html)
+      if (treffer) return treffer[1]
+    }
+    return null
+  } catch {
+    return null
+  }
+}
 const arbeit = LIMIT > 0 ? offen.slice(0, LIMIT) : offen
 
 for (const [i, v] of arbeit.entries()) {
@@ -107,6 +149,12 @@ for (const [i, v] of arbeit.entries()) {
         kanal: daten.author_name ?? null,
         deutscherTitel: DEUTSCHE_SPUR.test(daten.title ?? ''),
       }
+      const ton = await tonspur(v.url)
+      if (ton) {
+        befund.audio = ton
+        befund.audioDeutsch = /deutsch|german/i.test(ton)
+        if (befund.audioDeutsch) belegt++
+      }
       if (befund.deutscherTitel) deutsch++
     }
   } catch (err) {
@@ -115,7 +163,17 @@ for (const [i, v] of arbeit.entries()) {
   }
   bestand[v.url] = { ...befund, anilistId: v.id, geprueftAm: new Date().toISOString().slice(0, 10) }
   gelesen++
-  const zeichen = !befund.lebt ? '✕' : befund.kostenpflichtig ? '€' : befund.deutscherTitel ? '🇩🇪' : '·'
+  const zeichen = !befund.lebt
+    ? '✕'
+    : befund.audioDeutsch
+      ? '🇩🇪'
+      : befund.audio
+        ? '✗'
+        : befund.kostenpflichtig
+          ? '€'
+          : befund.deutscherTitel
+            ? '?'
+            : '·'
   console.log(`  ${i + 1}/${arbeit.length} ${zeichen} ${v.titel.slice(0, 40)}`)
   await new Promise((r) => setTimeout(r, PAUSE))
 }
@@ -123,6 +181,7 @@ for (const [i, v] of arbeit.entries()) {
 writeFileSync(ZIEL, JSON.stringify(bestand, null, 1) + '\n')
 console.log('')
 console.log(
-  `${gelesen} Verweise geprüft: ${tot} gelöscht, ${kasse} kostenpflichtig, ${deutsch} mit deutschem Videotitel`,
+  `${gelesen} Verweise geprüft: ${belegt} mit „Audio: Deutsch", ${tot} gelöscht, ` +
+    `${kasse} kostenpflichtig, ${deutsch} mit deutschem Videotitel`,
 )
 console.log(`Befunde in data/youtube-befunde.json`)

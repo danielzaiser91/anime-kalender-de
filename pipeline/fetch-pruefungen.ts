@@ -205,8 +205,28 @@ for (const gruppe of jeAdresse.values()) {
   if (!ids.length) {
     // Der Titel ist die letzte Chance — und nur ein Vorschlag: Ein Name ist
     // eine Ähnlichkeit, kein Beleg.
+    /**
+     * Der Namensvergleich darf unscharf sein — sonst findet er das Naheliegende
+     * nicht.
+     *
+     * Daniel meldete „Magi – Netflix" als verschwunden; wir führen den Titel als
+     * „Magi: The Labyrinth of Magic". Exakt verglichen passte nichts, und in der
+     * Liste stand „Titel von Hand suchen" — dabei war die Antwort schlicht, dass
+     * wir für diesen Titel gar keinen Netflix-Verweis haben und also nichts zu
+     * tun ist (23.08.2026: „warum soll ich das nochmal prüfen").
+     *
+     * Erst exakt, dann als Anfang eines längeren Namens. Der Vorschlag bleibt
+     * ein Vorschlag — er entscheidet nichts, er stellt nur die richtige Frage.
+     */
     const name = p.serientitel ?? p.titel ?? ''
-    const geraten = name ? (nachTitel.get(titelSchluessel(name)) ?? []) : []
+    const schluessel = name ? titelSchluessel(name) : ''
+    let geraten = schluessel ? (nachTitel.get(schluessel) ?? []) : []
+    if (!geraten.length && schluessel.length >= 4) {
+      for (const [k, ids] of nachTitel) {
+        // „magi" findet „magi the labyrinth of magic", nicht „imagination".
+        if (k === schluessel || k.startsWith(schluessel + ' ')) geraten = [...geraten, ...ids]
+      }
+    }
     ohneZuordnung.push({ url: p.url, name, plattform: p.plattform, befund: p.befund, vorschlag: geraten })
     offenGeblieben.push(
       `${p.url} — im Datensatz nicht gefunden${geraten.length ? ` (Vorschlag: #${geraten.join(', #')})` : ''}`,
@@ -448,11 +468,25 @@ if (ohneZuordnung.length && !TROCKEN) {
         const t = liste.find((x) => x.id === id)
         return !t?.streams?.some((st) => st.platform === o.plattform)
       })
-    const zuTun = !o.vorschlag.length
-      ? 'Titel von Hand suchen'
-      : erledigt
-        ? 'nichts — wir führen dort keinen Verweis'
-        : 'Vorschlag bestätigen, dann Adresse eintragen'
+    /**
+     * Ein „weg" zu einer Adresse, die wir nicht führen, ist gegenstandslos.
+     *
+     * Das gilt **ohne** Titelvergleich: Wenn kein Verweis auf diese Adresse
+     * zeigt, kann auch keiner entfernt werden. Wer den Titel dahinter kennt,
+     * gewinnt nichts dazu.
+     *
+     * Bis zum 23.08.2026 stand bei solchen Meldungen „Titel von Hand suchen" —
+     * dreiundzwanzig Zeilen Arbeit, die keine war. Daniel: „deshalb habe ich sie
+     * auch als weg gemeldet. also warum soll ich das nochmal prüfen."
+     */
+    const zuTun =
+      o.befund === 'weg'
+        ? 'nichts — diese Adresse steht bei uns nirgends'
+        : !o.vorschlag.length
+          ? 'Titel von Hand suchen'
+          : erledigt
+            ? 'nichts — wir führen dort keinen Verweis'
+            : 'Vorschlag bestätigen, dann Adresse eintragen'
     return `| ${o.plattform} | ${o.url} | ${o.name || '—'} | ${o.befund} | ${namen.join('<br>') || '—'} | ${zuTun} |`
   })
   writeFileSync(resolve(ROOT, 'data/meldungen-ohne-zuordnung.md'), [...kopf, ...tabelle, ''].join('\n'))
