@@ -128,6 +128,16 @@ for (const [id, eintraege] of jeAdresse) {
       })),
       laut: 'anbieter',
     }
+    /**
+     * Bleibt nach dem Abgleich keine offene Staffel, gehört der Titel nicht auf
+     * die Liste.
+     *
+     * Der Fall entsteht, wo der Anbieter gröber teilt als wir: Netflix führt
+     * BAKI-DOU als **eine** Staffel, wir als zwei — die erste ist beantwortet,
+     * die zweite hat bei Netflix keine Entsprechung. Auf der Liste stand dann
+     * eine Zeile ohne eine einzige Folge zum Anklicken (22.08.2026).
+     */
+    if (!offen[id].staffeln.some((s) => s.offen)) delete offen[id]
     continue
   }
   offen[id] = {
