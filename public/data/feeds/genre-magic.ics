@@ -6,16 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Magic
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:cr-G6793XKZY@2026-08-15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260815T093000Z
-DTEND:20260815T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 15/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-G6793XKZY
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:though-i-am-an-inept-villainess@2026-08-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260816T154500Z

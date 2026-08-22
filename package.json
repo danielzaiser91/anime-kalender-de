@@ -38,13 +38,16 @@
     "data:katalog": "tsx pipeline/fetch-anilist-katalog.ts",
     "data:ann:ids": "tsx pipeline/fetch-ann-ids.ts",
     "data:ann:voices": "tsx pipeline/fetch-ann-voices.ts",
-    "data:youtube": "tsx pipeline/check-youtube.ts",
+    "data:youtube": "node pipeline/check-youtube.mjs",
     "data:links": "tsx pipeline/check-links.ts",
     "data:motn": "tsx pipeline/fetch-motn.ts",
     "data:motn:check": "tsx pipeline/check-motn.ts",
     "data:pruefungen": "tsx pipeline/fetch-pruefungen.ts",
     "data:netflix-rest": "node pipeline/list-netflix-rest.mjs",
-    "data:extension-liste": "node tools/extension-offene-liste.mjs"
+    "data:extension-liste": "node tools/extension-offene-liste.mjs",
+    "data:youtube:report": "node pipeline/report-youtube.mjs",
+    "data:rtlplus": "node pipeline/check-rtlplus.mjs",
+    "data:rtlplus:report": "node pipeline/report-rtlplus.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",

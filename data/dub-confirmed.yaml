@@ -8054,3 +8054,76 @@
   dub: true
   checkedAt: '2026-08-22'
   note: "Folgen 1–10 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, yue|Kantonesisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 9 Tonspuren, 1 Audiodeskriptionen"
+
+# YouTube: Videotitel, die die deutsche Fassung ausdrücklich nennen.
+#
+# Geprüft am 23.08.2026 über YouTubes oEmbed-Schnittstelle — sie gibt zu einer
+# Videoadresse Titel und Kanal zurück, ohne Schlüssel und ohne Kontingent, und
+# ist in der robots.txt nicht gesperrt.
+#
+# Aufgenommen ist nur, wo der Videotitel die Sprache **benennt**: „Deutsch (Ger
+# Dub)", „dt. Synchro", „(deutsch)". Ein deutscher Verleihtitel allein genügt
+# nicht — „Pokémon – Der Film" sagt nichts über die Tonspur des Videos, und
+# acht solche Fälle liegen deshalb nur als Vorschlag daneben.
+#
+# Die Kanäle stützen den Befund: KSM Anime und Crunchyroll Extras Deutschland
+# sind die deutschen Auftritte der Lizenznehmer.
+
+- anilistId: 1469
+  title: "Monster Rancher"
+  platform: youtube
+  dub: true
+  checkedAt: '2026-08-23'
+  note: "Videotitel: „MONSTER RANCHER | Anime ganze Folge 1 | Deutsch (Ger Dub)\" (Kanal: KSM Anime)"
+
+- anilistId: 2567
+  title: "Pinocchio yori Piccolino no Bouken"
+  platform: youtube
+  dub: true
+  checkedAt: '2026-08-23'
+  note: "Videotitel: „Pinocchio (Folge 01│deutsch) - Anime Classics\" (Kanal: ninotakutv)"
+
+- anilistId: 2825
+  title: "Sinbad the Sailor"
+  platform: youtube
+  dub: true
+  checkedAt: '2026-08-23'
+  note: "Videotitel: „Sindbad (Folge 01│deutsch) - Anime Classics\" (Kanal: ninotakutv)"
+
+- anilistId: 100010
+  title: "MAGICAL GIRL SITE"
+  platform: youtube
+  dub: true
+  checkedAt: '2026-08-23'
+  note: "Videotitel: „Magical Girl Site Folge 1 (dt. Synchro) | KAZÉ Watch Together\" (Kanal: Crunchyroll Extras Deutschland)"
+
+- anilistId: 100722
+  title: "Date A Live III"
+  platform: youtube
+  dub: true
+  checkedAt: '2026-08-23'
+  note: "Videotitel: „Date A Live Season 3 Episode 1│ganze Anime-Folge (deutsch)\" (Kanal: ninotakutv)"
+
+- anilistId: 108430
+  title: "given"
+  platform: youtube
+  dub: true
+  checkedAt: '2026-08-23'
+  note: "Videotitel: „Given – Folge 1 (Deutsch/German)\" (Kanal: Crunchyroll Extras Deutschland)"
+
+# RTL+: ein Verweis führt zum falschen Titel.
+#
+# Geprüft am 23.08.2026: Die Serienseite nennt ihren Namen im TVSeries-Block
+# nach schema.org, und der lässt sich mit unserem vergleichen. Von 42 Verweisen
+# passte einer nicht.
+#
+# Über die Tonspur sagt RTL+ nichts — weder audio noch inLanguage stehen im
+# TVSeries-Block. Das einzige inLanguage: "de" auf der Seite gehört zur WebPage,
+# also zur Sprache der Seite selbst. Als Beleg für eine Synchro taugt es nicht.
+
+- anilistId: 112151
+  title: "Demon Slayer -Kimetsu no Yaiba- The Movie: Mugen Train"
+  platform: rtlplus
+  available: false
+  checkedAt: '2026-08-23'
+  note: "Die Seite dort zeigt „Demon Slayer - The Movie: Mugen Train\", nicht diesen Titel."

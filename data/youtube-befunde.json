@@ -1,0 +1,821 @@
+{
+ "https://www.youtube.com/watch?v=Df4yascVL4M": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Akira",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 47,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/playlist?list=PLJ-JBvtUCWiz1Qtne5HlLBaEeTZUZBc7y": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "BEYBLADE EN Episodes",
+  "kanal": "BEYBLADE Official",
+  "deutscherTitel": false,
+  "anilistId": 288,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=IFKqfiIE66Q": {
+  "status": 401,
+  "lebt": true,
+  "kostenpflichtig": true,
+  "anilistId": 317,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=olNUXiGWTFo": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Ghost in the Shell 2 - Innocence",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 468,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=5o3eG9cBHkI": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Pokémon – Der Film",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": true,
+  "anilistId": 528,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=jS8EMw1DfTQ": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Ninja Scroll",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 617,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/playlist?list=PLrrh84y760v-07h6z6XgXtUgLCZgQkGT8": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Magic User's Club (Sub)",
+  "kanal": "Nozomi Entertainment",
+  "deutscherTitel": false,
+  "anilistId": 629,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=jderzQDdDHc": {
+  "status": 401,
+  "lebt": true,
+  "kostenpflichtig": true,
+  "anilistId": 759,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=H9apBqlBMP4": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Pokémon 2",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 1117,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=u0S9CI0DMCQ": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Pokémon 3",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 1118,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/playlist?list=PLnY1FL_e1HO5NAcu_AaLWeYkpUc5KqVI3": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Mach GoGoGo | Speed Racer | FULL EPISODES",
+  "kanal": "TokuSHOUTsu",
+  "deutscherTitel": false,
+  "anilistId": 1445,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=1hF_yt17TJA": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "MONSTER RANCHER | Anime ganze Folge 1 | Deutsch (Ger Dub)",
+  "kanal": "KSM Anime",
+  "deutscherTitel": true,
+  "anilistId": 1469,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=ZYrWZPVSTKQ": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Pokémon: Lucario und das Geheimnis von Mew",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 1526,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=0v5cczQXBR0": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Lucia startet durch! | Pokémon: Diamant & Perl | Komplette Folge",
+  "kanal": "Offizieller Pokémon Youtube Kanal",
+  "deutscherTitel": true,
+  "anilistId": 1565,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/playlist?list=PLJ-JBvtUCWix_QLzA-xdbj3M02RVYxKsT": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "BEYBLADE GREVOLUTION EN Episodes",
+  "kanal": "BEYBLADE Official",
+  "deutscherTitel": false,
+  "anilistId": 1668,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/playlist?list=PLJ-JBvtUCWiz484jpH0aYoQ_wa_jux3dy": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "BEYBLADE VForce EN Episodes",
+  "kanal": "BEYBLADE Official",
+  "deutscherTitel": false,
+  "anilistId": 1669,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/playlist?list=PLL0kUUHCSZA6VQjBcZ8TJ-tshEMyPsSt6": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Moomin 90s 📺 Full Episodes in Order",
+  "kanal": "Moomin Official",
+  "deutscherTitel": false,
+  "anilistId": 2150,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=e-XouE6kJxY": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Pokémon Ranger und der Tempel des Meeres",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 2201,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=wlxkvS0gBqw": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Pinocchio (Folge 01│deutsch) - Anime Classics",
+  "kanal": "ninotakutv",
+  "deutscherTitel": true,
+  "anilistId": 2567,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/playlist?list=PLar8fACIEzb0KBeSE1f_KnktvHFFkkrd7": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Tao Tao - tous les épisodes!",
+  "kanal": "Studio100 KIDS Français",
+  "deutscherTitel": false,
+  "anilistId": 2578,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=0t1Fsp2Pj2M": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Sindbad (Folge 01│deutsch) - Anime Classics",
+  "kanal": "ninotakutv",
+  "deutscherTitel": true,
+  "anilistId": 2825,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=rAOmQ-foqeg": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Pokémon Mystery Dungeon: Team Go-Getters Out of the Gate",
+  "kanal": "The Official Pokémon YouTube channel",
+  "deutscherTitel": false,
+  "anilistId": 2842,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=SXJ29uhwQCY": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Pokémon: Der Aufstieg von Darkrai",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 2847,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=A0DaeCtJTG0": {
+  "status": 401,
+  "lebt": true,
+  "kostenpflichtig": true,
+  "anilistId": 3024,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=qJEEOcMRUfU": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Pokémon: Giratina und der Himmelsritter",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 4026,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/playlist?list=PLQVzkO9r_ci1DzCZEg8_O4sOAbCQlZRWa": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Season 3 Inazuma Eleven",
+  "kanal": "Arait Play English",
+  "deutscherTitel": false,
+  "anilistId": 5231,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=V0PlwsTLoM0": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Pokémon Mystery Dungeon: Explorers of Time and Darkness",
+  "kanal": "The Official Pokémon YouTube channel",
+  "deutscherTitel": false,
+  "anilistId": 5256,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=zOQvGliJQmU": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Pokémon: Arceus und das Juwel des Lebens",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 6178,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=uvVXRDvIVL8": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Eden of the East - The King of Eden",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 6372,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=MKg6t7Dic_c": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Eden of the East - Das verlorene Paradies",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 6637,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=8OKp8jQNAUY": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Pokémon - Zoroark: Meister der Illusionen",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 7695,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=W8YuJXFKZ-k": {
+  "status": 401,
+  "lebt": true,
+  "kostenpflichtig": true,
+  "anilistId": 8487,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=oq7stJyB3WA": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Resident Evil: Damnation",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 9544,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=tJzKWGoIyDE": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Heidi - Ein Sommer voller Glück",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 9549,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=b5IwIt0DK9A": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Pokémon – Der Film: Weiß – Victini und Zekrom",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": true,
+  "anilistId": 9917,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=vQQNT6u1msI": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Big Fish & Begonia - Zwei Welten, Ein Schicksal",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 10259,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/playlist?list=PL4o1lot_6q1EHL3vw_t4BGuHK6uBHyETT": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "B-Daman Crossfire",
+  "kanal": "AnimangaPLUS",
+  "deutscherTitel": false,
+  "anilistId": 11177,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=R6u5V5DvrlA": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Pokémon – Der Film: Kyurem gegen den Ritter der Redlichkeit",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": true,
+  "anilistId": 12671,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=wgal14Z86qc": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Dragonball Z - Kampf der Götter",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 14837,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=oS43MWxoOxg": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Iron Man: Rise of Technovore",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 15847,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=IC-n2iAL5XA": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Pokémon – Der Film: Genesect und die wiedererwachte Legende",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": true,
+  "anilistId": 16680,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=kQSyJmNsaiM": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Bayonetta: Bloody Fate",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 20442,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=KP8v9NKeRe8": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Pokémon – Der Film: Diancie und der Kokon der Zerstörung",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": true,
+  "anilistId": 20644,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=Lqxbna7V_Qc": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Appleseed: Alpha",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 20786,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=AHT772bRkMY": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Full Movie | Attack on Titan Part 1 - Guren no Yumiya - (English Dub)",
+  "kanal": "Anime Manga Official",
+  "deutscherTitel": false,
+  "anilistId": 20691,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=oVlEVivdY-Y": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Full Movie | Attack on Titan Part 2 - Jiyuu no Tsubasa - (English Dub)",
+  "kanal": "Anime Manga Official",
+  "deutscherTitel": false,
+  "anilistId": 20692,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=YVNzQSzNpTY": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Avengers Confidential: Black Widow & Punisher",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 108815,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=mPlsBjrJSLs": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Pokémon — Der Film: Hoopa und der Kampf der Geschichte",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": true,
+  "anilistId": 21266,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=QTZvD-pEYo8": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Dragon Nest: Die Chroniken von Altera",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 102657,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=-BMURrauibg": {
+  "status": 401,
+  "lebt": true,
+  "kostenpflichtig": true,
+  "anilistId": 20850,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=KlgsUzl_IrI": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Anime-Trailer zu Pokémon Omega Rubin und Pokémon Alpha Saphir",
+  "kanal": "Offizieller Pokémon Youtube Kanal",
+  "deutscherTitel": false,
+  "anilistId": 20956,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=9A22nfAK1V4": {
+  "status": 401,
+  "lebt": true,
+  "kostenpflichtig": true,
+  "anilistId": 21651,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=KWHCWeMgxm4": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Throne of Elves - Die Chroniken von Altera",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 102658,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=fCoyCs4mpY0": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Resident Evil: Vendetta",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 21464,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=zbwSAruo3QU": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Pokémon Mystery Dungeon: Gates to Infinity (Part 1)",
+  "kanal": "The Official Pokémon YouTube channel",
+  "deutscherTitel": false,
+  "anilistId": 126294,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=rHyR-BKxWqU": {
+  "status": 401,
+  "lebt": true,
+  "kostenpflichtig": true,
+  "anilistId": 21459,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=duoOTzpeWSE": {
+  "status": 401,
+  "lebt": true,
+  "kostenpflichtig": true,
+  "anilistId": 21519,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=88fSdX1vmNU": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Kingsglaive: Final Fantasy XV",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 21729,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=9p5GKwN1Mcs": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Seoul Station",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 101874,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=RXD_V4p2iiA": {
+  "status": 401,
+  "lebt": true,
+  "kostenpflichtig": true,
+  "anilistId": 97908,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/playlist?list=PLBE2D9BnJJUr3eL0gJwgbWbXqPaOFZI5p": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "ポケモンジェネレーションズ",
+  "kanal": "ポケモン公式YouTubeチャンネル",
+  "deutscherTitel": false,
+  "anilistId": 97635,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=k0YW9pyg4CE": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Mary und die Blume der Hexen",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 97981,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=DYJoRSgoK2I": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Speckles – Die Abenteuer eines Dinosauriers",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 141166,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=PwAgOqNvFGA": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "ORESAMA - オオカミハート(F.O.ver.)［OFFICIAL MUSIC VIDEO］",
+  "kanal": "VAP OFFICIAL MUSIC CHANNEL",
+  "deutscherTitel": false,
+  "anilistId": 99643,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=7ri-D1Hymdk": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Maquia: Eine unsterbliche Liebesgeschichte",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 99457,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/playlist?list=PL5xoHmK9recj3tU54fpsrmAgehCzZpx4v": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "【アニメ】シルバニアファミリー　ミニストーリー　シーズン１",
+  "kanal": "シルバニア ファミリー 公式チャンネル",
+  "deutscherTitel": false,
+  "anilistId": 187052,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=9IYcNwkSm6A": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Magical Girl Site Folge 1 (dt. Synchro) | KAZÉ Watch Together",
+  "kanal": "Crunchyroll Extras Deutschland",
+  "deutscherTitel": true,
+  "anilistId": 100010,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=XdP3qvGRJ-Q": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Batman Ninja",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 100248,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=YCjRubbaIHk": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Date A Live Season 3 Episode 1│ganze Anime-Folge (deutsch)",
+  "kanal": "ninotakutv",
+  "deutscherTitel": true,
+  "anilistId": 100722,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=VoLMhaee2cs": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Full Movie | Attack on Titan Season 2 the Movie: Roar of Awakening (English Sub)",
+  "kanal": "Anime Manga Official",
+  "deutscherTitel": false,
+  "anilistId": 100465,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=xQ96eySKnDs": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Made in Abyss: Seelen der Finsternis",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 100643,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=7R109egcXes": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Pokémon - Der Film: Die Macht in uns",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": true,
+  "anilistId": 100744,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=7hEXNRUFnRw": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "サントリー CM　GREEN DA・KA・RA『未来のみんな』篇 15秒",
+  "kanal": "スタジオ地図 / STUDIO CHIZU",
+  "deutscherTitel": false,
+  "anilistId": 145850,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/playlist?list=PLTYXZZKHiowqVVc80wtIBlUNCcRy2SKPV": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Mini Episodes Season 2 -Ivy-",
+  "kanal": "Sylvanian Families Official",
+  "deutscherTitel": false,
+  "anilistId": 187053,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=kWAGQchekwg": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "White Snake",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 107371,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=ptWG99qHy7E": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Weathering With You - Das Mädchen, das die Sonne berührte",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 106286,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=2o6hGnTPSH4": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Given – Folge 1 (Deutsch/German)",
+  "kanal": "Crunchyroll Extras Deutschland",
+  "deutscherTitel": true,
+  "anilistId": 108430,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/playlist?list=PLTYXZZKHiowqllFesHWXbJI3MVvxQU0Cz": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Mini Episode Season 3 -Clover-",
+  "kanal": "Sylvanian Families Official",
+  "deutscherTitel": false,
+  "anilistId": 187054,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/playlist?list=PLwLSw1_eDZl1JaXJh2-Pc_sfEV6VAHO0W": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "NO GUNS LIFE S2 [English Sub]",
+  "kanal": "Muse Asia",
+  "deutscherTitel": false,
+  "anilistId": 112803,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/playlist?list=PLGLzhXoyF5rLqhNCbHawkJRuBnShf66bk": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "DIGIMON ADVENTURE: LAST EVOLUTION KIZUNA",
+  "kanal": "東映アニメーション公式YouTubeチャンネル",
+  "deutscherTitel": false,
+  "anilistId": 115107,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/playlist?list=PLBE2D9BnJJUoFiRz8ZjF2KToAirHYn1Ru": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "POKÉTOON",
+  "kanal": "ポケモン公式YouTubeチャンネル",
+  "deutscherTitel": false,
+  "anilistId": 119964,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=5j9mrGlQWBs": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "上海美术电影制片厂《冰上遇险》",
+  "kanal": "咪咕动漫 MIGU Animation",
+  "deutscherTitel": false,
+  "anilistId": 145564,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/playlist?list=PLY_DM8ieCRPqNeMV1z2EJZDSgLWySL_Cx": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Fire Force S2 - MiniEP",
+  "kanal": "peppermint anime",
+  "deutscherTitel": false,
+  "anilistId": 128390,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://youtube.com/playlist?list=PLQWzKIaERirwN5po6LduiSLm8qc7GtuAl&si=I6QtXoF-i7cfG2c8": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Pokémon: Evolutions | Full Episodes",
+  "kanal": "The Official Pokémon YouTube channel",
+  "deutscherTitel": false,
+  "anilistId": 138699,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=cxTxrKrYkcY": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Kaguya-sama: Love Is War -Ultra Romantic- Season 3  |  Teaser Video - \"Yu Ishigami Wants to Chat\"",
+  "kanal": "Aniplex USA",
+  "deutscherTitel": false,
+  "anilistId": 165557,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/playlist?list=PLduwKEaYhJ45z5Gf4Nj3jmsMvOFcpTikR": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Calico Critters Mini Episodes Season 4 -Peony-",
+  "kanal": "CALICO CRITTERS Official",
+  "deutscherTitel": false,
+  "anilistId": 187055,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://youtube.com/playlist?list=PL3ongWuaWwZNBggs9x1Qcya3nRJzfMbkK": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "【ちびキャラアニメ】かげじつ！",
+  "kanal": "KADOKAWAanime",
+  "deutscherTitel": false,
+  "anilistId": 156001,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=I9kSAX9v4Iw": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Resident Evil: Death Island",
+  "kanal": "YouTube Movies",
+  "deutscherTitel": false,
+  "anilistId": 161441,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=kZOw6YgJVhM": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Die Pokémon-Weltmeisterschaften 2023 | Offizieller Trailer",
+  "kanal": "Offizieller Pokémon Youtube Kanal",
+  "deutscherTitel": false,
+  "anilistId": 167418,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/playlist?list=PLQWzKIaERirzLZWMu3M89ZEpsDt9YtDBM": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Pokémon: Paldean Winds",
+  "kanal": "The Official Pokémon YouTube channel",
+  "deutscherTitel": false,
+  "anilistId": 168092,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=5yQSUimraSU": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "Detective Pikachu & the Mystery of the Missing Flan 🍮🔎",
+  "kanal": "The Official Pokémon YouTube channel",
+  "deutscherTitel": false,
+  "anilistId": 170535,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/playlist?list=PLTndXYWs2JgG2PxW3hisgJze2P5iKnO2s": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "【👑PLATIN MEMBERS ONLY 】Super Cube | English Ver. | FULL #fantasy #shounen #adventure",
+  "kanal": "爱奇艺国漫 iQIYI Animation - Get the iQIYI APP",
+  "deutscherTitel": false,
+  "anilistId": 166442,
+  "geprueftAm": "2026-08-22"
+ },
+ "https://www.youtube.com/watch?v=oHgcVr_CRQs": {
+  "status": 200,
+  "lebt": true,
+  "videoTitel": "【公式】ポケモンアニメ「カイリューとゆうびんやさん」Pokémon Day2025 記念作品",
+  "kanal": "ポケモン公式YouTubeチャンネル",
+  "deutscherTitel": false,
+  "anilistId": 186559,
+  "geprueftAm": "2026-08-22"
+ }
+}
