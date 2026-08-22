@@ -1570,3 +1570,49 @@
       dub: true
   checkedAt: '2026-08-22'
   note: "Folge 1 mit deutschem Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Tonspuren: de|Deutsch, ja|Japanisch [Original] — 2 Tonspuren, 0 Audiodeskriptionen"
+
+# Attack on Titan ist bei Netflix Deutschland nicht abrufbar.
+#
+# Zwei Beobachtungen von Daniel am 22.08.2026, beide mit Bild:
+# Die Adresse 70299043 leitet auf die Startseite um, und die Suche nach
+# „attack on" zeigt **keine** Kachel der Serie — die Kacheln darunter sind
+# Netflix' Ausweichvorschläge (Jujutsu Kaisen, Death Note, One Piece …).
+#
+# Über die Compilation-Filme sagt das nichts: Die Zeile „Mehr zu entdecken"
+# nennt sie als Suchbegriffe, nicht als Treffer. Ob Netflix sie führt, ist
+# ungeprüft — der Eintrag hier gilt allein den vier Fernsehstaffeln.
+#
+# Alle vier trugen dieselbe Adresse und waren ungeprüft. Sie stammt aus AniList
+# und war dort vermutlich einmal richtig.
+
+- anilistId: 20958
+  title: Attack on Titan Season 2
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: >-
+    Adresse leitet auf die Startseite um, Suche zeigt keine Kachel der Serie.
+
+- anilistId: 99147
+  title: Attack on Titan Season 3
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: >-
+    Adresse leitet auf die Startseite um, Suche zeigt keine Kachel der Serie.
+
+- anilistId: 104578
+  title: Attack on Titan Season 3 Part 2
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: >-
+    Adresse leitet auf die Startseite um, Suche zeigt keine Kachel der Serie.
+
+- anilistId: 131681
+  title: Attack on Titan Final Season Part 2
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-22'
+  note: >-
+    Adresse leitet auf die Startseite um, Suche zeigt keine Kachel der Serie.
