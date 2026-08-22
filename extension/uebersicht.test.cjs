@@ -58,9 +58,19 @@ pruefe('eine beantwortete Staffel taucht nicht auf',
  * „1e01", was Daniel zu Recht als Unsinn meldete: „filme in der liste werden
  * als 1e01 gemeldet, obwohl es filme und keine serien sind."
  */
-pruefe('eine Staffel mit einer Folge gilt als Film',
-  JSON.stringify(empfohleneFolgen({ staffeln: [{ nr: 1, folgen: 1, offen: true }] })) === JSON.stringify(['Film']),
-  empfohleneFolgen({ staffeln: [{ nr: 1, folgen: 1, offen: true }] }))
+/**
+ * **Das Format entscheidet, nicht die Folgenzahl.** Zwei Faelle machen das
+ * noetig, beide vom 22.08.2026: Ein Film hat keine Folge zum Auswaehlen — aber
+ * „ONE PIECE" laeuft noch und hat bei AniList gar keine Folgenzahl. Die alte
+ * Bedingung „hoechstens eine Folge" machte daraus einen Film.
+ */
+pruefe('ein Film bleibt ein Film',
+  JSON.stringify(empfohleneFolgen({ staffeln: [{ nr: 1, folgen: 1, film: true, offen: true }] })) === JSON.stringify(['Film']))
+pruefe('eine laufende Serie ohne Folgenzahl nennt die erste Folge',
+  JSON.stringify(empfohleneFolgen({ staffeln: [{ nr: 1, folgen: 0, film: false, offen: true }] })) === JSON.stringify(['1e01']),
+  empfohleneFolgen({ staffeln: [{ nr: 1, folgen: 0, film: false, offen: true }] }))
+pruefe('ein Special mit einer Folge ist kein Film',
+  JSON.stringify(empfohleneFolgen({ staffeln: [{ nr: 1, folgen: 1, film: false, offen: true }] })) === JSON.stringify(['1e01']))
 
 // Die Faelle, an denen die Einfaerbung scheiterte (Daniel, 22.08.2026).
 pruefe('durchgezaehlte Staffeln bekommen die Nummern des Anbieters',

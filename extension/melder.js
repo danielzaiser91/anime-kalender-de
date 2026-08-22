@@ -439,7 +439,12 @@ function empfohleneFolgen(eintrag) {
     // Ein Film hat keine Folgen — „1e01" wäre dort eine Anweisung ins Leere
     // (Daniel, 22.08.2026: „filme in der liste werden als 1e01 gemeldet,
     // obwohl es filme und keine serien sind").
-    if (s.film || s.folgen <= 1) {
+    //
+    // **Nur das Format entscheidet, nicht die Folgenzahl.** „ONE PIECE" läuft
+    // noch und hat bei AniList gar keine — in der Liste stand `folgen: 0`, und
+    // die alte Bedingung „höchstens eine Folge" machte daraus einen Film
+    // (Daniel, 22.08.2026: „one piece da steht film, aber ist serie").
+    if (s.film) {
       raus.push(eintrag.staffeln.length > 1 ? `Film ${s.nr}` : 'Film')
       continue
     }
@@ -457,7 +462,9 @@ function empfohleneFolgen(eintrag) {
      */
     const erste = s.erste ?? 1
     raus.push(folgenKuerzel(s.nr, erste))
-    raus.push(folgenKuerzel(s.nr, erste + s.folgen - 1))
+    // Die letzte Folge nur, wenn wir wissen, welche das ist. Bei einer
+    // laufenden Serie ohne Folgenzahl bliebe sonst „1e00" stehen.
+    if (s.folgen > 1) raus.push(folgenKuerzel(s.nr, erste + s.folgen - 1))
   }
   return raus
 }
@@ -814,9 +821,19 @@ async function dialogOeffnen() {
      */
     const tot = document.createElement('button')
     tot.className = 'ak-tot'
-    tot.textContent = istErledigt(id, 'tot') ? 'tot gemeldet' : 'tot?'
+    tot.textContent = istErledigt(id, 'tot') ? 'nichts da ✓' : 'nichts da?'
     tot.disabled = istErledigt(id, 'tot')
-    tot.title = 'Verweis führt nicht mehr zum Titel'
+    /**
+     * „Tot" heißt hier: dort ist nichts abzuspielen.
+     *
+     * Das trifft drei Fälle, und alle drei sind Daniel begegnet: Die Adresse
+     * leitet auf die Startseite um; die Titelseite bietet nur „Erinnern"; oder
+     * Netflix zeigt eine Folgenliste, die leer ist und beim Klick mit einem
+     * Fehler antwortet (One Punch Man, 22.08.2026). In allen dreien führt der
+     * Verweis zu nichts, und genau das wird gemeldet.
+     */
+    tot.title =
+      'Dort ist nichts abzuspielen — Adresse leitet um, keine Folgen, oder Netflix meldet einen Fehler'
     tot.addEventListener('click', async () => {
       if (tot.dataset.sicher !== 'ja') {
         tot.dataset.sicher = 'ja'
@@ -825,7 +842,7 @@ async function dialogOeffnen() {
         setTimeout(() => {
           if (tot.dataset.sicher !== 'ja') return
           tot.dataset.sicher = ''
-          tot.textContent = 'tot?'
+          tot.textContent = 'nichts da?'
           tot.classList.remove('ak-frage')
         }, 4000)
         return
@@ -834,7 +851,7 @@ async function dialogOeffnen() {
       tot.textContent = '…'
       const { ok, text } = await totMelden(id, eintrag.titel)
       tot.classList.remove('ak-frage')
-      tot.textContent = ok ? 'tot gemeldet' : text
+      tot.textContent = ok ? 'nichts da ✓' : text
       tot.disabled = ok
       if (ok) zeile.classList.add('ak-abgehakt')
     })
