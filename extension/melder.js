@@ -600,6 +600,22 @@ async function merkeErledigt(id, staffel, folge) {
   }
 }
 
+/**
+ * Ist an diesem Titel nichts mehr zu tun?
+ *
+ * Entweder als toter Verweis gemeldet, oder jede empfohlene Folge ist durch.
+ * Dieselbe Frage stellen der Knopf mit seiner Zahl und die Liste mit ihrer
+ * Sortierung — deshalb steht sie hier einmal und nicht zweimal.
+ */
+function fertig(id, eintrag) {
+  return (
+    istErledigt(id, 'tot') ||
+    empfohleneFolgen({ ...eintrag, staffeln: staffelnVon(id, eintrag) }).every((k) =>
+      kuerzelErledigt(id, k),
+    )
+  )
+}
+
 let uebersichtKnopf = null
 
 function uebersichtZeigen() {
@@ -616,9 +632,20 @@ function uebersichtZeigen() {
     uebersichtKnopf.addEventListener('click', dialogOeffnen)
     document.body.appendChild(uebersichtKnopf)
   }
-  const offeneAdressen = Object.keys(offeneTitel).length
+  /**
+   * Gezählt wird, was noch aussteht — nicht, was in der Liste steht.
+   *
+   * Die Zahl kam aus der mitgelieferten Liste und blieb deshalb stehen, während
+   * Daniel Titel abarbeitete (22.08.2026). Sie fällt jetzt mit jedem erledigten
+   * Titel, auch bevor ein Datenlauf die Liste neu erzeugt.
+   */
+  const offeneAdressen = Object.entries(offeneTitel).filter(([id, e]) => !fertig(id, e)).length
+  const gesamt = Object.keys(offeneTitel).length
   uebersichtKnopf.textContent = `Anime-Kalender ${offeneAdressen}`
-  uebersichtKnopf.title = `${offeneAdressen} Titel warten auf eine Prüfung`
+  uebersichtKnopf.title =
+    offeneAdressen === gesamt
+      ? `${offeneAdressen} Titel warten auf eine Prüfung`
+      : `${offeneAdressen} von ${gesamt} Titeln warten noch — der Rest ist gemeldet, aber noch nicht eingespielt`
 }
 
 let dialog = null
@@ -677,9 +704,6 @@ async function dialogOeffnen() {
    * Briefkasten liegen — bis dahin steht ein abgearbeiteter Titel weiter drin.
    * Er soll dann wenigstens nicht mehr obenauf liegen.
    */
-  const fertig = (id, e) =>
-    istErledigt(id, 'tot') ||
-    empfohleneFolgen({ ...e, staffeln: staffelnVon(id, e) }).every((k) => kuerzelErledigt(id, k))
   const eintraege = Object.entries(offeneTitel).sort((a, b) => {
     const d = Number(fertig(a[0], a[1])) - Number(fertig(b[0], b[1]))
     return d || a[1].titel.localeCompare(b[1].titel, 'de')
@@ -917,8 +941,17 @@ async function totMelden(id, titel) {
  * auch, wenn ein anderer Tab schreibt; das ist der Weg dorthin.
  */
 chrome.storage.onChanged.addListener((aenderungen, bereich) => {
-  if (bereich !== 'local' || !aenderungen.erledigt) return
+  if (bereich !== 'local') return
+  // Eine neu gemeldete Staffelaufteilung ändert die empfohlenen Folgen und
+  // damit auch, was als erledigt gilt.
+  if (aenderungen.anbieterStaffeln) {
+    anbieterStaffeln = aenderungen.anbieterStaffeln.newValue ?? {}
+    uebersichtZeigen()
+  }
+  if (!aenderungen.erledigt) return
   erledigt = aenderungen.erledigt.newValue ?? {}
+  // Die Zahl am Knopf gehört mit aktualisiert — sie zählt dasselbe.
+  uebersichtZeigen()
   if (!dialog) return
   // Neu zeichnen, aber die Suche und die Rollposition behalten — sonst
   // springt die Liste weg, während jemand sie durchgeht.
