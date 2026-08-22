@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-22T14:42:38.280Z",
+  "scrapedAt": "2026-08-22T15:39:53.380Z",
   "window": {
     "from": "2026-08-10",
     "to": "2026-08-30"
@@ -1304,36 +1304,6 @@
     }
   },
   "slots": [
-    {
-      "key": "skeleton knight in another world s2",
-      "rawTitle": "Skeleton Knight in Another World Staffel 2 (Deutsch)",
-      "seriesId": "G8DHV7WJP",
-      "seriesUrl": "https://www.crunchyroll.com/de/series/G8DHV7WJP/skeleton-knight-in-another-world",
-      "date": "2026-08-10",
-      "time": "15:00",
-      "episode": 6,
-      "german": true
-    },
-    {
-      "key": "clevatess s2",
-      "rawTitle": "Clevatess Staffel 2 (Deutsch)",
-      "seriesId": "G8DHV78ZM",
-      "seriesUrl": "https://www.crunchyroll.com/de/series/G8DHV78ZM/clevatess",
-      "date": "2026-08-12",
-      "time": "14:00",
-      "episode": 6,
-      "german": true
-    },
-    {
-      "key": "saga of tanya the evil s2",
-      "rawTitle": "Saga of Tanya the Evil Staffel 2 (Deutsch)",
-      "seriesId": "GR9P57W96",
-      "seriesUrl": "https://www.crunchyroll.com/de/series/GR9P57W96/saga-of-tanya-the-evil",
-      "date": "2026-08-12",
-      "time": "15:30",
-      "episode": 3,
-      "german": true
-    },
     {
       "key": "trapped in a dating sim the world of otome games is tough for mobs s2",
       "rawTitle": "Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Staffel 2 (Deutsch)",
