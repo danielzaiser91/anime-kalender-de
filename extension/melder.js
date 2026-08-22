@@ -387,6 +387,24 @@ function istErledigt(id, kuerzel) {
 }
 
 /**
+ * Wurde aus dieser Staffel überhaupt schon etwas gemeldet?
+ *
+ * Die Kürzel in der Liste sind **Empfehlungen** — erste und letzte Folge. Wer
+ * einen Titel öffnet, bekommt von Netflix aber oft eine andere Folge angeboten,
+ * etwa die zuletzt gesehene. Dann wird „1e03" gespeichert, während in der Liste
+ * „1e01" steht, und nichts färbt sich. Daniel am 22.08.2026: „ich click drauf,
+ * es öffnet sich neuer tab, ich prüfe es, schließe den tab, die liste bleibt wie
+ * vorher."
+ *
+ * Deshalb zwei Stufen: Die genaue Folge färbt sich grün, die übrigen Kürzel
+ * derselben Staffel bekommen einen Rahmen — „hier war schon jemand".
+ */
+function staffelAngefasst(id, staffel) {
+  const vorsatz = String(staffel) + 'e'
+  return (erledigt[String(id)] ?? []).some((k) => k.startsWith(vorsatz))
+}
+
+/**
  * Eine Meldung als erledigt vermerken — für die Anzeige, nicht als Beleg.
  *
  * **Die Staffel darf fehlen.** Netflix nennt sie nicht überall: Bei einer Serie
@@ -398,6 +416,27 @@ function istErledigt(id, kuerzel) {
  */
 async function merkeErledigt(id, staffel, folge) {
   if (!id || !folge) return
+  /**
+   * Kennt die Liste diese Kennung nicht, war es vielleicht eine andere.
+   *
+   * Der Tab, aus dem heraus geklickt wurde, hat die Kennung hinterlegt. Sie
+   * gilt nur kurz — nach zehn Minuten ist nicht mehr plausibel, dass beides
+   * zusammengehört, und dann lieber gar kein Vermerk als ein falscher.
+   */
+  if (offeneTitel[String(id)] === undefined) {
+    try {
+      const { zuletztGeoeffnet } = await chrome.storage.local.get('zuletztGeoeffnet')
+      if (
+        zuletztGeoeffnet?.id &&
+        offeneTitel[zuletztGeoeffnet.id] !== undefined &&
+        Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 10 * 60 * 1000
+      ) {
+        id = zuletztGeoeffnet.id
+      }
+    } catch {
+      /* Ohne Speicher bleibt es beim eigenen Wert. */
+    }
+  }
   if (!staffel) {
     const offene = (offeneTitel[String(id)]?.staffeln ?? []).filter((x) => x.offen)
     if (offene.length !== 1) return
@@ -537,6 +576,22 @@ async function dialogOeffnen() {
     link.target = '_blank'
     link.rel = 'noreferrer noopener'
     link.textContent = eintrag.titel || `Titel ${id}`
+    /**
+     * Merken, welchen Titel er gerade öffnet.
+     *
+     * Netflix nennt im Player nicht immer dieselbe Reihen-Kennung, unter der
+     * wir den Titel führen: Bei Jujutsu Kaisen meldete sich die Seite als
+     * `80237957`, unser Datensatz kennt `81278456` (22.08.2026). Gespeichert
+     * würde dann unter einer Kennung, die in dieser Liste nicht vorkommt — und
+     * nichts färbt sich.
+     *
+     * `chrome.storage.local` teilen alle Tabs. Der neue Tab findet hier also,
+     * was von hier aus angeklickt wurde, und trägt seinen Befund an der
+     * richtigen Zeile ein.
+     */
+    link.addEventListener('click', () => {
+      void chrome.storage.local.set({ zuletztGeoeffnet: { id: String(id), zeit: Date.now() } })
+    })
     zeile.appendChild(link)
 
     const folgen = document.createElement('div')
@@ -551,9 +606,15 @@ async function dialogOeffnen() {
     for (const kuerzel of empfohlen) {
       const marke = document.createElement('span')
       const fertig = istErledigt(id, kuerzel)
-      marke.className = fertig ? 'ak-folge ak-fertig' : 'ak-folge'
+      const staffel = kuerzel.split('e')[0]
+      const angefasst = !fertig && staffelAngefasst(id, staffel)
+      marke.className = 'ak-folge' + (fertig ? ' ak-fertig' : angefasst ? ' ak-angefasst' : '')
       marke.textContent = kuerzel
-      marke.title = fertig ? 'schon gemeldet' : 'noch offen'
+      marke.title = fertig
+        ? 'genau diese Folge ist gemeldet'
+        : angefasst
+          ? `aus Staffel ${staffel} ist schon etwas gemeldet: ${(erledigt[String(id)] ?? []).filter((k) => k.startsWith(staffel + 'e')).join(', ')}`
+          : 'noch offen'
       folgen.appendChild(marke)
     }
     zeile.appendChild(folgen)
@@ -691,3 +752,31 @@ async function totMelden(id, titel) {
     return { ok: false, text: `Nicht erreichbar: ${err.message}` }
   }
 }
+
+/**
+ * Der Dialog hört zu, statt beim Öffnen einmal nachzusehen.
+ *
+ * Geprüft wird in einem zweiten Tab: Titel anklicken, Folge starten, Tab
+ * schließen. Die Übersicht bleibt derweil offen und bekam davon nichts mit —
+ * sie hatte ihren Stand beim Öffnen gelesen. `chrome.storage.onChanged` feuert
+ * auch, wenn ein anderer Tab schreibt; das ist der Weg dorthin.
+ */
+chrome.storage.onChanged.addListener((aenderungen, bereich) => {
+  if (bereich !== 'local' || !aenderungen.erledigt) return
+  erledigt = aenderungen.erledigt.newValue ?? {}
+  if (!dialog) return
+  // Neu zeichnen, aber die Suche und die Rollposition behalten — sonst
+  // springt die Liste weg, während jemand sie durchgeht.
+  const wort = dialog.querySelector('.ak-suche')?.value ?? ''
+  const stelle = dialog.querySelector('.ak-liste')?.scrollTop ?? 0
+  dialogSchliessen()
+  void dialogOeffnen().then(() => {
+    const suche = dialog?.querySelector('.ak-suche')
+    if (suche && wort) {
+      suche.value = wort
+      suche.dispatchEvent(new Event('input'))
+    }
+    const liste = dialog?.querySelector('.ak-liste')
+    if (liste) liste.scrollTop = stelle
+  })
+})
