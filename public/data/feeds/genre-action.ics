@@ -162,9 +162,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260822T130000Z
 DTEND:20260822T133000Z
 SUMMARY:Black Torch – Folge 8/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/black-torch
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/black-torch
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -187,6 +186,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-198113-adn@2026-08-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260824
+DTEND;VALUE=DATE:20260825
+SUMMARY:KILL BLUE
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/#/release/auto-198113-adn
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:ghost-in-the-shell-2026@2026-08-25@anime-kalender-de
