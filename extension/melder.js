@@ -378,8 +378,11 @@ async function melden({ automatisch = false } = {}) {
     else void merkeErledigt(gemeinteReihe(), stand.staffel, stand.folgeNr)
     // Was Netflix über seine Staffeln sagt, gilt ab sofort — nicht erst nach
     // dem nächsten Datenlauf.
-    if (stand.staffeln?.length && stand.reihe) {
-      anbieterStaffeln[String(stand.reihe)] = stand.staffeln
+    // Unter **unserer** Kennung ablegen, nicht unter Netflix'. Sonst sucht die
+    // Liste vergeblich: Bei „Ranma1/2" nennt der Player eine andere, und die
+    // Kürzel blieben in unserer Zählung stehen (2e01 statt 2e13).
+    if (stand.staffeln?.length && gemeinteReihe()) {
+      anbieterStaffeln[String(gemeinteReihe())] = stand.staffeln
       void chrome.storage.local.set({ anbieterStaffeln }).catch(() => {})
     }
     gesendet.set(schluessel(), deutsch ? 'deutsch' : 'kein_deutsch')
