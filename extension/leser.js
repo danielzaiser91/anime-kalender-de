@@ -186,6 +186,9 @@
       staffeln,
       laufend,
     }
+    // Zum Nachsehen in der Konsole — sonst ist von aussen nicht zu erkennen,
+    // ob die Metadaten ankamen oder die Titelzeile aushelfen musste.
+    window.__akMeta = metadaten
   }
 
   // --- Mithören ------------------------------------------------------------
@@ -201,6 +204,7 @@
   const gesehen = new Set()
 
   function pruefeAntwort(url, text) {
+    window.__akGesehen = (window.__akGesehen ?? 0) + 1
     if (!text || text.length < 200) return
     // Eines von beidem genuegt: der Pfad sieht nach Metadaten aus, oder der
     // Inhalt nennt Sprachen. Sonst faellt genau das durch, was wir suchen.
