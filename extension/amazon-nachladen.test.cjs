@@ -122,10 +122,32 @@ const seitenQuelltext = (() => {
   const block = seiten
     .map((s) => `{"isSelected":${s.isSelected},"text":{"string":${JSON.stringify(s.text.string)}},"token":${JSON.stringify(s.token)}}`)
     .join(',')
+  /**
+   * `pagination` gehört mit in die Vorlage, denn es ist die eigentliche Falle.
+   *
+   * Direkt hinter `episodePages` führt Amazon dieselben Abschnitte ein zweites
+   * Mal als „Vorherige Seite" / „Nächste Seite" — unter **eigenen Tokens**. Wer
+   * stumpf 20.000 Zeichen absucht, findet fünf statt drei und holt einen
+   * Abschnitt doppelt (gemessen 23.08.2026 an Daniels Diagnose-Ausgabe: drei
+   * Abrufe statt zwei, davon einer über 267 KB umsonst).
+   */
+  const seitenwechsel = JSON.parse(antwort).widgets.episodeList.actions.pagination ?? []
+  const zweitfassung = seitenwechsel
+    .map((s) => `{"text":{"string":${JSON.stringify(s.text?.string ?? '')}},"token":${JSON.stringify(s.token)}}`)
+    .join(',')
+
+  /**
+   * Der Vorspann ist kein Beiwerk: `titleID` steht im echten Quelltext
+   * **220-mal** (Daniels Messung, 1,6 MB Seite), und die erste Fundstelle
+   * trägt keinen Wert. Genau daran scheiterte 0.50.1 — sie probierte nur die
+   * erste und gab dann auf.
+   */
+  const stoerung = '"titleID":null,'.repeat(3) + '{"titleIDs":[]},'
+
   return (
     '<html><body><div id="dv-dp-left-content">…</div>' +
-    '<script type="text/template">{"pageTitleId":"B0CQ4VL364","titleID":"B0CKPCSHMC",' +
-    `"episodeList":{"actions":{"episodePages":[${block}]},"episodeCount":51}}</script>` +
+    `<script type="text/template">{${stoerung}"pageTitleId":"B0CQ4VL364","titleID":"B0CKPCSHMC",` +
+    `"episodeList":{"actions":{"episodePages":[${block}],"pagination":[${zweitfassung}]},"episodeCount":51}}</script>` +
     '</body></html>'
   )
 })()
@@ -200,6 +222,11 @@ const seitenQuelltext = (() => {
       'die titleID stammt aus dem Quelltext (B0CKPCSHMC), nicht aus der Adresse (B0CQ4VL364)',
       angefordert.every((a) => a.includes('titleID=B0CKPCSHMC')),
       angefordert[0]?.slice(0, 70),
+    )
+    pruefe(
+      'die pagination-Tokens werden nicht mitgeholt — sonst käme ein Abschnitt doppelt',
+      angefordert.length === 2,
+      angefordert.length,
     )
   }, 1200)
 }

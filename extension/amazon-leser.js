@@ -87,14 +87,13 @@
    * Umbau bei Amazon kommt bestimmt.
    */
   const diagnose = {
-    fassung: '0.50.2',
+    fassung: '0.50.3',
     anlaeufe: 0,
     quelltextLaenge: 0,
     titleID: null,
     titleIDfundstellen: 0,
     episodePagesGefunden: false,
     tokensImQuelltext: 0,
-    tokensAusAntwort: 0,
     abrufe: [],
     fehler: [],
   }
@@ -236,6 +235,30 @@
    * fehlgegangen: Die Seite liegt unter `B0CQ4VL364`, der Abruf braucht
    * `B0CKPCSHMC`.
    */
+  /**
+   * Vom `episodePages`-Fund nur das Array selbst behalten.
+   *
+   * Gleich dahinter steht `pagination` — „Vorherige Seite", „Nächste Seite" —
+   * mit **denselben Abschnitten unter eigenen Tokens**. Wer stumpf 20.000
+   * Zeichen absucht, findet bei „Digimon Tamers" fünf statt drei Tokens und
+   * holt einen Abschnitt doppelt: 267 KB umsonst, bei jedem Seitenaufruf
+   * (gemessen 23.08.2026 an Daniels Diagnose-Ausgabe).
+   *
+   * Geschnitten wird über die Klammern, nicht über ein Stichwort: Ein
+   * `indexOf('pagination')` hielte nur, solange dieses Feld dort steht.
+   */
+  function nurDieAbschnitte(block) {
+    const auf = block.indexOf('[')
+    if (auf < 0) return block
+    let tiefe = 0
+    for (let i = auf; i < block.length; i++) {
+      const c = block[i]
+      if (c === '[') tiefe++
+      else if (c === ']' && --tiefe === 0) return block.slice(auf, i + 1)
+    }
+    return block
+  }
+
   function ausSeite() {
     const html = document.documentElement?.innerHTML
     if (typeof html !== 'string') return
@@ -271,7 +294,7 @@
     const stellen = [...html.matchAll(/episodePages/g)].map((m) => m.index)
     diagnose.episodePagesGefunden = stellen.length > 0
     for (const start of stellen) {
-      const block = html.slice(start, start + 20000).replace(/\\+"/g, '"')
+      const block = nurDieAbschnitte(html.slice(start, start + 20000).replace(/\\+"/g, '"'))
       const tokens = []
       for (const m of block.matchAll(/"isSelected"\s*:\s*(true|false)[\s\S]{0,400}?"token"\s*:\s*"([^"]{20,})"/g)) {
         // Der gewählte Abschnitt steht schon im HTML — seine Folgen hat

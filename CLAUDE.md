@@ -332,6 +332,18 @@ Drei Dinge, die man beim Weiterbauen braucht:
   von 51 Folgen. „Kein Deutsch" wäre eine Aussage über die ganze Staffel, gestützt auf die
   Hälfte — dieselbe Asymmetrie, die dieses Projekt an fremden Quellen bemängelt.
 
+**Die erste Fundstelle eines Feldnamens ist fast nie die richtige.** `titleID` steht im
+Quelltext der Digimon-Seite **220-mal** — 1,6 MB, Empfehlungsleisten, Verfolgungsmarken, leere
+Vorlagen. Eine Fassung, die `indexOf` nimmt und beim Misserfolg aufgibt, scheitert an der
+falschen Stelle und sieht die richtige nie; genau daran blieb der Knopf zweimal bei „24 von
+51" stehen. Gesucht wird über **alle** Fundstellen, bis eine einen brauchbaren Wert trägt.
+
+**Und was direkt daneben steht, gehört nicht dazu.** Hinter `episodePages` führt Amazon
+dieselben Abschnitte ein zweites Mal als `pagination` („Vorherige Seite", „Nächste Seite") —
+unter **eigenen Tokens**. Ein Ausschnitt fester Länge fängt beide, und der Leser holte einen
+Abschnitt doppelt: 267 KB umsonst je Seitenaufruf. Geschnitten wird deshalb über die Klammern
+des Arrays, nicht über eine Zeichenzahl und nicht über das Stichwort dahinter.
+
 **Die Erweiterung holt die übrigen Abschnitte selbst**, mit den mitgelieferten Tokens, in
 Daniels angemeldeter Sitzung, 400 ms auseinander, höchstens 25 Stück. Das ist Zeichen für
 Zeichen der Abruf, den ein Klick aufs Auswahlfeld auslöst — keine Suche, kein Durchlauf, keine
