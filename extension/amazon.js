@@ -727,6 +727,15 @@
            */
           staffel: staffelAusAdresse(),
           /**
+           * Die geprüfte Folgenzahl, als Zahl.
+           *
+           * Sie stand bisher nur in der Notiz („alle 11 Folgen geprüft") und
+           * musste dort beim Auswerten wieder herausgeklaubt werden. Geschickt
+           * wird die **geladene** Zahl, nicht die behauptete Gesamtzahl: Nur
+           * über die reicht der Befund.
+           */
+          folgen: geladen,
+          /**
            * Die Notiz sagt, worüber der Befund reicht.
            *
            * Ein Befund über 24 von 51 Folgen ist kein Befund über die Staffel.

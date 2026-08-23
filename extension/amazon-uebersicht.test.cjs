@@ -353,6 +353,11 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
       koerper.staffel,
     )
     pruefe(
+      'die Folgenzahl steht in ihrem eigenen Feld, nicht nur in der Notiz',
+      koerper.folgen === 1,
+      koerper.folgen,
+    )
+    pruefe(
       'die Sprachen sind Namen, keine Bruchstücke',
       Array.isArray(koerper.sprachen) && koerper.sprachen.includes('Deutsch') &&
         koerper.sprachen.every((s) => !String(s).includes('{')),

@@ -1523,14 +1523,26 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
     return antwort({ error: 'befund muss dub, kein_dub oder weg sein' }, 400)
   }
 
-  // Wird derselbe Titel zweimal geschickt, gilt der jüngere Blick.
+  /**
+   * Wird derselbe Titel zweimal geschickt, gilt der jüngere Blick.
+   *
+   * **Die Staffel gehört in die Bedingung.** Amazon führt Sammelseiten: Unter
+   * `B0GFPBT6FG` liegen alle drei Staffeln von „Oshi no Ko", unterschieden
+   * allein durch den Verweis-Parameter (gemessen 23.08.2026). Ohne die
+   * Staffel löschte eine Meldung für Staffel 3 die für Staffel 1 — ein Befund
+   * verschwände, ohne dass es jemandem auffällt.
+   *
+   * `IS` statt `=`, weil SQLite bei `NULL = NULL` nichts liefert und die
+   * allermeisten Meldungen gar keine Staffelangabe tragen.
+   */
   const folgeNr = zahlOderNull(daten.folge_nr)
+  const staffelNr = zahlOderNull(daten.staffel)
   await env.DB.prepare(
     folgeNr === null
-      ? 'DELETE FROM pruefung WHERE url = ?1 AND uebernommen = 0 AND folge_nr IS NULL'
-      : 'DELETE FROM pruefung WHERE url = ?1 AND uebernommen = 0 AND folge_nr = ?2',
+      ? 'DELETE FROM pruefung WHERE url = ?1 AND uebernommen = 0 AND folge_nr IS NULL AND staffel IS ?2'
+      : 'DELETE FROM pruefung WHERE url = ?1 AND uebernommen = 0 AND folge_nr = ?2 AND staffel IS ?3',
   )
-    .bind(...(folgeNr === null ? [url] : [url, folgeNr]))
+    .bind(...(folgeNr === null ? [url, staffelNr] : [url, folgeNr, staffelNr]))
     .run()
 
   await env.DB.prepare(
@@ -1548,7 +1560,7 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
       // die Auswertung Bereiche, statt eine ganze Reihe über einen Kamm zu
       // scheren.
       zahlOderNull(daten.folge_nr),
-      zahlOderNull(daten.staffel),
+      staffelNr,
       // Die Aufteilung des Anbieters, als JSON — sie ist der Schlüssel, um die
       // Meldung später einer unserer Staffeln zuzuordnen.
       daten.staffeln ? JSON.stringify(daten.staffeln).slice(0, 4000) : null,
