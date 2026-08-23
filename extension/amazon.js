@@ -122,6 +122,23 @@
    */
   const gesehen = { sprachen: new Set(), nummern: new Set(), gesamt: null }
 
+  /**
+   * Was der Mitleser aus den Nachlade-Antworten fischt, kommt hier an.
+   *
+   * Ohne diesen Weg bliebe der Knopf beim ersten Abschnitt stehen: Amazon
+   * schreibt die Tonspuren nur einmal ins HTML, beim Blättern kommen sie
+   * ausschließlich über das Netz (gemessen am 23.08.2026, siehe
+   * `amazon-leser.js`).
+   */
+  window.addEventListener('message', (e) => {
+    if (e.source !== window || e.data?.marke !== 'ak-amazon-folgen') return
+    for (const f of e.data.funde ?? []) {
+      gesehen.nummern.add(f.nummer)
+      for (const s of f.sprachen) gesehen.sprachen.add(s)
+    }
+    zeichnen()
+  })
+
   let letzterStand = ''
   function zeichnen() {
     const jetzt = spuren()
