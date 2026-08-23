@@ -106,6 +106,53 @@ ohnehin — sie zu tilgen verlangte einen Force-Push auf main.
 **Wann das neu zu bewerten wäre:** Wenn der Melde-Endpunkt je ohne Token erreichbar wird, oder
 wenn die Listen mehr verraten als „welche Titel sind offen".
 
+### MOTN-Lauf vom 23.08.2026, 22:15: Kontingent genutzt, Wirkung null
+
+Der Workflow läuft erst am 2. jeden Monats — das August-Kontingent wäre verfallen. Von Hand
+angestoßen mit Budget 240:
+
+```
+212 Anfragen verbraucht, 204 Serien geholt (über die TMDB-Kennung)
+Verbrauch: 962 im Monat 2026-08 von 1.000
+Die Quelle selbst meldet 0 Anfragen als Rest des Monats
+```
+
+**Die Zahl der Verweise ohne Sprachangabe blieb bei 1.161 — exakt wie vorher.** Die 204 neuen
+Serien haben keinen einzigen Beleg erzeugt.
+
+Was daran offen ist, und zwar messbar: Der MOTN-Bestand führt **352 Serien mit deutscher
+Tonspur** (198 Netflix, 123 Prime Video, 44 Disney+, 12 Crunchyroll) — also genau bei den
+Anbietern, wo uns die Angaben fehlen. Der Build belegt daraus aber nur **110** Angaben. Wo die
+übrigen bleiben, ist nicht gemessen; zu suchen ist in `ordneShowsZu()` und `uebernehmbar()`
+in `pipeline/lib/motn.ts`. **Das ist der Hebel, nicht mehr Abrufe.**
+
+**Nebenbefund zum Zähler:** Unsere Zählung sagt 962 von 1.000, die Quelle selbst meldet 0
+Rest — eine Lücke von 38. Maßgeblich ist die Angabe der Quelle; unser Zähler unterschätzt den
+Verbrauch und würde einen Lauf ins Limit rennen lassen.
+
+### Die 7 ADN-Reste: gemessen am 23.08.2026, 22:30
+
+Fünf der sieben sind JoJo unter **einer** ADN-Kennung (444). Die Rohdaten liegen vollständig
+im Repo (`data/adn-raw/444.json.gz`, 152 Folgen), und die Zuordnung ist eindeutig — die
+Summen gehen exakt auf:
+
+| ADN-Staffel | Folgen | Sprachen | Unser Titel | Folgen |
+|---|---:|---|---|---:|
+| 1 | 26 | `vostde`, **`vde`** | JoJo no Kimyou na Bouken (TV) | 26 |
+| 2 | 48 | `vostde`, **`vde`** | Stardust Crusaders + Part 2 | 24 + 24 |
+| 3 | 39 | `vostde`, **`vde`** | Diamond wa Kudakenai | 39 |
+| 4 | 39 | nur `vostde` | Ougon no Kaze | 39 |
+
+**Staffel 4 trägt kein `vde`** — für „Ougon no Kaze" wäre das ein belegtes Nein, kein
+Fragezeichen. Die übrigen drei sind belegte Synchros.
+
+Es fehlt also **kein Abruf**: Katalog (Stand 20.08.), Rohdaten und Sprachcodes sind da. Die
+Zuordnung greift trotzdem nicht. Zu suchen ist in `pipeline/lib/adn-sprachen.ts` und
+`staffelBloecke()` — vermutlich scheitert der Namensabgleich, weil ADN die Reihe
+„Jojo’s Bizarre Adventure" nennt und AniList „JoJo no Kimyou na Bouken".
+
+Die beiden übrigen Reste sind Einzelfälle: „Kiznaiver" und „Peter Grill … Super Extra".
+
 ### Was ohne Daniel geht
 
 | # | Aufgabe | SP |
