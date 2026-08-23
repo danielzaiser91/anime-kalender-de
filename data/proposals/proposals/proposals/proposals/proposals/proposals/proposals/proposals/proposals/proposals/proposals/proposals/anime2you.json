@@ -1,6 +1,24 @@
 {
-  "scrapedAt": "2026-08-20T05:00:47.409Z",
+  "scrapedAt": "2026-08-21T05:00:32.688Z",
   "proposals": [
+    {
+      "articleTitle": "Neue »Kill Blue«-Synchronfassung erscheint auch auf ADN",
+      "articleUrl": "https://www.anime2you.de/news/1043202/neue-kill-blue-synchro-auf-adn/",
+      "publishedAt": "2026-08-20",
+      "category": "streaming",
+      "platforms": [
+        "adn",
+        "aniverse"
+      ],
+      "dates": [
+        {
+          "iso": "2026-08-24",
+          "context": "ündigte eine Veröffentlichung an. Wir fassen nachfolgend zusammen. Ab 24. August 2026 Die ersten vier Episoden von »Kill Blue« stehen demzuf"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Netflix: Alle Anime-Neuzugänge im September 2026",
       "articleUrl": "https://www.anime2you.de/news/1042851/netflix-anime-neu-im-september-2026/",
