@@ -16,6 +16,9 @@
 
 - slug: yu-gi-oh-s2-disneyplus
   anilistId: 481
+  # Disney+ fuehrt alle Staffeln unter einer Adresse; gewaehlt wird im
+  # Auswahlfeld, ohne dass sich die Adresse aendert (Daniel, 24.08.2026).
+  platformUrl: https://www.disneyplus.com/de-de/browse/entity-870b9187-690d-4a9e-8704-b48564b31322
   search: "Yu☆Gi☆Oh! Duel Monsters"
   titleDe: "Yu-Gi-Oh! – Staffel 2"
   platform: disneyplus
@@ -60,6 +63,9 @@
 
 - slug: yu-gi-oh-s3-disneyplus
   anilistId: 481
+  # Disney+ fuehrt alle Staffeln unter einer Adresse; gewaehlt wird im
+  # Auswahlfeld, ohne dass sich die Adresse aendert (Daniel, 24.08.2026).
+  platformUrl: https://www.disneyplus.com/de-de/browse/entity-870b9187-690d-4a9e-8704-b48564b31322
   search: "Yu☆Gi☆Oh! Duel Monsters"
   titleDe: "Yu-Gi-Oh! – Staffel 3"
   platform: disneyplus

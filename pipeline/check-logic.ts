@@ -16,6 +16,7 @@
  *
  * Aufruf: npm run check:logic
  */
+import { readFileSync } from 'node:fs'
 import { expandEvents, lastEpisodeDate, istErschienen } from '../shared/logic.ts'
 import {
   alsEinBlock,
@@ -1942,6 +1943,56 @@ console.log('\nLücken im Sendeplan und die Uhrzeit')
   )
 }
 
+
+console.log('\nWerktitel gegen Teiltitel')
+
+/**
+ * Ein Titel traegt nie die Nummer eines seiner Teile.
+ *
+ * Bei Yu-Gi-Oh zeigte die Kalenderkarte "Staffel 3", das Detail-Panel
+ * darunter "Staffel 2" -- dieselbe Serie, dieselbe Sekunde (Daniel,
+ * 24.08.2026, mit zwei Bildern). Beide Disney+-Ausgaben gehoeren zu einer
+ * AniList-Serie mit 224 Folgen; der zuerst gelesene kuratierte Eintrag
+ * setzte seinen Namen als Werktitel.
+ *
+ * Geprueft wird am **gebauten** Datensatz, nicht an einer nachgestellten
+ * Eingabe: Der Fehler entstand aus der Reihenfolge zweier Eintraege, und
+ * genau die bildet nur der echte Lauf ab.
+ */
+{
+  /** Direkt von der Platte — diese Datei zieht sonst nichts aus dem Repo. */
+  const lies = (p: string) =>
+    JSON.parse(readFileSync(new URL(`../${p}`, import.meta.url), 'utf8')) as unknown
+  const roh = lies('public/data/titles.json') as Title[] | Record<string, Title>
+  const alleTitel = Array.isArray(roh) ? roh : Object.values(roh)
+  const mitTeilnummer = alleTitel.filter((t) =>
+    /[–—-]\s*(staffel|season|vol\.?|teil|part)\s*\d+\s*$/i.test(t.titleDe ?? ""),
+  )
+  pruefe(
+    'kein Titel traegt die Nummer eines seiner Teile im Namen',
+    mitTeilnummer.length === 0,
+    mitTeilnummer.map((t) => t.titleDe).slice(0, 5),
+  )
+
+  /**
+   * Die Gegenrichtung: Beim **Release** gehoert die Nummer hin. Sie sagt,
+   * welcher Teil erscheint -- ohne sie stuenden zwei gleichnamige Termine
+   * untereinander.
+   */
+  const rohR = lies('public/data/releases.json') as Array<{
+    titleId: number
+    name: string
+    platform: string
+  }>
+  const releasesR = Array.isArray(rohR) ? rohR : Object.values(rohR)
+  const yugi = releasesR.filter((r) => r.titleId === 481 && r.platform === "disneyplus")
+  pruefe(
+    'die beiden Yu-Gi-Oh-Ausgaben behalten ihre Staffelnummern',
+    yugi.length === 0 ||
+      (yugi.some((r) => /Staffel 2/.test(r.name)) && yugi.some((r) => /Staffel 3/.test(r.name))),
+    yugi.map((r) => r.name),
+  )
+}
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

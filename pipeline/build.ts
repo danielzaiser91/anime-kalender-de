@@ -551,10 +551,30 @@ function adnBlockName(showTitle: string, block: AdnBlock, blockAnzahl: number): 
  * Werks, „– Vol. 1" ist es nicht.
  */
 function werkTitel(name: string): string {
-  return name
-    .replace(/\s*[–—-]\s*(vol\.?|volume|part|teil)\s*\d+\s*$/i, '')
-    .replace(/\s*\((vol\.?|volume|part|teil)\s*\d+\)\s*$/i, '')
-    .trim()
+  return (
+    name
+      .replace(/\s*[–—-]\s*(vol\.?|volume|part|teil)\s*\d+\s*$/i, '')
+      .replace(/\s*\((vol\.?|volume|part|teil)\s*\d+\)\s*$/i, '')
+      /**
+       * **Auch eine Staffelnummer beschreibt einen Teil, nicht das Werk.**
+       *
+       * Bei Yu-Gi-Oh zeigte die Kalenderkarte "Staffel 3", das Detail-Panel
+       * darunter "Staffel 2" — dieselbe Serie, dieselbe Sekunde (Daniel,
+       * 24.08.2026, mit zwei Bildern).
+       *
+       * Der Grund: Beide Disney+-Ausgaben gehören zu **einer** AniList-Serie
+       * (224 Folgen, id 481), und der zuerst gelesene kuratierte Eintrag
+       * setzte seinen Namen als Werktitel. "Yu-Gi-Oh! – Staffel 2" ist aber
+       * der Name eines Blocks; das Werk heißt "Yu-Gi-Oh!".
+       *
+       * Beim Release bleibt die Nummer stehen — dort gehört sie hin, sie
+       * sagt ja, welcher Teil erscheint. Nur der Titel darüber trägt sie
+       * nicht.
+       */
+      .replace(/\s*[–—-]\s*(staffel|season|serie|series)\s*\d+\s*$/i, '')
+      .replace(/\s*\((staffel|season)\s*\d+\)\s*$/i, '')
+      .trim()
+  )
 }
 
 /**
