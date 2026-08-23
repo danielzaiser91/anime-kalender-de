@@ -353,6 +353,22 @@
     return null
   }
 
+  /**
+   * Wie viele Staffeln dieser Titel hat — laut Seite.
+   *
+   * Amazon schreibt es in die Kopfzeile: „Kinder · Animation · Drama · 4.8/5
+   * · IMDb 7,7/10 · 1988 · **5 Staffeln**". Ohne diese Zahl weiß die
+   * Erweiterung nicht, wann ein Titel wirklich durch ist.
+   *
+   * Fehlt sie, gilt der Titel als einstaffelig — dann ist eine Meldung eine
+   * ganze Auskunft, und das ist der häufigere Fall.
+   */
+  function staffelZahl() {
+    const text = document.documentElement.innerHTML
+    const n = /(\d+)\s*Staffeln/.exec(text)?.[1]
+    return n ? Number(n) : 1
+  }
+
   /** Welche Abos diese Staffel freischalten — `Prime`, `aniversede`, … */
   function abos() {
     const text = document.documentElement.innerHTML
@@ -388,7 +404,34 @@
     })
     .catch(() => {})
 
-  const offeneZahl = () => Object.keys(liste).filter((a) => !erledigt[a]).length
+  /**
+   * Ist dieser Titel **vollständig** abgearbeitet?
+   *
+   * Ein Eintrag im Speicher sieht so aus:
+   *
+   *     "B018YLXXNW": { staffeln: { "1": "🇩🇪" }, gesamt: 5 }
+   *
+   * Erledigt ist er erst, wenn so viele Staffeln gemeldet sind, wie die
+   * Seite nennt. Vorher bleibt die Zeile in der Liste stehen und zeigt den
+   * Fortschritt.
+   */
+  function fertig(asinEintrag) {
+    const e = erledigt[asinEintrag]
+    if (!e) return false
+    const zahl = Object.keys(e.staffeln ?? {}).length
+    return zahl >= (e.gesamt ?? 1)
+  }
+
+  /** Wie weit dieser Titel ist — für die Zeile in der Liste. */
+  function fortschritt(asinEintrag) {
+    const e = erledigt[asinEintrag]
+    if (!e) return null
+    const zahl = Object.keys(e.staffeln ?? {}).length
+    const gesamt = e.gesamt ?? 1
+    return gesamt > 1 ? `${zahl}/${gesamt}` : (Object.values(e.staffeln ?? {})[0] ?? "✓")
+  }
+
+  const offeneZahl = () => Object.keys(liste).filter((a) => !fertig(a)).length
 
   /**
    * Muss **vor** `uebersichtZeichnen()` stehen, nicht darunter.
@@ -480,14 +523,14 @@
     const eintraege = Object.entries(liste).sort((a, b) => {
       if (a[0] === listenId) return -1
       if (b[0] === listenId) return 1
-      const d = Number(Boolean(erledigt[a[0]])) - Number(Boolean(erledigt[b[0]]))
+      const d = Number(fertig(a[0])) - Number(fertig(b[0]))
       return d || a[1].titel.localeCompare(b[1].titel, 'de')
     })
 
     for (const [asinEintrag, e] of eintraege) {
       const zeile = document.createElement('div')
       zeile.className = 'ak-zeile'
-      if (erledigt[asinEintrag]) zeile.classList.add('ak-abgehakt')
+      if (fertig(asinEintrag)) zeile.classList.add('ak-abgehakt')
 
       const verweis = document.createElement('a')
       verweis.className = 'ak-titel'
@@ -505,10 +548,13 @@
         zusatz.textContent = `${offeneNamen.length} Einträge`
         zeile.appendChild(zusatz)
       }
-      if (erledigt[asinEintrag]) {
+      // Der Fortschritt gehört sichtbar in die Zeile: „1/5" sagt, dass hier
+      // noch vier Staffeln warten.
+      const stand = fortschritt(asinEintrag)
+      if (stand) {
         const marke = document.createElement('span')
-        marke.className = 'ak-folge ak-fertig'
-        marke.textContent = erledigt[asinEintrag]
+        marke.className = fertig(asinEintrag) ? 'ak-folge ak-fertig' : 'ak-folge ak-angefasst'
+        marke.textContent = stand
         zeile.appendChild(marke)
       }
       inhalt.appendChild(zeile)
@@ -620,6 +666,8 @@
    */
   let letzterFortschritt = Date.now()
   let letzteZahl = -1
+  /** Welche Staffel gerade gemeldet wurde — hält den Knopf auf „gemeldet". */
+  let gemeldeteStaffel = null
   const GEDULD_MS = 8000
 
   function zeichnen() {
@@ -647,8 +695,19 @@
     }
     const vollstaendig = !gesehen.gesamt || geladen >= gesehen.gesamt
     // Die Zahl sagt, worüber der Befund wirklich etwas aussagt — nie mehr.
-    const umfang = vollstaendig
-      ? `${geladen} Folgen`
+    /**
+     * Ein Film ist keine Folge.
+     *
+     * „1 Folgen" stand am Knopf bei „Sing a Bit of Harmony" (Daniel,
+     * 23.08.2026, mit Bild) — falsch in beidem: Es ist keine Serie, und der
+     * Plural stimmt auch nicht. Erkannt wird der Film daran, dass die Seite
+     * keine Folgenzahl nennt und genau eine Einheit gezählt wurde.
+     */
+    const istFilm = !gesehen.gesamt && geladen === 1
+    const umfang = istFilm
+      ? 'Film'
+      : vollstaendig
+      ? `${geladen} ${geladen === 1 ? 'Folge' : 'Folgen'}`
       : `${geladen} von ${gesehen.gesamt}` + (wartet ? ' — lädt nach' : ' — Abschnitte selbst öffnen')
     // Eine Staffel, die wir nicht führen, wird trotzdem gemeldet — der Knopf
     // sagt es nur dazu, damit die Meldung nicht wie eine Zuordnung aussieht.
@@ -656,6 +715,16 @@
     // Die Zugangsart gehört an den Knopf — sonst meldet man sie blind mit.
     const art = zugangsart()
     const zugang = art && art !== 'abo' ? ` · ${ZUGANG_TEXT[art]}` : ''
+
+    // Diese Staffel ist durch — das bleibt sichtbar, bis eine andere kommt.
+    const jetzigeStaffel = String(staffelAusAdresse() ?? gesehen.gesamt ?? 1)
+    if (gemeldeteStaffel === jetzigeStaffel) {
+      const e = erledigt[listenId]
+      const offen = (e?.gesamt ?? 1) - Object.keys(e?.staffeln ?? {}).length
+      knopf.textContent = offen > 0 ? `✓ gemeldet — noch ${offen} Staffeln` : '✓ gemeldet'
+      knopf.dataset.deutsch = String(deutsch)
+      return
+    }
     knopf.textContent = `${deutsch ? '🇩🇪 Deutsch' : '✕ kein Deutsch'} · ${umfang}${zugang}${woher} · melden`
     knopf.dataset.teilweise = String(!vollstaendig)
   }
@@ -724,6 +793,7 @@
     // trüge Staffel 2 die Folgen von Staffel 1 mit.
     gesehen = leererStand()
     letzteZahl = -1
+    gemeldeteStaffel = null
     letzterStand = ''
     letzterFortschritt = Date.now()
     knopf.disabled = false
@@ -838,7 +908,9 @@
           notiz:
             `Amazon-Seite ${asin()}: ` +
             (vollstaendig
-              ? `alle ${geladen} Folgen geprüft`
+              ? geladen === 1 && !gesehen.gesamt
+                ? 'Film geprüft'
+                : `alle ${geladen} ${geladen === 1 ? 'Folge' : 'Folgen'} geprüft`
               : `nur ${geladen} von ${gesehen.gesamt} Folgen geladen — Rest ungeprüft`) +
             `, Abos: ${abos().join(', ') || 'keine Angabe'}` +
             (eintrag.unbekannt ? ' — Staffel nicht im Bestand, Titel von der Seite gelesen' : '') +
@@ -873,20 +945,40 @@
        * zweites Mal öffnet, soll sehen, was beim ersten Mal herauskam.
        */
       if (antwort.ok) {
-        // Abgehakt wird unter der **Listen**-Kennung — die Meldung selbst
-        // trägt die Kennung aus dem Quelltext, aber die Liste kennt nur
-        // diese hier.
-        erledigt[listenId] = deutsch ? '🇩🇪' : '✕'
+        /**
+         * Abgehakt wird **diese Staffel** unter der Listen-Kennung.
+         *
+         * Die Meldung trägt die Kennung aus dem Quelltext, die Liste kennt
+         * nur die aus der Adresse — und ein Titel mit fünf Staffeln ist erst
+         * durch, wenn alle fünf gemeldet sind.
+         */
+        const nr = String(staffelAusAdresse() ?? gesehen.gesamt ?? 1)
+        const bisher = erledigt[listenId] ?? { staffeln: {}, gesamt: staffelZahl() }
+        bisher.staffeln = { ...(bisher.staffeln ?? {}), [nr]: deutsch ? '🇩🇪' : '✕' }
+        bisher.gesamt = staffelZahl()
+        erledigt[listenId] = bisher
+        gemeldeteStaffel = nr
         chrome.storage.local.set({ amazonErledigt: erledigt }).catch(() => {})
         uebersichtZeichnen()
       }
     } catch (err) {
       knopf.textContent = `Nicht erreichbar: ${err.message}`
     }
+    /**
+     * „Gemeldet" bleibt stehen, bis sich etwas ändert.
+     *
+     * Vorher sprang der Knopf nach 2,5 Sekunden zurück auf „melden" — bei
+     * einem Titel mit fünf Staffeln sah das aus, als wäre nichts passiert
+     * (Daniel, 23.08.2026: „button zeigt an ich kann es nochmal melden, das
+     * ‚gemeldet' sollte dort stehen bleiben").
+     *
+     * Zurück kommt er erst beim Staffelwechsel — dort wird
+     * `gemeldeteStaffel` geleert.
+     */
     setTimeout(() => {
-      letzterStand = ''
       knopf.disabled = false
+      letzterStand = ''
       zeichnen()
-    }, 2500)
+    }, 1200)
   })
 })()

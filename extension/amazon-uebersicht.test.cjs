@@ -444,13 +444,67 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   }, 30)
 }
 
+// --- 2g. Eine von fünf Staffeln ist nicht der ganze Titel -----------------
+
+/**
+ * Daniel am 23.08.2026 zu „Anne mit den roten Haaren" (5 Staffeln):
+ *
+ *   „diese 10 der ersten staffel habe ich gemeldet, button zeigt an ich kann
+ *    es nochmal melden, das ‚gemeldet' sollte dort stehen bleiben"
+ *   „außerdem ist es aus der prüf liste verschwunden obwohl ich nur staffel 1
+ *    gemeldet habe"
+ *
+ * Beides ging auf dieselbe Annahme zurück: erledigt galt für den Titel, nicht
+ * für die Staffel.
+ */
+{
+  const listenAsin = Object.keys(ECHTE_LISTE)[0]
+  const { angehaengt, sandkasten, takte, gesetzt } = starte(listenAsin)
+  // Die Seite nennt fünf Staffeln — genau wie „Anne mit den roten Haaren".
+  sandkasten.document.documentElement.innerHTML =
+    '<span>1988 · 5 Staffeln</span>' +
+    '"audioTracks":["Deutsch"],"episodeNumber":1,"episodeCount":10,"benefitId":"Prime"'
+  sandkasten.location.search = '?ref_=atv_dp_season_select_s1'
+  for (const takt of takte) takt()
+
+  const knopf = angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))
+  knopf?.hoerer?.click?.()
+  setTimeout(() => {
+    const gespeichert = gesetzt.find((x) => x.amazonErledigt)?.amazonErledigt ?? {}
+    const e = gespeichert[listenAsin]
+    pruefe(
+      'gemeldet wird Staffel 1, nicht der ganze Titel',
+      e && Object.keys(e.staffeln ?? {}).length === 1 && e.gesamt === 5,
+      e,
+    )
+
+    const uebersicht = angehaengt.find((x) => x.className.includes('ak-uebersicht'))
+    pruefe(
+      'der Titel zählt weiter als offen — vier Staffeln fehlen noch',
+      uebersicht?.textContent.startsWith(`${Object.keys(ECHTE_LISTE).length} Prime-Titel offen`),
+      uebersicht?.textContent,
+    )
+  }, 40)
+}
+
 // --- 3. Erledigte zählen nicht mehr mit -----------------------------------
 
 {
+  /**
+   * Die Struktur des Erledigt-Speichers, seit dem 23.08.2026:
+   *
+   *     "B018YLXXNW": { staffeln: { "1": "🇩🇪" }, gesamt: 5 }
+   *
+   * Ein Titel gilt erst als durch, wenn so viele Staffeln gemeldet sind, wie
+   * die Seite nennt — vorher bleibt seine Zeile stehen und zeigt „1/5".
+   * Vorher stand dort ein blosser String, und eine Meldung hakte alle Staffeln
+   * mit ab (Daniel: „aus der prüf liste verschwunden obwohl ich nur staffel 1
+   * gemeldet habe").
+   */
   const dreiErledigt = Object.fromEntries(
     Object.keys(ECHTE_LISTE)
       .slice(0, 3)
-      .map((a) => [a, '🇩🇪']),
+      .map((a) => [a, { staffeln: { 1: '🇩🇪' }, gesamt: 1 }]),
   )
   const { angehaengt } = starte(ersteAsin, dreiErledigt)
   // Der Speicher wird asynchron gelesen; ein Durchlauf der Warteschlange reicht.
