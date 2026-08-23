@@ -353,5 +353,32 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
   )
 }
 
+/**
+ * Was als tot erkannt ist, steht nicht mehr im ausgelieferten Datensatz.
+ *
+ * 127 Crunchyroll-Adressen tragen „Leider sind die Videos dieser Serie nicht
+ * mehr verfügbar" oder eine 404. Dass der Build sie entfernt, stand bis zum
+ * 23.08.2026 nur in `status.md` als Vermutung — **gemessen ergab es 0 von
+ * 127**, also stimmt es. Diese Zusicherung hält es fest: Ein Umbau, der die
+ * Filterung verliert, schickt sonst Besucher auf Fehlerseiten, und niemand
+ * merkt es, weil der Datensatz genauso vollständig aussieht.
+ */
+{
+  const crDub = readJson<CrDubData>(resolve(ROOT, 'data/crunchyroll-dub.json'), { scrapedAt: '', serien: [] })
+  const roh = readJson<Title[] | Record<string, Title>>(resolve(ROOT, 'public/data/titles.json'), [])
+  const alle = Array.isArray(roh) ? roh : Object.values(roh)
+  const ausgeliefert = new Set<string>()
+  for (const t of alle) for (const s of t.streams ?? []) {
+    if (s.platform === 'crunchyroll') ausgeliefert.add(s.url)
+  }
+  const tot = crDub.serien.filter((s) => /nicht mehr verf|404/.test(s.fehler ?? ''))
+  const uebrig = tot.filter((s) => ausgeliefert.has(s.url))
+  pruefe(
+    `keine der ${tot.length} toten Crunchyroll-Adressen steht noch im Datensatz`,
+    uebrig.length === 0,
+    uebrig.map((s) => s.url).slice(0, 3),
+  )
+}
+
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

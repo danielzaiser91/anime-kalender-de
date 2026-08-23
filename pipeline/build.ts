@@ -1896,6 +1896,20 @@ function main(): void {
   const checks = new Map(loadDubChecks().map((c) => [dubKey(c.anilistId, c.platform), c]))
   /** Befund je YouTube-Adresse aus `pipeline/check-youtube.ts`. */
   const youtubeBefunde = readJson<Record<string, { art: string; inDE: number }>>('data/youtube-check.json', {})
+  /**
+   * Der YouTube-Kanal je Adresse, aus `pipeline/check-youtube.mjs`.
+   *
+   * Er entscheidet über kostenlos oder Kauf: Was auf „YouTube Movies" liegt,
+   * muss bezahlt werden, trägt aber eine ganz gewöhnliche `watch?v=`-Adresse.
+   * Die Datei liegt seit dem 22.08.2026 im Repo und wurde nie ausgewertet —
+   * 40 Titel standen deshalb als kostenlos, die es nicht sind.
+   */
+  const ytKanal: Record<string, string> = {}
+  for (const [url, b] of Object.entries(
+    readJson<Record<string, { kanal?: string | null }>>('data/youtube-befunde.json', {}),
+  )) {
+    if (b?.kanal) ytKanal[url] = b.kanal
+  }
   /** Antwortstatus je Anbieter-Adresse aus `pipeline/check-links.ts`. */
   const linkBefunde = readJson<Record<string, { status: number | string; prime?: boolean }>>('data/link-check.json', {})
   for (const title of titles.values()) {
@@ -2028,7 +2042,10 @@ function main(): void {
       angebote.find((o) => providerToPlatform(o.name) === platform)?.kind
 
     for (const s of title.streams ?? []) {
-      s.zugang = zugangsart(s.platform, undefined, s.url, jwArt(s.platform))
+      // Der YouTube-Kanal entscheidet über Kauf oder kostenlos — siehe
+      // `zugangsart()`. Er steht in den Befunden, nicht im Verweis selbst.
+      const kanal = s.platform === 'youtube' ? ytKanal[s.url] : undefined
+      s.zugang = zugangsart(s.platform, undefined, s.url, jwArt(s.platform), kanal)
     }
     for (const w of title.watchLinks ?? []) {
       w.zugang = zugangsart(w.name, w.kind, w.url, jwArt(providerToPlatform(w.name) as PlatformId))

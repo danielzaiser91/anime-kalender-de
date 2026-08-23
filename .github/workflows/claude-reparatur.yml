@@ -135,7 +135,7 @@ jobs:
             - `CLAUDE.md` im Wurzelverzeichnis gilt. Dort stehen die Grundsätze
               dieses Projekts, besonders: Nichts behaupten, was nicht belegt ist.
             - Die Prüfkette muss vor dem Pull Request grün sein:
-              `npm run data:validate && npm run check:logic && npm run check:cr-zuordnung && npm run typecheck && npm run check:worker && npm run check:hooks && npm run check:extension && npm run build`
+              `npm run data:validate && npm run check:logic && npm run check:cr-zuordnung && npm run typecheck && npm run check:worker && npm run check:hooks && npm run check:extension && npm run check:zugangsart && npm run build`
             - Ist der Fehler ein Widerspruch im Datensatz (`pruefeErgebnis` bricht
               ab), dann ist der Melder **nicht** das Problem. Ihn weicher zu
               stellen, um einen grünen Lauf zu bekommen, ist ausdrücklich falsch —

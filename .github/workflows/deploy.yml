@@ -175,6 +175,13 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run check:extension
 
+      # Die Zugangsart ist die einzige Angabe, bei der ein Fehler den Leser
+      # Geld kostet — „kostenlos" vor einer Kasse.
+      - name: Zugangsart prüfen
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run check:zugangsart
+
       - name: Fortschritt — Hooks-Regeln geprüft
         continue-on-error: true
         env:

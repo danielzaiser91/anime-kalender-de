@@ -98,6 +98,7 @@ export function zugangsart(
   kind?: 'stream' | 'buy',
   url?: string,
   justwatch?: JustWatchArt,
+  kanal?: string,
 ): Zugangsart {
   const n = name.toLowerCase().trim()
   // „Crunchyroll über Prime Video" ist ein Kanal — bezahlt wird das Abo dahinter.
@@ -110,7 +111,22 @@ export function zugangsart(
   if (justwatch === 'flatrate') return 'abo'
 
   if (kind === 'buy') return 'kauf'
-  // YouTube Movies verlangt Geld, ein hochgeladenes Video nicht.
+  /**
+   * Bei YouTube entscheidet der **Kanal**, nicht die Adresse.
+   *
+   * „YouTube Movies" ist der Verleih-Kanal: Was dort liegt, kostet Geld. Seine
+   * Videos tragen aber gewöhnliche `watch?v=…`-Adressen — die Prüfung auf
+   * `/movies` im Pfad greift bei ihnen nicht. Gemessen am 23.08.2026 standen
+   * deshalb **40 Titel als „kostenlos"**, die in Wahrheit gekauft oder geliehen
+   * werden müssen; der Kalender schickte Leute an eine Kasse, die er als
+   * Gratisangebot angekündigt hatte.
+   *
+   * Der Kanalname liegt seit dem 22.08. in `data/youtube-befunde.json`
+   * (`author_name` aus YouTubes oEmbed) — er wurde nur nie ausgewertet.
+   */
+  if (kern === 'youtube' && kanal && /^(youtube movies|movies & tv)$/i.test(kanal.trim())) return 'kauf'
+  // Der ältere Weg über die Adresse bleibt: Er greift bei Verleih-Playlists,
+  // die keinen Kanalnamen im Bestand haben.
   if (kern === 'youtube' && url && /\/(movies|playlist\?list=PL[A-Za-z0-9_-]*movie)/i.test(url)) return 'kauf'
   if (KOSTENLOS.has(kern)) return 'kostenlos'
   if (ABO.has(kern)) return 'abo'

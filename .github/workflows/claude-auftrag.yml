@@ -207,7 +207,7 @@ jobs:
                Teil blockiert, erledige alle übrigen und schreibe im Pull Request
                ausdrücklich, was du weggelassen hast und warum.
             3. **Prüfkette muss grün sein, bevor du committest:**
-               `npm run data:validate && npm run check:logic && npm run check:cr-zuordnung && npm run typecheck && npm run check:worker && npm run check:hooks && npm run check:extension && npm run build`
+               `npm run data:validate && npm run check:logic && npm run check:cr-zuordnung && npm run typecheck && npm run check:worker && npm run check:hooks && npm run check:extension && npm run check:zugangsart && npm run build`
             4. **Push früh, nicht erst am Ende.** Sobald die erste Änderung steht,
                legst du den Zweig `${{ inputs.zweig }}` an und pushst ihn — auch
                unfertig. Danach arbeitest du weiter und pushst nach. Läuft dieser

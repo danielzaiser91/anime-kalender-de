@@ -663,7 +663,7 @@ gilt: nachsehen statt annehmen.
 ## Vor dem Commit
 
 ```bash
-npm run data:validate && npm run check:logic && npm run typecheck && npm run check:worker && npm run check:hooks && npm run check:extension && npm run build
+npm run data:validate && npm run check:logic && npm run typecheck && npm run check:worker && npm run check:hooks && npm run check:extension && npm run check:zugangsart && npm run build
 ```
 
 **Jedes `tsc` hier braucht `--noEmit`, und die Skripte setzen es.** Ohne das legt `tsc -b`
