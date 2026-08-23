@@ -1293,16 +1293,7 @@ export function DetailPanel({
    */
   const [wechselt, setWechselt] = useState(false)
 
-  /**
-   * Kaufwege getrennt und nach Shop gebündelt.
-   *
-   * Getrennt, weil „Ansehen" und „Kaufen" zwei verschiedene Fragen sind.
-   * Gebündelt, weil vier Ausgaben desselben Verlags eine Auskunft sind.
-   */
-  const kaufwege = useMemo(
-    () => gruppiereKaufwege((title?.watchLinks ?? []).filter((w) => w.kind === 'buy')),
-    [title],
-  )
+
   /** Alles, was man ansehen kann — Plattformen und Anbieter ohne eigene. */
   const ansehen = useMemo(
     () => [...(title?.streams ?? []), ...(title?.watchLinks ?? []).filter((w) => w.kind === 'stream')],
@@ -1325,14 +1316,29 @@ export function DetailPanel({
     const gruppen = arten.map((art) => ({
       art,
       plattformen: (title?.streams ?? []).filter((s) => (s.zugang ?? 'abo') === art),
-      shops: gruppiereKaufwege(
-        (title?.watchLinks ?? []).filter((w) => w.kind === 'stream' && (w.zugang ?? 'abo') === art),
-      ),
+      shops: gruppiereKaufwege([
+        ...(title?.watchLinks ?? []).filter((w) => w.kind === 'stream' && (w.zugang ?? 'abo') === art),
+        /**
+         * Kaufwege gehören in die Kauf-Gruppe, nicht in einen zweiten Block.
+         *
+         * Bis zum 23.08.2026 standen sie darunter mit **derselben Überschrift**
+         * — „Kaufen oder leihen" kam bei 61 Titeln zweimal hintereinander, weil
+         * die eine Liste aus `streams` stammte und die andere aus `watchLinks`.
+         * Für einen Besucher ist das dieselbe Frage, also ist es eine Liste.
+         */
+        ...(art === 'kauf' ? (title?.watchLinks ?? []).filter((w) => w.kind === 'buy') : []),
+      ]),
     }))
     const belegte = gruppen.filter((g) => g.plattformen.length || g.shops.length)
-    // Die Überschrift steht nur da, wo es etwas zu trennen gibt: Bei einem
-    // Titel, der nur mit Abo läuft, wäre „Mit Abo" eine Zeile ohne zweite Seite.
-    return belegte.map((g) => ({ ...g, zeigeUeberschrift: belegte.length > 1 }))
+    /**
+     * Die Überschrift steht nur da, wo es etwas zu trennen gibt — mit einer
+     * Ausnahme: **Was Geld kostet, sagt das immer.** Ein Titel, den es nur zu
+     * kaufen gibt, sähe sonst aus wie einer, den man einfach ansehen kann.
+     */
+    return belegte.map((g) => ({
+      ...g,
+      zeigeUeberschrift: belegte.length > 1 || g.art === 'kauf',
+    }))
   }, [title])
   const wechsleZu = (id: number) => {
     if (id === titleId) return
@@ -1905,24 +1911,7 @@ export function DetailPanel({
                   </Fragment>
                 ))}
 
-                {kaufwege.length > 0 && (
-                  <>
-                    {/*
-                      Eigene Überschrift, sobald es etwas zu kaufen gibt.
 
-                      „Ansehen" und „Kaufen" sind zwei verschiedene Fragen: Wer
-                      ein Abo hat, will nicht zur Kasse, und wer die Disc sucht,
-                      interessiert sich nicht für Streams. In einer Liste musste
-                      man jede Zeile einzeln lesen, um sie zu trennen.
-                    */}
-                    <div className="mt-2 text-[11px] font-medium uppercase tracking-wide text-slate-400 dark:text-slate-500">
-                      {t('where.buy')}
-                    </div>
-                    {kaufwege.map((g) => (
-                      <ShopZeile key={g.shop + g.eintraege[0].url} gruppe={g} hinweis={t('detail.linkBuy')} />
-                    ))}
-                  </>
-                )}
               </div>
             </div>
           )}

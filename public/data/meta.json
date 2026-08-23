@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-23T11:50:08.150Z",
+  "generatedAt": "2026-08-23T12:02:32.335Z",
   "titleCount": 2751,
   "releaseCount": 249,
   "eventCount": 890,
@@ -415,7 +415,6 @@
     "adn"
   ],
   "providers": [
-    "Amazon",
     "Crunchyroll über Prime Video",
     "maxdome",
     "Aniverse über Prime Video",
@@ -444,6 +443,7 @@
     "Kixi",
     "Pluto TV",
     "ZDF",
+    "Amazon",
     "AniMoon — Vol. 1",
     "AniMoon — Vol. 2",
     "AniMoon — Vol. 3",

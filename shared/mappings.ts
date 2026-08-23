@@ -695,11 +695,33 @@ const ANISEARCH_PLATFORM: Record<string, PlatformId> = {
   adn: 'adn',
   'animation-digital-network': 'adn',
   aniverse: 'aniverse',
+  /**
+   * Amazon ist Prime Video — aniSearch listet es im Abschnitt „Streams".
+   *
+   * Bis zum 23.08.2026 fehlte diese Zeile. Die Folge: `anisearchPlatform`
+   * gab `undefined` zurück, die Verweise landeten in `watchLinks` statt in
+   * `streams`, und `BUY_PROVIDERS` machte daraus „Kaufen oder leihen" —
+   * **419 Verweise**, die aniSearch selbst als Stream führt.
+   *
+   * `canonicalProvider` streicht die Länderendung, deshalb deckt der eine
+   * Schlüssel `amazon-de`, `amazon-(de)` und `amazon` gemeinsam ab.
+   *
+   * Ob ein einzelner Titel dort im Abo steckt oder Geld kostet, entscheidet
+   * danach die lizenzierte JustWatch-Angabe in `shared/zugangsart.ts` — pro
+   * Titel, statt pauschal für den ganzen Anbieter.
+   */
+  amazon: 'primevideo',
 }
 
-/** Anbieter, bei denen man kauft oder leiht statt im Abo zu schauen. */
+/**
+ * Anbieter, bei denen man kauft oder leiht statt im Abo zu schauen.
+ *
+ * Reine Transaktionsdienste: Dort gibt es kein Abo, jeder Titel kostet
+ * einzeln. **Amazon gehört ausdrücklich nicht dazu** — Prime Video führt
+ * Abo-Titel und Kauftitel nebeneinander, und welcher Fall vorliegt, sagt die
+ * JustWatch-Angabe je Titel.
+ */
 const BUY_PROVIDERS = new Set([
-  'amazon',
   'maxdome',
   'sky-store',
   'videobuster',

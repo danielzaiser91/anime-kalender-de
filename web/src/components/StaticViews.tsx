@@ -880,9 +880,12 @@ export function ImpressumView() {
             Metadaten: <a className="underline" href="https://anilist.co">AniList</a>
           </li>
           <li>
-            FSK und Anbieter:{' '}
-            <a className="underline" href="https://www.themoviedb.org">TMDB</a> — diese Seite nutzt die
+            FSK: <a className="underline" href="https://www.themoviedb.org">TMDB</a> — diese Seite nutzt die
             TMDB-API, ist aber weder von TMDB unterstützt noch zertifiziert
+          </li>
+          <li>
+            Wo ein Titel läuft und was er kostet:{' '}
+            <a className="underline" href="https://www.justwatch.com">JustWatch</a>, über die TMDB-API
           </li>
           <li>
             Sendezeiten:{' '}
