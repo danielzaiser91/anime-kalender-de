@@ -127,6 +127,34 @@ Abo-Titel und Kauftitel nebeneinander. Sie gilt nur noch, wo keine gemessene Ang
 
 ---
 
+## Drei Handprüfungen vom 23.08.2026 — und was sie über beide Seiten sagen
+
+Daniel hat drei Crunchyroll-Fälle im Player geprüft, die aus `change_type=updated` stammten:
+
+| Fall | Quelle (MOTN) | wir vorher | Daniels Befund | Ergebnis |
+|---|---|---|---|---|
+| **Tokyo Ghoul √A** | seit 18.08. nur `eng, fra, jpn` | `dub: true` | alle vier Reihen deutsch synchronisiert | **MOTN falsch, wir richtig** |
+| **KONOSUBA St. 1** | deutsch | **unbekannt** | alle Staffeln deutsch **außer Staffel 3** | **wir hatten eine Lücke** |
+| **Witch Watch** | deutsch | `dub: true` | alle 25 Folgen deutsch | beide richtig |
+
+**Tokyo Ghoul ist der dritte Beleg gegen MOTN bei Crunchyroll** — nach „Lycoris Recoil" und der
+Kontrollmessung (7 Treffer auf 142 Vergleiche). Die Quelle wird dort weiterhin ignoriert.
+
+**KONOSUBA war unser eigener Fehler, und er ist behoben.** Der Abruf hatte alles korrekt
+erfasst (`deutschImAngebot: true`, Block 1 und 2 je `10/10 deutsch`); verloren ging es erst in
+`beurteile()`: Bei fünf Crunchyroll-Blöcken und zwei eigenen Einträgen brach die Zuordnung ab
+(`unsere.length < staffeln.length`). Diese Sperre stammt aus dem Gun-Gale-Online-Fehler vom
+21.08. und ist berechtigt — sie kostete aber **89 Serien**.
+
+Seit dem 23.08. gibt es einen zweiten, engeren Weg: Trifft die Folgenzahl eines Eintrags
+**nur** vollständig deutsche Blöcke und **kein** Block ohne Synchro trägt dieselbe Zahl, ist
+die Reihenfolge gleichgültig — das Urteil lautet so oder so `true`. Gemessen: **31 Verweise neu
+belegt, 0 umgedreht, 0 Handprüfungen überschrieben**, stumme Fälle von 89 auf 61.
+
+**Bekannte Restlücke:** KONOSUBA Staffel 3 hat laut Daniel keine einzige deutsche Folge, und
+unser Block sagt `0/13`. Ein `dub: false` entsteht auf dem neuen Weg trotzdem nicht — dort wird
+nur bestätigt, nie verneint. Die Staffel bleibt offen, statt auf einer Vermutung zu stehen.
+
 ## Wo die Messung selbst eine Lücke hat
 
 Die Kontrollmessung (`npm run data:motn:check`, Bericht in `data/motn-messung.md`) prüft, ob

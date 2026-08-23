@@ -268,7 +268,54 @@ export function beurteile(serie: CrSerie, unsere: Title[]): Urteil[] {
    * vollständig deutsch las und damit Fall 2 zog. Die genauere Auskunft der
    * Content-API legt die Lücke frei.
    */
-  if (unsere.length < staffeln.length) return []
+  if (unsere.length < staffeln.length) {
+    /**
+     * Weniger Einträge als Blöcke — der Reihenweg ist versperrt, aber nicht
+     * jede Auskunft ist damit verloren.
+     *
+     * **Der Anlass (Daniel, 23.08.2026):** Für KONOSUBA führt Crunchyroll fünf
+     * Blöcke — `10/10  10/10  2/2  1/1  0/13` —, wir haben unter dieser Adresse
+     * zwei Einträge zu je zehn Folgen. Die Reihenzuordnung stieg oben aus, und
+     * heraus kam „unbekannt" für eine Serie, deren Staffeln 1 und 2 dort
+     * vollständig deutsch laufen. Sein Urteil: „wieso sagen wir unbekannt?
+     * Unser Crunchy Auth Lauf müsste alle korrekt erfassen… sehr ärgerlich."
+     * Betroffen waren **89 Serien** im Bestand vom 22.08.2026.
+     *
+     * **Warum das hier trotzdem sicher geht**, obwohl die Reihenfolge unbekannt
+     * ist: Wenn die Folgenzahl eines Eintrags **nur** bei vollständig deutschen
+     * Blöcken vorkommt, ist es gleichgültig, welcher dieser Blöcke gemeint ist —
+     * das Urteil lautet so oder so `true`. Verlangt werden deshalb zwei Dinge:
+     *
+     *  1. Die Folgenzahl trifft **genau** einen vollständig deutschen Block.
+     *  2. **Kein** Block ohne deutsche Fassung trägt dieselbe Folgenzahl.
+     *
+     * Punkt 2 ist die Lehre aus „Gun Gale Online" (siehe oben): Dort stehen
+     * zwei Blöcke zu je zwölf Folgen nebeneinander, einer deutsch, einer nicht.
+     * Genau dieser Fall fällt hier durch — die Zahl zwölf käme auf beiden
+     * Seiten vor, also bleibt es stumm.
+     *
+     * Ein `dub: false` entsteht auf diesem Weg **nie**. Dass eine Folgenzahl
+     * nur bei undeutschen Blöcken vorkommt, hieße bloß, dass wir den passenden
+     * deutschen Block nicht sehen — kein Beleg für eine fehlende Synchro.
+     */
+    const deutscheGroessen = new Set(
+      staffeln.filter((s) => s.folgen > 0 && s.deutsch === s.folgen).map((s) => s.folgen),
+    )
+    const undeutscheGroessen = new Set(
+      staffeln.filter((s) => s.folgen > 0 && s.deutsch < s.folgen).map((s) => s.folgen),
+    )
+    const eindeutig: Urteil[] = []
+    for (const t of unsere) {
+      const n = t.episodes ?? 0
+      if (!n || !deutscheGroessen.has(n) || undeutscheGroessen.has(n)) return []
+      eindeutig.push({
+        titleId: t.id,
+        dub: true,
+        grund: `${n} Folgen treffen nur vollständig deutsche Blöcke`,
+      })
+    }
+    return eindeutig
+  }
 
   const sortiert = unsere.slice().sort((a, b) => (a.jpYear ?? 0) - (b.jpYear ?? 0) || a.id - b.id)
   const urteile: Urteil[] = []
