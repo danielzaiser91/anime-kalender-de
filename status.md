@@ -1898,6 +1898,43 @@ liefert** (Staffel-Ebene statt Titel-Ebene, weil eine geöffnete Seite ohnehin a
 Advertising API. Ob die auch Prime-Video-Tonspuren führt, ist ungeprüft; wäre sie es, gäbe es
 eine ausdrücklich erlaubte Schnittstelle statt der Grauzone.
 
+### Zweiter Nachtrag 23.08.2026, 02:15 — die maßgebliche Klausel steht in Abschnitt 5, nicht 3
+
+Daniels Frage: „ich weiß ja nicht ob das tatsächlich geistiges eigentum von amazon ist, ob eine
+folge deutsch ist oder nicht […] wie könnten sie anspruch auf einzelne wörter haben".
+
+**Bei der Eigentumsfrage hat er recht — die Angabe ist nicht schutzfähig:**
+
+- **Urheberrecht:** § 2 Abs. 2 UrhG verlangt persönliche geistige Schöpfung. „Deutsch, 日本語"
+  hat keine Gestaltungshöhe. EuGH *Infopaq* (C-5/08) lässt schon elf Wörter genügen, aber nur
+  wenn sie eigene geistige Schöpfung ausdrücken — bei einer Sprachliste ausgeschlossen.
+- **Datenbankrecht:** § 87b schützt erst *wesentliche* Teile; einzelne Fakten zu entnehmen ist
+  erlaubt.
+- **EuGH *British Horseracing Board* (C-203/02):** Der Schutz gilt der Investition in die
+  **Beschaffung** vorhandener Daten, nicht in deren **Erzeugung**. Amazons Katalogangaben
+  entstehen als Nebenprodukt des eigenen Geschäfts.
+- Die Tatsache selbst steht im Abspann und auf der Hülle — sie gehört Amazon ohnehin nicht.
+
+Auch das Schutzziel stützt seine Lesart: Abschnitt 3 nennt als Beispiel „**unsere Preise und
+Produktinformationen**", an anderer Stelle „zugunsten eines anderen Händlers" — die Klausel
+zielt auf Preis-Scraping durch Wettbewerber.
+
+**Die operative Schranke steht aber in Abschnitt 5 „Lizenz und Zugang", und die ist schärfer:**
+
+> „gewähren Ihnen Amazon und seine Anbieter von Inhalten eine beschränkte […] Lizenz für den
+> Zugriff und die nicht-kommerzielle Nutzung der Amazon Services. Diese Lizenz beinhaltet nicht
+> […] eine **Erfassung und Nutzung von Produktinformationen**, Beschreibungen oder Preisen […]
+> oder (mit Ausnahme der Verwendung durch Forscher oder zuständige Behörden […]) die Nutzung
+> von **Data-Mining, Robotern** oder ähnlichen Datenerfassungs- und Extraktions-Programmen."
+
+Hier fehlt die Wesentlichkeitsschwelle, und es geht nicht um Eigentum, sondern um den **Umfang
+der Zugriffserlaubnis**. Eine solche Zugangsbedingung kann auch Gemeinfreies erfassen — EuGH
+*Ryanair/PR Aviation* (C-30/14).
+
+**Ergebnis:** Kein geistiges Eigentum, aber trotzdem keine Lizenz für einen Bot-Lauf. Die
+Erweiterung umgeht beides: Ein Mensch, der eine Seite ansieht, nutzt die Lizenz
+bestimmungsgemäß — kein Roboter, kein Data Mining.
+
 Nicht betroffen: die drei Handabrufe vom 23.08.2026, mit denen der Befund oben gemessen wurde.
 Drei angesehene Seiten sind kein systematisches Extrahieren wesentlicher Teile.
 
