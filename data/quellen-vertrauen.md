@@ -117,6 +117,26 @@ Abo-Titel und Kauftitel nebeneinander. Sie gilt nur noch, wo keine gemessene Ang
 
 ---
 
+## Wo die Messung selbst eine Lücke hat
+
+Die Kontrollmessung (`npm run data:motn:check`, Bericht in `data/motn-messung.md`) prüft, ob
+die Quelle **widerspricht** — sie prüft nicht, ob sie **recht hat, wo wir nichts wissen**. Und
+genau dort liegt der schädliche Irrtum: ein falsches `dub: true` in einem Bereich ohne
+Kontrolle fällt niemandem auf.
+
+Stand 23.08.2026 gibt es dafür **vier prüfbare Fälle** — Netflix-Verweise, für die die Quelle
+deutschen Ton behauptet und keine Handprüfung vorliegt:
+
+| Quelle sagt | Titel | Adresse |
+|---|---|---|
+| 33 von 33 Folgen deutsch | KONOSUBA | `netflix.com/title/80131674` |
+| 24 von 24 | Ghost in the Shell SAC_2045 | `netflix.com/title/81030224` |
+| 12 von 12 | DAN DA DAN | `netflix.com/title/81736884` |
+| 8 von 8 | Pokémon Concierge | `netflix.com/pokemonconcierge` |
+
+Drei davon stehen ohnehin auf der Extension-Liste. Bestätigen sie sich, steigt der Trust für
+Netflix von „widerspricht nicht" auf „trifft zu, wo wir nachsehen konnten".
+
 ## Offene Prüfpunkte
 
 - **101 Verweise mit `zugang: kauf`** aus TMDB/JustWatch: abgeglichen, nicht validiert. Der

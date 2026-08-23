@@ -1,21 +1,21 @@
 # Kontrollmessung: Streaming Availability API
 
-Stand 2026-08-21. Erzeugt von `npm run data:motn:check`, **nicht von Hand pflegen**.
+Stand 2026-08-23. Erzeugt von `npm run data:motn:check`, **nicht von Hand pflegen**.
 
-Bestand: **1330 Serien** der Quelle, davon **599 Zuordnungen**
-zu unseren Einträgen. Davon ließen sich **162** gegen einen unabhängigen Beleg halten
+Bestand: **1364 Serien** der Quelle, davon **599 Zuordnungen**
+zu unseren Einträgen. Davon ließen sich **267** gegen einen unabhängigen Beleg halten
 (Handprüfung oder Crunchyroll-Serienseite).
 
 | | Zahl |
 |---|---|
-| bestätigt (wir ja, Quelle ja) | 45 |
+| bestätigt (wir ja, Quelle ja) | 70 |
 | **widersprochen** (wir nein, Quelle ja) | 0 |
-| Quelle schweigt (wir ja, Quelle führt es nicht) | 117 |
+| Quelle schweigt (wir ja, Quelle führt es nicht) | 197 |
 
 **Nur die mittlere Zeile ist ein Widerspruch.** Die untere ist der bekannte Verzug der Quelle:
 Sie belegt, was da ist, nie was fehlt (siehe `pipeline/lib/motn.ts`).
 
-**Wie belastbar die Null ist: 3 der 162 Vergleiche standen gegen ein belegtes *Nein*.**
+**Wie belastbar die Null ist: 12 der 267 Vergleiche standen gegen ein belegtes *Nein*.**
 Nur die können überhaupt ein Widerspruch werden — die übrigen messen, ob die Quelle eine
 bekannte Synchro auch kennt, nicht ob sie eine erfindet. Die Decke dafür liegt in unserem
 eigenen Bestand: Belegte Absagen gibt es kaum, und mehr Anfragen an die Quelle ändern das
@@ -26,10 +26,10 @@ das Gegenteil belegt haben" — nicht „sie tut es nie".
 
 | Anbieter | verglichen | bestätigt | widersprochen | Quelle schweigt |
 |---|---|---|---|---|
-| crunchyroll | 99 | 3 | 0 | 96 |
-| crunchyroll — Kanal `crunchyrollde` | 51 | 37 | 0 | 14 |
-| adn — Kanal `animedigitalde` | 11 | 5 | 0 | 6 |
-| netflix | 1 | 0 | 0 | 1 |
+| crunchyroll | 142 | 7 | 0 | 135 |
+| crunchyroll — Kanal `crunchyrollde` | 62 | 43 | 0 | 19 |
+| netflix | 51 | 14 | 0 | 37 |
+| adn — Kanal `animedigitalde` | 12 | 6 | 0 | 6 |
 
 **Crunchyroll ist hier der Prüfstein, nicht das Ziel.** Für 190 Serien wissen wir aus unserem
 eigenen Abruf, ob dort eine deutsche Tonspur liegt — für Netflix wissen wir es fast nirgends
