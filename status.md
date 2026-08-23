@@ -9,6 +9,60 @@ Stand: 22.08.2026 · Live: https://anime-kalender.de/
 | Aufgabe | SP | Notiz |
 |---|---|---|
 
+### Der Plan, Stand 23.08.2026, 19:15
+
+**Gemessen, nicht geschätzt.** 2.233 Anbieter-Verweise, davon **1.161 ohne Sprachangabe**.
+Verteilung und Ursache je Anbieter:
+
+| Anbieter | offen | Ursache | Lösbar durch |
+|---|---|---|---|
+| Prime Video | 600 | keine Quelle nennt die Tonspur öffentlich | Streaming Availability API — Kontingent reicht nicht |
+| Crunchyroll | 464 | **462 stehen im Bestand, aber ohne Staffeldaten** | eigener Lauf, siehe unten |
+| Disney+ | 40 | `robots.txt` sperrt alles | nur die Erweiterung |
+| YouTube | 23 | oEmbed nennt keine Tonspur | Data API, braucht Schlüssel |
+| ADN | 7 | Rest nach dem Sprachcode-Lauf | eigener Lauf |
+| Joyn | 2 | keine Quelle | offen |
+
+**Der größte Einzelhebel ist Crunchyroll**, und die Ursache ist keine fehlende Quelle, sondern
+ein unvollständiger Abruf. Die 453 Serien ohne Staffeldaten teilen sich auf:
+
+| Zahl | Grund im Bestand | Was zu tun ist |
+|---|---|---|
+| **240** | „Content-API kennt keine Staffel zu dieser Kennung" | Kennung neu auflösen — vermutlich veraltete `seriesId` |
+| **127** | `nichtVerfuegbar` — Serie dort nicht mehr | Verweise entfernen, prüfen ob der Build das tut |
+| **86** | „keine Serienkennung hinter dieser Adresse" | Adressen neu auflösen, vermutlich veraltete URLs |
+
+### Was ohne Daniel geht
+
+| # | Aufgabe | SP |
+|---|---|---|
+| 1 | **240 Crunchyroll-Kennungen neu auflösen** — größter Einzelposten, der Lauf existiert bereits | 5 |
+| 2 | **86 unauflösbare Adressen** über die Suche neu bestimmen | 3 |
+| 3 | **127 tote Verweise**: prüfen, ob der Build sie wirklich entfernt, und die Zahl belegen | 1 |
+| 4 | **Robustheitstest erweitern** um aniSearch, YouTube und die Zugangsart | 3 |
+| 5 | **MOTN-Katalog weiterlaufen lassen** — 250 Anfragen Restkontingent im August | 2 |
+| 6 | **ADN: 7 Reste** nachziehen | 2 |
+
+### Wo Daniel gebraucht wird
+
+| # | Aufgabe | warum nur er |
+|---|---|---|
+| A | **Drei ADN-Stichproben** aus `check:quellen` | 107 Urteile, **keine einzige Kontrolle** — der blindeste Fleck im Projekt |
+| B | **YouTube-Data-API-Schlüssel** anlegen | Konto nötig, löst 23 Verweise |
+| C | **Prime Video und Disney+ mit der Erweiterung** | beide sperren automatisierte Abrufe; zusammen 640 Verweise |
+| D | **Drei Prime-Stichproben** zu den 101 `zugang: kauf` | abgeglichen, nie validiert |
+
+### Der Konflikt, der offen bleibt
+
+Daniels Grundsatz vom 23.08.2026 lautet: „die extension … keine dauerhafte lösung … wir müssen
+unsere datenquellen automatisieren." **Für Prime Video und Disney+ gibt es aber keine
+automatisierbare Quelle** — beide sperren Abrufe, und die Streaming Availability API deckt
+Prime nur teilweise und Disney+ gar nicht in brauchbarer Qualität. Zusammen sind das 640 der
+1.161 offenen Verweise, also **mehr als die Hälfte**.
+
+Entweder bleibt die Erweiterung dort dauerhaft im Einsatz, oder diese 640 bleiben offen. Ein
+dritter Weg ist bislang nicht gefunden.
+
 ### Queue
 | Aufgabe | SP | Notiz |
 |---|---|---|
