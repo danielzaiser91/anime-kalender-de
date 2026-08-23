@@ -12,6 +12,10 @@
            border-radius: 6px; cursor: pointer; font: inherit; }
   button:hover { border-color: #58a6ff; }
   #stand { margin-left: .8rem; color: #3fb950; }
+  hr { border: 0; border-top: 1px solid #30363d; margin: 2rem 0 1.5rem; }
+  .gefahr { border-color: #6e2a2a; }
+  .gefahr:hover { border-color: #f85149; }
+  #standStand { margin-left: .8rem; color: #8b949e; }
 </style>
 
 <h1>Synchro melden</h1>
@@ -34,5 +38,15 @@
   Dasselbe Token wie das Repo-Secret <code>LAUF_TOKEN</code>. Es steht in
   <code>my_secrets.md</code>. Ohne Token sagt der Knopf beim Klick Bescheid.
 </p>
+
+<hr>
+
+<h1>Geprüfte Titel zurücksetzen</h1>
+<p>
+  Die Erweiterung merkt sich, welche Titel schon gemeldet sind, und blendet sie aus der Liste
+  aus. Hier wird dieser Merkzettel geleert — die Meldungen selbst bleiben, sie liegen im
+  Worker. Danach stehen alle Titel wieder in der Liste.
+</p>
+<button id="zuruecksetzen" class="gefahr">Merkzettel leeren</button><span id="standStand"></span>
 
 <script src="optionen.js"></script>

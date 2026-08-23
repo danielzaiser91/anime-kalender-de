@@ -119,6 +119,12 @@ function starte(seitenAsin, gespeichert = {}) {
     location: { pathname: `/dp/${seitenAsin}`, search: '' },
     document: { ...dom, body: dom.body, title: 'Testserie ansehen | Prime Video' },
     chrome: {
+      /**
+       * Die Kennung der Erweiterung — daran erkennt der Melder, ob seine
+       * Verbindung noch lebt. Chrome trennt sie beim Neuladen der Erweiterung;
+       * ohne diese Zeile prueft der Test den toten Fall statt den lebenden.
+       */
+      runtime: { id: 'test-erweiterung' },
       storage: {
         local: {
           get: async () => ({ amazonErledigt: gespeichert }),
@@ -485,6 +491,51 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
       uebersicht?.textContent,
     )
   }, 40)
+}
+
+// --- 2h. Nach dem Neuladen der Erweiterung --------------------------------
+
+/**
+ * "Uncaught Error: Extension context invalidated" (Daniel, 23.08.2026, mit
+ * Bild aus der Fehlerkonsole, melder.js:942).
+ *
+ * Chrome trennt beim Neuladen der Erweiterung alle laufenden Content-Scripts
+ * von ihr. Sie laufen weiter -- das DOM gehoert ihnen ja --, aber jeder
+ * chrome.*-Zugriff wirft. Das trifft JEDE offene Seite nach jedem Neuladen,
+ * bei dieser Arbeitsweise also mehrmals am Abend.
+ *
+ * Den Fehler zu schlucken waere die falsche Antwort: Wer klickt und nichts
+ * passiert, sucht ihn bei sich.
+ */
+{
+  const ohneVerbindung = starte(Object.keys(ECHTE_LISTE)[0])
+  // So sieht es aus, nachdem die Erweiterung neu geladen wurde.
+  ohneVerbindung.sandkasten.chrome.runtime = {}
+  for (const takt of ohneVerbindung.takte) takt()
+
+  const uebersicht = ohneVerbindung.angehaengt.find((e) =>
+    e.className.includes('ak-uebersicht'),
+  )
+  pruefe(
+    'nach dem Neuladen sagt der Knopf, dass die Seite aktualisiert werden muss',
+    uebersicht?.textContent.includes('Seite aktualisieren'),
+    uebersicht?.textContent,
+  )
+
+  const melde = ohneVerbindung.angehaengt.find((e) =>
+    e.className.includes('ak-amazon-knopf'),
+  )
+  let absturz = null
+  try {
+    melde?.hoerer?.click?.()
+  } catch (err) {
+    absturz = err.message
+  }
+  pruefe(
+    'ein Klick ohne Verbindung stuerzt nicht ab',
+    absturz === null,
+    absturz,
+  )
 }
 
 // --- 3. Erledigte zählen nicht mehr mit -----------------------------------

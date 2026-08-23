@@ -29,6 +29,51 @@
  * gelesen wird nur, was die Seite ohnehin geladen hat.
  */
 ;(() => {
+
+/**
+ * Lebt die Verbindung zur Erweiterung noch?
+ *
+ * Chrome trennt beim Neuladen der Erweiterung alle laufenden
+ * Content-Scripts von ihr. Sie laufen weiter, aber jeder `chrome.*`-Zugriff
+ * wirft „Extension context invalidated" (Daniel, 23.08.2026, mit Bild aus
+ * der Fehlerkonsole). Das trifft jede offene Seite nach jedem Neuladen.
+ *
+ * `chrome.runtime.id` ist der zuverlässige Prüfstein: Sie verschwindet mit
+ * der Verbindung.
+ */
+function verbindungLebt() {
+  try {
+    return Boolean(chrome?.runtime?.id)
+  } catch {
+    return false
+  }
+}
+
+/**
+ * Ein Speicherzugriff, der einen toten Kontext überlebt.
+ *
+ * Gibt `null` zurück, statt zu werfen — der Aufrufer entscheidet, was das
+ * heißt. Wichtig ist, dass die Oberfläche stehen bleibt und sagen kann, was
+ * los ist, statt mitten im Aufbau abzubrechen.
+ */
+async function speicherLesen(schluessel) {
+  if (!verbindungLebt()) return null
+  try {
+    return await chrome.storage.local.get(schluessel)
+  } catch {
+    return null
+  }
+}
+
+async function speicherSchreiben(werte) {
+  if (!verbindungLebt()) return false
+  try {
+    await chrome.storage.local.set(werte)
+    return true
+  } catch {
+    return false
+  }
+}
   const WORKER = 'https://newsletter.animekalender.workers.dev/pruefung'
 
   /** Kurz und eindeutig — der Knopf hat wenig Platz. */
@@ -396,8 +441,7 @@
    * steht — sonst käme man aus einer Sackgasse nicht mehr in die Liste zurück.
    */
   let erledigt = {}
-  chrome.storage.local
-    .get('amazonErledigt')
+  speicherLesen('amazonErledigt')
     .then((x) => {
       erledigt = x.amazonErledigt ?? {}
       uebersichtZeichnen()
@@ -451,6 +495,13 @@
   document.body.appendChild(uebersichtKnopf)
 
   function uebersichtZeichnen() {
+    // Nach einem Neuladen der Erweiterung ist die Verbindung weg. Das
+    // gehoert an den Knopf, sonst klickt Daniel ins Leere.
+    if (!verbindungLebt()) {
+      uebersichtKnopf.textContent = 'Erweiterung neu geladen — Seite aktualisieren'
+      uebersichtKnopf.classList.add('ak-fertig')
+      return
+    }
     const offen = offeneZahl()
     uebersichtKnopf.classList.toggle('ak-fertig', !offen)
     uebersichtKnopf.textContent = offen ? `${offen} Prime-Titel offen` : 'Prime: alles geprüft'
@@ -806,11 +857,24 @@
   setInterval(() => {
     beiStaffelwechsel()
     zeichnen()
+    /**
+     * Auch der Uebersichts-Knopf gehoert in den Takt.
+     *
+     * Er wurde bisher nur beim Start und nach einer Meldung gezeichnet.
+     * Stirbt die Verbindung mitten in der Sitzung -- beim Neuladen der
+     * Erweiterung --, blieb dort weiter "384 Prime-Titel offen" stehen,
+     * obwohl ein Klick nichts mehr bewirkt haette.
+     */
+    uebersichtZeichnen()
   }, 500)
 
   // --- Melden --------------------------------------------------------------
 
   knopf.addEventListener('click', async () => {
+    if (!verbindungLebt()) {
+      knopf.textContent = 'Erweiterung neu geladen — Seite aktualisieren'
+      return
+    }
     const sprachen = [...gesehen.sprachen]
     const geladen = gesehen.nummern.size
     if (!geladen) return
@@ -958,7 +1022,7 @@
         bisher.gesamt = staffelZahl()
         erledigt[listenId] = bisher
         gemeldeteStaffel = nr
-        chrome.storage.local.set({ amazonErledigt: erledigt }).catch(() => {})
+        void speicherSchreiben({ amazonErledigt: erledigt })
         uebersichtZeichnen()
       }
     } catch (err) {

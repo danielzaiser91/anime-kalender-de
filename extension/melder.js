@@ -16,6 +16,51 @@
  * Netzzugriff. Verbunden sind sie über `window.postMessage`.
  */
 
+/**
+ * Lebt die Verbindung zur Erweiterung noch?
+ *
+ * Chrome trennt beim Neuladen der Erweiterung alle laufenden
+ * Content-Scripts von ihr. Sie laufen weiter, aber jeder `chrome.*`-Zugriff
+ * wirft „Extension context invalidated" (Daniel, 23.08.2026, mit Bild aus
+ * der Fehlerkonsole). Das trifft jede offene Seite nach jedem Neuladen.
+ *
+ * `chrome.runtime.id` ist der zuverlässige Prüfstein: Sie verschwindet mit
+ * der Verbindung.
+ */
+function verbindungLebt() {
+  try {
+    return Boolean(chrome?.runtime?.id)
+  } catch {
+    return false
+  }
+}
+
+/**
+ * Ein Speicherzugriff, der einen toten Kontext überlebt.
+ *
+ * Gibt `null` zurück, statt zu werfen — der Aufrufer entscheidet, was das
+ * heißt. Wichtig ist, dass die Oberfläche stehen bleibt und sagen kann, was
+ * los ist, statt mitten im Aufbau abzubrechen.
+ */
+async function speicherLesen(schluessel) {
+  if (!verbindungLebt()) return null
+  try {
+    return await chrome.storage.local.get(schluessel)
+  } catch {
+    return null
+  }
+}
+
+async function speicherSchreiben(werte) {
+  if (!verbindungLebt()) return false
+  try {
+    await chrome.storage.local.set(werte)
+    return true
+  } catch {
+    return false
+  }
+}
+
 const WORKER = 'https://newsletter.animekalender.workers.dev/pruefung'
 
 /**
@@ -444,7 +489,7 @@ async function melden({ automatisch = false } = {}) {
     const reihe = gemeinteReihe()
     if (stand.staffeln?.length && reihe) {
       anbieterStaffeln[String(reihe)] = stand.staffeln
-      void chrome.storage.local.set({ anbieterStaffeln }).catch(() => {})
+      void speicherSchreiben({ anbieterStaffeln })
     } else if (reihe && !stand.staffeln && !stand.folgeNr && spuren) {
       /**
        * Weder Staffelliste noch Folgennummer, aber Tonspuren — das ist ein Film.
@@ -456,7 +501,7 @@ async function melden({ automatisch = false } = {}) {
        * sich die Sache ablesen, ohne dass jemand sie melden muss.
        */
       anbieterStaffeln[String(reihe)] = [{ seq: 1, name: 'Film', folgen: 1, erste: 1, film: true }]
-      void chrome.storage.local.set({ anbieterStaffeln }).catch(() => {})
+      void speicherSchreiben({ anbieterStaffeln })
     }
     gesendet.set(schluessel(), deutsch ? 'deutsch' : 'kein_deutsch')
     const kopf = ohneFolge ? 'Als nicht abrufbar gemeldet' : deutsch ? 'Deutsche Tonspur gemeldet' : 'Kein Deutsch gemeldet'
@@ -681,7 +726,7 @@ async function merkeTot(id) {
   if ((erledigt[schluessel] ?? []).includes('tot')) return
   erledigt[schluessel] = [...(erledigt[schluessel] ?? []), 'tot']
   try {
-    await chrome.storage.local.set({ erledigt })
+    await speicherSchreiben({ erledigt })
   } catch {
     /* Ohne Speicher bleibt die Anzeige unvollständig, mehr nicht. */
   }
@@ -735,7 +780,7 @@ async function merkeErledigt(id, staffel, folge) {
    */
   if (offeneTitel[String(id)] === undefined) {
     try {
-      const { zuletztGeoeffnet } = await chrome.storage.local.get('zuletztGeoeffnet')
+      const { zuletztGeoeffnet } = (await speicherLesen('zuletztGeoeffnet')) ?? {}
       if (
         zuletztGeoeffnet?.id &&
         offeneTitel[zuletztGeoeffnet.id] !== undefined &&
@@ -758,7 +803,7 @@ async function merkeErledigt(id, staffel, folge) {
   if (bisher.includes(kuerzel)) return
   erledigt[schluessel] = [...bisher, kuerzel]
   try {
-    await chrome.storage.local.set({ erledigt })
+    await speicherSchreiben({ erledigt })
   } catch {
     /* Ohne Speicher bleibt die Anzeige unvollständig, mehr nicht. */
   }
@@ -862,6 +907,13 @@ function beiEscape(e) {
  * Dialog steht für sich, direkt am `body`.
  */
 async function dialogOeffnen() {
+  // Ohne Verbindung gibt es keine Liste -- und keinen stillen Absturz.
+  if (!verbindungLebt()) {
+    if (uebersichtKnopf) {
+      uebersichtKnopf.textContent = 'Erweiterung neu geladen — Seite aktualisieren'
+    }
+    return
+  }
   if (dialog) {
     dialogSchliessen()
     return
@@ -874,7 +926,7 @@ async function dialogOeffnen() {
    * kennt der andere erst nach einem Blick in den Speicher.
    */
   try {
-    const x = await chrome.storage.local.get('erledigt')
+    const x = (await speicherLesen('erledigt')) ?? {}
     erledigt = x.erledigt ?? {}
   } catch {
     /* Dann eben mit dem Stand von vorhin. */
@@ -976,7 +1028,7 @@ async function dialogOeffnen() {
      * richtigen Zeile ein.
      */
     link.addEventListener('click', () => {
-      void chrome.storage.local.set({ zuletztGeoeffnet: { id: String(id), zeit: Date.now() } })
+      void speicherSchreiben({ zuletztGeoeffnet: { id: String(id), zeit: Date.now() } })
     })
     zeile.appendChild(link)
 
@@ -1171,7 +1223,14 @@ async function totMelden(id, titel) {
  * sie hatte ihren Stand beim Öffnen gelesen. `chrome.storage.onChanged` feuert
  * auch, wenn ein anderer Tab schreibt; das ist der Weg dorthin.
  */
-chrome.storage.onChanged.addListener((aenderungen, bereich) => {
+/**
+ * Auch das Anmelden wirft, wenn die Verbindung tot ist.
+ *
+ * Der Listener steht auf oberster Ebene und laeuft beim Skriptstart -- ohne
+ * diese Pruefung stirbt das ganze Skript, bevor es den Knopf zeichnet.
+ */
+if (verbindungLebt())
+  chrome.storage.onChanged.addListener((aenderungen, bereich) => {
   if (bereich !== 'local') return
   // Ein Klick in einem anderen Tab sagt uns, welcher Titel gemeint ist.
   if (aenderungen.zuletztGeoeffnet) {
