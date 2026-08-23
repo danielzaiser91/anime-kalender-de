@@ -31,6 +31,14 @@
 ;(() => {
   const WORKER = 'https://newsletter.animekalender.workers.dev/pruefung'
 
+  /** Kurz und eindeutig — der Knopf hat wenig Platz. */
+  const ZUGANG_TEXT = {
+    kauf: '💰 nur Kauf',
+    kauf_oder_leihe: '💰 Kauf/Leihe',
+    abo_und_kauf: 'Abo + Kauf',
+    abo: 'Abo',
+  }
+
   /** Die Kennung aus der Adresse — beide Formen kommen vor. */
   function asinAusAdresse() {
     return /\/(?:dp|detail)\/([A-Z0-9]{10})/.exec(`${location.pathname}${location.search}`)?.[1] ?? null
@@ -185,6 +193,26 @@
       Number(/"episodeCount"\s*:\s*(\d+)/.exec(text)?.[1]) ||
       Number(/>\s*(\d+)\s*Folgen\s*</.exec(text)?.[1]) ||
       null
+
+    /**
+     * Ein Film hat keine Folgenliste — und damit keine `episodeNumber`.
+     *
+     * Die Suche oben verlangt beides nebeneinander und findet bei „Sing a Bit
+     * of Harmony" deshalb nichts; der Knopf blieb auf „Tonspuren noch nicht
+     * geladen" (Daniel, 23.08.2026, mit Bild). Ein Film ist aber genau der
+     * einfache Fall: **eine** Tonspurangabe für **einen** Titel.
+     *
+     * Erkannt wird er daran, dass die Seite keine Folgenzahl nennt. Gezählt
+     * wird er als eine Einheit, damit der Knopf eine Zahl zeigt und die
+     * Vollständigkeitsprüfung aufgeht.
+     */
+    if (!alle.size && gesamt === null) {
+      for (const m of text.matchAll(/"audioTracks"\s*:\s*\[([^\]]*)\]/g)) {
+        for (const name of sprachnamen(m[1])) alle.add(name)
+      }
+      if (alle.size) nummern.add(1)
+    }
+
     return { sprachen: [...alle], nummern, gesamt }
   }
 
@@ -288,6 +316,41 @@
     if (/^(season|staffel)\s*\d+$/i.test(geputzt)) return null
     if (/^amazon\.de$/i.test(geputzt)) return null
     return geputzt
+  }
+
+  /**
+   * Wie man an diesen Titel kommt: im Abo, gegen Geld, oder beides.
+   *
+   * Amazon führt beides nebeneinander, und die Seite sagt es im Klartext —
+   * „Als Kauftitel verfügbar", „Folge 1 kaufen in HD 2,99 €", „Staffel 1
+   * kaufen HD 29,99 €". Daneben steht das Abo als `benefitId` im Quelltext.
+   *
+   * **Beides zugleich ist der Regelfall, nicht die Ausnahme.** „Akane-banashi"
+   * läuft im aniverse-Abo **und** ist einzeln zu kaufen (Daniel, 23.08.2026,
+   * mit Bild). Wer nur eines meldet, meldet die Hälfte.
+   *
+   * Gelesen wird der **sichtbare Text**, nicht nur das JSON: Ein `benefitId`
+   * steht auch bei Titeln, die zusätzlich Geld kosten, und fehlt bei reinen
+   * Kauftiteln ganz. Die Kaufhinweise sind verlässlicher, weil Amazon sie dem
+   * Kunden zeigen muss.
+   *
+   * Bleibt beides stumm, wird **nichts** behauptet — der Datensatz hat schon
+   * 202 Verweise mit geratener Zugangsart, ein weiterer hilft niemandem.
+   */
+  function zugangsart() {
+    const text = document.documentElement.innerHTML
+    const kauf =
+      /Als Kauf-?\s*(oder Leihtitel|titel)\s*verfügbar/i.test(text) ||
+      /(Folge|Staffel)\s+\d+\s+kaufen/i.test(text) ||
+      /Kaufen\s+(SD|HD|UHD)\b/.test(text)
+    const leihe =
+      /Als Kauf- oder Leihtitel verfügbar/i.test(text) || /Leihen\s+(SD|HD|UHD)\b/.test(text)
+    const abo = abos().length > 0
+
+    if (abo && kauf) return "abo_und_kauf"
+    if (abo) return "abo"
+    if (kauf) return leihe ? "kauf_oder_leihe" : "kauf"
+    return null
   }
 
   /** Welche Abos diese Staffel freischalten — `Prime`, `aniversede`, … */
@@ -415,8 +478,8 @@
      * ganz oben, damit erkennbar ist, wo man steht.
      */
     const eintraege = Object.entries(liste).sort((a, b) => {
-      if (a[0] === id) return -1
-      if (b[0] === id) return 1
+      if (a[0] === listenId) return -1
+      if (b[0] === listenId) return 1
       const d = Number(Boolean(erledigt[a[0]])) - Number(Boolean(erledigt[b[0]]))
       return d || a[1].titel.localeCompare(b[1].titel, 'de')
     })
@@ -430,7 +493,7 @@
       verweis.className = 'ak-titel'
       verweis.href = e.url
       verweis.textContent = e.titel
-      if (asinEintrag === id) verweis.textContent = `▸ ${e.titel}`
+      if (asinEintrag === listenId) verweis.textContent = `▸ ${e.titel}`
       zeile.appendChild(verweis)
 
       // Was an dieser Adresse hängt: mehrere Staffeln unter einer Seite sind
@@ -475,7 +538,25 @@
    */
   if (!id) return // Gar keine Titelseite — dann gibt es nichts zu melden.
 
-  let eintrag = liste[id] ?? {
+  /**
+   * Unter welcher Kennung dieser Titel in **unserer Liste** steht.
+   *
+   * Nicht dieselbe wie die Melde-Kennung: Die Liste entsteht aus den
+   * Adressen im Datensatz, der Quelltext nennt die Kennung der gezeigten
+   * Staffel. Bei „Digimon Tamers" sind das B0CQ4VL364 und B0CKPCSHMC.
+   *
+   * Gesucht wird über beide — und abgehakt wird unter **dieser**, sonst
+   * verschwindet der Eintrag nie aus der Liste.
+   */
+  function listenSchluessel() {
+    const ausAdresse = asinAusAdresse()
+    if (ausAdresse && liste[ausAdresse]) return ausAdresse
+    if (liste[id]) return id
+    return ausAdresse ?? id
+  }
+
+  let listenId = listenSchluessel()
+  let eintrag = liste[listenId] ?? {
     titel: null,
     url: `https://www.amazon.de/dp/${id}`,
     unbekannt: true,
@@ -572,7 +653,10 @@
     // Eine Staffel, die wir nicht führen, wird trotzdem gemeldet — der Knopf
     // sagt es nur dazu, damit die Meldung nicht wie eine Zuordnung aussieht.
     const woher = eintrag.unbekannt ? ' · neu' : ''
-    knopf.textContent = `${deutsch ? '🇩🇪 Deutsch' : '✕ kein Deutsch'} · ${umfang}${woher} · melden`
+    // Die Zugangsart gehört an den Knopf — sonst meldet man sie blind mit.
+    const art = zugangsart()
+    const zugang = art && art !== 'abo' ? ` · ${ZUGANG_TEXT[art]}` : ''
+    knopf.textContent = `${deutsch ? '🇩🇪 Deutsch' : '✕ kein Deutsch'} · ${umfang}${zugang}${woher} · melden`
     knopf.dataset.teilweise = String(!vollstaendig)
   }
 
@@ -630,7 +714,8 @@
     const jetzt = asin()
     if (!jetzt) return
     id = jetzt
-    eintrag = liste[id] ?? {
+    listenId = listenSchluessel()
+    eintrag = liste[listenId] ?? {
       titel: null,
       url: `https://www.amazon.de/dp/${id}`,
       unbekannt: true,
@@ -727,6 +812,14 @@
            */
           staffel: staffelAusAdresse(),
           /**
+           * Wie man an den Titel kommt — im Abo, gegen Geld, oder beides.
+           *
+           * Der Datensatz führt 202 Amazon-Verweise mit behaupteter
+           * Zugangsart „Mit Abo", die niemand geprüft hat. Diese Angabe ist
+           * die einzige, die sie berichtigen kann.
+           */
+          zugang: zugangsart(),
+          /**
            * Die geprüfte Folgenzahl, als Zahl.
            *
            * Sie stand bisher nur in der Notiz („alle 11 Folgen geprüft") und
@@ -753,7 +846,17 @@
             // steht in der Adresse, die andere im Quelltext, und nur die
             // zweite meint die gezeigte Staffel.
             (asinAusAdresse() && asinAusAdresse() !== id ? `, Seitenadresse: ${asinAusAdresse()}` : '') +
-            (staffelAusAdresse() ? `, laut Adresse Staffel ${staffelAusAdresse()}` : ''),
+            (staffelAusAdresse() ? `, laut Adresse Staffel ${staffelAusAdresse()}` : '') +
+            /**
+             * Die Zugangsart auch in die Notiz, nicht nur ins Feld.
+             *
+             * Die Tabelle im Worker hat keine Spalte dafür, und anlegen lässt
+             * sie sich mit den vorhandenen Berechtigungen nicht (D1-API
+             * antwortet 7403). Das Feld bleibt trotzdem im Meldekörper — es
+             * schadet nicht und trägt, sobald die Spalte da ist. Bis dahin ist
+             * die Notiz der Träger: `zugang=kauf` steht maschinenlesbar drin.
+             */
+            (zugangsart() ? `, zugang=${zugangsart()}` : ''),
         }),
       })
       knopf.textContent = antwort.ok ? '✓ gemeldet' : `Fehler ${antwort.status}`
@@ -770,7 +873,10 @@
        * zweites Mal öffnet, soll sehen, was beim ersten Mal herauskam.
        */
       if (antwort.ok) {
-        erledigt[id] = deutsch ? '🇩🇪' : '✕'
+        // Abgehakt wird unter der **Listen**-Kennung — die Meldung selbst
+        // trägt die Kennung aus dem Quelltext, aber die Liste kennt nur
+        // diese hier.
+        erledigt[listenId] = deutsch ? '🇩🇪' : '✕'
         chrome.storage.local.set({ amazonErledigt: erledigt }).catch(() => {})
         uebersichtZeichnen()
       }

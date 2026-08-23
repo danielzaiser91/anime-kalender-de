@@ -403,6 +403,47 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   )
 }
 
+// --- 2f. Abhaken unter der Listen-Kennung ---------------------------------
+
+/**
+ * Der Fehler, den Daniel am 23.08.2026 gemeldet hat.
+ *
+ * „akatsuki no yona, ich hab gemeldet, eintrag bleibt weiterhin in liste und
+ * button wird erneut klickbar obwohl bereits gemeldet." Der Knopf trug dabei
+ * „neu" — für einen Titel, der in der Liste steht.
+ *
+ * Ursache: Die Meldung trägt die Kennung aus dem **Quelltext** (sie meint die
+ * gezeigte Staffel), die Liste ist aber nach der **Adress-ASIN** indiziert.
+ * Abgehakt wurde unter der falschen — der Eintrag blieb stehen.
+ */
+{
+  const asins = Object.keys(ECHTE_LISTE)
+  const listenAsin = asins[0]
+  // Der Quelltext nennt eine ANDERE Kennung, wie bei „Digimon Tamers"
+  // (Adresse B0CQ4VL364, Quelltext B0CKPCSHMC).
+  const { angehaengt, sandkasten, takte, gesetzt } = starte(listenAsin)
+  sandkasten.document.documentElement.innerHTML =
+    '{"titleID":"B0XXXXXXXX"}"audioTracks":["Deutsch"],"episodeNumber":1,"episodeCount":1'
+  for (const takt of takte) takt()
+
+  const knopf = angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))
+  pruefe(
+    'ein Titel aus der Liste gilt nicht als „neu", auch wenn der Quelltext eine andere Kennung nennt',
+    knopf && !knopf.textContent.includes('neu'),
+    knopf?.textContent,
+  )
+
+  knopf?.hoerer?.click?.()
+  setTimeout(() => {
+    const gespeichert = gesetzt.find((x) => x.amazonErledigt)?.amazonErledigt ?? {}
+    pruefe(
+      `abgehakt wird unter der Listen-Kennung (${listenAsin}), nicht unter der aus dem Quelltext`,
+      Object.prototype.hasOwnProperty.call(gespeichert, listenAsin),
+      Object.keys(gespeichert),
+    )
+  }, 30)
+}
+
 // --- 3. Erledigte zählen nicht mehr mit -----------------------------------
 
 {
