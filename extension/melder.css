@@ -218,3 +218,31 @@
   opacity: .7;
 }
 .ak-uebersicht.ak-fertig:hover { opacity: 1; }
+
+/**
+ * Der Amazon-Knopf.
+ *
+ * Unten rechts, klein, und ausdrücklich nicht über dem Bild: Daniel am
+ * 22.08.2026 zur ersten Fassung des Netflix-Knopfes — „die extension stört
+ * beim gucken und will ich da nicht sehen". Auf einer Produktseite wird zwar
+ * nichts abgespielt, aber der Grundsatz bleibt.
+ */
+.ak-amazon-knopf {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 2147483647;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 999px;
+  font: 600 13px/1.2 system-ui, sans-serif;
+  color: #fff;
+  background: #4b5563;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 35%);
+  cursor: pointer;
+  opacity: 0.85;
+}
+.ak-amazon-knopf:hover { opacity: 1; }
+.ak-amazon-knopf[disabled] { cursor: default; opacity: 0.5; }
+.ak-amazon-knopf[data-deutsch='true'] { background: #15803d; }
+.ak-amazon-knopf[data-deutsch='false'] { background: #b91c1c; }

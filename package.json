@@ -44,7 +44,7 @@
     "data:motn:check": "tsx pipeline/check-motn.ts",
     "data:pruefungen": "tsx pipeline/fetch-pruefungen.ts",
     "data:netflix-rest": "node pipeline/list-netflix-rest.mjs",
-    "data:extension-liste": "node tools/extension-offene-liste.mjs",
+    "data:extension-liste": "node tools/extension-offene-liste.mjs && node tools/extension-offene-amazon.mjs",
     "data:youtube:report": "node pipeline/report-youtube.mjs",
     "data:rtlplus": "node pipeline/check-rtlplus.mjs",
     "data:rtlplus:report": "node pipeline/report-rtlplus.mjs",
