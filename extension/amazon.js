@@ -92,7 +92,167 @@
 
   const liste = globalThis.AK_OFFENE_AMAZON ?? {}
   const id = asin()
-  if (!id || !liste[id]) return // Kein Titel von unserer Liste: still bleiben.
+
+  // --- Die Übersicht: was noch zu prüfen ist --------------------------------
+
+  /**
+   * Der Weg in die Liste, ohne eine Datei zu suchen.
+   *
+   * Daniels Frage vom 23.08.2026: „also du hast eine liste für prime
+   * vorbereitet die ich damit durchgehen soll?" — Die Liste gab es, aber nur
+   * in `extension/offene-amazon.js`, einer Datei, die niemand von Hand liest.
+   * Für Netflix steht sie seit dem 22.08. als aufklappbare Übersicht in der
+   * Erweiterung; hier fehlte sie.
+   *
+   * Absichtlich **vor** dem Ausstieg für unbekannte Titel: Der Knopf soll auch
+   * dann erreichbar sein, wenn die gerade geöffnete Seite nicht auf der Liste
+   * steht — sonst käme man aus einer Sackgasse nicht mehr in die Liste zurück.
+   */
+  let erledigt = {}
+  chrome.storage.local
+    .get('amazonErledigt')
+    .then((x) => {
+      erledigt = x.amazonErledigt ?? {}
+      uebersichtZeichnen()
+    })
+    .catch(() => {})
+
+  const offeneZahl = () => Object.keys(liste).filter((a) => !erledigt[a]).length
+
+  /**
+   * Muss **vor** `uebersichtZeichnen()` stehen, nicht darunter.
+   *
+   * `let` hebt den Namen zwar hoch, aber nicht den Wert: Ein Zugriff vor der
+   * Zeile wirft `Cannot access 'dialog' before initialization` — und
+   * `uebersichtZeichnen()` läuft sofort beim Seitenaufbau. Die Erweiterung
+   * wäre auf jeder Amazon-Seite mit einem Fehler ausgestiegen, ohne Knopf und
+   * ohne sichtbare Ursache.
+   */
+  let dialog = null
+
+  const uebersichtKnopf = document.createElement('button')
+  uebersichtKnopf.className = 'ak-uebersicht ak-amazon-uebersicht'
+  uebersichtKnopf.type = 'button'
+  uebersichtKnopf.addEventListener('click', dialogUmschalten)
+  document.body.appendChild(uebersichtKnopf)
+
+  function uebersichtZeichnen() {
+    const offen = offeneZahl()
+    uebersichtKnopf.classList.toggle('ak-fertig', !offen)
+    uebersichtKnopf.textContent = offen ? `${offen} Prime-Titel offen` : 'Prime: alles geprüft'
+    uebersichtKnopf.title = offen
+      ? 'Liste öffnen — Seite aufrufen, warten bis der Knopf eine Zahl zeigt, klicken'
+      : 'Keine offenen Prime-Titel mehr'
+    if (dialog) dialogFuellen()
+  }
+  uebersichtZeichnen()
+
+  function dialogUmschalten() {
+    if (dialog) {
+      dialog.remove()
+      dialog = null
+      return
+    }
+    dialog = document.createElement('div')
+    dialog.className = 'ak-dialog'
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) dialogUmschalten()
+    })
+    document.body.appendChild(dialog)
+    dialogFuellen()
+  }
+
+  function dialogFuellen() {
+    if (!dialog) return
+    dialog.textContent = ''
+
+    const kasten = document.createElement('div')
+    kasten.className = 'ak-kasten'
+    dialog.appendChild(kasten)
+
+    const kopf = document.createElement('div')
+    kopf.className = 'ak-kopf'
+    kasten.appendChild(kopf)
+
+    const titelzeile = document.createElement('strong')
+    const offen = offeneZahl()
+    titelzeile.textContent = offen ? `${offen} Prime-Titel zu prüfen` : 'Alles geprüft'
+    kopf.appendChild(titelzeile)
+
+    const suche = document.createElement('input')
+    suche.className = 'ak-suche'
+    suche.type = 'search'
+    suche.placeholder = 'Suchen'
+    kopf.appendChild(suche)
+
+    // Erledigtes ist standardmäßig weg — dieselbe Entscheidung wie bei
+    // Netflix, und aus demselben Grund: Bei 300 abgehakten Zeilen findet man
+    // die offenen sonst nicht mehr.
+    const umschalter = document.createElement('button')
+    umschalter.className = 'ak-umschalter'
+    umschalter.type = 'button'
+    umschalter.textContent = 'Erledigte zeigen'
+    umschalter.addEventListener('click', () => {
+      const an = kasten.classList.toggle('ak-mit-erledigten')
+      umschalter.textContent = an ? 'Erledigte ausblenden' : 'Erledigte zeigen'
+    })
+    kopf.appendChild(umschalter)
+
+    const inhalt = document.createElement('div')
+    inhalt.className = 'ak-liste'
+    kasten.appendChild(inhalt)
+
+    /**
+     * Offenes zuerst, Erledigtes ans Ende — und der gerade geöffnete Titel
+     * ganz oben, damit erkennbar ist, wo man steht.
+     */
+    const eintraege = Object.entries(liste).sort((a, b) => {
+      if (a[0] === id) return -1
+      if (b[0] === id) return 1
+      const d = Number(Boolean(erledigt[a[0]])) - Number(Boolean(erledigt[b[0]]))
+      return d || a[1].titel.localeCompare(b[1].titel, 'de')
+    })
+
+    for (const [asinEintrag, e] of eintraege) {
+      const zeile = document.createElement('div')
+      zeile.className = 'ak-zeile'
+      if (erledigt[asinEintrag]) zeile.classList.add('ak-abgehakt')
+
+      const verweis = document.createElement('a')
+      verweis.className = 'ak-titel'
+      verweis.href = e.url
+      verweis.textContent = e.titel
+      if (asinEintrag === id) verweis.textContent = `▸ ${e.titel}`
+      zeile.appendChild(verweis)
+
+      // Was an dieser Adresse hängt: mehrere Staffeln unter einer Seite sind
+      // der Regelfall, nicht die Ausnahme.
+      const offeneNamen = e.eintraege.filter((x) => x.offen)
+      if (offeneNamen.length > 1) {
+        const zusatz = document.createElement('span')
+        zusatz.className = 'ak-folge'
+        zusatz.textContent = `${offeneNamen.length} Einträge`
+        zeile.appendChild(zusatz)
+      }
+      if (erledigt[asinEintrag]) {
+        const marke = document.createElement('span')
+        marke.className = 'ak-folge ak-fertig'
+        marke.textContent = erledigt[asinEintrag]
+        zeile.appendChild(marke)
+      }
+      inhalt.appendChild(zeile)
+    }
+
+    suche.addEventListener('input', () => {
+      const q = suche.value.trim().toLowerCase()
+      for (const z of inhalt.children) {
+        z.style.display = !q || z.textContent.toLowerCase().includes(q) ? '' : 'none'
+      }
+    })
+    suche.focus()
+  }
+
+  if (!id || !liste[id]) return // Kein Titel von unserer Liste: kein Melde-Knopf.
 
   const eintrag = liste[id]
 
@@ -266,6 +426,23 @@
         }),
       })
       knopf.textContent = antwort.ok ? '✓ gemeldet' : `Fehler ${antwort.status}`
+      /**
+       * Abgehakt wird erst, wenn die Meldung wirklich angekommen ist.
+       *
+       * Die Liste selbst entsteht beim Datenlauf und weiß bis zum nächsten Bau
+       * nichts von einer Meldung, die noch im Briefkasten liegt. Ohne diese
+       * Markierung stünde jeder eben geprüfte Titel weiter obenauf — bei
+       * Netflix war genau das Daniels Beschwerde („7seeds already checked but
+       * still in list", 22.08.2026).
+       *
+       * Vermerkt wird der Befund, nicht nur ein Haken: Wer eine Seite ein
+       * zweites Mal öffnet, soll sehen, was beim ersten Mal herauskam.
+       */
+      if (antwort.ok) {
+        erledigt[id] = deutsch ? '🇩🇪' : '✕'
+        chrome.storage.local.set({ amazonErledigt: erledigt }).catch(() => {})
+        uebersichtZeichnen()
+      }
     } catch (err) {
       knopf.textContent = `Nicht erreichbar: ${err.message}`
     }

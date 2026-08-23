@@ -246,3 +246,10 @@
 .ak-amazon-knopf[disabled] { cursor: default; opacity: 0.5; }
 .ak-amazon-knopf[data-deutsch='true'] { background: #15803d; }
 .ak-amazon-knopf[data-deutsch='false'] { background: #b91c1c; }
+
+/* Auf Amazon stehen beide Knöpfe gleichzeitig da — bei Netflix schließen sie
+   sich aus (Übersicht außerhalb des Players, Melder darin). Ohne diese Zeile
+   liegt die Übersicht genau unter dem Melde-Knopf und ist nicht anklickbar. */
+.ak-uebersicht.ak-amazon-uebersicht {
+  bottom: 62px;
+}

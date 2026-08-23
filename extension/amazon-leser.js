@@ -87,7 +87,7 @@
    * Umbau bei Amazon kommt bestimmt.
    */
   const diagnose = {
-    fassung: '0.50.3',
+    fassung: '0.51.0',
     anlaeufe: 0,
     quelltextLaenge: 0,
     titleID: null,
