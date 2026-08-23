@@ -11,7 +11,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260816T140000Z
 DTEND:20260816T143000Z
 SUMMARY:The 100 Girlfriends Who Really\, Really\, Really\, Really\, REALLY 
- Love You Staffel 3 – Folge 28/28
+ Love You Staffel 3 – Folge 28/29
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GNVHKN933
 CATEGORIES:Crunchyroll
@@ -115,6 +115,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:cr-GNVHKN933@2026-08-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260823T140000Z
+DTEND:20260823T143000Z
+SUMMARY:The 100 Girlfriends Who Really\, Really\, Really\, Really\, REALLY 
+ Love You Staffel 3 – Folge 29/29
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GNVHKN933
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-587@2026-08-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260824T070000Z
@@ -134,6 +145,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/skeleton-knight-s2
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-198113-adn@2026-08-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260824
+DTEND;VALUE=DATE:20260825
+SUMMARY:KILL BLUE
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/#/release/auto-198113-adn
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:vom-landei-zum-schwertheiligen-2@2026-08-27@anime-kalender-de
