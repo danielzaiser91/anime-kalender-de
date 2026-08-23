@@ -71,6 +71,35 @@
   let laeuft = false
   let titleID = null
 
+  /**
+   * Der Stand des Lesers, ablesbar aus der Konsole.
+   *
+   * Zweimal hintereinander blieb der Knopf bei „24 von 51" stehen, und beide
+   * Male war die Ursache eine andere als vermutet — einmal fehlte die
+   * Netzantwort, einmal der richtige Feldname. Geraten wurde jedes Mal zuerst.
+   *
+   * Diese Aufstellung sagt in einem Zug, wie weit der Leser gekommen ist:
+   * ob er läuft, ob er die Kennung hat, wie viele Abschnitte er sieht, was er
+   * angefordert hat und woran es scheiterte. `copy(JSON.stringify(
+   * window.__akAmazon))` in der Konsole genügt.
+   *
+   * Sie bleibt dauerhaft drin. Ein paar Zähler kosten nichts, und der nächste
+   * Umbau bei Amazon kommt bestimmt.
+   */
+  const diagnose = {
+    fassung: '0.50.2',
+    anlaeufe: 0,
+    quelltextLaenge: 0,
+    titleID: null,
+    titleIDfundstellen: 0,
+    episodePagesGefunden: false,
+    tokensImQuelltext: 0,
+    tokensAusAntwort: 0,
+    abrufe: [],
+    fehler: [],
+  }
+  window.__akAmazon = diagnose
+
   const warte = (ms) => new Promise((r) => setTimeout(r, ms))
 
   /**
@@ -168,10 +197,13 @@
             credentials: 'include',
             headers: { accept: 'application/json', 'x-requested-with': 'XMLHttpRequest' },
           })
-          if (antwort.ok) auswerten(await antwort.text(), antwort.url)
-        } catch {
+          const text = antwort.ok ? await antwort.text() : ''
+          diagnose.abrufe.push({ status: antwort.status, zeichen: text.length })
+          if (antwort.ok) auswerten(text, antwort.url)
+        } catch (err) {
           /* Ein fehlgeschlagener Abschnitt lässt die Zahl unvollständig — und
              damit meldet der Knopf ausdrücklich einen Ausschnitt. */
+          diagnose.fehler.push(String(err?.message ?? err).slice(0, 120))
         }
         await warte(PAUSE_MS)
       }
@@ -207,32 +239,53 @@
   function ausSeite() {
     const html = document.documentElement?.innerHTML
     if (typeof html !== 'string') return
+    diagnose.quelltextLaenge = html.length
 
+    /**
+     * **Jede** Fundstelle wird probiert, nicht die erste.
+     *
+     * `titleID` steht in einem Seitenquelltext dieser Größe vielfach — in
+     * Empfehlungsleisten, in Verfolgungsmarken, in Vorlagen ohne Wert. Die
+     * erste Fundstelle zu nehmen und beim Misserfolg aufzugeben heißt, an der
+     * falschen Stelle zu scheitern und die richtige nie zu sehen.
+     */
     if (!titleID) {
-      // Gesucht wird am **entmaskierten Ausschnitt**, nicht am ganzen
-      // Quelltext: Amazon legt sein JSON mal roh in einem Skriptblock ab, mal
-      // maskiert in einem HTML-Attribut (`\"titleID\":\"…\"`). Eine Regex, die
-      // beide Formen abdeckt, wird unlesbar — den Ausschnitt zu säubern ist
-      // billiger und trägt auch die dritte Form, die noch kommt.
-      const wo = html.indexOf('titleID')
-      if (wo < 0) return
-      titleID = /titleID\\?"\s*:\s*\\?"([A-Z0-9]{10})/.exec(html.slice(wo, wo + 80))?.[1] ?? null
+      const stellen = [...html.matchAll(/titleID/g)].map((m) => m.index)
+      diagnose.titleIDfundstellen = stellen.length
+      for (const i of stellen) {
+        // Gesucht wird am kurzen Ausschnitt: Amazon legt sein JSON mal roh in
+        // einem Skriptblock ab, mal maskiert in einem HTML-Attribut
+        // (`\"titleID\":\"…\"`). Eine Regex für beide Formen wird unlesbar.
+        const treffer = /titleID\\*"\s*:\s*\\*"([A-Z0-9]{10})/.exec(html.slice(i, i + 80))
+        if (treffer) {
+          titleID = treffer[1]
+          break
+        }
+      }
+      diagnose.titleID = titleID
     }
     if (!titleID) return
 
-    const start = html.indexOf('episodePages')
-    if (start < 0) return
-    const block = html.slice(start, start + 12000).replace(/\\+"/g, '"')
-
-    const tokens = []
-    for (const m of block.matchAll(/"isSelected"\s*:\s*(true|false)[\s\S]{0,300}?"token"\s*:\s*"([^"]{20,})"/g)) {
-      // Der gewählte Abschnitt steht schon im HTML — seine Folgen hat
-      // `amazon.js` bereits gezählt. Ihn zu holen brächte nichts als einen
-      // Zugriff mehr.
-      if (m[1] === 'true') geholt.add(m[2])
-      tokens.push(m[2])
+    // Dasselbe hier: Der erste `episodePages`-Fund muss nicht der mit den
+    // Tokens sein.
+    const stellen = [...html.matchAll(/episodePages/g)].map((m) => m.index)
+    diagnose.episodePagesGefunden = stellen.length > 0
+    for (const start of stellen) {
+      const block = html.slice(start, start + 20000).replace(/\\+"/g, '"')
+      const tokens = []
+      for (const m of block.matchAll(/"isSelected"\s*:\s*(true|false)[\s\S]{0,400}?"token"\s*:\s*"([^"]{20,})"/g)) {
+        // Der gewählte Abschnitt steht schon im HTML — seine Folgen hat
+        // `amazon.js` bereits gezählt. Ihn zu holen brächte nichts als einen
+        // Zugriff mehr.
+        if (m[1] === 'true') geholt.add(m[2])
+        tokens.push(m[2])
+      }
+      if (tokens.length > 1) {
+        diagnose.tokensImQuelltext = tokens.length
+        void nachholen(tokens)
+        return
+      }
     }
-    if (tokens.length > 1) void nachholen(tokens)
   }
 
   // --- fetch ---------------------------------------------------------------
@@ -296,13 +349,15 @@
    * Sobald `nachholen()` einmal gegriffen hat, sind die Tokens in `geholt` und
    * weitere Anläufe tun nichts.
    */
-  let anlaeufe = 0
   const takt = setInterval(() => {
-    if (++anlaeufe > 20 || geholt.size) clearInterval(takt)
+    // 60 Anläufe à 500 ms sind 30 Sekunden. Die erste Fassung gab nach zehn
+    // auf — großzügig gerechnet für eine schnelle Leitung, knapp für eine
+    // Seite, die ihren Inhalt in mehreren Wellen nachlädt.
+    if (++diagnose.anlaeufe > 60 || diagnose.tokensImQuelltext) clearInterval(takt)
     try {
       ausSeite()
-    } catch {
-      /* Ein misslungener Anlauf ändert nichts am Mitlesen. */
+    } catch (err) {
+      diagnose.fehler.push(String(err?.message ?? err).slice(0, 120))
     }
   }, 500)
   try {
