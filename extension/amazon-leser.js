@@ -180,6 +180,61 @@
     }
   }
 
+  // --- Der Seitenquelltext --------------------------------------------------
+
+  /**
+   * Beim ersten Seitenaufbau gibt es nichts mitzulesen.
+   *
+   * Amazon liefert den ersten Abschnitt **im HTML** mit — es fliegt also keine
+   * Antwort vorbei, an die sich der Mitleser hängen könnte. Ohne diesen Weg
+   * blieb der Knopf deshalb bei „24 von 51 — Abschnitte selbst öffnen" stehen,
+   * obwohl die Zugänge zu den übrigen Abschnitten längst auf der Seite lagen
+   * (Daniel, 23.08.2026, mit Bild).
+   *
+   * Gemessen an derselben Seite, welche Felder es wirklich sind:
+   *
+   * ```
+   * "titleID":"B0CKPCSHMC"          ← nicht die ASIN der Seite (B0CQ4VL364)!
+   * "episodePages":[{"isSelected":true,…,"token":"ADAAAAIEAGJhbXpuMS5…"}]
+   * ```
+   *
+   * **Beide Namen waren zu messen, nicht zu erraten.** Der erste Versuch suchte
+   * nach `widgetToken` — so heißt das Feld im *Aufruf*, im Seitenquelltext
+   * heißt es `token`. Und die `titleID` aus der Adresse zu bauen wäre
+   * fehlgegangen: Die Seite liegt unter `B0CQ4VL364`, der Abruf braucht
+   * `B0CKPCSHMC`.
+   */
+  function ausSeite() {
+    const html = document.documentElement?.innerHTML
+    if (typeof html !== 'string') return
+
+    if (!titleID) {
+      // Gesucht wird am **entmaskierten Ausschnitt**, nicht am ganzen
+      // Quelltext: Amazon legt sein JSON mal roh in einem Skriptblock ab, mal
+      // maskiert in einem HTML-Attribut (`\"titleID\":\"…\"`). Eine Regex, die
+      // beide Formen abdeckt, wird unlesbar — den Ausschnitt zu säubern ist
+      // billiger und trägt auch die dritte Form, die noch kommt.
+      const wo = html.indexOf('titleID')
+      if (wo < 0) return
+      titleID = /titleID\\?"\s*:\s*\\?"([A-Z0-9]{10})/.exec(html.slice(wo, wo + 80))?.[1] ?? null
+    }
+    if (!titleID) return
+
+    const start = html.indexOf('episodePages')
+    if (start < 0) return
+    const block = html.slice(start, start + 12000).replace(/\\+"/g, '"')
+
+    const tokens = []
+    for (const m of block.matchAll(/"isSelected"\s*:\s*(true|false)[\s\S]{0,300}?"token"\s*:\s*"([^"]{20,})"/g)) {
+      // Der gewählte Abschnitt steht schon im HTML — seine Folgen hat
+      // `amazon.js` bereits gezählt. Ihn zu holen brächte nichts als einen
+      // Zugriff mehr.
+      if (m[1] === 'true') geholt.add(m[2])
+      tokens.push(m[2])
+    }
+    if (tokens.length > 1) void nachholen(tokens)
+  }
+
   // --- fetch ---------------------------------------------------------------
 
   // Festgehalten, bevor die eigene Fassung gesetzt wird: Das Nachholen ruft
@@ -228,5 +283,31 @@
     }
   } catch {
     /* Ohne Mitlesen bleibt der Stand aus dem HTML. */
+  }
+
+  // --- Anlauf ---------------------------------------------------------------
+
+  /**
+   * Der Quelltext wird mehrfach befragt, nicht einmal.
+   *
+   * Das Skript läuft bei `document_start`, da steht vom Seitenkörper noch
+   * nichts. Wie lange Amazon braucht, bis die Folgenliste im Quelltext steht,
+   * hängt an Leitung und Gerät — deshalb wird nachgesehen statt geraten.
+   * Sobald `nachholen()` einmal gegriffen hat, sind die Tokens in `geholt` und
+   * weitere Anläufe tun nichts.
+   */
+  let anlaeufe = 0
+  const takt = setInterval(() => {
+    if (++anlaeufe > 20 || geholt.size) clearInterval(takt)
+    try {
+      ausSeite()
+    } catch {
+      /* Ein misslungener Anlauf ändert nichts am Mitlesen. */
+    }
+  }, 500)
+  try {
+    ausSeite()
+  } catch {
+    /* Beim ersten Anlauf ist der Seitenkörper meist noch leer — erwartet. */
   }
 })()

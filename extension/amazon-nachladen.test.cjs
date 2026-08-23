@@ -52,6 +52,10 @@ console.log('Zusicherungen für das Amazon-Nachladen\n')
  * `fetch`, das mitschreibt, welche Adressen er von sich aus anfordert.
  */
 function starte() {
+  return starteMit(seitenQuelltext)
+}
+
+function starteMit(quelltext) {
   const nachrichten = []
   const angefordert = []
 
@@ -83,9 +87,14 @@ function starte() {
   const sandkasten = {
     window: fensterEigenschaften,
     XMLHttpRequest,
-    location: { href: 'https://www.amazon.de/gp/video/detail/B0CKPCSHMC/' },
+    // Bewusst die ASIN der **Seite** — sie ist eine andere als die `titleID`,
+    // die der Abruf braucht. Wer sie aus der Adresse baut, liegt falsch.
+    location: { href: 'https://www.amazon.de/gp/video/detail/B0CQ4VL364/' },
+    document: { documentElement: { innerHTML: quelltext } },
     URL,
     setTimeout,
+    setInterval,
+    clearInterval,
     console,
   }
   sandkasten.globalThis = sandkasten
@@ -94,6 +103,32 @@ function starte() {
 
   return { sandkasten, nachrichten, angefordert, XMLHttpRequest }
 }
+
+/**
+ * Der Seitenquelltext, wie ihn Amazon beim ersten Aufbau ausliefert.
+ *
+ * Die Feldnamen sind gemessen (Daniel, 23.08.2026, Konsole auf der
+ * Digimon-Seite) — und beide waren anders, als sie zu erraten gewesen wären:
+ *
+ *   - Das Token heißt `token`, nicht `widgetToken`. So heißt es nur im Aufruf.
+ *   - `titleID` ist **nicht** die ASIN der Seite: Die Seite liegt unter
+ *     `B0CQ4VL364`, der Abruf braucht `B0CKPCSHMC`.
+ *
+ * Die drei Tokens werden aus der archivierten API-Antwort gelesen, nicht
+ * abgeschrieben — sie sind dieselben, die auch im Seitenquelltext stehen.
+ */
+const seitenQuelltext = (() => {
+  const seiten = JSON.parse(antwort).widgets.episodeList.actions.episodePages
+  const block = seiten
+    .map((s) => `{"isSelected":${s.isSelected},"text":{"string":${JSON.stringify(s.text.string)}},"token":${JSON.stringify(s.token)}}`)
+    .join(',')
+  return (
+    '<html><body><div id="dv-dp-left-content">…</div>' +
+    '<script type="text/template">{"pageTitleId":"B0CQ4VL364","titleID":"B0CKPCSHMC",' +
+    `"episodeList":{"actions":{"episodePages":[${block}]},"episodeCount":51}}</script>` +
+    '</body></html>'
+  )
+})()
 
 // --- 1. Die echte Antwort wird ausgewertet --------------------------------
 
@@ -138,6 +173,57 @@ function starte() {
     abstand > 0,
     abstand,
   )
+}
+
+// --- 1b. Der Weg über den Seitenquelltext ---------------------------------
+
+/**
+ * Der Fall, an dem die erste Fassung scheiterte.
+ *
+ * Beim ersten Seitenaufbau liefert Amazon den Abschnitt **im HTML** — es
+ * fliegt keine Antwort vorbei, an die sich ein Mitleser hängen könnte. Ohne
+ * diesen Weg blieb der Knopf bei „24 von 51 — Abschnitte selbst öffnen"
+ * stehen, obwohl die Tokens auf der Seite lagen.
+ *
+ * Hier wird **nichts** über XHR oder fetch eingespeist: allein aus dem
+ * Quelltext muss das Nachholen anlaufen.
+ */
+{
+  const { angefordert } = starte()
+  setTimeout(() => {
+    pruefe(
+      'allein aus dem Seitenquelltext werden zwei Abschnitte nachgeholt',
+      angefordert.length === 2,
+      angefordert.length,
+    )
+    pruefe(
+      'die titleID stammt aus dem Quelltext (B0CKPCSHMC), nicht aus der Adresse (B0CQ4VL364)',
+      angefordert.every((a) => a.includes('titleID=B0CKPCSHMC')),
+      angefordert[0]?.slice(0, 70),
+    )
+  }, 1200)
+}
+
+// --- 1c. Derselbe Quelltext, aber maskiert --------------------------------
+
+/**
+ * Amazon legt seine Zustandsdaten mal roh in einem Skriptblock ab, mal
+ * maskiert in einem HTML-Attribut (`data-config="{&quot;…\"token\":\"…"`).
+ * Welche Form eine Seite wählt, hängt am Baustein, der sie erzeugt — und
+ * ändert sich ohne Ankündigung.
+ *
+ * Der Leser darf sich an keiner von beiden festmachen.
+ */
+{
+  const maskiert = seitenQuelltext.replace(/"/g, '\\"')
+  const { angefordert } = starteMit(maskiert)
+  setTimeout(() => {
+    pruefe(
+      'auch aus maskiertem Quelltext werden die Abschnitte nachgeholt',
+      angefordert.length === 2,
+      angefordert.length,
+    )
+  }, 1200)
 }
 
 // --- 2. Die übrigen Abschnitte werden nachgeholt --------------------------
