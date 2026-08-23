@@ -54,6 +54,35 @@ Dazu kommt ein Fall, der stutzig macht: **DanMachi** (`G6DQN9KGR`) steht in dies
 eine große, laufende Reihe. Entweder ist sie in Deutschland wirklich nicht auf Crunchyroll,
 oder die Messung greift bei manchen Serien daneben. Das entscheidet die Stichprobe (Aufgabe E).
 
+### Auch die 86 Adressen: dasselbe Bild, plus drei Datenfehler
+
+Gemessen am 23.08.2026, 20:30. Die 86 zerfallen nach Adressform:
+
+| Form | Zahl | Beispiel |
+|---|---|---|
+| Folgen-Adresse statt Serien-Adresse | 38 | `/amagi-brilliant-park/episode-14-800072?ssid=` |
+| Serien-Adresse mit Slug | 25 | `/de/jungle-emperor-leo` |
+| sonstige Formen | 22 | `/cencoroll-connect/de-cencoroll-connect-…` |
+| **eine Amazon-Adresse im Crunchyroll-Bestand** | 1 | `https://www.amazon.de/dp/B0C9H2BQWM` |
+
+**Der eigene Fehler zuerst:** Die erste Messung nahm das letzte Pfadstück als Suchbegriff und
+fragte damit nach „episode 14 800072". Die Crunchyroll-Suche antwortet auf alles mit drei
+Ergebnissen, also meldete der Lauf „7 von 8 wiedergefunden" — richtig war **einer**. Eine
+Trefferquote aus einer Suche, die nie leer ausgeht, misst gar nichts.
+
+Mit korrekt gezogenem Serien-Slug und **exaktem** `slug_title`-Vergleich (keine Ähnlichkeit,
+keine Schwelle) sind es 10 von 25. Eine Bewertung nach Wortanteil war zwischendurch versucht
+und wieder verworfen: Bei Schwelle 60 % fiel `haikyu-dubs → Haikyu!!` zu Unrecht durch, während
+`detektiv-conan-movies → Detektiv Conan` zu Unrecht durchkam — die Filme sind nicht die Serie.
+
+**Und die 10 Treffer bestätigen den Befund von oben:** sieben davon haben `episode_count: 0`.
+Nur `love-stage` (10), `origin-spirits-of-the-past` (1) und `fairy-tail-movies` (1) führen
+überhaupt Folgen.
+
+Der Schluss über alle 453 Serien ohne Staffeldaten lautet damit: **Das ist zum weit
+überwiegenden Teil kein Datenfehler bei uns, sondern eine Aussage über das deutsche
+Crunchyroll-Angebot.** Was daraus für die Verweise folgt, hängt an Stichprobe E.
+
 ### Was ohne Daniel geht
 
 | # | Aufgabe | SP |
