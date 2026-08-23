@@ -127,6 +127,55 @@ Abo-Titel und Kauftitel nebeneinander. Sie gilt nur noch, wo keine gemessene Ang
 
 ---
 
+## Wessen Staffelschnitt gilt — und wie die Folgen zugeordnet werden
+
+Daniels Entscheidung vom 23.08.2026: „wir beziehen schließlich für den kalender die infos von
+anisearch bezüglich staffel cover produktionsjahr, originaltitel, synchronsprecher etc. …
+deshalb würde es glaub ich sinn machen sich auch bezüglich staffel abgrenzung an anilist (oder
+anisearch …) zu halten."
+
+**So ist es umgesetzt.** Cover, Titel, Jahr, Folgenzahl und Sprecher kommen von AniList und
+aniSearch; käme die Staffelabgrenzung von Crunchyroll, stünden zwei Wahrheiten in einer Zeile.
+**Crunchyroll liefert die Tonspur, nicht die Struktur.**
+
+### Die episodenspezifische Zuordnung
+
+Sein zweiter Vorschlag im selben Zug: „um ganz sicher zu sein, sollten wir echte episoden immer
+durchzählen, und erst dann versuchen sie in die muster zu gießen." Genau das tut
+`beurteileNachFolgennummern` seit dem 23.08.2026.
+
+Der Anlass war Golden Kamuy: Crunchyroll führt dort **einen** Block mit 49 durchgezählten
+Folgen — das sind unsere Staffeln 1 bis 4. Über Blockgrößen ist nichts zuzuordnen, keine
+unserer Staffeln hat 49 Folgen. Über Nummern schon:
+
+```
+Crunchyroll : Block 1 → 1–49 deutsch,  Final Season → 50–62 deutsch
+wir         : 12+12+12+13+13 = 62      → 1–12, 13–24, 25–36, 37–49, 50–62
+```
+
+**Gruppiert wird dabei über `seriesId`, nicht über die Adresse.** Unsere fünf Staffeln hängen
+an drei verschiedenen Schreibweisen derselben Serie (`http://…`, `https://…`,
+`…/series/GY8DWQN5Y/…`) und kämen über die Adresse nie zusammen — erst zusammen ergeben sie
+die Summe, die die Zuordnung braucht.
+
+**Gemessen:** 36 Serien zählen durch, 162 blockweise, 207 haben nur einen Block. Der neue Weg
+liefert fünf Urteile, die der alte nicht hat — und **39, bei denen beide Wege unabhängig zum
+selben Ergebnis kommen.** Das ist die eigentliche Ausbeute: eine Kreuzvalidierung zweier
+Verfahren.
+
+### Was er bewusst nicht kann
+
+| Lage | warum kein Urteil |
+|---|---|
+| Blöcke beginnen je neu bei 1 (KONOSUBA) | eine Nummer sagt nichts über die Staffel |
+| unsere Reihe unvollständig (Fruits Basket) | alles läge verschoben — genau der Fehler von vorhin |
+| ein Block ist teils deutsch | die Lage der undeutschen Folgen ist nicht ableitbar |
+| ein Block hat **keine** deutsche Folge | er trägt keine Nummern, also ist unbekannt, welchen Abschnitt er belegt — bei Golden Kamuy liegt der OAD-Block sogar **außerhalb** der Zählung (49 → 50) |
+
+Der letzte Punkt heißt konkret: „Free! Staffel 1 und 2 ohne deutsche Fassung" bleibt der
+Handprüfung überlassen. Automatisch belegbar ist dort nur die Anwesenheit, nicht die
+Abwesenheit.
+
 ## Robustheitstest: `npm run check:quellen`
 
 Daniels Auftrag vom 23.08.2026: „jeden anbieter einmal abklopfen, wie es der automatische lauf

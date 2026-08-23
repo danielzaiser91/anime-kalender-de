@@ -441,3 +441,100 @@ export function beurteile(serie: CrSerie, unsere: Title[]): Urteil[] {
   if (zeiger < sortiert.length) return []
   return urteile
 }
+
+/**
+ * Zuordnung über die **durchgezählten Folgennummern** statt über Blockgrößen.
+ *
+ * ## Daniels Vorschlag (23.08.2026)
+ *
+ * „die zuordnung müsste man episodenspezifisch machen … wenn staffel trennung
+ * eigentlich bei ep 12 zu ep 13 wäre, und crunchy einfach durchzählt, dann
+ * wissen wir ja trotzdem das 13 eig staffel 2 folge 1 ist. also um ganz sicher
+ * zu sein, sollten wir echte episoden immer durchzählen, und erst dann
+ * versuchen sie in die muster zu gießen."
+ *
+ * Und zur Frage, wessen Staffelschnitt gilt: **unserer.** Cover, Titel, Jahr,
+ * Folgenzahl und Sprecher kommen von AniList und aniSearch; käme die
+ * Staffelabgrenzung von Crunchyroll, stünden zwei Wahrheiten in einer Zeile.
+ * Crunchyroll liefert hier die Tonspur, nicht die Struktur.
+ *
+ * ## Warum das den Golden-Kamuy-Fall löst
+ *
+ * Dort führt Crunchyroll **einen** Block „Golden Kamuy" mit 49 Folgen — das
+ * sind unsere Staffeln 1 bis 4. Über Blockgrößen ist da nichts zuzuordnen:
+ * keine unserer Staffeln hat 49 Folgen. Über die Nummern schon, denn
+ * Crunchyroll zählt hier durch:
+ *
+ * ```
+ * Crunchyroll : Block 1 → Folgen 1–49 deutsch,  Final Season → 50–62 deutsch
+ * wir         : 12 + 12 + 12 + 13 + 13 = 62     → 1–12, 13–24, 25–36, 37–49, 50–62
+ * ```
+ *
+ * ## Die drei Sperren, ohne die es gefährlich wäre
+ *
+ * 1. **Nur bei durchlaufender Nummerierung.** Bei KONOSUBA beginnt jeder Block
+ *    wieder bei 1 (`1…10`, `1…10`) — dort sagt eine Nummer nichts über die
+ *    Staffel, und dieser Weg greift nicht. Gemessen am 23.08.2026: 36 Serien
+ *    zählen durch, 162 blockweise.
+ * 2. **Die Summe muss exakt aufgehen.** Unsere Folgenzahlen zusammen müssen der
+ *    höchsten Folgennummer entsprechen. Fehlt uns eine Staffel, verschiebt sich
+ *    sonst alles — genau der Fruits-Basket-Fehler, bei dem unser „2nd Season"
+ *    an Crunchyrolls Staffel 1 geriet und ein falsches `dub: false` bekam.
+ * 3. **Nur ganz oder gar nicht.** Eine Staffel, deren Nummern teils deutsch und
+ *    teils nicht sind, bleibt ohne Urteil: Wo genau die Grenze liegt, ist eine
+ *    Frage für `dubRanges`, nicht für ein Ja/Nein.
+ */
+export function beurteileNachFolgennummern(serie: CrSerie, unsere: Title[]): Urteil[] {
+  if (!unsere.length) return []
+  if (serie.katalog !== 'de' || !serie.deutschImAngebot) return []
+
+  const bloecke = (serie.staffeln ?? []).filter((s) => (s.deutscheFolgen ?? []).length)
+  if (bloecke.length < 2) return []
+
+  const bereiche = bloecke.map((s) => {
+    const n = (s.deutscheFolgen ?? [])
+      .map((f) => f.nummer)
+      .filter((x): x is number => typeof x === 'number' && Number.isFinite(x))
+    return { von: Math.min(...n), bis: Math.max(...n), anzahl: n.length }
+  })
+  if (bereiche.some((b) => !Number.isFinite(b.von) || !Number.isFinite(b.bis))) return []
+
+  // Sperre 1: Überlappen sich zwei Blöcke, zählt Crunchyroll je Block neu.
+  const sortiertNachNummer = bereiche.slice().sort((a, b) => a.von - b.von)
+  for (let i = 1; i < sortiertNachNummer.length; i++) {
+    if (sortiertNachNummer[i].von <= sortiertNachNummer[i - 1].bis) return []
+  }
+
+  const deutscheNummern = new Set<number>()
+  for (const s of bloecke) {
+    for (const f of s.deutscheFolgen ?? []) {
+      if (typeof f.nummer === 'number' && Number.isFinite(f.nummer)) deutscheNummern.add(f.nummer)
+    }
+  }
+
+  const hoechste = Math.max(...bereiche.map((b) => b.bis))
+  const sortiert = unsere.slice().sort((a, b) => (a.jpYear ?? 0) - (b.jpYear ?? 0) || a.id - b.id)
+  const summe = sortiert.reduce((n, t) => n + (t.episodes ?? 0), 0)
+
+  // Sperre 2: Die Reihe muss vollständig sein.
+  if (!summe || summe !== hoechste) return []
+
+  const urteile: Urteil[] = []
+  let gelesen = 0
+  for (const t of sortiert) {
+    const anzahl = t.episodes ?? 0
+    if (!anzahl) return []
+    const von = gelesen + 1
+    const bis = gelesen + anzahl
+    gelesen = bis
+    let deutsch = 0
+    for (let n = von; n <= bis; n++) if (deutscheNummern.has(n)) deutsch++
+    // Sperre 3: nur eindeutige Staffeln.
+    if (deutsch === anzahl) {
+      urteile.push({ titleId: t.id, dub: true, grund: `Folgen ${von}–${bis} bei Crunchyroll durchgehend deutsch` })
+    } else if (deutsch === 0) {
+      urteile.push({ titleId: t.id, dub: false, grund: `Folgen ${von}–${bis} bei Crunchyroll ohne deutsche Fassung` })
+    }
+  }
+  return urteile
+}

@@ -15,7 +15,7 @@ import { loadCurated, loadWatchLinks, type CuratedEntry } from './lib/curated.ts
 import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
 import { zugangsart } from '../shared/zugangsart.ts'
 import { dubKey, loadDubChecks } from './lib/dub-confirmed.ts'
-import { beurteile, type CrDubData } from './lib/crunchyroll-dub.ts'
+import { beurteile, beurteileNachFolgennummern, type CrDubData } from './lib/crunchyroll-dub.ts'
 import { LEER as MOTN_LEER, ordneShowsZu, tmdbZuordnung, uebernehmbar, type MotnDaten } from './lib/motn.ts'
 import type { TmdbInfo } from './lib/tmdb.ts'
 import {
@@ -2154,6 +2154,48 @@ function main(): void {
         belegt++
       }
     }
+
+    /**
+     * Zweite Runde: über die **Serienkennung** statt über die Adresse.
+     *
+     * Dieselbe Crunchyroll-Serie steht bei uns unter mehreren Schreibweisen —
+     * `http://…/golden-kamuy`, `https://…/golden-kamuy` und
+     * `…/series/GY8DWQN5Y/golden-kamuy` sind für die Zuordnung drei verschiedene
+     * Töpfe, obwohl `seriesId` dreimal `GY8DWQN5Y` lautet. Unsere fünf
+     * Golden-Kamuy-Staffeln verteilen sich genau so und kommen über die Adresse
+     * nie zusammen.
+     *
+     * Erst zusammen ergeben sie die Summe, die `beurteileNachFolgennummern`
+     * braucht: 12+12+12+13+13 = 62, und genau bis 62 zählt Crunchyroll dort
+     * seine deutschen Folgen (Daniels Vorschlag vom 23.08.2026, die Zuordnung
+     * episodenspezifisch statt über Blockgrößen zu machen).
+     *
+     * Diese Runde läuft **nach** der ersten und respektiert deren Ergebnis:
+     * Was schon ein Urteil hat, wird nicht angefasst.
+     */
+    const nachSerienId = new Map<string, { serie: (typeof crDub.serien)[number]; titel: Map<number, Title> }>()
+    for (const serie of crDub.serien) {
+      if (!serie.seriesId || serie.nichtVerfuegbar) continue
+      const eintrag = nachSerienId.get(serie.seriesId) ?? { serie, titel: new Map<number, Title>() }
+      // Der Eintrag mit den meisten Folgendaten gewinnt — Adressen derselben
+      // Serie tragen unterschiedlich viel, je nachdem wann sie geholt wurden.
+      const bisher = (eintrag.serie.staffeln ?? []).reduce((n, s) => n + (s.deutscheFolgen?.length ?? 0), 0)
+      const jetzt = (serie.staffeln ?? []).reduce((n, s) => n + (s.deutscheFolgen?.length ?? 0), 0)
+      if (jetzt > bisher) eintrag.serie = serie
+      for (const t of nachUrl.get(serie.url) ?? []) eintrag.titel.set(t.id, t)
+      nachSerienId.set(serie.seriesId, eintrag)
+    }
+    let ueberNummern = 0
+    for (const { serie, titel: gruppe } of nachSerienId.values()) {
+      for (const urteil of beurteileNachFolgennummern(serie, [...gruppe.values()])) {
+        const title = titles.get(urteil.titleId)
+        const stream = title?.streams.find((s) => s.platform === 'crunchyroll')
+        if (!stream || stream.dub !== undefined) continue
+        stream.dub = urteil.dub
+        ueberNummern++
+      }
+    }
+    if (ueberNummern) log(`${ueberNummern} weitere über die durchgezählten Folgennummern belegt`)
     log(`${belegt} Synchro-Angaben aus den Crunchyroll-Serienseiten belegt (${crDub.serien.length} Seiten gelesen)`)
     if (verschwunden) log(`${verschwunden} Crunchyroll-Verweise entfernt — die Serie ist dort nicht mehr verfügbar`)
   }

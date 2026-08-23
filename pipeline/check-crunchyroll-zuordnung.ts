@@ -22,7 +22,7 @@
  *
  * Aufruf: npm run check:cr-zuordnung
  */
-import { beurteile, type CrSerie, type CrDubData } from './lib/crunchyroll-dub.ts'
+import { beurteile, beurteileNachFolgennummern, type CrSerie, type CrDubData } from './lib/crunchyroll-dub.ts'
 import { readJson, ROOT } from './lib/util.ts'
 import { resolve } from 'node:path'
 import type { Title } from '../shared/types.ts'
@@ -162,6 +162,128 @@ console.log('Zusicherungen für die Crunchyroll-Zuordnung\n')
   const s = serie([['S1', 0, 12]], { katalog: 'us', deutschImAngebot: false })
   const u = urteil(s, [titel(1, 12)])
   pruefe('US-Katalog erzeugt kein Urteil', u.size === 0, [...u])
+}
+
+console.log('\nZuordnung über durchgezählte Folgennummern\n')
+
+/** Wie `serie()`, aber mit echten Folgennummern je Block. */
+const serieMitNummern = (bloecke: [string, number[], number][], extra: Partial<CrSerie> = {}): CrSerie =>
+  ({
+    url: 'https://example.test/serie',
+    seriesId: 'X',
+    quelle: 'api',
+    katalog: 'de',
+    geprueftAm: '2026-08-23',
+    deutschImAngebot: bloecke.some(([, nummern]) => nummern.length > 0),
+    staffeln: bloecke.map(([name, nummern, folgen]) => ({
+      name, staffelId: name, folgen, kacheln: folgen,
+      deutsch: nummern.length, fremd: folgen - nummern.length,
+      deutscheFassung: nummern.length === folgen,
+      deutscheFolgen: nummern.map((nummer) => ({ nummer, guid: `G${nummer}` })),
+    })),
+    ...extra,
+  }) as unknown as CrSerie
+
+const nummernUrteil = (s: CrSerie, ts: Title[]) => {
+  const m = new Map<number, boolean>()
+  for (const u of beurteileNachFolgennummern(s, ts)) m.set(u.titleId, u.dub)
+  return m
+}
+
+const reihe = (n: number) => Array.from({ length: n }, (_, i) => i + 1)
+const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => start + i)
+
+/**
+ * Fall A — Golden Kamuy (23.08.2026, Daniels Fall).
+ *
+ * Ein Block mit 49 durchgezählten Folgen deckt unsere Staffeln 1–4; der zweite
+ * beginnt bei 50. Über Blockgrößen ist hier nichts zuzuordnen, über Nummern
+ * schon.
+ */
+{
+  const s = serieMitNummern([['Golden Kamuy', reihe(49), 49], ['Final Season', von(50, 13), 13]])
+  const u = nummernUrteil(s, [titel(1, 12, 2018), titel(2, 12, 2018), titel(3, 12, 2020), titel(4, 13, 2022), titel(5, 13, 2024)])
+  pruefe('Golden Kamuy: alle fünf Staffeln über die Nummern belegt',
+    [1, 2, 3, 4, 5].every((id) => u.get(id) === true), [...u])
+}
+
+/**
+ * Fall B — KONOSUBA: jeder Block beginnt wieder bei 1.
+ *
+ * Dann sagt eine Nummer nichts über die Staffel, und dieser Weg muss schweigen.
+ */
+{
+  const s = serieMitNummern([['S1', reihe(10), 10], ['S2', reihe(10), 10]])
+  const u = nummernUrteil(s, [titel(1, 10), titel(2, 10)])
+  pruefe('überlappende Nummern erzeugen kein Urteil', u.size === 0, [...u])
+}
+
+/**
+ * Fall C — Fruits Basket: uns fehlt eine Staffel.
+ *
+ * Crunchyroll zählt 1–63, unsere Einträge summieren sich auf 39. Ginge die
+ * Zuordnung trotzdem los, läge alles um 25 Folgen verschoben — genau der
+ * Fehler, der schon einmal ein falsches `dub: false` erzeugt hat.
+ */
+{
+  const s = serieMitNummern([['Staffel 2', von(26, 25), 25], ['The Final', von(51, 13), 13]])
+  const u = nummernUrteil(s, [titel(1, 25, 2020), titel(2, 13, 2021), titel(3, 1, 2022)])
+  pruefe('unvollständige Reihe erzeugt kein Urteil', u.size === 0, [...u])
+}
+
+/**
+ * Fall D — die Grenze bei teilweise deutschen Blöcken.
+ *
+ * Block B hat zwölf Folgen, aber nur sechs deutsche (Nummern 13–18). Die
+ * höchste **deutsche** Nummer ist damit 18, während unsere beiden Staffeln
+ * zusammen 24 Folgen haben. Die Summenprüfung schlägt fehl — und das ist
+ * richtig so: Ob die Nummern 19–24 zu Block B gehören, ob sie fehlen oder ob
+ * die Zählung dort abbricht, ist aus den vorhandenen Angaben nicht zu sehen.
+ *
+ * **Diese Grenze ist bewusst.** Sie zu überschreiten hieße, die Lage der
+ * undeutschen Folgen zu erraten — und aus einem Irrtum entstünde ein
+ * `dub: false`, das einen Verweis entfernt.
+ */
+{
+  const s = serieMitNummern([['A', reihe(12), 12], ['B', von(13, 6), 12]])
+  const u = nummernUrteil(s, [titel(1, 12), titel(2, 12)])
+  pruefe('teilweise deutscher Block: kein Urteil, auch nicht für die volle Staffel daneben',
+    u.size === 0, [...u])
+}
+
+/**
+ * Fall E — die zweite Grenze: ein Block ganz ohne deutsche Folge.
+ *
+ * Ein solcher Block trägt keine Nummern, also ist nicht zu sehen, welchen
+ * Abschnitt der Zählung er belegt. Bei Golden Kamuy liegt genau so ein Block
+ * (`OADs`, 0/3) **außerhalb** der Zählung — dort springt die Nummerierung von
+ * 49 auf 50. Ob ein undeutscher Block mitzählt oder nicht, entscheidet sich
+ * also von Fall zu Fall und ist nicht ableitbar.
+ *
+ * Deshalb schweigt der Nummernweg hier. Der Fall „Free! Staffel 1 und 2 ohne
+ * deutsche Fassung" bleibt damit der Handprüfung überlassen — belegt, aber
+ * nicht automatisch.
+ */
+{
+  const s = serieMitNummern([['A', [], 12], ['B', von(13, 12), 12]])
+  const u = nummernUrteil(s, [titel(1, 12), titel(2, 12)])
+  pruefe('Block ohne deutsche Folge: kein Urteil, weil seine Nummernlage unbekannt ist',
+    u.size === 0, [...u])
+}
+
+/**
+ * Fall F — und hier entsteht ein `dub: false` zu Recht.
+ *
+ * Alle Blöcke tragen deutsche Nummern, die Zählung ist lückenlos, die Summe
+ * geht auf. Eine Staffel, deren Abschnitt keine einzige deutsche Nummer
+ * enthält, ist dann belegt ohne Synchro — anders als im Zusatzweg, wo die
+ * Reihenfolge unbekannt bleibt und ein Nein deshalb nie entstehen darf.
+ */
+{
+  const s = serieMitNummern([['A', reihe(12), 12], ['B', von(13, 12), 12], ['C', von(25, 12), 12]])
+  const u = nummernUrteil(s, [titel(1, 12), titel(2, 12), titel(3, 12)])
+  pruefe('lückenlose Zählung: jede Staffel bekommt ihr Urteil',
+    u.get(1) === true && u.get(2) === true && u.get(3) === true, [...u])
 }
 
 /**
