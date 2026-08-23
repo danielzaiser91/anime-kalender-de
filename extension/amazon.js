@@ -121,7 +121,16 @@
           plattform: 'primevideo',
           url: eintrag.url,
           sprachen,
-          befund: deutsch ? 'ja' : 'nein',
+          /**
+           * `dub` / `kein_dub` — nicht `ja` / `nein`.
+           *
+           * Die erste Fassung schickte `ja`, und der Worker antwortete mit
+           * HTTP 400 (Daniel, 23.08.2026, beim ersten Klick auf „Digimon
+           * Tamers"). Die gültigen Werte stehen in `worker/src/index.ts`:
+           * `['dub', 'kein_dub', 'weg']`. Sie waren nachzulesen, nicht zu
+           * erraten.
+           */
+          befund: deutsch ? 'dub' : 'kein_dub',
           titel: eintrag.titel,
           notiz: `Amazon-Seite ${asin()}: ${folgen} Folgen, Abos: ${abos().join(', ') || 'keine Angabe'}`,
         }),

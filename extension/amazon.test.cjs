@@ -80,5 +80,27 @@ const echt =
   pruefe('entitlementType wird nicht als Abo gelesen', !abos(echt).includes('Unentitled'), abos(echt))
 }
 
+/**
+ * Der Befund-Wert muss zu dem passen, was der Worker annimmt.
+ *
+ * Die erste Fassung schickte `ja`/`nein` und bekam HTTP 400 zurück — geraten
+ * statt nachgesehen, obwohl die gültigen Werte in `worker/src/index.ts`
+ * stehen. Diese Zusicherung liest sie **dort** und hält den Leser dagegen;
+ * eine fest eingetragene Liste hier würde denselben Fehler nur wiederholen.
+ */
+{
+  const fs = require('node:fs')
+  const worker = fs.readFileSync(require('node:path').resolve(__dirname, '../worker/src/index.ts'), 'utf8')
+  const m = /\[([^\]]*)\]\.includes\(befund\)/.exec(worker)
+  const erlaubt = m ? m[1].split(',').map((s) => s.trim().replace(/^'|'$/g, '')) : []
+  const leser = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
+  const benutzt = [...leser.matchAll(/befund:\s*\w+\s*\?\s*'([^']+)'\s*:\s*'([^']+)'/g)].flatMap((x) => [x[1], x[2]])
+  pruefe(
+    `die gemeldeten Befunde stehen in der Worker-Liste [${erlaubt.join(', ')}]`,
+    erlaubt.length > 0 && benutzt.length > 0 && benutzt.every((b) => erlaubt.includes(b)),
+    benutzt,
+  )
+}
+
 console.log(fehler.length ? `\n${fehler.length} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler.length ? 1 : 0)
