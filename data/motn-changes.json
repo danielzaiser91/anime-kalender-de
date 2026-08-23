@@ -1,0 +1,24 @@
+{
+  "verbrauch": {
+    "2026-08": 1
+  },
+  "gesehen": {
+    "26341901:netflix": {
+      "titel": "Umthetho",
+      "imdbId": "tt43657402",
+      "tmdbId": "tv/331650",
+      "dienst": "netflix",
+      "am": "2026-08-21",
+      "deutsch": false
+    },
+    "25875786:netflix": {
+      "titel": "Monkey Wrench",
+      "imdbId": "tt12924420",
+      "tmdbId": "tv/327414",
+      "dienst": "netflix",
+      "am": "2026-08-20",
+      "deutsch": false
+    }
+  },
+  "fetchedAt": "2026-08-23T12:23:41.116Z"
+}

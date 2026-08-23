@@ -139,6 +139,23 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "ADN-Kalender lesen"
 
+      - name: Was bei Netflix, Prime und Disney+ neu ist
+        # Der Monatslauf (tonspuren-monatlich.yml) holt den Bestand; dieser hier
+        # nur die Änderungen der letzten Tage. Daniel am 23.08.2026: „nicht erst
+        # tage später". Kostet eine Anfrage am Tag statt eines halben
+        # Monatskontingents — und liefert die Tonspur gleich mit.
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+          STREAMING_API_KEY: ${{ secrets.STREAMING_API_KEY }}
+        run: npm run data:motn:changes -- --tage 3 --budget 4
+
+      - name: Fortschritt — Was bei Netflix, Prime und Disney+ neu ist
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Was bei Netflix, Prime und Disney+ neu ist"
+
       - name: Nachrichtenlage bei Anime2You prüfen
         # Erzeugt nur Vorschläge für die Kuratierung, keine Termine.
         continue-on-error: true

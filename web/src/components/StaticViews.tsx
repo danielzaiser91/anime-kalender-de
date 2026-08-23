@@ -888,6 +888,13 @@ export function ImpressumView() {
             <a className="underline" href="https://www.justwatch.com">JustWatch</a>, über die TMDB-API
           </li>
           <li>
+            Tonspuren bei Netflix, Prime Video und Disney+:{' '}
+            <a className="underline" href="https://www.movieofthenight.com/about/api">
+              Streaming Availability API
+            </a>{' '}
+            von Movie of the Night
+          </li>
+          <li>
             Sendezeiten:{' '}
             <a className="underline" href="https://www.crunchyroll.com/de/simulcastcalendar">
               Crunchyroll-Simulcast-Kalender

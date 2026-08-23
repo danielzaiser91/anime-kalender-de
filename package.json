@@ -47,7 +47,8 @@
     "data:extension-liste": "node tools/extension-offene-liste.mjs",
     "data:youtube:report": "node pipeline/report-youtube.mjs",
     "data:rtlplus": "node pipeline/check-rtlplus.mjs",
-    "data:rtlplus:report": "node pipeline/report-rtlplus.mjs"
+    "data:rtlplus:report": "node pipeline/report-rtlplus.mjs",
+    "data:motn:changes": "tsx pipeline/fetch-motn-changes.ts"
   },
   "dependencies": {
     "react": "^19.1.0",
