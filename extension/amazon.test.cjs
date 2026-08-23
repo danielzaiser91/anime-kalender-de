@@ -102,5 +102,26 @@ const echt =
   )
 }
 
+/**
+ * Aus einem Ausschnitt darf kein `kein_dub` werden.
+ *
+ * Amazon lädt lange Staffeln seitenweise. „Deutsch gefunden" bleibt auch bei
+ * 24 von 51 Folgen wahr; „kein Deutsch" wäre eine Aussage über die ganze
+ * Staffel aus der Hälfte. Geprüft wird am Quelltext, weil die Bedingung im
+ * Klick-Zweig steht und sich nicht ohne Browser aufrufen lässt.
+ */
+{
+  const fs = require('node:fs')
+  const leser = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
+  pruefe(
+    'unvollständiger Stand ohne Deutsch führt zu keiner Meldung',
+    /if\s*\(\s*!deutsch\s*&&\s*!vollstaendig\s*\)[\s\S]{0,400}?return/.test(leser),
+  )
+  pruefe(
+    'die Folgenzahl wird aus episodeNumber gewonnen, nicht aus allen audioTracks',
+    /audioTracks[\s\S]{0,60}episodeNumber/.test(leser),
+  )
+}
+
 console.log(fehler.length ? `\n${fehler.length} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler.length ? 1 : 0)

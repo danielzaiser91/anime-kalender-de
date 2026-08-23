@@ -37,25 +37,51 @@
   }
 
   /**
-   * Die Tonspuren aller Folgen dieser Seite.
+   * Die Tonspuren der **geladenen** Folgen — und wie viele das von wie vielen sind.
    *
    * Gelesen wird aus dem Quelltext, nicht aus dem sichtbaren DOM: Amazon legt
-   * die Angaben in JSON-Blöcken ab, die nie als Text erscheinen. Mehrfach
-   * genannte Sprachen werden zusammengefasst — für unsere Frage zählt, **ob**
-   * Deutsch dabei ist, nicht wie oft.
+   * die Angaben in JSON-Blöcken ab, die nie als Text erscheinen.
+   *
+   * ## Zwei Fehler der ersten Fassung (Daniel, 23.08.2026, mit Bild)
+   *
+   * Sie zeigte bei „Digimon Tamers" **27 Folgen**, während die Seite „51 Folgen"
+   * nennt und im Auswahlfeld „Folgen 1–24" steht. Beides war falsch:
+   *
+   * 1. **Gezählt wurde jedes `audioTracks`-Feld im Quelltext** — auch solche aus
+   *    Vorschauen und Empfehlungsleisten, die zu anderen Titeln gehören. Deshalb
+   *    27 statt 24. Jetzt zählt nur, was zu einer `episodeNumber` gehört.
+   * 2. **Amazon lädt seine Folgenliste seitenweise.** Was im Quelltext steht,
+   *    ist der gerade sichtbare Ausschnitt, nicht die Staffel. Ein Befund über
+   *    24 von 51 Folgen als „51 Folgen deutsch" auszugeben, wäre genau der
+   *    Fehler, den dieses Projekt an anderen Quellen kritisiert.
+   *
+   * Deshalb wird die Gesamtzahl von der Seite gelesen und **beides** angezeigt.
+   * Was nicht geladen ist, wird nicht behauptet.
    */
   function spuren() {
     const text = document.documentElement.innerHTML
     const alle = new Set()
-    let folgen = 0
-    for (const m of text.matchAll(/"audioTracks"\s*:\s*\[([^\]]*)\]/g)) {
-      folgen++
+    const nummern = new Set()
+    // Nur Tonspuren, die zu einer Folge gehören — der Abstand ist bewusst eng.
+    for (const m of text.matchAll(/"audioTracks"\s*:\s*\[([^\]]*)\][\s\S]{0,240}?"episodeNumber"\s*:\s*(\d+)/g)) {
+      nummern.add(Number(m[2]))
       for (const s of m[1].split(',')) {
         const name = s.trim().replace(/^"|"$/g, '')
         if (name) alle.add(name)
       }
     }
-    return { sprachen: [...alle], folgen }
+    /**
+     * Wie viele Folgen die Staffel insgesamt hat.
+     *
+     * Steht als Fließtext über der Liste („51 Folgen") und zusätzlich als Feld.
+     * Fehlt beides, bleibt die Zahl offen — dann wird auch keine Vollständigkeit
+     * behauptet.
+     */
+    const gesamt =
+      Number(/"episodeCount"\s*:\s*(\d+)/.exec(text)?.[1]) ||
+      Number(/>\s*(\d+)\s*Folgen\s*</.exec(text)?.[1]) ||
+      null
+    return { sprachen: [...alle], nummern, gesamt }
   }
 
   /** Welche Abos diese Staffel freischalten — `Prime`, `aniversede`, … */
@@ -77,18 +103,51 @@
   knopf.type = 'button'
   document.body.appendChild(knopf)
 
+  /**
+   * Gesammelt wird über die Abschnitte hinweg, nicht je Ansicht.
+   *
+   * Amazon zeigt lange Staffeln seitenweise („Folgen 1–24", „25–48", „49–51").
+   * Im Quelltext steht immer nur der gerade gewählte Abschnitt. Wer einmal
+   * meldet, meldet also einen Ausschnitt — bei „Digimon Tamers" wären das 24
+   * von 51 Folgen (Daniel, 23.08.2026, mit Bild).
+   *
+   * Deshalb merkt sich der Knopf, was er schon gesehen hat, und zählt beim
+   * Wechseln des Abschnitts weiter. Daniel klickt die Abschnitte durch, der
+   * Knopf füllt sich auf; gemeldet wird, was bis dahin zusammengekommen ist.
+   *
+   * **Bewusst nicht automatisch durchgeklickt:** Dieser Weg beruht darauf, dass
+   * ein Mensch die Seite ansieht — dafür gibt es die Erweiterung überhaupt.
+   * Ein Skript, das selbsttätig durch Menüs klickt, wäre wieder das, was
+   * Amazons Bedingungen „Robots" nennen.
+   */
+  const gesehen = { sprachen: new Set(), nummern: new Set(), gesamt: null }
+
   let letzterStand = ''
   function zeichnen() {
-    const { sprachen, folgen } = spuren()
-    const deutsch = sprachen.some((s) => /deutsch|german/i.test(s))
-    const stand = `${deutsch}|${folgen}|${sprachen.join(',')}`
+    const jetzt = spuren()
+    for (const s of jetzt.sprachen) gesehen.sprachen.add(s)
+    for (const n of jetzt.nummern) gesehen.nummern.add(n)
+    if (jetzt.gesamt) gesehen.gesamt = jetzt.gesamt
+
+    const deutsch = [...gesehen.sprachen].some((s) => /deutsch|german/i.test(s))
+    const geladen = gesehen.nummern.size
+    const stand = `${deutsch}|${geladen}|${gesehen.gesamt}`
     if (stand === letzterStand) return
     letzterStand = stand
+
     knopf.dataset.deutsch = String(deutsch)
-    knopf.textContent = folgen
-      ? `${deutsch ? '🇩🇪 Deutsch' : '✕ kein Deutsch'} · ${folgen} Folgen · melden`
-      : 'Tonspuren noch nicht geladen'
-    knopf.disabled = !folgen
+    knopf.disabled = !geladen
+    if (!geladen) {
+      knopf.textContent = 'Tonspuren noch nicht geladen'
+      return
+    }
+    const vollstaendig = !gesehen.gesamt || geladen >= gesehen.gesamt
+    // Die Zahl sagt, worüber der Befund wirklich etwas aussagt — nie mehr.
+    const umfang = vollstaendig
+      ? `${geladen} Folgen`
+      : `${geladen} von ${gesehen.gesamt} — weitere Abschnitte öffnen`
+    knopf.textContent = `${deutsch ? '🇩🇪 Deutsch' : '✕ kein Deutsch'} · ${umfang} · melden`
+    knopf.dataset.teilweise = String(!vollstaendig)
   }
 
   /**
@@ -103,9 +162,33 @@
   // --- Melden --------------------------------------------------------------
 
   knopf.addEventListener('click', async () => {
-    const { sprachen, folgen } = spuren()
-    if (!folgen) return
+    const sprachen = [...gesehen.sprachen]
+    const geladen = gesehen.nummern.size
+    if (!geladen) return
     const deutsch = sprachen.some((s) => /deutsch|german/i.test(s))
+    const vollstaendig = !gesehen.gesamt || geladen >= gesehen.gesamt
+
+    /**
+     * Aus einem Ausschnitt entsteht **nie** ein Nein.
+     *
+     * „Deutsch gefunden" bleibt wahr, auch wenn erst 24 von 51 Folgen geladen
+     * sind — eine deutsche Tonspur ist eine deutsche Tonspur. „Kein Deutsch"
+     * dagegen wäre eine Aussage über die **ganze** Staffel, gestützt auf die
+     * Hälfte davon. Genau diese Asymmetrie hat dieses Projekt an fremden
+     * Quellen wiederholt bemängelt; sie gilt hier genauso.
+     *
+     * Deshalb: Wer nichts Deutsches gefunden hat und noch nicht durch ist,
+     * bekommt keine Meldung, sondern die Aufforderung, die übrigen Abschnitte
+     * zu öffnen.
+     */
+    if (!deutsch && !vollstaendig) {
+      knopf.textContent = `erst alle ${gesehen.gesamt} Folgen ansehen — sonst kein „kein Deutsch"`
+      setTimeout(() => {
+        letzterStand = ''
+        zeichnen()
+      }, 4000)
+      return
+    }
     knopf.textContent = 'sende …'
     knopf.disabled = true
     const { token } = await chrome.storage.sync.get('token')
@@ -132,7 +215,19 @@
            */
           befund: deutsch ? 'dub' : 'kein_dub',
           titel: eintrag.titel,
-          notiz: `Amazon-Seite ${asin()}: ${folgen} Folgen, Abos: ${abos().join(', ') || 'keine Angabe'}`,
+          /**
+           * Die Notiz sagt, worüber der Befund reicht.
+           *
+           * Ein Befund über 24 von 51 Folgen ist kein Befund über die Staffel.
+           * Wer das später liest, muss es sehen können, ohne die Seite noch
+           * einmal zu öffnen.
+           */
+          notiz:
+            `Amazon-Seite ${asin()}: ` +
+            (vollstaendig
+              ? `alle ${geladen} Folgen geprüft`
+              : `nur ${geladen} von ${gesehen.gesamt} Folgen geladen — Rest ungeprüft`) +
+            `, Abos: ${abos().join(', ') || 'keine Angabe'}`,
         }),
       })
       knopf.textContent = antwort.ok ? '✓ gemeldet' : `Fehler ${antwort.status}`
