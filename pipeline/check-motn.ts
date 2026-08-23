@@ -4,8 +4,10 @@
  *
  * Bevor auch nur ein Wert dieser Quelle in den Datensatz geht, wird sie gegen
  * das gehalten, was wir schon **unabhängig** wissen: die 190 Crunchyroll-Seiten
- * aus `data/crunchyroll-dub.json` und die 39 Angaben, die ein Mensch in
- * `data/dub-confirmed.yaml` bestätigt hat. Verglichen wird
+ * aus `data/crunchyroll-dub.json` und die Angaben, die ein Mensch in
+ * `data/dub-confirmed.yaml` bestätigt hat — **1.946 Einträge, Stand 23.08.2026**
+ * (hier stand bis dahin „39", eine Zahl aus der Anfangszeit der Datei).
+ * Verglichen wird
  * ausschließlich gegen Rohdaten, nie gegen `public/data/titles.json` — dort
  * steht am Ende auch das, was diese Quelle selbst geschrieben hat, und eine
  * Quelle, die sich selbst bestätigt, misst nichts.

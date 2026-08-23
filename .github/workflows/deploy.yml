@@ -135,10 +135,19 @@ jobs:
       # Die Zusicherungen aus der Prüfkette vor dem Commit. Sie gehören auch
       # hierher: Die Nachtläufe committen ohne menschlichen Blick, und der
       # Fehler vom 12.08.2026 (196 erfundene Termine) entstand genau dort.
+      #
+      # `check:handbelege` steht seit dem 23.08.2026 dabei. Es hält die 1.946
+      # von Daniel selbst geprüften Angaben gegen den gebauten Datensatz —
+      # die einzige Quelle im Projekt, die weder rät noch schweigt, und die
+      # teuerste, weil sie seine Zeit kostet. Ihr Schutz bestand bis dahin nur
+      # aus der Reihenfolge in `build.ts`, und Reihenfolgen brechen leise:
+      # Wer eine Quelle nach oben zieht, sieht danach einen Datensatz, der
+      # genauso vollständig aussieht — nur steht an einzelnen Stellen die
+      # Vermutung einer Quelle, wo eine Messung stand.
       - name: Zusicherungen prüfen
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run check:logic && npm run check:search
+        run: npm run check:logic && npm run check:search && npm run check:handbelege
 
       - name: Fortschritt — Zusicherungen geprüft
         continue-on-error: true

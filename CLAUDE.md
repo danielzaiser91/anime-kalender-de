@@ -378,6 +378,18 @@ Datensatz und bricht bei einem Widerspruch ab, bevor etwas geschrieben wird:
 `npm run check:logic` stellt zusätzlich die vier Annahmen nach, aus denen der Fehler entstand.
 Beide gehören zur Prüfkette vor dem Commit.
 
+`npm run check:handbelege` hält seit dem 23.08.2026 die **1.946 von Hand geprüften Angaben**
+aus `data/dub-confirmed.yaml` gegen den gebauten Datensatz. Sie sind die einzige Quelle im
+Projekt, die weder rät noch schweigt — und die teuerste, weil sie Daniels Zeit kostet statt
+Rechenzeit.
+
+Ihr Schutz besteht in `build.ts` aus drei Stellen mit `if (stream.dub !== undefined) continue`,
+also aus einer **Reihenfolge**. Reihenfolgen brechen leise: Wer eine Quelle nach oben zieht
+oder die Bedingung vergisst, sieht danach einen Datensatz, der genauso vollständig aussieht —
+nur steht an einzelnen Stellen die Vermutung einer Quelle, wo eine Messung stand. Der Anlass
+war Daniels Frage vom 23.08.2026, ob seine Netflix-Meldungen vom Vortag beim nächsten Lauf
+überschrieben werden könnten.
+
 ## Ein Abruf, der nur ergänzt, veraltet zwangsläufig
 
 **Jede Warteschlange wird nach dem Alter gebildet, nie nach „schon beantwortet".** Ein Filter

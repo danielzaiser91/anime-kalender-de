@@ -157,10 +157,11 @@ deutschen Ton behauptet und keine Handprüfung vorliegt:
 nachsehen konnten"** — vier von vier in genau der Richtung, die vorher ungedeckt war. Die
 Angaben stehen jetzt als Handprüfung in `data/dub-confirmed.yaml`.
 
-**Ein Punkt bleibt offen:** Bei DAN DA DAN führen wir zwei Einträge unter einer Netflix-Adresse
-(Staffel 1 und 2). Die Quelle nannte zwölf Folgen — das ist **eine** Staffel, und welche Daniel
-im Player sah, ist nicht festgehalten. Staffel 1 bleibt deshalb ohne Eintrag; geraten wird
-nicht.
+**Nachgetragen 23.08.2026, 16:43:** Auf Nachfrage hat Daniel DAN DA DAN vollständig bestätigt —
+„beide staffeln, alle folgen deutsch". Beide Einträge stehen jetzt als Handprüfung. Die Quelle
+nannte zwölf Folgen und meinte damit eine der beiden Staffeln; **ihre Zählung deckt eine
+Adresse nicht vollständig ab**, wenn dort mehrere Staffeln liegen. Das ist derselbe Fallstrick
+wie bei den OVA-Nummern: Die Quelle antwortet auf eine engere Frage, als die Adresse stellt.
 
 ## Offene Prüfpunkte
 
