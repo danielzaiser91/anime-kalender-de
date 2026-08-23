@@ -298,16 +298,44 @@ export function beurteile(serie: CrSerie, unsere: Title[]): Urteil[] {
      * nur bei undeutschen Blöcken vorkommt, hieße bloß, dass wir den passenden
      * deutschen Block nicht sehen — kein Beleg für eine fehlende Synchro.
      */
-    const deutscheGroessen = new Set(
-      staffeln.filter((s) => s.folgen > 0 && s.deutsch === s.folgen).map((s) => s.folgen),
-    )
-    const undeutscheGroessen = new Set(
+    /**
+     * Zwei Größen je Block, weil Crunchyroll Specials mitzählt.
+     *
+     * Ein Block mit `12/13` ist zwölf deutsche Folgen plus ein Special ohne
+     * Synchro (Daniel, 23.08.2026, an Food Wars Staffel 4 belegt). Für unsere
+     * Zwölf-Folgen-Staffel ist **zwölf** die passende Zahl, nicht dreizehn.
+     * Aufgenommen wird die deutsche Zahl nur bei kleinem Rest — höchstens zwei
+     * Einträge —, sonst wäre es eine halb synchronisierte Staffel und die
+     * Grenze läge wieder im Ungewissen.
+     */
+    const deutscheGroessen = new Set<number>()
+    for (const s of staffeln) {
+      if (s.folgen <= 0 || s.deutsch <= 0) continue
+      if (s.deutsch === s.folgen) deutscheGroessen.add(s.folgen)
+      else if (s.folgen - s.deutsch <= 2) deutscheGroessen.add(s.deutsch)
+    }
+    /**
+     * Verdächtig ist jede Größe, die auch an einem Block hängt, der **nicht**
+     * durchgehend deutsch ist. Gezählt wird dort die volle Zahl: Ein Block mit
+     * `12/13` blockiert die Dreizehn, denn ein Dreizehn-Folgen-Eintrag könnte
+     * dieser Block sein — und dann wäre er nicht vollständig deutsch.
+     */
+    const verdaechtig = new Set(
       staffeln.filter((s) => s.folgen > 0 && s.deutsch < s.folgen).map((s) => s.folgen),
     )
+    /**
+     * Jeder Eintrag steht für sich.
+     *
+     * Bis zum 23.08.2026 stieg diese Schleife beim ersten Eintrag aus, der nicht
+     * passte, und verwarf damit auch die Urteile der übrigen. Das ist unnötig
+     * streng: Die Prüfung „trifft nur deutsche Blöcke" gilt je Eintrag, sie
+     * hängt nicht an den Nachbarn. Bei Food Wars kostete es das Urteil für die
+     * Zwölf-Folgen-Staffel, weil die Dreizehn daneben mehrdeutig war.
+     */
     const eindeutig: Urteil[] = []
     for (const t of unsere) {
       const n = t.episodes ?? 0
-      if (!n || !deutscheGroessen.has(n) || undeutscheGroessen.has(n)) return []
+      if (!n || !deutscheGroessen.has(n) || verdaechtig.has(n)) continue
       eindeutig.push({
         titleId: t.id,
         dub: true,
@@ -322,9 +350,22 @@ export function beurteile(serie: CrSerie, unsere: Title[]): Urteil[] {
   let zeiger = 0
   for (const block of staffeln) {
     if (zeiger >= sortiert.length) break
+    /**
+     * Gesammelt wird, bis eine der beiden gültigen Summen erreicht ist.
+     *
+     * Bis zum 23.08.2026 lief die Schleife allein auf `block.folgen` zu. Bei
+     * Food Wars Staffel 4 — dreizehn Einträge, zwölf davon deutsch — war unser
+     * Eintrag mit zwölf Folgen damit nie ein Treffer: Die Schleife sah `12 < 13`,
+     * nahm die nächste Staffel dazu und landete bei 25. Der Block ging nicht auf,
+     * und nach der Regel oben fiel die ganze Reihe.
+     */
     let summe = 0
     let laenge = 0
-    while (zeiger + laenge < sortiert.length && summe < block.folgen) {
+    while (
+      zeiger + laenge < sortiert.length &&
+      summe < block.folgen &&
+      !(block.deutsch > 0 && block.deutsch < block.folgen && summe === block.deutsch)
+    ) {
       summe += sortiert[zeiger + laenge].episodes ?? 0
       laenge++
     }
@@ -356,9 +397,32 @@ export function beurteile(serie: CrSerie, unsere: Title[]): Urteil[] {
      * Crunchyroll deshalb übersprungen wurde. Ein Fehler, der nur durch die
      * Reihenfolge anderer Quellen gedeckt ist, ist kein behobener Fehler.
      */
-    if (summe !== block.folgen || laenge === 0) return []
+    /**
+     * Zwei gültige Summen, weil Crunchyroll mehr zählt als Folgen.
+     *
+     * `block.folgen` enthält **Specials, PVs und Behind-the-Scenes** — Einträge,
+     * die dort in der Folgenliste stehen, aber keine regulären Folgen sind.
+     * Daniels Prüfung vom 23.08.2026 an drei Serien:
+     *
+     * | Serie | Crunchyroll | tatsächlich |
+     * |---|---|---|
+     * | Food Wars, Staffel 4 | 13 Einträge, 12 deutsch | 12 Folgen + Special „E-EX Hinter den Kulissen" (doppelte Laufzeit, ohne Synchro) |
+     * | Free!, Staffel 1 | 14 Einträge, 0 deutsch | 12 Folgen + zwei PV |
+     * | Golden Kamuy | 49 Einträge, 49 deutsch | unsere Staffeln 1–4 zusammen (12+12+12+13) |
+     *
+     * Unsere Folgenzahl trifft deshalb mal `folgen` und mal `deutsch`. Beide
+     * werden zugelassen — aber `deutsch` nur, wenn der Rest **klein** ist:
+     * Höchstens zwei nicht-deutsche Einträge, sonst wäre es kein Special-Anhang,
+     * sondern eine halb synchronisierte Staffel, und dort liegt die Grenze
+     * zwischen deutsch und nicht wieder im Ungewissen.
+     */
+    const restEinträge = block.folgen - block.deutsch
+    const passtUeberDeutsch = block.deutsch > 0 && summe === block.deutsch && restEinträge > 0 && restEinträge <= 2
+    if ((summe !== block.folgen && !passtUeberDeutsch) || laenge === 0) return []
     // Nur eindeutige Blöcke: entweder ganz deutsch oder gar nicht.
-    if (block.deutsch === block.folgen) {
+    // `passtUeberDeutsch` heißt: Unsere Einträge decken genau die deutschen
+    // Folgen ab, der kleine Rest sind Specials ohne Synchro.
+    if (block.deutsch === block.folgen || passtUeberDeutsch) {
       for (const t of sortiert.slice(zeiger, zeiger + laenge)) {
         urteile.push({ titleId: t.id, dub: true, grund: `„${block.name}" vollständig deutsch` })
       }

@@ -154,6 +154,32 @@ Fälle bei Crunchyroll, **keiner** bei ADN — gegen zusammen über fünfhundert
 gibt der Lauf am Ende eine **Stichprobe ohne Handprüfung** aus: Fälle, in denen noch niemand
 nachgesehen hat. Das ist dieselbe ungedeckte Richtung wie bei den vier Netflix-Titeln.
 
+### Crunchyroll zählt Specials als Folgen — die Ursache hinter den stummen Fällen
+
+Daniels Prüfung dreier Serien am 23.08.2026, 17:53, hat eine gemeinsame Ursache freigelegt:
+**`block.folgen` ist die Zahl der Einträge in Crunchyrolls Folgenliste, nicht die Zahl der
+Folgen.** Specials, PVs und Behind-the-Scenes stehen dort mit drin.
+
+| Serie | Crunchyroll | tatsächlich (Daniel) |
+|---|---|---|
+| Food Wars, Staffel 4 | 13 Einträge, 12 deutsch | 12 Folgen + Special „E-EX Hinter den Kulissen", doppelte Laufzeit, ohne Synchro |
+| Free!, Staffel 1 | 14 Einträge, 0 deutsch | 12 Folgen + zwei PV |
+| Golden Kamuy | 49 Einträge, 49 deutsch | unsere Staffeln 1–4 zusammen (12+12+12+13) |
+| Free!, Staffeln 1 und 2 | 0 deutsch | stimmt — dort steht „Synchro **English**" |
+
+Deshalb rechnet die Zuordnung seither mit **zwei** gültigen Zahlen je Block: `folgen` und, bei
+kleinem Rest (höchstens zwei Einträge), `deutsch`. Eine Größe, die auch an einem nicht
+durchgehend deutschen Block hängt, bleibt gesperrt — ein Dreizehn-Folgen-Eintrag könnte sonst
+der `12/13`-Block sein.
+
+**Gemessen gegen Daniels zwölf Belege als Kontrollgruppe:** von 1 getroffenem Fall auf **5, bei
+0 falschen**. Urteile insgesamt 432 → 470, im Datensatz 507 → 536 belegte Angaben.
+
+Die sieben weiterhin stummen haben belegte Gründe: Golden Kamuys 49er-Block passt zu keiner
+einzelnen unserer Staffeln (andere Staffelteilung), Free! Staffel 1 und 2 wären ein `dub: false`
+— das erzeugt dieser Weg grundsätzlich nicht —, und Food Wars' Dreizehn ist zwischen zwei
+Blöcken mehrdeutig.
+
 ### Was der erste Lauf sofort gefunden hat: Fruits Basket
 
 Die Stichprobe meldete `KEIN dt. | Fruits Basket: 2nd Season | „Fruits Basket (2019)" ohne

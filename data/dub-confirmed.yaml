@@ -15754,3 +15754,89 @@
   dub: true
   checkedAt: '2026-08-23'
   note: 'Daniel: „beide staffeln, alle folgen deutsch" unter netflix.com/title/81736884.'
+
+# Daniels Prüfung vom 23.08.2026, 17:53 — drei Serien, bei denen unsere
+# Folgenzahlen nicht zu Crunchyrolls Blöcken passten. Die Ursache steht in
+# data/quellen-vertrauen.md: Crunchyroll zählt Specials, PVs und
+# Behind-the-Scenes als Folgen mit.
+#
+# Golden Kamuy: Crunchyroll führt einen Block „Golden Kamuy" mit 49 Folgen —
+# das sind exakt unsere Staffeln 1 bis 4 (12+12+12+13). Alle 49 deutsch.
+- anilistId: 99699
+  title: Golden Kamuy
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-23'
+  note: 'Daniel: „Golden Kamuy Staffel 1 hat 49 Folgen, alle deutsch. oder crunchy hat andere staffel teilung" — der 49er-Block deckt unsere Staffeln 1–4.'
+- anilistId: 102977
+  title: Golden Kamuy 2nd Season
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-23'
+  note: 'Teil des 49-Folgen-Blocks, alle deutsch.'
+- anilistId: 110355
+  title: Golden Kamuy 3rd Season
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-23'
+  note: 'Teil des 49-Folgen-Blocks, alle deutsch.'
+# Food Wars: Daniels Zählung „1-24, 2-13, 3-24, 4-12, 5-13, OVA-0".
+# Der Block „The Fourth Plate" führt 13 Einträge, aber nur 12 reguläre Folgen —
+# dazwischen steht „S4 E-EX Hinter den Kulissen", ein Special ohne Synchro.
+- anilistId: 20923
+  title: Shokugeki no Souma
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-23'
+  note: 'Daniel: Staffel 1, alle 24 Folgen deutsch.'
+- anilistId: 21518
+  title: 'Shokugeki no Souma: Ni no Sara'
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-23'
+  note: 'Daniel: Staffel 2, alle 13 Folgen deutsch.'
+- anilistId: 99255
+  title: 'Shokugeki no Souma: San no Sara'
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-23'
+  note: 'Teil des 24-Folgen-Blocks „The Third Plate", alle deutsch.'
+- anilistId: 100773
+  title: 'Shokugeki no Souma: San no Sara - Tootsuki Ressha-hen'
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-23'
+  note: 'Teil des 24-Folgen-Blocks „The Third Plate", alle deutsch.'
+- anilistId: 109963
+  title: 'Shokugeki no Souma: Shin no Sara'
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-23'
+  note: 'Daniel: Staffel 4, 12 reguläre Folgen deutsch. Das 13. Element des Blocks ist das Special „E-EX Hinter den Kulissen" ohne Synchro.'
+- anilistId: 114043
+  title: 'Shokugeki no Souma: Gou no Sara'
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-23'
+  note: 'Daniel: Staffel 5, alle 13 Folgen deutsch.'
+# Free!: Daniels Zählung „1-0, 2-0, 3-12". Die ersten beiden Staffeln tragen
+# dort englische Synchro, keine deutsche — die Bildschirmzeile lautet
+# „Synchro English | Untertitel".
+- anilistId: 18507
+  title: Free!
+  platform: crunchyroll
+  dub: false
+  checkedAt: '2026-08-23'
+  note: 'Daniel: keine deutsche Folge. Crunchyrolls 14 Einträge sind 12 Folgen plus zwei PV.'
+- anilistId: 20614
+  title: 'Free!: Eternal Summer'
+  platform: crunchyroll
+  dub: false
+  checkedAt: '2026-08-23'
+  note: 'Daniel: keine deutsche Folge, dort steht „Synchro English".'
+- anilistId: 101117
+  title: 'Free!: Dive to the Future'
+  platform: crunchyroll
+  dub: true
+  checkedAt: '2026-08-23'
+  note: 'Daniel: alle 12 Folgen deutsch.'
