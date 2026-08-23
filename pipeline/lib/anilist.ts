@@ -81,7 +81,22 @@ async function gql<T>(query: string, variables: Record<string, unknown>, attempt
     // "Not Found" ist bei Einzelabfragen ein normaler Fall, kein Abbruchgrund.
     const msg = json.errors.map((e) => e.message).join('; ')
     if (/not found/i.test(msg)) return {} as T
-    throw new Error(`AniList: ${msg}`)
+    /**
+     * Ein Ausfall der Quelle ist etwas anderes als ein Fehler in der Abfrage.
+     *
+     * Am 23.08.2026 antwortete AniList stundenlang mit „The AniList API has
+     * been temporarily disabled due to severe stability issues" — und der
+     * stündliche Datenlauf brach vollständig ab, obwohl der Cache 2.989
+     * Einträge hielt und die Sendezeiten von Crunchyroll kommen.
+     *
+     * Die Kennzeichnung erlaubt dem Aufrufer, den Fall zu unterscheiden:
+     * eine kaputte Abfrage muss auffallen, eine abgeschaltete Quelle nicht.
+     */
+    const fehler = new Error(`AniList: ${msg}`)
+    if (/temporarily disabled|stability issues|service unavailable|maintenance/i.test(msg)) {
+      ;(fehler as Error & { quelleAus?: boolean }).quelleAus = true
+    }
+    throw fehler
   }
   const remaining = Number(res.headers.get('x-ratelimit-remaining') ?? 90)
   if (remaining < 15) minDelayMs = Math.max(minDelayMs, 2000)
@@ -237,6 +252,17 @@ export async function mediaByMalIds(
 }
 
 /** Sucht einen Titel per Freitext — für kuratierte Einträge ohne ID. */
+/**
+ * Ist dieser Fehler ein Ausfall der Quelle — oder unser eigener?
+ *
+ * Nur beim Ausfall darf ein Lauf weitermachen; alles andere muss auffallen.
+ */
+export function istQuellenAusfall(err: unknown): boolean {
+  if (!(err instanceof Error)) return false
+  if ((err as Error & { quelleAus?: boolean }).quelleAus) return true
+  return /temporarily disabled|stability issues|503|502|504|ECONNRESET|ETIMEDOUT/i.test(err.message)
+}
+
 export async function searchMedia(term: string, year?: number): Promise<AniListMedia | undefined> {
   const query = `query ($search: String, $year: Int) {
     Page(page: 1, perPage: 5) {

@@ -59,6 +59,21 @@ export function Header({
 
   const verbindung = useNewsletterVerbindung()
 
+  /**
+   * Liegt der heutige Tag im gerade sichtbaren Zeitraum?
+   *
+   * Danach richtet sich, ob der „heute"-Knopf noch etwas zu tun hat. Die
+   * Frage ist je Ansicht eine andere: In der Wochenansicht zählt die Woche,
+   * im Monat der Monat, in der Agenda der Tag selbst — sie beginnt bei
+   * einem Datum und läuft vorwärts.
+   */
+  const heuteSichtbar = (() => {
+    const heute = todayIso()
+    if (view === 'monat') return heute.slice(0, 7) === date.slice(0, 7)
+    if (view === 'agenda') return heute === date
+    return startOfWeek(heute) === startOfWeek(date)
+  })()
+
   const label = (() => {
     if (view === 'monat') {
       const [y, m] = date.split('-').map(Number)
@@ -207,10 +222,25 @@ export function Header({
             >
               ←
             </button>
+            {/*
+              Der Knopf sagt, ob er noch etwas zu tun hat.
+
+              Sind wir schon beim heutigen Tag, ist er ausgegraut und
+              abgeschaltet — sonst klickt man zur Sicherheit und verliert seine
+              Stelle im Kalender (Daniel, 24.08.2026). Der Rahmen bleibt, damit
+              die Leiste nicht springt.
+            */}
             <button
               type="button"
               onClick={() => onDate(todayIso())}
-              className="cursor-pointer rounded-lg px-2.5 py-1.5 text-sm font-medium transition hover:bg-slate-200/60 dark:hover:bg-white/10"
+              disabled={heuteSichtbar}
+              aria-current={heuteSichtbar ? 'date' : undefined}
+              title={heuteSichtbar ? t('nav.todayHere') : t('nav.todayGo')}
+              className={
+                heuteSichtbar
+                  ? 'cursor-default rounded-lg border border-sky-500/40 bg-sky-500/10 px-2.5 py-1.5 text-sm font-medium text-sky-700 dark:text-sky-300'
+                  : 'cursor-pointer rounded-lg border border-transparent px-2.5 py-1.5 text-sm font-medium transition hover:bg-slate-200/60 dark:hover:bg-white/10'
+              }
             >
               {t('nav.today')}
             </button>

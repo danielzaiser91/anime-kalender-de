@@ -8,7 +8,7 @@
  *
  * Aufruf: npm run data:fetch  [-- --force] [-- --skip-anilist]
  */
-import { mediaByMalIds, searchMedia, type AniListMedia } from './lib/anilist.ts'
+import { mediaByMalIds, searchMedia, type AniListMedia, istQuellenAusfall } from './lib/anilist.ts'
 import { loadCurated } from './lib/curated.ts'
 import { lookupTmdb, type TmdbInfo } from './lib/tmdb.ts'
 import { loadEnv, fetchJson, log, readJson, warn, writeJson } from './lib/util.ts'
@@ -35,6 +35,9 @@ async function fetchDubList(): Promise<Record<number, Tier>> {
   }
   return confidence
 }
+
+/** Ob AniList in diesem Lauf ausgefallen ist — dann fehlen Metadaten, nicht mehr. */
+let anilistAus = false
 
 async function main(): Promise<void> {
   loadEnv()
@@ -74,7 +77,23 @@ async function main(): Promise<void> {
       warn(`"${entry.slug}": weder anilistId noch search gesetzt`)
       continue
     }
-    const hit = await searchMedia(entry.search)
+    /**
+     * Ein Ausfall von AniList beendet die Auflösung, nicht den Lauf.
+     *
+     * Am 23.08.2026 brach der stündliche Lauf hier ab, weil AniList
+     * abgeschaltet war — mitsamt den Crunchyroll-Sendezeiten, die davon gar
+     * nicht abhängen. Was schon im Cache steht, trägt die Nacht über; was
+     * fehlt, wird beim nächsten Lauf nachgeholt.
+     */
+    let hit
+    try {
+      hit = await searchMedia(entry.search)
+    } catch (err) {
+      if (!istQuellenAusfall(err)) throw err
+      warn(`AniList ist gerade nicht erreichbar — Auflösung übersprungen (${(err as Error).message})`)
+      anilistAus = true
+      break
+    }
     if (hit?.id) {
       resolved[entry.slug] = hit.id
       newResolutions++
@@ -120,6 +139,20 @@ async function main(): Promise<void> {
     }
     writeJson(TMDB_PATH, tmdbCache, true)
     log(`TMDB: ${done} neue Abfragen, ${Object.keys(tmdbCache).length} im Cache`)
+  }
+
+  /**
+   * War AniList aus, wird das am Ende gesagt — nicht verschwiegen.
+   *
+   * Der Lauf ist gruen, weil er mit dem Cache weitergekommen ist. Das darf
+   * aber nicht so aussehen, als waere nichts gewesen: Bleibt die Quelle
+   * laenger weg, veralten die Metadaten still, und genau davor warnt
+   * `check-sources.ts`.
+   */
+  if (anilistAus) {
+    warn(
+      'AniList war in diesem Lauf nicht erreichbar. Der Bestand kommt aus dem Cache; neue Titel fehlen, bis die Quelle zurueck ist.',
+    )
   }
 
   log('Fertig. Weiter mit: npm run data:build')

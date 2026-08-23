@@ -453,6 +453,41 @@ nur steht an einzelnen Stellen die Vermutung einer Quelle, wo eine Messung stand
 war Daniels Frage vom 23.08.2026, ob seine Netflix-Meldungen vom Vortag beim nächsten Lauf
 überschrieben werden könnten.
 
+## Ein Lauf ergänzt und berichtigt — er löscht keine Metadaten
+
+Daniel am 24.08.2026: „metadaten sollten nie gelöscht werden von läufen, die dürfen höchstens
+datum anpassungen machen und verfügbarkeit von streaming/käufen … solche komplett löschungen
+sollten nicht passieren."
+
+Was ein Lauf ändern darf: **Termine**, **Verfügbarkeit** und **Sprachfassung** — also das, was
+sich in der Wirklichkeit ändert. Was er nicht anfassen darf: Titel, Cover, Genres, Folgenzahl,
+Studio, Jahr. Diese Angaben ändern sich nicht; wenn sie verschwinden, ist etwas kaputt.
+
+**Der Anlass:** „Jaadugar: A Witch in Mongolia" zeigte im Detail-Panel „Zu diesem Eintrag
+liegen keine Metadaten vor", obwohl es Stunden vorher funktioniert hatte. Der Termin stand in
+`events.json` und `releases.json`, der Titel fehlte in `titles.json` — das Release trug
+`titleId: -1`.
+
+Die Ursache lag außerhalb: AniList war abgeschaltet („The AniList API has been temporarily
+disabled due to severe stability issues"). Die Titelsuche für Crunchyroll-Kalendereinträge
+fragte dort nach — und ging leer aus.
+
+**Die Metadaten lagen die ganze Zeit im Haus.** `data/cache/anilist-katalog.json` führt rund
+3.000 Titel mit Namen, Format, Jahr, Genres und Cover, darunter diesen. Nur nachgesehen hat
+dort niemand. Seit dem 24.08.2026 ist der Katalog die letzte Stufe der Titelsuche
+(`titelAusKatalog()` in `build.ts`) — das repariert nicht nur den Ausfall, es spart im
+Normalbetrieb eine Abfrage je neuem Titel.
+
+**Zwei Regeln daraus:**
+
+1. **Ein Ausfall einer Fremdquelle darf keinen Lauf beenden, solange der Cache trägt.**
+   `fetch.ts` unterscheidet seit dem 24.08.2026 zwischen einer kaputten Abfrage (muss
+   auffallen) und einer abgeschalteten Quelle (der Lauf macht weiter und sagt es am Ende).
+   Der stündliche Lauf brach sonst mitsamt den Crunchyroll-Sendezeiten ab, die von AniList gar
+   nicht abhängen.
+2. **Was einmal im Bestand war, wird nicht stillschweigend weniger.** Ein Titel ohne Metadaten
+   ist im Kalender ein halber Eintrag — sichtbar, anklickbar, leer.
+
 ## Ein Abruf, der nur ergänzt, veraltet zwangsläufig
 
 **Jede Warteschlange wird nach dem Alter gebildet, nie nach „schon beantwortet".** Ein Filter

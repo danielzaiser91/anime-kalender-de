@@ -1208,6 +1208,85 @@ function main(): void {
    * längste Treffer genommen; unter zwei Wörtern wird nicht mehr gesucht,
    * sonst trifft irgendwann jedes „Season 2".
    */
+  /**
+   * Der Katalog als Rückfallebene — die Metadaten liegen im Haus.
+   *
+   * `data/cache/anilist-katalog.json` führt rund 3.000 Titel mit Namen,
+   * Format, Jahr, Genres und Cover. Wer hier nicht nachsieht, fragt AniList
+   * nach etwas, das er schon hat — und steht mit leeren Händen da, wenn die
+   * Quelle ausfällt (23.08.2026, „Jaadugar: A Witch in Mongolia").
+   *
+   * Gesucht wird über **alle drei** Schreibweisen: Der Crunchyroll-Kalender
+   * nennt mal den englischen, mal den Romaji-Titel.
+   */
+  /** Einmal gelesen, nicht je Aufruf — die Datei hat rund 3.000 Eintraege. */
+  const katalogEintraege = readJson<{ eintraege?: KatalogEintrag[] }>('data/cache/anilist-katalog.json', {}).eintraege ?? []
+
+  function titelAusKatalog(name: string): Title | undefined {
+    const gesucht = normalizeTitle(name)
+    if (!gesucht) return undefined
+    /**
+     * Der Kalendername traegt einen Zusatz, der Katalogtitel nicht.
+     *
+     * Crunchyroll nennt die Reihe "Jaadugar: A Witch in Mongolia Staffel 1",
+     * AniList "Jaadugar: A Witch in Mongolia". Ein exakter Vergleich findet
+     * deshalb nichts -- gesucht wird nach dem laengsten Katalogtitel, der
+     * am Anfang des Kalendernamens steht.
+     *
+     * Der laengste, nicht der erste: "Dragon Ball" waere sonst ein Treffer
+     * fuer "Dragon Ball Super Staffel 2".
+     */
+    let bester: { eintrag: KatalogEintrag; laenge: number } | undefined
+    for (const e of katalogEintraege) {
+      for (const schreibweise of e.t) {
+        if (!schreibweise) continue
+        const kandidat = normalizeTitle(schreibweise)
+        if (!kandidat || kandidat.length < 4) continue
+        if (gesucht !== kandidat && !gesucht.startsWith(kandidat + ' ')) continue
+        if (bester && bester.laenge >= kandidat.length) continue
+        bester = { eintrag: e, laenge: kandidat.length }
+      }
+    }
+    if (bester) {
+      {
+        const e = bester.eintrag
+        /**
+         * Ein Titel aus dem Katalog ist ein vollwertiger Titel — er trägt
+         * dieselben Felder, nur aus einer anderen Quelle. Er wird in den
+         * Bestand aufgenommen, damit ihn auch Suche und Detail-Panel finden.
+         */
+        const vorhanden = titles.get(e.id)
+        if (vorhanden) return vorhanden
+        const anzeige = e.t[1] ?? e.t[0] ?? String(e.id)
+        const neu: Title = {
+          id: e.id,
+          slug: `${slugify(anzeige)}-${e.id}`,
+          keywords: [],
+          /**
+           * Ein Titel aus dem Katalog belegt keine Synchro -- er belegt nur,
+           * dass es den Anime gibt. `low` ist deshalb richtig: Der Termin
+           * daneben stammt aus dem Crunchyroll-Kalender, die Sprachfassung
+           * muss weiterhin belegt werden.
+           */
+          dubConfidence: 'low' as const,
+          titleRomaji: e.t[0] ?? undefined,
+          titleEn: e.t[1] ?? undefined,
+          titleNative: e.t[2] ?? undefined,
+          format: e.format ?? undefined,
+          jpYear: e.jahr ?? undefined,
+          episodes: e.folgen ?? undefined,
+          genres: e.genres?.length ? [...e.genres] : [],
+          coverImage: e.cover ? `https://s4.anilist.co/file/anilistcdn/media/anime/cover/${e.cover}` : undefined,
+          streams: [],
+        }
+        titles.set(e.id, neu)
+        log(`  Titel aus dem Katalog ergänzt: ${e.id} (${e.t[0] ?? e.t[1]})`)
+        return neu
+      }
+    }
+    return undefined
+  }
+
   function titleForCalendarName(name: string): Title | undefined {
     const words = normalizeTitle(name).split(' ').filter(Boolean)
     for (let start = 0; start <= words.length - 2; start++) {
@@ -1432,7 +1511,10 @@ function main(): void {
       titleForCalendarName(name) ??
       (slot.seriesId
         ? titleFromSeries(slot.seriesId, name, Number(slot.earliest.date.slice(0, 4)))
-        : undefined)
+        : undefined) ??
+      // Zuletzt der Katalog: Was wir haben, geht nicht verloren, nur weil die
+      // Namenssuche über den Bestand nichts fand.
+      titelAusKatalog(name)
     const slug = `cr-${slot.seriesId ?? slugify(key)}`
     if (seenSlugs.has(slug)) continue
     seenSlugs.add(slug)

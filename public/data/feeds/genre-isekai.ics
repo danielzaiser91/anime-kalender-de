@@ -77,17 +77,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-08-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260821T150000Z
-DTEND:20260821T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 4/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-08-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260821T150000Z
@@ -131,7 +120,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-08-23@anime-kalender-de
+UID:mushoku-tensei-s3@2026-08-23#4@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260823T150000Z
+DTEND:20260823T153000Z
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 4/14
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/mushoku-tensei-s3
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:mushoku-tensei-s3@2026-08-23#5@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260823T150000Z
 DTEND:20260823T153000Z

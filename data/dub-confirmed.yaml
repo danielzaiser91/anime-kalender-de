@@ -17687,3 +17687,43 @@
   dub: true
   checkedAt: '2026-08-23'
   note: "Tonspuren: Deutsch — Amazon-Seite B018YLXXNW: alle 10 Folgen geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"
+
+# --- ADN-Stichproben vom 24.08.2026 -----------------------------------------
+#
+# Die ersten Kontrollen dieser Quelle seit dem 20.08. Vorher standen 120
+# Urteile gegen vier geprüfte Fälle, und alle 120 lauteten "deutsch".
+# Alle drei bestätigen das Archiv.
+
+- anilistId: 2049
+  title: Eyeshield 21
+  platform: adn
+  dub: true
+  checkedAt: "2026-08-24"
+  note: >-
+    Daniel: "hab alle geprüft: 1-52 alle deutsche synchro". Das Archiv führt
+    145 Folgen in drei Staffeln (52/52/41), alle mit vde — die geprüfte
+    erste Staffel deckt sich damit.
+
+- anilistId: 21
+  title: ONE PIECE
+  platform: adn
+  dub: true
+  checkedAt: "2026-08-24"
+  dubRanges:
+    - { from: 1, to: 516, dub: true }
+    - { from: 780, to: 1176, dub: false }
+  note: >-
+    Daniel: "saga 7 letzte folge: 516 ist deutsch (alle vorher auch, also
+    1-516). saga 12 startet mit ep 780 und hat keine deutsche synchro (alle
+    danach auch nicht)". Das Archiv stützt das: 515 von 912 Folgen mit vde,
+    Sagas 1-7 vollständig, Sagas 12-16 gar nicht. Die Sagas 8-11 fehlen bei
+    ADN ganz — der Sprung geht von 516 direkt auf 780.
+
+- anilistId: 66
+  title: Azumanga Daioh
+  platform: adn
+  dub: true
+  checkedAt: "2026-08-24"
+  note: >-
+    Daniel: "alle folgen haben deutsche synchro (1-26)". Das Archiv führt 26
+    Folgen, alle mit vde.

@@ -110,18 +110,6 @@ export function titleStatus(
 
 /** Erzeugt aus der Termin-Regel eines Releases die einzelnen Kalender-Einträge. */
 /**
- * Tage zwischen zwei ISO-Daten, als ganze Zahl.
- *
- * Beide Daten sind Ortszeit Europe/Berlin und kommen ohne Uhrzeit — die
- * Rechnung über UTC-Mitternacht ist deshalb sommerzeitfest.
- */
-function tageZwischen(von: string, bis: string): number {
-  const a = Date.UTC(+von.slice(0, 4), +von.slice(5, 7) - 1, +von.slice(8, 10))
-  const b = Date.UTC(+bis.slice(0, 4), +bis.slice(5, 7) - 1, +bis.slice(8, 10))
-  return Math.round((b - a) / 86400000)
-}
-
-/**
  * Ist dieser Termin schon durch — nach Datum **und** Uhrzeit?
  *
  * Daniel am 23.08.2026: „um 16:59 sollte im panel 4 stehen, ab 17:00 uhr
@@ -229,10 +217,38 @@ export function expandEvents(release: Release): ReleaseEvent[] {
      * genau in dieser Lücke eine Sendepause lag — aber sie kann nicht die
      * Reihenfolge verletzen, und **das** ist der Fehler, der dem Leser auffällt.
      */
-    if (danach && anchor && danach.episode > anchor.episode) {
-      const spanne = tageZwischen(anchor.date, danach.date)
-      const schritt = spanne / (danach.episode - anchor.episode)
-      return addDays(anchor.date, Math.round(schritt * (episode - anchor.episode)))
+    /**
+     * **Nur wenn die Folge selbst kein Stuetzpunkt ist.**
+     *
+     * Ist sie einer, steht ihr Termin fest und wird unten unveraendert
+     * zurueckgegeben. Ohne diese Bedingung schob der erste Versuch auch
+     * belegte Folgen auf den naechsten Termin: Folge 3 lag am 19.08. und
+     * landete auf dem 23.08. -- eine Messung durch eine Ableitung ersetzt,
+     * der schlimmste Tausch, den dieses Projekt kennt.
+     */
+    if (danach && anchor && anchor.episode !== episode) {
+      /**
+       * **Auf den naechsten belegten Termin, nicht in die Mitte.**
+       *
+       * Die erste Fassung teilte die Spanne gleichmaessig auf: Bei Folge 3 am
+       * 19.08. und Folge 5 am 23.08. landete Folge 4 auf dem 21.08. Das sah
+       * vernuenftig aus und war falsch -- Crunchyroll hat die Folgen 4 und 5
+       * am selben Tag veroeffentlicht (Daniel, 24.08.2026: "i dont remember
+       * watching ep 4 yesterday, so it must be correct that it released
+       * today").
+       *
+       * Der Grund liegt auf der Hand, sobald man ihn sieht: Eine Folge fehlt
+       * in unseren Daten nicht zufaellig, sondern weil kein Abruf sie als
+       * eigenen Termin gesehen hat. Am haeufigsten, weil sie gar keinen
+       * eigenen hatte -- Nachzuegler kommen gebuendelt.
+       *
+       * Die Mitte zu raten ist eine Erfindung mit vernuenftigem Anstrich. Der
+       * naechste belegte Termin ist dagegen eine **Obergrenze**: Sie kann zu
+       * spaet liegen, aber sie behauptet nie eine Folge, die es noch nicht
+       * gibt. Fuer einen Kalender, der vorhersagt, ist das die richtige
+       * Richtung.
+       */
+      return danach.date
     }
 
     /**

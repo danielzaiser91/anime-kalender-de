@@ -43,6 +43,8 @@ const TEXTE = {
   'view.datenschutz': 'Datenschutz',
 
   'nav.today': 'heute',
+  'nav.todayHere': 'Der heutige Tag ist schon zu sehen',
+  'nav.todayGo': 'Zum heutigen Tag springen',
   'nav.back': 'zurück',
   'nav.forward': 'vor',
   'nav.from': 'ab {date}',

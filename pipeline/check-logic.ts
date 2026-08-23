@@ -1833,10 +1833,47 @@ console.log('\nLücken im Sendeplan und die Uhrzeit')
   const termine = expandEvents(release)
   const nach = (n: number) => termine.find((e) => e.episode === n)?.date
 
+  /**
+   * Eine fehlende Folge landet auf dem naechsten belegten Termin.
+   *
+   * Die erste Fassung teilte die Spanne gleichmaessig und legte Folge 4 auf
+   * den 21.08. Das war falsch: Crunchyroll hat 4 und 5 am selben Tag
+   * veroeffentlicht (Daniel, 24.08.2026: "i dont remember watching ep 4
+   * yesterday, so it must be correct that it released today").
+   *
+   * Eine Folge fehlt nicht zufaellig in den Daten, sondern weil kein Abruf sie
+   * als eigenen Termin gesehen hat -- am haeufigsten, weil sie keinen hatte.
+   * Der naechste belegte Termin ist eine Obergrenze: Sie kann zu spaet liegen,
+   * behauptet aber nie eine Folge, die es noch nicht gibt.
+   */
   pruefe(
-    'Folge 4 liegt zwischen den belegten Folgen 3 und 5, nicht dahinter',
-    nach(4)! > nach(3)! && nach(4)! < nach(5)!,
+    'Folge 4 landet auf dem belegten Termin von Folge 5, nicht dazwischen',
+    nach(4) === nach(5),
     { f3: nach(3), f4: nach(4), f5: nach(5) },
+  )
+  pruefe(
+    'und liegt damit nicht vor Folge 3',
+    nach(4)! >= nach(3)!,
+    { f3: nach(3), f4: nach(4) },
+  )
+
+  /**
+   * **Eine belegte Folge behaelt ihren Termin.**
+   *
+   * Der erste Versuch der Lueckenfuellung schob auch Stuetzpunkte: Folge 3 lag
+   * belegt am 19.08. und landete auf dem 23.08. Eine Messung durch eine
+   * Ableitung zu ersetzen ist der schlimmste Tausch, den dieses Projekt kennt
+   * -- schlimmer als eine Luecke, denn die sieht man.
+   */
+  pruefe(
+    'die belegten Folgen 1 bis 3 bleiben auf ihrem Termin (19.08.)',
+    nach(1) === '2026-08-19' && nach(2) === '2026-08-19' && nach(3) === '2026-08-19',
+    { f1: nach(1), f2: nach(2), f3: nach(3) },
+  )
+  pruefe(
+    'und die belegte Folge 5 ebenso (23.08.)',
+    nach(5) === '2026-08-23',
+    nach(5),
   )
 
   /**
