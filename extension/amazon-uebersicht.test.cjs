@@ -108,11 +108,14 @@ function starte(seitenAsin, gespeichert = {}) {
     return kind
   }
   const gesetzt = []
+  // Der Takt wird nicht der Uhr überlassen: Der Test ruft ihn selbst auf,
+  // sonst müsste er warten und wäre von der Maschine abhängig.
+  const takte = []
   const sandkasten = {
     globalThis: null,
     AK_OFFENE_AMAZON: ECHTE_LISTE,
     location: { pathname: `/dp/${seitenAsin}`, search: '' },
-    document: { ...dom, body: dom.body },
+    document: { ...dom, body: dom.body, title: 'Testserie ansehen | Prime Video' },
     chrome: {
       storage: {
         local: {
@@ -125,7 +128,10 @@ function starte(seitenAsin, gespeichert = {}) {
       },
     },
     window: { addEventListener() {} },
-    setInterval: () => 0,
+    setInterval: (fn) => {
+      takte.push(fn)
+      return takte.length
+    },
     setTimeout: () => 0,
     fetch: async () => ({ ok: true, status: 200 }),
     console,
@@ -133,7 +139,7 @@ function starte(seitenAsin, gespeichert = {}) {
   sandkasten.globalThis = sandkasten
   vm.createContext(sandkasten)
   vm.runInContext(readFileSync(__dirname + '/amazon.js', 'utf8'), sandkasten)
-  return { angehaengt, gesetzt, sandkasten }
+  return { angehaengt, gesetzt, sandkasten, takte, dom }
 }
 
 const ersteAsin = Object.keys(ECHTE_LISTE)[0]
@@ -168,9 +174,75 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
     'auf einer fremden Seite erscheint die Übersicht trotzdem',
     angehaengt.some((e) => e.className.includes('ak-uebersicht')),
   )
+  /**
+   * **Auch** eine Staffel, die wir nicht führen, ist meldenswert.
+   *
+   * Bis zum 23.08.2026 verschwand der Knopf dort stumm. Daniel stand damit vor
+   * „Oshi no Ko" Staffel 3, die unter eigener Kennung läuft und nur über
+   * aniverse zu sehen ist — und hatte keine Möglichkeit, seinen Befund
+   * loszuwerden: „nach neuladen auf season 3 erscheint der button nicht."
+   *
+   * Eine belegte deutsche Tonspur ist auch dann etwas wert, wenn der Titel im
+   * Bestand fehlt. Zugeordnet wird später über den Titel.
+   */
   pruefe(
-    'dort erscheint aber KEIN Melde-Knopf',
-    !angehaengt.some((e) => e.className.includes('ak-amazon-knopf')),
+    'der Melde-Knopf erscheint auch für eine Staffel, die nicht auf der Liste steht',
+    angehaengt.some((e) => e.className.includes('ak-amazon-knopf')),
+  )
+}
+
+// --- 2b. Der Staffelwechsel im Auswahlfeld --------------------------------
+
+/**
+ * Der Fehler, den Daniel am 23.08.2026 gemeldet hat.
+ *
+ * „beim dropdownwechsel hat der button unten rechts nicht reagiert, es stand
+ * weiterhin immer 12 folgen, und der nächste eintrag der liste blieb stehen
+ * nach klick auf 12 melden."
+ *
+ * Amazon tauscht beim Staffelwechsel den ganzen Inhalt aus und schreibt eine
+ * neue Kennung in die Adresse (`B0GFPBT6FG` → `B0D8FH5NC6`), **ohne die Seite
+ * neu zu laden**. Ein Content-Script läuft dabei nicht erneut: Es behielt
+ * Kennung und Zählstand und hätte die zweite Staffel unter der Adresse der
+ * ersten gemeldet.
+ */
+{
+  /** Seitenquelltext mit N Folgen, so wie Amazon ihn ausliefert. */
+  const mitFolgen = (n) =>
+    Array.from(
+      { length: n },
+      (_, i) => `"audioTracks":["Deutsch"],"duration":1355,"episodeNumber":${i + 1},`,
+    ).join('') + `"episodeCount":${n},"benefitId":"Prime"`
+
+  const asins = Object.keys(ECHTE_LISTE)
+  const { angehaengt, sandkasten, takte } = starte(asins[0])
+  const knopf = angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))
+
+  // Staffel 1: zwölf Folgen, wie bei „Oshi no Ko".
+  sandkasten.document.documentElement.innerHTML = mitFolgen(12)
+  for (const takt of takte) takt()
+  pruefe('Staffel 1 zeigt ihre 12 Folgen', knopf?.textContent.includes('12 Folgen'), knopf?.textContent)
+
+  // Der Wechsel, wie ihn Amazon vornimmt: neue Kennung, neuer Inhalt, kein
+  // Neuladen.
+  sandkasten.location.pathname = `/dp/${asins[1]}`
+  sandkasten.document.documentElement.innerHTML = mitFolgen(13)
+  for (const takt of takte) takt()
+
+  /**
+   * **13, nicht 25.** Ohne das Leeren des Zählstands trüge Staffel 2 die
+   * Folgen von Staffel 1 mit — und der Knopf meldete eine Zahl, die es
+   * nirgends gibt.
+   */
+  pruefe(
+    'nach dem Staffelwechsel zählt der Knopf neu (13, nicht 25)',
+    knopf?.textContent.includes('13 Folgen'),
+    knopf?.textContent,
+  )
+  pruefe(
+    'der Takt läuft nach dem Wechsel weiter (kein clearInterval)',
+    takte.length > 0,
+    takte.length,
   )
 }
 
@@ -198,5 +270,6 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
       process.exit(1)
     }
     console.log('Alle Zusicherungen erfüllt.')
+    process.exit(0)
   }, 50)
 }

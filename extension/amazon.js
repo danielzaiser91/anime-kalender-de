@@ -84,6 +84,18 @@
     return { sprachen: [...alle], nummern, gesamt }
   }
 
+  /**
+   * Der Serientitel, wie ihn die Seite selbst nennt.
+   *
+   * Gebraucht für Staffeln, die unser Bestand nicht kennt — etwa solche, die
+   * nur über ein Zusatzabo laufen (Daniel, 23.08.2026: „staffel 3 ist nur mit
+   * aniverse anschaubar").
+   */
+  function seitenTitel() {
+    const roh = document.title ?? ''
+    return roh.split('|')[0].replace(/\s+(ansehen|anschauen)\s*$/i, '').trim() || null
+  }
+
   /** Welche Abos diese Staffel freischalten — `Prime`, `aniversede`, … */
   function abos() {
     const text = document.documentElement.innerHTML
@@ -91,7 +103,9 @@
   }
 
   const liste = globalThis.AK_OFFENE_AMAZON ?? {}
-  const id = asin()
+  // Veränderlich: Das Auswahlfeld wechselt die Staffel ohne Seitenneuladen,
+  // und damit die Kennung — siehe `beiStaffelwechsel()`.
+  let id = asin()
 
   // --- Die Übersicht: was noch zu prüfen ist --------------------------------
 
@@ -252,9 +266,26 @@
     suche.focus()
   }
 
-  if (!id || !liste[id]) return // Kein Titel von unserer Liste: kein Melde-Knopf.
+  /**
+   * Auch Staffeln, die **nicht** auf unserer Liste stehen, sind meldenswert.
+   *
+   * Daniel am 23.08.2026: „staffel 3 ist nur mit aniverse anschaubar … nach
+   * neuladen auf season 3 erscheint der button nicht." Der Grund war nicht das
+   * Abo — die Erweiterung kennt keine Abo-Sperre —, sondern dass diese Staffel
+   * unter einer eigenen Kennung läuft, die im Bestand fehlt.
+   *
+   * Sie stumm zu übergehen ist der falsche Schluss: Eine belegte deutsche
+   * Tonspur ist auch dann etwas wert, wenn wir den Titel noch nicht führen. Die
+   * Meldung geht dann mit der Adresse der Seite raus und ohne unsere Kennung;
+   * zuordnen lässt sie sich später über den Titel.
+   */
+  if (!id) return // Gar keine Titelseite — dann gibt es nichts zu melden.
 
-  const eintrag = liste[id]
+  let eintrag = liste[id] ?? {
+    titel: null,
+    url: `https://www.amazon.de/dp/${id}`,
+    unbekannt: true,
+  }
 
   // --- Der Knopf -----------------------------------------------------------
 
@@ -275,7 +306,8 @@
    * während die Abschnitte eintreffen — gleich ob Daniel sie anklickt oder
    * `amazon-leser.js` sie nachholt.
    */
-  const gesehen = { sprachen: new Set(), nummern: new Set(), gesamt: null }
+  const leererStand = () => ({ sprachen: new Set(), nummern: new Set(), gesamt: null })
+  let gesehen = leererStand()
 
   /**
    * Was der Mitleser aus den Nachlade-Antworten fischt, kommt hier an.
@@ -341,7 +373,10 @@
     const umfang = vollstaendig
       ? `${geladen} Folgen`
       : `${geladen} von ${gesehen.gesamt}` + (wartet ? ' — lädt nach' : ' — Abschnitte selbst öffnen')
-    knopf.textContent = `${deutsch ? '🇩🇪 Deutsch' : '✕ kein Deutsch'} · ${umfang} · melden`
+    // Eine Staffel, die wir nicht führen, wird trotzdem gemeldet — der Knopf
+    // sagt es nur dazu, damit die Meldung nicht wie eine Zuordnung aussieht.
+    const woher = eintrag.unbekannt ? ' · neu' : ''
+    knopf.textContent = `${deutsch ? '🇩🇪 Deutsch' : '✕ kein Deutsch'} · ${umfang}${woher} · melden`
     knopf.dataset.teilweise = String(!vollstaendig)
   }
 
@@ -352,7 +387,50 @@
    * dort dauerhaft „noch nicht geladen", obwohl die Angaben längst da sind.
    */
   zeichnen()
-  setInterval(zeichnen, 500)
+
+  /**
+   * Der Staffelwechsel im Auswahlfeld ist ein Seitenwechsel ohne Neuladen.
+   *
+   * Amazon tauscht bei „Season 2" den ganzen Inhalt aus und schreibt eine neue
+   * Kennung in die Adresse — `B0GFPBT6FG` wird zu `B0D8FH5NC6`. Ein
+   * Content-Script läuft dabei **nicht** neu: Es behält seine alte Kennung,
+   * seinen alten Zählstand und meldet die neue Staffel unter der alten Adresse.
+   *
+   * Genau das ist Daniel am 23.08.2026 passiert: „beim dropdownwechsel hat der
+   * button unten rechts nicht reagiert, es stand weiterhin immer 12 folgen, und
+   * der nächste eintrag der liste blieb stehen nach klick auf 12 melden."
+   * Erledigt wurde dabei die **erste** Staffel — ein zweites Mal, mit deren
+   * Zahlen.
+   *
+   * Deshalb wird die Kennung bei jedem Takt nachgesehen. Ändert sie sich, fängt
+   * alles von vorn an: neuer Eintrag, leerer Zählstand, leerer Knopf.
+   */
+  function beiStaffelwechsel() {
+    const jetzt = asin()
+    if (!jetzt || jetzt === id) return
+    id = jetzt
+    eintrag = liste[id] ?? {
+      titel: null,
+      url: `https://www.amazon.de/dp/${id}`,
+      unbekannt: true,
+    }
+    // Der Zählstand gehört zur Staffel, nicht zur Sitzung. Ohne das Leeren
+    // trüge Staffel 2 die Folgen von Staffel 1 mit.
+    gesehen = leererStand()
+    letzteZahl = -1
+    letzterStand = ''
+    letzterFortschritt = Date.now()
+    knopf.disabled = false
+    zeichnen()
+    // Die Übersicht hebt den gerade offenen Titel hervor — nach dem Wechsel
+    // ist das ein anderer.
+    uebersichtZeichnen()
+  }
+
+  setInterval(() => {
+    beiStaffelwechsel()
+    zeichnen()
+  }, 500)
 
   // --- Melden --------------------------------------------------------------
 
@@ -409,7 +487,15 @@
            * erraten.
            */
           befund: deutsch ? 'dub' : 'kein_dub',
-          titel: eintrag.titel,
+          /**
+           * Kennen wir den Titel nicht, wird er von der Seite gelesen.
+           *
+           * Ohne ihn wäre die Meldung nicht zuzuordnen — und eine Meldung, die
+           * niemand zuordnen kann, ist keine. Amazon setzt den Serientitel in
+           * `<title>`, mit angehängtem „ansehen | Prime Video" o. Ä.; der Teil
+           * hinter dem senkrechten Strich fällt weg.
+           */
+          titel: eintrag.titel ?? seitenTitel(),
           /**
            * Die Notiz sagt, worüber der Befund reicht.
            *
@@ -422,7 +508,8 @@
             (vollstaendig
               ? `alle ${geladen} Folgen geprüft`
               : `nur ${geladen} von ${gesehen.gesamt} Folgen geladen — Rest ungeprüft`) +
-            `, Abos: ${abos().join(', ') || 'keine Angabe'}`,
+            `, Abos: ${abos().join(', ') || 'keine Angabe'}` +
+            (eintrag.unbekannt ? ' — Staffel nicht im Bestand, Titel von der Seite gelesen' : ''),
         }),
       })
       knopf.textContent = antwort.ok ? '✓ gemeldet' : `Fehler ${antwort.status}`

@@ -284,6 +284,22 @@ const seitenQuelltext = (() => {
       new Set(angefordert).size === angefordert.length,
     )
 
+    /**
+     * Der Pfadvergleich hält auch, wenn `location` unvollständig ist.
+     *
+     * `location.pathname + location.search` ist keine Textverkettung, sobald
+     * beide Werte fehlen — es ist eine Zahlenaddition, und `undefined +
+     * undefined` ergibt `NaN`. Da `NaN === NaN` falsch ist, meldete der
+     * Vergleich bei **jedem** Takt einen Seitenwechsel, leerte `geholt` und
+     * holte jeden Abschnitt mehrfach. Die Sandbox oben reicht `pathname` nicht
+     * durch — genau deshalb fiel es auf.
+     */
+    pruefe(
+      'kein Abschnitt wird doppelt geholt, auch ohne location.pathname',
+      new Set(angefordert).size === angefordert.length,
+      angefordert.length,
+    )
+
     // --- 3. Keine Zugangsdaten in der Prüfvorlage -------------------------
 
     const verboten = ['session-token', 'at-acbde', 'sst-acbde', 'ubid-acbde', 'x-amz-access-token']
@@ -296,5 +312,8 @@ const seitenQuelltext = (() => {
       process.exit(1)
     }
     console.log('Alle Zusicherungen erfüllt.')
+    // Der Leser hält einen Dauertakt, um Staffelwechsel zu bemerken — ohne
+    // dieses Ende liefe der Testprozess weiter, obwohl er fertig ist.
+    process.exit(0)
   }, 1500)
 }

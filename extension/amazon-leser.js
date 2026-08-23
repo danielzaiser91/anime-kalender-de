@@ -87,7 +87,7 @@
    * Umbau bei Amazon kommt bestimmt.
    */
   const diagnose = {
-    fassung: '0.51.0',
+    fassung: '0.52.0',
     anlaeufe: 0,
     quelltextLaenge: 0,
     titleID: null,
@@ -372,17 +372,75 @@
    * Sobald `nachholen()` einmal gegriffen hat, sind die Tokens in `geholt` und
    * weitere Anläufe tun nichts.
    */
-  const takt = setInterval(() => {
-    // 60 Anläufe à 500 ms sind 30 Sekunden. Die erste Fassung gab nach zehn
-    // auf — großzügig gerechnet für eine schnelle Leitung, knapp für eine
-    // Seite, die ihren Inhalt in mehreren Wellen nachlädt.
-    if (++diagnose.anlaeufe > 60 || diagnose.tokensImQuelltext) clearInterval(takt)
+  /**
+   * Beim Staffelwechsel fängt der Leser von vorn an.
+   *
+   * Amazon tauscht im Auswahlfeld die ganze Seite aus und schreibt eine neue
+   * Kennung in die Adresse, ohne neu zu laden. Behielte der Leser seine alte
+   * `titleID`, holte er die Abschnitte der **vorigen** Staffel nach — und
+   * `geholt` hielte ihn davon ab, die neuen überhaupt anzufordern.
+   */
+  /**
+   * Die Adresse als Zeichenkette — mit `String()`, nicht mit `+`.
+   *
+   * `location.pathname + location.search` sieht nach Textverkettung aus, ist
+   * aber eine **Zahlenaddition**, sobald beide Werte fehlen: `undefined +
+   * undefined` ergibt `NaN`, und `NaN === NaN` ist `false`. Der Vergleich
+   * meldete dann bei **jedem** Takt einen Seitenwechsel und leerte `geholt` —
+   * jeder Abschnitt wurde doppelt und dreifach geholt.
+   */
+  const pfad = () => `${location?.pathname ?? ''}${location?.search ?? ''}`
+
+  let letzterPfad = pfad()
+  let langsam = false
+  let takt = null
+
+  function beiSeitenwechsel() {
+    const jetzt = pfad()
+    if (jetzt === letzterPfad) return
+    letzterPfad = jetzt
+    titleID = null
+    geholt.clear()
+    diagnose.titleID = null
+    diagnose.tokensImQuelltext = 0
+    diagnose.anlaeufe = 0
+    takten(false) // Die neue Staffel lädt gerade erst — wieder genau hinsehen.
+  }
+
+  /**
+   * Nach getaner Arbeit wird der Takt langsam, nicht stumm.
+   *
+   * Ihn ganz abzuschalten war die erste Fassung — dann bleibt ein
+   * Staffelwechsel unbemerkt, und genau der ist der häufigste Fall. Ihn
+   * unverändert weiterlaufen zu lassen war die zweite: zwei Durchläufe je
+   * Sekunde, für immer, auf einer Seite, die stundenlang offen sein kann.
+   *
+   * Also beides. 30 Sekunden lang wird der Quelltext im Halbsekundentakt
+   * abgesucht — solange lädt Amazon noch nach. Danach genügt es, alle vier
+   * Sekunden nach einer neuen Kennung zu sehen; ein Mensch wechselt die
+   * Staffel nicht schneller.
+   */
+  function takten(gemaechlich) {
+    if (takt !== null && gemaechlich === langsam) return
+    langsam = gemaechlich
+    if (takt !== null) clearInterval(takt)
+    takt = setInterval(gemaechlich ? beiSeitenwechsel : schritt, gemaechlich ? 4000 : 500)
+  }
+
+  function schritt() {
+    beiSeitenwechsel()
+    if (++diagnose.anlaeufe > 60 || diagnose.tokensImQuelltext) {
+      takten(true)
+      return
+    }
     try {
       ausSeite()
     } catch (err) {
       diagnose.fehler.push(String(err?.message ?? err).slice(0, 120))
     }
-  }, 500)
+  }
+
+  takten(false)
   try {
     ausSeite()
   } catch {
