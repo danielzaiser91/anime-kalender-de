@@ -35,6 +35,7 @@
     "check:workflows": "node tools/check-workflows.mjs",
     "check:worker": "tsc --noEmit -p worker/tsconfig.json",
     "check:hooks": "eslint web/src",
+    "check:extension": "node tools/extension-tests.mjs",
     "data:katalog": "tsx pipeline/fetch-anilist-katalog.ts",
     "data:ann:ids": "tsx pipeline/fetch-ann-ids.ts",
     "data:ann:voices": "tsx pipeline/fetch-ann-voices.ts",

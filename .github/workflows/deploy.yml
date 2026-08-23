@@ -167,6 +167,14 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run check:hooks
 
+      # Die Zusicherungen der Erweiterung. Sie lagen bis zum 23.08.2026 in
+      # keiner Kette und liefen deshalb genau einmal — an dem Tag, an dem sie
+      # geschrieben wurden.
+      - name: Erweiterung prüfen
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run check:extension
+
       - name: Fortschritt — Hooks-Regeln geprüft
         continue-on-error: true
         env:

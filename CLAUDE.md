@@ -303,6 +303,41 @@ Mehrere Einträge in einer Zeile werden mit Punkt getrennt in derselben Reihenfo
 (`1.0` = erster ja, zweiter nein). Eine einzelne Angabe gilt für alle Einträge der Zeile.
 Beispiel für einen ganzen Batch: `1-x 2-1 3-1.0 4-x`.
 
+### Amazon: die Folgenliste kommt seitenweise, und die Seite verrät ihre eigenen Zugänge
+
+Prime Video zeigt lange Staffeln in Abschnitten („Folgen 1–24", „25–48", „49–51"). **Im
+Quelltext steht immer nur der gewählte Abschnitt** — wer ihn als Staffel liest, hält 24 von 51
+Folgen für das Ganze. Genau das tat die erste Fassung der Erweiterung (Daniel, 23.08.2026, mit
+Bild: „aber warum steht beim button 27? auf der seite gibt es ein dropdown für folge 1-24").
+
+Nachgeladen wird über `/gp/video/api/getDetailWidgets?titleID=<ASIN>&widgets=[…]`. Die Antwort
+ist gültiges JSON und trägt neben dem Abschnitt **die Zugänge zu allen übrigen**:
+
+```
+widgets.episodeList.episodeCount                     → 51
+widgets.episodeList.episodes[].detail.audioTracks    → ["Deutsch"]
+widgets.episodeList.episodes[].detail.episodeNumber  → 25 … 48
+widgets.episodeList.actions.episodePages[].token     → alle drei Abschnitte
+```
+
+Drei Dinge, die man beim Weiterbauen braucht:
+
+- **Geparst, nicht abgetastet.** Die erste Fassung suchte per Muster ein `episodeNumber`
+  innerhalb von 240 Zeichen hinter `audioTracks`. Gemessen sind es 217 — es ging gut, mit 23
+  Zeichen Luft, und nur weil `contributors.cast` bei dieser Serie leer ist. Ein Abstand, der
+  vom Inhalt eines Nachbarfelds abhängt, ist keine Regel, sondern ein Zufall mit Frist.
+- **`episodeCount` schlägt die Zahl im Seitengerüst.** Die dort steht für die gerade gewählte
+  Staffel; die Nachlade-Antwort meint die Folgenliste, um die es geht.
+- **Aus einem Ausschnitt entsteht nie ein Nein.** „Deutsch gefunden" bleibt wahr, auch bei 24
+  von 51 Folgen. „Kein Deutsch" wäre eine Aussage über die ganze Staffel, gestützt auf die
+  Hälfte — dieselbe Asymmetrie, die dieses Projekt an fremden Quellen bemängelt.
+
+**Die Erweiterung holt die übrigen Abschnitte selbst**, mit den mitgelieferten Tokens, in
+Daniels angemeldeter Sitzung, 400 ms auseinander, höchstens 25 Stück. Das ist Zeichen für
+Zeichen der Abruf, den ein Klick aufs Auswahlfeld auslöst — keine Suche, kein Durchlauf, keine
+zweite Serie. Wo die Grenze greift oder ein Abruf fehlschlägt, bleibt die Zahl unvollständig,
+und der Knopf sagt es.
+
 ## Terminquellen: der Shop schlägt die News schlägt die Datenbank
 
 Am 13.08.2026 hat Daniel zehn angebliche Terminwidersprüche einzeln nachgeprüft. Das
@@ -616,7 +651,7 @@ gilt: nachsehen statt annehmen.
 ## Vor dem Commit
 
 ```bash
-npm run data:validate && npm run check:logic && npm run typecheck && npm run check:worker && npm run check:hooks && npm run build
+npm run data:validate && npm run check:logic && npm run typecheck && npm run check:worker && npm run check:hooks && npm run check:extension && npm run build
 ```
 
 **Jedes `tsc` hier braucht `--noEmit`, und die Skripte setzen es.** Ohne das legt `tsc -b`

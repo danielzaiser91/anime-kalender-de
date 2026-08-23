@@ -111,14 +111,9 @@
    * meldet, meldet also einen Ausschnitt — bei „Digimon Tamers" wären das 24
    * von 51 Folgen (Daniel, 23.08.2026, mit Bild).
    *
-   * Deshalb merkt sich der Knopf, was er schon gesehen hat, und zählt beim
-   * Wechseln des Abschnitts weiter. Daniel klickt die Abschnitte durch, der
-   * Knopf füllt sich auf; gemeldet wird, was bis dahin zusammengekommen ist.
-   *
-   * **Bewusst nicht automatisch durchgeklickt:** Dieser Weg beruht darauf, dass
-   * ein Mensch die Seite ansieht — dafür gibt es die Erweiterung überhaupt.
-   * Ein Skript, das selbsttätig durch Menüs klickt, wäre wieder das, was
-   * Amazons Bedingungen „Robots" nennen.
+   * Deshalb merkt sich der Knopf, was er schon gesehen hat, und zählt weiter,
+   * während die Abschnitte eintreffen — gleich ob Daniel sie anklickt oder
+   * `amazon-leser.js` sie nachholt.
    */
   const gesehen = { sprachen: new Set(), nummern: new Set(), gesamt: null }
 
@@ -132,23 +127,46 @@
    */
   window.addEventListener('message', (e) => {
     if (e.source !== window || e.data?.marke !== 'ak-amazon-folgen') return
+    // `episodeCount` aus der Nachlade-Antwort ist verlässlicher als die Zahl im
+    // Seitengerüst — die steht dort für die gerade gewählte Staffel.
+    if (Number.isFinite(e.data.gesamt)) gesehen.gesamt = e.data.gesamt
     for (const f of e.data.funde ?? []) {
-      gesehen.nummern.add(f.nummer)
+      // Ein Fund ohne Nummer stammt aus der Rückfallebene des Mitlesers: seine
+      // Sprache zählt, als **Folge** zählt er nicht. Sonst stünde am Knopf
+      // wieder eine Zahl, die keine Folgen meint (der 27-von-24-Fehler).
+      if (Number.isFinite(f.nummer)) gesehen.nummern.add(f.nummer)
       for (const s of f.sprachen) gesehen.sprachen.add(s)
     }
     zeichnen()
   })
 
   let letzterStand = ''
+  /**
+   * Wann die Zahl zuletzt gestiegen ist.
+   *
+   * `amazon-leser.js` holt die übrigen Abschnitte selbst nach — solange das
+   * läuft, wäre „weitere Abschnitte öffnen" eine falsche Aufforderung. Bleibt
+   * die Zahl aber stehen, ist das Nachholen fehlgeschlagen, und dann muss der
+   * Knopf den Weg zeigen: Daniel kann die Abschnitte von Hand durchklicken.
+   */
+  let letzterFortschritt = Date.now()
+  let letzteZahl = -1
+  const GEDULD_MS = 8000
+
   function zeichnen() {
     const jetzt = spuren()
     for (const s of jetzt.sprachen) gesehen.sprachen.add(s)
     for (const n of jetzt.nummern) gesehen.nummern.add(n)
-    if (jetzt.gesamt) gesehen.gesamt = jetzt.gesamt
+    if (jetzt.gesamt && !gesehen.gesamt) gesehen.gesamt = jetzt.gesamt
 
     const deutsch = [...gesehen.sprachen].some((s) => /deutsch|german/i.test(s))
     const geladen = gesehen.nummern.size
-    const stand = `${deutsch}|${geladen}|${gesehen.gesamt}`
+    if (geladen !== letzteZahl) {
+      letzteZahl = geladen
+      letzterFortschritt = Date.now()
+    }
+    const wartet = Date.now() - letzterFortschritt < GEDULD_MS
+    const stand = `${deutsch}|${geladen}|${gesehen.gesamt}|${wartet}`
     if (stand === letzterStand) return
     letzterStand = stand
 
@@ -162,7 +180,7 @@
     // Die Zahl sagt, worüber der Befund wirklich etwas aussagt — nie mehr.
     const umfang = vollstaendig
       ? `${geladen} Folgen`
-      : `${geladen} von ${gesehen.gesamt} — weitere Abschnitte öffnen`
+      : `${geladen} von ${gesehen.gesamt}` + (wartet ? ' — lädt nach' : ' — Abschnitte selbst öffnen')
     knopf.textContent = `${deutsch ? '🇩🇪 Deutsch' : '✕ kein Deutsch'} · ${umfang} · melden`
     knopf.dataset.teilweise = String(!vollstaendig)
   }

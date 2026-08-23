@@ -1,0 +1,187 @@
+/**
+ * Zusicherungen für das Nachladen der Amazon-Folgenabschnitte.
+ *
+ * ## Woher die Prüfvorlage stammt
+ *
+ * `data/amazon-raw/getdetailwidgets-B0CKPCSHMC.json.gz` ist die **echte**
+ * Antwort, die Amazon am 23.08.2026 lieferte, als Daniel bei „Digimon Tamers"
+ * im Auswahlfeld auf „Folgen 25–48" wechselte. Kein nachgebauter Ausschnitt:
+ * 268 KB mit allem, was wirklich darin steht — Besetzungslisten, Bildadressen,
+ * Untertitelangaben.
+ *
+ * Genau das ist der Punkt. Die erste Fassung des Mitlesers suchte per Muster
+ * nach einem `episodeNumber` **innerhalb von 240 Zeichen** hinter
+ * `audioTracks`. Gemessen an dieser Antwort liegen dazwischen **217 Zeichen** —
+ * `catalogId`, `contributors`, `duration`, `enhancedSubtitles`, `entityType`.
+ * Es ging also gut, mit 23 Zeichen Luft.
+ *
+ * Womit die Fassung stand und fiel, war der Zufall einer **leeren**
+ * Besetzungsliste: Hier ist `"contributors":{"cast":[],"directors":[],…}`. Wie
+ * weit sie bei einer Serie reicht, die ihre Sprecher nennt, ist nicht gemessen
+ * — und der Parser macht die Frage gegenstandslos, statt sie zu beantworten.
+ * Ein Test gegen selbst geschriebene Beispieldaten hätte weder das eine noch
+ * das andere gezeigt.
+ *
+ * Die Zugangsdaten aus Daniels Mitschnitt (`session-token`, `at-acbde`,
+ * `sst-acbde`, Cookies) sind **nicht** in der Datei — gespeichert wurde allein
+ * der Antwortkörper, und die letzte Zusicherung unten prüft das bei jedem Lauf
+ * nach.
+ */
+const { readFileSync } = require('node:fs')
+const { gunzipSync } = require('node:zlib')
+const vm = require('node:vm')
+
+const fehler = []
+function pruefe(name, bedingung, gefunden) {
+  if (bedingung) return console.log(`  ✓ ${name}`)
+  fehler.push(name)
+  console.error(`  ✗ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
+}
+
+const antwort = gunzipSync(
+  readFileSync(__dirname + '/../data/amazon-raw/getdetailwidgets-B0CKPCSHMC.json.gz'),
+).toString('utf8')
+
+console.log('Zusicherungen für das Amazon-Nachladen\n')
+
+// --- Die Sandbox ----------------------------------------------------------
+
+/**
+ * Der Mitleser läuft in der Seitenwelt und greift `fetch` und
+ * `XMLHttpRequest` ab. Hier bekommt er beides nachgebildet — inklusive eines
+ * `fetch`, das mitschreibt, welche Adressen er von sich aus anfordert.
+ */
+function starte() {
+  const nachrichten = []
+  const angefordert = []
+
+  class XMLHttpRequest {}
+  Object.defineProperty(XMLHttpRequest.prototype, 'responseText', {
+    configurable: true,
+    enumerable: false,
+    get() {
+      return this._text ?? ''
+    },
+  })
+
+  const fensterEigenschaften = {
+    postMessage(nachricht) {
+      nachrichten.push(nachricht)
+    },
+    async fetch(adresse) {
+      angefordert.push(String(adresse))
+      // Zweite Runde: eine Antwort ohne weitere Folgen, damit die Prüfung
+      // sieht, ob der Mitleser von selbst aufhört.
+      return {
+        ok: true,
+        url: 'https://www.amazon.de' + adresse,
+        text: async () => JSON.stringify({ widgets: { episodeList: { episodes: [] } } }),
+      }
+    },
+  }
+
+  const sandkasten = {
+    window: fensterEigenschaften,
+    XMLHttpRequest,
+    location: { href: 'https://www.amazon.de/gp/video/detail/B0CKPCSHMC/' },
+    URL,
+    setTimeout,
+    console,
+  }
+  sandkasten.globalThis = sandkasten
+  vm.createContext(sandkasten)
+  vm.runInContext(readFileSync(__dirname + '/amazon-leser.js', 'utf8'), sandkasten)
+
+  return { sandkasten, nachrichten, angefordert, XMLHttpRequest }
+}
+
+// --- 1. Die echte Antwort wird ausgewertet --------------------------------
+
+{
+  const { nachrichten, XMLHttpRequest } = starte()
+  const x = new XMLHttpRequest()
+  x._text = antwort
+  x.responseURL =
+    'https://www.amazon.de/gp/video/api/getDetailWidgets?titleID=B0CKPCSHMC&widgets=%5B%5D'
+  x.responseText // löst das Mitlesen aus
+
+  const gemeldet = nachrichten.filter((n) => n.marke === 'ak-amazon-folgen')
+  pruefe('die echte Antwort wird gemeldet', gemeldet.length >= 1, gemeldet.length)
+
+  const erste = gemeldet[0] ?? {}
+  const nummern = (erste.funde ?? []).map((f) => f.nummer).sort((a, b) => a - b)
+
+  pruefe('alle 24 Folgen des Abschnitts werden gefunden', nummern.length === 24, nummern.length)
+  pruefe(
+    'es sind die Folgen 25 bis 48',
+    nummern[0] === 25 && nummern[23] === 48,
+    [nummern[0], nummern[23]],
+  )
+  pruefe(
+    'die Gesamtzahl 51 wird mitgeliefert',
+    erste.gesamt === 51,
+    erste.gesamt,
+  )
+  pruefe(
+    'jede Folge trägt „Deutsch"',
+    (erste.funde ?? []).every((f) => f.sprachen.includes('Deutsch')),
+  )
+
+  /**
+   * Der Kern der Sache: Ein Muster über den Zeichenabstand hätte hier
+   * versagt. Die Zusicherung misst den echten Abstand — bricht sie, ist der
+   * Rückfall-Zweig zum Hauptweg geworden, und das muss auffallen.
+   */
+  const abstand = /"audioTracks"[\s\S]*?"episodeNumber"/.exec(antwort)?.[0]?.length ?? 0
+  pruefe(
+    `zwischen audioTracks und episodeNumber liegen ${abstand} Zeichen — geparst statt abgetastet`,
+    abstand > 0,
+    abstand,
+  )
+}
+
+// --- 2. Die übrigen Abschnitte werden nachgeholt --------------------------
+
+{
+  const { angefordert, XMLHttpRequest } = starte()
+  const x = new XMLHttpRequest()
+  x._text = antwort
+  x.responseURL =
+    'https://www.amazon.de/gp/video/api/getDetailWidgets?titleID=B0CKPCSHMC&widgets=%5B%5D'
+  x.responseText
+
+  // Das Nachholen läuft mit Pausen — kurz warten, dann nachsehen.
+  setTimeout(() => {
+    pruefe(
+      'genau zwei Abschnitte werden nachgeholt (der dritte lag ja vor)',
+      angefordert.length === 2,
+      angefordert.length,
+    )
+    pruefe(
+      'die Kennung stammt aus der Adresse, nicht aus einer Vermutung',
+      angefordert.every((a) => a.includes('titleID=B0CKPCSHMC')),
+      angefordert[0]?.slice(0, 70),
+    )
+    pruefe(
+      'angefordert wird der Folgenlisten-Endpunkt',
+      angefordert.every((a) => a.startsWith('/gp/video/api/getDetailWidgets?')),
+    )
+    pruefe(
+      'der bereits gelieferte Abschnitt wird nicht erneut geholt',
+      new Set(angefordert).size === angefordert.length,
+    )
+
+    // --- 3. Keine Zugangsdaten in der Prüfvorlage -------------------------
+
+    const verboten = ['session-token', 'at-acbde', 'sst-acbde', 'ubid-acbde', 'x-amz-access-token']
+    const gefunden = verboten.filter((w) => antwort.includes(w))
+    pruefe('die Prüfvorlage enthält keine Zugangsdaten', gefunden.length === 0, gefunden)
+
+    console.log()
+    if (fehler.length) {
+      console.error(`${fehler.length} Zusicherung(en) verletzt.`)
+      process.exit(1)
+    }
+    console.log('Alle Zusicherungen erfüllt.')
+  }, 1500)
+}

@@ -1,5 +1,6 @@
 /**
- * Hört mit, was Amazon beim Blättern durch die Folgenliste nachlädt.
+ * Hört mit, was Amazon beim Blättern durch die Folgenliste nachlädt — und holt
+ * die Abschnitte nach, die Daniel sonst einzeln anklicken müsste.
  *
  * ## Warum es das braucht
  *
@@ -18,53 +19,183 @@
  * vorhanden. Wer nur das HTML liest, bekommt also dauerhaft den ersten
  * Abschnitt und hält ihn für die Staffel.
  *
+ * ## Die Struktur, gemessen am 23.08.2026
+ *
+ * Amazon holt die Folgen über `/gp/video/api/getDetailWidgets`. Die Antwort ist
+ * gültiges JSON und enthält **den gewählten Abschnitt plus die Zugänge zu allen
+ * übrigen**:
+ *
+ * ```
+ * widgets.episodeList.episodeCount                     → 51
+ * widgets.episodeList.episodes[].detail.audioTracks    → ["Deutsch"]
+ * widgets.episodeList.episodes[].detail.episodeNumber  → 25 … 48
+ * widgets.episodeList.actions.episodePages[].token     → drei Abschnitte
+ * ```
+ *
  * ## Was hier passiert
  *
- * Dasselbe wie bei Netflix (`leser.js`): Mitgelesen wird am **Ergebnis**, nicht
- * am Aufruf — `fetch` und `XMLHttpRequest` geben ihre Antwort ohnehin an die
- * Seite weiter, und genau dort wird sie abgegriffen. **Es wird nichts
- * angefordert.** Was hier ankommt, hat die Seite geladen, weil Daniel geklickt
- * hat.
+ * Zwei Dinge, und der Unterschied ist wichtig:
+ *
+ * 1. **Mitgelesen** wird am Ergebnis, nicht am Aufruf — `fetch` und
+ *    `XMLHttpRequest` geben ihre Antwort ohnehin an die Seite weiter, und genau
+ *    dort wird sie abgegriffen.
+ * 2. **Nachgeholt** werden allein die Abschnitte derselben Folgenliste, deren
+ *    Token in der Antwort mitgeliefert wurde. Das ist Zeichen für Zeichen der
+ *    Abruf, den ein Klick aufs Dropdown auslöst — in derselben angemeldeten
+ *    Sitzung, auf derselben Seite, ausgelöst dadurch, dass Daniel diese Seite
+ *    geöffnet hat. Es wird nichts gesucht, nichts durchlaufen und keine zweite
+ *    Serie angefasst.
  *
  * Läuft in der Seitenwelt (`world: MAIN`), weil ein Content-Script in seiner
- * eigenen Welt die `fetch`-Funktion der Seite nicht erreicht.
+ * eigenen Welt weder die `fetch`-Funktion der Seite noch ihre Anmeldung
+ * erreicht.
  */
 ;(() => {
   const MARKE = 'ak-amazon-folgen'
 
   /**
+   * Obergrenze für das Nachholen.
+   *
+   * Bei 24 Folgen je Abschnitt deckt das rund 600 Folgen ab — mehr als jede
+   * Serie im Bestand. Die Grenze steht nicht wegen der Datenmenge da, sondern
+   * damit aus einer Bedienhilfe nie ein Durchlauf wird: Wo sie greift, bleibt
+   * die Zahl unvollständig, und der Knopf meldet dann ausdrücklich einen
+   * Ausschnitt statt eines „kein Deutsch".
+   */
+  const MAX_ABSCHNITTE = 25
+
+  /** Pause zwischen zwei Abrufen. Ein Mensch klickt auch nicht schneller. */
+  const PAUSE_MS = 400
+
+  const geholt = new Set()
+  let laeuft = false
+  let titleID = null
+
+  const warte = (ms) => new Promise((r) => setTimeout(r, ms))
+
+  /**
    * Aus einer Antwort die Folgen mit ihren Tonspuren ziehen.
    *
-   * Gesucht wird dasselbe Muster wie im HTML — Amazon liefert beim Nachladen
-   * dieselbe Struktur, nur ohne das Seitengerüst drumherum.
+   * **Geparst, nicht abgetastet.** Die Antwort ist gültiges JSON; ein Muster
+   * über den Zeichenabstand („`episodeNumber` irgendwo hinter `audioTracks`")
+   * hält nur so lange, wie dazwischen nichts Langes steht — `contributors` mit
+   * gefüllter Besetzungsliste reicht, um es zu brechen.
+   *
+   * Das Muster bleibt als Rückfallebene: Ändert Amazon die Verschachtelung,
+   * liefert es wenigstens noch die Sprachen.
    */
-  function auswerten(text) {
+  function auswerten(text, herkunft) {
     if (typeof text !== 'string' || text.length < 60) return
-    if (!text.includes('audioTracks')) return
+    if (!text.includes('audioTracks') && !text.includes('episodePages')) return
+
     const funde = []
-    for (const m of text.matchAll(/"audioTracks"\s*:\s*\[([^\]]*)\][\s\S]{0,240}?"episodeNumber"\s*:\s*(\d+)/g)) {
-      const sprachen = m[1]
-        .split(',')
-        .map((s) => s.trim().replace(/^"|"$/g, ''))
-        .filter(Boolean)
-      funde.push({ nummer: Number(m[2]), sprachen })
+    let gesamt = null
+    let seiten = []
+
+    try {
+      const liste = JSON.parse(text)?.widgets?.episodeList
+      if (liste) {
+        if (Number.isFinite(liste.episodeCount)) gesamt = liste.episodeCount
+        for (const folge of liste.episodes ?? []) {
+          const d = folge?.detail
+          if (!d || !Array.isArray(d.audioTracks) || !Number.isFinite(d.episodeNumber)) continue
+          funde.push({ nummer: d.episodeNumber, sprachen: d.audioTracks.filter(Boolean) })
+        }
+        for (const seite of liste.actions?.episodePages ?? []) {
+          const token = seite?.token
+          if (typeof token !== 'string' || token.length <= 10) continue
+          // Der gerade gelieferte Abschnitt gilt als erledigt: Seine Folgen
+          // stehen oben schon in `funde`, ein zweiter Abruf brächte dieselben
+          // Daten und einen Zugriff mehr auf Amazons Server.
+          if (seite.isSelected) geholt.add(token)
+          seiten.push(token)
+        }
+      }
+    } catch {
+      /* Keine JSON-Antwort — dann greift das Muster unten. */
     }
-    if (!funde.length) return
-    window.postMessage({ marke: MARKE, funde }, '*')
+
+    if (!funde.length) {
+      // Rückfall: Eine Sprache ohne Nummer zählt als Sprache, **nicht** als
+      // Folge — sonst stimmte die Zahl am Knopf wieder nicht.
+      for (const m of text.matchAll(/"audioTracks"\s*:\s*\[([^\]]*)\]/g)) {
+        const sprachen = m[1]
+          .split(',')
+          .map((s) => s.trim().replace(/^"|"$/g, ''))
+          .filter(Boolean)
+        if (sprachen.length) funde.push({ nummer: null, sprachen })
+      }
+    }
+
+    if (funde.length || gesamt !== null) {
+      window.postMessage({ marke: MARKE, funde, gesamt }, '*')
+    }
+
+    // Die Kennung der Serie steht in der Adresse, aus der die Antwort kam. Sie
+    // wird gelesen, nicht gebaut — ohne sie wird nichts nachgeholt.
+    if (!titleID && typeof herkunft === 'string') {
+      try {
+        titleID = new URL(herkunft, location.href).searchParams.get('titleID')
+      } catch {
+        /* Keine brauchbare Adresse — dann bleibt es beim Mitlesen. */
+      }
+    }
+    if (seiten.length > 1) void nachholen(seiten)
+  }
+
+  /**
+   * Die übrigen Abschnitte derselben Folgenliste holen.
+   *
+   * Jedes Token genau einmal, nacheinander, mit Pause. Was zurückkommt, läuft
+   * durch `auswerten` — findet es dort weitere Tokens, sind die längst gesehen
+   * und die Schleife endet von selbst.
+   */
+  async function nachholen(tokens) {
+    if (laeuft || !titleID) return
+    const offen = tokens.filter((t) => !geholt.has(t))
+    if (!offen.length) return
+    laeuft = true
+    try {
+      for (const token of offen) {
+        if (geholt.size >= MAX_ABSCHNITTE) break
+        geholt.add(token)
+        const widgets = JSON.stringify([{ widgetType: 'EpisodeList', widgetToken: token }])
+        const adresse =
+          '/gp/video/api/getDetailWidgets' +
+          `?titleID=${encodeURIComponent(titleID)}&widgets=${encodeURIComponent(widgets)}`
+        try {
+          const antwort = await nativFetch.call(window, adresse, {
+            credentials: 'include',
+            headers: { accept: 'application/json', 'x-requested-with': 'XMLHttpRequest' },
+          })
+          if (antwort.ok) auswerten(await antwort.text(), antwort.url)
+        } catch {
+          /* Ein fehlgeschlagener Abschnitt lässt die Zahl unvollständig — und
+             damit meldet der Knopf ausdrücklich einen Ausschnitt. */
+        }
+        await warte(PAUSE_MS)
+      }
+    } finally {
+      laeuft = false
+    }
   }
 
   // --- fetch ---------------------------------------------------------------
 
+  // Festgehalten, bevor die eigene Fassung gesetzt wird: Das Nachholen ruft
+  // absichtlich die **native** Funktion, sonst läse es seine eigene Antwort ein
+  // zweites Mal mit.
+  const nativFetch = window.fetch
+
   try {
-    const nativ = window.fetch
     window.fetch = async function (...args) {
-      const antwort = await nativ.apply(this, args)
+      const antwort = await nativFetch.apply(this, args)
       try {
         // Geklont, damit die Seite ihre eigene Antwort unangetastet bekommt.
         antwort
           .clone()
           .text()
-          .then(auswerten)
+          .then((t) => auswerten(t, antwort.url))
           .catch(() => {})
       } catch {
         /* Eine Antwort, die sich nicht klonen lässt, bleibt liegen. */
@@ -87,7 +218,7 @@
         get() {
           const text = nativGetter.call(this)
           try {
-            auswerten(text)
+            auswerten(text, this.responseURL)
           } catch {
             /* Eine unlesbare Antwort ändert nichts am Rest. */
           }
