@@ -41,7 +41,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { gzipSync } from 'node:zlib'
 import { createHash } from 'node:crypto'
-import { log, readJson, ROOT, sleep, slugify, warn, writeJson } from './lib/util.ts'
+import { loadEnv, log, readJson, ROOT, sleep, slugify, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { bestandAus, besterShow, LEER, suchName, type MotnDaten, type MotnShow } from './lib/motn.ts'
 import { bewerteTreffer, passtZuSerie, staffelnDesFranchise, volltreffer } from './lib/adn.ts'
@@ -49,6 +49,14 @@ import { loadDubChecks } from './lib/dub-confirmed.ts'
 import { beurteile, type CrDubData } from './lib/crunchyroll-dub.ts'
 import { addDays, todayIso } from '../shared/time.ts'
 import type { Title } from '../shared/types.ts'
+
+/**
+ * Ohne diesen Aufruf war der Lauf lokal nie ausführbar (bemerkt 23.08.2026).
+ * Im CI kommt der Schlüssel als echte Umgebungsvariable aus den Secrets, also
+ * fiel es dort nicht auf — wer ihn hier von Hand prüfen wollte, bekam nur
+ * „STREAMING_API_KEY fehlt".
+ */
+loadEnv()
 
 const BASIS = 'https://api.movieofthenight.com/v4'
 const ARCHIV_DIR = resolve(ROOT, 'data/motn-raw')
@@ -242,9 +250,28 @@ async function katalog(): Promise<number> {
   let cursor = KATALOG_NEU ? undefined : (daten.katalogCursor ?? undefined)
   let neu = 0
   for (let seite = 0; anfragen < BUDGET; seite++) {
+    /**
+     * Nur Animation, dafür alle drei Anbieter — gemessen am 23.08.2026.
+     *
+     * Vorher holte dieser Lauf den **kompletten deutschen Netflix-Serienkatalog**
+     * ohne Genre-Einschränkung, um darin unsere paar hundert Anime zu finden.
+     * Bei 20 Serien je Anfrage und einem Kontingent von 1.000 im Monat ist das
+     * der Grund, warum der Bestand nach einem Monat erst zur Hälfte stand.
+     *
+     * `genres=animation` schneidet den Katalog auf den Teil zu, der uns angeht;
+     * die Messung ergab 15 von 20 Serien je Seite mit deutscher Tonspur statt
+     * eines Katalogs voller Reality-Formate. „Animation" ist nicht „Anime" —
+     * koreanische Zeichentrickserien kommen mit —, aber der Filter kostet nichts
+     * und die Zuordnung zu unseren Titeln wirft den Rest ohnehin weg.
+     *
+     * `catalogs` nimmt mehrere Dienste in **einer** Anfrage. Prime Video und
+     * Disney+ standen bisher gar nicht im Katalogweg; ihre 600 bzw. 40 offenen
+     * Verweise mussten alle über die teurere Titelsuche laufen.
+     */
     const query = new URLSearchParams({
       country: 'de',
-      catalogs: 'netflix',
+      catalogs: 'netflix,prime.subscription,disney',
+      genres: 'animation',
       show_type: 'series',
       series_granularity: 'episode',
       order_by: 'original_title',
@@ -258,7 +285,7 @@ async function katalog(): Promise<number> {
      * undurchsichtig und beliebig lang — gekürzt wäre er nicht mehr eindeutig,
      * also steht sein Prüfwert da.
      */
-    const name = cursor ? `katalog-netflix-${createHash('sha1').update(cursor).digest('hex').slice(0, 12)}` : 'katalog-netflix-start'
+    const name = cursor ? `katalog-anime-${createHash('sha1').update(cursor).digest('hex').slice(0, 12)}` : 'katalog-anime-start'
     const res = await hole<SuchAntwort>(`/shows/search/filters?${query}`, name)
     if (res.art !== 'ok') break
     const antwort = res.wert
