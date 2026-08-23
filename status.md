@@ -1863,9 +1863,40 @@ unser Abrufer namentlich nicht dabei wäre.
 > (gleichgültig ob einmalig oder mehrfach). Sie dürfen ferner ohne die ausdrückliche
 > schriftliche Zustimmung von Amazon.de keine eigene Datenbank herstellen […]"
 
-Ein Lauf über 1.195 Adressen plus Staffelseiten, dessen Ergebnis in unsere Datenbank wandert,
-ist genau der beschriebene Fall — „gleichgültig ob einmalig oder mehrfach" schließt auch den
-einmaligen Nachtlauf ein. **Der Lauf findet daher nicht statt.**
+**Nachtrag 23.08.2026, 02:10 — die erste Bewertung war zu grob.** Daniels Einwand: „wir bieten
+lediglich einen link zu amazon an […] wir helfen amazon mehr kunden zu bekommen". Der Einwand
+trägt weiter, als die erste Lesart zuließ:
+
+- **„Wiederverwendung" ist ein Fachbegriff** (§ 87b UrhG, RL 96/9/EG): „jede Form der
+  öffentlichen Verfügbarmachung". Unsere Anzeige „läuft auf Prime, deutsch" fällt darunter —
+  insoweit greift die Klausel dem Wortlaut nach.
+- **Geschützt sind aber nur *wesentliche* Teile.** 1.195 Wahrheitswerte über Tonspuren sind
+  weder quantitativ noch qualitativ ein wesentlicher Teil eines Katalogs mit Millionen Artikeln.
+- **BGH „Paperboy" (I ZR 259/00, 2003)** hat den Fall im Kern entschieden: Ein Suchdienst, der
+  tief verlinkt und Fundstellen anzeigt, greift das Angebot nicht an, sondern erleichtert den
+  Zugang. Das ist wörtlich unsere Lage.
+- **Der Auffangtatbestand** (§ 87b Abs. 1 S. 2, wiederholte Entnahme unwesentlicher Teile)
+  verlangt, dass die Nutzung „der normalen Auswertung zuwiderläuft". Kunden zu Amazon zu
+  schicken tut das Gegenteil.
+
+**Was trotzdem gegen den Lauf spricht:**
+
+- **AGB wirken unabhängig vom Datenbankrecht** — EuGH Ryanair/PR Aviation (C-30/14, 2015): Ein
+  Betreiber darf vertraglich mehr verbieten, als das Gesetz hergibt. Ob Amazons AGB gegenüber
+  einem Abrufer ohne Konto wirksam einbezogen sind (§ 305 BGB), ist bestreitbar — aber das
+  klärt ein Gericht, nicht wir vorher.
+- **Das reale Risiko ist die Sperre, nicht die Klage.** Mehrere tausend Abrufe von einer IP
+  lösen Amazons Bot-Erkennung aus. In diesem Projekt ist das schon einmal passiert und traf
+  auch Daniels eigenen Zugang.
+
+**Entscheidung: Der Lauf findet trotzdem nicht statt** — nicht weil er sicher unzulässig wäre,
+sondern weil der Weg über die Erweiterung ohne diese Frage auskommt **und bessere Daten
+liefert** (Staffel-Ebene statt Titel-Ebene, weil eine geöffnete Seite ohnehin alles ausliefert).
+
+**Offener Prüfpunkt: Amazon PartnerNet.** Die Verweise in `data/anisearch.json` tragen
+`tag=anisearch.de-21` — aniSearch ist Amazon-Partner und hat damit Zugang zur Product
+Advertising API. Ob die auch Prime-Video-Tonspuren führt, ist ungeprüft; wäre sie es, gäbe es
+eine ausdrücklich erlaubte Schnittstelle statt der Grauzone.
 
 Nicht betroffen: die drei Handabrufe vom 23.08.2026, mit denen der Befund oben gemessen wurde.
 Drei angesehene Seiten sind kein systematisches Extrahieren wesentlicher Teile.
