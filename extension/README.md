@@ -1,7 +1,7 @@
 # Synchro melden — Browser-Erweiterung
 
 Blendet beim Abspielen einen Knopf ein, der die vorhandenen Tonspuren an den Anime-Kalender
-meldet. Gedacht für die Prüfliste `data/dub-pruefliste.md`: Zeile anklicken, Folge öffnen,
+meldet. Gedacht für die Prüfliste `daniel-zum-abarbeiten/07-alle-anbieter.md`: Zeile anklicken, Folge öffnen,
 Knopf drücken, weiter zur nächsten.
 
 ## Warum es das braucht

@@ -76,8 +76,8 @@ const zeilen = [
   ...offen.map(([u, v]) => `| ${name(v.anilistId)} | ${v.videoTitel ?? '—'} | ${v.kanal ?? '—'} | [öffnen](${u}) |`),
   '',
 ]
-writeFileSync(resolve(wurzel, 'data/youtube-pruefliste.md'), zeilen.join('\n'))
+writeFileSync(resolve(wurzel, 'daniel-zum-abarbeiten/09-youtube-liste.md'), zeilen.join('\n'))
 console.log(
-  `data/youtube-pruefliste.md: ${deutscherTitel.length} mit deutschem Titel, ` +
+  `daniel-zum-abarbeiten/09-youtube-liste.md: ${deutscherTitel.length} mit deutschem Titel, ` +
     `${kostenpflichtig.length} kostenpflichtig, ${offen.length} ohne Hinweis`,
 )

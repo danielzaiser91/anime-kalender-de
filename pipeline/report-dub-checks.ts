@@ -324,7 +324,7 @@ md.push(
   '',
 )
 
-writeText('data/dub-pruefliste.md', md.join('\n'))
+writeText('daniel-zum-abarbeiten/07-alle-anbieter.md', md.join('\n'))
 log(`Prüfliste geschrieben: ${zuPruefen.length} Zeilen, ${offenGesamt} offene Verweise`)
 for (const [p, n] of [...nachPlattform.entries()].sort((a, b) => b[1] - a[1])) log(`  · ${p}: ${n}`)
 
@@ -416,7 +416,7 @@ for (let start = 0; start < nachNutzen.length; start += PAKETGROESSE) {
   )
 }
 
-writeText('data/dub-batches.md', batches.join('\n'))
+writeText('daniel-zum-abarbeiten/08-arbeitspakete.md', batches.join('\n'))
 log(`Arbeitspakete geschrieben: ${Math.ceil(nachNutzen.length / PAKETGROESSE)} Pakete zu je ${PAKETGROESSE} Zeilen`)
 
 /**
@@ -432,7 +432,7 @@ const zurueck: string[] = [
   '',
   `Stand ${heute} · **${zurueckgestellt.reduce((n, z) => n + z.offen.length, 0)} offene Verweise** in **${zurueckgestellt.length} Zeilen**.`,
   '',
-  'Diese Verweise stehen **nicht** in `data/dub-pruefliste.md`: Wer sie prüfen will, braucht ein',
+  'Diese Verweise stehen **nicht** in `daniel-zum-abarbeiten/07-alle-anbieter.md`: Wer sie prüfen will, braucht ein',
   'laufendes Abo beim Anbieter. Daniel am 21.08.2026: „ich hol mir kein rtl+ abo um das zu prüfen".',
   'Auf der Seite tragen sie weiterhin „🇩🇪 ?" — das ist die ehrliche Angabe.',
   '',

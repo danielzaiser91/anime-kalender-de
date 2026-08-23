@@ -124,8 +124,8 @@ QUELLEN=(
   # Kontrollmessung und Arbeitslisten. Sie entstehen aus dem Datensatz, aber
   # ein Mensch arbeitet mit ihnen — sie gehören ins Repo, nicht in den Lauf.
   data/motn-messung.md
-  data/dub-pruefliste.md
-  data/dub-batches.md
+  daniel-zum-abarbeiten/07-alle-anbieter.md
+  daniel-zum-abarbeiten/08-arbeitspakete.md
 )
 ERZEUGNISSE=(public/data public/og)
 

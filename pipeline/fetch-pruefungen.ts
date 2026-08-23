@@ -466,9 +466,9 @@ if (zeilen.length && !TROCKEN) {
  * nicht mehr gibt — am 23.08.2026 standen dort drei Zeilen, deren Meldungen
  * längst abgehakt waren.
  */
-if (!ohneZuordnung.length && !TROCKEN && existsSync(resolve(ROOT, 'data/meldungen-ohne-zuordnung.md'))) {
-  rmSync(resolve(ROOT, 'data/meldungen-ohne-zuordnung.md'))
-  log('data/meldungen-ohne-zuordnung.md entfernt — nichts mehr offen')
+if (!ohneZuordnung.length && !TROCKEN && existsSync(resolve(ROOT, 'daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md'))) {
+  rmSync(resolve(ROOT, 'daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md'))
+  log('daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md entfernt — nichts mehr offen')
 }
 if (ohneZuordnung.length && !TROCKEN) {
   const kopf = [
@@ -545,8 +545,8 @@ if (ohneZuordnung.length && !TROCKEN) {
             : 'Vorschlag bestätigen, dann Adresse eintragen'
     return `| ${o.plattform} | ${o.url} | ${o.name || '—'} | ${o.befund} | ${namen.join('<br>') || '—'} | ${zuTun} |`
   })
-  writeFileSync(resolve(ROOT, 'data/meldungen-ohne-zuordnung.md'), [...kopf, ...tabelle, ''].join('\n'))
-  log(`${ohneZuordnung.length} Meldung(en) ohne Zuordnung in data/meldungen-ohne-zuordnung.md`)
+  writeFileSync(resolve(ROOT, 'daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md'), [...kopf, ...tabelle, ''].join('\n'))
+  log(`${ohneZuordnung.length} Meldung(en) ohne Zuordnung in daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md`)
 }
 
 if (Object.keys(anbieterStruktur).length && !TROCKEN) {

@@ -17663,3 +17663,27 @@
   dub: true
   checkedAt: '2026-08-23'
   note: "Tonspuren: Deutsch, 日本語, {\"audioTrackId\":\"de-de_dialog_0, displayName\":\"Deutsch, languageCode\":\"de-de, audioSubtype\":\"dialog, trackGroupId\":\"29e6f7c7-89a1-32a1-9c12-43802b81b5a2\"}, {\"audioTrackId\":\"ja-jp_dialog_0, displayName\":\"日本語, languageCode\":\"ja-jp — Amazon-Seite B0D8FH5NC6: alle 13 Folgen geprüft, Abos: Prime, aniversede, crunchyrollde"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-23 ---
+
+- anilistId: 146493
+  title: "Ragna Crimson"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DMDWHYBC
+  dub: true
+  checkedAt: '2026-08-23'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DMDWHYBC: alle 24 Folgen geprüft, Abos: Prime, aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, Seitenadresse: B0DJQ2B2D7"
+
+- anilistId: 123899
+  title: "Sing a Bit of Harmony"
+  platform: primevideo
+  dub: true
+  checkedAt: '2026-08-23'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0B7DBXWH2: alle 1 Folgen geprüft, Abos: keine Angabe, Seitenadresse: B0B7DGPWTW, zugang=kauf_oder_leihe"
+
+- anilistId: 283
+  title: "Anne of Green Gables"
+  platform: primevideo
+  dub: true
+  checkedAt: '2026-08-23'
+  note: "Tonspuren: Deutsch — Amazon-Seite B018YLXXNW: alle 10 Folgen geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"

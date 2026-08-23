@@ -341,7 +341,16 @@ function beschriftung(spuren) {
   }
   if (!spuren) {
     if (keineFolgeVorhanden()) {
-      return { text: 'Keine Folge da — als nicht abrufbar melden', klasse: 'ak-nein', aktiv: true }
+      // Nennt die Seite einen Termin, gehoert er an den Knopf — dann sieht
+      // man vor dem Klick, was gemeldet wird.
+      const termin = erscheinungsdatum()
+      return {
+        text: termin
+          ? `Noch nicht da — „ab ${termin}" melden`
+          : 'Keine Folge da — als nicht abrufbar melden',
+        klasse: 'ak-nein',
+        aktiv: true,
+      }
     }
     return { text: 'Auf Abspielen klicken, dann läuft es von selbst', klasse: 'ak-leer', aktiv: false }
   }
@@ -394,8 +403,18 @@ async function melden({ automatisch = false } = {}) {
         // zuordnen, auch wenn der Anbieter anders einteilt.
         staffeln: stand.staffeln,
         serientitel: stand.serientitel,
+        /**
+         * Der Termin, den Netflix selbst nennt.
+         *
+         * Steht bei kuenftigen Titeln ueber der Beschreibung, neben dem
+         * Erinnern-Knopf. Ohne Jahr: Netflix nennt nur Tag und Monat, weil
+         * ein solcher Termin immer voraus liegt.
+         */
+        erscheint: ohneFolge ? erscheinungsdatum() : undefined,
         notiz: ohneFolge
-          ? 'Titelseite ohne abspielbare Folge — nur „Erinnern"'
+          ? erscheinungsdatum()
+            ? `Noch nicht abrufbar — Netflix nennt „${erscheinungsdatum()}"`
+            : 'Titelseite ohne abspielbare Folge — nur „Erinnern"'
           : `${echte.length} Tonspuren, ${spuren.length - echte.length} Audiodeskriptionen`,
       }),
     })
@@ -510,6 +529,24 @@ function knopfZeigen() {
  *
  * Die Trennung läuft über die Adresse: `/watch/` heißt, der Player läuft.
  */
+/**
+ * Der Termin, den Netflix auf einer noch nicht abrufbaren Titelseite nennt.
+ *
+ * Gemessen am 23.08.2026 an "Mononoke – The Movie: Chapter III": ueber der
+ * Beschreibung steht "Ab 29. September", daneben "Erinnern". Das Jahr fehlt —
+ * Netflix nennt nur Tag und Monat, weil ein solcher Termin immer voraus liegt.
+ *
+ * **Gelesen wird der sichtbare Text, nicht geraten.** Was hier herauskommt,
+ * geht unveraendert in die Meldung; das Jahr abzuleiten ist Sache der
+ * Pipeline, die weiss, welcher Tag heute ist.
+ */
+function erscheinungsdatum() {
+  const text = document.body?.innerText ?? ''
+  // Ab 29. September / Ab 3. Oktober 2026
+  const treffer = /\bAb\s+(\d{1,2}\.\s*[A-Za-z\u00c4\u00d6\u00dc\u00e4\u00f6\u00fc]+(?:\s+\d{4})?)/.exec(text)
+  return treffer ? treffer[1].replace(/\s+/g, ' ').trim() : null
+}
+
 function imPlayer() {
   return location.pathname.startsWith('/watch/')
 }

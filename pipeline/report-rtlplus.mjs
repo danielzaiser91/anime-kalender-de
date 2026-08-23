@@ -67,5 +67,5 @@ const zeilen = [
   ...ohneNamen.map(([u, v]) => `| ${name(v.anilistId)} | [öffnen](${u}) |`),
   '',
 ]
-writeFileSync(resolve(wurzel, 'data/rtlplus-pruefliste.md'), zeilen.join('\n'))
-console.log(`data/rtlplus-pruefliste.md: ${bestaetigt.length} bestätigt, ${ohneNamen.length} ohne Titelangabe`)
+writeFileSync(resolve(wurzel, 'daniel-zum-abarbeiten/10-rtlplus.md'), zeilen.join('\n'))
+console.log(`daniel-zum-abarbeiten/10-rtlplus.md: ${bestaetigt.length} bestätigt, ${ohneNamen.length} ohne Titelangabe`)

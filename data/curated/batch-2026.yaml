@@ -104,6 +104,20 @@
   schedule: { firstEpisodeDate: "2026-08-08" }
   sources: [https://www.anime2you.de/news/1033802/netflix-anime-neu-im-august-2026/]
 
+# Netflix nennt den Termin auf der Titelseite selbst: „Ab 29. September"
+# (Daniel, 23.08.2026, mit Bild). Das Jahr steht dort nicht — der nächste
+# 29. September liegt fünf Wochen voraus, deshalb 2026. Die Uhrzeit nennt
+# Netflix nicht; sie bleibt leer, und die Oberfläche schreibt „Zeit offen".
+- slug: mononoke-movie-3-curse-of-the-serpent
+  search: "Mononoke: Hebi no Yamai"
+  titleDe: "Mononoke – The Movie: Chapter III – Der Fluch der Schlange"
+  platform: netflix
+  platformUrl: https://www.netflix.com/title/82012956
+  releaseType: movie
+  schedule: { firstEpisodeDate: "2026-09-29" }
+  note: "Netflix nennt den Termin auf der Titelseite; das Jahr ist abgeleitet."
+  sources: [https://www.netflix.com/title/82012956]
+
 # ---------------------------------------------------------------- Netflix, Einzelfolgen
 
 - slug: steel-ball-run-1st-stage

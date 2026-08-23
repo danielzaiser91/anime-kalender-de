@@ -1,6 +1,6 @@
 # RTL+: Stand der Verweise
 
-Stand: 2026-08-22
+Stand: 2026-08-23
 
 **Die Tonspur sagt RTL+ nicht.** Der `TVSeries`-Block nach schema.org enthält Name,
 Beschreibung, Adresse und Bild — kein `audio`, kein `inLanguage` zur Fassung. Das
@@ -17,10 +17,11 @@ Die Seite existiert und nennt denselben Namen. Nur die Sprache fehlt.
 | Unser Titel | Seite nennt | Verweis |
 |---|---|---|
 
-## 0 Verweise ohne Titelangabe
+## 1 Verweise ohne Titelangabe
 
 Die Seite antwortet, nennt aber keinen Namen im strukturierten Block — meist Filme
 und die alten `tvnow.de`-Adressen. Weder bestätigt noch widerlegt.
 
 | Unser Titel | Verweis |
 |---|---|
+| Pokémon BW: Rival Destinies | [öffnen](https://www.tvnow.de/serien/pokemon-schwarz-weiss-abenteuer-in-einal-19299) |

@@ -259,7 +259,7 @@ Zwei Folgen daraus:
   (`/playapi/cadmium/manifest/1`, rund 198 KB) mit `audioTracks`, `language` und
   `languageDescription`.
 
-  Daraus folgt der Ablauf in `data/netflix-von-hand.md`: **Abspielen** verlinkt direkt auf
+  Daraus folgt der Ablauf in `daniel-zum-abarbeiten/06-netflix-rest.md`: **Abspielen** verlinkt direkt auf
   `/watch/<reihe>`, der Player startet, die Erweiterung liest, ein Klick meldet.
 
 - **Was auf der Titelseite läuft, ist nicht die Serie.** Der Player führt dort eine Sitzung
@@ -276,7 +276,7 @@ Zwei Folgen daraus:
   Crunchyroll-Kanals ist ein Hinweis, kein Beleg; dieselbe Playlist enthält auch untertitelte
   Folgen.
 - `npm run data:dub-checks` erzeugt aus dem aktuellen Stand die Arbeitsliste
-  `data/dub-pruefliste.md` — nach hinten sortiert von heute, ohne Künftiges (das kann niemand
+  `daniel-zum-abarbeiten/07-alle-anbieter.md` — nach hinten sortiert von heute, ohne Künftiges (das kann niemand
   nachsehen) und ohne bereits Geprüftes. Eine Zeile ist eine **Reihe auf einem Anbieter**: Wer
   den Verweis öffnet, sieht dort in aller Regel alle Staffeln auf einmal.
 
