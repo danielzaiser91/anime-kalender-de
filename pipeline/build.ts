@@ -2012,8 +2012,27 @@ function main(): void {
    * Angabe des Anbieters selbst — `kind: 'buy'` ist die stärkste davon.
    */
   for (const title of titles.values()) {
-    for (const s of title.streams ?? []) s.zugang = zugangsart(s.platform, undefined, s.url)
-    for (const w of title.watchLinks ?? []) w.zugang = zugangsart(w.name, w.kind, w.url)
+    /**
+     * Die lizenzierte Angabe von JustWatch (über TMDB) schlägt die Namensliste.
+     *
+     * Sie gilt für **diesen Titel bei diesem Anbieter**, nicht für den Anbieter
+     * im Allgemeinen — und genau daran scheiterte das Raten: Prime Video führt
+     * Abo-Titel und Kauftitel nebeneinander. Gemessen am 23.08.2026 betraf das
+     * 28 von 774 belegbaren Verweisen, alle bei Prime Video als „abo" geraten.
+     *
+     * Die Daten lagen die ganze Zeit in `data/tmdb-titles.json`; ausgewertet
+     * wurden sie bisher nur für Anbieter **ohne** eigene Plattform.
+     */
+    const angebote = tmdbTitles[title.id]?.offers ?? []
+    const jwArt = (platform: PlatformId) =>
+      angebote.find((o) => providerToPlatform(o.name) === platform)?.kind
+
+    for (const s of title.streams ?? []) {
+      s.zugang = zugangsart(s.platform, undefined, s.url, jwArt(s.platform))
+    }
+    for (const w of title.watchLinks ?? []) {
+      w.zugang = zugangsart(w.name, w.kind, w.url, jwArt(providerToPlatform(w.name) as PlatformId))
+    }
   }
 
   if (checks.size) {

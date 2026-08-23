@@ -62,18 +62,52 @@ const ABO = new Set([
 ])
 
 /**
+ * Was JustWatch über ein Angebot sagt, wie TMDB es ausliefert.
+ *
+ * `flatrate` = im Abo enthalten, `rent` = leihen, `buy` = kaufen. Beide
+ * Bezahlformen landen in derselben Kategorie `kauf`; Daniels Vorgabe vom
+ * 23.08.2026 nennt genau drei Stufen („kostenlos, abo, kauf/leih").
+ */
+export type JustWatchArt = 'flatrate' | 'rent' | 'buy'
+
+/**
  * Die Zugangsart eines Verweises.
  *
- * `kind` aus den `watchLinks` bleibt die stärkste Auskunft: Was der Anbieter
- * selbst als Kauf ausweist, ist einer. Erst danach entscheidet der Name.
- * Bleibt beides stumm, gilt `abo` — das ist bei Anime der Normalfall und die
+ * **Die Rangfolge ist der ganze Punkt.** Eine gemessene Angabe schlägt jede
+ * Namensliste:
+ *
+ * 1. `justwatch` — die lizenzierte Angabe aus TMDB. Sie sagt für **diesen
+ *    Titel bei diesem Anbieter**, was er kostet, statt für den Anbieter im
+ *    Allgemeinen. Prime Video führt beides nebeneinander: Vieles steckt im
+ *    Abo, „DEATH NOTE" und „FAIRY TAIL" stehen hinter der Kasse.
+ * 2. `kind` aus den `watchLinks` — was der Anbieter selbst als Kauf ausweist.
+ * 3. Der Name, über die Listen `KOSTENLOS` und `ABO`.
+ *
+ * Bleibt alles stumm, gilt `abo` — bei Anime der Normalfall und die
  * vorsichtigere Annahme: Wer faelschlich ein Abo erwartet, verpasst nichts;
  * wer faelschlich „kostenlos" liest, aergert sich an der Kasse.
+ *
+ * Vor dem 23.08.2026 entschied allein der Name. Das war bei 28 von 774
+ * belegbaren Verweisen falsch — alle bei Prime Video, alle als „abo"
+ * geraten, tatsaechlich Kauf oder Leihe. Die Quelle lag die ganze Zeit im
+ * Datensatz (`data/tmdb-titles.json`, Feld `offers`) und wurde nur fuer die
+ * kleinen Anbieter ausgewertet.
  */
-export function zugangsart(name: string, kind?: 'stream' | 'buy', url?: string): Zugangsart {
+export function zugangsart(
+  name: string,
+  kind?: 'stream' | 'buy',
+  url?: string,
+  justwatch?: JustWatchArt,
+): Zugangsart {
   const n = name.toLowerCase().trim()
   // „Crunchyroll über Prime Video" ist ein Kanal — bezahlt wird das Abo dahinter.
   const kern = n.split(' über ')[0]!.trim()
+
+  // Gemessen schlägt geraten. Auch `flatrate` zählt hier: Es widerlegt einen
+  // falschen Kauf-Verdacht aus der Adresse genauso, wie `buy` ein falsches Abo
+  // widerlegt.
+  if (justwatch === 'rent' || justwatch === 'buy') return 'kauf'
+  if (justwatch === 'flatrate') return 'abo'
 
   if (kind === 'buy') return 'kauf'
   // YouTube Movies verlangt Geld, ein hochgeladenes Video nicht.
