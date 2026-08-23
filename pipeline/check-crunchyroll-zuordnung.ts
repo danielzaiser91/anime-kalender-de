@@ -322,5 +322,36 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
   )
 }
 
+/**
+ * Die Warteschlange enthält nur Adressen, die auch zu Crunchyroll zeigen.
+ *
+ * aniSearch führt unter `provider: "crunchyroll-(de)"` teils eine
+ * **Amazon-Partneradresse** — bei „Attack on Titan" steht dort
+ * `https://www.amazon.de/dp/B0C9H2BQWM?tag=anisearch.de-21`. Der Build filtert
+ * solche Verweise aus dem Datensatz, die Abruf-Warteschlange tat es bis zum
+ * 23.08.2026 nicht: Die Adresse stand seit jeher unter den 86 „keine
+ * Serienkennung hinter dieser Adresse" und wurde bei jedem Lauf vergeblich
+ * aufgelöst.
+ *
+ * Geprüft wird der Host, nicht ein Textstück — `url.includes('crunchyroll')`
+ * ließe `amazon.de/…?ref=crunchyroll` durch.
+ */
+{
+  const crDub = readJson<CrDubData>(resolve(ROOT, 'data/crunchyroll-dub.json'), { scrapedAt: '', serien: [] })
+  const fremd = crDub.serien.filter((s) => {
+    try {
+      const host = new URL(s.url).hostname
+      return host !== 'crunchyroll.com' && !host.endsWith('.crunchyroll.com')
+    } catch {
+      return true
+    }
+  })
+  pruefe(
+    'keine fremde Adresse in der Warteschlange (aniSearch liefert Amazon-Partnerlinks unter provider crunchyroll-(de))',
+    fremd.length === 0,
+    fremd.map((s) => s.url).slice(0, 3),
+  )
+}
+
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
