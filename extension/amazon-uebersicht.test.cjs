@@ -108,6 +108,8 @@ function starte(seitenAsin, gespeichert = {}) {
     return kind
   }
   const gesetzt = []
+  /** Was über den Melde-Knopf an den Worker ginge. */
+  const gemeldet = []
   // Der Takt wird nicht der Uhr überlassen: Der Test ruft ihn selbst auf,
   // sonst müsste er warten und wäre von der Maschine abhängig.
   const takte = []
@@ -133,13 +135,16 @@ function starte(seitenAsin, gespeichert = {}) {
       return takte.length
     },
     setTimeout: () => 0,
-    fetch: async () => ({ ok: true, status: 200 }),
+    fetch: async (adresse, wie) => {
+      gemeldet.push({ adresse: String(adresse), koerper: JSON.parse(wie?.body ?? '{}') })
+      return { ok: true, status: 200 }
+    },
     console,
   }
   sandkasten.globalThis = sandkasten
   vm.createContext(sandkasten)
   vm.runInContext(readFileSync(__dirname + '/amazon.js', 'utf8'), sandkasten)
-  return { angehaengt, gesetzt, sandkasten, takte, dom }
+  return { angehaengt, gesetzt, sandkasten, takte, dom, gemeldet }
 }
 
 const ersteAsin = Object.keys(ECHTE_LISTE)[0]
@@ -292,6 +297,60 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
     knopf?.textContent.includes('neu'),
     knopf?.textContent,
   )
+}
+
+// --- 2d. Der Titel, der zweimal fehlte ------------------------------------
+
+/**
+ * „Oshi no Ko" Staffel 3, wie die Seite wirklich aussieht.
+ *
+ * Zweimal hintereinander kam die Meldung ohne Titel an (23.08.2026, 19:31 und
+ * 19:38). `document.title` trägt dort nur „Amazon.de: Season 3", und weder
+ * `<h1>` noch `pageTitle` lieferten etwas. Erst `og:title` — das Feld, das für
+ * Linkvorschauen gedacht ist — trägt den Serientitel.
+ *
+ * Geprüft wird an dem, was der Melde-Knopf **wirklich abschickt**, nicht am
+ * Knopftext: Der Titel steht nur im Meldekörper.
+ */
+{
+  const { angehaengt, sandkasten, takte, gemeldet } = starte('B0GFPBT6FG')
+  sandkasten.document.title = 'Amazon.de: Season 3'
+  sandkasten.document.querySelector = (wahl) =>
+    wahl.includes('og:title')
+      ? { getAttribute: () => '[Oshi No Ko] - [Mein*Star] | Prime Video' }
+      : null
+  sandkasten.document.documentElement.innerHTML =
+    '"audioTracks":[{"displayName":"Deutsch"}],"episodeNumber":1,"episodeCount":11'
+  sandkasten.location.search = '?ref_=atv_dp_season_select_s3'
+  for (const takt of takte) takt()
+
+  const knopf = angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))
+  pruefe(
+    'der Knopf erkennt Deutsch aus der Objektform',
+    knopf?.textContent.includes('🇩🇪 Deutsch'),
+    knopf?.textContent,
+  )
+
+  knopf?.hoerer?.click?.()
+  setTimeout(() => {
+    const koerper = gemeldet[0]?.koerper ?? {}
+    pruefe(
+      'gemeldet wird der Serientitel aus og:title, nicht „Amazon.de: Season 3"',
+      koerper.titel === '[Oshi No Ko] - [Mein*Star]',
+      koerper.titel,
+    )
+    pruefe(
+      'die Staffelnummer steht in ihrem eigenen Feld',
+      koerper.staffel === 3,
+      koerper.staffel,
+    )
+    pruefe(
+      'die Sprachen sind Namen, keine Bruchstücke',
+      Array.isArray(koerper.sprachen) && koerper.sprachen.includes('Deutsch') &&
+        koerper.sprachen.every((s) => !String(s).includes('{')),
+      koerper.sprachen,
+    )
+  }, 20)
 }
 
 // --- 3. Erledigte zählen nicht mehr mit -----------------------------------

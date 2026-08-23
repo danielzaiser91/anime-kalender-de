@@ -86,11 +86,23 @@
    * Sie kommt in die Notiz, damit später erkennbar ist, welche Staffel gemeint
    * war, auch wenn die Kennung einmal nicht zuzuordnen ist.
    */
-  let startAdresse = location.href
+  let startAdresse = location.href || `${location.pathname ?? ''}${location.search ?? ''}`
 
   function staffelAusAdresse() {
-    const n = /[?&]ref_=[^&]*_s(\d+)/.exec(startAdresse)?.[1]
-    return n ? Number(n) : null
+    /**
+     * Zwei Quellen, und die gemerkte ist die Rückfallebene.
+     *
+     * Solange Amazon den Parameter noch nicht weggeräumt hat, steht er in der
+     * **aktuellen** Adresse — die ist auch nach einem Staffelwechsel richtig,
+     * während die gemerkte noch die erste Staffel nennt. Fehlt er dort, gilt
+     * die Adresse vom Seitenstart, die `amazon-leser.js` bei `document_start`
+     * gesehen hat.
+     */
+    for (const wo of [location.search, startAdresse]) {
+      const n = /[?&]ref_=[^&]*_s(\d+)/.exec(wo ?? '')?.[1]
+      if (n) return Number(n)
+    }
+    return null
   }
 
   /**
@@ -195,24 +207,58 @@
      * Seite. Probiert wird von der verlässlichsten Stelle abwärts; erst zum
      * Schluss der Fenstertitel, und der nur, wenn er nach etwas aussieht.
      */
-    const ueberschrift = document.querySelector?.('h1')?.textContent?.trim()
-    if (ueberschrift && ueberschrift.length > 2) return ueberschrift
+    /**
+     * Das Open-Graph-Feld zuerst — es ist dafür gemacht, geteilt zu werden.
+     *
+     * Weder `<h1>` noch `pageTitle` lieferten bei „Oshi no Ko" Staffel 3
+     * etwas; die Meldung kam zweimal ohne Titel an (23.08.2026). `og:title`
+     * steht dagegen in jeder Seite, die in einer Linkvorschau erscheinen soll,
+     * und trägt den Serientitel ohne Staffelzusatz.
+     */
+    const ausOg = document
+      .querySelector?.('meta[property="og:title"], meta[name="twitter:title"]')
+      ?.getAttribute?.('content')
+    if (ausOg) {
+      const sauber = saeubern(ausOg)
+      if (sauber) return sauber
+    }
+
+    for (const wahl of ['h1', '[data-automation-id="title"]', '[data-testid="title"]']) {
+      const text = document.querySelector?.(wahl)?.textContent
+      if (text) {
+        const sauber = saeubern(text)
+        if (sauber) return sauber
+      }
+    }
 
     const html = document.documentElement?.innerHTML ?? ''
     // Amazons eigener Titel für diese Seite — dasselbe Feld, das die
-    // Freigabehinweise und die Besetzung tragen.
+    // Freigabehinweise und die Besetzung trägt.
     const ausDaten = /"pageTitle"\\*"?\s*:\s*\\*"([^"\\]{3,120})/.exec(html)?.[1]
-    if (ausDaten) return ausDaten
+    if (ausDaten) {
+      const sauber = saeubern(ausDaten)
+      if (sauber) return sauber
+    }
 
-    const roh = document.title ?? ''
-    const geputzt = roh
+    return saeubern(document.title ?? '')
+  }
+
+  /**
+   * Aus einem gefundenen Text einen brauchbaren Titel machen — oder keinen.
+   *
+   * „Season 3" allein ist kein Titel, „Amazon.de: Season 3" erst recht nicht.
+   * Lieber nichts schicken als etwas, das beim Zuordnen in die Irre führt: Die
+   * Kennung und die Staffelnummer tragen die Meldung dann allein.
+   */
+  function saeubern(roh) {
+    const geputzt = String(roh)
       .replace(/^Amazon\.de\s*:\s*/i, '')
-      .split('|')[0]
-      .replace(/\s+(ansehen|anschauen)\s*$/i, '')
+      .replace(/\s*[|–—-]\s*(Prime Video|Amazon\.de|Amazon Prime).*$/i, '')
+      .replace(/\s+(ansehen|anschauen|streamen)\s*$/i, '')
       .trim()
-    // „Season 3" allein ist kein Titel — dann lieber gar keiner, und die
-    // Kennung muss die Zuordnung tragen.
-    if (!geputzt || /^(season|staffel)\s*\d+$/i.test(geputzt)) return null
+    if (!geputzt || geputzt.length < 3) return null
+    if (/^(season|staffel)\s*\d+$/i.test(geputzt)) return null
+    if (/^amazon\.de$/i.test(geputzt)) return null
     return geputzt
   }
 
@@ -618,6 +664,15 @@
            * hinter dem senkrechten Strich fällt weg.
            */
           titel: eintrag.titel ?? seitenTitel(),
+          /**
+           * Die Staffelnummer aus dem Verweis-Parameter, als Zahl.
+           *
+           * Alle Staffeln einer Serie können sich eine ASIN teilen — bei „Oshi
+           * no Ko" ist `B0GFPBT6FG` die Sammelseite für alle drei. Dann ist die
+           * Nummer das Einzige, was die Staffeln auseinanderhält, und sie
+           * gehört in ihr Feld statt in einen Satz.
+           */
+          staffel: staffelAusAdresse(),
           /**
            * Die Notiz sagt, worüber der Befund reicht.
            *
