@@ -165,6 +165,21 @@ const seitenQuelltext = (() => {
   const gemeldet = nachrichten.filter((n) => n.marke === 'ak-amazon-folgen')
   pruefe('die echte Antwort wird gemeldet', gemeldet.length >= 1, gemeldet.length)
 
+  /**
+   * Die Startadresse reist mit — sonst geht die Staffelangabe verloren.
+   *
+   * Amazon entfernt `?ref_=atv_dp_season_select_s3` aus der Adresse, sobald
+   * die Seite steht. Dieses Skript läuft bei `document_start` und sieht sie
+   * noch; `amazon.js` startet bei `document_idle` und kommt zu spät. Die
+   * Meldung vom 23.08.2026, 19:31 Uhr trug deshalb keine Staffelangabe,
+   * obwohl Daniel genau diese Adresse aufgerufen hatte.
+   */
+  pruefe(
+    'jede Meldung trägt die Adresse vom Seitenstart',
+    gemeldet.every((n) => typeof n.startAdresse === 'string' && n.startAdresse.length > 10),
+    gemeldet[0]?.startAdresse,
+  )
+
   const erste = gemeldet[0] ?? {}
   const nummern = (erste.funde ?? []).map((f) => f.nummer).sort((a, b) => a - b)
 

@@ -86,8 +86,21 @@
    * Sie bleibt dauerhaft drin. Ein paar Zähler kosten nichts, und der nächste
    * Umbau bei Amazon kommt bestimmt.
    */
+  /**
+   * Die Adresse, wie sie beim **Seitenstart** aussah.
+   *
+   * Amazon räumt seinen Verweis-Parameter weg, sobald die Seite steht — die
+   * Meldung vom 23.08.2026, 19:31 Uhr trug deshalb keine Staffelangabe, obwohl
+   * Daniel `?ref_=atv_dp_season_select_s3` aufgerufen hatte. Dieses Skript
+   * läuft bei `document_start` und sieht sie noch; `amazon.js` startet bei
+   * `document_idle` und kommt zu spät.
+   */
+  const startAdresse = location.href
+
   const diagnose = {
-    fassung: '0.53.0',
+    fassung: '0.54.0',
+    startAdresse,
+    suchteil: location.search,
     anlaeufe: 0,
     quelltextLaenge: 0,
     titleID: null,
@@ -100,6 +113,28 @@
   window.__akAmazon = diagnose
 
   const warte = (ms) => new Promise((r) => setTimeout(r, ms))
+
+  /**
+   * Die Sprachnamen aus einem `audioTracks`-Feld — beide Formen.
+   *
+   * Die meisten Seiten führen schlichte Namen (`["Deutsch","日本語"]`), „Oshi
+   * no Ko" Staffel 3 dagegen ganze Objekte:
+   *
+   *     [{"audioTrackId":"de-de_dialog_0","displayName":"Deutsch",
+   *       "languageCode":"de-de","audioSubtype":"dialog", …}]
+   *
+   * Die erste Fassung reichte sie unverändert weiter. Beim Empfänger wurde
+   * daraus `[object Object]`, in der Meldung an den Worker ein zerlegtes
+   * JSON-Bruchstück — genau so kam sie am 23.08.2026 zweimal an. **Der Fehler
+   * saß hier, nicht in `amazon.js`:** Dort war er schon behoben, und trotzdem
+   * blieb die Meldung falsch, weil die Sprachen über diesen Weg kommen.
+   */
+  function namenAus(spuren) {
+    if (!Array.isArray(spuren)) return []
+    return spuren
+      .map((s) => (typeof s === 'string' ? s : (s?.displayName ?? s?.language ?? null)))
+      .filter((s) => typeof s === 'string' && s.trim())
+  }
 
   /**
    * Aus einer Antwort die Folgen mit ihren Tonspuren ziehen.
@@ -127,7 +162,7 @@
         for (const folge of liste.episodes ?? []) {
           const d = folge?.detail
           if (!d || !Array.isArray(d.audioTracks) || !Number.isFinite(d.episodeNumber)) continue
-          funde.push({ nummer: d.episodeNumber, sprachen: d.audioTracks.filter(Boolean) })
+          funde.push({ nummer: d.episodeNumber, sprachen: namenAus(d.audioTracks) })
         }
         for (const seite of liste.actions?.episodePages ?? []) {
           const token = seite?.token
@@ -147,16 +182,19 @@
       // Rückfall: Eine Sprache ohne Nummer zählt als Sprache, **nicht** als
       // Folge — sonst stimmte die Zahl am Knopf wieder nicht.
       for (const m of text.matchAll(/"audioTracks"\s*:\s*\[([^\]]*)\]/g)) {
-        const sprachen = m[1]
-          .split(',')
-          .map((s) => s.trim().replace(/^"|"$/g, ''))
-          .filter(Boolean)
+        const namen = [...m[1].matchAll(/"displayName"\s*:\s*"([^"]+)"/g)].map((t) => t[1])
+        const sprachen = namen.length
+          ? namen
+          : m[1]
+              .split(',')
+              .map((s) => s.trim().replace(/^"|"$/g, ''))
+              .filter((s) => s && !s.includes('{') && !s.includes(':'))
         if (sprachen.length) funde.push({ nummer: null, sprachen })
       }
     }
 
     if (funde.length || gesamt !== null) {
-      window.postMessage({ marke: MARKE, funde, gesamt }, '*')
+      window.postMessage({ marke: MARKE, funde, gesamt, startAdresse }, '*')
     }
 
     // Die Kennung der Serie steht in der Adresse, aus der die Antwort kam. Sie

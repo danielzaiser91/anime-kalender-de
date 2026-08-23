@@ -70,20 +70,26 @@
   }
 
   /**
-   * Welche Staffel die Adresse meint.
+   * Die Adresse beim **Seitenstart** — und welche Staffel sie meint.
    *
-   * Amazon hängt sie als `?ref_=atv_dp_season_select_s3` an — die ASIN bleibt
-   * dabei die der **Serie**. Daniel am 23.08.2026: „ich hab dropdown nicht
-   * angefasst, sondern die seite neugeladen, diese url … ?ref_=
-   * atv_dp_season_select_s3." Ohne diesen Griff sehen die Adressen aller
-   * Staffeln gleich aus.
+   * Alle Staffeln einer Serie teilen sich eine ASIN; welche gezeigt wird,
+   * steht allein im Verweis-Parameter (`?ref_=atv_dp_season_select_s3`).
+   * Daniel am 23.08.2026: „ich hab dropdown nicht angefasst, sondern die seite
+   * neugeladen, diese url … ?ref_=atv_dp_season_select_s3."
+   *
+   * **Amazon räumt den Parameter weg, sobald die Seite steht.** Dieses Skript
+   * startet bei `document_idle` und sieht ihn nicht mehr — `amazon-leser.js`
+   * läuft bei `document_start` und schickt ihn mit. Die Meldung von 19:31 Uhr
+   * trug deshalb keine Staffelangabe, obwohl die Adresse sie enthielt.
    *
    * Die Nummer entscheidet **nichts** — gemeldet wird, was im Quelltext steht.
-   * Sie steht in der Notiz, damit später erkennbar ist, welche Staffel gemeint
+   * Sie kommt in die Notiz, damit später erkennbar ist, welche Staffel gemeint
    * war, auch wenn die Kennung einmal nicht zuzuordnen ist.
    */
+  let startAdresse = location.href
+
   function staffelAusAdresse() {
-    const n = /[?&]ref_=[^&]*_s(\d+)/.exec(location.search ?? '')?.[1]
+    const n = /[?&]ref_=[^&]*_s(\d+)/.exec(startAdresse)?.[1]
     return n ? Number(n) : null
   }
 
@@ -436,6 +442,8 @@
     // `episodeCount` aus der Nachlade-Antwort ist verlässlicher als die Zahl im
     // Seitengerüst — die steht dort für die gerade gewählte Staffel.
     if (Number.isFinite(e.data.gesamt)) gesehen.gesamt = e.data.gesamt
+    // Der Leser sah die Adresse noch mit dem Verweis-Parameter.
+    if (typeof e.data.startAdresse === 'string') startAdresse = e.data.startAdresse
     for (const f of e.data.funde ?? []) {
       // Ein Fund ohne Nummer stammt aus der Rückfallebene des Mitlesers: seine
       // Sprache zählt, als **Folge** zählt er nicht. Sonst stünde am Knopf
