@@ -1984,7 +1984,10 @@ console.log('\nWerktitel gegen Teiltitel')
     name: string
     platform: string
   }>
-  const releasesR = Array.isArray(rohR) ? rohR : Object.values(rohR)
+  type KurzRelease = { titleId: number; name: string; platform: string }
+  const releasesR: KurzRelease[] = Array.isArray(rohR)
+    ? rohR
+    : (Object.values(rohR) as KurzRelease[])
   const yugi = releasesR.filter((r) => r.titleId === 481 && r.platform === "disneyplus")
   pruefe(
     'die beiden Yu-Gi-Oh-Ausgaben behalten ihre Staffelnummern',
