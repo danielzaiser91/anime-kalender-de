@@ -215,6 +215,34 @@
      * steht dagegen in jeder Seite, die in einer Linkvorschau erscheinen soll,
      * und trägt den Serientitel ohne Staffelzusatz.
      */
+    /**
+     * Das Auswahlfeld der Staffeln — die verlässlichste Stelle.
+     *
+     * Gemessen am 23.08.2026 an „Oshi no Ko" Staffel 3: `og:title`,
+     * `twitter:title` und `<h1>` sind **alle leer**, `document.title` trägt
+     * „Amazon.de: Season 3 ansehen | Prime Video". Der Serientitel steht
+     * einzig im Auswahlfeld:
+     *
+     *     <span class="_36qUej">[Oshi No Ko] - [Mein*Star] - Staffel 1</span>
+     *
+     * Die Klasse ist generiert und beim nächsten Amazon-Deploy eine andere —
+     * gesucht wird deshalb nach dem **Textmuster**, nicht nach dem Element.
+     *
+     * **Nur der Teil vor „ - Staffel N" wird genommen, nie die Nummer.** Im
+     * Auswahlfeld stand „Season 3", im Quelltext fand sich trotzdem
+     * „… - Staffel 1" (Daniel, 23.08.2026, mit Bild): Der Quelltext führt alle
+     * Einträge, nicht nur den gewählten. Der Serientitel ist bei allen
+     * derselbe und deshalb brauchbar; die Staffelnummer kommt ausschließlich
+     * aus dem Verweis-Parameter.
+     */
+    const ausAuswahl = /([^<>"]{3,120}?)\s+[-–—]\s+(?:Staffel|Season)\s+\d+/i.exec(
+      document.documentElement?.innerHTML ?? '',
+    )?.[1]
+    if (ausAuswahl) {
+      const sauber = saeubern(ausAuswahl)
+      if (sauber) return sauber
+    }
+
     const ausOg = document
       .querySelector?.('meta[property="og:title"], meta[name="twitter:title"]')
       ?.getAttribute?.('content')
@@ -573,9 +601,34 @@
    * Deshalb wird die Kennung bei jedem Takt nachgesehen. Ändert sie sich, fängt
    * alles von vorn an: neuer Eintrag, leerer Zählstand, leerer Knopf.
    */
+  /**
+   * Woran ein Staffelwechsel erkennbar ist — die Kennung reicht nicht.
+   *
+   * Daniel am 23.08.2026: „nach dropdown auswahl von staffel 3 zeigt button
+   * weiterhin 12 folgen, wenn ich auf staffel 3 neulade steht dort 11 folgen."
+   *
+   * Beim Wechsel im Auswahlfeld ändert sich **weder die Adresse noch die
+   * `titleID` im Quelltext** — alle Staffeln einer Serie teilen sich beides.
+   * Was sich ändert, ist die Folgenliste. Die Gesamtzahl ist der schärfste
+   * Anhaltspunkt: 12 wird zu 11.
+   *
+   * Zwei Staffeln mit gleicher Folgenzahl bleiben damit unerkannt. Dafür ist
+   * die Staffelnummer aus der Adresse da — und wo auch die schweigt, meldet
+   * der Knopf wenigstens keine **falsche** Zahl, sondern die der zuletzt
+   * geladenen Liste.
+   */
+  function staffelKennung() {
+    return `${asin()}|${spuren().gesamt ?? '?'}|${staffelAusAdresse() ?? '?'}`
+  }
+
+  let letzteKennung = staffelKennung()
+
   function beiStaffelwechsel() {
+    const kennung = staffelKennung()
+    if (kennung === letzteKennung) return
+    letzteKennung = kennung
     const jetzt = asin()
-    if (!jetzt || jetzt === id) return
+    if (!jetzt) return
     id = jetzt
     eintrag = liste[id] ?? {
       titel: null,

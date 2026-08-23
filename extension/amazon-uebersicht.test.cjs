@@ -315,11 +315,19 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
 {
   const { angehaengt, sandkasten, takte, gemeldet } = starte('B0GFPBT6FG')
   sandkasten.document.title = 'Amazon.de: Season 3'
-  sandkasten.document.querySelector = (wahl) =>
-    wahl.includes('og:title')
-      ? { getAttribute: () => '[Oshi No Ko] - [Mein*Star] | Prime Video' }
-      : null
+  /**
+   * So sieht die Seite wirklich aus — Daniels Konsolen-Messung, 21:46 Uhr:
+   *
+   *     ogTitle:  null      twitter: null      h1: ""
+   *     docTitle: "Amazon.de: Season 3 ansehen | Prime Video"
+   *     Der Titel steht in <span class="_36qUej">…- Staffel 1</span>
+   *
+   * Alle bequemen Stellen sind leer. Die Attrappe gibt deshalb **nichts**
+   * zurück; der Titel muss aus dem Quelltext kommen.
+   */
+  sandkasten.document.querySelector = () => null
   sandkasten.document.documentElement.innerHTML =
+    '<span class="_36qUej">[Oshi No Ko] - [Mein*Star] - Staffel 1</span>' +
     '"audioTracks":[{"displayName":"Deutsch"}],"episodeNumber":1,"episodeCount":11'
   sandkasten.location.search = '?ref_=atv_dp_season_select_s3'
   for (const takt of takte) takt()
@@ -335,7 +343,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   setTimeout(() => {
     const koerper = gemeldet[0]?.koerper ?? {}
     pruefe(
-      'gemeldet wird der Serientitel aus og:title, nicht „Amazon.de: Season 3"',
+      'der Serientitel wird aus dem Auswahlfeld gelesen (og:title und h1 sind leer)',
       koerper.titel === '[Oshi No Ko] - [Mein*Star]',
       koerper.titel,
     )
@@ -351,6 +359,43 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
       koerper.sprachen,
     )
   }, 20)
+}
+
+// --- 2e. Staffelwechsel, bei dem sich die Kennung NICHT ändert -------------
+
+/**
+ * Daniel am 23.08.2026: „nach dropdown auswahl von staffel 3 zeigt button
+ * weiterhin 12 folgen, wenn ich auf staffel 3 neulade steht dort 11 folgen."
+ *
+ * Beim Wechsel im Auswahlfeld bleibt die Adresse gleich **und** die `titleID`
+ * im Quelltext — alle Staffeln einer Serie teilen sich beides. Eine Erkennung
+ * über die Kennung greift deshalb nicht; erkennbar ist der Wechsel nur an der
+ * Folgenliste.
+ */
+{
+  const seite = (folgen, gesamt) =>
+    '{"titleID":"B0GFPBT6FG"}' +
+    Array.from(
+      { length: folgen },
+      (_, i) => `"audioTracks":["Deutsch"],"duration":1355,"episodeNumber":${i + 1},`,
+    ).join('') +
+    `"episodeCount":${gesamt}`
+
+  const { angehaengt, sandkasten, takte } = starte('B0GFPBT6FG')
+  sandkasten.document.documentElement.innerHTML = seite(12, 12)
+  for (const takt of takte) takt()
+  const knopf = angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))
+  pruefe('Staffel 1 der Sammelseite zeigt 12 Folgen', knopf?.textContent.includes('12 Folgen'), knopf?.textContent)
+
+  // Der Wechsel: gleiche Adresse, gleiche titleID, andere Folgenliste.
+  sandkasten.document.documentElement.innerHTML = seite(11, 11)
+  for (const takt of takte) takt()
+
+  pruefe(
+    'nach dem Wechsel auf Staffel 3 zeigt der Knopf 11 Folgen, nicht 12',
+    knopf?.textContent.includes('11 Folgen'),
+    knopf?.textContent,
+  )
 }
 
 // --- 3. Erledigte zählen nicht mehr mit -----------------------------------
