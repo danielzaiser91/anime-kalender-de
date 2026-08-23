@@ -378,6 +378,22 @@ Datensatz und bricht bei einem Widerspruch ab, bevor etwas geschrieben wird:
 `npm run check:logic` stellt zusätzlich die vier Annahmen nach, aus denen der Fehler entstand.
 Beide gehören zur Prüfkette vor dem Commit.
 
+**Drei Prüfungen sichern die Synchro-Auswertung, und sie messen Verschiedenes.** Das ist
+Absicht: Jede einzelne davon kann grün bleiben, während die anderen einen echten Ausfall sehen.
+
+| Lauf | misst | blinder Fleck |
+|---|---|---|
+| `check:handbelege` | steht jede Handprüfung so im Datensatz? | **merkt einen Ausfall der Automatik nicht** — der Build setzt Handprüfungen direkt, sie decken den Ausfall zu |
+| `check:cr-zuordnung` | tut `beurteile()` das Richtige? | kennt nur die neun hinterlegten Fälle |
+| `check:quellen` | widerspricht eine Quelle einer Handprüfung? | kleine Kontrollgruppe, sagt nichts über Ungeprüftes |
+
+Der mittlere Lauf ist die Antwort auf Daniels Frage vom 23.08.2026: „ist das jetzt von dir
+korrigiert worden, sodass zukünftige läufe es nicht erneut kaputt machen? nicht nur speziell
+für den fall, sondern generisch gelöst?" Er stellt neun reale Fälle nach — Gun Gale Online,
+Fruits Basket, KONOSUBA, Food Wars, Free!, den US-Katalog — und zieht darunter eine
+**Untergrenze auf dem echten Bestand**: Fällt die Auswertung unter 300 Urteile (Stand
+23.08.2026: 470), ist etwas gebrochen, auch wenn jeder Einzelfall noch stimmt.
+
 `npm run check:handbelege` hält seit dem 23.08.2026 die **1.946 von Hand geprüften Angaben**
 aus `data/dub-confirmed.yaml` gegen den gebauten Datensatz. Sie sind die einzige Quelle im
 Projekt, die weder rät noch schweigt — und die teuerste, weil sie Daniels Zeit kostet statt

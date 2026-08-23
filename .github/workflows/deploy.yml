@@ -147,7 +147,7 @@ jobs:
       - name: Zusicherungen prüfen
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run check:logic && npm run check:search && npm run check:handbelege
+        run: npm run check:logic && npm run check:search && npm run check:handbelege && npm run check:cr-zuordnung && npm run check:quellen
 
       - name: Fortschritt — Zusicherungen geprüft
         continue-on-error: true

@@ -50,7 +50,8 @@
     "data:rtlplus:report": "node pipeline/report-rtlplus.mjs",
     "data:motn:changes": "tsx pipeline/fetch-motn-changes.ts",
     "check:handbelege": "tsx pipeline/check-handbelege.ts",
-    "check:quellen": "tsx pipeline/check-quellen.ts"
+    "check:quellen": "tsx pipeline/check-quellen.ts",
+    "check:cr-zuordnung": "tsx pipeline/check-crunchyroll-zuordnung.ts"
   },
   "dependencies": {
     "react": "^19.1.0",
