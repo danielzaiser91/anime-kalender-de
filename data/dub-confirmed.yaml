@@ -15840,3 +15840,32 @@
   dub: true
   checkedAt: '2026-08-23'
   note: 'Daniel: alle 12 Folgen deutsch.'
+
+# Daniels ADN-Stichprobe vom 23.08.2026, 19:13 — die erste Kontrolle dieser
+# Quelle überhaupt. Vorher standen dort 108 automatische Urteile ohne einen
+# einzigen geprüften Fall. Drei bewusst verschiedene Größen: Einzelfolge,
+# normale Staffel, Riesenserie. Alle drei bestätigt.
+- anilistId: 191
+  title: 'Love Hina Christmas Special: Silent Eve'
+  platform: adn
+  dub: true
+  checkedAt: '2026-08-23'
+  note: 'Daniel: „dieses video (ep26) und alle anderen folgen dieses anime auf adn sind deutsch vertont (27 episoden)".'
+- anilistId: 189
+  title: Love Hina
+  platform: adn
+  dub: true
+  checkedAt: '2026-08-23'
+  note: 'Teil derselben ADN-Serie, die Daniel vollständig als deutsch bestätigt hat.'
+- anilistId: 105156
+  title: 'Shinchou Yuusha: Kono Yuusha ga Ore TUEEE Kuse ni Shinchou Sugiru'
+  platform: adn
+  dub: true
+  checkedAt: '2026-08-23'
+  note: 'Daniel: „alle 12" Folgen deutsch.'
+- anilistId: 481
+  title: Yu☆Gi☆Oh! Duel Monsters
+  platform: adn
+  dub: true
+  checkedAt: '2026-08-23'
+  note: 'Daniel: „alle 236 folgen sind deutsch". ADN teilt in fünf Staffeln (1–49, 50–97, 98–144, 145–184, 185–236); AniList zählt 224. Die Differenz sitzt in Staffel 1 und stammt aus mehrteiligen Folgen, die ADN einzeln führt.'

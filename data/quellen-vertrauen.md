@@ -127,6 +127,31 @@ Abo-Titel und Kauftitel nebeneinander. Sie gilt nur noch, wo keine gemessene Ang
 
 ---
 
+## Jeder Anbieter zählt Folgen anders — dreimal belegt
+
+Das ist keine Eigenart einzelner Serien, sondern eine Eigenschaft jeder Quelle. Alle drei Fälle
+stammen von Daniels Bildschirm, alle drei vom 23.08.2026:
+
+| Anbieter | Beispiel | zählt zusätzlich |
+|---|---|---|
+| **Netflix** | KONOSUBA St. 2: 11 statt 10 | **OVAs als reguläre Folgen** — „Die Rückkehr der Abenteurer: OVA" steht dort als Folge 11 |
+| **Crunchyroll** | Food Wars St. 4: 13 statt 12 · Free! St. 1: 14 statt 12 | **Specials, PVs, Behind-the-Scenes** in `folgen` |
+| **ADN** | Yu-Gi-Oh!: 236 statt 224 | **mehrteilige Folgen einzeln** — „Teil 1 / Teil 2" sind zwei Einträge |
+
+**Keine dieser Zahlen ist falsch.** Sie zählen Verschiedenes, und keine Quelle sagt dazu, was
+sie mitzählt. Daraus folgt für jede Zuordnung:
+
+- **Eine abweichende Folgenzahl ist für sich genommen kein Fehlerbefund.** Bevor aus „andere
+  Zahl" ein „falsche Zahl" wird, gehört die Frage dazwischen, ob beide Seiten dasselbe zählen.
+- **Folgenzahlen taugen nur als Schlüssel, wenn sie exakt aufgehen** — und auch dann nur mit
+  einer Gegenprobe, dass keine zweite Größe dieselbe Zahl trägt.
+- **Deshalb gibt AniList die Struktur vor** (siehe unten): Eine der Zählweisen muss die
+  maßgebliche sein, und es ist die, aus der Cover, Titel und Jahr stammen.
+
+Der Yu-Gi-Oh-Fall zeigt das Ausmaß: ADN teilt in fünf Staffeln (1–49, 50–97, 98–144, 145–184,
+185–236), Crunchyroll führt einen Block mit **224** — genau der AniList-Zahl — daneben Blöcke
+mit 48, 47, 40, 52. Die Differenz von zwölf sitzt vollständig in Staffel 1.
+
 ## Wessen Staffelschnitt gilt — und wie die Folgen zugeordnet werden
 
 Daniels Entscheidung vom 23.08.2026: „wir beziehen schließlich für den kalender die infos von
