@@ -52,6 +52,31 @@ ein unvollständiger Abruf. Die 453 Serien ohne Staffeldaten teilen sich auf:
 | C | **Prime Video und Disney+ mit der Erweiterung** | beide sperren automatisierte Abrufe; zusammen 640 Verweise |
 | D | **Drei Prime-Stichproben** zu den 101 `zugang: kauf` | abgeglichen, nie validiert |
 
+### Offene Aufgabe: Woher kommen die Prime- und Disney-Verweise?
+
+Daniel am 23.08.2026, 19:05: „aktuell besitzen wir bereits prime und disney links im kalender,
+woher kommen die? ich hab sie nicht manuell hinzugefügt, also sind sie irgendwie automatisiert
+reingekommen, oder? es muss quellen dafür geben, wir müssen die quellen nur finden."
+
+**Er hat recht, und die Unterscheidung ist wichtig:** Die **Verweise** kommen automatisch —
+aus aniSearch (Abschnitt `#streams`) und aus TMDB/JustWatch (`watch/providers`). Was fehlt, ist
+allein die **Tonspur**. Bisher wurde nur nach Quellen gesucht, die beides liefern; nach einer
+Quelle, die *nur* die Sprachfassung kennt und über eine bestehende Kennung anzubinden wäre,
+noch nie systematisch.
+
+Zu prüfen, in dieser Reihenfolge:
+
+1. **aniSearch selbst** — führt die Seite je Anbieter eine Sprachangabe, die wir bisher nicht
+   parsen? Die Rohdaten liegen in `data/anisearch-raw/` und kosten keinen Abruf.
+2. **AniList** — dort liegen die deutschen Sprechrollen (1.746 Titel belegt). Sie sagen, *dass*
+   eine Synchro existiert, nicht *wo* sie läuft. In Verbindung mit einem belegten Verweis wäre
+   das ein Indiz, kein Beleg — sauber getrennt zu halten.
+3. **Die Anbieter-eigenen JSON-Schnittstellen**, die die Web-Oberfläche selbst nutzt
+   (Skill `netzwerkverkehr-statt-scraping`). Für Prime Video ist belegt, dass `audioTracks` je
+   Folge in der Seite steht — rechtlich gesperrt, technisch vorhanden. Für Disney+ ungeprüft.
+4. **Die Streaming Availability API mit `series_granularity=episode`** für Prime — die
+   Folgendaten waren im Test sauber, nur der Bestand ist unvollständig.
+
 ### Der Konflikt, der offen bleibt
 
 Daniels Grundsatz vom 23.08.2026 lautet: „die extension … keine dauerhafte lösung … wir müssen
