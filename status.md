@@ -28,15 +28,37 @@ ein unvollständiger Abruf. Die 453 Serien ohne Staffeldaten teilen sich auf:
 
 | Zahl | Grund im Bestand | Was zu tun ist |
 |---|---|---|
-| **240** | „Content-API kennt keine Staffel zu dieser Kennung" | Kennung neu auflösen — vermutlich veraltete `seriesId` |
+| **240** | „Content-API kennt keine Staffel zu dieser Kennung" | **gemessen 23.08.2026: die Kennung ist gültig** — siehe unten |
 | **127** | `nichtVerfuegbar` — Serie dort nicht mehr | Verweise entfernen, prüfen ob der Build das tut |
 | **86** | „keine Serienkennung hinter dieser Adresse" | Adressen neu auflösen, vermutlich veraltete URLs |
+
+### Gemessen am 23.08.2026, 20:15: die 240 Kennungen sind nicht veraltet
+
+Die Aufgabe hieß „Kennung neu auflösen — vermutlich veraltete `seriesId`". Die Vermutung ist
+**widerlegt**. Gemessen mit frischem Zugangspaket (deutscher Katalog) an zehn Fällen, über
+**beide** API-Pfade:
+
+| Abfrage | Ergebnis |
+|---|---|
+| `cms/v2<bucket>/seasons?series_id=…` | 10× HTTP 200, `total: 0` |
+| `content/v2/cms/series/<id>/seasons` | 8× HTTP 200, `0` Staffeln |
+| `content/v2/cms/series/<id>` (die Serie selbst) | 10× HTTP 200, **richtiger Titel** |
+| Kontrollgruppe (Serien mit Staffeln im Bestand) | 4× je 1 Staffel — der Pfad tut es also |
+
+Die Kennung stimmt, Crunchyroll kennt die Serie, und der deutsche Katalog führt **null
+abrufbare Folgen**. Ein Auflösungslauf hätte 240-mal dieselbe Kennung wiedergefunden.
+
+**Was daraus folgt, ist offen — und zwar bewusst.** `CLAUDE.md` verlangt für das Entfernen
+eines Verweises einen zweiten Beleg, und zwei Pfade derselben API sind kein zweiter Beleg.
+Dazu kommt ein Fall, der stutzig macht: **DanMachi** (`G6DQN9KGR`) steht in dieser Gruppe —
+eine große, laufende Reihe. Entweder ist sie in Deutschland wirklich nicht auf Crunchyroll,
+oder die Messung greift bei manchen Serien daneben. Das entscheidet die Stichprobe (Aufgabe E).
 
 ### Was ohne Daniel geht
 
 | # | Aufgabe | SP |
 |---|---|---|
-| 1 | **240 Crunchyroll-Kennungen neu auflösen** — größter Einzelposten, der Lauf existiert bereits | 5 |
+| 1 | ~~240 Crunchyroll-Kennungen neu auflösen~~ — **hinfällig**, die Kennungen sind gültig (Messung oben). Nachfolgeaufgabe hängt an Stichprobe E | — |
 | 2 | **86 unauflösbare Adressen** über die Suche neu bestimmen | 3 |
 | 3 | **127 tote Verweise**: prüfen, ob der Build sie wirklich entfernt, und die Zahl belegen | 1 |
 | 4 | **Robustheitstest erweitern** um aniSearch, YouTube und die Zugangsart | 3 |
@@ -51,6 +73,7 @@ ein unvollständiger Abruf. Die 453 Serien ohne Staffeldaten teilen sich auf:
 | B | **YouTube-Data-API-Schlüssel** anlegen | Konto nötig, löst 23 Verweise |
 | C | **Prime Video und Disney+ mit der Erweiterung** | beide sperren automatisierte Abrufe; zusammen 640 Verweise |
 | D | **Drei Prime-Stichproben** zu den 101 `zugang: kauf` | abgeglichen, nie validiert |
+| E | **Drei Crunchyroll-Stichproben** zu den 240 ohne Folgen | entscheidet über 240 Verweise; DanMachi macht die Messung fragwürdig |
 
 ### Offene Aufgabe: Woher kommen die Prime- und Disney-Verweise?
 
