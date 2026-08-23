@@ -67,7 +67,7 @@ const TAGE = zahl('--tage', 3)
 const BUDGET = zahl('--budget', 6)
 
 /** Die Anbieter, für die sich die Frage lohnt. */
-const KATALOGE = 'netflix,prime.subscription,disney'
+const KATALOGE = 'netflix,prime.subscription,disney,crunchyroll'
 
 interface Aenderung {
   changeType: string
@@ -100,7 +100,19 @@ interface Bestand {
   /** Verbrauchte Anfragen je Monat — dieselbe Buchhaltung wie der große Lauf. */
   verbrauch?: Record<string, number>
   /** Zuletzt gesehene Änderungen, damit ein Bericht sagen kann, was neu ist. */
-  gesehen?: Record<string, { titel?: string; imdbId?: string; tmdbId?: string; dienst?: string; am?: string; deutsch?: boolean }>
+  gesehen?: Record<
+    string,
+    {
+      art?: 'new' | 'removed'
+      titel?: string
+      originalTitel?: string
+      imdbId?: string
+      tmdbId?: string
+      dienst?: string
+      am?: string
+      deutsch?: boolean
+    }
+  >
 }
 
 async function hole(pfad: string): Promise<Antwort | undefined> {
@@ -136,56 +148,95 @@ async function main(): Promise<void> {
   bestand.gesehen ??= {}
 
   const von = Math.floor(Date.now() / 1000) - TAGE * 86_400
-  let cursor: string | undefined
   let anfragen = 0
   let neue = 0
   let mitDeutsch = 0
+  let verschwunden = 0
 
-  while (anfragen < BUDGET) {
-    const query = new URLSearchParams({
-      country: 'de',
-      change_type: 'new',
-      item_type: 'show',
-      show_type: 'series',
-      catalogs: KATALOGE,
-      from: String(von),
-      order_direction: 'desc',
-    })
-    if (cursor) query.set('cursor', cursor)
+  /**
+   * Zwei Fragen, zwei Änderungsarten — und die zweite ist die wertvollere.
+   *
+   * `new` findet, was dazukommt. `removed` findet, was **weg** ist, und das
+   * bemerkt sonst niemand: Ein toter Verweis fällt keinem Besucher auf, er
+   * klickt einmal ins Leere und kommt nicht wieder.
+   *
+   * Gemessen am 23.08.2026 mit einer einzigen Anfrage über 21 Tage: Von fünf
+   * entfernten Anime führten wir **zwei** noch als verfügbar — „Digimon
+   * Tamers" und „Midnight Occult Civil Servants", beide am 18.08. bei Prime
+   * Video verschwunden. Fünf Tage alt, und ohne diese Abfrage hätten sie
+   * dauerhaft im Datensatz gestanden.
+   *
+   * Belegt ist die Aussagekraft mit Gegenprobe: „Dragonball Z" (Daniels
+   * „nicht mehr verfügbar"-Banner) führt die Quelle ohne jeden deutschen
+   * Anbieter, „Lycoris Recoil" (von ihm als sichtbar bestätigt) mit
+   * `crunchyroll subscription, deu`.
+   */
+  /**
+   * Das Budget wird geteilt, nicht der Reihe nach verbraucht.
+   *
+   * Beim ersten Testlauf am 23.08.2026 fraß `new` alle vier Anfragen (die
+   * Liste hat `hasMore: true`), und `removed` kam gar nicht mehr dran — die
+   * Meldung sagte „0 Entfernungen", obwohl eine einzelne Handabfrage kurz
+   * zuvor fünf gefunden hatte. Ein Zähler, der nur deshalb null ist, weil das
+   * Budget vorher alle war, ist schlimmer als gar keiner: Er sieht aus wie ein
+   * Befund.
+   */
+  const budgetJeArt = Math.max(1, Math.floor(BUDGET / 2))
 
-    const antwort = await hole(`/changes?${query}`)
-    anfragen++
-    bestand.verbrauch[monat] = (bestand.verbrauch[monat] ?? 0) + 1
-    if (!antwort) break
-    archiviere(`changes-${monat}-${anfragen}`, antwort)
+  for (const art of ['new', 'removed'] as const) {
+    let cursor: string | undefined
+    const grenze = anfragen + budgetJeArt
+    while (anfragen < grenze) {
+      const query = new URLSearchParams({
+        country: 'de',
+        change_type: art,
+        item_type: 'show',
+        show_type: 'series',
+        catalogs: KATALOGE,
+        from: String(von),
+        order_direction: 'desc',
+      })
+      if (cursor) query.set('cursor', cursor)
 
-    for (const c of antwort.changes ?? []) {
-      const show = antwort.shows?.[c.showId]
-      if (!show) continue
-      const optionen = show.streamingOptions?.de ?? []
-      const deutsch = optionen.some((o) => (o.audios ?? []).some((a) => a.language === 'deu'))
-      const schluessel = `${c.showId}:${c.service?.id ?? '?'}`
-      if (!bestand.gesehen[schluessel]) neue++
-      if (deutsch) mitDeutsch++
-      bestand.gesehen[schluessel] = {
-        titel: show.title,
-        imdbId: show.imdbId,
-        tmdbId: show.tmdbId,
-        dienst: c.service?.id,
-        am: c.timestamp ? new Date(c.timestamp * 1000).toISOString().slice(0, 10) : undefined,
-        deutsch,
+      const antwort = await hole(`/changes?${query}`)
+      anfragen++
+      bestand.verbrauch[monat] = (bestand.verbrauch[monat] ?? 0) + 1
+      if (!antwort) break
+      archiviere(`changes-${art}-${monat}-${anfragen}`, antwort)
+
+      for (const c of antwort.changes ?? []) {
+        const show = antwort.shows?.[c.showId]
+        if (!show) continue
+        const optionen = show.streamingOptions?.de ?? []
+        const deutsch = optionen.some((o) => (o.audios ?? []).some((a) => a.language === 'deu'))
+        const schluessel = `${art}:${c.showId}:${c.service?.id ?? '?'}`
+        if (!bestand.gesehen[schluessel]) {
+          neue++
+          if (art === 'removed') verschwunden++
+        }
+        if (deutsch && art === 'new') mitDeutsch++
+        bestand.gesehen[schluessel] = {
+          art,
+          titel: show.title,
+          originalTitel: show.originalTitle,
+          imdbId: show.imdbId,
+          tmdbId: show.tmdbId,
+          dienst: c.service?.id,
+          am: c.timestamp ? new Date(c.timestamp * 1000).toISOString().slice(0, 10) : undefined,
+          deutsch,
+        }
       }
-    }
 
-    if (!antwort.hasMore || !antwort.nextCursor) break
-    cursor = antwort.nextCursor
-    await sleep(400)
+      if (!antwort.hasMore || !antwort.nextCursor) break
+      cursor = antwort.nextCursor
+      await sleep(400)
+    }
   }
 
   bestand.fetchedAt = new Date().toISOString()
   writeJson(pfad, bestand, true)
   recordSource('motn-changes', neue)
-  log(`${anfragen} Anfragen, ${neue} neue Einträge, ${mitDeutsch} davon mit deutscher Tonspur.`)
+  log(`${anfragen} Anfragen, ${neue} neue Einträge (${mitDeutsch} mit deutscher Tonspur, ${verschwunden} Entfernungen).`)
   log(`Verbrauch ${monat}: ${bestand.verbrauch[monat]} (dieser Lauf) — der Monatslauf zählt eigene.`)
 }
 
