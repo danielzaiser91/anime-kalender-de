@@ -15713,3 +15713,38 @@
   dub: false
   checkedAt: '2026-08-23'
   note: "Videotitel nennt die Fassung: „【ちびキャラアニメ】かげじつ！\""
+
+# Daniels Prüfung vom 23.08.2026 — die vier Netflix-Titel, bei denen die
+# Streaming Availability API deutschen Ton behauptete und keine Handprüfung
+# vorlag. Alle vier bestätigt; das ist die erste Messung der Quelle in der
+# Richtung, die vorher ungedeckt war (siehe data/quellen-vertrauen.md).
+- anilistId: 21202
+  title: Kono Subarashii Sekai ni Shukufuku wo!
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-23'
+  note: 'Daniel: „es gibt dort 11+11+13 folgen, alle mit deutscher tonspur" — Staffelwähler auf netflix.com/title/80131674.'
+- anilistId: 181244
+  title: 'Kono Subarashii Sekai ni Shukufuku wo! 3: BO'
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-23'
+  note: 'Teil derselben Netflix-Adresse; Daniel bestätigte alle Folgen aller drei Staffeln als deutsch.'
+- anilistId: 106154
+  title: 'Koukaku Kidoutai: SAC_2045'
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-23'
+  note: 'Daniel bestätigt. Quelle meldete 24 von 24 Folgen deutsch, das sind beide Staffeln zu je zwölf.'
+- anilistId: 162147
+  title: Pokémon Concierge
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-23'
+  note: 'Daniel: „alle 8 folgen deutsch" unter netflix.com/pokemonconcierge — das sind Teil 1 und 2 zu je vier.'
+- anilistId: 175035
+  title: Pokémon Concierge Part 2
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-23'
+  note: 'Teil derselben Adresse, siehe Eintrag zu 162147.'

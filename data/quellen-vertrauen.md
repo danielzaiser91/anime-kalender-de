@@ -59,6 +59,16 @@ Die am gründlichsten vermessene Quelle, und die mit den schärfsten Grenzen.
 | **Deutsche Folgentitel** | dieselbe Messung |
 | **Zugangsart** `subscription`/`addon`/`buy` | „Naruto Shippuden" bei Prime in allen drei Formen, inklusive Aniverse-Kanal |
 
+**Fallstrick bei den Folgennummern — belegt am 23.08.2026.** Netflix reiht OVAs **als reguläre
+Folgen** in die Staffel ein: Bei KONOSUBA Staffel 2 steht „Die Rückkehr der Abenteurer: OVA"
+dort als **Folge 11**. Die Streaming Availability API zählt OVAs nicht mit und kommt deshalb
+auf 33 Folgen, wo Netflix und wir 35 zählen.
+
+**Keine der beiden Zahlen ist falsch** — sie zählen Verschiedenes. Für den Abgleich heißt das:
+Folgennummern der Quelle dürfen **nicht** mit unseren gleichgesetzt werden, und eine
+abweichende Gesamtzahl ist für sich genommen kein Fehlerbefund. Verglichen wird über Titel und
+Staffel, nicht über die laufende Nummer.
+
 | Kann sie **nicht** | Beleg |
 |---|---|
 | **Aktuelle Folgen** | Folge 7 vom 20.08. war am 23.08. **nicht** bekannt — mindestens 3 Tage Verzug |
@@ -134,8 +144,23 @@ deutschen Ton behauptet und keine Handprüfung vorliegt:
 | 12 von 12 | DAN DA DAN | `netflix.com/title/81736884` |
 | 8 von 8 | Pokémon Concierge | `netflix.com/pokemonconcierge` |
 
-Drei davon stehen ohnehin auf der Extension-Liste. Bestätigen sie sich, steigt der Trust für
-Netflix von „widerspricht nicht" auf „trifft zu, wo wir nachsehen konnten".
+**Ergebnis, 23.08.2026: alle vier bestätigt.** Daniel hat jeden Titel im Player geöffnet:
+
+| Titel | Quelle sagte | Daniels Befund |
+|---|---|---|
+| KONOSUBA | 33 von 33 deutsch | „11+11+13 folgen, alle mit deutscher tonspur" |
+| Ghost in the Shell SAC_2045 | 24 von 24 | bestätigt |
+| DAN DA DAN | 12 von 12 | bestätigt |
+| Pokémon Concierge | 8 von 8 | „alle 8 folgen deutsch" |
+
+**Damit steigt der Trust für Netflix** von „widerspricht nicht" auf **„trifft zu, wo wir
+nachsehen konnten"** — vier von vier in genau der Richtung, die vorher ungedeckt war. Die
+Angaben stehen jetzt als Handprüfung in `data/dub-confirmed.yaml`.
+
+**Ein Punkt bleibt offen:** Bei DAN DA DAN führen wir zwei Einträge unter einer Netflix-Adresse
+(Staffel 1 und 2). Die Quelle nannte zwölf Folgen — das ist **eine** Staffel, und welche Daniel
+im Player sah, ist nicht festgehalten. Staffel 1 bleibt deshalb ohne Eintrag; geraten wird
+nicht.
 
 ## Offene Prüfpunkte
 
