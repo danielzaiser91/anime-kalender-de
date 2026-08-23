@@ -3,9 +3,22 @@ name: Deploy auf GitHub Pages
 on:
   push:
     branches: [main]
+    # Was die ausgelieferte Seite nicht berührt, braucht keinen Deploy.
+    #
+    # Am 23.08.2026 liefen in einer halben Stunde sieben volle Deploys, weil
+    # jeder Commit an der Browser-Erweiterung den Website-Bau anstieß (Daniel:
+    # „wieso seh ich eigentlich so viele deploy im status app?"). Die
+    # Erweiterung wird nicht ausgeliefert, sie wird von Hand in Chrome geladen;
+    # der Worker hat seinen eigenen Weg über `wrangler deploy`.
+    #
+    # **Wirkt nur, wenn ein Commit ausschließlich solche Pfade anfasst.** Wer
+    # Erweiterung und Web-Quelltext zusammen ändert, bekommt weiterhin einen
+    # Deploy — und das ist richtig so.
     paths-ignore:
       - 'docs/**'
       - '*.md'
+      - 'extension/**'
+      - 'worker/**'
   # Ohne das hier gehen die Daten der Nachtläufe nie live. GitHub startet
   # bewusst keine Workflows für Pushes, die aus einer Action mit dem
   # GITHUB_TOKEN kommen — sonst könnte sich eine Action endlos selbst
