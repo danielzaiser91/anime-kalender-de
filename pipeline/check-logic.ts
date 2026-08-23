@@ -1876,6 +1876,33 @@ console.log('\nLücken im Sendeplan und die Uhrzeit')
     'ohne Uhrzeit zählt der Tag, nicht die Minute',
     istErschienen({ date: '2026-08-22' }, kurzVorher),
   )
+
+  /**
+   * Die Zeile „Nächste Folge" darf nie eine vergangene nennen.
+   *
+   * Sie zeigte am 23.08.2026 um 22 Uhr noch den 23.08. — fünf Stunden nachdem
+   * die Folge lief (Daniel, mit Bild). Der Grund war derselbe Tagesvergleich,
+   * der schon die Folgenzahl verfälscht hatte.
+   */
+  const reihe = [
+    { date: '2026-08-19', time: '17:00' },
+    { date: '2026-08-21', time: '17:00' },
+    { date: '2026-08-23', time: '17:00' },
+    { date: '2026-08-30', time: '17:00' },
+  ]
+  const abends = new Date('2026-08-23T20:00:00Z') // 22:00 Berlin
+  const naechste = reihe.find((e) => !istErschienen(e, abends))
+  pruefe(
+    'abends um 22 Uhr ist die nächste Folge der 30.08., nicht der heutige 23.08.',
+    naechste?.date === '2026-08-30',
+    naechste?.date,
+  )
+
+  const nachmittags = new Date('2026-08-23T14:00:00Z') // 16:00 Berlin
+  pruefe(
+    'um 16 Uhr ist die nächste Folge dagegen die heutige',
+    reihe.find((e) => !istErschienen(e, nachmittags))?.date === '2026-08-23',
+  )
 }
 
 

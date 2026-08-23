@@ -140,7 +140,19 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
   const datumErklaerung =
     release.dateMeaning === 'available-from' ? t('detail.availableFromNote') : undefined
 
-  const naechster = events.find((e) => e.date >= today)
+  /**
+   * Die nächste Folge ist die nächste **noch nicht erschienene**.
+   *
+   * Vorher stand hier `e.date >= today`. Damit blieb der heutige Termin bis
+   * Mitternacht die „nächste Folge" — auch um 22 Uhr, fünf Stunden nachdem sie
+   * lief (Daniel, 23.08.2026, mit Bild: „Nächste Folge 23.08.2026", während
+   * die Zeile darüber schon 5/14 zählte).
+   *
+   * `kuenftige` bleibt bewusst beim Tagesvergleich: Es füttert den
+   * ICS-Export und das Kalender-Abo, und dort gehört der heutige Termin
+   * hinein. Wer eine Datei lädt, will den ganzen Tag darin haben.
+   */
+  const naechster = events.find((e) => !istErschienen(e))
   const kuenftige = events.filter((e) => e.date >= today)
 
   /**
@@ -327,6 +339,22 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
                 </dt>
                 <dd className="tabular-nums">
                   {formatDate(naechster ? naechster.date : (last as string))}
+                  {/*
+                    Die Uhrzeit gehört hierher, nicht nur zum Start.
+                    „23.08.2026" beantwortet die Frage halb — wer heute Abend
+                    einschalten will, braucht die Stunde (Daniel, 23.08.2026:
+                    „bei nächste folge sollte auch uhrzeit stehen").
+
+                    Am Termin selbst, nicht am Sendeplan: Bei einem geteilten
+                    Start kann die erste Welle zu einer anderen Zeit kommen als
+                    der Wochentakt danach.
+                  */}
+                  {(naechster?.time ?? release.schedule.time) && (
+                    <span className="text-slate-400">
+                      {' · '}
+                      {naechster?.time ?? release.schedule.time} Uhr
+                    </span>
+                  )}
                 </dd>
               </>
             )}
