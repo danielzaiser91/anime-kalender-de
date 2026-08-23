@@ -16,7 +16,7 @@
  *
  * Aufruf: npm run check:logic
  */
-import { expandEvents, lastEpisodeDate } from '../shared/logic.ts'
+import { expandEvents, lastEpisodeDate, istErschienen } from '../shared/logic.ts'
 import {
   alsEinBlock,
   bestimmeRhythmus,
@@ -1802,6 +1802,82 @@ console.log('\nStreaming Availability API:')
   pruefe('was keine Titeladresse ist, wird nicht angefasst',
     netflixNeutral('https://www.netflix.com/browse') === 'https://www.netflix.com/browse')
 }
+
+console.log('\nLücken im Sendeplan und die Uhrzeit')
+
+/**
+ * Eine Folge darf nie nach einer höheren **beobachteten** Folge liegen.
+ *
+ * Gemeldet von Daniel am 23.08.2026 mit zwei Bildern: Die Kalenderkarte zeigte
+ * „Ep 5/14", das Detail-Panel darunter „4/14" — dieselbe Serie, dieselbe
+ * Minute. Der Bestand kannte für „Mushoku Tensei" Staffel 3 die Folgen 1–3 vom
+ * 19.08. und Folge 5 vom 23.08.; Folge 4 hatte kein Abruf gesehen. Die stumme
+ * Wochenrechnung setzte sie auf den 26.08. — hinter eine Folge, die es längst
+ * gibt.
+ */
+{
+  const release = {
+    slug: 'test-luecke',
+    titleId: 1,
+    name: 'Test',
+    platform: 'crunchyroll',
+    releaseType: 'weekly',
+    schedule: {
+      firstEpisodeDate: '2026-08-19',
+      episodeCount: 14,
+      time: '17:00',
+      observed: { 1: '2026-08-19', 2: '2026-08-19', 3: '2026-08-19', 5: '2026-08-23' },
+    },
+  } as unknown as Release
+
+  const termine = expandEvents(release)
+  const nach = (n: number) => termine.find((e) => e.episode === n)?.date
+
+  pruefe(
+    'Folge 4 liegt zwischen den belegten Folgen 3 und 5, nicht dahinter',
+    nach(4)! > nach(3)! && nach(4)! < nach(5)!,
+    { f3: nach(3), f4: nach(4), f5: nach(5) },
+  )
+
+  /**
+   * Die allgemeine Fassung derselben Regel: Über die ganze Reihe hinweg darf
+   * kein Termin vor seinem Vorgänger liegen. Ein Einzelfall ist behoben,
+   * sobald man ihn kennt — diese Zeile fängt den nächsten.
+   */
+  let verdreht = 0
+  for (let i = 1; i < termine.length; i++) {
+    if (termine[i]!.date < termine[i - 1]!.date) verdreht++
+  }
+  pruefe('kein Termin liegt vor seinem Vorgänger', verdreht === 0, verdreht)
+}
+
+/**
+ * „Erschienen" richtet sich nach der Uhrzeit, nicht nach dem Tag.
+ *
+ * Daniel am 23.08.2026: „um 16:59 sollte im panel 4 stehen, ab 17:00 uhr
+ * (release zeitpunkt) sollte dort 5 stehen." Ein Vergleich über das Datum
+ * allein zählt die heutige Folge ab Mitternacht mit — siebzehn Stunden, bevor
+ * es sie gibt.
+ */
+{
+  const ereignis = { date: '2026-08-23', time: '17:00' }
+  const kurzVorher = new Date('2026-08-23T14:59:00Z') // 16:59 Berlin (Sommerzeit)
+  const punkt = new Date('2026-08-23T15:00:00Z') // 17:00 Berlin
+
+  pruefe('um 16:59 gilt die Folge noch nicht als erschienen', !istErschienen(ereignis, kurzVorher))
+  pruefe('um 17:00 gilt sie als erschienen', istErschienen(ereignis, punkt))
+
+  /**
+   * Ohne Uhrzeit gilt der Tag als abgeschlossen. Wir wissen dann nicht, wann
+   * die Folge kam, aber dass sie kam — ein „noch nicht" wäre die schlechtere
+   * Auskunft.
+   */
+  pruefe(
+    'ohne Uhrzeit zählt der Tag, nicht die Minute',
+    istErschienen({ date: '2026-08-22' }, kurzVorher),
+  )
+}
+
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

@@ -3,7 +3,7 @@ import type { Meldung, Quelle, Release, ReleaseEvent, Title, WatchLink } from '@
 import { dubGrenze } from '@shared/dub-grenze.ts'
 import type { Zugangsart } from '@shared/zugangsart.ts'
 import { PLATFORMS } from '@shared/types.ts'
-import { expandEvents, lastEpisodeDate, releaseStatus, titleStatus } from '@shared/logic.ts'
+import { expandEvents, lastEpisodeDate, releaseStatus, titleStatus, istErschienen } from '@shared/logic.ts'
 import { buildIcs, googleCalendarUrl } from '@shared/ics.ts'
 import { formatDate, todayIso, weekdayName } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
@@ -113,8 +113,15 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
    * bei der schlichten Zahl: „14/14" sagt nichts, was „14" nicht auch sagt.
    */
   const erschienen = useMemo(() => {
-    const heute = todayIso()
-    const raus = events.filter((e) => e.date <= heute).length
+    /**
+     * Gezählt wird nach **Datum und Uhrzeit**, nicht nach Tag.
+     *
+     * Vorher stand hier `e.date <= todayIso()`. Das zählte die heutige Folge
+     * ab Mitternacht mit — bei „Mushoku Tensei" mit Sendezeit 17:00 also
+     * siebzehn Stunden zu früh (Daniel, 23.08.2026: „um 16:59 sollte im panel
+     * 4 stehen, ab 17:00 uhr sollte dort 5 stehen").
+     */
+    const raus = events.filter((e) => istErschienen(e)).length
     return raus > 0 && raus < events.length ? raus : undefined
   }, [events])
   const [showAll, setShowAll] = useState(false)

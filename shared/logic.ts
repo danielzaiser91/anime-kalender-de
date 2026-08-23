@@ -1,5 +1,5 @@
 import type { Release, ReleaseEvent, ReleaseStatus, Title } from './types.ts'
-import { addDays, todayIso } from './time.ts'
+import { addDays, todayIso, berlinToUtc } from './time.ts'
 
 /**
  * Beobachtete Folgen als Stützpunkte, aufsteigend nach Folgennummer.
@@ -109,6 +109,38 @@ export function titleStatus(
 }
 
 /** Erzeugt aus der Termin-Regel eines Releases die einzelnen Kalender-Einträge. */
+/**
+ * Tage zwischen zwei ISO-Daten, als ganze Zahl.
+ *
+ * Beide Daten sind Ortszeit Europe/Berlin und kommen ohne Uhrzeit — die
+ * Rechnung über UTC-Mitternacht ist deshalb sommerzeitfest.
+ */
+function tageZwischen(von: string, bis: string): number {
+  const a = Date.UTC(+von.slice(0, 4), +von.slice(5, 7) - 1, +von.slice(8, 10))
+  const b = Date.UTC(+bis.slice(0, 4), +bis.slice(5, 7) - 1, +bis.slice(8, 10))
+  return Math.round((b - a) / 86400000)
+}
+
+/**
+ * Ist dieser Termin schon durch — nach Datum **und** Uhrzeit?
+ *
+ * Daniel am 23.08.2026: „um 16:59 sollte im panel 4 stehen, ab 17:00 uhr
+ * (release zeitpunkt) sollte dort 5 stehen." Ein Vergleich über das Datum
+ * allein zählt die heutige Folge ab Mitternacht mit — bei einer Serie, die um
+ * 17:00 erscheint, siebzehn Stunden zu früh.
+ *
+ * Fehlt die Uhrzeit, gilt der Tag als abgeschlossen: Wir wissen dann nicht,
+ * wann sie kam, aber dass sie kam. Ein „noch nicht" wäre die schlechtere
+ * Auskunft — die Oberfläche schreibt bei fehlender Uhrzeit ohnehin „Zeit
+ * offen".
+ */
+export function istErschienen(
+  ereignis: { date: string; time?: string },
+  jetzt: Date = new Date(),
+): boolean {
+  return berlinToUtc(ereignis.date, ereignis.time ?? '23:59').getTime() <= jetzt.getTime()
+}
+
 export function expandEvents(release: Release): ReleaseEvent[] {
   const s = release.schedule
   if (!s?.firstEpisodeDate) return []
@@ -173,10 +205,46 @@ export function expandEvents(release: Release): ReleaseEvent[] {
 
   const dateOf = (episode: number): string => {
     let anchor: { episode: number; date: string } | undefined
+    let danach: { episode: number; date: string } | undefined
     for (const candidate of anchors) {
-      if (candidate.episode > episode) break
+      if (candidate.episode > episode) {
+        danach = candidate
+        break
+      }
       anchor = candidate
     }
+
+    /**
+     * Liegt eine **höhere** Folge bereits belegt vor, wird zwischen den beiden
+     * Messpunkten geteilt statt darüber hinaus gerechnet.
+     *
+     * Der Anlass (Daniel, 23.08.2026, mit zwei Bildern): Bei „Mushoku Tensei"
+     * Staffel 3 kennt der Bestand die Folgen 1–3 vom 19.08. und Folge **5**
+     * vom 23.08.; Folge 4 fehlt, weil sie kein Abruf gesehen hat. Die stumme
+     * Wochenrechnung setzte sie auf den 26.08. — hinter eine Folge, die es
+     * längst gibt. Die Karte zeigte „Ep 5/14", das Panel darunter „4/14".
+     *
+     * Zwischen zwei Messpunkten zu teilen ist keine Erfindung, sondern die
+     * einzige Lage, die beide Messungen achtet. Sie kann daneben liegen, wenn
+     * genau in dieser Lücke eine Sendepause lag — aber sie kann nicht die
+     * Reihenfolge verletzen, und **das** ist der Fehler, der dem Leser auffällt.
+     */
+    if (danach && anchor && danach.episode > anchor.episode) {
+      const spanne = tageZwischen(anchor.date, danach.date)
+      const schritt = spanne / (danach.episode - anchor.episode)
+      return addDays(anchor.date, Math.round(schritt * (episode - anchor.episode)))
+    }
+
+    /**
+     * Kein Stützpunkt davor, aber einer dahinter: rückwärts rechnen.
+     *
+     * Sonst käme die Folge auf den Starttermin plus Wochen und läge damit
+     * ebenfalls hinter der belegten.
+     */
+    if (danach && !anchor) {
+      return addDays(danach.date, -7 * (danach.episode - episode))
+    }
+
     return anchor
       ? addDays(anchor.date, 7 * (episode - anchor.episode))
       : addDays(s.firstEpisodeDate, 7 * (episode - first))
