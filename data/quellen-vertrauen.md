@@ -127,6 +127,62 @@ Abo-Titel und Kauftitel nebeneinander. Sie gilt nur noch, wo keine gemessene Ang
 
 ---
 
+## Robustheitstest: `npm run check:quellen`
+
+Daniels Auftrag vom 23.08.2026: „jeden anbieter einmal abklopfen, wie es der automatische lauf
+machen würde, dann prüfen ob wir genau das bekommen was wir erwarten."
+
+Der Lauf erzeugt für jede Quelle ihr Urteil **mit denselben Funktionen wie der Build** und hält
+es gegen `data/dub-confirmed.yaml`. Er kostet kein Kontingent.
+
+| Ausgang | Bedeutung |
+|---|---|
+| einig | Quelle und Hand sagen dasselbe |
+| **falsch positiv** | Quelle sagt deutsch, Hand sagt nein — schleust ein falsches `true` ein |
+| **falsch negativ** | Quelle sagt nein, Hand sagt deutsch — **entfernt einen gültigen Verweis** |
+| stumm | Quelle sagt nichts, wo die Hand etwas weiß — Verzug, kein Fehler |
+
+**Stand 23.08.2026, 18:00:**
+
+| Quelle | verglichen | einig | Widersprüche | ohne Kontrolle |
+|---|---|---|---|---|
+| Crunchyroll Content-API | 21 | 100 % | 0 | **411** |
+| ADN | 0 | — | 0 | **107** |
+
+**„Keine Widersprüche" ist hier kein Freispruch.** Die Kontrollgruppe ist winzig: 21 geprüfte
+Fälle bei Crunchyroll, **keiner** bei ADN — gegen zusammen über fünfhundert Urteile. Deshalb
+gibt der Lauf am Ende eine **Stichprobe ohne Handprüfung** aus: Fälle, in denen noch niemand
+nachgesehen hat. Das ist dieselbe ungedeckte Richtung wie bei den vier Netflix-Titeln.
+
+### Was der erste Lauf sofort gefunden hat: Fruits Basket
+
+Die Stichprobe meldete `KEIN dt. | Fruits Basket: 2nd Season | „Fruits Basket (2019)" ohne
+deutsche Folge` — der **Grund nannte einen anderen Block als den Titel**. Nachgesehen:
+
+```
+Crunchyroll:  „Fruits Basket (2019)" 0/25   „Staffel 2" 25/25   „The Final Season" 13/13
+wir        :  „2nd Season" 25 Folgen        „The Final" 13      „prelude" 1
+```
+
+Uns fehlt der Eintrag für Staffel 1. Die Reihenzuordnung legt unseren „2nd Season" deshalb an
+den **ersten** Block an, die Summe geht auf (25 = 25) — und heraus kommt `dub: false` für eine
+Staffel, die dort vollständig deutsch läuft. **Der Verweis wäre entfernt worden.**
+
+Die Zählsperre `unsere.length < staffeln.length` fängt das nicht: drei Einträge, drei Blöcke.
+Erst der zweite Block fliegt auf (13 + 1 = 14 statt 25), und dieses Auffliegen galt bisher
+nicht rückwirkend — der Code sprang mit `continue` weiter und behielt das bereits gefällte
+Urteil.
+
+**Behoben:** Geht ein Block nicht auf, ist die ganze Reihe hinfällig (`return []`); bleiben
+eigene Einträge übrig, ebenso. Wirkung: Crunchyroll erzeugt seither **kein einziges
+`dub: false` mehr** — alle bisherigen negativen Urteile stammten aus Reihen, die nicht sauber
+aufgingen. Bei einem Urteil, das Verweise entfernt, ist das der richtige Preis.
+
+**Dass der Fehler nie sichtbar wurde**, lag allein daran, dass im Build eine frühere Quelle
+für „Fruits Basket: 2nd Season" bereits `dub: true` gesetzt hatte und Crunchyroll deshalb
+übersprungen wurde. Ein Fehler, den nur die Reihenfolge anderer Quellen deckt, ist kein
+behobener Fehler.
+
 ## Drei Handprüfungen vom 23.08.2026 — und was sie über beide Seiten sagen
 
 Daniel hat drei Crunchyroll-Fälle im Player geprüft, die aus `change_type=updated` stammten:

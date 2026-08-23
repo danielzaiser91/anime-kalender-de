@@ -328,7 +328,35 @@ export function beurteile(serie: CrSerie, unsere: Title[]): Urteil[] {
       summe += sortiert[zeiger + laenge].episodes ?? 0
       laenge++
     }
-    if (summe !== block.folgen || laenge === 0) continue
+    /**
+     * Geht ein Block nicht auf, ist die **ganze Reihe** hinfällig — nicht nur
+     * dieser eine Schritt.
+     *
+     * Bis zum 23.08.2026 stand hier `continue`: Der Block wurde übersprungen,
+     * die bereits erzeugten Urteile blieben stehen und der Zeiger lief weiter.
+     * Das setzt voraus, dass alles davor richtig zugeordnet war — und genau das
+     * ist nicht gesichert, wenn irgendwo eine Zahl nicht passt.
+     *
+     * **Der Fall, der es zeigt (Fruits Basket, gefunden über die Stichprobe in
+     * `check-quellen.ts`):** Crunchyroll führt dort drei Blöcke — „Fruits Basket
+     * (2019)" mit 0/25 deutsch, „Staffel 2" mit 25/25 und „The Final Season" mit
+     * 13/13. Wir haben ebenfalls drei Einträge, aber der erste davon ist bereits
+     * **die zweite Staffel** (25 Folgen, 2020); für Staffel 1 fehlt uns der
+     * Crunchyroll-Verweis. Die Reihe legt unseren „2nd Season" also an den
+     * ersten Block an, die Summe geht auf — und heraus kommt `dub: false` für
+     * eine Staffel, die dort vollständig deutsch läuft. Der Verweis wäre damit
+     * **entfernt** worden.
+     *
+     * Die Zählsperre `unsere.length < staffeln.length` fängt das nicht: Hier
+     * stehen drei Einträge gegen drei Blöcke. Erst der zweite Block fliegt auf
+     * (13 + 1 = 14 statt 25) — und dieses Auffliegen muss rückwirkend gelten.
+     *
+     * Dass der Fehler bisher nicht sichtbar wurde, lag allein daran, dass eine
+     * frühere Quelle im Build bereits `dub: true` gesetzt hatte und
+     * Crunchyroll deshalb übersprungen wurde. Ein Fehler, der nur durch die
+     * Reihenfolge anderer Quellen gedeckt ist, ist kein behobener Fehler.
+     */
+    if (summe !== block.folgen || laenge === 0) return []
     // Nur eindeutige Blöcke: entweder ganz deutsch oder gar nicht.
     if (block.deutsch === block.folgen) {
       for (const t of sortiert.slice(zeiger, zeiger + laenge)) {
@@ -342,5 +370,10 @@ export function beurteile(serie: CrSerie, unsere: Title[]): Urteil[] {
     // Teilweise vertretene Blöcke bleiben bewusst ohne Urteil.
     zeiger += laenge
   }
+  /**
+   * Bleiben eigene Einträge übrig, war die Reihe zu kurz — dieselbe Unsicherheit
+   * wie oben, nur am anderen Ende. Dann gilt nichts.
+   */
+  if (zeiger < sortiert.length) return []
   return urteile
 }
