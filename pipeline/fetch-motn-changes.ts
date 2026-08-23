@@ -66,8 +66,21 @@ const TAGE = zahl('--tage', 3)
 /** Harte Grenze, keine Empfehlung — dasselbe Kontingent wie der große Lauf. */
 const BUDGET = zahl('--budget', 6)
 
-/** Die Anbieter, für die sich die Frage lohnt. */
-const KATALOGE = 'netflix,prime.subscription,disney,crunchyroll'
+/**
+ * Die Anbieter, für die sich die Frage lohnt — **Crunchyroll gehört nicht dazu.**
+ *
+ * Am 23.08.2026 kurz aufgenommen und nach Daniels Prüfung wieder gestrichen.
+ * Für „Lycoris Recoil" meldet die Quelle auf Serienebene `crunchyroll: deu`,
+ * auf Folgenebene bei allen 13 Folgen `jpn` — und richtig ist keines von
+ * beidem: Staffel 1 läuft dort auf Deutsch, Staffel 2 (die die Quelle gar
+ * nicht kennt) nicht.
+ *
+ * Das ist kein Einzelfall, sondern stand längst in unserer eigenen
+ * Kontrollmessung: `data/motn-messung.md` zählt für Crunchyroll **96 von 99
+ * Vergleichen als „Quelle schweigt"**. Für Crunchyroll ist deren eigene
+ * Content-API zuständig, die stündlich läuft und die Fassung je Folge kennt.
+ */
+const KATALOGE = 'netflix,prime.subscription,disney'
 
 interface Aenderung {
   changeType: string
@@ -154,22 +167,30 @@ async function main(): Promise<void> {
   let verschwunden = 0
 
   /**
-   * Zwei Fragen, zwei Änderungsarten — und die zweite ist die wertvollere.
+   * Zwei Änderungsarten — aber nur eine davon darf etwas bewirken.
    *
-   * `new` findet, was dazukommt. `removed` findet, was **weg** ist, und das
-   * bemerkt sonst niemand: Ein toter Verweis fällt keinem Besucher auf, er
-   * klickt einmal ins Leere und kommt nicht wieder.
+   * `new` findet, was dazukommt: brauchbar, mit Tonspur.
    *
-   * Gemessen am 23.08.2026 mit einer einzigen Anfrage über 21 Tage: Von fünf
-   * entfernten Anime führten wir **zwei** noch als verfügbar — „Digimon
-   * Tamers" und „Midnight Occult Civil Servants", beide am 18.08. bei Prime
-   * Video verschwunden. Fünf Tage alt, und ohne diese Abfrage hätten sie
-   * dauerhaft im Datensatz gestanden.
+   * **`removed` ist unbrauchbar für automatische Änderungen — an vier von vier
+   * Fällen widerlegt (Daniel, 23.08.2026).** Die Quelle meldete am 18.08. vier
+   * Anime als bei Prime Video entfernt; alle vier lagen dort weiterhin im Abo:
    *
-   * Belegt ist die Aussagekraft mit Gegenprobe: „Dragonball Z" (Daniels
-   * „nicht mehr verfügbar"-Banner) führt die Quelle ohne jeden deutschen
-   * Anbieter, „Lycoris Recoil" (von ihm als sichtbar bestätigt) mit
-   * `crunchyroll subscription, deu`.
+   * | Titel | Quelle | Daniels Blick ins eigene Konto |
+   * |---|---|---|
+   * | Digimon Tamers | entfernt | enthalten, Folge 1–51 auf Deutsch |
+   * | Gankutsuou | entfernt | enthalten |
+   * | Mayonaka no Occult Koumuin | entfernt | enthalten |
+   * | Mahoutsukai no Yakusoku | entfernt | enthalten (ohne Deutsch) |
+   *
+   * Was „removed" wirklich bedeutet, ist damit offen — vermutlich der Wegfall
+   * **einer** Katalogzuordnung (Kanal, Ausgabe, Staffel), nicht der Serie.
+   * Bis das geklärt ist, wird der Befund **nur gesammelt**, nie angewandt:
+   * Ein falsch entfernter Verweis fällt niemandem auf, er ist einfach weg.
+   *
+   * Die vorherige Fassung dieses Kommentars nannte den Befund „belegt" und
+   * berief sich auf eine Gegenprobe mit „Dragonball Z". Die war wertlos: Dort
+   * war das Ergebnis vorher bekannt. **Eine Gegenprobe, deren Ausgang man schon
+   * kennt, prüft nichts.**
    */
   /**
    * Das Budget wird geteilt, nicht der Reihe nach verbraucht.
@@ -187,11 +208,23 @@ async function main(): Promise<void> {
     let cursor: string | undefined
     const grenze = anfragen + budgetJeArt
     while (anfragen < grenze) {
+      /**
+       * `series_granularity: episode` ist hier kein Feinschliff, sondern
+       * Bedingung — sonst ist die Tonspur-Angabe eine Serien-Auskunft und
+       * damit für eine laufende Serie schlicht falsch.
+       *
+       * Daniel am 23.08.2026 zu „Lycoris Recoil": „1. staffel auf deutsch,
+       * 2. staffel läuft (neuste folge ist ep6), aber keine einzige auf
+       * deutsch." Die Quelle meldete ohne diesen Parameter `audios: [deu]` —
+       * wahr für Staffel 1, falsch für alles, was gerade läuft. Und genau die
+       * laufenden Staffeln sind das, wofür es diesen Lauf gibt.
+       */
       const query = new URLSearchParams({
         country: 'de',
         change_type: art,
         item_type: 'show',
         show_type: 'series',
+        series_granularity: 'episode',
         catalogs: KATALOGE,
         from: String(von),
         order_direction: 'desc',
