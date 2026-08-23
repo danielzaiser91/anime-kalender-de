@@ -32,8 +32,69 @@
   const WORKER = 'https://newsletter.animekalender.workers.dev/pruefung'
 
   /** Die Kennung aus der Adresse — beide Formen kommen vor. */
+  function asinAusAdresse() {
+    return /\/(?:dp|detail)\/([A-Z0-9]{10})/.exec(`${location.pathname}${location.search}`)?.[1] ?? null
+  }
+
+  /**
+   * Die Kennung der Staffel, die **gerade** in der Folgenliste steht.
+   *
+   * ## Warum die Adresse dafür nicht taugt
+   *
+   * **Alle Staffeln einer Serie teilen sich eine ASIN.** Welche gezeigt wird,
+   * steht im Verweis-Parameter: `/gp/video/detail/B0GFPBT6FG?ref_=
+   * atv_dp_season_select_s3` ist Staffel 3, dieselbe Kennung wie Staffel 1
+   * (Daniel, 23.08.2026 — er hatte die Seite frisch geladen, nicht das
+   * Auswahlfeld benutzt).
+   *
+   * Die Meldung ging deshalb mit richtigem Befund und falscher Kennung raus:
+   * Inhalt und Folgenzahl waren Staffel 3 (11 Folgen, aniverse statt Prime),
+   * die Adresse zeigte auf Staffel 1. Das ist schlimmer als keine Meldung —
+   * es schreibt das Ergebnis dem falschen Titel zu.
+   *
+   * Im Quelltext steht dagegen `"titleID"` und meint die gezeigte Staffel.
+   * Denselben Wert nutzt `amazon-leser.js`, um die Folgenabschnitte
+   * nachzuladen — er muss also stimmen, sonst käme dort nichts an.
+   *
+   * Gesucht wird über **alle** Fundstellen: Auf der Digimon-Seite steht
+   * `titleID` 220-mal, und die erste trägt keinen Wert.
+   */
+  function asinAusSeite() {
+    const html = document.documentElement?.innerHTML
+    if (typeof html !== 'string') return null
+    for (const m of html.matchAll(/titleID/g)) {
+      const treffer = /titleID\\*"\s*:\s*\\*"([A-Z0-9]{10})/.exec(html.slice(m.index, m.index + 80))
+      if (treffer) return treffer[1]
+    }
+    return null
+  }
+
+  /**
+   * Welche Staffel die Adresse meint.
+   *
+   * Amazon hängt sie als `?ref_=atv_dp_season_select_s3` an — die ASIN bleibt
+   * dabei die der **Serie**. Daniel am 23.08.2026: „ich hab dropdown nicht
+   * angefasst, sondern die seite neugeladen, diese url … ?ref_=
+   * atv_dp_season_select_s3." Ohne diesen Griff sehen die Adressen aller
+   * Staffeln gleich aus.
+   *
+   * Die Nummer entscheidet **nichts** — gemeldet wird, was im Quelltext steht.
+   * Sie steht in der Notiz, damit später erkennbar ist, welche Staffel gemeint
+   * war, auch wenn die Kennung einmal nicht zuzuordnen ist.
+   */
+  function staffelAusAdresse() {
+    const n = /[?&]ref_=[^&]*_s(\d+)/.exec(location.search ?? '')?.[1]
+    return n ? Number(n) : null
+  }
+
+  /**
+   * Die Kennung zum Melden: erst die Seite, dann die Adresse.
+   *
+   * Die Adresse bleibt als Rückfallebene — sie stimmt, solange niemand die
+   * Staffel gewechselt hat, und sie ist da, bevor der Quelltext steht.
+   */
   function asin() {
-    return /\/(?:dp|detail)\/([A-Z0-9]{10})/.exec(location.pathname + location.search)?.[1] ?? null
+    return asinAusSeite() ?? asinAusAdresse()
   }
 
   /**
@@ -58,17 +119,42 @@
    * Deshalb wird die Gesamtzahl von der Seite gelesen und **beides** angezeigt.
    * Was nicht geladen ist, wird nicht behauptet.
    */
+  /**
+   * Die Sprachnamen aus einem `audioTracks`-Inhalt.
+   *
+   * **Zwei Formen, beide echt.** Die meisten Seiten führen schlichte Namen:
+   *
+   *     "audioTracks":["Deutsch","日本語"]
+   *
+   * „Oshi no Ko" Staffel 3 dagegen ganze Objekte (Daniel, 23.08.2026):
+   *
+   *     "audioTracks":[{"audioTrackId":"de-de_dialog_0","displayName":"Deutsch",
+   *                     "languageCode":"de-de","audioSubtype":"dialog", …}]
+   *
+   * Die erste Fassung zerlegte den zweiten Fall an den Kommas und schickte
+   * Bruchstücke wie `{"audioTrackId":"de-de_dialog_0` als „Sprache" an den
+   * Worker. Erkannt wird die Objektform am `displayName`; bleibt keiner übrig,
+   * gilt die schlichte Lesart.
+   */
+  function sprachnamen(inhalt) {
+    const namen = [...inhalt.matchAll(/"displayName"\s*:\s*"([^"]+)"/g)].map((m) => m[1])
+    if (namen.length) return namen
+    return inhalt
+      .split(',')
+      .map((s) => s.trim().replace(/^"|"$/g, ''))
+      .filter((s) => s && !s.includes('{') && !s.includes(':'))
+  }
+
   function spuren() {
     const text = document.documentElement.innerHTML
     const alle = new Set()
     const nummern = new Set()
     // Nur Tonspuren, die zu einer Folge gehören — der Abstand ist bewusst eng.
-    for (const m of text.matchAll(/"audioTracks"\s*:\s*\[([^\]]*)\][\s\S]{0,240}?"episodeNumber"\s*:\s*(\d+)/g)) {
+    // `[^\]]` deckt beide Formen ab: Namen wie Objekte, solange keine
+    // verschachtelte Klammer dazwischenliegt.
+    for (const m of text.matchAll(/"audioTracks"\s*:\s*\[([^\]]*)\][\s\S]{0,400}?"episodeNumber"\s*:\s*(\d+)/g)) {
       nummern.add(Number(m[2]))
-      for (const s of m[1].split(',')) {
-        const name = s.trim().replace(/^"|"$/g, '')
-        if (name) alle.add(name)
-      }
+      for (const name of sprachnamen(m[1])) alle.add(name)
     }
     /**
      * Wie viele Folgen die Staffel insgesamt hat.
@@ -92,8 +178,36 @@
    * aniverse anschaubar").
    */
   function seitenTitel() {
+    /**
+     * `document.title` taugt nicht — gemessen, nicht vermutet.
+     *
+     * Bei „Oshi no Ko" Staffel 3 steht dort **„Amazon.de: Season 3"**: kein
+     * Serienname, nur die Staffelnummer und der Shopname. Genau so kam die
+     * Meldung am 23.08.2026 an, und zuzuordnen war sie damit nicht.
+     *
+     * Der Serientitel steht im Quelltext, und zwar in der Überschrift der
+     * Seite. Probiert wird von der verlässlichsten Stelle abwärts; erst zum
+     * Schluss der Fenstertitel, und der nur, wenn er nach etwas aussieht.
+     */
+    const ueberschrift = document.querySelector?.('h1')?.textContent?.trim()
+    if (ueberschrift && ueberschrift.length > 2) return ueberschrift
+
+    const html = document.documentElement?.innerHTML ?? ''
+    // Amazons eigener Titel für diese Seite — dasselbe Feld, das die
+    // Freigabehinweise und die Besetzung tragen.
+    const ausDaten = /"pageTitle"\\*"?\s*:\s*\\*"([^"\\]{3,120})/.exec(html)?.[1]
+    if (ausDaten) return ausDaten
+
     const roh = document.title ?? ''
-    return roh.split('|')[0].replace(/\s+(ansehen|anschauen)\s*$/i, '').trim() || null
+    const geputzt = roh
+      .replace(/^Amazon\.de\s*:\s*/i, '')
+      .split('|')[0]
+      .replace(/\s+(ansehen|anschauen)\s*$/i, '')
+      .trim()
+    // „Season 3" allein ist kein Titel — dann lieber gar keiner, und die
+    // Kennung muss die Zuordnung tragen.
+    if (!geputzt || /^(season|staffel)\s*\d+$/i.test(geputzt)) return null
+    return geputzt
   }
 
   /** Welche Abos diese Staffel freischalten — `Prime`, `aniversede`, … */
@@ -509,7 +623,12 @@
               ? `alle ${geladen} Folgen geprüft`
               : `nur ${geladen} von ${gesehen.gesamt} Folgen geladen — Rest ungeprüft`) +
             `, Abos: ${abos().join(', ') || 'keine Angabe'}` +
-            (eintrag.unbekannt ? ' — Staffel nicht im Bestand, Titel von der Seite gelesen' : ''),
+            (eintrag.unbekannt ? ' — Staffel nicht im Bestand, Titel von der Seite gelesen' : '') +
+            // Beide Kennungen, solange sie auseinandergehen können: Die eine
+            // steht in der Adresse, die andere im Quelltext, und nur die
+            // zweite meint die gezeigte Staffel.
+            (asinAusAdresse() && asinAusAdresse() !== id ? `, Seitenadresse: ${asinAusAdresse()}` : '') +
+            (staffelAusAdresse() ? `, laut Adresse Staffel ${staffelAusAdresse()}` : ''),
         }),
       })
       knopf.textContent = antwort.ok ? '✓ gemeldet' : `Fehler ${antwort.status}`

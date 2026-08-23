@@ -246,6 +246,54 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   )
 }
 
+// --- 2c. Was aus einer Staffel-3-Seite gelesen wird ------------------------
+
+/**
+ * Die drei Fehler der Meldung vom 23.08.2026, 19:26 Uhr.
+ *
+ * Daniel meldete „Oshi no Ko" Staffel 3 über
+ * `/gp/video/detail/B0GFPBT6FG?ref_=atv_dp_season_select_s3`. Angekommen ist:
+ *
+ * ```
+ * titel:    "Amazon.de: Season 3"        ← kein Serienname
+ * url:      .../dp/B0GFPBT6FG            ← die Kennung von Staffel 1
+ * sprachen: ["Deutsch","日本語","{\"audioTrackId\":\"de-de_dialog_0", …]
+ * ```
+ *
+ * Der Befund selbst stimmte (11 Folgen, aniverse statt Prime) — zuzuordnen war
+ * er trotzdem nicht.
+ */
+{
+  const echteStaffel3 =
+    '<html><head></head><body>' +
+    '<h1>[Oshi No Ko] - [Mein*Star]</h1>' +
+    '<script>{"pageTitleId":"B0GFPBT6FG","titleID":"B0GT9DR9YF",' +
+    '"audioTracks":[{"audioTrackId":"de-de_dialog_0","displayName":"Deutsch",' +
+    '"languageCode":"de-de","audioSubtype":"dialog"}],"duration":1440,' +
+    '"episodeNumber":1,"episodeCount":11,"benefitId":"aniversede"}</script>' +
+    '</body></html>'
+
+  const { angehaengt, sandkasten, takte } = starte('B0GFPBT6FG')
+  sandkasten.document.documentElement.innerHTML = echteStaffel3
+  sandkasten.document.title = 'Amazon.de: Season 3'
+  sandkasten.location.search = '?ref_=atv_dp_season_select_s3'
+  sandkasten.document.querySelector = (w) =>
+    w === 'h1' ? { textContent: '[Oshi No Ko] - [Mein*Star]' } : null
+  for (const takt of takte) takt()
+
+  const knopf = angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))
+  pruefe(
+    'die Objektform von audioTracks ergibt „Deutsch", keine Bruchstücke',
+    knopf?.textContent.includes('🇩🇪 Deutsch'),
+    knopf?.textContent,
+  )
+  pruefe(
+    'gemeldet wird die Kennung aus dem Quelltext (B0GT9DR9YF), nicht die der Adresse (B0GFPBT6FG)',
+    knopf?.textContent.includes('neu'),
+    knopf?.textContent,
+  )
+}
+
 // --- 3. Erledigte zählen nicht mehr mit -----------------------------------
 
 {
