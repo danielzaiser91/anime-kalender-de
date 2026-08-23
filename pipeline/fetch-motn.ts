@@ -480,8 +480,23 @@ async function main(): Promise<void> {
     `Fertig. ${Object.keys(daten.shows).length} Serien im Bestand ` +
       `(${ausTmdb} über die TMDB-Kennung, ${ausKatalog} aus dem Katalog, ${ausSuche} über die Titelsuche).`,
   )
-  log(`Verbrauch: ${anfragen} Anfragen in diesem Lauf, ${daten.verbrauch[monat]} im Monat ${monat} von 1.000.`)
-  if (Number.isFinite(uebrig)) log(`Die Quelle selbst meldet ${uebrig} Anfragen als Rest des Monats.`)
+  /**
+   * Die Quelle zuerst, unsere Buchhaltung dahinter.
+   *
+   * Am 23.08.2026 standen die Zeilen andersherum: „962 im Monat von 1.000",
+   * darunter „Die Quelle meldet 0 als Rest". Wer nur die erste Zeile liest,
+   * hält 38 Anfragen für frei, die es nicht gibt — unser Zähler kennt nur die
+   * Läufe, die er selbst gesehen hat.
+   */
+  if (Number.isFinite(uebrig)) {
+    log(`Kontingent laut Quelle: ${uebrig} Anfragen übrig — das ist die maßgebliche Zahl.`)
+  }
+  log(
+    `Eigene Buchhaltung: ${anfragen} Anfragen in diesem Lauf, ${daten.verbrauch[monat]} im Monat ${monat}` +
+      (Number.isFinite(uebrig) && 1000 - (daten.verbrauch[monat] ?? 0) !== uebrig
+        ? ` — weicht um ${Math.abs(1000 - (daten.verbrauch[monat] ?? 0) - uebrig)} von der Quelle ab.`
+        : '.'),
+  )
 }
 
 main().catch((err) => {

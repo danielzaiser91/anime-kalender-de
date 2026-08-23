@@ -130,6 +130,36 @@ const adn = leer()
   }
 }
 
+// ── YouTube: Tonspur laut oEmbed-Lauf ──────────────────────────────────────
+/**
+ * Die drittgrößte Kontrollgruppe im Projekt — und bis zum 23.08.2026 im
+ * Robustheitstest gar nicht vertreten.
+ *
+ * `data/youtube-befunde.json` trägt je Adresse `audioDeutsch` und den Kanal.
+ * Beides stammt aus YouTubes eigener oEmbed-Auskunft, ist also weder geraten
+ * noch gescrapt.
+ */
+const yt = leer()
+{
+  const befunde = readJson<Record<string, { audioDeutsch?: boolean; kanal?: string | null }>>(
+    resolve(ROOT, 'data/youtube-befunde.json'),
+    {},
+  )
+  const geurteilt = new Set<number>()
+  for (const t of titel) for (const s of t.streams ?? []) {
+    if (s.platform !== 'youtube') continue
+    const b = befunde[s.url]
+    if (!b || typeof b.audioDeutsch !== 'boolean') continue
+    geurteilt.add(t.id)
+    verbuche(yt, t.id, 'youtube', b.audioDeutsch)
+  }
+  for (const [k] of hand) {
+    const [id, plattform] = k.split(':')
+    if (plattform !== 'youtube') continue
+    if (!geurteilt.has(Number(id))) yt.stumm++
+  }
+}
+
 function zeige(name: string, b: Bilanz): boolean {
   const gesamt = b.einig + b.falschPositiv.length + b.falschNegativ.length
   const quote = gesamt ? Math.round((b.einig / gesamt) * 100) : 0
@@ -151,7 +181,11 @@ function zeige(name: string, b: Bilanz): boolean {
 
 log('Robustheitstest der Synchro-Quellen — Maßstab ist data/dub-confirmed.yaml')
 log(`Handprüfungen als Kontrolle: ${hand.size}`)
-const alleSauber = [zeige('Crunchyroll Content-API', cr), zeige('ADN', adn)].every(Boolean)
+const alleSauber = [
+  zeige('Crunchyroll Content-API', cr),
+  zeige('ADN', adn),
+  zeige('YouTube (oEmbed)', yt),
+].every(Boolean)
 
 /**
  * Die Stichprobe ist der eigentliche Zweck dieses Laufs.

@@ -1508,11 +1508,28 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
   if (Array.isArray(daten.uebernommen)) {
     const ids = (daten.uebernommen as unknown[]).map(Number).filter((n) => Number.isInteger(n) && n > 0)
     if (!ids.length) return antwort({ ok: true, markiert: 0 })
-    await env.DB.prepare(
-      `UPDATE pruefung SET uebernommen = 1 WHERE id IN (${ids.map(() => '?').join(',')})`,
-    )
-      .bind(...ids)
-      .run()
+
+    /**
+     * In Stapeln, nicht in einem Rutsch.
+     *
+     * D1 begrenzt die gebundenen Werte je Anfrage auf 100. Am 23.08.2026
+     * schickte ein Lauf 107 Kennungen und bekam HTTP 500 zurück — die Meldung
+     * lautete „sie kommen beim nächsten Lauf erneut", und genau das war das
+     * Problem: Was nicht abgehakt wird, wird erneut geholt, erneut
+     * geschrieben und scheitert erneut. Der Briefkasten wächst, bis jeder
+     * Lauf über dieselbe Grenze stolpert.
+     *
+     * 50 je Stapel lässt Luft, falls die Grenze je enger wird.
+     */
+    const STAPEL = 50
+    for (let i = 0; i < ids.length; i += STAPEL) {
+      const teil = ids.slice(i, i + STAPEL)
+      await env.DB.prepare(
+        `UPDATE pruefung SET uebernommen = 1 WHERE id IN (${teil.map(() => '?').join(',')})`,
+      )
+        .bind(...teil)
+        .run()
+    }
     return antwort({ ok: true, markiert: ids.length })
   }
 

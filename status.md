@@ -146,12 +146,46 @@ Summen gehen exakt auf:
 **Staffel 4 trägt kein `vde`** — für „Ougon no Kaze" wäre das ein belegtes Nein, kein
 Fragezeichen. Die übrigen drei sind belegte Synchros.
 
-Es fehlt also **kein Abruf**: Katalog (Stand 20.08.), Rohdaten und Sprachcodes sind da. Die
-Zuordnung greift trotzdem nicht. Zu suchen ist in `pipeline/lib/adn-sprachen.ts` und
-`staffelBloecke()` — vermutlich scheitert der Namensabgleich, weil ADN die Reihe
-„Jojo’s Bizarre Adventure" nennt und AniList „JoJo no Kimyou na Bouken".
+**Nachgesehen am 23.08.2026, 23:37 — die Automatik schweigt zu Recht.** Der Build nennt den
+Grund selbst:
+
+> „Serie 444 ist gemischt (113 von 152 mit vde), der Verweis nennt keine Staffel"
+
+Unsere Verweise zeigen auf `/video/444-jojo-s-bizarre-adventure` **ohne Staffelangabe**. Über
+die Folgenzahl zuzuordnen scheitert genau dort, wo es darauf ankäme:
+
+| unsere Folgen | passt auf ADN-Staffel | eindeutig? |
+|---:|---|---|
+| 26 | 1 (26) | ja |
+| 24 + 24 | 2 (48) | nur als Paar |
+| 39 | **3 (39) oder 4 (39)** | **nein** |
+
+Und ausgerechnet diese beiden unterscheiden sich im Befund: Staffel 3 trägt `vde`, Staffel 4
+nicht. Eine Zuordnung über die Reihenfolge (Diamond 2016 vor Ougon 2018) wäre plausibel und
+unbelegt — und im Fehlerfall behauptete sie eine Synchro, die es nicht gibt.
+
+**Was hier wirklich hilft, ist eine Handprüfung**, nicht mehr Code. Die drei ADN-Stichproben
+stehen ohnehin an; „Ougon no Kaze" gehört dazu.
 
 Die beiden übrigen Reste sind Einzelfälle: „Kiznaiver" und „Peter Grill … Super Extra".
+
+### Amazon-Suchadressen: 202, nicht 27 — und sie behaupten eine Zugangsart
+
+Gemessen am 23.08.2026, 23:55. Der Datensatz führt **202 Verweise** auf
+`amazon.de/s?k=<Titel>` — Suchergebnisseiten, keine Titelseiten. Die Zahl 27 aus der früheren
+Notiz war nur der Ausschnitt mit `zugang: kauf`.
+
+**Alle tragen eine Zugangsart, die niemand geprüft hat.** Beispiele: „Cowboy Bebop", „AKIRA",
+„Full Metal Panic!", „Tenjou Tenge" — alle mit `zugang: abo`. Der Kalender sagt also „Mit Abo",
+und dahinter liegt eine Suche. Ob der Titel dort im Abo ist, gekauft werden muss oder gar nicht
+angeboten wird, weiß niemand.
+
+**Ein leeres Feld reicht als Behebung nicht:** `DetailPanel.tsx` setzt `s.zugang ?? 'abo'` — ein
+fehlender Wert erscheint weiterhin als „Mit Abo". Nötig ist eine eigene Kennzeichnung, etwa
+„bei Amazon suchen" statt einer Zugangsangabe.
+
+Für die Erweiterung sind diese Adressen ohnehin unbrauchbar: Sie tragen keine ASIN, der
+Melde-Knopf erscheint dort nicht.
 
 ### Was ohne Daniel geht
 
