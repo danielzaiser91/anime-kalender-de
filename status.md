@@ -66,8 +66,21 @@ noch nie systematisch.
 
 Zu prüfen, in dieser Reihenfolge:
 
-1. **aniSearch selbst** — führt die Seite je Anbieter eine Sprachangabe, die wir bisher nicht
-   parsen? Die Rohdaten liegen in `data/anisearch-raw/` und kosten keinen Abruf.
+1. ~~**aniSearch selbst**~~ — **geprüft und widerlegt am 23.08.2026, 19:20.** Die Verweise im
+   Abschnitt `#streams` tragen ein Symbol (`<span class="badge bicon2">`), das nach einer
+   Sprachangabe aussieht: drei Varianten, ungleich verteilt (`bicon2` 620×, `bicon3` 116×,
+   `bicon1` 2×). Gegen unsere Handprüfungen gehalten — **mit Negativkontrolle**, also auch
+   gegen die belegten „kein Deutsch" — trennt es nicht:
+
+   ```
+   bicon2 → Handprüfung dub=true    459
+   bicon2 → Handprüfung dub=false    18   ← dasselbe Symbol bei beiden
+   bicon3 → Handprüfung dub=true      1
+   ```
+
+   Dasselbe Symbol steht bei deutscher und bei fremder Fassung; es bedeutet vermutlich
+   „Stream vorhanden". **Der Abschnitt `#streams` nennt keine Sprache** — weder im Symbol noch
+   im Text noch in einem Attribut. Damit ist die naheliegendste Quelle ausgeschlossen.
 2. **AniList** — dort liegen die deutschen Sprechrollen (1.746 Titel belegt). Sie sagen, *dass*
    eine Synchro existiert, nicht *wo* sie läuft. In Verbindung mit einem belegten Verweis wäre
    das ein Indiz, kein Beleg — sauber getrennt zu halten.
