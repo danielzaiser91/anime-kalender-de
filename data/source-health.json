@@ -1,23 +1,24 @@
 {
   "adn": {
-    "lastOk": "2026-08-22T04:54:36.486Z",
-    "lastRun": "2026-08-22T04:54:36.486Z",
+    "lastOk": "2026-08-23T04:56:39.723Z",
+    "lastRun": "2026-08-23T04:56:39.723Z",
     "lastCount": 4
   },
   "anime2you": {
     "lastOk": "2026-08-22T04:54:41.865Z",
-    "lastRun": "2026-08-22T04:54:41.865Z",
-    "lastCount": 31
+    "lastRun": "2026-08-23T04:56:40.675Z",
+    "lastCount": 0,
+    "lastError": "kein Feed-Eintrag mit Termin"
   },
   "crunchyroll": {
-    "lastOk": "2026-08-23T04:05:09.420Z",
-    "lastRun": "2026-08-23T04:05:09.420Z",
-    "lastCount": 15
+    "lastOk": "2026-08-23T04:55:51.955Z",
+    "lastRun": "2026-08-23T04:55:51.955Z",
+    "lastCount": 28
   },
   "anisearch": {
-    "lastOk": "2026-08-22T08:55:17.924Z",
-    "lastRun": "2026-08-22T08:55:17.924Z",
-    "lastCount": 244
+    "lastOk": "2026-08-23T04:56:41.420Z",
+    "lastRun": "2026-08-23T04:56:41.420Z",
+    "lastCount": 2614
   },
   "adn-catalog": {
     "lastOk": "2026-08-20T11:24:12.515Z",
