@@ -83,6 +83,29 @@ Der Schluss über alle 453 Serien ohne Staffeldaten lautet damit: **Das ist zum 
 überwiegenden Teil kein Datenfehler bei uns, sondern eine Aussage über das deutsche
 Crunchyroll-Angebot.** Was daraus für die Verweise folgt, hängt an Stichprobe E.
 
+### Entschieden 23.08.2026: Die Erweiterung bleibt im öffentlichen Repo
+
+Daniels Sorge: „die extension soll nicht ins github, sonst könnte jeder die runterladen und
+random sachen melden, nur ich soll das können."
+
+**Gemessen, bevor umgebaut wurde:** Der Melde-Endpunkt antwortet ohne gültigen `LAUF_TOKEN`
+mit **HTTP 403**, mit falschem Token ebenso. Wer die Erweiterung herunterlädt, kann damit
+nichts melden — der Token liegt in Daniels Browser-Speicher, nicht im Repo.
+
+```
+POST /pruefung ohne Token          → 403 {"error":"Nicht erlaubt"}
+POST /pruefung mit falschem Token  → 403 {"error":"Nicht erlaubt"}
+```
+
+Der Schutz ist also das Token, nicht die Geheimhaltung des Quelltexts. Ein privates Repo hätte
+drei Nachteile erkauft, ohne einen Angriff zu verhindern: Die Zusicherungen liefen nicht mehr
+in derselben Prüfkette, die Listen (`offene-amazon.js`, `offene-netflix.js`) müssten über eine
+Repo-Grenze erzeugt werden, und die Historie des öffentlichen Repos behielte die Dateien
+ohnehin — sie zu tilgen verlangte einen Force-Push auf main.
+
+**Wann das neu zu bewerten wäre:** Wenn der Melde-Endpunkt je ohne Token erreichbar wird, oder
+wenn die Listen mehr verraten als „welche Titel sind offen".
+
 ### Was ohne Daniel geht
 
 | # | Aufgabe | SP |
