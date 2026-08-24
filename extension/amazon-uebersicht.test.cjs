@@ -557,6 +557,56 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   }, 40)
 }
 
+// --- 2g3. Drei Listenzeilen, eine Amazon-Serie ----------------------------
+
+/**
+ * Daniel am 24.08.2026, mit drei Adressen belegt:
+ *
+ *     B09C148HDL → Bakugan Schlacht Brawlers, Staffel 9
+ *     B09B5JH5FM → Bakugan Schlacht Brawlers, Staffel 1
+ *     B09BYF9TS2 → Bakugan Schlacht Brawlers, Staffel 5
+ *
+ * Unser Bestand führt drei Titel, Amazon eine Serie mit fünfzehn Staffeln.
+ * „ich bin alle 15 staffeln auf prime durchgegangen, dort steht noch 3
+ * staffeln … die anderen 2 bakugan zeigen 1/15? und 12/15, welche 3 fehlen?"
+ *
+ * Ohne Bündelung zählt jede Zeile gegen die Gesamtzahl der ganzen Serie,
+ * bekommt aber nur die Staffeln ab, die zufällig unter ihrer Kennung gemeldet
+ * wurden. Keine wird je fertig.
+ */
+{
+  const [a, b] = Object.keys(ECHTE_LISTE)
+  // Zwei Zeilen, dieselbe Serie, je zwei Staffeln von vier gemeldet.
+  const geteilt = {
+    [a]: { serie: 'Bakugan Schlacht Brawlers', gesamt: 4, staffeln: { 1: '🇩🇪', 2: '🇩🇪' } },
+    [b]: { serie: 'Bakugan Schlacht Brawlers', gesamt: 4, staffeln: { 3: '🇩🇪', 4: '🇩🇪' } },
+  }
+  const { angehaengt } = starte(a, geteilt)
+  setTimeout(() => {
+    const uebersicht = angehaengt.find((x) => x.className.includes('ak-uebersicht'))
+    pruefe(
+      'zwei Zeilen derselben Serie sind zusammen fertig — beide fallen aus der Zahl',
+      uebersicht?.textContent.startsWith(`${Object.keys(ECHTE_LISTE).length - 2} Prime-Titel offen`),
+      uebersicht?.textContent,
+    )
+
+    // Und die Gegenrichtung: ohne gemeinsamen Serientitel bleibt jede für sich.
+    const getrennt = {
+      [a]: { serie: 'Bakugan A', gesamt: 4, staffeln: { 1: '🇩🇪', 2: '🇩🇪' } },
+      [b]: { serie: 'Bakugan B', gesamt: 4, staffeln: { 3: '🇩🇪', 4: '🇩🇪' } },
+    }
+    const zweiter = starte(a, getrennt)
+    setTimeout(() => {
+      const u2 = zweiter.angehaengt.find((x) => x.className.includes('ak-uebersicht'))
+      pruefe(
+        'verschiedene Serien bleiben getrennt — beide zählen weiter als offen',
+        u2?.textContent.startsWith(`${Object.keys(ECHTE_LISTE).length} Prime-Titel offen`),
+        u2?.textContent,
+      )
+    }, 30)
+  }, 30)
+}
+
 // --- 2h. Nach dem Neuladen der Erweiterung --------------------------------
 
 /**

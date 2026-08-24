@@ -601,11 +601,46 @@ async function speicherSchreiben(werte) {
    * Seite nennt. Vorher bleibt die Zeile in der Liste stehen und zeigt den
    * Fortschritt.
    */
+  /**
+   * Alle Listeneinträge, die dieselbe Amazon-Serie meinen.
+   *
+   * Bakugan steht bei uns als drei Titel, bei Amazon als **eine** Serie mit
+   * fünfzehn Staffeln; Barbapapa als zwei. Wer alle durchgeht, verteilt seinen
+   * Fortschritt sonst auf mehrere Zeilen, und keine wird je fertig — „12/15",
+   * „2/15", „2/15" (Daniel, 24.08.2026).
+   *
+   * Verbunden wird über den Serientitel, den Amazon beim Melden liefert. Fehlt
+   * er — bei allem, was vor dem 24.08.2026 gemeldet wurde —, bleibt der Eintrag
+   * für sich; erfunden wird nichts.
+   */
+  function serienGefaehrten(asinEintrag) {
+    const serie = erledigt[asinEintrag]?.serie
+    if (!serie) return [asinEintrag]
+    return Object.keys(erledigt).filter((k) => erledigt[k]?.serie === serie)
+  }
+
+  /** Die gemeldeten Staffeln aller Zeilen derselben Serie, zusammengelegt. */
+  function staffelnDerSerie(asinEintrag) {
+    const zusammen = {}
+    for (const k of serienGefaehrten(asinEintrag)) {
+      Object.assign(zusammen, erledigt[k]?.staffeln ?? {})
+    }
+    return zusammen
+  }
+
+  /** Wie viele Staffeln die Serie insgesamt hat — die größte bekannte Angabe. */
+  function gesamtDerSerie(asinEintrag) {
+    let groesste = 1
+    for (const k of serienGefaehrten(asinEintrag)) {
+      groesste = Math.max(groesste, erledigt[k]?.gesamt ?? 1)
+    }
+    return groesste
+  }
+
   function fertig(asinEintrag) {
     const e = erledigt[asinEintrag]
     if (!e) return false
-    const zahl = Object.keys(e.staffeln ?? {}).length
-    return zahl >= (e.gesamt ?? 1)
+    return Object.keys(staffelnDerSerie(asinEintrag)).length >= gesamtDerSerie(asinEintrag)
   }
 
   /**
@@ -622,13 +657,13 @@ async function speicherSchreiben(werte) {
   function staffelUebersicht(asinEintrag) {
     const e = erledigt[asinEintrag]
     if (!e) return 'Noch nichts gemeldet'
-    const geprueft = Object.entries(e.staffeln ?? {})
+    const geprueft = Object.entries(staffelnDerSerie(asinEintrag))
     if (!geprueft.length) return 'Noch nichts gemeldet'
 
     const teile = ['Gemeldet: ' + geprueft.map(([nr, befund]) => `S${nr} ${befund}`).join(', ')]
 
     // Welche Nummern fehlen — nur dort, wo die Staffeln durchnummeriert sind.
-    const gesamt = e.gesamt ?? 1
+    const gesamt = gesamtDerSerie(asinEintrag)
     const zahlen = geprueft.map(([nr]) => Number(nr)).filter((n) => Number.isFinite(n))
     if (gesamt > 1 && zahlen.length === geprueft.length) {
       const fehlen = []
@@ -642,9 +677,10 @@ async function speicherSchreiben(werte) {
   function fortschritt(asinEintrag) {
     const e = erledigt[asinEintrag]
     if (!e) return null
-    const zahl = Object.keys(e.staffeln ?? {}).length
-    const gesamt = e.gesamt ?? 1
-    return gesamt > 1 ? `${zahl}/${gesamt}` : (Object.values(e.staffeln ?? {})[0] ?? "✓")
+    const staffeln = staffelnDerSerie(asinEintrag)
+    const zahl = Object.keys(staffeln).length
+    const gesamt = gesamtDerSerie(asinEintrag)
+    return gesamt > 1 ? `${zahl}/${gesamt}` : (Object.values(staffeln)[0] ?? "✓")
   }
 
   const offeneZahl = () => Object.keys(liste).filter((a) => !fertig(a)).length
@@ -1184,8 +1220,7 @@ async function speicherSchreiben(werte) {
      * Deshalb zählt zusätzlich die einfache Frage: Ist **diese** Staffel dabei?
      * Wenn nicht, ist hier etwas zu tun, ganz gleich was die Zahl sagt.
      */
-    const alleDurch =
-      Boolean(abgehakt) && schonGemeldet && Object.keys(abgehakt.staffeln ?? {}).length >= (abgehakt.gesamt ?? 1)
+    const alleDurch = Boolean(abgehakt) && schonGemeldet && fertig(listenId)
 
     /**
      * Alles durch — dann gibt es hier nichts mehr zu tun.
@@ -1213,7 +1248,7 @@ async function speicherSchreiben(werte) {
      * offen, der Knopf sagt also, wie viele.
      */
     if (schonGemeldet || gemeldeteStaffel === jetzigeStaffel) {
-      const offen = (abgehakt?.gesamt ?? 1) - Object.keys(abgehakt?.staffeln ?? {}).length
+      const offen = gesamtDerSerie(listenId) - Object.keys(staffelnDerSerie(listenId)).length
       /**
        * Kein „gemeldet" mehr — es zählt, was noch fehlt.
        *
@@ -1652,6 +1687,9 @@ async function speicherSchreiben(werte) {
          * gemeldet werden").
          */
         bisher.gesamt = Math.max(staffelZahl(), bisher.gesamt ?? 1, Object.keys(bisher.staffeln).length)
+        // Der Serienname, wie Amazon ihn nennt — er verbindet Listenzeilen, die
+        // dieselbe Serie meinen (siehe `serienGefaehrten`).
+        bisher.serie = eintrag.titel ?? seitenTitel() ?? bisher.serie
         erledigt = { ...zusammen, [listenId]: bisher }
         gemeldeteStaffel = nr
         // Abwarten: Der naechste Klick liest hier gleich wieder, und ohne das
