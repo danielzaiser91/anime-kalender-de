@@ -1,5 +1,5 @@
 {
-  "aufgeloestAm": "2026-08-22T15:21:20.440Z",
+  "aufgeloestAm": "2026-08-24T06:36:42.387Z",
   "adressen": {
     "http://www.crunchyroll.com/de/a-place-further-than-the-universe": {
       "seriesId": "GYK541EPR",
@@ -3386,6 +3386,11 @@
       "ziel": "https://www.crunchyroll.com/de/sound-euphonium?__cf_chl_rt_tk=1JVhIJWknwPhmcVrOqSGLnfCRfQM_RyJ7CXV42Em0qo-1787387989-1.0.1.1-lbaTRc4AitIZ9vMDvo20_F.3FGyVWkgCql8T9g_mmnM",
       "geprueftAm": "2026-08-22",
       "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/attack-on-titan-movies/film-3-gebrll-des-erwachens-unbekannt-817502?ssid=414213": {
+      "seriesId": "GVDHX8P8Q",
+      "ziel": "https://www.crunchyroll.com/de/watch/G4VUQM20W?ssid=414213",
+      "geprueftAm": "2026-08-24"
     }
   }
 }

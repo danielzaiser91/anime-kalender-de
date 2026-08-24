@@ -1,43 +1,44 @@
 {
   "adn": {
-    "lastOk": "2026-08-24T05:08:45.793Z",
-    "lastRun": "2026-08-24T05:08:45.793Z",
-    "lastCount": 4
+    "lastOk": "2026-08-24T06:16:40.517Z",
+    "lastRun": "2026-08-24T06:16:40.517Z",
+    "lastCount": 9
   },
   "anime2you": {
-    "lastOk": "2026-08-24T05:08:51.475Z",
-    "lastRun": "2026-08-24T05:08:51.475Z",
+    "lastOk": "2026-08-24T06:42:32.413Z",
+    "lastRun": "2026-08-24T06:42:32.413Z",
     "lastCount": 29
   },
   "crunchyroll": {
-    "lastOk": "2026-08-24T05:57:21.451Z",
-    "lastRun": "2026-08-24T05:57:21.451Z",
-    "lastCount": 14
+    "lastOk": "2026-08-24T06:14:53.530Z",
+    "lastRun": "2026-08-24T06:14:53.530Z",
+    "lastCount": 29
   },
   "anisearch": {
-    "lastOk": "2026-08-24T05:09:00.224Z",
-    "lastRun": "2026-08-24T05:09:00.224Z",
-    "lastCount": 1
+    "lastOk": "2026-08-24T06:42:33.121Z",
+    "lastRun": "2026-08-24T06:42:33.121Z",
+    "lastCount": 2615
   },
   "adn-catalog": {
-    "lastOk": "2026-08-20T11:24:12.515Z",
-    "lastRun": "2026-08-20T11:24:12.515Z",
-    "lastCount": 109
+    "lastOk": "2026-08-24T06:36:19.213Z",
+    "lastRun": "2026-08-24T06:36:19.213Z",
+    "lastCount": 111
   },
   "crunchyroll-dub": {
-    "lastOk": "2026-08-22T15:21:20.442Z",
-    "lastRun": "2026-08-22T15:21:20.442Z",
+    "lastOk": "2026-08-24T06:36:42.388Z",
+    "lastRun": "2026-08-24T06:36:42.388Z",
     "lastCount": 959
   },
   "anime-offline-database": {
-    "lastOk": "2026-08-20T11:24:14.423Z",
-    "lastRun": "2026-08-20T11:24:14.423Z",
+    "lastOk": "2026-08-24T06:36:23.266Z",
+    "lastRun": "2026-08-24T06:36:23.266Z",
     "lastCount": 8876
   },
   "ann-voices": {
     "lastOk": "2026-08-15T18:50:08.139Z",
-    "lastRun": "2026-08-15T18:50:08.139Z",
-    "lastCount": 1382
+    "lastRun": "2026-08-24T06:36:31.415Z",
+    "lastCount": 0,
+    "lastError": "keine deutschen Rollen gefunden"
   },
   "youtube-check": {
     "lastOk": "2026-08-20T12:03:26.405Z",
@@ -46,18 +47,19 @@
   },
   "anilist-voices": {
     "lastOk": "2026-08-20T11:24:12.841Z",
-    "lastRun": "2026-08-20T11:24:12.841Z",
-    "lastCount": 2753
+    "lastRun": "2026-08-24T06:36:21.794Z",
+    "lastCount": 0,
+    "lastError": "keine Sprecher gefunden"
   },
   "link-check": {
-    "lastOk": "2026-08-20T17:50:44.228Z",
-    "lastRun": "2026-08-20T17:50:44.228Z",
-    "lastCount": 1136
+    "lastOk": "2026-08-24T06:42:27.586Z",
+    "lastRun": "2026-08-24T06:42:27.586Z",
+    "lastCount": 400
   },
   "tmdb-titles": {
-    "lastOk": "2026-08-21T19:31:31.392Z",
-    "lastRun": "2026-08-21T19:31:31.392Z",
-    "lastCount": 3
+    "lastOk": "2026-08-24T06:43:57.784Z",
+    "lastRun": "2026-08-24T06:43:57.784Z",
+    "lastCount": 400
   },
   "motn-changes": {
     "lastOk": "2026-08-23T13:02:41.349Z",

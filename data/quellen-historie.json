@@ -2409,7 +2409,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-24",
-      "sagt": "2026-04-01",
+      "sagt": "2026-05-27",
       "stand": "aktuell"
     }
   ],
@@ -2643,7 +2643,7 @@
     {
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "gw.api.animationdigitalnetwork.com",
-      "gesehenAm": "2026-08-21",
+      "gesehenAm": "2026-08-24",
       "sagt": "2026-06-01",
       "stand": "aktuell"
     }
@@ -2663,6 +2663,24 @@
       "name": "netflix.com",
       "gesehenAm": "2026-08-24",
       "sagt": "2026-09-29",
+      "stand": "aktuell"
+    }
+  ],
+  "adn-1383": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
+      "gesehenAm": "2026-08-24",
+      "sagt": "2026-04-25",
+      "stand": "aktuell"
+    }
+  ],
+  "adn-1026": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
+      "gesehenAm": "2026-08-24",
+      "sagt": "2023-04-05",
       "stand": "aktuell"
     }
   ]

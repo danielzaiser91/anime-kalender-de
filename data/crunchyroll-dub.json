@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-22T15:21:20.428Z",
+  "scrapedAt": "2026-08-24T06:36:42.374Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -81664,6 +81664,70 @@
       "quelle": "api",
       "geprueftAm": "2026-08-22",
       "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    {
+      "url": "https://www.crunchyroll.com/attack-on-titan-movies/film-3-gebrll-des-erwachens-unbekannt-817502?ssid=414213",
+      "seriesId": "GVDHX8P8Q",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-08-24",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Film 1 - Feuerroter Pfeil und Bogen",
+          "staffelId": "GR49C73W3",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "GG1U2DGWN",
+              "verfuegbarAb": "2021-08-25T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Film 2 - Flügel der Freiheit",
+          "staffelId": "GY19CP3VX",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G9DUED3N2",
+              "verfuegbarAb": "2021-08-25T16:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "Film 3 - Gebrüll des Erwachens",
+          "staffelId": "GRJQC1MQX",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 2,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "guid": "G4VUQM20W",
+              "verfuegbarAb": "2021-08-25T16:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GVDHX8QGP/nana",
+      "seriesId": "GVDHX8QGP",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-08-24",
+      "nichtVerfuegbar": true,
+      "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
     }
   ]
 }
