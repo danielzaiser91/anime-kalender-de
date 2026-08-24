@@ -1703,8 +1703,25 @@ async function speicherSchreiben(werte) {
        * geschehen ist; die Frage beim Weiterarbeiten ist aber, was noch offen
        * ist. Zwei Zustände genügen: alles durch, oder N fehlen.
        */
-      knopf.textContent =
-        offen > 0 ? `noch ${offen} ${offen === 1 ? 'Staffel' : 'Staffeln'}` : '✓ alles gemeldet'
+      /**
+       * Die Zahl nennt nur, wer sie kennt.
+       *
+       * `gesamt` kommt aus „N Staffeln" auf der Seite — Amazons Zahl für die
+       * ganze Serie. Führen **mehrere** Listeneinträge auf dieselbe Serie,
+       * bekommt jeder diese volle Zahl, meint aber nur einen Teil davon.
+       *
+       * Bei „Jujutsu Kaisen" stand deshalb „noch 3 Staffeln", während die Liste
+       * daneben „3/4" und „1/4" zeigte — zusammen vier von vier (Daniel,
+       * 25.08.2026). Dasselbe bei „Gunslinger Girl", wo zwei Einträge zwei
+       * Staffeln meinen und jeder auf zwei zählte.
+       *
+       * Welche Amazon-Staffel zu welchem unserer Titel gehört, sagt keine der
+       * beiden Seiten. Also wird die Zahl nicht genannt: Der Knopf sagt, was er
+       * sicher weiß — diese Staffel ist gemeldet. Wie viele die Serie hat und
+       * wie weit sie insgesamt ist, steht in der Übersicht, wo alle Zeilen
+       * nebeneinander stehen.
+       */
+      knopf.textContent = offen > 0 ? `✓ Staffel ${jetzigeStaffel} gemeldet` : '✓ alles gemeldet'
       knopf.disabled = true
       knopf.dataset.deutsch = String(deutsch)
       return
