@@ -66,15 +66,33 @@ for (const datei of readdirSync(DIR).filter((f) => f.endsWith('.yml') || f.endsW
  * zu sechzig Tage lang täglich dieselbe Mail. Genau das war am 14.08.2026 der
  * Fall, einen Tag nach dem Einbau.
  *
- * Geprüft wird gegen die `writeJson`-Aufrufe der Pipeline, nicht gegen eine
- * zweite Liste — zwei Listen liefen wieder auseinander.
+ * Geprüft wird gegen den Quelltext der Pipeline, nicht gegen eine zweite Liste
+ * — zwei Listen liefen wieder auseinander.
+ *
+ * **Grob statt genau, und zwar mit Absicht** (verschärft am 24.08.2026). Bis
+ * dahin sah die Prüfung nur `.ts`-Dateien und nur `writeJson('data/…')`. Zwei
+ * blinde Flecken, vier verlorene Dateien:
+ *
+ * 1. `.mjs`-Läufe wurden gar nicht gelesen — `check-youtube.mjs` und
+ *    `check-rtlplus.mjs` sind vollwertige Läufe, nur ohne Typen.
+ * 2. Steht das Ziel in einer Konstanten (`const ZIEL = resolve(wurzel,
+ *    'data/…')`, später `writeFileSync(ZIEL, …)`), steht das Literal nirgends
+ *    neben einem Schreibaufruf.
+ *
+ * Deshalb zählt jetzt **jedes** `data/…`-Literal in einer Datei, die überhaupt
+ * schreibt. Das meldet auch reine Lesepfade mit — und das ist die richtige
+ * Seite zum Irren: Eine Datei zu viel in `commit-data.sh` wird beiseitegelegt
+ * und unverändert zurückgelegt, das kostet nichts. Eine zu wenig kostet die
+ * Arbeit jedes CI-Laufs, und zwar still.
  */
 const pipelineDir = resolve(process.cwd(), 'pipeline')
 const geschrieben = new Set()
 for (const datei of readdirSync(pipelineDir, { recursive: true })) {
-  if (typeof datei !== 'string' || !datei.endsWith('.ts')) continue
+  if (typeof datei !== 'string' || !/\.(ts|mjs|js)$/.test(datei)) continue
   const quelltext = readFileSync(resolve(pipelineDir, datei), 'utf8')
-  for (const m of quelltext.matchAll(/writeJson\(\s*'(data\/[^']+)'/g)) geschrieben.add(m[1])
+  // Nur Dateien, die überhaupt schreiben — sonst meldete jeder Lesezugriff.
+  if (!/writeFileSync|writeJson|writeFile\b/.test(quelltext)) continue
+  for (const m of quelltext.matchAll(/['"](data\/[^'"]+)['"]/g)) geschrieben.add(m[1])
 }
 
 const skript = readFileSync(resolve(process.cwd(), 'tools/commit-data.sh'), 'utf8')

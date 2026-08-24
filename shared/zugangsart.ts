@@ -103,6 +103,7 @@ export function zugangsart(
   url?: string,
   justwatch?: JustWatchArt,
   kanal?: string,
+  kaufBelegt?: boolean,
 ): Zugangsart {
   const n = name.toLowerCase().trim()
   // „Crunchyroll über Prime Video" ist ein Kanal — bezahlt wird das Abo dahinter.
@@ -128,6 +129,21 @@ export function zugangsart(
    * Der Kanalname liegt seit dem 22.08. in `data/youtube-befunde.json`
    * (`author_name` aus YouTubes oEmbed) — er wurde nur nie ausgewertet.
    */
+  /**
+   * Ein gemessenes Kaufangebot schlaegt jeden Kanalnamen.
+   *
+   * Neun YouTube-Verweise antworteten bei oEmbed mit HTTP 401 und trugen
+   * deshalb weder Kanal noch Tonspur — sie standen bis zum 24.08.2026 als
+   * "kostenlos" im Kalender, darunter "Your Name", "FF7 Advent Children" und
+   * "Fireworks". Sechs davon sind Kauf- oder Leihfilme; ihre Videoseite nennt
+   * eine `offerId`, also die konkrete Kaufoption. Das ist die Messung, aus der
+   * dieses Flag kommt.
+   *
+   * Es steht **vor** der Kanalpruefung, weil ein Kaufangebot die staerkere
+   * Auskunft ist: Der Kanalname sagt, wer hochgeladen hat, das Angebot sagt,
+   * was es kostet.
+   */
+  if (kern === 'youtube' && kaufBelegt) return 'kauf'
   if (kern === 'youtube' && kanal && /^(youtube movies|movies & tv)$/i.test(kanal.trim())) return 'kauf'
   // Der ältere Weg über die Adresse bleibt: Er greift bei Verleih-Playlists,
   // die keinen Kanalnamen im Bestand haben.

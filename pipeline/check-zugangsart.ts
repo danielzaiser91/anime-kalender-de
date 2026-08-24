@@ -76,6 +76,53 @@ console.log('Zugangsart: kostenlos, Abo oder Kauf\n')
     verleih.size === 0 || getroffen > 0,
     { bekannt: verleih.size, imDatensatz: getroffen },
   )
+
+  /**
+   * Der zweite Weg zum selben Urteil: ein gemessenes Kaufangebot.
+   *
+   * Der Kanalname deckt nicht alles ab. Neun Verweise antworteten bei oEmbed
+   * mit HTTP 401 und trugen deshalb **keinen** — sie standen bis zum
+   * 24.08.2026 als „kostenlos" im Kalender, darunter „Your Name", „FF7 Advent
+   * Children" und „Fireworks".
+   *
+   * Zwei Fehler in einem, und der zweite ist der teurere: Der Lauf legte den
+   * 401 pauschal als „kostenpflichtig" ab, ohne nachzusehen. An den
+   * Videoseiten gemessen tragen **sechs** der neun ein Kaufangebot, drei
+   * nicht — der 401 hat auch andere Ursachen (Altersfreigabe,
+   * Einbettungssperre), und zwei der drei sind sogar Folgen mit Untertiteln
+   * statt Synchro. Belegt wird der Kauf seither über `offerId` auf der
+   * Videoseite.
+   */
+  const mitKaufangebot = new Set(
+    Object.entries(readJson<Record<string, { kaufAngebot?: boolean }>>(resolve(ROOT, 'data/youtube-befunde.json'), {}))
+      .filter(([, b]) => b?.kaufAngebot === true)
+      .map(([url]) => url),
+  )
+  const gratisTrotzKasse: string[] = []
+  for (const t of titles) {
+    for (const s of t.streams ?? []) {
+      if (s.platform !== 'youtube' || !mitKaufangebot.has(s.url)) continue
+      if (s.zugang !== 'kauf') gratisTrotzKasse.push(`${t.titleRomaji ?? t.id}: ${s.zugang}`)
+    }
+  }
+  pruefe(
+    `kein Verweis mit belegtem Kaufangebot steht als kostenlos (${mitKaufangebot.size} belegt)`,
+    gratisTrotzKasse.length === 0,
+    gratisTrotzKasse.slice(0, 3),
+  )
+
+  // Beide Richtungen der Regel selbst, unabhängig vom Datenstand.
+  const beispiel = 'https://www.youtube.com/watch?v=IFKqfiIE66Q'
+  pruefe(
+    'ein belegtes Kaufangebot ergibt „kauf"',
+    zugangsart('youtube', undefined, beispiel, undefined, undefined, true) === 'kauf',
+    zugangsart('youtube', undefined, beispiel, undefined, undefined, true),
+  )
+  pruefe(
+    'ohne Beleg wird daraus kein Kauf',
+    zugangsart('youtube', undefined, beispiel, undefined, undefined, false) !== 'kauf',
+    zugangsart('youtube', undefined, beispiel, undefined, undefined, false),
+  )
 }
 
 // --- Jeder Verweis trägt eine Zugangsart ---------------------------------

@@ -91,6 +91,55 @@ let belegt = 0
  * dem eigenen Angebot. Ein hochgeladenes Video hat sie nicht; dort kommt `null`
  * zurück, und das heißt „unbekannt", nicht „kein Deutsch".
  */
+/**
+ * Was die Videoseite hergibt, wenn oEmbed die Auskunft verweigert.
+ *
+ * oEmbed antwortet bei eingeschraenkter Einbettung mit 401 und sagt danach gar
+ * nichts mehr — kein Titel, kein Kanal, keine Tonspur. Bis zum 24.08.2026 gab
+ * der Lauf dort auf und schrieb `kostenpflichtig: true` in den Bestand, als
+ * waere 401 gleichbedeutend mit "kostet Geld".
+ *
+ * **Gemessen ist es das nicht.** Alle neun 401-Faelle vom 22.08.2026 an ihrer
+ * Videoseite geprueft (24.08.2026):
+ *
+ * | Befund | Zahl | Beispiele |
+ * |---|---|---|
+ * | `offerId` vorhanden — Kauf oder Leihe | 6 | Your Name, FF7 Advent Children, Fireworks |
+ * | kein Kaufangebot | 3 | Tokyo Ghoul (OmU), My Hero Academia (OmU), Princess Knight |
+ *
+ * Drei von neun standen also mit einer Preisangabe im Kalender, die niemand
+ * gemessen hatte — und zwei davon sind Folgen **mit Untertiteln statt Synchro**,
+ * was ihr eigener Videotitel sagt ("Tokyo Ghoul, 2. Staffel, 1. Episode, OmU").
+ *
+ * `offerId` ist der Beleg: YouTube nennt darin die konkrete Kaufoption. Fehlt
+ * sie, heisst das "kein Kaufangebot gefunden" — der Grund fuer den 401 ist dann
+ * ein anderer (Altersfreigabe, Einbettungssperre), und der Verweis bleibt bei
+ * dem, was er vorher war.
+ */
+async function videoseite(url) {
+  try {
+    const antwort = await fetch(url, {
+      headers: {
+        'Accept-Language': 'de-DE,de;q=0.9',
+        // Ohne Browser-Kennung liefert YouTube eine abgespeckte Seite ohne die
+        // JSON-Fracht, aus der hier gelesen wird.
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127 Safari/537.36',
+      },
+    })
+    if (!antwort.ok) return null
+    const html = await antwort.text()
+    return {
+      videoTitel: /<meta name="title" content="([^"]*)"/.exec(html)?.[1] ?? null,
+      kanal: /"ownerChannelName":"([^"]+)"/.exec(html)?.[1] ?? null,
+      kaufAngebot: /"offerId":"[^"]+"/.test(html),
+      kategorie: /"category":"([^"]+)"/.exec(html)?.[1] ?? null,
+    }
+  } catch {
+    return null
+  }
+}
+
 async function tonspur(url) {
   try {
     const antwort = await fetch(url, { headers: { 'Accept-Language': 'de-DE,de;q=0.9' } })
@@ -118,24 +167,41 @@ for (const [i, v] of arbeit.entries()) {
   try {
     const antwort = await fetch(adresse)
     /**
-     * 404 heißt gelöscht. 401 heißt **kostenpflichtig** — das ist etwas anderes.
+     * 404 heißt gelöscht. 401 heißt **nichts Bestimmtes** — und das ist der
+     * Unterschied, der hier zählt.
      *
-     * Am 22.08.2026 antworteten neun Verweise mit 401: „Your Name", „Tokyo
-     * Godfathers", „FF7 Advent Children", fünf Pokémon-Filme. Keiner davon ist
-     * weg; sie liegen bei YouTube Movies zum Kaufen oder Leihen, und oEmbed
-     * verweigert dort die Auskunft. Sie als tot zu entfernen hätte neun gültige
-     * Kaufwege gelöscht.
+     * Am 22.08.2026 antworteten neun Verweise mit 401, und dieser Kommentar
+     * behauptete: „sie liegen bei YouTube Movies zum Kaufen oder Leihen". Am
+     * 24.08.2026 an ihren Videoseiten nachgemessen — **sechs** tun das, drei
+     * nicht. Unter den dreien: „Tokyo Ghoul, 2. Staffel, 1. Episode, **OmU**"
+     * und „My Hero Academia, Episode 01, **OmU**", also Folgen mit Untertiteln
+     * statt Synchro, dazu eine kostenlose Auftaktfolge von „Princess Knight".
      *
-     * Für diese Seite ist das trotzdem eine Auskunft: Ein Verweis, hinter dem
-     * eine Kasse steht, ist kein Stream. Wohin er gehört, entscheidet ein
-     * Mensch — hier wird er nur unterschieden.
+     * Der 401 hat mehrere Ursachen — Kaufangebot, Altersfreigabe,
+     * Einbettungssperre —, und oEmbed nennt keine davon. Statt zu raten wird
+     * seither die Videoseite gelesen: `offerId` ist dort der Beleg für ein
+     * Kaufangebot, sein Fehlen ist Schweigen und kein Gegenbeleg.
+     *
+     * Nicht gelöscht wird in keinem Fall: Ein 401 ist keine Aussage darüber,
+     * ob es das Video gibt.
      */
     if (antwort.status === 404) {
       befund = { status: 404, lebt: false }
       tot++
     } else if (antwort.status === 401 || antwort.status === 403) {
-      befund = { status: antwort.status, lebt: true, kostenpflichtig: true }
-      kasse++
+      // oEmbed schweigt hier. Die Videoseite tut es nicht — sie nennt Titel,
+      // Kanal und, wenn es eins gibt, das Kaufangebot.
+      const seite = await videoseite(v.url)
+      befund = {
+        status: antwort.status,
+        lebt: true,
+        ...(seite ?? {}),
+        // Nur ein gefundenes Kaufangebot ist ein Beleg. Konnte die Seite nicht
+        // gelesen werden, bleibt die Frage offen statt falsch beantwortet.
+        kostenpflichtig: seite?.kaufAngebot === true ? true : undefined,
+      }
+      if (seite?.videoTitel) befund.deutscherTitel = DEUTSCHE_SPUR.test(seite.videoTitel)
+      if (befund.kostenpflichtig) kasse++
     } else if (!antwort.ok) {
       // Ein anderer Fehler ist keine Auskunft — beim nächsten Lauf noch einmal.
       console.log(`  ${i + 1}/${arbeit.length} ? ${v.titel.slice(0, 34)} — HTTP ${antwort.status}`)

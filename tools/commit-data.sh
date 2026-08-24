@@ -133,6 +133,22 @@ QUELLEN=(
   data/motn-raw
   # Kontrollmessung und Arbeitslisten. Sie entstehen aus dem Datensatz, aber
   # ein Mensch arbeitet mit ihnen — sie gehören ins Repo, nicht in den Lauf.
+  # Was YouTubes oEmbed und die Videoseite je Adresse hergeben: lebt der
+  # Verweis, welcher Kanal, welche Tonspur, und ob ein Kaufangebot dahintersteht.
+  # Fehlte bis zum 24.08.2026 — jeder wöchentliche Lauf holte die Antworten und
+  # der Reset warf sie weg. Die Datei im Repo stammte deshalb vom 23.08. aus
+  # einem lokalen Lauf, und die Kauffilme standen unterdessen als "kostenlos"
+  # im Kalender.
+  data/youtube-befunde.json
+  # Dasselbe für RTL+: welche Adresse lebt, welche leitet auf die Startseite um.
+  data/rtlplus-befunde.json
+  # Die Neuzugänge der Streaming Availability API, ein Abruf am Tag gegen ein
+  # Monatskontingent von 1.000. Ohne diese Zeile war der teuerste Lauf im
+  # Projekt der einzige ohne Gedächtnis.
+  data/motn-changes.json
+  # Terminvorschläge aus aniSearch. Sie entstehen aus dem Archiv und werden von
+  # Hand geprüft — eine verworfene Fassung kostet den Prüfschritt erneut.
+  data/curated/disc-anisearch.yaml
   data/motn-messung.md
   daniel-zum-abarbeiten/07-alle-anbieter.md
   daniel-zum-abarbeiten/08-arbeitspakete.md

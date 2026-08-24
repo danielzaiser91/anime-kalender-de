@@ -2066,10 +2066,19 @@ function main(): void {
    * 40 Titel standen deshalb als kostenlos, die es nicht sind.
    */
   const ytKanal: Record<string, string> = {}
+  /**
+   * Adressen mit belegtem Kaufangebot — die Videoseite nennt eine `offerId`.
+   *
+   * Der Kanalname allein reicht nicht: Bei einem HTTP 401 gibt oEmbed keinen
+   * heraus, und genau diese neun Verweise standen bis zum 24.08.2026 als
+   * "kostenlos" im Kalender, obwohl sechs davon Geld kosten.
+   */
+  const ytKauf = new Set<string>()
   for (const [url, b] of Object.entries(
-    readJson<Record<string, { kanal?: string | null }>>('data/youtube-befunde.json', {}),
+    readJson<Record<string, { kanal?: string | null; kaufAngebot?: boolean }>>('data/youtube-befunde.json', {}),
   )) {
     if (b?.kanal) ytKanal[url] = b.kanal
+    if (b?.kaufAngebot === true) ytKauf.add(url)
   }
   /** Antwortstatus je Anbieter-Adresse aus `pipeline/check-links.ts`. */
   const linkBefunde = readJson<Record<string, { status: number | string; prime?: boolean }>>('data/link-check.json', {})
@@ -2206,7 +2215,7 @@ function main(): void {
       // Der YouTube-Kanal entscheidet über Kauf oder kostenlos — siehe
       // `zugangsart()`. Er steht in den Befunden, nicht im Verweis selbst.
       const kanal = s.platform === 'youtube' ? ytKanal[s.url] : undefined
-      s.zugang = zugangsart(s.platform, undefined, s.url, jwArt(s.platform), kanal)
+      s.zugang = zugangsart(s.platform, undefined, s.url, jwArt(s.platform), kanal, ytKauf.has(s.url))
     }
     for (const w of title.watchLinks ?? []) {
       w.zugang = zugangsart(w.name, w.kind, w.url, jwArt(providerToPlatform(w.name) as PlatformId))
