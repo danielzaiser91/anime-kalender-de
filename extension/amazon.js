@@ -1200,6 +1200,87 @@ async function speicherSchreiben(werte) {
    */
   let frischeStaffel = null
 
+  /**
+   * Was der Worker über gemeldete Titel weiß — die verlässliche Quelle.
+   *
+   * Geholt wird einmal je Seitenaufruf, im Hintergrund. Schlägt es fehl, bleibt
+   * es beim lokalen Stand: Ein Abgleich, der beim ersten Netzproblem alles
+   * vergisst, wäre schlechter als einer, der manchmal hinterherhinkt.
+   *
+   * Die Meldungen tragen die **Listen-Adresse** (`url`) und, wo sie bekannt
+   * war, die Staffelnummer. Von 192 Meldungen am 24.08.2026 trugen 65 eine
+   * Nummer; die übrigen sind Filme oder Einzelstaffeln, bei denen es keine
+   * gibt. Wo sie fehlt, zählt die Meldung als „dieser Titel wurde gemeldet" —
+   * gröber, aber nie falsch.
+   */
+  async function standVomWorker() {
+    try {
+      const { token } = await chrome.storage.sync.get('token')
+      if (!token) return null
+      const antwort = await fetch(`${WORKER}?token=${encodeURIComponent(token)}`)
+      if (!antwort.ok) return null
+      const { pruefungen } = await antwort.json()
+      if (!Array.isArray(pruefungen)) return null
+
+      const jeAdresse = {}
+      for (const p of pruefungen) {
+        if (p?.plattform !== 'primevideo' || typeof p.url !== 'string') continue
+        // Die Kennung aus der Adresse ist der Listenschlüssel.
+        const asin = /\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10})/.exec(p.url)?.[1]
+        if (!asin) continue
+        const nr = p.staffel != null ? String(p.staffel) : 'ohne Nummer'
+        const zeichen = p.befund === 'dub' ? '🇩🇪' : p.befund === 'weg' ? '✕✕' : '✕'
+        jeAdresse[asin] = jeAdresse[asin] ?? { staffeln: {}, gesamt: 1, serie: null }
+        jeAdresse[asin].staffeln[nr] = zeichen
+        if (p.titel) jeAdresse[asin].serie = p.titel
+        jeAdresse[asin].gesamt = Math.max(
+          jeAdresse[asin].gesamt,
+          Object.keys(jeAdresse[asin].staffeln).length,
+        )
+      }
+      return jeAdresse
+    } catch {
+      return null
+    }
+  }
+
+  /**
+   * Den Worker-Stand mit dem lokalen vereinigen.
+   *
+   * **In beide Richtungen**, und das ist der Punkt: Der Worker kennt, was
+   * andere Browser und frühere Sitzungen gemeldet haben; der lokale Stand
+   * kennt den Klick von vor zwei Sekunden. Beide sind wahr, keine Meldung wird
+   * je zurückgenommen.
+   *
+   * `gesamt` bleibt beim lokalen Wert, wo es einen gibt: Der stammt aus
+   * „N Staffeln" auf der Seite und ist genauer als die Zahl der Meldungen.
+   */
+  function vereinige(lokal, ausWorker) {
+    if (!ausWorker) return lokal
+    const zusammen = { ...lokal }
+    for (const [asin, wert] of Object.entries(ausWorker)) {
+      const da = zusammen[asin]
+      zusammen[asin] = {
+        ...wert,
+        ...(da ?? {}),
+        staffeln: { ...(wert.staffeln ?? {}), ...(da?.staffeln ?? {}) },
+        gesamt: Math.max(da?.gesamt ?? 1, wert.gesamt ?? 1),
+        serie: da?.serie ?? wert.serie ?? null,
+      }
+    }
+    return zusammen
+  }
+
+  // Im Hintergrund abgleichen — der Knopf wartet nicht darauf.
+  void (async () => {
+    const ausWorker = await standVomWorker()
+    if (!ausWorker) return
+    erledigt = vereinige(erledigt, ausWorker)
+    letzteSignatur = null
+    letzterStand = ''
+    uebersichtZeichnen()
+  })()
+
   window.addEventListener('message', (e) => {
     /**
      * Eine gezielt geholte Staffel **ersetzt** den Zählstand.

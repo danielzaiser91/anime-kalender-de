@@ -151,7 +151,16 @@ function starte(seitenAsin, gespeichert = {}) {
     },
     setTimeout: () => 0,
     fetch: async (adresse, wie) => {
-      gemeldet.push({ adresse: String(adresse), koerper: JSON.parse(wie?.body ?? '{}') })
+      /**
+       * Nur echte Meldungen zählen — nicht jeder Abruf ist eine.
+       *
+       * Seit dem 24.08.2026 fragt die Erweiterung beim Start den Worker nach
+       * dem Melde-Stand (`GET /pruefung?token=…`). Das ist ein Lesevorgang; ihn
+       * mitzuzählen ließ sechs Zusicherungen fehlschlagen, die prüfen, dass in
+       * bestimmten Lagen **nichts** gemeldet wird.
+       */
+      if (!wie?.body) return { ok: false, status: 204, json: async () => ({ pruefungen: [] }) }
+      gemeldet.push({ adresse: String(adresse), koerper: JSON.parse(wie.body) })
       return { ok: true, status: 200 }
     },
     console,
