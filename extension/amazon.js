@@ -195,6 +195,23 @@ async function speicherSchreiben(werte) {
   }
 
   /**
+   * Unter welcher Nummer diese Staffel abgehakt wird — an **einer** Stelle.
+   *
+   * Sie wurde an zwei Orten gebildet, und beide waren falsch: der
+   * Meldeschlüssel und der Vergleich in `zeichnen()`, der entscheidet, ob am
+   * Knopf „✓ gemeldet" stehen bleibt. Beide fielen ohne Adressparameter auf die
+   * **Folgenzahl** zurück. Zwei Fassungen derselben Regel laufen auseinander —
+   * hier taten sie es sogar gleichzeitig in dieselbe falsche Richtung.
+   *
+   * Die Reihenfolge ist die Reihenfolge der Verlässlichkeit: die Nummer aus dem
+   * Quelltext, dann die aus der Adresse, dann die ASIN. Die ASIN ist je Staffel
+   * verschieden und kollidiert nie — anders als die Folgenzahl.
+   */
+  function staffelSchluessel() {
+    return String(staffelAusSeite() ?? staffelAusAdresse() ?? id ?? 1)
+  }
+
+  /**
    * Die Kennung zum Melden: erst die Seite, dann die Adresse.
    *
    * Die Adresse bleibt als Rückfallebene — sie stimmt, solange niemand die
@@ -916,11 +933,28 @@ async function speicherSchreiben(werte) {
     letzterStand = stand
 
     knopf.dataset.deutsch = String(deutsch)
-    knopf.disabled = !geladen
+    /**
+     * Kommt nichts, ist auch das eine Auskunft — nach einer Wartezeit.
+     *
+     * Der Knopf blieb gesperrt mit „Tonspuren noch nicht geladen", und bei
+     * einer Seite, die es nicht mehr gibt, wartet man damit ewig: „tote links
+     * in der liste kann ich nicht melden" (Daniel, 24.08.2026).
+     *
+     * Erst nach der Geduldsfrist — solange kann Amazon legitim nachladen —
+     * wird daraus ein Angebot. Gemeldet wird dann `nichtAbrufbar`, nicht „kein
+     * Deutsch": Das eine heißt „gibt es nicht", das andere „gibt es, aber
+     * nicht auf Deutsch", und der Unterschied steht seit dem 20.08.2026 im
+     * Datensatz.
+     */
+    knopf.disabled = geladen ? false : wartet
     if (!geladen) {
-      knopf.textContent = 'Tonspuren noch nicht geladen'
+      knopf.dataset.tot = String(!wartet)
+      knopf.textContent = wartet
+        ? 'Tonspuren noch nicht geladen'
+        : '✕ nicht abrufbar — melden'
       return
     }
+    knopf.dataset.tot = 'false'
     const vollstaendig = !gesehen.gesamt || geladen >= gesehen.gesamt
     // Die Zahl sagt, worüber der Befund wirklich etwas aussagt — nie mehr.
     /**
@@ -947,7 +981,7 @@ async function speicherSchreiben(werte) {
     const zugang = art && art !== 'abo' ? ` · ${ZUGANG_TEXT[art]}` : ''
 
     // Diese Staffel ist durch — das bleibt sichtbar, bis eine andere kommt.
-    const jetzigeStaffel = String(staffelAusAdresse() ?? gesehen.gesamt ?? 1)
+    const jetzigeStaffel = staffelSchluessel()
     if (gemeldeteStaffel === jetzigeStaffel) {
       const e = erledigt[listenId]
       const offen = (e?.gesamt ?? 1) - Object.keys(e?.staffeln ?? {}).length
@@ -1067,9 +1101,14 @@ async function speicherSchreiben(werte) {
       knopf.textContent = 'Erweiterung neu geladen — Seite aktualisieren'
       return
     }
+    // „Nicht abrufbar" ist eine eigene Aussage, kein Sonderfall von „kein
+    // Deutsch" — siehe den Kommentar am Knopf.
+    const nichtAbrufbar = knopf.dataset.tot === 'true'
     const sprachen = [...gesehen.sprachen]
     const geladen = gesehen.nummern.size
-    if (!geladen) return
+    // Ein toter Verweis hat naturgemaess keine Folgen -- er ist der einzige
+    // Grund, hier ohne geladene Folgen weiterzugehen.
+    if (!geladen && !nichtAbrufbar) return
     const deutsch = sprachen.some((s) => /deutsch|german/i.test(s))
     const vollstaendig = !gesehen.gesamt || geladen >= gesehen.gesamt
 
@@ -1086,7 +1125,9 @@ async function speicherSchreiben(werte) {
      * bekommt keine Meldung, sondern die Aufforderung, die übrigen Abschnitte
      * zu öffnen.
      */
-    if (!deutsch && !vollstaendig) {
+    // Die Sperre gilt der Aussage "kein Deutsch". "Gibt es nicht" ist eine
+    // andere -- sie stuetzt sich nicht auf Folgen, sondern auf ihr Fehlen.
+    if (!nichtAbrufbar && !deutsch && !vollstaendig) {
       knopf.textContent = `erst alle ${gesehen.gesamt} Folgen ansehen — sonst kein „kein Deutsch"`
       setTimeout(() => {
         letzterStand = ''
@@ -1118,7 +1159,7 @@ async function speicherSchreiben(werte) {
            * `['dub', 'kein_dub', 'weg']`. Sie waren nachzulesen, nicht zu
            * erraten.
            */
-          befund: deutsch ? 'dub' : 'kein_dub',
+          befund: nichtAbrufbar ? 'weg' : deutsch ? 'dub' : 'kein_dub',
           /**
            * Kennen wir den Titel nicht, wird er von der Seite gelesen.
            *
@@ -1250,7 +1291,7 @@ async function speicherSchreiben(werte) {
          * Als allerletzter Ausweg steht jetzt die ASIN dort: Sie ist je
          * Staffel verschieden und kollidiert nie.
          */
-        const nr = String(staffelAusSeite() ?? staffelAusAdresse() ?? id ?? 1)
+        const nr = staffelSchluessel()
         const bisher = erledigt[listenId] ?? { staffeln: {}, gesamt: staffelZahl() }
         bisher.staffeln = { ...(bisher.staffeln ?? {}), [nr]: deutsch ? '🇩🇪' : '✕' }
         bisher.gesamt = staffelZahl()

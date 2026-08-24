@@ -94,7 +94,18 @@ const echt =
   const m = /\[([^\]]*)\]\.includes\(befund\)/.exec(worker)
   const erlaubt = m ? m[1].split(',').map((s) => s.trim().replace(/^'|'$/g, '')) : []
   const leser = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
-  const benutzt = [...leser.matchAll(/befund:\s*\w+\s*\?\s*'([^']+)'\s*:\s*'([^']+)'/g)].flatMap((x) => [x[1], x[2]])
+  /**
+   * Alle Zeichenketten der `befund:`-Zuweisung, nicht nur die eines
+   * zweistelligen Fragezeichen-Ausdrucks.
+   *
+   * Das frühere Muster verlangte genau `befund: x ? 'a' : 'b'`. Als am
+   * 24.08.2026 ein dritter Fall dazukam — `weg` für einen toten Verweis —,
+   * traf es nicht mehr, `benutzt` blieb leer, und die Zusicherung meldete
+   * einen Fehler, wo keiner war. Ein Muster, das an der Zahl der Zweige hängt,
+   * bricht beim nächsten Zweig.
+   */
+  const zuweisung = /befund:([^,]*(?:,(?![\s\S]{0,40}:)[^,]*)*)/.exec(leser)?.[1] ?? ''
+  const benutzt = [...zuweisung.matchAll(/'([^']+)'/g)].map((x) => x[1])
   pruefe(
     `die gemeldeten Befunde stehen in der Worker-Liste [${erlaubt.join(', ')}]`,
     erlaubt.length > 0 && benutzt.length > 0 && benutzt.every((b) => erlaubt.includes(b)),
@@ -115,7 +126,16 @@ const echt =
   const leser = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
   pruefe(
     'unvollständiger Stand ohne Deutsch führt zu keiner Meldung',
-    /if\s*\(\s*!deutsch\s*&&\s*!vollstaendig\s*\)[\s\S]{0,400}?return/.test(leser),
+    /**
+     * Vorangestellte Bedingungen sind erlaubt — die Sperre selbst muss stehen.
+     *
+     * Seit dem 24.08.2026 steht davor `!nichtAbrufbar &&`: Ein toter Verweis
+     * hat naturgemäß keine vollständige Folgenliste, und „gibt es nicht" ist
+     * eine andere Aussage als „kein Deutsch". Das Muster erlaubt deshalb
+     * weitere Bedingungen davor, verlangt aber unverändert, dass ein
+     * unvollständiger Stand ohne Deutsch nicht gemeldet wird.
+     */
+    /if\s*\([^)]*!deutsch\s*&&\s*!vollstaendig\s*\)[\s\S]{0,400}?return/.test(leser),
   )
   pruefe(
     'die Folgenzahl wird aus episodeNumber gewonnen, nicht aus allen audioTracks',
