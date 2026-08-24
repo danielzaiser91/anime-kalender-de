@@ -1,7 +1,7 @@
 {
-  "scrapedAt": "2026-08-24T10:57:23.627Z",
+  "scrapedAt": "2026-08-24T11:01:53.573Z",
   "window": {
-    "from": "2026-08-17",
+    "from": "2026-07-13",
     "to": "2026-09-06"
   },
   "german": {
@@ -1329,6 +1329,496 @@
     }
   },
   "slots": [
+    {
+      "key": "skeleton knight in another world s2",
+      "rawTitle": "Skeleton Knight in Another World Staffel 2 (Deutsch)",
+      "seriesId": "G8DHV7WJP",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G8DHV7WJP/skeleton-knight-in-another-world",
+      "date": "2026-07-20",
+      "time": "15:00",
+      "episode": 3,
+      "german": true
+    },
+    {
+      "key": "marriagetoxin s1",
+      "rawTitle": "MARRIAGETOXIN Season 1 (Deutsch)",
+      "seriesId": "GT00371857",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371857/marriagetoxin",
+      "date": "2026-07-21",
+      "time": "16:30",
+      "episode": 13,
+      "german": true
+    },
+    {
+      "key": "the quintessential quintuplets specials",
+      "rawTitle": "The Quintessential Quintuplets Specials (Deutsch)",
+      "seriesId": "GY4PD7Z06",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GY4PD7Z06/the-quintessential-quintuplets",
+      "date": "2026-07-21",
+      "time": "23:30",
+      "episode": 4,
+      "german": true
+    },
+    {
+      "key": "clevatess s2",
+      "rawTitle": "Clevatess Staffel 2 (Deutsch)",
+      "seriesId": "G8DHV78ZM",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G8DHV78ZM/clevatess",
+      "date": "2026-07-22",
+      "time": "14:00",
+      "episode": 3,
+      "german": true
+    },
+    {
+      "key": "classroom of the elite s4 second year first semester",
+      "rawTitle": "Classroom of the Elite 4th Season: Second Year, First Semester (Deutsch)",
+      "seriesId": "GRVN8MNQY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GRVN8MNQY/classroom-of-the-elite",
+      "date": "2026-07-22",
+      "time": "14:30",
+      "episode": 15,
+      "german": true
+    },
+    {
+      "key": "hana kimi s2",
+      "rawTitle": "Hana-Kimi Staffel 2 (Deutsch)",
+      "seriesId": "GT00365568",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00365568/hana-kimi",
+      "date": "2026-07-22",
+      "time": "18:00",
+      "episode": 2,
+      "german": true
+    },
+    {
+      "key": "meine wiedergeburt als schleim in einer anderen welt s4",
+      "rawTitle": "Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 (Deutsch)",
+      "seriesId": "GYZJ43JMR",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GYZJ43JMR/that-time-i-got-reincarnated-as-a-slime",
+      "date": "2026-07-24",
+      "time": "17:00",
+      "episode": 13,
+      "german": true
+    },
+    {
+      "key": "welcome to demon school iruma kun s4",
+      "rawTitle": "Welcome to Demon School! Iruma-kun Staffel 4 (Deutsch)",
+      "seriesId": "G6NVG970Y",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6NVG970Y/welcome-to-demon-school-iruma-kun",
+      "date": "2026-07-25",
+      "time": "12:25",
+      "episode": 17,
+      "german": true
+    },
+    {
+      "key": "black torch s1",
+      "rawTitle": "BLACK TORCH Staffel 1 (Deutsch)",
+      "seriesId": "GT00377907",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00377907/black-torch",
+      "date": "2026-07-25",
+      "time": "15:00",
+      "episode": 4,
+      "german": true
+    },
+    {
+      "key": "the 100 girlfriends who really really really really really love you s3",
+      "rawTitle": "The 100 Girlfriends Who Really, Really, Really, Really, REALLY Love You Season 3 (Deutsch)",
+      "seriesId": "GNVHKN933",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GNVHKN933/the-100-girlfriends-who-really-really-really-really-really-love-you",
+      "date": "2026-07-26",
+      "time": "16:00",
+      "episode": 25,
+      "german": true
+    },
+    {
+      "key": "skeleton knight in another world s2",
+      "rawTitle": "Skeleton Knight in Another World Staffel 2 (Deutsch)",
+      "seriesId": "G8DHV7WJP",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G8DHV7WJP/skeleton-knight-in-another-world",
+      "date": "2026-07-27",
+      "time": "15:00",
+      "episode": 4,
+      "german": true
+    },
+    {
+      "key": "clevatess s2",
+      "rawTitle": "Clevatess Staffel 2 (Deutsch)",
+      "seriesId": "G8DHV78ZM",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G8DHV78ZM/clevatess",
+      "date": "2026-07-29",
+      "time": "14:00",
+      "episode": 4,
+      "german": true
+    },
+    {
+      "key": "classroom of the elite s4 second year first semester",
+      "rawTitle": "Classroom of the Elite 4th Season: Second Year, First Semester (Deutsch)",
+      "seriesId": "GRVN8MNQY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GRVN8MNQY/classroom-of-the-elite",
+      "date": "2026-07-29",
+      "time": "14:30",
+      "episode": 16,
+      "german": true
+    },
+    {
+      "key": "saga of tanya the evil s2",
+      "rawTitle": "Saga of Tanya the Evil Staffel 2 (Deutsch)",
+      "seriesId": "GR9P57W96",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GR9P57W96/saga-of-tanya-the-evil",
+      "date": "2026-07-29",
+      "time": "15:30",
+      "episode": 1,
+      "german": true
+    },
+    {
+      "key": "trapped in a dating sim the world of otome games is tough for mobs s2",
+      "rawTitle": "Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Staffel 2 (Deutsch)",
+      "seriesId": "G0XHWM0D3",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G0XHWM0D3/trapped-in-a-dating-sim-the-world-of-otome-games-is-tough-for-mobs",
+      "date": "2026-07-29",
+      "time": "17:30",
+      "episode": 1,
+      "german": true
+    },
+    {
+      "key": "hana kimi s2",
+      "rawTitle": "Hana-Kimi Staffel 2 (Deutsch)",
+      "seriesId": "GT00365568",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00365568/hana-kimi",
+      "date": "2026-07-29",
+      "time": "18:00",
+      "episode": 3,
+      "german": true
+    },
+    {
+      "key": "tomb raider king s1",
+      "rawTitle": "Tomb Raider King Staffel 1 (Deutsch)",
+      "seriesId": "GT00378123",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00378123/tomb-raider-king",
+      "date": "2026-07-29",
+      "time": "19:20",
+      "episode": 1,
+      "german": true
+    },
+    {
+      "key": "tamon s b side s1",
+      "rawTitle": "Tamon's B-side Season 1 (Deutsch)",
+      "seriesId": "GT00365598",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00365598/tamons-b-side",
+      "date": "2026-07-30",
+      "time": "17:00",
+      "episode": 13,
+      "german": true
+    },
+    {
+      "key": "meine wiedergeburt als schleim in einer anderen welt s4",
+      "rawTitle": "Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 (Deutsch)",
+      "seriesId": "GYZJ43JMR",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GYZJ43JMR/that-time-i-got-reincarnated-as-a-slime",
+      "date": "2026-07-31",
+      "time": "17:00",
+      "episode": 14,
+      "german": true
+    },
+    {
+      "key": "ascendance of a bookworm s4",
+      "rawTitle": "Ascendance of a Bookworm Staffel 4 (Deutsch)",
+      "seriesId": "G6793XKZY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6793XKZY/ascendance-of-a-bookworm",
+      "date": "2026-08-01",
+      "time": "11:30",
+      "episode": 13,
+      "german": true
+    },
+    {
+      "key": "welcome to demon school iruma kun s4",
+      "rawTitle": "Welcome to Demon School! Iruma-kun Staffel 4 (Deutsch)",
+      "seriesId": "G6NVG970Y",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6NVG970Y/welcome-to-demon-school-iruma-kun",
+      "date": "2026-08-01",
+      "time": "12:25",
+      "episode": 18,
+      "german": true
+    },
+    {
+      "key": "black torch s1",
+      "rawTitle": "BLACK TORCH Staffel 1 (Deutsch)",
+      "seriesId": "GT00377907",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00377907/black-torch",
+      "date": "2026-08-01",
+      "time": "15:00",
+      "episode": 5,
+      "german": true
+    },
+    {
+      "key": "fruits basket fruits basket s2",
+      "rawTitle": "Fruits Basket (2019) Fruits Basket Staffel 2 (Deutsch)",
+      "seriesId": "G6ZJMGEXY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6ZJMGEXY/fruits-basket-2019",
+      "date": "2026-08-01",
+      "time": "18:00",
+      "episode": 25,
+      "german": true
+    },
+    {
+      "key": "fruits basket fruits basket the final season",
+      "rawTitle": "Fruits Basket (2019) Fruits Basket: The Final Season (Deutsch)",
+      "seriesId": "G6ZJMGEXY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6ZJMGEXY/fruits-basket-2019",
+      "date": "2026-08-01",
+      "time": "18:00",
+      "episode": 13,
+      "german": true
+    },
+    {
+      "key": "the 100 girlfriends who really really really really really love you s3",
+      "rawTitle": "The 100 Girlfriends Who Really, Really, Really, Really, REALLY Love You Season 3 (Deutsch)",
+      "seriesId": "GNVHKN933",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GNVHKN933/the-100-girlfriends-who-really-really-really-really-really-love-you",
+      "date": "2026-08-02",
+      "time": "16:00",
+      "episode": 26,
+      "german": true
+    },
+    {
+      "key": "though i am an inept villainess s1",
+      "rawTitle": "Though I Am an Inept Villainess Staffel 1 (Deutsch)",
+      "seriesId": "GT00371881",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371881/though-i-am-an-inept-villainess",
+      "date": "2026-08-02",
+      "time": "17:45",
+      "episode": 1,
+      "german": true
+    },
+    {
+      "key": "my hero academia i am a hero too",
+      "rawTitle": "My Hero Academia I am a hero too (Deutsch)",
+      "seriesId": "G6NQ5DWZ6",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6NQ5DWZ6/my-hero-academia",
+      "date": "2026-08-02",
+      "time": "18:00",
+      "episode": 1,
+      "german": true
+    },
+    {
+      "key": "skeleton knight in another world s2",
+      "rawTitle": "Skeleton Knight in Another World Staffel 2 (Deutsch)",
+      "seriesId": "G8DHV7WJP",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G8DHV7WJP/skeleton-knight-in-another-world",
+      "date": "2026-08-03",
+      "time": "15:00",
+      "episode": 5,
+      "german": true
+    },
+    {
+      "key": "clevatess s2",
+      "rawTitle": "Clevatess Staffel 2 (Deutsch)",
+      "seriesId": "G8DHV78ZM",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G8DHV78ZM/clevatess",
+      "date": "2026-08-05",
+      "time": "14:00",
+      "episode": 5,
+      "german": true
+    },
+    {
+      "key": "saga of tanya the evil s2",
+      "rawTitle": "Saga of Tanya the Evil Staffel 2 (Deutsch)",
+      "seriesId": "GR9P57W96",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GR9P57W96/saga-of-tanya-the-evil",
+      "date": "2026-08-05",
+      "time": "15:30",
+      "episode": 2,
+      "german": true
+    },
+    {
+      "key": "trapped in a dating sim the world of otome games is tough for mobs s2",
+      "rawTitle": "Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Staffel 2 (Deutsch)",
+      "seriesId": "G0XHWM0D3",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G0XHWM0D3/trapped-in-a-dating-sim-the-world-of-otome-games-is-tough-for-mobs",
+      "date": "2026-08-05",
+      "time": "17:30",
+      "episode": 2,
+      "german": true
+    },
+    {
+      "key": "hana kimi s2",
+      "rawTitle": "Hana-Kimi Staffel 2 (Deutsch)",
+      "seriesId": "GT00365568",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00365568/hana-kimi",
+      "date": "2026-08-05",
+      "time": "18:00",
+      "episode": 4,
+      "german": true
+    },
+    {
+      "key": "tomb raider king s1",
+      "rawTitle": "Tomb Raider King Staffel 1 (Deutsch)",
+      "seriesId": "GT00378123",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00378123/tomb-raider-king",
+      "date": "2026-08-05",
+      "time": "19:20",
+      "episode": 2,
+      "german": true
+    },
+    {
+      "key": "meine wiedergeburt als schleim in einer anderen welt s4",
+      "rawTitle": "Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 (Deutsch)",
+      "seriesId": "GYZJ43JMR",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GYZJ43JMR/that-time-i-got-reincarnated-as-a-slime",
+      "date": "2026-08-07",
+      "time": "17:00",
+      "episode": 15,
+      "german": true
+    },
+    {
+      "key": "ascendance of a bookworm s4",
+      "rawTitle": "Ascendance of a Bookworm Staffel 4 (Deutsch)",
+      "seriesId": "G6793XKZY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6793XKZY/ascendance-of-a-bookworm",
+      "date": "2026-08-08",
+      "time": "11:30",
+      "episode": 14,
+      "german": true
+    },
+    {
+      "key": "black torch s1",
+      "rawTitle": "BLACK TORCH Staffel 1 (Deutsch)",
+      "seriesId": "GT00377907",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00377907/black-torch",
+      "date": "2026-08-08",
+      "time": "15:00",
+      "episode": 6,
+      "german": true
+    },
+    {
+      "key": "the 100 girlfriends who really really really really really love you s3",
+      "rawTitle": "The 100 Girlfriends Who Really, Really, Really, Really, REALLY Love You Season 3 (Deutsch)",
+      "seriesId": "GNVHKN933",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GNVHKN933/the-100-girlfriends-who-really-really-really-really-really-love-you",
+      "date": "2026-08-09",
+      "time": "16:00",
+      "episode": 27,
+      "german": true
+    },
+    {
+      "key": "though i am an inept villainess s1",
+      "rawTitle": "Though I Am an Inept Villainess Staffel 1 (Deutsch)",
+      "seriesId": "GT00371881",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371881/though-i-am-an-inept-villainess",
+      "date": "2026-08-09",
+      "time": "17:45",
+      "episode": 2,
+      "german": true
+    },
+    {
+      "key": "skeleton knight in another world s2",
+      "rawTitle": "Skeleton Knight in Another World Staffel 2 (Deutsch)",
+      "seriesId": "G8DHV7WJP",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G8DHV7WJP/skeleton-knight-in-another-world",
+      "date": "2026-08-10",
+      "time": "15:00",
+      "episode": 6,
+      "german": true
+    },
+    {
+      "key": "clevatess s2",
+      "rawTitle": "Clevatess Staffel 2 (Deutsch)",
+      "seriesId": "G8DHV78ZM",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G8DHV78ZM/clevatess",
+      "date": "2026-08-12",
+      "time": "14:00",
+      "episode": 6,
+      "german": true
+    },
+    {
+      "key": "saga of tanya the evil s2",
+      "rawTitle": "Saga of Tanya the Evil Staffel 2 (Deutsch)",
+      "seriesId": "GR9P57W96",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GR9P57W96/saga-of-tanya-the-evil",
+      "date": "2026-08-12",
+      "time": "15:30",
+      "episode": 3,
+      "german": true
+    },
+    {
+      "key": "trapped in a dating sim the world of otome games is tough for mobs s2",
+      "rawTitle": "Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Staffel 2 (Deutsch)",
+      "seriesId": "G0XHWM0D3",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G0XHWM0D3/trapped-in-a-dating-sim-the-world-of-otome-games-is-tough-for-mobs",
+      "date": "2026-08-12",
+      "time": "17:30",
+      "episode": 3,
+      "german": true
+    },
+    {
+      "key": "tomb raider king s1",
+      "rawTitle": "Tomb Raider King Staffel 1 (Deutsch)",
+      "seriesId": "GT00378123",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00378123/tomb-raider-king",
+      "date": "2026-08-12",
+      "time": "19:15",
+      "episode": 3,
+      "german": true
+    },
+    {
+      "key": "meine wiedergeburt als schleim in einer anderen welt s4",
+      "rawTitle": "Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 (Deutsch)",
+      "seriesId": "GYZJ43JMR",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GYZJ43JMR/that-time-i-got-reincarnated-as-a-slime",
+      "date": "2026-08-14",
+      "time": "17:00",
+      "episode": 16,
+      "german": true
+    },
+    {
+      "key": "ascendance of a bookworm s4",
+      "rawTitle": "Ascendance of a Bookworm Staffel 4 (Deutsch)",
+      "seriesId": "G6793XKZY",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G6793XKZY/ascendance-of-a-bookworm",
+      "date": "2026-08-15",
+      "time": "11:30",
+      "episode": 15,
+      "german": true
+    },
+    {
+      "key": "black torch s1",
+      "rawTitle": "BLACK TORCH Staffel 1 (Deutsch)",
+      "seriesId": "GT00377907",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00377907/black-torch",
+      "date": "2026-08-15",
+      "time": "15:00",
+      "episode": 7,
+      "german": true
+    },
+    {
+      "key": "jaadugar a witch in mongolia s1",
+      "rawTitle": "Jaadugar: A Witch in Mongolia Staffel 1 (Deutsch)",
+      "seriesId": "GT00378078",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00378078/jaadugar-a-witch-in-mongolia",
+      "date": "2026-08-15",
+      "time": "18:00",
+      "episode": 1,
+      "german": true
+    },
+    {
+      "key": "the 100 girlfriends who really really really really really love you s3",
+      "rawTitle": "The 100 Girlfriends Who Really, Really, Really, Really, REALLY Love You Season 3 (Deutsch)",
+      "seriesId": "GNVHKN933",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GNVHKN933/the-100-girlfriends-who-really-really-really-really-really-love-you",
+      "date": "2026-08-16",
+      "time": "16:00",
+      "episode": 28,
+      "german": true
+    },
+    {
+      "key": "though i am an inept villainess s1",
+      "rawTitle": "Though I Am an Inept Villainess Staffel 1 (Deutsch)",
+      "seriesId": "GT00371881",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00371881/though-i-am-an-inept-villainess",
+      "date": "2026-08-16",
+      "time": "17:45",
+      "episode": 3,
+      "german": true
+    },
     {
       "key": "skeleton knight in another world s2",
       "rawTitle": "Skeleton Knight in Another World Staffel 2 (Deutsch)",
