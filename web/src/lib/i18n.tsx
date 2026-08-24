@@ -199,12 +199,11 @@ const TEXTE = {
   // „Deutsche Releases" war zweideutig — es klang nach „hier erschienen",
   // gemeint ist aber der Termin der deutschen Synchronfassung (Daniel,
   // 15.08.2026).
-  'detail.releases': 'Release-Termin für Deutsche Synchro',
+  'detail.releases': 'Release-Termine für deutsche Synchro',
   // Beide Texte stehen seit dem 12.08.2026 als Hovertext hinter dem Wort
   // „unbekannt" statt als eigener Kasten — sie erklären, warum dort kein Datum
   // steht, und das ist eine Fußnote, keine Schlagzeile.
   'detail.noRelease': 'Eine deutsche Synchro ist belegt, ein deutscher Termin bisher nicht.',
-  'detail.noReleaseSingleSource': 'Belegt durch nur eine Quelle.',
   'detail.releasedNoDate':
     'Die deutsche Fassung ist erschienen, das genaue Datum führen wir nicht.',
   'detail.linkStream': 'ansehen',

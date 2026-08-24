@@ -17,7 +17,7 @@
  * Aufruf: npm run check:logic
  */
 import { readFileSync } from 'node:fs'
-import { expandEvents, lastEpisodeDate, istErschienen } from '../shared/logic.ts'
+import { expandEvents, lastEpisodeDate, istErschienen, titleStatus } from '../shared/logic.ts'
 import {
   alsEinBlock,
   bestimmeRhythmus,
@@ -1994,6 +1994,40 @@ console.log('\nWerktitel gegen Teiltitel')
     yugi.length === 0 ||
       (yugi.some((r) => /Staffel 2/.test(r.name)) && yugi.some((r) => /Staffel 3/.test(r.name))),
     yugi.map((r) => r.name),
+  )
+}
+
+/**
+ * Ein belegter Anbieter-Verweis heißt „erschienen" — nicht „Termin unbekannt".
+ *
+ * Am 24.08.2026 stand „Der Held ohne Klasse: Der Aufstieg eines Talentlosen"
+ * auf „Termin unbekannt", obwohl ADN alle zwölf Folgen mit deutscher Tonspur
+ * führt und das Detail-Panel sie eine Zeile tiefer mit grünem „DE ✓" anzeigt.
+ * Für den Leser war der Widerspruch nicht auflösbar: oben eine Fehlanzeige,
+ * unten das Angebot.
+ *
+ * Der Status hing allein am japanischen Enddatum und einem Jahr Abstand. Wer
+ * die Fassung schon anbietet, hat sie aber veröffentlicht — das ist die
+ * stärkste Auskunft, die es hier gibt.
+ */
+console.log('\nStatus: ein belegter Verweis schlägt das Enddatum')
+{
+  const heute = '2026-08-24'
+  const mitVerweis = { jpYear: 2025, dubConfidence: 'low' as const, streams: [{ platform: 'adn', url: 'x', dub: true }] }
+  const ohneVerweis = { jpYear: 2025, dubConfidence: 'low' as const, streams: [] }
+  pruefe(
+    'ein Verweis mit belegter Synchro ergibt „erschienen"',
+    titleStatus([], heute, mitVerweis as never) === 'erschienen',
+    titleStatus([], heute, mitVerweis as never),
+  )
+  pruefe(
+    'ohne belegten Verweis bleibt es bei „unbekannt"',
+    titleStatus([], heute, ohneVerweis as never) === 'unbekannt',
+    titleStatus([], heute, ohneVerweis as never),
+  )
+  pruefe(
+    'ein Verweis ohne belegte Synchro ändert nichts',
+    titleStatus([], heute, { ...ohneVerweis, streams: [{ platform: 'adn', url: 'x' }] } as never) === 'unbekannt',
   )
 }
 

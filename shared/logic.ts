@@ -91,7 +91,7 @@ const ERSCHIENEN_MINDESTABSTAND_TAGE = 365
 export function titleStatus(
   releases: Release[],
   today = todayIso(),
-  title?: Pick<Title, 'jpEnd' | 'jpYear' | 'dubConfidence'>,
+  title?: Pick<Title, 'jpEnd' | 'jpYear' | 'dubConfidence' | 'streams'>,
 ): ReleaseStatus {
   if (releases.length > 0) {
     const all = releases.map((r) => releaseStatus(r, today))
@@ -99,9 +99,30 @@ export function titleStatus(
     if (all.includes('tba')) return 'tba'
     if (all.includes('abgeschlossen')) return 'abgeschlossen'
   }
+
+  /**
+   * Wer die deutsche Fassung schon anbietet, hat sie veröffentlicht.
+   *
+   * Das ist die stärkste Auskunft, die es hier gibt, und sie stand bis zum
+   * 24.08.2026 hinter zwei schwächeren: Der Status hing allein am japanischen
+   * Enddatum und einem Jahr Abstand. „Der Held ohne Klasse: Der Aufstieg eines
+   * Talentlosen" stand deshalb auf **„Termin unbekannt"**, obwohl ADN alle
+   * zwölf Folgen mit deutscher Tonspur führt und das Panel sie eine Zeile
+   * tiefer auch anzeigt — mit einem grünen „DE ✓".
+   *
+   * Daniel dazu: „es ist erschienen, mach den bereich deutlicher, es gibt
+   * deutsche synchro." Der Widerspruch war für den Leser nicht auflösbar: oben
+   * eine Fehlanzeige, unten das Angebot.
+   *
+   * Ein belegter Verweis schlägt hier auch `dubConfidence: 'low'`. Die
+   * Einstufung sagt, wie gut die **Terminlage** belegt ist; ob die Fassung
+   * existiert, beantwortet der Anbieter selbst.
+   */
+  if ((title?.streams ?? []).some((s) => s.dub === true)) return 'erschienen'
+
   const ended = title?.jpEnd ?? (title?.jpYear ? `${title.jpYear}-12-31` : undefined)
-  // Eine einzige Quelle reicht für eine Terminangabe nicht — und erst recht
-  // nicht für den Satz „die deutsche Fassung ist erschienen".
+  // Ohne einen belegten Verweis reicht eine einzige Quelle für den Satz „die
+  // deutsche Fassung ist erschienen" nicht.
   if (ended && title?.dubConfidence !== 'low' && ended < addDays(today, -ERSCHIENEN_MINDESTABSTAND_TAGE)) {
     return 'erschienen'
   }

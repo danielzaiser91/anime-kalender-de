@@ -1859,11 +1859,6 @@ export function DetailPanel({
                     </Tooltip>
                   </dd>
                 </dl>
-                {title.dubConfidence === 'low' && (
-                  <p className="mt-2 text-[11px] leading-snug text-amber-600 dark:text-amber-400">
-                    {t('detail.noReleaseSingleSource')}
-                  </p>
-                )}
               </section>
               )}
             </div>
