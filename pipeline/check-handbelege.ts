@@ -29,6 +29,21 @@
  * Gemeldet wird deshalb nur, wo **alle** Belege eines Verweises in dieselbe
  * Richtung zeigen und der Datensatz trotzdem etwas anderes sagt.
  *
+ * ## Ein neuer Beleg macht den Deploy rot, bis ein Datenlauf ihn einlöst
+ *
+ * Das ist keine Panne, sondern die Bauweise — aber sie überrascht, wenn man sie
+ * nicht kennt. Der Deploy baut nur die **Website**; den Datensatz erneuern die
+ * Datenläufe. Wer hier einen Beleg einträgt, der etwas anderes sagt als
+ * `public/data/titles.json`, hat den Deploy so lange blockiert, bis ein
+ * Datenlauf gebaut und committet hat.
+ *
+ * Real am 24.08.2026: Ein Beleg „Peter Grill bei ADN nicht mehr verfügbar" ließ
+ * jeden Deploy scheitern, weil der Verweis im Datensatz noch stand. Aufgelöst
+ * hat es erst ein `refresh-data`-Lauf.
+ *
+ * Wer also einen Beleg von Hand einträgt, stößt danach einen Datenlauf an —
+ * sonst steht die Seite still.
+ *
  * Aufruf: npm run check:handbelege
  */
 import { loadDubChecks } from './lib/dub-confirmed.ts'
