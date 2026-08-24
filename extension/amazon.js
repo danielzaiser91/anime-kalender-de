@@ -348,7 +348,7 @@ async function speicherSchreiben(werte) {
    * den Meldungen im Worker.
    */
   function staffelText(nr) {
-    const m = /^([1-9])(\d{2})$/.exec(String(nr))
+    const m = /^([1-9]\d?)(\d{2})$/.exec(String(nr))
     return m && Number(m[2]) > 0 ? `${m[1]}, Vol. ${Number(m[2])}` : String(nr)
   }
 
@@ -1330,7 +1330,7 @@ async function speicherSchreiben(werte) {
         const nr = p.staffel != null ? String(p.staffel) : 'ohne Nummer'
         // Dieselbe Schreibweise wie auf dem Knopf: „201" liest sich als
         // „2, Vol. 1" — siehe staffelText() in der Knopf-Logik.
-        const bandNr = /^([1-9])(\d{2})$/.exec(nr)
+        const bandNr = /^([1-9]\d?)(\d{2})$/.exec(nr)
         const angezeigt =
           bandNr && Number(bandNr[2]) > 0 ? `${bandNr[1]}, Vol. ${Number(bandNr[2])}` : nr
         const zeichen = p.befund === 'dub' ? '🇩🇪' : p.befund === 'weg' ? '✕✕' : '✕'
