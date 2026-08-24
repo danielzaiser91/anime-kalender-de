@@ -311,7 +311,7 @@ jemand von einem Titel zum nächsten kommt.
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| ~~① Automatisierte Quelle für Tonspuren und Neuzugänge~~ — **steht, läuft täglich** (23.08.2026, 14:45) | 5 | **Die Quelle war seit dem 21.08. angebunden, lief aber nur am 2. jedes Monats** (`tonspuren-monatlich.yml`) und holte nur den Bestandskatalog. Eine Staffel, die am 3. startet, war damit dreissig Tage unsichtbar. Neu: `pipeline/fetch-motn-changes.ts` fragt `/changes` mit `change_type=new` fuer Netflix, Prime Video und Disney+ ab und haengt im taeglichen `refresh-data`-Lauf. **Kosten: eine Anfrage am Tag** (~30 im Monat) gegen ein Kontingent von 1.000. Liefert die Tonspur mit (`audios: [deu, jpn]`) und `imdbId`/`tmdbId` fuer die Zuordnung. **Gemessen statt angenommen:** `upcoming` ist fuer Anime nutzlos (12 kuenftige Serien fuer ganz Deutschland, kein Anime), `new` bringt welche (Beelzebub, The Dangers in My Heart, GTO 2026). **Offen als naechster Schritt:** Die gesammelten Aenderungen mit unserem Datensatz verknuepfen — bisher landen sie nur in `data/motn-changes.json` |
+| ~~① Automatisierte Quelle für Tonspuren und Neuzugänge~~ — **steht, läuft täglich** (23.08.2026, 14:45) | 5 | **Die Quelle war seit dem 21.08. angebunden, lief aber nur am 2. jedes Monats** (`tonspuren-monatlich.yml`) und holte nur den Bestandskatalog. Eine Staffel, die am 3. startet, war damit dreissig Tage unsichtbar. Neu: `pipeline/fetch-motn-changes.ts` fragt `/changes` mit `change_type=new` fuer Netflix, Prime Video und Disney+ ab und haengt im taeglichen `refresh-data`-Lauf. **Kosten: eine Anfrage am Tag** (~30 im Monat) gegen ein Kontingent von 1.000. Liefert die Tonspur mit (`audios: [deu, jpn]`) und `imdbId`/`tmdbId` fuer die Zuordnung. **Gemessen statt angenommen:** `upcoming` ist fuer Anime nutzlos (12 kuenftige Serien fuer ganz Deutschland, kein Anime), `new` bringt welche (Beelzebub, The Dangers in My Heart, GTO 2026). ~~**Offen als naechster Schritt:** Die gesammelten Aenderungen mit unserem Datensatz verknuepfen~~ — **gemessen 24.08.2026: es gibt nichts zu verknuepfen.** 11 von 152 Meldungen sind einem unserer Titel zuzuordnen, 5 tragen deutschen Ton, **0 fehlen im MOTN-Bestand.** Der Lauf meldet die Zahl jetzt selbst und warnt, sobald sie ueber null steigt — Einzelheiten im Archiv |
 | **Prüfstand aller Entscheidungen vom 23.08.2026** (nach Daniels Korrektur, 15:20) | — | Daniel: „du hast falsche annahmen basierend auf falschen grundlagen gehabt, du hättest verweise gelöscht… du musst auf tatsächlicher echten grundlage entscheiden." Jede Änderung dieses Tages durch das Raster aus `pruefen-und-belegen` (Abgleich ≠ Validierung): <br>**① Amazon-Verweise sind Prime Video statt Kaufshop (360 Stück) — VALIDIERT.** Daniels Blick in sein Konto bestätigt vier Titel, die wir seither als `primevideo, zugang=abo` führen: Digimon Tamers, Gankutsuou, Mayonaka no Occult Koumuin, Mahoutsukai no Yakusoku. Vier Fälle, offener Ausgang, in der schädlichen Richtung geprüft. <br>**② Zugangsart aus JustWatch/TMDB (28 Verweise abo→kauf) — ABGEGLICHEN, NICHT VALIDIERT.** Gegenprobe mit der Streaming Availability API am 23.08.: Für DEATH NOTE, Made in Abyss und Dr. STONE meldet sie „kein Prime-Angebot" — Schweigen, also weder Beleg noch Gegenbeleg. Der schädliche Irrtum wäre „kauf, obwohl im Abo": Ein Abonnent hält den Titel für kostenpflichtig und klickt nicht, es fällt nie auf. **Bleibt bis zu Daniels Prüfung als unvalidiert markiert.** Zurückgenommen wird sie nicht — der Vorzustand (aus dem Anbieternamen geraten) war nachweislich schlechter. <br>**③ `change_type=removed` — WIDERLEGT**, siehe eigene Zeile. Sammelt nur noch. <br>**④ Crunchyroll aus der Änderungsquelle entfernt** — belegt durch Daniels Lycoris-Recoil-Prüfung **und** die eigene Kontrollmessung (96 von 99 „Quelle schweigt"). <br>**⑤ Ohne Datenrisiko:** doppelte Überschrift im Detail-Panel, Quellenangaben für JustWatch und Movie of the Night, Genre-Filter im Katalog, `loadEnv` in `fetch-motn.ts`, Disney+-robots.txt-Befund |
 | **Aktualitätsmessung an einer laufenden Serie** (Daniels Vorgabe, 23.08.2026, 14:55) | — | Getestet an „Vom Landei zum Schwertheiligen" Staffel 2 (Prime Video, laufend, Folge 7 seit drei Tagen draussen). **Was die Quelle kann:** Sie fuehrt **jede einzelne Folge** mit Datum und Tonspur — Folge 1 bis 6 der laufenden Staffel, alle als `DEUTSCH` belegt, dazu die offiziellen deutschen Folgentitel. Diese Aufloesung hat sonst keine Quelle im Projekt. **Was sie nicht kann:** Folge 7 (unser Termin: 20.08.) kennt sie am 23.08. **nicht**. Und `availableSince` ist ein **Entdeckungsdatum, kein Erscheinungsdatum** — im Vergleich mit unseren Terminen: Folge 5 exakt gleich, Folge 6 einen Tag frueher, Folge 2 aber sieben Tage spaeter, weil die Quelle einen Durchlauf verpasst hat. **Schlussfolgerung: als Terminquelle ungeeignet, als folgengenauer Synchro-Beleg sehr gut.** Die Termine bleiben bei Crunchyroll (stuendlich) und der Wochentakt-Prognose; diese Quelle beantwortet „laeuft es dort auf Deutsch", nicht „wann kommt es" |
 | **Bestand ohne Geld und ohne Scraping — belegt am 23.08.2026, 14:45** | 3 | Daniels Vorgabe: „wir bleiben kostenlos… beleg das scraping an einem beispiel bevor du hochscalierst." **Das Beispiel hat ergeben, dass es kein Scraping braucht.** Eine Titelsuche „Naruto" bei der Streaming Availability API liefert acht Titel mit vollstaendiger Anbieter- und Sprachinfo, inklusive `subscription` / `addon` (Aniverse-Kanal) / `buy` bei Prime Video — genau die Angabe, fuer die am Vortag Amazon-Seiten abgerufen wurden. **Der Engpass war nie das Kontingent, sondern der Zuschnitt:** Der Katalogweg fragte den kompletten deutschen Netflix-Serienkatalog ohne Genre-Filter ab und liess Prime Video und Disney+ ganz aus. Mit `genres=animation` und drei Katalogen in einer Anfrage stehen 10 Serien je Seite, 15 von 20 mit deutscher Tonspur. **Rechnung: 661 offene Titel, geschaetzt 60 bis 100 Anfragen fuer den Anime-Katalog, dazu eine am Tag fuer die Aenderungen — gegen 1.000 im Monat.** Die 49-USD-Stufe ist damit gegenstandslos. Naechster Schritt: den Katalog in Etappen durchlaufen lassen, das Restkontingent August (223) reicht fuer den Anfang |
@@ -1085,6 +1085,66 @@ weder offiziell noch in den inoffiziellen Doku-Repos.
   abgenommen.
 
 ## Archiv
+
+### Nachtrag zum Panel-Umbau: Das Bühnenbild überdeckte den Antwortkasten
+
+Gemeldet von Daniel mit Bildschirmabzug, 24.08.2026: Der Kasten „1 von 170 Folgen erschienen"
+stand angeschnitten da — obere Kante weg, der Rest sichtbar. Dazu die Frage, ob ich es
+überhaupt bemerkt hätte. Hatte ich nicht.
+
+**Ursache, gemessen an der laufenden Seite:** Das Bild ist 340 px hoch, sein Container nur so
+hoch wie Titel und Unterzeile. Die letzten 56 px ragen darüber hinaus, und das ist Absicht —
+die ersten Inhalte sollen darauf stehen. Nur gewinnt beim Malen sonst das Bild: Der Container
+ist positioniert und erzeugt über `isolation: isolate` einen eigenen Stapel; ein nachfolgendes
+Geschwister **ohne** `position` wird davon überdeckt, ganz gleich, welchen z-index das Bild
+innerhalb des Stapels trägt. Beide Inhaltsbereiche standen `static`.
+
+Gegenprobe an der ausgelieferten Seite, an den drei Zeilen des Kastens im Bildbereich:
+
+```
+ohne relative: 275:BILD   300:BILD   326:BILD
+mit relative:  275:KASTEN 300:KASTEN 326:KASTEN
+```
+
+**Die eigentliche Lehre ist nicht das CSS.** Sechs Commits, jeder mit grüner Kette — Typecheck,
+Linter, Build. Keiner von ihnen sieht ein Bild. Daniel: „in zukunft bitte selbst sowas
+mitbekommen und automatisch fixen." Festgehalten im Skill `pruefen-und-belegen` unter „Grün ist
+nicht richtig — was sichtbar ist, wird angesehen".
+
+**Eine Messfalle steckte darin**, die künftig Zeit spart: `elementFromPoint` misst
+Trefferbarkeit, nicht Sichtbarkeit. Die Bildschichten tragen `pointer-events: none`, also
+meldete die Probe „Kasten liegt oben", während er in Wahrheit verdeckt war — die erste
+Gegenprobe zeigte deshalb keinen Unterschied, und ich hielt meine richtige Diagnose kurz für
+widerlegt. Für die Messung müssen die Schichten kurz auf `pointer-events: auto`.
+
+### Gemessen 24.08.2026: Die Änderungsquelle bringt für uns derzeit null
+
+Die Aufgabe hieß „die gesammelten Änderungen mit unserem Datensatz verknüpfen". Nachgerechnet
+an den 152 Meldungen, die seit dem 23.08.2026 in `data/motn-changes.json` liegen:
+
+| | |
+|---|---|
+| Meldungen gesamt | 152 |
+| einem unserer Titel zuzuordnen | **11** |
+| davon mit deutscher Tonspur | **5** |
+| davon **nicht** schon im MOTN-Bestand | **0** |
+
+Die fünf sind 86 EIGHTY-SIX, Fate/Zero, Fate/stay night [UBW], Fate/Grand Order Babylonia und
+Naruto Shippūden — alle längst über den Katalogweg erfasst.
+
+**Es gibt also nichts zu verknüpfen**, und ein Verknüpfungslauf hätte keine Arbeit. Abgeschaltet
+wird die Quelle trotzdem nicht: Sie kostet eine Anfrage am Tag gegen ein Monatskontingent von
+1.000, und ihr Zweck ist genau der seltene Fall — ein Anime, der neu erscheint und in keinem
+Katalogdurchlauf steht.
+
+Statt eines Laufs steht die Zahl seit dem 24.08.2026 in jeder Ausgabe von
+`fetch-motn-changes.ts`, und wenn sie über null steigt, meldet er es als Warnung. Die Frage
+wird damit nicht mehr von Hand beantwortet.
+
+**Eine Falle steckt in der Zuordnung:** Beide Seiten schreiben die TMDB-Kennung verschieden.
+`data/tmdb-titles.json` führt `tmdbId: 30991` mit `kind: 'tv'`, die Änderungsquelle
+`tmdbId: 'tv/331650'`. Der erste Messversuch verglich sie direkt und ergab sauber null Treffer
+— was wie „die Quelle taugt nichts" aussieht und nur ein Formatfehler war.
 
 ### Vier Messdateien gingen in jedem CI-Lauf verloren (24.08.2026)
 
