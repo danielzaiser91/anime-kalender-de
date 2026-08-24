@@ -1563,8 +1563,8 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
     .run()
 
   await env.DB.prepare(
-    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)`,
+    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am, zugang, abos)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)`,
   )
     .bind(
       String(daten.plattform ?? 'unbekannt'),
@@ -1584,6 +1584,20 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
       daten.serientitel ? String(daten.serientitel).slice(0, 200) : null,
       daten.notiz ? String(daten.notiz).slice(0, 500) : null,
       jetztIso(),
+      /**
+       * Zugangsart und Abos, wie die Seite sie beim Melden auswies.
+       *
+       * Beides liest die Erweiterung längst aus und zeigt es auf dem Knopf an;
+       * abgeschickt wurde es bisher nicht. Bei Prime nennt keine öffentliche
+       * Quelle die Zugangsart — deshalb standen dort am 24.08.2026 alle 203
+       * Suchadressen auf „Mit Abo", ohne dass es jemand geprüft hatte.
+       *
+       * Kein Wertebereich erzwungen: Eine Meldung, die an einer Schema-Prüfung
+       * scheitert, ist schlechter als eine mit unbekanntem Wert. Die Pipeline
+       * entscheidet, was sie damit anfängt.
+       */
+      daten.zugang ? String(daten.zugang).slice(0, 40) : null,
+      daten.abos ? JSON.stringify(daten.abos).slice(0, 1000) : null,
     )
     .run()
 

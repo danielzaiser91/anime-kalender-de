@@ -1,0 +1,37 @@
+-- Die Zugangsart, wie die Seite sie zum Zeitpunkt der Meldung ausweist.
+--
+-- Die Erweiterung liest sie ohnehin schon aus und zeigt sie auf dem Melde-Knopf
+-- an („🇩🇪 Deutsch · 12 Folgen · Kaufen oder leihen · melden"). Abgeschickt wurde
+-- sie bisher nicht — der Befund landete auf dem Bildschirm und verfiel.
+--
+-- Warum das zählt: Bei Prime Video nennt **keine** öffentliche Quelle die
+-- Zugangsart. Am 24.08.2026 trugen deshalb alle 203 Amazon-Suchadressen im
+-- Datensatz die Angabe „Mit Abo", weil `zugangsart()` mangels Auskunft darauf
+-- zurückfiel. Sie stehen jetzt auf `unbekannt` — und diese Spalte ist der Weg,
+-- aus dem Unbekannten wieder eine Angabe zu machen.
+--
+-- Beim Preis wiegt ein Irrtum schwerer als beim Termin: Wer „Mit Abo" liest und
+-- an einer Kasse landet, ist schlechter dran als jemand, der gar keine Auskunft
+-- bekommen hätte.
+--
+-- Werte, wie die Erweiterung sie kennt:
+--   'abo'             im laufenden Abo enthalten
+--   'kauf'            nur zu kaufen
+--   'kauf_oder_leihe' zu kaufen oder zu leihen
+--   'abo_und_kauf'    beides möglich — je nach Staffel oder Folge
+--   NULL              die Seite sagt nichts (ältere Meldungen tragen das)
+--
+-- Als Text und nicht als CHECK-Bedingung: Die Anbieter erfinden regelmäßig neue
+-- Kombinationen, und eine Meldung, die an einer Schema-Prüfung scheitert, ist
+-- schlechter als eine mit einem unbekannten Wert. Die Pipeline entscheidet, was
+-- sie damit anfängt.
+ALTER TABLE pruefung ADD COLUMN zugang TEXT;
+
+-- Welche Abos die Staffel freischalten (`Prime`, `aniversede`, …), roh als JSON.
+--
+-- Bei Prime entscheidet das über die Frage, die uns am 24.08.2026 bei „Kill Blue"
+-- eine Stunde gekostet hat: Amazon meldet zwölf deutsche Folgen, aber nur, weil
+-- der ADN-Kanal darunter liegt. Wer kein Kanal-Abo hat, sieht vier. Ohne die
+-- `benefitId` ist von außen nicht zu unterscheiden, ob ein Titel Prime-eigen ist
+-- oder über einen Kanal läuft.
+ALTER TABLE pruefung ADD COLUMN abos TEXT;

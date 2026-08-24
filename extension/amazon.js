@@ -996,6 +996,25 @@ async function speicherSchreiben(werte) {
            */
           folgen: geladen,
           /**
+           * Zugangsart und Abos als eigene Felder, nicht nur als Fließtext.
+           *
+           * Beides steht seit jeher auf dem Melde-Knopf („🇩🇪 Deutsch · 12 Folgen
+           * · Kaufen oder leihen"), landete aber nur in der Notiz und musste
+           * dort beim Auswerten wieder herausgeklaubt werden — derselbe Umweg,
+           * den die Folgenzahl schon hinter sich hat.
+           *
+           * Bei Prime ist das die einzige Quelle: Kein öffentlicher Dienst nennt
+           * die Zugangsart, weshalb am 24.08.2026 alle 203 Amazon-Suchadressen
+           * ungeprüft „Mit Abo" trugen.
+           *
+           * `abos` trägt die `benefitId`-Liste. Sie unterscheidet, was von außen
+           * nicht zu sehen ist: ob ein Titel Prime-eigen läuft oder über einen
+           * Kanal. Bei „Kill Blue" meldete Amazon zwölf deutsche Folgen — die
+           * aber nur sieht, wer das ADN-Kanal-Abo hat; ohne es sind es vier.
+           */
+          zugang: zugangsart(),
+          abos: abos(),
+          /**
            * Die Notiz sagt, worüber der Befund reicht.
            *
            * Ein Befund über 24 von 51 Folgen ist kein Befund über die Staffel.
