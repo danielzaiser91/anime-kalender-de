@@ -1854,7 +1854,27 @@ export function DetailPanel({
           Sonst verschwände beim Umschalten auf einen Titel ohne Geschwister
           das Cover, und der Kopf sähe plötzlich anders aus.
         */}
-        <div className="flex flex-col gap-3 p-4">
+        {/*
+          Alles nach der Bühne steht `relative`, und daran hängt mehr, als es
+          aussieht.
+
+          Das Bühnenbild ist 340 px hoch, sein Container nur so hoch wie Titel
+          und Unterzeile — gemessen 284 px. Die letzten 56 px des Bildes ragen
+          also über den Container hinaus, und das ist Absicht: Die ersten
+          Inhalte sollen darauf stehen.
+
+          Nur gewinnt beim Malen sonst das Bild. Der Container ist positioniert
+          und erzeugt über `isolation: isolate` einen eigenen Stapel; ein
+          nachfolgendes Geschwister **ohne** `position` wird davon überdeckt,
+          ganz gleich, welchen z-index das Bild innerhalb des Stapels trägt. Der
+          Antwortkasten stand dadurch angeschnitten da — obere Kante weg, der
+          Rest sichtbar (Daniel, 24.08.2026, mit Bild).
+
+          `relative` allein genügt: Es holt das Geschwister in dieselbe
+          Malschicht wie den Container, ohne einen z-index zu vergeben und ohne
+          am Layout etwas zu ändern.
+        */}
+        <div className="relative flex flex-col gap-3 p-4">
           {/*
             Der Reihenname steht **über** dem Karussell, der gewählte Teil
             darunter (Daniel, 15.08.2026: „ich hab s3 ausgewählt, es ist kaum
@@ -1976,7 +1996,8 @@ export function DetailPanel({
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 px-4 pb-8">
+        {/* Aus demselben Grund wie oben — siehe den Hinweis am Block davor. */}
+        <div className="relative flex flex-col gap-4 px-4 pb-8">
           {/*
             Die Antwortzeile — der erste Block nach der Bühne.
 
