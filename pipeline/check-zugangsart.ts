@@ -16,6 +16,7 @@
  */
 import { resolve } from 'node:path'
 import { readJson, ROOT } from './lib/util.ts'
+import { zugangsart } from '../shared/zugangsart.ts'
 import type { Title } from '../shared/types.ts'
 
 let fehler = 0
@@ -109,18 +110,45 @@ console.log('Zugangsart: kostenlos, Abo oder Kauf\n')
  */
 console.log('\nSuchadressen behaupten kein Angebot:')
 {
+  /**
+   * Geprüft wird die **Regel**, nicht der Datensatz — und das ist hier der
+   * Unterschied zwischen einer richtigen und einer schädlichen Zusicherung.
+   *
+   * Der erste Anlauf am 24.08.2026 verlangte, dass **keine** Suchadresse eine
+   * Zugangsart trägt. Das war zu streng und hat den Deploy blockiert: Von den
+   * 203 Adressen tragen 94 eine Angabe, die JustWatch **gemessen** hat (64×
+   * `flatrate`, 30× `buy`/`rent`). Eine belegte Angabe ist besser als
+   * „unbekannt", nicht schlechter.
+   *
+   * Falsch war also nie die Angabe, sondern ihre Herkunft: Sie entstand aus dem
+   * Rückfall `return 'abo'` am Ende von `zugangsart()`, wenn niemand etwas
+   * wusste. Genau dieser Fall wird hier gestellt — ohne JustWatch-Auskunft,
+   * ohne `kind`, nur die Adresse.
+   */
+  pruefe(
+    'eine Amazon-Suchadresse ohne Auskunft ergibt „unbekannt", nicht „abo"',
+    zugangsart('primevideo', undefined, 'https://www.amazon.de/s?k=Akira&i=instant-video') === 'unbekannt',
+    zugangsart('primevideo', undefined, 'https://www.amazon.de/s?k=Akira&i=instant-video'),
+  )
+  pruefe(
+    'eine gemessene Auskunft schlägt die Adresse weiterhin',
+    zugangsart('primevideo', undefined, 'https://www.amazon.de/s?k=Akira&i=instant-video', 'flatrate') === 'abo' &&
+      zugangsart('primevideo', undefined, 'https://www.amazon.de/s?k=Akira&i=instant-video', 'buy') === 'kauf',
+  )
+  pruefe(
+    'ein echter Titelverweis bleibt unberührt',
+    zugangsart('primevideo', undefined, 'https://www.amazon.de/gp/video/detail/B0F2HPCC5Q') === 'abo',
+    zugangsart('primevideo', undefined, 'https://www.amazon.de/gp/video/detail/B0F2HPCC5Q'),
+  )
+
   const suchadressen = titles.flatMap((t) =>
     (t.streams ?? []).filter((s) => /amazon\.[a-z.]+\/s\?/i.test(s.url ?? '')),
   )
-  const behaupten = suchadressen.filter((s) => s.zugang && s.zugang !== 'unbekannt')
-  console.log(`  ${suchadressen.length} Suchadressen im Datensatz`)
-  pruefe(
-    'keine Suchadresse gibt eine Zugangsart vor',
-    behaupten.length === 0,
-    behaupten.slice(0, 3).map((s) => `${s.zugang}: ${s.url}`),
-  )
-  // Sonst prüft die Zeile darüber irgendwann nichts mehr, ohne dass es auffällt.
-  pruefe('es gibt überhaupt Suchadressen zu prüfen', suchadressen.length > 0, suchadressen.length)
+  const jeArt: Record<string, number> = {}
+  for (const s of suchadressen) jeArt[s.zugang ?? '(leer)'] = (jeArt[s.zugang ?? '(leer)'] ?? 0) + 1
+  console.log(`  ${suchadressen.length} Suchadressen im Datensatz: ${JSON.stringify(jeArt)}`)
+  // Sonst prüft die Regel oben irgendwann nichts mehr, ohne dass es auffällt.
+  pruefe('es gibt überhaupt Suchadressen im Bestand', suchadressen.length > 0, suchadressen.length)
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
