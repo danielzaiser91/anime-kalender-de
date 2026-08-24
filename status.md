@@ -258,6 +258,38 @@ Entweder bleibt die Erweiterung dort dauerhaft im Einsatz, oder diese 640 bleibe
 dritter Weg ist bislang nicht gefunden.
 
 ### Queue
+**ann-voices ist stumm — seit 9,1 Tagen null deutsche Rollen** (24.08.2026, 23:53)
+
+Der Tageslauf ist daran rot geworden, und die Warnung tut genau, was sie soll:
+
+```
+⚠  ann-voices: seit 9.1 Tage nichts geliefert (zuletzt 0 Treffer)
+   — keine deutschen Rollen gefunden
+```
+
+Der Lauf **läuft**, er findet nur nichts mehr. Das ist das Muster einer geänderten Seitenstruktur
+bei Anime News Network, nicht das eines Ausfalls. 1.746 Titel hängen an dieser Quelle — sie ist
+der Beleg für deutsche Sprechrollen und damit für Synchros, die sonst nirgends stehen.
+
+**Zu prüfen:** Ein Einzelabruf gegen eine bekannte ANN-Seite, an der die Rollen früher standen.
+Liefert er HTML ohne die erwarteten Stellen, sind die Selektoren fällig; kommt eine Fehlerseite
+oder eine Bot-Sperre, ist es etwas anderes.
+
+**Bakugan: drei Listeneinträge, drei Staffeln derselben Amazon-Serie** (Daniel, 24.08.2026)
+
+„das war 3x in der Liste, ich hab vorhin bereits gesagt die links zeigen auf staffel 1, 5, 9,
+also wieder unterschied zwischen quellen wie sie bezeichnet wird."
+
+Unsere Titel heißen „Spieler des Schicksals", „Neu Vestroia", „Invasion der Gundalianer"; Amazon
+führt eine Serie mit fünfzehn Staffeln, und unsere drei Verweise zeigen auf die Staffeln 1, 5
+und 9. Welche Amazon-Staffel zu welchem unserer Titel gehört, sagt keine der beiden Seiten.
+
+**Was schon geht:** Die Meldungen kommen vollständig an — 13 Staffeln unter einer Adresse, je
+eine unter den beiden anderen, alle mit ihrer Nummer. Zuzuordnen sind sie über die
+**Folgenzahl**, denselben Weg, den das Projekt bei ADN schon geht (`staffelBloecke()`): Bakugan
+Staffel 1 hat 26 Folgen, „Neu Vestroia" 52, „Gundalianer" 39. Geht die Summe nicht auf, bleibt
+der Block unzugeordnet — das ist besser als eine geratene Zuordnung.
+
 ### Offen aus Daniels Prüfrunde vom 24.08.2026, 19:16
 
 Behoben und gepusht sind: Fokus-Bug, Klick auf ganze Zeile, Staffel-Schlüssel
