@@ -28,7 +28,7 @@ jobs:
     env:
       LAUF_ZWECK: "Aktualisiert täglich alle Datenquellen von anime-kalender.de"
       LAUF_ZIEL: "AniList, Crunchyroll, ADN, Anime2You und aniSearch einlesen, Datensatz neu bauen"
-      LAUF_SCHRITTE: '8'
+      LAUF_SCHRITTE: '9'
     steps:
       # Sofort anmelden, noch vor allem anderen.
       #
@@ -218,6 +218,31 @@ jobs:
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "Datensatz bauen"
+
+      # Die Listen, mit denen Daniel und die Erweiterung arbeiten — sie
+      # entstehen aus dem frisch gebauten Datensatz und müssen deshalb hier
+      # stehen, nicht davor.
+      #
+      # **Sie liefen bis zum 25.08.2026 in keinem Workflow.** Erzeugt wurden sie
+      # einmal von Hand am 23.08., und seither veralteten sie still: Die
+      # Erweiterung zeigte 384 offene Prime-Titel, obwohl längst gemeldet war,
+      # und bot dieselben Titel wieder und wieder zum Melden an (Daniel,
+      # 25.08.2026: „warum sind es immer noch 384 titel, warum kann ich die
+      # bereits gemeldeten erneut melden?").
+      #
+      # Genau der Fall, den `CLAUDE.md` unter „Ein neuer Abruf braucht drei
+      # Dinge" beschreibt — nur ging es hier nicht um einen Abruf, sondern um
+      # ein Erzeugnis. Die Regel gilt für beides.
+      - name: Arbeitslisten und Erweiterungs-Liste neu erzeugen
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:dub-checks && npm run data:extension-liste
+
+      - name: Fortschritt — Arbeitslisten neu erzeugen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Arbeitslisten neu erzeugen"
 
       - name: Vorschaubilder für neue Releases erzeugen
         env:

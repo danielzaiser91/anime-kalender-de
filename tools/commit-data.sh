@@ -151,6 +151,13 @@ QUELLEN=(
   data/curated/disc-anisearch.yaml
   data/motn-messung.md
   daniel-zum-abarbeiten/07-alle-anbieter.md
+  # Die Liste, mit der die Browser-Erweiterung arbeitet. Sie entsteht aus dem
+  # gebauten Datensatz und veraltet ohne diese Zeile still: Bis zum 25.08.2026
+  # lief ihr Erzeuger in keinem Workflow, die Datei stammte vom 23.08., und die
+  # Erweiterung bot Titel zum Melden an, die längst geprüft waren — 384 offene
+  # Prime-Titel, von denen ein guter Teil erledigt war.
+  extension/offene-amazon.js
+  extension/offene-netflix.js
   daniel-zum-abarbeiten/08-arbeitspakete.md
 )
 ERZEUGNISSE=(public/data public/og)
