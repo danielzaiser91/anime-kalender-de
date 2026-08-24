@@ -1085,6 +1085,21 @@ async function speicherSchreiben(werte) {
      */
     knopf.disabled = geladen ? false : wartet
     if (!geladen) {
+      /**
+       * Auch eine tote Seite bleibt gemeldet, wenn sie gemeldet wurde.
+       *
+       * Dieser Zweig lief **vor** den Regeln weiter unten und setzte den Knopf
+       * bei jedem Takt zurück auf „nicht abrufbar — melden" — Sekunden nach der
+       * Meldung war er wieder anklickbar (Daniel, 24.08.2026). Auf einer
+       * Fehlerseite gibt es keine geladenen Folgen, also kam der Code nie dort
+       * an, wo „✓ gemeldet" steht.
+       */
+      const totAbgehakt = erledigt[listenId]
+      if (gemeldeteStaffel !== null || Object.keys(totAbgehakt?.staffeln ?? {}).length) {
+        knopf.textContent = '✓ alles gemeldet'
+        knopf.disabled = true
+        return
+      }
       knopf.dataset.tot = String(!wartet)
       knopf.textContent = wartet
         ? 'Tonspuren noch nicht geladen'
@@ -1120,7 +1135,21 @@ async function speicherSchreiben(werte) {
     const jetzigeStaffel = staffelSchluessel()
     const abgehakt = erledigt[listenId]
     const schonGemeldet = Boolean(abgehakt?.staffeln?.[jetzigeStaffel])
-    const alleDurch = abgehakt && Object.keys(abgehakt.staffeln ?? {}).length >= (abgehakt.gesamt ?? 1)
+    /**
+     * „Alles gemeldet" verlangt zweierlei — und der zweite Teil ist der
+     * wichtigere.
+     *
+     * Die Zahl allein trägt nicht: `gesamt` entsteht aus „N Staffeln" im
+     * Seitentext, und stand der beim Speichern noch nicht da, blieb eine 1
+     * stehen. Der Knopf sagte dann „alles gemeldet" auf einer Seite, deren
+     * Staffel gar nicht im Bestand war — bei „Barbapapa" mit dem Tooltip
+     * „Gemeldet: S2 · Es fehlen: S1" direkt daneben (Daniel, 24.08.2026).
+     *
+     * Deshalb zählt zusätzlich die einfache Frage: Ist **diese** Staffel dabei?
+     * Wenn nicht, ist hier etwas zu tun, ganz gleich was die Zahl sagt.
+     */
+    const alleDurch =
+      Boolean(abgehakt) && schonGemeldet && Object.keys(abgehakt.staffeln ?? {}).length >= (abgehakt.gesamt ?? 1)
 
     /**
      * Alles durch — dann gibt es hier nichts mehr zu tun.
@@ -1149,7 +1178,16 @@ async function speicherSchreiben(werte) {
      */
     if (schonGemeldet || gemeldeteStaffel === jetzigeStaffel) {
       const offen = (abgehakt?.gesamt ?? 1) - Object.keys(abgehakt?.staffeln ?? {}).length
-      knopf.textContent = offen > 0 ? `✓ gemeldet — noch ${offen} Staffeln` : '✓ gemeldet'
+      /**
+       * Kein „gemeldet" mehr — es zählt, was noch fehlt.
+       *
+       * Daniel am 24.08.2026: „gemeldet kann weg, dafür gibt es alles gemeldet
+       * bzw staffel fehlt noch." Der Zwischenzustand sagte, was gerade
+       * geschehen ist; die Frage beim Weiterarbeiten ist aber, was noch offen
+       * ist. Zwei Zustände genügen: alles durch, oder N fehlen.
+       */
+      knopf.textContent =
+        offen > 0 ? `noch ${offen} ${offen === 1 ? 'Staffel' : 'Staffeln'}` : '✓ alles gemeldet'
       knopf.disabled = true
       knopf.dataset.deutsch = String(deutsch)
       return
@@ -1446,7 +1484,7 @@ async function speicherSchreiben(werte) {
               : ''),
         }),
       })
-      knopf.textContent = antwort.ok ? '✓ gemeldet' : `Fehler ${antwort.status}`
+      knopf.textContent = antwort.ok ? '✓ angekommen' : `Fehler ${antwort.status}`
       /**
        * Abgehakt wird erst, wenn die Meldung wirklich angekommen ist.
        *
@@ -1516,7 +1554,17 @@ async function speicherSchreiben(werte) {
         }
         const bisher = zusammen[listenId] ?? { staffeln: {}, gesamt: staffelZahl() }
         bisher.staffeln = { ...(bisher.staffeln ?? {}), [nr]: deutsch ? '🇩🇪' : '✕' }
-        bisher.gesamt = Math.max(staffelZahl(), Object.keys(bisher.staffeln).length)
+        /**
+         * Die Gesamtzahl wächst, sie schrumpft nicht.
+         *
+         * `staffelZahl()` liest „N Staffeln" aus dem Seitentext. Stand der beim
+         * ersten Melden noch nicht da, kam eine 1 heraus — und jede weitere
+         * Meldung schrieb sie erneut, auch wenn der Text inzwischen 2 sagte.
+         * Der Knopf hielt den Titel dann für fertig (Daniel, 24.08.2026, an
+         * „Barbapapa": „da steht alles gemeldet, obwohl liste sagt s1 muss noch
+         * gemeldet werden").
+         */
+        bisher.gesamt = Math.max(staffelZahl(), bisher.gesamt ?? 1, Object.keys(bisher.staffeln).length)
         erledigt = { ...zusammen, [listenId]: bisher }
         gemeldeteStaffel = nr
         // Abwarten: Der naechste Klick liest hier gleich wieder, und ohne das
