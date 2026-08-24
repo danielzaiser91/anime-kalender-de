@@ -143,5 +143,43 @@ const echt =
   )
 }
 
+/**
+ * Region weg ist eine Auskunft, eine Stoerung ist keine.
+ *
+ * Beide Saetze am 24.08.2026 an "Chaika" belegt (Daniel, mit Bild, B07LHCSXV6):
+ * Staffel 1 traegt "In deiner Region nicht mehr auf Prime Video verfuegbar" --
+ * das ist available: false, und der Knopf wartete stattdessen auf Tonspuren,
+ * die nie kommen. Staffel 2 trug "Bei der Verarbeitung deiner Anfrage ist ein
+ * Fehler aufgetreten", obwohl sie mit Prime ansehbar ist -- der Knopf meldete
+ * daraufhin "nicht abrufbar".
+ *
+ * **Geprueft wird hier der Quelltext, nicht das Verhalten.** Der Sandkasten der
+ * Uebersichts-Zusicherungen rendert nichts und fuehrt keine Timer aus; ein
+ * Durchspielen haette dort mehr ueber den Sandkasten ausgesagt als ueber die
+ * Regel. Was diese Zeilen belegen: Beide Saetze werden unterschieden, und die
+ * Stoerung fuehrt zu keiner Meldung. Ob es an der echten Seite greift, sagt
+ * erst Daniels Blick -- das steht als offener Punkt in status.md.
+ */
+{
+  const fs = require('node:fs')
+  const leser = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
+  pruefe(
+    'der Regionshinweis wird erkannt',
+    /In deiner Region nicht mehr auf Prime Video/.test(leser),
+  )
+  pruefe(
+    'und fuehrt zu einem meldbaren Knopf, nicht zum Warten',
+    /regionWeg[\s\S]{0,200}Region nicht mehr verf/.test(leser),
+  )
+  pruefe(
+    'eine Amazon-Stoerung wird als solche erkannt',
+    /Bei der Verarbeitung deiner Anfrage ist ein Fehler aufgetreten/.test(leser),
+  )
+  pruefe(
+    'und sperrt den Knopf, statt einen Befund daraus zu machen',
+    /if \(stoerung\)[\s\S]{0,220}knopf\.disabled = true/.test(leser),
+  )
+}
+
 console.log(fehler.length ? `\n${fehler.length} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler.length ? 1 : 0)

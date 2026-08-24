@@ -1220,8 +1220,32 @@ async function speicherSchreiben(werte) {
      * Seite auf unserer Website" -- und wo dieser Satz steht, ist die Frage
      * sofort beantwortet.
      */
-    const fehlerseite =
-      /keine funktionsf(?:ä|ae)hige Seite|Suchen Sie etwas?/i.test(document.body?.innerText ?? '')
+    /**
+     * Gelesen wird beides — sichtbarer Text und Quelltext.
+     *
+     * `innerText` gibt es nur, wo etwas gerendert ist; der Hinweis steht aber
+     * auch in der ausgelieferten Seite. Wer nur eine der beiden Quellen nimmt,
+     * verpasst den Fall, in dem die andere ihn trägt.
+     */
+    const seitentext = `${document.body?.innerText ?? ''} ${seitenHtml()}`
+    const fehlerseite = /keine funktionsf(?:ä|ae)hige Seite|Suchen Sie etwas?/i.test(seitentext)
+
+    /**
+     * „Nicht mehr in deiner Region" ist eine Auskunft, ein Fehler ist keine.
+     *
+     * Beide Sätze am 24.08.2026 an „Chaika" belegt (Daniel, mit Bild):
+     * Staffel 1 trägt „In deiner Region nicht mehr auf Prime Video verfügbar" —
+     * das ist `available: false`, und der Knopf wartete stattdessen auf
+     * Tonspuren, die nie kommen. Staffel 2 trug „Bei der Verarbeitung deiner
+     * Anfrage ist ein Fehler aufgetreten", obwohl sie mit Prime ansehbar ist —
+     * der Knopf meldete daraufhin „nicht abrufbar".
+     *
+     * Eine Störung darf nie zu einem Befund werden. Es ist derselbe
+     * Unterschied, den dieses Projekt an fremden Quellen einfordert: Schweigen
+     * ist kein Nein.
+     */
+    const regionWeg = /In deiner Region nicht mehr auf Prime Video verf(?:ü|ue)gbar/i.test(seitentext)
+    const stoerung = /Bei der Verarbeitung deiner Anfrage ist ein Fehler aufgetreten/i.test(seitentext)
     const wartet = !fehlerseite && Date.now() - letzterFortschritt < GEDULD_MS
     /**
      * Die Beruhigungsfrist gehört in die Signatur — sonst läuft sie ins Leere.
@@ -1272,10 +1296,21 @@ async function speicherSchreiben(werte) {
         knopf.disabled = true
         return
       }
-      knopf.dataset.tot = String(!wartet)
-      knopf.textContent = wartet
-        ? 'Tonspuren noch nicht geladen'
-        : '✕ nicht abrufbar — melden'
+      if (stoerung) {
+        // Eine Störung ist kein Befund — hier wird nicht gemeldet.
+        knopf.dataset.tot = 'false'
+        knopf.disabled = true
+        knopf.textContent = 'Amazon meldet einen Fehler — Seite neu laden'
+        return
+      }
+      knopf.dataset.tot = String(regionWeg || !wartet)
+      knopf.disabled = false
+      knopf.textContent = regionWeg
+        ? '✕ in dieser Region nicht mehr verfügbar — melden'
+        : wartet
+          ? 'Tonspuren noch nicht geladen'
+          : '✕ nicht abrufbar — melden'
+      if (!regionWeg && wartet) knopf.disabled = true
       return
     }
     knopf.dataset.tot = 'false'
