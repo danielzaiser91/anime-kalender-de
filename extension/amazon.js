@@ -548,12 +548,29 @@ async function speicherSchreiben(werte) {
    * steht — sonst käme man aus einer Sackgasse nicht mehr in die Liste zurück.
    */
   let erledigt = {}
-  speicherLesen('amazonErledigt')
+  /**
+   * Bis der Stand da ist, wird nichts behauptet.
+   *
+   * `speicherLesen` ist asynchron; in den ersten Millisekunden nach dem Laden
+   * ist `erledigt` leer. Der Knopf sah darin einen ungemeldeten Titel und lud
+   * zum Melden ein — Sekunden später sprang er auf „alles gemeldet" zurück
+   * (Daniel, 24.08.2026). Wer in diesem Fenster klickt, meldet eine Staffel ein
+   * zweites Mal.
+   */
+  let standGeladen = false
+  /** Das Laden selbst — damit ein Klick darauf warten kann statt zu pollen. */
+  const standFertig = speicherLesen('amazonErledigt')
+  standFertig
     .then((x) => {
-      erledigt = x.amazonErledigt ?? {}
+      erledigt = x?.amazonErledigt ?? {}
+      standGeladen = true
       uebersichtZeichnen()
     })
-    .catch(() => {})
+    .catch(() => {
+      // Ohne Speicher ist der Stand unbekannt — dann lieber melden lassen als
+      // dauerhaft sperren.
+      standGeladen = true
+    })
 
   /**
    * Was ein anderer Tab meldet, kommt hier an.
@@ -1017,6 +1034,19 @@ async function speicherSchreiben(werte) {
   let gemeldeteStaffel = null
   const GEDULD_MS = 8000
 
+  /**
+   * Wie lange die Folgenzahl unverändert stehen muss, bevor sie gilt.
+   *
+   * Amazon tauscht beim Staffelwechsel erst das Gerüst und dann die Zahlen. In
+   * diesem Fenster steht am Knopf die Zahl der **vorigen** Staffel, und wer
+   * dann klickt, meldet den falschen Stand (Daniel, 24.08.2026).
+   *
+   * Zwei Sekunden sind großzügig für einen Austausch, der im Bruchteil davon
+   * passiert — und kurz genug, dass niemand darauf wartet.
+   */
+  const RUHE_MS = 2000
+  let gesamtGeaendertAm = 0
+
   function zeichnen() {
     const jetzt = spuren()
     for (const s of jetzt.sprachen) gesehen.sprachen.add(s)
@@ -1036,6 +1066,12 @@ async function speicherSchreiben(werte) {
      */
     if (jetzt.gesamt && jetzt.gesamt !== gesehen.gesamt) {
       if (gesehen.gesamt) {
+        /**
+         * Nur ein **Wechsel** löst die Beruhigungsfrist aus, nicht das erste
+         * Setzen. Beim Seitenaufbau ist die Zahl vorher schlicht unbekannt —
+         * da gibt es keine alte, die noch dastehen könnte.
+         */
+        gesamtGeaendertAm = Date.now()
         gesehen.sprachen = new Set(jetzt.sprachen)
         gesehen.nummern = new Set(jetzt.nummern)
         gemeldeteStaffel = null
@@ -1206,6 +1242,21 @@ async function speicherSchreiben(werte) {
      * wird im Datensatz eine Reichweite. Aus „24 von 26" würde eine Grenze bei
      * Folge 24, die es nicht gibt.
      */
+    /**
+     * Frisch gewechselt? Dann zählt keine Zahl, auch keine passende.
+     *
+     * `vollstaendig` allein trägt hier nicht: Es vergleicht die geladenen
+     * Folgen mit `gesehen.gesamt`, und beide können aus verschiedenen Staffeln
+     * stammen. Bei 13 alten und 26 neuen Folgen ist `13 >= 13` erfüllt, sobald
+     * die alte Zahl noch dasteht — freigegeben mit halbem Stand.
+     */
+    const zahlenStehen = Date.now() - gesamtGeaendertAm > RUHE_MS
+    if (!zahlenStehen) {
+      knopf.disabled = true
+      knopf.textContent = 'Staffel wechselt — einen Moment'
+      knopf.dataset.deutsch = String(deutsch)
+      return
+    }
     if (!vollstaendig) {
       knopf.disabled = true
       knopf.textContent = wartet
@@ -1330,6 +1381,42 @@ async function speicherSchreiben(werte) {
     }
     // „Nicht abrufbar" ist eine eigene Aussage, kein Sonderfall von „kein
     // Deutsch" — siehe den Kommentar am Knopf.
+    /**
+     * Ein Klick, bevor der Stand da ist, meldet womöglich zum zweiten Mal.
+     *
+     * `speicherLesen` ist asynchron; in den ersten Millisekunden nach dem Laden
+     * ist `erledigt` leer, und der Knopf lädt zum Melden ein, obwohl der Titel
+     * längst durch ist — „nach dem ‚alles gemeldet' neuladen erlaubt erneutes
+     * melden für paar sekunden, dann springt es zurück" (Daniel, 24.08.2026).
+     *
+     * Gesperrt wird der **Klick**, nicht die Anzeige: Was der Knopf über
+     * Sprache und Folgenzahl sagt, stimmt auch ohne den gespeicherten Stand.
+     */
+    /**
+     * Auf den gespeicherten Stand warten, statt den Klick zu verwerfen.
+     *
+     * `speicherLesen` ist asynchron; in den ersten Millisekunden nach dem Laden
+     * ist `erledigt` leer, und der Knopf lädt zum Melden ein, obwohl der Titel
+     * längst durch ist — „nach dem ‚alles gemeldet' neuladen erlaubt erneutes
+     * melden für paar sekunden, dann springt es zurück" (Daniel, 24.08.2026).
+     *
+     * Gewartet wird auf das Lade-Promise selbst, nicht in einer Schleife: Ein
+     * Klick ist gewollt, er soll nur einen Wimpernschlag später greifen.
+     */
+    if (!standGeladen) {
+      try {
+        await standFertig
+      } catch {
+        /* Ohne Speicher bleibt es beim ungeprüften Stand. */
+      }
+      // Der Stand kann die Lage geändert haben — diese Staffel ist womöglich
+      // längst gemeldet.
+      if (erledigt[listenId]?.staffeln?.[staffelSchluessel()]) {
+        letzterStand = ''
+        zeichnen()
+        return
+      }
+    }
     const nichtAbrufbar = knopf.dataset.tot === 'true'
     const sprachen = [...gesehen.sprachen]
     const geladen = gesehen.nummern.size

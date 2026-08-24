@@ -433,10 +433,49 @@
   let langsam = false
   let takt = null
 
+  /**
+   * Ein Fingerabdruck der gerade gezeigten Folgenliste.
+   *
+   * Der erste Abschnitts-Token gehört zu **dieser** Staffel und wechselt mit
+   * ihr. Er ist damit das Merkmal, das ein Staffelwechsel nicht verfehlen kann
+   * — anders als die Adresse, die Amazon beim Wechsel über das Auswahlfeld
+   * nicht immer anfasst.
+   *
+   * Gelesen wird nur der Anfang des Tokens: Er genügt zum Vergleichen, und die
+   * kurze Zeichenkette bleibt auch in der Diagnose lesbar.
+   */
+  function abschnittsFinger() {
+    try {
+      const html = document.documentElement?.innerHTML
+      if (typeof html !== 'string') return ''
+      const i = html.indexOf('episodePages')
+      if (i < 0) return ''
+      const m = /\\?"token\\?"\s*:\s*\\?"([A-Za-z0-9+/=_.-]{20,})/.exec(html.slice(i, i + 2000))
+      return m ? m[1].slice(0, 32) : ''
+    } catch {
+      return ''
+    }
+  }
+
+  let letzterFinger = ''
+
   function beiSeitenwechsel() {
     const jetzt = pfad()
-    if (jetzt === letzterPfad) return
+    const finger = abschnittsFinger()
+    /**
+     * Zwei Merkmale, und das zweite ist das verlässlichere.
+     *
+     * Bis zum 24.08.2026 zählte nur der Pfad. Wechselt Amazon die Staffel über
+     * das Auswahlfeld, ohne die Adresse zu ändern — oder ändert sie erst nach
+     * dem Inhalt —, blieb der Wechsel unbemerkt: `geholt` behielt die Tokens
+     * der alten Staffel, und für die neue wurde nie etwas angefordert. Genau
+     * das hat Daniel beobachtet: beim ersten Laden klappte es, nach dem
+     * Dropdown-Wechsel nicht mehr.
+     */
+    const gewechselt = jetzt !== letzterPfad || (finger && finger !== letzterFinger)
+    if (!gewechselt) return
     letzterPfad = jetzt
+    letzterFinger = finger
     titleID = null
     geholt.clear()
     diagnose.titleID = null
