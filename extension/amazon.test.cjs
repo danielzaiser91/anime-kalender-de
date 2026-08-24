@@ -211,5 +211,30 @@ const echt =
   )
 }
 
+/**
+ * Der Serienname zum Wiederfinden ist der von Amazon, nicht unserer.
+ *
+ * Nach einem Neuladen auf einer Staffel-Seite findet die Erweiterung ihren
+ * Listeneintrag ueber den Serientitel wieder -- verglichen wird mit
+ * `seitenTitel()`. Wer beim Speichern etwas anderes ablegt, findet nie etwas.
+ *
+ * Real am 24.08.2026 an "Chaika": Unsere Liste fuehrt ihn als "Hitsugi no
+ * Chaika: AVENGING BATTLE", Amazon nennt beide Staffeln schlicht "Chaika".
+ * Daniel meldete beide Staffeln, der Knopf sagte weiter "noch 1 Staffel" --
+ * die zweite Meldung war unter einer fremden Kennung gelandet.
+ */
+{
+  const fs = require('node:fs')
+  const leser = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
+  pruefe(
+    'gespeichert wird der Seitentitel, nicht der Listenname',
+    /bisher\.serie = seitenTitel\(\)/.test(leser),
+  )
+  pruefe(
+    'und genau damit wird spaeter gesucht',
+    /const serie = seitenTitel\(\)[\s\S]{0,240}erledigt\[k\]\?\.serie === serie/.test(leser),
+  )
+}
+
 console.log(fehler.length ? `\n${fehler.length} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler.length ? 1 : 0)

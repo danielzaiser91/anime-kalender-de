@@ -1965,7 +1965,21 @@ async function speicherSchreiben(werte) {
         bisher.gesamt = Math.max(staffelZahl(), bisher.gesamt ?? 1, Object.keys(bisher.staffeln).length)
         // Der Serienname, wie Amazon ihn nennt — er verbindet Listenzeilen, die
         // dieselbe Serie meinen (siehe `serienGefaehrten`).
-        bisher.serie = eintrag.titel ?? seitenTitel() ?? bisher.serie
+        /**
+         * Gespeichert wird der **Seitentitel**, nicht unser Listenname.
+         *
+         * Verglichen wird später mit `seitenTitel()` — wer hier etwas anderes
+         * ablegt, findet seinen eigenen Eintrag nie wieder. Genau das ist bei
+         * „Chaika" passiert (Daniel, 24.08.2026): Unsere Liste führt ihn als
+         * „Hitsugi no Chaika: AVENGING BATTLE", Amazon nennt beide Staffeln
+         * schlicht „Chaika". Nach dem Neuladen auf Staffel 1 passte nichts
+         * zusammen, die Meldung landete unter einer fremden Kennung, und der
+         * Knopf sagte weiter „noch 1 Staffel" — bei zwei gemeldeten von zwei.
+         *
+         * Der Listenname kommt als Rückfall dahinter: Wo Amazon keinen Titel
+         * hergibt, ist er besser als nichts.
+         */
+        bisher.serie = seitenTitel() ?? eintrag.titel ?? bisher.serie
         erledigt = { ...zusammen, [listenId]: bisher }
         gemeldeteStaffel = nr
         // Abwarten: Der naechste Klick liest hier gleich wieder, und ohne das
