@@ -266,5 +266,30 @@ const echt =
   )
 }
 
+/**
+ * "Nicht mehr in deiner Region" gilt vor jeder Folgenzaehlung.
+ *
+ * Die Pruefung stand im Zweig fuer "keine Folgen geladen" und wurde damit nur
+ * erreicht, wenn der Quelltext gar nichts hergab. Bei "Chaika" Staffel 1
+ * stehen zehn Folgen darin, waehrend die Seite darueber den Regionshinweis
+ * traegt: Der Knopf verlangte "10 von 12 -- Abschnitte selbst oeffnen" fuer
+ * Abschnitte, die es hier nicht mehr gibt (Daniel, 24.08.2026).
+ */
+{
+  const fs = require("node:fs")
+  const leser = fs.readFileSync(require("node:path").resolve(__dirname, "amazon.js"), "utf8")
+  const stelleRegion = leser.indexOf("if (regionWeg) {")
+  const stelleVollstaendig = leser.indexOf("if (!vollstaendig) {")
+  pruefe(
+    "der Regionshinweis wird vor der Vollstaendigkeit geprueft",
+    stelleRegion > 0 && stelleVollstaendig > 0 && stelleRegion < stelleVollstaendig,
+    { region: stelleRegion, vollstaendig: stelleVollstaendig },
+  )
+  pruefe(
+    "und laesst das Melden zu, statt zu sperren",
+    leser.slice(stelleRegion, stelleRegion + 400).includes('knopf.disabled = false'),
+  )
+}
+
 console.log(fehler.length ? `\n${fehler.length} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler.length ? 1 : 0)

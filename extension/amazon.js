@@ -1684,6 +1684,28 @@ async function speicherSchreiben(werte) {
       knopf.dataset.deutsch = String(deutsch)
       return
     }
+    /**
+     * „Nicht mehr in deiner Region" gilt für die **ganze Seite**.
+     *
+     * Die Prüfung stand bis zum 24.08.2026 im Zweig für „keine Folgen geladen"
+     * — und wurde damit nur erreicht, wenn der Quelltext gar nichts hergab. Bei
+     * „Chaika" Staffel 1 stehen zehn Folgen darin, während die Seite darüber
+     * „In deiner Region nicht mehr auf Prime Video verfügbar" schreibt: Der
+     * Knopf verlangte „10 von 12 — Abschnitte selbst öffnen" für Abschnitte,
+     * die es hier nicht mehr gibt (Daniel, 24.08.2026).
+     *
+     * Der Satz ist eine Aussage über das Angebot, nicht über die Folgenliste.
+     * Er gehört deshalb **vor** jede Zählung — was gezählt wird, sind
+     * Überbleibsel.
+     */
+    if (regionWeg) {
+      knopf.disabled = false
+      knopf.dataset.tot = 'true'
+      knopf.dataset.deutsch = 'false'
+      knopf.textContent = '✕ in dieser Region nicht mehr verfügbar — melden'
+      return
+    }
+
     if (!vollstaendig) {
       knopf.disabled = true
       knopf.textContent = wartet
