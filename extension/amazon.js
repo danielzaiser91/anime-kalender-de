@@ -153,6 +153,45 @@ async function speicherSchreiben(werte) {
    * genügt: `innerText` gibt es nur, wo etwas gerendert ist; der Hinweis steht
    * aber auch in der ausgelieferten Seite, bevor sie gerendert ist.
    */
+  /**
+   * Die Folgennummern, deren Kachel „In deiner Region nicht mehr …" trägt.
+   *
+   * XPath statt `querySelectorAll('*')`: Eine Prime-Video-Seite hat
+   * zehntausende Elemente, und diese Funktion läuft im Takt der Lage. Der
+   * Browser findet die paar Textknoten selbst, ohne dass hier jedes Element
+   * angefasst wird.
+   *
+   * Nach oben wird höchstens acht Ebenen gegangen. Weiter oben liegt die
+   * Folgenliste als Ganzes — dort stünde die Nummer der ersten Folge, nicht
+   * die der gemeinten.
+   */
+  function regionFolgenAusDom() {
+    try {
+      const treffer = document.evaluate?.(
+        '//*[contains(text(), "In deiner Region nicht mehr")]',
+        document,
+        null,
+        7 /* ORDERED_NODE_SNAPSHOT_TYPE */,
+        null,
+      )
+      if (!treffer?.snapshotLength) return []
+      const nummern = new Set()
+      for (let i = 0; i < treffer.snapshotLength; i++) {
+        let el = treffer.snapshotItem(i)
+        for (let hoch = 0; el && hoch < 8; hoch++, el = el.parentElement) {
+          const n = /(?:^|\n)\s*(\d{1,3})\.\s+\S/.exec(el.innerText ?? '')?.[1]
+          if (n) {
+            nummern.add(Number(n))
+            break
+          }
+        }
+      }
+      return [...nummern].sort((a, b) => a - b)
+    } catch {
+      return []
+    }
+  }
+
   let lage = null
   let lageZu = -1
   function seitenLage() {
@@ -181,6 +220,64 @@ async function speicherSchreiben(werte) {
       nichtAbrufbar: /Dieses Video ist derzeit nicht verf(?:ü|ue)gbar/i.test(text),
       stoerung: /Bei der Verarbeitung deiner Anfrage ist ein Fehler aufgetreten/i.test(text),
       hatFolgenReiter: /(^|>)\s*Folgen\s*(<|$)/m.test(sichtbar),
+      /**
+       * Wie viele Staffeln diese Serie führt — aus dem **sichtbaren** Text.
+       *
+       * Bis zum 25.08.2026 suchte `staffelZahl()` `(\\d+)\\s*Staffeln` im ganzen
+       * Quelltext. Der ist 1,6 MB groß und voller Empfehlungskacheln, und die
+       * erste Fundstelle ist dort fast nie die richtige — dieselbe Falle, die
+       * `seitenTitel()` am 24.08. eine fremde Serie lesen ließ.
+       *
+       * Bei „Gurren Lagann" kam beides zusammen: Der Kopf schreibt „1 Staffel"
+       * im **Singular**, die Regex verlangte den Plural und suchte weiter — bis
+       * sie irgendwo „20 Staffeln" fand. Die Übersicht zeigte daraufhin „3/20"
+       * für eine Serie mit einer Staffel (Daniel, 25.08.2026, mit Bild).
+       *
+       * Der sichtbare Text ist um ein Vielfaches kleiner, und der Kopf steht
+       * darin vor allen Kacheln. Findet sich nichts, gilt eine Staffel — die
+       * Annahme, mit der jede Seite ohne Auswahlfeld richtig liegt.
+       */
+      staffelZahl:
+        Number(/(\d+)\s*Staffeln?\b/.exec(sichtbar)?.[1]) ||
+        // Rückfall auf den Quelltext, solange die Seite noch nichts gerendert
+        // hat. Der Singular gehört dabei dazu: Ohne ihn übersprang die Suche
+        // „1 Staffel" im Kopf und lief bis zur nächsten Empfehlungskachel.
+        Number(/(\d+)\s*Staffeln?\b/.exec(html)?.[1]) ||
+        1,
+      /**
+       * Welche **einzelnen Folgen** den Regionshinweis in ihrer Kachel tragen.
+       *
+       * Daniel am 25.08.2026 zu „Mahouka" Staffel 2, zweimal: „folge 1 und 2
+       * sind in deiner region nicht mehr verfügbar, aber alle anderen folgen
+       * der staffel sind doch verfügbar" — und dann: „kann ich trotzdem nicht
+       * melden, dass die ersten 2 nicht in region sind, die anderen 11 schon".
+       *
+       * Die Staffel als Ganzes ist abrufbar, ein `weg` wäre also falsch. Die
+       * Auskunft geht deshalb als **Notiz** mit: Sie geht nicht verloren, und
+       * sie behauptet nichts, was der Datensatz nicht abbilden kann.
+       *
+       * Gesucht wird über die Baumstruktur, nicht über einen Abstand in
+       * Zeichen: Vom Element mit dem Satz aus aufwärts, bis ein Vorfahre eine
+       * Folgenüberschrift der Form „N. Titel" trägt. Ein Ausschnitt fester
+       * Länge hinge davon ab, wie lang die Beschreibung daneben gerade ist —
+       * genau die Sorte Zufall mit Frist, an der die Folgenerkennung schon
+       * einmal gescheitert ist (siehe CLAUDE.md).
+       */
+      regionFolgen: regionFolgenAusDom(),
+      /**
+       * Wie viele Folgen die Seite über der Liste **anzeigt** — „13 Folgen".
+       *
+       * Das ist die einzige Angabe zur gewählten Staffel, die ein Dropdown-
+       * Wechsel wirklich aktualisiert: Sie wird gerendert, während die
+       * JSON-Fracht im Skriptblock stehen bleibt (CLAUDE.md, „Der Quelltext
+       * veraltet beim Staffelwechsel").
+       *
+       * Damit ist sie der Prüfstein für alles, was aus dem Quelltext kommt.
+       * Widersprechen sich beide, hat die Seite recht — Daniel am 25.08.2026
+       * an „Solar Impulse": Wechsel von Staffel 7 auf 8, die Seite schreibt
+       * „1 Folge", der Knopf sagte „3 von 26".
+       */
+      folgenLautSeite: Number(/(\d+)\s*Folgen?\b/.exec(sichtbar)?.[1]) || null,
     }
     lageZu = htmlGelesenAm
     return lage
@@ -645,9 +742,7 @@ async function speicherSchreiben(werte) {
    * ganze Auskunft, und das ist der häufigere Fall.
    */
   function staffelZahl() {
-    const text = seitenHtml()
-    const n = /(\d+)\s*Staffeln/.exec(text)?.[1]
-    return n ? Number(n) : 1
+    return seitenLage().staffelZahl
   }
 
   /**
@@ -1534,6 +1629,21 @@ async function speicherSchreiben(werte) {
      * ersten Nachladen der Folgenliste auf true, weil sich dabei die
      * Staffelnummer im Quelltext von „unbekannt" auf „1" ändert.
      */
+    /**
+     * **Der erste Prüfstein ist die Zahl über der Folgenliste.**
+     *
+     * Sie wird beim Dropdown-Wechsel neu gerendert, der Quelltext nicht.
+     * Nennen beide verschiedene Zahlen, gehört der Quelltext zu einer anderen
+     * Staffel — und zwar auch dann, wenn die Kennung gleich geblieben ist.
+     * Genau das ist der Sammel-ASIN-Fall, den kein Kennungsvergleich sieht:
+     * „Solar Impulse" Staffel 8 zeigt „1 Folge", während im Quelltext noch die
+     * 26 der siebten stehen (Daniel, 25.08.2026, mit Bild).
+     */
+    const lautSeite = seitenLage().folgenLautSeite
+    if (lautSeite) {
+      const imQuelltext = spuren().gesamt
+      if (imQuelltext && imQuelltext !== lautSeite) return false
+    }
     if (frischeStaffel === null) return true
     const ausSeite = asinAusSeite()
     return !ausSeite || frischeStaffel === ausSeite
@@ -1556,6 +1666,18 @@ async function speicherSchreiben(werte) {
      * greift, wenn Amazon eine Umschaltung erfindet, an die hier niemand gedacht
      * hat.
      */
+    /**
+     * Was die Seite anzeigt, schlägt jede geerbte Zahl.
+     *
+     * Ohne diese Zeile blieb `gesehen.gesamt` auf dem Wert der vorigen
+     * Staffel stehen, sobald der Quelltext taub geworden ist — er liefert dann
+     * keine neue Zahl mehr, mit der die Regel darunter sie ersetzen könnte.
+     * Der Knopf zeigte „3 von 26" für eine Staffel mit einer Folge.
+     */
+    const lautSeite = seitenLage().folgenLautSeite
+    if (lautSeite && lautSeite !== gesehen.gesamt && !quelltextPasst()) {
+      gesehen.gesamt = lautSeite
+    }
     if (jetzt.gesamt && jetzt.gesamt !== gesehen.gesamt) {
       if (gesehen.gesamt) {
         /**
@@ -1668,6 +1790,27 @@ async function speicherSchreiben(werte) {
         knopf.disabled = true
         return
       }
+      /**
+       * **Dieselbe Staffel zweimal im Auswahlfeld — die zweite ist erledigt.**
+       *
+       * JoJo führt „Staffel 3" und „Staffel 4" je zweimal: einmal mit
+       * Kaufsymbol und vollständiger Folgenliste, einmal im Abo und ohne jede
+       * Folge. Wer die Kauffassung gemeldet hat, hat die Staffel beantwortet —
+       * die leere Zwillingsseite darf daraus kein zweites, widersprechendes
+       * `weg` machen. Daniel am 25.08.2026: „diese doppelt gelisteten staffeln
+       * bereiten probleme".
+       *
+       * Der Vergleich läuft über die Nummer, nicht über die Kennung: Beide
+       * Fassungen tragen dieselbe Staffelnummer, und genau darauf kommt es an.
+       */
+      const dieseStaffel = staffelSchluessel()
+      if (totAbgehakt?.staffeln?.[dieseStaffel]) {
+        knopf.disabled = true
+        knopf.textContent = `✓ Staffel ${staffelText(dieseStaffel)} gemeldet`
+        knopf.title =
+          'Diese Staffel steht im Auswahlfeld zweimal — gemeldet wurde die Fassung mit Folgen.'
+        return
+      }
       if (stoerung) {
         // Eine Störung ist kein Befund — hier wird nicht gemeldet.
         knopf.dataset.tot = 'false'
@@ -1745,7 +1888,21 @@ async function speicherSchreiben(werte) {
       return
     }
     knopf.dataset.tot = 'false'
-    const vollstaendig = !gesehen.gesamt || geladen >= gesehen.gesamt
+    /**
+     * Folgen, die in dieser Region nicht mehr laufen, fehlen nicht — sie sind weg.
+     *
+     * „Mahouka" Staffel 2 führt dreizehn Folgen, zwei davon tragen den
+     * Regionshinweis in ihrer Kachel. Der Quelltext nennt für sie keine
+     * Tonspur, also zählte der Knopf elf und verlangte, die fehlenden
+     * „Abschnitte selbst zu öffnen" — Abschnitte, die es nicht gibt. Daniel am
+     * 25.08.2026: „einmal das kaputte 11/13".
+     *
+     * Was die Seite als gesperrt ausweist, ist damit beantwortet: Es kommt
+     * nichts mehr nach. Die Staffel gilt als vollständig gelesen, und die
+     * Notiz der Meldung nennt die betroffenen Folgen.
+     */
+    const wegInRegion = seitenLage().regionFolgen.length
+    const vollstaendig = !gesehen.gesamt || geladen + wegInRegion >= gesehen.gesamt
     // Die Zahl sagt, worüber der Befund wirklich etwas aussagt — nie mehr.
     /**
      * Ein Film ist keine Folge.
