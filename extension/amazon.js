@@ -56,10 +56,19 @@ function verbindungLebt() {
  * heißt. Wichtig ist, dass die Oberfläche stehen bleibt und sagen kann, was
  * los ist, statt mitten im Aufbau abzubrechen.
  */
-async function speicherLesen(schluessel) {
+/**
+ * Liest den Speicher — und gibt synchron zurück, wo das möglich ist.
+ *
+ * Chrome liefert hier immer ein Promise. Der Testsandkasten kann es synchron:
+ * Er hat keinen echten Speicher, sondern ein Objekt. Ohne diesen Weg zeigte der
+ * Knopf im Test dauerhaft „prüfe Melde-Status", weil der Microtask nie an die
+ * Reihe kam — der Sandkasten führt auch keine Timer aus. Ein Test, der deshalb
+ * einen anderen Zustand prüft als den gemeinten, ist schlechter als keiner.
+ */
+function speicherLesen(schluessel) {
   if (!verbindungLebt()) return null
   try {
-    return await chrome.storage.local.get(schluessel)
+    return chrome.storage.local.get(schluessel)
   } catch {
     return null
   }
@@ -597,7 +606,13 @@ async function speicherSchreiben(werte) {
    */
   let standGeladen = false
   /** Das Laden selbst — damit ein Klick darauf warten kann statt zu pollen. */
-  const standFertig = speicherLesen('amazonErledigt')
+  const gelesen = speicherLesen('amazonErledigt')
+  // Synchron oder als Zusage — beides kommt vor, siehe `speicherLesen`.
+  const standFertig = gelesen && typeof gelesen.then === 'function' ? gelesen : Promise.resolve(gelesen)
+  if (gelesen && typeof gelesen.then !== 'function') {
+    erledigt = gelesen.amazonErledigt ?? {}
+    standGeladen = true
+  }
   standFertig
     .then((x) => {
       erledigt = x?.amazonErledigt ?? {}
@@ -1339,6 +1354,25 @@ async function speicherSchreiben(werte) {
     const art = zugangsart()
     const zugang = art && art !== 'abo' ? ` · ${ZUGANG_TEXT[art]}` : ''
 
+    /**
+     * Solange der gespeicherte Stand fehlt, wird nichts angeboten.
+     *
+     * `speicherLesen` ist asynchron; in den ersten Millisekunden nach dem Laden
+     * ist `erledigt` leer, und der Knopf lud zum Melden ein, obwohl der Titel
+     * längst durch war — „ich hab auf chaika link geklickt, ohne was zu machen
+     * nach paar sek steht da noch 1 staffel" (Daniel, 24.08.2026). Sein
+     * Vorschlag, und er ist richtig: Der Knopf soll in dieser Zeit sagen, was
+     * er tut, und nicht klickbar sein.
+     *
+     * Der Klick wartet zwar seit 0.66 auf den Stand — aber ein Knopf, der
+     * „melden" anbietet und dann seine Meinung ändert, ist trotzdem falsch.
+     */
+    if (!standGeladen) {
+      knopf.disabled = true
+      knopf.textContent = 'prüfe Melde-Status …'
+      knopf.dataset.deutsch = String(deutsch)
+      return
+    }
     const jetzigeStaffel = staffelSchluessel()
     const abgehakt = erledigt[listenId]
     const schonGemeldet = Boolean(abgehakt?.staffeln?.[jetzigeStaffel])

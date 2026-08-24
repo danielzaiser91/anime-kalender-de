@@ -181,5 +181,35 @@ const echt =
   )
 }
 
+/**
+ * Solange der Melde-Stand geladen wird, bietet der Knopf nichts an.
+ *
+ * Daniel am 24.08.2026, nach einem Klick auf einen Chaika-Link: "ohne was zu
+ * machen nach paar sek steht da noch 1 staffel, warum? … dann sollte der button
+ * vorher nicht klickbar sein sondern 'pruefe melde-status' oder so sagen."
+ *
+ * Er hat recht, und der Fall ist heikler als er aussieht: `speicherLesen` ist
+ * asynchron, in den ersten Millisekunden ist der Stand leer, und der Knopf lud
+ * zum Melden ein -- fuer einen Titel, der laengst durch war. Seit 0.66 wartet
+ * der **Klick** auf den Stand, aber ein Knopf, der "melden" anbietet und dann
+ * seine Meinung aendert, ist trotzdem falsch.
+ */
+{
+  const fs = require('node:fs')
+  const leser = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
+  pruefe(
+    'ohne geladenen Stand sagt der Knopf, dass er prueft',
+    /if \(!standGeladen\)[\s\S]{0,300}pr(?:ü|ue)fe Melde-Status/.test(leser),
+  )
+  pruefe(
+    'und ist dabei gesperrt',
+    /if \(!standGeladen\)[\s\S]{0,200}knopf\.disabled = true/.test(leser),
+  )
+  pruefe(
+    'der Klick wartet zusaetzlich auf den Stand',
+    /await standFertig/.test(leser),
+  )
+}
+
 console.log(fehler.length ? `\n${fehler.length} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler.length ? 1 : 0)

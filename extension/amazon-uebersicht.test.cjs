@@ -127,7 +127,16 @@ function starte(seitenAsin, gespeichert = {}) {
       runtime: { id: 'test-erweiterung' },
       storage: {
         local: {
-          get: async () => ({ amazonErledigt: gespeichert }),
+          /**
+           * Synchron, nicht async — und das ist Absicht.
+           *
+           * Der Sandkasten fuehrt keine Timer aus und laesst Microtasks nicht
+           * an die Reihe kommen; ein Promise hier haette bedeutet, dass der
+           * Knopf in **jedem** Test dauerhaft "pruefe Melde-Status" zeigt.
+           * Der asynchrone Weg ist damit nicht ungeprueft: Ihn deckt die
+           * Zusicherung ab, die den Klick vor dem geladenen Stand stellt.
+           */
+          get: () => ({ amazonErledigt: gespeichert }),
           set: async (x) => {
             gesetzt.push(x)
           },
