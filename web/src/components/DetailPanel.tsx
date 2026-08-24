@@ -1345,9 +1345,15 @@ export function DetailPanel({
    * stehen haben.
    *
    * Die Reihenfolge ist deshalb kostenlos → Abo → Kauf: von „sofort" zu „kostet".
+   *
+   * `unbekannt` steht am Ende, weil es keine Preisstufe ist, sondern eine
+   * fehlende Auskunft — dort landen die Amazon-Suchadressen, die nur zur Suche
+   * führen und über das Angebot nichts aussagen. **Die Art muss in dieser Liste
+   * stehen:** Was hier fehlt, fällt aus allen Gruppen und verschwindet
+   * kommentarlos aus der Anzeige.
    */
   const sortiertNachZugang = useMemo(() => {
-    const arten: Zugangsart[] = ['kostenlos', 'abo', 'kauf']
+    const arten: Zugangsart[] = ['kostenlos', 'abo', 'kauf', 'unbekannt']
     const gruppen = arten.map((art) => ({
       art,
       plattformen: (title?.streams ?? []).filter((s) => (s.zugang ?? 'abo') === art),

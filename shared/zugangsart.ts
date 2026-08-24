@@ -12,7 +12,11 @@
  */
 
 /** Streaming, unterteilt nach dem, was es kostet. */
-export type Zugangsart = 'kostenlos' | 'abo' | 'kauf'
+/**
+ * `unbekannt` ist keine vierte Preisstufe, sondern das Eingeständnis, dass wir
+ * es nicht wissen — siehe die Suchadressen weiter unten in `zugangsart()`.
+ */
+export type Zugangsart = 'kostenlos' | 'abo' | 'kauf' | 'unbekannt'
 
 /**
  * Anbieter, bei denen man ohne Abo und ohne Zahlung sieht.
@@ -128,6 +132,24 @@ export function zugangsart(
   // Der ältere Weg über die Adresse bleibt: Er greift bei Verleih-Playlists,
   // die keinen Kanalnamen im Bestand haben.
   if (kern === 'youtube' && url && /\/(movies|playlist\?list=PL[A-Za-z0-9_-]*movie)/i.test(url)) return 'kauf'
+  /**
+   * Eine Suchadresse weiß nichts über den Preis.
+   *
+   * `amazon.de/s?k=<Titel>&i=instant-video` ist kein Angebot, sondern die
+   * Aufforderung, selbst zu suchen. Was am Ende dieser Suche steht — Abo, Kauf,
+   * Leihe oder gar nichts — ist von hier aus nicht zu sehen.
+   *
+   * Trotzdem trugen am 24.08.2026 **alle 203** solcher Adressen die Angabe
+   * „Mit Abo", weil die Regel unten mangels besserer Auskunft auf `abo`
+   * zurückfiel. Das ist genau die Sorte Fehler, die diese Datei verhindern
+   * soll: Ein Irrtum beim Termin ist ärgerlich, ein Irrtum beim Preis kostet
+   * den Leser Geld.
+   *
+   * Sobald ein echter Titelverweis vorliegt — über die Erweiterung oder eine
+   * Quelle mit ASIN —, greift die Regel darunter wieder.
+   */
+  if (url && /amazon\.[a-z.]+\/s\?/i.test(url)) return 'unbekannt'
+
   if (KOSTENLOS.has(kern)) return 'kostenlos'
   if (ABO.has(kern)) return 'abo'
   return 'abo'

@@ -95,5 +95,33 @@ console.log('Zugangsart: kostenlos, Abo oder Kauf\n')
   )
 }
 
+/**
+ * Eine Suchadresse darf kein Angebot behaupten.
+ *
+ * `amazon.de/s?k=<Titel>&i=instant-video` führt zur Suche, nicht zu einem Titel.
+ * Ob dahinter ein Abo, ein Kauf oder gar nichts steht, ist von hier aus nicht zu
+ * sehen. Am 24.08.2026 trugen trotzdem **alle 203** solcher Adressen die Angabe
+ * „Mit Abo", weil `zugangsart()` mangels besserer Auskunft darauf zurückfiel.
+ *
+ * Beim Preis wiegt ein Irrtum schwerer als beim Termin: Wer „Mit Abo" liest und
+ * an einer Kasse landet, ist schlechter dran als jemand, der gar keine Auskunft
+ * bekommen hätte.
+ */
+console.log('\nSuchadressen behaupten kein Angebot:')
+{
+  const suchadressen = titles.flatMap((t) =>
+    (t.streams ?? []).filter((s) => /amazon\.[a-z.]+\/s\?/i.test(s.url ?? '')),
+  )
+  const behaupten = suchadressen.filter((s) => s.zugang && s.zugang !== 'unbekannt')
+  console.log(`  ${suchadressen.length} Suchadressen im Datensatz`)
+  pruefe(
+    'keine Suchadresse gibt eine Zugangsart vor',
+    behaupten.length === 0,
+    behaupten.slice(0, 3).map((s) => `${s.zugang}: ${s.url}`),
+  )
+  // Sonst prüft die Zeile darüber irgendwann nichts mehr, ohne dass es auffällt.
+  pruefe('es gibt überhaupt Suchadressen zu prüfen', suchadressen.length > 0, suchadressen.length)
+}
+
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

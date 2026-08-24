@@ -163,6 +163,7 @@ const TEXTE = {
   'where.zugang.kostenlos': 'Ohne Kosten',
   'where.zugang.abo': 'Mit Abo',
   'where.zugang.kauf': 'Kaufen oder leihen',
+  'where.zugang.unbekannt': 'Angebot unbekannt',
   'where.buy': 'Kaufen oder leihen',
   'where.buyHint': 'einmaliger Preis je Titel oder Staffel',
   'where.titles': '{count} Einträge',
