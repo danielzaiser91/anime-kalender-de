@@ -290,6 +290,44 @@ eine unter den beiden anderen, alle mit ihrer Nummer. Zuzuordnen sind sie über 
 Staffel 1 hat 26 Folgen, „Neu Vestroia" 52, „Gundalianer" 39. Geht die Summe nicht auf, bleibt
 der Block unzugeordnet — das ist besser als eine geratene Zuordnung.
 
+### Stand nach der Nacht auf den 25.08.2026 — die Prime-Liste ist praktisch durch
+
+**Gemessen am Briefkasten des Workers, 01:45 Uhr:** 358 Meldungen unter 263 Kennungen; die
+Liste führt 257. **Genau zwei Kennungen haben noch keine einzige Meldung:**
+
+| Kennung | Titel | AniList | Folgen |
+|---|---|---|---|
+| `B0CG7S59KL` | JoJo no Kimyou na Bouken: Stardust Crusaders | 20474 | 24 |
+| `B0CH5BXKFX` | Mahouka Koukou no Rettousei: Raihousha-hen | 112300 | 13 |
+
+Beide sind die Fälle, an denen die Erweiterung in dieser Nacht hängen blieb — die doppelt
+gelistete JoJo-Staffel und die Mahouka-Staffel mit zwei gesperrten Folgen. Gemeldet wurden
+beide Serien, aber unter der **Sammelkennung** der Reihe (`B0CH1LLV72` bzw. `B0CN3Q9DH8`),
+nicht unter der Kennung, die unsere Liste erwartet.
+
+**Zu klären, bevor davon etwas in den Datensatz geht:** Für Mahouka liegt eine Meldung
+„Staffel 3, 13 Folgen, **kein_dub**" vor (24.08., 23:14) — der Knopf zeigte auf derselben
+Staffel wenig später „🇩🇪 Deutsch · 13 Folgen". Eines von beidem stimmt nicht, und welches,
+sagt nur ein Blick auf die Seite. Bis dahin wird nichts eingetragen.
+
+**Die ~10 Titel, die vor dem Zurücksetzen offen standen, sind nicht verloren.** Sie hatten im
+Worker längst Meldungen, nur der lokale Stand kannte sie nicht; der Abgleich hat sie
+zurückgeholt. Deshalb sank die Zahl nach dem Zurücksetzen von zehn auf zwei.
+
+### Erweiterung 0.86 bis 0.90 — was in dieser Nacht behoben wurde
+
+| Fassung | Befund |
+|---|---|
+| 0.86 | Speicherlast gedrittelt (zweiter „Out of Memory"), Neuladezwang bei jeder Staffel über 1, Regionshinweis einzelner Folgen, Volume-Nummern lesbar |
+| 0.87 | „Dieses Video ist derzeit nicht verfügbar" ist meldbar (Filme haben keine Folgenliste) |
+| 0.88 | Veralteter Quelltext kippte seine Folgen jede halbe Sekunde in den Zählstand zurück; Staffel ohne Folgen wieder meldbar |
+| 0.89 | Meldungen ohne Staffelnummer — 203 von 297 im Briefkasten, weil nur die Adresse gelesen wurde |
+| 0.90 | Die Zahl über der Folgenliste ist der Prüfstein für den Quelltext; `staffelZahl()` las Empfehlungskacheln; gesperrte Folgen zählen als beantwortet; doppelt gelistete Staffel gilt als gemeldet |
+
+**Der rote Tageslauf vom 24.08. ist erklärt und behoben.** Er wurde ausschließlich an
+`ann-voices` rot; die Warteschlange liefert wieder (drei Titel im Probelauf), der
+Gesundheitsstand meldet den Bestand statt des Zuwachses. Beide Läufe sind gelöscht.
+
 ### Daniels Prüfrunde vom 25.08.2026, 00:30–01:45 — fünf Befunde, alle behoben
 
 Gepusht als Erweiterung **0.87**: Speicherlast (zweiter „Out of Memory"), Neuladezwang bei
