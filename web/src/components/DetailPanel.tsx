@@ -86,6 +86,153 @@ function ShareIcon({ slug, name }: { slug: string; name: string }) {
   )
 }
 
+/** Was die Antwortzeile zu sagen hat — je nach Lage des Titels. */
+type Antwort =
+  | { art: 'laeuft'; haupt: ReleaseEvent; rest: number; raus: number; gesamt?: number; letzter?: string }
+  | { art: 'fertig'; raus?: number; gesamt?: number }
+  | { art: 'film'; hatSynchro: boolean; raus: number; gesamt?: number }
+  | { art: 'ohne'; gesamt?: number }
+
+/**
+ * Der Kasten ganz oben — die Antwort auf „wann, wie weit, wo".
+ *
+ * **Vier Zeilen in jedem Fall.** Überschrift, Nebenzeile, dann etwas, das den
+ * Fortschritt zeigt, dann eine Zählzeile. Auch „keine deutsche Fassung" bekommt
+ * beides: einen leeren Balken und „Keine Folge auf Deutsch". Das ist kein
+ * Füllmaterial, sondern die ehrlichste Auskunft, die es zu so einem Titel gibt —
+ * und es hält den Kasten gleich hoch, damit beim Wechseln des Reihenteils nichts
+ * springt.
+ *
+ * Beim Film tritt an die Stelle des Balkens eine Faktenzeile: Ein
+ * Fortschrittsbalken, der immer voll ist, misst nichts.
+ */
+function AntwortKasten({
+  antwort,
+  title,
+  t,
+  today,
+}: {
+  antwort: Antwort
+  title: Title
+  t: (k: never, v?: Record<string, string | number>) => string
+  today: string
+}) {
+  const T = t as unknown as (k: string, v?: Record<string, string | number>) => string
+
+  /** Relative Angabe zuerst — niemand rechnet gern nach, welcher Tag der 25. ist. */
+  const relativ = (datum: string): string => {
+    const tage = Math.round(
+      (new Date(`${datum}T12:00:00Z`).getTime() - new Date(`${today}T12:00:00Z`).getTime()) / 86400000,
+    )
+    if (tage <= 0) return T('antwort.heute')
+    if (tage === 1) return T('antwort.morgen')
+    if (tage <= 6) return T('antwort.inTagen', { count: tage })
+    return ''
+  }
+
+  let haupt: string
+  let neben: string
+  let anteil: number | undefined
+  let zaehl: string
+  let fakten: { wert: string; was: string }[] | undefined
+  let gedaempft = false
+
+  if (antwort.art === 'laeuft') {
+    const e = antwort.haupt
+    const rel = relativ(e.date)
+    haupt = [rel, formatDate(e.date)].filter(Boolean).join(', ')
+    if (e.episode) haupt += ` — ${T('antwort.folge', { n: e.episode })}`
+    neben = [
+      T('antwort.rhythmusWoechentlich', { tag: weekdayName(e.date).slice(0, 2) }),
+      antwort.letzter && antwort.rest > 1
+        ? T('antwort.nochFolgen', { count: antwort.rest - 1, datum: formatDate(antwort.letzter) })
+        : T('antwort.letzteFolge'),
+    ].join(' · ')
+    anteil = antwort.gesamt ? Math.round((antwort.raus / antwort.gesamt) * 100) : undefined
+    zaehl = antwort.gesamt
+      ? T('antwort.erschienenZahl', { raus: antwort.raus, gesamt: antwort.gesamt })
+      : ''
+  } else if (antwort.art === 'fertig') {
+    haupt = T('antwort.fertigTitel')
+    neben = T('antwort.fertigNeben')
+    anteil = 100
+    zaehl = antwort.gesamt
+      ? T('antwort.fertigZahl', { count: antwort.gesamt })
+      : T('antwort.fertigZahlOhne')
+  } else if (antwort.art === 'film') {
+    haupt = antwort.hatSynchro ? T('antwort.filmTitel') : T('antwort.filmOhneTitel')
+    neben = antwort.hatSynchro ? T('antwort.filmNeben') : T('antwort.filmOhneNeben')
+    gedaempft = !antwort.hatSynchro
+    zaehl = ''
+    // Drei Angaben, die es bei einem Film wirklich gibt — statt eines Balkens
+    // ohne Messwert. Fehlt eine (FSK hat nur die Hälfte der Filme), bleibt ihr
+    // Platz leer, statt die Zeile zu verschieben.
+    fakten = [
+      { wert: title.jpYear ? String(title.jpYear) : '—', was: T('antwort.faktErschienen') },
+      {
+        wert: title.fsk !== undefined ? T('antwort.fskAb', { n: title.fsk }) : '—',
+        was: T('antwort.faktFsk'),
+      },
+      { wert: title.studios?.[0] ?? '—', was: T('antwort.faktStudio') },
+    ]
+  } else {
+    haupt = T('antwort.ohneTitel')
+    neben = T('antwort.ohneNeben')
+    gedaempft = true
+    anteil = 0
+    zaehl = T('antwort.ohneZahl')
+  }
+
+  return (
+    <section
+      className={[
+        'flex min-h-[104px] flex-col justify-center rounded-xl border p-3',
+        gedaempft
+          ? 'border-slate-200 bg-slate-50 dark:border-white/10 dark:bg-white/[0.03]'
+          : 'border-sky-400/40 bg-gradient-to-b from-sky-500/15 to-transparent dark:border-sky-400/30',
+      ].join(' ')}
+    >
+      <p
+        className={[
+          'text-lg font-bold leading-tight tracking-tight',
+          gedaempft ? 'text-slate-500 dark:text-slate-400' : 'text-slate-900 dark:text-white',
+        ].join(' ')}
+      >
+        {haupt}
+      </p>
+      <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">{neben}</p>
+
+      {fakten ? (
+        <div className="mt-2 flex gap-4">
+          {fakten.map((f) => (
+            <span key={f.was} className="flex flex-col leading-tight">
+              <b className="text-[13px] font-bold tabular-nums text-slate-800 dark:text-slate-100">
+                {f.wert}
+              </b>
+              <span className="text-[10px] text-slate-400 dark:text-slate-500">{f.was}</span>
+            </span>
+          ))}
+        </div>
+      ) : (
+        <div
+          className="mt-2.5 flex h-1.5 overflow-hidden rounded-full bg-slate-200 dark:bg-white/10"
+          aria-hidden="true"
+        >
+          <span
+            className={anteil === 0 ? 'bg-slate-300 dark:bg-white/15' : 'bg-emerald-500'}
+            style={{ width: `${anteil === 0 ? 100 : (anteil ?? 100)}%` }}
+          />
+          {anteil !== undefined && anteil > 0 && anteil < 100 && (
+            <span className="bg-emerald-500/25" style={{ width: `${100 - anteil}%` }} />
+          )}
+        </div>
+      )}
+
+      {zaehl && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{zaehl}</p>}
+    </section>
+  )
+}
+
 function ReleaseBlock({ release, today }: { release: Release; today: string }) {
   const { t } = useLang()
   const events = useMemo(() => expandEvents(release), [release])
@@ -1143,7 +1290,12 @@ export function DetailPanel({
   const verbindung = useNewsletterVerbindung()
   const today = todayIso()
   const title: Title | undefined = data.titleById.get(titleId)
-  const releases = data.releasesByTitle.get(titleId) ?? []
+  /**
+   * Der leere Rückfall braucht ein `useMemo`, sonst ist er bei jedem Durchlauf
+   * ein neues Array — und jeder Hook, der `releases` als Abhängigkeit führt,
+   * rechnet dann bei jedem Render neu, statt sich das Ergebnis zu merken.
+   */
+  const releases = useMemo(() => data.releasesByTitle.get(titleId) ?? [], [data, titleId])
   const [synopsis, setSynopsis] = useState<Synopsis | undefined>()
   const [allKeywords, setAllKeywords] = useState(false)
   const [plotOffen, setPlotOffen] = useState(false)
@@ -1408,6 +1560,55 @@ export function DetailPanel({
       })
   }
 
+  /**
+   * Die Antwort auf die Frage, wegen der jemand dieses Panel öffnet.
+   *
+   * *Wann kommt die nächste Folge, wie weit bin ich, wo kann ich gucken.* Bis
+   * zum 24.08.2026 standen die Bausteine dafür verstreut: `Start`, `Folgen` und
+   * `Nächste Folge` in drei Zeilen eines Kastens, der als vierter Block kam —
+   * nach Bildergalerie, Bewertung und sechs Genre-Chips. Wer die Antwort wollte,
+   * musste sie sich zusammensetzen.
+   *
+   * Hier entsteht sie als **ein** Satz, aus denselben Terminen, die auch die
+   * Liste darunter füllt. Vier Fälle, und jeder bekommt dieselben vier Zeilen —
+   * Überschrift, Nebenzeile, Balken, Zählzeile. Ungleich hohe Kästen ließen beim
+   * Wechseln des Reihenteils alles darunter springen (Daniel, 24.08.2026:
+   * „solche element verrückungen sollten möglichst vermieden werden").
+   *
+   * Der vierte Fall ist der Film: 697 der 2.762 Titel. Ein Folgenzähler ergibt
+   * dort keinen Sinn, und ein Balken, der immer voll ist, misst nichts. Statt
+   * seiner stehen drei Angaben, die es bei einem Film wirklich gibt.
+   */
+  const antwort = useMemo(() => {
+    if (!title) return undefined
+
+    const alleEvents = releases.flatMap((r) => expandEvents(r))
+    const kuenftig = alleEvents
+      .filter((e) => !istErschienen(e))
+      .sort((a, b) => a.date.localeCompare(b.date) || (a.episode ?? 0) - (b.episode ?? 0))
+    const raus = alleEvents.filter((e) => istErschienen(e)).length
+    const gesamt = title.episodes ?? (alleEvents.length || undefined)
+    const hatSynchro = (title.streams ?? []).some((s) => s.dub === true)
+
+    if (kuenftig.length > 0) {
+      const n = kuenftig[0]!
+      return {
+        art: 'laeuft' as const,
+        haupt: n,
+        rest: kuenftig.length,
+        raus,
+        gesamt,
+        letzter: kuenftig[kuenftig.length - 1]?.date,
+      }
+    }
+    if (title.format === 'MOVIE') return { art: 'film' as const, hatSynchro, raus, gesamt }
+    if (hatSynchro || titleStatus(releases, today, title) === 'erschienen') {
+      return { art: 'fertig' as const, raus: raus || gesamt, gesamt }
+    }
+    return { art: 'ohne' as const, gesamt }
+    // `today` steht in der Abhängigkeitsliste, weil `titleStatus` es benutzt.
+  }, [title, releases, today])
+
   if (!title) {
     return (
       <aside className="fixed inset-y-0 right-0 z-40 w-full max-w-lg overflow-y-auto border-l border-slate-200 bg-white p-4 dark:border-white/10 dark:bg-[#0d1220]">
@@ -1449,6 +1650,7 @@ export function DetailPanel({
   }
 
   const status = titleStatus(releases, today, title)
+
   // Handlung auf Deutsch; fehlt sie, lieber den englischen Text mit Hinweis
   // zeigen als gar keinen.
   //
@@ -1847,6 +2049,16 @@ export function DetailPanel({
         </div>
 
         <div className="flex flex-col gap-4 px-4 pb-8">
+          {/*
+            Die Antwortzeile — der erste Block nach der Bühne.
+
+            Sie beantwortet in einem Satz, wonach jemand das Panel öffnet.
+            Vier Fälle, immer dieselben vier Zeilen: Überschrift, Nebenzeile,
+            Balken, Zählzeile. Die Gleichheit ist kein Schönheitswunsch —
+            ungleich hohe Kästen ließen beim Wechseln des Reihenteils alles
+            darunter springen.
+          */}
+          {antwort && <AntwortKasten antwort={antwort} title={title} t={t} today={today} />}
           {/*
             „Wo läuft es" steht seit dem 24.08.2026 **vor** den Terminen.
 
