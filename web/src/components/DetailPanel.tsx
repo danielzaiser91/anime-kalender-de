@@ -1882,67 +1882,6 @@ export function DetailPanel({
             für zwei Symbole gebraucht hätten.
           */}
 
-          <div
-            className="-mx-1 flex snap-x snap-mandatory gap-2 overflow-x-auto px-1 pb-1"
-            role="tablist"
-            aria-label={t('detail.seriesParts')}
-          >
-            {reihenTeile.map((m) => {
-              const gewaehlt = m.id === title.id
-              const gemerkt = favorites.has(m.id)
-              return (
-                <button
-                  key={m.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={gewaehlt}
-                  disabled={wechselt}
-                  onClick={() => !gewaehlt && wechsleZu(m.id)}
-                  className={[
-                    'group/karte relative w-24 shrink-0 snap-start overflow-hidden rounded-lg border text-left transition',
-                    'focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 disabled:opacity-60',
-                    /*
-                      Zwei Zustände, zwei Farben, und sie dürfen sich nicht ins
-                      Gehege kommen: Blau heißt „das siehst du gerade", Bernstein
-                      „das hast du gemerkt". Ein gemerkter Teil, der zugleich der
-                      gewählte ist, behält den blauen Ring — die Auswahl ist die
-                      dringlichere Auskunft — und trägt den Stern trotzdem.
-                      Gemerkte Karten sind außerdem nie blass: Was man sich
-                      gemerkt hat, soll man im Karussell sofort finden.
-                    */
-                    gewaehlt
-                      ? 'border-sky-400 ring-2 ring-sky-400/60'
-                      : gemerkt
-                        ? 'cursor-pointer border-amber-400/70 hover:border-amber-400 dark:border-amber-400/60'
-                        : 'cursor-pointer border-slate-200 opacity-70 hover:opacity-100 dark:border-white/10',
-                  ].join(' ')}
-                >
-                  <span className="block aspect-[2/3] w-full bg-slate-200 dark:bg-white/5">
-                    {m.cover && (
-                      <img src={m.cover} alt="" loading="lazy" className="h-full w-full object-cover" />
-                    )}
-                  </span>
-                  {gemerkt && (
-                    <span
-                      className="absolute left-1 top-1 rounded-full bg-black/60 px-1 text-[11px] leading-tight text-amber-400 drop-shadow-[0_0_3px_rgba(251,191,36,.6)]"
-                      aria-label={t('card.unfavourite')}
-                    >
-                      ★
-                    </span>
-                  )}
-                  <span className="block px-1.5 py-1 text-[10px] leading-tight text-slate-600 dark:text-slate-300">
-                    <span className="line-clamp-2 font-medium">{eindeutschenStaffel(m.name)}</span>
-                    <span className="mt-0.5 block text-slate-400 dark:text-slate-500">
-                      {[m.format && m.format !== 'TV' ? (FORMAT_DE[m.format] ?? m.format) : '', m.jpYear]
-                        .filter(Boolean)
-                        .join(' · ')}
-                    </span>
-                  </span>
-                </button>
-              )
-            })}
-          </div>
-          {wechselt && <span className="text-[11px] text-slate-400">{t('detail.seasonLoading')}</span>}
 
           <div className="min-w-0 flex-1">
             {/*
@@ -2180,6 +2119,102 @@ export function DetailPanel({
             eine Reihe zehn Einträge haben kann und die Termine darunter der
             eigentliche Inhalt bleiben sollen.
           */}
+          {/*
+            Der Reihen-Umschalter steht seit dem 24.08.2026 hier, nach den
+            Anbietern -- nicht mehr als Erstes unter dem Kopf.
+
+            Er ist Navigation, keine Antwort: Wer das Panel oeffnet, will
+            zuerst wissen, wann und wo. Erst danach stellt sich die Frage nach
+            den anderen Teilen der Reihe.
+
+            Die Ueberschrift nennt die Zahl. Ein Band ohne sie sieht bei drei
+            sichtbaren Kacheln nach drei Teilen aus -- "Ghost in the Shell" hat
+            einundzwanzig.
+          */}
+          {reihenTeile.length > 1 && (
+            <div>
+              <SectionTitle>{t('detail.seriesPartsCount', { count: reihenTeile.length })}</SectionTitle>
+              <div
+            className="-mx-1 flex snap-x snap-mandatory gap-2 overflow-x-auto px-1 pb-1"
+            role="tablist"
+            aria-label={t('detail.seriesParts')}
+          >
+            {reihenTeile.map((m) => {
+              const gewaehlt = m.id === title.id
+              const gemerkt = favorites.has(m.id)
+              return (
+                <button
+                  key={m.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={gewaehlt}
+                  disabled={wechselt}
+                  /*
+                    Der aktive Teil wird beim Öffnen sichtbar gemacht.
+
+                    Ohne das steht er bei einer langen Reihe außerhalb des
+                    Bildes: „Ghost in the Shell" hat 21 Teile, der gerade
+                    geöffnete ist der letzte, und das Band beginnt beim Film von
+                    1995. Man sieht nicht, wo man ist, und muss selbst scrollen
+                    (Daniel, 24.08.2026).
+
+                    `block: 'nearest'` verhindert, dass die Seite dabei
+                    senkrecht springt — gescrollt werden soll nur das Band.
+                  */
+                  ref={
+                    gewaehlt
+                      ? (el) => el?.scrollIntoView({ block: 'nearest', inline: 'center' })
+                      : undefined
+                  }
+                  onClick={() => !gewaehlt && wechsleZu(m.id)}
+                  className={[
+                    'group/karte relative w-24 shrink-0 snap-start overflow-hidden rounded-lg border text-left transition',
+                    'focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 disabled:opacity-60',
+                    /*
+                      Zwei Zustände, zwei Farben, und sie dürfen sich nicht ins
+                      Gehege kommen: Blau heißt „das siehst du gerade", Bernstein
+                      „das hast du gemerkt". Ein gemerkter Teil, der zugleich der
+                      gewählte ist, behält den blauen Ring — die Auswahl ist die
+                      dringlichere Auskunft — und trägt den Stern trotzdem.
+                      Gemerkte Karten sind außerdem nie blass: Was man sich
+                      gemerkt hat, soll man im Karussell sofort finden.
+                    */
+                    gewaehlt
+                      ? 'border-sky-400 ring-2 ring-sky-400/60'
+                      : gemerkt
+                        ? 'cursor-pointer border-amber-400/70 hover:border-amber-400 dark:border-amber-400/60'
+                        : 'cursor-pointer border-slate-200 opacity-70 hover:opacity-100 dark:border-white/10',
+                  ].join(' ')}
+                >
+                  <span className="block aspect-[2/3] w-full bg-slate-200 dark:bg-white/5">
+                    {m.cover && (
+                      <img src={m.cover} alt="" loading="lazy" className="h-full w-full object-cover" />
+                    )}
+                  </span>
+                  {gemerkt && (
+                    <span
+                      className="absolute left-1 top-1 rounded-full bg-black/60 px-1 text-[11px] leading-tight text-amber-400 drop-shadow-[0_0_3px_rgba(251,191,36,.6)]"
+                      aria-label={t('card.unfavourite')}
+                    >
+                      ★
+                    </span>
+                  )}
+                  <span className="block px-1.5 py-1 text-[10px] leading-tight text-slate-600 dark:text-slate-300">
+                    <span className="line-clamp-2 font-medium">{eindeutschenStaffel(m.name)}</span>
+                    <span className="mt-0.5 block text-slate-400 dark:text-slate-500">
+                      {[m.format && m.format !== 'TV' ? (FORMAT_DE[m.format] ?? m.format) : '', m.jpYear]
+                        .filter(Boolean)
+                        .join(' · ')}
+                    </span>
+                  </span>
+                </button>
+              )
+            })}
+          </div>
+          {wechselt && <span className="text-[11px] text-slate-400">{t('detail.seasonLoading')}</span>}
+            </div>
+          )}
+
           {releases.length > 0 ? (
             <div className="flex flex-col gap-3">
               <SectionTitle>{t('detail.releases')}</SectionTitle>

@@ -231,6 +231,7 @@ const TEXTE = {
   'detail.dubUntil': 'Deutsch bis Flg. {n}',
   'detail.dubFrom': 'Deutsch ab Flg. {n}',
   'detail.genres': 'Genres',
+  'detail.seriesPartsCount': '{count} Teile in dieser Reihe',
   'detail.werkangaben': 'Zum Werk',
   'detail.bewertung': 'Bewertung',
   'detail.studio': 'Studio',
