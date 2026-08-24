@@ -163,6 +163,22 @@ async function speicherSchreiben(werte) {
     lage = {
       fehlerseite: /keine funktionsf(?:ä|ae)hige Seite|Suchen Sie etwas?/i.test(text),
       regionWeg: /In deiner Region nicht mehr auf Prime Video verf(?:ü|ue)gbar/i.test(text),
+      /**
+       * Amazons dritter Satz für dasselbe Nein — und der einzige, den Filme
+       * bekommen.
+       *
+       * „Dieses Video ist derzeit nicht verfügbar." steht dort, wo sonst der
+       * Abspiel-Knopf sitzt. Belegt am 25.08.2026 an „Onigamiden — Legend of
+       * the Millennium Dragon" (Daniel, mit Bild): ein Film, also ohne
+       * Folgenliste und ohne „Folgen"-Reiter. Der Knopf schickte ihn deshalb
+       * zur „anderen Fassung im Auswahlfeld" — eine, die es bei einem Film
+       * nicht gibt: „kann nicht melden, dass dieses video nicht verfügbar ist".
+       *
+       * Das „derzeit" ändert nichts am Befund: Was heute nicht läuft, ist
+       * heute kein Angebot. Es wird als `weg` gemeldet, wie jedes andere Nein
+       * auch, und ein späterer Lauf darf es zurücknehmen.
+       */
+      nichtAbrufbar: /Dieses Video ist derzeit nicht verf(?:ü|ue)gbar/i.test(text),
       stoerung: /Bei der Verarbeitung deiner Anfrage ist ein Fehler aufgetreten/i.test(text),
       hatFolgenReiter: /(^|>)\s*Folgen\s*(<|$)/m.test(sichtbar),
     }
@@ -1536,7 +1552,7 @@ async function speicherSchreiben(werte) {
      * auch in der ausgelieferten Seite. Wer nur eine der beiden Quellen nimmt,
      * verpasst den Fall, in dem die andere ihn trägt.
      */
-    const { fehlerseite, regionWeg, stoerung } = seitenLage()
+    const { fehlerseite, regionWeg, stoerung, nichtAbrufbar } = seitenLage()
 
     /**
      * „Nicht mehr in deiner Region" ist eine Auskunft, ein Fehler ist keine.
@@ -1643,21 +1659,23 @@ async function speicherSchreiben(werte) {
        * Der Unterschied: Bei JoJo **gibt** es die Seite, sie führt nur diese
        * eine Fassung ohne Folgen. Hier gibt es die Seite nicht.
        */
-      if (!hatFolgenReiter && !fehlerseite && !regionWeg && !wartet) {
+      if (!hatFolgenReiter && !fehlerseite && !regionWeg && !nichtAbrufbar && !wartet) {
         knopf.dataset.tot = 'false'
         knopf.disabled = true
         knopf.textContent = 'keine Folgenliste — andere Fassung im Auswahlfeld wählen'
         return
       }
 
-      knopf.dataset.tot = String(regionWeg || !wartet)
+      knopf.dataset.tot = String(regionWeg || nichtAbrufbar || !wartet)
       knopf.disabled = false
       knopf.textContent = regionWeg
         ? '✕ in dieser Region nicht mehr verfügbar — melden'
-        : wartet
-          ? 'Tonspuren noch nicht geladen'
-          : '✕ nicht abrufbar — melden'
-      if (!regionWeg && wartet) knopf.disabled = true
+        : nichtAbrufbar
+          ? '✕ derzeit nicht verfügbar — melden'
+          : wartet
+            ? 'Tonspuren noch nicht geladen'
+            : '✕ nicht abrufbar — melden'
+      if (!regionWeg && !nichtAbrufbar && wartet) knopf.disabled = true
       return
     }
     knopf.dataset.tot = 'false'
