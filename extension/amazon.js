@@ -1129,6 +1129,20 @@ async function speicherSchreiben(werte) {
    * `amazon-leser.js`).
    */
   window.addEventListener('message', (e) => {
+    /**
+     * Eine gezielt geholte Staffel **ersetzt** den Zählstand.
+     *
+     * Sonst mischen sich die Folgen zweier Staffeln: Der Quelltext trägt nach
+     * einem Dropdown-Wechsel weiter die alten, und die neuen kämen obendrauf.
+     */
+    if (e?.data?.marke === MARKE && e.data.ersetzt) {
+      gesehen = leererStand()
+      letzteZahl = -1
+      gemeldeteStaffel = null
+      letzterStand = ''
+      letzterFortschritt = Date.now()
+      frischeStaffel = e.data.asin ?? null
+    }
     if (e.source !== window || e.data?.marke !== 'ak-amazon-folgen') return
     // `episodeCount` aus der Nachlade-Antwort ist verlässlicher als die Zahl im
     // Seitengerüst — die steht dort für die gerade gewählte Staffel.
@@ -1181,6 +1195,9 @@ async function speicherSchreiben(werte) {
    */
   const WIDERSPRUCH_MS = 5000
   let widerspruchSeit = 0
+
+  /** Für welche ASIN der Leser die Folgenliste zuletzt gezielt geholt hat. */
+  let frischeStaffel = null
   let gesamtGeaendertAm = 0
 
   function zeichnen() {
@@ -1517,10 +1534,20 @@ async function speicherSchreiben(werte) {
     const veraltet = Boolean(
       staffelLautAdresse && staffelLautSeite && staffelLautAdresse !== staffelLautSeite,
     )
-    if (veraltet) {
-      knopf.disabled = false
-      knopf.dataset.neuLaden = 'true'
-      knopf.textContent = '↻ Staffel gewechselt — hier klicken zum Neuladen'
+    /**
+     * Seit 0.73 wird die Staffel geholt, statt zum Neuladen aufzufordern.
+     *
+     * Der Leser fragt die Folgenliste mit der ASIN aus der Adresse ab — die
+     * wandert beim Dropdown-Wechsel mit, anders als der Quelltext. Solange das
+     * läuft, wartet der Knopf; kommt nichts, bleibt das Neuladen als Ausweg.
+     */
+    if (veraltet && frischeStaffel !== asinAusAdresse()) {
+      const wartetAufStaffel = Date.now() - widerspruchSeit < WIDERSPRUCH_MS
+      knopf.disabled = wartetAufStaffel
+      knopf.dataset.neuLaden = String(!wartetAufStaffel)
+      knopf.textContent = wartetAufStaffel
+        ? 'Staffel wird geladen …'
+        : '↻ hier klicken zum Neuladen'
       knopf.dataset.deutsch = 'false'
       return
     }

@@ -472,6 +472,75 @@
 
   let letzterFinger = ''
 
+  /**
+   * Die ASIN, die die **Adresse** gerade nennt.
+   *
+   * Sie ist beim Dropdown-Wechsel die einzige Quelle, die mitwandert — der
+   * Quelltext bleibt bei der Staffel, mit der die Seite geladen wurde.
+   */
+  function asinAusAdresse() {
+    return /\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10})(?:[/?]|$)/.exec(location.pathname)?.[1] ?? null
+  }
+
+  let geholteStaffel = null
+  let holtGerade = false
+
+  /**
+   * Die Folgenliste einer Staffel gezielt anfordern.
+   *
+   * Ohne „widgetToken": Der liefert einen bestimmten Abschnitt, die Kennung
+   * allein den ersten — und damit `episodeCount` und die Tonspuren, um die es
+   * geht. Weitere Abschnitte holt `nachholen()` wie bisher über die Tokens aus
+   * der Antwort.
+   *
+   * Gesendet wird mit `ersetzt: true`: Der Empfänger muss seinen Zählstand
+   * wegwerfen, sonst mischen sich die Folgen zweier Staffeln.
+   */
+  async function holeStaffel(asin) {
+    if (holtGerade || !asin || asin === geholteStaffel) return
+    holtGerade = true
+    geholteStaffel = asin
+    try {
+      const widgets = JSON.stringify([{ widgetType: 'EpisodeList' }])
+      const adresse =
+        '/gp/video/api/getDetailWidgets' +
+        `?titleID=${encodeURIComponent(asin)}&widgets=${encodeURIComponent(widgets)}`
+      const antwort = await nativFetch.call(window, adresse, {
+        credentials: 'include',
+        headers: { accept: 'application/json', 'x-requested-with': 'XMLHttpRequest' },
+      })
+      if (!antwort.ok) return
+      const text = await antwort.text()
+      const liste = JSON.parse(text)?.widgets?.episodeList
+      if (!liste) return
+
+      const funde = []
+      for (const folge of liste.episodes ?? []) {
+        const d = folge?.detail
+        if (!d || !Array.isArray(d.audioTracks) || !Number.isFinite(d.episodeNumber)) continue
+        funde.push({ nummer: d.episodeNumber, sprachen: namenAus(d.audioTracks) })
+      }
+      const gesamt = Number.isFinite(liste.episodeCount) ? liste.episodeCount : null
+      window.postMessage({ marke: MARKE, funde, gesamt, startAdresse, ersetzt: true, asin }, '*')
+
+      // Die übrigen Abschnitte wie gewohnt — die Tokens stehen in der Antwort.
+      const seiten = []
+      for (const seite of liste.actions?.episodePages ?? []) {
+        if (typeof seite?.token !== 'string' || seite.token.length <= 10) continue
+        if (seite.isSelected) geholt.add(seite.token)
+        seiten.push(seite.token)
+      }
+      if (seiten.length > 1) {
+        titleID = asin
+        void nachholen(seiten)
+      }
+    } catch {
+      /* Kein Netz oder eine unerwartete Antwort — dann bleibt es beim Mitlesen. */
+    } finally {
+      holtGerade = false
+    }
+  }
+
   function beiSeitenwechsel() {
     const jetzt = pfad()
     const finger = abschnittsFinger()
@@ -495,6 +564,12 @@
     diagnose.tokensImQuelltext = 0
     diagnose.anlaeufe = 0
     takten(false) // Die neue Staffel lädt gerade erst — wieder genau hinsehen.
+    /**
+     * Und die Folgenliste gezielt holen, statt auf einen Quelltext zu warten,
+     * der nie kommt. Das ist der Unterschied zwischen „Seite neu laden" und
+     * „einen Moment" (Daniel, 24.08.2026: „wozu muss ich neuladen").
+     */
+    void holeStaffel(asinAusAdresse())
   }
 
   /**
