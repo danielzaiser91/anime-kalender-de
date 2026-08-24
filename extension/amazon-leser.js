@@ -569,7 +569,29 @@
      * der nie kommt. Das ist der Unterschied zwischen „Seite neu laden" und
      * „einen Moment" (Daniel, 24.08.2026: „wozu muss ich neuladen").
      */
-    void holeStaffel(asinAusAdresse())
+    /**
+     * **Nur, wenn die ASIN allein die Staffel bestimmt.**
+     *
+     * `getDetailWidgets?titleID=<ASIN>` liefert die Folgenliste, die zu dieser
+     * Kennung gehört — und mehr weiß der Aufruf nicht. Bei einer Serie, die je
+     * Staffel eine eigene ASIN führt, ist das genau die richtige. Bei einer
+     * **Sammel-ASIN** für mehrere Staffeln (JoJo: 7, Jujutsu Kaisen: 4, Marco:
+     * 8) kommt dagegen immer dieselbe zurück, egal welche Staffel gerade
+     * gewählt ist.
+     *
+     * Was dann geschieht, hat Daniel am 25.08.2026 gemeldet: Er stand auf
+     * Jujutsu Kaisen Staffel 3 mit zwölf Folgen, der Knopf sagte „23 Folgen",
+     * und die Meldung ging mit dieser Zahl raus. Der Abruf hatte die Folgen
+     * einer anderen Staffel geliefert und den Zählstand damit **ersetzt** —
+     * `ersetzt: true` ist für den Fall gedacht, dass die neuen Daten die
+     * richtigen sind.
+     *
+     * Erkennbar ist die Sammel-ASIN an der Adresse: Trägt sie `_sN` mit N > 1,
+     * meint sie eine Staffel, die der Aufruf nicht ansteuern kann. Dann wird
+     * nicht geholt, und es bleibt beim Hinweis, neu zu laden.
+     */
+    const staffelInAdresse = Number(/[?&]ref_=[^&]*_s(\d+)/.exec(location.search ?? '')?.[1]) || 1
+    if (staffelInAdresse <= 1) void holeStaffel(asinAusAdresse())
   }
 
   /**
