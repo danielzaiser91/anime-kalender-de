@@ -23,7 +23,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { gzipSync, gunzipSync } from 'node:zlib'
 import { annUrl, deutscheRollen, rollenZusammenfuehren, type AnnRolle } from './lib/ann.ts'
-import { log, readJson, warn } from './lib/util.ts'
+import { log, readJson, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import type { Title } from '../shared/types.ts'
 
@@ -34,6 +34,17 @@ const zahl = (name: string, fallback: number) => {
 }
 const LIMIT = zahl('--limit', 0)
 const FORCE = args.includes('--force')
+/**
+ * Nach wie vielen Tagen ein Titel erneut abgefragt wird.
+ *
+ * **60 Tage**, weil die Sache sich langsam bewegt: Eine Synchronrolle wird
+ * eingetragen, wenn eine Fassung erscheint, nicht wöchentlich. Bei rund 2.100
+ * zugeordneten Titeln und einer Anfrage je Sekunde sind das etwa 35 am Tag —
+ * ein Tageslauf schafft sie nebenbei.
+ */
+const ALTER_TAGE = zahl('--alter', 60)
+/** Wann welche ANN-Kennung zuletzt abgefragt wurde — siehe Warteschlange. */
+const HOLSTAND = 'data/ann-holstand.json'
 
 const VOICES = 'public/data/voices'
 const RAW = 'data/ann-raw'
@@ -70,6 +81,42 @@ async function main(): Promise<void> {
   if (!existsSync(VOICES)) mkdirSync(VOICES, { recursive: true })
 
   /**
+   * Wiedervorlage über das **Alter**, nicht über „schon geholt".
+   *
+   * Bis zum 25.08.2026 filterte die Warteschlange auf `!existsSync(<Rohdatei>)`.
+   * Nach dem ersten vollständigen Durchlauf war sie damit für immer leer: Ein
+   * Titel, der einmal geholt wurde, kam nie wieder dran — und ANN trägt
+   * deutsche Sprechrollen laufend nach. Der Lauf meldete seit dem 15.08.
+   * „0 Treffer" und machte den Tageslauf rot.
+   *
+   * Dieselbe Konstruktion hat am 15.08.2026 bei Crunchyroll und aniSearch dazu
+   * geführt, dass 975 Titel ein unbelegtes „keine deutsche Synchro" trugen;
+   * `CLAUDE.md` führt sie seither als eigene Regel.
+   *
+   * **Und sie gehört an beide Stellen.** Die Schleife unten liest das Archiv,
+   * wenn es existiert — eine Warteschlange allein hätte den Titel zwar wieder
+   * vorgelegt, aber dieselbe alte Antwort noch einmal geparst.
+   */
+  const jetzt = Date.now()
+  /**
+   * Wann welche ANN-Kennung zuletzt abgefragt wurde — im Repo, nicht im
+   * Dateisystem.
+   *
+   * Das Änderungsdatum der Rohdatei taugt dafür nicht: `git checkout` setzt es
+   * auf jetzt. Gemessen am 25.08.2026 waren alle 2.114 Dateien „0,4 Tage alt",
+   * und in einem CI-Lauf, der frisch klont, wären es Sekunden. Eine Frist
+   * darüber hätte die Warteschlange erneut für immer leer gehalten.
+   *
+   * Gestempelt wird nur nach einer **Antwort** — ein HTTP-Fehler oder ein
+   * Netzausfall darf nicht sechzig Tage lang als erledigt gelten.
+   */
+  const holstand = readJson<Record<string, string>>(HOLSTAND, {})
+  const frisch = (annId: number): boolean => {
+    const wann = Date.parse(holstand[String(annId)] ?? '')
+    return Number.isFinite(wann) && jetzt - wann <= ALTER_TAGE * 24 * 60 * 60 * 1000
+  }
+
+  /**
    * Die Reihenfolge ist nicht beliebig: Titel **ohne** deutsche Stimmen zuerst.
    * Dort liegt der ganze Gewinn — bei den übrigen bestätigt ANN meist nur, was
    * AniList schon weiß. Bricht der Lauf vorzeitig ab, ist damit das Wertvollste
@@ -77,12 +124,21 @@ async function main(): Promise<void> {
    */
   const queue = titles
     .filter((t) => ann[String(t.id)])
-    .filter((t) => FORCE || !existsSync(`${RAW}/${ann[String(t.id)]}.xml.gz`))
+    .filter((t) => FORCE || !frisch(ann[String(t.id)]))
     .sort((a, b) => Number(Boolean(a.hasVoices)) - Number(Boolean(b.hasVoices)))
   const zuTun = LIMIT > 0 ? queue.slice(0, LIMIT) : queue
 
   if (!zuTun.length) {
-    log('ANN: nichts nachzuladen.')
+    /**
+     * Nichts zu tun ist kein Fehlschlag — und muss auch so gemeldet werden.
+     *
+     * Ohne diese Zeile verließ der Lauf die Funktion, ohne `recordSource` zu
+     * rufen. Der Gesundheitsstand blieb auf dem letzten Wert stehen, alterte
+     * vor sich hin und schlug nach neun Tagen Alarm — für einen Lauf, an dem
+     * nichts kaputt war.
+     */
+    log('ANN: nichts nachzuladen — alle Rohdaten sind jünger als die Frist.')
+    recordSource('ann-voices', Object.keys(ann).length)
     return
   }
   log(`ANN: ${zuTun.length} Titel werden abgefragt (~${Math.round((zuTun.length * ABSTAND_MS) / 60000)} min)`)
@@ -90,6 +146,8 @@ async function main(): Promise<void> {
   let neu = 0
   let ergaenzt = 0
   let ohne = 0
+  /** Wie oft ANN wirklich geantwortet hat — der einzige Ausfall, der zählt. */
+  let beantwortet = 0
   let letzte = 0
 
   for (const [i, title] of zuTun.entries()) {
@@ -100,7 +158,7 @@ async function main(): Promise<void> {
 
     let xml: string
     const archiv = `${RAW}/${annId}.xml.gz`
-    if (!FORCE && existsSync(archiv)) {
+    if (!FORCE && frisch(annId) && existsSync(archiv)) {
       xml = gunzipSync(readFileSync(archiv)).toString('utf8')
     } else {
       try {
@@ -113,11 +171,14 @@ async function main(): Promise<void> {
         }
         xml = await antwort.text()
         writeFileSync(archiv, gzipSync(xml))
+        holstand[String(annId)] = new Date().toISOString()
       } catch (e) {
         warn(`ANN ${annId}: ${String(e).slice(0, 80)}`)
         continue
       }
     }
+
+    beantwortet++
 
     const rollen = deutscheRollen(xml)
     if (!rollen.length) {
@@ -152,7 +213,25 @@ async function main(): Promise<void> {
   }
 
   log(`ANN fertig: ${neu} Titel erstmals mit deutschen Stimmen, ${ergaenzt} ergänzt, ${ohne} ohne deutsche Rollen`)
-  recordSource('ann-voices', neu + ergaenzt, neu + ergaenzt ? undefined : 'keine deutschen Rollen gefunden')
+  writeJson(HOLSTAND, holstand)
+
+  /**
+   * Gezählt wird der **Bestand**, nicht der Zuwachs.
+   *
+   * „0 neue deutsche Rollen" ist bei einer Quelle, die über zweitausend Titel
+   * führt und selten nachträgt, der Normalfall — und war trotzdem als
+   * Fehlschlag gemeldet. Was der Wächter wissen will, ist, ob die Quelle noch
+   * antwortet; das sagt die Zahl der abgefragten Titel, nicht die der neuen.
+   *
+   * Ein echter Ausfall sieht anders aus: Die Warteschlange hat Titel, und
+   * **keiner** davon kommt durch. Dann steht `beantwortet` auf null, und genau
+   * das wird gemeldet.
+   */
+  recordSource(
+    'ann-voices',
+    Object.keys(ann).length,
+    beantwortet ? undefined : `kein einziger von ${zuTun.length} Titeln beantwortet — Quelle prüfen`,
+  )
 }
 
 await main()

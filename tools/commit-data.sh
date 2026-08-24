@@ -98,6 +98,11 @@ QUELLEN=(
   # gebrauchtes Feld muss eine Änderung am Parser sein können und nicht ein
   # zweiter Lauf über eine fremde Schnittstelle mit hartem Limit.
   data/ann-raw
+  # Wann welche ANN-Kennung zuletzt abgefragt wurde. Ohne diese Datei bildet die
+  # Warteschlange sich wieder aus „welche Rohdatei fehlt" — und ist nach dem
+  # ersten vollständigen Durchlauf für immer leer (25.08.2026). Das Dateidatum
+  # taugt als Ersatz nicht: `git checkout` setzt es auf jetzt.
+  data/ann-holstand.json
   # Ergebnis des Crunchyroll-Synchro-Laufs. Steht hier vorsorglich: Läuft er
   # eines Tages in der CI, wären 918 Seitenabrufe sonst nach einem Reset weg.
   data/crunchyroll-dub.json

@@ -1494,8 +1494,53 @@ async function speicherSchreiben(werte) {
     ].join(String.fromCharCode(10))
   }
 
+  /**
+   * Gehört der Quelltext überhaupt zu der Staffel, die gerade gewählt ist?
+   *
+   * Amazon tauscht ihn beim Wechsel über das Auswahlfeld **nicht** aus (siehe
+   * CLAUDE.md). Die Adresse wandert mit, die JSON-Fracht bleibt. Nennen beide
+   * verschiedene Kennungen, gehören Folgenzahl, Tonspuren und Nummern im
+   * Quelltext nachweislich zu einer **anderen** Staffel.
+   *
+   * Bis zum 25.08.2026 flossen sie trotzdem in den Zählstand. Das war auch
+   * dann noch falsch, wenn der Mitleser die richtige Staffel längst geholt
+   * hatte: Sein `ersetzt: true` leert den Stand, und der nächste Durchlauf
+   * kippte die alten Folgen sofort wieder hinein — jede halbe Sekunde aufs
+   * Neue. Zwei Meldungen von Daniel an einem Abend, beide mit Bild:
+   *
+   * - „Jackie und Jill" Staffel 3: Knopf sagte 7 Folgen, die Staffel hat 6.
+   * - „Solar Impulse" Staffel 8: Knopf sagte 26, die Seite schreibt „1 Folge".
+   *
+   * Stimmen die Kennungen nicht überein, kommt der Zählstand deshalb
+   * ausschließlich vom Mitleser. Hat der noch nichts geliefert, steht er auf
+   * null, und der Knopf sagt „Tonspuren noch nicht geladen" — richtig, denn
+   * dann weiß niemand etwas über diese Staffel.
+   *
+   * Bei einer **Sammel-ASIN** sind beide Kennungen gleich, obwohl die Staffel
+   * gewechselt hat. Dagegen hilft diese Prüfung nicht — dort greift der
+   * Vergleich der Staffelnummern weiter unten, der zum Neuladen auffordert.
+   */
+  function quelltextPasst() {
+    /**
+     * Der Beleg ist der Mitleser, nicht die Adresse.
+     *
+     * Erst wenn er eine Staffel **gezielt geholt** hat (`ersetzt: true` mit
+     * ihrer Kennung), steht fest, dass der Quelltext zu einer anderen gehört —
+     * vorher ist jede Abweichung zwischen Adresse und Quelltext harmlos: Eine
+     * Sammelseite trägt im Quelltext die Sammel-Kennung und in der Adresse die
+     * der Staffel, und beim ersten Laden stimmt der Quelltext trotzdem.
+     *
+     * `gabStaffelwechsel` taugt als Wächter nicht: Es steht schon nach dem
+     * ersten Nachladen der Folgenliste auf true, weil sich dabei die
+     * Staffelnummer im Quelltext von „unbekannt" auf „1" ändert.
+     */
+    if (frischeStaffel === null) return true
+    const ausSeite = asinAusSeite()
+    return !ausSeite || frischeStaffel === ausSeite
+  }
+
   function zeichnen() {
-    const jetzt = spuren()
+    const jetzt = quelltextPasst() ? spuren() : { sprachen: new Set(), nummern: new Set(), gesamt: null }
     for (const s of jetzt.sprachen) gesehen.sprachen.add(s)
     for (const n of jetzt.nummern) gesehen.nummern.add(n)
     /**
@@ -1660,9 +1705,30 @@ async function speicherSchreiben(werte) {
        * eine Fassung ohne Folgen. Hier gibt es die Seite nicht.
        */
       if (!hatFolgenReiter && !fehlerseite && !regionWeg && !nichtAbrufbar && !wartet) {
-        knopf.dataset.tot = 'false'
-        knopf.disabled = true
-        knopf.textContent = 'keine Folgenliste — andere Fassung im Auswahlfeld wählen'
+        /**
+         * **Gesperrt war zu viel** (Daniel, 25.08.2026: „keine folgen für die
+         * staffel - melden nicht möglich", an „Space Dandy" Staffel 2).
+         *
+         * Die Regel entstand für JoJo, wo dieselbe Staffel zweimal im
+         * Auswahlfeld steht und nur die Kauffassung Folgen führt — dort ist
+         * eine Meldung falsch, die andere Fassung ist einen Klick entfernt.
+         * „Space Dandy" hat aber genau zwei Staffeln, eine davon ohne jede
+         * Folge, und keine Alternative dazu. Der Knopf schickte Daniel zu einer
+         * Fassung, die es nicht gibt.
+         *
+         * Welcher der beiden Fälle vorliegt, sieht der Mensch vor dem Bildschirm
+         * am Auswahlfeld — die Erweiterung sieht es nicht. Also entscheidet er:
+         * Der Knopf sagt, was er weiß, lässt melden und warnt im Tooltip.
+         *
+         * Gefährlich ist das nicht: Ein `weg` löscht nichts, es landet in der
+         * Arbeitsliste (`fetch-pruefungen.ts`) und wird dort vorgelegt.
+         */
+        knopf.dataset.tot = 'true'
+        knopf.disabled = false
+        knopf.textContent = '✕ keine Folgen für diese Staffel — melden'
+        knopf.title =
+          'Steht dieselbe Staffel noch einmal im Auswahlfeld (meist mit Kaufsymbol), ' +
+          'dort nachsehen statt melden — dann führt nur die andere Fassung die Folgen.'
         return
       }
 
