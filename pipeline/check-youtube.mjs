@@ -30,6 +30,9 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+// Die beiden Titel-Muster stehen an einer Stelle: Der Bericht braucht
+// dieselben, und zwei Fassungen liefen garantiert auseinander.
+import { DEUTSCHE_SPUR, ANDERE_FASSUNG } from './lib/titel-muster.mjs'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const args = process.argv.slice(2)
@@ -55,14 +58,6 @@ for (const t of liste) {
 const ZIEL = resolve(wurzel, 'data/youtube-befunde.json')
 const bestand = existsSync(ZIEL) ? JSON.parse(readFileSync(ZIEL, 'utf8')) : {}
 
-/**
- * Ein deutscher Titel ist ein Hinweis, kein Beleg.
- *
- * Gesucht wird nach Wörtern, die es nur im Deutschen gibt — „der", „das" und
- * „ein" stehen auch in anderen Sprachen, „Der Film" und „Ganzer Film" nicht.
- */
-const DEUTSCHE_SPUR =
-  /\b(der Film|ganzer Film|deutsch|german dub|auf Deutsch|Synchronfassung|Staffel|Folge)\b/i
 
 let gelesen = 0
 let tot = 0
@@ -200,7 +195,10 @@ for (const [i, v] of arbeit.entries()) {
         // gelesen werden, bleibt die Frage offen statt falsch beantwortet.
         kostenpflichtig: seite?.kaufAngebot === true ? true : undefined,
       }
-      if (seite?.videoTitel) befund.deutscherTitel = DEUTSCHE_SPUR.test(seite.videoTitel)
+      if (seite?.videoTitel) {
+        befund.deutscherTitel = DEUTSCHE_SPUR.test(seite.videoTitel)
+        befund.andereFassung = ANDERE_FASSUNG.test(seite.videoTitel)
+      }
       if (befund.kostenpflichtig) kasse++
     } else if (!antwort.ok) {
       // Ein anderer Fehler ist keine Auskunft — beim nächsten Lauf noch einmal.
@@ -214,6 +212,7 @@ for (const [i, v] of arbeit.entries()) {
         videoTitel: daten.title ?? null,
         kanal: daten.author_name ?? null,
         deutscherTitel: DEUTSCHE_SPUR.test(daten.title ?? ''),
+        andereFassung: ANDERE_FASSUNG.test(daten.title ?? ''),
       }
       const ton = await tonspur(v.url)
       if (ton) {
