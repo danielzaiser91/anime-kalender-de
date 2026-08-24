@@ -672,7 +672,22 @@ async function speicherSchreiben(werte) {
     chrome.storage?.onChanged?.addListener?.((aenderungen, bereich) => {
       if (bereich !== 'local' || !aenderungen.amazonErledigt) return
       erledigt = aenderungen.amazonErledigt.newValue ?? {}
+      /**
+       * Auch der Melde-Knopf, nicht nur die Zahl in der Übersicht.
+       *
+       * Meldet Daniel denselben Titel in einem zweiten Tab, sprang die Zahl
+       * dort sofort — der Knopf erst Sekunden später (Daniel, 25.08.2026:
+       * „der melde button aktualisiert erst nach weiteren ~5sek").
+       *
+       * Der Grund ist `letzterStand`: `zeichnen()` steigt früh aus, wenn sich
+       * an Sprache, Folgenzahl und Vollständigkeit nichts geändert hat — und
+       * eine fremde Meldung ändert daran nichts. Sie ändert nur den Bestand,
+       * und den muss die Signatur nicht kennen; sie muss nur einmal verworfen
+       * werden.
+       */
+      letzterStand = ''
       uebersichtZeichnen()
+      zeichnen()
     })
   } catch {
     // Erweiterung neu geladen — dann gibt es hier nichts mehr zu hören.
@@ -1528,6 +1543,31 @@ async function speicherSchreiben(werte) {
         knopf.textContent = 'Amazon meldet einen Fehler — Seite neu laden'
         return
       }
+      /**
+       * Eine Staffel ohne Folgenliste ist nicht „nicht abrufbar".
+       *
+       * Amazon führt dieselbe Staffel zweimal, wenn es sie im Abo **und** zum
+       * Kauf gibt — und die Fassung, die im Abo fehlt, hat gar keine
+       * Folgenliste: kein „Folgen"-Reiter, nur „Ähnliches" und „Details".
+       * Belegt am 25.08.2026 an JoJo (B0CG7SS9KL): Das Auswahlfeld führt
+       * „Staffel 3" und „Staffel 4" je zweimal, einmal mit Kaufsymbol. Die
+       * Fassung mit Symbol trägt 48 deutsche Folgen, die andere nichts.
+       *
+       * Ein `weg` von hier würde den **ganzen Verweis** entfernen — für eine
+       * Serie, die woanders vollständig dasteht. Der Knopf schickt Daniel
+       * deshalb zur anderen Fassung, statt eine Meldung anzubieten.
+       *
+       * Erkannt wird es am fehlenden Reiter, nicht am Kaufsymbol: Der Reiter
+       * ist die Aussage über die Folgenliste, das Symbol nur über den Preis.
+       */
+      const hatFolgenReiter = /(^|>)\s*Folgen\s*(<|$)/m.test(document.body?.innerText ?? '')
+      if (!hatFolgenReiter && !regionWeg && !wartet) {
+        knopf.dataset.tot = 'false'
+        knopf.disabled = true
+        knopf.textContent = 'keine Folgenliste — andere Fassung im Auswahlfeld wählen'
+        return
+      }
+
       knopf.dataset.tot = String(regionWeg || !wartet)
       knopf.disabled = false
       knopf.textContent = regionWeg
