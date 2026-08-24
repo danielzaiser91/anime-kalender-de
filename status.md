@@ -258,6 +258,26 @@ Entweder bleibt die Erweiterung dort dauerhaft im Einsatz, oder diese 640 bleibe
 dritter Weg ist bislang nicht gefunden.
 
 ### Queue
+
+**Karussell scrollt nicht zum ausgewählten Titel** (beobachtet 24.08.2026, 16:05)
+
+Daniel öffnet im Kalender das Detail-Panel von „The Ghost in the Shell". Das Reihen-Karussell
+oben zeigt die Reihe von vorn — Film 1995, Stand Alone Complex 2002, … — der **gerade
+geöffnete Titel steht aber am Ende der Reihe und liegt außerhalb des sichtbaren Bereichs.**
+Man sieht nicht, wo man gerade ist, und muss selbst scrollen.
+
+Bei dieser Reihe fällt es besonders auf: Sie hat **21 Teile**, der aktive ist der letzte.
+
+**Bewusst zurückgestellt** (Daniels Entscheidung): Der Umbau des Detail-Panels steht ohnehin
+an, und der Reihen-Umschalter bekommt dort einen neuen Platz und eine neue Form. Diesen Fehler
+jetzt im alten Karussell zu beheben, wäre Arbeit an etwas, das danach nicht mehr existiert.
+
+**Beim Umbau mitnehmen:** Der aktive Teil muss beim Öffnen sichtbar sein — `scrollIntoView`
+mit `block: nearest` und `inline: center` auf das aktive Element, sobald das Panel steht.
+Gilt für jede der drei vorgeschlagenen Formen (Leiste unter dem Anbieter, Reiter über der
+Bühne, Abschnitt unten). Beim Reiter-Entwurf wiegt es am schwersten: Dort ist der aktive
+Eintrag das einzige Merkmal, an dem man seine Position erkennt.
+
 | Aufgabe | SP | Notiz |
 |---|---|---|
 | ~~① Automatisierte Quelle für Tonspuren und Neuzugänge~~ — **steht, läuft täglich** (23.08.2026, 14:45) | 5 | **Die Quelle war seit dem 21.08. angebunden, lief aber nur am 2. jedes Monats** (`tonspuren-monatlich.yml`) und holte nur den Bestandskatalog. Eine Staffel, die am 3. startet, war damit dreissig Tage unsichtbar. Neu: `pipeline/fetch-motn-changes.ts` fragt `/changes` mit `change_type=new` fuer Netflix, Prime Video und Disney+ ab und haengt im taeglichen `refresh-data`-Lauf. **Kosten: eine Anfrage am Tag** (~30 im Monat) gegen ein Kontingent von 1.000. Liefert die Tonspur mit (`audios: [deu, jpn]`) und `imdbId`/`tmdbId` fuer die Zuordnung. **Gemessen statt angenommen:** `upcoming` ist fuer Anime nutzlos (12 kuenftige Serien fuer ganz Deutschland, kein Anime), `new` bringt welche (Beelzebub, The Dangers in My Heart, GTO 2026). **Offen als naechster Schritt:** Die gesammelten Aenderungen mit unserem Datensatz verknuepfen — bisher landen sie nur in `data/motn-changes.json` |
