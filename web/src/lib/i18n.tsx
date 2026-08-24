@@ -341,9 +341,16 @@ const TEXTE = {
   'detail.showFewer': 'weniger anzeigen',
   'detail.watchOn': 'Bei {platform} ansehen',
   'detail.buy': 'Kaufen',
-  'detail.addToGoogle': 'Zu Google Calendar',
+  // Ein Knopf sagt, was der Klick bewirkt, nicht wohin er zeigt (Daniel,
+  // 24.08.2026: „das button-label sollte lieber sagen was der effekt des
+  // klicks ist"). Zwei Fassungen, weil zwei Plätze: der große Knopf trägt
+  // das Verb, die Zeile je Termin nur das Ziel — dort steht das Verb im
+  // aria-label, und für eine Zeile mit Datum und Folgennummer wäre der
+  // ganze Satz zu lang.
+  'detail.addToGoogleAction': 'In Google Calendar eintragen',
+  'detail.addToGoogle': 'Google Calendar',
   'detail.addSingle': 'Diese Folge zu Google Calendar hinzufügen',
-  'detail.downloadIcs': '.ics laden',
+  'detail.downloadIcs': 'Kalenderdatei laden',
   'detail.downloadIcsHint':
     'Alle kommenden Folgen als Kalenderdatei. Ein Doppelklick trägt sie in Outlook, Apple Kalender oder Thunderbird ein. Für Google Calendar gibt es den Knopf daneben.',
   'detail.share': 'Teilen',

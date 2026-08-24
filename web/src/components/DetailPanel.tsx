@@ -551,7 +551,7 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
         */}
         {naechster && (
           <Button href={googleCalendarUrl(naechster)} size="sm">
-            📅 {t('detail.addToGoogle')}
+            📅 {t('detail.addToGoogleAction')}
           </Button>
         )}
         {kuenftige.length > 0 && (
@@ -561,9 +561,10 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
           >
             ⬇ {t('detail.downloadIcs')}
             {/*
-              Was eine ICS-Datei ist, weiß nicht jeder — das Kürzel steht für
-              nichts, was man erraten könnte. Der Hinweis erklärt es an Ort und
-              Stelle, statt ihn im Kopf des Lesers vorauszusetzen.
+              Der Knopf sagt seit dem 24.08.2026 „Kalenderdatei laden" statt
+              „.ics laden" — das Kürzel steht für nichts, was man erraten kann.
+              Womit sich die Datei öffnen lässt, sagt weiterhin der Hinweis; das
+              gehört nicht auf einen Knopf.
             */}
             <Tooltip text={t('detail.downloadIcsHint')} seite="oben">
               <span className="ml-1.5 inline-flex size-4 cursor-help items-center justify-center rounded-full border border-current align-[1px] text-[10px] leading-none font-bold opacity-60">
