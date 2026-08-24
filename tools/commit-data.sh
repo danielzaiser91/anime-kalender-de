@@ -190,9 +190,31 @@ for versuch in $(seq 1 "$VERSUCHE"); do
 
     git reset --hard origin/main --quiet
 
+    # Zurückspielen — und hier steckte bis zum 24.08.2026 ein Fehler, der das
+    # Repository in 14 Tagen um 13.458 Dateien aufgebläht hat.
+    #
+    # `cp -r QUELLE ZIEL` legt die Quelle **in** das Ziel, wenn das Ziel bereits
+    # ein Verzeichnis ist. Genau das ist hier der Normalfall: Der `git reset`
+    # eine Zeile höher stellt `data/adn-raw` aus dem Fernstand wieder her, also
+    # existiert der Ordner, wenn die Rettung zurückkommt. Ergebnis:
+    # `data/adn-raw/adn-raw`.
+    #
+    # Und es blieb nicht bei einer Ebene: Beim nächsten Lauf wurde der bereits
+    # verschachtelte Ordner gerettet und erneut hineinkopiert. Am 21.08.2026
+    # wuchs die Tiefe an einem einzigen Tag von 1 auf 8 — im Takt der Läufe.
+    # Zuletzt lag `data/proposals` 21 Ebenen tief; auf Windows liess sich das
+    # Repository nicht mehr auschecken („Filename too long"), und `git pull`
+    # brach ab.
+    #
+    # Der Fehler war unsichtbar, weil er nichts kaputt macht: Die Läufe liefen
+    # grün, die Daten stimmten, nur wuchs im Hintergrund eine Kopie der Kopie.
+    #
+    # Deshalb Zielordner erst weg, dann kopieren. Das ist eindeutig, egal ob das
+    # Ziel existiert oder nicht — und behandelt einzelne Dateien mit.
     for pfad in "${QUELLEN[@]}"; do
       [ -e "$RETTUNG/$pfad" ] || continue
       mkdir -p "$(dirname "$pfad")"
+      rm -rf "$pfad"
       cp -r "$RETTUNG/$pfad" "$pfad"
     done
     rm -rf "$RETTUNG"
