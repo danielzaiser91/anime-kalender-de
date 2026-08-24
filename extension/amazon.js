@@ -438,14 +438,29 @@ async function speicherSchreiben(werte) {
      * derselbe und deshalb brauchbar; die Staffelnummer kommt ausschließlich
      * aus dem Verweis-Parameter.
      */
-    const ausAuswahl = /([^<>"]{3,120}?)\s+[-–—]\s+(?:Staffel|Season)\s+\d+/i.exec(
-      seitenHtml(),
-    )?.[1]
-    if (ausAuswahl) {
-      const sauber = saeubern(ausAuswahl)
-      if (sauber) return sauber
-    }
-
+    /**
+     * **Die Reihenfolge ist seit dem 24.08.2026 umgekehrt** — und das aus einem
+     * Fehler heraus, der teuer hätte werden können.
+     *
+     * Das Auswahlfeld-Muster stand vorn. Es sucht „*Titel* – Staffel N" im
+     * **gesamten** HTML, und wo das echte Auswahlfeld nur „Staffel 1" trägt —
+     * ohne Serienname davor, wie bei „Chaika" —, trifft es den ersten
+     * passenden Text irgendwo sonst: eine Empfehlungskachel.
+     *
+     * Sichtbar wurde es im Diagnose-Tooltip, den Daniel geschickt hat:
+     *
+     *     Serie im Bestand: Ragna Crimson · Seitentitel: Ragna Crimson
+     *
+     * Auf einer Chaika-Seite. Und weil der Serientitel seit 0.72 Meldungen
+     * einem Listeneintrag zuordnet, hätte das den Befund einer Serie an eine
+     * andere geschrieben.
+     *
+     * `og:title` ist dafür gemacht, **diese** Seite zu benennen, und kann
+     * nichts aus einer Kachel aufschnappen. Das Auswahlfeld bleibt als
+     * Rückfall: Bei „Oshi no Ko" Staffel 3 sind `og:title`, `twitter:title`
+     * und `<h1>` allesamt leer (gemessen 23.08.2026), und dort ist es die
+     * einzige Quelle.
+     */
     const ausOg = document
       .querySelector?.('meta[property="og:title"], meta[name="twitter:title"]')
       ?.getAttribute?.('content')
@@ -460,6 +475,14 @@ async function speicherSchreiben(werte) {
         const sauber = saeubern(text)
         if (sauber) return sauber
       }
+    }
+
+    const ausAuswahl = /([^<>"]{3,120}?)\s+[-–—]\s+(?:Staffel|Season)\s+\d+/i.exec(
+      seitenHtml(),
+    )?.[1]
+    if (ausAuswahl) {
+      const sauber = saeubern(ausAuswahl)
+      if (sauber) return sauber
     }
 
     const html = seitenHtml()
@@ -1151,7 +1174,22 @@ async function speicherSchreiben(werte) {
      * Sonst mischen sich die Folgen zweier Staffeln: Der Quelltext trägt nach
      * einem Dropdown-Wechsel weiter die alten, und die neuen kämen obendrauf.
      */
-    if (e?.data?.marke === MARKE && e.data.ersetzt) {
+    /**
+     * Die Marke steht hier als Literal — `MARKE` gehört dem Leser.
+     *
+     * Die beiden Skripte laufen in getrennten Welten: `amazon-leser.js` in der
+     * Seitenwelt, dieses hier in der isolierten. Eine Konstante von dort ist
+     * hier schlicht nicht vorhanden, und der Zugriff wirft — bei **jeder**
+     * Nachricht, also bei jedem Takt. Genau das stand am 24.08.2026 in Daniels
+     * Fehlerkonsole: „Uncaught ReferenceError: MARKE is not defined".
+     *
+     * Die Folge war die schlimmste Sorte: Der Hörer starb, die gezielt geholte
+     * Staffel kam nie an, und der Knopf verlangte weiter ein Neuladen — für
+     * einen Umbau, der genau das abschaffen sollte.
+     *
+     * Zwei Zeilen tiefer stand das Literal die ganze Zeit richtig da.
+     */
+    if (e?.data?.marke === 'ak-amazon-folgen' && e.data.ersetzt) {
       gesehen = leererStand()
       letzteZahl = -1
       gemeldeteStaffel = null

@@ -236,5 +236,35 @@ const echt =
   )
 }
 
+/**
+ * Der Serientitel kommt aus einer Quelle, die DIESE Seite benennt.
+ *
+ * Das Auswahlfeld-Muster sucht "<Titel> - Staffel N" im gesamten HTML. Wo das
+ * echte Auswahlfeld nur "Staffel 1" traegt -- ohne Serienname davor --, trifft
+ * es den ersten passenden Text irgendwo sonst: eine Empfehlungskachel.
+ *
+ * Gemessen am 24.08.2026 an der Chaika-Seite B07LHFLDBS:
+ *
+ *     Auswahlfeld-Muster -> "DanMachi - Is It Wrong to Try to Pick Up Girls..."
+ *     og:title           -> leer
+ *     h1                 -> "Chaika"
+ *
+ * In Daniels Tooltip stand an derselben Stelle "Ragna Crimson" -- je nachdem,
+ * welche Kachel gerade geladen war. Und weil der Serientitel seit 0.72
+ * Meldungen einem Listeneintrag zuordnet, haette das den Befund einer Serie an
+ * eine andere geschrieben.
+ */
+{
+  const fs = require("node:fs")
+  const leser = fs.readFileSync(require("node:path").resolve(__dirname, "amazon.js"), "utf8")
+  const stelleOg = leser.indexOf("og:title")
+  const stelleMuster = leser.indexOf("const ausAuswahl =")
+  pruefe(
+    "og:title und h1 werden vor dem Auswahlfeld-Muster gelesen",
+    stelleOg > 0 && stelleMuster > 0 && stelleOg < stelleMuster,
+    { og: stelleOg, muster: stelleMuster },
+  )
+}
+
 console.log(fehler.length ? `\n${fehler.length} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler.length ? 1 : 0)
