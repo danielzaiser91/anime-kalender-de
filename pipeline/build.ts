@@ -1925,6 +1925,24 @@ function main(): void {
           year: Number(first.date.slice(0, 4)),
           sources: [ADN_CALENDAR_URL],
         })
+        /**
+         * ADNs Titel ist der deutsche — er wird zum Suchbegriff.
+         *
+         * Seit dem 24.08.2026 fragt `fetch-adn.ts` mit `Accept-Language: de`,
+         * und seither heißt Serie 1331 nicht mehr „Hero Without a Class: Who
+         * Even Needs Skills?!", sondern „Der Held ohne Klasse: Der Aufstieg
+         * eines Talentlosen". Genau danach hat Daniel gesucht und nichts
+         * gefunden — der Titel stand im Kalender, aber unter seinem japanischen
+         * Namen, und `titleDe` war leer.
+         *
+         * Die Suche im Frontend liest `titleDe` bereits (`web/src/lib/filters.ts`).
+         * Es fehlte nur der Wert: 99 von 2.762 Titeln hatten einen.
+         *
+         * **Ein vorhandener Wert wird nicht angetastet.** Ein von Hand oder aus
+         * einer kuratierten Quelle gesetzter Titel ist verlässlicher als der
+         * eines Anbieters, der ihn nach eigenem Geschmack schreibt.
+         */
+        if (title && show.title && !title.titleDe) title.titleDe = werkTitel(show.title)
         adnAdded++
       }
     }

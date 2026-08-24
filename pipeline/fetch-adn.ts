@@ -53,7 +53,27 @@ const SHOWS_API = `${BASE}/show`
  * — mit ehrlicher Kennung antwortet dieselbe Schnittstelle mit 200.
  */
 const UA = 'anime-kalender.de/1.0 (+https://anime-kalender.de; danielzaiser91@googlemail.com)'
-const HEADERS = { 'User-Agent': UA, 'X-Target-Distribution': 'de', Accept: 'application/json' }
+/**
+ * `Accept-Language: de` entscheidet über die **Sprache der Titel**.
+ *
+ * `X-Target-Distribution: de` allein bestimmt nur den Katalog — welche Serien
+ * hier überhaupt laufen und welche Tonspuren sie tragen. Die Titel kommen
+ * damit weiterhin auf Englisch:
+ *
+ *     ohne Accept-Language:  "Hero Without a Class: Who Even Needs Skills?!"
+ *     mit Accept-Language:   "Der Held ohne Klasse: Der Aufstieg eines Talentlosen"
+ *
+ * Aufgefallen am 24.08.2026, weil Daniel den Titel im Kalender nicht fand: Der
+ * Anime **stand** darin (AniList 169969, mit ADN-Verweis), aber unter seinem
+ * japanischen Namen. Für einen deutschen Anime-Kalender ist das der Fehler mit
+ * der größten Wirkung — wer den deutschen Namen kennt, findet nichts.
+ */
+const HEADERS = {
+  'User-Agent': UA,
+  'X-Target-Distribution': 'de',
+  'Accept-Language': 'de',
+  Accept: 'application/json',
+}
 
 const args = process.argv.slice(2)
 const numberArg = (name: string, fallback: number) => {
