@@ -620,6 +620,60 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   }, 30)
 }
 
+// --- 2g4. Nach dem Dropdown-Wechsel ist der Quelltext veraltet ------------
+
+/**
+ * Gemessen von Daniel am 24.08.2026 mit `tools/amazon-diagnose.js`, an zwei
+ * Titeln unabhaengig:
+ *
+ *     GOSICK, Staffel 1 -> 2
+ *     ms     adrAsin       adrStaffel   qtAsin        qtStaffel
+ *     262    B0B8MTPWRN    -            B0B8MTPWRN    1
+ *     7261   B0B8XVGL62    2            B0B8MTPWRN    1
+ *     8519   B0B8XVGL62    2            B0B8MTPWRN    1
+ *
+ *     Captain Tsubasa, Staffel 1 -> 2 -> 3
+ *     263    B07C1D8JXX    -            B07C1D8JXX    1
+ *     12018  B07CZRCQ6V    2            B07C1D8JXX    1
+ *     19766  B07DNKH81W    3            B07C1D8JXX    1
+ *
+ * **Amazon tauscht den Quelltext beim Dropdown-Wechsel nicht aus.** Adresse und
+ * ASIN wandern mit, die JSON-Fracht bleibt die der geladenen Seite -- nach
+ * zwanzig Sekunden und zwei Wechseln immer noch. Folgenzahl, Staffelnummer und
+ * Abschnitts-Tokens gehoeren danach zur alten Staffel.
+ *
+ * Das war die Wurzel eines Dutzends Fehler an einem Abend. Kein Warten half,
+ * weil es nichts gab, worauf zu warten war.
+ */
+{
+  const listenAsin = Object.keys(ECHTE_LISTE)[0]
+  const { angehaengt, sandkasten, takte, gemeldet } = starte(listenAsin)
+  // Der Quelltext nennt Staffel 1, die Adresse Staffel 3 -- genau die Lage
+  // nach zwei Dropdown-Wechseln.
+  sandkasten.document.documentElement.innerHTML =
+    '<span>1985 5 Staffeln</span>' +
+    '"titleID":"B07C1D8JXX","seasonNumber":1,' +
+    '"audioTracks":["Deutsch"],"episodeNumber":1,"episodeCount":26,"benefitId":"Prime"'
+  sandkasten.location.search = '?ref_=atv_dp_season_select_s3'
+  for (const takt of takte) takt()
+
+  const knopf = angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))
+  pruefe(
+    'veralteter Quelltext: der Knopf verlangt Neuladen statt zu melden',
+    knopf?.textContent.includes('Neuladen'),
+    knopf?.textContent,
+  )
+
+  knopf?.hoerer?.click?.()
+  setTimeout(() => {
+    pruefe(
+      'und ein Klick darauf meldet nichts',
+      gemeldet.length === 0,
+      gemeldet.length,
+    )
+  }, 30)
+}
+
 // --- 2h. Nach dem Neuladen der Erweiterung --------------------------------
 
 /**

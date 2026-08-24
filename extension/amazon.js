@@ -1407,6 +1407,56 @@ async function speicherSchreiben(werte) {
      * übereinstimmen — tut sie es nicht, hinkt eine der beiden Quellen hinterher,
      * und das ist genau der Wechsel.
      */
+    /**
+     * Nach einem Dropdown-Wechsel hilft nur Neuladen — gemessen, nicht vermutet.
+     *
+     * Am 24.08.2026 hat Daniel den Wechsel mit `tools/amazon-diagnose.js`
+     * aufgezeichnet („GOSICK", Staffel 1 → 2):
+     *
+     *     ms     adrAsin       adrStaffel   qtAsin        qtStaffel
+     *     262    B0B8MTPWRN    —            B0B8MTPWRN    1
+     *     7261   B0B8XVGL62    2            B0B8MTPWRN    1
+     *     8519   B0B8XVGL62    2            B0B8MTPWRN    1
+     *
+     * **Amazon tauscht den Quelltext gar nicht aus.** Die Folgenliste wird im
+     * DOM ersetzt, die JSON-Fracht im Skriptblock bleibt die der geladenen
+     * Seite — auch nach achteinhalb Sekunden noch. Alles, was hier gelesen
+     * wird, gehört danach zur **alten** Staffel: Folgenzahl, Kennung,
+     * Staffelnummer, Abschnitts-Tokens.
+     *
+     * Das erklärt jeden Fehler dieses Abends, und es erklärt, warum keine
+     * Wartezeit half: Es gab nichts, worauf zu warten war. Ein Dutzend
+     * Wächter hat versucht, aus Daten Sinn zu machen, die nicht existieren.
+     *
+     * Die einzige ehrliche Auskunft ist deshalb: neu laden. Der Knopf sagt es
+     * und tut es auf Klick — automatisch neu zu laden wäre ein Eingriff in eine
+     * Seite, die Daniel gerade benutzt.
+     */
+    /**
+     * Verglichen wird die **Staffelnummer**, nicht die Kennung.
+     *
+     * Dass Adresse und Quelltext verschiedene ASINs nennen, ist der Normalfall:
+     * In der Adresse steht die Kennung, über die der Verweis in unseren Bestand
+     * kam, im Quelltext die der geladenen Staffel. Wer daraus einen Widerspruch
+     * macht, sperrt jede erste Seite.
+     *
+     * Die Nummer dagegen kann nicht auseinanderlaufen, ohne dass etwas veraltet
+     * ist — in Daniels Messung stand die Adresse auf 3, der Quelltext auf 1.
+     */
+    const staffelLautAdresse = staffelAusAdresse()
+    const staffelLautSeite = staffelAusSeite()
+    const veraltet = Boolean(
+      staffelLautAdresse && staffelLautSeite && staffelLautAdresse !== staffelLautSeite,
+    )
+    if (veraltet) {
+      knopf.disabled = false
+      knopf.dataset.neuLaden = 'true'
+      knopf.textContent = '↻ Staffel gewechselt — hier klicken zum Neuladen'
+      knopf.dataset.deutsch = 'false'
+      return
+    }
+    knopf.dataset.neuLaden = 'false'
+
     if (!zahlenStehen) {
       knopf.disabled = true
       knopf.textContent = 'Staffel wechselt — einen Moment'
@@ -1586,6 +1636,19 @@ async function speicherSchreiben(werte) {
         zeichnen()
         return
       }
+    }
+    /**
+     * Steht der Knopf auf „Neuladen", meldet er nicht — er lädt neu.
+     *
+     * Der Quelltext gehört nach einem Dropdown-Wechsel zur alten Staffel; eine
+     * Meldung von hier wäre eine Meldung über die falsche Staffel. Genau das
+     * ist heute mehrfach passiert.
+     */
+    if (knopf.dataset.neuLaden === 'true') {
+      knopf.textContent = '↻ lädt neu …'
+      // Defensiv: Im Testsandkasten gibt es kein `reload`.
+      if (typeof location?.reload === 'function') location.reload()
+      return
     }
     htmlNeuLesen()
     const nichtAbrufbar = knopf.dataset.tot === 'true'

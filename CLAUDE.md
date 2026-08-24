@@ -372,6 +372,50 @@ Zeichen der Abruf, den ein Klick aufs Auswahlfeld auslöst — keine Suche, kein
 zweite Serie. Wo die Grenze greift oder ein Abruf fehlschlägt, bleibt die Zahl unvollständig,
 und der Knopf sagt es.
 
+### Der Quelltext veraltet beim Staffelwechsel — und das ist die Wurzel
+
+**Amazon tauscht beim Wechsel über das Auswahlfeld den Quelltext nicht aus.** Adresse und ASIN
+wandern mit, die JSON-Fracht im Skriptblock bleibt die der geladenen Seite. Gemessen am
+24.08.2026 mit `tools/amazon-diagnose.js`, an zwei Titeln unabhängig:
+
+```
+GOSICK, Staffel 1 → 2
+ms     adrAsin       adrStaffel   qtAsin        qtStaffel
+262    B0B8MTPWRN    —            B0B8MTPWRN    1
+7261   B0B8XVGL62    2            B0B8MTPWRN    1
+8519   B0B8XVGL62    2            B0B8MTPWRN    1
+
+Captain Tsubasa, Staffel 1 → 2 → 3
+263    B07C1D8JXX    —            B07C1D8JXX    1
+12018  B07CZRCQ6V    2            B07C1D8JXX    1
+19766  B07DNKH81W    3            B07C1D8JXX    1
+```
+
+Nach zwanzig Sekunden und zwei Wechseln steht der Quelltext unverändert auf Staffel 1.
+Folgenzahl, Staffelnummer, Kennung und Abschnitts-Tokens gehören danach alle zur **alten**
+Staffel.
+
+**Daraus folgt für jede Auswertung dieser Seite:** Nach einem Dropdown-Wechsel ist der
+Quelltext wertlos. Verlässlich bleibt allein die Adresse — sie trägt `?ref_=…_sN` und die ASIN
+der gewählten Staffel.
+
+Die Erweiterung verlangt deshalb seit dem 24.08.2026 ein Neuladen, sobald Adresse und
+Quelltext verschiedene Staffelnummern nennen. Das ist keine Notlösung: Sie kann nicht wissen,
+was Staffel 3 enthält, wenn Amazon es nirgends hinschreibt.
+
+**Was das an einem Abend gekostet hat**, gehört dazu: ein Dutzend Fehler, die alle wie
+verschiedene Fehler aussahen — falsche Folgenzahl, verschluckte Meldungen, „nicht abrufbar"
+bei vorhandenen Titeln, hängende Knöpfe. Dagegen wurden nacheinander sechs Wächter gebaut
+(Beruhigungsfristen, Signaturvergleiche, Zustandsprüfungen), von denen drei zurückgenommen
+werden mussten, weil sie neue Fehler erzeugten — und einer brachte den Tab mit „Out of Memory"
+zum Absturz, weil jede neue Prüfung den 1,6 MB großen Quelltext ein weiteres Mal las.
+
+**Die Lehre ist nicht die Regel, sondern der Weg dorthin:** Drei Minuten Messung an der echten
+Seite hätten das an jedem Punkt des Abends beendet. Der Grund, warum es sie nicht gab, war,
+dass die Seite in Daniels angemeldeter Sitzung läuft — also wurde geraten statt gefragt. Wo
+eine Messung nur ein Mensch machen kann, wird sie **erbeten**, nicht ersetzt.
+
+
 ### Bei einem Kanal-Titel ist Amazons Sprachangabe kein Beleg
 
 Prime Video führt zweierlei unter derselben Oberfläche: eigene Inhalte („In Prime enthalten",
