@@ -1848,110 +1848,17 @@ export function DetailPanel({
 
         <div className="flex flex-col gap-4 px-4 pb-8">
           {/*
-            Der Umschalter über die Reihe.
+            „Wo läuft es" steht seit dem 24.08.2026 **vor** den Terminen.
 
-            Vorher gab es je Staffel eine eigene Kachel und ganz unten eine
-            Liste „Staffeln dieser Reihe" — die im Kalender fast immer leer war,
-            weil sie nur Staffeln mit Termin kannte. Wer von Staffel 4 zu
-            Staffel 2 wollte, fand keinen Weg dorthin, und „Alle Termine" gab es
-            nur bei der einen Staffel, die man gerade offen hatte (Daniel,
-            12.08.2026).
+            Der Block lag bis dahin unter Terminen und Handlung. Dabei ist das
+            grüne „DE ✓" die wertvollste Angabe der Seite — der Kalender
+            existiert, um genau diese Frage zu beantworten. JustWatch baut die
+            ganze Detailseite darum herum: Anbieter groß, klickbar, zuerst.
 
-            Jetzt trägt der Kopf den Reihennamen, und hier wird gewählt, worauf
-            sich alles darunter bezieht. Ein `select` statt einer Liste, weil
-            eine Reihe zehn Einträge haben kann und die Termine darunter der
-            eigentliche Inhalt bleiben sollen.
+            Verschoben wurden beide Fassungen, die mit Anbietern und die
+            Fehlanzeige — sonst stünde je nach Datenlage mal das eine, mal das
+            andere an anderer Stelle.
           */}
-          {releases.length > 0 ? (
-            <div className="flex flex-col gap-3">
-              <SectionTitle>{t('detail.releases')}</SectionTitle>
-              {gruppiereReleases(releases).map((gruppe) =>
-                gruppe.length > 1 ? (
-                  <ReleaseGruppe key={gruppe[0].slug} releases={gruppe} today={today} />
-                ) : (
-                  <ReleaseBlock key={gruppe[0].slug} release={gruppe[0]} today={today} />
-                ),
-              )}
-              {/* Zusatzangaben zum Termin gehören zum Termin, nicht in einen
-                  eigenen Abschnitt weiter unten (Daniel, 15.08.2026). */}
-              <Meldungen titleId={title.id} />
-            </div>
-          ) : (
-            /*
-              Dieselbe Form wie ein echter Termin, nur mit „unbekannt".
-
-              Vorher stand hier ein Kasten mit zwei Sätzen: „Die deutsche
-              Fassung ist erschienen. Ein genaues Datum führen wir dazu nicht —
-              die Verweise unten führen hin." Das war viel Text für eine
-              einzige Auskunft, und es sah anders aus als jeder andere Titel.
-              „Im Angebot seit: unbekannt" sagt dasselbe in einer Zeile und an
-              derselben Stelle wie sonst auch (Daniel, 12.08.2026).
-            */
-            <div className="flex flex-col gap-3">
-              <SectionTitle>{t('detail.releases')}</SectionTitle>
-              {title.ohneSynchro ? (
-                /*
-                  Für einen Titel ohne belegte Synchro wäre „Termin unbekannt"
-                  die falsche Auskunft: Unbekannt ist nicht der Termin, sondern
-                  ob es überhaupt je eine deutsche Fassung gibt. Hier steht
-                  deshalb, was wir wirklich wissen — und was der Stern bringt.
-                */
-                <section className="rounded-xl border border-dashed border-slate-300 bg-slate-100/60 p-3 dark:border-white/20 dark:bg-white/[0.02]">
-                  <p className="text-sm font-medium text-slate-700 dark:text-slate-200">
-                    {t('detail.noDubTitle')}
-                  </p>
-                  <p className="mt-1 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
-                    {t('detail.noDubBody')}
-                  </p>
-                  {/*
-                    Der Hinweis sagt, was der Stern **bewirkt**, und das hängt
-                    davon ab, ob ein Newsletter hinterlegt ist.
-
-                    Vorher stand hier „☆ Merken — du bekommst eine Mail, sobald
-                    sich das ändert." Das versprach eine Mail an jemanden, der
-                    womöglich gar nicht abonniert hat (Daniel, 15.08.2026:
-                    „schwammig formuliert und nutzer können es leicht falsch
-                    verstehen"). Jetzt steht bei einem verbundenen Browser die
-                    Adresse da, an die wir tatsächlich schreiben, und bei einem
-                    unverbundenen der zweite nötige Schritt.
-                  */}
-                  <p className="mt-2 text-xs leading-relaxed text-amber-600 dark:text-amber-400">
-                    {verbindung.verbunden
-                      ? t('detail.noDubWatchConnected', { mail: verbindung.mail ?? '' })
-                      : t('detail.noDubWatchOpen')}
-                  </p>
-                  {favorites.has(title.id) && (
-                    <p className="mt-1 text-xs font-medium text-amber-600 dark:text-amber-400">
-                      {t('detail.noDubWatched')}
-                    </p>
-                  )}
-                </section>
-              ) : (
-              <section className="rounded-xl border border-slate-200 p-3 dark:border-white/10">
-                <div className="mb-2 flex flex-wrap items-center gap-1.5">
-                  <StatusBadge status={status} />
-                  {title.fsk !== undefined && <FskBadge fsk={title.fsk} />}
-                </div>
-                <dl className="grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-slate-600 dark:text-slate-300">
-                  <dt className="text-slate-400">
-                    {t(status === 'erschienen' ? 'detail.releasedLabel' : 'detail.availableFrom')}
-                  </dt>
-                  <dd>
-                    <Tooltip
-                      text={t(status === 'erschienen' ? 'detail.releasedNoDate' : 'detail.noRelease')}
-                      unterstrichen
-                    >
-                      <span className="opacity-70">
-                        {t(status === 'erschienen' ? 'detail.releasedValue' : 'detail.unknown')}
-                      </span>
-                    </Tooltip>
-                  </dd>
-                </dl>
-              </section>
-              )}
-            </div>
-          )}
-
           {(title.streams.length > 0 || (title.watchLinks?.length ?? 0) > 0) && (
             <div>
               <SectionTitle>{t('detail.whereToWatch')}</SectionTitle>
@@ -2057,6 +1964,112 @@ export function DetailPanel({
           {title.streams.length === 0 && (title.watchLinks?.length ?? 0) === 0 && (
             <div>
               <SectionTitle>{t('detail.whereToWatch')}</SectionTitle>
+
+          {/*
+            Der Umschalter über die Reihe.
+
+            Vorher gab es je Staffel eine eigene Kachel und ganz unten eine
+            Liste „Staffeln dieser Reihe" — die im Kalender fast immer leer war,
+            weil sie nur Staffeln mit Termin kannte. Wer von Staffel 4 zu
+            Staffel 2 wollte, fand keinen Weg dorthin, und „Alle Termine" gab es
+            nur bei der einen Staffel, die man gerade offen hatte (Daniel,
+            12.08.2026).
+
+            Jetzt trägt der Kopf den Reihennamen, und hier wird gewählt, worauf
+            sich alles darunter bezieht. Ein `select` statt einer Liste, weil
+            eine Reihe zehn Einträge haben kann und die Termine darunter der
+            eigentliche Inhalt bleiben sollen.
+          */}
+          {releases.length > 0 ? (
+            <div className="flex flex-col gap-3">
+              <SectionTitle>{t('detail.releases')}</SectionTitle>
+              {gruppiereReleases(releases).map((gruppe) =>
+                gruppe.length > 1 ? (
+                  <ReleaseGruppe key={gruppe[0].slug} releases={gruppe} today={today} />
+                ) : (
+                  <ReleaseBlock key={gruppe[0].slug} release={gruppe[0]} today={today} />
+                ),
+              )}
+              {/* Zusatzangaben zum Termin gehören zum Termin, nicht in einen
+                  eigenen Abschnitt weiter unten (Daniel, 15.08.2026). */}
+              <Meldungen titleId={title.id} />
+            </div>
+          ) : (
+            /*
+              Dieselbe Form wie ein echter Termin, nur mit „unbekannt".
+
+              Vorher stand hier ein Kasten mit zwei Sätzen: „Die deutsche
+              Fassung ist erschienen. Ein genaues Datum führen wir dazu nicht —
+              die Verweise unten führen hin." Das war viel Text für eine
+              einzige Auskunft, und es sah anders aus als jeder andere Titel.
+              „Im Angebot seit: unbekannt" sagt dasselbe in einer Zeile und an
+              derselben Stelle wie sonst auch (Daniel, 12.08.2026).
+            */
+            <div className="flex flex-col gap-3">
+              <SectionTitle>{t('detail.releases')}</SectionTitle>
+              {title.ohneSynchro ? (
+                /*
+                  Für einen Titel ohne belegte Synchro wäre „Termin unbekannt"
+                  die falsche Auskunft: Unbekannt ist nicht der Termin, sondern
+                  ob es überhaupt je eine deutsche Fassung gibt. Hier steht
+                  deshalb, was wir wirklich wissen — und was der Stern bringt.
+                */
+                <section className="rounded-xl border border-dashed border-slate-300 bg-slate-100/60 p-3 dark:border-white/20 dark:bg-white/[0.02]">
+                  <p className="text-sm font-medium text-slate-700 dark:text-slate-200">
+                    {t('detail.noDubTitle')}
+                  </p>
+                  <p className="mt-1 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
+                    {t('detail.noDubBody')}
+                  </p>
+                  {/*
+                    Der Hinweis sagt, was der Stern **bewirkt**, und das hängt
+                    davon ab, ob ein Newsletter hinterlegt ist.
+
+                    Vorher stand hier „☆ Merken — du bekommst eine Mail, sobald
+                    sich das ändert." Das versprach eine Mail an jemanden, der
+                    womöglich gar nicht abonniert hat (Daniel, 15.08.2026:
+                    „schwammig formuliert und nutzer können es leicht falsch
+                    verstehen"). Jetzt steht bei einem verbundenen Browser die
+                    Adresse da, an die wir tatsächlich schreiben, und bei einem
+                    unverbundenen der zweite nötige Schritt.
+                  */}
+                  <p className="mt-2 text-xs leading-relaxed text-amber-600 dark:text-amber-400">
+                    {verbindung.verbunden
+                      ? t('detail.noDubWatchConnected', { mail: verbindung.mail ?? '' })
+                      : t('detail.noDubWatchOpen')}
+                  </p>
+                  {favorites.has(title.id) && (
+                    <p className="mt-1 text-xs font-medium text-amber-600 dark:text-amber-400">
+                      {t('detail.noDubWatched')}
+                    </p>
+                  )}
+                </section>
+              ) : (
+              <section className="rounded-xl border border-slate-200 p-3 dark:border-white/10">
+                <div className="mb-2 flex flex-wrap items-center gap-1.5">
+                  <StatusBadge status={status} />
+                  {title.fsk !== undefined && <FskBadge fsk={title.fsk} />}
+                </div>
+                <dl className="grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-slate-600 dark:text-slate-300">
+                  <dt className="text-slate-400">
+                    {t(status === 'erschienen' ? 'detail.releasedLabel' : 'detail.availableFrom')}
+                  </dt>
+                  <dd>
+                    <Tooltip
+                      text={t(status === 'erschienen' ? 'detail.releasedNoDate' : 'detail.noRelease')}
+                      unterstrichen
+                    >
+                      <span className="opacity-70">
+                        {t(status === 'erschienen' ? 'detail.releasedValue' : 'detail.unknown')}
+                      </span>
+                    </Tooltip>
+                  </dd>
+                </dl>
+              </section>
+              )}
+            </div>
+          )}
+
               <p className="text-xs text-slate-500 dark:text-slate-400">{t('detail.whereUnknown')}</p>
             </div>
           )}
