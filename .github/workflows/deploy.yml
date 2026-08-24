@@ -157,10 +157,17 @@ jobs:
       # Wer eine Quelle nach oben zieht, sieht danach einen Datensatz, der
       # genauso vollständig aussieht — nur steht an einzelnen Stellen die
       # Vermutung einer Quelle, wo eine Messung stand.
+      #
+      # `check:adn-gedaechtnis` seit dem 24.08.2026. Es sichert die einzige
+      # Stelle im Bau, die Angaben **erzeugt**, statt sie zu übernehmen: den
+      # Rückschluss von einer belegten Folge auf die davor. Die wichtigste
+      # Zusicherung dort ist nicht, dass etwas ergänzt wird, sondern dass
+      # nichts über den höchsten gesehenen Fund hinaus ergänzt wird — eine
+      # erfundene Tonspur vermisst niemand.
       - name: Zusicherungen prüfen
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run check:logic && npm run check:search && npm run check:handbelege && npm run check:cr-zuordnung && npm run check:quellen
+        run: npm run check:logic && npm run check:search && npm run check:handbelege && npm run check:cr-zuordnung && npm run check:quellen && npm run check:adn-gedaechtnis
 
       - name: Fortschritt — Zusicherungen geprüft
         continue-on-error: true

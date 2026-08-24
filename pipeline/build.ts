@@ -2399,7 +2399,9 @@ function main(): void {
    * dem 24.08.2026, während das Archiv vom 21.08. zu Recht zwölf Folgen ohne
    * `vde` führt. Beide Angaben stimmen; die jüngere gewinnt.
    */
-  const adnArchiv = ladeAdnArchiv()
+  // `pflegen`: Der Bau ist der einzige Lauf, der das Gedächtnis fortschreiben
+  // darf — die Checks lesen dieselbe Quelle und dürfen sie nicht verändern.
+  const adnArchiv = ladeAdnArchiv({ pflegen: true })
   if (adnArchiv.serien.size) {
     let adnJa = 0
     let adnNein = 0

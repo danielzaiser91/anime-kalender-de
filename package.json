@@ -53,7 +53,8 @@
     "data:motn:changes": "tsx pipeline/fetch-motn-changes.ts",
     "check:handbelege": "tsx pipeline/check-handbelege.ts",
     "check:quellen": "tsx pipeline/check-quellen.ts",
-    "check:cr-zuordnung": "tsx pipeline/check-crunchyroll-zuordnung.ts"
+    "check:cr-zuordnung": "tsx pipeline/check-crunchyroll-zuordnung.ts",
+    "check:adn-gedaechtnis": "tsx pipeline/check-adn-gedaechtnis.ts"
   },
   "dependencies": {
     "react": "^19.1.0",

@@ -321,7 +321,9 @@ Wer das verwechselt, hält eine funktionierende Umstellung für gescheitert.
 Der Weg dorthin: Der Newsletter geht täglich um 07:00 Berliner Zeit raus, Google fasst einen
 Tag zusammen und schickt den Bericht am Folgetag. Der erste Bericht unter der neuen Politik
 deckt also den 25.08. ab und trifft am 26.08. ein. Daniel legt ihn in den Übergabeordner,
-ausgewertet wird er mit `tools/dmarc-auswerten.mjs`.
+ausgewertet wird er mit `tools/dmarc-auswerten.mjs`. Die bisherigen 15 Berichte liegen
+gesammelt unter `__assets/notes/dmarc-berichte/` — bewusst ausserhalb des Repos, weil sie
+Mailadresse und Absender-IPs enthalten.
 
 **Fällt dort etwas durch**, ist die Umstellung in fünf Minuten zurückgedreht: in
 `tools/inwx-dns.mjs` wieder `p=none`, dann `node tools/inwx-dns.mjs --apply`.

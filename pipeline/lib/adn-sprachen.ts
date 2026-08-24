@@ -55,7 +55,13 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { gunzipSync } from 'node:zlib'
 import { resolve } from 'node:path'
-import { ROOT, warn } from './util.ts'
+import { ROOT, warn, log } from './util.ts'
+import {
+  ergaenzeAusHistorie,
+  ladeVdeHistorie,
+  schliesseAufVorherigeFolgen,
+  schreibeVdeHistorie,
+} from './adn-vde-historie.ts'
 
 const ARCHIV_DIR = resolve(ROOT, 'data/adn-raw')
 
@@ -143,12 +149,37 @@ export function nimmSerieAuf(archiv: AdnArchiv, showId: string, videos: AdnRohVi
  * 241 Dateien zu je rund 5 KB, entpackt in weniger als einer Sekunde — billiger
  * als eine Zwischendatei, die zwangsläufig veraltet, sobald der Montagslauf das
  * Archiv erweitert. Die Quelle liegt im Repo, also ist der Befund immer so
- * aktuell wie der letzte Abruf, und ein Nein von heute kann nächste Woche
- * wieder ein Ja werden, ohne dass jemand eine Warteschlange aufräumen muss.
+ * aktuell wie der letzte Abruf.
+ *
+ * **Ein Ja bleibt aber ein Ja.** Hier stand bis zum 24.08.2026 der Satz, ein
+ * Nein von heute könne nächste Woche wieder ein Ja werden — richtig, aber die
+ * gefährliche Richtung ist die andere: Ein Ja von letzter Woche wurde heute zum
+ * Nein, weil ADN die Folge aus dem Gratis-Fenster genommen hatte. Deshalb hält
+ * `adn-vde-historie.ts` jeden Fund fest, und `pflegen: true` schreibt neue
+ * hinein. Ohne die Option wird nur gelesen — für die Checks, die nichts
+ * verändern dürfen.
  */
-export function ladeAdnArchiv(): AdnArchiv {
+export function ladeAdnArchiv(optionen: { pflegen?: boolean } = {}): AdnArchiv {
   const archiv = leeresArchiv()
   if (!existsSync(ARCHIV_DIR)) return archiv
+
+  /**
+   * Der Abruf zeigt nur, was ADN in diesem Moment als Gast preisgibt — ein
+   * gleitendes Fenster der zuletzt freigegebenen Synchro-Folgen, keine
+   * vollständige Liste. Bei „Kill Blue" trug am 21.08.2026 keine Folge ein
+   * `vde`, am 24.08. die Folgen 3 und 4, während 1 und 2 längst vertont, aber
+   * aus dem Fenster gefallen waren.
+   *
+   * Deshalb wird der rohe Abruf zweimal angereichert, bevor er ausgewertet
+   * wird: aus dem Gedächtnis früherer Läufe, und durch den Rückschluss, dass
+   * eine Synchro von vorne läuft. Beides fügt nur `vde` hinzu und nimmt nie
+   * eines weg — die Begründung steht in `adn-vde-historie.ts`.
+   */
+  const historie = ladeVdeHistorie()
+  const heute = new Date().toISOString().slice(0, 10)
+  let neu = 0
+  let wieder = 0
+  let geschlossen = 0
 
   for (const datei of readdirSync(ARCHIV_DIR)) {
     if (!datei.endsWith('.json.gz')) continue
@@ -161,8 +192,19 @@ export function ladeAdnArchiv(): AdnArchiv {
       warn(`ADN-Archiv: ${datei} ist nicht lesbar — übersprungen.`)
       continue
     }
-    nimmSerieAuf(archiv, String(roh.showId ?? datei.replace('.json.gz', '')), roh.videos ?? [])
+    const serienId = String(roh.showId ?? datei.replace('.json.gz', ''))
+    const videos = roh.videos ?? []
+    const stand = ergaenzeAusHistorie(historie, serienId, videos, heute, optionen.pflegen ?? false)
+    neu += stand.neu
+    wieder += stand.wiederhergestellt
+    geschlossen += schliesseAufVorherigeFolgen(videos)
+    nimmSerieAuf(archiv, serienId, videos)
   }
+
+  if (geschlossen) {
+    log(`${geschlossen} ADN-Folgen als deutsch geschlossen, weil eine spätere Folge belegt ist`)
+  }
+  if (optionen.pflegen) schreibeVdeHistorie(historie, neu, wieder)
   return archiv
 }
 
