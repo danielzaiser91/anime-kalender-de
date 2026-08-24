@@ -1,0 +1,76 @@
+# Laufende ADN-Serien mehrmals täglich auffrischen.
+#
+# ## Warum es diesen Lauf gibt
+#
+# ADN schaltet die deutsche Synchronfassung **nach** der Untertitelfassung frei,
+# und für diesen zweiten Termin gibt es kein Feld in der API — er zeigt sich nur
+# daran, dass `vde` in `languages` auftaucht. Wer das mitbekommen will, muss
+# nachsehen.
+#
+# Bis zum 24.08.2026 geschah das nur im Wochenlauf (montags 05:41). An diesem Tag
+# kannte unser Archiv für „Kill Blue" um 08:36 zwei deutsche Folgen; ein Abruf um
+# 12:38 lieferte vier. Daniel hatte die vier um 11:50 von Hand gemeldet — eine
+# Handmeldung für etwas, das die Automatik selbst hätte sehen können.
+#
+# ## Warum viermal und nicht einmal
+#
+# Der Lauf holt nur die Serien, bei denen sich etwas bewegt: frische Folge in den
+# letzten zwei Wochen, **oder** teilweise vertont. Das waren am 24.08.2026 zwanzig
+# von 242 Serien und kostete vierzehn Sekunden. Bei diesem Preis ist der Takt
+# keine Kostenfrage mehr, sondern eine Frage der Auflösung: Alle sechs Stunden
+# grenzt den Zeitpunkt einer Freischaltung auf ein Sechs-Stunden-Fenster ein.
+#
+# Das ist kein Selbstzweck. `data/adn-vde-historie.json` hält fest, **wann** ein
+# `vde` zum ersten Mal gesehen wurde. Nach ein paar Wochen ergibt das eine
+# Messreihe, aus der sich ADNs Freischaltrhythmus ablesen lässt — und dann kann
+# dieser Takt gezielt gesetzt statt geraten werden.
+name: ADN — laufende Serien
+
+on:
+  schedule:
+    # Alle sechs Stunden. Die Minute ist ungerade gewählt, damit der Lauf nicht
+    # mit den anderen Datenläufen zur vollen Stunde kollidiert.
+    - cron: '17 2,8,14,20 * * *'
+  workflow_dispatch:
+
+concurrency:
+  # Zwei gleichzeitige Läufe würden dieselben Archivdateien schreiben.
+  group: adn-laufende
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  auffrischen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
+
+      - name: Laufende Serien holen
+        run: npm run data:adn:laufend
+
+      - name: Zusicherungen prüfen
+        run: npm run check:adn-gedaechtnis
+
+      # Nur committen, wenn sich wirklich etwas geändert hat. Ein Lauf ohne
+      # Änderung ist der Normalfall — die meisten Freischaltungen passieren
+      # einmal pro Woche und Serie.
+      - name: Änderungen sichern
+        run: |
+          if [ -z "$(git status --porcelain data/adn-raw)" ]; then
+            echo "Keine Änderung — nichts zu committen."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/adn-raw
+          git commit -m "chore(data): ADN — laufende Serien aufgefrischt"
+          git push

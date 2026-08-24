@@ -54,7 +54,8 @@
     "check:handbelege": "tsx pipeline/check-handbelege.ts",
     "check:quellen": "tsx pipeline/check-quellen.ts",
     "check:cr-zuordnung": "tsx pipeline/check-crunchyroll-zuordnung.ts",
-    "check:adn-gedaechtnis": "tsx pipeline/check-adn-gedaechtnis.ts"
+    "check:adn-gedaechtnis": "tsx pipeline/check-adn-gedaechtnis.ts",
+    "data:adn:laufend": "tsx pipeline/fetch-adn.ts --laufend"
   },
   "dependencies": {
     "react": "^19.1.0",

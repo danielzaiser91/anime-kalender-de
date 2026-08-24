@@ -593,7 +593,105 @@ async function refreshCatalog(): Promise<AdnShow[]> {
   return out
 }
 
+/**
+ * Nur die Serien auffrischen, bei denen sich gerade etwas bewegt.
+ *
+ * Der volle `--refresh` holt alle 242 bekannten Serien und dauert rund drei
+ * Minuten — zu grob für einen Takt von mehrmals täglich, und die allermeisten
+ * davon sind abgeschlossen und ändern sich nie wieder.
+ *
+ * Laufend heißt hier: Die jüngste bekannte Folge ist höchstens zwei Wochen alt.
+ * Gemessen am 24.08.2026 trifft das auf **9 von 242** Serien zu; ein Durchgang
+ * kostet damit etwa sieben Sekunden statt drei Minuten.
+ *
+ * ## Warum der Takt überhaupt zählt
+ *
+ * ADN schaltet die deutsche Synchronfassung **nach** der Untertitelfassung frei,
+ * und für diesen zweiten Termin gibt es kein Feld — er zeigt sich nur daran,
+ * dass `vde` in `languages` auftaucht. Am 24.08.2026 kannte unser Archiv für
+ * „Kill Blue" zwei deutsche Folgen, vier Stunden später waren es vier. Nichts
+ * war verschwunden; die Kopie stammte aus dem Wochenlauf und war zu alt.
+ *
+ * Die zwei Wochen sind bewusst großzügig: Eine Serie, die eine Woche pausiert
+ * (Sportübertragung, Feiertag), fiele bei sieben Tagen aus dem Blick und käme
+ * nie wieder hinein, weil sie dann keine frische Folge mehr hätte.
+ *
+ * ## Warum das Archiv und nicht der Katalog
+ *
+ * `adn-catalog.json` führt je Serie nur die Folgen, die **schon** `vde` tragen —
+ * `refreshCatalog()` filtert genau darauf. Aus ihm gelesen ergab diese Funktion
+ * am 24.08.2026 **eine** laufende Serie statt neun: Serien, die noch auf ihre
+ * Synchronfassung warten, haben dort gar keine Folgen. Das sind aber genau die,
+ * deren Freischaltung wir mitbekommen wollen — der Katalog blendet die Frage
+ * aus, die gestellt wird.
+ *
+ * `data/adn-raw/` hält dagegen jede Folge mit ihrem `releaseDate`, unabhängig
+ * von der Sprache.
+ */
+function laufendeSerien(): number[] {
+  if (!existsSync(ARCHIV_DIR)) return []
+  const GRENZE = 14 * 86400_000
+  const jetzt = Date.now()
+  const ids: number[] = []
+  for (const datei of readdirSync(ARCHIV_DIR)) {
+    if (!datei.endsWith('.json.gz')) continue
+    let roh: { showId?: number; videos?: AdnVideo[] }
+    try {
+      roh = JSON.parse(gunzipSync(readFileSync(`${ARCHIV_DIR}/${datei}`)).toString())
+    } catch {
+      continue
+    }
+    const showId = roh.showId ?? Number(datei.replace('.json.gz', ''))
+    if (!Number.isFinite(showId)) continue
+    const videos = roh.videos ?? []
+    if (!videos.length) continue
+
+    const termine = videos
+      .map((v) => new Date(v.releaseDate ?? 0).getTime())
+      .filter((t) => Number.isFinite(t) && t > 0)
+    // Auch künftige Termine zählen: Eine Serie, die morgen weitergeht, läuft.
+    const frisch = termine.length && jetzt - Math.max(...termine) < GRENZE
+
+    /**
+     * Die Synchronfassung wird **nachgereicht**, oft lange nach der letzten
+     * Untertitelfolge. „Kill Blue" lief bis zum 27.06.2026, die deutschen Folgen
+     * erschienen erst ab dem 24.08. — nach dem Zeitfenster oben wäre die Serie
+     * längst aus dem Blick gewesen, genau als es interessant wurde.
+     *
+     * Eine Serie, bei der ein Teil der Folgen `vde` trägt und ein Teil nicht,
+     * ist mitten in ihrer Vertonung. Sie bleibt in Beobachtung, bis beides nicht
+     * mehr gilt: vollständig vertont oder gar nicht.
+     */
+    const mitVde = videos.filter((v) => (v.languages ?? []).includes('vde')).length
+    const vertonungLaeuft = mitVde > 0 && mitVde < videos.length
+
+    if (frisch || vertonungLaeuft) ids.push(showId)
+  }
+  return ids
+}
+
 async function main(): Promise<void> {
+  if (args.includes('--laufend')) {
+    const ids = laufendeSerien()
+    if (!ids.length) {
+      warn('Keine laufende Serie gefunden — bitte zuerst mit --catalog laufen lassen.')
+      return
+    }
+    log(`ADN: ${ids.length} laufende Serien werden aufgefrischt…`)
+    let geaendert = 0
+    for (const showId of ids) {
+      const { videos, abbruch } = await ladeSerie(showId)
+      if (abbruch || !videos.length) {
+        warn(`ADN ${showId}: kein Ergebnis (${abbruch ?? 'leer'}) — alter Stand bleibt stehen.`)
+        continue
+      }
+      archiviereSerie(showId, videos)
+      geaendert++
+      await sleep(700)
+    }
+    log(`ADN: ${geaendert} von ${ids.length} laufenden Serien aufgefrischt`)
+    return
+  }
   if (args.includes('--refresh')) {
     const shows = await refreshCatalog()
     if (!shows.length) return
