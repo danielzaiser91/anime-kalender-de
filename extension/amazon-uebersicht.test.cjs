@@ -668,8 +668,8 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
 
   const knopf = angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))
   pruefe(
-    'veralteter Quelltext: der Knopf verlangt Neuladen statt zu melden',
-    knopf?.textContent.includes('Neuladen'),
+    'veralteter Quelltext: der Knopf meldet nicht, sondern holt oder laedt neu',
+    /Staffel wird geladen|Neuladen/.test(knopf?.textContent ?? ''),
     knopf?.textContent,
   )
 

@@ -1128,6 +1128,22 @@ async function speicherSchreiben(werte) {
    * ausschließlich über das Netz (gemessen am 23.08.2026, siehe
    * `amazon-leser.js`).
    */
+  /**
+   * Muss **vor** dem Hörer stehen, nicht darunter.
+   *
+   * `let` hebt den Namen hoch, aber nicht den Wert: Ein Zugriff vor der Zeile
+   * wirft `ReferenceError`. Der Hörer kann sofort feuern — der Leser schickt
+   * seine erste Nachricht, während dieses Skript noch aufgebaut wird —, und
+   * dann bricht der Aufbau ab: kein Takt, kein Knopf, keine Reaktion auf einen
+   * Staffelwechsel (Daniel, 24.08.2026: „button hat label nie gewechselt, nie
+   * versucht neue infos reinzubekommen").
+   *
+   * Genau dieselbe Falle steht weiter oben schon einmal beschrieben, für
+   * `dialog`. Zweimal dieselbe Ursache in einer Datei heißt: Wer hier eine
+   * Variable ergänzt, die ein Hörer benutzt, deklariert sie **darüber**.
+   */
+  let frischeStaffel = null
+
   window.addEventListener('message', (e) => {
     /**
      * Eine gezielt geholte Staffel **ersetzt** den Zählstand.
@@ -1195,10 +1211,29 @@ async function speicherSchreiben(werte) {
    */
   const WIDERSPRUCH_MS = 5000
   let widerspruchSeit = 0
-
-  /** Für welche ASIN der Leser die Folgenliste zuletzt gezielt geholt hat. */
-  let frischeStaffel = null
   let gesamtGeaendertAm = 0
+
+  /**
+   * Warum der Knopf sagt, was er sagt — beim Überfahren lesbar.
+   *
+   * Am 24.08.2026 stand er bei „Chaika" auf „noch 1 Staffel" und blieb dort,
+   * auch über einen Staffelwechsel hinweg. Von außen war nicht zu sehen, ob er
+   * die falsche Staffel meinte, den falschen Listeneintrag oder gar nicht mehr
+   * lief — und ein Skript in Daniels Chrome kann ich nicht befragen.
+   *
+   * Statt dessen sagt er es jetzt selbst. Kein Aufwand: Die Werte liegen ohnehin
+   * vor, sie standen nur nirgends.
+   */
+  function zustandAlsText() {
+    const e = erledigt[listenId]
+    return [
+      `Listeneintrag: ${listenId}${liste[listenId] ? '' : ' (nicht in der Liste)'}`,
+      `Staffel: ${staffelSchluessel()} (Adresse ${staffelAusAdresse() ?? '—'}, Seite ${staffelAusSeite() ?? '—'})`,
+      `gemeldet: ${Object.keys(staffelnDerSerie(listenId)).join(', ') || '—'} von ${gesamtDerSerie(listenId)}`,
+      `Serie im Bestand: ${e?.serie ?? '—'} · Seitentitel: ${seitenTitel() ?? '—'}`,
+      `Folgen: ${gesehen.nummern.size} von ${gesehen.gesamt ?? '?'}`,
+    ].join(String.fromCharCode(10))
+  }
 
   function zeichnen() {
     htmlNeuLesen()
@@ -1296,6 +1331,11 @@ async function speicherSchreiben(werte) {
     const stand = `${deutsch}|${geladen}|${gesehen.gesamt}|${wartet}|${zahlenStehen}`
     if (stand === letzterStand) return
     letzterStand = stand
+    try {
+      knopf.title = zustandAlsText()
+    } catch {
+      /* Die Diagnose darf den Knopf nie aufhalten. */
+    }
 
     knopf.dataset.deutsch = String(deutsch)
     /**
@@ -1535,6 +1575,16 @@ async function speicherSchreiben(werte) {
       staffelLautAdresse && staffelLautSeite && staffelLautAdresse !== staffelLautSeite,
     )
     /**
+     * Der Zeitpunkt, ab dem gewartet wird — ohne ihn ist die Frist sofort um.
+     *
+     * Beim Zurücknehmen der alten Widerspruchs-Sperre ist die Zeile
+     * verschwunden, die ihn setzt. `widerspruchSeit` blieb auf 0, also war
+     * `Date.now() - 0` immer größer als jede Frist: Der Knopf verlangte sofort
+     * ein Neuladen, statt auf die geholte Staffel zu warten.
+     */
+    if (!veraltet) widerspruchSeit = 0
+    else if (!widerspruchSeit) widerspruchSeit = Date.now()
+    /**
      * Seit 0.73 wird die Staffel geholt, statt zum Neuladen aufzufordern.
      *
      * Der Leser fragt die Folgenliste mit der ASIN aus der Adresse ab — die
@@ -1545,6 +1595,9 @@ async function speicherSchreiben(werte) {
       const wartetAufStaffel = Date.now() - widerspruchSeit < WIDERSPRUCH_MS
       knopf.disabled = wartetAufStaffel
       knopf.dataset.neuLaden = String(!wartetAufStaffel)
+      // Solange geladen wird, gehoert der Zaehlstand noch zur alten Staffel --
+      // ein Klick wuerde sie unter der neuen Nummer melden.
+      knopf.dataset.wechselt = 'true'
       knopf.textContent = wartetAufStaffel
         ? 'Staffel wird geladen …'
         : '↻ hier klicken zum Neuladen'
@@ -1552,6 +1605,7 @@ async function speicherSchreiben(werte) {
       return
     }
     knopf.dataset.neuLaden = 'false'
+    knopf.dataset.wechselt = 'false'
 
     if (!zahlenStehen) {
       knopf.disabled = true
@@ -1740,6 +1794,18 @@ async function speicherSchreiben(werte) {
      * Meldung von hier wäre eine Meldung über die falsche Staffel. Genau das
      * ist heute mehrfach passiert.
      */
+    /**
+     * Mitten im Staffelwechsel wird nicht gemeldet.
+     *
+     * Der Zaehlstand gehoert dann noch zur vorigen Staffel, die Nummer schon
+     * zur neuen -- eine Meldung von hier traegt beides zusammen und ist
+     * falsch. Gefangen hat das die Zusicherung, nicht der Blick: Der Knopf war
+     * zwar gesperrt, aber `disabled` haelt keinen Klick auf, der aus dem Code
+     * kommt.
+     */
+    if (knopf.dataset.wechselt === 'true' && knopf.dataset.neuLaden !== 'true') {
+      return
+    }
     if (knopf.dataset.neuLaden === 'true') {
       knopf.textContent = '↻ lädt neu …'
       // Defensiv: Im Testsandkasten gibt es kein `reload`.
