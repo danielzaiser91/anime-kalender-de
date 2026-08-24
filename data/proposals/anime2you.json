@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-24T16:00:34.286Z",
+  "scrapedAt": "2026-08-24T21:52:52.803Z",
   "proposals": [
     {
       "articleTitle": "Blu-ray-Sammelschuber der vierten »Dr. STONE«-Staffel",
@@ -21,6 +21,48 @@
         }
       ],
       "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Disc-Termin von »There’s No Freaking Way I’ll Be Your Lover! Unless…«",
+      "articleUrl": "https://www.anime2you.de/news/1043903/theres-no-freaking-way-ill-be-your-lover-unless-disc-termin/",
+      "publishedAt": "2026-08-24",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-10-22",
+          "context": "26 »There’s No Freaking Way I’ll Be Your Lover! Unless…« erscheint am 22. Oktober 2026 in […] Der Beitrag Disc-Termin von »There’s No Frea"
+        },
+        {
+          "month": "2026-10",
+          "context": "«) auf Blu-ray. Wir fassen alle Details zum Release zusammen. Release im Oktober 2026 »There’s No Freaking Way I’ll Be Your Lover! Unless…«"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»Mila Superstar« erscheint als Blu-ray-Komplettbox + Design",
+      "articleUrl": "https://www.anime2you.de/news/1043895/mila-superstar-blu-ray-komplettbox/",
+      "publishedAt": "2026-08-24",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-19",
+          "context": "ember 2026 Die neue Blu-ray-Komplettbox von »Mila Superstar« kommt am 19. November 2026 in den Handel und beinhaltet alle 104 Episoden mit d"
+        },
+        {
+          "month": "2026-11",
+          "context": "Superstar« in einer Blu-ray-Komplettbox veröffentlichen wird. Release im November 2026 Die neue Blu-ray-Komplettbox von »Mila Superstar« kom"
+        }
+      ],
+      "dub": "ja",
       "alreadyCurated": false
     },
     {
