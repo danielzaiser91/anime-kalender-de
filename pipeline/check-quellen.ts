@@ -44,6 +44,7 @@ import { resolve } from 'node:path'
 import { loadDubChecks } from './lib/dub-confirmed.ts'
 import { beurteile, type CrDubData } from './lib/crunchyroll-dub.ts'
 import { beurteileAdnVerweis, ladeAdnArchiv } from './lib/adn-sprachen.ts'
+import { anisearchPlatform } from '../shared/mappings.ts'
 import type { Title } from '../shared/types.ts'
 
 const roh = readJson<Title[] | Record<string, Title>>(resolve(ROOT, 'public/data/titles.json'), [])
@@ -181,7 +182,7 @@ function zeige(name: string, b: Bilanz): boolean {
 
 log('Robustheitstest der Synchro-Quellen — Maßstab ist data/dub-confirmed.yaml')
 log(`Handprüfungen als Kontrolle: ${hand.size}`)
-const alleSauber = [
+let alleSauber = [
   zeige('Crunchyroll Content-API', cr),
   zeige('ADN', adn),
   zeige('YouTube (oEmbed)', yt),
@@ -243,6 +244,68 @@ const stichprobe: string[] = []
 log('')
 log('Stichprobe zum Gegenprüfen — hier hat noch niemand nachgesehen:')
 for (const z of stichprobe) log('  ' + z)
+
+/**
+ * aniSearch als Gegenprobe: Wen kennt die Datenbank, den wir nicht führen?
+ *
+ * Die Prüfungen oben halten Quellen gegen **Handprüfungen** — sie finden, wo
+ * eine Quelle etwas Falsches sagt. Sie finden nicht, wo eine Quelle etwas
+ * **sagt, das bei uns nie ankommt**. Genau das ist am 24.08.2026 zweimal
+ * passiert: Die deutschen Titel lagen seit Tagen in `data/anisearch.json` und
+ * wurden nie ausgewertet (99 statt 2.553), und dieselbe Datei nennt
+ * Anbieter-Verweise, die im Datensatz fehlen.
+ *
+ * Gemessen an jenem Tag: 1.665 aniSearch-Verweise führen wir, **366 nicht** —
+ * davon 142 Crunchyroll, 77 Prime Video, 37 Netflix. Das ist kein Fehler an
+ * sich: Ein Verweis kann bewusst verworfen worden sein, weil die Adresse den
+ * Anbieter nicht trägt oder ins Leere führt. Ein **Anstieg** dagegen heißt, dass
+ * die Übernahme klemmt.
+ *
+ * Die Schwelle ist deshalb großzügig und misst den Anteil, nicht die Zahl:
+ * Wächst der Bestand, wächst beides mit.
+ */
+log('')
+log('── aniSearch: was die Datenbank kennt und wir nicht ──')
+{
+  const as = readJson<Record<string, { streams?: { provider: string; url: string }[] }>>(
+    resolve(ROOT, 'data/anisearch.json'),
+    {},
+  )
+  let gefuehrt = 0
+  let fehlt = 0
+  const jePlattform: Record<string, number> = {}
+  for (const t of titel) {
+    const e = as[String(t.id)]
+    if (!e?.streams?.length) continue
+    const meine = new Set<string>([
+      ...(t.streams ?? []).map((s) => s.platform),
+      ...(t.watchLinks ?? []).map((w) => (w as { platform?: string }).platform ?? ''),
+    ])
+    for (const s of e.streams) {
+      const p = anisearchPlatform(s.provider)
+      if (!p) continue
+      if (meine.has(p)) gefuehrt++
+      else {
+        fehlt++
+        jePlattform[p] = (jePlattform[p] ?? 0) + 1
+      }
+    }
+  }
+  const anteil = gefuehrt + fehlt ? (fehlt / (gefuehrt + fehlt)) * 100 : 0
+  log(`   von aniSearch genannt und geführt : ${gefuehrt}`)
+  log(`   genannt, aber nicht geführt       : ${fehlt} (${anteil.toFixed(0)} %)`)
+  log(
+    `   davon: ${Object.entries(jePlattform)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([k, v]) => `${k} ${v}`)
+      .join(', ')}`,
+  )
+  if (anteil > 35) {
+    warn(`Mehr als ein Drittel der aniSearch-Verweise kommt nicht an (${anteil.toFixed(0)} %).`)
+    alleSauber = false
+  }
+}
 
 log('')
 if (!alleSauber) {

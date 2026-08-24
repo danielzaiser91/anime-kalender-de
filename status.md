@@ -304,6 +304,37 @@ herausgeholt, wenn der User es sagt.
 | **Statusanzeige fürs Handy** | 2 | Die Anzeige liegt unter `C:codeai__assets	oolslauf-status` und startet seit dem 21.08.2026 beim Anmelden von selbst (`Laufstatus.vbs` im Autostart). Für das Handy müsste die Datei nur irgendwo erreichbar liegen — sie fragt eine einzige Adresse ab und braucht keinen Schlüssel. **Zurückgestellt am 21.08.2026:** „die idee mit handy brauchen wir erstmal nicht". Der zweite Rest, ein Fenster das immer oben bleibt, ist mit dem Autostart hinfällig — Daniel schiebt es sich einmal am Monitor zurecht |
 | Synchronstudios als Quelle | 8 | **Recherche am 11.08.2026 gemacht, Ergebnis ernüchternd.** Oxygen Sound Studios führt unter [o2studios.com/de/projekte](https://o2studios.com/de/projekte/) eine reine Referenzliste: „Chainsaw Man – Der Film Reze Arc — Deutsche Synchronisation", ohne jedes Datum und ohne Status. Violetmedia ist von hier aus nicht erreichbar (TLS-Handshake bricht ab, wie schon bei aniverse.de). Ein Studio nennt also, **dass** es eine Fassung macht — nicht **wann** sie kommt. Das ist nachvollziehbar: Der Termin gehört dem Lizenznehmer, nicht dem Studio. **Rest-Nutzen:** Die Projektlisten wären ein Beleg dafür, dass eine deutsche Fassung überhaupt existiert oder entsteht — für die `dubConfidence`, nicht für den Kalender. Als Terminquelle zurückgestellt; eine Anfrage lohnt nur, wenn ein Studio überhaupt Termine kennt und nennen dürfte |
 
+### Gemessen am 24.08.2026: nextVideoReleaseDate bringt derzeit nichts
+
+Der ADN-Endpunkt `/show/<id>` liefert ein Feld `nextVideoReleaseDate` — den exakten
+Termin der nächsten Folge, anonym abrufbar. Das klang nach einer Terminquelle, die dem
+Projektziel direkt dient, und stand als Aufgabe in der Liste.
+
+**Die Messung sagt etwas anderes.** Von 20 laufenden Serien tragen 6 einen künftigen Termin:
+
+| Serie | Termin | Sprachen |
+|---|---|---|
+| One Piece | 30.08.2026, 23:00 | `vde`, `vostde` |
+| HELL MODE | 28.08.2026, 18:30 | nur `vostde` |
+| Rilakkuma | 29.08.2026, 03:00 | nur `vostde` |
+| The Forsaken Saintess | 24.08.2026, 16:30 | nur `vostde` |
+| The World is Dancing | 24.08.2026, 15:30 | nur `vostde` |
+| Flaming Dodgeball Girl Danko | 24.08.2026, 16:30 | nur `vostde` |
+
+**Auch der One-Piece-Termin ist keiner.** Das `vde` auf Serienebene stammt von älteren
+Folgen; die laufenden Folgen 1172 bis 1175 tragen alle nur `vostde`, und Folge 1176 am
+30.08. wird ebenso eine Untertitelfolge sein. Die Serienangabe ist eine ODER-Verknüpfung
+über alle Folgen und sagt über die nächste nichts.
+
+Damit sind **alle sechs** künftigen Termine Untertitel-Termine. Für einen Kalender, der
+deutsche Fassungen zeigt, ist der Gewinn null — `fetch-adn.ts` filtert Folgen ohne `vde`
+bewusst heraus.
+
+**Wann das neu zu bewerten wäre:** Wenn der Kalender künftig auch Untertitel-Termine zeigen
+soll (Produktentscheidung, nicht Technik), ist das Feld sofort nutzbar und liefert exakte
+Termine auf die Minute. Oder wenn eine Simulcast-Serie mit laufender Synchro auftaucht —
+dann nennt das Feld den nächsten deutschen Termin.
+
 ### Zu besprechen
 
 *(nichts offen)*
