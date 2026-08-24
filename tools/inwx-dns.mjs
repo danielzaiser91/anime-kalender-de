@@ -47,12 +47,26 @@ const RECORDS = [
   { name: 'send.send', type: 'TXT', content: 'v=spf1 include:amazonses.com ~all' },
   { name: 'send.send', type: 'MX', content: 'feedback-smtp.eu-west-1.amazonses.com', prio: 10 },
 
-  // Beobachtender DMARC-Eintrag: blockiert nichts, liefert aber Berichte und
-  // verbessert die Zustellung bei Gmail spürbar.
+  // DMARC. Seit dem 24.08.2026 auf `quarantine`: Wer unter dieser Domain
+  // schreibt, ohne SPF und DKIM zu bestehen, landet beim Empfänger im Spam.
+  //
+  // Die Grundlage sind 15 Google-Aggregatberichte vom 07. bis 22.08.2026:
+  // 30 Mails, kein einziger dkim- oder spf-Fehlschlag, alle Absender-IPs aus
+  // dem SES-Bereich (54.240.3.x / 54.240.6.x). Nach diesem Stand sortiert die
+  // schärfere Politik keine eigene Post aus.
+  //
+  // `rua=` bleibt bewusst stehen. Die Berichte sind das einzige Fenster darauf,
+  // ob die Politik ankommt — im nächsten Bericht muss unter `policy_published`
+  // ein `<p>quarantine</p>` stehen. `<disposition>` bleibt dagegen bei sauberen
+  // Mails auf `none`: Es gibt nichts auszusortieren. Sie springt erst um, wenn
+  // tatsächlich eine Mail durchfällt. Ohne `rua=` müsste die Belegkette für ein
+  // späteres `p=reject` bei null neu anfangen.
+  //
+  // Zurückgedreht wird mit `p=none` an dieser Stelle plus `--apply`.
   {
     name: '_dmarc',
     type: 'TXT',
-    content: 'v=DMARC1; p=none; rua=mailto:danielzaiser91@googlemail.com',
+    content: 'v=DMARC1; p=quarantine; rua=mailto:danielzaiser91@googlemail.com',
   },
 
   // Nachweis der Domaininhaberschaft für die Google Search Console. Muss stehen
@@ -92,6 +106,15 @@ async function call(method, params = {}) {
 /** Vergleichsform: INWX liefert den vollen Namen, wir pflegen relative. */
 function fullName(name) {
   return name ? `${name}.${DOMAIN}` : DOMAIN
+}
+
+/**
+ * Die Sorte eines TXT-Eintrags, erkennbar am `v=`-Praefix: `DMARC1`, `spf1`,
+ * `DKIM1`. Ein Eintrag ohne solches Praefix (etwa die Google-Verifizierung)
+ * hat keine Sorte und wird nie ersetzt, sondern immer danebengelegt.
+ */
+function sortePraefix(inhalt) {
+  return /^v=([A-Za-z0-9]+)/.exec(inhalt ?? '')?.[1]
 }
 
 async function main() {
@@ -139,12 +162,27 @@ async function main() {
       continue
     }
 
-    // Gleicher Name und Typ, anderer Inhalt: bei einzigartigen Typen ersetzen,
-    // bei mehrfach erlaubten (A, AAAA, MX, TXT) zusätzlich anlegen.
+    // Gleicher Name und Typ, anderer Inhalt: ersetzen statt danebenlegen —
+    // aber nur, wo ein zweiter Eintrag schadet.
+    //
+    // Bei TXT entscheidet nicht der Typ, sondern die Sorte. Die Wurzel traegt
+    // SPF und die Google-Verifizierung nebeneinander, das ist richtig so. Zwei
+    // Eintraege *derselben* Sorte sind dagegen ein Fehler: Bei DMARC verwirft
+    // der Empfaenger nach RFC 7489 §6.6.3 beide und behandelt die Domain als
+    // ungeschuetzt, bei DKIM und SPF ist das Verhalten ebenso unbestimmt.
+    //
+    // Gemessen am 24.08.2026: Ohne diese Unterscheidung haette das Heben der
+    // DMARC-Politik einen zweiten _dmarc-Eintrag angelegt und den Schutz damit
+    // abgeschaltet statt verschaerft.
     const singleton = ['CNAME'].includes(record.type)
+    const sorte = sortePraefix(record.content)
     const conflict = singleton
       ? existing.find((e) => e.name === target && e.type === record.type)
-      : undefined
+      : record.type === 'TXT' && sorte
+        ? existing.find(
+            (e) => e.name === target && e.type === 'TXT' && sortePraefix(e.content) === sorte,
+          )
+        : undefined
 
     if (!APPLY) {
       console.log(`  ${conflict ? '~' : '+'}  ${record.type.padEnd(5)} ${target} → ${record.content.slice(0, 60)}`)

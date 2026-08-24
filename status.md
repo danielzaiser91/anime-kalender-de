@@ -306,59 +306,25 @@ herausgeholt, wenn der User es sagt.
 
 ### Zu besprechen
 
-**DMARC auf `p=quarantine` — der Termin war heute, die Grundlage fehlt** (24.08.2026, 10:57)
-
-Der geplante Lauf `dmarc-policy-anime-kalender` hat **nicht** umgestellt. Grund ist kein Fund,
-sondern eine Lücke: Seit dem 12.08.2026 liegt **kein neuer Aggregatbericht** vor. Gesucht wurde
-in `__assets/_shared files user to agent/`, im Downloads-Ordner, auf dem Desktop und in
-Dokumenten — der einzige Treffer ist der schon ausgewertete Bericht vom 10.08. Die Berichte
-gehen an Daniels Gmail-Postfach; ob dort welche liegen, ist von hier aus nicht zu sehen. Ein
-fehlender Bericht auf der Platte belegt also **nicht**, dass keiner kam.
-
-Was geprüft ist und trägt:
-
-| Prüfung | Ergebnis |
-|---|---|
-| Bericht 10.08. (`google.com!…!1786320000`) | 3 Mails, `dkim pass` + `spf pass`, `disposition none`, IPs 54.240.3.16/3.28/6.245 — alle Amazon SES |
-| Absenderwege im Repo | genau einer: `FROM_EMAIL = "kalender@send.anime-kalender.de"` (`worker/wrangler.toml:20`), Versand über Resend/SES |
-| Zone live (`_dmarc.anime-kalender.de`) | unverändert `v=DMARC1; p=none; rua=mailto:danielzaiser91@googlemail.com` |
-
-Damit umfasst die Belegkette die Berichte vom **07.–10.08.2026**, durchgehend sauber, kein
-fremder Absender. Die zwei Wochen, die Daniel am 12.08. sammeln wollte, sind es nicht.
-
-**Entschieden am 24.08.2026, 14:35: warten.** Daniel legt die Google-Berichte aus seinem
-Gmail-Postfach in den Übergabeordner
-(`C:\code\ai\__assets\_shared files user to agent\`), sie werden ausgewertet, und danach fällt
-die Entscheidung. **Bis dahin bleibt die Zone auf `p=none`** — nichts wird umgestellt.
-
-Das ist die Lesart, die zum Projekt passt: Der Schritt auf `p=quarantine` ist umkehrbar, aber
-die Belegkette dafür ist es nicht — wer `rua=` streicht, sammelt nie wieder Berichte für ein
-späteres `p=reject`. Vier saubere Tage sind dafür zu wenig.
-
-~~**Die Frage an Daniel:** trotzdem umstellen, oder erst die Berichte aus dem Postfach nachreichen?~~
-
-Der Handgriff ist klein und steht bereit — in `tools/inwx-dns.mjs` (Zeile 55) wird
-`'v=DMARC1; p=none; rua=mailto:danielzaiser91@googlemail.com'` zu
-`'v=DMARC1; p=quarantine; sp=quarantine'`, danach `node tools/inwx-dns.mjs --apply`. Beides in
-einem Schritt: Politik anheben **und** `rua=` streichen, damit die täglichen Berichtsmails
-aufhören (Daniels Entscheidung 12.08.2026). Zurückgedreht ist es in einer Minute, indem der
-alte Wert wieder eingetragen und das Skript erneut läuft.
-
-**Was das Streichen von `rua=` kostet, und das gehört zur Entscheidung dazu:**
-
-1. **Keine Belegkette für ein späteres `p=reject`.** Ohne Berichte gibt es nichts, woran sich
-   ablesen ließe, dass der schärfere Schritt gefahrlos wäre. Wer ihn will, muss `rua=` vorher
-   für ein paar Wochen wieder setzen.
-2. **Keine Warnung bei Fälschungen.** Schickt jemand Mail im Namen der Domain, fällt es
-   niemandem mehr auf — `p=quarantine` wehrt es zwar ab, meldet es aber nicht mehr.
-
-**Denkbarer Mittelweg, falls die Berichte nicht auftauchen:** `p=quarantine` setzen und `rua=`
-zunächst **behalten**, bis ein Bericht unter der neuen Politik bestätigt, dass nichts
-fälschlich einsortiert wird — danach `rua=` streichen. Kostet ein paar zusätzliche
-Berichtsmails, erhält aber beide Punkte oben. Widerspricht Daniels Entscheidung vom 12.08.
-(„die Mails sollen aufhören") und wird deshalb nicht von allein gemacht.
+*(nichts offen)*
 
 ### Warten auf Feedback
+
+**Google-DMARC-Bericht unter der neuen Politik** — erwartet ab dem 26.08.2026
+
+Seit dem 24.08.2026, 12:05 steht die Zone auf `p=quarantine`. Ob die Empfänger das auch so
+anwenden, sagt erst der nächste Aggregatbericht: Unter `<policy_published>` muss dort
+`<p>quarantine</p>` stehen statt `none`. `<disposition>` bleibt dagegen bei sauberen Mails
+auf `none` — es gibt nichts auszusortieren; sie springt erst um, wenn eine Mail durchfällt.
+Wer das verwechselt, hält eine funktionierende Umstellung für gescheitert.
+
+Der Weg dorthin: Der Newsletter geht täglich um 07:00 Berliner Zeit raus, Google fasst einen
+Tag zusammen und schickt den Bericht am Folgetag. Der erste Bericht unter der neuen Politik
+deckt also den 25.08. ab und trifft am 26.08. ein. Daniel legt ihn in den Übergabeordner,
+ausgewertet wird er mit `tools/dmarc-auswerten.mjs`.
+
+**Fällt dort etwas durch**, ist die Umstellung in fünf Minuten zurückgedreht: in
+`tools/inwx-dns.mjs` wieder `p=none`, dann `node tools/inwx-dns.mjs --apply`.
 | Thema | Seit |
 |---|---|
 | Antwort von aniSearch auf die Anfrage nach einer Titeldaten-Schnittstelle (abgeschickt 09.08.2026 an api@anisearch.com); dabei auch gefragt, ob die Beschreibungen mit Quellenangabe öffentlich stehen dürfen | 09.08.2026 |
@@ -1035,6 +1001,54 @@ weder offiziell noch in den inoffiziellen Doku-Repos.
   abgenommen.
 
 ## Archiv
+
+### DMARC steht auf `p=quarantine` (24.08.2026, 12:05)
+
+Der Termin vom 24.08. ist eingelöst — zwei Stunden später als geplant, weil die Grundlage
+erst nachgereicht werden musste. Daniel hat 15 Google-Aggregatberichte in den Übergabeordner
+gelegt, Zeitraum 07.–22.08.2026:
+
+| | |
+|---|---|
+| Mails insgesamt | 30 |
+| `dkim`-Fehler | **0** |
+| `spf`-Fehler | **0** |
+| Absender-IPs | 17, **alle** Amazon SES (`54.240.3.x`, `54.240.6.x`) |
+
+Der 19.08. fehlt in der Kette, und das ist kein Loch: Google schickt einen Bericht nur, wenn
+an dem Tag Mail geflossen ist. Der Newsletter verschickt nur bei neuen Terminen.
+
+**`rua=` bleibt entgegen der Absicht vom 12.08. stehen.** Daniel hat das am 24.08. so
+entschieden, nachdem der Zusammenhang klar war: Die Berichte sind das einzige Fenster darauf,
+ob die schärfere Politik überhaupt ankommt — und ob sie eines Tages eigene Post aussortiert.
+Wer sie abschaltet, macht die Umstellung unprüfbar und müsste für ein späteres `p=reject`
+bei null neu sammeln. Die täglichen Berichtsmails sind der Preis dafür.
+
+**Beim Umstellen ist ein Fehler im eigenen Werkzeug aufgefallen, und zwar rechtzeitig.**
+Der Trockenlauf meldete `+ TXT _dmarc` — *anlegen*, nicht *aktualisieren*. Die Ursache stand
+in `tools/inwx-dns.mjs`: Die Liste der Typen, bei denen ein Eintrag ersetzt statt danebengelegt
+wird, enthielt nur `CNAME`. Für TXT ist „mehrere erlaubt" im Allgemeinen richtig — die Wurzel
+trägt SPF und die Google-Verifizierung nebeneinander —, aber nicht für zwei Einträge
+**derselben Sorte**: Zwei DMARC-Records auf `_dmarc` sind nach RFC 7489 §6.6.3 dasselbe wie
+keiner, der Empfänger verwirft beide. Die Umstellung hätte den Schutz also **abgeschaltet**
+statt ihn zu verschärfen, und im DNS hätte danach eine Politik gestanden, die niemand anwendet.
+
+Behoben durch Unterscheidung nach dem `v=`-Präfix (`DMARC1`, `spf1`, `DKIM1`): Ein Eintrag
+ersetzt den vorhandenen derselben Sorte und lässt alle anderen in Ruhe. Nach dem Fix meldete
+der Trockenlauf `~ … 1 aktualisiert, 0 angelegt`, und die Wurzel-TXT mit der
+Google-Verifizierung blieb unangetastet. Aufgefallen war es nie, weil sich bis dahin kein
+TXT-Inhalt geändert hatte.
+
+**Geprüft nach dem Schreiben** (24.08.2026, 12:05):
+
+| Auflöser | Antwort |
+|---|---|
+| INWX (autoritativ) | `v=DMARC1; p=quarantine; rua=…` ✓ |
+| Cloudflare `1.1.1.1` | `p=quarantine` ✓ |
+| Google `8.8.8.8` | noch `p=none` — alter Cache, TTL 3600 |
+
+Genau **ein** Eintrag auf `_dmarc`. Der Wirkungsnachweis steht noch aus und wartet unter
+„Warten auf Feedback" auf den Bericht vom 26.08.
 
 ### 23.08.2026 — der Crunchyroll-Negativbefund war laengst belastbar
 
