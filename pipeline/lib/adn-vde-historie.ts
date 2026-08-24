@@ -1,38 +1,42 @@
 /**
- * Was einmal deutsch war, bleibt deutsch.
+ * Ein Gedächtnis für einmal belegte deutsche Tonspuren.
  *
- * ## Der Fall, der das nötig gemacht hat
+ * ## Der Fall — und die Ursache, die es *nicht* war
  *
- * Daniel prüfte am 24.08.2026 „Kill Blue" von Hand und fand **vier** Folgen mit
- * deutscher Tonspur. Unser Datensatz sagte „Folge 1–2 deutsch, 3–12 nicht", das
- * ADN-Archiv desselben Tages sagte „`vde` bei Folge 3 und 4". Drei Antworten,
- * drei verschiedene Wahrheiten.
+ * Daniel prüfte am 24.08.2026 gegen 11:50 „Kill Blue" bei ADN und fand **vier**
+ * deutsche Folgen. Unser Archiv kannte nur zwei (Folge 3 und 4), und daraus
+ * entstand zunächst die Vermutung, ADN zeige Gästen ein gleitendes Fenster der
+ * zuletzt freigegebenen Folgen.
  *
- * Die Versionsgeschichte löst es auf:
+ * **Diese Vermutung war falsch, und die Messung hat sie widerlegt.** Ein
+ * Live-Abruf um 12:38 mit exakt unseren Headern lieferte `vde` bei Folge 1, 2,
+ * 3 und 4 — anonym, ohne Token. Es fehlte nichts. Das Archiv war nur alt:
  *
- *     21.08.2026, 10:22   keine einzige Folge mit vde
- *     24.08.2026, 06:44   vde bei Folge 3 und 4
+ *     21.08.2026, 10:22   keine Folge mit vde
+ *     24.08.2026, 08:36   Folge 3 und 4        ← unser Abruf
+ *     24.08.2026, 12:38   Folge 1, 2, 3 und 4  ← Live
  *
- * Die Automatik **konnte** es also die ganze Zeit — sie hat nur jedes Mal den
- * aktuellen Stand über den vorigen geschrieben. Ein Abruf zeigt, was ADN in
- * diesem Moment als Gast preisgibt; das ist eine **untere Schranke**, keine
- * vollständige Liste. Wer daraus ein `dub: false` ableitet, erfindet ein Nein.
+ * Die Menge wächst, sie schrumpft nicht. Die wahre Ursache war der Takt: Das
+ * Archiv wird im Wochenlauf gefüllt, war also vier Stunden bis sieben Tage alt.
+ * Behoben wird das dort, wo es entsteht — durch häufigeres Auffrischen der
+ * laufenden Serien, nicht durch Rechnen im Bau.
  *
- * Derselbe Fehler ist im Projekt schon einmal teuer geworden: 975 Falschangaben,
- * weil „Deutsch fehlt in der Audio-Zeile" als „keine Synchro" gelesen wurde —
- * ein Gast sieht dort etwas anderes als ein Angemeldeter.
+ * ## Warum es diese Datei trotzdem gibt
  *
- * ## Was diese Datei macht
+ * Der Schutz bleibt sinnvoll, aber aus einem anderen Grund als gedacht: Ein
+ * Abruf kann **unvollständig** zurückkommen — Netzfehler, Teilausfall, eine
+ * abgebrochene Seite. Dann fehlt ein `vde`, das gestern noch da war, und ohne
+ * Gedächtnis würde daraus still ein „keine Synchro".
  *
- * Sie führt ein Gedächtnis: Jede Folge, die je ein `vde` getragen hat, steht mit
- * dem Datum ihres ersten Fundes in `data/adn-vde-historie.json`. Beim Einlesen
- * des Archivs werden diese Funde wieder eingemischt.
+ * **Nur `vde` wird gesammelt, nie sein Fehlen.** Ein Gedächtnis, das auch das
+ * Fehlen festhielte, würde einen unvollständigen Abruf zur dauerhaften
+ * Behauptung machen — genau der Fehler, den es verhindern soll.
  *
- * **Nur `vde` wird gesammelt, nie sein Fehlen.** Eine Synchro verschwindet
- * nicht: Sie wandert allenfalls hinter eine Bezahlschranke, wo unser Abruf sie
- * nicht mehr sieht. Ein Gedächtnis, das auch das Fehlen festhielte, würde einen
- * unvollständigen Abruf zur dauerhaften Behauptung machen — genau der Fehler,
- * den es verhindern soll.
+ * Es wird ausdrücklich **nichts geschlossen**: Kein Rückschluss von einer
+ * belegten Folge auf die davor, keine Annahme über Staffeln. Hier stand bis zum
+ * 24.08.2026 eine solche Regel; sie lieferte beim Testfall zufällig das richtige
+ * Ergebnis aus dem falschen Grund und ist deshalb wieder verschwunden. Was diese
+ * Datei ausgibt, hat ADN irgendwann selbst gesagt.
  *
  * ## Wann ein Eintrag wieder verschwinden darf
  *
@@ -112,52 +116,6 @@ export function ergaenzeAusHistorie(
 
   if (pflegen && Object.keys(bekannt).length) historie[serienId] = bekannt
   return { neu, wiederhergestellt }
-}
-
-/**
- * Der hoechste Fund gibt die Anzahl deutscher Folgen an.
- *
- * Eine Synchronisation laeuft von vorne: Wer Folge 4 vertont hat, hat 1 bis 3
- * vertont. ADNs oeffentliche Angabe zeigt aber nur ein gleitendes Fenster der
- * zuletzt freigegebenen Folgen — bei "Kill Blue" am 24.08.2026 genau die Folgen
- * 3 und 4, waehrend 1 und 2 laengst synchronisiert, aber aus dem Fenster
- * gefallen waren. Daniel sah als Angemeldeter vier deutsche Folgen, unser
- * Gast-Abruf zwei.
- *
- * Aus dem hoechsten Fund die Folgen davor zu schliessen, macht aus dieser
- * unteren Schranke die richtige Antwort — und deckt sich hier mit **zwei**
- * unabhaengigen Handpruefungen (Netflix und ADN, beide 4 Folgen).
- *
- * **Die Grenze der Regel:** Sie unterstellt eine luckenlose Synchro. Faellt bei
- * einer Serie ausgerechnet eine mittlere Folge aus, behauptet sie eine Tonspur,
- * die es nicht gibt. Deshalb gilt sie nur bis zum hoechsten *gesehenen* Fund und
- * niemals darueber hinaus: Sie fuellt Luecken, sie sagt nichts ueber die Zukunft.
- */
-export function schliesseAufVorherigeFolgen(videos: Video[]): number {
-  const mitVde = videos.filter((v) => (v.languages ?? []).includes('vde'))
-  if (!mitVde.length) return 0
-  const hoechste = Math.max(...mitVde.map((v) => nummerVon(v)).filter((n) => n > 0))
-  if (!Number.isFinite(hoechste) || hoechste <= 0) return 0
-  let ergaenzt = 0
-  for (const v of videos) {
-    const n = nummerVon(v)
-    if (n <= 0 || n > hoechste) continue
-    if ((v.languages ?? []).includes('vde')) continue
-    v.languages = [...(v.languages ?? []), 'vde']
-    ergaenzt++
-  }
-  return ergaenzt
-}
-
-/**
- * Die Folgennummer, so wie ADN sie fuehrt: `shortNumber` ist die Nummer als Text
- * ("12"), `order` die Position in der Staffel. `number` ist ausgeschrieben
- * ("Episode 12") und taugt nicht zum Rechnen.
- */
-function nummerVon(v: Video): number {
-  const roh = v.shortNumber ?? v.order
-  const n = Number(roh)
-  return Number.isFinite(n) ? n : 0
 }
 
 export function schreibeVdeHistorie(historie: VdeHistorie, neu: number, wieder: number): void {
