@@ -309,25 +309,6 @@ der Seite; dafür spricht, dass ein Vorschlag mit Stern-Merken der natürliche W
 jemand von einem Titel zum nächsten kommt.
 
 
-**Karussell scrollt nicht zum ausgewählten Titel** (beobachtet 24.08.2026, 16:05)
-
-Daniel öffnet im Kalender das Detail-Panel von „The Ghost in the Shell". Das Reihen-Karussell
-oben zeigt die Reihe von vorn — Film 1995, Stand Alone Complex 2002, … — der **gerade
-geöffnete Titel steht aber am Ende der Reihe und liegt außerhalb des sichtbaren Bereichs.**
-Man sieht nicht, wo man gerade ist, und muss selbst scrollen.
-
-Bei dieser Reihe fällt es besonders auf: Sie hat **21 Teile**, der aktive ist der letzte.
-
-**Bewusst zurückgestellt** (Daniels Entscheidung): Der Umbau des Detail-Panels steht ohnehin
-an, und der Reihen-Umschalter bekommt dort einen neuen Platz und eine neue Form. Diesen Fehler
-jetzt im alten Karussell zu beheben, wäre Arbeit an etwas, das danach nicht mehr existiert.
-
-**Beim Umbau mitnehmen:** Der aktive Teil muss beim Öffnen sichtbar sein — `scrollIntoView`
-mit `block: nearest` und `inline: center` auf das aktive Element, sobald das Panel steht.
-Gilt für jede der drei vorgeschlagenen Formen (Leiste unter dem Anbieter, Reiter über der
-Bühne, Abschnitt unten). Beim Reiter-Entwurf wiegt es am schwersten: Dort ist der aktive
-Eintrag das einzige Merkmal, an dem man seine Position erkennt.
-
 | Aufgabe | SP | Notiz |
 |---|---|---|
 | ~~① Automatisierte Quelle für Tonspuren und Neuzugänge~~ — **steht, läuft täglich** (23.08.2026, 14:45) | 5 | **Die Quelle war seit dem 21.08. angebunden, lief aber nur am 2. jedes Monats** (`tonspuren-monatlich.yml`) und holte nur den Bestandskatalog. Eine Staffel, die am 3. startet, war damit dreissig Tage unsichtbar. Neu: `pipeline/fetch-motn-changes.ts` fragt `/changes` mit `change_type=new` fuer Netflix, Prime Video und Disney+ ab und haengt im taeglichen `refresh-data`-Lauf. **Kosten: eine Anfrage am Tag** (~30 im Monat) gegen ein Kontingent von 1.000. Liefert die Tonspur mit (`audios: [deu, jpn]`) und `imdbId`/`tmdbId` fuer die Zuordnung. **Gemessen statt angenommen:** `upcoming` ist fuer Anime nutzlos (12 kuenftige Serien fuer ganz Deutschland, kein Anime), `new` bringt welche (Beelzebub, The Dangers in My Heart, GTO 2026). **Offen als naechster Schritt:** Die gesammelten Aenderungen mit unserem Datensatz verknuepfen — bisher landen sie nur in `data/motn-changes.json` |
@@ -1104,6 +1085,37 @@ weder offiziell noch in den inoffiziellen Doku-Repos.
   abgenommen.
 
 ## Archiv
+
+### Detail-Panel neu gebaut — sechs Schritte, 24.08.2026
+
+Daniel am 24.08.2026: „eventuell sollten wir über ein re-design des detail panels nachdenken".
+Aus fünfzehn Mockup-Fassungen wurde eine, aus der eine Reihenfolge. Gebaut in sechs Commits,
+jeder für sich prüfbar:
+
+| Schritt | Was |
+|---|---|
+| 1 | Bühne aus dem Cover statt aus dem Banner, Titel als zusammenhängende Pille |
+| 2 | „Wo läuft es" **vor** die Termine — das grüne „DE ✓" ist die wertvollste Angabe der Seite |
+| 3 | Antwortkasten mit fester Höhe: vier Fälle, ein Platz, keine springenden Elemente |
+| 4 | Werkangaben ans Ende, Genres auf drei begrenzt |
+| 5 | Reihen-Umschalter unter die Anbieter, mit Zahl in der Überschrift |
+| 6 | Knopf-Beschriftungen nennen die Wirkung statt des Ziels |
+
+**Zwei Beobachtungen von Daniel sind darin aufgegangen:**
+
+- „unter dem grünen balken steht x von y erschienen … das führt dazu, dass die elemente nach
+  klick zwischen titel hoch/runter schieben" → der Antwortkasten hat eine feste Mindesthöhe,
+  alle vier Fälle belegen denselben Platz.
+- „wenn ich the ghost in the shell detail panel öffne wird im karussell nicht an die stelle
+  horizontal gescrollt zu dem gerade ausgewählten titel" (16:05) → der aktive Teil macht sich
+  beim Öffnen selbst sichtbar. Bewusst zurückgestellt gewesen, weil der Umbau den Umschalter
+  ohnehin an einen neuen Platz brachte; jetzt in Schritt 5 mitgenommen. Senkrecht wird dabei
+  auf „nearest" gescrollt statt auf „center", damit die Seite nicht springt — bewegen soll
+  sich nur das Band.
+
+**Was der Umbau nicht angefasst hat:** Die Gruppierung der Kaufwege nach Shop steht seit dem
+20.08.2026 und trägt die Synchro-Angabe je Anbieter bereits; sie ist in Schritt 2 unverändert
+mitgewandert.
 
 ### DMARC steht auf `p=quarantine` (24.08.2026, 12:05)
 
