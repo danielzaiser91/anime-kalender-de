@@ -326,7 +326,16 @@ Was geprüft ist und trägt:
 Damit umfasst die Belegkette die Berichte vom **07.–10.08.2026**, durchgehend sauber, kein
 fremder Absender. Die zwei Wochen, die Daniel am 12.08. sammeln wollte, sind es nicht.
 
-**Die Frage an Daniel:** trotzdem umstellen, oder erst die Berichte aus dem Postfach nachreichen?
+**Entschieden am 24.08.2026, 14:35: warten.** Daniel legt die Google-Berichte aus seinem
+Gmail-Postfach in den Übergabeordner
+(`C:\code\ai\__assets\_shared files user to agent\`), sie werden ausgewertet, und danach fällt
+die Entscheidung. **Bis dahin bleibt die Zone auf `p=none`** — nichts wird umgestellt.
+
+Das ist die Lesart, die zum Projekt passt: Der Schritt auf `p=quarantine` ist umkehrbar, aber
+die Belegkette dafür ist es nicht — wer `rua=` streicht, sammelt nie wieder Berichte für ein
+späteres `p=reject`. Vier saubere Tage sind dafür zu wenig.
+
+~~**Die Frage an Daniel:** trotzdem umstellen, oder erst die Berichte aus dem Postfach nachreichen?~~
 
 Der Handgriff ist klein und steht bereit — in `tools/inwx-dns.mjs` (Zeile 55) wird
 `'v=DMARC1; p=none; rua=mailto:danielzaiser91@googlemail.com'` zu

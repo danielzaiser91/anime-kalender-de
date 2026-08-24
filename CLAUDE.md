@@ -350,6 +350,41 @@ Zeichen der Abruf, den ein Klick aufs Auswahlfeld auslöst — keine Suche, kein
 zweite Serie. Wo die Grenze greift oder ein Abruf fehlschlägt, bleibt die Zahl unvollständig,
 und der Knopf sagt es.
 
+### Bei einem Kanal-Titel ist Amazons Sprachangabe kein Beleg
+
+Prime Video führt zweierlei unter derselben Oberfläche: eigene Inhalte („In Prime enthalten",
+`benefitId: "Prime"`) und **Kanal-Abos** wie ADN, aniverse oder Crunchyroll, die man dort
+dazubucht. Der Unterschied entscheidet, ob die Tonspur-Angabe etwas taugt.
+
+Daniel am 24.08.2026: „prüft die extension wirklich ob jede einzelne folge eine deutsche
+tonspur hat, oder liest sie nur aus dem audio feld auf der overview? die erste folge kann ich
+als deutsch dort bestätigen, für die anderen brauch man die prime adn subscription."
+
+Die Frage traf. Gemessen an „Kill Blue", das auf Prime nur über die Kanäle ADN, aniverse und
+Crunchyroll läuft:
+
+| Quelle | deutsche Folgen |
+|---|---|
+| **Amazon behauptet** | **12** |
+| ADN direkt (Daniels Konto) | 4 |
+| Netflix (am selben Tag) | 4 |
+| Crunchyroll | 0 |
+
+Zwei unabhängige Messungen sagen vier, Amazon sagt zwölf. Bei einem Kanal-Titel zeigt Amazon
+offenbar die Sprachen, die der **Kanal** führt, nicht die der einzelnen Folge — die Angabe
+steht je Folge im Quelltext, wiederholt aber dieselbe Auskunft.
+
+**Bei „Digimon Tamers" stimmte sie**, und der Unterschied ist ablesbar: Dort stand „In Prime
+enthalten". Deshalb prüft die Erweiterung seit dem 24.08.2026 das `benefitId`:
+
+- `Prime` dabei → eigener Inhalt, die Angabe zählt
+- nur Kanäle → der Knopf trägt **⚠ Kanal**, die Meldung das Feld `ueberKanal`, und die Notiz
+  sagt es im Klartext
+- Kauf- oder Leihtitel → zählt ebenfalls, denn was gekauft wird, hat seine eigene Tonspur
+
+Die Meldung wird nicht unterdrückt — ein Hinweis bleibt ein Hinweis. Aber aus ihr darf kein
+Beleg werden, und das ist dieselbe Trennung, die dieses Projekt bei Crunchyroll schon zieht.
+
 ## Terminquellen: der Shop schlägt die News schlägt die Datenbank
 
 Am 13.08.2026 hat Daniel zehn angebliche Terminwidersprüche einzeln nachgeprüft. Das
@@ -668,6 +703,28 @@ dieselbe Datei, egal was darin steht.
   leere Seite.
 - Jeder Cache im Service Worker hat eine Obergrenze. Ohne sie wächst er still: einmal 313 MB
   Cover (10.08.2026), einmal 400 KB Programmdateien je Deploy (12.08.2026).
+
+## Ein geklärter roter Lauf wird entfernt
+
+Daniel am 24.08.2026: „du hast die läufe im status geprüft, warum sind die immer noch sichtbar.
+wenn die geprüft wurden, können die dort entfernt werden, sonst bekomme ich einen falschen
+eindruck."
+
+Die Liste der Läufe ist eine **Statusanzeige**, kein Archiv. Steht dort ein rotes Kreuz, heißt
+das „hier ist etwas zu tun" — und wenn nichts mehr zu tun ist, lügt es.
+
+Also: Sobald ein roter Lauf **geprüft und die Ursache behoben oder festgehalten** ist, wird er
+gelöscht:
+
+```bash
+gh run delete <id> --repo danielzaiser91/anime-kalender-de
+```
+
+**Erst prüfen, dann löschen — nie umgekehrt.** Was in dem Lauf stand, ist danach weg; die
+Erkenntnis daraus muss vorher woanders stehen, in einem Commit, in `status.md` oder hier. Am
+24.08.2026 waren es drei: ein AniList-Ausfall, ein Typfehler von mir und ein abgebrochener
+Seitenaufruf bei Crunchyroll. Alle drei sind behoben und beschrieben; die Läufe selbst brauchte
+niemand mehr.
 
 ## Datenläufe laufen remote, nicht hier
 

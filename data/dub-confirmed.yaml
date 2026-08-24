@@ -17694,7 +17694,10 @@
 # Urteile gegen vier geprüfte Fälle, und alle 120 lauteten "deutsch".
 # Alle drei bestätigen das Archiv.
 
-- anilistId: 2049
+# Die Kennung war am 24.08.2026 falsch: 2049 stand hier, richtig ist 15.
+# Geraten statt nachgeschlagen -- der Eintrag zeigte auf einen Titel, den es
+# im Bestand nicht gibt, und die Handpruefung lief ins Leere.
+- anilistId: 15
   title: Eyeshield 21
   platform: adn
   dub: true
@@ -17727,3 +17730,41 @@
   note: >-
     Daniel: "alle folgen haben deutsche synchro (1-26)". Das Archiv führt 26
     Folgen, alle mit vde.
+
+# --- Kill Blue, Stand 24.08.2026 --------------------------------------------
+#
+# Die Serie laeuft, und die deutsche Fassung waechst mit: Am 23.08. abends
+# waren zwei Folgen deutsch, am 24.08. mittags vier. Beide Blicke stimmen --
+# der juengere gilt.
+
+- anilistId: 198113
+  title: Kill Ao
+  platform: netflix
+  dub: true
+  checkedAt: "2026-08-24"
+  dubRanges:
+    - { from: 1, to: 4, dub: true }
+  note: >-
+    Daniel: "gerade auf netflix geprueft, dort gibt es 4 folgen auf deutsch".
+    Am Vorabend waren es zwei (Folgen 1-2 deutsch, Folge 3 noch nicht) -- die
+    deutsche Fassung waechst mit der laufenden Ausstrahlung.
+
+- anilistId: 198113
+  title: Kill Ao
+  platform: crunchyroll
+  dub: false
+  checkedAt: "2026-08-24"
+  note: >-
+    Daniel: "auf crunchy gibt es fuer kill blue keine synchronisierte folge".
+
+- anilistId: 198113
+  title: Kill Ao
+  platform: adn
+  dub: true
+  checkedAt: "2026-08-24"
+  dubRanges:
+    - { from: 1, to: 4, dub: true }
+  note: >-
+    Daniel: "adn geprueft (direkt, nicht per amazon) und dort gibt es 4 auf
+    deutsch". Deckt sich mit seiner Netflix-Pruefung am selben Tag. Unser
+    ADN-Archiv stand auf 2 -- es ist vom 20.08. und damit veraltet.

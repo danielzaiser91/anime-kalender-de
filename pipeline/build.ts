@@ -2722,6 +2722,48 @@ function main(): void {
   // vollständige Liste (mehrere Megabyte) lädt erst die Datenbank-Ansicht nach.
   const referenced = new Set(releases.map((r) => r.titleId))
   writeJson(`${OUT}/titles-core.json`, slim.filter((t) => referenced.has(t.id)))
+  /**
+   * Kein Titel geht verloren — der Build bricht lieber ab.
+   *
+   * Gemessen am 24.08.2026: Ein Bau mit aeltererem `data/cache/` erzeugte
+   * 2.752 statt 2.762 Titeln. Die zehn fehlenden waren nicht falsch, sie
+   * waren nur im lokalen Cache nicht vorhanden -- darunter "Kill Ao" und
+   * "Mononoke Chapter III", beide mit Termin im Kalender.
+   *
+   * Ein verlorener Titel faellt nicht auf: Der Termin bleibt stehen, das
+   * Detail-Panel sagt "keine Metadaten". So hat Daniel es am 23.08. entdeckt,
+   * nicht der Lauf.
+   */
+  {
+    /** Ein einzelner Wegfall ist erklaerbar, mehrere sind ein Symptom. */
+    const ERLAUBTER_VERLUST = 1
+    let vorher: number[] = []
+    try {
+      const alt = readJson<Title[] | Record<string, Title>>('public/data/titles.json', [])
+      vorher = (Array.isArray(alt) ? alt : Object.values(alt)).map((t) => t.id)
+    } catch {
+      /* Kein voriger Stand — dann gibt es nichts zu verlieren. */
+    }
+    if (vorher.length) {
+      const jetzt = new Set(slim.map((t) => t.id))
+      const verloren = vorher.filter((id) => !jetzt.has(id))
+      if (verloren.length > ERLAUBTER_VERLUST) {
+        warn(
+          `ABBRUCH: ${verloren.length} Titel wuerden aus dem Datensatz fallen ` +
+            `(${vorher.length} → ${slim.length}).`,
+        )
+        warn(`   Betroffen: ${verloren.slice(0, 10).join(', ')}`)
+        warn(
+          '   Meist ist der lokale data/cache/ aelter als der des letzten Laufs. Datenlaeufe gehoeren nach GitHub — siehe CLAUDE.md.',
+        )
+        process.exit(1)
+      }
+      if (verloren.length) {
+        warn(`${verloren.length} Titel faellt aus dem Datensatz: ${verloren.join(', ')}`)
+      }
+    }
+  }
+
   writeJson(`${OUT}/titles.json`, slim)
   // Kennung → Reihe: das Erste sortiert die schon gepflegten Titel aus, das
   // Zweite hält Reihen zusammen, die über die Grenze der beiden Bestände gehen.

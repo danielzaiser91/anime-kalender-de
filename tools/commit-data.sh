@@ -53,6 +53,16 @@ QUELLEN=(
   # Lauf holt, fiele ohne diese Zeile unter den Tisch — und ein Abruf über 2.612
   # Seiten ist genau das, was das Archiv ersparen soll.
   data/anisearch-raw
+  # Was die Browser-Erweiterung meldet, landet über `data:pruefungen` hier —
+  # die einzige Quelle im Projekt, die weder rät noch schweigt, und die
+  # teuerste, weil sie Daniels Zeit kostet statt Rechenzeit. Der Schritt läuft
+  # seit dem 24.08.2026 täglich; ohne diese Zeile hätte der Reset seine Arbeit
+  # jeden Tag verworfen, und die Meldungen wären im Worker liegen geblieben.
+  data/dub-confirmed.yaml
+  # Die Staffelaufteilung je Anbieter-Adresse, aus denselben Meldungen. Sie
+  # ist der Schlüssel, um eine Meldung später einer unserer Staffeln
+  # zuzuordnen, auch wenn der Anbieter anders einteilt.
+  data/anbieter-staffeln.json
   data/tmdb.json
   # Deutsche Handlung, FSK und Anbieter je Titel. Fehlte hier bis zum
   # 21.08.2026 — der Abruf lief allerdings auch in keinem Workflow.

@@ -103,4 +103,58 @@ if (fehler.length) {
   if (fehler.length > 25) warn(`   … und ${fehler.length - 25} weitere`)
   process.exit(1)
 }
+
+/**
+ * Jede Kennung muss einen Titel treffen.
+ *
+ * Am 24.08.2026 stand hier ein Eintrag mit anilistId 2049 fuer "Eyeshield
+ * 21" -- richtig ist 15. Die Kennung war geraten statt nachgeschlagen, der
+ * Eintrag zeigte ins Leere, und die Pruefung wirkte nirgends.
+ *
+ * Die Pruefung darueber fand das nicht: Sie haelt jede Handpruefung gegen
+ * den Datensatz und uebergeht, wozu es dort nichts gibt. Diese Zeile
+ * schliesst die Luecke von der anderen Seite.
+ *
+ * Trifft eine Kennung keinen Titel, ist entweder sie falsch oder der Titel
+ * fehlt im Bestand -- beides muss auffallen.
+ */
+let verwaisteBelege = 0
+{
+  const bekannt = new Set(titel.map((t) => t.id))
+  const verwaist = [
+    ...new Map(
+      loadDubChecks()
+        .filter((c) => !bekannt.has(c.anilistId))
+        .map((c) => [c.anilistId, c]),
+    ).values(),
+  ]
+  if (verwaist.length) {
+    warn(
+      `${verwaist.length} Handpruefung(en) zeigen auf keinen Titel im Bestand:`,
+    )
+    for (const c of verwaist.slice(0, 8)) {
+      warn(`   ${c.anilistId} — ${c.title ?? "(ohne Titel)"} (${c.platform})`)
+    }
+    verwaisteBelege = verwaist.length
+  } else {
+    log('✓ Jede Handpruefung zeigt auf einen Titel im Bestand.')
+  }
+}
+
 log('✓ Jede eindeutige Handprüfung steht so im Datensatz, wie sie geprüft wurde.')
+
+/**
+ * Eine Kennung ins Leere macht den Lauf rot.
+ *
+ * Der Abbruch weiter oben greift nur bei Widerspruechen -- eine Pruefung, zu
+ * der es gar keinen Titel gibt, faellt dort durch. Genau so blieb der
+ * Eyeshield-Eintrag mit der falschen Kennung 2049 vier Tage unbemerkt
+ * (24.08.2026).
+ */
+if (verwaisteBelege) {
+  warn(
+    `Abbruch: ${verwaisteBelege} Handpruefung(en) zeigen ins Leere. Entweder ist die ` +
+      `Kennung falsch, oder der Titel fehlt im Bestand.`,
+  )
+  process.exit(1)
+}

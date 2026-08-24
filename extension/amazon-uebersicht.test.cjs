@@ -538,6 +538,65 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   )
 }
 
+// --- 2i. Kanal-Titel gegen Prime-eigenen Titel ----------------------------
+
+/**
+ * Daniel am 24.08.2026: "prueft die extension wirklich ob jede einzelne folge
+ * eine deutsche tonspur hat, oder liest sie nur aus dem audio feld auf der
+ * overview?"
+ *
+ * Die Frage traf einen echten Fehler. Gemessen an "Kill Blue":
+ *
+ *     Amazon behauptet   12 Folgen deutsch
+ *     ADN-Archiv         12 Folgen, davon 2 mit vde
+ *     Crunchyroll        keine (Daniels Pruefung)
+ *     Netflix            4 (Daniels Pruefung am selben Tag)
+ *
+ * Der Titel laeuft dort ueber die Kanaele ADN, aniverse und Crunchyroll, nicht
+ * als Prime-eigener Inhalt. Amazon zeigt dann offenbar die Sprachen des
+ * Kanals, nicht die der Folge.
+ */
+{
+  const seite = (benefit, folgen) =>
+    Array.from(
+      { length: folgen },
+      (_, i) => `"audioTracks":["Deutsch"],"duration":1355,"episodeNumber":${i + 1},`,
+    ).join("") + `"episodeCount":${folgen},"benefitId":"${benefit}"`
+
+  // Prime-eigener Titel: die Angabe zaehlt.
+  const eigen = starte(Object.keys(ECHTE_LISTE)[0])
+  eigen.sandkasten.document.documentElement.innerHTML = seite("Prime", 12)
+  for (const takt of eigen.takte) takt()
+  const knopfEigen = eigen.angehaengt.find((e) => e.className.includes("ak-amazon-knopf"))
+  pruefe(
+    "ein Prime-eigener Titel wird nicht als Kanal gekennzeichnet",
+    knopfEigen && !knopfEigen.textContent.includes("Kanal"),
+    knopfEigen?.textContent,
+  )
+
+  // Kanal-Titel: die Angabe ist ein Hinweis, kein Beleg.
+  const kanal = starte(Object.keys(ECHTE_LISTE)[1])
+  kanal.sandkasten.document.documentElement.innerHTML = seite("animationdigitalnetworkde", 12)
+  for (const takt of kanal.takte) takt()
+  const knopfKanal = kanal.angehaengt.find((e) => e.className.includes("ak-amazon-knopf"))
+  pruefe(
+    "ein Kanal-Titel traegt die Warnung am Knopf",
+    knopfKanal?.textContent.includes("Kanal"),
+    knopfKanal?.textContent,
+  )
+
+  knopfKanal?.hoerer?.click?.()
+  setTimeout(() => {
+    const koerper = kanal.gemeldet[0]?.koerper ?? {}
+    pruefe(
+      "und die Meldung sagt es mit",
+      koerper.ueberKanal === true &&
+        /Kanal-Titel/.test(koerper.notiz ?? ""),
+      { ueberKanal: koerper.ueberKanal, notiz: (koerper.notiz ?? "").slice(-70) },
+    )
+  }, 30)
+}
+
 // --- 3. Erledigte zählen nicht mehr mit -----------------------------------
 
 {

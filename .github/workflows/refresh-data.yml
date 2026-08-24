@@ -190,6 +190,23 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "Deutsche Texte und Anbieter von aniSearch"
 
+      # Was über die Browser-Erweiterung gemeldet wurde, liegt im Worker und
+      # muss abgeholt werden. Stand bis zum 24.08.2026 in keinem Workflow —
+      # die Meldungen warteten, bis jemand den Befehl von Hand ausführte.
+      #
+      # Vor dem Datenbau, damit heute Gemeldetes heute im Datensatz steht.
+      - name: Meldungen aus der Erweiterung abholen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:pruefungen
+
+      - name: Fortschritt — Meldungen abgeholt
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Meldungen aus der Erweiterung abgeholt"
+
       - name: Datensatz bauen
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}

@@ -414,6 +414,30 @@ async function speicherSchreiben(werte) {
     return n ? Number(n) : 1
   }
 
+  /**
+   * Laeuft dieser Titel ueber einen fremden Kanal statt ueber Prime selbst?
+   *
+   * Amazon fuehrt beides unter derselben Oberflaeche: eigene Inhalte
+   * ("In Prime enthalten", benefitId "Prime") und Kanal-Abos wie ADN,
+   * aniverse oder Crunchyroll, die man dort dazubucht.
+   *
+   * **Der Unterschied entscheidet, ob die Sprachangabe etwas taugt.** Bei
+   * "Kill Blue" behauptet Amazon 12 deutsche Folgen; ADN, die Quelle hinter
+   * dem Kanal, hat 2 (Daniel, 24.08.2026). Offenbar zeigt Amazon dort die
+   * Sprachen des Kanals, nicht die der Folge.
+   *
+   * Ein Kauftitel zaehlt nicht als Kanal: Was gekauft wird, hat seine
+   * eigene Tonspur, und die kennt Amazon.
+   */
+  function ueberKanal() {
+    const gefunden = abos()
+    if (!gefunden.length) return false
+    if (gefunden.some((a) => /^prime$/i.test(a))) return false
+    const art = zugangsart()
+    if (art === 'kauf' || art === 'kauf_oder_leihe') return false
+    return true
+  }
+
   /** Welche Abos diese Staffel freischalten — `Prime`, `aniversede`, … */
   function abos() {
     const text = document.documentElement.innerHTML
@@ -763,6 +787,8 @@ async function speicherSchreiben(werte) {
     // Eine Staffel, die wir nicht führen, wird trotzdem gemeldet — der Knopf
     // sagt es nur dazu, damit die Meldung nicht wie eine Zuordnung aussieht.
     const woher = eintrag.unbekannt ? ' · neu' : ''
+    // Bei einem Kanal-Titel ist die Angabe ein Hinweis, kein Beleg.
+    const kanalHinweis = ueberKanal() ? ' · ⚠ Kanal' : ''
     // Die Zugangsart gehört an den Knopf — sonst meldet man sie blind mit.
     const art = zugangsart()
     const zugang = art && art !== 'abo' ? ` · ${ZUGANG_TEXT[art]}` : ''
@@ -776,7 +802,7 @@ async function speicherSchreiben(werte) {
       knopf.dataset.deutsch = String(deutsch)
       return
     }
-    knopf.textContent = `${deutsch ? '🇩🇪 Deutsch' : '✕ kein Deutsch'} · ${umfang}${zugang}${woher} · melden`
+    knopf.textContent = `${deutsch ? '🇩🇪 Deutsch' : '✕ kein Deutsch'} · ${umfang}${zugang}${kanalHinweis}${woher} · melden`
     knopf.dataset.teilweise = String(!vollstaendig)
   }
 
@@ -954,6 +980,13 @@ async function speicherSchreiben(werte) {
            */
           zugang: zugangsart(),
           /**
+           * Laeuft der Titel ueber einen fremden Kanal, ist die
+           * Sprachangabe ein Hinweis und kein Beleg — siehe `ueberKanal()`.
+           * Die Pipeline muss das wissen, sonst wird aus einer Vermutung
+           * eine Handpruefung.
+           */
+          ueberKanal: ueberKanal(),
+          /**
            * Die geprüfte Folgenzahl, als Zahl.
            *
            * Sie stand bisher nur in der Notiz („alle 11 Folgen geprüft") und
@@ -992,7 +1025,10 @@ async function speicherSchreiben(werte) {
              * schadet nicht und trägt, sobald die Spalte da ist. Bis dahin ist
              * die Notiz der Träger: `zugang=kauf` steht maschinenlesbar drin.
              */
-            (zugangsart() ? `, zugang=${zugangsart()}` : ''),
+            (zugangsart() ? `, zugang=${zugangsart()}` : '') +
+            (ueberKanal()
+              ? ' — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg'
+              : ''),
         }),
       })
       knopf.textContent = antwort.ok ? '✓ gemeldet' : `Fehler ${antwort.status}`
