@@ -40,7 +40,7 @@
 import { resolve } from 'node:path'
 import { gzipSync } from 'node:zlib'
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
-import { loadEnv, log, readJson, ROOT, sleep, warn, writeJson } from './lib/util.ts'
+import { ROOT, loadEnv, log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 
 loadEnv()
@@ -269,6 +269,47 @@ async function main(): Promise<void> {
   bestand.fetchedAt = new Date().toISOString()
   writeJson(pfad, bestand, true)
   recordSource('motn-changes', neue)
+
+  /**
+   * Betrifft uns überhaupt etwas davon?
+   *
+   * Der Lauf meldete bisher nur seine eigenen Zahlen — „152 Einträge, 55 mit
+   * deutscher Tonspur" liest sich nach Ertrag, sagt aber nichts darüber, ob
+   * einer davon in diesem Kalender vorkommt. Gemessen am 24.08.2026: 11 der
+   * 152 sind einem unserer Titel zuzuordnen, 5 tragen deutschen Ton, und alle
+   * 5 standen längst im Bestand. Der Ertrag war null.
+   *
+   * Zugeordnet wird über die TMDB-Kennung, und die beiden Seiten schreiben sie
+   * verschieden: `data/tmdb-titles.json` führt `tmdbId: 30991` mit `kind:
+   * 'tv'`, die Änderungsquelle `tmdbId: 'tv/331650'`. Wer das übersieht,
+   * misst sauber null Treffer und hält die Quelle für wertlos.
+   */
+  const tmdbTitel = readJson<Record<string, { tmdbId?: number; kind?: string }>>('data/tmdb-titles.json', {})
+  const unsere = new Set<string>()
+  for (const v of Object.values(tmdbTitel)) {
+    if (v?.tmdbId) unsere.add(`${v.kind ?? 'tv'}/${v.tmdbId}`)
+  }
+  const motnBestand = readJson<{ shows?: Record<string, unknown> }>('data/motn.json', {})
+  let unsereTreffer = 0
+  let unsereMitDeutsch = 0
+  let unsereNeu = 0
+  for (const e of Object.values(bestand.gesehen)) {
+    if (!e.tmdbId || !unsere.has(e.tmdbId)) continue
+    unsereTreffer++
+    if (!e.deutsch) continue
+    unsereMitDeutsch++
+    if (!e.imdbId || !motnBestand.shows?.[e.imdbId]) unsereNeu++
+  }
+  log(
+    `Davon in unserem Kalender: ${unsereTreffer} zuzuordnen, ${unsereMitDeutsch} mit deutscher ` +
+      `Tonspur, ${unsereNeu} noch nicht im MOTN-Bestand`,
+  )
+  if (unsereNeu > 0) {
+    // Die Zeile, wegen der dieser Lauf existiert. Sie kam seit dem 23.08.2026
+    // kein einziges Mal — wenn sie kommt, gehört der Titel in den nächsten
+    // Folgenabruf.
+    warn(`${unsereNeu} Titel aus der Änderungsquelle fehlen im MOTN-Bestand — Folgenabruf lohnt`)
+  }
   log(`${anfragen} Anfragen, ${neue} neue Einträge (${mitDeutsch} mit deutscher Tonspur, ${verschwunden} Entfernungen).`)
   log(`Verbrauch ${monat}: ${bestand.verbrauch[monat]} (dieser Lauf) — der Monatslauf zählt eigene.`)
 }
