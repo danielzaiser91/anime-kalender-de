@@ -28,7 +28,7 @@
  * nutzt die Lizenz bestimmungsgemäß. Deshalb wird hier **nichts angefordert** —
  * gelesen wird nur, was die Seite ohnehin geladen hat.
  */
-;(() => {
+;(async () => {
 
 /**
  * Lebt die Verbindung zur Erweiterung noch?
@@ -287,9 +287,24 @@ async function speicherSchreiben(werte) {
      * Fehlt beides, bleibt die Zahl offen — dann wird auch keine Vollständigkeit
      * behauptet.
      */
+    /**
+     * Das Seitengerüst zuerst — es gehört zur **gezeigten** Staffel.
+     *
+     * Bis zum 24.08.2026 stand `episodeCount` vorn, mit der Begründung, das
+     * Seitengerüst nenne nur die Zahl des gerade gewählten Abschnitts. An drei
+     * Seiten nachgemessen stimmt das nicht: Digimon Tamers zeigt `>51 Folgen<`
+     * bei den Abschnitten 1–24, 25–48 und 49–51; Bakugan Staffel 1 zeigt 13 bei
+     * einem Abschnitt; Barbapapa Staffel 1 zeigt 45. Auf allen dreien fehlte
+     * `episodeCount` im Rohzustand ganz — es kommt erst mit den nachgeholten
+     * Abschnitten.
+     *
+     * Und genau darin lag der Fehler: Nach einem Staffelwechsel steht dort noch
+     * die Zahl der **vorigen** Staffel, und sie gewann. Der Knopf sagte „55
+     * Folgen" auf einer Staffel mit 45 (Daniel, 24.08.2026, zweimal gemeldet).
+     */
     const gesamt =
-      Number(/"episodeCount"\s*:\s*(\d+)/.exec(text)?.[1]) ||
       Number(/>\s*(\d+)\s*Folgen\s*</.exec(text)?.[1]) ||
+      Number(/"episodeCount"\s*:\s*(\d+)/.exec(text)?.[1]) ||
       null
 
     /**
@@ -526,6 +541,24 @@ async function speicherSchreiben(werte) {
     .catch(() => {})
 
   /**
+   * Was ein anderer Tab meldet, kommt hier an.
+   *
+   * Ohne das zeigt dieser Tab weiter „offen" für etwas, das nebenan längst
+   * gemeldet ist — und beim nächsten eigenen Melden wäre sein Stand wieder der
+   * alte. Zusammen mit dem Zusammenführen beim Schreiben ergibt das einen
+   * Stand, den sich alle Tabs teilen.
+   */
+  try {
+    chrome.storage?.onChanged?.addListener?.((aenderungen, bereich) => {
+      if (bereich !== 'local' || !aenderungen.amazonErledigt) return
+      erledigt = aenderungen.amazonErledigt.newValue ?? {}
+      uebersichtZeichnen()
+    })
+  } catch {
+    // Erweiterung neu geladen — dann gibt es hier nichts mehr zu hören.
+  }
+
+  /**
    * Ist dieser Titel **vollständig** abgearbeitet?
    *
    * Ein Eintrag im Speicher sieht so aus:
@@ -663,8 +696,15 @@ async function speicherSchreiben(werte) {
      * Element, das es nicht mehr gab — Daniel musste Titel mehrfach anklicken
      * (24.08.2026).
      */
+    /**
+     * Ein frisch geöffneter Dialog ist leer — der muss immer gefüllt werden.
+     *
+     * Der Wächter allein prüfte nur, ob sich am **Inhalt** etwas geändert hat.
+     * Beim Schließen und Neuöffnen ändert sich daran nichts, also baute er
+     * nichts: „es kommt backdrop aber kein dialog" (Daniel, 24.08.2026).
+     */
     const signatur = listenSignatur()
-    if (signatur === letzteSignatur) return
+    if (signatur === letzteSignatur && dialog.querySelector('.ak-kasten')) return
     letzteSignatur = signatur
 
     // Was ein Neuaufbau sonst verschluckt: der eingetippte Suchbegriff, die
@@ -827,7 +867,40 @@ async function speicherSchreiben(werte) {
    * Meldung geht dann mit der Adresse der Seite raus und ohne unsere Kennung;
    * zuordnen lässt sie sich später über den Titel.
    */
-  if (!id) return // Gar keine Titelseite — dann gibt es nichts zu melden.
+  /**
+   * Keine Titelseite? Dann wird gewartet, nicht ausgestiegen.
+   *
+   * Seit dem 24.08.2026 läuft dieses Skript auf **jeder** Amazon-Seite — anders
+   * kommt es bei einer Navigation innerhalb der Seite gar nicht erst zum Zug
+   * (Chrome injiziert bei einem History-Wechsel nicht nach). Auf der Startseite
+   * gibt es dann keine Kennung, und ein `return` an dieser Stelle hieße: Wer
+   * von dort aus einen Titel öffnet, sieht keine Knöpfe und muss F5 drücken.
+   * Genau das war Daniels Beschwerde.
+   *
+   * Gewartet wird auf die Kennung, nicht auf die Adresse: Amazon tauscht den
+   * Seiteninhalt aus, und erst wenn der Quelltext eine Titel-Kennung trägt,
+   * gibt es überhaupt etwas zu melden.
+   *
+   * Fünf Minuten Frist, dann ist Schluss — wer so lange bei Amazon liest, ohne
+   * einen Titel zu öffnen, braucht keinen Melder, und ein Takt, der ewig läuft,
+   * gehört nicht auf eine Seite, die stundenlang offen sein kann.
+   */
+  if (!id) {
+    id = await new Promise((fertig) => {
+      const bis = Date.now() + 5 * 60 * 1000
+      const takt = setInterval(() => {
+        const jetzt = asin()
+        if (jetzt || Date.now() > bis) {
+          clearInterval(takt)
+          fertig(jetzt ?? null)
+        }
+      }, 700)
+    })
+    if (!id) return
+    // Die Adresse hat sich unterdessen geändert — die gemerkte Startadresse
+    // stammt noch von der Seite, auf der wir angekommen sind.
+    startAdresse = location.href || startAdresse
+  }
 
   /**
    * Unter welcher Kennung dieser Titel in **unserer Liste** steht.
@@ -839,10 +912,24 @@ async function speicherSchreiben(werte) {
    * Gesucht wird über beide — und abgehakt wird unter **dieser**, sonst
    * verschwindet der Eintrag nie aus der Liste.
    */
-  function listenSchluessel() {
+  /**
+   * Unter welchem Listeneintrag diese Seite abgehakt wird.
+   *
+   * `bisher` ist der Eintrag, unter dem wir gerade stehen — und der Grund,
+   * warum er übergeben wird: **Ein Staffelwechsel wechselt die ASIN, nicht die
+   * Serie.** Jede Staffel hat ihre eigene, unsere Liste kennt aber nur die
+   * eine, über die der Verweis in den Bestand kam.
+   *
+   * Ohne diesen Rückfall landete jede Meldung ab Staffel 2 unter einer
+   * Kennung, die in keiner Zeile der Liste steht: Bei „Captain Tsubasa" waren
+   * vier von fünf Meldungen unsichtbar, bei Bakugan verteilten sie sich auf
+   * drei Zeilen derselben Serie (Daniel, 24.08.2026).
+   */
+  function listenSchluessel(bisher) {
     const ausAdresse = asinAusAdresse()
     if (ausAdresse && liste[ausAdresse]) return ausAdresse
     if (liste[id]) return id
+    if (bisher && liste[bisher]) return bisher
     return ausAdresse ?? id
   }
 
@@ -919,7 +1006,27 @@ async function speicherSchreiben(werte) {
     const jetzt = spuren()
     for (const s of jetzt.sprachen) gesehen.sprachen.add(s)
     for (const n of jetzt.nummern) gesehen.nummern.add(n)
-    if (jetzt.gesamt && !gesehen.gesamt) gesehen.gesamt = jetzt.gesamt
+    /**
+     * Eine geänderte Folgenzahl ist selbst ein Staffelwechsel.
+     *
+     * Vorher wurde sie nur übernommen, solange keine dastand — danach war sie
+     * eingefroren. Erkannte `beiStaffelwechsel()` den Wechsel nicht rechtzeitig,
+     * blieb die alte Zahl für immer stehen, und die gezählten Folgen der alten
+     * Staffel zählten weiter mit.
+     *
+     * Jetzt entscheidet die Tatsache statt der Erkennung: Ändert sich die Zahl,
+     * beginnt der Zählstand von vorn. Das ist die Rückfallebene, die auch dann
+     * greift, wenn Amazon eine Umschaltung erfindet, an die hier niemand gedacht
+     * hat.
+     */
+    if (jetzt.gesamt && jetzt.gesamt !== gesehen.gesamt) {
+      if (gesehen.gesamt) {
+        gesehen.sprachen = new Set(jetzt.sprachen)
+        gesehen.nummern = new Set(jetzt.nummern)
+        gemeldeteStaffel = null
+      }
+      gesehen.gesamt = jetzt.gesamt
+    }
 
     const deutsch = [...gesehen.sprachen].some((s) => /deutsch|german/i.test(s))
     const geladen = gesehen.nummern.size
@@ -927,7 +1034,22 @@ async function speicherSchreiben(werte) {
       letzteZahl = geladen
       letzterFortschritt = Date.now()
     }
-    const wartet = Date.now() - letzterFortschritt < GEDULD_MS
+    /**
+     * Auf eine Fehlerseite wartet niemand acht Sekunden.
+     *
+     * Daniel am 24.08.2026: "warum dauert es so lange bis 'nicht abrufbar'
+     * kommt auf dem button fuer diese seiten wo nichts ist?" -- Die Geduldsfrist
+     * gilt dem Nachladen: Amazon holt lange Folgenlisten abschnittsweise, und
+     * wer zu frueh urteilt, haelt 24 von 51 Folgen fuer alles.
+     *
+     * Eine Seite, die gar keine Titelseite ist, laedt aber nichts nach. Amazon
+     * antwortet dort mit "Die eingegebene Webadresse ist keine funktionsfaehige
+     * Seite auf unserer Website" -- und wo dieser Satz steht, ist die Frage
+     * sofort beantwortet.
+     */
+    const fehlerseite =
+      /keine funktionsf(?:ä|ae)hige Seite|Suchen Sie etwas?/i.test(document.body?.innerText ?? '')
+    const wartet = !fehlerseite && Date.now() - letzterFortschritt < GEDULD_MS
     const stand = `${deutsch}|${geladen}|${gesehen.gesamt}|${wartet}`
     if (stand === letzterStand) return
     letzterStand = stand
@@ -1060,7 +1182,7 @@ async function speicherSchreiben(werte) {
     const jetzt = asin()
     if (!jetzt) return
     id = jetzt
-    listenId = listenSchluessel()
+    listenId = listenSchluessel(listenId)
     eintrag = liste[listenId] ?? {
       titel: null,
       url: `https://www.amazon.de/dp/${id}`,
@@ -1292,12 +1414,47 @@ async function speicherSchreiben(werte) {
          * Staffel verschieden und kollidiert nie.
          */
         const nr = staffelSchluessel()
-        const bisher = erledigt[listenId] ?? { staffeln: {}, gesamt: staffelZahl() }
+        /**
+         * Frisch lesen, zusammenführen, schreiben — nie den eigenen Stand
+         * für die Wahrheit halten.
+         *
+         * Jeder Tab hielt seine Kopie von `erledigt` und schrieb sie beim
+         * Melden **komplett** zurück. Wer zwei Listeneinträge in zwei Tabs
+         * öffnete und nacheinander meldete, verlor die erste Meldung: Der
+         * zweite Tab kannte sie nicht und überschrieb sie mit seinem Stand von
+         * vor dem Öffnen (Daniel, 24.08.2026).
+         *
+         * Der Speicher ist die gemeinsame Sache mehrerer Tabs — er wird
+         * behandelt wie eine, nicht wie eine private Variable.
+         */
+        /**
+         * Vereinigt, nicht ersetzt -- in beide Richtungen.
+         *
+         * Der Speicher hat, was andere Tabs gemeldet haben; `erledigt` hat,
+         * was dieser Tab gemeldet hat. **Beide sind gueltig**, denn eine
+         * Meldung wird nie zurueckgenommen. Wer eine Seite als Wahrheit nimmt,
+         * verliert die andere -- und genau das ist zweimal passiert: erst
+         * zwischen zwei Tabs, dann zwischen zwei Klicks im selben Tab, weil
+         * das Schreiben nicht abgewartet wurde und der naechste Lesevorgang
+         * den alten Stand sah.
+         */
+        const frisch = (await speicherLesen('amazonErledigt'))?.amazonErledigt ?? {}
+        const zusammen = { ...frisch }
+        for (const [schluessel, wert] of Object.entries(erledigt)) {
+          zusammen[schluessel] = {
+            ...(frisch[schluessel] ?? {}),
+            ...wert,
+            staffeln: { ...(frisch[schluessel]?.staffeln ?? {}), ...(wert.staffeln ?? {}) },
+          }
+        }
+        const bisher = zusammen[listenId] ?? { staffeln: {}, gesamt: staffelZahl() }
         bisher.staffeln = { ...(bisher.staffeln ?? {}), [nr]: deutsch ? '🇩🇪' : '✕' }
-        bisher.gesamt = staffelZahl()
-        erledigt[listenId] = bisher
+        bisher.gesamt = Math.max(staffelZahl(), Object.keys(bisher.staffeln).length)
+        erledigt = { ...zusammen, [listenId]: bisher }
         gemeldeteStaffel = nr
-        void speicherSchreiben({ amazonErledigt: erledigt })
+        // Abwarten: Der naechste Klick liest hier gleich wieder, und ohne das
+        // liest er den Stand von vor dieser Meldung.
+        await speicherSchreiben({ amazonErledigt: erledigt })
         uebersichtZeichnen()
       }
     } catch (err) {
