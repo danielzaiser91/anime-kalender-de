@@ -6,16 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – School
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:adn-1415@2026-08-17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260817T070000Z
-DTEND:20260817T073000Z
-SUMMARY:Love & Lies
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-1415
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:you-and-i-are-polar-opposites-s2@2026-08-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260818T083000Z
