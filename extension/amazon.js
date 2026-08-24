@@ -912,6 +912,39 @@ async function speicherSchreiben(werte) {
     })
     kopf.appendChild(umschalter)
 
+    /**
+     * Die Abhak-Liste wegwerfen — ohne eine einzige Meldung zu verlieren.
+     *
+     * Beides zu trennen ist der Grund, warum das gefahrlos geht: Was gemeldet
+     * wurde, liegt beim Worker und trägt seine eigene Adresse. Hier steht nur,
+     * was **dieser Browser** für erledigt hält.
+     *
+     * Gebraucht wurde das am 24.08.2026: Ein Fehler in `seitenTitel()` hat
+     * Meldungen unter fremden Serien abgelegt („Ragna Crimson" auf einer
+     * Chaika-Seite), und der Knopf zeigte danach überall den Stand des falschen
+     * Titels. Eine kaputte Abhak-Liste lässt sich nicht reparieren — sie sagt
+     * ja nicht, welcher Eintrag falsch ist. Sie lässt sich nur neu aufbauen,
+     * und das kostet Daniel nichts als ein paar Klicks auf Titel, die er ohnehin
+     * schon gemeldet hat.
+     */
+    const zuruecksetzen = document.createElement('button')
+    zuruecksetzen.className = 'ak-umschalter'
+    zuruecksetzen.type = 'button'
+    zuruecksetzen.textContent = 'Abhaken zurücksetzen'
+    zuruecksetzen.title =
+      'Leert nur die Liste, was dieser Browser für erledigt hält.\n' +
+      'Die gemeldeten Tonspuren liegen beim Worker und bleiben erhalten.'
+    zuruecksetzen.addEventListener('click', async () => {
+      zuruecksetzen.textContent = 'setzt zurück …'
+      erledigt = {}
+      await speicherSchreiben({ amazonErledigt: {} })
+      letzteSignatur = null
+      letzterStand = ''
+      uebersichtZeichnen()
+      zeichnen()
+    })
+    kopf.appendChild(zuruecksetzen)
+
     const inhalt = document.createElement('div')
     inhalt.className = 'ak-liste'
     kasten.appendChild(inhalt)
