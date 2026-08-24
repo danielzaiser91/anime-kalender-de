@@ -493,6 +493,70 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   }, 40)
 }
 
+// --- 2g2. Zwei gemeldete Staffeln sind zwei, nicht eine -------------------
+
+/**
+ * Daniel am 24.08.2026, an drei Titeln unabhängig gemeldet:
+ *
+ *   „melden von sindbad staffel 2 klappt nicht, da steht ‚gemeldet — noch 1
+ *    staffeln', nachdem ich staffel 1 gemeldet → wechsel auf staffel 2
+ *    gemeldet habe, also beide gemeldet"
+ *   „bei bakugan klappt es auch nicht, ich bin alle 15 staffeln durchgegangen,
+ *    dort steht ‚noch 3 staffeln'"
+ *
+ * **Die Ursache war der Schlüssel.** Er kam aus `?ref_=..._sN` in der Adresse,
+ * und den räumt Amazon weg, sobald die Seite steht. Ohne ihn fiel er auf
+ * `gesehen.gesamt` zurück — die **Folgenzahl**. Zwei Staffeln mit gleich vielen
+ * geladenen Folgen bekamen denselben Schlüssel, und die zweite Meldung
+ * überschrieb die erste.
+ *
+ * Gemessen am 24.08.2026 an den echten Seiten: `amazon.de/dp/B0CC7FXYFQ` meldet
+ * `"seasonNumber":1` und 45 Folgen, `B0CBNFP57W` meldet `"seasonNumber":2` und
+ * 55 Folgen. Die Nummer steht also im Quelltext — dort, wo sie niemand wegräumt.
+ *
+ * Der Fall hier ist der schlimmste: **gleiche Folgenzahl, keine Adressangabe.**
+ * Vor dem 24.08.2026 hätte er eine Staffel verschluckt.
+ */
+{
+  const listenAsin = Object.keys(ECHTE_LISTE)[0]
+  const { angehaengt, sandkasten, takte, gesetzt } = starte(listenAsin)
+
+  const seite = (staffel) =>
+    '<span>1988 · 2 Staffeln</span>' +
+    `"titleID":"B0CC7FXYF${staffel}","seasonNumber":${staffel},` +
+    '"audioTracks":["Deutsch"],"episodeNumber":1,"episodeCount":26,"benefitId":"Prime"'
+
+  // Staffel 1 melden. Die Adresse nennt keine Staffel — genau wie im echten
+  // Fall, nachdem Amazon den Parameter weggeräumt hat.
+  sandkasten.document.documentElement.innerHTML = seite(1)
+  sandkasten.location.search = ''
+  for (const takt of takte) takt()
+  angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))?.hoerer?.click?.()
+
+  setTimeout(() => {
+    // Staffel 2 — **gleiche Folgenzahl**, nur die Nummer unterscheidet sie.
+    sandkasten.document.documentElement.innerHTML = seite(2)
+    for (const takt of takte) takt()
+    angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))?.hoerer?.click?.()
+
+    setTimeout(() => {
+      const letzter = [...gesetzt].reverse().find((x) => x.amazonErledigt)?.amazonErledigt ?? {}
+      const e = letzter[listenAsin]
+      const nummern = Object.keys(e?.staffeln ?? {}).sort()
+      pruefe(
+        'zwei gemeldete Staffeln stehen als zwei im Bestand, nicht als eine',
+        nummern.length === 2,
+        e,
+      )
+      pruefe(
+        'und zwar unter ihren echten Nummern aus dem Quelltext',
+        nummern.join(',') === '1,2',
+        nummern,
+      )
+    }, 40)
+  }, 40)
+}
+
 // --- 2h. Nach dem Neuladen der Erweiterung --------------------------------
 
 /**
@@ -633,5 +697,18 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
     }
     console.log('Alle Zusicherungen erfüllt.')
     process.exit(0)
-  }, 50)
+    /**
+     * 250 ms, nicht 50 — und das ist keine Bequemlichkeit.
+     *
+     * Dieses `process.exit` beendet den Prozess. Jede Zusicherung, deren
+     * `setTimeout` später fällt, läuft **nie** — und weil sie dann auch nichts
+     * meldet, sieht der Lauf aus wie „alles grün". Genau das ist am 24.08.2026
+     * passiert: Eine neu geschriebene Zusicherung mit zwei verschachtelten
+     * Wartezeiten (40 + 40 ms) tauchte in der Ausgabe gar nicht erst auf, und
+     * der Gegentest — Fix zurückdrehen, muss rot werden — blieb grün.
+     *
+     * Wer hier eine Zusicherung mit mehr als einer Wartestufe ergänzt, prüft
+     * zuerst, ob ihr Name in der Ausgabe steht.
+     */
+  }, 250)
 }

@@ -125,8 +125,11 @@ async function speicherSchreiben(werte) {
   /**
    * Die Adresse beim **Seitenstart** — und welche Staffel sie meint.
    *
-   * Alle Staffeln einer Serie teilen sich eine ASIN; welche gezeigt wird,
-   * steht allein im Verweis-Parameter (`?ref_=atv_dp_season_select_s3`).
+   * **Widerlegt am 24.08.2026:** Hier stand, alle Staffeln einer Serie teilten
+   * sich eine ASIN und nur der Verweis-Parameter (`?ref_=atv_dp_season_select_s3`)
+   * sage, welche gemeint ist. Gemessen an Barbapapa führt jede Staffel ihre
+   * **eigene** ASIN, und `seasonNumber` steht daneben — siehe `staffelAusSeite()`.
+   * Die Adresse bleibt trotzdem nützlich: Sie ist da, bevor der Quelltext steht.
    * Daniel am 23.08.2026: „ich hab dropdown nicht angefasst, sondern die seite
    * neugeladen, diese url … ?ref_=atv_dp_season_select_s3."
    *
@@ -140,6 +143,39 @@ async function speicherSchreiben(werte) {
    * war, auch wenn die Kennung einmal nicht zuzuordnen ist.
    */
   let startAdresse = location.href || `${location.pathname ?? ''}${location.search ?? ''}`
+
+  /**
+   * Die Staffelnummer, wie die Seite sie selbst nennt.
+   *
+   * Gemessen am 24.08.2026 an `amazon.de/dp/B0CBNFP57W`:
+   *
+   *     "titleID":"B0CBNFP57W" … "seasonNumber":2
+   *
+   * Und der Seitentitel bestätigt es: „Barbapapa, Staffel 2". **Jede Staffel
+   * hat ihre eigene ASIN**, die Nummer steht im selben JSON-Block. Das ist die
+   * verlässliche Quelle — sie überlebt, was Amazon mit der Adresse macht.
+   *
+   * Der Kommentar unten behauptete bis dahin das Gegenteil, und daran hing ein
+   * echter Datenverlust: Ohne Nummer fiel der Meldeschlüssel auf die
+   * **Folgenzahl** zurück, zwei Staffeln kollidierten, und die zweite Meldung
+   * überschrieb die erste.
+   */
+  function staffelAusSeite() {
+    const html = document.documentElement?.innerHTML
+    if (typeof html !== 'string') return null
+    // Im Umkreis der ersten titleID suchen — das ist die gerade gezeigte
+    // Staffel. Weiter hinten stehen Empfehlungen mit fremden Nummern.
+    for (const m of html.matchAll(/titleID/g)) {
+      const fenster = html.slice(m.index, m.index + 900)
+      if (!/titleID\\*"\s*:\s*\\*"[A-Z0-9]{10}/.test(fenster)) continue
+      const n = /"seasonNumber\\*"\s*:\s*(\d+)/.exec(fenster)?.[1]
+      if (n) return Number(n)
+      break
+    }
+    // Rückfall: der Seitentitel nennt sie im Klartext.
+    const ausTitel = /,\s*(?:Staffel|Season)\s*(\d+)/i.exec(document.title || '')?.[1]
+    return ausTitel ? Number(ausTitel) : null
+  }
 
   function staffelAusAdresse() {
     /**
@@ -490,6 +526,36 @@ async function speicherSchreiben(werte) {
     return zahl >= (e.gesamt ?? 1)
   }
 
+  /**
+   * Welche Staffeln gemeldet sind und welche fehlen — im Klartext.
+   *
+   * Steht als Tooltip an der Fortschritts-Marke. Gemeldete Staffeln mit ihrem
+   * Befund, fehlende als Aufzählung: „Gemeldet: S1 🇩🇪, S2 ✕ · Es fehlen: S3, S4".
+   *
+   * Die Nummern sind die aus dem Quelltext (`seasonNumber`), also dieselben,
+   * die im Auswahlfeld stehen — man kann sie unmittelbar ansteuern. Wo eine
+   * Meldung ohne Nummer erfolgte (ältere Einträge tragen dort eine ASIN),
+   * bleibt sie stehen, wie sie ist; erfunden wird nichts.
+   */
+  function staffelUebersicht(asinEintrag) {
+    const e = erledigt[asinEintrag]
+    if (!e) return 'Noch nichts gemeldet'
+    const geprueft = Object.entries(e.staffeln ?? {})
+    if (!geprueft.length) return 'Noch nichts gemeldet'
+
+    const teile = ['Gemeldet: ' + geprueft.map(([nr, befund]) => `S${nr} ${befund}`).join(', ')]
+
+    // Welche Nummern fehlen — nur dort, wo die Staffeln durchnummeriert sind.
+    const gesamt = e.gesamt ?? 1
+    const zahlen = geprueft.map(([nr]) => Number(nr)).filter((n) => Number.isFinite(n))
+    if (gesamt > 1 && zahlen.length === geprueft.length) {
+      const fehlen = []
+      for (let n = 1; n <= gesamt; n++) if (!zahlen.includes(n)) fehlen.push('S' + n)
+      if (fehlen.length) teile.push('Es fehlen: ' + fehlen.join(', '))
+    }
+    return teile.join(' · ')
+  }
+
   /** Wie weit dieser Titel ist — für die Zeile in der Liste. */
   function fortschritt(asinEintrag) {
     const e = erledigt[asinEintrag]
@@ -551,8 +617,48 @@ async function speicherSchreiben(werte) {
     dialogFuellen()
   }
 
+  /**
+   * Woran sich ablesen lässt, ob ein Neuaufbau überhaupt nötig ist.
+   *
+   * Alles, was in der Liste sichtbar ist: die offene Gesamtzahl, welcher Titel
+   * gerade offen ist, und je Eintrag sein Fortschritt. Ändert sich davon
+   * nichts, ändert sich auch die Anzeige nicht.
+   */
+  function listenSignatur() {
+    const teile = [offeneZahl(), listenId]
+    for (const asinEintrag of Object.keys(liste)) {
+      teile.push(asinEintrag + ':' + (fortschritt(asinEintrag) || '') + ':' + (fertig(asinEintrag) ? '1' : '0'))
+    }
+    return teile.join('|')
+  }
+  let letzteSignatur = null
+
   function dialogFuellen() {
     if (!dialog) return
+
+    /**
+     * Nur neu bauen, wenn sich wirklich etwas geändert hat.
+     *
+     * Ohne diese Zeile lief `dialogFuellen` zweimal je Sekunde durch, weil sie
+     * am Ende von `uebersichtZeichnen` steht und die im 500-ms-Takt läuft. Das
+     * Suchfeld bekam dabei jedes Mal neu den Fokus (es blinkte), und ein Klick,
+     * der zwischen `mousedown` und `mouseup` in einen Neuaufbau fiel, traf ein
+     * Element, das es nicht mehr gab — Daniel musste Titel mehrfach anklicken
+     * (24.08.2026).
+     */
+    const signatur = listenSignatur()
+    if (signatur === letzteSignatur) return
+    letzteSignatur = signatur
+
+    // Was ein Neuaufbau sonst verschluckt: der eingetippte Suchbegriff, die
+    // Scrollposition und die Einstellung „Erledigte zeigen".
+    const altesFeld = dialog.querySelector('.ak-suche')
+    const altesInhalt = dialog.querySelector('.ak-liste')
+    const merkeSuche = altesFeld ? altesFeld.value : ''
+    const merkeScroll = altesInhalt ? altesInhalt.scrollTop : 0
+    const merkeErledigte = !!dialog.querySelector('.ak-kasten.ak-mit-erledigten')
+    const hatteFokus = altesFeld && document.activeElement === altesFeld
+
     dialog.textContent = ''
 
     const kasten = document.createElement('div')
@@ -614,6 +720,23 @@ async function speicherSchreiben(werte) {
       if (asinEintrag === listenId) verweis.textContent = `▸ ${e.titel}`
       zeile.appendChild(verweis)
 
+      /**
+       * Getroffen wird die ganze Zeile, nicht nur der Linktext.
+       *
+       * Daniel am 24.08.2026: „das klick event in der liste sollte nicht auf
+       * dem linktext liegen sondern auf der zeile". Bei einem kurzen Titel ist
+       * der Streifen daneben breiter als der Text selbst — und ein Klick
+       * dorthin tat bisher nichts.
+       *
+       * Der Klick auf den Verweis selbst bleibt unberührt: Sonst würde er hier
+       * ein zweites Mal ausgelöst und der Titel ginge doppelt auf.
+       */
+      zeile.style.cursor = 'pointer'
+      zeile.addEventListener('click', (ev) => {
+        if (ev.target.closest('a')) return
+        verweis.click()
+      })
+
       // Was an dieser Adresse hängt: mehrere Staffeln unter einer Seite sind
       // der Regelfall, nicht die Ausnahme.
       const offeneNamen = e.eintraege.filter((x) => x.offen)
@@ -630,18 +753,48 @@ async function speicherSchreiben(werte) {
         const marke = document.createElement('span')
         marke.className = fertig(asinEintrag) ? 'ak-folge ak-fertig' : 'ak-folge ak-angefasst'
         marke.textContent = stand
+        /**
+         * Beim Überfahren steht da, **welche** Staffeln durch sind.
+         *
+         * „12/15" sagt, dass drei fehlen, aber nicht welche — bei fünfzehn
+         * Staffeln bleibt sonst nur, alle noch einmal durchzugehen (Daniel,
+         * 24.08.2026). Die Antwort liegt im Bestand: Jede gemeldete Staffel
+         * steht dort mit ihrem Befund.
+         */
+        marke.title = staffelUebersicht(asinEintrag)
         zeile.appendChild(marke)
       }
       inhalt.appendChild(zeile)
     }
 
-    suche.addEventListener('input', () => {
+    const filtern = () => {
       const q = suche.value.trim().toLowerCase()
       for (const z of inhalt.children) {
         z.style.display = !q || z.textContent.toLowerCase().includes(q) ? '' : 'none'
       }
-    })
-    suche.focus()
+    }
+    suche.addEventListener('input', filtern)
+
+    // Der gemerkte Zustand zurück: Suchbegriff, Filter, Scrollposition,
+    // „Erledigte zeigen". Ein Neuaufbau soll für den Benutzer unsichtbar sein.
+    if (merkeSuche) {
+      suche.value = merkeSuche
+      filtern()
+    }
+    if (merkeErledigte) {
+      kasten.classList.add('ak-mit-erledigten')
+      umschalter.textContent = 'Erledigte ausblenden'
+    }
+    inhalt.scrollTop = merkeScroll
+
+    /**
+     * Der Fokus kommt nur beim **Öffnen** ins Suchfeld — oder zurück, wenn er
+     * vorher schon dort war.
+     *
+     * Bedingungslos gesetzt sprang er zweimal je Sekunde hinein, das Feld
+     * blinkte, und wer gerade woanders klickte, verlor den Klick.
+     */
+    if (!altesFeld || hatteFokus) suche.focus()
   }
 
   /**
@@ -847,8 +1000,21 @@ async function speicherSchreiben(werte) {
    * der Knopf wenigstens keine **falsche** Zahl, sondern die der zuletzt
    * geladenen Liste.
    */
+  /**
+   * Woran ein Staffelwechsel erkannt wird.
+   *
+   * Die Nummer aus dem Quelltext gehoert hier an die erste Stelle, und das ist
+   * der Grund: Wechselt Daniel im Auswahlfeld, tauscht Amazon die Seite ohne
+   * Neuladen. ASIN und Folgenzahl im Quelltext koennen dabei kurz noch die
+   * alten sein -- der Wechsel blieb unbemerkt, und die Erweiterung zeigte auf
+   * Staffel 1 noch die Folgenzahl von Staffel 2 (Daniel, 24.08.2026: "bei
+   * barbapapa steht 55 folgen auf staffel 1 obwohl diese nur 45 folgen hat").
+   *
+   * Gemessen an beiden Seiten: B0CC7FXYFQ meldet Staffel 1 mit 45 Folgen,
+   * B0CBNFP57W Staffel 2 mit 55. Die Nummer trennt sie sauber.
+   */
   function staffelKennung() {
-    return `${asin()}|${spuren().gesamt ?? '?'}|${staffelAusAdresse() ?? '?'}`
+    return `${staffelAusSeite() ?? '?'}|${asin()}|${spuren().gesamt ?? '?'}|${staffelAusAdresse() ?? '?'}`
   }
 
   let letzteKennung = staffelKennung()
@@ -1071,7 +1237,20 @@ async function speicherSchreiben(werte) {
          * nur die aus der Adresse — und ein Titel mit fünf Staffeln ist erst
          * durch, wenn alle fünf gemeldet sind.
          */
-        const nr = String(staffelAusAdresse() ?? gesehen.gesamt ?? 1)
+        /**
+         * Der Schlüssel kommt aus dem Quelltext, nicht aus der Folgenzahl.
+         *
+         * `gesehen.gesamt` als letzte Rückfallebene war der Grund, warum zwei
+         * gemeldete Staffeln als eine gezählt wurden: Stimmt die geladene
+         * Folgenzahl zufällig überein — oder ist sie beim Wechsel noch die der
+         * vorigen Staffel —, kollidieren die Schlüssel und die zweite Meldung
+         * überschreibt die erste (Daniel, 24.08.2026, an Sindbad, Barbapapa
+         * und Bakugan).
+         *
+         * Als allerletzter Ausweg steht jetzt die ASIN dort: Sie ist je
+         * Staffel verschieden und kollidiert nie.
+         */
+        const nr = String(staffelAusSeite() ?? staffelAusAdresse() ?? id ?? 1)
         const bisher = erledigt[listenId] ?? { staffeln: {}, gesamt: staffelZahl() }
         bisher.staffeln = { ...(bisher.staffeln ?? {}), [nr]: deutsch ? '🇩🇪' : '✕' }
         bisher.gesamt = staffelZahl()
