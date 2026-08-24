@@ -1,6 +1,28 @@
 {
-  "scrapedAt": "2026-08-24T11:11:32.801Z",
+  "scrapedAt": "2026-08-24T11:57:56.990Z",
   "proposals": [
+    {
+      "articleTitle": "Blu-ray-Sammelschuber der vierten »Dr. STONE«-Staffel",
+      "articleUrl": "https://www.anime2you.de/news/1043546/dr-stone-staffel-4-blu-ray-sammelschuber/",
+      "publishedAt": "2026-08-24",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-10-16",
+          "context": "Part von »Dr. STONE: Science Future« kommt nach aktueller Planung am 16. Oktober 2026 in einer Blu-ray-Komplettbox in den […] Der Beitrag"
+        },
+        {
+          "month": "2026-10",
+          "context": "n des Sammelschubers. Ein neues Produktbild findet ihr unten. Release im Oktober 2026 Der erste Part von »Dr. STONE: Science Future« kommt n"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Netflix-Termin von »Cyberpunk: Edgerunners II« steht fest + Teaser",
       "articleUrl": "https://www.anime2you.de/news/1043405/cyberpunk-edgerunners-2-netflix-termin/",

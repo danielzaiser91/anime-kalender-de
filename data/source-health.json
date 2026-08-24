@@ -1,28 +1,28 @@
 {
   "adn": {
-    "lastOk": "2026-08-24T11:11:26.365Z",
-    "lastRun": "2026-08-24T11:11:26.365Z",
-    "lastCount": 4
+    "lastOk": "2026-08-24T11:35:25.515Z",
+    "lastRun": "2026-08-24T11:35:25.515Z",
+    "lastCount": 8
   },
   "anime2you": {
-    "lastOk": "2026-08-24T11:11:32.800Z",
-    "lastRun": "2026-08-24T11:11:32.800Z",
+    "lastOk": "2026-08-24T11:57:56.988Z",
+    "lastRun": "2026-08-24T11:57:56.988Z",
     "lastCount": 29
   },
   "crunchyroll": {
-    "lastOk": "2026-08-24T11:10:31.054Z",
-    "lastRun": "2026-08-24T11:10:31.054Z",
-    "lastCount": 27
+    "lastOk": "2026-08-24T11:33:38.886Z",
+    "lastRun": "2026-08-24T11:33:38.886Z",
+    "lastCount": 28
   },
   "anisearch": {
-    "lastOk": "2026-08-24T11:11:33.741Z",
-    "lastRun": "2026-08-24T11:11:33.741Z",
+    "lastOk": "2026-08-24T11:57:57.719Z",
+    "lastRun": "2026-08-24T11:57:57.719Z",
     "lastCount": 2615
   },
   "adn-catalog": {
-    "lastOk": "2026-08-24T06:36:19.213Z",
-    "lastRun": "2026-08-24T06:36:19.213Z",
-    "lastCount": 111
+    "lastOk": "2026-08-24T11:55:11.018Z",
+    "lastRun": "2026-08-24T11:55:11.018Z",
+    "lastCount": 112
   },
   "crunchyroll-dub": {
     "lastOk": "2026-08-24T06:36:42.388Z",
@@ -30,8 +30,8 @@
     "lastCount": 959
   },
   "anime-offline-database": {
-    "lastOk": "2026-08-24T06:36:23.266Z",
-    "lastRun": "2026-08-24T06:36:23.266Z",
+    "lastOk": "2026-08-24T11:55:13.179Z",
+    "lastRun": "2026-08-24T11:55:13.179Z",
     "lastCount": 8876
   },
   "ann-voices": {
@@ -46,19 +46,18 @@
     "lastCount": 3
   },
   "anilist-voices": {
-    "lastOk": "2026-08-20T11:24:12.841Z",
-    "lastRun": "2026-08-24T06:36:21.794Z",
-    "lastCount": 0,
-    "lastError": "keine Sprecher gefunden"
+    "lastOk": "2026-08-24T11:55:11.741Z",
+    "lastRun": "2026-08-24T11:55:11.741Z",
+    "lastCount": 2764
   },
   "link-check": {
-    "lastOk": "2026-08-24T06:42:27.586Z",
-    "lastRun": "2026-08-24T06:42:27.586Z",
-    "lastCount": 400
+    "lastOk": "2026-08-24T11:57:52.015Z",
+    "lastRun": "2026-08-24T11:57:52.015Z",
+    "lastCount": 163
   },
   "tmdb-titles": {
-    "lastOk": "2026-08-24T06:43:57.784Z",
-    "lastRun": "2026-08-24T06:43:57.784Z",
+    "lastOk": "2026-08-24T11:59:18.936Z",
+    "lastRun": "2026-08-24T11:59:18.936Z",
     "lastCount": 400
   },
   "motn-changes": {

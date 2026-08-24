@@ -2409,7 +2409,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-24",
-      "sagt": "2026-04-01",
+      "sagt": "2026-05-27",
       "stand": "aktuell"
     }
   ],
@@ -2671,7 +2671,7 @@
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-24",
-      "sagt": "2026-04-25",
+      "sagt": "2026-04-11",
       "stand": "aktuell"
     }
   ],
@@ -2681,6 +2681,15 @@
       "name": "gw.api.animationdigitalnetwork.com",
       "gesehenAm": "2026-08-24",
       "sagt": "2023-04-05",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-162670-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1043546/dr-stone-staffel-4-blu-ray-sammelschuber/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-08-24",
+      "sagt": "2026-10-16",
       "stand": "aktuell"
     }
   ]
