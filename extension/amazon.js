@@ -144,6 +144,9 @@ async function speicherSchreiben(werte) {
    */
   let startAdresse = location.href || `${location.pathname ?? ''}${location.search ?? ''}`
 
+  /** Ab dem ersten Wechsel im Auswahlfeld ist `startAdresse` veraltet. */
+  let gabStaffelwechsel = false
+
   /**
    * Die Staffelnummer, wie die Seite sie selbst nennt.
    *
@@ -187,7 +190,19 @@ async function speicherSchreiben(werte) {
      * die Adresse vom Seitenstart, die `amazon-leser.js` bei `document_start`
      * gesehen hat.
      */
-    for (const wo of [location.search, startAdresse]) {
+    /**
+     * Die gemerkte Startadresse gilt nur bis zum ersten Staffelwechsel.
+     *
+     * Sie ist die Adresse, mit der die Seite geladen wurde — und damit die
+     * Staffel, bei der Daniel eingestiegen ist. Wechselt er im Auswahlfeld,
+     * nennt sie weiter die alte, und ein leerer `location.search` liesse sie
+     * gewinnen: Jede Meldung waere wieder die Startstaffel.
+     *
+     * Genau das ist am 24.08.2026 bei „Captain Tsubasa" passiert — gemeldet
+     * wurden fuenf Staffeln, abgehakt kamen S1 und S5 an.
+     */
+    const quellen = gabStaffelwechsel ? [location.search] : [location.search, startAdresse]
+    for (const wo of quellen) {
       const n = /[?&]ref_=[^&]*_s(\d+)/.exec(wo ?? '')?.[1]
       if (n) return Number(n)
     }
@@ -208,7 +223,7 @@ async function speicherSchreiben(werte) {
    * verschieden und kollidiert nie — anders als die Folgenzahl.
    */
   function staffelSchluessel() {
-    return String(staffelAusSeite() ?? staffelAusAdresse() ?? id ?? 1)
+    return String(staffelAusAdresse() ?? staffelAusSeite() ?? id ?? 1)
   }
 
   /**
@@ -1102,15 +1117,66 @@ async function speicherSchreiben(werte) {
     const art = zugangsart()
     const zugang = art && art !== 'abo' ? ` · ${ZUGANG_TEXT[art]}` : ''
 
-    // Diese Staffel ist durch — das bleibt sichtbar, bis eine andere kommt.
     const jetzigeStaffel = staffelSchluessel()
-    if (gemeldeteStaffel === jetzigeStaffel) {
-      const e = erledigt[listenId]
-      const offen = (e?.gesamt ?? 1) - Object.keys(e?.staffeln ?? {}).length
-      knopf.textContent = offen > 0 ? `✓ gemeldet — noch ${offen} Staffeln` : '✓ gemeldet'
+    const abgehakt = erledigt[listenId]
+    const schonGemeldet = Boolean(abgehakt?.staffeln?.[jetzigeStaffel])
+    const alleDurch = abgehakt && Object.keys(abgehakt.staffeln ?? {}).length >= (abgehakt.gesamt ?? 1)
+
+    /**
+     * Alles durch — dann gibt es hier nichts mehr zu tun.
+     *
+     * Der Knopf blieb bisher anklickbar und lud dazu ein, dieselbe Staffel
+     * noch einmal zu melden (Daniel, 24.08.2026: „der button sollte zu ‚alles
+     * erfolgreich gemeldet' und nicht anklickbar werden").
+     */
+    if (alleDurch) {
+      knopf.textContent = '✓ alles gemeldet'
+      knopf.disabled = true
       knopf.dataset.deutsch = String(deutsch)
       return
     }
+
+    /**
+     * Diese Staffel steht schon im Bestand — kein zweites Mal.
+     *
+     * „prevent repeat reports of already reported seasons". Eine zweite
+     * Meldung derselben Staffel bringt nichts Neues und kostet einen Zugriff;
+     * schlimmer noch, sie kann einen guten Befund durch einen schlechteren
+     * ersetzen, wenn beim zweiten Mal weniger Folgen geladen waren.
+     *
+     * Der Unterschied zum Fall darüber: Hier sind **andere** Staffeln noch
+     * offen, der Knopf sagt also, wie viele.
+     */
+    if (schonGemeldet || gemeldeteStaffel === jetzigeStaffel) {
+      const offen = (abgehakt?.gesamt ?? 1) - Object.keys(abgehakt?.staffeln ?? {}).length
+      knopf.textContent = offen > 0 ? `✓ gemeldet — noch ${offen} Staffeln` : '✓ gemeldet'
+      knopf.disabled = true
+      knopf.dataset.deutsch = String(deutsch)
+      return
+    }
+
+    /**
+     * Unvollständig geladen? Dann wird gar nicht gemeldet.
+     *
+     * Daniel: „make reporting not possible until all entries are loaded (so for
+     * example not possible to click when it says 24 of 26)."
+     *
+     * Bisher war nur „kein Deutsch" gesperrt — „Deutsch gefunden" durfte auch
+     * aus einem Ausschnitt heraus gemeldet werden, weil eine deutsche Tonspur
+     * eine deutsche Tonspur bleibt. Das gilt für die **Sprache**, aber die
+     * Meldung trägt mehr: Sie nennt die Zahl der geprüften Folgen, und daraus
+     * wird im Datensatz eine Reichweite. Aus „24 von 26" würde eine Grenze bei
+     * Folge 24, die es nicht gibt.
+     */
+    if (!vollstaendig) {
+      knopf.disabled = true
+      knopf.textContent = wartet
+        ? `${deutsch ? '🇩🇪' : '·'} ${geladen} von ${gesehen.gesamt} — lädt nach`
+        : `${geladen} von ${gesehen.gesamt} — Abschnitte selbst öffnen`
+      knopf.dataset.deutsch = String(deutsch)
+      return
+    }
+    knopf.disabled = false
     knopf.textContent = `${deutsch ? '🇩🇪 Deutsch' : '✕ kein Deutsch'} · ${umfang}${zugang}${kanalHinweis}${woher} · melden`
     knopf.dataset.teilweise = String(!vollstaendig)
   }
@@ -1170,7 +1236,7 @@ async function speicherSchreiben(werte) {
    * B0CBNFP57W Staffel 2 mit 55. Die Nummer trennt sie sauber.
    */
   function staffelKennung() {
-    return `${staffelAusSeite() ?? '?'}|${asin()}|${spuren().gesamt ?? '?'}|${staffelAusAdresse() ?? '?'}`
+    return `${staffelAusAdresse() ?? '?'}|${staffelAusSeite() ?? '?'}|${asin()}|${spuren().gesamt ?? '?'}`
   }
 
   let letzteKennung = staffelKennung()
@@ -1179,6 +1245,7 @@ async function speicherSchreiben(werte) {
     const kennung = staffelKennung()
     if (kennung === letzteKennung) return
     letzteKennung = kennung
+    gabStaffelwechsel = true
     const jetzt = asin()
     if (!jetzt) return
     id = jetzt

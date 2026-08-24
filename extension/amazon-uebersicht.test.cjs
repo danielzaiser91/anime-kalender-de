@@ -281,7 +281,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
     '<script>{"pageTitleId":"B0GFPBT6FG","titleID":"B0GT9DR9YF",' +
     '"audioTracks":[{"audioTrackId":"de-de_dialog_0","displayName":"Deutsch",' +
     '"languageCode":"de-de","audioSubtype":"dialog"}],"duration":1440,' +
-    '"episodeNumber":1,"episodeCount":11,"benefitId":"aniversede"}</script>' +
+    '"episodeNumber":1,"episodeCount":1,"benefitId":"aniversede"}</script>' +
     '</body></html>'
 
   const { angehaengt, sandkasten, takte } = starte('B0GFPBT6FG')
@@ -334,7 +334,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   sandkasten.document.querySelector = () => null
   sandkasten.document.documentElement.innerHTML =
     '<span class="_36qUej">[Oshi No Ko] - [Mein*Star] - Staffel 1</span>' +
-    '"audioTracks":[{"displayName":"Deutsch"}],"episodeNumber":1,"episodeCount":11'
+    '"audioTracks":[{"displayName":"Deutsch"}],"episodeNumber":1,"episodeCount":1'
   sandkasten.location.search = '?ref_=atv_dp_season_select_s3'
   for (const takt of takte) takt()
 
