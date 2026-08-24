@@ -17786,3 +17786,17 @@
       checked: [3, 11, 12]
   checkedAt: '2026-08-23'
   note: "Folgen 1–2 mit deutschem Ton, Folgen 3–12 ohne deutschen Ton — Tonspuren: ja|Japanisch [Original], it|Italienisch, es|Spanisch (Lateinamerika), en|Englisch, pt-BR|Portugiesisch (Brasilien), th|Thailändisch — 6 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 141400
+  title: "Peter Grill to Kenja no Jikan: Super Extra"
+  platform: adn
+  available: false
+  checkedAt: "2026-08-24"
+  note: >-
+    Gemessen, nicht von Hand gesehen: Der volle ADN-Katalog fuehrt 259 Serien,
+    Peter Grill ist bei keiner dabei. Die Adresse
+    animationdigitalnetwork.de/video/peter-grill-philosopher-time-super-extra-saison-2
+    antwortet mit 308 und landet auf ADNs franzoesischer Startseite ("Anime-Streaming
+    in VOSTFR und VF"), die den Titel nirgends nennt. Ein HTTP 200 nach Weiterleitung
+    ist deshalb kein Beleg fuer ein Angebot -- check-links.ts sieht hier eine
+    erreichbare Seite und kann den Fall nicht erkennen.
