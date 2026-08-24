@@ -1995,6 +1995,9 @@ function main(): void {
   let ytEntfernt = 0
   let totEntfernt = 0
   let adressen = 0
+  // `loadDubChecks()` führt mehrere Zeilen zu einem Verweis bereits zusammen und
+  // lässt dabei den jüngeren Befund gewinnen — hier liegt je Schlüssel genau
+  // einer vor.
   const checks = new Map(loadDubChecks().map((c) => [dubKey(c.anilistId, c.platform), c]))
   /** Befund je YouTube-Adresse aus `pipeline/check-youtube.ts`. */
   const youtubeBefunde = readJson<Record<string, { art: string; inDE: number }>>('data/youtube-check.json', {})

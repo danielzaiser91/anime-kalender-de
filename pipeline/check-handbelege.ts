@@ -34,6 +34,8 @@
 import { loadDubChecks } from './lib/dub-confirmed.ts'
 import { readJson, log, warn, ROOT } from './lib/util.ts'
 import { resolve } from 'node:path'
+import { readFileSync } from 'node:fs'
+import yaml from 'js-yaml'
 import type { Title } from '../shared/types.ts'
 
 const roh = readJson<Title[] | Record<string, Title>>(resolve(ROOT, 'public/data/titles.json'), [])
@@ -41,6 +43,14 @@ const titel = Array.isArray(roh) ? roh : Object.values(roh)
 const nachId = new Map(titel.map((t) => [t.id, t]))
 
 const belege = loadDubChecks()
+
+/**
+ * Die **ungefilterte** Datei — loadDubChecks() fuehrt mehrere Zeilen zu einem
+ * Verweis bereits zusammen, und genau diese Zusammenfuehrung soll unten geprueft
+ * werden. Wer das Ergebnis gegen sich selbst prueft, prueft nichts.
+ */
+const rohBelege = (yaml.load(readFileSync(resolve(ROOT, 'data/dub-confirmed.yaml'), 'utf8')) ??
+  []) as { anilistId?: number; platform?: string; checkedAt?: string }[]
 
 /** Alle Belege eines Verweises zusammen — ein Verweis, nicht ein Eintrag. */
 const jeVerweis = new Map<string, typeof belege>()
@@ -157,4 +167,44 @@ if (verwaisteBelege) {
       `Kennung falsch, oder der Titel fehlt im Bestand.`,
   )
   process.exit(1)
+}
+
+/**
+ * Bei mehreren Zeilen zu einem Verweis muss der **jüngste** Befund gewinnen.
+ *
+ * Diese Prüfung fehlte, und deshalb blieb ein Fehler zwei Tage unbemerkt: Bei
+ * „Kill Ao"/Netflix stand Daniels Prüfung vom 24.08.2026 (Folge 1–4 deutsch)
+ * weiter **vorn** in der Datei als eine Meldung aus der Erweiterung vom 23.08.
+ * (1–2 ja, 3–12 nein). `verschmelze()` liess den späteren in der Datei gewinnen
+ * — also den älteren Befund.
+ *
+ * Der Rest dieser Datei konnte das nicht finden: Er betrachtet alle Zeilen eines
+ * Verweises **zusammen** und fragt nur, ob der Datensatz zu irgendeiner davon
+ * passt. Die Frage „welche gilt" stellte niemand.
+ *
+ * Geprüft wird deshalb gegen die Rohdaten, nicht gegen das Ergebnis: Was
+ * `loadDubChecks()` zurückgibt, muss das `checkedAt` der jüngsten Zeile tragen.
+ */
+{
+  const jeSchluessel = new Map<string, { checkedAt?: string }[]>()
+  for (const b of rohBelege) {
+    const k = `${b.anilistId}|${b.platform}`
+    jeSchluessel.set(k, [...(jeSchluessel.get(k) ?? []), b])
+  }
+  const verschluckt: string[] = []
+  for (const [k, gruppe] of jeSchluessel) {
+    if (gruppe.length < 2) continue
+    const juengstes = gruppe.map((g) => g.checkedAt ?? '').sort().at(-1)
+    const gewaehlt = belege.find((b) => `${b.anilistId}|${b.platform}` === k)
+    if (gewaehlt && (gewaehlt.checkedAt ?? '') !== juengstes) {
+      verschluckt.push(`${k}: es gilt ${gewaehlt.checkedAt}, jüngster Beleg ist ${juengstes}`)
+    }
+  }
+  if (verschluckt.length) {
+    warn(`Abbruch: ${verschluckt.length} Verweis(e) benutzen einen veralteten Beleg:`)
+    for (const v of verschluckt.slice(0, 8)) warn(`   ${v}`)
+    process.exit(1)
+  }
+  const mehrfach = [...jeSchluessel.values()].filter((g) => g.length > 1).length
+  log(`✓ ${mehrfach} Verweis(e) mit mehreren Belegen — überall gilt der jüngste.`)
 }

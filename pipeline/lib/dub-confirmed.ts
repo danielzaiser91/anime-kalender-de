@@ -115,12 +115,28 @@ export function loadDubChecks(): DubCheck[] {
  * Daniels Meldung samt Folgenbereich. Übrig blieb die letzte — und mit ihr
  * verschwand die Adresse, ohne die der Verweis gar nicht erst entsteht.
  *
- * Verschmolzen wird feldweise: Ein späterer Wert ersetzt einen früheren, ein
- * **fehlender** Wert löscht nichts. Die Reihenfolge in der Datei entscheidet
- * damit weiterhin, welcher Befund gilt — aber nur dort, wo tatsächlich zwei
- * Befunde stehen.
+ * Verschmolzen wird feldweise: Ein Wert ersetzt einen anderen, ein **fehlender**
+ * Wert löscht nichts.
+ *
+ * **Welcher Wert gewinnt, entscheidet `checkedAt` — nicht die Reihenfolge in der
+ * Datei.** Hier stand bis zum 24.08.2026 das Gegenteil, und es hat eine
+ * Handprüfung verschluckt: Bei „Kill Ao"/Netflix trug Zeile 17740 Daniels
+ * Prüfung vom 24.08. (Folge 1–4 deutsch), Zeile 17774 eine Meldung aus der
+ * Erweiterung vom 23.08. (1–2 ja, 3–12 nein). Der ältere Befund stand weiter
+ * hinten und gewann; der Datensatz zeigte hartnäckig den Stand vom Vortag,
+ * obwohl der neuere Beleg unmittelbar darüber stand.
+ *
+ * Das ist kein Sonderfall, sondern der Normalfall: Die Datei wächst von zwei
+ * Seiten — Meldungen aus der Erweiterung werden **angehängt**, Daniels
+ * Prüfungen kommen an die Stelle des Titels. Die Reihenfolge in der Datei sagt
+ * deshalb nichts über das Alter aus.
+ *
+ * `check-handbelege` schlug nicht an, weil es alle Zeilen eines Verweises
+ * zusammen betrachtet und die Frage „welche gewinnt" gar nicht stellt.
  */
-function verschmelze(alt: DubCheck, neu: DubCheck): DubCheck {
+function verschmelze(a: DubCheck, b: DubCheck): DubCheck {
+  // Ohne Datum verliert: Ein undatierter Eintrag verdrängt keinen datierten.
+  const [alt, neu] = (a.checkedAt ?? '') <= (b.checkedAt ?? '') ? [a, b] : [b, a]
   return {
     ...alt,
     ...Object.fromEntries(Object.entries(neu).filter(([, v]) => v !== undefined && v !== null)),
