@@ -100,6 +100,19 @@ function machDom() {
   }
 }
 
+/**
+ * Den Takt so oft laufen lassen, wie es die Frist verlangt.
+ *
+ * Ein einzelner Aufruf entspricht 500 ms. Die Erweiterung hält den Quelltext
+ * zwei Sekunden fest (siehe `HTML_FRIST_MS` in `amazon.js`), also braucht ein
+ * geänderter Seiteninhalt fünf Durchläufe, bis er sicher gelesen ist. Genau so
+ * verhält sich die echte Seite: Wer die Staffel wechselt, sieht den neuen Stand
+ * nach spätestens zwei Sekunden.
+ */
+function takten(takte, durchlaeufe = 5) {
+  for (let i = 0; i < durchlaeufe; i++) for (const takt of takte) takt()
+}
+
 function starte(seitenAsin, gespeichert = {}) {
   const dom = machDom()
   const angehaengt = []
@@ -112,6 +125,18 @@ function starte(seitenAsin, gespeichert = {}) {
   const gemeldet = []
   // Der Takt wird nicht der Uhr überlassen: Der Test ruft ihn selbst auf,
   // sonst müsste er warten und wäre von der Maschine abhängig.
+  //
+  // **Dann muss der Test aber auch die Uhr stellen.** Seit dem 25.08.2026 hält
+  // die Erweiterung den Seiten-Quelltext zwei Sekunden lang fest, statt ihn in
+  // jedem Durchlauf neu aufzubauen — 1,6 MB zweimal je Sekunde haben Daniels
+  // Tab zweimal mit „Out of Memory" beendet. Eine Frist, die an `Date.now()`
+  // hängt, läuft in einem Sandkasten ohne Zeit nie ab; die Zusicherungen sahen
+  // danach ausnahmslos den Stand des ersten Durchlaufs.
+  //
+  // Jeder Takt-Aufruf schiebt die Uhr deshalb um 500 ms vor — genau um das
+  // Maß, das der echte Takt braucht. Damit prüfen diese Zeilen die Frist mit,
+  // statt sie zu umgehen.
+  const uhr = { jetzt: 1_756_080_000_000 }
   const takte = []
   const sandkasten = {
     globalThis: null,
@@ -146,8 +171,20 @@ function starte(seitenAsin, gespeichert = {}) {
     },
     window: { addEventListener() {} },
     setInterval: (fn) => {
-      takte.push(fn)
+      takte.push(() => {
+        uhr.jetzt += 500
+        return fn()
+      })
       return takte.length
+    },
+    Date: class extends Date {
+      constructor(...args) {
+        if (args.length) super(...args)
+        else super(uhr.jetzt)
+      }
+      static now() {
+        return uhr.jetzt
+      }
     },
     setTimeout: () => 0,
     fetch: async (adresse, wie) => {
@@ -261,14 +298,26 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
 
   // Staffel 1: zwölf Folgen, wie bei „Oshi no Ko".
   sandkasten.document.documentElement.innerHTML = mitFolgen(12)
-  for (const takt of takte) takt()
+  takten(takte)
   pruefe('Staffel 1 zeigt ihre 12 Folgen', knopf?.textContent.includes('12 Folgen'), knopf?.textContent)
 
   // Der Wechsel, wie ihn Amazon vornimmt: neue Kennung, neuer Inhalt, kein
   // Neuladen.
   sandkasten.location.pathname = `/dp/${asins[1]}`
   sandkasten.document.documentElement.innerHTML = mitFolgen(13)
-  for (const takt of takte) takt()
+  /**
+   * Hier laufen **zwei** Fristen nacheinander, und der Test muss beide abwarten.
+   *
+   * Erst hält die Erweiterung den Quelltext zwei Sekunden fest (`HTML_FRIST_MS`),
+   * dann wartet der Knopf noch einmal zwei Sekunden, bis die Folgenzahl ruhig
+   * steht (`RUHE_MS`) — sonst zeigte er beim Wechsel kurz eine Zahl, die aus
+   * zwei Staffeln gemischt ist. Zusammen also gut vier Sekunden; zwölf
+   * Durchläufe sind sechs.
+   *
+   * Genau so verhält sich die Seite: Nach einem Staffelwechsel steht auf dem
+   * Knopf ein paar Sekunden „Staffel wechselt — einen Moment".
+   */
+  takten(takte, 12)
 
   /**
    * **13, nicht 25.** Ohne das Leeren des Zählstands trüge Staffel 2 die
@@ -320,7 +369,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   sandkasten.location.search = '?ref_=atv_dp_season_select_s3'
   sandkasten.document.querySelector = (w) =>
     w === 'h1' ? { textContent: '[Oshi No Ko] - [Mein*Star]' } : null
-  for (const takt of takte) takt()
+  takten(takte)
 
   const knopf = angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))
   pruefe(
@@ -368,7 +417,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
     '<span class="_36qUej">[Oshi No Ko] - [Mein*Star] - Staffel 1</span>' +
     '"audioTracks":[{"displayName":"Deutsch"}],"episodeNumber":1,"episodeCount":1'
   sandkasten.location.search = '?ref_=atv_dp_season_select_s3'
-  for (const takt of takte) takt()
+  takten(takte)
 
   const knopf = angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))
   pruefe(
@@ -436,13 +485,13 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
 
   const { angehaengt, sandkasten, takte } = starte(LISTEN_ASIN)
   sandkasten.document.documentElement.innerHTML = seite(12, 12)
-  for (const takt of takte) takt()
+  takten(takte)
   const knopf = angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))
   pruefe('Staffel 1 der Sammelseite zeigt 12 Folgen', knopf?.textContent.includes('12 Folgen'), knopf?.textContent)
 
   // Der Wechsel: gleiche Adresse, gleiche titleID, andere Folgenliste.
   sandkasten.document.documentElement.innerHTML = seite(11, 11)
-  for (const takt of takte) takt()
+  takten(takte)
 
   /**
    * Nach dem Wechsel gilt eine Beruhigungsfrist von zwei Sekunden.
@@ -455,7 +504,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
    * schweigt.
    */
   setTimeout(() => {
-  for (const takt of takte) takt()
+  takten(takte)
   pruefe(
     'nach dem Wechsel auf Staffel 3 zeigt der Knopf 11 Folgen, nicht 12',
     knopf?.textContent.includes('11 Folgen'),
@@ -485,7 +534,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   const { angehaengt, sandkasten, takte, gesetzt } = starte(listenAsin)
   sandkasten.document.documentElement.innerHTML =
     '{"titleID":"B0XXXXXXXX"}"audioTracks":["Deutsch"],"episodeNumber":1,"episodeCount":1'
-  for (const takt of takte) takt()
+  takten(takte)
 
   const knopf = angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))
   pruefe(
@@ -526,7 +575,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
     '<span>1988 · 5 Staffeln</span>' +
     '"audioTracks":["Deutsch"],"episodeNumber":1,"episodeCount":10,"benefitId":"Prime"'
   sandkasten.location.search = '?ref_=atv_dp_season_select_s1'
-  for (const takt of takte) takt()
+  takten(takte)
 
   const knopf = angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))
   knopf?.hoerer?.click?.()
@@ -585,13 +634,13 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   // Fall, nachdem Amazon den Parameter weggeräumt hat.
   sandkasten.document.documentElement.innerHTML = seite(1)
   sandkasten.location.search = ''
-  for (const takt of takte) takt()
+  takten(takte)
   angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))?.hoerer?.click?.()
 
   setTimeout(() => {
     // Staffel 2 — **gleiche Folgenzahl**, nur die Nummer unterscheidet sie.
     sandkasten.document.documentElement.innerHTML = seite(2)
-    for (const takt of takte) takt()
+    takten(takte)
     angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))?.hoerer?.click?.()
 
     setTimeout(() => {
@@ -697,7 +746,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
     '"titleID":"B07C1D8JXX","seasonNumber":1,' +
     '"audioTracks":["Deutsch"],"episodeNumber":1,"episodeCount":26,"benefitId":"Prime"'
   sandkasten.location.search = '?ref_=atv_dp_season_select_s3'
-  for (const takt of takte) takt()
+  takten(takte)
 
   const knopf = angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))
   pruefe(
@@ -734,7 +783,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   const ohneVerbindung = starte(Object.keys(ECHTE_LISTE)[0])
   // So sieht es aus, nachdem die Erweiterung neu geladen wurde.
   ohneVerbindung.sandkasten.chrome.runtime = {}
-  for (const takt of ohneVerbindung.takte) takt()
+  takten(ohneVerbindung.takte)
 
   const uebersicht = ohneVerbindung.angehaengt.find((e) =>
     e.className.includes('ak-uebersicht'),
@@ -789,7 +838,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   // Prime-eigener Titel: die Angabe zaehlt.
   const eigen = starte(Object.keys(ECHTE_LISTE)[0])
   eigen.sandkasten.document.documentElement.innerHTML = seite("Prime", 12)
-  for (const takt of eigen.takte) takt()
+  takten(eigen.takte)
   const knopfEigen = eigen.angehaengt.find((e) => e.className.includes("ak-amazon-knopf"))
   pruefe(
     "ein Prime-eigener Titel wird nicht als Kanal gekennzeichnet",
@@ -800,7 +849,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   // Kanal-Titel: die Angabe ist ein Hinweis, kein Beleg.
   const kanal = starte(Object.keys(ECHTE_LISTE)[1])
   kanal.sandkasten.document.documentElement.innerHTML = seite("animationdigitalnetworkde", 12)
-  for (const takt of kanal.takte) takt()
+  takten(kanal.takte)
   const knopfKanal = kanal.angehaengt.find((e) => e.className.includes("ak-amazon-knopf"))
   pruefe(
     "ein Kanal-Titel traegt die Warnung am Knopf",

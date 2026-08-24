@@ -482,7 +482,16 @@
     return /\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10})(?:[/?]|$)/.exec(location.pathname)?.[1] ?? null
   }
 
-  let geholteStaffel = null
+  /**
+   * Die Kennung, zu der der jetzige Zählstand gehört.
+   *
+   * Beim Laden ist das die der Adresse — der Quelltext ist dann frisch und
+   * gehört genau zu ihr. Danach setzt jeder Abruf sie auf die geholte Staffel.
+   * Aus dem Vergleich mit der Adresse folgt beides: ob überhaupt etwas zu holen
+   * ist, und ob der Aufruf die gewünschte Staffel überhaupt treffen kann.
+   */
+  let geholteStaffel =
+    /\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10})(?:[/?]|$)/.exec(location.pathname)?.[1] ?? null
   let holtGerade = false
 
   /**
@@ -499,7 +508,11 @@
   async function holeStaffel(asin) {
     if (holtGerade || !asin || asin === geholteStaffel) return
     holtGerade = true
+    // Beim Fehlschlag zurück auf den alten Wert — sonst gilt eine Staffel als
+    // geholt, von der nie etwas angekommen ist, und der Knopf wartet für immer.
+    const vorher = geholteStaffel
     geholteStaffel = asin
+    let ankam = false
     try {
       const widgets = JSON.stringify([{ widgetType: 'EpisodeList' }])
       const adresse =
@@ -522,6 +535,7 @@
       }
       const gesamt = Number.isFinite(liste.episodeCount) ? liste.episodeCount : null
       window.postMessage({ marke: MARKE, funde, gesamt, startAdresse, ersetzt: true, asin }, '*')
+      ankam = true
 
       // Die übrigen Abschnitte wie gewohnt — die Tokens stehen in der Antwort.
       const seiten = []
@@ -537,6 +551,7 @@
     } catch {
       /* Kein Netz oder eine unerwartete Antwort — dann bleibt es beim Mitlesen. */
     } finally {
+      if (!ankam) geholteStaffel = vorher
       holtGerade = false
     }
   }
@@ -586,12 +601,20 @@
      * `ersetzt: true` ist für den Fall gedacht, dass die neuen Daten die
      * richtigen sind.
      *
-     * Erkennbar ist die Sammel-ASIN an der Adresse: Trägt sie `_sN` mit N > 1,
-     * meint sie eine Staffel, die der Aufruf nicht ansteuern kann. Dann wird
-     * nicht geholt, und es bleibt beim Hinweis, neu zu laden.
+     * Erkennbar ist die Sammel-ASIN **an der Kennung selbst**: Bleibt sie beim
+     * Wechsel dieselbe, könnte der Aufruf nur wieder dieselbe Staffel liefern.
+     * Dann wird nicht geholt, und es bleibt beim Hinweis, neu zu laden. Genau
+     * das prüft `holeStaffel()` in seiner ersten Zeile.
+     *
+     * Bis zum 25.08.2026 stand hier stattdessen die **Staffelnummer** aus der
+     * Adresse: geholt wurde nur bei `_s1`. Das traf den Sammelfall richtig, warf
+     * aber den häufigeren gleich mit weg — jeder Wechsel auf Staffel 2 oder
+     * höher verlangte ein Neuladen, auch dort, wo der Abruf funktioniert hätte
+     * (High School DxD, GOSICK, Captain Tsubasa führen je Staffel eine eigene
+     * Kennung). Daniel am 25.08.2026: „neu lade zwang bug … ich muss jedesmal
+     * neuladen nervt".
      */
-    const staffelInAdresse = Number(/[?&]ref_=[^&]*_s(\d+)/.exec(location.search ?? '')?.[1]) || 1
-    if (staffelInAdresse <= 1) void holeStaffel(asinAusAdresse())
+    void holeStaffel(asinAusAdresse())
   }
 
   /**

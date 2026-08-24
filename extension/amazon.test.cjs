@@ -267,18 +267,28 @@ const echt =
 }
 
 /**
- * "Nicht mehr in deiner Region" gilt vor jeder Folgenzaehlung.
+ * "Nicht mehr in deiner Region" gilt vor jeder Folgenzaehlung -- und nur bei
+ * unvollstaendiger Liste.
  *
- * Die Pruefung stand im Zweig fuer "keine Folgen geladen" und wurde damit nur
- * erreicht, wenn der Quelltext gar nichts hergab. Bei "Chaika" Staffel 1
- * stehen zehn Folgen darin, waehrend die Seite darueber den Regionshinweis
- * traegt: Der Knopf verlangte "10 von 12 -- Abschnitte selbst oeffnen" fuer
- * Abschnitte, die es hier nicht mehr gibt (Daniel, 24.08.2026).
+ * Zwei Faelle, beide von Daniel belegt, und der Satz ist in beiden derselbe:
+ *
+ * - **Die ganze Seite** -- "Chaika" Staffel 1 (24.08.2026): zehn Folgen im
+ *   Quelltext, zwoelf laut Zaehlwerk. Die Pruefung stand damals im Zweig fuer
+ *   "keine Folgen geladen" und wurde nie erreicht; der Knopf verlangte "10 von
+ *   12 -- Abschnitte selbst oeffnen" fuer Abschnitte, die es nicht mehr gibt.
+ * - **Eine einzelne Folge** -- "Mahouka" Staffel 2 (25.08.2026, mit Bild):
+ *   Folge 1 und 2 tragen den Satz in ihrer Kachel, die uebrigen elf sind
+ *   abspielbar, alle dreizehn stehen in der Liste. Der Knopf bot trotzdem an,
+ *   die ganze Reihe als verschwunden zu melden.
+ *
+ * Beide Zeilen zusammen halten die Regel fest: Der Zweig steht **vor** der
+ * Zaehlung (sonst Fall eins), und er greift nur, wenn Folgen fehlen (sonst
+ * Fall zwei). Wer eine der beiden loest, holt sich den anderen Fehler zurueck.
  */
 {
   const fs = require("node:fs")
   const leser = fs.readFileSync(require("node:path").resolve(__dirname, "amazon.js"), "utf8")
-  const stelleRegion = leser.indexOf("if (regionWeg) {")
+  const stelleRegion = leser.indexOf("if (regionWeg && !vollstaendig) {")
   const stelleVollstaendig = leser.indexOf("if (!vollstaendig) {")
   pruefe(
     "der Regionshinweis wird vor der Vollstaendigkeit geprueft",
@@ -286,8 +296,78 @@ const echt =
     { region: stelleRegion, vollstaendig: stelleVollstaendig },
   )
   pruefe(
+    "und gilt nur, solange Folgen fehlen -- eine vollstaendige Liste schlaegt ihn",
+    stelleRegion > 0,
+  )
+  pruefe(
     "und laesst das Melden zu, statt zu sperren",
     leser.slice(stelleRegion, stelleRegion + 400).includes('knopf.disabled = false'),
+  )
+}
+
+/**
+ * Der Quelltext wird einmal gelesen und festgehalten, nicht in jedem Durchlauf.
+ *
+ * `document.documentElement.innerHTML` baut die Zeichenkette **jedes Mal neu
+ * auf** — bei einer Prime-Video-Seite rund 1,6 MB. Zweimal je Sekunde, auf
+ * einer Seite, die stundenlang offen ist, und Chrome haelt alle Tabs derselben
+ * Site in einem Renderer-Prozess.
+ *
+ * Zweimal hat das Daniels Tab beendet, mit demselben "Aw, Snap! Out of Memory":
+ * am 24.08.2026 nach einer Handvoll Wechsel, am 25.08.2026 "nach ca 20
+ * meldungen in a row". Beim ersten Mal war die Antwort "einmal je Durchlauf",
+ * beim zweiten Mal eine Frist von zwei Sekunden.
+ *
+ * Diese drei Zeilen halten fest, was dabei gilt: **eine** Stelle liest den
+ * Quelltext, sie hat eine Frist, und der Dauertakt umgeht sie nicht.
+ */
+{
+  const fs = require('node:fs')
+  const leser = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
+  const lesungen = (leser.match(/documentElement\?\.innerHTML/g) ?? []).length
+  pruefe('nur eine einzige Stelle liest den Quelltext', lesungen === 1, { lesungen })
+  pruefe('und sie haelt ihn eine Frist lang fest', /HTML_FRIST_MS/.test(leser))
+  const takt = leser.slice(leser.lastIndexOf('setInterval(() => {'))
+  pruefe(
+    'der Dauertakt wirft den Zwischenspeicher nicht weg',
+    !takt.slice(0, 300).includes('htmlNeuLesen()'),
+  )
+  pruefe(
+    'body.innerText wird ebenfalls nur an einer Stelle gelesen',
+    (leser.match(/body\?\.innerText/g) ?? []).length === 1,
+  )
+}
+
+/**
+ * Nachgeladen wird nach der Kennung, nicht nach der Staffelnummer.
+ *
+ * `getDetailWidgets?titleID=<ASIN>` liefert die Folgenliste zu genau dieser
+ * Kennung. Fuehrt eine Serie je Staffel eine eigene (High School DxD, GOSICK,
+ * Captain Tsubasa), trifft der Aufruf; teilen sich mehrere Staffeln eine
+ * (JoJo, Jujutsu Kaisen, Marco), kann er nur immer dieselbe liefern.
+ *
+ * Bis zum 25.08.2026 entschied das die Staffelnummer aus der Adresse: geholt
+ * wurde nur bei `_s1`. Der Sammelfall war damit richtig abgedeckt, der
+ * haeufigere aber gleich mit erschlagen -- jeder Wechsel auf Staffel 2 oder
+ * hoeher verlangte ein Neuladen. Daniel: "neu lade zwang bug ... muss jedesmal
+ * neuladen nervt".
+ *
+ * Wer die Nummer wieder einbaut, holt sich das zurueck.
+ */
+{
+  const fs = require('node:fs')
+  const leser = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon-leser.js'), 'utf8')
+  pruefe(
+    'die Staffelnummer aus der Adresse steuert das Nachladen nicht mehr',
+    !/staffelInAdresse/.test(leser),
+  )
+  pruefe(
+    'der Zaehlstand merkt sich, zu welcher Kennung er gehoert',
+    /geholteStaffel\s*=[\s\S]{0,200}location\.pathname/.test(leser),
+  )
+  pruefe(
+    'und ein misslungener Abruf gibt die Kennung wieder frei',
+    /if \(!ankam\) geholteStaffel = vorher/.test(leser),
   )
 }
 

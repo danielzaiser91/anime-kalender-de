@@ -101,24 +101,73 @@ async function speicherSchreiben(werte) {
    * Lesung, und keine davon sah teuer aus. **Wer hier eine Funktion ergänzt,
    * die den Quelltext braucht, nimmt `seitenHtml()`** — nie `innerHTML` direkt.
    *
-   * 400 ms Frist: kürzer als der Takt, also sieht jeder Durchlauf frische
-   * Daten, aber innerhalb eines Durchlaufs wird nur einmal gelesen.
+   * **Zwei Sekunden Frist — der zweite Anlauf, und diesmal gemessen.**
+   *
+   * Der erste Versuch war „einmal je Durchlauf": `zeichnen()` warf den
+   * Zwischenspeicher zu Beginn weg, damit jeder Durchlauf einen frischen Stand
+   * sieht. Das senkte acht Lesungen auf eine — aber `zeichnen()` läuft im
+   * 500-ms-Takt, und `beiStaffelwechsel()` daneben liest noch einmal. Rund
+   * **3 MB Zeichenketten je Sekunde**, dauerhaft, auf einer Seite, die
+   * stundenlang offen ist.
+   *
+   * Am 25.08.2026 ist Daniels Tab erneut daran gestorben: „nach ca 20 meldungen
+   * in a row, crashed es … memory leak??" — dasselbe „Aw, Snap! Out of Memory"
+   * wie am Vortag, nur später. Chrome hält alle Tabs derselben Site in **einem**
+   * Renderer-Prozess; der Müll mehrerer Prime-Video-Tabs summiert sich dort.
+   *
+   * Die Frist kostet, was sie kosten muss: Ein Wechsel wird bis zu zwei
+   * Sekunden später bemerkt. Das ist zu verschmerzen, weil die Erkennung
+   * ohnehin nicht am Quelltext hängt — Amazon tauscht ihn beim Staffelwechsel
+   * gar nicht aus (siehe CLAUDE.md). Was wirklich etwas Neues bringt, sind
+   * Ereignisse: eine Nachricht des Mitlesers und der Klick auf den Knopf. Beide
+   * werfen den Zwischenspeicher **sofort** weg, und damit ist die Frist überall
+   * dort unwirksam, wo sie schaden könnte.
+   *
+   * **Wer hier eine Funktion ergänzt, die den Quelltext braucht, nimmt
+   * `seitenHtml()`** — nie `innerHTML` direkt.
    */
+  const HTML_FRIST_MS = 2000
   let htmlZwischenspeicher = null
+  let htmlGelesenAm = 0
   function seitenHtml() {
-    if (htmlZwischenspeicher === null) htmlZwischenspeicher = document.documentElement?.innerHTML ?? ''
+    if (htmlZwischenspeicher === null || Date.now() - htmlGelesenAm > HTML_FRIST_MS) {
+      htmlZwischenspeicher = document.documentElement?.innerHTML ?? ''
+      htmlGelesenAm = Date.now()
+    }
     return htmlZwischenspeicher
   }
-  /**
-   * Zu Beginn jedes Durchlaufs weggeworfen — nicht nach einer Frist.
-   *
-   * Eine Frist (400 ms) war der erste Versuch und der falsche: Sie hält den
-   * Quelltext auch dann fest, wenn Amazon ihn gerade ausgetauscht hat, und
-   * verzögert damit genau die Erkennung, um die es hier geht. Ein Durchlauf
-   * sieht jetzt einen Stand — den aktuellen — und liest ihn einmal.
-   */
   function htmlNeuLesen() {
     htmlZwischenspeicher = null
+  }
+
+  /**
+   * Was die Seite über sich selbst sagt — einmal je Quelltext-Lesung.
+   *
+   * Die drei Sätze und der Folgen-Reiter wurden bis zum 25.08.2026 in jedem
+   * `zeichnen()` neu gesucht, und zwar über `body.innerText` **plus** den
+   * ganzen Quelltext. `innerText` ist dabei der teurere Teil: Es erzwingt ein
+   * Layout über die ganze Seite, zweimal je Sekunde, für einen Zustand, der
+   * sich nur beim Staffel- oder Seitenwechsel ändert.
+   *
+   * Gelesen wird beides zusammen, weil keine der beiden Quellen allein
+   * genügt: `innerText` gibt es nur, wo etwas gerendert ist; der Hinweis steht
+   * aber auch in der ausgelieferten Seite, bevor sie gerendert ist.
+   */
+  let lage = null
+  let lageZu = -1
+  function seitenLage() {
+    const html = seitenHtml()
+    if (lage && lageZu === htmlGelesenAm) return lage
+    const sichtbar = document.body?.innerText ?? ''
+    const text = `${sichtbar} ${html}`
+    lage = {
+      fehlerseite: /keine funktionsf(?:ä|ae)hige Seite|Suchen Sie etwas?/i.test(text),
+      regionWeg: /In deiner Region nicht mehr auf Prime Video verf(?:ü|ue)gbar/i.test(text),
+      stoerung: /Bei der Verarbeitung deiner Anfrage ist ein Fehler aufgetreten/i.test(text),
+      hatFolgenReiter: /(^|>)\s*Folgen\s*(<|$)/m.test(sichtbar),
+    }
+    lageZu = htmlGelesenAm
+    return lage
   }
 
   const WORKER = 'https://newsletter.animekalender.workers.dev/pruefung'
@@ -269,6 +318,24 @@ async function speicherSchreiben(werte) {
    * Quelltext, dann die aus der Adresse, dann die ASIN. Die ASIN ist je Staffel
    * verschieden und kollidiert nie — anders als die Folgenzahl.
    */
+  /**
+   * Amazons Nummer für die Anzeige — aus 201 wird „2, Vol. 1".
+   *
+   * Ist eine Staffel in Bänden geteilt, zählt Amazon sie dreistellig:
+   * Hunderterstelle ist die Staffel, die letzten beiden Stellen der Band.
+   * Belegt am 25.08.2026 an „Made in Abyss" (Daniel): Das Auswahlfeld führt
+   * „Staffel 1", „Staffel 1, Volume 2", „Staffel 2, Volume 1", „Staffel 2,
+   * Volume 2" — gemeldet wurden sie als 1, 102, 201 und 202.
+   *
+   * Umgeschrieben wird nur die **Anzeige**. Der Schlüssel bleibt Amazons Zahl:
+   * Er muss eindeutig sein, nicht schön, und über ihn läuft der Abgleich mit
+   * den Meldungen im Worker.
+   */
+  function staffelText(nr) {
+    const m = /^([1-9])(\d{2})$/.exec(String(nr))
+    return m && Number(m[2]) > 0 ? `${m[1]}, Vol. ${Number(m[2])}` : String(nr)
+  }
+
   function staffelSchluessel() {
     return String(staffelAusAdresse() ?? staffelAusSeite() ?? id ?? 1)
   }
@@ -1245,9 +1312,14 @@ async function speicherSchreiben(werte) {
         const asin = /\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10})/.exec(p.url)?.[1]
         if (!asin) continue
         const nr = p.staffel != null ? String(p.staffel) : 'ohne Nummer'
+        // Dieselbe Schreibweise wie auf dem Knopf: „201" liest sich als
+        // „2, Vol. 1" — siehe staffelText() in der Knopf-Logik.
+        const bandNr = /^([1-9])(\d{2})$/.exec(nr)
+        const angezeigt =
+          bandNr && Number(bandNr[2]) > 0 ? `${bandNr[1]}, Vol. ${Number(bandNr[2])}` : nr
         const zeichen = p.befund === 'dub' ? '🇩🇪' : p.befund === 'weg' ? '✕✕' : '✕'
         jeAdresse[asin] = jeAdresse[asin] ?? { staffeln: {}, gesamt: 1, serie: null }
-        jeAdresse[asin].staffeln[nr] = zeichen
+        jeAdresse[asin].staffeln[angezeigt] = zeichen
         if (p.titel) jeAdresse[asin].serie = p.titel
         jeAdresse[asin].gesamt = Math.max(
           jeAdresse[asin].gesamt,
@@ -1298,6 +1370,9 @@ async function speicherSchreiben(werte) {
   })()
 
   window.addEventListener('message', (e) => {
+    // Ein Ereignis schlägt jede Frist: Was der Mitleser meldet, kann den Stand
+    // der Seite geändert haben — dann wird der Quelltext sofort neu gelesen.
+    htmlNeuLesen()
     /**
      * Eine gezielt geholte Staffel **ersetzt** den Zählstand.
      *
@@ -1404,7 +1479,6 @@ async function speicherSchreiben(werte) {
   }
 
   function zeichnen() {
-    htmlNeuLesen()
     const jetzt = spuren()
     for (const s of jetzt.sprachen) gesehen.sprachen.add(s)
     for (const n of jetzt.nummern) gesehen.nummern.add(n)
@@ -1462,8 +1536,7 @@ async function speicherSchreiben(werte) {
      * auch in der ausgelieferten Seite. Wer nur eine der beiden Quellen nimmt,
      * verpasst den Fall, in dem die andere ihn trägt.
      */
-    const seitentext = `${document.body?.innerText ?? ''} ${seitenHtml()}`
-    const fehlerseite = /keine funktionsf(?:ä|ae)hige Seite|Suchen Sie etwas?/i.test(seitentext)
+    const { fehlerseite, regionWeg, stoerung } = seitenLage()
 
     /**
      * „Nicht mehr in deiner Region" ist eine Auskunft, ein Fehler ist keine.
@@ -1479,8 +1552,6 @@ async function speicherSchreiben(werte) {
      * Unterschied, den dieses Projekt an fremden Quellen einfordert: Schweigen
      * ist kein Nein.
      */
-    const regionWeg = /In deiner Region nicht mehr auf Prime Video verf(?:ü|ue)gbar/i.test(seitentext)
-    const stoerung = /Bei der Verarbeitung deiner Anfrage ist ein Fehler aufgetreten/i.test(seitentext)
     const wartet = !fehlerseite && Date.now() - letzterFortschritt < GEDULD_MS
     /**
      * Die Beruhigungsfrist gehört in die Signatur — sonst läuft sie ins Leere.
@@ -1560,7 +1631,7 @@ async function speicherSchreiben(werte) {
        * Erkannt wird es am fehlenden Reiter, nicht am Kaufsymbol: Der Reiter
        * ist die Aussage über die Folgenliste, das Symbol nur über den Preis.
        */
-      const hatFolgenReiter = /(^|>)\s*Folgen\s*(<|$)/m.test(document.body?.innerText ?? '')
+      const hatFolgenReiter = seitenLage().hatFolgenReiter
       /**
        * `!fehlerseite` gehört dazu — sonst frisst die Regel den toten Verweis.
        *
@@ -1732,7 +1803,7 @@ async function speicherSchreiben(werte) {
        * wie weit sie insgesamt ist, steht in der Übersicht, wo alle Zeilen
        * nebeneinander stehen.
        */
-      knopf.textContent = offen > 0 ? `✓ Staffel ${jetzigeStaffel} gemeldet` : '✓ alles gemeldet'
+      knopf.textContent = offen > 0 ? `✓ Staffel ${staffelText(jetzigeStaffel)} gemeldet` : '✓ alles gemeldet'
       knopf.disabled = true
       knopf.dataset.deutsch = String(deutsch)
       return
@@ -1875,7 +1946,31 @@ async function speicherSchreiben(werte) {
      * Er gehört deshalb **vor** jede Zählung — was gezählt wird, sind
      * Überbleibsel.
      */
-    if (regionWeg) {
+    /**
+     * **Aber nur, solange die Folgenliste selbst unvollständig ist.**
+     *
+     * Amazon setzt denselben Satz an zwei ganz verschiedene Stellen, und beide
+     * Fälle sind belegt:
+     *
+     * - **Die ganze Seite** — „Chaika" Staffel 1 (24.08.2026): zehn Folgen im
+     *   Quelltext, zwölf laut Zählwerk, und über allem der Hinweis. Die zehn
+     *   sind Überbleibsel; die fehlenden zwei kommen nie.
+     * - **Eine einzelne Folge** — „Mahouka Koukou no Rettousei" Staffel 2
+     *   (25.08.2026, Daniel mit Bild): Folge 1 und 2 tragen ihn in ihrer
+     *   Kachel, die übrigen elf sind normal abspielbar, alle dreizehn stehen in
+     *   der Liste. Der Knopf bot trotzdem an, die ganze Reihe als verschwunden
+     *   zu melden — aus zwei Folgen wäre ein `available: false` geworden.
+     *
+     * Unterschieden wird an der Vollständigkeit: Ist jede Folge da, die das
+     * Zählwerk nennt, ist die Staffel abrufbar — dann gehört der Satz einzelnen
+     * Folgen und ist keine Aussage über das Angebot. Fehlen Folgen, ist er
+     * genau die Erklärung dafür.
+     *
+     * Die Reihenfolge bleibt damit richtig herum: Der Satz steht weiterhin
+     * **vor** der Aufforderung, fehlende Abschnitte selbst zu öffnen — denn er
+     * sagt, dass es dort nichts mehr zu öffnen gibt.
+     */
+    if (regionWeg && !vollstaendig) {
       knopf.disabled = false
       knopf.dataset.tot = 'true'
       knopf.dataset.deutsch = 'false'
@@ -1998,7 +2093,6 @@ async function speicherSchreiben(werte) {
   }
 
   setInterval(() => {
-    htmlNeuLesen()
     beiStaffelwechsel()
     zeichnen()
     /**
