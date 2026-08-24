@@ -1,6 +1,141 @@
 {
-  "scrapedAt": "2026-08-21T05:00:32.688Z",
+  "scrapedAt": "2026-08-22T04:54:41.866Z",
   "proposals": [
+    {
+      "articleTitle": "Netflix-Termin von »Cyberpunk: Edgerunners II« steht fest + Teaser",
+      "articleUrl": "https://www.anime2you.de/news/1043405/cyberpunk-edgerunners-2-netflix-termin/",
+      "publishedAt": "2026-08-21",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "iso": "2026-10-20",
+          "context": "iere im Oktober 2026 »Cyberpunk: Edgerunners II« steht demnach ab dem 20. Oktober 2026 unter anderem mit japanischer und englischer Sprachfa"
+        },
+        {
+          "month": "2026-10",
+          "context": "runners«-Serie bekannt. Einen neuen Teaser findet ihr unten. Premiere im Oktober 2026 »Cyberpunk: Edgerunners II« steht demnach ab dem 20. O"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Netflix enthüllt neues Visual zur ersten Staffel von »THE ONE PIECE«",
+      "articleUrl": "https://www.anime2you.de/news/1043291/the-one-piece-staffel-1-neues-visual/",
+      "publishedAt": "2026-08-21",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "month": "2027-02",
+          "context": "ece«-Reboots veröffentlicht, das ihr euch weiter unten ansehen könnt. Ab Februar 2027 Die neue Serie mit dem Titel »THE ONE PIECE« entsteht"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Netflix-Termin des Thriller-Anime »Fool Night« + Teaser",
+      "articleUrl": "https://www.anime2you.de/news/1043399/fool-night-netflix-termin/",
+      "publishedAt": "2026-08-21",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-26",
+          "context": "ihr weiter unten. Premiere im November 2026 »Fool Night« steht ab dem 26. November 2026 in verschiedenen Sprachfassungen bei Netflix auf Abr"
+        },
+        {
+          "month": "2026-11",
+          "context": "Night« bekannt. Einen neuen Teaser findet ihr weiter unten. Premiere im November 2026 »Fool Night« steht ab dem 26. November 2026 in versch"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Netflix kündigt neuen Original-Anime »Bass X Machina« an + Teaser",
+      "articleUrl": "https://www.anime2you.de/news/1043257/netflix-bass-x-machina-angekuendigt/",
+      "publishedAt": "2026-08-21",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-03",
+          "context": "emiere im November 2026 »Bass X Machina« erscheint voraussichtlich am 3. November 2026 unter anderem in der englischen Originalfassung mit d"
+        },
+        {
+          "month": "2026-11",
+          "context": "veröffentlichen wird. Einen ersten Teaser findet ihr unten. Premiere im November 2026 »Bass X Machina« erscheint voraussichtlich am 3. Nove"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Neuer Netflix-Teaser zur zweiten »Sakamoto Days«-Staffel + Visual",
+      "articleUrl": "https://www.anime2you.de/news/1043270/sakamoto-days-staffel-2-neuer-teaser/",
+      "publishedAt": "2026-08-21",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "month": "2027-01",
+          "context": "kamoto Days« veröffentlicht. Das Video findet ihr weiter unten. Start im Januar 2027 Die zweite »Sakamoto Days«-Staffel wird unter der Regie"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Neuer Netflix-Trailer zur »LEGO One Piece«-Miniserie",
+      "articleUrl": "https://www.anime2you.de/news/1043281/netflix-lego-one-piece-neuer-trailer/",
+      "publishedAt": "2026-08-21",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "iso": "2026-09-29",
+          "context": "ion-Umsetzung von »One Piece« und erscheint nach aktueller Planung am 29. September 2026 unter anderem auf Deutsch und Japanisch […] Der B"
+        },
+        {
+          "month": "2026-09",
+          "context": "röffentlicht. Das Video könnt ihr euch weiter unten ansehen. Premiere im September 2026 Die zweiteilige Animationsserie »LEGO One Piece« bas"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Sieben Blu-ray-Neuheiten ab sofort bei Anime Planet vorbestellbar",
+      "articleUrl": "https://www.anime2you.de/news/1043419/anime-planet-oktober-november-2026-vorbestellung/",
+      "publishedAt": "2026-08-21",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-10-22",
+          "context": "eitert, die ab sofort vorbestellbar sind. Sieben Blu-ray-Neuheiten Am 22. Oktober 2026 erscheinen neue Komplettboxen von »Detektei Layton –"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Neue »Kill Blue«-Synchronfassung erscheint auch auf ADN",
       "articleUrl": "https://www.anime2you.de/news/1043202/neue-kill-blue-synchro-auf-adn/",
