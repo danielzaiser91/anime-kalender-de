@@ -171,6 +171,18 @@ function starte(seitenAsin, gespeichert = {}) {
   return { angehaengt, gesetzt, sandkasten, takte, dom, gemeldet }
 }
 
+/**
+ * **Keine fest verdrahteten Kennungen mehr.**
+ *
+ * `B0GFPBT6FG` stand hier bis zum 25.08.2026 in drei Testfaellen. Sobald der
+ * Titel geprueft war, fiel er aus `offene-amazon.js` -- und weil der Knopf
+ * seither nichts anbietet, was nicht auf der Pruefliste steht, prueften die
+ * drei Faelle danach den Zustand "nicht auf der Pruefliste" statt den
+ * gemeinten. Ein Test, der an Daten haengt, die sich taeglich aendern, misst
+ * irgendwann etwas anderes als sein Name sagt.
+ */
+const LISTEN_ASIN = Object.keys(ECHTE_LISTE)[0]
+
 const ersteAsin = Object.keys(ECHTE_LISTE)[0]
 
 // --- 1. Der Knopf erscheint und trägt die richtige Zahl --------------------
@@ -302,7 +314,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
     '"episodeNumber":1,"episodeCount":1,"benefitId":"aniversede"}</script>' +
     '</body></html>'
 
-  const { angehaengt, sandkasten, takte } = starte('B0GFPBT6FG')
+  const { angehaengt, sandkasten, takte } = starte(LISTEN_ASIN)
   sandkasten.document.documentElement.innerHTML = echteStaffel3
   sandkasten.document.title = 'Amazon.de: Season 3'
   sandkasten.location.search = '?ref_=atv_dp_season_select_s3'
@@ -316,11 +328,13 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
     knopf?.textContent.includes('🇩🇪 Deutsch'),
     knopf?.textContent,
   )
-  pruefe(
-    'gemeldet wird die Kennung aus dem Quelltext (B0GT9DR9YF), nicht die der Adresse (B0GFPBT6FG)',
-    knopf?.textContent.includes('neu'),
-    knopf?.textContent,
-  )
+  /**
+   * Die Kennzeichnung "neu" gab es fuer Titel ausserhalb der Pruefliste. Seit
+   * dem 25.08.2026 sind die gar nicht mehr meldbar (Daniel: "wenn der titel
+   * kein zu pruefender ist, sollte keine pruefung moeglich sein"), also gibt es
+   * hier nichts mehr zu pruefen. Was der Test eigentlich meinte -- dass die
+   * Meldung die Kennung aus dem Quelltext traegt -- steht in 2c.
+   */
 }
 
 // --- 2d. Der Titel, der zweimal fehlte ------------------------------------
@@ -337,7 +351,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
  * Knopftext: Der Titel steht nur im Meldekörper.
  */
 {
-  const { angehaengt, sandkasten, takte, gemeldet } = starte('B0GFPBT6FG')
+  const { angehaengt, sandkasten, takte, gemeldet } = starte(LISTEN_ASIN)
   sandkasten.document.title = 'Amazon.de: Season 3'
   /**
    * So sieht die Seite wirklich aus — Daniels Konsolen-Messung, 21:46 Uhr:
@@ -367,8 +381,18 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   setTimeout(() => {
     const koerper = gemeldet[0]?.koerper ?? {}
     pruefe(
-      'der Serientitel wird aus dem Auswahlfeld gelesen (og:title und h1 sind leer)',
-      koerper.titel === '[Oshi No Ko] - [Mein*Star]',
+      /**
+       * Der Listenname gewinnt, wo es einen gibt -- `eintrag.titel ??
+       * seitenTitel()`. Seit dem 25.08.2026 laeuft dieser Fall zwangslaeufig
+       * ueber einen Listeneintrag: Titel ausserhalb der Pruefliste sind nicht
+       * mehr meldbar, also gibt es hier immer einen Namen aus der Liste.
+       *
+       * Dass `seitenTitel()` seine Quellen in der richtigen Reihenfolge liest,
+       * pruefen die Zusicherungen in `amazon.test.cjs` -- am Quelltext, wo es
+       * nicht von den Listendaten des Tages abhaengt.
+       */
+      'die Meldung traegt einen Titel, nicht "?"',
+      typeof koerper.titel === 'string' && koerper.titel.length > 2,
       koerper.titel,
     )
     pruefe(
@@ -410,7 +434,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
     ).join('') +
     `"episodeCount":${gesamt}`
 
-  const { angehaengt, sandkasten, takte } = starte('B0GFPBT6FG')
+  const { angehaengt, sandkasten, takte } = starte(LISTEN_ASIN)
   sandkasten.document.documentElement.innerHTML = seite(12, 12)
   for (const takt of takte) takt()
   const knopf = angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))

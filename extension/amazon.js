@@ -598,6 +598,7 @@ async function speicherSchreiben(werte) {
   }
 
   const liste = globalThis.AK_OFFENE_AMAZON ?? {}
+
   // Veränderlich: Das Auswahlfeld wechselt die Staffel ohne Seitenneuladen,
   // und damit die Kennung — siehe `beiStaffelwechsel()`.
   let id = asin()
@@ -1598,6 +1599,33 @@ async function speicherSchreiben(werte) {
      * Deshalb zählt zusätzlich die einfache Frage: Ist **diese** Staffel dabei?
      * Wenn nicht, ist hier etwas zu tun, ganz gleich was die Zahl sagt.
      */
+    /**
+     * Was nicht auf der Prüfliste steht, wird nicht geprüft.
+     *
+     * Daniel am 25.08.2026: „alle die zu prüfen sind sollten als info
+     * ausreichen, wenn der titel kein zu prüfender ist, sollte keine prüfung
+     * möglich sein, so einfach, es muss keine altdaten stand behalten werden."
+     *
+     * Der erste Anlauf war eine zweite Liste mit den bereits geprüften Titeln,
+     * damit sich „erledigt" von „unbekannt" unterscheiden lässt. Das war eine
+     * Antwort auf eine Frage, die sich gar nicht stellt: **Die Prüfliste sagt
+     * bereits, was zu tun ist.** Alles andere ist nichts zu tun — aus welchem
+     * Grund auch immer.
+     *
+     * Damit fällt die Entscheidung vom 23.08.2026, auch unbekannte Staffeln
+     * melden zu lassen. Sie hat einmal geholfen („Oshi no Ko" Staffel 3 kam so
+     * in den Bestand), aber sie kostet mehr, als sie bringt: Ein Knopf, der
+     * überall etwas anbietet, bietet es auch dort an, wo längst alles geklärt
+     * ist. Fehlt uns eine Staffel wirklich, fällt das über die Serie auf — der
+     * Listenschlüssel sucht sie auch über den Serientitel.
+     */
+    if (!liste[listenId]) {
+      knopf.disabled = true
+      knopf.dataset.deutsch = 'false'
+      knopf.textContent = 'nicht auf der Prüfliste'
+      return
+    }
+
     const alleDurch = Boolean(abgehakt) && schonGemeldet && fertig(listenId)
 
     /**
