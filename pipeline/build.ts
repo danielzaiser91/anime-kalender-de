@@ -911,7 +911,12 @@ function main(): void {
       {
         descriptionDe?: string
         streams: { provider: string; url: string }[]
-        info?: { episodes?: number; episodesEstimated?: boolean }
+        info?: {
+          episodes?: number
+          episodesEstimated?: boolean
+          /** Der Titel je Sprache — hier steht der deutsche Name des Werks. */
+          languages?: { language?: string; title?: string }[]
+        }
       }
     >
   >('data/anisearch.json', {})
@@ -1035,8 +1040,41 @@ function main(): void {
   // Dienst zu haben sind.
   let fremdeAdressen = 0
   let umsortiert = 0
+  let deutscheTitel = 0
   for (const title of titles.values()) {
     const extra = anisearch[title.id]
+
+    /**
+     * Der deutsche Name des Werks — die Antwort auf „warum finde ich das nicht".
+     *
+     * aniSearch ist eine deutsche Datenbank und führt den Titel je Sprache.
+     * Für AniList 169969 steht dort:
+     *
+     *     Japanisch   Mushoku no Eiyuu: Betsu ni Skill nanka Iranakattan da ga
+     *     Englisch    Hero Without a Class: Who Even Needs Skills?!
+     *     Deutsch     Der Held ohne Klasse: Der Aufstieg eines Talentlosen
+     *
+     * Genau danach hat Daniel am 24.08.2026 gesucht und nichts gefunden — der
+     * Anime stand im Kalender, aber unter seinem japanischen Namen. Die Suche
+     * im Frontend liest `titleDe` längst; es war nur bei **99 von 2.762**
+     * Titeln gefüllt, während diese Datei für **2.553** einen deutschen Namen
+     * hergibt. Die Daten lagen seit Tagen im Repo und wurden nie ausgewertet.
+     *
+     * Steht hier derselbe Text wie im englischen Feld, ist das kein Fehler: Ein
+     * Werk, das hier unter seinem englischen Namen läuft, heißt eben so.
+     *
+     * **Ein vorhandener Wert bleibt unangetastet** — ein kuratierter oder vom
+     * Anbieter gemeldeter Titel ist näher am Sprachgebrauch als ein
+     * Datenbankeintrag.
+     */
+    if (!title.titleDe) {
+      const de = (extra?.info?.languages ?? []).find((l) => /deutsch/i.test(l.language ?? ''))
+      if (de?.title?.trim()) {
+        title.titleDe = werkTitel(de.title.trim())
+        deutscheTitel++
+      }
+    }
+
     if (!extra?.streams?.length) continue
     const watchLinks: WatchLink[] = []
     for (const { provider, url: raw } of extra.streams) {

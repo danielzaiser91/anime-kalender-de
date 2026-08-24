@@ -88,5 +88,37 @@ console.log('\nLaufzeit (die Suche läuft bei jedem Tastendruck):')
   pruefe('unter 1,5 Sekunden für acht Suchen', ms < 1500, `${ms.toFixed(0)} ms`)
 }
 
+/**
+ * Deutsche Titel sind kein Beiwerk — sie sind der Suchbegriff.
+ *
+ * Daniel suchte am 24.08.2026 nach „Der Held ohne Klasse: Der Aufstieg eines
+ * Talentlosen" und fand nichts. Der Anime stand im Kalender (AniList 169969),
+ * aber unter seinem japanischen Namen: `titleDe` war leer.
+ *
+ * Der deutsche Name lag zu dem Zeitpunkt längst im Repo — `data/anisearch.json`
+ * führt ihn für 2.553 von 2.615 Einträgen. Ausgewertet hatte ihn nie jemand, und
+ * nichts schlug an: Von 2.762 Titeln trugen **99** einen deutschen Namen.
+ *
+ * Diese Zusicherung macht daraus eine Zahl, die auffällt, wenn sie einbricht.
+ * Die Schwelle liegt bewusst deutlich unter dem Erreichbaren — sie soll einen
+ * Ausfall der Quelle melden, nicht bei jeder Schwankung rot werden.
+ */
+console.log('\nDeutsche Titel (der Suchbegriff, den ein deutscher Nutzer kennt):')
+{
+  const mitDe = titles.filter((t) => t.titleDe?.trim()).length
+  const anteil = (mitDe / titles.length) * 100
+  console.log(`  ${mitDe} von ${titles.length} Titeln (${anteil.toFixed(0)} %)`)
+  pruefe('mindestens die Hälfte der Titel hat einen deutschen Namen', anteil >= 50, `${anteil.toFixed(0)} %`)
+
+  // Der Fall, der die Prüfung ausgelöst hat — namentlich, damit er nicht
+  // wieder still verschwindet.
+  const held = titles.find((t) => t.id === 169969)
+  pruefe(
+    'AniList 169969 ist unter „Der Held ohne Klasse" auffindbar',
+    /held ohne klasse/i.test(held?.titleDe ?? ''),
+    held?.titleDe ?? '(kein deutscher Titel)',
+  )
+}
+
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
