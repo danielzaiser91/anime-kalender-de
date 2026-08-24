@@ -290,6 +290,45 @@ eine unter den beiden anderen, alle mit ihrer Nummer. Zuzuordnen sind sie über 
 Staffel 1 hat 26 Folgen, „Neu Vestroia" 52, „Gundalianer" 39. Geht die Summe nicht auf, bleibt
 der Block unzugeordnet — das ist besser als eine geratene Zuordnung.
 
+### Daniels Prüfrunde vom 25.08.2026, 00:30–01:45 — fünf Befunde, alle behoben
+
+Gepusht als Erweiterung **0.87**: Speicherlast (zweiter „Out of Memory"), Neuladezwang bei
+jeder Staffel über 1, Regionshinweis einzelner Folgen, Amazons Volume-Nummern, und „Dieses
+Video ist derzeit nicht verfügbar" als meldbarer Befund.
+
+**Offen geblieben ist genau eine Sache — eine Meldung ohne Staffelnummer.**
+
+Daniel zu „Haha wo Tazunete Sanzenri": „da steht 2/8 aber im tooltip steht nur s1 gemeldet,
+und S ohne nummer, also irgendeine staffel ohne nummer wurde gemeldet für diesen anime oder
+was?"
+
+Genau so ist es. Unter `B016J8RJ9G` liegen zwei Meldungen: eine für Staffel 1 und eine, die
+ihre Nummer nicht mitgeschickt hat — sie stammt aus einer Fassung der Erweiterung vor 0.72,
+die den Staffelschlüssel noch nicht kannte. Der Zähler „2/8" ist damit richtig gezählt und
+trotzdem irreführend: Er sagt nicht, welche der acht Staffeln die zweite war.
+
+**Zu tun:** Die Meldungen im Worker nach `staffel: null` durchsehen. Der Eintrag trägt
+Folgenzahl und Zeitstempel; über die Folgenzahl lässt sich die Staffel in aller Regel
+zuordnen, so wie bei ADN. Was sich nicht zuordnen lässt, wird gelöscht statt geraten — Daniel
+meldet die Staffel dann noch einmal, das kostet ihn dreißig Sekunden.
+
+**Zwei Amazon-Sonderfälle, die keine Arbeit machen** (25.08.2026, beide von Daniel gemessen):
+
+- **Dieselbe Staffelnummer zweimal im Auswahlfeld.** „Naruto Shippuden" führt „Staffel 13"
+  doppelt: `B081TKST2W` mit 14 Folgen und deutschem Ton, `B07YJ5ZK7Y` mit 13 und dem
+  Regionshinweis. Die Folgentitel sind identisch; in der zweiten Fassung ist Folge 4 eine
+  Doppelfolge (46 statt 23 Minuten). Kein Handlungsbedarf: Der Melde-Stand hängt an der
+  **Kennung**, nicht an der Nummer, und die beiden sind verschieden.
+- **Staffeln in Bänden.** „Made in Abyss" führt „Staffel 2, Volume 1" als `seasonNumber: 201`
+  (Hunderterstelle Staffel, Rest Band). Seit 0.86 zeigt der Knopf „2, Vol. 1"; der Schlüssel
+  bleibt Amazons Zahl, denn er muss eindeutig sein.
+
+**Und einer, der erklärt werden muss, weil er richtig aussieht wie ein Fehler:** Bei „High
+School DxD" stand nach zwei von drei Staffeln „alles gemeldet". Unsere Liste führt unter
+`B09QFHGS6L` **einen** offenen Eintrag (12 Folgen) — mehr braucht der Kalender dort nicht.
+Amazons Staffelzahl und unsere Zahl offener Einträge sind zwei verschiedene Dinge, und der
+Knopf zählt die zweite. Weitere Meldungen schaden nicht, sie sind zusätzliche Belege.
+
 ### Offen aus Daniels Prüfrunde vom 24.08.2026, 19:16
 
 Behoben und gepusht sind: Fokus-Bug, Klick auf ganze Zeile, Staffel-Schlüssel
