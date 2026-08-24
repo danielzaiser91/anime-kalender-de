@@ -258,6 +258,19 @@ Entweder bleibt die Erweiterung dort dauerhaft im Einsatz, oder diese 640 bleibe
 dritter Weg ist bislang nicht gefunden.
 
 ### Queue
+### Offen aus Daniels Prüfrunde vom 24.08.2026, 19:16
+
+Behoben und gepusht sind: Fokus-Bug, Klick auf ganze Zeile, Staffel-Schlüssel
+(Sindbad/Bakugan/Barbapapa), falsche Folgenzahl beim Wechsel, „welche Staffeln fehlen"
+als Tooltip, tote Verweise meldbar.
+
+| Aufgabe | SP | Notiz |
+|---|---|---|
+| **Erweiterung lädt nicht bei SPA-Navigation** | 3 | Daniel: „extension lädt nicht korrekt wenn ich von amazon homepage auf ein prime titel navigiere, erscheinen die buttons erst nach neuladen der seite (f5)". **Ursache steht fest:** Das Content-Script hängt in `manifest.json` an `https://www.amazon.de/dp/*` und `/gp/video/detail/*`. Wechselt Amazon per History-API dorthin, injiziert Chrome nichts nach — erst ein echter Seitenaufruf greift. Zwei Wege: den Match auf `amazon.de/*` erweitern und im Skript prüfen, ob eine Titelseite vorliegt (einfach, aber das Skript läuft dann auf jeder Amazon-Seite), oder `chrome.webNavigation.onHistoryStateUpdated` im Service Worker mit Nachinjektion (sauberer, braucht die Berechtigung `webNavigation`). **Zu klären, bevor gebaut wird:** `amazon.js` steigt bei fehlender Titel-Kennung mit `return` aus — es müsste stattdessen warten und erneut prüfen |
+| **Arbeitsliste nach Anbieter trennen** | 2 | Daniel: „verweis auf gesamte liste ist nicht sortiert nach anbieter, trenn das nach anbieter auf." Betrifft `daniel-zum-abarbeiten/07-alle-anbieter.md` — eine Datei je Anbieter, erzeugt von `report-dub-checks.ts`. Prime Video und Crunchyroll haben eigene Wege, offen sind vor allem Disney+ (40) und die Reste |
+| **Disney+ in die Erweiterung** | 5 | Daniel: „evtl melde extension auf disney+ erweitern, damit es schneller geht." 40 Verweise in 34 Reihen, je ~30 Sekunden von Hand. Bauweise wie bei Netflix: Der Player nennt seine Tonspuren, ein Skript in `world: MAIN` liest sie mit. Der bisherige Einwand („bei 40 einmaligen Prüfungen ist Handarbeit schneller") gilt weiter — er kippt, sobald regelmäßig neue Disney-Titel dazukommen |
+| **Netflix: kein Melden von der Übersicht** | 2 | Daniel zu AnoHana: „keine anime-liste button sichtbar, wo ich nachgucken könnte ob dieser titel überhaupt eingetragen ist, der titel lässt sich nicht abspielen, kein melden möglich von der overview." Zwei Dinge: (1) Der Übersichts-Knopf fehlt auf Netflix-Seiten, die keine `/watch/`-Adresse sind — bei Prime Video gibt es ihn. (2) AnoHana trägt bei Netflix nur „Erinnerung", keinen Abspiel-Knopf: Der Titel ist **angekündigt, nicht verfügbar**. Dann gibt es dort nichts zu melden, und der Verweis gehört als „noch nicht abrufbar" markiert statt als offene Prüfung geführt |
+
 
 **Ähnliche Titel vorschlagen** — Idee von Daniel, 24.08.2026, 16:43
 
