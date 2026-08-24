@@ -1,6 +1,6 @@
 # Netflix: was kein Automat beantworten kann
 
-Stand 2026-08-23 · **1 Titel**.
+Stand 2026-08-24 · **1 Titel**.
 
 Diese Titel kennt die Streaming Availability API nicht — ein zweiter Abruf bringt nichts.
 Netflix selbst darf nicht abgerufen werden (`robots.txt`). Bleibt der Blick von Hand.
@@ -22,4 +22,4 @@ Erzeugt von `npm run data:netflix-rest`, nicht von Hand pflegen.
 
 | # | Titel | Folgen | Jahr | Verweis |
 |---|---|---:|---:|---|
-| 1 | Anohana: The Flower We Saw That Day | 11 | 2011 | [öffnen](https://www.netflix.com/browse?jbv=80075178&jbp=0&jbr=11) |
+| 1 | AnoHana: Die Blume, die wir an jenem Tag sahen | 11 | 2011 | [öffnen](https://www.netflix.com/browse?jbv=80075178&jbp=0&jbr=11) |

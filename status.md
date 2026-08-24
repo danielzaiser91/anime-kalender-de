@@ -319,11 +319,11 @@ jemand von einem Titel zum nächsten kommt.
 | **⓪ Grundsatz: die Erweiterung ist kein Dauerbetrieb** (Daniel, 23.08.2026, 14:12) | — | Wörtlich: „wir können die extension zum prüfen nutzen, aber nur einmalig als bestätigung das der automatismus funktioniert, keine dauerhafte lösung… wir müssen unsere datenquellen automatisieren… wir brauchen die beste quelle, schnellster weg aktuelle infos für die webseite beschaffen, nicht erst tage später, besonders für zukünftige releases." **Damit ist der Rang der Aufgaben neu:** Eine Quelle, die von allein läuft, schlägt jede Lösung, die Daniels Handgriff braucht — auch dann, wenn sie mehr Arbeit macht. Die Erweiterung bleibt als **Gegenprobe** erlaubt (stimmt, was die Automatik liefert?), nicht als Beschaffungsweg. Zweite Vorgabe im selben Satz: **Aktualität ist Teil der Qualität.** Ein Termin, der drei Tage später ankommt, ist für einen Kalender wertlos — künftige Veröffentlichungen wiegen schwerer als Katalogpflege |
 | ~~① Rechtsfrage Amazon zu Ende prüfen~~ — **grösstenteils gegenstandslos** (23.08.2026, 14:45) | 3 | **Die Zugangsart braucht Amazon gar nicht.** Recherche am 23.08.: JustWatch **scrapt nicht**, sondern bezieht ueber Partner-Integrationen — und liefert seine Daten ueber die TMDB-API weiter, die dieses Projekt seit Monaten nutzt. `watch/providers` nennt `flatrate`, `rent`, `buy` und `ads`: genau Daniels drei Kategorien, lizenziert, mit Attributionspflicht („JustWatch", steht jetzt auf der Quellenseite). Die Angaben lagen als `offers` in `data/tmdb-titles.json` und wurden nur fuer Anbieter **ohne** eigene Plattform ausgewertet. **Offen bleibt allein die Tonspur** — die fuehrt TMDB nicht; dafuer weiter ② . Nebenbefund: Die PA-API wurde am 15.05.2026 eingestellt, Nachfolger ist die Creators API (ungeprueft, ob sie Prime-Video-Metadaten fuehrt). Daniels Informationspflicht-Argument bleibt als Frage bestehen, hat aber keine praktische Dringlichkeit mehr — Bewertung im Abschnitt „Rechtslage" weiter unten |
 | **Disney+: 40 Verweise ohne Sprachangabe — nur ueber die Erweiterung** (geprueft 23.08.2026, 14:50) | 2 | `disneyplus.com/robots.txt` sperrt mit `User-agent: *` / `Disallow: /` alles, ausgenommen sind namentlich genannte Suchmaschinen-Bots (Googlebot, Bingbot, Applebot, Yandex …). Damit ist Disney+ **derselbe Fall wie Netflix**: kein automatisierter Abruf, der Weg fuehrt ueber die Erweiterung. TMDB hilft nicht — `watch/providers` nennt Anbieter, aber keine Tonspuren. **Zusammen mit Prime Video haengen 640 Verweise an der Erweiterung**, das ist der groesste Hebel im Projekt. Adressformen im Bestand: `/de-de/series/<slug>/<id>` und `/browse/entity-<uuid>` |
-| **① Rechtsfrage Amazon: Restfrage Informationspflicht** (Daniel, 23.08.2026) | 2 | „ich denke automatisiert wäre es besser, wenn es wirklich rechtlich nicht geht dann lassen wir es, aber ich würde das nochmal genauer untersuchen… es sind simple informationen die öffentlich zugänglich sein müssen, sonst könnten käufer sich nie dafür entscheiden." **Sein Ansatz ist neu und noch nicht geprüft: die Informationspflicht als Gegengewicht.** Zu untersuchen: (1) **Art. 246a § 1 EGBGB / § 312d BGB** — bei Fernabsatz über digitale Inhalte muss der Anbieter über „Funktionsweise" und „Kompatibilität" informieren; ob die Sprachfassung darunterfällt, ist die Kernfrage. (2) **Digitale-Inhalte-Richtlinie (EU) 2019/770**, Art. 6–8: Vertragsmäßigkeit umfasst Eigenschaften, die der Verbraucher erwarten darf. (3) Trägt eine Pflichtangabe überhaupt Datenbankschutz? Argument: Wer veröffentlichen **muss**, investiert nicht in die Beschaffung — Anschluss an EuGH *British Horseracing Board*. (4) Wie halten es **JustWatch und werstreamt.es**, die genau dieselbe Angabe zeigen — Partnerprogramm, Lizenz oder Duldung? Das ist der praktische Beleg, der mehr wiegt als jede Auslegung. **Ergebnis entscheidet, ob ② nötig ist oder ein Lauf doch geht** |
+| ~~**① Rechtsfrage Amazon: Restfrage Informationspflicht**~~ — **geprüft und entschieden am 24.08.2026**, Einzelheiten im Archiv unter „Rechtsfrage Amazon zu Ende geprüft". Kurz: Die Informationspflicht besteht (Art. 246a § 1 Abs. 1 Nr. 1 EGBGB), gilt aber gegenüber dem Käufer und begründet kein Zugriffsrecht Dritter. Entschieden hat es am Ende nicht die Auslegung, sondern eine Messung: Amazons `robots.txt` sperrt `/gp/video/api` — genau den Aufruf, über den die vollständige Folgenliste käme — und listet über 90 Bots namentlich mit `Disallow: /`. Damit fehlt dem BGH-Fall, der helfen würde (I ZR 159/10), seine tragende Voraussetzung. Es bleibt bei der Erweiterung. Der ursprüngliche Auftrag lautete: | 2 | „ich denke automatisiert wäre es besser, wenn es wirklich rechtlich nicht geht dann lassen wir es, aber ich würde das nochmal genauer untersuchen… es sind simple informationen die öffentlich zugänglich sein müssen, sonst könnten käufer sich nie dafür entscheiden." **Sein Ansatz ist neu und noch nicht geprüft: die Informationspflicht als Gegengewicht.** Zu untersuchen: (1) **Art. 246a § 1 EGBGB / § 312d BGB** — bei Fernabsatz über digitale Inhalte muss der Anbieter über „Funktionsweise" und „Kompatibilität" informieren; ob die Sprachfassung darunterfällt, ist die Kernfrage. (2) **Digitale-Inhalte-Richtlinie (EU) 2019/770**, Art. 6–8: Vertragsmäßigkeit umfasst Eigenschaften, die der Verbraucher erwarten darf. (3) Trägt eine Pflichtangabe überhaupt Datenbankschutz? Argument: Wer veröffentlichen **muss**, investiert nicht in die Beschaffung — Anschluss an EuGH *British Horseracing Board*. (4) Wie halten es **JustWatch und werstreamt.es**, die genau dieselbe Angabe zeigen — Partnerprogramm, Lizenz oder Duldung? Das ist der praktische Beleg, der mehr wiegt als jede Auslegung. **Ergebnis entscheidet, ob ② nötig ist oder ein Lauf doch geht** |
 | ~~**② Erweiterung liest Amazon mit**~~ — **gebaut und in Betrieb** (23./24.08.2026) | 5 | Der Plan ist umgesetzt: `extension/amazon-leser.js` liest `audioTracks` je Folge und `benefitId` je Staffel, holt die übrigen Folgenabschnitte über `getDetailWidgets` selbst nach und markiert Kanal-Titel mit ⚠, weil Amazons Sprachangabe dort die des Kanals ist und nicht die der Folge (gemessen an „Kill Blue": Amazon behauptet 12 deutsche Folgen, ADN und Netflix sagen übereinstimmend 4). Einzelheiten in `CLAUDE.md`, Abschnitte „Amazon: die Folgenliste kommt seitenweise" und „Bei einem Kanal-Titel ist Amazons Sprachangabe kein Beleg". Der ursprüngliche Plan lautete: Der Bot darf Amazon nicht abrufen (Nutzungsbedingungen, siehe Abschnitt „Rechtslage" unten), ein Mensch mit offener Seite schon — derselbe Weg wie bei Netflix. **Was zu bauen ist:** (1) `extension/manifest.json` um `*://*.amazon.de/*` erweitern, Content-Script wie bei Netflix in `world: "MAIN"`; (2) `extension/leser.js` liest die Seiten-Fracht statt des Players — die Angaben stehen im ausgelieferten HTML, kein Netzwerk-Mitschnitt noetig; (3) auszulesen sind `audioTracks` (**je Folge**, nennt „Deutsch") und `benefitId` (**je Staffel**: `Prime`, `aniversede`, `crunchyrollde`) — **niemals `entitlementType`**, das ist kontoabhaengig und anonym immer „Unentitled"; (4) Meldung je Staffel statt je Folge, das ist der Vorteil gegenueber Netflix; (5) die Uebersicht in `melder.js` um die offenen Amazon-Titel erweitern, Adressform `https://www.amazon.de/gp/video/detail/<ASIN>?ref_=atv_dp_season_select_sN`. **Daran haengen 243 Prime-Video-Verweise ohne Sprachangabe** plus die Zugangsart je Staffel, die sonst nirgends steht. Messbelege im Abschnitt „Amazon nennt Tonspur und Abo-Bedingung selbst" |
 | **Reihenfolge: neue Anime zuerst** | — | Daniels Vorgabe vom 23.08.2026: „im fokus stehen neue anime, das ist das aller wichtigste". Was 2016 und aelter ist, kommt zuletzt — auch dann, wenn dort mehr Luecken sind. Ein Kalender lebt von dem, was demnaechst laeuft; ein Katalogtitel von 2005 ist Nachschlagewerk. |
 | **Crunchyroll: 172 Befunde aus dem US-Katalog nachziehen** | 2 | **Der deutsche Katalog ist erreichbar, seit dem 22.08.2026 belegt:** Der Worker frischt das Zugangspaket selbst auf — gemessen um 16:14 Uhr, geholt über eine Londoner Leitung, `land: DE`, Bucket `/DE/M2/-`, gültig 24 Stunden. Im Archiv tragen **762 Serien `katalog: de`**, und die Zahl mit belegter deutscher Fassung ist von 226 auf **406** gestiegen. Offen sind die **172 Serien mit `katalog: "us"`** und 25 ohne Angabe aus dem Lauf vom 21.08.2026. Sie sind nicht veraltet, sie beantworten eine andere Frage — die Wiedervorlage schützte sie trotzdem. Seit dem 22.08.2026 schlägt der Katalog die Frist, damit kommen sie von selbst wieder dran |
-| **„Nicht mehr im Angebot" ohne Seitenanzeige erkennen** | 3 | Die Content-API meldet den Rückzug einer Serie **nicht**: Für „Dragon Ball" und „Dragon Ball Z" liefert sie 153 bzw. 291 Folgen, die Seite zeigt das Banner „Leider sind die Videos dieser Serie nicht mehr verfügbar" (Daniel, 22.08.2026). Beide Reihen stehen dadurch als erster Eintrag in `daniel-zum-abarbeiten/08-arbeitspakete.md` — 19 tote Verweise in einer Zeile. **Widerlegt am 22.08.2026:** `availability_ends` trennt die Fälle nicht — Dragon Ball (weg) und JoJo (sichtbar) tragen beide den 31.12.2025, und Daniel hat JoJo wie Lycoris Recoil als normal sichtbar bestätigt. Die Ursache ist eine andere und steht in der Zeile darüber: Der Lauf sah den US-Katalog. Drei Gruppen gemessen: 57 Serien mit Ende 12/2025 (darunter Dragon Ball Z **und Fairy Tail**), 226 mit Enden aus 2022, 220 ohne jedes Ende. Daniels erste Runde passt dazu: Ende 12/2025 → Banner; Ende 2022 (Conan, Gintama, Yu-Gi-Oh! GX) → sichtbar; ohne Ende (One Piece) → sichtbar. **Entscheidet sich an zwei, drei weiteren Prüfungen aus der 12/2025-Gruppe.** Vorher wird nichts umgestellt — ein Feldname ist keine Bedeutung |
+| **„Nicht mehr im Angebot" ohne Seitenanzeige erkennen** | 3 | Die Content-API meldet den Rückzug einer Serie **nicht**: Für „Dragon Ball" und „Dragon Ball Z" liefert sie 153 bzw. 291 Folgen, die Seite zeigt das Banner „Leider sind die Videos dieser Serie nicht mehr verfügbar" (Daniel, 22.08.2026). Beide Reihen stehen dadurch als erster Eintrag in `daniel-zum-abarbeiten/08-arbeitspakete.md` — 19 tote Verweise in einer Zeile. **Widerlegt am 22.08.2026:** `availability_ends` trennt die Fälle nicht — Dragon Ball (weg) und JoJo (sichtbar) tragen beide den 31.12.2025, und Daniel hat JoJo wie Lycoris Recoil als normal sichtbar bestätigt. Die Ursache ist eine andere und steht in der Zeile darüber: Der Lauf sah den US-Katalog. Drei Gruppen gemessen: 57 Serien mit Ende 12/2025 (darunter Dragon Ball Z **und Fairy Tail**), 226 mit Enden aus 2022, 220 ohne jedes Ende. Daniels erste Runde passt dazu: Ende 12/2025 → Banner; Ende 2022 (Conan, Gintama, Yu-Gi-Oh! GX) → sichtbar; ohne Ende (One Piece) → sichtbar. ~~**Entscheidet sich an zwei, drei weiteren Prüfungen aus der 12/2025-Gruppe.**~~ — **die Prüfungen sind gegenstandslos** (24.08.2026). Die These war, das Ablaufdatum trenne die Fälle; sie ist längst widerlegt, und die drei belegten Fälle reichen: Dragon Ball (weg), JoJo (sichtbar) und Lycoris Recoil (sichtbar) tragen **alle** den 31.12.2025. Weitere Stichproben würden nur bestätigen, was feststeht. Was offen bleibt, ist ein **anderes** Merkmal — und dessen Suche ist Arbeit an den Daten, nicht an Daniels Zeit |
 | **Prime Video: 243 Verweise ohne Sprachangabe** (gemessen 23.08.2026, 02:05) | 5 | Der groesste offene Posten nach dem Netflix-Abend. Nur 5 von 245 Verweisen sind belegt. Die Erweiterung koennte dieselbe Arbeit leisten wie bei Netflix, muesste aber auf Amazons Seite umgebaut werden. **Messung am 23.08.2026 gemacht, Ergebnis besser als erhofft** (Abschnitt „Amazon nennt Tonspur und Abo-Bedingung selbst" weiter unten): Es braucht nicht einmal den Player — die Seite selbst nennt `audioTracks` **je Folge** und `benefitId` **je Staffel**, beides ohne Anmeldung lesbar. Ein einziger Seitenaufruf traegt damit mehr als bei Netflix, wo je Folge geklickt werden muss. **Ein Bot darf es trotzdem nicht holen** — Amazons Nutzungsbedingungen untersagen Data Mining ausdruecklich, auch einmalig. Bleibt der Netflix-Weg: mitlesen, waehrend Daniel die Seite ohnehin offen hat |
 | **Sieben Netflix-Titel mit offener Staffel** | 1 | Netflix ist am 22.08.2026 von 258 offenen Adressen auf sieben gefallen, **340 Synchros sind belegt und 145 tote Verweise entfernt**. Was bleibt: ONE PIECE (sieben Arcs), KONOSUBA, Kakegurui, Ghost in the Shell SAC_2045, Pokémon Horizons, DAN DA DAN, BEYBLADE X — je eine bis sieben Staffeln. Die Erweiterung zeigt sie, sobald Daniel sie oeffnet |
 | ~~**YouTube-Data-API-Schlüssel**~~ — **geprüft, bringt nichts** (23.08.2026, 19:35) | 2 | Der Schlüssel stand als Aufgabe für Daniel auf der Liste. **Vor der Bitte geprüft, und die Prüfung hat sie erledigt:** Die Data API führt für Audiosprachen **ein einziges Feld**, `snippet.defaultAudioLanguage` — die Standard-Tonspur, keine Liste. Genau dieses Feld steht normalerweise auch in der Videoseite, die ohne Schlüssel lesbar ist. An drei der offenen Verweise nachgesehen: Es **fehlt dort vollständig**, also hat der Uploader es nie gesetzt — dann ist es in der API ebenso leer. Der Schlüssel hätte Daniels Zeit gekostet und nichts geliefert. |
@@ -1085,6 +1085,101 @@ weder offiziell noch in den inoffiziellen Doku-Repos.
   abgenommen.
 
 ## Archiv
+
+### Rechtsfrage Amazon zu Ende geprüft (24.08.2026) — die Entscheidung bleibt
+
+Daniels Einwand vom 23.08.2026: „es sind simple informationen die öffentlich zugänglich sein
+müssen, sonst könnten käufer sich nie dafür entscheiden." Der Ansatz ist die
+**Informationspflicht als Gegengewicht** zum Data-Mining-Verbot in Amazons Nutzungsbedingungen.
+Vier Teilfragen, alle nachgesehen. **Das ist eine Recherche, keine Rechtsberatung** — ich bin
+kein Anwalt, und bei einer streitigen Auseinandersetzung entscheidet niemand danach.
+
+#### ① Die Informationspflicht besteht — sie gilt aber gegenüber dem Käufer, nicht gegenüber uns
+
+[Art. 246a § 1 Abs. 1 EGBGB](https://dejure.org/gesetze/EGBGB/246a.html) verlangt vom
+Unternehmer Angaben zu
+
+- **Nr. 1** „die wesentlichen Eigenschaften der Waren oder Dienstleistungen"
+- **Nr. 17** „die Funktionalität … einschließlich anwendbarer technischer Schutzmaßnahmen"
+- **Nr. 18** „die Kompatibilität und die Interoperabilität …, soweit diese Informationen dem
+  Unternehmer bekannt sind oder bekannt sein müssen"
+
+Die Sprachfassung eines Films fällt für einen deutschen Käufer unter **Nr. 1**, nicht unter
+17/18 — dort geht es um DRM und technische Ausspielbarkeit. Daniels Grundannahme stimmt also:
+Amazon **muss** es hinschreiben.
+
+**Nur folgt daraus nichts für uns.** Es ist eine **vorvertragliche Informationspflicht des
+Unternehmers gegenüber dem Verbraucher**. Sie sagt, dass die Angabe dastehen muss — nicht, dass
+ein Dritter sie automatisiert einsammeln darf. Aus einer Pflicht zu veröffentlichen folgt kein
+Recht zu ernten.
+
+#### ② Der BGH-Fall, der helfen würde, passt nicht auf Amazon
+
+[BGH, 22.06.2011, I ZR 159/10 (Automobil-Onlinebörse)](https://ihde.de/bundesgerichtshof-zum-screen-scraping-auslesen-von-datenbanken-durch-bots-bgh-urteil-vom-22-06-2011-az-i-zr-159-10-automobil-onlineboerse/)
+ist der Leitfall, und er fiel gegen den Portalbetreiber aus — an drei Punkten:
+
+| Der BGH sagte | Trifft auf Amazon zu? |
+|---|---|
+| AGB-Verbot unwirksam, weil Abfragen **ohne AGB-Annahme** möglich waren und es „keine besonderen Vorkehrungen" gab | **Nein** — Amazon erkennt und sperrt Bots aktiv |
+| Kein Datenbankrechtsverstoß, weil nur **Einzelabfragen zum konkreten Suchauftrag** eines Nutzers | **Nein** — ein Durchlauf über 385 Titel ist kein Suchauftrag |
+| Kein UWG-Verstoß, wer „ungeschützt öffentlich zugänglich" macht, muss mit automatischen Aufrufen rechnen | **Nein** — siehe ④ |
+
+Das Urteil trägt also gerade **nicht**. Es beschreibt den Gegenfall.
+
+#### ③ Das Datenbankrecht ist wirklich schwach — hilft aber nicht
+
+Daniels Vermutung war richtig: Nach
+[EuGH C-203/02 (British Horseracing Board)](https://lexetius.com/2004,2512) zählt für den
+Schutz nur die Investition ins **Beschaffen** vorhandener Daten, nicht ins **Erzeugen**.
+Amazons Sprachangaben entstehen im eigenen Haus, sind also eher Erzeugung — der sui-generis-
+Schutz greift schwach.
+
+**Das ändert nichts**, weil das Datenbankrecht gar nicht der Engpass ist. Bleibt das
+Vertragsverhältnis, und das besteht unabhängig davon.
+
+Ebenso wenig hilft die TDM-Schranke aus [§ 44b UrhG](https://www.gesetze-im-internet.de/urhg/__44b.html):
+Sie erlaubt automatisierte Analyse **urheberrechtlich geschützter Werke** mit maschinenlesbarem
+Nutzungsvorbehalt als Grenze. „Deutsch" als Tonspur-Angabe ist eine Tatsache ohne
+Schöpfungshöhe — für sie braucht es keine Schranke, und sie gibt auch keine.
+
+#### ④ Der praktisch entscheidende Fund steht in der robots.txt
+
+Gemessen am 24.08.2026 an `https://www.amazon.de/robots.txt`, 416 Zeilen:
+
+- **`/gp/video/detail/` ist für `User-agent: *` nicht gesperrt.** Die Titelseite selbst dürfte
+  ein Bot also abrufen.
+- **`/gp/video/api` ist gesperrt** — und genau darüber läuft `getDetailWidgets`, der Aufruf, der
+  die **vollständige** Folgenliste nachlädt. Ohne ihn sieht man 24 von 51 Folgen.
+- **Über 90 Bots sind namentlich mit `Disallow: /` ausgesperrt**, darunter `GPTBot`, `ClaudeBot`,
+  `Scrapy`, `Crawl4AI`, `Diffbot`, `Bytespider` und ein `Datenbank Crawler`.
+
+Damit ist die Frage entschieden, und zwar ohne Auslegung: Der Weg, den ein automatischer Lauf
+gehen müsste, ist **maschinenlesbar untersagt**. Und die namentliche Sperrliste ist genau die
+„besondere Vorkehrung", deren Fehlen den BGH-Fall damals kippen ließ.
+
+#### ⑤ Der Vergleich mit JustWatch und werstreamt.es taugt nicht als Vorbild
+
+- **JustWatch scrapt nicht** (belegt am 23.08.2026): bezieht über Partner-Integrationen und
+  liefert seine Daten über die TMDB-API weiter — die wir bereits lizenziert nutzen.
+- **werstreamt.es** gehört seit 2017 zur FUNKE Mediengruppe (Gong Verlag). Zur Datenherkunft
+  ist öffentlich nichts belegt; eine FAQ-Seite ist von hier nicht abrufbar.
+
+Wer eine Lizenz oder eine Partnerschaft hat, ist kein Beleg dafür, dass es ohne geht.
+
+#### Ergebnis
+
+**Die Entscheidung bleibt, wie sie ist.** Die Erweiterung liest mit, während Daniel die Seite
+ohnehin offen hat; ein Bot ruft Amazon nicht ab. Das ist kein Kompromiss aus Vorsicht, sondern
+das, was nach ④ übrig bleibt.
+
+**Was sich ändert:** Die Frage ist beantwortet und muss nicht wiederkehren. Und die Messung gibt
+eine Linie für künftige Anbieter — **erst die robots.txt lesen, dann die AGB**: Ein
+maschinenlesbares Verbot des konkreten Pfads entscheidet die Sache schneller und eindeutiger als
+jede Auslegung einer Vertragsklausel.
+
+**Neu bewerten**, wenn eines davon eintritt: Amazon veröffentlicht eine Metadaten-Schnittstelle
+(die PA-API wurde am 15.05.2026 eingestellt, Nachfolger ist die Creators API — ungeprüft, ob sie
+Prime-Video-Metadaten führt), oder eine lizenzierte Quelle nennt Tonspuren je Folge.
 
 ### Nachtrag zum Panel-Umbau: Das Bühnenbild überdeckte den Antwortkasten
 
