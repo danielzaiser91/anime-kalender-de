@@ -1916,15 +1916,46 @@ async function speicherSchreiben(werte) {
       }, 4000)
       return
     }
-    knopf.textContent = 'sende …'
+    /**
+     * Jeder Schritt sagt, dass er dran ist — und keiner darf ewig dauern.
+     *
+     * Am 24.08.2026 blieb der Knopf eine Minute auf „sende …" stehen. Der
+     * Worker antwortet in 0,2 Sekunden (gemessen, dreimal), also hing etwas
+     * davor — nur ließ sich von außen nicht sagen, was: Der Vorgang hat drei
+     * Wartestellen und alle drei sahen gleich aus.
+     *
+     * Statt zu raten, was hängt, sagt es der Knopf. Und nach fünfzehn Sekunden
+     * bricht er ab: Ein Vorgang, der so lange braucht, kommt nicht mehr, und
+     * ein Knopf, der ewig „sende …" zeigt, sagt weniger als einer, der einen
+     * Fehler nennt.
+     */
+    const mitFrist = (zusage, was) =>
+      Promise.race([
+        zusage,
+        new Promise((_, ab) => setTimeout(() => ab(new Error(`${was} antwortet nicht`)), 15000)),
+      ])
+
     knopf.disabled = true
-    const { token } = await chrome.storage.sync.get('token')
+    let token
+    try {
+      knopf.textContent = 'hole Zugangsschlüssel …'
+      ;({ token } = await mitFrist(chrome.storage.sync.get('token'), 'Der Speicher'))
+    } catch (err) {
+      knopf.textContent = err.message
+      setTimeout(() => {
+        letzterStand = ''
+        zeichnen()
+      }, 3000)
+      return
+    }
     if (!token) {
       knopf.textContent = 'Kein Token — Rechtsklick aufs Symbol, dann Optionen'
       return
     }
+    knopf.textContent = 'sende …'
     try {
-      const antwort = await fetch(WORKER, {
+      const antwort = await mitFrist(
+        fetch(WORKER, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
         body: JSON.stringify({
@@ -2037,7 +2068,10 @@ async function speicherSchreiben(werte) {
               ? ' — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg'
               : ''),
         }),
-      })
+        }),
+        'Der Anime-Kalender',
+      )
+      knopf.textContent = 'trage ein …'
       /**
        * Kein Zwischenstand mehr — nur Fehler werden gemeldet.
        *
