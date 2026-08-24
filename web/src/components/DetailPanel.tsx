@@ -26,7 +26,6 @@ import {
   Button,
   Chip,
   DubMark,
-  Fragezeichen,
   ReihenStern,
   Tooltip,
   FavoriteStar,
@@ -1257,12 +1256,25 @@ export function DetailPanel({
    * Ohne den Rückfall verschwindet der Kopf beim Umschalten auf ein Special und
    * kommt beim Zurückschalten wieder; das Panel springt dabei um 112 Pixel.
    */
-  const banner: string | undefined = useMemo(() => {
+  /**
+   * Das Bild der Bühne — seit dem 24.08.2026 das **Cover**, nicht das Banner.
+   *
+   * Gemessen: Alle 2.762 Titel haben ein `coverImage`, aber nur 2.111 ein
+   * `bannerImage`. Bei 651 Titeln stand oben deshalb ein leerer Farbverlauf.
+   * Das Cover trägt außerdem das, was ein Zuschauer wiedererkennt — es ist das
+   * Bild, das auch auf einer Hülle stünde.
+   *
+   * Der frühere Rückfall „Banner von einem Reihenteil leihen" entfällt: Er war
+   * nötig, weil der Kopf beim Umschalten auf ein Special um 112 Pixel sprang.
+   * Mit dem Cover tritt der Fall nicht mehr ein.
+   */
+  const buehnenBild: string | undefined = useMemo(() => {
     if (!title) return undefined
-    if (title.bannerImage) return title.bannerImage
+    if (title.coverImage) return title.coverImage
+    // Sollte nie greifen — steht als Netz für einen künftigen Titel ohne Cover.
     for (const m of reihenTeile) {
       const t = data.titleById.get(m.id)
-      if (t?.bannerImage) return t.bannerImage
+      if (t?.coverImage) return t.coverImage
     }
     return undefined
   }, [title, reihenTeile, data])
@@ -1511,16 +1523,114 @@ export function DetailPanel({
           ersten Teils der Reihe, der eines hat. Ein Banner ist Schmuck für die
           Reihe, kein Beleg für den einzelnen Titel — es darf geliehen werden.
         */}
-        <div className={`relative shrink-0 ${banner ? '' : 'h-9'}`}>
-          {banner && <img src={banner} alt="" className="h-28 w-full object-cover opacity-70" />}
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label={t('detail.close')}
-            className="absolute right-2 top-2 cursor-pointer rounded-full bg-black/50 px-2 py-1 text-sm text-white transition hover:bg-black/70"
-          >
-            ✕
-          </button>
+        {/*
+          Die Bühne: das Cover liegt **hinter** dem Kopfbereich, nicht daneben.
+
+          Umgebaut am 24.08.2026 nach mehreren Mockup-Durchgängen mit Daniel.
+          Der Gewinn: Das Artwork ist rund fünfmal so groß wie das frühere
+          Karussell-Bildchen und kostet trotzdem keine Zeile — die Höhe des
+          Bereichs bestimmt allein der Inhalt darüber.
+
+          **Das Banner entfällt dabei.** Zwei großflächige Bilder übereinander
+          sind zu viel, und das Banner fehlt bei 651 von 2.762 Titeln; deren
+          Kopf war bisher ein leerer Farbverlauf. Das Cover gibt es dagegen bei
+          **allen** 2.762. Der frühere Rückfall „Banner von einem Reihenteil
+          leihen" wird damit gegenstandslos — sein Anlass (der Kopf sprang beim
+          Umschalten um 112 Pixel) ist es auch, weil die Bühne immer ein Bild
+          hat.
+
+          **Feste Höhe, nicht `inset-0`.** Mit `inset-0` wüchse das Bild mit,
+          sobald ein Bereich darunter aufklappt — der Klick sähe aus, als hätte
+          er das Bild verändert (Daniel, 24.08.2026, am Mockup bemerkt).
+        */}
+        <div className="relative shrink-0" style={{ isolation: 'isolate' }}>
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-[340px] bg-cover bg-[center_16%]"
+            style={{ backgroundImage: buehnenBild ? `url(${buehnenBild})` : undefined, zIndex: -2 }}
+          />
+          {/*
+            Zwei Verläufe: einer von unten, der zur Panel-Farbe ausläuft, einer
+            von links, damit das Artwork rechts frei stehen bleibt statt
+            vollflächig abgedunkelt zu werden.
+          */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-[340px]"
+            style={{
+              zIndex: -1,
+              background:
+                'linear-gradient(180deg, rgba(11,15,22,.10) 0%, rgba(11,15,22,.55) 38%, rgba(11,15,22,.93) 74%, var(--panel-grund, #0b0f16) 100%),' +
+                'linear-gradient(90deg, rgba(11,15,22,.55) 0%, rgba(11,15,22,.12) 55%, rgba(11,15,22,0) 100%)',
+            }}
+          />
+          {/*
+            Bedienelemente oben rechts, auf der Bühne statt darunter.
+
+            Sie standen bis zum 24.08.2026 in der Titelzeile. Die ist jetzt Teil
+            der Bühne, und drei Symbole neben einem zweizeiligen Titel drängen
+            sich; oben rechts haben sie ihre eigene Ecke — dieselbe, in der auch
+            das Schließen sitzt.
+
+            Jedes bekommt denselben dunklen Grund wie der Titel: Auf einem hellen
+            Cover wäre ein blankes Symbol sonst genauso unlesbar wie blanker Text.
+          */}
+          <div className="absolute right-2 top-2 z-10 flex items-center gap-1.5 rounded-full bg-black/50 px-2 py-1 backdrop-blur-[3px]">
+            <ShareIcon slug={title.slug} name={anzeigeName(title)} />
+            <HideEye hidden={false} onToggle={() => onToggleHidden(title.id)} />
+            <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
+            {reihenIds.length > 1 && (
+              <ReihenStern
+                alleGemerkt={reihenIds.every((id) => favorites.has(id))}
+                anzahl={reihenIds.length}
+                onMerken={() => {
+                  for (const id of reihenIds) if (!favorites.has(id)) onToggleFavorite(id)
+                }}
+              />
+            )}
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label={t('detail.close')}
+              className="cursor-pointer px-1 text-sm text-white transition hover:opacity-70"
+            >
+              ✕
+            </button>
+          </div>
+          {/*
+            Der Titel steht **auf** der Bühne, auf einer eigenen Fläche.
+
+            Ein Verlauf allein trägt ihn nicht: Er kommt von unten, der Titel
+            steht oben, und auf einem hellen Cover verschwindet er. Im Farbtest
+            am 24.08.2026 war er auf Reinweiß unlesbar — Daniels Vorschlag, eine
+            halbdeckende Fläche direkt hinter den Text zu legen, hielt dagegen
+            auf allen fünf Testfarben.
+
+            Titel und Unterzeile bilden **eine** Fläche in zwei Zeilen, ohne
+            Abstand dazwischen: Zwei getrennte Pillen sind verschieden breit und
+            sehen aus wie ein Versehen (Daniel, 24.08.2026: „untereinander ohne
+            gap").
+
+            Zwei feste Zeilen für den Titel — sonst verschiebt ein einzeiliger
+            Titel beim Umschalten alles darunter.
+          */}
+          <div className="relative flex flex-col items-start gap-0 px-4 pb-3 pt-[104px]">
+            <h2
+              title={reihenName}
+              className="line-clamp-2 min-h-[2.5em] rounded-t-lg bg-[rgba(8,12,18,.74)] px-2.5 pb-px pt-1 text-lg font-semibold leading-tight text-white backdrop-blur-[3px]"
+            >
+              {reihenName}
+            </h2>
+            <p className="max-w-full rounded-b-lg rounded-tr-lg bg-[rgba(8,12,18,.74)] px-2.5 pb-1 pt-0.5 text-xs text-slate-300 backdrop-blur-[3px]">
+              {[
+                title.format && title.format !== 'TV' ? (FORMAT_DE[title.format] ?? title.format) : 'TV',
+                title.episodes ? `${title.episodes} ${t('detail.episodes')}` : undefined,
+                title.studios?.[0],
+              ]
+                .filter(Boolean)
+                .join(' · ')}
+            </p>
+          </div>
         </div>
 
         {/*
@@ -1556,38 +1666,16 @@ export function DetailPanel({
             die frühere absolute Positionierung — zwei Sterne übereinander
             brauchte es nur, solange beide in derselben Zeile hingen.
           */}
-          <div className="flex items-start gap-2">
-            <h2 className="flex-1 text-lg font-semibold leading-tight text-slate-900 dark:text-white">
-              {reihenName}
-            </h2>
-            {/*
-              Auge und Stern stehen hier oben, nicht mehr unter dem Karussell.
+          {/*
+            Titel und Bedienelemente stehen seit dem 24.08.2026 auf der Bühne
+            weiter oben. Hier stand bis dahin beides — der Reihenname als
+            Überschrift und daneben Teilen, Auge, Stern und Reihen-Stern.
 
-              Sie sind die einzigen Bedienelemente des Kopfbereichs und gehören
-              damit an dessen Anfang — zusammen mit dem Reihen-Stern, der
-              dieselbe Sache für die ganze Reihe tut. Vorher hingen sie an der
-              Titelzeile unter dem Karussell und brauchten dort bei einem
-              Einzeltitel, dessen Titelzeile jetzt entfällt, eine eigene Zeile
-              für nichts weiter als zwei Symbole.
-            */}
-            <div className="flex shrink-0 items-center gap-2">
-              <ShareIcon slug={title.slug} name={anzeigeName(title)} />
-              <HideEye hidden={false} onToggle={() => onToggleHidden(title.id)} />
-              <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
-            </div>
-            {reihenIds.length > 1 && (
-              <div className="flex shrink-0 items-center gap-1">
-                <ReihenStern
-                  alleGemerkt={reihenIds.every((id) => favorites.has(id))}
-                  anzahl={reihenIds.length}
-                  onMerken={() => {
-                    for (const id of reihenIds) if (!favorites.has(id)) onToggleFavorite(id)
-                  }}
-                />
-                <Fragezeichen text={t('detail.seriesStarHelp', { count: reihenIds.length })} />
-              </div>
-            )}
-          </div>
+            Die frühere Begründung dafür bleibt gültig und ist mit umgezogen:
+            Die Bedienelemente gehören an den Anfang des Kopfbereichs, nicht
+            unter das Karussell, wo sie bei einem Einzeltitel eine eigene Zeile
+            für zwei Symbole gebraucht hätten.
+          */}
 
           <div
             className="-mx-1 flex snap-x snap-mandatory gap-2 overflow-x-auto px-1 pb-1"
