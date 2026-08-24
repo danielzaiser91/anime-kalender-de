@@ -669,6 +669,32 @@ dieselbe Datei, egal was darin steht.
 - Jeder Cache im Service Worker hat eine Obergrenze. Ohne sie wächst er still: einmal 313 MB
   Cover (10.08.2026), einmal 400 KB Programmdateien je Deploy (12.08.2026).
 
+## Datenläufe laufen remote, nicht hier
+
+Daniel am 24.08.2026: „stoß die läufe ab jetzt immer remote an, damit das herunterfahren kein
+absturz der läufe bedeutet."
+
+Jeder Lauf, der Daten holt oder schreibt, wird über GitHub angestoßen:
+
+```bash
+gh workflow run <datei>.yml --repo danielzaiser91/anime-kalender-de [-f budget=240]
+```
+
+Er läuft dann auf GitHubs Rechnern, committet selbst, überlebt jedes Herunterfahren und ist
+später im Verlauf nachlesbar. Ein lokaler Lauf hat nichts davon: Er stirbt mit dem Fenster,
+und was er geholt hat, liegt unversioniert herum.
+
+**Ausgenommen sind nur Läufe, die nur hier funktionieren:**
+
+- `tools/cr-zugang-holen.mjs` — braucht eine deutsche IP, sonst kommt der US-Katalog
+- Prüfläufe ohne Netzzugriff (`check:*`, `typecheck`, `build`) — sie schreiben nichts und
+  gehören vor jeden Commit
+- eine einzelne Messung zur Fehlersuche, die nichts in den Bestand schreibt
+
+**Und was ohnehin nach Plan läuft, wird nicht von Hand angestoßen.** Die vier Workflows decken
+den Regelfall ab; ein Lauf von Hand ist die Ausnahme für einen Nachzügler oder ein Kontingent,
+das sonst verfällt.
+
 ## Wie der Stand geprüft wird, ohne Daniels Rechner
 
 Alle Datenläufe arbeiten auf GitHubs Rechnern und committen selbst — stündlich die
