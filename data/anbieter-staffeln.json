@@ -995,5 +995,16 @@
    }
   ],
   "gemeldetAm": "2026-08-23"
+ },
+ "82757009": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "",
+    "folgen": 12,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-08-24"
  }
 }

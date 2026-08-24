@@ -17768,3 +17768,21 @@
     Daniel: "adn geprueft (direkt, nicht per amazon) und dort gibt es 4 auf
     deutsch". Deckt sich mit seiner Netflix-Pruefung am selben Tag. Unser
     ADN-Archiv stand auf 2 -- es ist vom 20.08. und damit veraltet.
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-24 ---
+
+- anilistId: 198113
+  title: "KILL BLUE"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 2
+      dub: true
+      checked: [1, 2]
+    - from: 3
+      to: 12
+      dub: false
+      checked: [3, 11, 12]
+  checkedAt: '2026-08-23'
+  note: "Folgen 1–2 mit deutschem Ton, Folgen 3–12 ohne deutschen Ton — Tonspuren: ja|Japanisch [Original], it|Italienisch, es|Spanisch (Lateinamerika), en|Englisch, pt-BR|Portugiesisch (Brasilien), th|Thailändisch — 6 Tonspuren, 0 Audiodeskriptionen"
