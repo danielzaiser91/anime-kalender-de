@@ -2365,8 +2365,23 @@ async function speicherSchreiben(werte) {
            * no Ko" ist `B0GFPBT6FG` die Sammelseite für alle drei. Dann ist die
            * Nummer das Einzige, was die Staffeln auseinanderhält, und sie
            * gehört in ihr Feld statt in einen Satz.
+           *
+           * **Und der Quelltext ist die zweite Quelle, nicht keine.** Bis zum
+           * 25.08.2026 stand hier allein `staffelAusAdresse()`. Wer eine Seite
+           * öffnet, ohne im Auswahlfeld zu wechseln, hat kein `_sN` in der
+           * Adresse — die Meldung ging dann ohne Nummer raus. Gemessen im
+           * Briefkasten: **203 von 297** Prime-Meldungen tragen `staffel: null`,
+           * und in der Übersicht liest sich das als „S ohne Nummer" neben den
+           * nummerierten (Daniel, 25.08.2026, mit Bild).
+           *
+           * `staffelAusSeite()` liest `seasonNumber` aus dem Quelltext und
+           * schließt die Lücke — aber nur, solange der Quelltext zu dieser
+           * Staffel gehört. Nach einem Wechsel gehört er zur vorigen.
+           *
+           * Ein Film bekommt weiterhin `null`, und das ist richtig: Er hat
+           * keine Staffel, und eine erfundene 1 wäre schlimmer als keine Angabe.
            */
-          staffel: staffelAusAdresse(),
+          staffel: staffelAusAdresse() ?? (quelltextPasst() ? staffelAusSeite() : null),
           /**
            * Wie man an den Titel kommt — im Abo, gegen Geld, oder beides.
            *
