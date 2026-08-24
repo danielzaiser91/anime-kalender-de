@@ -446,6 +446,19 @@
    */
   function abschnittsFinger() {
     try {
+      /**
+       * Der billige Weg zuerst — der teure nur, wenn er etwas bringen kann.
+       *
+       * `innerHTML` **baut die Zeichenkette jedes Mal neu auf**, bei einer
+       * Prime-Video-Seite rund 1,6 MB. Diese Funktion lief im Vier-Sekunden-Takt,
+       * für immer, auf einer Seite, die stundenlang offen sein kann — und sie
+       * war nicht die einzige ihrer Art. Am 24.08.2026 ist Daniels Tab daran
+       * gestorben: „Aw, Snap! Error code: Out of Memory".
+       *
+       * `textContent` des Body ist um ein Vielfaches kleiner und sagt, ob eine
+       * Folgenliste überhaupt sichtbar ist. Erst dann lohnt der Quelltext.
+       */
+      if (!document.body?.textContent?.includes('Folgen')) return ''
       const html = document.documentElement?.innerHTML
       if (typeof html !== 'string') return ''
       const i = html.indexOf('episodePages')

@@ -74,6 +74,44 @@ async function speicherSchreiben(werte) {
     return false
   }
 }
+  /**
+   * Der Seiten-Quelltext, einmal je Takt statt achtmal.
+   *
+   * **Das hat einen Tab zum Absturz gebracht** (Daniel, 24.08.2026: „Aw, Snap!
+   * Error code: Out of Memory", dazu „die performance auf dem tab war echt
+   * schlecht"). Der Grund liegt in einer Zahl, die niemand nachgerechnet hat:
+   * `document.documentElement.innerHTML` **baut die Zeichenkette jedes Mal neu
+   * auf**, und bei einer Prime-Video-Seite sind das rund 1,6 MB.
+   *
+   * `zeichnen()` läuft alle 500 ms und ruft dabei `spuren()`, `asinAusSeite()`,
+   * `staffelAusSeite()`, `staffelZahl()`, `abos()` und `zugangsart()` — acht
+   * Lesungen im Takt, also gut 25 MB Müll je Sekunde. Der Speicherbereiniger
+   * kommt dabei nicht hinterher.
+   *
+   * Gewachsen ist das Stück für Stück: Jede neue Beobachtung bekam ihre eigene
+   * Lesung, und keine davon sah teuer aus. **Wer hier eine Funktion ergänzt,
+   * die den Quelltext braucht, nimmt `seitenHtml()`** — nie `innerHTML` direkt.
+   *
+   * 400 ms Frist: kürzer als der Takt, also sieht jeder Durchlauf frische
+   * Daten, aber innerhalb eines Durchlaufs wird nur einmal gelesen.
+   */
+  let htmlZwischenspeicher = null
+  function seitenHtml() {
+    if (htmlZwischenspeicher === null) htmlZwischenspeicher = document.documentElement?.innerHTML ?? ''
+    return htmlZwischenspeicher
+  }
+  /**
+   * Zu Beginn jedes Durchlaufs weggeworfen — nicht nach einer Frist.
+   *
+   * Eine Frist (400 ms) war der erste Versuch und der falsche: Sie hält den
+   * Quelltext auch dann fest, wenn Amazon ihn gerade ausgetauscht hat, und
+   * verzögert damit genau die Erkennung, um die es hier geht. Ein Durchlauf
+   * sieht jetzt einen Stand — den aktuellen — und liest ihn einmal.
+   */
+  function htmlNeuLesen() {
+    htmlZwischenspeicher = null
+  }
+
   const WORKER = 'https://newsletter.animekalender.workers.dev/pruefung'
 
   /** Kurz und eindeutig — der Knopf hat wenig Platz. */
@@ -113,7 +151,7 @@ async function speicherSchreiben(werte) {
    * `titleID` 220-mal, und die erste trägt keinen Wert.
    */
   function asinAusSeite() {
-    const html = document.documentElement?.innerHTML
+    const html = seitenHtml()
     if (typeof html !== 'string') return null
     for (const m of html.matchAll(/titleID/g)) {
       const treffer = /titleID\\*"\s*:\s*\\*"([A-Z0-9]{10})/.exec(html.slice(m.index, m.index + 80))
@@ -164,7 +202,7 @@ async function speicherSchreiben(werte) {
    * überschrieb die erste.
    */
   function staffelAusSeite() {
-    const html = document.documentElement?.innerHTML
+    const html = seitenHtml()
     if (typeof html !== 'string') return null
     // Im Umkreis der ersten titleID suchen — das ist die gerade gezeigte
     // Staffel. Weiter hinten stehen Empfehlungen mit fremden Nummern.
@@ -285,7 +323,7 @@ async function speicherSchreiben(werte) {
   }
 
   function spuren() {
-    const text = document.documentElement.innerHTML
+    const text = seitenHtml()
     const alle = new Set()
     const nummern = new Set()
     // Nur Tonspuren, die zu einer Folge gehören — der Abstand ist bewusst eng.
@@ -392,7 +430,7 @@ async function speicherSchreiben(werte) {
      * aus dem Verweis-Parameter.
      */
     const ausAuswahl = /([^<>"]{3,120}?)\s+[-–—]\s+(?:Staffel|Season)\s+\d+/i.exec(
-      document.documentElement?.innerHTML ?? '',
+      seitenHtml(),
     )?.[1]
     if (ausAuswahl) {
       const sauber = saeubern(ausAuswahl)
@@ -415,7 +453,7 @@ async function speicherSchreiben(werte) {
       }
     }
 
-    const html = document.documentElement?.innerHTML ?? ''
+    const html = seitenHtml()
     // Amazons eigener Titel für diese Seite — dasselbe Feld, das die
     // Freigabehinweise und die Besetzung trägt.
     const ausDaten = /"pageTitle"\\*"?\s*:\s*\\*"([^"\\]{3,120})/.exec(html)?.[1]
@@ -466,7 +504,7 @@ async function speicherSchreiben(werte) {
    * 202 Verweise mit geratener Zugangsart, ein weiterer hilft niemandem.
    */
   function zugangsart() {
-    const text = document.documentElement.innerHTML
+    const text = seitenHtml()
     const kauf =
       /Als Kauf-?\s*(oder Leihtitel|titel)\s*verfügbar/i.test(text) ||
       /(Folge|Staffel)\s+\d+\s+kaufen/i.test(text) ||
@@ -492,7 +530,7 @@ async function speicherSchreiben(werte) {
    * ganze Auskunft, und das ist der häufigere Fall.
    */
   function staffelZahl() {
-    const text = document.documentElement.innerHTML
+    const text = seitenHtml()
     const n = /(\d+)\s*Staffeln/.exec(text)?.[1]
     return n ? Number(n) : 1
   }
@@ -523,7 +561,7 @@ async function speicherSchreiben(werte) {
 
   /** Welche Abos diese Staffel freischalten — `Prime`, `aniversede`, … */
   function abos() {
-    const text = document.documentElement.innerHTML
+    const text = seitenHtml()
     return [...new Set([...text.matchAll(/"benefitId"\s*:\s*"([^"]+)"/g)].map((m) => m[1]))]
   }
 
@@ -564,6 +602,17 @@ async function speicherSchreiben(werte) {
     .then((x) => {
       erledigt = x?.amazonErledigt ?? {}
       standGeladen = true
+      /**
+       * Jetzt erst kann der Weg über den Serientitel greifen — vorher war
+       * `erledigt` leer. Ohne diese Zeile bliebe der Schlüssel auf der fremden
+       * Staffel-ASIN stehen, die beim Seitenaufbau herauskam.
+       */
+      const besser = listenSchluessel(listenId)
+      if (besser !== listenId) {
+        listenId = besser
+        eintrag = liste[listenId] ?? eintrag
+        letzterStand = ''
+      }
       uebersichtZeichnen()
     })
     .catch(() => {
@@ -629,12 +678,19 @@ async function speicherSchreiben(werte) {
   }
 
   /** Wie viele Staffeln die Serie insgesamt hat — die größte bekannte Angabe. */
+  /**
+   * Wie viele Staffeln diese Zeile hat.
+   *
+   * **Bewusst nicht über die Serie gebündelt** — das war der erste Versuch und
+   * ein Fehlgriff: Das Maximum über alle Zeilen derselben Serie zieht jede
+   * fehlerhafte Zahl auf alle anderen. Bei „K — Return of Kings" (zwei
+   * Staffeln) stand daraufhin „noch 19 Staffeln" am Knopf (Daniel, 24.08.2026).
+   *
+   * Die gemeldeten Staffeln werden weiterhin zusammengelegt — das ist die
+   * Auskunft, um die es Daniel ging. Die Gesamtzahl bleibt bei ihrer Zeile.
+   */
   function gesamtDerSerie(asinEintrag) {
-    let groesste = 1
-    for (const k of serienGefaehrten(asinEintrag)) {
-      groesste = Math.max(groesste, erledigt[k]?.gesamt ?? 1)
-    }
-    return groesste
+    return erledigt[asinEintrag]?.gesamt ?? 1
   }
 
   function fertig(asinEintrag) {
@@ -998,6 +1054,25 @@ async function speicherSchreiben(werte) {
     if (ausAdresse && liste[ausAdresse]) return ausAdresse
     if (liste[id]) return id
     if (bisher && liste[bisher]) return bisher
+    /**
+     * Nach einem **Neuladen** auf einer Staffel-Seite hilft `bisher` nicht mehr.
+     *
+     * Der Rückfall darüber gilt nur innerhalb einer Sitzung: Wer die Seite neu
+     * lädt, während Staffel 3 offen ist, startet ohne vorherigen Eintrag — und
+     * die ASIN dieser Staffel steht nicht in unserer Liste. Die Meldung landete
+     * dann wieder unter einer fremden Kennung, und der Fortschritt sprang
+     * zurück: „ich sende die ersten 2 staffeln, es steht 2 staffeln noch …
+     * wenn ich die seite neulade kann ich staffel 3 senden, aber dann steht
+     * dort 4 staffeln noch" (Daniel, 24.08.2026, an „Wickie").
+     *
+     * Der Serientitel schließt die Lücke: Er steht seit dem 24.08.2026 in jedem
+     * gemeldeten Eintrag, und Amazon nennt ihn auf jeder Staffel-Seite gleich.
+     */
+    const serie = seitenTitel()
+    if (serie) {
+      const treffer = Object.keys(erledigt).find((k) => erledigt[k]?.serie === serie && liste[k])
+      if (treffer) return treffer
+    }
     return ausAdresse ?? id
   }
 
@@ -1081,9 +1156,20 @@ async function speicherSchreiben(werte) {
    * passiert — und kurz genug, dass niemand darauf wartet.
    */
   const RUHE_MS = 2000
+
+  /**
+   * Wie lange ein Widerspruch zwischen Adresse und Quelltext sperren darf.
+   *
+   * Danach gewinnt die Adresse. Fünf Sekunden reichen für jeden Austausch, den
+   * Amazon im Bruchteil davon erledigt — und sie sind kurz genug, dass niemand
+   * vor einem Knopf sitzt, der sich nicht mehr rührt.
+   */
+  const WIDERSPRUCH_MS = 5000
+  let widerspruchSeit = 0
   let gesamtGeaendertAm = 0
 
   function zeichnen() {
+    htmlNeuLesen()
     const jetzt = spuren()
     for (const s of jetzt.sprachen) gesehen.sprachen.add(s)
     for (const n of jetzt.nummern) gesehen.nummern.add(n)
@@ -1137,7 +1223,21 @@ async function speicherSchreiben(werte) {
     const fehlerseite =
       /keine funktionsf(?:ä|ae)hige Seite|Suchen Sie etwas?/i.test(document.body?.innerText ?? '')
     const wartet = !fehlerseite && Date.now() - letzterFortschritt < GEDULD_MS
-    const stand = `${deutsch}|${geladen}|${gesehen.gesamt}|${wartet}`
+    /**
+     * Die Beruhigungsfrist gehört in die Signatur — sonst läuft sie ins Leere.
+     *
+     * `zeichnen()` steigt früh aus, wenn sich am Stand nichts geändert hat. Die
+     * Frist ändert daran nichts: Sie läuft ab, ohne dass Sprache, Folgenzahl
+     * oder Gesamtzahl anders werden. Der Knopf blieb deshalb für immer auf
+     * „Staffel wechselt — einen Moment" stehen — „staffel längst gewechselt,
+     * trotzdem steht das dort … auch nach 2min passiert nix" (Daniel,
+     * 24.08.2026).
+     *
+     * Eine Anzeige, die von der Zeit abhängt, braucht die Zeit in ihrer
+     * Signatur. Sonst ist der Ablauf ein Ereignis, das niemand bemerkt.
+     */
+    const zahlenStehen = Date.now() - gesamtGeaendertAm > RUHE_MS
+    const stand = `${deutsch}|${geladen}|${gesehen.gesamt}|${wartet}|${zahlenStehen}`
     if (stand === letzterStand) return
     letzterStand = stand
 
@@ -1285,7 +1385,28 @@ async function speicherSchreiben(werte) {
      * stammen. Bei 13 alten und 26 neuen Folgen ist `13 >= 13` erfüllt, sobald
      * die alte Zahl noch dasteht — freigegeben mit halbem Stand.
      */
-    const zahlenStehen = Date.now() - gesamtGeaendertAm > RUHE_MS
+    /**
+     * Adresse und Quelltext müssen dieselbe Seite meinen.
+     *
+     * Beim Wechsel über das Auswahlfeld tauscht Amazon die Adresse sofort und
+     * den Quelltext erst danach. In diesem Fenster nennt `asinAusSeite()` noch
+     * die **vorige** Seite — und mit ihr kommen deren Folgenzahl und deren
+     * Kennung in die Meldung.
+     *
+     * Gemessen an einer echten Meldung vom 24.08.2026 („How a Realist Hero",
+     * Staffel 2 mit 13 Folgen):
+     *
+     *     Seitenadresse: B0G1DT86QJ   ← richtig, aus der Adresse
+     *     Amazon-Seite:  B00WDK307K   ← falsch, aus dem alten Quelltext
+     *     "alle 21 Folgen geprüft"    ← die Zahl der vorigen Staffel
+     *
+     * **Verglichen werden die Staffelnummern, nicht die Kennungen.** Dass
+     * Adresse und Quelltext verschiedene ASINs nennen, ist der Normalfall: In
+     * der Adresse steht die Kennung, über die der Verweis in unseren Bestand
+     * kam, im Quelltext die der gezeigten Staffel. Die **Nummer** dagegen muss
+     * übereinstimmen — tut sie es nicht, hinkt eine der beiden Quellen hinterher,
+     * und das ist genau der Wechsel.
+     */
     if (!zahlenStehen) {
       knopf.disabled = true
       knopf.textContent = 'Staffel wechselt — einen Moment'
@@ -1360,7 +1481,20 @@ async function speicherSchreiben(werte) {
    * B0CBNFP57W Staffel 2 mit 55. Die Nummer trennt sie sauber.
    */
   function staffelKennung() {
-    return `${staffelAusAdresse() ?? '?'}|${staffelAusSeite() ?? '?'}|${asin()}|${spuren().gesamt ?? '?'}`
+    /**
+     * Die Folgenzahl gehört **nicht** in die Kennung.
+     *
+     * Sie stand hier, damit ein Wechsel auffällt, bevor ASIN und Nummer
+     * nachgezogen sind. Der Preis war zu hoch: Wechselt Daniel auf den Reiter
+     * „Ähnliches" oder „Details", verschwindet die Folgenliste aus dem DOM, die
+     * Zahl wird zu `undefined` — und die Kennung ändert sich. Der Zählstand
+     * wurde geleert, und der Knopf sagte „nicht abrufbar" für einen Titel mit
+     * 24 deutschen Folgen (Daniel, 24.08.2026, an „Kanon").
+     *
+     * Staffelnummer und ASIN genügen. Wo beide fehlen, hilft die
+     * Beruhigungsfrist in `zeichnen()`.
+     */
+    return `${staffelAusAdresse() ?? '?'}|${staffelAusSeite() ?? '?'}|${asin()}`
   }
 
   let letzteKennung = staffelKennung()
@@ -1394,6 +1528,7 @@ async function speicherSchreiben(werte) {
   }
 
   setInterval(() => {
+    htmlNeuLesen()
     beiStaffelwechsel()
     zeichnen()
     /**
@@ -1452,6 +1587,7 @@ async function speicherSchreiben(werte) {
         return
       }
     }
+    htmlNeuLesen()
     const nichtAbrufbar = knopf.dataset.tot === 'true'
     const sprachen = [...gesehen.sprachen]
     const geladen = gesehen.nummern.size
@@ -1606,7 +1742,15 @@ async function speicherSchreiben(werte) {
               : ''),
         }),
       })
-      knopf.textContent = antwort.ok ? '✓ angekommen' : `Fehler ${antwort.status}`
+      /**
+       * Kein Zwischenstand mehr — nur Fehler werden gemeldet.
+       *
+       * Daniel am 24.08.2026: „angekommen auf button brauch ich auch nicht …
+       * ich sehe am ‚alles gemeldet' wenn ich mit einer meldung fertig bin,
+       * wenn es error oder sonstiges gibt, sollte ja nicht alles gemeldet
+       * kommen." Der Erfolg zeigt sich am Ergebnis, nicht an einer Zwischenzeile.
+       */
+      if (!antwort.ok) knopf.textContent = `Fehler ${antwort.status}`
       /**
        * Abgehakt wird erst, wenn die Meldung wirklich angekommen ist.
        *

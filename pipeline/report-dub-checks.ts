@@ -299,7 +299,7 @@ const md: string[] = [
   '|---|---|',
   ...[...nachPlattform.entries()]
     .sort((a, b) => b[1] - a[1])
-    .map(([p, n]) => `| ${PLATFORMS[p].name} | ${n} |`),
+    .map(([p, n]) => `| [${PLATFORMS[p].name}](07-${p}.md) | ${n} |`),
   '',
   '## Zu prüfen',
   '',
@@ -325,6 +325,53 @@ md.push(
 )
 
 writeText('daniel-zum-abarbeiten/07-alle-anbieter.md', md.join('\n'))
+
+/**
+ * Und dieselben Zeilen noch einmal, je Anbieter getrennt.
+ *
+ * Wer Disney+ durchgeht, hat einen Player offen und für jede Zeile dieselben
+ * Handgriffe. Eine Prime-Zeile dazwischen braucht einen anderen Weg und kostet
+ * einen Bruch — bei 735 Zeilen in einer Datei jedes Mal (Daniel, 24.08.2026:
+ * „trenn das nach anbieter auf").
+ *
+ * Die Dateinamen tragen die Plattformkennung, nicht den Anzeigenamen: Aus
+ * „Prime Video" würde sonst eine Datei mit Leerzeichen, und aus „RTL+" eine mit
+ * einem Zeichen, das nicht in jeden Dateinamen gehört.
+ */
+const jeAnbieter = new Map<PlatformId, typeof zuPruefen>()
+for (const z of zuPruefen) {
+  if (!jeAnbieter.has(z.platform)) jeAnbieter.set(z.platform, [])
+  jeAnbieter.get(z.platform)!.push(z)
+}
+
+const dateiJeAnbieter = new Map<PlatformId, string>()
+for (const [platform, zeilenDesAnbieters] of jeAnbieter) {
+  const name = `daniel-zum-abarbeiten/07-${platform}.md`
+  dateiJeAnbieter.set(platform, name)
+  const offen = zeilenDesAnbieters.reduce((n, z) => n + z.offen.length, 0)
+  const text = [
+    `# ${PLATFORMS[platform].name}: was noch zu prüfen ist`,
+    '',
+    `Stand ${heute} · **${offen} offene Verweise** in **${zeilenDesAnbieters.length} Zeilen**.`,
+    '',
+    'Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Die Kurzschrift zum',
+    'Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).',
+    '',
+    `**Warum dieser Anbieter unsicher ist:** ${GRUND[platform] ?? '—'}`,
+    '',
+    '| # | Datum | Reihe | Noch zu bestätigen |',
+    '|---|---|---|---|',
+    ...zeilenDesAnbieters.map((z, i) => {
+      const eintraege = z.offen
+        .map((o) => `[${kurzname(z.reihe, o.name).replace(/\|/g, '\\|')}](${o.url})`)
+        .join(' · ')
+      return `| ${i + 1} | ${z.datum} | ${z.reihe.replace(/\|/g, '\\|')} | ${eintraege} |`
+    }),
+    '',
+  ].join('\n')
+  writeText(name, text)
+}
+log(`Je Anbieter geschrieben: ${[...dateiJeAnbieter.values()].length} Dateien`)
 log(`Prüfliste geschrieben: ${zuPruefen.length} Zeilen, ${offenGesamt} offene Verweise`)
 for (const [p, n] of [...nachPlattform.entries()].sort((a, b) => b[1] - a[1])) log(`  · ${p}: ${n}`)
 

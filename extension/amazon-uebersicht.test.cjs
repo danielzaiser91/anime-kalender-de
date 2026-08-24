@@ -402,11 +402,24 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   sandkasten.document.documentElement.innerHTML = seite(11, 11)
   for (const takt of takte) takt()
 
+  /**
+   * Nach dem Wechsel gilt eine Beruhigungsfrist von zwei Sekunden.
+   *
+   * Sie ist der Kern des Fixes vom 24.08.2026: Amazon tauscht beim
+   * Staffelwechsel erst das Gerüst und dann die Zahlen, und wer in diesem
+   * Fenster meldet, meldet den Stand der vorigen Staffel („button muss warten
+   * bis amazon fertig geladen hat" — Daniel). Der Test muss sie deshalb
+   * abwarten, sonst prüft er einen Zustand, in dem der Knopf absichtlich
+   * schweigt.
+   */
+  setTimeout(() => {
+  for (const takt of takte) takt()
   pruefe(
     'nach dem Wechsel auf Staffel 3 zeigt der Knopf 11 Folgen, nicht 12',
     knopf?.textContent.includes('11 Folgen'),
     knopf?.textContent,
   )
+  }, 2100)
 }
 
 // --- 2f. Abhaken unter der Listen-Kennung ---------------------------------
@@ -760,5 +773,5 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
      * Wer hier eine Zusicherung mit mehr als einer Wartestufe ergänzt, prüft
      * zuerst, ob ihr Name in der Ausgabe steht.
      */
-  }, 250)
+  }, 2600)
 }
