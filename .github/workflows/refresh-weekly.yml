@@ -32,7 +32,7 @@ jobs:
     env:
       LAUF_ZWECK: "Wöchentlicher Tiefendurchlauf über alle Quellen von anime-kalender.de"
       LAUF_ZIEL: "ADN-Katalog, Sprechrollen, Crunchyroll-Synchro (250) und aniSearch (60) prüfen"
-      LAUF_SCHRITTE: '18'
+      LAUF_SCHRITTE: '19'
     steps:
       # Sofort anmelden, noch vor allem anderen.
       #
@@ -236,10 +236,8 @@ jobs:
         run: bash "$MELDER" schritt "Crunchyroll-Serienseiten auf deutsche Tonspur"
 
       - name: YouTube-Verweise auf Abrufbarkeit in Deutschland
-        # Die offizielle Data API v3, nicht das Auslesen der Seite: YouTube
-        # untersagt automatisierte Zugriffe ausserhalb der API, und die API
-        # nennt die Laendersperre als regionRestriction ausdruecklich -- im
-        # Seitenquelltext steht sie nicht.
+        # Die offizielle Data API v3: Sie nennt die Laendersperre als
+        # regionRestriction ausdruecklich, im Seitenquelltext steht sie nicht.
         #
         # Rund 1.100 Einheiten je vollem Durchgang, das Tageskontingent sind
         # 10.000. Wiedervorlage nach 30 Tagen, denn Lizenzen kehren zurueck.
@@ -254,6 +252,27 @@ jobs:
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "YouTube-Verweise auf Abrufbarkeit in Deutschland"
+
+      - name: YouTube-Verweise auf Titel, Kanal und Kaufangebot
+        # Der zweite Lauf, andere Frage, andere Quelle: oEmbed nennt Titel und
+        # Kanal ohne Schluessel und ohne Kontingent, die Videoseite die Tonspur
+        # und -- ueber die offerId -- ein Kaufangebot.
+        #
+        # Er stand vom 23. bis 24.08.2026 unter dem Skriptnamen des Laufs
+        # darueber und hat ihn dabei verdraengt: Der Schritt hiess
+        # "Abrufbarkeit", startete aber diesen hier, und data/youtube-check.json
+        # fror auf dem Stand vom 20.08. ein. Beide haben jetzt einen eigenen
+        # Namen, und beide laufen.
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:youtube:titel && npm run data:youtube:report
+
+      - name: Fortschritt — YouTube-Verweise auf Titel, Kanal und Kaufangebot
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "YouTube-Verweise auf Titel, Kanal und Kaufangebot"
 
       - name: Anbieter-Verweise auf tote Seiten prüfen
         # Eine Stichprobe am 20.08.2026 fand bei Joyn 9 von 11 und bei Aniverse
