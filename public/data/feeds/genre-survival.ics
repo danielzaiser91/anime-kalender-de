@@ -6,27 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Survival
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:cr-GT00378078@2026-08-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260822T160000Z
-DTEND:20260822T163000Z
-SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 2/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-GT00378078
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00378078@2026-08-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260829T160000Z
-DTEND:20260829T163000Z
-SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 3/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GT00378078
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:im-standing-on-a-million-lives-s1-box@2026-09-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260904
@@ -38,72 +17,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-GT00378078@2026-09-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260905T160000Z
-DTEND:20260905T163000Z
-SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 4/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GT00378078
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00378078@2026-09-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260912T160000Z
-DTEND:20260912T163000Z
-SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 5/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GT00378078
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00378078@2026-09-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260919T160000Z
-DTEND:20260919T163000Z
-SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 6/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GT00378078
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00378078@2026-09-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260926T160000Z
-DTEND:20260926T163000Z
-SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 7/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GT00378078
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00378078@2026-10-03@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261003T160000Z
-DTEND:20261003T163000Z
-SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 8/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GT00378078
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00378078@2026-10-10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261010T160000Z
-DTEND:20261010T163000Z
-SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 9/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GT00378078
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:dr-stone-science-future-part1@2026-10-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261016
@@ -113,39 +26,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/dr-ston
  e-science-future-part1
 CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00378078@2026-10-17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261017T160000Z
-DTEND:20261017T163000Z
-SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 10/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GT00378078
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00378078@2026-10-24@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261024T160000Z
-DTEND:20261024T163000Z
-SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 11/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GT00378078
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00378078@2026-10-31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T170000Z
-DTEND:20261031T173000Z
-SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 12/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-GT00378078
-CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:im-standing-on-a-million-lives-s2-box@2026-12-04@anime-kalender-de

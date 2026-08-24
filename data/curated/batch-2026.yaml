@@ -115,7 +115,11 @@
 # 29. September liegt fünf Wochen voraus, deshalb 2026. Die Uhrzeit nennt
 # Netflix nicht; sie bleibt leer, und die Oberfläche schreibt „Zeit offen".
 - slug: mononoke-movie-3-curse-of-the-serpent
-  search: "Mononoke: Hebi no Yamai"
+  # Gemessen am 24.08.2026, als AniList wieder erreichbar war. Der Titel
+  # heisst "Hebigami" (Schlangengott) -- "Hebi no Yamai" war geraten und
+  # traf nichts.
+  anilistId: 179874
+  search: "Mononoke: Hebigami"
   titleDe: "Mononoke – The Movie: Chapter III – Der Fluch der Schlange"
   platform: netflix
   platformUrl: https://www.netflix.com/title/82012956
