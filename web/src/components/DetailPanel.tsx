@@ -1298,6 +1298,8 @@ export function DetailPanel({
   const releases = useMemo(() => data.releasesByTitle.get(titleId) ?? [], [data, titleId])
   const [synopsis, setSynopsis] = useState<Synopsis | undefined>()
   const [allKeywords, setAllKeywords] = useState(false)
+  /** Die ersten drei Genres reichen fuer die Frage "ist das meins?". */
+  const [genresOffen, setGenresOffen] = useState(false)
   const [plotOffen, setPlotOffen] = useState(false)
 
   useEffect(() => {
@@ -1825,8 +1827,9 @@ export function DetailPanel({
             </h2>
             <p className="max-w-full rounded-b-lg rounded-tr-lg bg-[rgba(8,12,18,.74)] px-2.5 pb-1 pt-0.5 text-xs text-slate-300 backdrop-blur-[3px]">
               {[
-                title.format && title.format !== 'TV' ? (FORMAT_DE[title.format] ?? title.format) : 'TV',
+                title.format ? (FORMAT_DE[title.format] ?? title.format) : undefined,
                 title.episodes ? `${title.episodes} ${t('detail.episodes')}` : undefined,
+                title.jpYear ? `JP ${title.jpYear}` : undefined,
                 title.studios?.[0],
               ]
                 .filter(Boolean)
@@ -2019,32 +2022,17 @@ export function DetailPanel({
                 </Tooltip>
               )}
             </div>
-            <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-              {[
-                title.format ? (FORMAT_DE[title.format] ?? title.format) : undefined,
-                title.episodes ? t('db.episodes', { count: title.episodes }) : undefined,
-                title.jpYear ? `JP ${title.jpYear}` : undefined,
-                title.studios?.[0],
-              ]
-                .filter(Boolean)
-                .join(' · ')}
-            </p>
             {/*
-              Genres stehen seit dem 12.08.2026 hier oben statt weit unten
-              (Daniel): Sie beantworten die erste Frage, die jemand an einen
-              unbekannten Titel hat — „ist das überhaupt meins?". Die Keywords
-              dagegen sind die feinste Unterteilung und stehen deshalb ganz am
-              Ende.
+              Format, Jahr und Studio stehen seit dem 24.08.2026 in der Bühne,
+              direkt unter dem Titel — dieselbe Angabe zweimal im selben Bild
+              wäre eine Zeile für nichts.
+
+              Die Genres sind ans Ende gewandert, in den Details-Bereich. Ihre
+              Begründung vom 12.08.2026 bleibt gültig — sie beantworten „ist das
+              überhaupt meins?" —, aber diese Frage stellt sich **nach** der,
+              wegen der jemand das Panel öffnet: wann kommt es, wo läuft es. Wer
+              den Titel schon kennt, überspringt die Genres ohnehin.
             */}
-            {title.genres.length > 0 && (
-              <div className="mt-2 flex flex-wrap gap-1.5">
-                {title.genres.map((g) => (
-                  <Chip key={g} onClick={() => onFilterBy('genre', g)}>
-                    {tGenre(g)}
-                  </Chip>
-                ))}
-              </div>
-            )}
           </div>
         </div>
 
@@ -2345,6 +2333,71 @@ export function DetailPanel({
                   {plot.quelle.name}
                 </a>
               </p>
+            </div>
+          )}
+
+          {/*
+            Die Angaben zum Werk selbst — Genres, Bewertung, Studio.
+
+            Sie standen bis zum 24.08.2026 direkt unter dem Titel, vor allem
+            anderen. Dabei beantworten sie eine Frage, die sich erst **nach**
+            der eigentlichen stellt: „ist das überhaupt meins?" kommt nach „wann
+            kommt es und wo läuft es".
+
+            Offen bleibt, was oft gebraucht wird — die ersten drei Genres, die
+            Bewertung, das Studio. Ein Aufklapp-Bereich, der vier verschiedene
+            Dinge verspricht („Details, Genres, Bewertung, Quellen"), wird
+            seltener geöffnet als drei sichtbare Zeilen. Weggeklappt sind nur
+            die übrigen Genres.
+          */}
+          {(title.genres.length > 0 || title.score !== undefined || title.studios?.[0]) && (
+            <div>
+              <SectionTitle>{t('detail.werkangaben')}</SectionTitle>
+              {title.genres.length > 0 && (
+                <div className="flex flex-wrap gap-1.5">
+                  {(genresOffen ? title.genres : title.genres.slice(0, 3)).map((g) => (
+                    <Chip key={g} onClick={() => onFilterBy('genre', g)}>
+                      {tGenre(g)}
+                    </Chip>
+                  ))}
+                  {!genresOffen && title.genres.length > 3 && (
+                    <button
+                      type="button"
+                      onClick={() => setGenresOffen(true)}
+                      className="cursor-pointer rounded-full border border-slate-200 px-2 py-0.5 text-[11px] text-slate-500 transition hover:border-slate-400 dark:border-white/10 dark:text-slate-400"
+                    >
+                      +{title.genres.length - 3}
+                    </button>
+                  )}
+                </div>
+              )}
+              <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-xs">
+                {title.score !== undefined && (
+                  <>
+                    <dt className="text-slate-400 dark:text-slate-500">{t('detail.bewertung')}</dt>
+                    <dd className="text-slate-600 dark:text-slate-300">
+                      {/*
+                        Die Wertung nennt ihre Quelle — sonst sieht es aus, als
+                        wäre es unsere. „★ 8.4" ohne Herkunft las sich, als
+                        hätten wir diesen Anime selbst bewertet (Daniel,
+                        15.08.2026). Wir bewerten nichts; die Zahl ist der
+                        Nutzerdurchschnitt von AniList.
+                      */}
+                      <span className="text-amber-400" aria-hidden="true">
+                        ★
+                      </span>{' '}
+                      <span className="font-semibold tabular-nums">{(title.score / 10).toFixed(1)}</span>{' '}
+                      <span className="text-slate-400 dark:text-slate-500">AniList</span>
+                    </dd>
+                  </>
+                )}
+                {title.studios?.[0] && (
+                  <>
+                    <dt className="text-slate-400 dark:text-slate-500">{t('detail.studio')}</dt>
+                    <dd className="text-slate-600 dark:text-slate-300">{title.studios.join(', ')}</dd>
+                  </>
+                )}
+              </dl>
             </div>
           )}
 
