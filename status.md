@@ -259,6 +259,56 @@ dritter Weg ist bislang nicht gefunden.
 
 ### Queue
 
+**Ähnliche Titel vorschlagen** — Idee von Daniel, 24.08.2026, 16:43
+
+Ein ausklappbarer Bereich im Detail-Panel, der Titel vorschlägt, die diesem ähneln.
+Grundlage: die Überschneidung der Genres. Erweiterung: Genres an- und abwählbar, damit man
+die ausblenden kann, an denen man kein Interesse hat.
+
+**Die Datenlage trägt das.** Gemessen am 24.08.2026:
+
+| | |
+|---|---|
+| Titel mit Genres | 2.749 von 2.762 |
+| verschiedene Genres | 58 |
+| im Schnitt je Titel | 5,4 |
+
+**Ein Probelauf mit Jaccard-Ähnlichkeit** (Schnittmenge geteilt durch Vereinigungsmenge)
+für „The Ghost in the Shell" — Genres Action, Psychological, Sci-Fi, Cyberpunk, Dystopian,
+Crime:
+
+```
+75 %  Cyberpunk: Edgerunners                 ★ 8.5
+75 %  PSYCHO-PASS Sinners of the System 1    ★ 7.0
+71 %  Animatrix                              ★ 7.0
+71 %  Mardock Scramble: The Second Combustion ★ 6.9
+67 %  Psycho-Pass 3: First Inspector          ★ 7.7
+```
+
+Das sind brauchbare Empfehlungen — Edgerunners und Psycho-Pass sind genau das, was ein
+Ghost-in-the-Shell-Zuschauer als Nächstes sehen will. **Ohne eine Zeile Zusatzdaten.**
+
+**Zwei Dinge, die der Probelauf gleich mit aufgedeckt hat:**
+
+1. **Reihen müssen gebündelt werden.** Unter den ersten acht Treffern standen vier Teile von
+   Psycho-Pass. Eine Empfehlungsliste, die viermal dieselbe Reihe nennt, ist eine Liste mit
+   fünf Vorschlägen, die wie acht aussieht. Die Bündelung nach `franchiseId` gibt es im
+   Projekt bereits.
+2. **58 Genres sind grob.** „Action" trägt fast nichts zur Ähnlichkeit bei, „Cyberpunk" sehr
+   viel. Eine Gewichtung nach Seltenheit (wer selten vorkommt, zählt mehr) wäre der nächste
+   Schritt — dieselbe Rechnung, die Suchmaschinen als IDF kennen. Erst danach lohnt die
+   Frage nach feineren Tags aus einer zusätzlichen Quelle.
+
+**Zur Abwählbarkeit:** Sie ist mehr als Bequemlichkeit — sie macht die Empfehlung
+nachvollziehbar. Wer sieht, *warum* etwas vorgeschlagen wird (weil beide „Cyberpunk" und
+„Psychological" tragen), versteht auch, warum ein Vorschlag danebenliegt. Das ist der
+Unterschied zwischen einer Empfehlung und einem Orakel.
+
+**Offen:** Sollen Titel ohne deutsche Synchro vorgeschlagen werden? Dagegen spricht der Zweck
+der Seite; dafür spricht, dass ein Vorschlag mit Stern-Merken der natürliche Weg ist, wie
+jemand von einem Titel zum nächsten kommt.
+
+
 **Karussell scrollt nicht zum ausgewählten Titel** (beobachtet 24.08.2026, 16:05)
 
 Daniel öffnet im Kalender das Detail-Panel von „The Ghost in the Shell". Das Reihen-Karussell
