@@ -1561,7 +1561,18 @@ async function speicherSchreiben(werte) {
        * ist die Aussage über die Folgenliste, das Symbol nur über den Preis.
        */
       const hatFolgenReiter = /(^|>)\s*Folgen\s*(<|$)/m.test(document.body?.innerText ?? '')
-      if (!hatFolgenReiter && !regionWeg && !wartet) {
+      /**
+       * `!fehlerseite` gehört dazu — sonst frisst die Regel den toten Verweis.
+       *
+       * Eine Amazon-Fehlerseite („Suchen Sie etwas?") hat naturgemäß auch
+       * keinen „Folgen"-Reiter, und die Regel schickte Daniel dort zu einer
+       * anderen Fassung, die es nicht gibt: „inu ni kann ich nicht als toten
+       * link melden" (25.08.2026, Minuten nach dem Einbau).
+       *
+       * Der Unterschied: Bei JoJo **gibt** es die Seite, sie führt nur diese
+       * eine Fassung ohne Folgen. Hier gibt es die Seite nicht.
+       */
+      if (!hatFolgenReiter && !fehlerseite && !regionWeg && !wartet) {
         knopf.dataset.tot = 'false'
         knopf.disabled = true
         knopf.textContent = 'keine Folgenliste — andere Fassung im Auswahlfeld wählen'
