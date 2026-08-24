@@ -292,7 +292,6 @@ nicht als „jetzt möglich" — entschieden und eingeplant ist beides schon, es
 | täglich 06:17 | **Alle Quellen** | `refresh-data.yml`: AniList, Crunchyroll, ADN, Anime2You, aniSearch, danach `data:check` als Wachhund gegen stumm gewordene Quellen |
 | 02.09.2026, 06:17 | **Tonspuren bei Netflix, Prime und Disney+** | `tonspuren-monatlich.yml`, 800 der 1.000 Monatsabrufe der Streaming Availability API. Läuft am 2. jedes Monats, einen Tag nach dem Zurücksetzen des Kontingents |
 | montags 07:41 | **Wöchentlicher Tiefendurchlauf** | Läuft von allein (`cron: 41 5 * * 1`), nächster am 24.08.2026. Steht hier, damit er nicht als Aufgabe verwechselt wird — anzustoßen ist nichts. Nur wenn er rot wird, springt `claude-reparatur.yml` an und öffnet einen Pull Request |
-| 24.08.2026, 10:00 | DMARC-Politik von `p=none` auf `p=quarantine` heben **und `rua=` streichen** — vorher die bis dahin eingegangenen Berichte prüfen; bei einem `fail` oder einer fremden Absender-IP wird nicht umgestellt. Die täglichen Berichtsmails hören damit auf (Daniels Entscheidung 12.08.2026); Preis dafür: keine Belegkette für ein späteres `p=reject` und keine Warnung bei gefälschten Absendern | `dmarc-policy-anime-kalender` |
 
 ### Später (nice to have)
 
@@ -307,7 +306,48 @@ herausgeholt, wenn der User es sagt.
 
 ### Zu besprechen
 
-_(leer)_
+**DMARC auf `p=quarantine` — der Termin war heute, die Grundlage fehlt** (24.08.2026, 10:57)
+
+Der geplante Lauf `dmarc-policy-anime-kalender` hat **nicht** umgestellt. Grund ist kein Fund,
+sondern eine Lücke: Seit dem 12.08.2026 liegt **kein neuer Aggregatbericht** vor. Gesucht wurde
+in `__assets/_shared files user to agent/`, im Downloads-Ordner, auf dem Desktop und in
+Dokumenten — der einzige Treffer ist der schon ausgewertete Bericht vom 10.08. Die Berichte
+gehen an Daniels Gmail-Postfach; ob dort welche liegen, ist von hier aus nicht zu sehen. Ein
+fehlender Bericht auf der Platte belegt also **nicht**, dass keiner kam.
+
+Was geprüft ist und trägt:
+
+| Prüfung | Ergebnis |
+|---|---|
+| Bericht 10.08. (`google.com!…!1786320000`) | 3 Mails, `dkim pass` + `spf pass`, `disposition none`, IPs 54.240.3.16/3.28/6.245 — alle Amazon SES |
+| Absenderwege im Repo | genau einer: `FROM_EMAIL = "kalender@send.anime-kalender.de"` (`worker/wrangler.toml:20`), Versand über Resend/SES |
+| Zone live (`_dmarc.anime-kalender.de`) | unverändert `v=DMARC1; p=none; rua=mailto:danielzaiser91@googlemail.com` |
+
+Damit umfasst die Belegkette die Berichte vom **07.–10.08.2026**, durchgehend sauber, kein
+fremder Absender. Die zwei Wochen, die Daniel am 12.08. sammeln wollte, sind es nicht.
+
+**Die Frage an Daniel:** trotzdem umstellen, oder erst die Berichte aus dem Postfach nachreichen?
+
+Der Handgriff ist klein und steht bereit — in `tools/inwx-dns.mjs` (Zeile 55) wird
+`'v=DMARC1; p=none; rua=mailto:danielzaiser91@googlemail.com'` zu
+`'v=DMARC1; p=quarantine; sp=quarantine'`, danach `node tools/inwx-dns.mjs --apply`. Beides in
+einem Schritt: Politik anheben **und** `rua=` streichen, damit die täglichen Berichtsmails
+aufhören (Daniels Entscheidung 12.08.2026). Zurückgedreht ist es in einer Minute, indem der
+alte Wert wieder eingetragen und das Skript erneut läuft.
+
+**Was das Streichen von `rua=` kostet, und das gehört zur Entscheidung dazu:**
+
+1. **Keine Belegkette für ein späteres `p=reject`.** Ohne Berichte gibt es nichts, woran sich
+   ablesen ließe, dass der schärfere Schritt gefahrlos wäre. Wer ihn will, muss `rua=` vorher
+   für ein paar Wochen wieder setzen.
+2. **Keine Warnung bei Fälschungen.** Schickt jemand Mail im Namen der Domain, fällt es
+   niemandem mehr auf — `p=quarantine` wehrt es zwar ab, meldet es aber nicht mehr.
+
+**Denkbarer Mittelweg, falls die Berichte nicht auftauchen:** `p=quarantine` setzen und `rua=`
+zunächst **behalten**, bis ein Bericht unter der neuen Politik bestätigt, dass nichts
+fälschlich einsortiert wird — danach `rua=` streichen. Kostet ein paar zusätzliche
+Berichtsmails, erhält aber beide Punkte oben. Widerspricht Daniels Entscheidung vom 12.08.
+(„die Mails sollen aufhören") und wird deshalb nicht von allein gemacht.
 
 ### Warten auf Feedback
 | Thema | Seit |
