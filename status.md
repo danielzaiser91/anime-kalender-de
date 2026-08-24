@@ -327,7 +327,7 @@ jemand von einem Titel zum nächsten kommt.
 | **Prime Video: 243 Verweise ohne Sprachangabe** (gemessen 23.08.2026, 02:05) | 5 | Der groesste offene Posten nach dem Netflix-Abend. Nur 5 von 245 Verweisen sind belegt. Die Erweiterung koennte dieselbe Arbeit leisten wie bei Netflix, muesste aber auf Amazons Seite umgebaut werden. **Messung am 23.08.2026 gemacht, Ergebnis besser als erhofft** (Abschnitt „Amazon nennt Tonspur und Abo-Bedingung selbst" weiter unten): Es braucht nicht einmal den Player — die Seite selbst nennt `audioTracks` **je Folge** und `benefitId` **je Staffel**, beides ohne Anmeldung lesbar. Ein einziger Seitenaufruf traegt damit mehr als bei Netflix, wo je Folge geklickt werden muss. **Ein Bot darf es trotzdem nicht holen** — Amazons Nutzungsbedingungen untersagen Data Mining ausdruecklich, auch einmalig. Bleibt der Netflix-Weg: mitlesen, waehrend Daniel die Seite ohnehin offen hat |
 | **Sieben Netflix-Titel mit offener Staffel** | 1 | Netflix ist am 22.08.2026 von 258 offenen Adressen auf sieben gefallen, **340 Synchros sind belegt und 145 tote Verweise entfernt**. Was bleibt: ONE PIECE (sieben Arcs), KONOSUBA, Kakegurui, Ghost in the Shell SAC_2045, Pokémon Horizons, DAN DA DAN, BEYBLADE X — je eine bis sieben Staffeln. Die Erweiterung zeigt sie, sobald Daniel sie oeffnet |
 | ~~**YouTube-Data-API-Schlüssel**~~ — **geprüft, bringt nichts** (23.08.2026, 19:35) | 2 | Der Schlüssel stand als Aufgabe für Daniel auf der Liste. **Vor der Bitte geprüft, und die Prüfung hat sie erledigt:** Die Data API führt für Audiosprachen **ein einziges Feld**, `snippet.defaultAudioLanguage` — die Standard-Tonspur, keine Liste. Genau dieses Feld steht normalerweise auch in der Videoseite, die ohne Schlüssel lesbar ist. An drei der offenen Verweise nachgesehen: Es **fehlt dort vollständig**, also hat der Uploader es nie gesetzt — dann ist es in der API ebenso leer. Der Schlüssel hätte Daniels Zeit gekostet und nichts geliefert. |
-| **Die 23 offenen YouTube-Verweise sind großteils gar nicht deutschsprachig** (23.08.2026) | 2 | Nach Kanal aufgeschlüsselt, ohne Schlüssel ermittelt: **6× „YouTube Movies"** (Kauffilme — die Tonspur steht dort erst nach dem Kauf fest), **4× „The Official Pokémon YouTube channel"**, je einmal Nozomi Entertainment und Aniplex USA (beide US-Kanäle mit englischen Titeln), **2× animeondemand** (deutscher Anbieter). Dazu neun Playlists, überwiegend Kurzformate (Sylvanian Families, Pokémon Evolutions, Mini-Anime). **Nebenbefund:** Alle 23 stehen als `zugang: kostenlos`, obwohl sechs davon Kauffilme sind — `zugangsart()` erkennt YouTube Movies nur an `/movies` in der Adresse, diese tragen aber `/watch?v=`. Der Kanalname wäre das verlässlichere Merkmal und müsste beim YouTube-Lauf mitgespeichert werden | Alle 93 wurden am 23.08.2026 geprueft — erst ueber oEmbed (Titel und Kanal), dann ueber die JSON-Fracht der Videoseite, die die Tonspur strukturiert nennt. **41 Verweise sagen ihre Fassung selbst**, 40 davon deutsch; dazu sechs, deren Videotitel sie benennt. Kein Verweis ist geloescht, neun sind kostenpflichtig (HTTP 401 bei oEmbed, Kauf- und Leihfilme). Die uebrigen 46 nennen nichts — dort haette nur die Data API mit Schluessel eine Antwort, und die kostet Kontingent. Reste in `daniel-zum-abarbeiten/09-youtube-liste.md` |
+| **Die 23 offenen YouTube-Verweise sind großteils gar nicht deutschsprachig** (23.08.2026) | 2 | Nach Kanal aufgeschlüsselt, ohne Schlüssel ermittelt: **6× „YouTube Movies"** (Kauffilme — die Tonspur steht dort erst nach dem Kauf fest), **4× „The Official Pokémon YouTube channel"**, je einmal Nozomi Entertainment und Aniplex USA (beide US-Kanäle mit englischen Titeln), **2× animeondemand** (deutscher Anbieter). Dazu neun Playlists, überwiegend Kurzformate (Sylvanian Families, Pokémon Evolutions, Mini-Anime). ~~**Nebenbefund:** Alle 23 stehen als `zugang: kostenlos`, obwohl sechs davon Kauffilme sind~~ — **behoben 23./24.08.2026 in zwei Schritten.** Zuerst über den Kanalnamen (40 Verweise), dann über die sechs, die bei oEmbed mit HTTP 401 antworten und deshalb gar keinen Kanal tragen: Ihre Videoseite nennt eine `offerId`, das ist der Beleg. Alle sechs stehen jetzt als `kauf`, zwei Zusicherungen in `check:zugangsart` halten beide Richtungen fest. **Dabei mitgefunden:** Zwei der 401-Fälle heißen „Tokyo Ghoul … OmU" und „My Hero Academia … OmU" — Untertitel statt Synchro, vom Uploader selbst benannt. Sieben solche Verweise stehen jetzt ganz oben in `daniel-zum-abarbeiten/09-youtube-liste.md` und warten auf Daniels `0` | Alle 93 wurden am 23.08.2026 geprueft — erst ueber oEmbed (Titel und Kanal), dann ueber die JSON-Fracht der Videoseite, die die Tonspur strukturiert nennt. **41 Verweise sagen ihre Fassung selbst**, 40 davon deutsch; dazu sechs, deren Videotitel sie benennt. Kein Verweis ist geloescht, neun sind kostenpflichtig (HTTP 401 bei oEmbed, Kauf- und Leihfilme). Die uebrigen 46 nennen nichts — dort haette nur die Data API mit Schluessel eine Antwort, und die kostet Kontingent. Reste in `daniel-zum-abarbeiten/09-youtube-liste.md` |
 | ~~RTL+: Verweise offen~~ — **0, erledigt** (gemessen 23.08.2026, 02:05) | 1 | 36 sind eingetragen, nachdem Daniel am 23.08.2026 festgelegt hat: „rtl+ eintraege kannst du immer davon ausgehen das sie deutsch sind, es ist ein rein deutschsprachiger online streaming dienst." Das steht als Festlegung in den Daten, nicht als Messung — RTL+ nennt die Tonspur nirgends strukturiert. Geprueft wurde, was pruefbar war: alle 42 Verweise leben, einer zeigte auf einen anderen Titel (Demon Slayer → Mugen-Train-Film) und ist ausgenommen |
 | **Prüfliste „Wo läuft es" abarbeiten** (Dauerauftrag) | — | **1.158 Anbieter-Verweise ohne Sprachangabe (gemessen 24.08.2026, 11:00 aus `public/data/titles.json`)**. Verteilung: Prime Video 597, Crunchyroll 462, Disney+ 40, Netflix 26, YouTube 24, ADN 7, Joyn 2, RTL+ 0. **Belegt sind 1.081 von 2.239 Verweisen.** (Vorstand 23.08.2026, 14:45: 1.226 offen von 2.234 — der Rückgang um 68 kommt aus dem Crunchyroll-Anteil, 523 → 462, also aus dem Montags-Tiefendurchlauf.) Der Crunchyroll-Anteil laeuft maschinell nach (Montags-Durchlauf), Netflix ist mit der Erweiterung fast durch. **Die Zahlen werden gemessen, nicht fortgeschrieben** — Griff: `node -e` ueber `public/data/titles.json`, `streams[].dub`. <br>**Warum die Summe gegenueber 02:05 (872) gestiegen ist:** nicht durch Rueckschritt, sondern durch Ehrlichkeit. Der Amazon-Fix vom selben Tag hat 360 Verweise von `watchLinks` (dort standen sie als „Kaufen oder leihen") in die Prime-Video-Streams geholt. Sie waren vorher genauso ohne Sprachangabe, nur zaehlte sie niemand — Prime Video springt dadurch von 243 auf 600 offene. |
 | ~~News-Quellen für Sendepausen~~ — **Filter gebaut, Rest verworfen** | 8 | Serien unterbrechen den Wochentakt (Sommerpause, Best-of-Folgen, Verschiebungen) — das steht in News, nicht in Kalender-Feeds, und ohne die Info rechnet der Kalender stur weiter (Daniels Hinweis, 11.08.2026). Die Pipeline **kann** Pausen bereits abbilden (`schedule.skipDates`), es fehlt allein die Quelle. Vorrecherche vom 11.08. steht unten unter „Recherche News-Quellen". Vorgehen wie bei den übrigen Quellen: Treffer als Vorschlag nach `data/proposals/`, nicht direkt in den Datensatz — „pausiert" aus einem Fließtext zu lesen ist Deutung, und die gehört vor die Quellenpflicht gestellt |
@@ -1085,6 +1085,50 @@ weder offiziell noch in den inoffiziellen Doku-Repos.
   abgenommen.
 
 ## Archiv
+
+### Vier Messdateien gingen in jedem CI-Lauf verloren (24.08.2026)
+
+Gefunden beim Nachgehen einer YouTube-Preisangabe, und der größere der beiden Funde.
+
+`tools/commit-data.sh` legt vor dem `git reset --hard` die Dateien beiseite, die ein Lauf
+unter `data/` geschrieben hat. Vier standen nicht in der Liste:
+
+| Datei | Taktung |
+|---|---|
+| `data/youtube-befunde.json` | wöchentlich |
+| `data/rtlplus-befunde.json` | wöchentlich |
+| `data/motn-changes.json` | **täglich**, gegen ein Monatskontingent von 1.000 |
+| `data/curated/disc-anisearch.yaml` | wöchentlich |
+
+Sichtbar war es nur am Commit-Datum: alle vier zuletzt am 23.08.2026 durch einen lokalen
+Lauf beschrieben, seither nichts — obwohl zwei davon täglich bzw. wöchentlich neu geholt
+werden.
+
+**Die Prüfung, die das melden soll, hatte zwei blinde Flecken.** Sie las nur `.ts`-Dateien
+(die `.mjs`-Läufe also gar nicht) und suchte nur nach `writeJson('data/…')`, fand also kein
+Ziel, das in einer Konstanten steht. Jetzt zählt jedes `data/…`-Literal in einer Datei, die
+überhaupt schreibt — auch reine Lesepfade. Das ist die richtige Seite zum Irren: Eine Datei
+zu viel in der Liste wird beiseitegelegt und unverändert zurückgelegt; eine zu wenig kostet
+die Arbeit jedes Laufs, und zwar still. Gegentest gemacht: Zeile entfernt → rot, Zeile
+zurück → grün.
+
+### Neun YouTube-Kauffilme standen als „kostenlos" (24.08.2026)
+
+Neun Verweise antworten bei oEmbed mit HTTP 401. Der Lauf legte das pauschal als
+„kostenpflichtig" ab, und `zugangsart()` las das Feld nie — „Your Name", „FF7 Advent
+Children" und „Fireworks" standen als Gratisangebot im Kalender.
+
+**Auch die Ablage war falsch.** An den Videoseiten nachgemessen: sechs der neun tragen eine
+`offerId`, also ein echtes Kaufangebot, drei nicht. Der 401 hat mehrere Ursachen. Belegt wird
+der Kauf seither über `offerId`, sein Fehlen bleibt Schweigen.
+
+**Der Nebenfund wiegt für dieses Projekt schwerer:** Zwei der drei heißen „Tokyo Ghoul,
+2. Staffel, 1. Episode, OmU" und „Anime, My Hero Academia, Episode 01, OmU" — Untertitel
+statt Synchro, vom Uploader selbst benannt, und das ist genau die Trennlinie, an der dieser
+Kalender hängt. `pipeline/lib/titel-muster.mjs` erkennt sie jetzt, ebenso eine fremde
+Synchronfassung („English Dub" bei drei Attack-on-Titan-Filmen). Sieben Verweise stehen
+dadurch ganz oben in `daniel-zum-abarbeiten/09-youtube-liste.md`; ein `dub: false` setzt
+weiterhin ein Mensch.
 
 ### Detail-Panel neu gebaut — sechs Schritte, 24.08.2026
 

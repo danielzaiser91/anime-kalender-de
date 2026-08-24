@@ -268,6 +268,28 @@ Zwei Folgen daraus:
   abrufbare Folge, meldete sie 18 Sprachen samt Deutsch: die des Films im Hintergrund
   (`movieId 82819831` gegen Reihe `80186475`). Die Erweiterung verwirft Sitzungen mit
   `motion-billboard`, `trailer` oder `preview` im Namen und liest nur auf `/watch/`.
+- **Ein Fehlercode ist keine Auskunft — bei YouTube kostete das neun Preisangaben.** Neun
+  Verweise antworten bei oEmbed mit HTTP 401. Der Lauf legte das als „kostenpflichtig" ab, und
+  weil `zugangsart()` das Feld nie las, standen sie als **kostenlos** im Kalender: „Your Name",
+  „FF7 Advent Children", „Fireworks". Beim Nachmessen an den Videoseiten (24.08.2026) stellte
+  sich heraus, dass auch die Ablage falsch war — **sechs** der neun tragen eine `offerId`, also
+  ein echtes Kaufangebot, drei nicht. Der 401 hat mehrere Ursachen (Kaufangebot,
+  Altersfreigabe, Einbettungssperre), und oEmbed nennt keine davon.
+
+  Zwei Folgen, und die zweite war der eigentliche Fund:
+
+  - **Belegt wird der Kauf über `offerId`**, nicht über den Fehlercode. Sein Fehlen ist
+    Schweigen. Zwei Zusicherungen in `check:zugangsart` halten beide Richtungen fest.
+  - **Der Videotitel nennt die Fassung, wenn niemand ihn liest.** Zwei der drei heißen „Tokyo
+    Ghoul, 2. Staffel, 1. Episode, **OmU**" und „My Hero Academia, Episode 01, **OmU**" —
+    Untertitel statt Synchro, also genau die Trennlinie dieses Projekts, ausgesprochen vom
+    Uploader selbst. `pipeline/lib/titel-muster.mjs` erkennt sie, ebenso eine fremde
+    Synchronfassung („English Dub"). Ein `dub: false` folgt daraus **nicht** von selbst; die
+    Fälle stehen ganz oben in `daniel-zum-abarbeiten/09-youtube-liste.md`.
+
+  **Beim Preis wiegt ein Irrtum schwerer als beim Termin.** Wer „kostenlos" liest und an einer
+  Kasse landet, ist schlechter dran als jemand, der gar keine Auskunft bekommen hätte.
+
 - **Aus dem Fragezeichen wird ein Häkchen nur durch Nachsehen.** Geprüfte Fälle stehen in
   `data/dub-confirmed.yaml`, mit Datum. `dub: false` ist genauso wertvoll wie `true`.
 - **Was ein Mensch geprüft hat, schlägt jede Ableitung** — der Eintrag gilt auch gegen ein
@@ -633,7 +655,16 @@ wirkungslos oder es macht Lärm:
    still. Am 16.08.2026 standen `data:ann:ids`, `data:ann:voices` und `data:cr-dub` in keinem
    einzigen Workflow; die ANN-Daten wären nach der ersten Nacht eingefroren.
 2. **Eine Zeile in `tools/commit-data.sh`.** Sonst wirft der `git reset` im CI-Lauf weg, was
-   gerade geholt wurde. Die Prüfung in `tools/check-workflows.mjs` fängt das ab.
+   gerade geholt wurde. Die Prüfung in `tools/check-workflows.mjs` fängt das ab — **seit dem
+   24.08.2026 auch wirklich.** Bis dahin las sie nur `.ts`-Dateien und suchte nur nach
+   `writeJson('data/…')`; vier Dateien fielen durch beide Maschen und gingen in **jedem**
+   CI-Lauf verloren: `youtube-befunde.json`, `rtlplus-befunde.json`, `motn-changes.json`,
+   `curated/disc-anisearch.yaml`. Sichtbar war es nur am Commit-Datum — alle vier zuletzt
+   durch einen lokalen Lauf beschrieben, obwohl zwei davon täglich bzw. wöchentlich geholt
+   werden. Jetzt zählt **jedes** `data/…`-Literal in einer Datei, die überhaupt schreibt. Das
+   meldet auch reine Lesepfade mit, und das ist die richtige Seite zum Irren: Eine Datei zu
+   viel in der Liste wird beiseitegelegt und unverändert zurückgelegt; eine zu wenig kostet
+   die Arbeit jedes Laufs, und zwar still.
 3. **Eine Frist in `pipeline/check-sources.ts`.** Die Vorgabe sind vier Tage, und die passt nur
    für tägliche Abrufe.
 
