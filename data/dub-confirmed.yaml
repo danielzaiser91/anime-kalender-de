@@ -17800,3 +17800,150 @@
     in VOSTFR und VF"), die den Titel nirgends nennt. Ein HTTP 200 nach Weiterleitung
     ist deshalb kein Beleg fuer ein Angebot -- check-links.ts sieht hier eine
     erreichbare Seite und kann den Fall nicht erkennen.
+
+# ── Daniels Prüfrunde vom 24.08.2026 ──────────────────────────────────────
+#
+# Drei Blöcke aus einer Sitzung. Der mittlere entscheidet 239 Verweise.
+
+# YouTube: sieben Verweise, deren Videotitel die Fassung selbst nennt.
+#
+# Gefunden hat sie derselbe Lauf am selben Tag — „OmU" und „(English Dub)" im
+# Titel, vom Uploader gesetzt. Daniel hat alle sieben angesehen und bestätigt:
+# sechsmal keine deutsche Fassung, einmal gar kein Video mehr.
+#
+# Der Wert liegt nicht in den sieben Zeilen, sondern im Weg: Ein Muster im
+# Videotitel hat sie vorsortiert, ein Mensch hat sie in drei Minuten bestätigt.
+- anilistId: 629
+  title: Maho Tsukai Tai! Magic User's Club
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-24'
+  note: 'Videotitel „Magic User''s Club (Sub)" — Untertitel, keine Synchro.'
+
+- anilistId: 20691
+  title: 'Attack on Titan Part I: Crimson Bow and Arrow'
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-24'
+  note: 'Videotitel nennt „(English Dub)" — eine Synchro, aber nicht die deutsche.'
+
+- anilistId: 20692
+  title: 'Attack on Titan Part II: Wings of Freedom'
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-24'
+  note: 'Videotitel nennt „(English Dub)" — eine Synchro, aber nicht die deutsche.'
+
+- anilistId: 100465
+  title: 'Attack on Titan Movie Teil 3: Gebrüll des Erwachens'
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-24'
+  note: 'Videotitel nennt „(English Sub)".'
+
+- anilistId: 20850
+  title: Tokyo Ghoul √A
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-24'
+  note: 'Videotitel „Tokyo Ghoul, 2. Staffel, 1. Episode, OmU" — Original mit Untertiteln.'
+
+- anilistId: 21459
+  title: My Hero Academia
+  platform: youtube
+  dub: false
+  checkedAt: '2026-08-24'
+  note: 'Videotitel „Anime, My Hero Academia, Episode 01, OmU" — Original mit Untertiteln.'
+
+- anilistId: 112803
+  title: No Guns Life
+  platform: youtube
+  available: false
+  checkedAt: '2026-08-24'
+  note: Playlist nicht mehr abrufbar.
+
+# ── Crunchyroll: die Stichprobe, die 239 Verweise entscheidet ─────────────
+#
+# Der Bestand führte 239 Serien mit dem Vermerk „Content-API kennt keine Staffel
+# zu dieser Kennung". Gemessen am 23.08.2026 mit einem frischen Zugangspaket für
+# den **deutschen** Katalog, über beide API-Wege: Die Kennung stimmt,
+# Crunchyroll kennt die Serie — und der Katalog führt null abrufbare Folgen.
+#
+# „CLAUDE.md" verlangt für das Entfernen eines Verweises einen **zweiten**
+# Beleg, und zwei Pfade derselben API sind keiner. Der zweite Beleg konnte nur
+# Crunchyrolls eigene Seite sein, aus deutscher Sicht gesehen — und die kann ein
+# Cloud-Lauf nicht liefern, er sieht den US-Katalog.
+#
+# Daniel hat am 24.08.2026 drei davon geöffnet. **Alle drei zeigen den Banner**
+# „Leider sind die Videos dieser Serie nicht mehr verfügbar." Drei von drei, in
+# der schädlichen Richtung geprüft: Wäre eine sichtbar gewesen, wäre die ganze
+# Gruppe gerettet gewesen.
+#
+# Darunter DanMachi — der Fall, der die Messung überhaupt zweifelhaft machte,
+# weil eine große laufende Reihe kaum verschwunden sein sollte. Sie ist es.
+- anilistId: 20920
+  title: 'Danmachi: Familia Myth'
+  platform: crunchyroll
+  available: false
+  checkedAt: '2026-08-24'
+  note: '„Leider sind die Videos dieser Serie nicht mehr verfügbar." — Stichprobe für die Gruppe „Kennung gültig, deutscher Katalog führt null Folgen".'
+
+- anilistId: 101167
+  title: 'Danmachi: Familia Myth II'
+  platform: crunchyroll
+  available: false
+  checkedAt: '2026-08-24'
+  note: '„Leider sind die Videos dieser Serie nicht mehr verfügbar." (dieselbe Serienseite wie Staffel 1).'
+
+- anilistId: 112124
+  title: 'Danmachi: Familia Myth III'
+  platform: crunchyroll
+  available: false
+  checkedAt: '2026-08-24'
+  note: '„Leider sind die Videos dieser Serie nicht mehr verfügbar." (dieselbe Serienseite wie Staffel 1).'
+
+- anilistId: 21823
+  title: 'ACCA: 13-Territory Inspection Dept.'
+  platform: crunchyroll
+  available: false
+  checkedAt: '2026-08-24'
+  note: '„Leider sind die Videos dieser Serie nicht mehr verfügbar."'
+
+- anilistId: 20796
+  title: Junjo Romantica 3
+  platform: crunchyroll
+  available: false
+  checkedAt: '2026-08-24'
+  note: '„Leider sind die Videos dieser Serie nicht mehr verfügbar."'
+
+# ── Disney+: drei Reihen von Hand, alle vollständig deutsch ───────────────
+#
+# Disney+ sperrt in seiner robots.txt jeden Bot, und die Erweiterung liest dort
+# noch nicht mit. Diese drei hat Daniel im Player nachgesehen.
+- anilistId: 269
+  title: Bleach
+  platform: disneyplus
+  dub: true
+  checkedAt: '2026-08-24'
+  note: 16 Staffeln, Folgen 1 bis 366 durchgehend mit deutscher Synchro.
+
+- anilistId: 21175
+  title: Dragon Ball Super
+  platform: disneyplus
+  dub: true
+  checkedAt: '2026-08-24'
+  note: 131 Folgen, alle mit deutscher Synchro.
+
+- anilistId: 21459
+  title: My Hero Academia
+  platform: disneyplus
+  dub: true
+  checkedAt: '2026-08-24'
+  note: 'Disney+ führt zwei Staffeln (13 und 25 Folgen), beide vollständig deutsch.'
+
+- anilistId: 21856
+  title: My Hero Academia 2
+  platform: disneyplus
+  dub: true
+  checkedAt: '2026-08-24'
+  note: 'Dieselbe Disney+-Seite wie Staffel 1; beide dort geführten Staffeln sind vollständig deutsch.'
