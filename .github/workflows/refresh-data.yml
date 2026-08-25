@@ -28,7 +28,7 @@ jobs:
     env:
       LAUF_ZWECK: "Aktualisiert täglich alle Datenquellen von anime-kalender.de"
       LAUF_ZIEL: "AniList, Crunchyroll, ADN, Anime2You und aniSearch einlesen, Datensatz neu bauen"
-      LAUF_SCHRITTE: '9'
+      LAUF_SCHRITTE: '11'
     steps:
       # Sofort anmelden, noch vor allem anderen.
       #
@@ -149,6 +149,19 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           STREAMING_API_KEY: ${{ secrets.STREAMING_API_KEY }}
         run: npm run data:motn:changes -- --tage 3 --budget 4
+
+      # Die Anbieter-Deep-Links aus dem Archiv einsammeln — ohne Netzzugriff.
+      #
+      # Die Rohantworten tragen je Anbieter ein `link`-Feld; der Parser hat es
+      # nie gelesen. Prime-Video-Verweise stehen bei uns sonst als **Suche**
+      # da (aniSearch liefert es so), und selbst nachsehen dürfen wir nicht:
+      # amazon.de sperrt ClaudeBot namentlich. Läuft direkt hinter dem Abruf,
+      # damit das, was gerade hereinkam, sofort mitzählt.
+      - name: Anbieter-Links aus dem MOTN-Archiv
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:motn-links
 
       - name: Fortschritt — Was bei Netflix, Prime und Disney+ neu ist
         continue-on-error: true

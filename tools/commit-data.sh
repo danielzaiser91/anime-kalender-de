@@ -136,6 +136,11 @@ QUELLEN=(
   # gebrauchtes Feld muss eine Änderung am Parser sein können, kein zweiter
   # Lauf gegen ein Monatskontingent.
   data/motn-raw
+  # Die Anbieter-Deep-Links, aus dem Archiv gezogen (`pipeline/motn-links.ts`).
+  # Sie ersetzen im Bau die Amazon-Suchadressen, die aniSearch liefert — ohne
+  # diese Zeile wäre die Datei nach jedem CI-Lauf wieder weg, und der Bau
+  # fiele stillschweigend auf die Suche zurück.
+  data/motn-links.json
   # Kontrollmessung und Arbeitslisten. Sie entstehen aus dem Datensatz, aber
   # ein Mensch arbeitet mit ihnen — sie gehören ins Repo, nicht in den Lauf.
   # Was YouTubes oEmbed und die Videoseite je Adresse hergeben: lebt der

@@ -44,6 +44,7 @@
     "data:youtube:titel": "node pipeline/check-youtube.mjs",
     "data:links": "tsx pipeline/check-links.ts",
     "data:motn": "tsx pipeline/fetch-motn.ts",
+    "data:motn-links": "tsx pipeline/motn-links.ts",
     "data:motn:check": "tsx pipeline/check-motn.ts",
     "data:pruefungen": "tsx pipeline/fetch-pruefungen.ts",
     "data:netflix-rest": "node pipeline/list-netflix-rest.mjs",

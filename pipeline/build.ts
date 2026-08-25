@@ -2434,6 +2434,7 @@ function main(): void {
       { passtZuSerie, bewerteTreffer, volltreffer },
       tmdbZuordnung(readJson('data/tmdb-titles.json', {}), motn.tmdb),
     )
+
     let ausgelassenLaufend = 0
     for (const beleg of belege) {
       if (beleg.deutsch && beleg.eindeutig && laeuft.has(beleg.titleId)) ausgelassenLaufend++
@@ -2832,6 +2833,50 @@ function main(): void {
         warn(`${verloren.length} Titel faellt aus dem Datensatz: ${verloren.join(', ')}`)
       }
     }
+  }
+
+  /**
+   * **Jetzt** die Such-Verweise ersetzen — auf dem, was gleich geschrieben wird.
+   *
+   * Prime-Video-Verweise stammen aus dem aniSearch-Bestand, und dort steht
+   * meist eine **Suche** statt einer Titelseite. Wer darauf klickt, muss den
+   * richtigen Treffer selbst heraussuchen. Selbst nachsehen können wir nicht:
+   * `amazon.de/robots.txt` sperrt ClaudeBot namentlich mit `Disallow: /`.
+   *
+   * Die Adressen liegen im MOTN-Archiv — `pipeline/motn-links.ts` zieht sie
+   * ohne einen einzigen neuen Abruf heraus. Genau dafür archiviert dieses
+   * Projekt Rohantworten.
+   *
+   * Ersetzt wird ausschließlich eine Suchadresse: Ein Verweis, der schon auf
+   * einen Titel zeigt, ist von Hand geprüft oder stammt aus einer Quelle, die
+   * ihn genauer kennt.
+   */
+  const motnLinks = readJson<{ links: Record<string, Record<string, string>> }>(
+    'data/motn-links.json',
+    { links: {} },
+  ).links
+  const motnTmdb = readJson<MotnDaten>('data/motn.json', MOTN_LEER).tmdb ?? {}
+  const tmdbZuTitel = readJson<Record<string, { tmdbId?: number; kind?: string }>>(
+    'data/tmdb-titles.json',
+    {},
+  )
+  let tiefeErsetzt = 0
+  for (const eintrag of slim) {
+    const suchen = (eintrag.streams ?? []).filter((s) => /\/s\?/.test(s.url))
+    if (!suchen.length) continue
+    const zu = tmdbZuTitel[String(eintrag.id)]
+    if (!zu?.tmdbId || !zu.kind) continue
+    const imdb = motnTmdb[`${zu.kind}/${zu.tmdbId}`]?.imdbId
+    if (!imdb) continue
+    for (const s of suchen) {
+      const adresse = motnLinks[imdb]?.[s.platform]
+      if (!adresse) continue
+      s.url = adresse
+      tiefeErsetzt++
+    }
+  }
+  if (tiefeErsetzt) {
+    log(`${tiefeErsetzt} Such-Verweise durch die echte Titelseite ersetzt (MOTN-Archiv)`)
   }
 
   writeJson(`${OUT}/titles.json`, slim)
