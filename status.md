@@ -314,10 +314,18 @@ Der Widerspruch, der hier zuvor stand, war keiner: Die Meldung „Staffel 3, kei
 meinte die **nächste** Staffel (`B0CWRDZVBY`, über den Crunchyroll-Kanal, nur englischer Ton),
 nicht diese. Beide Angaben hatten recht.
 
-**Offen bleibt allein JoJo.** Die Amazon-Staffel 3 der Sammelseite `B0CH1LLV72` ist mit 48
-Folgen und deutschem Ton gemeldet; ob sie „Stardust Crusaders" (24 Folgen) meint oder zwei
-Teile zusammenfasst, sagt keine der beiden Seiten. Ein Blick ins Auswahlfeld von
-`B0CG7S59KL` klärt es in einer Minute — geraten wird es nicht.
+**Auch JoJo ist beantwortet** (Daniel, 25.08.2026, 02:20). Amazons Staffel 3 **ist** „Stardust
+Crusaders", mit 48 Folgen — beide AniList-Einträge zu je 24 zusammen (20474 und 20799), die
+Summe geht exakt auf. Sie läuft über das Crunchyroll-Kanal-Abo, und die deutsche Synchro hat
+Daniel dort selbst gesehen; aus Amazons Sprachfeld wäre sie bei einem Kanal-Titel kein Beleg.
+Steht als Handbeleg in `data/dub-confirmed.yaml`.
+
+Meine „24 Folgen" davor waren die Zahl **unseres Listeneintrags**, nicht die der Serie — und
+ohne diesen Zusatz gelesen eine falsche Auskunft.
+
+**Damit ist die Prime-Prüfliste durch.** Was danach noch als „nicht auf der Prüfliste"
+erscheint, ist meist richtig: Wer einen Titel über Amazons **Suche** öffnet, landet auf einer
+anderen Kennung als der, die unsere Liste führt (JoJo: `B0GYBTWX28` statt `B0CG7S59KL`).
 
 **Die ~10 Titel, die vor dem Zurücksetzen offen standen, sind nicht verloren.** Sie hatten im
 Worker längst Meldungen, nur der lokale Stand kannte sie nicht; der Abgleich hat sie
