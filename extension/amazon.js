@@ -1665,7 +1665,31 @@ async function speicherSchreiben(werte) {
    * während die Abschnitte eintreffen — gleich ob Daniel sie anklickt oder
    * `amazon-leser.js` sie nachholt.
    */
-  const leererStand = () => ({ sprachen: new Set(), nummern: new Set(), gesamt: null, jeFolge: new Map() })
+  /**
+   * **Ein Zählstand gehört zu genau einer Adresse — sonst ist er keiner.**
+   *
+   * Daniel am 25.08.2026: „warum schmeißt du alt daten nach erkanntem wechsel
+   * nicht direkt weg und hörst nur auf widget, sobald neues widget reinkommt
+   * alte daten rausschmeißen, dann kann das nie passieren."
+   *
+   * Bis dahin wuchs `gesehen` über die Zeit und wurde aus **zwei** Quellen
+   * gefüttert: aus den Widget-Antworten und aus dem Seiten-Quelltext. Der
+   * Quelltext ist nach einem Staffelwechsel aber der alte (siehe CLAUDE.md),
+   * und damit mischten sich zwei Stände. Dagegen wurden nacheinander sechs
+   * Wächter gebaut — Ruhefristen, Signaturvergleiche, Kennungsprüfungen —, und
+   * jeder einzelne behandelte ein Symptom.
+   *
+   * `fuerAdresse` behandelt die Ursache: Kommt eine Antwort für eine andere
+   * Adresse, wird der Stand **ersetzt**, nicht ergänzt. Ein alter Stand kann
+   * damit gar nicht überleben.
+   */
+  const leererStand = () => ({
+    fuerAdresse: null,
+    sprachen: new Set(),
+    nummern: new Set(),
+    gesamt: null,
+    jeFolge: new Map(),
+  })
   let gesehen = leererStand()
 
   /**
@@ -1827,13 +1851,28 @@ async function speicherSchreiben(werte) {
      *
      * Zwei Zeilen tiefer stand das Literal die ganze Zeit richtig da.
      */
-    if (e?.data?.marke === 'ak-amazon-folgen' && e.data.ersetzt) {
-      gesehen = leererStand()
-      letzteZahl = -1
-      gemeldeteStaffel = null
-      letzterStand = ''
-      letzterFortschritt = Date.now()
-      frischeStaffel = e.data.asin ?? null
+    /*
+      **Die Adresse entscheidet, nicht ein Flag.**
+
+      Bis zum 25.08.2026 wurde der Stand nur geleert, wenn die Antwort
+      `ersetzt: true` trug — also nur beim gezielt geholten Block. Jede andere
+      Antwort kam obendrauf, auch wenn sie zu einer anderen Staffel gehörte.
+
+      Jetzt gilt: Gehört der Stand zu einer anderen Adresse als diese Antwort,
+      ist er alt und wird weggeworfen. Das deckt beide Fälle ab, den gezielten
+      Abruf und die nachlaufenden Abschnitte, und braucht keinen Sonderfall.
+    */
+    if (e?.data?.marke === 'ak-amazon-folgen') {
+      const jetzigeAdresse = e.data.fuerAdresse ?? location.pathname
+      if (gesehen.fuerAdresse !== jetzigeAdresse) {
+        gesehen = leererStand()
+        gesehen.fuerAdresse = jetzigeAdresse
+        letzteZahl = -1
+        gemeldeteStaffel = null
+        letzterStand = ''
+        letzterFortschritt = Date.now()
+      }
+      if (e.data.ersetzt) frischeStaffel = e.data.asin ?? null
     }
     if (e.source !== window || e.data?.marke !== 'ak-amazon-folgen') return
     // `episodeCount` aus der Nachlade-Antwort ist verlässlicher als die Zahl im
@@ -1845,8 +1884,19 @@ async function speicherSchreiben(werte) {
       // Ein Fund ohne Nummer stammt aus der Rückfallebene des Mitlesers: seine
       // Sprache zählt, als **Folge** zählt er nicht. Sonst stünde am Knopf
       // wieder eine Zahl, die keine Folgen meint (der 27-von-24-Fehler).
-      if (Number.isFinite(f.nummer)) gesehen.nummern.add(f.nummer)
-      for (const s of f.sprachen) gesehen.sprachen.add(s)
+      if (Number.isFinite(f.nummer)) {
+        gesehen.nummern.add(f.nummer)
+        /*
+          Die ganze Folge, nicht zwei Felder daraus: Titel, Beschreibung,
+          Laufzeit, Erscheinungsdatum, FSK, Zugänge. Der Leser liest sie aus
+          gültigem JSON; sie hier wegzuwerfen hieße, sie später ein zweites Mal
+          abzurufen.
+        */
+        gesehen.jeFolge.set(f.nummer, f.sprachen ?? [])
+        gesehen.metaJeFolge ??= new Map()
+        gesehen.metaJeFolge.set(f.nummer, f)
+      }
+      for (const s of f.sprachen ?? []) gesehen.sprachen.add(s)
     }
     zeichnen()
   })

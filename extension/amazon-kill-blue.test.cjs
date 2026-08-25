@@ -142,7 +142,12 @@ function starte() {
         sync: { get: () => Promise.resolve({ token: 'test-token' }) },
       },
     },
-    window: { addEventListener() {} },
+    window: {
+      addEventListener(art, fn) {
+        /* Der Test stellt den Titelwechsel nach — dafür braucht er den Hörer. */
+        if (art === 'message') sandkasten.__nachrichtenHoerer = fn
+      },
+    },
     fetch: (url, opts) => {
       /* Nur POSTs sind Meldungen — der GET davor fragt den Melde-Status ab. */
       if ((opts?.method ?? 'GET') === 'POST') gemeldet.push({ url, koerper: JSON.parse(opts?.body ?? '{}') })
@@ -301,5 +306,55 @@ function ergebnis() {
     'auch der zweite Durchlauf liest die Aufteilung',
     Object.keys(d.jeFolge ?? {}).length === 12,
     Object.keys(d.jeFolge ?? {}).length,
+  )
+}
+
+/**
+ * **Ein Titelwechsel darf keine einzige Zahl der vorigen Seite überleben.**
+ *
+ * Daniel am 25.08.2026: „warum schmeißt du alt daten nach erkanntem wechsel
+ * nicht direkt weg und hörst nur auf widget, sobald neues widget reinkommt
+ * alte daten rausschmeißen, dann kann das nie passieren."
+ *
+ * Der Zählstand hängt seit 2.3 an der Adresse. Diese Zusicherung stellt den
+ * Wechsel nach: erst Kill Blue mit zwölf Folgen, dann eine Antwort für eine
+ * andere Adresse mit dreien. Danach dürfen es drei sein, nicht fünfzehn.
+ */
+{
+  const { angehaengt, sandkasten, takte, uhr } = starte()
+  takten(takte, uhr)
+
+  const k = angehaengt.find((e) => (e.className || '').includes('ak-amazon-knopf'))
+  const vorher = JSON.parse(k?.dataset?.diag ?? '{}')
+  pruefe('vor dem Wechsel stehen 12 Folgen', vorher.folgen === 12, vorher.folgen)
+
+  /* Die Seite wandert — die Antwort danach gehört zur neuen Adresse. */
+  sandkasten.location.pathname = '/gp/video/detail/B0FREMD1234'
+  const hoerer = sandkasten.__nachrichtenHoerer
+  hoerer?.({
+    source: sandkasten.window,
+    data: {
+      marke: 'ak-amazon-folgen',
+      fuerAdresse: '/gp/video/detail/B0FREMD1234',
+      gesamt: 3,
+      funde: [
+        { nummer: 1, sprachen: ['Deutsch'] },
+        { nummer: 2, sprachen: ['Deutsch'] },
+        { nummer: 3, sprachen: ['Deutsch'] },
+      ],
+    },
+  })
+  takten(takte, uhr, 2)
+
+  const nachher = JSON.parse(k?.dataset?.diag ?? '{}')
+  pruefe(
+    'nach dem Wechsel stehen genau 3 Folgen, nicht 15',
+    nachher.folgen === 3,
+    nachher.folgen,
+  )
+  pruefe(
+    'und keine Folge der vorigen Seite ist übrig',
+    Object.keys(nachher.jeFolge ?? {}).length === 3,
+    Object.keys(nachher.jeFolge ?? {}).length,
   )
 }
