@@ -154,11 +154,56 @@ async function main(): Promise<void> {
     for (const w of t.watchLinks ?? []) if (AMAZON_VIDEO.test(w.url)) adressen.add(w.url)
   }
 
+  /**
+   * **Die Adresse, die eine Suche ablösen könnte, steht oft gar nicht mehr im
+   * Datensatz** — und wurde deshalb nie geprüft.
+   *
+   * Der Bestand oben kommt aus `titles.json`. Eine aniSearch-Amazon-Adresse
+   * schafft es dorthin aber nur als Kaufweg, und Kaufwege werden im Bau
+   * aussortiert, sobald die Seite tot oder hier gesperrt ist. Was übrig bleibt,
+   * ist die Prime-**Suchadresse** — und die echte Adresse liegt weiter in
+   * `data/anisearch.json`, unsichtbar für diesen Lauf.
+   *
+   * Real am 25.08.2026: „The Ghost in the Shell" (177699) zeigte im Kalender auf
+   * `amazon.de/s?k=THE%20GHOST%20IN%20THE%20SHELL`. Daniel schickte die richtige
+   * Adresse — `amazon.de/gp/video/detail/B0GZD5N2GP`. Dieselbe Kennung stand seit
+   * dem aniSearch-Abruf im Haus: `amazon.de/dp/B0GZD5N2GP`. Sie war nur nie
+   * geprüft worden, und ohne Beleg ersetzt `build.ts` keine Suche — zu Recht,
+   * denn hinter `/dp/` kann auch eine DVD liegen.
+   *
+   * Gemessen über den ganzen Bestand: 167 Suchadressen, für **90** davon führt
+   * aniSearch eine echte Amazon-Adresse. Davon waren 33 ungeprüft, 15 belegt
+   * Prime Video, 30 Discs, 12 tot. Die 33 sind der Ertrag dieses Blocks.
+   */
+  const anisearch = readJson<Record<string, { streams?: Array<{ url?: string }> }>>(
+    'data/anisearch.json',
+    {},
+  )
+  const SUCHADRESSE = /amazon\.[a-z.]+\/s\?|[?&]k=/i
+  const vorrang = new Set<string>()
+  for (const t of titles) {
+    const sucht = (t.streams ?? []).some((s) => s.platform === 'primevideo' && SUCHADRESSE.test(s.url))
+    if (!sucht) continue
+    for (const s of anisearch[String(t.id)]?.streams ?? []) {
+      const u = s.url?.split('?')[0]
+      if (!u || !AMAZON_VIDEO.test(u) || SUCHADRESSE.test(u)) continue
+      adressen.add(u)
+      vorrang.add(u)
+    }
+  }
+  if (vorrang.size) log(`${vorrang.size} Adressen könnten eine Suche ablösen — sie kommen zuerst dran`)
+
   const grenze = new Date(Date.now() - ALTER * 86_400_000).toISOString().slice(0, 10)
   const offen = [...adressen].filter((u) => {
     const alt = bestand[u]
     return !alt || alt.geprueftAm < grenze
   })
+  /*
+    Vorrang vor der Reihenfolge des Bestands: Ein Lauf mit `--limit` würde diese
+    Adressen sonst nie erreichen — der wöchentliche Lauf prüft 400 von mehreren
+    Tausend, und die neuen stehen hinten.
+  */
+  offen.sort((a, b) => Number(vorrang.has(b)) - Number(vorrang.has(a)))
   const arbeit = LIMIT > 0 ? offen.slice(0, LIMIT) : offen
   log(`Verweise: ${adressen.size} bekannt, ${offen.length} fällig, ${arbeit.length} in diesem Lauf.`)
 

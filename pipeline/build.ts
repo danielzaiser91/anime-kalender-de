@@ -2365,16 +2365,38 @@ function main(): void {
    * Ersetzt wird deshalb nur, was **belegt** ein Prime-Video-Eintrag ist und
    * mit 200 antwortet. Alles andere bleibt die Suche.
    */
+  /*
+    **Gesucht wird in zwei Beständen, nicht in einem.**
+
+    Bis zum 25.08.2026 sah dieser Block nur in `watchLinks` nach. Dorthin schafft
+    es eine aniSearch-Amazon-Adresse aber nur als Kaufweg — und Kaufwege werden
+    weiter oben aussortiert, sobald die Seite tot oder hier gesperrt ist. Für
+    „The Ghost in the Shell" blieb dadurch die Suchadresse stehen, obwohl
+    `amazon.de/dp/B0GZD5N2GP` seit dem aniSearch-Abruf im Haus lag; Daniel
+    schickte genau diese Kennung von Hand („führt beim klick auf ‚bei prime
+    ansehen' auf die suchseite statt hierhin").
+
+    Der zweite Bestand ist deshalb `data/anisearch.json` selbst. Die Bedingung
+    bleibt dieselbe und ist der ganze Punkt: **belegt** ein Prime-Video-Eintrag,
+    Status 200. Hinter `/dp/` kann auch eine DVD liegen, und eine Disc als Stream
+    auszugeben wäre schlimmer als eine Suche.
+  */
   let ersetzt = 0
   for (const title of titles.values()) {
     const prime = title.streams.find((s) => s.platform === 'primevideo')
     if (!prime || !/amazon\.[a-z.]+\/s\?/.test(prime.url)) continue
-    const echt = (title.watchLinks ?? []).find((w) => {
-      const b = linkBefunde[w.url]
+    const belegt = (u: string | undefined): u is string => {
+      if (!u) return false
+      const b = linkBefunde[u]
       return b?.prime === true && b.status === 200
-    })
+    }
+    const echt =
+      (title.watchLinks ?? []).find((w) => belegt(w.url))?.url ??
+      (anisearch[title.id]?.streams ?? [])
+        .map((s) => s.url?.split('?')[0])
+        .find((u) => belegt(u))
     if (!echt) continue
-    prime.url = echt.url
+    prime.url = echt
     ersetzt++
   }
   if (ersetzt) log(`${ersetzt} Prime-Suchlinks durch die echte Produktseite ersetzt`)
