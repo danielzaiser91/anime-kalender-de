@@ -29,6 +29,43 @@ html:not(.dark) body {
   color: #12161f;
 }
 
+/*
+  Die Farben der Panel-Bühne — je Thema, statt fest verdrahtet.
+
+  Über dem Bühnenbild im Detail-Panel liegt ein Verlauf, damit der Titel
+  darauf lesbar bleibt. Der war bis zum 25.08.2026 **fest dunkel**
+  (`rgba(11,15,22,…)` bis `var(--panel-grund, #0b0f16)`), und die Variable war
+  nirgends definiert — der Fallback galt also immer.
+
+  Im dunklen Thema stimmte damit alles: weißer Titel auf abgedunkeltem Bild.
+  Im hellen war der Titel dunkel (`text-slate-900`) und lag auf demselben
+  dunklen Verlauf. Daniel am 25.08.2026 mit Bild: „styling kaputt im light
+  mode" — Titel und Terminkasten waren praktisch unlesbar.
+
+  Der Verlauf hellt im hellen Thema jetzt auf, statt abzudunkeln, und läuft zur
+  Seitenfarbe aus. Damit trägt er in beiden Themen dieselbe Aufgabe: Er
+  schiebt den Bildkontrast von der Schrift weg.
+*/
+:root {
+  --panel-grund: #0b0f16;
+  --buehne-oben: rgba(11, 15, 22, 0.1);
+  --buehne-mitte: rgba(11, 15, 22, 0.55);
+  --buehne-unten: rgba(11, 15, 22, 0.93);
+  --buehne-links: rgba(11, 15, 22, 0.55);
+  --buehne-links-mitte: rgba(11, 15, 22, 0.12);
+  --buehne-links-aus: rgba(11, 15, 22, 0);
+}
+
+html:not(.dark) {
+  --panel-grund: #ffffff;
+  --buehne-oben: rgba(255, 255, 255, 0.25);
+  --buehne-mitte: rgba(255, 255, 255, 0.72);
+  --buehne-unten: rgba(255, 255, 255, 0.95);
+  --buehne-links: rgba(255, 255, 255, 0.6);
+  --buehne-links-mitte: rgba(255, 255, 255, 0.2);
+  --buehne-links-aus: rgba(255, 255, 255, 0);
+}
+
 /* Dezente Scrollbars, damit die Wochenspalten nicht ausfransen. */
 * {
   scrollbar-width: thin;

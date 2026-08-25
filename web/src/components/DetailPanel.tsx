@@ -1788,6 +1788,17 @@ export function DetailPanel({
             Zwei Verläufe: einer von unten, der zur Panel-Farbe ausläuft, einer
             von links, damit das Artwork rechts frei stehen bleibt statt
             vollflächig abgedunkelt zu werden.
+
+            **Die Farben kommen aus `styles.css` und wechseln mit dem Thema.**
+            Bis zum 25.08.2026 standen sie hier fest als `rgba(11,15,22,…)`, und
+            `--panel-grund` war nirgends definiert — der dunkle Fallback galt
+            also immer. Im hellen Thema lag der dunkle Titel damit auf einem
+            dunklen Verlauf und war praktisch unlesbar (Daniel, mit Bild:
+            „styling kaputt im light mode").
+
+            Der Verlauf hat in beiden Themen dieselbe Aufgabe: den Bildkontrast
+            von der Schrift wegschieben. Dafür muss er im hellen Thema
+            aufhellen statt abzudunkeln.
           */}
           <div
             aria-hidden="true"
@@ -1795,8 +1806,8 @@ export function DetailPanel({
             style={{
               zIndex: -1,
               background:
-                'linear-gradient(180deg, rgba(11,15,22,.10) 0%, rgba(11,15,22,.55) 38%, rgba(11,15,22,.93) 74%, var(--panel-grund, #0b0f16) 100%),' +
-                'linear-gradient(90deg, rgba(11,15,22,.55) 0%, rgba(11,15,22,.12) 55%, rgba(11,15,22,0) 100%)',
+                'linear-gradient(180deg, var(--buehne-oben) 0%, var(--buehne-mitte) 38%, var(--buehne-unten) 74%, var(--panel-grund) 100%),' +
+                'linear-gradient(90deg, var(--buehne-links) 0%, var(--buehne-links-mitte) 55%, var(--buehne-links-aus) 100%)',
             }}
           />
           {/*
