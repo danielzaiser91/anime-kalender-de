@@ -404,14 +404,37 @@ async function speicherSchreiben(werte) {
     return null
   }
 
+  let taktMs = 0
+  let taktSumme = 0
+  let taktMax = 0
+  let takte = 0
+  let asinZwischenspeicher = null
+  let asinZu = -1
+  /**
+   * **Ein Muster über den ganzen Quelltext — nicht 220 Ausschnitte.**
+   *
+   * Die erste Fassung lief über **alle** `titleID`-Fundstellen und legte je
+   * Fundstelle einen 80-Zeichen-Ausschnitt an, um darauf ein zweites Muster
+   * anzuwenden. Bei „Digimon Tamers" steht `titleID` **220-mal** im Quelltext
+   * (siehe CLAUDE.md) — bis zu 220 Substring-Allokationen je Aufruf. Und
+   * aufgerufen wird die Funktion mehrfach je Takt: aus `asin()`, aus
+   * `quelltextPasst()`, aus `quelltextGehoertZurSeite()` und aus der Diagnose.
+   *
+   * Das vollständige Muster direkt über den Quelltext leistet dasselbe: Der
+   * Regex-Motor sucht die erste Stelle, die **ganz** passt, und überspringt
+   * Fundstellen ohne brauchbaren Wert von selbst. Genau das war der Sinn der
+   * Schleife — sie hat ihn nur teuer erkauft.
+   *
+   * Dazu ein Zwischenspeicher an derselben Frist wie der Quelltext: Solange
+   * der sich nicht geändert hat, kann sich die Kennung darin nicht ändern.
+   */
   function asinAusSeite() {
     const html = seitenHtml()
     if (typeof html !== 'string') return null
-    for (const m of html.matchAll(/titleID/g)) {
-      const treffer = /titleID\\*"\s*:\s*\\*"([A-Z0-9]{10,32})/.exec(html.slice(m.index, m.index + 80))
-      if (treffer) return treffer[1]
-    }
-    return null
+    if (asinZu === htmlGelesenAm) return asinZwischenspeicher
+    asinZwischenspeicher = /titleID\\*"\s*:\s*\\*"([A-Z0-9]{10,32})/.exec(html)?.[1] ?? null
+    asinZu = htmlGelesenAm
+    return asinZwischenspeicher
   }
 
   /**
@@ -1912,6 +1935,11 @@ async function speicherSchreiben(werte) {
       // asin() faellt auf den Quelltext zurueck — hier steht es getrennt daneben,
       // damit die Diagnose nicht zweimal dieselbe Quelle zeigt.
       asinGemischt: asin(),
+      quelltextZeichen: seitenHtml().length,
+      taktMs: Math.round(taktMs * 100) / 100,
+      taktSchnitt: takte ? Math.round((taktSumme / takte) * 100) / 100 : 0,
+      taktMax: Math.round(taktMax * 100) / 100,
+      takte,
     })
     const deutsch = [...gesehen.sprachen].some((s) => /deutsch|german/i.test(s))
     const geladen = geladeneFolgen()
@@ -2811,7 +2839,22 @@ async function speicherSchreiben(werte) {
     uebersichtZeichnen()
   }
 
+  /**
+   * **Wie lange ein Takt wirklich braucht — gemessen, nicht geschätzt.**
+   *
+   * Daniel am 25.08.2026 mit einem Bildschirmmitschnitt: „it impacts
+   * performance drastically". Die Frame-Analyse des Videos gab den Unterschied
+   * **nicht** her — 23,4 gegen 25,8 Bildänderungen je Sekunde, und die
+   * schlechtesten Werte lagen in der Phase *ohne* Erweiterung. Kein Wunder:
+   * Das Maß zählt Bildänderungen, und eine ruhende Seite ändert wenig.
+   *
+   * Also misst die Erweiterung sich selbst. Die Werte stehen im Diagnosefeld
+   * (`taktMs`, `taktSchnitt`, `taktMax`, `takte`) und beantworten die Frage,
+   * die das Video nicht beantworten kann: Wie viel von den 500 ms je Takt
+   * verbraucht dieses Skript?
+   */
   setInterval(() => {
+    const t0 = performance.now()
     beiStaffelwechsel()
     zeichnen()
     /**
@@ -2823,6 +2866,10 @@ async function speicherSchreiben(werte) {
      * obwohl ein Klick nichts mehr bewirkt haette.
      */
     uebersichtZeichnen()
+    taktMs = performance.now() - t0
+    taktSumme += taktMs
+    takte++
+    if (taktMs > taktMax) taktMax = taktMs
   }, 500)
 
   // --- Melden --------------------------------------------------------------

@@ -220,6 +220,9 @@ function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE) {
       },
     },
     window: { addEventListener() {} },
+    // Die Erweiterung misst seit dem 25.08.2026 ihre eigene Taktdauer. Ohne
+    // performance.now() im Sandkasten wirft sie beim ersten Takt.
+    performance: { now: () => Date.now() },
     setInterval: (fn) => {
       takte.push(() => {
         uhr.jetzt += 500
