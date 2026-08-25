@@ -883,6 +883,25 @@ Erkenntnis daraus muss vorher woanders stehen, in einem Commit, in `status.md` o
 Seitenaufruf bei Crunchyroll. Alle drei sind behoben und beschrieben; die Läufe selbst brauchte
 niemand mehr.
 
+**Und das GitHub-Löschen ist nur die Hälfte.** Daniels Laufstatus-App liest den Worker, nicht
+GitHub — dort bleibt ein Lauf mit `zustand: 'fehler'` stehen, bis ihn jemand ausdrücklich
+abnimmt. Das ist so gebaut und richtig so: Ein roter Lauf, der von selbst verschwindet, ist
+schlimmer als keine Anzeige. Nur muss die Abnahme dann auch passieren.
+
+```bash
+curl -X POST https://newsletter.animekalender.workers.dev/lauf \
+  -H "Content-Type: application/json" -H "X-Lauf-Token: <LAUF_TOKEN>" \
+  -d '{"lauf_id":"<id>","zustand":"erledigt","notiz":"<warum geklärt>"}'
+```
+
+Am 25.08.2026 standen dort **elf** rote Läufe, der älteste 13 Stunden alt — alle längst
+behoben, jeder mit Commit. Daniel: „räum die status app auf, warum so viele rote läufe, gab es
+kein erfolgreichen deploy?" Es gab einen, zwanzig Minuten vorher; er war nur nicht zu sehen.
+
+**Die Regel gehört an den Fix, nicht an eine Aufräumrunde:** Wer einen roten Lauf behebt,
+nimmt ihn im selben Zug ab. Sonst sammelt sich eine Anzeige, die etwas anderes sagt als der
+Zustand — und dann ist sie wertlos, obwohl jede einzelne Zeile einmal stimmte.
+
 ## Datenläufe laufen remote, nicht hier
 
 Daniel am 24.08.2026: „stoß die läufe ab jetzt immer remote an, damit das herunterfahren kein
