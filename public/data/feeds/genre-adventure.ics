@@ -6,17 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Adventure
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:chihiro-jubilaeum-kino-2026@2026-08-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260818
-DTEND;VALUE=DATE:20260819
-SUMMARY:Chihiros Reise ins Zauberland (25. Jubiläum)
-DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestätig
- t.\nDetails: https://anime-kalender.de/#/release/chihiro-jubilaeum-kino-20
- 26
-CATEGORIES:Kino
-END:VEVENT
-BEGIN:VEVENT
 UID:mushoku-tensei-s3@2026-08-19#1@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260819T150000Z

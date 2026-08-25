@@ -6,17 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – crunchyroll
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-08-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260818T083000Z
-DTEND:20260818T090000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 4/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/you-and-i-are-polar-opposites-s
- 2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:clevatess-s2@2026-08-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260819T120000Z

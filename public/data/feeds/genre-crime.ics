@@ -6,18 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Crime
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:ghost-in-the-shell-2026@2026-08-18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260818
-DTEND;VALUE=DATE:20260819
-SUMMARY:The Ghost in the Shell – Folge 7/10
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/ghost-in-the-shell-20
- 26
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:banana-fish-vol1@2026-08-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260821
