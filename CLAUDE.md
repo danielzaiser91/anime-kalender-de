@@ -1099,6 +1099,25 @@ kein erfolgreichen deploy?" Es gab einen, zwanzig Minuten vorher; er war nur nic
 **Die Regel gehört an den Fix, nicht an eine Aufräumrunde:** Wer einen roten Lauf behebt,
 nimmt ihn im selben Zug ab. Sonst sammelt sich eine Anzeige, die etwas anderes sagt als der
 Zustand — und dann ist sie wertlos, obwohl jede einzelne Zeile einmal stimmte.
+**Und weil ein Vorsatz das zweimal nicht getragen hat, gibt es jetzt ein Werkzeug.** Am
+25.08.2026 musste Daniel dieselbe Aufräumung **zweimal an einem Tag** anmahnen — vormittags
+elf rote Läufe, nachmittags zehn: „räum die status app auf, furchtbar diese ganzen roten läufe
+die ich da sehe." Danach die Verschärfung: „räum immer auf, wenn du bereits drüber geschaut
+hast."
+
+```
+LAUF_TOKEN=… node tools/laeufe-aufraeumen.mjs [--auch-github]
+```
+
+Es liest die roten Läufe aus der App und nimmt genau die ab, die **überholt** sind — also die,
+deren Workflow danach erfolgreich durchgelaufen ist. Das ist gemessen, nicht angenommen: Ein
+roter Lauf ohne grünen Nachfolger bleibt stehen, denn der ist ein offenes Problem. `--trocken`
+zeigt nur, was geschähe.
+
+**Die Prüffrage gehört an das Ende jeder Antwort, die einen Lauf betraf:** *Steht in der App
+noch etwas Rotes, das ich längst geklärt habe?* Ein Vorsatz, der bei jedem einzelnen Fix neu
+eingehalten werden muss, wird übersehen — ein Aufruf nicht.
+
 
 ## Datenläufe laufen remote, nicht hier
 
