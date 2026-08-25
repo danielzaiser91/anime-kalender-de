@@ -89,7 +89,22 @@ interface FskTreffer {
   __ratingString?: string
 }
 
-/** Was `productLanguages` über die deutsche Fassung sagt. */
+/**
+ * Was `productLanguages` über die deutsche Fassung sagt.
+ *
+ * **Ein leeres Feld ist kein Nein, sondern ein Schweigen** — und das ist bei
+ * alten Freigaben der Normalfall. Gemessen am 25.08.2026: „Venus Wars"
+ * (freigegeben 09.09.1996) und „Chihiros Reise ins Zauberland" (03.09.2003)
+ * tragen beide `[]`, obwohl beide auf Deutsch laufen. Die FSK hat das Feld erst
+ * später eingeführt; wer daraus ein „nicht deutsch" macht, streicht zwei
+ * Klassiker aus dem Kalender.
+ *
+ * Daraus folgt der Geltungsbereich dieser Quelle: Sie trägt für **aktuelle**
+ * Kinostarts, nicht für Wiederaufführungen alter Filme — und auch nicht für
+ * Termine, die noch weit weg sind. Für „Madoka: Walpurgisnacht Rising"
+ * (Kinostart 24.11.2026) gab es am 25.08. noch gar keine Freigabe; die wird
+ * erst kurz vor dem Start erteilt.
+ */
 export function fassungAus(sprachen: string[] | undefined): 'deutsch' | 'nur-untertitel' | 'unklar' {
   if (!sprachen?.length) return 'unklar'
   if (sprachen.includes('german')) return 'deutsch'
@@ -139,7 +154,17 @@ function spielfilmAus(treffer: FskTreffer[], name: string): FskTreffer | null {
    * FSK-Titel vorkommen. Die Gegenrichtung wäre falsch: Die FSK ergänzt gern
    * „FILM 29", „Teil 2" oder den Originaltitel, wir nicht.
    */
+  /**
+   * Klammerzusätze zählen nicht mit.
+   *
+   * Unsere Namen tragen die Ausgabe im Titel — „Venus Wars (2K-Remaster)",
+   * „Chihiros Reise ins Zauberland (25. Jubiläum)". Die FSK führt den
+   * Verleihtitel ohne solche Zusätze, und wer sie mitvergleicht, findet den
+   * Film nie. Drei von fünf Kino-Releases sind am 25.08.2026 genau daran
+   * vorbeigelaufen.
+   */
   const woerter = name
+    .replace(/\([^)]*\)/g, ' ')
     .toLowerCase()
     .split(/[^a-z0-9äöüß]+/i)
     .filter((w) => w.length > 2 && !['der', 'die', 'das', 'und', 'von', 'the', 'des', 'dem'].includes(w))
@@ -191,7 +216,7 @@ async function main(): Promise<void> {
      * vollen Titel.
      */
     const suchbegriff = name
-      .split(/[^p{L}p{N}]+/u)
+      .split(/[^a-zA-Z0-9äöüÄÖÜß]+/)
       .filter((w) => w.length > 2)
       .slice(0, 2)
       .join(' ')

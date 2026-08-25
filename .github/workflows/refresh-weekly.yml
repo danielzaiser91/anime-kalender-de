@@ -115,6 +115,16 @@ jobs:
       # angekündigt und ändert sich selten. Der Lauf schreibt Vorschläge nach
       # data/tmdb-kino.json, keinen Kalendereintrag — die Sprachfassung liefert
       # TMDB nicht, und ohne sie ist ein Anime-Kinotermin nur die halbe Auskunft.
+      # Die Sprachfassung der Kinostarts bei der FSK belegen.
+      #
+      # Laeuft nach TMDB: Der Termin kommt von dort, die Fassung von hier —
+      # keine der beiden Quellen kann beides (siehe Kopf der Skripte).
+      - name: Sprachfassung der Kinostarts bei der FSK
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:fsk
+
       - name: Deutsche Anime-Kinostarts bei TMDB
         continue-on-error: true
         env:

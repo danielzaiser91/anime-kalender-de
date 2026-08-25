@@ -145,6 +145,9 @@ QUELLEN=(
   # Kalender — ohne diese Zeile wäre der Fund nach jedem CI-Lauf wieder weg,
   # und niemand sähe je, dass ein Kinostart fehlt.
   data/tmdb-kino.json
+  # Die Sprachfassung der Kinostarts, bei der FSK belegt. Sie ist die einzige
+  # geprueefte Quelle, die deutsche Synchro von OmU unterscheidet.
+  data/fsk-kino.json
   # Kontrollmessung und Arbeitslisten. Sie entstehen aus dem Datensatz, aber
   # ein Mensch arbeitet mit ihnen — sie gehören ins Repo, nicht in den Lauf.
   # Was YouTubes oEmbed und die Videoseite je Adresse hergeben: lebt der
