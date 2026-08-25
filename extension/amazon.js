@@ -2671,6 +2671,8 @@ async function speicherSchreiben(werte) {
    * der Titel, während die Kennung stehen bleibt, ist der Quelltext veraltet.
    */
   function quelltextVeraltet() {
+    // Der eindeutige Fall zuerst: gleiche Kennung in Adresse und Quelltext.
+    if (quelltextGehoertZurSeite()) return false
     const titel = seitenTitel()
     const kennung = asinAusSeite()
     if (!titel || !kennung) return false
@@ -2684,6 +2686,37 @@ async function speicherSchreiben(werte) {
       return false
     }
     return titelZuQuelltext.titel !== titel
+  }
+
+  /**
+   * **Nennen Adresse und Quelltext dieselbe Kennung, ist nichts veraltet.**
+   *
+   * Diese Zeile fehlte, und sie hat den Wächter darüber unbrauchbar gemacht:
+   * Er merkt sich ein Paar aus Titel und Quelltext-Kennung und meldet
+   * „veraltet", sobald der Titel wechselt, während die Kennung steht. Beim
+   * Rendern wechselt der Titel aber auch dann, wenn alles in Ordnung ist —
+   * erst ist er leer oder trägt den Shopnamen, dann den echten. Danach kam der
+   * Wächter nie wieder heraus, weil sein Paar nur ein **Kennungswechsel**
+   * erneuert.
+   *
+   * Sichtbar wurde es erst durch das Diagnosefeld (Daniel, 25.08.2026, an
+   * „Clannad"): `ausSeite` und `ausAdresse` standen beide auf `B0FM2CDBWL`,
+   * `quelltextVeraltet` trotzdem auf `true`. Dass es dort funktionierte, lag
+   * allein am Mitleser — bei einem **Film** gibt es den nicht, und genau dort
+   * erschien deshalb der Neuladen-Knopf.
+   *
+   * Denselben Schluss legt der Versionsvergleich nahe: Mit 1.2.2 ging es
+   * nicht, mit 1.3 schon — und 1.3 hat nur die Diagnose ergänzt, keine Zeile
+   * Logik. Was sich geändert hatte, war der **frisch geladene Zustand**.
+   *
+   * Der Vergleich hier ist der eindeutige Fall und gehört deshalb nach vorn.
+   * Der Titelvergleich bleibt für den Rest: Bei einer Sammel-Kennung dürfen
+   * Adresse und Quelltext auseinandergehen, ohne dass etwas veraltet ist.
+   */
+  function quelltextGehoertZurSeite() {
+    const ausSeite = asinAusSeite()
+    const ausAdresse = asin()
+    return Boolean(ausSeite && ausAdresse && ausSeite === ausAdresse)
   }
 
   let letzteKennung = staffelKennung()

@@ -245,6 +245,50 @@ function quelltextVeraltetTest(schritte) {
   pruefe('ein leerer Titel loest nichts aus', leer.every((x) => x === false), leer)
 }
 
+/**
+ * **Ein frischer Quelltext darf nie als veraltet gelten.**
+ *
+ * Der Wächter merkt sich ein Paar aus Titel und Quelltext-Kennung. Beim
+ * Rendern wechselt der Titel aber auch dann, wenn alles in Ordnung ist — erst
+ * leer oder mit Shopnamen, dann der echte. Ohne den Kennungsvergleich davor
+ * kam er nie wieder heraus, weil sein Paar nur ein Kennungswechsel erneuert.
+ *
+ * Belegt am 25.08.2026 durch das Diagnosefeld an „Clannad": `ausSeite` und
+ * `ausAdresse` beide `B0FM2CDBWL`, `quelltextVeraltet` trotzdem `true`.
+ */
+function veraltetTest(schritte) {
+  let stand = null
+  return schritte.map(({ titel, kennung, ausAdresse }) => {
+    if (kennung && ausAdresse && kennung === ausAdresse) return false
+    if (!titel || !kennung) return false
+    if (!stand || stand.kennung !== kennung) {
+      stand = { titel, kennung }
+      return false
+    }
+    return stand.titel !== titel
+  })
+}
+
+{
+  // Daniels Clannad-Fall: gleiche Kennung, Titel wechselt beim Rendern.
+  const clannad = veraltetTest([
+    { titel: '', kennung: 'B0FM2CDBWL', ausAdresse: 'B0FM2CDBWL' },
+    { titel: 'Clannad', kennung: 'B0FM2CDBWL', ausAdresse: 'B0FM2CDBWL' },
+    { titel: 'Clannad', kennung: 'B0FM2CDBWL', ausAdresse: 'B0FM2CDBWL' },
+  ])
+  pruefe('gleiche Kennung heisst nie veraltet', clannad.every((x) => x === false), clannad)
+}
+
+{
+  // Der echte SPA-Wechsel: Adresse wandert, Quelltext bleibt stehen.
+  const spa = veraltetTest([
+    { titel: "Armed Girl's", kennung: 'B0CJPZFQ9H', ausAdresse: '0NWGEHP42S9O06TJ2YXLUU3M3D' },
+    { titel: 'Babylon', kennung: 'B0CJPZFQ9H', ausAdresse: '0J16B1NAB82TO0O5A5Q8TLG1VP' },
+    { titel: 'Bayonetta', kennung: 'B0CJPZFQ9H', ausAdresse: '0OULQMP5ZBDUJWENT9UIT0CBW9' },
+  ])
+  pruefe('der echte SPA-Wechsel wird weiterhin erkannt', spa[1] === true && spa[2] === true, spa)
+}
+
 {
   pruefe('ASIN aus /dp/', asin('/dp/B0CQ4VL364') === 'B0CQ4VL364')
   pruefe('ASIN aus /gp/video/detail/', asin('/gp/video/detail/B07VP6VPVR?ref_=x') === 'B07VP6VPVR')
