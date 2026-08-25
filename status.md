@@ -295,6 +295,26 @@ Das kann nur ein Mensch am eigenen Browser messen. Dafür liegt
 `akKino()` aufrufen. Die Tabelle zeigt jeden Abruf mit Pfad, ob er unter einem gesperrten
 Pfad liegt, und ob „OmU"/„deutsch" in der Antwort stehen.
 
+**Zwei Quellen geprüft und verworfen** (25.08.2026, auf Daniels Nachfrage zur Google-Suche
+„kino api"):
+
+- **KinoCheck** (`api.kinocheck.com`) liefert **nur Videomaterial** — Trailer, Teaser, Clips,
+  Featurettes, über die Endpunkte `/movies`, `/shows`, `/trailers`. Keine Spielzeiten, keine
+  Starttermine. Das `language`-Feld meint die Sprache **des Trailers**, nicht die einer
+  Vorstellung. Für die Fassungsfrage also gegenstandslos. (Als Trailer-Quelle für die
+  Detailseiten wäre sie brauchbar — das ist ein eigenes Thema, kein Ersatz.)
+- **MovieGlu** (`developer.movieglu.com`) ist eine echte Spielzeiten-API für über 60 Länder,
+  und ihr `version_type` klingt zunächst nach dem, was wir brauchen. Die Doku sagt aber
+  ausdrücklich: „Standard, 3D, IMAX, IMAX3D, Other" — das ist das **Bildformat**, nicht die
+  Sprache. Kein Feld für Synchronfassung oder Untertitel. Dazu zeigt die Doku ausschließlich
+  `"territory": "UK"`, und die API ist kostenpflichtig.
+
+**Das Muster hinter beiden Absagen:** OV, OmU und Synchronfassung sind eine **deutsche
+Besonderheit** des Kinobetriebs. Internationale Schnittstellen bilden Bildformate ab (3D, IMAX)
+und nehmen die Sprache als gegeben — im Ursprungsland läuft ein Film in der Landessprache.
+Wer die Fassung braucht, kommt an deutschen Portalen nicht vorbei. Das macht Daniels Messung
+mit `akKino()` zum entscheidenden Schritt, nicht zu einem von mehreren.
+
 **Was unabhängig davon gebaut werden kann:** TMDB als Terminbestätigung für alle Kino-Releases.
 Der Abruf ist rechtlich sauber, der Schlüssel liegt vor, und er beantwortet die halbe Frage —
 ob der Termin stimmt. Die Sprachfassung bleibt bis zur Messung offen.
