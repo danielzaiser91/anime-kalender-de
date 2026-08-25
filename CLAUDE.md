@@ -416,6 +416,27 @@ dass die Seite in Daniels angemeldeter Sitzung läuft — also wurde geraten sta
 eine Messung nur ein Mensch machen kann, wird sie **erbeten**, nicht ersetzt.
 
 
+### Zwei Meldungen zu einer Reihe widersprechen sich selten — meist reden sie über verschiedene Staffeln
+
+Am 25.08.2026 stand für „Mahouka Koukou no Rettousei" beides im Bestand: eine Meldung
+„Staffel 3, 13 Folgen, **kein Deutsch**" und, Minuten später auf derselben Seite, ein Knopf
+mit „🇩🇪 Deutsch · 13 Folgen". Das sah nach einem Fehler in der Erweiterung aus. Es war keiner.
+
+Daniel hat nachgesehen, und die Auflösung ist eine Regel für jede künftige Zuordnung:
+
+- Unsere Listen-Kennung `B0CH5BXKFX` („Raihousha-hen") führt auf Amazons **Staffel 2** — zehn
+  von dreizehn Folgen im Prime-Abo, deutscher Ton in einer davon angespielt und bestätigt.
+- Die Meldung „Staffel 3, kein Deutsch" gehört zu `B0CWRDZVBY` — der **nächsten** Staffel, die
+  über den Crunchyroll-Kanal läuft und nur englischen Ton hat.
+
+**Eine Amazon-Kennung zeigt auf eine Staffel, unsere Titel-Kennung auf einen Anime — und
+Amazons Staffelnummer ist keine von beiden.** Wer zwei Angaben zu „derselben Serie"
+vergleicht, muss deshalb zuerst prüfen, ob sie dieselbe Staffel meinen. Widersprechen sie sich
+danach immer noch, ist es ein echter Widerspruch; vorher ist es eine Verwechslung.
+
+Der praktische Griff dazu: Die **Kennung** vergleichen, nicht den Titel und nicht die Nummer.
+Sie ist das Einzige, was Amazon und unser Bestand gemeinsam führen.
+
 ### Bei einem Kanal-Titel ist Amazons Sprachangabe kein Beleg
 
 Prime Video führt zweierlei unter derselben Oberfläche: eigene Inhalte („In Prime enthalten",
