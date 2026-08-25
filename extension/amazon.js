@@ -1858,6 +1858,34 @@ async function speicherSchreiben(werte) {
       gesehen.gesamt = jetzt.gesamt
     }
 
+    /**
+     * **Der innere Zustand, auslesbar ohne Skript.**
+     *
+     * Der 25.08.2026 ging zu einem guten Teil damit hin, aus dem Verhalten des
+     * Knopfes auf seinen Zustand zurückzuschließen — mit Messskripten, die
+     * Daniel jedes Mal neu einfügen musste, und dreimal mit einer Vermutung,
+     * die nicht trug. Der letzte Mitschnitt belegte, dass der Abruf ankommt
+     * (16.780 Bytes, richtige Kennung) — was die Erweiterung damit macht, war
+     * von außen weiter unsichtbar.
+     *
+     * Ab hier steht es am Knopf selbst:
+     *
+     *     JSON.parse(document.querySelector('.ak-amazon-knopf').dataset.diag)
+     *
+     * Das kostet einen `JSON.stringify` je Takt über ein Objekt mit sieben
+     * Zahlen — nichts gegen den Quelltext, der ohnehin gelesen wird.
+     */
+    knopf.dataset.diag = JSON.stringify({
+      folgen: gesehen.nummern.size,
+      gesamt: gesehen.gesamt,
+      sprachen: [...gesehen.sprachen],
+      lautSeite,
+      quelltextPasst: quelltextPasst(),
+      quelltextVeraltet: quelltextVeraltet(),
+      frischeStaffel,
+      ausSeite: asinAusSeite(),
+      ausAdresse: asin(),
+    })
     const deutsch = [...gesehen.sprachen].some((s) => /deutsch|german/i.test(s))
     const geladen = geladeneFolgen()
     if (geladen !== letzteZahl) {
