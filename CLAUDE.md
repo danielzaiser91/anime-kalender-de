@@ -391,6 +391,25 @@ Zeichen der Abruf, den ein Klick aufs Auswahlfeld auslöst — keine Suche, kein
 zweite Serie. Wo die Grenze greift oder ein Abruf fehlschlägt, bleibt die Zahl unvollständig,
 und der Knopf sagt es.
 
+**Und eine Prime-Kennung hat nicht immer zehn Zeichen.** Sieben Muster in der Erweiterung
+suchten sie als `[A-Z0-9]{10}` — die Länge einer ASIN. Prime Video führt daneben **GTIs mit 26
+Zeichen**, und das Muster schnitt sie ab: Aus `0J16B1NAB82TO0O5A5Q8TLG1VP` wurde
+`0J16B1NAB8`. Der Abgleich zwischen Adresse und Quelltext scheiterte damit zwangsläufig, die
+Tonspuren wurden gar nicht erst gelesen, und der Knopf blieb auf „Tonspuren noch nicht geladen"
+stehen — bei „Babylon" wie bei „Akame ga Kill" (25.08.2026).
+
+**Aufgefallen ist es nur durch eine Messung in Daniels Sitzung**, und das ist die eigentliche
+Lehre: Von außen sah es aus, als fehlten die Daten. Tatsächlich lagen 15 Tonspurangaben mit
+Deutsch auf der Seite, und die Paarung fand 12 Folgen — gelesen wurden sie nie, weil ein
+Wächter davor die Seite für die falsche hielt. Ein Befund „nichts gefunden" beantwortet die
+Frage nicht, **ob überhaupt gesucht wurde**.
+
+Der Feldabstand aus derselben Messung gehört dazu: Zwischen `audioTracks` und der zugehörigen
+`episodeNumber` lagen **33.651 Zeichen**. Jede feste Abstandsgrenze im Muster wäre daran
+gescheitert; gepaart wird deshalb über die Reihenfolge — zur Tonspurangabe gehört die nächste
+Folgennummer dahinter, solange vorher keine weitere Tonspurangabe kommt.
+
+
 ### Der Quelltext veraltet beim Staffelwechsel — und das ist die Wurzel
 
 **Amazon tauscht beim Wechsel über das Auswahlfeld den Quelltext nicht aus.** Adresse und ASIN
