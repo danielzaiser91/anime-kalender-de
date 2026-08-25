@@ -305,10 +305,19 @@ gelistete JoJo-Staffel und die Mahouka-Staffel mit zwei gesperrten Folgen. Gemel
 beide Serien, aber unter der **Sammelkennung** der Reihe (`B0CH1LLV72` bzw. `B0CN3Q9DH8`),
 nicht unter der Kennung, die unsere Liste erwartet.
 
-**Zu klären, bevor davon etwas in den Datensatz geht:** Für Mahouka liegt eine Meldung
-„Staffel 3, 13 Folgen, **kein_dub**" vor (24.08., 23:14) — der Knopf zeigte auf derselben
-Staffel wenig später „🇩🇪 Deutsch · 13 Folgen". Eines von beidem stimmt nicht, und welches,
-sagt nur ein Blick auf die Seite. Bis dahin wird nichts eingetragen.
+**Mahouka ist beantwortet** (Daniel, 25.08.2026, 02:00, selbst nachgesehen): Unter
+`B0CH5BXKFX` liegt Staffel 2. Die Folgen 1, 2 und 5 sind in Deutschland nicht abrufbar, die
+übrigen zehn laufen im Prime-Abo — eine davon angespielt, deutscher Ton bestätigt. Steht als
+Handbeleg in `data/dub-confirmed.yaml`.
+
+Der Widerspruch, der hier zuvor stand, war keiner: Die Meldung „Staffel 3, kein Deutsch"
+meinte die **nächste** Staffel (`B0CWRDZVBY`, über den Crunchyroll-Kanal, nur englischer Ton),
+nicht diese. Beide Angaben hatten recht.
+
+**Offen bleibt allein JoJo.** Die Amazon-Staffel 3 der Sammelseite `B0CH1LLV72` ist mit 48
+Folgen und deutschem Ton gemeldet; ob sie „Stardust Crusaders" (24 Folgen) meint oder zwei
+Teile zusammenfasst, sagt keine der beiden Seiten. Ein Blick ins Auswahlfeld von
+`B0CG7S59KL` klärt es in einer Minute — geraten wird es nicht.
 
 **Die ~10 Titel, die vor dem Zurücksetzen offen standen, sind nicht verloren.** Sie hatten im
 Worker längst Meldungen, nur der lokale Stand kannte sie nicht; der Abgleich hat sie
