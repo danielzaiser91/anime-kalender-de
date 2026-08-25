@@ -1749,6 +1749,8 @@ async function speicherSchreiben(werte) {
     jeFolge: new Map(),
     /* Folgen, die hier nicht abrufbar sind — sie zählen weder mit noch dagegen. */
     gesperrt: new Map(),
+    /* Wie viele Folgenabschnitte die Seite kennt und wie viele davon noch fehlen. */
+    abschnitte: null,
     /* Was der Hydration-Block über die Seite selbst sagt. */
     seite: null,
   })
@@ -1938,7 +1940,8 @@ async function speicherSchreiben(werte) {
         letzterStand = ''
         letzterFortschritt = Date.now()
       }
-      if (e.data.ersetzt) frischeStaffel = e.data.asin ?? null
+      if (e.data.abschnitte) gesehen.abschnitte = e.data.abschnitte
+    if (e.data.ersetzt) frischeStaffel = e.data.asin ?? null
     }
     if (e.source !== window || e.data?.marke !== 'ak-amazon-folgen') return
     // `episodeCount` aus der Nachlade-Antwort ist verlässlicher als die Zahl im
@@ -2203,6 +2206,23 @@ async function speicherSchreiben(werte) {
     let n = 0
     for (const nummer of gesehen.nummern) if (nummer <= gesehen.gesamt) n++
     return n
+  }
+
+  /**
+   * **Ist die Folgenliste vollständig?**
+   *
+   * Entschieden wird an den **Abschnitten**, nicht an einer Zahl: Steht kein
+   * Token mehr aus, gibt es nichts mehr zu holen — dann ist gezählt, was diese
+   * Seite hergibt. Erst wenn die Seite gar keine Abschnitte nennt (Film, kurze
+   * Staffel), entscheidet der Vergleich mit `episodeCount`.
+   *
+   * @param abschnitte `{ gesamt, offen }` vom Mitleser, oder `null`
+   * @param gezaehlt   abrufbare plus gesperrte Folgen
+   * @param gesamt     was die Seite als Folgenzahl nennt
+   */
+  function istVollstaendig(abschnitte, gezaehlt, gesamt) {
+    if (abschnitte) return abschnitte.offen === 0
+    return !gesamt || gezaehlt >= gesamt
   }
 
   function zeichnen() {
@@ -2734,7 +2754,26 @@ async function speicherSchreiben(werte) {
      * Notiz der Meldung nennt die betroffenen Folgen.
      */
     const wegInRegion = seitenLage().regionFolgen.length
-    const vollstaendig = !gesehen.gesamt || geladen + wegInRegion >= gesehen.gesamt
+    /**
+     * **Prime teilt eine Staffel in Bände — die Zahl gilt dann für beide.**
+     *
+     * Daniel am 25.08.2026 an „Yu-Gi-Oh! ZEXAL" Staffel 3, Band 2
+     * (`B0FHGJ7KS1`), mit Bild: „extension erwartet 96, ausklappbar sind nur
+     * 48, weil prime es in 2 volumes gesplittet hat."
+     *
+     * Die Staffelliste nennt sie beim Namen — „Season 3, Volume 2" mit
+     * `sequenceNumber: 3` —, aber `metadata.episodeCount` sagt „96 Folgen"
+     * für die **ganze** Staffel. Erreichbar sind von dieser Seite aus vier
+     * Abschnitte (1–8, 9–16, 17–25, 25–48). Wer auf 96 wartet, wartet ewig.
+     *
+     * **Vollständig ist deshalb, wenn kein Abschnitt mehr aussteht**, nicht
+     * wenn eine Zahl erreicht ist. Das weiß der Leser: Er kennt jedes Token,
+     * das die Seite genannt hat, und welche davon er geholt hat. Ein
+     * Textmuster auf „Volume" bräuchte es dafür nicht — und wäre bei der
+     * Mischung aus „Staffel 1, Band 2" und „Season 1, Volume 2" in derselben
+     * Liste ohnehin unzuverlässig.
+     */
+    const vollstaendig = istVollstaendig(gesehen.abschnitte, geladen + wegInRegion, gesehen.gesamt)
     // Die Zahl sagt, worüber der Befund wirklich etwas aussagt — nie mehr.
     /**
      * Ein Film ist keine Folge.

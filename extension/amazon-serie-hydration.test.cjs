@@ -200,6 +200,71 @@ pruefe('Beschreibung gelesen', (erste?.beschreibung ?? '').length > 40, (erste?.
   )
 }
 
+/**
+ * **Prime teilt eine Staffel in Bände — dann gilt die Zahl für beide.**
+ *
+ * Daniel am 25.08.2026 an „Yu-Gi-Oh! ZEXAL" Staffel 3, Band 2 (`B0FHGJ7KS1`),
+ * mit Bild: „extension erwartet 96, ausklappbar sind nur 48, weil prime es in
+ * 2 volumes gesplittet hat."
+ *
+ * Die Staffelliste im Hydration-Block nennt die Bände selbst — und mischt
+ * dabei zwei Schreibweisen in **einer** Liste: „Staffel 1, Band 2" neben
+ * „Season 1, Volume 2". Ein Textmuster darauf wäre also von vornherein
+ * unzuverlässig; entschieden wird stattdessen an den Abschnitten.
+ */
+{
+  const namen = (s?.staffeln ?? []).map((x) => x.name)
+  pruefe(
+    'die Staffelliste führt Bände, nicht Staffeln',
+    namen.some((n) => /Band|Volume/.test(n ?? '')),
+    namen,
+  )
+  pruefe(
+    'und beide Schreibweisen stehen nebeneinander',
+    namen.some((n) => /Band/.test(n ?? '')) && namen.some((n) => /Volume/.test(n ?? '')),
+    namen,
+  )
+
+  /* Die Entscheidung selbst — geschnitten aus `amazon.js`, nicht nachgebaut. */
+  const amazon = readFileSync(resolve(__dirname, 'amazon.js'), 'utf8')
+  const von = amazon.indexOf('function istVollstaendig(')
+  pruefe('istVollstaendig() ist auffindbar', von > 0, von)
+
+  let tiefe = 0
+  let bis = amazon.indexOf('{', von)
+  for (let i = bis; i < amazon.length; i++) {
+    if (amazon[i] === '{') tiefe++
+    else if (amazon[i] === '}' && --tiefe === 0) {
+      bis = i + 1
+      break
+    }
+  }
+  const kasten = { console: { log() {}, error() {} } }
+  vm.runInNewContext(
+    `${amazon.slice(von, bis)}\n;globalThis.__voll = istVollstaendig;`,
+    kasten,
+    { filename: 'amazon.js (Auszug)' },
+  )
+  const voll = kasten.__voll
+
+  /* Daniels Fall: 49 gezählt, 96 behauptet, alle vier Abschnitte durch. */
+  pruefe(
+    'alle Abschnitte durch heißt vollständig — auch bei 49 von 96',
+    voll({ gesamt: 4, offen: 0 }, 49, 96) === true,
+    voll({ gesamt: 4, offen: 0 }, 49, 96),
+  )
+  pruefe(
+    'ein offener Abschnitt heißt unvollständig — auch wenn die Zahl passt',
+    voll({ gesamt: 4, offen: 1 }, 96, 96) === false,
+    voll({ gesamt: 4, offen: 1 }, 96, 96),
+  )
+
+  /* Ohne Abschnitte (Film, kurze Staffel) bleibt es beim Zahlenvergleich. */
+  pruefe('ohne Abschnitte entscheidet die Zahl', voll(null, 12, 24) === false, voll(null, 12, 24))
+  pruefe('und sie darf auch erfüllt sein', voll(null, 24, 24) === true, voll(null, 24, 24))
+  pruefe('ohne Folgenzahl gilt die Liste als vollständig', voll(null, 1, null) === true, voll(null, 1, null))
+}
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) rot.`)
   process.exit(1)

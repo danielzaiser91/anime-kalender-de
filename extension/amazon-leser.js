@@ -68,6 +68,16 @@
   const PAUSE_MS = 400
 
   const geholt = new Set()
+
+  /**
+   * **Alle Abschnitts-Tokens, die diese Seite je genannt hat.**
+   *
+   * `geholt` sagt, was schon abgerufen wurde. Erst der Vergleich mit dieser
+   * Menge sagt, ob noch etwas aussteht — und genau das entscheidet, ob die
+   * Folgenliste vollständig ist. Die Zahl aus `episodeCount` kann es nicht
+   * entscheiden, siehe die Bänder-Regel in `amazon.js`.
+   */
+  const alleAbschnitte = new Set()
   let laeuft = false
   let titleID = null
 
@@ -362,6 +372,7 @@
           // stehen oben schon in `funde`, ein zweiter Abruf brächte dieselben
           // Daten und einen Zugriff mehr auf Amazons Server.
           if (seite.isSelected) geholt.add(token)
+          alleAbschnitte.add(token)
           seiten.push(token)
         }
       }
@@ -401,7 +412,7 @@
         die Antwort ausgewertet wird.
       */
       window.postMessage(
-        { marke: MARKE, funde, gesamt, startAdresse, fuerAdresse: location.pathname + location.search },
+        { marke: MARKE, funde, gesamt, startAdresse, fuerAdresse: location.pathname + location.search, abschnitte: { gesamt: alleAbschnitte.size, offen: [...alleAbschnitte].filter((t) => !geholt.has(t)).length }, },
         '*',
       )
     }
@@ -756,7 +767,7 @@
       }
       const gesamt = Number.isFinite(liste.episodeCount) ? liste.episodeCount : null
       window.postMessage(
-        { marke: MARKE, funde, gesamt, startAdresse, ersetzt: true, asin, fuerAdresse: location.pathname + location.search },
+        { marke: MARKE, funde, gesamt, startAdresse, ersetzt: true, asin, fuerAdresse: location.pathname + location.search, abschnitte: { gesamt: alleAbschnitte.size, offen: [...alleAbschnitte].filter((t) => !geholt.has(t)).length }, },
         '*',
       )
       ankam = true
@@ -766,6 +777,7 @@
       for (const seite of liste.actions?.episodePages ?? []) {
         if (typeof seite?.token !== 'string' || seite.token.length <= 10) continue
         if (seite.isSelected) geholt.add(seite.token)
+        alleAbschnitte.add(seite.token)
         seiten.push(seite.token)
       }
       if (seiten.length > 1) {

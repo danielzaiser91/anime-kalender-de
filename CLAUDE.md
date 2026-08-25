@@ -1345,3 +1345,33 @@ kann. Ein Deploy-Schritt schützt nur den einen Workflow, der ihn trägt; als er
 Baus gilt sie überall, wo diese Seite entsteht. Der Deploy wird dadurch rot, bevor ein `dist/`
 existiert. In der Prüfkette oben steht sie trotzdem eigens, damit ein Verstoß beim Namen
 genannt wird und nicht als Baufehler erscheint.
+
+### Prime teilt eine Staffel in Bände — die Folgenzahl gilt dann für beide
+
+Daniel am 25.08.2026 an „Yu-Gi-Oh! ZEXAL" Staffel 3 (`B0FHGJ7KS1`), mit Bild: „extension
+erwartet 96, ausklappbar sind nur 48, weil prime es in 2 volumes gesplittet hat."
+
+Die Staffelliste im Hydration-Block sagt es selbst — und mischt dabei zwei Schreibweisen in
+**einer** Liste:
+
+```
+B0CB8SGJCZ  Staffel 1, Band 2      sequenceNumber 1
+B0GTJV4S7L  Season 1, Volume 2     sequenceNumber 1
+B0GV8N71SL  Season 2, Volume 2     sequenceNumber 2   ← gewählt
+B0FHGJ7KS1  Season 3, Volume 2     sequenceNumber 3
+```
+
+`metadata.episodeCount` nennt dazu „96 Folgen" — die Zahl der **ganzen Staffel 3**. Von dieser
+Seite aus erreichbar sind vier Abschnitte (1–8, 9–16, 17–25, 25–48), zusammen 49 Einträge. Der
+Knopf wartete auf 96 und stand für immer auf „lädt nach".
+
+**Vollständig ist deshalb, wenn kein Abschnitt mehr aussteht — nicht, wenn eine Zahl erreicht
+ist.** Der Mitleser kennt jedes Token, das die Seite genannt hat, und weiß, welche er geholt
+hat; er meldet beides als `abschnitte: { gesamt, offen }`. `istVollstaendig()` in `amazon.js`
+entscheidet daran und fällt nur dann auf den Zahlenvergleich zurück, wenn die Seite gar keine
+Abschnitte nennt (Film, kurze Staffel).
+
+**Ein Textmuster auf „Volume" wäre der falsche Weg gewesen**, und die Liste oben zeigt warum:
+Dieselbe Serie führt „Band" und „Volume" nebeneinander, und `sequenceNumber` ist bei beiden
+Bänden derselbe. Die Frage „steht noch etwas aus?" beantwortet die Sache direkt, ohne über die
+Beschriftung zu raten.
