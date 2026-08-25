@@ -18917,3 +18917,15 @@
   dub: true
   checkedAt: '2026-08-24'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0GVPNJ4PB: alle 13 Folgen geprüft, Abos: aniversede, FVOD, Seitenadresse: B0GR5J4Z8N, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+# Von Daniel selbst nachgesehen, nicht über die Erweiterung gemeldet
+# (25.08.2026, 02:00). Die Erweiterung kam an dieser Seite nicht durch: Drei
+# Folgen tragen den Regionshinweis in ihrer Kachel, und der Knopf hielt die
+# Staffel deshalb für unvollständig geladen.
+- anilistId: 112300
+  title: "Mahouka Koukou no Rettousei: Raihousha-hen"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CH5BXKFX
+  dub: true
+  checkedAt: '2026-08-25'
+  note: "Folgen 1, 2 und 5 sind in Deutschland nicht abrufbar; die übrigen zehn laufen im Prime-Abo, eine davon angespielt und deutscher Ton bestätigt (Daniel, 25.08.2026). Die Staffel danach (B0CWRDZVBY, über den Crunchyroll-Kanal) hat nur englischen Ton — sie gehört nicht zu diesem Titel."

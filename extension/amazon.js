@@ -1649,6 +1649,29 @@ async function speicherSchreiben(werte) {
     return !ausSeite || frischeStaffel === ausSeite
   }
 
+  /**
+   * Wie viele Folgen **dieser** Staffel gelesen sind.
+   *
+   * Eine Staffel mit dreizehn Folgen hat keine Folge 15. Steht trotzdem eine
+   * im Zählstand, stammt sie aus einer anderen — der Mitleser hat sie geschickt,
+   * bevor der Wechsel bemerkt war, oder der Quelltext trug sie noch. Solche
+   * Nummern zählen nicht mit.
+   *
+   * Daniel am 25.08.2026 an „Mahouka" Staffel 2: „v90 zeigt jetzt übrigens 15
+   * folgen auf button obwohl es 13 (minus 3) sind."
+   *
+   * Der Deckel wirkt unabhängig davon, welcher Weg die fremde Nummer
+   * hereingetragen hat — und das ist der Punkt: An dieser Zahl hängt, was
+   * gemeldet wird, und sie darf nicht davon abhängen, ob jede
+   * Wechselerkennung rechtzeitig gegriffen hat.
+   */
+  function geladeneFolgen() {
+    if (!gesehen.gesamt) return gesehen.nummern.size
+    let n = 0
+    for (const nummer of gesehen.nummern) if (nummer <= gesehen.gesamt) n++
+    return n
+  }
+
   function zeichnen() {
     const jetzt = quelltextPasst() ? spuren() : { sprachen: new Set(), nummern: new Set(), gesamt: null }
     for (const s of jetzt.sprachen) gesehen.sprachen.add(s)
@@ -1694,7 +1717,7 @@ async function speicherSchreiben(werte) {
     }
 
     const deutsch = [...gesehen.sprachen].some((s) => /deutsch|german/i.test(s))
-    const geladen = gesehen.nummern.size
+    const geladen = geladeneFolgen()
     if (geladen !== letzteZahl) {
       letzteZahl = geladen
       letzterFortschritt = Date.now()
@@ -2420,7 +2443,7 @@ async function speicherSchreiben(werte) {
     htmlNeuLesen()
     const nichtAbrufbar = knopf.dataset.tot === 'true'
     const sprachen = [...gesehen.sprachen]
-    const geladen = gesehen.nummern.size
+    const geladen = geladeneFolgen()
     // Ein toter Verweis hat naturgemaess keine Folgen -- er ist der einzige
     // Grund, hier ohne geladene Folgen weiterzugehen.
     if (!geladen && !nichtAbrufbar) return
