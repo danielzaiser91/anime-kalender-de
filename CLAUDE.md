@@ -479,6 +479,47 @@ Empfänger verwirft Fremdes. Hier ist es `fuerAdresse` an jeder Mitleser-Meldung
 Antwort ist schlimmer als keine — sie sieht aus wie ein Ergebnis.
 
 
+### Ein `let` weiter unten ist kein `undefined`, sondern ein Absturz
+
+Am 25.08.2026 meldete Daniel: „dialog öffnet sich nicht auf amazon.de". Das Fehlerbild aus
+`chrome://extensions`:
+
+```
+Uncaught ReferenceError: Cannot access 'listenId' before initialization
+amazon.js:1286 (anonymous function)
+```
+
+`listenSignatur()` liest `listenId` rund 300 Zeilen **vor** dessen `let`. Beides steht im
+selben Scope, und ein `let` hebt den Namen zwar hoch, aber nicht den Wert: Jeder Zugriff
+davor wirft, statt `undefined` zu liefern.
+
+**Aufgefallen ist es erst nach Monaten, und der Grund dafür ist die eigentliche Lehre.** Der
+Fehler tritt nur auf Seiten auf, deren Adresse **keine Kennung** trägt. Gemessen am Stand
+vor dem Fix, mit demselben Klick auf drei Adressen:
+
+| Adresse | Klick auf den Übersichts-Knopf |
+|---|---|
+| `/` | **Fehler** — Cannot access 'listenId' |
+| `/gp/video/storefront` | **Fehler** — dito |
+| `/dp/B0DJYJBNWF` | ok |
+
+Auf einer Titelseite setzt der Ablauf den Wert, bevor jemand die Liste öffnet. **Und alle
+43 Zusicherungen starteten mit genau dieser dritten Adresse** — die Prüfung deckte den
+Normalfall vollständig ab und den Fehlerfall gar nicht.
+
+Zwei Folgen für jede künftige Prüfung:
+
+1. **Wo eine Erweiterung überall läuft, gehört in die Zusicherungen.** Das Manifest sagt
+   `https://www.amazon.de/*` — das ist die Startseite, der Shop und jede Videoseite. Wer nur
+   die interessanteste davon prüft, prüft die Seite, auf der ohnehin niemand klickt.
+2. **Ein sichtbarer Knopf beweist nicht, dass das Skript durchgelaufen ist.** Er entsteht vor
+   der Absturzstelle. Was danach kommt — Zahl aktualisieren, Liste öffnen — läuft nicht mehr,
+   und die Zahl auf dem Knopf bleibt stehen, wie sie beim Aufbau gerade war. Das sieht aus
+   wie ein veralteter Wert und ist ein toter Ablauf.
+
+Nachprüfbar mit `node tools/amazon-startseite-pruefen.cjs` — es lädt `amazon.js` in einem
+Sandkasten, einmal je Adresse, und klickt.
+
 ### Ein Titelwechsel sieht aus wie ein richtiger Befund — die Kennung entlarvt ihn
 
 Am 25.08.2026 meldete die Erweiterung für **„My Isekai Life"** neun Tonspuren

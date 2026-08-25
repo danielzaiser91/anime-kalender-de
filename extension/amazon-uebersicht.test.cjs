@@ -129,6 +129,23 @@ function machDom() {
         el.hoerer[art] = fn
       },
       focus() {},
+      /*
+        Ein Element kann in sich suchen — der Dialog tut das, um sein
+        Suchfeld zu finden. Ohne diese beiden Zeilen scheitert jede
+        Zusicherung, die den Dialog wirklich öffnet, an der Attrappe statt
+        am Code.
+      */
+      querySelector(wahl) {
+        const passt = (k) =>
+          wahl.startsWith('.') ? (k.className || '').split(' ').includes(wahl.slice(1)) : k.tag === wahl
+        for (const kind of el.children) {
+          if (passt(kind)) return kind
+          const tiefer = kind.querySelector?.(wahl)
+          if (tiefer) return tiefer
+        }
+        return null
+      },
+      querySelectorAll: () => [],
       get textContent() {
         return el._text + el.children.map((k) => k.textContent).join(' ')
       },
@@ -191,7 +208,14 @@ function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE) {
   const sandkasten = {
     globalThis: null,
     AK_OFFENE_AMAZON: liste,
-    location: { pathname: `/dp/${seitenAsin}`, search: '' },
+    /*
+      Ein Wert, der mit `/` beginnt, gilt als vollständiger Pfad. Gebraucht
+      wird das für Seiten ohne Kennung in der Adresse — die Startseite und die
+      Prime-Video-Übersicht. Genau dort ist die Erweiterung am 25.08.2026
+      ausgestiegen, und keine Zusicherung konnte es sehen, weil alle mit
+      `/dp/<ASIN>` starten.
+    */
+    location: { pathname: seitenAsin.startsWith('/') ? seitenAsin : `/dp/${seitenAsin}`, search: '' },
     document: { ...dom, body: dom.body, title: 'Testserie ansehen | Prime Video' },
     chrome: {
       /**
@@ -1109,5 +1133,54 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
     'eine fremde titleID bei bekannter Adress-Kennung bleibt erlaubt (Digimon-Fall)',
     knopf2?.textContent.includes('🇩🇪 Deutsch'),
     knopf2?.textContent,
+  )
+}
+
+/**
+ * **Die Liste muss sich auch dort öffnen, wo die Adresse keine Kennung trägt.**
+ *
+ * Daniel am 25.08.2026, mit dem Fehlerbild aus `chrome://extensions`:
+ * „dialog öffnet sich nicht auf amazon.de".
+ *
+ * ```
+ * Uncaught ReferenceError: Cannot access 'listenId' before initialization
+ * amazon.js:1286 (anonymous function)
+ * ```
+ *
+ * `listenSignatur()` liest `listenId` rund 300 Zeilen **vor** dessen `let`.
+ * Innerhalb einer Titelseite fiel das nie auf — dort setzt der Ablauf den Wert,
+ * bevor jemand die Liste öffnet. Auf der Startseite und der
+ * Prime-Video-Übersicht nicht, und der Klick lief in die temporale Totzone.
+ *
+ * Gemessen am Stand vor dem Fix, drei Adressen, derselbe Klick:
+ *
+ * ```
+ * /                       Klick: FEHLER — Cannot access 'listenId' …
+ * /gp/video/storefront    Klick: FEHLER — Cannot access 'listenId' …
+ * /dp/B0DJYJBNWF          Klick: ok
+ * ```
+ *
+ * Alle vorhandenen Zusicherungen starteten mit der dritten Adresse. Deshalb
+ * prüfen diese hier die beiden anderen.
+ */
+for (const pfad of ['/', '/gp/video/storefront']) {
+  const { angehaengt } = starte(pfad)
+  const uebersicht = angehaengt.find((e) => (e.className || '').includes('ak-amazon-uebersicht'))
+
+  pruefe(`der Übersichts-Knopf erscheint auch auf ${pfad}`, Boolean(uebersicht), uebersicht?.className)
+
+  let geworfen = null
+  try {
+    uebersicht?.hoerer?.click?.()
+  } catch (err) {
+    geworfen = err.message
+  }
+  pruefe(`und die Liste öffnet dort ohne Fehler (${pfad})`, geworfen === null, geworfen)
+
+  /* Der Dialog muss danach wirklich im Baum stehen, nicht nur fehlerfrei ausbleiben. */
+  pruefe(
+    `der Dialog steht danach im Baum (${pfad})`,
+    angehaengt.some((e) => (e.className || '').includes('ak-dialog')),
+    angehaengt.map((e) => e.className).join(' | '),
   )
 }

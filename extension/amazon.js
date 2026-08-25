@@ -1236,6 +1236,29 @@ async function speicherSchreiben(werte) {
    */
   let dialog = null
 
+  /**
+   * **Aus demselben Grund steht der Name hier und nicht bei seinem Wert.**
+   *
+   * `listenId` bekommt seinen Wert erst 300 Zeilen weiter unten, sobald
+   * `listenSchluessel()` alles beisammen hat, was es braucht — Adresse,
+   * Bestand, Serientitel von der Seite. `listenSignatur()` liest es aber schon
+   * hier oben, und ein `let` weiter unten heißt für jeden Zugriff davor nicht
+   * „undefined", sondern **Absturz**:
+   *
+   *     Uncaught ReferenceError: Cannot access 'listenId' before initialization
+   *     amazon.js:1286
+   *
+   * Daniel am 25.08.2026 mit dem Fehlerbild aus `chrome://extensions`: „dialog
+   * öffnet sich nicht auf amazon.de". Der Knopf war da — er wird vor der
+   * Absturzstelle angelegt —, nur lief danach nichts mehr, und deshalb blieb
+   * auch die Zahl darauf stehen, wie sie beim Aufbau gerade war.
+   *
+   * Die Deklaration hier oben nimmt den Namen aus der temporalen Totzone; bis
+   * zur Zuweisung ist er schlicht `undefined`, und damit kommt eine Signatur
+   * aus Zeichenketten zurecht.
+   */
+  let listenId
+
   const uebersichtKnopf = document.createElement('button')
   uebersichtKnopf.className = 'ak-uebersicht ak-amazon-uebersicht'
   uebersichtKnopf.type = 'button'
@@ -1593,7 +1616,7 @@ async function speicherSchreiben(werte) {
     return ausAdresse ?? id
   }
 
-  let listenId = listenSchluessel()
+  listenId = listenSchluessel()
   let eintrag = liste[listenId] ?? {
     titel: null,
     url: `https://www.amazon.de/dp/${id}`,
