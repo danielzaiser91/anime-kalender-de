@@ -2522,7 +2522,23 @@ async function speicherSchreiben(werte) {
     // Grund, hier ohne geladene Folgen weiterzugehen.
     if (!geladen && !nichtAbrufbar) return
     const deutsch = sprachen.some((s) => /deutsch|german/i.test(s))
-    const vollstaendig = !gesehen.gesamt || geladen >= gesehen.gesamt
+    /**
+     * **Der Umfang ist die größere der beiden Zahlen — nicht die bekanntere.**
+     *
+     * `gesehen.gesamt` stammt aus der Nachlade-Antwort. Bleibt sie leer, weil
+     * das Nachladen scheitert, galt der Stand bisher als „vollständig" — und
+     * die Sperre unten lief ins Leere. Am 25.08.2026 meldete der Knopf bei
+     * „Beyblade Burst" Staffel 3 deshalb `kein Deutsch · 3 Folgen`, während die
+     * Seite darüber `51 Folgen` schrieb und den Abschnitt `Folgen 1–24` offen
+     * hatte. Drei gelesene Folgen, ein Nein über einundfünfzig.
+     *
+     * Die Seite selbst nennt ihre Folgenzahl, und diese Angabe ist unabhängig
+     * davon, ob unser Nachladen funktioniert. Sie zählt deshalb mit: Was die
+     * Erweiterung nicht erklären kann, darf sie nicht überstimmen.
+     */
+    const lautSeite = seitenLage().folgenLautSeite || 0
+    const sollFolgen = Math.max(gesehen.gesamt || 0, lautSeite)
+    const vollstaendig = !sollFolgen || geladen >= sollFolgen
 
     /**
      * Aus einem Ausschnitt entsteht **nie** ein Nein.
@@ -2540,7 +2556,7 @@ async function speicherSchreiben(werte) {
     // Die Sperre gilt der Aussage "kein Deutsch". "Gibt es nicht" ist eine
     // andere -- sie stuetzt sich nicht auf Folgen, sondern auf ihr Fehlen.
     if (!nichtAbrufbar && !deutsch && !vollstaendig) {
-      knopf.textContent = `erst alle ${gesehen.gesamt} Folgen ansehen — sonst kein „kein Deutsch"`
+      knopf.textContent = `erst alle ${sollFolgen} Folgen ansehen — sonst kein „kein Deutsch"`
       setTimeout(() => {
         letzterStand = ''
         zeichnen()
