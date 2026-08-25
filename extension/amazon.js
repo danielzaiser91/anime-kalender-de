@@ -167,6 +167,26 @@ async function speicherSchreiben(werte) {
    */
   function regionFolgenAusDom() {
     try {
+      /**
+       * **Erst im Quelltext nachsehen, dann den DOM durchsuchen.**
+       *
+       * `//*[contains(text(), …)]` prüft **jeden Knoten des Dokuments** — auf
+       * einer Prime-Seite sind das mehrere Tausend —, und danach liest die
+       * Schleife unten je Treffer bis zu acht Mal `innerText`, was jedes Mal
+       * ein vollständiges Layout erzwingt. Das lief bisher in **jedem** Takt,
+       * auch auf den allermeisten Seiten, die überhaupt keinen Regionshinweis
+       * tragen.
+       *
+       * Der Quelltext liegt ohnehin im Speicher und beantwortet dieselbe Frage:
+       * Steht der Satz dort nicht, gibt es auch keinen Knoten damit. Ein
+       * `includes` über eine Zeichenkette ist um Größenordnungen billiger als
+       * ein XPath über einen Baum — und die Bedingung ist dieselbe, nicht bloß
+       * eine ähnliche.
+       *
+       * Anlass: Daniels Bildschirmmitschnitt vom 25.08.2026 („it impacts
+       * performance drastically").
+       */
+      if (!seitenHtml().includes('In deiner Region nicht mehr')) return []
       const treffer = document.evaluate?.(
         '//*[contains(text(), "In deiner Region nicht mehr")]',
         document,
