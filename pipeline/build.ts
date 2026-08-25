@@ -1017,17 +1017,111 @@ function main(): void {
     else parent.set(ra, rb)
   }
 
+  /**
+   * **Ein Crossover gehört zwei Reihen an — und verschmilzt sie deshalb.**
+   *
+   * „Lupin III. vs Detektiv Conan" ist ein Lupin-Film und ein Conan-Film
+   * zugleich, und AniList sagt das auch: Der Titel trägt **zwei**
+   * `PARENT`-Kanten, eine zu „Detective Conan" (235), eine zu „Lupin the 3rd"
+   * (1412). Union-Find kennt aber nur eine Zugehörigkeit je Knoten, also zog
+   * dieser eine Film beide Reihen zusammen — und über „Lupin III. vs. Cat's
+   * Eye" kam Cat's Eye gleich mit dazu.
+   *
+   * Das Ergebnis stand am 25.08.2026 im Panel: eine Reihe mit **114 Teilen**,
+   * deren Name „Lupin III.: Teil 1" lautete, weil der Vertreter der älteste
+   * Teil ist — und der ältere Lupin von 1971 schlägt Conan von 1996. Daniel:
+   * „die reihe heißt detektiv conan, lupin muss davon getrennt werden."
+   *
+   * **Erkannt wird das an AniLists eigener Auskunft, nicht am Namen.** Ein
+   * Namensmuster auf „vs" / „x" wurde gemessen und verworfen: Es trifft
+   * „Hunter x Hunter", „SPY x FAMILY" und „HAIKYU!! LAND VS. AIR" — allesamt
+   * gewöhnliche Teile ihrer eigenen Reihe. Es hätte drei echte Reihen zerlegt,
+   * um zwei falsche zu trennen.
+   *
+   * Der Prüfstein sind stattdessen zwei `PARENT`-Kanten, die in **verschiedene**
+   * Reihen zeigen. Gemessen am Bestand vom 25.08.2026:
+   *
+   * | | Zahl |
+   * |---|---|
+   * | Titel mit zwei oder mehr `PARENT`-Kanten | 24 |
+   * | davon beide Eltern in derselben Reihe (unberührt) | 17 |
+   * | **echte Crossover** | **7** |
+   *
+   * Die 17 harmlosen sind Specials und Kurzfilme, die zweimal auf dieselbe
+   * Serie zeigen („Evangelion: Death & Rebirth", zwei One-Piece-Kurzfilme,
+   * zwei Naruto-Specials). Sie werden ganz normal vereint — die Regel greift
+   * nur dort, wo sie etwas trennt.
+   *
+   * Wirkung: Conan 114 → 63 Teile, Lupin 114 → 45, Cat's Eye 114 → 3.
+   *
+   * **Der Crossover selbst bleibt sichtbar.** Er verbindet die Reihen nicht
+   * mehr, wird aber der Reihe seines ersten Elternteils zugeschlagen — „Lupin
+   * III. vs Detektiv Conan" steht also weiter bei Conan. Ihn heimatlos zu
+   * lassen wäre die schlechtere Antwort: Wer die Conan-Reihe durchsieht, sucht
+   * genau diesen Film.
+   */
+  /*
+    Nachgeschlagen wird über die **AniList-Kennung**, nicht über den Index von
+    `byMal` — der ist nach MAL-Kennung geschlüsselt, und dieselbe Zahl meint
+    dort einen anderen Anime.
+  */
+  const medienNachAniId = new Map<number, (typeof byAniId)[number]>()
+  for (const media of [...Object.values(byMal), ...Object.values(byAniId)]) {
+    if (media?.id && !medienNachAniId.has(media.id)) medienNachAniId.set(media.id, media)
+  }
+  const crossoverEltern = new Map<number, number[]>()
+  for (const [id, media] of medienNachAniId) {
+    const eltern = (media.relations?.edges ?? [])
+      .filter((e) => e.relationType === 'PARENT' && e.node?.type === 'ANIME')
+      .map((e) => e.node!.id)
+    if (eltern.length >= 2) crossoverEltern.set(id, eltern)
+  }
+
+  // Erster Durchgang: alles vereinen, was keinen Kandidaten berührt.
   for (const media of [...Object.values(byMal), ...Object.values(byAniId)]) {
     if (!media?.id) continue
     parent.set(media.id, parent.get(media.id) ?? media.id)
+    if (crossoverEltern.has(media.id)) continue
     for (const edge of media.relations?.edges ?? []) {
       if (!FRANCHISE_RELATIONS.has(edge.relationType)) continue
       if (edge.node?.type !== 'ANIME') continue
+      if (crossoverEltern.has(edge.node.id)) continue
       parent.set(edge.node.id, parent.get(edge.node.id) ?? edge.node.id)
       union(media.id, edge.node.id)
     }
   }
+
+  /*
+    Zweiter Durchgang: Wer trennt wirklich? Ein Kandidat, dessen Eltern jetzt
+    dieselbe Wurzel tragen, ist kein Crossover — seine Kanten werden nachträglich
+    vereint, als wäre nichts gewesen.
+  */
+  const echteCrossover = new Map<number, number>()
+  for (const [id, eltern] of crossoverEltern) {
+    const reihen = new Set(eltern.map((e) => find(e)))
+    if (reihen.size > 1) {
+      echteCrossover.set(id, eltern[0])
+      continue
+    }
+    const media = medienNachAniId.get(id)
+    for (const edge of media?.relations?.edges ?? []) {
+      if (!FRANCHISE_RELATIONS.has(edge.relationType)) continue
+      if (edge.node?.type !== 'ANIME') continue
+      if (crossoverEltern.has(edge.node.id) && !echteCrossover.has(edge.node.id)) continue
+      parent.set(edge.node.id, parent.get(edge.node.id) ?? edge.node.id)
+      union(id, edge.node.id)
+    }
+  }
+
   for (const title of titles.values()) title.franchiseId = find(title.id)
+  // Der Crossover erbt die Reihe seines ersten Elternteils, ohne sie zu verbinden.
+  for (const [id, ersterElternteil] of echteCrossover) {
+    const t = titles.get(id)
+    if (t) t.franchiseId = find(ersterElternteil)
+  }
+  if (echteCrossover.size) {
+    log(`${echteCrossover.size} Crossover trennen keine Reihen mehr (${crossoverEltern.size} geprüft)`)
+  }
 
   // FSK aus TMDB für alle Titel übernehmen, nicht nur für kuratierte.
   for (const title of titles.values()) {
