@@ -38,7 +38,20 @@ const titel = Array.isArray(roh) ? roh : (roh.titles ?? Object.values(roh))
  * fallen damit heraus — dort gibt es nichts zu öffnen.
  */
 function kennung(url) {
-  return /\/(?:dp|detail)\/([A-Z0-9]{10})/.exec(url)?.[1]
+  /*
+    **Zehn Zeichen sind die ASIN — Prime Video führt daneben GTIs mit 26.**
+
+    Dieselbe Annahme steckte in sieben Mustern der Erweiterung und hier noch
+    einmal. Sie schnitt die Kennung ab, und weil beide Seiten gleich falsch
+    kürzten, fiel es nicht auf. Erst als die Erweiterung am 25.08.2026 die
+    volle Kennung las, fand sie den gekürzten Schlüssel dieser Liste nicht
+    mehr: „Babylon" stand darin und galt trotzdem als „nicht auf der
+    Prüfliste".
+
+    Zwei gleich falsche Seiten sehen aus wie eine richtige — der Fehler wird
+    erst sichtbar, wenn eine davon in Ordnung kommt.
+  */
+  return /\/(?:dp|detail)\/([A-Z0-9]{10,32})/.exec(url)?.[1]
 }
 
 /** Alle unsere Einträge je Amazon-Kennung — auch die schon beantworteten. */
