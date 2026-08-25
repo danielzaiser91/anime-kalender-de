@@ -14,6 +14,7 @@
     "data:og": "tsx pipeline/build-og.ts",
     "data:tmdb": "tsx pipeline/fetch-tmdb-titles.ts",
     "data:tmdb-kino": "tsx pipeline/fetch-tmdb-kino.ts",
+    "data:fsk": "tsx pipeline/fetch-fsk.ts",
     "data:all": "npm run data:fetch && npm run data:crunchyroll && npm run data:adn && npm run data:anime2you && npm run data:build",
     "data:validate": "tsx pipeline/validate.ts",
     "typecheck": "tsc -b --noEmit",
