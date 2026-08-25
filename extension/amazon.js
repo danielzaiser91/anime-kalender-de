@@ -2742,6 +2742,27 @@ async function speicherSchreiben(werte) {
     gemeldeteStaffel = null
     letzterStand = ''
     letzterFortschritt = Date.now()
+    /**
+     * **Auch die Zustände, die an einem Titel hängen — sonst bleiben sie kleben.**
+     *
+     * `frischeStaffel` merkt sich die Kennung des zuletzt gezielt geholten
+     * Blocks; `quelltextPasst()` verlangt in seiner letzten Zeile, dass sie zur
+     * Kennung im Quelltext passt. Gesetzt wurde sie im Mitleser-Empfang,
+     * geleert **nirgends** — nach einem Wechsel stand dort weiter die des
+     * vorigen Titels, und damit war `quelltextPasst()` dauerhaft falsch.
+     *
+     * Sichtbar durch das Diagnosefeld (Daniel, 25.08.2026, nach mehreren
+     * Wechseln zwischen Serien):
+     *
+     *     frischeStaffel: 0FQH6UJINFTOTF1LP1IH1VQ7T5   (Clannad, vorheriger Abruf)
+     *     ausSeite:       B0FZLQTT9W                    (die jetzige Seite)
+     *     folgen: 0, sprachen: neun Stück               (vom vorigen Titel)
+     *
+     * Dasselbe gilt für das Titel-Kennung-Paar in `quelltextVeraltet()`. Beide
+     * gehören zum Titel, also enden sie mit ihm.
+     */
+    frischeStaffel = null
+    titelZuQuelltext = null
     knopf.disabled = false
     zeichnen()
     // Die Übersicht hebt den gerade offenen Titel hervor — nach dem Wechsel

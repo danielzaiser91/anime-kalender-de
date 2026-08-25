@@ -289,6 +289,31 @@ function veraltetTest(schritte) {
   pruefe('der echte SPA-Wechsel wird weiterhin erkannt', spa[1] === true && spa[2] === true, spa)
 }
 
+/**
+ * **Was an einem Titel hängt, endet mit ihm.**
+ *
+ * Drei Zustände sind titelbezogen: der Zählstand, die zuletzt gezielt geholte
+ * Kennung (`frischeStaffel`) und das Titel-Kennung-Paar des Veraltet-Wächters.
+ * Blieb einer davon stehen, war `quelltextPasst()` dauerhaft falsch — und der
+ * Knopf las nie wieder aus dem Quelltext.
+ *
+ * Daniels Diagnose vom 25.08.2026 nach mehreren Wechseln zwischen Serien:
+ * `frischeStaffel` stand auf Clannads GTI, während Adresse und Quelltext
+ * beide `B0FZLQTT9W` sagten; der Zählstand führte neun Sprachen des vorigen
+ * Titels und null Folgen.
+ */
+{
+  // Geprueft wird die Quelle selbst — eine nachgebaute Attrappe wuerde nur sich
+  // selbst bestaetigen. Alle drei Zustaende muessen im Wechsel-Zweig enden.
+  const fs = require('node:fs')
+  const quelle = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
+  const von = quelle.indexOf('function beiStaffelwechsel()')
+  const zweig = quelle.slice(von, von + 2600)
+  pruefe('beiStaffelwechsel leert den Zaehlstand', /gesehen = leererStand\(\)/.test(zweig))
+  pruefe('beiStaffelwechsel leert frischeStaffel', /frischeStaffel = null/.test(zweig))
+  pruefe('beiStaffelwechsel leert das Titel-Kennung-Paar', /titelZuQuelltext = null/.test(zweig))
+}
+
 {
   pruefe('ASIN aus /dp/', asin('/dp/B0CQ4VL364') === 'B0CQ4VL364')
   pruefe('ASIN aus /gp/video/detail/', asin('/gp/video/detail/B07VP6VPVR?ref_=x') === 'B07VP6VPVR')
