@@ -1990,6 +1990,18 @@ async function speicherSchreiben(werte) {
        */
       const totAbgehakt = erledigt[listenId]
       if (gemeldeteStaffel !== null || Object.keys(totAbgehakt?.staffeln ?? {}).length) {
+        /*
+          **Gemeldet ist gemeldet — und das ist kein toter Verweis.**
+
+          Die Farbe haengt an , und der Wert blieb hier stehen, wie
+          ihn der Zustand davor hinterlassen hatte. Nach dem Melden eines Films
+          mit Kauf- und Leihangebot stand deshalb ein rotes "alles gemeldet" da,
+          obwohl die Meldung durchging (Daniel, 25.08.2026, Zaehler 77 auf 76).
+
+          Rot heisst in dieser Oberflaeche "hier ist nichts mehr" — genau das
+          Gegenteil dessen, was gerade passiert ist.
+        */
+        knopf.dataset.tot = 'false'
         knopf.textContent = '✓ alles gemeldet'
         knopf.disabled = true
         return
@@ -2063,6 +2075,16 @@ async function speicherSchreiben(werte) {
        * Die zweite Meldung ist die gefährlichere: Ein Klick darauf hätte einen
        * gültigen Verweis als tot eingetragen. Der Titel trägt „[dt./OV]" im
        * Namen, die deutsche Fassung ist also nicht einmal strittig.
+       *
+       * **Der zweite Fall am selben Tag war noch schärfer.** Bei „Heidi —
+       * Kindheit in den Bergen" (1 Std. 28 Min., ebenfalls ein Film) stand nach
+       * dem Wechsel „24 von 48 — Abschnitte selbst öffnen": die Zahlen des
+       * **vorigen** Titels, an einem Film. Eine Meldung von dort hätte ihm
+       * achtundvierzig Folgen zugeschrieben. Nach einem Neuladen sagte derselbe
+       * Knopf korrekt „🇩🇪 Deutsch · Film · Kauf/Leihe".
+       *
+       * Der Unterschied zwischen den beiden Fällen ist nur, wie weit der alte
+       * Zählstand schon gefüllt war — die Ursache ist dieselbe.
        *
        * Warum die vorhandene Film-Behandlung nicht griff: Nach einem Wechsel
        * ohne Neuladen ist der Quelltext der des **vorigen** Titels, und der
