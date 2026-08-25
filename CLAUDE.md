@@ -574,6 +574,43 @@ ist der gemeinsame Anker zu AniList und zu jedem anderen Dienst. Als zweiter Ank
 `slug_title`: Er ist englisch und ändert sich mit der Tonspur nicht.
 
 
+**Die japanische Erstausstrahlung allein genügt nicht — gemessen an 1.416 Folgen aus 24
+Serien und 80 Blöcken.** Daniel hatte den Prüfweg vorgegeben: „prüf das am besten an
+beispielen die gleichzeitig oder fast gleichzeitig erschienen sind und an combined episodes."
+
+| Prüfung | Befund |
+|---|---|
+| zwei **verschiedene** Folgen mit demselben Datum im selben Block | **188** |
+| kombinierte Folgen (`episode` als „1-2") | 0 |
+| Folgen ohne `episode_number` | 2 |
+| `episode_number` weicht von `sequence_number` ab | 1 |
+
+Der Bruch hat einen Namen: **Katalogtitel**. Bei JoJo (`GRZXCM7PM`) tragen alle Folgen den
+`2021-11-18` — das ist der Tag, an dem Crunchyroll die Serie ins Angebot genommen hat, nicht
+die japanische Erstausstrahlung von 2012. `episode_air_date` meint bei Wochenserien die
+Ausstrahlung und bei Katalogtiteln die Aufnahme, und die Antwort verrät nicht, welches von
+beidem sie gerade ist.
+
+Die beiden anderen Befunde zeigen, warum auch `episode_number` allein nicht trägt: „PV1"
+kommt ohne Nummer (`sequence_number: 0` — ein Trailer, keine Folge), und Specials tragen
+gebrochene Werte (`6.5`, `8.5`), wobei eines davon `episode_number: 2` neben
+`sequence_number: 8.5` führt.
+
+**Was daraus folgt, ist eine Kombination statt eines Werts:**
+
+| Zweck | Schlüssel |
+|---|---|
+| Folge **innerhalb** Crunchyroll | `series_id` + `season_sequence_number` + `sequence_number` |
+| dieselbe Folge in einer anderen Tonspur | `versions[].guid` — die Folge nennt ihre Fassungen selbst |
+| Folge **über Anbieter hinweg** | `episode_air_date`, **aber nur wenn es innerhalb des Blocks variiert**; sonst fällt es auf die Nummer zurück |
+| „ist das überhaupt eine Folge" | `sequence_number` ganzzahlig und ≥ 1 — Trailer tragen 0, Specials Brüche |
+
+**Für die Sprachfrage braucht es die Zuordnung gar nicht.** `versions[].audio_locale` steht an
+der Folge selbst; ob es sie auf Deutsch gibt, ist damit ohne jeden Abgleich beantwortet. Die
+Zuordnung wird erst gebraucht, wenn der Befund an unsere Folgennummern gehängt wird — und dort
+ist die Reihenfolge maßgeblich, nicht das Datum.
+
+
 ## Ein Kinostart ist keine Sprachfassung — bei Anime fallen beide regelmäßig auseinander
 
 Bei Serien zieht dieses Projekt die Trennlinie zwischen Synchro und Untertitel längst. Beim
