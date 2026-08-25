@@ -362,6 +362,25 @@ async function speicherSchreiben(werte) {
    * Obergrenze („keine Staffel hat 2019 Folgen") wäre wieder ein Zufall mit
    * Frist — „One Piece" führt über tausend.
    */
+  /**
+   * Zeigt diese Seite einen **Film**?
+   *
+   * Erkannt an dem, was ein Film hat und eine Staffel nicht: eine **Laufzeit**
+   * („1 Std. 26 Min.", „97 Min.") statt einer Folgenzahl, und keinen
+   * „Folgen"-Reiter. Beides muss zusammenkommen — eine Staffelseite nennt
+   * ebenfalls Minuten, aber je Folge, und sie führt den Reiter.
+   *
+   * Gemessen am 25.08.2026 an „Bayonetta: Bloody Fate [dt./OV]": „Anime ·
+   * Animation · Action · 4.6/5 · IMDb 5,7/10 · 2013 · 1 Std. 26 Min.", Reiter
+   * „Ähnliches" und „Details" — kein „Folgen".
+   */
+  function istFilmSeite() {
+    const lage = seitenLage()
+    if (lage.hatFolgenReiter || lage.folgenLautSeite) return false
+    const sichtbar = document.body?.innerText ?? ''
+    return /\d+\s*Std\.\s*\d+\s*Min\.|\b\d{2,3}\s*Min\.\B/.test(sichtbar)
+  }
+
   function folgenAusText(text) {
     if (typeof text !== 'string') return null
     for (const m of text.matchAll(/(\d+)\s*Folgen?\b/g)) {
@@ -2022,7 +2041,35 @@ async function speicherSchreiben(werte) {
        * Der Unterschied: Bei JoJo **gibt** es die Seite, sie führt nur diese
        * eine Fassung ohne Folgen. Hier gibt es die Seite nicht.
        */
-      if (!hatFolgenReiter && !fehlerseite && !regionWeg && !nichtAbrufbar && !wartet) {
+      /**
+       * **Ein Film hat keinen „Folgen"-Reiter — und ist trotzdem in Ordnung.**
+       *
+       * Daniel am 25.08.2026 an „Bayonetta: Bloody Fate [dt./OV]": Nach dem
+       * Wechsel aus der Prüfliste stand dort erst „Tonspuren noch nicht
+       * geladen" und danach „✕ keine Folgen für diese Staffel — melden". Die
+       * Seite zeigt aber genau das, was ein Film zeigt: 1 Std. 26 Min.,
+       * „Ähnliches", „Details" — keine Folgenliste, weil es keine gibt.
+       *
+       * Die zweite Meldung ist die gefährlichere: Ein Klick darauf hätte einen
+       * gültigen Verweis als tot eingetragen. Der Titel trägt „[dt./OV]" im
+       * Namen, die deutsche Fassung ist also nicht einmal strittig.
+       *
+       * Warum die vorhandene Film-Behandlung nicht griff: Nach einem Wechsel
+       * ohne Neuladen ist der Quelltext der des **vorigen** Titels, und der
+       * Nachlade-Abruf holt eine `EpisodeList` — die es bei einem Film nicht
+       * gibt. Es bleibt also nichts zu lesen, und dann ist die einzige ehrliche
+       * Auskunft dieselbe wie beim Staffelwechsel: neu laden.
+       */
+      if (istFilmSeite() && quelltextVeraltet()) {
+        knopf.dataset.tot = 'false'
+        knopf.disabled = false
+        knopf.textContent = '↻ Seite neu laden — Film, Daten noch vom vorigen Titel'
+        knopf.title =
+          'Ein Film hat keine Folgenliste, die nachgeladen werden könnte. Nach einem Wechsel ' +
+          'ohne Neuladen steht im Quelltext noch der vorige Titel.'
+        return
+      }
+      if (!hatFolgenReiter && !fehlerseite && !regionWeg && !nichtAbrufbar && !wartet && !istFilmSeite()) {
         /**
          * **Gesperrt war zu viel** (Daniel, 25.08.2026: „keine folgen für die
          * staffel - melden nicht möglich", an „Space Dandy" Staffel 2).
