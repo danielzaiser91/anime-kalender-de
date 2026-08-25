@@ -259,40 +259,60 @@ dritter Weg ist bislang nicht gefunden.
 
 ### Queue
 
-### CineStar: bestätigt, was läuft — kündigt aber nichts an (25.08.2026)
+### CineStar hat eine offene API — und sie ist die beste Quelle für die Fassung (25.08.2026)
 
-Daniels Vorschlag, geprüft an der Seite zum Conan-Film in Mainz.
+**Erst war die Bewertung falsch, und der Grund gehört dazu.** Der erste Durchgang prüfte nur die
+HTML-Seite, fand kein Programm darin und schloss: „bestätigt, was läuft, kündigt aber nichts
+an". Daniels Nachfrage — „hast du auch network traffic ausgewertet ob die evtl direkt für uns
+nutzbar sind?" — hat das umgeworfen. Genau dafür steht die Regel
+`netzwerkverkehr-statt-scraping` im Skill-Verzeichnis; angewandt hatte ich sie nicht.
 
-**Was dafür spricht:**
+Gefunden wurde die Schnittstelle **ohne Browser**: Das Bundle `/build/app.*.js` nennt seine
+Endpunkte im Klartext.
 
-- `robots.txt` sperrt nur `/app_dev.php`, `/app.php` und `/admin`. Die Kino- und
-  Veranstaltungsseiten sind erlaubt.
-- **Die Fassung steht im Klartext**, nicht als Kürzel: „Wir zeigen ‚Detektiv Conan Film 29: Der
-  gefallene Engel des Highways' in der **deutschen Synchronfassung** und in der **japanischen
-  Originalversion mit deutschen Untertiteln**." Genau die Unterscheidung, um die es geht — und
-  als Satz des Veranstalters, nicht als Filtermerkmal.
-- CineStar ist bundesweit; was dort läuft, läuft nicht nur in einer Stadt.
+**Was die API kann:**
 
-**Was dagegen spricht — und das ist entscheidend für den Zweck:**
+| Endpunkt | liefert |
+|---|---|
+| `/api/cinema/` | **43 Kinos** bundesweit, mit `id`, `city`, `slug`, Koordinaten |
+| `/api/cinema/{id}/show/` | alle Filme des Standorts samt `attributes` und `showtimes` |
+| `/api/attribute/` | die Bedeutung der Attribute — 80 Stück |
+| `/api/movie/{id}/`, `/api/show/{id}` | Einzelabruf |
+| `/api/cinema/{id}/preview/` | kommende Filme, aber **ohne** Attribute und Datum |
 
-- **Die Seite entsteht erst mit dem Programm.** Geprüft an drei Adressen derselben Form:
-  `veranstaltung-detektiv-conan-…-cineanime` antwortet mit 200, `veranstaltung-a-new-dawn-cineanime`
-  und `veranstaltung-all-you-need-is-kill-cineanime` mit **404**. Beide Filme starten erst im
-  Oktober beziehungsweise September. Für einen **Kalender**, der vorhersagen soll, ist eine
-  Quelle wertlos, die erst spricht, wenn der Film schon läuft.
-- **Kein offener Einstieg.** Weder `/kino-mainz/veranstaltungen` noch die Sitemap antworten; das
-  Programm hängt unter `/kino-mainz#kinoprogramm` und wird nachgeladen. Welcher Pfad die Daten
-  liefert, ist ungemessen — erlaubt wäre er, robots.txt sperrt ihn nicht.
+`robots.txt` sperrt nur `/app_dev.php`, `/app.php` und `/admin` — `/api/` ist erlaubt. Kein
+Schlüssel, keine Anmeldung.
 
-**Wozu CineStar taugt:** als **Gegenprüfung** für einen Film, der gerade läuft. Genau der Fall,
-in dem Daniel am 25.08.2026 selbst nachgesehen hat.
+**Die Sprachfassung steht doppelt drin.** Je Film als Attribut, je Vorstellung im Namen:
 
-**Wozu die FSK taugt:** als **Vorschau**. Eine Freigabe wird Wochen vor dem Start erteilt, und
-sie ist amtlich. Für „Detektiv Conan Film 29" stand `productLanguages: ["german"]` in der
-Datenbank, bevor irgendein Kino sein Programm veröffentlicht hatte.
+```
+Detektiv Conan Film 29 – CineAnime
+  Attribute: AUDIO_OmU, LANG_JA, LANG_DE, OMU, OV, ZGP_CINEANIME
+  17:00  Detektiv Conan 29: Gefallene Engel (jap.OmU)
+  20:00  Detektiv Conan 29: Gefallene Engel        ← ohne Zusatz: deutsch
+  16:50  Detektiv Conan 29: Gefallene Engel
+```
 
-Die beiden ergänzen sich also genauso wie TMDB und FSK beim Termin — und keine ersetzt die
-andere.
+Die Attributliste führt `LANG_DE`, `LANG_JA`, `AUDIO_OmU`, `AUDIO_OV`, `AUDIO_OmeU`, `OMU`
+(„OmU (Original mit Untertitel)") und `OV` („OV (Originalversion)"). Dazu `ZGP_CINEANIME` — die
+Anime-Reihe der Kette ist ein eigenes Attribut, also ohne Titelraten filterbar.
+
+**Und die Reichweite widerlegt den ersten Befund:** Die Vorstellungen des Standorts Mainz gehen
+von heute **bis zum 05.06.2027** — 348 Termine, fast ein Jahr Vorlauf. Was auf der HTML-Seite
+fehlt, liefert die API.
+
+**Regionsunabhängig?** Ja, durch Iteration. Es gibt keinen bundesweiten Endpunkt, aber
+`/api/cinema/` nennt alle 43 Standorte, und jeder ist einzeln abrufbar. Zur Gegenprobe:
+Berlin-CUBIX (id 3) führt denselben Conan-Film mit denselben Sprachattributen. Für die Frage
+„läuft dieser Film irgendwo in Deutschland auf Deutsch?" genügt die Vereinigung — 43 Abrufe je
+Lauf, bei einer Anfrage je Sekunde also eine knappe Minute.
+
+**Damit die Rangfolge für die Sprachfassung im Kino:**
+
+1. **CineStar** — je Vorstellung, bis zu einem Jahr voraus, offene API, bundesweit
+2. **FSK** — amtlich und für Serien nutzbar, aber nur je Fassung, nicht je Vorstellung; alte
+   Freigaben tragen das Feld nicht
+3. **Anime2You** — nennt es im Ankündigungsartikel, hängt aber an der Nachrichtenlage
 
 ### Die FSK belegt die Sprachfassung — auch für Serien (25.08.2026)
 
