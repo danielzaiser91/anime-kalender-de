@@ -2069,7 +2069,23 @@ async function speicherSchreiben(werte) {
       if (seitenLage().folgenLautSeite && !regionWeg && !nichtAbrufbar && !fehlerseite) {
         knopf.dataset.tot = 'false'
         knopf.disabled = true
-        knopf.textContent = 'Tonspuren noch nicht geladen'
+        /*
+          **„Noch nicht geladen" liest sich wie ein Fehler — meistens ist es
+          Warten.** Nach einem Wechsel ohne Neuladen holt der Mitleser die
+          Folgenliste; gemessen am 25.08.2026 dauerte das rund drei Sekunden,
+          der Abruf selbst 554 ms. Daniels Eindruck war trotzdem „geht nicht",
+          und das lag an diesem Satz.
+
+          Also sagt der Knopf, was gerade geschieht — und ab wann es wirklich
+          hakt. Die Grenze liegt bei acht Sekunden: Das ist mehr als das
+          Doppelte des gemessenen Falls und immer noch kurz genug, dass niemand
+          ins Leere wartet.
+        */
+        const wartetSeit = Date.now() - letzterFortschritt
+        knopf.textContent =
+          wartetSeit > 8000
+            ? 'Tonspuren nicht gefunden — Seite neu laden'
+            : 'Folgen werden geladen …'
         return
       }
       knopf.dataset.tot = String(regionWeg || nichtAbrufbar || !wartet)

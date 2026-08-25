@@ -575,6 +575,26 @@
     letzterFinger = finger
     titleID = null
     geholt.clear()
+    /**
+     * **Auch die zuletzt geholte Kennung wird vergessen — sonst gibt es keinen
+     * zweiten Anlauf.**
+     *
+     * `holeStaffel()` steigt aus, wenn die gewünschte Kennung bereits geholt
+     * wurde. Das ist innerhalb einer Staffel richtig und spart Abrufe. Über
+     * einen Seitenwechsel hinweg ist es falsch: Der Knopf leert seinen
+     * Zählstand beim Wechsel, und wenn danach kein Abruf mehr kommt, bleibt er
+     * für immer leer.
+     *
+     * Genau das hat Daniel am 25.08.2026 gemessen — der Knopf zeigte nach dem
+     * Wechsel kurz „🇩🇪 Deutsch · 12 Folgen", fiel dann auf „Tonspuren noch
+     * nicht geladen" zurück und blieb dort: „jetzt sind 5min später und es
+     * steht immer noch ‚noch nicht geladen'". Der erste Abruf war angekommen,
+     * der zweite unterblieb.
+     *
+     * Ein Abruf je Seitenwechsel ist der Preis, und er ist niedrig: Prime holt
+     * dieselbe Adresse beim Navigieren ohnehin selbst.
+     */
+    geholteStaffel = null
     diagnose.titleID = null
     diagnose.tokensImQuelltext = 0
     diagnose.anlaeufe = 0
