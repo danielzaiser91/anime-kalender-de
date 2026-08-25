@@ -37,11 +37,13 @@
   platform: kino
   releaseType: movie
   publisher: "Crunchyroll (KAZÉ Anime)"
-  note: "Läuft mit deutscher Synchronfassung und zusätzlich im Original mit Untertiteln — beides am Starttag im Kinoprogramm nachgesehen (Daniel, 25.08.2026: die 17-Uhr-Vorstellung deutsch, eine spätere als OmU). Der Verleih selbst hat die Fassungen nie angekündigt."
+  note: "Deutsche Synchronfassung belegt. Am Starttag laufen beide Fassungen: 42 deutsche und 39 untertitelte Vorstellungen in 36 Städten. Ab dem 27.08. gibt es nur noch deutsche Vorstellungen — die Fassung im Original mit Untertiteln ist auf den Premierentag beschränkt. Nicht jedes Kino zeigt beide am selben Tag; wer die Originalfassung sehen will, prüft das Programm seines Kinos. Gezählt über alle 43 CineStar-Standorte am 25.08.2026; die FSK führt den Film unter der Nummer 287674 mit deutscher Sprachfassung."
   schedule: { firstEpisodeDate: "2026-08-25" }
   sources:
     - https://www.anime2you.de/news/1020620/detektiv-conan-film-29-kinostart-deutschland/
     - https://www.kinoheld.de/film/detektiv-conan-film-29-der-gefallene-engel-des-highways
+    - https://www.cinestar.de/kino-mainz/veranstaltung-detektiv-conan-film-29-der-gefallene-engel-des-highways-cineanime
+    - https://www.fsk.de/freigabensuche/
 
 - slug: a-new-dawn-kino
   anilistId: 177132

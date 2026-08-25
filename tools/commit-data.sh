@@ -148,6 +148,9 @@ QUELLEN=(
   # Die Sprachfassung der Kinostarts, bei der FSK belegt. Sie ist die einzige
   # geprueefte Quelle, die deutsche Synchro von OmU unterscheidet.
   data/fsk-kino.json
+  # Kinotermine und Sprachfassung von CineStar, je Vorstellung ueber 43
+  # Standorte. Die genaueste Fassungsquelle, die geprueeft wurde.
+  data/cinestar.json
   # Kontrollmessung und Arbeitslisten. Sie entstehen aus dem Datensatz, aber
   # ein Mensch arbeitet mit ihnen — sie gehören ins Repo, nicht in den Lauf.
   # Was YouTubes oEmbed und die Videoseite je Adresse hergeben: lebt der

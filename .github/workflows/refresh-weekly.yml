@@ -119,6 +119,16 @@ jobs:
       #
       # Laeuft nach TMDB: Der Termin kommt von dort, die Fassung von hier —
       # keine der beiden Quellen kann beides (siehe Kopf der Skripte).
+      # Kinotermine und Sprachfassung von CineStar — 43 Standorte, je Vorstellung.
+      #
+      # Die einzige geprueefte Quelle, die die Fassung je Vorstellung nennt.
+      # 43 Abrufe bei einer Anfrage je Sekunde: rund 45 Sekunden.
+      - name: Kinotermine und Sprachfassung von CineStar
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:cinestar
+
       - name: Sprachfassung der Kinostarts bei der FSK
         continue-on-error: true
         env:

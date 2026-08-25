@@ -52,6 +52,9 @@ const FRISTEN: Record<string, number> = {
   // Wöchentlich. Eine Freigabe wird erst kurz vor dem Kinostart erteilt —
   // in ruhigen Wochen belegt der Lauf nichts Neues, und das ist kein Ausfall.
   fsk: 9,
+  // Wöchentlich. Anime laufen im Kino als Sondervorstellung — in vielen
+  // Wochen gibt es keinen einzigen, und das ist kein Ausfall.
+  cinestar: 9,
   // Wöchentlich, wie der Lauf, der sie füllt.
   'link-check': 9,
   /**
