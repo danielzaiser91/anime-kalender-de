@@ -147,6 +147,100 @@
    * Das Muster bleibt als Rückfallebene: Ändert Amazon die Verschachtelung,
    * liefert es wenigstens noch die Sprachen.
    */
+
+  /**
+   * **Eine Folge, vollständig — nicht zwei Felder daraus.**
+   *
+   * Daniel am 25.08.2026, nachdem er die Antwort selbst gelesen hatte: „da steht
+   * sogar fsk, und abo required, episoden beschreibung, etc releasedate der
+   * episode runtime, etc, audiotracks, title id etc. alles was wir brauchen
+   * quasi… wir sammeln ab jetzt infos pro episode."
+   *
+   * Die Antwort von `getDetailWidgets` ist gültiges JSON; es gibt hier nichts zu
+   * parsen. Was hier stehen bleibt, ist eine **Auswahl**, keine Ableitung: Jedes
+   * Feld kommt unverändert aus der Antwort, damit später nichts ein zweites Mal
+   * abgerufen werden muss.
+   */
+  function folgeAusDetail(folge) {
+    const d = folge?.detail
+    if (!d) return null
+    return {
+      nummer: Number.isFinite(d.episodeNumber) ? d.episodeNumber : null,
+      kennung: folge.titleID ?? null,
+      gti: folge.self?.compactGTI ?? null,
+      titel: d.title ?? null,
+      beschreibung: d.synopsis ?? null,
+      sprachen: namenAus(d.audioTracks ?? []),
+      untertitel: Array.isArray(d.subtitles) ? d.subtitles : [],
+      dauerSek: Number.isFinite(d.duration) ? d.duration : null,
+      laufzeit: d.runtime ?? null,
+      erschienen: d.releaseDate ?? null,
+      jahr: Number.isFinite(d.releaseYear) ? d.releaseYear : null,
+      studios: Array.isArray(d.studios) ? d.studios : [],
+      genres: (d.genres ?? []).map((g) => g?.text).filter(Boolean),
+      /* Wer die Folge sehen darf — Prime, ein Kanal, oder ein Kauf. */
+      zugaenge: [...new Set([...JSON.stringify(folge).matchAll(/"benefitId":"([^"]+)"/g)].map((m) => m[1]))],
+      fsk: folge.metadata?.maturityRating?.displayText ?? null,
+      bild: d.images?.covershot ?? null,
+    }
+  }
+
+  /**
+   * **Der Film-Weg: die Seite bringt ihre Daten schon mit.**
+   *
+   * Für einen Film schickt Prime **keinen** `getDetailWidgets`-Abruf ab (Daniel,
+   * 25.08.2026). Stattdessen steht im ausgelieferten HTML ein Skriptblock
+   * `<script id="dv-web-page-hydration-data" type="application/json">` mit dem
+   * vollständigen Zustand der Seite.
+   *
+   * Gemessen an „Avatar Aang: Der Herr der Elemente" (`B0H6QYBZFS`,
+   * 239.064 Zeichen JSON):
+   *
+   *     init.preparations.body.atf.state.detail.headerDetail[<ASIN>]
+   *       title, synopsis, audioTracks, subtitles, entityType: "Movie",
+   *       runtime, releaseDate, releaseYear, genres, studios, images, …
+   *
+   *     benefitId  →  "paramountplusde"   (ein Kanal-Abo, kein Prime-Inhalt)
+   *
+   * Auch das ist gültiges JSON in einem `<script>`-Element — gelesen wird es
+   * über `textContent`, nicht über ein Muster auf dem Quelltext.
+   */
+  function ausHydration() {
+    const block = document.getElementById('dv-web-page-hydration-data')
+    if (!block) return null
+    let daten
+    try {
+      daten = JSON.parse(block.textContent)
+    } catch {
+      return null
+    }
+    const stand = daten?.init?.preparations?.body?.atf?.state
+    if (!stand) return null
+    const kennung = stand.pageTitleId ?? null
+    const kopf = (stand.detail?.headerDetail ?? {})[kennung] ?? Object.values(stand.detail?.headerDetail ?? {})[0]
+    if (!kopf) return null
+    return {
+      kennung,
+      art: kopf.entityType ?? null,
+      titel: kopf.title ?? null,
+      beschreibung: kopf.synopsis ?? null,
+      sprachen: namenAus(kopf.audioTracks ?? []),
+      untertitel: Array.isArray(kopf.subtitles) ? kopf.subtitles : [],
+      dauerSek: Number.isFinite(kopf.duration) ? kopf.duration : null,
+      laufzeit: kopf.runtime ?? null,
+      erschienen: kopf.releaseDate ?? null,
+      jahr: Number.isFinite(kopf.releaseYear) ? kopf.releaseYear : null,
+      studios: Array.isArray(kopf.studios) ? kopf.studios : [],
+      genres: (kopf.genres ?? []).map((g) => g?.text).filter(Boolean),
+      zugaenge: [...new Set([...JSON.stringify(daten).matchAll(/"benefitId":"([^"]+)"/g)].map((m) => m[1]))],
+      fsk: stand.metadata?.[kennung]?.maturityRating?.displayText ?? null,
+      bild: kopf.images?.covershot ?? null,
+    }
+  }
+
+  /* Für welche Adresse der Hydration-Block schon gelesen wurde. */
+  let hydrationFuer = null
+
   function auswerten(text, herkunft) {
     if (typeof text !== 'string' || text.length < 60) return
     if (!text.includes('audioTracks') && !text.includes('episodePages')) return
@@ -162,7 +256,8 @@
         for (const folge of liste.episodes ?? []) {
           const d = folge?.detail
           if (!d || !Array.isArray(d.audioTracks) || !Number.isFinite(d.episodeNumber)) continue
-          funde.push({ nummer: d.episodeNumber, sprachen: namenAus(d.audioTracks) })
+          const voll = folgeAusDetail(folge)
+          if (voll) funde.push(voll)
         }
         for (const seite of liste.actions?.episodePages ?? []) {
           const token = seite?.token
@@ -560,7 +655,8 @@
       for (const folge of liste.episodes ?? []) {
         const d = folge?.detail
         if (!d || !Array.isArray(d.audioTracks) || !Number.isFinite(d.episodeNumber)) continue
-        funde.push({ nummer: d.episodeNumber, sprachen: namenAus(d.audioTracks) })
+        const voll = folgeAusDetail(folge)
+        if (voll) funde.push(voll)
       }
       const gesamt = Number.isFinite(liste.episodeCount) ? liste.episodeCount : null
       window.postMessage(
@@ -628,6 +724,8 @@
      * dieselbe Adresse beim Navigieren ohnehin selbst.
      */
     geholteStaffel = null
+    /* Auch der Hydration-Block gehoert zur alten Adresse. */
+    hydrationFuer = null
     diagnose.titleID = null
     diagnose.tokensImQuelltext = 0
     diagnose.anlaeufe = 0
@@ -699,6 +797,38 @@
       9 MB Zeichenketten je Sekunde je Prime-Tab. Beide lesen ohnehin denselben
       Stand im selben Durchlauf.
     */
+    /*
+      **Der Film-Weg zuerst — er braucht keinen Abruf.**
+
+      Für einen Film schickt Prime kein `getDetailWidgets`; die Daten stehen im
+      Hydration-Block der ausgelieferten Seite. Einmal je Adresse gelesen und
+      weitergereicht, danach schweigt es.
+    */
+    if (hydrationFuer !== location.pathname) {
+      const film = ausHydration()
+      hydrationFuer = location.pathname
+      if (film && film.art && film.art !== 'TV Show') {
+        window.postMessage(
+          {
+            marke: MARKE,
+            /* Ein Film ist eine Einheit — er zählt als Folge 1. */
+            funde: [{ ...film, nummer: 1 }],
+            gesamt: 1,
+            seite: film,
+            startAdresse,
+            fuerAdresse: location.pathname,
+          },
+          '*',
+        )
+      } else if (film) {
+        /* Bei einer Serie trägt der Block Titel und Zugänge — die Folgen kommen per Abruf. */
+        window.postMessage(
+          { marke: MARKE, funde: [], gesamt: null, seite: film, startAdresse, fuerAdresse: location.pathname },
+          '*',
+        )
+      }
+    }
+
     const html = document.documentElement?.innerHTML ?? ''
     beiSeitenwechsel(html)
     if (++diagnose.anlaeufe > 60 || diagnose.tokensImQuelltext) {

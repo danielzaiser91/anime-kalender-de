@@ -383,11 +383,20 @@ function veraltetTest(schritte) {
   const quelle = require('node:fs').readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
   pruefe('der Empfaenger prueft die Adresse', /e\.data\.fuerAdresse !== location\.pathname/.test(quelle))
   const leser = require('node:fs').readFileSync(require('node:path').resolve(__dirname, 'amazon-leser.js'), 'utf8')
-  pruefe(
-    'und beide Sendestellen haengen sie an',
-    (leser.match(/fuerAdresse: location\.pathname/g) ?? []).length === 2,
-    (leser.match(/fuerAdresse: location\.pathname/g) ?? []).length,
-  )
+  /*
+    **Gezählt wird nicht, verglichen wird.**
+
+    Bis zum 25.08.2026 stand hier `=== 2` — die Zahl der Sendestellen von damals.
+    Als der Film-Weg zwei weitere brachte, wurde die Zusicherung rot, obwohl alle
+    vier die Adresse korrekt mitschicken. Eine Prüfung, die an der Anzahl hängt,
+    misst den Umbau statt der Regel.
+  */
+  const sendeStellen = (leser.match(/window\.postMessage\(/g) ?? []).length
+  const mitAdresse = (leser.match(/fuerAdresse: location\.pathname/g) ?? []).length
+  pruefe('jede Sendestelle haengt die Adresse an', sendeStellen > 0 && mitAdresse === sendeStellen, {
+    sendeStellen,
+    mitAdresse,
+  })
 }
 
 /**

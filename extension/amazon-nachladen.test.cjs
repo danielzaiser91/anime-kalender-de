@@ -90,7 +90,8 @@ function starteMit(quelltext) {
     // Bewusst die ASIN der **Seite** — sie ist eine andere als die `titleID`,
     // die der Abruf braucht. Wer sie aus der Adresse baut, liegt falsch.
     location: { href: 'https://www.amazon.de/gp/video/detail/B0CQ4VL364/' },
-    document: { documentElement: { innerHTML: quelltext } },
+    /* getElementById: der Film-Weg liest darueber den Hydration-Block der Seite. */
+    document: { documentElement: { innerHTML: quelltext }, getElementById: () => null },
     URL,
     setTimeout,
     setInterval,
