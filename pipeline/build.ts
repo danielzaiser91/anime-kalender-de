@@ -2860,6 +2860,33 @@ function main(): void {
     'data/tmdb-titles.json',
     {},
   )
+  /**
+   * Netflix: `/browse?jbv=<id>` ist ein Overlay, keine Seite.
+   *
+   * Die Adressform öffnet die Browse-Ansicht und legt eine Karte darüber. Wer
+   * sie teilt oder ohne Anmeldung aufruft, landet auf einer Startseite mit
+   * einem Fenster, das sich nicht immer aufbaut — Daniel am 24.08.2026 zu
+   * „AnoHana": „der titel lässt sich nicht abspielen, kein melden möglich von
+   * der overview".
+   *
+   * `/title/<id>` ist dieselbe Kennung auf der eigentlichen Titelseite.
+   * Betroffen sind zwei Verweise; die Normalisierung steht hier trotzdem,
+   * damit auch der dritte gar nicht erst durchkommt.
+   */
+  let netflixBerichtigt = 0
+  for (const eintrag of slim) {
+    for (const s of eintrag.streams ?? []) {
+      if (s.platform !== 'netflix') continue
+      const id = /\/browse\?jbv=(\d+)/.exec(s.url)?.[1]
+      if (!id) continue
+      s.url = `https://www.netflix.com/title/${id}`
+      netflixBerichtigt++
+    }
+  }
+  if (netflixBerichtigt) {
+    log(`${netflixBerichtigt} Netflix-Overlay-Adressen auf die Titelseite umgeschrieben`)
+  }
+
   let tiefeErsetzt = 0
   for (const eintrag of slim) {
     const suchen = (eintrag.streams ?? []).filter((s) => /\/s\?/.test(s.url))
