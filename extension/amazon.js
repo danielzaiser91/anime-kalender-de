@@ -415,8 +415,19 @@ async function speicherSchreiben(werte) {
     if (typeof text !== 'string') return null
     for (const m of text.matchAll(/(\d+)\s*Folgen?\b/g)) {
       const davor = text.slice(Math.max(0, m.index - 16), m.index)
-      // „Staffel 1" + Reiter „Folgen"
-      if (/Staffel\s*$/i.test(davor)) continue
+      /*
+        „Staffel 1" **oder „Season 3"** + Reiter „Folgen".
+
+        Die englische Form fehlte bis zum 25.08.2026, und Amazon nennt viele
+        Staffeln so. Die Seite zu „JUJUTSU KAISEN Season 3" ergab damit
+        `lautSeite: 3`, obwohl darunter „12 Folgen" stand — der Zählstand hatte
+        alle zwölf gelesen, der Umfang deckelte sie auf drei. Sichtbar wurde es
+        im Diagnosefeld: `folgen: 12, gesamt: 3, lautSeite: 3`.
+
+        Dieselbe Falle, nur in einer Sprache, an die beim ersten Fix niemand
+        gedacht hat.
+      */
+      if (/(?:Staffel|Season)\s*$/i.test(davor)) continue
       // „6. Okt. 2019" + „Folge 2"
       if (/\d{1,2}\.\s*[A-Za-zÄÖÜäöü]+\.?\s*$/.test(davor)) continue
       return Number(m[1]) || null
@@ -810,12 +821,40 @@ async function speicherSchreiben(werte) {
       }
     }
 
-    const ausAuswahl = /([^<>"]{3,120}?)\s+[-–—]\s+(?:Staffel|Season)\s+\d+/i.exec(
-      seitenHtml(),
-    )?.[1]
-    if (ausAuswahl) {
-      const sauber = saeubern(ausAuswahl)
-      if (sauber) return sauber
+    /**
+     * **Erst den Anker suchen, dann rückwärts lesen — nicht umgekehrt.**
+     *
+     * Hier stand `([^<>"]{3,120}?)\s+[-–—]\s+(?:Staffel|Season)\s+\d+`, und
+     * dieses Muster war mit Abstand der teuerste Posten der ganzen Erweiterung:
+     * **81,4 ms je Durchlauf**, gemessen am 25.08.2026 über einen Quelltext von
+     * knapp einer Million Zeichen — dreißigmal mehr als alle anderen Muster
+     * zusammen.
+     *
+     * Der Grund ist nicht die Länge des Quelltextes, sondern das **faule
+     * Zählquantiv**: An jeder der rund einer Million Startstellen probiert der
+     * Regex-Motor die Längen 3, 4, 5 … durch, bis die Zeichenklasse abbricht.
+     * Ohne Tags im Text sind es sogar 119 ms — die Zahl hängt also nicht an der
+     * Füllmasse, sondern am Rückzugsverhalten.
+     *
+     * Und der Rückfall ist kein Sonderfall: Er greift, sobald `og:title`,
+     * `twitter:title` und `<h1>` **alle** leer sind — genau so sah „Oshi no Ko"
+     * Staffel 3 aus (23.08.2026). Dort ruft ein Takt `seitenTitel()` bis zu
+     * fünfmal auf; fünfmal 81 ms sind 400 ms in einem 500-ms-Takt. Das deckt
+     * sich mit der Messung in Daniels Sitzung: `taktMax: 417 ms`.
+     *
+     * Jetzt sucht ein billiges Muster den **Anker** („– Staffel 3"), und der
+     * Titel wird aus den 120 Zeichen davor gelesen. Der Motor hat damit
+     * höchstens so viele Startstellen wie es Trennzeichen gibt, statt einer je
+     * Zeichen.
+     */
+    const anker = /\s+[-–—]\s+(?:Staffel|Season)\s+\d+/i.exec(seitenHtml())
+    if (anker) {
+      const davor = seitenHtml().slice(Math.max(0, anker.index - 120), anker.index)
+      const ausAuswahl = /([^<>"]{3,120})$/.exec(davor)?.[1]
+      if (ausAuswahl) {
+        const sauber = saeubern(ausAuswahl)
+        if (sauber) return sauber
+      }
     }
 
     const html = seitenHtml()
@@ -2873,7 +2912,7 @@ async function speicherSchreiben(werte) {
    * die das Video nicht beantworten kann: Wie viel von den 500 ms je Takt
    * verbraucht dieses Skript?
    */
-  setInterval(() => {
+  function taktSchritt() {
     const t0 = performance.now()
     beiStaffelwechsel()
     zeichnen()
@@ -2890,7 +2929,34 @@ async function speicherSchreiben(werte) {
     taktSumme += taktMs
     takte++
     if (taktMs > taktMax) taktMax = taktMs
-  }, 500)
+    /**
+     * **Der Takt hält an, sobald es nichts mehr zu tun gibt.**
+     *
+     * Gemessen am 25.08.2026 in Daniels Sitzung: `taktSchnitt: 226 ms` bei
+     * einem Takt von 500 ms — die Erweiterung verbrauchte **45 % der Zeit**,
+     * Spitze 417 ms. Der Quelltext einer Prime-Seite ist dabei **2,2 Millionen
+     * Zeichen** groß, nicht die zuvor angenommene knappe Million.
+     *
+     * Das ist die Erklärung für „it impacts performance drastically": Nicht
+     * eine teure Einzelstelle, sondern zwanzig Regex-Läufe über zwei Megabyte,
+     * zweimal je Sekunde, **auch wenn längst alles gelesen ist**.
+     *
+     * Ist der Zählstand vollständig — alle Folgen der Staffel liegen vor —,
+     * ändert weiteres Lesen nichts mehr. Der Takt geht dann auf vier Sekunden
+     * und kehrt sofort zurück, sobald sich Adresse oder Zählstand ändern. Das
+     * ist derselbe Gedanke, den `amazon-leser.js` mit seinem gemächlichen Modus
+     * schon verfolgt.
+     */
+    const fertig = Boolean(gesehen.gesamt) && geladeneFolgen() >= gesehen.gesamt
+    if (fertig !== langsam) {
+      langsam = fertig
+      clearInterval(taktGeber)
+      taktGeber = setInterval(taktSchritt, langsam ? 4000 : 500)
+    }
+  }
+
+  let langsam = false
+  let taktGeber = setInterval(taktSchritt, 500)
 
   // --- Melden --------------------------------------------------------------
 

@@ -157,7 +157,7 @@ function folgenAusText(text) {
   if (typeof text !== 'string') return null
   for (const m of text.matchAll(/(\d+)\s*Folgen?\b/g)) {
     const davor = text.slice(Math.max(0, m.index - 16), m.index)
-    if (/Staffel\s*$/i.test(davor)) continue
+    if (/(?:Staffel|Season)\s*$/i.test(davor)) continue
     if (/\d{1,2}\.\s*[A-Za-zÄÖÜäöü]+\.?\s*$/.test(davor)) continue
     return Number(m[1]) || null
   }
@@ -372,6 +372,61 @@ function veraltetTest(schritte) {
     (leser.match(/fuerAdresse: location\.pathname/g) ?? []).length === 2,
     (leser.match(/fuerAdresse: location\.pathname/g) ?? []).length,
   )
+}
+
+/**
+ * **„Season 3" zählt so wenig als Folgenzahl wie „Staffel 1".**
+ *
+ * Amazon nennt Staffeln auch auf Englisch. Die Seite zu „JUJUTSU KAISEN
+ * Season 3" ergab `lautSeite: 3`, obwohl darunter „12 Folgen" stand — sichtbar
+ * im Diagnosefeld als `folgen: 12, gesamt: 3`. Der Zählstand hatte alle zwölf
+ * gelesen, der Umfang deckelte sie auf drei, und der Knopf bot „3 Folgen" zum
+ * Melden an (Daniel, 25.08.2026).
+ */
+{
+  const jjk =
+    'International Anime Intensiv 5/5 IMDb 8,5/10 2026 4 Staffeln JUJUTSU KAISEN Season 3 ' +
+    'Folgen Ähnliches Details 12 Folgen 1. Die Hinrichtung 24 Min. 8. Jan. 2026'
+  pruefe('„Season 3" plus Reiter zählt nicht', folgenAusText(jjk) === 12, folgenAusText(jjk))
+  pruefe(
+    'und die deutsche Form weiterhin auch nicht',
+    folgenAusText('einlösen Staffel 1 Folgen Ähnliches Details 12 Folgen 1. Verdacht') === 12,
+  )
+}
+
+/**
+ * **Der Titel-Rückfall liefert dasselbe wie vorher — nur nicht mehr in 25 ms.**
+ *
+ * Das alte Muster `([^<>"]{3,120}?)\s+[-–—]\s+(?:Staffel|Season)\s+\d+` war mit
+ * 81 ms je Durchlauf der teuerste Posten der Erweiterung (Review 25.08.2026),
+ * und ein Takt ruft die Funktion bis zu fünfmal auf. Ursache war das faule
+ * Zählquantiv: An jeder Startstelle probiert der Motor die Längen 3, 4, 5 …
+ *
+ * Jetzt sucht ein billiges Muster den Anker, und der Titel wird aus den 120
+ * Zeichen davor gelesen. Gemessen an 1.032.526 Zeichen: 24,83 ms gegen 0,89 ms
+ * bei identischem Ergebnis.
+ */
+{
+  const alt = (h) => /([^<>"]{3,120}?)\s+[-–—]\s+(?:Staffel|Season)\s+\d+/i.exec(h)?.[1]
+  const neu = (h) => {
+    const anker = /\s+[-–—]\s+(?:Staffel|Season)\s+\d+/i.exec(h)
+    if (!anker) return undefined
+    return /([^<>"]{3,120})$/.exec(h.slice(Math.max(0, anker.index - 120), anker.index))?.[1]
+  }
+  const faelle = [
+    '<div>Jujutsu Kaisen – Staffel 3</div>',
+    '<span>Detektiv Conan - Season 12</span>',
+    '<p>Dan Da Dan — Staffel 2</p>',
+    '<div>ohne Trennzeichen Staffel 3</div>',
+    '<div>gar nichts</div>',
+  ]
+  let gleich = 0
+  for (const f of faelle) if (alt(f) === neu(f)) gleich++
+  pruefe('beide Fassungen liefern dasselbe', gleich === faelle.length, { gleich, von: faelle.length })
+  pruefe('und der Titel wird erkannt', neu(faelle[0]) === 'Jujutsu Kaisen', neu(faelle[0]))
+  // Eine Zusicherung auf den Quelltext waere hier untauglich: Das alte Muster
+  // steht weiterhin im Kommentar, der erklaert, warum es weg ist.
+
 }
 
 {
