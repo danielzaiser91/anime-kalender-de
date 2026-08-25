@@ -2937,7 +2937,34 @@ function main(): void {
    * kein `dub` — die Oberfläche schreibt „🇩🇪 ?", und das ist die ehrliche
    * Antwort. Ein Weg ohne Sprachangabe ist trotzdem mehr wert als gar keiner.
    */
+  /**
+   * **Ein Titel ohne Verweis ist nicht dasselbe wie ein Titel ohne geprüften
+   * Verweis** — und diese Unterscheidung hat der erste Anlauf verfehlt.
+   *
+   * Am 25.08.2026 ergänzte er 14 Titeln einen Weg, weil TMDB einen Anbieter
+   * nannte und das MOTN-Archiv eine Adresse dazu hatte. Fünf davon hatten ihren
+   * Verweis aber **aus gutem Grund** nicht: Daniel hatte sie geprüft und als
+   * „ohne deutsche Tonspur" oder „nicht verfügbar" eingetragen, woraufhin der
+   * Bau sie entfernt. „Kino's Journey" auf Netflix etwa, geprüft am 22.08.2026
+   * — Folgen 1 bis 13 ohne deutschen Ton.
+   *
+   * Die Ergänzung holte sie zurück und überschrieb damit eine Handprüfung.
+   * Das ist der schwerste Fehler, den dieses Projekt kennt: **Was ein Mensch
+   * geprüft hat, schlägt jede Ableitung** — und eine Ableitung, die es
+   * stillschweigend überstimmt, macht die teuerste Datenquelle wertlos.
+   *
+   * Gefangen hat es `check:handbelege`, genau wofür der Lauf gebaut ist. Der
+   * Deploy wurde rot, bevor etwas ausgeliefert war.
+   *
+   * Ergänzt wird deshalb nur, wo zu Titel **und** Plattform **keine**
+   * Handprüfung vorliegt. Ein `dub: true` von Hand wäre ohnehin schon im
+   * Datensatz; alles andere ist ein ausdrückliches Nein.
+   */
+  const handgeprueft = new Set(
+    loadDubChecks().map((c) => dubKey(c.anilistId, c.platform)),
+  )
   let wegeErgaenzt = 0
+  let wegenHandpruefung = 0
   for (const eintrag of slim) {
     if ((eintrag.streams ?? []).length || (eintrag.watchLinks ?? []).length) continue
     const zu = tmdbZuTitel[String(eintrag.id)]
@@ -2954,11 +2981,19 @@ function main(): void {
       // Nur was TMDB **auch** nennt: Das Archiv kann einen Link führen, den es
       // heute nicht mehr gibt.
       if (!anbieter.includes(platform)) continue
+      // Und nichts, worüber ein Mensch schon entschieden hat.
+      if (handgeprueft.has(dubKey(eintrag.id, platform))) {
+        wegenHandpruefung++
+        continue
+      }
       neue.push({ platform: platform as PlatformId, url })
     }
     if (!neue.length) continue
     eintrag.streams = neue
     wegeErgaenzt++
+  }
+  if (wegenHandpruefung) {
+    log(`${wegenHandpruefung} Verweis(e) nicht ergänzt — dort liegt eine Handprüfung vor`)
   }
   if (wegeErgaenzt) {
     log(`${wegeErgaenzt} Titel ohne jeden Weg haben jetzt einen (TMDB-Anbieter + MOTN-Adresse)`)

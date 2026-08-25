@@ -294,6 +294,25 @@ Zwei Folgen daraus:
   `data/dub-confirmed.yaml`, mit Datum. `dub: false` ist genauso wertvoll wie `true`.
 - **Was ein Mensch geprüft hat, schlägt jede Ableitung** — der Eintrag gilt auch gegen ein
   automatisch gesetztes `true`.
+- **Und gegen jede Ergänzung: ein Titel ohne Verweis ist nicht dasselbe wie ein Titel ohne
+  geprüften Verweis.** Der Schutz in `build.ts` bestand bis zum 25.08.2026 nur aus drei
+  `if (stream.dub !== undefined) continue` — der schützt einen **vorhandenen** Verweis vor
+  Überschreibung. Eine Ergänzung, die einen entfernten Verweis neu **anlegt**, läuft daran
+  vorbei: Dort gibt es kein `stream`, dessen `dub` man prüfen könnte.
+
+  Genau das ist passiert. Ein Lauf gab 14 Titeln ohne Weg einen Verweis, weil TMDB einen
+  Anbieter nannte und das MOTN-Archiv eine Adresse dazu hatte. Fünf davon hatten ihren Verweis
+  aus gutem Grund nicht — Daniel hatte sie geprüft und als „ohne deutsche Tonspur" oder „nicht
+  verfügbar" eingetragen, woraufhin der Bau sie entfernt. „Kino's Journey" auf Netflix etwa,
+  geprüft am 22.08.2026: Folgen 1 bis 13 ohne deutschen Ton.
+
+  **Ein fehlender Verweis ist deshalb selbst eine Angabe**, und `data/dub-confirmed.yaml` ist
+  der Ort, an dem steht, ob er fehlt, weil niemand nachgesehen hat, oder weil jemand
+  nachgesehen hat. Wer etwas hinzufügt, fragt die Datei genauso wie jemand, der etwas ändert.
+
+  Gefangen hat es `check:handbelege`; der Deploy wurde rot, bevor etwas ausgeliefert war. Das
+  ist die Prüfung, die genau dafür gebaut ist — und der Beleg, dass eine Zusicherung mehr wert
+  ist als der Vorsatz, an die Regel zu denken.
 - **Nie raten, auch nicht bei starken Indizien.** Eine YouTube-Playlist des deutschen
   Crunchyroll-Kanals ist ein Hinweis, kein Beleg; dieselbe Playlist enthält auch untertitelte
   Folgen.
