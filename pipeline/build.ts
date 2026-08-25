@@ -3080,7 +3080,28 @@ function main(): void {
         wegenHandpruefung++
         continue
       }
-      neue.push({ platform: platform as PlatformId, url })
+      /*
+        **Die Zugangsart gehört an den Verweis, sobald er entsteht.** Die
+        Schleife, die sie sonst für alle Verweise setzt, läuft weiter oben —
+        was hier später hinzukommt, hätte sie nie gesehen und stünde ohne
+        Preisangabe im Kalender. `check:zugangsart` hat genau das gemeldet
+        (25.08.2026, drei Verweise: Gintama, DEATH NOTE Rewrite, Durarara!!).
+      */
+      neue.push({
+        platform: platform as PlatformId,
+        url,
+        // Prime Video führt Abo- und Kauftitel nebeneinander; die lizenzierte
+        // JustWatch-Angabe entscheidet, wo sie vorliegt. Ohne sie greift die
+        // Vorgabe des Anbieters.
+        zugang: zugangsart(
+          platform,
+          undefined,
+          url,
+          (tmdbTitles[eintrag.id]?.offers ?? []).find(
+            (o) => providerToPlatform(o.name) === platform,
+          )?.kind,
+        ),
+      })
     }
     if (!neue.length) continue
     eintrag.streams = neue

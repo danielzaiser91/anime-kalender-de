@@ -1,6 +1,6 @@
 # Status: anime-kalender-de
 
-Stand: 24.08.2026 · Live: https://anime-kalender.de/
+Stand: 25.08.2026 · Live: https://anime-kalender.de/
 
 ## Task Queue
 
@@ -256,6 +256,48 @@ Prime nur teilweise und Disney+ gar nicht in brauchbarer Qualität. Zusammen sin
 
 Entweder bleibt die Erweiterung dort dauerhaft im Einsatz, oder diese 640 bleiben offen. Ein
 dritter Weg ist bislang nicht gefunden.
+
+### Behoben am 25.08.2026: drei Fehler, die der Deploy und Daniel gefunden haben
+
+**1. Die Wege-Ergänzung überschrieb Handprüfungen.** Ein Lauf gab 14 Titeln ohne Weg einen
+Verweis aus TMDB-Anbieter plus MOTN-Archiv. Fünf davon hatten ihren Verweis absichtlich nicht:
+Daniel hatte sie geprüft und als „ohne deutsche Tonspur" bzw. „nicht verfügbar" eingetragen.
+Der bestehende Schutz (`if (stream.dub !== undefined) continue`) greift nur bei **vorhandenen**
+Verweisen — eine Ergänzung legt einen neuen an und läuft daran vorbei. `check:handbelege` hat
+es gefangen, vier Deploys blieben rot. Ergänzt wird jetzt nur, wo zu Titel und Plattform keine
+Handprüfung vorliegt.
+
+**2. Release-Termine und Reihen-Karussell hingen an „kein Anbieter bekannt".** Der Umbau vom
+24.08.2026 („Reihen-Umschalter zieht nach unten") ließ das schließende `</div>)}` zweihundert
+Zeilen zu weit unten stehen. Damit lagen beide Abschnitte im Zweig „kein Anbieter bekannt":
+**Jeder Titel mit einem Stream-Verweis verlor die Release-Termine** — also genau die Auskunft,
+für die es diese Seite gibt. Live gemessen an Dan Da Dan, Clevatess und Sakamoto Days.
+Aufgefallen an einer Nebenwirkung, die Daniel meldete: Klick im Karussell eines Kinofilms auf
+einen Teil mit Disney+-Verweis ließ das Karussell verschwinden.
+
+**JSX verschluckt so etwas lautlos** — der Baum bleibt gültig, `tsc` und ESLint sehen nichts,
+und der Unterschied zeigt sich nur an Titeln, die die Bedingung **nicht** erfüllen.
+
+**3. Ein Crossover verschmolz drei Reihen zu einer.** „Lupin III. vs Detektiv Conan" trägt bei
+AniList zwei `PARENT`-Kanten — zu Detective Conan (235) und zu Lupin the 3rd (1412). Union-Find
+kennt nur eine Zugehörigkeit je Knoten, also zog dieser Film beide Reihen zusammen; über „Lupin
+III. vs. Cat's Eye" kam Cat's Eye dazu. Das Panel zeigte eine Reihe mit **114 Teilen** namens
+„Lupin III.: Teil 1" — der Vertreter ist der älteste TV-Teil, und Lupin von 1971 schlägt Conan
+von 1996.
+
+Erkannt wird das jetzt an AniLists eigener Auskunft, nicht am Namen. **Ein Namensmuster auf
+„vs"/„x" wurde gemessen und verworfen:** Es trifft „Hunter x Hunter", „SPY x FAMILY" und
+„HAIKYU!! LAND VS. AIR" — allesamt gewöhnliche Teile ihrer eigenen Reihe.
+
+| | Zahl |
+|---|---|
+| Titel mit zwei oder mehr `PARENT`-Kanten | 24 |
+| davon beide Eltern in derselben Reihe (unberührt) | 17 |
+| **echte Crossover** | **7** |
+
+Wirkung: Conan 114 → 63 Teile, Lupin 114 → 45, Cat's Eye 114 → 3. Der Crossover selbst bleibt
+in der Reihe seines ersten Elternteils sichtbar — wer die Conan-Reihe durchsieht, sucht genau
+diesen Film.
 
 ### Queue
 
