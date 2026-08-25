@@ -290,6 +290,41 @@ eine unter den beiden anderen, alle mit ihrer Nummer. Zuzuordnen sind sie über 
 Staffel 1 hat 26 Folgen, „Neu Vestroia" 52, „Gundalianer" 39. Geht die Summe nicht auf, bleibt
 der Block unzugeordnet — das ist besser als eine geratene Zuordnung.
 
+### Offen für morgen: drei Beobachtungen an JoJo, ungeklärt
+
+Aufgenommen am 25.08.2026, 02:28, ohne Eingriff — Daniel: „notier das, mach nix, wir gucken
+morgen weiter". Alle drei an derselben Serie, alle drei mit Bild.
+
+**1. Zwei Kennungen für dieselbe Staffel, je nach Weg.** Der Klick aus unserer Übersichtsliste
+führt auf `amazon.de/dp/B0CG7S59KL`; die Wahl derselben Staffel 3 aus Amazons Auswahlfeld
+führt auf `amazon.de/gp/video/detail/B0CG76MH1K?ref_=atv_dp_season_select_s3`. Unsere Liste
+kennt nur die erste, deshalb steht auf der zweiten „nicht auf der Prüfliste" — formal richtig,
+praktisch eine Sackgasse.
+
+**Was zu klären ist:** Ob die beiden Kennungen dieselbe Staffel meinen (dann gehört die zweite
+als Alias in die Liste) oder verschiedene Fassungen (Kauf gegen Kanal-Abo). Amazons Auswahlfeld
+führt für JoJo mehrere Staffeln doppelt, insofern ist beides denkbar.
+
+**2. „5 Folgen", wo keine sind.** Auf `B0CG76MH1K` mit Staffel 3 zeigte der Knopf
+„🇩🇪 Deutsch · 5 Folgen · Kauf/Leihe · melden", während die Seite keine Folgenliste hat —
+weder Reiter noch Kacheln. Die fünf Nummern stammen also nicht von dieser Seite.
+
+**3. Der Zähler wandert mit dem Weg.** Dieselbe Staffel zeigte im Lauf einer Viertelstunde
+nacheinander „3 Folgen", „48 Folgen" und „5 Folgen", je nachdem, ob neu geladen, gewechselt
+oder aus der Liste geöffnet wurde.
+
+**Wie es angegangen wird — nicht durch Raten.** `tools/amazon-diagnose.js` in die Konsole der
+offenen Seite einfügen und `akDiagnose()` nach jedem Wechsel aufrufen. Die Tabelle nennt je
+Zeitpunkt Adresse, Kennung, Staffelnummer und Zahl der gelesenen Folgen — dieselbe Messung hat
+am 24.08.2026 ein Dutzend scheinbar verschiedene Fehler auf eine Ursache zurückgeführt.
+
+**Und das ist die eigentliche Lehre dieser Nacht.** Zwischen 00:30 und 02:30 sind sieben
+Fassungen der Erweiterung entstanden, jede als Antwort auf einen Screenshot, und drei davon
+haben einen neuen Fehler erzeugt (15 Folgen statt 13, dann 3 statt 24, dann „nicht abrufbar"
+über einer Seite mit 48 sichtbaren Folgen). Die Projektregel dazu steht seit dem 24.08. in
+`CLAUDE.md` und wurde nicht befolgt: **Wo nur ein Mensch messen kann, wird die Messung erbeten,
+nicht ersetzt.**
+
 ### Stand nach der Nacht auf den 25.08.2026 — die Prime-Liste ist praktisch durch
 
 **Gemessen am Briefkasten des Workers, 01:45 Uhr:** 358 Meldungen unter 263 Kennungen; die
