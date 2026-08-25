@@ -278,6 +278,15 @@ async function speicherSchreiben(werte) {
        * „1 Folge", der Knopf sagte „3 von 26".
        */
       folgenLautSeite: folgenAusText(sichtbar),
+      /**
+       * Nennt die Seite eine **Laufzeit** — „1 Std. 26 Min." oder „97 Min."?
+       *
+       * Zusammen mit dem fehlenden „Folgen"-Reiter ist das der Film (siehe
+       * `istFilmSeite()`). Der Wert entsteht hier, weil `body.innerText` ein
+       * Neuberechnen des Layouts erzwingt und deshalb nur an dieser einen
+       * Stelle gelesen wird.
+       */
+      hatLaufzeit: /\d+\s*Std\.\s*\d+\s*Min\.|\b\d{2,3}\s*Min\.\B/.test(sichtbar),
     }
     lageZu = htmlGelesenAm
     return lage
@@ -376,9 +385,10 @@ async function speicherSchreiben(werte) {
    */
   function istFilmSeite() {
     const lage = seitenLage()
-    if (lage.hatFolgenReiter || lage.folgenLautSeite) return false
-    const sichtbar = document.body?.innerText ?? ''
-    return /\d+\s*Std\.\s*\d+\s*Min\.|\b\d{2,3}\s*Min\.\B/.test(sichtbar)
+    // Die Laufzeit kommt aus `seitenLage()` mit — `body.innerText` erzwingt ein
+    // Neuberechnen des Layouts und wird deshalb nur an einer Stelle gelesen
+    // (eine Zusicherung in `amazon.test.cjs` wacht darüber).
+    return !lage.hatFolgenReiter && !lage.folgenLautSeite && lage.hatLaufzeit
   }
 
   function folgenAusText(text) {
