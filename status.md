@@ -367,6 +367,94 @@ diesen Film.
 
 ### Queue
 
+**Performance der Erweiterung — aus dem Review vom 25.08.2026** (Messung und Begründung im
+Abschnitt darunter, Verhaltensrisiken je Punkt dort genannt):
+
+| Aufgabe | SP | Notiz |
+|---|---|---|
+| `seitenTitel()`: Auswahlfeld-Rückfall entschärfen (Trennzeichen zuerst suchen, dann 120 Zeichen zurück) | 2 | 81 ms je Durchlauf, bis zu 5x je Takt |
+| `seitenTitel()`: nur die **Quelltext**-Rückfälle je HTML-Schnappschuss merken, DOM-Abfragen weiter je Takt | 1 | Ganzes Merken würde den Titelwechsel um bis zu 2 s verzögern |
+| `amazon-leser.js`: `innerHTML` je Takt einmal statt zweimal, an `abschnittsFinger()` und `ausSeite()` durchgereicht | 2 | rund 4 MB Zeichenketten je Sekunde in der Seitenwelt |
+| `amazon-leser.js`: `abschnittsFinger()` nur bei geändertem Pfad oder im gemächlichen Takt | 1 | Der `textContent`-Wächter spart nichts |
+| `zeichnen()`: `spuren()`, `quelltextPasst()`, `zugangsart()`, `abos()`, `staffelAusSeite()` je Takt einmal statt zwei- bis viermal | 2 | Alle rein aus dem Quelltext abgeleitet, Merken am `htmlGelesenAm` hängen |
+| `zeichnen()`: Diagnosefeld aus den bereits berechneten Werten bauen statt neu zu rechnen | 1 | Inhalt bleibt gleich, keine Zusatzaufrufe |
+| `offeneZahl()`/`fertig()`: Serien-Zuordnung einmal je `erledigt`-Änderung aufbauen statt je Aufruf | 2 | 1,1 ms je Takt, doppelt bei offener Übersicht |
+| `uebersichtZeichnen()`: Text und Titel nur bei Änderung schreiben | 1 | Sonst je Takt ein neuer Textknoten |
+| Meldekörper: doppelter Schlüssel `zugang` (`amazon.js:3110` und `:3144`) | 1 | Zweiter gewinnt, `zugangsart()` läuft unnötig zweimal |
+| Offen: `innerHTML` und `body.innerText` im echten Chrome messen — Messskript für Daniel | 1 | Node kann beides nicht |
+
+### Erweiterung: wo die Zeit je Takt hingeht (gemessen 25.08.2026)
+
+Daniels Befund: „it impacts performance drastically", Ruckeln beim Navigieren. Gemessen mit
+`tools/amazon-regex-kosten.js` (Node, V8 — derselbe Motor wie Chrome) über einen synthetischen
+Quelltext von 994.541 Zeichen mit realistischer Tag-Dichte:
+
+| Stelle | je Durchlauf |
+|---|---|
+| `seitenTitel()` Auswahlfeld-Rückfall (`amazon.js:813`) | **81,4 ms** |
+| `spuren()` — 2 matchAll gespreizt + 2 exec (`amazon.js:642`) | 0,76 ms |
+| `zugangsart()` — 5 Muster ohne Anker (`amazon.js:871`) | 0,67 ms |
+| `leser ausSeite()` — `[...matchAll(/titleID/g)]` (`amazon-leser.js:332`) | 0,55 ms |
+| `seitenLage()` — 4 Muster über sichtbar+Quelltext (`amazon.js:217`) | 0,47 ms |
+| `leser abschnittsFinger()` — Ausschnitt + exec (`amazon-leser.js:465`) | 0,31 ms |
+| `leser ausSeite()` — episodePages 20k + replace (`amazon-leser.js:350`) | 0,31 ms |
+| `regionFolgenAusDom()` includes-Wächter (`amazon.js:189`) | 0,19 ms |
+| `abos()` (`amazon.js:926`) | 0,11 ms |
+| `staffelAusSeite()` — matchAll faul, bricht früh ab (`amazon.js:508`) | 0,03 ms |
+| `asinAusSeite()` — ein exec, gecacht (`amazon.js:451`) | 0,001 ms |
+| `offeneZahl()` — 85 Listenzeilen × 300 Meldungen (`amazon.js:1127`) | 1,13 ms |
+
+**Ein Muster kostet mehr als alle anderen zusammen, um den Faktor dreißig.** Der Rückfall in
+`seitenTitel()` — `([^<>"]{3,120}?)\s+[-–—]\s+(?:Staffel|Season)\s+\d+` — braucht 81 ms je
+Durchlauf. Nicht wegen der Länge des Quelltextes, sondern wegen des **faulen Zählquantivs**: An
+jeder der knapp einer Million Startstellen probiert der Motor die Längen 3, 4, 5 … durch, bis
+die Zeichenklasse abbricht. Ohne Tags sind es 119 ms — die Zahl hängt also nicht an der
+Füllmasse.
+
+Erreicht wird der Rückfall nur, wenn `og:title`, `twitter:title` und `<h1>` **alle** leer sind.
+Das ist kein Sonderfall: Genau so sah „Oshi no Ko" Staffel 3 aus (gemessen 23.08.2026), und
+genau dort ruft der Takt `seitenTitel()` bis zu fünfmal auf — aus `staffelKennung()`, zweimal
+aus `quelltextVeraltet()` (über `quelltextPasst()` und über das Diagnosefeld) und aus
+`zustandAlsText()`. Fünfmal 81 ms sind 400 ms in einem 500-ms-Takt.
+
+**Was der Takt sonst mehrfach tut, obwohl sich nichts geändert hat.** Je Durchlauf von
+`zeichnen()`:
+
+- `spuren()` zwei- bis viermal (aus `quelltextPasst()`, direkt in Zeile 1874, und noch einmal
+  aus dem Diagnosefeld in Zeile 1950)
+- `quelltextPasst()` / `quelltextVeraltet()` zwei- bis dreimal
+- `zugangsart()` zwei- bis dreimal, `abos()` darin je einmal mehr
+- `staffelAusSeite()` dreimal (Zeile 2505, `staffelSchluessel()`, `zustandAlsText()`)
+
+Der Sparschalter `if (stand === letzterStand) return` steht in Zeile 2021 — **hinter** allem
+davon. Auf einer Seite, an der sich nichts ändert, wird also fast die volle Rechnung bezahlt
+und am Ende verworfen.
+
+**Und der Mitleser rechnet in seiner eigenen Welt noch einmal.** `amazon-leser.js` läuft in der
+Seitenwelt und hat vom 2-Sekunden-Zwischenspeicher in `amazon.js` nichts. In den ersten 30
+Sekunden baut `schritt()` je 500 ms **zweimal** `documentElement.innerHTML` auf (in
+`abschnittsFinger()` und in `ausSeite()`) plus einmal `body.textContent` — rund 4 MB
+Zeichenketten je Sekunde. Der Wächter davor (`body.textContent.includes('Folgen')`,
+`amazon-leser.js:479`) spart nichts: Auf einer Titelseite steht „Folgen" praktisch immer, und
+`textContent` läuft dafür selbst über den ganzen Baum. Danach bleibt `abschnittsFinger()` alle
+4 Sekunden — dauerhaft, auf einer Seite, die stundenlang offen ist.
+
+Die schnelle Phase endet erst, wenn `tokensImQuelltext` gesetzt ist **oder** 60 Anläufe um
+sind. Bei Filmen und Staffeln mit nur einem Abschnitt — der Mehrheit — wird nie ein Token
+gefunden, die 30 Sekunden laufen also voll durch.
+
+Das erklärt die beiden „Aw, Snap! Out of Memory" vom 24. und 25.08.2026 besser als der bereits
+behobene Achtfach-Zugriff in `amazon.js`: Chrome hält alle Tabs derselben Site in **einem**
+Renderer-Prozess, und der Müll mehrerer Prime-Tabs summiert sich dort.
+
+**Nicht gemessen, weil Node es nicht kann:** `documentElement.innerHTML` (baut die Zeichenkette
+aus dem Baum neu auf) und `body.innerText` (erzwingt ein Layout über die ganze Seite). Beide
+brauchen einen echten Browser; für eine Zahl dazu wäre ein Messskript nötig, das Daniel in
+seiner angemeldeten Sitzung ausführt.
+
+**Nichts davon ist behoben** — der Durchgang vom 25.08.2026 war ein Review, kein Umbau. Die
+Aufgaben stehen in der Queue.
+
 ### FSK für Serien: geprüft und zurückgestellt (25.08.2026)
 
 Der Gedanke war verlockend: Jede deutsche Disc-Veröffentlichung braucht eine FSK-Freigabe, also
