@@ -151,6 +151,43 @@ pruefe('Erscheinungsjahr gelesen', film?.jahr === 2026, film?.jahr)
 pruefe('Genres gelesen', (film?.genres ?? []).includes('Animation'), film?.genres)
 pruefe('Beschreibung gelesen', (film?.beschreibung ?? '').length > 40, (film?.beschreibung ?? '').length)
 
+/**
+ * **Ein Fehlschlag darf den Film-Weg nicht dauerhaft sperren.**
+ *
+ * Daniel am 25.08.2026 an „Jujutsu Kaisen 0" (`0PCNT2617SSVLV8ZGSS62UTQSZ`):
+ * Der Knopf blieb auf „nicht abrufbar", auch nach Neuladen. Sein Diagnosefeld
+ * zeigte neun Sprachen, aber `folgen: 0` und `jeFolge: {}` — die Sprachen kamen
+ * aus dem Muster-Rückfall, der Film-Weg war nie gelaufen.
+ *
+ * Der Block war da und vollständig (544.032 Zeichen, nachgemessen), mit
+ * `entityType: "Movie"` und den neun Tonspuren. Nur hatte der erste Versuch
+ * nach 500 ms ins Leere gegriffen, und `hydrationFuer` wurde **unabhängig vom
+ * Ergebnis** gesetzt — damit gab es keinen zweiten.
+ *
+ * Geprüft wird hier die Regel selbst: Der Merker steht hinter einer Bedingung,
+ * nicht davor. Das ist eine Aussage über die Reihenfolge im Quelltext, und die
+ * lässt sich nur dort prüfen — ein Sandkasten, der `schritt()` erreicht, müsste
+ * die ganze Taktmechanik nachbauen.
+ */
+{
+  const zeilen = quelle.split('\n')
+  const i = zeilen.findIndex((z) => z.includes('const film = ausHydration()'))
+  pruefe('der Film-Weg wird in schritt() gerufen', i >= 0, i)
+
+  /* Die nächsten Zeilen bis zum Weiterreichen — dort muss der Merker bedingt sein. */
+  const danach = zeilen.slice(i, i + 4).join('\n')
+  pruefe(
+    'der Merker wird nur bei einem Treffer gesetzt',
+    /if \(film\)\s*hydrationFuer =/.test(danach),
+    danach.trim().slice(0, 120),
+  )
+  pruefe(
+    'und nicht unbedingt davor',
+    !/^\s*hydrationFuer = location/m.test(danach),
+    danach.trim().slice(0, 120),
+  )
+}
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) rot.`)
   process.exit(1)

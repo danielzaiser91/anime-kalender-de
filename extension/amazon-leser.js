@@ -804,9 +804,26 @@
       Hydration-Block der ausgelieferten Seite. Einmal je Adresse gelesen und
       weitergereicht, danach schweigt es.
     */
+    /*
+      **Der Merker wird erst gesetzt, wenn es geklappt hat.**
+
+      Daniel am 25.08.2026 an „Jujutsu Kaisen 0" (`0PCNT2617SSVLV8ZGSS62UTQSZ`):
+      Der Knopf blieb auf „nicht abrufbar", auch nach Neuladen. Sein
+      Diagnosefeld zeigte neun Sprachen, aber `folgen: 0` und `jeFolge: {}` —
+      die Sprachen kamen aus dem Muster-Rückfall, der Film-Weg war nie gelaufen.
+
+      Der Block ist da und vollständig (544.032 Zeichen, nachgemessen), und er
+      trägt alles: `entityType: "Movie"`, die neun Tonspuren. Nur hatte der erste
+      Versuch nach 500 ms ins Leere gegriffen — und weil `hydrationFuer`
+      **unabhängig vom Ergebnis** gesetzt wurde, gab es keinen zweiten.
+
+      Ein Merker, der auch den Fehlschlag festhält, verwandelt eine Verzögerung
+      in einen Dauerzustand.
+    */
     if (hydrationFuer !== location.pathname) {
       const film = ausHydration()
-      hydrationFuer = location.pathname
+      /* Nur ein Treffer beendet die Suche — ein Fehlschlag darf sie nicht sperren. */
+      if (film) hydrationFuer = location.pathname
       if (film && film.art && film.art !== 'TV Show') {
         window.postMessage(
           {
