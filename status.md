@@ -259,6 +259,63 @@ dritter Weg ist bislang nicht gefunden.
 
 ### Queue
 
+### Die FSK belegt die Sprachfassung — auch für Serien (25.08.2026)
+
+Daniels Einwand gegen Anime2You: „sie verlässt sich darauf, dass ein Nachrichtensender darüber
+einen Artikel schreibt … man kann sich nicht 100% darauf verlassen, dass sie rechtzeitig
+berichten."
+
+**Die FSK hat diese Schwäche nicht.** Jede Fassung, die in einem deutschen Kino läuft oder auf
+Disc erscheint, braucht eine Freigabe — das ist keine redaktionelle Entscheidung, sondern
+gesetzliche Voraussetzung.
+
+- `robots.txt`: `Disallow:` **leer**, dazu eine Sitemap. Nichts gesperrt.
+- Schnittstelle: `/fskapi/ReleaseSearch`, Parameter `searchTitle`, `searchLayout=full`,
+  `superType=single` (Kino) oder `serial` (Serien).
+- Entscheidend: `subproducts[].productLanguages`.
+
+**Kino, gemessen an vier Filmen:**
+
+| Film | `productLanguages` | Wirklichkeit |
+|---|---|---|
+| Detektiv Conan Film 29 | `["german"]` | deutsche Synchro — von Daniel im Kino gesehen |
+| Colorful Stage! The Movie | `["subtitles"]` | „exklusiv OmU, keine Synchro geplant" |
+| Gundam GQuuuuuuX -Beginning- | `["foreign","subtitles","englishSubtitles"]` | OmU |
+| Overlord: The Sacred Kingdom | `["foreign","subtitles"]` | OmU |
+
+**Und für Serien über die Disc-Freigaben** (`superType=serial`, Auswertungsform „Home
+Entertainment"):
+
+| Suche | Treffer | `productLanguages` |
+|---|---|---|
+| Jujutsu Kaisen | „Serie, Staffel 2", Eps 30–35 und 42–47 | `["german"]` |
+| Chainsaw Man | „Serie, Staffel 1", 12 Folgen | `["german"]` |
+
+**Was das bedeutet, und was nicht.** Eine Disc-Freigabe belegt, dass eine deutsche
+Synchronfassung **existiert** — nicht, dass ein bestimmter Anbieter sie führt. Für ein `dub` an
+einem Stream taugt sie deshalb nicht. Für die Frage, die dieses Projekt im Titel trägt — „für
+welche Anime gibt es eine deutsche Synchronfassung?" — ist sie dagegen die direkteste Auskunft,
+die es gibt.
+
+**Der Geltungsbereich, ebenfalls gemessen:**
+
+- **Ein leeres `productLanguages` ist ein Schweigen, kein Nein.** „Venus Wars" (freigegeben
+  09.09.1996) und „Chihiros Reise ins Zauberland" (03.09.2003) tragen beide `[]`, obwohl beide
+  auf Deutsch laufen. Die FSK hat das Feld erst später eingeführt.
+- **Eine Freigabe kommt erst kurz vor dem Start.** Für „Madoka: Walpurgisnacht Rising"
+  (24.11.2026) gab es am 25.08. noch keine.
+- **`releaseDate` ist nicht der Kinostart.** Bei „A New Dawn" steht dort der 02.08.2026, der
+  Film läuft am 15.10. an. Die FSK liefert die Fassung, TMDB den Termin.
+- **Trailer tragen oft eine andere Fassung als der Film** — gefiltert wird auf
+  `productType: "SP"`.
+- **Die Titelsuche ist unscharf.** „Frieren" liefert „Peter Hase" und „Ein Engel auf Erden".
+  Wo es Treffer gibt, sind sie belastbar; die Zuordnung muss streng bleiben.
+
+**Stand:** `pipeline/fetch-fsk.ts` deckt die Kino-Releases ab (vier von fünf gefunden, zwei mit
+belegter Fassung, die übrigen zu Recht „unklar"). Der Serienteil ist **noch nicht gebaut** —
+das ist der nächste große Schritt, denn er greift eine andere Frage an als alles bisher: nicht
+„läuft es dort auf Deutsch", sondern „gibt es überhaupt eine deutsche Fassung".
+
 ### Kino-Termine und Sprachfassung — Quellenlage gemessen (25.08.2026)
 
 **Der Auftrag** (Daniel, 25.08.2026, 10:40): „kinoapi wird benötigt um termine und sprachfassung
