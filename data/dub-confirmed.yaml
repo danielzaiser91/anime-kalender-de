@@ -18929,3 +18929,15 @@
   dub: true
   checkedAt: '2026-08-25'
   note: "Folgen 1, 2 und 5 sind in Deutschland nicht abrufbar; die übrigen zehn laufen im Prime-Abo, eine davon angespielt und deutscher Ton bestätigt (Daniel, 25.08.2026). Die Staffel danach (B0CWRDZVBY, über den Crunchyroll-Kanal) hat nur englischen Ton — sie gehört nicht zu diesem Titel."
+
+# Amazons Staffel 3 unter der JoJo-Sammelseite ist „Stardust Crusaders" mit
+# 48 Folgen — beide Teile zusammen (Daniel, 25.08.2026). AniList führt sie als
+# zwei Einträge zu je 24; die Summe geht exakt auf, und genau so ordnet dieses
+# Projekt Plattform-Staffeln zu (siehe `staffelBloecke()` für ADN).
+- anilistId: 20474
+  title: "JoJo no Kimyou na Bouken: Stardust Crusaders"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CG7S59KL
+  dub: true
+  checkedAt: '2026-08-25'
+  note: "Amazon führt beide Teile als Staffel 3 mit 48 Folgen. Läuft dort über das Crunchyroll-Kanal-Abo, deutsche Synchro von Daniel selbst gesehen (25.08.2026) — nicht aus Amazons Sprachfeld abgeleitet, das bei Kanal-Titeln kein Beleg ist. 24 Folgen gehören zu diesem Eintrag, 24 zu Egypt-hen (20799)."

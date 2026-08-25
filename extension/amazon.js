@@ -1698,7 +1698,18 @@ async function speicherSchreiben(werte) {
      * Der Knopf zeigte „3 von 26" für eine Staffel mit einer Folge.
      */
     const lautSeite = seitenLage().folgenLautSeite
-    if (lautSeite && lautSeite !== gesehen.gesamt && !quelltextPasst()) {
+    /**
+     * **Ohne Gesamtzahl ist jede Teilmenge "vollstaendig".**
+     *
+     * Faellt der Quelltext als Quelle weg, kommt von dort auch keine
+     * Folgenzahl mehr — und `vollstaendig` ergibt sich aus
+     * `!gesehen.gesamt`, ist also wahr. Der Knopf meldete daraufhin "3 Folgen"
+     * fuer JoJos Staffel 3, waehrend die Seite darueber "48 Folgen" schreibt
+     * und der Abschnitt 25-48 gerade erst lud (Daniel, 25.08.2026).
+     *
+     * Die Zahl der Seite fuellt die Luecke, sobald es eine gibt.
+     */
+    if (lautSeite && (!gesehen.gesamt || (lautSeite !== gesehen.gesamt && !quelltextPasst()))) {
       gesehen.gesamt = lautSeite
     }
     if (jetzt.gesamt && jetzt.gesamt !== gesehen.gesamt) {
@@ -1898,6 +1909,28 @@ async function speicherSchreiben(werte) {
         return
       }
 
+      /**
+       * **Eine Seite, die "48 Folgen" schreibt, ist nicht "nicht abrufbar".**
+       *
+       * Hierher fuehrt jeder Weg, auf dem keine einzige Folge gelesen wurde —
+       * auch der, auf dem der Quelltext bewusst verworfen wurde und der
+       * Mitleser noch nichts geliefert hat. Das ist "unbekannt", nicht
+       * "nichts", und der Unterschied entscheidet ueber eine Meldung, die
+       * einen Verweis loescht.
+       *
+       * Daniel am 25.08.2026 an JoJo Staffel 3: Nach dem Neuladen stand
+       * "nicht abrufbar - melden" ueber einer Seite mit achtundvierzig
+       * sichtbaren Folgen.
+       *
+       * Zeigt die Seite eine Folgenzahl an, wird deshalb gesperrt statt
+       * gemeldet. Lieber nicht melden koennen als falsch melden.
+       */
+      if (seitenLage().folgenLautSeite && !regionWeg && !nichtAbrufbar && !fehlerseite) {
+        knopf.dataset.tot = 'false'
+        knopf.disabled = true
+        knopf.textContent = 'Tonspuren noch nicht geladen'
+        return
+      }
       knopf.dataset.tot = String(regionWeg || nichtAbrufbar || !wartet)
       knopf.disabled = false
       knopf.textContent = regionWeg
@@ -1939,8 +1972,12 @@ async function speicherSchreiben(werte) {
     const umfang = istFilm
       ? 'Film'
       : vollstaendig
-      ? `${geladen} ${geladen === 1 ? 'Folge' : 'Folgen'}`
-      : `${geladen} von ${gesehen.gesamt}` + (wartet ? ' — lädt nach' : ' — Abschnitte selbst öffnen')
+        ? `${geladen} ${geladen === 1 ? 'Folge' : 'Folgen'}`
+        : regionWeg
+          ? // Was fehlt, ist gesperrt — die Zahl sagt, worüber der Befund gilt.
+            `${geladen} von ${gesehen.gesamt}, Rest nicht in Region`
+          : `${geladen} von ${gesehen.gesamt}` +
+            (wartet ? ' — lädt nach' : ' — Abschnitte selbst öffnen')
     // Eine Staffel, die wir nicht führen, wird trotzdem gemeldet — der Knopf
     // sagt es nur dazu, damit die Meldung nicht wie eine Zuordnung aussieht.
     const woher = eintrag.unbekannt ? ' · neu' : ''
@@ -2234,7 +2271,27 @@ async function speicherSchreiben(werte) {
      * **vor** der Aufforderung, fehlende Abschnitte selbst zu öffnen — denn er
      * sagt, dass es dort nichts mehr zu öffnen gibt.
      */
-    if (regionWeg && !vollstaendig) {
+    /**
+     * **Ein gefundener Beleg schlägt den Regionshinweis.**
+     *
+     * Die Bedingung „nur bei unvollständiger Liste" aus 0.86 reichte nicht: Bei
+     * „Mahouka" Staffel 2 sind drei von dreizehn Folgen gesperrt, die übrigen
+     * zehn tragen deutschen Ton — und weil drei fehlen, galt die Liste als
+     * unvollständig und der Knopf bot an, die ganze Reihe als verschwunden zu
+     * melden. Daniel am 25.08.2026: „jetzt steht da in der region nicht
+     * verfügbar, statt 10/13 melden (3 nicht verfügbar in region)".
+     *
+     * Die Erkennung der einzelnen gesperrten Folgen über das DOM hilft hier
+     * nicht zuverlässig: Amazon rendert die Kacheln erst beim Scrollen, also
+     * sieht sie nur, was gerade im Bild ist.
+     *
+     * Der Beleg ist die bessere Grundlage, und er ist unabhängig vom
+     * Scrollzustand: **Wo deutscher Ton gefunden wurde, gibt es die Staffel.**
+     * Das ist dieselbe Asymmetrie, die dieses Projekt überall zieht — aus einem
+     * Ausschnitt entsteht nie ein Nein, ein Ja sehr wohl. Erst wenn gar nichts
+     * gefunden wurde, ist der Hinweis die einzige Auskunft, die die Seite gibt.
+     */
+    if (regionWeg && !vollstaendig && !deutsch) {
       knopf.disabled = false
       knopf.dataset.tot = 'true'
       knopf.dataset.deutsch = 'false'
@@ -2242,7 +2299,12 @@ async function speicherSchreiben(werte) {
       return
     }
 
-    if (!vollstaendig) {
+    /**
+     * Fehlende Folgen auf einer Seite mit Regionshinweis fehlen nicht — sie
+     * sind gesperrt. Dann gibt es nichts nachzuladen, und die Meldung geht mit
+     * dem, was belegt ist.
+     */
+    if (!vollstaendig && !(regionWeg && deutsch)) {
       knopf.disabled = true
       knopf.textContent = wartet
         ? `${deutsch ? '🇩🇪' : '·'} ${geladen} von ${gesehen.gesamt} — lädt nach`
