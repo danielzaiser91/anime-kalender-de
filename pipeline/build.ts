@@ -3036,6 +3036,45 @@ function main(): void {
 
   schreibeMeldungen(slim)
 
+  /**
+   * Wie lange ein Kinofilm läuft, steht nur im Kinoprogramm.
+   *
+   * Ein Kinostart hat kein angekündigtes Ende — er ergibt sich daraus, wie
+   * lange die Häuser ihn spielen. `data/cinestar.json` sammelt genau das: die
+   * Vorstellungstage über 43 Standorte. Der späteste davon ist das belegte
+   * Ende, und mehr als belegt wird hier nicht behauptet.
+   *
+   * Gebraucht wird es für eine einzige Unterscheidung, die dem Besucher sonst
+   * verborgen bliebe: Solange der Film läuft, ist „Kein Anbieter bekannt" eine
+   * Irreführung — der Anbieter ist das Kino. Danach ist derselbe Satz die
+   * richtige Auskunft.
+   */
+  const cinestar = readJson<{ filme?: Record<string, { anilistId?: number; tage?: Record<string, unknown> }> }>(
+    'data/cinestar.json',
+    {},
+  ).filme
+  if (cinestar) {
+    const letzterTag = new Map<number, string>()
+    for (const f of Object.values(cinestar)) {
+      if (!f.anilistId) continue
+      const tage = Object.keys(f.tage ?? {}).sort()
+      const letzter = tage.at(-1)
+      if (!letzter) continue
+      // Läuft ein Film in mehreren Fassungen oder Reihen, gewinnt der spätere Tag.
+      const bisher = letzterTag.get(f.anilistId)
+      if (!bisher || letzter > bisher) letzterTag.set(f.anilistId, letzter)
+    }
+    let kinoEnden = 0
+    for (const r of releases) {
+      if (r.platform !== 'kino') continue
+      const bis = letzterTag.get(r.titleId)
+      if (!bis) continue
+      r.cinemaUntil = bis
+      kinoEnden++
+    }
+    if (kinoEnden) log(`${kinoEnden} Kino-Release(s) mit belegtem letzten Spieltag`)
+  }
+
   writeJson(`${OUT}/releases.json`, releases)
   writeJson(`${OUT}/events.json`, events)
   writeJson(`${OUT}/meta.json`, meta, true)

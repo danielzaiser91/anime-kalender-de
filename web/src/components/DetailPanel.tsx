@@ -2153,21 +2153,50 @@ export function DetailPanel({
             hat die eine Aufgabe, das Suchen auf dieser Seite zu beenden.
           */}
           {/*
-            **Bei einem Kinostart ist „Kein Anbieter bekannt" keine Auskunft,
-            sondern eine Irreführung.**
+            **Solange ein Film im Kino läuft, ist „Kein Anbieter bekannt" eine
+            Irreführung — danach die richtige Auskunft.**
 
-            Der Anbieter ist dort das Kino, und der Termin steht drei Zeilen
-            höher. Trotzdem stand unter „Detektiv Conan Film 29" der Satz „Kein
-            Anbieter bekannt." — weil ein Kinofilm naturgemäß weder Stream noch
-            Kauflink hat (Daniel, 25.08.2026: „wieso keine anbieter bekannt?").
+            Der Satz stand unter „Detektiv Conan Film 29", während der Film in
+            36 Städten lief (Daniel, 25.08.2026: „wieso keine anbieter
+            bekannt?"). Der Anbieter war das Kino, und der Termin stand drei
+            Zeilen höher.
 
-            Der Hinweis bleibt für alles andere richtig und wichtig: Bei
-            „.hack//SIGN" ist die deutsche Synchro belegt, nur weiß niemand, wo
-            man sie heute sehen kann. Genau dafür ist er gemacht.
+            Ihn bei jedem Kinofilm auszublenden wäre aber zu grob: „später
+            irgendwann kommen kinofilme auch bei anbietern, aber solang es keine
+            gibt, brauch dieser text da nich stehen. erst wenn der film in
+            keinem kino mehr läuft, dann."
+
+            Entschieden wird deshalb am **belegten letzten Spieltag**
+            (`cinemaUntil`, aus dem CineStar-Programm über 43 Standorte) — nicht
+            an einer geschätzten Laufzeit.
+
+            Vier Fälle, und alle vier fallen richtig:
+
+            | Kino | Stream/Disc | Hinweis |
+            |---|---|---|
+            | läuft | vorhanden | nein — die erste Bedingung greift |
+            | läuft | keiner | nein — der Anbieter ist das Kino |
+            | vorbei | vorhanden | nein — die erste Bedingung greift |
+            | vorbei | keiner | **ja** |
+
+            Dass beides gleichzeitig gilt, ist dabei der Normalfall und kein
+            Sonderfall: Ein Film kann im Kino laufen und schon auf Disc sein
+            (Daniel, 25.08.2026). Die Bedingungen schließen einander nicht aus.
+
+            Fehlt `cinemaUntil` — etwa weil CineStar den Film nicht führt —,
+            zählt der Starttermin: Ab dem Kinostart gilt der Film als laufend,
+            bis das Gegenteil belegt ist. Das ist die vorsichtige Seite: lieber
+            einen Hinweis zu wenig als eine falsche Auskunft.
           */}
           {title.streams.length === 0 &&
             (title.watchLinks?.length ?? 0) === 0 &&
-            !releases.some((r) => r.platform === 'kino') && (
+            !releases.some(
+              (r) =>
+                r.platform === 'kino' &&
+                (r.cinemaUntil
+                  ? r.cinemaUntil >= today
+                  : (r.schedule?.firstEpisodeDate ?? '') >= today),
+            ) && (
             <div>
               <SectionTitle>{t('detail.whereToWatch')}</SectionTitle>
 

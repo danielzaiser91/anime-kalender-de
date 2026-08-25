@@ -305,6 +305,29 @@ export interface Release {
   edition?: string
   note?: string
   /**
+   * Letzter belegter Kinotag — nur bei `platform: 'kino'`.
+   *
+   * Gefüllt aus `data/cinestar.json`, also aus echten Vorstellungsterminen über
+   * 43 Standorte. Ein Kinostart hat kein angekündigtes Ende; wie lange ein Film
+   * läuft, steht nirgends geschrieben, es ergibt sich aus dem Programm.
+   *
+   * **Wofür das Feld da ist:** Solange ein Film läuft, wäre „Kein Anbieter
+   * bekannt" eine Irreführung — der Anbieter ist das Kino. Danach wird derselbe
+   * Satz zur richtigen Auskunft. Ohne dieses Datum ließe sich das eine nicht
+   * vom anderen unterscheiden (Daniel, 25.08.2026: „erst wenn der film in
+   * keinem kino mehr läuft, dann").
+   *
+   * **Bewusst nicht `schedule.lastEpisodeDate`:** Das Feld steuert die
+   * Statusberechnung und das Auffalten der Termine. Ein Kinofilm hat eine
+   * Folge; ein Enddatum dort hätte Nebenwirkungen, die mit der Frage nichts zu
+   * tun haben.
+   *
+   * Es sagt **nichts** über Streams: Ein Film kann im Kino laufen und
+   * gleichzeitig auf Disc erscheinen (Daniel, 25.08.2026). Beide Auskünfte
+   * stehen nebeneinander, keine schließt die andere aus.
+   */
+  cinemaUntil?: string
+  /**
    * Ein **zweiter** Termin, den eine andere Quelle nennt.
    *
    * Wenn zwei Quellen unterschiedliche Tage angeben und keine von beiden sich
