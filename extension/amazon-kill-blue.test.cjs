@@ -486,3 +486,88 @@ function ergebnis() {
     ergebnis()
   }, 0)
 }
+
+/**
+ * **Eine gesperrte Folge sperrt nicht die Staffel.**
+ *
+ * Daniel am 25.08.2026 an „Yu-Gi-Oh! ZEXAL" Staffel 2, mit Bild: Der Knopf
+ * schrieb „✕ in dieser Region nicht mehr verfügbar — melden", obwohl
+ * „1. Party Panic" und „2. Roller Duel!" direkt daneben abrufbar sind.
+ *
+ * Die Prüfung suchte die Sperrmeldung im **ganzen** Quelltext. Bei dieser
+ * Staffel steht sie zwölfmal — für zwölf von vierundzwanzig Folgen. Weg ist
+ * die Staffel aber nur, wenn keine übrig bleibt.
+ */
+{
+  /* Gemischt: Folge 1 und 2 abrufbar, 3 und 4 gesperrt. */
+  const gemischt = starte()
+  /* Eigene Adresse: sonst ergaenzt die Antwort den Stand, den starte() schon gesetzt hat. */
+  gemischt.sandkasten.location.search = '?ref_=atv_dp_season_select_s9'
+  /*
+    **Der Quelltext traegt die Sperrmeldung — wie in Wirklichkeit.**
+
+    Bei ZEXAL Staffel 2 steht sie zwoelfmal im Quelltext, fuer zwoelf von
+    vierundzwanzig Folgen. Ohne sie im Test pruefte diese Zusicherung nur die
+    Haelfte: Sie zeigte nicht, dass die alte Quelltext-Suche die ganze Seite
+    gesperrt haette.
+  */
+  gemischt.sandkasten.document.documentElement.innerHTML =
+    '<link rel="canonical" href="https://www.amazon.de/gp/video/detail/B0GTN94C9M"/>' +
+    'In deiner Region nicht mehr auf Prime Video verfügbar'.repeat(12)
+  takten(gemischt.takte, gemischt.uhr, 2)
+  gemischt.sandkasten.__nachrichtenHoerer?.({
+    source: gemischt.sandkasten.window,
+    data: {
+      marke: 'ak-amazon-folgen',
+      fuerAdresse: gemischt.sandkasten.location.pathname + gemischt.sandkasten.location.search,
+      gesamt: 4,
+      funde: [
+        { nummer: 1, kennung: 'B000A', sprachen: ['Deutsch'], verfuegbar: true },
+        { nummer: 2, kennung: 'B000B', sprachen: ['Deutsch'], verfuegbar: true },
+        { nummer: 3, kennung: 'B000C', sprachen: [], verfuegbar: false, hinweis: 'In deiner Region nicht mehr auf Prime Video verfügbar' },
+        { nummer: 4, kennung: 'B000D', sprachen: [], verfuegbar: false, hinweis: 'In deiner Region nicht mehr auf Prime Video verfügbar' },
+      ],
+    },
+  })
+  takten(gemischt.takte, gemischt.uhr, 8)
+
+  const kg = gemischt.angehaengt.find((e) => (e.className || '').includes('ak-amazon-knopf'))
+  const dg = JSON.parse(kg?.dataset?.diag ?? '{}')
+
+  pruefe('nur die abrufbaren Folgen zählen', dg.folgen === 2, dg.folgen)
+  pruefe(
+    'der Knopf meldet die Staffel nicht als gesperrt',
+    !/Region nicht mehr/.test(kg?.textContent ?? ''),
+    kg?.textContent,
+  )
+  pruefe(
+    'und die gesperrten gelten nicht als „ohne Deutsch"',
+    !Object.values(dg.jeFolge ?? {}).some((s) => Array.isArray(s) && s.length === 0),
+    dg.jeFolge,
+  )
+
+  /* Vollständig gesperrt: dann ist die Staffel wirklich weg. */
+  const ganzWeg = starte()
+  ganzWeg.sandkasten.location.search = '?ref_=atv_dp_season_select_s8'
+  takten(ganzWeg.takte, ganzWeg.uhr, 2)
+  ganzWeg.sandkasten.__nachrichtenHoerer?.({
+    source: ganzWeg.sandkasten.window,
+    data: {
+      marke: 'ak-amazon-folgen',
+      fuerAdresse: ganzWeg.sandkasten.location.pathname + ganzWeg.sandkasten.location.search,
+      gesamt: 2,
+      funde: [
+        { nummer: 1, kennung: 'B000E', sprachen: [], verfuegbar: false, hinweis: 'In deiner Region nicht mehr auf Prime Video verfügbar' },
+        { nummer: 2, kennung: 'B000F', sprachen: [], verfuegbar: false, hinweis: 'In deiner Region nicht mehr auf Prime Video verfügbar' },
+      ],
+    },
+  })
+  takten(ganzWeg.takte, ganzWeg.uhr, 8)
+
+  const kw = ganzWeg.angehaengt.find((e) => (e.className || '').includes('ak-amazon-knopf'))
+  pruefe(
+    'ist keine Folge übrig, meldet der Knopf die Sperre',
+    /Region nicht mehr/.test(kw?.textContent ?? ''),
+    kw?.textContent,
+  )
+}

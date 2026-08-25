@@ -2384,7 +2384,30 @@ async function speicherSchreiben(werte) {
      * auch in der ausgelieferten Seite. Wer nur eine der beiden Quellen nimmt,
      * verpasst den Fall, in dem die andere ihn trägt.
      */
-    const { fehlerseite, regionWeg, stoerung, nichtAbrufbar } = seitenLage()
+    const lage = seitenLage()
+    const { fehlerseite, stoerung, nichtAbrufbar } = lage
+
+    /**
+     * **Eine gesperrte Folge sperrt nicht die Staffel.**
+     *
+     * Daniel am 25.08.2026 an „Yu-Gi-Oh! ZEXAL" Staffel 2, mit Bild: Der Knopf
+     * schrieb „✕ in dieser Region nicht mehr verfügbar — melden", obwohl
+     * „1. Party Panic" und „2. Roller Duel!" direkt daneben abrufbar sind.
+     *
+     * `seitenLage().regionWeg` sucht die Meldung im **ganzen** Quelltext. Steht
+     * sie irgendwo — und bei dieser Staffel steht sie zwölfmal —, galt die
+     * ganze Seite als weg. Das war richtig, solange die Erweiterung nichts
+     * Genaueres wusste; seit 2.5 weiß sie es je Folge.
+     *
+     * Gemessen an derselben Seite: 24 Folgen, davon 12 gesperrt und 12
+     * abrufbar. Weg ist die Staffel nur, wenn **keine** übrig bleibt.
+     */
+    const gesperrteFolgen = gesehen.gesperrt?.size ?? 0
+    const offeneFolgen = gesehen.nummern.size
+    const regionWeg =
+      gesperrteFolgen > 0 || offeneFolgen > 0
+        ? gesperrteFolgen > 0 && offeneFolgen === 0
+        : lage.regionWeg
 
     /**
      * „Nicht mehr in deiner Region" ist eine Auskunft, ein Fehler ist keine.
