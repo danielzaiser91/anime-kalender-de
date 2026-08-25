@@ -215,6 +215,8 @@ const TEXTE = {
   // Ohne ihn fehlte der Abschnitt ganz, und „läuft nirgends" war von „wissen
   // wir nicht" nicht zu unterscheiden.
   'detail.whereUnknown': 'Kein Anbieter bekannt.',
+  // Der Aufklapper für eine lange Notiz — siehe DetailPanel, `release.note`.
+  'detail.noteToggle': 'Zur Sprachfassung',
   'detail.sharedUrl': '{count} Einträge',
   // Bewusst „kann abweichen", nicht „weicht ab": Belegt ist nur, dass mehrere
   // unserer Einträge auf dieselbe Adresse zeigen. Wie der Anbieter seinerseits

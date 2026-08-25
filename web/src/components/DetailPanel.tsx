@@ -358,11 +358,41 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
           {[release.publisher, release.edition].filter(Boolean).join(' · ')}
         </p>
       )}
-      {release.note && (
-        <p className="mt-1 rounded bg-amber-500/10 px-2 py-1 text-xs text-amber-600 dark:text-amber-400">
-          {release.note}
-        </p>
-      )}
+      {/*
+        Eine lange Notiz gehört eingeklappt, nicht in einen gelben Kasten.
+
+        Bis zum 25.08.2026 stand `note` immer voll ausgeschrieben da. Solange
+        dort ein Halbsatz stand („Wiederaufführung zum 25. Jubiläum"), war das
+        richtig. Seit die Kino-Einträge die Fassungslage im Klartext tragen —
+        wie viele Vorstellungen auf Deutsch, wie viele im Original, ab wann nur
+        noch eine —, sind es acht Zeilen, die den Termin darunter wegdrücken.
+
+        Daniel am 25.08.2026: „mach diesen gelben text kürzer, bzw schieb ihn
+        unten in ausklapp bereich oder mach hinter das ‚im kino ab'-datum ein
+        ausklapp icon, und zeig es dann darunter an."
+
+        Kurze Notizen bleiben deshalb sichtbar, lange klappen auf. Die Schwelle
+        liegt bei 120 Zeichen: Das ist etwa das, was in zwei Zeilen passt, ohne
+        den Blick vom Termin zu ziehen.
+      */}
+      {release.note &&
+        (release.note.length <= 120 ? (
+          <p className="mt-1 rounded bg-amber-500/10 px-2 py-1 text-xs text-amber-700 dark:text-amber-300">
+            {release.note}
+          </p>
+        ) : (
+          <details className="group mt-1">
+            <summary className="flex cursor-pointer list-none items-center gap-1 rounded px-2 py-1 text-xs text-amber-700 hover:bg-amber-500/10 dark:text-amber-300">
+              <span aria-hidden className="transition group-open:rotate-90">
+                ›
+              </span>
+              {t('detail.noteToggle')}
+            </summary>
+            <p className="mt-1 rounded bg-amber-500/10 px-2 py-1 text-xs leading-relaxed text-amber-700 dark:text-amber-300">
+              {release.note}
+            </p>
+          </details>
+        ))}
       {/*
         Zwei Termine, keiner belegbar — dann stehen beide da.
 
@@ -2122,7 +2152,22 @@ export function DetailPanel({
             kennzeichnen statt weglassen" gemacht ist. Ein Satz, kein Absatz: Er
             hat die eine Aufgabe, das Suchen auf dieser Seite zu beenden.
           */}
-          {title.streams.length === 0 && (title.watchLinks?.length ?? 0) === 0 && (
+          {/*
+            **Bei einem Kinostart ist „Kein Anbieter bekannt" keine Auskunft,
+            sondern eine Irreführung.**
+
+            Der Anbieter ist dort das Kino, und der Termin steht drei Zeilen
+            höher. Trotzdem stand unter „Detektiv Conan Film 29" der Satz „Kein
+            Anbieter bekannt." — weil ein Kinofilm naturgemäß weder Stream noch
+            Kauflink hat (Daniel, 25.08.2026: „wieso keine anbieter bekannt?").
+
+            Der Hinweis bleibt für alles andere richtig und wichtig: Bei
+            „.hack//SIGN" ist die deutsche Synchro belegt, nur weiß niemand, wo
+            man sie heute sehen kann. Genau dafür ist er gemacht.
+          */}
+          {title.streams.length === 0 &&
+            (title.watchLinks?.length ?? 0) === 0 &&
+            !releases.some((r) => r.platform === 'kino') && (
             <div>
               <SectionTitle>{t('detail.whereToWatch')}</SectionTitle>
 
