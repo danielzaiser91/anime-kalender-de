@@ -254,6 +254,19 @@
       /* Der Serientitel — bei einer Staffel steht er getrennt vom Staffelnamen. */
       serie: kopf.parentTitle ?? null,
       staffel: Number.isFinite(kopf.seasonNumber) ? kopf.seasonNumber : null,
+      /**
+       * **Der Band, falls Prime die Staffel geteilt hat.**
+       *
+       * „Yu-Gi-Oh! ZEXAL" führt sechs Einträge im Auswahlfeld, aber nur drei
+       * Staffeln: jede einmal als Band 1 und einmal als Band 2. Ohne diese
+       * Angabe sähen zwei Meldungen zu „Staffel 2" wie ein Widerspruch aus,
+       * obwohl sie verschiedene Folgen meinen.
+       *
+       * Genommen wird der Name aus der Staffelliste, nicht aus dem Seitentitel:
+       * Dort steht er als eigenes Feld, statt aus „Yu-Gi-Oh! ZEXAL - Season 2,
+       * Volume 2 [OV]" herausgeschnitten werden zu müssen.
+       */
+      band: (oben.seasons?.[kennung] ?? []).find((s) => s?.isSelected)?.displayName ?? null,
       beschreibung: kopf.synopsis ?? null,
       sprachen: namenAus(kopf.audioTracks ?? []),
       untertitel: Array.isArray(kopf.subtitles) ? kopf.subtitles : [],

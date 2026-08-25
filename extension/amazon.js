@@ -498,6 +498,8 @@ async function speicherSchreiben(werte) {
    */
   let gemeldeterSerientitel = null
   let gemeldeteStaffelNummer = null
+  /** Der Bandname, wenn Prime die Staffel geteilt hat („Season 2, Volume 2"). */
+  let gemeldeterBand = null
 
   let asinZwischenspeicher = null
   let asinZu = -1
@@ -590,6 +592,45 @@ async function speicherSchreiben(werte) {
     // Rückfall: der Seitentitel nennt sie im Klartext.
     const ausTitel = /,\s*(?:Staffel|Season)\s*(\d+)/i.exec(document.title || '')?.[1]
     return ausTitel ? Number(ausTitel) : null
+  }
+
+  /**
+   * **Die Staffelnummer — das JSON schlägt die Adresse.**
+   *
+   * Bis zum 25.08.2026 stand `staffelAusAdresse()` vorn, und das war richtig,
+   * solange der Quelltext nach einem Wechsel veraltete: Die Adresse wanderte
+   * mit, das JSON nicht.
+   *
+   * Seit die Angabe aus dem Hydration-Block kommt, dreht sich das um — und
+   * „Yu-Gi-Oh! ZEXAL" zeigt, warum das nötig ist. Prime teilt dort jede
+   * Staffel in zwei Bände und nutzt `sequenceNumber` als **Sortierschlüssel**,
+   * nicht als Staffelnummer:
+   *
+   * ```
+   * B0CB8SGJCZ  seq 1    Staffel 1, Band 2
+   * B0GTJV4S7L  seq 1    Season 1, Volume 2
+   * B0GV8N71SL  seq 2    Season 2, Volume 2
+   * B0FHGJ7KS1  seq 3    Season 3, Volume 2
+   * B01EKI0P2U  seq 101  Season 1, Volume 1
+   * B01EKI0SQ8  seq 201  Season 2, Volume 1
+   * ```
+   *
+   * Die Adresse trägt genau diese Zahl (`?ref_=atv_dp_season_select_s101`).
+   * Ein Klick auf „Season 1, Volume 1" hätte also **Staffel 101** gemeldet.
+   * `headerDetail.seasonNumber` sagt dort 1 — geprüft am gewählten Band, wo
+   * es 2 sagt und die Adresse `s2` trägt.
+   *
+   * Die Adresse bleibt die Rückfallebene: Sie ist die einzige Quelle, wenn der
+   * Block nicht gelesen werden konnte. Ihre Zahl wird dann aber verworfen,
+   * sobald sie kein Staffelwert mehr sein kann — mehr als fünfzig Staffeln hat
+   * keine Reihe bei Prime, und die Grenze trennt jeden echten Fall von den
+   * dreistelligen Sortierschlüsseln.
+   */
+  function staffelNummer() {
+    if (Number.isFinite(gemeldeteStaffelNummer)) return gemeldeteStaffelNummer
+    const ausAdresse = staffelAusAdresse()
+    if (Number.isFinite(ausAdresse)) return ausAdresse <= 50 ? ausAdresse : null
+    return quelltextPasst() ? staffelAusSeite() : null
   }
 
   function staffelAusAdresse() {
@@ -1935,6 +1976,7 @@ async function speicherSchreiben(werte) {
         gemeldeteSeitenKennung = null
         gemeldeterSerientitel = null
         gemeldeteStaffelNummer = null
+        gemeldeterBand = null
         letzteZahl = -1
         gemeldeteStaffel = null
         letzterStand = ''
@@ -1958,6 +2000,7 @@ async function speicherSchreiben(werte) {
       if (s.kennung) gemeldeteSeitenKennung = s.kennung
       if (s.serie || s.titel) gemeldeterSerientitel = s.serie ?? s.titel
       if (Number.isFinite(s.staffel)) gemeldeteStaffelNummer = s.staffel
+      if (s.band) gemeldeterBand = s.band
       gesehen.seite = s
     }
     for (const f of e.data.funde ?? []) {
@@ -3699,7 +3742,9 @@ async function speicherSchreiben(werte) {
            * Ein Film bekommt weiterhin `null`, und das ist richtig: Er hat
            * keine Staffel, und eine erfundene 1 wäre schlimmer als keine Angabe.
            */
-          staffel: staffelAusAdresse() ?? (quelltextPasst() ? staffelAusSeite() : null),
+          staffel: staffelNummer(),
+          /* Nur gesetzt, wenn Prime die Staffel in Bände geteilt hat. */
+          band: gemeldeterBand,
           /**
            * Wie man an den Titel kommt — im Abo, gegen Geld, oder beides.
            *

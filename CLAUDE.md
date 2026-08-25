@@ -1375,3 +1375,28 @@ Abschnitte nennt (Film, kurze Staffel).
 Dieselbe Serie führt „Band" und „Volume" nebeneinander, und `sequenceNumber` ist bei beiden
 Bänden derselbe. Die Frage „steht noch etwas aus?" beantwortet die Sache direkt, ohne über die
 Beschriftung zu raten.
+
+**Und `sequenceNumber` ist dort ein Sortierschlüssel, keine Staffelnummer.** Dieselbe Liste,
+vollständig:
+
+```
+B0CB8SGJCZ  seq 1    Staffel 1, Band 2
+B0GTJV4S7L  seq 1    Season 1, Volume 2
+B0GV8N71SL  seq 2    Season 2, Volume 2   ← gewählt
+B0FHGJ7KS1  seq 3    Season 3, Volume 2
+B01EKI0P2U  seq 101  Season 1, Volume 1
+B01EKI0SQ8  seq 201  Season 2, Volume 1
+```
+
+Daniel dazu: „yu gi oh zexal has weird seasons." Sechs Einträge für drei Staffeln, zwei
+Schreibweisen nebeneinander, Band 2 vor Band 1 — und die beiden Bände 1 tragen 101 und 201.
+
+**Die Adresse trägt genau diese Zahl** (`?ref_=atv_dp_season_select_s101`). Solange
+`staffelAusAdresse()` vorn stand, hätte ein Klick auf „Season 1, Volume 1" also **Staffel 101**
+gemeldet. `headerDetail.seasonNumber` sagt dagegen sauber 1 — geprüft am gewählten Band, wo es
+2 sagt und die Adresse `s2` trägt.
+
+Seit 2.8 gilt deshalb: **`seasonNumber` aus dem Hydration-Block schlägt die Adresse**, und eine
+Adresszahl über 50 wird verworfen statt gemeldet. Dazu geht der **Bandname** als eigenes Feld
+mit (`band: "Season 2, Volume 2"`) — ohne ihn sähen zwei Meldungen zu „Staffel 2" wie ein
+Widerspruch aus, obwohl sie verschiedene Folgen meinen.

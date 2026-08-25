@@ -265,6 +265,61 @@ pruefe('Beschreibung gelesen', (erste?.beschreibung ?? '').length > 40, (erste?.
   pruefe('ohne Folgenzahl gilt die Liste als vollständig', voll(null, 1, null) === true, voll(null, 1, null))
 }
 
+/**
+ * **Prime nutzt `sequenceNumber` als Sortierschlüssel, nicht als Staffelnummer.**
+ *
+ * Daniel am 25.08.2026, mit Bild des Auswahlfelds: „yu gi oh zexal has weird
+ * seasons." Sechs Einträge, drei Staffeln, gemischte Schreibweisen — und die
+ * beiden Bände 1 tragen 101 und 201.
+ *
+ * Die Adresse trägt genau diese Zahl (`?ref_=atv_dp_season_select_s101`). Ein
+ * Klick auf „Season 1, Volume 1" hätte damit **Staffel 101** gemeldet, solange
+ * `staffelAusAdresse()` vorn stand.
+ */
+{
+  const seq = (s?.staffeln ?? []).map((x) => x.nummer)
+  pruefe('dreistellige Sortierschlüssel stehen in der Liste', seq.some((n) => n > 50), seq)
+  pruefe(
+    'aber die Staffelnummer der Seite ist zweistellig oder kleiner',
+    s?.staffel === 2,
+    s?.staffel,
+  )
+
+  /* Der Band steht als eigenes Feld da — nicht aus dem Titel geschnitten. */
+  pruefe('der Band wird gemeldet', s?.band === 'Season 2, Volume 2', s?.band)
+  pruefe(
+    'und er kommt aus der Staffelliste, nicht aus dem Seitentitel',
+    !/Yu-Gi-Oh/.test(s?.band ?? ''),
+    s?.band,
+  )
+
+  /* Die Vorrangkette in `amazon.js`: erst das JSON, dann die Adresse. */
+  const amazon = readFileSync(resolve(__dirname, 'amazon.js'), 'utf8')
+  const von = amazon.indexOf('function staffelNummer() {')
+  pruefe('staffelNummer() ist auffindbar', von > 0, von)
+
+  let tiefe = 0
+  let bis = amazon.indexOf('{', von)
+  for (let i = bis; i < amazon.length; i++) {
+    if (amazon[i] === '{') tiefe++
+    else if (amazon[i] === '}' && --tiefe === 0) {
+      bis = i + 1
+      break
+    }
+  }
+  const koerper = amazon.slice(von, bis)
+  pruefe(
+    'das JSON steht vor der Adresse',
+    koerper.indexOf('gemeldeteStaffelNummer') < koerper.indexOf('staffelAusAdresse'),
+    koerper.replace(/\s+/g, ' ').slice(0, 100),
+  )
+  pruefe(
+    'und eine dreistellige Zahl aus der Adresse wird verworfen',
+    /<=\s*50/.test(koerper),
+    koerper.replace(/\s+/g, ' ').slice(0, 200),
+  )
+}
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) rot.`)
   process.exit(1)
