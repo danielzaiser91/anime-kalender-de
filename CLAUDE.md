@@ -410,6 +410,12 @@ gescheitert; gepaart wird deshalb über die Reihenfolge — zur Tonspurangabe ge
 Folgennummer dahinter, solange vorher keine weitere Tonspurangabe kommt.
 
 
+**Was die Erweiterung je Takt kostet, steht gemessen in
+[`extension/PERFORMANCE.md`](extension/PERFORMANCE.md)** — mit den Stellen, die man
+zwischenspeichern darf, und denen, die aussehen wie Sparpotenzial und keins sind. Wer an
+`amazon.js` oder `amazon-leser.js` etwas an der Leistung ändern will, liest das zuerst:
+Mehrere der teuer aussehenden Muster sind Reparaturen echter Fehlschläge.
+
 ### Der Quelltext veraltet beim Staffelwechsel — und das ist die Wurzel
 
 **Amazon tauscht beim Wechsel über das Auswahlfeld den Quelltext nicht aus.** Adresse und ASIN

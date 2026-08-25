@@ -32,7 +32,7 @@
  * ein Layout über die ganze Seite). Die brauchen einen echten Browser.
  */
 
-function baueSeite({ mitTags }) {
+function baueSeite({ mitTags, ziel = 994000 }) {
   const teile = []
   const jsonFueller =
     '{"__typename":"Recommendation","imageSrc":"https://m.media-amazon.com/images/S/pv-target-images/' +
@@ -45,7 +45,7 @@ function baueSeite({ mitTags }) {
     '</a><span class="_36qUej">Irgendeine Serie</span><p>Lorem ipsum dolor sit amet</p></div>'
   let i = 0
   let laenge = 0
-  while (laenge < 994000) {
+  while (laenge < ziel) {
     // Rund alle 4,5 KB eine titleID-Fundstelle — die Digimon-Seite führt 220.
     if (i % 10 === 0) {
       const wert = i % 30 === 0 ? '' : 'B0' + String(i).padStart(8, 'X').slice(0, 8)
@@ -86,8 +86,12 @@ function miss(name, fn, runden = 20) {
   console.log(name.padEnd(58), (Number(t1 - t0) / 1e6 / runden).toFixed(3).padStart(9), 'ms')
 }
 
-for (const mitTags of [true, false]) {
-  const html = baueSeite({ mitTags })
+for (const { mitTags, ziel } of [
+  { mitTags: true, ziel: 2200000 },
+  { mitTags: true, ziel: 994000 },
+  { mitTags: false, ziel: 994000 },
+]) {
+  const html = baueSeite({ mitTags, ziel })
   const sichtbar = 'Digimon Tamers Staffel 1 Folgen 51 Folgen 1 Std. 26 Min. '.repeat(400)
   const zusammen = `${sichtbar} ${html}`
   console.log(
@@ -98,9 +102,17 @@ for (const mitTags of [true, false]) {
   )
 
   // --- amazon.js -----------------------------------------------------------
-  miss('seitenTitel(): Auswahlfeld-Rückfall über den Quelltext', () =>
+  // Beide Fassungen nebeneinander — die alte bleibt drin, damit der Gewinn
+  // nachprüfbar ist statt behauptet.
+  miss('seitenTitel() ALT (bis 1.9): faules Zählquantiv', () =>
     /([^<>"]{3,120}?)\s+[-–—]\s+(?:Staffel|Season)\s+\d+/i.exec(html)?.[1],
   )
+  miss('seitenTitel() NEU (ab 2.0): Anker, dann 120 Zeichen zurück', () => {
+    const anker = /\s+[-–—]\s+(?:Staffel|Season)\s+\d+/i.exec(html)
+    if (!anker) return undefined
+    const davor = html.slice(Math.max(0, anker.index - 120), anker.index)
+    return /([^<>"]{3,120})$/.exec(davor)?.[1]
+  })
   miss('seitenTitel(): pageTitle-Rückfall', () =>
     /"pageTitle"\\*"?\s*:\s*\\*"([^"\\]{3,120})/.exec(html)?.[1],
   )
