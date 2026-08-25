@@ -122,6 +122,30 @@ function paare(text) {
   })
 }
 
+/**
+ * **Eine Prime-Kennung hat nicht immer zehn Zeichen.**
+ *
+ * Prime Video führt neben ASIN-Kennungen (10 Zeichen, `B0…`) auch GTIs mit 26
+ * Zeichen. Ein Muster auf `{10}` schneidet sie ab und macht jeden Abgleich
+ * unmöglich — bei „Babylon" und „Akame ga Kill" blieb der Knopf deshalb auf
+ * „Tonspuren noch nicht geladen" stehen, obwohl die Seite 15 Tonspurangaben mit
+ * Deutsch führte (Daniel, 25.08.2026, gemessen in seiner Sitzung).
+ */
+{
+  const kennung = (s) => /\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10,32})(?:[/?]|$)/.exec(s)?.[1] ?? null
+  pruefe('ASIN mit zehn Zeichen', kennung('/dp/B0CJXXV5DP') === 'B0CJXXV5DP', kennung('/dp/B0CJXXV5DP'))
+  pruefe(
+    'GTI mit sechsundzwanzig Zeichen bleibt ganz',
+    kennung('/gp/video/detail/0J16B1NAB82TO0O5A5Q8TLG1VP') === '0J16B1NAB82TO0O5A5Q8TLG1VP',
+    kennung('/gp/video/detail/0J16B1NAB82TO0O5A5Q8TLG1VP'),
+  )
+  pruefe(
+    'und endet am Fragezeichen',
+    kennung('/gp/video/detail/0HSXN9KO9VCAUTXWKIY203H5KV?ref_=x') === '0HSXN9KO9VCAUTXWKIY203H5KV',
+    kennung('/gp/video/detail/0HSXN9KO9VCAUTXWKIY203H5KV?ref_=x'),
+  )
+}
+
 {
   pruefe('ASIN aus /dp/', asin('/dp/B0CQ4VL364') === 'B0CQ4VL364')
   pruefe('ASIN aus /gp/video/detail/', asin('/gp/video/detail/B07VP6VPVR?ref_=x') === 'B07VP6VPVR')

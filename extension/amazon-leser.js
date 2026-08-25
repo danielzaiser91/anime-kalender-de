@@ -317,7 +317,7 @@
         // Gesucht wird am kurzen Ausschnitt: Amazon legt sein JSON mal roh in
         // einem Skriptblock ab, mal maskiert in einem HTML-Attribut
         // (`\"titleID\":\"…\"`). Eine Regex für beide Formen wird unlesbar.
-        const treffer = /titleID\\*"\s*:\s*\\*"([A-Z0-9]{10})/.exec(html.slice(i, i + 80))
+        const treffer = /titleID\\*"\s*:\s*\\*"([A-Z0-9]{10,32})/.exec(html.slice(i, i + 80))
         if (treffer) {
           titleID = treffer[1]
           break
@@ -479,7 +479,7 @@
    * Quelltext bleibt bei der Staffel, mit der die Seite geladen wurde.
    */
   function asinAusAdresse() {
-    return /\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10})(?:[/?]|$)/.exec(location.pathname)?.[1] ?? null
+    return /\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10,32})(?:[/?]|$)/.exec(location.pathname)?.[1] ?? null
   }
 
   /**
@@ -491,7 +491,7 @@
    * ist, und ob der Aufruf die gewünschte Staffel überhaupt treffen kann.
    */
   let geholteStaffel =
-    /\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10})(?:[/?]|$)/.exec(location.pathname)?.[1] ?? null
+    /\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10,32})(?:[/?]|$)/.exec(location.pathname)?.[1] ?? null
   let holtGerade = false
 
   /**

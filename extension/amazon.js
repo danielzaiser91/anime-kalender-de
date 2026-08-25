@@ -295,7 +295,7 @@ async function speicherSchreiben(werte) {
 
   /** Die Kennung aus der Adresse — beide Formen kommen vor. */
   function asinAusAdresse() {
-    return /\/(?:dp|detail)\/([A-Z0-9]{10})/.exec(`${location.pathname}${location.search}`)?.[1] ?? null
+    return /\/(?:dp|detail)\/([A-Z0-9]{10,32})/.exec(`${location.pathname}${location.search}`)?.[1] ?? null
   }
 
   /**
@@ -321,11 +321,29 @@ async function speicherSchreiben(werte) {
    * Gesucht wird über **alle** Fundstellen: Auf der Digimon-Seite steht
    * `titleID` 220-mal, und die erste trägt keinen Wert.
    */
+  /**
+   * **Eine Prime-Kennung hat nicht immer zehn Zeichen.**
+   *
+   * Bis zum 25.08.2026 stand hier `[A-Z0-9]{10}` — die Länge einer ASIN. Prime
+   * Video führt daneben aber GTIs mit **26** Zeichen, und das Muster schnitt sie
+   * ab: Aus `0J16B1NAB82TO0O5A5Q8TLG1VP` wurde `0J16B1NAB8`. Der Vergleich in
+   * `quelltextPasst()` scheiterte damit zwangsläufig, `spuren()` wurde gar nicht
+   * erst aufgerufen, und der Knopf blieb auf „Tonspuren noch nicht geladen"
+   * stehen — bei „Babylon" ebenso wie bei „Akame ga Kill"
+   * (`0HSXN9KO9VCAUTXWKIY203H5KV`, auch 26 Zeichen).
+   *
+   * Sichtbar wurde es erst durch die Messung in Daniels Sitzung: Die Seite führt
+   * 15 Tonspurangaben, alle mit Deutsch, und die Paarung findet 12 Folgen. Die
+   * Daten waren da; sie wurden nur nie gelesen.
+   *
+   * `{10,32}` deckt beide Formen ab. Eine Obergrenze bleibt, damit das Muster
+   * nicht in einen benachbarten Wert hineinläuft.
+   */
   function asinAusSeite() {
     const html = seitenHtml()
     if (typeof html !== 'string') return null
     for (const m of html.matchAll(/titleID/g)) {
-      const treffer = /titleID\\*"\s*:\s*\\*"([A-Z0-9]{10})/.exec(html.slice(m.index, m.index + 80))
+      const treffer = /titleID\\*"\s*:\s*\\*"([A-Z0-9]{10,32})/.exec(html.slice(m.index, m.index + 80))
       if (treffer) return treffer[1]
     }
     return null
@@ -379,7 +397,7 @@ async function speicherSchreiben(werte) {
     // Staffel. Weiter hinten stehen Empfehlungen mit fremden Nummern.
     for (const m of html.matchAll(/titleID/g)) {
       const fenster = html.slice(m.index, m.index + 900)
-      if (!/titleID\\*"\s*:\s*\\*"[A-Z0-9]{10}/.test(fenster)) continue
+      if (!/titleID\\*"\s*:\s*\\*"[A-Z0-9]{10,32}/.test(fenster)) continue
       const n = /"seasonNumber\\*"\s*:\s*(\d+)/.exec(fenster)?.[1]
       if (n) return Number(n)
       break
@@ -1445,7 +1463,7 @@ async function speicherSchreiben(werte) {
       for (const p of pruefungen) {
         if (p?.plattform !== 'primevideo' || typeof p.url !== 'string') continue
         // Die Kennung aus der Adresse ist der Listenschlüssel.
-        const asin = /\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10})/.exec(p.url)?.[1]
+        const asin = /\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10,32})/.exec(p.url)?.[1]
         if (!asin) continue
         const nr = p.staffel != null ? String(p.staffel) : 'ohne Nummer'
         // Dieselbe Schreibweise wie auf dem Knopf: „201" liest sich als
