@@ -146,6 +146,39 @@ function paare(text) {
   )
 }
 
+/**
+ * **Die Zahl über der Folgenliste — gegen zwei Fallen im selben Text.**
+ *
+ * Beide Texte unten sind am 25.08.2026 aus Daniels Sitzung gemessen, nicht
+ * ausgedacht: „Babylon" (die Falle) und „Bayonetta: Bloody Fate" (der Gegenfall,
+ * ein Film ohne Folgenliste).
+ */
+function folgenAusText(text) {
+  if (typeof text !== 'string') return null
+  for (const m of text.matchAll(/(\d+)\s*Folgen?\b/g)) {
+    const davor = text.slice(Math.max(0, m.index - 16), m.index)
+    if (/Staffel\s*$/i.test(davor)) continue
+    if (/\d{1,2}\.\s*[A-Za-zÄÖÜäöü]+\.?\s*$/.test(davor)) continue
+    return Number(m[1]) || null
+  }
+  return null
+}
+
+{
+  const babylon =
+    'Geschenkgutschein oder Promotioncode einlösen Staffel 1 Folgen Ähnliches Details 12 Folgen ' +
+    '1. Verdacht 25 Min. 6. Okt. 2019 Folge 2 Zielperson 24 Min. 6. Okt. 2019 Folge 3'
+  pruefe('„Staffel 1" plus Reiter „Folgen" zählt nicht', folgenAusText(babylon) === 12, folgenAusText(babylon))
+
+  // Ohne die zweite Regel stünde hier die Jahreszahl aus dem Erscheinungsdatum.
+  const ohneKopf = '1. Verdacht 25 Min. 6. Okt. 2019 Folge 2 Zielperson 24 Min. 6. Okt. 2019 Folge 3'
+  pruefe('ein Erscheinungsdatum liefert keine Folgenzahl', folgenAusText(ohneKopf) === null, folgenAusText(ohneKopf))
+
+  pruefe('ein Film ohne Folgenliste bleibt ohne Zahl', folgenAusText('Bayonetta: Bloody Fate 1 Std. 30 Min. 2013') === null)
+  pruefe('die einzelne Folge zählt weiterhin', folgenAusText('Details 1 Folge 1. Der Anfang') === 1, folgenAusText('Details 1 Folge 1. Der Anfang'))
+  pruefe('eine lange Reihe zählt weiterhin', folgenAusText('Details 1122 Folgen 1. Ich bin Ruffy') === 1122)
+}
+
 {
   pruefe('ASIN aus /dp/', asin('/dp/B0CQ4VL364') === 'B0CQ4VL364')
   pruefe('ASIN aus /gp/video/detail/', asin('/gp/video/detail/B07VP6VPVR?ref_=x') === 'B07VP6VPVR')

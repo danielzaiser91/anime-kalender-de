@@ -277,7 +277,7 @@ async function speicherSchreiben(werte) {
        * an „Solar Impulse": Wechsel von Staffel 7 auf 8, die Seite schreibt
        * „1 Folge", der Knopf sagte „3 von 26".
        */
-      folgenLautSeite: Number(/(\d+)\s*Folgen?\b/.exec(sichtbar)?.[1]) || null,
+      folgenLautSeite: folgenAusText(sichtbar),
     }
     lageZu = htmlGelesenAm
     return lage
@@ -339,6 +339,42 @@ async function speicherSchreiben(werte) {
    * `{10,32}` deckt beide Formen ab. Eine Obergrenze bleibt, damit das Muster
    * nicht in einen benachbarten Wert hineinläuft.
    */
+  /**
+   * Die Zahl über der Folgenliste — „12 Folgen".
+   *
+   * **Zwei Fallen stehen im selben sichtbaren Text**, und beide sind gemessen,
+   * nicht ausgedacht (Daniel, 25.08.2026, an „Babylon"):
+   *
+   * 1. **Die Reiterleiste.** Dort steht „Staffel 1" direkt vor dem Reiternamen
+   *    „Folgen" — zusammengelesen ergibt das „1 Folgen". Der alte Einzeiler
+   *    nahm genau diesen ersten Treffer, kam auf **1** und stellte ihn gegen
+   *    die 12 aus dem Quelltext. Da beide auseinandergingen, hielt
+   *    `quelltextPasst()` den Quelltext für veraltet, `spuren()` lief nie, und
+   *    der Knopf blieb auf „Tonspuren noch nicht geladen" — bei 15 vorhandenen
+   *    Tonspurangaben mit Deutsch.
+   *
+   * 2. **Die Erscheinungsdaten der Folgen.** „25 Min. 6. Okt. 2019 Folge 2 …"
+   *    liefert zwölfmal die Zahl **2019**. Sie stand in der Messung direkt
+   *    hinter dem richtigen Treffer; fehlt der einmal, wäre eine Jahreszahl die
+   *    Folgenzahl.
+   *
+   * Beide werden am **Umfeld** erkannt, nicht an der Zahl selbst: Eine feste
+   * Obergrenze („keine Staffel hat 2019 Folgen") wäre wieder ein Zufall mit
+   * Frist — „One Piece" führt über tausend.
+   */
+  function folgenAusText(text) {
+    if (typeof text !== 'string') return null
+    for (const m of text.matchAll(/(\d+)\s*Folgen?\b/g)) {
+      const davor = text.slice(Math.max(0, m.index - 16), m.index)
+      // „Staffel 1" + Reiter „Folgen"
+      if (/Staffel\s*$/i.test(davor)) continue
+      // „6. Okt. 2019" + „Folge 2"
+      if (/\d{1,2}\.\s*[A-Za-zÄÖÜäöü]+\.?\s*$/.test(davor)) continue
+      return Number(m[1]) || null
+    }
+    return null
+  }
+
   function asinAusSeite() {
     const html = seitenHtml()
     if (typeof html !== 'string') return null
