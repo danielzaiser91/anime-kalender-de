@@ -2906,6 +2906,64 @@ function main(): void {
     log(`${tiefeErsetzt} Such-Verweise durch die echte Titelseite ersetzt (MOTN-Archiv)`)
   }
 
+  /**
+   * Titel ganz ohne Weg bekommen einen — wenn **zwei** Quellen ihn belegen.
+   *
+   * Gemessen am 25.08.2026: **875 der 2.762 Titel** zeigen weder einen
+   * Anbieter-Verweis noch einen Kauflink. Für den Besucher heißt das „dieser
+   * Anime hat eine deutsche Synchronfassung" — und dann nichts. Das ist die
+   * größte Lücke am vierten Punkt des Projektziels („Nicht nur wann, auch wo.
+   * Bei den meisten Titeln ist das die eigentliche Frage").
+   *
+   * Darunter sind keine Randfälle: „One Punch Man", „Gintama", „Durarara!!",
+   * „Mahouka Koukou no Rettousei", „Fate/stay night: Unlimited Blade Works".
+   *
+   * **Zwei unabhängige Quellen müssen sich einig sein**, und beide liegen im
+   * Haus:
+   *
+   * - `data/tmdb-titles.json` nennt je Titel die Anbieter in Deutschland
+   *   (`providers`) — das ist die Aussage „dort läuft es".
+   * - `data/motn-links.json` nennt je IMDb-Kennung den Deep-Link — das ist die
+   *   Adresse dazu.
+   *
+   * Verbunden werden sie über die IMDb-Kennung aus `data/motn.json`. Ein
+   * Verweis entsteht nur, wo **beide** etwas sagen: TMDB allein liefert keine
+   * Adresse (und eine Anbieter-Startseite wäre kein Verweis, sondern eine
+   * Zumutung), das Archiv allein keine Bestätigung, dass der Titel dort heute
+   * noch läuft.
+   *
+   * **Die Sprachangabe bleibt offen.** TMDB belegt sie nicht (siehe
+   * `fetch-tmdb-kino.ts`), das Archiv auch nicht. Der Verweis trägt deshalb
+   * kein `dub` — die Oberfläche schreibt „🇩🇪 ?", und das ist die ehrliche
+   * Antwort. Ein Weg ohne Sprachangabe ist trotzdem mehr wert als gar keiner.
+   */
+  let wegeErgaenzt = 0
+  for (const eintrag of slim) {
+    if ((eintrag.streams ?? []).length || (eintrag.watchLinks ?? []).length) continue
+    const zu = tmdbZuTitel[String(eintrag.id)]
+    if (!zu?.tmdbId || !zu.kind) continue
+    const anbieter = (zu as { providers?: string[] }).providers
+    if (!anbieter?.length) continue
+    const imdb = motnTmdb[`${zu.kind}/${zu.tmdbId}`]?.imdbId
+    if (!imdb) continue
+    const links = motnLinks[imdb]
+    if (!links) continue
+
+    const neue = []
+    for (const [platform, url] of Object.entries(links)) {
+      // Nur was TMDB **auch** nennt: Das Archiv kann einen Link führen, den es
+      // heute nicht mehr gibt.
+      if (!anbieter.includes(platform)) continue
+      neue.push({ platform: platform as PlatformId, url })
+    }
+    if (!neue.length) continue
+    eintrag.streams = neue
+    wegeErgaenzt++
+  }
+  if (wegeErgaenzt) {
+    log(`${wegeErgaenzt} Titel ohne jeden Weg haben jetzt einen (TMDB-Anbieter + MOTN-Adresse)`)
+  }
+
   writeJson(`${OUT}/titles.json`, slim)
   // Kennung → Reihe: das Erste sortiert die schon gepflegten Titel aus, das
   // Zweite hält Reihen zusammen, die über die Grenze der beiden Bestände gehen.
