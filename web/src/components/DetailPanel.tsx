@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useMemo, useState } from 'react'
+import type { ReactNode } from 'react'
 import type { Meldung, Quelle, Release, ReleaseEvent, Title, WatchLink } from '@shared/types.ts'
 import { dubGrenze } from '@shared/dub-grenze.ts'
 import type { Zugangsart } from '@shared/zugangsart.ts'
@@ -891,48 +892,120 @@ function Meldungen({ titleId }: { titleId: number }) {
  * mehreren steht der Shop links und daneben die Ausgaben als kleine Knöpfe: vier
  * Ausgaben bei AniMoon sind eine Auskunft, keine vier Zeilen.
  */
-function ShopZeile({
-  gruppe,
-  hinweis,
+/**
+ * Ein Bezugsweg als Pille — Anbieter, Bedingung und Sprachmarke in einem Stueck.
+ *
+ * Bis zum 25.08.2026 stand jeder Weg in einer eigenen, volle Breite langen
+ * Zeile. Bei "Dan Da Dan Staffel 2" waren das vier Zeilen fuer vier Anbieter,
+ * darunter dieselben Anbieter noch einmal als Terminbloecke. Daniel: "viel zu
+ * schlecht praesentiert ... es muss ein kleiner schnell ersichtlicher
+ * klickbarer bereich sein, uebersichtlich, stream pills und kauf pills, alle
+ * infos in die pills."
+ *
+ * **Was in der Pille steht, steht im Datensatz.** Die zweite Zeile nennt die
+ * Bedingung — Abo, kostenlos, Kanal —, nicht die Folgenzahl: Ein Stream-Verweis
+ * zeigt auf die **Serie**, nicht auf unsere Staffel. Daniel am 25.08.2026 zu
+ * einem Entwurf, der "12 Folgen" behauptete: "ADN hat folgen 1-24, netflix
+ * auch, crunchy auch." Eine Folgenangabe erscheint nur, wo `dubRanges` eine
+ * belegte Grenze kennt — also dort, wo der deutsche Ton wirklich aufhoert.
+ */
+function Pille({
+  name,
+  farbe,
+  url,
+  unten,
+  rechts,
+  titel,
 }: {
-  gruppe: { shop: string; eintraege: { label?: string; url: string }[] }
-  hinweis: string
+  name: string
+  farbe?: string
+  url: string
+  unten?: string
+  rechts?: ReactNode
+  titel?: string
 }) {
-  const rahmen =
-    'flex items-center gap-2 rounded-lg border border-slate-200 px-2 py-1.5 dark:border-white/10'
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noreferrer noopener"
+      title={titel}
+      className={[
+        'inline-flex max-w-full items-center gap-2 rounded-full px-3 py-1.5 transition',
+        farbe
+          ? 'hover:brightness-95 dark:hover:brightness-125'
+          : 'border border-slate-200 hover:bg-slate-100/60 dark:border-white/10 dark:hover:bg-white/5',
+      ].join(' ')}
+      style={farbe ? { background: `${farbe}1f`, boxShadow: `inset 0 0 0 1px ${farbe}55` } : undefined}
+    >
+      <span className="flex min-w-0 flex-col leading-tight">
+        <span className="truncate text-[13px] font-medium" style={farbe ? { color: farbe } : undefined}>
+          {name}
+        </span>
+        {unten && (
+          <span
+            className={`truncate text-[11px] ${farbe ? 'opacity-80' : 'text-slate-500 dark:text-slate-400'}`}
+            style={farbe ? { color: farbe } : undefined}
+          >
+            {unten}
+          </span>
+        )}
+      </span>
+      {rechts && <span className="ml-auto flex shrink-0 items-center gap-1">{rechts}</span>}
+    </a>
+  )
+}
 
-  if (gruppe.eintraege.length === 1) {
-    return (
+/**
+ * Eine Ausgabe, die es noch nicht gibt — mit Erinnerungsknopf.
+ *
+ * Daniel am 25.08.2026: "in die kaufen pills kennzeichnen das es datum in
+ * zukunft ist, und kalender eintrag fuer erinnerung klickbar anzeigen, ausserdem
+ * kaufen (vorbestellen) bereich extra fuer kauf titel in zukunft, dann muss es
+ * nicht in jedem pill stehen."
+ *
+ * Deshalb steht "vorbestellen" **einmal** ueber der Reihe und nicht in jeder
+ * Pille. Der Kalenderknopf sitzt in der Pille, weil er zum einzelnen Termin
+ * gehoert; er fuehrt auf denselben Google-Eintrag wie der Knopf im Terminblock.
+ */
+function VorbestellPille({ release }: { release: Release }) {
+  const { t } = useLang()
+  const ev = expandEvents(release)[0]
+  const datum = release.schedule?.firstEpisodeDate
+  const farbe = PLATFORMS[release.platform]?.color
+  const zweite = [release.publisher, release.edition].filter(Boolean).join(' · ')
+  return (
+    <span
+      className="inline-flex max-w-full items-center rounded-full py-1 pl-3 pr-1"
+      style={farbe ? { background: `${farbe}1f`, boxShadow: `inset 0 0 0 1px ${farbe}55` } : undefined}
+    >
       <a
-        href={gruppe.eintraege[0].url}
+        href={release.buyUrl ?? release.platformUrl ?? '#'}
         target="_blank"
         rel="noreferrer noopener"
-        className={`${rahmen} cursor-pointer transition hover:border-slate-300 hover:bg-slate-100/60 dark:hover:border-white/25 dark:hover:bg-white/5`}
+        className="flex min-w-0 flex-col py-0.5 leading-tight"
       >
-        <span className="text-xs font-medium text-slate-700 dark:text-slate-200">{gruppe.shop}</span>
-        <span className="ml-auto text-[11px] text-slate-400 dark:text-slate-500">{hinweis}</span>
+        <span className="truncate text-[13px] font-medium" style={farbe ? { color: farbe } : undefined}>
+          {release.name}
+        </span>
+        <span className="truncate text-[11px] opacity-80" style={farbe ? { color: farbe } : undefined}>
+          {[zweite, datum && formatDate(datum)].filter(Boolean).join(' · ')}
+        </span>
       </a>
-    )
-  }
-
-  return (
-    <div className={`${rahmen} flex-wrap`}>
-      <span className="text-xs font-medium text-slate-700 dark:text-slate-200">{gruppe.shop}</span>
-      <span className="flex flex-wrap items-center gap-1">
-        {gruppe.eintraege.map((e) => (
-          <a
-            key={e.url}
-            href={e.url}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="cursor-pointer rounded-md border border-slate-200 px-1.5 py-0.5 text-[11px] text-slate-600 transition hover:border-slate-400 hover:bg-slate-100/60 dark:border-white/15 dark:text-slate-300 dark:hover:border-white/30 dark:hover:bg-white/5"
-          >
-            {e.label}
-          </a>
-        ))}
-      </span>
-      <span className="ml-auto text-[11px] text-slate-400 dark:text-slate-500">{hinweis}</span>
-    </div>
+      {ev && (
+        <a
+          href={googleCalendarUrl(ev)}
+          target="_blank"
+          rel="noreferrer noopener"
+          aria-label={t('detail.addToGoogleAction')}
+          title={t('detail.addToGoogleAction')}
+          className="ml-2 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[13px] transition hover:brightness-95 dark:hover:brightness-125"
+          style={farbe ? { background: `${farbe}33`, color: farbe } : undefined}
+        >
+          🗓
+        </a>
+      )}
+    </span>
   )
 }
 
@@ -1526,12 +1599,6 @@ export function DetailPanel({
   const [wechselt, setWechselt] = useState(false)
 
 
-  /** Alles, was man ansehen kann — Plattformen und Anbieter ohne eigene. */
-  const ansehen = useMemo(
-    () => [...(title?.streams ?? []), ...(title?.watchLinks ?? []).filter((w) => w.kind === 'stream')],
-    [title],
-  )
-
   /**
    * Streaming, aufgeteilt nach dem, was es kostet.
    *
@@ -1578,6 +1645,24 @@ export function DetailPanel({
       zeigeUeberschrift: belegte.length > 1 || g.art === 'kauf',
     }))
   }, [title])
+  /**
+   * Ausgaben, die es noch nicht gibt.
+   *
+   * Sie stehen in einer eigenen Reihe, damit "vorbestellen" einmal ueber der
+   * Reihe steht statt in jeder Pille — und damit ein kuenftiger Termin nicht
+   * neben einem Angebot steht, das man heute nutzen kann.
+   *
+   * Gefiltert wird ueber das Startdatum, nicht ueber den Status: Ein Release,
+   * das erst naechsten Monat erscheint, ist kein Bezugsweg, sondern ein Termin.
+   */
+  const vorbestellungen = useMemo(
+    () =>
+      releases.filter(
+        (r) => r.releaseType === 'disc' && (r.schedule?.firstEpisodeDate ?? '') > today,
+      ),
+    [releases, today],
+  )
+
   const wechsleZu = (id: number) => {
     if (id === titleId) return
     if (data.titleById.has(id)) {
@@ -2061,90 +2146,94 @@ export function DetailPanel({
             Fehlanzeige — sonst stünde je nach Datenlage mal das eine, mal das
             andere an anderer Stelle.
           */}
-          {(title.streams.length > 0 || (title.watchLinks?.length ?? 0) > 0) && (
+          {/*
+            **Drei Reihen Pillen statt einer Liste voller Zeilen.**
+
+            Jeder Weg nahm bisher die volle Breite ein; bei vier Anbietern waren
+            das vier Zeilen, und darunter kamen dieselben Anbieter noch einmal
+            als Terminbloecke. Daniel am 25.08.2026: "die einträge müssen extrem
+            viel weniger platz einnehmen ... sie müssen pills sein die anklickbar
+            sind."
+
+            Die Reihen trennen, was ein Besucher wirklich unterscheidet:
+            **ansehen**, **kaufen**, **vorbestellen**. Die dritte Reihe gibt es,
+            damit "vorbestellen" einmal ueber der Reihe steht statt in jeder
+            Pille — und damit ein Termin, den es noch nicht gibt, nicht neben
+            einem verfuegbaren Angebot steht.
+          */}
+          {(title.streams.length > 0 ||
+            (title.watchLinks?.length ?? 0) > 0 ||
+            vorbestellungen.length > 0) && (
             <div>
               <SectionTitle>{t('detail.whereToWatch')}</SectionTitle>
-              <div className="flex flex-col gap-1.5">
-                {/*
-                  Die Überschrift steht nur da, wenn es auch etwas zu kaufen
-                  gibt. Sonst wäre sie eine Trennung ohne zweite Seite — und
-                  eine Zeile, die nichts sagt.
-                */}
-                {/*
-                  Streaming trägt jetzt drei Unterüberschriften: kostenlos, Abo,
-                  Kauf. Für einen Besucher ist das der eigentliche Unterschied —
-                  wer kein Abo hat, dem nützt ein Netflix-Eintrag nichts
-                  (Daniel, 23.08.2026).
-
-                  Die Überschrift steht nur da, wo es auch etwas zu trennen gibt:
-                  Bei einem Titel, der nur bei Crunchyroll läuft, wäre „Mit Abo"
-                  eine Zeile ohne zweite Seite.
-                */}
-                {ansehen.length > 0 && (
-                  <div className="text-[11px] font-medium uppercase tracking-wide text-slate-400 dark:text-slate-500">
-                    {t('where.stream')}
-                  </div>
-                )}
+              <div className="flex flex-col gap-2">
                 {sortiertNachZugang.map(({ art, plattformen, shops, zeigeUeberschrift }) => (
-                  <Fragment key={art}>
+                  <div key={art}>
                     {zeigeUeberschrift && (
-                      <div className="mt-1 text-[10px] font-medium uppercase tracking-wide text-slate-400/90 dark:text-slate-500">
+                      <div className="mb-1 text-[10px] font-medium uppercase tracking-wide text-slate-400 dark:text-slate-500">
                         {t(`where.zugang.${art}` as never)}
                       </div>
                     )}
-                    {plattformen.map((s) => (
-                  <a
-                    key={s.platform}
-                    href={s.url}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="flex cursor-pointer items-center gap-2 rounded-lg border border-slate-200 px-2 py-1.5 transition hover:border-slate-300 hover:bg-slate-100/60 dark:border-white/10 dark:hover:border-white/25 dark:hover:bg-white/5"
-                  >
-                    <PlatformBadge platform={s.platform} />
-                    {/*
-                      Der Hinweis, dass der Anbieter anders zählt als wir.
-
-                      Bei „The Café Terrace and Its Goddesses" zeigen unsere
-                      Staffel 1 und Staffel 2 auf dieselbe Crunchyroll-Seite,
-                      und dort steht das Ganze als **eine** Staffel mit 24
-                      Folgen. Ohne diesen Hinweis hält man eine der beiden
-                      Angaben für falsch — dabei zählen bloß beide anders
-                      (Daniel, 12.08.2026).
-                    */}
-                    {(s.sharedWith ?? 0) > 1 && (
-                      <Tooltip text={t('detail.sharedUrlNote', { count: s.sharedWith! })} seite="oben">
-                        <span className="text-[10px] text-slate-400 dark:text-slate-500">
-                          {t('detail.sharedUrl', { count: s.sharedWith! })}
-                        </span>
-                      </Tooltip>
-                    )}
-                    <span className="ml-auto flex items-center gap-1.5">
-                      {(() => {
+                    <div className="flex flex-wrap gap-1.5">
+                      {plattformen.map((s) => {
                         const grenze = dubGrenze(s.dubRanges)
-                        return grenze ? (
-                          <span className="text-[10px] text-slate-400 dark:text-slate-500">
-                            {t(grenze.schluessel, { n: grenze.n })}
-                          </span>
-                        ) : null
-                      })()}
-                      <DubMark dub={s.dub} />
-                    </span>
-                  </a>
-                    ))}
-                    {/*
-                      Anbieter ohne eigene Plattform, nach Shop gebündelt.
-
-                      Vier Ausgaben einer Serie bei demselben Verlag sind **eine**
-                      Auskunft, keine vier — deshalb steht der Shop einmal da und
-                      die Ausgaben nebeneinander (Daniel, 20.08.2026).
-                    */}
-                    {shops.map((g) => (
-                      <ShopZeile key={g.shop + g.eintraege[0].url} gruppe={g} hinweis={t('detail.linkStream')} />
-                    ))}
-                  </Fragment>
+                        return (
+                          <Pille
+                            key={s.platform}
+                            name={PLATFORMS[s.platform].name}
+                            farbe={PLATFORMS[s.platform].color}
+                            url={s.url}
+                            unten={
+                              [
+                                grenze ? t(grenze.schluessel, { n: grenze.n }) : '',
+                                (s.sharedWith ?? 0) > 1 ? t('detail.sharedUrl', { count: s.sharedWith! }) : '',
+                              ]
+                                .filter(Boolean)
+                                .join(' · ') || undefined
+                            }
+                            titel={(s.sharedWith ?? 0) > 1 ? t('detail.sharedUrlNote', { count: s.sharedWith! }) : undefined}
+                            rechts={<DubMark dub={s.dub} />}
+                          />
+                        )
+                      })}
+                      {/*
+                        Anbieter ohne eigene Plattform — vier Ausgaben desselben
+                        Verlags sind **eine** Auskunft, keine vier (Daniel,
+                        20.08.2026). Deshalb eine Pille je Shop, die Zahl der
+                        Ausgaben in der zweiten Zeile.
+                      */}
+                      {shops.map((g) => (
+                        <Pille
+                          key={g.shop + g.eintraege[0].url}
+                          name={g.shop}
+                          url={g.eintraege[0].url}
+                          unten={
+                            g.eintraege.length > 1
+                              ? t('where.titles', { count: g.eintraege.length })
+                              : undefined
+                          }
+                        />
+                      ))}
+                    </div>
+                  </div>
                 ))}
-
-
+                {vorbestellungen.length > 0 && (
+                  <div>
+                    <div className="mb-1 flex items-center gap-2">
+                      <span className="text-[10px] font-medium uppercase tracking-wide text-slate-400 dark:text-slate-500">
+                        {t('where.preorder')}
+                      </span>
+                      <span className="rounded-full bg-sky-100 px-2 py-0.5 text-[10px] text-sky-800 dark:bg-sky-500/15 dark:text-sky-300">
+                        {t('where.preorderHint')}
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {vorbestellungen.map((r) => (
+                        <VorbestellPille key={r.slug} release={r} />
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
