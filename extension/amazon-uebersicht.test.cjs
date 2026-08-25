@@ -23,11 +23,61 @@ function pruefe(name, bedingung, gefunden) {
 
 console.log('Zusicherungen für die Prime-Übersicht\n')
 
-/** Die echte Liste aus dem Repo, nicht eine nachgebaute. */
-const listenDatei = readFileSync(__dirname + '/offene-amazon.js', 'utf8')
-const ECHTE_LISTE = JSON.parse(
-  listenDatei.replace(/^globalThis\.AK_OFFENE_AMAZON = /, '').replace(/;?\s*$/, ''),
-)
+/**
+ * **Eine feste Liste, keine echte — und das ist eine Korrektur.**
+ *
+ * Bis zum 25.08.2026 lasen diese Zusicherungen `offene-amazon.js` und arbeiteten
+ * mit dem ersten Eintrag daraus. Das war zweimal falsch, und beim zweiten Mal
+ * hat es den Deploy angehalten:
+ *
+ * - **24.08.2026:** Eine fest verdrahtete Kennung fiel aus der Liste, weil
+ *   Daniel sie gemeldet hatte. Die Antwort damals war `Object.keys(...)[0]` —
+ *   dieselbe Abhängigkeit, nur beweglicher.
+ * - **25.08.2026, 05:07:** Der nächtliche Lauf übernahm die letzten Meldungen,
+ *   die Liste fiel auf **null** Einträge, und vier Zusicherungen wurden rot.
+ *   Die Seite war danach drei Läufe lang nicht mehr ausgeliefert.
+ *
+ * Diese Datei prüft die **Logik** der Erweiterung, nicht den Datenstand. Eine
+ * Prüfung, die rot wird, weil die Arbeit erledigt ist, misst das Falsche.
+ *
+ * Die echte Liste wird trotzdem geprüft — weiter unten, auf das, was an ihr
+ * wirklich zusichern kann: dass sie sich laden lässt und die Erweiterung auch
+ * mit einer leeren Liste sauber startet.
+ */
+const TEST_LISTE = {
+  B000TESTAA: {
+    titel: 'Testserie',
+    url: 'https://www.amazon.de/dp/B000TESTAA',
+    eintraege: [{ id: 900001, name: 'Testserie', folgen: 12, offen: true }],
+  },
+  B000TESTBB: {
+    titel: 'Testserie Staffel 2',
+    url: 'https://www.amazon.de/dp/B000TESTBB',
+    eintraege: [{ id: 900002, name: 'Testserie Staffel 2', folgen: 13, offen: true }],
+  },
+  B000TESTCC: {
+    titel: 'Testreihe mit zwei Einträgen',
+    url: 'https://www.amazon.de/dp/B000TESTCC',
+    eintraege: [
+      { id: 900003, name: 'Testreihe', folgen: 24, offen: true },
+      { id: 900004, name: 'Testreihe II', folgen: 24, offen: true },
+    ],
+  },
+  // Zwei weitere, damit „drei davon gemeldet" auch etwas übrig lässt — sonst
+  // prüft die Zusicherung weiter unten den Sonderfall „alles geprüft" statt
+  // der Zahl, um die es ihr geht.
+  B000TESTDD: {
+    titel: 'Testfilm',
+    url: 'https://www.amazon.de/dp/B000TESTDD',
+    eintraege: [{ id: 900005, name: 'Testfilm', folgen: 1, offen: true }],
+  },
+  B000TESTEE: {
+    titel: 'Testserie ohne Folgenzahl',
+    url: 'https://www.amazon.de/dp/B000TESTEE',
+    eintraege: [{ id: 900006, name: 'Testserie ohne Folgenzahl', folgen: null, offen: true }],
+  },
+}
+const ECHTE_LISTE = TEST_LISTE
 
 /**
  * Ein DOM, das gerade genug kann.
@@ -113,7 +163,7 @@ function takten(takte, durchlaeufe = 5) {
   for (let i = 0; i < durchlaeufe; i++) for (const takt of takte) takt()
 }
 
-function starte(seitenAsin, gespeichert = {}) {
+function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE) {
   const dom = machDom()
   const angehaengt = []
   dom.body.appendChild = (kind) => {
@@ -140,7 +190,7 @@ function starte(seitenAsin, gespeichert = {}) {
   const takte = []
   const sandkasten = {
     globalThis: null,
-    AK_OFFENE_AMAZON: ECHTE_LISTE,
+    AK_OFFENE_AMAZON: liste,
     location: { pathname: `/dp/${seitenAsin}`, search: '' },
     document: { ...dom, body: dom.body, title: 'Testserie ansehen | Prime Video' },
     chrome: {
@@ -176,6 +226,18 @@ function starte(seitenAsin, gespeichert = {}) {
         return fn()
       })
       return takte.length
+    },
+    /**
+     * Ohne dieses Gegenstück stirbt jeder Durchlauf, der einen Takt beendet.
+     *
+     * Die Erweiterung wartet auf einer Seite ohne Titel-Kennung bis zu fünf
+     * Minuten auf eine — und räumt den Takt danach ab. Erreicht wurde dieser
+     * Zweig erst, als die Testliste leer war und der Sandkasten in die
+     * Warteschleife lief: `ReferenceError: clearInterval is not defined`
+     * (25.08.2026, im Deploy-Lauf).
+     */
+    clearInterval: (nr) => {
+      if (typeof nr === 'number' && takte[nr - 1]) takte[nr - 1] = () => {}
     },
     Date: class extends Date {
       constructor(...args) {
@@ -897,6 +959,47 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
       uebersicht?.textContent.startsWith(`${Object.keys(ECHTE_LISTE).length - 3} Prime-Titel offen`),
       uebersicht?.textContent,
     )
+
+    /**
+     * **Eine leere Prüfliste ist kein Fehler, sondern das Ziel.**
+     *
+     * Am 25.08.2026 um 05:07 hat der nächtliche Lauf die letzten
+     * Amazon-Meldungen übernommen. `offene-amazon.js` fiel damit auf null
+     * Einträge — und weil diese Zusicherungen die echte Liste lasen, wurden
+     * vier davon rot. Der Deploy blieb drei Läufe lang hängen, die Seite wurde
+     * nicht mehr ausgeliefert.
+     *
+     * Die Erweiterung selbst kam damit gut zurecht: Der Übersichts-Knopf
+     * schrieb „Prime: alles geprüft". Nur die Prüfung hielt das für einen
+     * Fehler.
+     *
+     * Diese Zeilen halten beides fest — dass die echte Liste sich laden lässt,
+     * und dass eine leere Liste sauber durchläuft.
+     */
+    {
+      const echt = readFileSync(__dirname + '/offene-amazon.js', 'utf8')
+      let geladen = null
+      try {
+        geladen = JSON.parse(
+          echt.replace(/^globalThis\.AK_OFFENE_AMAZON = /, '').replace(/;?\s*$/, ''),
+        )
+      } catch {
+        geladen = null
+      }
+      pruefe(
+        'die echte Prüfliste ist gültiges JSON',
+        geladen !== null && typeof geladen === 'object',
+      )
+
+      const leer = starte('B000LEERAA', {}, {})
+      takten(leer.takte)
+      const knopf = leer.angehaengt.find((e) => e.className.includes('ak-uebersicht'))
+      pruefe(
+        'eine leere Prüfliste läuft durch und sagt es',
+        Boolean(knopf) && /alles geprüft|0 Prime-Titel/.test(knopf.textContent),
+        knopf?.textContent,
+      )
+    }
 
     console.log()
     if (fehler.length) {
