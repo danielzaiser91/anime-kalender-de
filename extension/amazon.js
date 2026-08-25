@@ -411,25 +411,52 @@ async function speicherSchreiben(werte) {
     return !lage.hatFolgenReiter && !lage.folgenLautSeite && lage.hatLaufzeit
   }
 
+  /**
+   * Die Zahl über der Folgenliste — **am Zeilenanfang**, nicht irgendwo im Text.
+   *
+   * ## Warum keine Ausschlussliste
+   *
+   * Die erste Fassung nahm den ersten Treffer von `(\d+)\s*Folgen?` und schloss
+   * danach aus, was falsch aussah. Diese Liste wuchs an einem einzigen Abend
+   * viermal, jedes Mal nach einem echten Fehlgriff (Daniel, 25.08.2026):
+   *
+   * | Seite | gelesen | richtig | Ursache |
+   * |---|---|---|---|
+   * | Babylon | 1 | 12 | „Staffel 1" + Reiter „Folgen" |
+   * | JUJUTSU KAISEN | 3 | 12 | „Season 3" + Reiter |
+   * | Made in Abyss | 2 | 6 | „Staffel 1, Volume 2" + Reiter |
+   * | Detektiv Conan | 254 | 24 | „EPISODEN 231-254" + Reiter |
+   *
+   * Nach dem vierten war klar, dass die Liste den Fällen immer hinterherläuft:
+   * Jeder neue Titelzusatz bringt eine neue Variante, und gemerkt wird es erst,
+   * wenn eine falsche Zahl an den Worker gegangen ist.
+   *
+   * ## Was stattdessen trägt
+   *
+   * `body.innerText` liefert **Zeilen**, keinen Fließtext — und die Zahl über
+   * der Liste steht dort immer allein auf ihrer:
+   *
+   * ```
+   * Staffel 1, Volume 2
+   * Folgen
+   * Ähnliches
+   * Details
+   * 6 Folgen          ← die gesuchte Zeile
+   * 1. Die Reise
+   * ```
+   *
+   * Alle vier Fehlgriffe entstanden, weil der **Reiter** „Folgen" hinter einem
+   * Text mit Zahl stand. Am Zeilenanfang verankert, fällt jeder davon weg,
+   * ohne dass ein einziges Wort aufgezählt werden muss. Gegen alle vier
+   * gemessenen Seitentexte geprüft — und gegen einen Film, der weiterhin keine
+   * Zahl liefert.
+   *
+   * Der Preis: Diese Funktion braucht `innerText`, nicht `textContent`. Genau
+   * den bekommt sie aus `seitenLage()`, das ihn ohnehin einmal je Frist liest.
+   */
   function folgenAusText(text) {
     if (typeof text !== 'string') return null
-    for (const m of text.matchAll(/(\d+)\s*Folgen?\b/g)) {
-      const davor = text.slice(Math.max(0, m.index - 16), m.index)
-      /*
-        „Staffel 1" **oder „Season 3"** + Reiter „Folgen".
-
-        Die englische Form fehlte bis zum 25.08.2026, und Amazon nennt viele
-        Staffeln so. Die Seite zu „JUJUTSU KAISEN Season 3" ergab damit
-        `lautSeite: 3`, obwohl darunter „12 Folgen" stand — der Zählstand hatte
-        alle zwölf gelesen, der Umfang deckelte sie auf drei. Sichtbar wurde es
-        im Diagnosefeld: `folgen: 12, gesamt: 3, lautSeite: 3`.
-
-        Dieselbe Falle, nur in einer Sprache, an die beim ersten Fix niemand
-        gedacht hat.
-      */
-      if (/(?:Staffel|Season)\s*$/i.test(davor)) continue
-      // „6. Okt. 2019" + „Folge 2"
-      if (/\d{1,2}\.\s*[A-Za-zÄÖÜäöü]+\.?\s*$/.test(davor)) continue
+    for (const m of text.matchAll(/(?:^|\n)[ \t]*(\d+)[ \t]*Folgen?\b/g)) {
       return Number(m[1]) || null
     }
     return null
@@ -650,8 +677,21 @@ async function speicherSchreiben(werte) {
       .filter((s) => s && !s.includes('{') && !s.includes(':'))
   }
 
+  let spurenSpeicher = null
+  let spurenZu = -1
+  /*
+    Der Zwischenspeicher hängt an `htmlGelesenAm` — solange der Quelltext
+    derselbe ist, kann sich daraus nichts anderes ergeben. Gerufen wird die
+    Funktion je Takt zwei- bis viermal (aus `quelltextPasst()`, direkt beim
+    Zeichnen und aus dem Diagnosefeld); bei 2,2 Mio. Zeichen macht das den
+    Unterschied.
+
+    **Das Ergebnis wird geteilt und enthält `Set`-Felder.** Kein Aufrufer darf
+    es verändern — heute liest `zeichnen()` nur, und dabei muss es bleiben.
+  */
   function spuren() {
     const text = seitenHtml()
+    if (spurenZu === htmlGelesenAm && spurenSpeicher) return spurenSpeicher
     const alle = new Set()
     const nummern = new Set()
     /**
@@ -732,7 +772,9 @@ async function speicherSchreiben(werte) {
       if (alle.size) nummern.add(1)
     }
 
-    return { sprachen: [...alle], nummern, gesamt }
+    spurenSpeicher = { sprachen: [...alle], nummern, gesamt }
+    spurenZu = htmlGelesenAm
+    return spurenSpeicher
   }
 
   /**
@@ -907,8 +949,11 @@ async function speicherSchreiben(werte) {
    * Bleibt beides stumm, wird **nichts** behauptet — der Datensatz hat schon
    * 202 Verweise mit geratener Zugangsart, ein weiterer hilft niemandem.
    */
+  let zugangSpeicher = null
+  let zugangZu = -1
   function zugangsart() {
     const text = seitenHtml()
+    if (zugangZu === htmlGelesenAm && zugangSpeicher !== null) return zugangSpeicher
     const kauf =
       /Als Kauf-?\s*(oder Leihtitel|titel)\s*verfügbar/i.test(text) ||
       /(Folge|Staffel)\s+\d+\s+kaufen/i.test(text) ||
@@ -917,10 +962,10 @@ async function speicherSchreiben(werte) {
       /Als Kauf- oder Leihtitel verfügbar/i.test(text) || /Leihen\s+(SD|HD|UHD)\b/.test(text)
     const abo = abos().length > 0
 
-    if (abo && kauf) return "abo_und_kauf"
-    if (abo) return "abo"
-    if (kauf) return leihe ? "kauf_oder_leihe" : "kauf"
-    return null
+    zugangSpeicher =
+      abo && kauf ? 'abo_und_kauf' : abo ? 'abo' : kauf ? (leihe ? 'kauf_oder_leihe' : 'kauf') : null
+    zugangZu = htmlGelesenAm
+    return zugangSpeicher
   }
 
   /**
@@ -952,7 +997,17 @@ async function speicherSchreiben(werte) {
    * Ein Kauftitel zaehlt nicht als Kanal: Was gekauft wird, hat seine
    * eigene Tonspur, und die kennt Amazon.
    */
+  let kanalSpeicher = null
+  let kanalZu = -1
   function ueberKanal() {
+    seitenHtml()
+    if (kanalZu === htmlGelesenAm && kanalSpeicher !== null) return kanalSpeicher
+    kanalSpeicher = ueberKanalRechnen()
+    kanalZu = htmlGelesenAm
+    return kanalSpeicher
+  }
+
+  function ueberKanalRechnen() {
     const gefunden = abos()
     if (!gefunden.length) return false
     if (gefunden.some((a) => /^prime$/i.test(a))) return false
@@ -962,9 +1017,14 @@ async function speicherSchreiben(werte) {
   }
 
   /** Welche Abos diese Staffel freischalten — `Prime`, `aniversede`, … */
+  let abosSpeicher = null
+  let abosZu = -1
   function abos() {
     const text = seitenHtml()
-    return [...new Set([...text.matchAll(/"benefitId"\s*:\s*"([^"]+)"/g)].map((m) => m[1]))]
+    if (abosZu === htmlGelesenAm && abosSpeicher) return abosSpeicher
+    abosSpeicher = [...new Set([...text.matchAll(/"benefitId"\s*:\s*"([^"]+)"/g)].map((m) => m[1]))]
+    abosZu = htmlGelesenAm
+    return abosSpeicher
   }
 
   const liste = globalThis.AK_OFFENE_AMAZON ?? {}
@@ -1831,6 +1891,49 @@ async function speicherSchreiben(werte) {
    * gewechselt hat. Dagegen hilft diese Prüfung nicht — dort greift der
    * Vergleich der Staffelnummern weiter unten, der zum Neuladen auffordert.
    */
+  let kennungBekanntSpeicher = null
+  let kennungBekanntZu = -1
+  /**
+   * **Kennt der Quelltext die Kennung aus der Adresse überhaupt?**
+   *
+   * Der Wächter unterscheidet einen *Staffel*wechsel von einem *Titel*wechsel,
+   * und das ist der Unterschied, an dem am 25.08.2026 eine Falschmeldung
+   * vorbeikam: Für „My Isekai Life" (`0RNU3R7XQ7HDN1EOCZRAFD5R5R`, ein reiner
+   * ADN-Kanal-Titel ohne deutschen Ton) meldete die Erweiterung neun Tonspuren
+   * einschließlich Deutsch, der Knopf war grün. Die Sprachen gehörten zu „Ein
+   * Stern, heller als die Sonne" (`B0FMNQMXXG`) — dem Titel, den Daniel vier
+   * Sekunden zuvor gemeldet hatte.
+   *
+   * Gefangen hat es keiner der drei vorhandenen Prüfsteine: Die Staffelnummer
+   * war in beiden Fällen dieselbe, die Folgenzahl **beide Male 12**, und ohne
+   * gezielt geholten Block (`frischeStaffel === null`) fiel der Kennungsvergleich
+   * ganz aus.
+   *
+   * **Gemessen an sechs Seitenabrufen** (25.08.2026, ohne Anmeldung):
+   *
+   *     eigene Seite    0RNU3R7XQ7HDN1EOCZRAFD5R5R in ihrem Quelltext    11x
+   *     eigene Seite    B0FMNQMXXG in ihrem Quelltext                    91x
+   *     fremder Text    0RNU3R7XQ7HDN1EOCZRAFD5R5R in B0FMNQMXXG          0x
+   *     fremder Text    B0FMNQMXXG in der Isekai-Seite                    0x
+   *
+   * **Und die Gegenprobe, die den Sammelseiten-Fall schützt:** Die
+   * GOSICK-Staffel-1-Seite (`B0B8MTPWRN`) nennt die Kennung ihrer zweiten
+   * Staffel (`B0B8XVGL62`) **dreimal** — ein Staffelwechsel läuft hier also
+   * nicht hinein. Der bleibt Sache von `quelltextVeraltet()`.
+   *
+   * Null Treffer heißt damit: Der Quelltext gehört zu einem anderen Titel.
+   */
+  function kennungImQuelltextBekannt() {
+    const html = seitenHtml()
+    if (kennungBekanntZu === htmlGelesenAm) return kennungBekanntSpeicher
+    const ausAdresse = asinAusAdresse()
+    /* Ohne Kennung in der Adresse gibt es nichts zu widerlegen. */
+    kennungBekanntSpeicher =
+      !ausAdresse || typeof html !== 'string' ? true : html.includes(ausAdresse)
+    kennungBekanntZu = htmlGelesenAm
+    return kennungBekanntSpeicher
+  }
+
   function quelltextPasst() {
     /**
      * Der Beleg ist der Mitleser, nicht die Adresse.
@@ -1881,6 +1984,11 @@ async function speicherSchreiben(werte) {
       const imQuelltext = spuren().gesamt
       if (imQuelltext && imQuelltext !== lautSeite) return false
     }
+    /*
+      Der Titelwechsel wird **vor** der Sammelseiten-Ausnahme geprüft — sonst
+      steigt die Funktion mit `true` aus, bevor sie ihn sehen kann.
+    */
+    if (!kennungImQuelltextBekannt()) return false
     if (frischeStaffel === null) return true
     const ausSeite = asinAusSeite()
     return !ausSeite || frischeStaffel === ausSeite
@@ -1910,7 +2018,16 @@ async function speicherSchreiben(werte) {
   }
 
   function zeichnen() {
-    const jetzt = quelltextPasst() ? spuren() : { sprachen: new Set(), nummern: new Set(), gesamt: null }
+    /*
+      **Einmal berechnen, mehrfach lesen.**
+
+      `quelltextPasst()` zieht `spuren()`, `quelltextVeraltet()` und darueber
+      `seitenTitel()` mit sich. Bis zum 25.08.2026 lief es je Takt zwei- bis
+      dreimal, weil auch das Diagnosefeld es noch einmal aufrief.
+    */
+    const passt = quelltextPasst()
+    const istVeraltet = quelltextVeraltet()
+    const jetzt = passt ? spuren() : { sprachen: new Set(), nummern: new Set(), gesamt: null }
     for (const s of jetzt.sprachen) gesehen.sprachen.add(s)
     for (const n of jetzt.nummern) gesehen.nummern.add(n)
     /**
@@ -1986,8 +2103,12 @@ async function speicherSchreiben(werte) {
       gesamt: gesehen.gesamt,
       sprachen: [...gesehen.sprachen],
       lautSeite,
-      quelltextPasst: quelltextPasst(),
-      quelltextVeraltet: quelltextVeraltet(),
+      // Gelesen, nicht gerechnet — beide stehen oben schon fest. Ein erneuter
+      // Aufruf zoege spuren() und seitenTitel() ein weiteres Mal mit.
+      quelltextPasst: passt,
+      quelltextVeraltet: istVeraltet,
+      // Steht hier false, gehoert der Quelltext zu einem anderen Titel.
+      kennungBekannt: kennungImQuelltextBekannt(),
       frischeStaffel,
       ausSeite: asinAusSeite(),
       ausAdresse: asinAusAdresse(),
@@ -2891,6 +3012,8 @@ async function speicherSchreiben(werte) {
      */
     frischeStaffel = null
     titelZuQuelltext = null
+    /* Hängt an der alten Adresse — mit ihr wandert er weg. */
+    kennungBekanntZu = -1
     knopf.disabled = false
     zeichnen()
     // Die Übersicht hebt den gerade offenen Titel hervor — nach dem Wechsel

@@ -479,6 +479,61 @@ Empfänger verwirft Fremdes. Hier ist es `fuerAdresse` an jeder Mitleser-Meldung
 Antwort ist schlimmer als keine — sie sieht aus wie ein Ergebnis.
 
 
+### Ein Titelwechsel sieht aus wie ein richtiger Befund — die Kennung entlarvt ihn
+
+Am 25.08.2026 meldete die Erweiterung für **„My Isekai Life"** neun Tonspuren
+einschließlich Deutsch, und der Knopf war grün. Daniel: „button war grün, aber titel
+hat keine deutsche sprachausgabe."
+
+Die Meldung trug zwei Kennungen, und darin steckt der ganze Fall:
+
+```
+url:      .../gp/video/detail/0RNU3R7XQ7HDN1EOCZRAFD5R5R
+notiz:    „Amazon-Seite B0FMNQMXXG"
+sprachen: Deutsch, English, Español ×2, Français, Italiano, Português, ไทย, 日本語
+```
+
+Beide nachgemessen, ohne Anmeldung:
+
+| Kennung | Titel | Zugang | `audioTracks` je Folge |
+|---|---|---|---|
+| `0RNU3R7XQ7HDN1EOCZRAFD5R5R` | My Isekai Life | `animedigitalde` (ADN-Kanal) | `["日本語"]`, 12×12 |
+| `B0FMNQMXXG` | Ein Stern, heller als die Sonne | `Prime`, `FVOD` | die neun Sprachen, 13× |
+
+Der zweite Titel war Daniels **vorige** Meldung — abgeschickt vier Sekunden früher.
+Die Adresse war schon gewandert, der Quelltext noch nicht.
+
+**Keiner der drei vorhandenen Prüfsteine konnte greifen**, und das ist der Kern:
+Die Staffelnummer war in beiden Fällen dieselbe, die Folgenzahl **beide Male 12**,
+und ohne gezielt geholten Block (`frischeStaffel === null`) fiel der Kennungsvergleich
+ganz aus — bewusst, damit Sammelseiten funktionieren. Drei Wächter, drei blinde Flecken
+am selben Punkt.
+
+**Was trägt, ist eine andere Frage als die bisherige.** Bisher wurde gefragt: *Nennt der
+Quelltext dieselbe Kennung wie die Adresse?* Darauf antwortet eine echte Seite regelmäßig
+mit Nein, ohne dass etwas kaputt ist — Digimon Tamers liegt unter der Adresse
+`B0CQ4VL364` und trägt im Quelltext die `titleID` `B0CKPCSHMC`. Die tragfähige Frage
+lautet stattdessen: **Kennt der Quelltext die Kennung aus der Adresse überhaupt?**
+
+An sechs Seitenabrufen gemessen:
+
+| | Treffer |
+|---|---|
+| eigene Kennung im eigenen Quelltext | 11× bis 119× |
+| fremde Kennung im Quelltext | **0×** |
+| Digimon: Adress-Kennung neben fremder `titleID` | 11× (die `titleID` 79×) |
+| GOSICK Staffel 1: Kennung der **zweiten** Staffel | 3× |
+
+Die letzten beiden Zeilen sind die eigentliche Gegenprobe: Ein *Staffel*wechsel und eine
+Seite mit zwei Ausgaben laufen nicht hinein, ein *Titel*wechsel schon. Null Treffer heißt
+deshalb eindeutig: Der Quelltext gehört zu einem anderen Titel.
+
+**Und die allgemeine Lehre steht über dem Einzelfall:** Ein Wächter, der zwei Dinge auf
+Gleichheit prüft, scheitert an jedem Fall, in dem Ungleichheit erlaubt ist — und die
+Ausnahme, die man dafür einbaut, ist genau das Loch. Die Frage nach **Zugehörigkeit**
+(kommt es vor?) trägt, wo die Frage nach **Gleichheit** (ist es dasselbe?) eine Ausnahme
+braucht.
+
 ### Zwei Meldungen zu einer Reihe widersprechen sich selten — meist reden sie über verschiedene Staffeln
 
 Am 25.08.2026 stand für „Mahouka Koukou no Rettousei" beides im Bestand: eine Meldung

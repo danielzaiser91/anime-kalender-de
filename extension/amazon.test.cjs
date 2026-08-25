@@ -155,28 +155,44 @@ function paare(text) {
  */
 function folgenAusText(text) {
   if (typeof text !== 'string') return null
-  for (const m of text.matchAll(/(\d+)\s*Folgen?\b/g)) {
-    const davor = text.slice(Math.max(0, m.index - 16), m.index)
-    if (/(?:Staffel|Season)\s*$/i.test(davor)) continue
-    if (/\d{1,2}\.\s*[A-Za-zÄÖÜäöü]+\.?\s*$/.test(davor)) continue
+  for (const m of text.matchAll(/(?:^|\n)[ \t]*(\d+)[ \t]*Folgen?\b/g)) {
     return Number(m[1]) || null
   }
   return null
 }
 
 {
+  /*
+    Alle Texte in Zeilenform — so liefert `body.innerText` sie, und darauf
+    beruht die Erkennung. Die vier Fälle sind am 25.08.2026 aus Daniels Sitzung
+    gemessen; jeder davon hat vorher eine falsche Zahl erzeugt.
+  */
   const babylon =
-    'Geschenkgutschein oder Promotioncode einlösen Staffel 1 Folgen Ähnliches Details 12 Folgen ' +
-    '1. Verdacht 25 Min. 6. Okt. 2019 Folge 2 Zielperson 24 Min. 6. Okt. 2019 Folge 3'
+    'Geschenkgutschein oder Promotioncode einlösen\nStaffel 1\nFolgen\nÄhnliches\nDetails\n' +
+    '12 Folgen\n1. Verdacht\n25 Min. 6. Okt. 2019\n2. Zielperson'
   pruefe('„Staffel 1" plus Reiter „Folgen" zählt nicht', folgenAusText(babylon) === 12, folgenAusText(babylon))
 
-  // Ohne die zweite Regel stünde hier die Jahreszahl aus dem Erscheinungsdatum.
-  const ohneKopf = '1. Verdacht 25 Min. 6. Okt. 2019 Folge 2 Zielperson 24 Min. 6. Okt. 2019 Folge 3'
+  const jjk =
+    '2026 4 Staffeln\nJUJUTSU KAISEN Season 3\nFolgen\nÄhnliches\nDetails\n12 Folgen\n1. Die Hinrichtung'
+  pruefe('„Season 3" plus Reiter zählt nicht', folgenAusText(jjk) === 12, folgenAusText(jjk))
+
+  const abyss = 'Staffel 1, Volume 2\nFolgen\nÄhnliches\nDetails\n6 Folgen\n1. Die Reise'
+  pruefe('„Volume 2" plus Reiter zählt nicht', folgenAusText(abyss) === 6, folgenAusText(abyss))
+
+  const conan =
+    'Staffel 1\nFolgen\nÄhnliches\nDetails\n24 Folgen\n1. Die Bucht der Rache (1)\n' +
+    'DETEKTIV CONAN TV-SERIE EPISODEN 231-254'
+  pruefe('ein Folgenbereich im Titel zählt nicht', folgenAusText(conan) === 24, folgenAusText(conan))
+
+  const ohneKopf = '1. Verdacht\n25 Min. 6. Okt. 2019\n2. Zielperson\n24 Min. 6. Okt. 2019'
   pruefe('ein Erscheinungsdatum liefert keine Folgenzahl', folgenAusText(ohneKopf) === null, folgenAusText(ohneKopf))
 
-  pruefe('ein Film ohne Folgenliste bleibt ohne Zahl', folgenAusText('Bayonetta: Bloody Fate 1 Std. 30 Min. 2013') === null)
-  pruefe('die einzelne Folge zählt weiterhin', folgenAusText('Details 1 Folge 1. Der Anfang') === 1, folgenAusText('Details 1 Folge 1. Der Anfang'))
-  pruefe('eine lange Reihe zählt weiterhin', folgenAusText('Details 1122 Folgen 1. Ich bin Ruffy') === 1122)
+  pruefe(
+    'ein Film ohne Folgenliste bleibt ohne Zahl',
+    folgenAusText('Bayonetta: Bloody Fate\n1 Std. 26 Min.\n2013\nÄhnliches\nDetails') === null,
+  )
+  pruefe('die einzelne Folge zählt weiterhin', folgenAusText('Details\n1 Folge\n1. Der Anfang') === 1)
+  pruefe('eine lange Reihe zählt weiterhin', folgenAusText('Details\n1122 Folgen\n1. Ich bin Ruffy') === 1122)
 }
 
 /**
@@ -383,16 +399,7 @@ function veraltetTest(schritte) {
  * gelesen, der Umfang deckelte sie auf drei, und der Knopf bot „3 Folgen" zum
  * Melden an (Daniel, 25.08.2026).
  */
-{
-  const jjk =
-    'International Anime Intensiv 5/5 IMDb 8,5/10 2026 4 Staffeln JUJUTSU KAISEN Season 3 ' +
-    'Folgen Ähnliches Details 12 Folgen 1. Die Hinrichtung 24 Min. 8. Jan. 2026'
-  pruefe('„Season 3" plus Reiter zählt nicht', folgenAusText(jjk) === 12, folgenAusText(jjk))
-  pruefe(
-    'und die deutsche Form weiterhin auch nicht',
-    folgenAusText('einlösen Staffel 1 Folgen Ähnliches Details 12 Folgen 1. Verdacht') === 12,
-  )
-}
+// (Der Season-Fall steht jetzt oben bei den anderen drei, in Zeilenform.)
 
 /**
  * **Der Titel-Rückfall liefert dasselbe wie vorher — nur nicht mehr in 25 ms.**

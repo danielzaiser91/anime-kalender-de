@@ -351,7 +351,8 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
  */
 {
   /** Seitenquelltext mit N Folgen, so wie Amazon ihn ausliefert. */
-  const mitFolgen = (n) =>
+  const mitFolgen = (n, asin) =>
+    `<link rel="canonical" href="https://www.amazon.de/gp/video/detail/${asin}"/>` +
     Array.from(
       { length: n },
       (_, i) => `"audioTracks":["Deutsch"],"duration":1355,"episodeNumber":${i + 1},`,
@@ -362,14 +363,14 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   const knopf = angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))
 
   // Staffel 1: zwölf Folgen, wie bei „Oshi no Ko".
-  sandkasten.document.documentElement.innerHTML = mitFolgen(12)
+  sandkasten.document.documentElement.innerHTML = mitFolgen(12, asins[0])
   takten(takte)
   pruefe('Staffel 1 zeigt ihre 12 Folgen', knopf?.textContent.includes('12 Folgen'), knopf?.textContent)
 
   // Der Wechsel, wie ihn Amazon vornimmt: neue Kennung, neuer Inhalt, kein
   // Neuladen.
   sandkasten.location.pathname = `/dp/${asins[1]}`
-  sandkasten.document.documentElement.innerHTML = mitFolgen(13)
+  sandkasten.document.documentElement.innerHTML = mitFolgen(13, asins[1])
   /**
    * Hier laufen **zwei** Fristen nacheinander, und der Test muss beide abwarten.
    *
@@ -422,6 +423,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   const echteStaffel3 =
     '<html><head></head><body>' +
     '<h1>[Oshi No Ko] - [Mein*Star]</h1>' +
+    `<link rel="canonical" href="https://www.amazon.de/gp/video/detail/${LISTEN_ASIN}"/>` +
     '<script>{"pageTitleId":"B0GFPBT6FG","titleID":"B0GT9DR9YF",' +
     '"audioTracks":[{"audioTrackId":"de-de_dialog_0","displayName":"Deutsch",' +
     '"languageCode":"de-de","audioSubtype":"dialog"}],"duration":1440,' +
@@ -479,6 +481,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
    */
   sandkasten.document.querySelector = () => null
   sandkasten.document.documentElement.innerHTML =
+    `<link rel="canonical" href="https://www.amazon.de/gp/video/detail/${LISTEN_ASIN}"/>` +
     '<span class="_36qUej">[Oshi No Ko] - [Mein*Star] - Staffel 1</span>' +
     '"audioTracks":[{"displayName":"Deutsch"}],"episodeNumber":1,"episodeCount":1'
   sandkasten.location.search = '?ref_=atv_dp_season_select_s3'
@@ -541,6 +544,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
  */
 {
   const seite = (folgen, gesamt) =>
+    `<link rel="canonical" href="https://www.amazon.de/gp/video/detail/${LISTEN_ASIN}"/>` +
     '{"titleID":"B0GFPBT6FG"}' +
     Array.from(
       { length: folgen },
@@ -598,6 +602,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   // (Adresse B0CQ4VL364, Quelltext B0CKPCSHMC).
   const { angehaengt, sandkasten, takte, gesetzt } = starte(listenAsin)
   sandkasten.document.documentElement.innerHTML =
+    `<link rel="canonical" href="https://www.amazon.de/gp/video/detail/${listenAsin}"/>` +
     '{"titleID":"B0XXXXXXXX"}"audioTracks":["Deutsch"],"episodeNumber":1,"episodeCount":1'
   takten(takte)
 
@@ -637,6 +642,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   const { angehaengt, sandkasten, takte, gesetzt } = starte(listenAsin)
   // Die Seite nennt fünf Staffeln — genau wie „Anne mit den roten Haaren".
   sandkasten.document.documentElement.innerHTML =
+    `<link rel="canonical" href="https://www.amazon.de/gp/video/detail/${listenAsin}"/>` +
     '<span>1988 · 5 Staffeln</span>' +
     '"audioTracks":["Deutsch"],"episodeNumber":1,"episodeCount":10,"benefitId":"Prime"'
   sandkasten.location.search = '?ref_=atv_dp_season_select_s1'
@@ -692,6 +698,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
 
   const seite = (staffel) =>
     '<span>1988 · 2 Staffeln</span>' +
+    `<link rel="canonical" href="https://www.amazon.de/gp/video/detail/${listenAsin}"/>` +
     `"titleID":"B0CC7FXYF${staffel}","seasonNumber":${staffel},` +
     '"audioTracks":["Deutsch"],"episodeNumber":1,"episodeCount":26,"benefitId":"Prime"'
 
@@ -807,6 +814,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   // Der Quelltext nennt Staffel 1, die Adresse Staffel 3 -- genau die Lage
   // nach zwei Dropdown-Wechseln.
   sandkasten.document.documentElement.innerHTML =
+    `<link rel="canonical" href="https://www.amazon.de/gp/video/detail/${listenAsin}"/>` +
     '<span>1985 5 Staffeln</span>' +
     '"titleID":"B07C1D8JXX","seasonNumber":1,' +
     '"audioTracks":["Deutsch"],"episodeNumber":1,"episodeCount":26,"benefitId":"Prime"'
@@ -894,7 +902,8 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
  * Kanals, nicht die der Folge.
  */
 {
-  const seite = (benefit, folgen) =>
+  const seite = (benefit, folgen, asin) =>
+    `<link rel="canonical" href="https://www.amazon.de/gp/video/detail/${asin}"/>` +
     Array.from(
       { length: folgen },
       (_, i) => `"audioTracks":["Deutsch"],"duration":1355,"episodeNumber":${i + 1},`,
@@ -902,7 +911,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
 
   // Prime-eigener Titel: die Angabe zaehlt.
   const eigen = starte(Object.keys(ECHTE_LISTE)[0])
-  eigen.sandkasten.document.documentElement.innerHTML = seite("Prime", 12)
+  eigen.sandkasten.document.documentElement.innerHTML = seite("Prime", 12, Object.keys(ECHTE_LISTE)[0])
   takten(eigen.takte)
   const knopfEigen = eigen.angehaengt.find((e) => e.className.includes("ak-amazon-knopf"))
   pruefe(
@@ -913,7 +922,7 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
 
   // Kanal-Titel: die Angabe ist ein Hinweis, kein Beleg.
   const kanal = starte(Object.keys(ECHTE_LISTE)[1])
-  kanal.sandkasten.document.documentElement.innerHTML = seite("animationdigitalnetworkde", 12)
+  kanal.sandkasten.document.documentElement.innerHTML = seite("animationdigitalnetworkde", 12, Object.keys(ECHTE_LISTE)[1])
   takten(kanal.takte)
   const knopfKanal = kanal.angehaengt.find((e) => e.className.includes("ak-amazon-knopf"))
   pruefe(
@@ -1025,4 +1034,80 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
      * zuerst, ob ihr Name in der Ausgabe steht.
      */
   }, 2600)
+}
+
+/**
+ * **Ein Titelwechsel darf nicht die Sprachen des vorigen Titels melden.**
+ *
+ * Daniel am 25.08.2026: „ich hab gerade ‚My Isekai Life' gemeldet … button war
+ * grün, aber titel hat keine deutsche sprachausgabe."
+ *
+ * Angekommen war (Meldung 1288, 16:54:00 Uhr):
+ *
+ * ```
+ * url:      .../gp/video/detail/0RNU3R7XQ7HDN1EOCZRAFD5R5R   ← My Isekai Life
+ * notiz:    „Amazon-Seite B0FMNQMXXG"                        ← ein anderer Titel
+ * sprachen: 9 Stück, darunter Deutsch
+ * ```
+ *
+ * Beide Kennungen wurden nachgemessen: `0RNU…` ist „My Isekai Life", ein
+ * reiner ADN-Kanal-Titel, dessen zwölf Folgen ausnahmslos
+ * `"audioTracks":["日本語"]` tragen. `B0FMNQMXXG` ist „Ein Stern, heller als
+ * die Sonne" — Prime, FVOD, und genau jene neun Sprachen. Den hatte Daniel
+ * **vier Sekunden zuvor** gemeldet (Meldung 1287).
+ *
+ * Keiner der drei vorhandenen Prüfsteine konnte greifen: Die Staffelnummer war
+ * beide Male dieselbe, die Folgenzahl **beide Male 12**, und ohne gezielt
+ * geholten Block fiel der Kennungsvergleich ganz aus.
+ */
+{
+  const listenAsin = Object.keys(ECHTE_LISTE)[0]
+  const { angehaengt, sandkasten, takte } = starte(listenAsin)
+
+  /*
+    Der Quelltext eines **fremden** Titels: Er nennt die Kennung der Adresse
+    nirgends. Genau daran ist er erkennbar — an sechs echten Seitenabrufen
+    gemessen steht die eigene Kennung 11- bis 119-mal im eigenen Quelltext
+    und null-mal im fremden.
+  */
+  sandkasten.document.documentElement.innerHTML =
+    '<link rel="canonical" href="https://www.amazon.de/gp/video/detail/B0FMNQMXXG"/>' +
+    '{"titleID":"B0FMNQMXXG"}' +
+    Array.from(
+      { length: 12 },
+      (_, i) => `"audioTracks":["Deutsch","English","日本語"],"episodeNumber":${i + 1},`,
+    ).join('') +
+    '"episodeCount":12,"benefitId":"Prime"'
+  takten(takte)
+
+  const knopf = angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))
+  pruefe(
+    'ein Quelltext, der die Kennung der Adresse nicht kennt, gilt nicht als gelesen',
+    knopf && !knopf.textContent.includes('🇩🇪 Deutsch'),
+    knopf?.textContent,
+  )
+
+  /*
+    Die Gegenprobe, und sie ist die wichtigere: Auf der echten Digimon-Seite
+    stehen **zwei** Kennungen — Adresse `B0CQ4VL364` (11-mal), `titleID`
+    `B0CKPCSHMC` (79-mal). Eine Seite, zwei Ausgaben. Der Wächter darf sie
+    nicht für einen Titelwechsel halten.
+  */
+  const zweite = starte(listenAsin)
+  zweite.sandkasten.document.documentElement.innerHTML =
+    `<link rel="canonical" href="https://www.amazon.de/gp/video/detail/${listenAsin}"/>` +
+    '{"titleID":"B0CKPCSHMC"}' +
+    Array.from(
+      { length: 12 },
+      (_, i) => `"audioTracks":["Deutsch"],"episodeNumber":${i + 1},`,
+    ).join('') +
+    '"episodeCount":12,"benefitId":"Prime"'
+  takten(zweite.takte)
+
+  const knopf2 = zweite.angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))
+  pruefe(
+    'eine fremde titleID bei bekannter Adress-Kennung bleibt erlaubt (Digimon-Fall)',
+    knopf2?.textContent.includes('🇩🇪 Deutsch'),
+    knopf2?.textContent,
+  )
 }
