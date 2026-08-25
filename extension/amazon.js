@@ -1808,6 +1808,45 @@ async function speicherSchreiben(werte) {
      * Datensatz.
      */
     knopf.disabled = geladen ? false : wartet
+    /**
+     * **Diese Prüfung steht ganz vorn, und das ist der Punkt.**
+     *
+     * Bis zum 25.08.2026 lag sie hinter dem Zweig für „keine Folge gelesen".
+     * Wer einen Titel öffnete, den unsere Liste nicht führt, bekam dort „keine
+     * Folgen für diese Staffel — melden" angeboten — eine Meldung zu einem
+     * Verweis, den es bei uns gar nicht gibt. Daniel an JoJos Staffel 2:
+     * „it should say nicht auf prüfliste".
+     *
+     * Ob eine Seite Folgen hergibt, ist erst interessant, wenn überhaupt etwas
+     * zu tun ist. Die Frage davor ist immer: Steht dieser Titel auf der Liste?
+     */
+    /**
+     * Was nicht auf der Prüfliste steht, wird nicht geprüft.
+     *
+     * Daniel am 25.08.2026: „alle die zu prüfen sind sollten als info
+     * ausreichen, wenn der titel kein zu prüfender ist, sollte keine prüfung
+     * möglich sein, so einfach, es muss keine altdaten stand behalten werden."
+     *
+     * Der erste Anlauf war eine zweite Liste mit den bereits geprüften Titeln,
+     * damit sich „erledigt" von „unbekannt" unterscheiden lässt. Das war eine
+     * Antwort auf eine Frage, die sich gar nicht stellt: **Die Prüfliste sagt
+     * bereits, was zu tun ist.** Alles andere ist nichts zu tun — aus welchem
+     * Grund auch immer.
+     *
+     * Damit fällt die Entscheidung vom 23.08.2026, auch unbekannte Staffeln
+     * melden zu lassen. Sie hat einmal geholfen („Oshi no Ko" Staffel 3 kam so
+     * in den Bestand), aber sie kostet mehr, als sie bringt: Ein Knopf, der
+     * überall etwas anbietet, bietet es auch dort an, wo längst alles geklärt
+     * ist. Fehlt uns eine Staffel wirklich, fällt das über die Serie auf — der
+     * Listenschlüssel sucht sie auch über den Serientitel.
+     */
+    if (!liste[listenId]) {
+      knopf.disabled = true
+      knopf.dataset.deutsch = 'false'
+      knopf.textContent = 'nicht auf der Prüfliste'
+      return
+    }
+
     if (!geladen) {
       /**
        * Auch eine tote Seite bleibt gemeldet, wenn sie gemeldet wurde.
@@ -2022,33 +2061,6 @@ async function speicherSchreiben(werte) {
      * Deshalb zählt zusätzlich die einfache Frage: Ist **diese** Staffel dabei?
      * Wenn nicht, ist hier etwas zu tun, ganz gleich was die Zahl sagt.
      */
-    /**
-     * Was nicht auf der Prüfliste steht, wird nicht geprüft.
-     *
-     * Daniel am 25.08.2026: „alle die zu prüfen sind sollten als info
-     * ausreichen, wenn der titel kein zu prüfender ist, sollte keine prüfung
-     * möglich sein, so einfach, es muss keine altdaten stand behalten werden."
-     *
-     * Der erste Anlauf war eine zweite Liste mit den bereits geprüften Titeln,
-     * damit sich „erledigt" von „unbekannt" unterscheiden lässt. Das war eine
-     * Antwort auf eine Frage, die sich gar nicht stellt: **Die Prüfliste sagt
-     * bereits, was zu tun ist.** Alles andere ist nichts zu tun — aus welchem
-     * Grund auch immer.
-     *
-     * Damit fällt die Entscheidung vom 23.08.2026, auch unbekannte Staffeln
-     * melden zu lassen. Sie hat einmal geholfen („Oshi no Ko" Staffel 3 kam so
-     * in den Bestand), aber sie kostet mehr, als sie bringt: Ein Knopf, der
-     * überall etwas anbietet, bietet es auch dort an, wo längst alles geklärt
-     * ist. Fehlt uns eine Staffel wirklich, fällt das über die Serie auf — der
-     * Listenschlüssel sucht sie auch über den Serientitel.
-     */
-    if (!liste[listenId]) {
-      knopf.disabled = true
-      knopf.dataset.deutsch = 'false'
-      knopf.textContent = 'nicht auf der Prüfliste'
-      return
-    }
-
     const alleDurch = Boolean(abgehakt) && schonGemeldet && fertig(listenId)
 
     /**
