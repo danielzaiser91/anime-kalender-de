@@ -55,6 +55,15 @@ hinein: Wer zuerst kam, ist kein Kriterium.
 | 2.2 | **Prime-Folgennummern nicht mehr glauben.** Eine Staffelansicht führt 149–151 neben 1146–1148, mit Terminen aus zwei Jahren. | 3 | Korrektheit vor Reichweite: Was falsch ankommt, muss später von Hand berichtigt werden. |
 | 2.3 | **Disney+ aufnehmen.** 36 von 47 Verweisen ohne Sprachangabe, und `robots.txt` sperrt alles — die Erweiterung ist der **einzige** Weg. | 8 | Nach 2.1, sonst ist die Prüfrunde unnötig zäh. |
 
+#### Nachgetragen am 25.08.2026, 16:10 — aus Daniels Prüfrunde
+
+| # | Aufgabe | SP | Befund |
+|---|---|---|---|
+| 4.1 | **ADN-Release von Dan Da Dan S2 trägt keine `firstEpisodeNumber`.** Der Eintrag `adn-1160-s1-20241003-185660` führt 12 Folgen ab 03.07.2025, letzte am 18.09.2025 — die Terminliste zählt deshalb ab „1." statt ab „13.", obwohl der Hinweis darüber „Folgen 13–24 der ADN-Staffel 1" sagt. | 3 | Genau der Fall, den `CLAUDE.md` für Steel Ball Run beschreibt. |
+| 4.2 | **Ein abgeschlossener Termin aus 2025 steht unter „Release-Termine".** Letzte Folge 18.09.2025, Label „Abgeschlossen" ausgegraut — im Bereich für kommende Termine hat er nichts zu suchen. | 3 | Daniel: „letzte folge 2025 … also eig gibts kein grund warum es dort extra aufgelistet ist". |
+| 4.3 | **ADN erscheint zweimal**: oben als Anbieter („2 Einträge"), unten als Terminblock. Solange 4.2 offen ist, sieht das wie eine Dopplung aus. | 2 | Hängt an 4.2 — ist der abgeschlossene Block weg, bleibt oben ein Eintrag. |
+| 4.4 | **„Wo läuft es" als Pills umbauen.** Streams und Kaufwege als kompakte, klickbare Pills mit allen Angaben darin, statt breiter Zeilen; laufende Folgen in denselben Bereich. Erst klickbare Mockups zur Auswahl. | 8 | Daniel: „sie müssen pills sein die anklickbar sind … extrem viel weniger platz". |
+
 #### Phase 3 — die verbleibende Lücke
 
 | # | Aufgabe | SP | Warum zuletzt |
