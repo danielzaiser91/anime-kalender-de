@@ -454,6 +454,25 @@ dass die Seite in Daniels angemeldeter Sitzung läuft — also wurde geraten sta
 eine Messung nur ein Mensch machen kann, wird sie **erbeten**, nicht ersetzt.
 
 
+**Und ein sprunghafter Fehler ist ein Wettlauf, kein Zustand.** Am 25.08.2026 kostete diese
+Verwechslung vier Fassungen: Die Erweiterung zeigte beim Wechsel zwischen Titeln mal die
+richtige Folgenzahl, mal die des vorigen. Gesucht wurde jedes Mal im Zustand — ein hängender
+Wert, ein zweiter, ein Vergleich, der zweimal dieselbe Quelle abfragte. Jede Erklärung passte zu
+den Daten, keine hielt.
+
+Gefunden hat es Daniel durch **Abwarten**: sofort weiterklicken ergab „13 von 24", zwanzig
+Sekunden warten „24 von 24". Die noch laufenden Nachlade-Abrufe des vorigen Titels antworteten
+nach dem Wechsel, und ihre Daten landeten im frisch geleerten Zählstand des neuen.
+
+**Der Prüfgriff dauert zwei Durchläufe** — dieselbe Handlung einmal so schnell wie möglich,
+einmal mit Pause. Unterscheiden sich die Ergebnisse, ist es Timing, und jede Zustandsanalyse
+davor war verlorene Zeit.
+
+**Der Fix ist immer derselbe:** Jede asynchrone Antwort trägt mit, wozu sie gehört, und der
+Empfänger verwirft Fremdes. Hier ist es `fuerAdresse` an jeder Mitleser-Meldung. Eine überholte
+Antwort ist schlimmer als keine — sie sieht aus wie ein Ergebnis.
+
+
 ### Zwei Meldungen zu einer Reihe widersprechen sich selten — meist reden sie über verschiedene Staffeln
 
 Am 25.08.2026 stand für „Mahouka Koukou no Rettousei" beides im Bestand: eine Meldung
