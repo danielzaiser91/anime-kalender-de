@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-08-25 · **737 offene Verweise** in **491 Zeilen**.
+Stand 2026-08-25 · **747 offene Verweise** in **498 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,10 +33,10 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
-| [Crunchyroll](07-crunchyroll.md) | 453 |
-| [Prime Video](07-primevideo.md) | 197 |
+| [Crunchyroll](07-crunchyroll.md) | 458 |
+| [Prime Video](07-primevideo.md) | 200 |
 | [Disney+](07-disneyplus.md) | 34 |
-| [Netflix](07-netflix.md) | 24 |
+| [Netflix](07-netflix.md) | 26 |
 | [YouTube](07-youtube.md) | 22 |
 | [ADN](07-adn.md) | 5 |
 | [Joyn](07-joyn.md) | 2 |
@@ -45,7 +45,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | 2026-08-21 | Tougen Anki | [Hauptserie](https://www.amazon.de/s?k=TOUGEN%20ANKI&i=instant-video) |
+| 1 | 2026-08-21 | Tougen Anki | [Hauptserie](https://www.amazon.de/gp/video/detail/0LT5I796GDNEXFC0NA9A653MJR) |
 | 2 | 2026-06-29 | Gunslinger Girl | [Hauptserie](https://www.crunchyroll.com/de/gunslinger-girl) |
 | 3 | 2026-06-27 | Fist of the North Star: Hokuto No Ken | [Hauptserie](https://www.amazon.de/s?k=FIST%20OF%20THE%20NORTH%20STAR%3A%20HOKUTO%20NO%20KEN&i=instant-video) |
 | 4 | 2026-06-25 | Dr. Stone | [Special Episode: Ryusui](https://www.crunchyroll.com/de/series/GYEXQKJG6/dr-stone) · [New World](https://www.crunchyroll.com/de/series/GYEXQKJG6/dr-stone) · [Science Future - Cour 2](https://www.crunchyroll.com/de/series/GYEXQKJG6/dr-stone) · [Science Future - Cour 3](https://www.crunchyroll.com/de/series/GYEXQKJG6/dr-stone) |
@@ -63,7 +63,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 16 | 2026-03-25 | One Piece | [Hauptserie](https://www.netflix.com/title/80107103) |
 | 17 | 2026-03-22 | Medalist: Staffel 2 | [Hauptserie](https://www.disneyplus.com/de-de/series/medalist/4LgC0zEd5JEx) |
 | 18 | 2026-03-20 | Assassination Classroom | [Hauptserie](https://www.crunchyroll.com/de/assassination-classroom) · [II](https://www.crunchyroll.com/de/assassination-classroom) · [Koro Sensei Quest!](http://www.crunchyroll.com/de/koro-sensei-quest) · [Our Time - The Movie](https://www.crunchyroll.com/de/series/GMTE00376679/assassination-classroom-the-movie-our-time) |
-| 19 | 2026-03-11 | Magical Girl Spec Ops Asuka | [Hauptserie](https://www.amazon.de/s?k=Magical%20Girl%20Spec-Ops%20Asuka&i=instant-video) |
+| 19 | 2026-03-11 | Magical Girl Spec Ops Asuka | [Hauptserie](https://www.amazon.de/gp/video/detail/0I8UZXM92IXRYUU0Z8TR0TY4AE) |
 | 20 | 2026-03-11 | Magical Girl Spec Ops Asuka | [Hauptserie](https://www.joyn.de/serien/magical-girl-special-ops-asuka) |
 | 21 | 2026-03-04 | Lupin III.: Teil 1 | [Lupin III: Der Höllentrip](https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-mordbefehl-an-lupin-der-hllentrip-unbekannt-813888?ssid=407176) · [Lupin III: Der goldene Drache](https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-brenne-zantetsuken-der-goldene-drache-unbekannt-813890?ssid=407178) · [Lupin III.: Der Schatz des Harimao](https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-der-schatz-des-harimao-unbekannt-813894?ssid=407180) · [Lupin III: Der Diamant der Dämmerung](https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-das-geheimnis-des-twilight-gemini-der-diamant-der-dmmerung-unbekannt-813886?ssid=407187) · [Detektiv Conan: Der tickende Wolkenkratzer](https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-1-der-tickende-wolkenkratzer-unbekannt-810163) · [Detektiv Conan: Das 14. Ziel](https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-2-das-14-ziel-unbekannt-810165) · [Detektiv Conan: Der Magier des letzten Jahrhunderts](https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-3-der-magier-des-letzten-jahrhunderts-unbekannt-810166) · [Detektiv Conan: Der Killer in ihren Augen](https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-4-der-killer-in-ihren-augen-unbekannt-810167) · [Detektiv Conan: Countdown zum Himmel](https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-5-countdown-zum-himmel-unbekannt-810169?ssid=398572) · [Detektiv Conan: Das Phantom der Baker Street](https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-6-das-phantom-der-baker-street-unbekannt-810184?ssid=398574) · [Detektiv Conan: Die Partitur des Grauens](https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-12-die-partitur-des-grauens-unbekannt-811393?ssid=400590) · [Lupin III. vs Detektiv Conan: The Special](https://www.crunchyroll.com/detektiv-conan/detektiv-conan-tv-special-lupin-iii-vs-detektiv-conan-unbekannt-812798?ssid=404716) · [Detektiv Conan: Das verlorene Schiff im Himmel](https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-14-das-verlorene-schiff-im-himmel-unbekannt-811396?ssid=400599) · [Detektiv Conan: Die 15 Minuten der Stille](https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-15-die-15-minuten-der-stille-unbekannt-811397?ssid=400596) · [Detektiv Conan: Der 11. Stürmer](https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-16-der-11-strmer-unbekannt-811399?ssid=400598) · [Detektiv Conan: Detektiv auf hoher See](https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-17-detektiv-auf-hoher-see-unbekannt-812230?ssid=402659) · [Detektiv Conan: Der Scharfschütze aus einer anderen Dimension](https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-18-der-scharfschtze-aus-einer-anderen-dimension-unbekannt-812231) · [Lupin III.: Daisuke Jigens Grabstein](https://www.crunchyroll.com/lupin-the-3rd-movies/daisuke-jigens-grabstein-unbekannt-822025?ssid=423942) · [Magic Kaito 1412](http://www.crunchyroll.com/de/magickaito) · [Detektiv Conan: Episode ONE - Der geschrumpfte Meisterdetektiv](https://www.crunchyroll.com/detektiv-conan/detektiv-conan-tv-special-episode-one-der-geschrumpfte-meisterdetektiv-unbekannt-821630?ssid=422962) · [Lupin III.: Goemon Ishikawa, der es Blut regnen lässt](https://www.crunchyroll.com/lupin-the-3rd-movies/goemon-ishikawa-der-es-blut-regnen-lsst-unbekannt-822028?ssid=423944) · [Detektiv Conan: Der purpurrote Liebesbrief](https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-21-der-purpurrote-liebesbrief-unbekannt-812236?ssid=402669) · [Detektiv Conan: Zero der Vollstrecker](https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-22-zero-der-vollstrecker-unbekannt-812237?ssid=402670) · [Detektiv Conan: Die stahlblaue Faust](https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-23-die-stahlblaue-faust-unbekannt-857862) · [Lupin III.: Fujiko Mines Lüge](https://www.crunchyroll.com/lupin-the-3rd-movies/fujiko-mines-lge-unbekannt-822260?ssid=424587) · [Lupin III.: The First](https://www.crunchyroll.com/lupin-the-3rd-movies/lupin-iii-the-first-unbekannt-827115?ssid=429156) · [Detektiv Conan: Das Scharlachrote Alibi](https://www.crunchyroll.com/watch/G50UZ54W0/the-scarlet-alibi-german-dub) · [Detektiv Conan: Die scharlachrote Kugel](https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-24-die-scharlachrote-kugel-unbekannt-867288) · [Detektiv Conan: Die Halloween-Braut](https://www.crunchyroll.com/watch/G4VUQVNJ8/) · [Detektiv Conan: Das schwarze U-Boot](https://www.crunchyroll.com/watch/GJWUQN11K/) |
 | 22 | 2026-01-30 | Lupin III.: Teil 1 | [Cat’s Eye: Ein Supertrio](https://www.disneyplus.com/de-de/browse/entity-21240dd9-5fb4-4334-be13-687a6bd230f7) |
@@ -79,7 +79,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 32 | 2025-10-17 | Tatsuki Fujimoto 17–26 | [Hauptserie](https://www.amazon.de/s?k=Tatsuki%20Fujimoto%2017-26&i=instant-video) |
 | 33 | 2025-09-29 | City The Animation | [Hauptserie](https://www.amazon.de/s?k=CITY%20THE%20ANIMATION&i=instant-video) |
 | 34 | 2025-09-25 | New Panty & Stocking with Garterbelt | [Hauptserie](https://www.amazon.de/s?k=New%20PANTY%20%26%20STOCKING%20with%20GARTERBELT&i=instant-video) |
-| 35 | 2025-09-04 | Alderamin on the Sky | [Hauptserie](https://www.amazon.de/s?k=Alderamin%20on%20the%20Sky&i=instant-video) |
+| 35 | 2025-09-04 | Alderamin on the Sky | [Hauptserie](https://www.amazon.de/gp/video/detail/0GZZW2CDSPJY95EL7FSWFDN6V2) |
 | 36 | 2025-08-21 | Terra Formars | [Hauptserie](http://www.crunchyroll.com/de/terraformars) |
 | 37 | 2025-08-21 | Terra Formars | [Hauptserie](https://www.amazon.de/s?k=Terra%20Formars&i=instant-video) |
 | 38 | 2025-08-13 | Bullet/Bullet | [Hauptserie](https://www.disneyplus.com/de-de/browse/entity-52e7dbe7-b28a-428a-963e-acfaa81b4ba6) |
@@ -110,10 +110,10 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 63 | 2024-06-30 | Captain Tsubasa: Die tollen Fußballstars | [Super Kickers 2006](https://www.amazon.de/s?k=Captain%20Tsubasa&i=instant-video) · [Captain Tsubasa](https://www.amazon.de/s?k=Captain%20Tsubasa%20(2018)&i=instant-video) · [Captain Tsubasa: Staffel 2 - Die Junioren](https://www.amazon.de/s?k=Captain%20Tsubasa%3A%20Junior%20Youth%20Arc&i=instant-video) |
 | 64 | 2024-06-29 | Kaiju No. 8 | [Hauptserie](https://www.crunchyroll.com/de/series/GG5H5XQ7D/kaiju-no-8) |
 | 65 | 2024-06-28 | Look Back | [Hauptserie](https://www.amazon.de/s?k=LOOK%20BACK&i=instant-video) |
-| 66 | 2024-06-28 | Wind Breaker | [Hauptserie](https://www.amazon.de/s?k=WIND%20BREAKER&i=instant-video) |
+| 66 | 2024-06-28 | Wind Breaker | [Hauptserie](https://www.amazon.de/gp/video/detail/0QB4IJNR2K556RYRIGK6MIV3QR) |
 | 67 | 2024-06-26 | Date a Live | [Hauptserie](https://www.crunchyroll.com/de/date-a-live) · [II](https://www.crunchyroll.com/de/date-a-live) · [The Movie – Mayuri Judgement](https://www.crunchyroll.com/de/date-a-live) · [III](https://www.crunchyroll.com/de/date-a-live) · [Date A Bullet: Dead or Bullet & Nightmare or Queen](https://www.crunchyroll.com/de/series/GYEX5E1G6/date-a-live) · [Date A Bullet: Dead or Bullet & Nightmare or Queen](https://www.crunchyroll.com/de/series/GYEX5E1G6/date-a-live) · [IV](https://www.crunchyroll.com/de/date-a-live) · [V](https://www.crunchyroll.com/de/series/GYEX5E1G6/date-a-live) |
 | 68 | 2024-06-19 | Konosuba: God’s Blessing on This Wonderful World! | [KonoSuba: God’s Blessing on This Wonderful World! 3](https://www.crunchyroll.com/de/series/GYE5K3GQR/konosuba--gods-blessing-on-this-wonderful-world) |
-| 69 | 2024-06-13 | Clannad | [Hauptserie](https://www.amazon.de/s?k=Clannad&i=instant-video) |
+| 69 | 2024-06-13 | Clannad | [Hauptserie](https://www.amazon.de/gp/video/detail/0FQH6UJINFTOTF1LP1IH1VQ7T5) |
 | 70 | 2024-06-06 | Aesthetica of a Rogue Hero | [Hauptserie](https://www.crunchyroll.com/de/aesthetica-of-a-rogue-hero) |
 | 71 | 2024-05-10 | The Testament of Sister New Devil | [Hauptserie](https://www.crunchyroll.com/de/the-testament-of-sister-new-devil) · [Burst](http://www.crunchyroll.com/de/the-testament-of-sister-new-devil) · [Departures](https://www.crunchyroll.com/de/the-testament-of-sister-new-devil) |
 | 72 | 2024-05-05 | Ninja Kamui | [Hauptserie](https://www.amazon.de/s?k=Ninja%20Kamui&i=instant-video) |
@@ -146,27 +146,27 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 99 | 2023-08-23 | Tonikawa: Over the Moon for You | [Hauptserie](https://www.crunchyroll.com/de/tonikawa-over-the-moon-for-you) · [Social Media](https://www.crunchyroll.com/de/tonikawa-over-the-moon-for-you) · [Uniform](https://www.crunchyroll.com/de/series/GRWMGGQ86/tonikawa-over-the-moon-for-you) · [Hauptserie](https://www.crunchyroll.com/de/series/GRWMGGQ86/tonikawa-over-the-moon-for-you) · [High School Days](https://www.crunchyroll.com/de/series/GRWMGGQ86/tonikawa-over-the-moon-for-you) |
 | 100 | 2023-07-04 | Insomniacs after School | [Hauptserie](https://www.amazon.de/s?k=Insomniacs%20After%20School&i=instant-video) |
 | 101 | 2023-06-28 | Oshi no Ko: Mein Star | [Hauptserie](https://www.disneyplus.com/de-de/browse/entity-9f96dac7-a7cf-4546-87a5-069cb101f174?season=782c38b7-ad71-48fc-87e4-e6b9ad7f13e4) |
-| 102 | 2023-06-22 | Konosuba: God’s Blessing on This Wonderful World! | [Konosuba: An Explosion on This Wonderful World!](https://www.amazon.de/s?k=KONOSUBA%20-An%20Explosion%20on%20This%20Wonderful%20World!&i=instant-video) |
+| 102 | 2023-06-22 | Konosuba: God’s Blessing on This Wonderful World! | [Konosuba: An Explosion on This Wonderful World!](https://www.amazon.de/gp/video/detail/0GEKDMWNS2NDILGKJP0T7BHI3E) |
 | 103 | 2023-04-19 | Bofuri: I Don’t Want to Get Hurt, So I’ll Max Out My Defense. | [Hauptserie](https://www.crunchyroll.com/de/bofuri-i-dont-want-to-get-hurt-so-ill-max-out-my-defense) · [Staffel 2](https://www.crunchyroll.com/de/series/GKEH2G428/bofuri-i-dont-want-to-get-hurt-so-ill-max-out-my-defense) |
 | 104 | 2023-04-14 | Lupin III.: Teil 1 | [Detektiv Conan: Das schwarze U-Boot](http://netflix.com/DetectiveConanMovies) |
 | 105 | 2023-04-14 | Pokémon Horizonte | [Hauptserie](https://www.netflix.com/title/81696980) |
-| 106 | 2023-04-10 | Akame ga Kill: Schwerter der Assassinen | [Hauptserie](https://www.amazon.de/s?k=Akame%20ga%20Kill!&i=instant-video) |
+| 106 | 2023-04-10 | Akame ga Kill: Schwerter der Assassinen | [Hauptserie](https://www.amazon.de/gp/video/detail/0HSXN9KO9VCAUTXWKIY203H5KV) |
 | 107 | 2023-04-05 | Kiznaiver | [Hauptserie](http://www.crunchyroll.com/de/kiznaiver) |
 | 108 | 2023-03-23 | Onimai: Ab sofort Schwester! | [Hauptserie](https://www.crunchyroll.com/de/series/GZJH3D0P5/onimai-im-now-your-sister) |
 | 109 | 2023-03-16 | Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth | [IV](https://beta.crunchyroll.com/de/series/G6DQN9KGR/is-it-wrong-to-try-to-pick-up-girls-in-a-dungeon) · [IV](https://www.crunchyroll.com/de/series/G6DQN9KGR/is-it-wrong-to-try-to-pick-up-girls-in-a-dungeon) |
 | 110 | 2023-02-15 | The Eminence in Shadow | [Hauptserie](https://www.amazon.de/s?k=The%20Eminence%20in%20Shadow&i=instant-video) |
-| 111 | 2023-01-27 | Lupin III.: Teil 1 | [Hauptserie](https://www.amazon.de/s?k=Lupin%20the%203rd&i=instant-video) · [Lupin III.: Goemon Ishikawa, der es Blut regnen lässt](https://www.amazon.de/s?k=Lupin%20the%20IIIrd%3A%20Goemon's%20Blood%20Spray&i=instant-video) · [Detektiv Conan: Die scharlachrote Kugel](https://www.amazon.de/gp/video/detail/amzn1.dv.gti.9c92f9a9-a36f-4f4e-8ccd-e0d6b3649bee) · [Lupin III. vs. Ein Supertrio: Cat’s Eye](https://www.amazon.de/s?k=LUPIN%20THE%203rd%20vs.%20CAT%E2%80%99S%20EYE&i=instant-video) |
+| 111 | 2023-01-27 | Lupin III.: Teil 1 | [Hauptserie](https://www.amazon.de/gp/video/detail/0IIJ1FYSH4XM57T316F31JSKCN) · [Lupin III.: Goemon Ishikawa, der es Blut regnen lässt](https://www.amazon.de/gp/video/detail/0PII3AKFPJN4Q6DTSMIKCQO6CU) · [Detektiv Conan: Die scharlachrote Kugel](https://www.amazon.de/gp/video/detail/amzn1.dv.gti.9c92f9a9-a36f-4f4e-8ccd-e0d6b3649bee) · [Lupin III. vs. Ein Supertrio: Cat’s Eye](https://www.amazon.de/s?k=LUPIN%20THE%203rd%20vs.%20CAT%E2%80%99S%20EYE&i=instant-video) |
 | 112 | 2023-01-04 | Dragon Ball | [Hauptserie](https://www.crunchyroll.com/de/dragon-ball) · [Z](https://www.crunchyroll.com/de/dragon-ball-z) · [Z: Die Todeszone des Garlic Jr.](https://www.crunchyroll.com/de/series/GMTE00002906/dragon-ball-z-the-dead-zone) · [Z: Der Stärkste auf Erden](https://www.crunchyroll.com/de/series/GMTE00002911/dragon-ball-z-the-worlds-strongest) · [Z: Die Entscheidungsschlacht](https://www.crunchyroll.com/de/series/GMTE00002912/dragon-ball-z-the-tree-of-might) · [Z: Rache für Freezer](https://www.crunchyroll.com/de/series/GMTE00002914/dragon-ball-z-coolers-revenge) · [Z: Coolers Rückkehr](https://www.crunchyroll.com/de/series/GMTE00002915/dragon-ball-z-return-of-cooler) · [Z: Angriff der Cyborgs](https://www.crunchyroll.com/de/series/GMTE00002916/dragon-ball-z-super-android-13) · [Z: Der Legendäre Super-Saiyajin](https://www.crunchyroll.com/de/series/GMTE00002917/dragon-ball-z-broly-the-legendary-super-saiyan) · [Z: Super-Saiyajin Son-Gohan](https://www.crunchyroll.com/de/series/GMTE00002918/dragon-ball-z-bojack-unbound) · [Z: Brolys Rückkehr](https://www.crunchyroll.com/de/series/GMTE00002907/dragon-ball-z-broly-second-coming) · [Z: Angriff der Bio-Kämpfer](https://www.crunchyroll.com/de/series/GMTE00002908/dragon-ball-z-bio-broly) · [Z: Die Fusion](https://www.crunchyroll.com/de/series/GMTE00002909/dragon-ball-z-fusion-reborn) · [Z: Drachenfaust](https://www.crunchyroll.com/de/series/GMTE00002910/dragon-ball-z-wrath-of-the-dragon) · [GT](https://www.crunchyroll.com/de/dragon-ball-gt) · [Z: Kampf der Götter](https://www.crunchyroll.com/de/watch/G8WU7P112/dragon-ball-z-battle-of-gods) · [Super](http://www.crunchyroll.com/de/dragon-ball-super) |
-| 113 | 2023-01-04 | Dragon Ball | [Die Legende von Shenlong](https://www.amazon.de/s?k=Dragon%20Ball%3A%20Curse%20of%20the%20Blood%20Rubies&i=instant-video) · [Super](https://www.amazon.de/s?k=Dragon%20Ball%20Super&i=instant-video) · [Super: Super Hero](https://www.amazon.de/s?k=Dragon%20Ball%20Super%3A%20SUPER%20HERO&i=instant-video) |
+| 113 | 2023-01-04 | Dragon Ball | [Die Legende von Shenlong](https://www.amazon.de/s?k=Dragon%20Ball%3A%20Curse%20of%20the%20Blood%20Rubies&i=instant-video) · [Super](https://www.amazon.de/s?k=Dragon%20Ball%20Super&i=instant-video) · [Super: Super Hero](https://www.amazon.de/gp/video/detail/0P6DJDDASQK51O1AWRC54MET5U) |
 | 114 | 2022-12-27 | Bleach | [Thousand-Year Blood War](https://www.amazon.de/s?k=BLEACH%3A%20Thousand-Year%20Blood%20War&i=instant-video) |
 | 115 | 2022-12-23 | Pokémon | [Blauer Himmel in der Ferne!](https://www.netflix.com/watch/81670593) |
 | 116 | 2022-12-22 | Mob Psycho 100 | [Hauptserie](https://www.amazon.de/s?k=Mob%20Psycho%20100&i=instant-video) · [II](https://www.amazon.de/s?k=Mob%20Psycho%20100%20II&i=instant-video) · [III](https://www.amazon.de/s?k=Mob%20Psycho%20100%20III&i=instant-video) |
 | 117 | 2022-12-14 | Reincarnated as a Sword | [Hauptserie](https://www.amazon.de/s?k=Reincarnated%20as%20a%20Sword&i=instant-video) |
 | 118 | 2022-10-13 | Exception | [Hauptserie](https://www.netflix.com/exception) |
 | 119 | 2022-09-30 | Bright Sun: Dark Shadows | [Hauptserie](https://www.disneyplus.com/de-de/series/summer-time-rendering/3AHbeFV7Lqvn) |
-| 120 | 2022-09-30 | Call of the Night | [Hauptserie](https://www.amazon.de/s?k=Call%20of%20the%20Night&i=instant-video) |
+| 120 | 2022-09-30 | Call of the Night | [Hauptserie](https://www.amazon.de/gp/video/detail/0HGZCX1WR9YH6FJX0HXEO8182Y) |
 | 121 | 2022-09-24 | Aoashi | [Hauptserie](https://www.disneyplus.com/de-de/series/aoashi/27OVvACG0ySD) |
-| 122 | 2022-09-12 | My Isekai Life: I Gained a Second Character Class and Became the Strongest Sage in the World! | [Hauptserie](https://www.amazon.de/s?k=My%20Isekai%20Life%3A%20I%20Gained%20a%20Second%20Character%20Class%20and%20Became%20the%20Strongest%20Sage%20in%20the%20World!&i=instant-video) |
+| 122 | 2022-09-12 | My Isekai Life: I Gained a Second Character Class and Became the Strongest Sage in the World! | [Hauptserie](https://www.amazon.de/gp/video/detail/0RNU3R7XQ7HDN1EOCZRAFD5R5R) |
 | 123 | 2022-08-24 | Steins;Gate | [Hauptserie](https://www.crunchyroll.com/de/steinsgate) |
 | 124 | 2022-06-29 | The Rising of the Shield Hero | [Staffel 2](https://www.disneyplus.com/de-de/series/the-rising-of-the-shield-hero-aka-tate-no-yuusha-no/4lgHH2jdAefe) |
 | 125 | 2022-06-25 | Spy × Family | [Hauptserie](https://www.disneyplus.com/de-de/series/spyfamily/fet1h9jqmrAM) |
@@ -174,17 +174,17 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 127 | 2022-03-16 | Mushoku Tensei: Jobless Reincarnation | [Eris auf Goblinjagd](https://www.netflix.com/title/80987039) |
 | 128 | 2022-02-18 | Fruits Basket | [Hauptserie](https://www.crunchyroll.com/de/fruits-basket) · [Staffel 2](https://www.crunchyroll.com/de/fruits-basket) · [Prelude](https://www.crunchyroll.com/de/fruits-basket) |
 | 129 | 2022-01-19 | Miss Kobayashi’s Dragon Maid | [Miss Kobayashi's Dragon Maid: Valentinstag und Onsen (Erwartet nicht zu viel!)](http://www.crunchyroll.com/de/miss-kobayashis-dragon-maid/episode-14-valentines-and-hot-springs-please-dont-get-your-hopes-up-761513) · [S: Japanische Gastfreundschaft - Der Reiseführer ist ein Drache](https://www.crunchyroll.com/de/miss-kobayashis-dragon-maid/episode-13-japanese-hospitality-the-attendant-is-a-dragon-814608) |
-| 130 | 2021-12-24 | Jujutsu Kaisen | [0](https://www.amazon.de/s?k=JUJUTSU%20KAISEN%200&i=instant-video) |
+| 130 | 2021-12-24 | Jujutsu Kaisen | [0](https://www.amazon.de/gp/video/detail/0PCNT2617SSVLV8ZGSS62UTQSZ) |
 | 131 | 2021-12-23 | Pokémon | [Mystery Dungeon: Team Flinke Freunde](https://www.youtube.com/watch?v=rAOmQ-foqeg) · [Mystery Dungeon: Erkundungsteams Zeit und Dunkelheit](https://www.youtube.com/watch?v=V0PlwsTLoM0) · [Mystery Dungeon: Portale in die Unendlichkeit](https://www.youtube.com/watch?v=zbwSAruo3QU) · [Der Film - Volcanion und das mechanische Wunderwerk](https://www.youtube.com/watch?v=9A22nfAK1V4) · [Entwicklungen](https://youtube.com/playlist?list=PLQWzKIaERirwN5po6LduiSLm8qc7GtuAl&si=I6QtXoF-i7cfG2c8) |
 | 132 | 2021-10-21 | Kaguya-sama: Love Is War | [Ultra Romantic: Ishigami Yu möchte sich unterhalten](https://www.youtube.com/watch?v=cxTxrKrYkcY) |
 | 133 | 2021-09-30 | My Next Life as a Villainess: Wie überlebe ich in einem Dating-Game? | [My Next Life as a Villainess: All Routes Lead to Doom! Ich habe die mir vorbestimmte Person getroffen](https://www.crunchyroll.com/de/my-next-life-as-a-villainess-all-routes-lead-to-doom/my-next-life-as-a-villainess-all-routes-lead-to-doom-x-i-met-my-destined-one-814444) |
 | 134 | 2021-09-21 | Meine Wiedergeburt als Schleim in einer anderen Welt | [Hauptserie](http://www.crunchyroll.com/de/that-time-i-got-reincarnated-as-a-slime) · [Staffel 2](https://www.crunchyroll.com/de/that-time-i-got-reincarnated-as-a-slime) · [Staffel 2](https://www.crunchyroll.com/de/that-time-i-got-reincarnated-as-a-slime) |
 | 135 | 2021-08-06 | My Hero Academia | [World Heroes’ Mission](https://www.crunchyroll.com/watch/GG1U2NW9Q) |
-| 136 | 2021-07-30 | Fate/Zero | [Fate/Grand Order: Final Singularity - The Grand Temple of Time: Solomon](https://www.netflix.com/watch/82850867) |
+| 136 | 2021-07-30 | Fate/Zero | [Fate/Stay Night: Unlimited Blade Works - Sunny Day](https://www.netflix.com/title/80040330) · [Fate/Grand Order: Final Singularity - The Grand Temple of Time: Solomon](https://www.netflix.com/watch/82850867) |
 | 137 | 2021-07-30 | Fire Force | [Staffel 2 Miniepisoden](https://www.youtube.com/playlist?list=PLY_DM8ieCRPqNeMV1z2EJZDSgLWySL_Cx) |
 | 138 | 2021-06-27 | Don’t Toy with Me, Miss Nagatoro | [Hauptserie](https://www.amazon.de/s?k=DON'T%20TOY%20WITH%20ME%2C%20MISS%20NAGATORO&i=instant-video) |
 | 139 | 2021-06-25 | The Journey: Die Legende vom guten Dieb | [Hauptserie](https://www.crunchyroll.com/de/the-journey/) |
-| 140 | 2021-06-23 | Full Dive: This Ultimate Next-Gen Full Dive RPG Is Even Shittier than Real Life! | [Hauptserie](https://www.amazon.de/s?k=Full%20Dive%3A%20This%20Ultimate%20Next-Gen%20Full%20Dive%20RPG%20Is%20Even%20Shittier%20than%20Real%20Life!&i=instant-video) |
+| 140 | 2021-06-23 | Full Dive: This Ultimate Next-Gen Full Dive RPG Is Even Shittier than Real Life! | [Hauptserie](https://www.amazon.de/gp/video/detail/0FJOQHOAFIXXM8S33J6VVL4AHQ) |
 | 141 | 2021-06-22 | The Saint’s Magic Power Is Omnipotent | [Hauptserie](https://www.amazon.de/s?k=The%20Saint's%20Magic%20Power%20is%20Omnipotent&i=instant-video) |
 | 142 | 2021-06-11 | How Not to Summon a Demon Lord | [Ω](https://www.crunchyroll.com/de/how-not-to-summon-a-demon-lord) |
 | 143 | 2021-03-26 | The Promised Neverland | [Hauptserie](https://www.crunchyroll.com/de/the-promised-neverland) · [Staffel 2](https://www.crunchyroll.com/de/the-promised-neverland) |
@@ -204,338 +204,345 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 157 | 2020-04-04 | My Hero Academia | [4](https://www.amazon.de/s?k=My%20Hero%20Academia%20Season%204&i=instant-video) |
 | 158 | 2020-03-30 | Pet | [Hauptserie](https://www.amazon.de/s?k=pet&i=instant-video) |
 | 159 | 2020-03-28 | Kabukicho Sherlock | [Hauptserie](https://www.crunchyroll.com/de/case-file-n221-kabukicho) |
-| 160 | 2020-03-28 | Kabukicho Sherlock | [Hauptserie](https://www.amazon.de/s?k=Case%20File%20n%C2%BA221%3A%20Kabukicho&i=instant-video) |
-| 161 | 2020-03-27 | One Punch Man | [OVAs](https://www.crunchyroll.com/watch/GPWU8KM42/the-shadow-that-snuck-up-too-close) · [Staffel 2 OVAs](https://www.crunchyroll.com/watch/G9DU9E4QG/saitama-and-the-mediocre-gang) |
+| 160 | 2020-03-28 | Kabukicho Sherlock | [Hauptserie](https://www.amazon.de/gp/video/detail/0MJG7IE502UMF8IOXIICDJMB9H) |
+| 161 | 2020-03-27 | One Punch Man | [Hauptserie](https://www.crunchyroll.com/series/G63K98PZ6/one-punch-man) · [OVAs](https://www.crunchyroll.com/watch/GPWU8KM42/the-shadow-that-snuck-up-too-close) · [Staffel 2 OVAs](https://www.crunchyroll.com/watch/G9DU9E4QG/saitama-and-the-mediocre-gang) |
 | 162 | 2020-03-27 | Psycho-Pass | [3](https://www.amazon.de/s?k=PSYCHO-PASS%203&i=instant-video) · [3: First Inspector](https://www.amazon.de/s?k=PSYCHO-PASS%203%3A%20First%20Inspector&i=instant-video) |
 | 163 | 2020-03-21 | Fate/Zero | [Hauptserie](http://www.crunchyroll.com/de/fatezero) · [Hauptserie](http://www.crunchyroll.com/de/fatezero) · [Fate/Stay Night: Unlimited Blade Works](https://www.crunchyroll.com/de/series/GY8V11X7Y/fatestay-night-unlimited-blade-works) · [Fate/Stay Night: Unlimited Blade Works 2](https://www.crunchyroll.com/de/series/GY8V11X7Y/fatestay-night-unlimited-blade-works) · [Fate/Grand Order: First Order](http://www.crunchyroll.com/de/fategrand-order-first-order) · [Fate/stay night [Heaven's Feel] I. presage flower](https://www.crunchyroll.com/de/series/GXJHM39V0/fatestay-night-heavens-feel) · [Fate/Grand Order Absolute Demonic Front: Babylonia - Initium Iter](https://www.crunchyroll.com/de/fategrand-order-absolute-demonic-front-babylonia) · [Fate/Grand Order Absolute Demonic Front: Babylonia](https://www.crunchyroll.com/de/fategrand-order-absolute-demonic-front-babylonia) |
 | 164 | 2020-03-07 | Welcome to Demon School! Iruma-kun | [Hauptserie](https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51) |
-| 165 | 2020-01-27 | Babylon | [Hauptserie](https://www.amazon.de/s?k=BABYLON&i=instant-video) |
-| 166 | 2019-12-29 | Special 7: Special Crime Investigation Unit | [Hauptserie](https://www.crunchyroll.com/de/special-7-special-crime-investigation-unit) |
-| 167 | 2019-12-29 | Special 7: Special Crime Investigation Unit | [Hauptserie](https://www.amazon.de/s?k=Special%207%3A%20Special%20Crime%20Investigation%20Unit&i=instant-video) |
-| 168 | 2019-12-13 | Dr. Stone | [Hauptserie](https://www.amazon.de/s?k=Dr.%20STONE&i=instant-video) |
-| 169 | 2019-12-13 | Seven Days War | [Hauptserie](https://www.crunchyroll.com/seven-days-war/seven-days-war-unbekannt-821929?ssid=423562) |
-| 170 | 2019-12-12 | Legend of the Galactic Heroes: Die Neue These | [Hauptserie](https://crunchyroll.com/de/series/GRW4DXNEY) · [Hauptserie](https://crunchyroll.com/de/series/GRW4DXNEY) |
-| 171 | 2019-11-22 | Fragtime | [Hauptserie](https://www.crunchyroll.com/fragtime/fragtime-unbekannt-813782?ssid=406732) |
-| 172 | 2019-11-22 | Midnight Occult Civil Servants | [Hauptserie](https://www.crunchyroll.com/de/midnight-occult-civil-servants) · [OVA](https://www.crunchyroll.com/de/midnight-occult-civil-servants) |
-| 173 | 2019-11-03 | Pokémon | [Die TV-Serie - Sonne & Mond](https://www.amazon.de/s?k=Pok%C3%A9mon%20the%20Series%3A%20Sun%20%26%20Moon&i=instant-video) |
-| 174 | 2019-10-22 | Human Lost | [Hauptserie](https://www.crunchyroll.com/de/series/G24H1NJQ2/human-lost) |
-| 175 | 2019-10-01 | Cop Craft | [Hauptserie](https://www.crunchyroll.com/de/cop-craft) |
-| 176 | 2019-10-01 | Cop Craft | [Hauptserie](https://www.amazon.de/s?k=Cop%20Craft&i=instant-video) |
-| 177 | 2019-09-25 | Mob Psycho 100 | [Reigen: Der Unbekannte Typ mit Kräften](http://www.crunchyroll.com/de/mob-psycho-100) · [II OVA: Der erste superbillige Ausflug des PS-Büros](https://www.crunchyroll.com/de/mob-psycho-100) |
-| 178 | 2019-09-23 | Hensuki: Are You Willing to Fall in Love with a Pervert, as Long as She’s a Cutie? | [Hauptserie](https://www.amazon.de/s?k=Hensuki%3A%20Are%20you%20willing%20to%20fall%20in%20love%20with%20a%20pervert%2C%20as%20long%20as%20she%E2%80%99s%20a%20cutie%3F&i=instant-video) |
-| 179 | 2019-09-22 | The Ones Within | [Hauptserie](https://www.crunchyroll.com/de/the-ones-within) |
-| 180 | 2019-09-22 | The Ones Within | [Hauptserie](https://www.amazon.de/s?k=The%20Ones%20Within&i=instant-video) |
-| 181 | 2019-09-21 | Fruits Basket | [Hauptserie](https://www.amazon.de/s?k=Fruits%20Basket%20(2019)&i=instant-video) |
-| 182 | 2019-09-19 | Demon Lord, Retry! | [Hauptserie](https://www.amazon.de/s?k=Demon%20Lord%2C%20Retry!&i=instant-video) |
-| 183 | 2019-09-18 | Astra Lost in Space | [Hauptserie](https://www.crunchyroll.com/de/astra-lost-in-space) |
-| 184 | 2019-09-18 | Astra Lost in Space | [Hauptserie](https://www.amazon.de/s?k=ASTRA%20LOST%20IN%20SPACE&i=instant-video) |
-| 185 | 2019-09-18 | How Heavy Are the Dumbbells You Lift? | [Hauptserie](https://www.amazon.de/s?k=How%20Heavy%20Are%20the%20Dumbbells%20You%20Lift%3F&i=instant-video) |
-| 186 | 2019-09-07 | The Legend of Hei: Die Kraft in dir | [Hauptserie](https://www.crunchyroll.com/de/series/G4PH0WJ7Z/the-legend-of-hei) |
-| 187 | 2019-07-28 | JoJo’s Bizarre Adventure | [Hauptserie](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) · [Stardust Crusaders](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) · [Stardust Crusaders - Battle in Egypt](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) · [Diamond Is Unbreakable](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) · [Golden Wind](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) |
-| 188 | 2019-07-28 | JoJo’s Bizarre Adventure | [Diamond Is Unbreakable](https://www.amazon.de/s?k=JoJo's%20Bizarre%20Adventure%3A%20Diamond%20is%20Unbreakable&i=instant-video) · [Golden Wind](https://www.amazon.de/s?k=JoJo's%20Bizarre%20Adventure%3A%20Golden%20Wind&i=instant-video) |
-| 189 | 2019-07-19 | Weathering with You: Das Mädchen, das die Sonne berührte | [Hauptserie](https://www.amazon.de/s?k=Weathering%20With%20You&i=instant-video) |
-| 190 | 2019-06-29 | Cencoroll | [Connect](https://www.crunchyroll.com/cencoroll-connect/de-cencoroll-connect-unbekannt-850430) |
-| 191 | 2019-06-24 | Dororo | [Hauptserie](https://www.amazon.de/s?k=Dororo&i=instant-video) |
-| 192 | 2019-06-21 | Ride Your Wave | [Hauptserie](https://www.crunchyroll.com/ride-your-wave/ride-your-wave-unbekannt-806160?ssid=392654) |
-| 193 | 2019-06-07 | Children of the Sea | [Hauptserie](https://www.disneyplus.com/de-de/movies/children-of-the-sea/PPmmokvapG3T) |
-| 194 | 2019-04-01 | Captain Tsubasa: Die tollen Fußballstars | [Captain Tsubasa](https://www.crunchyroll.com/series/GZJH3D7G9/captain-tsubasa) |
-| 195 | 2019-03-29 | Boogiepop and Others | [Hauptserie](https://www.crunchyroll.com/de/boogiepop-and-others) |
-| 196 | 2019-03-20 | Hi Score Girl | [Extra Stage](https://www.netflix.com/title/80997338) |
-| 197 | 2019-03-19 | Meine Wiedergeburt als Schleim in einer anderen Welt | [Hauptserie](https://www.amazon.de/s?k=That%20Time%20I%20Got%20Reincarnated%20as%20a%20Slime&i=instant-video) |
-| 198 | 2019-03-01 | Star Blazers 2199: Space Battleship Yamato | [Hauptserie](https://www.crunchyroll.com/de/star-blazers-space-battleship-yamato) · [Star Blazers 2202: Space Battleship Yamato](https://www.crunchyroll.com/de/pt-br/series/G65V4P4K6/star-blazers-space-battleship-yamato) |
-| 199 | 2019-02-08 | Saga of Tanya the Evil | [The Movie](https://www.crunchyroll.com/de/saga-of-tanya-the-evil) |
-| 200 | 2018-12-30 | Goblin Slayer | [Hauptserie](https://www.amazon.de/s?k=GOBLIN%20SLAYER&i=instant-video) |
-| 201 | 2018-12-29 | Die Welt in allen Farben: Iroduku | [Hauptserie](https://www.amazon.de/s?k=IRODUKU%3A%20The%20World%20in%20Colors&i=instant-video) |
-| 202 | 2018-12-25 | Tokyo Ghoul | [√A](https://www.amazon.de/s?k=Tokyo%20Ghoul%20%E2%88%9AA&i=instant-video) · [re](https://www.amazon.de/s?k=Tokyo%20Ghoul%3Are&i=instant-video) · [re](https://www.amazon.de/s?k=Tokyo%20Ghoul%3Are%202&i=instant-video) |
-| 203 | 2018-12-24 | Golden Kamuy | [Hauptserie](https://www.amazon.de/s?k=Golden%20Kamuy&i=instant-video) · [2](https://www.amazon.de/s?k=Golden%20Kamuy%20Season%202&i=instant-video) |
-| 204 | 2018-10-19 | Haikara-san: Here Comes Miss Modern – Teil 1 | [Hauptserie](https://www.amazon.de/s?k=Haikara-san%3A%20Here%20Comes%20Miss%20Modern%20%E2%80%93%20Part%201&i=instant-video) · [Haikara-san: Here Comes Miss Modern – Teil 2](https://www.amazon.de/s?k=Haikara-san%3A%20Here%20Comes%20Miss%20Modern%20%E2%80%93%20Part%202&i=instant-video) |
-| 205 | 2018-09-29 | Yunas Geisterhaus | [Hauptserie](http://www.crunchyroll.com/de/yuuna-and-the-haunted-hot-springs) |
-| 206 | 2018-09-21 | Angels of Death | [Hauptserie](http://www.crunchyroll.com/de/angels-of-death) |
-| 207 | 2018-09-21 | Angels of Death | [Hauptserie](https://www.amazon.de/s?k=Angels%20of%20Death&i=instant-video) |
-| 208 | 2018-09-21 | Angels of Death | [Hauptserie](https://www.joyn.de/serien/angels-of-death) |
-| 209 | 2018-09-21 | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785) |
-| 210 | 2018-09-20 | How Not to Summon a Demon Lord | [Hauptserie](https://www.amazon.de/s?k=How%20NOT%20to%20Summon%20a%20Demon%20Lord&i=instant-video) |
-| 211 | 2018-07-20 | GREEN DA KA RA x Mirai no Mirai | [Mirai: Das Mädchen aus der Zukunft](https://www.crunchyroll.com/watch/GQJUGQWMW/) |
-| 212 | 2018-07-04 | Calamity of a Zombie Girl | [Hauptserie](http://www.crunchyroll.com/de/calamity-of-a-zombie-girl) |
-| 213 | 2018-07-03 | Highschool D×D | [Hero](http://www.crunchyroll.com/de/high-school-dxd) |
-| 214 | 2018-06-23 | Magical Girl Site | [Hauptserie](https://www.amazon.de/s?k=MAGICAL%20GIRL%20SITE&i=instant-video) |
-| 215 | 2018-06-21 | Comic Girls | [Hauptserie](http://www.crunchyroll.com/de/comic-girls) |
-| 216 | 2018-06-10 | Cardcaptor Sakura | [Clear Card Arc](http://www.crunchyroll.com/de/cardcaptor-sakura-clear-card) |
-| 217 | 2018-06-09 | Kase-san and Morning Glories | [Hauptserie](https://www.crunchyroll.com/kase-san-and-morning-glories/kase-san-and-morning-glories-unbekannt-813883) |
-| 218 | 2018-05-05 | Digimon | [Fusion](http://www.crunchyroll.com/de/digimon-xros-wars-the-young-hunters-who-leapt-through-time) · [Xros Wars: The Evil Death Generals and the Seven Kingdoms](http://www.crunchyroll.com/de/digimon-xros-wars-the-young-hunters-who-leapt-through-time) · [Adventure tri. Chapter 1: Reunion](http://www.crunchyroll.com/de/digimon-adventure-tri/) · [Adventure tri. Chapter 2: Determination](https://www.crunchyroll.com/de/digimon-adventure-tri) · [Adventure tri. Chapter 3: Confession](https://www.crunchyroll.com/de/digimon-adventure-tri) · [Adventure tri. Chapter 4: Loss](https://www.crunchyroll.com/de/digimon-adventure-tri) · [Adventure tri. Chapter 5: Coexistance](https://www.crunchyroll.com/de/digimon-adventure-tri) · [Adventure tri. Chapter 6: Our Future](https://www.crunchyroll.com/de/digimon-adventure-tri) |
-| 219 | 2018-04-05 | Cats: Ein schnurriges Abenteuer | [Hauptserie](https://www.amazon.de/gp/video/detail/amzn1.dv.gti.2eb82736-4d63-bfcd-21db-a04b6a8928e3) |
-| 220 | 2018-03-26 | Beyblade | [Hauptserie](https://www.amazon.de/s?k=Beyblade&i=instant-video) · [V Force](https://www.amazon.de/s?k=Beyblade%20V-Force&i=instant-video) · [G Revolution](https://www.amazon.de/s?k=Beyblade%20G%20Revolution&i=instant-video) · [Burst](https://www.amazon.de/s?k=Beyblade%20Burst&i=instant-video) · [Burst: Evolution](https://www.amazon.de/s?k=Beyblade%20Burst%20Evolution&i=instant-video) |
-| 221 | 2018-03-26 | Kokkoku: Moment für Moment | [Hauptserie](https://www.amazon.de/s?k=KOKKOKU&i=instant-video) |
-| 222 | 2018-03-21 | ReLIFE | [Hauptserie](http://www.crunchyroll.com/de/relife) · [Final Arc](http://www.crunchyroll.com/de/relife) |
-| 223 | 2018-02-24 | Maquia: Eine unsterbliche Liebesgeschichte | [Hauptserie](https://www.amazon.de/s?k=Maquia%3A%20When%20the%20Promised%20Flower%20Blooms&i=instant-video) |
-| 224 | 2017-12-24 | Two Car: Racing Sidecar | [Hauptserie](http://www.crunchyroll.com/de/twocar) |
-| 225 | 2017-12-23 | Das Land der Juwelen | [Hauptserie](https://www.amazon.de/s?k=Land%20of%20the%20Lustrous&i=instant-video) |
-| 226 | 2017-12-22 | Inuyashiki Last Hero | [Hauptserie](https://www.crunchyroll.com/de/series/G8DHV7E9Q/inuyashiki-last-hero) |
-| 227 | 2017-12-22 | Inuyashiki Last Hero | [Hauptserie](https://www.amazon.de/s?k=INUYASHIKI%20LAST%20HERO&i=instant-video) |
-| 228 | 2017-12-17 | Welcome to the Ballroom | [Hauptserie](https://www.amazon.de/s?k=Welcome%20to%20the%20Ballroom&i=instant-video) |
-| 229 | 2017-11-25 | Armed Girl’s Machiavellism | [Herzklopfen! Betriebsausflug der „Fünf Schwerter“](https://www.crunchyroll.com/armed-girls-machiavellism/episode-13-799297?ssid=385722) |
-| 230 | 2017-09-29 | Made in Abyss | [Hauptserie](https://www.amazon.de/s?k=Made%20in%20Abyss&i=instant-video) |
-| 231 | 2017-09-24 | Knight’s & Magic | [Hauptserie](http://www.crunchyroll.com/de/knights-magic) |
-| 232 | 2017-09-24 | Princess Principal | [Hauptserie](https://www.amazon.de/s?k=Princess%20Principal&i=instant-video) |
-| 233 | 2017-09-24 | Touken Ranbu: Hanamaru | [Katsugeki: Touken Ranbu](http://www.crunchyroll.com/de/katsugeki-touken-ranbu) |
-| 234 | 2017-09-24 | Touken Ranbu: Hanamaru | [Katsugeki: Touken Ranbu](https://www.amazon.de/s?k=Katsugeki%20TOUKEN%20RANBU&i=instant-video) |
-| 235 | 2017-09-23 | Kakegurui: Das Leben ist ein Spiel | [Hauptserie](https://www.netflix.com/title/80175351) |
-| 236 | 2017-09-20 | NTR: Netsuzou Trap | [Hauptserie](http://www.crunchyroll.com/de/netsuzou-trap-ntr-) |
-| 237 | 2017-08-25 | Your Voice: Kimikoe | [Hauptserie](https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378) |
-| 238 | 2017-08-18 | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.amazon.de/s?k=Fireworks&i=instant-video) |
-| 239 | 2017-08-18 | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.youtube.com/watch?v=RXD_V4p2iiA) |
-| 240 | 2017-08-04 | Haikyu!! | [Sonderbeitrag: Die Jugend beim Frühlingsturnier](https://www.crunchyroll.com/de/haikyu-dubs/episode-3-special-feature-the-spring-tournament-of-their-youth-848359) |
-| 241 | 2017-07-08 | Astro Boy | [Hauptserie](https://www.amazon.de/s?k=Astro%20Boy%20(1980)&i=instant-video) · [Atom: The Beginning](https://www.amazon.de/s?k=Atom%3A%20The%20Beginning&i=instant-video) |
-| 242 | 2017-06-30 | Tsukigakirei | [Hauptserie](http://www.crunchyroll.com/de/tsukigakirei) |
-| 243 | 2017-06-27 | Anonymous Noise | [Hauptserie](https://www.amazon.de/s?k=Anonymous%20Noise&i=instant-video) |
-| 244 | 2017-06-26 | Grimoire of Zero | [Hauptserie](https://www.amazon.de/s?k=Grimoire%20of%20Zero&i=instant-video) |
-| 245 | 2017-06-25 | Eromanga Sensei | [Hauptserie](http://www.crunchyroll.com/de/eromanga-sensei) |
-| 246 | 2017-06-25 | Granblue Fantasy: The Animation | [Hauptserie](http://www.crunchyroll.com/de/granblue-fantasy-the-animation) |
-| 247 | 2017-06-25 | Granblue Fantasy: The Animation | [Hauptserie](https://www.amazon.de/s?k=Granblue%20Fantasy%3A%20The%20Animation&i=instant-video) |
-| 248 | 2017-06-23 | Saekano: How to Raise a Boring Girlfriend | [.flat](https://www.amazon.de/s?k=Saekano%3A%20How%20to%20Raise%20a%20Boring%20Girlfriend%20%E2%99%AD&i=instant-video) |
-| 249 | 2017-06-21 | Armed Girl’s Machiavellism | [Hauptserie](https://www.amazon.de/s?k=Armed%20Girl's%20Machiavellism&i=instant-video) |
-| 250 | 2017-05-19 | Lu over the Wall | [Hauptserie](https://www.crunchyroll.com/lu-over-the-wall/lu-over-the-wall-unbekannt-811213?ssid=399959) |
-| 251 | 2017-04-29 | Tales of Zestiria the X | [Hauptserie](https://www.crunchyroll.com/de/tales-of-zestiria-the-x) · [Staffel 2](https://www.crunchyroll.com/de/tales-of-zestiria-the-x) |
-| 252 | 2017-04-07 | Night is Short, Walk on Girl | [Hauptserie](https://www.crunchyroll.com/night-is-short-walk-on-girl/night-is-short-walk-on-girl-unbekannt-811211?ssid=399939) |
-| 253 | 2017-03-31 | Scum’s Wish | [Hauptserie](https://www.amazon.de/s?k=Scum's%20Wish&i=instant-video) |
-| 254 | 2017-03-18 | Kuroko’s Basketball: | [Staffel 1](http://www.crunchyroll.com/de/kurokos-basketball) · [Tip Off](https://www.crunchyroll.com/de/kurokos-basketball/episode-225-tip-off-690095) · [Staffel 2](http://www.crunchyroll.com/de/kurokos-basketball) · [Staffel 3](http://www.crunchyroll.com/de/kurokos-basketball) · [Das Beste Geschenk](https://www.crunchyroll.com/de/kurokos-basketball/episode-755-the-greatest-present-728751) · [Winter Cup Highlights Episode 1 – Winter Cup Highlights -Shadow and Light-](https://www.crunchyroll.com/de/kurokos-basketball) · [Winter Cup Highlights Episode 2 – Winter Cup Highlights -Beyond the Tears-](https://www.crunchyroll.com/de/kurokos-basketball) · [Winter Cup Highlights Episode 3 – Winter Cup Highlights -Crossing the Door-](https://www.crunchyroll.com/de/kurokos-basketball) · [Kuroko’s Basketball The Movie: Last Game](https://www.crunchyroll.com/de/kurokos-basketball/kurokos-basketball-the-movie-last-game-kurokos-basketball-the-movie-last-game-778592) |
-| 255 | 2017-02-25 | The Dragon Dentist | [Hauptserie](https://www.crunchyroll.com/the-dragon-dentist/deomu-the-dragon-dentist-unbekannt-811630?ssid=401190) |
-| 256 | 2017-02-03 | Project Itoh: Genocidal Organ | [Hauptserie](https://www.crunchyroll.com/genocidal-organ/genocidal-organ-unbekannt-807915?ssid=394444) |
-| 257 | 2016-12-22 | Yuri!!! on Ice | [Hauptserie](https://www.amazon.de/s?k=Yuri!!!%20on%20ICE&i=instant-video) |
-| 258 | 2016-09-29 | Danganronpa 3: The End of Hope’s Peak Academy - Future Arc | [Hauptserie](https://www.crunchyroll.com/de/danganronpa-3-the-end-of-hopes-peak-high-school) · [Danganronpa 3: The End of Hope’s Peak High School - Hope Arc - The School of Hope and the Students of Despair](https://www.crunchyroll.com/de/danganronpa-3-the-end-of-hopes-peak-high-school) |
-| 259 | 2016-09-26 | Orange | [Hauptserie](http://www.crunchyroll.com/de/orange) |
-| 260 | 2016-09-24 | Food Wars! Shokugeki no Soma | [Hauptserie](https://www.amazon.de/s?k=Food%20Wars!&i=instant-video) · [Food Wars! The Second Plate](https://www.amazon.de/s?k=Food%20Wars!%20The%20Second%20Plate&i=instant-video) |
-| 261 | 2016-09-22 | Danganronpa | [Hauptserie](https://www.crunchyroll.com/de/danganronpa-the-animation) · [3: The End of Hope’s Peak Academy - Despair Arc](https://www.crunchyroll.com/de/danganronpa-3-the-end-of-hopes-peak-high-school) |
-| 262 | 2016-09-20 | Servamp | [Hauptserie](https://www.crunchyroll.com/de/servamp) |
-| 263 | 2016-09-20 | Servamp | [Hauptserie](https://www.amazon.de/s?k=SERVAMP&i=instant-video) |
-| 264 | 2016-09-03 | Planetarian: Storyteller of the Stars | [Hauptserie](https://www.crunchyroll.com/de/planetarian) |
-| 265 | 2016-09-03 | Planetarian: Storyteller of the Stars | [Hauptserie](https://www.amazon.de/s?k=Planetarian%3A%20Storyteller%20of%20the%20Stars&i=instant-video) |
-| 266 | 2016-08-26 | Your Name. Gestern, heute und für immer | [Hauptserie](https://www.amazon.de/s?k=Your%20Name.&i=instant-video) |
-| 267 | 2016-08-26 | Your Name. Gestern, heute und für immer | [Hauptserie](https://www.youtube.com/watch?v=duoOTzpeWSE) |
-| 268 | 2016-07-08 | Big Fish & Begonia: Zwei Welten - Ein Schicksal | [Hauptserie](https://www.crunchyroll.com/de/big-fish-begonia) |
-| 269 | 2016-07-01 | Kabaneri of the Iron Fortress | [Hauptserie](https://www.amazon.de/s?k=Kabaneri%20of%20the%20Iron%20Fortress&i=instant-video) |
-| 270 | 2016-06-27 | Sailor Moon: Das Mädchen mit den Zauberkräften | [Pretty Guardian Sailor Moon Crystal](http://www.crunchyroll.com/de/sailor-moon-crystal) · [Pretty Guardian Sailor Moon Crystal Season III](http://www.crunchyroll.com/de/sailor-moon-crystal) |
-| 271 | 2016-06-18 | The Asterisk War | [Hauptserie](http://www.crunchyroll.com/de/the-asterisk-war) · [II](http://www.crunchyroll.com/de/the-asterisk-war) |
-| 272 | 2016-06-17 | Concrete Revolutio | [Hauptserie](https://www.crunchyroll.com/de/concrete-revolutio) · [The Last Song](https://www.crunchyroll.com/de/concrete-revolutio) |
-| 273 | 2016-04-23 | Yu☆Gi☆Oh! | [Yu-Gi-Oh! The Dark Side of Dimensions](https://www.amazon.de/s?k=Yu-Gi-Oh!%3A%20The%20Dark%20Side%20of%20Dimensions&i=instant-video) |
-| 274 | 2016-03-29 | Aokana: Four Rhythm Across the Blue | [Hauptserie](http://www.crunchyroll.com/de/aokana) |
-| 275 | 2016-03-29 | Die rothaarige Schneeprinzessin | [Hauptserie](https://www.crunchyroll.com/de/snow-white-with-the-red-hair) · [Staffel 2](https://www.crunchyroll.com/de/snow-white-with-the-red-hair) |
-| 276 | 2016-03-27 | Dimension W | [Hauptserie](https://www.amazon.de/s?k=Dimension%20W&i=instant-video) |
-| 277 | 2016-03-26 | God Eater | [Hauptserie](http://www.crunchyroll.com/de/god-eater) |
-| 278 | 2016-03-25 | Divine Gate | [Hauptserie](https://www.crunchyroll.com/de/divine-gate) |
-| 279 | 2016-03-25 | Erased: Die Stadt, in der es mich nicht gibt | [Hauptserie](http://www.crunchyroll.com/de/erased) |
-| 280 | 2016-02-20 | Doukyusei: Verliebt in meinen Mitschüler | [Hauptserie](https://www.amazon.de/s?k=Doukyuusei%20-Classmates-&i=instant-video) |
-| 281 | 2015-12-26 | Noragami | [Hauptserie](https://www.crunchyroll.com/de/series/G6WEV3WM6/noragami) · [Aragoto](https://www.crunchyroll.com/de/series/G6WEV3WM6/noragami) |
-| 282 | 2015-12-26 | Noragami | [Aragoto](https://www.amazon.de/s?k=Noragami%20Aragoto&i=instant-video) |
-| 283 | 2015-12-26 | Valkyrie Drive: Mermaid | [Hauptserie](https://www.crunchyroll.com/de/valkyrie-drive-mermaid-) |
-| 284 | 2015-12-24 | Anti Magic Academy: Test-Trupp 35 | [Hauptserie](http://www.crunchyroll.com/de/anti-magic-academy-the-35th-test-platoon) |
-| 285 | 2015-12-23 | Shomin Sample | [Hauptserie](https://www.crunchyroll.com/de/shomin-sample) |
-| 286 | 2015-12-16 | Sound! Euphonium | [Hauptserie](http://www.crunchyroll.com/de/sound-euphonium) · [Auf die Plätze, fertig, Monaka](https://www.crunchyroll.com/de/sound-euphonium) |
-| 287 | 2015-11-13 | Project Itoh: Harmony | [Hauptserie](https://www.crunchyroll.com/harmony/harmony-unbekannt-807914?ssid=394443) |
-| 288 | 2015-10-02 | Project Itoh: The Empire of Corpses | [Hauptserie](https://www.crunchyroll.com/the-empire-of-corpses/the-empire-of-corpses-unknown-808170?ssid=395057) |
-| 289 | 2015-09-27 | Charlotte | [Hauptserie](http://www.crunchyroll.com/de/charlotte) |
-| 290 | 2015-09-24 | School-Live! | [Hauptserie](http://www.crunchyroll.com/de/school-live) |
-| 291 | 2015-09-24 | Sky Wizards Academy | [Hauptserie](https://www.crunchyroll.com/de/series/GR4980206/sky-wizards-academy) |
-| 292 | 2015-09-20 | Rokka: Braves of the Six Flowers | [Hauptserie](http://www.crunchyroll.com/de/rokka) |
-| 293 | 2015-07-11 | Der Junge und das Biest | [Hauptserie](https://www.crunchyroll.com/de/the-boy-and-the-beast) |
-| 294 | 2015-06-26 | Amagi Brilliant Park | [Keine Zeit zum Ausruhen!](https://www.crunchyroll.com/amagi-brilliant-park/episode-14-800072?ssid=387020) |
-| 295 | 2015-06-20 | Ghost in the Shell: Stand Alone Complex | [Ghost in the Shell: Arise - Border:1 Ghost Pain](https://www.crunchyroll.com/de/ghost-in-the-shell-arise) · [Ghost in the Shell: Arise - Border:2 Ghost Whispers](https://www.crunchyroll.com/de/ghost-in-the-shell-arise) · [Ghost in the Shell: Arise - Border:3 Ghost Tears](https://www.crunchyroll.com/de/ghost-in-the-shell-arise) · [Ghost in the Shell: Arise - Border:4 Ghost Stands Alone](https://www.crunchyroll.com/de/ghost-in-the-shell-arise) · [Ghost in the Shell: Arise - Pyrophoric Cult](https://www.crunchyroll.com/de/ghost-in-the-shell-arise) · [Ghost in the Shell: The New Movie](https://www.crunchyroll.com/de/ghost-in-the-shell-arise) |
-| 296 | 2015-06-11 | Triage X | [Hauptserie](http://www.crunchyroll.com/de/triage-x) |
-| 297 | 2015-06-05 | Typhoon Noruda | [Hauptserie](https://www.crunchyroll.com/typhoon-noruda/typhoon-noruda-unbekannt-859032) |
-| 298 | 2015-03-31 | Kamisama Kiss | [Hauptserie](https://crunchyroll.com/de/kamisama-hajimemashita) · [Staffel 2](https://www.crunchyroll.com/de/kamisama-hajimemashita) |
-| 299 | 2015-03-31 | Kamisama Kiss | [Hauptserie](https://www.amazon.de/s?k=Kamisama%20Kiss&i=instant-video) · [Staffel 2](https://www.amazon.de/s?k=Kamisama%20Kiss%E2%97%8E&i=instant-video) |
-| 300 | 2015-03-28 | Ronja Räubertochter | [Hauptserie](https://www.amazon.de/s?k=Ronja%2C%20the%20Robber's%20Daughter&i=instant-video) |
-| 301 | 2015-03-28 | Tenkai Knights: Die Tenkai Ritter | [Hauptserie](https://www.amazon.de/s?k=Tenkai%20Knights&i=instant-video) |
-| 302 | 2015-03-20 | Shigatsu wa Kimi no Uso: Sekunden in Moll | [Hauptserie](http://www.crunchyroll.com/de/your-lie-in-april) |
-| 303 | 2015-02-20 | The Case of Hana & Alice | [Hauptserie](https://www.amazon.de/s?k=The%20Case%20of%20Hana%20%26%20Alice&i=instant-video) |
-| 304 | 2014-12-29 | Rage of Bahamut: Genesis | [Hauptserie](https://www.amazon.de/s?k=Rage%20of%20Bahamut%3A%20Genesis&i=instant-video) |
-| 305 | 2014-12-21 | Wolf Girl & Black Prince | [Hauptserie](http://www.crunchyroll.com/de/ookami) |
-| 306 | 2014-12-19 | Psycho-Pass | [2](https://www.crunchyroll.com/de/psycho-pass) |
-| 307 | 2014-12-12 | Akuma no Riddle | [Wer siegt? (Überraschungstest)](https://www.crunchyroll.com/watch/GK9U3Z4XE/) |
-| 308 | 2014-12-11 | Chaika, die Sargprinzessin | [Hauptserie](https://www.crunchyroll.com/de/chaika-the-coffin-princess-) · [Avenging Battle](https://www.crunchyroll.com/de/chaika-the-coffin-princess-) |
-| 309 | 2014-11-22 | Love Stage!! | [Daran war gar nichts leicht](https://www.crunchyroll.com/love-stage/episode-11-841216) |
-| 310 | 2014-09-26 | Terror in Tokio | [Hauptserie](https://www.crunchyroll.com/de/terror-in-resonance) |
-| 311 | 2014-09-24 | Hunter x Hunter | [Hunter × Hunter](http://www.crunchyroll.com/de/hunter-x-hunter) |
-| 312 | 2014-09-24 | Hunter x Hunter | [Hunter × Hunter](https://www.amazon.de/s?k=Hunter%20x%20Hunter%20(2011)&i=instant-video) |
-| 313 | 2014-09-16 | Love, Chunibyo & Other Delusions! | [Love, Chunibyo & Other Delusions: Heart Throb - Offenbarung des wahren Auges des bösen Königs … Wiederholung](https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-/episode-13-799361?ssid=387047) |
-| 314 | 2014-06-20 | Kuroko’s Basketball: Kannst du das gleich nochmal machen? | [Hauptserie](https://www.crunchyroll.com/de/kurokos-basketball/episode-415-lets-do-that-again-690097) |
-| 315 | 2014-06-20 | Selector Infected Wixoss | [Hauptserie](https://www.amazon.de/s?k=selector%20infected%20WIXOSS&i=instant-video) |
-| 316 | 2014-04-03 | Nagi no Asukara | [Hauptserie](http://www.crunchyroll.com/de/nagi-no-asukara-nagi-asu-a-lull-in-the-sea) |
-| 317 | 2014-03-30 | Magi: The Labyrinth of Magic | [Hauptserie](http://www.crunchyroll.com/de/magi) · [Magi: The Kingdom of Magic](http://www.crunchyroll.com/de/magi) |
-| 318 | 2014-03-29 | Sekai Seifuku: World Conquest Zvezda Plot | [Hauptserie](http://www.crunchyroll.com/de/world-conquest-zvezda-plot ) |
-| 319 | 2014-03-28 | Kill La Kill | [Hauptserie](https://www.crunchyroll.com/de/kill-la-kill) |
-| 320 | 2014-03-28 | Kill La Kill | [Hauptserie](http://www.netflix.com/WiMovie/70305217) |
-| 321 | 2014-03-27 | Space Dandy | [Hauptserie](https://www.amazon.de/s?k=Space%20Dandy&i=instant-video) |
-| 322 | 2014-03-20 | Maken-Ki: Battling Venus | [Hauptserie](https://www.crunchyroll.com/de/maken-ki) · [Maken-Ki! Battling Venus: Staffel 2](https://www.crunchyroll.com/de/maken-ki) |
-| 323 | 2013-12-28 | Yoyo & Nene: Die magischen Schwestern | [Hauptserie](https://www.crunchyroll.com/watch/G50UZV2GM/) |
-| 324 | 2013-12-24 | Arpeggio of Blue Steel: Ars Nova | [Hauptserie](https://www.crunchyroll.com/de/arpeggio-of-blue-steel) |
-| 325 | 2013-12-22 | Wanna Be the Strongest in the World! | [Hauptserie](http://www.crunchyroll.com/de/wanna-be-the-strongest-in-the-world) |
-| 326 | 2013-12-20 | Freezing | [Hauptserie](https://www.crunchyroll.com/de/freezing) · [Vibration](https://www.crunchyroll.com/de/freezing) |
-| 327 | 2013-11-23 | Bayonetta: Bloody Fate | [Hauptserie](https://www.amazon.de/s?k=Bayonetta%3A%20Bloody%20Fate&i=instant-video) |
-| 328 | 2013-11-09 | Patema Inverted | [Hauptserie](https://www.crunchyroll.com/watch/GK9U31019/) |
-| 329 | 2013-09-29 | The Eccentric Family | [Hauptserie](http://www.crunchyroll.com/de/the-eccentric-family) |
-| 330 | 2013-03-30 | Fairy Tail | [Hauptserie](https://www.amazon.de/s?k=Fairy%20Tail&i=instant-video) |
-| 331 | 2013-03-29 | Haganai: I Don’t Have Many Friends | [Hauptserie](https://www.crunchyroll.com/de/haganai) · [Next](https://www.crunchyroll.com/de/series/GYX0PN4MR/haganai) |
-| 332 | 2013-03-26 | The Pet Girl of Sakurasou | [Hauptserie](http://www.crunchyroll.com/de/the-pet-girl-of-sakurasou) |
-| 333 | 2013-03-26 | The Pet Girl of Sakurasou | [Hauptserie](https://www.amazon.de/s?k=The%20Pet%20Girl%20of%20Sakurasou&i=instant-video) |
-| 334 | 2013-03-09 | Hanasaku Iroha | [Hauptserie](https://www.crunchyroll.com/de/hanasaku-iroha) · [the Movie: Home Sweet Home](https://www.crunchyroll.com/de/hanasaku-iroha) |
-| 335 | 2013-02-23 | A Certain Magical Index | [The Miracle of Endymion](https://www.amazon.de/s?k=A%20Certain%20Magical%20Index%3A%20The%20Miracle%20of%20Endymion&i=instant-video) |
-| 336 | 2012-12-26 | Hellsing | [Hauptserie](https://www.crunchyroll.com/de/hellsing) · [Ultimate OVA](https://www.crunchyroll.com/de/hellsing-ultimate) |
-| 337 | 2012-12-26 | Jormungand | [Hauptserie](https://www.amazon.de/s?k=Jormungand&i=instant-video) · [Perfect Order](https://www.amazon.de/s?k=Jormungand%3A%20Perfect%20Order&i=instant-video) |
-| 338 | 2012-12-20 | Btooom! | [Hauptserie](https://www.amazon.de/s?k=BTOOOM!&i=instant-video) |
-| 339 | 2012-11-29 | Mass Effect: Paragon Lost | [Hauptserie](https://www.crunchyroll.com/de/mass-effect) |
-| 340 | 2012-10-27 | Devil Lady | [009 Re:Cyborg](https://www.amazon.de/s?k=009%20Re%3ACyborg&i=instant-video) |
-| 341 | 2012-10-24 | Tales of Symphonia: Sylvarant Arc | [Hauptserie](https://www.crunchyroll.com/de/tales-of-symphonia-the-animation) · [Tales of Symphonia: Tethe’alla Arc](https://www.crunchyroll.com/de/tales-of-symphonia-the-animation) · [Tales of Symphonia: The United World Arc](https://www.crunchyroll.com/de/tales-of-symphonia-the-animation) |
-| 342 | 2012-09-30 | B-Daman Crossfire | [Hauptserie](https://www.youtube.com/playlist?list=PL4o1lot_6q1EHL3vw_t4BGuHK6uBHyETT) |
-| 343 | 2012-09-29 | The Knight in the Area | [Hauptserie](http://www.crunchyroll.com/de/the-knight-in-the-area) |
-| 344 | 2012-09-27 | Good Luck Girl! | [Hauptserie](https://www.crunchyroll.com/de/good-luck-girl) |
-| 345 | 2012-09-25 | So, I Can’t Play H! | [Hauptserie](http://www.crunchyroll.com/de/so-i-cant-play-h) |
-| 346 | 2012-09-24 | Yu-Gi-Oh! Zexal | [Hauptserie](https://www.amazon.de/s?k=Yu-Gi-Oh!%20Zexal&i=instant-video) |
-| 347 | 2012-09-16 | Hyouka | [Hauptserie](https://www.crunchyroll.com/de/hyouka) |
-| 348 | 2012-08-18 | Fairy Tail | [The Movie - Phoenix Priestess](https://www.crunchyroll.com/fairy-tail-movies/fairy-tail-the-movie-phoenix-princess-unbekannt-821316?ssid=422327) |
-| 349 | 2012-07-21 | Starship Troopers: Invasion | [Hauptserie](https://www.amazon.de/gp/video/detail/amzn1.dv.gti.8ca9f6c3-21de-5225-749f-931196618766) |
-| 350 | 2012-06-07 | Is This a Zombie? | [Hauptserie](https://www.crunchyroll.com/de/is-this-a-zombie) · [of the Dead](https://www.crunchyroll.com/de/is-this-a-zombie) |
-| 351 | 2012-05-25 | Holy Knight | [Hauptserie](http://www.crunchyroll.com/de/holy-knight) |
-| 352 | 2012-04-15 | Mirai Nikki | [Hauptserie](https://www.crunchyroll.com/de/the-future-diary) |
-| 353 | 2012-03-27 | Another | [Hauptserie](http://www.crunchyroll.com/de/another) |
-| 354 | 2012-03-24 | Shakugan no Shana | [Hauptserie](https://www.crunchyroll.com/de/shakugan-no-shana) · [Der Film](https://www.crunchyroll.com/de/shakugan-no-shana) · [Second](https://www.crunchyroll.com/de/shakugan-no-shana) · [S](https://www.crunchyroll.com/de/shakugan-no-shana) · [Season III](https://www.crunchyroll.com/de/shakugan-no-shana) |
-| 355 | 2012-03-24 | Shakugan no Shana | [Season III](https://www.amazon.de/s?k=Shakugan%20no%20Shana%3A%20Season%20III&i=instant-video) |
-| 356 | 2012-03-23 | Black Rock Shooter | [Hauptserie](https://www.crunchyroll.com/de/series/GMEHME53W/black-rock-shooter) |
-| 357 | 2012-03-23 | Guilty Crown | [Hauptserie](https://www.crunchyroll.com/de/guilty-crown) |
-| 358 | 2011-12-24 | Sekaiichi Hatsukoi: The World’s Greatest First Love | [Hauptserie](https://www.crunchyroll.com/de/sekai-ichi-hatsukoi-worlds-greatest-first-love) · [2](https://www.crunchyroll.com/de/sekai-ichi-hatsukoi-worlds-greatest-first-love) |
-| 359 | 2011-12-03 | K-On! | [Extrafolge: Livemusik-Klub!](https://www.crunchyroll.com/k-on/episode-14-807608?ssid=394401) · [! Pläne!](https://www.crunchyroll.com/k-on/episode-27-809423?ssid=397229) · [The Movie](https://www.crunchyroll.com/k-on/k-on-the-movie-unbekannt-822264?ssid=424604) |
-| 360 | 2011-10-24 | Appleseed: Kampf um die Freiheit | [Appleseed XIII: Tartaros](https://www.amazon.de/s?k=Appleseed%20XIII%3A%20Tartaros&i=instant-video) · [Appleseed XIII: Ouranos](https://www.amazon.de/s?k=Appleseed%20XIII%3A%20Ouranos&i=instant-video) |
-| 361 | 2011-10-08 | Deadman Wonderland | [Hauptserie](https://www.crunchyroll.com/de/deadman-wonderland) · [Der Besitzer der roten Messer](https://www.crunchyroll.com/de/deadman-wonderland) |
-| 362 | 2011-09-16 | Usagi Drop | [Hauptserie](http://www.crunchyroll.com/de/usagi-drop) |
-| 363 | 2011-07-02 | Gosick | [Hauptserie](https://www.crunchyroll.com/de/gosick) |
-| 364 | 2011-06-24 | AnoHana: Die Blume, die wir an jenem Tag sahen | [Hauptserie](http://www.crunchyroll.com/de/anohana-the-flower-we-saw-that-day) |
-| 365 | 2011-06-24 | AnoHana: Die Blume, die wir an jenem Tag sahen | [Hauptserie](https://www.netflix.com/browse?jbv=80075178&jbp=0&jbr=11) |
-| 366 | 2011-04-29 | Onigamiden: Legend of the Millennium Dragon | [Hauptserie](https://www.youtube.com/watch?v=W8YuJXFKZ-k) |
-| 367 | 2011-04-22 | Puella Magi Madoka Magica | [Hauptserie](http://www.crunchyroll.com/de/puella-magi-madoka-magica) |
-| 368 | 2010-12-18 | Angeloid: Sora no Otoshimono | [Hauptserie](https://www.crunchyroll.com/de/heavens-lost-property) · [Forte](https://www.crunchyroll.com/de/heavens-lost-property) |
-| 369 | 2010-09-29 | Rainbow: Die Sieben von Zelle Sechs | [Hauptserie](https://www.crunchyroll.com/de/series/G8DHV78Q4/rainbow) |
-| 370 | 2010-07-04 | Fullmetal Alchemist | [Brotherhood](http://www.crunchyroll.com/de/fullmetal-alchemist-brotherhood) |
-| 371 | 2010-07-04 | Fullmetal Alchemist | [Brotherhood](https://www.amazon.de/s?k=Fullmetal%20Alchemist%3A%20Brotherhood&i=instant-video) |
-| 372 | 2010-06-26 | Angel Beats! | [Hauptserie](https://www.crunchyroll.com/de/angel-beats) |
-| 373 | 2010-06-25 | Bakemonogatari | [Hauptserie](https://www.crunchyroll.com/de/bakemonogatari) |
-| 374 | 2010-04-02 | Trigun | [Hauptserie](https://www.crunchyroll.com/de/trigun) · [The Movie - Badlands Rumble](https://www.crunchyroll.com/de/trigun) |
-| 375 | 2010-04-01 | Dance in the Vampire Bund | [Hauptserie](https://www.crunchyroll.com/de/dance-in-the-vampire-bund) |
-| 376 | 2010-03-28 | Beyblade | [Metal Fusion](http://www.crunchyroll.com/de/beyblade-metal-fusion) |
-| 377 | 2010-03-13 | Eden of the East | [Hauptserie](https://www.crunchyroll.com/de/eden-of-the-east) · [Der König von Eden](https://www.crunchyroll.com/de/eden-of-the-east) · [Das verlorene Paradies](https://www.crunchyroll.com/de/eden-of-the-east) |
-| 378 | 2010-02-16 | Halo Legends | [Hauptserie](https://www.amazon.de/s?k=Halo%20Legends&i=instant-video) |
-| 379 | 2009-09-24 | Spice and Wolf | [Hauptserie](https://www.crunchyroll.com/de/spice-and-wolf) · [OVA](https://www.crunchyroll.com/de/spice-and-wolf) · [II](https://www.crunchyroll.com/de/spice-and-wolf) |
-| 380 | 2009-03-30 | Soul Eater | [Hauptserie](https://www.crunchyroll.com/de/soul-eater) |
-| 381 | 2009-03-27 | Black Butler | [Hauptserie](http://movies.netflix.com/WiMovie/Black_Butler/70204955) |
-| 382 | 2009-03-26 | Toradora! | [Hauptserie](http://www.crunchyroll.com/de/toradora) |
-| 383 | 2009-03-26 | Toradora! | [Hauptserie](https://www.amazon.de/s?k=Toradora!&i=instant-video) |
-| 384 | 2008-12-25 | Corpse Princess: Shikabane Hime Aka | [Hauptserie](https://www.crunchyroll.com/de/corpse-princess-shikabane-hime) |
-| 385 | 2008-09-30 | D.Gray-man | [Hauptserie](https://www.crunchyroll.com/de/dgray-man) |
-| 386 | 2008-07-07 | Rin: Daughters of Mnemosyne | [Hauptserie](https://www.crunchyroll.com/de/rin-daughters-of-mnemosyne) |
-| 387 | 2007-09-30 | Gurren Lagann | [Hauptserie](http://www.crunchyroll.com/de/gurren-lagann) |
-| 388 | 2007-09-29 | Sword of the Stranger | [Hauptserie](https://www.crunchyroll.com/de/sword-of-the-stranger) |
-| 389 | 2007-09-26 | Romeo × Juliet | [Hauptserie](https://www.crunchyroll.com/de/romeo-x-juliet) |
-| 390 | 2007-09-25 | El Cazador de la Bruja | [Hauptserie](https://www.crunchyroll.com/de/el-cazador-de-la-bruja) |
-| 391 | 2007-09-17 | Lucky Star | [Hauptserie](https://www.crunchyroll.com/de/series/GY8V7NP8Y/lucky-star) |
-| 392 | 2007-09-12 | Zombie-Loan | [Hauptserie](http://www.crunchyroll.com/de/zombie-loan) |
-| 393 | 2007-09-12 | Zombie-Loan | [Hauptserie](https://www.amazon.de/s?k=Zombie%20Loan&i=instant-video) |
-| 394 | 2007-09-06 | Devil May Cry | [Hauptserie](https://www.crunchyroll.com/de/devil-may-cry) |
-| 395 | 2007-08-29 | Murder Princess | [Hauptserie](https://www.crunchyroll.com/de/murder-princess) |
-| 396 | 2007-06-27 | Death Note | [Hauptserie](https://www.amazon.de/s?k=Death%20Note&i=instant-video) |
-| 397 | 2007-03-18 | Pumpkin Scissors | [Hauptserie](https://www.crunchyroll.com/de/pumpkin-scissors) |
-| 398 | 2007-03-15 | Kanon | [Hauptserie](https://www.crunchyroll.com/de/kanon) |
-| 399 | 2006-12-23 | Tekkon Kinkreet Pilot | [Tekkonkinkreet](https://www.amazon.de/s?k=Tekkonkinkreet&i=instant-video) |
-| 400 | 2006-12-18 | Welcome to the N.H.K. | [Hauptserie](https://www.crunchyroll.com/de/welcome-to-the-n-h-k) |
-| 401 | 2006-12-03 | Project Blue Earth SOS | [Hauptserie](https://www.crunchyroll.com/de/project-blue-earth-sos) |
-| 402 | 2006-11-24 | Black Blood Brothers | [Hauptserie](https://www.crunchyroll.com/de/black-blood-brothers) |
-| 403 | 2006-09-27 | Ouran High School Host Club | [Hauptserie](https://crunchyroll.com/de/series/GRGGJWD2R/ouran-high-school-host-club) |
-| 404 | 2006-09-21 | Witchblade | [Hauptserie](https://www.crunchyroll.com/de/witchblade) |
-| 405 | 2006-09-19 | Coyote Ragtime Show | [Hauptserie](https://www.crunchyroll.com/de/coyote-ragtime-show) |
-| 406 | 2006-08-12 | Ergo Proxy | [Hauptserie](https://www.crunchyroll.com/de/ergo-proxy) |
-| 407 | 2006-07-08 | Brave Story: Ein Abenteuer jenseits der Realität | [Hauptserie](https://www.crunchyroll.com/brave-story/brave-story-unbekannt-821310?ssid=422329) |
-| 408 | 2006-07-03 | Die Melancholie der Haruhi Suzumiya | [Hauptserie](https://www.crunchyroll.com/de/the-melancholy-of-haruhi-suzumiya) |
-| 409 | 2006-06-23 | Planet of the Beast King - Jyu-Oh-Sei | [Hauptserie](https://www.crunchyroll.com/de/jyu-oh-sei) |
-| 410 | 2006-04-08 | Yonna in the Solitary Fortress | [Hauptserie](http://www.crunchyroll.com/de/yonna-in-the-solitary-fortress) |
-| 411 | 2006-03-30 | Solty Rei | [Hauptserie](https://www.crunchyroll.com/de/solty-rei) |
-| 412 | 2006-01-07 | Origin: Spirits of the Past | [Hauptserie](https://www.crunchyroll.com/de/origin-spirits-of-the-past) |
-| 413 | 2005-10-28 | Trinity Blood | [Hauptserie](https://www.crunchyroll.com/de/trinity-blood) |
-| 414 | 2005-09-30 | Speed Grapher | [Hauptserie](https://www.crunchyroll.com/de/speed-grapher) |
-| 415 | 2005-09-21 | Basilisk: Chronik der Koga-Ninja | [Hauptserie](https://www.crunchyroll.com/de/basilisk) |
-| 416 | 2005-09-14 | Final Fantasy VII: Advent Children | [Hauptserie](https://www.youtube.com/watch?v=IFKqfiIE66Q) |
-| 417 | 2005-06-19 | Emma: Eine viktorianische Liebe | [Hauptserie](https://www.crunchyroll.com/de/emma-a-victorian-romance) |
-| 418 | 2005-03-31 | My-HiME | [Hauptserie](https://www.crunchyroll.com/de/series/G60X904VR/my-hime) |
-| 419 | 2005-03-30 | Der Graf von Monte Christo: Gankutsuou | [Hauptserie](http://www.crunchyroll.com/de/gankutsuou) |
-| 420 | 2005-03-19 | Samurai Champloo | [Hauptserie](https://crunchyroll.com/de/series/G6WEK0026/samurai-champloo) |
-| 421 | 2005-03-19 | Samurai Champloo | [Hauptserie](http://movies.netflix.com/WiMovie/Samurai_Champloo/70213065) |
-| 422 | 2005-03-19 | Samurai Champloo | [Hauptserie](https://www.amazon.de/s?k=Samurai%20Champloo&i=instant-video) |
-| 423 | 2005-03-16 | Tenjo Tenge | [Hauptserie](https://www.amazon.de/s?k=Tenjho%20Tenge&i=instant-video) · [OVA](https://www.amazon.de/s?k=Tenjho%20Tenge%3A%20The%20Ultimate%20Fight&i=instant-video) |
-| 424 | 2004-12-25 | Samurai 7 | [Hauptserie](https://www.crunchyroll.com/de/samurai-7) |
-| 425 | 2004-09-29 | Ragnarök: The Animation | [Hauptserie](https://www.crunchyroll.com/de/ragnarok-the-animation) |
-| 426 | 2004-09-14 | Burst Angel | [Hauptserie](https://www.crunchyroll.com/de/burst-angel) |
-| 427 | 2004-09-13 | InuYasha | [Hauptserie](https://www.amazon.de/s?k=InuYasha&i=instant-video) |
-| 428 | 2004-06-27 | Hinotori: The Phoenix | [Hauptserie](https://www.crunchyroll.com/de/phoenix) |
-| 429 | 2004-06-10 | Chrono Crusade | [Hauptserie](https://www.crunchyroll.com/de/chrono-crusade) |
-| 430 | 2004-05-18 | Paranoia Agent | [Hauptserie](https://www.crunchyroll.com/de/paranoia-agent) |
-| 431 | 2004-03-28 | Sonic X | [Hauptserie](https://www.amazon.de/s?k=Sonic%20X&i=instant-video) |
-| 432 | 2003-11-08 | Tokyo Godfathers | [Hauptserie](https://www.youtube.com/watch?v=jderzQDdDHc) |
-| 433 | 2003-10-18 | Full Metal Panic! | [Hauptserie](http://www.crunchyroll.com/de/full-metal-panic) · [Full Metal Panic? Fumoffu](https://www.crunchyroll.com/de/full-metal-panic-fumoffu) |
-| 434 | 2003-10-07 | Scrapped Princess | [Hauptserie](https://www.crunchyroll.com/de/scrapped-princess) |
-| 435 | 2003-09-29 | Last Exile | [Hauptserie](https://www.crunchyroll.com/de/last-exile) |
-| 436 | 2003-09-26 | Heat Guy J | [Hauptserie](https://www.crunchyroll.com/de/heat-guy-j) · [Angel](https://www.crunchyroll.com/de/heat-guy-j) |
-| 437 | 2003-07-24 | Parasite Dolls | [Hauptserie](http://www.crunchyroll.com/de/parasite-dolls) |
-| 438 | 2003-07-15 | Ninja Scroll: Die Serie | [Hauptserie](https://www.crunchyroll.com/de/series/GMEHMENP7/ninja-scroll-the-series) |
-| 439 | 2002-12-24 | Witch Hunter Robin | [Hauptserie](https://www.crunchyroll.com/de/witch-hunter-robin) |
-| 440 | 2002-09-14 | Millennium Actress | [Hauptserie](https://www.amazon.de/s?k=Millennium%20Actress&i=instant-video) |
-| 441 | 2002-06-18 | Full Metal Panic! | [Hauptserie](https://www.amazon.de/s?k=Full%20Metal%20Panic!&i=instant-video) |
-| 442 | 2002-03-27 | Love Hina | [Again](https://www.crunchyroll.com/de/series/GQWH0M4NN/love-hina-again) |
-| 443 | 2002-03-27 | X: TV-Serie | [Hauptserie](https://www.crunchyroll.com/de/x) |
-| 444 | 2001-01-10 | Gravitation | [OVA](https://www.crunchyroll.com/de/series/G9VHN9DXX/) · [Hauptserie](https://www.crunchyroll.com/de/series/G9VHN9DXX/gravitation) |
-| 445 | 2000-10-24 | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
-| 446 | 2000-06-03 | Jin-Roh: Die Wolfsbrigade | [Hauptserie](https://www.crunchyroll.com/de/watch/G3WF2491E/jin-roh) |
-| 447 | 2000-03-27 | The Candidate for Goddess | [Hauptserie](https://www.crunchyroll.com/de/pilot-candidate) |
-| 448 | 2000-03-27 | The Candidate for Goddess | [Hauptserie](https://www.amazon.de/s?k=Pilot%20Candidate&i=instant-video) |
-| 449 | 2000-03-25 | Blue Submarine No. 6 | [Hauptserie](http://www.crunchyroll.com/de/blue-submarine-no-6) |
-| 450 | 1999-08-21 | Cardcaptor Sakura | [The Movie - Die Reise nach Hongkong](https://www.amazon.de/s?k=Cardcaptor%20Sakura%3A%20The%20Movie&i=instant-video) |
-| 451 | 1999-04-24 | Cowboy Bebop | [Hauptserie](http://www.crunchyroll.com/de/cowboy-bebop) |
-| 452 | 1999-04-24 | Cowboy Bebop | [Hauptserie](https://www.amazon.de/s?k=Cowboy%20Bebop&i=instant-video) |
-| 453 | 1999-04-23 | City Hunter: Ein Fall für Ryo Saeba | [Hauptserie](https://www.crunchyroll.com/de/city-hunter) · [2](https://www.crunchyroll.com/de/city-hunter) · [City Hunter: Magnum with Love and Fate](https://www.crunchyroll.com/de/city-hunter) · [City Hunter 3](https://www.crunchyroll.com/de/city-hunter) · [City Hunter: Bay City Wars](https://www.crunchyroll.com/de/city-hunter) · [City Hunter: Million Dollar Conspiracy](https://www.crunchyroll.com/de/city-hunter) · [City Hunter '91](https://www.crunchyroll.com/de/city-hunter) · [City Hunter: Goodbye My Sweetheart](https://www.crunchyroll.com/de/city-hunter) · [City Hunter: Ryo Saeba, Live on the Scene](https://www.crunchyroll.com/de/city-hunter) |
-| 454 | 1998-06-25 | Maho Tsukai Tai! Magic User’s Club | [Hauptserie](https://www.crunchyroll.com/de/magic-users-club-ova) · [Shamanic Princess](http://www.crunchyroll.com/de/shamanic-princess) |
-| 455 | 1998-03-31 | Berserk | [Hauptserie](https://www.netflix.com/search?q=berserk&jbv=80243876) |
-| 456 | 1997-08-01 | Kimba, der weiße Löwe | [Jungle Emperor Leo: Der Kinofilm](https://www.crunchyroll.com/de/jungle-emperor-leo) |
-| 457 | 1997-08-01 | Kimba, der weiße Löwe | [Jungle Emperor Leo: Der Kinofilm](https://www.amazon.de/s?k=Jungle%20Emperor%20Leo&i=instant-video) |
-| 458 | 1997-04-23 | Sorcerer Hunters | [Hauptserie](https://www.crunchyroll.com/de/sorcerer-hunters) · [Heiße Früchtchen zum Vernaschen](https://www.crunchyroll.com/de/sorcerer-hunters) |
-| 459 | 1996-11-30 | Black Jack | [The Movie](https://www.amazon.de/s?k=Black%20Jack%3A%20The%20Movie&i=instant-video) |
-| 460 | 1996-06-28 | Golden Boy | [Hauptserie](http://www.crunchyroll.com/de/golden-boy) |
-| 461 | 1995-12-23 | Memories | [Hauptserie](https://www.amazon.de/s?k=Memories&i=instant-video) |
-| 462 | 1995-12-23 | Sailor Moon: Das Mädchen mit den Zauberkräften | [Sailor Moon R Movie: Gefährliche Blumen](https://www.amazon.de/s?k=Sailor%20Moon%20R%3A%20The%20Movie&i=instant-video) · [Sailor Moon S: Schneeprinzessin Kaguya](https://www.amazon.de/s?k=Sailor%20Moon%20S%20Movie%3A%20Hearts%20in%20Ice&i=instant-video) · [Sailor Moon Super S: Reise ins Land der Träume](https://www.amazon.de/s?k=Sailor%20Moon%20SuperS%20the%20Movie%3A%20Black%20Dream%20Hole&i=instant-video) |
-| 463 | 1995-01-07 | Yū Yū Hakusho | [Hauptserie](https://www.crunchyroll.com/de/yu-yu-hakusho) |
-| 464 | 1994-08-06 | Street Fighter II: The Animated Movie | [Hauptserie](https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie) |
-| 465 | 1994-08-06 | Street Fighter II: The Animated Movie | [Hauptserie](https://www.amazon.de/s?k=Street%20Fighter%20II%3A%20The%20Animated%20Movie&i=instant-video) |
-| 466 | 1993-05-28 | Dragon Half | [Hauptserie](https://www.amazon.de/s?k=Dragon%20Half&i=instant-video) |
-| 467 | 1991-11-23 | Record of Lodoss War: Chronicles of the Heroic Knight | [Record of Lodoss War](https://www.crunchyroll.com/de/record-of-lodoss-war) |
-| 468 | 1991-10-04 | Cyber City Oedo 808 | [Hauptserie](https://www.crunchyroll.com/de/series/G8DHV7874/cyber-city-oedo-808) |
-| 469 | 1991-10-03 | Die Mumins | [Hauptserie](https://www.youtube.com/playlist?list=PLL0kUUHCSZA6VQjBcZ8TJ-tshEMyPsSt6) |
-| 470 | 1991-02-12 | Samurai Pizza Cats | [Hauptserie](http://www.crunchyroll.com/de/samurai-pizza-cats) |
-| 471 | 1990-12-22 | The Wind of Amnesia: Wind des Vergessens | [Hauptserie](https://www.crunchyroll.com/de/a-wind-named-amnesia) |
-| 472 | 1989-07-15 | Little Nemo: Abenteuer im Schlummerland | [Hauptserie](https://www.amazon.de/s?k=Little%20Nemo%3A%20Adventures%20in%20Slumberland&i=instant-video) |
-| 473 | 1988-07-16 | Akira | [Hauptserie](https://www.crunchyroll.com/de/akira) |
-| 474 | 1988-07-16 | Akira | [Hauptserie](https://www.amazon.de/s?k=Akira&i=instant-video) |
-| 475 | 1987-12-27 | Eine fröhliche Familie | [Hauptserie](https://www.amazon.de/s?k=Tales%20of%20Little%20Women&i=instant-video) |
-| 476 | 1987-09-25 | Manie Manie | [Hauptserie](https://www.crunchyroll.com/de/series/GQWH0M1K3/manie-manie-neo-tokyo) |
-| 477 | 1987-07-18 | Knights of the Zodiac: Saint Seiya Teil 2 | [Saint Seiya: Die Krieger des Zodiac - Movie 1: Die Legende des goldenen Apfels](https://www.amazon.de/s?k=Saint%20Seiya%3A%20Evil%20Goddess%20Eris&i=instant-video) |
-| 478 | 1985-07-13 | Night on the Galactic Railroad | [Hauptserie](https://www.crunchyroll.com/de/night-on-the-galactic-railroad) |
-| 479 | 1985-07-13 | Night on the Galactic Railroad | [Hauptserie](https://www.amazon.de/s?k=Night%20on%20the%20Galactic%20Railroad&i=instant-video) |
-| 480 | 1985-05-21 | Die Abenteuer des Sherlock Holmes | [Hauptserie](http://www.crunchyroll.com/de/sherlock-hound) |
-| 481 | 1982-02-24 | Voltron: Verteidiger des Universums | [Hauptserie](http://www.crunchyroll.com/de/go-lion) |
-| 482 | 1981-12-27 | Familie Robinson | [Hauptserie](https://www.amazon.de/s?k=Swiss%20Family%20Robinson&i=instant-video) |
-| 483 | 1981-03-14 | Unico: Das phantastische Abenteuer eines Hörnchens | [Hauptserie](https://www.crunchyroll.com/de/watch/GZ4FVQE90/fantastic-adventures-of-unico) |
-| 484 | 1981-03-14 | Unico: Das phantastische Abenteuer eines Hörnchens | [Hauptserie](https://www.amazon.de/s?k=Fantastic%20Adventures%20of%20Unico&i=instant-video) |
-| 485 | 1980-12-28 | Tom Sawyers Abenteuer | [Hauptserie](https://www.amazon.de/s?k=The%20Adventures%20of%20Tom%20Sawyer&i=instant-video) |
-| 486 | 1980-09-03 | Lady Oscar: Die Rose von Versailles | [Hauptserie](https://www.amazon.de/s?k=Lady%20Oscar%3A%20The%20Rose%20of%20Versailles&i=instant-video) |
-| 487 | 1974-12-29 | Heidi | [Hauptserie](https://www.amazon.de/s?k=Heidi%2C%20Girl%20of%20the%20Alps&i=instant-video) |
-| 488 | 1968-04-07 | Choppy und die Prinzessin | [Hauptserie](http://www.crunchyroll.com/de/princess-knight) |
-| 489 | 1968-04-07 | Choppy und die Prinzessin | [Hauptserie](https://www.youtube.com/watch?v=A0DaeCtJTG0) |
-| 490 | 1968-03-31 | Speed Racer | [Hauptserie](https://www.youtube.com/playlist?list=PLnY1FL_e1HO5NAcu_AaLWeYkpUc5KqVI3) |
-| 491 | 1960-08-14 | Alakazam: König der Tiere | [Hauptserie](https://www.amazon.de/s?k=Alakazam%20the%20Great&i=instant-video) |
+| 165 | 2020-02-26 | Arifureta: From Commonplace to World’s Strongest | [OVAs](https://www.amazon.de/gp/video/detail/0U6WDQ9Q745XNZ1LEGEHT4JZXF) |
+| 166 | 2020-01-27 | Babylon | [Hauptserie](https://www.amazon.de/gp/video/detail/0J16B1NAB82TO0O5A5Q8TLG1VP) |
+| 167 | 2019-12-29 | Special 7: Special Crime Investigation Unit | [Hauptserie](https://www.crunchyroll.com/de/special-7-special-crime-investigation-unit) |
+| 168 | 2019-12-29 | Special 7: Special Crime Investigation Unit | [Hauptserie](https://www.amazon.de/s?k=Special%207%3A%20Special%20Crime%20Investigation%20Unit&i=instant-video) |
+| 169 | 2019-12-25 | How Heavy Are the Dumbbells You Lift? | [Gnadenlose Trainingsstunde](https://www.crunchyroll.com/series/GP5HJ80VJ/how-heavy-are-the-dumbbells-you-lift) |
+| 170 | 2019-12-13 | Dr. Stone | [Hauptserie](https://www.amazon.de/s?k=Dr.%20STONE&i=instant-video) |
+| 171 | 2019-12-13 | Seven Days War | [Hauptserie](https://www.crunchyroll.com/seven-days-war/seven-days-war-unbekannt-821929?ssid=423562) |
+| 172 | 2019-12-12 | Legend of the Galactic Heroes: Die Neue These | [Hauptserie](https://crunchyroll.com/de/series/GRW4DXNEY) · [Hauptserie](https://crunchyroll.com/de/series/GRW4DXNEY) |
+| 173 | 2019-11-22 | Fragtime | [Hauptserie](https://www.crunchyroll.com/fragtime/fragtime-unbekannt-813782?ssid=406732) |
+| 174 | 2019-11-22 | Midnight Occult Civil Servants | [Hauptserie](https://www.crunchyroll.com/de/midnight-occult-civil-servants) · [OVA](https://www.crunchyroll.com/de/midnight-occult-civil-servants) |
+| 175 | 2019-11-03 | Pokémon | [Die TV-Serie - Sonne & Mond](https://www.amazon.de/s?k=Pok%C3%A9mon%20the%20Series%3A%20Sun%20%26%20Moon&i=instant-video) |
+| 176 | 2019-10-22 | Human Lost | [Hauptserie](https://www.crunchyroll.com/de/series/G24H1NJQ2/human-lost) |
+| 177 | 2019-10-01 | Cop Craft | [Hauptserie](https://www.crunchyroll.com/de/cop-craft) |
+| 178 | 2019-10-01 | Cop Craft | [Hauptserie](https://www.amazon.de/gp/video/detail/0OR0FNS7G156IEG09MCS4RPR01) |
+| 179 | 2019-09-25 | Mob Psycho 100 | [Reigen: Der Unbekannte Typ mit Kräften](http://www.crunchyroll.com/de/mob-psycho-100) · [II OVA: Der erste superbillige Ausflug des PS-Büros](https://www.crunchyroll.com/de/mob-psycho-100) |
+| 180 | 2019-09-23 | Hensuki: Are You Willing to Fall in Love with a Pervert, as Long as She’s a Cutie? | [Hauptserie](https://www.amazon.de/s?k=Hensuki%3A%20Are%20you%20willing%20to%20fall%20in%20love%20with%20a%20pervert%2C%20as%20long%20as%20she%E2%80%99s%20a%20cutie%3F&i=instant-video) |
+| 181 | 2019-09-22 | The Ones Within | [Hauptserie](https://www.crunchyroll.com/de/the-ones-within) |
+| 182 | 2019-09-22 | The Ones Within | [Hauptserie](https://www.amazon.de/s?k=The%20Ones%20Within&i=instant-video) |
+| 183 | 2019-09-21 | Fruits Basket | [Hauptserie](https://www.amazon.de/s?k=Fruits%20Basket%20(2019)&i=instant-video) |
+| 184 | 2019-09-19 | Demon Lord, Retry! | [Hauptserie](https://www.amazon.de/gp/video/detail/0G0QMV0BTO79PORU1R2WILMI9X) |
+| 185 | 2019-09-18 | Astra Lost in Space | [Hauptserie](https://www.crunchyroll.com/de/astra-lost-in-space) |
+| 186 | 2019-09-18 | Astra Lost in Space | [Hauptserie](https://www.amazon.de/s?k=ASTRA%20LOST%20IN%20SPACE&i=instant-video) |
+| 187 | 2019-09-18 | How Heavy Are the Dumbbells You Lift? | [Hauptserie](https://www.amazon.de/s?k=How%20Heavy%20Are%20the%20Dumbbells%20You%20Lift%3F&i=instant-video) |
+| 188 | 2019-09-07 | The Legend of Hei: Die Kraft in dir | [Hauptserie](https://www.crunchyroll.com/de/series/G4PH0WJ7Z/the-legend-of-hei) |
+| 189 | 2019-07-28 | JoJo’s Bizarre Adventure | [Hauptserie](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) · [Stardust Crusaders](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) · [Stardust Crusaders - Battle in Egypt](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) · [Diamond Is Unbreakable](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) · [Golden Wind](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) |
+| 190 | 2019-07-28 | JoJo’s Bizarre Adventure | [Diamond Is Unbreakable](https://www.amazon.de/s?k=JoJo's%20Bizarre%20Adventure%3A%20Diamond%20is%20Unbreakable&i=instant-video) · [Golden Wind](https://www.amazon.de/s?k=JoJo's%20Bizarre%20Adventure%3A%20Golden%20Wind&i=instant-video) |
+| 191 | 2019-07-19 | Weathering with You: Das Mädchen, das die Sonne berührte | [Hauptserie](https://www.amazon.de/s?k=Weathering%20With%20You&i=instant-video) |
+| 192 | 2019-06-29 | Cencoroll | [Connect](https://www.crunchyroll.com/cencoroll-connect/de-cencoroll-connect-unbekannt-850430) |
+| 193 | 2019-06-24 | Dororo | [Hauptserie](https://www.amazon.de/gp/video/detail/0O9RB6795QIPQEEZWQX9786SCV) |
+| 194 | 2019-06-21 | Ride Your Wave | [Hauptserie](https://www.crunchyroll.com/ride-your-wave/ride-your-wave-unbekannt-806160?ssid=392654) |
+| 195 | 2019-06-07 | Children of the Sea | [Hauptserie](https://www.disneyplus.com/de-de/movies/children-of-the-sea/PPmmokvapG3T) |
+| 196 | 2019-04-01 | Captain Tsubasa: Die tollen Fußballstars | [Captain Tsubasa](https://www.crunchyroll.com/series/GZJH3D7G9/captain-tsubasa) |
+| 197 | 2019-03-29 | Boogiepop and Others | [Hauptserie](https://www.crunchyroll.com/de/boogiepop-and-others) |
+| 198 | 2019-03-20 | Hi Score Girl | [Extra Stage](https://www.netflix.com/title/80997338) |
+| 199 | 2019-03-19 | Meine Wiedergeburt als Schleim in einer anderen Welt | [Hauptserie](https://www.amazon.de/s?k=That%20Time%20I%20Got%20Reincarnated%20as%20a%20Slime&i=instant-video) |
+| 200 | 2019-03-01 | Star Blazers 2199: Space Battleship Yamato | [Hauptserie](https://www.crunchyroll.com/de/star-blazers-space-battleship-yamato) · [Star Blazers 2202: Space Battleship Yamato](https://www.crunchyroll.com/de/pt-br/series/G65V4P4K6/star-blazers-space-battleship-yamato) |
+| 201 | 2019-02-08 | Saga of Tanya the Evil | [The Movie](https://www.crunchyroll.com/de/saga-of-tanya-the-evil) |
+| 202 | 2018-12-30 | Goblin Slayer | [Hauptserie](https://www.amazon.de/s?k=GOBLIN%20SLAYER&i=instant-video) |
+| 203 | 2018-12-29 | Die Welt in allen Farben: Iroduku | [Hauptserie](https://www.amazon.de/s?k=IRODUKU%3A%20The%20World%20in%20Colors&i=instant-video) |
+| 204 | 2018-12-25 | Tokyo Ghoul | [√A](https://www.amazon.de/s?k=Tokyo%20Ghoul%20%E2%88%9AA&i=instant-video) · [re](https://www.amazon.de/s?k=Tokyo%20Ghoul%3Are&i=instant-video) · [re](https://www.amazon.de/s?k=Tokyo%20Ghoul%3Are%202&i=instant-video) |
+| 205 | 2018-12-24 | Golden Kamuy | [Hauptserie](https://www.amazon.de/gp/video/detail/0QG5UD99TZDIAQSBIEJD3EXG2Y) · [2](https://www.amazon.de/s?k=Golden%20Kamuy%20Season%202&i=instant-video) |
+| 206 | 2018-10-19 | Haikara-san: Here Comes Miss Modern – Teil 1 | [Hauptserie](https://www.amazon.de/s?k=Haikara-san%3A%20Here%20Comes%20Miss%20Modern%20%E2%80%93%20Part%201&i=instant-video) · [Haikara-san: Here Comes Miss Modern – Teil 2](https://www.amazon.de/s?k=Haikara-san%3A%20Here%20Comes%20Miss%20Modern%20%E2%80%93%20Part%202&i=instant-video) |
+| 207 | 2018-09-29 | Yunas Geisterhaus | [Hauptserie](http://www.crunchyroll.com/de/yuuna-and-the-haunted-hot-springs) |
+| 208 | 2018-09-21 | Angels of Death | [Hauptserie](http://www.crunchyroll.com/de/angels-of-death) |
+| 209 | 2018-09-21 | Angels of Death | [Hauptserie](https://www.amazon.de/s?k=Angels%20of%20Death&i=instant-video) |
+| 210 | 2018-09-21 | Angels of Death | [Hauptserie](https://www.joyn.de/serien/angels-of-death) |
+| 211 | 2018-09-21 | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785) |
+| 212 | 2018-09-20 | How Not to Summon a Demon Lord | [Hauptserie](https://www.amazon.de/gp/video/detail/0INNZRE0TX1ONQFAFPJU3LM273) |
+| 213 | 2018-07-20 | GREEN DA KA RA x Mirai no Mirai | [Mirai: Das Mädchen aus der Zukunft](https://www.crunchyroll.com/watch/GQJUGQWMW/) |
+| 214 | 2018-07-04 | Calamity of a Zombie Girl | [Hauptserie](http://www.crunchyroll.com/de/calamity-of-a-zombie-girl) |
+| 215 | 2018-07-03 | Highschool D×D | [Hero](http://www.crunchyroll.com/de/high-school-dxd) |
+| 216 | 2018-06-23 | Magical Girl Site | [Hauptserie](https://www.amazon.de/gp/video/detail/0L9N0LDY9E1X7N2OPZNAUBQLWP) |
+| 217 | 2018-06-21 | Comic Girls | [Hauptserie](http://www.crunchyroll.com/de/comic-girls) |
+| 218 | 2018-06-10 | Cardcaptor Sakura | [Clear Card Arc](http://www.crunchyroll.com/de/cardcaptor-sakura-clear-card) |
+| 219 | 2018-06-09 | Kase-san and Morning Glories | [Hauptserie](https://www.crunchyroll.com/kase-san-and-morning-glories/kase-san-and-morning-glories-unbekannt-813883) |
+| 220 | 2018-05-05 | Digimon | [Fusion](http://www.crunchyroll.com/de/digimon-xros-wars-the-young-hunters-who-leapt-through-time) · [Xros Wars: The Evil Death Generals and the Seven Kingdoms](http://www.crunchyroll.com/de/digimon-xros-wars-the-young-hunters-who-leapt-through-time) · [Adventure tri. Chapter 1: Reunion](http://www.crunchyroll.com/de/digimon-adventure-tri/) · [Adventure tri. Chapter 2: Determination](https://www.crunchyroll.com/de/digimon-adventure-tri) · [Adventure tri. Chapter 3: Confession](https://www.crunchyroll.com/de/digimon-adventure-tri) · [Adventure tri. Chapter 4: Loss](https://www.crunchyroll.com/de/digimon-adventure-tri) · [Adventure tri. Chapter 5: Coexistance](https://www.crunchyroll.com/de/digimon-adventure-tri) · [Adventure tri. Chapter 6: Our Future](https://www.crunchyroll.com/de/digimon-adventure-tri) |
+| 221 | 2018-04-05 | Cats: Ein schnurriges Abenteuer | [Hauptserie](https://www.amazon.de/gp/video/detail/amzn1.dv.gti.2eb82736-4d63-bfcd-21db-a04b6a8928e3) |
+| 222 | 2018-03-26 | Beyblade | [Hauptserie](https://www.amazon.de/s?k=Beyblade&i=instant-video) · [V Force](https://www.amazon.de/s?k=Beyblade%20V-Force&i=instant-video) · [G Revolution](https://www.amazon.de/s?k=Beyblade%20G%20Revolution&i=instant-video) · [Metal Masters](https://www.amazon.de/gp/video/detail/0HSA9QTOF01SATN1E9I4RKBOW5) · [Burst](https://www.amazon.de/gp/video/detail/0JBM73U4MZRWF99QNB5NL8KD5U) · [Burst: Evolution](https://www.amazon.de/gp/video/detail/0JBM73U4MZRWF99QNB5NL8KD5U) |
+| 223 | 2018-03-26 | Kokkoku: Moment für Moment | [Hauptserie](https://www.amazon.de/s?k=KOKKOKU&i=instant-video) |
+| 224 | 2018-03-21 | ReLIFE | [Hauptserie](http://www.crunchyroll.com/de/relife) · [Final Arc](http://www.crunchyroll.com/de/relife) |
+| 225 | 2018-02-24 | Maquia: Eine unsterbliche Liebesgeschichte | [Hauptserie](https://www.amazon.de/s?k=Maquia%3A%20When%20the%20Promised%20Flower%20Blooms&i=instant-video) |
+| 226 | 2017-12-24 | Two Car: Racing Sidecar | [Hauptserie](http://www.crunchyroll.com/de/twocar) |
+| 227 | 2017-12-23 | Das Land der Juwelen | [Hauptserie](https://www.amazon.de/s?k=Land%20of%20the%20Lustrous&i=instant-video) |
+| 228 | 2017-12-22 | Inuyashiki Last Hero | [Hauptserie](https://www.crunchyroll.com/de/series/G8DHV7E9Q/inuyashiki-last-hero) |
+| 229 | 2017-12-22 | Inuyashiki Last Hero | [Hauptserie](https://www.amazon.de/s?k=INUYASHIKI%20LAST%20HERO&i=instant-video) |
+| 230 | 2017-12-17 | Welcome to the Ballroom | [Hauptserie](https://www.amazon.de/s?k=Welcome%20to%20the%20Ballroom&i=instant-video) |
+| 231 | 2017-11-25 | Armed Girl’s Machiavellism | [Herzklopfen! Betriebsausflug der „Fünf Schwerter“](https://www.crunchyroll.com/armed-girls-machiavellism/episode-13-799297?ssid=385722) |
+| 232 | 2017-09-29 | Made in Abyss | [Hauptserie](https://www.amazon.de/s?k=Made%20in%20Abyss&i=instant-video) |
+| 233 | 2017-09-24 | Knight’s & Magic | [Hauptserie](http://www.crunchyroll.com/de/knights-magic) |
+| 234 | 2017-09-24 | Princess Principal | [Hauptserie](https://www.amazon.de/gp/video/detail/0RTY29X83ZQWBLTXUTQ6UN5YLS) |
+| 235 | 2017-09-24 | Touken Ranbu: Hanamaru | [Katsugeki: Touken Ranbu](http://www.crunchyroll.com/de/katsugeki-touken-ranbu) |
+| 236 | 2017-09-24 | Touken Ranbu: Hanamaru | [Katsugeki: Touken Ranbu](https://www.amazon.de/s?k=Katsugeki%20TOUKEN%20RANBU&i=instant-video) |
+| 237 | 2017-09-23 | Kakegurui: Das Leben ist ein Spiel | [Hauptserie](https://www.netflix.com/title/80175351) |
+| 238 | 2017-09-20 | NTR: Netsuzou Trap | [Hauptserie](http://www.crunchyroll.com/de/netsuzou-trap-ntr-) |
+| 239 | 2017-08-25 | Your Voice: Kimikoe | [Hauptserie](https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378) |
+| 240 | 2017-08-18 | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.amazon.de/s?k=Fireworks&i=instant-video) |
+| 241 | 2017-08-18 | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.youtube.com/watch?v=RXD_V4p2iiA) |
+| 242 | 2017-08-04 | Haikyu!! | [Sonderbeitrag: Die Jugend beim Frühlingsturnier](https://www.crunchyroll.com/de/haikyu-dubs/episode-3-special-feature-the-spring-tournament-of-their-youth-848359) |
+| 243 | 2017-07-08 | Astro Boy | [Hauptserie](https://www.amazon.de/s?k=Astro%20Boy%20(1980)&i=instant-video) · [Atom: The Beginning](https://www.amazon.de/s?k=Atom%3A%20The%20Beginning&i=instant-video) |
+| 244 | 2017-06-30 | Tsukigakirei | [Hauptserie](http://www.crunchyroll.com/de/tsukigakirei) |
+| 245 | 2017-06-27 | Anonymous Noise | [Hauptserie](https://www.amazon.de/s?k=Anonymous%20Noise&i=instant-video) |
+| 246 | 2017-06-26 | Grimoire of Zero | [Hauptserie](https://www.amazon.de/s?k=Grimoire%20of%20Zero&i=instant-video) |
+| 247 | 2017-06-25 | Eromanga Sensei | [Hauptserie](http://www.crunchyroll.com/de/eromanga-sensei) |
+| 248 | 2017-06-25 | Granblue Fantasy: The Animation | [Hauptserie](http://www.crunchyroll.com/de/granblue-fantasy-the-animation) |
+| 249 | 2017-06-25 | Granblue Fantasy: The Animation | [Hauptserie](https://www.amazon.de/gp/video/detail/0O59G87GV5BELGUFJKLQQAGHP4) |
+| 250 | 2017-06-23 | Saekano: How to Raise a Boring Girlfriend | [.flat](https://www.amazon.de/s?k=Saekano%3A%20How%20to%20Raise%20a%20Boring%20Girlfriend%20%E2%99%AD&i=instant-video) |
+| 251 | 2017-06-21 | Armed Girl’s Machiavellism | [Hauptserie](https://www.amazon.de/gp/video/detail/0NWGEHP42S9O06TJ2YXLUU3M3D) |
+| 252 | 2017-05-19 | Lu over the Wall | [Hauptserie](https://www.crunchyroll.com/lu-over-the-wall/lu-over-the-wall-unbekannt-811213?ssid=399959) |
+| 253 | 2017-04-29 | Tales of Zestiria the X | [Hauptserie](https://www.crunchyroll.com/de/tales-of-zestiria-the-x) · [Staffel 2](https://www.crunchyroll.com/de/tales-of-zestiria-the-x) |
+| 254 | 2017-04-07 | Night is Short, Walk on Girl | [Hauptserie](https://www.crunchyroll.com/night-is-short-walk-on-girl/night-is-short-walk-on-girl-unbekannt-811211?ssid=399939) |
+| 255 | 2017-03-31 | Scum’s Wish | [Hauptserie](https://www.amazon.de/s?k=Scum's%20Wish&i=instant-video) |
+| 256 | 2017-03-18 | Kuroko’s Basketball: | [Staffel 1](http://www.crunchyroll.com/de/kurokos-basketball) · [Tip Off](https://www.crunchyroll.com/de/kurokos-basketball/episode-225-tip-off-690095) · [Staffel 2](http://www.crunchyroll.com/de/kurokos-basketball) · [Staffel 3](http://www.crunchyroll.com/de/kurokos-basketball) · [Das Beste Geschenk](https://www.crunchyroll.com/de/kurokos-basketball/episode-755-the-greatest-present-728751) · [Winter Cup Highlights Episode 1 – Winter Cup Highlights -Shadow and Light-](https://www.crunchyroll.com/de/kurokos-basketball) · [Winter Cup Highlights Episode 2 – Winter Cup Highlights -Beyond the Tears-](https://www.crunchyroll.com/de/kurokos-basketball) · [Winter Cup Highlights Episode 3 – Winter Cup Highlights -Crossing the Door-](https://www.crunchyroll.com/de/kurokos-basketball) · [Kuroko’s Basketball The Movie: Last Game](https://www.crunchyroll.com/de/kurokos-basketball/kurokos-basketball-the-movie-last-game-kurokos-basketball-the-movie-last-game-778592) |
+| 257 | 2017-02-25 | The Dragon Dentist | [Hauptserie](https://www.crunchyroll.com/the-dragon-dentist/deomu-the-dragon-dentist-unbekannt-811630?ssid=401190) |
+| 258 | 2017-02-03 | Project Itoh: Genocidal Organ | [Hauptserie](https://www.crunchyroll.com/genocidal-organ/genocidal-organ-unbekannt-807915?ssid=394444) |
+| 259 | 2016-12-22 | Yuri!!! on Ice | [Hauptserie](https://www.amazon.de/gp/video/detail/0O7N0W14A4OMCE7NS7M57PFOI1) |
+| 260 | 2016-09-29 | Danganronpa 3: The End of Hope’s Peak Academy - Future Arc | [Hauptserie](https://www.crunchyroll.com/de/danganronpa-3-the-end-of-hopes-peak-high-school) · [Danganronpa 3: The End of Hope’s Peak High School - Hope Arc - The School of Hope and the Students of Despair](https://www.crunchyroll.com/de/danganronpa-3-the-end-of-hopes-peak-high-school) |
+| 261 | 2016-09-26 | Orange | [Hauptserie](http://www.crunchyroll.com/de/orange) |
+| 262 | 2016-09-24 | Food Wars! Shokugeki no Soma | [Hauptserie](https://www.amazon.de/s?k=Food%20Wars!&i=instant-video) · [Food Wars! The Second Plate](https://www.amazon.de/s?k=Food%20Wars!%20The%20Second%20Plate&i=instant-video) |
+| 263 | 2016-09-22 | Danganronpa | [Hauptserie](https://www.crunchyroll.com/de/danganronpa-the-animation) · [3: The End of Hope’s Peak Academy - Despair Arc](https://www.crunchyroll.com/de/danganronpa-3-the-end-of-hopes-peak-high-school) |
+| 264 | 2016-09-20 | Servamp | [Hauptserie](https://www.crunchyroll.com/de/servamp) |
+| 265 | 2016-09-20 | Servamp | [Hauptserie](https://www.amazon.de/s?k=SERVAMP&i=instant-video) |
+| 266 | 2016-09-03 | Planetarian: Storyteller of the Stars | [Hauptserie](https://www.crunchyroll.com/de/planetarian) |
+| 267 | 2016-09-03 | Planetarian: Storyteller of the Stars | [Hauptserie](https://www.amazon.de/s?k=Planetarian%3A%20Storyteller%20of%20the%20Stars&i=instant-video) |
+| 268 | 2016-08-26 | Your Name. Gestern, heute und für immer | [Hauptserie](https://www.amazon.de/s?k=Your%20Name.&i=instant-video) |
+| 269 | 2016-08-26 | Your Name. Gestern, heute und für immer | [Hauptserie](https://www.youtube.com/watch?v=duoOTzpeWSE) |
+| 270 | 2016-07-08 | Big Fish & Begonia: Zwei Welten - Ein Schicksal | [Hauptserie](https://www.crunchyroll.com/de/big-fish-begonia) |
+| 271 | 2016-07-01 | Kabaneri of the Iron Fortress | [Hauptserie](https://www.amazon.de/gp/video/detail/0M8DANTSGA69M1PDY94H2WE49L) |
+| 272 | 2016-06-27 | Sailor Moon: Das Mädchen mit den Zauberkräften | [Pretty Guardian Sailor Moon Crystal](http://www.crunchyroll.com/de/sailor-moon-crystal) · [Pretty Guardian Sailor Moon Crystal Season III](http://www.crunchyroll.com/de/sailor-moon-crystal) |
+| 273 | 2016-06-18 | The Asterisk War | [Hauptserie](http://www.crunchyroll.com/de/the-asterisk-war) · [II](http://www.crunchyroll.com/de/the-asterisk-war) |
+| 274 | 2016-06-17 | Concrete Revolutio | [Hauptserie](https://www.crunchyroll.com/de/concrete-revolutio) · [The Last Song](https://www.crunchyroll.com/de/concrete-revolutio) |
+| 275 | 2016-04-23 | Yu☆Gi☆Oh! | [Yu-Gi-Oh! The Dark Side of Dimensions](https://www.amazon.de/s?k=Yu-Gi-Oh!%3A%20The%20Dark%20Side%20of%20Dimensions&i=instant-video) |
+| 276 | 2016-03-29 | Aokana: Four Rhythm Across the Blue | [Hauptserie](http://www.crunchyroll.com/de/aokana) |
+| 277 | 2016-03-29 | Die rothaarige Schneeprinzessin | [Hauptserie](https://www.crunchyroll.com/de/snow-white-with-the-red-hair) · [Staffel 2](https://www.crunchyroll.com/de/snow-white-with-the-red-hair) |
+| 278 | 2016-03-27 | Dimension W | [Hauptserie](https://www.amazon.de/s?k=Dimension%20W&i=instant-video) |
+| 279 | 2016-03-26 | God Eater | [Hauptserie](http://www.crunchyroll.com/de/god-eater) |
+| 280 | 2016-03-25 | Divine Gate | [Hauptserie](https://www.crunchyroll.com/de/divine-gate) |
+| 281 | 2016-03-25 | Erased: Die Stadt, in der es mich nicht gibt | [Hauptserie](http://www.crunchyroll.com/de/erased) |
+| 282 | 2016-02-20 | Doukyusei: Verliebt in meinen Mitschüler | [Hauptserie](https://www.amazon.de/s?k=Doukyuusei%20-Classmates-&i=instant-video) |
+| 283 | 2015-12-26 | Noragami | [Hauptserie](https://www.crunchyroll.com/de/series/G6WEV3WM6/noragami) · [Aragoto](https://www.crunchyroll.com/de/series/G6WEV3WM6/noragami) |
+| 284 | 2015-12-26 | Noragami | [Aragoto](https://www.amazon.de/s?k=Noragami%20Aragoto&i=instant-video) |
+| 285 | 2015-12-26 | Valkyrie Drive: Mermaid | [Hauptserie](https://www.crunchyroll.com/de/valkyrie-drive-mermaid-) |
+| 286 | 2015-12-24 | Anti Magic Academy: Test-Trupp 35 | [Hauptserie](http://www.crunchyroll.com/de/anti-magic-academy-the-35th-test-platoon) |
+| 287 | 2015-12-23 | Shomin Sample | [Hauptserie](https://www.crunchyroll.com/de/shomin-sample) |
+| 288 | 2015-12-16 | Sound! Euphonium | [Hauptserie](http://www.crunchyroll.com/de/sound-euphonium) · [Auf die Plätze, fertig, Monaka](https://www.crunchyroll.com/de/sound-euphonium) |
+| 289 | 2015-11-13 | Project Itoh: Harmony | [Hauptserie](https://www.crunchyroll.com/harmony/harmony-unbekannt-807914?ssid=394443) |
+| 290 | 2015-10-02 | Project Itoh: The Empire of Corpses | [Hauptserie](https://www.crunchyroll.com/the-empire-of-corpses/the-empire-of-corpses-unknown-808170?ssid=395057) |
+| 291 | 2015-09-27 | Charlotte | [Hauptserie](http://www.crunchyroll.com/de/charlotte) |
+| 292 | 2015-09-24 | School-Live! | [Hauptserie](http://www.crunchyroll.com/de/school-live) |
+| 293 | 2015-09-24 | Sky Wizards Academy | [Hauptserie](https://www.crunchyroll.com/de/series/GR4980206/sky-wizards-academy) |
+| 294 | 2015-09-20 | Rokka: Braves of the Six Flowers | [Hauptserie](http://www.crunchyroll.com/de/rokka) |
+| 295 | 2015-07-11 | Der Junge und das Biest | [Hauptserie](https://www.crunchyroll.com/de/the-boy-and-the-beast) |
+| 296 | 2015-06-26 | Amagi Brilliant Park | [Keine Zeit zum Ausruhen!](https://www.crunchyroll.com/amagi-brilliant-park/episode-14-800072?ssid=387020) |
+| 297 | 2015-06-20 | Ghost in the Shell: Stand Alone Complex | [Ghost in the Shell: Arise - Border:1 Ghost Pain](https://www.crunchyroll.com/de/ghost-in-the-shell-arise) · [Ghost in the Shell: Arise - Border:2 Ghost Whispers](https://www.crunchyroll.com/de/ghost-in-the-shell-arise) · [Ghost in the Shell: Arise - Border:3 Ghost Tears](https://www.crunchyroll.com/de/ghost-in-the-shell-arise) · [Ghost in the Shell: Arise - Border:4 Ghost Stands Alone](https://www.crunchyroll.com/de/ghost-in-the-shell-arise) · [Ghost in the Shell: Arise - Pyrophoric Cult](https://www.crunchyroll.com/de/ghost-in-the-shell-arise) · [Ghost in the Shell: The New Movie](https://www.crunchyroll.com/de/ghost-in-the-shell-arise) |
+| 298 | 2015-06-11 | Triage X | [Hauptserie](http://www.crunchyroll.com/de/triage-x) |
+| 299 | 2015-06-05 | Typhoon Noruda | [Hauptserie](https://www.crunchyroll.com/typhoon-noruda/typhoon-noruda-unbekannt-859032) |
+| 300 | 2015-04-25 | Pac-Man und die Geisterabenteuer | [Hauptserie](https://www.amazon.de/gp/video/detail/0RV8E68AAZC71PAN9NHKTNYO1J) |
+| 301 | 2015-03-31 | Kamisama Kiss | [Hauptserie](https://crunchyroll.com/de/kamisama-hajimemashita) · [Staffel 2](https://www.crunchyroll.com/de/kamisama-hajimemashita) |
+| 302 | 2015-03-31 | Kamisama Kiss | [Hauptserie](https://www.amazon.de/s?k=Kamisama%20Kiss&i=instant-video) · [Staffel 2](https://www.amazon.de/s?k=Kamisama%20Kiss%E2%97%8E&i=instant-video) |
+| 303 | 2015-03-28 | Ronja Räubertochter | [Hauptserie](https://www.amazon.de/s?k=Ronja%2C%20the%20Robber's%20Daughter&i=instant-video) |
+| 304 | 2015-03-28 | Tenkai Knights: Die Tenkai Ritter | [Hauptserie](https://www.amazon.de/s?k=Tenkai%20Knights&i=instant-video) |
+| 305 | 2015-03-20 | Shigatsu wa Kimi no Uso: Sekunden in Moll | [Hauptserie](http://www.crunchyroll.com/de/your-lie-in-april) |
+| 306 | 2015-02-20 | The Case of Hana & Alice | [Hauptserie](https://www.amazon.de/s?k=The%20Case%20of%20Hana%20%26%20Alice&i=instant-video) |
+| 307 | 2014-12-29 | Rage of Bahamut: Genesis | [Hauptserie](https://www.amazon.de/s?k=Rage%20of%20Bahamut%3A%20Genesis&i=instant-video) |
+| 308 | 2014-12-21 | Wolf Girl & Black Prince | [Hauptserie](http://www.crunchyroll.com/de/ookami) |
+| 309 | 2014-12-19 | Psycho-Pass | [2](https://www.crunchyroll.com/de/psycho-pass) |
+| 310 | 2014-12-12 | Akuma no Riddle | [Wer siegt? (Überraschungstest)](https://www.crunchyroll.com/watch/GK9U3Z4XE/) |
+| 311 | 2014-12-11 | Chaika, die Sargprinzessin | [Hauptserie](https://www.crunchyroll.com/de/chaika-the-coffin-princess-) · [Avenging Battle](https://www.crunchyroll.com/de/chaika-the-coffin-princess-) |
+| 312 | 2014-11-22 | Love Stage!! | [Daran war gar nichts leicht](https://www.crunchyroll.com/love-stage/episode-11-841216) |
+| 313 | 2014-09-28 | The Irregular at Magic High School | [Hauptserie](https://www.crunchyroll.com/series/GRMGDGZVR/the-irregular-at-magic-high-school) |
+| 314 | 2014-09-26 | Terror in Tokio | [Hauptserie](https://www.crunchyroll.com/de/terror-in-resonance) |
+| 315 | 2014-09-24 | Hunter x Hunter | [Hunter × Hunter](http://www.crunchyroll.com/de/hunter-x-hunter) |
+| 316 | 2014-09-24 | Hunter x Hunter | [Hunter × Hunter](https://www.amazon.de/s?k=Hunter%20x%20Hunter%20(2011)&i=instant-video) |
+| 317 | 2014-09-16 | Love, Chunibyo & Other Delusions! | [Love, Chunibyo & Other Delusions: Heart Throb - Offenbarung des wahren Auges des bösen Königs … Wiederholung](https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-/episode-13-799361?ssid=387047) |
+| 318 | 2014-06-20 | Kuroko’s Basketball: Kannst du das gleich nochmal machen? | [Hauptserie](https://www.crunchyroll.com/de/kurokos-basketball/episode-415-lets-do-that-again-690097) |
+| 319 | 2014-06-20 | Selector Infected Wixoss | [Hauptserie](https://www.amazon.de/s?k=selector%20infected%20WIXOSS&i=instant-video) |
+| 320 | 2014-04-03 | Nagi no Asukara | [Hauptserie](http://www.crunchyroll.com/de/nagi-no-asukara-nagi-asu-a-lull-in-the-sea) |
+| 321 | 2014-03-30 | Magi: The Labyrinth of Magic | [Hauptserie](http://www.crunchyroll.com/de/magi) · [Magi: The Kingdom of Magic](http://www.crunchyroll.com/de/magi) |
+| 322 | 2014-03-29 | Sekai Seifuku: World Conquest Zvezda Plot | [Hauptserie](http://www.crunchyroll.com/de/world-conquest-zvezda-plot ) |
+| 323 | 2014-03-28 | Kill La Kill | [Hauptserie](https://www.crunchyroll.com/de/kill-la-kill) |
+| 324 | 2014-03-28 | Kill La Kill | [Hauptserie](http://www.netflix.com/WiMovie/70305217) |
+| 325 | 2014-03-27 | Space Dandy | [Hauptserie](https://www.amazon.de/s?k=Space%20Dandy&i=instant-video) |
+| 326 | 2014-03-20 | Maken-Ki: Battling Venus | [Hauptserie](https://www.crunchyroll.com/de/maken-ki) · [Maken-Ki! Battling Venus: Staffel 2](https://www.crunchyroll.com/de/maken-ki) |
+| 327 | 2013-12-28 | Yoyo & Nene: Die magischen Schwestern | [Hauptserie](https://www.crunchyroll.com/watch/G50UZV2GM/) |
+| 328 | 2013-12-24 | Arpeggio of Blue Steel: Ars Nova | [Hauptserie](https://www.crunchyroll.com/de/arpeggio-of-blue-steel) |
+| 329 | 2013-12-22 | Wanna Be the Strongest in the World! | [Hauptserie](http://www.crunchyroll.com/de/wanna-be-the-strongest-in-the-world) |
+| 330 | 2013-12-20 | Freezing | [Hauptserie](https://www.crunchyroll.com/de/freezing) · [Vibration](https://www.crunchyroll.com/de/freezing) |
+| 331 | 2013-11-23 | Bayonetta: Bloody Fate | [Hauptserie](https://www.amazon.de/gp/video/detail/0OULQMP5ZBDUJWENT9UIT0CBW9) |
+| 332 | 2013-11-09 | Patema Inverted | [Hauptserie](https://www.crunchyroll.com/watch/GK9U31019/) |
+| 333 | 2013-09-29 | The Eccentric Family | [Hauptserie](http://www.crunchyroll.com/de/the-eccentric-family) |
+| 334 | 2013-03-30 | Fairy Tail | [Hauptserie](https://www.amazon.de/gp/video/detail/0H0VM4H8RMBQQ5Q0PJNVYP14X9) |
+| 335 | 2013-03-29 | Haganai: I Don’t Have Many Friends | [Hauptserie](https://www.crunchyroll.com/de/haganai) · [Next](https://www.crunchyroll.com/de/series/GYX0PN4MR/haganai) |
+| 336 | 2013-03-26 | The Pet Girl of Sakurasou | [Hauptserie](http://www.crunchyroll.com/de/the-pet-girl-of-sakurasou) |
+| 337 | 2013-03-26 | The Pet Girl of Sakurasou | [Hauptserie](https://www.amazon.de/s?k=The%20Pet%20Girl%20of%20Sakurasou&i=instant-video) |
+| 338 | 2013-03-09 | Hanasaku Iroha | [Hauptserie](https://www.crunchyroll.com/de/hanasaku-iroha) · [the Movie: Home Sweet Home](https://www.crunchyroll.com/de/hanasaku-iroha) |
+| 339 | 2013-02-23 | A Certain Magical Index | [The Miracle of Endymion](https://www.amazon.de/s?k=A%20Certain%20Magical%20Index%3A%20The%20Miracle%20of%20Endymion&i=instant-video) |
+| 340 | 2012-12-26 | Hellsing | [Hauptserie](https://www.crunchyroll.com/de/hellsing) · [Ultimate OVA](https://www.crunchyroll.com/de/hellsing-ultimate) |
+| 341 | 2012-12-26 | Jormungand | [Hauptserie](https://www.amazon.de/s?k=Jormungand&i=instant-video) · [Perfect Order](https://www.amazon.de/s?k=Jormungand%3A%20Perfect%20Order&i=instant-video) |
+| 342 | 2012-12-20 | Btooom! | [Hauptserie](https://www.amazon.de/s?k=BTOOOM!&i=instant-video) |
+| 343 | 2012-11-29 | Mass Effect: Paragon Lost | [Hauptserie](https://www.crunchyroll.com/de/mass-effect) |
+| 344 | 2012-10-27 | Devil Lady | [009 Re:Cyborg](https://www.amazon.de/s?k=009%20Re%3ACyborg&i=instant-video) |
+| 345 | 2012-10-24 | Tales of Symphonia: Sylvarant Arc | [Hauptserie](https://www.crunchyroll.com/de/tales-of-symphonia-the-animation) · [Tales of Symphonia: Tethe’alla Arc](https://www.crunchyroll.com/de/tales-of-symphonia-the-animation) · [Tales of Symphonia: The United World Arc](https://www.crunchyroll.com/de/tales-of-symphonia-the-animation) |
+| 346 | 2012-09-30 | B-Daman Crossfire | [Hauptserie](https://www.youtube.com/playlist?list=PL4o1lot_6q1EHL3vw_t4BGuHK6uBHyETT) |
+| 347 | 2012-09-29 | The Knight in the Area | [Hauptserie](http://www.crunchyroll.com/de/the-knight-in-the-area) |
+| 348 | 2012-09-27 | Good Luck Girl! | [Hauptserie](https://www.crunchyroll.com/de/good-luck-girl) |
+| 349 | 2012-09-25 | So, I Can’t Play H! | [Hauptserie](http://www.crunchyroll.com/de/so-i-cant-play-h) |
+| 350 | 2012-09-24 | Yu-Gi-Oh! Zexal | [Hauptserie](https://www.amazon.de/gp/video/detail/0JCA33AQG97BOWLTEVFO06HR3J) |
+| 351 | 2012-09-16 | Hyouka | [Hauptserie](https://www.crunchyroll.com/de/hyouka) |
+| 352 | 2012-08-18 | Fairy Tail | [The Movie - Phoenix Priestess](https://www.crunchyroll.com/fairy-tail-movies/fairy-tail-the-movie-phoenix-princess-unbekannt-821316?ssid=422327) |
+| 353 | 2012-07-21 | Starship Troopers: Invasion | [Hauptserie](https://www.amazon.de/gp/video/detail/amzn1.dv.gti.8ca9f6c3-21de-5225-749f-931196618766) |
+| 354 | 2012-06-07 | Is This a Zombie? | [Hauptserie](https://www.crunchyroll.com/de/is-this-a-zombie) · [of the Dead](https://www.crunchyroll.com/de/is-this-a-zombie) |
+| 355 | 2012-05-25 | Holy Knight | [Hauptserie](http://www.crunchyroll.com/de/holy-knight) |
+| 356 | 2012-04-15 | Mirai Nikki | [Hauptserie](https://www.crunchyroll.com/de/the-future-diary) |
+| 357 | 2012-03-27 | Another | [Hauptserie](http://www.crunchyroll.com/de/another) |
+| 358 | 2012-03-24 | Shakugan no Shana | [Hauptserie](https://www.crunchyroll.com/de/shakugan-no-shana) · [Der Film](https://www.crunchyroll.com/de/shakugan-no-shana) · [Second](https://www.crunchyroll.com/de/shakugan-no-shana) · [S](https://www.crunchyroll.com/de/shakugan-no-shana) · [Season III](https://www.crunchyroll.com/de/shakugan-no-shana) |
+| 359 | 2012-03-24 | Shakugan no Shana | [Season III](https://www.amazon.de/s?k=Shakugan%20no%20Shana%3A%20Season%20III&i=instant-video) |
+| 360 | 2012-03-23 | Black Rock Shooter | [Hauptserie](https://www.crunchyroll.com/de/series/GMEHME53W/black-rock-shooter) |
+| 361 | 2012-03-23 | Guilty Crown | [Hauptserie](https://www.crunchyroll.com/de/guilty-crown) |
+| 362 | 2011-12-24 | Sekaiichi Hatsukoi: The World’s Greatest First Love | [Hauptserie](https://www.crunchyroll.com/de/sekai-ichi-hatsukoi-worlds-greatest-first-love) · [2](https://www.crunchyroll.com/de/sekai-ichi-hatsukoi-worlds-greatest-first-love) |
+| 363 | 2011-12-03 | K-On! | [Extrafolge: Livemusik-Klub!](https://www.crunchyroll.com/k-on/episode-14-807608?ssid=394401) · [! Pläne!](https://www.crunchyroll.com/k-on/episode-27-809423?ssid=397229) · [The Movie](https://www.crunchyroll.com/k-on/k-on-the-movie-unbekannt-822264?ssid=424604) |
+| 364 | 2011-10-24 | Appleseed: Kampf um die Freiheit | [Appleseed XIII: Tartaros](https://www.amazon.de/s?k=Appleseed%20XIII%3A%20Tartaros&i=instant-video) · [Appleseed XIII: Ouranos](https://www.amazon.de/s?k=Appleseed%20XIII%3A%20Ouranos&i=instant-video) |
+| 365 | 2011-10-08 | Deadman Wonderland | [Hauptserie](https://www.crunchyroll.com/de/deadman-wonderland) · [Der Besitzer der roten Messer](https://www.crunchyroll.com/de/deadman-wonderland) |
+| 366 | 2011-09-16 | Usagi Drop | [Hauptserie](http://www.crunchyroll.com/de/usagi-drop) |
+| 367 | 2011-07-02 | Gosick | [Hauptserie](https://www.crunchyroll.com/de/gosick) |
+| 368 | 2011-06-24 | AnoHana: Die Blume, die wir an jenem Tag sahen | [Hauptserie](http://www.crunchyroll.com/de/anohana-the-flower-we-saw-that-day) |
+| 369 | 2011-06-24 | AnoHana: Die Blume, die wir an jenem Tag sahen | [Hauptserie](https://www.netflix.com/title/80075178) |
+| 370 | 2011-04-29 | Onigamiden: Legend of the Millennium Dragon | [Hauptserie](https://www.youtube.com/watch?v=W8YuJXFKZ-k) |
+| 371 | 2011-04-22 | Puella Magi Madoka Magica | [Hauptserie](http://www.crunchyroll.com/de/puella-magi-madoka-magica) |
+| 372 | 2010-12-18 | Angeloid: Sora no Otoshimono | [Hauptserie](https://www.crunchyroll.com/de/heavens-lost-property) · [Forte](https://www.crunchyroll.com/de/heavens-lost-property) |
+| 373 | 2010-09-29 | Rainbow: Die Sieben von Zelle Sechs | [Hauptserie](https://www.crunchyroll.com/de/series/G8DHV78Q4/rainbow) |
+| 374 | 2010-07-04 | Fullmetal Alchemist | [Brotherhood](http://www.crunchyroll.com/de/fullmetal-alchemist-brotherhood) |
+| 375 | 2010-07-04 | Fullmetal Alchemist | [Brotherhood](https://www.amazon.de/s?k=Fullmetal%20Alchemist%3A%20Brotherhood&i=instant-video) |
+| 376 | 2010-06-26 | Angel Beats! | [Hauptserie](https://www.crunchyroll.com/de/angel-beats) |
+| 377 | 2010-06-25 | Bakemonogatari | [Hauptserie](https://www.crunchyroll.com/de/bakemonogatari) |
+| 378 | 2010-06-25 | Durarara!! | [Hauptserie](https://www.crunchyroll.com/series/G619XVNEY/durarara) |
+| 379 | 2010-04-02 | Trigun | [Hauptserie](https://www.crunchyroll.com/de/trigun) · [The Movie - Badlands Rumble](https://www.crunchyroll.com/de/trigun) |
+| 380 | 2010-04-01 | Dance in the Vampire Bund | [Hauptserie](https://www.crunchyroll.com/de/dance-in-the-vampire-bund) |
+| 381 | 2010-03-28 | Beyblade | [Metal Fusion](http://www.crunchyroll.com/de/beyblade-metal-fusion) |
+| 382 | 2010-03-25 | Gintama | [Hauptserie](https://www.crunchyroll.com/series/GYQ4MKDZ6/gintama) |
+| 383 | 2010-03-13 | Eden of the East | [Hauptserie](https://www.crunchyroll.com/de/eden-of-the-east) · [Der König von Eden](https://www.crunchyroll.com/de/eden-of-the-east) · [Das verlorene Paradies](https://www.crunchyroll.com/de/eden-of-the-east) |
+| 384 | 2010-02-16 | Halo Legends | [Hauptserie](https://www.amazon.de/s?k=Halo%20Legends&i=instant-video) |
+| 385 | 2009-09-24 | Spice and Wolf | [Hauptserie](https://www.crunchyroll.com/de/spice-and-wolf) · [OVA](https://www.crunchyroll.com/de/spice-and-wolf) · [II](https://www.crunchyroll.com/de/spice-and-wolf) |
+| 386 | 2009-03-30 | Soul Eater | [Hauptserie](https://www.crunchyroll.com/de/soul-eater) |
+| 387 | 2009-03-27 | Black Butler | [Hauptserie](http://movies.netflix.com/WiMovie/Black_Butler/70204955) |
+| 388 | 2009-03-26 | Toradora! | [Hauptserie](http://www.crunchyroll.com/de/toradora) |
+| 389 | 2009-03-26 | Toradora! | [Hauptserie](https://www.amazon.de/s?k=Toradora!&i=instant-video) |
+| 390 | 2008-12-25 | Corpse Princess: Shikabane Hime Aka | [Hauptserie](https://www.crunchyroll.com/de/corpse-princess-shikabane-hime) |
+| 391 | 2008-09-30 | D.Gray-man | [Hauptserie](https://www.crunchyroll.com/de/dgray-man) |
+| 392 | 2008-08-22 | Death Note | [Relight](https://www.netflix.com/title/70204970) |
+| 393 | 2008-07-07 | Rin: Daughters of Mnemosyne | [Hauptserie](https://www.crunchyroll.com/de/rin-daughters-of-mnemosyne) |
+| 394 | 2007-09-30 | Gurren Lagann | [Hauptserie](http://www.crunchyroll.com/de/gurren-lagann) |
+| 395 | 2007-09-29 | Sword of the Stranger | [Hauptserie](https://www.crunchyroll.com/de/sword-of-the-stranger) |
+| 396 | 2007-09-26 | Romeo × Juliet | [Hauptserie](https://www.crunchyroll.com/de/romeo-x-juliet) |
+| 397 | 2007-09-25 | El Cazador de la Bruja | [Hauptserie](https://www.crunchyroll.com/de/el-cazador-de-la-bruja) |
+| 398 | 2007-09-17 | Lucky Star | [Hauptserie](https://www.crunchyroll.com/de/series/GY8V7NP8Y/lucky-star) |
+| 399 | 2007-09-12 | Zombie-Loan | [Hauptserie](http://www.crunchyroll.com/de/zombie-loan) |
+| 400 | 2007-09-12 | Zombie-Loan | [Hauptserie](https://www.amazon.de/s?k=Zombie%20Loan&i=instant-video) |
+| 401 | 2007-09-06 | Devil May Cry | [Hauptserie](https://www.crunchyroll.com/de/devil-may-cry) |
+| 402 | 2007-08-29 | Murder Princess | [Hauptserie](https://www.crunchyroll.com/de/murder-princess) |
+| 403 | 2007-06-27 | Death Note | [Hauptserie](https://www.amazon.de/s?k=Death%20Note&i=instant-video) |
+| 404 | 2007-03-18 | Pumpkin Scissors | [Hauptserie](https://www.crunchyroll.com/de/pumpkin-scissors) |
+| 405 | 2007-03-15 | Kanon | [Hauptserie](https://www.crunchyroll.com/de/kanon) |
+| 406 | 2006-12-23 | Tekkon Kinkreet Pilot | [Tekkonkinkreet](https://www.amazon.de/s?k=Tekkonkinkreet&i=instant-video) |
+| 407 | 2006-12-18 | Welcome to the N.H.K. | [Hauptserie](https://www.crunchyroll.com/de/welcome-to-the-n-h-k) |
+| 408 | 2006-12-03 | Project Blue Earth SOS | [Hauptserie](https://www.crunchyroll.com/de/project-blue-earth-sos) |
+| 409 | 2006-11-24 | Black Blood Brothers | [Hauptserie](https://www.crunchyroll.com/de/black-blood-brothers) |
+| 410 | 2006-09-27 | Ouran High School Host Club | [Hauptserie](https://crunchyroll.com/de/series/GRGGJWD2R/ouran-high-school-host-club) |
+| 411 | 2006-09-21 | Witchblade | [Hauptserie](https://www.crunchyroll.com/de/witchblade) |
+| 412 | 2006-09-19 | Coyote Ragtime Show | [Hauptserie](https://www.crunchyroll.com/de/coyote-ragtime-show) |
+| 413 | 2006-08-12 | Ergo Proxy | [Hauptserie](https://www.crunchyroll.com/de/ergo-proxy) |
+| 414 | 2006-07-08 | Brave Story: Ein Abenteuer jenseits der Realität | [Hauptserie](https://www.crunchyroll.com/brave-story/brave-story-unbekannt-821310?ssid=422329) |
+| 415 | 2006-07-03 | Die Melancholie der Haruhi Suzumiya | [Hauptserie](https://www.crunchyroll.com/de/the-melancholy-of-haruhi-suzumiya) |
+| 416 | 2006-06-23 | Planet of the Beast King - Jyu-Oh-Sei | [Hauptserie](https://www.crunchyroll.com/de/jyu-oh-sei) |
+| 417 | 2006-04-08 | Yonna in the Solitary Fortress | [Hauptserie](http://www.crunchyroll.com/de/yonna-in-the-solitary-fortress) |
+| 418 | 2006-03-30 | Solty Rei | [Hauptserie](https://www.crunchyroll.com/de/solty-rei) |
+| 419 | 2006-01-07 | Origin: Spirits of the Past | [Hauptserie](https://www.crunchyroll.com/de/origin-spirits-of-the-past) |
+| 420 | 2005-10-28 | Trinity Blood | [Hauptserie](https://www.crunchyroll.com/de/trinity-blood) |
+| 421 | 2005-09-30 | Speed Grapher | [Hauptserie](https://www.crunchyroll.com/de/speed-grapher) |
+| 422 | 2005-09-21 | Basilisk: Chronik der Koga-Ninja | [Hauptserie](https://www.crunchyroll.com/de/basilisk) |
+| 423 | 2005-09-14 | Final Fantasy VII: Advent Children | [Hauptserie](https://www.youtube.com/watch?v=IFKqfiIE66Q) |
+| 424 | 2005-06-19 | Emma: Eine viktorianische Liebe | [Hauptserie](https://www.crunchyroll.com/de/emma-a-victorian-romance) |
+| 425 | 2005-03-31 | My-HiME | [Hauptserie](https://www.crunchyroll.com/de/series/G60X904VR/my-hime) |
+| 426 | 2005-03-30 | Der Graf von Monte Christo: Gankutsuou | [Hauptserie](http://www.crunchyroll.com/de/gankutsuou) |
+| 427 | 2005-03-19 | Samurai Champloo | [Hauptserie](https://crunchyroll.com/de/series/G6WEK0026/samurai-champloo) |
+| 428 | 2005-03-19 | Samurai Champloo | [Hauptserie](http://movies.netflix.com/WiMovie/Samurai_Champloo/70213065) |
+| 429 | 2005-03-19 | Samurai Champloo | [Hauptserie](https://www.amazon.de/s?k=Samurai%20Champloo&i=instant-video) |
+| 430 | 2005-03-16 | Tenjo Tenge | [Hauptserie](https://www.amazon.de/s?k=Tenjho%20Tenge&i=instant-video) · [OVA](https://www.amazon.de/s?k=Tenjho%20Tenge%3A%20The%20Ultimate%20Fight&i=instant-video) |
+| 431 | 2004-12-25 | Samurai 7 | [Hauptserie](https://www.crunchyroll.com/de/samurai-7) |
+| 432 | 2004-09-29 | Ragnarök: The Animation | [Hauptserie](https://www.crunchyroll.com/de/ragnarok-the-animation) |
+| 433 | 2004-09-14 | Burst Angel | [Hauptserie](https://www.crunchyroll.com/de/burst-angel) |
+| 434 | 2004-09-13 | InuYasha | [Hauptserie](https://www.amazon.de/s?k=InuYasha&i=instant-video) |
+| 435 | 2004-06-27 | Hinotori: The Phoenix | [Hauptserie](https://www.crunchyroll.com/de/phoenix) |
+| 436 | 2004-06-10 | Chrono Crusade | [Hauptserie](https://www.crunchyroll.com/de/chrono-crusade) |
+| 437 | 2004-05-18 | Paranoia Agent | [Hauptserie](https://www.crunchyroll.com/de/paranoia-agent) |
+| 438 | 2004-03-28 | Sonic X | [Hauptserie](https://www.amazon.de/s?k=Sonic%20X&i=instant-video) |
+| 439 | 2003-11-08 | Tokyo Godfathers | [Hauptserie](https://www.youtube.com/watch?v=jderzQDdDHc) |
+| 440 | 2003-10-18 | Full Metal Panic! | [Hauptserie](http://www.crunchyroll.com/de/full-metal-panic) · [Full Metal Panic? Fumoffu](https://www.crunchyroll.com/de/full-metal-panic-fumoffu) |
+| 441 | 2003-10-07 | Scrapped Princess | [Hauptserie](https://www.crunchyroll.com/de/scrapped-princess) |
+| 442 | 2003-09-29 | Last Exile | [Hauptserie](https://www.crunchyroll.com/de/last-exile) |
+| 443 | 2003-09-26 | Heat Guy J | [Hauptserie](https://www.crunchyroll.com/de/heat-guy-j) · [Angel](https://www.crunchyroll.com/de/heat-guy-j) |
+| 444 | 2003-07-24 | Parasite Dolls | [Hauptserie](http://www.crunchyroll.com/de/parasite-dolls) |
+| 445 | 2003-07-15 | Ninja Scroll: Die Serie | [Hauptserie](https://www.crunchyroll.com/de/series/GMEHMENP7/ninja-scroll-the-series) |
+| 446 | 2002-12-24 | Witch Hunter Robin | [Hauptserie](https://www.crunchyroll.com/de/witch-hunter-robin) |
+| 447 | 2002-09-14 | Millennium Actress | [Hauptserie](https://www.amazon.de/s?k=Millennium%20Actress&i=instant-video) |
+| 448 | 2002-06-18 | Full Metal Panic! | [Hauptserie](https://www.amazon.de/s?k=Full%20Metal%20Panic!&i=instant-video) |
+| 449 | 2002-03-27 | Love Hina | [Again](https://www.crunchyroll.com/de/series/GQWH0M4NN/love-hina-again) |
+| 450 | 2002-03-27 | X: TV-Serie | [Hauptserie](https://www.crunchyroll.com/de/x) |
+| 451 | 2001-01-10 | Gravitation | [OVA](https://www.crunchyroll.com/de/series/G9VHN9DXX/) · [Hauptserie](https://www.crunchyroll.com/de/series/G9VHN9DXX/gravitation) |
+| 452 | 2000-10-24 | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
+| 453 | 2000-06-03 | Jin-Roh: Die Wolfsbrigade | [Hauptserie](https://www.crunchyroll.com/de/watch/G3WF2491E/jin-roh) |
+| 454 | 2000-03-27 | The Candidate for Goddess | [Hauptserie](https://www.crunchyroll.com/de/pilot-candidate) |
+| 455 | 2000-03-27 | The Candidate for Goddess | [Hauptserie](https://www.amazon.de/s?k=Pilot%20Candidate&i=instant-video) |
+| 456 | 2000-03-25 | Blue Submarine No. 6 | [Hauptserie](http://www.crunchyroll.com/de/blue-submarine-no-6) |
+| 457 | 1999-08-21 | Cardcaptor Sakura | [The Movie - Die Reise nach Hongkong](https://www.amazon.de/gp/video/detail/0L00TM6VRX7NG3X87MYX4UYBY2) |
+| 458 | 1999-04-24 | Cowboy Bebop | [Hauptserie](http://www.crunchyroll.com/de/cowboy-bebop) |
+| 459 | 1999-04-24 | Cowboy Bebop | [Hauptserie](https://www.amazon.de/s?k=Cowboy%20Bebop&i=instant-video) |
+| 460 | 1999-04-23 | City Hunter: Ein Fall für Ryo Saeba | [Hauptserie](https://www.crunchyroll.com/de/city-hunter) · [2](https://www.crunchyroll.com/de/city-hunter) · [City Hunter: Magnum with Love and Fate](https://www.crunchyroll.com/de/city-hunter) · [City Hunter 3](https://www.crunchyroll.com/de/city-hunter) · [City Hunter: Bay City Wars](https://www.crunchyroll.com/de/city-hunter) · [City Hunter: Million Dollar Conspiracy](https://www.crunchyroll.com/de/city-hunter) · [City Hunter '91](https://www.crunchyroll.com/de/city-hunter) · [City Hunter: Goodbye My Sweetheart](https://www.crunchyroll.com/de/city-hunter) · [City Hunter: Ryo Saeba, Live on the Scene](https://www.crunchyroll.com/de/city-hunter) |
+| 461 | 1998-06-25 | Maho Tsukai Tai! Magic User’s Club | [Hauptserie](https://www.crunchyroll.com/de/magic-users-club-ova) · [Shamanic Princess](http://www.crunchyroll.com/de/shamanic-princess) |
+| 462 | 1998-03-31 | Berserk | [Hauptserie](https://www.netflix.com/search?q=berserk&jbv=80243876) |
+| 463 | 1997-08-01 | Kimba, der weiße Löwe | [Jungle Emperor Leo: Der Kinofilm](https://www.crunchyroll.com/de/jungle-emperor-leo) |
+| 464 | 1997-08-01 | Kimba, der weiße Löwe | [Jungle Emperor Leo: Der Kinofilm](https://www.amazon.de/s?k=Jungle%20Emperor%20Leo&i=instant-video) |
+| 465 | 1997-04-23 | Sorcerer Hunters | [Hauptserie](https://www.crunchyroll.com/de/sorcerer-hunters) · [Heiße Früchtchen zum Vernaschen](https://www.crunchyroll.com/de/sorcerer-hunters) |
+| 466 | 1996-11-30 | Black Jack | [The Movie](https://www.amazon.de/s?k=Black%20Jack%3A%20The%20Movie&i=instant-video) |
+| 467 | 1996-06-28 | Golden Boy | [Hauptserie](http://www.crunchyroll.com/de/golden-boy) |
+| 468 | 1995-12-23 | Memories | [Hauptserie](https://www.amazon.de/gp/video/detail/0KUA6CH9R04MF2KHGBBIGWBTYL) |
+| 469 | 1995-12-23 | Sailor Moon: Das Mädchen mit den Zauberkräften | [Sailor Moon R Movie: Gefährliche Blumen](https://www.amazon.de/s?k=Sailor%20Moon%20R%3A%20The%20Movie&i=instant-video) · [Sailor Moon S: Schneeprinzessin Kaguya](https://www.amazon.de/s?k=Sailor%20Moon%20S%20Movie%3A%20Hearts%20in%20Ice&i=instant-video) · [Sailor Moon Super S: Reise ins Land der Träume](https://www.amazon.de/s?k=Sailor%20Moon%20SuperS%20the%20Movie%3A%20Black%20Dream%20Hole&i=instant-video) |
+| 470 | 1995-01-07 | Yū Yū Hakusho | [Hauptserie](https://www.crunchyroll.com/de/yu-yu-hakusho) |
+| 471 | 1994-08-06 | Street Fighter II: The Animated Movie | [Hauptserie](https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie) |
+| 472 | 1994-08-06 | Street Fighter II: The Animated Movie | [Hauptserie](https://www.amazon.de/s?k=Street%20Fighter%20II%3A%20The%20Animated%20Movie&i=instant-video) |
+| 473 | 1993-05-28 | Dragon Half | [Hauptserie](https://www.amazon.de/s?k=Dragon%20Half&i=instant-video) |
+| 474 | 1991-11-23 | Record of Lodoss War: Chronicles of the Heroic Knight | [Record of Lodoss War](https://www.crunchyroll.com/de/record-of-lodoss-war) |
+| 475 | 1991-10-04 | Cyber City Oedo 808 | [Hauptserie](https://www.crunchyroll.com/de/series/G8DHV7874/cyber-city-oedo-808) |
+| 476 | 1991-10-03 | Die Mumins | [Hauptserie](https://www.youtube.com/playlist?list=PLL0kUUHCSZA6VQjBcZ8TJ-tshEMyPsSt6) |
+| 477 | 1991-02-12 | Samurai Pizza Cats | [Hauptserie](http://www.crunchyroll.com/de/samurai-pizza-cats) |
+| 478 | 1990-12-22 | The Wind of Amnesia: Wind des Vergessens | [Hauptserie](https://www.crunchyroll.com/de/a-wind-named-amnesia) |
+| 479 | 1989-07-15 | Little Nemo: Abenteuer im Schlummerland | [Hauptserie](https://www.amazon.de/s?k=Little%20Nemo%3A%20Adventures%20in%20Slumberland&i=instant-video) |
+| 480 | 1988-07-16 | Akira | [Hauptserie](https://www.crunchyroll.com/de/akira) |
+| 481 | 1988-07-16 | Akira | [Hauptserie](https://www.amazon.de/s?k=Akira&i=instant-video) |
+| 482 | 1987-12-27 | Eine fröhliche Familie | [Hauptserie](https://www.amazon.de/s?k=Tales%20of%20Little%20Women&i=instant-video) |
+| 483 | 1987-09-25 | Manie Manie | [Hauptserie](https://www.crunchyroll.com/de/series/GQWH0M1K3/manie-manie-neo-tokyo) |
+| 484 | 1987-07-18 | Knights of the Zodiac: Saint Seiya Teil 2 | [Saint Seiya: Die Krieger des Zodiac - Movie 1: Die Legende des goldenen Apfels](https://www.amazon.de/s?k=Saint%20Seiya%3A%20Evil%20Goddess%20Eris&i=instant-video) |
+| 485 | 1985-07-13 | Night on the Galactic Railroad | [Hauptserie](https://www.crunchyroll.com/de/night-on-the-galactic-railroad) |
+| 486 | 1985-07-13 | Night on the Galactic Railroad | [Hauptserie](https://www.amazon.de/s?k=Night%20on%20the%20Galactic%20Railroad&i=instant-video) |
+| 487 | 1985-05-21 | Die Abenteuer des Sherlock Holmes | [Hauptserie](http://www.crunchyroll.com/de/sherlock-hound) |
+| 488 | 1982-02-24 | Voltron: Verteidiger des Universums | [Hauptserie](http://www.crunchyroll.com/de/go-lion) |
+| 489 | 1981-12-27 | Familie Robinson | [Hauptserie](https://www.amazon.de/s?k=Swiss%20Family%20Robinson&i=instant-video) |
+| 490 | 1981-03-14 | Unico: Das phantastische Abenteuer eines Hörnchens | [Hauptserie](https://www.crunchyroll.com/de/watch/GZ4FVQE90/fantastic-adventures-of-unico) |
+| 491 | 1981-03-14 | Unico: Das phantastische Abenteuer eines Hörnchens | [Hauptserie](https://www.amazon.de/s?k=Fantastic%20Adventures%20of%20Unico&i=instant-video) |
+| 492 | 1980-12-28 | Tom Sawyers Abenteuer | [Hauptserie](https://www.amazon.de/s?k=The%20Adventures%20of%20Tom%20Sawyer&i=instant-video) |
+| 493 | 1980-09-03 | Lady Oscar: Die Rose von Versailles | [Hauptserie](https://www.amazon.de/s?k=Lady%20Oscar%3A%20The%20Rose%20of%20Versailles&i=instant-video) |
+| 494 | 1974-12-29 | Heidi | [Hauptserie](https://www.amazon.de/gp/video/detail/0P5F55SIM9FH3SLFZE7HUTCFMT) |
+| 495 | 1968-04-07 | Choppy und die Prinzessin | [Hauptserie](http://www.crunchyroll.com/de/princess-knight) |
+| 496 | 1968-04-07 | Choppy und die Prinzessin | [Hauptserie](https://www.youtube.com/watch?v=A0DaeCtJTG0) |
+| 497 | 1968-03-31 | Speed Racer | [Hauptserie](https://www.youtube.com/playlist?list=PLnY1FL_e1HO5NAcu_AaLWeYkpUc5KqVI3) |
+| 498 | 1960-08-14 | Alakazam: König der Tiere | [Hauptserie](https://www.amazon.de/s?k=Alakazam%20the%20Great&i=instant-video) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
