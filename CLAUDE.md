@@ -800,6 +800,34 @@ dieselbe Datei, egal was darin steht.
 - Jeder Cache im Service Worker hat eine Obergrenze. Ohne sie wächst er still: einmal 313 MB
   Cover (10.08.2026), einmal 400 KB Programmdateien je Deploy (12.08.2026).
 
+## Eine Prüfung, die rot wird, weil die Arbeit erledigt ist, misst das Falsche
+
+Am 25.08.2026 um 05:07 hat der nächtliche Lauf die letzten Amazon-Meldungen übernommen.
+`extension/offene-amazon.js` fiel damit auf **null** Einträge — genau das Ziel, auf das
+wochenlang hingearbeitet wurde. Die Zusicherungen der Prime-Übersicht lasen diese Datei und
+arbeiteten mit ihrem ersten Eintrag; vier von ihnen wurden rot, **der Deploy blieb drei Läufe
+lang hängen, und die Seite wurde nicht mehr ausgeliefert**.
+
+Die Erweiterung selbst kam mit der leeren Liste einwandfrei zurecht — der Knopf schrieb
+„Prime: alles geprüft". Nur die Prüfung hielt das für einen Fehler.
+
+**Testdaten gehören in den Test, nicht in den Datenbestand.** Eine Zusicherung prüft die
+Logik; wer sie an echte Daten hängt, prüft den Datenstand mit — und der ändert sich täglich
+durch die Läufe. Was heute grün ist, ist morgen rot, ohne dass jemand eine Zeile Code
+angefasst hat.
+
+**Dieselbe Falle hatte einen Tag vorher schon zugeschlagen, eine Ebene tiefer.** Am 24.08.2026
+fiel eine fest verdrahtete Kennung aus der Liste, weil Daniel sie gemeldet hatte. Die Antwort
+damals war `Object.keys(ECHTE_LISTE)[0]` — dieselbe Abhängigkeit, nur beweglicher. Sie hat
+genau einen Tag gehalten.
+
+Die Prüffrage vor jeder Zusicherung, die eine Datei aus `data/` oder `extension/offene-*.js`
+liest: **Was passiert mit dieser Prüfung, wenn die Datei leer ist?** Ist die Antwort „sie wird
+rot", gehört sie umgebaut — denn leer ist bei einer Arbeitsliste der Normalfall am Ende.
+
+Was an echten Daten trotzdem zusicherbar ist, und deshalb dort steht: dass die Datei sich
+laden lässt, und dass der leere Fall sauber durchläuft.
+
 ## Ein geklärter roter Lauf wird entfernt
 
 Daniel am 24.08.2026: „du hast die läufe im status geprüft, warum sind die immer noch sichtbar.
