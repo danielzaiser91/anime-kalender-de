@@ -1720,6 +1720,27 @@ async function speicherSchreiben(werte) {
      * „Solar Impulse" Staffel 8 zeigt „1 Folge", während im Quelltext noch die
      * 26 der siebten stehen (Daniel, 25.08.2026, mit Bild).
      */
+    /*
+      **Ein Titelwechsel macht den Quelltext wertlos — aber nicht die Seite.**
+
+      Daniel am 25.08.2026: „wozu neuladen? die infos kommen auf die seite nach
+      dem wechsel... ich sehe es doch". Er hat recht, und sein Netzwerkmitschnitt
+      zeigt warum: Prime holt beim Navigieren
+      `/gp/video/api/getDetailWidgets?titleID=<neue Kennung>&widgets=[EpisodeList]`
+      und bekommt dort alles — `episodeCount`, je Folge `audioTracks` und
+      `episodeNumber`, dazu die Tokens der übrigen Abschnitte.
+
+      Der veraltete Quelltext ist also **kein Grund zum Neuladen**, sondern nur
+      einer, ihn nicht zu lesen. `beiSeitenwechsel()` im Mitleser stößt denselben
+      Abruf an; bis er ankommt, gilt der Zählstand als leer. Das ist der
+      Unterschied zwischen „Seite neu laden" und „einen Moment".
+
+      **Beide Wege müssen tragen** (Daniel, 25.08.2026): „prime ab und zu nicht
+      neulädt … und manchmal neulädt". Bei einer echten Neuladung ist der
+      Quelltext frisch, und die Kennung wandert mit — dann greift dieser Zweig
+      gar nicht. Nur der Weg ohne Neuladen braucht ihn.
+    */
+    if (quelltextVeraltet()) return false
     const lautSeite = seitenLage().folgenLautSeite
     if (lautSeite) {
       const imQuelltext = spuren().gesamt
@@ -2290,9 +2311,9 @@ async function speicherSchreiben(werte) {
       vorigen Titel gehoert. Gemessen am 25.08.2026 ueber zwei Wechsel, acht
       Sekunden lang dieselbe Quelltext-Kennung bei drei verschiedenen Titeln.
     */
-    const veraltet =
-      Boolean(staffelLautAdresse && staffelLautSeite && staffelLautAdresse !== staffelLautSeite) ||
-      quelltextVeraltet()
+    const veraltet = Boolean(
+      staffelLautAdresse && staffelLautSeite && staffelLautAdresse !== staffelLautSeite,
+    )
     /**
      * Der Zeitpunkt, ab dem gewartet wird — ohne ihn ist die Frist sofort um.
      *
