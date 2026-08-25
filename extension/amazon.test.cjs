@@ -346,6 +346,34 @@ function veraltetTest(schritte) {
   pruefe('und die Quelle nimmt dafuer asinAusAdresse()', /const ausAdresse = asinAusAdresse\(\)/.test(block))
 }
 
+/**
+ * **Eine späte Antwort des vorigen Titels gehört nicht in den neuen Zählstand.**
+ *
+ * Daniel hat den Wettlauf am 25.08.2026 durch Abwarten eingekreist: Lädt ein
+ * Titel noch — Amazons Abspiel-Knopf zeigt dabei rund zwanzig Sekunden eine
+ * Ladeanimation — und wechselt man in dieser Zeit, kommen dessen
+ * Nachlade-Antworten nach dem Wechsel an. „13 von 24" bei Clannad, wo die
+ * dreizehn zu „Darwin Jihen" gehörten. Nach dem Abwarten stimmten die 24.
+ */
+{
+  const nimmAn = (fuerAdresse, jetzt) =>
+    !(typeof fuerAdresse === 'string' && fuerAdresse !== jetzt)
+  const clannad = '/gp/video/detail/0FQH6UJINFTOTF1LP1IH1VQ7T5'
+  const darwin = '/gp/video/detail/B0FZLQTT9W'
+  pruefe('die Antwort zur jetzigen Seite zaehlt', nimmAn(clannad, clannad) === true)
+  pruefe('die verspaetete des vorigen Titels nicht', nimmAn(darwin, clannad) === false)
+  pruefe('eine Meldung ohne Adresse zaehlt weiterhin', nimmAn(undefined, clannad) === true)
+
+  const quelle = require('node:fs').readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
+  pruefe('der Empfaenger prueft die Adresse', /e\.data\.fuerAdresse !== location\.pathname/.test(quelle))
+  const leser = require('node:fs').readFileSync(require('node:path').resolve(__dirname, 'amazon-leser.js'), 'utf8')
+  pruefe(
+    'und beide Sendestellen haengen sie an',
+    (leser.match(/fuerAdresse: location\.pathname/g) ?? []).length === 2,
+    (leser.match(/fuerAdresse: location\.pathname/g) ?? []).length,
+  )
+}
+
 {
   pruefe('ASIN aus /dp/', asin('/dp/B0CQ4VL364') === 'B0CQ4VL364')
   pruefe('ASIN aus /gp/video/detail/', asin('/gp/video/detail/B07VP6VPVR?ref_=x') === 'B07VP6VPVR')

@@ -194,7 +194,25 @@
     }
 
     if (funde.length || gesamt !== null) {
-      window.postMessage({ marke: MARKE, funde, gesamt, startAdresse }, '*')
+      /*
+        **Jede Meldung sagt, zu welcher Seite sie gehoert.**
+
+        Daniel hat den Wettlauf am 25.08.2026 eingekreist: Laedt ein Titel noch
+        — erkennbar an Amazons Abspiel-Knopf, der rund zwanzig Sekunden lang
+        eine Ladeanimation zeigt — und wechselt man in dieser Zeit, kommen
+        dessen Nachlade-Antworten **nach** dem Wechsel an. Sie landeten im
+        frisch geleerten Zaehlstand des neuen Titels: "13 von 24" bei Clannad,
+        wo die dreizehn zu Darwin Jihen gehoerten. Wartet er, bis der vorige
+        Titel fertig ist, stimmt alles.
+
+         taugt dafuer nicht: Sie steht fuer den Skriptstart, nicht
+        fuer den Abruf.  wird hier gelesen, also genau dann, wenn
+        die Antwort ausgewertet wird.
+      */
+      window.postMessage(
+        { marke: MARKE, funde, gesamt, startAdresse, fuerAdresse: location.pathname },
+        '*',
+      )
     }
 
     // Die Kennung der Serie steht in der Adresse, aus der die Antwort kam. Sie
@@ -534,7 +552,10 @@
         funde.push({ nummer: d.episodeNumber, sprachen: namenAus(d.audioTracks) })
       }
       const gesamt = Number.isFinite(liste.episodeCount) ? liste.episodeCount : null
-      window.postMessage({ marke: MARKE, funde, gesamt, startAdresse, ersetzt: true, asin }, '*')
+      window.postMessage(
+        { marke: MARKE, funde, gesamt, startAdresse, ersetzt: true, asin, fuerAdresse: location.pathname },
+        '*',
+      )
       ankam = true
 
       // Die übrigen Abschnitte wie gewohnt — die Tokens stehen in der Antwort.

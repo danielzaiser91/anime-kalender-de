@@ -1591,6 +1591,30 @@ async function speicherSchreiben(werte) {
   })()
 
   window.addEventListener('message', (e) => {
+    /**
+     * **Eine späte Antwort des vorigen Titels gehört nicht in diesen Zählstand.**
+     *
+     * Daniel hat den Wettlauf am 25.08.2026 eingekreist, und zwar durch
+     * Abwarten statt durch Raten: Lädt ein Titel noch — erkennbar an Amazons
+     * Abspiel-Knopf, der rund zwanzig Sekunden lang eine Ladeanimation zeigt —
+     * und wechselt man in dieser Zeit, kommen dessen Nachlade-Antworten **nach**
+     * dem Wechsel an. Sie landeten im frisch geleerten Zählstand des neuen
+     * Titels: „13 von 24" bei Clannad, wo die dreizehn zu „Darwin Jihen"
+     * gehörten. Wartete er, bis der vorige Titel fertig war, stimmten die 24.
+     *
+     * Das erklärt auch, warum die Fehler so sprunghaft wirkten: Sie hingen
+     * daran, **wie schnell** geklickt wurde, nicht daran, welcher Titel es war.
+     *
+     * Der Mitleser hängt seit 1.7 an jede Meldung die Adresse, für die er
+     * gelesen hat. Passt sie nicht zur jetzigen, ist die Antwort überholt —
+     * und eine überholte Antwort ist schlimmer als keine.
+     */
+    if (
+      typeof e?.data?.fuerAdresse === 'string' &&
+      e.data.fuerAdresse !== location.pathname
+    ) {
+      return
+    }
     // Ein Ereignis schlägt jede Frist: Was der Mitleser meldet, kann den Stand
     // der Seite geändert haben — dann wird der Quelltext sofort neu gelesen.
     htmlNeuLesen()
