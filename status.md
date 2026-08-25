@@ -258,6 +258,48 @@ Entweder bleibt die Erweiterung dort dauerhaft im Einsatz, oder diese 640 bleibe
 dritter Weg ist bislang nicht gefunden.
 
 ### Queue
+
+### Kino-Termine und Sprachfassung — Quellenlage gemessen (25.08.2026)
+
+**Der Auftrag** (Daniel, 25.08.2026, 10:40): „kinoapi wird benötigt um termine und sprachfassung
+zu bestätigen … heute steht ein detektiv conan kinofilm im kalender, aber dort steht deutsche
+sprachfassung unbestätigt, hab in meinem lokalen kino geguckt heute um 17 uhr ist die vorstellung
+auf deutsch, später am tag die omu version."
+
+**Der Fall steht im Datensatz:** „Meitantei Conan: Highway no Datenshi", 25.08.2026,
+`platform: 'kino'`, Notiz „Kinostart bestätigt; die Sprachfassungen …". Insgesamt führt der
+Kalender fünf Kinofilme, zwei davon mit unbestätigter Fassung.
+
+| Quelle | Kinostart | Sprachfassung je Vorstellung | Rechtslage |
+|---|---|---|---|
+| **TMDB** | **ja** — bestätigt den 25.08.2026 (Typ 3, Kino) | **nein** — `iso_639_1` und `note` sind leer | Schlüssel liegt im Projekt |
+| **kinoheld.de** | ja | **ja** — `languageFlags`: `deutsch`, `OmU` | `/ajax/`, `/payment/`, `/user/` gesperrt; **kein** `Disallow: /` |
+| **kino.de** | ja | ungeprüft | `/api/` gesperrt |
+| **allekinos.de** | ? | ? | keine robots.txt, per `curl` nicht erreichbar |
+
+**Was am 25.08.2026 gemessen wurde**, jeweils an der echten Seite:
+
+- TMDB kennt den Film (1545621) und nennt für Deutschland genau **einen** Termin: 25.08.2026,
+  Typ 3 (Kino). Das deckt sich mit unserem Bestand — als **Terminbestätigung** taugt TMDB also.
+  Die Felder für die Sprache sind leer, und zwar nicht „nicht gefunden", sondern leer geliefert.
+- Der Nuxt-Payload der kinoheld-Filmseite trägt die Sprachfassung strukturiert:
+  `"languageFlags","Sprache",[…],"OmU",…,"deutsch","Deutsch"`. Das ist aber die **Filterliste**;
+  Uhrzeiten stehen im ausgelieferten HTML keine — null Treffer für `"HH:MM"` und für
+  Zeitstempel. Die Vorstellungen kommen per Nachladen.
+
+**Die eine offene Frage:** über welchen Pfad. Liegt er unter `/ajax/`, ist er gesperrt und der
+Weg endet dort. Liegt er woanders, ist er erlaubt — und liefert die Sprachfassung mit.
+
+Das kann nur ein Mensch am eigenen Browser messen. Dafür liegt
+`tools/kino-netzwerk-messen.js` bereit: einfügen, auf der Filmseite ein Kino auswählen,
+`akKino()` aufrufen. Die Tabelle zeigt jeden Abruf mit Pfad, ob er unter einem gesperrten
+Pfad liegt, und ob „OmU"/„deutsch" in der Antwort stehen.
+
+**Was unabhängig davon gebaut werden kann:** TMDB als Terminbestätigung für alle Kino-Releases.
+Der Abruf ist rechtlich sauber, der Schlüssel liegt vor, und er beantwortet die halbe Frage —
+ob der Termin stimmt. Die Sprachfassung bleibt bis zur Messung offen.
+
+
 **ann-voices ist stumm — seit 9,1 Tagen null deutsche Rollen** (24.08.2026, 23:53)
 
 Der Tageslauf ist daran rot geworden, und die Warnung tut genau, was sie soll:
