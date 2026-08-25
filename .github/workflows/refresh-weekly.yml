@@ -109,6 +109,19 @@ jobs:
           SITE_URL: ${{ vars.SITE_URL }}
         run: npm run data:fetch
 
+      # Deutsche Anime-Kinostarts bei TMDB.
+      #
+      # Wöchentlich, nicht täglich: Ein Kinostart wird Monate im Voraus
+      # angekündigt und ändert sich selten. Der Lauf schreibt Vorschläge nach
+      # data/tmdb-kino.json, keinen Kalendereintrag — die Sprachfassung liefert
+      # TMDB nicht, und ohne sie ist ein Anime-Kinotermin nur die halbe Auskunft.
+      - name: Deutsche Anime-Kinostarts bei TMDB
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+        run: npm run data:tmdb-kino
+
       - name: Fortschritt — Rohdaten holen
         continue-on-error: true
         env:

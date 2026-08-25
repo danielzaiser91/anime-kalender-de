@@ -46,6 +46,9 @@ const FRISTEN: Record<string, number> = {
   'youtube-check': 9,
   // Wöchentlich, 400 Titel je Lauf gegen 60 Tage Wiedervorlage.
   'tmdb-titles': 9,
+  // Wöchentlich. Ein Fenster von zwölf Monaten enthält in ruhigen Wochen
+  // **null** Anime-Kinostarts — das ist kein Ausfall, sondern die Branche.
+  'tmdb-kino': 9,
   // Wöchentlich, wie der Lauf, der sie füllt.
   'link-check': 9,
   /**

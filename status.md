@@ -272,10 +272,29 @@ Kalender fünf Kinofilme, zwei davon mit unbestätigter Fassung.
 
 | Quelle | Kinostart | Sprachfassung je Vorstellung | Rechtslage |
 |---|---|---|---|
-| **TMDB** | **ja** — bestätigt den 25.08.2026 (Typ 3, Kino) | **nein** — `iso_639_1` und `note` sind leer | Schlüssel liegt im Projekt |
+| **TMDB** | **ja** — 18 Termine über 6 Filme, nach Typ getrennt (Kino/Digital/Disc/TV) | **nein** — `iso_639_1` bei **17 von 18** leer | Schlüssel liegt im Projekt |
 | **kinoheld.de** | ja | **ja** — `languageFlags`: `deutsch`, `OmU` | `/ajax/`, `/payment/`, `/user/` gesperrt; **kein** `Disallow: /` |
 | **kino.de** | ja | ungeprüft | `/api/` gesperrt |
+| **KinoCheck** | nein | nein — nur Trailer und Clips | offen |
+| **MovieGlu** | ja | **nein** — `version_type` ist das Bildformat | kostenpflichtig, Doku nur UK |
+| **InsideKino** | ja, kuratiert | **nein** — 0 Treffer für OmU/OV/Fassung | keine robots.txt |
 | **allekinos.de** | ? | ? | keine robots.txt, per `curl` nicht erreichbar |
+
+**TMDB breit nachgemessen** (25.08.2026), nachdem der erste Befund auf einem einzigen Film
+beruhte: 18 deutsche Termine über sechs Anime-Kinofilme. Das Feld `iso_639_1` ist bei
+**siebzehn** davon leer; das eine gefüllte `"de"` steht an einer **TV-Ausstrahlung**
+(ProSieben MAXX), nicht an einem Kinostart. Bei **keinem** Eintrag vom Typ 3 (Kino) ist eine
+Sprache hinterlegt. Die `note` trägt stattdessen Kontext wie „25th anniversary",
+„DVD / Blu-ray / 4K Ultra HD" oder den Sendernamen.
+
+**Was TMDB dafür kann und wir noch nicht nutzen:** Termine **nach Typ getrennt** — Kino (3),
+Digital (4), Disc (5), TV (6), dazu Festivalpremieren (1). „Chihiros Reise ins Zauberland"
+führt dort sechs Termine von 2003 bis 2026. Für Disc- und Streaming-Termine wäre das eine
+Ergänzung, die keine unserer bisherigen Quellen liefert.
+
+**InsideKino** führt einen gepflegten Startplan (Stand 22.08.2026), nennt aber keine
+Sprachfassung — null Treffer für „OmU", „OV", „Fassung", „synchron" auf 108 KB. Und die Liste
+ist kuratiert: Weder „Detektiv Conan" noch „Madoka" kommen darin vor.
 
 **Was am 25.08.2026 gemessen wurde**, jeweils an der echten Seite:
 
