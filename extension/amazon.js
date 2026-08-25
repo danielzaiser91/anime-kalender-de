@@ -694,6 +694,23 @@ async function speicherSchreiben(werte) {
     if (spurenZu === htmlGelesenAm && spurenSpeicher) return spurenSpeicher
     const alle = new Set()
     const nummern = new Set()
+    /*
+      **Die Sprachen gehören zur Folge, nicht zur Staffel.**
+
+      Bis zum 25.08.2026 landete alles in `alle` — sobald **eine** Folge Deutsch
+      trug, meldete der Knopf „🇩🇪 Deutsch" für die ganze Staffel. Bei „Kill Blue"
+      hieß das: 12 Folgen behauptet, 4 vorhanden. Daniel hat es an drei Quellen
+      unabhängig gemessen (ADN 4, Netflix 4, Crunchyroll 0) und die Antwort der
+      Seite selbst dagegengehalten:
+
+          Folge 1–4    audioTracks: ["Deutsch","日本語"]
+          Folge 5–12   audioTracks: ["日本語"]
+
+      Amazon liefert es also je Folge und liefert es richtig. Der Fehler lag
+      allein im Zusammenwerfen. `jeFolge` hält es getrennt; daraus entstehen die
+      Bereiche in der Meldung.
+    */
+    const jeFolge = new Map()
     /**
      * **Gepaart über die Reihenfolge, nicht über einen Abstand.**
      *
@@ -723,8 +740,11 @@ async function speicherSchreiben(werte) {
       while (nrIndex < folgenNr.length && (folgenNr[nrIndex].index ?? 0) < von) nrIndex++
       const treffer = folgenNr[nrIndex]
       if (!treffer || (treffer.index ?? 0) >= bis) continue
-      nummern.add(Number(treffer[1]))
-      for (const name of sprachnamen(tonspuren[i][1])) alle.add(name)
+      const nr = Number(treffer[1])
+      nummern.add(nr)
+      const namen = sprachnamen(tonspuren[i][1])
+      jeFolge.set(nr, namen)
+      for (const name of namen) alle.add(name)
     }
     /**
      * Wie viele Folgen die Staffel insgesamt hat.
@@ -769,10 +789,13 @@ async function speicherSchreiben(werte) {
       for (const m of text.matchAll(/"audioTracks"\s*:\s*\[([^\]]*)\]/g)) {
         for (const name of sprachnamen(m[1])) alle.add(name)
       }
-      if (alle.size) nummern.add(1)
+      if (alle.size) {
+        nummern.add(1)
+        jeFolge.set(1, [...alle])
+      }
     }
 
-    spurenSpeicher = { sprachen: [...alle], nummern, gesamt }
+    spurenSpeicher = { sprachen: [...alle], nummern, gesamt, jeFolge }
     spurenZu = htmlGelesenAm
     return spurenSpeicher
   }
@@ -1642,7 +1665,7 @@ async function speicherSchreiben(werte) {
    * während die Abschnitte eintreffen — gleich ob Daniel sie anklickt oder
    * `amazon-leser.js` sie nachholt.
    */
-  const leererStand = () => ({ sprachen: new Set(), nummern: new Set(), gesamt: null })
+  const leererStand = () => ({ sprachen: new Set(), nummern: new Set(), gesamt: null, jeFolge: new Map() })
   let gesehen = leererStand()
 
   /**
@@ -2050,9 +2073,15 @@ async function speicherSchreiben(werte) {
     */
     const passt = quelltextPasst()
     const istVeraltet = quelltextVeraltet()
-    const jetzt = passt ? spuren() : { sprachen: new Set(), nummern: new Set(), gesamt: null }
+    const jetzt = passt ? spuren() : { sprachen: new Set(), nummern: new Set(), gesamt: null, jeFolge: new Map() }
     for (const s of jetzt.sprachen) gesehen.sprachen.add(s)
     for (const n of jetzt.nummern) gesehen.nummern.add(n)
+    /*
+      Die Sprachen je Folge sammeln sich über die Abschnitte hinweg — genauso
+      wie die Nummern darüber. Ein später geholter Abschnitt bringt die Folgen
+      25 bis 48 mit; deren Sprachen gehören zu ihnen, nicht zur Staffel.
+    */
+    for (const [nr, namen] of jetzt.jeFolge) gesehen.jeFolge.set(nr, namen)
     /**
      * Eine geänderte Folgenzahl ist selbst ein Staffelwechsel.
      *
@@ -2132,6 +2161,8 @@ async function speicherSchreiben(werte) {
       quelltextVeraltet: istVeraltet,
       // Steht hier false, gehoert der Quelltext zu einem anderen Titel.
       kennungBekannt: kennungImQuelltextBekannt(),
+      // Welche Folge welche Tonspuren traegt — daraus entstehen die Bereiche.
+      jeFolge: Object.fromEntries(gesehen.jeFolge),
       frischeStaffel,
       ausSeite: asinAusSeite(),
       ausAdresse: asinAusAdresse(),
@@ -2814,7 +2845,40 @@ async function speicherSchreiben(werte) {
       return
     }
     knopf.disabled = false
-    knopf.textContent = `${deutsch ? '🇩🇪 Deutsch' : '✕ kein Deutsch'} · ${umfang}${zugang}${kanalHinweis}${woher} · melden`
+    /**
+     * **Was gemischt ist, wird als Bereich benannt — nicht als „Deutsch".**
+     *
+     * „Kill Blue" trägt Deutsch in Folge 1 bis 4 und Japanisch in 5 bis 12.
+     * „🇩🇪 Deutsch · 12 Folgen" behauptet dort dreimal so viel, wie da ist
+     * (Daniel, 25.08.2026, an drei Quellen nachgemessen). Der Knopf schreibt
+     * deshalb, welche Folgen es wirklich sind.
+     */
+    const deutschBereiche = () => {
+      const karte = gesehen.jeFolge
+      if (!karte || !karte.size) return null
+      const hat = (n) => (n ?? []).some((s) => /deutsch|german/i.test(s))
+      const nummern = [...karte.entries()].filter(([, n]) => hat(n)).map(([nr]) => nr).sort((a, b) => a - b)
+      if (!nummern.length || nummern.length === karte.size) return null
+      const spannen = []
+      let von = nummern[0]
+      let bis = nummern[0]
+      for (const nr of nummern.slice(1)) {
+        if (nr === bis + 1) bis = nr
+        else {
+          spannen.push([von, bis])
+          von = bis = nr
+        }
+      }
+      spannen.push([von, bis])
+      return spannen.map(([a, b]) => (a === b ? `${a}` : `${a}–${b}`)).join(', ')
+    }
+    const bereiche = deutschBereiche()
+    const sprachStand = bereiche
+      ? `🇩🇪 Folge ${bereiche}`
+      : deutsch
+        ? '🇩🇪 Deutsch'
+        : '✕ kein Deutsch'
+    knopf.textContent = `${sprachStand} · ${umfang}${zugang}${kanalHinweis}${woher} · melden`
     knopf.dataset.teilweise = String(!vollstaendig)
   }
 
@@ -3260,15 +3324,50 @@ async function speicherSchreiben(werte) {
       return
     }
     knopf.textContent = 'sende …'
+
+    /**
+     * **Trägt jede Folge dieselben Sprachen — oder ist die Staffel gemischt?**
+     *
+     * Bei „Kill Blue" (`B0GTN94C9M`) trägt Folge 1 bis 4 `["Deutsch","日本語"]`
+     * und Folge 5 bis 12 nur `["日本語"]`. Bis zum 25.08.2026 wurde daraus eine
+     * Meldung „🇩🇪 Deutsch · 12 Folgen" — zwölf behauptet, vier vorhanden.
+     * Daniel hat es an drei Quellen unabhängig gemessen (ADN 4, Netflix 4,
+     * Crunchyroll 0); Amazon selbst liefert es je Folge und liefert es richtig.
+     *
+     * Ist die Staffel **einheitlich**, bleibt es bei einer Meldung wie bisher —
+     * sonst schwölle der Briefkasten um das Zwölffache an, ohne mehr zu sagen.
+     * Nur bei **Mischung** geht eine Meldung je Folge raus, jede mit ihrer
+     * eigenen `folge_nr`. Aus denen baut `fetch-pruefungen.ts` die
+     * `dubRanges`; das Feld gibt es dort seit jeher, es kam nur nie etwas an.
+     */
+    const meldeTeile = () => {
+      const karte = gesehen.jeFolge
+      if (!karte || karte.size < 2) return [null]
+      const hatDeutsch = (namen) => (namen ?? []).some((s) => /deutsch|german/i.test(s))
+      const werte = [...karte.values()]
+      const gemischt = werte.some((n) => hatDeutsch(n) !== hatDeutsch(werte[0]))
+      if (!gemischt) return [null]
+      return [...karte.entries()]
+        .sort((a, b) => a[0] - b[0])
+        .map(([nr, namen]) => ({ folgeNr: nr, sprachen: namen, deutsch: hatDeutsch(namen) }))
+    }
+
+    const teile = meldeTeile()
+    if (teile.length > 1) knopf.textContent = `sende ${teile.length} Folgen …`
+
     try {
-      const antwort = await mitFrist(
+      let antwort
+      for (const teil of teile) {
+      antwort = await mitFrist(
         fetch(WORKER, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
         body: JSON.stringify({
           plattform: 'primevideo',
           url: eintrag.url,
-          sprachen,
+          sprachen: teil ? teil.sprachen : sprachen,
+          /* Ohne Mischung bleibt das Feld leer — dann gilt der Befund der Staffel. */
+          folge_nr: teil ? teil.folgeNr : undefined,
           /**
            * `dub` / `kein_dub` — nicht `ja` / `nein`.
            *
@@ -3278,7 +3377,7 @@ async function speicherSchreiben(werte) {
            * `['dub', 'kein_dub', 'weg']`. Sie waren nachzulesen, nicht zu
            * erraten.
            */
-          befund: nichtAbrufbar ? 'weg' : deutsch ? 'dub' : 'kein_dub',
+          befund: nichtAbrufbar ? 'weg' : (teil ? teil.deutsch : deutsch) ? 'dub' : 'kein_dub',
           /**
            * Kennen wir den Titel nicht, wird er von der Seite gelesen.
            *
@@ -3335,7 +3434,7 @@ async function speicherSchreiben(werte) {
            * wird die **geladene** Zahl, nicht die behauptete Gesamtzahl: Nur
            * über die reicht der Befund.
            */
-          folgen: geladen,
+          folgen: teil ? 1 : geladen,
           /**
            * Zugangsart und Abos als eigene Felder, nicht nur als Fließtext.
            *
@@ -3393,6 +3492,8 @@ async function speicherSchreiben(werte) {
         }),
         'Der Anime-Kalender',
       )
+      if (!antwort.ok) break
+      }
       knopf.textContent = 'trage ein …'
       /**
        * Kein Zwischenstand mehr — nur Fehler werden gemeldet.
