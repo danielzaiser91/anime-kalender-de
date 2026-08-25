@@ -86,7 +86,11 @@ const ECHTE_LISTE = TEST_LISTE
  * `createElement`/`appendChild`, und eine Nachbildung davon ist schneller
  * gelesen als eine Abhängigkeit erklärt.
  */
-function machDom() {
+/* Welcher Träger zu welchem Sandkasten gehört — für Zusicherungen, die selbst senden. */
+const traegerListe = new Map()
+const traegerVon = (sandkasten) => traegerListe.get(sandkasten) ?? {}
+
+function machDom(traeger = { hoerer: null, fenster: null, adresse: null }) {
   const alle = []
   function element(tag) {
     const el = {
@@ -163,7 +167,71 @@ function machDom() {
     createElement(tag) {
       return element(tag)
     },
-    documentElement: { innerHTML: '<html></html>' },
+    /**
+     * **Ein gesetzter Quelltext löst die Widget-Antwort aus, die er beschreibt.**
+     *
+     * Seit 2.3 füttert der Seiten-Quelltext den Zählstand nicht mehr: Er führt
+     * bei einem Kanal-Titel für jede Folge dieselben Sprachen und machte die
+     * korrekte Aufteilung im nächsten Takt wieder platt (Meldung id1347,
+     * 25.08.2026 — zwölf Folgen pauschal `dub`, obwohl vier deutsch sind).
+     *
+     * Eine Zusicherung, die `innerHTML` setzt und daraus Folgen erwartet, prüft
+     * damit einen Weg, den es nicht mehr gibt. Genau deshalb standen alle
+     * Zusicherungen grün, während Daniels echter Klick falsch meldete.
+     *
+     * Statt jede einzelne Zusicherung umzuschreiben, übersetzt die Attrappe:
+     * Der Test beschreibt weiter die Seite, die Erweiterung bekommt daraus die
+     * Antwort, die Amazon in Wirklichkeit schickt.
+     */
+    documentElement: {
+      _html: '<html></html>',
+      get innerHTML() {
+        return this._html
+      },
+      set innerHTML(wert) {
+        this._html = wert
+        const spuren = [...wert.matchAll(/"audioTracks"\s*:\s*\[([^\]]*)\]/g)]
+        const nummern = [...wert.matchAll(/"episodeNumber"\s*:\s*(\d+)/g)]
+        if (!spuren.length || !nummern.length) return
+        const funde = []
+        let i = 0
+        for (const s of spuren) {
+          while (i < nummern.length && (nummern[i].index ?? 0) < (s.index ?? 0)) i++
+          if (i >= nummern.length) break
+          const namen = [...s[1].matchAll(/"displayName"\s*:\s*"([^"]+)"/g)].map((m) => m[1])
+          funde.push({
+            nummer: Number(nummern[i][1]),
+            sprachen: namen.length
+              ? namen
+              : s[1]
+                  .split(',')
+                  .map((x) => x.trim().replace(/^"|"$/g, ''))
+                  .filter((x) => x && !x.includes(':') && !x.includes('{')),
+          })
+        }
+        const gesamt = Number(/"episodeCount"\s*:\s*(\d+)/.exec(wert)?.[1]) || null
+        const asin = /titleID\\*"\s*:\s*\\*"([A-Z0-9]{10,32})/.exec(wert)?.[1] ?? null
+        traeger.hoerer?.({
+          source: traeger.fenster,
+          data: {
+            marke: 'ak-amazon-folgen',
+            /* Die Adresse kommt vom Traeger: window.location gibt es hier nicht. */
+            fuerAdresse: traeger.adresse?.pathname,
+            gesamt,
+            /*
+              Kein `ersetzt`-Flag: Seit 2.3 entscheidet die Adresse, ob ein Stand
+              alt ist. Das Flag setzt zusaetzlich `frischeStaffel`, und das
+              blockiert `quelltextPasst()`, solange die Kennung im Quelltext eine
+              andere ist als die der Adresse — bei einer Sammelseite ist sie das
+              immer.
+            */
+            ersetzt: false,
+            asin: null,
+            funde,
+          },
+        })
+      },
+    },
   }
 }
 
@@ -181,7 +249,9 @@ function takten(takte, durchlaeufe = 5) {
 }
 
 function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE) {
-  const dom = machDom()
+
+  const traeger = { hoerer: null, fenster: null, adresse: null }
+  const dom = machDom(traeger)
   const angehaengt = []
   dom.body.appendChild = (kind) => {
     angehaengt.push(kind)
@@ -216,7 +286,16 @@ function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE) {
       `/dp/<ASIN>` starten.
     */
     location: { pathname: seitenAsin.startsWith('/') ? seitenAsin : `/dp/${seitenAsin}`, search: '' },
-    document: { ...dom, body: dom.body, title: 'Testserie ansehen | Prime Video' },
+    /*
+      **Der Spread kopiert Werte, keine Zugriffsmethoden.**
+
+      `documentElement` traegt seit 2.3 einen Setter, der aus dem gesetzten
+      Quelltext die Widget-Antwort ableitet. Ueber `{ ...dom }` haette ihn der
+      Spread in einen gewoehnlichen Wert verwandelt — der Test setzt dann eine
+      Eigenschaft, und es passiert nichts. Deshalb wird er danach ausdruecklich
+      wieder gesetzt.
+    */
+    document: { ...dom, body: dom.body, documentElement: dom.documentElement, title: 'Testserie ansehen | Prime Video' },
     chrome: {
       /**
        * Die Kennung der Erweiterung — daran erkennt der Melder, ob seine
@@ -243,7 +322,11 @@ function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE) {
         sync: { get: async () => ({ token: 'test' }) },
       },
     },
-    window: { addEventListener() {} },
+    window: {
+      addEventListener(art, fn) {
+        if (art === 'message') traeger.hoerer = fn
+      },
+    },
     // Die Erweiterung misst seit dem 25.08.2026 ihre eigene Taktdauer. Ohne
     // performance.now() im Sandkasten wirft sie beim ersten Takt.
     performance: { now: () => Date.now() },
@@ -294,6 +377,9 @@ function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE) {
   sandkasten.globalThis = sandkasten
   vm.createContext(sandkasten)
   vm.runInContext(readFileSync(__dirname + '/amazon.js', 'utf8'), sandkasten)
+  traeger.fenster = sandkasten.window
+  traeger.adresse = sandkasten.location
+  traegerListe.set(sandkasten, traeger)
   return { angehaengt, gesetzt, sandkasten, takte, dom, gemeldet }
 }
 
@@ -1089,19 +1175,31 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
   const { angehaengt, sandkasten, takte } = starte(listenAsin)
 
   /*
-    Der Quelltext eines **fremden** Titels: Er nennt die Kennung der Adresse
-    nirgends. Genau daran ist er erkennbar — an sechs echten Seitenabrufen
-    gemessen steht die eigene Kennung 11- bis 119-mal im eigenen Quelltext
-    und null-mal im fremden.
+    **Eine Antwort, die zu einer anderen Adresse gehört, wird verworfen.**
+
+    Bis 2.3 wurde das am Quelltext erkannt: Nennt er die Kennung der Adresse
+    nirgends, gehört er zu einem anderen Titel (an sechs echten Seitenabrufen
+    gemessen — eigene Kennung 11- bis 119-mal, fremde null-mal).
+
+    Seit 2.3 braucht es diesen Umweg nicht mehr. Jede Antwort trägt die Adresse
+    mit, für die sie gelesen wurde; der Empfänger vergleicht sie mit der
+    jetzigen. Das ist derselbe Fall — „My Isekai Life" bekam die Sprachen von
+    „Ein Stern, heller als die Sonne", vier Sekunden zuvor gemeldet —, nur auf
+    dem Weg, den es wirklich gibt.
   */
-  sandkasten.document.documentElement.innerHTML =
-    '<link rel="canonical" href="https://www.amazon.de/gp/video/detail/B0FMNQMXXG"/>' +
-    '{"titleID":"B0FMNQMXXG"}' +
-    Array.from(
-      { length: 12 },
-      (_, i) => `"audioTracks":["Deutsch","English","日本語"],"episodeNumber":${i + 1},`,
-    ).join('') +
-    '"episodeCount":12,"benefitId":"Prime"'
+  traegerVon(sandkasten).hoerer?.({
+    source: sandkasten.window,
+    data: {
+      marke: 'ak-amazon-folgen',
+      /* Die Antwort des vorigen Titels, verspätet eingetroffen. */
+      fuerAdresse: '/gp/video/detail/B0FMNQMXXG',
+      gesamt: 12,
+      funde: Array.from({ length: 12 }, (_, i) => ({
+        nummer: i + 1,
+        sprachen: ['Deutsch', 'English', '日本語'],
+      })),
+    },
+  })
   takten(takte)
 
   const knopf = angehaengt.find((e) => e.className.includes('ak-amazon-knopf'))

@@ -2124,14 +2124,39 @@ async function speicherSchreiben(werte) {
     const passt = quelltextPasst()
     const istVeraltet = quelltextVeraltet()
     const jetzt = passt ? spuren() : { sprachen: new Set(), nummern: new Set(), gesamt: null, jeFolge: new Map() }
-    for (const s of jetzt.sprachen) gesehen.sprachen.add(s)
-    for (const n of jetzt.nummern) gesehen.nummern.add(n)
     /*
-      Die Sprachen je Folge sammeln sich über die Abschnitte hinweg — genauso
-      wie die Nummern darüber. Ein später geholter Abschnitt bringt die Folgen
-      25 bis 48 mit; deren Sprachen gehören zu ihnen, nicht zur Staffel.
+      **Der Quelltext füttert den Zählstand nicht mehr — und das ist der Kern.**
+
+      Daniel am 25.08.2026, nachdem der Knopf bei „Kill Blue" erst „Folge 1–4"
+      und Sekunden später „12 Folgen" zeigte: „ich hab gesagt raus mit alter
+      rein mit neuer."
+
+      Er hat recht, und die Meldung id1347 belegt es: Sie kam pauschal an —
+      `folge_nr: null`, zwölf Folgen, `dub`. Die Widget-Antwort hatte die
+      Aufteilung korrekt geliefert (1–4 deutsch, 5–12 nicht); die
+      Quelltext-Fütterung hier hat sie im nächsten Takt wieder plattgemacht,
+      weil der Quelltext bei einem Kanal-Titel für **jede** Folge dieselben
+      Sprachen führt.
+
+      Der Zählstand kommt deshalb ausschließlich aus den Widget-Antworten:
+      gültiges JSON, je Folge, mit der Adresse, zu der es gehört. Der Quelltext
+      wird für die Sprachen gar nicht mehr gelesen.
+
+      Auskommentiert statt gelöscht, bis alle Fälle belegt sind — der Film-Weg
+      läuft über den Hydration-Block, und für Serien holt der Leser die Liste
+      beim Seitenaufruf selbst.
+
+      for (const s of jetzt.sprachen) gesehen.sprachen.add(s)
+      for (const n of jetzt.nummern) gesehen.nummern.add(n)
+      for (const [nr, namen] of jetzt.jeFolge) gesehen.jeFolge.set(nr, namen)
     */
-    for (const [nr, namen] of jetzt.jeFolge) gesehen.jeFolge.set(nr, namen)
+
+    /*
+      Die Gesamtzahl bleibt: Sie sagt, worüber ein Befund reicht, und steht im
+      Seitengerüst noch, bevor die erste Antwort da ist. Sprachen macht sie
+      keine.
+    */
+    if (!gesehen.gesamt && Number.isFinite(jetzt.gesamt)) gesehen.gesamt = jetzt.gesamt
     /**
      * Eine geänderte Folgenzahl ist selbst ein Staffelwechsel.
      *
@@ -3121,9 +3146,23 @@ async function speicherSchreiben(werte) {
       url: `https://www.amazon.de/dp/${id}`,
       unbekannt: true,
     }
-    // Der Zählstand gehört zur Staffel, nicht zur Sitzung. Ohne das Leeren
-    // trüge Staffel 2 die Folgen von Staffel 1 mit.
-    gesehen = leererStand()
+    /*
+      **Das Leeren hier ist weg — es machte kaputt, was es schützen sollte.**
+
+      Der Zählstand gehört zur Staffel, nicht zur Sitzung. Bis 2.3 leerte ihn
+      `beiStaffelwechsel()` bei jedem erkannten Kennungswechsel, und das lief
+      im Takt: **nach** dem Empfang der Widget-Antwort. Bei einer Sammelseite
+      gehen Adress-Kennung und `titleID` im Quelltext dauerhaft auseinander —
+      der Wechsel galt damit als erkannt, sobald die Antwort da war, und der
+      Stand war eine Zehntelsekunde später wieder leer. Am Knopf stand
+      „Tonspuren noch nicht geladen", obwohl zwölf Folgen angekommen waren.
+
+      Seit 2.3 hängt der Stand an der Adresse (siehe `leererStand()`), und der
+      Empfänger ersetzt ihn, wenn eine Antwort für eine andere kommt. Ein
+      zweiter Ort, der leert, kann diese Regel nur noch brechen.
+
+      gesehen = leererStand()
+    */
     letzteZahl = -1
     gemeldeteStaffel = null
     letzterStand = ''

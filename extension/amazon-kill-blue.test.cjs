@@ -53,8 +53,18 @@ function killBlueQuelltext() {
     '"episodeCount":12,',
   ]
   for (let n = 1; n <= FOLGEN; n++) {
-    const spuren = n <= DEUTSCH_BIS ? '"Deutsch","日本語"' : '"日本語"'
-    teile.push(`"audioTracks":[${spuren}],`)
+    /*
+      **Im Quelltext trägt jede Folge Deutsch — auch die acht ohne.**
+
+      So sieht die Seite bei einem Kanal-Titel wirklich aus: Amazon wiederholt
+      dort die Sprachen des Kanals je Folge. Die Wahrheit steht allein in der
+      Widget-Antwort, die `starte()` unten einspeist (1–4 deutsch, 5–12 nicht).
+
+      Damit prüft diese Datei die Regel, um die es geht: Der Quelltext darf den
+      Zählstand nicht anfassen. Führte er ihn, stünden hier zwölf deutsche
+      Folgen — und der Knopf verspräche dreimal so viel, wie da ist.
+    */
+    teile.push('"audioTracks":["Deutsch","日本語"],')
     /* Der Aktionsblock zwischen Tonspur und Nummer — im Original rund 33.000 Zeichen. */
     teile.push(`"cardOptions":[${'{"benefitId":"animedigitalde"},'.repeat(40)}{"benefitId":"crunchyrollde"}],`)
     teile.push(`"enhancedSubtitles":[{"text":"Deutsch"}],"subtitles":["Deutsch"],`)
@@ -167,7 +177,38 @@ function starte() {
   sandkasten.window.document = sandkasten.document
 
   vm.runInNewContext(readFileSync('extension/amazon.js', 'utf8'), sandkasten, { filename: 'amazon.js' })
-  return { angehaengt, sandkasten, takte, gemeldet, uhr }
+
+  /**
+   * **So kommen die Folgen wirklich an: als Widget-Antwort, nicht als Quelltext.**
+   *
+   * Seit 2.3 füttert der Seiten-Quelltext den Zählstand nicht mehr — er führt
+   * bei einem Kanal-Titel für jede Folge dieselben Sprachen und machte die
+   * korrekte Aufteilung im nächsten Takt wieder platt (Meldung id1347,
+   * 25.08.2026: zwölf Folgen pauschal `dub`).
+   *
+   * Die Nutzlast ist Zeichen für Zeichen die, die `amazon-leser.js` aus
+   * `getDetailWidgets` baut.
+   */
+  const antwortSenden = () =>
+    sandkasten.__nachrichtenHoerer?.({
+      source: sandkasten.window,
+      data: {
+        marke: 'ak-amazon-folgen',
+        fuerAdresse: sandkasten.location.pathname,
+        gesamt: FOLGEN,
+        ersetzt: true,
+        asin: 'B0GTN94C9M',
+        funde: Array.from({ length: FOLGEN }, (_, i) => ({
+          nummer: i + 1,
+          sprachen: i + 1 <= DEUTSCH_BIS ? ['Deutsch', '日本語'] : ['日本語'],
+          titel: `Folge ${i + 1}`,
+          zugaenge: ['animedigitalde'],
+        })),
+      },
+    })
+  antwortSenden()
+
+  return { angehaengt, sandkasten, takte, gemeldet, uhr, antwortSenden }
 }
 
 function takten(takte, uhr, wie_oft = 14) {
