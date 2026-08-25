@@ -305,7 +305,7 @@
         die Antwort ausgewertet wird.
       */
       window.postMessage(
-        { marke: MARKE, funde, gesamt, startAdresse, fuerAdresse: location.pathname },
+        { marke: MARKE, funde, gesamt, startAdresse, fuerAdresse: location.pathname + location.search },
         '*',
       )
     }
@@ -660,7 +660,7 @@
       }
       const gesamt = Number.isFinite(liste.episodeCount) ? liste.episodeCount : null
       window.postMessage(
-        { marke: MARKE, funde, gesamt, startAdresse, ersetzt: true, asin, fuerAdresse: location.pathname },
+        { marke: MARKE, funde, gesamt, startAdresse, ersetzt: true, asin, fuerAdresse: location.pathname + location.search },
         '*',
       )
       ankam = true
@@ -816,14 +816,17 @@
             gesamt: 1,
             seite: film,
             startAdresse,
-            fuerAdresse: location.pathname,
+            fuerAdresse: location.pathname + location.search,
           },
           '*',
         )
       } else if (film) {
-        /* Bei einer Serie trägt der Block Titel und Zugänge — die Folgen kommen per Abruf. */
+        /*
+          Bei einer Serie trägt der Block Titel, Zugänge und die Seiten-Kennung —
+          die Folgen kommen per Abruf.
+        */
         window.postMessage(
-          { marke: MARKE, funde: [], gesamt: null, seite: film, startAdresse, fuerAdresse: location.pathname },
+          { marke: MARKE, funde: [], gesamt: null, seite: film, startAdresse, fuerAdresse: location.pathname + location.search },
           '*',
         )
       }

@@ -466,6 +466,26 @@ async function speicherSchreiben(werte) {
   let taktSumme = 0
   let taktMax = 0
   let takte = 0
+  /**
+   * **Die Kennung, die der Mitleser aus dem JSON gemeldet hat.**
+   *
+   * Daniel am 25.08.2026: „falsche asin darf nie passieren, das ist wieder eine
+   * altlast von geparsedtem code, die asin steht auch in hydrated und metadata
+   * drin."
+   *
+   * Er hat recht, und die Messung zeigt zugleich, warum sie die Adresse **nicht**
+   * ersetzt: `pageTitleId` ist eine andere Kennung als die in der Adresse.
+   *
+   *     Kill Blue    Adresse B0GTN94C9M    pageTitleId B0GVSG9NN1
+   *     Avatar Aang  Adresse B0H6R4L3Y8    pageTitleId B0H6QYBZFS
+   *
+   * Für die Zuordnung zur Prüfliste zählt deshalb weiterhin die Adresse. Die
+   * gemeldete Kennung ist die **zweite** Angabe — sie gehört in die Notiz, und
+   * sie kommt aus gültigem JSON statt aus einem Muster über 2,2 Millionen
+   * Zeichen, das nach einem Wechsel den vorigen Titel nennt.
+   */
+  let gemeldeteSeitenKennung = null
+
   let asinZwischenspeicher = null
   let asinZu = -1
   /**
@@ -487,6 +507,8 @@ async function speicherSchreiben(werte) {
    * der sich nicht geändert hat, kann sich die Kennung darin nicht ändern.
    */
   function asinAusSeite() {
+    /* Aus dem JSON gemeldet schlägt aus dem Quelltext gelesen. */
+    if (gemeldeteSeitenKennung) return gemeldeteSeitenKennung
     const html = seitenHtml()
     if (typeof html !== 'string') return null
     if (asinZu === htmlGelesenAm) return asinZwischenspeicher
@@ -625,8 +647,27 @@ async function speicherSchreiben(werte) {
    * Die Adresse bleibt als Rückfallebene — sie stimmt, solange niemand die
    * Staffel gewechselt hat, und sie ist da, bevor der Quelltext steht.
    */
+  /**
+   * **Die Adresse zuerst — sie wandert mit, der Quelltext nicht.**
+   *
+   * Bis 2.3.2 galt die Kennung aus dem Quelltext als die bessere. Das war die
+   * Reihenfolge aus der Zeit, in der der Quelltext die einzige Quelle war; seit
+   * dem Umbau auf die Widget-Antworten ist sie schlicht falsch herum.
+   *
+   * Sichtbar wurde es an zwei Meldungen vom 25.08.2026, 20:20 Uhr: Für
+   * „PAC-MAN und die Geisterabenteuer" — beide Staffeln — stand in der Notiz
+   * „Amazon-Seite B0FFRD3ZRL". Das ist „New PANTY & STOCKING", der Titel
+   * achtzehn Sekunden davor. Die **Sprachen** stimmten (26 Folgen, alle nur
+   * Deutsch, an der Seite nachgemessen) — allein die Kennung stammte vom
+   * vorigen Titel, und damit war die Meldung nicht mehr sauber zuzuordnen.
+   *
+   * Umgekehrt gibt es keinen Fall, in dem die Adresse falscher wäre als der
+   * Quelltext: Sie ist da, bevor irgendetwas geladen ist, und sie ist das
+   * Einzige, was Amazon beim Wechsel zuverlässig austauscht (CLAUDE.md,
+   * „Der Quelltext veraltet beim Staffelwechsel").
+   */
   function asin() {
-    return asinAusSeite() ?? asinAusAdresse()
+    return asinAusAdresse() ?? asinAusSeite()
   }
 
   /**
@@ -1823,7 +1864,7 @@ async function speicherSchreiben(werte) {
      */
     if (
       typeof e?.data?.fuerAdresse === 'string' &&
-      e.data.fuerAdresse !== location.pathname
+      e.data.fuerAdresse !== location.pathname + location.search
     ) {
       return
     }
@@ -1863,10 +1904,12 @@ async function speicherSchreiben(werte) {
       Abruf und die nachlaufenden Abschnitte, und braucht keinen Sonderfall.
     */
     if (e?.data?.marke === 'ak-amazon-folgen') {
-      const jetzigeAdresse = e.data.fuerAdresse ?? location.pathname
+      const jetzigeAdresse = e.data.fuerAdresse ?? location.pathname + location.search
       if (gesehen.fuerAdresse !== jetzigeAdresse) {
         gesehen = leererStand()
         gesehen.fuerAdresse = jetzigeAdresse
+        /* Sie gehört zur alten Adresse — mit ihr wandert sie weg. */
+        gemeldeteSeitenKennung = null
         letzteZahl = -1
         gemeldeteStaffel = null
         letzterStand = ''
@@ -1880,6 +1923,8 @@ async function speicherSchreiben(werte) {
     if (Number.isFinite(e.data.gesamt)) gesehen.gesamt = e.data.gesamt
     // Der Leser sah die Adresse noch mit dem Verweis-Parameter.
     if (typeof e.data.startAdresse === 'string') startAdresse = e.data.startAdresse
+    /* Die Seiten-Kennung aus dem Hydration-Block, falls der Mitleser sie gelesen hat. */
+    if (e.data.seite?.kennung) gemeldeteSeitenKennung = e.data.seite.kennung
     for (const f of e.data.funde ?? []) {
       // Ein Fund ohne Nummer stammt aus der Rückfallebene des Mitlesers: seine
       // Sprache zählt, als **Folge** zählt er nicht. Sonst stünde am Knopf
@@ -2193,19 +2238,36 @@ async function speicherSchreiben(werte) {
     if (lautSeite && (!gesehen.gesamt || (lautSeite !== gesehen.gesamt && !quelltextPasst()))) {
       gesehen.gesamt = lautSeite
     }
-    if (jetzt.gesamt && jetzt.gesamt !== gesehen.gesamt) {
-      if (gesehen.gesamt) {
-        /**
-         * Nur ein **Wechsel** löst die Beruhigungsfrist aus, nicht das erste
-         * Setzen. Beim Seitenaufbau ist die Zahl vorher schlicht unbekannt —
-         * da gibt es keine alte, die noch dastehen könnte.
-         */
-        gesamtGeaendertAm = Date.now()
+    /*
+      **Der letzte Ort, an dem der Quelltext den Zählstand anfasste.**
+
+      Wich die Folgenzahl im Quelltext von der bekannten ab, galt das als
+      Staffelwechsel, und `sprachen` und `nummern` wurden mit den
+      **Quelltext**-Werten überschrieben. Nach dem Umbau auf die Widget-Antworten
+      ist das genau verkehrt herum: Der Quelltext ist die veraltete Quelle.
+
+      Gemessen am 25.08.2026 an einem Staffelwechsel, bei dem nur der Parameter
+      wandert: Der Empfänger trug korrekt fünf Folgen ein, und eine Zeile später
+      standen wieder zwölf da — die des Quelltexts, der noch zur vorigen Staffel
+      gehörte.
+
+      Ein Wechsel wird jetzt an der Adresse erkannt, und die steht im Empfänger.
+      Bleibt allein die Frist, die den Knopf nach einer geänderten Zahl kurz
+      ruhig hält.
+
         gesehen.sprachen = new Set(jetzt.sprachen)
         gesehen.nummern = new Set(jetzt.nummern)
+    */
+    if (jetzt.gesamt && jetzt.gesamt !== gesehen.gesamt) {
+      if (gesehen.gesamt) {
+        gesamtGeaendertAm = Date.now()
         gemeldeteStaffel = null
       }
-      gesehen.gesamt = jetzt.gesamt
+      /*
+        Die Gesamtzahl aus dem Quelltext gilt nur, solange keine Antwort da ist.
+        Sonst gewinnt die Antwort — sie meint die Folgenliste, um die es geht.
+      */
+      if (!gesehen.fuerAdresse) gesehen.gesamt = jetzt.gesamt
     }
 
     /**
@@ -2818,7 +2880,20 @@ async function speicherSchreiben(werte) {
      * wandert beim Dropdown-Wechsel mit, anders als der Quelltext. Solange das
      * läuft, wartet der Knopf; kommt nichts, bleibt das Neuladen als Ausweg.
      */
-    if (veraltet && frischeStaffel !== asinAusAdresse()) {
+    /*
+      **Gewartet wird auf die Antwort, nicht auf einen frischen Quelltext.**
+
+      Bis 2.3.2 stand hier: Nennt die Adresse eine andere Staffel als der
+      Quelltext, warte auf einen gezielten Abruf mit genau dieser Kennung. Beide
+      Bedingungen kommen aus dem Quelltext, und der wird für die Folgen gar
+      nicht mehr gelesen — bei „Golden Kamuy" Staffel 3 hing der Knopf deshalb
+      dauerhaft auf „Staffel wird geladen …" (Daniel, 25.08.2026).
+
+      Die Frage ist einfacher geworden: Liegt für die jetzige Adresse schon eine
+      Antwort vor? Wenn nein, wird gewartet; kommt keine, bleibt das Neuladen.
+    */
+    const nochKeineAntwort = gesehen.fuerAdresse !== location.pathname + location.search
+    if (nochKeineAntwort && veraltet) {
       const wartetAufStaffel = Date.now() - widerspruchSeit < WIDERSPRUCH_MS
       knopf.disabled = wartetAufStaffel
       knopf.dataset.neuLaden = String(!wartetAufStaffel)

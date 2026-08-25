@@ -399,3 +399,90 @@ function ergebnis() {
     Object.keys(nachher.jeFolge ?? {}).length,
   )
 }
+
+/**
+ * **Ein Staffelwechsel wandert oft nur im Parameter — und zählt trotzdem.**
+ *
+ * Daniel am 25.08.2026 an „Golden Kamuy" Staffel 3, mit Bild: Der Knopf blieb
+ * auf „Staffel wird geladen …" stehen.
+ *
+ * `fuerAdresse` trug bis dahin nur `location.pathname`. Amazon hängt die
+ * gewählte Staffel aber als `?ref_=…_sN` an, der Pfad bleibt gleich. Für den
+ * Empfänger sah der alte Stand damit weiter gültig aus, während der Wächter
+ * davor die Staffelnummern im Quelltext verglich und den Knopf sperrte —
+ * beides Reste des Weges, den es seit 2.3 nicht mehr gibt.
+ */
+{
+  const { angehaengt, sandkasten, takte, uhr } = starte()
+  takten(takte, uhr)
+  const k = angehaengt.find((e) => (e.className || '').includes('ak-amazon-knopf'))
+  pruefe('Staffel 1 steht mit 12 Folgen', JSON.parse(k?.dataset?.diag ?? '{}').folgen === 12)
+
+  /* Der Wechsel: gleicher Pfad, andere Staffel im Parameter. */
+  sandkasten.location.search = '?ref_=atv_dp_season_select_s3'
+  sandkasten.__nachrichtenHoerer?.({
+    source: sandkasten.window,
+    data: {
+      marke: 'ak-amazon-folgen',
+      fuerAdresse: sandkasten.location.pathname + sandkasten.location.search,
+      gesamt: 5,
+      funde: Array.from({ length: 5 }, (_, i) => ({ nummer: i + 1, sprachen: ['Deutsch'] })),
+    },
+  })
+  takten(takte, uhr, 2)
+
+  const d = JSON.parse(k?.dataset?.diag ?? '{}')
+  pruefe('nach dem Staffelwechsel stehen 5 Folgen, nicht 17', d.folgen === 5, d.folgen)
+  pruefe(
+    'und der Knopf hängt nicht auf „Staffel wird geladen"',
+    !/wird geladen/.test(k?.textContent ?? ''),
+    k?.textContent,
+  )
+}
+
+/**
+ * **Die Kennung der Meldung kommt aus der Adresse, nie aus dem Quelltext.**
+ *
+ * Daniel am 25.08.2026: „falsche asin darf nie passieren, das ist wieder eine
+ * altlast von geparsedtem code."
+ *
+ * Belegt an zwei Meldungen von 20:20 Uhr. Für „PAC-MAN und die
+ * Geisterabenteuer" — beide Staffeln — stand in der Notiz „Amazon-Seite
+ * B0FFRD3ZRL". Das ist „New PANTY & STOCKING", der Titel achtzehn Sekunden
+ * davor. Die Sprachen stimmten (26 Folgen, alle nur Deutsch, an der Seite
+ * nachgemessen) — allein die Kennung stammte vom vorigen Titel.
+ *
+ * `asin()` las bis dahin `asinAusSeite()` zuerst. Das war die Reihenfolge aus
+ * der Zeit, als der Quelltext die einzige Quelle war; er wandert beim Wechsel
+ * aber nicht mit, die Adresse schon.
+ */
+{
+  const { angehaengt, sandkasten, takte, uhr, gemeldet } = starte()
+  /* Der Quelltext gehört zu einem anderen Titel — wie nach jedem Wechsel. */
+  sandkasten.document.documentElement.innerHTML =
+    '<link rel="canonical" href="https://www.amazon.de/gp/video/detail/B0FFRD3ZRL"/>' +
+    '{"titleID":"B0FFRD3ZRL","seasonNumber":1,"episodeCount":13}'
+  takten(takte, uhr)
+
+  const k = angehaengt.find((e) => (e.className || '').includes('ak-amazon-knopf'))
+  const d = JSON.parse(k?.dataset?.diag ?? '{}')
+
+  pruefe('die Adresse nennt B0GTN94C9M', d.ausAdresse === 'B0GTN94C9M', d.ausAdresse)
+  pruefe(
+    'und die gemischte Kennung folgt der Adresse, nicht dem Quelltext',
+    d.asinGemischt === 'B0GTN94C9M',
+    { asinGemischt: d.asinGemischt, ausSeite: d.ausSeite },
+  )
+
+  gemeldet.length = 0
+  k?.hoerer?.click?.()
+  setTimeout(() => {
+    const notizen = gemeldet.map((m) => m.koerper?.notiz ?? '')
+    pruefe(
+      'keine Meldung nennt die fremde Kennung',
+      notizen.length > 0 && !notizen.some((n) => n.includes('B0FFRD3ZRL')),
+      notizen[0]?.slice(0, 80),
+    )
+    ergebnis()
+  }, 0)
+}
