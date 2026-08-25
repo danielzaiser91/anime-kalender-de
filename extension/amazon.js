@@ -2168,7 +2168,8 @@ async function speicherSchreiben(werte) {
     if (quelltextVeraltet()) return false
     const lautSeite = seitenLage().folgenLautSeite
     if (lautSeite) {
-      const imQuelltext = spuren().gesamt
+      /* Aus dem Hydration-Block, nicht aus dem Quelltext. */
+      const imQuelltext = gesehen.seite?.folgenGesamt ?? null
       if (imQuelltext && imQuelltext !== lautSeite) return false
     }
     /*
@@ -2214,7 +2215,23 @@ async function speicherSchreiben(werte) {
     */
     const passt = quelltextPasst()
     const istVeraltet = quelltextVeraltet()
-    const jetzt = passt ? spuren() : { sprachen: new Set(), nummern: new Set(), gesamt: null, jeFolge: new Map() }
+    /*
+      **Der Quelltext wird nicht mehr gelesen — auch nicht für die Gesamtzahl.**
+
+      Daniel am 25.08.2026: „wieso reagiert der button immer noch auf folgen
+      wenn ich ausklappe? der parser muss aus, das haben wir über das hydrated."
+
+      Er hat recht. `spuren()` lief bis dahin in jedem Takt über 2,2 Millionen
+      Zeichen — und beim Ausklappen eines Abschnitts änderte sich der gerenderte
+      Inhalt, also änderte sich auch, was das Muster fand. Der Knopf zuckte,
+      obwohl die Daten längst aus dem Hydration-Block kamen.
+
+      Die Gesamtzahl steht dort ebenfalls (`metadata.episodeCount`, bei
+      „Yu-Gi-Oh! ZEXAL" Staffel 2: „74 Folgen"). Gebraucht wird der Quelltext
+      nur noch für die Lage der Seite — Fehlerseite, Störung — und dafür genügt
+      ein Blick auf wenige Wörter.
+    */
+    const jetzt = { sprachen: new Set(), nummern: new Set(), gesamt: gesehen.seite?.folgenGesamt ?? null, jeFolge: new Map() }
     /*
       **Der Quelltext füttert den Zählstand nicht mehr — und das ist der Kern.**
 

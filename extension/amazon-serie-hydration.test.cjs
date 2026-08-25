@@ -150,6 +150,56 @@ pruefe('Laufzeit gelesen', /Min/.test(erste?.laufzeit ?? ''), erste?.laufzeit)
 pruefe('FSK je Folge gelesen', Boolean(erste?.fsk), erste?.fsk)
 pruefe('Beschreibung gelesen', (erste?.beschreibung ?? '').length > 40, (erste?.beschreibung ?? '').length)
 
+/**
+ * **Der Quelltext wird im Takt nicht mehr gelesen.**
+ *
+ * Daniel am 25.08.2026: „wieso reagiert der button immer noch auf folgen wenn
+ * ich ausklappe? der parser muss aus, das haben wir über das hydrated."
+ *
+ * `spuren()` lief bis dahin in jedem Takt über 2,2 Millionen Zeichen. Beim
+ * Ausklappen eines Abschnitts änderte sich der gerenderte Inhalt — und damit,
+ * was das Muster fand. Der Knopf zuckte, obwohl die Daten längst aus dem
+ * Hydration-Block kamen.
+ *
+ * Geprüft wird am Quelltext von `amazon.js`: In `zeichnen()` darf `spuren()`
+ * nicht mehr vorkommen. Das ist eine Aussage über den Aufbau, und die lässt
+ * sich nur dort prüfen — ein Sandkasten sähe nur das Ergebnis, nicht den Weg.
+ */
+{
+  const amazon = readFileSync(resolve(__dirname, 'amazon.js'), 'utf8')
+  const von = amazon.indexOf('function zeichnen() {')
+  pruefe('zeichnen() ist auffindbar', von > 0, von)
+
+  /* Bis zum Ende der Funktion — über die Klammertiefe, nicht über eine Zeilenzahl. */
+  let tiefe = 0
+  let bis = amazon.indexOf('{', von)
+  for (let i = bis; i < amazon.length; i++) {
+    if (amazon[i] === '{') tiefe++
+    else if (amazon[i] === '}' && --tiefe === 0) {
+      bis = i
+      break
+    }
+  }
+  const koerper = amazon.slice(von, bis)
+
+  /* Kommentare zählen nicht — dort steht die Begründung, warum es weg ist. */
+  const ohneKommentare = koerper
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/^\s*\/\/.*$/gm, '')
+    .replace(/^\s*\*.*$/gm, '')
+
+  pruefe(
+    'zeichnen() ruft spuren() nicht mehr',
+    !/\bspuren\(\)/.test(ohneKommentare),
+    (ohneKommentare.match(/.{0,40}spuren\(\).{0,40}/) ?? [])[0],
+  )
+  pruefe(
+    'und die Gesamtzahl kommt aus dem Hydration-Block',
+    /gesehen\.seite\?\.folgenGesamt/.test(ohneKommentare),
+    undefined,
+  )
+}
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) rot.`)
   process.exit(1)
