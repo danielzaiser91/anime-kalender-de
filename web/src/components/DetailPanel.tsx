@@ -2210,6 +2210,33 @@ export function DetailPanel({
             ) && (
             <div>
               <SectionTitle>{t('detail.whereToWatch')}</SectionTitle>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{t('detail.whereUnknown')}</p>
+            </div>
+          )}
+
+          {/*
+            **Dieser Block endet hier — und bis zum 25.08.2026 tat er das nicht.**
+
+            Der Umbau vom 24.08.2026 („Reihen-Umschalter zieht nach unten") hat
+            das schließende `</div>)}` an seiner alten Stelle stehen lassen, gut
+            zweihundert Zeilen weiter unten. Damit hingen **das Reihen-Karussell
+            und sämtliche Release-Termine** an der Bedingung „kein Anbieter
+            bekannt": Wer einen Stream hatte, sah beides nicht mehr.
+
+            Live gemessen am 25.08.2026 an drei Titeln — Dan Da Dan, Clevatess,
+            Sakamoto Days. Bei allen dreien fehlte „Release-Termine für deutsche
+            Synchro" vollständig, also genau die Auskunft, für die es diese Seite
+            gibt. Aufgefallen ist es an einer Nebenwirkung: Daniel klickte im
+            Karussell eines Kinofilms auf einen Teil mit Disney+-Verweis, und das
+            Karussell verschwand.
+
+            **JSX verschluckt so etwas lautlos.** Der Baum bleibt gültig, `tsc`
+            und ESLint sehen kein Problem, und der Unterschied zeigt sich nur an
+            Titeln, die die Bedingung nicht erfüllen. Ein Bedingungsblock, der
+            mehr als eine Handvoll Zeilen umfasst, gehört deshalb sichtbar
+            geschlossen — und wer einen Abschnitt verschiebt, prüft danach einen
+            Fall, der **in den anderen Zweig** fällt.
+          */}
 
           {/*
             Der Umschalter über die Reihe.
@@ -2409,10 +2436,6 @@ export function DetailPanel({
                 </dl>
               </section>
               )}
-            </div>
-          )}
-
-              <p className="text-xs text-slate-500 dark:text-slate-400">{t('detail.whereUnknown')}</p>
             </div>
           )}
 
