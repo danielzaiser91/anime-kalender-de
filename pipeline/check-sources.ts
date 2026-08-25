@@ -48,8 +48,8 @@ const FRISTEN: Record<string, number> = {
   'tmdb-titles': 9,
   // Wöchentlich. Ein Fenster von zwölf Monaten enthält in ruhigen Wochen
   // **null** Anime-Kinostarts — das ist kein Ausfall, sondern die Branche.
-  tmdb-kino: 9,
-  // Woechentlich. Eine Freigabe wird erst kurz vor dem Kinostart erteilt —
+  'tmdb-kino': 9,
+  // Wöchentlich. Eine Freigabe wird erst kurz vor dem Kinostart erteilt —
   // in ruhigen Wochen belegt der Lauf nichts Neues, und das ist kein Ausfall.
   fsk: 9,
   // Wöchentlich, wie der Lauf, der sie füllt.
