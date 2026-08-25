@@ -179,6 +179,72 @@ function folgenAusText(text) {
   pruefe('eine lange Reihe zählt weiterhin', folgenAusText('Details 1122 Folgen 1. Ich bin Ruffy') === 1122)
 }
 
+/**
+ * **Ein Titelwechsel ohne Neuladen macht den Quelltext wertlos.**
+ *
+ * Gemessen am 25.08.2026 in Daniels Sitzung, über zwei Wechsel aus der
+ * Prüfliste: Die Adresse wanderte von `0NWGEHP4…` über `0J16B1NAB8…` nach
+ * `0OULQMP5Z…`, die Überschrift von „Armed Girl's Machiavellianism" über
+ * „Babylon" nach „Bayonetta" — die Kennung im Quelltext blieb acht Sekunden
+ * lang `B0CJPZFQ9H`. Der Knopf zeigte durchgehend denselben Text; seine
+ * Datenquelle hatte sich nie geändert.
+ *
+ * Erkannt wird das am **Paar** aus Titel und Quelltext-Kennung: Wandert der
+ * Titel, während die Kennung stehen bleibt, gehört der Quelltext zum vorigen
+ * Titel.
+ */
+function quelltextVeraltetTest(schritte) {
+  let stand = null
+  const ergebnis = []
+  for (const { titel, kennung } of schritte) {
+    if (!titel || !kennung) {
+      ergebnis.push(false)
+      continue
+    }
+    if (!stand || stand.kennung !== kennung) {
+      stand = { titel, kennung }
+      ergebnis.push(false)
+      continue
+    }
+    ergebnis.push(stand.titel !== titel)
+  }
+  return ergebnis
+}
+
+{
+  // Daniels Messung, Schritt für Schritt.
+  const gemessen = quelltextVeraltetTest([
+    { titel: "Armed Girl's Machiavellianism", kennung: 'B0CJPZFQ9H' },
+    { titel: 'Babylon', kennung: 'B0CJPZFQ9H' },
+    { titel: 'Bayonetta: Bloody Fate', kennung: 'B0CJPZFQ9H' },
+  ])
+  pruefe('der erste Stand gilt als frisch', gemessen[0] === false, gemessen)
+  pruefe('nach dem Titelwechsel gilt der Quelltext als veraltet', gemessen[1] === true, gemessen)
+  pruefe('und bleibt es beim zweiten Wechsel', gemessen[2] === true, gemessen)
+}
+
+{
+  // Zieht der Quelltext nach, ist alles wieder in Ordnung — sonst bliebe die
+  // Seite nach einem echten Neuladen für immer gesperrt.
+  const nachgezogen = quelltextVeraltetTest([
+    { titel: 'Babylon', kennung: 'B0AAAAAAA1' },
+    { titel: 'Bayonetta', kennung: 'B0BBBBBBB2' },
+    { titel: 'Bayonetta', kennung: 'B0BBBBBBB2' },
+  ])
+  pruefe('ein nachgezogener Quelltext gilt wieder als frisch', nachgezogen.every((x) => x === false), nachgezogen)
+}
+
+{
+  // Ein leerer Titel darf nichts auslösen — bei „Oshi no Ko" Staffel 3 waren
+  // og:title, twitter:title und h1 alle leer.
+  const leer = quelltextVeraltetTest([
+    { titel: 'Babylon', kennung: 'B0AAAAAAA1' },
+    { titel: '', kennung: 'B0AAAAAAA1' },
+    { titel: 'Babylon', kennung: 'B0AAAAAAA1' },
+  ])
+  pruefe('ein leerer Titel loest nichts aus', leer.every((x) => x === false), leer)
+}
+
 {
   pruefe('ASIN aus /dp/', asin('/dp/B0CQ4VL364') === 'B0CQ4VL364')
   pruefe('ASIN aus /gp/video/detail/', asin('/gp/video/detail/B07VP6VPVR?ref_=x') === 'B07VP6VPVR')

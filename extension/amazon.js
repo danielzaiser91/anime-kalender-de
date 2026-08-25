@@ -409,6 +409,8 @@ async function speicherSchreiben(werte) {
 
   /** Ab dem ersten Wechsel im Auswahlfeld ist `startAdresse` veraltet. */
   let gabStaffelwechsel = false
+  /** Titel und Quelltext-Kennung, wie sie zuletzt zusammen gesehen wurden. */
+  let titelZuQuelltext = null
 
   /**
    * Die Staffelnummer, wie die Seite sie selbst nennt.
@@ -2282,9 +2284,15 @@ async function speicherSchreiben(werte) {
      */
     const staffelLautAdresse = staffelAusAdresse()
     const staffelLautSeite = staffelAusSeite()
-    const veraltet = Boolean(
-      staffelLautAdresse && staffelLautSeite && staffelLautAdresse !== staffelLautSeite,
-    )
+    /*
+      Der Titelwechsel innerhalb der Anwendung zaehlt hier mit — er hinterlaesst
+      denselben Zustand: eine gerenderte Seite ueber einem Quelltext, der zum
+      vorigen Titel gehoert. Gemessen am 25.08.2026 ueber zwei Wechsel, acht
+      Sekunden lang dieselbe Quelltext-Kennung bei drei verschiedenen Titeln.
+    */
+    const veraltet =
+      Boolean(staffelLautAdresse && staffelLautSeite && staffelLautAdresse !== staffelLautSeite) ||
+      quelltextVeraltet()
     /**
      * Der Zeitpunkt, ab dem gewartet wird — ohne ihn ist die Frist sofort um.
      *
@@ -2476,7 +2484,62 @@ async function speicherSchreiben(werte) {
      * Staffelnummer und ASIN genügen. Wo beide fehlen, hilft die
      * Beruhigungsfrist in `zeichnen()`.
      */
-    return `${staffelAusAdresse() ?? '?'}|${staffelAusSeite() ?? '?'}|${asin()}`
+    /**
+     * **Der sichtbare Titel gehört dazu — sonst bleibt ein Titelwechsel unbemerkt.**
+     *
+     * Gemessen am 25.08.2026 in Daniels Sitzung, über zwei Wechsel aus der
+     * Prüfliste heraus:
+     *
+     * | | Start | Wechsel 1 | Wechsel 2 |
+     * |---|---|---|---|
+     * | Adresse | `0NWGEHP4…` | `0J16B1NAB8…` | `0OULQMP5Z…` |
+     * | Überschrift | Armed Girl's… | Babylon | Bayonetta |
+     * | Quelltext-Kennung | `B0CJPZFQ9H` | `B0CJPZFQ9H` | `B0CJPZFQ9H` |
+     *
+     * Der Knopf zeigte acht Sekunden lang unverändert „🇩🇪 Deutsch · 12 Folgen
+     * · ⚠ Kanal" — über drei verschiedene Titel. Er war nicht zu langsam: Seine
+     * Datenquelle hat sich nie geändert.
+     *
+     * `asin()` allein genügt hier nicht, weil es aus der **Adresse** liest und
+     * damit zwar wandert — aber der geleerte Zählstand füllt sich sofort wieder
+     * aus demselben alten Quelltext. Erst der Titel macht den Widerspruch
+     * sichtbar, und `quelltextVeraltet()` zieht daraus die Folgerung.
+     *
+     * Ein **leerer** Titel zählt nicht mit: Bei „Oshi no Ko" Staffel 3 waren
+     * `og:title`, `twitter:title` und `<h1>` allesamt leer (siehe
+     * `seitenTitel()`). Ohne diese Ausnahme würde jede Seite, die den Titel
+     * kurzzeitig nicht rendert, den Zählstand verwerfen.
+     */
+    const titel = seitenTitel()
+    return `${staffelAusAdresse() ?? '?'}|${staffelAusSeite() ?? '?'}|${asin()}|${titel || '?'}`
+  }
+
+  /**
+   * Zeigt die Seite einen anderen Titel, als der Quelltext beschreibt?
+   *
+   * Amazon rendert beim Wechsel innerhalb der Anwendung den sichtbaren Inhalt
+   * neu, tauscht die JSON-Fracht im Skriptblock aber nicht aus — dieselbe
+   * Beobachtung wie beim Staffelwechsel, nur eine Ebene höher. Was danach aus
+   * dem Quelltext gelesen wird, gehört zum **vorigen** Titel.
+   *
+   * Erkannt wird das an einem Paar, nicht an einer Zahl: Beim ersten Zeichnen
+   * merkt sich die Erweiterung Titel und Quelltext-Kennung gemeinsam. Wandert
+   * der Titel, während die Kennung stehen bleibt, ist der Quelltext veraltet.
+   */
+  function quelltextVeraltet() {
+    const titel = seitenTitel()
+    const kennung = asinAusSeite()
+    if (!titel || !kennung) return false
+    if (!titelZuQuelltext) {
+      titelZuQuelltext = { titel, kennung }
+      return false
+    }
+    if (titelZuQuelltext.kennung !== kennung) {
+      // Der Quelltext ist nachgezogen — ab hier gilt das neue Paar.
+      titelZuQuelltext = { titel, kennung }
+      return false
+    }
+    return titelZuQuelltext.titel !== titel
   }
 
   let letzteKennung = staffelKennung()
