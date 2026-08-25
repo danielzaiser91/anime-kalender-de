@@ -486,6 +486,19 @@ async function speicherSchreiben(werte) {
    */
   let gemeldeteSeitenKennung = null
 
+  /**
+   * **Serientitel und Staffelnummer, aus dem JSON gemeldet.**
+   *
+   * Beide standen bisher nur im Quelltext und wurden über Muster gesucht — der
+   * Serientitel über vier Rückfallebenen bis hinunter zum Fenstertitel, die
+   * Staffelnummer über ein Fenster um jede `titleID`-Fundstelle.
+   *
+   * Der Hydration-Block nennt beides direkt (gemessen an „Yu-Gi-Oh! ZEXAL"
+   * Staffel 2): `parentTitle: "Yu-Gi-Oh! ZEXAL [OV]"` und `seasonNumber: 2`.
+   */
+  let gemeldeterSerientitel = null
+  let gemeldeteStaffelNummer = null
+
   let asinZwischenspeicher = null
   let asinZu = -1
   /**
@@ -561,6 +574,8 @@ async function speicherSchreiben(werte) {
    * überschrieb die erste.
    */
   function staffelAusSeite() {
+    /* Aus dem JSON gemeldet schlägt aus dem Quelltext gesucht. */
+    if (Number.isFinite(gemeldeteStaffelNummer)) return gemeldeteStaffelNummer
     const html = seitenHtml()
     if (typeof html !== 'string') return null
     // Im Umkreis der ersten titleID suchen — das ist die gerade gezeigte
@@ -849,6 +864,8 @@ async function speicherSchreiben(werte) {
    * aniverse anschaubar").
    */
   function seitenTitel() {
+    /* Aus dem JSON gemeldet schlägt aus dem Quelltext gesucht. */
+    if (gemeldeterSerientitel) return gemeldeterSerientitel
     /**
      * `document.title` taugt nicht — gemessen, nicht vermutet.
      *
@@ -1730,6 +1747,10 @@ async function speicherSchreiben(werte) {
     nummern: new Set(),
     gesamt: null,
     jeFolge: new Map(),
+    /* Folgen, die hier nicht abrufbar sind — sie zählen weder mit noch dagegen. */
+    gesperrt: new Map(),
+    /* Was der Hydration-Block über die Seite selbst sagt. */
+    seite: null,
   })
   let gesehen = leererStand()
 
@@ -1908,8 +1929,10 @@ async function speicherSchreiben(werte) {
       if (gesehen.fuerAdresse !== jetzigeAdresse) {
         gesehen = leererStand()
         gesehen.fuerAdresse = jetzigeAdresse
-        /* Sie gehört zur alten Adresse — mit ihr wandert sie weg. */
+        /* Sie gehören zur alten Adresse — mit ihr wandern sie weg. */
         gemeldeteSeitenKennung = null
+        gemeldeterSerientitel = null
+        gemeldeteStaffelNummer = null
         letzteZahl = -1
         gemeldeteStaffel = null
         letzterStand = ''
@@ -1923,12 +1946,35 @@ async function speicherSchreiben(werte) {
     if (Number.isFinite(e.data.gesamt)) gesehen.gesamt = e.data.gesamt
     // Der Leser sah die Adresse noch mit dem Verweis-Parameter.
     if (typeof e.data.startAdresse === 'string') startAdresse = e.data.startAdresse
-    /* Die Seiten-Kennung aus dem Hydration-Block, falls der Mitleser sie gelesen hat. */
-    if (e.data.seite?.kennung) gemeldeteSeitenKennung = e.data.seite.kennung
+    /*
+      Was der Hydration-Block über die Seite sagt — Kennung, Serientitel,
+      Staffelnummer, Gesamtzahl. Alles aus gültigem JSON, keine Muster mehr.
+    */
+    if (e.data.seite) {
+      const s = e.data.seite
+      if (s.kennung) gemeldeteSeitenKennung = s.kennung
+      if (s.serie || s.titel) gemeldeterSerientitel = s.serie ?? s.titel
+      if (Number.isFinite(s.staffel)) gemeldeteStaffelNummer = s.staffel
+      gesehen.seite = s
+    }
     for (const f of e.data.funde ?? []) {
       // Ein Fund ohne Nummer stammt aus der Rückfallebene des Mitlesers: seine
       // Sprache zählt, als **Folge** zählt er nicht. Sonst stünde am Knopf
       // wieder eine Zahl, die keine Folgen meint (der 27-von-24-Fehler).
+      /*
+        **Eine gesperrte Folge zählt nicht als „ohne deutsche Fassung".**
+
+        Daniel am 25.08.2026 an „Yu-Gi-Oh! ZEXAL" Staffel 2: Zwölf der
+        vierundzwanzig Folgen tragen statt eines Abspiel-Knopfes nur die
+        Meldung „In deiner Region nicht mehr auf Prime Video verfügbar" — und
+        ihre `audioTracks` sind **leer**. Wer sie mitzählt, meldet für die
+        halbe Staffel ein Nein, das keine Quelle deckt.
+      */
+      if (f.verfuegbar === false) {
+        gesehen.gesperrt ??= new Map()
+        gesehen.gesperrt.set(f.kennung ?? f.nummer, f)
+        continue
+      }
       if (Number.isFinite(f.nummer)) {
         gesehen.nummern.add(f.nummer)
         /*

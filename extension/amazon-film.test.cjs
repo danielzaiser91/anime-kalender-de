@@ -171,19 +171,24 @@ pruefe('Beschreibung gelesen', (film?.beschreibung ?? '').length > 40, (film?.be
  */
 {
   const zeilen = quelle.split('\n')
-  const i = zeilen.findIndex((z) => z.includes('const film = ausHydration()'))
-  pruefe('der Film-Weg wird in schritt() gerufen', i >= 0, i)
+  const i = zeilen.findIndex((z) => z.includes('const seite = ausHydration()'))
+  pruefe('der Hydration-Weg wird in schritt() gerufen', i >= 0, i)
 
-  /* Die nächsten Zeilen bis zum Weiterreichen — dort muss der Merker bedingt sein. */
+  /*
+    Die nächsten Zeilen bis zum Weiterreichen. Der Merker muss **hinter** der
+    Prüfung stehen: `if (seite) { hydrationFuer = … }`. Steht er davor, sperrt
+    ein Fehlschlag jeden weiteren Versuch — genau der Fall von „Jujutsu
+    Kaisen 0".
+  */
   const danach = zeilen.slice(i, i + 4).join('\n')
   pruefe(
-    'der Merker wird nur bei einem Treffer gesetzt',
-    /if \(film\)\s*hydrationFuer =/.test(danach),
+    'der Merker steht hinter der Treffer-Prüfung',
+    /if \(seite\) \{\s*\n\s*hydrationFuer =/.test(danach),
     danach.trim().slice(0, 120),
   )
   pruefe(
-    'und nicht unbedingt davor',
-    !/^\s*hydrationFuer = location/m.test(danach),
+    'und die Zeile davor setzt ihn nicht',
+    !new RegExp('ausHydration\\(\\)\\s*\\n\\s*hydrationFuer =').test(danach),
     danach.trim().slice(0, 120),
   )
 }

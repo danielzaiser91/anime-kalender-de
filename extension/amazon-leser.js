@@ -214,28 +214,124 @@
     } catch {
       return null
     }
-    const stand = daten?.init?.preparations?.body?.atf?.state
-    if (!stand) return null
-    const kennung = stand.pageTitleId ?? null
-    const kopf = (stand.detail?.headerDetail ?? {})[kennung] ?? Object.values(stand.detail?.headerDetail ?? {})[0]
+    const koerper = daten?.init?.preparations?.body
+    const oben = koerper?.atf?.state
+    const unten = koerper?.btf?.state
+    if (!oben) return null
+
+    const kennung = oben.pageTitleId ?? null
+    const kopf = (oben.detail?.headerDetail ?? {})[kennung] ?? Object.values(oben.detail?.headerDetail ?? {})[0]
     if (!kopf) return null
-    return {
+
+    /*
+      **Die Zugänge stehen an der Seite, nicht nur an der Folge.**
+
+      `benefitId` taucht im ganzen Block auf — in den Kanal-Karten, im
+      Abspiel-Knopf, in den Empfehlungsleisten daneben. Gelesen wird deshalb
+      nur der Aktionsblock der Seite selbst; alles andere gehört zu fremden
+      Titeln (`containers` ist die Empfehlungsleiste „Kunden schauten auch").
+    */
+    const zugaengeAus = (o) => [
+      ...new Set([...JSON.stringify(o ?? {}).matchAll(/"benefitId":"([^"]+)"/g)].map((m) => m[1])),
+    ]
+
+    const seite = {
       kennung,
       art: kopf.entityType ?? null,
+      /* „season" bei einer Staffel, „movie" bei einem Film, „episode" bei einer Folge. */
+      sorte: kopf.titleType ?? null,
       titel: kopf.title ?? null,
+      /* Der Serientitel — bei einer Staffel steht er getrennt vom Staffelnamen. */
+      serie: kopf.parentTitle ?? null,
+      staffel: Number.isFinite(kopf.seasonNumber) ? kopf.seasonNumber : null,
       beschreibung: kopf.synopsis ?? null,
       sprachen: namenAus(kopf.audioTracks ?? []),
       untertitel: Array.isArray(kopf.subtitles) ? kopf.subtitles : [],
       dauerSek: Number.isFinite(kopf.duration) ? kopf.duration : null,
-      laufzeit: kopf.runtime ?? null,
+      laufzeit: kopf.runtime || null,
       erschienen: kopf.releaseDate ?? null,
       jahr: Number.isFinite(kopf.releaseYear) ? kopf.releaseYear : null,
       studios: Array.isArray(kopf.studios) ? kopf.studios : [],
       genres: (kopf.genres ?? []).map((g) => g?.text).filter(Boolean),
-      zugaenge: [...new Set([...JSON.stringify(daten).matchAll(/"benefitId":"([^"]+)"/g)].map((m) => m[1]))],
-      fsk: stand.metadata?.[kennung]?.maturityRating?.displayText ?? null,
+      zugaenge: zugaengeAus(oben.action),
+      fsk:
+        oben.metadata?.[kennung]?.maturityRating?.displayText ??
+        kopf.ratingBadge?.displayText ??
+        null,
       bild: kopf.images?.covershot ?? null,
+      imdb: oben.imdb?.[kennung]?.score ?? null,
+      /*
+        Die Folgenzahl der Staffel steht als Text („74 Folgen"), nicht als Zahl.
+        Sie meint die **Reihe**, nicht den gerade gezeigten Abschnitt.
+      */
+      folgenGesamt: Number(/(\d+)/.exec(oben.metadata?.[kennung]?.episodeCount ?? '')?.[1]) || null,
+      /* Alle Staffeln mit ihrer eigenen Kennung — der Bauplan der Reihe. */
+      staffeln: (oben.seasons?.[kennung] ?? []).map((s) => ({
+        kennung: s.seasonId,
+        name: s.displayName,
+        nummer: s.sequenceNumber,
+        gewaehlt: Boolean(s.isSelected),
+      })),
     }
+
+    /*
+      **Und die Folgen stehen im unteren Teil derselben Seite.**
+
+      Daniel am 25.08.2026: „ich merke gerade das hydration steht auch 1:1
+      genauso bei serien, also brauchen wir das widget überhaupt nicht."
+
+      Er hat recht. `btf.state.detail.detail` führt je Folge dasselbe Objekt wie
+      die Widget-Antwort — Nummer, Titel, Beschreibung, Tonspuren, Untertitel,
+      Dauer, Erscheinungsdatum. Der Abruf ist damit nur noch der Weg zu den
+      **weiteren Abschnitten**, nicht mehr die Quelle.
+    */
+    const folgen = []
+    for (const [asin, e] of Object.entries(unten?.detail?.detail ?? {})) {
+      /* Der Eintrag der Staffel selbst steht mit drin — er ist keine Folge. */
+      if (e?.titleType !== 'episode' || !Number.isFinite(e.episodeNumber)) continue
+
+      /*
+        **Ob die Folge hier abrufbar ist, steht im Aktionsblock.**
+
+        Daniel am 25.08.2026 an „Yu-Gi-Oh! ZEXAL" Staffel 2: „ein paar episoden
+        sind in der region nicht verfügbar." Bei ihnen trägt `primaryActions`
+        eine schlichte Meldung statt eines Abspiel- oder Abo-Knopfes:
+
+            actionType: "MESSAGE"
+            string: "In deiner Region nicht mehr auf Prime Video verfügbar"
+
+        Ihre `audioTracks` sind dann **leer** — was ohne diese Unterscheidung
+        wie „keine deutsche Fassung" aussähe. Es heißt aber nur: hier nicht.
+      */
+      const aktion = unten?.action?.btf?.[asin]
+      const arten = (aktion?.primaryActions ?? []).map((a) => a?.actionType)
+      const meldung = (aktion?.primaryActions ?? [])
+        .map((a) => a?.payload?.message?.message?.string ?? '')
+        .find(Boolean)
+      const gesperrt = arten.length > 0 && arten.every((a) => a === 'MESSAGE')
+
+      folgen.push({
+        nummer: e.episodeNumber,
+        kennung: asin,
+        titel: e.title ?? null,
+        beschreibung: e.synopsis ?? null,
+        sprachen: namenAus(e.audioTracks ?? []),
+        untertitel: Array.isArray(e.subtitles) ? e.subtitles : [],
+        dauerSek: Number.isFinite(e.duration) ? e.duration : null,
+        laufzeit: e.runtime || null,
+        erschienen: e.releaseDate ?? null,
+        jahr: Number.isFinite(e.releaseYear) ? e.releaseYear : null,
+        fsk: unten?.metadata?.[asin]?.maturityRating?.displayText ?? null,
+        bild: e.images?.covershot ?? null,
+        zugaenge: zugaengeAus(aktion),
+        /* false heißt „hier gesperrt", nicht „ohne deutsche Fassung". */
+        verfuegbar: !gesperrt,
+        hinweis: gesperrt ? meldung ?? null : null,
+      })
+    }
+    folgen.sort((a, b) => a.nummer - b.nummer)
+
+    return { ...seite, folgen }
   }
 
   /* Für welche Adresse der Hydration-Block schon gelesen wurde. */
@@ -820,30 +916,43 @@
       Ein Merker, der auch den Fehlschlag festhält, verwandelt eine Verzögerung
       in einen Dauerzustand.
     */
-    if (hydrationFuer !== location.pathname) {
-      const film = ausHydration()
-      /* Nur ein Treffer beendet die Suche — ein Fehlschlag darf sie nicht sperren. */
-      if (film) hydrationFuer = location.pathname
-      if (film && film.art && film.art !== 'TV Show') {
+    /*
+      **Die Seite bringt alles mit — Film wie Serie.**
+
+      Daniel am 25.08.2026: „ich merke gerade das hydration steht auch 1:1
+      genauso bei serien, also brauchen wir das widget überhaupt nicht und
+      können immer auf hydration gehen."
+
+      Gemessen an „Yu-Gi-Oh! ZEXAL" Staffel 2 (`B0GV8N71SL`): Der Block liefert
+      Serientitel, Staffelnummer, alle sechs Staffeln mit eigener Kennung, die
+      Gesamtzahl von 74 Folgen — und 24 Folgen mit Tonspuren, Beschreibung und
+      Erscheinungsdatum. Der Widget-Abruf ist damit nur noch der Weg zu den
+      **weiteren Abschnitten**, nicht mehr die Quelle.
+
+      Der Merker wird erst nach einem Treffer gesetzt: Ein erster Versuch nach
+      500 ms greift bei einem halben Megabyte JSON manchmal ins Leere, und ein
+      Fehlschlag darf keine Verzögerung in einen Dauerzustand verwandeln
+      („Jujutsu Kaisen 0" blieb so auf „nicht abrufbar" stehen).
+    */
+    if (hydrationFuer !== location.pathname + location.search) {
+      const seite = ausHydration()
+      if (seite) {
+        hydrationFuer = location.pathname + location.search
         window.postMessage(
           {
             marke: MARKE,
-            /* Ein Film ist eine Einheit — er zählt als Folge 1. */
-            funde: [{ ...film, nummer: 1 }],
-            gesamt: 1,
-            seite: film,
+            /* Ein Film zählt als eine Folge, eine Serie bringt ihre eigenen mit. */
+            funde:
+              seite.folgen.length > 0
+                ? seite.folgen
+                : seite.art && seite.art !== 'TV Show'
+                  ? [{ ...seite, nummer: 1 }]
+                  : [],
+            gesamt: seite.folgen.length || (seite.art !== 'TV Show' ? 1 : null),
+            seite,
             startAdresse,
             fuerAdresse: location.pathname + location.search,
           },
-          '*',
-        )
-      } else if (film) {
-        /*
-          Bei einer Serie trägt der Block Titel, Zugänge und die Seiten-Kennung —
-          die Folgen kommen per Abruf.
-        */
-        window.postMessage(
-          { marke: MARKE, funde: [], gesamt: null, seite: film, startAdresse, fuerAdresse: location.pathname + location.search },
           '*',
         )
       }
