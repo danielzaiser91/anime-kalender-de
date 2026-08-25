@@ -719,5 +719,13 @@
       "netflix"
     ]
   },
-  "mononoke-movie-3-curse-of-the-serpent": {}
+  "mononoke-movie-3-curse-of-the-serpent": {},
+  "all-you-need-is-kill-disc": {
+    "tmdbId": 1432547,
+    "fsk": 16
+  },
+  "all-you-need-is-kill-kino": {
+    "tmdbId": 1432547,
+    "fsk": 16
+  }
 }

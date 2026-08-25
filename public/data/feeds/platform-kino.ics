@@ -28,6 +28,16 @@ DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestätig
 CATEGORIES:Kino
 END:VEVENT
 BEGIN:VEVENT
+UID:all-you-need-is-kill-kino@2026-09-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260929
+DTEND;VALUE=DATE:20260930
+SUMMARY:All You Need is Kill
+DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestätig
+ t.\nDetails: https://anime-kalender.de/#/release/all-you-need-is-kill-kino
+CATEGORIES:Kino
+END:VEVENT
+BEGIN:VEVENT
 UID:a-new-dawn-kino@2026-10-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261015
