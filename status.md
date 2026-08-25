@@ -9,6 +9,63 @@ Stand: 25.08.2026 · Live: https://anime-kalender.de/
 | Aufgabe | SP | Notiz |
 |---|---|---|
 
+### Der Plan, Stand 25.08.2026, 15:00
+
+**Gemessen, nicht geschätzt** — alle Zahlen aus dem heute ausgelieferten Datensatz:
+
+| Anbieter | Verweise | ohne Sprachangabe | belegt deutsch |
+|---|---|---|---|
+| **Crunchyroll** | 966 | **462** | 504 |
+| Prime Video | 563 | 208 | 355 |
+| Disney+ | 47 | 36 | 11 |
+| Netflix | 376 | 26 | 350 |
+| YouTube | 72 | 22 | 50 |
+| ADN | 128 | 5 | 123 |
+| Joyn | 2 | 2 | 0 |
+
+Dazu: 865 von 2.762 Titeln zeigen keinen Weg. Im Crunchyroll-Befund haben 507 von 959 Serien
+Staffeldaten, 324 finden keine, 128 gelten als nicht verfügbar; 107 stammen noch aus dem
+US-Katalog.
+
+**Die Reihenfolge folgt dem Schaden, nicht der Bequemlichkeit.** Crunchyroll steht vorn, weil
+dort nicht nur Auskunft fehlt, sondern **aktiv falsche entsteht**: Der Detektiv-Conan-Fall hat
+gezeigt, dass ein Fehlurteil einen richtigen Verweis **löscht**. Eine Lücke ist ärgerlich, eine
+gelöschte Wahrheit ist schlimmer.
+
+#### Phase 1 — Crunchyroll je Folge lesen statt je Serie raten
+
+| # | Aufgabe | SP | Warum hier |
+|---|---|---|---|
+| 1.1 | **Suchweg im deutschen Katalog finden.** `cms/v2<bucket>/search` antwortet mit 502; gebraucht wird ein Pfad, der zu einem Titel die Serienkennung liefert. | 3 | **Ohne das geht 1.2 nicht** — und ohne 1.2 bleiben Conan und die 324 kennungslosen Serien ungelöst. |
+| 1.2 | **Serienkennung nicht mehr aus der Adresse ableiten.** Conan trug `crunchyroll.com/de/case-closed` → `G6JQVM3ER` → ein Block, 33 Folgen, `ja-JP`. Die deutschen Blöcke liegen unter einer anderen Kennung. | 5 | Behebt die Ursache, nicht das Symptom. |
+| 1.3 | **Urteil je Folge statt je Serie.** `versions[].audio_locale` steht an der Folge; damit ist der Befund unabhängig davon, welchen Block man erwischt. Trailer (`sequence_number` 0) und Specials (Brüche) getrennt führen. | 8 | Daniels Auftrag: „der lauf muss jede folge individuell prüfen". |
+| 1.4 | **Zusicherung mit Conan als Prüfstein.** Daniels Handstand: Folgen 1–254 und 334–483 deutsch, drei Specials, 1–182 als HD-Remaster. Der umgebaute Lauf muss das reproduzieren. | 3 | Ein Umbau ohne Prüfstein ist eine Vermutung mit mehr Zeilen. |
+| 1.5 | **Lauf remote, Wirkung messen.** Erwartet: die 462 offenen Verweise sinken deutlich, kein belegter Verweis verschwindet. | 2 | Ohne Messung weiß niemand, ob der Umbau half. |
+
+**Der deutsche Verweis muss den englischen schlagen.** Bei Conan verdrängte
+`crunchyroll.com/de/case-closed` das von aniSearch gelieferte `crunchyroll.com/detektiv-conan`,
+weil je Anbieter nur ein Verweis übernommen wird und der erste gewinnt. Das gehört in 1.2 mit
+hinein: Wer zuerst kam, ist kein Kriterium.
+
+#### Phase 2 — die Erweiterung, weil Daniel damit arbeitet
+
+| # | Aufgabe | SP | Warum hier |
+|---|---|---|---|
+| 2.1 | **SPA-Navigation.** Die Knöpfe erscheinen erst nach F5. | 5 | Grundlage für 2.2 und 2.3 — jeder Test dort kostet sonst ein Neuladen je Titel. |
+| 2.2 | **Prime-Folgennummern nicht mehr glauben.** Eine Staffelansicht führt 149–151 neben 1146–1148, mit Terminen aus zwei Jahren. | 3 | Korrektheit vor Reichweite: Was falsch ankommt, muss später von Hand berichtigt werden. |
+| 2.3 | **Disney+ aufnehmen.** 36 von 47 Verweisen ohne Sprachangabe, und `robots.txt` sperrt alles — die Erweiterung ist der **einzige** Weg. | 8 | Nach 2.1, sonst ist die Prüfrunde unnötig zäh. |
+
+#### Phase 3 — die verbleibende Lücke
+
+| # | Aufgabe | SP | Warum zuletzt |
+|---|---|---|---|
+| 3.1 | **TMDB-Zuordnung verbessern.** 865 Titel ohne Weg; ein großer Teil wird bei TMDB nicht gefunden. | 5 | Reine Lücke, kein Schaden — und der Nutzen hängt daran, dass Phase 1 die Sprachangaben liefert. |
+
+**Was ausdrücklich nicht in diesen Plan gehört:** Die 128 als „nicht verfügbar" geführten
+Crunchyroll-Serien. Für ihr Entfernen verlangt `CLAUDE.md` einen zweiten Beleg, und den gibt es
+erst, wenn Phase 1 den deutschen Katalog je Folge liest. Danach beantwortet sich die Frage von
+selbst — vorher wäre jede Entscheidung geraten.
+
 ### Der Plan, Stand 23.08.2026, 19:15
 
 **Gemessen, nicht geschätzt.** 2.233 Anbieter-Verweise, davon **1.161 ohne Sprachangabe**.

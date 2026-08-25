@@ -611,6 +611,65 @@ Zuordnung wird erst gebraucht, wenn der Befund an unsere Folgennummern gehängt 
 ist die Reihenfolge maßgeblich, nicht das Datum.
 
 
+### Die Suche im deutschen Katalog — und ein Token ohne Browser (25.08.2026)
+
+Zwei Funde, die zusammen den Detektiv-Conan-Fall und die 324 Serien ohne Staffeldaten lösen.
+
+**1. Ein anonymes Bearer-Token gibt es per einfachem POST.** Bisher holte der Lauf es aus dem
+Netzwerkverkehr einer mit Playwright geladenen Seite:
+
+```
+POST https://beta-api.crunchyroll.com/auth/v1/token
+Authorization: Basic <base64 von "noaihdevm_6iyg0a8l0q:">
+Content-Type: application/x-www-form-urlencoded
+grant_type=client_id
+```
+
+Antwort: HTTP 200, `access_token`, **3600 Sekunden gültig**, dazu `country` — bei einem Abruf
+von hier steht dort `DE`. Gegen `www.crunchyroll.com` läuft derselbe Aufruf in Cloudflares
+„Just a moment…" (403); über `beta-api` gibt es keine Bot-Sperre.
+
+**2. Damit antwortet die Suche.** `cms/v2<bucket>/search` gibt 502 und `content/v2` ohne Token
+401 — mit Token liefert sie genau das, was aus einer Adresse nie zu bekommen war:
+
+```
+GET https://beta-api.crunchyroll.com/content/v2/discover/search
+    ?q=Detektiv+Conan&n=12&type=series&locale=de-DE
+```
+
+```
+GW4HM7NV3  Detektiv Conan       Folgen 0    Staffeln 0  audio=ja-JP,de-DE
+G6JQVM3ER  Detective Conan      Folgen 581  Staffeln 2  audio=ja-JP
+```
+
+**Das ist der ganze Fehler in zwei Zeilen.** Unser Bestand führte `G6JQVM3ER` — den
+englischsprachigen Eintrag, abgeleitet aus der Adresse `crunchyroll.com/de/case-closed`. Die
+deutsche Serie liegt unter `GW4HM7NV3`, und die Suche nennt ihre Tonspuren gleich mit.
+
+**Der Prüfstein hält.** Daniel hatte von Hand gemeldet: Folgen 1–254 und 334–483 auf Deutsch,
+drei Specials, 1–182 als HD-Remaster. Was `GW4HM7NV3` liefert:
+
+| Block | Folgen | Spanne | mit `de-DE` |
+|---|---|---|---|
+| Detektiv Conan 1-182 (HD Remaster) | 171 | 1–182 | 171 |
+| Detektiv Conan 1-111 (Dt. Opening) | 111 | 1–111 | 111 |
+| Detektiv Conan 112-182 (Dt. Opening) | 71 | 112–182 | 71 |
+| Detektiv Conan 183-254 (Dt. Opening) | 72 | 183–254 | 72 |
+| Detektiv Conan 334-433 | 100 | 334–433 | 100 |
+| Detektiv Conan 434-483 | 50 | 434–483 | 50 |
+| TV Special — LUPIN III. | 2 | — | 2 |
+| TV Special — Episode ONE | 2 | — | 2 |
+| TV Special — Lovestory | 2 | — | 2 |
+
+405 deutsche Folgen, Bereiche **1–254 und 334–483**, drei Specials, HD-Remaster als eigener
+Block. Punkt für Punkt Daniels Stand — ohne dass jemand eine Zahl von Hand eingetragen hätte.
+
+**Was daraus für den Lauf folgt:** Die Serienkennung wird gesucht, nicht aus der Adresse
+geraten. Und weil das Token an die **IP** gebunden ist (`country`), entsteht die Zuordnung
+Titel → Kennung auf einem Rechner in Deutschland und wird als Datei committet; der Cloud-Lauf
+liest sie nur noch.
+
+
 ## Ein Kinostart ist keine Sprachfassung — bei Anime fallen beide regelmäßig auseinander
 
 Bei Serien zieht dieses Projekt die Trennlinie zwischen Synchro und Untertitel längst. Beim
