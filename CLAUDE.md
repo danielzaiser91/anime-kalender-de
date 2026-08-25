@@ -491,6 +491,89 @@ enthalten". Deshalb prüft die Erweiterung seit dem 24.08.2026 das `benefitId`:
 Die Meldung wird nicht unterdrückt — ein Hinweis bleibt ein Hinweis. Aber aus ihr darf kein
 Beleg werden, und das ist dieselbe Trennung, die dieses Projekt bei Crunchyroll schon zieht.
 
+## Eine Serie ist bei Crunchyroll kein Block — und ein Block ist kein Beleg über die Serie
+
+Am 25.08.2026 fehlte im Kalender jeder Crunchyroll-Verweis für **Detektiv Conan**, obwohl die
+Serie dort auf Deutsch läuft. Daniel: „crunchyroll hat die titel, prime hat sie auch mit
+crunchy abo, unser crunchy lauf hätte alle finden müssen." Sein Stand, von Hand geprüft:
+**Folgen 1–254 und 334–483 auf Deutsch, dazu drei Specials und 1–182 als HD-Remaster.**
+
+Die Kette, die dazu geführt hat, ist vollständig nachgemessen:
+
+1. aniSearch liefert die richtige Adresse: `crunchyroll.com/detektiv-conan`.
+2. Im Titel steckte aber schon ein Crunchyroll-Verweis — `crunchyroll.com/de/**case-closed**`,
+   der **englische** Titel. Weil je Anbieter nur ein Verweis übernommen wird, verdrängte er den
+   deutschen.
+3. Der Lauf las zu `case-closed` die Serienkennung `G6JQVM3ER`, fand dort **eine** Staffel mit
+   33 Folgen und `ja-JP`, und schrieb `deutschImAngebot: false`.
+4. Weil der Befund `katalog: 'de'` trug, wurde daraus ein `dub: false` — und der Filter „ohne
+   deutsche Synchro" entfernte den letzten Crunchyroll-Verweis der Serie.
+
+Am Ende blieb eine Prime-**Suchadresse** übrig. Genau das sah Daniel.
+
+**Der Fehler steckt in Schritt 3, und er ist kein Einzelfall.** Eine Serienkennung bei
+Crunchyroll bezeichnet einen **Block**, nicht das Werk: Der ältere CMS-Pfad legt je Tonspur
+und je Ausgabe eine eigene Staffel an, und bei langen Serien liegen die deutschen Folgen unter
+einer anderen Kennung als die japanischen. „33 Folgen, kein Deutsch" ist deshalb eine wahre
+Aussage über `G6JQVM3ER` und eine falsche über Detektiv Conan.
+
+**Daraus folgt (Daniel, 25.08.2026): „der lauf muss jede folge individuell prüfen."** Solange
+die Einheit der Prüfung die Staffel oder gar die Serie ist, entscheidet die Auswahl des Blocks
+über das Ergebnis — und die Auswahl trifft eine Adresse, die aus einer fremden Datenbank
+stammt. Je Folge geprüft, ist der Befund unabhängig davon, welchen Block man erwischt hat.
+
+**Und Prime zählt anders als Prime.** Im selben Zug gemessen (Daniels Bildschirmabzug vom
+25.08.2026, `primevideo.com/detail/0QH1CWNXTTK6IXP1G4H5B8M7W9`): In **einer** Staffelansicht
+stehen nebeneinander
+
+| Nummer | Titel | Datum |
+|---|---|---|
+| 149 | Besucht doch mal die Heimat des Steinzeitmenschen | 25. Juli 2026 |
+| 150 | Wer ist das Ziel? | 1. Aug. 2026 |
+| 151 | Das verfluchte Nachbarhaus | 22. Aug. 2026 |
+| **1146** | The Whistling Bookstore 4 | **21. Dez. 2024** |
+| **1147** | 1147 - Case Closed - S03 | — |
+
+Dieselbe Liste führt die deutsche Zählung (149–151) und die japanische Gesamtzählung
+(1146–1148) nebeneinander, mit Titeln in zwei Sprachen und Terminen aus zwei Jahren. **Eine
+Folgennummer von Prime ist damit kein Ordnungsmerkmal**, und ein Releasedatum dort belegt
+keinen deutschen Termin. Verlässlich bleibt, was je Folge an der Folge steht — die Tonspur.
+
+### Wie eine Folge eindeutig wird — gemessen am 25.08.2026
+
+Daniel: „du musst herausfinden wie du episoden eindeutig zuordnen kannst." Die Antwort steht in
+der Antwort der API selbst; sie wurde bisher nur nicht gelesen. **Jede Folge nennt ihre
+sämtlichen Sprachfassungen mit**:
+
+```
+identifier            GR751KNZY|S2|E26          Serie | Staffel | Folge
+episode_air_date      2017-04-01T…+09:00        japanische Erstausstrahlung
+slug_title            beast-titan               englischer Slug, sprachunabhängig
+versions[]            ja-JP*, en-US, pt-BR, es-419, de-DE, es-ES, pl-PL
+```
+
+**`versions` ist der Schlüssel, und er hängt an der Folge, nicht am Block.** Damit wird die
+Frage „gibt es diese Folge auf Deutsch" beantwortet, ohne dass man den richtigen Block erraten
+muss — der Fehler, an dem Detektiv Conan gescheitert ist. Gemessen an zwei Serien:
+
+| Serie | Block | Folgen mit `de-DE` |
+|---|---|---|
+| Attack on Titan, Staffel 2 (`GR49C7303`) | Originalblock | **12 von 12** |
+| Blue Exorcist, Kyoto Saga (`GY9P57Z9R`) | Originalblock | **0 von 12** |
+| Blue Exorcist, Shimane Illuminati (`GRDQCGKJ0`) | eigener Block | trägt `de-DE` |
+
+Blue Exorcist zeigt, warum die Serienebene nicht genügt: **Dieselbe Serie ist blockweise
+verschieden** — eine Staffel deutsch, die andere nicht. Ein Urteil über „die Serie" ist
+deshalb immer entweder zu großzügig oder zu streng.
+
+**Und über Anbieter hinweg trägt nur `episode_air_date`.** Folgennummern taugen nicht: Prime
+führt in einer Liste die deutsche Zählung (149–151) neben der japanischen Gesamtzählung
+(1146–1148), Crunchyroll vergibt bei Blue Exorcist eine Staffelnummer der Form `S00095473`.
+Die japanische Erstausstrahlung ist dagegen ein Datum, das keine Plattform neu vergibt — sie
+ist der gemeinsame Anker zu AniList und zu jedem anderen Dienst. Als zweiter Anker dient
+`slug_title`: Er ist englisch und ändert sich mit der Tonspur nicht.
+
+
 ## Ein Kinostart ist keine Sprachfassung — bei Anime fallen beide regelmäßig auseinander
 
 Bei Serien zieht dieses Projekt die Trennlinie zwischen Synchro und Untertitel längst. Beim
