@@ -515,12 +515,37 @@ async function speicherSchreiben(werte) {
     const text = seitenHtml()
     const alle = new Set()
     const nummern = new Set()
-    // Nur Tonspuren, die zu einer Folge gehören — der Abstand ist bewusst eng.
-    // `[^\]]` deckt beide Formen ab: Namen wie Objekte, solange keine
-    // verschachtelte Klammer dazwischenliegt.
-    for (const m of text.matchAll(/"audioTracks"\s*:\s*\[([^\]]*)\][\s\S]{0,400}?"episodeNumber"\s*:\s*(\d+)/g)) {
-      nummern.add(Number(m[2]))
-      for (const name of sprachnamen(m[1])) alle.add(name)
+    /**
+     * **Gepaart über die Reihenfolge, nicht über einen Abstand.**
+     *
+     * Bis zum 25.08.2026 verlangte ein einziges Muster, dass `audioTracks` und
+     * `episodeNumber` höchstens 400 Zeichen auseinanderliegen. Bei „Babylon"
+     * liegen sie weiter auseinander — die Seite führt 15 Tonspurangaben, alle
+     * mit Deutsch, und 12 Folgennummern, und die Erweiterung fand **null**
+     * Paare. Der Knopf blieb auf „Tonspuren noch nicht geladen" stehen
+     * (Daniel, 25.08.2026, gemessen mit `tools/amazon-tonspuren-messen.js`).
+     *
+     * Dass ein fester Abstand nicht trägt, steht seit dem 23.08.2026 in
+     * `CLAUDE.md`: „Ein Abstand, der vom Inhalt eines Nachbarfelds abhängt, ist
+     * keine Regel, sondern ein Zufall mit Frist." Die Frist ist jetzt abgelaufen.
+     *
+     * Stattdessen werden beide Feldarten mit ihrer Position eingesammelt und
+     * der Reihe nach gepaart: Zu einer Tonspurangabe gehört die **nächste**
+     * Folgennummer dahinter — aber nur, wenn vorher keine weitere
+     * Tonspurangabe kommt. Das braucht keine Zahl und gilt unabhängig davon,
+     * wie viel Amazon dazwischenschreibt.
+     */
+    const tonspuren = [...text.matchAll(/"audioTracks"\s*:\s*\[([^\]]*)\]/g)]
+    const folgenNr = [...text.matchAll(/"episodeNumber"\s*:\s*(\d+)/g)]
+    let nrIndex = 0
+    for (let i = 0; i < tonspuren.length; i++) {
+      const von = tonspuren[i].index ?? 0
+      const bis = tonspuren[i + 1]?.index ?? text.length
+      while (nrIndex < folgenNr.length && (folgenNr[nrIndex].index ?? 0) < von) nrIndex++
+      const treffer = folgenNr[nrIndex]
+      if (!treffer || (treffer.index ?? 0) >= bis) continue
+      nummern.add(Number(treffer[1]))
+      for (const name of sprachnamen(tonspuren[i][1])) alle.add(name)
     }
     /**
      * Wie viele Folgen die Staffel insgesamt hat.

@@ -66,6 +66,62 @@ const echt =
   pruefe('Untertitel zählen nicht als Tonspur', !sprachen.some((s) => /deutsch/i.test(s)), sprachen)
 }
 
+/**
+ * **Eine Tonspur zählt auch dann, wenn Amazon viel dazwischenschreibt.**
+ *
+ * Bis zum 25.08.2026 verlangte der Leser, dass `audioTracks` und
+ * `episodeNumber` höchstens 400 Zeichen auseinanderliegen. Bei „Babylon"
+ * (`0J16B1NAB82TO0O5A5Q8TLG1VP`) liegen sie weiter auseinander: Die Seite führt
+ * 15 Tonspurangaben, alle mit Deutsch, und 12 Folgennummern — gefunden wurden
+ * **null** Paare, und der Knopf blieb auf „Tonspuren noch nicht geladen".
+ *
+ * Gepaart wird deshalb über die Reihenfolge: Zu einer Tonspurangabe gehört die
+ * nächste Folgennummer dahinter, solange vorher keine weitere Tonspurangabe
+ * kommt. Diese Zusicherung hält das gegen einen Abstand fest, der jede feste
+ * Grenze reißt.
+ */
+function paare(text) {
+  const alle = new Set()
+  const nummern = new Set()
+  const tonspuren = [...text.matchAll(/"audioTracks"\s*:\s*\[([^\]]*)\]/g)]
+  const folgenNr = [...text.matchAll(/"episodeNumber"\s*:\s*(\d+)/g)]
+  let nrIndex = 0
+  for (let i = 0; i < tonspuren.length; i++) {
+    const von = tonspuren[i].index ?? 0
+    const bis = tonspuren[i + 1]?.index ?? text.length
+    while (nrIndex < folgenNr.length && (folgenNr[nrIndex].index ?? 0) < von) nrIndex++
+    const treffer = folgenNr[nrIndex]
+    if (!treffer || (treffer.index ?? 0) >= bis) continue
+    nummern.add(Number(treffer[1]))
+    for (const s of tonspuren[i][1].split(',')) {
+      const name = s.trim().replace(/^"|"$/g, '')
+      if (name) alle.add(name)
+    }
+  }
+  return { sprachen: [...alle], folgen: nummern.size }
+}
+
+{
+  const fuellung = '"x":"' + 'y'.repeat(900) + '",'
+  const weit =
+    '"audioTracks":["Deutsch"],' + fuellung + '"episodeNumber":1,' +
+    '"audioTracks":["Deutsch"],' + fuellung + '"episodeNumber":2,'
+  const { sprachen, folgen } = paare(weit)
+  pruefe('900 Zeichen Abstand: beide Folgen erkannt', folgen === 2, folgen)
+  pruefe('900 Zeichen Abstand: Deutsch gefunden', sprachen.includes('Deutsch'), sprachen)
+}
+
+{
+  // Und die Paarung greift nicht über die nächste Tonspurangabe hinweg: Eine
+  // Angabe ohne eigene Folgennummer bleibt ohne — sonst erbte sie eine fremde.
+  const ohneEigene = '"audioTracks":["日本語"],"audioTracks":["Deutsch"],"episodeNumber":7,'
+  const { sprachen, folgen } = paare(ohneEigene)
+  pruefe('ohne eigene Folgennummer keine Zuordnung', folgen === 1 && !sprachen.includes('日本語'), {
+    sprachen,
+    folgen,
+  })
+}
+
 {
   pruefe('ASIN aus /dp/', asin('/dp/B0CQ4VL364') === 'B0CQ4VL364')
   pruefe('ASIN aus /gp/video/detail/', asin('/gp/video/detail/B07VP6VPVR?ref_=x') === 'B07VP6VPVR')
