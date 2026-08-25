@@ -64,3 +64,14 @@
   note: "Kinostart bestätigt; die Sprachfassungen hat der Verleih noch nicht bekanntgegeben."
   schedule: { firstEpisodeDate: "2026-11-24" }
   sources: [https://www.anime2you.de/news/1036604/madoka-magica-walpurgisnacht-rising-kinostart/]
+
+- slug: all-you-need-is-kill-kino
+  anilistId: 187892
+  search: "ALL YOU NEED IS KILL"
+  titleDe: "All You Need is Kill"
+  platform: kino
+  releaseType: movie
+  publisher: "KSM Anime"
+  note: "Deutsche Synchronfassung bestätigt, zusätzlich japanischer Originalton mit Untertiteln."
+  schedule: { firstEpisodeDate: "2026-09-29" }
+  sources: [https://www.anime2you.de/news/1039622/all-you-need-is-kill-deutscher-kinostart/]

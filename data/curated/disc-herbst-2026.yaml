@@ -416,3 +416,16 @@
   note: "Folgen 31–35, deutsche und japanische Tonspur."
   schedule: { firstEpisodeDate: "2027-06-18" }
   sources: [https://www.anime2you.de/news/1037042/oshi-no-ko-staffel-3-disc-termin/]
+
+# Nachgetragen am 25.08.2026: Der Kinostart kam über TMDB in den Blick
+# (`data/tmdb-kino.json`), der Disc-Termin stand im selben Anime2You-Artikel.
+- slug: all-you-need-is-kill-disc
+  anilistId: 187892
+  search: "ALL YOU NEED IS KILL"
+  titleDe: "All You Need is Kill"
+  platform: disc
+  releaseType: disc
+  publisher: "KSM Anime"
+  edition: "Collector's Edition, Blu-ray — deutscher und japanischer Ton, Artcards, Trailer"
+  schedule: { firstEpisodeDate: "2026-10-22" }
+  sources: [https://www.anime2you.de/news/1039622/all-you-need-is-kill-deutscher-kinostart/]

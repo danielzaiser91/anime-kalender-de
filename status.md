@@ -334,6 +334,56 @@ und nehmen die Sprache als gegeben — im Ursprungsland läuft ein Film in der L
 Wer die Fassung braucht, kommt an deutschen Portalen nicht vorbei. Das macht Daniels Messung
 mit `akKino()` zum entscheidenden Schritt, nicht zu einem von mehreren.
 
+### Die TMDB-Parametermatrix, vollständig durchgespielt (25.08.2026)
+
+Daniels Frage: Filtert `region=DE` vielleicht schon die Filme heraus, für die es keine deutsche
+Fassung gibt? Dann wäre die Trefferliste selbst der Beleg. Geprüft an „COLORFUL STAGE! The
+Movie" (TMDB 1322752) — einem Film, der in Deutschland **ausdrücklich ohne Synchronfassung**
+lief.
+
+**Alle vier Kombinationen aus `region` und `language`, an `/movie` und `/release_dates`:**
+
+| Parameter | `/movie`: `spoken_languages` | `/release_dates`: DE-Eintrag | `iso_639_1` |
+|---|---|---|---|
+| — | `["ja"]` | 05.04.2025, Typ 3 | leer |
+| `region=DE` | `["ja"]` | 05.04.2025, Typ 3 | leer |
+| `language=de-DE` | `["ja"]` | 05.04.2025, Typ 3 | leer |
+| beide | `["ja"]` | 05.04.2025, Typ 3 | leer |
+
+**`region` und `language` ändern an `/release_dates` gar nichts** — alle vier Aufrufe liefern
+dieselben 23 Länder mit identischen Feldern. An `/movie` ändert `language` allein die
+Schreibweise des Titels (gerader gegen typografischer Apostroph), sonst nichts; die Feldzahl
+bleibt bei 27.
+
+**An `discover` wirkt `region` dagegen scharf** — und das ist der brauchbare Teil:
+
+| Parameter | Treffer im Fenster 2024–2027 |
+|---|---|
+| — | **592** japanische Animationsfilme mit Kinostart |
+| `region=DE` | **45** |
+| `language=de-DE` | 592 — ändert nichts an der Menge |
+| beide | 45 |
+
+**Die Hypothese ist damit widerlegt.** `region=DE` filtert auf „hat einen deutschen Kinostart",
+nicht auf „hat eine deutsche Fassung" — denn unter den 45 stehen alle drei nachweislichen
+OmU-only-Fälle. Ein Lauf über März/April 2025 gibt fünf Treffer, drei davon sind genau diese
+Filme.
+
+### Was der Abgleich der 45 mit unserem Kalender ergab
+
+Von den 45 liegen zwei in der Zukunft: „Detektiv Conan Film 29" (25.08., **haben wir**) und
+**„All You Need Is Kill" (29.09.2026, fehlte)**. Umgekehrt kennt TMDB unsere beiden anderen
+künftigen Kinostarts nicht — „A New Dawn" (15.10.) und „Madoka: Walpurgisnacht Rising"
+(24.11.) stehen dort nicht als deutsche Kinostarts.
+
+**Die Quellen ergänzen sich also, keine ersetzt die andere.** Anime2You meldet früher und
+kennt kleinere Verleihe; TMDB fängt, was durch die Nachrichtenlage fällt.
+
+**Nachgetragen:** „All You Need is Kill" mit Kinostart 29.09.2026 **und** Disc-Termin
+22.10.2026 (Collector's Edition, KSM Anime). Beide standen im selben Anime2You-Artikel, der
+deutsche Ton ist dort ausdrücklich bestätigt — „mit deutscher Synchronisation sowie im
+japanischen Originalton mit Untertiteln".
+
 **Was unabhängig davon gebaut werden kann:** TMDB als Terminbestätigung für alle Kino-Releases.
 Der Abruf ist rechtlich sauber, der Schlüssel liegt vor, und er beantwortet die halbe Frage —
 ob der Termin stimmt. Die Sprachfassung bleibt bis zur Messung offen.

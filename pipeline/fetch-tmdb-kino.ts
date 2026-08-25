@@ -27,6 +27,32 @@
  * wirklich führt (siehe `status.md`, Abschnitt „Kino-Termine und
  * Sprachfassung").
  *
+ * ## Der Filter ist **kein** Fassungsfilter — und das ist die Gefahr
+ *
+ * Naheliegende Vermutung (Daniel, 25.08.2026): Vielleicht führt TMDB einen
+ * deutschen Kinostart ohnehin nur dann, wenn es eine deutsche Fassung gibt —
+ * dann wäre die Trefferliste selbst schon der Beleg.
+ *
+ * **Gemessen und widerlegt.** Drei Anime-Kinostarts, für die eine deutsche
+ * Synchronfassung nachweislich **nicht** existierte, stehen bei TMDB mit
+ * deutschem Kinostart vom Typ 3:
+ *
+ * | TMDB | Film | DE-Start | Beleg |
+ * |---|---|---|---|
+ * | 1322752 | COLORFUL STAGE! The Movie | 2025-04-05 | „erscheint exklusiv als OmU, eine Synchronfassung ist nicht geplant" |
+ * | 1397163 | Gundam GQuuuuuuX -Beginning- | 2025-03-11 | lief im Original mit Untertiteln |
+ * | 1014505 | Overlord: The Sacred Kingdom | 2025-03-16 | OmU-Premiere 20.09.2024 |
+ *
+ * Ein Lauf über März/April 2025 gibt **fünf** Treffer zurück — drei davon sind
+ * genau diese Filme. Der Filter sagt „hat einen deutschen Kinostart", nicht
+ * „hat eine deutsche Fassung", und die beiden Aussagen fallen bei Anime
+ * regelmäßig auseinander.
+ *
+ * **Deshalb schreibt dieser Lauf Vorschläge und keinen Kalender.** Wer sie
+ * ungeprüft übernähme, trüge untertitelte Filme in einen Synchron-Kalender —
+ * genau die Trennlinie, an der sich dieses Projekt von jedem anderen scheidet
+ * (siehe Projektziel, Punkt 1).
+ *
  * ## Was dieser Lauf tut
  *
  * `discover` mit `region=DE`, `with_release_type=2|3` (Kino, auch limitiert),
@@ -230,7 +256,12 @@ async function main(): Promise<void> {
 
   log(
     `TMDB-Kinostarts: ${funde.length} Filme im Fenster, ${zugeordnet} einem unserer Titel zugeordnet ` +
-      `— Vorschläge in ${ZIEL}, Übernahme bleibt Handarbeit (die Sprachfassung liefert TMDB nicht)`,
+      `— Vorschläge in ${ZIEL}`,
+  )
+  log(
+    '  Achtung: Ein Treffer belegt **keine** deutsche Fassung. Gemessen am 25.08.2026 waren ' +
+      'drei von fünf Treffern im Testfenster nachweislich OmU-only (Colorful Stage, Gundam ' +
+      'GQuuuuuuX, Overlord) — vor der Übernahme gehört die Fassung nachgesehen.',
   )
   for (const f of funde) {
     log(`  ${f.kinostart}  ${f.titel.slice(0, 46).padEnd(48)} ${f.anilistId ? `AniList ${f.anilistId}` : '— nicht zugeordnet'}`)

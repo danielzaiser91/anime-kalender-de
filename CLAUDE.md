@@ -472,6 +472,39 @@ enthalten". Deshalb prüft die Erweiterung seit dem 24.08.2026 das `benefitId`:
 Die Meldung wird nicht unterdrückt — ein Hinweis bleibt ein Hinweis. Aber aus ihr darf kein
 Beleg werden, und das ist dieselbe Trennung, die dieses Projekt bei Crunchyroll schon zieht.
 
+## Ein Kinostart ist keine Sprachfassung — bei Anime fallen beide regelmäßig auseinander
+
+Bei Serien zieht dieses Projekt die Trennlinie zwischen Synchro und Untertitel längst. Beim
+**Kino** ist sie genauso nötig, und dort ist die Verwechslung verlockender: Wenn ein Film in
+Deutschland ins Kino kommt, klingt „deutscher Kinostart" wie „läuft auf Deutsch".
+
+Naheliegende Vermutung (Daniel, 25.08.2026): TMDB führe einen deutschen Kinostart ohnehin nur
+dann, wenn es eine deutsche Fassung gibt — dann wäre die Trefferliste selbst schon der Beleg.
+
+**Gemessen und widerlegt.** Drei Anime-Kinostarts ohne deutsche Synchronfassung stehen bei TMDB
+mit deutschem Kinostart vom Typ 3 (regulär):
+
+| TMDB | Film | DE-Start | Beleg |
+|---|---|---|---|
+| 1322752 | COLORFUL STAGE! The Movie | 05.04.2025 | „exklusiv als OmU, eine Synchronfassung ist nicht geplant" |
+| 1397163 | Gundam GQuuuuuuX -Beginning- | 11.03.2025 | lief im Original mit Untertiteln |
+| 1014505 | Overlord: The Sacred Kingdom | 16.03.2025 | OmU-Premiere am 20.09.2024 |
+
+Ein `discover`-Lauf über März/April 2025 gibt **fünf** Treffer zurück — drei davon sind genau
+diese Filme. Der Filter `region=DE` mit `with_release_type=2|3` sagt „hat einen deutschen
+Kinostart", nicht „hat eine deutsche Fassung".
+
+**Was daraus folgt:** `pipeline/fetch-tmdb-kino.ts` schreibt nach `data/tmdb-kino.json` und
+damit in eine **Vorschlagsdatei**, die `build.ts` nie liest. Ein Kinostart wandert erst dann in
+`data/curated/kino-2026.yaml`, wenn jemand die Fassung nachgesehen hat.
+
+**Und die Fassung steht bei TMDB nirgends.** Über fünf Endpunkte geprüft — `release_dates`,
+`translations`, `alternative_titles`, `watch/providers`, die Filmdaten selbst. Der Gegentest
+entscheidet: „Chihiros Reise ins Zauberland" und „Your Name." haben beide eine deutsche
+Synchronfassung und tragen trotzdem nur `spoken_languages: [ja]`. Das Feld meint die Sprache
+**des Films**, nicht die verfügbaren Fassungen. Über 18 deutsche Termine in sechs Filmen ist
+`iso_639_1` siebzehnmal leer; das eine `"de"` steht an einer TV-Ausstrahlung.
+
 ## Terminquellen: der Shop schlägt die News schlägt die Datenbank
 
 Am 13.08.2026 hat Daniel zehn angebliche Terminwidersprüche einzeln nachgeprüft. Das
