@@ -968,8 +968,50 @@ function Pille({
  * Pille. Der Kalenderknopf sitzt in der Pille, weil er zum einzelnen Termin
  * gehoert; er fuehrt auf denselben Google-Eintrag wie der Knopf im Terminblock.
  */
-function VorbestellPille({ release }: { release: Release }) {
+/**
+ * Streicht aus dem Namen einer Ausgabe den Serientitel, der ohnehin daneben steht.
+ *
+ * „DAN DA DAN (Staffel 2) – Vol. 3" wird zu „Vol. 3". Geschnitten wird nur ein
+ * Vorspann, der wirklich dem Titel entspricht — und nur, wenn danach noch etwas
+ * übrig bleibt: Eine Ausgabe, die genauso heißt wie die Serie, behält ihren
+ * Namen, sonst stünde dort nichts.
+ */
+function kuerzeUmTitel(name: string, titel?: string): string {
+  if (!titel) return name
+  const woerter = titel.split(/[^\p{L}\p{N}]+/u).filter(Boolean)
+  if (!woerter.length) return name
+  /*
+    Geschnitten wird über **Wortgrenzen**, nicht zeichenweise. Der erste Anlauf
+    zählte normalisierte Zeichen mit und lief aus dem Takt, sobald zwei
+    Trennzeichen aufeinander folgten: „Attack on Titan Staffel 4 Teil 3" wurde
+    zu „affel 4 Teil 3" (gemessen am 25.08.2026).
+  */
+  const trenner = '[^\\p{L}\\p{N}]+'
+  /*
+    `(?:…)?` und nicht `…?` — sonst steht dort `[^\p{L}\p{N}]+?`, ein **faules
+    Plus** statt eines optionalen Trenners, und das Muster passt auf keinen
+    einzigen Namen. Gemessen am 25.08.2026: sieben Prüffälle, null Kürzungen.
+  */
+  const muster = new RegExp(
+    `^(?:${trenner})?` +
+      woerter.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join(trenner) +
+      `(?:${trenner})?`,
+    'iu',
+  )
+  const rest = name.replace(muster, '').trim()
+  /*
+    **Ein Rest, der für sich nichts sagt, ist keine Kürzung.** „Jujutsu Kaisen
+    0" unter dem Titel „Jujutsu Kaisen" schrumpfte auf „0" — der Film heißt aber
+    wirklich so, und „0" allein steht in der Pille als Rätsel. Reine Ziffern und
+    alles unter drei Zeichen behalten deshalb den vollen Namen.
+  */
+  if (!rest || rest.length < 3 || /^\d+$/.test(rest)) return name
+  return rest
+}
+
+function VorbestellPille({ release, titel }: { release: Release; titel?: string }) {
   const { t } = useLang()
+  const kurzerName = kuerzeUmTitel(release.name, titel)
   const ev = expandEvents(release)[0]
   const datum = release.schedule?.firstEpisodeDate
   const farbe = PLATFORMS[release.platform]?.color
@@ -985,8 +1027,14 @@ function VorbestellPille({ release }: { release: Release }) {
         rel="noreferrer noopener"
         className="flex min-w-0 flex-col py-0.5 leading-tight"
       >
+        {/*
+          Der Serienname steht drei Zeilen höher im Kopf des Panels — ihn in
+          jeder Pille zu wiederholen macht sie breit und sagt nichts Neues.
+          Übrig bleibt, was die Ausgaben unterscheidet: „Vol. 3" statt
+          „DAN DA DAN (Staffel 2) – Vol. 3".
+        */}
         <span className="truncate text-[13px] font-medium" style={farbe ? { color: farbe } : undefined}>
-          {release.name}
+          {kurzerName}
         </span>
         <span className="truncate text-[11px] opacity-80" style={farbe ? { color: farbe } : undefined}>
           {[zweite, datum && formatDate(datum)].filter(Boolean).join(' · ')}
@@ -999,10 +1047,19 @@ function VorbestellPille({ release }: { release: Release }) {
           rel="noreferrer noopener"
           aria-label={t('detail.addToGoogleAction')}
           title={t('detail.addToGoogleAction')}
-          className="ml-2 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[13px] transition hover:brightness-95 dark:hover:brightness-125"
+          className="ml-2 flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition hover:brightness-95 dark:hover:brightness-125"
           style={farbe ? { background: `${farbe}33`, color: farbe } : undefined}
         >
-          🗓
+          {/*
+            Gezeichnet, nicht als Zeichen: Ein 🗓-Emoji kam in der
+            Oberflächenschrift nicht vor und erschien als leeres Kästchen
+            (gesehen am 25.08.2026 in beiden Themen). Ein Pfad hängt an keiner
+            Schrift.
+          */}
+          <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="16" rx="2" />
+            <path d="M8 3v4M16 3v4M3 10h18M12 14v4M10 16h4" />
+          </svg>
         </a>
       )}
     </span>
@@ -2229,7 +2286,7 @@ export function DetailPanel({
                     </div>
                     <div className="flex flex-wrap gap-1.5">
                       {vorbestellungen.map((r) => (
-                        <VorbestellPille key={r.slug} release={r} />
+                        <VorbestellPille key={r.slug} release={r} titel={anzeigeName(title)} />
                       ))}
                     </div>
                   </div>
