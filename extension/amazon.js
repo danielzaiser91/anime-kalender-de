@@ -1884,7 +1884,10 @@ async function speicherSchreiben(werte) {
       quelltextVeraltet: quelltextVeraltet(),
       frischeStaffel,
       ausSeite: asinAusSeite(),
-      ausAdresse: asin(),
+      ausAdresse: asinAusAdresse(),
+      // asin() faellt auf den Quelltext zurueck — hier steht es getrennt daneben,
+      // damit die Diagnose nicht zweimal dieselbe Quelle zeigt.
+      asinGemischt: asin(),
     })
     const deutsch = [...gesehen.sprachen].some((s) => /deutsch|german/i.test(s))
     const geladen = geladeneFolgen()
@@ -2715,7 +2718,21 @@ async function speicherSchreiben(werte) {
    */
   function quelltextGehoertZurSeite() {
     const ausSeite = asinAusSeite()
-    const ausAdresse = asin()
+    /*
+      **asinAusAdresse(), nicht asin().**
+
+      asin() liefert asinAusSeite() ?? asinAusAdresse() — also zuerst den
+      Quelltext. Der Vergleich fragte damit zweimal dieselbe Quelle ab und war
+      immer wahr; der Waechter darueber wurde wirkungslos, und der veraltete
+      Quelltext galt als frisch.
+
+      Sichtbar im Diagnosefeld (Daniel, 25.08.2026, Wechsel von Darwin Jihen zu
+      Clannad): Die Adresse lautete .../detail/0FQH6UJI..., ausAdresse meldete
+      trotzdem B0FZLQTT9W — die Kennung aus dem alten Quelltext. Gelesen wurden
+      dessen dreizehn Folgen und neun Sprachen, obwohl Clannad nur Deutsch und
+      Japanisch fuehrt.
+    */
+    const ausAdresse = asinAusAdresse()
     return Boolean(ausSeite && ausAdresse && ausSeite === ausAdresse)
   }
 

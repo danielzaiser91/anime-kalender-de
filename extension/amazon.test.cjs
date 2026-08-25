@@ -314,6 +314,38 @@ function veraltetTest(schritte) {
   pruefe('beiStaffelwechsel leert das Titel-Kennung-Paar', /titelZuQuelltext = null/.test(zweig))
 }
 
+/**
+ * **Der Adressvergleich muss zwei verschiedene Quellen vergleichen.**
+ *
+ * `asin()` liefert `asinAusSeite() ?? asinAusAdresse()` — also zuerst den
+ * Quelltext. Wer damit gegen `asinAusSeite()` prüft, fragt zweimal dasselbe und
+ * bekommt immer „gleich" heraus.
+ *
+ * Real am 25.08.2026 beim Wechsel von „Darwin Jihen" zu „Clannad": Die Adresse
+ * lautete `…/detail/0FQH6UJI…`, das Diagnosefeld meldete als `ausAdresse`
+ * trotzdem `B0FZLQTT9W` — die Kennung aus dem alten Quelltext. Der Wächter hielt
+ * ihn für frisch, und der Knopf zeigte dessen dreizehn Folgen und neun Sprachen,
+ * obwohl Clannad nur Deutsch und Japanisch führt.
+ */
+{
+  const ausAdresse = (p) => /\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10,32})(?:[/?]|$)/.exec(p)?.[1] ?? null
+  const gehoertZurSeite = (quelltext, pfad) => {
+    const a = ausAdresse(pfad)
+    return Boolean(quelltext && a && quelltext === a)
+  }
+  pruefe(
+    'alter Quelltext bei neuer Adresse gilt nicht als frisch',
+    gehoertZurSeite('B0FZLQTT9W', '/gp/video/detail/0FQH6UJINFTOTF1LP1IH1VQ7T5') === false,
+  )
+  pruefe(
+    'derselbe Titel gilt als frisch',
+    gehoertZurSeite('B0FZLQTT9W', '/gp/video/detail/B0FZLQTT9W') === true,
+  )
+  const quelle = require('node:fs').readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
+  const block = quelle.slice(quelle.indexOf('function quelltextGehoertZurSeite()'), quelle.indexOf('function quelltextGehoertZurSeite()') + 1400)
+  pruefe('und die Quelle nimmt dafuer asinAusAdresse()', /const ausAdresse = asinAusAdresse\(\)/.test(block))
+}
+
 {
   pruefe('ASIN aus /dp/', asin('/dp/B0CQ4VL364') === 'B0CQ4VL364')
   pruefe('ASIN aus /gp/video/detail/', asin('/gp/video/detail/B07VP6VPVR?ref_=x') === 'B07VP6VPVR')
