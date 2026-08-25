@@ -259,6 +259,43 @@ dritter Weg ist bislang nicht gefunden.
 
 ### Queue
 
+### FSK für Serien: geprüft und zurückgestellt (25.08.2026)
+
+Der Gedanke war verlockend: Jede deutsche Disc-Veröffentlichung braucht eine FSK-Freigabe, also
+müsste sich über `superType=serial` belegen lassen, **dass es eine deutsche Synchro gibt** —
+unabhängig davon, ob ein Anbieter sie führt. Das hätte die 457 offenen Crunchyroll-Verweise von
+einer ganz anderen Seite angegriffen, und es hätte zum Projektziel gepasst wie keine andere
+Quelle.
+
+**Zwei Einzelfälle sahen auch gut aus:** „Jujutsu Kaisen Eps 30–35" und „Chainsaw Man Staffel 1"
+tragen beide `productLanguages: ["german"]`.
+
+**Die Stichprobe hat es widerlegt.** Fünf Serien aus dem Bestand ohne Synchro, alle TV-Serien
+mit mindestens zwölf Folgen aus den Jahren 2005 bis 2022:
+
+| Suche | Treffer | verwertbar |
+|---|---|---|
+| Honey and Clover | 0 von 0 | nein |
+| Full Metal Panic! The Second Raid | 1 von 20 | nein — `productLanguages: []` |
+| Magical Girl Lyrical Nanoha | 0 von 0 | nein |
+| SHUFFLE | 7 von 18 | nein — Treffer sind „Murdoch Mysteries" und „Barbie im Doppelpack" |
+| Air | 143 von 400 | nein — „Die Addams Familie", „Gossip Girl" … |
+
+**Null von fünf.** Zwei Gründe, und beide sind grundsätzlich:
+
+1. **Die Titelsuche ist unscharf.** Sie sucht als Teilzeichenkette, nicht als Wort — „Air"
+   trifft jede Serie mit „air" irgendwo im Titel, und die FSK-Datenbank enthält das gesamte
+   deutsche Fernseh- und Disc-Programm, nicht nur Anime. Bei einem generischen Anime-Titel
+   ertrinkt der Treffer im Rauschen.
+2. **Alte Freigaben tragen das Sprachfeld nicht.** Das war schon beim Kino aufgefallen (Venus
+   Wars 1996, Chihiro 2003) und trifft Katalogtitel besonders — also genau die, um die es hier
+   ginge.
+
+**Was bleibt:** Für **Kinostarts** trägt die FSK (aktuelle Freigaben, eindeutige Verleihtitel),
+und dort läuft sie. Für Serien im Katalog trägt sie nicht. Wieder aufgegriffen würde das nur
+mit einem anderen Einstieg als der Titelsuche — etwa über die Freigabenummer aus einer anderen
+Quelle. Solange die fehlt, ist der Weg zu.
+
 ### CineStar hat eine offene API — und sie ist die beste Quelle für die Fassung (25.08.2026)
 
 **Erst war die Bewertung falsch, und der Grund gehört dazu.** Der erste Durchgang prüfte nur die
