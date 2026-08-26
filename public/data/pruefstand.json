@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-08-26T18:09:32.141Z",
+ "erzeugtAm": "2026-08-26T18:36:22.698Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -53,18 +53,14 @@
    "name": "Disney+",
    "plattform": "disneyplus",
    "gemeldet": 32,
-   "gesamt": 37,
-   "offen": 5,
+   "gesamt": 36,
+   "offen": 4,
    "ohneSeite": 0,
    "ziel": "https://www.disneyplus.com/de-de/series/tokyo-revengers/4HFbN55sAh0i",
    "ziele": [
     {
      "url": "https://www.disneyplus.com/de-de/series/tokyo-revengers/4HFbN55sAh0i",
      "titel": "Tokyo Revengers: Christmas Showdown"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/series/undead-unluck/6yBbjezPBwNW",
-     "titel": "Undead Unluck"
     },
     {
      "url": "https://www.disneyplus.com/de-de/series/go-go-loser-ranger/2VX5fKgeiVEl",
