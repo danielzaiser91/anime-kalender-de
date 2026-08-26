@@ -1472,3 +1472,33 @@ ein zweiter Ort für dieselben Folgen.
 
 Wer diesen Weg noch einmal aufmacht, sollte einen neuen Anlass haben — hier ist er viermal
 zugegangen.
+
+**Fünfter Versuch, fünfte Absage: Die Player-API kennt keinen Weg ohne Wiedergabe.** Daniel am
+26.08.2026: „welche interne funktion ruft netflix auf die das auslöst?" Die Bestandsaufnahme
+zeigt 94 Methoden in `getAPI()` und 66 in `videoPlayer` — **alle** arbeiten auf einer
+bestehenden Sitzung (`…BySessionId`). Es gibt kein `openPlaybackSession`, kein
+`prefetchManifest`.
+
+Die einzige Ausnahme nimmt eine Kennung statt einer Sitzung: `getVideoMetadataByVideoId`. An
+drei Folgen von One Piece geprüft, mit der laufenden als Kontrolle:
+
+| Folge | Kennung | Antwort |
+|---|---|---|
+| 1156, läuft gerade | `82756678` | Objekt — Felder `_metadataObject`, `_video`, `_seasons` |
+| 1157, nie geöffnet | `82756679` | **`undefined`** |
+| 1158, nie geöffnet | `82756680` | **`undefined`** |
+
+Zweimal widerlegt also: Die Funktion liest nur den Zwischenspeicher der **laufenden** Sitzung,
+und selbst dort steht keine Tonspur. Was der Filter als 41 Treffer meldete, waren `trackIds`
+und `trackingInfo` — Verfolgungsmarken für Empfehlungen.
+
+**Die Gegenprobe war der ganze Wert der Messung.** Nur die laufende Folge abzufragen hätte ein
+Objekt geliefert, das aussieht wie eine Lösung. Wer einen Zwischenspeicher misst, misst seine
+eigene Vorarbeit.
+
+**Und ein Wort zum Suchmuster:** `/track/i` fängt `trackId`, `trackingInfo`, `soundtrack`.
+Beim nächsten Mal enger fassen — `audioTrack`, `bcp47`, `audio_locale` — sonst ertrinkt der
+echte Fund in Fehlalarmen.
+
+**Nebenbefund, direkt verwertbar:** One Piece Folge 1156 hat auf Netflix genau eine Tonspur,
+`ja / Japanisch [Original]`. Daniels Meldung war richtig.
