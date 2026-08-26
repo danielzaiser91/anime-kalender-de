@@ -226,6 +226,13 @@ jobs:
           SITE_URL: ${{ vars.SITE_URL }}
         run: npm run data:build
 
+
+      # Was dieser Lauf am Bestand veraendert hat, Zeile fuer Zeile.
+      # Ohne diese Spur sah ein Lauf, der 508 Meldungen verlor, genauso
+      # gruen aus wie einer, der alles eingearbeitet hat (26.08.2026).
+      - name: Delta am Bestand festhalten
+        continue-on-error: true
+        run: npm run data:historie -- --lauf "${{ github.workflow }}"
       - name: Fortschritt — Datensatz bauen
         continue-on-error: true
         env:

@@ -185,8 +185,23 @@ for (const datei of readdirSync(DIR).filter((f) => f.endsWith('.yml') || f.endsW
   }
 }
 
+/**
+ * Skripte, die keinen Fortschritt melden — und deshalb kein Token brauchen.
+ *
+ * Die Regel darunter gilt fuer alles, was laenger laeuft und dabei eine Zahl
+ * schicken soll. `data:historie` schreibt eine einzige Zeile aus dem fertigen
+ * Datensatz; es ruft nichts ab und meldet nichts. Ein Token dort waere ein
+ * Versprechen auf eine Anzeige, die es nicht gibt.
+ *
+ * Die Liste bleibt kurz. Wer ein Skript hier eintraegt, prueft vorher, ob es
+ * wirklich keinen Fortschritt melden soll — die Regel hat am 21.08.2026 einen
+ * Lauf gefunden, der dreieinhalb Minuten stumm dastand.
+ */
+const OHNE_FORTSCHRITT = ['data:historie']
+
 const startetPipeline = (zeile) => {
   const t = zeile.trim()
+  if (OHNE_FORTSCHRITT.some((n) => t.includes(n))) return false
   return t.startsWith('run: npm run data:') || t.startsWith('run: npm run check:')
 }
 
