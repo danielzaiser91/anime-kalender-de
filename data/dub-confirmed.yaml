@@ -21431,3 +21431,31 @@
   available: false
   checkedAt: '2026-08-26'
   note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-26 ---
+
+- anilistId: 21
+  title: "One Piece"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-26'
+  note: "Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, ar|Arabisch — 7 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 98314
+  title: "Kakegurui: Das Leben ist ein Spiel"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+  checkedAt: '2026-08-26'
+  note: "Folge 1 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, id|Indonesisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch, hu|Ungarisch — Durchlauf: Folge 12 — Das Null-Mädchen"
+
+- anilistId: 100876
+  title: "Kakegurui ××"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-26'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, id|Indonesisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch, hu|Ungarisch — Durchlauf: Folge 12 — Das Null-Mädchen"
