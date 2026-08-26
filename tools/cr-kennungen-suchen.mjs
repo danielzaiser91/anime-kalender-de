@@ -179,6 +179,8 @@ async function main() {
       staffeln: beste.staffeln,
       punkte: beste.punkte,
       unserTitel: o.titel,
+      /* Die Adresse gehört dazu — über sie liest der Abruf die Kennung. */
+      url: o.url,
       gesuchtAm: new Date().toISOString().slice(0, 10),
     }
     gefunden++

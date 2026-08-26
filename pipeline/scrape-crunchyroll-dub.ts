@@ -193,6 +193,35 @@ interface KennungsDatei {
 }
 const KENNUNGS_DATEI = 'data/crunchyroll-series-ids.json'
 
+/**
+ * Die **im deutschen Katalog gesuchte** Serienkennung — sie schlägt die aus der
+ * Adresse.
+ *
+ * Eine Adresse aufzulösen liefert die Kennung des Eintrags, auf den sie zeigt.
+ * Das ist nicht dieselbe wie die der deutschen Serie: „Detektiv Conan" steht bei
+ * uns als `crunchyroll.com/de/case-closed`, das ist `G6JQVM3ER` — ein Block mit
+ * 33 Folgen und `ja-JP`. Die deutsche Serie liegt unter `GW4HM7NV3` und führt
+ * 405 deutsche Folgen in neun Blöcken.
+ *
+ * `tools/cr-kennungen-suchen.mjs` sucht sie über `content/v2/discover/search`
+ * und legt sie hier ab. Der Lauf am 26.08.2026 fand zu 391 offenen Adressen 51
+ * Kennungen, **39 davon mit `de-DE`** — Titel, deren deutsche Fassung sonst
+ * unauffindbar geblieben wäre.
+ *
+ * Die Suche braucht eine deutsche Leitung (Crunchyroll liest die Region aus der
+ * IP), läuft also nicht in der Cloud. Deshalb dieser Umweg über eine Datei:
+ * gesucht wird hier, gelesen wird überall.
+ */
+interface DeKennung {
+  seriesId: string
+  crTitel?: string
+  sprachen?: string[]
+  folgen?: number
+  staffeln?: number
+  gesuchtAm?: string
+}
+const DE_KENNUNGS_DATEI = 'data/crunchyroll-de-kennungen.json'
+
 // ─────────────────── Rückfallebene: die gerenderte Seite lesen ───────────────
 //
 // Alles ab hier ist der Weg von vor dem 21.08.2026 und wird nur noch mit
@@ -757,6 +786,29 @@ async function main(): Promise<void> {
   log(`Katalog: ${quelle.katalog ?? 'unbelegt (Region des Rechners)'}`)
 
   const kennungen = readJson<KennungsDatei>(KENNUNGS_DATEI, { aufgeloestAm: '', adressen: {} })
+  /*
+    Die deutschen Kennungen überschreiben, was die Adressauflösung ergeben hat.
+    Der Schlüssel ist dort die AniList-Kennung des Titels, hier die Adresse —
+    verbunden über `unserTitel` gibt es nicht, also über die Adresse, die im
+    Eintrag steht.
+  */
+  const deKennungen = readJson<{ kennungen: Record<string, DeKennung & { url?: string }> }>(
+    DE_KENNUNGS_DATEI,
+    { kennungen: {} },
+  )
+  let deUebernommen = 0
+  for (const eintrag of Object.values(deKennungen.kennungen ?? {})) {
+    if (!eintrag.url || !eintrag.seriesId) continue
+    const bisher = kennungen.adressen[eintrag.url]
+    if (bisher?.seriesId === eintrag.seriesId) continue
+    kennungen.adressen[eintrag.url] = {
+      seriesId: eintrag.seriesId,
+      geprueftAm: eintrag.gesuchtAm ?? new Date().toISOString().slice(0, 10),
+      ziel: 'aus der Suche im deutschen Katalog',
+    }
+    deUebernommen++
+  }
+  if (deUebernommen) console.log(`${deUebernommen} Kennungen aus der deutschen Suche übernommen`)
   const kennungenSichern = () =>
     writeJson(KENNUNGS_DATEI, { aufgeloestAm: new Date().toISOString(), adressen: kennungen.adressen }, true)
 

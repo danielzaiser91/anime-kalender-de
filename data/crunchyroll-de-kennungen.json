@@ -1,0 +1,867 @@
+{
+ "kennungen": {
+  "6": {
+   "seriesId": "GXJHM3PK5",
+   "crTitel": "TRIGUN STAMPEDE",
+   "sprachen": [
+    "fr-FR",
+    "de-DE",
+    "pt-BR",
+    "ru-RU",
+    "ja-JP",
+    "es-419",
+    "en-US"
+   ],
+   "folgen": 24,
+   "staffeln": 2,
+   "punkte": 1,
+   "unserTitel": "Trigun",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/de/trigun"
+  },
+  "207": {
+   "seriesId": "GYJQXM056",
+   "crTitel": "Record of Grancrest War",
+   "sprachen": [
+    "de-DE"
+   ],
+   "folgen": 25,
+   "staffeln": 1,
+   "punkte": 2,
+   "unserTitel": "Record of Lodoss War",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/de/record-of-lodoss-war"
+  },
+  "223": {
+   "seriesId": "GG5H5XQ35",
+   "crTitel": "Dragon Ball DAIMA",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 20,
+   "staffeln": 1,
+   "punkte": 3,
+   "unserTitel": "Dragon Ball",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/de/dragon-ball"
+  },
+  "225": {
+   "seriesId": "GG5H5XQ35",
+   "crTitel": "Dragon Ball DAIMA",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 20,
+   "staffeln": 1,
+   "punkte": 2,
+   "unserTitel": "Dragon Ball GT",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/de/dragon-ball-gt"
+  },
+  "779": {
+   "seriesId": "GW4HM7NV3",
+   "crTitel": "Detektiv Conan",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 2,
+   "unserTitel": "Detektiv Conan: Der tickende Wolkenkratzer",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-1-der-tickende-wolkenkratzer-unbekannt-810163"
+  },
+  "780": {
+   "seriesId": "GW4HM7NV3",
+   "crTitel": "Detektiv Conan",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 2,
+   "unserTitel": "Detektiv Conan: Das 14. Ziel",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-2-das-14-ziel-unbekannt-810165"
+  },
+  "813": {
+   "seriesId": "GG5H5XQ35",
+   "crTitel": "Dragon Ball DAIMA",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 20,
+   "staffeln": 1,
+   "punkte": 2,
+   "unserTitel": "Dragon Ball Z",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/de/dragon-ball-z"
+  },
+  "896": {
+   "seriesId": "GG5H5XQ35",
+   "crTitel": "Dragon Ball DAIMA",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 20,
+   "staffeln": 1,
+   "punkte": 1,
+   "unserTitel": "Dragon Ball Z: Die Entscheidungsschlacht",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/de/series/GMTE00002912/dragon-ball-z-the-tree-of-might"
+  },
+  "905": {
+   "seriesId": "GG5H5XQ35",
+   "crTitel": "Dragon Ball DAIMA",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 20,
+   "staffeln": 1,
+   "punkte": 1,
+   "unserTitel": "Dragon Ball Z: Die Fusion",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/de/series/GMTE00002909/dragon-ball-z-fusion-reborn"
+  },
+  "906": {
+   "seriesId": "GG5H5XQ35",
+   "crTitel": "Dragon Ball DAIMA",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 20,
+   "staffeln": 1,
+   "punkte": 1,
+   "unserTitel": "Dragon Ball Z: Drachenfaust",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/de/series/GMTE00002910/dragon-ball-z-wrath-of-the-dragon"
+  },
+  "1140": {
+   "seriesId": "GMTE00002351",
+   "crTitel": "Origin: Spirits of the Past",
+   "sprachen": [
+    "ja-JP",
+    "en-US"
+   ],
+   "folgen": 1,
+   "staffeln": 1,
+   "punkte": 6,
+   "unserTitel": "Origin: Spirits of the Past",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/de/origin-spirits-of-the-past"
+  },
+  "1364": {
+   "seriesId": "GW4HM7NV3",
+   "crTitel": "Detektiv Conan",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 1,
+   "unserTitel": "Detektiv Conan: Countdown zum Himmel",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-5-countdown-zum-himmel-unbekannt-810169?ssid=398572"
+  },
+  "1365": {
+   "seriesId": "GW4HM7NV3",
+   "crTitel": "Detektiv Conan",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 1,
+   "unserTitel": "Detektiv Conan: Das Phantom der Baker Street",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-6-das-phantom-der-baker-street-unbekannt-810184?ssid=398574"
+  },
+  "1417": {
+   "seriesId": "G1XHJVXGN",
+   "crTitel": "LUPIN III. Movies",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 1,
+   "unserTitel": "Lupin III: Der goldene Drache",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-brenne-zantetsuken-der-goldene-drache-unbekannt-813890?ssid=407178"
+  },
+  "1436": {
+   "seriesId": "G1XHJVXGN",
+   "crTitel": "LUPIN III. Movies",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 1,
+   "unserTitel": "Lupin III: Der Diamant der Dämmerung",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-das-geheimnis-des-twilight-gemini-der-diamant-der-dmmerung-unbekannt-813886?ssid=407187"
+  },
+  "1438": {
+   "seriesId": "G1XHJVXGN",
+   "crTitel": "LUPIN III. Movies",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 2,
+   "unserTitel": "Lupin III: Der Höllentrip",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-mordbefehl-an-lupin-der-hllentrip-unbekannt-813888?ssid=407176"
+  },
+  "2966": {
+   "seriesId": "G1XHJV08M",
+   "crTitel": "Spice and Wolf: MERCHANT MEETS THE WISE WOLF",
+   "sprachen": [
+    "es-419",
+    "pt-BR",
+    "de-DE",
+    "ja-JP",
+    "fr-FR",
+    "en-US"
+   ],
+   "folgen": 25,
+   "staffeln": 1,
+   "punkte": 5,
+   "unserTitel": "Spice and Wolf",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/de/spice-and-wolf"
+  },
+  "4447": {
+   "seriesId": "GW4HM7NV3",
+   "crTitel": "Detektiv Conan",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 1,
+   "unserTitel": "Detektiv Conan: Die Partitur des Grauens",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-12-die-partitur-des-grauens-unbekannt-811393?ssid=400590"
+  },
+  "5341": {
+   "seriesId": "G1XHJV08M",
+   "crTitel": "Spice and Wolf: MERCHANT MEETS THE WISE WOLF",
+   "sprachen": [
+    "es-419",
+    "pt-BR",
+    "de-DE",
+    "ja-JP",
+    "fr-FR",
+    "en-US"
+   ],
+   "folgen": 25,
+   "staffeln": 1,
+   "punkte": 4,
+   "unserTitel": "Spice and Wolf II",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/de/spice-and-wolf"
+  },
+  "6007": {
+   "seriesId": "G1XHJV08M",
+   "crTitel": "Spice and Wolf: MERCHANT MEETS THE WISE WOLF",
+   "sprachen": [
+    "es-419",
+    "pt-BR",
+    "de-DE",
+    "ja-JP",
+    "fr-FR",
+    "en-US"
+   ],
+   "folgen": 25,
+   "staffeln": 1,
+   "punkte": 4,
+   "unserTitel": "Spice and Wolf OVA",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/de/spice-and-wolf"
+  },
+  "6115": {
+   "seriesId": "GJ0H7QM3K",
+   "crTitel": "LUPIN III. – TV Special Collection",
+   "sprachen": [
+    "de-DE",
+    "ja-JP"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 1,
+   "unserTitel": "Lupin III. vs Detektiv Conan: The Special",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/detektiv-conan/detektiv-conan-tv-special-lupin-iii-vs-detektiv-conan-unbekannt-812798?ssid=404716"
+  },
+  "6862": {
+   "seriesId": "GXJHM3N2E",
+   "crTitel": "K-ON!",
+   "sprachen": [
+    "de-DE",
+    "ja-JP"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 1,
+   "unserTitel": "K-On! Extrafolge: Livemusik-Klub!",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/k-on/episode-14-807608?ssid=394401"
+  },
+  "9253": {
+   "seriesId": "GYW4D15K6",
+   "crTitel": "Steins;Gate 0",
+   "sprachen": [
+    "de-DE"
+   ],
+   "folgen": 24,
+   "staffeln": 1,
+   "punkte": 3,
+   "unserTitel": "Steins;Gate",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/de/steinsgate"
+  },
+  "9734": {
+   "seriesId": "GXJHM3N2E",
+   "crTitel": "K-ON!",
+   "sprachen": [
+    "de-DE",
+    "ja-JP"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 3,
+   "unserTitel": "K-On!! Pläne!",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/k-on/episode-27-809423?ssid=397229"
+  },
+  "9756": {
+   "seriesId": "G6QWDD096",
+   "crTitel": "Magia Record: Puella Magi Madoka Magica Side Story",
+   "sprachen": [
+    "pt-BR",
+    "en-US",
+    "ja-JP",
+    "es-419"
+   ],
+   "folgen": 26,
+   "staffeln": 3,
+   "punkte": 4,
+   "unserTitel": "Puella Magi Madoka Magica",
+   "gesuchtAm": "2026-08-26",
+   "url": "http://www.crunchyroll.com/de/puella-magi-madoka-magica"
+  },
+  "9963": {
+   "seriesId": "GW4HM7NV3",
+   "crTitel": "Detektiv Conan",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 1,
+   "unserTitel": "Detektiv Conan: Die 15 Minuten der Stille",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-15-die-15-minuten-der-stille-unbekannt-811397?ssid=400596"
+  },
+  "11061": {
+   "seriesId": "GJ0H7Q5X9",
+   "crTitel": "The Fire Hunter",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 20,
+   "staffeln": 1,
+   "punkte": 1,
+   "unserTitel": "Hunter × Hunter",
+   "gesuchtAm": "2026-08-26",
+   "url": "http://www.crunchyroll.com/de/hunter-x-hunter"
+  },
+  "11763": {
+   "seriesId": "G1XHJVWXG",
+   "crTitel": "The Reincarnation Of The Strongest Exorcist In Another World",
+   "sprachen": [
+    "hi-IN",
+    "ja-JP",
+    "fr-FR",
+    "en-US"
+   ],
+   "folgen": 13,
+   "staffeln": 1,
+   "punkte": 1,
+   "unserTitel": "Wanna Be the Strongest in the World!",
+   "gesuchtAm": "2026-08-26",
+   "url": "http://www.crunchyroll.com/de/wanna-be-the-strongest-in-the-world"
+  },
+  "12049": {
+   "seriesId": "G6DQDD3WR",
+   "crTitel": "Fairy Tail",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 329,
+   "staffeln": 3,
+   "punkte": 1,
+   "unserTitel": "Fairy Tail: The Movie - Phoenix Priestess",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/fairy-tail-movies/fairy-tail-the-movie-phoenix-princess-unbekannt-821316?ssid=422327"
+  },
+  "12117": {
+   "seriesId": "GW4HM7NV3",
+   "crTitel": "Detektiv Conan",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 2,
+   "unserTitel": "Detektiv Conan: Der 11. Stürmer",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-16-der-11-strmer-unbekannt-811399?ssid=400598"
+  },
+  "12477": {
+   "seriesId": "G4PH0W3ZZ",
+   "crTitel": "Patema Inverted",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 4,
+   "unserTitel": "Patema Inverted",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/watch/GK9U31019/"
+  },
+  "14735": {
+   "seriesId": "GW4HM7NV3",
+   "crTitel": "Detektiv Conan",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 1,
+   "unserTitel": "Detektiv Conan: Detektiv auf hoher See",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-17-detektiv-auf-hoher-see-unbekannt-812230?ssid=402659"
+  },
+  "15813": {
+   "seriesId": "G79H23ZKP",
+   "crTitel": "Yoyo & Nene - Die magischen Schwestern",
+   "sprachen": [
+    "de-DE",
+    "ja-JP"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 8,
+   "unserTitel": "Yoyo & Nene: Die magischen Schwestern",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/watch/G50UZV2GM/"
+  },
+  "20629": {
+   "seriesId": "GRNQPEGWR",
+   "crTitel": "Terra Formars",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 27,
+   "staffeln": 2,
+   "punkte": 4,
+   "unserTitel": "Terra Formars",
+   "gesuchtAm": "2026-08-26",
+   "url": "http://www.crunchyroll.com/de/terraformars"
+  },
+  "20790": {
+   "seriesId": "GMEHMENQM",
+   "crTitel": "Magic Kaito",
+   "sprachen": [
+    "de-DE",
+    "ja-JP"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 3,
+   "unserTitel": "Magic Kaito 1412",
+   "gesuchtAm": "2026-08-26",
+   "url": "http://www.crunchyroll.com/de/magickaito"
+  },
+  "20889": {
+   "seriesId": "GYJQV73V6",
+   "crTitel": "Love, Chunibyo & Other Delusions - Heart Throb -",
+   "sprachen": [
+    "de-DE",
+    "ja-JP"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 5,
+   "unserTitel": "Love, Chunibyo & Other Delusions: Heart Throb - Offenbarung des wahren Auges des bösen Königs … Wiederholung",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-/episode-13-799361?ssid=387047"
+  },
+  "20912": {
+   "seriesId": "GRDQNQW9Y",
+   "crTitel": "Sound! Euphonium",
+   "sprachen": [
+    "en-US",
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 41,
+   "staffeln": 4,
+   "punkte": 4,
+   "unserTitel": "Sound! Euphonium",
+   "gesuchtAm": "2026-08-26",
+   "url": "http://www.crunchyroll.com/de/sound-euphonium"
+  },
+  "20926": {
+   "seriesId": "GR2P1ZEMR",
+   "crTitel": "Akuma no Riddle",
+   "sprachen": [
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 1,
+   "unserTitel": "Akuma no Riddle: Wer siegt? (Überraschungstest)",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/watch/GK9U3Z4XE/"
+  },
+  "21057": {
+   "seriesId": "G68DVV2G6",
+   "crTitel": "Pandora in the Crimson Shell Ghost Urn",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 1,
+   "unserTitel": "Ghost in the Shell: The New Movie",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/de/ghost-in-the-shell-arise"
+  },
+  "21140": {
+   "seriesId": "GKEH2GQDG",
+   "crTitel": "Typhoon Noruda",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 4,
+   "unserTitel": "Typhoon Noruda",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/typhoon-noruda/typhoon-noruda-unbekannt-859032"
+  },
+  "21175": {
+   "seriesId": "GG5H5XQ35",
+   "crTitel": "Dragon Ball DAIMA",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 20,
+   "staffeln": 1,
+   "punkte": 2,
+   "unserTitel": "Dragon Ball Super",
+   "gesuchtAm": "2026-08-26",
+   "url": "http://www.crunchyroll.com/de/dragon-ball-super"
+  },
+  "21416": {
+   "seriesId": "G63K98PZ6",
+   "crTitel": "One-Punch Man",
+   "sprachen": [
+    "de-DE",
+    "en-US",
+    "ja-JP",
+    "it-IT",
+    "es-ES",
+    "fr-FR"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 5,
+   "unserTitel": "One Punch Man OVAs",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/watch/GPWU8KM42/the-shadow-that-snuck-up-too-close"
+  },
+  "21584": {
+   "seriesId": "G3KHEVPWE",
+   "crTitel": "Love Live! Superstar!!",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 36,
+   "staffeln": 3,
+   "punkte": 2,
+   "unserTitel": "Love Live! Sunshine!!",
+   "gesuchtAm": "2026-08-26",
+   "url": "http://www.crunchyroll.com/de/love-live-sunshine"
+  },
+  "21742": {
+   "seriesId": "GY5VEEK5Y",
+   "crTitel": "Touken Ranbu - Hanamaru",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 27,
+   "staffeln": 3,
+   "punkte": 2,
+   "unserTitel": "Katsugeki: Touken Ranbu",
+   "gesuchtAm": "2026-08-26",
+   "url": "http://www.crunchyroll.com/de/katsugeki-touken-ranbu"
+  },
+  "98222": {
+   "seriesId": "GW4HM7NV3",
+   "crTitel": "Detektiv Conan",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 2,
+   "unserTitel": "Detektiv Conan: Der purpurrote Liebesbrief",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-21-der-purpurrote-liebesbrief-unbekannt-812236?ssid=402669"
+  },
+  "98856": {
+   "seriesId": "GJ0H7QDW8",
+   "crTitel": "Armed Girl's Machiavellism",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 4,
+   "unserTitel": "Armed Girl’s Machiavellism: Herzklopfen! Betriebsausflug der „Fünf Schwerter“",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/armed-girls-machiavellism/episode-13-799297?ssid=385722"
+  },
+  "100653": {
+   "seriesId": "GW4HM7NV3",
+   "crTitel": "Detektiv Conan",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 2,
+   "unserTitel": "Detektiv Conan: Zero der Vollstrecker",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-22-zero-der-vollstrecker-unbekannt-812237?ssid=402670"
+  },
+  "100668": {
+   "seriesId": "GT00378122",
+   "crTitel": "The World's Strongest Rearguard",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 8,
+   "staffeln": 1,
+   "punkte": 2,
+   "unserTitel": "Arifureta: From Commonplace to World’s Strongest",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/de/arifureta-from-commonplace-to-worlds-strongest"
+  },
+  "100749": {
+   "seriesId": "GG5H5XQWP",
+   "crTitel": "Mirai - Das Mädchen aus der Zukunft",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 8,
+   "unserTitel": "Mirai: Das Mädchen aus der Zukunft",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/watch/GQJUGQWMW/"
+  },
+  "106206": {
+   "seriesId": "GW4HM7NV3",
+   "crTitel": "Detektiv Conan",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 2,
+   "unserTitel": "Detektiv Conan: Die stahlblaue Faust",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-23-die-stahlblaue-faust-unbekannt-857862"
+  },
+  "107313": {
+   "seriesId": "GY795JDZR",
+   "crTitel": "LUPIN III. - The Woman Called Fujiko Mine",
+   "sprachen": [
+    "de-DE",
+    "ja-JP"
+   ],
+   "folgen": 13,
+   "staffeln": 1,
+   "punkte": 1,
+   "unserTitel": "Lupin III.: Fujiko Mines Lüge",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/fujiko-mines-lge-unbekannt-822260?ssid=424587"
+  },
+  "108487": {
+   "seriesId": "GVDHX8V5V",
+   "crTitel": "Fragtime",
+   "sprachen": [
+    "de-DE",
+    "ja-JP"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 2,
+   "unserTitel": "Fragtime",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/fragtime/fragtime-unbekannt-813782?ssid=406732"
+  },
+  "108945": {
+   "seriesId": "G63K98PZ6",
+   "crTitel": "One-Punch Man",
+   "sprachen": [
+    "de-DE",
+    "en-US",
+    "ja-JP",
+    "it-IT",
+    "es-ES",
+    "fr-FR"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 3,
+   "unserTitel": "One Punch Man Season 2 OVAs",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/watch/G9DU9E4QG/saitama-and-the-mediocre-gang"
+  },
+  "110413": {
+   "seriesId": "G1XHJVXGN",
+   "crTitel": "LUPIN III. Movies",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 2,
+   "unserTitel": "Lupin III.: The First",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/lupin-the-3rd-movies/lupin-iii-the-first-unbekannt-827115?ssid=429156"
+  },
+  "113653": {
+   "seriesId": "GW4HM7NV3",
+   "crTitel": "Detektiv Conan",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 2,
+   "unserTitel": "Detektiv Conan: Die scharlachrote Kugel",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-24-die-scharlachrote-kugel-unbekannt-867288"
+  },
+  "126659": {
+   "seriesId": "G6NQ5DWZ6",
+   "crTitel": "My Hero Academia",
+   "sprachen": [
+    "ja-JP",
+    "it-IT",
+    "de-DE",
+    "pt-BR",
+    "ru-RU",
+    "pl-PL",
+    "en-US",
+    "es-419",
+    "fr-FR",
+    "es-ES"
+   ],
+   "folgen": 182,
+   "staffeln": 10,
+   "punkte": 3,
+   "unserTitel": "My Hero Academia: World Heroes’ Mission",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/watch/GG1U2NW9Q"
+  },
+  "131770": {
+   "seriesId": "GW4HM7NV3",
+   "crTitel": "Detektiv Conan",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 2,
+   "unserTitel": "Detektiv Conan: Das Scharlachrote Alibi",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/watch/G50UZ54W0/the-scarlet-alibi-german-dub"
+  },
+  "142219": {
+   "seriesId": "GW4HM7NV3",
+   "crTitel": "Detektiv Conan",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 2,
+   "unserTitel": "Detektiv Conan: Die Halloween-Braut",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/watch/G4VUQVNJ8/"
+  },
+  "154473": {
+   "seriesId": "GT00378122",
+   "crTitel": "The World's Strongest Rearguard",
+   "sprachen": [
+    "ja-JP"
+   ],
+   "folgen": 8,
+   "staffeln": 1,
+   "punkte": 2,
+   "unserTitel": "Arifureta: From Commonplace to World’s Strongest",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/de/series/G4PH0WXD1/arifureta-from-commonplace-to-worlds-strongest"
+  },
+  "156841": {
+   "seriesId": "GW4HM7NV3",
+   "crTitel": "Detektiv Conan",
+   "sprachen": [
+    "ja-JP",
+    "de-DE"
+   ],
+   "folgen": 0,
+   "staffeln": 0,
+   "punkte": 1,
+   "unserTitel": "Detektiv Conan: Das schwarze U-Boot",
+   "gesuchtAm": "2026-08-26",
+   "url": "https://www.crunchyroll.com/watch/GJWUQN11K/"
+  }
+ },
+ "gesuchtAm": "2026-08-26T18:44:19.375Z",
+ "hinweis": "Je AniList-Kennung die im deutschen Katalog gesuchte Crunchyroll-Serienkennung. `url` ist die Adresse, unter der unser Bestand die Serie führt — darüber liest der Abruf sie."
+}

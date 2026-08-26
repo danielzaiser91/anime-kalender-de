@@ -176,6 +176,7 @@ QUELLEN=(
   # lief ihr Erzeuger in keinem Workflow, die Datei stammte vom 23.08., und die
   # Erweiterung bot Titel zum Melden an, die längst geprüft waren — 384 offene
   # Prime-Titel, von denen ein guter Teil erledigt war.
+  data/crunchyroll-de-kennungen.json
   extension/offene-amazon.js
   extension/offene-netflix.js
   extension/offene-disney.js
