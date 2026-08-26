@@ -22267,3 +22267,51 @@
       checked: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44]
   checkedAt: '2026-08-26'
   note: "Folgen 2–44 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, he|Hebräisch, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), cs|Tschechisch — Durchlauf: Folge 2 — Der Anhänger, mit dem alles anfängt – Teil 2"
+
+# GTO: Great Teacher Onizuka (AniList 245, 43 Folgen, 1999) — von Daniel am
+# 26.08.2026 auf drei Anbietern geprueft, ueberall ohne deutsche Tonspur:
+# Netflix 43 Folgen, Crunchyroll 43 Folgen, Prime Video 43 Folgen (dort nur zum
+# Kauf oder ueber die Kanal-Abos ADN und Crunchyroll).
+#
+# Der Titel steht nicht in unserem Bestand, und das ist richtig so: Ohne
+# deutsche Fassung gehoert er nicht in einen Synchro-Kalender. Der Beleg bleibt
+# trotzdem stehen — er verhindert, dass dieselbe Pruefung ein zweites Mal
+# gemacht wird, und er gilt sofort, falls der Titel spaeter dazukommt.
+#
+# Aufgefallen ist er als Meldung aus der Erweiterung, die sich keiner Adresse
+# im Bestand zuordnen liess.
+- anilistId: 245
+  title: "GTO: Great Teacher Onizuka"
+  platform: netflix
+  dub: false
+  checkedAt: '2026-08-26'
+  note: "43 Folgen, keine deutsche Tonspur — von Hand geprueft"
+
+- anilistId: 245
+  title: "GTO: Great Teacher Onizuka"
+  platform: crunchyroll
+  dub: false
+  checkedAt: '2026-08-26'
+  note: "43 Folgen, keine deutsche Tonspur — von Hand geprueft"
+
+- anilistId: 245
+  title: "GTO: Great Teacher Onizuka"
+  platform: primevideo
+  dub: false
+  checkedAt: '2026-08-26'
+  note: "43 Folgen, keine deutsche Tonspur — von Hand geprueft. Nur zum Kauf oder ueber die Kanal-Abos ADN und Crunchyroll; deren Sprachangabe waere ohnehin kein Beleg."
+
+# Shonan Junai Gumi! (AniList 1913, 5 Teile, 1994) — der Vorgaenger von GTO.
+# Daniel am 26.08.2026: „die 5 filme von gto haben auch alle keine deutsche
+# synchro", und auf Nachfrage die Titel: Shonan Junai Gumi 1 bis 4 sowie
+# „5 Last Signal".
+#
+# Der Anbieter fuehrt sie als fuenf Filme, AniList als eine OVA-Reihe mit fuenf
+# Teilen — dieselbe Sache, anders geschnitten. Wie bei der Serie bleibt der
+# Beleg stehen, obwohl der Titel nicht im Bestand ist.
+- anilistId: 1913
+  title: "Shonan Junai Gumi!"
+  platform: primevideo
+  dub: false
+  checkedAt: '2026-08-26'
+  note: "Alle fuenf Teile ohne deutsche Tonspur — von Hand geprueft. Prime fuehrt sie als Filme 1 bis 5 (der fuenfte als „Last Signal\")."
