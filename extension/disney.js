@@ -171,7 +171,20 @@
       zeigePruefung(`${eintrag.titel}\nsammle Folgen …`, { laeuft: true })
       return
     }
-    if (!e.data.vollstaendig) {
+    /*
+      **Losgelegt wird, wenn die Folgen da sind — nicht, wenn ein Signal kommt.**
+
+      Der erste Anlauf wartete auf `vollstaendig`. Blieb das aus, stand der Knopf
+      bei „sammle Folgen … 86/86, 71 gemeldet, 15 zu prüfen" und rührte sich
+      nicht mehr; Daniel hat fünf Minuten zugesehen (26.08.2026). Ein Signal
+      kann ausbleiben, eine Zahl nicht: Sind so viele Folgen beisammen, wie die
+      Staffeln zusammen ansagen, gibt es nichts mehr zu sammeln.
+
+      `vollstaendig` bleibt als zweiter Weg — wo eine Staffel weniger liefert,
+      als sie ansagt, ist es der einzige.
+    */
+    const beisammen = erwartet > 0 && folgen.length >= erwartet
+    if (!e.data.vollstaendig && !beisammen) {
       if (erwartet) {
         const offen = Math.max(0, erwartet - gemeldeteNummern.size)
         zeigePruefung(

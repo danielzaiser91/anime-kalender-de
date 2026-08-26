@@ -193,7 +193,14 @@
   async function staffelHolen(staffel) {
     let gesehen = 0
     let weiter = true
-    while (weiter && gesehen < staffel.gesamt) {
+    /*
+      Eine Schleife über einen fremden Seitenzähler braucht eine eigene Grenze.
+      Sagt der Zähler dauerhaft `hasMore`, ohne dass etwas Neues kommt, läuft
+      sie sonst endlos — und nebenan steht für immer „sammle Folgen".
+    */
+    let runden = 0
+    while (weiter && gesehen < staffel.gesamt && runden < 40) {
+      runden++
       const nach = gesehen
         ? `after=${encodeURIComponent(btoa(JSON.stringify({ offset: gesehen })))}&`
         : ''
@@ -209,6 +216,10 @@
       sammleFolgen(daten)
       gesehen += stueck.length
       weiter = Boolean(daten?.data?.season?.pagination?.hasMore) && stueck.length > 0
+      console.log(
+        `[Anime-Kalender] ${staffel.name}: ${gesehen}/${staffel.gesamt}` +
+          (weiter ? ' — weiter' : ' — fertig'),
+      )
       await new Promise((ok) => setTimeout(ok, TAKT))
     }
   }
