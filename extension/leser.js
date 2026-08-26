@@ -571,6 +571,14 @@
       adresse: location.pathname + location.search,
       folgenFuer,
       gesammelt: folgenliste.size,
+      /*
+        Was Netflix über die Staffeln sagt — und ob die laufende Folge einer
+        zugeordnet ist. Die Meldungen des ersten Kakegurui-Durchlaufs trugen
+        alle staffel: null, und die Pipeline verteilte sie daraufhin über zwei
+        Staffeln (Folge 1 zu Staffel 1, 2-12 zu Staffel 2).
+      */
+      metadaten: metadaten,
+      staffelIds: (metadaten?.staffeln ?? []).map((x) => JSON.stringify(x)),
       folgen: [...folgenliste.values()].sort((a, b) => a.nummer - b.nummer),
       antworten: herkunft,
       zaehler: {
