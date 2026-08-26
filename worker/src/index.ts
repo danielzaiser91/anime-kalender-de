@@ -1530,6 +1530,77 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
       return antwort({ nummern, paare })
     }
 
+    /**
+     * **Eine Zahl, eine Stelle, die sie rechnet.**
+     *
+     * Bis zum 26.08.2026 rechneten drei Stellen dasselbe aus verschiedenen
+     * Quellen: die Statusanzeige aus `pruefstand.json` minus Briefkasten, die
+     * Erweiterung ebenso, und ihre Liste aus dem lokalen Speicher. Das Ergebnis
+     * war ein offener Widerspruch — der Knopf sagte „10 offen", die Liste
+     * daneben „Alles geprüft", und beide hatten recht (Daniel: „wo sind die 10
+     * einträge die es zu prüfen gilt?", danach: „single source of truth").
+     *
+     * Hier laufen beide Quellen zusammen: `pruefstand.json` sagt, was der
+     * Datensatz noch nicht hat, die Datenbank, was davon schon unterwegs ist.
+     * Wer die Zahl braucht, liest sie — niemand rechnet sie nach.
+     *
+     * Gezählt wird in **Staffeln**, wie im Prüfstand; `titel` nennt daneben die
+     * Zahl der Adressen, damit eine Liste ihre eigene Länge belegen kann.
+     */
+    if (new URL(request.url).searchParams.get('stand') === '1') {
+      const { results } = await env.DB.prepare(
+        `SELECT plattform, url FROM pruefung WHERE uebernommen = 0`,
+      ).all<{ plattform: string; url: string }>()
+      const gemeldeteAdressen = new Map<string, Set<string>>()
+      for (const r of results ?? []) {
+        if (!r.url) continue
+        const dazu = gemeldeteAdressen.get(r.plattform) ?? new Set<string>()
+        dazu.add(r.url)
+        gemeldeteAdressen.set(r.plattform, dazu)
+      }
+
+      let stand: { anbieter?: unknown[] } = {}
+      try {
+        const res = await fetch(new URL('data/pruefstand.json', env.SITE_URL).toString(), {
+          cf: { cacheTtl: 60 },
+        } as RequestInit)
+        if (res.ok) stand = (await res.json()) as { anbieter?: unknown[] }
+      } catch {
+        /* Ohne Prüfstand bleibt die Briefkasten-Zahl — besser als keine. */
+      }
+
+      const anbieter = (stand.anbieter ?? []).map((roh) => {
+        const a = roh as {
+          name: string
+          plattform: string
+          offen: number
+          gesamt: number
+          gemeldet: number
+          ziele?: { url: string; titel: string }[]
+        }
+        const unterwegs = gemeldeteAdressen.get(a.plattform) ?? new Set<string>()
+        /*
+          Ein Ziel, das schon im Briefkasten liegt, ist erledigt — auch wenn der
+          Datensatz es noch nicht weiß. Genau dieser Abgleich fehlte.
+        */
+        const offeneZiele = (a.ziele ?? []).filter((z) => !unterwegs.has(z.url))
+        return {
+          name: a.name,
+          plattform: a.plattform,
+          gesamt: a.gesamt,
+          /** Staffeln, die weder im Datensatz noch im Briefkasten stehen. */
+          offen: Math.max(0, a.offen - unterwegs.size),
+          /** Adressen, die noch niemand gemeldet hat. */
+          titel: offeneZiele.length,
+          /** Was davon schon unterwegs ist. */
+          unterwegs: unterwegs.size,
+          ziel: offeneZiele[0]?.url ?? null,
+          ziele: offeneZiele,
+        }
+      })
+      return antwort({ anbieter, erzeugtAm: new Date().toISOString() })
+    }
+
     if (new URL(request.url).searchParams.get('zaehlen') === '1') {
       /*
         **Die Adressen gehören dazu, nicht nur ihre Anzahl.**

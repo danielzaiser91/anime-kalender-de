@@ -1021,24 +1021,29 @@ function fertig(id, eintrag) {
  * Schlägt einer der beiden Abrufe fehl, bleibt es bei der lokalen Zählung —
  * eine Zahl aus dem eigenen Speicher ist besser als keine.
  */
-const PRUEFSTAND = 'https://anime-kalender.de/data/pruefstand.json'
-const BRIEFKASTEN = 'https://newsletter.animekalender.workers.dev/pruefung?zaehlen=1'
+/**
+ * **Der Stand kommt vom Worker — er ist die einzige Stelle, die ihn rechnet.**
+ *
+ * Vorher holte diese Datei `pruefstand.json` und die Zählroute getrennt und zog
+ * beides voneinander ab. Die Statusanzeige tat dasselbe, die Liste rechnete aus
+ * dem lokalen Speicher — drei Rechnungen, drei Ergebnisse. Der Knopf sagte „10
+ * offen", die Liste daneben „Alles geprüft" (Daniel, 26.08.2026: „wo sind die
+ * 10 einträge die es zu prüfen gilt?" — danach: „single source of truth").
+ *
+ * Jetzt rechnet der Worker: Er kennt den Briefkasten und lädt den Prüfstand.
+ * Wer die Zahl braucht, liest sie.
+ */
+const STAND = 'https://newsletter.animekalender.workers.dev/pruefung?stand=1'
 
-/** Was die Statusanzeige für Netflix als offen führt — `null`, solange unbekannt. */
+/** Was der Worker für Netflix als offen führt — `null`, solange unbekannt. */
 let offenLautStand = null
 
 async function standHolen() {
   try {
-    const [stand, kasten] = await Promise.all([
-      fetch(PRUEFSTAND, { cache: 'no-store' }).then((r) => r.json()),
-      fetch(BRIEFKASTEN, { cache: 'no-store' })
-        .then((r) => r.json())
-        .then((x) => x.imBriefkasten ?? {})
-        .catch(() => ({})),
-    ])
-    const netflix = (stand.anbieter ?? []).find((a) => a.plattform === 'netflix')
+    const daten = await fetch(STAND, { cache: 'no-store' }).then((r) => r.json())
+    const netflix = (daten.anbieter ?? []).find((a) => a.plattform === 'netflix')
     if (!netflix) return
-    offenLautStand = Math.max(0, netflix.offen - (kasten.netflix ?? 0))
+    offenLautStand = netflix.offen
     uebersichtZeigen()
   } catch {
     /* Ohne Netz bleibt die lokale Zählung stehen. */
@@ -2155,25 +2160,8 @@ function uebersichtZeigen() {
     const kuerzel = empfohleneFolgen({ ...e, staffeln: staffelnVon(id, e) })
     return n + kuerzel.filter((k) => !kuerzelErledigt(id, k)).length
   }, 0)
-  /**
-   * **Der niedrigere Stand gewinnt — er ist der neuere.**
-   *
-   * `offenLautStand` kommt aus `pruefstand.json` und damit vom letzten
-   * Datenlauf; `offeneStaffeln` rechnet hier, mit den Meldungen dieser Sitzung.
-   * Der Prüfstand kann nur veralten, nie zu neu sein: Was hier schon abgehakt
-   * ist, war dort noch offen.
-   *
-   * Ohne diese Regel widersprachen sich Knopf und Liste offen: Der Knopf sagte
-   * „10 offen", die Liste daneben „Alles geprüft" — und beide hatten recht, aus
-   * verschiedenen Quellen (Daniel, 26.08.2026: „wo sind die 10 einträge die es
-   * zu prüfen gilt?"). Es waren zehn Staffeln in vier Titeln, alle vier
-   * gemeldet und auf die Übernahme wartend.
-   *
-   * Umgekehrt bleibt der Prüfstand maßgeblich, wo er kleiner ist: Auf einem
-   * frischen Rechner ist der lokale Speicher leer, und dann wüsste die
-   * Erweiterung nichts von der Arbeit vergangener Sitzungen.
-   */
-  const offeneAdressen = Math.min(offenLautStand ?? Number.POSITIVE_INFINITY, offeneStaffeln)
+  /* Der Worker hat die Antwort; lokal gerechnet wird nur, solange er schweigt. */
+  const offeneAdressen = offenLautStand ?? offeneStaffeln
   const gesamt = Object.entries(offeneTitel).reduce(
     (n, [id, e]) => n + empfohleneFolgen({ ...e, staffeln: staffelnVon(id, e) }).length,
     0,
