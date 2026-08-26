@@ -1315,6 +1315,11 @@ async function durchlaufStarten(grenze) {
   DURCHLAUF.randprobe = grenze === RAND && alleOffen.length > 1 ? alleOffen : null
   if (!offen.length) return
 
+  /*
+    Ab hier bis zum `finally` unten: Wirft irgendetwas dazwischen, bliebe
+    `laeuft` sonst auf `true` stehen — und der Knopf wäre für immer tot, weil
+    er einen zweiten Start abweist.
+  */
   DURCHLAUF.laeuft = true
   DURCHLAUF.abbruch = false
   DURCHLAUF.stoerung = null
@@ -1708,19 +1713,26 @@ function durchlaufKnopfZeigen() {
     DURCHLAUF.leiste = document.createElement('div')
     DURCHLAUF.leiste.className = 'ak-durchlauf-leiste'
     /*
-      **Ein Klick in der Leiste gehört uns, nicht Netflix.**
+      **Ein Klick in der Leiste gehört uns, nicht Netflix — und auch nicht mir.**
 
-      Daniel am 26.08.2026: „ich hab beim limit toggle daneben geklickt, title
-      hat sich geschlossen." Netflix schließt sein Titel-Overlay bei jedem
-      Klick außerhalb — auch bei einem, der zwischen unseren Knöpfen landet.
+      Der erste Anlauf hing `stopPropagation` in die **Capture**-Phase des
+      Behälters. Ein Ereignis läuft dort von oben nach unten: Es erreichte die
+      Leiste, wurde gestoppt — und kam bei den Knöpfen darin nie an. Beide
+      waren tot, ohne Fehlermeldung (Daniel, 26.08.2026: „button klick hat
+      jetzt keinen effekt mehr... nichts passiert", „auch auf limit icon
+      passiert nix").
 
-      Die Leiste fängt ihre Klicks deshalb selbst ab. Die Knöpfe darin
-      funktionieren weiter; nur die Seite darunter erfährt nichts davon.
+      Gestoppt wird deshalb in der **Bubble**-Phase: Da haben die Knöpfe schon
+      reagiert, und nur der Weg nach oben endet hier.
+
+      Netflix schließt sein Overlay aber über einen Listener am Dokument, und
+      der kann in der Capture-Phase liegen — dann läuft er vor jedem Stoppen
+      hier. Deshalb zusätzlich ein eigener Wächter am Dokument, der Klicks aus
+      unserer Leiste dort abfängt.
     */
     for (const art of ['click', 'mousedown', 'pointerdown']) {
-      DURCHLAUF.leiste.addEventListener(art, (e) => e.stopPropagation(), true)
+      DURCHLAUF.leiste.addEventListener(art, (e) => e.stopPropagation())
     }
-
     DURCHLAUF.knopf = document.createElement('button')
     DURCHLAUF.knopf.className = 'ak-durchlauf'
     DURCHLAUF.knopf.addEventListener(
@@ -1863,10 +1875,12 @@ function durchlaufKnopfZeigen() {
           ? `Ein Klick prüft ${probeGrenze} Folgen.\nKlick: auf Anfang und Ende umstellen.`
           : 'Ein Klick prüft alle offenen Folgen.\nKlick: auf zwei begrenzen.'
   }
+  /* Die offenen Folgen selbst — für die Spanne im Knopftext. */
+  const liste = durchlaufOffen()
   const jetzt = probeGrenze === RAND ? Math.min(offen, 2) : probeGrenze ? Math.min(offen, probeGrenze) : offen
   DURCHLAUF.knopf.textContent =
     probeGrenze === RAND && offen > 2
-      ? `▶ Anfang & Ende von ${offen}`
+      ? `▶ Anfang & Ende (${liste[0]?.nummer ?? 1}–${liste[liste.length - 1]?.nummer ?? offen})`
       : jetzt < offen
         ? `▶ ${jetzt} von ${offen} prüfen`
         : `▶ ${offen} ${offen === 1 ? 'Folge' : 'Folgen'} prüfen`
@@ -1878,6 +1892,29 @@ function durchlaufKnopfZeigen() {
     stand +
     '\nUmschalt+Klick: kehrt die Grenze für einen Lauf um.' +
     '\nRechtsklick: Stand für einen Lauf übergehen.'
+}
+
+/**
+ * Klicks aus unserer eigenen Leiste erreichen Netflix nicht.
+ *
+ * Netflix schließt das Titel-Overlay bei jedem Klick außerhalb — auch bei
+ * einem, der zwischen unseren Knöpfen landet. Sein Listener hängt am Dokument;
+ * ein Stoppen weiter unten kommt zu spät, wenn er in der Capture-Phase liegt.
+ *
+ * Dieser Wächter läuft dort ebenfalls und schweigt zu allem, was nicht aus
+ * unserer Leiste kommt.
+ */
+for (const art of ['click', 'mousedown', 'pointerdown']) {
+  document.addEventListener(
+    art,
+    (e) => {
+      if (!DURCHLAUF.leiste || !e.target) return
+      if (!DURCHLAUF.leiste.contains(e.target)) return
+      /* Nur die Seite soll nichts erfahren — unsere Knöpfe hängen tiefer. */
+      e.stopPropagation()
+    },
+    true,
+  )
 }
 
 let uebersichtKnopf = null
