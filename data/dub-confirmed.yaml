@@ -21965,3 +21965,18 @@
   dub: true
   checkedAt: '2026-08-26'
   note: "Folge 1 mit deutschem Ton — Tonspuren: de, en, es-419, es-ES, fr-FR, it, ja, pt-BR"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-26 ---
+
+- anilistId: 154116
+  title: "Undead Unluck"
+  platform: disneyplus
+  url: https://www.disneyplus.com/de-de/series/undead-unluck/6yBbjezPBwNW
+  dub: false
+  dubRanges:
+    - from: 2
+      to: 24
+      dub: false
+      checked: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+  checkedAt: '2026-08-26'
+  note: "Folgen 2–24 ohne deutschen Ton — Tonspuren: en, es-419, fr-FR, ja, pt-BR"
