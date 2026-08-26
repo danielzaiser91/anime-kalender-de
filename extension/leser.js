@@ -22,6 +22,10 @@
   // lesen wir ueber die Content-API; dort hat die Erweiterung nichts mehr zu
   // suchen, und was sie nicht anfasst, kann sie auch nicht stoeren.
   const MARKE = 'ak-spuren'
+  /** Die Folgenliste einer Staffel — Nummer und Kennung je Folge. */
+  const MARKE_FOLGEN = 'ak-folgenliste'
+  /** Steuerbefehle vom Melder: Videodaten zu/auf, Liste nachfragen. */
+  const MARKE_STEUER = 'ak-steuer'
 
   // --- Der Player ----------------------------------------------------------
 
@@ -273,6 +277,20 @@
             })
             .catch(() => {})
         }
+        /*
+          **Die Folgenliste ist die Kennungsquelle — und sie kommt genau einmal.**
+
+          Netflix holt sie beim ersten Öffnen einer Staffel und bedient sich
+          danach aus seinem Zwischenspeicher. Ein Skript aus der Konsole kam
+          deshalb zweimal zu spät (26.08.2026); dieses hier läuft bei
+          `document_start` und ist vor dem ersten Abruf da.
+
+          Je Folge stehen dort Nummer und `videoId` beieinander — genau das
+          Paar, das für einen Durchlauf fehlte.
+        */
+        if (url.includes('/graphql')) {
+          void versprechen.then((daten) => lesFolgenliste(daten)).catch(() => {})
+        }
       } catch (err) {
         window.__akMetaFehler = err.message
       }
@@ -281,6 +299,79 @@
   } catch {
     /* Ohne Mitlesen bleibt der Weg über die Titelzeile. */
   }
+
+  /**
+   * Die Folgen einer Staffel, wie Netflix sie liefert.
+   *
+   * Gesammelt wird über Staffeln hinweg: Wer im Auswahlfeld wechselt, bekommt
+   * eine neue Liste, und die alte bleibt gültig — beide gehören zur Reihe.
+   */
+  const folgenliste = new Map()
+
+  function lesFolgenliste(daten) {
+    const kanten = daten?.data?.videos?.episodes?.edges
+    if (!Array.isArray(kanten) || !kanten.length) return
+    let neu = 0
+    for (const kante of kanten) {
+      const k = kante?.node
+      if (!Number.isFinite(k?.number) || !Number.isFinite(k?.videoId)) continue
+      if (!folgenliste.has(k.videoId)) neu++
+      folgenliste.set(k.videoId, { nummer: k.number, videoId: k.videoId, titel: k.title ?? null })
+    }
+    if (!neu) return
+    window.postMessage(
+      { marke: MARKE_FOLGEN, folgen: [...folgenliste.values()].sort((a, b) => a.nummer - b.nummer) },
+      '*',
+    )
+  }
+
+  /**
+   * **Videodaten abdrehen, sobald die Tonspur feststeht.**
+   *
+   * Gemessen am 26.08.2026: Weder `pause()` noch das Verlassen der Seite hält
+   * das Vorausladen auf — der Player füllt seinen Puffer weiter (129 Segmente
+   * in fünf Sekunden, 42 MB). Was greift, ist, ihm die Segmente gar nicht erst
+   * zu geben.
+   *
+   * Der Player bricht dann ab, und genau das ist gewollt. **Für Netflix
+   * bedeutet es weniger Last, nicht mehr** — abgewiesen wird hier, bevor der
+   * Abruf die Leitung erreicht.
+   */
+  let videoZu = false
+  const istVideoAbruf = (u) => typeof u === 'string' && /nflxvideo.net/.test(u)
+
+  try {
+    const urFetch = window.fetch
+    window.fetch = function (...args) {
+      const url = typeof args[0] === 'string' ? args[0] : args[0]?.url
+      if (videoZu && istVideoAbruf(url)) return Promise.reject(new Error('ak-abgedreht'))
+      return urFetch.apply(this, args)
+    }
+    const urOeffnen = XMLHttpRequest.prototype.open
+    XMLHttpRequest.prototype.open = function (m, u, ...rest) {
+      this.__akVideo = istVideoAbruf(u)
+      return urOeffnen.call(this, m, u, ...rest)
+    }
+    const urSenden = XMLHttpRequest.prototype.send
+    XMLHttpRequest.prototype.send = function (koerper) {
+      if (videoZu && this.__akVideo) return this.abort()
+      return urSenden.call(this, koerper)
+    }
+  } catch {
+    /* Ohne den Griff läuft der Durchlauf teurer, aber er läuft. */
+  }
+
+  /* Der Melder steuert den Durchlauf und sagt, wann zu ist. */
+  window.addEventListener('message', (e) => {
+    if (e.source !== window || e.data?.marke !== MARKE_STEUER) return
+    if (typeof e.data.videoZu === 'boolean') videoZu = e.data.videoZu
+    if (e.data.frage === 'folgen') {
+      window.postMessage(
+        { marke: MARKE_FOLGEN, folgen: [...folgenliste.values()].sort((a, b) => a.nummer - b.nummer) },
+        '*',
+      )
+    }
+  })
 
   function melden() {
     // Die Nummer in der Adresse ist beim Abspielen die der Folge — genau die

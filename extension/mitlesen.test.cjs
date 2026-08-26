@@ -11,7 +11,7 @@
 const { readFileSync } = require('node:fs')
 const quelle = readFileSync(__dirname + '/leser.js', 'utf8')
 const von = quelle.indexOf('  const METADATEN_ADRESSE')
-const bis = quelle.indexOf('  function melden()')
+const bis = quelle.lastIndexOf('  function melden()')
 if (von < 0 || bis < 0) { console.error('Block nicht gefunden'); process.exit(1) }
 
 const gelesen = []
@@ -25,7 +25,43 @@ Object.defineProperty(XMLHttpRequest.prototype, 'responseText', {
   enumerable: false,
   get() { return this._text ?? '' },
 })
-const window = {}
+/*
+  Ein window, das die Ereignisverwaltung kennt.
+
+  Seit dem 26.08.2026 hängt der Leser dort einen Empfänger für die
+  Steuerbefehle des Durchlaufs ein. Ein leeres Objekt brachte den Test mit
+  „window.addEventListener is not a function" zu Fall — und das war ein
+  richtiger Befund über den Sandkasten, nicht über den Code: Ein echtes
+  window hat die Funktion immer.
+*/
+/*
+  Die Marken stehen im Leser weiter oben als der ausgeschnittene Block.
+  Sie werden deshalb aus der Quelle gelesen, nicht hier noch einmal
+  hingeschrieben — zwei Fassungen derselben Zeichenkette laufen auseinander.
+*/
+const MARKE_FOLGEN = /MARKE_FOLGEN = '([^']+)'/.exec(quelle)?.[1]
+const MARKE_STEUER = /MARKE_STEUER = '([^']+)'/.exec(quelle)?.[1]
+
+const gesendet = []
+
+/*
+  Eine Zusicherung, die zählt statt sofort abzubrechen.
+
+  Diese Datei prüfte bis zum 26.08.2026 über ein Ergebnis-Objekt am Ende. Für
+  die Folgenliste sind es mehrere Einzelaussagen, und die sollen einzeln beim
+  Namen genannt werden, wenn eine rot wird.
+*/
+const rot = []
+function pruefe(name, bedingung, gefunden) {
+  if (bedingung) return console.log(`  ✓ ${name}`)
+  rot.push(name)
+  console.error(`  ✗ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
+}
+const empfaenger = []
+const window = {
+  addEventListener: (art, fn) => empfaenger.push({ art, fn }),
+  postMessage: (nachricht) => gesendet.push(nachricht),
+}
 
 eval(quelle.slice(von, bis))
 
@@ -66,4 +102,65 @@ const ok =
   ergebnis.text && ergebnis.gesehen === 1 && ergebnis.fremdeIgnoriert &&
   ergebnis.nachWrappenGesehen && ergebnis.seiteRief === 1 && ergebnis.absturz === null
 console.log(ok ? '\n✓ Gesehen, unverändert durchgereicht, kein Stapelüberlauf' : '\n✗ durchgefallen')
-process.exit(ok ? 0 : 1)
+
+/**
+ * **Die Folgenliste wird gelesen — Nummer und Kennung je Folge.**
+ *
+ * Daniel hat am 26.08.2026 den Aufruf mitgeschnitten, mit dem Netflix sie holt.
+ * Sie kommt **einmal** je Staffel; ein Skript aus der Konsole kam deshalb
+ * zweimal zu spät. Der Leser läuft bei `document_start` und ist rechtzeitig da.
+ *
+ * Der Auszug ist echt: dieselben Feldnamen, dieselbe Verschachtelung, gekürzt
+ * auf zwei Folgen.
+ */
+{
+  gesendet.length = 0
+  const antwort = {
+    data: {
+      videos: {
+        __typename: 'Season',
+        videoId: 82756676,
+        episodes: {
+          edges: [
+            { node: { __typename: 'Episode', number: 1156, videoId: 82756678, title: 'Folge 1156' } },
+            { node: { __typename: 'Episode', number: 1157, videoId: 82756679, title: 'Folge 1157' } },
+          ],
+        },
+      },
+    },
+  }
+  lesFolgenliste(antwort)
+  const meldung = gesendet.find((m) => m.marke === 'ak-folgenliste')
+  pruefe('die Folgenliste wird weitergereicht', Boolean(meldung), gesendet.map((m) => m.marke))
+  pruefe('beide Folgen sind dabei', meldung?.folgen?.length === 2, meldung?.folgen?.length)
+  pruefe(
+    'Nummer und Kennung stehen beieinander',
+    meldung?.folgen?.[0]?.nummer === 1156 && meldung?.folgen?.[0]?.videoId === 82756678,
+    meldung?.folgen?.[0],
+  )
+
+  /* Ein zweiter Aufruf mit denselben Folgen meldet nichts Neues. */
+  gesendet.length = 0
+  lesFolgenliste(antwort)
+  pruefe('dieselbe Liste löst keine zweite Meldung aus', gesendet.length === 0, gesendet.length)
+
+  /* Eine andere Staffel kommt dazu, statt die erste zu ersetzen. */
+  lesFolgenliste({
+    data: { videos: { episodes: { edges: [{ node: { number: 62, videoId: 80107105, title: 'Laboon' } }] } } },
+  })
+  const zweite = gesendet.find((m) => m.marke === 'ak-folgenliste')
+  pruefe('eine zweite Staffel kommt dazu', zweite?.folgen?.length === 3, zweite?.folgen?.length)
+  pruefe(
+    'und die Liste ist nach Folgennummer sortiert',
+    zweite?.folgen?.[0]?.nummer === 62,
+    zweite?.folgen?.map((f) => f.nummer),
+  )
+
+  /* Eine Antwort ohne Folgen darf nichts anrichten. */
+  gesendet.length = 0
+  lesFolgenliste({ data: { videos: {} } })
+  lesFolgenliste(null)
+  pruefe('eine Antwort ohne Folgen wird übergangen', gesendet.length === 0, gesendet.length)
+}
+
+process.exit(ok && !rot.length ? 0 : 1)

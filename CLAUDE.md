@@ -1543,3 +1543,17 @@ fortlaufend beieinander (82756678, 82756679, 82756680), aber aus drei Zahlen wir
 **Kosten, hochgerechnet:** 3,1 s je Folge, nahezu keine Datenmenge. 1.175 Folgen wären rund
 eine Stunde. Jede Folge bleibt aber eine echte Wiedergabe-Sitzung mit Lizenzabruf und landet in
 „Weiter ansehen" — das ist Daniels Entscheidung, nicht meine.
+
+**Und ein Testblock hinter `process.exit` läuft nie — dritter Fall an einem Tag.** Beim
+Anhängen von Zusicherungen ist mir dasselbe jetzt dreimal passiert: Der Ergebnis-Block einer
+Testdatei steht am Ende, und was man dahinter hängt, wird nie ausgeführt. Zweimal fiel es auf,
+weil die neuen Zeilen fehlten; einmal wäre es fast durchgegangen, weil die Datei trotzdem grün
+meldete.
+
+**Prüffrage nach jedem Anhängen an eine Testdatei:** *Steht mein Block vor dem Abschluss — und
+sind meine Zusicherungen in der Ausgabe wirklich zu sehen?* Eine Zusicherung, die man nicht in
+der Ausgabe zählen kann, hat nicht stattgefunden.
+
+Dazu gehört der zweite Teil desselben Fehlgriffs: Jede Testdatei in diesem Repo hat ihre eigene
+Bauweise. `mitlesen.test.cjs` prüfte über ein Ergebnis-Objekt und kannte kein `pruefe`; der
+angehängte Block rief es trotzdem auf. Vor dem Anhängen wird gelesen, wie die Datei prüft.

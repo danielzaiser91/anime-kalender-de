@@ -236,6 +236,11 @@ function istGesucht() {
 }
 
 window.addEventListener('message', (e) => {
+  if (e.source === window && e.data?.marke === 'ak-folgenliste') {
+    DURCHLAUF.folgen = Array.isArray(e.data.folgen) ? e.data.folgen : []
+    durchlaufKnopfZeigen()
+    return
+  }
   if (e.source !== window) return
   if (e.data?.marke === 'ak-spuren') {
     stand = {
@@ -895,6 +900,145 @@ async function standHolen() {
   } catch {
     /* Ohne Netz bleibt die lokale Zählung stehen. */
   }
+}
+
+/**
+ * **Der Durchlauf: alle Folgen einer Reihe nacheinander lesen.**
+ *
+ * Daniel am 26.08.2026, nachdem der Weg gemessen war: „bau es in die extension,
+ * ich lade die extension und one piece overview neu, dann sollten ja
+ * automatisch alle folgen nacheinander durchgegangen und gemeldet werden."
+ *
+ * Der Ablauf je Folge, gemessen an One Piece:
+ *
+ * 1. Zur Folge navigieren (SPA, kein Neuladen — der Kontext bleibt).
+ * 2. Warten, bis `getAudioTrackList()` etwas liefert. Rund drei Sekunden.
+ * 3. Videodaten abdrehen: Der Leser weist Segmentabrufe ab.
+ * 4. Melden, zurück zur Titelseite, nächste Folge.
+ *
+ * Kosten: 3,1 s je Folge, null bis acht Videosegmente. Die Gegenprobe hält —
+ * East Blue meldet `de`, der Elbaph Arc nur `ja`.
+ *
+ * **Gestartet wird auf Knopfdruck, nicht von allein.** Jede Folge ist eine
+ * echte Wiedergabe-Sitzung mit Lizenzabruf und landet in „Weiter ansehen";
+ * bei One Piece wären das über tausend Einträge. Das gehört nicht in einen
+ * versehentlichen Seitenaufruf.
+ */
+const DURCHLAUF = {
+  /** Was der Leser aus den Folgenlisten gesammelt hat. */
+  folgen: [],
+  laeuft: false,
+  abbruch: false,
+  fertig: 0,
+  gesamt: 0,
+  knopf: null,
+}
+
+/** Dem Leser sagen, ob er Videodaten durchlassen soll. */
+function videoAbdrehen(zu) {
+  window.postMessage({ marke: 'ak-steuer', videoZu: zu }, '*')
+}
+
+/** Die Navigation, die auch ein Klick auslöst — ohne Neuladen. */
+function gehe(pfad) {
+  history.pushState({}, '', pfad)
+  window.dispatchEvent(new PopStateEvent('popstate'))
+}
+
+async function durchlaufStarten() {
+  if (DURCHLAUF.laeuft) {
+    DURCHLAUF.abbruch = true
+    return
+  }
+  const titelseite = location.pathname
+  const offen = DURCHLAUF.folgen.filter((f) => !istErledigt(gemeinteReihe(), `${f.nummer}`))
+  if (!offen.length) return
+
+  DURCHLAUF.laeuft = true
+  DURCHLAUF.abbruch = false
+  DURCHLAUF.fertig = 0
+  DURCHLAUF.gesamt = offen.length
+  durchlaufKnopfZeigen()
+
+  for (const f of offen) {
+    if (DURCHLAUF.abbruch) break
+    videoAbdrehen(false)
+    gehe(`/watch/${f.videoId}`)
+
+    /* Warten, bis der Player die Liste hat — höchstens 20 Sekunden. */
+    let spuren = null
+    for (let i = 0; i < 100 && !spuren && !DURCHLAUF.abbruch; i++) {
+      await new Promise((r) => setTimeout(r, 200))
+      spuren = stand.spuren?.length ? stand.spuren : null
+    }
+    videoAbdrehen(true)
+
+    if (spuren) {
+      const { deutsch, echte } = urteil(spuren)
+      await durchlaufMelden(f, echte, deutsch)
+      DURCHLAUF.fertig++
+    }
+    durchlaufKnopfZeigen()
+
+    gehe(titelseite)
+    /* Eine Sekunde Ruhe zwischen zwei Folgen — ein Mensch klickt auch nicht schneller. */
+    await new Promise((r) => setTimeout(r, 1000))
+  }
+
+  videoAbdrehen(false)
+  DURCHLAUF.laeuft = false
+  durchlaufKnopfZeigen()
+}
+
+/** Eine Folge des Durchlaufs melden — dieselbe Route wie eine Handmeldung. */
+async function durchlaufMelden(folge, echte, deutsch) {
+  const { token } = await chrome.storage.sync.get('token')
+  if (!token) return
+  try {
+    await fetch(WORKER, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
+      body: JSON.stringify({
+        plattform: 'netflix',
+        url: `https://www.netflix.com/title/${gemeinteReihe()}`,
+        sprachen: echte.map((s) => `${s.code}|${s.name}`),
+        befund: deutsch ? 'dub' : 'kein_dub',
+        titel: stand.serientitel ?? null,
+        folge: folge.videoId,
+        folge_nr: folge.nummer,
+        staffel: stand.staffel ?? null,
+        staffeln: stand.staffeln ?? null,
+        serientitel: stand.serientitel ?? null,
+        notiz: `Durchlauf: Folge ${folge.nummer}${folge.titel ? ` — ${folge.titel}` : ''}`,
+      }),
+    })
+    await merkeErledigt(gemeinteReihe(), null, folge.nummer)
+  } catch {
+    /* Eine verlorene Meldung hält den Durchlauf nicht auf. */
+  }
+}
+
+function durchlaufKnopfZeigen() {
+  /* Nur auf einer Titelseite und nur, wenn Folgen bekannt sind. */
+  if (imPlayer() || !DURCHLAUF.folgen.length) {
+    if (DURCHLAUF.knopf) {
+      DURCHLAUF.knopf.remove()
+      DURCHLAUF.knopf = null
+    }
+    return
+  }
+  if (!DURCHLAUF.knopf) {
+    DURCHLAUF.knopf = document.createElement('button')
+    DURCHLAUF.knopf.className = 'ak-durchlauf'
+    DURCHLAUF.knopf.addEventListener('click', () => void durchlaufStarten())
+    document.body.appendChild(DURCHLAUF.knopf)
+  }
+  DURCHLAUF.knopf.textContent = DURCHLAUF.laeuft
+    ? `⏹ ${DURCHLAUF.fertig}/${DURCHLAUF.gesamt} — abbrechen`
+    : `▶ ${DURCHLAUF.folgen.length} Folgen prüfen`
+  DURCHLAUF.knopf.title = DURCHLAUF.laeuft
+    ? 'Läuft — jede Folge wird kurz geöffnet und wieder verlassen'
+    : `${DURCHLAUF.folgen.length} Folgen sind bekannt. Jede wird kurz geöffnet; das landet in „Weiter ansehen".`
 }
 
 let uebersichtKnopf = null

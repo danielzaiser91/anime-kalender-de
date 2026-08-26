@@ -253,3 +253,24 @@
 .ak-uebersicht.ak-amazon-uebersicht {
   bottom: 62px;
 }
+
+/* Der Durchlauf-Knopf sitzt über dem Übersichts-Knopf, damit beide erreichbar
+   bleiben. Er ist bewusst zurückhaltend: Was über tausend Wiedergabe-Sitzungen
+   auslöst, soll nicht wie ein Hauptknopf aussehen. */
+.ak-durchlauf {
+  position: fixed;
+  right: 16px;
+  bottom: 56px;
+  z-index: 2147483646;
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(20, 20, 20, 0.92);
+  color: #e5e5e5;
+  font: 500 12px/1.2 system-ui, sans-serif;
+  cursor: pointer;
+}
+.ak-durchlauf:hover {
+  border-color: #e50914;
+  color: #fff;
+}
