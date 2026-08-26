@@ -57,6 +57,26 @@ export interface DubCheck {
    * dazwischen ist gefolgert, und zwar nur zwischen **gleichen** Befunden.
    */
   dubRanges?: Array<{ from: number; to: number; dub: boolean; checked?: number[] }>
+  /**
+   * Der Titel steht **bewusst** nicht in unserem Bestand.
+   *
+   * Ein Beleg ohne Titel ist normalerweise ein Fehler — eine falsche Kennung
+   * oder ein Titel, der herausgefallen ist. Genau dafür gibt es die Zusicherung
+   * in `check-handbelege`.
+   *
+   * Es gibt aber den umgekehrten Fall: Daniel prüft einen Titel und stellt fest,
+   * dass es **keine** deutsche Fassung gibt. Dann gehört er nicht in einen
+   * Synchro-Kalender — der Beleg bleibt trotzdem wertvoll, weil er eine zweite
+   * Prüfung derselben Sache verhindert und sofort gilt, falls der Titel später
+   * dazukommt.
+   *
+   * Erste Fälle am 26.08.2026: „GTO: Great Teacher Onizuka" (43 Folgen auf drei
+   * Anbietern, überall ohne Deutsch) und „Shonan Junai Gumi!" (fünf Teile).
+   *
+   * Das Feld wird von Hand gesetzt, nie von einem Lauf. Wer es setzt, sagt
+   * damit: Ich weiß, dass der Titel fehlt, und das ist die Antwort.
+   */
+  nichtImBestand?: boolean
 }
 
 const DATEI = resolve(ROOT, 'data', 'dub-confirmed.yaml')

@@ -149,7 +149,12 @@ let verwaisteBelege = 0
   const verwaist = [
     ...new Map(
       loadDubChecks()
-        .filter((c) => !bekannt.has(c.anilistId))
+        /*
+          `nichtImBestand` ist die bewusste Ausnahme: ein geprüfter Titel ohne
+          deutsche Fassung, der deshalb nicht in den Kalender gehört. Der Beleg
+          bleibt, die Warnung entfällt — siehe `DubCheck.nichtImBestand`.
+        */
+        .filter((c) => !bekannt.has(c.anilistId) && !c.nichtImBestand)
         .map((c) => [c.anilistId, c]),
     ).values(),
   ]

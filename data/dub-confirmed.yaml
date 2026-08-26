@@ -22284,6 +22284,7 @@
   title: "GTO: Great Teacher Onizuka"
   platform: netflix
   dub: false
+  nichtImBestand: true
   checkedAt: '2026-08-26'
   note: "43 Folgen, keine deutsche Tonspur — von Hand geprueft"
 
@@ -22291,6 +22292,7 @@
   title: "GTO: Great Teacher Onizuka"
   platform: crunchyroll
   dub: false
+  nichtImBestand: true
   checkedAt: '2026-08-26'
   note: "43 Folgen, keine deutsche Tonspur — von Hand geprueft"
 
@@ -22298,6 +22300,7 @@
   title: "GTO: Great Teacher Onizuka"
   platform: primevideo
   dub: false
+  nichtImBestand: true
   checkedAt: '2026-08-26'
   note: "43 Folgen, keine deutsche Tonspur — von Hand geprueft. Nur zum Kauf oder ueber die Kanal-Abos ADN und Crunchyroll; deren Sprachangabe waere ohnehin kein Beleg."
 
@@ -22313,5 +22316,6 @@
   title: "Shonan Junai Gumi!"
   platform: primevideo
   dub: false
+  nichtImBestand: true
   checkedAt: '2026-08-26'
   note: "Alle fuenf Teile ohne deutsche Tonspur — von Hand geprueft. Prime fuehrt sie als Filme 1 bis 5 (der fuenfte als „Last Signal\")."
