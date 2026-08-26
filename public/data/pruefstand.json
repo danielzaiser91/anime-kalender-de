@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-08-26T08:46:07.478Z",
+ "erzeugtAm": "2026-08-26T09:08:08.791Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -16,15 +16,11 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 350,
-   "gesamt": 361,
-   "offen": 11,
+   "gesamt": 360,
+   "offen": 10,
    "ohneSeite": 15,
-   "ziel": "https://www.netflix.com/title/80075178",
+   "ziel": "https://www.netflix.com/title/80107103",
    "ziele": [
-    {
-     "url": "https://www.netflix.com/title/80075178",
-     "titel": "AnoHana: Die Blume, die wir an jenem Tag sahen"
-    },
     {
      "url": "https://www.netflix.com/title/80107103",
      "titel": "One Piece"
@@ -42,7 +38,7 @@
      "titel": "Beyblade X"
     }
    ],
-   "naechster": "AnoHana: Die Blume, die wir an jenem Tag sahen"
+   "naechster": "One Piece"
   }
  ]
 }
