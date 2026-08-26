@@ -2419,6 +2419,19 @@ function pfadPruefen() {
   letzterPfad = location.pathname
   dialogSchliessen()
   uebersichtZeigen()
+  /*
+    **Auch die Durchlauf-Leiste gehört bei jedem Wechsel neu gezeichnet.**
+
+    Sie blieb beim Wechsel in den Player stehen und kam beim Zurücknavigieren
+    nicht wieder, weil hier niemand nach ihr sah. Daniel am 26.08.2026: „wenn
+    ich folge abspiele und dann limit icon anklicke verschwinden backdrop und
+    die buttons", und danach: „navigation zurück bringt diese elemente nicht
+    zurück."
+
+    Beides dieselbe Lücke: Ohne diesen Aufruf zeichnet nur ein Klick neu — und
+    was dabei passiert, sieht aus, als hätte der Klick es verursacht.
+  */
+  durchlaufKnopfZeigen()
 }
 window.addEventListener('popstate', pfadPruefen)
 setInterval(pfadPruefen, 1000)
