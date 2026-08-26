@@ -318,9 +318,21 @@
   position: fixed;
   right: 0;
   bottom: 0;
-  width: 460px;
-  height: 210px;
-  z-index: 2147483640;
+  /*
+    Kleiner und tiefer als der erste Anlauf.
+
+    460 × 210 bei z-index 2147483640 lag über allen anderen Knöpfen (die
+    liegen bei 2147483000) und über Netflix' Staffel-Auswahl. Daniel am
+    26.08.2026: „toggle button (limit) ist weiterhin nicht anklickbar …
+    schutz background area hinter overview legen … sonst wird dropdown nicht
+    anklickbar … anime kalender button ist auch nicht anklickbar."
+
+    Jetzt: unter allem Eigenen, und schmal genug, dass die Staffel-Auswahl
+    frei bleibt.
+  */
+  width: 300px;
+  height: 150px;
+  z-index: 2147482999;
   background: rgba(88, 166, 255, 0.18);
   outline: 1px solid rgba(88, 166, 255, 0.4);
   border-top-left-radius: 18px;

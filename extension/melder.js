@@ -272,7 +272,12 @@ window.addEventListener('message', (e) => {
       return
     }
     knopfZeigen()
-    vielleichtSenden()
+    /*
+      Die automatische Meldung beim Abspielen ist seit dem 26.08.2026 aus.
+      Gemeldet wird nur noch über den Durchlauf oder von Hand — dann ist immer
+      klar, woher eine Meldung stammt.
+    */
+    // vielleichtSenden()
     return
   }
   if (e.data?.marke === 'ak-netzfund') {
@@ -432,7 +437,18 @@ function beschriftung(spuren) {
         aktiv: true,
       }
     }
-    return { text: 'Auf Abspielen klicken, dann läuft es von selbst', klasse: 'ak-leer', aktiv: false }
+    /*
+      **Kein Hinweis mehr auf die alte Automatik.**
+
+      Daniel am 26.08.2026: „button entfernen, hier läuft es nicht von selbst,
+      soll es zumindest nicht, automatische prüfung bei play auch entfernen, es
+      soll nur noch mit der neuen logik funktionieren."
+
+      Der Durchlauf über den Knopf ist der Weg. Ein zweiter, der beim Abspielen
+      von selbst meldet, macht die Herkunft einer Meldung unklar — und war der
+      Grund, warum bei einem Titelwechsel fremde Sprachen ankamen.
+    */
+    return { text: null, klasse: null, aktiv: false }
   }
   const { deutsch } = urteil(spuren)
   const wo = stand.folgeNr
@@ -591,6 +607,17 @@ function knopfZeigen() {
     document.body.appendChild(knopf)
   }
   const { text, klasse, aktiv } = beschriftung(spuren)
+  /*
+    **Ohne Text kein Knopf.**
+
+    Seit dem 26.08.2026 gibt es den Hinweis „Auf Abspielen klicken, dann läuft
+    es von selbst" nicht mehr — er beschrieb eine Automatik, die abgeschaltet
+    ist. Ein leerer Knopf an ihrer Stelle wäre schlimmer als keiner: Er sähe
+    aus, als ließe sich etwas anklicken.
+  */
+  knopf.hidden = !text
+  if (!text) return
+  knopf.hidden = false
   knopf.disabled = !aktiv
   if (!knopf.classList.contains('ak-erfolg') && !knopf.classList.contains('ak-fehler')) {
     knopf.textContent = text
@@ -1834,9 +1861,25 @@ function durchlaufKnopfZeigen() {
     return
   }
   if (DURCHLAUF.laeuft) {
-    DURCHLAUF.knopf.textContent = `⏹ ${DURCHLAUF.fertig}/${DURCHLAUF.gesamt} — abbrechen`
-    DURCHLAUF.knopf.title = 'Läuft — jede Folge wird kurz geöffnet und wieder verlassen. Escape bricht ab.'
-    DURCHLAUF.knopf.disabled = false
+    /*
+      **Abbrechen lohnt erst ab drei Folgen.**
+
+      Daniel am 26.08.2026: „nach den 2 getesteten folgen bleibt der button
+      klickbar, bis nach mehreren sekunden der button zu „61 folgen geprüft"
+      wird. mach ihn direkt unklickbar (nicht abbrechbar), macht eh nur sinn
+      bei mehr als 2 folgen prüfung."
+
+      Bei zwei Folgen ist der Lauf vorbei, bevor jemand den Knopf trifft — ein
+      klickbarer Abbruch verspricht dann etwas, das er nicht mehr einlösen kann.
+    */
+    const lohntAbbruch = DURCHLAUF.gesamt > 2
+    DURCHLAUF.knopf.textContent = lohntAbbruch
+      ? `⏹ ${DURCHLAUF.fertig}/${DURCHLAUF.gesamt} — abbrechen`
+      : `${DURCHLAUF.fertig}/${DURCHLAUF.gesamt} — läuft`
+    DURCHLAUF.knopf.title = lohntAbbruch
+      ? 'Läuft — jede Folge wird kurz geöffnet und wieder verlassen. Escape bricht ab.'
+      : 'Läuft — gleich fertig.'
+    DURCHLAUF.knopf.disabled = !lohntAbbruch
     DURCHLAUF.knopf.classList.remove('ak-fertig')
     return
   }
