@@ -27,6 +27,11 @@
   /** Steuerbefehle vom Melder: Videodaten zu/auf, Liste nachfragen. */
   const MARKE_STEUER = 'ak-steuer'
 
+  /* Woher die Folgenliste kommt — gemessen am 26.08.2026 an Beyblade X. */
+  const GRAPHQL = 'https://web.prod.cloud.netflix.com/graphql'
+  const FOLGEN_OPERATION = 'PreviewModalEpisodeSelectorSeasonEpisodes'
+  const FOLGEN_QUERY = { id: '4cf0a279-dd32-454d-9758-486359c0d48b', version: 102 }
+
   // --- Der Player ----------------------------------------------------------
 
   function netflixSpuren() {
@@ -380,7 +385,78 @@
     }
   }
 
-  function lesFolgenliste(daten) {
+  /**
+   * **Die übrigen Folgen nachladen — Netflix liefert dreißig auf einmal.**
+   *
+   * Bei „Beyblade X" fehlten dadurch die Folgen 31 bis 48, bis Daniel die
+   * Liste von Hand aufklappte (26.08.2026). Bei 49 Folgen geht das noch; One
+   * Piece hat 1.175.
+   *
+   * Wie die Fortsetzung angefordert wird, stand nicht in der Antwort, sondern
+   * in der **Anfrage** — deshalb schneidet der Leser sie seit 3.14 mit. Ein
+   * Aufklappen von Hand hat es geklärt:
+   *
+   * ```
+   * 1. { seasonId, count: 30 }
+   * 2. { seasonId, count: 50, cursor: "Mjk=" }
+   * ```
+   *
+   * `Mjk=` ist base64 für **29** — der Index der letzten geladenen Folge,
+   * null-basiert. Die Antwort beginnt danach, also bei Folge 31. Ein
+   * `pageInfo` gibt es nicht; nachgeladen wird, bis nichts Neues mehr kommt.
+   *
+   * Das ist Zeichen für Zeichen der Abruf, den ein Klick auf „mehr" auslöst —
+   * in Daniels angemeldeter Sitzung, mit Pause, und mit einer Obergrenze.
+   */
+  const NACHLADE_PAUSE_MS = 400
+  /** 40 Runden × 50 Folgen — reicht für 2.000 und verhindert eine Endlosschleife. */
+  const NACHLADE_RUNDEN = 40
+
+  let laedtNach = false
+
+  async function folgenNachladen(seasonId, bekannt) {
+    if (laedtNach || !Number.isFinite(seasonId)) return
+    laedtNach = true
+    try {
+      let stand = bekannt
+      for (let runde = 0; runde < NACHLADE_RUNDEN; runde++) {
+        await new Promise((r) => setTimeout(r, NACHLADE_PAUSE_MS))
+        const antwort = await fetch(GRAPHQL, {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+            'x-netflix.context.locales': 'de-DE',
+            'x-netflix.context.operation-name': FOLGEN_OPERATION,
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            operationName: FOLGEN_OPERATION,
+            variables: {
+              seasonId,
+              count: 50,
+              opaqueImageFormat: 'WEBP',
+              artworkContext: {},
+              /* Der Index der letzten bekannten Folge, base64 — so macht es die Seite. */
+              cursor: btoa(String(stand - 1)),
+            },
+            extensions: { persistedQuery: FOLGEN_QUERY },
+          }),
+        })
+        const daten = await antwort.json()
+        const vorher = folgenliste.size
+        lesFolgenliste(daten, true)
+        /* Kommt nichts Neues, ist die Staffel vollständig. */
+        if (folgenliste.size === vorher) break
+        stand = folgenliste.size
+      }
+    } catch {
+      /* Ein Fehlschlag lässt die Liste unvollständig — der Knopf sagt es. */
+    } finally {
+      laedtNach = false
+    }
+  }
+
+  function lesFolgenliste(daten, ausNachladen) {
     /*
       Nur auf einer Titelseite. Auf der Startseite und im Player kommen
       dieselben Antworten, gehören aber zu allem Möglichen.
@@ -448,6 +524,16 @@
       },
       '*',
     )
+
+    /*
+      Ein voller Block heißt: Es gibt wahrscheinlich mehr. Ein halber heißt:
+      Das war das Ende. Nachgeladen wird nur aus dem ersten Abruf heraus —
+      sonst riefe sich die Kette selbst auf.
+    */
+    if (!ausNachladen && gefunden.length >= 30) {
+      const seasonId = daten?.data?.videos?.[0]?.videoId ?? daten?.data?.videos?.videoId
+      void folgenNachladen(Number(seasonId), folgenliste.size)
+    }
   }
 
   /**
