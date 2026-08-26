@@ -1302,6 +1302,14 @@ async function durchlaufStarten(grenze) {
         DURCHLAUF.staffel = stand.staffel
       }
       const staffelJetzt = Number.isFinite(stand.staffel) ? stand.staffel : DURCHLAUF.staffel
+      /*
+        Dreimal am Timing gedreht, dreimal nur verschoben — jetzt wird gesagt,
+        was wirklich anliegt, statt die vierte Vermutung zu bauen.
+      */
+      console.log(
+        `[Anime-Kalender] Folge ${f.nummer}: stand.staffel=${stand.staffel}, ` +
+          `gemerkt=${DURCHLAUF.staffel}, gemeldet=${staffelJetzt}`,
+      )
       const ok = await durchlaufMelden(f, echte, deutsch)
       if (ok && staffelJetzt === null) {
         /*
@@ -1439,7 +1447,16 @@ function durchlaufKnopfZeigen() {
       (e) => {
         /* Ist alles gemeldet, tut ein Klick nichts — der Rechtsklick bleibt. */
         if (!durchlaufOffen().length) return
-        void durchlaufStarten(e.shiftKey ? 2 : 0)
+        /*
+          **Zwei Folgen sind die Vorgabe, alle nur mit Umschalt.**
+
+          Daniel am 26.08.2026: „wir haben eigentlich gesagt für debugging
+          reicht 2 prüfung, warum kein limit eingebaut?" Es war eingebaut —
+          hinter Umschalt+Klick, also genau dort, wo man es beim normalen
+          Klicken nicht trifft. Solange etwas erprobt wird, gehört die sparsame
+          Fassung auf den Hauptweg und die teure hinter den Griff.
+        */
+        void durchlaufStarten(e.shiftKey ? 0 : 2)
       },
     )
     DURCHLAUF.knopf.addEventListener(
@@ -1487,12 +1504,16 @@ function durchlaufKnopfZeigen() {
   }
   DURCHLAUF.knopf.disabled = false
   DURCHLAUF.knopf.classList.remove('ak-fertig')
-  DURCHLAUF.knopf.textContent = `▶ ${offen} ${offen === 1 ? 'Folge' : 'Folgen'} prüfen`
+  /* Der Knopf nennt, was ein Klick wirklich tut — nicht, was insgesamt offen ist. */
+  const jetzt = Math.min(offen, 2)
+  DURCHLAUF.knopf.textContent =
+    offen > 2 ? `▶ ${jetzt} von ${offen} prüfen` : `▶ ${offen} ${offen === 1 ? 'Folge' : 'Folgen'} prüfen`
   const stand =
     offen === DURCHLAUF.folgen.length
       ? `${offen} Folgen sind bekannt. Jede wird kurz geöffnet; das landet in „Weiter ansehen".`
       : `${DURCHLAUF.folgen.length - offen} von ${DURCHLAUF.folgen.length} sind gemeldet, ${offen} fehlen noch.`
-  DURCHLAUF.knopf.title = stand + '\nUmschalt+Klick: nur zwei Folgen. Rechtsklick: Stand verwerfen.'
+  DURCHLAUF.knopf.title =
+    stand + '\nUmschalt+Klick: alle auf einmal. Rechtsklick: Stand für einen Lauf übergehen.'
 }
 
 let uebersichtKnopf = null
