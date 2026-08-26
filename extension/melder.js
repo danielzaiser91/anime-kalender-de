@@ -1226,6 +1226,20 @@ async function durchlaufStarten(grenze) {
   DURCHLAUF.laeuft = true
   DURCHLAUF.abbruch = false
   DURCHLAUF.stoerung = null
+  /*
+    **Hier gehört der Merker zurückgesetzt, nicht beim Rechtsklick.**
+
+    Ein Patch-Skript hat die Zeile am 26.08.2026 in `durchlaufStandVergessen()`
+    einsortiert — beide Funktionen enthielten `DURCHLAUF.stoerung = null`, und
+    der Anker traf den falschen. `DURCHLAUF.staffel` blieb dadurch `undefined`,
+    und jede Prüfung auf `=== null` lief daran vorbei. In der Diagnose stand
+    „gemerkt=undefined".
+
+    Aufgefallen ist es nur, weil die Ausgabe den Wert genannt hat statt eines
+    Urteils darüber.
+  */
+  DURCHLAUF.staffel = null
+  DURCHLAUF.ohneStaffel = []
   DURCHLAUF.fertig = 0
   DURCHLAUF.gesamt = offen.length
   durchlaufKnopfZeigen()
@@ -1277,7 +1291,7 @@ async function durchlaufStarten(grenze) {
       länger. Danach steht die Nummer für alle übrigen fest, und keine muss
       mehr warten.
     */
-    if (spuren && DURCHLAUF.staffel === null && !Number.isFinite(stand.staffel)) {
+    if (spuren && !Number.isFinite(DURCHLAUF.staffel) && !Number.isFinite(stand.staffel)) {
       for (let i = 0; i < 25 && !Number.isFinite(stand.staffel) && !DURCHLAUF.abbruch; i++) {
         await new Promise((r) => setTimeout(r, 200))
       }
@@ -1298,7 +1312,7 @@ async function durchlaufStarten(grenze) {
     if (spuren && gehoertDazu) {
       const { deutsch, echte } = urteil(spuren)
       /* Die erste erkannte Staffel gilt für die ganze Liste. */
-      if (DURCHLAUF.staffel === null && Number.isFinite(stand.staffel)) {
+      if (!Number.isFinite(DURCHLAUF.staffel) && Number.isFinite(stand.staffel)) {
         DURCHLAUF.staffel = stand.staffel
       }
       const staffelJetzt = Number.isFinite(stand.staffel) ? stand.staffel : DURCHLAUF.staffel
@@ -1311,7 +1325,7 @@ async function durchlaufStarten(grenze) {
           `gemerkt=${DURCHLAUF.staffel}, gemeldet=${staffelJetzt}`,
       )
       const ok = await durchlaufMelden(f, echte, deutsch)
-      if (ok && staffelJetzt === null) {
+      if (ok && !Number.isFinite(staffelJetzt)) {
         /*
           **Ohne Staffel gemeldet — das wird am Ende nachgeholt.**
 
