@@ -433,6 +433,12 @@
       verweis.href = e.url
       verweis.textContent = e.titel
       verweis.style.cssText = 'color:#7dd3fc;text-decoration:none'
+      /*
+        Wohin der Klick geht, weiß die Zielseite nachher nicht mehr — landet er
+        auf der Fehlerseite, steht dort keine Kennung mehr in der Adresse.
+        Deshalb wird sie beim Klick hinterlegt.
+      */
+      verweis.onclick = () => merkeZiel(e.id)
       zeile.appendChild(verweis)
 
       const gemeldet = briefkasten.get(e.url) ?? null
@@ -476,7 +482,21 @@
         wegKnopf.disabled = true
         wegKnopf.textContent = '…'
         const ok = await meldeWeg(e)
-        wegKnopf.textContent = ok ? 'nicht da ✓' : 'ging nicht'
+        if (!ok) {
+          wegKnopf.textContent = 'ging nicht'
+          return
+        }
+        /*
+          Die Zeile verschwindet erst, wenn die Ferne sie kennt — und sie
+          verschwindet dann von selbst, weil die Liste den Briefkasten liest.
+          Ohne diesen Schritt blieb der Titel stehen, obwohl die Meldung
+          angekommen war (Daniel, 26.08.2026: „aoashi als nicht da gemeldet, und
+          verschwindet trotzdem nicht aus der zu meldenden liste").
+        */
+        await briefkastenHolen()
+        zeigeUebersicht()
+        dialogSchliessen()
+        dialogOeffnen()
       }
       zeile.appendChild(wegKnopf)
 
@@ -710,6 +730,68 @@
     )
   }
 
+  // --- Wenn Disney+ die Seite gar nicht zeigt ------------------------------
+
+  /*
+    **Wohin der Klick ging — und warum das nötig ist.**
+
+    Zwei Fälle, beide am 26.08.2026 gemessen, beide von derselben Notiz gelöst:
+
+    - **Disney+ leitet um.** Unser Bestand führt „Bright Sun: Dark Shadows" als
+      `/series/summer-time-rendering/3AHbeFV7Lqvn`; der Klick landet auf
+      `/browse/entity-ad803e91-…`. Die Kennung dort steht in keiner Liste, und
+      die Erweiterung tat gar nichts.
+    - **Disney+ zeigt eine Fehlerseite.** `/de-de/error?src=bap` trägt überhaupt
+      keine Kennung mehr.
+
+    Beide Male weiß nur der Klick, welcher Titel gemeint war. Er hinterlegt ihn
+    für zehn Minuten.
+
+    **Aus einer Fehlerseite wird trotzdem keine Meldung.** Sie sieht gleich aus,
+    ob ein Titel fehlt oder gerade etwas klemmt — und bei Bright Sun führte
+    derselbe Klick eine Minute später auf die Seite („erneuter klick auf link in
+    liste führt korrekt zur seite"). Der Knopf bietet deshalb einen zweiten
+    Versuch an; „nicht da" bleibt eine Entscheidung von Hand.
+  */
+  const ZIEL_SCHLUESSEL = 'ak-disney-ziel'
+
+  function merkeZiel(id) {
+    try {
+      sessionStorage.setItem(ZIEL_SCHLUESSEL, JSON.stringify({ id, zeit: Date.now() }))
+    } catch {
+      /* Ohne Speicher fällt nur diese Bequemlichkeit aus. */
+    }
+  }
+
+  function letztesZiel() {
+    try {
+      const roh = sessionStorage.getItem(ZIEL_SCHLUESSEL)
+      if (!roh) return null
+      const { id, zeit } = JSON.parse(roh)
+      if (Date.now() - zeit > 600000) return null
+      return liste[id] ? { id, ...liste[id] } : null
+    } catch {
+      return null
+    }
+  }
+
+  function istFehlerseite() {
+    return /\/error(\?|$)/.test(location.pathname + location.search)
+  }
+
+  function vielleichtFehlerseite() {
+    if (!istFehlerseite()) return false
+    const ziel = letztesZiel()
+    if (!ziel) return false
+    zeigePruefung(`${ziel.titel}\nDisney+ hat eine Fehlerseite gezeigt.\n▸ nochmal versuchen`, {
+      klasse: 'schlecht',
+      klick: () => {
+        location.href = ziel.url
+      },
+    })
+    return true
+  }
+
   // --- Start ----------------------------------------------------------------
 
   /*
@@ -721,7 +803,13 @@
     const jetzt = kennung(location.href)
     if (jetzt === seite) return
     seite = jetzt
-    eintrag = jetzt ? liste[jetzt] : null
+    /*
+      Kennt die Liste diese Kennung nicht, war es vielleicht eine Weiterleitung:
+      Der letzte Klick aus der Liste sagt dann, welcher Titel gemeint ist.
+      Gemeldet wird trotzdem unter der Adresse aus unserem Bestand — die ist es,
+      nach der die Pipeline sucht.
+    */
+    eintrag = (jetzt ? liste[jetzt] : null) ?? (jetzt ? letztesZiel() : null)
     gelaufen = false
     angefordert = false
     folgen = []
@@ -734,7 +822,7 @@
     dialogSchliessen()
 
     zeigeUebersicht()
-    if (!eintrag) return
+    if (!eintrag) return void vielleichtFehlerseite()
     /*
       Vorab, nicht erst nach dem Sammeln: Nur so kann die Anzeige während des
       Sammelns schon sagen, wie viele Folgen überhaupt noch anstehen („1e1-15
