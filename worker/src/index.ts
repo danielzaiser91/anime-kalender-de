@@ -1536,16 +1536,32 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
 
         Es sind öffentliche Titelseiten, keine persönlichen Angaben.
       */
+      /*
+        **Mit `nummern=1` kommen die Folgennummern mit.**
+
+        Die Erweiterung zeigt in ihrer Liste je Titel, welche Folgen schon
+        gemeldet sind — als Bereich („1e1-15"), nicht als Anzahl. Dafür genügt
+        die Adresse nicht (Daniel, 26.08.2026: „bereits gemeldete folgen und
+        fehlende meldungen werden ebenfalls nicht korrekt in der liste
+        angezeigt").
+
+        Ein Abruf für alle Titel statt einer je Titel: 31 Disney-Seiten wären
+        sonst 31 Anfragen bei jedem Öffnen der Liste.
+      */
+      const mitNummern = new URL(request.url).searchParams.get('nummern') === '1'
       const { results } = await env.DB.prepare(
-        `SELECT plattform, url FROM pruefung WHERE uebernommen = 0`,
-      ).all<{ plattform: string; url: string }>()
+        `SELECT plattform, url, folge_nr, staffel FROM pruefung WHERE uebernommen = 0`,
+      ).all<{ plattform: string; url: string; folge_nr: number | null; staffel: number | null }>()
       const je: Record<string, number> = {}
       const adressen: string[] = []
+      const eintraege: { url: string; folge_nr: number | null; staffel: number | null }[] = []
       for (const r of results ?? []) {
         je[r.plattform] = (je[r.plattform] ?? 0) + 1
-        if (r.url) adressen.push(r.url)
+        if (!r.url) continue
+        adressen.push(r.url)
+        if (mitNummern) eintraege.push({ url: r.url, folge_nr: r.folge_nr, staffel: r.staffel })
       }
-      return antwort({ imBriefkasten: je, adressen })
+      return antwort(mitNummern ? { imBriefkasten: je, adressen, eintraege } : { imBriefkasten: je, adressen })
     }
 
     // Die Pipeline holt sich, was noch nicht übernommen wurde.

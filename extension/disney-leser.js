@@ -16,9 +16,7 @@
  * **Und warum nachgeladen wird, statt mitzulesen.** Der Seitenaufruf bringt nur
  * die ersten 15 Folgen der ersten Staffel mit; die übrigen holt Disney+ beim
  * Scrollen. Wer nur mithört, prüft 15 von 51 und hält das für die Staffel —
- * derselbe Fehler wie bei Amazons Abschnitten. Daniel am 26.08.2026: „staffel 2
- * hat 35 folgen. staffel 1 hat übrigens 51 folgen, also sind die 15 dort auch
- * falsch."
+ * derselbe Fehler wie bei Amazons Abschnitten (Daniel, 26.08.2026).
  *
  * Der Seitenaufruf nennt dafür alles Nötige: je Staffel ihre Kennung und
  * `pagination.totalCount`. Nachgeladen wird mit
@@ -36,7 +34,7 @@
   /** Die Kopfzeilen eines echten Aufrufs — daraus stammt auch das Token. */
   let kopfzeilen = null
   /** Staffeln aus dem Seitenaufruf: Kennung, Name, Gesamtzahl. */
-  let staffeln = []
+  const staffeln = []
   /** Folgen nach Kennung, damit ein zweiter Abruf nichts verdoppelt. */
   const folgen = new Map()
   let holtGerade = false
@@ -62,24 +60,40 @@
     `data.season.items[]`. Aufgenommen wird nur, was Folgennummer UND Kennung
     trägt — Empfehlungsleisten haben die Kennung, aber keine Nummer.
   */
-  function sammle(wert, tiefe = 0) {
+  function sammleFolgen(wert, tiefe = 0) {
     if (tiefe > 9 || wert === null || typeof wert !== 'object') return
     if (Array.isArray(wert)) {
-      for (const x of wert) sammle(x, tiefe + 1)
+      for (const x of wert) sammleFolgen(x, tiefe + 1)
       return
     }
     merkeFolge(wert)
-    /* Eine Staffel erkennt man an Kennung und Seitenzähler. */
-    if (wert.id && wert.pagination && Number.isFinite(wert.pagination.totalCount)) {
-      if (!staffeln.some((s) => s.id === wert.id)) {
+    for (const k in wert) sammleFolgen(wert[k], tiefe + 1)
+  }
+
+  /**
+   * Die Staffeln — **gezielt**, nicht durch Suchen.
+   *
+   * Der erste Anlauf nahm jeden Knoten mit Kennung und `pagination.totalCount`.
+   * Damit fiel die Empfehlungsleiste mit hinein, die genauso aufgebaut ist: Bei
+   * Beyblade X kam „86 Folgen" als 51 + 35 heraus, gemeldet wurden aber 94 —
+   * die acht Empfehlungen (Daniel, 26.08.2026: „51 + 35 = 86, woher kommen die
+   * 94?").
+   *
+   * Staffeln stehen an genau einer Stelle. Wer dort nachsieht statt zu suchen,
+   * findet keine Nachbarn.
+   */
+  function sammleStaffeln(daten) {
+    for (const container of daten?.data?.page?.containers ?? []) {
+      for (const s of container.seasons ?? []) {
+        if (!s.id || !Number.isFinite(s.pagination?.totalCount)) continue
+        if (staffeln.some((x) => x.id === s.id)) continue
         staffeln.push({
-          id: wert.id,
-          name: wert.visuals?.name ?? wert.name ?? '',
-          gesamt: wert.pagination.totalCount,
+          id: s.id,
+          name: s.visuals?.name ?? s.name ?? '',
+          gesamt: s.pagination.totalCount,
         })
       }
     }
-    for (const k in wert) sammle(wert[k], tiefe + 1)
   }
 
   function lies(url, text) {
@@ -91,7 +105,8 @@
       return
     }
     const vorher = folgen.size
-    sammle(daten)
+    sammleStaffeln(daten)
+    sammleFolgen(daten)
     if (folgen.size !== vorher || staffeln.length) melde()
   }
 
@@ -110,7 +125,7 @@
   }
 
   function merkeKopf(url, kopf) {
-    if (!kopf || !/bamgrid/.test(String(url))) return
+    if (!kopf) return
     const auth =
       typeof kopf.get === 'function' ? kopf.get('authorization') : kopf.authorization || kopf.Authorization
     if (!auth) return
@@ -121,13 +136,30 @@
     if (neu) melde()
   }
 
+  /*
+    **Fremde Aufrufe werden durchgereicht, nicht abgewartet.**
+
+    Der erste Anlauf legte `await` um jeden Aufruf der Seite. Schlug einer fehl —
+    und Daniels Blocker weist die Telemetrie von Datadog ab —, zeigte der Stack
+    auf `disney-leser.js`, obwohl der Fehler nichts mit uns zu tun hat. In
+    `chrome://extensions` sieht das aus wie ein Fehler der Erweiterung (Daniel,
+    26.08.2026, zweimal gemeldet).
+
+    Was uns nichts angeht, geht jetzt unberührt durch: kein `await`, kein
+    eigener Rahmen im Stack.
+  */
+  const UNSER = /bamgrid\.com/
   const altFetch = window.fetch
-  window.fetch = async function (...a) {
+  window.fetch = function (...a) {
     const url = typeof a[0] === 'string' ? a[0] : (a[0] && a[0].url) || ''
+    if (!UNSER.test(url)) return altFetch.apply(this, a)
     merkeKopf(url, (a[1] && a[1].headers) || (a[0] && a[0].headers))
-    const antwort = await altFetch.apply(this, a)
+    const antwort = altFetch.apply(this, a)
     if (/\/explore\/v1\.\d+\/(page|season)\//.test(url)) {
-      antwort.clone().text().then((t) => lies(url, t)).catch(() => {})
+      antwort
+        .then((r) => r.clone().text())
+        .then((t) => lies(url, t))
+        .catch(() => {})
     }
     return antwort
   }
@@ -144,7 +176,9 @@
   }
   XMLHttpRequest.prototype.setRequestHeader = function (name, wert) {
     if (this._akKopf) this._akKopf[name.toLowerCase()] = wert
-    if (name.toLowerCase() === 'authorization') merkeKopf(this._akUrl, this._akKopf)
+    if (name.toLowerCase() === 'authorization' && UNSER.test(this._akUrl ?? '')) {
+      merkeKopf(this._akUrl, this._akKopf)
+    }
     return altSet.call(this, name, wert)
   }
 
@@ -152,7 +186,7 @@
 
   /*
     Die Kopfzeilen stammen aus einem echten Aufruf der Seite; nachgebaut wird
-    nichts. Ohne `content-type` und `content-length`, die zu diesem GET nicht
+    nichts. Ohne `content-type` und `content-length`, die zu einem GET nicht
     passen.
   */
   function leseKopf() {
@@ -165,24 +199,23 @@
   }
 
   async function staffelHolen(staffel) {
-    let offset = folgen.size ? undefined : 0
-    /* Beim ersten Abruf ohne `after`; danach mit dem Stand der letzten Antwort. */
-    let weiter = true
     let gesehen = 0
+    let weiter = true
     while (weiter && gesehen < staffel.gesamt) {
-      const nach = gesehen ? `after=${encodeURIComponent(btoa(JSON.stringify({ offset: gesehen })))}&` : ''
+      const nach = gesehen
+        ? `after=${encodeURIComponent(btoa(JSON.stringify({ offset: gesehen })))}&`
+        : ''
       const antwort = await altFetch(`${EXPLORE}${staffel.id}?${nach}limit=24`, {
         headers: leseKopf(),
       })
       if (!antwort.ok) return
       const daten = await antwort.json()
       const stueck = daten?.data?.season?.items ?? []
-      sammle(daten)
+      sammleFolgen(daten)
       gesehen += stueck.length
       weiter = Boolean(daten?.data?.season?.pagination?.hasMore) && stueck.length > 0
       await new Promise((ok) => setTimeout(ok, TAKT))
     }
-    void offset
   }
 
   async function allesHolen() {

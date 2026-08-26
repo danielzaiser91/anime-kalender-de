@@ -25,7 +25,13 @@ const holeFunktion = (name) => {
 }
 const folgen = new Map()
 let staffeln = []
-eval(holeFunktion('merkeFolge') + '\n' + holeFunktion('sammle'))
+eval(
+  holeFunktion('merkeFolge') +
+    '\n' +
+    holeFunktion('sammleFolgen') +
+    '\n' +
+    holeFunktion('sammleStaffeln'),
+)
 
 const faelle = []
 const pruefe = (name, ok, gefunden) => {
@@ -33,7 +39,7 @@ const pruefe = (name, ok, gefunden) => {
   console.log(ok ? `  ✓ ${name}` : `  ✖ ${name} — gefunden: ${JSON.stringify(gefunden)}`)
 }
 
-sammle(probe)
+sammleFolgen(probe)
 const liste = [...folgen.values()].sort((a, b) => a.nummer - b.nummer)
 
 pruefe('alle neun Folgen des Abrufs gefunden', liste.length === 9, liste.length)
@@ -48,7 +54,7 @@ pruefe('die Nummern sind lückenlos', liste.every((f, i) => f.nummer === liste[0
  * daran, und nur daran, wird sie erkannt.
  */
 folgen.clear()
-sammle({
+sammleFolgen({
   data: {
     season: { items: probe.data.season.items.slice(0, 2) },
     empfehlungen: [
@@ -61,18 +67,18 @@ pruefe('eine Empfehlungsleiste ohne Folgennummer fällt raus', folgen.size === 2
 
 /* Und was gar keine Nummer hat, wird nicht zu Folge null. */
 folgen.clear()
-sammle({ items: [{ actions: [{ resourceId: 'X'.repeat(30) }], visuals: { episodeNumber: '0' } }] })
+sammleFolgen({ items: [{ actions: [{ resourceId: 'X'.repeat(30) }], visuals: { episodeNumber: '0' } }] })
 pruefe('Folge 0 zählt nicht', folgen.size === 0, folgen.size)
 
 folgen.clear()
-sammle({ items: [{ visuals: { episodeNumber: '4' } }] })
+sammleFolgen({ items: [{ visuals: { episodeNumber: '4' } }] })
 pruefe('ohne Kennung keine Folge', folgen.size === 0, folgen.size)
 
 /* Zweimal derselbe Abruf verdoppelt nichts — die Kennung ist der Schlüssel. */
 folgen.clear()
-sammle(probe)
+sammleFolgen(probe)
 const einmal = folgen.size
-sammle(probe)
+sammleFolgen(probe)
 pruefe('ein zweiter Abruf derselben Staffel verdoppelt nichts', folgen.size === einmal, folgen.size)
 
 /**
@@ -146,7 +152,7 @@ pruefe('ein zweiter Abruf derselben Staffel verdoppelt nichts', folgen.size === 
 {
   staffeln = []
   folgen.clear()
-  sammle({
+  sammleStaffeln({
     data: {
       page: {
         containers: [
@@ -170,13 +176,56 @@ pruefe('ein zweiter Abruf derselben Staffel verdoppelt nichts', folgen.size === 
   pruefe('die Namen stehen dabei', staffeln.every((s) => /Staffel \d/.test(s.name)), staffeln.map((s) => s.name))
 
   /* Ein zweiter Abruf derselben Seite verdoppelt die Staffeln nicht. */
-  sammle({ data: { page: { containers: [{ seasons: [{ id: 'bd87ec00', visuals: { name: 'Staffel 1' }, pagination: { totalCount: 24 } }] }] } } })
+  sammleStaffeln({ data: { page: { containers: [{ seasons: [{ id: 'bd87ec00', visuals: { name: 'Staffel 1' }, pagination: { totalCount: 24 } }] }] } } })
   pruefe('ein zweiter Abruf verdoppelt keine Staffel', staffeln.length === 3, staffeln.length)
 
   /* Und was keinen Seitenzaehler hat, ist keine Staffel. */
   staffeln = []
-  sammle({ irgendwas: { id: 'abc', visuals: { name: 'Empfehlungen' } } })
+  sammleStaffeln({ data: { page: { containers: [{ seasons: [{ id: 'abc', visuals: { name: 'Empfehlungen' } }] }] } } })
   pruefe('ohne Seitenzaehler keine Staffel', staffeln.length === 0, staffeln.length)
+}
+
+/**
+ * Eine Empfehlungsleiste ist keine Staffel — auch wenn sie so aussieht.
+ *
+ * Der erste Anlauf suchte nach jedem Knoten mit Kennung und
+ * `pagination.totalCount`. Genau das trägt auch der Container "EMPFEHLUNGEN":
+ * Bei Beyblade X hat er acht Einträge, und aus 51 + 35 wurden 94 (Daniel,
+ * 26.08.2026: „51 + 35 = 86, woher kommen die 94?").
+ *
+ * Staffeln stehen an genau einer Stelle. Wer dort nachsieht statt zu suchen,
+ * findet keine Nachbarn.
+ */
+{
+  staffeln = []
+  sammleStaffeln({
+    data: {
+      page: {
+        containers: [
+          {
+            type: 'episodes',
+            seasons: [
+              { id: 's1', visuals: { name: 'Staffel 1' }, pagination: { totalCount: 51 } },
+              { id: 's2', visuals: { name: 'Staffel 2' }, pagination: { totalCount: 35 } },
+            ],
+          },
+          {
+            type: 'recommendations',
+            visuals: { name: 'EMPFEHLUNGEN' },
+            id: 'empf',
+            pagination: { totalCount: 8 },
+            items: [],
+          },
+        ],
+      },
+    },
+  })
+  pruefe('nur die zwei echten Staffeln', staffeln.length === 2, staffeln.map((s) => s.name))
+  pruefe(
+    'die Summe ist 86, nicht 94',
+    staffeln.reduce((n, s) => n + s.gesamt, 0) === 86,
+    staffeln.reduce((n, s) => n + s.gesamt, 0),
+  )
 }
 
 const fehler = faelle.filter((x) => !x).length

@@ -4,18 +4,19 @@
  * Der Weg steht in `disney-leser.js` — ein POST je Folge, Tonspuren im
  * Klartext, kein Eintrag unter „Weiterschauen".
  *
- * Drei Dinge, die dieser Teil dazu beiträgt, und alle drei sind aus einem
- * Fehlschlag entstanden (Daniel, 26.08.2026):
+ * Dieser Teil sagt, **was noch fehlt**, und zwar in Bereichen statt in Sätzen:
  *
- * - **Gewartet wird auf die vollständige Liste.** Der Seitenaufruf bringt 15
- *   Folgen mit, die Staffel hat 51. Wer sofort losprüft, meldet ein Drittel und
- *   nennt es die Staffel.
- * - **Was im Briefkasten liegt, wird übersprungen.** Sonst bietet die Seite nach
- *   einem Neuladen dieselben Folgen erneut an.
- * - **Beide Knöpfe stehen nebeneinander**, Übersicht unten, Prüfung darüber.
- *   Der erste Anlauf blendete die Übersicht auf einer gelisteten Seite aus —
- *   dann fehlte der Weg zur Liste genau dort, wo man den nächsten Titel
- *   aussucht.
+ *     grün  1e1-15
+ *     grau  1e16-51, 2e1-35
+ *
+ * Daniels Vorgabe am 26.08.2026: „außerdem ist es zuviel text, also grün:
+ * 1e1-15, grau: 1e16-51, 2e1-35." Eine Zeile beantwortet damit beide Fragen —
+ * was erledigt ist und was ansteht — ohne dass jemand rechnen muss.
+ *
+ * **Was der Worker übernommen hat, verschwindet von selbst.** Die Bereiche
+ * kommen aus dem Briefkasten, nicht aus einem eigenen Gedächtnis: Sobald der
+ * stündliche Lauf die Meldungen abgeholt hat, ist der grüne Teil weg und der
+ * graue steht allein da. Genau so soll es sein — die Ferne ist die Quelle.
  */
 ;(() => {
   const MARKE = 'ak-disney'
@@ -40,6 +41,63 @@
     )
   }
 
+  /**
+   * Zusammenhängende Folgen als Bereich: `[1,2,3,7]` → `1-3, 7`.
+   *
+   * Fünfzig Nummern nebeneinander liest niemand; drei Bereiche schon.
+   */
+  function bereiche(nummern) {
+    const sortiert = [...new Set(nummern)].sort((a, b) => a - b)
+    if (!sortiert.length) return ''
+    const teile = []
+    let von = sortiert[0]
+    let bis = sortiert[0]
+    for (const n of sortiert.slice(1)) {
+      if (n === bis + 1) {
+        bis = n
+        continue
+      }
+      teile.push(von === bis ? `${von}` : `${von}-${bis}`)
+      von = n
+      bis = n
+    }
+    teile.push(von === bis ? `${von}` : `${von}-${bis}`)
+    return teile.join(', ')
+  }
+
+  /** Folgen je Staffel als `1e1-15, 2e1-35`. */
+  function nachStaffeln(eintraege) {
+    const jeStaffel = new Map()
+    for (const f of eintraege) {
+      const nr = f.staffel ?? 1
+      jeStaffel.set(nr, [...(jeStaffel.get(nr) ?? []), f.nummer])
+    }
+    return [...jeStaffel.entries()]
+      .sort((a, b) => a[0] - b[0])
+      .map(([nr, nummern]) => `${nr}e${bereiche(nummern)}`)
+      .join(', ')
+  }
+
+  /**
+   * Wann der nächste Lauf die Meldungen übernimmt.
+   *
+   * `refresh-hourly.yml` läuft zur Minute 23 und ruft dort `data:pruefungen`
+   * auf — der Schritt, der den Briefkasten leert. Ohne die Uhrzeit ist von
+   * außen nicht zu unterscheiden, ob der Lauf noch aussteht oder seine Arbeit
+   * nicht getan hat. GitHub startet geplante Läufe oft ein paar Minuten später,
+   * deshalb „ab", nicht „um".
+   */
+  function naechsteUebernahme(jetzt = new Date()) {
+    const ziel = new Date(jetzt)
+    ziel.setSeconds(0, 0)
+    ziel.setMinutes(23)
+    if (ziel <= jetzt) ziel.setTime(ziel.getTime() + 3600000)
+    return ziel
+  }
+
+  const uhrzeit = (d) =>
+    `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`
+
   const liste = globalThis.AK_OFFENE_DISNEY ?? {}
   /*
     `undefined`, nicht `null` — sonst erkennt der erste Durchlauf auf einer
@@ -58,7 +116,7 @@
   let ergebnisse = []
   let gemeldeteNummern = new Set()
   const offeneFragen = new Map()
-  /** Je Adresse die Zahl der Meldungen im Briefkasten — für die Liste. */
+  /** Je Adresse die gemeldeten Folgennummern — für die Liste. */
   let briefkasten = new Map()
 
   // --- Brücke zur Seitenwelt ------------------------------------------------
@@ -135,21 +193,32 @@
   }
 
   /*
-    Wie viele Meldungen zu jeder Adresse im Briefkasten liegen.
+    Welche Folgennummern zu jeder Adresse im Briefkasten liegen.
 
     Ein Abruf für alle 31 Titel, nicht einer je Titel. Ohne ihn sagt die Liste
-    nichts darüber, was schon erledigt ist — „bereits gemeldete folgen und
-    fehlende meldungen werden ebenfalls nicht korrekt in der liste angezeigt"
-    (Daniel, 26.08.2026).
+    nichts darüber, was schon erledigt ist.
   */
   async function briefkastenHolen() {
     try {
-      const antwort = await fetch(`${WORKER}?zaehlen=1`, { cache: 'no-store' })
+      const antwort = await fetch(`${WORKER}?zaehlen=1&nummern=1`, { cache: 'no-store' })
       if (!antwort.ok) return
       const daten = await antwort.json()
-      const gezaehlt = new Map()
-      for (const url of daten.adressen ?? []) gezaehlt.set(url, (gezaehlt.get(url) ?? 0) + 1)
-      briefkasten = gezaehlt
+      const gesammelt = new Map()
+      /*
+        Der Worker antwortet je nach Fassung mit `eintraege` (Adresse + Nummer)
+        oder nur mit `adressen`. Beides wird gelesen; fehlt die Nummer, zählt
+        der Eintrag trotzdem.
+      */
+      for (const e of daten.eintraege ?? []) {
+        const dazu = gesammelt.get(e.url) ?? []
+        if (Number.isFinite(Number(e.folge_nr)))
+          dazu.push({ staffel: Number(e.staffel) || 1, nummer: Number(e.folge_nr) })
+        gesammelt.set(e.url, dazu)
+      }
+      for (const url of daten.adressen ?? []) {
+        if (!gesammelt.has(url)) gesammelt.set(url, [])
+      }
+      briefkasten = gesammelt
     } catch {
       /* Ohne Auskunft bleibt die Liste bei dem, was der Datensatz sagt. */
     }
@@ -165,24 +234,31 @@
     const eintraege = offeneEintraege()
     dialog = document.createElement('div')
     dialog.style.cssText =
-      'position:fixed;right:16px;bottom:100px;z-index:2147483001;width:min(440px,92vw);' +
+      'position:fixed;right:16px;bottom:100px;z-index:2147483001;width:min(460px,92vw);' +
       'max-height:70vh;overflow:auto;background:#111;color:#fff;border:1px solid #ffffff33;' +
       'border-radius:10px;padding:14px 16px;font:13px/1.5 system-ui,sans-serif;' +
       'box-shadow:0 8px 32px #000a'
 
     const kopf = document.createElement('div')
-    kopf.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:10px'
+    kopf.style.cssText = 'display:flex;align-items:baseline;gap:10px;margin-bottom:10px;flex-wrap:wrap'
     const titelzeile = document.createElement('strong')
-    const gemeldet = eintraege.filter((e) => briefkasten.get(e.url)).length
-    titelzeile.textContent = eintraege.length
-      ? `${eintraege.length} Titel zu prüfen` + (gemeldet ? `, ${gemeldet} im Briefkasten` : '')
-      : 'Alles geprüft'
+    titelzeile.textContent = eintraege.length ? `${eintraege.length} Titel zu prüfen` : 'Alles geprüft'
     kopf.appendChild(titelzeile)
+
+    /* Wann das Gemeldete hier wieder verschwindet. */
+    if ([...briefkasten.values()].some((n) => n.length >= 0) && briefkasten.size) {
+      const lauf = document.createElement('span')
+      lauf.style.cssText = 'font-size:11px;opacity:.65;margin-left:auto;white-space:nowrap'
+      lauf.textContent = `Übernahme ab ${uhrzeit(naechsteUebernahme())}`
+      lauf.title =
+        'Der stündliche Datenlauf holt die Meldungen ab und schreibt sie in den Kalender. Danach sind die grünen Bereiche hier weg.'
+      kopf.appendChild(lauf)
+    }
     const zu = document.createElement('button')
     zu.textContent = '×'
     zu.title = 'Schließen (Esc)'
     zu.style.cssText =
-      'margin-left:auto;background:none;border:none;color:#fff;font-size:18px;cursor:pointer;line-height:1'
+      'background:none;border:none;color:#fff;font-size:18px;cursor:pointer;line-height:1'
     zu.onclick = dialogSchliessen
     kopf.appendChild(zu)
     dialog.appendChild(kopf)
@@ -190,33 +266,58 @@
     for (const e of eintraege) {
       const zeile = document.createElement('div')
       zeile.style.cssText = 'padding:6px 0;border-top:1px solid #ffffff1a'
+
       const verweis = document.createElement('a')
       verweis.href = e.url
       verweis.textContent = e.titel
       verweis.style.cssText = 'color:#7dd3fc;text-decoration:none'
       zeile.appendChild(verweis)
 
-      const rest = document.createElement('span')
-      rest.style.cssText = 'opacity:.6;margin-left:8px'
-      /*
-        Unsere Folgenzahl stammt aus AniList und weicht von Disneys Zählung ab
-        (Beyblade X: wir eine Staffel, Disney+ zwei mit 51 und 35). Sie steht
-        deshalb als Anhaltspunkt da, nicht als Zusage.
-      */
-      const folgenZahl = e.staffeln
-        .filter((st) => st.offen)
-        .reduce((n, st) => n + (st.folgen ?? 0), 0)
-      rest.textContent =
-        `${e.offen} Staffel${e.offen === 1 ? '' : 'n'}` + (folgenZahl ? `, ca. ${folgenZahl} Folgen` : '')
-      zeile.appendChild(rest)
-
-      const wieviel = briefkasten.get(e.url)
-      if (wieviel) {
-        const marke = document.createElement('span')
-        marke.style.cssText = 'margin-left:8px;color:#4ade80'
-        marke.textContent = `${wieviel} gemeldet`
-        zeile.appendChild(marke)
+      const gemeldet = briefkasten.get(e.url) ?? null
+      if (gemeldet?.length) {
+        const gruen = document.createElement('span')
+        gruen.style.cssText = 'margin-left:8px;color:#4ade80'
+        gruen.textContent = nachStaffeln(gemeldet)
+        zeile.appendChild(gruen)
+      } else {
+        /*
+          Ohne Meldung steht da, was unser Bestand erwartet — mit „ca.", weil
+          unsere Staffelzählung von der des Anbieters abweicht (Beyblade X: bei
+          uns eine Staffel, bei Disney+ zwei mit 51 und 35 Folgen).
+        */
+        const grau = document.createElement('span')
+        grau.style.cssText = 'margin-left:8px;opacity:.6'
+        const folgenZahl = e.staffeln
+          .filter((st) => st.offen)
+          .reduce((n, st) => n + (st.folgen ?? 0), 0)
+        grau.textContent =
+          `${e.offen} Staffel${e.offen === 1 ? '' : 'n'}` + (folgenZahl ? `, ca. ${folgenZahl} Folgen` : '')
+        zeile.appendChild(grau)
       }
+
+      /*
+        **„Nicht da" gehört in die Liste, nicht auf die Titelseite.**
+
+        Ist ein Titel in Deutschland nicht verfügbar, leitet Disney+ auf die
+        Startseite um — dort gibt es keine Seite, auf der ein Knopf stehen
+        könnte. Daniel am 26.08.2026: „aoashi button für nicht verfügbar hast du
+        nicht eingebaut, hab ich vorher bereits gemeldet."
+      */
+      const wegKnopf = document.createElement('button')
+      wegKnopf.type = 'button'
+      wegKnopf.textContent = 'nichts da?'
+      wegKnopf.style.cssText =
+        'margin-left:8px;padding:1px 7px;border-radius:6px;border:1px solid #ffffff33;' +
+        'background:none;color:#fca5a5;font:11px system-ui,sans-serif;cursor:pointer'
+      wegKnopf.onclick = async (ev) => {
+        ev.preventDefault()
+        wegKnopf.disabled = true
+        wegKnopf.textContent = '…'
+        const ok = await meldeWeg(e)
+        wegKnopf.textContent = ok ? 'nicht da ✓' : 'ging nicht'
+      }
+      zeile.appendChild(wegKnopf)
+
       dialog.appendChild(zeile)
     }
     document.body.appendChild(dialog)
@@ -232,9 +333,13 @@
       uebersichtKnopf.onclick = dialogOeffnen
       document.body.appendChild(uebersichtKnopf)
     }
-    const gemeldet = offen.filter((e) => briefkasten.get(e.url)).length
+    /*
+      Gezählt wird der Titel, nicht die Meldung. Ein Titel, von dem 15 von 86
+      Folgen gemeldet sind, ist weiter offen — „anime-kalender button sollte 31
+      offen sagen, weil 1 nur teilweise gemeldet wurde" (Daniel, 26.08.2026).
+    */
     uebersichtKnopf.textContent = offen.length
-      ? `Anime-Kalender: ${offen.length - gemeldet} offen` + (gemeldet ? `, ${gemeldet} gemeldet` : '')
+      ? `Anime-Kalender: ${offen.length} offen`
       : 'Anime-Kalender: alles geprüft ✓'
   }
 
@@ -272,16 +377,15 @@
       (a, b) => (a.staffel ?? 0) - (b.staffel ?? 0) || a.nummer - b.nummer,
     )
     const zuPruefen = alle.filter((f) => !gemeldeteNummern.has(f.nummer))
-    const teilung = anbieterStaffeln.map((s) => `${s.name}: ${s.gesamt}`).join(', ')
+    const schon = alle.filter((f) => gemeldeteNummern.has(f.nummer))
 
     if (!zuPruefen.length) {
-      zeigePruefung(`${eintrag.titel}\n${alle.length} Folgen schon gemeldet ✓`, { klasse: 'gut' })
+      zeigePruefung(`${eintrag.titel}\n✓ ${nachStaffeln(alle)} gemeldet`, { klasse: 'gut' })
       return
     }
-    const uebersprungen = alle.length - zuPruefen.length
     zeigePruefung(
-      `Anime-Kalender: prüfe ${zuPruefen.length} Folgen …` +
-        (uebersprungen ? `\n${uebersprungen} schon gemeldet` : ''),
+      `${eintrag.titel}\nprüfe ${zuPruefen.length} Folgen …` +
+        (schon.length ? `\n✓ ${nachStaffeln(schon)}` : ''),
     )
 
     const beginn = Date.now()
@@ -298,8 +402,10 @@
     /* Eine Tabelle, nicht fünfzig Zeilen — getrennte Ausgaben muss man suchen. */
     console.log(
       `[Anime-Kalender] ${eintrag.titel}: ${echte.length} Folgen in ${sekunden} s, ohne Player-Start` +
-        (uebersprungen ? ` (${uebersprungen} schon gemeldet)` : '') +
-        (teilung ? ` — Disney+ teilt: ${teilung}` : ''),
+        (schon.length ? ` (${schon.length} schon gemeldet)` : '') +
+        (anbieterStaffeln.length
+          ? ` — Disney+ teilt: ${anbieterStaffeln.map((s) => `${s.name}: ${s.gesamt}`).join(', ')}`
+          : ''),
     )
     console.table(
       ergebnisse.map((r) => ({
@@ -311,20 +417,43 @@
     )
 
     if (!echte.length) {
-      zeigePruefung(`Anime-Kalender: keine Antwort — ${ergebnisse[0]?.fehler ?? 'unbekannt'}`, {
+      zeigePruefung(`${eintrag.titel}\nkeine Antwort — ${ergebnisse[0]?.fehler ?? 'unbekannt'}`, {
         klasse: 'schlecht',
       })
       return
     }
     zeigePruefung(
-      `${eintrag.titel}\n${mitDeutsch.length} von ${echte.length} Folgen mit deutschem Ton` +
-        (teilung ? `\n${teilung}` : '') +
-        '\n▸ melden',
+      `${eintrag.titel}` +
+        (schon.length ? `\n✓ ${nachStaffeln(schon)}` : '') +
+        `\n▸ ${nachStaffeln(echte)} melden (${mitDeutsch.length}× deutsch)`,
       { klasse: mitDeutsch.length ? 'gut' : null, klick: melden },
     )
   }
 
   // --- Melden ---------------------------------------------------------------
+
+  /** Ein Titel, den Disney+ hier gar nicht führt. */
+  async function meldeWeg(e) {
+    const { token } = await chrome.storage.sync.get('token')
+    if (!token) return false
+    try {
+      const antwort = await fetch(WORKER, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
+        body: JSON.stringify({
+          plattform: 'disneyplus',
+          url: e.url,
+          befund: 'weg',
+          titel: e.titel,
+          serientitel: e.titel,
+          notiz: 'Disney+ meldet: nicht in deinem Gebiet verfügbar',
+        }),
+      })
+      return antwort.ok
+    } catch {
+      return false
+    }
+  }
 
   async function melden() {
     const echte = ergebnisse.filter((r) => r.sprachen && !gemeldeteNummern.has(r.nummer))
@@ -339,8 +468,7 @@
     /*
       Wie Disney+ die Reihe teilt: je Staffel die Zahl der Folgen und die erste
       Nummer. Damit lässt sich eine Meldung später einer unserer Staffeln
-      zuordnen, auch wenn der Anbieter anders einteilt — und er tut es: Beyblade
-      X ist bei uns eine Staffel, bei Disney+ zwei mit 51 und 35 Folgen.
+      zuordnen, auch wenn der Anbieter anders einteilt — und er tut es.
     */
     const staffeln = [...new Set(echte.map((r) => r.staffel))]
       .filter((nr) => nr)
@@ -351,7 +479,7 @@
 
     let geschafft = 0
     for (const r of echte) {
-      zeigePruefung(`Anime-Kalender: melde ${geschafft + 1}/${echte.length} …`)
+      zeigePruefung(`${eintrag.titel}\nmelde ${geschafft + 1}/${echte.length} …`)
       try {
         const antwort = await fetch(WORKER, {
           method: 'POST',
@@ -382,9 +510,14 @@
     }
     await briefkastenHolen()
     zeigeUebersicht()
-    zeigePruefung(`${eintrag.titel}\n${geschafft} von ${echte.length} Folgen gemeldet ✓`, {
-      klasse: geschafft === echte.length ? 'gut' : 'schlecht',
-    })
+    const alle = [...folgen].sort(
+      (a, b) => (a.staffel ?? 0) - (b.staffel ?? 0) || a.nummer - b.nummer,
+    )
+    zeigePruefung(
+      `${eintrag.titel}\n✓ ${nachStaffeln(alle.filter((f) => gemeldeteNummern.has(f.nummer)))} gemeldet` +
+        `\nÜbernahme ab ${uhrzeit(naechsteUebernahme())}`,
+      { klasse: geschafft === echte.length ? 'gut' : 'schlecht' },
+    )
   }
 
   // --- Start ----------------------------------------------------------------
