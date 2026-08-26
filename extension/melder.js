@@ -385,6 +385,24 @@ function beschriftung(spuren) {
     }
   }
   if (!spuren) {
+    /**
+     * **Schon als tot gemeldet — dann steht das da, kein Knopf.**
+     *
+     * Daniel am 26.08.2026: „ich hab es 2x gemeldet, ich kann weiterhin melden,
+     * warum? da sollte bereits gemeldet oder so stehen."
+     *
+     * `gesendet` ist eine Map im Speicher der Seite; ein Neuladen leert sie,
+     * und der Knopf lud wieder zum Melden ein. Der Vermerk `tot` liegt dagegen
+     * im dauerhaften Speicher und überlebt den Reload — er wird jetzt gelesen.
+     *
+     * Die zweite Meldung war deshalb nicht folgenlos, sondern schlimmer:
+     * Sie überschrieb im Briefkasten die erste, und die Zahl in der
+     * Statusanzeige rührte sich nicht („ich reporte, reloade, steht weiterhin
+     * 10").
+     */
+    if (istErledigt(gemeinteReihe(), 'tot')) {
+      return { text: 'Als nicht abrufbar gemeldet ✓', klasse: 'ak-nein', aktiv: false }
+    }
     if (keineFolgeVorhanden()) {
       // Nennt die Seite einen Termin, gehoert er an den Knopf — dann sieht
       // man vor dem Klick, was gemeldet wird.
