@@ -2275,11 +2275,25 @@ function main(): void {
    * Titel gar nicht führt, wird sie angelegt. Der Fall entsteht, wo ein
    * Anbieter mehrere unserer Staffeln unter einer Reihe zeigt und die Quellen
    * deshalb nur eine davon kennen.
+   *
+   * **Ein `available: false` legt nichts an.** Der Block darüber entfernt genau
+   * solche Verweise, und dieser hier legte sie unmittelbar danach wieder an —
+   * die Adresse steht ja im Beleg. Zwei Schritte, die sich widersprechen, und
+   * der zweite gewann.
+   *
+   * Aufgefallen ist es am 26.08.2026, als die Erweiterung erstmals
+   * „nicht verfügbar" **mit** Adresse meldete: `check:handbelege` wurde rot und
+   * nannte acht Titel, die „als nicht verfügbar geprüft" waren und trotzdem im
+   * Datensatz standen — Aoashi, Chainsaw Man, SPY×FAMILY und fünf weitere. Der
+   * Deploy blieb zwei Läufe lang hängen.
+   *
+   * Die Zusicherung hat den Widerspruch gefunden, nicht der Vorsatz.
    */
   let ergaenzt = 0
   for (const title of titles.values()) {
     for (const check of checks.values()) {
       if (check.anilistId !== title.id || !check.url) continue
+      if (check.available === false) continue
       if (title.streams.some((s) => s.platform === check.platform)) continue
       title.streams.push({ platform: check.platform, url: check.url, dub: check.dub })
       ergaenzt++
