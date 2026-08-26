@@ -1,0 +1,161 @@
+{
+ "data": {
+  "season": {
+   "items": [
+    {
+     "actions": [
+      {
+       "resourceId": "eyJtZWRpYUlkIjoiMjJkMjliZGMtOTdhMi00OTM5LTgyZTQtNTAxMzk3NzlhNjI2IiwiYXZhaWxJZCI6IjM4NDEzZThjLTk3ZTItNDE4Yi05MmIxLWUxYjcyMzY0YTRhMyIsImF2YWlsVmVyc2lvbiI6MTcsInNvdXJjZUlkIjoiMzg0MTNlOGMtOTdlMi00MThiLTkyYjEtZTFiNzIzNjRhNGEzIiwiY29udGVudFR5cGUiOiJ2b2QifQ==",
+       "type": "playback"
+      },
+      {
+       "resourceId": "eyJtZWRpYUlkIjoiMjJkMjliZGMtOTdhMi00OTM5LTgyZTQtNTAxMzk3NzlhNjI2IiwiYXZhaWxJZCI6IjM4NDEzZThjLTk3ZTItNDE4Yi05MmIxLWUxYjcyMzY0YTRhMyIsImF2YWlsVmVyc2lvbiI6MTcsInNvdXJjZUlkIjoiMzg0MTNlOGMtOTdlMi00MThiLTkyYjEtZTFiNzIzNjRhNGEzIiwiY29udGVudFR5cGUiOiJ2b2QifQ==",
+       "type": "download"
+      }
+     ],
+     "visuals": {
+      "seasonNumber": "1",
+      "episodeNumber": "16",
+      "episodeTitle": "Austausch mit der Kyoto-Schwesternschule – Team-Wettkampf 2"
+     }
+    },
+    {
+     "actions": [
+      {
+       "resourceId": "eyJtZWRpYUlkIjoiMmY4NjA1MDctMjdjMS00MjJmLThmOTItZDRlNzI0ZGUyNmI5IiwiYXZhaWxJZCI6ImI1ZjFjODBlLTBjMjktNDQyNS1hODdhLTg3YjA1MjcyNGZhOCIsImF2YWlsVmVyc2lvbiI6MTksInNvdXJjZUlkIjoiYjVmMWM4MGUtMGMyOS00NDI1LWE4N2EtODdiMDUyNzI0ZmE4IiwiY29udGVudFR5cGUiOiJ2b2QifQ==",
+       "type": "playback"
+      },
+      {
+       "resourceId": "eyJtZWRpYUlkIjoiMmY4NjA1MDctMjdjMS00MjJmLThmOTItZDRlNzI0ZGUyNmI5IiwiYXZhaWxJZCI6ImI1ZjFjODBlLTBjMjktNDQyNS1hODdhLTg3YjA1MjcyNGZhOCIsImF2YWlsVmVyc2lvbiI6MTksInNvdXJjZUlkIjoiYjVmMWM4MGUtMGMyOS00NDI1LWE4N2EtODdiMDUyNzI0ZmE4IiwiY29udGVudFR5cGUiOiJ2b2QifQ==",
+       "type": "download"
+      }
+     ],
+     "visuals": {
+      "seasonNumber": "1",
+      "episodeNumber": "17",
+      "episodeTitle": "Austausch mit der Kyoto-Schwesternschule – Team-Wettkampf 3"
+     }
+    },
+    {
+     "actions": [
+      {
+       "resourceId": "eyJtZWRpYUlkIjoiMmNlZDAyOTMtNGVlNS00ZjIzLWFmZWItOTFkYmE2MzdmZWZkIiwiYXZhaWxJZCI6IjRkYzg3NmViLWRlOTAtNDJmMC1iYjUwLTExYjc2NDc5MWIyYSIsImF2YWlsVmVyc2lvbiI6MTcsInNvdXJjZUlkIjoiNGRjODc2ZWItZGU5MC00MmYwLWJiNTAtMTFiNzY0NzkxYjJhIiwiY29udGVudFR5cGUiOiJ2b2QifQ==",
+       "type": "playback"
+      },
+      {
+       "resourceId": "eyJtZWRpYUlkIjoiMmNlZDAyOTMtNGVlNS00ZjIzLWFmZWItOTFkYmE2MzdmZWZkIiwiYXZhaWxJZCI6IjRkYzg3NmViLWRlOTAtNDJmMC1iYjUwLTExYjc2NDc5MWIyYSIsImF2YWlsVmVyc2lvbiI6MTcsInNvdXJjZUlkIjoiNGRjODc2ZWItZGU5MC00MmYwLWJiNTAtMTFiNzY0NzkxYjJhIiwiY29udGVudFR5cGUiOiJ2b2QifQ==",
+       "type": "download"
+      }
+     ],
+     "visuals": {
+      "seasonNumber": "1",
+      "episodeNumber": "18",
+      "episodeTitle": "Weiser"
+     }
+    },
+    {
+     "actions": [
+      {
+       "resourceId": "eyJtZWRpYUlkIjoiZDlhMjk5NTItMDkxOC00ZTc5LThmMDMtMmJkYTE2NTdlMmJlIiwiYXZhaWxJZCI6IjE4MzBhODQ0LTYxZTItNDkyYi04ZmQyLTU3OWRkMjE1YmRkYiIsImF2YWlsVmVyc2lvbiI6MTYsInNvdXJjZUlkIjoiMTgzMGE4NDQtNjFlMi00OTJiLThmZDItNTc5ZGQyMTViZGRiIiwiY29udGVudFR5cGUiOiJ2b2QifQ==",
+       "type": "playback"
+      },
+      {
+       "resourceId": "eyJtZWRpYUlkIjoiZDlhMjk5NTItMDkxOC00ZTc5LThmMDMtMmJkYTE2NTdlMmJlIiwiYXZhaWxJZCI6IjE4MzBhODQ0LTYxZTItNDkyYi04ZmQyLTU3OWRkMjE1YmRkYiIsImF2YWlsVmVyc2lvbiI6MTYsInNvdXJjZUlkIjoiMTgzMGE4NDQtNjFlMi00OTJiLThmZDItNTc5ZGQyMTViZGRiIiwiY29udGVudFR5cGUiOiJ2b2QifQ==",
+       "type": "download"
+      }
+     ],
+     "visuals": {
+      "seasonNumber": "1",
+      "episodeNumber": "19",
+      "episodeTitle": "Schwarzer Blitz"
+     }
+    },
+    {
+     "actions": [
+      {
+       "resourceId": "eyJtZWRpYUlkIjoiZTI5ZjNkMmEtNDVlYS00ZWU1LWEzOWYtOWRiZDc1NTY4ZjM5IiwiYXZhaWxJZCI6Ijc0YThjNTJjLWQyYjctNGJhOC04MDgwLTQwMzRhYjhhYmY0YSIsImF2YWlsVmVyc2lvbiI6MTksInNvdXJjZUlkIjoiNzRhOGM1MmMtZDJiNy00YmE4LTgwODAtNDAzNGFiOGFiZjRhIiwiY29udGVudFR5cGUiOiJ2b2QifQ==",
+       "type": "playback"
+      },
+      {
+       "resourceId": "eyJtZWRpYUlkIjoiZTI5ZjNkMmEtNDVlYS00ZWU1LWEzOWYtOWRiZDc1NTY4ZjM5IiwiYXZhaWxJZCI6Ijc0YThjNTJjLWQyYjctNGJhOC04MDgwLTQwMzRhYjhhYmY0YSIsImF2YWlsVmVyc2lvbiI6MTksInNvdXJjZUlkIjoiNzRhOGM1MmMtZDJiNy00YmE4LTgwODAtNDAzNGFiOGFiZjRhIiwiY29udGVudFR5cGUiOiJ2b2QifQ==",
+       "type": "download"
+      }
+     ],
+     "visuals": {
+      "seasonNumber": "1",
+      "episodeNumber": "20",
+      "episodeTitle": "Atypisch"
+     }
+    },
+    {
+     "actions": [
+      {
+       "resourceId": "eyJtZWRpYUlkIjoiNjYyM2YwZTktNGE1Yy00ZmY1LTg0NTgtMWY4NTJkMDhhMWVkIiwiYXZhaWxJZCI6ImJmYjRhMzVjLTVkZjktNDA5MC1iNTk2LTQ5YjYyMjc3NzJkOSIsImF2YWlsVmVyc2lvbiI6MTksInNvdXJjZUlkIjoiYmZiNGEzNWMtNWRmOS00MDkwLWI1OTYtNDliNjIyNzc3MmQ5IiwiY29udGVudFR5cGUiOiJ2b2QifQ==",
+       "type": "playback"
+      },
+      {
+       "resourceId": "eyJtZWRpYUlkIjoiNjYyM2YwZTktNGE1Yy00ZmY1LTg0NTgtMWY4NTJkMDhhMWVkIiwiYXZhaWxJZCI6ImJmYjRhMzVjLTVkZjktNDA5MC1iNTk2LTQ5YjYyMjc3NzJkOSIsImF2YWlsVmVyc2lvbiI6MTksInNvdXJjZUlkIjoiYmZiNGEzNWMtNWRmOS00MDkwLWI1OTYtNDliNjIyNzc3MmQ5IiwiY29udGVudFR5cGUiOiJ2b2QifQ==",
+       "type": "download"
+      }
+     ],
+     "visuals": {
+      "seasonNumber": "1",
+      "episodeNumber": "21",
+      "episodeTitle": "Jujutsu Koshien"
+     }
+    },
+    {
+     "actions": [
+      {
+       "resourceId": "eyJtZWRpYUlkIjoiNGJjOGU3YmEtNjVjMi00ODE0LThmZmQtM2IwODNhZmZhZGRhIiwiYXZhaWxJZCI6ImIwNGM4NTYyLTllOWUtNGFlNi05ZmMzLTJjZGZkMGY2Yjk0NiIsImF2YWlsVmVyc2lvbiI6MTksInNvdXJjZUlkIjoiYjA0Yzg1NjItOWU5ZS00YWU2LTlmYzMtMmNkZmQwZjZiOTQ2IiwiY29udGVudFR5cGUiOiJ2b2QifQ==",
+       "type": "playback"
+      },
+      {
+       "resourceId": "eyJtZWRpYUlkIjoiNGJjOGU3YmEtNjVjMi00ODE0LThmZmQtM2IwODNhZmZhZGRhIiwiYXZhaWxJZCI6ImIwNGM4NTYyLTllOWUtNGFlNi05ZmMzLTJjZGZkMGY2Yjk0NiIsImF2YWlsVmVyc2lvbiI6MTksInNvdXJjZUlkIjoiYjA0Yzg1NjItOWU5ZS00YWU2LTlmYzMtMmNkZmQwZjZiOTQ2IiwiY29udGVudFR5cGUiOiJ2b2QifQ==",
+       "type": "download"
+      }
+     ],
+     "visuals": {
+      "seasonNumber": "1",
+      "episodeNumber": "22",
+      "episodeTitle": "Der Ursprung des Blinden Folgens"
+     }
+    },
+    {
+     "actions": [
+      {
+       "resourceId": "eyJtZWRpYUlkIjoiMWMyODU0NGQtMjM2NS00M2U2LTliMDEtYjVjNTg1ZGY2YmQ5IiwiYXZhaWxJZCI6IjYwNTkyNzMzLWUzNTQtNDMyYi05NWNjLThhNzA1ZTgyYzdiNiIsImF2YWlsVmVyc2lvbiI6MTksInNvdXJjZUlkIjoiNjA1OTI3MzMtZTM1NC00MzJiLTk1Y2MtOGE3MDVlODJjN2I2IiwiY29udGVudFR5cGUiOiJ2b2QifQ==",
+       "type": "playback"
+      },
+      {
+       "resourceId": "eyJtZWRpYUlkIjoiMWMyODU0NGQtMjM2NS00M2U2LTliMDEtYjVjNTg1ZGY2YmQ5IiwiYXZhaWxJZCI6IjYwNTkyNzMzLWUzNTQtNDMyYi05NWNjLThhNzA1ZTgyYzdiNiIsImF2YWlsVmVyc2lvbiI6MTksInNvdXJjZUlkIjoiNjA1OTI3MzMtZTM1NC00MzJiLTk1Y2MtOGE3MDVlODJjN2I2IiwiY29udGVudFR5cGUiOiJ2b2QifQ==",
+       "type": "download"
+      }
+     ],
+     "visuals": {
+      "seasonNumber": "1",
+      "episodeNumber": "23",
+      "episodeTitle": "Der Ursprung des Blinden Folgens, Teil 2"
+     }
+    },
+    {
+     "actions": [
+      {
+       "resourceId": "eyJtZWRpYUlkIjoiMDc2NDdhYjEtODIzMS00ZTg3LTg1NmItZjhjZGM4M2QzZjgyIiwiYXZhaWxJZCI6ImVhNDE0M2FkLTRmZWMtNDBhZi05YzMyLTBlZDMyNmNjYTQwMiIsImF2YWlsVmVyc2lvbiI6MTYsInNvdXJjZUlkIjoiZWE0MTQzYWQtNGZlYy00MGFmLTljMzItMGVkMzI2Y2NhNDAyIiwiY29udGVudFR5cGUiOiJ2b2QifQ==",
+       "type": "playback"
+      },
+      {
+       "resourceId": "eyJtZWRpYUlkIjoiMDc2NDdhYjEtODIzMS00ZTg3LTg1NmItZjhjZGM4M2QzZjgyIiwiYXZhaWxJZCI6ImVhNDE0M2FkLTRmZWMtNDBhZi05YzMyLTBlZDMyNmNjYTQwMiIsImF2YWlsVmVyc2lvbiI6MTYsInNvdXJjZUlkIjoiZWE0MTQzYWQtNGZlYy00MGFmLTljMzItMGVkMzI2Y2NhNDAyIiwiY29udGVudFR5cGUiOiJ2b2QifQ==",
+       "type": "download"
+      }
+     ],
+     "visuals": {
+      "seasonNumber": "1",
+      "episodeNumber": "24",
+      "episodeTitle": "Komplizen"
+     }
+    }
+   ]
+  }
+ }
+}

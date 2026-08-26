@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Anime-Kalender: Synchro melden",
-  "description": "Meldet bei Netflix und Amazon die Tonspuren der Titel, deren deutsche Synchro im Anime-Kalender noch offen ist. Bei allen anderen Seiten bleibt sie still.",
-  "version": "3.23.0",
+  "description": "Meldet bei Netflix und Amazon die Tonspuren der Titel, deren deutsche Synchro im Anime-Kalender noch offen ist. Bei Disney+ misst sie vorerst nur. Bei allen anderen Seiten bleibt sie still.",
+  "version": "3.24.0",
   "permissions": [
     "storage"
   ],
@@ -51,6 +51,28 @@
       "js": [
         "offene-amazon.js",
         "amazon.js"
+      ],
+      "css": [
+        "melder.css"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://www.disneyplus.com/*"
+      ],
+      "js": [
+        "disney-leser.js"
+      ],
+      "world": "MAIN",
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://www.disneyplus.com/*"
+      ],
+      "js": [
+        "disney.js"
       ],
       "css": [
         "melder.css"
