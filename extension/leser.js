@@ -289,6 +289,7 @@
           Paar, das für einen Durchlauf fehlte.
         */
         if (url.includes('/graphql')) {
+          window.__akGraphql = (window.__akGraphql ?? 0) + 1
           void versprechen.then((daten) => lesFolgenliste(daten)).catch(() => {})
         }
       } catch (err) {
@@ -318,6 +319,7 @@
       if (!folgenliste.has(k.videoId)) neu++
       folgenliste.set(k.videoId, { nummer: k.number, videoId: k.videoId, titel: k.title ?? null })
     }
+    window.__akFolgen = folgenliste.size
     if (!neu) return
     window.postMessage(
       { marke: MARKE_FOLGEN, folgen: [...folgenliste.values()].sort((a, b) => a.nummer - b.nummer) },
@@ -372,6 +374,71 @@
       )
     }
   })
+
+  try {
+    const urText = Response.prototype.text
+    Response.prototype.text = function () {
+      const versprechen = urText.call(this)
+      try {
+        const url = String(this.url ?? '')
+        if (url.includes('/graphql')) {
+          window.__akGraphqlText = (window.__akGraphqlText ?? 0) + 1
+          void versprechen
+            .then((text) => {
+              if (typeof text === 'string' && text.includes('episodes')) {
+                try {
+                  lesFolgenliste(JSON.parse(text))
+                } catch {
+                  /* Keine JSON-Antwort — dann war es nichts für uns. */
+                }
+              }
+            })
+            .catch(() => {})
+        }
+      } catch (err) {
+        window.__akMetaFehler = err.message
+      }
+      return versprechen
+    }
+  } catch {
+    /* Ohne diesen Weg bleibt der über `json()`. */
+  }
+
+  /*
+    3. Und derselbe für XMLHttpRequest.
+
+    Der vorhandene Getter oben filtert auf die Metadaten-Adresse. Die
+    Folgenliste kommt woanders her, also braucht sie ihre eigene Bedingung.
+  */
+  try {
+    const beschreibung2 = Object.getOwnPropertyDescriptor(XMLHttpRequest.prototype, 'responseText')
+    const nativ2 = beschreibung2?.get
+    if (nativ2) {
+      Object.defineProperty(XMLHttpRequest.prototype, 'responseText', {
+        configurable: true,
+        enumerable: beschreibung2.enumerable,
+        get() {
+          const text = nativ2.call(this)
+          try {
+            const url = String(this.responseURL ?? '')
+            if (url.includes('/graphql') && typeof text === 'string' && text.includes('episodes')) {
+              window.__akGraphqlXhr = (window.__akGraphqlXhr ?? 0) + 1
+              try {
+                lesFolgenliste(JSON.parse(text))
+              } catch {
+                /* Keine JSON-Antwort. */
+              }
+            }
+          } catch (err) {
+            window.__akMetaFehler = err.message
+          }
+          return text
+        },
+      })
+    }
+  } catch {
+    /* Ohne diesen Weg bleiben die beiden anderen. */
+  }
 
   function melden() {
     // Die Nummer in der Adresse ist beim Abspielen die der Folge — genau die
