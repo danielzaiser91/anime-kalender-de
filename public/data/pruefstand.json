@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-08-26T20:24:22.453Z",
+ "erzeugtAm": "2026-08-26T20:55:00.804Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -52,9 +52,9 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 32,
+   "gemeldet": 33,
    "gesamt": 36,
-   "offen": 4,
+   "offen": 3,
    "ohneSeite": 0,
    "ziel": "https://www.disneyplus.com/de-de/series/tokyo-revengers/4HFbN55sAh0i",
    "ziele": [
@@ -65,10 +65,6 @@
     {
      "url": "https://www.disneyplus.com/de-de/series/go-go-loser-ranger/2VX5fKgeiVEl",
      "titel": "Go, Go, Loser Ranger!"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-0e46c665-5191-407f-8dc5-e22a0095578c",
-     "titel": "Beyblade X"
     }
    ],
    "naechster": "Tokyo Revengers: Christmas Showdown"
