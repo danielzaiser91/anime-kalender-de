@@ -2155,7 +2155,25 @@ function uebersichtZeigen() {
     const kuerzel = empfohleneFolgen({ ...e, staffeln: staffelnVon(id, e) })
     return n + kuerzel.filter((k) => !kuerzelErledigt(id, k)).length
   }, 0)
-  const offeneAdressen = offenLautStand ?? offeneStaffeln
+  /**
+   * **Der niedrigere Stand gewinnt — er ist der neuere.**
+   *
+   * `offenLautStand` kommt aus `pruefstand.json` und damit vom letzten
+   * Datenlauf; `offeneStaffeln` rechnet hier, mit den Meldungen dieser Sitzung.
+   * Der Prüfstand kann nur veralten, nie zu neu sein: Was hier schon abgehakt
+   * ist, war dort noch offen.
+   *
+   * Ohne diese Regel widersprachen sich Knopf und Liste offen: Der Knopf sagte
+   * „10 offen", die Liste daneben „Alles geprüft" — und beide hatten recht, aus
+   * verschiedenen Quellen (Daniel, 26.08.2026: „wo sind die 10 einträge die es
+   * zu prüfen gilt?"). Es waren zehn Staffeln in vier Titeln, alle vier
+   * gemeldet und auf die Übernahme wartend.
+   *
+   * Umgekehrt bleibt der Prüfstand maßgeblich, wo er kleiner ist: Auf einem
+   * frischen Rechner ist der lokale Speicher leer, und dann wüsste die
+   * Erweiterung nichts von der Arbeit vergangener Sitzungen.
+   */
+  const offeneAdressen = Math.min(offenLautStand ?? Number.POSITIVE_INFINITY, offeneStaffeln)
   const gesamt = Object.entries(offeneTitel).reduce(
     (n, [id, e]) => n + empfohleneFolgen({ ...e, staffeln: staffelnVon(id, e) }).length,
     0,
