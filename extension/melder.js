@@ -1240,6 +1240,7 @@ async function durchlaufStarten(grenze) {
   */
   DURCHLAUF.staffel = null
   DURCHLAUF.ohneStaffel = []
+  DURCHLAUF.protokoll = []
   DURCHLAUF.fertig = 0
   DURCHLAUF.gesamt = offen.length
   durchlaufKnopfZeigen()
@@ -1317,13 +1318,21 @@ async function durchlaufStarten(grenze) {
       }
       const staffelJetzt = Number.isFinite(stand.staffel) ? stand.staffel : DURCHLAUF.staffel
       /*
-        Dreimal am Timing gedreht, dreimal nur verschoben — jetzt wird gesagt,
-        was wirklich anliegt, statt die vierte Vermutung zu bauen.
+        **Eine Ausgabe je Durchlauf, nicht je Folge.**
+
+        Daniel am 26.08.2026: „mach nicht mehr so getrennte outputs, bündel
+        die, ich musste danach suchen." Bei zwölf Folgen sind das zwölf Zeilen
+        zwischen Netflix' eigenen Meldungen. Gesammelt und am Ende als Tabelle
+        ausgegeben, findet man sie auf einen Blick.
       */
-      console.log(
-        `[Anime-Kalender] Folge ${f.nummer}: stand.staffel=${stand.staffel}, ` +
-          `gemerkt=${DURCHLAUF.staffel}, gemeldet=${staffelJetzt}`,
-      )
+      DURCHLAUF.protokoll.push({
+        Folge: f.nummer,
+        Tonspuren: echte.map((x) => x.code).join(','),
+        Deutsch: deutsch ? 'ja' : 'nein',
+        Player: stand.staffel ?? '—',
+        gemerkt: DURCHLAUF.staffel ?? '—',
+        gemeldet: staffelJetzt ?? '—',
+      })
       const ok = await durchlaufMelden(f, echte, deutsch)
       if (ok && !Number.isFinite(staffelJetzt)) {
         /*
@@ -1385,6 +1394,17 @@ async function durchlaufStarten(grenze) {
     )
   }
   DURCHLAUF.ohneStaffel = []
+
+  /* Alles auf einmal, statt verstreut zwischen Netflix' eigenen Meldungen. */
+  if (DURCHLAUF.protokoll?.length) {
+    console.groupCollapsed(
+      `[Anime-Kalender] ${DURCHLAUF.protokoll.length} Folge(n) geprüft` +
+        (DURCHLAUF.ohneSpur ? `, ${DURCHLAUF.ohneSpur} ohne Tonspur` : '') +
+        (DURCHLAUF.stoerung ? `, abgebrochen bei ${DURCHLAUF.stoerung}` : ''),
+    )
+    console.table(DURCHLAUF.protokoll)
+    console.groupEnd()
+  }
 
   videoAbdrehen(false)
   DURCHLAUF.laeuft = false
