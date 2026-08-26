@@ -41,7 +41,7 @@
 
   // --- Mithören -------------------------------------------------------------
 
-  function merkeFolge(wert) {
+  function merkeFolge(wert, blockName = null) {
     const nummer = Number(wert?.visuals?.episodeNumber)
     const kennung = (wert?.actions ?? []).find((a) => a.resourceId)?.resourceId
     if (!kennung || !Number.isFinite(nummer) || nummer <= 0) return false
@@ -50,6 +50,7 @@
       nummer,
       titel: wert.visuals?.episodeTitle ?? '',
       playbackId: kennung,
+      block: blockName,
     })
     return true
   }
@@ -60,14 +61,14 @@
     `data.season.items[]`. Aufgenommen wird nur, was Folgennummer UND Kennung
     trägt — Empfehlungsleisten haben die Kennung, aber keine Nummer.
   */
-  function sammleFolgen(wert, tiefe = 0) {
+  function sammleFolgen(wert, tiefe = 0, blockName = null) {
     if (tiefe > 9 || wert === null || typeof wert !== 'object') return
     if (Array.isArray(wert)) {
-      for (const x of wert) sammleFolgen(x, tiefe + 1)
+      for (const x of wert) sammleFolgen(x, tiefe + 1, blockName)
       return
     }
-    merkeFolge(wert)
-    for (const k in wert) sammleFolgen(wert[k], tiefe + 1)
+    merkeFolge(wert, blockName)
+    for (const k in wert) sammleFolgen(wert[k], tiefe + 1, blockName)
   }
 
   /**
@@ -278,7 +279,14 @@
       }
       const daten = await antwort.json()
       const stueck = daten?.data?.season?.items ?? []
-      sammleFolgen(daten)
+      /*
+        Der Name gehoert an die Folge, nicht nur an die Staffel.
+
+        Disney+ vergibt Nebenbloecken hohe Nummern: "Undead Unluck: Winter Arc"
+        laeuft als Staffel 99, und die Anzeige schrieb "99e1". Welcher Block das
+        ist, weiss nur dieser Abruf — er holt ihn gerade (Daniel, 26.08.2026).
+      */
+      sammleFolgen(daten, 0, staffel.name)
       gesehen += stueck.length
       weiter = Boolean(daten?.data?.season?.pagination?.hasMore) && stueck.length > 0
       console.log(

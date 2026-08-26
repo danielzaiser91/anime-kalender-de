@@ -100,9 +100,14 @@
     return [...jeStaffel.entries()]
       .sort((a, b) => a[0] - b[0])
       .map(([nr, nummern]) => {
-        /* Ab 90 ist es keine Staffel mehr, sondern ein Nebenblock. */
+        /*
+          Ab 90 ist es keine Staffel mehr, sondern ein Nebenblock — und der
+          traegt seinen eigenen Namen: „Undead Unluck: Winter Arc" laeuft als
+          Staffel 99. Die Suche nach „Extra" oder „Special" im Namen ging daran
+          vorbei; jetzt kommt er von der Folge selbst.
+        */
         if (nr >= 90) {
-          const name = anbieterStaffeln.find((st) => /extra|special|bonus/i.test(st.name ?? ''))?.name
+          const name = eintraege.find((f) => (f.staffel ?? 1) === nr && f.block)?.block
           return `${name ?? 'Extras'} ${bereiche(nummern)}`
         }
         return `${nr}e${bereiche(nummern)}`
