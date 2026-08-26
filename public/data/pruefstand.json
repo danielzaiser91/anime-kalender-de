@@ -1,0 +1,21 @@
+{
+ "erzeugtAm": "2026-08-26T08:22:11.442Z",
+ "anbieter": [
+  {
+   "name": "Amazon",
+   "gemeldet": 550,
+   "gesamt": 550,
+   "offen": 0,
+   "ziel": null,
+   "naechster": null
+  },
+  {
+   "name": "Netflix",
+   "gemeldet": 365,
+   "gesamt": 376,
+   "offen": 11,
+   "ziel": "https://www.netflix.com/title/80075178",
+   "naechster": "AnoHana: Die Blume, die wir an jenem Tag sahen"
+  }
+ ]
+}
