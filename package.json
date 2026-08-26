@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build": "npm run check:hooks && tsc -b --noEmit && vite build && tsx pipeline/build-share-pages.ts",
-    "preview": "vite preview",
+    "preview": "npm run build && wrangler dev",
     "data:fetch": "tsx pipeline/fetch.ts",
     "data:crunchyroll": "tsx pipeline/scrape-crunchyroll.ts --weeks 8",
     "data:build": "tsx pipeline/build.ts",
@@ -61,14 +61,16 @@
     "check:cr-zuordnung": "tsx pipeline/check-crunchyroll-zuordnung.ts",
     "check:adn-gedaechtnis": "tsx pipeline/check-adn-gedaechtnis.ts",
     "data:adn:laufend": "tsx pipeline/fetch-adn.ts --laufend",
-    "check:pfade": "node tools/check-pfade.mjs"
+    "check:pfade": "node tools/check-pfade.mjs",
+    "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^5.20260821.1",
+    "@cloudflare/vite-plugin": "^1.54.0",
+    "@cloudflare/workers-types": "^5.20260826.1",
     "@tailwindcss/vite": "^4.1.7",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.15.0",
@@ -85,6 +87,7 @@
     "tsx": "^4.19.4",
     "typescript": "^5.8.3",
     "vite": "^6.3.5",
+    "wrangler": "^4.126.0",
     "yaml": "^2.9.0"
   }
 }

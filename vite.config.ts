@@ -4,6 +4,8 @@ import tailwindcss from '@tailwindcss/vite'
 import { fileURLToPath, URL } from 'node:url'
 import { readFileSync } from 'node:fs'
 
+import { cloudflare } from "@cloudflare/vite-plugin";
+
 // Basis-Pfad: auf GitHub Pages liegt die Seite unter /<repo>/, lokal unter /
 const base = process.env.PAGES_BASE ?? '/'
 
@@ -36,7 +38,7 @@ function datenStand(): string {
   try {
     const meta = JSON.parse(readFileSync(new URL('./public/data/meta.json', import.meta.url), 'utf8'))
     // Nur Ziffern: "2026-08-12T14:07:33.001Z" → "20260812140733"
-    if (meta?.generatedAt) return String(meta.generatedAt).replace(/\D/g, '').slice(0, 14)
+    if (meta?.generatedAt) return String(meta.generatedAt).replace(/\D/g, '').slice(0, 14);
   } catch {
     // Noch nie gebaut oder Datei kaputt — dann tut es die Notlösung unten.
   }
@@ -50,7 +52,7 @@ export default defineConfig({
   root: 'web',
   publicDir: '../public',
   define: { __BUILD_ID__: JSON.stringify(buildId) },
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), cloudflare()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./web/src', import.meta.url)),

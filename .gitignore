@@ -24,3 +24,7 @@ tsconfig.tsbuildinfo
 # der Erweiterung — wer sie hat, kann Updates unter derselben Kennung ausliefern.
 extension.crx
 extension.pem
+
+.dev.vars*
+!.dev.vars.example
+!.env.example

@@ -1474,6 +1474,30 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
     new Response(JSON.stringify(body), { status, headers: offen })
 
   if (request.method === 'GET') {
+    /**
+     * **Nur zählen — das geht ohne Token.**
+     *
+     * Daniel am 26.08.2026, nachdem er einen Titel gemeldet hatte: „status app
+     * still says 11 offen, even after reporting 1, should be 10 offen."
+     *
+     * Zwischen der Meldung und dem nächsten Datenlauf liegt bis zu eine Stunde.
+     * Solange zeigt `pruefstand.json` den Stand von vorher — richtig für den
+     * Datensatz, aber falsch für die Frage „habe ich das schon gemacht?".
+     *
+     * Diese Route liefert je Plattform, wie viele Meldungen im Briefkasten
+     * liegen und noch nicht übernommen sind. Das ist eine Zahl, kein Inhalt:
+     * kein Titel, keine Adresse, keine Tonspur. Deshalb braucht sie kein Token
+     * — eines in einer Datei auf dem Schreibtisch wäre der schlechtere Handel.
+     */
+    if (new URL(request.url).searchParams.get('zaehlen') === '1') {
+      const { results } = await env.DB.prepare(
+        `SELECT plattform, COUNT(*) AS n FROM pruefung WHERE uebernommen = 0 GROUP BY plattform`,
+      ).all<{ plattform: string; n: number }>()
+      const je: Record<string, number> = {}
+      for (const r of results ?? []) je[r.plattform] = r.n
+      return antwort({ imBriefkasten: je })
+    }
+
     // Die Pipeline holt sich, was noch nicht übernommen wurde.
     const token = new URL(request.url).searchParams.get('token') ?? ''
     if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)

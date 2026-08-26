@@ -60,6 +60,8 @@ const ANBIETER = [
     global: 'AK_OFFENE_AMAZON',
     /* Bei Amazon steht die Adresse im Eintrag, bei Netflix ist sie der Schlüssel. */
     ziel: (schluessel, wert) => wert.url ?? schluessel,
+    /* Dieselbe Regel wie in `extension-offene-amazon.mjs`: /dp/ oder /detail/, 10–32 Zeichen. */
+    kennung: (u) => /\/(?:dp|detail)\/([A-Z0-9]{10,32})/.exec(u)?.[1],
     offene: (wert) => (wert.eintraege ?? []).filter((e) => e.offen).length,
   },
   {
@@ -74,6 +76,8 @@ const ANBIETER = [
       und ins Leere führt, ist von einer echten nicht zu unterscheiden.
     */
     ziel: (schluessel) => adresseFuer('netflix', schluessel),
+    /* Dieselbe Regel wie in `extension-offene-liste.mjs`. */
+    kennung: (u) => /\/title\/(\d+)/.exec(u)?.[1],
     offene: (wert) => (wert.staffeln ?? []).filter((s) => s.offen).length,
   },
 ]
@@ -83,20 +87,41 @@ const stand = ANBIETER.map((a) => {
   const offen = liste.reduce((n, [, wert]) => n + a.offene(wert), 0)
 
   /*
-    Alle Verweise dieses Anbieters im Datensatz — die Obergrenze. Was davon
-    nicht anklickbar ist, steht schon in der Liste nicht drin und wird über die
-    Differenz als „gemeldet" gezählt; das ist die freundlichere Seite zum
-    Irren, denn eine zu kleine Restzahl treibt niemanden zu Leerlauf.
+    **Gezählt wird nur, was jemand öffnen kann.**
+
+    Daniel am 26.08.2026: „wieso 550/550 amazon, heißt das 550 wurden gemeldet
+    und immer noch nicht übernommen in kalender?"
+
+    Nein — und die Zahl war trotzdem falsch. 122 der 550 Prime-Verweise sind
+    **Suchadressen** (`/s?k=Cowboy%20Bebop&i=instant-video`); dort gibt es
+    keine Titelseite, auf der die Erweiterung etwas lesen könnte. Sie stehen
+    darum zu Recht nicht in der Prüfliste — nur zählte die erste Fassung sie
+    über die Differenz stillschweigend als „gemeldet" mit. 428 geprüfte
+    Verweise sahen damit aus wie 550.
+
+    Eine geschönte Zahl ist schlimmer als eine unbequeme: Sie behauptet
+    Erledigtes, das niemand erledigt hat.
   */
   let gesamt = 0
-  for (const t of titel) for (const s of t.streams ?? []) if (s.platform === a.plattform) gesamt++
+  let ohneSeite = 0
+  for (const t of titel) {
+    for (const s of t.streams ?? []) {
+      if (s.platform !== a.plattform) continue
+      if (a.kennung(s.url ?? '')) gesamt++
+      else ohneSeite++
+    }
+  }
 
   const [schluessel, wert] = liste[0] ?? []
   return {
     name: a.name,
+    /* Der Schlüssel, unter dem der Worker die Meldungen im Briefkasten zählt. */
+    plattform: a.plattform,
     gemeldet: Math.max(0, gesamt - offen),
     gesamt,
     offen,
+    /* Verweise ohne Titelseite — nicht prüfbar, deshalb außerhalb der Rechnung. */
+    ohneSeite,
     ziel: schluessel ? a.ziel(schluessel, wert) : null,
     /* Der Name des ersten offenen Eintrags — er steht als Titel am Knopf. */
     naechster: wert?.titel ?? null,
@@ -107,4 +132,10 @@ writeFileSync(
   resolve(wurzel, 'public/data/pruefstand.json'),
   JSON.stringify({ erzeugtAm: new Date().toISOString(), anbieter: stand }, null, 1) + '\n',
 )
-for (const a of stand) console.log(`${a.name}: ${a.gemeldet}/${a.gesamt} — ${a.offen} offen${a.naechster ? `, zuerst „${a.naechster}"` : ''}`)
+for (const a of stand) {
+  console.log(
+    `${a.name}: ${a.gemeldet}/${a.gesamt} — ${a.offen} offen` +
+      (a.naechster ? `, zuerst „${a.naechster}"` : '') +
+      (a.ohneSeite ? `; ${a.ohneSeite} Suchadressen ohne Titelseite` : ''),
+  )
+}
