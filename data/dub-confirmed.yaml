@@ -21994,3 +21994,19 @@
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
   checkedAt: '2026-08-26'
   note: "Folgen 1–15 mit deutschem Ton — Tonspuren: de, en, es-419, es-ES, fr-FR, it, nl, pt-BR"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-26 ---
+
+- anilistId: 142853
+  title: "Tokyo Revengers: Christmas Showdown"
+  platform: disneyplus
+  dub: true
+  checkedAt: '2026-08-26'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de, en, es-419, es-ES, fr-FR, ja, pt-BR"
+
+- anilistId: 163329
+  title: "Tokyo Revengers: Tenjiku Arc"
+  platform: disneyplus
+  dub: true
+  checkedAt: '2026-08-26'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de, en, es-419, es-ES, fr-FR, ja, pt-BR"

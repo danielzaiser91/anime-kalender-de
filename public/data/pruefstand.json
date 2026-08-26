@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-08-26T20:55:00.804Z",
+ "erzeugtAm": "2026-08-26T21:03:25.587Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -52,22 +52,18 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 33,
+   "gemeldet": 35,
    "gesamt": 36,
-   "offen": 3,
+   "offen": 1,
    "ohneSeite": 0,
-   "ziel": "https://www.disneyplus.com/de-de/series/tokyo-revengers/4HFbN55sAh0i",
+   "ziel": "https://www.disneyplus.com/de-de/series/go-go-loser-ranger/2VX5fKgeiVEl",
    "ziele": [
-    {
-     "url": "https://www.disneyplus.com/de-de/series/tokyo-revengers/4HFbN55sAh0i",
-     "titel": "Tokyo Revengers: Christmas Showdown"
-    },
     {
      "url": "https://www.disneyplus.com/de-de/series/go-go-loser-ranger/2VX5fKgeiVEl",
      "titel": "Go, Go, Loser Ranger!"
     }
    ],
-   "naechster": "Tokyo Revengers: Christmas Showdown"
+   "naechster": "Go, Go, Loser Ranger!"
   }
  ]
 }
