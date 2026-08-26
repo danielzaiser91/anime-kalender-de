@@ -1502,3 +1502,44 @@ echte Fund in Fehlalarmen.
 
 **Nebenbefund, direkt verwertbar:** One Piece Folge 1156 hat auf Netflix genau eine Tonspur,
 `ja / Japanisch [Original]`. Daniels Meldung war richtig.
+
+### Und doch ein Weg: der Player liest je Folge, wenn man ihm die Videodaten abdreht
+
+Fünf Wege waren zu, und der sechste kam von Daniel (26.08.2026): „was wenn du ein skript
+machst von overview, das im player das lädt, und player pausiert, keine playback, nur daten
+reinladen?"
+
+Der Gedanke trägt, weil **die Tonspurliste vor den Videodaten da ist**. Gemessen in vier
+Anläufen an One Piece:
+
+| Vorgehen | Zeit je Folge | Videodaten |
+|---|---|---|
+| `pause()` nach dem Lesen | — | 129 Segmente / 42 MB in fünf Sekunden |
+| zurück zur Titelseite | 7,6 s | 83–100 Segmente, ~8 MB |
+| **Segmentabrufe abweisen, sobald die Liste steht** | **3,1 s** | **0 bis 8 Segmente** |
+
+Weder Anhalten noch Verlassen stoppt das Vorausladen — der Player füllt seinen Puffer weiter.
+Was greift, ist, ihm die Segmente gar nicht erst zu geben: Jeder Abruf an `nflxvideo.net` wird
+abgewiesen, sobald `getAudioTrackList()` etwas liefert. Der Player bricht dann ab, und genau
+das ist gewollt. **Für Netflix bedeutet das weniger Last, nicht mehr.**
+
+**Die Gegenprobe entscheidet, und sie hält.** Drei Folgen des Elbaph Arc (1160–1162) melden
+`ja` — plausibel, ADN führt One Piece nur bis 516 auf Deutsch. Das allein beweist nichts: Ein
+Auslesen, das stumpf die erste Tonspur zurückgibt, sähe genauso aus. Eine Folge aus **East
+Blue** (`80107105`) meldet dagegen:
+
+```
+de, ja, it, fr, es-ES, en, ar      0 Segmente geladen
+```
+
+Deutsch dabei, im belegten Bereich, bei null Videodaten. Das Auslesen unterscheidet wirklich.
+
+**Was noch fehlt: die Kennungen.** Der Abruf der Folgenliste ließ sich zweimal nicht abfangen —
+Netflix holt sie einmal und bedient sich danach aus seinem Zwischenspeicher. Im gerenderten
+Dialog steht nur **eine** Kennung, die des „Fortsetzen"-Verweises. Ohne eine Liste aller
+`videoId`s gibt es keinen Durchlauf, und geraten wird sie nicht: Im Elbaph-Mitschnitt lagen sie
+fortlaufend beieinander (82756678, 82756679, 82756680), aber aus drei Zahlen wird keine Regel.
+
+**Kosten, hochgerechnet:** 3,1 s je Folge, nahezu keine Datenmenge. 1.175 Folgen wären rund
+eine Stunde. Jede Folge bleibt aber eine echte Wiedergabe-Sitzung mit Lizenzabruf und landet in
+„Weiter ansehen" — das ist Daniels Entscheidung, nicht meine.
