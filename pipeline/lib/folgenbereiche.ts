@@ -196,6 +196,15 @@ export function ordneNachStaffelliste(
   paare: Array<{ anbieter: AnbieterStaffel; unser: Staffeleintrag }>
   /** Unsere Einträge, für die der Anbieter gar keine Staffel führt. */
   ohneEntsprechung: Staffeleintrag[]
+  /**
+   * Der Block des Anbieters umfasst **mehrere** unserer Einträge.
+   *
+   * Dann sagt das Paar nur, **welcher Block** gemeint ist — welcher unserer
+   * Titel eine einzelne Folge bekommt, entscheidet erst ihre Nummer. Ohne
+   * dieses Feld landeten alle 26 Folgen von „Tokyo Revengers" bei „Christmas
+   * Showdown", der nur 13 hat (26.08.2026).
+   */
+  zusammengefasst?: Staffeleintrag[]
   /** Warum keine Zuordnung zustande kam — leer, wenn alles passt. */
   problem?: string
 } {
@@ -242,9 +251,14 @@ export function ordneNachStaffelliste(
   if (sortiert.length === 1 && unsere.length > 1) {
     const summe = unsere.reduce((n, u) => n + u.folgen, 0)
     if (Math.abs(summe - sortiert[0]!.folgen) <= 3) {
-      return { paare: [{ anbieter: sortiert[0]!, unser: unsere[0]! }], ohneEntsprechung: [] }
+      return {
+        paare: [{ anbieter: sortiert[0]!, unser: unsere[0]! }],
+        ohneEntsprechung: [],
+        zusammengefasst: unsere,
+      }
     }
   }
+
 
   if (unsere.length === 1) {
     return {
@@ -308,6 +322,39 @@ export function ordneNachStaffelliste(
    */
   const exakt = paare.length - abweichungen.length
   if (abweichungen.length > 1 || (abweichungen.length === 1 && exakt < 2)) {
+    /**
+     * **Bevor aufgegeben wird: Passt eine seiner Staffeln auf unsere Summe?**
+     *
+     * Disney+ zeigt „Tokyo Revengers" unter einer Adresse mit zwei Staffeln, 24
+     * und 26 Folgen. Unser Bestand führt dort nur die zweite, aufgeteilt in
+     * „Christmas Showdown" und „Tenjiku Arc" mit je 13 — zusammen genau 26. Die
+     * erste hängt bei uns an einer anderen Adresse.
+     *
+     * Der Reihe nach gepaart trifft unsere 13 auf seine 24, beide Zahlen weichen
+     * ab, und 50 Meldungen blieben liegen (26.08.2026). Über die Summe ist der
+     * Fall dagegen eindeutig.
+     *
+     * **Nur bei genau einem Kandidaten**, und nur wenn unsere Staffeln zusammen
+     * wirklich eine seiner ergeben. Führt er zwei mit derselben Zahl, ist nicht
+     * zu entscheiden, welche gemeint ist — dann bleibt es beim Aufgeben.
+     */
+    const summe = unsere.reduce((n, u) => n + u.folgen, 0)
+    /*
+      Erst exakt, dann mit Spielraum. Bei Tokyo Revengers ergeben unsere
+      13 + 13 genau 26 — und der Nachbarblock hat 24, liegt also ebenfalls in
+      der Drei-Folgen-Toleranz. Wer gleich mit Spielraum sucht, findet zwei
+      Kandidaten und gibt auf, obwohl einer exakt trifft.
+    */
+    const genau = sortiert.filter((a) => a.folgen === summe)
+    const passende = genau.length ? genau : sortiert.filter((a) => Math.abs(summe - a.folgen) <= 3)
+    if (passende.length === 1 && unsere.length > 1) {
+      return {
+        paare: [{ anbieter: passende[0]!, unser: unsere[0]! }],
+        ohneEntsprechung: [],
+        zusammengefasst: unsere,
+        problem: `Zusammengefasst: ${unsere.length} Einträge (${summe} Folgen) entsprechen Staffel ${passende[0]!.seq} des Anbieters (${passende[0]!.folgen})`,
+      }
+    }
     return { paare: [], ohneEntsprechung: [], problem: abweichungen.join('; ') }
   }
   return {
@@ -329,9 +376,20 @@ export function ordneMeldungZu(
   anbieter?: AnbieterStaffel[],
 ): { staffel: Staffeleintrag; folgeInStaffel: number } | null {
   if (anbieter?.length && meldung.staffel) {
-    const { paare } = ordneNachStaffelliste(anbieter, unsere)
+    const { paare, zusammengefasst } = ordneNachStaffelliste(anbieter, unsere)
     const paar = paare.find((p) => p.anbieter.seq === meldung.staffel)
     if (!paar) return null
+    /*
+      Fasst der Block mehrere unserer Einträge zusammen, entscheidet die
+      Folgennummer, welcher gemeint ist: Bei „Tokyo Revengers" gehören die
+      Folgen 1–13 zu „Christmas Showdown", 14–26 zu „Tenjiku Arc".
+    */
+    if (zusammengefasst && zusammengefasst.length > 1) {
+      const inBlock = meldung.folge - paar.anbieter.erste + 1
+      if (inBlock < 1 || inBlock > paar.anbieter.folgen) return null
+      const treffer = ordneFolgeZu(inBlock, zusammengefasst)
+      return treffer ? { staffel: treffer.staffel, folgeInStaffel: treffer.folgeInStaffel } : null
+    }
     // `erste` sagt, wo die Zählung dieser Staffel beginnt — bei 1, wenn der
     // Anbieter je Staffel neu zählt, sonst beim Fortlauf.
     const inStaffel = meldung.folge - paar.anbieter.erste + 1
