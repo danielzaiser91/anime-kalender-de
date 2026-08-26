@@ -1014,6 +1014,26 @@ function stoerung() {
   return null
 }
 
+/**
+ * Den Durchlauf-Stand dieser Reihe verwerfen — Rechtsklick auf den Knopf.
+ *
+ * Gebraucht wird das beim Erproben: Sonst ist eine Staffel nach dem ersten
+ * Lauf für immer abgehakt und lässt sich nicht noch einmal messen.
+ */
+async function durchlaufStandVergessen() {
+  const reihe = gemeinteReihe()
+  if (!reihe) return
+  try {
+    await chrome.storage.local.remove(durchlaufSchluessel(reihe))
+  } catch {
+    /* Ohne Speicher gibt es auch nichts zu vergessen. */
+  }
+  DURCHLAUF.gemeldet = new Set()
+  DURCHLAUF.stoerung = null
+  durchlaufKnopfZeigen()
+  console.log(`[Anime-Kalender] Stand für Reihe ${reihe} verworfen — alle Folgen sind wieder offen.`)
+}
+
 /** Was in dieser Reihe noch aussteht. */
 function durchlaufOffen() {
   return DURCHLAUF.folgen.filter((f) => !DURCHLAUF.gemeldet.has(f.videoId))
@@ -1041,7 +1061,22 @@ document.addEventListener(
   true,
 )
 
-async function durchlaufStarten() {
+/**
+ * **Ein Probelauf über zwei Folgen — für alles, was noch nicht sitzt.**
+ *
+ * Daniel am 26.08.2026: „limitier es auf 2 episoden statt alle 12, sodass
+ * der debug diagnose test schneller durchläuft und ich nicht so lange warten
+ * muss."
+ *
+ * Das ist mehr als eine Bequemlichkeit für heute. Der erste Durchlauf lief
+ * über alle Folgen und öffnete dabei fremde Serien; die Lehre daraus — an
+ * fünf erproben, nicht an tausend — gehört als Griff in den Code, nicht in
+ * einen guten Vorsatz.
+ *
+ * **Umschalt+Klick** startet ihn. Rechtsklick setzt den Stand einer Reihe
+ * zurück, damit dieselben Folgen erneut prüfbar werden.
+ */
+async function durchlaufStarten(grenze) {
   if (DURCHLAUF.laeuft) {
     DURCHLAUF.abbruch = true
     return
@@ -1049,7 +1084,8 @@ async function durchlaufStarten() {
   const titelseite = location.pathname
   const reihe = gemeinteReihe()
   await durchlaufStandLaden(reihe)
-  const offen = durchlaufOffen()
+  const alleOffen = durchlaufOffen()
+  const offen = grenze ? alleOffen.slice(0, grenze) : alleOffen
   if (!offen.length) return
 
   DURCHLAUF.laeuft = true
@@ -1191,7 +1227,23 @@ function durchlaufKnopfZeigen() {
   if (!DURCHLAUF.knopf) {
     DURCHLAUF.knopf = document.createElement('button')
     DURCHLAUF.knopf.className = 'ak-durchlauf'
-    DURCHLAUF.knopf.addEventListener('click', () => void durchlaufStarten())
+    DURCHLAUF.knopf.addEventListener(
+      'click',
+      /* Mit Umschalt nur zwei Folgen — zum Erproben, ohne lange zu warten. */
+      (e) => {
+        /* Ist alles gemeldet, tut ein Klick nichts — der Rechtsklick bleibt. */
+        if (!durchlaufOffen().length) return
+        void durchlaufStarten(e.shiftKey ? 2 : 0)
+      },
+    )
+    DURCHLAUF.knopf.addEventListener(
+      'contextmenu',
+      (e) => {
+        e.preventDefault()
+        void durchlaufStandVergessen()
+      },
+      false,
+    )
     document.body.appendChild(DURCHLAUF.knopf)
   }
   /**
@@ -1220,18 +1272,21 @@ function durchlaufKnopfZeigen() {
   }
   if (!offen) {
     DURCHLAUF.knopf.textContent = `✓ ${DURCHLAUF.folgen.length} Folgen geprüft`
-    DURCHLAUF.knopf.title = 'Alles gemeldet. Neue Folgen tauchen hier wieder auf.'
-    DURCHLAUF.knopf.disabled = true
+    DURCHLAUF.knopf.title =
+      'Alles gemeldet. Neue Folgen tauchen hier wieder auf.\nRechtsklick: Stand verwerfen und erneut prüfen.'
+    /* Abgeschaltet wäre auch der Rechtsklick tot — also nur still, nicht taub. */
+    DURCHLAUF.knopf.disabled = false
     DURCHLAUF.knopf.classList.add('ak-fertig')
     return
   }
   DURCHLAUF.knopf.disabled = false
   DURCHLAUF.knopf.classList.remove('ak-fertig')
   DURCHLAUF.knopf.textContent = `▶ ${offen} ${offen === 1 ? 'Folge' : 'Folgen'} prüfen`
-  DURCHLAUF.knopf.title =
+  const stand =
     offen === DURCHLAUF.folgen.length
       ? `${offen} Folgen sind bekannt. Jede wird kurz geöffnet; das landet in „Weiter ansehen".`
       : `${DURCHLAUF.folgen.length - offen} von ${DURCHLAUF.folgen.length} sind gemeldet, ${offen} fehlen noch.`
+  DURCHLAUF.knopf.title = stand + '\nUmschalt+Klick: nur zwei Folgen. Rechtsklick: Stand verwerfen.'
 }
 
 let uebersichtKnopf = null
