@@ -334,9 +334,12 @@
   width: 520px;
   height: 260px;
   z-index: 1;
-  background: rgba(88, 166, 255, 0.18);
-  outline: 1px solid rgba(88, 166, 255, 0.4);
-  border-top-left-radius: 18px;
+  /*
+    Unsichtbar, aber da. Daniel am 26.08.2026: „backdrop ist gut, kann jetzt
+    transparent." Sie hat keine eigene Aufgabe außer der, Klicks aufzufangen —
+    und was man nicht sieht, stört auch nicht.
+  */
+  background: transparent;
 }
 
 /* Die Knopfzeile selbst liegt darüber und braucht keinen eigenen Grund. */

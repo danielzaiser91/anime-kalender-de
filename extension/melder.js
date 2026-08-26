@@ -454,9 +454,22 @@ function beschriftung(spuren) {
   const wo = stand.folgeNr
     ? ` (${stand.staffel && stand.staffeln?.length > 1 ? `St. ${stand.staffel}, ` : ''}Flg. ${stand.folgeNr})`
     : ''
-  return deutsch
-    ? { text: `Deutsche Tonspur${wo} — wird gesendet …`, klasse: 'ak-ja', aktiv: false }
-    : { text: `Keine deutsche Tonspur${wo} — wird gesendet …`, klasse: 'ak-nein', aktiv: false }
+  /*
+    **Im Player wird nichts mehr angeboten.**
+
+    Bis zum 26.08.2026 stand hier „Deutsche Tonspur (St. 1, Flg. 1) — wird
+    gesendet …" — und das war nach dem Abschalten der Automatik eine
+    Falschaussage: Es wurde nichts gesendet. Daniel mit Bild: „das wird
+    automatisch bei abspielen von ep 1 eingeblendet, ich hab gesagt diesen
+    automatismus raus, nur wenn man es über den button neben limit button macht
+    soll es klappen."
+
+    Gemeldet wird über den Durchlauf auf der Titelseite. Ein zweiter Weg im
+    Player macht die Herkunft einer Meldung unklar — und war der Grund, warum
+    bei einem Titelwechsel einmal fremde Sprachen ankamen.
+  */
+  void deutsch
+  return { text: null, klasse: null, aktiv: false }
 }
 
 async function melden({ automatisch = false } = {}) {
