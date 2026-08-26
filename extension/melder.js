@@ -945,6 +945,17 @@ function gehe(pfad) {
   window.dispatchEvent(new PopStateEvent('popstate'))
 }
 
+document.addEventListener(
+  'keydown',
+  (e) => {
+    if (e.key === 'Escape' && DURCHLAUF.laeuft) {
+      DURCHLAUF.abbruch = true
+      console.log('[Anime-Kalender] Durchlauf wird abgebrochen …')
+    }
+  },
+  true,
+)
+
 async function durchlaufStarten() {
   if (DURCHLAUF.laeuft) {
     DURCHLAUF.abbruch = true
@@ -973,10 +984,26 @@ async function durchlaufStarten() {
     }
     videoAbdrehen(true)
 
-    if (spuren) {
+    /*
+      **Zweiter Riegel: Gehört die laufende Folge überhaupt zu dieser Reihe?**
+
+      Der erste Riegel ist die Typ-Prüfung im Leser. Dieser hier fängt, was
+      trotzdem durchkommt — und am 26.08.2026 kam einiges durch: Heroes,
+      Lucifer und Ozark wurden als One Piece gemeldet, weil niemand nachfragte.
+
+      `stand.reihe` kommt aus dem Player und meint die Reihe der laufenden
+      Folge. Stimmt sie nicht mit der Seite überein, wird nichts gemeldet.
+    */
+    const gehoertDazu = !stand.reihe || String(stand.reihe) === String(gemeinteReihe())
+    if (spuren && gehoertDazu) {
       const { deutsch, echte } = urteil(spuren)
       await durchlaufMelden(f, echte, deutsch)
       DURCHLAUF.fertig++
+    } else if (spuren) {
+      DURCHLAUF.fremde = (DURCHLAUF.fremde ?? 0) + 1
+      console.warn(
+        `[Anime-Kalender] Folge ${f.nummer} gehört zu Reihe ${stand.reihe}, nicht zu ${gemeinteReihe()} — übersprungen`,
+      )
     }
     durchlaufKnopfZeigen()
 
@@ -1019,8 +1046,17 @@ async function durchlaufMelden(folge, echte, deutsch) {
 }
 
 function durchlaufKnopfZeigen() {
-  /* Nur auf einer Titelseite und nur, wenn Folgen bekannt sind. */
-  if (imPlayer() || !DURCHLAUF.folgen.length) {
+  /*
+    **Während eines Durchlaufs bleibt der Knopf sichtbar — auch im Player.**
+
+    Daniel am 26.08.2026, als der Durchlauf fremde Serien öffnete: „welchen
+    knopf soll ich sofort anklicken? ich schließe mal den tab." Der Knopf saß
+    nur auf der Titelseite, und der Durchlauf ist die meiste Zeit im Player.
+    Es gab also keinen Weg, ihn anzuhalten, außer den Tab zu schließen.
+
+    Ein Notausgang, den man nicht sieht, ist keiner.
+  */
+  if ((imPlayer() && !DURCHLAUF.laeuft) || !DURCHLAUF.folgen.length) {
     if (DURCHLAUF.knopf) {
       DURCHLAUF.knopf.remove()
       DURCHLAUF.knopf = null

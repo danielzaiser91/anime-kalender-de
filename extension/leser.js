@@ -341,7 +341,16 @@
     const nummer = o.number ?? o.episodeNumber ?? o.seq
     const kennung = o.videoId ?? o.id
     const istFolge = /episode/i.test(String(o.__typename ?? ''))
-    if (Number.isFinite(nummer) && Number.isFinite(Number(kennung)) && (istFolge || Number(kennung) > 1000000)) {
+    /*
+      **Nur echte Folgen — der Typ entscheidet, nicht die Zahl.**
+
+      Die erste Fassung nahm jeden Knoten mit Nummer und großer Kennung. Damit
+      fielen die Empfehlungsleisten, "Weiter ansehen" und die Startseiten-Reihen
+      mit hinein: Daniel sah am 26.08.2026 fremde Serien im Player, mitten in
+      einem Durchlauf über One Piece. Eine Kennung über einer Million hat jeder
+      Netflix-Titel.
+    */
+    if (istFolge && Number.isFinite(nummer) && Number.isFinite(Number(kennung))) {
       raus.push({ nummer, videoId: Number(kennung), titel: o.title ?? null })
     }
     for (const v of Object.values(o)) sammleFolgen(v, raus, tiefe + 1)

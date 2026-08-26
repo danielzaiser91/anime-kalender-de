@@ -1557,3 +1557,42 @@ der Ausgabe zählen kann, hat nicht stattgefunden.
 Dazu gehört der zweite Teil desselben Fehlgriffs: Jede Testdatei in diesem Repo hat ihre eigene
 Bauweise. `mitlesen.test.cjs` prüfte über ein Ergebnis-Objekt und kannte kein `pruefe`; der
 angehängte Block rief es trotzdem auf. Vor dem Anhängen wird gelesen, wie die Datei prüft.
+
+### Ein Durchlauf braucht einen sichtbaren Notausgang — und zwei Riegel, nicht einen
+
+Der erste Durchlauf über One Piece hat am 26.08.2026 fremde Serien geöffnet: Heroes, Lucifer,
+Ozark. **42 falsche Meldungen** gingen an den Worker, alle unter der Adresse von One Piece.
+Daniel: „es öffnen sich andere serien als one piece (keine anime, ganz andere serien)."
+
+Die Ursache war eine zu breite Suche. Nachdem der feste Pfad `data.videos.episodes.edges`
+nicht griff, nahm die neue Fassung **jeden** Knoten mit einer Nummer und einer Kennung über
+einer Million — und die hat jeder Netflix-Titel. Damit fielen die Empfehlungsleisten und
+„Weiter ansehen" mit hinein.
+
+**Der eigentliche Fehler war aber der fehlende Notausgang.** Daniels nächste Nachricht:
+„welchen knopf soll ich sofort anklicken? ich schließe mal den tab." Der Abbrechen-Knopf saß
+nur auf der Titelseite — und ein Durchlauf ist die meiste Zeit im Player. Es gab keinen Weg,
+ihn anzuhalten.
+
+Daraus drei Regeln für alles, was in Serie läuft:
+
+1. **Der Abbruch ist sichtbar, wo die Arbeit stattfindet.** Der Knopf bleibt jetzt während des
+   Durchlaufs stehen, auch im Player, und die Escape-Taste bricht ebenfalls ab — ein Knopf kann
+   von fremder Oberfläche verdeckt werden, eine Taste nicht.
+2. **Ein Riegel genügt nicht.** Die Typ-Prüfung im Leser (`__typename` muss „Episode" nennen)
+   ist der erste. Der zweite sitzt vor jeder Meldung: Der Player nennt die Reihe der laufenden
+   Folge; weicht sie von der Seite ab, wird übersprungen und nichts gemeldet.
+3. **Und was falsch ankam, wird sofort verworfen**, bevor der nächste Lauf es übernimmt:
+
+   ```
+   curl -s "https://newsletter.animekalender.workers.dev/pruefung?token=<LAUF_TOKEN>"
+   curl -X POST …/pruefung -H "X-Lauf-Token: <TOKEN>" -d '{"uebernommen":[<ids>]}'
+   ```
+
+   Abhaken ohne Übernahme ist der richtige Griff: Die Meldung verschwindet aus dem Briefkasten,
+   ohne den Datensatz zu berühren.
+
+**Was das über die Reihenfolge sagt:** Ein Durchlauf über tausend Folgen wird nicht an tausend
+Folgen erprobt, sondern an fünf. Der Knopf hätte eine Obergrenze gebraucht, bevor er das erste
+Mal lief — dieselbe Lehre wie bei der Amazon-Erweiterung, nur teurer, weil hier Meldungen
+entstanden statt nur falscher Zahlen.

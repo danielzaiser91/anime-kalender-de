@@ -146,7 +146,7 @@ console.log(ok ? '\n✓ Gesehen, unverändert durchgereicht, kein Stapelüberlau
 
   /* Eine andere Staffel kommt dazu, statt die erste zu ersetzen. */
   lesFolgenliste({
-    data: { videos: { episodes: { edges: [{ node: { number: 62, videoId: 80107105, title: 'Laboon' } }] } } },
+    data: { videos: { episodes: { edges: [{ node: { __typename: 'Episode', number: 62, videoId: 80107105, title: 'Laboon' } }] } } },
   })
   const zweite = gesendet.find((m) => m.marke === 'ak-folgenliste')
   pruefe('eine zweite Staffel kommt dazu', zweite?.folgen?.length === 3, zweite?.folgen?.length)
@@ -161,6 +161,33 @@ console.log(ok ? '\n✓ Gesehen, unverändert durchgereicht, kein Stapelüberlau
   lesFolgenliste({ data: { videos: {} } })
   lesFolgenliste(null)
   pruefe('eine Antwort ohne Folgen wird übergangen', gesendet.length === 0, gesendet.length)
+}
+
+
+/**
+ * **Was keine Folge ist, wird nicht mitgenommen.**
+ *
+ * Am 26.08.2026 nahm die Suche jeden Knoten mit Nummer und großer Kennung.
+ * Damit fielen die Empfehlungsleisten und „Weiter ansehen" mit hinein: Daniel
+ * sah Heroes, Lucifer und Ozark im Player, mitten in einem Durchlauf über One
+ * Piece — und 42 falsche Meldungen gingen an den Worker.
+ *
+ * Eine Kennung über einer Million hat jeder Netflix-Titel. Der Typ entscheidet.
+ */
+{
+  gesendet.length = 0
+  lesFolgenliste({
+    data: {
+      /* So sieht eine Empfehlungsleiste aus: Nummer und Kennung, aber keine Folge. */
+      lolomo: {
+        rows: [
+          { __typename: 'LolomoRow', number: 1, videoId: 81649836, title: 'Heroes' },
+          { __typename: 'Video', number: 2, videoId: 70136120, title: 'Lucifer' },
+        ],
+      },
+    },
+  })
+  pruefe('Empfehlungsleisten liefern keine Folgen', gesendet.length === 0, gesendet.map((m) => m.folgen))
 }
 
 process.exit(ok && !rot.length ? 0 : 1)
