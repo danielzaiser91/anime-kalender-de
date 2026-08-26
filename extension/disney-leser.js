@@ -220,14 +220,40 @@
     nichts. Ohne `content-type` und `content-length`, die zu einem GET nicht
     passen.
   */
+  /**
+   * Nur die Kopfzeilen, die ein Explore-Abruf wirklich braucht.
+   *
+   * Der erste Anlauf uebernahm alles aus dem letzten Aufruf der Seite und
+   * strich nur `content-type` und `content-length`. Damit gingen auch
+   * Verfolgungsmarken mit, die zu einem anderen Aufruf gehoerten
+   * (`x-request-id`, `traceparent`, die Datadog-Felder) — und der Abruf
+   * scheiterte mit `Failed to fetch` (Daniel, 26.08.2026, an „Das Band der
+   * Unterwelt“).
+   *
+   * Eine Liste dessen, was mitgeht, ist sicherer als eine Liste dessen, was
+   * wegbleibt: Was Disney+ morgen Neues mitschickt, faellt dann von selbst
+   * heraus statt den Abruf zu kippen.
+   */
+  const NOETIG = [
+    'authorization',
+    'accept',
+    'accept-language',
+    'x-dss-edge-accept',
+    'x-application-version',
+    'x-bamsdk-client-id',
+    'x-bamsdk-platform',
+    'x-bamsdk-version',
+  ]
+
   function leseKopf() {
     const raus = {}
-    for (const [k, v] of Object.entries(kopfzeilen ?? {})) {
-      if (k === 'content-type' || k === 'content-length') continue
-      raus[k] = v
+    for (const name of NOETIG) {
+      const wert = kopfzeilen?.[name]
+      if (wert) raus[name] = wert
     }
     return raus
   }
+
 
   async function staffelHolen(staffel) {
     let gesehen = 0
