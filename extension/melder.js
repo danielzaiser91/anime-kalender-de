@@ -857,8 +857,30 @@ function uebersichtZeigen() {
    * Daniel Titel abarbeitete (22.08.2026). Sie fällt jetzt mit jedem erledigten
    * Titel, auch bevor ein Datenlauf die Liste neu erzeugt.
    */
-  const offeneAdressen = Object.entries(offeneTitel).filter(([id, e]) => !fertig(id, e)).length
-  const gesamt = Object.keys(offeneTitel).length
+  /**
+   * **Gezählt werden Staffeln, nicht Adressen.**
+   *
+   * Daniel am 26.08.2026: „wieso in netflix immer noch anime-kalender checkmark
+   * auf button statt 10 zu reporten?"
+   *
+   * Der Knopf zählte **Adressen** — fünf Reihen, alle angefasst, also ein
+   * Häkchen. Die Prüfliste und die Statusanzeige zählen dagegen **Staffeln**,
+   * und davon waren elf offen: Unter einer Reihe hängen mehrere, und jede
+   * braucht ihre eigene Antwort.
+   *
+   * Zwei Zähler, zwei Einheiten, dieselbe Frage — dann widersprechen sie sich
+   * zwangsläufig. Der Knopf zählt jetzt dasselbe wie alles andere.
+   */
+  const offeneStaffeln = Object.entries(offeneTitel).reduce((n, [id, e]) => {
+    if (istErledigt(id, 'tot')) return n
+    const kuerzel = empfohleneFolgen({ ...e, staffeln: staffelnVon(id, e) })
+    return n + kuerzel.filter((k) => !kuerzelErledigt(id, k)).length
+  }, 0)
+  const offeneAdressen = offeneStaffeln
+  const gesamt = Object.entries(offeneTitel).reduce(
+    (n, [id, e]) => n + empfohleneFolgen({ ...e, staffeln: staffelnVon(id, e) }).length,
+    0,
+  )
   /**
    * Ist alles gemeldet, zeigt der Knopf keine Zahl mehr — verschwindet aber
    * nicht.
@@ -876,10 +898,10 @@ function uebersichtZeigen() {
     ? `Anime-Kalender ${offeneAdressen}`
     : 'Anime-Kalender ✓'
   uebersichtKnopf.title = !offeneAdressen
-    ? `Alles gemeldet — ${gesamt} Titel, zum Nachsehen anklicken`
+    ? `Alles gemeldet — ${gesamt} Staffeln, zum Nachsehen anklicken`
     : offeneAdressen === gesamt
-      ? `${offeneAdressen} Titel warten auf eine Prüfung`
-      : `${offeneAdressen} von ${gesamt} Titeln warten noch — der Rest ist gemeldet, aber noch nicht eingespielt`
+      ? `${offeneAdressen} Staffeln warten auf eine Prüfung`
+      : `${offeneAdressen} von ${gesamt} Staffeln warten noch — der Rest ist gemeldet, aber noch nicht eingespielt`
 }
 
 let dialog = null

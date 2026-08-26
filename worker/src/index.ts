@@ -1490,12 +1490,31 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
      * — eines in einer Datei auf dem Schreibtisch wäre der schlechtere Handel.
      */
     if (new URL(request.url).searchParams.get('zaehlen') === '1') {
+      /*
+        **Die Adressen gehören dazu, nicht nur ihre Anzahl.**
+
+        Daniel am 26.08.2026: „klick auf netflix pill führt zu dem titel den ich
+        gerade vor dem letzten change reported habe … ich reporte, reloade,
+        steht weiterhin 10."
+
+        Die Prüfliste stammt vom letzten Datenlauf und kennt seine frischen
+        Meldungen nicht — sie schickte ihn deshalb immer wieder zum selben
+        Titel, und die zweite Meldung überschrieb nur die erste. Eine Zahl
+        allein kann das nicht verhindern: Sie sagt, **dass** etwas gemeldet
+        wurde, nicht **was**.
+
+        Es sind öffentliche Titelseiten, keine persönlichen Angaben.
+      */
       const { results } = await env.DB.prepare(
-        `SELECT plattform, COUNT(*) AS n FROM pruefung WHERE uebernommen = 0 GROUP BY plattform`,
-      ).all<{ plattform: string; n: number }>()
+        `SELECT plattform, url FROM pruefung WHERE uebernommen = 0`,
+      ).all<{ plattform: string; url: string }>()
       const je: Record<string, number> = {}
-      for (const r of results ?? []) je[r.plattform] = r.n
-      return antwort({ imBriefkasten: je })
+      const adressen: string[] = []
+      for (const r of results ?? []) {
+        je[r.plattform] = (je[r.plattform] ?? 0) + 1
+        if (r.url) adressen.push(r.url)
+      }
+      return antwort({ imBriefkasten: je, adressen })
     }
 
     // Die Pipeline holt sich, was noch nicht übernommen wurde.

@@ -112,6 +112,22 @@ const stand = ANBIETER.map((a) => {
     }
   }
 
+  /*
+    **Mehrere Ziele, nicht eines.**
+
+    Wer den ersten Titel gemeldet hat, soll beim nächsten Klick den zweiten
+    bekommen — und nicht wieder den ersten, bis der nächste Datenlauf die Liste
+    neu schreibt. Die Anzeige gleicht dazu gegen den Briefkasten ab; dafür
+    braucht sie mehr als einen Kandidaten.
+
+    Fünfundzwanzig reichen für eine Sitzung und halten die Datei klein.
+  */
+  const ziele = liste
+    .filter(([, wert]) => a.offene(wert) > 0)
+    .slice(0, 25)
+    .map(([schluessel, wert]) => ({ url: a.ziel(schluessel, wert), titel: wert?.titel ?? null }))
+    .filter((z) => z.url)
+
   const [schluessel, wert] = liste[0] ?? []
   return {
     name: a.name,
@@ -123,6 +139,7 @@ const stand = ANBIETER.map((a) => {
     /* Verweise ohne Titelseite — nicht prüfbar, deshalb außerhalb der Rechnung. */
     ohneSeite,
     ziel: schluessel ? a.ziel(schluessel, wert) : null,
+    ziele,
     /* Der Name des ersten offenen Eintrags — er steht als Titel am Knopf. */
     naechster: wert?.titel ?? null,
   }
