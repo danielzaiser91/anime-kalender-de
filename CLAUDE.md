@@ -866,6 +866,48 @@ dekodiert und geprüft?" Die Antwort war nein. Ein Befund „nichts gefunden"
 beantwortet nicht, **wonach** gesucht wurde — und kodierte Felder sind für eine
 Textsuche unsichtbar.
 
+### Disney+ sagt auf drei Arten Nein — und nur eine davon ist ein Befund
+
+Am 26.08.2026 beim Durchgehen der Prüfliste dreimal aufgetreten, jedes Mal
+anders zu bewerten:
+
+| Was zu sehen ist | Was es heißt | Was zu tun ist |
+|---|---|---|
+| `/de-de/error?src=bap`, „Sorry, something went wrong" | **nichts** — kann auch eine Störung sein | zweiter Versuch |
+| „Je nach Standort, Einstellungen für die Altersfreigabe oder Abodetails …" | unklar, drei mögliche Gründe | Suche entscheidet |
+| die Suche im deutschen Katalog findet ihn nicht | der Titel wird hier nicht geführt | `available: false` |
+
+**Die Fehlerseite ist der gefährlichste Fall**, weil sie am eindeutigsten
+aussieht. „Bright Sun: Dark Shadows" landete dort, und derselbe Klick eine
+Minute später führte auf die Seite (Daniel: „erneuter klick auf link in liste
+führt korrekt zur seite"). Eine Meldung, die daraus entstanden war, musste aus
+dem Briefkasten verworfen werden.
+
+**Die Verfügbarkeitsmeldung nennt drei Gründe und sagt nicht, welcher gilt** —
+Standort, Altersfreigabe oder Abo. Entschieden wird sie mit zwei Griffen: die
+**Suche** im deutschen Katalog, und die **Altersfreigabe des Profils**. Bei
+„Children of the Sea" war die Suche leer und die Freigabe stand auf 18, der
+höchsten Stufe; damit blieb nur die Region übrig.
+
+**Die Erweiterung meldet deshalb nichts davon von selbst.** Sie bietet auf einer
+Fehlerseite einen zweiten Versuch an; „nichts da" bleibt ein Klick von Hand.
+
+### Disney+ führt dieselbe Serie unter zwei Adressen
+
+Unser Bestand hat 27 Verweise der Form `/browse/entity-<uuid>` und 19 der Form
+`/series/<slug>/<id>`. **Die zweite leitet auf die erste um**: „Bright Sun: Dark
+Shadows" steht bei uns als `/series/summer-time-rendering/3AHbeFV7Lqvn`, der
+Klick landet auf `/browse/entity-ad803e91-…`. Dieselbe Serie, andere Kennung —
+und die neue steht in keiner Liste.
+
+Gelöst über den Klick: Wer aus der Prüfliste heraus öffnet, hinterlegt für zehn
+Minuten, welcher Titel gemeint war. Kennt die Zielseite ihre Kennung nicht, erbt
+sie ihn. Gemeldet wird trotzdem unter der Adresse aus unserem Bestand — die ist
+es, nach der die Pipeline sucht.
+
+Dieselbe Notiz trägt den Fehlerseiten-Fall, wo überhaupt keine Kennung mehr in
+der Adresse steht.
+
 ## Ein Kinostart ist keine Sprachfassung — bei Anime fallen beide regelmäßig auseinander
 
 Bei Serien zieht dieses Projekt die Trennlinie zwischen Synchro und Untertitel längst. Beim
