@@ -981,6 +981,39 @@ async function durchlaufStandSchreiben(reihe) {
   }
 }
 
+/**
+ * **Netflix duldet nur einen Tab — und sagt es mit einem Fehlercode.**
+ *
+ * Daniel am 26.08.2026, mitten im Durchlauf: „netflix limitation mit 1 tab
+ * stört. wenn das passiert soll das skript abbrechen statt weiter zu
+ * versuchen." Auf dem Bild stand M7020: „Sie sehen Netflix scheinbar in mehr
+ * als einem Browser oder Tab."
+ *
+ * Weiterzumachen bringt nichts: Jede weitere Folge läuft in dieselbe Wand,
+ * zwanzig Sekunden lang, und am Ende steht ein Durchlauf ohne ein einziges
+ * Ergebnis. Ein Abbruch mit Ansage ist ehrlicher — dann weiß Daniel, was zu
+ * tun ist, und beginnt dort, wo er aufgehört hat.
+ *
+ * Gesucht wird nach dem Code, nicht nach dem Satz: Der steht in jeder Sprache
+ * anders da, die Kennung überall gleich.
+ */
+function stoerung() {
+  const text = document.body?.textContent ?? ''
+  const treffer = /\bM7\d{3}\b|\bNSES-[A-Z]{3}\b/.exec(text)
+  if (treffer) return treffer[0]
+  /* Der Player kennt seine eigenen Fehler — falls die Seite noch nichts zeigt. */
+  try {
+    const api = window.netflix?.appContext?.state?.playerApp?.getAPI?.()
+    for (const id of api?.videoPlayer?.getAllPlayerSessionIds?.() ?? []) {
+      const fehler = api.videoPlayer.getFatalErrorForSessionId?.(id)
+      if (fehler) return String(fehler?.errorCode ?? fehler?.code ?? 'Player-Fehler')
+    }
+  } catch {
+    /* Kein Zugriff — dann bleibt es beim Blick auf die Seite. */
+  }
+  return null
+}
+
 /** Was in dieser Reihe noch aussteht. */
 function durchlaufOffen() {
   return DURCHLAUF.folgen.filter((f) => !DURCHLAUF.gemeldet.has(f.videoId))
@@ -1021,6 +1054,7 @@ async function durchlaufStarten() {
 
   DURCHLAUF.laeuft = true
   DURCHLAUF.abbruch = false
+  DURCHLAUF.stoerung = null
   DURCHLAUF.fertig = 0
   DURCHLAUF.gesamt = offen.length
   durchlaufKnopfZeigen()
@@ -1035,6 +1069,18 @@ async function durchlaufStarten() {
     for (let i = 0; i < 100 && !spuren && !DURCHLAUF.abbruch; i++) {
       await new Promise((r) => setTimeout(r, 200))
       spuren = stand.spuren?.length ? stand.spuren : null
+      /*
+        Eine Störung beendet den Durchlauf sofort. Erst nach zwei Sekunden
+        nachsehen: Beim Aufbau steht kurz alles Mögliche auf der Seite.
+      */
+      if (i > 10 && !spuren) {
+        const code = stoerung()
+        if (code) {
+          DURCHLAUF.stoerung = code
+          DURCHLAUF.abbruch = true
+          break
+        }
+      }
     }
     videoAbdrehen(true)
 
@@ -1085,6 +1131,12 @@ async function durchlaufStarten() {
   videoAbdrehen(false)
   DURCHLAUF.laeuft = false
   durchlaufKnopfZeigen()
+  if (DURCHLAUF.stoerung) {
+    console.warn(
+      `[Anime-Kalender] Abgebrochen — Netflix meldet ${DURCHLAUF.stoerung}. ` +
+        'Andere Netflix-Tabs schließen, dann noch einmal starten.',
+    )
+  }
 }
 
 /** Eine Folge des Durchlaufs melden — dieselbe Route wie eine Handmeldung. */
@@ -1151,6 +1203,14 @@ function durchlaufKnopfZeigen() {
    * wurde, alle anderen schon, sollte dort 1 folge prüfen stehen)."
    */
   const offen = durchlaufOffen().length
+  if (!DURCHLAUF.laeuft && DURCHLAUF.stoerung) {
+    DURCHLAUF.knopf.textContent = `⚠ ${DURCHLAUF.stoerung} — andere Tabs schließen`
+    DURCHLAUF.knopf.title =
+      'Netflix erlaubt nur eine laufende Wiedergabe. Andere Netflix-Tabs schließen, dann hier klicken.'
+    DURCHLAUF.knopf.disabled = false
+    DURCHLAUF.knopf.classList.remove('ak-fertig')
+    return
+  }
   if (DURCHLAUF.laeuft) {
     DURCHLAUF.knopf.textContent = `⏹ ${DURCHLAUF.fertig}/${DURCHLAUF.gesamt} — abbrechen`
     DURCHLAUF.knopf.title = 'Läuft — jede Folge wird kurz geöffnet und wieder verlassen. Escape bricht ab.'
