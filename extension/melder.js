@@ -1731,6 +1731,11 @@ function durchlaufKnopfZeigen() {
       unserer Leiste dort abfängt.
     */
     for (const art of ['click', 'mousedown', 'pointerdown']) {
+      /*
+        In der Bubble-Phase, also nachdem die Knöpfe reagiert haben. Netflix
+        erfährt von dem Klick nichts mehr — sofern sein eigener Listener nicht
+        in der Capture-Phase liegt.
+      */
       DURCHLAUF.leiste.addEventListener(art, (e) => e.stopPropagation())
     }
     DURCHLAUF.knopf = document.createElement('button')
@@ -1921,43 +1926,34 @@ function durchlaufKnopfZeigen() {
 }
 
 /**
- * Klicks aus unserer eigenen Leiste erreichen Netflix nicht.
+ * **Nur der Leerraum zwischen den Knöpfen wird geschluckt.**
  *
- * Netflix schließt das Titel-Overlay bei jedem Klick außerhalb — auch bei
- * einem, der zwischen unseren Knöpfen landet. Sein Listener hängt am Dokument;
- * ein Stoppen weiter unten kommt zu spät, wenn er in der Capture-Phase liegt.
+ * Zwei Anläufe, zwei Fehlschläge, derselbe Fehler auf zwei Ebenen: erst
+ * `stopPropagation` in der Capture-Phase des Behälters, dann dasselbe am
+ * Dokument. Beide Male stieg das Ereignis nie bis zum Knopf hinab — er war
+ * tot, ohne Fehlermeldung (Daniel, 26.08.2026: „kein klick angekommen, kein
+ * output in konsole").
  *
- * Dieser Wächter läuft dort ebenfalls und schweigt zu allem, was nicht aus
- * unserer Leiste kommt.
+ * **Ein Ereignis läuft von oben nach unten, bevor es zurückläuft.** Wer es
+ * oben anhält, nimmt es dem Ziel weg. Geschluckt wird deshalb nur, was die
+ * Leiste **selbst** trifft — die Lücken zwischen den Knöpfen. Alles, was auf
+ * einem Knopf landet, läuft ungehindert durch.
+ *
+ * Netflix schließt sein Overlay dann weiterhin, wenn man einen Knopf trifft.
+ * Das ist verschmerzbar: Der Durchlauf hängt am Seitenkontext, nicht am
+ * Dialog, und läuft auch bei geschlossenem Overlay weiter — am 26.08.2026 an
+ * One Piece belegt.
  */
 for (const art of ['click', 'mousedown', 'pointerdown']) {
   document.addEventListener(
     art,
     (e) => {
-      if (!DURCHLAUF.leiste || !e.target) return
-      if (!DURCHLAUF.leiste.contains(e.target)) return
-      /* Nur die Seite soll nichts erfahren — unsere Knöpfe hängen tiefer. */
-      e.stopPropagation()
+      /* Nur ein Treffer auf die Leiste selbst, nicht auf ihre Kinder. */
+      if (e.target === DURCHLAUF.leiste) e.stopPropagation()
     },
     true,
   )
 }
-
-/** Der Zustand des Durchlaufs — Aufruf: `__akDurchlauf()`. */
-window.__akDurchlauf = () => ({
-  laeuft: DURCHLAUF.laeuft,
-  abbruch: DURCHLAUF.abbruch,
-  stoerung: DURCHLAUF.stoerung,
-  folgenBekannt: DURCHLAUF.folgen.length,
-  gemeldet: DURCHLAUF.gemeldet.size,
-  offen: durchlaufOffen().length,
-  grenze: probeGrenze,
-  reihe: gemeinteReihe(),
-  knopfDa: Boolean(DURCHLAUF.knopf),
-  knopfText: DURCHLAUF.knopf?.textContent ?? null,
-  knopfAus: DURCHLAUF.knopf?.disabled ?? null,
-  leisteDa: Boolean(DURCHLAUF.leiste),
-})
 
 let uebersichtKnopf = null
 
