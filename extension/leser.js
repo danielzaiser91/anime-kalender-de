@@ -309,15 +309,52 @@
    */
   const folgenliste = new Map()
 
+  /** Feldpfade einer Antwort — nur zur Diagnose, gekürzt. */
+  function pfadeMitZahlen(o) {
+    const raus = []
+    const lauf = (x, p, t) => {
+      if (!x || typeof x !== 'object' || t > 8 || raus.length > 80) return
+      for (const [k, v] of Object.entries(x)) {
+        const pfad = Array.isArray(x) ? p + '[]' : (p ? p + '.' : '') + k
+        if (v && typeof v === 'object') lauf(v, pfad, t + 1)
+        else if (!raus.includes(pfad)) raus.push(pfad)
+      }
+    }
+    lauf(o, '', 0)
+    return raus
+  }
+
+  /**
+   * Jeden Knoten nehmen, der Nummer **und** Kennung zusammen trägt.
+   *
+   * Ein fester Pfad (`data.videos.episodes.edges`) bricht bei der ersten
+   * Umbenennung, und bei Daniel hat er am 26.08.2026 gar nicht erst gegriffen:
+   * 32 Antworten liefen durch, keine passte. Gesucht wird deshalb nach dem
+   * Paar, nicht nach seinem Ort — dieselbe Regel wie bei Amazon.
+   */
+  function sammleFolgen(o, raus, tiefe) {
+    if (!o || typeof o !== 'object' || tiefe > 10) return raus
+    if (Array.isArray(o)) {
+      for (const x of o) sammleFolgen(x, raus, tiefe + 1)
+      return raus
+    }
+    const nummer = o.number ?? o.episodeNumber ?? o.seq
+    const kennung = o.videoId ?? o.id
+    const istFolge = /episode/i.test(String(o.__typename ?? ''))
+    if (Number.isFinite(nummer) && Number.isFinite(Number(kennung)) && (istFolge || Number(kennung) > 1000000)) {
+      raus.push({ nummer, videoId: Number(kennung), titel: o.title ?? null })
+    }
+    for (const v of Object.values(o)) sammleFolgen(v, raus, tiefe + 1)
+    return raus
+  }
+
   function lesFolgenliste(daten) {
-    const kanten = daten?.data?.videos?.episodes?.edges
-    if (!Array.isArray(kanten) || !kanten.length) return
+    const gefunden = sammleFolgen(daten, [], 0)
+    if (!gefunden.length) return
     let neu = 0
-    for (const kante of kanten) {
-      const k = kante?.node
-      if (!Number.isFinite(k?.number) || !Number.isFinite(k?.videoId)) continue
+    for (const k of gefunden) {
       if (!folgenliste.has(k.videoId)) neu++
-      folgenliste.set(k.videoId, { nummer: k.number, videoId: k.videoId, titel: k.title ?? null })
+      folgenliste.set(k.videoId, k)
     }
     window.__akFolgen = folgenliste.size
     if (!neu) return
@@ -385,13 +422,25 @@
           window.__akGraphqlText = (window.__akGraphqlText ?? 0) + 1
           void versprechen
             .then((text) => {
-              if (typeof text === 'string' && text.includes('episodes')) {
-                try {
-                  lesFolgenliste(JSON.parse(text))
-                } catch {
-                  /* Keine JSON-Antwort — dann war es nichts für uns. */
-                }
+              if (typeof text !== 'string') return
+              /* Was für Antworten kommen hier überhaupt an? */
+              const op = /"__typename"\s*:\s*"([^"]+)"/.exec(text)?.[1]
+              window.__akOps = window.__akOps ?? []
+              if (op && !window.__akOps.includes(op)) window.__akOps.push(op)
+              if (!text.includes('episodes')) return
+              window.__akMitEpisodes = (window.__akMitEpisodes ?? 0) + 1
+              let daten
+              try {
+                daten = JSON.parse(text)
+              } catch {
+                return
               }
+              /* Die erste solche Antwort einmal vollständig aufheben. */
+              if (!window.__akRoh) {
+                window.__akRoh = text.slice(0, 4000)
+                window.__akPfade = pfadeMitZahlen(daten)
+              }
+              lesFolgenliste(daten)
             })
             .catch(() => {})
         }
