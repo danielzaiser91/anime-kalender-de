@@ -319,20 +319,21 @@
   right: 0;
   bottom: 0;
   /*
-    Kleiner und tiefer als der erste Anlauf.
+    **z-index: 1 — unter allem, was Netflix zeichnet.**
 
-    460 × 210 bei z-index 2147483640 lag über allen anderen Knöpfen (die
-    liegen bei 2147483000) und über Netflix' Staffel-Auswahl. Daniel am
-    26.08.2026: „toggle button (limit) ist weiterhin nicht anklickbar …
-    schutz background area hinter overview legen … sonst wird dropdown nicht
-    anklickbar … anime kalender button ist auch nicht anklickbar."
+    Zwei Anläufe daneben: erst 2147483640 (lag über den eigenen Knöpfen), dann
+    eine Verkleinerung auf 300 × 150, damit die Staffel-Auswahl frei bleibt.
+    Das zweite war ein Notbehelf, kein Fix — Daniel am 26.08.2026: „du hast die
+    area kleiner gemacht, statt sie hinter den overview container zu legen, das
+    problem tritt auf wenn ich window width verkleinere... mach z-index: 1."
 
-    Jetzt: unter allem Eigenen, und schmal genug, dass die Staffel-Auswahl
-    frei bleibt.
+    Er hat recht. Ganz unten liegt sie hinter jedem Netflix-Element und schluckt
+    nur dort, wo ohnehin nichts ist. Die eigenen Knöpfe liegen bei 2147483000
+    und darüber, also weit über ihr. Damit darf sie so groß sein, wie sie soll.
   */
-  width: 300px;
-  height: 150px;
-  z-index: 2147482999;
+  width: 520px;
+  height: 260px;
+  z-index: 1;
   background: rgba(88, 166, 255, 0.18);
   outline: 1px solid rgba(88, 166, 255, 0.4);
   border-top-left-radius: 18px;
