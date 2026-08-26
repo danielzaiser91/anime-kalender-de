@@ -50,6 +50,10 @@ const MARKE_STEUER = /MARKE_STEUER = '([^']+)'/.exec(quelle)?.[1]
   meldete "61 Folgen" auf einer Seite mit zwölf.
 */
 const location = { pathname: '/title/80175351', search: '' }
+/* Die Diagnose legt eine Datei an — im Sandkasten genügt eine Attrappe. */
+const document = { createElement: () => ({ click() {} }) }
+const Blob = function () {}
+const URL = { createObjectURL: () => '' }
 
 const gesendet = []
 

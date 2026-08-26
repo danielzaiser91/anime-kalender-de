@@ -359,6 +359,9 @@
     return raus
   }
 
+  /** Woher jede Folge kam — für die Diagnose, nicht für die Auswertung. */
+  const herkunft = []
+
   function lesFolgenliste(daten) {
     /*
       Nur auf einer Titelseite. Auf der Startseite und im Player kommen
@@ -374,6 +377,21 @@
     }
 
     const gefunden = sammleFolgen(daten, [], 0)
+    if (gefunden.length) {
+      herkunft.push({
+        adresse: location.pathname + location.search,
+        /* Was die Antwort über sich selbst sagt. */
+        typ: daten?.data ? Object.keys(daten.data).join(',') : typeof daten,
+        seasonId: daten?.data?.videos?.videoId ?? null,
+        typname: daten?.data?.videos?.__typename ?? null,
+        anzahl: gefunden.length,
+        nummern: gefunden.slice(0, 5).map((f) => f.nummer),
+        titel: gefunden.slice(0, 5).map((f) => f.titel),
+        /* Die ersten 600 Zeichen der Antwort — daran sieht man, was es war. */
+        anfang: JSON.stringify(daten).slice(0, 600),
+      })
+      if (herkunft.length > 40) herkunft.shift()
+    }
     if (!gefunden.length) return
     let neu = 0
     for (const k of gefunden) {
@@ -519,6 +537,50 @@
     }
   } catch {
     /* Ohne diesen Weg bleiben die beiden anderen. */
+  }
+
+  /**
+   * Alles, was der Leser über die Folgenliste weiß — für die Konsole.
+   *
+   * Aufruf: `__akDiagnose()` auf der Titelseite.
+   */
+  window.__akDiagnose = () => {
+    const raus = {
+      adresse: location.pathname + location.search,
+      folgenFuer,
+      gesammelt: folgenliste.size,
+      folgen: [...folgenliste.values()].sort((a, b) => a.nummer - b.nummer),
+      antworten: herkunft,
+      zaehler: {
+        graphqlJson: window.__akGraphql ?? 0,
+        graphqlText: window.__akGraphqlText ?? 0,
+        graphqlXhr: window.__akGraphqlXhr ?? 0,
+        mitEpisodes: window.__akMitEpisodes ?? 0,
+      },
+    }
+    console.log('%c[Anime-Kalender] Diagnose', 'font-weight:bold')
+    console.log('Adresse:', raus.adresse, '| Liste gilt für:', raus.folgenFuer, '| gesammelt:', raus.gesammelt)
+    console.table(
+      raus.antworten.map((h) => ({
+        Adresse: h.adresse,
+        'data-Felder': h.typ,
+        Typname: h.typname,
+        seasonId: h.seasonId,
+        Folgen: h.anzahl,
+        Nummern: h.nummern.join(','),
+        Titel: h.titel.join(' | ').slice(0, 60),
+      })),
+    )
+    try {
+      const blob = new Blob([JSON.stringify(raus, null, 1)], { type: 'application/json' })
+      const a = document.createElement('a')
+      a.href = URL.createObjectURL(blob)
+      a.download = 'ak-diagnose.json'
+      a.click()
+    } catch {
+      /* Ohne Datei bleibt die Ausgabe in der Konsole. */
+    }
+    return raus
   }
 
   function melden() {
