@@ -362,6 +362,24 @@
   /** Woher jede Folge kam — für die Diagnose, nicht für die Auswertung. */
   const herkunft = []
 
+  /** Die letzten GraphQL-Anfragen mit ihren Variablen — nur zur Diagnose. */
+  const anfragen = []
+
+  function merkeAnfrage(koerper) {
+    if (typeof koerper !== 'string' || !koerper.includes('operationName')) return
+    try {
+      const d = JSON.parse(koerper)
+      anfragen.push({
+        operation: d.operationName ?? null,
+        variables: d.variables ?? null,
+        query: d.extensions?.persistedQuery ?? null,
+      })
+      if (anfragen.length > 30) anfragen.shift()
+    } catch {
+      /* Keine JSON-Anfrage — dann ist sie nicht für uns. */
+    }
+  }
+
   function lesFolgenliste(daten) {
     /*
       Nur auf einer Titelseite. Auf der Startseite und im Player kommen
@@ -452,6 +470,7 @@
     window.fetch = function (...args) {
       const url = typeof args[0] === 'string' ? args[0] : args[0]?.url
       if (videoZu && istVideoAbruf(url)) return Promise.reject(new Error('ak-abgedreht'))
+      if (typeof url === 'string' && url.includes('/graphql')) merkeAnfrage(args[1]?.body)
       return urFetch.apply(this, args)
     }
     const urOeffnen = XMLHttpRequest.prototype.open
@@ -462,6 +481,7 @@
     const urSenden = XMLHttpRequest.prototype.send
     XMLHttpRequest.prototype.send = function (koerper) {
       if (videoZu && this.__akVideo) return this.abort()
+      merkeAnfrage(koerper)
       return urSenden.call(this, koerper)
     }
   } catch {
@@ -581,6 +601,12 @@
       staffelIds: (metadaten?.staffeln ?? []).map((x) => JSON.stringify(x)),
       folgen: [...folgenliste.values()].sort((a, b) => a.nummer - b.nummer),
       antworten: herkunft,
+      /*
+        Die Anfragen — daran hängt das Nachladen. Gesucht wird die zweite
+        `PreviewModalEpisodeSelectorSeasonEpisodes`: Was steht in ihren
+        `variables`, das die erste nicht hatte?
+      */
+      anfragen,
       zaehler: {
         graphqlJson: window.__akGraphql ?? 0,
         graphqlText: window.__akGraphqlText ?? 0,
@@ -590,6 +616,9 @@
     }
     console.log('%c[Anime-Kalender] Diagnose', 'font-weight:bold')
     console.log('Adresse:', raus.adresse, '| Liste gilt für:', raus.folgenFuer, '| gesammelt:', raus.gesammelt)
+    const folgenAnfragen = raus.anfragen.filter((x) => /Episode/i.test(x.operation ?? ''))
+    console.log(`Folgenlisten-Anfragen: ${folgenAnfragen.length}`)
+    for (const x of folgenAnfragen) console.log('  ', x.operation, JSON.stringify(x.variables))
     console.table(
       raus.antworten.map((h) => ({
         Adresse: h.adresse,
