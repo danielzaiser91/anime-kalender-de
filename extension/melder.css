@@ -302,12 +302,28 @@
   min-width: 22px;
 }
 
-/* Der Grenz-Schalter sitzt links neben dem Durchlauf-Knopf: klein, ohne Farbe,
-   weil er selten angefasst wird und nichts auslöst außer einer Einstellung. */
-.ak-durchlauf.ak-grenze {
-  right: auto;
-  left: 16px;
+/* Beide Knöpfe stehen in einer Zeile — der Schalter links, der Durchlauf
+   rechts. Die Leiste ist positioniert, die Knöpfe darin nicht: Die Breite des
+   Hauptknopfes ändert sich mit seiner Beschriftung, und jede feste Zahl wäre
+   beim nächsten Text falsch. */
+.ak-durchlauf-leiste {
+  position: fixed;
+  right: 16px;
   bottom: 56px;
+  z-index: 2147483646;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ak-durchlauf-leiste .ak-durchlauf {
+  position: static;
+  right: auto;
+  bottom: auto;
+}
+
+/* Der Grenz-Schalter: klein, ohne Farbe, weil er nichts auslöst außer einer
+   Einstellung. */
+.ak-durchlauf.ak-grenze {
   padding: 6px 10px;
   font-variant-numeric: tabular-nums;
 }

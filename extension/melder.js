@@ -1502,17 +1502,29 @@ function durchlaufKnopfZeigen() {
     Ein Notausgang, den man nicht sieht, ist keiner.
   */
   if ((imPlayer() && !DURCHLAUF.laeuft) || !DURCHLAUF.folgen.length) {
-    if (DURCHLAUF.knopf) {
-      DURCHLAUF.knopf.remove()
+    if (DURCHLAUF.leiste) {
+      DURCHLAUF.leiste.remove()
+      DURCHLAUF.leiste = null
       DURCHLAUF.knopf = null
-    }
-    if (DURCHLAUF.grenzKnopf) {
-      DURCHLAUF.grenzKnopf.remove()
       DURCHLAUF.grenzKnopf = null
     }
     return
   }
   if (!DURCHLAUF.knopf) {
+    /*
+      **Beide Knöpfe in einer Zeile, nicht an zwei Bildschirmrändern.**
+
+      Der Schalter stand zuerst mit `left: 16px` da — also am anderen Ende des
+      Fensters, weit weg von dem Knopf, auf den er wirkt (Daniel, 26.08.2026:
+      „button ist links am rand statt links neben anderem button").
+
+      Ein gemeinsamer Behälter löst das ohne Rechnerei: Die Breite des
+      Hauptknopfes ändert sich mit seiner Beschriftung, jede feste Zahl wäre
+      beim nächsten Text falsch.
+    */
+    DURCHLAUF.leiste = document.createElement('div')
+    DURCHLAUF.leiste.className = 'ak-durchlauf-leiste'
+
     DURCHLAUF.knopf = document.createElement('button')
     DURCHLAUF.knopf.className = 'ak-durchlauf'
     DURCHLAUF.knopf.addEventListener(
@@ -1541,7 +1553,7 @@ function durchlaufKnopfZeigen() {
     DURCHLAUF.grenzKnopf = document.createElement('button')
     DURCHLAUF.grenzKnopf.className = 'ak-durchlauf ak-grenze'
     DURCHLAUF.grenzKnopf.addEventListener('click', () => void probeGrenzeUmschalten())
-    document.body.appendChild(DURCHLAUF.grenzKnopf)
+    DURCHLAUF.leiste.appendChild(DURCHLAUF.grenzKnopf)
 
     DURCHLAUF.knopf.addEventListener(
       'contextmenu',
@@ -1551,7 +1563,8 @@ function durchlaufKnopfZeigen() {
       },
       false,
     )
-    document.body.appendChild(DURCHLAUF.knopf)
+    DURCHLAUF.leiste.appendChild(DURCHLAUF.knopf)
+    document.body.appendChild(DURCHLAUF.leiste)
   }
   /**
    * **Der Knopf zeigt, was noch fehlt — nicht, was es insgesamt gibt.**
