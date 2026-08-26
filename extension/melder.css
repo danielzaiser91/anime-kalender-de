@@ -274,3 +274,15 @@
   border-color: #e50914;
   color: #fff;
 }
+
+/* Ist alles gemeldet, bleibt der Knopf stehen — aber still. Er soll zeigen,
+   dass es hier nichts zu tun gibt, ohne dazu einzuladen. */
+.ak-durchlauf.ak-fertig {
+  opacity: 0.55;
+  cursor: default;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.ak-durchlauf.ak-fertig:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #e5e5e5;
+}

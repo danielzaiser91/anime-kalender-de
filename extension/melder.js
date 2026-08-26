@@ -249,6 +249,7 @@ window.addEventListener('message', (e) => {
         : Array.isArray(e.data.folgen)
           ? e.data.folgen
           : []
+    void durchlaufStandLaden(gemeinteReihe()).then(durchlaufKnopfZeigen)
     durchlaufKnopfZeigen()
     return
   }
@@ -938,11 +939,51 @@ async function standHolen() {
 const DURCHLAUF = {
   /** Was der Leser aus den Folgenlisten gesammelt hat. */
   folgen: [],
+  /**
+   * **Welche Folgen gemeldet sind — nach Kennung, nicht nach Kürzel.**
+   *
+   * Der erste Anlauf filterte über `istErledigt(reihe, "1")`, während die
+   * Abhakliste Kürzel der Form `2e01` führt. Die beiden trafen sich nie: Nach
+   * einem vollständigen Durchlauf stand weiter „12 Folgen prüfen" am Knopf
+   * (Daniel, 26.08.2026).
+   *
+   * Die `videoId` ist eindeutig und braucht keine Staffelzuordnung. Sie
+   * überlebt auch das Neuladen — der Durchlauf soll dort weitermachen, wo er
+   * aufgehört hat.
+   */
+  gemeldet: new Set(),
   laeuft: false,
   abbruch: false,
   fertig: 0,
   gesamt: 0,
   knopf: null,
+}
+
+/** Der Speicherplatz je Reihe — eine Reihe, eine Liste gemeldeter Kennungen. */
+const durchlaufSchluessel = (reihe) => `ak-durchlauf-${reihe}`
+
+async function durchlaufStandLaden(reihe) {
+  if (!reihe) return
+  try {
+    const gespeichert = await chrome.storage.local.get(durchlaufSchluessel(reihe))
+    DURCHLAUF.gemeldet = new Set(gespeichert[durchlaufSchluessel(reihe)] ?? [])
+  } catch {
+    DURCHLAUF.gemeldet = new Set()
+  }
+}
+
+async function durchlaufStandSchreiben(reihe) {
+  if (!reihe) return
+  try {
+    await chrome.storage.local.set({ [durchlaufSchluessel(reihe)]: [...DURCHLAUF.gemeldet] })
+  } catch {
+    /* Ohne Speicher fängt der nächste Durchlauf von vorn an, mehr nicht. */
+  }
+}
+
+/** Was in dieser Reihe noch aussteht. */
+function durchlaufOffen() {
+  return DURCHLAUF.folgen.filter((f) => !DURCHLAUF.gemeldet.has(f.videoId))
 }
 
 /** Dem Leser sagen, ob er Videodaten durchlassen soll. */
@@ -973,7 +1014,9 @@ async function durchlaufStarten() {
     return
   }
   const titelseite = location.pathname
-  const offen = DURCHLAUF.folgen.filter((f) => !istErledigt(gemeinteReihe(), `${f.nummer}`))
+  const reihe = gemeinteReihe()
+  await durchlaufStandLaden(reihe)
+  const offen = durchlaufOffen()
   if (!offen.length) return
 
   DURCHLAUF.laeuft = true
@@ -1008,9 +1051,25 @@ async function durchlaufStarten() {
     const gehoertDazu = !stand.reihe || String(stand.reihe) === String(gemeinteReihe())
     if (spuren && gehoertDazu) {
       const { deutsch, echte } = urteil(spuren)
-      await durchlaufMelden(f, echte, deutsch)
-      DURCHLAUF.fertig++
-    } else if (spuren) {
+      const ok = await durchlaufMelden(f, echte, deutsch)
+      if (ok) {
+        DURCHLAUF.gemeldet.add(f.videoId)
+        await durchlaufStandSchreiben(reihe)
+        DURCHLAUF.fertig++
+      } else {
+        DURCHLAUF.fehler = (DURCHLAUF.fehler ?? 0) + 1
+      }
+    } else if (!spuren) {
+      /*
+        Keine Tonspur binnen zwanzig Sekunden — die Folge bleibt offen und
+        kommt beim nächsten Durchlauf wieder dran. Genau das wollte Daniel:
+        „wenn ep 7 nicht erfolgreich geprüft wurde, alle anderen schon, sollte
+        dort 1 folge prüfen stehen." Beim ersten Kakegurui-Lauf traf es drei
+        von zwölf.
+      */
+      DURCHLAUF.ohneSpur = (DURCHLAUF.ohneSpur ?? 0) + 1
+      console.warn(`[Anime-Kalender] Folge ${f.nummer}: keine Tonspur gelesen — bleibt offen`)
+    } else {
       DURCHLAUF.fremde = (DURCHLAUF.fremde ?? 0) + 1
       console.warn(
         `[Anime-Kalender] Folge ${f.nummer} gehört zu Reihe ${stand.reihe}, nicht zu ${gemeinteReihe()} — übersprungen`,
@@ -1031,9 +1090,9 @@ async function durchlaufStarten() {
 /** Eine Folge des Durchlaufs melden — dieselbe Route wie eine Handmeldung. */
 async function durchlaufMelden(folge, echte, deutsch) {
   const { token } = await chrome.storage.sync.get('token')
-  if (!token) return
+  if (!token) return false
   try {
-    await fetch(WORKER, {
+    const antwort = await fetch(WORKER, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
       body: JSON.stringify({
@@ -1050,9 +1109,12 @@ async function durchlaufMelden(folge, echte, deutsch) {
         notiz: `Durchlauf: Folge ${folge.nummer}${folge.titel ? ` — ${folge.titel}` : ''}`,
       }),
     })
+    if (!antwort.ok) return false
     await merkeErledigt(gemeinteReihe(), null, folge.nummer)
+    return true
   } catch {
-    /* Eine verlorene Meldung hält den Durchlauf nicht auf. */
+    /* Eine verlorene Meldung hält den Durchlauf nicht auf — sie bleibt offen. */
+    return false
   }
 }
 
@@ -1080,12 +1142,36 @@ function durchlaufKnopfZeigen() {
     DURCHLAUF.knopf.addEventListener('click', () => void durchlaufStarten())
     document.body.appendChild(DURCHLAUF.knopf)
   }
-  DURCHLAUF.knopf.textContent = DURCHLAUF.laeuft
-    ? `⏹ ${DURCHLAUF.fertig}/${DURCHLAUF.gesamt} — abbrechen`
-    : `▶ ${DURCHLAUF.folgen.length} Folgen prüfen`
-  DURCHLAUF.knopf.title = DURCHLAUF.laeuft
-    ? 'Läuft — jede Folge wird kurz geöffnet und wieder verlassen'
-    : `${DURCHLAUF.folgen.length} Folgen sind bekannt. Jede wird kurz geöffnet; das landet in „Weiter ansehen".`
+  /**
+   * **Der Knopf zeigt, was noch fehlt — nicht, was es insgesamt gibt.**
+   *
+   * Daniel am 26.08.2026 nach dem ersten vollständigen Lauf: „button sollte
+   * nicht erneut klickbar sein nach erfolgreicher prüfung, nur differenz
+   * episoden sollte dort auftauchen (zB wenn ep 7 nicht erfolgreich geprüft
+   * wurde, alle anderen schon, sollte dort 1 folge prüfen stehen)."
+   */
+  const offen = durchlaufOffen().length
+  if (DURCHLAUF.laeuft) {
+    DURCHLAUF.knopf.textContent = `⏹ ${DURCHLAUF.fertig}/${DURCHLAUF.gesamt} — abbrechen`
+    DURCHLAUF.knopf.title = 'Läuft — jede Folge wird kurz geöffnet und wieder verlassen. Escape bricht ab.'
+    DURCHLAUF.knopf.disabled = false
+    DURCHLAUF.knopf.classList.remove('ak-fertig')
+    return
+  }
+  if (!offen) {
+    DURCHLAUF.knopf.textContent = `✓ ${DURCHLAUF.folgen.length} Folgen geprüft`
+    DURCHLAUF.knopf.title = 'Alles gemeldet. Neue Folgen tauchen hier wieder auf.'
+    DURCHLAUF.knopf.disabled = true
+    DURCHLAUF.knopf.classList.add('ak-fertig')
+    return
+  }
+  DURCHLAUF.knopf.disabled = false
+  DURCHLAUF.knopf.classList.remove('ak-fertig')
+  DURCHLAUF.knopf.textContent = `▶ ${offen} ${offen === 1 ? 'Folge' : 'Folgen'} prüfen`
+  DURCHLAUF.knopf.title =
+    offen === DURCHLAUF.folgen.length
+      ? `${offen} Folgen sind bekannt. Jede wird kurz geöffnet; das landet in „Weiter ansehen".`
+      : `${DURCHLAUF.folgen.length - offen} von ${DURCHLAUF.folgen.length} sind gemeldet, ${offen} fehlen noch.`
 }
 
 let uebersichtKnopf = null
