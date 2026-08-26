@@ -150,6 +150,25 @@ function staffelnVon(id, eintrag) {
 }
 
 /**
+ * Welche Kürzel gehören zu diesen Folgennummern?
+ *
+ * Der Worker führt die Meldungen als blanke Folgennummern — 1089, 1124, 1156.
+ * Der Dialog denkt in Staffelkürzeln („39e1124"). Übersetzt wird über die
+ * Staffelgrenzen der Prüfliste, denn nur die kennen jede Staffel; was Netflix
+ * gerade geladen hat, ist immer nur eine davon.
+ */
+function kuerzelFuerNummern(staffeln, nummern) {
+  const raus = []
+  for (const nummer of nummern) {
+    const staffel = staffeln.find(
+      (st) => nummer >= (st.erste ?? 1) && nummer < (st.erste ?? 1) + (st.folgen ?? 0),
+    )
+    if (!staffel) continue
+    raus.push(`${staffel.nr}e${String(nummer).padStart(2, "0")}`)
+  }
+  return raus
+}
+/**
  * Was zuletzt aus der Liste heraus geöffnet wurde — für zehn Minuten.
  *
  * Der Tab, in dem geklickt wurde, hinterlegt es; `chrome.storage.local` teilen
@@ -1194,29 +1213,26 @@ async function durchlaufStandLaden(reihe) {
     )
 
     /*
-      **Die Abhakliste kommt aus derselben Quelle.**
+      **Die Abhakliste kommt aus derselben Quelle — und über alle Staffeln.**
 
-      Sie speist die Bereiche im Dialog. Ohne diesen Abgleich stand dort nach
-      einer Randprobe über 61 Folgen weiter „gemeldet: E1-2, E61 | offen:
-      E3-60", während der Knopf daneben „61 Folgen geprüft" sagte (Daniel,
-      26.08.2026: „61 folgen geprüft und e3-60 offen passt nicht").
+      Sie speist die Bereiche im Dialog. Ohne diesen Abgleich stand dort nach einer
+      Randprobe über 61 Folgen weiter „gemeldet: E1-2, E61 | offen: E3-60", während
+      der Knopf daneben „61 Folgen geprüft" sagte (Daniel, 26.08.2026).
 
-      Zwei Anzeigen, zwei Quellen, ein Widerspruch — dieselbe Sorte Fehler wie
-      beim Zähler am Knopf. Die Ferne ist die Quelle; die lokale Liste folgt.
+      Der erste Anlauf ging über `DURCHLAUF.folgen` und hat den Widerspruch nur
+      verschoben: Das sind die Folgen der Staffel, deren Liste Netflix gerade zeigt.
+      Bei One Piece Staffel 38 waren das 34 von 216 gemeldeten; die übrigen 182
+      blieben grau, obwohl der Worker sie führte („e1124-1154 sagt offen, button
+      sagt alles geprüft").
+
+      Die Staffelgrenzen stehen in der Prüfliste und gelten unabhängig davon, was
+      gerade geladen ist. Die Ferne ist die Quelle; die lokale Liste folgt ihr.
     */
     const bekannt = new Set(erledigt[String(reihe)] ?? [])
-    for (const f of DURCHLAUF.folgen) {
-      if (!nummern.has(f.nummer)) continue
-      /* Die Staffel kennt nur die Prüfliste — ohne sie bleibt der Vermerk aus. */
-      const staffel = staffelnVon(reihe, offeneTitel[String(reihe)] ?? {}).find(
-        (st) => f.nummer >= (st.erste ?? 1) && f.nummer < (st.erste ?? 1) + (st.folgen ?? 0),
-      )
-      if (!staffel) continue
-      const kuerzel = `${staffel.nr}e${String(f.nummer).padStart(2, "0")}`
-      if (bekannt.has(kuerzel)) continue
-      bekannt.add(kuerzel)
-    }
-    if (bekannt.size !== (erledigt[String(reihe)] ?? []).length) {
+    const vorher = bekannt.size
+    const staffeln = staffelnVon(reihe, offeneTitel[String(reihe)] ?? {})
+    for (const kuerzel of kuerzelFuerNummern(staffeln, nummern)) bekannt.add(kuerzel)
+    if (bekannt.size !== vorher) {
       erledigt[String(reihe)] = [...bekannt]
       try {
         await speicherSchreiben({ erledigt })

@@ -10,7 +10,7 @@ const quelle = readFileSync(__dirname + '/melder.js', 'utf8')
 
 // Die beiden Prüffunktionen aus der Quelle holen statt sie nachzubauen.
 let code = ''
-for (const name of ['function istErledigt', 'function staffelAngefasst']) {
+for (const name of ['function istErledigt', 'function staffelAngefasst', 'function kuerzelFuerNummern']) {
   const von = quelle.indexOf(name)
   if (von < 0) { console.error('nicht gefunden: ' + name); process.exit(1) }
   code += quelle.slice(von, quelle.indexOf('\n}\n', von) + 3) + '\n'
@@ -146,6 +146,50 @@ pruefe('ohne Vermerke ist nichts erledigt',
   pruefe('ohne Namen gilt nichts', !passt('', 'Kakegurui') && !passt('Heroes', ''))
 }
 
+/**
+ * Gemeldete Nummern werden über ALLE Staffeln zugeordnet, nicht nur die geladene.
+ *
+ * Der Worker führt die Meldungen als blanke Folgennummern. Der erste Anlauf
+ * übersetzte sie über `DURCHLAUF.folgen` — die Folgen der Staffel, deren Liste
+ * Netflix gerade zeigt. Bei One Piece Staffel 38 waren das 34 von 216; der
+ * Dialog zeigte E1124–1154 als offen, während der Knopf „alles geprüft" sagte
+ * (Daniel, 26.08.2026).
+ *
+ * Die Staffelgrenzen unten sind Onepieces echte Zuschnitte bei Netflix.
+ */
+{
+  const staffeln = [
+    { nr: 1, erste: 1, folgen: 61 },
+    { nr: 38, erste: 1089, folgen: 34 },
+    { nr: 39, erste: 1123, folgen: 33 },
+    { nr: 40, erste: 1156, folgen: 19 },
+  ]
+  const k = (...n) => kuerzelFuerNummern(staffeln, n)
+
+  pruefe(
+    'eine Nummer aus einer fremden Staffel wird trotzdem zugeordnet',
+    k(1130)[0] === '39e1130',
+    k(1130),
+  )
+  pruefe('die erste Folge einer Staffel gehört ihr', k(1123)[0] === '39e1123', k(1123))
+  pruefe('die letzte auch', k(1155)[0] === '39e1155', k(1155))
+  pruefe('die nächste gehört schon der folgenden', k(1156)[0] === '40e1156', k(1156))
+  pruefe('Staffel 1 zählt ab 1', k(1)[0] === '1e01' && k(61)[0] === '1e61', k(1, 61))
+
+  /* Der Fall, um den es ging: der ganze Bereich, den der Dialog offen zeigte. */
+  const bereich = []
+  for (let n = 1124; n <= 1154; n++) bereich.push(n)
+  pruefe(
+    'die 31 Folgen aus Daniels Meldung landen alle in Staffel 39',
+    kuerzelFuerNummern(staffeln, bereich).length === 31 &&
+      kuerzelFuerNummern(staffeln, bereich).every((x) => x.startsWith('39e')),
+    kuerzelFuerNummern(staffeln, bereich).length,
+  )
+
+  /* Und eine Nummer, die keine Staffel kennt, erfindet keine. */
+  pruefe('eine Lücke zwischen den Staffeln bleibt unzugeordnet', k(500).length === 0, k(500))
+  pruefe('eine Nummer hinter der letzten Staffel auch', k(9999).length === 0, k(9999))
+}
 const fehler = faelle.filter((x) => !x).length
 console.log(fehler ? `\n${fehler} Fall/Fälle durchgefallen` : '\n✓ Geprüftes wird sichtbar')
 process.exit(fehler ? 1 : 0)
