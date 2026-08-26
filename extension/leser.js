@@ -357,7 +357,18 @@
       einem Durchlauf über One Piece. Eine Kennung über einer Million hat jeder
       Netflix-Titel.
     */
-    if (istFolge && Number.isFinite(nummer) && Number.isFinite(Number(kennung))) {
+    /*
+      **Null ist keine Kennung.**
+
+      `Number.isFinite(0)` ist wahr, und so geriet ein Knoten mit
+      `videoId: 0` in die Liste. Der Durchlauf öffnete daraufhin
+      `/watch/0?origId=…`, und Netflix antwortete mit UI3003 — „Dieser Titel
+      ist in Ihrem Land derzeit nicht verfügbar" (Daniel, 26.08.2026, mit Bild).
+
+      Dieselbe Falle wie bei jeder Prüfung auf Vorhandensein: Eine Zahl kann
+      gültig und trotzdem unbrauchbar sein.
+    */
+    if (istFolge && Number.isFinite(nummer) && nummer > 0 && Number(kennung) > 0) {
       raus.push({ nummer, videoId: Number(kennung), titel: o.title ?? null })
     }
     for (const v of Object.values(o)) sammleFolgen(v, raus, tiefe + 1)
