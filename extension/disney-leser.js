@@ -110,11 +110,12 @@
     if (folgen.size !== vorher || staffeln.length) melde()
   }
 
-  function melde(vollstaendig = false) {
+  function melde(vollstaendig = false, hindernis = null) {
     window.postMessage(
       {
         marke: MARKE,
         bereit: Boolean(kopfzeilen),
+        hindernis,
         vollstaendig,
         staffeln: staffeln.map((s) => ({ name: s.name, gesamt: s.gesamt })),
         erwartet: staffeln.reduce((n, s) => n + s.gesamt, 0),
@@ -208,7 +209,10 @@
       const antwort = await altFetch(`${EXPLORE}${staffel.id}?${nach}limit=24`, {
         headers: leseKopf(),
       })
-      if (!antwort.ok) return
+      if (!antwort.ok) {
+        console.warn(`[Anime-Kalender] Staffel ${staffel.name}: HTTP ${antwort.status}`)
+        return
+      }
       const daten = await antwort.json()
       const stueck = daten?.data?.season?.items ?? []
       sammleFolgen(daten)
@@ -218,14 +222,38 @@
     }
   }
 
+  /*
+    **Ein stummer Ausstieg ist schlimmer als ein Fehler.**
+
+    Der erste Anlauf kehrte bei fehlendem Token einfach zurück. Nebenan stand
+    dann für immer „sammle Folgen … 86/86", weil die Anforderung als erledigt
+    galt und nie wiederholt wurde. Daniel am 26.08.2026: „sammelt er oder lügt
+    er? was passiert tatsächlich im hintergrund? nichts passiert auch nach
+    mehreren minuten nicht."
+
+    Jetzt meldet jeder Ausgang seinen Grund — und der Empfänger darf es noch
+    einmal versuchen.
+  */
   async function allesHolen() {
-    if (holtGerade || !kopfzeilen) return
+    if (holtGerade) return
+    if (!kopfzeilen) {
+      console.log('[Anime-Kalender] noch kein Token gesehen — warte auf einen Aufruf der Seite')
+      return melde(false, 'kein Token')
+    }
+    if (!staffeln.length) {
+      console.log('[Anime-Kalender] noch keine Staffelliste gesehen')
+      return melde(false, 'keine Staffeln')
+    }
     holtGerade = true
+    console.log(`[Anime-Kalender] hole ${staffeln.length} Staffeln: ${staffeln.map((s) => s.name + ' (' + s.gesamt + ')').join(', ')}`)
     try {
       for (const staffel of [...staffeln]) {
         await staffelHolen(staffel)
         melde()
       }
+      console.log(`[Anime-Kalender] ${folgen.size} Folgen beisammen`)
+    } catch (fehler) {
+      console.warn('[Anime-Kalender] Nachladen abgebrochen:', fehler)
     } finally {
       holtGerade = false
       melde(true)

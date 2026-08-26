@@ -134,7 +134,23 @@
     if (e.data.bereit) bereit = true
 
     if (!eintrag) return
-    /* Erst die vollständige Liste holen lassen, dann prüfen. */
+
+    /*
+      **Die Anforderung wird wiederholt, solange sie auf ein Hindernis trifft.**
+
+      Der erste Anlauf setzte `angefordert` und war fertig damit. Fehlte in dem
+      Moment noch das Token, stieg der Leser stumm aus — und nebenan stand für
+      immer „sammle Folgen … 86/86". Daniel am 26.08.2026: „sammelt er oder
+      lügt er? … nichts passiert auch nach mehreren minuten nicht."
+
+      Jetzt nennt der Leser sein Hindernis, und der nächste Anlass — ein
+      weiterer Aufruf der Seite — versucht es erneut.
+    */
+    if (e.data.hindernis) {
+      angefordert = false
+      zeigePruefung(`${eintrag.titel}\nwarte auf die Seite (${e.data.hindernis}) …`)
+      return
+    }
     if (bereit && !angefordert) {
       angefordert = true
       window.postMessage({ marke: MARKE_STEUER, allesHolen: true }, '*')
@@ -142,7 +158,13 @@
       return
     }
     if (!e.data.vollstaendig) {
-      if (erwartet) zeigePruefung(`${eintrag.titel}\nsammle Folgen … ${folgen.length}/${erwartet}`)
+      if (erwartet) {
+        const offen = Math.max(0, erwartet - gemeldeteNummern.size)
+        zeigePruefung(
+          `${eintrag.titel}\nsammle Folgen … ${folgen.length}/${erwartet}` +
+            (gemeldeteNummern.size ? `\n${gemeldeteNummern.size} gemeldet, ${offen} zu prüfen` : ''),
+        )
+      }
       return
     }
     void vielleichtPruefen()
@@ -184,6 +206,24 @@
 
   let uebersichtKnopf = null
   let dialog = null
+  /* Gemeldetes bleibt eingeklappt, bis jemand danach fragt. */
+  let zeigeErledigte = false
+
+  /**
+   * Ist zu diesem Titel alles gemeldet, was Disney+ führt?
+   *
+   * „Alles" heißt hier: mindestens eine Meldung, und keine Folge mehr offen,
+   * soweit wir das wissen. Ein Titel mit „nichts da" zählt ebenfalls als
+   * erledigt — er ist beantwortet, nur eben mit Nein.
+   *
+   * Der Wert kommt aus dem Briefkasten, nicht aus einem eigenen Gedächtnis:
+   * Sobald der stündliche Lauf die Meldungen übernommen hat, ist der Eintrag
+   * hier wieder offen — und das ist richtig so, denn dann steht die Antwort im
+   * Datensatz und der Titel fällt bei der nächsten Listenerzeugung heraus.
+   */
+  function istErledigt(e) {
+    return briefkasten.has(e.url)
+  }
 
   function offeneEintraege() {
     return Object.entries(liste)
@@ -211,7 +251,12 @@
       */
       for (const e of daten.eintraege ?? []) {
         const dazu = gesammelt.get(e.url) ?? []
-        if (Number.isFinite(Number(e.folge_nr)))
+        /*
+          Eine Meldung ohne Folgennummer ist keine Folge — „nichts da" trägt
+          keine. Ohne diese Prüfung stand in der Liste „Aoashi 1e0" (Daniel,
+          26.08.2026).
+        */
+        if (Number(e.folge_nr) > 0)
           dazu.push({ staffel: Number(e.staffel) || 1, nummer: Number(e.folge_nr) })
         gesammelt.set(e.url, dazu)
       }
@@ -231,7 +276,9 @@
 
   function dialogOeffnen() {
     if (dialog) return dialogSchliessen()
-    const eintraege = offeneEintraege()
+    const alle = offeneEintraege()
+    const erledigte = alle.filter(istErledigt)
+    const eintraege = zeigeErledigte ? alle : alle.filter((e) => !istErledigt(e))
     dialog = document.createElement('div')
     dialog.style.cssText =
       'position:fixed;right:16px;bottom:100px;z-index:2147483001;width:min(460px,92vw);' +
@@ -242,7 +289,8 @@
     const kopf = document.createElement('div')
     kopf.style.cssText = 'display:flex;align-items:baseline;gap:10px;margin-bottom:10px;flex-wrap:wrap'
     const titelzeile = document.createElement('strong')
-    titelzeile.textContent = eintraege.length ? `${eintraege.length} Titel zu prüfen` : 'Alles geprüft'
+    const nochOffen = alle.length - erledigte.length
+    titelzeile.textContent = nochOffen ? `${nochOffen} Titel zu prüfen` : 'Alles gemeldet'
     kopf.appendChild(titelzeile)
 
     /* Wann das Gemeldete hier wieder verschwindet. */
@@ -254,6 +302,35 @@
         'Der stündliche Datenlauf holt die Meldungen ab und schreibt sie in den Kalender. Danach sind die grünen Bereiche hier weg.'
       kopf.appendChild(lauf)
     }
+    /*
+      **Gemeldetes ist standardmäßig weg.**
+
+      Es blieb sichtbar, damit erkennbar ist, was schon durch ist — bei einer
+      Liste aus 31 Titeln ist das aber nur Ballast. Wer nachsehen will, klappt
+      sie auf. Dieselbe Lösung wie bei Netflix (Daniel, 26.08.2026: „komplett
+      gemeldete sollten ausgeblendet und togglebar sein in der liste (wie
+      netflix)").
+    */
+    if (erledigte.length) {
+      const umschalter = document.createElement('button')
+      umschalter.type = 'button'
+      umschalter.style.cssText =
+        'padding:2px 9px;border-radius:6px;border:1px solid #ffffff33;background:none;' +
+        'color:#fff;font:11px system-ui,sans-serif;cursor:pointer'
+      const beschriften = () => {
+        umschalter.textContent = zeigeErledigte
+          ? `${erledigte.length} gemeldet ausblenden`
+          : `${erledigte.length} gemeldet zeigen`
+      }
+      beschriften()
+      umschalter.onclick = () => {
+        zeigeErledigte = !zeigeErledigte
+        dialogSchliessen()
+        dialogOeffnen()
+      }
+      kopf.appendChild(umschalter)
+    }
+
     const zu = document.createElement('button')
     zu.textContent = '×'
     zu.title = 'Schließen (Esc)'
@@ -338,9 +415,10 @@
       Folgen gemeldet sind, ist weiter offen — „anime-kalender button sollte 31
       offen sagen, weil 1 nur teilweise gemeldet wurde" (Daniel, 26.08.2026).
     */
-    uebersichtKnopf.textContent = offen.length
-      ? `Anime-Kalender: ${offen.length} offen`
-      : 'Anime-Kalender: alles geprüft ✓'
+    const nochOffen = offen.filter((e) => !istErledigt(e)).length
+    uebersichtKnopf.textContent = nochOffen
+      ? `Anime-Kalender: ${nochOffen} offen`
+      : 'Anime-Kalender: alles gemeldet ✓'
   }
 
   document.addEventListener('keydown', (e) => {
@@ -545,6 +623,14 @@
 
     zeigeUebersicht()
     if (!eintrag) return
+    /*
+      Vorab, nicht erst nach dem Sammeln: Nur so kann die Anzeige während des
+      Sammelns schon sagen, wie viele Folgen überhaupt noch anstehen („1e1-15
+      stehen in der liste, also müssten es 71/71 nicht 86/86 sein").
+    */
+    void gemeldeteHolen(eintrag.url ?? location.href.split('?')[0]).then((n) => {
+      gemeldeteNummern = n
+    })
     window.postMessage({ marke: MARKE_STEUER, frageListe: true }, '*')
     setTimeout(() => window.postMessage({ marke: MARKE_STEUER, frageListe: true }, '*'), 2500)
   }
