@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-26T13:29:54.187Z",
+  "scrapedAt": "2026-08-26T15:57:44.799Z",
   "window": {
     "from": "2026-08-17",
     "to": "2026-09-06"
@@ -924,7 +924,8 @@
         "2026-07-29",
         "2026-08-05",
         "2026-08-12",
-        "2026-08-19"
+        "2026-08-19",
+        "2026-08-26"
       ],
       "rawTitle": "Saga of Tanya the Evil Staffel 2 (Deutsch)",
       "seriesId": "GR9P57W96",
@@ -945,6 +946,10 @@
         {
           "date": "2026-08-19",
           "episode": 4
+        },
+        {
+          "date": "2026-08-26",
+          "episode": 5
         }
       ],
       "earliest": {
@@ -960,7 +965,8 @@
         "2026-07-29",
         "2026-08-05",
         "2026-08-12",
-        "2026-08-19"
+        "2026-08-19",
+        "2026-08-26"
       ],
       "rawTitle": "Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Staffel 2 (Deutsch)",
       "seriesId": "G0XHWM0D3",
@@ -981,6 +987,10 @@
         {
           "date": "2026-08-19",
           "episode": 4
+        },
+        {
+          "date": "2026-08-26",
+          "episode": 5
         }
       ],
       "earliest": {
@@ -1537,6 +1547,26 @@
       "date": "2026-08-26",
       "time": "14:00",
       "episode": 8,
+      "german": true
+    },
+    {
+      "key": "saga of tanya the evil s2",
+      "rawTitle": "Saga of Tanya the Evil Staffel 2 (Deutsch)",
+      "seriesId": "GR9P57W96",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GR9P57W96/saga-of-tanya-the-evil",
+      "date": "2026-08-26",
+      "time": "15:30",
+      "episode": 5,
+      "german": true
+    },
+    {
+      "key": "trapped in a dating sim the world of otome games is tough for mobs s2",
+      "rawTitle": "Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Staffel 2 (Deutsch)",
+      "seriesId": "G0XHWM0D3",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G0XHWM0D3/trapped-in-a-dating-sim-the-world-of-otome-games-is-tough-for-mobs",
+      "date": "2026-08-26",
+      "time": "17:30",
+      "episode": 5,
       "german": true
     }
   ]
