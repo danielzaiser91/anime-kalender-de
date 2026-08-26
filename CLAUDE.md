@@ -866,6 +866,31 @@ dekodiert und geprüft?" Die Antwort war nein. Ein Befund „nichts gefunden"
 beantwortet nicht, **wonach** gesucht wurde — und kodierte Felder sind für eine
 Textsuche unsichtbar.
 
+### Eine Abfrage mit LIMIT beantwortet eine andere Frage als die gestellte
+
+Am 26.08.2026 stand nach Daniels Disney-Durchgang die Frage, ob eine Meldung
+angekommen ist. Der Briefkasten-Abruf `GET /pruefung?token=…` gab 497 Einträge
+zurück, darunter keinen für „Undead Unluck" — also, so der Schluss, ist die
+Meldung verlorengegangen.
+
+Sie war da. Die Abfrage trägt `LIMIT 500`, und der Briefkasten hielt 563
+Meldungen. Aufgefallen ist es erst, weil eine Testmeldung die Antwort
+`{"ok":true,"offen":563}` zurückgab — die einzige Stelle, die die **ganze**
+Zahl nennt.
+
+Der Schaden ging über die falsche Auskunft hinaus: Beim Aufräumen der
+Testmeldung traf der Löschbefehl `{url, nummern:[1]}` auch die echte Folge 1
+derselben Serie. Zwei Einträge weg, einer davon Daniels Arbeit.
+
+**Zum Zählen ist `?zaehlen=1` da**, nicht die Liste. Sie zählt über den ganzen
+Bestand; die Liste ist zum Ansehen einzelner Einträge gedacht und deshalb
+begrenzt.
+
+**Und die Prüffrage gilt für jede Abfrage, die eine Zahl liefern soll:** *Kann
+diese Antwort abgeschnitten sein?* Ein `LIMIT`, eine Seitengröße, ein
+Standardwert von 100 — sie machen aus „so viele gibt es" ein „so viele habe ich
+geholt", und die beiden sehen gleich aus.
+
 ### Disney+ sagt auf drei Arten Nein — und nur eine davon ist ein Befund
 
 Am 26.08.2026 beim Durchgehen der Prüfliste dreimal aufgetreten, jedes Mal
