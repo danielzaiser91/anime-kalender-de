@@ -1747,9 +1747,32 @@ function durchlaufKnopfZeigen() {
           Abgebrochen wird über den Knopftext (der zeigt dann „abbrechen") und
           über Escape — ein zweiter Start mitten im Lauf wäre etwas anderes.
         */
-        if (DURCHLAUF.laeuft) return
+        /*
+          **Der Klick sagt, was er tut — zweimal geraten reicht.**
+
+          Daniel am 26.08.2026: „nichts passiert bei klick. diagnose oder weiter
+          raten?" Ein Klick, der still endet, ist von einem, der gar nicht
+          ankommt, nicht zu unterscheiden. Jetzt nennt er den Zustand, an dem er
+          scheitert.
+        */
+        const zustand = {
+          laeuft: DURCHLAUF.laeuft,
+          offen: durchlaufOffen().length,
+          folgenBekannt: DURCHLAUF.folgen.length,
+          gemeldet: DURCHLAUF.gemeldet.size,
+          grenze: probeGrenze,
+          shift: e.shiftKey,
+        }
+        if (DURCHLAUF.laeuft) {
+          console.warn('[Anime-Kalender] Klick verworfen — läuft schon:', zustand)
+          return
+        }
         /* Ist alles gemeldet, tut ein Klick nichts — der Rechtsklick bleibt. */
-        if (!durchlaufOffen().length) return
+        if (!durchlaufOffen().length) {
+          console.warn('[Anime-Kalender] Klick verworfen — nichts offen:', zustand)
+          return
+        }
+        console.log('[Anime-Kalender] Durchlauf startet:', zustand)
         /*
           **Zwei Folgen sind die Vorgabe, alle nur mit Umschalt.**
 
@@ -1769,7 +1792,10 @@ function durchlaufKnopfZeigen() {
     */
     DURCHLAUF.grenzKnopf = document.createElement('button')
     DURCHLAUF.grenzKnopf.className = 'ak-durchlauf ak-grenze'
-    DURCHLAUF.grenzKnopf.addEventListener('click', () => void probeGrenzeUmschalten())
+    DURCHLAUF.grenzKnopf.addEventListener('click', () => {
+      console.log('[Anime-Kalender] Schalter geklickt, Grenze war', probeGrenze)
+      void probeGrenzeUmschalten()
+    })
     DURCHLAUF.leiste.appendChild(DURCHLAUF.grenzKnopf)
 
     DURCHLAUF.knopf.addEventListener(
@@ -1916,6 +1942,22 @@ for (const art of ['click', 'mousedown', 'pointerdown']) {
     true,
   )
 }
+
+/** Der Zustand des Durchlaufs — Aufruf: `__akDurchlauf()`. */
+window.__akDurchlauf = () => ({
+  laeuft: DURCHLAUF.laeuft,
+  abbruch: DURCHLAUF.abbruch,
+  stoerung: DURCHLAUF.stoerung,
+  folgenBekannt: DURCHLAUF.folgen.length,
+  gemeldet: DURCHLAUF.gemeldet.size,
+  offen: durchlaufOffen().length,
+  grenze: probeGrenze,
+  reihe: gemeinteReihe(),
+  knopfDa: Boolean(DURCHLAUF.knopf),
+  knopfText: DURCHLAUF.knopf?.textContent ?? null,
+  knopfAus: DURCHLAUF.knopf?.disabled ?? null,
+  leisteDa: Boolean(DURCHLAUF.leiste),
+})
 
 let uebersichtKnopf = null
 
