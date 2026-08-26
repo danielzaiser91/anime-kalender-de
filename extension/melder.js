@@ -1147,6 +1147,18 @@ async function durchlaufStandVergessen() {
   if (!reihe) return
   DURCHLAUF.gemeldet = new Set()
   DURCHLAUF.stoerung = null
+  /*
+    **Eine Folgenliste gehört zu genau einer Staffel.**
+
+    Beim ersten Kakegurui-Durchlauf trug die Meldung zu Folge 1 `staffel: null`
+    — der Player hatte seine Metadaten noch nicht geholt, als sie abging. Die
+    Pipeline verteilte die zwölf Folgen daraufhin über zwei Staffeln: Folge 1
+    zu „Kakegurui", 2 bis 12 zu „Kakegurui ××". Alle zwölf gehören zur zweiten.
+
+    Die erste Staffelnummer, die während eines Durchlaufs auftaucht, gilt
+    deshalb für alle Folgen dieser Liste. Sie stammt aus derselben Ansicht.
+  */
+  DURCHLAUF.staffel = null
   DURCHLAUF.uebergangen = true
   durchlaufKnopfZeigen()
   console.log(
@@ -1217,7 +1229,19 @@ async function durchlaufStarten(grenze) {
   DURCHLAUF.gesamt = offen.length
   durchlaufKnopfZeigen()
 
-  for (const f of offen) {
+  /*
+    **Die erste Folge kommt zuletzt, wenn die Staffel noch unbekannt ist.**
+
+    Der Player holt seine Metadaten beim ersten Öffnen; bis dahin weiß niemand,
+    welche Staffel läuft. Wer zuerst gemeldet wird, trägt deshalb kein
+    Staffelfeld — und genau die erste Folge ist die, bei der eine falsche
+    Zuordnung am meisten anrichtet (sie passt der Nummer nach auch zu Staffel 1).
+
+    Also wird sie ans Ende gestellt: Dann ist die Staffel längst bekannt.
+  */
+  const reihenfolge = offen.length > 1 ? [...offen.slice(1), offen[0]] : offen
+
+  for (const f of reihenfolge) {
     if (DURCHLAUF.abbruch) break
     videoAbdrehen(false)
     gehe(`/watch/${f.videoId}`)
@@ -1255,6 +1279,10 @@ async function durchlaufStarten(grenze) {
     const gehoertDazu = !stand.reihe || String(stand.reihe) === String(gemeinteReihe())
     if (spuren && gehoertDazu) {
       const { deutsch, echte } = urteil(spuren)
+      /* Die erste erkannte Staffel gilt für die ganze Liste. */
+      if (DURCHLAUF.staffel === null && Number.isFinite(stand.staffel)) {
+        DURCHLAUF.staffel = stand.staffel
+      }
       const ok = await durchlaufMelden(f, echte, deutsch)
       if (ok) {
         DURCHLAUF.gemeldet.add(f.videoId)
@@ -1313,7 +1341,13 @@ async function durchlaufMelden(folge, echte, deutsch) {
         titel: stand.serientitel ?? null,
         folge: folge.videoId,
         folge_nr: folge.nummer,
-        staffel: stand.staffel ?? null,
+        /*
+          Der Player nennt die Staffel manchmal erst nach der ersten Folge —
+          dann gilt, was die Liste vorher schon gezeigt hat. Ohne das trug die
+          Meldung zu Folge 1 kein Feld, und die Pipeline schlug sie der
+          falschen Staffel zu.
+        */
+        staffel: stand.staffel ?? DURCHLAUF.staffel ?? null,
         staffeln: stand.staffeln ?? null,
         serientitel: stand.serientitel ?? null,
         notiz: `Durchlauf: Folge ${folge.nummer}${folge.titel ? ` — ${folge.titel}` : ''}`,
