@@ -1602,7 +1602,16 @@ function durchlaufKnopfZeigen() {
   DURCHLAUF.knopf.disabled = false
   DURCHLAUF.knopf.classList.remove('ak-fertig')
   /* Der Knopf nennt, was ein Klick wirklich tut — nicht, was insgesamt offen ist. */
-  if (DURCHLAUF.grenzKnopf) {
+  /*
+    **Während eines Laufs verschwindet der Schalter.**
+
+    Daniel am 26.08.2026: „während das skript läuft sollte limit icon nicht
+    sichtbar und nicht klickbar sein." Eine Einstellung, die den laufenden
+    Durchlauf nicht mehr ändern kann, gehört nicht angeboten — ein Klick darauf
+    sähe aus wie eine Wirkung und hätte keine.
+  */
+  if (DURCHLAUF.grenzKnopf) DURCHLAUF.grenzKnopf.hidden = DURCHLAUF.laeuft
+  if (DURCHLAUF.grenzKnopf && !DURCHLAUF.laeuft) {
     DURCHLAUF.grenzKnopf.textContent = probeGrenze ? `⏱ ${probeGrenze}` : '⏱ alle'
     DURCHLAUF.grenzKnopf.title = probeGrenze
       ? `Ein Klick prüft ${probeGrenze} Folgen. Klick hier: auf „alle" umstellen.`
