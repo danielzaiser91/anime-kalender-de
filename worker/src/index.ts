@@ -1489,6 +1489,37 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
      * kein Titel, keine Adresse, keine Tonspur. Deshalb braucht sie kein Token
      * — eines in einer Datei auf dem Schreibtisch wäre der schlechtere Handel.
      */
+    /**
+     * **Welche Folgen dieser Adresse schon gemeldet sind.**
+     *
+     * Daniel am 26.08.2026 über den lokalen Zähler der Erweiterung: „warum ist
+     * das überhaupt notwendig, es sollte synchron zur remote liste sein, fix das
+     * sodass die stände nie auseinander laufen können."
+     *
+     * Er hat recht: Ein Zähler im Browser ist eine zweite Fassung derselben
+     * Wahrheit, und zwei Fassungen laufen auseinander. Nach einem Neuladen der
+     * Erweiterung stand der lokale Stand auf null, obwohl zwölf Meldungen längst
+     * hier lagen.
+     *
+     * Gefragt wird ohne Rücksicht auf `uebernommen`: Was einmal gemeldet wurde,
+     * bleibt gemeldet — sonst wäre nach jedem Datenlauf alles wieder offen.
+     *
+     * Nur Folgennummern, keine Inhalte; deshalb ohne Token.
+     */
+    const fuer = new URL(request.url).searchParams.get('gemeldet')
+    if (fuer) {
+      const { results } = await env.DB.prepare(
+        /* Die Spalte heißt `folgen` und trägt die Staffelstruktur — hier zählt nur die Nummer. */
+        `SELECT DISTINCT folge_nr FROM pruefung WHERE url = ? AND folge_nr IS NOT NULL`,
+      )
+        .bind(fuer)
+        .all<{ folge_nr: number }>()
+      return antwort({
+        nummern: (results ?? []).map((r) => r.folge_nr),
+
+      })
+    }
+
     if (new URL(request.url).searchParams.get('zaehlen') === '1') {
       /*
         **Die Adressen gehören dazu, nicht nur ihre Anzahl.**

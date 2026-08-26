@@ -960,10 +960,71 @@ const DURCHLAUF = {
 }
 
 /** Der Speicherplatz je Reihe — eine Reihe, eine Liste gemeldeter Kennungen. */
+/**
+ * **Folgennummern als Bereiche — „1-10, 12" statt zwölf Kästchen.**
+ *
+ * Daniel am 26.08.2026: „weil das evtl zu viele zum auflisten sind, sollte
+ * ein von bis aufzählung sein, heißt wenn ich zb 1-10 reportet 11 nicht
+ * reportet und 12 reportet habe, sollte dort stehen: reported (grün):
+ * s1e1-e10, e12, to report (grau): s1e11."
+ *
+ * Bei One Piece wären es sonst über tausend Einträge in einer Zeile.
+ */
+function alsBereiche(nummern) {
+  const sortiert = [...new Set(nummern)].filter(Number.isFinite).sort((a, b) => a - b)
+  if (!sortiert.length) return []
+  const raus = []
+  let von = sortiert[0]
+  let bis = sortiert[0]
+  for (const n of sortiert.slice(1)) {
+    if (n === bis + 1) {
+      bis = n
+      continue
+    }
+    raus.push(von === bis ? `${von}` : `${von}-${bis}`)
+    von = n
+    bis = n
+  }
+  raus.push(von === bis ? `${von}` : `${von}-${bis}`)
+  return raus
+}
+
 const durchlaufSchluessel = (reihe) => `ak-durchlauf-${reihe}`
 
+/**
+ * **Der Stand kommt aus der Ferne, nicht aus dem Browser.**
+ *
+ * Daniel am 26.08.2026: „es sollte synchron zur remote liste sein, fix das
+ * sodass die stände nie auseinander laufen können."
+ *
+ * Der erste Anlauf führte im Browser Buch. Das ging genau so lange gut, bis
+ * die Erweiterung neu geladen wurde — dann stand der Zähler auf null, obwohl
+ * zwölf Meldungen längst im Briefkasten lagen. Zwei Fassungen derselben
+ * Wahrheit laufen auseinander; die Regel gilt für Zustände wie für Regeln.
+ *
+ * Gefragt wird der Worker, und der antwortet aus der Meldungstabelle —
+ * unabhängig davon, ob ein Datenlauf sie schon übernommen hat.
+ *
+ * Fällt die Abfrage aus, bleibt der lokale Speicher als Rückfallebene. Er ist
+ * dann veraltet, aber besser als eine Reihe, die von vorn beginnt.
+ */
 async function durchlaufStandLaden(reihe) {
   if (!reihe) return
+  const adresse = `https://www.netflix.com/title/${reihe}`
+  try {
+    const antwort = await fetch(`${WORKER}?gemeldet=${encodeURIComponent(adresse)}`, { cache: 'no-store' })
+    const daten = await antwort.json()
+    /* Der Worker führt die Folgennummern; die Kennung steht hier daneben. */
+    const nummern = new Set((daten.nummern ?? []).map(Number))
+    DURCHLAUF.gemeldeteNummern = nummern
+    DURCHLAUF.gemeldet = new Set(
+      DURCHLAUF.folgen.filter((f) => nummern.has(f.nummer)).map((f) => f.videoId),
+    )
+    await durchlaufStandSchreiben(reihe)
+    return
+  } catch {
+    /* Kein Netz — dann der letzte bekannte Stand. */
+  }
   try {
     const gespeichert = await chrome.storage.local.get(durchlaufSchluessel(reihe))
     DURCHLAUF.gemeldet = new Set(gespeichert[durchlaufSchluessel(reihe)] ?? [])
@@ -1020,18 +1081,25 @@ function stoerung() {
  * Gebraucht wird das beim Erproben: Sonst ist eine Staffel nach dem ersten
  * Lauf für immer abgehakt und lässt sich nicht noch einmal messen.
  */
+/**
+ * Den Stand für **diesen einen Lauf** übergehen — Rechtsklick auf den Knopf.
+ *
+ * Seit der Stand aus der Ferne kommt, lässt er sich nicht mehr „vergessen":
+ * Die Meldungen liegen beim Worker, und das ist richtig so. Zum Erproben
+ * braucht es trotzdem einen Weg, dieselben Folgen noch einmal zu messen —
+ * also wird der Stand für den nächsten Lauf beiseitegelegt, nicht gelöscht.
+ */
 async function durchlaufStandVergessen() {
   const reihe = gemeinteReihe()
   if (!reihe) return
-  try {
-    await chrome.storage.local.remove(durchlaufSchluessel(reihe))
-  } catch {
-    /* Ohne Speicher gibt es auch nichts zu vergessen. */
-  }
   DURCHLAUF.gemeldet = new Set()
   DURCHLAUF.stoerung = null
+  DURCHLAUF.uebergangen = true
   durchlaufKnopfZeigen()
-  console.log(`[Anime-Kalender] Stand für Reihe ${reihe} verworfen — alle Folgen sind wieder offen.`)
+  console.log(
+    `[Anime-Kalender] Stand für Reihe ${reihe} übergangen — alle Folgen werden noch einmal geprüft. ` +
+      'Beim nächsten Laden gilt wieder, was der Worker sagt.',
+  )
 }
 
 /** Was in dieser Reihe noch aussteht. */
@@ -1083,7 +1151,8 @@ async function durchlaufStarten(grenze) {
   }
   const titelseite = location.pathname
   const reihe = gemeinteReihe()
-  await durchlaufStandLaden(reihe)
+  if (!DURCHLAUF.uebergangen) await durchlaufStandLaden(reihe)
+  DURCHLAUF.uebergangen = false
   const alleOffen = durchlaufOffen()
   const offen = grenze ? alleOffen.slice(0, grenze) : alleOffen
   if (!offen.length) return
@@ -1512,40 +1581,61 @@ async function dialogOeffnen() {
     const folgen = document.createElement('div')
     folgen.className = 'ak-folgen'
     const staffeln = staffelnVon(id, eintrag)
-    const empfohlen = empfohleneFolgen({ ...eintrag, staffeln })
-    if (!empfohlen.length) {
-      const leer = document.createElement('span')
-      leer.className = 'ak-hinweis'
-      leer.textContent = 'keine Folgenangabe'
-      folgen.appendChild(leer)
+
+    /**
+     * **Alle Folgen als Bereiche — gemeldet und offen getrennt.**
+     *
+     * Daniel am 26.08.2026: „der dialog muss alle episoden auflisten, nicht
+     * nur erste und letzte der staffel nach unserer umstellung … weil das evtl
+     * zu viele zum auflisten sind, sollte ein von bis aufzählung sein."
+     *
+     * Vorher standen dort zwei Kacheln je Staffel — die erste und die letzte
+     * Folge, als Empfehlung, wo anzufangen sei. Seit der Durchlauf jede Folge
+     * einzeln meldet, ist das die falsche Auskunft: Es zählt, **welche** Folgen
+     * durch sind.
+     *
+     * Bei One Piece wären das über tausend Kacheln, deshalb Bereiche:
+     * `S1 E1-10, E12` statt elf Kästchen.
+     */
+    for (const st of staffeln) {
+      const erste = Number.isFinite(st.erste) ? st.erste : 1
+      const alle = []
+      for (let i = 0; i < (st.folgen ?? 0); i++) alle.push(erste + i)
+      if (!alle.length) continue
+
+      const gemeldet = alle.filter((n) => kuerzelErledigt(id, `${st.nr}e${String(n).padStart(2, "0")}`))
+      const offen = alle.filter((n) => !gemeldet.includes(n))
+
+      const zeileSt = document.createElement("div")
+      zeileSt.className = "ak-staffelzeile"
+
+      const name = document.createElement("span")
+      name.className = "ak-staffelname"
+      name.textContent = staffeln.length > 1 ? `S${st.nr}` : ""
+      if (name.textContent) zeileSt.appendChild(name)
+
+      if (gemeldet.length) {
+        const marke = document.createElement("span")
+        marke.className = "ak-folge ak-fertig"
+        marke.textContent = `gemeldet: E${alsBereiche(gemeldet).join(", E")}`
+        marke.title = `${gemeldet.length} von ${alle.length} Folgen dieser Staffel sind gemeldet`
+        zeileSt.appendChild(marke)
+      }
+      if (offen.length) {
+        const marke = document.createElement("span")
+        marke.className = "ak-folge"
+        marke.textContent = `offen: E${alsBereiche(offen).join(", E")}`
+        marke.title = `${offen.length} von ${alle.length} Folgen dieser Staffel fehlen noch`
+        zeileSt.appendChild(marke)
+      }
+      folgen.appendChild(zeileSt)
     }
-    for (const kuerzel of empfohlen) {
-      const marke = document.createElement('span')
-      const fertig = kuerzelErledigt(id, kuerzel)
-      const staffel = staffelAusKuerzel(kuerzel)
-      const angefasst = !fertig && staffel !== null && staffelAngefasst(id, staffel)
-      marke.className = 'ak-folge' + (fertig ? ' ak-fertig' : angefasst ? ' ak-angefasst' : '')
-      marke.textContent = kuerzel
-      /**
-       * Der Tooltip nennt die Zahl, die die Kachel **nicht** zeigt.
-       *
-       * Netflix zählt bei manchen Reihen über die Staffeln hinweg durch: Bei
-       * „Carole & Tuesday" heißt die letzte Folge von Teil 2 dort **24**, es ist
-       * aber die zwölfte des Teils. Auf der Kachel steht Netflix' Zahl — die
-       * sieht Daniel im Player. Wer wissen will, die wievielte es innerhalb der
-       * Staffel ist, findet es hier.
-       */
-      const nr = Number(kuerzel.split('e')[1])
-      const dieStaffel = staffeln.find((x) => x.nr === staffel)
-      const eigene =
-        dieStaffel?.erste > 1 && Number.isFinite(nr) ? nr - dieStaffel.erste + 1 : null
-      const zusatz = eigene ? ` (Folge ${eigene} dieser Staffel)` : ''
-      marke.title = fertig
-        ? `genau diese Folge ist gemeldet${zusatz}`
-        : angefasst
-          ? `aus Staffel ${staffel} ist schon etwas gemeldet: ${(erledigt[String(id)] ?? []).filter((k) => k.startsWith(staffel + 'e')).join(', ')}`
-          : `noch offen${zusatz}`
-      folgen.appendChild(marke)
+
+    if (!folgen.childElementCount) {
+      const leer = document.createElement("span")
+      leer.className = "ak-hinweis"
+      leer.textContent = "keine Folgenangabe"
+      folgen.appendChild(leer)
     }
     zeile.appendChild(folgen)
 

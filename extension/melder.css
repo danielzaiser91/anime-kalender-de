@@ -286,3 +286,18 @@
   border-color: rgba(255, 255, 255, 0.2);
   color: #e5e5e5;
 }
+
+/* Eine Zeile je Staffel: Nummer, dann die Bereiche. Sie stehen nebeneinander,
+   weil „gemeldet" und „offen" zusammen die ganze Staffel ergeben. */
+.ak-staffelzeile {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 2px 0;
+}
+.ak-staffelname {
+  color: #8b949e;
+  font-size: 11px;
+  min-width: 22px;
+}
