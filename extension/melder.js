@@ -1696,6 +1696,7 @@ function durchlaufKnopfZeigen() {
       DURCHLAUF.knopf = null
       DURCHLAUF.grenzKnopf = null
     }
+    schutzflaecheZeigen(false)
     return
   }
   if (!DURCHLAUF.knopf) {
@@ -1813,6 +1814,7 @@ function durchlaufKnopfZeigen() {
     )
     DURCHLAUF.leiste.appendChild(DURCHLAUF.knopf)
     document.body.appendChild(DURCHLAUF.leiste)
+    schutzflaecheZeigen(true)
   }
   /**
    * **Der Knopf zeigt, was noch fehlt — nicht, was es insgesamt gibt.**
@@ -1926,33 +1928,39 @@ function durchlaufKnopfZeigen() {
 }
 
 /**
- * **Nur der Leerraum zwischen den Knöpfen wird geschluckt.**
+ * **Eine Fläche über der ganzen Ecke, die versehentliche Klicks schluckt.**
  *
- * Zwei Anläufe, zwei Fehlschläge, derselbe Fehler auf zwei Ebenen: erst
- * `stopPropagation` in der Capture-Phase des Behälters, dann dasselbe am
- * Dokument. Beide Male stieg das Ereignis nie bis zum Knopf hinab — er war
- * tot, ohne Fehlermeldung (Daniel, 26.08.2026: „kein klick angekommen, kein
- * output in konsole").
+ * Netflix schließt sein Titel-Overlay bei jedem Klick außerhalb. Wer neben
+ * einen unserer Knöpfe trifft, verliert dadurch die Ansicht — und das passiert
+ * ständig, weil die Knöpfe klein sind und dicht beieinander liegen.
  *
- * **Ein Ereignis läuft von oben nach unten, bevor es zurückläuft.** Wer es
- * oben anhält, nimmt es dem Ziel weg. Geschluckt wird deshalb nur, was die
- * Leiste **selbst** trifft — die Lücken zwischen den Knöpfen. Alles, was auf
- * einem Knopf landet, läuft ungehindert durch.
+ * Zwei Anläufe sind vorher gescheitert, beide am selben Denkfehler:
+ *  in der **Capture**-Phase, erst am Behälter, dann am
+ * Dokument. Ein Ereignis läuft von oben nach unten, bevor es zurückläuft; wer
+ * es oben anhält, nimmt es dem Ziel weg. Die Knöpfe waren tot, ohne
+ * Fehlermeldung.
  *
- * Netflix schließt sein Overlay dann weiterhin, wenn man einen Knopf trifft.
- * Das ist verschmerzbar: Der Durchlauf hängt am Seitenkontext, nicht am
- * Dialog, und läuft auch bei geschlossenem Overlay weiter — am 26.08.2026 an
- * One Piece belegt.
+ * Diese Fläche macht es anders: Sie **ist** das Ziel. Ein Klick auf sie
+ * erreicht Netflix nicht, weil sie darüber liegt — kein Abfangen nötig. Die
+ * Knöpfe liegen wiederum über ihr und bekommen ihre Klicks wie zuvor.
  */
-for (const art of ['click', 'mousedown', 'pointerdown']) {
-  document.addEventListener(
-    art,
-    (e) => {
-      /* Nur ein Treffer auf die Leiste selbst, nicht auf ihre Kinder. */
-      if (e.target === DURCHLAUF.leiste) e.stopPropagation()
-    },
-    true,
-  )
+let schutzflaeche = null
+
+function schutzflaecheZeigen(sichtbar) {
+  if (!sichtbar) {
+    schutzflaeche?.remove()
+    schutzflaeche = null
+    return
+  }
+  if (schutzflaeche) return
+  schutzflaeche = document.createElement("div")
+  schutzflaeche.className = "ak-schutzflaeche"
+  schutzflaeche.title = "Klicks hier schließen die Netflix-Ansicht nicht"
+  /* Ein Klick endet hier — er hat kein Ziel darunter. */
+  for (const art of ["click", "mousedown", "pointerdown"]) {
+    schutzflaeche.addEventListener(art, (e) => e.stopPropagation())
+  }
+  document.body.appendChild(schutzflaeche)
 }
 
 let uebersichtKnopf = null

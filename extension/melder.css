@@ -306,10 +306,27 @@
    rechts. Die Leiste ist positioniert, die Knöpfe darin nicht: Die Breite des
    Hauptknopfes ändert sich mit seiner Beschriftung, und jede feste Zahl wäre
    beim nächsten Text falsch. */
-/* Der Bereich, der versehentliche Klicks schluckt — vorerst sichtbar, damit
-   erkennbar ist, wo er endet. Daniel am 26.08.2026: „mach die div area die vor
-   versehentlichen klicks schützt sichtbar … die kann man später immer noch
-   transparent machen." */
+/* **Die Schutzfläche deckt die ganze Ecke ab, nicht nur die Knopfzeile.**
+
+   Daniel am 26.08.2026, mit Bild: „die schutzarea ist viel viel viel zu klein.
+   zu erwarten wäre sehr großzügig." Sie liegt hinter allen Knöpfen und fängt
+   ab, was zwischen und neben ihnen landet — dort klickt niemand versehentlich
+   auf Netflix, sondern immer auf uns.
+
+   Vorerst sichtbar, damit die Grenze erkennbar ist; die Farbe kann später weg. */
+.ak-schutzflaeche {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 460px;
+  height: 210px;
+  z-index: 2147483640;
+  background: rgba(88, 166, 255, 0.18);
+  outline: 1px solid rgba(88, 166, 255, 0.4);
+  border-top-left-radius: 18px;
+}
+
+/* Die Knopfzeile selbst liegt darüber und braucht keinen eigenen Grund. */
 .ak-durchlauf-leiste {
   position: fixed;
   right: 16px;
@@ -318,10 +335,6 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 8px;
-  border-radius: 999px;
-  background: rgba(88, 166, 255, 0.22);
-  outline: 1px solid rgba(88, 166, 255, 0.45);
 }
 .ak-durchlauf-leiste .ak-durchlauf {
   position: static;
