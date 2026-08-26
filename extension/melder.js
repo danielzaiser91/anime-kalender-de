@@ -1192,6 +1192,38 @@ async function durchlaufStandLaden(reihe) {
     DURCHLAUF.gemeldet = new Set(
       DURCHLAUF.folgen.filter((f) => nummern.has(f.nummer)).map((f) => f.videoId),
     )
+
+    /*
+      **Die Abhakliste kommt aus derselben Quelle.**
+
+      Sie speist die Bereiche im Dialog. Ohne diesen Abgleich stand dort nach
+      einer Randprobe über 61 Folgen weiter „gemeldet: E1-2, E61 | offen:
+      E3-60", während der Knopf daneben „61 Folgen geprüft" sagte (Daniel,
+      26.08.2026: „61 folgen geprüft und e3-60 offen passt nicht").
+
+      Zwei Anzeigen, zwei Quellen, ein Widerspruch — dieselbe Sorte Fehler wie
+      beim Zähler am Knopf. Die Ferne ist die Quelle; die lokale Liste folgt.
+    */
+    const bekannt = new Set(erledigt[String(reihe)] ?? [])
+    for (const f of DURCHLAUF.folgen) {
+      if (!nummern.has(f.nummer)) continue
+      /* Die Staffel kennt nur die Prüfliste — ohne sie bleibt der Vermerk aus. */
+      const staffel = staffelnVon(reihe, offeneTitel[String(reihe)] ?? {}).find(
+        (st) => f.nummer >= (st.erste ?? 1) && f.nummer < (st.erste ?? 1) + (st.folgen ?? 0),
+      )
+      if (!staffel) continue
+      const kuerzel = `${staffel.nr}e${String(f.nummer).padStart(2, "0")}`
+      if (bekannt.has(kuerzel)) continue
+      bekannt.add(kuerzel)
+    }
+    if (bekannt.size !== (erledigt[String(reihe)] ?? []).length) {
+      erledigt[String(reihe)] = [...bekannt]
+      try {
+        await speicherSchreiben({ erledigt })
+      } catch {
+        /* Ohne Speicher gilt es nur für diese Sitzung. */
+      }
+    }
     await durchlaufStandSchreiben(reihe)
     return
   } catch {
