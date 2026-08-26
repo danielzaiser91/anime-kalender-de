@@ -136,6 +136,31 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "Crunchyroll-Kalender lesen"
 
+      # Der Briefkasten wird stündlich geleert, nicht mehr nur täglich.
+      #
+      # Daniel am 26.08.2026: „wieviel würde es kosten umzustellen das der bot
+      # 1x stündlich auf die liste guckt ob etwas gemeldet wurde und die
+      # gemeldeten dann abarbeitet, bzw nichts tut, wenn nichts gemeldet wurde?"
+      #
+      # Nichts — dieser Lauf läuft ohnehin jede Stunde und baut den Datensatz
+      # danach neu. Gemessen: Bei leerem Briefkasten sind es zwei Sekunden und
+      # kein Commit. Das Repo ist öffentlich, GitHub rechnet dafür keine
+      # Actions-Minuten ab.
+      #
+      # Der Gewinn ist nicht die Rechenzeit, sondern die Rückmeldung: Was
+      # abends gemeldet wird, steht eine Stunde später auf der Seite statt am
+      # nächsten Morgen um 04:17.
+      - name: Meldungen aus der Erweiterung abholen
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:pruefungen
+
+      - name: Fortschritt — Meldungen abholen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Meldungen abholen"
+
       - name: Datensatz bauen
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
@@ -147,6 +172,14 @@ jobs:
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "Datensatz bauen"
+
+      # Erst nach dem Bau: Die Listen zählen gegen `titles.json`, und das
+      # entsteht eine Zeile weiter oben. Davor gerechnet wären sie immer einen
+      # Lauf hinterher.
+      - name: Prüflisten und Prüfstand neu erzeugen
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:extension-liste
 
       - name: Vorschaubilder für neue Releases
         env:
