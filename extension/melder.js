@@ -1264,6 +1264,23 @@ async function durchlaufStarten(grenze) {
         }
       }
     }
+    /*
+      **Auf die Staffel warten, nicht nur auf die Tonspur.**
+
+      Die Tonspur steht nach rund drei Sekunden im Player, die Metadaten mit
+      der Staffelnummer brauchen länger. Wer sofort meldet, schickt
+      `staffel: null` — und die Pipeline verteilt die Folgen dann über zwei
+      Staffeln (Kakegurui, 26.08.2026: Folge 1 zu Staffel 1, der Rest zu 2).
+
+      Die erste Folge des Durchlaufs wartet deshalb bis zu fünf Sekunden
+      länger. Danach steht die Nummer für alle übrigen fest, und keine muss
+      mehr warten.
+    */
+    if (spuren && DURCHLAUF.staffel === null && !Number.isFinite(stand.staffel)) {
+      for (let i = 0; i < 25 && !Number.isFinite(stand.staffel) && !DURCHLAUF.abbruch; i++) {
+        await new Promise((r) => setTimeout(r, 200))
+      }
+    }
     videoAbdrehen(true)
 
     /*
