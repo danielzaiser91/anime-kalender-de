@@ -347,7 +347,19 @@ export function ordneNachStaffelliste(
     */
     const genau = sortiert.filter((a) => a.folgen === summe)
     const passende = genau.length ? genau : sortiert.filter((a) => Math.abs(summe - a.folgen) <= 3)
-    if (passende.length === 1 && unsere.length > 1) {
+    /*
+      **Nur wenn keine einzelne Staffel passt.**
+
+      Trifft schon eine der Reihe nach exakt, ist die Reihenfolge im Kern
+      richtig, und die eine Abweichung ist der Befund — nicht ein Hinweis auf
+      eine andere Aufteilung. Der Fall steht als Zusicherung in check-logic:
+      Anbieter [13, 25] gegen unsere [13, 12] ordnet nichts zu, obwohl 13+12
+      seine 25 ergeben. Die 13 passt bereits.
+
+      Bei Tokyo Revengers passt dagegen keine einzelne: 13 gegen 24, 13 gegen
+      26. Erst dann ist die Summe die bessere Erklärung.
+    */
+    if (passende.length === 1 && unsere.length > 1 && exakt === 0) {
       return {
         paare: [{ anbieter: passende[0]!, unser: unsere[0]! }],
         ohneEntsprechung: [],
