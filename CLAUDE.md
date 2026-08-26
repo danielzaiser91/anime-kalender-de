@@ -1441,3 +1441,34 @@ Entscheidung, ob wir ihn gehen wollen.
 **ADN** die Frage nach der Synchro (`vde` je Folge, im Datensatz: 1–516 deutsch, ab 780 nicht).
 Netflix ist dann nur noch ein zweiter Ort für dieselben Folgen — und ob er sie führt, ist eine
 andere Frage als die, die dieses Projekt stellt.
+
+**Und der Player-Weg ist verschlüsselt — damit ist die Frage abschließend beantwortet.** Daniel
+hat am 26.08.2026 den ganzen Verkehr eines Folgenklicks mitgeschnitten: 208 Aufrufe, davon 190
+Videosegmente von `nflxvideo.net` und **ein** Manifest.
+
+```
+POST /msl/playapi/cadmium/licensedmanifest/1?mainContentViewableId=82756678
+     HTTP 200, 110.824 Zeichen
+     {"headerdata":"eyJjaXBoZXJ0ZXh0IjoiRXhIaDcxbnhBcGYwcW84…
+```
+
+`/msl/` ist Netflix' **Message Security Layer**: Die Nutzlast ist Chiffrat, der Klartext
+entsteht erst im Player-JS. Die Aussage weiter oben, das Manifest trage `audioTracks`, gilt
+also für den **entschlüsselten Zustand im Browser** — nicht für etwas, das sich abrufen ließe.
+
+Damit steht der vollständige Befund:
+
+| Weg | Ergebnis |
+|---|---|
+| Folgenliste (`PreviewModalEpisodeSelectorSeasonEpisodes`) | 204 Felder, keine Sprache |
+| `shakti/metadata?movieid=…` | HTTP 404, Antwortkörper „BLOCKED" |
+| Seitenzustand (`falcorCache`, `models.graphql`) | nur die Profilsprache |
+| Player-Manifest über die Leitung | **MSL-verschlüsselt** |
+
+**Für Netflix bleibt es bei einem Klick je Folge** — genau der Weg, den die Erweiterung geht.
+Eine Reihe wie One Piece ist damit nicht abzudecken, und das muss sie auch nicht sein: Die
+Frage „gibt es diese Folge auf Deutsch" beantwortet ADN (`vde` je Folge), und Netflix wäre nur
+ein zweiter Ort für dieselben Folgen.
+
+Wer diesen Weg noch einmal aufmacht, sollte einen neuen Anlass haben — hier ist er viermal
+zugegangen.
