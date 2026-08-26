@@ -810,6 +810,62 @@ Titel → Kennung auf einem Rechner in Deutschland und wird als Datei committet;
 liest sie nur noch.
 
 
+### Disney+ beantwortet mit einem POST, wofür Netflix einen Player braucht
+
+Gemessen am 26.08.2026 an Jujutsu Kaisen, nachdem der Netflix-Weg zehn Tage
+gekostet hatte. Der Unterschied ist nicht graduell:
+
+```
+POST https://disney.playback.edge.bamgrid.com/v7/playback/ctr-regular
+     { playback: {…}, playbackId: "<resourceId der Folge>" }
+  -> stream.renditions.audio[] = [{ language: "de", name: "German" }, …]
+```
+
+**Acht Tonspuren im Klartext, ohne Player, ohne Wiedergabe, ohne DRM, ohne ein
+einziges Videosegment.** Bei Netflix steht dieselbe Angabe nur an einem
+laufenden Player, und das Manifest ist MSL-verschlüsselt.
+
+Drei Einzelheiten, die den Weg tragen:
+
+- **Die `playbackId` steht offen in der Folgenliste.** Sie ist wörtlich die
+  `resourceId`, die `/explore/v1.18/page/` und `/season/` je Folge mitliefern —
+  base64 über `{mediaId, availId, availVersion, sourceId, contentType}`. Dazu
+  `visuals.seasonNumber` und `visuals.episodeNumber` im Klartext. Der
+  Seitenaufruf allein bringt schon 15 Folgen mit; ein Staffelwechsel ist für die
+  erste Staffel nicht nötig.
+- **Der zweite Weg wird nicht gebraucht.** `stream.sources[].complete.url` führt
+  auf eine HLS-Master-Playlist, und die ist **unverschlüsselt**:
+  `#EXT-X-MEDIA:TYPE=AUDIO,NAME="German",LANGUAGE="de"`. Sie ist signiert und
+  ohne Token abrufbar. Für die Sprachfrage genügt aber schon die Antwort selbst.
+- **Kein Base64-Feld der Seite trägt Sprachinformation.** Über den ganzen
+  Mitschnitt geprüft: 1.265 Kandidaten, 422 entschlüsselbar, davon 202
+  Telemetrie-`infoBlock`s und der Rest JWTs der Zustimmungsverwaltung — **null
+  mit Sprachbezug**. Gegenprobe: dieselbe Schleife findet 95 Felder mit
+  `mediaId`, die Dekodierung funktioniert also. Die Sprachen stehen
+  ausschließlich hinter dem Playback-Aufruf.
+
+**Offen: ob der POST einen Eintrag unter „Weiterschauen" erzeugt.** Nach dem
+ersten Durchlauf stand dort „Jujutsu Kaisen, Noch 23 Min., S2:F1" — nur hatte
+Daniel dieselbe Folge kurz zuvor selbst abgespielt, um den Playback-Aufruf
+mitzuschneiden. Der Eintrag belegt also nichts; er hat genauso gut den einen
+Grund wie den anderen. Seine Rückfrage: „du machst voreilige schlüsse, ich hab
+doch selbst auch die episode aufgemacht."
+
+**Der Griff, der es entscheidet, ist eine Gegenprobe**, und es ist derselbe, der
+schon bei `getVideoMetadataByVideoId` den Unterschied gemacht hat: eine Serie
+prüfen, die **nie** geöffnet wurde. Steht sie danach in „Weiterschauen", liegt es
+am POST; steht sie nicht dort, an der Handarbeit. Solange das offen ist, meldet
+die Erweiterung bei Disney+ nichts — eine Meldung lässt sich zurücknehmen, ein
+Eintrag in Daniels Verlauf ist Handarbeit.
+
+**Und die Lehre über dem Einzelfall:** Der Fund kam aus einer Frage, die ich beim
+ersten Durchgang nicht gestellt hatte. Ich hatte den Mitschnitt nach
+Klartext-Sprachfeldern durchsucht und „nichts gefunden" gemeldet; Daniels
+Rückfrage lautete: „was ist mit den ganzen anderen base64, hast du alle
+dekodiert und geprüft?" Die Antwort war nein. Ein Befund „nichts gefunden"
+beantwortet nicht, **wonach** gesucht wurde — und kodierte Felder sind für eine
+Textsuche unsichtbar.
+
 ## Ein Kinostart ist keine Sprachfassung — bei Anime fallen beide regelmäßig auseinander
 
 Bei Serien zieht dieses Projekt die Trennlinie zwischen Synchro und Untertitel längst. Beim
