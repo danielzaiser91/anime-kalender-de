@@ -1400,3 +1400,44 @@ Seit 2.8 gilt deshalb: **`seasonNumber` aus dem Hydration-Block schlägt die Adr
 Adresszahl über 50 wird verworfen statt gemeldet. Dazu geht der **Bandname** als eigenes Feld
 mit (`band: "Season 2, Volume 2"`) — ohne ihn sähen zwei Meldungen zu „Staffel 2" wie ein
 Widerspruch aus, obwohl sie verschiedene Folgen meinen.
+
+### Netflix gibt die Tonspuren nur mit dem Player heraus — dreifach gemessen
+
+Am 22.08.2026 stand fest, dass die **Titelseite** im Ruhezustand nichts hergibt. Offen blieb,
+ob die **Folgenliste** mehr weiß — Daniel am 26.08.2026: „wir sollten da nochmal untersuchen ob
+wir bessere metadaten haben, und evtl die infos bereits in overview hab, sonst muss ich
+schlimmstenfalls alle ep einzeln durchklicken, bei über 1000 ist das zu viel."
+
+Er hat den Aufruf mitgeschnitten, mit dem Netflix die Folgenliste holt:
+
+```
+POST https://web.prod.cloud.netflix.com/graphql
+operationName  PreviewModalEpisodeSelectorSeasonEpisodes
+variables      { seasonId: 82756676, count: 30 }
+persistedQuery { id: "4cf0a279-dd32-454d-9758-486359c0d48b", version: 102 }
+```
+
+**204 Feldpfade, kein einziger mit Sprache, Tonspur oder Untertitel.** Was die Antwort führt:
+Nummer, Titel, Laufzeit, Beschreibung, Bild, `isAvailable`, `isPlayable` — und je Folge eine
+eigene `videoId` (Folge 1156 → `82756678`).
+
+Drei Wege danach gegeneinander gemessen, alle in Daniels angemeldeter Sitzung:
+
+| Weg | Ergebnis |
+|---|---|
+| `shakti/metadata?movieid=<videoId>` | **HTTP 404, Antwortkörper „BLOCKED"** |
+| dieselbe GraphQL-Operation, Folge einzeln | HTTP 200, 3.763 Zeichen, **0 Sprachfelder** |
+| Seitenzustand (`falcorCache`, `models.graphql`) | 2 Treffer, beide die **Profilsprache** |
+
+Damit ist es keine Vermutung mehr: **Für Netflix gibt es keinen lesenden Weg zu den Tonspuren
+je Folge.** Es bleibt das Player-Manifest, und das setzt eine Wiedergabe-Sitzung samt
+DRM-Lizenz voraus — ein Klick je Folge.
+
+**Was der Mitschnitt trotzdem wert ist:** Die `videoId` je Folge steht jetzt fest und ist ohne
+Klicken zu haben. Sollte je ein Manifest-Weg in Frage kommen, fehlt daran nichts mehr als die
+Entscheidung, ob wir ihn gehen wollen.
+
+**Und die Folge für den Kalender:** Bei einer Reihe wie One Piece (1.175 Folgen) beantwortet
+**ADN** die Frage nach der Synchro (`vde` je Folge, im Datensatz: 1–516 deutsch, ab 780 nicht).
+Netflix ist dann nur noch ein zweiter Ort für dieselben Folgen — und ob er sie führt, ist eine
+andere Frage als die, die dieses Projekt stellt.
