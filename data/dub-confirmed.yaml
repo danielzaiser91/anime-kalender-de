@@ -21146,29 +21146,22 @@
   checkedAt: '2026-08-25'
   note: "Tonspuren: Deutsch — Amazon-Seite B0G2P8B9N7: alle 48 Folgen geprüft, Abos: Prime, aniversede, FVOD, Seitenadresse: B0G238GN6N, zugang=abo_und_kauf"
 
-- anilistId: 99699
-  title: "Golden Kamuy"
+# Golden Kamuy: Die Amazon-Seite B0GKFJXSLT ist die Final Season — Amazon zaehlt
+# sie als Staffel 5, unser Bestand fuehrt sie als AniList 166521 mit 13 Folgen.
+# Die erste Meldung (25.08.2026) landete unter 99699, also Staffel 1 mit 12
+# Folgen; die Notiz trug den Widerspruch selbst ("laut Adresse Staffel 5").
+#
+# Sie meldete ausserdem 9 von 13 deutschen Folgen mit einem Muster, das keine
+# Ordnung hat: 1-2 nein, 3 ja, 4-6 nein, 7-13 ja. Die Wiedervorlage am
+# 26.08.2026 ergab 13 von 13 — und Daniel sieht bei Crunchyroll, ueber dessen
+# Kanal die Serie auf Prime laeuft, alle Folgen auf Deutsch (nur die drei OADs
+# nicht). Der alte Befund gilt damit als widerlegt.
+- anilistId: 166521
+  title: "Golden Kamuy: Final Season"
   platform: primevideo
   dub: true
-  dubRanges:
-    - from: 1
-      to: 2
-      dub: false
-      checked: [1, 2]
-    - from: 3
-      to: 3
-      dub: true
-      checked: [3]
-    - from: 4
-      to: 6
-      dub: false
-      checked: [4, 5, 6]
-    - from: 7
-      to: 13
-      dub: true
-      checked: [7, 8, 9, 10, 11, 12, 13]
-  checkedAt: '2026-08-25'
-  note: "Folgen 1–2 ohne deutschen Ton, Folge 3 mit deutschem Ton, Folgen 4–6 ohne deutschen Ton, Folgen 7–13 mit deutschem Ton — Tonspuren: Deutsch, English, English [Audio Description], Русский, Русский [Тифлокомментарий], 日本語 — Amazon-Seite B0GKFJXSLT: alle 13 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 5, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+  checkedAt: '2026-08-26'
+  note: "Alle 13 Folgen mit deutschem Ton — Amazon-Seite B0GKFJXSLT, Abo: crunchyrollde. Ersetzt die Meldung vom 25.08.2026, die 9 von 13 nannte und faelschlich unter AniList 99699 (Staffel 1) stand."
 
 - anilistId: 184989
   title: "The After-Dinner Mysteries"

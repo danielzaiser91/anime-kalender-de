@@ -77,7 +77,7 @@ for (const t of titel) {
  */
 const ERNEUT = {
   /*
-    Golden Kamuy Staffel 4 auf Prime, gemeldet am 25.08.2026 über den
+    Golden Kamuy Final Season auf Prime (Amazon zaehlt sie als Staffel 5), gemeldet am 25.08.2026 über den
     Crunchyroll-Kanal: Folgen 1–2 ohne deutschen Ton, 3 mit, 4–6 ohne, 7–13 mit.
     Neun von dreizehn.
 
@@ -89,7 +89,7 @@ const ERNEUT = {
     (Staffel 1, 12 Folgen), obwohl 13 Folgen geprüft wurden.
   */
   B0GKFJXSLT: {
-    titel: 'Golden Kamuy: Staffel 4',
+    titel: 'Golden Kamuy: Final Season',
     grund: '9 von 13 deutsch, obwohl Crunchyroll alle führt — derselbe Kanal',
   },
 }

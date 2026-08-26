@@ -1,1 +1,1 @@
-globalThis.AK_OFFENE_AMAZON = {"B0GKFJXSLT":{"titel":"Golden Kamuy: Staffel 4","url":"https://www.amazon.de/dp/B0GKFJXSLT","erneut":"9 von 13 deutsch, obwohl Crunchyroll alle führt — derselbe Kanal","eintraege":[{"id":null,"name":"Golden Kamuy: Staffel 4","folgen":null,"offen":true}]}}
+globalThis.AK_OFFENE_AMAZON = {"B0GKFJXSLT":{"titel":"Golden Kamuy: Final Season","url":"https://www.amazon.de/dp/B0GKFJXSLT","erneut":"9 von 13 deutsch, obwohl Crunchyroll alle führt — derselbe Kanal","eintraege":[{"id":null,"name":"Golden Kamuy: Final Season","folgen":null,"offen":true}]}}

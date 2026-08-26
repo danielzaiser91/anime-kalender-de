@@ -1575,13 +1575,33 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
     }
 
     // Die Pipeline holt sich, was noch nicht übernommen wurde.
-    const token = new URL(request.url).searchParams.get('token') ?? ''
+    const sucheP = new URL(request.url).searchParams
+    const token = sucheP.get('token') ?? ''
     if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
-    const { results } = await env.DB.prepare(
-      `SELECT id, plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln,
-              serientitel, notiz, gemeldet_am
-         FROM pruefung WHERE uebernommen = 0 ORDER BY gemeldet_am LIMIT 500`,
-    ).all()
+
+    /*
+      **Die Reihenfolge bleibt aufsteigend — daran hängt der Datenlauf.**
+
+      `LIMIT 500` schneidet ab, und die Pipeline arbeitet die ältesten zuerst ab.
+      Umgestellt auf absteigend hätte sie bei 562 Meldungen die ältesten 62 nie
+      gesehen. Der Deckel ist für sie richtig; er ist nur keine Zählung.
+
+      Zum Nachsehen einzelner Meldungen gibt es deshalb `?plattform=`. Am
+      26.08.2026 verdeckten 558 Disney-Meldungen eine frische Prime-Meldung
+      vollständig, und die Suche danach ging zweimal ins Leere.
+    */
+    const nurPlattform = sucheP.get('plattform')
+    const abfrage = nurPlattform
+      ? `SELECT id, plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln,
+                serientitel, notiz, gemeldet_am
+           FROM pruefung WHERE uebernommen = 0 AND plattform = ?
+           ORDER BY gemeldet_am LIMIT 500`
+      : `SELECT id, plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln,
+                serientitel, notiz, gemeldet_am
+           FROM pruefung WHERE uebernommen = 0
+           ORDER BY gemeldet_am LIMIT 500`
+    const stmt = env.DB.prepare(abfrage)
+    const { results } = await (nurPlattform ? stmt.bind(nurPlattform) : stmt).all()
 
     return antwort({ pruefungen: results ?? [] })
   }
