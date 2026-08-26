@@ -510,3 +510,28 @@ eigentliche Stellschraube bleibt.
 Rechnung sagt 15–20 ms Muster plus zweimal `innerHTML` je 2 Sekunden; gemessen ist sie nicht.
 Ein Blick ins Diagnosefeld auf einer Seite, die eine Weile offen war, beantwortet das in
 Sekunden.
+
+## Keine Liste bauen, bevor gefragt wird — und nicht linear suchen
+
+Daniel am 26.08.2026: „hast du fertig() mit every oder some gebaut? some reicht, sobald auch
+nur 1 nicht gemeldet wurde kann er returnen … oder noch besser wenn es ein object mit flag
+ist, dann brauch gar nicht über ein array gegangen zu werden."
+
+Beide Punkte treffen, und der zweite wiegt schwerer. `every` bricht beim ersten `false`
+tatsächlich ab — aber das Array davor war da schon fertig gebaut: bei One Piece 1.175
+Zeichenketten, bevor die Prüfung überhaupt begann.
+
+Gemessen an 1.175 Folgen, alles gemeldet (der teure Fall, weil beide Fassungen durchlaufen):
+
+| Fassung | 50 Aufrufe |
+|---|---|
+| Array bauen, dann `every` mit `includes` | **61 ms** |
+| `Set`, in der Schleife fragen, beim ersten Nein zurück | **5 ms** |
+
+Zwölffach. Der Gewinn steckt fast vollständig im `Set`: `erledigt[id]` ist ein Array, und
+`includes` sucht darin linear — 1.175 Folgen gegen 1.175 Einträge sind über eine Million
+Vergleiche für eine Frage, die in konstanter Zeit geht.
+
+**Die Regel dahinter gilt überall in dieser Erweiterung:** Sie läuft auf Seiten mit tausend
+Folgen, viermal je Sekunde. Was je Takt eine Liste aufbaut, um sie einmal zu durchsuchen,
+zahlt den Aufbau immer und den Nutzen selten.

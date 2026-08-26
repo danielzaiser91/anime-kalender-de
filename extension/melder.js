@@ -853,22 +853,75 @@ async function merkeErledigt(id, staffel, folge) {
  * Dieselbe Frage stellen der Knopf mit seiner Zahl und die Liste mit ihrer
  * Sortierung — deshalb steht sie hier einmal und nicht zweimal.
  */
+/**
+ * **Fertig ist, wenn jede Folge gemeldet ist — nicht die erste und die letzte.**
+ *
+ * Daniel am 26.08.2026, mit Bild: „warum sind die noch als gemeldet
+ * gelabeled? achso teilweise gemeldet. die sollten aber nicht hinter dem
+ * toggle verschwinden, solange sie noch zu reportende episoden haben."
+ *
+ * Im Bild stand bei Beyblade X „gemeldet: E1, E49" neben „offen: E2-48" —
+ * und der Titel galt trotzdem als erledigt und verschwand hinter dem
+ * Umschalter. Der Grund: `empfohleneFolgen()` liefert je Staffel genau zwei
+ * Kürzel, die erste und die letzte Folge. Das war eine sinnvolle Empfehlung,
+ * solange eine Meldung für die ganze Staffel galt; seit der Durchlauf jede
+ * Folge einzeln meldet, ist es die falsche Frage.
+ *
+ * Gezählt wird jetzt über alle Folgen der Staffeln. Ein toter Verweis bleibt
+ * erledigt, und ein Titel ohne Folgenangabe gilt weiterhin nicht als fertig —
+ * `[].every(…)` ist immer wahr, und daran ist der Zähler schon einmal
+ * gescheitert (22.08.2026: von 11 auf 0 nach einer einzigen Meldung).
+ */
+/**
+ * **Fertig ist, wenn jede Folge gemeldet ist — und die Prüfung hört beim
+ * ersten Nein auf.**
+ *
+ * Daniel am 26.08.2026, mit Bild von Beyblade X („gemeldet: E1, E49" neben
+ * „offen: E2-48", und trotzdem hinter dem Umschalter versteckt): „die sollten
+ * aber nicht hinter dem toggle verschwinden, solange sie noch zu reportende
+ * episoden haben."
+ *
+ * Der Grund war `empfohleneFolgen()`: Es liefert je Staffel zwei Kürzel, die
+ * erste und die letzte Folge. Eine sinnvolle Empfehlung, solange eine Meldung
+ * für die ganze Staffel galt — seit der Durchlauf jede Folge einzeln meldet,
+ * die falsche Frage.
+ *
+ * **Und keine Liste bauen, bevor gefragt wird** (Daniel, im selben Zug): „some
+ * reicht, sobald auch nur 1 nicht gemeldet wurde kann er returnen … oder noch
+ * besser wenn es ein object mit flag ist, dann brauch gar nicht über ein array
+ * gegangen zu werden."
+ *
+ * Beides umgesetzt. Der erste Anlauf sammelte alle Kürzel in ein Array und
+ * rief dann `every` — das bricht zwar beim ersten Nein ab, aber das Array war
+ * da schon fertig: bei One Piece 1.175 Zeichenketten, bevor die Prüfung
+ * überhaupt begann. Jetzt wird in der Schleife gefragt und beim ersten
+ * fehlenden Kürzel zurückgekehrt.
+ *
+ * Dazu ein `Set` statt der Liste: `erledigt[id]` ist ein Array, und
+ * `kuerzelErledigt` sucht darin linear. Bei 1.175 Folgen gegen 1.175 Einträge
+ * wären das über eine Million Vergleiche für eine Frage, die mit dem ersten
+ * offenen Kürzel beantwortet ist.
+ */
 function fertig(id, eintrag) {
   if (istErledigt(id, 'tot')) return true
-  const kuerzel = empfohleneFolgen({ ...eintrag, staffeln: staffelnVon(id, eintrag) })
-  /**
-   * **Keine Empfehlung heißt nicht „erledigt".**
-   *
-   * `[].every(…)` ist immer wahr — ein Titel ohne empfohlene Folgen galt damit
-   * als vollständig geprüft. Nach einer einzigen Meldung fiel die Zahl am Knopf
-   * von 11 auf 0 (Daniel, 22.08.2026), weil die frisch gemeldete Struktur bei
-   * mehreren Titeln keine offene Staffel mehr übrig ließ und die leere Liste
-   * jedes Mal als „fertig" durchging.
-   *
-   * Wo nichts zu empfehlen ist, ist auch nichts belegt.
-   */
-  if (!kuerzel.length) return false
-  return kuerzel.every((k) => kuerzelErledigt(id, k))
+  const staffeln = staffelnVon(id, eintrag)
+  const abgehakt = new Set(erledigt[String(id)] ?? [])
+  let hatFolgen = false
+  for (const st of staffeln) {
+    const erste = Number.isFinite(st.erste) ? st.erste : 1
+    for (let n = 0; n < (st.folgen ?? 0); n++) {
+      hatFolgen = true
+      const kuerzel = `${st.nr}e${String(erste + n).padStart(2, "0")}`
+      /* Beim ersten offenen Kürzel ist die Frage beantwortet. */
+      if (!abgehakt.has(kuerzel) && !kuerzelErledigt(id, kuerzel)) return false
+    }
+  }
+  /*
+    Ohne Folgenangabe gilt nichts als fertig. `[].every(…)` ist immer wahr, und
+    daran ist der Zähler schon einmal gescheitert: Nach einer einzigen Meldung
+    fiel er von 11 auf 0 (Daniel, 22.08.2026).
+  */
+  return hatFolgen
 }
 
 /**

@@ -1560,7 +1560,38 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
     return antwort({ pruefungen: results ?? [] })
   }
 
-  if (request.method !== 'POST') return antwort({ error: 'GET oder POST erwartet' }, 405)
+  if (request.method === 'DELETE') {
+    /*
+      Falsche Meldungen wirklich entfernen — nicht nur abhaken.
+
+      Abhaken heißt „ein Lauf hat es eingearbeitet"; die Route `?gemeldet=`
+      zählt solche Meldungen weiter, und das ist richtig. Was falsch war, muss
+      dagegen verschwinden, sonst gilt eine Reihe als geprüft, die niemand
+      geprüft hat.
+    */
+    const token = request.headers.get('X-Lauf-Token') ?? ''
+    if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
+    let daten: { ids?: number[]; url?: string }
+    try {
+      daten = (await request.json()) as { ids?: number[]; url?: string }
+    } catch {
+      return antwort({ error: 'Kein gültiges JSON' }, 400)
+    }
+    if (Array.isArray(daten.ids) && daten.ids.length) {
+      const platzhalter = daten.ids.map(() => '?').join(',')
+      const ergebnis = await env.DB.prepare(`DELETE FROM pruefung WHERE id IN (${platzhalter})`)
+        .bind(...daten.ids)
+        .run()
+      return antwort({ ok: true, geloescht: ergebnis.meta?.changes ?? 0 })
+    }
+    if (daten.url) {
+      const ergebnis = await env.DB.prepare('DELETE FROM pruefung WHERE url = ?').bind(daten.url).run()
+      return antwort({ ok: true, geloescht: ergebnis.meta?.changes ?? 0 })
+    }
+    return antwort({ error: 'ids oder url erwartet' }, 400)
+  }
+
+  if (request.method !== 'POST') return antwort({ error: 'GET, POST oder DELETE erwartet' }, 405)
 
   const token = request.headers.get('X-Lauf-Token') ?? ''
   if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
