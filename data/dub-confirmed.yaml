@@ -22010,3 +22010,260 @@
   dub: true
   checkedAt: '2026-08-26'
   note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de, en, es-419, es-ES, fr-FR, ja, pt-BR"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-26 ---
+
+- anilistId: 9989
+  title: "AnoHana: Die Blume, die wir an jenem Tag sahen"
+  platform: netflix
+  url: https://www.netflix.com/title/80075178
+  available: false
+  checkedAt: '2026-08-26'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 21
+  title: "One Piece"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+    - from: 2
+      to: 33
+      dub: false
+      checked: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33]
+    - from: 34
+      to: 61
+      dub: true
+      checked: [34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61]
+  checkedAt: '2026-08-26'
+  note: "Folge 1 mit deutschem Ton, Folgen 2–33 ohne deutschen Ton, Folgen 34–61 mit deutschem Ton — Tonspuren: ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1124 und 1173, dazwischen nicht geprüft — Folge 1173: Folge 1173"
+
+- anilistId: 392
+  title: "Yū Yū Hakusho"
+  platform: netflix
+  url: https://www.netflix.com/title/81005375
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+  checkedAt: '2026-08-26'
+  note: "Folge 1 mit deutschem Ton — Tonspuren: de|Deutsch, nb|Norwegisch [Original], tr|Türkisch, ru|Russisch, fr|Französisch, en|Englisch, hi|Hindi, it|Italienisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien) — Durchlauf: Folge 1 — Staffel 1"
+
+- anilistId: 1726
+  title: "Devil May Cry"
+  platform: netflix
+  url: https://www.netflix.com/title/81506915
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+  checkedAt: '2026-08-26'
+  note: "Folge 1 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, tr|Türkisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), hi|Hindi, id|Indonesisch, ja|Japanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch, cs|Tschechisch, hu|Ungarisch — Durchlauf: Folge 1 — Die Gefallenen"
+
+- anilistId: 135806
+  title: "Uncle from Another World"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+  checkedAt: '2026-08-26'
+  note: "Folge 1 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, uk|Ukrainisch, tr|Türkisch, it|Italienisch, fr|Französisch, fil|Filipino, hi|Hindi, id|Indonesisch, ja|Japanisch, ko|Koreanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), ta|Tamil, te|Telugu, th|Thailändisch, cs|Tschechisch, hu|Ungarisch — Durchlauf: Folge 1 — Knie nie nieder"
+
+- anilistId: 21804
+  title: "The Disastrous Life of Saiki K."
+  platform: netflix
+  url: https://www.netflix.com/title/80117781
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+  checkedAt: '2026-08-26'
+  note: "Folge 1 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, id|Indonesisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch, hu|Ungarisch — Durchlauf: Folge 1 — Neuauflage der spielsüchtigen Mädchen"
+
+- anilistId: 186497
+  title: "The Ramparts of Ice"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+  checkedAt: '2026-08-26'
+  note: "Folge 1 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, ar|Arabisch, hi|Hindi, ko|Koreanisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — Durchlauf: Folge 1 — Staffel 1"
+
+- anilistId: 163132
+  title: "Horimiya: The Missing Pieces"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+  checkedAt: '2026-08-26'
+  note: "Folge 1 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — Durchlauf: Folge 1 — Klassenfahrt"
+
+- anilistId: 103303
+  title: "Sparks of Tomorrow"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+  checkedAt: '2026-08-26'
+  note: "Folge 1 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — Durchlauf: Folge 1 — Folge 1"
+
+- anilistId: 97986
+  title: "Made in Abyss"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+  checkedAt: '2026-08-26'
+  note: "Folge 1 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original] — Durchlauf: Folge 1 — Made in Abyss: Staffel 1"
+
+- anilistId: 195600
+  title: "Das Band der Unterwelt"
+  platform: netflix
+  dub: false
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: false
+      checked: [1]
+  checkedAt: '2026-08-26'
+  note: "Folge 1 ohne deutschen Ton — Tonspuren: ja|Japanisch [Original], fr|Französisch — Durchlauf: Folge 1 — Herr Dr. Tenma"
+
+- anilistId: 19
+  title: "Monster"
+  platform: netflix
+  url: https://www.netflix.com/title/81409869
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+  checkedAt: '2026-08-26'
+  note: "Folge 1 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — Durchlauf: Folge 1 — Meine Wiedergeburt als Schleim in einer anderen Welt"
+
+- anilistId: 101280
+  title: "Meine Wiedergeburt als Schleim in einer anderen Welt"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+  checkedAt: '2026-08-26'
+  note: "Folge 1 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], fr|Französisch — Durchlauf: Folge 1 — Die Tagebücher der Apothekerin"
+
+- anilistId: 99088
+  title: "Pluto"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+  checkedAt: '2026-08-26'
+  note: "Folge 1 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, ar|Arabisch, hi|Hindi, id|Indonesisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — Durchlauf: Folge 1 — Folge 1: Eintopf / Tarte"
+
+- anilistId: 153518
+  title: "Delicious in Dungeon"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+  checkedAt: '2026-08-26'
+  note: "Folge 1 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, ar|Arabisch, hi|Hindi, id|Indonesisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — Durchlauf: Folge 1 — Delicious in Dungeon"
+
+- anilistId: 207141
+  title: "Chainsmoker Cat"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+  checkedAt: '2026-08-26'
+  note: "Folge 1 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch — Durchlauf: Folge 1 — Tougen Anki"
+
+- anilistId: 154587
+  title: "Frieren: Nach dem Ende der Reise"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+  checkedAt: '2026-08-26'
+  note: "Folge 1 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch — Durchlauf: Folge 1 — Ryusui"
+
+- anilistId: 154768
+  title: "My Dress-Up Darling: Staffel 2"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 2
+      dub: true
+      checked: [1, 2]
+  checkedAt: '2026-08-26'
+  note: "Folgen 1–2 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, ar|Arabisch — Durchlauf: Folge 2 — Auftritt des großen Schwertkämpfers! Piratenjäger Lorenor Zorro!"
+
+- anilistId: 100876
+  title: "Kakegurui ××"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-26'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, id|Indonesisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch, hu|Ungarisch — Durchlauf: Folge 1 — Neuauflage der spielsüchtigen Mädchen"
+
+- anilistId: 165159
+  title: "Beyblade X"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 2
+      to: 48
+      dub: true
+      checked: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48]
+  checkedAt: '2026-08-26'
+  note: "Folgen 2–48 mit deutschem Ton — Tonspuren: de|Deutsch, nl|Niederländisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 0 Audiodeskriptionen"
+
+- anilistId: 158871
+  title: "Pokémon Horizonte"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 2
+      to: 44
+      dub: true
+      checked: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44]
+  checkedAt: '2026-08-26'
+  note: "Folgen 2–44 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, he|Hebräisch, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), cs|Tschechisch — Durchlauf: Folge 2 — Der Anhänger, mit dem alles anfängt – Teil 2"

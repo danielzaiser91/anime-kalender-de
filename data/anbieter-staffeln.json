@@ -192,7 +192,7 @@
     "erste": 1
    }
   ],
-  "gemeldetAm": "2026-08-23"
+  "gemeldetAm": "2026-08-26"
  },
  "80131674": {
   "staffeln": [
@@ -301,6 +301,23 @@
   ],
   "gemeldetAm": "2026-08-23"
  },
+ "80193163": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "St. 1",
+    "folgen": 13,
+    "erste": 1
+   },
+   {
+    "seq": 2,
+    "name": "St. 2",
+    "folgen": 12,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-08-26"
+ },
  "80193421": {
   "staffeln": [
    {
@@ -404,6 +421,23 @@
   ],
   "gemeldetAm": "2026-08-22"
  },
+ "80987039": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "St. 1",
+    "folgen": 23,
+    "erste": 1
+   },
+   {
+    "seq": 2,
+    "name": "St. 2",
+    "folgen": 25,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-08-26"
+ },
  "80991903": {
   "staffeln": [
    {
@@ -455,6 +489,35 @@
   ],
   "gemeldetAm": "2026-08-23"
  },
+ "81005375": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "St. 1",
+    "folgen": 26,
+    "erste": 1
+   },
+   {
+    "seq": 2,
+    "name": "St. 2",
+    "folgen": 40,
+    "erste": 27
+   },
+   {
+    "seq": 3,
+    "name": "St. 3",
+    "folgen": 28,
+    "erste": 67
+   },
+   {
+    "seq": 4,
+    "name": "St. 4",
+    "folgen": 18,
+    "erste": 95
+   }
+  ],
+  "gemeldetAm": "2026-08-26"
+ },
  "81010662": {
   "staffeln": [
    {
@@ -481,7 +544,18 @@
     "erste": 1
    }
   ],
-  "gemeldetAm": "2026-08-22"
+  "gemeldetAm": "2026-08-26"
+ },
+ "81028712": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "",
+    "folgen": 24,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-08-26"
  },
  "81030224": {
   "staffeln": [
@@ -718,6 +792,17 @@
   ],
   "gemeldetAm": "2026-08-23"
  },
+ "81281344": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "",
+    "folgen": 8,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-08-26"
+ },
  "81295011": {
   "staffeln": [
    {
@@ -790,6 +875,17 @@
   ],
   "gemeldetAm": "2026-08-23"
  },
+ "81409869": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "",
+    "folgen": 74,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-08-26"
+ },
  "81442091": {
   "staffeln": [
    {
@@ -818,6 +914,34 @@
   ],
   "gemeldetAm": "2026-08-23"
  },
+ "81499847": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "",
+    "folgen": 13,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-08-26"
+ },
+ "81506915": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "St. 1",
+    "folgen": 8,
+    "erste": 1
+   },
+   {
+    "seq": 2,
+    "name": "St. 2",
+    "folgen": 8,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-08-26"
+ },
  "81562396": {
   "staffeln": [
    {
@@ -844,7 +968,7 @@
     "erste": 1
    }
   ],
-  "gemeldetAm": "2026-08-22"
+  "gemeldetAm": "2026-08-26"
  },
  "81569754": {
   "staffeln": [
@@ -861,7 +985,7 @@
     "erste": 1
    }
   ],
-  "gemeldetAm": "2026-08-23"
+  "gemeldetAm": "2026-08-26"
  },
  "81642096": {
   "staffeln": [
@@ -919,6 +1043,28 @@
     "seq": 1,
     "name": "",
     "folgen": 45,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-08-26"
+ },
+ "81698957": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "",
+    "folgen": 8,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-08-26"
+ },
+ "81726714": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "",
+    "folgen": 28,
     "erste": 1
    }
   ],
@@ -983,7 +1129,7 @@
     "erste": 1
    }
   ],
-  "gemeldetAm": "2026-08-23"
+  "gemeldetAm": "2026-08-26"
  },
  "82047155": {
   "staffeln": [
@@ -996,6 +1142,17 @@
   ],
   "gemeldetAm": "2026-08-23"
  },
+ "82719204": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "",
+    "folgen": 8,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-08-26"
+ },
  "82757009": {
   "staffeln": [
    {
@@ -1006,5 +1163,16 @@
    }
   ],
   "gemeldetAm": "2026-08-24"
+ },
+ "82760630": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "",
+    "folgen": 8,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-08-26"
  }
 }

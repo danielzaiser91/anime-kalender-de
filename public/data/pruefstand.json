@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-08-26T21:03:25.587Z",
+ "erzeugtAm": "2026-08-26T21:18:26.943Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -24,30 +24,18 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 350,
-   "gesamt": 360,
-   "offen": 10,
+   "gemeldet": 362,
+   "gesamt": 363,
+   "offen": 1,
    "ohneSeite": 15,
-   "ziel": "https://www.netflix.com/title/80107103",
+   "ziel": "https://www.netflix.com/title/80175351",
    "ziele": [
-    {
-     "url": "https://www.netflix.com/title/80107103",
-     "titel": "One Piece"
-    },
     {
      "url": "https://www.netflix.com/title/80175351",
      "titel": "Kakegurui: Das Leben ist ein Spiel"
-    },
-    {
-     "url": "https://www.netflix.com/title/81696980",
-     "titel": "Pokémon Horizonte"
-    },
-    {
-     "url": "https://www.netflix.com/title/81924739",
-     "titel": "Beyblade X"
     }
    ],
-   "naechster": "One Piece"
+   "naechster": "Kakegurui: Das Leben ist ein Spiel"
   },
   {
    "name": "Disney+",
