@@ -178,6 +178,7 @@ QUELLEN=(
   # Prime-Titel, von denen ein guter Teil erledigt war.
   extension/offene-amazon.js
   extension/offene-netflix.js
+  extension/offene-disney.js
   daniel-zum-abarbeiten/08-arbeitspakete.md
 )
 ERZEUGNISSE=(public/data public/og)
