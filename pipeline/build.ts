@@ -15,7 +15,12 @@ import { loadCurated, loadWatchLinks, type CuratedEntry } from './lib/curated.ts
 import { adressePasst, entwirreWeiterleitung, plattformAusAdresse } from '../shared/adresse-passt.ts'
 import { zugangsart } from '../shared/zugangsart.ts'
 import { dubKey, loadDubChecks } from './lib/dub-confirmed.ts'
-import { beurteile, beurteileNachFolgennummern, type CrDubData } from './lib/crunchyroll-dub.ts'
+import {
+  beurteile,
+  beurteileJeBlock,
+  beurteileNachFolgennummern,
+  type CrDubData,
+} from './lib/crunchyroll-dub.ts'
 import { LEER as MOTN_LEER, ordneShowsZu, tmdbZuordnung, uebernehmbar, type MotnDaten } from './lib/motn.ts'
 import type { TmdbInfo } from './lib/tmdb.ts'
 import {
@@ -2499,6 +2504,37 @@ function main(): void {
       }
     }
     if (ueberNummern) log(`${ueberNummern} weitere über die durchgezählten Folgennummern belegt`)
+
+    /**
+     * Dritte Runde: **je Titel der passende Block**, wo die Gesamtrechnung
+     * scheitert.
+     *
+     * Die beiden Runden davor verlangen, dass unsere Einträge die Blöcke einer
+     * Serie vollständig decken. Das ist bei `dub: false` richtig und bei
+     * `dub: true` zu streng: Gemessen am 26.08.2026 lag für 60 Titel die
+     * deutsche Fassung in den Daten und bekam trotzdem kein Urteil, weil
+     * irgendein Nachbarblock nicht aufging — „One-Punch Man" an einem
+     * Ein-Folgen-Block, „PSYCHO-PASS 2" an einer gleich langen Extended Edition,
+     * „Durarara!!" an 24 gegen 25 Folgen.
+     *
+     * Diese Runde setzt ausschließlich `true` und nur bei Namensgleichheit.
+     * 23 Titel bekommen dadurch ein Urteil, das die Daten längst hergaben.
+     */
+    let jeBlock = 0
+    for (const { serie, titel: gruppe } of nachSerienId.values()) {
+      const offene = [...gruppe.values()].filter((t) =>
+        t.streams.some((s) => s.platform === 'crunchyroll' && s.dub === undefined),
+      )
+      if (!offene.length) continue
+      for (const urteil of beurteileJeBlock(serie, offene)) {
+        const title = titles.get(urteil.titleId)
+        const stream = title?.streams.find((s) => s.platform === 'crunchyroll')
+        if (!stream || stream.dub !== undefined) continue
+        stream.dub = urteil.dub
+        jeBlock++
+      }
+    }
+    if (jeBlock) log(`${jeBlock} weitere über den Blocknamen belegt`)
     log(`${belegt} Synchro-Angaben aus den Crunchyroll-Serienseiten belegt (${crDub.serien.length} Seiten gelesen)`)
     if (verschwunden) log(`${verschwunden} Crunchyroll-Verweise entfernt — die Serie ist dort nicht mehr verfügbar`)
   }

@@ -22,7 +22,7 @@
  *
  * Aufruf: npm run check:cr-zuordnung
  */
-import { beurteile, beurteileNachFolgennummern, type CrSerie, type CrDubData } from './lib/crunchyroll-dub.ts'
+import { beurteile, beurteileNachFolgennummern, type CrSerie, type CrDubData, beurteileJeBlock } from './lib/crunchyroll-dub.ts'
 import { readJson, ROOT } from './lib/util.ts'
 import { resolve } from 'node:path'
 import type { Title } from '../shared/types.ts'
@@ -377,6 +377,74 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
     `keine der ${tot.length} toten Crunchyroll-Adressen steht noch im Datensatz`,
     uebrig.length === 0,
     uebrig.map((s) => s.url).slice(0, 3),
+  )
+}
+
+/**
+ * Die dritte Stufe: je Titel der passende Block.
+ *
+ * Sie setzt ausschließlich `true` und nur bei Namensgleichheit. Der gefährliche
+ * Fehlgriff ist die Vererbung: Ein Special, dessen Name mit dem der Serie
+ * beginnt, darf **nicht** deren Urteil bekommen. Genau das tat der erste
+ * Anlauf — „Sword Art Online EXTRA EDITION" erbte den Block „Sword Art Online",
+ * und aus 23 richtigen Urteilen wurden 33 mit zehn falschen (26.08.2026).
+ */
+{
+  const serie = {
+    url: 'https://www.crunchyroll.com/de/series/TEST/sword-art-online',
+    seriesId: 'TEST',
+    quelle: 'api' as const,
+    katalog: 'de' as const,
+    geprueftAm: '2026-08-26',
+    deutschImAngebot: true,
+    staffeln: [
+      { name: 'Sword Art Online', folgen: 25, kacheln: 25, deutsch: 25, fremd: 0 },
+      { name: 'Sword Art Online II', folgen: 24, kacheln: 24, deutsch: 24, fremd: 0 },
+    ],
+  }
+  const titel = (id: number, name: string, folgen: number) =>
+    ({ id, titleRomaji: name, titleEn: name, episodes: folgen, streams: [] }) as never
+
+  const urteile = beurteileJeBlock(serie as never, [
+    titel(1, 'Sword Art Online', 25),
+    titel(2, 'Sword Art Online EXTRA EDITION', 1),
+    titel(3, 'Sword Art Online II', 24),
+  ])
+  const ids = urteile.map((u) => u.titleId).sort()
+
+  pruefe('die Serie selbst bekommt ihr Urteil', ids.includes(1), ids)
+  pruefe('die zweite Staffel auch', ids.includes(3), ids)
+  pruefe('ein Special erbt NICHT von der Hauptserie', !ids.includes(2), ids)
+  pruefe('nur true, nie false', urteile.every((u) => u.dub === true), urteile)
+
+  /* Ein Block, der zu keinem Titel passt, setzt nichts. */
+  const fremd = beurteileJeBlock(serie as never, [titel(9, 'Attack on Titan', 25)])
+  pruefe('ein fremder Titel bekommt nichts', fremd.length === 0, fremd)
+
+  /* Zwei gleich benannte Blöcke sind mehrdeutig. */
+  const doppelt = {
+    ...serie,
+    staffeln: [
+      { name: 'Durarara', folgen: 24, kacheln: 24, deutsch: 0, fremd: 24 },
+      { name: 'Durarara', folgen: 25, kacheln: 25, deutsch: 25, fremd: 0 },
+    ],
+  }
+  pruefe(
+    'zwei gleich benannte Blöcke setzen nichts',
+    beurteileJeBlock(doppelt as never, [titel(4, 'Durarara!!', 24)]).length === 0,
+  )
+
+  /*
+    Und der Fall, um den es ging: Der Block hat eine Folge mehr als unser Titel.
+    Für die Frage „gibt es das auf Deutsch" ist das ohne Belang.
+  */
+  const eineMehr = {
+    ...serie,
+    staffeln: [{ name: 'Durarara (German Dub)', folgen: 25, kacheln: 25, deutsch: 25, fremd: 0 }],
+  }
+  pruefe(
+    'eine abweichende Folgenzahl verhindert kein true',
+    beurteileJeBlock(eineMehr as never, [titel(5, 'Durarara!!', 24)]).length === 1,
   )
 }
 

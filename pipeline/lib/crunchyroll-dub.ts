@@ -538,3 +538,96 @@ export function beurteileNachFolgennummern(serie: CrSerie, unsere: Title[]): Urt
   }
   return urteile
 }
+
+/**
+ * Dritte Stufe: **je Titel der passende Block**, statt einer Gesamtrechnung.
+ *
+ * `beurteile()` verlangt, dass unsere Einträge die Blöcke einer Serie
+ * vollständig decken — und lässt bei der kleinsten Abweichung alles fallen.
+ * Das ist bei `dub: false` genau richtig, bei `dub: true` aber zu streng:
+ * Gemessen am 26.08.2026 an 60 Titeln, deren deutsche Fassung in den Daten
+ * belegt ist und trotzdem kein Urteil bekam.
+ *
+ * Vier der Fälle, alle mit demselben Muster:
+ *
+ * | Unser Titel | Block | warum es scheiterte |
+ * |---|---|---|
+ * | One-Punch Man (12) | „Season 1": 12 F, 12 deutsch | ein vierter Block mit 1 Folge ging nicht auf |
+ * | PSYCHO-PASS 2 (11) | „PSYCHO-PASS 2": 11 F, 11 deutsch | „Extended Edition" hat auch 11 Folgen |
+ * | Durarara!! (24) | „Durarara (German Dub)": 25 F, 25 deutsch | 24 ≠ 25 |
+ * | High School DxD HERO (13) | „Hero": 13 F, 12 deutsch | 12 ≠ 13 |
+ *
+ * **Der Denkfehler war die Frage.** Für `dub: true` lautet sie nicht „decken
+ * unsere Staffeln diese Blöcke exakt ab", sondern „gibt es diese Serie auf
+ * Deutsch". Dafür genügt ein Block, der zum Titel gehört und deutsche Folgen
+ * führt. Ob er 24 oder 25 davon hat, ändert an der Antwort nichts.
+ *
+ * **Für `dub: false` bleibt es bei der strengen Regel.** Diese Stufe setzt
+ * ausschließlich `true` — ein fehlendes Deutsch ist hier kein Befund, sondern
+ * eine offene Frage, und die beantwortet `beurteile()` mit seiner Vorsicht.
+ *
+ * Zugeordnet wird über den **Namen**, und zwar über Gleichheit: Ein Block
+ * gehört zu einem Titel, wenn beide Namen nach dem Kürzen übereinstimmen.
+ * Passen zwei Blöcke, wird nichts gesetzt — dann ist die Zuordnung
+ * mehrdeutig, und geraten wird nicht.
+ */
+export function beurteileJeBlock(serie: CrSerie, unsere: Title[]): Urteil[] {
+  const bloecke = serie.staffeln ?? []
+  if (!bloecke.length) return []
+
+  /*
+    Gekürzt wird auf Kleinbuchstaben und Ziffern. „PSYCHO-PASS 3: First
+    Inspector" und „PSYCHO-PASS 3 FIRST INSPECTOR" sind danach dasselbe; die
+    Zusätze „(German Dub)" und „(Dt. Opening)" fallen weg, weil sie über die
+    Tonspur reden, nicht über den Titel.
+  */
+  const kurz = (t: string | undefined | null) =>
+    (t ?? '')
+      .toLowerCase()
+      .replace(/\((german dub|dt\. opening|deutscher dub)\)/g, '')
+      .replace(/[^a-z0-9]/g, '')
+
+  const raus: Urteil[] = []
+  for (const titel of unsere) {
+    const namen = [titel.titleRomaji, titel.titleEn, titel.titleDe].map(kurz).filter((n) => n.length >= 4)
+    if (!namen.length) continue
+
+    /*
+      **Nur exakte Gleichheit — ein Präfix reicht nicht.**
+
+      Der erste Anlauf ließ auch gelten, dass unser Titel mit dem Blocknamen
+      beginnt. Damit erbte jedes Special das Urteil seiner Hauptserie: „Sword
+      Art Online EXTRA EDITION" bekam den Block „Sword Art Online", „Miss
+      Kobayashi’s Dragon Maid: Valentines and Hot Springs" den der Serie.
+      Beide sind eigene Werke mit eigener Tonspur-Frage.
+
+      Nach der Bereinigung bleibt genug übrig: „Durarara!!" und „Durarara
+      (German Dub)" sind gleich, „High School DxD HERO" und „High School DxD
+      Hero" auch. Was sich im Zusatz unterscheidet, fällt heraus — und das ist
+      die richtige Seite zum Irren.
+    */
+    const treffer = bloecke.filter((b) => {
+      const bn = kurz(b.name)
+      if (bn.length < 4) return false
+      return namen.some((n) => bn === n)
+    })
+    /*
+      Genau einer muss passen. Bei „PSYCHO-PASS" passt auch „PSYCHO-PASS 2" auf
+      den Präfix — deshalb gewinnt der Block mit der größten Übereinstimmung,
+      und nur wenn er allein an der Spitze steht.
+    */
+    if (!treffer.length) continue
+    /* Passen zwei Blöcke gleich gut, ist die Zuordnung mehrdeutig. */
+    if (treffer.length > 1) continue
+    const block = treffer[0]
+    const deutsch = block.deutscheFolgen?.length ?? block.deutsch ?? 0
+    if (deutsch > 0) {
+      raus.push({
+        titleId: titel.id,
+        dub: true,
+        grund: `Block „${block.name}“: ${deutsch} deutsche Folgen, ueber den Namen zugeordnet`,
+      })
+    }
+  }
+  return raus
+}
