@@ -1159,6 +1159,7 @@ async function durchlaufStandVergessen() {
     deshalb für alle Folgen dieser Liste. Sie stammt aus derselben Ansicht.
   */
   DURCHLAUF.staffel = null
+  DURCHLAUF.ohneStaffel = []
   DURCHLAUF.uebergangen = true
   durchlaufKnopfZeigen()
   console.log(
@@ -1300,7 +1301,25 @@ async function durchlaufStarten(grenze) {
       if (DURCHLAUF.staffel === null && Number.isFinite(stand.staffel)) {
         DURCHLAUF.staffel = stand.staffel
       }
+      const staffelJetzt = Number.isFinite(stand.staffel) ? stand.staffel : DURCHLAUF.staffel
       const ok = await durchlaufMelden(f, echte, deutsch)
+      if (ok && staffelJetzt === null) {
+        /*
+          **Ohne Staffel gemeldet — das wird am Ende nachgeholt.**
+
+          Zweimal versucht, zweimal verschoben: Erst fehlte die Nummer bei
+          Folge 1, dann bei Folge 2, weil die seit 3.9 zuerst läuft. Fünf
+          Sekunden Warten haben nichts geändert — beim allerersten Öffnen
+          liefert der Player die Metadaten offenbar gar nicht, nicht nur spät.
+
+          Statt einer dritten Vermutung über das Timing wird die Meldung
+          nachgereicht, sobald die Staffel feststeht. Der Worker führt je
+          Adresse und Folge einen Eintrag; die zweite Meldung ersetzt die
+          erste.
+        */
+        DURCHLAUF.ohneStaffel = DURCHLAUF.ohneStaffel ?? []
+        DURCHLAUF.ohneStaffel.push({ folge: f, echte, deutsch })
+      }
       if (ok) {
         DURCHLAUF.gemeldet.add(f.videoId)
         await durchlaufStandSchreiben(reihe)
@@ -1330,6 +1349,20 @@ async function durchlaufStarten(grenze) {
     /* Eine Sekunde Ruhe zwischen zwei Folgen — ein Mensch klickt auch nicht schneller. */
     await new Promise((r) => setTimeout(r, 1000))
   }
+
+  /*
+    Was ohne Staffelnummer rausging, wird jetzt nachgereicht — die Nummer
+    steht seit der zweiten Folge fest.
+  */
+  if (DURCHLAUF.ohneStaffel?.length && Number.isFinite(DURCHLAUF.staffel)) {
+    for (const eintrag of DURCHLAUF.ohneStaffel) {
+      await durchlaufMelden(eintrag.folge, eintrag.echte, eintrag.deutsch)
+    }
+    console.log(
+      `[Anime-Kalender] ${DURCHLAUF.ohneStaffel.length} Meldung(en) mit Staffel ${DURCHLAUF.staffel} nachgereicht.`,
+    )
+  }
+  DURCHLAUF.ohneStaffel = []
 
   videoAbdrehen(false)
   DURCHLAUF.laeuft = false
