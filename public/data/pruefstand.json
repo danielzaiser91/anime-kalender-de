@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-08-26T13:30:00.920Z",
+ "erzeugtAm": "2026-08-26T15:56:32.467Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -39,6 +39,118 @@
     }
    ],
    "naechster": "One Piece"
+  },
+  {
+   "name": "Disney+",
+   "plattform": "disneyplus",
+   "gemeldet": 11,
+   "gesamt": 47,
+   "offen": 36,
+   "ohneSeite": 0,
+   "ziel": "https://www.disneyplus.com/de-de/movies/children-of-the-sea/PPmmokvapG3T",
+   "ziele": [
+    {
+     "url": "https://www.disneyplus.com/de-de/movies/children-of-the-sea/PPmmokvapG3T",
+     "titel": "Children of the Sea"
+    },
+    {
+     "url": "https://www.disneyplus.com/browse/entity-99c35086-cc39-481c-9827-333c0ab15d5a",
+     "titel": "Dorohedoro"
+    },
+    {
+     "url": "https://www.disneyplus.com/browse/entity-b042544d-cd7d-40c6-9be4-db79666a1b51",
+     "titel": "Welcome to Demon School! Iruma-kun"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/series/the-rising-of-the-shield-hero-aka-tate-no-yuusha-no/4lgHH2jdAefe",
+     "titel": "The Rising of the Shield Hero: Staffel 2"
+    },
+    {
+     "url": "https://www.disneyplus.com/browse/entity-3dd9925f-0eb8-46f4-93d0-30ba887fc8d3",
+     "titel": "Jujutsu Kaisen"
+    },
+    {
+     "url": "https://www.disneyplus.com/browse/entity-be391742-6617-42ad-b53a-be368ee73335",
+     "titel": "Tokyo Revengers"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/series/chainsaw-man/2gMK1kC3JIEh",
+     "titel": "Chainsaw Man"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/series/summer-time-rendering/3AHbeFV7Lqvn",
+     "titel": "Bright Sun: Dark Shadows"
+    },
+    {
+     "url": "https://www.disneyplus.com/browse/entity-f07a1991-849f-4766-b33e-74d76ce849a7",
+     "titel": "Dragon Ball Super: Super Hero"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/series/aoashi/27OVvACG0ySD",
+     "titel": "Aoashi"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/series/star-wars-visions/5AiiTRJ7OaKg",
+     "titel": "Star Wars: Visionen"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/browse/entity-dea589b3-2f6d-4991-a875-c67d625a4e37",
+     "titel": "Disney Twisted-Wonderland: Die Serie - Episode of Heartslabyul"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/series/spyfamily/fet1h9jqmrAM",
+     "titel": "Spy × Family"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/series/tokyo-revengers/4HFbN55sAh0i",
+     "titel": "Tokyo Revengers: Christmas Showdown"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/browse/entity-5973d358-1997-47d0-942d-e85b455ed9db",
+     "titel": "Fire Force: Staffel 3"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/browse/entity-9f96dac7-a7cf-4546-87a5-069cb101f174?season=782c38b7-ad71-48fc-87e4-e6b9ad7f13e4",
+     "titel": "Oshi no Ko: Mein Star"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/series/undead-unluck/6yBbjezPBwNW",
+     "titel": "Undead Unluck"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/browse/entity-54a25fcf-a472-4d40-9968-13e2957e5abf",
+     "titel": "One-Punch Man: Staffel 3"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/browse/entity-52e7dbe7-b28a-428a-963e-acfaa81b4ba6",
+     "titel": "Bullet/Bullet"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/series/go-go-loser-ranger/2VX5fKgeiVEl",
+     "titel": "Go, Go, Loser Ranger!"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/series/ishura/hQ0p1WPHHQmZ",
+     "titel": "Ishura"
+    },
+    {
+     "url": "https://www.disneyplus.com/browse/entity-0e46c665-5191-407f-8dc5-e22a0095578c",
+     "titel": "Beyblade X"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/series/code-geass-roze-of-the-recapture/4XHzb6tQBRtd",
+     "titel": "Code Geass: Rozé of the Recapture"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/series/sand-land-the-series/7I31jGPKAwz5",
+     "titel": "Sand Land: The Series"
+    },
+    {
+     "url": "https://www.disneyplus.com/de-de/browse/entity-75f4baad-151d-489d-8a9e-bec4ab49ed23",
+     "titel": "Rooster Fighter"
+    }
+   ],
+   "naechster": "Children of the Sea"
   }
  ]
 }

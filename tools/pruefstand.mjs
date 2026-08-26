@@ -80,6 +80,19 @@ const ANBIETER = [
     kennung: (u) => /\/title\/(\d+)/.exec(u)?.[1],
     offene: (wert) => (wert.staffeln ?? []).filter((s) => s.offen).length,
   },
+  {
+    name: 'Disney+',
+    plattform: 'disneyplus',
+    datei: 'extension/offene-disney.js',
+    global: 'AK_OFFENE_DISNEY',
+    /* Die Adresse steht im Eintrag — Disney+ führt zwei Formen derselben Seite. */
+    ziel: (schluessel, wert) => wert.url ?? schluessel,
+    /* Dieselbe Regel wie in `extension-offene-disney.mjs` und `disney.js`. */
+    kennung: (u) =>
+      /\/browse\/entity-([0-9a-f-]{8,})/i.exec(u)?.[1] ??
+      /\/(?:series|movies)\/[^/]+\/([A-Za-z0-9]{6,})/.exec(u)?.[1],
+    offene: (wert) => (wert.staffeln ?? []).filter((s) => s.offen).length,
+  },
 ]
 
 const stand = ANBIETER.map((a) => {

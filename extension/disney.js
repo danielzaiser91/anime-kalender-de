@@ -196,6 +196,104 @@
     })
   }
 
+  // --- Übersicht ------------------------------------------------------------
+
+  /*
+    **Auf jeder anderen Disney-Seite: was noch zu prüfen ist.**
+
+    Ohne sie sieht Daniel nur dann etwas, wenn er zufällig auf einer gelisteten
+    Serienseite landet — und weiß nirgends, welche das sind. Sein Befund am
+    26.08.2026: „ich hab keinen button zum öffnen wo ich sehe welche titel zu
+    prüfen sind."
+
+    Der Knopf ist klein und der Dialog geschlossen, solange niemand klickt. Was
+    beim Gucken stört, fliegt wieder raus — bei Netflix war das der Grund für
+    die Prüfliste überhaupt.
+  */
+  let uebersichtKnopf = null
+  let dialog = null
+
+  function offeneEintraege() {
+    return Object.entries(liste)
+      .map(([id, wert]) => ({ id, ...wert, offen: wert.staffeln.filter((st) => st.offen).length }))
+      .filter((e) => e.offen > 0)
+      .sort((a, b) => a.titel.localeCompare(b.titel, 'de'))
+  }
+
+  function dialogSchliessen() {
+    dialog?.remove()
+    dialog = null
+  }
+
+  function dialogOeffnen() {
+    if (dialog) return dialogSchliessen()
+    const eintraege = offeneEintraege()
+    dialog = document.createElement('div')
+    dialog.style.cssText =
+      'position:fixed;right:16px;bottom:60px;z-index:2147483001;width:min(420px,92vw);' +
+      'max-height:70vh;overflow:auto;background:#111;color:#fff;border:1px solid #ffffff33;' +
+      'border-radius:10px;padding:14px 16px;font:13px/1.5 system-ui,sans-serif;' +
+      'box-shadow:0 8px 32px #000a'
+
+    const kopf = document.createElement('div')
+    kopf.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:10px'
+    const titelzeile = document.createElement('strong')
+    titelzeile.textContent = eintraege.length ? `${eintraege.length} Titel zu prüfen` : 'Alles geprüft'
+    kopf.appendChild(titelzeile)
+    const zu = document.createElement('button')
+    zu.textContent = '×'
+    zu.title = 'Schließen (Esc)'
+    zu.style.cssText =
+      'margin-left:auto;background:none;border:none;color:#fff;font-size:18px;cursor:pointer;line-height:1'
+    zu.onclick = dialogSchliessen
+    kopf.appendChild(zu)
+    dialog.appendChild(kopf)
+
+    for (const e of eintraege) {
+      const zeile = document.createElement('div')
+      zeile.style.cssText = 'padding:6px 0;border-top:1px solid #ffffff1a'
+      const verweis = document.createElement('a')
+      verweis.href = e.url
+      verweis.textContent = e.titel
+      verweis.style.cssText = 'color:#7dd3fc;text-decoration:none'
+      zeile.appendChild(verweis)
+      const rest = document.createElement('span')
+      rest.style.cssText = 'opacity:.6;margin-left:8px'
+      const folgen = e.staffeln.filter((st) => st.offen).reduce((n, st) => n + (st.folgen ?? 0), 0)
+      rest.textContent = `${e.offen} Staffel${e.offen === 1 ? '' : 'n'}${folgen ? `, ${folgen} Folgen` : ''}`
+      zeile.appendChild(rest)
+      dialog.appendChild(zeile)
+    }
+    document.body.appendChild(dialog)
+  }
+
+  function zeigeUebersicht() {
+    const offen = offeneEintraege()
+    if (!uebersichtKnopf) {
+      uebersichtKnopf = document.createElement('button')
+      uebersichtKnopf.type = 'button'
+      uebersichtKnopf.style.cssText =
+        'position:fixed;right:16px;bottom:16px;z-index:2147483000;padding:7px 13px;' +
+        'border-radius:8px;border:1px solid #ffffff33;background:#111;color:#fff;' +
+        'font:12px/1.3 system-ui,sans-serif;cursor:pointer;opacity:.85'
+      uebersichtKnopf.onclick = dialogOeffnen
+      document.body.appendChild(uebersichtKnopf)
+    }
+    uebersichtKnopf.textContent = offen.length
+      ? `Anime-Kalender: ${offen.length} offen`
+      : 'Anime-Kalender: alles geprüft ✓'
+  }
+
+  function uebersichtWeg() {
+    dialogSchliessen()
+    uebersichtKnopf?.remove()
+    uebersichtKnopf = null
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') dialogSchliessen()
+  })
+
   // --- Start ----------------------------------------------------------------
 
   /*
@@ -213,7 +311,9 @@
     ergebnisse = []
     knopf?.remove()
     knopf = null
-    if (!eintrag) return
+    if (!eintrag) return zeigeUebersicht()
+    /* Auf einer gelisteten Seite gilt der Prüf-Knopf, nicht die Übersicht. */
+    uebersichtWeg()
     window.postMessage({ marke: MARKE_STEUER, frageListe: true }, '*')
     setTimeout(() => window.postMessage({ marke: MARKE_STEUER, frageListe: true }, '*'), 2500)
   }
