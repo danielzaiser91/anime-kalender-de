@@ -1,6 +1,6 @@
 /**
- * Läuft in der Seitenwelt: hört mit, was Disney+ selbst lädt, und fragt je
- * Folge die Tonspuren ab.
+ * Läuft in der Seitenwelt: holt die vollständige Folgenliste und je Folge die
+ * Tonspuren.
  *
  * **Warum Disney+ einfacher ist als Netflix.** Bei Netflix stehen die Tonspuren
  * nur an einem laufenden Player, und das Manifest ist MSL-verschlüsselt — ein
@@ -10,34 +10,57 @@
  *     POST /v7/playback/ctr-regular   { playbackId: <resourceId der Folge> }
  *     → stream.renditions.audio[] = [{ language: "de", name: "German" }, …]
  *
- * Kein Player, keine Wiedergabe, kein DRM, keine Videodaten. Die `resourceId`
- * steht offen in der Folgenliste, die die Seite ohnehin lädt.
+ * Kein Player, keine Wiedergabe, kein DRM, keine Videodaten — und kein Eintrag
+ * unter „Weiterschauen".
  *
- * **Warum getrennt vom Knopf:** Ein gewöhnliches Content-Skript läuft in einer
- * abgeschotteten Welt und sieht die Aufrufe der Seite nicht. Das Token, das der
- * POST braucht, wandert nur durch den Verkehr der Seite — hier kommt es an,
- * nebenan nicht.
+ * **Und warum nachgeladen wird, statt mitzulesen.** Der Seitenaufruf bringt nur
+ * die ersten 15 Folgen der ersten Staffel mit; die übrigen holt Disney+ beim
+ * Scrollen. Wer nur mithört, prüft 15 von 51 und hält das für die Staffel —
+ * derselbe Fehler wie bei Amazons Abschnitten. Daniel am 26.08.2026: „staffel 2
+ * hat 35 folgen. staffel 1 hat übrigens 51 folgen, also sind die 15 dort auch
+ * falsch."
  *
- * Angefordert wird ausschließlich der Playback-Aufruf, und den löst sonst ein
- * Klick auf „Abspielen" aus. Nichts davon lädt Videodaten.
+ * Der Seitenaufruf nennt dafür alles Nötige: je Staffel ihre Kennung und
+ * `pagination.totalCount`. Nachgeladen wird mit
+ * `?after=<base64 von {"offset":N}>&limit=24`, bis `hasMore` false meldet —
+ * Zeichen für Zeichen der Abruf, den ein Scrollen auslöst.
  */
 ;(() => {
   const MARKE = 'ak-disney'
   const MARKE_STEUER = 'ak-disney-steuer'
   const PLAYBACK = 'https://disney.playback.edge.bamgrid.com/v7/playback/ctr-regular'
+  const EXPLORE = 'https://disney.api.edge.bamgrid.com/explore/v1.18/season/'
+  /* Abstand zwischen zwei Nachlade-Abrufen — die Seite macht einen je Scrollen. */
+  const TAKT = 250
 
-  /** Das Token wandert durch jeden Aufruf der Seite; einer genügt. */
-  let token = null
-  /** Folgen nach Kennung, damit ein zweiter Abruf derselben Staffel nichts verdoppelt. */
+  /** Die Kopfzeilen eines echten Aufrufs — daraus stammt auch das Token. */
+  let kopfzeilen = null
+  /** Staffeln aus dem Seitenaufruf: Kennung, Name, Gesamtzahl. */
+  let staffeln = []
+  /** Folgen nach Kennung, damit ein zweiter Abruf nichts verdoppelt. */
   const folgen = new Map()
+  let holtGerade = false
 
   // --- Mithören -------------------------------------------------------------
 
+  function merkeFolge(wert) {
+    const nummer = Number(wert?.visuals?.episodeNumber)
+    const kennung = (wert?.actions ?? []).find((a) => a.resourceId)?.resourceId
+    if (!kennung || !Number.isFinite(nummer) || nummer <= 0) return false
+    folgen.set(kennung, {
+      staffel: Number(wert.visuals?.seasonNumber) || null,
+      nummer,
+      titel: wert.visuals?.episodeTitle ?? '',
+      playbackId: kennung,
+    })
+    return true
+  }
+
   /*
-    Die Folgen stecken an zwei Stellen, und beide werden gebraucht: Der
-    Seitenaufruf (`/page/`) bringt die Staffelliste samt der ersten Folgen mit,
-    der Nachschlag (`/season/`) den Rest. Gemessen an Jujutsu Kaisen: 15 Folgen
-    im Seitenaufruf, 24 je Nachschlag.
+    Rekursiv, weil dieselben Folgen an zwei Stellen stehen: im Seitenaufruf
+    unter `data.page.containers[].seasons[].items[]`, im Nachschlag unter
+    `data.season.items[]`. Aufgenommen wird nur, was Folgennummer UND Kennung
+    trägt — Empfehlungsleisten haben die Kennung, aber keine Nummer.
   */
   function sammle(wert, tiefe = 0) {
     if (tiefe > 9 || wert === null || typeof wert !== 'object') return
@@ -45,15 +68,16 @@
       for (const x of wert) sammle(x, tiefe + 1)
       return
     }
-    const nummer = Number(wert.visuals?.episodeNumber)
-    const kennung = (wert.actions ?? []).find((a) => a.resourceId)?.resourceId
-    if (kennung && Number.isFinite(nummer) && nummer > 0) {
-      folgen.set(kennung, {
-        staffel: Number(wert.visuals?.seasonNumber) || null,
-        nummer,
-        titel: wert.visuals?.episodeTitle ?? '',
-        playbackId: kennung,
-      })
+    merkeFolge(wert)
+    /* Eine Staffel erkennt man an Kennung und Seitenzähler. */
+    if (wert.id && wert.pagination && Number.isFinite(wert.pagination.totalCount)) {
+      if (!staffeln.some((s) => s.id === wert.id)) {
+        staffeln.push({
+          id: wert.id,
+          name: wert.visuals?.name ?? wert.name ?? '',
+          gesamt: wert.pagination.totalCount,
+        })
+      }
     }
     for (const k in wert) sammle(wert[k], tiefe + 1)
   }
@@ -68,25 +92,39 @@
     }
     const vorher = folgen.size
     sammle(daten)
-    if (folgen.size !== vorher) melde()
+    if (folgen.size !== vorher || staffeln.length) melde()
   }
 
-  function melde() {
+  function melde(vollstaendig = false) {
     window.postMessage(
-      { marke: MARKE, bereit: Boolean(token), folgen: [...folgen.values()] },
+      {
+        marke: MARKE,
+        bereit: Boolean(kopfzeilen),
+        vollstaendig,
+        staffeln: staffeln.map((s) => ({ name: s.name, gesamt: s.gesamt })),
+        erwartet: staffeln.reduce((n, s) => n + s.gesamt, 0),
+        folgen: [...folgen.values()],
+      },
       '*',
     )
+  }
+
+  function merkeKopf(url, kopf) {
+    if (!kopf || !/bamgrid/.test(String(url))) return
+    const auth =
+      typeof kopf.get === 'function' ? kopf.get('authorization') : kopf.authorization || kopf.Authorization
+    if (!auth) return
+    const neu = !kopfzeilen
+    kopfzeilen = { ...(kopfzeilen ?? {}) }
+    if (typeof kopf.forEach === 'function') kopf.forEach((v, k) => { kopfzeilen[k.toLowerCase()] = v })
+    else for (const k in kopf) kopfzeilen[k.toLowerCase()] = kopf[k]
+    if (neu) melde()
   }
 
   const altFetch = window.fetch
   window.fetch = async function (...a) {
     const url = typeof a[0] === 'string' ? a[0] : (a[0] && a[0].url) || ''
-    const kopf = (a[1] && a[1].headers) || (a[0] && a[0].headers)
-    if (kopf && /bamgrid/.test(url)) {
-      const wert =
-        typeof kopf.get === 'function' ? kopf.get('authorization') : kopf.authorization || kopf.Authorization
-      if (wert) token = wert
-    }
+    merkeKopf(url, (a[1] && a[1].headers) || (a[0] && a[0].headers))
     const antwort = await altFetch.apply(this, a)
     if (/\/explore\/v1\.\d+\/(page|season)\//.test(url)) {
       antwort.clone().text().then((t) => lies(url, t)).catch(() => {})
@@ -98,18 +136,67 @@
   const altSet = XMLHttpRequest.prototype.setRequestHeader
   XMLHttpRequest.prototype.open = function (methode, url, ...rest) {
     this._akUrl = url
+    this._akKopf = {}
     if (/\/explore\/v1\.\d+\/(page|season)\//.test(String(url))) {
       this.addEventListener('load', () => lies(url, this.responseText ?? ''))
     }
     return altOpen.call(this, methode, url, ...rest)
   }
   XMLHttpRequest.prototype.setRequestHeader = function (name, wert) {
-    if (name.toLowerCase() === 'authorization' && /bamgrid/.test(this._akUrl ?? '')) {
-      const neu = !token
-      token = wert
-      if (neu) melde()
-    }
+    if (this._akKopf) this._akKopf[name.toLowerCase()] = wert
+    if (name.toLowerCase() === 'authorization') merkeKopf(this._akUrl, this._akKopf)
     return altSet.call(this, name, wert)
+  }
+
+  // --- Nachladen ------------------------------------------------------------
+
+  /*
+    Die Kopfzeilen stammen aus einem echten Aufruf der Seite; nachgebaut wird
+    nichts. Ohne `content-type` und `content-length`, die zu diesem GET nicht
+    passen.
+  */
+  function leseKopf() {
+    const raus = {}
+    for (const [k, v] of Object.entries(kopfzeilen ?? {})) {
+      if (k === 'content-type' || k === 'content-length') continue
+      raus[k] = v
+    }
+    return raus
+  }
+
+  async function staffelHolen(staffel) {
+    let offset = folgen.size ? undefined : 0
+    /* Beim ersten Abruf ohne `after`; danach mit dem Stand der letzten Antwort. */
+    let weiter = true
+    let gesehen = 0
+    while (weiter && gesehen < staffel.gesamt) {
+      const nach = gesehen ? `after=${encodeURIComponent(btoa(JSON.stringify({ offset: gesehen })))}&` : ''
+      const antwort = await altFetch(`${EXPLORE}${staffel.id}?${nach}limit=24`, {
+        headers: leseKopf(),
+      })
+      if (!antwort.ok) return
+      const daten = await antwort.json()
+      const stueck = daten?.data?.season?.items ?? []
+      sammle(daten)
+      gesehen += stueck.length
+      weiter = Boolean(daten?.data?.season?.pagination?.hasMore) && stueck.length > 0
+      await new Promise((ok) => setTimeout(ok, TAKT))
+    }
+    void offset
+  }
+
+  async function allesHolen() {
+    if (holtGerade || !kopfzeilen) return
+    holtGerade = true
+    try {
+      for (const staffel of [...staffeln]) {
+        await staffelHolen(staffel)
+        melde()
+      }
+    } finally {
+      holtGerade = false
+      melde(true)
+    }
   }
 
   // --- Fragen ---------------------------------------------------------------
@@ -117,8 +204,7 @@
   /*
     Der Rumpf ist der der Seite, bis auf eine Änderung: `resolution.max` steht
     auf der kleinsten Stufe. Gefragt wird nach der Sprachliste, nicht nach einem
-    Bild — und je kleiner die Stufe, desto weniger richtet der Aufruf bei
-    Disney+ an.
+    Bild.
   */
   const RUMPF = {
     playback: {
@@ -141,18 +227,14 @@
   }
 
   async function spurenFuer(playbackId) {
-    if (!token) return { fehler: 'kein Token' }
+    if (!kopfzeilen?.authorization) return { fehler: 'kein Token' }
     const antwort = await altFetch(PLAYBACK, {
       method: 'POST',
       headers: {
-        authorization: token,
+        ...leseKopf(),
         'content-type': 'application/json',
         accept: 'application/vnd.media-service+json; version=8',
         'x-dss-feature-filtering': 'true',
-        'x-application-version': 'f65105e0_bap',
-        'x-bamsdk-client-id': 'disney-svod-3d9324fc',
-        'x-bamsdk-platform': 'javascript/windows/chrome',
-        'x-bamsdk-version': '35.3',
       },
       body: JSON.stringify({ ...RUMPF, playbackId }),
     })
@@ -166,12 +248,10 @@
   window.addEventListener('message', async (e) => {
     if (e.source !== window || e.data?.marke !== MARKE_STEUER) return
     if (e.data.frageListe) return melde()
+    if (e.data.allesHolen) return void allesHolen()
     if (!e.data.playbackId) return
     const ergebnis = await spurenFuer(e.data.playbackId)
-    window.postMessage(
-      { marke: MARKE, antwortFuer: e.data.playbackId, ...ergebnis },
-      '*',
-    )
+    window.postMessage({ marke: MARKE, antwortFuer: e.data.playbackId, ...ergebnis }, '*')
   })
 
   melde()

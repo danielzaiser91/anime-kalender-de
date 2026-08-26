@@ -10,12 +10,22 @@ const { readFileSync } = require('node:fs')
 const quelle = readFileSync(__dirname + '/disney-leser.js', 'utf8')
 const probe = JSON.parse(readFileSync(__dirname + '/disney-probe.json', 'utf8'))
 
-/* Die Sammelfunktion aus der Quelle holen statt sie nachzubauen. */
-const von = quelle.indexOf('  function sammle(')
-if (von < 0) { console.error('sammle() nicht gefunden'); process.exit(1) }
-const code = quelle.slice(von, quelle.indexOf('\n  }\n', von) + 4)
+/*
+  Die Sammelfunktionen aus der Quelle holen statt sie nachzubauen.
+
+  `sammle` stuetzt sich auf `merkeFolge` und die Staffelliste; beide gehoeren
+  mit in den Sandkasten. Der erste Anlauf nahm nur `sammle` und starb an
+  "merkeFolge is not defined" — ein Test, der die Quelle nur zur Haelfte laedt,
+  prueft eine Funktion, die es so nicht gibt.
+*/
+const holeFunktion = (name) => {
+  const von = quelle.indexOf('  function ' + name + '(')
+  if (von < 0) { console.error(name + '() nicht gefunden'); process.exit(1) }
+  return quelle.slice(von, quelle.indexOf('\n  }\n', von) + 4).replace(/^ {2}/gm, '')
+}
 const folgen = new Map()
-eval(code.replace(/^ {2}/gm, ''))
+let staffeln = []
+eval(holeFunktion('merkeFolge') + '\n' + holeFunktion('sammle'))
 
 const faelle = []
 const pruefe = (name, ok, gefunden) => {
@@ -123,6 +133,50 @@ pruefe('ein zweiter Abruf derselben Staffel verdoppelt nichts', folgen.size === 
     'jeder Eintrag hat mindestens eine offene Staffel',
     schluessel.every((k) => liste[k].staffeln.some((st) => st.offen)),
   )
+}
+
+/**
+ * Findet der Leser die Staffeln samt ihrer wahren Folgenzahl?
+ *
+ * Der Seitenaufruf bringt nur 15 Folgen mit, die Staffel hat 51 — wer nur
+ * mithoert, prueft ein Drittel und nennt es die Staffel (Daniel, 26.08.2026:
+ * „staffel 1 hat uebrigens 51 folgen, also sind die 15 dort auch falsch").
+ * `pagination.totalCount` sagt, wie viele es wirklich sind.
+ */
+{
+  staffeln = []
+  folgen.clear()
+  sammle({
+    data: {
+      page: {
+        containers: [
+          {
+            seasons: [
+              { id: 'bd87ec00', visuals: { name: 'Staffel 1' }, items: [], pagination: { totalCount: 24, hasMore: true } },
+              { id: 'fdc881e9', visuals: { name: 'Staffel 2' }, items: [], pagination: { totalCount: 23, hasMore: true } },
+              { id: '3b47ae38', visuals: { name: 'Staffel 3' }, items: [], pagination: { totalCount: 12, hasMore: true } },
+            ],
+          },
+        ],
+      },
+    },
+  })
+  pruefe('alle drei Staffeln gefunden', staffeln.length === 3, staffeln.length)
+  pruefe(
+    'jede kennt ihre wahre Folgenzahl',
+    staffeln.map((s) => s.gesamt).join() === '24,23,12',
+    staffeln.map((s) => s.gesamt),
+  )
+  pruefe('die Namen stehen dabei', staffeln.every((s) => /Staffel \d/.test(s.name)), staffeln.map((s) => s.name))
+
+  /* Ein zweiter Abruf derselben Seite verdoppelt die Staffeln nicht. */
+  sammle({ data: { page: { containers: [{ seasons: [{ id: 'bd87ec00', visuals: { name: 'Staffel 1' }, pagination: { totalCount: 24 } }] }] } } })
+  pruefe('ein zweiter Abruf verdoppelt keine Staffel', staffeln.length === 3, staffeln.length)
+
+  /* Und was keinen Seitenzaehler hat, ist keine Staffel. */
+  staffeln = []
+  sammle({ irgendwas: { id: 'abc', visuals: { name: 'Empfehlungen' } } })
+  pruefe('ohne Seitenzaehler keine Staffel', staffeln.length === 0, staffeln.length)
 }
 
 const fehler = faelle.filter((x) => !x).length
