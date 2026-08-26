@@ -79,7 +79,17 @@
     return teile.join(', ')
   }
 
-  /** Folgen je Staffel als `1e1-15, 2e1-35` — bei einem Film schlicht „Film". */
+  /**
+   * Folgen je Staffel als `1e1-15, 2e1-35` — bei einem Film schlicht „Film".
+   *
+   * **Eine hohe Staffelnummer ist Disneys Zählung, kein Fehler.** Bei „Undead
+   * Unluck" steht neben `1e1-24` ein `99e1`; Disney+ führt Extras und Specials
+   * unter Nummern weit über der Serie. Daniel am 26.08.2026: „99e1? wieso steht
+   * das da?"
+   *
+   * Statt der nackten Zahl steht dort deshalb der Name, den Disney+ selbst
+   * vergibt — der sagt, was es ist.
+   */
   function nachStaffeln(eintraege) {
     if (eintraege.length === 1 && eintraege[0].film) return 'Film'
     const jeStaffel = new Map()
@@ -89,7 +99,14 @@
     }
     return [...jeStaffel.entries()]
       .sort((a, b) => a[0] - b[0])
-      .map(([nr, nummern]) => `${nr}e${bereiche(nummern)}`)
+      .map(([nr, nummern]) => {
+        /* Ab 90 ist es keine Staffel mehr, sondern ein Nebenblock. */
+        if (nr >= 90) {
+          const name = anbieterStaffeln.find((st) => /extra|special|bonus/i.test(st.name ?? ''))?.name
+          return `${name ?? 'Extras'} ${bereiche(nummern)}`
+        }
+        return `${nr}e${bereiche(nummern)}`
+      })
       .join(', ')
   }
 
@@ -717,9 +734,15 @@
       (a, b) => (a.staffel ?? 0) - (b.staffel ?? 0) || a.nummer - b.nummer,
     )
     zeigePruefung(
+      /*
+        Die Zahl der deutschen Folgen bleibt stehen. Vorher stand nach dem
+        Melden nur noch der Bereich da, und die Auskunft, um die es eigentlich
+        ging, war weg (Daniel, 26.08.2026: „jetzt steht dort nicht mehr wieviele
+        davon als deutsch gemeldet wurden").
+      */
       `${eintrag.titel}\n✓ ${nachStaffeln(
         alle.filter((f) => gemeldeteNummern.has(folgenSchluessel(f.staffel, f.nummer))),
-      )} gemeldet` +
+      )} gemeldet (${echte.filter((r) => r.sprachen.includes('de')).length}× deutsch)` +
         (gescheitert.length ? `\n${gescheitert.length} kamen nicht an — siehe Konsole` : '') +
         `\nÜbernahme ab ${uhrzeit(naechsteUebernahme())}`,
       {
@@ -807,12 +830,25 @@
     if (jetzt === seite) return
     seite = jetzt
     /*
-      Kennt die Liste diese Kennung nicht, war es vielleicht eine Weiterleitung:
-      Der letzte Klick aus der Liste sagt dann, welcher Titel gemeint ist.
-      Gemeldet wird trotzdem unter der Adresse aus unserem Bestand — die ist es,
-      nach der die Pipeline sucht.
+      **Der Klick schlaegt die Adresse.**
+
+      Wer aus der Liste heraus oeffnet, meint den Titel, den er angeklickt hat —
+      auch wenn Disney+ ihn woanders hinbringt. Zwei Faelle, beide real:
+
+      - **Weiterleitung.** Unser Bestand fuehrt "Bright Sun: Dark Shadows" als
+        /series/summer-time-rendering/…, der Klick landet auf /browse/entity-….
+        Ohne den Merker tat die Erweiterung gar nichts.
+      - **Zwei Titel, eine Seite.** "Star Wars: Visionen" und "… Volume 3" sind
+        bei uns zwei Eintraege; Disney+ zeigt beide unter derselben Seite mit
+        drei Staffeln. Wer den ersten anklickt, wuerde sonst unter dem zweiten
+        melden (Daniel, 26.08.2026: "2 verschiedene urls fuehren zur selben
+        seite").
+
+      Nur wer ohne Klick hier landet — Lesezeichen, Suche, direkte Adresse —
+      bekommt den Titel aus der Adresse.
     */
-    eintrag = (jetzt ? liste[jetzt] : null) ?? (jetzt ? letztesZiel() : null)
+    const geklickt = letztesZiel()
+    eintrag = geklickt ?? (jetzt ? liste[jetzt] : null)
     gelaufen = false
     angefordert = false
     folgen = []
