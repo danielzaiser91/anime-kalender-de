@@ -160,9 +160,26 @@ const erledigteIds = new Set<number>()
  */
 const JAHRESZEIT: Record<string, number> = { WINTER: 0, SPRING: 1, SUMMER: 2, FALL: 3 }
 function staffelnDerAdresse(ids: number[]): Staffeleintrag[] {
+  /*
+    **Bei einem einzigen Titel braucht es keine Folgenzahl.**
+
+    Die Zahl dient dazu, durchgezählte Meldungen auf mehrere Staffeln zu
+    verteilen. Hängt nur einer an der Adresse, gibt es nichts zu verteilen —
+    der Befund gehört ihm.
+
+    Ohne diese Ausnahme fiel „Beyblade X" durch: AniList führt für den Titel
+    keine Folgenzahl, damit blieb die Staffelliste leer, und die Zuordnung
+    verweigerte sich. 86 Meldungen aus Daniels Durchgang lagen daraufhin im
+    Briefkasten fest (26.08.2026). Vierzehn weitere Titel mit Verweis haben
+    dieselbe Lücke.
+
+    Die Folgenzahl kommt dann von der Meldung selbst: Der Anbieter hat gerade
+    gezählt, wie viele es sind.
+  */
+  const einTitel = ids.length === 1
   const alle = ids
     .map((id) => liste.find((x) => x.id === id))
-    .filter((t): t is NonNullable<typeof t> => Boolean(t?.episodes))
+    .filter((t): t is NonNullable<typeof t> => Boolean(t?.episodes) || (einTitel && Boolean(t)))
   /**
    * OVAs und Specials zählen nicht als eigene Staffeln.
    *
@@ -182,7 +199,12 @@ function staffelnDerAdresse(ids: number[]): Staffeleintrag[] {
       if (jahr) return jahr
       return (JAHRESZEIT[a.jpSeason ?? ''] ?? 0) - (JAHRESZEIT[b.jpSeason ?? ''] ?? 0)
     })
-    .map((t) => ({ id: t.id, titel: t.titleDe ?? t.titleEn ?? String(t.id), folgen: t.episodes as number }))
+    .map((t) => ({
+      id: t.id,
+      titel: t.titleDe ?? t.titleEn ?? String(t.id),
+      /* Bei einem einzigen Titel ist die Zahl ohne Belang — siehe oben. */
+      folgen: (t.episodes ?? Number.MAX_SAFE_INTEGER) as number,
+    }))
 }
 
 /**
