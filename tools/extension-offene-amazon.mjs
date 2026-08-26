@@ -65,6 +65,35 @@ for (const t of titel) {
   }
 }
 
+/**
+ * Adressen, die trotz vorhandenem Urteil noch einmal drankommen.
+ *
+ * Der Regelfall ist, dass eine beantwortete Adresse aus der Liste fällt. Manche
+ * Antworten verdienen aber einen zweiten Blick — und ohne diesen Weg gäbe es
+ * keinen, sie erneut vorzulegen.
+ *
+ * Je Eintrag der Grund, damit in drei Monaten niemand rätselt, warum eine
+ * geprüfte Adresse wieder dasteht.
+ */
+const ERNEUT = {
+  /*
+    Golden Kamuy Staffel 4 auf Prime, gemeldet am 25.08.2026 über den
+    Crunchyroll-Kanal: Folgen 1–2 ohne deutschen Ton, 3 mit, 4–6 ohne, 7–13 mit.
+    Neun von dreizehn.
+
+    Daniel sieht bei Crunchyroll selbst **alle** Folgen auf Deutsch, nur die drei
+    OADs nicht — und auf Prime läuft die Serie über genau dieses Kanal-Abo. Zwei
+    Wege zu derselben Fassung dürfen nicht verschieden antworten.
+
+    Die Meldung trug außerdem die falsche Staffel: zugeordnet zu AniList 99699
+    (Staffel 1, 12 Folgen), obwohl 13 Folgen geprüft wurden.
+  */
+  B0GKFJXSLT: {
+    titel: 'Golden Kamuy: Staffel 4',
+    grund: '9 von 13 deutsch, obwohl Crunchyroll alle führt — derselbe Kanal',
+  },
+}
+
 const JAHRESZEIT = { WINTER: 0, SPRING: 1, SUMMER: 2, FALL: 3 }
 const offen = {}
 for (const [asin, eintraege] of jeAsin) {
@@ -82,6 +111,16 @@ for (const [asin, eintraege] of jeAsin) {
       folgen: e.t.episodes ?? null,
       offen: e.dub === undefined,
     })),
+  }
+}
+
+for (const [asin, wert] of Object.entries(ERNEUT)) {
+  if (offen[asin]) continue
+  offen[asin] = {
+    titel: wert.titel,
+    url: `https://www.amazon.de/dp/${asin}`,
+    erneut: wert.grund,
+    eintraege: [{ id: null, name: wert.titel, folgen: null, offen: true }],
   }
 }
 
