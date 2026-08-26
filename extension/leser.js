@@ -368,7 +368,19 @@
       Dieselbe Falle wie bei jeder Prüfung auf Vorhandensein: Eine Zahl kann
       gültig und trotzdem unbrauchbar sein.
     */
-    if (istFolge && Number.isFinite(nummer) && nummer > 0 && Number(kennung) > 0) {
+    /*
+      **Was nicht abspielbar ist, gehört nicht in die Liste.**
+
+      Die Antwort trägt je Folge `isAvailable` und `isPlayable` — beides stand
+      im Mitschnitt vom 26.08.2026, und beides habe ich übergangen. Der
+      Durchlauf öffnete daraufhin `/watch/82757184`, und Netflix antwortete mit
+      E103: „Dieser Titel steht nicht zum Streaming zur Verfügung."
+
+      Eine Kennung kann echt sein und trotzdem ins Leere führen. Die Seite weiß
+      das vorher; man muss sie nur fragen.
+    */
+    const abspielbar = o.isPlayable !== false && o.isAvailable !== false
+    if (abspielbar && istFolge && Number.isFinite(nummer) && nummer > 0 && Number(kennung) > 0) {
       raus.push({ nummer, videoId: Number(kennung), titel: o.title ?? null })
     }
     for (const v of Object.values(o)) sammleFolgen(v, raus, tiefe + 1)

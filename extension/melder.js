@@ -1269,7 +1269,7 @@ function stoerung() {
     nicht verfügbar". Er erschien, weil eine Folge mit `videoId: 0` in die Liste
     geraten war und der Durchlauf `/watch/0` öffnete.
   */
-  const treffer = /\bM7\d{3}\b|\bUI\d{4}\b|\bNSES-[A-Z]{3}\b/.exec(text)
+  const treffer = /\bM7\d{3}\b|\bUI\d{4}\b|\bE\d{3}\b|\bNSES-[A-Z]{3}\b/.exec(text)
   if (treffer) return treffer[0]
   /* Der Player kennt seine eigenen Fehler — falls die Seite noch nichts zeigt. */
   try {
