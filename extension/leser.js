@@ -376,7 +376,29 @@
       folgenFuer = kennung
     }
 
-    const gefunden = sammleFolgen(daten, [], 0)
+    /**
+     * **Nur `data.videos` — das ist die Folgenliste einer Staffel.**
+     *
+     * Die Diagnose vom 26.08.2026 auf der Kakegurui-Seite zeigt zwei Sorten
+     * Antworten, und beide tragen `__typename: "Episode"`:
+     *
+     * ```
+     * data: videos            12 Folgen, Nr 1,2,3,4,5    ← die Staffel
+     * data: unifiedEntities    4 Folgen, Nr 1,13,1,1     ← Empfehlungsleiste
+     * data: unifiedEntities   13 Folgen, Nr 1,10,1,4,1   ← noch eine
+     * ```
+     *
+     * `unifiedEntities` sind die Reihen der Startseite, die hinter dem
+     * Titel-Dialog weiterlädt. Es sind **echte Folgen** — nur von fremden
+     * Serien, und deshalb ließ die Typ-Prüfung sie durch. Erkennbar an den
+     * Nummern: Keine Staffel zählt `1,13,1,1`.
+     *
+     * Der Ort entscheidet hier, nicht der Typ. Zwei Anläufe zuvor hatte ich es
+     * umgekehrt versucht — erst ein fester Pfad, der nicht griff (weil
+     * `text()` noch nicht eingehakt war), dann eine Suche über den ganzen
+     * Baum, die zu viel fand. Die Diagnose hat beides aufgelöst.
+     */
+    const gefunden = daten?.data?.videos ? sammleFolgen(daten.data.videos, [], 0) : []
     if (gefunden.length) {
       herkunft.push({
         adresse: location.pathname + location.search,

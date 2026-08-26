@@ -267,4 +267,49 @@ console.log(ok ? '\n✓ Gesehen, unverändert durchgereicht, kein Stapelüberlau
   pruefe('auf der Startseite wird nichts gesammelt', gesendet.length === 0, gesendet.length)
 }
 
+
+/**
+ * **Die Empfehlungsleisten der Startseite liefern keine Folgen.**
+ *
+ * Sie kommen als `data.unifiedEntities` und tragen ebenfalls
+ * `__typename: "Episode"` — es sind echte Folgen, nur von fremden Serien.
+ * Auf der Kakegurui-Seite (12 Folgen) standen dadurch 61 am Knopf.
+ *
+ * Der Auszug ist echt: dieselben Nummern wie in der Diagnose vom 26.08.2026.
+ */
+{
+  gesendet.length = 0
+  location.pathname = '/title/80175351'
+  lesFolgenliste({
+    data: {
+      unifiedEntities: [
+        { __typename: 'Episode', number: 1, videoId: 70177057, title: 'Red John' },
+        { __typename: 'Episode', number: 13, videoId: 81649836, title: 'Redstream Explosion!' },
+        { __typename: 'Episode', number: 37, videoId: 70136120, title: 'Ein Teil der Familie' },
+      ],
+    },
+  })
+  pruefe(
+    'unifiedEntities liefert keine Folgen',
+    gesendet.length === 0,
+    gesendet.map((m) => m.folgen?.map((f) => f.titel)),
+  )
+
+  /* Und die echte Staffelliste kommt weiterhin an. */
+  lesFolgenliste({
+    data: {
+      videos: {
+        episodes: {
+          edges: [
+            { node: { __typename: 'Episode', number: 1, videoId: 80179815, title: 'Neuauflage' } },
+            { node: { __typename: 'Episode', number: 2, videoId: 80179816, title: 'Momobami' } },
+          ],
+        },
+      },
+    },
+  })
+  const echt = gesendet.find((m) => m.marke === 'ak-folgenliste')
+  pruefe('data.videos liefert die Staffel', echt?.folgen?.length === 2, echt?.folgen?.length)
+}
+
 process.exit(ok && !rot.length ? 0 : 1)
