@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-08-26T20:15:28.912Z",
+ "erzeugtAm": "2026-08-26T20:24:22.453Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -53,42 +53,14 @@
    "name": "Disney+",
    "plattform": "disneyplus",
    "gemeldet": 32,
-   "gesamt": 44,
-   "offen": 12,
+   "gesamt": 36,
+   "offen": 4,
    "ohneSeite": 0,
-   "ziel": "https://www.disneyplus.com/de-de/movies/children-of-the-sea/PPmmokvapG3T",
+   "ziel": "https://www.disneyplus.com/de-de/series/tokyo-revengers/4HFbN55sAh0i",
    "ziele": [
-    {
-     "url": "https://www.disneyplus.com/de-de/movies/children-of-the-sea/PPmmokvapG3T",
-     "titel": "Children of the Sea"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/series/the-rising-of-the-shield-hero-aka-tate-no-yuusha-no/4lgHH2jdAefe",
-     "titel": "The Rising of the Shield Hero: Staffel 2"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/series/chainsaw-man/2gMK1kC3JIEh",
-     "titel": "Chainsaw Man"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/series/aoashi/27OVvACG0ySD",
-     "titel": "Aoashi"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/series/spyfamily/fet1h9jqmrAM",
-     "titel": "Spy × Family"
-    },
     {
      "url": "https://www.disneyplus.com/de-de/series/tokyo-revengers/4HFbN55sAh0i",
      "titel": "Tokyo Revengers: Christmas Showdown"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/browse/entity-5973d358-1997-47d0-942d-e85b455ed9db",
-     "titel": "Fire Force: Staffel 3"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/browse/entity-54a25fcf-a472-4d40-9968-13e2957e5abf",
-     "titel": "One-Punch Man: Staffel 3"
     },
     {
      "url": "https://www.disneyplus.com/de-de/series/go-go-loser-ranger/2VX5fKgeiVEl",
@@ -97,13 +69,9 @@
     {
      "url": "https://www.disneyplus.com/browse/entity-0e46c665-5191-407f-8dc5-e22a0095578c",
      "titel": "Beyblade X"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/browse/entity-75f4baad-151d-489d-8a9e-bec4ab49ed23",
-     "titel": "Rooster Fighter"
     }
    ],
-   "naechster": "Children of the Sea"
+   "naechster": "Tokyo Revengers: Christmas Showdown"
   }
  ]
 }
