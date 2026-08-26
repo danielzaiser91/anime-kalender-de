@@ -390,3 +390,10 @@
 .ak-grenzfeld::placeholder {
   color: #8b949e;
 }
+
+/* Die Uhrzeit der nächsten Übernahme — Beiwerk, kein Bedienelement. */
+.ak-liste .ak-lauf {
+  font-size: 11px;
+  opacity: 0.65;
+  white-space: nowrap;
+}

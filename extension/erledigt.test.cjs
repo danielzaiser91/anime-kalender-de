@@ -10,7 +10,7 @@ const quelle = readFileSync(__dirname + '/melder.js', 'utf8')
 
 // Die beiden Prüffunktionen aus der Quelle holen statt sie nachzubauen.
 let code = ''
-for (const name of ['function istErledigt', 'function staffelAngefasst', 'function kuerzelFuerNummern']) {
+for (const name of ['function istErledigt', 'function staffelAngefasst', 'function kuerzelFuerNummern', 'function naechsteUebernahme']) {
   const von = quelle.indexOf(name)
   if (von < 0) { console.error('nicht gefunden: ' + name); process.exit(1) }
   code += quelle.slice(von, quelle.indexOf('\n}\n', von) + 3) + '\n'
@@ -189,6 +189,46 @@ pruefe('ohne Vermerke ist nichts erledigt',
   /* Und eine Nummer, die keine Staffel kennt, erfindet keine. */
   pruefe('eine Lücke zwischen den Staffeln bleibt unzugeordnet', k(500).length === 0, k(500))
   pruefe('eine Nummer hinter der letzten Staffel auch', k(9999).length === 0, k(9999))
+}
+/**
+ * Die Uhrzeit der nächsten Übernahme.
+ *
+ * Sie sagt Daniel, wann die gemeldeten Titel aus der Prüfliste verschwinden
+ * müssen — und damit, ob der stündliche Lauf seine Arbeit getan hat
+ * (26.08.2026). Eine falsch gerechnete Uhrzeit macht aus einem gesunden Lauf
+ * einen verdächtigen.
+ */
+{
+  const um = (h, m) => new Date(2026, 7, 26, h, m, 30)
+  const uhr = (d) => `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`
+
+  pruefe(
+    'vor der Minute 23 gilt dieselbe Stunde',
+    uhr(naechsteUebernahme(um(16, 5))) === '16:23',
+    uhr(naechsteUebernahme(um(16, 5))),
+  )
+  pruefe(
+    'nach der Minute 23 die nächste',
+    uhr(naechsteUebernahme(um(16, 33))) === '17:23',
+    uhr(naechsteUebernahme(um(16, 33))),
+  )
+  pruefe(
+    'genau auf der Minute zählt schon die nächste Stunde',
+    uhr(naechsteUebernahme(new Date(2026, 7, 26, 16, 23, 0))) === '17:23',
+    uhr(naechsteUebernahme(new Date(2026, 7, 26, 16, 23, 0))),
+  )
+  /* Über Mitternacht darf kein 24:23 entstehen. */
+  pruefe(
+    'über Mitternacht springt der Tag mit',
+    uhr(naechsteUebernahme(um(23, 40))) === '00:23' &&
+      naechsteUebernahme(um(23, 40)).getDate() === 27,
+    uhr(naechsteUebernahme(um(23, 40))),
+  )
+  pruefe(
+    'die Sekunden fallen weg',
+    naechsteUebernahme(um(16, 5)).getSeconds() === 0,
+    naechsteUebernahme(um(16, 5)).getSeconds(),
+  )
 }
 const fehler = faelle.filter((x) => !x).length
 console.log(fehler ? `\n${fehler} Fall/Fälle durchgefallen` : '\n✓ Geprüftes wird sichtbar')

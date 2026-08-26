@@ -168,7 +168,26 @@ function kuerzelFuerNummern(staffeln, nummern) {
   }
   return raus
 }
+
 /**
+ * Wann übernimmt der nächste Lauf die Meldungen?
+ *
+ * `refresh-hourly.yml` läuft zur Minute 23 jeder Stunde und ruft dort
+ * `data:pruefungen` auf — das ist der Schritt, der den Briefkasten leert und
+ * die Meldungen in den Datensatz schreibt. Danach sind die Titel aus der
+ * Prüfliste verschwunden, und genau daran lässt sich ablesen, ob der Lauf
+ * seine Arbeit getan hat (Daniel, 26.08.2026).
+ *
+ * GitHub startet geplante Läufe regelmäßig einige Minuten später als
+ * eingetragen; die Zeile sagt deshalb „ab", nicht „um".
+ */
+function naechsteUebernahme(jetzt = new Date()) {
+  const ziel = new Date(jetzt)
+  ziel.setSeconds(0, 0)
+  ziel.setMinutes(23)
+  if (ziel <= jetzt) ziel.setTime(ziel.getTime() + 3600000)
+  return ziel
+}/**
  * Was zuletzt aus der Liste heraus geöffnet wurde — für zehn Minuten.
  *
  * Der Tab, in dem geklickt wurde, hinterlegt es; `chrome.storage.local` teilen
@@ -2265,6 +2284,31 @@ async function dialogOeffnen() {
         : `${eintraege.length - nochOffen} gemeldet zeigen`
     })
     kopf.appendChild(umschalter)
+
+    /*
+      **Wann das Gemeldete hier wieder verschwindet.**
+
+      Ein gemeldeter Titel bleibt in der Liste stehen, bis der nächste Lauf ihn
+      übernommen hat — die Liste entsteht beim Datenlauf und weiß nichts vom
+      Briefkasten. Ohne die Uhrzeit ist von außen nicht zu unterscheiden, ob der
+      Lauf noch aussteht oder seine Arbeit nicht getan hat (Daniel, 26.08.2026:
+      „so kann ich es gegenprüfen, dass der lauf sein job gemacht hat").
+    */
+    const lauf = document.createElement('span')
+    lauf.className = 'ak-lauf'
+    lauf.title = 'Der stündliche Datenlauf holt die Meldungen ab und schreibt sie in den Kalender. GitHub startet ihn oft ein paar Minuten später.'
+    const zeigeLauf = () => {
+      const z = naechsteUebernahme()
+      const uhr = `${String(z.getHours()).padStart(2, '0')}:${String(z.getMinutes()).padStart(2, '0')}`
+      lauf.textContent = `Übernahme ab ${uhr} — danach hier weg`
+    }
+    zeigeLauf()
+    /* Bleibt der Dialog lange offen, wandert die Uhrzeit mit. */
+    const takt = setInterval(() => {
+      if (!lauf.isConnected) return clearInterval(takt)
+      zeigeLauf()
+    }, 60000)
+    kopf.appendChild(lauf)
   }
 
   const zu = document.createElement('button')
