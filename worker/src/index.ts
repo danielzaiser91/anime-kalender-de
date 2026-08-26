@@ -1571,9 +1571,9 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
     */
     const token = request.headers.get('X-Lauf-Token') ?? ''
     if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
-    let daten: { ids?: number[]; url?: string }
+    let daten: { ids?: number[]; url?: string; nummern?: number[] }
     try {
-      daten = (await request.json()) as { ids?: number[]; url?: string }
+      daten = (await request.json()) as { ids?: number[]; url?: string; nummern?: number[] }
     } catch {
       return antwort({ error: 'Kein gültiges JSON' }, 400)
     }
@@ -1581,6 +1581,21 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
       const platzhalter = daten.ids.map(() => '?').join(',')
       const ergebnis = await env.DB.prepare(`DELETE FROM pruefung WHERE id IN (${platzhalter})`)
         .bind(...daten.ids)
+        .run()
+      return antwort({ ok: true, geloescht: ergebnis.meta?.changes ?? 0 })
+    }
+    /*
+      Einzelne Folgen einer Adresse — für den Fall, dass nur ein Teil einer
+      Reihe neu geprüft werden soll. Bei One Piece waren drei von achtzehn
+      Meldungen aus Staffel 1; die übrigen fünfzehn gehören zu anderen
+      Staffeln und sollten bleiben.
+    */
+    if (daten.url && Array.isArray(daten.nummern) && daten.nummern.length) {
+      const platzhalter = daten.nummern.map(() => '?').join(',')
+      const ergebnis = await env.DB.prepare(
+        `DELETE FROM pruefung WHERE url = ? AND folge_nr IN (${platzhalter})`,
+      )
+        .bind(daten.url, ...daten.nummern)
         .run()
       return antwort({ ok: true, geloescht: ergebnis.meta?.changes ?? 0 })
     }

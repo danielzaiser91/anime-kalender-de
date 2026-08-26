@@ -327,3 +327,29 @@
   padding: 6px 10px;
   font-variant-numeric: tabular-nums;
 }
+
+/* Eine uneinheitliche Randprobe wird gelb — hier hat niemand entschieden, und
+   der Knopf soll nicht aussehen, als sei etwas erledigt. */
+.ak-durchlauf.ak-uneinheitlich {
+  border-color: #d29922;
+  color: #d29922;
+}
+.ak-durchlauf.ak-uneinheitlich:hover {
+  border-color: #e3b341;
+  color: #e3b341;
+}
+
+/* Das Feld für die Grenze: schmal, weil dort eine Folgennummer steht. */
+.ak-grenzfeld {
+  width: 92px;
+  padding: 6px 8px;
+  border: 1px solid #d29922;
+  border-radius: 999px;
+  background: rgba(20, 20, 20, 0.92);
+  color: #e5e5e5;
+  font: 500 12px/1.2 system-ui, sans-serif;
+  text-align: center;
+}
+.ak-grenzfeld::placeholder {
+  color: #8b949e;
+}

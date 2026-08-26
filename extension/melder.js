@@ -1068,8 +1068,51 @@ void (async () => {
   durchlaufKnopfZeigen()
 })()
 
+/**
+ * **Drei Zustände: zwei Folgen, alle, oder nur Anfang und Ende.**
+ *
+ * Daniel am 26.08.2026: „ich möchte nicht alle testen, ich will mich drauf
+ * verlassen bei netflix das 1. und letzte test ausreicht … wenn diese prüfung
+ * erkennt das 1. deutsch und letzte kein deutsch, dann meldung nicht
+ * abschicken und gelbfärbung oder so um es zu kennzeichnen, dann input feld
+ * anbieten wo ich manuell eine folge eingeben kann, bis zu der es deutsch ist."
+ *
+ * `RAND` prüft die erste und die letzte offene Folge. Stimmen beide überein,
+ * gilt der Befund für die ganze Staffel — **als Annahme, nicht als Messung**,
+ * und die Notiz sagt das. Unterscheiden sie sich, geht gar nichts raus: Dann
+ * liegt die Grenze irgendwo dazwischen, und die kennt nur, wer nachsieht.
+ */
+const RAND = -1
+
+/**
+ * Die von Hand eingetragene Grenze übernehmen.
+ *
+ * Bis zur genannten Folge gilt der Befund der **ersten** Randprobe, danach
+ * der der **letzten**. Beide sind gemessen; nur die Grenze dazwischen kommt
+ * von Daniel, und genau das steht in der Notiz.
+ */
+async function grenzeUebernehmen() {
+  const bis = Number(DURCHLAUF.grenzFeld?.value)
+  const daten = DURCHLAUF.randOffen
+  if (!daten || !Number.isFinite(bis) || bis < 1) return
+
+  const vorne = daten.folgen.filter((f) => f.nummer <= bis)
+  const hinten = daten.folgen.filter((f) => f.nummer > bis)
+  await randMelden(vorne, daten.erste, bis)
+  if (hinten.length) await randMelden(hinten, daten.letzte, daten.letzte.folge.nummer)
+
+  DURCHLAUF.randOffen = null
+  DURCHLAUF.grenzFeld.value = ''
+  durchlaufKnopfZeigen()
+  console.log(
+    `[Anime-Kalender] Grenze bei Folge ${bis} übernommen: ` +
+      `1–${bis} ${daten.erste.deutsch ? 'deutsch' : 'ohne Deutsch'}, ` +
+      `ab ${bis + 1} ${daten.letzte.deutsch ? 'deutsch' : 'ohne Deutsch'}.`,
+  )
+}
+
 async function probeGrenzeUmschalten() {
-  probeGrenze = probeGrenze === 0 ? 2 : 0
+  probeGrenze = probeGrenze === 2 ? RAND : probeGrenze === RAND ? 0 : 2
   try {
     await chrome.storage.local.set({ [PROBE_SCHLUESSEL]: probeGrenze })
   } catch {
@@ -1256,7 +1299,20 @@ async function durchlaufStarten(grenze) {
   if (!DURCHLAUF.uebergangen) await durchlaufStandLaden(reihe)
   DURCHLAUF.uebergangen = false
   const alleOffen = durchlaufOffen()
-  const offen = grenze ? alleOffen.slice(0, grenze) : alleOffen
+  /*
+    Bei `RAND` genau zwei Folgen: die erste und die letzte. Sie werden in
+    dieser Reihenfolge geprüft, damit die Staffelnummer aus der ersten schon
+    feststeht, wenn die letzte gemeldet wird.
+  */
+  const offen =
+    grenze === RAND
+      ? alleOffen.length > 1
+        ? [alleOffen[0], alleOffen[alleOffen.length - 1]]
+        : alleOffen
+      : grenze
+        ? alleOffen.slice(0, grenze)
+        : alleOffen
+  DURCHLAUF.randprobe = grenze === RAND && alleOffen.length > 1 ? alleOffen : null
   if (!offen.length) return
 
   DURCHLAUF.laeuft = true
@@ -1354,6 +1410,28 @@ async function durchlaufStarten(grenze) {
       }
       const staffelJetzt = Number.isFinite(stand.staffel) ? stand.staffel : DURCHLAUF.staffel
       /*
+        Bei einer Randprobe wird erst gesammelt. Ob gemeldet wird, entscheidet
+        sich, wenn beide Folgen gelesen sind — stimmen sie nicht überein, geht
+        nichts raus.
+      */
+      if (DURCHLAUF.randprobe) {
+        DURCHLAUF.randErgebnis = DURCHLAUF.randErgebnis ?? []
+        DURCHLAUF.randErgebnis.push({ folge: f, echte, deutsch, staffel: staffelJetzt })
+        DURCHLAUF.protokoll.push({
+          Folge: f.nummer,
+          Tonspuren: echte.map((x) => x.code).join(','),
+          Deutsch: deutsch ? 'ja' : 'nein',
+          Player: stand.staffel ?? '—',
+          gemerkt: DURCHLAUF.staffel ?? '—',
+          gemeldet: '(Randprobe)',
+        })
+        DURCHLAUF.fertig++
+        durchlaufKnopfZeigen()
+        gehe(titelseite)
+        await new Promise((r) => setTimeout(r, 1000))
+        continue
+      }
+      /*
         **Eine Ausgabe je Durchlauf, nicht je Folge.**
 
         Daniel am 26.08.2026: „mach nicht mehr so getrennte outputs, bündel
@@ -1431,6 +1509,36 @@ async function durchlaufStarten(grenze) {
   }
   DURCHLAUF.ohneStaffel = []
 
+  /*
+    **Die Randprobe auswerten.**
+
+    Stimmen erste und letzte Folge überein, gilt der Befund für die ganze
+    Staffel — als **Annahme**, und die Notiz sagt das. Unterscheiden sie sich,
+    geht nichts raus: Die Grenze liegt dann irgendwo dazwischen, und wo, weiß
+    nur, wer nachsieht.
+  */
+  if (DURCHLAUF.randprobe && DURCHLAUF.randErgebnis?.length === 2) {
+    const [ersteFolge, letzteFolge] = DURCHLAUF.randErgebnis
+    if (ersteFolge.deutsch === letzteFolge.deutsch) {
+      await randMelden(DURCHLAUF.randprobe, ersteFolge, letzteFolge.folge.nummer)
+      DURCHLAUF.randOffen = null
+    } else {
+      /* Uneinheitlich — hier entscheidet ein Mensch, nicht eine Annahme. */
+      DURCHLAUF.randOffen = {
+        folgen: DURCHLAUF.randprobe,
+        erste: ersteFolge,
+        letzte: letzteFolge,
+      }
+      console.warn(
+        `[Anime-Kalender] Folge ${ersteFolge.folge.nummer} ist ${ersteFolge.deutsch ? "deutsch" : "nicht deutsch"}, ` +
+          `Folge ${letzteFolge.folge.nummer} ${letzteFolge.deutsch ? "deutsch" : "nicht"} — nichts gemeldet. ` +
+          'Grenze im Feld unten eintragen oder den vollen Lauf starten.',
+      )
+    }
+  }
+  DURCHLAUF.randprobe = null
+  DURCHLAUF.randErgebnis = null
+
   /* Alles auf einmal, statt verstreut zwischen Netflix' eigenen Meldungen. */
   if (DURCHLAUF.protokoll?.length) {
     console.groupCollapsed(
@@ -1454,6 +1562,68 @@ async function durchlaufStarten(grenze) {
 }
 
 /** Eine Folge des Durchlaufs melden — dieselbe Route wie eine Handmeldung. */
+/**
+ * **Eine ganze Staffel aus zwei Messungen melden — als Annahme gekennzeichnet.**
+ *
+ * Dieses Projekt sagt sonst: nichts behaupten, was nicht belegt ist. Hier wird
+ * bewusst etwas angenommen, und deshalb steht es in jeder einzelnen Meldung:
+ * `angenommen: true` und im Klartext in der Notiz, welche zwei Folgen wirklich
+ * gemessen wurden.
+ *
+ * Daniel am 26.08.2026: „ich will mich drauf verlassen bei netflix das 1. und
+ * letzte test ausreicht." Seine Entscheidung — aber sie muss im Datensatz
+ * ablesbar bleiben, sonst sieht eine Annahme später aus wie eine Messung.
+ */
+async function randMelden(folgen, befund, bisNummer) {
+  /* `bisNummer` steht nur noch in der Notiz — gefiltert wird von den Aufrufern. */
+  const { token } = await chrome.storage.sync.get('token')
+  if (!token) return 0
+  const reihe = gemeinteReihe()
+  let gemeldet = 0
+  for (const f of folgen) {
+    try {
+      const antwort = await fetch(WORKER, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
+        body: JSON.stringify({
+          plattform: 'netflix',
+          url: `https://www.netflix.com/title/${reihe}`,
+          sprachen: befund.echte.map((x) => `${x.code}|${x.name}`),
+          befund: befund.deutsch ? 'dub' : 'kein_dub',
+          titel: stand.serientitel ?? null,
+          folge: f.videoId,
+          folge_nr: f.nummer,
+          staffel: befund.staffel ?? DURCHLAUF.staffel ?? null,
+          staffeln: stand.staffeln ?? null,
+          serientitel: stand.serientitel ?? null,
+          notiz:
+            /*
+              **Die Notiz ist der einzige Weg, auf dem die Annahme ankommt.**
+
+              Ein eigenes Feld verwirft der Worker — er nimmt nur, was er kennt.
+              Die Notiz reicht er dagegen unverändert bis in
+              `dub-confirmed.yaml` durch, und dort muss stehen, dass hier
+              zwei Folgen gemessen und der Rest angenommen wurde. Sonst sieht
+              eine Annahme später aus wie eine Messung.
+            */
+            `ANGENOMMEN aus Randprobe — gemessen: Folge ${folgen[0].nummer} und ${bisNummer}, ` +
+            `dazwischen nicht geprüft` +
+            (f.titel ? ` — Folge ${f.nummer}: ${f.titel}` : ``),
+        }),
+      })
+      if (antwort.ok) {
+        gemeldet++
+        DURCHLAUF.gemeldet.add(f.videoId)
+      }
+    } catch {
+      /* Eine verlorene Meldung hält die übrigen nicht auf. */
+    }
+  }
+  await durchlaufStandSchreiben(reihe)
+  console.log(`[Anime-Kalender] ${gemeldet} Folge(n) aus der Randprobe gemeldet.`)
+  return gemeldet
+}
+
 async function durchlaufMelden(folge, echte, deutsch) {
   const { token } = await chrome.storage.sync.get('token')
   if (!token) return false
@@ -1611,15 +1781,60 @@ function durchlaufKnopfZeigen() {
     sähe aus wie eine Wirkung und hätte keine.
   */
   if (DURCHLAUF.grenzKnopf) DURCHLAUF.grenzKnopf.hidden = DURCHLAUF.laeuft
-  if (DURCHLAUF.grenzKnopf && !DURCHLAUF.laeuft) {
-    DURCHLAUF.grenzKnopf.textContent = probeGrenze ? `⏱ ${probeGrenze}` : '⏱ alle'
-    DURCHLAUF.grenzKnopf.title = probeGrenze
-      ? `Ein Klick prüft ${probeGrenze} Folgen. Klick hier: auf „alle" umstellen.`
-      : 'Ein Klick prüft alle offenen Folgen. Klick hier: auf zwei begrenzen.'
+
+  /*
+    **Uneinheitliche Randprobe: hier entscheidet ein Mensch.**
+
+    Ist die erste Folge deutsch und die letzte nicht, liegt die Grenze
+    irgendwo dazwischen. Eine Annahme wäre hier eine Behauptung über bis zu
+    sechzig Folgen, gestützt auf zwei — genau das, was dieses Projekt sonst
+    an fremden Quellen bemängelt.
+
+    Also wird gefragt: Bis zu welcher Folge ist es deutsch? Daniel prüft das
+    schneller von Hand, als jeder Durchlauf es könnte. Wer lieber messen will,
+    stellt auf „alle" und lässt laufen — beide Wege stehen offen.
+  */
+  if (DURCHLAUF.randOffen && !DURCHLAUF.laeuft) {
+    if (!DURCHLAUF.grenzFeld) {
+      DURCHLAUF.grenzFeld = document.createElement('input')
+      DURCHLAUF.grenzFeld.className = 'ak-grenzfeld'
+      DURCHLAUF.grenzFeld.type = 'number'
+      DURCHLAUF.grenzFeld.min = '1'
+      DURCHLAUF.grenzFeld.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') void grenzeUebernehmen()
+      })
+      DURCHLAUF.leiste.insertBefore(DURCHLAUF.grenzFeld, DURCHLAUF.leiste.firstChild)
+    }
+    const { erste, letzte } = DURCHLAUF.randOffen
+    DURCHLAUF.grenzFeld.placeholder = `dt. bis Flg. ?`
+    DURCHLAUF.grenzFeld.max = String(letzte.folge.nummer)
+    DURCHLAUF.grenzFeld.title =
+      `Folge ${erste.folge.nummer}: ${erste.deutsch ? 'deutsch' : 'kein Deutsch'}, ` +
+      `Folge ${letzte.folge.nummer}: ${letzte.deutsch ? 'deutsch' : 'kein Deutsch'}.\n` +
+      'Bis zu welcher Folge ist es deutsch? Zahl eintippen, Enter.'
+    DURCHLAUF.grenzFeld.hidden = false
+    DURCHLAUF.knopf.classList.add('ak-uneinheitlich')
+  } else {
+    if (DURCHLAUF.grenzFeld) DURCHLAUF.grenzFeld.hidden = true
+    DURCHLAUF.knopf?.classList.remove('ak-uneinheitlich')
   }
-  const jetzt = probeGrenze ? Math.min(offen, probeGrenze) : offen
+  if (DURCHLAUF.grenzKnopf && !DURCHLAUF.laeuft) {
+    DURCHLAUF.grenzKnopf.textContent =
+      probeGrenze === RAND ? '⇤⇥' : probeGrenze ? `⏱ ${probeGrenze}` : '⏱ alle'
+    DURCHLAUF.grenzKnopf.title =
+      probeGrenze === RAND
+        ? 'Prüft nur die erste und die letzte Folge und nimmt an, dass alles dazwischen gleich ist.\nKlick: auf „alle" umstellen.'
+        : probeGrenze
+          ? `Ein Klick prüft ${probeGrenze} Folgen.\nKlick: auf Anfang und Ende umstellen.`
+          : 'Ein Klick prüft alle offenen Folgen.\nKlick: auf zwei begrenzen.'
+  }
+  const jetzt = probeGrenze === RAND ? Math.min(offen, 2) : probeGrenze ? Math.min(offen, probeGrenze) : offen
   DURCHLAUF.knopf.textContent =
-    jetzt < offen ? `▶ ${jetzt} von ${offen} prüfen` : `▶ ${offen} ${offen === 1 ? 'Folge' : 'Folgen'} prüfen`
+    probeGrenze === RAND && offen > 2
+      ? `▶ Anfang & Ende von ${offen}`
+      : jetzt < offen
+        ? `▶ ${jetzt} von ${offen} prüfen`
+        : `▶ ${offen} ${offen === 1 ? 'Folge' : 'Folgen'} prüfen`
   const stand =
     offen === DURCHLAUF.folgen.length
       ? `${offen} Folgen sind bekannt. Jede wird kurz geöffnet; das landet in „Weiter ansehen".`
