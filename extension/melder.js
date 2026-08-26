@@ -522,6 +522,8 @@ async function melden({ automatisch = false } = {}) {
       void speicherSchreiben({ anbieterStaffeln })
     }
     gesendet.set(schluessel(), deutsch ? 'deutsch' : 'kein_deutsch')
+    /* Die Meldung liegt jetzt im Briefkasten — die Zahl am Knopf muss fallen. */
+    void standHolen()
     const kopf = ohneFolge ? 'Als nicht abrufbar gemeldet' : deutsch ? 'Deutsche Tonspur gemeldet' : 'Kein Deutsch gemeldet'
     zeigeErgebnis(kopf, true)
   } catch (err) {
@@ -852,6 +854,49 @@ function fertig(id, eintrag) {
   return kuerzel.every((k) => kuerzelErledigt(id, k))
 }
 
+/**
+ * **Der Knopf zeigt dieselbe Zahl wie die Leiste in der Statusanzeige.**
+ *
+ * Daniel am 26.08.2026: „ich muss sehen wieviel zu reporten ist, bevor ich
+ * draufklicke und die liste sehe."
+ *
+ * Bis dahin zählten beide Verschiedenes: der Knopf aus der **Abhakliste dieses
+ * Browsers**, die Leiste aus dem **Datensatz** abzüglich der Meldungen im
+ * Briefkasten. Wer alles angeklickt hatte, sah hier ein Häkchen und dort „10
+ * offen" — beide Zahlen stimmten in ihrer Welt und widersprachen sich trotzdem.
+ *
+ * Gelesen wird deshalb dieselbe Quelle, nicht dieselbe Rechnung nachgebaut:
+ * `pruefstand.json` sagt, was der Datensatz noch nicht hat, und die Zählroute
+ * des Workers, was davon schon unterwegs ist. Zwei Fassungen einer Regel laufen
+ * auseinander; eine Quelle tut das nicht.
+ *
+ * Schlägt einer der beiden Abrufe fehl, bleibt es bei der lokalen Zählung —
+ * eine Zahl aus dem eigenen Speicher ist besser als keine.
+ */
+const PRUEFSTAND = 'https://anime-kalender.de/data/pruefstand.json'
+const BRIEFKASTEN = 'https://newsletter.animekalender.workers.dev/pruefung?zaehlen=1'
+
+/** Was die Statusanzeige für Netflix als offen führt — `null`, solange unbekannt. */
+let offenLautStand = null
+
+async function standHolen() {
+  try {
+    const [stand, kasten] = await Promise.all([
+      fetch(PRUEFSTAND, { cache: 'no-store' }).then((r) => r.json()),
+      fetch(BRIEFKASTEN, { cache: 'no-store' })
+        .then((r) => r.json())
+        .then((x) => x.imBriefkasten ?? {})
+        .catch(() => ({})),
+    ])
+    const netflix = (stand.anbieter ?? []).find((a) => a.plattform === 'netflix')
+    if (!netflix) return
+    offenLautStand = Math.max(0, netflix.offen - (kasten.netflix ?? 0))
+    uebersichtZeigen()
+  } catch {
+    /* Ohne Netz bleibt die lokale Zählung stehen. */
+  }
+}
+
 let uebersichtKnopf = null
 
 function uebersichtZeigen() {
@@ -894,7 +939,7 @@ function uebersichtZeigen() {
     const kuerzel = empfohleneFolgen({ ...e, staffeln: staffelnVon(id, e) })
     return n + kuerzel.filter((k) => !kuerzelErledigt(id, k)).length
   }, 0)
-  const offeneAdressen = offeneStaffeln
+  const offeneAdressen = offenLautStand ?? offeneStaffeln
   const gesamt = Object.entries(offeneTitel).reduce(
     (n, [id, e]) => n + empfohleneFolgen({ ...e, staffeln: staffelnVon(id, e) }).length,
     0,
@@ -1216,6 +1261,15 @@ setInterval(pfadPruefen, 1000)
  * geprüft" sagte (Daniel, 23.08.2026, nach dem Neuladen).
  */
 void erledigtGeladen.then(() => uebersichtZeigen())
+
+/*
+  Den Stand holen — einmal beim Laden, danach alle fünf Minuten. Er ändert sich
+  nur, wenn ein Datenlauf durch ist oder Daniel etwas meldet; das Melden setzt
+  ihn selbst zurück (siehe unten), häufiger nachzufragen brächte dieselbe
+  Antwort.
+*/
+void standHolen()
+setInterval(() => void standHolen(), 5 * 60 * 1000)
 
 /**
  * Einen Verweis als tot melden — direkt aus der Liste, ohne ihn zu öffnen.
