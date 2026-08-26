@@ -308,6 +308,8 @@
    * eine neue Liste, und die alte bleibt gültig — beide gehören zur Reihe.
    */
   const folgenliste = new Map()
+  /** Für welche Adresse die Liste gilt — wechselt sie, wird geleert. */
+  let folgenFuer = null
 
   /** Feldpfade einer Antwort — nur zur Diagnose, gekürzt. */
   function pfadeMitZahlen(o) {
@@ -358,6 +360,19 @@
   }
 
   function lesFolgenliste(daten) {
+    /*
+      Nur auf einer Titelseite. Auf der Startseite und im Player kommen
+      dieselben Antworten, gehören aber zu allem Möglichen.
+    */
+    const kennung = /\/title\/(\d+)/.exec(location.pathname + location.search)?.[1]
+      ?? new URLSearchParams(location.search).get('jbv')
+    if (!kennung) return
+
+    if (folgenFuer !== kennung) {
+      folgenliste.clear()
+      folgenFuer = kennung
+    }
+
     const gefunden = sammleFolgen(daten, [], 0)
     if (!gefunden.length) return
     let neu = 0
@@ -368,7 +383,11 @@
     window.__akFolgen = folgenliste.size
     if (!neu) return
     window.postMessage(
-      { marke: MARKE_FOLGEN, folgen: [...folgenliste.values()].sort((a, b) => a.nummer - b.nummer) },
+      {
+        marke: MARKE_FOLGEN,
+        fuerReihe: folgenFuer,
+        folgen: [...folgenliste.values()].sort((a, b) => a.nummer - b.nummer),
+      },
       '*',
     )
   }
@@ -415,7 +434,11 @@
     if (typeof e.data.videoZu === 'boolean') videoZu = e.data.videoZu
     if (e.data.frage === 'folgen') {
       window.postMessage(
-        { marke: MARKE_FOLGEN, folgen: [...folgenliste.values()].sort((a, b) => a.nummer - b.nummer) },
+        {
+        marke: MARKE_FOLGEN,
+        fuerReihe: folgenFuer,
+        folgen: [...folgenliste.values()].sort((a, b) => a.nummer - b.nummer),
+      },
         '*',
       )
     }

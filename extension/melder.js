@@ -237,7 +237,18 @@ function istGesucht() {
 
 window.addEventListener('message', (e) => {
   if (e.source === window && e.data?.marke === 'ak-folgenliste') {
-    DURCHLAUF.folgen = Array.isArray(e.data.folgen) ? e.data.folgen : []
+    /*
+      Die Liste gilt für eine Reihe. Passt sie nicht zur Seite, gehört sie
+      nicht hierher — beim Wechsel von One Piece zu Kakegurui stand sonst „61
+      Folgen prüfen" auf einer Seite mit zwölf.
+    */
+    const hier = String(gemeinteReihe() ?? '')
+    DURCHLAUF.folgen =
+      e.data.fuerReihe && hier && String(e.data.fuerReihe) !== hier
+        ? []
+        : Array.isArray(e.data.folgen)
+          ? e.data.folgen
+          : []
     durchlaufKnopfZeigen()
     return
   }

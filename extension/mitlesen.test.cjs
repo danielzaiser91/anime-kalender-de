@@ -42,6 +42,15 @@ Object.defineProperty(XMLHttpRequest.prototype, 'responseText', {
 const MARKE_FOLGEN = /MARKE_FOLGEN = '([^']+)'/.exec(quelle)?.[1]
 const MARKE_STEUER = /MARKE_STEUER = '([^']+)'/.exec(quelle)?.[1]
 
+/*
+  Eine Adresse, wie sie eine Titelseite hat.
+
+  Seit dem 26.08.2026 bindet der Leser die Folgenliste an die Reihe in der
+  Adresse — ohne das sammelte sie die Folgendaten der Startseite mit ein und
+  meldete "61 Folgen" auf einer Seite mit zwölf.
+*/
+const location = { pathname: '/title/80175351', search: '' }
+
 const gesendet = []
 
 /*
@@ -188,6 +197,70 @@ console.log(ok ? '\n✓ Gesehen, unverändert durchgereicht, kein Stapelüberlau
     },
   })
   pruefe('Empfehlungsleisten liefern keine Folgen', gesendet.length === 0, gesendet.map((m) => m.folgen))
+}
+
+
+/**
+ * **Die Liste gehört zu einer Reihe — beim Wechsel wird geleert.**
+ *
+ * Daniel am 26.08.2026 auf der Kakegurui-Seite (12 Folgen): „61 Folgen
+ * prüfen … zahl sieht falsch aus." 61 ist die Folgenzahl von One Piece
+ * Staffel 1. Hinter dem Titel-Dialog liegt die Startseite, und Netflix lädt
+ * dort Folgendaten für „Weiter ansehen" mit.
+ *
+ * Derselbe Fehler wie bei Amazon einen Tag zuvor, und dieselbe Lösung: Der
+ * Stand hängt an der Adresse.
+ */
+{
+  gesendet.length = 0
+  location.pathname = '/title/80107103'
+  lesFolgenliste({
+    data: {
+      videos: {
+        episodes: {
+          edges: [
+            { node: { __typename: 'Episode', number: 1, videoId: 70202716, title: 'One Piece 1' } },
+            { node: { __typename: 'Episode', number: 2, videoId: 70202717, title: 'One Piece 2' } },
+          ],
+        },
+      },
+    },
+  })
+  const opListe = gesendet.find((m) => m.marke === 'ak-folgenliste')
+  pruefe('One Piece liefert zwei Folgen', opListe?.folgen?.length === 2, opListe?.folgen?.length)
+  pruefe('und die Liste nennt ihre Reihe', opListe?.fuerReihe === '80107103', opListe?.fuerReihe)
+
+  /* Jetzt die andere Reihe — die alten Folgen dürfen nicht überleben. */
+  gesendet.length = 0
+  location.pathname = '/title/80175351'
+  lesFolgenliste({
+    data: {
+      videos: {
+        episodes: {
+          edges: [{ node: { __typename: 'Episode', number: 1, videoId: 80179815, title: 'Kakegurui 1' } }],
+        },
+      },
+    },
+  })
+  const kakeguruiListe = gesendet.find((m) => m.marke === 'ak-folgenliste')
+  pruefe(
+    'nach dem Reihenwechsel ist nur die neue Folge da',
+    kakeguruiListe?.folgen?.length === 1,
+    kakeguruiListe?.folgen?.map((f) => f.titel),
+  )
+  pruefe('und die Reihe ist die neue', kakeguruiListe?.fuerReihe === '80175351', kakeguruiListe?.fuerReihe)
+
+  /* Ohne Titelseite — Startseite, Player — wird gar nichts gesammelt. */
+  gesendet.length = 0
+  location.pathname = '/browse'
+  lesFolgenliste({
+    data: {
+      videos: {
+        episodes: { edges: [{ node: { __typename: 'Episode', number: 9, videoId: 81649836, title: 'Heroes' } }] },
+      },
+    },
+  })
+  pruefe('auf der Startseite wird nichts gesammelt', gesendet.length === 0, gesendet.length)
 }
 
 process.exit(ok && !rot.length ? 0 : 1)
