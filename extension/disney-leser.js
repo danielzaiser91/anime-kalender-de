@@ -137,33 +137,24 @@
     if (neu) melde()
   }
 
-  /*
-    **Fremde Aufrufe werden durchgereicht, nicht abgewartet.**
+  /**
+   * **`window.fetch` bleibt unangetastet — Disney+ nutzt XHR.**
+   *
+   * Gemessen am 26.08.2026: Ein Mitschnitt, der nur `fetch` abfing, sah gar
+   * nichts; erst der über XHR fand den Playback-Aufruf und die Folgenlisten.
+   *
+   * Der Wrapper war damit nutzlos und trotzdem teuer: Schlug irgendein Aufruf
+   * der Seite fehl — Daniels Blocker weist die Telemetrie von Datadog ab —,
+   * stand `disney-leser.js` im Stack, und `chrome://extensions` meldete einen
+   * Fehler der Erweiterung. Zweimal nachgebessert, zweimal wiedergekommen; erst
+   * das Weglassen hat es behoben.
+   *
+   * Für eigene Abrufe wird das unveränderte `fetch` benutzt.
+   */
+  const altFetch = window.fetch.bind(window)
 
-    Der erste Anlauf legte `await` um jeden Aufruf der Seite. Schlug einer fehl —
-    und Daniels Blocker weist die Telemetrie von Datadog ab —, zeigte der Stack
-    auf `disney-leser.js`, obwohl der Fehler nichts mit uns zu tun hat. In
-    `chrome://extensions` sieht das aus wie ein Fehler der Erweiterung (Daniel,
-    26.08.2026, zweimal gemeldet).
-
-    Was uns nichts angeht, geht jetzt unberührt durch: kein `await`, kein
-    eigener Rahmen im Stack.
-  */
-  const UNSER = /bamgrid\.com/
-  const altFetch = window.fetch
-  window.fetch = function (...a) {
-    const url = typeof a[0] === 'string' ? a[0] : (a[0] && a[0].url) || ''
-    if (!UNSER.test(url)) return altFetch.apply(this, a)
-    merkeKopf(url, (a[1] && a[1].headers) || (a[0] && a[0].headers))
-    const antwort = altFetch.apply(this, a)
-    if (/\/explore\/v1\.\d+\/(page|season)\//.test(url)) {
-      antwort
-        .then((r) => r.clone().text())
-        .then((t) => lies(url, t))
-        .catch(() => {})
-    }
-    return antwort
-  }
+  /** Was uns angeht — alles andere wird nicht angefasst. */
+  const UNSER = /bamgrid.com/
 
   const altOpen = XMLHttpRequest.prototype.open
   const altSet = XMLHttpRequest.prototype.setRequestHeader

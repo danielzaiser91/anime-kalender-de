@@ -42,6 +42,20 @@
   }
 
   /**
+   * Der Schlüssel einer Folge — **mit Staffel**.
+   *
+   * Der erste Anlauf merkte sich nur die Folgennummer. Bei Beyblade X waren
+   * S1E1-15 gemeldet, und damit galten **S2E1-15** als erledigt: Der Durchlauf
+   * übersprang sie, und im Briefkasten landeten Staffel 1 vollständig und
+   * Staffel 2 erst ab Folge 16 (gemessen am 26.08.2026, nachdem Daniel fragte:
+   * „2e16? wo sind die ersten 15 von s2?").
+   *
+   * Jede Staffel zählt bei Disney+ ab 1. Eine Nummer allein ist deshalb keine
+   * Kennung, sondern ein Namensvetter.
+   */
+  const folgenSchluessel = (staffel, nummer) => `${staffel ?? 1}e${nummer}`
+
+  /**
    * Zusammenhängende Folgen als Bereich: `[1,2,3,7]` → `1-3, 7`.
    *
    * Fünfzig Nummern nebeneinander liest niemand; drei Bereiche schon.
@@ -154,7 +168,7 @@
     if (bereit && !angefordert) {
       angefordert = true
       window.postMessage({ marke: MARKE_STEUER, allesHolen: true }, '*')
-      zeigePruefung(`${eintrag.titel}\nsammle Folgen …`)
+      zeigePruefung(`${eintrag.titel}\nsammle Folgen …`, { laeuft: true })
       return
     }
     if (!e.data.vollstaendig) {
@@ -163,12 +177,43 @@
         zeigePruefung(
           `${eintrag.titel}\nsammle Folgen … ${folgen.length}/${erwartet}` +
             (gemeldeteNummern.size ? `\n${gemeldeteNummern.size} gemeldet, ${offen} zu prüfen` : ''),
+          { laeuft: true },
         )
       }
       return
     }
     void vielleichtPruefen()
   })
+
+  /**
+   * Arbeitet eine Liste in mehreren Bahnen ab.
+   *
+   * Nacheinander mit 300 ms Pause brauchten 56 Folgen über eine Minute, und
+   * beim Melden zählte der Knopf sichtbar durch (Daniel, 26.08.2026:
+   * „beschleunige das"). Die Antwortzeit liegt bei rund 200 ms je Aufruf, also
+   * wartet der Ablauf die meiste Zeit.
+   *
+   * Fünf Bahnen sind ein Kompromiss: schnell genug, dass niemand zusieht, und
+   * weit entfernt von dem, was ein Mensch beim Durchklicken auslösen würde.
+   * Die Reihenfolge bleibt erhalten, weil jedes Ergebnis an seinen Platz
+   * zurückgeschrieben wird.
+   */
+  const BAHNEN = 5
+  async function inBahnen(liste, arbeit, melde) {
+    const raus = new Array(liste.length)
+    let naechster = 0
+    let fertig = 0
+    const bahn = async () => {
+      for (;;) {
+        const i = naechster++
+        if (i >= liste.length) return
+        raus[i] = await arbeit(liste[i], i)
+        melde?.(++fertig)
+      }
+    }
+    await Promise.all(Array.from({ length: Math.min(BAHNEN, liste.length) }, bahn))
+    return raus
+  }
 
   const frage = (playbackId) =>
     new Promise((fertig) => {
@@ -187,14 +232,41 @@
     'font:12px/1.35 system-ui,sans-serif;max-width:340px;white-space:pre-line'
 
   let pruefKnopf = null
-  function zeigePruefung(text, { klasse = null, klick = null } = {}) {
+  /*
+    Ein Lebenszeichen: Ohne es sieht ein Knopf, der zwei Minuten „sammle Folgen"
+    sagt, aus wie einer, der hängt (Daniel, 26.08.2026: „sammelt er oder lügt
+    er?"). Die Zeichen wechseln jede halbe Sekunde, solange nichts anderes
+    angezeigt wird.
+  */
+  const ZEICHEN = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
+  let dreher = null
+  let dreherText = ''
+  function drehe(text) {
+    dreherText = text
+    if (dreher) return
+    let i = 0
+    dreher = setInterval(() => {
+      if (!pruefKnopf) return
+      pruefKnopf.textContent = `${ZEICHEN[i++ % ZEICHEN.length]} ${dreherText}`
+    }, 500)
+  }
+  function haltAn() {
+    if (dreher) clearInterval(dreher)
+    dreher = null
+  }
+
+  function zeigePruefung(text, { klasse = null, klick = null, laeuft = false } = {}) {
     if (!pruefKnopf) {
       pruefKnopf = document.createElement('button')
       pruefKnopf.type = 'button'
       pruefKnopf.style.cssText = KNOPF_STIL + ';bottom:58px;padding:9px 15px;font-size:13px'
       document.body.appendChild(pruefKnopf)
     }
-    pruefKnopf.textContent = text
+    if (laeuft) drehe(text)
+    else {
+      haltAn()
+      pruefKnopf.textContent = text
+    }
     pruefKnopf.style.background =
       klasse === 'gut' ? '#14532d' : klasse === 'schlecht' ? '#7f1d1d' : '#111'
     pruefKnopf.style.cursor = klick ? 'pointer' : 'default'
@@ -434,7 +506,10 @@
       })
       if (!antwort.ok) return new Set()
       const daten = await antwort.json()
-      return new Set((daten.nummern ?? []).map(Number))
+      /* Die Ferne antwortet mit Nummern und Staffeln; der Schlüssel braucht beides. */
+      const paare = daten.paare ?? null
+      if (paare) return new Set(paare.map((p) => folgenSchluessel(p.staffel, p.nummer)))
+      return new Set((daten.nummern ?? []).map((n) => folgenSchluessel(daten.staffel ?? 1, Number(n))))
     } catch {
       /* Ohne Auskunft lieber einmal zu viel prüfen als eine Lücke lassen. */
       return new Set()
@@ -454,8 +529,9 @@
     const alle = [...folgen].sort(
       (a, b) => (a.staffel ?? 0) - (b.staffel ?? 0) || a.nummer - b.nummer,
     )
-    const zuPruefen = alle.filter((f) => !gemeldeteNummern.has(f.nummer))
-    const schon = alle.filter((f) => gemeldeteNummern.has(f.nummer))
+    const istGemeldet = (f) => gemeldeteNummern.has(folgenSchluessel(f.staffel, f.nummer))
+    const zuPruefen = alle.filter((f) => !istGemeldet(f))
+    const schon = alle.filter(istGemeldet)
 
     if (!zuPruefen.length) {
       zeigePruefung(`${eintrag.titel}\n✓ ${nachStaffeln(alle)} gemeldet`, { klasse: 'gut' })
@@ -467,11 +543,13 @@
     )
 
     const beginn = Date.now()
-    ergebnisse = []
-    for (const f of zuPruefen) {
-      ergebnisse.push({ ...f, ...(await frage(f.playbackId)) })
-      await new Promise((ok) => setTimeout(ok, TAKT))
-    }
+    ergebnisse = await inBahnen(
+      zuPruefen,
+      async (f) => ({ ...f, ...(await frage(f.playbackId)) }),
+      (n) =>
+        zeigePruefung(`${eintrag.titel}\nprüfe ${n}/${zuPruefen.length}` +
+          (schon.length ? `\n✓ ${nachStaffeln(schon)}` : ''), { laeuft: true }),
+    )
     const sekunden = ((Date.now() - beginn) / 1000).toFixed(1)
 
     const echte = ergebnisse.filter((r) => r.sprachen)
@@ -534,7 +612,9 @@
   }
 
   async function melden() {
-    const echte = ergebnisse.filter((r) => r.sprachen && !gemeldeteNummern.has(r.nummer))
+    const echte = ergebnisse.filter(
+      (r) => r.sprachen && !gemeldeteNummern.has(folgenSchluessel(r.staffel, r.nummer)),
+    )
     if (!echte.length) return
     const { token } = await chrome.storage.sync.get('token')
     if (!token) {
@@ -556,8 +636,10 @@
       })
 
     let geschafft = 0
-    for (const r of echte) {
-      zeigePruefung(`${eintrag.titel}\nmelde ${geschafft + 1}/${echte.length} …`)
+    const gescheitert = []
+    await inBahnen(
+      echte,
+      async (r) => {
       try {
         const antwort = await fetch(WORKER, {
           method: 'POST',
@@ -579,12 +661,19 @@
         if (antwort.ok) {
           geschafft++
           /* Sofort merken — ein zweiter Klick soll nichts verdoppeln. */
-          gemeldeteNummern.add(r.nummer)
+          gemeldeteNummern.add(folgenSchluessel(r.staffel, r.nummer))
+        } else {
+          gescheitert.push(`S${r.staffel}E${r.nummer}: HTTP ${antwort.status}`)
         }
-      } catch {
+      } catch (fehler) {
         /* Eine ausgefallene Meldung ist kein Grund, die übrigen zu lassen. */
+        gescheitert.push(`S${r.staffel}E${r.nummer}: ${fehler}`)
       }
-      await new Promise((ok) => setTimeout(ok, 120))
+      },
+      (n) => zeigePruefung(`${eintrag.titel}\nmelde ${n}/${echte.length}`, { laeuft: true }),
+    )
+    if (gescheitert.length) {
+      console.warn(`[Anime-Kalender] ${gescheitert.length} Meldungen kamen nicht an:`, gescheitert)
     }
     await briefkastenHolen()
     zeigeUebersicht()
@@ -592,9 +681,19 @@
       (a, b) => (a.staffel ?? 0) - (b.staffel ?? 0) || a.nummer - b.nummer,
     )
     zeigePruefung(
-      `${eintrag.titel}\n✓ ${nachStaffeln(alle.filter((f) => gemeldeteNummern.has(f.nummer)))} gemeldet` +
+      `${eintrag.titel}\n✓ ${nachStaffeln(
+        alle.filter((f) => gemeldeteNummern.has(folgenSchluessel(f.staffel, f.nummer))),
+      )} gemeldet` +
+        (gescheitert.length ? `\n${gescheitert.length} kamen nicht an — siehe Konsole` : '') +
         `\nÜbernahme ab ${uhrzeit(naechsteUebernahme())}`,
-      { klasse: geschafft === echte.length ? 'gut' : 'schlecht' },
+      {
+        /*
+          Rot heißt: etwas kam nicht an, und die Konsole sagt was. Ohne diesen
+          Zusatz stand der Knopf rot da, ohne dass jemand den Grund erfahren
+          konnte (Daniel, 26.08.2026: „warum ist er rot geworden??").
+        */
+        klasse: geschafft === echte.length ? 'gut' : 'schlecht',
+      },
     )
   }
 

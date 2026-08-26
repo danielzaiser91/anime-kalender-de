@@ -1508,16 +1508,26 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
      */
     const fuer = new URL(request.url).searchParams.get('gemeldet')
     if (fuer) {
+      /*
+        **Nummer und Staffel gehören zusammen.**
+
+        Der erste Anlauf gab nur die Folgennummern zurück. Bei Beyblade X waren
+        S1E1-15 gemeldet — und weil jede Staffel bei Disney+ ab 1 zählt, hielt
+        die Erweiterung damit auch S2E1-15 für erledigt und übersprang sie.
+        Im Briefkasten landete Staffel 1 vollständig und Staffel 2 erst ab Folge
+        16 (Daniel, 26.08.2026: „2e16? wo sind die ersten 15 von s2?").
+
+        `nummern` bleibt für die Netflix-Seite, die eine durchlaufende Zählung
+        hat; `paare` ist die genauere Auskunft.
+      */
       const { results } = await env.DB.prepare(
-        /* Die Spalte heißt `folgen` und trägt die Staffelstruktur — hier zählt nur die Nummer. */
-        `SELECT DISTINCT folge_nr FROM pruefung WHERE url = ? AND folge_nr IS NOT NULL`,
+        `SELECT DISTINCT folge_nr, staffel FROM pruefung WHERE url = ? AND folge_nr IS NOT NULL`,
       )
         .bind(fuer)
-        .all<{ folge_nr: number }>()
-      return antwort({
-        nummern: (results ?? []).map((r) => r.folge_nr),
-
-      })
+        .all<{ folge_nr: number; staffel: number | null }>()
+      const nummern = [...new Set((results ?? []).map((r) => r.folge_nr))]
+      const paare = (results ?? []).map((r) => ({ nummer: r.folge_nr, staffel: r.staffel ?? 1 }))
+      return antwort({ nummern, paare })
     }
 
     if (new URL(request.url).searchParams.get('zaehlen') === '1') {
