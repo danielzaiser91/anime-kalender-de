@@ -1672,6 +1672,15 @@ async function randMelden(folgen, befund, bisNummer) {
       if (antwort.ok) {
         gemeldet++
         DURCHLAUF.gemeldet.add(f.videoId)
+        /*
+          **Auch die Abhakliste bekommt es mit.**
+
+          Sie speist die Bereiche im Dialog. Ohne diesen Eintrag stand dort
+          nach einer Randprobe über 61 Folgen weiter „gemeldet: E1-2, E61 |
+          offen: E3-60" — die Meldungen waren raus, nur wusste die Anzeige
+          nichts davon (Daniel, 26.08.2026).
+        */
+        await merkeErledigt(reihe, befund.staffel ?? DURCHLAUF.staffel ?? null, f.nummer)
       }
     } catch {
       /* Eine verlorene Meldung hält die übrigen nicht auf. */
@@ -1865,6 +1874,29 @@ function durchlaufKnopfZeigen() {
    * wurde, alle anderen schon, sollte dort 1 folge prüfen stehen)."
    */
   const offen = durchlaufOffen().length
+
+  /*
+    **Der Schalter wird zuerst beschriftet — vor jedem Rücksprung.**
+
+    Er stand am Ende der Funktion, hinter drei `return`. Ist alles gemeldet
+    („61 Folgen geprüft"), springt die Funktion vorher heraus, und das Icam
+    blieb stehen, obwohl der Zustand längst gewechselt hatte. Daniel am
+    26.08.2026: „Schalter geklickt, Grenze war -1 … Grenze war 0 … aber icon
+    bleibt gleich."
+
+    Der Klick hat also immer funktioniert. Nur die Anzeige kam nicht mehr dazu.
+  */
+  if (DURCHLAUF.grenzKnopf) {
+    DURCHLAUF.grenzKnopf.hidden = DURCHLAUF.laeuft
+    DURCHLAUF.grenzKnopf.textContent =
+      probeGrenze === RAND ? '⇤⇥' : probeGrenze ? `⏱ ${probeGrenze}` : '⏱ alle'
+    DURCHLAUF.grenzKnopf.title =
+      probeGrenze === RAND
+        ? 'Prüft nur die erste und die letzte Folge und nimmt an, dass alles dazwischen gleich ist.\nKlick: auf „alle" umstellen.'
+        : probeGrenze
+          ? `Ein Klick prüft ${probeGrenze} Folgen.\nKlick: auf Anfang und Ende umstellen.`
+          : 'Ein Klick prüft alle offenen Folgen.\nKlick: auf zwei begrenzen.'
+  }
   if (!DURCHLAUF.laeuft && DURCHLAUF.stoerung) {
     DURCHLAUF.knopf.textContent = `⚠ ${DURCHLAUF.stoerung} — andere Tabs schließen`
     DURCHLAUF.knopf.title =
@@ -1953,16 +1985,6 @@ function durchlaufKnopfZeigen() {
   } else {
     if (DURCHLAUF.grenzFeld) DURCHLAUF.grenzFeld.hidden = true
     DURCHLAUF.knopf?.classList.remove('ak-uneinheitlich')
-  }
-  if (DURCHLAUF.grenzKnopf && !DURCHLAUF.laeuft) {
-    DURCHLAUF.grenzKnopf.textContent =
-      probeGrenze === RAND ? '⇤⇥' : probeGrenze ? `⏱ ${probeGrenze}` : '⏱ alle'
-    DURCHLAUF.grenzKnopf.title =
-      probeGrenze === RAND
-        ? 'Prüft nur die erste und die letzte Folge und nimmt an, dass alles dazwischen gleich ist.\nKlick: auf „alle" umstellen.'
-        : probeGrenze
-          ? `Ein Klick prüft ${probeGrenze} Folgen.\nKlick: auf Anfang und Ende umstellen.`
-          : 'Ein Klick prüft alle offenen Folgen.\nKlick: auf zwei begrenzen.'
   }
   /* Die offenen Folgen selbst — für die Spanne im Knopftext. */
   const liste = durchlaufOffen()
