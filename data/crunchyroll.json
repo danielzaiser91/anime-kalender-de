@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-26T15:57:44.799Z",
+  "scrapedAt": "2026-08-26T18:09:24.426Z",
   "window": {
     "from": "2026-08-17",
     "to": "2026-09-06"
@@ -842,12 +842,13 @@
     },
     "hana kimi s2": {
       "time": "18:00",
-      "weekday": 4,
+      "weekday": 2,
       "dates": [
         "2026-07-22",
         "2026-07-29",
         "2026-08-05",
-        "2026-08-21"
+        "2026-08-21",
+        "2026-08-26"
       ],
       "rawTitle": "Hana-Kimi Staffel 2 (Deutsch)",
       "seriesId": "GT00365568",
@@ -868,6 +869,10 @@
         {
           "date": "2026-08-21",
           "episode": 6
+        },
+        {
+          "date": "2026-08-26",
+          "episode": 7
         }
       ],
       "earliest": {
@@ -1006,7 +1011,8 @@
         "2026-07-29",
         "2026-08-05",
         "2026-08-12",
-        "2026-08-19"
+        "2026-08-19",
+        "2026-08-26"
       ],
       "rawTitle": "Tomb Raider King Staffel 1 (Deutsch)",
       "seriesId": "GT00378123",
@@ -1027,6 +1033,10 @@
         {
           "date": "2026-08-19",
           "episode": 4
+        },
+        {
+          "date": "2026-08-26",
+          "episode": 5
         }
       ],
       "earliest": {
@@ -1566,6 +1576,26 @@
       "seriesUrl": "https://www.crunchyroll.com/de/series/G0XHWM0D3/trapped-in-a-dating-sim-the-world-of-otome-games-is-tough-for-mobs",
       "date": "2026-08-26",
       "time": "17:30",
+      "episode": 5,
+      "german": true
+    },
+    {
+      "key": "hana kimi s2",
+      "rawTitle": "Hana-Kimi Staffel 2 (Deutsch)",
+      "seriesId": "GT00365568",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00365568/hana-kimi",
+      "date": "2026-08-26",
+      "time": "18:00",
+      "episode": 7,
+      "german": true
+    },
+    {
+      "key": "tomb raider king s1",
+      "rawTitle": "Tomb Raider King Staffel 1 (Deutsch)",
+      "seriesId": "GT00378123",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00378123/tomb-raider-king",
+      "date": "2026-08-26",
+      "time": "19:15",
       "episode": 5,
       "german": true
     }
