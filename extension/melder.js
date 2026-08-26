@@ -1518,7 +1518,20 @@ async function durchlaufStarten(grenze) {
     nur, wer nachsieht.
   */
   if (DURCHLAUF.randprobe && DURCHLAUF.randErgebnis?.length === 2) {
-    const [ersteFolge, letzteFolge] = DURCHLAUF.randErgebnis
+    /*
+      **Nach Folgennummer ordnen, nicht nach Prüfreihenfolge.**
+
+      Seit 3.9 läuft die erste Folge zuletzt — damit die Staffelnummer schon
+      feststeht, wenn sie gemeldet wird. Für die Randprobe heißt das: Der
+      erste Eintrag im Ergebnis ist die **letzte** Folge. Die Notiz sagte
+      dadurch „gemessen: Folge 1 und 1" statt „1 und 61" (26.08.2026).
+
+      Eine Reihenfolge, die aus einem anderen Grund gewählt wurde, taugt nicht
+      als Ordnungsmerkmal. Die Nummer schon.
+    */
+    const [ersteFolge, letzteFolge] = [...DURCHLAUF.randErgebnis].sort(
+      (a, b) => a.folge.nummer - b.folge.nummer,
+    )
     if (ersteFolge.deutsch === letzteFolge.deutsch) {
       await randMelden(DURCHLAUF.randprobe, ersteFolge, letzteFolge.folge.nummer)
       DURCHLAUF.randOffen = null
@@ -1694,6 +1707,19 @@ function durchlaufKnopfZeigen() {
     */
     DURCHLAUF.leiste = document.createElement('div')
     DURCHLAUF.leiste.className = 'ak-durchlauf-leiste'
+    /*
+      **Ein Klick in der Leiste gehört uns, nicht Netflix.**
+
+      Daniel am 26.08.2026: „ich hab beim limit toggle daneben geklickt, title
+      hat sich geschlossen." Netflix schließt sein Titel-Overlay bei jedem
+      Klick außerhalb — auch bei einem, der zwischen unseren Knöpfen landet.
+
+      Die Leiste fängt ihre Klicks deshalb selbst ab. Die Knöpfe darin
+      funktionieren weiter; nur die Seite darunter erfährt nichts davon.
+    */
+    for (const art of ['click', 'mousedown', 'pointerdown']) {
+      DURCHLAUF.leiste.addEventListener(art, (e) => e.stopPropagation(), true)
+    }
 
     DURCHLAUF.knopf = document.createElement('button')
     DURCHLAUF.knopf.className = 'ak-durchlauf'
@@ -1701,6 +1727,15 @@ function durchlaufKnopfZeigen() {
       'click',
       /* Mit Umschalt nur zwei Folgen — zum Erproben, ohne lange zu warten. */
       (e) => {
+        /*
+          Läuft schon etwas, tut ein Klick nichts mehr.
+
+          Daniel am 26.08.2026: „da steht danach aber immer noch klickbar …
+          mach es direkt nicht klickbar, sonst könnte es issues geben."
+          Abgebrochen wird über den Knopftext (der zeigt dann „abbrechen") und
+          über Escape — ein zweiter Start mitten im Lauf wäre etwas anderes.
+        */
+        if (DURCHLAUF.laeuft) return
         /* Ist alles gemeldet, tut ein Klick nichts — der Rechtsklick bleibt. */
         if (!durchlaufOffen().length) return
         /*
