@@ -301,3 +301,13 @@
   font-size: 11px;
   min-width: 22px;
 }
+
+/* Der Grenz-Schalter sitzt links neben dem Durchlauf-Knopf: klein, ohne Farbe,
+   weil er selten angefasst wird und nichts auslöst außer einer Einstellung. */
+.ak-durchlauf.ak-grenze {
+  right: auto;
+  left: 16px;
+  bottom: 56px;
+  padding: 6px 10px;
+  font-variant-numeric: tabular-nums;
+}

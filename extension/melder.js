@@ -1042,6 +1042,42 @@ function alsBereiche(nummern) {
   return raus
 }
 
+/**
+ * **Wie viele Folgen ein Klick prüft — umschaltbar und gemerkt.**
+ *
+ * Daniel am 26.08.2026: „mach toggle bar per console, oder innerhalb der
+ * liste ein kleiner limit-icon button dann kann ich es selbst umstellen. im
+ * localstore toggle state merken, sodass ich beim testen an und normale
+ * prüfung aus machen kann."
+ *
+ * Zwei Folgen sind die Vorgabe, solange etwas erprobt wird. Wer eine Staffel
+ * wirklich durcharbeiten will, stellt einmal um — und es bleibt so, bis er es
+ * zurückstellt. Umschalt+Klick kehrt die Einstellung für einen Lauf um.
+ */
+const PROBE_SCHLUESSEL = 'ak-durchlauf-probe'
+/** Wie viele Folgen ein Klick prüft — 0 heißt alle. */
+let probeGrenze = 2
+
+void (async () => {
+  try {
+    const gespeichert = await chrome.storage.local.get(PROBE_SCHLUESSEL)
+    if (Number.isFinite(gespeichert[PROBE_SCHLUESSEL])) probeGrenze = gespeichert[PROBE_SCHLUESSEL]
+  } catch {
+    /* Ohne Speicher bleibt es bei zwei — der vorsichtigen Seite. */
+  }
+  durchlaufKnopfZeigen()
+})()
+
+async function probeGrenzeUmschalten() {
+  probeGrenze = probeGrenze === 0 ? 2 : 0
+  try {
+    await chrome.storage.local.set({ [PROBE_SCHLUESSEL]: probeGrenze })
+  } catch {
+    /* Dann gilt die Einstellung nur für diese Sitzung. */
+  }
+  durchlaufKnopfZeigen()
+}
+
 const durchlaufSchluessel = (reihe) => `ak-durchlauf-${reihe}`
 
 /**
@@ -1470,6 +1506,10 @@ function durchlaufKnopfZeigen() {
       DURCHLAUF.knopf.remove()
       DURCHLAUF.knopf = null
     }
+    if (DURCHLAUF.grenzKnopf) {
+      DURCHLAUF.grenzKnopf.remove()
+      DURCHLAUF.grenzKnopf = null
+    }
     return
   }
   if (!DURCHLAUF.knopf) {
@@ -1490,9 +1530,19 @@ function durchlaufKnopfZeigen() {
           Klicken nicht trifft. Solange etwas erprobt wird, gehört die sparsame
           Fassung auf den Hauptweg und die teure hinter den Griff.
         */
-        void durchlaufStarten(e.shiftKey ? 0 : 2)
+        /* Umschalt kehrt die Einstellung für diesen einen Lauf um. */
+        void durchlaufStarten(e.shiftKey ? (probeGrenze ? 0 : 2) : probeGrenze)
       },
     )
+    /*
+      Der Schalter sitzt am Knopf, nicht in den Optionen: Er wird beim
+      Erproben ständig gebraucht und soll dort sein, wo die Arbeit stattfindet.
+    */
+    DURCHLAUF.grenzKnopf = document.createElement('button')
+    DURCHLAUF.grenzKnopf.className = 'ak-durchlauf ak-grenze'
+    DURCHLAUF.grenzKnopf.addEventListener('click', () => void probeGrenzeUmschalten())
+    document.body.appendChild(DURCHLAUF.grenzKnopf)
+
     DURCHLAUF.knopf.addEventListener(
       'contextmenu',
       (e) => {
@@ -1539,15 +1589,23 @@ function durchlaufKnopfZeigen() {
   DURCHLAUF.knopf.disabled = false
   DURCHLAUF.knopf.classList.remove('ak-fertig')
   /* Der Knopf nennt, was ein Klick wirklich tut — nicht, was insgesamt offen ist. */
-  const jetzt = Math.min(offen, 2)
+  if (DURCHLAUF.grenzKnopf) {
+    DURCHLAUF.grenzKnopf.textContent = probeGrenze ? `⏱ ${probeGrenze}` : '⏱ alle'
+    DURCHLAUF.grenzKnopf.title = probeGrenze
+      ? `Ein Klick prüft ${probeGrenze} Folgen. Klick hier: auf „alle" umstellen.`
+      : 'Ein Klick prüft alle offenen Folgen. Klick hier: auf zwei begrenzen.'
+  }
+  const jetzt = probeGrenze ? Math.min(offen, probeGrenze) : offen
   DURCHLAUF.knopf.textContent =
-    offen > 2 ? `▶ ${jetzt} von ${offen} prüfen` : `▶ ${offen} ${offen === 1 ? 'Folge' : 'Folgen'} prüfen`
+    jetzt < offen ? `▶ ${jetzt} von ${offen} prüfen` : `▶ ${offen} ${offen === 1 ? 'Folge' : 'Folgen'} prüfen`
   const stand =
     offen === DURCHLAUF.folgen.length
       ? `${offen} Folgen sind bekannt. Jede wird kurz geöffnet; das landet in „Weiter ansehen".`
       : `${DURCHLAUF.folgen.length - offen} von ${DURCHLAUF.folgen.length} sind gemeldet, ${offen} fehlen noch.`
   DURCHLAUF.knopf.title =
-    stand + '\nUmschalt+Klick: alle auf einmal. Rechtsklick: Stand für einen Lauf übergehen.'
+    stand +
+    '\nUmschalt+Klick: kehrt die Grenze für einen Lauf um.' +
+    '\nRechtsklick: Stand für einen Lauf übergehen.'
 }
 
 let uebersichtKnopf = null
