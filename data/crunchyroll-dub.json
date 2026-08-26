@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-24T06:36:42.374Z",
+  "scrapedAt": "2026-08-26T14:48:28.833Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -81728,6 +81728,631 @@
       "geprueftAm": "2026-08-24",
       "nichtVerfuegbar": true,
       "fehler": "Leider sind die Videos dieser Serie nicht mehr verfügbar."
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/G619XVNEY/durarara",
+      "seriesId": "G619XVNEY",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-08-26",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Durarara (German Dub)",
+          "staffelId": "GYE5CQGZZ",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 25,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G50UZ794E",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GWDU85WKK",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GG1U23QE0",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "G0DUN5105",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G7PU4XZVE",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "G4VUQEJX8",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "G14U4W0E9",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GK9U350QV",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GVWU0Q5J2",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "G31UX0DQX",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "G8WUN48EQ",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GD9UVPJD4",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "G50UZ79WE",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "GWDU85WGK",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 15,
+              "guid": "GEVUZ42K2",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "G7PU4XZ0E",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "G4VUQEJZ8",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "GJWU25G80",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "GN7UDP9GM",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "GMKUX878M",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "GVWU0Q5Q2",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "G31UX0D0X",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 23,
+              "guid": "G8WUN484Q",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 24,
+              "guid": "GQJUGP1PD",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            },
+            {
+              "nummer": 25,
+              "guid": "GWDU85W5K",
+              "verfuegbarAb": "2022-06-01T11:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/G63K98PZ6/one-punch-man",
+      "seriesId": "G63K98PZ6",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-08-26",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Season 1",
+          "staffelId": "GYQWN95EY",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G9DUEXZGW",
+              "verfuegbarAb": "2015-10-05T19:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G4VUQ3K8M",
+              "verfuegbarAb": "2015-10-12T19:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GJWU2MNE8",
+              "verfuegbarAb": "2015-10-19T19:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GN7UDZXVP",
+              "verfuegbarAb": "2015-10-26T19:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G50UZ2K1P",
+              "verfuegbarAb": "2015-11-02T20:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "G0DUN3GJJ",
+              "verfuegbarAb": "2001-01-01T20:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "G7PU45PJ1",
+              "verfuegbarAb": "2015-11-16T20:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GX9UQD1J1",
+              "verfuegbarAb": "2015-11-23T20:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "G4VUQ3K10",
+              "verfuegbarAb": "2015-11-30T20:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GJWU2MN92",
+              "verfuegbarAb": "2015-12-07T20:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GMKUXZ9QD",
+              "verfuegbarAb": "2015-12-14T20:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "G31UXPKWM",
+              "verfuegbarAb": "2001-01-01T20:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "One-Punch Man Staffel 2",
+          "staffelId": "G6P509G96",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GZ7UVPZ4X",
+              "verfuegbarAb": "2019-04-10T19:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GD9UV25XD",
+              "verfuegbarAb": "2019-04-17T19:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GQJUGEK2P",
+              "verfuegbarAb": "2019-04-24T19:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GWDU8P1DX",
+              "verfuegbarAb": "2019-05-01T19:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G0DUN9788",
+              "verfuegbarAb": "2019-05-08T19:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "G7PU4WQ9M",
+              "verfuegbarAb": "2019-05-15T19:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GX9UQK50E",
+              "verfuegbarAb": "2019-05-22T19:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "G14U4XNGJ",
+              "verfuegbarAb": "2019-05-29T19:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GN7UDWQVD",
+              "verfuegbarAb": "2019-06-12T19:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "G50UZEQ1G",
+              "verfuegbarAb": "2019-06-19T19:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "G0DUN97JQ",
+              "verfuegbarAb": "2019-06-26T19:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GEVUZ89NP",
+              "verfuegbarAb": "2019-07-03T19:00:00Z"
+            }
+          ]
+        },
+        {
+          "name": "One-Punch Man Staffel 3",
+          "staffelId": "GRE5CQXZ4",
+          "folgen": 12,
+          "kacheln": 13,
+          "deutsch": 12,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GE00364581DEDE",
+              "verfuegbarAb": "2025-11-16T16:15:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GE00364583DEDE",
+              "verfuegbarAb": "2025-11-23T16:15:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GE00364585DEDE",
+              "verfuegbarAb": "2025-11-30T16:15:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GE00364587DEDE",
+              "verfuegbarAb": "2025-12-07T16:15:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GE00364589DEDE",
+              "verfuegbarAb": "2025-12-14T16:15:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GE00364591DEDE",
+              "verfuegbarAb": "2025-12-21T16:15:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GE00364593DEDE",
+              "verfuegbarAb": "2025-12-28T16:15:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GE00364595DEDE",
+              "verfuegbarAb": "2026-01-04T16:15:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GE00364597DEDE",
+              "verfuegbarAb": "2026-01-11T16:15:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GE00364599DEDE",
+              "verfuegbarAb": "2026-01-18T16:15:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GE00364601DEDE",
+              "verfuegbarAb": "2026-01-25T16:15:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GE00364603DEDE",
+              "verfuegbarAb": "2026-02-01T16:15:00Z"
+            }
+          ]
+        },
+        {
+          "name": "One-Punch Man Staffel 2",
+          "staffelId": "GS00365927JAJP",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GP5HJ80VJ/how-heavy-are-the-dumbbells-you-lift",
+      "seriesId": "GP5HJ80VJ",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-08-26",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "(DE) How Heavy Are the Dumbbells You Lift?",
+          "staffelId": "GYK5CNZ4X",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 12,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G7PU4V3MJ",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "G9DUEP955",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "G4VUQXW15",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GJWU2XQ07",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "GK9U34GK3",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "GMKUX4EPE",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GPWUK58V3",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "G8WUNW71D",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GD9UVWE3W",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "G50UZ4MV7",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GG1U2EXN9",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GEVUZGWDE",
+              "verfuegbarAb": "2021-12-15T17:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GRDQD8PDY/yu-gi-oh-zexal",
+      "seriesId": "GRDQD8PDY",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-08-26",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "Yu-Gi-Oh! ZEXAL Season 1",
+          "staffelId": "G6Q4K01QR",
+          "folgen": 66,
+          "kacheln": 66,
+          "deutsch": 0,
+          "fremd": 66,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Yu-Gi-Oh! ZEXAL Season 2",
+          "staffelId": "GYJQVJK26",
+          "folgen": 32,
+          "kacheln": 32,
+          "deutsch": 0,
+          "fremd": 32,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Yu-Gi-Oh! ZEXAL Season 3",
+          "staffelId": "G6MGQ7VW6",
+          "folgen": 48,
+          "kacheln": 48,
+          "deutsch": 0,
+          "fremd": 48,
+          "deutscheFassung": false
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GRMGDGZVR/the-irregular-at-magic-high-school",
+      "seriesId": "GRMGDGZVR",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-08-26",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "The Irregular at Magic High School: Reminiscence Arc",
+          "staffelId": "GRZXCM70M",
+          "folgen": 2,
+          "kacheln": 2,
+          "deutsch": 0,
+          "fremd": 2,
+          "deutscheFassung": false
+        },
+        {
+          "name": "The Irregular at Magic High School Staffel 3",
+          "staffelId": "GRDQCG5VZ",
+          "folgen": 13,
+          "kacheln": 13,
+          "deutsch": 0,
+          "fremd": 13,
+          "deutscheFassung": false
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GXJHM37KD/demon-lord-retry",
+      "seriesId": "GXJHM37KD",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-08-26",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "Demon Lord, Retry! R",
+          "staffelId": "GY2PCVQXP",
+          "folgen": 12,
+          "kacheln": 12,
+          "deutsch": 0,
+          "fremd": 12,
+          "deutscheFassung": false
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GYQ4MKDZ6/gintama",
+      "seriesId": "GYQ4MKDZ6",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-08-26",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "Gintama Season 1 (Eps 1-49)",
+          "staffelId": "GY5VEK7GY",
+          "folgen": 49,
+          "kacheln": 49,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Gintama Season 1 (Eps 50-99)",
+          "staffelId": "GYQ4MQ496",
+          "folgen": 50,
+          "kacheln": 50,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Gintama Season 1 (Eps 100-150)",
+          "staffelId": "GY5VEXXDY",
+          "folgen": 51,
+          "kacheln": 51,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Gintama Season 1 (Eps 151-201)",
+          "staffelId": "G609QG3W6",
+          "folgen": 51,
+          "kacheln": 51,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Gintama Season 2 (Eps 202-252)",
+          "staffelId": "G69PJMKVY",
+          "folgen": 53,
+          "kacheln": 53,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Gintama Season 2 (253-265)",
+          "staffelId": "GYNQ1X99Y",
+          "folgen": 25,
+          "kacheln": 25,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Gintama Season 3 (Eps 266-316)",
+          "staffelId": "G62PWWX56",
+          "folgen": 52,
+          "kacheln": 52,
+          "deutsch": 0,
+          "fremd": 51,
+          "deutscheFassung": false
+        },
+        {
+          "name": "Gintama Season 4",
+          "staffelId": "GRDQM1D1Y",
+          "folgen": 51,
+          "kacheln": 51,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        }
+      ]
     }
   ]
 }
