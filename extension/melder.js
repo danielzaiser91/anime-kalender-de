@@ -1685,7 +1685,13 @@ async function dialogOeffnen() {
     zeile.appendChild(tot)
 
     // Was durch ist, bleibt sichtbar, tritt aber zurück.
-    if (istErledigt(id, 'tot') || (empfohlen.length > 0 && empfohlen.every((k) => kuerzelErledigt(id, k)))) {
+    /*
+      `fertig()` beantwortet dieselbe Frage und kennt die Sonderfälle — etwa,
+      dass ein Titel ohne empfohlene Folgen nicht als erledigt gilt. Beim Umbau
+      auf Bereiche fiel die lokale Variable `empfohlen` weg; diese Zeile blieb
+      stehen und riss den ganzen Dialog mit.
+    */
+    if (fertig(id, eintrag)) {
       zeile.classList.add('ak-abgehakt')
     }
     liste.appendChild(zeile)

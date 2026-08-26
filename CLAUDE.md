@@ -1596,3 +1596,17 @@ Daraus drei Regeln für alles, was in Serie läuft:
 Folgen erprobt, sondern an fünf. Der Knopf hätte eine Obergrenze gebraucht, bevor er das erste
 Mal lief — dieselbe Lehre wie bei der Amazon-Erweiterung, nur teurer, weil hier Meldungen
 entstanden statt nur falscher Zahlen.
+
+**Und eine Sekunde ESLint fängt, was 236 Zusicherungen nicht sehen.** Beim Umbau des Dialogs
+auf Bereiche fiel die Variable `empfohlen` weg; eine spätere Zeile nutzte sie weiter. Der
+Dialog ließ sich danach nicht mehr öffnen (Daniel, 26.08.2026: „anime kalender click not
+working and i see an error"), und **keine einzige Prüfung hat es bemerkt** — sie prüfen die
+Daten, nicht das DOM.
+
+Ein Sandkasten für den ganzen Dialog wäre der gründliche Weg und kostet einen Tag.
+`extension/eslint.config.mjs` prüft stattdessen nur `no-undef` — kein Stil, keine Meinung — und
+hängt seit dem 26.08.2026 in `check:extension`. Was dort rot wird, ist ein Absturz im Browser.
+
+Dieselbe Klasse Fehler ist mir an diesem Tag **dreimal** unterlaufen: `empfohlen` im Dialog,
+`location` im Test-Sandkasten, `MARKE_FOLGEN` im ausgeschnittenen Block. Alle drei hätte diese
+Prüfung genannt.
