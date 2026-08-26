@@ -79,8 +79,9 @@
     return teile.join(', ')
   }
 
-  /** Folgen je Staffel als `1e1-15, 2e1-35`. */
+  /** Folgen je Staffel als `1e1-15, 2e1-35` — bei einem Film schlicht „Film". */
   function nachStaffeln(eintraege) {
+    if (eintraege.length === 1 && eintraege[0].film) return 'Film'
     const jeStaffel = new Map()
     for (const f of eintraege) {
       const nr = f.staffel ?? 1
@@ -167,6 +168,8 @@
     }
     if (bereit && !angefordert) {
       angefordert = true
+      /* Ein Film ist mit einer Kennung vollständig — nichts nachzuladen. */
+      if (folgen.length === 1 && folgen[0].film) return void vielleichtPruefen()
       window.postMessage({ marke: MARKE_STEUER, allesHolen: true }, '*')
       zeigePruefung(`${eintrag.titel}\nsammle Folgen …`, { laeuft: true })
       return

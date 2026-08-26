@@ -96,6 +96,39 @@
     }
   }
 
+  /**
+   * Ein Film hat keine Staffeln und keine Folgen — nur einen Abspielen-Knopf.
+   *
+   * Daniel am 26.08.2026 zu „Dragon Ball Super: Super Hero": „das ist ein film.
+   * warum kann ich das nicht melden?" Der Leser suchte Folgen, fand keine, und
+   * der Knopf blieb bei „warte auf die Seite (keine Staffeln)".
+   *
+   * Gesucht wird **gezielt** an der Stelle, an der die Seite ihre eigene
+   * Wiedergabe-Aktion führt — nicht durch Durchsuchen. Sonst fällt die erste
+   * Empfehlungskachel hinein, und gemeldet wird ein fremder Film. Dieselbe
+   * Lehre wie bei den Staffeln, wo die Empfehlungsleiste als dritte Staffel
+   * zählte.
+   *
+   * Ein Film zählt als Staffel 1, Folge 1 — so führt ihn auch unser Bestand.
+   */
+  function sammleFilm(daten) {
+    if (folgen.size) return
+    const seite = daten?.data?.page
+    if (!seite) return
+    const kennung = (seite.actions ?? []).find(
+      (a) => a.resourceId && (a.type === 'playback' || a.contentType === 'vod'),
+    )?.resourceId
+    if (!kennung) return
+    folgen.set(kennung, {
+      staffel: 1,
+      nummer: 1,
+      titel: seite.visuals?.title ?? '',
+      playbackId: kennung,
+      film: true,
+    })
+    if (!staffeln.length) staffeln.push({ id: 'film', name: 'Film', gesamt: 1 })
+  }
+
   function lies(url, text) {
     if (!/\/explore\/v1\.\d+\/(page|season)\//.test(String(url))) return
     let daten
@@ -107,6 +140,12 @@
     const vorher = folgen.size
     sammleStaffeln(daten)
     sammleFolgen(daten)
+    sammleFilm(daten)
+    /*
+      Die letzte Seitenantwort bleibt greifbar — für den nächsten Fall, in dem
+      etwas nicht gefunden wird. Ohne sie hilft nur ein neuer Mitschnitt.
+    */
+    if (/\/page\//.test(String(url))) window.AK_LETZTE_SEITE = daten
     if (folgen.size !== vorher || staffeln.length) melde()
   }
 
