@@ -1671,6 +1671,34 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
    * eine Meldung, die sich nicht zuordnen ließ. Die war damit still verloren
    * (22.08.2026). Jetzt sagt die Pipeline, was angekommen ist.
    */
+  /*
+      **Abgehakt ist nicht dasselbe wie eingearbeitet.**
+
+      Am 26.08.2026 hakte der Uebernahme-Lauf 508 Disney-Meldungen ab und
+      schrieb daraus einen einzigen Eintrag. Die uebrigen liessen sich nicht
+      zuordnen — falsche Adresse im Bestand, abweichende Staffelzahlen — und
+      verschwanden trotzdem aus dem Briefkasten. Daniels Arbeit eines ganzen
+      Abends war damit unerreichbar.
+
+      Die Zeilen stehen noch in der Datenbank; nur `uebernommen` trennt sie vom
+      Briefkasten. Diese Route dreht das zurueck, damit ein berichtigter Lauf
+      sie erneut sieht.
+
+      Sie ist ein Werkzeug fuer den Notfall, kein Teil des Ablaufs: Ohne Angabe
+      von Plattform und Datum tut sie nichts.
+    */
+    if (daten.reoeffnen && typeof daten.reoeffnen === 'object') {
+      const { plattform, seit } = daten.reoeffnen as { plattform?: string; seit?: string }
+      if (!plattform || !seit) return antwort({ error: 'plattform und seit noetig' }, 400)
+      const { meta } = await env.DB.prepare(
+        `UPDATE pruefung SET uebernommen = 0
+           WHERE uebernommen = 1 AND plattform = ? AND gemeldet_am >= ?`,
+      )
+        .bind(plattform, seit)
+        .run()
+      return antwort({ ok: true, reoeffnet: meta?.changes ?? 0 })
+    }
+
   if (Array.isArray(daten.uebernommen)) {
     const ids = (daten.uebernommen as unknown[]).map(Number).filter((n) => Number.isInteger(n) && n > 0)
     if (!ids.length) return antwort({ ok: true, markiert: 0 })

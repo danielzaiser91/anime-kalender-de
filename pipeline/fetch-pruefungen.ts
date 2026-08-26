@@ -276,6 +276,23 @@ for (const gruppe of jeAdresse.values()) {
    * denselben Befund — eine Prüfung an Folge 59 hätte also auch Staffel 1 als
    * geprüft ausgewiesen, obwohl niemand sie angesehen hat.
    */
+  /*
+    **Abgehakt wird nur, was auch angekommen ist.**
+
+    Bis zum 26.08.2026 hakte diese Funktion am Ende **jede** Gruppe ab, ganz
+    gleich ob ein Eintrag entstanden war. An dem Abend meldete der Lauf „54
+    Prüfungen abgeholt, 0 Einträge geschrieben" — und leerte den Briefkasten
+    trotzdem. 508 Disney-Meldungen aus Daniels Arbeit eines ganzen Abends waren
+    damit unerreichbar, und die Prüfliste bot dieselben Titel erneut an.
+
+    Der Worker macht es richtig: Er hakt nur ab, was die Pipeline nennt (siehe
+    dort, 22.08.2026). Genannt wurde nur zu viel.
+
+    Bleibt eine Meldung liegen, taucht sie beim nächsten Lauf wieder auf — mit
+    derselben Warnung. Das ist gewollt: Eine Meldung, die niemand zuordnen kann,
+    ist ein offener Punkt und kein erledigter.
+  */
+  let geschrieben = 0
   const staffeln = staffelnDerAdresse(ids)
 
   /**
@@ -383,6 +400,7 @@ for (const gruppe of jeAdresse.values()) {
         `  note: ${JSON.stringify(`Der Anbieter führt unter dieser Adresse nur ${anbieterStaffeln!.length} Staffel(n); diese ist nicht darunter`)}`,
       )
       uebernommen++
+      geschrieben++
       continue
     }
     if (anbieterStaffeln) {
@@ -440,8 +458,9 @@ for (const gruppe of jeAdresse.values()) {
       .join(' — ')
     if (notiz) zeilen.push(`  note: ${JSON.stringify(notiz)}`)
     uebernommen++
+    geschrieben++
   }
-  for (const x of gruppe) erledigteIds.add(x.id)
+  if (geschrieben) for (const x of gruppe) erledigteIds.add(x.id)
 }
 
 if (zeilen.length && !TROCKEN) {
