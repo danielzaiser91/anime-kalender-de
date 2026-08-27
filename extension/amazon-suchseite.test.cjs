@@ -584,6 +584,27 @@ const ersteOhneNummer = werte(
 )
 pruefe('ohne Staffelangabe bleibt der Treffer ein Treffer', ersteOhneNummer.befund.art === 'genau')
 
+/*
+  **Der Suchbegriff trägt das Jahr, unser Anzeigetitel nicht.**
+
+  Wir führen „Captain Tsubasa" mit 52 Folgen; die Suchadresse lautet
+  k=Captain Tsubasa (2018), und Prime nennt die Serie genauso. Der Vergleich
+  gegen den Anzeigetitel fand sie nicht (Daniel, 27.08.2026).
+*/
+const SUCHE_2018 = 'https://www.amazon.de/s?k=Captain+Tsubasa+(2018)&i=instant-video'
+const mitJahr = werte(
+  [{ label: 'Beste Ergebnisse', karten: [karte('Captain Tsubasa (2018)', 'TV Show', 'Entitled', 'B0CJRZTQ7N')] }],
+  { titel: 'Captain Tsubasa', folgen: 52, suchUrl: SUCHE_2018 },
+)
+pruefe('der Suchbegriff mit Jahr findet die Karte', mitJahr.befund.art === 'genau', mitJahr.befund.art)
+
+/* Eine andere Jahresfassung ist eine andere Serie — 1983 hat 128 Folgen. */
+const fremdesJahr = werte(
+  [{ label: 'Beste Ergebnisse', karten: [karte('Captain Tsubasa (1983)', 'TV Show', 'Entitled', 'B0AAAA3333')] }],
+  { titel: 'Captain Tsubasa', folgen: 52, suchUrl: SUCHE_2018 },
+)
+pruefe('eine andere Jahresfassung zaehlt nicht als genauer Treffer', fremdesJahr.befund.art !== 'genau', fremdesJahr.befund.art)
+
 console.log()
 if (fehler.length) {
   console.error(`${fehler.length} Zusicherung(en) verletzt.`)

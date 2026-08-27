@@ -1409,9 +1409,25 @@ async function speicherSchreiben(werte) {
       !untertitelIstStaffel && vorn !== auftrag.titel.trim() && vorn.split(/\s+/).length >= 2 && titelKern(vorn).length >= 10
         ? titelKern(vorn)
         : null
+    /*
+      **Der Suchbegriff zählt mit, nicht nur unser Anzeigetitel.**
+
+      Wir führen „Captain Tsubasa" mit 52 Folgen; die Suchadresse in unserem
+      Bestand lautet aber `k=Captain Tsubasa (2018)`. Prime nennt die Serie
+      genau so — und der Vergleich gegen den Anzeigetitel fand sie nicht:
+      „captaintsubasa" gegen „captaintsubasa2018" (Daniel, 27.08.2026: „wieso
+      sagt extension kein treffer").
+
+      Der Begriff ist dabei die **bessere** Auskunft, nicht die schlechtere: Er
+      wurde gezielt gesetzt, weil unser Eintrag die Fassung von 2018 meint und
+      nicht die von 1983 — eine andere Serie mit 128 Folgen. Ein Jahr pauschal
+      wegzuwerfen würde genau diese Unterscheidung zerstören.
+    */
+    const begriff = decodeURIComponent((/[?&]k=([^&#]*)/.exec(auftrag.suchUrl ?? '')?.[1] ?? '').replace(/\+/g, ' '))
+    const kernBegriff = begriff ? titelKern(begriff) : null
     const gleichNamig = gefunden.treffer.filter((t) => {
       const k = titelKern(t.titel)
-      return k === kern || (kernVorn !== null && k === kernVorn)
+      return k === kern || k === kernBegriff || (kernVorn !== null && k === kernVorn)
     })
     /*
       **Und die Staffel muss dieselbe sein.**
@@ -1771,7 +1787,18 @@ async function speicherSchreiben(werte) {
     Hinweis nie erreicht (gemessen am 27.08.2026, der Übersichts-Knopf kam an,
     der Kasten nicht). Er hängt von nichts ab außer der Adresse.
   */
-  const aufSuchseite = zeigeSuchhinweis()
+  /*
+    **Eine Suchseite bleibt eine Suchseite, auch ohne unseren Auftrag.**
+
+    `zeigeSuchhinweis()` sagt nur, ob eine Suche **aus unserer Liste** läuft.
+    Sucht Daniel selbst — Amazons eigenes Feld schickt an `/s?ref=nb_sb_noss…`
+    mit `field-keywords` statt `k` —, war das falsch, und der Melde-Knopf stand
+    wieder auf einer Trefferliste („✕ keine Folgen für diese Staffel",
+    27.08.2026, mit Bild).
+
+    Der Pfad entscheidet, nicht die Parameter: `/s` ist Amazons Suche.
+  */
+  const aufSuchseite = zeigeSuchhinweis() || /^\/s(\/|$)/.test(location.pathname)
 
 
   // Veränderlich: Das Auswahlfeld wechselt die Staffel ohne Seitenneuladen,
@@ -2457,6 +2484,27 @@ async function speicherSchreiben(werte) {
    * vier von fünf Meldungen unsichtbar, bei Bakugan verteilten sie sich auf
    * drei Zeilen derselben Serie (Daniel, 24.08.2026).
    */
+  /**
+   * **Steht diese Serie irgendwo bei uns — egal unter welcher Staffel?**
+   *
+   * Prime gibt jeder Staffel eine eigene Kennung. Unsere Liste führt aber
+   * nicht jede davon: Wer Staffel 1 gemeldet hat und dann auf Staffel 2
+   * umschaltet, landet auf einer Kennung, die dort nicht steht — und seit
+   * 3.44 verschwanden damit alle Bedienelemente (Daniel, 27.08.2026: „ich
+   * wechsel zu staffel 2, die elemente verschwinden und ich kann nicht
+   * melden").
+   *
+   * Das Ausblenden war für **fremde** Titelseiten gedacht, nicht für die
+   * zweite Staffel einer Serie, die wir führen. Der Serientitel trennt beides:
+   * Amazon nennt ihn auf jeder Staffel-Seite gleich.
+   */
+  function serieBekannt() {
+    const serie = seitenTitel()
+    if (!serie) return false
+    if (Object.keys(erledigt).some((k) => erledigt[k]?.serie === serie)) return true
+    return Object.values(liste).some((e) => e?.serie === serie || e?.titel === serie)
+  }
+
   function listenSchluessel(bisher) {
     const ausAdresse = asinAusAdresse()
     if (ausAdresse && liste[ausAdresse]) return ausAdresse
@@ -3369,7 +3417,7 @@ async function speicherSchreiben(werte) {
       mehr (Daniel, 27.08.2026: „ich hab den button im div angeklickt ‚zum anime
       springen`, dann erwarte ich das er wie vorher automatisch funktioniert").
     */
-    if (!liste[listenId] && !eintrag?.ausSuche) {
+    if (!liste[listenId] && !eintrag?.ausSuche && !serieBekannt()) {
       /*
         **Weg statt grau.** Ein Knopf, der auf jeder fremden Titelseite „nicht
         auf der Prüfliste" schreibt, ist auf 99 von 100 Seiten Störung ohne
@@ -3628,8 +3676,19 @@ async function speicherSchreiben(werte) {
      * keine Folgenzahl nennt und genau eine Einheit gezählt wurde.
      */
     const istFilm = !gesehen.gesamt && geladen === 1
+    /*
+      **Ist ein Teilbereich bestätigt, gilt seine Zahl.**
+
+      Der Knopf schrieb „Folge 53–91 · 91 Folgen": Der Bereich stimmte, die
+      Zahl daneben war die der ganzen Seite. Gemeldet worden wären damit 91
+      Folgen für eine Staffel, die 39 hat (Daniel, 27.08.2026: „zeigt der
+      button hier korrekt an? soll ich melden?" — nein, und darum nicht).
+    */
+    const teilLang = teilBereich ? teilBereich.bis - teilBereich.von + 1 : null
     const umfang = istFilm
       ? 'Film'
+      : teilLang
+        ? `${teilLang} ${teilLang === 1 ? 'Folge' : 'Folgen'} (Folge ${teilBereich.von}–${teilBereich.bis})`
       : vollstaendig
         ? `${geladen} ${geladen === 1 ? 'Folge' : 'Folgen'}`
         : regionWeg
@@ -4730,7 +4789,11 @@ async function speicherSchreiben(werte) {
            * wird die **geladene** Zahl, nicht die behauptete Gesamtzahl: Nur
            * über die reicht der Befund.
            */
-          folgen: teil ? 1 : geladen,
+          /*
+            Bei einem bestätigten Teilbereich zählt seine Länge, nicht die der
+            Seite: Die Meldung gilt für unseren Eintrag, nicht für Amazons Liste.
+          */
+          folgen: teil ? 1 : teilBereich ? teilBereich.bis - teilBereich.von + 1 : geladen,
           /**
            * Zugangsart und Abos als eigene Felder, nicht nur als Fließtext.
            *
