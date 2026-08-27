@@ -483,6 +483,31 @@ pruefe('ohne Folgenzahl zählt allein der Name', ohneZahl.befund.art === 'genau'
 */
 const nichtsGelesen = werte([], { titel: 'Irgendwas', folgen: 12 })
 pruefe('ohne jede Karte bleibt der Befund unklar', nichtsGelesen.befund.art === 'unklar', nichtsGelesen.befund.art)
+
+// --- 8. Der Sprung zur Titelseite ---------------------------------------
+
+/*
+  **Ein Klick auf den Trefferlink endet im Fehler — ohne Parameter nicht.**
+
+  Amazon hängt an jeden Suchtreffer Verfolgungsmarken:
+  `?qid=…&pageTypeIdSource=ASIN&pageTypeId=…&ref_=atv_sr_fle_c_…&sr=1-1`.
+  Der Klick landet bei „Da ist etwas schief gelaufen."; dieselbe Adresse ohne
+  alles hinter dem Fragezeichen öffnet die Titelseite normal (Daniel,
+  27.08.2026, an „Angels of Death" gemessen und gegengeprüft).
+*/
+{
+  const quelle = require('node:fs').readFileSync(__dirname + '/amazon.js', 'utf8')
+  const zeile = /const ohneParameter = (.+)/.exec(quelle)?.[1]
+  pruefe('ohneParameter ist gebaut', Boolean(zeile), zeile)
+  const ohneParameter = new Function('return ' + zeile)()
+  pruefe(
+    'die Verfolgungsmarken fallen weg',
+    ohneParameter('/gp/video/detail/B0FQSW7VV7?qid=1787852335767&ref_=atv_sr_fle_c_Tn74RA_1_1_1&sr=1-1') ===
+      '/gp/video/detail/B0FQSW7VV7',
+  )
+  pruefe('eine saubere Adresse bleibt, wie sie ist', ohneParameter('/gp/video/detail/B0FQSW7VV7') === '/gp/video/detail/B0FQSW7VV7')
+  pruefe('nichts wirft bei fehlender Adresse', ohneParameter(null) === '')
+}
 console.log()
 if (fehler.length) {
   console.error(`${fehler.length} Zusicherung(en) verletzt.`)

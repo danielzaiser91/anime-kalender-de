@@ -1400,6 +1400,23 @@ async function speicherSchreiben(werte) {
    * Absatz stehen. Der Befund darunter ist eingefärbt statt beschrieben:
    * grün heißt gefunden, gelb heißt nichts da.
    */
+  /**
+   * **Im laufenden Player hat die Erweiterung nichts zu suchen.**
+   *
+   * Gesammelt wird auf der Übersichtsseite — dort stehen die Folgenliste und
+   * die Tonspuren. Der Player weiß darüber nichts und ist der einzige Ort, an
+   * dem ein eingeblendeter Kasten wirklich stört (Daniel, 27.08.2026: „im
+   * prime player generell nicht, weil wir ja über die overview seite alles
+   * sammeln").
+   */
+  function imPlayer() {
+    try {
+      return Boolean(document.querySelector('.webPlayerSDKContainer, [data-testid="player-container"], video[src]'))
+    } catch {
+      return false
+    }
+  }
+
   function hinweisKasten(titel, unterzeile, ...zusatz) {
     const kasten = document.createElement('div')
     kasten.className = 'ak-amazon-suchhinweis'
@@ -1409,6 +1426,21 @@ async function speicherSchreiben(werte) {
     document.body.appendChild(kasten)
     return kasten
   }
+
+  /**
+   * **Die Adresse eines Suchtreffers ohne ihre Parameter.**
+   *
+   * Der Link in einer Trefferkarte trägt Amazons Verfolgungsmarken mit:
+   * `?qid=…&pageTypeIdSource=ASIN&pageTypeId=…&ref_=atv_sr_fle_c_…&sr=1-1`.
+   * Ein Klick darauf landet bei „Da ist etwas schief gelaufen." — dieselbe
+   * Adresse ohne alles hinter dem Fragezeichen öffnet die Titelseite normal
+   * (Daniel, 27.08.2026, mit Bild und Gegenprobe an „Angels of Death").
+   *
+   * Was genau Amazon daran stört, ist von hier nicht zu klären. Es genügt zu
+   * wissen, dass die Parameter nichts tragen, was wir brauchen: Die Kennung
+   * steht im Pfad.
+   */
+  const ohneParameter = (url) => (url ?? '').split('?')[0]
 
   /** Ein Knopf im Kasten — gleiche Form für alle Fälle. */
   function kastenKnopf(beschriftung, tun) {
@@ -1484,11 +1516,28 @@ async function speicherSchreiben(werte) {
 
       if (befund.art === 'genau') {
         const t = befund.treffer[0]
+        const ziel = ohneParameter(t.url)
+        /*
+          Die Kennung des Treffers gehört in den Auftrag. Ohne sie klebte der
+          Hinweis an **jeder** Amazon-Seite, die Daniel danach öffnete — er stand
+          sogar im Player einer fremden Serie und behauptete dort, die Meldung
+          laufe unter „Angels of Death" (27.08.2026, mit Bild).
+        */
+        suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, zielAsin: /\/(?:dp|detail)\/([A-Z0-9]{10,26})/.exec(ziel)?.[1] ?? null })
         hinweisKasten(
           auftrag.titel,
           folgen,
-          kastenZeile('ak-such-gut', `Treffer: ${t.titel}`),
-          kastenZeile('ak-such-hinweis', 'Öffnen — dort werden die Tonspuren gelesen'),
+          kastenZeile('ak-such-gut', `Treffer: ${t.titel} (${t.typ})`),
+          /*
+            **Der Name des Treffers steht bewusst dabei.** Entschieden wird über
+            einen Namensvergleich, und der kann danebenliegen — dann sieht Daniel
+            es hier, bevor er springt, statt auf einer fremden Titelseite zu melden.
+          */
+          ziel
+            ? kastenKnopf('Zum Anime springen', () => {
+                location.href = ziel
+              })
+            : kastenZeile('ak-such-hinweis', 'Öffnen — dort werden die Tonspuren gelesen'),
         )
         return
       }
@@ -1551,6 +1600,13 @@ async function speicherSchreiben(werte) {
     if (!eintrag?.ausSuche) return false
     const auftrag = suchauftrag()
     if (!auftrag) return false
+    /*
+      **Nur auf der Seite, zu der der Auftrag gehört.** Ein Auftrag gilt zehn
+      Minuten; ohne diese Prüfung erschien der Hinweis in dieser Zeit überall,
+      auch im Player einer ganz anderen Serie.
+    */
+    if (auftrag.zielAsin && auftrag.zielAsin !== asin()) return false
+    if (imPlayer()) return false
     hinweisKasten(
       auftrag.titel,
       auftrag.folgen ? `${auftrag.folgen} ${auftrag.folgen === 1 ? 'Folge' : 'Folgen'} erwartet` : '',
@@ -3130,11 +3186,17 @@ async function speicherSchreiben(werte) {
      * Listenschlüssel sucht sie auch über den Serientitel.
      */
     if (!liste[listenId]) {
-      knopf.disabled = true
-      knopf.dataset.deutsch = 'false'
-      knopf.textContent = 'nicht auf der Prüfliste'
+      /*
+        **Weg statt grau.** Ein Knopf, der auf jeder fremden Titelseite „nicht
+        auf der Prüfliste" schreibt, ist auf 99 von 100 Seiten Störung ohne
+        Auskunft (Daniel, 27.08.2026: „extension elemente nicht auf anime
+        anzeigen die nicht auf der liste sind"). Der Übersichts-Knopf bleibt —
+        über den kommt man an die Liste.
+      */
+      knopf.style.display = 'none'
       return
     }
+    knopf.style.display = ''
 
     if (!geladen) {
       /**
@@ -4007,6 +4069,18 @@ async function speicherSchreiben(werte) {
    */
   function taktSchritt() {
     const t0 = performance.now()
+    /*
+      **Im Player zeigt die Erweiterung gar nichts.** Gesammelt wird auf der
+      Übersichtsseite; im Player gibt es nichts zu lesen und nichts zu melden,
+      dafür ein Bild, das niemand verdeckt haben will.
+    */
+    if (imPlayer()) {
+      knopf.style.display = 'none'
+      uebersichtKnopf.style.display = 'none'
+      document.querySelector('.ak-amazon-suchhinweis')?.remove()
+      return
+    }
+    uebersichtKnopf.style.display = ''
     beiStaffelwechsel()
     zeichnen()
     /**
