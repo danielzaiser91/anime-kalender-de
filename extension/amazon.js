@@ -555,6 +555,107 @@ async function speicherSchreiben(werte) {
   let startAdresse = location.href || `${location.pathname ?? ''}${location.search ?? ''}`
 
   /** Ab dem ersten Wechsel im Auswahlfeld ist `startAdresse` veraltet. */
+  /**
+   * **Ein Fahrtenschreiber für den Fall, dass es hängt.**
+   *
+   * Der Staffelwechsel blieb am 27.08.2026 bei „Staffel wechselt — einen
+   * Moment" stehen (Daniel, an „Dragon Ball Super", Staffel 2). Von außen ist
+   * nicht zu sehen, woran: Der Wechsel hängt an vier Zuständen — Kennung,
+   * Listeneintrag, Zählstand, Widget-Antworten —, und welcher davon nicht
+   * nachzog, weiß nur die Erweiterung selbst.
+   *
+   * Sie schreibt deshalb mit. Der Puffer hält die letzten 400 Ereignisse; das
+   * sind bei einem 500-ms-Takt gut drei Minuten, und länger als drei Minuten
+   * wartet ohnehin niemand, bevor er neu lädt.
+   *
+   * Abholen in der Konsole: `AK.report()` lädt eine JSON-Datei herunter.
+   */
+  const TAGEBUCH_MAX = 400
+  const tagebuch = []
+
+  function notiere(was, daten) {
+    try {
+      tagebuch.push({ t: new Date().toISOString(), was, ...daten })
+      if (tagebuch.length > TAGEBUCH_MAX) tagebuch.splice(0, tagebuch.length - TAGEBUCH_MAX)
+    } catch {
+      /* Ein Fahrtenschreiber, der die Fahrt stört, ist keiner. */
+    }
+  }
+
+  /**
+   * **Der Bericht, den Daniel herunterlädt.**
+   *
+   * Er enthält alles, was für die Ferndiagnose zählt, und nichts darüber
+   * hinaus: Adresse, Version, die vier Zustände des Staffelwechsels, den
+   * Zählstand und das Tagebuch. Keine Kontodaten, kein Schlüssel.
+   */
+  function bericht() {
+    const sicher = (f) => {
+      try {
+        return f()
+      } catch (e) {
+        return `FEHLER: ${e?.message ?? e}`
+      }
+    }
+    return {
+      erzeugtAm: new Date().toISOString(),
+      version: chrome?.runtime?.getManifest?.()?.version ?? 'unbekannt',
+      adresse: location.href,
+      zustand: {
+        id: sicher(() => id),
+        listenId: sicher(() => listenId),
+        eintrag: sicher(() => (eintrag ? { titel: eintrag.titel, ausSuche: Boolean(eintrag.ausSuche) } : null)),
+        letzteKennung: sicher(() => letzteKennung),
+        staffelKennung: sicher(() => staffelKennung()),
+        staffelNummer: sicher(() => staffelNummer()),
+        gabStaffelwechsel: sicher(() => gabStaffelwechsel),
+        letzteZahl: sicher(() => letzteZahl),
+        letzterStand: sicher(() => letzterStand),
+        letzterFortschritt: sicher(() => new Date(letzterFortschritt).toISOString()),
+        wartetSeitMs: sicher(() => Date.now() - letzterFortschritt),
+        langsam: sicher(() => langsam),
+        taktMs: sicher(() => taktMs),
+        taktMax: sicher(() => taktMax),
+        takte: sicher(() => takte),
+      },
+      zaehlstand: sicher(() => ({
+        gesamt: gesehen?.gesamt ?? null,
+        adresse: gesehen?.adresse ?? null,
+        nummern: [...(gesehen?.nummern ?? [])].sort((a, b) => a - b),
+        jeFolge: [...(gesehen?.jeFolge ?? new Map())].map(([nr, sp]) => [nr, sp]),
+        sprachen: [...(gesehen?.sprachen ?? [])],
+      })),
+      seite: sicher(() => ({
+        titel: document.title,
+        folgenImDom: document.querySelectorAll('[data-testid="episode-list-item"], li[data-automation-id^="ep-"]').length,
+        knopfText: document.querySelector('.ak-amazon-knopf')?.textContent ?? null,
+      })),
+      tagebuch,
+    }
+  }
+
+  /*
+    In der Konsole erreichbar. `AK` steht am `window`, damit Daniel es ohne
+    Umweg tippen kann — die Erweiterung läuft in derselben Welt wie die Seite.
+  */
+  try {
+    window.AK = {
+      bericht,
+      report() {
+        const daten = JSON.stringify(bericht(), null, 2)
+        const a = document.createElement('a')
+        a.href = URL.createObjectURL(new Blob([daten], { type: 'application/json' }))
+        a.download = `anime-kalender-diagnose-${new Date().toISOString().replace(/[:.]/g, '-')}.json`
+        document.body.appendChild(a)
+        a.click()
+        a.remove()
+        return 'Bericht heruntergeladen.'
+      },
+    }
+  } catch {
+    /* Ohne window kein Konsolenzugang — dann läuft die Erweiterung trotzdem. */
+  }
+
   let gabStaffelwechsel = false
   /** Titel und Quelltext-Kennung, wie sie zuletzt zusammen gesehen wurden. */
   let titelZuQuelltext = null
@@ -1647,6 +1748,16 @@ async function speicherSchreiben(werte) {
         Weichen beide ab, steht der Suchbegriff jetzt dabei.
       */
       const begriff = decodeURIComponent((/[?&]k=([^&#]*)/.exec(auftrag.suchUrl ?? '')?.[1] ?? '').replace(/\+/g, ' '))
+      /*
+        Weg mit dem, was Prime nicht führt: der Zusatz in Bindestrichen
+        („-Dive to the Future-"), die Klammer, alles ab dem Doppelpunkt. Was
+        übrig bleibt, ist der Name, unter dem die Serie dort steht.
+      */
+      const kurzform = begriff
+        .replace(/\s-[^-]+-\s*$/, '')
+        .replace(/\s*\([^)]*\)\s*$/, '')
+        .split(':')[0]
+        .trim()
       const begriffZeile =
         begriff && titelKern(begriff) !== titelKern(auftrag.titel)
           ? [kastenZeile('ak-such-hinweis', `gesucht als: ${begriff}`)]
@@ -1707,6 +1818,21 @@ async function speicherSchreiben(werte) {
               ? `${gefunden.echte} Treffer gelesen, keiner passt`
               : `${gefunden.gesehen} Karten gelesen, alle Empfehlungen`,
         ),
+        /*
+          **Ein Titel mit Zusatz findet oft nichts, der Haupttitel schon.**
+
+          `Free! -Dive to the Future-` liefert bei Prime null Treffer, `Free!`
+          findet die Serie auf Anhieb; dasselbe bei `Doukyuusei -Classmates-`
+          gegen `Doukyuusei` (Daniel, 27.08.2026, beide mit Bild). Die Zusätze
+          stammen aus unserem Bestand — Prime führt sie nicht.
+
+          Angeboten wird die Kurzform nur, wenn sie sich vom Begriff
+          unterscheidet und noch etwas übrig bleibt. Gesucht wird sie nicht von
+          selbst: Ein zweiter Seitenaufruf ohne Not ist keiner.
+        */
+        ...(kurzform && kurzform !== begriff ? [kastenKnopf(`Kürzer suchen: ${kurzform}`, () => {
+          location.href = `https://www.amazon.de/s?k=${encodeURIComponent(kurzform)}&i=instant-video`
+        })] : []),
         kastenKnopf('Nicht bei Prime — melden', (k) => nichtBeiPrimeMelden(auftrag, befund, k)),
       )
     }
@@ -4015,6 +4141,19 @@ async function speicherSchreiben(werte) {
     if (!zahlenStehen) {
       knopf.disabled = true
       knopf.textContent = 'Staffel wechselt — einen Moment'
+      /* Jede Sekunde dieses Zustands ist eine Sekunde Warten für Daniel. */
+      notiere('wartet-auf-staffel', {
+        wartetSeitMs: Date.now() - letzterFortschritt,
+        gesamt: gesehen?.gesamt ?? null,
+        gelesen: gesehen?.jeFolge?.size ?? 0,
+        staffel: (() => {
+          try {
+            return staffelNummer()
+          } catch {
+            return null
+          }
+        })(),
+      })
       knopf.dataset.deutsch = String(deutsch)
       return
     }
@@ -4125,12 +4264,38 @@ async function speicherSchreiben(werte) {
       spannen.push([von, bis])
       return spannen.map(([a, b]) => (a === b ? `${a}` : `${a}–${b}`)).join(', ')
     }
+    /**
+     * **Was nicht gelesen wurde, ist nicht „kein Deutsch".**
+     *
+     * Die Bereiche entstehen aus `gesehen.jeFolge` — den Folgen, zu denen eine
+     * Antwort vorliegt. Fehlt eine Folge darin, klaffte im Text dieselbe Lücke
+     * wie bei einer Folge ohne deutschen Ton: „Folge 1–4, 6–12" sagte beides.
+     *
+     * Bei „Hensuki" stand Folge 5 so als undeutsch da, obwohl Crunchyroll alle
+     * zwölf synchronisiert führt — sie war auf der Prime-Seite gerade
+     * aufgeklappt (Daniel, 27.08.2026, mit Gegenprobe: „auf echtem crunchyroll
+     * webseite sind alle synchronisiert").
+     *
+     * Eine Lücke im Wissen als Befund auszugeben ist der teuerste Fehler, den
+     * dieses Projekt machen kann: Sie wandert als `dub: false` in den Bestand
+     * und sieht dort aus wie eine Messung.
+     */
+    const ungelesen = () => {
+      const karte = gesehen.jeFolge
+      const gesamt = gesehen.gesamt
+      if (!karte?.size || !Number.isFinite(gesamt)) return []
+      const fehlt = []
+      for (let n = 1; n <= gesamt; n++) if (!karte.has(n)) fehlt.push(n)
+      return fehlt
+    }
     const bereiche = deutschBereiche()
+    const luecken = ungelesen()
+    const lueckenText = luecken.length ? ` (${luecken.length} ungelesen)` : ''
     const sprachStand = bereiche
-      ? `🇩🇪 Folge ${bereiche}`
+      ? `🇩🇪 Folge ${bereiche}${lueckenText}`
       : deutsch
-        ? '🇩🇪 Deutsch'
-        : '✕ kein Deutsch'
+        ? `🇩🇪 Deutsch${lueckenText}`
+        : `✕ kein Deutsch${lueckenText}`
     /*
       **Der Knopf nennt die Staffel, die er melden würde.**
 
@@ -4149,7 +4314,19 @@ async function speicherSchreiben(werte) {
     } catch {
       staffelText2 = null
     }
-    knopf.textContent = `${sprachStand} · ${umfang}${staffelText2 ?? ''}${zugang}${kanalHinweis}${woher} · melden`
+    const neuerText = `${sprachStand} · ${umfang}${staffelText2 ?? ''}${zugang}${kanalHinweis}${woher} · melden`
+    /*
+      **Jeder Wechsel der Beschriftung wird mitgeschrieben.**
+
+      Der Knopf sprang am 27.08.2026 von „✕ in dieser Region nicht mehr
+      verfügbar" auf „🇩🇪 Deutsch · 12 Folgen" (Daniel, mit Bild). Beides kann
+      stimmen — im Abo weg, als Kauf da —, aber welcher Stand am Ende gilt und
+      woher der Umschwung kam, ist im Nachhinein nur mit dieser Spur zu klären.
+    */
+    if (neuerText !== knopf.textContent) {
+      notiere('knopftext', { von: knopf.textContent, nach: neuerText, gelesen: gesehen?.jeFolge?.size ?? 0 })
+    }
+    knopf.textContent = neuerText
     knopf.dataset.teilweise = String(!vollstaendig)
   }
 
@@ -4331,10 +4508,15 @@ async function speicherSchreiben(werte) {
   function beiStaffelwechsel() {
     const kennung = staffelKennung()
     if (kennung === letzteKennung) return
+    notiere('staffelwechsel', { von: letzteKennung, nach: kennung, adresse: location.search })
     letzteKennung = kennung
     gabStaffelwechsel = true
     const jetzt = asin()
-    if (!jetzt) return
+    if (!jetzt) {
+      /* Ohne Kennung bricht der Wechsel hier ab — und genau das war unsichtbar. */
+      notiere('staffelwechsel-ohne-asin', { kennung })
+      return
+    }
     id = jetzt
     listenId = listenSchluessel(listenId)
     eintrag = eintragFuer(listenId)
