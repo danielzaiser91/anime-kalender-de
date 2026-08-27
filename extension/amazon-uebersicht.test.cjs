@@ -298,7 +298,19 @@ function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE) {
       Eigenschaft, und es passiert nichts. Deshalb wird er danach ausdruecklich
       wieder gesetzt.
     */
-    document: { ...dom, body: dom.body, documentElement: dom.documentElement, title: 'Testserie ansehen | Prime Video' },
+    /*
+      `querySelector` gehört seit 3.49 zur Grundausstattung: Die Schutzfläche
+      sucht damit bei jedem Takt den Suchkasten, um ihre Maße daraus zu ziehen.
+      Einzelne Fälle weiter unten setzen einen eigenen Sucher; dieser hier ist
+      der Standardfall — die Seite hat keinen Kasten.
+    */
+    document: {
+      ...dom,
+      body: dom.body,
+      documentElement: dom.documentElement,
+      title: 'Testserie ansehen | Prime Video',
+      querySelector: () => null,
+    },
     chrome: {
       /**
        * Die Kennung der Erweiterung — daran erkennt der Melder, ob seine
