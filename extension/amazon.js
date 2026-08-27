@@ -4234,7 +4234,26 @@ async function speicherSchreiben(werte) {
         try {
           const zahl = staffelZahl()
           if (!Number.isFinite(zahl) || zahl < 2) return null
-          const fertige = erledigt[listenId]?.staffeln ?? {}
+          /*
+            **Über die Serie hinweg, nicht über die Kennung dieser Staffel.**
+
+            Prime gibt jeder Staffel eine eigene ASIN, und die Meldung für
+            Staffel 1 steht unter deren Kennung. Auf Staffel 6 nachgeschlagen
+            war `erledigt[listenId]` deshalb leer, und der Knopf riet zu
+            „weiter mit Staffel 1" — die längst gemeldet war (Daniel,
+            27.08.2026).
+
+            Der Serientitel führt alle Kennungen derselben Reihe zusammen; er
+            steht in jedem gemeldeten Eintrag.
+          */
+          const serie = titelKern(seitenTitel())
+          const fertige = {}
+          for (const k of Object.keys(erledigt)) {
+            const e = erledigt[k]
+            if (!e?.staffeln) continue
+            if (serie && titelKern(e.serie ?? e.titel ?? '') !== serie && k !== listenId) continue
+            for (const n of Object.keys(e.staffeln)) fertige[n] = true
+          }
           for (let n = 1; n <= zahl; n++) {
             if (n !== jetzigeStaffel && !fertige[String(n)]) return n
           }
@@ -4593,13 +4612,29 @@ async function speicherSchreiben(werte) {
      * dieses Projekt machen kann: Sie wandert als `dub: false` in den Bestand
      * und sieht dort aus wie eine Messung.
      */
+    /**
+     * **Amazon mischt staffelinterne und durchlaufende Nummern.**
+     *
+     * InuYasha Staffel 4 zeigt „28 Folgen" und darin die Nummern 26, 27, 28 —
+     * und dann 105 („Die Rache der legendären Krieger", 17. März 2003). Beides
+     * ist richtig: Die Folge ist die 105. der Reihe und zugleich die 23. dieser
+     * Staffel (TV Wunschliste führt sie als 04x23). Amazons Abschnittswähler
+     * schreibt entsprechend „Folgen 26–105" (Daniel, 27.08.2026).
+     *
+     * Für die Lückenrechnung heißt das: Eine Nummer über der Staffelgröße ist
+     * keine fehlende Folge, sondern eine anders gezählte. Sie wird mitgezählt,
+     * aber nicht als Position gesucht — sonst meldet der Knopf Lücken, die es
+     * nicht gibt, und die Meldung trüge sie als ungeprüft weiter.
+     */
     const ungelesen = () => {
       const karte = gesehen.jeFolge
       const gesamt = gesehen.gesamtLautSeite ?? gesehen.gesamt
       if (!karte?.size || !Number.isFinite(gesamt)) return []
+      const ausreisser = [...karte.keys()].filter((n) => n > gesamt).length
       const fehlt = []
       for (let n = 1; n <= gesamt; n++) if (!karte.has(n)) fehlt.push(n)
-      return fehlt
+      /* Je Ausreißer eine Position weniger, die wirklich fehlt. */
+      return fehlt.slice(0, Math.max(0, fehlt.length - ausreisser))
     }
     const bereiche = deutschBereiche()
     const luecken = ungelesen()
