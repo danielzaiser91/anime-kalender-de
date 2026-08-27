@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-08-27T18:24:12.675Z",
+ "erzeugtAm": "2026-08-27T18:37:01.447Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -20,10 +20,10 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 363,
-   "gesamt": 392,
-   "offen": 29,
-   "ohneSeite": 7,
+   "gemeldet": 367,
+   "gesamt": 397,
+   "offen": 30,
+   "ohneSeite": 2,
    "ziel": "https://www.netflix.com/title/70050576",
    "ziele": [
     {
@@ -107,6 +107,10 @@
      "titel": "Yu-Gi-Oh! Arc-V"
     },
     {
+     "url": "https://www.netflix.com/title/81002444",
+     "titel": "Exception"
+    },
+    {
      "url": "https://www.netflix.com/title/81174992",
      "titel": "Bakugan: Battle Planet"
     },
@@ -121,10 +125,6 @@
     {
      "url": "https://www.netflix.com/title/81427482",
      "titel": "Her Blue Sky"
-    },
-    {
-     "url": "https://www.netflix.com/title/81617962",
-     "titel": "My Isekai Life: I Gained a Second Character Class and Became the Strongest Sage in the World!"
     }
    ],
    "naechster": "Das Schloss des Cagliostro"
