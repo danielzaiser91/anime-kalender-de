@@ -1,8 +1,8 @@
 {
-  "scrapedAt": "2026-08-26T04:56:46.822Z",
+  "scrapedAt": "2026-08-27T15:16:33.286Z",
   "window": {
-    "from": "2026-07-12",
-    "to": "2026-11-09"
+    "from": "2026-07-13",
+    "to": "2026-11-10"
   },
   "shows": [
     {
@@ -977,6 +977,146 @@
           "duration": 1417,
           "title": "Die Helden",
           "image": "https://image.animationdigitalnetwork.com/license/deadlysins/tv/web/eps24_320x180.jpg"
+        }
+      ],
+      "batch": true
+    },
+    {
+      "showId": 634,
+      "title": "Hellsing Ultimate",
+      "originalTitle": "Hellsing Ultimate",
+      "age": "16+",
+      "url": "https://animationdigitalnetwork.com/de/video/634",
+      "episodes": [
+        {
+          "date": "2026-09-01",
+          "time": "09:00",
+          "episode": 1,
+          "url": "https://animationdigitalnetwork.com/de/video/634-hellsing_tv-634/12054-folge-1",
+          "season": "1",
+          "seasonReference": "hellsingultimate_tv",
+          "order": 1,
+          "type": "EPS",
+          "duration": 3109,
+          "title": "Hellsing Ultimate - Folge 1",
+          "image": "https://image.animationdigitalnetwork.com/license/hellsingultimate/tv_0001/web/license_320x180.jpg"
+        },
+        {
+          "date": "2026-09-01",
+          "time": "09:00",
+          "episode": 2,
+          "url": "https://animationdigitalnetwork.com/de/video/634-hellsing_tv-634/12055-folge-2",
+          "season": "1",
+          "seasonReference": "hellsingultimate_tv",
+          "order": 2,
+          "type": "EPS",
+          "duration": 2655,
+          "title": "Hellsing Ultimate - Folge 2",
+          "image": "https://image.animationdigitalnetwork.com/license/hellsingultimate/tv_0002/web/license_320x180.jpg"
+        },
+        {
+          "date": "2026-09-01",
+          "time": "09:00",
+          "episode": 3,
+          "url": "https://animationdigitalnetwork.com/de/video/634-hellsing_tv-634/12056-folge-3",
+          "season": "1",
+          "seasonReference": "hellsingultimate_tv",
+          "order": 3,
+          "type": "EPS",
+          "duration": 2898,
+          "title": "Hellsing Ultimate - Folge 3",
+          "image": "https://image.animationdigitalnetwork.com/license/hellsingultimate/tv_0003/web/license_320x180.jpg"
+        },
+        {
+          "date": "2026-09-01",
+          "time": "09:00",
+          "episode": 4,
+          "url": "https://animationdigitalnetwork.com/de/video/634-hellsing_tv-634/12057-folge-4",
+          "season": "1",
+          "seasonReference": "hellsingultimate_tv",
+          "order": 4,
+          "type": "EPS",
+          "duration": 3472,
+          "title": "Hellsing Ultimate - Folge 4",
+          "image": "https://image.animationdigitalnetwork.com/license/hellsingultimate/tv_0004/web/license_320x180.jpg"
+        },
+        {
+          "date": "2026-09-01",
+          "time": "09:00",
+          "episode": 5,
+          "url": "https://animationdigitalnetwork.com/de/video/634-hellsing_tv-634/12058-folge-5",
+          "season": "1",
+          "seasonReference": "hellsingultimate_tv",
+          "order": 5,
+          "type": "EPS",
+          "duration": 2742,
+          "title": "Hellsing Ultimate - Folge 5",
+          "image": "https://image.animationdigitalnetwork.com/license/hellsingultimate/tv_0005/web/license_320x180.jpg"
+        },
+        {
+          "date": "2026-09-01",
+          "time": "09:00",
+          "episode": 6,
+          "url": "https://animationdigitalnetwork.com/de/video/634-hellsing_tv-634/12059-folge-6",
+          "season": "1",
+          "seasonReference": "hellsingultimate_tv",
+          "order": 6,
+          "type": "EPS",
+          "duration": 2626,
+          "title": "Hellsing Ultimate - Folge 6",
+          "image": "https://image.animationdigitalnetwork.com/license/hellsingultimate/tv_0006/web/license_320x180.jpg"
+        },
+        {
+          "date": "2026-09-01",
+          "time": "09:00",
+          "episode": 7,
+          "url": "https://animationdigitalnetwork.com/de/video/634-hellsing_tv-634/12060-folge-7",
+          "season": "1",
+          "seasonReference": "hellsingultimate_tv",
+          "order": 7,
+          "type": "EPS",
+          "duration": 2791,
+          "title": "Hellsing Ultimate - Folge 7",
+          "image": "https://image.animationdigitalnetwork.com/license/hellsingultimate/tv_0007/web/license_320x180.jpg"
+        },
+        {
+          "date": "2026-09-01",
+          "time": "09:00",
+          "episode": 8,
+          "url": "https://animationdigitalnetwork.com/de/video/634-hellsing_tv-634/12061-folge-8",
+          "season": "1",
+          "seasonReference": "hellsingultimate_tv",
+          "order": 8,
+          "type": "EPS",
+          "duration": 3020,
+          "title": "Hellsing Ultimate - Folge 8",
+          "image": "https://image.animationdigitalnetwork.com/license/hellsingultimate/tv_0008/web/license_320x180.jpg"
+        },
+        {
+          "date": "2026-09-01",
+          "time": "09:00",
+          "episode": 9,
+          "url": "https://animationdigitalnetwork.com/de/video/634-hellsing_tv-634/12062-folge-9",
+          "season": "1",
+          "seasonReference": "hellsingultimate_tv",
+          "order": 9,
+          "type": "EPS",
+          "duration": 2774,
+          "title": "Hellsing Ultimate - Folge 9",
+          "image": "https://image.animationdigitalnetwork.com/license/hellsingultimate/tv_0009/web/license_320x180.jpg"
+        },
+        {
+          "date": "2026-09-01",
+          "time": "09:00",
+          "episode": 10,
+          "url": "https://animationdigitalnetwork.com/de/video/634-hellsing_tv-634/12063-folge-10",
+          "season": "1",
+          "seasonReference": "hellsingultimate_tv",
+          "order": 10,
+          "type": "EPS",
+          "duration": 4154,
+          "title": "Hellsing Ultimate - Folge 10",
+          "image": "https://image.animationdigitalnetwork.com/license/hellsingultimate/tv_0010/web/license_320x180.jpg"
         }
       ],
       "batch": true

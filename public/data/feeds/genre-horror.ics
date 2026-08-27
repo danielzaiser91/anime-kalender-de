@@ -1,0 +1,40 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//anime-kalender-de//Anime-Kalender DE//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Anime-Kalender DE – Horror
+X-WR-TIMEZONE:Europe/Berlin
+BEGIN:VEVENT
+UID:adn-634@2026-09-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260901T070000Z
+DTEND:20260901T073000Z
+SUMMARY:Hellsing Ultimate
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-634
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:mononoke-movie-3-curse-of-the-serpent@2026-09-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260929
+DTEND;VALUE=DATE:20260930
+SUMMARY:Mononoke – The Movie: Chapter III – Der Fluch der Schlange
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Film\nUhrzeit noch nicht bestä
+ tigt.\nDetails: https://anime-kalender.de/#/release/mononoke-movie-3-curse
+ -of-the-serpent
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:chainsaw-man-s1-bundle@2026-10-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261002
+DTEND;VALUE=DATE:20261003
+SUMMARY:Chainsaw Man – Staffel 1 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/chainsa
+ w-man-s1-bundle
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+END:VCALENDAR

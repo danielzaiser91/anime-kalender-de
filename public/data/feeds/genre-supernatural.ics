@@ -124,6 +124,16 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-634@2026-09-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260901T070000Z
+DTEND:20260901T073000Z
+SUMMARY:Hellsing Ultimate
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-634
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:inazuma-eleven-s1-box@2026-09-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260904

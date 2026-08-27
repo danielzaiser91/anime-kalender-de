@@ -22319,3 +22319,855 @@
   nichtImBestand: true
   checkedAt: '2026-08-26'
   note: "Alle fuenf Teile ohne deutsche Tonspur — von Hand geprueft. Prime fuehrt sie als Filme 1 bis 5 (der fuenfte als „Last Signal\")."
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-27 ---
+
+- anilistId: 99699
+  title: "Golden Kamuy"
+  platform: primevideo
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 2
+      dub: false
+      checked: [1, 2]
+    - from: 3
+      to: 3
+      dub: true
+      checked: [3]
+    - from: 4
+      to: 6
+      dub: false
+      checked: [4, 5, 6]
+    - from: 7
+      to: 13
+      dub: true
+      checked: [7, 8, 9, 10, 11, 12, 13]
+  checkedAt: '2026-08-27'
+  note: "Folgen 1–2 ohne deutschen Ton, Folge 3 mit deutschem Ton, Folgen 4–6 ohne deutschen Ton, Folgen 7–13 mit deutschem Ton — Tonspuren: Deutsch, English, 日本語 — Amazon-Seite B0CJYLSY3D: alle 13 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 4, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 1
+  title: "Cowboy Bebop"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 71
+  title: "Full Metal Panic!"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 174
+  title: "Tenjo Tenge"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 205
+  title: "Samurai Champloo"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 249
+  title: "InuYasha"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 288
+  title: "Beyblade"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 338
+  title: "Lady Oscar: Die Rose von Versailles"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 448
+  title: "Tenjo Tenge OVA"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 502
+  title: "Dragon Ball: Die Legende von Shenlong"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 531
+  title: "Sailor Moon R Movie: Gefährliche Blumen"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 870
+  title: "Dragon Half"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 888
+  title: "The Candidate for Goddess"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 997
+  title: "Sailor Moon S: Schneeprinzessin Kaguya"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 1033
+  title: "Millennium Actress"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 1240
+  title: "Sailor Moon Super S: Reise ins Land der Träume"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 1256
+  title: "Saint Seiya: Die Krieger des Zodiac - Movie 1: Die Legende des goldenen Apfels"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 1362
+  title: "Street Fighter II: The Animated Movie"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 1521
+  title: "Black Jack: The Movie"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 1535
+  title: "Death Note"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 1668
+  title: "Beyblade G Revolution"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 1669
+  title: "Beyblade V Force"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 2286
+  title: "Little Nemo: Abenteuer im Schlummerland"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 2404
+  title: "Zombie-Loan"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 2427
+  title: "Unico: Das phantastische Abenteuer eines Hörnchens"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 2544
+  title: "Familie Robinson"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 2577
+  title: "Tom Sawyers Abenteuer"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 3044
+  title: "Astro Boy"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 3785
+  title: "Evangelion: 3.33 - You Can (Not) Redo."
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 4155
+  title: "One Piece Film: Strong World"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 4224
+  title: "Toradora!"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 4481
+  title: "Alakazam: König der Tiere"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 5231
+  title: "Inazuma Eleven"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 6773
+  title: "Shakugan no Shana: Season III"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 6867
+  title: "Halo Legends"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 8074
+  title: "Highschool of the Dead"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 10689
+  title: "Appleseed XIII: Tartaros"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 10693
+  title: "Appleseed XIII: Ouranos"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 11755
+  title: "009 Re:Cyborg"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 12413
+  title: "Jormungand"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 12859
+  title: "One Piece Z"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 13331
+  title: "Jormungand: Perfect Order"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 13759
+  title: "The Pet Girl of Sakurasou"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 14345
+  title: "Btooom!"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 14713
+  title: "Kamisama Kiss"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 18153
+  title: "Beyond the Boundary: Kyoukai no Kanata"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 20057
+  title: "Space Dandy"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 20464
+  title: "Haikyu!!"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 20590
+  title: "Rage of Bahamut: Genesis"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 20615
+  title: "Selector Infected Wixoss"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 20617
+  title: "Ronja Räubertochter"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 20629
+  title: "Terra Formars"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 20905
+  title: "Tenkai Knights: Die Tenkai Ritter"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 20835
+  title: "One Piece 3D2Y: Überwinde Ace’s Tod! Das Gelübde der Kameraden"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 20801
+  title: "Kamisama Kiss: Staffel 2"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 20850
+  title: "Tokyo Ghoul √A"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 20923
+  title: "Food Wars! Shokugeki no Soma"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 21096
+  title: "Doukyusei: Verliebt in meinen Mitschüler"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 21128
+  title: "Noragami Aragoto"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 21175
+  title: "Dragon Ball Super"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 21180
+  title: "Saekano: How to Raise a Boring Girlfriend.flat"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 21256
+  title: "Dimension W"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 21269
+  title: "Servamp"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 21450
+  title: "JoJo’s Bizarre Adventure: Diamond Is Unbreakable"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 21485
+  title: "One Piece: Abenteuer auf Nebulandia"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 21507
+  title: "Mob Psycho 100"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 21519
+  title: "Your Name. Gestern, heute und für immer"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 21518
+  title: "Food Wars! The Second Plate"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 21701
+  title: "Scum’s Wish"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 21742
+  title: "Katsugeki: Touken Ranbu"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 21773
+  title: "Anonymous Noise"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 21830
+  title: "Atom: The Beginning"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 21833
+  title: "Haikara-san: Here Comes Miss Modern – Part 1"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 21855
+  title: "UQ Holder! Magister Negi Magi Negima! 2"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 97634
+  title: "Pokémon: Die TV-Serie - Sonne & Mond"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 97682
+  title: "Grimoire of Zero"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 97908
+  title: "Fireworks: Alles eine Frage der Zeit"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 97922
+  title: "Inuyashiki Last Hero"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 98005
+  title: "Welcome to the Ballroom"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 100652
+  title: "Haikara-san: Here Comes Miss Modern – Part 2"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 98707
+  title: "Das Land der Juwelen"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 99629
+  title: "Angels of Death"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 100240
+  title: "Tokyo Ghoul:re"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 100332
+  title: "Kokkoku: Moment für Moment"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 101117
+  title: "Free! Dive to the Future"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 100745
+  title: "Captain Tsubasa"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 101165
+  title: "Goblin Slayer"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 101316
+  title: "Die Welt in allen Farben: Iroduku"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 101338
+  title: "Mob Psycho 100 II"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 102351
+  title: "Tokyo Ghoul:re"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 102926
+  title: "The Ones Within"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 102977
+  title: "Golden Kamuy 2"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 102883
+  title: "JoJo’s Bizarre Adventure: Golden Wind"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 104276
+  title: "My Hero Academia 4"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 105334
+  title: "Fruits Basket"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 105333
+  title: "Dr. Stone"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 107663
+  title: "Astra Lost in Space"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 107961
+  title: "Hensuki: Are You Willing to Fall in Love with a Pervert, as Long as She’s a Cutie?"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 108554
+  title: "Special 7: Special Crime Investigation Unit"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 116674
+  title: "Bleach: Thousand-Year Blood War"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 120697
+  title: "Don’t Toy with Me, Miss Nagatoro"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 124080
+  title: "Horimiya"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 130298
+  title: "The Eminence in Shadow"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 139587
+  title: "Reincarnated as a Sword"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 140439
+  title: "Mob Psycho 100 III"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 140501
+  title: "The Demon Sword Master of Excalibur Academy"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 143653
+  title: "Insomniacs after School"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 151807
+  title: "Solo Leveling"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 151970
+  title: "Shangri-La Frontier"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 154587
+  title: "Frieren: Nach dem Ende der Reise"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 163024
+  title: "Captain Tsubasa: Staffel 2 - Die Junioren"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 163132
+  title: "Horimiya: The Missing Pieces"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 167142
+  title: "Your Forma"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 167404
+  title: "Monsters: 103 Mercies Dragon Damnation"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 151639
+  title: "Ninja Kamui"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 170695
+  title: "I Parry Everything!"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 175914
+  title: "Call of the Night: Season 2"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 177509
+  title: "Kakushite! Makina-san!!"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+- anilistId: 184591
+  title: "There’s No Freaking Way I’ll Be Your Lover! Unless…"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
