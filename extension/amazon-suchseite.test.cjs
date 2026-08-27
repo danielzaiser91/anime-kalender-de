@@ -348,6 +348,12 @@ const bau = new Function(
     ),
     schneide('suchTreffer'),
     kernQuelle,
+    /* Die Staffelnummer im Titel entscheidet seit 3.52 mit — mit ausschneiden. */
+    quelltext.slice(
+      quelltext.indexOf('  const staffelImTitel ='),
+      quelltext.indexOf(String.raw`
+  }`, quelltext.indexOf('  const staffelImTitel =')) + 4,
+    ),
     schneide('beurteileTreffer'),
     'return { suchTreffer, beurteileTreffer }',
   ].join('\n'),
@@ -538,6 +544,45 @@ const recyborg = werte(
   { titel: '009 Re:Cyborg', folgen: 1 },
 )
 pruefe('„009 Re" ist nicht „009 Re:Cyborg"', recyborg.befund.art !== 'genau', recyborg.befund.art)
+
+/*
+  **Staffel 2 ist nicht Staffel 1.**
+
+  Prime führt jede Staffel als eigenen Eintrag: „Call of the Night" (Staffel 1,
+  aniverse, deutsch) und „Call of the Night (OmU)" (zwei Staffeln, ADN, nur
+  untertitelt). Für „Call of the Night: Season 2" meldete die Erweiterung am
+  27.08.2026 die dreizehn deutschen Folgen der ersten Staffel.
+
+  `titelKern()` wirft die Staffelangabe weg — für das Wiedererkennen richtig,
+  für die Zuordnung falsch.
+*/
+const zweiteStaffel = werte(
+  [{ label: 'Beste Ergebnisse', karten: [karte('Call of the Night', 'TV Show', 'Entitled', 'B0B8JY6QVR')] }],
+  { titel: 'Call of the Night: Season 2', folgen: 12 },
+)
+pruefe(
+  'Staffel 1 ist kein Treffer für Staffel 2',
+  zweiteStaffel.befund.art !== 'genau',
+  zweiteStaffel.befund.art,
+)
+pruefe(
+  'sie faellt auf aehnlich, nicht unter den Tisch',
+  zweiteStaffel.befund.art === 'aehnlich' && zweiteStaffel.befund.treffer.length === 1,
+)
+
+/* Trägt die Karte die Nummer, passt es. */
+const passend = werte(
+  [{ label: 'Beste Ergebnisse', karten: [karte('Call of the Night Season 2', 'TV Show', 'Entitled', 'B0D48ZFXF')] }],
+  { titel: 'Call of the Night: Season 2', folgen: 12 },
+)
+pruefe('dieselbe Staffelnummer trifft', passend.befund.art === 'genau', passend.befund.art)
+
+/* Und ohne Nummer auf beiden Seiten bleibt es beim alten Verhalten. */
+const ersteOhneNummer = werte(
+  [{ label: 'Beste Ergebnisse', karten: [karte('Cowboy Bebop', 'TV Show', 'Entitled', 'B000W9GBW6')] }],
+  { titel: 'Cowboy Bebop', folgen: 26 },
+)
+pruefe('ohne Staffelangabe bleibt der Treffer ein Treffer', ersteOhneNummer.befund.art === 'genau')
 
 console.log()
 if (fehler.length) {

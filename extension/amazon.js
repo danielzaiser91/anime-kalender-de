@@ -1314,6 +1314,31 @@ async function speicherSchreiben(werte) {
       .replace(/[^a-z0-9]/g, '')
 
   /**
+   * **Welche Staffel meint dieser Titel?**
+   *
+   * `titelKern()` wirft die Staffelangabe weg — richtig, wenn es darum geht,
+   * denselben Stoff wiederzuerkennen, und falsch, wenn es darum geht, die
+   * richtige Staffel zu treffen. Bei Prime ist jede Staffel ein eigener
+   * Eintrag mit eigener Kennung: „Call of the Night" (Staffel 1, aniverse,
+   * deutsch) und „Call of the Night (OmU)" (zwei Staffeln, ADN, nur
+   * untertitelt) sind zwei Seiten mit zwei ASINs.
+   *
+   * Ohne diese Unterscheidung meldete die Erweiterung am 27.08.2026 für
+   * „Call of the Night: Season 2" die dreizehn deutschen Folgen der ersten
+   * Staffel — auf einer Seite, die Staffel 2 gar nicht führt (Daniel, mit
+   * drei Bildern).
+   *
+   * Ohne Angabe gilt Staffel 1: Ein Titel ohne Nummer meint die erste.
+   */
+  const staffelImTitel = (t) => {
+    const s = (t ?? '').toLowerCase()
+    const treffer =
+      /\b(?:staffel|season|teil|part|cour)\s*(\d+)\b/.exec(s) ??
+      /\b(\d+)(?:st|nd|rd|th)?\s*(?:staffel|season)\b/.exec(s)
+    return treffer ? Number(treffer[1]) : 1
+  }
+
+  /**
    * Wie gut passt die Trefferliste zu dem, was wir suchen?
    *
    * Drei Ausgänge, und der mittlere ist der heikle:
@@ -1375,15 +1400,33 @@ async function speicherSchreiben(werte) {
       „Gundam" einsammeln, und das ist eine andere Serie.
     */
     const vorn = auftrag.titel.split(':')[0].trim()
+    /*
+      Ein Untertitel, der die Staffel nennt, ist kein Untertitel: „Call of the
+      Night: Season 2" auf „Call of the Night" zu kürzen träfe Staffel 1.
+    */
+    const untertitelIstStaffel = staffelImTitel(auftrag.titel.split(':').slice(1).join(':')) > 1
     const kernVorn =
-      vorn !== auftrag.titel.trim() && vorn.split(/\s+/).length >= 2 && titelKern(vorn).length >= 10
+      !untertitelIstStaffel && vorn !== auftrag.titel.trim() && vorn.split(/\s+/).length >= 2 && titelKern(vorn).length >= 10
         ? titelKern(vorn)
         : null
     const gleichNamig = gefunden.treffer.filter((t) => {
       const k = titelKern(t.titel)
       return k === kern || (kernVorn !== null && k === kernVorn)
     })
-    const genau = gleichNamig.filter(typPasst)
+    /*
+      **Und die Staffel muss dieselbe sein.**
+
+      Ab Staffel 2 zählt der Name allein nicht mehr: Prime führt jede Staffel
+      als eigenen Eintrag, und der trägt ihre Nummer im Titel. Eine Karte ohne
+      Nummer meint die erste — die ist für „Season 2" der falsche Eintrag,
+      selbst wenn sie deutsche Folgen führt.
+
+      Sie fällt damit nicht unter den Tisch, sondern auf „ähnlich": Daniel
+      sieht sie samt Namen und entscheidet selbst.
+    */
+    const gesuchteStaffel = staffelImTitel(auftrag.titel)
+    const staffelPasst = (t) => staffelImTitel(t.titel) === gesuchteStaffel
+    const genau = gleichNamig.filter((t) => typPasst(t) && staffelPasst(t))
     if (genau.length) return { art: 'genau', treffer: genau }
     /*
       Gleicher Name, falscher Typ — das ist kein Treffer, sondern der
@@ -1557,6 +1600,22 @@ async function speicherSchreiben(werte) {
       const gefunden = suchTreffer()
       const befund = beurteileTreffer(auftrag, gefunden)
       const folgen = auftrag.folgen ? `${auftrag.folgen} ${auftrag.folgen === 1 ? 'Folge' : 'Folgen'}` : ''
+      /*
+        **Gesucht wird oft unter einem anderen Namen, als wir führen.**
+
+        Die Suchadresse stammt aus unserem Bestand und trägt den Begriff, unter
+        dem Prime den Titel kennt — „Captain Tsubasa (2018)", während unser
+        Eintrag „Captain Tsubasa" heißt. Der Kasten zeigte nur unseren Namen,
+        und das sah aus wie ein Fehler: oben ein Titel, in der Suchzeile ein
+        anderer (Daniel, 27.08.2026, mit Bild).
+
+        Weichen beide ab, steht der Suchbegriff jetzt dabei.
+      */
+      const begriff = decodeURIComponent((/[?&]k=([^&#]*)/.exec(auftrag.suchUrl ?? '')?.[1] ?? '').replace(/\+/g, ' '))
+      const begriffZeile =
+        begriff && titelKern(begriff) !== titelKern(auftrag.titel)
+          ? [kastenZeile('ak-such-hinweis', `gesucht als: ${begriff}`)]
+          : []
 
       if (befund.art === 'genau') {
         const t = befund.treffer[0]
@@ -1572,6 +1631,7 @@ async function speicherSchreiben(werte) {
           auftrag.titel,
           folgen,
           kastenZeile('ak-such-gut', `Treffer: ${t.titel} (${t.typ})`),
+          ...begriffZeile,
           /*
             **Der Name des Treffers steht bewusst dabei.** Entschieden wird über
             einen Namensvergleich, und der kann danebenliegen — dann sieht Daniel
@@ -1600,6 +1660,7 @@ async function speicherSchreiben(werte) {
       hinweisKasten(
         auftrag.titel,
         folgen,
+        ...begriffZeile,
         nurAehnlich
           ? kastenZeile('ak-such-warn', `Nicht dieser Titel — gefunden: ${befund.treffer.map((t) => t.titel).slice(0, 2).join(', ')}`)
           : kastenZeile('ak-such-warn', 'Kein Treffer bei Prime'),
