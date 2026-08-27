@@ -130,3 +130,49 @@ Zuordnungsregeln fliegen raus, sie werden nicht ersetzt.
   daneben; der Worker nimmt beide an, bis das alte leer läuft.
 - **Kein Urteil ohne Grundlage.** Die Regel aus 3.73 — unter einem Drittel
   gelesener Folgen kein „kein Deutsch" — wandert in den Bau statt zu entfallen.
+
+## Nachtrag, 28.08.2026: Die Lücke sitzt beim Senden, nicht beim Lesen
+
+Daniels Frage — sammelt das Sammeln auch Folgentitel und Metadaten? — hat den
+Plan geschärft. Gemessen an `extension/amazon-leser.js`:
+
+**Die Erweiterung liest längst alles.** Pro Folge kommen aus Amazons
+`getDetailWidgets`-Antwort an: `nummer`, `kennung` (titleID), `gti`, `titel`,
+`beschreibung`, `sprachen`, `untertitel`, `dauerSek`, `laufzeit`, `erschienen`,
+`jahr`, `studios`, `genres`, `zugaenge`, `fsk`, `bild`. Das steht seit dem
+25.08.2026 so im Leser, auf Daniels eigenen Hinweis hin: „da steht sogar fsk,
+und abo required, episoden beschreibung, etc releasedate der episode runtime".
+
+**Gemeldet wird davon fast nichts.** Die Meldung an den Worker trägt elf Felder:
+`plattform`, `url`, `sprachen`, `folge_nr`, `befund`, `titel`, `staffel`,
+`band`, `zugang`, `folgen`, `abos` — und `folgen` ist eine **Zahl**, keine
+Liste.
+
+Damit ist die eigentliche Diagnose eine andere als oben angenommen: Es geht
+nicht darum, dass die Erweiterung zu wenig sammelt. Sie verdichtet das
+Gesammelte zu einem Urteil und wirft die Grundlage weg. Jede spätere Frage —
+„ist das dieselbe Folge?", „gehört diese Staffel zu unserem Eintrag?" — ist
+danach unbeantwortbar, und genau deshalb musste die Erweiterung sie im Browser
+beantworten.
+
+**Folgen für den Plan:**
+
+- Schritt 2 (Worker) wird wichtiger: Er braucht eine Tabelle `prime_folge` mit
+  einer Zeile je Folge, nicht nur eine Spalte mehr an der Meldung.
+- Schritt 4 (Erweiterung) wird **kleiner** als gedacht. Der Leser bleibt, wie er
+  ist. Zu ändern ist die Meldefunktion: Sie schickt die Liste statt der Zahl.
+  Die Urteilsregeln fallen dann von selbst weg, weil niemand mehr ihr Ergebnis
+  braucht.
+- Für die Zuordnung im Bau sind damit vier Merkmale verfügbar, und jedes hat
+  heute schon einen Fall belegt:
+
+  | Merkmal | Löst welchen Fall |
+  |---|---|
+  | `erschienen` (Datum je Folge) | InuYasha 105 in Staffel 4 — das Datum verrät die Position |
+  | `titel` | Captain Tsubasa Junioren — die Folgentitel 89–91 stimmen mit IMDb S1.E37–39 überein |
+  | `dauerSek` | Halo Legends — 9 × ~13 Min gegen einen Film von 1:57 h |
+  | `kennung`/`gti` | dieselbe Folge unter zwei Staffeleinträgen wiedererkennen |
+
+Die Laufzeit ist dabei der Fall, den Daniel selbst benannt hat: Ohne sie ist von
+außen nicht zu unterscheiden, ob ein Anbieter eine Anthologie am Stück zeigt
+oder einen anderen Film führt.
