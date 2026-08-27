@@ -225,6 +225,17 @@ export interface Title {
   streams: StreamLink[]
   /** Weitere Wege zum Ansehen oder Kaufen, die keine eigene Plattform sind. */
   watchLinks?: WatchLink[]
+  /**
+   * Seit wann der Anbieter den Titel fuehrt — fuer Titel ohne jeden Termin.
+   *
+   * Nicht das Erscheinungsdatum der deutschen Fassung, sondern die Angabe des
+   * Anbieters, seit wann er ihn listet (`availableSince` der Streaming
+   * Availability API). Die Oberflaeche schreibt „Im Angebot seit".
+   *
+   * Steht an jedem Titel, der sonst keine Zeitangabe haette; ein
+   * Kalendereintrag entsteht daraus nur fuer 2026 und spaeter.
+   */
+  angebotSeit?: { platform: PlatformId; date: string }
 }
 
 /**

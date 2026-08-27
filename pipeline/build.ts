@@ -3186,6 +3186,101 @@ function main(): void {
     log(`${wegeErgaenzt} Titel ohne jeden Weg haben jetzt einen (TMDB-Anbieter + MOTN-Adresse)`)
   }
 
+  /**
+   * „Im Angebot seit" — für Titel, die sonst gar kein Datum hätten.
+   *
+   * 1.089 Titel mit belegter deutscher Synchro haben keinen einzigen Termin.
+   * Sie sind nicht falsch, nur alt: erschienen, bevor der Kalender sie kannte.
+   * Im Detail-Panel steht dann nichts, wo eine Zeitangabe hingehört.
+   *
+   * MOTN führt für 340 davon ein `availableSince` — die Angabe des Anbieters,
+   * seit wann er den Titel listet. **Das ist nicht das Erscheinungsdatum der
+   * deutschen Fassung**, und deshalb trägt der Eintrag `dateMeaning:
+   * 'available-from'`; die Oberfläche schreibt „Im Angebot seit".
+   *
+   * **Nur was 2026 dazukam, wird ein Kalendereintrag.** Daniels Entscheidung am
+   * 27.08.2026: 201 Einträge aus diesem Jahr sind noch von Interesse, die 139
+   * aus 2024 und 2025 würden die Vergangenheitsansicht fluten, ohne jemandem zu
+   * helfen. Ihr Datum steht trotzdem am Titel und damit im Panel.
+   */
+  {
+    const GRENZE = '2026-01-01'
+    const motnDaten = readJson<MotnDaten>('data/motn.json', MOTN_LEER)
+    const tmdbFuerTermine = readJson<Record<string, { tmdbId?: string; kind?: string }>>(
+      'data/tmdb-titles.json',
+      {},
+    )
+    const nachImdb = new Map(
+      Object.entries(motnDaten.shows ?? {}).map(([k, v]) => [v.imdbId ?? k, v]),
+    )
+    const hatTermin = new Set(releases.map((r) => r.titleId))
+    let alsTermin = 0
+    let nurAmTitel = 0
+
+    for (const title of titles.values()) {
+      if (hatTermin.has(title.id)) continue
+      if (!title.streams?.some((x) => x.dub === true)) continue
+      const t = tmdbFuerTermine[title.id]
+      if (!t?.tmdbId) continue
+      const imdb = motnDaten.tmdb?.[`${t.kind === 'movie' ? 'movie' : 'tv'}/${t.tmdbId}`]?.imdbId
+      const show = imdb ? nachImdb.get(imdb) : undefined
+      if (!show) continue
+
+      /*
+        Der früheste Anbieter gewinnt — er hat den Titel zuerst gehabt. Gezählt
+        wird nur, wo wir auch einen Verweis führen: Ein Datum zu einem Anbieter,
+        auf den wir gar nicht verlinken, hilft niemandem weiter.
+      */
+      const unsere = new Set(title.streams.map((x) => x.platform))
+      const kandidaten = Object.entries(show.dienste ?? {})
+        .filter(([anbieter, d]) => d.seit && unsere.has(anbieter as PlatformId))
+        .sort((a, b) => (a[1].seit ?? '').localeCompare(b[1].seit ?? ''))
+      const bester = kandidaten[0]
+      if (!bester) continue
+      const [anbieter, dienst] = bester
+      const seit = dienst.seit!
+
+      /* Am Titel steht es immer — das Panel zeigt es auch ohne Kalendereintrag. */
+      title.angebotSeit = { platform: anbieter as PlatformId, date: seit }
+      nurAmTitel++
+
+      if (seit < GRENZE) continue
+      const verweis = title.streams.find((x) => x.platform === anbieter)
+      releases.push({
+        slug: `motn-${title.id}-${anbieter}`,
+        titleId: title.id,
+        name: title.titleDe ?? title.titleEn ?? title.titleRomaji ?? String(title.id),
+        platform: anbieter as PlatformId,
+        platformUrl: verweis?.url,
+        releaseType: title.format === 'MOVIE' ? 'movie' : 'batch',
+        dateMeaning: 'available-from',
+        schedule: {
+          firstEpisodeDate: seit,
+          episodeCount: title.episodes ?? 1,
+          lastEpisodeDate: seit,
+        },
+        year: Number(seit.slice(0, 4)),
+        sources: ['https://www.movieofthenight.com/about/api'],
+        quellen: [
+          {
+            url: 'https://www.movieofthenight.com/about/api',
+            name: 'movieofthenight.com',
+            gesehenAm: todayIso(),
+            sagt: seit,
+            stand: 'aktuell',
+          },
+        ],
+      } as Release)
+      alsTermin++
+    }
+    if (nurAmTitel) {
+      log(
+        `${nurAmTitel} Titel ohne Termin tragen jetzt ein „Im Angebot seit" ` +
+          `(${alsTermin} davon aus ${GRENZE.slice(0, 4)} auch als Kalendereintrag)`,
+      )
+    }
+  }
+
   writeJson(`${OUT}/titles.json`, slim)
   // Kennung → Reihe: das Erste sortiert die schon gepflegten Titel aus, das
   // Zweite hält Reihen zusammen, die über die Grenze der beiden Bestände gehen.
