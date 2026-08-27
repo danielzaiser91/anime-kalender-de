@@ -3088,6 +3088,21 @@ async function speicherSchreiben(werte) {
     */
     if (e?.data?.marke === 'ak-amazon-folgen') {
       const jetzigeAdresse = e.data.fuerAdresse ?? location.pathname + location.search
+      /*
+        **Jede Antwort wird vermerkt, bevor sie verarbeitet wird.**
+
+        Bei „Haikyu!!" fehlten die Folgen 3 und 4 im Zählstand (Daniel,
+        27.08.2026). Ob ihre Antwort nie kam oder ankam und verworfen wurde,
+        beantwortet nur diese Zeile: Der Zählstand zeigt das Ergebnis, nicht
+        den Weg dorthin.
+      */
+      notiere('antwort', {
+        fuerAdresse: jetzigeAdresse,
+        standAdresse: gesehen?.fuerAdresse ?? null,
+        nummern: (e.data.folgen ?? []).map((f) => f?.nummer ?? null).filter((n) => n !== null),
+        anzahl: (e.data.folgen ?? []).length,
+        ersetzt: Boolean(e.data.ersetzt),
+      })
       if (gesehen.fuerAdresse !== jetzigeAdresse) {
         gesehen = leererStand()
         gesehen.fuerAdresse = jetzigeAdresse
