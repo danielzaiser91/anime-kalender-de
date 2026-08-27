@@ -620,7 +620,7 @@ async function speicherSchreiben(werte) {
       },
       zaehlstand: sicher(() => ({
         gesamt: gesehen?.gesamt ?? null,
-        adresse: gesehen?.adresse ?? null,
+        fuerAdresse: gesehen?.fuerAdresse ?? null,
         nummern: [...(gesehen?.nummern ?? [])].sort((a, b) => a - b),
         jeFolge: [...(gesehen?.jeFolge ?? new Map())].map(([nr, sp]) => [nr, sp]),
         sprachen: [...(gesehen?.sprachen ?? [])],
@@ -634,26 +634,31 @@ async function speicherSchreiben(werte) {
     }
   }
 
-  /*
-    In der Konsole erreichbar. `AK` steht am `window`, damit Daniel es ohne
-    Umweg tippen kann — die Erweiterung läuft in derselben Welt wie die Seite.
-  */
+  /**
+   * **Der Auslöser ist ein DOM-Ereignis, keine Variable.**
+   *
+   * `window.AK = …` war der falsche Weg: Ein Content-Script läuft in einer
+   * eigenen Welt mit eigenem `window`. In der Konsole der Seite kam nur
+   * „AK is not defined" an (Daniel, 27.08.2026, mit Bild).
+   *
+   * Das `document` teilen beide Welten, und DOM-Ereignisse gehen hindurch.
+   * Der Befehl für die Konsole lautet deshalb:
+   *
+   *     document.dispatchEvent(new CustomEvent('ak-report'))
+   */
   try {
-    window.AK = {
-      bericht,
-      report() {
-        const daten = JSON.stringify(bericht(), null, 2)
-        const a = document.createElement('a')
-        a.href = URL.createObjectURL(new Blob([daten], { type: 'application/json' }))
-        a.download = `anime-kalender-diagnose-${new Date().toISOString().replace(/[:.]/g, '-')}.json`
-        document.body.appendChild(a)
-        a.click()
-        a.remove()
-        return 'Bericht heruntergeladen.'
-      },
-    }
+    document.addEventListener('ak-report', () => {
+      const daten = JSON.stringify(bericht(), null, 2)
+      const a = document.createElement('a')
+      a.href = URL.createObjectURL(new Blob([daten], { type: 'application/json' }))
+      a.download = `anime-kalender-diagnose-${new Date().toISOString().replace(/[:.]/g, '-')}.json`
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      console.log('[Anime-Kalender] Diagnosebericht heruntergeladen.')
+    })
   } catch {
-    /* Ohne window kein Konsolenzugang — dann läuft die Erweiterung trotzdem. */
+    /* Ohne Ereignis kein Konsolenzugang — die Erweiterung läuft trotzdem. */
   }
 
   let gabStaffelwechsel = false
@@ -1545,9 +1550,32 @@ async function speicherSchreiben(werte) {
     */
     const begriff = decodeURIComponent((/[?&]k=([^&#]*)/.exec(auftrag.suchUrl ?? '')?.[1] ?? '').replace(/\+/g, ' '))
     const kernBegriff = begriff ? titelKern(begriff) : null
+    /*
+      **Beiwerk vor und hinter dem Titel zählt nicht mit.**
+
+      Prime führt „H.O.T.D. High School of the Dead" und „Highschool of the
+      Dead [dt./OV]" — dieselbe Serie, einmal mit Abkürzung davor, einmal mit
+      Fassungsangabe dahinter. Beide galten nur als „ähnlich" (Daniel,
+      27.08.2026, mit zwei Bildern).
+
+      Weggeschnitten wird deshalb, was erkennbar Beiwerk ist: eine Abkürzung
+      aus Großbuchstaben mit Punkten am Anfang, eine Klammer- oder
+      Fassungsangabe am Ende. Ein bloßes „enthält" wäre zu großzügig —
+      „Naruto" steckt auch in „Naruto Shippuden", und das ist eine andere
+      Serie.
+    */
+    const ohneBeiwerk = (t) =>
+      titelKern(
+        (t ?? '')
+          .replace(/^\s*(?:[A-Z]\.){2,}\s*/, '')
+          /* Eine Jahreszahl bleibt: Sie trennt Neuauflagen — „Captain Tsubasa (1983)". */
+          .replace(/\s*[[(](?!\s*\d{4}\s*[\])])[^\])]*[\])]\s*$/, '')
+          .replace(/\s*[-–]\s*(?:dt\.?|omu|ov|uncut|subbed|dubbed)[\s\S]*$/i, ''),
+      )
     const gleichNamig = gefunden.treffer.filter((t) => {
       const k = titelKern(t.titel)
-      return k === kern || k === kernBegriff || (kernVorn !== null && k === kernVorn)
+      const roh = ohneBeiwerk(t.titel)
+      return [k, roh].some((x) => x === kern || x === kernBegriff || (kernVorn !== null && x === kernVorn))
     })
     /*
       **Und die Staffel muss dieselbe sein.**
@@ -1758,6 +1786,11 @@ async function speicherSchreiben(werte) {
         .replace(/\s*\([^)]*\)\s*$/, '')
         .split(':')[0]
         .trim()
+      /*
+        Die ersten beiden Wörter zusammengezogen: „High School" → „HighSchool".
+        Genau dieses Paar trennt bei Prime Treffer von Nichts.
+      */
+      const zusammen = begriff.replace(/^(\S+)\s+(\S+)/, (_, a, b) => a + b.charAt(0).toUpperCase() + b.slice(1))
       const begriffZeile =
         begriff && titelKern(begriff) !== titelKern(auftrag.titel)
           ? [kastenZeile('ak-such-hinweis', `gesucht als: ${begriff}`)]
@@ -1830,6 +1863,17 @@ async function speicherSchreiben(werte) {
           unterscheidet und noch etwas übrig bleibt. Gesucht wird sie nicht von
           selbst: Ein zweiter Seitenaufruf ohne Not ist keiner.
         */
+        /*
+          **Amazon findet je nach Schreibweise etwas anderes.**
+
+          „High School of the Dead" liefert nichts, „HighSchool of the Dead"
+          findet die Serie auf Platz eins (Daniel, 27.08.2026, mit beiden
+          Bildern). Welche Schreibweise trifft, ist von außen nicht zu wissen —
+          also wird die andere angeboten, statt sie zu erraten.
+        */
+        ...(zusammen && zusammen !== begriff ? [kastenKnopf(`Anders schreiben: ${zusammen}`, () => {
+          location.href = `https://www.amazon.de/s?k=${encodeURIComponent(zusammen)}&i=instant-video`
+        })] : []),
         ...(kurzform && kurzform !== begriff ? [kastenKnopf(`Kürzer suchen: ${kurzform}`, () => {
           location.href = `https://www.amazon.de/s?k=${encodeURIComponent(kurzform)}&i=instant-video`
         })] : []),
@@ -4140,6 +4184,32 @@ async function speicherSchreiben(werte) {
 
     if (!zahlenStehen) {
       knopf.disabled = true
+      /*
+        **Ein Stand mit mehr Folgen, als die Staffel hat, ist vermischt.**
+
+        Daniels Bericht vom 27.08.2026 (Dragon Ball Super, Staffel 2): 27
+        gelesene Folgen bei `gesamt: 9`. Der Wechsel war erkannt, die Kennung
+        nachgezogen — nur der Zählstand trug noch die 18 Folgen der ersten
+        Staffel. Der Knopf wartete auf einen Gleichstand, den es nicht mehr
+        geben konnte, und stand nach 96 Sekunden immer noch auf „einen Moment".
+
+        Das Ersetzen hängt sonst an der Adresse der Widget-Antwort. Beim Wechsel
+        über die Staffelauswahl ändert Prime nur `?ref_=atv_dp_season_select_s2`
+        — kommt die nächste Antwort unter der alten Adresse, greift die Regel
+        nicht.
+
+        Diese hier greift immer: Mehr gelesene Folgen als die Staffel hat, ist
+        keine Auslegungsfrage. Der Stand geht weg, der nächste Takt liest neu.
+      */
+      const vermischt = Number.isFinite(gesehen?.gesamt) && (gesehen?.jeFolge?.size ?? 0) > gesehen.gesamt
+      if (vermischt) {
+        notiere('stand-vermischt', { gesamt: gesehen.gesamt, gelesen: gesehen.jeFolge.size })
+        gesehen = leererStand()
+        gesehen.fuerAdresse = location.pathname + location.search
+        letzteZahl = -1
+        letzterStand = ''
+        letzterFortschritt = Date.now()
+      }
       knopf.textContent = 'Staffel wechselt — einen Moment'
       /* Jede Sekunde dieses Zustands ist eine Sekunde Warten für Daniel. */
       notiere('wartet-auf-staffel', {

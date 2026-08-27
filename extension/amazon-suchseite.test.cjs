@@ -625,6 +625,25 @@ pruefe('eine andere Jahresfassung zaehlt nicht als genauer Treffer', fremdesJahr
   pruefe('ein Jahr in Klammern auch nicht', staffelImTitel('Captain Tsubasa (2018)') === 1)
 }
 
+/*
+  **Beiwerk vor und hinter dem Titel.**
+
+  Prime führt „H.O.T.D. High School of the Dead" und „Highschool of the Dead
+  [dt./OV]" — dieselbe Serie wie unser Eintrag, einmal mit Abkuerzung davor,
+  einmal mit Fassungsangabe dahinter (Daniel, 27.08.2026).
+*/
+const abkuerzung = werte(
+  [{ label: 'Beste Ergebnisse', karten: [karte('H.O.T.D. High School of the Dead', 'TV Show', 'Entitled', 'B0AAAA4444')] }],
+  { titel: 'Highschool of the Dead', folgen: 12 },
+)
+pruefe('die Abkuerzung davor stoert nicht', abkuerzung.befund.art === 'genau', abkuerzung.befund.art)
+
+const fassung = werte(
+  [{ label: 'Beste Ergebnisse', karten: [karte('Highschool of the Dead [dt./OV]', 'TV Show', 'Entitled', 'B0AAAA5555')] }],
+  { titel: 'Highschool of the Dead', folgen: 12 },
+)
+pruefe('die Fassungsangabe dahinter auch nicht', fassung.befund.art === 'genau', fassung.befund.art)
+
 console.log()
 if (fehler.length) {
   console.error(`${fehler.length} Zusicherung(en) verletzt.`)
