@@ -3240,8 +3240,18 @@ function main(): void {
       const [anbieter, dienst] = bester
       const seit = dienst.seit!
 
-      /* Am Titel steht es immer — das Panel zeigt es auch ohne Kalendereintrag. */
-      title.angebotSeit = { platform: anbieter as PlatformId, date: seit }
+      /*
+        Am Titel steht es immer — das Panel zeigt es auch ohne Kalendereintrag.
+
+        **Und zwar an beiden Fassungen.** `slim` entsteht weiter oben aus
+        Kopien; wer nur `titles` beschreibt, sieht sein Feld im ausgelieferten
+        Datensatz nie wieder. Der erste Lauf schrieb 329-mal ein Feld, das
+        nirgends ankam (27.08.2026).
+      */
+      const angebot = { platform: anbieter as PlatformId, date: seit }
+      title.angebotSeit = angebot
+      const ausgeliefert = slim.find((x) => x.id === title.id)
+      if (ausgeliefert) ausgeliefert.angebotSeit = angebot
       nurAmTitel++
 
       if (seit < GRENZE) continue
