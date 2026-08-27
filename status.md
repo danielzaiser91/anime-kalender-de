@@ -389,6 +389,14 @@ diesen Film.
 
 ### Queue
 
+**Sieben Netflix-Verweise ohne Kennung.** Nach der Vereinheitlichung der Adressformen
+(27.08.2026) bleiben sieben übrig, die keine Video-Kennung tragen und darum nicht prüfbar
+sind: fünf Wunschadressen (`netflix.com/pokemonconcierge`, `/RecordofRagnarok`,
+`/mymelody&kuromi`, `/DetectiveConanMovies`, `/exception`) und `netflix.com/title/` ohne
+Nummer — die letzte führt sicher ins Leere und gehört entfernt. Die Wunschadressen
+funktionieren im Browser; ihre Kennung kennt nur Netflix. Weg dorthin: Adresse aufrufen,
+Weiterleitungsziel lesen, Kennung übernehmen.
+
 **Performance der Prime-Erweiterung — Review vom 25.08.2026.** Messwerte, Begründungen und
 die Verhaltensrisiken je Änderung stehen vollständig in
 [`extension/PERFORMANCE.md`](extension/PERFORMANCE.md); wiederholbar mit
