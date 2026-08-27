@@ -1150,6 +1150,94 @@ async function speicherSchreiben(werte) {
   }
 
   const liste = globalThis.AK_OFFENE_AMAZON ?? {}
+  const suchliste = globalThis.AK_PRIME_SUCHE ?? {}
+
+  // --- Suchseiten: der Weg zur echten Titelseite ----------------------------
+
+  /**
+   * **118 unserer Prime-Verweise sind Suchen, keine Titelseiten.**
+   *
+   * Weder AniList noch aniSearch liefern für diese Titel eine belastbare
+   * Produktseite, und weder MOTN noch TMDB führen eine (beides am 27.08.2026
+   * gemessen, beides null Treffer). Auf einer Suchseite gibt es keine
+   * Tonspuren zu lesen.
+   *
+   * Was die Erweiterung kann: den Weg zeigen. Hier steht ein Hinweis, welcher
+   * Titel gemeint ist; der Klick auf den richtigen Treffer hinterlegt ihn für
+   * zehn Minuten, und auf der Titelseite läuft die gewohnte Prüfung — auch
+   * wenn deren Adresse in keiner Liste steht.
+   *
+   * Der Rest ist schon gebaut: Die Handbeleg-Datei kennt ein Feld für „die
+   * richtige Adresse, falls die im Datensatz danebenliegt", und der
+   * Übernahme-Lauf ordnet eine unbekannte Adresse über den Namen zu.
+   */
+  const SUCH_SCHLUESSEL = 'ak-prime-suchauftrag'
+
+  function suchauftragMerken(auftrag) {
+    try {
+      sessionStorage.setItem(SUCH_SCHLUESSEL, JSON.stringify({ ...auftrag, zeit: Date.now() }))
+    } catch {
+      /* Ohne Speicher fällt nur diese Bequemlichkeit aus. */
+    }
+  }
+
+  function suchauftrag() {
+    try {
+      const roh = sessionStorage.getItem(SUCH_SCHLUESSEL)
+      if (!roh) return null
+      const a = JSON.parse(roh)
+      return Date.now() - a.zeit > 600000 ? null : a
+    } catch {
+      return null
+    }
+  }
+
+  /** Steht die aktuelle Adresse als Suche auf der Liste? */
+  function offeneSuche() {
+    /*
+      **Verglichen wird der Suchbegriff, nicht die Adresse.** Amazon hängt beim
+      Aufruf eigene Parameter an (`crid`, `sprefix`), und alle 118 Adressen aus
+      unserem Bestand tragen ein `k` — geprüft, nicht angenommen.
+    */
+    const begriff = new URLSearchParams(location.search).get('k')
+    if (!begriff) return null
+    for (const [url, wert] of Object.entries(suchliste)) {
+      try {
+        if (new URLSearchParams(new URL(url).search).get('k') === begriff) {
+          return { ...wert, suchUrl: url }
+        }
+      } catch {
+        /* Eine kaputte Adresse in der Liste hält den Rest nicht auf. */
+      }
+    }
+    return null
+  }
+
+  function zeigeSuchhinweis() {
+    const auftrag = offeneSuche()
+    if (!auftrag) return false
+    suchauftragMerken({ titel: auftrag.titel, id: auftrag.id, suchUrl: auftrag.suchUrl })
+
+    const kasten = document.createElement('div')
+    kasten.style.cssText =
+      'position:fixed;right:16px;bottom:16px;z-index:2147483000;max-width:340px;' +
+      'padding:10px 14px;border-radius:8px;border:1px solid #ffffff33;background:#111;' +
+      'color:#fff;font:13px/1.45 system-ui,sans-serif;white-space:pre-line'
+    kasten.textContent =
+      `Anime-Kalender sucht: ${auftrag.titel}` +
+      (auftrag.folgen ? `\n${auftrag.folgen} Folgen laut unserem Bestand` : '') +
+      '\nÖffne den richtigen Treffer — dort geht es weiter.'
+    document.body.appendChild(kasten)
+    return true
+  }
+  /*
+    **Sofort, nicht am Ende des Aufbaus.** Eine Suchseite trägt keine Kennung,
+    und der Ablauf weiter unten setzt eine voraus — dort angehängt, wurde der
+    Hinweis nie erreicht (gemessen am 27.08.2026, der Übersichts-Knopf kam an,
+    der Kasten nicht). Er hängt von nichts ab außer der Adresse.
+  */
+  zeigeSuchhinweis()
+
 
   // Veränderlich: Das Auswahlfeld wechselt die Staffel ohne Seitenneuladen,
   // und damit die Kennung — siehe `beiStaffelwechsel()`.
@@ -1738,12 +1826,26 @@ async function speicherSchreiben(werte) {
     return ausAdresse ?? id
   }
 
-  listenId = listenSchluessel()
-  let eintrag = liste[listenId] ?? {
-    titel: null,
-    url: `https://www.amazon.de/dp/${id}`,
-    unbekannt: true,
+  /**
+   * Der Listeneintrag zur aktuellen Seite — oder der Ersatz dafür.
+   *
+   * Steht die Seite in keiner Liste, gibt es zwei Fälle. Der Regelfall ist
+   * eine Seite, die uns nichts angeht; dann bleibt der Platzhalter stehen.
+   * Der zweite ist der Treffer einer **Suche**, die aus unserer Liste kam:
+   * Dann steht der gemeinte Titel im Suchauftrag, und gemeldet wird unter der
+   * **Suchadresse** — die kennt die Pipeline, die Titelseite nicht.
+   */
+  function eintragFuer(schluessel) {
+    if (liste[schluessel]) return liste[schluessel]
+    const auftrag = suchauftrag()
+    if (auftrag) {
+      return { titel: auftrag.titel, url: auftrag.suchUrl, ausSuche: true }
+    }
+    return { titel: null, url: `https://www.amazon.de/dp/${id}`, unbekannt: true }
   }
+
+  listenId = listenSchluessel()
+  let eintrag = eintragFuer(listenId)
 
   // --- Der Knopf -----------------------------------------------------------
 
@@ -3384,11 +3486,7 @@ async function speicherSchreiben(werte) {
     if (!jetzt) return
     id = jetzt
     listenId = listenSchluessel(listenId)
-    eintrag = liste[listenId] ?? {
-      titel: null,
-      url: `https://www.amazon.de/dp/${id}`,
-      unbekannt: true,
-    }
+    eintrag = eintragFuer(listenId)
     /*
       **Das Leeren hier ist weg — es machte kaputt, was es schützen sollte.**
 
@@ -3499,6 +3597,7 @@ async function speicherSchreiben(werte) {
 
   let langsam = false
   let taktGeber = setInterval(taktSchritt, 500)
+
 
   // --- Melden --------------------------------------------------------------
 

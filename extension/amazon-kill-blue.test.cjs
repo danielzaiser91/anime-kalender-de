@@ -133,6 +133,9 @@ function starte() {
 
   const sandkasten = {
     globalThis: null,
+    /* Der Browser hat sie; ohne sie stirbt jede Adressauswertung im Sandkasten. */
+    URLSearchParams,
+    sessionStorage: { getItem: () => null, setItem() {} },
     AK_OFFENE_AMAZON: LISTE,
     location: { pathname: '/gp/video/detail/B0GTN94C9M', search: '' },
     document: {

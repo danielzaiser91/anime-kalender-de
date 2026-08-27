@@ -179,6 +179,7 @@ QUELLEN=(
   data/bestand-historie.jsonl
   data/crunchyroll-de-kennungen.json
   extension/offene-amazon.js
+  extension/offene-amazon-suche.js
   extension/offene-netflix.js
   extension/offene-disney.js
   daniel-zum-abarbeiten/08-arbeitspakete.md

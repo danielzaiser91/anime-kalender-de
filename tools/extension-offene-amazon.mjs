@@ -114,6 +114,41 @@ for (const [asin, eintraege] of jeAsin) {
   }
 }
 
+/**
+ * Die Suchadressen — die andere Hälfte der offenen Prime-Verweise.
+ *
+ * 118 unserer Prime-Verweise sind keine Titelseiten, sondern Suchen
+ * (`/s?k=Cowboy%20Bebop&i=instant-video`). Weder AniList noch aniSearch liefern
+ * für diese Titel eine belastbare Produktseite, und weder MOTN noch TMDB führen
+ * eine (beides am 27.08.2026 gemessen, beides null Treffer).
+ *
+ * Die Erweiterung kann dort nichts lesen — eine Suchseite hat keine Tonspuren.
+ * Was sie kann: den Weg zeigen. Auf einer gelisteten Suchseite erscheint ein
+ * Hinweis, und der Klick auf den richtigen Treffer hinterlegt, welcher Titel
+ * gemeint war. Auf der Titelseite läuft dann die gewohnte Prüfung.
+ *
+ * Der Rest ist schon gebaut: `dub-confirmed.yaml` kennt ein Feld `url` für „die
+ * richtige Adresse, falls die im Datensatz danebenliegt", und
+ * `fetch-pruefungen.ts` ordnet eine unbekannte Adresse über den Namen zu.
+ */
+const suche = {}
+for (const t of titel) {
+  for (const s of t.streams ?? []) {
+    if (s.platform !== 'primevideo' || !/\/s\?/.test(s.url ?? '')) continue
+    if (s.dub !== undefined) continue
+    suche[s.url] = {
+      titel: t.titleDe ?? t.titleEn ?? t.titleRomaji ?? String(t.id),
+      id: t.id,
+      folgen: t.episodes ?? null,
+    }
+  }
+}
+writeFileSync(
+  resolve(wurzel, 'extension/offene-amazon-suche.js'),
+  'globalThis.AK_PRIME_SUCHE = ' + JSON.stringify(suche) + '\n',
+)
+console.log(`${Object.keys(suche).length} Prime-Suchadressen ohne Titelseite`)
+
 for (const [asin, wert] of Object.entries(ERNEUT)) {
   if (offen[asin]) continue
   offen[asin] = {

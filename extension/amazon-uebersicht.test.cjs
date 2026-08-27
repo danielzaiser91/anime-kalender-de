@@ -277,6 +277,9 @@ function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE) {
   const takte = []
   const sandkasten = {
     globalThis: null,
+    /* Der Browser hat sie; ohne sie stirbt jede Adressauswertung im Sandkasten. */
+    URLSearchParams,
+    sessionStorage: { getItem: () => null, setItem() {} },
     AK_OFFENE_AMAZON: liste,
     /*
       Ein Wert, der mit `/` beginnt, gilt als vollständiger Pfad. Gebraucht

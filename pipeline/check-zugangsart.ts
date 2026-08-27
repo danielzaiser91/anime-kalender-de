@@ -17,6 +17,7 @@
 import { resolve } from 'node:path'
 import { readJson, ROOT } from './lib/util.ts'
 import { zugangsart } from '../shared/zugangsart.ts'
+import { echteAmazonAdresse } from './lib/amazon-adresse.ts'
 import type { Title } from '../shared/types.ts'
 
 let fehler = 0
@@ -198,5 +199,47 @@ console.log('\nSuchadressen behaupten kein Angebot:')
   pruefe('es gibt überhaupt Suchadressen im Bestand', suchadressen.length > 0, suchadressen.length)
 }
 
+{
+  /*
+    **Aus einer Suchadresse wird die echte Titelseite.**
+
+    Die 118 Prime-Suchadressen kann heute niemand prüfen — auf einer
+    Trefferliste stehen keine Tonspuren. Die Erweiterung führt seit 3.39 zur
+    Titelseite; gemeldet wird weiterhin unter der Suchadresse, weil nur die im
+    Datensatz steht. Die echte Seite kommt aus der Notiz.
+
+    Geprüft wird mit eigenen Fällen, nicht am Bestand: Diese Liste soll leer
+    werden, und eine Zusicherung, die daran hängt, wird rot, sobald die Arbeit
+    getan ist (siehe CLAUDE.md).
+  */
+  const suche = 'https://www.amazon.de/s?k=Cowboy%20Bebop&i=instant-video'
+  pruefe(
+    'aus Suchadresse und Notiz wird die Titelseite',
+    echteAmazonAdresse({ plattform: 'primevideo', url: suche, notiz: 'Amazon-Seite B000W9GBW6: 26 Folgen geprüft' }) ===
+      'https://www.amazon.de/dp/B000W9GBW6',
+  )
+  /* Prime Video führt neben zehnstelligen ASINs auch GTIs mit 26 Zeichen. */
+  pruefe(
+    'eine lange Kennung (GTI) wird nicht abgeschnitten',
+    echteAmazonAdresse({ plattform: 'primevideo', url: suche, notiz: 'Amazon-Seite 0J16B1NAB82TO0O5A5Q8TLG1VP: geprüft' }) ===
+      'https://www.amazon.de/dp/0J16B1NAB82TO0O5A5Q8TLG1VP',
+  )
+  pruefe(
+    'ein echter Titelverweis wird nicht angefasst',
+    echteAmazonAdresse({
+      plattform: 'primevideo',
+      url: 'https://www.amazon.de/dp/B0F2HPCC5Q',
+      notiz: 'Amazon-Seite B0F2HPCC5Q: geprüft',
+    }) === null,
+  )
+  pruefe(
+    'ohne Kennung in der Notiz bleibt es bei der Suchadresse',
+    echteAmazonAdresse({ plattform: 'primevideo', url: suche, notiz: 'von Hand geprüft' }) === null,
+  )
+  pruefe(
+    'ein fremder Anbieter bleibt unberührt',
+    echteAmazonAdresse({ plattform: 'netflix', url: suche, notiz: 'Amazon-Seite B000W9GBW6: x' }) === null,
+  )
+}
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

@@ -15,6 +15,7 @@
  * Aufruf: npm run data:pruefungen
  */
 import { existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { echteAmazonAdresse } from './lib/amazon-adresse.js'
 import { resolve } from 'node:path'
 import {
   beschreibeBereiche,
@@ -446,7 +447,12 @@ for (const gruppe of jeAdresse.values()) {
     // Kam die Zuordnung über den Namen zustande, kennt unser Datensatz die
     // Adresse noch nicht — dann gehört sie mit hinein, sonst bleibt der Befund
     // ohne Verweis stehen.
-    if (!nachUrl.has(schluesselAdresse(p.url))) zeilen.push(`  url: ${p.url}`)
+    const echte = echteAmazonAdresse(p)
+    if (echte) {
+      zeilen.push(`  url: ${echte}`)
+    } else if (!nachUrl.has(schluesselAdresse(p.url))) {
+      zeilen.push(`  url: ${p.url}`)
+    }
     if (weg) {
       zeilen.push('  available: false')
     } else if (eigene.length) {
