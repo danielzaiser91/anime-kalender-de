@@ -389,6 +389,12 @@ diesen Film.
 
 ### Queue
 
+**Worker-Migration 016 wartet auf D1-Rechte.** `teil_von`/`teil_bis` sind im Code, in der
+Migration und in der Erweiterung fertig; `wrangler d1 migrations apply` scheitert an einem
+OAuth-Token ohne D1-Berechtigung (27.08.2026). Bis Daniel `npx wrangler login` neu ausführt,
+bleibt der Worker undeployt — er würde sonst in Spalten schreiben, die es nicht gibt. Die
+übrige Kette ist harmlos: Der alte Worker ignoriert die zusätzlichen Felder.
+
 **Zwei Netflix-Verweise ohne Titelseite.** Nach der Vereinheitlichung der Adressformen und
 dem Auflösen der Wunschadressen (27.08.2026) bleiben zwei: `netflix.com/DetectiveConanMovies`
 führt auf eine Genre-Liste, nicht auf einen Titel, und `netflix.com/title/` ohne Nummer führt
