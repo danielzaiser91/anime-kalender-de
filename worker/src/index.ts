@@ -1576,6 +1576,7 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
           offen: number
           gesamt: number
           gemeldet: number
+          ohneSeite?: number
           ziele?: { url: string; titel: string }[]
         }
         const unterwegs = gemeldeteAdressen.get(a.plattform) ?? new Set<string>()
@@ -1594,6 +1595,20 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
           titel: offeneZiele.length,
           /** Was davon schon unterwegs ist. */
           unterwegs: unterwegs.size,
+          /**
+           * Verweise, für die niemand eine Titelseite kennt.
+           *
+           * Bei Prime sind das 117 Suchadressen — weder AniList noch aniSearch
+           * führen für diese Titel eine Produktseite, und weder MOTN noch TMDB
+           * kennen eine. Die Erweiterung zeigt auf der Suchseite, welcher Titel
+           * gemeint ist; gesucht werden muss er trotzdem von Hand.
+           *
+           * Der Prüfstand zählt sie seit jeher, der Worker reichte sie nicht
+           * weiter — die Anzeige schrieb deshalb „alles geprüft" für einen
+           * Anbieter mit dreistelliger offener Arbeit (Daniel, 27.08.2026:
+           * „wieso steht in status app oben keine klickbare pill?").
+           */
+          ohneSeite: a.ohneSeite ?? 0,
           ziel: offeneZiele[0]?.url ?? null,
           ziele: offeneZiele,
         }
