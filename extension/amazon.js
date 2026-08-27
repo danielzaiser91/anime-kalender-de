@@ -1747,7 +1747,25 @@ async function speicherSchreiben(werte) {
   }
 
   function zeigeSuchhinweis() {
-    const auftrag = offeneSuche()
+    /*
+      **Eine zweite Suche gehört noch zum selben Auftrag.**
+
+      `offeneSuche()` vergleicht den Suchbegriff mit unseren Adressen. Wer über
+      „Kürzer suchen" oder „Anders schreiben" weitersucht, steht danach auf
+      einer Adresse, die dort nicht steht — und der Kasten war weg, mitsamt dem
+      Auftrag (Daniel, 27.08.2026: „lädt die seite neu und dann ist das div
+      nicht mehr da").
+
+      Bei „Horimiya" fiel das nicht auf: Die Kurzform ist zufällig selbst ein
+      Eintrag. Das ist der Zufall, nicht die Regel.
+
+      Der gemerkte Auftrag gilt zehn Minuten und überlebt jeden Seitenwechsel.
+      Auf einer Suchseite ist er die richtige Auskunft — dort gibt es nichts
+      anderes, worauf er sich beziehen könnte.
+    */
+    const ausListe = offeneSuche()
+    const gemerkt = !ausListe && /^\/s(\/|$)/.test(location.pathname) ? suchauftrag() : null
+    const auftrag = ausListe ?? gemerkt
     if (!auftrag) return false
     suchauftragMerken({
       titel: auftrag.titel,

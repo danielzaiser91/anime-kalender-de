@@ -877,6 +877,18 @@ function searchableName(name: string | undefined): string | undefined {
   const trimmed = name
     .replace(/\s*[–—-]\s*(Staffel|Season|Vol\.?|Part|Box)\s*\d+.*$/i, '')
     .replace(/\s*\((\d{4}|Remaster|2K-Remaster)\)\s*$/i, '')
+    /*
+      **Ein alternativer Titel in Bindestrichen findet nichts.**
+
+      `Doukyuusei -Classmates-` und `Free! -Dive to the Future-` liefern bei
+      Prime null Treffer, `Doukyuusei` und `Free!` finden die Serie sofort
+      (Daniel, 27.08.2026, beide mit Bild). Die Schreibweise stammt aus der
+      japanischen Titelkonvention und steht bei keinem Anbieter so im Katalog.
+
+      Der Doppelpunkt-Zusatz bleibt: „Horimiya: The Missing Pieces" ist ein
+      eigenes Werk, kein Beiwerk zum Haupttitel.
+    */
+    .replace(/\s-[^-]+-\s*$/, '')
     .trim()
   return trimmed || name
 }
