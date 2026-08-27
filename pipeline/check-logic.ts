@@ -2092,10 +2092,23 @@ console.log('\nStatus: ein belegter Verweis schlägt das Enddatum')
     netflixTitelAdresse('https://www.netflix.com/search?q=berserk&jbv=80243876') ===
       'https://www.netflix.com/title/80243876',
   )
-  /* Wunschadressen tragen keine Kennung — die kennt nur Netflix selbst. */
+  /*
+    Wunschadressen tragen keine Kennung im Pfad — die steht in Netflix' eigener
+    Weiterleitung und wurde am 27.08.2026 einmal für alle fünf abgefragt.
+  */
   pruefe(
-    'eine Wunschadresse bleibt unangetastet',
-    netflixTitelAdresse('http://netflix.com/pokemonconcierge') === 'http://netflix.com/pokemonconcierge',
+    'eine Wunschadresse wird über die gemessene Weiterleitung aufgelöst',
+    netflixTitelAdresse('http://netflix.com/pokemonconcierge') === 'https://www.netflix.com/title/81186864',
+    netflixTitelAdresse('http://netflix.com/pokemonconcierge'),
+  )
+  pruefe(
+    'auch die mit dem Und-Zeichen im Namen',
+    netflixTitelAdresse('https://www.netflix.com/mymelody&kuromi') === 'https://www.netflix.com/title/81318403',
+  )
+  /* Eine Genre-Liste ist keine Titelseite — die bleibt, wie sie ist. */
+  pruefe(
+    'eine unbekannte Wunschadresse wird nicht erfunden',
+    netflixTitelAdresse('http://netflix.com/DetectiveConanMovies') === 'http://netflix.com/DetectiveConanMovies',
   )
   pruefe(
     'und eine leere Titeladresse wird nicht erfunden',

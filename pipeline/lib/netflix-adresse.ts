@@ -25,5 +25,35 @@ export function netflixTitelAdresse(url: string): string {
     /\/(?:title|watch)\/(\d{6,})/.exec(url)?.[1] ??
     /[?&]jbv=(\d{6,})/.exec(url)?.[1] ??
     /\/WiMovie\/(?:[^/]+\/)?(\d{6,})/.exec(url)?.[1]
-  return kennung ? `https://www.netflix.com/title/${kennung}` : url
+  if (kennung) return `https://www.netflix.com/title/${kennung}`
+
+  /* Ohne Kennung im Pfad zählt Netflix' eigene Auskunft — siehe WUNSCHADRESSEN. */
+  const wunsch = /netflix\.com\/([^/?#]+)\/?$/i.exec(url)?.[1]?.toLowerCase()
+  const ausTabelle = wunsch ? WUNSCHADRESSEN[wunsch] : undefined
+  return ausTabelle ? `https://www.netflix.com/title/${ausTabelle}` : url
+}
+
+/**
+ * Netflix' Wunschadressen, aufgelöst durch Nachfragen.
+ *
+ * `netflix.com/pokemonconcierge` trägt keine Kennung — die kennt nur Netflix
+ * selbst, und zwar in seiner Weiterleitung: Ein Abruf antwortet mit `301` und
+ * dem `Location`-Kopf auf die Titelseite. Am 27.08.2026 einmal für alle fünf
+ * Adressen im Bestand gemessen; das Ergebnis steht hier, statt bei jedem Bau
+ * fünf Anfragen an Netflix zu schicken.
+ *
+ * Zwei Fälle bleiben ohne Eintrag, und das ist kein Versehen:
+ * `netflix.com/DetectiveConanMovies` führt auf eine **Genre-Liste**
+ * (`/browse/genre/81762386`) — das ist keine Titelseite und taugt nicht als
+ * Verweis auf einen Titel. `netflix.com/title/` ohne Nummer führt ins Leere.
+ *
+ * Kommt eine neue Wunschadresse dazu, ist der Weg derselbe:
+ * `curl -sD - -o /dev/null https://www.netflix.com/<name>` und den
+ * `Location`-Kopf lesen.
+ */
+const WUNSCHADRESSEN: Record<string, string> = {
+  pokemonconcierge: '81186864',
+  recordofragnarok: '81281579',
+  exception: '81002444',
+  'mymelody&kuromi': '81318403',
 }
