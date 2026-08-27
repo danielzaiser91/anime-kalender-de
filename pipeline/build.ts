@@ -56,6 +56,7 @@ import { eindeutschenStaffel, nachAusstrahlung } from '../shared/titles.ts'
 import { addDays, todayIso } from '../shared/time.ts'
 import { buildIcs } from '../shared/ics.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
+import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
 import {
   meldungenAus,
   quellenName,
@@ -2191,6 +2192,9 @@ function main(): void {
      * behauptete dort ein Angebot ohne deutsche Fassung — also etwas, das es
      * gar nicht gibt.
      */
+    /* Netflix schreibt dieselbe Seite auf drei Arten — hier wird daraus eine. */
+    for (const s of title.streams) if (s.platform === 'netflix') s.url = netflixTitelAdresse(s.url)
+
     title.streams = title.streams.filter((stream) => {
       /**
        * Was YouTube selbst über seine Verweise sagt.

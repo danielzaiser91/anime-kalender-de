@@ -50,6 +50,7 @@ import { dubGrenze } from '../shared/dub-grenze.ts'
 import { netflixNeutral } from '../shared/mappings.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
+import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
 import { beurteile } from './lib/crunchyroll-dub.ts'
 import {
   bucketLand,
@@ -2059,6 +2060,50 @@ console.log('\nStatus: ein belegter Verweis schlägt das Enddatum')
   pruefe(
     'ein Verweis ohne belegte Synchro ändert nichts',
     titleStatus([], heute, { ...ohneVerweis, streams: [{ platform: 'adn', url: 'x' }] } as never) === 'unbekannt',
+  )
+}
+
+/*
+  **Netflix-Adressen: drei Formen, eine Seite.**
+
+  Fünfzehn Netflix-Verweise standen als „ohne Titelseite" außerhalb jeder
+  Prüfung, obwohl acht davon eine Kennung tragen — nur eben in der
+  Abspiel-, der Alt- oder der Suchform (Daniel, 27.08.2026).
+*/
+{
+  const gleich = 'https://www.netflix.com/title/80180071'
+  pruefe(
+    'die Abspieladresse wird zur Titelseite',
+    netflixTitelAdresse('https://www.netflix.com/watch/80180071?source=35') === gleich,
+    netflixTitelAdresse('https://www.netflix.com/watch/80180071?source=35'),
+  )
+  pruefe(
+    'die alte WiMovie-Form ebenso',
+    netflixTitelAdresse('http://movies.netflix.com/WiMovie/Samurai_Champloo/70213065') ===
+      'https://www.netflix.com/title/70213065',
+    netflixTitelAdresse('http://movies.netflix.com/WiMovie/Samurai_Champloo/70213065'),
+  )
+  pruefe(
+    'WiMovie auch ohne Namen im Pfad',
+    netflixTitelAdresse('http://www.netflix.com/WiMovie/70305217') === 'https://www.netflix.com/title/70305217',
+  )
+  pruefe(
+    'die Suche mit Vorschaufenster trägt die Kennung in jbv',
+    netflixTitelAdresse('https://www.netflix.com/search?q=berserk&jbv=80243876') ===
+      'https://www.netflix.com/title/80243876',
+  )
+  /* Wunschadressen tragen keine Kennung — die kennt nur Netflix selbst. */
+  pruefe(
+    'eine Wunschadresse bleibt unangetastet',
+    netflixTitelAdresse('http://netflix.com/pokemonconcierge') === 'http://netflix.com/pokemonconcierge',
+  )
+  pruefe(
+    'und eine leere Titeladresse wird nicht erfunden',
+    netflixTitelAdresse('https://www.netflix.com/title/') === 'https://www.netflix.com/title/',
+  )
+  pruefe(
+    'fremde Anbieter gehen unverändert durch',
+    netflixTitelAdresse('https://www.amazon.de/dp/B0B8TR93HR') === 'https://www.amazon.de/dp/B0B8TR93HR',
   )
 }
 
