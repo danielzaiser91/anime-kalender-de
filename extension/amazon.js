@@ -736,7 +736,6 @@ async function speicherSchreiben(werte) {
   }
 
   let gabStaffelwechsel = false
-  let letzterWechselAm = 0
   /** Titel und Quelltext-Kennung, wie sie zuletzt zusammen gesehen wurden. */
   let titelZuQuelltext = null
 
@@ -4521,32 +4520,40 @@ async function speicherSchreiben(werte) {
         letzterFortschritt = Date.now()
       }
       /*
-        **Nicht im Umbruch.** Während eines Staffelwechsels gehören `gesamt` und
-        die eingetroffenen Folgen für einen Moment zu verschiedenen Staffeln —
-        die Regel sah dann eine Vermischung, wo eine Umstellung lief, und warf
-        die Folgen der **neuen** Staffel weg.
+        **Zu viele Folgen? Die überzähligen fliegen, nicht der ganze Stand.**
 
-        Daniels beide Berichte vom 27.08.2026 zeigen es nebeneinander: Im ersten
-        greift `stand-vermischt` (12 gegen 13) eine Sekunde **vor** dem
-        `staffelwechsel`, danach null gelesene Folgen und „Tonspuren nicht
-        gefunden". Im zweiten, nach einem Neuladen, kommen dieselben zwölf
-        Folgen an und lassen sich melden.
+        Nach einem Staffelwechsel schickt Amazon die Folgen der **alten**
+        Staffel noch einmal — unter der Adresse der neuen. Der Stand trug dann
+        dreizehn Folgen, während die Seite zwölf nennt.
 
-        Drei Sekunden Abstand genügen: So lange dauert kein Wechsel, und eine
-        echte Vermischung bleibt danach bestehen.
+        Bis 3.74 wurde er komplett geleert. Das war zweimal falsch: Erstens kam
+        danach nichts mehr nach, weil Amazon längst geliefert hatte — der Knopf
+        endete auf „Tonspuren nicht gefunden — Seite neu laden", und ein
+        Neuladen half sofort. Zweitens war das meiste davon richtig: Die Folgen
+        1 bis 12 stimmen in beiden Staffeln überein, nur die dreizehnte gehört
+        nicht hierher.
+
+        Also wird gekappt statt geleert. Was über der Staffelgröße liegt, ist
+        entweder eine Folge der Nachbarstaffel oder eine durchlaufende Nummer;
+        beides gehört nicht in diesen Zählstand. Der Rest bleibt und ist sofort
+        meldbar.
+
+        Eine Frist braucht das nicht mehr: Die Regel wirft nichts weg, was zur
+        Seite gehört, und darf deshalb jederzeit greifen.
       */
-      const imUmbruch = Date.now() - letzterWechselAm < 3000
-      const vermischt =
-        !imUmbruch && Number.isFinite(gesehen?.gesamt) && (gesehen?.jeFolge?.size ?? 0) > gesehen.gesamt
-      if (vermischt) {
-        notiere('stand-vermischt', { gesamt: gesehen.gesamt, gelesen: gesehen.jeFolge.size })
-        gesehen = leererStand()
-        gesehen.fuerAdresse = location.pathname + location.search
+      const zuVieleFolgen =
+        Number.isFinite(gesehen?.gesamt) && gesehen.gesamt > 0 && (gesehen?.jeFolge?.size ?? 0) > gesehen.gesamt
+      if (zuVieleFolgen) {
+        const ueberzaehlig = [...gesehen.jeFolge.keys()].filter((n) => n > gesehen.gesamt)
+        notiere('stand-gekappt', { gesamt: gesehen.gesamt, gelesen: gesehen.jeFolge.size, weg: ueberzaehlig })
+        for (const n of ueberzaehlig) {
+          gesehen.jeFolge.delete(n)
+          gesehen.nummern.delete(n)
+        }
         letzteZahl = -1
         letzterStand = ''
         letzterFortschritt = Date.now()
-      }
-      knopf.textContent = 'Staffel wechselt — einen Moment'
+      }      knopf.textContent = 'Staffel wechselt — einen Moment'
       /* Jede Sekunde dieses Zustands ist eine Sekunde Warten für Daniel. */
       notiere('wartet-auf-staffel', {
         wartetSeitMs: Date.now() - letzterFortschritt,
@@ -4955,8 +4962,6 @@ async function speicherSchreiben(werte) {
     const kennung = staffelKennung()
     if (kennung === letzteKennung) return
     notiere('staffelwechsel', { von: letzteKennung, nach: kennung, adresse: location.search })
-    /* Wann zuletzt gewechselt wurde — die Vermischt-Regel braucht das. */
-    letzterWechselAm = Date.now()
     letzteKennung = kennung
     gabStaffelwechsel = true
     const jetzt = asin()
