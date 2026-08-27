@@ -127,3 +127,40 @@ Nein wird entfernt, weil diese Seite eine Frage beantwortet und zwar wo ein Anim
 `CLAUDE.md` sagte an der Kurzschrift-Tabelle noch „Verweis bleibt mit ✕" — der Stand von
 davor. Berichtigt am 27.08.2026, samt der Rechnung oben: Wer Baulog gegen Datensatz hält,
 findet dort zwangsläufig weniger Urteile und darf daraus nichts schließen.
+
+## Die 287 Crunchyroll-Serien: gemessen am 27.08.2026, mit Gegenprobe
+
+Daniels Einwand: „wir haben doch einen crunchyroll lauf der mit auth alles
+abgrast was crunchy hat, der muss doch alles sehen?"
+
+Er sieht alles, was da ist. **Diese Serien sind nicht da.** Zwei unabhängige
+Wege, beide mit einem Token aus Deutschland (`country: DE`):
+
+| | Ergebnis |
+|---|---|
+| Content-API unter der Kennung aus der Adresse | HTTP 200, **keine einzige Staffel** — 223 Serien |
+| Suche im deutschen Katalog nach dem Titel | kein passender Treffer, nur Fuzzy-Rauschen |
+
+Die Gegenprobe entscheidet, und sie hält: Dieselbe Suche findet „Detektiv
+Conan" (`GW4HM7NV3`), „Fairy Tail" (`G6DQDD3WR`), „Frieren" (`GG5H5XQX4`) und
+„JUJUTSU KAISEN" (`GRDV0019R`) auf Anhieb und exakt. Für „Anohana", „Another"
+und „Angels of Death" liefert sie „KONOHANA KITAN", „I Got a Cheat Skill in
+Another World" und „Angel's 3Piece!" — die Suche antwortet, sie hat nur nichts
+zu bieten.
+
+**Der Suchweg war gebaut, aber nie gelaufen.** `tools/cr-kennungen-suchen.mjs`
+existiert seit dem 25.08.2026 und steht in keinem Workflow — er braucht eine
+deutsche IP. In `data/crunchyroll-de-kennungen.json` standen **drei** Einträge.
+Der Lauf über 309 offene Verweise am 27.08.2026 fand **null** weitere: Wo eine
+Kennung fehlt, fehlt auch die Serie.
+
+### Was daraus folgt
+
+Diese Verweise zeigen ins Leere — wer sie anklickt, landet bei „nicht
+verfügbar". Das ist schlechter als kein Verweis.
+
+`CLAUDE.md` verlangt für das Entfernen einen **zweiten** Beleg, weil der erste
+lange Zeit Crunchyrolls Fehlerseite aus US-Sicht war. Der liegt jetzt vor, und
+beide stammen aus Deutschland. Die Entscheidung, ob die 223 Verweise fallen,
+gehört trotzdem Daniel: Sie ist nicht umkehrbar, ohne dass ein Katalogabruf sie
+zurückbringt.
