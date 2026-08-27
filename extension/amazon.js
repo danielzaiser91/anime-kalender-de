@@ -1411,7 +1411,19 @@ async function speicherSchreiben(werte) {
    */
   function imPlayer() {
     try {
-      return Boolean(document.querySelector('.webPlayerSDKContainer, [data-testid="player-container"], video[src]'))
+      /*
+        **Nur ein sichtbarer Player zählt.** Die erste Fassung fragte auch nach
+        `video[src]` — das gibt es auf jeder Übersichtsseite als Hintergrundvideo,
+        und damit verschwand der Listen-Knopf dort ebenfalls (Daniel, 27.08.2026:
+        „auf der overview jedes anime sollte die Liste öffenbar sein, nur wenn
+        player da ist soll es verschwinden").
+
+        Prime Video hängt seinen Player als `.webPlayerSDKContainer` ein. Der
+        steht auf der Übersicht mitunter schon im DOM, aber ohne Höhe — deshalb
+        entscheidet die gemessene Größe, nicht die bloße Anwesenheit.
+      */
+      const el = document.querySelector('.webPlayerSDKContainer, [data-testid="player-container"]')
+      return Boolean(el && el.offsetHeight > 200)
     } catch {
       return false
     }
