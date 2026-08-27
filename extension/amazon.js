@@ -3532,45 +3532,17 @@ async function speicherSchreiben(werte) {
       **Eine Staffel ohne Folgenliste hat nichts zu melden.**
 
       Amazons Einträge für „JoJo's Bizarre Adventure" Staffel 2, 3 und 4 zeigen
-      keinen Folgen-Reiter und keine Folgenzahl — nur „Ähnliches" und
-      „Details". Die Widget-Antwort lieferte dort trotzdem die Folgen der
-      Nachbarstaffel nach, und der Knopf bot an, sie zu melden (Daniel,
-      27.08.2026, mit Bericht und Bild der Staffelauswahl: die drei ohne
-      Kauf-Symbol sind leer).
+      keinen Folgen-Reiter und keine Folgenzahl. Die Widget-Antwort lieferte
+      dort trotzdem die Folgen der Nachbarstaffel nach.
 
-      Erst nach acht Sekunden ohne Fortschritt: Eine Seite, die noch lädt, hat
-      auch keinen Reiter. Und nur bei gelungener Messung — eine Sperre aus einem
-      Fehlschlag nähme dem Knopf jede Seite, auf der `seitenLage()` stolpert.
-    */
-    const ohneFolgenListe = (() => {
-      try {
-        const l = seitenLage()
-        return !l.hatFolgenReiter && !l.folgenLautSeite && !istFilmSeite()
-      } catch {
-        return false
-      }
-    })()
-    if (ohneFolgenListe && Date.now() - letzterFortschritt > 8000) {
-      notiere('staffel-ohne-folgen', { gelesen: gesehen?.jeFolge?.size ?? 0 })
-      knopf.style.display = ''
-      knopf.disabled = true
-      knopf.textContent = 'Diese Staffel führt bei Amazon keine Folgen'
-      return
-    }
+      **Die Prüfung hängt sich an eine Messung, die ohnehin läuft.** In 3.74
+      stand hier ein eigener `seitenLage()`-Aufruf, und der zieht `seitenHtml()`
+      nach sich: bei „Pokémon" mit siebenundfünfzig Staffeln ein Quelltext von
+      Megabytegröße, einmal je Takt. Daniels Messung danach: `taktMax: 1377`,
+      und die Seite lag lahm (28.08.2026, mit Bericht).
 
-    /*
-      **Die Staffelsperre gehört in den Takt, nicht in den Kasten.**
-
-      Sie stand bis 3.71 in `zeigeAuftragshinweis()` — und der zeigt sich nur
-      auf der Seite, zu der der Auftrag gehört. Wer dort die Staffel wechselt,
-      verliert Kasten und Sperre zugleich: Bei einem Auftrag für „Golden Wind"
-      (Staffel 4, 39 Folgen) bot der Knopf auf der Seite von Stardust Crusaders
-      (Staffel 2, 48 Folgen) das Melden an (Daniel, 27.08.2026).
-
-      Die Folgenzahl entscheidet mit, weil viele Titel ihre Staffel gar nicht im
-      Namen tragen: „Golden Wind" ist die vierte, steht aber nirgends als solche
-      geschrieben. Weicht die Zahl der Seite deutlich von der erwarteten ab —
-      mehr als ein Viertel —, ist es die falsche Staffel.
+      Weiter unten steht `hatFolgenReiter` schon bereit; dort, im selben Zweig,
+      der ohnehin über „keine Folgen" entscheidet, gehört auch dieser Fall hin.
     */
     const auftragJetzt = eintrag?.ausSuche ? suchauftrag() : null
     if (auftragJetzt?.folgen && Number.isFinite(gesehen?.gesamt) && gesehen.gesamt > 0) {
@@ -4030,6 +4002,16 @@ async function speicherSchreiben(werte) {
         knopf.title =
           'Ein Film hat keine Folgenliste, die nachgeladen werden könnte. Nach einem Wechsel ' +
           'ohne Neuladen steht im Quelltext noch der vorige Titel.'
+        return
+      }
+      /*
+        Kein Reiter **und** keine Folgenzahl: Dann führt die Staffel bei Amazon
+        nichts — anders als eine Seite, die nur noch lädt.
+      */
+      if (!hatFolgenReiter && !seitenLage().folgenLautSeite && !istFilmSeite() && Date.now() - letzterFortschritt > 8000) {
+        notiere('staffel-ohne-folgen', { gelesen: gesehen?.jeFolge?.size ?? 0 })
+        knopf.disabled = true
+        knopf.textContent = 'Diese Staffel führt bei Amazon keine Folgen'
         return
       }
       if (!hatFolgenReiter && !fehlerseite && !regionWeg && !nichtAbrufbar && !wartet && !istFilmSeite()) {
