@@ -324,7 +324,13 @@ function veraltetTest(schritte) {
   const fs = require('node:fs')
   const quelle = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
   const von = quelle.indexOf('function beiStaffelwechsel()')
-  const zweig = quelle.slice(von, von + 2600)
+  /*
+    Das Fenster misst den Zweig, nicht die Zeichen: Es wächst mit, wenn dort
+    eine Rücksetzung dazukommt. Am 27.08.2026 fiel es dreimal rot aus, weil eine
+    einzige neue Zeile es sprengte — die Zusicherung prüft die Absicht, nicht
+    die Länge.
+  */
+  const zweig = quelle.slice(von, von + 3200)
   pruefe('beiStaffelwechsel leert den Zaehlstand', /gesehen = leererStand\(\)/.test(zweig))
   pruefe('beiStaffelwechsel leert frischeStaffel', /frischeStaffel = null/.test(zweig))
   pruefe('beiStaffelwechsel leert das Titel-Kennung-Paar', /titelZuQuelltext = null/.test(zweig))

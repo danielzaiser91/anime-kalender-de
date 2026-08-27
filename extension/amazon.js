@@ -736,6 +736,7 @@ async function speicherSchreiben(werte) {
   }
 
   let gabStaffelwechsel = false
+  let letzterWechselAm = 0
   /** Titel und Quelltext-Kennung, wie sie zuletzt zusammen gesehen wurden. */
   let titelZuQuelltext = null
 
@@ -3529,6 +3530,36 @@ async function speicherSchreiben(werte) {
     }
 
     /*
+      **Eine Staffel ohne Folgenliste hat nichts zu melden.**
+
+      Amazons Einträge für „JoJo's Bizarre Adventure" Staffel 2, 3 und 4 zeigen
+      keinen Folgen-Reiter und keine Folgenzahl — nur „Ähnliches" und
+      „Details". Die Widget-Antwort lieferte dort trotzdem die Folgen der
+      Nachbarstaffel nach, und der Knopf bot an, sie zu melden (Daniel,
+      27.08.2026, mit Bericht und Bild der Staffelauswahl: die drei ohne
+      Kauf-Symbol sind leer).
+
+      Erst nach acht Sekunden ohne Fortschritt: Eine Seite, die noch lädt, hat
+      auch keinen Reiter. Und nur bei gelungener Messung — eine Sperre aus einem
+      Fehlschlag nähme dem Knopf jede Seite, auf der `seitenLage()` stolpert.
+    */
+    const ohneFolgenListe = (() => {
+      try {
+        const l = seitenLage()
+        return !l.hatFolgenReiter && !l.folgenLautSeite && !istFilmSeite()
+      } catch {
+        return false
+      }
+    })()
+    if (ohneFolgenListe && Date.now() - letzterFortschritt > 8000) {
+      notiere('staffel-ohne-folgen', { gelesen: gesehen?.jeFolge?.size ?? 0 })
+      knopf.style.display = ''
+      knopf.disabled = true
+      knopf.textContent = 'Diese Staffel führt bei Amazon keine Folgen'
+      return
+    }
+
+    /*
       **Die Staffelsperre gehört in den Takt, nicht in den Kasten.**
 
       Sie stand bis 3.71 in `zeigeAuftragshinweis()` — und der zeigt sich nur
@@ -4489,7 +4520,24 @@ async function speicherSchreiben(werte) {
         gesehen.gesamt = gesehen.jeFolge.size
         letzterFortschritt = Date.now()
       }
-      const vermischt = Number.isFinite(gesehen?.gesamt) && (gesehen?.jeFolge?.size ?? 0) > gesehen.gesamt
+      /*
+        **Nicht im Umbruch.** Während eines Staffelwechsels gehören `gesamt` und
+        die eingetroffenen Folgen für einen Moment zu verschiedenen Staffeln —
+        die Regel sah dann eine Vermischung, wo eine Umstellung lief, und warf
+        die Folgen der **neuen** Staffel weg.
+
+        Daniels beide Berichte vom 27.08.2026 zeigen es nebeneinander: Im ersten
+        greift `stand-vermischt` (12 gegen 13) eine Sekunde **vor** dem
+        `staffelwechsel`, danach null gelesene Folgen und „Tonspuren nicht
+        gefunden". Im zweiten, nach einem Neuladen, kommen dieselben zwölf
+        Folgen an und lassen sich melden.
+
+        Drei Sekunden Abstand genügen: So lange dauert kein Wechsel, und eine
+        echte Vermischung bleibt danach bestehen.
+      */
+      const imUmbruch = Date.now() - letzterWechselAm < 3000
+      const vermischt =
+        !imUmbruch && Number.isFinite(gesehen?.gesamt) && (gesehen?.jeFolge?.size ?? 0) > gesehen.gesamt
       if (vermischt) {
         notiere('stand-vermischt', { gesamt: gesehen.gesamt, gelesen: gesehen.jeFolge.size })
         gesehen = leererStand()
@@ -4907,6 +4955,8 @@ async function speicherSchreiben(werte) {
     const kennung = staffelKennung()
     if (kennung === letzteKennung) return
     notiere('staffelwechsel', { von: letzteKennung, nach: kennung, adresse: location.search })
+    /* Wann zuletzt gewechselt wurde — die Vermischt-Regel braucht das. */
+    letzterWechselAm = Date.now()
     letzteKennung = kennung
     gabStaffelwechsel = true
     const jetzt = asin()
@@ -4936,6 +4986,7 @@ async function speicherSchreiben(werte) {
       gesehen = leererStand()
     */
     letzteZahl = -1
+    gemeldeteStaffelNummer = null /* gehört zur alten Staffel, schlägt sonst die Adresse */
     gemeldeteStaffel = null
     letzterStand = ''
     letzterFortschritt = Date.now()
