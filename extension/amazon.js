@@ -1213,21 +1213,60 @@ async function speicherSchreiben(werte) {
     return null
   }
 
+  /** Der Kasten selbst — auf der Suchseite wie auf der Titelseite derselbe. */
+  function hinweisKasten(text) {
+    const kasten = document.createElement('div')
+    kasten.className = 'ak-amazon-suchhinweis'
+    kasten.textContent = text
+    document.body.appendChild(kasten)
+  }
+
   function zeigeSuchhinweis() {
     const auftrag = offeneSuche()
     if (!auftrag) return false
-    suchauftragMerken({ titel: auftrag.titel, id: auftrag.id, suchUrl: auftrag.suchUrl })
-
-    const kasten = document.createElement('div')
-    kasten.style.cssText =
-      'position:fixed;right:16px;bottom:16px;z-index:2147483000;max-width:340px;' +
-      'padding:10px 14px;border-radius:8px;border:1px solid #ffffff33;background:#111;' +
-      'color:#fff;font:13px/1.45 system-ui,sans-serif;white-space:pre-line'
-    kasten.textContent =
+    suchauftragMerken({
+      titel: auftrag.titel,
+      id: auftrag.id,
+      folgen: auftrag.folgen ?? null,
+      suchUrl: auftrag.suchUrl,
+    })
+    hinweisKasten(
       `Anime-Kalender sucht: ${auftrag.titel}` +
-      (auftrag.folgen ? `\n${auftrag.folgen} Folgen laut unserem Bestand` : '') +
-      '\nÖffne den richtigen Treffer — dort geht es weiter.'
-    document.body.appendChild(kasten)
+        (auftrag.folgen ? `\n${auftrag.folgen} Folgen laut unserem Bestand` : '') +
+        '\nÖffne den richtigen Treffer — dort geht es weiter.'
+    )
+    return true
+  }
+
+  /**
+   * **Auf der Titelseite muss stehen, unter welchem Titel gemeldet wird.**
+   *
+   * Der Suchauftrag lässt eine fremde Adresse als unseren Titel melden — das
+   * ist der ganze Zweck. Genau darin liegt aber auch die Gefahr: Eine Suche
+   * liefert nicht immer das gesuchte Werk. Daniel am 27.08.2026 an „Cowboy
+   * Bebop": Prime führt die Serie nicht, nur den Film. Wer dort meldet,
+   * meldet die Tonspur des Films als die der Serie.
+   *
+   * Deshalb steht auf der Titelseite dasselbe Kästchen wie auf der Suchseite,
+   * mit der erwarteten Folgenzahl. Sie ist das Merkmal, an dem sich beides
+   * unterscheidet — 26 gegen 1. Entschieden wird von Hand; die Erweiterung
+   * kann diese Frage nicht beantworten, aber sie kann sie stellen.
+   */
+  function zeigeAuftragshinweis() {
+    /*
+      **Nach `listenId`, nicht davor.** Diese Funktion braucht den fertigen
+      Eintrag; ein Aufruf weiter oben läse `listenId` vor seinem `let` und
+      würde werfen statt `undefined` zu liefern — derselbe Fehler, der am
+      25.08.2026 den Dialog auf jeder Seite ohne Kennung tötete.
+    */
+    if (!eintrag?.ausSuche) return false
+    const auftrag = suchauftrag()
+    if (!auftrag) return false
+    hinweisKasten(
+      `Meldung läuft als: ${auftrag.titel}` +
+        (auftrag.folgen ? `\n${auftrag.folgen} Folgen laut unserem Bestand` : '') +
+        '\nZeigt diese Seite deutlich weniger, ist es ein anderes Werk.'
+    )
     return true
   }
   /*
@@ -1236,7 +1275,7 @@ async function speicherSchreiben(werte) {
     Hinweis nie erreicht (gemessen am 27.08.2026, der Übersichts-Knopf kam an,
     der Kasten nicht). Er hängt von nichts ab außer der Adresse.
   */
-  zeigeSuchhinweis()
+  const aufSuchseite = zeigeSuchhinweis()
 
 
   // Veränderlich: Das Auswahlfeld wechselt die Staffel ohne Seitenneuladen,
@@ -1260,6 +1299,30 @@ async function speicherSchreiben(werte) {
    */
   let erledigt = {}
   /**
+   * **Hier oben, nicht bei ihrem Gebrauch — sonst wirft der Seitenaufbau.**
+   *
+   * Der Speicher-Ladepfad ein paar Zeilen weiter unten schreibt diesen Wert,
+   * und er liegt rund 150 Zeilen vor der Stelle, an der der Zähler ihn liest.
+   * Ein `let` hebt den Namen zwar hoch, aber nicht den Wert: Jeder Zugriff
+   * davor wirft, statt `undefined` zu liefern.
+   *
+   * **Das ist in dieser Datei der dritte Fall derselben Art** — nach
+   * `listenId` und `dialog`, beide mit demselben Kommentar versehen.
+   *
+   * `no-use-before-define` als Zusicherung wurde am 27.08.2026 probiert und
+   * wieder verworfen: Die Regel kann einen Zugriff **innerhalb** einer erst
+   * später aufgerufenen Funktion nicht von einem auf Ausführungsebene
+   * unterscheiden und meldet in dieser Datei 25 Stellen, von denen keine
+   * einzige abstürzt. Eine Prüfung, die 25 Fehlalarme liefert, wird
+   * abgeschaltet — dann hätte sie nichts gebracht.
+   *
+   * Gefangen hat diesen Fall der Sandkasten-Durchlauf in
+   * `amazon-uebersicht.test.cjs`: Er lädt die Datei wirklich und stirbt am
+   * Absturz. Das ist die Zusicherung, die trägt — sie hat hier binnen einer
+   * halben Minute rot gemeldet.
+   */
+  let suchErledigt = {}
+  /**
    * Bis der Stand da ist, wird nichts behauptet.
    *
    * `speicherLesen` ist asynchron; in den ersten Millisekunden nach dem Laden
@@ -1270,16 +1333,18 @@ async function speicherSchreiben(werte) {
    */
   let standGeladen = false
   /** Das Laden selbst — damit ein Klick darauf warten kann statt zu pollen. */
-  const gelesen = speicherLesen('amazonErledigt')
+  const gelesen = speicherLesen(['amazonErledigt', 'amazonSuche'])
   // Synchron oder als Zusage — beides kommt vor, siehe `speicherLesen`.
   const standFertig = gelesen && typeof gelesen.then === 'function' ? gelesen : Promise.resolve(gelesen)
   if (gelesen && typeof gelesen.then !== 'function') {
     erledigt = gelesen.amazonErledigt ?? {}
+    suchErledigt = gelesen.amazonSuche ?? {}
     standGeladen = true
   }
   standFertig
     .then((x) => {
       erledigt = x?.amazonErledigt ?? {}
+      suchErledigt = x?.amazonSuche ?? {}
       standGeladen = true
       /**
        * Jetzt erst kann der Weg über den Serientitel greifen — vorher war
@@ -1310,7 +1375,9 @@ async function speicherSchreiben(werte) {
    */
   try {
     chrome.storage?.onChanged?.addListener?.((aenderungen, bereich) => {
-      if (bereich !== 'local' || !aenderungen.amazonErledigt) return
+      if (bereich !== 'local') return
+      if (aenderungen.amazonSuche) suchErledigt = aenderungen.amazonSuche.newValue ?? {}
+      if (!aenderungen.amazonErledigt) return uebersichtZeichnen()
       erledigt = aenderungen.amazonErledigt.newValue ?? {}
       /**
        * Auch der Melde-Knopf, nicht nur die Zahl in der Übersicht.
@@ -1436,6 +1503,29 @@ async function speicherSchreiben(werte) {
   const offeneZahl = () => Object.keys(liste).filter((a) => !fertig(a)).length
 
   /**
+   * **Die Suchadressen gehören in dieselbe Übersicht wie die Titelseiten.**
+   *
+   * Daniel am 27.08.2026, nach der ersten Runde: „golden kamui stand auch in
+   * der liste, hab ich gemeldet, mehr seh ich in der liste nicht." Der Knopf
+   * zählte zwei offene Titelseiten und schwieg über 118 Suchadressen — die
+   * gab es nur zu sehen, wenn man zufällig auf einer davon landete.
+   *
+   * Ein Zähler, der einen ganzen Stapel Arbeit verschweigt, ist schlimmer als
+   * keiner: „Prime: alles geprüft" war schlicht falsch.
+   *
+   * Abgehakt werden sie getrennt von den Titelseiten. Deren Abhak-Liste hängt
+   * an Kennung, Staffel und Serientitel; eine Suchadresse hat nichts davon.
+   * Sie ist erledigt, sobald unter ihr gemeldet wurde — mehr gibt es dort
+   * nicht zu wissen.
+   */
+  const suchOffen = () => Object.keys(suchliste).filter((u) => !suchErledigt[u])
+
+  async function suchAbhaken(url) {
+    suchErledigt = { ...suchErledigt, [url]: new Date().toISOString().slice(0, 10) }
+    await speicherSchreiben({ amazonSuche: suchErledigt })
+  }
+
+  /**
    * Muss **vor** `uebersichtZeichnen()` stehen, nicht darunter.
    *
    * `let` hebt den Namen zwar hoch, aber nicht den Wert: Ein Zugriff vor der
@@ -1484,9 +1574,22 @@ async function speicherSchreiben(werte) {
       return
     }
     const offen = offeneZahl()
-    uebersichtKnopf.classList.toggle('ak-fertig', !offen)
-    uebersichtKnopf.textContent = offen ? `${offen} Prime-Titel offen` : 'Prime: alles geprüft'
-    uebersichtKnopf.title = offen
+    const suchen = suchOffen().length
+    const gesamt = offen + suchen
+    uebersichtKnopf.classList.toggle('ak-fertig', !gesamt)
+    /*
+      Beide Zahlen getrennt, weil sie verschiedene Arbeit meinen: Eine
+      Titelseite liest die Erweiterung selbst, eine Suchadresse verlangt, den
+      richtigen Treffer herauszusuchen.
+    */
+    uebersichtKnopf.textContent = gesamt
+      ? suchen && offen
+        ? `${offen} Prime-Titel · ${suchen} Suchen offen`
+        : suchen
+          ? `${suchen} Prime-Suchen offen`
+          : `${offen} Prime-Titel offen`
+      : 'Prime: alles geprüft'
+    uebersichtKnopf.title = gesamt
       ? 'Liste öffnen — Seite aufrufen, warten bis der Knopf eine Zahl zeigt, klicken'
       : 'Keine offenen Prime-Titel mehr'
     if (dialog) dialogFuellen()
@@ -1698,6 +1801,65 @@ async function speicherSchreiben(werte) {
       inhalt.appendChild(zeile)
     }
 
+    /**
+     * **Die Suchadressen — dieselbe Liste, eigener Abschnitt.**
+     *
+     * 118 unserer Prime-Verweise sind Suchen statt Titelseiten. Sie standen
+     * bis zum 27.08.2026 in keiner Übersicht: Der Knopf zählte zwei offene
+     * Titelseiten, und nach deren Meldung schrieb er „Prime: alles geprüft",
+     * während 118 Adressen unbearbeitet waren (Daniel: „mehr seh ich in der
+     * liste nicht").
+     *
+     * Sie bekommen einen eigenen Abschnitt, weil sie andere Arbeit meinen:
+     * Eine Titelseite liest die Erweiterung selbst; hier muss erst der
+     * richtige Treffer herausgesucht werden. Die Folgenzahl steht in der
+     * Zeile — sie ist das Merkmal, an dem sich die Serie von ihrem Film
+     * unterscheidet.
+     */
+    const suchZeilen = Object.entries(suchliste)
+    if (suchZeilen.length) {
+      const trenner = document.createElement('div')
+      trenner.className = 'ak-abschnitt'
+      trenner.textContent = `Suche nötig — ${suchOffen().length} von ${suchZeilen.length} offen`
+      trenner.title = 'Für diese Titel kennt niemand eine Prime-Adresse. Öffne die Suche, klicke den richtigen Treffer an — dort läuft die Prüfung wie gewohnt.'
+      inhalt.appendChild(trenner)
+
+      for (const [url, e] of suchZeilen.sort((a, b) => {
+        const d = Number(Boolean(suchErledigt[a[0]])) - Number(Boolean(suchErledigt[b[0]]))
+        return d || a[1].titel.localeCompare(b[1].titel, 'de')
+      })) {
+        const zeile = document.createElement('div')
+        zeile.className = 'ak-zeile ak-suchzeile'
+        if (suchErledigt[url]) zeile.classList.add('ak-abgehakt')
+
+        const verweis = document.createElement('a')
+        verweis.className = 'ak-titel'
+        verweis.href = url
+        verweis.textContent = e.titel
+        zeile.appendChild(verweis)
+
+        /*
+          Die Folgenzahl ist hier kein Fortschritt, sondern das Erkennungs-
+          merkmal: Eine Suche nach „Cowboy Bebop" liefert bei Prime nur den
+          Film — eine Folge statt sechsundzwanzig (Daniel, 27.08.2026).
+        */
+        if (e.folgen) {
+          const marke = document.createElement('span')
+          marke.className = 'ak-folge'
+          marke.textContent = `${e.folgen} Folgen`
+          marke.title = 'So viele Folgen führt unser Bestand. Zeigt der Treffer deutlich weniger, ist es ein anderes Werk — meist der Film zur Serie.'
+          zeile.appendChild(marke)
+        }
+
+        zeile.style.cursor = 'pointer'
+        zeile.addEventListener('click', (ev) => {
+          if (ev.target.closest('a')) return
+          verweis.click()
+        })
+        inhalt.appendChild(zeile)
+      }
+    }
+
     const filtern = () => {
       const q = suche.value.trim().toLowerCase()
       for (const z of inhalt.children) {
@@ -1846,6 +2008,7 @@ async function speicherSchreiben(werte) {
 
   listenId = listenSchluessel()
   let eintrag = eintragFuer(listenId)
+  if (!aufSuchseite) zeigeAuftragshinweis()
 
   // --- Der Knopf -----------------------------------------------------------
 
@@ -4039,6 +4202,13 @@ async function speicherSchreiben(werte) {
         // Abwarten: Der naechste Klick liest hier gleich wieder, und ohne das
         // liest er den Stand von vor dieser Meldung.
         await speicherSchreiben({ amazonErledigt: erledigt })
+        /*
+          Kam der Eintrag aus einer Suche, ist die Suchadresse damit erledigt —
+          der Treffer ist gefunden und gemeldet. Getrennt gespeichert, weil die
+          Abhak-Liste der Titelseiten an Kennung, Staffel und Serientitel hängt
+          und eine Suchadresse nichts davon hat.
+        */
+        if (eintrag.ausSuche && eintrag.url) await suchAbhaken(eintrag.url)
         uebersichtZeichnen()
       }
     } catch (err) {

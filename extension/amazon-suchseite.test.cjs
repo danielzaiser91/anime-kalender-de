@@ -56,7 +56,7 @@ function element() {
 }
 
 /** Lädt amazon.js einmal für die angegebene Adresse und gibt zurück, was ankam. */
-function lauf(pfad, suche, { auftrag = null, liste = {} } = {}) {
+function lauf(pfad, suche, { auftrag = null, liste = {}, suchStand = {} } = {}) {
   const angehaengt = []
   const speicher = auftrag ? { 'ak-prime-suchauftrag': JSON.stringify(auftrag) } : {}
   const sandkasten = {
@@ -82,7 +82,16 @@ function lauf(pfad, suche, { auftrag = null, liste = {} } = {}) {
     },
     chrome: {
       runtime: { id: 'test' },
-      storage: { local: { get: (k, cb) => cb({}), set: (v, cb) => cb && cb() } },
+      storage: {
+        local: {
+          /*
+            Synchron, weil der Sandkasten keine Microtasks abarbeitet — siehe
+            den Kommentar an `speicherLesen` in amazon.js.
+          */
+          get: () => ({ amazonErledigt: {}, amazonSuche: suchStand }),
+          set: () => Promise.resolve(),
+        },
+      },
     },
     window: { addEventListener() {}, location: { pathname: pfad, search: suche } },
     fetch: () => Promise.resolve({ ok: true, json: () => Promise.resolve({}) }),
@@ -188,6 +197,72 @@ const alt = lauf('/dp/B000W9GBW6', '', {
 })
 pruefe('auch mit abgelaufenem Auftrag läuft der Aufbau durch', !alt.absturz, alt.absturz?.message)
 
+
+// --- 5. Die Übersicht führt die Suchadressen mit ------------------------
+
+/*
+  **Ein Zähler, der einen Stapel Arbeit verschweigt, ist schlimmer als keiner.**
+
+  Daniel am 27.08.2026, nach der ersten Runde: „golden kamui stand auch in der
+  liste, hab ich gemeldet, mehr seh ich in der liste nicht." Der Knopf zählte
+  zwei Titelseiten und schrieb danach „Prime: alles geprüft" — während 118
+  Suchadressen unbearbeitet dastanden, sichtbar nur für den, der zufällig auf
+  einer davon landet.
+*/
+const leer = lauf('/dp/B000W9GBW6', '')
+const knopf = leer.angehaengt.find((e) => (e.className || '').includes('ak-amazon-uebersicht'))
+pruefe(
+  'der Knopf zählt die offenen Suchen, auch ohne offene Titelseite',
+  /1 Prime-Suche.? offen/.test(knopf?.textContent ?? ''),
+  knopf?.textContent,
+)
+
+/*
+  Und er schweigt erst, wenn wirklich nichts mehr offen ist. Ohne diese
+  Gegenprobe könnte die Zeile darüber auch dann grün sein, wenn der Zähler
+  schlicht immer eine Zahl zeigt.
+*/
+const durch = lauf('/dp/B000W9GBW6', '', { suchStand: { [Object.keys(SUCHLISTE)[0]]: '2026-08-27' } })
+const knopfDurch = durch.angehaengt.find((e) => (e.className || '').includes('ak-amazon-uebersicht'))
+pruefe(
+  'ist die Suche abgehakt, steht wieder „alles geprüft“',
+  /alles geprüft/.test(knopfDurch?.textContent ?? ''),
+  knopfDurch?.textContent,
+)
+
+// --- 6. Auf der Titelseite steht, unter welchem Titel gemeldet wird ------
+
+/*
+  **Eine Suche liefert nicht immer das gesuchte Werk.** Daniel am 27.08.2026
+  an „Cowboy Bebop": Prime führt die Serie nicht, nur den Film. Wer dort
+  meldet, meldet die Tonspur des Films als die der Serie.
+
+  Die Erweiterung kann das nicht entscheiden — aber sie kann die Frage
+  stellen, und die Folgenzahl ist die Antwort: 26 gegen 1.
+*/
+const alsTitel = lauf('/dp/B000W9GBW6', '', {
+  auftrag: {
+    titel: 'Cowboy Bebop',
+    id: 1,
+    folgen: 26,
+    suchUrl: Object.keys(SUCHLISTE)[0],
+    zeit: Date.now(),
+  },
+})
+const merker = alsTitel.angehaengt.find((e) => /Meldung läuft als/.test(e.textContent || ''))
+pruefe('die Titelseite nennt den Titel, unter dem gemeldet wird', Boolean(merker))
+pruefe(
+  'und die erwartete Folgenzahl als Erkennungsmerkmal',
+  /26 Folgen/.test(merker?.textContent ?? ''),
+  merker?.textContent,
+)
+
+/* Ohne Auftrag bleibt die Titelseite still — der Regelfall. */
+const ohne = lauf('/dp/B000W9GBW6', '')
+pruefe(
+  'ohne Suchauftrag steht dort nichts',
+  !ohne.angehaengt.some((e) => /Meldung läuft als/.test(e.textContent || '')),
+)
 console.log()
 if (fehler.length) {
   console.error(`${fehler.length} Zusicherung(en) verletzt.`)
