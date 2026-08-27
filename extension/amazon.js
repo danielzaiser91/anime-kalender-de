@@ -4116,10 +4116,37 @@ async function speicherSchreiben(werte) {
     if (schutzflaeche) return
     schutzflaeche = document.createElement('div')
     schutzflaeche.className = 'ak-amazon-schutz'
-    schutzflaeche.title = 'Anime-Kalender — Amazons Karten klappen hier nicht auf'
+    schutzflaeche.title = 'Anime-Kalender — Diese Ecke gehört dem Anime-Kalender'
     /* Der Zeiger endet hier; die Karte darunter erfährt nichts davon. */
-    for (const art of ['mouseover', 'mousemove', 'pointerover', 'pointermove']) {
-      schutzflaeche.addEventListener(art, (e) => e.stopPropagation())
+    /*
+      **Alle Zeigerereignisse, nicht nur der Hover.** Die Fläche ist selbst das
+      Ziel: Was hier ankommt, erreicht Amazon nicht mehr — weder ein Klick, der
+      eine fremde Serie öffnet, noch die Bewegung, die eine Karte aufklappt.
+      Unsere eigenen Knöpfe liegen darüber und bekommen ihre Ereignisse wie
+      zuvor (Daniel, 27.08.2026: „nicht nur hover, sondern auch click area
+      schutz, beides").
+    */
+    for (const art of [
+      'mouseover',
+      'mousemove',
+      'mouseenter',
+      'pointerover',
+      'pointermove',
+      'pointerdown',
+      'pointerup',
+      'mousedown',
+      'mouseup',
+      'click',
+      'dblclick',
+      'contextmenu',
+      'wheel',
+      'touchstart',
+    ]) {
+      schutzflaeche.addEventListener(art, (e) => {
+        e.stopPropagation()
+        /* Ein Klick ins Leere soll auch nichts auslösen, was Amazon daran hängt. */
+        if (art !== 'wheel') e.preventDefault()
+      })
     }
     document.body.appendChild(schutzflaeche)
   }
