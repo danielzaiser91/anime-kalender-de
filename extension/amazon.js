@@ -1854,6 +1854,27 @@ async function speicherSchreiben(werte) {
         eigenen Verweis; er darf nie das Urteil der Serie werden.
       */
       const nurAehnlich = befund.art === 'aehnlich'
+      /*
+        **Gleicher Name, anderer Typ — das kann eine Sammelfassung sein.**
+
+        Die Typregel trennt den Film zur Serie von der Serie („Akira", „Ghost
+        in the Shell"), und das ist richtig: zwei Werke, zwei Verweise.
+
+        Sie trennt aber auch, was zusammengehört. AniList führt „Halo Legends"
+        als ONA mit neun Teilen; Prime zeigt dieselben Kurzfilme am Stück, als
+        Film von 1:57 h — neun mal dreizehn Minuten (Daniel, 27.08.2026: „Halo:
+        Legends ist ein film, wieso suchst du 9 folgen?"). Anthologien liegen
+        bei Anbietern regelmäßig so.
+
+        Von hier aus ist beides nicht zu unterscheiden: Die Karte nennt keine
+        Laufzeit. Also entscheidet Daniel — der Knopf steht nur da, wenn der
+        Name **genau** passt und allein der Typ widerspricht.
+      */
+      const nurTypStreitig =
+        nurAehnlich &&
+        befund.treffer.length === 1 &&
+        titelKern(befund.treffer[0].titel) === titelKern(auftrag.titel) &&
+        /movie|film/i.test(befund.treffer[0].typ)
       hinweisKasten(
         auftrag.titel,
         folgen,
@@ -1895,6 +1916,14 @@ async function speicherSchreiben(werte) {
         ...(kurzform && kurzform !== begriff ? [kastenKnopf(`Kürzer suchen: ${kurzform}`, () => {
           location.href = `https://www.amazon.de/s?k=${encodeURIComponent(kurzform)}&i=instant-video`
         })] : []),
+        ...(nurTypStreitig
+          ? [
+              kastenKnopf(`Als Sammelfassung öffnen: ${befund.treffer[0].titel}`, () => {
+                const ziel = ohneParameter(befund.treffer[0].url)
+                if (ziel) location.href = ziel
+              }),
+            ]
+          : []),
         kastenKnopf('Nicht bei Prime — melden', (k) => nichtBeiPrimeMelden(auftrag, befund, k)),
       )
     }
