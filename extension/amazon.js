@@ -3197,7 +3197,15 @@ async function speicherSchreiben(werte) {
      * ist. Fehlt uns eine Staffel wirklich, fällt das über die Serie auf — der
      * Listenschlüssel sucht sie auch über den Serientitel.
      */
-    if (!liste[listenId]) {
+    /*
+      **Ein Suchauftrag zählt wie ein Listeneintrag.** Der Knopf wurde in 3.44
+      ausgeblendet, sobald der Titel nicht auf der Prüfliste steht — und genau
+      das ist der Fall, für den der Sprung gebaut wurde: Die Titelseite hinter
+      einer Suchadresse steht nirgends. Damit sammelte und meldete dort nichts
+      mehr (Daniel, 27.08.2026: „ich hab den button im div angeklickt ‚zum anime
+      springen`, dann erwarte ich das er wie vorher automatisch funktioniert").
+    */
+    if (!liste[listenId] && !eintrag?.ausSuche) {
       /*
         **Weg statt grau.** Ein Knopf, der auf jeder fremden Titelseite „nicht
         auf der Prüfliste" schreibt, ist auf 99 von 100 Seiten Störung ohne
