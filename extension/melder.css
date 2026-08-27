@@ -460,3 +460,25 @@
 }
 .ak-suchknopf:hover:not(:disabled) { border-color: #7aa2ff; color: #7aa2ff; }
 .ak-suchknopf:disabled { opacity: 0.6; cursor: default; }
+
+/*
+  Die Ecke rechts unten, in der die Prime-Knöpfe stehen.
+
+  Sie liegt über Amazons ruhenden Ergebniskarten und unter unseren eigenen
+  Knöpfen. Damit klappt keine Karte mehr auf, sobald die Maus in Richtung
+  Melde-Knopf wandert — und der Kasten bleibt sichtbar, statt unter einer
+  vergrößerten Karte zu verschwinden.
+
+  Die Maße decken Kasten (bis 108 px + Inhalt), Übersichts-Knopf (62 px) und
+  Melde-Knopf (16 px) ab, mit etwas Luft für den Weg dorthin.
+*/
+.ak-amazon-schutz {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 400px;
+  height: 360px;
+  z-index: 2147483000;
+  background: transparent;
+  pointer-events: auto;
+}

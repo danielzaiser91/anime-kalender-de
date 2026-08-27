@@ -4079,6 +4079,43 @@ async function speicherSchreiben(werte) {
    * die das Video nicht beantworten kann: Wie viel von den 500 ms je Takt
    * verbraucht dieses Skript?
    */
+  /**
+   * **Die Ecke, in der unsere Knöpfe stehen, gehört uns.**
+   *
+   * Prime Video vergrößert eine Ergebniskarte, sobald die Maus sie berührt,
+   * und legt die aufgeklappte Fassung über alles Tieferliegende. Der Kasten
+   * verschwand darunter, obwohl er den höchsten z-index trägt: Amazon hängt
+   * die Aufklappung **nach** unseren Elementen ins DOM, und bei gleichem
+   * z-index gewinnt das spätere.
+   *
+   * Dagegen hilft kein höherer Wert — 2147483647 ist das Maximum. Es hilft,
+   * dass die Karte gar nicht erst aufklappt: Diese Fläche liegt über den
+   * **ruhenden** Karten und fängt den Zeiger ab, bevor er sie erreicht.
+   *
+   * Netflix hat eine Schwester dieser Fläche, dort aber mit `z-index: 1` —
+   * das ist kein Widerspruch, sondern ein anderes Problem: Bei Netflix ging
+   * es um Klicks, die die Ansicht schlossen, und die Fläche musste **unter**
+   * allem liegen. Hier geht es um Hover, und sie muss darüber.
+   */
+  let schutzflaeche = null
+
+  function schutzflaecheZeigen(sichtbar) {
+    if (!sichtbar) {
+      schutzflaeche?.remove()
+      schutzflaeche = null
+      return
+    }
+    if (schutzflaeche) return
+    schutzflaeche = document.createElement('div')
+    schutzflaeche.className = 'ak-amazon-schutz'
+    schutzflaeche.title = 'Anime-Kalender — Amazons Karten klappen hier nicht auf'
+    /* Der Zeiger endet hier; die Karte darunter erfährt nichts davon. */
+    for (const art of ['mouseover', 'mousemove', 'pointerover', 'pointermove']) {
+      schutzflaeche.addEventListener(art, (e) => e.stopPropagation())
+    }
+    document.body.appendChild(schutzflaeche)
+  }
+
   function taktSchritt() {
     const t0 = performance.now()
     /*
@@ -4090,9 +4127,11 @@ async function speicherSchreiben(werte) {
       knopf.style.display = 'none'
       uebersichtKnopf.style.display = 'none'
       document.querySelector('.ak-amazon-suchhinweis')?.remove()
+      schutzflaecheZeigen(false)
       return
     }
     uebersichtKnopf.style.display = ''
+    schutzflaecheZeigen(true)
     beiStaffelwechsel()
     zeichnen()
     /**
