@@ -116,6 +116,19 @@ function lauf(pfad, suche, { auftrag = null, liste = {}, suchStand = {} } = {}) 
   return { absturz, angehaengt, speicher }
 }
 
+/**
+ * Der sichtbare Text eines Kastens — samt Kindern.
+ *
+ * Seit 3.41 baut `hinweisKasten()` den Text in ein Kind-Element und hängt
+ * einen Knopf daneben. Das Sandkasten-Element leitet `textContent` nicht aus
+ * seinen Kindern ab, wie ein echtes DOM es täte — hier wird es zusammengesetzt.
+ */
+function kastenText(e) {
+  const eigen = e?.textContent ?? ''
+  const kinder = (e?.kinder ?? []).map(kastenText).join(' ')
+  return (eigen + ' ' + kinder).trim()
+}
+
 console.log('Zusicherungen für die Prime-Suchseiten\n')
 
 // --- 1. Die gelistete Suche bekommt ihren Hinweis -------------------------
@@ -123,17 +136,17 @@ console.log('Zusicherungen für die Prime-Suchseiten\n')
 const treffer = lauf('/s', '?k=Cowboy+Bebop&i=instant-video&crid=2XYZ')
 pruefe('Aufbau auf der Suchseite läuft durch', !treffer.absturz, treffer.absturz?.message)
 
-const kasten = treffer.angehaengt.find((e) => /Anime-Kalender sucht/.test(e.textContent || ''))
+const kasten = treffer.angehaengt.find((e) => /Anime-Kalender sucht/.test(kastenText(e)))
 pruefe('Hinweis erscheint auf einer gelisteten Suchseite', Boolean(kasten))
 pruefe(
   'der Hinweis nennt den gemeinten Titel',
-  /Cowboy Bebop/.test(kasten?.textContent ?? ''),
-  kasten?.textContent,
+  /Cowboy Bebop/.test(kastenText(kasten)),
+  kastenText(kasten),
 )
 pruefe(
   'der Hinweis nennt die Folgenzahl aus unserem Bestand',
-  /26 Folgen/.test(kasten?.textContent ?? ''),
-  kasten?.textContent,
+  /26 Folgen/.test(kastenText(kasten)),
+  kastenText(kasten),
 )
 
 /*
@@ -161,7 +174,7 @@ pruefe('er trägt den Titel', gemerkt?.titel === 'Cowboy Bebop', gemerkt?.titel)
 const fremd = lauf('/s', '?k=Kaffeemaschine&i=aps')
 pruefe(
   'eine Suche außerhalb der Liste erzeugt keinen Hinweis',
-  !fremd.angehaengt.some((e) => /Anime-Kalender sucht/.test(e.textContent || '')),
+  !fremd.angehaengt.some((e) => /Anime-Kalender sucht/.test(kastenText(e))),
 )
 pruefe(
   'und hinterlegt keinen Auftrag',
@@ -249,20 +262,175 @@ const alsTitel = lauf('/dp/B000W9GBW6', '', {
     zeit: Date.now(),
   },
 })
-const merker = alsTitel.angehaengt.find((e) => /Meldung läuft als/.test(e.textContent || ''))
+const merker = alsTitel.angehaengt.find((e) => /Meldung läuft als/.test(kastenText(e)))
 pruefe('die Titelseite nennt den Titel, unter dem gemeldet wird', Boolean(merker))
 pruefe(
   'und die erwartete Folgenzahl als Erkennungsmerkmal',
-  /26 Folgen/.test(merker?.textContent ?? ''),
-  merker?.textContent,
+  /26 Folgen/.test(kastenText(merker)),
+  kastenText(merker),
 )
 
 /* Ohne Auftrag bleibt die Titelseite still — der Regelfall. */
 const ohne = lauf('/dp/B000W9GBW6', '')
 pruefe(
   'ohne Suchauftrag steht dort nichts',
-  !ohne.angehaengt.some((e) => /Meldung läuft als/.test(e.textContent || '')),
+  !ohne.angehaengt.some((e) => /Meldung läuft als/.test(kastenText(e))),
 )
+
+// --- 7. Trefferauswertung: Empfehlung ist kein Treffer -------------------
+
+/*
+  **Der Fall, an dem alles hängt.** Daniel suchte „009 Re:Cyborg"; Prime fand
+  nichts und füllte die Seite trotzdem mit fünf Karten — Saber Rider, Hentai
+  Kamen, Predator, zweimal Aliens. Sie stehen unter
+  `ul[aria-label="Mehr entdecken"]`.
+
+  Wer sie mitzählt, hält fünf Empfehlungen für fünf Treffer und meldet nie ein
+  „gibt es dort nicht". Dieselbe Verwechslung hat bei Disney+ aus 86 Folgen 94
+  gemacht.
+
+  Geprüft wird gegen den Quelltext, den Daniel geschickt hat — nachgebaut sind
+  genau die Attribute, die die Auswertung liest.
+*/
+function karte(titel, typ, zugang, asin) {
+  return {
+    attrs: {
+      'data-card-title': titel,
+      'data-card-entity-type': typ,
+      'data-card-entitlement': zugang,
+    },
+    asin,
+  }
+}
+
+/** Baut ein DOM, das nur kann, was `suchTreffer()` von ihm verlangt. */
+function suchDom(gruppen) {
+  const alle = []
+  for (const g of gruppen) {
+    const liste = { getAttribute: (n) => (n === 'aria-label' ? g.label : null) }
+    for (const k of g.karten) {
+      alle.push({
+        getAttribute: (n) => k.attrs[n] ?? null,
+        closest: (sel) => (sel === 'ul' ? liste : null),
+        querySelector: () => (k.asin ? { getAttribute: () => `/gp/video/detail/${k.asin}?sr=1-1` } : null),
+      })
+    }
+  }
+  return alle
+}
+
+/*
+  Die beiden Funktionen stecken im Modul-Scope von amazon.js. Statt die ganze
+  Datei zu laden — sie braucht ein vollständiges DOM —, werden sie hier
+  ausgeschnitten und in einem eigenen Kontext ausgewertet. Der Ausschnitt ist
+  wörtlich derselbe Quelltext; ändert er sich, ändert sich der Test mit.
+*/
+const quelltext = require('node:fs').readFileSync(__dirname + '/amazon.js', 'utf8')
+function schneide(name) {
+  const start = quelltext.indexOf(`  function ${name}(`)
+  if (start < 0) throw new Error(`${name} nicht gefunden`)
+  const ende = quelltext.indexOf('\n  }\n', start)
+  if (ende < 0) throw new Error(`Ende von ${name} nicht gefunden`)
+  return quelltext.slice(start, ende + 4)
+}
+const kernQuelle = quelltext.slice(
+  quelltext.indexOf('  const titelKern ='),
+  quelltext.indexOf('  /**', quelltext.indexOf('  const titelKern =')),
+)
+
+const bau = new Function(
+  'document',
+  [
+    schneide('suchTreffer'),
+    kernQuelle,
+    schneide('beurteileTreffer'),
+    'return { suchTreffer, beurteileTreffer }',
+  ].join('\n'),
+)
+
+function werte(gruppen, auftrag) {
+  const knoten = suchDom(gruppen)
+  const { suchTreffer, beurteileTreffer } = bau({ querySelectorAll: () => knoten })
+  const gefunden = suchTreffer()
+  return { gefunden, befund: beurteileTreffer(auftrag, gefunden) }
+}
+
+// Daniels Fall: fünf Empfehlungen, kein Treffer.
+const cyborg = werte(
+  [
+    {
+      label: 'Mehr entdecken',
+      karten: [
+        karte('Saber Rider and the Star Sheriffs', 'TV Show', 'Unentitled', 'B088PPNGFS'),
+        karte('Hentai Kamen - Forbidden Superhero', 'Movie', 'Entitled', 'B0C7LLQPDN'),
+        karte('Predator', 'Movie', 'Unentitled', 'B0CHZ89BMS'),
+        karte('Aliens - Die Rückkehr', 'Movie', 'Unentitled', 'B0BXSMQM9K'),
+        karte('Aliens - Die Rückkehr', 'Movie', 'Unentitled', 'B0CBKNMHN7'),
+      ],
+    },
+  ],
+  { titel: '009 Re:Cyborg', folgen: 1 },
+)
+pruefe('fünf Karten gesehen', cyborg.gefunden.gesehen === 5, cyborg.gefunden.gesehen)
+pruefe(
+  'keine davon zählt als Treffer — „Mehr entdecken“ ist Werbung',
+  cyborg.gefunden.treffer.length === 0,
+  cyborg.gefunden.treffer.map((t) => t.titel),
+)
+pruefe('Befund: kein Treffer bei Prime', cyborg.befund.art === 'keiner', cyborg.befund.art)
+
+// Gegenprobe: eine echte Ergebnisliste wird gelesen.
+const echt = werte(
+  [
+    { label: 'Ergebnisse', karten: [karte('Cowboy Bebop', 'TV Show', 'Entitled', 'B0ABCDEFGH')] },
+    { label: 'Mehr entdecken', karten: [karte('Predator', 'Movie', 'Unentitled', 'B0CHZ89BMS')] },
+  ],
+  { titel: 'Cowboy Bebop', folgen: 26 },
+)
+pruefe('die echte Ergebnisliste wird gelesen', echt.gefunden.treffer.length === 1)
+pruefe('und die Empfehlung daneben nicht', echt.gefunden.gesehen === 2)
+pruefe('Befund: genauer Treffer', echt.befund.art === 'genau', echt.befund.art)
+pruefe(
+  'der Zugang wird mitgelesen',
+  echt.gefunden.treffer[0].zugang === 'Entitled',
+  echt.gefunden.treffer[0].zugang,
+)
+
+/*
+  **Gleicher Name, falscher Typ ist kein Treffer.** Wir suchen die Serie mit
+  26 Folgen; Prime führt einen Film desselben Namens. Ohne diese Trennung
+  bekäme die Serie das Urteil ihres Films — und dessen Tonspur ist eine andere
+  Frage.
+*/
+const nurFilm = werte(
+  [{ label: 'Ergebnisse', karten: [karte('Cowboy Bebop', 'Movie', 'Unentitled', 'B0B8TR93HR')] }],
+  { titel: 'Cowboy Bebop', folgen: 26 },
+)
+pruefe(
+  'ein Film mit gleichem Namen ist für eine Serie nur „ähnlich“',
+  nurFilm.befund.art === 'aehnlich',
+  nurFilm.befund.art,
+)
+/* Umgekehrt genauso: Wir suchen den Film, Prime führt die Serie. */
+const nurSerie = werte(
+  [{ label: 'Ergebnisse', karten: [karte('Akira', 'TV Show', 'Entitled', 'B0XXXXXXXX')] }],
+  { titel: 'Akira', folgen: 1 },
+)
+pruefe('und eine Serie ist für einen Film nur „ähnlich“', nurSerie.befund.art === 'aehnlich')
+
+/* Ohne bekannte Folgenzahl entscheidet der Typ nicht mit. */
+const ohneZahl = werte(
+  [{ label: 'Ergebnisse', karten: [karte('Akira', 'Movie', 'Entitled', 'B0XXXXXXXX')] }],
+  { titel: 'Akira', folgen: null },
+)
+pruefe('ohne Folgenzahl zählt allein der Name', ohneZahl.befund.art === 'genau', ohneZahl.befund.art)
+
+/*
+  Null Karten heißt „nichts gelesen", nicht „nichts gefunden" — die Seite war
+  vielleicht noch nicht fertig. Daraus darf nie eine Meldung werden.
+*/
+const nichtsGelesen = werte([], { titel: 'Irgendwas', folgen: 12 })
+pruefe('ohne jede Karte bleibt der Befund unklar', nichtsGelesen.befund.art === 'unklar', nichtsGelesen.befund.art)
 console.log()
 if (fehler.length) {
   console.error(`${fehler.length} Zusicherung(en) verletzt.`)

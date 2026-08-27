@@ -1213,12 +1213,198 @@ async function speicherSchreiben(werte) {
     return null
   }
 
+  /**
+   * **Was die Suchseite wirklich gefunden hat — und was nur Werbung ist.**
+   *
+   * Prime Video legt jeden Treffer als `article[data-testid="card"]` ab, mit
+   * allem Nötigen in Attributen:
+   *
+   * ```
+   * data-card-title       "Saber Rider and the Star Sheriffs"
+   * data-card-entity-type "TV Show" | "Movie"
+   * a[href]               /gp/video/detail/B088PPNGFS?…
+   * ```
+   *
+   * **Die Falle ist die Liste darum.** Findet die Suche nichts, füllt Amazon
+   * die Seite trotzdem mit Karten — unter `ul[aria-label="Mehr entdecken"]`.
+   * Bei der Suche nach „009 Re:Cyborg" standen dort Predator, Aliens und
+   * Hentai Kamen (Daniel, 27.08.2026, mit Quelltext). Wer die mitzählt, hält
+   * fünf Empfehlungen für fünf Treffer.
+   *
+   * Dieselbe Verwechslung hat schon einmal Geld gekostet: Bei Disney+ galt die
+   * Empfehlungsleiste als Staffel, und aus 86 Folgen wurden 94.
+   */
+  function suchTreffer() {
+    const karten = [...document.querySelectorAll('article[data-testid="card"]')]
+    const echte = karten.filter((k) => {
+      const liste = k.closest('ul')
+      const name = (liste?.getAttribute('aria-label') ?? '').toLowerCase()
+      /*
+        Verworfen wird nach dem Namen der Liste, nicht nach ihrer Position:
+        Amazon schiebt die Empfehlungen mal über, mal unter die Ergebnisse.
+      */
+      return !/mehr entdecken|more to explore|weitere titel|kunden|ähnlich/i.test(name)
+    })
+    return {
+      /** Alle Karten — auch die Werbung. Null davon heißt: nichts gelesen. */
+      gesehen: karten.length,
+      treffer: echte.map((k) => ({
+        titel: k.getAttribute('data-card-title') ?? '',
+        typ: k.getAttribute('data-card-entity-type') ?? '',
+        /*
+          „Entitled" heißt, dass Daniels Konto den Titel abspielen darf —
+          Prime-eigen oder über ein gebuchtes Kanal-Abo. Für die Tonspur sagt
+          das nichts, aber es sagt, ob ein Klick dorthin überhaupt etwas
+          bringt. Kanal-Titel bleiben die bekannte Grauzone: Amazon nennt dort
+          die Sprachen des Kanals, nicht der Folge.
+        */
+        zugang: k.getAttribute('data-card-entitlement') ?? '',
+        url: k.querySelector('a[href*="/gp/video/detail/"]')?.getAttribute('href') ?? null,
+      })),
+    }
+  }
+
+  /** Titel auf ihren Kern bringen — dieselbe Kürzung wie bei Crunchyroll. */
+  const titelKern = (t) =>
+    (t ?? '')
+      .toLowerCase()
+      .replace(/\b(staffel|season|vol\.?|volume|teil|part)\s*\d+\b/g, '')
+      .replace(/[^a-z0-9]/g, '')
+
+  /**
+   * Wie gut passt die Trefferliste zu dem, was wir suchen?
+   *
+   * Drei Ausgänge, und der mittlere ist der heikle:
+   *
+   * | Befund | Was er heißt |
+   * |---|---|
+   * | `genau` | Der Titel steht dort — die Tonspuren holt ein Klick |
+   * | `aehnlich` | Etwas Verwandtes, aber nicht **dieses** Werk |
+   * | `keiner` | Prime führt den Titel nicht |
+   *
+   * **`aehnlich` ist für den gesuchten Titel dasselbe wie `keiner`.** Eine
+   * Suche nach „Cowboy Bebop" liefert bei Prime nur den Film von 2001; das
+   * heißt, dass es **die Serie** dort nicht gibt. Der Film ist ein eigener
+   * Eintrag in unserem Bestand und braucht seinen eigenen Verweis — er darf
+   * nie das Urteil der Serie werden.
+   *
+   * Deshalb wird bei `aehnlich` nichts von selbst gemeldet: Der Fund gehört
+   * jemandem, nur nicht dem, der gerade gesucht wurde.
+   */
+  function beurteileTreffer(auftrag, gefunden) {
+    const kern = titelKern(auftrag.titel)
+    if (!kern) return { art: 'unklar' }
+    /**
+     * **Der Typ trennt, was der Name nicht trennt.**
+     *
+     * Prime nennt an jeder Karte `data-card-entity-type`: „TV Show" oder
+     * „Movie". Film und Serie tragen oft denselben Namen — „Akira", „Ghost in
+     * the Shell", „Fullmetal Alchemist" gibt es als beides. Ohne den Typ
+     * bekäme eine Serie das Urteil ihres Films, und dessen Tonspur ist eine
+     * andere Frage.
+     *
+     * Erwartet wird nach der Folgenzahl aus unserem Bestand: mehr als eine
+     * Folge heißt Serie, genau eine heißt Film. Kennen wir sie nicht, zählt
+     * der Typ nicht mit — dann ist Schweigen besser als eine Regel aus einer
+     * fehlenden Zahl.
+     */
+    const erwartetSerie = auftrag.folgen > 1
+    const erwartetFilm = auftrag.folgen === 1
+    const typPasst = (t) => {
+      if (!auftrag.folgen) return true
+      const istSerie = /tv|show|serie|season/i.test(t.typ)
+      const istFilm = /movie|film/i.test(t.typ)
+      if (!istSerie && !istFilm) return true
+      return erwartetSerie ? istSerie : erwartetFilm ? istFilm : true
+    }
+
+    const gleichNamig = gefunden.treffer.filter((t) => titelKern(t.titel) === kern)
+    const genau = gleichNamig.filter(typPasst)
+    if (genau.length) return { art: 'genau', treffer: genau }
+    /*
+      Gleicher Name, falscher Typ — das ist kein Treffer, sondern der
+      Nachbar: der Film zur gesuchten Serie oder umgekehrt.
+    */
+    if (gleichNamig.length) {
+      return { art: 'aehnlich', treffer: gleichNamig }
+    }
+    const aehnlich = gefunden.treffer.filter((t) => {
+      const k = titelKern(t.titel)
+      return k.length >= 4 && (k.includes(kern) || kern.includes(k))
+    })
+    if (aehnlich.length) return { art: 'aehnlich', treffer: aehnlich }
+    /*
+      Null Karten heißt nicht „null Treffer", sondern „nichts gelesen" — die
+      Seite war vielleicht noch nicht fertig. Ein Befund „nichts gefunden"
+      beantwortet nicht, ob überhaupt gesucht wurde.
+    */
+    if (!gefunden.gesehen) return { art: 'unklar' }
+    return { art: 'keiner', treffer: [] }
+  }
+
   /** Der Kasten selbst — auf der Suchseite wie auf der Titelseite derselbe. */
-  function hinweisKasten(text) {
+  function hinweisKasten(text, ...zusatz) {
     const kasten = document.createElement('div')
     kasten.className = 'ak-amazon-suchhinweis'
-    kasten.textContent = text
+    const zeile = document.createElement('div')
+    zeile.textContent = text
+    kasten.appendChild(zeile)
+    for (const z of zusatz) if (z) kasten.appendChild(z)
     document.body.appendChild(kasten)
+    return kasten
+  }
+
+  /** Ein Knopf im Kasten — gleiche Form für alle Fälle. */
+  function kastenKnopf(beschriftung, tun) {
+    const k = document.createElement('button')
+    k.type = 'button'
+    k.className = 'ak-suchknopf'
+    k.textContent = beschriftung
+    k.addEventListener('click', () => tun(k))
+    return k
+  }
+
+  /**
+   * „Prime führt diesen Titel nicht" — die Meldung dazu.
+   *
+   * Gemeldet wird unter der **Suchadresse**, denn die steht in unserem
+   * Bestand; die Übernahme macht daraus ein `available: false` und entfernt
+   * den Verweis. Das ist derselbe Weg, den Crunchyroll seit dem 27.08.2026
+   * geht, und dieselbe Begründung: Ein Verweis, der auf eine Trefferliste
+   * ohne den gesuchten Titel führt, kostet einen Klick und liefert nichts.
+   */
+  async function nichtBeiPrimeMelden(auftrag, befund, knopf) {
+    knopf.disabled = true
+    knopf.textContent = 'meldet …'
+    try {
+      /* Der Schlüssel liegt im Sitzungs-Speicher, wie beim Melde-Knopf auch. */
+      const { token } = await chrome.storage.sync.get('token')
+      if (!token) throw new Error('kein Schlüssel hinterlegt')
+      const antwort = await fetch(WORKER, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
+        body: JSON.stringify({
+          plattform: 'primevideo',
+          url: auftrag.suchUrl,
+          befund: 'weg',
+          titel: auftrag.titel,
+          notiz:
+            'Suche auf Prime Video: ' +
+            (befund.art === 'aehnlich'
+              ? 'kein Treffer für diesen Titel, nur Verwandtes (' +
+                befund.treffer.map((t) => t.titel).slice(0, 3).join(', ') +
+                ')'
+              : 'kein einziger Treffer'),
+        }),
+      })
+      if (!antwort.ok) throw new Error(`HTTP ${antwort.status}`)
+      await suchAbhaken(auftrag.suchUrl)
+      knopf.textContent = 'gemeldet ✓'
+      uebersichtZeichnen()
+    } catch (err) {
+      knopf.disabled = false
+      knopf.textContent = `Fehler: ${err.message} — nochmal`
+    }
   }
 
   function zeigeSuchhinweis() {
@@ -1230,11 +1416,50 @@ async function speicherSchreiben(werte) {
       folgen: auftrag.folgen ?? null,
       suchUrl: auftrag.suchUrl,
     })
-    hinweisKasten(
-      `Anime-Kalender sucht: ${auftrag.titel}` +
-        (auftrag.folgen ? `\n${auftrag.folgen} Folgen laut unserem Bestand` : '') +
-        '\nÖffne den richtigen Treffer — dort geht es weiter.'
-    )
+    /*
+      Die Treffer stehen erst da, wenn die Seite fertig ist. Zweimal
+      nachsehen genügt: einmal sofort, einmal nach anderthalb Sekunden.
+    */
+    const zeichnen = () => {
+      document.querySelector('.ak-amazon-suchhinweis')?.remove()
+      const gefunden = suchTreffer()
+      const befund = beurteileTreffer(auftrag, gefunden)
+      const kopf =
+        `Anime-Kalender sucht: ${auftrag.titel}` +
+        (auftrag.folgen ? `\n${auftrag.folgen} Folgen laut unserem Bestand` : '')
+
+      if (befund.art === 'genau') {
+        hinweisKasten(
+          kopf + `\n\nTreffer: ${befund.treffer[0].titel} (${befund.treffer[0].typ})` +
+            '\nÖffne ihn — dort werden die Tonspuren gelesen.'
+        )
+        return
+      }
+
+      if (befund.art === 'unklar') {
+        hinweisKasten(kopf + '\n\nErgebnisse noch nicht gelesen.')
+        return
+      }
+
+      /*
+        **Nur Verwandtes ist für diesen Titel dasselbe wie nichts.** Der Film
+        zur Serie ist ein eigener Eintrag in unserem Bestand und bekommt seinen
+        eigenen Verweis; er darf nie das Urteil der Serie werden.
+      */
+      const nurAehnlich = befund.art === 'aehnlich'
+      const text = nurAehnlich
+        ? kopf + '\n\nKein Treffer für diesen Titel. Gefunden: ' +
+          befund.treffer.map((t) => `${t.titel} (${t.typ})`).slice(0, 3).join(', ') +
+          '\nDas ist ein anderes Werk — es gehört zu einem eigenen Eintrag.'
+        : kopf + `\n\nKein Treffer bei Prime (${gefunden.gesehen} Karten gelesen, alle Empfehlungen).`
+      hinweisKasten(
+        text,
+        kastenKnopf('Nicht bei Prime — melden', (k) => nichtBeiPrimeMelden(auftrag, befund, k)),
+      )
+    }
+
+    zeichnen()
+    setTimeout(zeichnen, 1500)
     return true
   }
 
