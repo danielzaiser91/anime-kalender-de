@@ -63,7 +63,8 @@
     "data:adn:laufend": "tsx pipeline/fetch-adn.ts --laufend",
     "check:pfade": "node tools/check-pfade.mjs",
     "deploy": "npm run build && wrangler deploy",
-    "data:historie": "tsx pipeline/bestand-historie.ts"
+    "data:historie": "tsx pipeline/bestand-historie.ts",
+    "check:bestand": "npm run check:handbelege && npm run check:cr-zuordnung && npm run check:quellen && npm run check:adn-gedaechtnis && npm run check:zugangsart"
   },
   "dependencies": {
     "react": "^19.1.0",

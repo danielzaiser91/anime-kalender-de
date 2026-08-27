@@ -268,7 +268,12 @@ async function main(): Promise<void> {
 
   bestand.fetchedAt = new Date().toISOString()
   writeJson(pfad, bestand, true)
-  recordSource('motn-changes', neue)
+  /*
+    Die dritte Zahl ist der Punkt: Ein Änderungsabruf, der Seiten geholt und
+    keine Änderung gefunden hat, war erfolgreich. Ohne sie galt „null neue
+    Titel" als Schweigen, und der tägliche Lauf wurde davon rot.
+  */
+  recordSource('motn-changes', neue, anfragen ? undefined : 'keine Anfrage abgesetzt', anfragen)
 
   /**
    * Betrifft uns überhaupt etwas davon?

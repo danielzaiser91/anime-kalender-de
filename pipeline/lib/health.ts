@@ -25,15 +25,40 @@ export interface SourceState {
 
 export type SourceHealth = Record<string, SourceState>
 
-export function recordSource(name: string, count: number, error?: string): void {
+/**
+ * **Null Treffer ist nicht dasselbe wie nichts getan.**
+ *
+ * Die Grundannahme oben — wer nichts liefert, ist kaputt — trägt für einen
+ * Scraper: Greifen seine Selektoren nach einem Seitenumbau ins Leere, findet
+ * er nichts und muss auffallen.
+ *
+ * Für eine **Änderungs-Quelle** ist sie falsch. `motn:changes` fragt „was hat
+ * sich in den letzten drei Tagen geändert?", und die richtige Antwort lautet
+ * meistens „nichts". Am 27.08.2026 hat das den täglichen Lauf rot gemacht:
+ * „motn-changes: seit 4.1 Tage nichts geliefert (zuletzt 0 Treffer)" — die
+ * Quelle war gesund, sie hatte nur nichts zu melden.
+ *
+ * Das ist dieselbe Falle, die `CLAUDE.md` schon für die Prime-Prüfliste
+ * beschreibt: eine Prüfung, die rot wird, weil die Arbeit erledigt ist.
+ *
+ * Unterschieden wird deshalb, ob der Lauf **gearbeitet** hat. `gearbeitet`
+ * ist die Zahl der untersuchten Dinge — Seiten, Titel, Kalendertage. Wer 200
+ * Titel geprüft und keine Änderung gefunden hat, war erfolgreich; wer nichts
+ * untersucht hat, schweigt.
+ *
+ * Ohne das Argument bleibt es beim alten Verhalten: Für die meisten Quellen
+ * ist die Trefferzahl selbst das Maß.
+ */
+export function recordSource(name: string, count: number, error?: string, gearbeitet?: number): void {
   const health = readJson<SourceHealth>(FILE, {})
   const now = new Date().toISOString()
   const previous = health[name]
+  const erfolgreich = count > 0 || (gearbeitet ?? 0) > 0
   health[name] = {
-    lastOk: count > 0 ? now : previous?.lastOk,
+    lastOk: erfolgreich ? now : previous?.lastOk,
     lastRun: now,
     lastCount: count,
-    lastError: count > 0 ? undefined : (error ?? previous?.lastError),
+    lastError: erfolgreich ? undefined : (error ?? previous?.lastError),
   }
   writeJson(FILE, health, true)
 }

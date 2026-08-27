@@ -279,11 +279,38 @@ for versuch in $(seq 1 "$VERSUCHE"); do
       echo "::warning::Der Neuaufbau ist gescheitert. Die Quellen werden trotzdem committet — sie sind der teure Teil, die Erzeugnisse baut der nächste Lauf neu."
       AUFBAU_KAPUTT=1
     fi
+
+    # Was der Bestand behauptet, wird hier geprüft — nicht erst beim Deploy.
+    #
+    # **Der Grund ist eine Reihenfolge, die sieben rote Deploys erzeugt hat.**
+    # Die Zusicherungen unten messen den Datenbestand: ob jede Handprüfung im
+    # Datensatz steht, ob die Crunchyroll-Auswertung noch trifft, ob jeder
+    # Verweis eine Zugangsart hat. Sie liefen bisher nur im Deploy — also an
+    # einer Stelle, die den Bestand weder erzeugt noch reparieren kann.
+    #
+    # Wer Code pusht, dessen Wirkung erst der nächste Bau zeigt, bekam deshalb
+    # zwangsläufig einen roten Deploy: Der Datensatz im Repo war der von
+    # vorhin. Von acht roten Läufen der letzten beiden Tage gingen sieben genau
+    # darauf zurück (gemessen am 27.08.2026), und keiner davon war ein Fehler
+    # in dem, was gerade gepusht wurde.
+    #
+    # Hier stehen sie richtig: Dieser Lauf hat den Bestand gerade gebaut. Ist
+    # er kaputt, erreicht er das Repo gar nicht erst — und der Lauf wird rot,
+    # wie es sich gehört, denn hier ist wirklich etwas kaputt.
+    #
+    # Die Quellen bleiben davon unberührt und werden committet. Sie sind der
+    # teure Teil (fremde APIs, Ratenlimits), und an ihnen liegt es nicht.
+    if [ "${AUFBAU_KAPUTT:-0}" != 1 ]; then
+      if ! npm run check:bestand; then
+        echo "::error::Der gebaute Bestand verletzt eine Zusicherung. Die Erzeugnisse werden nicht committet; die Quellen schon."
+        BESTAND_KAPUTT=1
+      fi
+    fi
   fi
 
   # Ohne gelungenen Aufbau bleiben die Erzeugnisse außen vor: Sie stehen dann auf
   # dem Fernstand, und den noch einmal zu committen wäre bestenfalls ein Leerlauf.
-  if [ "${AUFBAU_KAPUTT:-0}" = 1 ]; then
+  if [ "${AUFBAU_KAPUTT:-0}" = 1 ] || [ "${BESTAND_KAPUTT:-0}" = 1 ]; then
     git add "${QUELLEN[@]}" 2>/dev/null || true
   else
     git add "${ERZEUGNISSE[@]}" "${QUELLEN[@]}" 2>/dev/null || true
@@ -298,6 +325,8 @@ for versuch in $(seq 1 "$VERSUCHE"); do
 
   if git push --quiet 2>/dev/null; then
     echo "Gepusht (Versuch $versuch)."
+    # Die Quellen sind gesichert — jetzt darf der Lauf scheitern.
+    [ "${BESTAND_KAPUTT:-0}" = 1 ] && exit 1
     exit 0
   fi
 

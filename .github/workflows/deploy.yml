@@ -54,7 +54,7 @@ jobs:
     env:
       LAUF_ZWECK: "Veröffentlicht den aktuellen Stand von anime-kalender.de"
       LAUF_ZIEL: "Prüfkette grün, neuer Stand auf GitHub Pages"
-      LAUF_SCHRITTE: '7'
+      LAUF_SCHRITTE: '6'
     # Ein gescheiterter Datenlauf soll nichts veröffentlichen. Bei den anderen
     # Auslösern (push, workflow_dispatch) ist das Feld leer, deshalb die
     # Oder-Bedingung — sonst würde der Deploy von Hand nie mehr starten.
@@ -164,10 +164,26 @@ jobs:
       # Zusicherung dort ist nicht, dass etwas ergänzt wird, sondern dass
       # nichts über den höchsten gesehenen Fund hinaus ergänzt wird — eine
       # erfundene Tonspur vermisst niemand.
+      # Hier steht nur noch, was der Deploy verantwortet: den Code.
+      #
+      # **Sieben von acht roten Läufen kamen aus einer Reihenfolge, nicht aus
+      # einem Fehler** (gemessen am 27.08.2026 über die letzten 60 Läufe). Die
+      # Zusicherungen `check:handbelege`, `check:cr-zuordnung`, `check:quellen`,
+      # `check:adn-gedaechtnis` und `check:zugangsart` messen den **Datenbestand**.
+      # Wer Code pusht, dessen Wirkung erst der nächste Bau zeigt, hatte deshalb
+      # zwangsläufig einen roten Deploy — der Datensatz im Repo war der von
+      # vorhin, und der Deploy konnte daran nichts ändern.
+      #
+      # Sie laufen jetzt in `tools/commit-data.sh`, direkt nach dem Bau: Dort
+      # ist der Bestand gerade entstanden, dort hält eine rote Prüfung ihn auf,
+      # bevor er ins Repo kommt, und dort ist ein roter Lauf ein echter Befund.
+      #
+      # Was hier bleibt, prüft den Quelltext und ist damit vollständig durch
+      # den Commit bestimmt, der den Deploy ausgelöst hat.
       - name: Zusicherungen prüfen
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run check:pfade && npm run check:logic && npm run check:search && npm run check:handbelege && npm run check:cr-zuordnung && npm run check:quellen && npm run check:adn-gedaechtnis
+        run: npm run check:pfade && npm run check:logic && npm run check:search
 
       - name: Fortschritt — Zusicherungen geprüft
         continue-on-error: true
@@ -197,11 +213,6 @@ jobs:
 
       # Die Zugangsart ist die einzige Angabe, bei der ein Fehler den Leser
       # Geld kostet — „kostenlos" vor einer Kasse.
-      - name: Zugangsart prüfen
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run check:zugangsart
-
       - name: Fortschritt — Hooks-Regeln geprüft
         continue-on-error: true
         env:
