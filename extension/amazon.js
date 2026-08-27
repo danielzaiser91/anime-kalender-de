@@ -4269,6 +4269,9 @@ async function speicherSchreiben(werte) {
    * es um Klicks, die die Ansicht schlossen, und die Fläche musste **unter**
    * allem liegen. Hier geht es um Hover, und sie muss darüber.
    */
+  /** Amazons Ergebniskarten — dieselbe Wahl wie in `suchTreffer()`. */
+  const KARTE = 'article[data-testid="card"], [data-testid="card"], .tst-hover-container'
+
   let schutzflaeche = null
 
   function schutzflaecheZeigen(sichtbar) {
@@ -4373,11 +4376,28 @@ async function speicherSchreiben(werte) {
       schutzflaeche.style.display = 'none'
       return
     }
+
     schutzflaeche.style.display = ''
-    schutzflaeche.style.left = `${Math.max(0, links - SCHUTZ_RAND)}px`
+    /*
+      **Zur Ecke hin bis zum Rand, nach links mit Anlauf.**
+
+      Ein enger Rand um die eigenen Elemente genügte nicht: Amazons Karte
+      klappt auf, sobald die Maus sie irgendwo berührt, und die vergrößerte
+      Fassung wächst dann über den Knopf. Rechts und unten ist der
+      Bildschirmrand ohnehin die Grenze; nach links braucht es den Anlaufweg,
+      auf dem der Zeiger sonst eine Karte streift (Daniels Maße, 27.08.2026:
+      „should go ~100px more to left, and all the way to right and bottom").
+
+      Nach oben bleibt es beim knappen Rand — dort steht die Seite selbst, und
+      eine Fläche über den halben Bildschirm nähme mehr, als sie schützt.
+    */
+    const ANLAUF_LINKS = 100
+    schutzflaeche.style.left = `${Math.max(0, links - ANLAUF_LINKS)}px`
     schutzflaeche.style.top = `${Math.max(0, oben - SCHUTZ_RAND)}px`
-    schutzflaeche.style.width = `${rechts - links + SCHUTZ_RAND * 2}px`
-    schutzflaeche.style.height = `${unten - oben + SCHUTZ_RAND * 2}px`
+    schutzflaeche.style.right = '0px'
+    schutzflaeche.style.bottom = '0px'
+    schutzflaeche.style.width = 'auto'
+    schutzflaeche.style.height = 'auto'
   }
 
   function taktSchritt() {

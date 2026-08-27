@@ -1376,6 +1376,27 @@ async function handleLauf(request: Request, env: Env, ctx?: ExecutionContext): P
         WHERE zustand != 'erledigt'
           AND gemeldet_am > ${ISO_JETZT}, '-3 days')
           AND (zustand NOT IN ('ok', 'abgebrochen') OR gemeldet_am > ${ISO_JETZT}, '-30 minutes'))
+          -- Ein roter Lauf verschwindet, sobald derselbe Workflow wieder
+          -- durchgelaufen ist.
+          --
+          -- ok und abgebrochen fielen nach dreißig Minuten heraus, fehler blieb
+          -- drei Tage stehen — auch dann noch, wenn der Fehler längst behoben
+          -- und der Workflow zehnmal grün gelaufen war. Daniel sah am
+          -- 27.08.2026 abends drei rote Deploys von 15:40 Uhr, deren Ursache
+          -- zwei Stunden vorher weggeräumt worden war.
+          --
+          -- Ein späterer Erfolg desselben Workflows ist die Antwort auf die
+          -- Frage, die ein roter Lauf stellt. Steht sie da, gibt es nichts
+          -- mehr zu melden.
+          --
+          -- Kein Backtick in diesem Kommentar: Der SQL steht in einem
+          -- Template-Literal, und ein Backtick darin beendet es mitten im Satz.
+          AND NOT EXISTS (
+            SELECT 1 FROM lauf_status AS spaeter
+             WHERE spaeter.workflow = lauf_status.workflow
+               AND spaeter.zustand = 'ok'
+               AND spaeter.gemeldet_am > lauf_status.gemeldet_am
+          )
         ORDER BY (zustand = 'laeuft') DESC, (zustand = 'fehler') DESC, gemeldet_am DESC
         LIMIT 40`,
     ).all()

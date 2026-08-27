@@ -479,7 +479,17 @@
   top: 0;
   width: 0;
   height: 0;
-  z-index: 2147483000;
+  /*
+    **Unter unseren Bedienelementen, über Amazons Karten.**
+
+    Sie stand bis 3.53 auf 2147483000 — demselben Wert wie `.ak-uebersicht`.
+    Bei Gleichstand gewinnt das später eingefügte Element, und die Fläche
+    entsteht im Takt, also nach dem Knopf: Sie lag darüber und schluckte jeden
+    Klick (Daniel, 27.08.2026: „also the button is not clickable anymore").
+
+    Amazons Karten liegen weit darunter — ein Wert unter allem Eigenen genügt.
+  */
+  z-index: 2147482000;
   background: transparent;
   pointer-events: auto;
 }
