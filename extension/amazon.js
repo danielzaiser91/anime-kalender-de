@@ -1360,7 +1360,29 @@ async function speicherSchreiben(werte) {
       return erwartetSerie ? istSerie : erwartetFilm ? istFilm : true
     }
 
-    const gleichNamig = gefunden.treffer.filter((t) => titelKern(t.titel) === kern)
+    /*
+      **Ein Doppeltitel ist derselbe Titel.**
+
+      Wir führen „Beyond the Boundary: Kyoukai no Kanata" — englischer Titel,
+      Doppelpunkt, japanischer Titel. Prime führt dieselbe Serie schlicht als
+      „Beyond the Boundary". Der Vergleich auf Gleichheit fand sie nicht,
+      obwohl sie in der Ergebnisliste ganz vorn stand (Daniel, 27.08.2026:
+      „da ist der suchtreffer, warum wird es nicht gefunden?").
+
+      Verglichen wird deshalb auch gegen den Teil vor dem ersten Doppelpunkt —
+      aber nur, wenn der für sich trägt: mindestens zwei Wörter und zehn
+      Zeichen. Sonst würde „Gundam: Iron-Blooded Orphans" jede Karte namens
+      „Gundam" einsammeln, und das ist eine andere Serie.
+    */
+    const vorn = auftrag.titel.split(':')[0].trim()
+    const kernVorn =
+      vorn !== auftrag.titel.trim() && vorn.split(/\s+/).length >= 2 && titelKern(vorn).length >= 10
+        ? titelKern(vorn)
+        : null
+    const gleichNamig = gefunden.treffer.filter((t) => {
+      const k = titelKern(t.titel)
+      return k === kern || (kernVorn !== null && k === kernVorn)
+    })
     const genau = gleichNamig.filter(typPasst)
     if (genau.length) return { art: 'genau', treffer: genau }
     /*
@@ -4222,7 +4244,17 @@ async function speicherSchreiben(werte) {
     let rechts = -Infinity
     let unten = -Infinity
     for (const el of eigene) {
-      if (!el?.isConnected || el.offsetParent === null) continue
+      /*
+        **Nicht `offsetParent` fragen.** Alle drei Elemente stehen
+        `position: fixed` — und für die liefert Chrome `offsetParent === null`,
+        auch wenn sie mitten auf dem Bildschirm stehen. Die Fläche hielt sich
+        deshalb seit 3.49 für überflüssig und stellte sich auf `display: none`;
+        der Schutz war nie aktiv, und der rote Rahmen aus 3.50 blieb unsichtbar
+        (Daniel, 27.08.2026: „keine rote umrandung sichtbar").
+
+        Das Rechteck beantwortet die Frage direkt: Was 0 × 0 misst, ist nicht da.
+      */
+      if (!el?.isConnected) continue
       const r = el.getBoundingClientRect()
       if (!r.width || !r.height) continue
       links = Math.min(links, r.left)

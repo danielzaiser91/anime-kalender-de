@@ -508,6 +508,37 @@ pruefe('ohne jede Karte bleibt der Befund unklar', nichtsGelesen.befund.art === 
   pruefe('eine saubere Adresse bleibt, wie sie ist', ohneParameter('/gp/video/detail/B0FQSW7VV7') === '/gp/video/detail/B0FQSW7VV7')
   pruefe('nichts wirft bei fehlender Adresse', ohneParameter(null) === '')
 }
+/*
+  **Doppeltitel: „Beyond the Boundary: Kyoukai no Kanata".**
+
+  Wir führen englischen und japanischen Titel mit Doppelpunkt, Prime führt nur
+  den englischen. Die Karte stand am 27.08.2026 vorn in „Beste Ergebnisse" und
+  galt trotzdem als „nicht dieser Titel" (Daniel, mit Bild).
+*/
+const doppelt = werte(
+  [{ label: 'Beste Ergebnisse', karten: [karte('Beyond the Boundary', 'TV Show', 'Entitled', 'B0DNRB35F3')] }],
+  { titel: 'Beyond the Boundary: Kyoukai no Kanata', folgen: 12 },
+)
+pruefe('der Doppeltitel findet die Karte ohne Untertitel', doppelt.befund.art === 'genau', doppelt.befund.art)
+
+/*
+  Und der Teil vor dem Doppelpunkt muss für sich tragen: Ein kurzer Reihenname
+  würde sonst jede gleichnamige Karte einsammeln, und „Gundam" ist keine Serie,
+  sondern ein Dutzend.
+*/
+const reihe = werte(
+  [{ label: 'Beste Ergebnisse', karten: [karte('Gundam', 'TV Show', 'Entitled', 'B0AAAA1111')] }],
+  { titel: 'Gundam: Iron-Blooded Orphans', folgen: 25 },
+)
+pruefe('ein kurzer Reihenname vor dem Doppelpunkt zählt nicht als Treffer', reihe.befund.art !== 'genau', reihe.befund.art)
+
+/* Der Doppelpunkt mitten im Namen bleibt unangetastet — „009 Re:Cyborg". */
+const recyborg = werte(
+  [{ label: 'Beste Ergebnisse', karten: [karte('009 Re', 'Movie', 'Entitled', 'B0BBBB2222')] }],
+  { titel: '009 Re:Cyborg', folgen: 1 },
+)
+pruefe('„009 Re" ist nicht „009 Re:Cyborg"', recyborg.befund.art !== 'genau', recyborg.befund.art)
+
 console.log()
 if (fehler.length) {
   console.error(`${fehler.length} Zusicherung(en) verletzt.`)
