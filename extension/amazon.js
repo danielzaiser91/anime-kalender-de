@@ -4662,7 +4662,9 @@ async function speicherSchreiben(werte) {
     } catch {
       staffelText2 = null
     }
-    const neuerText = `${sprachStand} · ${umfang}${staffelText2 ?? ''}${zugang}${kanalHinweis}${woher} · melden`
+    /* Steht der deutsche Bereich da, nennt er die Gesamtzahl schon. */
+    const umfangTeil = bereiche && !istFilm ? '' : ' · ' + umfang
+    const neuerText = `${sprachStand}${umfangTeil}${staffelText2 ?? ''}${zugang}${kanalHinweis}${woher} · melden`
     /*
       **Jeder Wechsel der Beschriftung wird mitgeschrieben.**
 
