@@ -4408,6 +4408,42 @@ async function speicherSchreiben(werte) {
         Diese hier greift immer: Mehr gelesene Folgen als die Staffel hat, ist
         keine Auslegungsfrage. Der Stand geht weg, der nächste Takt liest neu.
       */
+      /*
+        **Und irgendwann ist Warten keine Auskunft mehr.**
+
+        Daniels Bericht vom 27.08.2026 (InuYasha, Staffel 3): `gesamt: 28`,
+        `gelesen: 27`. Eine einzige Folge fehlte, und der Knopf stand seit
+        fünfundzwanzig Sekunden auf „Staffel wechselt — einen Moment". Er
+        wartete auf einen Gleichstand, den Amazon nicht liefert — die
+        Widget-Antworten waren durch, die achtundzwanzigste Folge kam in keiner
+        davon.
+
+        Nach zwölf Sekunden ohne Fortschritt wird deshalb freigegeben, was da
+        ist. Die Lücke verschweigt das nicht: Der Knopf schreibt seit 3.60
+        „(n ungelesen)" dazu, und die Meldung trägt nur die gelesenen Folgen.
+
+        Zwölf Sekunden, weil ein Abschnitt bei Prime in zwei bis drei ankommt —
+        wer so lange nichts geschickt hat, schickt nichts mehr.
+      */
+      const WARTE_FRIST_MS = 12_000
+      const langeStill = Date.now() - letzterFortschritt > WARTE_FRIST_MS
+      const etwasGelesen = (gesehen?.jeFolge?.size ?? 0) > 0
+      if (langeStill && etwasGelesen) {
+        notiere('warten-aufgegeben', {
+          gesamt: gesehen?.gesamt ?? null,
+          gelesen: gesehen?.jeFolge?.size ?? 0,
+          stillMs: Date.now() - letzterFortschritt,
+        })
+        /*
+          Die Zahl der Seite bleibt erhalten — sie ist die Grundlage für
+          „(n ungelesen)". Sie einfach auf die gelesene Zahl zu setzen wäre
+          bequem und würde die Lücke verschweigen, die gerade der Grund fürs
+          Aufgeben ist.
+        */
+        gesehen.gesamtLautSeite = gesehen.gesamt
+        gesehen.gesamt = gesehen.jeFolge.size
+        letzterFortschritt = Date.now()
+      }
       const vermischt = Number.isFinite(gesehen?.gesamt) && (gesehen?.jeFolge?.size ?? 0) > gesehen.gesamt
       if (vermischt) {
         notiere('stand-vermischt', { gesamt: gesehen.gesamt, gelesen: gesehen.jeFolge.size })
@@ -4559,7 +4595,7 @@ async function speicherSchreiben(werte) {
      */
     const ungelesen = () => {
       const karte = gesehen.jeFolge
-      const gesamt = gesehen.gesamt
+      const gesamt = gesehen.gesamtLautSeite ?? gesehen.gesamt
       if (!karte?.size || !Number.isFinite(gesamt)) return []
       const fehlt = []
       for (let n = 1; n <= gesamt; n++) if (!karte.has(n)) fehlt.push(n)
