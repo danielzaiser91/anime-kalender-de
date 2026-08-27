@@ -2499,10 +2499,22 @@ async function speicherSchreiben(werte) {
    * Amazon nennt ihn auf jeder Staffel-Seite gleich.
    */
   function serieBekannt() {
-    const serie = seitenTitel()
+    const serie = titelKern(seitenTitel())
     if (!serie) return false
-    if (Object.keys(erledigt).some((k) => erledigt[k]?.serie === serie)) return true
-    return Object.values(liste).some((e) => e?.serie === serie || e?.titel === serie)
+    /*
+      **Verglichen wird der Kern, und „enthält" genügt.**
+
+      Gleichheit trägt hier nicht: Amazon nennt die Seite „Dr. Stone", unser
+      Eintrag heißt „Dr. Stone – Staffel 3", und die Prüfliste führt oft nur
+      eine der Staffeln. `titelKern()` wirft Staffelangaben und Satzzeichen
+      ohnehin weg; was bleibt, muss nur ineinander vorkommen.
+    */
+    const passt = (t) => {
+      const k = titelKern(t)
+      return k.length >= 4 && (k === serie || k.includes(serie) || serie.includes(k))
+    }
+    if (Object.keys(erledigt).some((k) => passt(erledigt[k]?.serie) || passt(erledigt[k]?.titel))) return true
+    return Object.values(liste).some((e) => passt(e?.serie) || passt(e?.titel))
   }
 
   function listenSchluessel(bisher) {
