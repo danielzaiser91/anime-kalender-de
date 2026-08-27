@@ -502,7 +502,14 @@
   oder gar nicht liegt (Daniel, 27.08.2026: „statt transparent zeig es, damit
   ich sehe wo es liegt aktuell").
 
-  Der Rahmen fliegt raus, sobald der Schutz sitzt.
+  Der Schutz sitzt seit 3.54 (Daniel: „schutzbereich funktioniert wie zu
+  erwarten"), die Klasse hängt deshalb an keinem Element mehr. Sie bleibt
+  hier stehen: An einem Abend hat sie drei Fehler sichtbar gemacht, die
+  unsichtbar nicht zu finden waren — die falsche Größe, die verschluckten
+  Klicks, und dass die Fläche wegen `offsetParent` überhaupt nie entstand.
+
+  Wieder anschalten: in `amazon.js` bei `schutzflaecheZeigen()` die Klasse
+  anhängen.
 */
 .ak-amazon-schutz.ak-schutz-sichtbar {
   background: rgba(255, 60, 60, 0.22);

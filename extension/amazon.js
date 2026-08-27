@@ -4285,12 +4285,11 @@ async function speicherSchreiben(werte) {
     schutzflaeche.className = 'ak-amazon-schutz'
     schutzflaeche.title = 'Anime-Kalender — Diese Ecke gehört dem Anime-Kalender'
     /*
-      **Sichtbar, bis sie sitzt.** Eine unsichtbare Fläche, die nicht wirkt,
-      lässt sich nicht beurteilen — Daniel am 27.08.2026: „statt transparent
-      zeig es, damit ich sehe wo es liegt aktuell". Der Rahmen verschwindet
-      wieder, sobald die Fläche nachweislich greift.
+      Zum Einstellen der Maße trug sie einen roten Rahmen — `ak-schutz-sichtbar`
+      in `melder.css` gibt es weiterhin. Wer die Fläche wieder sehen will,
+      hängt die Klasse hier an; sie hat drei Fehler an einem Abend gefunden
+      (falsche Größe, verschluckte Klicks, und dass sie überhaupt nie da war).
     */
-    schutzflaeche.classList.add('ak-schutz-sichtbar')
     /* Der Zeiger endet hier; die Karte darunter erfährt nichts davon. */
     /*
       **Alle Zeigerereignisse, nicht nur der Hover.** Die Fläche ist selbst das
