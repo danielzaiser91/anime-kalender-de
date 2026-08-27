@@ -1752,10 +1752,21 @@ async function speicherSchreiben(werte) {
       Junioren-Folgen hinter den 52 der ersten Staffel. Bestätigt wird die
       Annahme von Daniel, nicht von der Zahl allein.
     */
-    /* Die Zahl darf fehlen: Auf einer halb geladenen Seite ist sie noch nichts wert. */
+    /*
+      **Die Gesamtzahl der Seite zählt, nicht die schon geladene.**
+
+      Prime lädt in Abschnitten zu 24 Folgen. Verglichen mit den geladenen kam
+      das Angebot deshalb nie: 24 ist nicht mehr als die 39 erwarteten, obwohl
+      die Seite oben „91 Folgen" schreibt (Daniel, 27.08.2026: „da steht immer
+      noch 91").
+
+      `gesehen.gesamt` ist genau diese Zahl. Fehlt sie, bleibt die geladene als
+      Rückfall — dann ist die Seite noch nicht weit genug, und ein Angebot wäre
+      ohnehin geraten.
+    */
     let hier = 0
     try {
-      hier = geladeneFolgen()
+      hier = gesehen?.gesamt || geladeneFolgen()
     } catch {
       hier = 0
     }
