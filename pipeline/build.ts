@@ -2264,6 +2264,13 @@ function main(): void {
       if (check?.dubRanges?.length) {
         stream.dubRanges = check.dubRanges.map((r) => ({ from: r.from, to: r.to, dub: r.dub }))
       }
+      /*
+        Der Teilbereich gehört zur Adresse, nicht zum Befund: Er sagt, welchen
+        Ausschnitt der Anbieter-Liste dieser Eintrag meint.
+      */
+      if (check?.teilBereich) {
+        stream.teilBereich = { von: check.teilBereich.von, bis: check.teilBereich.bis }
+      }
       // Eine von Hand gefundene Adresse schlägt jede geratene.
       if (check?.url) {
         stream.url = check.url

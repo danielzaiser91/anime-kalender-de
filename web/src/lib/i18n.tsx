@@ -220,6 +220,11 @@ const TEXTE = {
   // Der Aufklapper für eine lange Notiz — siehe DetailPanel, `release.note`.
   'detail.noteToggle': 'Zur Sprachfassung',
   'detail.sharedUrl': '{count} Einträge',
+  // Steht, wo der Anbieter mehrere unserer Einträge in **einer** durchlaufenden
+  // Folgenliste führt: Prime zeigt „Captain Tsubasa (2018)" mit 91 Folgen, und
+  // dieser Eintrag sind davon die Nummern 53 bis 91. Ohne die Angabe sucht
+  // jemand 39 Folgen auf einer Seite, die 91 zeigt.
+  'detail.teilBereich': 'Dort Folge {von}–{bis}',
   // Bewusst „kann abweichen", nicht „weicht ab": Belegt ist nur, dass mehrere
   // unserer Einträge auf dieselbe Adresse zeigen. Wie der Anbieter seinerseits
   // in Staffeln teilt, steht auf einer Seite, die ihre Staffelliste per

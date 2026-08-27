@@ -1679,11 +1679,11 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
     const nurPlattform = sucheP.get('plattform')
     const abfrage = nurPlattform
       ? `SELECT id, plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln,
-                serientitel, notiz, gemeldet_am
+                serientitel, notiz, teil_von, teil_bis, gemeldet_am
            FROM pruefung WHERE uebernommen = 0 AND plattform = ?
            ORDER BY gemeldet_am LIMIT 500`
       : `SELECT id, plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln,
-                serientitel, notiz, gemeldet_am
+                serientitel, notiz, teil_von, teil_bis, gemeldet_am
            FROM pruefung WHERE uebernommen = 0
            ORDER BY gemeldet_am LIMIT 500`
     const stmt = env.DB.prepare(abfrage)
@@ -1843,8 +1843,8 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
     .run()
 
   await env.DB.prepare(
-    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am, zugang, abos)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)`,
+    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am, zugang, abos, teil_von, teil_bis)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16)`,
   )
     .bind(
       String(daten.plattform ?? 'unbekannt'),
@@ -1878,6 +1878,12 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
        */
       daten.zugang ? String(daten.zugang).slice(0, 40) : null,
       daten.abos ? JSON.stringify(daten.abos).slice(0, 1000) : null,
+      /*
+        Welchen Teil der Anbieter-Liste diese Meldung meint — bei einer Reihe,
+        die dort gebündelt liegt. Fehlt im Normalfall.
+      */
+      zahlOderNull(daten.teil_von),
+      zahlOderNull(daten.teil_bis),
     )
     .run()
 

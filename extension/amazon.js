@@ -1695,6 +1695,22 @@ async function speicherSchreiben(werte) {
    * unterscheidet — 26 gegen 1. Entschieden wird von Hand; die Erweiterung
    * kann diese Frage nicht beantworten, aber sie kann sie stellen.
    */
+  /**
+   * **Der Ausschnitt, für den die nächste Meldung gilt.**
+   *
+   * Prime bündelt mehrere Arcs zu einem Eintrag mit durchlaufender
+   * Nummerierung: „Captain Tsubasa (2018)" ist eine Liste von 91 Folgen, und
+   * unser Eintrag „Staffel 2 — Die Junioren" sind davon die Nummern 53 bis
+   * 91. Ohne diese Angabe meldete ein Blick auf die Seite 91 Folgen für eine
+   * Staffel, die 39 hat — und der deutsche Ton der ersten 52 landete auf dem
+   * falschen Eintrag (Daniel, 27.08.2026, mit IMDb-Gegenprobe an den
+   * Folgentiteln 89 bis 91).
+   *
+   * Gesetzt wird er nur, wenn Daniel ihn bestätigt: Die Vermutung stammt aus
+   * einem Zahlenvergleich, und die Reihenfolge der Arcs ist eine Annahme.
+   */
+  let teilBereich = null
+
   function zeigeAuftragshinweis() {
     /*
       **Nach `listenId`, nicht davor.** Diese Funktion braucht den fertigen
@@ -1712,10 +1728,39 @@ async function speicherSchreiben(werte) {
     */
     if (auftrag.zielAsin && auftrag.zielAsin !== asin()) return false
     if (imPlayer()) return false
+    /*
+      **Deutlich mehr Folgen als erwartet heißt: Die Seite bündelt.**
+
+      Vorgeschlagen werden die **letzten** Folgen der Liste, weil Arcs
+      chronologisch angehängt werden — bei Captain Tsubasa liegen die 39
+      Junioren-Folgen hinter den 52 der ersten Staffel. Bestätigt wird die
+      Annahme von Daniel, nicht von der Zahl allein.
+    */
+    /* Die Zahl darf fehlen: Auf einer halb geladenen Seite ist sie noch nichts wert. */
+    let hier = 0
+    try {
+      hier = geladeneFolgen()
+    } catch {
+      hier = 0
+    }
+    const buendel = auftrag.folgen && hier > auftrag.folgen ? { von: hier - auftrag.folgen + 1, bis: hier } : null
+    const teilZeilen = []
+    if (teilBereich) {
+      teilZeilen.push(kastenZeile('ak-such-gut', `Meldung gilt für Folgen ${teilBereich.von}–${teilBereich.bis}`))
+    } else if (buendel) {
+      teilZeilen.push(
+        kastenZeile('ak-such-warn', `${hier} Folgen hier, ${auftrag.folgen} erwartet — die Seite bündelt mehrere Teile`),
+        kastenKnopf(`Als Folgen ${buendel.von}–${buendel.bis} melden`, () => {
+          teilBereich = buendel
+          zeigeAuftragshinweis()
+        }),
+      )
+    }
     hinweisKasten(
       auftrag.titel,
       auftrag.folgen ? `${auftrag.folgen} ${auftrag.folgen === 1 ? 'Folge' : 'Folgen'} erwartet` : '',
       kastenZeile('ak-such-gut', 'Meldung läuft unter diesem Titel'),
+      ...teilZeilen,
       kastenZeile('ak-such-hinweis', 'Zeigt die Seite deutlich weniger, ist es ein anderes Werk'),
     )
     return true
@@ -4686,6 +4731,12 @@ async function speicherSchreiben(werte) {
            */
           zugang: zugangsart(),
           abos: abos(),
+          /*
+            Der bestätigte Ausschnitt, falls die Seite mehrere unserer Einträge
+            in einer durchlaufenden Liste führt. Fehlt im Normalfall.
+          */
+          teil_von: teilBereich?.von ?? null,
+          teil_bis: teilBereich?.bis ?? null,
           /**
            * Die Notiz sagt, worüber der Befund reicht.
            *

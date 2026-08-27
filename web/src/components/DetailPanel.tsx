@@ -2244,6 +2244,9 @@ export function DetailPanel({
                               [
                                 grenze ? t(grenze.schluessel, { n: grenze.n }) : '',
                                 (s.sharedWith ?? 0) > 1 ? t('detail.sharedUrl', { count: s.sharedWith! }) : '',
+                                s.teilBereich
+                                  ? t('detail.teilBereich', { von: s.teilBereich.von, bis: s.teilBereich.bis })
+                                  : '',
                               ]
                                 .filter(Boolean)
                                 .join(' · ') || undefined

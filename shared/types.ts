@@ -141,6 +141,24 @@ export interface StreamLink {
    * Beide zählen bloß anders. 344 Adressen bedienen so 655 unserer Einträge.
    */
   sharedWith?: number
+  /**
+   * **Wo unsere Staffel in der Zählung des Anbieters liegt.**
+   *
+   * `sharedWith` sagt, *dass* eine Seite mehrere unserer Einträge bedient.
+   * Dieses Feld sagt, *welchen Teil davon dieser Eintrag meint* — in den
+   * Nummern des Anbieters, nicht in unseren.
+   *
+   * Prime führt „Captain Tsubasa (2018)" als eine Liste von 91 Folgen. Unser
+   * Eintrag „Staffel 2 — Die Junioren" sind davon die letzten 39: dort die
+   * Nummern 53 bis 91, bei uns 1 bis 39. Ohne diese Angabe meldet ein Blick
+   * auf die Seite 91 Folgen für eine Staffel, die 39 hat, und der deutsche
+   * Ton der ersten 52 landet auf dem falschen Eintrag (Daniel, 27.08.2026,
+   * mit fünf Bildern; dieselbe Bündelung bei „Junior Youth Arc").
+   *
+   * Fehlt das Feld, deckt die Seite genau diesen einen Eintrag ab — der
+   * Normalfall.
+   */
+  teilBereich?: { von: number; bis: number }
 }
 
 /** Ein Anime (genauer: ein AniList-Eintrag) mit belegter deutscher Synchro. */

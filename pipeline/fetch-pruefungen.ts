@@ -47,6 +47,9 @@ interface Pruefung {
   staffeln: string | null
   serientitel: string | null
   notiz: string | null
+  /* Der Teil der Anbieter-Liste, den dieser Eintrag meint — siehe DubCheck. */
+  teil_von: number | null
+  teil_bis: number | null
   gemeldet_am: string
 }
 
@@ -453,6 +456,13 @@ for (const gruppe of jeAdresse.values()) {
     } else if (!nachUrl.has(schluesselAdresse(p.url))) {
       zeilen.push(`  url: ${p.url}`)
     }
+    /*
+      Der Teilbereich steht vor dem Befund: Er sagt, worüber der Befund
+      überhaupt spricht. Gemeldet wird er einmal je Adresse; die neueste
+      Meldung gewinnt, wie bei allem anderen hier auch.
+    */
+    const teil = gruppe.map((x) => x).reverse().find((x) => x.teil_von && x.teil_bis)
+    if (teil) zeilen.push(`  teilBereich: { von: ${teil.teil_von}, bis: ${teil.teil_bis} }`)
     if (weg) {
       zeilen.push('  available: false')
     } else if (eigene.length) {

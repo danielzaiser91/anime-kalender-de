@@ -58,6 +58,15 @@ export interface DubCheck {
    */
   dubRanges?: Array<{ from: number; to: number; dub: boolean; checked?: number[] }>
   /**
+   * **Welchen Teil der Anbieter-Liste dieser Eintrag meint.**
+   *
+   * In den Nummern des Anbieters, nicht in unseren: Prime führt „Captain
+   * Tsubasa (2018)" als 91 durchlaufende Folgen; unser Eintrag „Staffel 2 —
+   * Die Junioren" sind davon 53 bis 91. Ohne die Angabe zählt jede Prüfung
+   * 91 Folgen für eine Staffel, die 39 hat.
+   */
+  teilBereich?: { von: number; bis: number }
+  /**
    * Der Titel steht **bewusst** nicht in unserem Bestand.
    *
    * Ein Beleg ohne Titel ist normalerweise ein Fehler — eine falsche Kennung
