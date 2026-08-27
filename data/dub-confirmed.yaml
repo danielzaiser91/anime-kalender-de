@@ -22352,3 +22352,19 @@
   available: false
   checkedAt: '2026-08-27'
   note: "Von Hand geprueft (Daniel, 27.08.2026): Die Suche fuehrt nur zum Film B0B8TR93HR, die Serie gibt es bei Prime nicht."
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-27 ---
+
+- anilistId: 11755
+  title: "009 Re:Cyborg"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Suche auf Prime Video: kein einziger Treffer"
+
+- anilistId: 4481
+  title: "Alakazam: König der Tiere"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Suche auf Prime Video: kein einziger Treffer"
