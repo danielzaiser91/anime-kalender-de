@@ -1,113 +1,91 @@
 # Weg zu einem vollständigen Kalender
 
-Stand 26.08.2026, alle Zahlen aus dem ausgelieferten Datensatz gemessen.
+Stand 27.08.2026, alle Zahlen aus dem ausgelieferten Datensatz gemessen.
 
 ## Wo wir stehen
 
-| | Zahl |
-|---|---|
-| Titel im Bestand | 2.762 |
-| davon mit Anbieter-Verweis | 1.662 |
-| mit belegter deutscher Synchro | 1.222 |
-| Verweise ohne Urteil | **676** |
-| Titel ganz ohne Verweis | **1.100** |
-| Releases | 256 (111 Sammelstart, 92 Disc, 45 wöchentlich, 8 Film) |
-| Termine | 888, davon 202 künftig |
-| Titel mit Synchro **und** Termin | **185 von 1.222** |
-
-Zwei Zahlen sagen, was fehlt: **676 Verweise ohne Urteil** und **1.037 Titel mit
-belegter Synchro, aber ohne einen einzigen Termin**.
+| | Zahl | seit 26.08. |
+|---|---|---|
+| Titel im Bestand | 2.762 | ±0 |
+| davon mit Anbieter-Verweis | 1.625 | −37 |
+| mit belegter deutscher Synchro | 1.276 | +54 |
+| Verweise mit Urteil | 1.599 | +93 |
+| **Verweise ohne Urteil** | **531** | −145 |
+| Titel mit Synchro **und** Termin | 377 | +192 |
+| Titel mit „Im Angebot seit" | 329 | neu |
+| Releases | 446 | +190 |
+| Termine | 888 | ±0 |
 
 ## Die drei Lücken
 
-### 1. Synchro-Urteile — 676 offene Verweise
+### 1. Synchro-Urteile — 531 offene Verweise
 
 | Anbieter | offen | Weg |
 |---|---|---|
-| Crunchyroll | 464 | automatisch, siehe unten |
-| Prime Video | 122 | Suchadressen ohne Titelseite |
-| Disney+ | 36 | erledigt sich mit den 558 Meldungen |
-| Netflix | 25 | Erweiterung, Klick je Folge |
-| YouTube | 22 | Handarbeit, Titel nennt oft die Fassung |
-| ADN | 5 | automatisch aus dem Archiv |
-| Joyn | 2 | Handarbeit |
+| Crunchyroll | 356 | größtenteils **kein** automatischer Weg, siehe unten |
+| Prime Video | 123 | 118 davon Suchadressen ohne Titelseite |
+| Netflix | 22 | Erweiterung, ein Klick je Folge |
+| YouTube | 22 | Handarbeit, der Titel nennt oft die Fassung |
+| ADN | 5 | eine Serie mit gemischten Staffeln |
+| Joyn, Disney+ | 3 | Handarbeit |
 
-**Crunchyroll ist der große Brocken und zugleich der einfachste.** Der deutsche
-Katalog liefert je Folge `versions[].audio_locale`; die Auswertung ordnet aber
-noch **blockweise** zu und verweigert bei Unklarheit — zu Recht, denn eine
-Serienkennung ist ein Block, kein Werk. Dieselbe Vorsicht kostet 60 Titel ein
-Urteil, das in den Daten längst steht: Specials und Filme mit einer Folge lassen
-sich keinem Block sicher zuordnen.
+**Crunchyroll aufgeschlüsselt** — und die Aufschlüsselung ist die eigentliche
+Auskunft:
 
-Auf Folgen-Ebene entfällt das Problem. Die Frage „gibt es diese Folge auf
-Deutsch" beantwortet `versions` ohne jeden Abgleich; die Zuordnung zu unseren
-Staffeln braucht es erst danach.
+| | Zahl | was das heißt |
+|---|---|---|
+| „Content-API kennt keine Staffel" | 287 | Der deutsche Katalog **führt die Serie nicht**. Das ist ein Befund, kein Fehler — aber laut `CLAUDE.md` kein `dub: false`. |
+| Deutsch belegt, Zuordnung offen | 43 | Der Rest nach drei Zuordnungsstufen: Specials und Filme, die in keinem Block stehen. |
+| keine Serienkennung | 26 | Alte Slug-Adressen. Die Suche im deutschen Katalog fand am 26.08. für 51 von 391 eine Kennung. |
 
-**Prime hat 122 Suchadressen** (`/s?k=…`) statt Titelseiten. Dort kann die
-Erweiterung nichts lesen. Es braucht einen Schritt, der aus einer Suchadresse
-eine echte macht — oder die Einträge fallen weg.
+**Die 118 Prime-Suchadressen sind zu.** Weder MOTN noch TMDB führen echte
+Adressen — beides am 27.08. gemessen, beides null Treffer. Es bleibt: Die
+Erweiterung liest auf der Suchseite den Treffer, den Daniel anklickt, und meldet
+die Adresse. Das ist ein Bau, kein Lauf.
 
-### 2. Titel ohne Verweis — 1.100
+### 2. Titel ohne Verweis — 1.137
 
-`data/motn.json` hält **8.521 Folgen mit belegtem deutschen Ton**:
+**Die MOTN-Brücke ist kleiner als gedacht.** Über TMDB lassen sich 791 Titel auf
+eine IMDb-Kennung bringen, 238 davon haben deutschen Ton belegt — aber nur **6**
+bekämen dadurch ein neues Urteil. 215 sind längst anderweitig belegt. Der
+Bestand von 8.521 Folgen in `data/motn.json` ist real, deckt aber im Wesentlichen
+Titel ab, die wir schon kennen.
 
-| Anbieter | Folgen |
-|---|---|
-| Netflix | 4.131 |
-| Prime Video | 2.588 |
-| Disney+ | 1.536 |
-| Crunchyroll | 266 |
+Die frühere Fassung dieses Plans nannte das den größten Hebel. Das war eine
+Schätzung aus einer Gesamtzahl, keine Messung der Schnittmenge.
 
-352 Serien mit deutschem Ton stehen dort, davon **185 ohne Entsprechung oder
-Urteil bei uns**. Das ist der größte ungenutzte Bestand im Repo — und er ist
-schon bezahlt.
+### 3. Termine — 899 Titel mit Synchro ohne einen einzigen
 
-Was fehlt, ist die **Zuordnung**: MOTN führt IMDb-Kennungen, wir AniList. Über
-Titel und Jahr geht es grob; sauber wird es über die japanische Erstausstrahlung
-(bei Crunchyroll bereits der gemeinsame Anker) oder über TMDB als Brücke, das
-beide Kennungen führt.
+Von 1.276 Titeln mit Synchro haben 377 einen Termin. Der Rest teilt sich so:
 
-### 3. Termine — 1.037 Titel ohne einen einzigen
+- **329 tragen jetzt ein „Im Angebot seit"** aus MOTN — 190 davon (alle aus
+  2026) auch als Kalendereintrag, der Rest nur im Detail-Panel. Das Datum sagt,
+  seit wann der Anbieter den Titel listet, nicht wann die deutsche Fassung
+  erschien; die Beschriftung sagt das auch.
+- **Für die übrigen 570 gibt es keine Quelle.** Sie sind erschienen, bevor
+  irgendeine unserer Quellen sie kannte.
 
-Das ist die größte Lücke, aber die Zahl täuscht: Die meisten dieser Titel sind
-**längst erschienen**. Für sie ist kein künftiger Termin nötig, wohl aber ein
-Erscheinungsdatum — sonst steht im Kalender ein Titel ohne jede Zeitangabe.
+## Was als Nächstes trägt
 
-Zu trennen sind deshalb drei Fälle:
-
-- **Läuft gerade** — braucht wöchentliche Termine. Kommen aus dem
-  Crunchyroll-Kalender und ADN, sind weitgehend da.
-- **Ist erschienen** — braucht ein Datum „im Angebot seit". Für Netflix, Prime
-  und Disney+ liegt das in `motn.json`; für Crunchyroll in den Folgendaten
-  (`episode_air_date`, mit der bekannten Einschränkung bei Katalogtiteln).
-- **Kommt noch** — braucht eine Ankündigung. Hier gibt es keine Automatik: Für
-  deutsche Termine existiert keine Schnittstelle, es bleiben Anime2You,
-  aniSearch und die Verlage.
-
-## Reihenfolge
-
-1. **Crunchyroll auf Folgen-Ebene** — 464 offene Verweise plus 60 verweigerte
-   Urteile, ohne einen einzigen neuen Abruf. Die Daten liegen in
-   `data/crunchyroll-raw/`.
-2. **MOTN zuordnen** — 8.521 belegte Folgen, 185 Serien ohne Urteil. Braucht die
-   Kennungsbrücke, sonst nichts.
-3. **Erscheinungsdaten aus MOTN** — dieselbe Brücke, dieselben Daten, füllt die
-   zweite der drei Terminarten.
-4. **Prime-Suchadressen** — 122 Einträge, die heute niemand prüfen kann.
-5. **Kalender auf Folgen-Ebene** — erst dann lässt sich anzeigen, welche Folgen
-   deutsch sind. Alles davor liefert die Daten dafür.
+1. **Prime-Suchadressen in der Erweiterung** — 118 Einträge, die heute niemand
+   prüfen kann. Der einzige verbliebene Weg mit dreistelligem Ertrag.
+2. **Die 43 Crunchyroll-Specials** — Filme und OVAs, die in keinem Block stehen.
+   Je Fall eine Entscheidung; automatisch nicht zu klären.
+3. **Kalender auf Folgen-Ebene** — die Daten liegen (1.746 AniList-Sprechrollen,
+   `dubRanges` an vielen Verweisen). Kein neuer Abruf nötig, aber ein Umbau der
+   Oberfläche.
 
 ## Was 100 % ausschließt
 
-Der letzte Prozentpunkt ist nicht zu holen, und das gehört in den Plan:
-
 - **Ankündigungen** deutscher Synchronfassungen gibt es in keiner
-  maschinenlesbaren Quelle. Was nicht angekündigt ist, kann kein Lauf finden.
-- **Netflix** gibt Tonspuren nur an einen laufenden Player heraus — ein Klick je
-  Folge, fünfmal gemessen, fünfmal bestätigt.
-- **Amazons Kanal-Titel** melden die Sprachen des Kanals, nicht der Folge. Ein
-  `dub: true` von dort ist ein Hinweis, kein Beleg.
+  maschinenlesbaren Quelle. Was nicht angekündigt ist, findet kein Lauf.
+- **Netflix** gibt Tonspuren nur an einen laufenden Player heraus — fünfmal
+  gemessen, fünfmal bestätigt.
+- **Amazons Kanal-Titel** melden die Sprachen des Kanals, nicht der Folge.
+- **287 Crunchyroll-Serien** führt der deutsche Katalog nicht. Ob sie dort je
+  liefen, ist von hier aus nicht zu klären.
 
 Erreichbar ist: **jeder Verweis mit einem Urteil, und jeder Titel mit Synchro
-mit mindestens einem Datum.** Das ist die Messlatte, an der sich der Fortschritt
-ablesen lässt — nicht eine Prozentzahl.
+mit mindestens einem Datum.** Am 26.08. waren das 1.506 Urteile und 185 Titel
+mit Datum; heute sind es 1.599 und 706 (377 mit Termin, 329 mit „Im Angebot
+seit").
