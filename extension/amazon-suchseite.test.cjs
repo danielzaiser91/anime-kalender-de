@@ -605,6 +605,26 @@ const fremdesJahr = werte(
 )
 pruefe('eine andere Jahresfassung zaehlt nicht als genauer Treffer', fremdesJahr.befund.art !== 'genau', fremdesJahr.befund.art)
 
+/*
+  **Staffeln stehen in einem halben Dutzend Schreibweisen im Titel.**
+
+  Alle drei unten galten als Staffel 1, und die Erweiterung meldete darum die
+  erste Staffel für Auftraege, die eine spaetere meinten (Daniel, 27.08.2026).
+*/
+{
+  const q = readFileSync(__dirname + '/amazon.js', 'utf8')
+  const a = q.indexOf('  const staffelImTitel = (t) => {')
+  const b = q.indexOf('\n  }', a)
+  const staffelImTitel = new Function(q.slice(a, b + 4) + '; return staffelImTitel')()
+  pruefe('die nackte Zahl am Ende zaehlt', staffelImTitel('Golden Kamuy 2') === 2, staffelImTitel('Golden Kamuy 2'))
+  pruefe('das Zahlwort ebenso', staffelImTitel('Food Wars! The Second Plate') === 2)
+  pruefe('und die Ordnungszahl', staffelImTitel('Ranking of Kings 2nd Season') === 2)
+  pruefe('ohne Angabe bleibt es Staffel 1', staffelImTitel('Goblin Slayer') === 1)
+  /* Titel, die zufaellig auf Ziffern enden, sind keine Staffeln. */
+  pruefe('Fate/Zero ist keine Staffel Zero', staffelImTitel('Fate/Zero') === 1)
+  pruefe('ein Jahr in Klammern auch nicht', staffelImTitel('Captain Tsubasa (2018)') === 1)
+}
+
 console.log()
 if (fehler.length) {
   console.error(`${fehler.length} Zusicherung(en) verletzt.`)

@@ -1332,10 +1332,29 @@ async function speicherSchreiben(werte) {
    */
   const staffelImTitel = (t) => {
     const s = (t ?? '').toLowerCase()
+    /*
+      **Anbieter schreiben Staffeln auf ein halbes Dutzend Arten.**
+
+      „Staffel 2" und „Season 2" waren der einfache Fall. Daneben stehen im
+      Bestand: „Golden Kamuy 2" (nackte Zahl), „Food Wars! The Second Plate"
+      (ausgeschriebenes Zahlwort mit eigenem Substantiv), „2nd Season". Alle
+      drei galten als Staffel 1 — und damit meldete die Erweiterung am
+      27.08.2026 die erste Staffel für einen Auftrag, der die zweite meinte
+      (Daniel: „golden kamuy 2 hat für staffel 1 gemeldet, ist das richtig so?").
+
+      Die nackte Zahl bleibt bewusst auf 2 bis 9 beschränkt: „Fate/Zero" und
+      „Ranking of Kings" enden auch auf Ziffern, und eine dreistellige Zahl war
+      noch nie eine Staffel.
+    */
+    const WORTE = { second: 2, zweite: 2, third: 3, dritte: 3, fourth: 4, vierte: 4, fifth: 5 }
     const treffer =
-      /\b(?:staffel|season|teil|part|cour)\s*(\d+)\b/.exec(s) ??
-      /\b(\d+)(?:st|nd|rd|th)?\s*(?:staffel|season)\b/.exec(s)
-    return treffer ? Number(treffer[1]) : 1
+      /\b(?:staffel|season|teil|part|cour|plate)\s*(\d+)\b/.exec(s) ??
+      /\b(\d+)(?:st|nd|rd|th)?\s*(?:staffel|season|plate)\b/.exec(s)
+    if (treffer) return Number(treffer[1])
+    const wort = /\b(second|zweite|third|dritte|fourth|vierte|fifth)\b/.exec(s)?.[1]
+    if (wort) return WORTE[wort]
+    const nackt = /\s([2-9])\s*$/.exec(s)?.[1]
+    return nackt ? Number(nackt) : 1
   }
 
   /**
@@ -1771,7 +1790,40 @@ async function speicherSchreiben(werte) {
       hier = 0
     }
     const buendel = auftrag.folgen && hier > auftrag.folgen ? { von: hier - auftrag.folgen + 1, bis: hier } : null
+    /*
+      **Die offene Staffel muss die gesuchte sein.**
+
+      Der Sprung landet auf der Serienseite, und die zeigt Staffel 1. Wer dort
+      meldet, meldet die erste Staffel für einen Auftrag, der die zweite meint —
+      genau so geschehen bei „Golden Kamuy 2" (Daniel, 27.08.2026, mit Bild).
+
+      Der Knopf verschwindet dann, statt eine falsche Meldung anzubieten; die
+      Zeile darüber sagt, was zu tun ist. Sobald Daniel die richtige Staffel
+      wählt, ist er wieder da — der Takt zeichnet ohnehin neu.
+    */
+    const gesuchteStaffel = staffelImTitel(auftrag.titel)
+    let offeneStaffel = null
+    try {
+      offeneStaffel = staffelNummer()
+    } catch {
+      offeneStaffel = null
+    }
+    /*
+      Die Prüfung gilt in beide Richtungen. „Goblin Slayer" ohne Zusatz ist bei
+      uns Staffel 1 mit 12 Folgen; der Sprung landete auf Staffel 2, die
+      ebenfalls 12 Folgen hat, und der Knopf bot an, sie zu melden (Daniel,
+      27.08.2026). Eine Fassung, die nur „ab Staffel 2" prüft, hätte das
+      durchgelassen.
+    */
+    const falscheStaffel = Number.isFinite(offeneStaffel) && offeneStaffel !== gesuchteStaffel
+    if (falscheStaffel) knopf.style.display = 'none'
     const teilZeilen = []
+    if (falscheStaffel) {
+      teilZeilen.push(
+        kastenZeile('ak-such-warn', `Hier steht Staffel ${offeneStaffel} — gesucht ist Staffel ${gesuchteStaffel}`),
+        kastenZeile('ak-such-hinweis', 'Oben die richtige Staffel wählen, dann melden'),
+      )
+    }
     if (teilBereich) {
       teilZeilen.push(kastenZeile('ak-such-gut', `Meldung gilt für Folgen ${teilBereich.von}–${teilBereich.bis}`))
     } else if (buendel) {
@@ -4079,7 +4131,25 @@ async function speicherSchreiben(werte) {
       : deutsch
         ? '🇩🇪 Deutsch'
         : '✕ kein Deutsch'
-    knopf.textContent = `${sprachStand} · ${umfang}${zugang}${kanalHinweis}${woher} · melden`
+    /*
+      **Der Knopf nennt die Staffel, die er melden würde.**
+
+      Er zeigte Sprache, Folgenzahl und Zugangsart — aber nicht, worauf sich
+      das bezieht. Bei einer Serie mit mehreren Staffeln ist genau das die
+      Frage (Daniel, 27.08.2026: „der melde button sollte dazuschreiben für
+      welche staffel er denkt das er meldet").
+
+      Bei einer Seite ohne Staffelwahl bleibt es weg — dort gibt es nichts zu
+      verwechseln.
+    */
+    let staffelText2 = null
+    try {
+      const n = staffelNummer()
+      staffelText2 = Number.isFinite(n) ? ` · Staffel ${n}` : null
+    } catch {
+      staffelText2 = null
+    }
+    knopf.textContent = `${sprachStand} · ${umfang}${staffelText2 ?? ''}${zugang}${kanalHinweis}${woher} · melden`
     knopf.dataset.teilweise = String(!vollstaendig)
   }
 
