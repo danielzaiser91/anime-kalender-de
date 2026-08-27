@@ -93,3 +93,36 @@ Erreichbar ist: **jeder Verweis mit einem Urteil, und jeder Titel mit Synchro
 mit mindestens einem Datum.** Am 26.08. waren das 1.506 Urteile und 185 Titel
 mit Datum; heute sind es 1.599 und 706 (377 mit Termin, 329 mit „Im Angebot
 seit").
+
+## Nachgemessen am 27.08.2026, nach dem Datenbau von 10:34
+
+**Die 43 Crunchyroll-Specials sind 39, und sie zerfallen in zwei Gruppen.** Gemessen am
+frisch gebauten Datensatz, nachdem die Einzelserien-Regel gelaufen war:
+
+| Format | Zahl | Was der Fall ist |
+|---|---|---|
+| TV | 17 | Echte Serien. Der Block trägt einen Zusatz im Namen oder eine andere Folgenzahl |
+| MOVIE | 10 | Filme unter der Serienadresse — Fairy Tail Phoenix Priestess, fünf Free!-Filme, zwei Rascal-Filme |
+| OVA | 9 | Sonderfolgen, meist mit eigenem Block („OVAs", 2 Folgen, beide deutsch) |
+| SPECIAL | 3 | SAO Extra Edition, zwei Tonikawa-Kurzfilme |
+
+**Die Filme und Specials sind kein Fehler, sondern eine offene Frage.** Sie stehen in keinem
+Block; dass die Serie an derselben Adresse deutsch läuft, sagt über sie nichts. Genau davor
+warnt die Präfix-Regel in `crunchyroll-dub.ts`, und sie hat recht behalten.
+
+**Bei den OVAs zeichnet sich ein Weg ab.** Mob Psycho und Miss Kobayashi führen einen eigenen
+Block „OVAs" mit zwei deutschen Folgen, und wir haben dazu genau zwei OVA-Titel. Das ist eine
+saubere Zuordnung über Format und Blockname — noch nicht gebaut, aber messbar.
+
+### Offener Verdacht: 57 gesetzte Urteile kommen nicht an
+
+Der Bau vom 27.08., 10:34 meldet **625 gesetzte Crunchyroll-Urteile** (597 + 2 + 26). Im
+ausgelieferten Datensatz stehen **568** — und **kein einziges `dub: false`**.
+
+Die Differenz passt zur Zahl der Verweise, die ein `false` bekommen und danach entfernt
+werden. Nur: `CLAUDE.md` sagt für den Handbeleg `0` ausdrücklich „Verweis **bleibt** mit ✕".
+Ob die Automatik hier strenger ist als die Handarbeit — und ob das gewollt ist —, ist noch
+nicht geklärt. Der Detektiv-Conan-Fall zeigt, was ein zu Unrecht entfernter Verweis kostet.
+
+**Nächster Griff:** im Bau mitschreiben, welche Verweise ein `false` bekommen und was danach
+mit ihnen geschieht. Vorher wird nichts geändert.
