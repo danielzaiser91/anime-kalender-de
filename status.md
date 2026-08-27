@@ -389,6 +389,12 @@ diesen Film.
 
 ### Queue
 
+**Prime-Erfassung umbauen: Sammeln trennen vom Zuordnen.** 39 Fassungen der Erweiterung an
+einem Abend (3.44–3.76), fast alle an derselben Wurzel — die Erweiterung entscheidet auf der
+Seite über Dinge, die dort nicht entscheidbar sind. Analyse, Belege und der Plan in vier
+Schritten stehen in [docs/prime-erfassung-neu.md](docs/prime-erfassung-neu.md). Nächster
+Schritt: Prüfliste um staffel/folgenTitel/erstesDatum erweitern.
+
 **Worker-Migration 016 wartet auf D1-Rechte.** `teil_von`/`teil_bis` sind im Code, in der
 Migration und in der Erweiterung fertig; `wrangler d1 migrations apply` scheitert an einem
 OAuth-Token ohne D1-Berechtigung (27.08.2026). Bis Daniel `npx wrangler login` neu ausführt,
