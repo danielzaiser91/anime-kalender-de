@@ -4218,7 +4218,36 @@ async function speicherSchreiben(werte) {
        * wie weit sie insgesamt ist, steht in der Übersicht, wo alle Zeilen
        * nebeneinander stehen.
        */
-      knopf.textContent = offen > 0 ? `✓ Staffel ${staffelText(jetzigeStaffel)} gemeldet` : '✓ alles gemeldet'
+      /*
+        **Was als Nächstes dran ist, steht am Knopf.**
+
+        „✓ Staffel 1 gemeldet" sagt, was erledigt ist, und lässt offen, was
+        folgt — bei „InuYasha" mit sieben Staffeln ist das die eigentliche
+        Frage (Daniel, 27.08.2026: „über liste könnte zB stehen ‚bitte staffel 2
+        als nächstes melden'").
+
+        Genannt wird die kleinste Staffel, die noch keine Meldung hat. Kennt die
+        Seite ihre Staffelzahl nicht oder sind alle durch, bleibt es beim
+        bisherigen Text — eine erfundene Nummer wäre schlimmer als keine.
+      */
+      const naechsteOffene = () => {
+        try {
+          const zahl = staffelZahl()
+          if (!Number.isFinite(zahl) || zahl < 2) return null
+          const fertige = erledigt[listenId]?.staffeln ?? {}
+          for (let n = 1; n <= zahl; n++) {
+            if (n !== jetzigeStaffel && !fertige[String(n)]) return n
+          }
+          return null
+        } catch {
+          return null
+        }
+      }
+      const weiterMit = offen > 0 ? naechsteOffene() : null
+      knopf.textContent =
+        offen > 0
+          ? `✓ Staffel ${staffelText(jetzigeStaffel)} gemeldet` + (weiterMit ? ` · weiter mit Staffel ${weiterMit}` : '')
+          : '✓ alles gemeldet'
       knopf.disabled = true
       knopf.dataset.deutsch = String(deutsch)
       return
