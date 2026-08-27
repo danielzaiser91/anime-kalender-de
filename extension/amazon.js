@@ -4665,11 +4665,33 @@ async function speicherSchreiben(werte) {
     const bereiche = deutschBereiche()
     const luecken = ungelesen()
     const lueckenText = luecken.length ? ` (${luecken.length} ungelesen)` : ''
+    /*
+      **Zwei Angaben, ein Bezug — und kein Urteil ohne Grundlage.**
+
+      „Folge 1–25 · 26 Folgen" las sich wie ein Widerspruch („wieso 1-25 = 26?",
+      Daniel, 27.08.2026); gerechnet war es richtig, Folge 26 führte nur
+      Französisch und Japanisch. „von" stellt den Bezug her.
+
+      Und bei „JoJo's Bizarre Adventure" Staffel 5 stand „✕ kein Deutsch (24
+      ungelesen)" — gelesen waren fünfzehn von neununddreißig, der sichtbare
+      Abschnitt hatte gar keine Antwort geliefert. Der Zusatz in Klammern rettet
+      das nicht: „kein Deutsch" steht vorn und wird gelesen, der Rest ist
+      Kleingedrucktes. Ein Urteil über eine Staffel, von der zwei Drittel
+      fehlen, ist keins.
+
+      Ein **positiver** Befund bleibt gültig: Wer deutschen Ton gefunden hat,
+      hat ihn gefunden — dafür genügt eine Folge.
+    */
+    const gesamtFolgen = gesehen.gesamtLautSeite ?? gesehen.gesamt
+    const anteilGelesen = gesamtFolgen && gesehen?.jeFolge?.size ? gesehen.jeFolge.size / gesamtFolgen : 1
+    const zuWenigGelesen = !deutsch && !bereiche && anteilGelesen < 0.34
     const sprachStand = bereiche
-      ? `🇩🇪 Folge ${bereiche}${lueckenText}`
+      ? `🇩🇪 Folge ${bereiche}${gesamtFolgen ? ` von ${gesamtFolgen}` : ''}${lueckenText}`
       : deutsch
         ? `🇩🇪 Deutsch${lueckenText}`
-        : `✕ kein Deutsch${lueckenText}`
+        : zuWenigGelesen
+          ? `? unklar — erst ${gesehen.jeFolge.size} von ${gesamtFolgen} gelesen`
+          : `✕ kein Deutsch${lueckenText}`
     /*
       **Der Knopf nennt die Staffel, die er melden würde.**
 
