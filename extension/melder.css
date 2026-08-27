@@ -473,11 +473,12 @@
   Melde-Knopf (16 px) ab, mit etwas Luft für den Weg dorthin.
 */
 .ak-amazon-schutz {
+  /* Ort und Maße setzt amazon.js aus den Rechtecken der sichtbaren Elemente. */
   position: fixed;
-  right: 0;
-  bottom: 0;
-  width: 400px;
-  height: 360px;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
   z-index: 2147483000;
   background: transparent;
   pointer-events: auto;

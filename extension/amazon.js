@@ -4149,6 +4149,54 @@ async function speicherSchreiben(werte) {
       })
     }
     document.body.appendChild(schutzflaeche)
+    schutzflaecheAnpassen()
+  }
+
+  /**
+   * **Die Fläche deckt genau das ab, was gerade zu sehen ist.**
+   *
+   * Sie war bis 3.48 ein festes Rechteck von 400 × 360 Pixeln in der Ecke —
+   * groß genug für den ausgeklappten Kasten, und damit auf jeder Seite ohne
+   * Kasten viel zu groß: Dort steht nur der Knopf „115 Prime-Suchen offen",
+   * und ringsum lagen vier Bildschirmzentimeter, in denen Amazons Karten
+   * tot waren, ohne dass etwas von uns dort stand (Daniel, 27.08.2026, mit
+   * zwei eingezeichneten Bildern: „schutz area abhängig von eingeblendeten
+   * elementen").
+   *
+   * Jetzt wird gemessen statt geschätzt: Die Fläche ist das umschließende
+   * Rechteck aller sichtbaren eigenen Elemente plus einem Rand, der den Weg
+   * des Zeigers dorthin abfängt. Ein Element weniger heißt eine kleinere
+   * Fläche, ganz ohne zweiten Satz Maße.
+   */
+  const SCHUTZ_RAND = 12
+
+  function schutzflaecheAnpassen() {
+    if (!schutzflaeche) return
+    /* Der Dialog deckt sich selbst — dahinter kommt ohnehin nichts durch. */
+    const eigene = [knopf, uebersichtKnopf, document.querySelector('.ak-amazon-suchhinweis')]
+    let links = Infinity
+    let oben = Infinity
+    let rechts = -Infinity
+    let unten = -Infinity
+    for (const el of eigene) {
+      if (!el?.isConnected || el.offsetParent === null) continue
+      const r = el.getBoundingClientRect()
+      if (!r.width || !r.height) continue
+      links = Math.min(links, r.left)
+      oben = Math.min(oben, r.top)
+      rechts = Math.max(rechts, r.right)
+      unten = Math.max(unten, r.bottom)
+    }
+    if (links === Infinity) {
+      /* Nichts von uns sichtbar — dann schützt die Fläche auch nichts. */
+      schutzflaeche.style.display = 'none'
+      return
+    }
+    schutzflaeche.style.display = ''
+    schutzflaeche.style.left = `${Math.max(0, links - SCHUTZ_RAND)}px`
+    schutzflaeche.style.top = `${Math.max(0, oben - SCHUTZ_RAND)}px`
+    schutzflaeche.style.width = `${rechts - links + SCHUTZ_RAND * 2}px`
+    schutzflaeche.style.height = `${unten - oben + SCHUTZ_RAND * 2}px`
   }
 
   function taktSchritt() {
@@ -4178,6 +4226,8 @@ async function speicherSchreiben(werte) {
      * obwohl ein Klick nichts mehr bewirkt haette.
      */
     uebersichtZeichnen()
+    /* Erst nach dem Zeichnen messen: vorher stehen die Elemente noch anders. */
+    schutzflaecheAnpassen()
     taktMs = performance.now() - t0
     taktSumme += taktMs
     takte++
