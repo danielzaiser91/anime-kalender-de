@@ -298,6 +298,13 @@ const TEXTE = {
   // wie „kommt vielleicht noch" (Daniel, 22.08.2026).
   'detail.releasedLabel': 'Deutsche Synchro',
   'detail.releasedValue': 'vorhanden, Termin nicht erfasst',
+  /*
+    Eigene Beschriftung, weil „Erscheinungstermin" hier die falsche Auskunft
+    waere: Der Tag sagt, seit wann der Anbieter den Titel listet — die deutsche
+    Fassung kann Jahre aelter sein. Bei „Elfen Lied" stand „Erscheinungstermin
+    13.08.2025" fuer eine Serie von 2004 (27.08.2026, im Dev-Server gesehen).
+  */
+  'detail.offerSince': 'Im Angebot seit',
   'detail.availableFromNote':
     'Seit diesem Tag steht der Titel dort im Angebot. Die deutsche Fassung selbst kann älter sein.',
 

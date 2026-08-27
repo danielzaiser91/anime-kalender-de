@@ -2567,17 +2567,42 @@ export function DetailPanel({
                 </div>
                 <dl className="grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-slate-600 dark:text-slate-300">
                   <dt className="text-slate-400">
-                    {t(status === 'erschienen' ? 'detail.releasedLabel' : 'detail.availableFrom')}
+                    {t(title.angebotSeit ? 'detail.offerSince' : 'detail.availableFrom')}
                   </dt>
                   <dd>
-                    <Tooltip
-                      text={t(status === 'erschienen' ? 'detail.releasedNoDate' : 'detail.noRelease')}
-                      unterstrichen
-                    >
-                      <span className="opacity-70">
-                        {t(status === 'erschienen' ? 'detail.releasedValue' : 'detail.unknown')}
-                      </span>
-                    </Tooltip>
+                    {/*
+                      **Ein Datum, wo bisher „unbekannt" stand.**
+
+                      329 Titel mit belegter deutscher Synchro haben keinen
+                      Termin — erschienen, bevor der Kalender sie kannte. Für sie
+                      führt die Streaming Availability API ein `availableSince`:
+                      seit wann der Anbieter den Titel listet.
+
+                      Das ist **nicht** das Erscheinungsdatum der deutschen
+                      Fassung, und der Tooltip sagt das auch. Es ist trotzdem
+                      mehr als „unbekannt": Wer wissen will, ob ein Titel gerade
+                      erst dazukam oder schon zwei Jahre liegt, bekommt hier die
+                      Antwort.
+                    */}
+                    {title.angebotSeit ? (
+                      <Tooltip text={t('detail.availableFromNote')} unterstrichen>
+                        <span>
+                          {formatDate(title.angebotSeit.date)}
+                          <span className="ml-1 opacity-60">
+                            ({PLATFORMS[title.angebotSeit.platform]?.name ?? title.angebotSeit.platform})
+                          </span>
+                        </span>
+                      </Tooltip>
+                    ) : (
+                      <Tooltip
+                        text={t(status === 'erschienen' ? 'detail.releasedNoDate' : 'detail.noRelease')}
+                        unterstrichen
+                      >
+                        <span className="opacity-70">
+                          {t(status === 'erschienen' ? 'detail.releasedValue' : 'detail.unknown')}
+                        </span>
+                      </Tooltip>
+                    )}
                   </dd>
                 </dl>
               </section>
