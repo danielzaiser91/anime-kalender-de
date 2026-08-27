@@ -428,7 +428,14 @@
   position: fixed;
   right: 16px;
   bottom: 108px;
-  z-index: 2147483000;
+  /*
+    **Ganz oben, sonst klappt Amazons Karte darüber.**
+    Fährt die Maus über eine Ergebniskarte, vergrößert Prime Video sie und legt
+    sie über alles, was tiefer liegt — der Kasten verschwand darunter (Daniel,
+    27.08.2026, mit Bild). Derselbe Höchstwert wie beim Melde-Knopf; der Kasten
+    fängt den Zeiger dann selbst ab, und die Karte darunter reagiert nicht mehr.
+  */
+  z-index: 2147483647;
   max-width: 340px;
   padding: 10px 14px;
   border: 1px solid rgb(255 255 255 / 20%);

@@ -136,7 +136,7 @@ console.log('Zusicherungen für die Prime-Suchseiten\n')
 const treffer = lauf('/s', '?k=Cowboy+Bebop&i=instant-video&crid=2XYZ')
 pruefe('Aufbau auf der Suchseite läuft durch', !treffer.absturz, treffer.absturz?.message)
 
-const kasten = treffer.angehaengt.find((e) => /Anime-Kalender sucht/.test(kastenText(e)))
+const kasten = treffer.angehaengt.find((e) => /Cowboy Bebop/.test(kastenText(e)))
 pruefe('Hinweis erscheint auf einer gelisteten Suchseite', Boolean(kasten))
 pruefe(
   'der Hinweis nennt den gemeinten Titel',
@@ -174,7 +174,7 @@ pruefe('er trägt den Titel', gemerkt?.titel === 'Cowboy Bebop', gemerkt?.titel)
 const fremd = lauf('/s', '?k=Kaffeemaschine&i=aps')
 pruefe(
   'eine Suche außerhalb der Liste erzeugt keinen Hinweis',
-  !fremd.angehaengt.some((e) => /Anime-Kalender sucht/.test(kastenText(e))),
+  !fremd.angehaengt.some((e) => /Cowboy Bebop/.test(kastenText(e))),
 )
 pruefe(
   'und hinterlegt keinen Auftrag',
@@ -262,7 +262,7 @@ const alsTitel = lauf('/dp/B000W9GBW6', '', {
     zeit: Date.now(),
   },
 })
-const merker = alsTitel.angehaengt.find((e) => /Meldung läuft als/.test(kastenText(e)))
+const merker = alsTitel.angehaengt.find((e) => /Meldung läuft unter diesem Titel/.test(kastenText(e)))
 pruefe('die Titelseite nennt den Titel, unter dem gemeldet wird', Boolean(merker))
 pruefe(
   'und die erwartete Folgenzahl als Erkennungsmerkmal',
@@ -274,7 +274,7 @@ pruefe(
 const ohne = lauf('/dp/B000W9GBW6', '')
 pruefe(
   'ohne Suchauftrag steht dort nichts',
-  !ohne.angehaengt.some((e) => /Meldung läuft als/.test(kastenText(e))),
+  !ohne.angehaengt.some((e) => /Meldung läuft unter diesem Titel/.test(kastenText(e))),
 )
 
 // --- 7. Trefferauswertung: Empfehlung ist kein Treffer -------------------
@@ -341,6 +341,11 @@ const kernQuelle = quelltext.slice(
 const bau = new Function(
   'document',
   [
+    /* Die Ergebnislisten-Regel steht außerhalb der Funktionen — hier mit ausschneiden. */
+    quelltext.slice(
+      quelltext.indexOf('  const ERGEBNISLISTE ='),
+      quelltext.indexOf('\n', quelltext.indexOf('  const ERGEBNISLISTE =')),
+    ),
     schneide('suchTreffer'),
     kernQuelle,
     schneide('beurteileTreffer'),
@@ -378,11 +383,41 @@ pruefe(
   cyborg.gefunden.treffer.map((t) => t.titel),
 )
 pruefe('Befund: kein Treffer bei Prime', cyborg.befund.art === 'keiner', cyborg.befund.art)
+pruefe(
+  'in der Ergebnisliste steht nichts — es gibt gar keine',
+  cyborg.gefunden.echte === 0,
+  cyborg.gefunden.echte,
+)
+
+/*
+  **Die Gegenprobe zum Angels-of-Death-Fall.** Dort stand der gesuchte Titel
+  als Karte 0 unter „Mehr entdecken" — eine erste Fassung verwarf die Liste
+  nach ihrem Namen und hielt einen vorhandenen Titel für nicht vorhanden.
+  Steht derselbe Titel dagegen in „Beste Ergebnisse", ist er ein Treffer.
+*/
+const nurEmpfehlung = werte(
+  [{ label: 'Mehr entdecken', karten: [karte('Angels of Death', 'TV Show', 'Unentitled', 'B0FQSW7VV7')] }],
+  { titel: 'Angels of Death', folgen: 12 },
+)
+pruefe(
+  'ein Titel allein unter „Mehr entdecken“ ist kein Treffer',
+  nurEmpfehlung.befund.art === 'keiner',
+  nurEmpfehlung.befund.art,
+)
+const inErgebnissen = werte(
+  [{ label: 'Beste Ergebnisse', karten: [karte('Angels of Death', 'TV Show', 'Unentitled', 'B0FQSW7VV7')] }],
+  { titel: 'Angels of Death', folgen: 12 },
+)
+pruefe(
+  'derselbe Titel in „Beste Ergebnisse“ ist einer',
+  inErgebnissen.befund.art === 'genau',
+  inErgebnissen.befund.art,
+)
 
 // Gegenprobe: eine echte Ergebnisliste wird gelesen.
 const echt = werte(
   [
-    { label: 'Ergebnisse', karten: [karte('Cowboy Bebop', 'TV Show', 'Entitled', 'B0ABCDEFGH')] },
+    { label: 'Beste Ergebnisse', karten: [karte('Cowboy Bebop', 'TV Show', 'Entitled', 'B0ABCDEFGH')] },
     { label: 'Mehr entdecken', karten: [karte('Predator', 'Movie', 'Unentitled', 'B0CHZ89BMS')] },
   ],
   { titel: 'Cowboy Bebop', folgen: 26 },
@@ -403,7 +438,7 @@ pruefe(
   Frage.
 */
 const nurFilm = werte(
-  [{ label: 'Ergebnisse', karten: [karte('Cowboy Bebop', 'Movie', 'Unentitled', 'B0B8TR93HR')] }],
+  [{ label: 'Beste Ergebnisse', karten: [karte('Cowboy Bebop', 'Movie', 'Unentitled', 'B0B8TR93HR')] }],
   { titel: 'Cowboy Bebop', folgen: 26 },
 )
 pruefe(
@@ -413,14 +448,14 @@ pruefe(
 )
 /* Umgekehrt genauso: Wir suchen den Film, Prime führt die Serie. */
 const nurSerie = werte(
-  [{ label: 'Ergebnisse', karten: [karte('Akira', 'TV Show', 'Entitled', 'B0XXXXXXXX')] }],
+  [{ label: 'Beste Ergebnisse', karten: [karte('Akira', 'TV Show', 'Entitled', 'B0XXXXXXXX')] }],
   { titel: 'Akira', folgen: 1 },
 )
 pruefe('und eine Serie ist für einen Film nur „ähnlich“', nurSerie.befund.art === 'aehnlich')
 
 /* Ohne bekannte Folgenzahl entscheidet der Typ nicht mit. */
 const ohneZahl = werte(
-  [{ label: 'Ergebnisse', karten: [karte('Akira', 'Movie', 'Entitled', 'B0XXXXXXXX')] }],
+  [{ label: 'Beste Ergebnisse', karten: [karte('Akira', 'Movie', 'Entitled', 'B0XXXXXXXX')] }],
   { titel: 'Akira', folgen: null },
 )
 pruefe('ohne Folgenzahl zählt allein der Name', ohneZahl.befund.art === 'genau', ohneZahl.befund.art)

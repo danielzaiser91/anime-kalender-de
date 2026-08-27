@@ -1234,20 +1234,41 @@ async function speicherSchreiben(werte) {
    * Dieselbe Verwechslung hat schon einmal Geld gekostet: Bei Disney+ galt die
    * Empfehlungsleiste als Staffel, und aus 86 Folgen wurden 94.
    */
+  /**
+   * **Nur eine Liste auf der Seite enthält Suchtreffer: „Beste Ergebnisse".**
+   *
+   * Prime Video stapelt auf einer Suchseite mehrere Karussells übereinander,
+   * alle aus denselben `article[data-testid="card"]`:
+   *
+   * ```
+   * ul[aria-label="Beste Ergebnisse"]              ← die Treffer
+   * ul[aria-label="Death Note -Zuschauer sahen auch"]  Empfehlung
+   * ul[aria-label="Mehr entdecken"]                    Empfehlung
+   * ```
+   *
+   * Deshalb wird eingeschlossen statt ausgeschlossen. Eine Liste zu verwerfen,
+   * weil sie „Mehr entdecken" heißt, hat zweimal danebengelegen: Bei „Angels
+   * of Death" stand der gesuchte Titel als Karte 0 genau dort, bei „009
+   * Re:Cyborg" standen dort Predator und Aliens. Der Listenname trennt also
+   * nicht Treffer von Werbung — nur der Name **dieser einen** Liste tut es.
+   *
+   * Fehlt sie ganz, hat die Suche nichts gefunden. Amazon schreibt das dann
+   * auch hin („Für … wurden keine Ergebnisse gefunden"), aber die fehlende
+   * Liste ist das robustere Merkmal: Sie hängt nicht an einem Satz.
+   */
+  const ERGEBNISLISTE = /^(beste ergebnisse|best results|ergebnisse|results)/i
+
   function suchTreffer() {
     const karten = [...document.querySelectorAll('article[data-testid="card"]')]
     const echte = karten.filter((k) => {
-      const liste = k.closest('ul')
-      const name = (liste?.getAttribute('aria-label') ?? '').toLowerCase()
-      /*
-        Verworfen wird nach dem Namen der Liste, nicht nach ihrer Position:
-        Amazon schiebt die Empfehlungen mal über, mal unter die Ergebnisse.
-      */
-      return !/mehr entdecken|more to explore|weitere titel|kunden|ähnlich/i.test(name)
+      const name = k.closest('ul')?.getAttribute('aria-label') ?? ''
+      return ERGEBNISLISTE.test(name.trim())
     })
     return {
-      /** Alle Karten — auch die Werbung. Null davon heißt: nichts gelesen. */
+      /** Alle Karten — auch die Vorschläge. Null davon heißt: nichts gelesen. */
       gesehen: karten.length,
+      /** Wie viele davon in der Ergebnisliste stehen. */
+      echte: echte.length,
       treffer: echte.map((k) => ({
         titel: k.getAttribute('data-card-title') ?? '',
         typ: k.getAttribute('data-card-entity-type') ?? '',
@@ -1333,22 +1354,46 @@ async function speicherSchreiben(werte) {
       return k.length >= 4 && (k.includes(kern) || kern.includes(k))
     })
     if (aehnlich.length) return { art: 'aehnlich', treffer: aehnlich }
+
     /*
       Null Karten heißt nicht „null Treffer", sondern „nichts gelesen" — die
       Seite war vielleicht noch nicht fertig. Ein Befund „nichts gefunden"
       beantwortet nicht, ob überhaupt gesucht wurde.
     */
     if (!gefunden.gesehen) return { art: 'unklar' }
+
+    /*
+      Karten da, aber keine trägt den Namen: Der Titel ist nicht dabei. Das
+      ist ein Befund, kein Zweifel — die Karten wurden gelesen.
+    */
     return { art: 'keiner', treffer: [] }
   }
 
-  /** Der Kasten selbst — auf der Suchseite wie auf der Titelseite derselbe. */
-  function hinweisKasten(text, ...zusatz) {
+  /** Eine Zeile im Kasten, mit eigener Klasse für ihre Rolle. */
+  function kastenZeile(klasse, text) {
+    const z = document.createElement('div')
+    z.className = klasse
+    z.textContent = text
+    return z
+  }
+
+  /**
+   * Der Kasten — auf der Suchseite wie auf der Titelseite derselbe.
+   *
+   * **Der gesuchte Titel steht oben und groß**, alles andere darunter und
+   * kleiner. Daniel am 27.08.2026: „titel des gesuchten anime ganz oben ganz
+   * groß anzeigen, damit ich nicht so viel text lesen muss."
+   *
+   * Er sieht diesen Kasten 117 Mal. Was er jedes Mal braucht, ist eine einzige
+   * Auskunft — welchen Titel suche ich gerade —, und die darf nicht in einem
+   * Absatz stehen. Der Befund darunter ist eingefärbt statt beschrieben:
+   * grün heißt gefunden, gelb heißt nichts da.
+   */
+  function hinweisKasten(titel, unterzeile, ...zusatz) {
     const kasten = document.createElement('div')
     kasten.className = 'ak-amazon-suchhinweis'
-    const zeile = document.createElement('div')
-    zeile.textContent = text
-    kasten.appendChild(zeile)
+    kasten.appendChild(kastenZeile('ak-such-titel', titel))
+    if (unterzeile) kasten.appendChild(kastenZeile('ak-such-unter', unterzeile))
     for (const z of zusatz) if (z) kasten.appendChild(z)
     document.body.appendChild(kasten)
     return kasten
@@ -1424,20 +1469,21 @@ async function speicherSchreiben(werte) {
       document.querySelector('.ak-amazon-suchhinweis')?.remove()
       const gefunden = suchTreffer()
       const befund = beurteileTreffer(auftrag, gefunden)
-      const kopf =
-        `Anime-Kalender sucht: ${auftrag.titel}` +
-        (auftrag.folgen ? `\n${auftrag.folgen} Folgen laut unserem Bestand` : '')
+      const folgen = auftrag.folgen ? `${auftrag.folgen} ${auftrag.folgen === 1 ? 'Folge' : 'Folgen'}` : ''
 
       if (befund.art === 'genau') {
+        const t = befund.treffer[0]
         hinweisKasten(
-          kopf + `\n\nTreffer: ${befund.treffer[0].titel} (${befund.treffer[0].typ})` +
-            '\nÖffne ihn — dort werden die Tonspuren gelesen.'
+          auftrag.titel,
+          folgen,
+          kastenZeile('ak-such-gut', `Treffer: ${t.titel}`),
+          kastenZeile('ak-such-hinweis', 'Öffnen — dort werden die Tonspuren gelesen'),
         )
         return
       }
 
       if (befund.art === 'unklar') {
-        hinweisKasten(kopf + '\n\nErgebnisse noch nicht gelesen.')
+        hinweisKasten(auftrag.titel, folgen, kastenZeile('ak-such-hinweis', 'Ergebnisse noch nicht gelesen …'))
         return
       }
 
@@ -1447,13 +1493,20 @@ async function speicherSchreiben(werte) {
         eigenen Verweis; er darf nie das Urteil der Serie werden.
       */
       const nurAehnlich = befund.art === 'aehnlich'
-      const text = nurAehnlich
-        ? kopf + '\n\nKein Treffer für diesen Titel. Gefunden: ' +
-          befund.treffer.map((t) => `${t.titel} (${t.typ})`).slice(0, 3).join(', ') +
-          '\nDas ist ein anderes Werk — es gehört zu einem eigenen Eintrag.'
-        : kopf + `\n\nKein Treffer bei Prime (${gefunden.gesehen} Karten gelesen, alle Empfehlungen).`
       hinweisKasten(
-        text,
+        auftrag.titel,
+        folgen,
+        nurAehnlich
+          ? kastenZeile('ak-such-warn', `Nicht dieser Titel — gefunden: ${befund.treffer.map((t) => t.titel).slice(0, 2).join(', ')}`)
+          : kastenZeile('ak-such-warn', 'Kein Treffer bei Prime'),
+        kastenZeile(
+          'ak-such-hinweis',
+          nurAehnlich
+            ? 'Anderes Werk — gehört zu einem eigenen Eintrag'
+            : gefunden.echte
+              ? `${gefunden.echte} Treffer gelesen, keiner passt`
+              : 'Keine Suchtreffer — nur Empfehlungen auf der Seite',
+        ),
         kastenKnopf('Nicht bei Prime — melden', (k) => nichtBeiPrimeMelden(auftrag, befund, k)),
       )
     }
@@ -1488,9 +1541,10 @@ async function speicherSchreiben(werte) {
     const auftrag = suchauftrag()
     if (!auftrag) return false
     hinweisKasten(
-      `Meldung läuft als: ${auftrag.titel}` +
-        (auftrag.folgen ? `\n${auftrag.folgen} Folgen laut unserem Bestand` : '') +
-        '\nZeigt diese Seite deutlich weniger, ist es ein anderes Werk.'
+      auftrag.titel,
+      auftrag.folgen ? `${auftrag.folgen} ${auftrag.folgen === 1 ? 'Folge' : 'Folgen'} erwartet` : '',
+      kastenZeile('ak-such-gut', 'Meldung läuft unter diesem Titel'),
+      kastenZeile('ak-such-hinweis', 'Zeigt die Seite deutlich weniger, ist es ein anderes Werk'),
     )
     return true
   }
