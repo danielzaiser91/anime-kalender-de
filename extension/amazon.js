@@ -625,6 +625,15 @@ async function speicherSchreiben(werte) {
         jeFolge: [...(gesehen?.jeFolge ?? new Map())].map(([nr, sp]) => [nr, sp]),
         sprachen: [...(gesehen?.sprachen ?? [])],
       })),
+      /*
+        Die Seitenlage entscheidet, ob ein Film oder eine Staffel vor uns liegt —
+        und genau da lag der Knopf am 27.08.2026 falsch: Auf der Filmseite von
+        „Halo: Legends" bot er „keine Folgen für diese Staffel" an, obwohl
+         das hätte verhindern müssen.
+      */
+      lage: sicher(() => seitenLage()),
+      istFilmSeite: sicher(() => istFilmSeite()),
+      quelltextVeraltet: sicher(() => quelltextVeraltet()),
       seite: sicher(() => ({
         titel: document.title,
         folgenImDom: document.querySelectorAll('[data-testid="episode-list-item"], li[data-automation-id^="ep-"]').length,
