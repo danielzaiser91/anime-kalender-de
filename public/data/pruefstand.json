@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-08-27T16:33:01.322Z",
+ "erzeugtAm": "2026-08-27T18:24:12.675Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -7,7 +7,7 @@
    "gemeldet": 427,
    "gesamt": 428,
    "offen": 1,
-   "ohneSeite": 121,
+   "ohneSeite": 119,
    "ziel": "https://www.amazon.de/dp/B0GKFJXSLT",
    "ziele": [
     {
@@ -20,18 +20,114 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 362,
-   "gesamt": 363,
-   "offen": 1,
-   "ohneSeite": 15,
-   "ziel": "https://www.netflix.com/title/80175351",
+   "gemeldet": 363,
+   "gesamt": 392,
+   "offen": 29,
+   "ohneSeite": 7,
+   "ziel": "https://www.netflix.com/title/70050576",
    "ziele": [
+    {
+     "url": "https://www.netflix.com/title/70050576",
+     "titel": "Das Schloss des Cagliostro"
+    },
+    {
+     "url": "https://www.netflix.com/title/70204955",
+     "titel": "Black Butler"
+    },
+    {
+     "url": "https://www.netflix.com/title/70205014",
+     "titel": "Ouran High School Host Club"
+    },
+    {
+     "url": "https://www.netflix.com/title/70208801",
+     "titel": "Bleach: The Movie - Fade to Black"
+    },
+    {
+     "url": "https://www.netflix.com/title/70213065",
+     "titel": "Samurai Champloo"
+    },
+    {
+     "url": "https://www.netflix.com/title/70260383",
+     "titel": "Bleach: The Movie - Hell Verse"
+    },
+    {
+     "url": "https://www.netflix.com/title/70266999",
+     "titel": "Angeloid: Sora no Otoshimono"
+    },
+    {
+     "url": "https://www.netflix.com/title/70305217",
+     "titel": "Kill La Kill"
+    },
+    {
+     "url": "https://www.netflix.com/title/80002073",
+     "titel": "Ghost in the Shell: Arise - Border:1 Ghost Pain"
+    },
+    {
+     "url": "https://www.netflix.com/title/80002074",
+     "titel": "Ghost in the Shell: Arise - Border:2 Ghost Whispers"
+    },
+    {
+     "url": "https://www.netflix.com/title/80021983",
+     "titel": "Ghost in the Shell: Arise - Border:3 Ghost Tears"
+    },
+    {
+     "url": "https://www.netflix.com/title/80038207",
+     "titel": "Expelled from Paradise"
+    },
+    {
+     "url": "https://www.netflix.com/title/80052668",
+     "titel": "Beyond the Boundary: Kyoukai no Kanata"
+    },
+    {
+     "url": "https://www.netflix.com/title/80075828",
+     "titel": "Miss Hokusai"
+    },
+    {
+     "url": "https://www.netflix.com/title/80090370",
+     "titel": "Detektiv Conan"
+    },
+    {
+     "url": "https://www.netflix.com/title/80134174",
+     "titel": "Haikyu!! Movie 2: Gewinner und Verlierer"
+    },
     {
      "url": "https://www.netflix.com/title/80175351",
      "titel": "Kakegurui: Das Leben ist ein Spiel"
+    },
+    {
+     "url": "https://www.netflix.com/title/80180071",
+     "titel": "Sword Art Online The Movie: Ordinal Scale"
+    },
+    {
+     "url": "https://www.netflix.com/title/80243876",
+     "titel": "Berserk"
+    },
+    {
+     "url": "https://www.netflix.com/title/80987906",
+     "titel": "Yu-Gi-Oh! Arc-V"
+    },
+    {
+     "url": "https://www.netflix.com/title/81174992",
+     "titel": "Bakugan: Battle Planet"
+    },
+    {
+     "url": "https://www.netflix.com/title/81186102",
+     "titel": "Fate/Grand Order Absolute Demonic Front: Babylonia - Initium Iter"
+    },
+    {
+     "url": "https://www.netflix.com/title/81329313",
+     "titel": "Tower of God"
+    },
+    {
+     "url": "https://www.netflix.com/title/81427482",
+     "titel": "Her Blue Sky"
+    },
+    {
+     "url": "https://www.netflix.com/title/81617962",
+     "titel": "My Isekai Life: I Gained a Second Character Class and Became the Strongest Sage in the World!"
     }
    ],
-   "naechster": "Kakegurui: Das Leben ist ein Spiel"
+   "naechster": "Das Schloss des Cagliostro"
   },
   {
    "name": "Disney+",

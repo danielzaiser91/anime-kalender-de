@@ -283,6 +283,20 @@ for versuch in $(seq 1 "$VERSUCHE"); do
       AUFBAU_KAPUTT=1
     fi
 
+    # Die Prüflisten gehören zum Aufbau, nicht zum Workflow.
+    #
+    # Sie zählen gegen `titles.json` und werden im Workflow einen Schritt nach
+    # `data:build` erzeugt — hier im Rettungszweig aber wurde nur neu gebaut.
+    # Der Prüfstand ging damit auf dem Stand von vorhin mit ins Repo.
+    #
+    # Am 27.08.2026 sichtbar geworden: Der Bau hatte acht Netflix-Adressen auf
+    # ihre Titelform gebracht, `titles.json` führte danach 7 Verweise ohne
+    # Kennung — der Prüfstand meldete weiter 15, und die Pille in der Status-App
+    # führte auf eine Liste, in der nichts stand.
+    if [ "${AUFBAU_KAPUTT:-0}" != 1 ] && ! npm run data:extension-liste; then
+      echo "::warning::Die Prüflisten sind nicht neu entstanden. Sie zählen dann gegen einen älteren Bestand."
+    fi
+
     # Was der Bestand behauptet, wird hier geprüft — nicht erst beim Deploy.
     #
     # **Der Grund ist eine Reihenfolge, die sieben rote Deploys erzeugt hat.**
