@@ -573,9 +573,34 @@ async function speicherSchreiben(werte) {
   const TAGEBUCH_MAX = 400
   const tagebuch = []
 
+  /**
+   * **Gekappt wird der einzelne Wert, nicht nur die Zahl der Einträge.**
+   *
+   * Vierhundert Einträge sind harmlos, solange jeder klein bleibt. Ein
+   * einziges Feld mit einer Folgenliste über tausend Einträge oder einem
+   * Quelltext-Ausschnitt macht daraus ein Leck, das über Stunden wächst —
+   * und die Erweiterung läuft auf jeder Prime-Seite mit (Daniel, 27.08.2026:
+   * „nur aufpassen das du kein memory leak einbaust").
+   *
+   * Deshalb: Zeichenketten auf 300 Zeichen, Listen auf 60 Einträge, alles
+   * andere fliegt raus. Was hier nicht hineinpasst, gehört ohnehin in den
+   * Zustandsteil des Berichts, der jedes Mal neu berechnet wird.
+   */
+  const kappe = (wert) => {
+    if (typeof wert === 'string') return wert.length > 300 ? wert.slice(0, 300) + '…' : wert
+    if (Array.isArray(wert)) return wert.length > 60 ? [...wert.slice(0, 60), `… +${wert.length - 60}`] : wert
+    if (wert && typeof wert === 'object') return undefined
+    return wert
+  }
+
   function notiere(was, daten) {
     try {
-      tagebuch.push({ t: new Date().toISOString(), was, ...daten })
+      const eintrag = { t: new Date().toISOString(), was }
+      for (const [k, v] of Object.entries(daten ?? {})) {
+        const gekappt = kappe(v)
+        if (gekappt !== undefined) eintrag[k] = gekappt
+      }
+      tagebuch.push(eintrag)
       if (tagebuch.length > TAGEBUCH_MAX) tagebuch.splice(0, tagebuch.length - TAGEBUCH_MAX)
     } catch {
       /* Ein Fahrtenschreiber, der die Fahrt stört, ist keiner. */
@@ -638,6 +663,21 @@ async function speicherSchreiben(werte) {
         titel: document.title,
         folgenImDom: document.querySelectorAll('[data-testid="episode-list-item"], li[data-automation-id^="ep-"]').length,
         knopfText: document.querySelector('.ak-amazon-knopf')?.textContent ?? null,
+      })),
+      /*
+        Was sonst noch das Verhalten erklärt: die Größe der Listen, der
+        laufende Suchauftrag, die Zugangsart. Alles knapp gehalten — der
+        Bericht soll gelesen werden, nicht gescrollt.
+      */
+      umfeld: sicher(() => ({
+        eintraegeInListe: Object.keys(liste ?? {}).length,
+        erledigteEintraege: Object.keys(erledigt ?? {}).length,
+        offeneSuchen: Object.keys(suchliste ?? {}).length,
+        suchauftrag: suchauftrag(),
+        zugangsart: zugangsart(),
+        abos: abos(),
+        ueberKanal: ueberKanal(),
+        teilBereich,
       })),
       tagebuch,
     }
