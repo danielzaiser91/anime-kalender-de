@@ -695,16 +695,41 @@ async function speicherSchreiben(werte) {
    *
    *     document.dispatchEvent(new CustomEvent('ak-report'))
    */
+  /**
+   * **Der Bericht landet als Datei — zwei Wege dorthin.**
+   *
+   * Das Ereignis geht aus jedem Scope, auch aus `top`: Beide Welten teilen
+   * sich das `document`.
+   *
+   *     document.dispatchEvent(new CustomEvent('ak-report'))
+   *
+   * `AK.report()` bleibt daneben stehen. Es funktioniert nur, wenn die Konsole
+   * auf den Scope der Erweiterung umgeschaltet ist — dafür war es gedacht, und
+   * genau so hat Daniel es benutzt. In 3.61 habe ich es ersatzlos gestrichen,
+   * statt beide Wege zu lassen; die Folge war „AK is not defined" an einer
+   * Stelle, an der es vorher ging (27.08.2026).
+   */
+  function berichtHerunterladen() {
+    const daten = JSON.stringify(bericht(), null, 2)
+    const a = document.createElement('a')
+    a.href = URL.createObjectURL(new Blob([daten], { type: 'application/json' }))
+    a.download = `anime-kalender-diagnose-${new Date().toISOString().replace(/[:.]/g, '-')}.json`
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+    console.log('[Anime-Kalender] Diagnosebericht heruntergeladen.')
+    return 'Bericht heruntergeladen.'
+  }
+
+  try {
+    window.AK = { bericht, report: berichtHerunterladen }
+  } catch {
+    /* Ohne window bleibt das Ereignis. */
+  }
+
   try {
     document.addEventListener('ak-report', () => {
-      const daten = JSON.stringify(bericht(), null, 2)
-      const a = document.createElement('a')
-      a.href = URL.createObjectURL(new Blob([daten], { type: 'application/json' }))
-      a.download = `anime-kalender-diagnose-${new Date().toISOString().replace(/[:.]/g, '-')}.json`
-      document.body.appendChild(a)
-      a.click()
-      a.remove()
-      console.log('[Anime-Kalender] Diagnosebericht heruntergeladen.')
+      berichtHerunterladen()
     })
   } catch {
     /* Ohne Ereignis kein Konsolenzugang — die Erweiterung läuft trotzdem. */
@@ -1857,7 +1882,22 @@ async function speicherSchreiben(werte) {
         Die ersten beiden Wörter zusammengezogen: „High School" → „HighSchool".
         Genau dieses Paar trennt bei Prime Treffer von Nichts.
       */
-      const zusammen = begriff.replace(/^(\S+)\s+(\S+)/, (_, a, b) => a + b.charAt(0).toUpperCase() + b.slice(1))
+      /*
+        **Verglichen wird mit der Suche, auf der wir stehen — nicht mit unserer.**
+
+        `begriff` kommt aus `auftrag.suchUrl`, also aus dem Bestand. Nach einem
+        Klick auf „Anders schreiben" steht in der Adresse längst die Variante,
+        der Auftrag aber unverändert — und der Knopf bot dieselbe Schreibweise
+        ein zweites Mal an (Daniel, 27.08.2026: „bietet er erneut anders
+        schreiben an aber mit identischem text").
+
+        Steht die Variante schon in der Adresse, ist der Weg zurück das
+        Sinnvolle: Beide Schreibweisen sind dann gesehen.
+      */
+      const jetzigerBegriff = decodeURIComponent((/[?&]k=([^&#]*)/.exec(location.search)?.[1] ?? '').replace(/\+/g, ' '))
+      const zusammengezogen = (t) => t.replace(/^(\S+)\s+(\S+)/, (_, a, b) => a + b.charAt(0).toUpperCase() + b.slice(1))
+      const variante = zusammengezogen(begriff)
+      const zusammen = jetzigerBegriff === variante ? begriff : variante
       const begriffZeile =
         begriff && titelKern(begriff) !== titelKern(auftrag.titel)
           ? [kastenZeile('ak-such-hinweis', `gesucht als: ${begriff}`)]
@@ -1919,6 +1959,26 @@ async function speicherSchreiben(werte) {
         Laufzeit. Also entscheidet Daniel — der Knopf steht nur da, wenn der
         Name **genau** passt und allein der Typ widerspricht.
       */
+      /*
+        **Die Reihenseite führt unsere Staffel, nur unter dem Grundtitel.**
+
+        Wir führen „Free! Dive to the Future" (Staffel 3), Prime führt „Free!"
+        mit drei Staffeln; dasselbe bei „Food Wars! The Second Plate" gegen
+        „Food Wars!" und „Golden Kamuy 2" gegen „Golden Kamuy" (Daniel,
+        27.08.2026, drei Bilder). Der Kasten sagte jedes Mal „Anderes Werk".
+
+        Erkennbar ist das am Namen: Der Kartentitel ist der Anfang unseres
+        Titels, und die Karte ist eine Serie. Der Sprung führt dann auf die
+        Reihenseite — dort wählt Daniel die Staffel, und die Sperre aus 3.59
+        passt auf, dass er die richtige erwischt.
+      */
+      const reihenTreffer = befund.treffer.find(
+        (t) =>
+          /tv|show|serie|season/i.test(t.typ) &&
+          titelKern(t.titel).length >= 4 &&
+          titelKern(auftrag.titel).startsWith(titelKern(t.titel)) &&
+          titelKern(t.titel) !== titelKern(auftrag.titel),
+      )
       const nurTypStreitig =
         nurAehnlich &&
         befund.treffer.length === 1 &&
@@ -1959,12 +2019,19 @@ async function speicherSchreiben(werte) {
           Bildern). Welche Schreibweise trifft, ist von außen nicht zu wissen —
           also wird die andere angeboten, statt sie zu erraten.
         */
-        ...(zusammen && zusammen !== begriff ? [kastenKnopf(`Anders schreiben: ${zusammen}`, () => {
+        ...(zusammen && zusammen !== jetzigerBegriff ? [kastenKnopf(`Anders schreiben: ${zusammen}`, () => {
           location.href = `https://www.amazon.de/s?k=${encodeURIComponent(zusammen)}&i=instant-video`
         })] : []),
-        ...(kurzform && kurzform !== begriff ? [kastenKnopf(`Kürzer suchen: ${kurzform}`, () => {
+        ...(kurzform && kurzform !== jetzigerBegriff ? [kastenKnopf(`Kürzer suchen: ${kurzform}`, () => {
           location.href = `https://www.amazon.de/s?k=${encodeURIComponent(kurzform)}&i=instant-video`
         })] : []),
+        ...(reihenTreffer && ohneParameter(reihenTreffer.url)
+          ? [
+              kastenKnopf(`Zur Reihe springen: ${reihenTreffer.titel}`, () => {
+                location.href = ohneParameter(reihenTreffer.url)
+              }),
+            ]
+          : []),
         ...(nurTypStreitig
           ? [
               kastenKnopf(`Als Sammelfassung öffnen: ${befund.treffer[0].titel}`, () => {
