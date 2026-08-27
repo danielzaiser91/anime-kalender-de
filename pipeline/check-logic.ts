@@ -1504,6 +1504,37 @@ console.log('\nStreaming Availability API:')
       schluesselAdresse('https://www.netflix.com/title/80040119'),
   )
 
+  /**
+   * **Zwei Amazon-Suchen sind nicht dieselbe Adresse.**
+   *
+   * Der Query-String fällt sonst weg — bei einer Titelseite richtig, bei
+   * `amazon.de/s?k=…` verhängnisvoll: Übrig bleibt `amazon.de/s`, und das ist
+   * die Adresse **jeder** Amazon-Suche.
+   *
+   * Am 27.08.2026 hat eine einzige Meldung („Cowboy Bebop gibt es dort nicht")
+   * auf diesem Weg alle **118** Prime-Suchadressen getroffen: 118 Einträge
+   * `available: false` in `dub-confirmed.yaml`, 118 entfernte Verweise, roter
+   * Deploy. Der Fehler lag latent, seit es Suchadressen gibt — ausgelöst hat
+   * ihn die erste Meldung gegen eine von ihnen.
+   */
+  pruefe(
+    'zwei Amazon-Suchen mit verschiedenem Begriff bleiben verschieden',
+    schluesselAdresse('https://www.amazon.de/s?k=Cowboy%20Bebop&i=instant-video') !==
+      schluesselAdresse('https://www.amazon.de/s?k=Full%20Metal%20Panic!&i=instant-video'),
+  )
+  /* Und dieselbe Suche bleibt dieselbe, auch mit Amazons angehängten Parametern. */
+  pruefe(
+    'dieselbe Suche trifft sich trotz crid und Schreibweise des Leerzeichens',
+    schluesselAdresse('https://www.amazon.de/s?k=Cowboy%20Bebop&i=instant-video') ===
+      schluesselAdresse('https://www.amazon.de/s?k=Cowboy+Bebop&i=instant-video&crid=2XYZ'),
+  )
+  /* Eine Titelseite verliert ihre Herkunftsangabe weiterhin — dort ist das richtig. */
+  pruefe(
+    'eine Amazon-Titelseite bleibt von der Ausnahme unberührt',
+    schluesselAdresse('https://www.amazon.de/dp/B0B8TR93HR?ref_=atv_dp') ===
+      schluesselAdresse('https://www.amazon.de/dp/B0B8TR93HR'),
+  )
+
   pruefe(
     'der Anbietername fällt aus dem Seitentitel',
     titelSchluessel('Beyblade Burst Surge – Netflix') === titelSchluessel('Beyblade Burst Surge'),

@@ -19,13 +19,35 @@
  * Herkunftsangaben an, die mit der Seite nichts zu tun haben.
  */
 export function schluesselAdresse(url: string): string {
-  return url
+  const ohne = url
     .trim()
     .replace(/^https?:\/\//i, '')
     .replace(/^www\./i, '')
     .replace(/[?#].*$/, '')
     .replace(/\/+$/, '')
     .toLowerCase()
+
+  /**
+   * **Bei einer Suchadresse ist der Suchbegriff die Adresse.**
+   *
+   * Der Query-String fällt sonst weg, und das ist bei einer Titelseite
+   * richtig: `…/dp/B0B8TR93HR?ref_=atv_dp` und `…/dp/B0B8TR93HR` sind
+   * dieselbe Seite. Bei `amazon.de/s?k=Cowboy+Bebop` bleibt danach `amazon.de/s`
+   * übrig — und das ist die Adresse **jeder** Amazon-Suche.
+   *
+   * 118 unserer Prime-Verweise sind solche Suchen. Am 27.08.2026 wurde eine
+   * einzige Meldung („Cowboy Bebop gibt es dort nicht") auf alle 118 verteilt:
+   * Sie trugen für die Zuordnung denselben Schlüssel. Der Lauf schrieb 118
+   * Einträge `available: false` in `dub-confirmed.yaml`, entfernte 118
+   * Verweise und machte den Deploy rot — gefangen hat es die Zusicherung „es
+   * gibt überhaupt Suchadressen im Bestand" in `check:zugangsart`.
+   *
+   * Der Fehler lag latent seit es Suchadressen gibt; erst die erste Meldung
+   * gegen eine von ihnen hat ihn ausgelöst.
+   */
+  /* Amazon schreibt das Leerzeichen mal als %20, mal als + — beides derselbe Begriff. */
+  const begriff = /[?&]k=([^&#]+)/.exec(url)?.[1]?.replace(/\+/g, ' ')
+  return begriff && /\/s$/.test(ohne) ? `${ohne}?k=${decodeURIComponent(begriff).toLowerCase()}` : ohne
 }
 
 /**
