@@ -1260,16 +1260,27 @@ async function speicherSchreiben(werte) {
 
   function suchTreffer() {
     const karten = [...document.querySelectorAll('article[data-testid="card"]')]
-    const echte = karten.filter((k) => {
-      const name = k.closest('ul')?.getAttribute('aria-label') ?? ''
-      return ERGEBNISLISTE.test(name.trim())
-    })
     return {
-      /** Alle Karten — auch die Vorschläge. Null davon heißt: nichts gelesen. */
+      /** Alle Karten auf der Seite. Null davon heißt: nichts gelesen. */
       gesehen: karten.length,
-      /** Wie viele davon in der Ergebnisliste stehen. */
-      echte: echte.length,
-      treffer: echte.map((k) => ({
+      /**
+       * Wie viele in der Ergebnisliste stehen — nur zur Anzeige.
+       *
+       * **Entschieden wird über den Namen, nicht über die Liste.** Drei Anläufe
+       * haben das gekostet: erst wurden Empfehlungslisten ausgeschlossen (dann
+       * fiel „Angels of Death" als Karte 0 unter „Mehr entdecken" durch), dann
+       * nur „Beste Ergebnisse" eingeschlossen (dann fiel derselbe Titel wieder
+       * durch, weil Amazon auf dieser Suchseite gar keine Ergebnisliste
+       * ausliefert — nur zwanzig Empfehlungen, deren erste der gesuchte Titel
+       * ist).
+       *
+       * Beide Male war die Liste das falsche Merkmal. Was „009 Re:Cyborg" von
+       * „Angels of Death" trennt, ist nicht, wo die Karten stehen, sondern ob
+       * eine davon so heißt wie der gesuchte Titel: Dort Saber Rider und
+       * Predator, hier „Angels of Death" auf Position 0.
+       */
+      echte: karten.filter((k) => ERGEBNISLISTE.test((k.closest('ul')?.getAttribute('aria-label') ?? '').trim())).length,
+      treffer: karten.map((k) => ({
         titel: k.getAttribute('data-card-title') ?? '',
         typ: k.getAttribute('data-card-entity-type') ?? '',
         /*
@@ -1505,7 +1516,7 @@ async function speicherSchreiben(werte) {
             ? 'Anderes Werk — gehört zu einem eigenen Eintrag'
             : gefunden.echte
               ? `${gefunden.echte} Treffer gelesen, keiner passt`
-              : 'Keine Suchtreffer — nur Empfehlungen auf der Seite',
+              : `${gefunden.gesehen} Karten gelesen, alle Empfehlungen`,
         ),
         kastenKnopf('Nicht bei Prime — melden', (k) => nichtBeiPrimeMelden(auftrag, befund, k)),
       )

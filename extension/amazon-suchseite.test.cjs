@@ -377,9 +377,20 @@ const cyborg = werte(
   { titel: '009 Re:Cyborg', folgen: 1 },
 )
 pruefe('fünf Karten gesehen', cyborg.gefunden.gesehen === 5, cyborg.gefunden.gesehen)
+/*
+  **Alle Karten werden gelesen, auch die aus Empfehlungslisten** — Daniel am
+  27.08.2026: „mehr entdecken und beste ergebnisse beide müssen geprüft
+  werden". Entschieden wird über den Namen: Hier heißt keine Karte wie der
+  gesuchte Titel, also gibt es ihn dort nicht.
+*/
 pruefe(
-  'keine davon zählt als Treffer — „Mehr entdecken“ ist Werbung',
-  cyborg.gefunden.treffer.length === 0,
+  'alle fünf Karten werden gelesen, nicht nur eine Liste',
+  cyborg.gefunden.treffer.length === 5,
+  cyborg.gefunden.treffer.length,
+)
+pruefe(
+  'keine davon trägt den gesuchten Namen',
+  cyborg.befund.art === 'keiner',
   cyborg.gefunden.treffer.map((t) => t.titel),
 )
 pruefe('Befund: kein Treffer bei Prime', cyborg.befund.art === 'keiner', cyborg.befund.art)
@@ -399,9 +410,14 @@ const nurEmpfehlung = werte(
   [{ label: 'Mehr entdecken', karten: [karte('Angels of Death', 'TV Show', 'Unentitled', 'B0FQSW7VV7')] }],
   { titel: 'Angels of Death', folgen: 12 },
 )
+/*
+  **Und er zählt auch dann, wenn keine Ergebnisliste da ist.** Bei „Angels of
+  Death" liefert Amazon zwanzig Empfehlungen und keine einzige Ergebnisliste —
+  die erste davon ist der gesuchte Titel (Daniel, 27.08.2026, mit Bild).
+*/
 pruefe(
-  'ein Titel allein unter „Mehr entdecken“ ist kein Treffer',
-  nurEmpfehlung.befund.art === 'keiner',
+  'ein Namenstreffer zählt auch unter „Mehr entdecken“',
+  nurEmpfehlung.befund.art === 'genau',
   nurEmpfehlung.befund.art,
 )
 const inErgebnissen = werte(
@@ -422,8 +438,9 @@ const echt = werte(
   ],
   { titel: 'Cowboy Bebop', folgen: 26 },
 )
-pruefe('die echte Ergebnisliste wird gelesen', echt.gefunden.treffer.length === 1)
-pruefe('und die Empfehlung daneben nicht', echt.gefunden.gesehen === 2)
+/* Die Ergebnisliste wird weiterhin erkannt — sie steht im Kastentext. */
+pruefe('die Ergebnisliste wird als solche erkannt', echt.gefunden.echte === 1, echt.gefunden.echte)
+pruefe('und die Empfehlung daneben wird trotzdem gelesen', echt.gefunden.gesehen === 2)
 pruefe('Befund: genauer Treffer', echt.befund.art === 'genau', echt.befund.art)
 pruefe(
   'der Zugang wird mitgelesen',
