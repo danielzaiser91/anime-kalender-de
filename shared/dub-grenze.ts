@@ -35,3 +35,26 @@ export function dubGrenze(
     ? { schluessel: 'detail.dubUntil', n: mitDeutsch[0]!.to }
     : { schluessel: 'detail.dubFrom', n: mitDeutsch[0]!.from }
 }
+
+/**
+ * **Wo der deutsche Ton fehlt — als Aufzählung, nicht als Grenze.**
+ *
+ * `dubGrenze()` kann nur „ab" und „bis". Das reicht, solange der Ton an einer
+ * Stelle umschlägt, und liegt falsch, sobald er es zweimal tut: Bei „Hensuki"
+ * sind die Folgen 1 bis 4 und 6 bis 12 deutsch, Folge 5 nicht — die Grenze
+ * meldete „bis Folge 4" und unterschlug acht Folgen (27.08.2026).
+ *
+ * Angezeigt wird der Anbieter trotzdem als deutsch, sobald **eine** Folge es
+ * ist (Daniels Entscheidung, 27.08.2026: „de anzeigen ab min 1 folge ist die
+ * richtige weise"). Wer es genauer braucht, klappt die Erklärung aus — und die
+ * nennt dann diese Folgen.
+ *
+ * Rückgabe ist die Aufzählung der undeutschen Folgen in Kurzform („5", „5, 9"
+ * oder „5–7"), oder null, wenn alles deutsch ist oder nichts bekannt.
+ */
+export function dubLuecken(ranges: DubBereich[] | undefined): string | null {
+  if (!ranges?.length) return null
+  const ohne = ranges.filter((r) => !r.dub).sort((a, b) => a.from - b.from)
+  if (!ohne.length || ohne.length === ranges.length) return null
+  return ohne.map((r) => (r.from === r.to ? `${r.from}` : `${r.from}–${r.to}`)).join(', ')
+}

@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { Meldung, Quelle, Release, ReleaseEvent, Title, WatchLink } from '@shared/types.ts'
-import { dubGrenze } from '@shared/dub-grenze.ts'
+import { dubGrenze, dubLuecken } from '@shared/dub-grenze.ts'
 import type { Zugangsart } from '@shared/zugangsart.ts'
 import { PLATFORMS } from '@shared/types.ts'
 import { expandEvents, lastEpisodeDate, releaseStatus, titleStatus, istErschienen } from '@shared/logic.ts'
@@ -2234,6 +2234,13 @@ export function DetailPanel({
                     <div className="flex flex-wrap gap-1.5">
                       {plattformen.map((s) => {
                         const grenze = dubGrenze(s.dubRanges)
+                        /*
+                          Lücken mitten in der Staffel kann `dubGrenze` nicht: Sie
+                          kennt nur „ab" und „bis". Bei „Hensuki" (1–4 und 6–12
+                          deutsch, 5 nicht) meldete sie „bis Folge 4" und
+                          unterschlug acht Folgen.
+                        */
+                        const luecken = dubLuecken(s.dubRanges)
                         return (
                           <Pille
                             key={s.platform}
@@ -2242,7 +2249,7 @@ export function DetailPanel({
                             url={s.url}
                             unten={
                               [
-                                grenze ? t(grenze.schluessel, { n: grenze.n }) : '',
+                                luecken ? t('detail.dubLuecken', { n: luecken }) : grenze ? t(grenze.schluessel, { n: grenze.n }) : '',
                                 (s.sharedWith ?? 0) > 1 ? t('detail.sharedUrl', { count: s.sharedWith! }) : '',
                                 s.teilBereich
                                   ? t('detail.teilBereich', { von: s.teilBereich.von, bis: s.teilBereich.bis })
