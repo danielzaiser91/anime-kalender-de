@@ -67,8 +67,12 @@ Von 1.276 Titeln mit Synchro haben 377 einen Termin. Der Rest teilt sich so:
 
 ## Was als Nächstes trägt
 
-1. **Prime-Suchadressen in der Erweiterung** — 118 Einträge, die heute niemand
-   prüfen kann. Der einzige verbliebene Weg mit dreistelligem Ertrag.
+1. ~~**Prime-Suchadressen in der Erweiterung**~~ — **gebaut am 27.08.2026** (3.39).
+   Auf einer gelisteten Suchseite steht jetzt, welcher Titel gemeint ist und wie viele
+   Folgen unser Bestand dazu führt; der Klick auf den richtigen Treffer trägt den
+   Auftrag auf die Titelseite, wo die gewohnte Prüfung läuft. Gemeldet wird unter der
+   Suchadresse — die kennt der Datensatz —, und die Übernahme macht daraus den echten
+   Verweis. Wartet auf Daniels erste Runde.
 2. **Die 43 Crunchyroll-Specials** — Filme und OVAs, die in keinem Block stehen.
    Je Fall eine Entscheidung; automatisch nicht zu klären.
 3. **Kalender auf Folgen-Ebene** — die Daten liegen (1.746 AniList-Sprechrollen,

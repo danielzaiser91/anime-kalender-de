@@ -1,6 +1,11 @@
 # Status: anime-kalender-de
 
-Stand: 25.08.2026 · Live: https://anime-kalender.de/
+Stand: 27.08.2026 · Live: https://anime-kalender.de/
+
+**Der aktuelle Plan steht in [PLAN.md](PLAN.md)** — mit gemessenen Zahlen und der Frage,
+was noch von einem vollständigen Kalender trennt. Was hier darunter steht, ist die
+Arbeitsgeschichte: die Pläne früherer Tage, ihre Messungen und ihre Begründungen. Sie bleibt
+stehen, weil eine verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 ## Task Queue
 
@@ -8,8 +13,25 @@ Stand: 25.08.2026 · Live: https://anime-kalender.de/
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
+| **Prime-Suchadressen prüfen** | — | Erweiterung 3.39 zeigt auf den 118 Suchseiten, welcher Titel gemeint ist. Wartet auf Daniels erste Runde |
+| **Delta-Überwachung** | 1 | `node tools/delta-pruefen.mjs` täglich ansehen, bis zum 30.08.2026. Bisher unauffällig: Titel ±0, Urteile +4 |
 
-### Der Plan, Stand 25.08.2026, 15:00
+### Erledigt seit dem 25.08.2026
+
+Die Phasen 1 und 2 des Plans vom 25.08. sind durch — sie stehen unten unverändert, weil ihre
+Messungen weiter gelten:
+
+| | Was daraus wurde |
+|---|---|
+| **1.1–1.5 Crunchyroll je Folge** | Suchweg im deutschen Katalog gefunden (anonymes Bearer-Token per POST), Serienkennung wird gesucht statt aus der Adresse geraten, die Tonspur je Folge gelesen. Conan als Prüfstein hält |
+| **2.1–2.3 Erweiterung** | Disney+ vollständig erschlossen — 558 Meldungen zu 31 Titeln über den Playback-Aufruf, ohne Player und ohne DRM. Netflix und Prime laufen |
+| **Prime-Suchadressen** | 27.08.2026, Erweiterung 3.39: der Hinweis auf der Suchseite und die Adressberichtigung in der Übernahme. Der letzte Weg mit dreistelligem Ertrag |
+
+**Offen geblieben und in [PLAN.md](PLAN.md) fortgeschrieben:** die 43 Crunchyroll-Specials
+ohne Block, die 287 Serien, die der deutsche Katalog gar nicht führt, und der Umbau der
+Oberfläche auf Folgen-Ebene.
+
+### Der Plan, Stand 25.08.2026, 15:00 (erledigt, siehe oben)
 
 **Gemessen, nicht geschätzt** — alle Zahlen aus dem heute ausgelieferten Datensatz:
 
