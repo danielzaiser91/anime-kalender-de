@@ -176,3 +176,44 @@ beantworten.
 Die Laufzeit ist dabei der Fall, den Daniel selbst benannt hat: Ohne sie ist von
 außen nicht zu unterscheiden, ob ein Anbieter eine Anthologie am Stück zeigt
 oder einen anderen Film führt.
+
+## Wohin die Rohdaten gehören — und wohin nicht
+
+Daniels Vorgabe, 28.08.2026: „die masse an daten landet schlussendlich nicht auf
+der webseite als toter code … für die webseite sollten nur wirklich angezeigte
+daten den size ausmachen."
+
+Das ist bindend und schränkt den Plan ein. Gemessen am heutigen Stand:
+
+| Datei | Größe | Wer lädt sie |
+|---|---|---|
+| `public/data/titles-core.json` | 244 KB | jeder Seitenaufruf |
+| `public/data/titles.json` | 2,6 MB | erst beim Öffnen eines Details |
+| `public/data/ohne-synchro.json` | 4,3 MB | nur die Datenbank-Ansicht |
+| `data/` (Repo, nicht ausgeliefert) | 120 MB | niemand im Browser |
+
+Die Trennung steht also bereits: `titles-core.json` trägt, was die Kalenderliste
+braucht, alles andere wird nachgeladen. **Die neuen Rohdaten kommen in keine
+dieser Dateien.**
+
+Sie liegen an zwei Orten:
+
+1. **In der Worker-Datenbank** (`prime_folge`) — dort landen die Meldungen, dort
+   findet die Zuordnung ihre Grundlage. Der Browser sieht davon nie etwas.
+2. **Im Repo unter `data/`** als Abzug für den Bau — dieselbe Ablage, in der
+   schon 120 MB Quellmaterial liegen, das die Seite nie erreicht.
+
+Was aus der Zuordnung in die ausgelieferten Dateien wandert, ist **das Ergebnis,
+nicht der Weg**: ob eine Folge deutschen Ton hat, in welchem Bereich, unter
+welcher Adresse. Also genau das, was heute schon in `StreamLink` steht — plus
+`teilBereich`, wo eine Reihe gebündelt liegt.
+
+Nicht ausgeliefert werden: Folgentitel, Beschreibungen, Erscheinungsdaten,
+Laufzeiten, Amazon-Kennungen, GTIs, Studios, Genres, FSK-Angaben, Bild-Adressen.
+Sie sind Werkzeug der Zuordnung und für den Besucher ohne Wert — er sieht die
+Folgentitel bei Amazon selbst.
+
+**Prüfgriff vor jedem Schritt des Umbaus:** Wächst `titles-core.json`? Wenn ja,
+gehört das Feld nicht dorthin. Die Zahl steht im Bau und lässt sich vergleichen;
+ein Wachstum ohne sichtbaren Gegenwert im Kalender ist ein Fehler, kein
+Nebeneffekt.
