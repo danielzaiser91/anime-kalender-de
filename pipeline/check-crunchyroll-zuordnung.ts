@@ -448,5 +448,61 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
   )
 }
 
+/**
+ * Die einzige Serie an der Adresse bekommt den Block — ein Film nicht.
+ *
+ * Ist genau ein Titel offen und ist er eine Serie, gehören ihm die deutschen
+ * Folgen dieser Adresse. Der gefährliche Teil ist die Ausnahme: „Fairy Tail:
+ * Phoenix Priestess" ist ein Film an einer Adresse, deren Blöcke 175 deutsche
+ * Serienfolgen führen — der Film selbst kann trotzdem untertitelt sein.
+ */
+{
+  const mitBloecken = {
+    url: 'https://www.crunchyroll.com/de/series/TEST/fairy-tail',
+    seriesId: 'TEST',
+    quelle: 'api' as const,
+    katalog: 'de' as const,
+    geprueftAm: '2026-08-27',
+    deutschImAngebot: true,
+    staffeln: [{ name: 'Fairy Tail', folgen: 175, kacheln: 175, deutsch: 175, fremd: 0 }],
+  }
+  const mach = (id: number, name: string, folgen: number, format: string) =>
+    ({ id, titleRomaji: name, titleEn: name, episodes: folgen, format, streams: [] }) as never
+
+  const serie = beurteileJeBlock(mitBloecken as never, [mach(1, 'Fairy Tail', 175, 'TV')])
+  pruefe('die einzige Serie bekommt den Block', serie.length === 1 && serie[0]!.dub === true, serie)
+
+  const film = beurteileJeBlock(mitBloecken as never, [
+    mach(2, 'Fairy Tail: Phoenix Priestess', 1, 'MOVIE'),
+  ])
+  pruefe('ein Film an derselben Adresse bekommt nichts', film.length === 0, film)
+
+  const special = beurteileJeBlock(mitBloecken as never, [
+    mach(3, 'Fairy Tail OVA', 5, 'OVA'),
+  ])
+  pruefe('ein OVA-Block bekommt nichts', special.length === 0, special)
+
+  /* Zwei offene Titel: dann entscheidet wieder der Name. */
+  const zwei = beurteileJeBlock(mitBloecken as never, [
+    mach(4, 'Fairy Tail', 175, 'TV'),
+    mach(5, 'Fairy Tail Final Season', 51, 'TV'),
+  ])
+  pruefe(
+    'bei zwei offenen Titeln greift nur der Namensvergleich',
+    zwei.length === 1 && zwei[0]!.titleId === 4,
+    zwei,
+  )
+
+  /* Und ohne deutschen Block bleibt es bei nichts. */
+  const ohneDeutsch = {
+    ...mitBloecken,
+    staffeln: [{ name: 'Fairy Tail', folgen: 175, kacheln: 175, deutsch: 0, fremd: 175 }],
+  }
+  pruefe(
+    'ohne deutsche Folgen kein Urteil',
+    beurteileJeBlock(ohneDeutsch as never, [mach(6, 'Fairy Tail', 175, 'TV')]).length === 0,
+  )
+}
+
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

@@ -587,6 +587,44 @@ export function beurteileJeBlock(serie: CrSerie, unsere: Title[]): Urteil[] {
       .replace(/\((german dub|dt\. opening|deutscher dub)\)/g, '')
       .replace(/[^a-z0-9]/g, '')
 
+  /**
+   * **Eine einzelne Serie an der Adresse braucht keinen Namensvergleich.**
+   *
+   * Ist genau **ein** Titel offen und ist er eine Serie, dann gehören ihm die
+   * deutschen Folgen dieser Adresse — welcher Block sie führt, ändert daran
+   * nichts. Gemessen am 27.08.2026 an den Fällen, die der Namensvergleich
+   * liegen ließ:
+   *
+   * | Unser Titel | Blöcke | warum der Name nicht half |
+   * |---|---|---|
+   * | Durarara!! (24) | „Durarara (German Dub)": 25 deutsch | Zusatz im Namen |
+   * | One-Punch Man (12) | „Season 1": 12 deutsch | Block heißt nur „Season 1" |
+   * | Sound! Euphonium (13) | „Sound! Euphonium": 14 deutsch | 13 ≠ 14 |
+   *
+   * **Specials und Filme sind ausgenommen**, und das ist der Kern der Regel:
+   * Sie stehen in keinem der Blöcke. „Fairy Tail: Phoenix Priestess" ist ein
+   * Film an einer Adresse, deren Blöcke 175 deutsche Serienfolgen führen — der
+   * Film selbst könnte trotzdem untertitelt sein. „Sword Art Online EXTRA
+   * EDITION" genauso.
+   *
+   * Bleiben mehrere Titel offen, entscheidet weiterhin der Name: Bei „Free!"
+   * hängen vier Specials an einer Adresse, und nur einer der Blöcke führt
+   * Deutsch.
+   */
+  const serien = unsere.filter((t) => t.format === 'TV' || t.format === 'ONA')
+  if (serien.length === 1 && unsere.length === 1) {
+    const deutscher = bloecke.find((b) => (b.deutscheFolgen?.length ?? b.deutsch ?? 0) > 0)
+    if (deutscher) {
+      return [
+        {
+          titleId: serien[0]!.id,
+          dub: true,
+          grund: `einzige Serie an dieser Adresse; Block „${deutscher.name}" führt deutsche Folgen`,
+        },
+      ]
+    }
+  }
+
   const raus: Urteil[] = []
   for (const titel of unsere) {
     const namen = [titel.titleRomaji, titel.titleEn, titel.titleDe].map(kurz).filter((n) => n.length >= 4)
