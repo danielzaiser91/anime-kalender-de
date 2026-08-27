@@ -1,5 +1,5 @@
 {
-  "stand": "2026-08-27T18:36:57.997Z",
+  "stand": "2026-08-27T20:37:28.571Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -719,7 +719,7 @@
       "seriesId": "GVDHX8JD2",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-08-21",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 21066,
@@ -879,7 +879,7 @@
       "seriesId": "GMEHMEWZM",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 5081,
@@ -949,7 +949,7 @@
       "seriesId": "GRK5Z4P96",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-08-21",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 101283,
@@ -3199,7 +3199,7 @@
       "seriesId": "GYGGV94PY",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-08-21",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 14967,
@@ -4169,7 +4169,7 @@
       "seriesId": "GYK5X1NGR",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-08-22",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 237,
