@@ -3527,6 +3527,32 @@ async function speicherSchreiben(werte) {
       knopf.style.display = 'none'
       return
     }
+
+    /*
+      **Die Staffelsperre gehört in den Takt, nicht in den Kasten.**
+
+      Sie stand bis 3.71 in `zeigeAuftragshinweis()` — und der zeigt sich nur
+      auf der Seite, zu der der Auftrag gehört. Wer dort die Staffel wechselt,
+      verliert Kasten und Sperre zugleich: Bei einem Auftrag für „Golden Wind"
+      (Staffel 4, 39 Folgen) bot der Knopf auf der Seite von Stardust Crusaders
+      (Staffel 2, 48 Folgen) das Melden an (Daniel, 27.08.2026).
+
+      Die Folgenzahl entscheidet mit, weil viele Titel ihre Staffel gar nicht im
+      Namen tragen: „Golden Wind" ist die vierte, steht aber nirgends als solche
+      geschrieben. Weicht die Zahl der Seite deutlich von der erwarteten ab —
+      mehr als ein Viertel —, ist es die falsche Staffel.
+    */
+    const auftragJetzt = eintrag?.ausSuche ? suchauftrag() : null
+    if (auftragJetzt?.folgen && Number.isFinite(gesehen?.gesamt) && gesehen.gesamt > 0) {
+      const abweichung = Math.abs(gesehen.gesamt - auftragJetzt.folgen) / auftragJetzt.folgen
+      if (abweichung > 0.25) {
+        notiere('falsche-staffel', { erwartet: auftragJetzt.folgen, hier: gesehen.gesamt })
+        knopf.style.display = ''
+        knopf.disabled = true
+        knopf.textContent = `✕ ${gesehen.gesamt} Folgen hier, ${auftragJetzt.folgen} erwartet — andere Staffel wählen`
+        return
+      }
+    }
     /*
       **Einmal berechnen, mehrfach lesen.**
 
