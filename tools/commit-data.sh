@@ -35,6 +35,9 @@ VERSUCHE="${2:-3}"
 QUELLEN=(
   data/anisearch.json
   data/crunchyroll.json
+  # Was ein Lauf an Verweisen entfernt hat, mit Grund und Prüfdatum. Kein
+  # Erzeugnis der Website, sondern das Gedächtnis dazu — siehe build.ts.
+  data/verweise-entfernt.json
   data/adn.json
   # Fehlte hier, seit es die Datei gibt — gefunden am 14.08.2026 durch die neue
   # Prüfung in `tools/check-workflows.mjs`. `npm run data:adn:catalog` läuft

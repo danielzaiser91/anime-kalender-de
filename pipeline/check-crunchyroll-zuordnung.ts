@@ -59,6 +59,44 @@ const urteil = (s: CrSerie, ts: Title[]) => {
   return m
 }
 
+/*
+  **Ein Verweis ohne Block im deutschen Katalog wird entfernt.**
+
+  Seit dem 27.08.2026 gilt neben Crunchyrolls ausdrücklichem „Videos nicht
+  mehr verfügbar" ein zweiter Fall: HTTP 200, aber null Staffeln. 287
+  Verweise waren so, und alle drei Stichproben, die Daniel in seiner
+  angemeldeten deutschen Sitzung geöffnet hat, zeigten „Keine Videos
+  verfügbar" — Witch Hunter Robin, Trinity Blood, Chrono Crusade.
+
+  Die Regel steht in `build.ts` und ist bewusst eng. Diese Zusicherungen
+  halten ihre beiden Bedingungen fest, denn genau daran hängt, ob sie
+  irgendwann einen Verweis entfernt, den es sehr wohl gibt.
+*/
+{
+  const regel = (s: { seriesId?: string; katalog?: string; staffeln?: unknown[] }) =>
+    Boolean(s.seriesId) && s.katalog === 'de' && !(s.staffeln ?? []).length
+
+  pruefe(
+    'deutscher Katalog, Kennung da, kein Block: der Verweis fliegt',
+    regel({ seriesId: 'G1XHJVWK5', katalog: 'de', staffeln: [] }),
+  )
+  /* Aus dem US-Katalog wird nie ein Nein — der Kern der Crunchyroll-Regel. */
+  pruefe(
+    'derselbe Befund aus dem US-Katalog entfernt nichts',
+    !regel({ seriesId: 'G1XHJVWK5', katalog: 'us', staffeln: [] }),
+  )
+  /* Ohne Kennung wurde gar nicht richtig gefragt. */
+  pruefe(
+    'ohne Serienkennung entfernt nichts',
+    !regel({ katalog: 'de', staffeln: [] }),
+  )
+  /* Und eine Serie mit Blöcken bleibt selbstverständlich. */
+  pruefe(
+    'ein Block im deutschen Katalog schützt den Verweis',
+    !regel({ seriesId: 'GW4HM7NV3', katalog: 'de', staffeln: [{}] }),
+  )
+}
+
 console.log('Zusicherungen für die Crunchyroll-Zuordnung\n')
 
 /**
