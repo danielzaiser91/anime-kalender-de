@@ -1181,6 +1181,16 @@ async function speicherSchreiben(werte) {
     }
   }
 
+  /** Der Auftrag ist abgearbeitet — Speicher leeren, Kasten entfernen. */
+  function suchauftragVergessen() {
+    try {
+      sessionStorage.removeItem(SUCH_SCHLUESSEL)
+    } catch {
+      /* Ohne Speicher gab es auch nichts zu vergessen. */
+    }
+    document.querySelector('.ak-amazon-suchhinweis')?.remove()
+  }
+
   function suchauftrag() {
     try {
       const roh = sessionStorage.getItem(SUCH_SCHLUESSEL)
@@ -2366,6 +2376,15 @@ async function speicherSchreiben(werte) {
 
   listenId = listenSchluessel()
   let eintrag = eintragFuer(listenId)
+  /*
+    **Auf einer Suchseite gibt es nichts zu melden.**
+
+    Der rote Knopf „✕ keine Folgen für diese Staffel — melden" stand am
+    27.08.2026 auf `amazon.de/s?k=Anonymous+Noise` — einer Trefferliste ohne
+    Staffel, ohne Folgen und ohne Kennung. Er kam dorthin, weil ein Auftrag
+    aus der Suche als Listeneintrag gilt (3.47, damit der Sprung meldet); für
+    die Suchseite selbst gilt das gerade nicht.
+  */
   if (!aufSuchseite) zeigeAuftragshinweis()
 
   // --- Der Knopf -----------------------------------------------------------
@@ -2892,6 +2911,23 @@ async function speicherSchreiben(werte) {
   }
 
   function zeichnen() {
+    /*
+      **Auf einer Suchseite gibt es nichts zu melden — in jedem Takt.**
+
+      Eine Trefferliste hat keine Staffel, keine Folgen und keine Kennung. Der
+      Knopf stand dort trotzdem, mit wechselndem Text: erst „✕ keine Folgen für
+      diese Staffel — melden", dann „Folgen werden geladen …" (Daniel,
+      27.08.2026, zwei Bilder). Er kam dorthin, weil ein Auftrag aus der Suche
+      seit 3.47 wie ein Listeneintrag zählt — richtig für die Titelseite, auf
+      die der Sprung führt, falsch für die Suchseite selbst.
+
+      Die Prüfung steht hier und nicht einmalig beim Aufbau: Der Takt zeichnet
+      alle 500 ms neu und setzte die Anzeige jedes Mal zurück.
+    */
+    if (aufSuchseite) {
+      knopf.style.display = 'none'
+      return
+    }
     /*
       **Einmal berechnen, mehrfach lesen.**
 
@@ -4117,6 +4153,13 @@ async function speicherSchreiben(werte) {
     schutzflaeche = document.createElement('div')
     schutzflaeche.className = 'ak-amazon-schutz'
     schutzflaeche.title = 'Anime-Kalender — Diese Ecke gehört dem Anime-Kalender'
+    /*
+      **Sichtbar, bis sie sitzt.** Eine unsichtbare Fläche, die nicht wirkt,
+      lässt sich nicht beurteilen — Daniel am 27.08.2026: „statt transparent
+      zeig es, damit ich sehe wo es liegt aktuell". Der Rahmen verschwindet
+      wieder, sobald die Fläche nachweislich greift.
+    */
+    schutzflaeche.classList.add('ak-schutz-sichtbar')
     /* Der Zeiger endet hier; die Karte darunter erfährt nichts davon. */
     /*
       **Alle Zeigerereignisse, nicht nur der Hover.** Die Fläche ist selbst das
@@ -4709,6 +4752,13 @@ async function speicherSchreiben(werte) {
           und eine Suchadresse nichts davon hat.
         */
         if (eintrag.ausSuche && eintrag.url) await suchAbhaken(eintrag.url)
+        /*
+          Und der Kasten verschwindet mit ihm. Er sagt „Meldung läuft unter
+          diesem Titel" — nach der Meldung läuft nichts mehr, und er stand
+          trotzdem weiter da (Daniel, 27.08.2026: „erfolgreich gemeldet,
+          großes div muss entsprechend verschwinden").
+        */
+        if (eintrag.ausSuche) suchauftragVergessen()
         uebersichtZeichnen()
       }
     } catch (err) {

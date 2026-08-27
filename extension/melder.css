@@ -483,3 +483,19 @@
   background: transparent;
   pointer-events: auto;
 }
+
+/*
+  Die Schutzfläche zeigt sich, solange sie nicht nachweislich greift.
+
+  Eine unsichtbare Fläche, die nicht wirkt, lässt sich nicht beurteilen: Man
+  sieht die aufgeklappte Karte, aber nicht, ob die Fläche daneben, darunter
+  oder gar nicht liegt (Daniel, 27.08.2026: „statt transparent zeig es, damit
+  ich sehe wo es liegt aktuell").
+
+  Der Rahmen fliegt raus, sobald der Schutz sitzt.
+*/
+.ak-amazon-schutz.ak-schutz-sichtbar {
+  background: rgba(255, 60, 60, 0.22);
+  outline: 2px dashed rgba(255, 90, 90, 0.9);
+  outline-offset: -2px;
+}
