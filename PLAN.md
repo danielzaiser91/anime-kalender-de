@@ -114,15 +114,16 @@ warnt die Präfix-Regel in `crunchyroll-dub.ts`, und sie hat recht behalten.
 Block „OVAs" mit zwei deutschen Folgen, und wir haben dazu genau zwei OVA-Titel. Das ist eine
 saubere Zuordnung über Format und Blockname — noch nicht gebaut, aber messbar.
 
-### Offener Verdacht: 57 gesetzte Urteile kommen nicht an
+### Geklärt: die 57 „fehlenden" Urteile sind entfernte Neins
 
-Der Bau vom 27.08., 10:34 meldet **625 gesetzte Crunchyroll-Urteile** (597 + 2 + 26). Im
-ausgelieferten Datensatz stehen **568** — und **kein einziges `dub: false`**.
+Der Bau vom 27.08., 10:34 meldet **625 gesetzte Crunchyroll-Urteile** (597 + 2 + 26), im
+ausgelieferten Datensatz stehen **568** — und kein einziges `dub: false`.
 
-Die Differenz passt zur Zahl der Verweise, die ein `false` bekommen und danach entfernt
-werden. Nur: `CLAUDE.md` sagt für den Handbeleg `0` ausdrücklich „Verweis **bleibt** mit ✕".
-Ob die Automatik hier strenger ist als die Handarbeit — und ob das gewollt ist —, ist noch
-nicht geklärt. Der Detektiv-Conan-Fall zeigt, was ein zu Unrecht entfernter Verweis kostet.
+Das ist kein Verlust, sondern eine Entscheidung vom 15.08.2026: Ein Verweis mit belegtem
+Nein wird entfernt, weil diese Seite eine Frage beantwortet und zwar wo ein Anime auf
+**Deutsch** zu sehen ist. Die Stelle steht in `build.ts` und protokolliert sich selbst
+(„… Verweise ohne deutsche Synchro entfernt").
 
-**Nächster Griff:** im Bau mitschreiben, welche Verweise ein `false` bekommen und was danach
-mit ihnen geschieht. Vorher wird nichts geändert.
+`CLAUDE.md` sagte an der Kurzschrift-Tabelle noch „Verweis bleibt mit ✕" — der Stand von
+davor. Berichtigt am 27.08.2026, samt der Rechnung oben: Wer Baulog gegen Datensatz hält,
+findet dort zwangsläufig weniger Urteile und darf daraus nichts schließen.

@@ -326,9 +326,24 @@ Zwei Folgen daraus:
 | Zeichen | Bedeutung | wird zu |
 |---|---|---|
 | `1` | hat deutsche Synchro | `dub: true` |
-| `0` | keine deutsche Synchro, nur Untertitel | `dub: false`, Verweis bleibt mit ✕ |
+| `0` | keine deutsche Synchro, nur Untertitel | `dub: false`, **und der Verweis wird entfernt** |
 | `x` | kein Video: nicht verfügbar, tot, Weiterleitung | `available: false`, Verweis wird entfernt |
 
+**Ein belegtes Nein entfernt den Verweis — seit dem 15.08.2026.** Bis dahin blieb er stehen
+und trug ein rotes „🇩🇪 ✕"; die Begründung war, die Auskunft „dort nur Originalton" sei ja
+brauchbar. Für diese Seite ist sie es nicht: Sie beantwortet **eine** Frage, und zwar wo ein
+Anime auf Deutsch zu sehen ist (Daniel: „wir interessieren uns als app nur für deutsche
+synchros, keine anderen synchron sprachen"). Die Stelle ist `build.ts`, direkt nach den
+Anbieterrunden.
+
+Deshalb steht im ausgelieferten Datensatz bei **keinem** Verweis ein `dub: false` — nicht,
+weil keiner eins bekäme, sondern weil er danach nicht mehr da ist. Wer die Zahl der Urteile
+aus dem Baulog gegen den Datensatz hält, findet dort zwangsläufig weniger und darf daraus
+nicht auf einen Verlust schließen: Am 27.08.2026 meldete der Bau 625 Crunchyroll-Urteile,
+im Datensatz standen 568 — die Differenz waren die entfernten Neins, kein Fehler.
+
+**Ein unbeantwortetes `undefined` bleibt selbstverständlich stehen.** Es heißt „wir wissen es
+nicht", nicht „dort gibt es keine".
 Zwei Wendungen kommen so oft vor, dass Daniel sie am 20.08.2026 abgekürzt hat:
 
 | Kurzform | Was er gesehen hat | wird zu |
