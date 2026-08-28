@@ -51,7 +51,7 @@
     "data:motn:check": "tsx pipeline/check-motn.ts",
     "data:pruefungen": "tsx pipeline/fetch-pruefungen.ts",
     "data:netflix-rest": "node pipeline/list-netflix-rest.mjs",
-    "data:extension-liste": "tsx pipeline/vorschlaege-anbieter.ts && node tools/extension-offene-liste.mjs && node tools/extension-offene-amazon.mjs && node tools/extension-offene-disney.mjs && node tools/pruefstand.mjs",
+    "data:extension-liste": "tsx pipeline/vorschlaege-anbieter.ts && tsx pipeline/wiedervorlage.ts && node tools/extension-offene-liste.mjs && node tools/extension-offene-amazon.mjs && node tools/extension-offene-disney.mjs && node tools/pruefstand.mjs",
     "data:youtube:report": "node pipeline/report-youtube.mjs",
     "data:rtlplus": "node pipeline/check-rtlplus.mjs",
     "data:rtlplus:report": "node pipeline/report-rtlplus.mjs",
@@ -66,7 +66,8 @@
     "data:historie": "tsx pipeline/bestand-historie.ts",
     "check:bestand": "npm run check:handbelege && npm run check:cr-zuordnung && npm run check:quellen && npm run check:adn-gedaechtnis && npm run check:zugangsart",
     "data:tmdb-folgen": "tsx pipeline/fetch-tmdb-folgen.ts",
-    "data:vorschlaege": "tsx pipeline/vorschlaege-anbieter.ts"
+    "data:vorschlaege": "tsx pipeline/vorschlaege-anbieter.ts",
+    "data:wiedervorlage": "tsx pipeline/wiedervorlage.ts"
   },
   "dependencies": {
     "react": "^19.1.0",

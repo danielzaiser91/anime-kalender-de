@@ -72,6 +72,7 @@ QUELLEN=(
   data/tmdb-titles.json
   data/tmdb-folgen.json
   data/anbieter-vorschlaege.json
+  data/wiedervorlage.json
   data/anime-ids.json
   data/curated-ids.json
   data/source-health.json
