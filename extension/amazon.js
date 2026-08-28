@@ -1766,14 +1766,46 @@ async function speicherSchreiben(werte) {
    *   nur nummerierte Staffeln; „Final Season", „The Movie" und „Chapter"
    *   tragen keine Zahl und kämen sonst durch.
    */
+  /*
+    **Was eine Fortsetzung ankündigt — und was nur Satzbau ist.**
+
+    `the`, `ova`, `ona` und `oad` standen hier bis 3.83 mit drin und haben
+    „Code Geass: Akito the Exiled 4 — From the Memories of Hatred — OVA"
+    blockiert (Daniel, 28.08.2026). Ein Artikel kündigt keine Fortsetzung an,
+    und ein Formatkürzel am Ende schneidet `titelKernLocker` ohnehin weg.
+
+    `movie`, `film` und `special` bleiben: Sie trennen ein eigenes Werk von der
+    Serie („Jujutsu Kaisen" gegen „Jujutsu Kaisen The Movie"), und genau das ist
+    ein Unterschied, der zählt.
+  */
   const REIHENFOLGE_SPERRE =
-    /^(final|last|first|second|third|next|new|season|staffel|movie|film|the|part|teil|cour|chapter|kapitel|special|ova|ona|oad|recap|origin|beginning|end|ending|zero|plus|remake|reboot)$/i
+    /^(final|last|first|second|third|next|new|season|staffel|movie|film|part|teil|cour|chapter|kapitel|special|recap|origin|beginning|end|ending|zero|remake|reboot)$/i
   const titelWorte = (t) =>
     (t ?? '')
       .toLowerCase()
       .replace(/\b(staffel|season|vol\.?|volume|teil|part)\s*\d+\b/g, ' ')
       .split(/[^a-z0-9]+/)
       .filter((w) => w.length > 2)
+  /*
+    **Nicht jedes fremde Wort unterscheidet.** „Code Geass: Akito the Exiled —
+    Memories of Hatred" gegen die Prime-Karte „… Akito the Exiled 4 — From the
+    Memories of Hatred — OVA" (Daniel, 28.08.2026): drei Zusatzwörter, und damit
+    über der Grenze — obwohl nur eines davon etwas aussagt.
+
+        from   ein Wort des Satzbaus
+        the    Füllwort, steht im Auftrag schon einmal
+        ova    Typ-Kürzel am Ende, das `titelKernLocker` längst wegschneidet
+
+    Gezählt werden deshalb nur Wörter, die eine Sache benennen. Die Grenze von
+    zwei bleibt, sie misst jetzt nur das Richtige.
+  */
+  const FUELLWORT = new Set([
+    'the', 'and', 'for', 'from', 'with', 'der', 'die', 'das', 'des', 'dem', 'den',
+    'und', 'von', 'vom', 'zum', 'zur', 'ein', 'eine', 'einen', 'einer',
+  ])
+  const TYP_KUERZEL = new Set([
+    'ova', 'ona', 'oad', 'omu', 'uncut', 'edition',
+  ])
   const wortFolgePasst = (auftrag, karte) => {
     const a = titelWorte(auftrag)
     const k = titelWorte(karte)
@@ -1786,15 +1818,14 @@ async function speicherSchreiben(werte) {
       else zusatz.push(wort)
     }
     if (n !== a.length) return false
-    if (zusatz.length > 2) return false
     /*
-      **Eine Zahl als Zusatzwort ist nie Beiwerk.** Sie trennt Neuauflagen
-      („Captain Tsubasa (1983)" gegen „(2018)", 128 Folgen gegen 52) und
-      nummeriert Fortsetzungen. Die Zusicherung dazu stand schon und ist beim
-      Bau dieser Regel prompt rot geworden — zu Recht.
+      Ein Fortsetzungswort sperrt weiterhin sofort, auch als Füllwort-Nachbar —
+      sonst käme „Attack on Titan" auf „Attack on Titan: Final Season" durch.
     */
+    if (zusatz.some((w) => REIHENFOLGE_SPERRE.test(w))) return false
     if (zusatz.some((w) => /^\d+$/.test(w))) return false
-    return !zusatz.some((w) => REIHENFOLGE_SPERRE.test(w))
+    const benennend = zusatz.filter((w) => !FUELLWORT.has(w) && !TYP_KUERZEL.has(w))
+    return benennend.length <= 2
   }
 
   /**

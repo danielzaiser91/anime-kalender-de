@@ -736,6 +736,48 @@ const zuVieleWorte = werte(
 )
 pruefe('drei fremde Wörter sind ein anderer Titel', zuVieleWorte.befund.art !== 'genau', zuVieleWorte.befund.art)
 
+/*
+  **Zusatzwörter, die nichts unterscheiden.**
+
+  Zwei Fälle vom 28.08.2026, beide „kein Treffer bei Prime", beide zu Unrecht:
+
+      Auftrag  Code Geass: Akito the Exiled - Memories of Hatred
+      Karte    Code Geass: Akito the Exiled 4 - From the Memories of Hatred - OVA
+
+      Auftrag  Chaos Dragon
+      Karte    Chaos Dragon - Die komplette Serie
+
+  Im ersten Fall stehen drei fremde Wörter in der Karte — `from`, `the`, `ova` —,
+  und keines davon benennt etwas: zwei Wörter des Satzbaus und ein Formatkürzel,
+  das `titelKernLocker` ohnehin wegschneidet. Gezählt werden seit 3.84 nur Wörter,
+  die eine Sache benennen; die Grenze von zwei misst damit das Richtige.
+
+  Dazu fielen `the`, `ova`, `ona` und `oad` aus der Fortsetzungssperre. Ein
+  Artikel kündigt keine Fortsetzung an — er hat den ersten Fall blockiert, bevor
+  der Wortzähler überhaupt drankam.
+*/
+const akitoTeil4 = werte(
+  [{ label: 'Beste Ergebnisse', karten: [karte('Code Geass: Akito the Exiled 4 - From the Memories of Hatred - OVA', 'Movie', 'Entitled', 'B0CJK2RNDL')] }],
+  { titel: 'Code Geass: Akito the Exiled - Memories of Hatred', folgen: 1 },
+)
+pruefe('Satzbau und Formatkürzel stören den Abgleich nicht', akitoTeil4.befund.art === 'genau', akitoTeil4.befund.art)
+
+const chaos = werte(
+  [{ label: 'Beste Ergebnisse', karten: [karte('Chaos Dragon - Die komplette Serie', 'TV Show', 'Entitled', 'B09KFHWXDS')] }],
+  { titel: 'Chaos Dragon', folgen: 12 },
+)
+pruefe('„Die komplette Serie“ ist derselbe Titel', chaos.befund.art === 'genau', chaos.befund.art)
+
+/*
+  Die Gegenprobe zur bereinigten Sperrliste: `movie`, `film` und `special`
+  bleiben drin, denn sie trennen ein eigenes Werk von der Serie.
+*/
+const kaisenFilm = werte(
+  [{ label: 'Beste Ergebnisse', karten: [karte('Jujutsu Kaisen The Movie', 'Movie', 'Entitled', 'B0AAAD1111')] }],
+  { titel: 'Jujutsu Kaisen', folgen: 24 },
+)
+pruefe('„The Movie“ bleibt ein eigenes Werk', kaisenFilm.befund.art !== 'genau', kaisenFilm.befund.art)
+
 console.log()
 if (fehler.length) {
   console.error(`${fehler.length} Zusicherung(en) verletzt.`)
