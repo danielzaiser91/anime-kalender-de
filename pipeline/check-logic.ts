@@ -51,6 +51,7 @@ import { netflixNeutral } from '../shared/mappings.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
+import { findeStaffel, folgenKern, ordneZu } from '../shared/folgen-zuordnung.ts'
 import { beurteile } from './lib/crunchyroll-dub.ts'
 import {
   bucketLand,
@@ -2118,6 +2119,50 @@ console.log('\nStatus: ein belegter Verweis schlägt das Enddatum')
     'fremde Anbieter gehen unverändert durch',
     netflixTitelAdresse('https://www.amazon.de/dp/B0B8TR93HR') === 'https://www.amazon.de/dp/B0B8TR93HR',
   )
+}
+
+/*
+  **Folgen-Zuordnung: Datum vor Titel vor Position.**
+
+  Die Nummer taugt nicht — Amazon zeigt Haikyu Staffel 1 mit 44 durchgezählten
+  Folgen, unser Eintrag hat 25. Was nicht wandert, ist der Sendetermin.
+*/
+{
+  const staffel = [
+    { s: 1, e: 1, titel: 'Ende und Anfang', datum: '2014-04-06', minuten: 24 },
+    { s: 1, e: 2, titel: 'Der Volleyballclub', datum: '2014-04-13', minuten: 24 },
+    { s: 1, e: 3, titel: 'Der stärkste Verbündete', datum: '2014-04-20', minuten: 24 },
+    { s: 2, e: 1, titel: 'Ende der Sommerferien', datum: '2015-10-04', minuten: 24 },
+  ]
+
+  pruefe('die Staffel mit passender Folgenzahl wird gefunden', findeStaffel(staffel, 3, 2014) === 1)
+  pruefe('ohne passende Zahl bleibt es offen', findeStaffel(staffel, 12, 2014) === null)
+  pruefe('ohne unsere Folgenzahl wird nicht geraten', findeStaffel(staffel, null, 2014) === null)
+
+  /* Amazons Nummern sind durchgezählt und damit falsch — das Datum trägt trotzdem. */
+  const amazon = [
+    { nummer: 42, titel: '42. Ende und Anfang', datum: '2014-04-06', minuten: 24 },
+    { nummer: 43, titel: '43. Der Volleyballclub', datum: '2014-04-13', minuten: 24 },
+  ]
+  const z = ordneZu(amazon, staffel.filter((f) => f.s === 1))
+  pruefe('das Datum ordnet trotz falscher Nummern zu', z[0].unsere === 1 && z[1].unsere === 2, JSON.stringify(z))
+  pruefe('und nennt seinen Grund', z.every((y) => y.grund === 'datum'))
+
+  /* Ohne Datum trägt der Titel — die führende Nummer stört nicht. */
+  const ohneDatum = ordneZu(
+    [{ nummer: null, titel: '3. Der stärkste Verbündete', datum: null, minuten: null }],
+    staffel.filter((f) => f.s === 1),
+  )
+  pruefe('der Titel ordnet zu, wenn das Datum fehlt', ohneDatum[0].unsere === 3 && ohneDatum[0].grund === 'titel')
+
+  /* Bei abweichender Länge wird nicht über die Position geraten. */
+  const fremd = ordneZu(
+    [{ nummer: 1, titel: 'Etwas ganz anderes', datum: '2099-01-01', minuten: null }],
+    staffel.filter((f) => f.s === 1),
+  )
+  pruefe('was nicht passt, bleibt offen statt geraten', fremd[0].unsere === null && fremd[0].grund === 'offen')
+
+  pruefe('der Folgenkern wirft die führende Nummer weg', folgenKern('1. Ende und Anfang') === folgenKern('Ende und Anfang'))
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
