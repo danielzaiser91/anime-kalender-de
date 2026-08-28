@@ -109,6 +109,29 @@ Diese gelten für jede Änderung, nicht für ein einzelnes Ziel:
 - **Wissen veraltet nie.** Was sich ändert, wird im selben Zug nachgeführt —
   hier, in `status.md`, in `CLAUDE.md`, in den Kommentaren.
 
+## Fortschritt
+
+### 28.08.2026 — Grundlagen für die Folgen-Zuordnung
+
+Der Tag begann mit der Erkenntnis aus `docs/prime-erfassung-neu.md`: Die
+Erweiterung entscheidet auf der Seite über Dinge, die dort nicht entscheidbar
+sind. Gebaut wurde die Grundlage dafür, das an die richtige Stelle zu holen.
+
+| Was | Wirkung |
+|---|---|
+| `pipeline/fetch-tmdb-folgen.ts` | 594 Titel, 23.522 Folgen mit Titel und Erstausstrahlung — der Anker, den AniList nicht liefert |
+| `shared/folgen-zuordnung.ts` | Datum vor Titel vor Position; 254 von 300 Staffeln eindeutig, Haikyu vollständig über das Datum |
+| `pipeline/vorschlaege-anbieter.ts` | 224 Titel ohne Verweis, für die TMDB einen Anbieter nennt → 158 neue Prime-Suchen |
+| `pipeline/wiedervorlage.ts` | Belege veralten; Fristen je Anbieter, heute noch nichts fällig |
+| `pipeline/check-qualitaet.ts` | Kennzahlen mit Verlauf, drei harte Punkte machen den Lauf rot |
+| TMDB-Suche mit vier Schreibweisen | 1.247 Fehlschläge bekommen einen zweiten Versuch mit japanischem und deutschem Titel |
+| TMDB als zweite Titelquelle | gegen die 194 Titel ohne deutschen Namen |
+| `.github/workflows/daten-auf-abruf.yml` | einzelne Datenläufe ohne den ganzen Wochenlauf |
+
+**Offen aus diesem Tag:** Schritt 2 und 4 des Umbauplans — der Worker braucht
+eine Tabelle je Folge, und die Erweiterung muss die Liste schicken statt der
+Zahl.
+
 ## Wie diese Datei benutzt wird
 
 Vor jeder größeren Arbeit: Welchem Ziel dient sie? Steht das Ziel hier? Wenn
