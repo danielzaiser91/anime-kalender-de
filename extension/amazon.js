@@ -430,11 +430,49 @@ async function speicherSchreiben(werte) {
    * je Takt zu parsen wäre genau die Sorte Arbeit, die am 28.08.2026 schon
    * einmal die Seite lahmgelegt hat (`taktMax: 1377`).
    */
-  let filmStand = { fuerAdresse: null, daten: null }
+  let filmStand = { fuerAdresse: null, gelesenAm: 0, daten: null }
   function filmAusSeite() {
-    const adresse = location.pathname + location.search
-    if (filmStand.fuerAdresse === adresse) return filmStand.daten
-    filmStand = { fuerAdresse: adresse, daten: null }
+    /*
+      **Drei Riegel vor dem Parsen — jeder einzeln notwendig.**
+
+      Die erste Fassung (3.82) hat Daniels Rechner eingefroren: „die extension
+      friert den pc ein … download von diagnose dauert jetzt schon 3min".
+
+      Der Block ist 145 bis 440 KB groß. Ihn zu lesen heißt, `textContent` zu
+      einem neuen String zu ziehen **und** einen Objektbaum daraus zu bauen — je
+      Takt, also alle 500 ms. Der Speicher kommt dabei nicht hinterher.
+
+      Gedacht war ein Zwischenspeicher je Adresse. Er hat nie gegriffen, weil der
+      Schlüssel `location.search` enthielt: **Prime schreibt den
+      `ref_`-Parameter laufend um**, und damit war die Adresse bei jedem Takt eine
+      andere. Genau davor warnt `extension/PERFORMANCE.md`, und genau dieselbe
+      Ursache hatte der Einbruch vom Nachmittag (`taktMax: 1377`).
+
+      1. **Der Pfad ist der Schlüssel, nicht die Adresse.** Der Verweis-Parameter
+         sagt nichts über den Inhalt der Seite.
+      2. **Serien fassen den Block gar nicht an.** Wer einen Folgen-Reiter hat,
+         ist keine Filmseite — und die teuersten Seiten sind genau die (Pokémon
+         mit siebenundfünfzig Staffeln).
+      3. **Und höchstens einmal je fünf Sekunden**, komme was wolle. Ein Riegel,
+         der von einer Annahme über fremde Adressen abhängt, braucht einen
+         zweiten, der ohne Annahmen auskommt.
+    */
+    const schluessel = location.pathname
+    if (filmStand.fuerAdresse === schluessel) return filmStand.daten
+    if (Date.now() - filmStand.gelesenAm < 5000) return filmStand.daten
+    /*
+      Die billige Vorprüfung zuerst: `seitenLage()` läuft ohnehin je Takt und
+      ist zwischengespeichert, `getElementById` kostet nichts.
+    */
+    try {
+      if (seitenLage().hatFolgenReiter) {
+        filmStand = { fuerAdresse: schluessel, gelesenAm: Date.now(), daten: null }
+        return null
+      }
+    } catch {
+      /* Ohne Lage wird gelesen — lieber einmal zu viel als eine tote Seite. */
+    }
+    filmStand = { fuerAdresse: schluessel, gelesenAm: Date.now(), daten: null }
     try {
       const block = document.getElementById('dv-web-page-hydration-data')
       if (!block) return null
@@ -2477,7 +2515,35 @@ async function speicherSchreiben(werte) {
       durchgelassen.
     */
     const falscheStaffel = Number.isFinite(offeneStaffel) && offeneStaffel !== gesuchteStaffel
-    if (falscheStaffel) knopf.style.display = 'none'
+    /*
+      **Der Knopf entsteht rund 950 Zeilen weiter unten — vorher wirft jeder
+      Zugriff.**
+
+      `const knopf = document.createElement('button')` steht im selben Scope, und
+      `const` hebt den Namen hoch, aber nicht den Wert. `zeigeAuftragshinweis()`
+      läuft beim Seitenaufbau, also regelmäßig davor:
+
+          Uncaught (in promise) ReferenceError:
+          Cannot access 'knopf' before initialization
+          amazon.js:2398 (zeigeAuftragshinweis)
+
+      Daniel hat es am 28.08.2026 in der Fehlerliste der Erweiterung gefunden —
+      zusammen mit der Meldung, die Erweiterung friere den Rechner ein. Beides
+      gehört zusammen: Der Fehler entsteht in einem `await`-Zweig, wird als
+      abgelehnte Zusage geschluckt und wiederholt sich bei jedem Takt. Chrome
+      hält zu jeder davon einen Stapelauszug fest.
+
+      **Das ist derselbe Fehler wie bei `listenId` am 25.08.2026**, und dieselbe
+      Lehre gilt: Ein `let` oder `const` weiter unten liefert kein `undefined`,
+      es wirft. Ein `typeof` hilft hier nicht — auch das wirft in der toten Zone.
+    */
+    if (falscheStaffel) {
+      try {
+        knopf.style.display = 'none'
+      } catch {
+        /* Der Knopf existiert noch nicht; er wird beim Aufbau ohnehin gezeichnet. */
+      }
+    }
     const teilZeilen = []
     if (falscheStaffel) {
       teilZeilen.push(

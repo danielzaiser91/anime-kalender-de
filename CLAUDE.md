@@ -1623,6 +1623,58 @@ Film regelmäßig unter einer anderen Kennung als die Adresse — dasselbe Bild 
 bei Digimon Tamers weiter oben. Die Adress-Kennung kommt im Quelltext trotzdem
 vor (11×), der Zugehörigkeits-Wächter greift also zu Recht nicht.
 
+### Ein geschluckter Fehler sieht aus wie ein langsamer Rechner
+
+Am 28.08.2026 meldete Daniel: „die extension friert den pc ein … download von
+diagnose dauert jetzt schon 3min … warum zerstört die extension meine
+performance". In der Fehlerliste der Erweiterung stand:
+
+    Uncaught (in promise) ReferenceError:
+    Cannot access 'knopf' before initialization    amazon.js (zeigeAuftragshinweis)
+
+`const knopf = document.createElement('button')` steht rund 950 Zeilen **unter**
+dem Zugriff. `const` hebt den Namen hoch, aber nicht den Wert — **derselbe
+Fehler wie bei `listenId` am 25.08.2026**, nur an anderer Stelle.
+
+**Warum daraus ein eingefrorener Rechner wird, und keine Fehlermeldung:** Der
+Wurf passiert in einem `await`-Zweig. Er wird zur abgelehnten Zusage, niemand
+fängt sie, der Ablauf bricht still ab — und der Takt versucht es 500 Millisekunden
+später wieder. Chrome hält zu jeder abgelehnten Zusage einen Stapelauszug fest.
+Sichtbar ist davon nichts außer der Trägheit.
+
+**Zwei Prüfungen fangen es künftig, und beide fehlten aus verschiedenen Gründen:**
+
+1. `tools/amazon-startseite-pruefen.cjs` gibt es seit dem 25.08.2026 genau für
+   diese Fehlerklasse — sie **lief nur in keiner Kette**. Jetzt hängt sie in
+   `check:extension`. Und ihr Sandkasten war unvollständig: Er brach mit
+   „URLSearchParams is not defined" ab, also an seiner eigenen Umgebung, und
+   verdeckte damit den Fehler, den er finden sollte.
+2. Eine statische Zusicherung sucht Zugriffe vor der Deklaration
+   (`amazon-folgenzahl.test.cjs`). Sie kennt Funktionsparameter gleichen Namens
+   und lässt Zugriffe in einem `try` durch. Die Gegenprobe hält: Vor dem Fix
+   meldete sie genau die Zeile.
+
+**Die Lehre über dem Einzelfall:** Ein Vorsatz hat diesen Fehler zweimal nicht
+verhindert. Beim zweiten Mal ist nicht der Fehler das Problem, sondern dass die
+Prüfung, die es gekonnt hätte, nirgends aufgerufen wurde.
+
+### Ein Zwischenspeicher, dessen Schlüssel sich ständig ändert, ist keiner
+
+Im selben Zug gefunden, bevor es jemandem auffiel: `filmAusSeite()` (3.82) nahm
+`location.pathname + location.search` als Schlüssel. **Prime schreibt den
+`ref_`-Parameter laufend um** — die Adresse ist bei jedem Takt eine andere, der
+Zwischenspeicher greift nie, und 145 bis 440 KB JSON werden alle 500 ms geparst.
+
+Drei Riegel stehen jetzt davor, und jeder einzelne wäre allein zu wenig:
+
+- Der **Pfad** ist der Schlüssel, nicht die Adresse — der Verweis-Parameter sagt
+  nichts über den Inhalt.
+- **Seiten mit Folgen-Reiter fassen den Block gar nicht an.** Sie sind keine
+  Filmseiten, und sie sind die teuersten (Pokémon mit 57 Staffeln).
+- **Höchstens einmal je fünf Sekunden**, komme was wolle. Ein Riegel, der von
+  einer Annahme über fremde Adressen abhängt, braucht einen zweiten ohne
+  Annahmen.
+
 ### Der Briefkasten ist die einzige Quelle für „schon gemeldet"
 
 Bis 3.81 führte die Erweiterung zwei eigene Speicher: `amazonErledigt` für

@@ -66,6 +66,16 @@ for (const pfad of ['/', '/gp/video/storefront', '/dp/B0DJYJBNWF']) {
     },
     window: { addEventListener() {}, location: { pathname: pfad, search: '' } },
     fetch: () => Promise.resolve({ ok: true, json: () => Promise.resolve({}) }),
+    /*
+      **Was der Browser mitbringt, muss der Sandkasten auch mitbringen.**
+
+      Am 28.08.2026 brach die Prüfung mit „URLSearchParams is not defined" ab —
+      und zwar an einer Zeile, die im Browser seit Wochen einwandfrei läuft. Eine
+      Prüfung, die an ihrer eigenen Umgebung scheitert, meldet einen Fehler, den
+      es nicht gibt, und verdeckt die, die es gibt.
+    */
+    URLSearchParams,
+    URL,
     setInterval: () => 0,
     setTimeout: () => 0,
     clearInterval() {},

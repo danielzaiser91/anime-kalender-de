@@ -307,6 +307,61 @@ pruefe(
   pruefe('eine neue Zahl stößt die Frist wieder an', takt(4100, 60, 50) === false)
 }
 
+/*
+  **Zugriffe vor der Deklaration — die tote Zone, statisch geprüft.**
+
+  Am 28.08.2026 stand in Daniels Fehlerliste:
+
+      Uncaught (in promise) ReferenceError:
+      Cannot access `knopf` before initialization    amazon.js (zeigeAuftragshinweis)
+
+  `const knopf = …` steht rund 950 Zeilen unter dem Zugriff. `const` hebt den
+  Namen hoch, aber nicht den Wert; jeder Zugriff davor wirft. Weil der Fehler in
+  einem await-Zweig entsteht, wird er als abgelehnte Zusage geschluckt und
+  wiederholt sich bei jedem Takt — Daniel hat es als eingefrorenen Rechner
+  gemerkt, nicht als Fehlermeldung.
+
+  Genau derselbe Fehler mit `listenId` hat am 25.08.2026 schon einmal einen
+  Abend gekostet. Ein zweites Mal derselbe Fehler heißt: Der Vorsatz trägt
+  nicht, es braucht eine Prüfung.
+
+  Geprüft werden die Namen, die im Modulscope mit `const`/`let` angelegt und
+  anderswo als Objekt benutzt werden. Ein Zugriff davor ist erlaubt, wenn er in
+  einem try steht — dann ist er bewusst abgesichert.
+*/
+{
+  const zeilen = quelle.split(String.fromCharCode(10))
+  const NAMEN = ['knopf', 'listenId', 'dialog', 'kasten']
+  for (const name of NAMEN) {
+    const deklaration = zeilen.findIndex((z) =>
+      new RegExp('^  (?:const|let) ' + name + '\\b').test(z),
+    )
+    if (deklaration < 0) continue
+    const frueher = []
+    for (let n = 0; n < deklaration; n++) {
+      const zeile = zeilen[n]
+      if (!new RegExp('(^|[^a-zA-Z.])' + name + '\\.').test(zeile)) continue
+      /* Ein Funktionsparameter gleichen Namens ist ein anderer Name. */
+      let parameter = false
+      for (let m = n; m >= 0 && m > n - 40; m--) {
+        if (new RegExp('function [a-zA-Z]+\\([^)]*\\b' + name + '\\b').test(zeilen[m])) { parameter = true; break }
+        if (/^  (?:function|const|let) /.test(zeilen[m]) && m !== n) break
+      }
+      if (parameter) continue
+      /* In einem try ist der Zugriff bewusst abgesichert. */
+      let imTry = false
+      for (let m = n; m >= 0 && m > n - 6; m--) if (/^\s*try \{/.test(zeilen[m])) { imTry = true; break }
+      if (imTry) continue
+      frueher.push(n + 1)
+    }
+    pruefe(
+      'kein ungesicherter Zugriff auf `' + name + '` vor seiner Deklaration',
+      frueher.length === 0,
+      frueher,
+    )
+  }
+}
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) rot.`)
   process.exit(1)
