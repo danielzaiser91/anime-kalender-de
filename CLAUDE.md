@@ -1581,6 +1581,70 @@ Folgenzahl gegen die Erwartung. `extension/amazon-folgenzahl.test.cjs` tut es
 jetzt und führt `istFilmSeite()` dabei wirklich aus, mit den Werten wörtlich aus
 Daniels Bericht.
 
+### Ein Film braucht den Mitleser nicht — die Tonspuren stehen im DOM
+
+Am 28.08.2026 blieben zwei Filme dauerhaft hängen: „Blood-C: The Last Dark" auf
+„Tonspuren nicht gefunden — Seite neu laden", „Have A Nice Day" auf „Folgen
+werden geladen …". Neu laden half nicht, und das war der Hinweis: Der Quelltext
+war nie das Problem.
+
+**Zwei Ursachen, beide gemessen.** Die erste steht im Ablauf: Der Film-Zweig in
+`zeichnen()` verlangte `quelltextVeraltet()`, die beiden folgenden Zweige waren
+durch `!istFilmSeite()` gesperrt. Für einen Film mit **frischem** Quelltext gab
+es damit gar keinen Zweig — der Ablauf fiel bis zum Warte-Zweig durch und blieb
+dort stehen.
+
+Die zweite steht in den Daten. Anonym von amazon.de geholt (die Seiten sind ohne
+Anmeldung lesbar):
+
+| Titel | Adresse | pageTitleId | audioTracks |
+|---|---|---|---|
+| Blood-C: The Last Dark | B0GQJFL1XG | **B0GQJ8WYJD** | Deutsch, 日本語 |
+| Have A Nice Day | B0FYSH898T | **B0FWK8XMDJ** | Deutsch |
+| Avatar Aang (geht) | B0H6QYBZFS | B0H6QYBZFS | Deutsch, English |
+
+Der Block ist vollständig, `entityType` sagt „Movie", die Tonspuren stehen im
+Klartext — und trotzdem kam am Knopf nichts an. Der Zählstand im Bericht zeigt
+warum: **`gesamt: 1` bei `fuerAdresse: null`**. Diese Eins stammt aus dem
+Seitengerüst (die Stelle, die sie setzt, solange keine Antwort da ist), nicht vom
+Mitleser. Der hat für diese Seiten nie geliefert.
+
+**Statt die Nachrichtenkette zu reparieren, entfällt sie für Filme.** Mitleser
+und Erweiterung teilen sich das DOM; das `<script>` mit dem Block ist für beide
+dasselbe Element. Bei einem Film ist ohnehin nichts nachzuladen — keine
+Abschnitte, keine Folgenliste, ein einziger Satz Tonspuren. Der Umweg über eine
+Nachricht hat dort nie etwas hinzugefügt, nur eine Fehlerquelle. `filmAusSeite()`
+liest den Block direkt, einmal je Adresse zwischengespeichert (er ist 145 bis
+204 KB groß — ihn je Takt zu parsen wäre genau die Arbeit, die am selben Tag
+schon einmal die Seite lahmgelegt hat).
+
+**Die abweichende `pageTitleId` ist dabei kein Titelwechsel.** Prime führt einen
+Film regelmäßig unter einer anderen Kennung als die Adresse — dasselbe Bild wie
+bei Digimon Tamers weiter oben. Die Adress-Kennung kommt im Quelltext trotzdem
+vor (11×), der Zugehörigkeits-Wächter greift also zu Recht nicht.
+
+### Prime zählt Teile, wo unser Bestand keinen Teil kennt
+
+„Code Geass: Akito the Exiled — The Wyvern Arrives": Die Karte auf Platz 1 der
+Trefferliste war der richtige Titel, der Kasten sagte „2 Treffer gelesen, keiner
+passt" (Daniel, 28.08.2026).
+
+    Auftrag  codegeassakitotheexiled thewyvernarrives
+    Karte    codegeassakitotheexiled1thewyvernarrivesova
+
+Zwei Abweichungen, beide von Prime hinzugefügt: die **Teilnummer** mitten im
+Titel und das **Typ-Kürzel** am Ende. `titelKern()` streicht „Teil 1" und „Part
+1", eine nackte Ziffer war nie vorgesehen — und weil sie in der Mitte steht,
+greift auch der Rückfall über `includes` nicht.
+
+`titelKernLocker()` ist deshalb eine **zusätzliche** Schreibweise, kein Ersatz:
+Verglichen wird weiterhin zuerst streng, Typ- und Staffelprüfung gelten
+unverändert. Beide Regeln sind eng gefasst, und das muss so bleiben — die Ziffer
+fällt nur **einstellig** und nur als eigenes Wort („Mob Psycho 100" behält seine
+Zahl, „Golden Kamuy 2" auch, wo sie die Staffel ist), das Kürzel nur **am Ende**
+(mittendrin trennt es Ausgaben, siehe „Wolf's Rain OVA" gegen die Serie). Alle
+drei Gegenproben stehen als Zusicherung.
+
 ### Netflix gibt die Tonspuren nur mit dem Player heraus — dreifach gemessen
 
 Am 22.08.2026 stand fest, dass die **Titelseite** im Ruhezustand nichts hergibt. Offen blieb,

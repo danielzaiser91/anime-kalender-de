@@ -333,9 +333,15 @@ function schneide(name) {
   if (ende < 0) throw new Error(`Ende von ${name} nicht gefunden`)
   return quelltext.slice(start, ende + 4)
 }
+/*
+  Beide Kernformen gehören in den Ausschnitt — `titelKernLocker` steht hinter
+  einem eigenen Kommentarblock, und der beendete den Schnitt bis 3.79 vorzeitig.
+  Der Test wurde dadurch rot mit „titelKernLocker is not defined", und das war
+  die richtige Meldung: Der Ausschnitt bildete den Quelltext nicht mehr ab.
+*/
 const kernQuelle = quelltext.slice(
   quelltext.indexOf('  const titelKern ='),
-  quelltext.indexOf('  /**', quelltext.indexOf('  const titelKern =')),
+  quelltext.indexOf('  /**', quelltext.indexOf('  const titelKernLocker =')),
 )
 
 const bau = new Function(
@@ -643,6 +649,53 @@ const fassung = werte(
   { titel: 'Highschool of the Dead', folgen: 12 },
 )
 pruefe('die Fassungsangabe dahinter auch nicht', fassung.befund.art === 'genau', fassung.befund.art)
+
+/*
+  **Teilnummer und Typ-Kürzel, beide von Prime hinzugefügt.**
+
+  Daniel am 28.08.2026: Die Karte auf Platz 1 war der richtige Titel, der Kasten
+  sagte „2 Treffer gelesen, keiner passt". Prime nummeriert die OVA-Teile und
+  hängt das Kürzel an, unser Bestand tut weder das eine noch das andere.
+*/
+const akito = werte(
+  [
+    {
+      label: 'Beste Ergebnisse',
+      karten: [karte('Code Geass: Akito the Exiled 1 - The Wyvern Arrives - OVA', 'Movie', 'Entitled', 'B0AAAA7777')],
+    },
+  ],
+  { titel: 'Code Geass: Akito the Exiled - The Wyvern Arrives', folgen: 1 },
+)
+pruefe('Teilnummer und OVA-Kürzel stören den Abgleich nicht', akito.befund.art === 'genau', akito.befund.art)
+
+/*
+  **Die Gegenproben — beide Regeln sind eng gefasst, und das muss so bleiben.**
+
+  Eine Zahl im Titel ist nicht immer eine Teilnummer: Bei „Golden Kamuy 2" ist
+  sie die Staffel, und die trennt weiterhin. Mehrstellige Zahlen gehören zum
+  Namen.
+*/
+const kamuy = werte(
+  [{ label: 'Beste Ergebnisse', karten: [karte('Golden Kamuy', 'TV Show', 'Entitled', 'B0AAAA8888')] }],
+  { titel: 'Golden Kamuy 2', folgen: 12 },
+)
+pruefe('Golden Kamuy 2 trifft nicht auf Staffel 1', kamuy.befund.art !== 'genau', kamuy.befund.art)
+
+const mob = werte(
+  [{ label: 'Beste Ergebnisse', karten: [karte('Mob Psycho 100', 'TV Show', 'Entitled', 'B0AAAA9999')] }],
+  { titel: 'Mob Psycho 100', folgen: 12 },
+)
+pruefe('Mob Psycho 100 behält seine Zahl', mob.befund.art === 'genau', mob.befund.art)
+
+const wolf = werte(
+  [{ label: 'Beste Ergebnisse', karten: [karte('Wolf’s Rain OVA', 'TV Show', 'Entitled', 'B0AAAB1111')] }],
+  { titel: 'Wolf’s Rain', folgen: 26 },
+)
+pruefe(
+  'ein OVA-Kürzel am Ende macht die Nebenausgabe nicht zur Serie',
+  wolf.befund.art !== 'genau' || wolf.befund.treffer.length === 1,
+  wolf.befund.art,
+)
 
 console.log()
 if (fehler.length) {

@@ -403,6 +403,72 @@ async function speicherSchreiben(werte) {
    * Animation · Action · 4.6/5 · IMDb 5,7/10 · 2013 · 1 Std. 26 Min.", Reiter
    * „Ähnliches" und „Details" — kein „Folgen".
    */
+  /**
+   * **Ein Film braucht den Mitleser nicht — die Tonspuren stehen im DOM.**
+   *
+   * Gemessen am 28.08.2026 an den beiden Fällen, die Daniel gemeldet hat, mit
+   * einem funktionierenden Film als Gegenprobe:
+   *
+   * | Titel | Adresse | pageTitleId | audioTracks |
+   * |---|---|---|---|
+   * | Blood-C: The Last Dark | B0GQJFL1XG | **B0GQJ8WYJD** | Deutsch, 日本語 |
+   * | Have A Nice Day | B0FYSH898T | **B0FWK8XMDJ** | Deutsch |
+   * | Avatar Aang (geht) | B0H6QYBZFS | B0H6QYBZFS | Deutsch, English |
+   *
+   * Der Block ist vollständig, `entityType` sagt „Movie", die Tonspuren stehen
+   * im Klartext — und trotzdem kam am Knopf nichts an. Der Zählstand im Bericht
+   * zeigt warum: `gesamt: 1` bei `fuerAdresse: null`. Diese Eins stammt aus dem
+   * Seitengerüst, nicht vom Mitleser; der hat für diese Seiten nie geliefert.
+   *
+   * **Statt die postMessage-Kette zu reparieren, entfällt sie hier.** Mitleser
+   * und Erweiterung teilen sich das DOM — das `<script>` mit dem Block ist für
+   * beide dasselbe Element. Bei einem Film ist ohnehin nichts nachzuladen: keine
+   * Abschnitte, keine Folgenliste, ein einziger Satz Tonspuren. Der Umweg über
+   * eine Nachricht hat dort nie etwas hinzugefügt, nur eine Fehlerquelle.
+   *
+   * **Gelesen wird einmal je Adresse.** Der Block ist 145 bis 204 KB JSON; ihn
+   * je Takt zu parsen wäre genau die Sorte Arbeit, die am 28.08.2026 schon
+   * einmal die Seite lahmgelegt hat (`taktMax: 1377`).
+   */
+  let filmStand = { fuerAdresse: null, daten: null }
+  function filmAusSeite() {
+    const adresse = location.pathname + location.search
+    if (filmStand.fuerAdresse === adresse) return filmStand.daten
+    filmStand = { fuerAdresse: adresse, daten: null }
+    try {
+      const block = document.getElementById('dv-web-page-hydration-data')
+      if (!block) return null
+      const daten = JSON.parse(block.textContent)
+      const oben = daten?.init?.preparations?.body?.atf?.state
+      if (!oben) return null
+      const alle = oben.detail?.headerDetail ?? {}
+      const kopf = alle[oben.pageTitleId ?? ''] ?? Object.values(alle)[0]
+      if (!kopf) return null
+      /*
+        Nur ein Film. Bei einer Serie liefert der Mitleser die Folgen einzeln,
+        und die sind die genauere Auskunft — hier würde eine einzelne
+        Sprachliste für die ganze Staffel stehen.
+      */
+      const art = String(kopf.entityType ?? '')
+      if (art && art !== 'Movie') return null
+      const sprachen = (kopf.audioTracks ?? [])
+        .map((t) => (typeof t === 'string' ? t : (t?.displayName ?? t?.name ?? null)))
+        .filter(Boolean)
+      if (!sprachen.length) return null
+      filmStand.daten = {
+        kennung: oben.pageTitleId ?? null,
+        titel: kopf.title ?? null,
+        sprachen,
+        untertitel: Array.isArray(kopf.subtitles) ? kopf.subtitles : [],
+        dauerSek: Number.isFinite(kopf.duration) ? kopf.duration : null,
+        erschienen: kopf.releaseDate ?? null,
+      }
+      return filmStand.daten
+    } catch {
+      return null
+    }
+  }
+
   function istFilmSeite() {
     const lage = seitenLage()
     // Die Laufzeit kommt aus `seitenLage()` mit — `body.innerText` erzwingt ein
@@ -1508,6 +1574,37 @@ async function speicherSchreiben(werte) {
       .replace(/[^a-z0-9]/g, '')
 
   /**
+   * **Prime zählt Teile, wo unser Bestand keinen Teil kennt.**
+   *
+   * Gemessen am 28.08.2026 an „Code Geass: Akito the Exiled — The Wyvern
+   * Arrives". Die Karte auf Platz 1 der Trefferliste ist der richtige Titel,
+   * der Kasten sagte trotzdem „2 Treffer gelesen, keiner passt":
+   *
+   *     Auftrag  codegeassakitotheexiled thewyvernarrives
+   *     Karte    codegeassakitotheexiled1thewyvernarrivesova
+   *
+   * Zwei Abweichungen, beide von Prime hinzugefügt: die **Teilnummer** mitten
+   * im Titel und das **Typ-Kürzel** am Ende. `titelKern` streicht „Teil 1" und
+   * „Part 1", aber eine nackte Ziffer war nie vorgesehen — und weil sie in der
+   * Mitte steht, greift auch der Rückfall über `includes` nicht.
+   *
+   * **Beide Regeln sind eng gefasst, und das mit Absicht.** Die Ziffer wird nur
+   * einstellig und nur als eigenes Wort entfernt: „Mob Psycho 100" und
+   * „Ranking of Kings" behalten ihre Zahlen, „Golden Kamuy 2" ebenfalls — dort
+   * ist die Zahl die Staffel, und die trennt `staffelImTitel()` weiterhin. Das
+   * Kürzel fällt nur am **Ende**; mittendrin trennt es Ausgaben voneinander
+   * (siehe CLAUDE.md, „Wolf’s Rain OVA" gegen die Serie).
+   */
+  const titelKernLocker = (t) =>
+    titelKern(
+      (t ?? '')
+        .toLowerCase()
+        .replace(/\s*[-–—:]\s*(ova|ona|oad|tv|movie|film)\s*$/i, ' ')
+        .replace(/[[(]\s*(ova|ona|oad|tv)\s*[\])]\s*$/i, ' ')
+        .replace(/\b\d\b/g, ' '),
+    )
+
+  /**
    * **Welche Staffel meint dieser Titel?**
    *
    * `titelKern()` wirft die Staffelangabe weg — richtig, wenn es darum geht,
@@ -1660,10 +1757,19 @@ async function speicherSchreiben(werte) {
           .replace(/\s*[[(](?!\s*\d{4}\s*[\])])[^\])]*[\])]\s*$/, '')
           .replace(/\s*[-–]\s*(?:dt\.?|omu|ov|uncut|subbed|dubbed)[\s\S]*$/i, ''),
       )
+    /*
+      Die lockere Form kommt als **weitere** Schreibweise dazu, nicht als
+      Ersatz: Verglichen wird weiterhin zuerst streng, und die Typ- und
+      Staffelprüfung darunter gilt unverändert für jeden Treffer.
+    */
+    const kernLocker = titelKernLocker(auftrag.titel)
     const gleichNamig = gefunden.treffer.filter((t) => {
       const k = titelKern(t.titel)
       const roh = ohneBeiwerk(t.titel)
-      return [k, roh].some((x) => x === kern || x === kernBegriff || (kernVorn !== null && x === kernVorn))
+      const locker = titelKernLocker(t.titel)
+      return [k, roh, locker].some(
+        (x) => x === kern || x === kernBegriff || (kernVorn !== null && x === kernVorn) || x === kernLocker,
+      )
     })
     /*
       **Und die Staffel muss dieselbe sein.**
@@ -4072,6 +4178,42 @@ async function speicherSchreiben(werte) {
        * gibt. Es bleibt also nichts zu lesen, und dann ist die einzige ehrliche
        * Auskunft dieselbe wie beim Staffelwechsel: neu laden.
        */
+      /*
+        **Ein Film mit frischem Quelltext hatte keinen Zweig — er fiel durch.**
+
+        Der Zweig direkt darunter verlangt `quelltextVeraltet()`, die beiden
+        danach sind durch `!istFilmSeite()` gesperrt. Für einen Film, dessen
+        Quelltext in Ordnung ist, blieb damit nichts übrig: Der Ablauf lief bis
+        zum Warte-Zweig durch und stand dort fest — erst „Folgen werden geladen
+        …", nach acht Sekunden „Tonspuren nicht gefunden — Seite neu laden".
+        Neu laden half nicht, denn der Quelltext war nie das Problem (Daniel,
+        28.08.2026, „Blood-C: The Last Dark" und „Have A Nice Day").
+
+        Hier stehen die Tonspuren aus dem Block der Seite, gelesen ohne Umweg.
+        Danach greift der reguläre Weg: eine Einheit, eine Sprachliste, der
+        Knopf schreibt „Film".
+      */
+      if (istFilmSeite() && !quelltextVeraltet() && !gesehen.jeFolge.size) {
+        const film = filmAusSeite()
+        if (film) {
+          gesehen.fuerAdresse = location.pathname + location.search
+          gesehen.gesamt = null
+          gesehen.jeFolge.set(1, film.sprachen)
+          gesehen.nummern.add(1)
+          for (const name of film.sprachen) gesehen.sprachen.add(name)
+          gesehen.metaJeFolge ??= new Map()
+          gesehen.metaJeFolge.set(1, {
+            kennung: film.kennung,
+            nummer: 1,
+            titel: film.titel,
+            erschienen: film.erschienen,
+            dauerSek: film.dauerSek,
+            sprachen: film.sprachen,
+            untertitel: film.untertitel,
+          })
+          letzterFortschritt = Date.now()
+        }
+      }
       if (istFilmSeite() && quelltextVeraltet()) {
         knopf.dataset.tot = 'false'
         knopf.disabled = false
@@ -4213,7 +4355,12 @@ async function speicherSchreiben(werte) {
      * Plural stimmt auch nicht. Erkannt wird der Film daran, dass die Seite
      * keine Folgenzahl nennt und genau eine Einheit gezählt wurde.
      */
-    const istFilm = !gesehen.gesamt && geladen === 1
+    /*
+      Bis 3.78 verlangte die Anzeige `!gesehen.gesamt`. „Blood-C" nennt im
+      Seitengerüst „1 Folge", und diese Eins landet über Zeile 3759 im Zählstand
+      — der Film hätte danach „1 Folge" am Knopf getragen statt „Film".
+    */
+    const istFilm = (istFilmSeite() || !gesehen.gesamt) && geladen === 1
     /*
       **Ist ein Teilbereich bestätigt, gilt seine Zahl.**
 
