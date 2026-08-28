@@ -73,4 +73,5 @@ jobs:
       - name: Ergebnis committen
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: bash tools/commit-data.sh "chore(data): ${{ inputs.lauf }} auf Abruf"
+        run: |
+          bash tools/commit-data.sh "chore(data): Lauf auf Abruf"
