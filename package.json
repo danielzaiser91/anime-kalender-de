@@ -67,7 +67,8 @@
     "check:bestand": "npm run check:handbelege && npm run check:cr-zuordnung && npm run check:quellen && npm run check:adn-gedaechtnis && npm run check:zugangsart",
     "data:tmdb-folgen": "tsx pipeline/fetch-tmdb-folgen.ts",
     "data:vorschlaege": "tsx pipeline/vorschlaege-anbieter.ts",
-    "data:wiedervorlage": "tsx pipeline/wiedervorlage.ts"
+    "data:wiedervorlage": "tsx pipeline/wiedervorlage.ts",
+    "check:qualitaet": "tsx pipeline/check-qualitaet.ts"
   },
   "dependencies": {
     "react": "^19.1.0",

@@ -188,6 +188,12 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:extension-liste
 
+      # Zählt den Bestand und schreibt den Verlauf fort. Bricht nur ab, wenn
+      # etwas gefunden wird, das gar nicht vorkommen darf.
+      - name: Datenqualität messen
+        continue-on-error: true
+        run: npm run check:qualitaet
+
       - name: Vorschaubilder für neue Releases
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
