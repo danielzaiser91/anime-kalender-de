@@ -519,8 +519,14 @@ function veraltetTest(schritte) {
      * eine andere Aussage als „kein Deutsch". Das Muster erlaubt deshalb
      * weitere Bedingungen davor, verlangt aber unverändert, dass ein
      * unvollständiger Stand ohne Deutsch nicht gemeldet wird.
+     * **Das Fenster misst die Absicht, nicht die Länge.** Am 28.08.2026 sprengte
+     * ein erklärender Kommentar im Zweig die bisherigen 400 Zeichen, und die
+     * Zusicherung wurde rot, obwohl die Sperre unverändert dastand — dieselbe
+     * Falle wie beim `beiStaffelwechsel`-Test. Geprüft wird, dass zwischen
+     * Bedingung und `return` nichts anderes passiert; dafür genügt ein
+     * großzügiges Fenster.
      */
-    /if\s*\([^)]*!deutsch\s*&&\s*!vollstaendig\s*\)[\s\S]{0,400}?return/.test(leser),
+    /if\s*\([^)]*!deutsch\s*&&\s*!vollstaendig\s*\)[\s\S]{0,2500}?return/.test(leser),
   )
   pruefe(
     'die Folgenzahl wird aus episodeNumber gewonnen, nicht aus allen audioTracks',

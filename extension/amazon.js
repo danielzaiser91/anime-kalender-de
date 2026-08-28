@@ -2415,7 +2415,22 @@ async function speicherSchreiben(werte) {
               }),
             ]
           : []),
-        kastenKnopf('Nicht bei Prime — melden', (k) => nichtBeiPrimeMelden(auftrag, befund, k)),
+        /*
+          **Ist die Adresse schon gemeldet, gibt es nichts mehr zu melden.**
+
+          Daniel am 28.08.2026: „gemeldet nicht bei prime -> eintrag
+          verschwindet aus liste korrekt, aber button nicht bei prime melden
+          wird wieder klickbar." Der Knopf wird nach der Meldung gesperrt — nur
+          baut der Takt den Kasten kurz darauf neu auf, und der neue Knopf
+          kennt die Sperre nicht. Ein zweiter Klick haette dieselbe Meldung
+          ein zweites Mal geschickt.
+
+          Gefragt wird deshalb der Briefkasten, nicht der alte Knopf: Liegt die
+          Suchadresse dort, steht an seiner Stelle die Bestaetigung.
+        */
+        istGemeldet(auftrag.suchUrl)
+          ? kastenZeile('ak-such-gut', 'gemeldet ✓')
+          : kastenKnopf('Nicht bei Prime — melden', (k) => nichtBeiPrimeMelden(auftrag, befund, k)),
       )
     }
 
@@ -2469,7 +2484,23 @@ async function speicherSchreiben(werte) {
       Minuten; ohne diese Prüfung erschien der Hinweis in dieser Zeit überall,
       auch im Player einer ganz anderen Serie.
     */
-    if (auftrag.zielAsin && auftrag.zielAsin !== asin()) return false
+    /*
+      **Eine fremde Kennung blendet den Kasten nicht mehr aus — sie warnt.**
+
+      Bis 3.84 verschwand der Hinweis, sobald die Seite eine andere Kennung trug
+      als die Karte, auf die geklickt wurde. Gedacht war das gegen den Fall, dass
+      der Auftrag zehn Minuten lang überall aufpoppt.
+
+      Am 28.08.2026 hat sich die Kehrseite gezeigt: Daniel klickte in der Suche
+      auf ein **zweites** Ergebnis, weil das erste der falsche Titel war — und
+      genau dort war der Kasten weg. Der Melde-Knopf blieb. Damit war die einzige
+      Stelle verschwunden, die die Zuordnung prüft, während die Stelle blieb, die
+      meldet. Das ist die falsche Richtung herum.
+
+      Der Kasten bleibt jetzt und sagt, dass diese Seite nicht die angeklickte
+      ist. Der Player bleibt ausgenommen — dort gehört kein Hinweis hin.
+    */
+    const andereSeite = Boolean(auftrag.zielAsin && auftrag.zielAsin !== asin())
     if (imPlayer()) return false
     /*
       **Deutlich mehr Folgen als erwartet heißt: Die Seite bündelt.**
@@ -2610,10 +2641,63 @@ async function speicherSchreiben(werte) {
         kastenZeile('ak-such-hinweis', `${hier} Folgen hier, ${auftrag.folgen} erwartet — die Reihe ist aufgeteilt, melden ist richtig`),
       )
     }
+    /*
+      **Gleicher Name, anderes Jahrzehnt — dann ist es ein anderes Werk.**
+
+      „Elysium" steht bei uns als koreanischer Mecha-Film von 2003 (AniList
+      2941). Die Prime-Suche führt auf den Hollywood-Film mit Matt Damon von
+      2013, und der Kasten bot an, den zu melden (Daniel, 28.08.2026: „warum
+      elysium prüfen? das ist kein anime?"). Titel, Typ und Folgenzahl stimmen
+      dort alle überein — nur das Jahr nicht.
+
+      Ein Jahr allein widerlegt noch nichts: Zwischen japanischer
+      Erstausstrahlung und deutscher Veröffentlichung liegen regelmäßig ein, zwei
+      Jahre, und Prime nennt oft das Datum der eigenen Fassung. Der zweite
+      Elysium-Treffer (2005 bei Prime, 2003 bei uns) ist genau so ein Fall und
+      muss durchgehen. Ab **fünf** Jahren Abstand ist es keine Fassung mehr,
+      sondern ein anderer Film.
+
+      Gemeldet wird trotzdem nicht verhindert — Daniel sieht die Seite, wir
+      nicht. Der Kasten sagt beide Jahreszahlen, und der AniList-Verweis
+      daneben klärt den Rest.
+    */
+    const jahrZeilen = []
+    if (Number.isFinite(auftrag.jahr)) {
+      /*
+        Das Jahr steht schon da: Der Mitleser liest `releaseYear` aus dem
+        Hydration-Block und schickt es als `seite.jahr` mit. Kein zweiter Parse,
+        keine neue Messung — genau die Sorte Arbeit, die heute schon einmal einen
+        Rechner lahmgelegt hat.
+      */
+      /*
+        In try, nicht mit `?.`: Ist der Name im Geltungsbereich gar nicht
+        angelegt, wirft auch die optionale Kette — dieselbe tote Zone, die heute
+        schon `knopf` betroffen hat.
+      */
+      let seitenJahr = null
+      try {
+        seitenJahr = Number.isFinite(gesehen?.seite?.jahr) ? gesehen.seite.jahr : null
+      } catch {
+        seitenJahr = null
+      }
+      if (Number.isFinite(seitenJahr) && Math.abs(seitenJahr - auftrag.jahr) >= 5) {
+        jahrZeilen.push(
+          kastenZeile(
+            'ak-such-warn',
+            `Diese Seite ist von ${seitenJahr}, unser Eintrag von ${auftrag.jahr} — vermutlich ein anderes Werk`,
+          ),
+        )
+      }
+    }
+
     hinweisKasten(
       auftrag.titel,
       auftrag.folgen ? `${auftrag.folgen} ${auftrag.folgen === 1 ? 'Folge' : 'Folgen'} erwartet` : '',
-      kastenZeile('ak-such-gut', 'Meldung läuft unter diesem Titel'),
+      kastenZeile(andereSeite ? 'ak-such-warn' : 'ak-such-gut', 'Meldung läuft unter diesem Titel'),
+      ...(andereSeite
+        ? [kastenZeile('ak-such-warn', 'Andere Seite als der Treffer aus der Suche — vor dem Melden prüfen')]
+        : []),
+      ...jahrZeilen,
       ...teilZeilen,
       kastenZeile('ak-such-hinweis', 'Zeigt die Seite deutlich weniger, ist es ein anderes Werk'),
       ...(auftrag.id ? [kastenVerweis(`Bei AniList nachsehen (#${auftrag.id})`, `https://anilist.co/anime/${auftrag.id}`)] : []),
@@ -3095,7 +3179,18 @@ async function speicherSchreiben(werte) {
    * nichts, ändert sich auch die Anzeige nicht.
    */
   function listenSignatur() {
-    const teile = [offeneZahl(), listenId]
+    /*
+      **Die Suchadressen gehören in die Signatur, nicht nur die Titelseiten.**
+
+      Daniel am 28.08.2026: „und nach meldung bleibt der eintrag in der liste."
+      Der Dialog wird nur neu gefüllt, wenn sich die Signatur ändert — und die
+      zählte ausschließlich `liste`, also die Titelseiten. Eine abgehakte
+      Suchadresse ließ sie unverändert, der Dialog blieb stehen, wie er war.
+
+      Die Anzeige führt beide Sorten in einer Liste; dann muss die Signatur auch
+      beide messen. `suchOffen()` ist billig — eine Filterung über ein Set.
+    */
+    const teile = [offeneZahl(), suchOffen().length, listenId]
     for (const asinEintrag of Object.keys(liste)) {
       teile.push(asinEintrag + ':' + (fortschritt(asinEintrag) || '') + ':' + (fertig(asinEintrag) ? '1' : '0'))
     }
@@ -4094,6 +4189,64 @@ async function speicherSchreiben(werte) {
     if (aufSuchseite) {
       knopf.style.display = 'none'
       return
+    }
+
+    /*
+      **Solange Adresse und Quelltext verschiedene Staffeln nennen, wird nicht
+      gemeldet.**
+
+      Daniel hat am 28.08.2026 eine Bildschirmaufnahme geliefert (Food Wars,
+      Wechsel von Staffel 2 auf 3). Frame für Frame ausgewertet:
+
+          Frame   0– 88   ✓ Staffel 2 gemeldet · weiter mit Staffel 3
+          Frame  89–176   🇩🇪 Deutsch · 13 Folgen · Staffel 1 · … · neu · melden
+          Frame 177–252   24 von 24 — lädt nach
+
+      Anderthalb Sekunden lang stand der Knopf also auf **meldbar**, für
+      **Staffel 1**, mitten in einem Wechsel von 2 auf 3. Ein Klick in diesem
+      Fenster hätte die Folgen der alten Staffel unter der neuen gemeldet.
+
+      Die Ursache ist bekannt und steht in CLAUDE.md: Nach einem Wechsel über das
+      Auswahlfeld wandert die Adresse sofort, der Quelltext bleibt der alte. Es
+      gab dagegen eine Regel, aber sie greift erst, wenn der Mitleser widerspricht
+      — und bis dahin liest die Erweiterung den alten Quelltext als frisch.
+
+      Dieser Riegel braucht niemanden, der widerspricht: Zwei Zahlen, beide schon
+      berechnet, und wenn sie sich unterscheiden, ist eine davon falsch. Welche,
+      spielt keine Rolle — melden darf man in diesem Zustand so oder so nicht.
+    */
+    try {
+      const adrStaffel = staffelAusAdresse()
+      const qtStaffel = quelltextPasst() ? staffelAusSeite() : null
+      /*
+        **Nur solange noch keine Antwort fuer diese Adresse da ist.**
+
+        Bei einem Kanal-Titel bleibt der Quelltext dauerhaft der der alten
+        Staffel — dort wuerde ein Riegel auf die blosse Ungleichheit nie wieder
+        aufgehen und das Melden fuer immer sperren (die Zusicherungen zu
+        „Kill Blue" haben genau das gemeldet). Gemeint ist nur das Fenster
+        zwischen Wechsel und erster frischer Antwort.
+      */
+      const frischeAntwort = gesehen?.fuerAdresse === location.pathname + location.search
+      if (!frischeAntwort && Number.isFinite(adrStaffel) && Number.isFinite(qtStaffel) && adrStaffel !== qtStaffel) {
+        notiere('staffel-uneins', { adresse: adrStaffel, quelltext: qtStaffel })
+        knopf.style.display = ''
+        /*
+          Derselbe Zustand wie beim Waechter weiter unten, nicht ein zweiter
+          eigener: `wechselt` sperrt den Klick, `neuLaden` macht daraus die
+          Handlung, die wirklich hilft. Ein eigener Text mit eigenem Zustand
+          haette den Knopf gesperrt aussehen lassen und trotzdem gemeldet.
+        */
+        knopf.dataset.wechselt = 'true'
+        knopf.dataset.neuLaden = 'true'
+        knopf.dataset.deutsch = 'false'
+        knopf.disabled = false
+        knopf.textContent = `↻ Staffel ${adrStaffel} gewählt, Seite zeigt ${qtStaffel} — Neuladen`
+        return
+      }
+    } catch {
+      /* Fehlt eine der beiden Angaben, greift der Riegel nicht — er ist eine
+         Zusatzsicherung, kein Ersatz für die Wächter darunter. */
     }
 
     /*
@@ -6016,7 +6169,33 @@ async function speicherSchreiben(werte) {
     // Die Sperre gilt der Aussage "kein Deutsch". "Gibt es nicht" ist eine
     // andere -- sie stuetzt sich nicht auf Folgen, sondern auf ihr Fehlen.
     if (!nichtAbrufbar && !deutsch && !vollstaendig) {
-      knopf.textContent = `erst alle ${sollFolgen} Folgen ansehen — sonst kein „kein Deutsch"`
+      /*
+        **Der Knopf sagt jetzt, woran es liegt.**
+
+        „erst alle 11 Folgen ansehen — sonst kein ‚kein Deutsch'" stand am
+        28.08.2026 bei „Domestic Girlfriend", und Daniel fragte: „warum dieser
+        error auf dem melde button?" Zwei Dinge waren daran falsch, obwohl die
+        Sperre selbst richtig ist:
+
+        - **„ansehen" klingt nach abspielen.** Gemeint ist, dass die Erweiterung
+          die Tonspuren noch nicht zu allen Folgen gelesen hat.
+        - **Die Zahl allein erklärt nichts.** Wer nicht weiß, wie viele schon
+          gelesen sind, kann nicht einschätzen, ob Warten hilft.
+
+        Bei einem Kanal-Titel ohne gebuchtes Abo liefert Amazon für die übrigen
+        Folgen gar keine Tonspur — dann ist die Bedingung durch Warten nicht zu
+        erfüllen, und das gehört dazugesagt. Die Sperre bleibt trotzdem: Ein
+        „kein Deutsch" über elf Folgen, gestützt auf sieben, ist genau die
+        Asymmetrie, die dieses Projekt an fremden Quellen bemängelt.
+      */
+      const fehlend = Math.max(0, sollFolgen - geladen)
+      knopf.textContent =
+        `${geladen} von ${sollFolgen} Folgen gelesen — für „kein Deutsch" fehlen ${fehlend}`
+      knopf.title = ueberKanal()
+        ? 'Die übrigen Folgen laufen über ein Kanal-Abo; ohne das nennt Amazon ihre ' +
+          'Tonspuren nicht. Ein „kein Deutsch" über die ganze Staffel wäre damit geraten.'
+        : 'Noch nicht alle Abschnitte geladen. „Deutsch gefunden" gilt sofort — ' +
+          '„kein Deutsch" erst, wenn jede Folge gelesen ist.'
       setTimeout(() => {
         letzterStand = ''
         zeichnen()

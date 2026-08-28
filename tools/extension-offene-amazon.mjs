@@ -245,6 +245,14 @@ for (const t of titel) {
       titel: t.titleDe ?? t.titleEn ?? t.titleRomaji ?? String(t.id),
       id: t.id,
       folgen: t.episodes ?? null,
+      /*
+        **Das Jahr trennt Gleichnamige.** „Elysium" steht bei uns als
+        koreanischer Mecha-Film von 2003; die Prime-Suche führt auf den
+        Hollywood-Film mit Matt Damon von 2013, und die Erweiterung bot an, den
+        zu melden (Daniel, 28.08.2026). Titel und Typ stimmen dort überein — nur
+        das Jahr nicht.
+      */
+      jahr: Number.isFinite(t.jpYear) ? t.jpYear : null,
     }
   }
 }
@@ -274,7 +282,13 @@ try {
       wegenStaffel++
       continue
     }
-    suche[url] = { titel: v.titel, id: v.id, folgen: v.folgen, vorschlag: true }
+    suche[url] = {
+      titel: v.titel,
+      id: v.id,
+      folgen: v.folgen,
+      jahr: Number.isFinite(t?.jpYear) ? t.jpYear : null,
+      vorschlag: true,
+    }
     ausVorschlaegen++
   }
 } catch {
