@@ -282,7 +282,15 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     # das Einzige, was ihn retten kann. Unter `set -e` riss ein solcher Abbruch
     # bis zum 17.08.2026 auch die Quellen mit: Der Wochenlauf vom selben Tag hat
     # 57 Minuten lang fünf fremde Server befragt und alles verworfen.
-    if ! npm run data:build; then
+    # Ein Abruf-Lauf holt eine einzelne Quelle und hat keinen AniList-Cache —
+    # `data:build` bräche dort zwangsläufig ab („data/cache/ ist leer"), und die
+    # Meldung sähe nach einem Fehler aus, obwohl alles richtig läuft. Mit
+    # NUR_QUELLEN=1 wird gar nicht erst gebaut; den Bau macht der nächste
+    # planmäßige Lauf, der den Cache ohnehin aufbaut.
+    if [ "${NUR_QUELLEN:-0}" = 1 ]; then
+      echo "NUR_QUELLEN=1 — kein Neuaufbau, nur die geholten Quellen."
+      AUFBAU_KAPUTT=1
+    elif ! npm run data:build; then
       echo "::warning::Der Neuaufbau ist gescheitert. Die Quellen werden trotzdem committet — sie sind der teure Teil, die Erzeugnisse baut der nächste Lauf neu."
       AUFBAU_KAPUTT=1
     fi
