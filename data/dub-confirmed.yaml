@@ -22920,3 +22920,430 @@
   available: false
   checkedAt: '2026-08-27'
   note: "Suche auf Prime Video: kein Treffer für diesen Titel, nur Verwandtes (One Piece)"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-28 ---
+
+- anilistId: 8142
+  title: "Colorful"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GKY8BF58
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0GKY8BF58: alle 1 Folge geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf"
+
+- anilistId: 21092
+  title: "A Chivalry of a Failed Knight"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FX3883XR
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0FX3883XR: alle 12 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 21212
+  title: "AJIN: Demi-Human -Compel-"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FWYJYCYW
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0FWYJYCYW: alle 1 Folge geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"
+
+- anilistId: 20764
+  title: "Arpeggio of Blue Steel - Cadenza"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GKYNG36B
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0GKYNG36B: alle 1 Folge geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 21791
+  title: "Bungo Stray Dogs: Der Einzelgänger"
+  platform: primevideo
+  url: https://www.amazon.de/s?k=Bungo%20Stray%20Dogs%3A%20Der%20Einzelg%C3%A4nger&i=instant-video
+  available: false
+  checkedAt: '2026-08-28'
+  note: "Suche auf Prime Video: kein einziger Treffer"
+
+- anilistId: 951
+  title: "Chibi Maruko-chan"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GGJC7LNJ
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0GGJC7LNJ: alle 52 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 100745
+  title: "Captain Tsubasa"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GXPFJJZK
+  dub: true
+  dubRanges:
+    - from: 49
+      to: 52
+      dub: false
+      checked: [49, 50, 51, 52]
+    - from: 53
+      to: 91
+      dub: true
+      checked: [53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91]
+  checkedAt: '2026-08-28'
+  note: "Folgen 49–52 ohne deutschen Ton, Folgen 53–91 mit deutschem Ton — Tonspuren: Deutsch, English, Español (Latinoamérica), Français, Português (Brasil), 日本語 — Amazon-Seite B0GXPFJJZK: nur 43 von 91 Folgen geladen — Rest ungeprüft, Abos: crunchyrollde, Seitenadresse: B0GXPFJJZK, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 15583
+  title: "Date a Live"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0C7LZHHTH
+  dub: false
+  checkedAt: '2026-08-28'
+  note: "Amazon-Seite B0C7LZHHTH: alle 10 Folgen geprüft, Abos: keine Angabe, zugang=kauf"
+
+- anilistId: 15583
+  title: "Date a Live"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0C7LZCS5H
+  dub: false
+  checkedAt: '2026-08-28'
+  note: "Amazon-Seite B0C7LZCS5H: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 1"
+
+- anilistId: 15583
+  title: "Date a Live"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DMB2MKZX
+  dub: false
+  checkedAt: '2026-08-28'
+  note: "Amazon-Seite B0DMB2MKZX: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 3"
+
+- anilistId: 15583
+  title: "Date a Live"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CK5N448R
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High, 日本語 — Amazon-Seite B0CK5N448R: alle 12 Folgen geprüft, Abos: Prime — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 4, zugang=abo"
+
+- anilistId: 15583
+  title: "Date a Live"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FLKK79P9
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High, 日本語 — Amazon-Seite B0FLKK79P9: alle 12 Folgen geprüft, Abos: Prime — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 5, zugang=abo_und_kauf"
+
+- anilistId: 1689
+  title: "5 Centimeters per Second"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FMNGNH2G
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High, 日本語 — Amazon-Seite B0FMNGNH2G: nur 1 von 1 Folgen geladen — Rest ungeprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"
+
+- anilistId: 15201
+  title: "Code Geass: Akito the Exiled - Memories of Hatred"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CJK2RNDL
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, Français, 日本語 — Amazon-Seite B0CJK2RNDL: alle 1 Folge geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 21055
+  title: "Chaos Dragon"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B09KFHWXDS
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch — Amazon-Seite B09KFHWXDS: alle 12 Folgen geprüft, Abos: aniversede, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 8888
+  title: "Code Geass: Akito the Exiled - The Wyvern Arrives"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CH782B56
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, Français, 日本語 — Amazon-Seite B0CH782B56: alle 1 Folge geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 15197
+  title: "Code Geass: Akito the Exiled - The Wyvern Divided"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CK5P8ZZR
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, Français, 日本語 — Amazon-Seite B0CK5P8ZZR: alle 1 Folge geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 21178
+  title: "Code Geass: Akito the Exiled - To Beloved Ones"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CJY19RYP
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, Français, 日本語 — Amazon-Seite B0CJY19RYP: Film geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 5
+  title: "Cowboy Bebop: Der Film"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0B8TR93HR
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Português (Portugal) — Amazon-Seite B0B8TR93HR: Film geprüft, Abos: FVOD, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 20588
+  title: "Daimidaler: Prince vs. Penguin Empire"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0D6ZSNNM5
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0D6ZSNNM5: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"
+
+- anilistId: 101166
+  title: "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Arrow of the Orion"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GYMPR92B
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0GYMPR92B: alle 1 Folge geprüft, Abos: aniversede, crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 19163
+  title: "Date a Live II"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CJJF26WZ
+  dub: false
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: English, Español (Latinoamérica), Français, 日本語 — Amazon-Seite B0CJJF26WZ: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 15583
+  title: "Date a Live"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CZS6FBVY
+  dub: false
+  checkedAt: '2026-08-28'
+  note: "Amazon-Seite B0CZS6FBVY: alle 1 Folge geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 5, zugang=kauf"
+
+- anilistId: 20741
+  title: "Date a Live: The Movie – Mayuri Judgement"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GW93GHPY
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0GW93GHPY: Film geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 169754
+  title: "Detektiv Conan: Das 1-Million-Dollar-Pentagramm"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0F2P1L5Z1
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0F2P1L5Z1: alle 1 Folge geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"
+
+- anilistId: 2611
+  title: "Die Abenteuer des kleinen Panda"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B09SGLB6JN
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B09SGLB6JN: alle 1 Folge geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf"
+
+- anilistId: 9760
+  title: "Die Reise nach Agartha"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GYP8SCZG
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0GYP8SCZG: alle 1 Folge geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"
+
+- anilistId: 2151
+  title: "Die wunderbare Reise des kleinen Nils Holgersson mit den Wildgänsen"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GM3R58CV
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0GM3R58CV: alle 52 Folgen geprüft, Abos: zdfschatzkistede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 21500
+  title: "Digimon Adventure tri. Chapter 2: Determination"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GXXGWNSQ
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0GXXGWNSQ: Film geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 21596
+  title: "Digimon Adventure tri. Chapter 3: Confession"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GWRWSVQH
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0GWRWSVQH: alle 1 Folge geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 97734
+  title: "Digimon Adventure tri. Chapter 4: Loss"
+  platform: primevideo
+  url: https://www.amazon.de/s?k=Digimon%20Adventure%20tri.%20Chapter%204%3A%20Loss&i=instant-video
+  available: false
+  checkedAt: '2026-08-28'
+  note: "Suche auf Prime Video: kein einziger Treffer"
+
+- anilistId: 98402
+  title: "Digimon Adventure tri. Chapter 5: Coexistance"
+  platform: primevideo
+  url: https://www.amazon.de/s?k=Digimon%20Adventure%20tri.%20Chapter%205%3A%20Coexistance&i=instant-video
+  available: false
+  checkedAt: '2026-08-28'
+  note: "Suche auf Prime Video: kein einziger Treffer"
+
+- anilistId: 100181
+  title: "Digimon Adventure tri. Chapter 6: Our Future"
+  platform: primevideo
+  url: https://www.amazon.de/s?k=Digimon%20Adventure%20tri.%20Chapter%206%3A%20Our%20Future&i=instant-video
+  available: false
+  checkedAt: '2026-08-28'
+  note: "Suche auf Prime Video: kein einziger Treffer"
+
+- anilistId: 859
+  title: "Digimon Data Squad"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FFT1H1WS
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0FFT1H1WS: alle 48 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 21380
+  title: "Divine Gate"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0F14S6334
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High, 日本語 — Amazon-Seite B0F14S6334: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"
+
+- anilistId: 21096
+  title: "Doukyusei: Verliebt in meinen Mitschüler"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GZBHGDK6
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0GZBHGDK6: alle 1 Folge geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"
+
+- anilistId: 195153
+  title: "Dusk Beyond the End of the World"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FP4BJZFG
+  dub: false
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: 日本語 — Amazon-Seite B0FP4BJZFG: alle 12 Folgen geprüft, Abos: animedigitalde, aniversede, FVOD, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 2848
+  title: "Ein Sommer mit Coo"
+  platform: primevideo
+  url: https://www.amazon.de/s?k=Ein%20Sommer%20mit%20Coo&i=instant-video
+  available: false
+  checkedAt: '2026-08-28'
+  note: "Suche auf Prime Video: kein einziger Treffer"
+
+- anilistId: 2941
+  title: "Elysium"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FVLTNTLL
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0FVLTNTLL: Film geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"
+
+- anilistId: 163785
+  title: "Exorcism Chronicles: The Beginning"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FX9Q8HW7
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0FX9Q8HW7: alle 1 Folge geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"
+
+- anilistId: 146850
+  title: "Farming Life in Another World"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0C9TV1XTQ
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0C9TV1XTQ: alle 12 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf"
+
+- anilistId: 146850
+  title: "Farming Life in Another World"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GVWCHXZZ
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0GVWCHXZZ: alle 12 Folgen geprüft, Abos: Prime, aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf"
+
+- anilistId: 21714
+  title: "Flip Flappers"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CH9ZGF93
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CH9ZGF93: alle 13 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 20923
+  title: "Food Wars! Shokugeki no Soma"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FW93J46S
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0FW93J46S: alle 24 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 172453
+  title: "From Bureaucrat to Villainess: Dad’s Been Reincarnated!"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DMKS6Y12
+  dub: false
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: 日本語 — Amazon-Seite B0DMKS6Y12: alle 12 Folgen geprüft, Abos: animedigitalde, aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 7902
+  title: "Fullmetal Alchemist Brotherhood: Miniclips"
+  platform: primevideo
+  url: https://www.amazon.de/s?k=Fullmetal%20Alchemist%20Brotherhood%3A%20Miniclips&i=instant-video
+  available: false
+  checkedAt: '2026-08-28'
+  note: "Suche auf Prime Video: kein einziger Treffer"
+
+- anilistId: 6421
+  title: "Fullmetal Alchemist: Brotherhood - OVA Collection"
+  platform: primevideo
+  url: https://www.amazon.de/s?k=Fullmetal%20Alchemist%3A%20Brotherhood%20-%20OVA%20Collection&i=instant-video
+  available: false
+  checkedAt: '2026-08-28'
+  note: "Suche auf Prime Video: kein Treffer für diesen Titel, nur Verwandtes (Fullmetal Alchemist: Brotherhood)"
+
+- anilistId: 430
+  title: "Fullmetal Alchemist: Der Eroberer von Shamballa"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0C5D4YBMF
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0C5D4YBMF: alle 1 Folge geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"
+
+- anilistId: 302
+  title: "Future Boy Conan"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0D63ZG7MV
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0D63ZG7MV: alle 7 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 302
+  title: "Future Boy Conan"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0C9SYFPRY
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0C9SYFPRY: alle 6 Folgen geprüft, Abos: aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 302
+  title: "Future Boy Conan"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CH8BD664
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, 日本語, English — Amazon-Seite B0CH8BD664: alle 7 Folgen geprüft, Abos: aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 302
+  title: "Future Boy Conan"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0F3GCF61R
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, English, 日本語 — Amazon-Seite B0F3GCF61R: alle 6 Folgen geprüft, Abos: aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 4, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"

@@ -1,5 +1,5 @@
 {
-  "stand": "2026-08-28T05:30:25.846Z",
+  "stand": "2026-08-28T18:51:40.583Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -1019,7 +1019,7 @@
       "seriesId": "G69PZV9VY",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-08-21",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 59,
@@ -1249,7 +1249,7 @@
       "seriesId": "GYEX5E1G6",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 19163,
@@ -1259,7 +1259,7 @@
       "seriesId": "GYEX5E1G6",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 20741,
@@ -1269,7 +1269,7 @@
       "seriesId": "GYEX5E1G6",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 100722,
@@ -1369,7 +1369,7 @@
       "seriesId": "G6NQX5GZ6",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 21596,
@@ -1379,11 +1379,11 @@
       "seriesId": "G6NQX5GZ6",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 97734,
-      "titel": "Digimon Adventure tri. Chapter 4: Loss",
+      "titel": "Digimon Adventure tri. Chapter 4: Lost",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/digimon-adventure-tri",
       "seriesId": "G6NQX5GZ6",
@@ -1393,7 +1393,7 @@
     },
     {
       "titleId": 98402,
-      "titel": "Digimon Adventure tri. Chapter 5: Coexistance",
+      "titel": "Digimon Adventure tri. Chapter 5: Coexistence",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/digimon-adventure-tri",
       "seriesId": "G6NQX5GZ6",
@@ -1419,7 +1419,7 @@
       "seriesId": "GYZXDZGX6",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 103139,
@@ -1609,7 +1609,7 @@
       "seriesId": "G65VQD2D6",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-08-21",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 101165,
@@ -1693,7 +1693,7 @@
     },
     {
       "titleId": 21833,
-      "titel": "Haikara-san: Here Comes Miss Modern – Part 1",
+      "titel": "Mademoiselle Hanamura 1 - Aufbruch zu modernen Zeiten",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/haikara-san-here-comes-miss-modern",
       "seriesId": "G79H23XN2",
@@ -1703,7 +1703,7 @@
     },
     {
       "titleId": 100652,
-      "titel": "Haikara-san: Here Comes Miss Modern – Part 2",
+      "titel": "Mademoiselle Hanamura 2 - Eine Romanze in Tokyo",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/haikara-san-here-comes-miss-modern",
       "seriesId": "G79H23XN2",
@@ -1903,7 +1903,7 @@
     },
     {
       "titleId": 21798,
-      "titel": "K: SEVEN STORIES \"R:B - BLAZE -\"",
+      "titel": "K: Seven Stories Movie 1 - R:B - Blaze",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/k-seven-stories",
       "seriesId": "GRNVN8MX6",
@@ -1913,7 +1913,7 @@
     },
     {
       "titleId": 102346,
-      "titel": "K: SEVEN STORIES \"SIDE:BLUE - Sirius - \"",
+      "titel": "K: Seven Stories Movie 2 - Side:Blue - Like Sirius",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/k-seven-stories",
       "seriesId": "GRNVN8MX6",
@@ -1923,7 +1923,7 @@
     },
     {
       "titleId": 102347,
-      "titel": "K: SEVEN STORIES \"SIDE:GREEN - Overwrite World - \"",
+      "titel": "K: Seven Stories Movie 3 - Side:Green - The Overwritten World",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/k-seven-stories",
       "seriesId": "GRNVN8MX6",
@@ -1933,7 +1933,7 @@
     },
     {
       "titleId": 102348,
-      "titel": "K: SEVEN STORIES \"Lost Small World - Outside the Cage - \"",
+      "titel": "K: Seven Stories Movie 4 - Lost Small World - Outside the Cage",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/k-seven-stories",
       "seriesId": "GRNVN8MX6",
@@ -1943,7 +1943,7 @@
     },
     {
       "titleId": 102349,
-      "titel": "K: SEVEN STORIES \"Memory of RED - BURN -\"",
+      "titel": "K: Seven Stories Movie 5 - Memory of Red - BURN",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/k-seven-stories",
       "seriesId": "GRNVN8MX6",
@@ -1953,7 +1953,7 @@
     },
     {
       "titleId": 102350,
-      "titel": "K: SEVEN STORIES \"Circle Vision - Nameless Song - \"",
+      "titel": "K: Seven Stories Movie 6 - Circle Vision - Nameless Song",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/k-seven-stories",
       "seriesId": "GRNVN8MX6",
@@ -2013,7 +2013,7 @@
     },
     {
       "titleId": 102093,
-      "titel": "Winter Cup Highlights Episode 1 – Winter Cup Highlights -Shadow and Light-",
+      "titel": "Kuroko’s Basketball - Winter Cup Highlights Movie 1 Shadow and Light",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/kurokos-basketball",
       "seriesId": "G62P48X56",
@@ -2023,7 +2023,7 @@
     },
     {
       "titleId": 102836,
-      "titel": "Winter Cup Highlights Episode 2 – Winter Cup Highlights -Beyond the Tears-",
+      "titel": "Kuroko’s Basketball - Winter Cup Highlights Movie 2 Beyond the Tears",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/kurokos-basketball",
       "seriesId": "G62P48X56",
@@ -2293,7 +2293,7 @@
     },
     {
       "titleId": 98874,
-      "titel": "Overlord: The Dark Hero",
+      "titel": "Overlord - Der dunkle Held",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/overlord",
       "seriesId": "G69PZ5PDY",
@@ -3409,7 +3409,7 @@
       "seriesId": "GYDQNWNG6",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-08-21",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 16201,
@@ -3559,7 +3559,7 @@
       "seriesId": "GNVHKN972",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-08-21",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 1050,
@@ -3609,7 +3609,7 @@
       "seriesId": "GRGGQ914R",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-08-21",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 874,

@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-28T05:30:13.637Z",
+  "scrapedAt": "2026-08-28T18:51:36.827Z",
   "window": {
     "from": "2026-08-17",
     "to": "2026-09-06"
@@ -310,7 +310,8 @@
         "2026-07-24",
         "2026-07-31",
         "2026-08-07",
-        "2026-08-14"
+        "2026-08-14",
+        "2026-08-28"
       ],
       "rawTitle": "Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 (Deutsch)",
       "seriesId": "GYZJ43JMR",
@@ -363,6 +364,10 @@
         {
           "date": "2026-08-14",
           "episode": 16
+        },
+        {
+          "date": "2026-08-28",
+          "episode": 17
         }
       ],
       "earliest": {
@@ -1597,6 +1602,16 @@
       "date": "2026-08-26",
       "time": "19:15",
       "episode": 5,
+      "german": true
+    },
+    {
+      "key": "meine wiedergeburt als schleim in einer anderen welt s4",
+      "rawTitle": "Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 (Deutsch)",
+      "seriesId": "GYZJ43JMR",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GYZJ43JMR/that-time-i-got-reincarnated-as-a-slime",
+      "date": "2026-08-28",
+      "time": "17:00",
+      "episode": 17,
       "german": true
     }
   ]
