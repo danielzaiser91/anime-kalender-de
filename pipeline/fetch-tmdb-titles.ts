@@ -123,7 +123,24 @@ interface SearchHit {
 async function lookup(apiKey: string, title: Title): Promise<TmdbTitle> {
   const isMovie = title.format === 'MOVIE'
   const kind = isMovie ? 'movie' : 'tv'
-  const candidates = [title.titleEn, title.titleRomaji].filter(Boolean) as string[]
+  /*
+    **Vier Schreibweisen statt zwei.**
+
+    Am 28.08.2026 gemessen: 1.247 von 2.753 Titeln findet TMDB nicht, darunter
+    392 Serien, für die wir einen Verweis führen. Gesucht wurde bis dahin nur
+    mit dem englischen und dem Romaji-Titel.
+
+    TMDB führt zu jedem Eintrag auch `original_name` — bei Anime ist das der
+    **japanische** Titel, und den haben wir als `titleNative`. Der deutsche
+    Titel kommt dazu, weil TMDB deutsche Ausgaben unter ihrem hiesigen Namen
+    kennt („Die Rückkehr der Zauberer" findet man nicht als „Mahoutsukai").
+
+    Die Reihenfolge bleibt: Was zuerst trifft, gewinnt, und Englisch ist die
+    Schreibweise, unter der TMDB Anime am ehesten führt.
+  */
+  const candidates = [title.titleEn, title.titleRomaji, title.titleDe, title.titleNative].filter(
+    Boolean,
+  ) as string[]
   if (!candidates.length) return { miss: true }
 
   let best: { hit: SearchHit; score: number } | undefined
@@ -239,7 +256,21 @@ async function main(): Promise<void> {
    */
   const grenze = new Date(Date.now() - ALTER_TAGE * 86400_000).toISOString()
   const faellig = titles
-    .filter((t) => FORCE || !cache[t.id] || (cache[t.id].fetchedAt ?? '') < grenze)
+    /*
+      **Ein Fehlschlag wird früher wiedervorgelegt als ein Treffer.**
+
+      Wer gefunden wurde, ändert sich selten; wer nicht gefunden wurde, kann beim
+      nächsten Mal mit einer anderen Schreibweise treffen — genau das ist am
+      28.08.2026 passiert, als der japanische und der deutsche Titel dazukamen.
+      Ohne diese Ausnahme hätten die 1.247 Fehlschläge bis zum Ablauf der vollen
+      Frist auf ihren zweiten Versuch gewartet.
+    */
+    .filter((t) => {
+      if (FORCE || !cache[t.id]) return true
+      const e = cache[t.id]!
+      const frist = e.tmdbId ? grenze : new Date(Date.now() - 7 * 86400_000).toISOString()
+      return (e.fetchedAt ?? '') < frist
+    })
     .sort((a, b) => (cache[a.id]?.fetchedAt ?? '').localeCompare(cache[b.id]?.fetchedAt ?? ''))
   const todo = faellig.slice(0, LIMIT)
   const nie = faellig.filter((t) => !cache[t.id]).length
