@@ -1981,8 +1981,8 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
     const stapel = rohfolgen.slice(0, 500).map((f: Record<string, unknown>) =>
       env.DB.prepare(
         `INSERT INTO prime_folge (url, asin, gti, nummer, titel, erschienen, dauer_sek,
-                                  sprachen, untertitel, staffel_text, staffel_nr, gemeldet_am)
-         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)`,
+                                  sprachen, untertitel, staffel_text, staffel_nr, gemeldet_am, titel_id)
+         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13)`,
       ).bind(
         url,
         f.asin ? String(f.asin).slice(0, 40) : null,
@@ -1996,6 +1996,16 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
         f.staffelText ? String(f.staffelText).slice(0, 120) : null,
         zahlOderNull(f.staffelNr),
         jetzt,
+        /*
+          **Die Titel-Kennung macht aus einer Suche eine Angabe.**
+
+          Gemessen am 28.08.2026: 1 von 67 Adressen liess sich zuordnen,
+          66-mal „kein Titel zu dieser Adresse". Die Suche lief ueber
+          `titles.streams.url` — und ein Titel ohne Verweis hat dort nichts
+          stehen. Die Erweiterung kennt die Kennung aus ihrem Auftrag; sie
+          mitzuschicken kostet ein Feld.
+        */
+        zahlOderNull(daten.titelId),
       ),
     )
     try {

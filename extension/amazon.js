@@ -6480,6 +6480,15 @@ async function speicherSchreiben(werte) {
            * dort liegen Folgentitel und Erstausstrahlungsdaten, gegen die sich
            * das abgleichen lässt.
            */
+          /*
+            **Unsere Titel-Kennung geht mit — sie loest die Zuordnung.**
+
+            Gemessen am 28.08.2026: Von 67 gemeldeten Adressen liess sich
+            genau eine einem Titel zuordnen. Der Bau suchte ueber die Adresse
+            in `titles.streams.url`; ein Titel ohne Verweis steht dort nicht.
+            Die Kennung liegt hier im Auftrag bereit und beendet das Raten.
+          */
+          titelId: eintrag?.id ?? (() => { try { return suchauftrag()?.id ?? null } catch { return null } })(),
           rohfolgen: [...(gesehen.metaJeFolge ?? new Map()).values()].map((f) => ({
             asin: f.kennung ?? null,
             gti: f.gti ?? null,

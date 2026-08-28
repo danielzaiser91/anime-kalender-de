@@ -39,6 +39,7 @@ interface Rohfolge {
   staffel_text: string | null
   staffel_nr: number | null
   gemeldet_am: string
+  titel_id: number | null
 }
 
 interface TmdbEintrag {
@@ -94,7 +95,21 @@ async function main(): Promise<void> {
       Welcher unserer Titel gehört zu dieser Adresse? Über den Bestand, nicht über
       den Namen: Die Adresse steht dort, der Name kann bei Prime jede Form haben.
     */
-    const treffer = titles.filter((t) => (t.streams ?? []).some((s) => s.url === url))
+    /*
+      **Die gemeldete Kennung entscheidet, nicht die Adresse.**
+
+      Bis zum 28.08.2026 lief die Zuordnung ueber `titles.streams.url`. Ein
+      Titel ohne Verweis steht dort nicht — und genau die stehen in der
+      Pruefliste. Gemessen: 1 von 67 Adressen zugeordnet, 66-mal „kein Titel
+      zu dieser Adresse".
+
+      Seit Migration 018 traegt jede Rohfolge `titel_id`. Die Adresse bleibt
+      als Rueckfall fuer alles, was vorher gemeldet wurde.
+    */
+    const gemeldeteId = liste.find((f) => Number.isFinite(f.titel_id))?.titel_id ?? null
+    const treffer = gemeldeteId
+      ? titles.filter((t) => t.id === gemeldeteId)
+      : titles.filter((t) => (t.streams ?? []).some((s) => s.url === url))
     if (treffer.length !== 1) {
       offen.push({
         url,
