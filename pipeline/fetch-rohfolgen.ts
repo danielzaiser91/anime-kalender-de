@@ -70,7 +70,14 @@ async function main(): Promise<void> {
   const { folgen, gesamt } = (await antwort.json()) as { folgen: Rohfolge[]; gesamt: number }
   if (!folgen.length) {
     log(`keine offenen Rohfolgen (Bestand ${gesamt})`)
-    recordSource('rohfolgen', 0)
+    /*
+      Wie bei motn-changes (siehe lib/health.ts) ist „nichts gemeldet" hier der
+      Normalfall, kein Ausfall — die Quelle hängt an Daniels Handarbeit mit der
+      Erweiterung, nicht an einem Scraper. Ohne `gearbeitet` sähe ein erfolgreicher,
+      aber leerer Abruf wie „hat noch nie funktioniert" aus und würde nie ein
+      `lastOk` setzen.
+    */
+    recordSource('rohfolgen', 0, undefined, 1)
     return
   }
   log(`${folgen.length} Rohfolgen geholt (offen insgesamt: ${gesamt})`)
