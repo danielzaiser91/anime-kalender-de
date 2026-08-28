@@ -77,6 +77,7 @@ QUELLEN=(
   data/prime-zugeordnet.json
   data/prime-unzugeordnet.json
   data/cr-vorschlaege.json
+  data/adn-vorschlaege.json
   data/anime-ids.json
   data/curated-ids.json
   data/source-health.json
