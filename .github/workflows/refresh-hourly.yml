@@ -192,6 +192,8 @@ jobs:
       # etwas gefunden wird, das gar nicht vorkommen darf.
       - name: Datenqualität messen
         continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run check:qualitaet
 
       - name: Vorschaubilder für neue Releases
