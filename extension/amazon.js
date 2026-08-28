@@ -5524,6 +5524,40 @@ async function speicherSchreiben(werte) {
            */
           zugang: zugangsart(),
           abos: abos(),
+          /**
+           * **Die Folgen selbst — roh, ohne Deutung.**
+           *
+           * Bis 3.76 schickte die Meldung ein Urteil: `dub`, eine Folgenzahl, ein
+           * Sprachbündel. Die Grundlage dafür — Titel, Erstausstrahlung, Laufzeit
+           * je Folge — las der Leser längst aus, und die Meldung warf sie weg.
+           *
+           * Damit war jede spätere Frage unbeantwortbar („ist das dieselbe
+           * Folge?", „gehört diese Staffel zu unserem Eintrag?"), und genau
+           * deshalb musste die Erweiterung sie im Browser beantworten. Am
+           * 27.08.2026 hat das neununddreißig Fassungen an einem Abend gekostet.
+           *
+           * Jetzt geht die Liste mit. Die Zuordnung passiert im Bau gegen TMDB —
+           * dort liegen Folgentitel und Erstausstrahlungsdaten, gegen die sich
+           * das abgleichen lässt.
+           */
+          rohfolgen: [...(gesehen.metaJeFolge ?? new Map()).values()].map((f) => ({
+            asin: f.kennung ?? null,
+            gti: f.gti ?? null,
+            nummer: f.nummer ?? null,
+            titel: f.titel ?? null,
+            erschienen: f.erschienen ?? null,
+            dauerSek: f.dauerSek ?? null,
+            sprachen: f.sprachen ?? [],
+            untertitel: f.untertitel ?? [],
+            staffelText: gemeldeterBand ?? null,
+            staffelNr: (() => {
+              try {
+                return staffelNummer()
+              } catch {
+                return null
+              }
+            })(),
+          })),
           /*
             Der bestätigte Ausschnitt, falls die Seite mehrere unserer Einträge
             in einer durchlaufenden Liste führt. Fehlt im Normalfall.
