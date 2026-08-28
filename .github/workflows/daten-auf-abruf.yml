@@ -1,0 +1,76 @@
+# Einen einzelnen Datenlauf anstoßen, ohne den ganzen Wochenlauf mitzunehmen.
+#
+# **Warum es das gibt.** Die vier planmäßigen Workflows decken den Regelfall ab,
+# aber sie sind Pakete: Wer die TMDB-Folgen nachholen will, stößt sonst einen
+# Tiefendurchlauf über alle Quellen an — vierzig Minuten für eine Sache, die drei
+# braucht. Und lokal laufen sollen Datenläufe nicht (siehe CLAUDE.md, „Datenläufe
+# laufen remote").
+#
+# **Die Auswahl ist fest.** Ein Freitextfeld, das in eine Shell wandert, ist eine
+# offene Tür — auch in einem privaten Repo. Wer einen neuen Lauf braucht, trägt
+# ihn hier ein; das ist eine Zeile und ein Commit.
+name: Datenlauf auf Abruf
+
+on:
+  workflow_dispatch:
+    inputs:
+      lauf:
+        description: 'Welcher Lauf'
+        required: true
+        type: choice
+        options:
+          - data:tmdb-folgen
+          - data:tmdb
+          - data:anisearch
+          - data:cr-dub
+          - data:extension-liste
+          - data:build
+      grenze:
+        description: 'Höchstzahl Titel (nur wo der Lauf --limit kennt)'
+        required: false
+        default: '300'
+        type: string
+
+concurrency:
+  group: daten-auf-abruf
+  cancel-in-progress: false
+
+jobs:
+  lauf:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Lauf ausführen
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+          ANILIST_TOKEN: ${{ secrets.ANILIST_TOKEN }}
+          CR_ZUGANG: ${{ secrets.CR_ZUGANG }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: |
+          set -euo pipefail
+          LAUF='${{ inputs.lauf }}'
+          GRENZE='${{ inputs.grenze }}'
+          # Nicht jeder Lauf kennt --limit; die, die es nicht tun, bekommen es nicht.
+          case "$LAUF" in
+            data:tmdb-folgen|data:tmdb|data:anisearch|data:cr-dub)
+              npm run "$LAUF" -- --limit "$GRENZE" ;;
+            *)
+              npm run "$LAUF" ;;
+          esac
+
+      - name: Ergebnis committen
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash tools/commit-data.sh "chore(data): ${{ inputs.lauf }} auf Abruf"
