@@ -1637,6 +1637,36 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
       return antwort({ anbieter, erzeugtAm: new Date().toISOString() })
     }
 
+    /*
+      **Die Rohfolgen für den Bau.**
+
+      Die Zuordnung passiert nicht mehr im Browser, sondern hier gegen TMDB —
+      dafür braucht der Bau, was die Erweiterung gesehen hat: Folgentitel,
+      Erstausstrahlung, Laufzeit, Sprachen, je Folge.
+
+      Wie bei `/pruefung` mit Token, und mit derselben Grenze: Was hier
+      herauskommt, ist der Rohstoff eines Laufs, nicht eine Ansicht für
+      Menschen.
+    */
+    if (new URL(request.url).searchParams.get('rohfolgen') === '1') {
+      const token = new URL(request.url).searchParams.get('token') ?? ''
+      if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) {
+        return antwort({ error: 'Token fehlt oder stimmt nicht' }, 403)
+      }
+      const { results } = await env.DB.prepare(
+        `SELECT id, url, asin, gti, nummer, titel, erschienen, dauer_sek, sprachen,
+                untertitel, staffel_text, staffel_nr, gemeldet_am
+           FROM prime_folge
+          WHERE uebernommen = 0
+          ORDER BY gemeldet_am, id
+          LIMIT 5000`,
+      ).all()
+      /* Die Gesamtzahl getrennt: Eine Abfrage mit LIMIT beantwortet eine andere
+         Frage als die gestellte — das hat am 26.08.2026 zwei Einträge gekostet. */
+      const gesamt = await env.DB.prepare('SELECT COUNT(*) AS n FROM prime_folge WHERE uebernommen = 0').first<{ n: number }>()
+      return antwort({ folgen: results ?? [], gesamt: gesamt?.n ?? 0 })
+    }
+
     if (new URL(request.url).searchParams.get('zaehlen') === '1') {
       /*
         **Die Adressen gehören dazu, nicht nur ihre Anzahl.**
@@ -1907,6 +1937,55 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
       zahlOderNull(daten.teil_bis),
     )
     .run()
+
+  /*
+    **Die Folgen selbst, roh und ohne Deutung.**
+
+    Bis 3.76 meldete die Erweiterung ein Urteil und warf die Grundlage weg — die
+    Folgentitel, Erstausstrahlungsdaten und Laufzeiten, die sie längst gelesen
+    hatte. Jede spätere Frage war damit unbeantwortbar, und genau deshalb musste
+    sie im Browser entscheiden, was sich dort nicht entscheiden lässt.
+
+    `daten.rohfolgen` ist der neue Weg. Er kommt **neben** dem alten Format an,
+    nicht statt seiner: Eine Erweiterung, die ihn noch nicht schickt, meldet
+    weiter wie bisher.
+
+    Gespeichert wird ohne Prüfung auf Sinn. Ob eine Nummer stimmt, entscheidet
+    der Bau gegen TMDB — hier zählt nur, dass nichts verlorengeht.
+  */
+  const rohfolgen = Array.isArray(daten.rohfolgen) ? daten.rohfolgen : []
+  if (rohfolgen.length) {
+    const jetzt = jetztIso()
+    /* Höchstens 500 je Meldung: Eine Staffel hat keine tausend Folgen, und eine
+       kaputte Erweiterung soll die Tabelle nicht fluten. */
+    const stapel = rohfolgen.slice(0, 500).map((f: Record<string, unknown>) =>
+      env.DB.prepare(
+        `INSERT INTO prime_folge (url, asin, gti, nummer, titel, erschienen, dauer_sek,
+                                  sprachen, untertitel, staffel_text, staffel_nr, gemeldet_am)
+         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)`,
+      ).bind(
+        url,
+        f.asin ? String(f.asin).slice(0, 40) : null,
+        f.gti ? String(f.gti).slice(0, 60) : null,
+        zahlOderNull(f.nummer),
+        f.titel ? String(f.titel).slice(0, 300) : null,
+        f.erschienen ? String(f.erschienen).slice(0, 30) : null,
+        zahlOderNull(f.dauerSek),
+        f.sprachen ? JSON.stringify(f.sprachen).slice(0, 1000) : null,
+        f.untertitel ? JSON.stringify(f.untertitel).slice(0, 1000) : null,
+        f.staffelText ? String(f.staffelText).slice(0, 120) : null,
+        zahlOderNull(f.staffelNr),
+        jetzt,
+      ),
+    )
+    try {
+      await env.DB.batch(stapel)
+    } catch (e) {
+      /* Die Meldung selbst ist schon gespeichert — ein Fehler hier darf sie
+         nicht mitreißen. Ohne Rohfolgen ist der Befund weniger wert, aber gültig. */
+      console.error(`prime_folge: ${(e as Error).message}`)
+    }
+  }
 
   const offen2 = await env.DB.prepare('SELECT COUNT(*) AS n FROM pruefung WHERE uebernommen = 0').first<{
     n: number
