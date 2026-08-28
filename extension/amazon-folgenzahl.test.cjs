@@ -44,8 +44,21 @@ const stueck = quelle.match(/function istFilmSeite\(\) \{[\s\S]*?\n  \}/)
 pruefe('istFilmSeite() ist im Quelltext auffindbar', Boolean(stueck))
 
 if (stueck) {
-  const bauen = new Function('lage', `${stueck[0]}\nfunction seitenLage(){return lage}\nreturn istFilmSeite()`)
-  const film = (l) => bauen(l)
+  /*
+    Seit 3.82 fragt `istFilmSeite()` zuerst `filmAusSeite()` — den
+    Hydration-Block. Beide Wege werden getrennt geprüft: Der Stub gibt hier
+    `null` zurück, damit unten wirklich der Textweg gemessen wird; der
+    Block-Weg bekommt eigene Zusicherungen dahinter.
+  */
+  const bauen = new Function(
+    'lage',
+    'ausBlock',
+    `${stueck[0]}
+function seitenLage(){return lage}
+function filmAusSeite(){return ausBlock}
+return istFilmSeite()`,
+  )
+  const film = (l, ausBlock = null) => bauen(l, ausBlock)
 
   /* Der reale Fall aus Daniels Bericht vom 28.08.2026, Werte wörtlich daraus. */
   pruefe(
@@ -70,6 +83,24 @@ if (stueck) {
   pruefe(
     'ohne Laufzeit kein Film — sonst wäre jede leere Seite einer',
     film({ hatFolgenReiter: false, folgenLautSeite: 1, hatLaufzeit: false }) === false,
+  )
+
+  /*
+    **Der Block schlägt den gerenderten Text.** „5 Centimeters per Second"
+    trägt `entityType: Movie` und vier Tonspuren; im gerenderten Text tauchte
+    trotzdem eine Drei auf, und der Knopf kippte nach einer Sekunde von
+    „1 Film melden" auf „1 von 3 — Abschnitte selbst öffnen" (Daniel,
+    28.08.2026, mit Bild). Anonym gemessen nennt der Block weder episodeCount
+    noch Staffeln, und im Quelltext steht nirgends „3 Folgen".
+  */
+  const ausBlock = { kennung: 'B0FMMXPN15', titel: '5 Centimeters per Second', sprachen: ['Deutsch', '日本語'], dauerSek: 3779 }
+  pruefe(
+    'sagt der Block „Movie“, zählt keine Zahl aus dem Seitentext dagegen',
+    film({ hatFolgenReiter: false, folgenLautSeite: 3, hatLaufzeit: true }, ausBlock) === true,
+  )
+  pruefe(
+    'ohne Block bleibt es beim Textweg — drei Folgen sind dann kein Film',
+    film({ hatFolgenReiter: false, folgenLautSeite: 3, hatLaufzeit: true }, null) === false,
   )
 }
 

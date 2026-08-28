@@ -488,6 +488,34 @@ async function speicherSchreiben(werte) {
       **eine Laufzeit im Seitenkopf**. Eine Serie hat den Reiter, ein Film die
       Laufzeit. Eine Zahl über eins widerspricht dem Film weiterhin.
     */
+    /*
+      **Der Hydration-Block schlägt den gerenderten Text.**
+
+      „5 Centimeters per Second" (`B0FMNGNH2G`) zeigte am 28.08.2026 erst
+      „1 Film melden" und eine Sekunde später „1 von 3 — Abschnitte selbst
+      öffnen", dann hing es (Daniel, mit Bild). Der Knopf war also zuerst
+      richtig: Solange nur das Gerüst stand, war `folgenLautSeite` null.
+
+      Anonym nachgemessen sagt der Block:
+
+          entityType   Movie
+          audioTracks  Deutsch, … , 日本語
+          runtime      1 Std. 2 Min.
+          episodeCount nicht gesetzt
+          seasons      keine
+
+      Kein Feld nennt drei Folgen, und im Quelltext steht nirgends „3 Folgen".
+      Die Zahl entsteht erst im **gerenderten** Text — der Beschreibungstext
+      spricht von „drei miteinander verbundenen Kurzfilmen", daneben laufen
+      Empfehlungsleisten. `seitenLage()` liest `body.innerText`, und was dort
+      nachträglich erscheint, kippte die Erkennung.
+
+      Ein Textmuster gegen ein Datenfeld antreten zu lassen ist der falsche Weg
+      herum. Sagt der Block „Movie" und nennt Tonspuren, ist es ein Film — was
+      die Seite daneben schreibt, ändert daran nichts. Der Textweg bleibt als
+      Rückfall für Seiten ohne brauchbaren Block.
+    */
+    if (filmAusSeite()) return true
     return !lage.hatFolgenReiter && (lage.folgenLautSeite ?? 0) <= 1 && lage.hatLaufzeit
   }
 
@@ -835,18 +863,46 @@ async function speicherSchreiben(werte) {
         console.log("[AK] ak-oeffnen braucht einen Text, z. B. { detail: 'digimon' }")
         return
       }
+      /*
+        **Es gibt zwei Speicher, und das war der Fehler von 3.80.**
+
+        `amazonErledigt` hält die Titelseiten, `amazonSuche` die Suchadressen.
+        Die erste Fassung räumte nur den ersten, meldete Erfolg — und in der
+        Liste änderte sich nichts, weil die über den zweiten filtert (Daniel,
+        28.08.2026: „der command sagt in console die sind wieder offen aber sind
+        sie nicht").
+      */
       const offen = []
       for (const [schluessel, wert] of Object.entries(erledigt)) {
         const text = `${wert?.titel ?? ''} ${wert?.serie ?? ''}`.toLowerCase()
         if (text.includes(suche)) offen.push(schluessel)
       }
-      if (!offen.length) {
-        console.log(`[AK] nichts Abgehaktes passt auf „${suche}“ — ${Object.keys(erledigt).length} erledigte Einträge geprüft`)
+      const offeneSuchen = []
+      for (const url of Object.keys(suchErledigt)) {
+        const text = `${url} ${suchliste[url]?.titel ?? ''}`.toLowerCase()
+        if (text.includes(suche)) offeneSuchen.push(url)
+      }
+      if (!offen.length && !offeneSuchen.length) {
+        console.log(
+          `[AK] nichts Abgehaktes passt auf „${suche}“ — ${Object.keys(erledigt).length} Titelseiten und ` +
+            `${Object.keys(suchErledigt).length} Suchadressen geprüft`,
+        )
         return
       }
       for (const schluessel of offen) delete erledigt[schluessel]
-      await speicherSchreiben({ amazonErledigt: erledigt })
-      console.log(`[AK] ${offen.length} Eintrag/Einträge wieder offen:`, offen)
+      for (const url of offeneSuchen) delete suchErledigt[url]
+      await speicherSchreiben({ amazonErledigt: erledigt, amazonSuche: suchErledigt })
+      /*
+        Der lokale Speicher ist nur die Überbrückung — maßgeblich ist der
+        Briefkasten. Steht die Adresse dort noch, bleibt sie abgehakt, und genau
+        das soll man sehen.
+      */
+      await briefkastenHolen(true)
+      console.log(
+        `[AK] ${offen.length} Titelseite(n) und ${offeneSuchen.length} Suchadresse(n) lokal geöffnet.`,
+        'Maßgeblich ist der Briefkasten — was dort noch liegt, bleibt abgehakt.',
+        { titelseiten: offen, suchen: offeneSuchen },
+      )
       try {
         uebersichtZeichnen()
       } catch {
@@ -1992,6 +2048,32 @@ async function speicherSchreiben(werte) {
   const ohneParameter = (url) => (url ?? '').split('?')[0]
 
   /** Ein Knopf im Kasten — gleiche Form für alle Fälle. */
+  /**
+   * **Woher der Auftrag stammt, gehört in den Kasten.**
+   *
+   * Daniel am 28.08.2026: „pack in dieses prüf-div fenster auch den link zu
+   * anilist, wo du das herhast, damit ich nachschauen kann und nicht jedes mal
+   * manuell googlen muss."
+   *
+   * Der Kasten nennt Titel und erwartete Folgenzahl — beides stammt aus unserem
+   * Bestand, und der stammt aus AniList. Wenn die Zahl nicht zur Seite passt (was
+   * bei Prime der Regelfall ist, siehe „Prime schneidet Reihen anders zu"), ist
+   * die erste Frage: Was steht dort eigentlich? Ein Klick beantwortet sie.
+   *
+   * `target="_blank"` mit `rel="noopener"`, damit die Prime-Seite stehen bleibt —
+   * ein Wechsel würde den halb geladenen Zählstand wegwerfen.
+   */
+  function kastenVerweis(text, adresse) {
+    const a = document.createElement('a')
+    a.className = 'ak-such-quelle'
+    a.href = adresse
+    a.target = '_blank'
+    a.rel = 'noopener noreferrer'
+    a.textContent = text
+    a.style.cssText = 'display:block;margin-top:4px;color:#7cc4ff;text-decoration:underline;font-size:12px'
+    return a
+  }
+
   function kastenKnopf(beschriftung, tun) {
     const k = document.createElement('button')
     k.type = 'button'
@@ -2437,6 +2519,7 @@ async function speicherSchreiben(werte) {
       kastenZeile('ak-such-gut', 'Meldung läuft unter diesem Titel'),
       ...teilZeilen,
       kastenZeile('ak-such-hinweis', 'Zeigt die Seite deutlich weniger, ist es ein anderes Werk'),
+      ...(auftrag.id ? [kastenVerweis(`Bei AniList nachsehen (#${auftrag.id})`, `https://anilist.co/anime/${auftrag.id}`)] : []),
     )
     return true
   }
@@ -2540,11 +2623,18 @@ async function speicherSchreiben(werte) {
         letzterStand = ''
       }
       uebersichtZeichnen()
+      /*
+        Und gleich beim Briefkasten nachfragen, wer wirklich schon gemeldet ist.
+        Der lokale Stand hat den Aufbau nur überbrückt; ab hier gilt der
+        gemeinsame (Daniel, 28.08.2026: „single source of truth").
+      */
+      void briefkastenHolen(true)
     })
     .catch(() => {
       // Ohne Speicher ist der Stand unbekannt — dann lieber melden lassen als
       // dauerhaft sperren.
       standGeladen = true
+      void briefkastenHolen(true)
     })
 
   /**
@@ -2633,10 +2723,30 @@ async function speicherSchreiben(werte) {
    * Auskunft, um die es Daniel ging. Die Gesamtzahl bleibt bei ihrer Zeile.
    */
   function gesamtDerSerie(asinEintrag) {
-    return erledigt[asinEintrag]?.gesamt ?? 1
+    /*
+      Die Staffeln werden über alle Einträge der Serie gesammelt — die Zahl, mit
+      der sie verglichen werden, muss denselben Umfang haben. Sonst entsteht
+      „7/5" (Daniel, 28.08.2026).
+    */
+    let groesste = 0
+    for (const k of serienGefaehrten(asinEintrag)) {
+      const n = erledigt[k]?.gesamt
+      if (Number.isFinite(n) && n > groesste) groesste = n
+    }
+    return groesste || erledigt[asinEintrag]?.gesamt || 1
   }
 
   function fertig(asinEintrag) {
+    /*
+      **Auch hier entscheidet der Briefkasten, nicht der Rechner.**
+
+      Führt er die Adresse dieses Eintrags nicht mehr, ist nichts gemeldet — egal
+      was lokal steht. Das ist die Richtung, an der am 28.08.2026 zwei Titel
+      hängen blieben: lokal abgehakt, im Briefkasten nie angekommen (oder längst
+      übernommen), und damit für immer unsichtbar.
+    */
+    const url = liste[asinEintrag]?.url
+    if (url && briefkastenAdressen && !briefkastenAdressen.has(url)) return false
     const e = erledigt[asinEintrag]
     if (!e) return false
     return Object.keys(staffelnDerSerie(asinEintrag)).length >= gesamtDerSerie(asinEintrag)
@@ -2673,13 +2783,27 @@ async function speicherSchreiben(werte) {
   }
 
   /** Wie weit dieser Titel ist — für die Zeile in der Liste. */
+  /**
+   * Wie weit dieser Titel ist — für die Zeile in der Liste.
+   *
+   * **„7/5" stand am 28.08.2026 bei „Golden Kamuy: Final Season"** (Daniel, mit
+   * Bild). Der Zähler sammelt die gemeldeten Staffeln über **alle** Einträge
+   * derselben Serie (`staffelnDerSerie` läuft über `serienGefaehrten`), verglich
+   * sie aber gegen die Staffelzahl **eines** Eintrags. Golden Kamuy hat mehrere
+   * Prime-Einträge; sieben gemeldete Staffeln gegen die fünf des einen.
+   *
+   * Verglichen wird deshalb gegen die größte Zahl, die einer der Gefährten
+   * nennt. Bleibt es darüber, ist die Sache erledigt und der Bruch sagt nichts
+   * mehr — dann steht dort ein Haken.
+   */
   function fortschritt(asinEintrag) {
     const e = erledigt[asinEintrag]
     if (!e) return null
     const staffeln = staffelnDerSerie(asinEintrag)
     const zahl = Object.keys(staffeln).length
     const gesamt = gesamtDerSerie(asinEintrag)
-    return gesamt > 1 ? `${zahl}/${gesamt}` : (Object.values(staffeln)[0] ?? "✓")
+    if (gesamt <= 1) return Object.values(staffeln)[0] ?? '✓'
+    return zahl >= gesamt ? '✓' : `${zahl}/${gesamt}`
   }
 
   const offeneZahl = () => Object.keys(liste).filter((a) => !fertig(a)).length
@@ -2700,11 +2824,84 @@ async function speicherSchreiben(werte) {
    * Sie ist erledigt, sobald unter ihr gemeldet wurde — mehr gibt es dort
    * nicht zu wissen.
    */
-  const suchOffen = () => Object.keys(suchliste).filter((u) => !suchErledigt[u])
+  /**
+   * **Was gemeldet ist, sagt der Briefkasten — nicht der Rechner.**
+   *
+   * Bis 3.81 führte die Erweiterung zwei eigene Speicher: `amazonErledigt` für
+   * Titelseiten, `amazonSuche` für Suchadressen. Beide lagen nur hier, und
+   * genau daran ist am 28.08.2026 sichtbar geworden, was daran falsch ist:
+   *
+   * - Ein Werkzeug zum Zurücksetzen räumte einen der beiden Speicher, meldete
+   *   Erfolg — und in der Liste änderte sich nichts, weil der andere filterte.
+   * - Was auf einem Rechner abgehakt war, war es auf keinem anderen.
+   * - Zwei Quellen für dieselbe Frage laufen auseinander, und keine kann sagen,
+   *   welche recht hat.
+   *
+   * Daniel dazu: „die liste sollte synchron sein … gemeldet/nicht gemeldet
+   * sollte ebenfalls synchron remote abgeglichen werden, kein lokales
+   * zurücksetzen only, kein localstorage dafür … single source of truth."
+   *
+   * Der Briefkasten weiß es ohnehin: Jede Meldung landet dort, und
+   * `?zaehlen=1&nummern=1` gibt die Adressen zurück, die noch nicht übernommen
+   * sind. Genau diesen Weg geht `disney.js` seit dem 26.08.2026.
+   *
+   * **Der lokale Speicher bleibt als Überbrückung, nicht als Wahrheit.** Zwischen
+   * dem Klick auf „melden" und der nächsten Antwort des Briefkastens liegen
+   * Sekunden; ohne ihn stünde der Titel in dieser Zeit wieder als offen da. Er
+   * wird deshalb weiter geschrieben, aber nur noch **zusätzlich** gelesen — und
+   * jede Adresse, die der Briefkasten nicht mehr führt, gilt als offen, auch
+   * wenn sie lokal abgehakt ist.
+   */
+  let briefkastenAdressen = null
+  let briefkastenGeholtAm = 0
+  const BRIEFKASTEN_FRIST_MS = 60_000
+
+  async function briefkastenHolen(erzwingen = false) {
+    if (!erzwingen && briefkastenAdressen && Date.now() - briefkastenGeholtAm < BRIEFKASTEN_FRIST_MS) return
+    try {
+      const antwort = await fetch(`${WORKER}?zaehlen=1`, { cache: 'no-store' })
+      if (!antwort.ok) return
+      const daten = await antwort.json()
+      if (!Array.isArray(daten.adressen)) return
+      briefkastenAdressen = new Set(daten.adressen)
+      briefkastenGeholtAm = Date.now()
+      try {
+        uebersichtZeichnen()
+      } catch {
+        /* Die Übersicht ist nicht auf jeder Seite gebaut. */
+      }
+    } catch {
+      /*
+        **Ohne Auskunft wird nichts ausgeblendet.** Ein Netzfehler darf keine
+        Arbeit verstecken — lieber ein Titel zu viel in der Liste als einer, den
+        niemand mehr sieht.
+      */
+    }
+  }
+
+  /**
+   * Ist unter dieser Adresse schon gemeldet worden?
+   *
+   * Solange der Briefkasten nicht geantwortet hat, gilt der lokale Stand — sonst
+   * flackerte die Liste bei jedem Seitenaufbau. Sobald er da ist, entscheidet er.
+   */
+  const istGemeldet = (url) => {
+    if (briefkastenAdressen) return briefkastenAdressen.has(url)
+    return Boolean(suchErledigt[url])
+  }
+
+  const suchOffen = () => Object.keys(suchliste).filter((u) => !istGemeldet(u))
 
   async function suchAbhaken(url) {
+    /*
+      Der lokale Eintrag überbrückt die Sekunden bis zur nächsten Antwort des
+      Briefkastens; danach ist dessen Liste maßgeblich.
+    */
     suchErledigt = { ...suchErledigt, [url]: new Date().toISOString().slice(0, 10) }
+    if (briefkastenAdressen) briefkastenAdressen.add(url)
     await speicherSchreiben({ amazonSuche: suchErledigt })
+    /* Und gleich nachfragen, damit der gemeinsame Stand stimmt. */
+    void briefkastenHolen(true)
   }
 
   /**

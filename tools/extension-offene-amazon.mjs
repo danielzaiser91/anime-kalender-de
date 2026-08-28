@@ -131,11 +131,116 @@ for (const [asin, eintraege] of jeAsin) {
  * richtige Adresse, falls die im Datensatz danebenliegt", und
  * `fetch-pruefungen.ts` ordnet eine unbekannte Adresse über den Namen zu.
  */
+/**
+ * **In die Prüfliste kommen Hauptserien, Filme und Specials — keine Staffeln.**
+ *
+ * Daniel am 28.08.2026: „mach das die prüfliste generell nur hauptserien, filme
+ * und specials prüft, weil sowas wie bungo stray dogs 2, staffel 2 ist …
+ * zuordnung kannst du getrennt von prüfliste machen, ist viel einfacher und
+ * unkomplizierter."
+ *
+ * Der Anlass war ein Auftrag „Bungo Stray Dogs 2". Die Suche führt zur
+ * **Serienseite**, und die zeigt Staffel 1 — Staffel 2 ließ sich von dort nicht
+ * melden, und beim Wechsel stand am Knopf weiter „Staffel 1 melden", obwohl die
+ * längst gemeldet war.
+ *
+ * Das ist kein Fehler der Erweiterung, sondern ein Auftrag, der eine
+ * Unterscheidung verlangt, die auf dieser Seite nicht zu treffen ist: Prime
+ * führt alle Staffeln unter einer Seite, unser Bestand jede als eigenen Titel.
+ * Genau die Trennung, die `docs/prime-erfassung-neu.md` beschreibt — sammeln
+ * und zuordnen sind zwei Arbeiten, und nur die erste passiert im Browser.
+ *
+ * **Ein Auftrag je Werk genügt deshalb.** Wer die Serienseite prüft, sieht dort
+ * ohnehin alle Staffeln; welche Folge zu welcher gehört, entscheidet der Bau
+ * über TMDBs Folgentitel (`pipeline/fetch-rohfolgen.ts`).
+ *
+ * **Aussortiert wird nur, was auch wirklich woanders erreichbar ist.** Eine
+ * Fortsetzung fliegt heraus, wenn ihr Stammtitel selbst im Bestand steht —
+ * sonst bliebe sie über keinen Weg mehr prüfbar, und ein Vorfilter, der
+ * verschwinden lässt statt zu verschieben, ist genau der Fehler, vor dem
+ * CLAUDE.md warnt.
+ */
+/*
+  **Entschieden wird über `franchiseId`, nicht über den Namen.**
+
+  Der erste Anlauf las die Staffelnummer aus dem Titel. Das trägt nicht weit:
+  „Bungou Stray Dogs 2nd Season" nennt sie, „Digimon Adventure 02" auch — nur
+  ist das zweite eine eigene Serie und das erste eine Fortsetzung. Der Datensatz
+  weiß es besser: Alle Teile eines Werks teilen sich eine `franchiseId`.
+
+  Innerhalb eines Franchise bekommt **eine** TV-Serie den Auftrag, und zwar die
+  früheste — sie ist es, auf deren Serienseite Prime alle Staffeln führt. Filme,
+  Specials, OVAs und ONAs bleiben ausgenommen: Sie haben bei Prime eigene Seiten
+  und eigene Tonspuren.
+*/
+/*
+  Namen, die sich selbst als Fortsetzung ausweisen. Bewusst eng: eine nackte Zahl
+  am Ende zählt nur von 2 bis 9 („Bungo Stray Dogs 3"), denn „Digimon Adventure
+  02" und „Mob Psycho 100" tragen ebenfalls Ziffern.
+*/
+const STAFFEL_IM_TITEL =
+  /\s(?:staffel|season|part|teil|cour)\s*([2-9]|\d{2})\b|\s([2-9])$|\s(?:2nd|3rd|4th|5th|second|third|fourth|fifth)\s+season\b/i
+
+const NEBENFORM = new Set(['MOVIE', 'SPECIAL', 'OVA', 'ONA', 'MUSIC'])
+
+/* Je Franchise die TV-Serie, die den Auftrag bekommt. */
+const hauptSerieJeFranchise = new Map()
+for (const t of titel) {
+  const f = t.franchiseId
+  if (!f) continue
+  if (NEBENFORM.has(String(t.format ?? '').toUpperCase())) continue
+  const bisher = hauptSerieJeFranchise.get(f)
+  if (!bisher) {
+    hauptSerieJeFranchise.set(f, t)
+    continue
+  }
+  /*
+    Die frühere gewinnt. Ohne Jahr entscheidet die kleinere Kennung — AniList
+    vergibt sie aufsteigend, die erste Staffel ist also die kleinere Zahl.
+  */
+  const a = Number.isFinite(t.jpYear) ? t.jpYear : Infinity
+  const b = Number.isFinite(bisher.jpYear) ? bisher.jpYear : Infinity
+  if (a < b || (a === b && t.id < bisher.id)) hauptSerieJeFranchise.set(f, t)
+}
+
+/**
+ * Ist das eine Fortsetzung, die über die Serienseite ihrer ersten Staffel
+ * mitgeprüft wird?
+ *
+ * Ohne Franchise-Kennung oder als Nebenform: nein — dann bleibt der Auftrag, denn
+ * ein Vorfilter darf verschieben, nicht verschwinden lassen.
+ */
+function istNachrangigeStaffel(t) {
+  if (!t?.franchiseId) return false
+  if (NEBENFORM.has(String(t.format ?? '').toUpperCase())) return false
+  const haupt = hauptSerieJeFranchise.get(t.franchiseId)
+  if (!haupt || haupt.id === t.id) return false
+  /*
+    **Ein Franchise allein genügt nicht — es muss sich auch als Staffel ausgeben.**
+
+    Die erste Fassung filterte jede TV-Serie eines Franchise außer der frühesten.
+    Damit fiel „Digimon Frontier" heraus, und das ist keine zweite Staffel,
+    sondern eine eigenständige Reihe mit eigener Prime-Seite; über die der
+    ersten wäre sie nie erreichbar gewesen.
+
+    Beide Signale zusammen sind eindeutig: dasselbe Werk laut Datensatz **und**
+    ein Name, der sich selbst als Fortsetzung ausweist („Bungou Stray Dogs 2nd
+    Season", „Bungo Stray Dogs 3"). Ein Anthologie-Franchise trägt das nicht.
+  */
+  return [t.titleDe, t.titleEn, t.titleRomaji].filter(Boolean).some((n) => STAFFEL_IM_TITEL.test(n))
+}
+
+let wegenStaffel = 0
+
 const suche = {}
 for (const t of titel) {
   for (const s of t.streams ?? []) {
     if (s.platform !== 'primevideo' || !/\/s\?/.test(s.url ?? '')) continue
     if (s.dub !== undefined) continue
+    if (istNachrangigeStaffel(t)) {
+      wegenStaffel++
+      continue
+    }
     suche[s.url] = {
       titel: t.titleDe ?? t.titleEn ?? t.titleRomaji ?? String(t.id),
       id: t.id,
@@ -164,6 +269,11 @@ try {
     const url =
       'https://www.amazon.de/s?k=' + encodeURIComponent(v.titel) + '&i=instant-video'
     if (suche[url]) continue
+    const t = titel.find((x) => x.id === v.id)
+    if (t && istNachrangigeStaffel(t)) {
+      wegenStaffel++
+      continue
+    }
     suche[url] = { titel: v.titel, id: v.id, folgen: v.folgen, vorschlag: true }
     ausVorschlaegen++
   }
@@ -177,6 +287,9 @@ writeFileSync(
   'globalThis.AK_PRIME_SUCHE = ' + JSON.stringify(suche) + '\n',
 )
 console.log(`${Object.keys(suche).length} Prime-Suchadressen ohne Titelseite`)
+if (wegenStaffel) {
+  console.log(`  ${wegenStaffel} Fortsetzung(en) ausgelassen — ihre Serienseite steht als eigener Auftrag`)
+}
 
 for (const [asin, wert] of Object.entries(ERNEUT)) {
   if (offen[asin]) continue

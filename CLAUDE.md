@@ -1623,6 +1623,83 @@ Film regelmäßig unter einer anderen Kennung als die Adresse — dasselbe Bild 
 bei Digimon Tamers weiter oben. Die Adress-Kennung kommt im Quelltext trotzdem
 vor (11×), der Zugehörigkeits-Wächter greift also zu Recht nicht.
 
+### Der Briefkasten ist die einzige Quelle für „schon gemeldet"
+
+Bis 3.81 führte die Erweiterung zwei eigene Speicher: `amazonErledigt` für
+Titelseiten, `amazonSuche` für Suchadressen. Am 28.08.2026 hat das zweimal
+gekostet:
+
+- Ein Werkzeug zum gezielten Zurücksetzen räumte nur den ersten, meldete Erfolg —
+  und in der Liste änderte sich nichts, weil die über den zweiten filtert
+  (Daniel: „der command sagt in console die sind wieder offen aber sind sie
+  nicht").
+- Was auf einem Rechner abgehakt war, war es auf keinem anderen.
+
+Daniels Vorgabe: „gemeldet/nicht gemeldet sollte ebenfalls synchron remote
+abgeglichen werden, kein lokales zurücksetzen only, kein localstorage dafür …
+single source of truth."
+
+Der Briefkasten weiß es ohnehin — jede Meldung landet dort, und
+`?zaehlen=1` gibt die Adressen zurück, die noch nicht übernommen sind. Genau
+diesen Weg geht `disney.js` seit dem 26.08.2026; `amazon.js` hatte ihn nur nie
+übernommen.
+
+**Der lokale Speicher bleibt, aber nur als Überbrückung.** Zwischen dem Klick auf
+„melden" und der nächsten Antwort liegen Sekunden; ohne ihn stünde der Titel
+solange wieder als offen da. Gelesen wird er nur, **solange der Briefkasten
+schweigt** — sobald dessen Liste da ist, entscheidet sie, und zwar in beide
+Richtungen: Was dort nicht mehr steht, ist offen, auch wenn es lokal abgehakt
+ist. Ein Netzfehler blendet nichts aus; lieber ein Titel zu viel in der Liste
+als einer, den niemand mehr sieht.
+
+### In die Prüfliste kommen Werke, keine Staffeln
+
+Daniel am 28.08.2026: „mach das die prüfliste generell nur hauptserien, filme und
+specials prüft, weil sowas wie bungo stray dogs 2, staffel 2 ist … zuordnung
+kannst du getrennt von prüfliste machen, ist viel einfacher und unkomplizierter."
+
+Der Anlass war ein Auftrag „Bungo Stray Dogs 2". Die Suche führt zur
+**Serienseite**, und die zeigt Staffel 1 — Staffel 2 ließ sich von dort nicht
+melden, und beim Wechsel stand am Knopf weiter „Staffel 1 melden", obwohl die
+längst gemeldet war. Kein Fehler der Erweiterung: ein Auftrag, der eine
+Unterscheidung verlangt, die auf dieser Seite nicht zu treffen ist.
+
+**Aussortiert wird über zwei Signale zusammen**, und beide werden gebraucht:
+
+| Signal | allein zu grob |
+|---|---|
+| gleiche `franchiseId` | „Digimon Frontier" fiel heraus — eigene Reihe, eigene Prime-Seite |
+| Staffelnummer im Namen | „Digimon Adventure 02" und „Mob Psycho 100" tragen auch Ziffern |
+
+Zusammen sind sie eindeutig: dasselbe Werk laut Datensatz **und** ein Name, der
+sich selbst als Fortsetzung ausweist. Filme, Specials, OVAs und ONAs sind
+ausgenommen — sie haben eigene Seiten und eigene Tonspuren. Gemessen fallen
+damit sechs Fortsetzungen heraus; „Bungo Stray Dogs" bleibt, „Bungo Stray Dogs 2"
+und „3" gehen, die OVA „Der Einzelgänger" bleibt.
+
+Welche Folge zu welcher Staffel gehört, entscheidet danach der Bau über TMDBs
+Folgentitel (`pipeline/fetch-rohfolgen.ts`) — sammeln und zuordnen sind zwei
+Arbeiten, und nur die erste passiert im Browser.
+
+### Ein Datenfeld schlägt ein Textmuster — auch beim eigenen Fix
+
+„5 Centimeters per Second" zeigte am 28.08.2026 erst „1 Film melden" und eine
+Sekunde später „1 von 3 — Abschnitte selbst öffnen", dann hing es. Der Knopf war
+also zuerst richtig.
+
+Anonym nachgemessen nennt der Hydration-Block `entityType: Movie`, vier
+Tonspuren, eine Laufzeit — und **kein** `episodeCount`, keine Staffeln. Im
+Quelltext steht nirgends „3 Folgen". Die Zahl entsteht erst im **gerenderten**
+Text: Der Beschreibungstext spricht von „drei miteinander verbundenen
+Kurzfilmen", daneben laufen Empfehlungsleisten. `seitenLage()` liest
+`body.innerText` — und was dort nachträglich erscheint, kippte die Erkennung.
+
+Seit 3.82 fragt `istFilmSeite()` deshalb zuerst den Block. Sagt der „Movie" und
+nennt Tonspuren, ist es ein Film; der Textweg bleibt Rückfall für Seiten ohne
+brauchbaren Block. Dieselbe Messung entlastet auch „Code Geass: Akito the Exiled 5
+— OVA": Trotz „OVA" im Namen steht dort `entityType: Movie` mit deutscher
+Tonspur — die Vermutung, das Format sei schuld, ist widerlegt.
+
 ### Eine Abweichung ist kein Ereignis — daran hing der Staffelwechsel fest
 
 Fünfter Anlauf an demselben Symptom, und diesmal aus einer Messung statt aus
