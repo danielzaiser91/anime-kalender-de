@@ -568,6 +568,30 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
       serieDarfNicht,
     )
   }
+    /*
+      **Ein Film mit eigenem Block bekommt sein Nein aus dem deutschen Katalog.**
+
+      Bei „Rascal Does Not Dream of a Sister Venturing Out" ist die Serie deutsch,
+      der Film nicht — die Verneinung für die ganze Serie greift deshalb nie.
+    */
+    const mitFilmBlock = {
+      katalog: 'de',
+      deutschImAngebot: true,
+      staffeln: [
+        { name: 'Rascal Does Not Dream of Bunny Girl Senpai', folgen: 13, deutsch: 13 },
+        { name: 'Rascal Does Not Dream of a Sister Venturing Out', folgen: 1, deutsch: 0 },
+      ],
+    }
+    const film2 = beurteileJeBlock(mitFilmBlock as never, [
+      mach(20, 'Rascal Does Not Dream of a Sister Venturing Out', 1, 'MOVIE'),
+    ])
+    pruefe('der Film bekommt sein Nein aus dem eigenen Block', film2.length === 1 && film2[0].dub === false, film2)
+
+    /* Aus dem US-Katalog wird nie ein Nein — die Regel seit dem 22.08.2026. */
+    const film3 = beurteileJeBlock({ ...mitFilmBlock, katalog: 'us' } as never, [
+      mach(21, 'Rascal Does Not Dream of a Sister Venturing Out', 1, 'MOVIE'),
+    ])
+    pruefe('aus dem US-Katalog kommt kein Nein', !film3.some((u) => u.dub === false), film3)
 
   /* Zwei offene Titel: dann entscheidet wieder der Name. */
   const zwei = beurteileJeBlock(mitBloecken as never, [

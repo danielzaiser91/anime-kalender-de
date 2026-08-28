@@ -665,6 +665,39 @@ export function beurteileJeBlock(serie: CrSerie, unsere: Title[]): Urteil[] {
     }
   }
 
+  /*
+    **Ein Film mit eigenem Block wird über ihn beurteilt — auch verneinend.**
+
+    Die Verneinung weiter oben gilt der ganzen Serie: „deutscher Katalog führt in
+    N Blöcken keine deutsche Fassung". Ein Film an einer Serienadresse fällt
+    durch, sobald irgendein Block der Reihe Deutsch führt — bei „Rascal Does Not
+    Dream of a Sister Venturing Out" ist die Serie deutsch, der Film nicht.
+
+    Trägt der Film einen **gleichnamigen** Block und stammt die Auskunft aus dem
+    **deutschen** Katalog, ist das derselbe Beleggrad wie bei der Serie: Der
+    Katalog kennt den Block und nennt keine deutsche Fassung.
+
+    Zwei Bedingungen halten das eng: der Namenstreffer muss exakt sein (nach der
+    Kürzung), und `katalog === 'de'` — aus dem US-Katalog wird nie ein Nein,
+    das ist die Regel seit dem 22.08.2026.
+  */
+  if (serie.katalog === 'de') {
+    for (const film of unsere.filter((t) => t.format === 'MOVIE')) {
+      if (raus.some((u) => u.titleId === film.id)) continue
+      const namen = [film.titleRomaji, film.titleEn, film.titleDe].map(kurz).filter((n) => n.length >= 4)
+      const eigener = bloecke.filter((b) => namen.includes(kurz(b.name)))
+      if (eigener.length !== 1) continue
+      const block = eigener[0]!
+      const deutsch = block.deutscheFolgen?.length ?? block.deutsch ?? 0
+      if (deutsch > 0) continue
+      raus.push({
+        titleId: film.id,
+        dub: false,
+        grund: `eigener Block „${block.name}" im deutschen Katalog, ${block.folgen} Folgen, keine davon deutsch`,
+      })
+    }
+  }
+
   for (const titel of unsere) {
     /* Wer schon über den Sonderblock beurteilt ist, wird nicht zweimal gewertet. */
     if (raus.some((u) => u.titleId === titel.id)) continue
