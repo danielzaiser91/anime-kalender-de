@@ -908,6 +908,7 @@ function main(): void {
       string,
       {
         overviewDe?: string
+        nameDe?: string
         fsk?: Fsk
         providers?: PlatformId[]
         offers?: { name: string; kind: 'flatrate' | 'rent' | 'buy' }[]
@@ -1153,6 +1154,7 @@ function main(): void {
   let fremdeAdressen = 0
   let umsortiert = 0
   let deutscheTitel = 0
+  let deutscheTitelTmdb = 0
   for (const title of titles.values()) {
     const extra = anisearch[title.id]
 
@@ -1184,6 +1186,30 @@ function main(): void {
       if (de?.title?.trim()) {
         title.titleDe = werkTitel(de.title.trim())
         deutscheTitel++
+      }
+    }
+
+    /*
+      **TMDB als zweite Quelle für den deutschen Titel.**
+
+      194 Titel hatten am 28.08.2026 keinen — `titleDe` kam allein aus aniSearch.
+      TMDB antwortet auf `language=de-DE` mit dem deutschen Namen, wenn es einen
+      gibt, und **sonst mit dem Originaltitel**. Genau darum wird hier
+      verglichen: Stimmt der Name mit einem unserer Originaltitel überein, ist es
+      keine Übersetzung, sondern dieselbe Auskunft noch einmal.
+
+      Ein deutscher Titel, der dem englischen gleicht, ist kein Gewinn — er
+      füllt nur ein Feld und lässt die Lücke unsichtbar werden.
+    */
+    if (!title.titleDe && tmdbTitles[title.id]?.nameDe) {
+      const kandidat = tmdbTitles[title.id]!.nameDe!.trim()
+      const gleichWie = [title.titleEn, title.titleRomaji, title.titleNative]
+        .filter(Boolean)
+        .map((x) => x!.toLowerCase().replace(/[^a-z0-9]/g, ''))
+      const kern = kandidat.toLowerCase().replace(/[^a-z0-9]/g, '')
+      if (kandidat && !gleichWie.includes(kern)) {
+        title.titleDe = werkTitel(kandidat)
+        deutscheTitelTmdb++
       }
     }
 
@@ -1246,6 +1272,7 @@ function main(): void {
       (a, b) => PLATFORM_PRIORITY.indexOf(a.platform) - PLATFORM_PRIORITY.indexOf(b.platform),
     )
   }
+  if (deutscheTitelTmdb) log(`${deutscheTitelTmdb} deutsche Titel von TMDB ergänzt (aniSearch hatte keinen)`)
   if (umsortiert) log(`${umsortiert} aniSearch-Verweise umsortiert: Adresse gehört zu einem anderen Anbieter als dem genannten`)
   if (fremdeAdressen) log(`${fremdeAdressen} aniSearch-Verweise verworfen: Adresse führt zu gar keinem bekannten Anbieter`)
 

@@ -46,6 +46,13 @@ export interface TmdbTitle {
   kind?: 'tv' | 'movie'
   /** Deutsche Handlung, nur gesetzt bei sicherer Zuordnung. */
   overviewDe?: string
+  /**
+   * Der Name, mit dem TMDB auf `language=de-DE` antwortet.
+   *
+   * Gibt es keinen deutschen, steht dort der Originaltitel — der Bau entscheidet,
+   * ob sich beide unterscheiden, denn nur er kennt beide.
+   */
+  nameDe?: string
   fsk?: Fsk
   providers?: PlatformId[]
   /** Alle deutschen Angebote, auch die ohne eigene Plattform. */
@@ -150,11 +157,23 @@ async function lookup(apiKey: string, title: Title): Promise<TmdbTitle> {
   const out: TmdbTitle = { tmdbId: best.hit.id, kind }
 
   try {
-    const detail = await fetchJson<{ overview?: string }>(
+    const detail = await fetchJson<{ overview?: string; name?: string; title?: string }>(
       `${BASE}/${kind}/${best.hit.id}?api_key=${apiKey}&language=de-DE`,
     )
     // TMDB liefert bei fehlender Übersetzung ein leeres Feld statt Englisch.
     if (detail.overview && detail.overview.trim().length > 40) out.overviewDe = detail.overview.trim()
+    /*
+      **Der deutsche Titel kommt aus derselben Antwort — er wurde nur nie gelesen.**
+
+      194 Titel im Bestand haben keinen deutschen Namen; `titleDe` kommt bisher
+      allein aus aniSearch. TMDB antwortet auf `language=de-DE` mit dem deutschen
+      Namen, wenn es einen gibt, und sonst mit dem Originaltitel.
+
+      Genau deshalb wird er hier nur mitgeschrieben, nicht gesetzt: Ob er sich
+      vom Originaltitel unterscheidet, entscheidet der Bau — er kennt beide.
+    */
+    const nameDe = (detail.name ?? detail.title ?? "").trim()
+    if (nameDe) out.nameDe = nameDe
     await sleep(40)
 
     if (isMovie) {
