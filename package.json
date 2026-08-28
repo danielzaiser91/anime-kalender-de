@@ -68,7 +68,8 @@
     "data:tmdb-folgen": "tsx pipeline/fetch-tmdb-folgen.ts",
     "data:vorschlaege": "tsx pipeline/vorschlaege-anbieter.ts",
     "data:wiedervorlage": "tsx pipeline/wiedervorlage.ts",
-    "check:qualitaet": "tsx pipeline/check-qualitaet.ts"
+    "check:qualitaet": "tsx pipeline/check-qualitaet.ts",
+    "data:rohfolgen": "tsx pipeline/fetch-rohfolgen.ts"
   },
   "dependencies": {
     "react": "^19.1.0",

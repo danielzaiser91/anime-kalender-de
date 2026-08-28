@@ -51,6 +51,8 @@ const FRISTEN: Record<string, number> = {
   'tmdb-kino': 9,
   /* Wochenlauf plus zwei Tage Luft — ein ausgefallener Lauf ist noch kein Alarm. */
   'tmdb-folgen': 9,
+  /* Stündlich, aber nur wenn gemeldet wurde — eine Woche ohne Meldung ist normal. */
+  rohfolgen: 30,
   // Wöchentlich. Eine Freigabe wird erst kurz vor dem Kinostart erteilt —
   // in ruhigen Wochen belegt der Lauf nichts Neues, und das ist kein Ausfall.
   fsk: 9,

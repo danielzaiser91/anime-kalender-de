@@ -183,6 +183,15 @@ jobs:
       # Erst nach dem Bau: Die Listen zählen gegen `titles.json`, und das
       # entsteht eine Zeile weiter oben. Davor gerechnet wären sie immer einen
       # Lauf hinterher.
+      # Die gemeldeten Rohfolgen unseren Folgen zuordnen — gegen TMDB, nicht
+      # im Browser. Muss vor der Prüfliste laufen: Was zugeordnet ist, gehört
+      # nicht mehr auf sie.
+      - name: Rohfolgen zuordnen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:rohfolgen
+
       - name: Prüflisten und Prüfstand neu erzeugen
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
