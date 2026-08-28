@@ -378,6 +378,22 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "TMDB-Angaben auffrischen"
 
+      # Folgentitel und Erstausstrahlungsdaten je Folge — die Grundlage für
+      # die Zuordnung im Bau. Läuft nach den Titeln, weil er deren tmdbId
+      # braucht.
+      - name: TMDB-Folgen holen
+        continue-on-error: true
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:tmdb-folgen -- --limit 300
+
+      - name: Fortschritt — TMDB-Folgen holen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "TMDB-Folgen holen"
+
       - name: Datensatz bauen
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
