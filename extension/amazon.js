@@ -2097,6 +2097,29 @@ async function speicherSchreiben(werte) {
     kasten.appendChild(kastenZeile('ak-such-titel', titel))
     if (unterzeile) kasten.appendChild(kastenZeile('ak-such-unter', unterzeile))
     for (const z of zusatz) if (z) kasten.appendChild(z)
+    /*
+      **Der Verweis gehoert in jeden Kasten, nicht in einen.**
+
+      Er stand seit 3.80 nur im Auftragshinweis auf der Titelseite. Genau dort
+      braucht man ihn am wenigsten: Wer eine Seite offen hat, sieht den Titel.
+      Gebraucht wird er im Kein-Treffer-Kasten auf der Suchseite — dort steht
+      die Frage, ob der Suchbegriff ueberhaupt stimmt (Daniel, 28.08.2026:
+      „wo ist der anilist link? ich muss vergleichen koennen").
+
+      Deshalb haengt er hier und nicht an einer Aufrufstelle: Jeder Kasten
+      gehoert zu einem Auftrag, und der traegt die Kennung. Ein Kasten, der
+      kuenftig dazukommt, hat den Verweis damit von selbst.
+    */
+    try {
+      const auftrag = suchauftrag()
+      if (auftrag?.id) {
+        kasten.appendChild(
+          kastenVerweis('Bei AniList nachsehen (#' + auftrag.id + ')', 'https://anilist.co/anime/' + auftrag.id),
+        )
+      }
+    } catch {
+      /* Ohne Auftrag kein Verweis — der Kasten steht trotzdem. */
+    }
     document.body.appendChild(kasten)
     return kasten
   }
@@ -2700,7 +2723,6 @@ async function speicherSchreiben(werte) {
       ...jahrZeilen,
       ...teilZeilen,
       kastenZeile('ak-such-hinweis', 'Zeigt die Seite deutlich weniger, ist es ein anderes Werk'),
-      ...(auftrag.id ? [kastenVerweis(`Bei AniList nachsehen (#${auftrag.id})`, `https://anilist.co/anime/${auftrag.id}`)] : []),
     )
     return true
   }

@@ -778,6 +778,34 @@ const kaisenFilm = werte(
 )
 pruefe('„The Movie“ bleibt ein eigenes Werk', kaisenFilm.befund.art !== 'genau', kaisenFilm.befund.art)
 
+/*
+  **Der AniList-Verweis haengt an hinweisKasten, nicht an einer Aufrufstelle.**
+
+  Er stand seit 3.80 nur im Auftragshinweis der Titelseite — gebraucht wird er
+  im Kein-Treffer-Kasten der Suchseite, wo sich die Frage stellt, ob der
+  Suchbegriff stimmt (Daniel, 28.08.2026). Geprueft wird deshalb die Stelle,
+  nicht der Einzelfall: Liegt er in hinweisKasten, hat ihn jeder Kasten.
+*/
+{
+  const fs = require('node:fs')
+  const quelle = fs.readFileSync(require('node:path').resolve(__dirname, 'amazon.js'), 'utf8')
+  const von = quelle.indexOf('function hinweisKasten')
+  const bis = quelle.indexOf('\n  }', von)
+  const rumpf = quelle.slice(von, bis)
+  pruefe(
+    'der AniList-Verweis steht in hinweisKasten selbst',
+    rumpf.includes('kastenVerweis') && rumpf.includes('anilist.co/anime/'),
+  )
+  pruefe(
+    'und die Kennung kommt aus dem Auftrag',
+    /suchauftrag\(\)[\s\S]{0,200}auftrag\?\.id/.test(rumpf),
+  )
+  pruefe(
+    'er wird nicht zusaetzlich an einer Aufrufstelle angehaengt',
+    !quelle.includes('auftrag.id ? [kastenVerweis'),
+  )
+}
+
 console.log()
 if (fehler.length) {
   console.error(`${fehler.length} Zusicherung(en) verletzt.`)
