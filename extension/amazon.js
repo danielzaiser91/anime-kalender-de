@@ -5196,6 +5196,35 @@ async function speicherSchreiben(werte) {
       return
     }
 
+    /*
+      **Die Sperre stand nur im Melde-Pfad — der Knopf bot trotzdem „melden" an.**
+
+      Daniel am 28.08.2026 an „Domestic Girlfriend": Der Knopf zeigte
+      „✕ kein Deutsch · 10 Folgen · … · melden", und beim Klick erschien fuer
+      ein paar Sekunden „10 von 11 Folgen gelesen — fuer „kein Deutsch" fehlen 1".
+
+      Beides stimmt, nur an der falschen Stelle: Die Pruefung lief erst beim
+      Melden. Der Kommentar darunter kuendigt sie seit Tagen fuer das Zeichnen
+      an, der Code dazu fehlte. Ein Knopf, der etwas anbietet und es beim Klick
+      abweist, ist eine Falle.
+
+      Der Fall selbst ist echt: Die Seite fuehrt elf Folgen, gelesen sind
+      1 und 3 bis 12 — Folge 2 fehlt, und die 12 liegt ueber der Staffelgroesse.
+      `geladeneFolgen()` zaehlt nur Nummern bis `gesamt`, also zehn.
+    */
+    if (!nichtAbrufbar && !istFilm && !vollstaendig && gesehen.gesamt) {
+      const fehlend = Math.max(0, gesehen.gesamt - geladen)
+      knopf.disabled = true
+      knopf.dataset.deutsch = String(deutsch)
+      knopf.textContent = deutsch
+        ? `${geladen} von ${gesehen.gesamt} Folgen gelesen — ${fehlend} fehlen noch`
+        : `${geladen} von ${gesehen.gesamt} Folgen gelesen — fuer „kein Deutsch" fehlen ${fehlend}`
+      knopf.title =
+        'Solange nicht jede Folge gelesen ist, sagt die Meldung mehr, als geprueft wurde. ' +
+        '„Deutsch gefunden" gilt fuer die Sprache sofort — die Zahl der Folgen aber erst, wenn sie stimmt.'
+      return
+    }
+
     /**
      * Unvollständig geladen? Dann wird gar nicht gemeldet.
      *

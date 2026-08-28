@@ -69,6 +69,26 @@ const struktur = existsSync(resolve(wurzel, 'data/anbieter-staffeln.json'))
   ? JSON.parse(readFileSync(resolve(wurzel, 'data/anbieter-staffeln.json'), 'utf8'))
   : {}
 
+/*
+  **Die aniSearch-Kennung gehört auch in die Netflix- und Disney-Liste.**
+
+  Daniel am 28.08.2026: „kannst du die anilist links mit anisearch ersetzen in
+  der melde extension?" — Bei Prime steckte der Verweis schon im Prüfkasten, hier
+  gab es gar keinen. aniSearch führt deutsche Titel, deutsche Beschreibungen und
+  eine Episodenliste mit deutschen Folgentiteln; bei einer Reihe, die der
+  Anbieter anders schneidet als wir, ist das die Seite, die es klärt.
+*/
+const anisearchKennung = (() => {
+  try {
+    const roh = JSON.parse(readFileSync(resolve(wurzel, 'data/anisearch.json'), 'utf8'))
+    const jeId = {}
+    for (const [id, wert] of Object.entries(roh)) if (wert?.anisearchId) jeId[id] = wert.anisearchId
+    return jeId
+  } catch {
+    return {}
+  }
+})()
+
 const offen = {}
 for (const [id, eintraege] of jeAdresse) {
   /**
@@ -106,6 +126,8 @@ for (const [id, eintraege] of jeAdresse) {
     // denn genau die steht im Player und landet später im Vermerk.
     offen[id] = {
       titel: sortiert[0].t.titleDe ?? sortiert[0].t.titleEn ?? sortiert[0].t.titleRomaji ?? '',
+    asId: anisearchKennung[String(sortiert[0].t.id)] ?? null,
+      asId: anisearchKennung[String(sortiert[0].t.id)] ?? null,
       staffeln: gemeldet.map((s, i) => ({
         nr: s.seq,
         name: s.name ?? `Staffel ${s.seq}`,
@@ -142,6 +164,7 @@ for (const [id, eintraege] of jeAdresse) {
   }
   offen[id] = {
     titel: sortiert[0].t.titleDe ?? sortiert[0].t.titleEn ?? sortiert[0].t.titleRomaji ?? '',
+    asId: anisearchKennung[String(sortiert[0].t.id)] ?? null,
     staffeln: sortiert.map((e, i) => ({
       nr: i + 1,
       name: e.t.titleDe ?? e.t.titleEn ?? e.t.titleRomaji ?? '',

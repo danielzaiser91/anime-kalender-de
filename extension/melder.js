@@ -2346,6 +2346,28 @@ async function dialogOeffnen() {
     link.target = '_blank'
     link.rel = 'noreferrer noopener'
     link.textContent = eintrag.titel || `Titel ${id}`
+
+    /*
+      **Ein zweiter Verweis: aniSearch.**
+
+      Daniel am 28.08.2026: „kannst du die anilist links mit anisearch ersetzen
+      in der melde extension?" Hier gab es bis dahin gar keinen. aniSearch fuehrt
+      deutsche Titel und eine Episodenliste mit deutschen Folgentiteln — bei
+      einer Reihe, die Netflix anders schneidet als wir, ist das die Seite, die
+      es klaert. Der Titel-Link fuehrt weiterhin zu Netflix, denn dort wird
+      gearbeitet.
+    */
+    let asLink = null
+    if (eintrag.asId) {
+      asLink = document.createElement('a')
+      asLink.className = 'ak-quelle'
+      asLink.href = 'https://www.anisearch.de/anime/' + eintrag.asId + '/episodes'
+      asLink.target = '_blank'
+      asLink.rel = 'noreferrer noopener'
+      asLink.textContent = 'aniSearch'
+      asLink.title = 'Deutsche Folgentitel und Anbieter bei aniSearch nachsehen'
+      asLink.style.cssText = 'margin-left:8px;font-size:11px;color:#7cc4ff;text-decoration:underline'
+    }
     /**
      * Merken, welchen Titel er gerade öffnet.
      *
@@ -2363,6 +2385,7 @@ async function dialogOeffnen() {
       void speicherSchreiben({ zuletztGeoeffnet: { id: String(id), zeit: Date.now() } })
     })
     zeile.appendChild(link)
+    if (asLink) zeile.appendChild(asLink)
 
     const folgen = document.createElement('div')
     folgen.className = 'ak-folgen'
