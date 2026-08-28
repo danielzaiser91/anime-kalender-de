@@ -2112,7 +2112,20 @@ async function speicherSchreiben(werte) {
     */
     try {
       const auftrag = suchauftrag()
-      if (auftrag?.id) {
+      if (auftrag?.asId) {
+        /*
+          **aniSearch vor AniList** (Daniel, 28.08.2026: „nimm fuer prueflist titel
+          anisearch statt anilist.co"). aniSearch fuehrt deutsche Titel, deutsche
+          Beschreibungen und die deutschen Anbieter — fuer die Frage „ist das
+          derselbe Titel, den Prime hier zeigt" die brauchbarere Seite. Es hat
+          ausserdem eine Episodenliste mit deutschen Folgentiteln, und die
+          entscheidet bei Reihen, die Prime durchnummeriert.
+        */
+        kasten.appendChild(
+          kastenVerweis('Bei aniSearch nachsehen', 'https://www.anisearch.de/anime/' + auftrag.asId + '/episodes'),
+        )
+      } else if (auftrag?.id) {
+        /* Ohne aniSearch-Kennung bleibt AniList — besser als kein Verweis. */
         kasten.appendChild(
           kastenVerweis('Bei AniList nachsehen (#' + auftrag.id + ')', 'https://anilist.co/anime/' + auftrag.id),
         )

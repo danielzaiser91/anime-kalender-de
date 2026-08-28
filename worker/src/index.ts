@@ -1955,6 +1955,26 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
   */
   const rohfolgen = Array.isArray(daten.rohfolgen) ? daten.rohfolgen : []
   if (rohfolgen.length) {
+    /*
+      **Eine neue Meldung ersetzt die alte — sie kommt nicht dazu.**
+
+      Gemessen am 28.08.2026: 5.219 Zeilen in der Tabelle, davon **3.569 allein
+      unter „Captain Tsubasa (2018)" — einer Seite mit 91 Folgen. Jede erneute
+      Meldung derselben Adresse hing ihre Folgen an, und Daniel hat an dem Titel
+      an einem Abend oft gemeldet.
+
+      Die Tabelle daneben macht es seit jeher richtig: `pruefung` loescht die
+      noch nicht uebernommenen Zeilen derselben Adresse, bevor sie schreibt. Hier
+      fehlte das — ein reines INSERT, und niemandem faellt es auf, weil die
+      Zuordnung im Bau die Dubletten stillschweigend mitverarbeitet.
+
+      Uebernommene Zeilen bleiben unberuehrt: Sie sind Geschichte, kein Bestand.
+    */
+    try {
+      await env.DB.prepare('DELETE FROM prime_folge WHERE url = ?1 AND uebernommen = 0').bind(url).run()
+    } catch (e) {
+      console.error(`prime_folge aufraeumen: ${(e as Error).message}`)
+    }
     const jetzt = jetztIso()
     /* Höchstens 500 je Meldung: Eine Staffel hat keine tausend Folgen, und eine
        kaputte Erweiterung soll die Tabelle nicht fluten. */

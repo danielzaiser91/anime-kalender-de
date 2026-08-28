@@ -797,8 +797,8 @@ pruefe('„The Movie“ bleibt ein eigenes Werk', kaisenFilm.befund.art !== 'gen
     rumpf.includes('kastenVerweis') && rumpf.includes('anilist.co/anime/'),
   )
   pruefe(
-    'und die Kennung kommt aus dem Auftrag',
-    /suchauftrag\(\)[\s\S]{0,200}auftrag\?\.id/.test(rumpf),
+    'und die Kennung kommt aus dem Auftrag — aniSearch zuerst, AniList als Rueckfall',
+    /suchauftrag\(\)[\s\S]{0,600}auftrag\?\.asId[\s\S]{0,900}auftrag\?\.id/.test(rumpf),
   )
   pruefe(
     'er wird nicht zusaetzlich an einer Aufrufstelle angehaengt',

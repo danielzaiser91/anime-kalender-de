@@ -232,6 +232,25 @@ function istNachrangigeStaffel(t) {
 
 let wegenStaffel = 0
 
+/*
+  **Die aniSearch-Kennung gehört in die Prüfliste.**
+
+  Daniel am 28.08.2026: „nimm für prüfliste titel anisearch statt anilist.co."
+  aniSearch führt deutsche Titel, deutsche Beschreibungen und die deutschen
+  Anbieter — für die Frage „ist das derselbe Titel, den Prime hier zeigt" ist das
+  die brauchbarere Seite als AniList, das englisch und japanisch denkt.
+
+  Die Zuordnung liegt seit jeher in `data/anisearch.json` (Schlüssel: unsere
+  AniList-Kennung, Feld `anisearchId`), sie wurde nur nie weitergereicht.
+*/
+const anisearch = (() => {
+  try {
+    return JSON.parse(readFileSync(resolve(wurzel, 'data/anisearch.json'), 'utf8'))
+  } catch {
+    return {}
+  }
+})()
+
 const suche = {}
 for (const t of titel) {
   for (const s of t.streams ?? []) {
@@ -253,6 +272,7 @@ for (const t of titel) {
         das Jahr nicht.
       */
       jahr: Number.isFinite(t.jpYear) ? t.jpYear : null,
+      asId: anisearch[String(t.id)]?.anisearchId ?? null,
     }
   }
 }
@@ -287,6 +307,7 @@ try {
       id: v.id,
       folgen: v.folgen,
       jahr: Number.isFinite(t?.jpYear) ? t.jpYear : null,
+      asId: anisearch[String(v.id)]?.anisearchId ?? null,
       vorschlag: true,
     }
     ausVorschlaegen++
