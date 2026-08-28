@@ -1539,6 +1539,48 @@ Adresszahl über 50 wird verworfen statt gemeldet. Dazu geht der **Bandname** al
 mit (`band: "Season 2, Volume 2"`) — ohne ihn sähen zwei Meldungen zu „Staffel 2" wie ein
 Widerspruch aus, obwohl sie verschiedene Folgen meinen.
 
+### Prime schneidet Reihen anders zu — die Folgenzahl ist deshalb kein Urteil
+
+Am 28.08.2026 hat Daniel dieselbe Sperre dreimal gemeldet, und die ersten beiden
+Fälle widerlegen einander:
+
+| Titel | Seite | erwartet | was wirklich vorliegt |
+|---|---|---|---|
+| Captain Tsubasa (2018) | 91 | 52 | Prime **bündelt** beide Staffeln unter einer Seite |
+| Chibi Maruko-chan | 52 | 142 | Prime **teilt**, wo unser Bestand eine Reihe führt |
+| Blood-C: The Last Dark | Film | 1 | ein Film, den die Erkennung nicht als solchen sah |
+
+Der Knopf sagte zweimal „andere Staffel wählen" — und beide Male gab es keine
+Staffel zu wählen, die die erwartete Zahl zeigt. Ein Vergleich mit der erwarteten
+Folgenzahl beantwortet also **keine** Frage, die auf dieser Seite entscheidbar
+wäre: Prime schneidet die Welt anders zu als AniList, mal zusammen, mal
+auseinander, und beides ist der Normalfall.
+
+**Der Riegel hielt genau die Daten zurück, die den Fall auflösen.** Seit 3.77
+trägt jede Meldung ihre Folgen einzeln mit Nummer, Titel, Datum und Laufzeit;
+`pipeline/fetch-rohfolgen.ts` legt sie über TMDBs Folgentitel und
+Erstausstrahlungsdaten auf unsere Zählung. Die Zuordnung passiert dort, wo die
+Anker liegen — nicht im Browser, wo keiner liegt.
+
+Seit 3.78 gilt deshalb: **Die Zahl erzeugt einen Hinweis, keine Sperre.** Bei
+Bündelung stehen **beide** Fenster als Knopf bereit (vorderes und hinteres), denn
+welcher Teil gemeint ist, weiß nur der Auftrag: Bei „Captain Tsubasa (2018)" sind
+es die ersten 52, beim „Junior Youth Arc" die letzten 39 — dieselbe Seite, zwei
+richtige Antworten. Die echten Riegel bleiben: `falscheStaffel` vergleicht die
+Staffel im Titel mit der offenen, `quelltextPasst()` fängt den Titelwechsel.
+Beides prüft die Sache, nicht ein Zahlenverhältnis.
+
+**Und „1 Folge laut Seite" schließt einen Film nicht aus — es beschreibt ihn.**
+`istFilmSeite()` verlangte `!lage.folgenLautSeite`, also gar keine Zahl.
+„Blood-C: The Last Dark" nennt eine, galt damit als Serie, und der Knopf wartete
+42 Sekunden auf eine Folgenliste, die es nicht gibt. Entscheidend sind die beiden
+anderen Merkmale: **kein Folgen-Reiter** und **eine Laufzeit im Kopf**.
+
+**Warum es durch 236 grüne Zusicherungen kam:** keine einzige prüfte die
+Folgenzahl gegen die Erwartung. `extension/amazon-folgenzahl.test.cjs` tut es
+jetzt und führt `istFilmSeite()` dabei wirklich aus, mit den Werten wörtlich aus
+Daniels Bericht.
+
 ### Netflix gibt die Tonspuren nur mit dem Player heraus — dreifach gemessen
 
 Am 22.08.2026 stand fest, dass die **Titelseite** im Ruhezustand nichts hergibt. Offen blieb,

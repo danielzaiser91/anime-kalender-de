@@ -408,7 +408,21 @@ async function speicherSchreiben(werte) {
     // Die Laufzeit kommt aus `seitenLage()` mit — `body.innerText` erzwingt ein
     // Neuberechnen des Layouts und wird deshalb nur an einer Stelle gelesen
     // (eine Zusicherung in `amazon.test.cjs` wacht darüber).
-    return !lage.hatFolgenReiter && !lage.folgenLautSeite && lage.hatLaufzeit
+    /*
+      **„1 Folge laut Seite" schließt einen Film nicht aus — es beschreibt ihn.**
+
+      Bis 3.77 verlangte die Erkennung `!lage.folgenLautSeite`, also gar keine
+      Zahl. „Blood-C: The Last Dark" nennt aber eine: eine. Damit galt der Film als
+      Serie, der Knopf wartete auf eine Folgenliste, die es nicht gibt, und stand
+      nach 42 Sekunden auf „✕ keine Folgen für diese Staffel — melden" (Daniels
+      Bericht vom 28.08.2026, `istFilmSeite: false` bei `hatLaufzeit: true`,
+      `hatFolgenReiter: false`, `folgenLautSeite: 1`).
+
+      Entscheidend sind die beiden anderen Merkmale: **kein Folgen-Reiter** und
+      **eine Laufzeit im Seitenkopf**. Eine Serie hat den Reiter, ein Film die
+      Laufzeit. Eine Zahl über eins widerspricht dem Film weiterhin.
+    */
+    return !lage.hatFolgenReiter && (lage.folgenLautSeite ?? 0) <= 1 && lage.hatLaufzeit
   }
 
   /**
@@ -2122,7 +2136,29 @@ async function speicherSchreiben(werte) {
     } catch {
       hier = 0
     }
-    const buendel = auftrag.folgen && hier > auftrag.folgen ? { von: hier - auftrag.folgen + 1, bis: hier } : null
+    /*
+      **Welcher Teil gemeint ist, weiß die Seite nicht — also werden beide angeboten.**
+
+      Bis 3.77 stand hier nur das hintere Fenster, begründet damit, dass Arcs
+      chronologisch angehängt werden. Das galt für den Auftrag, an dem es gebaut
+      wurde: „Captain Tsubasa — Junior Youth Arc" mit 39 Folgen liegt bei Prime
+      wirklich hinter den 52 der ersten Staffel.
+
+      Für den Auftrag „Captain Tsubasa (2018)" mit 52 Folgen ist genau dieselbe
+      Seite umgekehrt zu lesen — gemeint sind die **ersten** 52 (Daniel,
+      28.08.2026). Dieselbe Zahl, dieselbe Seite, zwei richtige Antworten; welche
+      gilt, entscheidet der Auftrag, und der steht nicht auf der Seite.
+
+      Beide Fenster als Knopf ist die ehrliche Auflösung: Daniel sieht die
+      Folgentitel und entscheidet in einem Klick. Geraten wird nichts.
+    */
+    const buendel =
+      auftrag.folgen && hier > auftrag.folgen
+        ? [
+            { von: 1, bis: auftrag.folgen },
+            { von: hier - auftrag.folgen + 1, bis: hier },
+          ]
+        : null
     /*
       **Die offene Staffel muss die gesuchte sein.**
 
@@ -2162,10 +2198,27 @@ async function speicherSchreiben(werte) {
     } else if (buendel) {
       teilZeilen.push(
         kastenZeile('ak-such-warn', `${hier} Folgen hier, ${auftrag.folgen} erwartet — die Seite bündelt mehrere Teile`),
-        kastenKnopf(`Als Folgen ${buendel.von}–${buendel.bis} melden`, () => {
-          teilBereich = buendel
-          zeigeAuftragshinweis()
-        }),
+        kastenZeile('ak-such-hinweis', 'Folgentitel vergleichen, dann den passenden Bereich wählen'),
+      )
+      for (const b of buendel) {
+        teilZeilen.push(
+          kastenKnopf(`Als Folgen ${b.von}–${b.bis} melden`, () => {
+            teilBereich = b
+            zeigeAuftragshinweis()
+          }),
+        )
+      }
+    } else if (auftrag.folgen && hier && hier < auftrag.folgen) {
+      /*
+        **Weniger Folgen heißt: Prime teilt, wo wir zusammenfassen.**
+
+        „Chibi Maruko-chan" führt Prime als Staffel 1 mit 52 Folgen, unser Bestand
+        die Reihe mit 142 (Daniel, 28.08.2026, mit Bild). Gemeldet wird trotzdem —
+        was hier steht, ist wahr, es ist nur ein Teil. Welcher, entscheidet der Bau
+        über die Folgentitel.
+      */
+      teilZeilen.push(
+        kastenZeile('ak-such-hinweis', `${hier} Folgen hier, ${auftrag.folgen} erwartet — die Reihe ist aufgeteilt, melden ist richtig`),
       )
     }
     hinweisKasten(
@@ -3544,15 +3597,39 @@ async function speicherSchreiben(werte) {
       Weiter unten steht `hatFolgenReiter` schon bereit; dort, im selben Zweig,
       der ohnehin über „keine Folgen" entscheidet, gehört auch dieser Fall hin.
     */
+    /*
+      **Die Folgenzahl der Seite ist kein Riegel — in keiner Richtung.**
+
+      Bis 3.77 sperrte hier ein Vergleich mit der erwarteten Zahl, sobald sie um
+      mehr als ein Viertel abwich. An einem Nachmittag hat Daniel beide Richtungen
+      widerlegt (28.08.2026, zwei Bilder):
+
+      | Titel | Seite | erwartet | was wirklich vorliegt |
+      |---|---|---|---|
+      | Captain Tsubasa (2018) | 91 | 52 | Prime **bündelt** beide Staffeln |
+      | Chibi Maruko-chan | 52 | 142 | Prime **teilt**, wir führen eine Reihe |
+
+      Beide Male sagte der Knopf „andere Staffel wählen", und beide Male gab es
+      keine andere Staffel, die die erwartete Zahl zeigt. Prime schneidet Reihen
+      anders zu als AniList — mal zusammen, mal auseinander. Eine Abweichung ist
+      damit der Normalfall und kein Verdacht.
+
+      **Aufgelöst wird das im Bau, nicht hier** (siehe `docs/prime-erfassung-neu.md`).
+      Die Meldung trägt seit 3.77 jede Folge einzeln mit Nummer, Titel, Datum und
+      Laufzeit; `pipeline/fetch-rohfolgen.ts` legt sie über TMDBs Folgentitel und
+      Erstausstrahlungsdaten auf unsere Zählung. Ein Riegel hier hält genau die
+      Daten zurück, die diese Zuordnung möglich machen.
+
+      **Was bleibt, ist der Hinweis.** Die Zeile nennt beide Zahlen, damit Daniel
+      sieht, dass die Seite anders schneidet; gemeldet werden darf trotzdem. Die
+      echten Riegel stehen weiterhin: `falscheStaffel` vergleicht die Staffel im
+      Titel mit der offenen, `quelltextPasst()` fängt den Titelwechsel — beides
+      Prüfungen an der Sache, nicht am Zahlenverhältnis.
+    */
     const auftragJetzt = eintrag?.ausSuche ? suchauftrag() : null
     if (auftragJetzt?.folgen && Number.isFinite(gesehen?.gesamt) && gesehen.gesamt > 0) {
-      const abweichung = Math.abs(gesehen.gesamt - auftragJetzt.folgen) / auftragJetzt.folgen
-      if (abweichung > 0.25) {
-        notiere('falsche-staffel', { erwartet: auftragJetzt.folgen, hier: gesehen.gesamt })
-        knopf.style.display = ''
-        knopf.disabled = true
-        knopf.textContent = `✕ ${gesehen.gesamt} Folgen hier, ${auftragJetzt.folgen} erwartet — andere Staffel wählen`
-        return
+      if (gesehen.gesamt !== auftragJetzt.folgen) {
+        notiere('andere-folgenzahl', { erwartet: auftragJetzt.folgen, hier: gesehen.gesamt })
       }
     }
     /*

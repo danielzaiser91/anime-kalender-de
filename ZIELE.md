@@ -38,10 +38,26 @@ ist, bekommt einen Haken und bleibt stehen.
 stündlich Sendezeiten, täglich 04:17 alle Quellen, alle sechs Stunden ADN,
 montags 05:41 Tiefendurchlauf, monatlich Tonspuren.
 
+**Der Takt reicht — gemessen am 28.08.2026, Frage geschlossen.** Über vierzehn Tage
+aus `meta.json` je Tag:
+
+| | 14.08. | 28.08. | je Tag |
+|---|---|---|---|
+| Titel | 2.760 | 2.763 | **+0,2** |
+| Releases | 179 | 257 | **+5,6** |
+
+Beide Zahlen zusammen sagen mehr als jede für sich: Neue **Termine** kommen
+reichlich, neue **Titel** fast nie — die Termine betreffen also fast immer Reihen,
+die längst im Bestand stehen. Ein Ankündigungstakt unter einem Tag hätte daran
+nichts zu holen.
+
+Und der eine Fall, in dem Stunden zählen, ist bereits abgedeckt: Eine Folge, die
+**heute** erscheint, muss heute dastehen. Genau dafür läuft der Crunchyroll-Lauf
+stündlich. Alles andere wird Wochen vorher angekündigt, und dagegen sind 24 Stunden
+Verzug keine.
+
 **Was dafür offen ist:**
 
-- Neue AniList-Einträge erscheinen bisher erst mit dem Tageslauf. Prüfen, ob ein
-  kürzerer Takt für Ankündigungen sinnvoll ist.
 - Deutsche Synchro-Termine kommen aus Handmeldungen und wenigen Quellen. Jede
   Handmeldung ist eine Übergangslösung — die automatische Quelle dahinter suchen.
 
