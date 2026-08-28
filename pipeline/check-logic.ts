@@ -52,6 +52,7 @@ import { pruefeErgebnis } from './lib/pruefung.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
 import { findeStaffel, folgenKern, ordneZu } from '../shared/folgen-zuordnung.ts'
+import { netflixAdresseTaugt } from '../shared/netflix-adresse-pruefung.ts'
 import { beurteile } from './lib/crunchyroll-dub.ts'
 import {
   bucketLand,
@@ -2164,6 +2165,18 @@ console.log('\nStatus: ein belegter Verweis schlägt das Enddatum')
 
   pruefe('der Folgenkern wirft die führende Nummer weg', folgenKern('1. Ende und Anfang') === folgenKern('Ende und Anfang'))
 }
+
+/*
+  **Ein Netflix-Verweis ohne Kennung führt ins Leere.**
+
+  Zwei blieben nach der Vereinheitlichung vom 27.08.2026 übrig, beide aus
+  AniLists Verweisliste.
+*/
+pruefe('eine Titelseite taugt', netflixAdresseTaugt('https://www.netflix.com/title/80175351'))
+pruefe('eine Abspieladresse auch', netflixAdresseTaugt('https://www.netflix.com/watch/80180071'))
+pruefe('title/ ohne Nummer nicht', !netflixAdresseTaugt('https://www.netflix.com/title/'))
+pruefe('eine Genre-Liste nicht', !netflixAdresseTaugt('http://netflix.com/DetectiveConanMovies'))
+pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.amazon.de/dp/B0B8TR93HR'))
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

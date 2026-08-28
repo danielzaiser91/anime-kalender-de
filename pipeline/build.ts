@@ -57,6 +57,7 @@ import { addDays, todayIso } from '../shared/time.ts'
 import { buildIcs } from '../shared/ics.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
+import { netflixAdresseTaugt } from '../shared/netflix-adresse-pruefung.ts'
 import {
   meldungenAus,
   quellenName,
@@ -1155,6 +1156,7 @@ function main(): void {
   let umsortiert = 0
   let deutscheTitel = 0
   let deutscheTitelTmdb = 0
+  let netflixOhneKennung = 0
   for (const title of titles.values()) {
     const extra = anisearch[title.id]
 
@@ -1272,6 +1274,7 @@ function main(): void {
       (a, b) => PLATFORM_PRIORITY.indexOf(a.platform) - PLATFORM_PRIORITY.indexOf(b.platform),
     )
   }
+  if (netflixOhneKennung) log(`${netflixOhneKennung} Netflix-Verweise ohne Kennung entfernt — sie führen ins Leere`)
   if (deutscheTitelTmdb) log(`${deutscheTitelTmdb} deutsche Titel von TMDB ergänzt (aniSearch hatte keinen)`)
   if (umsortiert) log(`${umsortiert} aniSearch-Verweise umsortiert: Adresse gehört zu einem anderen Anbieter als dem genannten`)
   if (fremdeAdressen) log(`${fremdeAdressen} aniSearch-Verweise verworfen: Adresse führt zu gar keinem bekannten Anbieter`)
@@ -2233,6 +2236,20 @@ function main(): void {
      */
     /* Netflix schreibt dieselbe Seite auf drei Arten — hier wird daraus eine. */
     for (const s of title.streams) if (s.platform === 'netflix') s.url = netflixTitelAdresse(s.url)
+    /*
+      **Was auch danach keine Kennung trägt, führt ins Leere.**
+
+      Zwei Verweise bleiben nach der Vereinheitlichung übrig, beide aus AniLists
+      Verweisliste: `netflix.com/title/` ohne Nummer und
+      `netflix.com/DetectiveConanMovies`, das auf eine Genre-Liste führt statt
+      auf den Film. Ein Besucher klickt und findet nicht, wonach er gesucht hat.
+
+      Der Titel bleibt im Bestand und landet über die reguläre Prüfliste wieder
+      auf dem Tisch — entfernt wird der Weg, nicht das Werk.
+    */
+    const vorNetflix = title.streams.length
+    title.streams = title.streams.filter((s) => s.platform !== 'netflix' || netflixAdresseTaugt(s.url))
+    netflixOhneKennung += vorNetflix - title.streams.length
 
     title.streams = title.streams.filter((stream) => {
       /**
