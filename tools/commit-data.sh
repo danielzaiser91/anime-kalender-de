@@ -71,6 +71,7 @@ QUELLEN=(
   # 21.08.2026 — der Abruf lief allerdings auch in keinem Workflow.
   data/tmdb-titles.json
   data/tmdb-folgen.json
+  data/anbieter-vorschlaege.json
   data/anime-ids.json
   data/curated-ids.json
   data/source-health.json

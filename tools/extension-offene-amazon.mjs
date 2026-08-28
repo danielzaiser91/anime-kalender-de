@@ -143,6 +143,35 @@ for (const t of titel) {
     }
   }
 }
+/*
+  **Titel ohne jeden Verweis, für die TMDB Prime nennt.**
+
+  1.331 Titel im Bestand haben keinen Verweis, 884 davon belegte deutsche
+  Sprechrollen aus ANN — es gibt sie auf Deutsch, wir wissen nur nicht wo. Für
+  einen Teil nennt TMDB einen deutschen Anbieter; daraus wird kein Verweis
+  (TMDB sagt nicht, in welcher Sprache), aber eine Suchadresse.
+
+  Die Vorschläge stehen in `data/anbieter-vorschlaege.json` und werden von
+  `build.ts` nie gelesen. Was Daniel hier meldet, wird zum Beleg.
+*/
+let ausVorschlaegen = 0
+try {
+  const vorschlaege = JSON.parse(
+    readFileSync(resolve(wurzel, 'data/anbieter-vorschlaege.json'), 'utf8'),
+  )
+  for (const v of vorschlaege) {
+    if (!v.anbieter?.includes('primevideo')) continue
+    const url =
+      'https://www.amazon.de/s?k=' + encodeURIComponent(v.titel) + '&i=instant-video'
+    if (suche[url]) continue
+    suche[url] = { titel: v.titel, id: v.id, folgen: v.folgen, vorschlag: true }
+    ausVorschlaegen++
+  }
+} catch {
+  /* Ohne Vorschlagsdatei bleibt die Liste, wie sie war. */
+}
+if (ausVorschlaegen) console.log(`  ${ausVorschlaegen} Suchen aus TMDB-Vorschlägen`)
+
 writeFileSync(
   resolve(wurzel, 'extension/offene-amazon-suche.js'),
   'globalThis.AK_PRIME_SUCHE = ' + JSON.stringify(suche) + '\n',
