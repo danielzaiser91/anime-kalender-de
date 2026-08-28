@@ -251,6 +251,33 @@ const anisearch = (() => {
   }
 })()
 
+/**
+ * **Ein Titel, der seinen Teil verschweigt, ist in der Liste wertlos.**
+ *
+ * Daniel am 28.08.2026: „ich hab girls und panzer: das finale part 1-3 bereits
+ * gemeldet, wofür ist dieser eintrag? … im suchtreffer gibt es noch part 4,
+ * dafür sehe ich keinen prüfliste eintrag."
+ *
+ * Es **war** Teil 4. Sein deutscher Titel lautet „Girls und Panzer: Das Finale"
+ * — ohne Nummer, obwohl der englische „Part 4" nennt und die Geschwister sauber
+ * „Teil 1", „Teil 2", „Teil 3" heißen. In der Liste stand Teil 4 damit unter dem
+ * Namen der Reihe, und Daniel suchte einen Eintrag, den er längst vor sich hatte.
+ *
+ * Trägt eine der anderen Schreibweisen eine Teilnummer, die im gewählten Titel
+ * fehlt, wird sie angehängt. Der **Suchbegriff** bleibt unberührt — er geht an
+ * Prime, und dort findet „Das Finale" mehr als „Das Finale Part 4".
+ */
+const TEILNUMMER = /\b(?:part|teil|movie|film)\s*([1-9])\b/i
+
+function mitTeilnummer(name, t) {
+  if (!name || TEILNUMMER.test(name)) return name
+  for (const andere of [t?.titleEn, t?.titleRomaji, t?.titleDe]) {
+    const treffer = andere ? TEILNUMMER.exec(andere) : null
+    if (treffer) return name + ' — Teil ' + treffer[1]
+  }
+  return name
+}
+
 const suche = {}
 for (const t of titel) {
   for (const s of t.streams ?? []) {
@@ -261,7 +288,7 @@ for (const t of titel) {
       continue
     }
     suche[s.url] = {
-      titel: t.titleDe ?? t.titleEn ?? t.titleRomaji ?? String(t.id),
+      titel: mitTeilnummer(t.titleDe ?? t.titleEn ?? t.titleRomaji ?? String(t.id), t),
       id: t.id,
       folgen: t.episodes ?? null,
       /*
@@ -303,7 +330,7 @@ try {
       continue
     }
     suche[url] = {
-      titel: v.titel,
+      titel: mitTeilnummer(v.titel, t),
       id: v.id,
       folgen: v.folgen,
       jahr: Number.isFinite(t?.jpYear) ? t.jpYear : null,

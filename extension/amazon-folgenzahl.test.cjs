@@ -406,6 +406,46 @@ pruefe(
   }
 }
 
+/*
+  **Der Anzeigename nennt den Teil, die Suchadresse nicht.**
+
+  „Girls und Panzer: Das Finale" ist bei uns Teil 4 — der deutsche Titel sagt es
+  nur nicht, waehrend die Geschwister sauber „Teil 1" bis „Teil 3" heissen. In
+  der Liste stand Teil 4 damit unter dem Namen der Reihe (Daniel, 28.08.2026).
+
+  Geprueft wird an der erzeugten Liste, weil genau die Daniel vor sich hat.
+*/
+{
+  const fs = require('node:fs')
+  const roh = fs.readFileSync(require('node:path').resolve(__dirname, 'offene-amazon-suche.js'), 'utf8')
+  const liste = JSON.parse(roh.replace(/^[^=]*=s*/, '').replace(/;?s*$/, ''))
+  const panzer = Object.entries(liste).filter(([, v]) => /panzer/i.test(v.titel))
+  /*
+    Die Liste ist erzeugt und aendert sich taeglich. Bleibt sie leer, ist das
+    kein Fehler — dann ist die Arbeit erledigt, und die Zusicherung darf nicht
+    rot werden (die Lehre vom 25.08.2026).
+  */
+  if (panzer.length) {
+    const teil4 = panzer.find(([, v]) => v.id === 132420)
+    if (teil4) {
+      pruefe(
+        'der Anzeigename nennt Teil 4',
+        /Teil 4/.test(teil4[1].titel),
+        teil4[1].titel,
+      )
+      pruefe(
+        'die Suchadresse bleibt ohne die Nummer',
+        !/Teil%204|Teil 4/.test(teil4[0]),
+        decodeURIComponent(teil4[0]),
+      )
+    }
+    pruefe(
+      'kein Titel bekommt eine Nummer doppelt',
+      panzer.every(([, v]) => (v.titel.match(/Teil d/g) ?? []).length <= 1),
+    )
+  }
+}
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) rot.`)
   process.exit(1)
