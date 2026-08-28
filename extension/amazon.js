@@ -811,6 +811,48 @@ async function speicherSchreiben(werte) {
     document.addEventListener('ak-report', () => {
       berichtHerunterladen()
     })
+    /**
+     * **Gezielt wieder öffnen, was abgehakt ist.**
+     *
+     * „Abhaken zurücksetzen" in der Übersicht leert den ganzen Speicher — am
+     * 28.08.2026 wären das sechzig Einträge gewesen, um an zwei heranzukommen.
+     * Daniel brauchte genau zwei zurück („Digimon Adventure", „Blood-C"), um
+     * eine Messung nachliefern zu können, und der einzige vorhandene Weg hätte
+     * ihm die Arbeit eines halben Tages weggeworfen.
+     *
+     * Der Speicher liegt in `chrome.storage`, an das die Seiten-Konsole nicht
+     * herankommt (getrennte Welten). Deshalb derselbe Weg wie beim Bericht: ein
+     * Ereignis am gemeinsamen `document`.
+     *
+     *     document.dispatchEvent(new CustomEvent('ak-oeffnen', { detail: 'digimon' }))
+     *
+     * Verglichen wird gegen Titel **und** Serienname, ohne Groß-/Kleinschreibung.
+     * Die Zahl der wieder geöffneten Einträge steht danach in der Konsole.
+     */
+    document.addEventListener('ak-oeffnen', async (e) => {
+      const suche = String(e?.detail ?? '').trim().toLowerCase()
+      if (!suche) {
+        console.log("[AK] ak-oeffnen braucht einen Text, z. B. { detail: 'digimon' }")
+        return
+      }
+      const offen = []
+      for (const [schluessel, wert] of Object.entries(erledigt)) {
+        const text = `${wert?.titel ?? ''} ${wert?.serie ?? ''}`.toLowerCase()
+        if (text.includes(suche)) offen.push(schluessel)
+      }
+      if (!offen.length) {
+        console.log(`[AK] nichts Abgehaktes passt auf „${suche}“ — ${Object.keys(erledigt).length} erledigte Einträge geprüft`)
+        return
+      }
+      for (const schluessel of offen) delete erledigt[schluessel]
+      await speicherSchreiben({ amazonErledigt: erledigt })
+      console.log(`[AK] ${offen.length} Eintrag/Einträge wieder offen:`, offen)
+      try {
+        uebersichtZeichnen()
+      } catch {
+        /* Die Übersicht ist nicht auf jeder Seite gebaut — der Speicher zählt. */
+      }
+    })
   } catch {
     /* Ohne Ereignis kein Konsolenzugang — die Erweiterung läuft trotzdem. */
   }
@@ -1605,6 +1647,63 @@ async function speicherSchreiben(werte) {
     )
 
   /**
+   * **Ein eingeschobener Reihenname macht aus demselben Titel keinen anderen.**
+   *
+   * Daniel am 28.08.2026 an „Arpeggio of Blue Steel - Cadenza": Die einzige
+   * Karte der Trefferliste heißt bei Prime „Arpeggio of Blue Steel - **Ars
+   * Nova** - Cadenza" — derselbe Film, mit dem Reihennamen dazwischen. Unser
+   * eigener Bestand führt ihn übrigens auch, im japanischen Titel („Aoki
+   * Hagane no Arpeggio: Ars Nova - Cadenza"); nur der deutsche lässt ihn weg.
+   *
+   * Ein Zusatz **am Rand** fangen `ohneBeiwerk` und der `includes`-Rückfall
+   * längst ab. Steht er in der **Mitte**, greift keiner von beiden: Die
+   * Zeichenkette ist an dieser Stelle aufgetrennt.
+   *
+   * Verglichen wird deshalb wortweise. Die Wörter des Auftrags müssen alle in
+   * der Karte vorkommen, **in derselben Reihenfolge** — dazwischen darf stehen,
+   * was will.
+   *
+   * **Zwei Riegel halten das eng**, denn sonst würde „Attack on Titan" auf
+   * „Attack on Titan: Final Season" passen:
+   *
+   * - Höchstens zwei zusätzliche Wörter. Ein Titel, dem drei Wörter fehlen, ist
+   *   ein anderer Titel.
+   * - Keines davon darf eine Fortsetzung ankündigen. `staffelImTitel()` erkennt
+   *   nur nummerierte Staffeln; „Final Season", „The Movie" und „Chapter"
+   *   tragen keine Zahl und kämen sonst durch.
+   */
+  const REIHENFOLGE_SPERRE =
+    /^(final|last|first|second|third|next|new|season|staffel|movie|film|the|part|teil|cour|chapter|kapitel|special|ova|ona|oad|recap|origin|beginning|end|ending|zero|plus|remake|reboot)$/i
+  const titelWorte = (t) =>
+    (t ?? '')
+      .toLowerCase()
+      .replace(/\b(staffel|season|vol\.?|volume|teil|part)\s*\d+\b/g, ' ')
+      .split(/[^a-z0-9]+/)
+      .filter((w) => w.length > 2)
+  const wortFolgePasst = (auftrag, karte) => {
+    const a = titelWorte(auftrag)
+    const k = titelWorte(karte)
+    if (!a.length || k.length < a.length) return false
+    /* Die Auftragswörter der Reihe nach in der Karte suchen. */
+    let n = 0
+    const zusatz = []
+    for (const wort of k) {
+      if (n < a.length && wort === a[n]) n++
+      else zusatz.push(wort)
+    }
+    if (n !== a.length) return false
+    if (zusatz.length > 2) return false
+    /*
+      **Eine Zahl als Zusatzwort ist nie Beiwerk.** Sie trennt Neuauflagen
+      („Captain Tsubasa (1983)" gegen „(2018)", 128 Folgen gegen 52) und
+      nummeriert Fortsetzungen. Die Zusicherung dazu stand schon und ist beim
+      Bau dieser Regel prompt rot geworden — zu Recht.
+    */
+    if (zusatz.some((w) => /^\d+$/.test(w))) return false
+    return !zusatz.some((w) => REIHENFOLGE_SPERRE.test(w))
+  }
+
+  /**
    * **Welche Staffel meint dieser Titel?**
    *
    * `titelKern()` wirft die Staffelangabe weg — richtig, wenn es darum geht,
@@ -1767,8 +1866,13 @@ async function speicherSchreiben(werte) {
       const k = titelKern(t.titel)
       const roh = ohneBeiwerk(t.titel)
       const locker = titelKernLocker(t.titel)
-      return [k, roh, locker].some(
-        (x) => x === kern || x === kernBegriff || (kernVorn !== null && x === kernVorn) || x === kernLocker,
+      return (
+        [k, roh, locker].some(
+          (x) => x === kern || x === kernBegriff || (kernVorn !== null && x === kernVorn) || x === kernLocker,
+        ) ||
+        /* Ein Reihenname mitten im Titel — „Arpeggio of Blue Steel - Ars Nova - Cadenza". */
+        wortFolgePasst(auftrag.titel, t.titel) ||
+        (begriff ? wortFolgePasst(begriff, t.titel) : false)
       )
     })
     /*

@@ -341,7 +341,7 @@ function schneide(name) {
 */
 const kernQuelle = quelltext.slice(
   quelltext.indexOf('  const titelKern ='),
-  quelltext.indexOf('  /**', quelltext.indexOf('  const titelKernLocker =')),
+  quelltext.indexOf('  /**', quelltext.indexOf('  const wortFolgePasst =')),
 )
 
 const bau = new Function(
@@ -696,6 +696,45 @@ pruefe(
   wolf.befund.art !== 'genau' || wolf.befund.treffer.length === 1,
   wolf.befund.art,
 )
+
+/*
+  **Ein Reihenname mitten im Titel.**
+
+  Daniel am 28.08.2026: „Arpeggio of Blue Steel - Cadenza" ergibt bei Prime
+  genau eine Karte, und die heißt „Arpeggio of Blue Steel - Ars Nova -
+  Cadenza". Derselbe Film mit dem Reihennamen dazwischen — unser japanischer
+  Titel führt ihn übrigens auch, nur der deutsche lässt ihn weg.
+*/
+const arpeggio = werte(
+  [{ label: 'Beste Ergebnisse', karten: [karte('Arpeggio of Blue Steel - Ars Nova - Cadenza', 'Movie', 'Entitled', 'B0GKYNG36B')] }],
+  { titel: 'Arpeggio of Blue Steel - Cadenza', folgen: 1 },
+)
+pruefe('ein Reihenname mitten im Titel stört nicht', arpeggio.befund.art === 'genau', arpeggio.befund.art)
+
+/*
+  **Die Gegenproben — hier entscheidet sich, ob die Regel eng genug ist.**
+
+  Alle drei bestehen den Wortvergleich (jedes Auftragswort kommt in der Karte
+  vor, in Reihenfolge) und müssen trotzdem scheitern: Was zusätzlich dasteht,
+  kündigt eine Fortsetzung an oder trennt eine Neuauflage.
+*/
+const finalSeason = werte(
+  [{ label: 'Beste Ergebnisse', karten: [karte('Attack on Titan: Final Season', 'TV Show', 'Entitled', 'B0AAAC1111')] }],
+  { titel: 'Attack on Titan', folgen: 25 },
+)
+pruefe('„Final Season“ ist nicht dieselbe Serie', finalSeason.befund.art !== 'genau', finalSeason.befund.art)
+
+const derFilm = werte(
+  [{ label: 'Beste Ergebnisse', karten: [karte('Jujutsu Kaisen The Movie', 'Movie', 'Entitled', 'B0AAAC2222')] }],
+  { titel: 'Jujutsu Kaisen', folgen: 24 },
+)
+pruefe('„The Movie“ ist nicht die Serie', derFilm.befund.art !== 'genau', derFilm.befund.art)
+
+const zuVieleWorte = werte(
+  [{ label: 'Beste Ergebnisse', karten: [karte('Sword Art Online Alicization War of Underworld', 'TV Show', 'Entitled', 'B0AAAC3333')] }],
+  { titel: 'Sword Art Online', folgen: 25 },
+)
+pruefe('drei fremde Wörter sind ein anderer Titel', zuVieleWorte.befund.art !== 'genau', zuVieleWorte.befund.art)
 
 console.log()
 if (fehler.length) {

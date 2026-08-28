@@ -1623,6 +1623,51 @@ Film regelmäßig unter einer anderen Kennung als die Adresse — dasselbe Bild 
 bei Digimon Tamers weiter oben. Die Adress-Kennung kommt im Quelltext trotzdem
 vor (11×), der Zugehörigkeits-Wächter greift also zu Recht nicht.
 
+### Ein Reihenname mitten im Titel trennt, was zusammengehört
+
+„Arpeggio of Blue Steel - Cadenza" ergibt bei Prime genau eine Karte, und die
+heißt „Arpeggio of Blue Steel — **Ars Nova** — Cadenza" (Daniel, 28.08.2026).
+Derselbe Film mit dem Reihennamen dazwischen; unser japanischer Titel führt ihn
+sogar mit, nur der deutsche lässt ihn weg.
+
+**Ein Zusatz am Rand war längst abgedeckt, einer in der Mitte nicht.**
+`ohneBeiwerk` schneidet Klammern und Fassungsangaben ab, der Rückfall über
+`includes` fängt Präfixe — beide arbeiten auf der Zeichenkette, und die ist an
+dieser Stelle aufgetrennt. `wortFolgePasst()` vergleicht deshalb wortweise: Alle
+Wörter des Auftrags müssen in der Karte vorkommen, in derselben Reihenfolge,
+dazwischen darf stehen, was will.
+
+**Drei Riegel halten das eng**, und jeder hat seinen belegten Fall:
+
+| Riegel | sonst passierte |
+|---|---|
+| höchstens zwei fremde Wörter | „Sword Art Online" träfe „Alicization War of Underworld" |
+| kein Fortsetzungswort (`final`, `movie`, `chapter`, …) | „Attack on Titan" träfe „Attack on Titan: Final Season" |
+| **keine reine Zahl** | „Captain Tsubasa" träfe „Captain Tsubasa (1983)" |
+
+Der letzte Riegel ist nicht ausgedacht: Die Zusicherung dazu stand schon seit
+dem 27.08.2026 und wurde beim Bau dieser Regel sofort rot. 1983 hat 128 Folgen,
+2018 hat 52 — eine Jahreszahl ist nie Beiwerk. `staffelImTitel()` hätte keinen
+der drei Fälle gefangen, weil keiner eine nummerierte Staffel nennt.
+
+### Abgehaktes muss einzeln zurückzuholen sein
+
+Am 28.08.2026 brauchte Daniel zwei erledigte Einträge zurück, um eine Messung
+nachliefern zu können. Der einzige vorhandene Weg war „Abhaken zurücksetzen" in
+der Übersicht — der leert den **ganzen** Speicher, an dem Tag sechzig Einträge.
+Zwei zurückholen hätte achtundfünfzig Wiederholungen gekostet.
+
+    document.dispatchEvent(new CustomEvent('ak-oeffnen', { detail: 'digimon' }))
+
+Verglichen wird gegen Titel und Serienname. Der Weg über ein Ereignis am
+`document` ist derselbe wie beim Diagnosebericht, und aus demselben Grund: Der
+Speicher liegt in `chrome.storage`, an das die Seiten-Konsole nicht herankommt.
+
+**Die allgemeine Lehre:** Eine Sammelaktion ersetzt keine einzelne. Wo etwas
+abgehakt, ausgeblendet oder erledigt werden kann, muss dasselbe einzeln
+rückgängig zu machen sein — sonst steht am Ende die Wahl zwischen „gar nicht"
+und „alles noch einmal".
+
 ### Prime zählt Teile, wo unser Bestand keinen Teil kennt
 
 „Code Geass: Akito the Exiled — The Wyvern Arrives": Die Karte auf Platz 1 der
