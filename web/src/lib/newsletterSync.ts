@@ -244,6 +244,13 @@ export interface Einstellungen {
   email: string
   frequency: 'daily' | 'weekly'
   platforms: string[]
+  /**
+   * Auch melden, wenn zu einer gemerkten **Reihe** etwas Neues erscheint.
+   *
+   * Wer die letzte Staffel gemerkt hat, erfährt sonst nie von der nächsten — sie
+   * ist ein eigener Titel, und den kann noch niemand gemerkt haben.
+   */
+  franchiseHinweis?: boolean
 }
 
 /**
@@ -300,7 +307,7 @@ export async function ladeEinstellungen(token: string): Promise<Einstellungen> {
 /** Schreibt geänderte Einstellungen zurück. */
 export async function speichereEinstellungen(
   token: string,
-  werte: { frequency: 'daily' | 'weekly'; platforms: string[] },
+  werte: { frequency: 'daily' | 'weekly'; platforms: string[]; franchiseHinweis?: boolean },
 ): Promise<void> {
   if (!WORKER_URL) throw new Error('Der Newsletter-Dienst ist in dieser Installation nicht verbunden.')
   const res = await fetch(`${WORKER_URL}/prefs`, {

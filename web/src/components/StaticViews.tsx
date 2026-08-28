@@ -191,7 +191,7 @@ function AboEinstellungen({ meta, onWechseln }: { meta: DataMeta; onWechseln: ()
       .finally(() => setLaedt(false))
   }, [])
 
-  function sichern(werte: { frequency: 'daily' | 'weekly'; platforms: string[] }) {
+  function sichern(werte: { frequency: 'daily' | 'weekly'; platforms: string[]; franchiseHinweis?: boolean }) {
     const token = getSyncToken()
     if (!token) return
     setStand((s) => (s ? { ...s, ...werte } : s))
@@ -257,6 +257,37 @@ function AboEinstellungen({ meta, onWechseln }: { meta: DataMeta; onWechseln: ()
                 onAll={() => sichern({ frequency: stand.frequency, platforms: [] })}
               />
             </div>
+
+          {/*
+            **Neues aus gemerkten Reihen.**
+
+            Daniel am 28.08.2026: „ich will informiert werden weil ich es sonst
+            evtl verpasse." Wer die letzte Staffel gemerkt hat, erfährt sonst nie
+            von der nächsten — sie ist ein eigener Titel, und den kann noch
+            niemand gemerkt haben.
+          */}
+          <div>
+            <label className="flex cursor-pointer items-start gap-2.5">
+              <input
+                type="checkbox"
+                checked={stand.franchiseHinweis !== false}
+                onChange={(e) =>
+                  sichern({
+                    frequency: stand.frequency,
+                    platforms: stand.platforms,
+                    franchiseHinweis: e.target.checked,
+                  })
+                }
+                className="mt-0.5 h-4 w-4 cursor-pointer accent-sky-500"
+              />
+              <span className="text-sm text-slate-700 dark:text-slate-200">
+                {t('news.franchiseHint')}
+                <span className="mt-0.5 block text-xs text-slate-500 dark:text-slate-400">
+                  {t('news.franchiseHintNote')}
+                </span>
+              </span>
+            </label>
+          </div>
           </div>
 
           {speichert === 'ok' && <p className="text-sm text-emerald-500">{t('news.prefsSaved')}</p>}

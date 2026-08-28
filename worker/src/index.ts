@@ -47,6 +47,8 @@ interface SubscriberRow {
   frequency: 'daily' | 'weekly'
   platforms: string
   favorites: string
+  /** Auch Neues aus Reihen melden, von denen ein Titel gemerkt ist. */
+  franchise_hinweis: number
   unsub_token: string
   pref_token: string
   /**
@@ -551,10 +553,10 @@ async function handleFavoritesGet(request: Request, env: Env): Promise<Response>
   if (!(await schluesselErneuert(env, token))) return json(env, { error: SCHLUESSEL_UNGUELTIG }, 404)
 
   const row = await env.DB.prepare(
-    "SELECT favorites, email FROM subscribers WHERE pref_token = ?1 AND status = 'active'",
+    "SELECT favorites, email, franchise_hinweis FROM subscribers WHERE pref_token = ?1 AND status = 'active'",
   )
     .bind(token)
-    .first<{ favorites: string; email: string }>()
+    .first<{ favorites: string; email: string; franchise_hinweis: number }>()
 
   if (!row) return json(env, { error: SCHLUESSEL_UNGUELTIG }, 404)
   /**
@@ -625,10 +627,10 @@ async function handlePrefsGet(request: Request, env: Env): Promise<Response> {
   if (!(await schluesselErneuert(env, token))) return json(env, { error: SCHLUESSEL_UNGUELTIG }, 404)
 
   const row = await env.DB.prepare(
-    "SELECT email, frequency, platforms FROM subscribers WHERE pref_token = ?1 AND status = 'active'",
+    "SELECT email, frequency, platforms, franchise_hinweis FROM subscribers WHERE pref_token = ?1 AND status = 'active'",
   )
     .bind(token)
-    .first<{ email: string; frequency: string; platforms: string }>()
+    .first<{ email: string; frequency: string; platforms: string; franchise_hinweis: number }>()
 
   if (!row) return json(env, { error: SCHLUESSEL_UNGUELTIG }, 404)
   return json(env, {
@@ -636,13 +638,20 @@ async function handlePrefsGet(request: Request, env: Env): Promise<Response> {
     email: row.email,
     frequency: row.frequency === 'daily' ? 'daily' : 'weekly',
     platforms: row.platforms ? row.platforms.split(',').filter(Boolean) : [],
+    /* Damit der Schalter den echten Stand zeigt und nicht eine Vermutung. */
+    franchiseHinweis: row.franchise_hinweis !== 0,
   })
 }
 
 async function handlePrefsPost(request: Request, env: Env): Promise<Response> {
-  let payload: { token?: string; frequency?: string; platforms?: string[] }
+  let payload: { token?: string; frequency?: string; platforms?: string[]; franchiseHinweis?: boolean }
   try {
-    payload = (await request.json()) as { token?: string; frequency?: string; platforms?: string[] }
+    payload = (await request.json()) as {
+      token?: string
+      frequency?: string
+      platforms?: string[]
+      franchiseHinweis?: boolean
+    }
   } catch {
     return json(env, { error: 'Ungültige Anfrage.' }, 400)
   }
@@ -652,11 +661,19 @@ async function handlePrefsPost(request: Request, env: Env): Promise<Response> {
 
   const frequency = payload.frequency === 'daily' ? 'daily' : 'weekly'
   const platforms = (payload.platforms ?? []).filter((p) => /^[a-z]+$/.test(p)).join(',')
+  /*
+    **Fehlt das Feld, bleibt die Einstellung, wie sie war.**
+
+    Ein älterer Client schickt es nicht mit; ihn deshalb stillschweigend
+    abzumelden wäre der schlimmere Fehler. Nur ein ausdrückliches `false`
+    schaltet ab.
+  */
+  const hinweis = payload.franchiseHinweis === undefined ? null : payload.franchiseHinweis ? 1 : 0
 
   const result = await env.DB.prepare(
-    "UPDATE subscribers SET frequency = ?1, platforms = ?2 WHERE pref_token = ?3 AND status = 'active'",
+    "UPDATE subscribers SET frequency = ?1, platforms = ?2, franchise_hinweis = COALESCE(?4, franchise_hinweis) WHERE pref_token = ?3 AND status = 'active'",
   )
-    .bind(frequency, platforms, token)
+    .bind(frequency, platforms, token, hinweis)
     .run()
 
   if (!result.meta.changes) {
@@ -726,6 +743,27 @@ async function loadEvents(env: Env): Promise<ReleaseEvent[]> {
  * diesen Abschnitt. Das ist der richtige Ausgang: Lieber ein Newsletter ohne
  * die frohe Botschaft als gar keiner.
  */
+/** Je Titel seine Reihe und sein Jahr — siehe `reihen.json` im Bau. */
+type Reihen = Record<string, { f: number; j: number | null }>
+
+/**
+ * Die Reihen-Zuordnung, fuer den Hinweis auf Neues aus gemerkten Reihen.
+ *
+ * Rund 40 KB statt der 2,6 MB von `titles.json`, und mit einer Stunde
+ * Zwischenspeicher: Sie aendert sich nur, wenn ein Titel dazukommt.
+ */
+async function loadReihen(env: Env): Promise<Reihen> {
+  const url = new URL('data/reihen.json', env.SITE_URL).toString()
+  try {
+    const res = await fetch(url, { cf: { cacheTtl: 3600 } } as RequestInit)
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return (await res.json()) as Reihen
+  } catch (err) {
+    console.error('Reihen-Zuordnung nicht abrufbar', err)
+    return {}
+  }
+}
+
 async function loadNeuMitSynchro(env: Env): Promise<NeuMitSynchro[]> {
   const url = new URL('data/neu-mit-synchro.json', env.SITE_URL).toString()
   try {
@@ -786,6 +824,7 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
   const allEvents = await loadEvents(env)
   const links = await loadReleaseLinks(env)
   const alleNeu = await loadNeuMitSynchro(env)
+  const reihen = await loadReihen(env)
   const log: string[] = []
 
   for (const frequency of due) {
@@ -804,7 +843,7 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
     const window = allEvents.filter((e) => e.date >= iso && e.date <= until)
 
     const { results } = await env.DB.prepare(
-      `SELECT id, email, frequency, platforms, favorites, unsub_token, pref_token, last_sent_at FROM subscribers
+      `SELECT id, email, frequency, platforms, favorites, franchise_hinweis, unsub_token, pref_token, last_sent_at FROM subscribers
        WHERE status = 'active' AND frequency = ?1`,
     )
       .bind(frequency)
@@ -829,7 +868,49 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
        * sie, dass derselbe Titel in jeder Mail erneut gefeiert wird.
        */
       const seit = (sub.last_sent_at ?? '').slice(0, 10)
-      const neuMitSynchro = alleNeu.filter((n) => favorites.has(n.id) && (!seit || n.seit > seit))
+      const eigene = alleNeu.filter((n) => favorites.has(n.id) && (!seit || n.seit > seit))
+
+      /**
+       * **Neues aus einer Reihe, von der etwas gemerkt ist.**
+       *
+       * Daniel am 28.08.2026: „ich will informiert werden weil ich es sonst
+       * evtl verpasse." Wer die letzte Staffel gemerkt hat, erfaehrt sonst nie,
+       * dass eine neue angekuendigt wurde — sie ist ein eigener Titel, und den
+       * hat er noch nicht gemerkt, weil es ihn gerade erst gibt.
+       *
+       * **Zwei Riegel gegen Laerm**, beide einfach:
+       *
+       * - Nur, was **nicht aelter** ist als der gemerkte Titel. Wird eine OVA
+       *   von 2005 erstmals erfasst, ist sie fuer den Bestand neu, aber keine
+       *   Ankuendigung. Ohne Jahresangabe gilt sie als neu — Schweigen waere
+       *   hier der groessere Fehler.
+       * - Nur einmal, ueber dieselbe Grenze wie die uebrigen Neuzugaenge.
+       *
+       * Gemessen kommen rund 0,2 Titel je Tag neu in den Bestand; eine Flut
+       * ist daraus nicht zu erwarten.
+       */
+      const meineReihen = new Map<number, number>()
+      if (sub.franchise_hinweis) {
+        for (const id of favorites) {
+          const ausReihenDatei = reihen[String(id)]
+          const reihe = ausReihenDatei?.f ?? alleNeu.find((n) => n.id === id)?.franchiseId
+          if (!reihe) continue
+          const jahr = ausReihenDatei?.j ?? null
+          const bisher = meineReihen.get(reihe)
+          if (bisher === undefined || (jahr !== null && jahr < bisher)) meineReihen.set(reihe, jahr ?? 0)
+        }
+      }
+      const ausReihe = sub.franchise_hinweis
+        ? alleNeu.filter(
+            (n) =>
+              !favorites.has(n.id) &&
+              (!seit || n.seit > seit) &&
+              n.franchiseId !== undefined &&
+              meineReihen.has(n.franchiseId) &&
+              (n.jahr == null || n.jahr >= (meineReihen.get(n.franchiseId) ?? 0)),
+          )
+        : []
+      const neuMitSynchro = [...eigene, ...ausReihe.map((n) => ({ ...n, ausReihe: true }))]
 
       /**
        * Ohne Termine **und** ohne Neuzugang gibt es nichts zu erzählen.

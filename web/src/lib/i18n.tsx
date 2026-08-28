@@ -425,6 +425,9 @@ const TEXTE = {
   'news.yourSubscription': 'Dein Abo',
   'news.loadingPrefs': 'Einstellungen werden geladen …',
   'news.allPlatforms': 'alle',
+  'news.franchiseHint': 'Auch Neues aus gemerkten Reihen',
+  'news.franchiseHintNote':
+    'Erscheint zu einer Reihe, von der du etwas gemerkt hast, eine neue Staffel, ein Film oder ein Special, steht es in der nächsten Mail.',
   'news.prefsSaved': '✓ Gespeichert.',
   'news.changeAddress': 'Andere Adresse verwenden',
   'news.frequency': 'Rhythmus',

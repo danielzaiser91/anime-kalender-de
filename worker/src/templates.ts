@@ -266,6 +266,18 @@ export interface NeuMitSynchro {
   seit: string
   /** Erster bekannter deutscher Termin — fehlt, wenn nur angekündigt. */
   termin?: string
+  /** Zu welcher Reihe der Titel gehört — für den Hinweis auf gemerkte Reihen. */
+  franchiseId?: number
+  /** Japanisches Erstausstrahlungsjahr, gegen Meldungen über Altbestand. */
+  jahr?: number | null
+  /**
+   * Kam der Titel über eine gemerkte **Reihe** statt über den Titel selbst?
+
+   * Der Unterschied gehört in die Mail: „Du hast das gemerkt" und „das gehört
+   * zu etwas, das du gemerkt hast" sind zwei verschiedene Nachrichten, und die
+   * zweite muss sich erklären, sonst wirkt sie wie ein Versehen.
+   */
+  ausReihe?: boolean
 }
 
 export interface DigestOptions {
@@ -309,6 +321,16 @@ export function digestMail(
   const mine = events.filter((e) => favorites.has(e.titleId))
   const rest = events.filter((e) => !favorites.has(e.titleId))
   const neu = options.neuMitSynchro ?? []
+  /*
+    **Zwei Sorten Neuzugang, und der Unterschied gehört in den Betreff.**
+
+    „Du hast das gemerkt" und „das gehört zu etwas, das du gemerkt hast" sind
+    zwei verschiedene Nachrichten. Die zweite ist die, auf die man wartet, ohne
+    es zu wissen — eine neue Staffel ist ein eigener Titel, und den kann noch
+    niemand gemerkt haben.
+  */
+  const neuGemerkt = neu.filter((n) => !n.ausReihe)
+  const neuAusReihe = neu.filter((n) => n.ausReihe)
   const ctx: RowContext = { siteUrl, links: options.links ?? new Map() }
 
   /**
@@ -318,9 +340,11 @@ export function digestMail(
    */
   const subject =
     neu.length > 0
-      ? neu.length === 1
-        ? `${neu[0].name} bekommt eine deutsche Synchro`
-        : `${neu.length} deiner gemerkten Titel bekommen eine deutsche Synchro`
+      ? neuGemerkt.length === 0 && neuAusReihe.length === 1
+        ? `Neu in deiner Reihe: ${neuAusReihe[0].name}`
+        : neu.length === 1
+          ? `${neu[0].name} bekommt eine deutsche Synchro`
+          : `${neu.length} Neuzugänge zu deinen gemerkten Titeln`
       : mine.length > 0
         ? `${mine.length} ${mine.length === 1 ? 'Folge' : 'Folgen'} deiner Favoriten${
             rest.length ? ` und ${rest.length} weitere Releases` : ''
@@ -340,27 +364,48 @@ export function digestMail(
    * Titel gemerkt hat, hat womöglich Monate darauf gewartet — das verdient
    * mehr als eine Zeile in einer Terminliste.
    */
-  const neuBlock = neu.length
+  /*
+    **Zwei Bloecke, weil es zwei Nachrichten sind.**
+
+    Der erste ist die Nachricht, auf die jemand gewartet hat: Ein gemerkter
+    Titel hat jetzt eine deutsche Fassung. Der zweite ist die, von der er noch
+    nicht wusste, dass er auf sie wartet — eine neue Staffel, ein Film, ein
+    Special zu einer Reihe, von der er etwas gemerkt hat.
+
+    Der zweite Block erklaert sich selbst. Ohne den Satz „weil du … gemerkt
+    hast" wirkt ein fremder Titel in einer Favoriten-Mail wie ein Versehen.
+  */
+  const eintrag = (n: NeuMitSynchro) =>
+    `<p style="margin:0 0 8px;padding:11px 13px;background:#10251d;border-left:3px solid #34d399;border-radius:0 8px 8px 0;">
+       <a href="${siteUrl}#/datenbank?t=${n.id}" style="color:#e2e8f0;font-weight:700;text-decoration:none;font-size:15px;">${n.name}</a><br>
+       <span style="color:#9aa5bd;font-size:13px;">${
+         n.termin ? `Erster deutscher Termin: ${n.termin.split('-').reverse().join('.')}` : 'Angekündigt — ein Termin steht noch aus.'
+       }</span>
+     </p>`
+
+  const neuBlock = neuGemerkt.length
     ? `<p style="margin:0 0 6px;padding-bottom:6px;border-bottom:2px solid #34d399;color:#34d399;font-weight:700;font-size:15px;letter-spacing:.03em;">
          🎉 Endlich: deutsche Synchro
        </p>
        <p style="margin:0 0 10px;color:#9aa5bd;font-size:13px;">
-         ${neu.length === 1 ? 'Ein Titel, den du gemerkt hast, hat' : `${neu.length} Titel, die du gemerkt hast, haben`}
+         ${neuGemerkt.length === 1 ? 'Ein Titel, den du gemerkt hast, hat' : `${neuGemerkt.length} Titel, die du gemerkt hast, haben`}
          jetzt eine belegte deutsche Fassung.
        </p>
-       ${neu
-         .map(
-           (n) => `<p style="margin:0 0 8px;padding:11px 13px;background:#10251d;border-left:3px solid #34d399;border-radius:0 8px 8px 0;">
-             <a href="${siteUrl}#/datenbank?t=${n.id}" style="color:#e2e8f0;font-weight:700;text-decoration:none;font-size:15px;">${n.name}</a><br>
-             <span style="color:#9aa5bd;font-size:13px;">${
-               n.termin ? `Erster deutscher Termin: ${n.termin.split('-').reverse().join('.')}` : 'Angekündigt — ein Termin steht noch aus.'
-             }</span>
-           </p>`,
-         )
-         .join('')}`
+       ${neuGemerkt.map(eintrag).join('')}`
     : ''
 
-  let body = neuBlock
+  const reihenBlock = neuAusReihe.length
+    ? `<p style="margin:0 0 6px;padding-bottom:6px;border-bottom:2px solid #60a5fa;color:#60a5fa;font-weight:700;font-size:15px;letter-spacing:.03em;">
+         ✨ Neu in deinen Reihen
+       </p>
+       <p style="margin:0 0 10px;color:#9aa5bd;font-size:13px;">
+         ${neuAusReihe.length === 1 ? 'Ein neuer Teil einer Reihe' : `${neuAusReihe.length} neue Teile von Reihen`},
+         von denen du etwas gemerkt hast.
+       </p>
+       ${neuAusReihe.map(eintrag).join('')}`
+    : ''
+
+  let body = neuBlock + reihenBlock
   if (mine.length > 0) {
     body += heading('★ Deine Favoriten', '#fbbf24') + dateSections(ctx, mine, true)
   }

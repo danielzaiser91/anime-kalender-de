@@ -473,10 +473,50 @@ function schreibeNeuMitSynchro(titles: Title[], releases: Release[]): void {
       seit: historie.seit[t.id],
       /** Erster bekannter deutscher Termin, falls es schon einen gibt. */
       termin: ersterTermin.get(t.id),
+      /**
+       * **Zu welcher Reihe der Titel gehoert.**
+
+       * Daniel am 28.08.2026: „mach ausserdem, dass wenn man den haupttitel
+       * eines anime oder die letzte staffel eines anime als favorit markiert
+       * auch informiert wird wenn eine neue staffel/film oder sonstiges neues
+       * zu diesem haupttitel erscheint … ich will informiert werden weil ich
+       * es sonst evtl verpasse."
+       *
+       * Der Worker kann daraus die Frage beantworten, ohne den ganzen Bestand
+       * zu laden: Liegt einer meiner gemerkten Titel in derselben Reihe?
+       */
+      franchiseId: t.franchiseId,
+      /**
+       * Das japanische Erstausstrahlungsjahr — gegen Meldungen ueber Altes.
+       *
+       * Wird eine OVA von 2005 erstmals erfasst, ist sie fuer den Bestand neu,
+       * aber keine Ankuendigung. Der Worker vergleicht sie mit dem Jahr des
+       * gemerkten Titels und schweigt ueber alles Aeltere.
+       */
+      jahr: t.jpYear ?? null,
     }))
     .sort((a, b) => b.seit.localeCompare(a.seit))
 
   writeJson(`${OUT}/neu-mit-synchro.json`, neu)
+
+  /**
+   * **Welcher Titel zu welcher Reihe gehoert — schlank, fuer den Worker.**
+   *
+   * Der Hinweis auf Neues aus gemerkten Reihen braucht zu jedem gemerkten
+   * Titel seine Reihe. In `titles.json` steht sie, aber die Datei ist 2,6 MB
+   * gross und wird vom Worker bei jedem Versandlauf geladen — das waere
+   * dieselbe Sorte Verschwendung, die dieses Projekt an anderer Stelle
+   * vermeidet.
+   *
+   * Hier stehen nur zwei Zahlen je Titel. Bei 2.763 Titeln sind das rund
+   * 40 KB, und die Datei aendert sich nur, wenn ein Titel dazukommt.
+   */
+  const reihen: Record<string, { f: number; j: number | null }> = {}
+  for (const t of titles) {
+    if (t.franchiseId) reihen[t.id] = { f: t.franchiseId, j: t.jpYear ?? null }
+  }
+  writeJson(`${OUT}/reihen.json`, reihen)
+  log(`Reihen-Zuordnung: ${Object.keys(reihen).length} Titel`)
   log(`Neu mit deutscher Synchro (${FENSTER_TAGE} Tage): ${neu.length} Titel`)
 }
 
