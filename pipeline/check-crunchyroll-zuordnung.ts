@@ -520,6 +520,55 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
   ])
   pruefe('ein OVA-Block bekommt nichts', special.length === 0, special)
 
+  /*
+    **Aber ein OVA-Block, dessen Zahl exakt aufgeht, bekommt seine Titel.**
+
+    Der Namensabgleich findet ihn nie: Unser Titel heißt „Mob Psycho 100 Reigen:
+    Der Unbekannte Typ mit Kräften", der Block schlicht „OVAs". Vier Titel in
+    zwei Reihen standen deshalb am 28.08.2026 ohne Urteil da, obwohl der Block
+    beide Folgen als deutsch führte.
+
+    Die Strenge ist dieselbe wie bei den ADN-Staffelblöcken: Geht die Summe nicht
+    exakt auf, bleibt der Block unzugeordnet — das ist der Fall darüber, wo
+    „Fairy Tail OVA" mit fünf Folgen gegen einen Block mit zweien steht.
+  */
+  {
+    const mitOvaBlock = {
+      staffeln: [
+        { name: 'Mob Psycho 100', folgen: 12, deutsch: 12 },
+        { name: 'OVAs', folgen: 2, deutsch: 2 },
+      ],
+    }
+    const zwei = beurteileJeBlock(mitOvaBlock as never, [
+      mach(10, 'Mob Psycho 100 Reigen', 1, 'OVA'),
+      mach(11, 'Mob Psycho 100 II OVA', 1, 'OVA'),
+    ])
+    pruefe(
+      'zwei OVAs zu je einer Folge bekommen den Block mit zwei Folgen',
+      zwei.length === 2 && zwei.every((u) => u.dub === true),
+      zwei,
+    )
+
+    const eine = beurteileJeBlock(mitOvaBlock as never, [
+      mach(12, 'Mob Psycho 100 Reigen', 1, 'OVA'),
+    ])
+    pruefe('eine einzelne OVA gegen zwei Folgen bekommt nichts', eine.length === 0, eine)
+
+    const serieDarfNicht = beurteileJeBlock(mitOvaBlock as never, [
+      mach(13, 'Etwas ganz anderes', 2, 'TV'),
+    ])
+    /*
+      Die Serie bekommt hier den **Serien**block über die Regel „einzige Serie an
+      dieser Adresse" — das ist richtig. Falsch wäre, wenn sie ihr Urteil aus dem
+      OVA-Block bezöge; die Begründung sagt, woher es kommt.
+    */
+    pruefe(
+      'eine Serie bezieht ihr Urteil nicht aus dem OVA-Block',
+      serieDarfNicht.every((u) => !/OVAs/.test(u.grund)),
+      serieDarfNicht,
+    )
+  }
+
   /* Zwei offene Titel: dann entscheidet wieder der Name. */
   const zwei = beurteileJeBlock(mitBloecken as never, [
     mach(4, 'Fairy Tail', 175, 'TV'),

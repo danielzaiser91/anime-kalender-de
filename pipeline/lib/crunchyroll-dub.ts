@@ -626,7 +626,48 @@ export function beurteileJeBlock(serie: CrSerie, unsere: Title[]): Urteil[] {
   }
 
   const raus: Urteil[] = []
+
+  /*
+    **Ein OVA-Block gehört den OVAs — wenn die Summe exakt aufgeht.**
+
+    Crunchyroll führt Sonderfolgen in einem eigenen Block „OVAs" oder
+    „Specials". Der Namensabgleich weiter unten findet ihn nie: Unser Titel
+    heißt „Mob Psycho 100 Reigen: Der Unbekannte Typ mit Kräften", der Block
+    schlicht „OVAs".
+
+    Zugeordnet wird deshalb über die **Folgenzahl**, und zwar mit derselben
+    Strenge wie bei den ADN-Staffelblöcken: Ergeben unsere OVA- und
+    Special-Titel an dieser Adresse zusammen exakt die Folgenzahl des Blocks,
+    ist die Zuordnung eindeutig. Geht sie nicht auf, bleibt der Block lieber
+    unzugeordnet, als einen fremden Titel mitzubringen.
+
+    Gemessen am 28.08.2026: vier Titel in zwei Reihen (Dragon Maid, Mob Psycho
+    100), jeweils zwei OVAs à einer Folge gegen einen Block mit zwei Folgen,
+    beide deutsch.
+
+    **Serien bleiben außen vor.** Ein TV-Titel darf nie über einen OVA-Block
+    beurteilt werden — das wäre genau die Vererbung, die der Kommentar weiter
+    unten als Fehler beschreibt.
+  */
+  const sonderTitel = unsere.filter((t) => t.format === 'OVA' || t.format === 'SPECIAL')
+  if (sonderTitel.length) {
+    const sonderBlock = bloecke.find((b) => /^s*(ovas?|specials?)s*$/i.test((b.name ?? '').trim()))
+    const summe = sonderTitel.reduce((n, t) => n + (t.episodes ?? 0), 0)
+    const deutsch = sonderBlock ? (sonderBlock.deutscheFolgen?.length ?? sonderBlock.deutsch ?? 0) : 0
+    if (sonderBlock && summe > 0 && summe === (sonderBlock.folgen ?? -1) && deutsch > 0) {
+      for (const t of sonderTitel) {
+        raus.push({
+          titleId: t.id,
+          dub: true,
+          grund: `Block „${sonderBlock.name}" mit ${sonderBlock.folgen} Folgen, ${deutsch} deutsch; unsere Sonderfolgen ergeben zusammen genau diese Zahl`,
+        })
+      }
+    }
+  }
+
   for (const titel of unsere) {
+    /* Wer schon über den Sonderblock beurteilt ist, wird nicht zweimal gewertet. */
+    if (raus.some((u) => u.titleId === titel.id)) continue
     const namen = [titel.titleRomaji, titel.titleEn, titel.titleDe].map(kurz).filter((n) => n.length >= 4)
     if (!namen.length) continue
 
