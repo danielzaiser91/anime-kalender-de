@@ -6,29 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Adventure
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:robin-hood-box@2026-08-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260820
-DTEND;VALUE=DATE:20260821
-SUMMARY:Robin Hood (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/robin-h
- ood-box
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:vom-landei-zum-schwertheiligen-2@2026-08-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260820
-DTEND;VALUE=DATE:20260821
-SUMMARY:Vom Landei zum Schwertheiligen II – Folge 7/12
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell best
- ätigt.\nDetails: https://anime-kalender.de/#/release/vom-landei-zum-schwer
- theiligen-2
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-08-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260821T150000Z

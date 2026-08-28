@@ -6,17 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Supernatural
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:witch-watch-vol1@2026-08-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260820
-DTEND;VALUE=DATE:20260821
-SUMMARY:Witch Watch – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/witch-w
- atch-vol1
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:demon-slayer-s1-steelbook@2026-08-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260821

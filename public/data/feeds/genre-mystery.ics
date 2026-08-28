@@ -6,28 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Mystery
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:sword-of-the-demon-hunter-vol1@2026-08-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260820
-DTEND;VALUE=DATE:20260821
-SUMMARY:Sword of the Demon Hunter – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/sword-o
- f-the-demon-hunter-vol1
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:sword-of-the-demon-hunter-vol2@2026-08-20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260820
-DTEND;VALUE=DATE:20260821
-SUMMARY:Sword of the Demon Hunter – Vol. 2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/sword-o
- f-the-demon-hunter-vol2
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:tougen-anki-part1@2026-08-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260821
