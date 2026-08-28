@@ -1,0 +1,933 @@
+{
+  "63": {
+    "titel": "DearS",
+    "gefunden": true,
+    "seriesId": "GRZXD528Y",
+    "crTitel": "DearS",
+    "spuren": [
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "67": {
+    "titel": "Basilisk: Chronik der Koga-Ninja",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "68": {
+    "titel": "Black Cat",
+    "gefunden": true,
+    "seriesId": "GYWEQW20Y",
+    "crTitel": "Black Cat",
+    "spuren": [
+      "ja-JP",
+      "en-US"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "90": {
+    "titel": "Gundam Wing",
+    "gefunden": true,
+    "seriesId": "G63VP3PMY",
+    "crTitel": "Mobile Suit Gundam Wing",
+    "spuren": [
+      "en-US",
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "93": {
+    "titel": "Mobile Suit Gundam Seed",
+    "gefunden": true,
+    "seriesId": "GYWEQQD2Y",
+    "crTitel": "Mobile Suit Gundam Seed",
+    "spuren": [
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "177": {
+    "titel": "Tsubasa Chronicle",
+    "gefunden": true,
+    "seriesId": "GVDHX8GMK",
+    "crTitel": "Tsubasa RESERVoir CHRoNiCLE",
+    "spuren": [
+      "ja-JP",
+      "de-DE"
+    ],
+    "deutsch": true,
+    "geprueftAm": "2026-08-28"
+  },
+  "227": {
+    "titel": "FLCL",
+    "gefunden": true,
+    "seriesId": "GRDK3DD4Y",
+    "crTitel": "FLCL",
+    "spuren": [
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "274": {
+    "titel": "Kiddy Grade",
+    "gefunden": true,
+    "seriesId": "G62PVK096",
+    "crTitel": "Kiddy Grade",
+    "spuren": [
+      "ja-JP",
+      "en-US"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "329": {
+    "titel": "Planetes",
+    "gefunden": true,
+    "seriesId": "G9VHN9Q14",
+    "crTitel": "Planetes",
+    "spuren": [
+      "en-US",
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "380": {
+    "titel": "Fushigi Yûgi: The Mysterious Play",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "457": {
+    "titel": "Mushi-Shi",
+    "gefunden": true,
+    "seriesId": "GRX0MGN76",
+    "crTitel": "MUSHI-SHI",
+    "spuren": [
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "539": {
+    "titel": "Tenchi Muyo! (Episode 1 - 6)",
+    "gefunden": true,
+    "seriesId": "G60XPMX7R",
+    "crTitel": "Tenchi Muyo! Ryo-Ohki",
+    "spuren": [
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "552": {
+    "titel": "Digimon",
+    "gefunden": true,
+    "seriesId": "GVDHX83V7",
+    "crTitel": "Digimon Adventure",
+    "spuren": [
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "856": {
+    "titel": "Utawarerumono: Heldenlied",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "859": {
+    "titel": "Digimon Data Squad",
+    "gefunden": true,
+    "seriesId": "GNVHKN972",
+    "crTitel": "Digimon Data Squad",
+    "spuren": [
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "953": {
+    "titel": "Planet of the Beast King - Jyu-Oh-Sei",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "1132": {
+    "titel": "Digimon Frontier",
+    "gefunden": true,
+    "seriesId": "G3KHEVD7E",
+    "crTitel": "Digimon Frontier",
+    "spuren": [
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "1140": {
+    "titel": "Origin: Spirits of the Past",
+    "gefunden": true,
+    "seriesId": "GMTE00002351",
+    "crTitel": "Origin: Spirits of the Past",
+    "spuren": [
+      "ja-JP",
+      "en-US"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "1292": {
+    "titel": "Afro Samurai",
+    "gefunden": true,
+    "seriesId": "G5PHNMW59",
+    "crTitel": "Afro Samurai",
+    "spuren": [
+      "en-US"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "1374": {
+    "titel": "Guyver: The Bioboosted Armor",
+    "gefunden": true,
+    "seriesId": "GR9P7JMV6",
+    "crTitel": "Guyver: The Bioboosted Armor",
+    "spuren": [
+      "en-US",
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "1604": {
+    "titel": "Reborn!",
+    "gefunden": true,
+    "seriesId": "GRNQ13VQR",
+    "crTitel": "REBORN!",
+    "spuren": [
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "1607": {
+    "titel": "Venus versus Virus",
+    "gefunden": true,
+    "seriesId": "GP5HJ812E",
+    "crTitel": "Venus Versus Virus",
+    "spuren": [
+      "en-US",
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "2273": {
+    "titel": "Gundam Wing: Endless Waltz",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "2581": {
+    "titel": "Mobile Suit Gundam 00",
+    "gefunden": true,
+    "seriesId": "G6MGQ0976",
+    "crTitel": "MOBILE SUIT GUNDAM 00",
+    "spuren": [
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "3053": {
+    "titel": "Kickers",
+    "gefunden": true,
+    "seriesId": "GKEH2GPE0",
+    "crTitel": "Kickers",
+    "spuren": [
+      "ja-JP",
+      "de-DE"
+    ],
+    "deutsch": true,
+    "geprueftAm": "2026-08-28"
+  },
+  "4970": {
+    "titel": "Afro Samurai: Resurrection",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "5355": {
+    "titel": "Sengoku Basara: Samurai Kings",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "8888": {
+    "titel": "Code Geass: Akito the Exiled - The Wyvern Arrives",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "11111": {
+    "titel": "Another",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "11763": {
+    "titel": "Wanna Be the Strongest in the World!",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "14741": {
+    "titel": "Love, Chunibyo & Other Delusions!",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "15197": {
+    "titel": "Code Geass: Akito the Exiled - The Wyvern Divided",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "15201": {
+    "titel": "Code Geass: Akito the Exiled - Memories of Hatred",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "15227": {
+    "titel": "In This Corner of the World",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "15489": {
+    "titel": "Yu-Gi-Oh! Zexal II",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "15583": {
+    "titel": "Date a Live",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "18115": {
+    "titel": "Magi: The Kingdom of Magic",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "19163": {
+    "titel": "Date a Live II",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "19429": {
+    "titel": "Akuma no Riddle",
+    "gefunden": true,
+    "seriesId": "GR2P1ZEMR",
+    "crTitel": "Akuma no Riddle",
+    "spuren": [
+      "de-DE"
+    ],
+    "deutsch": true,
+    "geprueftAm": "2026-08-28"
+  },
+  "20553": {
+    "titel": "KanColle: Fleet Girls Collection",
+    "gefunden": true,
+    "seriesId": "GYJQVX726",
+    "crTitel": "KanColle",
+    "spuren": [
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "20588": {
+    "titel": "Daimidaler: Prince vs. Penguin Empire",
+    "gefunden": true,
+    "seriesId": "GRGGQ914R",
+    "crTitel": "DAIMIDALER: PRINCE VS. PENGUIN EMPIRE",
+    "spuren": [
+      "de-DE"
+    ],
+    "deutsch": true,
+    "geprueftAm": "2026-08-28"
+  },
+  "20632": {
+    "titel": "Aldnoah.Zero",
+    "gefunden": true,
+    "seriesId": "GRP8DNZ1R",
+    "crTitel": "ALDNOAH.ZERO",
+    "spuren": [
+      "en-US"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "20677": {
+    "titel": "DRAMAtical Murder",
+    "gefunden": true,
+    "seriesId": "G63V7VN4Y",
+    "crTitel": "DRAMAtical Murder",
+    "spuren": [
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "20771": {
+    "titel": "Shomin Sample",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "20817": {
+    "titel": "Laughing Under the Clouds",
+    "gefunden": true,
+    "seriesId": "GYDQ2NXK6",
+    "crTitel": "Laughing Under the Clouds",
+    "spuren": [
+      "en-US",
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "21066": {
+    "titel": "Beautiful Bones: Sakurako’s Investigation",
+    "gefunden": true,
+    "seriesId": "G6WE21DG6",
+    "crTitel": "Beautiful Bones -Sakurako's Investigation-",
+    "spuren": [
+      "de-DE",
+      "ja-JP"
+    ],
+    "deutsch": true,
+    "geprueftAm": "2026-08-28"
+  },
+  "21178": {
+    "titel": "Code Geass: Akito the Exiled - To Beloved Ones",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "21190": {
+    "titel": "The Perfect Insider",
+    "gefunden": true,
+    "seriesId": "G68VXG3G6",
+    "crTitel": "The Perfect Insider",
+    "spuren": [
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "21192": {
+    "titel": "Bikini Warriors",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "21290": {
+    "titel": "And You Thought There Is Never a Girl Online?",
+    "gefunden": true,
+    "seriesId": "GRWE8K5MR",
+    "crTitel": "And you thought there is never a girl online?",
+    "spuren": [
+      "en-US",
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "21291": {
+    "titel": "Joker Game",
+    "gefunden": true,
+    "seriesId": "GY8VXP2JY",
+    "crTitel": "JOKER GAME",
+    "spuren": [
+      "es-419",
+      "pt-BR",
+      "ja-JP",
+      "en-US",
+      "fr-FR"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "21311": {
+    "titel": "Bungo Stray Dogs",
+    "gefunden": true,
+    "seriesId": "GR5VXQ8PR",
+    "crTitel": "Bungo Stray Dogs",
+    "spuren": [
+      "en-US",
+      "fr-FR",
+      "ja-JP",
+      "pt-BR",
+      "es-419"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "21647": {
+    "titel": "Orange",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "21679": {
+    "titel": "Bungo Stray Dogs 2",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "21714": {
+    "titel": "Flip Flappers",
+    "gefunden": true,
+    "seriesId": "GYDQNWNG6",
+    "crTitel": "FLIP FLAPPERS",
+    "spuren": [
+      "ja-JP",
+      "de-DE"
+    ],
+    "deutsch": true,
+    "geprueftAm": "2026-08-28"
+  },
+  "21791": {
+    "titel": "Bungo Stray Dogs: Der Einzelgänger",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "97625": {
+    "titel": "Tsugumomo",
+    "gefunden": true,
+    "seriesId": "G675QE8JR",
+    "crTitel": "Tsugumomo",
+    "spuren": [
+      "en-US",
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "97673": {
+    "titel": "Nyanko Days",
+    "gefunden": true,
+    "seriesId": "G6P83KDJ6",
+    "crTitel": "Nyanko Days",
+    "spuren": [
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "97766": {
+    "titel": "Gamers!",
+    "gefunden": true,
+    "seriesId": "GR5V1JKGR",
+    "crTitel": "GAMERS!",
+    "spuren": [
+      "ja-JP",
+      "en-US"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "97833": {
+    "titel": "NTR: Netsuzou Trap",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "97863": {
+    "titel": "My First Girlfriend Is a Gal",
+    "gefunden": true,
+    "seriesId": "G675N15MR",
+    "crTitel": "My First Girlfriend is a Gal",
+    "spuren": [
+      "ja-JP",
+      "en-US",
+      "ru-RU"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "98384": {
+    "titel": "Bungo Stray Dogs: Dead Apple",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "98443": {
+    "titel": "Juni Taisen: Zodiac War",
+    "gefunden": true,
+    "seriesId": "G6K51X9GY",
+    "crTitel": "JUNI TAISEN：ZODIAC WAR",
+    "spuren": [
+      "ja-JP",
+      "en-US"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "98448": {
+    "titel": "Kinos Reise: Die wunderschöne Welt - Die animierte Serie",
+    "gefunden": true,
+    "seriesId": "GY5VGNM0Y",
+    "crTitel": "Kino's Journey -the Beautiful World- the Animated Series",
+    "spuren": [
+      "ja-JP",
+      "en-US"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "98603": {
+    "titel": "Sengoku Night Blood",
+    "gefunden": true,
+    "seriesId": "G65VGXVQ6",
+    "crTitel": "SENGOKU NIGHT BLOOD",
+    "spuren": [
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "98762": {
+    "titel": "Love, Chunibyo and Other Delusions! Take on Me",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "99426": {
+    "titel": "A Place Further Than the Universe",
+    "gefunden": true,
+    "seriesId": "GYK541EPR",
+    "crTitel": "A Place Further Than the Universe",
+    "spuren": [
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "99796": {
+    "titel": "Garo: Vanishing Line",
+    "gefunden": true,
+    "seriesId": "GRVN7ZW3Y",
+    "crTitel": "GARO -VANISHING LINE-",
+    "spuren": [
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "99940": {
+    "titel": "Junji Ito Collection",
+    "gefunden": true,
+    "seriesId": "G68V4NDJ6",
+    "crTitel": "Junji Ito Collection",
+    "spuren": [
+      "en-US",
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "100077": {
+    "titel": "Hinamatsuri",
+    "gefunden": true,
+    "seriesId": "GR79PWJ16",
+    "crTitel": "HINAMATSURI",
+    "spuren": [
+      "ja-JP",
+      "en-US"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "100112": {
+    "titel": "Wise Man’s Grandchild",
+    "gefunden": true,
+    "seriesId": "G63K95846",
+    "crTitel": "Wise Man's Grandchild",
+    "spuren": [
+      "ja-JP",
+      "es-419",
+      "en-US",
+      "pt-BR"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "101016": {
+    "titel": "Junji Ito: Tomie",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "101166": {
+    "titel": "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Arrow of the Orion",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "103139": {
+    "titel": "Domestic Girlfriend",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "103631": {
+    "titel": "Trinity Seven: Heavens Library & Crimson Lord",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "103900": {
+    "titel": "We Never Learn",
+    "gefunden": true,
+    "seriesId": "GR8DN8XDR",
+    "crTitel": "We Never Learn: BOKUBEN",
+    "spuren": [
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "104051": {
+    "titel": "Magia Record: Puella Magi Madoka Magica Side Story",
+    "gefunden": true,
+    "seriesId": "G6QWDD096",
+    "crTitel": "Magia Record: Puella Magi Madoka Magica Side Story",
+    "spuren": [
+      "pt-BR",
+      "en-US",
+      "ja-JP",
+      "es-419"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "104454": {
+    "titel": "Isekai Quartet",
+    "gefunden": true,
+    "seriesId": "GR8DN7N7R",
+    "crTitel": "Isekai Quartet",
+    "spuren": [
+      "ja-JP",
+      "en-US"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "104721": {
+    "titel": "Laidbackers",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "107420": {
+    "titel": "Infinite Dendrogram",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "108241": {
+    "titel": "Gleipnir",
+    "gefunden": true,
+    "seriesId": "G9VHN9P7W",
+    "crTitel": "Gleipnir",
+    "spuren": [
+      "en-US",
+      "ja-JP",
+      "es-419",
+      "pt-BR"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "110178": {
+    "titel": "Isekai Quartet 2",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "110350": {
+    "titel": "ID: Invaded",
+    "gefunden": true,
+    "seriesId": "G79H230GE",
+    "crTitel": "ID: INVADED",
+    "spuren": [
+      "en-US",
+      "ja-JP",
+      "pt-BR",
+      "es-419"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "110810": {
+    "titel": "Kandagawa Jet Girls",
+    "gefunden": true,
+    "seriesId": "GMEHMEWJM",
+    "crTitel": "Kandagawa Jet Girls",
+    "spuren": [
+      "de-DE"
+    ],
+    "deutsch": true,
+    "geprueftAm": "2026-08-28"
+  },
+  "112667": {
+    "titel": "Our Last Crusade or the Rise of a New World",
+    "gefunden": true,
+    "seriesId": "GVDHX8ZD0",
+    "crTitel": "Our Last Crusade or the Rise of a New World",
+    "spuren": [
+      "en-US",
+      "ja-JP",
+      "es-419",
+      "pt-BR"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "112818": {
+    "titel": "Super HxEros",
+    "gefunden": true,
+    "seriesId": "GJ0H7QXJ8",
+    "crTitel": "SUPER HXEROS",
+    "spuren": [
+      "en-US",
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "114340": {
+    "titel": "Kuma Kuma Kuma Bear",
+    "gefunden": true,
+    "seriesId": "GQWH0M990",
+    "crTitel": "Kuma Kuma Kuma Bear",
+    "spuren": [
+      "ja-JP",
+      "en-US"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "114446": {
+    "titel": "Higurashi: When They Cry Gou",
+    "gefunden": true,
+    "seriesId": "G4PH0WXEM",
+    "crTitel": "Higurashi: When They Cry - GOU",
+    "spuren": [
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "115740": {
+    "titel": "By the Grace of the Gods",
+    "gefunden": true,
+    "seriesId": "GP5HJ85ED",
+    "crTitel": "By the Grace of the Gods",
+    "spuren": [
+      "ja-JP",
+      "en-US",
+      "fr-FR",
+      "es-419",
+      "pt-BR"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "117002": {
+    "titel": "Magia Record: Puella Magi Madoka Magica Side Story Staffel 2 - The Eve of Awakening",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "117074": {
+    "titel": "Isekai Quartet the Movie: Another World",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "118419": {
+    "titel": "The Day I Became a God",
+    "gefunden": true,
+    "seriesId": "G3KHEV3MV",
+    "crTitel": "The Day I Became a God",
+    "spuren": [
+      "ja-JP",
+      "en-US"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "124896": {
+    "titel": "Bear Bear Bear Kuma!",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "130003": {
+    "titel": "Bocchi the Rock!",
+    "gefunden": true,
+    "seriesId": "GXJHM3P19",
+    "crTitel": "BOCCHI THE ROCK!",
+    "spuren": [
+      "es-ES",
+      "ja-JP",
+      "pt-BR",
+      "fr-FR",
+      "it-IT",
+      "es-419"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "131149": {
+    "titel": "Higurashi: When They Cry Sotsu",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "137612": {
+    "titel": "Princess Principal: Crown Handler - Chapter 3",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "145740": {
+    "titel": "Grisaia Phantom Trigger",
+    "gefunden": true,
+    "seriesId": "GW4HM7WWV",
+    "crTitel": "Grisaia Phantom Trigger",
+    "spuren": [
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "164212": {
+    "titel": "Girls Band Cry",
+    "gefunden": true,
+    "seriesId": "G1XHJV0W8",
+    "crTitel": "Girls Band Cry",
+    "spuren": [
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "175199": {
+    "titel": "Given: The Movie - To the Sea",
+    "gefunden": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "179965": {
+    "titel": "Bitte zieh dich an, Takamine!",
+    "gefunden": true,
+    "seriesId": "G3KHEVD1D",
+    "crTitel": "Please Put Them On, Takamine-san",
+    "spuren": [
+      "ja-JP"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  },
+  "184639": {
+    "titel": "Anne Shirley",
+    "gefunden": true,
+    "seriesId": "G8DHV78XM",
+    "crTitel": "Anne Shirley",
+    "spuren": [
+      "es-419",
+      "ja-JP",
+      "pt-BR",
+      "en-US"
+    ],
+    "deutsch": false,
+    "geprueftAm": "2026-08-28"
+  }
+}
