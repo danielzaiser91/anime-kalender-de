@@ -2927,7 +2927,16 @@ async function speicherSchreiben(werte) {
       übernommen), und damit für immer unsichtbar.
     */
     const url = liste[asinEintrag]?.url
-    if (url && briefkastenAdressen && !briefkastenAdressen.has(url)) return false
+    /*
+      In try, weil der Merker rund hundert Zeilen weiter unten angelegt wird und
+      diese Funktion beim Seitenaufbau laeuft. Vor seiner Zeile gilt: noch keine
+      Auskunft vom Briefkasten, also entscheidet der lokale Stand darunter.
+    */
+    try {
+      if (url && briefkastenAdressen && !briefkastenAdressen.has(url)) return false
+    } catch {
+      /* Merker noch nicht angelegt. */
+    }
     const e = erledigt[asinEintrag]
     if (!e) return false
     return Object.keys(staffelnDerSerie(asinEintrag)).length >= gesamtDerSerie(asinEintrag)
@@ -3066,9 +3075,25 @@ async function speicherSchreiben(werte) {
    * Solange der Briefkasten nicht geantwortet hat, gilt der lokale Stand — sonst
    * flackerte die Liste bei jedem Seitenaufbau. Sobald er da ist, entscheidet er.
    */
-  const istGemeldet = (url) => {
-    if (briefkastenAdressen) return briefkastenAdressen.has(url)
-    return Boolean(suchErledigt[url])
+  function istGemeldet(url) {
+    /*
+      **Als Funktionsdeklaration, und der Rumpf in try.**
+
+      Der Aufruf aus dem Auftragskasten steht rund 560 Zeilen weiter oben. Ein
+      Pfeil-const dort ist die tote Zone: „Cannot access istGemeldet before
+      initialization" (Daniel, 28.08.2026) — der dritte Fall derselben Art an
+      einem Tag, nach knopf und listenId.
+
+      Die Deklaration wird hochgezogen, ihre beiden Variablen nicht. Deshalb
+      zusaetzlich try: Vor ihrer Zeile gilt „noch nichts bekannt", und das ist
+      die richtige Antwort — nicht gemeldet, also offen.
+    */
+    try {
+      if (briefkastenAdressen) return briefkastenAdressen.has(url)
+      return Boolean(suchErledigt[url])
+    } catch {
+      return false
+    }
   }
 
   const suchOffen = () => Object.keys(suchliste).filter((u) => !istGemeldet(u))

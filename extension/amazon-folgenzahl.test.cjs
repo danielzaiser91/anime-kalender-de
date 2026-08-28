@@ -331,15 +331,54 @@ pruefe(
 */
 {
   const zeilen = quelle.split(String.fromCharCode(10))
-  const NAMEN = ['knopf', 'listenId', 'dialog', 'kasten']
+  /*
+    **Alle Namen, nicht eine gepflegte Liste.**
+
+    Bis zum dritten Fall an einem Tag stand hier eine Aufzaehlung — knopf,
+    listenId, dialog, kasten. `istGemeldet` war nicht dabei und ist deshalb
+    durchgerutscht (Daniel, 28.08.2026). Eine Pruefung, die man pflegen muss,
+    faengt genau den Fall nicht, an den niemand gedacht hat.
+
+    Gesammelt werden jetzt alle Namen, die im Modulscope mit const oder let
+    angelegt sind und irgendwo als Objekt oder Funktion benutzt werden.
+  */
+  const NAMEN = [
+    ...new Set(
+      quelle
+        .split(String.fromCharCode(10))
+        .map((zeile) => /^  (?:const|let) ([a-zA-Z][a-zA-Z0-9]*)/.exec(zeile)?.[1])
+        .filter(Boolean),
+    ),
+  ]
   for (const name of NAMEN) {
     const deklaration = zeilen.findIndex((z) =>
       new RegExp('^  (?:const|let) ' + name + '\\b').test(z),
     )
     if (deklaration < 0) continue
     const frueher = []
+    let imKommentar = false
     for (let n = 0; n < deklaration; n++) {
       const zeile = zeilen[n]
+      /*
+        **Kommentare zaehlen nicht — und zwar ganze Bloecke.**
+
+        Die Prosa in amazon.js nennt die Namen, um die es geht: „nach knopf und
+        listenId." hat die Pruefung rot gemacht, obwohl dort kein Zugriff steht.
+        Ein Filter auf Zeilenpraefixe reicht nicht — die Bloecke dort sind frei
+        gesetzt, ohne fuehrenden Stern. Verfolgt wird deshalb, ob die Zeile
+        gesetzt, ohne fuehrenden Stern. Verfolgt wird deshalb, ob die Zeile
+        innerhalb eines Blockkommentars liegt.
+      */
+      if (imKommentar) {
+        if (zeile.includes('*' + '/')) imKommentar = false
+        continue
+      }
+      const getrimmt = zeile.trim()
+      const zu = '*' + '/'
+      /* Ein Einzeiler-Kommentar ist ganz Kommentar. */
+      if (getrimmt.startsWith('/*') && getrimmt.includes(zu)) continue
+      if (getrimmt.startsWith('/*')) { imKommentar = true; continue }
+      if (zeile.trim().startsWith('//') || zeile.trim().startsWith('*')) continue
       if (!new RegExp('(^|[^a-zA-Z.])' + name + '\\.').test(zeile)) continue
       /* Ein Funktionsparameter gleichen Namens ist ein anderer Name. */
       let parameter = false
@@ -350,6 +389,11 @@ pruefe(
       if (parameter) continue
       /* In einem try ist der Zugriff bewusst abgesichert. */
       let imTry = false
+      /*
+        `sicher(() => …)` ist die hauseigene Form von try — das Diagnosefeld
+        nutzt sie an rund dreissig Stellen, und jede davon ist abgesichert.
+      */
+      if (/sicher\(\s*\(\)\s*=>/.test(zeile)) continue
       for (let m = n; m >= 0 && m > n - 6; m--) if (/^\s*try \{/.test(zeilen[m])) { imTry = true; break }
       if (imTry) continue
       frueher.push(n + 1)
