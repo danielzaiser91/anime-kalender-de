@@ -3568,6 +3568,15 @@ async function speicherSchreiben(werte) {
    * passiert — und kurz genug, dass niemand darauf wartet.
    */
   const RUHE_MS = 2000
+  /**
+   * Wann Warten keine Auskunft mehr ist.
+   *
+   * Zwölf Sekunden, weil ein Abschnitt bei Prime in zwei bis drei ankommt — wer
+   * so lange nichts geschickt hat, schickt nichts mehr. Die Konstante steht hier
+   * oben, weil die Signatur in `zeichnen()` sie braucht: Ohne sie dort läuft die
+   * Frist ab, ohne dass jemand hinsieht.
+   */
+  const WARTE_FRIST_MS = 12_000
 
   /**
    * Wie lange ein Widerspruch zwischen Adresse und Quelltext sperren darf.
@@ -3579,6 +3588,8 @@ async function speicherSchreiben(werte) {
   const WIDERSPRUCH_MS = 5000
   let widerspruchSeit = 0
   let gesamtGeaendertAm = 0
+  /** Die Folgenzahl, die der Quelltext zuletzt nannte — für die Regel darunter. */
+  let letzteQuelltextGesamt = null
 
   /**
    * Warum der Knopf sagt, was er sagt — beim Überfahren lesbar.
@@ -3957,11 +3968,36 @@ async function speicherSchreiben(werte) {
         gesehen.sprachen = new Set(jetzt.sprachen)
         gesehen.nummern = new Set(jetzt.nummern)
     */
+    /*
+      **Eine Abweichung ist kein Ereignis — eine Änderung ist eins.**
+
+      Bis 3.80 stieß jeder Takt die Ruhefrist neu an, solange `jetzt.gesamt` von
+      `gesehen.gesamt` abwich. Nach einem Staffelwechsel weicht sie dauerhaft ab:
+      Der Quelltext ist der der alten Staffel (siehe „Der Quelltext veraltet beim
+      Staffelwechsel"), und der nennt eine andere Zahl als die Widget-Antwort der
+      neuen.
+
+      Gemessen an Daniels Bericht vom 28.08.2026 (Digimon Adventure, Staffel 2):
+
+          Quelltext (Staffel 1, veraltet)   54 Folgen
+          Zählstand (Staffel 2, Antwort)    50 Folgen, 48 gelesen
+          letzterFortschritt                steht seit 20 Sekunden
+
+      `gesamtGeaendertAm` wurde damit alle 500 ms erneuert, `zahlenStehen` konnte
+      nie wahr werden — und weil es in der Signatur steht, stieg `zeichnen()` bei
+      jedem Takt vorzeitig aus. Die Freigabe nach zwölf Sekunden stand hinter
+      diesem Ausstieg und wurde nie erreicht. Der Knopf blieb für immer auf
+      „Staffel wechselt — einen Moment".
+
+      Der Merker unterscheidet beides: Erst wenn der Quelltext eine **andere**
+      Zahl nennt als beim letzten Mal, ist etwas passiert.
+    */
     if (jetzt.gesamt && jetzt.gesamt !== gesehen.gesamt) {
-      if (gesehen.gesamt) {
+      if (gesehen.gesamt && jetzt.gesamt !== letzteQuelltextGesamt) {
         gesamtGeaendertAm = Date.now()
         gemeldeteStaffel = null
       }
+      letzteQuelltextGesamt = jetzt.gesamt
       /*
         Die Gesamtzahl aus dem Quelltext gilt nur, solange keine Antwort da ist.
         Sonst gewinnt die Antwort — sie meint die Folgenliste, um die es geht.
@@ -4091,7 +4127,22 @@ async function speicherSchreiben(werte) {
      * Signatur. Sonst ist der Ablauf ein Ereignis, das niemand bemerkt.
      */
     const zahlenStehen = Date.now() - gesamtGeaendertAm > RUHE_MS
-    const stand = `${deutsch}|${geladen}|${gesehen.gesamt}|${wartet}|${zahlenStehen}`
+    /*
+      **Jede zeitabhängige Anzeige gehört in die Signatur — auch die zweite.**
+
+      Der Kommentar darüber hat genau diese Lehre für `zahlenStehen` gezogen. Die
+      Freigabe nach zwölf Sekunden (`langeStill`, weiter unten) hängt an
+      `letzterFortschritt` und stand nicht darin — sie war damit vom selben
+      Ausstieg betroffen, gegen den die erste Regel gebaut wurde.
+
+      Am 28.08.2026 hat das den Staffelwechsel bei Digimon Adventure blockiert:
+      Der Zustand war seit zwanzig Sekunden unverändert, also stieg `zeichnen()`
+      aus, also lief die Prüfung nicht, die genau diesen Stillstand auflösen
+      sollte. Eine Regel, die nur greift, während sich etwas bewegt, greift nie
+      bei Stillstand — und für den ist sie gedacht.
+    */
+    const freigabeReif = Date.now() - letzterFortschritt > WARTE_FRIST_MS
+    const stand = `${deutsch}|${geladen}|${gesehen.gesamt}|${wartet}|${zahlenStehen}|${freigabeReif}`
     if (stand === letzterStand) return
     letzterStand = stand
     try {
@@ -4810,8 +4861,7 @@ async function speicherSchreiben(werte) {
         Zwölf Sekunden, weil ein Abschnitt bei Prime in zwei bis drei ankommt —
         wer so lange nichts geschickt hat, schickt nichts mehr.
       */
-      const WARTE_FRIST_MS = 12_000
-      const langeStill = Date.now() - letzterFortschritt > WARTE_FRIST_MS
+      const langeStill = freigabeReif
       const etwasGelesen = (gesehen?.jeFolge?.size ?? 0) > 0
       if (langeStill && etwasGelesen) {
         notiere('warten-aufgegeben', {

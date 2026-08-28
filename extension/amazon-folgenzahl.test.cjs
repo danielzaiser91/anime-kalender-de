@@ -217,6 +217,65 @@ pruefe(
   quelle.includes('const istFilm = (istFilmSeite() || !gesehen.gesamt) && geladen === 1'),
 )
 
+/*
+  **Der hängende Staffelwechsel — Digimon Adventure, Staffel 2.**
+
+  Aus Daniels Bericht vom 28.08.2026, Tagebuch mit 17 Einträgen:
+
+      13:57:01  staffelwechsel   ?|1|B0CHHNJJW3  ->  2|1|B0CGXX7FNC
+      13:57:05  stand-gekappt    gesamt 50, gelesen 72, weg: 55…78
+      13:57:13  wartet-auf-staffel  wartetSeitMs 8010, gesamt 50, gelesen 48
+      13:57:25  Bericht          wartetSeitMs 20262, Knopf „Staffel wechselt“
+
+  Die Kappung hat sauber gearbeitet (die durchlaufenden Nummern 55–78 sind weg,
+  48 von 50 bleiben). Danach steht `letzterFortschritt` zwanzig Sekunden still,
+  und die Freigabe nach zwölf Sekunden greift trotzdem nicht.
+
+  Der Grund steckt in zwei Regeln, die einander aufheben: `gesamtGeaendertAm`
+  wurde bei jedem Takt erneuert, weil der veraltete Quelltext 54 Folgen nennt
+  und der Zählstand 50 — eine **Abweichung**, die als **Änderung** gewertet
+  wurde. Damit blieb `zahlenStehen` false, und weil das in der Signatur steht,
+  stieg `zeichnen()` bei jedem Takt vorzeitig aus. Die Freigabe stand hinter
+  diesem Ausstieg.
+*/
+pruefe(
+  'die Ruhefrist läuft nur bei einer echten Änderung neu an',
+  quelle.includes('jetzt.gesamt !== letzteQuelltextGesamt'),
+)
+pruefe(
+  'und der zuletzt gesehene Quelltext-Wert wird dafür gemerkt',
+  quelle.includes('letzteQuelltextGesamt = jetzt.gesamt'),
+)
+pruefe(
+  'die Freigabe nach zwölf Sekunden steht in der Signatur',
+  /const stand = [^\n]*freigabeReif/.test(quelle),
+)
+pruefe(
+  'die Frist ist eine Konstante außerhalb von zeichnen()',
+  quelle.indexOf('const WARTE_FRIST_MS') < quelle.indexOf('function zeichnen()'),
+)
+
+/*
+  Die Regel selbst, nachgebaut: Eine gleichbleibende Abweichung darf die Frist
+  nicht erneuern, eine neue Zahl schon. Ohne das kommt der Zustand nie zur Ruhe.
+*/
+{
+  let gesamtGeaendertAm = 0
+  let letzteQuelltextGesamt = null
+  const takt = (zeit, quelltextGesamt, standGesamt) => {
+    if (quelltextGesamt && quelltextGesamt !== standGesamt) {
+      if (standGesamt && quelltextGesamt !== letzteQuelltextGesamt) gesamtGeaendertAm = zeit
+      letzteQuelltextGesamt = quelltextGesamt
+    }
+    return zeit - gesamtGeaendertAm > 2000
+  }
+  /* Der reale Verlauf: Quelltext bleibt bei 54, Zaehlstand bei 50. */
+  takt(1000, 54, 50)
+  pruefe('gleich nach dem Wechsel ruhen die Zahlen noch nicht', takt(1500, 54, 50) === false)
+  pruefe('nach der Ruhefrist stehen sie, obwohl die Abweichung bleibt', takt(4000, 54, 50) === true)
+  pruefe('eine neue Zahl stößt die Frist wieder an', takt(4100, 60, 50) === false)
+}
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) rot.`)
   process.exit(1)

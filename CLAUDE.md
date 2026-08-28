@@ -1623,6 +1623,43 @@ Film regelmäßig unter einer anderen Kennung als die Adresse — dasselbe Bild 
 bei Digimon Tamers weiter oben. Die Adress-Kennung kommt im Quelltext trotzdem
 vor (11×), der Zugehörigkeits-Wächter greift also zu Recht nicht.
 
+### Eine Abweichung ist kein Ereignis — daran hing der Staffelwechsel fest
+
+Fünfter Anlauf an demselben Symptom, und diesmal aus einer Messung statt aus
+einer Vermutung. Daniels Bericht vom 28.08.2026 (Digimon Adventure, Staffel 2)
+trug ein Tagebuch mit siebzehn Einträgen:
+
+    13:57:01  staffelwechsel      ?|1|B0CHHNJJW3  ->  2|1|B0CGXX7FNC
+    13:57:05  stand-gekappt       gesamt 50, gelesen 72, weg: 55…78
+    13:57:13  wartet-auf-staffel  wartetSeitMs 8010, gesamt 50, gelesen 48
+    13:57:25  Bericht             wartetSeitMs 20262, Knopf „Staffel wechselt“
+
+**Was nicht schuld war:** Die Kappungsregel hat sauber gearbeitet — die
+durchlaufenden Nummern 55 bis 78 sind weg, 48 von 50 bleiben stehen. Der
+naheliegende Verdacht (sie leere den Stand bei jedem Takt) ist damit widerlegt.
+
+**Zwei Regeln hoben einander auf.** `gesamtGeaendertAm` wurde bei jedem Takt
+erneuert, weil der Quelltext 54 Folgen nennt und der Zählstand 50. Nach einem
+Staffelwechsel ist der Quelltext der der **alten** Staffel (siehe oben) — die
+Abweichung ist damit ein Dauerzustand, kein Ereignis. `zahlenStehen` konnte nie
+wahr werden; und weil es in der Signatur von `zeichnen()` steht, stieg die
+Funktion bei jedem Takt vorzeitig aus. Die Freigabe nach zwölf Sekunden stand
+hinter diesem Ausstieg und wurde nie erreicht.
+
+Der Fix ist zweiteilig, und der zweite Teil ist die eigentliche Lehre:
+
+1. Ein Merker (`letzteQuelltextGesamt`) unterscheidet **Abweichung** von
+   **Änderung**. Erst wenn der Quelltext eine andere Zahl nennt als beim letzten
+   Mal, ist etwas passiert.
+2. Die Freigabe steht jetzt selbst in der Signatur (`freigabeReif`).
+
+**Punkt 2 stand als Lehre schon im Code — für die andere Regel.** Der Kommentar
+über `zahlenStehen` sagt seit dem 24.08.2026: „Eine Anzeige, die von der Zeit
+abhängt, braucht die Zeit in ihrer Signatur." Genau daneben wurde vier Tage
+später eine zweite zeitabhängige Regel eingebaut — ohne sie. Eine Regel, die nur
+greift, während sich etwas bewegt, greift nie bei Stillstand; und für den ist sie
+gedacht.
+
 ### Ein Reihenname mitten im Titel trennt, was zusammengehört
 
 „Arpeggio of Blue Steel - Cadenza" ergibt bei Prime genau eine Karte, und die
