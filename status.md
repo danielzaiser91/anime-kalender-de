@@ -103,6 +103,34 @@ letzten Trenner, mindestens sechs Zeichen.
 Prelude" steht dort als „-prelude-". Ein Abgleich über Beschreibungstexte wäre
 der nächste Schritt und ist kein sicherer Weg mehr.
 
+### Crunchyroll: sieben Wege, gemessen statt geraten
+
+Auf Daniels Frage „wieso kannst du dann nicht alle fragen selbst lösen?" hin
+entstanden an einem Abend vier neue Zuordnungswege. Der Bau meldet sie einzeln:
+
+    5 weitere über Blockketten belegt (ein Block deckt mehrere Staffeln)
+    1 Filme/Specials über den deutschen Katalog belegt (Einzelwerk-Suche)
+   13 Filme/Specials über ihren eigenen Block in einer Filmreihe belegt
+    1 über den vollständigen deutschen Katalog belegt
+
+**Was dabei nicht trägt, ist genauso wichtig — und jetzt gemessen:**
+
+| Anker | Befund |
+|---|---|
+| japanischer Originaltitel | vier Fälle, **kein Treffer** — die Suche indiziert nur lokalisierte Titel |
+| Jahr aus der Antwort | ist das der **Aufnahme ins Angebot**: „Ride Your Wave" (2019) steht mit 2021 |
+| Namensteil allein | trifft **immer** den Reihennamen — 15 von 16 Treffern waren falsch |
+| Katalogeintrag | meldet `de-DE`, sobald **irgendeine** Staffel der Reihe deutsch ist |
+
+Was trägt: das **Kennwort** hinter dem letzten Trenner (mindestens sechs
+Zeichen) **plus** ein zählbares Merkmal, die Folgenzahl. Und der Weg über die
+Folgen: Die Detektiv-Conan-Filme sind Episoden innerhalb der Serie, und jede
+Episode nennt in `versions` alle ihre Sprachfassungen.
+
+**Der ganze deutsche Katalog liegt jetzt im Repo** — 1.591 Einträge in 16
+Abrufen, davon 352 mit deutscher Tonspur (`data/cr-katalog-de.json`). Wer
+künftig etwas zuordnen will, sucht nicht mehr, sondern gleicht lokal ab.
+
 ### Die Autonomie hat sich zum ersten Mal selbst geholfen
 
 Der Reparatur-Lauf, der bei einem roten Datenlauf anspringt, hat am Abend die
