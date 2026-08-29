@@ -1006,6 +1006,9 @@ function main(): void {
       string,
       {
         descriptionDe?: string
+        /* Die Kennung bei aniSearch — sie wird an den Titel ausgeliefert, damit
+           die Quellenuebersicht dorthin verlinken kann. */
+        anisearchId?: number
         streams: { provider: string; url: string }[]
         info?: {
           episodes?: number
@@ -3263,6 +3266,9 @@ function main(): void {
     }
   }
 
+  /* `data/ann-ids.json` führt die Zuordnung unter `ann`: AniList-Kennung -> ANN-Kennung. */
+  const annKennungen = readJson<{ ann?: Record<string, number> }>('data/ann-ids.json', {}).ann ?? {}
+
   const slim = allTitles.map((t) => {
     const ausAnisearch = anisearch[t.id]?.descriptionDe
     const ausTmdb = tmdbTitles[t.id]
@@ -3284,7 +3290,25 @@ function main(): void {
       synopses[t.id] = eintrag
     }
     const { synopsis: _drop, ...rest } = t
-    return mitStimmen.has(t.id) ? { ...rest, hasVoices: true } : rest
+    /*
+      **Die Kennungen der Quellen gehören an den Titel.**
+
+      Sie kosten je Titel wenige Bytes und beantworten eine Frage, die die
+      Quellenübersicht sonst offen lässt: „und wo steht das?". aniSearch führt
+      den deutschen Titel und die Beschreibung, ANN die deutschen Sprechrollen —
+      beide Kennungen lagen im Bestand und erreichten die Seite nie.
+
+      `annId` nur, wo auch Stimmen belegt sind: Ohne sie führt der Verweis auf
+      eine Seite, die zu unserer Frage nichts sagt.
+    */
+    const asId = anisearch[t.id]?.anisearchId
+    const annId = mitStimmen.has(t.id) ? annKennungen[String(t.id)] : undefined
+    return {
+      ...rest,
+      ...(mitStimmen.has(t.id) ? { hasVoices: true as const } : {}),
+      ...(Number.isFinite(asId) ? { anisearchId: asId } : {}),
+      ...(Number.isFinite(annId) ? { annId } : {}),
+    }
   })
 
   // Der Kalender braucht nur die Titel, zu denen es einen Termin gibt. Die

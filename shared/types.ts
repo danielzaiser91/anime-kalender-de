@@ -206,6 +206,18 @@ export interface Title {
    * nach dem Klick sagen, dass es nichts zu sehen gibt.
    */
   hasVoices?: boolean
+  /**
+   * Kennung bei aniSearch — nur dafür da, den Titel dort verlinken zu können.
+   *
+   * Die Quellenübersicht im Detail-Panel nennt aniSearch als Herkunft des
+   * deutschen Titels und der Beschreibung, konnte aber nicht dorthin führen:
+   * Die 2.615 Kennungen lagen in `data/anisearch.json` und erreichten die
+   * Seite nie. Daniels Vorgabe vom 29.08.2026 lautet „beschrieben und verlinkt,
+   * wo möglich" — hier ist es möglich.
+   */
+  anisearchId?: number
+  /** Dasselbe für Anime News Network, die Quelle der deutschen Sprechrollen. */
+  annId?: number
   /** Jahr der japanischen Erstausstrahlung. */
   jpYear?: number
   jpSeason?: string

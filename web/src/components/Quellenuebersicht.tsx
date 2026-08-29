@@ -61,8 +61,31 @@ export function Quellenuebersicht({ title, releases }: { title: Title; releases:
       })),
       { name: 'AniList', url: `https://anilist.co/anime/${title.id}`, speist: t('quellen.feedWerk') },
     ]
-    if (title.titleDe) raus.push({ name: 'aniSearch', speist: t('quellen.feedDeutsch') })
-    if (title.hasVoices) raus.push({ name: 'Anime News Network', speist: t('quellen.feedStimmen') })
+    /*
+      **Verlinkt, wo wir eine Kennung haben.** Daniels Vorgabe vom 29.08.2026:
+      „beschrieben und verlinkt, wo möglich". Die Kennungen lagen im Bestand
+      (2.615 bei aniSearch, 8.876 bei ANN) und erreichten die Seite nie — die
+      Zeile nannte die Quelle und ließ den Leser dann suchen.
+
+      Ohne Kennung bleibt der Name ohne Verweis stehen; eine geratene Adresse
+      wäre schlechter als keine.
+    */
+    if (title.titleDe) {
+      raus.push({
+        name: 'aniSearch',
+        url: title.anisearchId ? `https://www.anisearch.de/anime/${title.anisearchId}` : undefined,
+        speist: t('quellen.feedDeutsch'),
+      })
+    }
+    if (title.hasVoices) {
+      raus.push({
+        name: 'Anime News Network',
+        url: title.annId
+          ? `https://www.animenewsnetwork.com/encyclopedia/anime.php?id=${title.annId}`
+          : undefined,
+        speist: t('quellen.feedStimmen'),
+      })
+    }
     if ((title.streams ?? []).length) {
       raus.push({ name: t('quellen.feedAnbieterName'), speist: t('quellen.feedAnbieter') })
     }
