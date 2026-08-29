@@ -6,17 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Reincarnation
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:as-a-reincarnated-aristocrat-s1-vol1@2026-08-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260821
-DTEND;VALUE=DATE:20260822
-SUMMARY:As a Reincarnated Aristocrat (Staffel 1) – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/as-a-re
- incarnated-aristocrat-s1-vol1
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-G6793XKZY@2026-08-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260822T093000Z

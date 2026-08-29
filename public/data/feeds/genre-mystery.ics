@@ -6,28 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Mystery
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:tougen-anki-part1@2026-08-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260821
-DTEND;VALUE=DATE:20260822
-SUMMARY:Tougen Anki – Teil 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/tougen-
- anki-part1
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:vampire-knight-guilty-box@2026-08-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260821
-DTEND;VALUE=DATE:20260822
-SUMMARY:Vampire Knight Guilty (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/vampire
- -knight-guilty-box
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:detektiv-conan-movie-29-kino@2026-08-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260825

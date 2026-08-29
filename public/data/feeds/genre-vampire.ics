@@ -6,28 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Vampire
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:demon-slayer-s1-steelbook@2026-08-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260821
-DTEND;VALUE=DATE:20260822
-SUMMARY:Demon Slayer – Staffel 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/demon-s
- layer-s1-steelbook
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:vampire-knight-guilty-box@2026-08-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260821
-DTEND;VALUE=DATE:20260822
-SUMMARY:Vampire Knight Guilty (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/vampire
- -knight-guilty-box
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:adn-634@2026-09-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260901T070000Z
