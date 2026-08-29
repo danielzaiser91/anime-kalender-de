@@ -1,6 +1,6 @@
 # Netflix: was kein Automat beantworten kann
 
-Stand 2026-08-29 · **42 Titel**.
+Stand 2026-08-29 · **41 Titel**.
 
 Netflix gibt seine Tonspuren nur an einen laufenden Player heraus — fünfmal gemessen,
 fünfmal bestätigt. Es gibt keinen Abruf, der das hier abnehmen könnte.
@@ -52,16 +52,15 @@ Erzeugt von `npm run data:netflix-rest`, nicht von Hand pflegen.
 | 27 | Miss Hokusai | 1 | 2015 | [öffnen](https://www.netflix.com/title/80075828) |
 | 28 | Haikyu!! Lev ist hier! | 1 | 2014 | [öffnen](https://www.netflix.com/title/80090673) |
 | 29 | Haikyu!! Movie 2 - Gewinner und Verlierer | 1 | 2015 | [öffnen](https://www.netflix.com/title/80134174) |
-| 30 | Fate/Stay Night: Unlimited Blade Works - Sunny Day | 1 | 2015 | [öffnen](https://www.netflix.com/title/80040330) |
-| 31 | Sword Art Online The Movie: Ordinal Scale | 1 | 2017 | [öffnen](https://www.netflix.com/title/80180071) |
-| 32 | Haikyu!! Sonderbeitrag: Die Jugend beim Frühlingsturnier | 1 | 2017 | [öffnen](https://www.netflix.com/title/80090673) |
-| 33 | Haikyu!! Kampf gegen ungenügende Noten | 1 | 2015 | [öffnen](https://www.netflix.com/title/80090673) |
-| 34 | Her Blue Sky | 1 | 2019 | [öffnen](https://www.netflix.com/title/81427482) |
-| 35 | Fate/Grand Order Absolute Demonic Front: Babylonia - Initium Iter | 1 | 2019 | [öffnen](https://www.netflix.com/title/81186102) |
-| 36 | Pretty Guardian Sailor Moon Eternal: Der Film | 1 | 2021 | [öffnen](https://www.netflix.com/title/81214399) |
-| 37 | Dorohedoro: Teuflische Anekdoten | 1 | 2020 | [öffnen](https://www.netflix.com/title/80991903) |
-| 38 | Fate/Grand Order: Final Singularity - The Grand Temple of Time: Solomon | 1 | 2021 | [öffnen](https://www.netflix.com/title/82850867) |
-| 39 | Mushoku Tensei: Jobless Reincarnation - Eris auf Goblinjagd | 1 | 2022 | [öffnen](https://www.netflix.com/title/80987039) |
-| 40 | Pokémon: Blauer Himmel in der Ferne! | 1 | 2022 | [öffnen](https://www.netflix.com/title/81670593) |
-| 41 | Gintama the Movie 2026: Yoshiwara in Flames | 1 | 2026 | [öffnen](https://www.netflix.com/title/82968180) |
-| 42 | Detektiv Conan | — | 1996 | [öffnen](https://www.netflix.com/title/80090370) |
+| 30 | Sword Art Online The Movie: Ordinal Scale | 1 | 2017 | [öffnen](https://www.netflix.com/title/80180071) |
+| 31 | Haikyu!! Sonderbeitrag: Die Jugend beim Frühlingsturnier | 1 | 2017 | [öffnen](https://www.netflix.com/title/80090673) |
+| 32 | Haikyu!! Kampf gegen ungenügende Noten | 1 | 2015 | [öffnen](https://www.netflix.com/title/80090673) |
+| 33 | Her Blue Sky | 1 | 2019 | [öffnen](https://www.netflix.com/title/81427482) |
+| 34 | Fate/Grand Order Absolute Demonic Front: Babylonia - Initium Iter | 1 | 2019 | [öffnen](https://www.netflix.com/title/81186102) |
+| 35 | Pretty Guardian Sailor Moon Eternal: Der Film | 1 | 2021 | [öffnen](https://www.netflix.com/title/81214399) |
+| 36 | Dorohedoro: Teuflische Anekdoten | 1 | 2020 | [öffnen](https://www.netflix.com/title/80991903) |
+| 37 | Fate/Grand Order: Final Singularity - The Grand Temple of Time: Solomon | 1 | 2021 | [öffnen](https://www.netflix.com/title/82850867) |
+| 38 | Mushoku Tensei: Jobless Reincarnation - Eris auf Goblinjagd | 1 | 2022 | [öffnen](https://www.netflix.com/title/80987039) |
+| 39 | Pokémon: Blauer Himmel in der Ferne! | 1 | 2022 | [öffnen](https://www.netflix.com/title/81670593) |
+| 40 | Gintama the Movie 2026: Yoshiwara in Flames | 1 | 2026 | [öffnen](https://www.netflix.com/title/82968180) |
+| 41 | Detektiv Conan | — | 1996 | [öffnen](https://www.netflix.com/title/80090370) |

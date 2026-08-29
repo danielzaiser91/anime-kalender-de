@@ -1,5 +1,5 @@
 {
-  "stand": "2026-08-29T15:29:48.553Z",
+  "stand": "2026-08-29T17:12:21.023Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -1519,7 +1519,7 @@
       "seriesId": null,
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-08-21",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 20605,
@@ -1559,7 +1559,7 @@
       "seriesId": "GR24JZ886",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 437,

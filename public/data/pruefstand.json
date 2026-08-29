@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-08-29T15:29:51.321Z",
+ "erzeugtAm": "2026-08-29T17:12:23.777Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -93,8 +93,8 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 366,
-   "gesamt": 397,
-   "offen": 31,
+   "gesamt": 388,
+   "offen": 22,
    "ohneSeite": 0,
    "ziel": "https://www.netflix.com/title/70050576",
    "ziele": [
@@ -147,10 +147,6 @@
      "titel": "Expelled from Paradise"
     },
     {
-     "url": "https://www.netflix.com/title/80052668",
-     "titel": "Beyond the Boundary: Kyoukai no Kanata"
-    },
-    {
      "url": "https://www.netflix.com/title/80075828",
      "titel": "Miss Hokusai"
     },
@@ -159,20 +155,12 @@
      "titel": "Detektiv Conan"
     },
     {
-     "url": "https://www.netflix.com/title/80134174",
-     "titel": "Haikyu!! Movie 2 - Gewinner und Verlierer"
-    },
-    {
      "url": "https://www.netflix.com/title/80175351",
      "titel": "Kakegurui: Das Leben ist ein Spiel"
     },
     {
      "url": "https://www.netflix.com/title/80180071",
      "titel": "Sword Art Online The Movie: Ordinal Scale"
-    },
-    {
-     "url": "https://www.netflix.com/title/80243876",
-     "titel": "Berserk"
     },
     {
      "url": "https://www.netflix.com/title/80987906",
@@ -187,16 +175,16 @@
      "titel": "Bakugan: Battle Planet"
     },
     {
-     "url": "https://www.netflix.com/title/81186102",
-     "titel": "Fate/Grand Order Absolute Demonic Front: Babylonia - Initium Iter"
-    },
-    {
-     "url": "https://www.netflix.com/title/81329313",
-     "titel": "Tower of God"
-    },
-    {
      "url": "https://www.netflix.com/title/81427482",
      "titel": "Her Blue Sky"
+    },
+    {
+     "url": "https://www.netflix.com/title/81670593",
+     "titel": "Pokémon: Blauer Himmel in der Ferne!"
+    },
+    {
+     "url": "https://www.netflix.com/title/82968180",
+     "titel": "Gintama the Movie 2026: Yoshiwara in Flames"
     }
    ],
    "naechster": "Das Schloss des Cagliostro"

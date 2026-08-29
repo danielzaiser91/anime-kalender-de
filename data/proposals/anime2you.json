@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-29T14:53:28.236Z",
+  "scrapedAt": "2026-08-29T16:56:06.934Z",
   "proposals": [
     {
       "articleTitle": "Erste »Clevatess«-Staffel erscheint als Limited Edition auf Blu-ray",
@@ -20,7 +20,7 @@
       "alreadyCurated": false
     },
     {
-      "articleTitle": "Zweite »The 100 Girlfriends«-Staffel erscheint auf Blu-ray",
+      "articleTitle": "Blu-ray-Releasetermin der zweiten Staffel von »The 100 Girlfriends«",
       "articleUrl": "https://www.anime2you.de/news/1044426/the-100-girlfriends-staffel-2-blu-ray-release/",
       "publishedAt": "2026-08-29",
       "category": "disc",
@@ -32,6 +32,27 @@
         {
           "month": "2026-12",
           "context": "« auf Blu-ray veröffentlichen wird. Wir fassen zusammen. Disc-Release ab Dezember 2026 Das erste Volume der zweiten »The 100 Girlfriends«-St"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»Detektei Layton« erscheint als Blu-ray-Komplettbox + Design",
+      "articleUrl": "https://www.anime2you.de/news/1044532/detektei-layton-blu-ray-komplettbox/",
+      "publishedAt": "2026-08-29",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-10-22",
+          "context": "etektei Layton: Katrielles rätselhafte Fälle« erscheint demzufolge am 22. Oktober 2026 in einer Komplettbox auf Blu-ray, die alle 50 Episode"
+        },
+        {
+          "month": "2026-10",
+          "context": "lu-ray-Komplettbox veröffentlichen wird. Wir fassen zusammen. Release im Oktober 2026 »Detektei Layton: Katrielles rätselhafte Fälle« ersche"
         }
       ],
       "dub": "ja",
