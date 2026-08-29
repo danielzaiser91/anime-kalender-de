@@ -1,21 +1,93 @@
 {
- "erzeugtAm": "2026-08-29T10:13:37.103Z",
+ "erzeugtAm": "2026-08-29T10:32:07.409Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
    "gemeldet": 518,
-   "gesamt": 519,
-   "offen": 1,
+   "gesamt": 537,
+   "offen": 19,
    "ohneSeite": 58,
-   "ziel": "https://www.amazon.de/dp/B0GKFJXSLT",
+   "ziel": "https://www.amazon.de/dp/B0CH396B9Y",
    "ziele": [
+    {
+     "url": "https://www.amazon.de/dp/B0CH396B9Y",
+     "titel": "Hagane no Renkinjutsushi"
+    },
+    {
+     "url": "https://www.amazon.de/dp/B0CJZH535R",
+     "titel": "Fushigi Yuugi OVA 2"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/0JCA33AQG97BOWLTEVFO06HR3J",
+     "titel": "Yu☆Gi☆Oh! ZEXAL"
+    },
+    {
+     "url": "https://www.amazon.de/dp/B0CVFNLP9D",
+     "titel": "Toaru Kagaku no Railgun S"
+    },
+    {
+     "url": "https://www.amazon.de/dp/B0CGVS29ZD",
+     "titel": "Free!"
+    },
+    {
+     "url": "https://www.amazon.de/dp/B0CJJF26WZ",
+     "titel": "Date A Live II"
+    },
+    {
+     "url": "https://www.amazon.de/dp/B0CN3Q9DH8",
+     "titel": "Mahouka Koukou no Rettousei"
+    },
+    {
+     "url": "https://www.amazon.de/dp/B0CGYPT89N",
+     "titel": "Saenai Heroine no Sodatekata"
+    },
+    {
+     "url": "https://www.amazon.de/dp/B0DMMT9B67",
+     "titel": "Grisaia: Phantom Trigger THE ANIMATION"
+    },
+    {
+     "url": "https://www.amazon.de/dp/B0CHN14W48",
+     "titel": "Free!: Dive to the Future"
+    },
+    {
+     "url": "https://www.amazon.de/dp/B0G6HF46PV",
+     "titel": "Fruits Basket: 1st Season"
+    },
+    {
+     "url": "https://www.amazon.de/dp/B09MDQX4CW",
+     "titel": "Appare-Ranman!"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/0KXOMCNFCKPTA6Z6HNIJ0ESQ9P",
+     "titel": "EDENS ZERO 2nd Season"
+    },
+    {
+     "url": "https://www.amazon.de/dp/B0CYQJ79R8",
+     "titel": "GIRLS BAND CRY"
+    },
+    {
+     "url": "https://www.amazon.de/dp/B0DMKS6Y12",
+     "titel": "Akuyaku Reijou Tensei Oji-san"
+    },
+    {
+     "url": "https://www.amazon.de/dp/B0DPLRJNLG",
+     "titel": "Kakushite! Makina-san!!"
+    },
+    {
+     "url": "https://www.amazon.de/dp/B0GVGXKJ22",
+     "titel": "Reincarnation no Kaben"
+    },
+    {
+     "url": "https://www.amazon.de/dp/B0FP4BJZFG",
+     "titel": "Towa no Yuugure"
+    },
     {
      "url": "https://www.amazon.de/dp/B0GKFJXSLT",
      "titel": "Golden Kamuy: Final Season"
     }
    ],
-   "naechster": "Golden Kamuy: Final Season"
+   "naechster": "Hagane no Renkinjutsushi"
   },
   {
    "name": "Netflix",

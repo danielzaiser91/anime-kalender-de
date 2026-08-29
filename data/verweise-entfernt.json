@@ -1,5 +1,5 @@
 {
-  "stand": "2026-08-29T10:13:32.722Z",
+  "stand": "2026-08-29T10:32:02.622Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -4662,16 +4662,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 121,
-      "titel": "Fullmetal Alchemist",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0CH396B9Y",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": true
-    },
-    {
       "titleId": 223,
       "titel": "Dragon Ball",
       "plattform": "crunchyroll",
@@ -4759,17 +4749,7 @@
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
-      "letzterWeg": true
-    },
-    {
-      "titleId": 381,
-      "titel": "Fushigi Yûgi New OVA: The Mysterious Play",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0CJZH535R",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 481,
@@ -5189,17 +5169,7 @@
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
-      "letzterWeg": true
-    },
-    {
-      "titleId": 10015,
-      "titel": "Yu-Gi-Oh! Zexal",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/s?k=Yu-Gi-Oh!%20Zexal&i=instant-video",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 11061,
@@ -5279,17 +5249,7 @@
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
-      "letzterWeg": true
-    },
-    {
-      "titleId": 16049,
-      "titel": "A Certain Scientific Railgun S",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0CVFNLP9D",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 17187,
@@ -5310,26 +5270,6 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "letzterWeg": false
-    },
-    {
-      "titleId": 18507,
-      "titel": "Free! Iwatobi Swim Club",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0CGVS29ZD",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": false
-    },
-    {
-      "titleId": 19163,
-      "titel": "Date a Live II",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0CJJF26WZ",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": true
     },
     {
       "titleId": 19191,
@@ -5369,17 +5309,7 @@
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
-      "letzterWeg": true
-    },
-    {
-      "titleId": 20458,
-      "titel": "The Irregular at Magic High School",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0CN3Q9DH8",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 20540,
@@ -5459,17 +5389,7 @@
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
-      "letzterWeg": true
-    },
-    {
-      "titleId": 20657,
-      "titel": "Saekano: How to Raise a Boring Girlfriend",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0CGYPT89N",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 20677,
@@ -5932,16 +5852,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 99470,
-      "titel": "Grisaia Phantom Trigger: The Animation",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0DMMT9B67",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": true
-    },
-    {
       "titleId": 99749,
       "titel": "Fairy Tail: Final Season",
       "plattform": "crunchyroll",
@@ -6036,16 +5946,6 @@
       "titel": "Attack on Titan Movie Teil 3: Gebrüll des Erwachens",
       "plattform": "youtube",
       "url": "https://www.youtube.com/watch?v=VoLMhaee2cs",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": false
-    },
-    {
-      "titleId": 101117,
-      "titel": "Free! Dive to the Future",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0CHN14W48",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -6202,16 +6102,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 105334,
-      "titel": "Fruits Basket",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0G6HF46PV",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": false
-    },
-    {
       "titleId": 107371,
       "titel": "White Snake: Die Legende der weißen Schlange",
       "plattform": "youtube",
@@ -6349,17 +6239,7 @@
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
-      "letzterWeg": true
-    },
-    {
-      "titleId": 112444,
-      "titel": "Appare-Ranman!",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B09MDQX4CW",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 112667,
@@ -6612,16 +6492,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 144932,
-      "titel": "Edens Zero: Season 2",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/gp/video/detail/0KXOMCNFCKPTA6Z6HNIJ0ESQ9P",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": false
-    },
-    {
       "titleId": 141391,
       "titel": "Call of the Night",
       "plattform": "adn",
@@ -6809,7 +6679,7 @@
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 164212,
@@ -6819,17 +6689,7 @@
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
-      "letzterWeg": true
-    },
-    {
-      "titleId": 164212,
-      "titel": "Girls Band Cry",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0CYQJ79R8",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 166531,
@@ -6879,17 +6739,7 @@
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
-      "letzterWeg": true
-    },
-    {
-      "titleId": 172453,
-      "titel": "From Bureaucrat to Villainess: Dad’s Been Reincarnated!",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0DMKS6Y12",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 175914,
@@ -6964,32 +6814,12 @@
     {
       "titleId": 177509,
       "titel": "Kakushite! Makina-san!!",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0DPLRJNLG",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": true
-    },
-    {
-      "titleId": 177509,
-      "titel": "Kakushite! Makina-san!!",
       "plattform": "adn",
       "url": "https://animationdigitalnetwork.com/de/video/1284-kakushite-makina-san",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
-      "letzterWeg": true
-    },
-    {
-      "titleId": 179950,
-      "titel": "Petals of Reincarnation",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0GVGXKJ22",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 179965,
@@ -7149,17 +6979,7 @@
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
-      "letzterWeg": true
-    },
-    {
-      "titleId": 195153,
-      "titel": "Dusk Beyond the End of the World",
-      "plattform": "primevideo",
-      "url": "https://www.amazon.de/dp/B0FP4BJZFG",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 195600,
