@@ -122,6 +122,33 @@ beantwortet einen fremden Abruf mit HTTP 403 (CloudFront); die vorhandene
 API-Anbindung in `fetch-adn.ts` kann es, braucht aber eine Suchfunktion, die es
 dort bisher nicht gibt.
 
+## Vorzulegen: darf ein gleichnamiger Block ein Nein belegen?
+
+Gemessen am 29.08.2026, spät abends. `beurteileJeBlock` vergleicht den
+Blocknamen mit unserem Titel und bildet daraus **nur Ja-Urteile**: Führt der
+Block deutsche Folgen, sagt er Ja; führt er keine, sagt er nichts.
+
+**Zwei Fälle wären damit belegbar, und sie stehen heute offen:**
+
+| unser Eintrag | Block im deutschen Katalog |
+|---|---|
+| Fruits Basket (25 Folgen) | „Fruits Basket (2019)", 25 Folgen, **null deutsch** |
+| Bofuri (12 Folgen) | „BOFURI: I Don't Want to Get Hurt…", 12 Folgen, **null deutsch** |
+
+Der Beleggrad ist derselbe, den `beurteile()` für ganze Serien längst nutzt:
+Der **deutsche** Katalog kennt den Block und führt keine deutsche Fassung. Die
+Staffeln 2 und 3 derselben Adresse bleiben unberührt — das Nein gälte nur dem
+Block, dessen Name **und** Folgenzahl passen.
+
+**Nicht gemacht, und zwar bewusst.** Die Zusicherung „ohne deutsche Folgen kein
+Urteil" in `check:cr-zuordnung` verbietet es ausdrücklich; sie stammt aus einer
+früheren Entscheidung, und ein Nein **entfernt den Verweis**. Zwei Verweise sind
+kein Grund, eine Sperre im Alleingang zu kippen, die genau davor schützt.
+
+Kaguya-sama fällt übrigens von selbst heraus: „Love is War" und „Love is War?"
+normalisieren auf denselben Namen, und die Eindeutigkeitssperre greift, bevor es
+überhaupt zur Frage kommt. Das spricht für die Genauigkeit des Vergleichs.
+
 ## Was als Nächstes trägt
 
 1. **Die Anker für die Folgen-Zuordnung.** 150 von 2.615 Titeln haben eine
