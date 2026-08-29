@@ -27,6 +27,19 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:my-gift-lvl-9999-unlimited-gacha-backstabbed-in-a-backwater-dungeon-i-m
+ -out-for-@2026-09-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260908
+DTEND;VALUE=DATE:20260909
+SUMMARY:My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeo
+ n\, I’m Out for Revenge! (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/my-gift
+ -lvl-9999-unlimited-gacha-backstabbed-in-a-backwater-dungeon-i-m-out-for-
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-09-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260909T133000Z
@@ -47,6 +60,30 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/saga-of-tanya-the-evil-s2
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:code-geass-lelouch-of-the-rebellion-2026-09-18@2026-09-18@anime-kalende
+ r-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260918
+DTEND;VALUE=DATE:20260919
+SUMMARY:Code Geass: Lelouch of the Rebellion (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/code-ge
+ ass-lelouch-of-the-rebellion-2026-09-18
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:code-geass-lelouch-of-the-rebellion-r2-2026-09-18@2026-09-18@anime-kale
+ nder-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260918
+DTEND;VALUE=DATE:20260919
+SUMMARY:Code Geass: Lelouch of the Rebellion R2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/code-ge
+ ass-lelouch-of-the-rebellion-r2-2026-09-18
+CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-09-23@anime-kalender-de

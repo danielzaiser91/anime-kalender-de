@@ -727,5 +727,1023 @@
   "all-you-need-is-kill-kino": {
     "tmdbId": 1432547,
     "fsk": 16
-  }
+  },
+  "detektei-layton-katrielles-raetselhafte-faelle-2026-10-22": {
+    "tmdbId": 78479,
+    "fsk": 6,
+    "justwatchUrl": "https://www.themoviedb.org/tv/78479/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "primevideo"
+    ]
+  },
+  "the-quintessential-quintuplets-2026-09-18": {
+    "tmdbId": 84669,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/84669/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "netflix",
+      "crunchyroll",
+      "primevideo"
+    ]
+  },
+  "steins-gate-0-polymorpher-valentin-bittersweet-intermedio-2026-10-16": {},
+  "naruto-shippuden-the-movie-5-blood-prison-2026-11-19": {
+    "tmdbId": 75624,
+    "justwatchUrl": "https://www.themoviedb.org/movie/75624-naruto/watch?locale=DE",
+    "offers": [
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Apple TV Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "rent"
+      },
+      {
+        "name": "Rakuten TV",
+        "kind": "rent"
+      },
+      {
+        "name": "maxdome Store",
+        "kind": "rent"
+      },
+      {
+        "name": "MagentaTV",
+        "kind": "rent"
+      },
+      {
+        "name": "Videoload",
+        "kind": "rent"
+      },
+      {
+        "name": "Freenet meinVOD",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "rtlplus",
+      "primevideo"
+    ]
+  },
+  "naruto-shippuden-the-ova-naruto-ein-genie-und-drei-wuensche-2026-11-19": {},
+  "naruto-shippuden-flammende-chunin-pruefung-naruto-gegen-konohamaru-2026-11-19": {},
+  "miss-kobayashi-s-dragon-maid-s-2026-11-03": {},
+  "miss-kobayashi-s-dragon-maid-s-2026-11-06": {},
+  "the-quintessential-quintuplets-2-2026-09-18": {},
+  "zombie-land-saga-revenge-2026-10-02": {},
+  "jujutsu-kaisen-2026-12-04": {
+    "tmdbId": 95479,
+    "fsk": 16,
+    "justwatchUrl": "https://www.themoviedb.org/tv/95479/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Disney Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "netflix",
+      "primevideo",
+      "disneyplus",
+      "rtlplus",
+      "crunchyroll"
+    ]
+  },
+  "jujutsu-kaisen-2027-05-07": {
+    "tmdbId": 95479,
+    "fsk": 16,
+    "justwatchUrl": "https://www.themoviedb.org/tv/95479/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Disney Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "netflix",
+      "primevideo",
+      "disneyplus",
+      "rtlplus",
+      "crunchyroll"
+    ]
+  },
+  "the-familiar-of-zero-2026-12-04": {
+    "tmdbId": 35753,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/35753/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "primevideo"
+    ]
+  },
+  "sailor-moon-super-s-2026-12-04": {},
+  "the-devil-is-a-part-timer-ii-2026-09-04": {},
+  "a-couple-of-cuckoos-2026-09-04": {
+    "tmdbId": 122587,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/122587/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "crunchyroll"
+    ]
+  },
+  "good-luck-girl-vol-1-2026-11-20": {
+    "tmdbId": 45968
+  },
+  "good-luck-girl-vol-2-2027-02-05": {
+    "tmdbId": 45968
+  },
+  "road-to-ninja-naruto-the-movie-2026-11-19": {
+    "tmdbId": 118406,
+    "justwatchUrl": "https://www.themoviedb.org/movie/118406-road-to-ninja-naruto-the-movie/watch?locale=DE",
+    "offers": [
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Apple TV Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "rent"
+      },
+      {
+        "name": "Sky Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Rakuten TV",
+        "kind": "rent"
+      },
+      {
+        "name": "maxdome Store",
+        "kind": "rent"
+      },
+      {
+        "name": "MagentaTV",
+        "kind": "rent"
+      },
+      {
+        "name": "Videoload",
+        "kind": "rent"
+      },
+      {
+        "name": "Freenet meinVOD",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "rtlplus",
+      "primevideo"
+    ]
+  },
+  "my-next-life-as-a-villainess-all-routes-lead-to-doom-ich-habe-die-mir-vorbestimm": {},
+  "vampire-princess-miyu-2026-09-08": {
+    "tmdbId": 80223,
+    "justwatchUrl": "https://www.themoviedb.org/tv/80223/watch?locale=DE"
+  },
+  "gods-games-we-play-2026-12-01": {
+    "tmdbId": 156057,
+    "justwatchUrl": "https://www.themoviedb.org/tv/156057/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "crunchyroll"
+    ]
+  },
+  "memories-2026-11-18": {
+    "tmdbId": 42994,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/movie/42994-memories/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "MIDNIGHT FACTORY Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Apple TV Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "rent"
+      },
+      {
+        "name": "maxdome Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Freenet meinVOD",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "primevideo"
+    ]
+  },
+  "the-ancient-magus-bride-staffel-2-2026-09-18": {},
+  "code-geass-lelouch-of-the-rebellion-2026-09-18": {
+    "tmdbId": 31724,
+    "fsk": 16,
+    "justwatchUrl": "https://www.themoviedb.org/tv/31724/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "crunchyroll",
+      "primevideo"
+    ]
+  },
+  "2-5-dimensional-seduction-2026-09-07": {
+    "tmdbId": 216074,
+    "fsk": 16,
+    "justwatchUrl": "https://www.themoviedb.org/tv/216074-2-5/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Animation Digital Network",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Anime Digital Network Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "crunchyroll",
+      "adn",
+      "primevideo"
+    ]
+  },
+  "the-ancient-magus-bride-staffel-2-cour-2-2026-09-18": {},
+  "the-last-naruto-the-movie-2026-11-19": {
+    "tmdbId": 317442,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/movie/317442-the-last-naruto-the-movie/watch?locale=DE",
+    "offers": [
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Apple TV Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "rent"
+      },
+      {
+        "name": "Sky Store",
+        "kind": "rent"
+      },
+      {
+        "name": "maxdome Store",
+        "kind": "rent"
+      },
+      {
+        "name": "MagentaTV",
+        "kind": "rent"
+      },
+      {
+        "name": "Videoload",
+        "kind": "rent"
+      },
+      {
+        "name": "Freenet meinVOD",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "rtlplus",
+      "primevideo"
+    ]
+  },
+  "my-hero-academia-yuei-heroes-battle-2026-10-20": {},
+  "i-parry-everything-2026-09-28": {
+    "tmdbId": 238892,
+    "justwatchUrl": "https://www.themoviedb.org/tv/238892/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Animation Digital Network",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Anime Digital Network Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "primevideo",
+      "adn"
+    ]
+  },
+  "promise-of-wizard-2026-09-17": {
+    "tmdbId": 258578,
+    "justwatchUrl": "https://www.themoviedb.org/tv/258578/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "primevideo"
+    ]
+  },
+  "from-bureaucrat-to-villainess-dad-s-been-reincarnated-2026-10-12": {
+    "tmdbId": 260822,
+    "justwatchUrl": "https://www.themoviedb.org/tv/260822/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Animation Digital Network",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Anime Digital Network Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "primevideo",
+      "adn"
+    ]
+  },
+  "yaiba-samurai-legend-vol-1-2026-12-04": {
+    "tmdbId": 254017,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/254017-yaiba/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Animation Digital Network",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Anime Digital Network Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Akibapass",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "adn",
+      "primevideo"
+    ]
+  },
+  "yaiba-samurai-legend-vol-2-2027-02-19": {
+    "tmdbId": 254017,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/254017-yaiba/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Animation Digital Network",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Anime Digital Network Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Akibapass",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "adn",
+      "primevideo"
+    ]
+  },
+  "miss-kobayashi-s-dragon-maid-ein-einsamer-drache-sehnt-sich-nach-liebe-2026-10-1": {
+    "tmdbId": 1359607,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/movie/1359607/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "crunchyroll"
+    ]
+  },
+  "sakamoto-days-teil-2-vol-3-2026-11-13": {},
+  "sakamoto-days-teil-2-vol-4-2026-12-18": {},
+  "my-gift-lvl-9999-unlimited-gacha-backstabbed-in-a-backwater-dungeon-i-m-out-for-": {
+    "tmdbId": 278635,
+    "justwatchUrl": "https://www.themoviedb.org/tv/278635-9999/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Animation Digital Network",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Anime Digital Network Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "primevideo",
+      "adn"
+    ]
+  },
+  "kamisama-kiss-staffel-2-2026-11-15": {},
+  "a-silent-voice-2026-11-06": {
+    "tmdbId": 378064,
+    "fsk": 6,
+    "justwatchUrl": "https://www.themoviedb.org/movie/378064/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "rent"
+      },
+      {
+        "name": "maxdome Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Freenet meinVOD",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "crunchyroll",
+      "primevideo"
+    ]
+  },
+  "steins-gate-0-2026-10-16": {
+    "tmdbId": 78102,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/78102/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Animation Digital Network",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Anime Digital Network Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Akibapass",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "crunchyroll",
+      "adn",
+      "primevideo"
+    ]
+  },
+  "boruto-naruto-the-movie-2026-11-19": {
+    "tmdbId": 347201,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/movie/347201-boruto-naruto-the-movie/watch?locale=DE",
+    "offers": [
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Apple TV Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "rent"
+      },
+      {
+        "name": "Sky Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Rakuten TV",
+        "kind": "rent"
+      },
+      {
+        "name": "maxdome Store",
+        "kind": "rent"
+      },
+      {
+        "name": "MagentaTV",
+        "kind": "rent"
+      },
+      {
+        "name": "Videoload",
+        "kind": "rent"
+      },
+      {
+        "name": "Freenet meinVOD",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "rtlplus",
+      "primevideo"
+    ]
+  },
+  "naruto-shippuden-the-movie-2026-11-19": {
+    "tmdbId": 20982,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/movie/20982-naruto/watch?locale=DE",
+    "offers": [
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Apple TV Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "rent"
+      },
+      {
+        "name": "maxdome Store",
+        "kind": "rent"
+      },
+      {
+        "name": "MagentaTV",
+        "kind": "rent"
+      },
+      {
+        "name": "Videoload",
+        "kind": "rent"
+      },
+      {
+        "name": "Freenet meinVOD",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "rtlplus",
+      "primevideo"
+    ]
+  },
+  "code-geass-lelouch-of-the-rebellion-r2-2026-09-18": {},
+  "hallo-kurt-2026-12-03": {},
+  "hakaba-kitaro-der-junge-vom-friedhof-2026-09-04": {
+    "tmdbId": 37155,
+    "justwatchUrl": "https://www.themoviedb.org/tv/37155/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Akibapass",
+        "kind": "rent"
+      },
+      {
+        "name": "Apple TV Store",
+        "kind": "buy"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      },
+      {
+        "name": "maxdome Store",
+        "kind": "buy"
+      },
+      {
+        "name": "Freenet meinVOD",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "primevideo"
+    ]
+  },
+  "naruto-shippuden-the-movie-bonds-2026-11-19": {
+    "tmdbId": 17581,
+    "justwatchUrl": "https://www.themoviedb.org/movie/17581-naruto/watch?locale=DE",
+    "offers": [
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Apple TV Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "rent"
+      },
+      {
+        "name": "maxdome Store",
+        "kind": "rent"
+      },
+      {
+        "name": "MagentaTV",
+        "kind": "rent"
+      },
+      {
+        "name": "Videoload",
+        "kind": "rent"
+      },
+      {
+        "name": "Freenet meinVOD",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "rtlplus",
+      "primevideo"
+    ]
+  },
+  "sailor-moon-s-2026-11-06": {},
+  "sailor-moon-s-2026-12-04": {},
+  "naruto-shippuden-the-movie-die-erben-des-willens-des-feuers-2026-11-19": {
+    "tmdbId": 36728,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/movie/36728-naruto/watch?locale=DE",
+    "offers": [
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Apple TV Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "rent"
+      },
+      {
+        "name": "Rakuten TV",
+        "kind": "rent"
+      },
+      {
+        "name": "maxdome Store",
+        "kind": "rent"
+      },
+      {
+        "name": "MagentaTV",
+        "kind": "rent"
+      },
+      {
+        "name": "Videoload",
+        "kind": "rent"
+      },
+      {
+        "name": "Freenet meinVOD",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "rtlplus",
+      "primevideo"
+    ]
+  },
+  "sailor-moon-r-2026-11-06": {},
+  "naruto-shippuden-the-movie-4-the-lost-tower-2026-11-19": {
+    "tmdbId": 50723,
+    "justwatchUrl": "https://www.themoviedb.org/movie/50723-naruto/watch?locale=DE",
+    "offers": [
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Apple TV Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "rent"
+      },
+      {
+        "name": "Rakuten TV",
+        "kind": "rent"
+      },
+      {
+        "name": "maxdome Store",
+        "kind": "rent"
+      },
+      {
+        "name": "MagentaTV",
+        "kind": "rent"
+      },
+      {
+        "name": "Videoload",
+        "kind": "rent"
+      },
+      {
+        "name": "Freenet meinVOD",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "rtlplus",
+      "primevideo"
+    ]
+  },
+  "princess-principal-2026-09-04": {
+    "tmdbId": 72515,
+    "fsk": 16,
+    "justwatchUrl": "https://www.themoviedb.org/tv/72515/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "crunchyroll"
+    ]
+  },
+  "miss-kobayashi-s-dragon-maid-valentinstag-und-onsen-erwartet-nicht-zu-viel-2026-": {},
+  "sailor-moon-sailor-stars-2027-01-15": {}
 }

@@ -104,6 +104,31 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:from-bureaucrat-to-villainess-dad-s-been-reincarnated-2026-10-12@2026-1
+ 0-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261012
+DTEND;VALUE=DATE:20261013
+SUMMARY:From Bureaucrat to Villainess: Dad’s Been Reincarnated! (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/from-bu
+ reaucrat-to-villainess-dad-s-been-reincarnated-2026-10-12
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:my-next-life-as-a-villainess-all-routes-lead-to-doom-ich-habe-die-mir-v
+ orbestimm@2026-10-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261016
+DTEND;VALUE=DATE:20261017
+SUMMARY:My Next Life as a Villainess: All Routes Lead to Doom! Ich habe die
+  mir vorbestimmte Person getroffen (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/my-next
+ -life-as-a-villainess-all-routes-lead-to-doom-ich-habe-die-mir-vorbestimm
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:my-next-life-as-a-villainess-s2-bundle@2026-10-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261016

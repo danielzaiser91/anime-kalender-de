@@ -39,18 +39,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:call-of-the-night-staffel-2-vol-1-2026-09-18@2026-09-18@anime-kalender-
- de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260918
-DTEND;VALUE=DATE:20260919
-SUMMARY:Call of the Night – Staffel 2 – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/call-of
- -the-night-staffel-2-vol-1-2026-09-18
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:ron-kamonohashi-s2-vol1@2026-09-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260918
@@ -59,6 +47,18 @@ SUMMARY:Master Detective Ron Kamonohashi – Staffel 2 – Vol. 1 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/ron-kam
  onohashi-s2-vol1
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:detektei-layton-katrielles-raetselhafte-faelle-2026-10-22@2026-10-22@an
+ ime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261022
+DTEND;VALUE=DATE:20261023
+SUMMARY:Detektei Layton: Katrielles rätselhafte Fälle (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/detekte
+ i-layton-katrielles-raetselhafte-faelle-2026-10-22
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
