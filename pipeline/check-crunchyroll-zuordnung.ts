@@ -627,21 +627,24 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
   Geprüft wird der echte Fall und die drei Sperren, die ihn eng halten.
 */
 {
-  const block = (name, folgen, deutsch) => ({
+  const block = (name: string, folgen: number, deutsch: number) => ({
     name,
     folgen,
     deutsch,
     fremd: folgen - deutsch,
     deutscheFolgen: Array.from({ length: deutsch }, (_, i) => ({ nummer: i + 1 })),
   })
-  const serie = (staffeln) => ({
-    url: 'https://www.crunchyroll.com/de/dr-stone',
-    seriesId: 'GYEXQKJG6',
-    katalog: 'de',
-    deutschImAngebot: true,
-    staffeln,
-  })
-  const titel = (id, episodes, jpYear) => ({ id, episodes, jpYear, format: 'TV' })
+  const serie = (staffeln: unknown[]): CrSerie =>
+    ({
+      url: 'https://www.crunchyroll.com/de/dr-stone',
+      seriesId: 'GYEXQKJG6',
+      katalog: 'de',
+      deutschImAngebot: true,
+      geprueftAm: '2026-08-29',
+      staffeln,
+    }) as CrSerie
+  const titel = (id: number, episodes: number, jpYear: number): Title =>
+    ({ id, episodes, jpYear, format: 'TV' }) as unknown as Title
 
   const drStone = serie([
     block('Dr. STONE', 24, 24),
