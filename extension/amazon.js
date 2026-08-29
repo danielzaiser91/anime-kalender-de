@@ -3470,9 +3470,24 @@ async function speicherSchreiben(werte) {
       trenner.title = 'Für diese Titel kennt niemand eine Prime-Adresse. Öffne die Suche, klicke den richtigen Treffer an — dort läuft die Prüfung wie gewohnt.'
       inhalt.appendChild(trenner)
 
+      /*
+        **Was aussichtsreich ist, steht oben — abgehakt unten, wackelig ganz unten.**
+
+        Die Liste war rein alphabetisch, und damit ging genau die Reihenfolge
+        verloren, die `vorschlaege-anbieter.ts` mühsam herstellt: Titel mit
+        belegten deutschen Sprechrollen zuerst, wackelige TMDB-Treffer zuletzt.
+        Wer von oben nach unten arbeitet, soll den Ertrag vorn haben.
+
+        Ein wackeliger Vorschlag wird deshalb **nicht** ausgeblendet — er ist
+        seltener richtig, nicht nie. Er steht nur hinten und sagt in der Zeile,
+        woran es liegt.
+      */
       for (const [url, e] of suchZeilen.sort((a, b) => {
         const d = Number(Boolean(suchErledigt[a[0]])) - Number(Boolean(suchErledigt[b[0]]))
-        return d || a[1].titel.localeCompare(b[1].titel, 'de')
+        if (d) return d
+        const u = Number(Boolean(a[1].unsicher)) - Number(Boolean(b[1].unsicher))
+        if (u) return u
+        return a[1].titel.localeCompare(b[1].titel, 'de')
       })) {
         const zeile = document.createElement('div')
         zeile.className = 'ak-zeile ak-suchzeile'
@@ -3494,6 +3509,21 @@ async function speicherSchreiben(werte) {
           marke.className = 'ak-folge'
           marke.textContent = `${e.folgen} Folgen`
           marke.title = 'So viele Folgen führt unser Bestand. Zeigt der Treffer deutlich weniger, ist es ein anderes Werk — meist der Film zur Serie.'
+          zeile.appendChild(marke)
+        }
+
+        /*
+          **Der Vermerk gehört in die Zeile, nicht erst in den Kasten.**
+
+          Bis 3.91 stand er nur auf der Suchseite — also erst, nachdem Daniel
+          geklickt und gewartet hat. Hier entscheidet er, was er überhaupt
+          anfasst; ein Hinweis danach kommt zu spät.
+        */
+        if (e.unsicher) {
+          const marke = document.createElement('span')
+          marke.className = 'ak-folge ak-unsicher'
+          marke.textContent = 'wackelig'
+          marke.title = e.unsicher + ' — der Anbieter gehört vielleicht einem anderen Werk. Findest du hier nichts, ist das die wahrscheinliche Erklärung.'
           zeile.appendChild(marke)
         }
 
