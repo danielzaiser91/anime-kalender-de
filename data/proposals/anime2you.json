@@ -1,6 +1,42 @@
 {
-  "scrapedAt": "2026-08-29T11:07:03.387Z",
+  "scrapedAt": "2026-08-29T12:51:17.941Z",
   "proposals": [
+    {
+      "articleTitle": "Erste »Clevatess«-Staffel erscheint als Limited Edition auf Blu-ray",
+      "articleUrl": "https://www.anime2you.de/news/1044108/clevatess-staffel-1-blu-ray-release/",
+      "publishedAt": "2026-08-29",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "month": "2026-11",
+          "context": "Blu-ray in den Handel bringen wird. Wir fassen zusammen. Disc-Release ab November 2026 Das erste Volume der ersten »Clevatess«-Staffel, das"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Zweite »The 100 Girlfriends«-Staffel erscheint auf Blu-ray",
+      "articleUrl": "https://www.anime2you.de/news/1044426/the-100-girlfriends-staffel-2-blu-ray-release/",
+      "publishedAt": "2026-08-29",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "month": "2026-12",
+          "context": "« auf Blu-ray veröffentlichen wird. Wir fassen zusammen. Disc-Release ab Dezember 2026 Das erste Volume der zweiten »The 100 Girlfriends«-St"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Termin der Fantasy-Serie »Dreamland« auf ADN und Crunchyroll + Trailer",
       "articleUrl": "https://www.anime2you.de/news/1044897/termin-von-dreamland-trailer/",
