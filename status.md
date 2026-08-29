@@ -36,14 +36,38 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 | **Rohfolgen werden abgehakt** | Briefkasten von 5.633 auf 958. 4.464 Dubletten aus dem INSERT-ohne-DELETE-Fehler weg — vor dem Wegwerfen gegengeprüft: 1.169 Gruppen, **null** mit abweichendem Inhalt |
 | **Suchadressen führen zurück** | Alle 79 offenen Suchadressen lösen sich über den Suchbegriff auf. Zugeordnete Adressen: 3 → 43 |
 
-**Nachmittag — vier Fehler, die Daten gekostet haben:**
+**Nachmittag — acht Fehler, die Daten oder Daniels Zeit gekostet haben:**
 
 | | Befund |
 |---|---|
-| **Kanal-Titel erzeugten ein Nein** | 239 Handbelege tragen „⚠ Kanal", **19 davon ein `dub: false`** — und ein Nein entfernt den Verweis. „Fullmetal Alchemist" verlor so seinen letzten Weg, obwohl derselbe Eintrag sagt, dass die Angabe kein Beleg ist. Behoben an drei Stellen, Zusicherung in `check:logic` |
-| **Ein Beleg für Netflix sperrte Prime** | Der Vorschlagsfilter arbeitete je Titel statt je Titel+Plattform: 27 von 83 wegelosen Titeln mit Sprechrollen fielen heraus. Vorschläge 185 → 228 |
-| **Favoriten ohne Termin verschwanden** | Von fünf gesetzten Favoriten erschienen zwei — der Rest steht im Vollbestand, nicht im Kern. Der Stern ließ sich setzen, die Seite verschwieg ihn |
-| **„zuletzt" kam aus dem Kalender** | One Piece stand als „zuletzt 20.05.2019"; die deutsche Fassung lief bis 25.03.2026. `events.json` führt dort einen einzigen Termin, das Release kennt 515 Folgen |
+| **Kanal-Titel erzeugten ein Nein** | 239 Handbelege tragen „⚠ Kanal", **19 davon ein `dub: false`** — und ein Nein entfernt den Verweis. „Fullmetal Alchemist" verlor so seinen letzten Weg, obwohl derselbe Eintrag sagt, dass die Angabe kein Beleg ist |
+| **Ein Beleg für Netflix sperrte Prime** | Der Vorschlagsfilter arbeitete je Titel statt je Titel+Plattform: 27 von 83 wegelosen Titeln mit Sprechrollen fielen heraus |
+| **Favoriten ohne Termin verschwanden** | Von fünf gesetzten Favoriten erschienen zwei — der Rest steht im Vollbestand, nicht im Kern |
+| **„zuletzt" kam aus dem Kalender** | One Piece stand als „zuletzt 20.05.2019"; die deutsche Fassung lief bis 25.03.2026 |
+| **1.660 Archivdateien waren verloren** | Und der Lauf meldete „nichts nachzuladen" — die Warteschlange fragte nur nach dem Alter, nicht danach, ob die Datei noch da ist |
+| **Elf Datenläufe standen in keiner Automatik** | Darunter `data:vorschlaege`, aus dem die Prüfliste entsteht: Die Liste wurde stündlich gebaut, ihre Grundlage nie |
+| **Sieben Arbeitslisten wurden weggeworfen** | `data:dub-checks` schreibt neun, zwei standen in `commit-data.sh`. `07-primevideo.md` nannte **588 offene Verweise**, tatsächlich 65 |
+| **Daniels Netflix-Liste war leer** | 42 Titel warteten darauf. Der Filter verlangte, dass MOTN den Titel *vergeblich gesucht* hat — das sagt aber nichts über die Tonspur |
+
+**Betriebsstörungen, beide behoben:**
+
+- Ein Wochenlauf-Schritt hing **1 Stunde 50 Minuten** an AniLists Rate-Limit und
+  legte über die gemeinsame Concurrency-Gruppe den ganzen Datenbau still. Kein
+  Lauf hatte `timeout-minutes`; der ANN-Schritt hatte als einziger kein
+  `--limit`. Beides gesetzt.
+- Ein laufender Datenlauf hat eine Korrektur überschrieben (er committet den
+  Stand von seinem Start). `check:logic` hat es zwanzig Minuten später gemeldet
+  — der Beleg dafür, dass zu jeder Datenkorrektur eine Zusicherung gehört.
+
+**Gewonnen an Substanz:**
+
+| | vorher | nachher |
+|---|---|---|
+| Titel ganz ohne Weg | 1.041 | **862** |
+| davon mit belegter Synchro | 693 | **538** |
+| Titel mit Disc-Weg | 0 | **173** |
+| aniSearch-Archivdateien | 956 | **1.656** |
+| Titel mit deutscher Disc-Ausgabe | 584 | **1.017** |
 
 **Dazu, ohne Fehlerbezug:** vollständiges Entfernungsprotokoll (bisher nur die
 Crunchyroll-Bereinigung — 46 Titel ohne Weg waren unerklärlich), aniSearch- und
