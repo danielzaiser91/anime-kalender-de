@@ -295,7 +295,7 @@ jobs:
         # 29.08.2026 in **keinem** Workflow. Die Liste wurde also stuendlich neu
         # gebaut, ihre Grundlage nie — dieselbe Falle wie eine Zeile darueber,
         # nur eine Ebene tiefer.
-        run: npm run data:vorschlaege && npm run data:dub-checks && npm run data:extension-liste
+        run: npm run data:vorschlaege && npm run data:dub-checks && npm run data:extension-liste && npm run data:start-liste
 
       - name: Fortschritt — Arbeitslisten neu erzeugen
         continue-on-error: true

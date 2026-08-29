@@ -72,7 +72,8 @@
     "data:wiedervorlage": "tsx pipeline/wiedervorlage.ts",
     "check:qualitaet": "tsx pipeline/check-qualitaet.ts",
     "data:rohfolgen": "tsx pipeline/fetch-rohfolgen.ts",
-    "data:disc-ausgaben": "tsx pipeline/extract-disc-ausgaben.ts"
+    "data:disc-ausgaben": "tsx pipeline/extract-disc-ausgaben.ts",
+    "data:start-liste": "tsx pipeline/report-start.ts"
   },
   "dependencies": {
     "react": "^19.1.0",
