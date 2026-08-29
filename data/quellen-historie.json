@@ -2339,7 +2339,7 @@
     {
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "gw.api.animationdigitalnetwork.com",
-      "gesehenAm": "2026-08-17",
+      "gesehenAm": "2026-08-29",
       "sagt": "2019-05-20",
       "stand": "aktuell"
     }
@@ -2664,7 +2664,7 @@
     {
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "gw.api.animationdigitalnetwork.com",
-      "gesehenAm": "2026-08-24",
+      "gesehenAm": "2026-08-29",
       "sagt": "2026-06-01",
       "stand": "aktuell"
     }
@@ -2783,6 +2783,15 @@
       "name": "anime2you.de",
       "gesehenAm": "2026-08-29",
       "sagt": "2026-12-04",
+      "stand": "aktuell"
+    }
+  ],
+  "adn-882": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
+      "gesehenAm": "2026-08-29",
+      "sagt": "2022-07-06",
       "stand": "aktuell"
     }
   ]

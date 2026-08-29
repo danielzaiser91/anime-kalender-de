@@ -1,8 +1,8 @@
 {
   "adn": {
-    "lastOk": "2026-08-29T08:02:27.686Z",
-    "lastRun": "2026-08-29T08:02:27.686Z",
-    "lastCount": 7
+    "lastOk": "2026-08-29T09:08:53.257Z",
+    "lastRun": "2026-08-29T09:08:53.257Z",
+    "lastCount": 11
   },
   "anime2you": {
     "lastOk": "2026-08-29T08:02:35.193Z",
@@ -10,9 +10,9 @@
     "lastCount": 33
   },
   "crunchyroll": {
-    "lastOk": "2026-08-29T08:29:06.441Z",
-    "lastRun": "2026-08-29T08:29:06.441Z",
-    "lastCount": 15
+    "lastOk": "2026-08-29T09:06:46.196Z",
+    "lastRun": "2026-08-29T09:06:46.196Z",
+    "lastCount": 29
   },
   "anisearch": {
     "lastOk": "2026-08-29T08:25:45.968Z",
@@ -20,34 +20,36 @@
     "lastCount": 200
   },
   "adn-catalog": {
-    "lastOk": "2026-08-24T11:55:11.018Z",
-    "lastRun": "2026-08-24T11:55:11.018Z",
-    "lastCount": 112
+    "lastOk": "2026-08-29T09:29:41.342Z",
+    "lastRun": "2026-08-29T09:29:41.342Z",
+    "lastCount": 114
   },
   "crunchyroll-dub": {
-    "lastOk": "2026-08-26T19:21:32.254Z",
-    "lastRun": "2026-08-26T19:21:32.254Z",
-    "lastCount": 966
+    "lastOk": "2026-08-29T10:09:16.923Z",
+    "lastRun": "2026-08-29T10:09:16.923Z",
+    "lastCount": 967
   },
   "anime-offline-database": {
-    "lastOk": "2026-08-24T11:55:13.179Z",
-    "lastRun": "2026-08-24T11:55:13.179Z",
+    "lastOk": "2026-08-29T09:29:45.201Z",
+    "lastRun": "2026-08-29T09:29:45.201Z",
     "lastCount": 8876
   },
   "ann-voices": {
-    "lastOk": "2026-08-24T23:31:37.468Z",
-    "lastRun": "2026-08-24T23:31:37.468Z",
+    "lastOk": "2026-08-29T10:09:13.241Z",
+    "lastRun": "2026-08-29T10:09:13.241Z",
     "lastCount": 8876
   },
   "youtube-check": {
     "lastOk": "2026-08-20T12:03:26.405Z",
-    "lastRun": "2026-08-20T12:03:26.405Z",
-    "lastCount": 3
+    "lastRun": "2026-08-29T10:09:17.996Z",
+    "lastCount": 0,
+    "lastError": "nichts zu prüfen"
   },
   "anilist-voices": {
     "lastOk": "2026-08-24T11:55:11.741Z",
-    "lastRun": "2026-08-24T11:55:11.741Z",
-    "lastCount": 2764
+    "lastRun": "2026-08-29T09:29:43.175Z",
+    "lastCount": 0,
+    "lastError": "keine Sprecher gefunden"
   },
   "link-check": {
     "lastOk": "2026-08-24T11:57:52.015Z",
@@ -70,18 +72,18 @@
     "lastCount": 1548
   },
   "tmdb-kino": {
-    "lastOk": "2026-08-25T08:02:20.011Z",
-    "lastRun": "2026-08-25T08:02:20.011Z",
+    "lastOk": "2026-08-29T08:59:46.066Z",
+    "lastRun": "2026-08-29T08:59:46.066Z",
     "lastCount": 2
   },
   "fsk": {
-    "lastOk": "2026-08-25T08:43:27.687Z",
-    "lastRun": "2026-08-25T08:43:27.687Z",
-    "lastCount": 2
+    "lastOk": "2026-08-29T08:59:45.322Z",
+    "lastRun": "2026-08-29T08:59:45.322Z",
+    "lastCount": 3
   },
   "cinestar": {
-    "lastOk": "2026-08-25T09:55:48.204Z",
-    "lastRun": "2026-08-25T09:55:48.204Z",
+    "lastOk": "2026-08-29T08:58:56.667Z",
+    "lastRun": "2026-08-29T08:58:56.667Z",
     "lastCount": 1
   },
   "tmdb-folgen": {
@@ -90,8 +92,8 @@
     "lastCount": 594
   },
   "rohfolgen": {
-    "lastOk": "2026-08-29T09:00:04.026Z",
-    "lastRun": "2026-08-29T09:00:04.026Z",
+    "lastOk": "2026-08-29T08:56:32.463Z",
+    "lastRun": "2026-08-29T08:56:32.463Z",
     "lastCount": 180
   },
   "anisearch-folgen": {

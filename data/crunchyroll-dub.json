@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-26T19:21:32.221Z",
+  "scrapedAt": "2026-08-29T10:09:16.905Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -132161,6 +132161,162 @@
           "deutsch": 0,
           "fremd": 0,
           "deutscheFassung": false
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GKEH2GPE0",
+      "seriesId": "GKEH2GPE0",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-08-29",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Kickers",
+          "staffelId": "G6VNC2DG3",
+          "folgen": 27,
+          "kacheln": 27,
+          "deutsch": 27,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "G14U434G8",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 2,
+              "guid": "GJWU2M2EM",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 3,
+              "guid": "GN7UDZDVW",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 4,
+              "guid": "GMKUXZXGW",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 5,
+              "guid": "G31UXPXZD",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 6,
+              "guid": "G2XU020DE",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 7,
+              "guid": "GZ7UV7V11",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 8,
+              "guid": "GQJUGDGQ3",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 9,
+              "guid": "GG1U2M245",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GEVUZPZXZ",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "G9DUEXE54",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "G4VUQ3Q1G",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 13,
+              "guid": "GJWU2M29M",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 14,
+              "guid": "GK9U3Z3M4",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 15,
+              "guid": "GVWU0V0WQ",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 16,
+              "guid": "G2XU0204E",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 17,
+              "guid": "GZ7UV7V21",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 18,
+              "guid": "GQJUGDGV3",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 19,
+              "guid": "GWDU898JV",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 20,
+              "guid": "G0DUN3NKX",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 21,
+              "guid": "G7PU45413",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 22,
+              "guid": "GX9UQDQW8",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 23,
+              "guid": "G14U43418",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 24,
+              "guid": "GN7UDZD1W",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 25,
+              "guid": "GMKUXZXPW",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 26,
+              "guid": "G31UXPX4D",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            },
+            {
+              "nummer": 27,
+              "guid": "G2XU020GE",
+              "verfuegbarAb": "2020-12-22T17:00:00Z"
+            }
+          ]
         }
       ]
     }

@@ -24,12 +24,12 @@
   "lebt": true,
   "videoTitel": "Final Fantasy VII: Advent Children",
   "kanal": "YouTube Movies",
-  "kaufAngebot": true,
+  "kaufAngebot": false,
   "kategorie": "Movies",
-  "kostenpflichtig": true,
   "deutscherTitel": false,
+  "andereFassung": false,
   "anilistId": 317,
-  "geprueftAm": "2026-08-24"
+  "geprueftAm": "2026-08-29"
  },
  "https://www.youtube.com/watch?v=olNUXiGWTFo": {
   "status": 200,
@@ -78,12 +78,12 @@
   "lebt": true,
   "videoTitel": "Tokyo Godfathers",
   "kanal": "YouTube Movies",
-  "kaufAngebot": true,
-  "kategorie": "Trailers",
-  "kostenpflichtig": true,
+  "kaufAngebot": false,
+  "kategorie": "Movies",
   "deutscherTitel": false,
+  "andereFassung": false,
   "anilistId": 759,
-  "geprueftAm": "2026-08-24"
+  "geprueftAm": "2026-08-29"
  },
  "https://www.youtube.com/watch?v=H9apBqlBMP4": {
   "status": 200,
@@ -113,8 +113,9 @@
   "videoTitel": "Mach GoGoGo | Speed Racer | FULL EPISODES",
   "kanal": "TokuSHOUTsu",
   "deutscherTitel": false,
+  "andereFassung": false,
   "anilistId": 1445,
-  "geprueftAm": "2026-08-24"
+  "geprueftAm": "2026-08-29"
  },
  "https://www.youtube.com/watch?v=ZYrWZPVSTKQ": {
   "status": 200,
@@ -160,8 +161,9 @@
   "videoTitel": "Moomin 90s 📺 Full Episodes in Order",
   "kanal": "Moomin Official",
   "deutscherTitel": false,
+  "andereFassung": false,
   "anilistId": 2150,
-  "geprueftAm": "2026-08-24"
+  "geprueftAm": "2026-08-29"
  },
  "https://www.youtube.com/watch?v=e-XouE6kJxY": {
   "status": 200,
@@ -189,8 +191,9 @@
   "videoTitel": "Pokémon Mystery Dungeon: Team Go-Getters Out of the Gate",
   "kanal": "The Official Pokémon YouTube channel",
   "deutscherTitel": false,
+  "andereFassung": false,
   "anilistId": 2842,
-  "geprueftAm": "2026-08-24"
+  "geprueftAm": "2026-08-29"
  },
  "https://www.youtube.com/watch?v=SXJ29uhwQCY": {
   "status": 200,
@@ -206,13 +209,12 @@
  "https://www.youtube.com/watch?v=A0DaeCtJTG0": {
   "status": 401,
   "lebt": true,
-  "videoTitel": "Princess Knight Episode 1 (Dub): Princess Knight",
-  "kanal": "Nozomi Entertainment",
+  "videoTitel": "",
+  "kanal": null,
   "kaufAngebot": false,
-  "kategorie": "Entertainment",
-  "deutscherTitel": false,
+  "kategorie": null,
   "anilistId": 3024,
-  "geprueftAm": "2026-08-24"
+  "geprueftAm": "2026-08-29"
  },
  "https://www.youtube.com/watch?v=qJEEOcMRUfU": {
   "status": 200,
@@ -240,8 +242,9 @@
   "videoTitel": "Pokémon Mystery Dungeon: Explorers of Time and Darkness",
   "kanal": "The Official Pokémon YouTube channel",
   "deutscherTitel": false,
+  "andereFassung": false,
   "anilistId": 5256,
-  "geprueftAm": "2026-08-24"
+  "geprueftAm": "2026-08-29"
  },
  "https://www.youtube.com/watch?v=zOQvGliJQmU": {
   "status": 200,
@@ -292,12 +295,12 @@
   "lebt": true,
   "videoTitel": "Onigamiden - Legend Of The Millennium Dragon",
   "kanal": "YouTube Movies",
-  "kaufAngebot": true,
-  "kategorie": "Trailers",
-  "kostenpflichtig": true,
+  "kaufAngebot": false,
+  "kategorie": "Movies",
   "deutscherTitel": false,
+  "andereFassung": false,
   "anilistId": 8487,
-  "geprueftAm": "2026-08-24"
+  "geprueftAm": "2026-08-29"
  },
  "https://www.youtube.com/watch?v=oq7stJyB3WA": {
   "status": 200,
@@ -349,8 +352,9 @@
   "videoTitel": "B-Daman Crossfire",
   "kanal": "AnimangaPLUS",
   "deutscherTitel": false,
+  "andereFassung": false,
   "anilistId": 11177,
-  "geprueftAm": "2026-08-24"
+  "geprueftAm": "2026-08-29"
  },
  "https://www.youtube.com/watch?v=R6u5V5DvrlA": {
   "status": 200,
@@ -505,12 +509,12 @@
   "lebt": true,
   "videoTitel": "Pokémon – Der Film: Volcanion und das Merchanische Wunderwerk",
   "kanal": "YouTube Movies",
-  "kaufAngebot": true,
-  "kategorie": "Trailers",
-  "kostenpflichtig": true,
+  "kaufAngebot": false,
+  "kategorie": "Movies",
   "deutscherTitel": true,
+  "andereFassung": false,
   "anilistId": 21651,
-  "geprueftAm": "2026-08-24"
+  "geprueftAm": "2026-08-29"
  },
  "https://www.youtube.com/watch?v=KWHCWeMgxm4": {
   "status": 200,
@@ -540,8 +544,9 @@
   "videoTitel": "Pokémon Mystery Dungeon: Gates to Infinity (Part 1)",
   "kanal": "The Official Pokémon YouTube channel",
   "deutscherTitel": false,
+  "andereFassung": false,
   "anilistId": 126294,
-  "geprueftAm": "2026-08-24"
+  "geprueftAm": "2026-08-29"
  },
  "https://www.youtube.com/watch?v=rHyR-BKxWqU": {
   "status": 401,
@@ -559,12 +564,12 @@
   "lebt": true,
   "videoTitel": "Your Name. - Gestern, heute und für immer",
   "kanal": "YouTube Movies",
-  "kaufAngebot": true,
-  "kategorie": "Trailers",
-  "kostenpflichtig": true,
+  "kaufAngebot": false,
+  "kategorie": "Movies",
   "deutscherTitel": false,
+  "andereFassung": false,
   "anilistId": 21519,
-  "geprueftAm": "2026-08-24"
+  "geprueftAm": "2026-08-29"
  },
  "https://www.youtube.com/watch?v=88fSdX1vmNU": {
   "status": 200,
@@ -593,12 +598,12 @@
   "lebt": true,
   "videoTitel": "Fireworks - Alles eine Frage der Zeit",
   "kanal": "YouTube Movies",
-  "kaufAngebot": true,
-  "kategorie": "Trailers",
-  "kostenpflichtig": true,
+  "kaufAngebot": false,
+  "kategorie": "Movies",
   "deutscherTitel": false,
+  "andereFassung": false,
   "anilistId": 97908,
-  "geprueftAm": "2026-08-24"
+  "geprueftAm": "2026-08-29"
  },
  "https://www.youtube.com/playlist?list=PLBE2D9BnJJUr3eL0gJwgbWbXqPaOFZI5p": {
   "status": 200,
@@ -717,8 +722,9 @@
   "videoTitel": "Mini Episodes Season 2 -Ivy-",
   "kanal": "Sylvanian Families Official",
   "deutscherTitel": false,
+  "andereFassung": false,
   "anilistId": 187053,
-  "geprueftAm": "2026-08-24"
+  "geprueftAm": "2026-08-29"
  },
  "https://www.youtube.com/watch?v=kWAGQchekwg": {
   "status": 200,
@@ -748,8 +754,9 @@
   "videoTitel": "Mini Episode Season 3 -Clover-",
   "kanal": "Sylvanian Families Official",
   "deutscherTitel": false,
+  "andereFassung": false,
   "anilistId": 187054,
-  "geprueftAm": "2026-08-24"
+  "geprueftAm": "2026-08-29"
  },
  "https://www.youtube.com/playlist?list=PLwLSw1_eDZl1JaXJh2-Pc_sfEV6VAHO0W": {
   "status": 200,
@@ -793,8 +800,9 @@
   "videoTitel": "Fire Force S2 - MiniEP",
   "kanal": "peppermint anime",
   "deutscherTitel": false,
+  "andereFassung": false,
   "anilistId": 128390,
-  "geprueftAm": "2026-08-24"
+  "geprueftAm": "2026-08-29"
  },
  "https://youtube.com/playlist?list=PLQWzKIaERirwN5po6LduiSLm8qc7GtuAl&si=I6QtXoF-i7cfG2c8": {
   "status": 200,
@@ -802,8 +810,9 @@
   "videoTitel": "Pokémon: Evolutions | Full Episodes",
   "kanal": "The Official Pokémon YouTube channel",
   "deutscherTitel": false,
+  "andereFassung": false,
   "anilistId": 138699,
-  "geprueftAm": "2026-08-24"
+  "geprueftAm": "2026-08-29"
  },
  "https://www.youtube.com/watch?v=cxTxrKrYkcY": {
   "status": 200,
@@ -811,8 +820,9 @@
   "videoTitel": "Kaguya-sama: Love Is War -Ultra Romantic- Season 3  |  Teaser Video - \"Yu Ishigami Wants to Chat\"",
   "kanal": "Aniplex USA",
   "deutscherTitel": false,
+  "andereFassung": false,
   "anilistId": 165557,
-  "geprueftAm": "2026-08-24"
+  "geprueftAm": "2026-08-29"
  },
  "https://www.youtube.com/playlist?list=PLduwKEaYhJ45z5Gf4Nj3jmsMvOFcpTikR": {
   "status": 200,
@@ -820,8 +830,9 @@
   "videoTitel": "Calico Critters Mini Episodes Season 4 -Peony-",
   "kanal": "CALICO CRITTERS Official",
   "deutscherTitel": false,
+  "andereFassung": false,
   "anilistId": 187055,
-  "geprueftAm": "2026-08-24"
+  "geprueftAm": "2026-08-29"
  },
  "https://youtube.com/playlist?list=PL3ongWuaWwZNBggs9x1Qcya3nRJzfMbkK": {
   "status": 200,
@@ -858,8 +869,9 @@
   "videoTitel": "Pokémon: Paldean Winds",
   "kanal": "The Official Pokémon YouTube channel",
   "deutscherTitel": false,
+  "andereFassung": false,
   "anilistId": 168092,
-  "geprueftAm": "2026-08-24"
+  "geprueftAm": "2026-08-29"
  },
  "https://www.youtube.com/watch?v=5yQSUimraSU": {
   "status": 200,
@@ -867,8 +879,9 @@
   "videoTitel": "Detective Pikachu & the Mystery of the Missing Flan 🍮🔎",
   "kanal": "The Official Pokémon YouTube channel",
   "deutscherTitel": false,
+  "andereFassung": false,
   "anilistId": 170535,
-  "geprueftAm": "2026-08-24"
+  "geprueftAm": "2026-08-29"
  },
  "https://www.youtube.com/playlist?list=PLTndXYWs2JgG2PxW3hisgJze2P5iKnO2s": {
   "status": 200,
@@ -894,7 +907,8 @@
   "videoTitel": "[Spring 2026 Anime] KILL BLUE",
   "kanal": "It's Anime powered by REMOW",
   "deutscherTitel": false,
+  "andereFassung": false,
   "anilistId": 198113,
-  "geprueftAm": "2026-08-24"
+  "geprueftAm": "2026-08-29"
  }
 }

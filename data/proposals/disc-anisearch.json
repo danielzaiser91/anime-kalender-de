@@ -1,45 +1,225 @@
 {
-  "scrapedAt": "2026-08-29T09:51:11.378Z",
+  "scrapedAt": "2026-08-13T06:51:08.461Z",
   "quelle": "data/anisearch-raw",
   "proposals": [
     {
-      "titleId": 158559,
-      "anime": "2.5 Dimensional Seduction",
-      "edition": "2.5 Dimensional Seduction - Vol. 4/4: Limited Mediabook Edition [Blu-ray]",
-      "date": "2026-09-04",
+      "titleId": 2543,
+      "anime": "Robin Hood",
+      "edition": "Robin Hood - Gesamtausgabe + Filme [Blu-ray]",
+      "date": "2026-08-20",
       "grund": "Bildträger im Titel benannt",
-      "publisher": "Animation Digital Network (DE)",
-      "url": "https://www.anisearch.de/article/166743,2-5-dimensional-seduction-vol-4-4-limited-mediabook-edition-blu-ray",
-      "bekannt": false
+      "publisher": "Fastbreak Entertainment",
+      "url": "https://www.anisearch.de/article/209534,robin-hood-gesamtausgabe-filme-blu-ray",
+      "bekannt": true
     },
     {
-      "titleId": 158559,
-      "anime": "2.5 Dimensional Seduction",
-      "edition": "2.5 Dimensional Seduction - Vol. 4/4: Limited Mediabook Edition",
-      "date": "2026-09-04",
+      "titleId": 143598,
+      "anime": "Sword of the Demon Hunter",
+      "edition": "Sword of the Demon Hunter: Kijin Gentôshô - Vol. 2/2 [Blu-ray]",
+      "date": "2026-08-20",
+      "grund": "Bildträger im Titel benannt",
+      "publisher": "KSM Anime",
+      "url": "https://www.anisearch.de/article/209536,sword-of-the-demon-hunter-kijin-gentosho-vol-2-2-blu-ray",
+      "bekannt": true
+    },
+    {
+      "titleId": 143598,
+      "anime": "Sword of the Demon Hunter",
+      "edition": "Sword of the Demon Hunter: Kijin Gentôshô - Vol. 1/2 [Blu-ray] + Sammelschuber",
+      "date": "2026-08-20",
+      "grund": "Bildträger im Titel benannt",
+      "publisher": "KSM Anime",
+      "url": "https://www.anisearch.de/article/206521,sword-of-the-demon-hunter-kijin-gentosho-vol-1-2-blu-ray-sammelschuber",
+      "bekannt": true
+    },
+    {
+      "titleId": 156040,
+      "anime": "The Most Heretical Last Boss Queen – Staffel 1",
+      "edition": "The Most Heretical Last Boss Queen: Staffel 1 - Gesamtausgabe [Blu-ray]",
+      "date": "2026-08-20",
+      "grund": "Bildträger im Titel benannt",
+      "publisher": "peppermint anime GmbH",
+      "url": "https://www.anisearch.de/article/209535,the-most-heretical-last-boss-queen-staffel-1-gesamtausgabe-blu-ray",
+      "bekannt": true
+    },
+    {
+      "titleId": 180367,
+      "anime": "Witch Watch",
+      "edition": "Witch Watch: Staffel 1 - Vol. 1/2: Collector’s Edition [Blu-ray]",
+      "date": "2026-08-20",
+      "grund": "Bildträger im Titel benannt",
+      "publisher": "Crunchyroll",
+      "url": "https://www.anisearch.de/article/203108,witch-watch-staffel-1-vol-1-2-collectors-edition-blu-ray",
+      "bekannt": true
+    },
+    {
+      "titleId": 164702,
+      "anime": "As a Reincarnated Aristocrat (Staffel 1)",
+      "edition": "As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World: Staffel 1 - Vol. 1/2 [Blu-ray]",
+      "date": "2026-08-21",
+      "grund": "Bildträger im Titel benannt",
+      "publisher": "Crunchyroll",
+      "url": "https://www.anisearch.de/article/177087,as-a-reincarnated-aristocrat-ill-use-my-appraisal-skill-to-rise-in-the-world-staffel-1-vol-1-2-blu-ray",
+      "bekannt": true
+    },
+    {
+      "titleId": 100388,
+      "anime": "Banana Fish",
+      "edition": "Banana Fish - Vol. 1/2: Limited Edition [Blu-ray] + Sammelschuber",
+      "date": "2026-08-21",
+      "grund": "Bildträger im Titel benannt",
+      "publisher": "Amazon.com, Inc.",
+      "url": "https://www.anisearch.de/article/204653,banana-fish-vol-1-2-limited-edition-blu-ray-sammelschuber",
+      "bekannt": true
+    },
+    {
+      "titleId": 100388,
+      "anime": "Banana Fish",
+      "edition": "Banana Fish - Vol. 1/2 [Blu-ray]",
+      "date": "2026-08-21",
+      "grund": "Bildträger im Titel benannt",
+      "publisher": "Amazon.com, Inc.",
+      "url": "https://www.anisearch.de/article/204651,banana-fish-vol-1-2-blu-ray",
+      "bekannt": true
+    },
+    {
+      "titleId": 101922,
+      "anime": "Demon Slayer – Staffel 1",
+      "edition": "Demon Slayer: Kimetsu no Yaiba - Gesamtausgabe: Limited Steelbook Edition [Blu-ray]",
+      "date": "2026-08-21",
+      "grund": "Bildträger im Titel benannt",
+      "publisher": "Wakanim DE",
+      "url": "https://www.anisearch.de/article/200577,demon-slayer-kimetsu-no-yaiba-gesamtausgabe-limited-steelbook-edition-blu-ray",
+      "bekannt": true
+    },
+    {
+      "titleId": 116242,
+      "anime": "I'm Standing on a Million Lives – Staffel 1",
+      "edition": "I’m Standing on a Million Lives: Staffel 1 - Gesamtausgabe [Blu-ray]",
+      "date": "2026-08-21",
+      "grund": "Bildträger im Titel benannt",
+      "publisher": "Crunchyroll",
+      "url": "https://www.anisearch.de/article/191415,im-standing-on-a-million-lives-staffel-1-gesamtausgabe-blu-ray",
+      "bekannt": true
+    },
+    {
+      "titleId": 146234,
+      "anime": "My One-Hit Kill Sister – Staffel 1",
+      "edition": "My One-Hit Kill Sister - Gesamtausgabe: Limited Edition [Blu-ray]",
+      "date": "2026-08-21",
+      "grund": "Bildträger im Titel benannt",
+      "publisher": "Crunchyroll",
+      "url": "https://www.anisearch.de/article/191412,my-one-hit-kill-sister-gesamtausgabe-limited-edition-blu-ray",
+      "bekannt": true
+    },
+    {
+      "titleId": 169417,
+      "anime": "Re:Monster – Staffel 1",
+      "edition": "Re:Monster - Gesamtausgabe: Limited Edition [Blu-ray]",
+      "date": "2026-08-21",
+      "grund": "Bildträger im Titel benannt",
+      "publisher": "Crunchyroll",
+      "url": "https://www.anisearch.de/article/191413,re-monster-gesamtausgabe-limited-edition-blu-ray",
+      "bekannt": true
+    },
+    {
+      "titleId": 154412,
+      "anime": "The Café Terrace and Its Goddesses – Staffel 1",
+      "edition": "The Café Terrace and Its Goddesses: Staffel 1 - Gesamtausgabe: Limited Edition [Blu-ray]",
+      "date": "2026-08-21",
+      "grund": "Bildträger im Titel benannt",
+      "publisher": "Crunchyroll",
+      "url": "https://www.anisearch.de/article/191414,the-cafe-terrace-and-its-goddesses-staffel-1-gesamtausgabe-limited-edition-blu-ray",
+      "bekannt": true
+    },
+    {
+      "titleId": 177474,
+      "anime": "Tougen Anki",
+      "edition": "Tougen Anki: Staffel 1 - Limited Collector’s Edition [Blu-ray]",
+      "date": "2026-08-21",
+      "grund": "Bildträger im Titel benannt",
+      "publisher": "Animation Digital Network (DE)",
+      "url": "https://www.anisearch.de/article/207698,tougen-anki-staffel-1-limited-collectors-edition-blu-ray",
+      "bekannt": true
+    },
+    {
+      "titleId": 4752,
+      "anime": "Vampire Knight Guilty",
+      "edition": "Vampire Knight: Guilty - Gesamtausgabe [Blu-ray]",
+      "date": "2026-08-21",
+      "grund": "Bildträger im Titel benannt",
+      "publisher": "Kazé Deutschland",
+      "url": "https://www.anisearch.de/article/207691,vampire-knight-guilty-gesamtausgabe-blu-ray",
+      "bekannt": true
+    },
+    {
+      "titleId": 99726,
+      "anime": "Recovery of an MMO Junkie",
+      "edition": "Recovery of an MMO Junkie - Vol. 2/2: Limited Edition [Blu-ray]",
+      "date": "2026-08-28",
+      "grund": "Bildträger im Titel benannt",
+      "publisher": "Crunchyroll",
+      "url": "https://www.anisearch.de/article/209948,recovery-of-an-mmo-junkie-vol-2-2-limited-edition-blu-ray",
+      "bekannt": true
+    },
+    {
+      "titleId": 177709,
+      "anime": "Sakamoto Days",
+      "edition": "Sakamoto Days - Vol. 1/4: Limited Steelcase Edition + Sammelschuber",
+      "date": "2026-08-28",
       "grund": "Volume-Zählung („Vol. 2/3\")",
-      "publisher": "Animation Digital Network (DE)",
-      "url": "https://www.anisearch.de/article/166742,2-5-dimensional-seduction-vol-4-4-limited-mediabook-edition",
-      "bekannt": false
+      "publisher": "Netflix, Inc.",
+      "url": "https://www.anisearch.de/article/201860,sakamoto-days-vol-1-4-limited-steelcase-edition-sammelschuber",
+      "bekannt": true
     },
     {
-      "titleId": 132052,
-      "anime": "A Couple of Cuckoos",
-      "edition": "A Couple of Cuckoos: Staffel 1 - Komplettset [Blu-ray]",
-      "date": "2026-09-04",
+      "titleId": 177709,
+      "anime": "Sakamoto Days",
+      "edition": "Sakamoto Days - Vol. 1/4: Limited Steelcase Edition [Blu-ray] + Sammelschuber",
+      "date": "2026-08-28",
       "grund": "Bildträger im Titel benannt",
-      "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/211697,a-couple-of-cuckoos-staffel-1-komplettset-blu-ray",
-      "bekannt": false
+      "publisher": "Netflix, Inc.",
+      "url": "https://www.anisearch.de/article/201859,sakamoto-days-vol-1-4-limited-steelcase-edition-blu-ray-sammelschuber",
+      "bekannt": true
     },
     {
-      "titleId": 179965,
-      "anime": "Bitte zieh dich an, Takamine!",
-      "edition": "Bitte zieh dich an, Takamine! - Vol. 1/3: Limited Edition [Blu-ray] + Sammelschuber",
-      "date": "2026-09-04",
+      "titleId": 6381,
+      "anime": "Strike Witches (Staffel 2)",
+      "edition": "Strike Witches: Staffel 2 - Vol. 1/3: Limited Mediabook Edition + Sammelschuber",
+      "date": "2026-08-28",
+      "grund": "Volume-Zählung („Vol. 2/3\")",
+      "publisher": "Crunchyroll",
+      "url": "https://www.anisearch.de/article/197488,strike-witches-staffel-2-vol-1-3-limited-mediabook-edition-sammelschuber",
+      "bekannt": true
+    },
+    {
+      "titleId": 6381,
+      "anime": "Strike Witches (Staffel 2)",
+      "edition": "Strike Witches: Staffel 2 - Vol. 1/3: Limited Mediabook Edition [Blu-ray] + Sammelschuber",
+      "date": "2026-08-28",
       "grund": "Bildträger im Titel benannt",
       "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/191369,bitte-zieh-dich-an-takamine-vol-1-3-limited-edition-blu-ray-sammelschuber",
+      "url": "https://www.anisearch.de/article/197485,strike-witches-staffel-2-vol-1-3-limited-mediabook-edition-blu-ray-sammelschuber",
+      "bekannt": true
+    },
+    {
+      "titleId": 129193,
+      "anime": "Virgin Road",
+      "edition": "Virgin Road: Die Henkerin und ihre Art zu leben - Vol. 1/3: Limited Edition + Sammelschuber",
+      "date": "2026-08-28",
+      "grund": "Volume-Zählung („Vol. 2/3\")",
+      "publisher": "AniMoon Publishing GmbH",
+      "url": "https://www.anisearch.de/article/135829,virgin-road-die-henkerin-und-ihre-art-zu-leben-vol-1-3-limited-edition-sammelschuber",
+      "bekannt": true
+    },
+    {
+      "titleId": 129193,
+      "anime": "Virgin Road",
+      "edition": "Virgin Road: Die Henkerin und ihre Art zu leben - Vol. 1/3: Limited Edition [Blu-ray] + Sammelschuber",
+      "date": "2026-08-28",
+      "grund": "Bildträger im Titel benannt",
+      "publisher": "AniMoon Publishing GmbH",
+      "url": "https://www.anisearch.de/article/198024,virgin-road-die-henkerin-und-ihre-art-zu-leben-vol-1-3-limited-edition-blu-ray-sammelschuber",
       "bekannt": true
     },
     {
@@ -65,16 +245,6 @@
     {
       "titleId": 130003,
       "anime": "Bocchi the Rock!",
-      "edition": "Bocchi the Rock! Staffel 1 - Vol. 1/3: Limited Platinum VIP Edition [Blu-ray] + Sammelschuber",
-      "date": "2026-09-04",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/214968,bocchi-the-rock-staffel-1-vol-1-3-limited-platinum-vip-edition-blu-ray-sammelschuber",
-      "bekannt": true
-    },
-    {
-      "titleId": 130003,
-      "anime": "Bocchi the Rock!",
       "edition": "Bocchi the Rock! Staffel 1 - Vol. 1/3: Limited Edition + Sammelschuber",
       "date": "2026-09-04",
       "grund": "Volume-Zählung („Vol. 2/3\")",
@@ -94,7 +264,7 @@
     },
     {
       "titleId": 235,
-      "anime": "Detektiv Conan",
+      "anime": "Detektiv Conan – Box 9",
       "edition": "Detektiv Conan - Box 09 [Blu-ray]",
       "date": "2026-09-04",
       "grund": "Bildträger im Titel benannt",
@@ -104,7 +274,7 @@
     },
     {
       "titleId": 161645,
-      "anime": "Die Tagebücher der Apothekerin",
+      "anime": "Die Tagebücher der Apothekerin – Staffel 1",
       "edition": "Die Tagebücher der Apothekerin: Staffel 1 - Gesamtausgabe: Steelbook [Blu-ray]",
       "date": "2026-09-04",
       "grund": "Bildträger im Titel benannt",
@@ -114,7 +284,7 @@
     },
     {
       "titleId": 156415,
-      "anime": "I Was Reincarnated as the 7th Prince So I Can Take My Time Perfecting My Magical Ability",
+      "anime": "I Was Reincarnated as the 7th Prince – Staffel 1",
       "edition": "I Was Reincarnated as the 7th Prince so I Can Take My Time Perfecting My Magical Ability: Staffel 1 - Gesamtausgabe: Limited Edition [Blu-ray]",
       "date": "2026-09-04",
       "grund": "Bildträger im Titel benannt",
@@ -144,7 +314,7 @@
     },
     {
       "titleId": 114862,
-      "anime": "Log Horizon: Destruction of the Round Table",
+      "anime": "Log Horizon – Staffel 3",
       "edition": "Log Horizon: Destruction of the Round Table - Gesamtausgabe [Blu-ray]",
       "date": "2026-09-04",
       "grund": "Bildträger im Titel benannt",
@@ -154,7 +324,7 @@
     },
     {
       "titleId": 185736,
-      "anime": "My Hero Academia: Vigilantes",
+      "anime": "My Hero Academia: Vigilantes – Staffel 1",
       "edition": "My Hero Academia: Vigilantes - Staffel 1 - Gesamtausgabe [Blu-ray]",
       "date": "2026-09-04",
       "grund": "Bildträger im Titel benannt",
@@ -183,8 +353,18 @@
       "bekannt": true
     },
     {
+      "titleId": 179965,
+      "anime": "Please Put Them On, Takamine!",
+      "edition": "Bitte zieh dich an, Takamine! - Vol. 1/3: Limited Edition [Blu-ray] + Sammelschuber",
+      "date": "2026-09-04",
+      "grund": "Bildträger im Titel benannt",
+      "publisher": "Crunchyroll",
+      "url": "https://www.anisearch.de/article/191369,bitte-zieh-dich-an-takamine-vol-1-3-limited-edition-blu-ray-sammelschuber",
+      "bekannt": true
+    },
+    {
       "titleId": 163134,
-      "anime": "Re:Zero - Starting Life in Another World: Staffel 3",
+      "anime": "Re:ZERO – Staffel 3",
       "edition": "Re:Zero - Starting Life in Another World: Staffel 3 - Vol. 1: Limited Edition [Blu-ray] + Sammelschuber",
       "date": "2026-09-04",
       "grund": "Bildträger im Titel benannt",
@@ -194,7 +374,7 @@
     },
     {
       "titleId": 530,
-      "anime": "Sailor Moon: Das Mädchen mit den Zauberkräften",
+      "anime": "Sailor Moon – Staffel 1",
       "edition": "Sailor Moon - Gesamtausgabe: Limited Steelbook Edition [Blu-ray]",
       "date": "2026-09-04",
       "grund": "Bildträger im Titel benannt",
@@ -204,7 +384,7 @@
     },
     {
       "titleId": 530,
-      "anime": "Sailor Moon: Das Mädchen mit den Zauberkräften",
+      "anime": "Sailor Moon – Staffel 1",
       "edition": "Sailor Moon - Gesamtausgabe: Limited Steelbook Edition",
       "date": "2026-09-04",
       "grund": "Box oder Gesamtausgabe",
@@ -223,36 +403,6 @@
       "bekannt": true
     },
     {
-      "titleId": 155168,
-      "anime": "The Devil Is a Part-Timer! II",
-      "edition": "The Devil Is a Part Timer!! Staffel 2 - Komplettset [Blu-ray]",
-      "date": "2026-09-04",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Anime House GmbH",
-      "url": "https://www.anisearch.de/article/211703,the-devil-is-a-part-timer-staffel-2-komplettset-blu-ray",
-      "bekannt": false
-    },
-    {
-      "titleId": 158559,
-      "anime": "2.5 Dimensional Seduction",
-      "edition": "2.5 Dimensional Seduction: Season 1 - Collector’s Edition [Blu-ray]",
-      "date": "2026-09-07",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Animation Digital Network (DE)",
-      "url": "https://www.anisearch.de/article/207793,2-5-dimensional-seduction-season-1-collectors-edition-blu-ray",
-      "bekannt": false
-    },
-    {
-      "titleId": 170916,
-      "anime": "Promise of Wizard",
-      "edition": "Promise of Wizard - Gesamtausgabe [Blu-ray]",
-      "date": "2026-09-17",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "KSM Anime",
-      "url": "https://www.anisearch.de/article/210501,promise-of-wizard-gesamtausgabe-blu-ray",
-      "bekannt": false
-    },
-    {
       "titleId": 180367,
       "anime": "Witch Watch",
       "edition": "Witch Watch: Staffel 1 - Vol. 2/2: Collector’s Edition [Blu-ray]",
@@ -264,7 +414,7 @@
     },
     {
       "titleId": 481,
-      "anime": "Yu-Gi-Oh!",
+      "anime": "Yu-Gi-Oh! – Staffel 2",
       "edition": "Yu-Gi-Oh! Duel Monsters - Gesamtausgabe [Blu-ray]",
       "date": "2026-09-17",
       "grund": "Bildträger im Titel benannt",
@@ -274,7 +424,7 @@
     },
     {
       "titleId": 164702,
-      "anime": "As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World",
+      "anime": "As a Reincarnated Aristocrat (Staffel 1)",
       "edition": "As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World: Staffel 1 - Vol. 2/2 [Blu-ray]",
       "date": "2026-09-18",
       "grund": "Bildträger im Titel benannt",
@@ -284,7 +434,7 @@
     },
     {
       "titleId": 175914,
-      "anime": "Call of the Night: Season 2",
+      "anime": "Call of the Night – Staffel 2",
       "edition": "Call of the Night: Staffel 2 - Vol. 1/2 [Blu-ray]",
       "date": "2026-09-18",
       "grund": "Bildträger im Titel benannt",
@@ -294,7 +444,7 @@
     },
     {
       "titleId": 179998,
-      "anime": "Kaiju No. 8: Mission Recon",
+      "anime": "Kaiju No. 8: Mission Recon – Der Film",
       "edition": "Kaiju No. 8: Mission Recon - Steelbook [Blu-ray]",
       "date": "2026-09-18",
       "grund": "Bildträger im Titel benannt",
@@ -304,7 +454,7 @@
     },
     {
       "titleId": 172355,
-      "anime": "Meisterdetektiv Ron Kamonohashi: Staffel 2",
+      "anime": "Master Detective Ron Kamonohashi – Staffel 2",
       "edition": "Meisterdetektiv Ron Kamonohashi: Staffel 2 - Vol. 1/2: Limited Edition [Blu-ray] + Sammelschuber",
       "date": "2026-09-18",
       "grund": "Bildträger im Titel benannt",
@@ -314,7 +464,7 @@
     },
     {
       "titleId": 163139,
-      "anime": "My Hero Academia: Season 7",
+      "anime": "My Hero Academia – Staffel 7",
       "edition": "My Hero Academia: Staffel 7 - Vol. 3/3 [Blu-ray]",
       "date": "2026-09-18",
       "grund": "Bildträger im Titel benannt",
@@ -324,7 +474,7 @@
     },
     {
       "titleId": 163139,
-      "anime": "My Hero Academia: Season 7",
+      "anime": "My Hero Academia – Staffel 7",
       "edition": "My Hero Academia: Staffel 7 - Vol. 3/3",
       "date": "2026-09-18",
       "grund": "Volume-Zählung („Vol. 2/3\")",
@@ -333,64 +483,14 @@
       "bekannt": true
     },
     {
-      "titleId": 166452,
-      "anime": "The Ancient Magus’ Bride Staffel 2 (Cour 2)",
-      "edition": "The Ancient Magus’ Bride: Staffel 2 - Gesamtausgabe [Blu-ray]",
-      "date": "2026-09-18",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/211704,the-ancient-magus-bride-staffel-2-gesamtausgabe-blu-ray",
-      "bekannt": false
-    },
-    {
-      "titleId": 166452,
-      "anime": "The Ancient Magus’ Bride Staffel 2 (Cour 2)",
-      "edition": "The Ancient Magus’ Bride: Staffel 2 - Gesamtausgabe",
-      "date": "2026-09-18",
-      "grund": "Box oder Gesamtausgabe",
-      "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/14338,the-ancient-magus-bride-staffel-2-gesamtausgabe",
-      "bekannt": false
-    },
-    {
-      "titleId": 154364,
-      "anime": "The Ancient Magus’ Bride: Staffel 2",
-      "edition": "The Ancient Magus’ Bride: Staffel 2 - Gesamtausgabe [Blu-ray]",
-      "date": "2026-09-18",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/211704,the-ancient-magus-bride-staffel-2-gesamtausgabe-blu-ray",
-      "bekannt": false
-    },
-    {
-      "titleId": 154364,
-      "anime": "The Ancient Magus’ Bride: Staffel 2",
-      "edition": "The Ancient Magus’ Bride: Staffel 2 - Gesamtausgabe",
-      "date": "2026-09-18",
-      "grund": "Box oder Gesamtausgabe",
-      "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/14338,the-ancient-magus-bride-staffel-2-gesamtausgabe",
-      "bekannt": false
-    },
-    {
       "titleId": 5231,
-      "anime": "Inazuma Eleven",
+      "anime": "Inazuma Eleven – Staffel 1",
       "edition": "Inazuma Eleven: Staffel 1 [Blu-ray]",
       "date": "2026-09-25",
       "grund": "Bildträger im Titel benannt",
       "publisher": "Kazé Deutschland",
       "url": "https://www.anisearch.de/article/209920,inazuma-eleven-staffel-1-blu-ray",
       "bekannt": true
-    },
-    {
-      "titleId": 170695,
-      "anime": "I Parry Everything!",
-      "edition": "I Parry Everything! Season 1 - Collector’s Edition [Blu-ray]",
-      "date": "2026-09-28",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Animation Digital Network (DE)",
-      "url": "https://www.anisearch.de/article/209338,i-parry-everything-season-1-collectors-edition-blu-ray",
-      "bekannt": false
     },
     {
       "titleId": 179054,
@@ -453,26 +553,6 @@
       "bekannt": true
     },
     {
-      "titleId": 127230,
-      "anime": "Chainsaw Man",
-      "edition": "Chainsaw Man - Komplettset: Limited Edition [Blu-ray]",
-      "date": "2026-10-02",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/214924,chainsaw-man-komplettset-limited-edition-blu-ray",
-      "bekannt": true
-    },
-    {
-      "titleId": 127230,
-      "anime": "Chainsaw Man",
-      "edition": "Chainsaw Man - Komplettset: Limited Edition",
-      "date": "2026-10-02",
-      "grund": "Box oder Gesamtausgabe",
-      "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/214923,chainsaw-man-komplettset-limited-edition",
-      "bekannt": true
-    },
-    {
       "titleId": 164212,
       "anime": "Girls Band Cry",
       "edition": "Girls Band Cry - Vol. 2/2: Limited Edition [Blu-ray]",
@@ -494,22 +574,12 @@
     },
     {
       "titleId": 139630,
-      "anime": "My Hero Academia Staffel 6",
+      "anime": "My Hero Academia – Staffel 6",
       "edition": "My Hero Academia: Staffel 6 - Gesamtausgabe [Blu-ray]",
       "date": "2026-10-02",
       "grund": "Bildträger im Titel benannt",
       "publisher": "Crunchyroll",
       "url": "https://www.anisearch.de/article/213889,my-hero-academia-staffel-6-gesamtausgabe-blu-ray",
-      "bekannt": true
-    },
-    {
-      "titleId": 139630,
-      "anime": "My Hero Academia Staffel 6",
-      "edition": "My Hero Academia: Staffel 6 - Gesamtausgabe",
-      "date": "2026-10-02",
-      "grund": "Box oder Gesamtausgabe",
-      "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/189292,my-hero-academia-staffel-6-gesamtausgabe",
       "bekannt": true
     },
     {
@@ -554,7 +624,7 @@
     },
     {
       "titleId": 178680,
-      "anime": "Wind Breaker: Staffel 2",
+      "anime": "Wind Breaker (Staffel 2)",
       "edition": "Wind Breaker: Staffel 2 - Vol. 2/2 [Blu-ray]",
       "date": "2026-10-02",
       "grund": "Bildträger im Titel benannt",
@@ -564,7 +634,7 @@
     },
     {
       "titleId": 103871,
-      "anime": "Zombie Land Saga",
+      "anime": "Zombie Land Saga – Staffel 1 + 2",
       "edition": "Zombie Land Saga + Zombie Land Saga: Revenge - Komplettset [Blu-ray]",
       "date": "2026-10-02",
       "grund": "Bildträger im Titel benannt",
@@ -573,18 +643,8 @@
       "bekannt": true
     },
     {
-      "titleId": 103871,
-      "anime": "Zombie Land Saga",
-      "edition": "Zombie Land Saga + Zombie Land Saga: Revenge - Komplettset",
-      "date": "2026-10-02",
-      "grund": "Box oder Gesamtausgabe",
-      "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/189294,zombie-land-saga-zombie-land-saga-revenge-komplettset",
-      "bekannt": true
-    },
-    {
       "titleId": 6381,
-      "anime": "Strike Witches 2",
+      "anime": "Strike Witches (Staffel 2)",
       "edition": "Strike Witches: Staffel 2 - Vol. 2/3: Limited Mediabook Edition [Blu-ray]",
       "date": "2026-10-09",
       "grund": "Bildträger im Titel benannt",
@@ -594,7 +654,7 @@
     },
     {
       "titleId": 6381,
-      "anime": "Strike Witches 2",
+      "anime": "Strike Witches (Staffel 2)",
       "edition": "Strike Witches: Staffel 2 - Vol. 2/3: Limited Mediabook Edition",
       "date": "2026-10-09",
       "grund": "Volume-Zählung („Vol. 2/3\")",
@@ -604,7 +664,7 @@
     },
     {
       "titleId": 129193,
-      "anime": "Virgin Road: Die Henkerin und ihre Art zu leben",
+      "anime": "Virgin Road",
       "edition": "Virgin Road: Die Henkerin und ihre Art zu leben - Vol. 2/3: Limited Edition [Blu-ray]",
       "date": "2026-10-09",
       "grund": "Bildträger im Titel benannt",
@@ -614,7 +674,7 @@
     },
     {
       "titleId": 129193,
-      "anime": "Virgin Road: Die Henkerin und ihre Art zu leben",
+      "anime": "Virgin Road",
       "edition": "Virgin Road: Die Henkerin und ihre Art zu leben - Vol. 2/3: Limited Edition",
       "date": "2026-10-09",
       "grund": "Volume-Zählung („Vol. 2/3\")",
@@ -623,28 +683,8 @@
       "bekannt": true
     },
     {
-      "titleId": 172453,
-      "anime": "From Bureaucrat to Villainess: Dad’s Been Reincarnated!",
-      "edition": "From Bureaucrat to Villainess: Dad’s Been Reincarnated! - Complete Series [Blu-ray]",
-      "date": "2026-10-12",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Animation Digital Network (DE)",
-      "url": "https://www.anisearch.de/article/215273,from-bureaucrat-to-villainess-dads-been-reincarnated-complete-series-blu-ray",
-      "bekannt": false
-    },
-    {
-      "titleId": 179965,
-      "anime": "Bitte zieh dich an, Takamine!",
-      "edition": "Bitte zieh dich an, Takamine! - Vol. 2/3: Limited Edition [Blu-ray]",
-      "date": "2026-10-16",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/191370,bitte-zieh-dich-an-takamine-vol-2-3-limited-edition-blu-ray",
-      "bekannt": true
-    },
-    {
       "titleId": 172019,
-      "anime": "Dr. Stone: Science Future",
+      "anime": "Dr. STONE: Science Future",
       "edition": "Dr. Stone: Science Future - Staffel 4 - Box 1/3: Limited Edition [Blu-ray] + Sammelschuber",
       "date": "2026-10-16",
       "grund": "Bildträger im Titel benannt",
@@ -653,58 +693,28 @@
       "bekannt": true
     },
     {
-      "titleId": 181839,
-      "anime": "Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe",
-      "edition": "Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe [Blu-ray]",
-      "date": "2026-10-16",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/213787,miss-kobayashis-dragon-maid-ein-einsamer-drache-sehnt-sich-nach-liebe-blu-ray",
-      "bekannt": false
-    },
-    {
-      "titleId": 136829,
-      "anime": "My Next Life as a Villainess: All Routes Lead to Doom! Ich habe die mir vorbestimmte Person getroffen",
-      "edition": "My Next Life as a Villainess: Wie überlebe ich in einem Dating-Game? X - Komplettset [Blu-ray]",
-      "date": "2026-10-16",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/213891,my-next-life-as-a-villainess-wie-ueberlebe-ich-in-einem-dating-game-x-komplettset-blu-ray",
-      "bekannt": false
-    },
-    {
-      "titleId": 136829,
-      "anime": "My Next Life as a Villainess: All Routes Lead to Doom! Ich habe die mir vorbestimmte Person getroffen",
-      "edition": "My Next Life as a Villainess: Wie überlebe ich in einem Dating-Game? X - Komplettset",
-      "date": "2026-10-16",
-      "grund": "Box oder Gesamtausgabe",
-      "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/14289,my-next-life-as-a-villainess-wie-ueberlebe-ich-in-einem-dating-game-x-komplettset",
-      "bekannt": false
-    },
-    {
       "titleId": 120209,
-      "anime": "My Next Life as a Villainess: Wie überlebe ich in einem Dating-Game? X",
-      "edition": "My Next Life as a Villainess: Wie überlebe ich in einem Dating-Game? X - Komplettset [Blu-ray]",
+      "anime": "My Next Life as a Villainess – Staffel 2",
+      "edition": "My Next Life as a Villainess: Staffel 2 - Komplettset [Blu-ray]",
       "date": "2026-10-16",
       "grund": "Bildträger im Titel benannt",
       "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/213891,my-next-life-as-a-villainess-wie-ueberlebe-ich-in-einem-dating-game-x-komplettset-blu-ray",
+      "url": "https://www.anisearch.de/article/213891,my-next-life-as-a-villainess-staffel-2-komplettset-blu-ray",
       "bekannt": true
     },
     {
-      "titleId": 120209,
-      "anime": "My Next Life as a Villainess: Wie überlebe ich in einem Dating-Game? X",
-      "edition": "My Next Life as a Villainess: Wie überlebe ich in einem Dating-Game? X - Komplettset",
+      "titleId": 179965,
+      "anime": "Please Put Them On, Takamine!",
+      "edition": "Bitte zieh dich an, Takamine! - Vol. 2/3: Limited Edition [Blu-ray]",
       "date": "2026-10-16",
-      "grund": "Box oder Gesamtausgabe",
+      "grund": "Bildträger im Titel benannt",
       "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/14289,my-next-life-as-a-villainess-wie-ueberlebe-ich-in-einem-dating-game-x-komplettset",
+      "url": "https://www.anisearch.de/article/191370,bitte-zieh-dich-an-takamine-vol-2-3-limited-edition-blu-ray",
       "bekannt": true
     },
     {
       "titleId": 179344,
-      "anime": "Rent-a-Girlfriend: Staffel 4",
+      "anime": "Rent-A-Girlfriend – Staffel 4",
       "edition": "Rent-a-Girlfriend: Staffel 4 - Gesamtausgabe [Blu-ray]",
       "date": "2026-10-16",
       "grund": "Bildträger im Titel benannt",
@@ -714,7 +724,7 @@
     },
     {
       "titleId": 136430,
-      "anime": "Vinland Saga: Staffel 2",
+      "anime": "Vinland Saga – Staffel 2",
       "edition": "Vinland Saga: Staffel 2 - Komplettset [Blu-ray]",
       "date": "2026-10-16",
       "grund": "Bildträger im Titel benannt",
@@ -724,7 +734,7 @@
     },
     {
       "titleId": 131264,
-      "anime": "Yashahime: Princess Half-Demon",
+      "anime": "Yashahime: Princess Half-Demon – Staffel 2",
       "edition": "Yashahime Princess Half-Demon: Staffel 2 - Gesamtausgabe [Blu-ray]",
       "date": "2026-10-16",
       "grund": "Bildträger im Titel benannt",
@@ -733,54 +743,24 @@
       "bekannt": true
     },
     {
-      "titleId": 131264,
-      "anime": "Yashahime: Princess Half-Demon",
-      "edition": "Yashahime Princess Half-Demon: Staffel 2 - Gesamtausgabe",
-      "date": "2026-10-16",
-      "grund": "Box oder Gesamtausgabe",
-      "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/189293,yashahime-princess-half-demon-staffel-2-gesamtausgabe",
-      "bekannt": true
-    },
-    {
-      "titleId": 169402,
-      "anime": "My Hero Academia: Yuei Heroes Battle",
-      "edition": "My Hero Academia: Season 7 [Blu-ray]",
-      "date": "2026-10-20",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/213001,my-hero-academia-season-7-blu-ray",
-      "bekannt": false
-    },
-    {
-      "titleId": 187892,
-      "anime": "All You Need Is Kill",
-      "edition": "All You Need Is Kill - Collector’s Edition [Blu-ray]",
-      "date": "2026-10-22",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "KSM Anime",
-      "url": "https://www.anisearch.de/article/214458,all-you-need-is-kill-collectors-edition-blu-ray",
-      "bekannt": true
-    },
-    {
       "titleId": 171018,
-      "anime": "Dan Da Dan",
+      "anime": "DAN DA DAN",
       "edition": "Dan Da Dan: Staffel 1 - Gesamtausgabe: Limited Edition [Blu-ray]",
       "date": "2026-10-30",
       "grund": "Bildträger im Titel benannt",
       "publisher": "Crunchyroll",
       "url": "https://www.anisearch.de/article/214677,dan-da-dan-staffel-1-gesamtausgabe-limited-edition-blu-ray",
-      "bekannt": true
+      "bekannt": false
     },
     {
       "titleId": 171018,
-      "anime": "Dan Da Dan",
+      "anime": "DAN DA DAN",
       "edition": "Dan Da Dan: Staffel 1 - Gesamtausgabe: Limited Edition",
       "date": "2026-10-30",
       "grund": "Box oder Gesamtausgabe",
       "publisher": "Crunchyroll",
       "url": "https://www.anisearch.de/article/214678,dan-da-dan-staffel-1-gesamtausgabe-limited-edition",
-      "bekannt": true
+      "bekannt": false
     },
     {
       "titleId": 100388,
@@ -804,7 +784,7 @@
     },
     {
       "titleId": 9032,
-      "anime": "Inazuma Eleven: The Movie - Team Oger greift an",
+      "anime": "Inazuma Eleven – The Movie: Team Oger Attacks!",
       "edition": "Inazuma Eleven: The Movie - Team Oger greift an! [Blu-ray]",
       "date": "2026-11-06",
       "grund": "Bildträger im Titel benannt",
@@ -813,78 +793,8 @@
       "bekannt": true
     },
     {
-      "titleId": 740,
-      "anime": "Sailor Moon R",
-      "edition": "Sailor Moon R - Gesamtausgabe: Limited Steelbook Edition [Blu-ray]",
-      "date": "2026-11-06",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Kazé Deutschland",
-      "url": "https://www.anisearch.de/article/203257,sailor-moon-r-gesamtausgabe-limited-steelbook-edition-blu-ray",
-      "bekannt": false
-    },
-    {
-      "titleId": 740,
-      "anime": "Sailor Moon R",
-      "edition": "Sailor Moon R - Gesamtausgabe: Limited Steelbook Edition",
-      "date": "2026-11-06",
-      "grund": "Box oder Gesamtausgabe",
-      "publisher": "Kazé Deutschland",
-      "url": "https://www.anisearch.de/article/118107,sailor-moon-r-gesamtausgabe-limited-steelbook-edition",
-      "bekannt": false
-    },
-    {
-      "titleId": 532,
-      "anime": "Sailor Moon S",
-      "edition": "Sailor Moon S - Gesamtausgabe: Limited Steelbook Edition [Blu-ray]",
-      "date": "2026-11-06",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Kazé Deutschland",
-      "url": "https://www.anisearch.de/article/210266,sailor-moon-s-gesamtausgabe-limited-steelbook-edition-blu-ray",
-      "bekannt": false
-    },
-    {
-      "titleId": 532,
-      "anime": "Sailor Moon S",
-      "edition": "Sailor Moon S - Gesamtausgabe: Limited Steelbook Edition",
-      "date": "2026-11-06",
-      "grund": "Box oder Gesamtausgabe",
-      "publisher": "Kazé Deutschland",
-      "url": "https://www.anisearch.de/article/210267,sailor-moon-s-gesamtausgabe-limited-steelbook-edition",
-      "bekannt": false
-    },
-    {
-      "titleId": 184237,
-      "anime": "Sakamoto Days: Teil 2",
-      "edition": "Sakamoto Days - Vol. 3/4: Limited Steelcase Edition [Blu-ray]",
-      "date": "2026-11-13",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Netflix, Inc.",
-      "url": "https://www.anisearch.de/article/201864,sakamoto-days-vol-3-4-limited-steelcase-edition-blu-ray",
-      "bekannt": false
-    },
-    {
-      "titleId": 184237,
-      "anime": "Sakamoto Days: Teil 2",
-      "edition": "Sakamoto Days - Vol. 3/4: Limited Steelcase Edition",
-      "date": "2026-11-13",
-      "grund": "Volume-Zählung („Vol. 2/3\")",
-      "publisher": "Netflix, Inc.",
-      "url": "https://www.anisearch.de/article/201863,sakamoto-days-vol-3-4-limited-steelcase-edition",
-      "bekannt": false
-    },
-    {
-      "titleId": 1550,
-      "anime": "Mila Superstar",
-      "edition": "Mila Superstar - Gesamtausgabe [Blu-ray]",
-      "date": "2026-11-19",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "New KSM",
-      "url": "https://www.anisearch.de/article/216204,mila-superstar-gesamtausgabe-blu-ray",
-      "bekannt": true
-    },
-    {
       "titleId": 184639,
-      "anime": "Anne Shirley",
+      "anime": "Anne Shirley: Anne mit den roten Haaren",
       "edition": "Anne Shirley - Vol. 2/2: Limited Edition [Blu-ray]",
       "date": "2026-11-20",
       "grund": "Bildträger im Titel benannt",
@@ -894,22 +804,12 @@
     },
     {
       "titleId": 184639,
-      "anime": "Anne Shirley",
+      "anime": "Anne Shirley: Anne mit den roten Haaren",
       "edition": "Anne Shirley - Vol. 2/2 [Blu-ray]",
       "date": "2026-11-20",
       "grund": "Bildträger im Titel benannt",
       "publisher": "peppermint anime GmbH",
       "url": "https://www.anisearch.de/article/204971,anne-shirley-vol-2-2-blu-ray",
-      "bekannt": true
-    },
-    {
-      "titleId": 179965,
-      "anime": "Bitte zieh dich an, Takamine!",
-      "edition": "Bitte zieh dich an, Takamine! - Vol. 3/3: Limited Edition [Blu-ray]",
-      "date": "2026-11-20",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/191371,bitte-zieh-dich-an-takamine-vol-3-3-limited-edition-blu-ray",
       "bekannt": true
     },
     {
@@ -934,7 +834,7 @@
     },
     {
       "titleId": 175914,
-      "anime": "Call of the Night: Season 2",
+      "anime": "Call of the Night – Staffel 2",
       "edition": "Call of the Night: Staffel 2 - Vol. 2/2 [Blu-ray]",
       "date": "2026-11-20",
       "grund": "Bildträger im Titel benannt",
@@ -953,8 +853,18 @@
       "bekannt": true
     },
     {
+      "titleId": 179965,
+      "anime": "Please Put Them On, Takamine!",
+      "edition": "Bitte zieh dich an, Takamine! - Vol. 3/3: Limited Edition [Blu-ray]",
+      "date": "2026-11-20",
+      "grund": "Bildträger im Titel benannt",
+      "publisher": "Crunchyroll",
+      "url": "https://www.anisearch.de/article/191371,bitte-zieh-dich-an-takamine-vol-3-3-limited-edition-blu-ray",
+      "bekannt": true
+    },
+    {
       "titleId": 6381,
-      "anime": "Strike Witches 2",
+      "anime": "Strike Witches (Staffel 2)",
       "edition": "Strike Witches: Staffel 2 - Vol. 3/3: Limited Mediabook Edition [Blu-ray]",
       "date": "2026-11-20",
       "grund": "Bildträger im Titel benannt",
@@ -964,7 +874,7 @@
     },
     {
       "titleId": 6381,
-      "anime": "Strike Witches 2",
+      "anime": "Strike Witches (Staffel 2)",
       "edition": "Strike Witches: Staffel 2 - Vol. 3/3: Limited Mediabook Edition",
       "date": "2026-11-20",
       "grund": "Volume-Zählung („Vol. 2/3\")",
@@ -974,7 +884,7 @@
     },
     {
       "titleId": 129193,
-      "anime": "Virgin Road: Die Henkerin und ihre Art zu leben",
+      "anime": "Virgin Road",
       "edition": "Virgin Road: Die Henkerin und ihre Art zu leben - Vol. 3/3: Limited Edition [Blu-ray]",
       "date": "2026-11-20",
       "grund": "Bildträger im Titel benannt",
@@ -984,183 +894,13 @@
     },
     {
       "titleId": 129193,
-      "anime": "Virgin Road: Die Henkerin und ihre Art zu leben",
+      "anime": "Virgin Road",
       "edition": "Virgin Road: Die Henkerin und ihre Art zu leben - Vol. 3/3: Limited Edition",
       "date": "2026-11-20",
       "grund": "Volume-Zählung („Vol. 2/3\")",
       "publisher": "AniMoon Publishing GmbH",
       "url": "https://www.anisearch.de/article/211787,virgin-road-die-henkerin-und-ihre-art-zu-leben-vol-3-3-limited-edition",
       "bekannt": true
-    },
-    {
-      "titleId": 144176,
-      "anime": "Gods’ Games We Play",
-      "edition": "Gods’ Games We Play - Gesamtausgabe [Blu-ray]",
-      "date": "2026-12-01",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/185053,gods-games-we-play-gesamtausgabe-blu-ray",
-      "bekannt": false
-    },
-    {
-      "titleId": 127366,
-      "anime": "I’m Standing on a Million Lives",
-      "edition": "I’m Standing on a Million Lives: Staffel 2 - Gesamtausgabe [Blu-ray]",
-      "date": "2026-12-04",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/204632,im-standing-on-a-million-lives-staffel-2-gesamtausgabe-blu-ray",
-      "bekannt": true
-    },
-    {
-      "titleId": 532,
-      "anime": "Sailor Moon S",
-      "edition": "Sailor Moon Super S - Gesamtausgabe: Limited Steelbook Edition",
-      "date": "2026-12-04",
-      "grund": "Box oder Gesamtausgabe",
-      "publisher": "Kazé Deutschland",
-      "url": "https://www.anisearch.de/article/210270,sailor-moon-super-s-gesamtausgabe-limited-steelbook-edition",
-      "bekannt": false
-    },
-    {
-      "titleId": 1239,
-      "anime": "Sailor Moon Super S",
-      "edition": "Sailor Moon Super S - Gesamtausgabe: Limited Steelbook Edition [Blu-ray]",
-      "date": "2026-12-04",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Kazé Deutschland",
-      "url": "https://www.anisearch.de/article/210269,sailor-moon-super-s-gesamtausgabe-limited-steelbook-edition-blu-ray",
-      "bekannt": false
-    },
-    {
-      "titleId": 1195,
-      "anime": "The Familiar of Zero",
-      "edition": "The Familiar of Zero - Gesamtausgabe [Blu-ray]",
-      "date": "2026-12-04",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "AniMoon Publishing GmbH",
-      "url": "https://www.anisearch.de/article/177001,the-familiar-of-zero-gesamtausgabe-blu-ray",
-      "bekannt": false
-    },
-    {
-      "titleId": 177476,
-      "anime": "Yaiba: Samurai Legend",
-      "edition": "Yaiba: Samurai Legend - Staffel 1 - Vol. 1/2: Limited Edition [Blu-ray] + Sammelschuber",
-      "date": "2026-12-04",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "peppermint anime GmbH",
-      "url": "https://www.anisearch.de/article/214949,yaiba-samurai-legend-staffel-1-vol-1-2-limited-edition-blu-ray-sammelschuber",
-      "bekannt": false
-    },
-    {
-      "titleId": 177476,
-      "anime": "Yaiba: Samurai Legend",
-      "edition": "Yaiba: Samurai Legend - Staffel 1 - Vol. 1/2 [Blu-ray]",
-      "date": "2026-12-04",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "peppermint anime GmbH",
-      "url": "https://www.anisearch.de/article/214948,yaiba-samurai-legend-staffel-1-vol-1-2-blu-ray",
-      "bekannt": false
-    },
-    {
-      "titleId": 184237,
-      "anime": "Sakamoto Days: Teil 2",
-      "edition": "Sakamoto Days - Vol. 4/4: Limited Steelcase Edition [Blu-ray]",
-      "date": "2026-12-18",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Netflix, Inc.",
-      "url": "https://www.anisearch.de/article/201866,sakamoto-days-vol-4-4-limited-steelcase-edition-blu-ray",
-      "bekannt": false
-    },
-    {
-      "titleId": 184237,
-      "anime": "Sakamoto Days: Teil 2",
-      "edition": "Sakamoto Days - Vol. 4/4: Limited Steelcase Edition",
-      "date": "2026-12-18",
-      "grund": "Volume-Zählung („Vol. 2/3\")",
-      "publisher": "Netflix, Inc.",
-      "url": "https://www.anisearch.de/article/201865,sakamoto-days-vol-4-4-limited-steelcase-edition",
-      "bekannt": false
-    },
-    {
-      "titleId": 269,
-      "anime": "Bleach",
-      "edition": "Bleach - Box 2: Bankai Edition [Blu-ray]",
-      "date": "2026-12-31",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Panini Video",
-      "url": "https://www.anisearch.de/article/203100,bleach-box-2-bankai-edition-blu-ray",
-      "bekannt": false
-    },
-    {
-      "titleId": 269,
-      "anime": "Bleach",
-      "edition": "Bleach - Box 1: Bankai Edition [Blu-ray]",
-      "date": "2026-12-31",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Panini Video",
-      "url": "https://www.anisearch.de/article/202955,bleach-box-1-bankai-edition-blu-ray",
-      "bekannt": false
-    },
-    {
-      "titleId": 169755,
-      "anime": "Bleach: Thousand-Year Blood War",
-      "edition": "Bleach: Thousand Year Blood War - Box 3: Collector’s Edition [Blu-ray]",
-      "date": "2026-12-31",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "The Walt Disney Company",
-      "url": "https://www.anisearch.de/article/197525,bleach-thousand-year-blood-war-box-3-collectors-edition-blu-ray",
-      "bekannt": false
-    },
-    {
-      "titleId": 169755,
-      "anime": "Bleach: Thousand-Year Blood War",
-      "edition": "Bleach: Thousand Year Blood War - Box 3 [Blu-ray]",
-      "date": "2026-12-31",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "The Walt Disney Company",
-      "url": "https://www.anisearch.de/article/197558,bleach-thousand-year-blood-war-box-3-blu-ray",
-      "bekannt": false
-    },
-    {
-      "titleId": 169755,
-      "anime": "Bleach: Thousand-Year Blood War",
-      "edition": "Bleach: Thousand Year Blood War - Box 3",
-      "date": "2026-12-31",
-      "grund": "Box oder Gesamtausgabe",
-      "publisher": "The Walt Disney Company",
-      "url": "https://www.anisearch.de/article/197557,bleach-thousand-year-blood-war-box-3",
-      "bekannt": false
-    },
-    {
-      "titleId": 813,
-      "anime": "Dragon Ball Z",
-      "edition": "Dragon Ball Z - Box 04/10 (Uncut) [Blu-ray]",
-      "date": "2026-12-31",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Kazé Deutschland",
-      "url": "https://www.anisearch.de/article/167249,dragon-ball-z-box-04-10-uncut-blu-ray",
-      "bekannt": false
-    },
-    {
-      "titleId": 813,
-      "anime": "Dragon Ball Z",
-      "edition": "Dragon Ball Z - Box 04/10 (Uncut)",
-      "date": "2026-12-31",
-      "grund": "Box oder Gesamtausgabe",
-      "publisher": "Kazé Deutschland",
-      "url": "https://www.anisearch.de/article/167248,dragon-ball-z-box-04-10-uncut",
-      "bekannt": false
-    },
-    {
-      "titleId": 523,
-      "anime": "Mein Nachbar Totoro",
-      "edition": "Mein Nachbar Totoro: Filmcomics - Komplettbox",
-      "date": "2026-12-31",
-      "grund": "Box oder Gesamtausgabe",
-      "publisher": "LEONINE Anime",
-      "url": "https://www.anisearch.de/article/98552,mein-nachbar-totoro-filmcomics-komplettbox",
-      "bekannt": false
     },
     {
       "titleId": 154965,
@@ -1200,86 +940,6 @@
       "grund": "Bildträger im Titel benannt",
       "publisher": "Crunchyroll",
       "url": "https://www.anisearch.de/article/191392,spice-and-wolf-merchant-meets-the-wise-wolf-staffel-1-vol-3-4-limited-edition-blu-ray",
-      "bekannt": true
-    },
-    {
-      "titleId": 996,
-      "anime": "Sailor Moon Sailor Stars",
-      "edition": "Sailor Moon: Sailor Stars - Gesamtausgabe: Limited Steelbook Edition [Blu-ray]",
-      "date": "2027-01-15",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Kazé Deutschland",
-      "url": "https://www.anisearch.de/article/210291,sailor-moon-sailor-stars-gesamtausgabe-limited-steelbook-edition-blu-ray",
-      "bekannt": false
-    },
-    {
-      "titleId": 996,
-      "anime": "Sailor Moon Sailor Stars",
-      "edition": "Sailor Moon: Sailor Stars - Gesamtausgabe: Limited Steelbook Edition",
-      "date": "2027-01-15",
-      "grund": "Box oder Gesamtausgabe",
-      "publisher": "Kazé Deutschland",
-      "url": "https://www.anisearch.de/article/210292,sailor-moon-sailor-stars-gesamtausgabe-limited-steelbook-edition",
-      "bekannt": false
-    },
-    {
-      "titleId": 177476,
-      "anime": "Yaiba: Samurai Legend",
-      "edition": "Yaiba: Samurai Legend - Staffel 1 - Vol. 2/2: Limited Edition [Blu-ray]",
-      "date": "2027-02-19",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "peppermint anime GmbH",
-      "url": "https://www.anisearch.de/article/214951,yaiba-samurai-legend-staffel-1-vol-2-2-limited-edition-blu-ray",
-      "bekannt": false
-    },
-    {
-      "titleId": 177476,
-      "anime": "Yaiba: Samurai Legend",
-      "edition": "Yaiba: Samurai Legend - Staffel 1 - Vol. 2/2 [Blu-ray]",
-      "date": "2027-02-19",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "peppermint anime GmbH",
-      "url": "https://www.anisearch.de/article/214950,yaiba-samurai-legend-staffel-1-vol-2-2-blu-ray",
-      "bekannt": false
-    },
-    {
-      "titleId": 182587,
-      "anime": "Oshi no Ko: Mein Star",
-      "edition": "Oshi no Ko: Mein Star - Staffel 3 - Vol. 1/2: Limited Edition [Blu-ray] + Sammelschuber",
-      "date": "2027-04-16",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/214970,oshi-no-ko-mein-star-staffel-3-vol-1-2-limited-edition-blu-ray-sammelschuber",
-      "bekannt": true
-    },
-    {
-      "titleId": 182587,
-      "anime": "Oshi no Ko: Mein Star",
-      "edition": "Oshi no Ko: Mein Star - Staffel 3 - Vol. 1/2 [Blu-ray]",
-      "date": "2027-04-16",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/214969,oshi-no-ko-mein-star-staffel-3-vol-1-2-blu-ray",
-      "bekannt": true
-    },
-    {
-      "titleId": 182587,
-      "anime": "Oshi no Ko: Mein Star",
-      "edition": "Oshi no Ko: Mein Star - Staffel 3 - Vol. 2/2: Limited Edition [Blu-ray]",
-      "date": "2027-06-18",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/214972,oshi-no-ko-mein-star-staffel-3-vol-2-2-limited-edition-blu-ray",
-      "bekannt": true
-    },
-    {
-      "titleId": 182587,
-      "anime": "Oshi no Ko: Mein Star",
-      "edition": "Oshi no Ko: Mein Star - Staffel 3 - Vol. 2/2 [Blu-ray]",
-      "date": "2027-06-18",
-      "grund": "Bildträger im Titel benannt",
-      "publisher": "Crunchyroll",
-      "url": "https://www.anisearch.de/article/214971,oshi-no-ko-mein-star-staffel-3-vol-2-2-blu-ray",
       "bekannt": true
     }
   ]

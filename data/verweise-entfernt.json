@@ -1,5 +1,5 @@
 {
-  "stand": "2026-08-29T08:29:09.483Z",
+  "stand": "2026-08-29T10:10:33.015Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -129,7 +129,7 @@
       "seriesId": "G6NQX5GZ6",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 8624,
@@ -4590,6 +4590,2616 @@
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-08-24",
       "letzterWeg": false
+    },
+    {
+      "titleId": 15,
+      "titel": "Eyeshield 21",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/eyeshield-21",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 20,
+      "titel": "Naruto",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/naruto",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 21,
+      "titel": "One Piece",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/one-piece",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 63,
+      "titel": "DearS",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/dears",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 68,
+      "titel": "Black Cat",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/black-cat/",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 90,
+      "titel": "Gundam Wing",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/mobile-suit-gundam-wing",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 93,
+      "titel": "Mobile Suit Gundam Seed",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/mobile-suit-gundam-seed",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 121,
+      "titel": "Fullmetal Alchemist",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0CH396B9Y",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 223,
+      "titel": "Dragon Ball",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/dragon-ball",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 225,
+      "titel": "Dragon Ball GT",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/dragon-ball-gt",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 232,
+      "titel": "Cardcaptor Sakura",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1069-cardcaptor-sakura",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 235,
+      "titel": "Detektiv Conan",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/case-closed",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 274,
+      "titel": "Kiddy Grade",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/kiddy-grade",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 288,
+      "titel": "Beyblade",
+      "plattform": "youtube",
+      "url": "https://www.youtube.com/playlist?list=PLJ-JBvtUCWiz1Qtne5HlLBaEeTZUZBc7y",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 329,
+      "titel": "Planetes",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/G9VHN9Q14/planetes?utm_source=editorial_cr&utm_medium=news&utm_campaign=article_driven&referrer=editorial_cr_news_article_driven",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 380,
+      "titel": "Fushigi Yûgi: The Mysterious Play",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/fushigi-yugi-ova",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 381,
+      "titel": "Fushigi Yûgi New OVA: The Mysterious Play",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/fushigi-yugi-ova",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 381,
+      "titel": "Fushigi Yûgi New OVA: The Mysterious Play",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0CJZH535R",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 481,
+      "titel": "Yu-Gi-Oh!",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/yu-gi-oh",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 481,
+      "titel": "Yu-Gi-Oh!",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/70177034",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 482,
+      "titel": "Yu-Gi-Oh! GX",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/yu-gi-oh-gx",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 486,
+      "titel": "Kino’s Journey",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/80193421",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 603,
+      "titel": "Pretty Cure",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/pretty-cure",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 629,
+      "titel": "Maho Tsukai Tai! Magic User’s Club",
+      "plattform": "youtube",
+      "url": "https://www.youtube.com/playlist?list=PLrrh84y760v-07h6z6XgXtUgLCZgQkGT8",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 813,
+      "titel": "Dragon Ball Z",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/dragon-ball-z",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 874,
+      "titel": "Digimon Tamers",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B015NZX8YG",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 877,
+      "titel": "Nana",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/70205010",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 918,
+      "titel": "Gintama",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/gintama",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 1088,
+      "titel": "Macross",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/robotech",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 1140,
+      "titel": "Origin: Spirits of the Past",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/origin-spirits-of-the-past",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 1292,
+      "titel": "Afro Samurai",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/afro-samurai",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 1374,
+      "titel": "Guyver: The Bioboosted Armor",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/guyver-the-bioboosted-armor/",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 1604,
+      "titel": "Reborn!",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/reborn",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 1607,
+      "titel": "Venus versus Virus",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/venus-versus-virus",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 1668,
+      "titel": "Beyblade G Revolution",
+      "plattform": "youtube",
+      "url": "https://www.youtube.com/playlist?list=PLJ-JBvtUCWix_QLzA-xdbj3M02RVYxKsT",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 1669,
+      "titel": "Beyblade V Force",
+      "plattform": "youtube",
+      "url": "https://www.youtube.com/playlist?list=PLJ-JBvtUCWiz484jpH0aYoQ_wa_jux3dy",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 1735,
+      "titel": "Naruto Shippuden",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/naruto-shippuden",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 1817,
+      "titel": "DearS: Zu heiß gebadet",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/dears/episode-10-is-it-a-golden-ball-811701?ssid=401214",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 2273,
+      "titel": "Gundam Wing: Endless Waltz",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/mobile-suit-gundam-wing-endless-waltz",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 2476,
+      "titel": "School Days: Wer dir alles geben kann, kann dir auch alles nehmen ...",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/school-days",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 2578,
+      "titel": "Tao Tao: Tiergeschichten aus aller Welt",
+      "plattform": "youtube",
+      "url": "https://www.youtube.com/playlist?list=PLar8fACIEzb0KBeSE1f_KnktvHFFkkrd7",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 2581,
+      "titel": "Mobile Suit Gundam 00",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/mobile-suit-gundam-00",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 2589,
+      "titel": "Black Cat: Die Katze entfernt sich",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/black-cat",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 3667,
+      "titel": "Strike Witches",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/Strike-Witches",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 3927,
+      "titel": "Mobile Suit Gundam 00 Second Season",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/mobile-suit-gundam-00",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 3972,
+      "titel": "Yu-Gi-Oh! 5D’s",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/yu-gi-oh-5ds",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 4081,
+      "titel": "Natsume’s Book of Friends",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GRE5XQJV6/natsumes-book-of-friends",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 4654,
+      "titel": "A Certain Magical Index",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/a-certain-magical-index/",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 4970,
+      "titel": "Afro Samurai: Resurrection",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/afro-samurai",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 5081,
+      "titel": "Bakemonogatari",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1216-bakemonogatari",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 5231,
+      "titel": "Inazuma Eleven",
+      "plattform": "youtube",
+      "url": "https://www.youtube.com/playlist?list=PLQVzkO9r_ci1DzCZEg8_O4sOAbCQlZRWa",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 5300,
+      "titel": "Natsume’s Book of Friends: Staffel 2",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GRE5XQJV6/natsumes-book-of-friends",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 6213,
+      "titel": "A Certain Scientific Railgun",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/a-certain-scientific-railgun",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 6381,
+      "titel": "Strike Witches 2",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/Strike-Witches",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 7054,
+      "titel": "Maid-sama",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1130-maid-sama",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 7088,
+      "titel": "Demon King Daimao",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/demon-king-daimao",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 8937,
+      "titel": "A Certain Magical Index II",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/a-certain-magical-index/",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 9366,
+      "titel": "Maid-sama: Special - Das ist ein Bonus!",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1130-maid-sama/24235-folge-27",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 9756,
+      "titel": "Puella Magi Madoka Magica",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/puella-magi-madoka-magica",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 10015,
+      "titel": "Yu-Gi-Oh! Zexal",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/yu-gi-oh-zexal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 10015,
+      "titel": "Yu-Gi-Oh! Zexal",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/s?k=Yu-Gi-Oh!%20Zexal&i=instant-video",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 11061,
+      "titel": "Hunter × Hunter",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/hunter-x-hunter",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 11743,
+      "titel": "A Certain Magical Index: The Miracle of Endymion",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/a-certain-magical-index/a-certain-magical-index-movie-the-miracle-of-endymion-747707",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 11763,
+      "titel": "Wanna Be the Strongest in the World!",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/wanna-be-the-strongest-in-the-world",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 12979,
+      "titel": "Naruto Spin off! Rock Lee & seine Ninja-Kumpels",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/naruto-spin-off-rock-lee-his-ninja-pals",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 14813,
+      "titel": "My Teen Romantic Comedy SNAFU",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/my-teen-romantic-comedy-snafu",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 15583,
+      "titel": "Date a Live",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0CZS6FBVY",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 15813,
+      "titel": "Yoyo & Nene: Die magischen Schwestern",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/watch/G50UZV2GM/",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 16049,
+      "titel": "A Certain Scientific Railgun S",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/a-certain-scientific-railgun",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 16049,
+      "titel": "A Certain Scientific Railgun S",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0CVFNLP9D",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 17187,
+      "titel": "Ghost in the Shell: Arise - Border:1 Ghost Pain",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/ghost-in-the-shell-arise",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 18507,
+      "titel": "Free! Iwatobi Swim Club",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/free-iwatobi-swim-club",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 18507,
+      "titel": "Free! Iwatobi Swim Club",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0CGVS29ZD",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 19163,
+      "titel": "Date a Live II",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0CJJF26WZ",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 19191,
+      "titel": "Ghost in the Shell: Arise - Border:2 Ghost Whispers",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/ghost-in-the-shell-arise",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 19193,
+      "titel": "Ghost in the Shell: Arise - Border:3 Ghost Tears",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/ghost-in-the-shell-arise",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 19195,
+      "titel": "Ghost in the Shell: Arise - Border:4 Ghost Stands Alone",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/ghost-in-the-shell-arise",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 20458,
+      "titel": "The Irregular at Magic High School",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/the-irregular-at-magic-high-school ",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 20458,
+      "titel": "The Irregular at Magic High School",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0CN3Q9DH8",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 20540,
+      "titel": "Samurai Warriors SP: Die Legende der Sanada",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/watch/GR2P1377R/legend-of-the-sanada",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 20553,
+      "titel": "KanColle: Fleet Girls Collection",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/kancolle",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 20552,
+      "titel": "Yu-Gi-Oh! Arc-V",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/yu-gi-oh-arc-v",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 20817,
+      "titel": "Laughing Under the Clouds",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/laughing-under-the-clouds",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 20614,
+      "titel": "Free! Eternal Summer",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/free-iwatobi-swim-club",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 20629,
+      "titel": "Terra Formars",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/terraformars",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 20632,
+      "titel": "Aldnoah.Zero",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/aldnoahzero",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 20657,
+      "titel": "Saekano: How to Raise a Boring Girlfriend",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/saekano-how-to-raise-a-boring-girlfriend-",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 20657,
+      "titel": "Saekano: How to Raise a Boring Girlfriend",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0CGYPT89N",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 20677,
+      "titel": "DRAMAtical Murder",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/dramatical-murder",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 20691,
+      "titel": "Attack on Titan Part I: Crimson Bow and Arrow",
+      "plattform": "youtube",
+      "url": "https://www.youtube.com/watch?v=AHT772bRkMY",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 20692,
+      "titel": "Attack on Titan - Movie Teil 2: Flügel der Freiheit",
+      "plattform": "youtube",
+      "url": "https://www.youtube.com/watch?v=oVlEVivdY-Y",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 20698,
+      "titel": "My Teen Romantic Comedy SNAFU: TOO!",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/my-teen-romantic-comedy-snafu",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 20770,
+      "titel": "Akatsuki no Yona: Prinzessin der Morgendämmerung",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/yona",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 20631,
+      "titel": "Trinity Seven",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/trinity-seven",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 20646,
+      "titel": "Inou Battle Within Everyday Life",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GYMGDZN4Y/when-supernatural-battles-became-commonplace",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 20835,
+      "titel": "One Piece 3D2Y: Überwinde Ace’s Tod! Das Gelübde der Kameraden",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/watch/GYNQJG40Y/the-15th-anniversary-special-episode",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 21057,
+      "titel": "Ghost in the Shell: The New Movie",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/ghost-in-the-shell-arise",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 20853,
+      "titel": "Aldnoah.Zero 2",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/aldnoahzero",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 20850,
+      "titel": "Tokyo Ghoul √A",
+      "plattform": "youtube",
+      "url": "https://www.youtube.com/watch?v=-BMURrauibg",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 20944,
+      "titel": "Samurai Warriors",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/samurai-warriors",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 21190,
+      "titel": "The Perfect Insider",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/the-perfect-insider",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 21056,
+      "titel": "Ghost in the Shell: Arise - Pyrophoric Cult",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/ghost-in-the-shell-arise",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 21175,
+      "titel": "Dragon Ball Super",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/dragon-ball-super",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 21230,
+      "titel": "One Piece: Episode of Sabo - Das Band der 3 Brüder, die wundersame Wiedervereinigung und die vererbte Entschlossenheit",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/one-piece",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 21290,
+      "titel": "And You Thought There Is Never a Girl Online?",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/and-you-thought-there-is-never-a-girl-online",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 21291,
+      "titel": "Joker Game",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/joker-game",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 21311,
+      "titel": "Bungo Stray Dogs",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/bungo-stray-dogs",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 21361,
+      "titel": "Granblue Fantasy: The Animation",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/s?k=Granblue%20Fantasy%3A%20The%20Animation&i=instant-video",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 21410,
+      "titel": "Alderamin on the Sky",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/alderamin-on-the-sky",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 21459,
+      "titel": "My Hero Academia",
+      "plattform": "youtube",
+      "url": "https://www.youtube.com/watch?v=rHyR-BKxWqU",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 21485,
+      "titel": "One Piece: Abenteuer auf Nebulandia",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/one-piece",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 21584,
+      "titel": "Love Live! Sunshine!!",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/love-live-sunshine",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 21679,
+      "titel": "Bungo Stray Dogs 2",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/bungo-stray-dogs",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 21742,
+      "titel": "Katsugeki: Touken Ranbu",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/katsugeki-touken-ranbu",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 21741,
+      "titel": "Touken Ranbu: Hanamaru",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/touken-ranbu-hanamaru",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 21791,
+      "titel": "Bungo Stray Dogs: Der Einzelgänger",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/bungo-stray-dogs",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 21831,
+      "titel": "One Piece: Heart of Gold",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/one-piece",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 21856,
+      "titel": "My Hero Academia 2",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/80135674",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 21861,
+      "titel": "Blue Exorcist: Kyoto Saga",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/blue-exorcist",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 21874,
+      "titel": "Trinity Seven: Eternity Library & Alchemic Girl",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/trinity-seven",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 97625,
+      "titel": "Tsugumomo",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/tsugumomo/",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 97634,
+      "titel": "Pokémon: Die TV-Serie - Sonne & Mond",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/80186475",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 97673,
+      "titel": "Nyanko Days",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/nyanko-days",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 97766,
+      "titel": "Gamers!",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/gamers",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 97863,
+      "titel": "My First Girlfriend Is a Gal",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/my-first-girlfriend-is-a-gal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 97635,
+      "titel": "Pokémon-Generationen",
+      "plattform": "youtube",
+      "url": "https://www.youtube.com/playlist?list=PLBE2D9BnJJUr3eL0gJwgbWbXqPaOFZI5p",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 97938,
+      "titel": "Boruto: Naruto Next Generations",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/boruto-naruto-next-generations",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 98384,
+      "titel": "Bungo Stray Dogs: Dead Apple",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/bungo-stray-dogs",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 98349,
+      "titel": "Love Live! Sunshine!! Staffel 2",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/love-live-sunshine",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 98443,
+      "titel": "Juni Taisen: Zodiac War",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/juni-taisenzodiac-war",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 98448,
+      "titel": "Kinos Reise: Die wunderschöne Welt - Die animierte Serie",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/kinos-journey-the-beautiful-world-the-animated-series",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 98603,
+      "titel": "Sengoku Night Blood",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/sengoku-night-blood",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 99643,
+      "titel": "Ookami Heart",
+      "plattform": "youtube",
+      "url": "https://www.youtube.com/watch?v=PwAgOqNvFGA",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 99426,
+      "titel": "A Place Further Than the Universe",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 99470,
+      "titel": "Grisaia Phantom Trigger: The Animation",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0DMMT9B67",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 99749,
+      "titel": "Fairy Tail: Final Season",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/fairy-tail",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 99940,
+      "titel": "Junji Ito Collection",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/junji-ito-collection",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 99796,
+      "titel": "Garo: Vanishing Line",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/garo-vanishing-line-",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 99302,
+      "titel": "One Piece: Episode of East Blue - Die großen Abenteuer von Ruffy und seinen vier Freunden!",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/one-piece",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 187052,
+      "titel": "Sylvanian Families",
+      "plattform": "youtube",
+      "url": "https://www.youtube.com/playlist?list=PL5xoHmK9recj3tU54fpsrmAgehCzZpx4v",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 100077,
+      "titel": "Hinamatsuri",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/hinamatsuri",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 100112,
+      "titel": "Wise Man’s Grandchild",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/wise-mans-grandchild",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 100166,
+      "titel": "My Hero Academia 3",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/80135674",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 100298,
+      "titel": "Megalo Box",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/megalobox",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 100465,
+      "titel": "Attack on Titan Movie Teil 3: Gebrüll des Erwachens",
+      "plattform": "youtube",
+      "url": "https://www.youtube.com/watch?v=VoLMhaee2cs",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 101117,
+      "titel": "Free! Dive to the Future",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0CHN14W48",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 100668,
+      "titel": "Arifureta: From Commonplace to World’s Strongest",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/arifureta-from-commonplace-to-worlds-strongest",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 100749,
+      "titel": "Mirai: Das Mädchen aus der Zukunft",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/watch/GQJUGQWMW/",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 101016,
+      "titel": "Junji Ito: Tomie",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/junji-ito-collection",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 101350,
+      "titel": "Pet",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B083F6HNLG/",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 101918,
+      "titel": "One Piece: Episode of Skypia",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/one-piece",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 103631,
+      "titel": "Trinity Seven: Heavens Library & Crimson Lord",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/trinity-seven",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 103223,
+      "titel": "Bungo Stray Dogs 3",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/bungo-stray-dogs",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 145850,
+      "titel": "GREEN DA KA RA x Mirai no Mirai",
+      "plattform": "youtube",
+      "url": "https://www.youtube.com/watch?v=7hEXNRUFnRw",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 103900,
+      "titel": "We Never Learn",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/we-never-learn-bokuben",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 104051,
+      "titel": "Magia Record: Puella Magi Madoka Magica Side Story",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/magia-record-puella-magi-madoka-magica-side-story",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 104252,
+      "titel": "Demon Lord, Retry!",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/demon-lord-retry",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 104252,
+      "titel": "Demon Lord, Retry!",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/s?k=Demon%20Lord%2C%20Retry!&i=instant-video",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 104276,
+      "titel": "My Hero Academia 4",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/80135674",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 104454,
+      "titel": "Isekai Quartet",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/isekai-quartet",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 105190,
+      "titel": "Darwin’s Game",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/darwins-game",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 105334,
+      "titel": "Fruits Basket",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0G6HF46PV",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 107371,
+      "titel": "White Snake: Die Legende der weißen Schlange",
+      "plattform": "youtube",
+      "url": "https://www.youtube.com/watch?v=kWAGQchekwg",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 108241,
+      "titel": "Gleipnir",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/gleipnir",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 108266,
+      "titel": "Tsugumomo 2",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/tsugumomo",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 108307,
+      "titel": "Psycho-Pass 3",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B07ZHPPRKD/",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 108463,
+      "titel": "Toilet-Bound Hanako-kun",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/toilet-bound-hanako-kun",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 108626,
+      "titel": "Human Lost",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0FDC7W1L4",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 110178,
+      "titel": "Isekai Quartet 2",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/isekai-quartet",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 110229,
+      "titel": "We Never Learn: Staffel 2",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/we-never-learn-bokuben",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 110350,
+      "titel": "ID: Invaded",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/id-invaded",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 110547,
+      "titel": "Arte",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/arte",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 112301,
+      "titel": "The Misfit of Demon King Academy",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/the-misfit-of-demon-king-academy",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 112300,
+      "titel": "The Irregular at Magic High School: Visitor Arc",
+      "plattform": "crunchyroll",
+      "url": "https://crunchyroll.com/de/series/GRMGDGZVR/the-irregular-at-magic-high-school",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 112323,
+      "titel": "Arifureta: From Commonplace to World’s Strongest 2nd Season",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/arifureta-from-commonplace-to-worlds-strongest",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 112444,
+      "titel": "Appare-Ranman!",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/appare-ranman",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 112444,
+      "titel": "Appare-Ranman!",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B09MDQX4CW",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 112667,
+      "titel": "Our Last Crusade or the Rise of a New World",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/our-last-crusade-or-the-rise-of-a-new-world",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 112818,
+      "titel": "Super HxEros",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/super-hxeros",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 114099,
+      "titel": "Dragon Quest: The Adventure of Dai",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/dragon-quest-the-adventure-of-dai",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 114340,
+      "titel": "Kuma Kuma Kuma Bear",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/kuma-kuma-kuma-bear",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 114446,
+      "titel": "Higurashi: When They Cry Gou",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/higurashi-when-they-cry-gou",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 114622,
+      "titel": "Dorohedoro: Teuflische Anekdoten",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1375-dorohedoro/31275-ova-13",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 115107,
+      "titel": "DIGIMON ADVENTURE 20th memorial story",
+      "plattform": "youtube",
+      "url": "https://www.youtube.com/playlist?list=PLGLzhXoyF5rLqhNCbHawkJRuBnShf66bk",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 115740,
+      "titel": "By the Grace of the Gods",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/by-the-grace-of-the-gods",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 117002,
+      "titel": "Magia Record: Puella Magi Madoka Magica Side Story Staffel 2 - The Eve of Awakening",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/magia-record-puella-magi-madoka-magica-side-story",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 117074,
+      "titel": "Isekai Quartet the Movie: Another World",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/isekai-quartet",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 117193,
+      "titel": "My Hero Academia 5",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/80135674",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 117612,
+      "titel": "How a Realist Hero Rebuilt the Kingdom",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/how-a-realist-hero-rebuilt-the-kingdom",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 118419,
+      "titel": "The Day I Became a God",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/the-day-i-became-a-god",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 119964,
+      "titel": "Pokétoon: The Pokémon Cartoon Animation",
+      "plattform": "youtube",
+      "url": "https://www.youtube.com/playlist?list=PLBE2D9BnJJUoFiRz8ZjF2KToAirHYn1Ru",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 122349,
+      "titel": "My Hero Academia: Das todesmutige Überlebenstraining",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/80135674",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 145564,
+      "titel": "Abenteuer auf dem Eis",
+      "plattform": "youtube",
+      "url": "https://www.youtube.com/watch?v=5j9mrGlQWBs",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 129192,
+      "titel": "My Isekai Life: I Gained a Second Character Class and Became the Strongest Sage in the World!",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/s?k=My%20Isekai%20Life%3A%20I%20Gained%20a%20Second%20Character%20Class%20and%20Became%20the%20Strongest%20Sage%20in%20the%20World!&i=instant-video",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 130003,
+      "titel": "Bocchi the Rock!",
+      "plattform": "crunchyroll",
+      "url": "https://beta.crunchyroll.com/de/series/GXJHM3P19",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 130298,
+      "titel": "The Eminence in Shadow",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.de/video/the-eminence-in-shadow",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 131149,
+      "titel": "Higurashi: When They Cry Sotsu",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/higurashi-when-they-cry-gou",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 131520,
+      "titel": "The Quintessential Quintuplets Movie",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/81717895",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 136080,
+      "titel": "Magia Record: Puella Magi Madoka Magica Side Story Final Season - Dawn of a Shallow Dream",
+      "plattform": "crunchyroll",
+      "url": "https://crunchyroll.com/de/series/G6QWDD096/magia-record-puella-magi-madoka-magica-side-story",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 139369,
+      "titel": "Management of a Novice Alchemist",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.de/video/management-of-novice-alchemist",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 139587,
+      "titel": "Reincarnated as a Sword",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.de/video/reincarnated-as-a-sword",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 139648,
+      "titel": "How a Realist Hero Rebuilt the Kingdom Teil 2",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/how-a-realist-hero-rebuilt-the-kingdom",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 144932,
+      "titel": "Edens Zero: Season 2",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/gp/video/detail/0KXOMCNFCKPTA6Z6HNIJ0ESQ9P",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 141391,
+      "titel": "Call of the Night",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.de/video/call-of-the-night",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 143277,
+      "titel": "Urusei Yatsura",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/81642888",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 145740,
+      "titel": "Grisaia Phantom Trigger",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GW4HM7WWV/grisaia-phantom-trigger",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 146493,
+      "titel": "Ragna Crimson",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B07LHFLDBS",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 146493,
+      "titel": "Ragna Crimson",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.de/video/ragna-crimson",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 150672,
+      "titel": "Oshi no Ko: Mein Star",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/81684733",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 154116,
+      "titel": "Undead Unluck",
+      "plattform": "disneyplus",
+      "url": "https://www.disneyplus.com/de-de/series/undead-unluck/6yBbjezPBwNW",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 154965,
+      "titel": "My Love Story with Yamada-kun at Lv999",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GNVHKNPQ7/my-love-story-with-yamada-kun-at-lv999",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 154965,
+      "titel": "My Love Story with Yamada-kun at Lv999",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/81685150",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 154967,
+      "titel": "Rascal Does Not Dream of a Sister Venturing Out",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/watch/G0DUMXDPZ/rascal-does-not-dream-of-a-sister-venturing-out",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 156001,
+      "titel": "The Eminence in Shadow: Mini Episoden",
+      "plattform": "youtube",
+      "url": "https://youtube.com/playlist?list=PL3ongWuaWwZNBggs9x1Qcya3nRJzfMbkK",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 158559,
+      "titel": "2.5 Dimensional Seduction",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GP5HJ845X/25-dimensional-seduction",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 158559,
+      "titel": "2.5 Dimensional Seduction",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/s?k=2.5%20Dimensional%20Seduction&i=instant-video",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 158559,
+      "titel": "2.5 Dimensional Seduction",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.de/video/25-dimensional-seduction",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 161476,
+      "titel": "Ishura",
+      "plattform": "disneyplus",
+      "url": "https://www.disneyplus.com/de-de/series/ishura/hQ0p1WPHHQmZ",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 161964,
+      "titel": "The Eminence in Shadow: 2nd Season",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.de/video/the-eminence-in-shadow",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 163139,
+      "titel": "My Hero Academia: Season 7",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/80135674",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 161474,
+      "titel": "Rascal Does Not Dream of a Knapsack Kid",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/watch/GWDU73EX8/rascal-does-not-dream-of-a-knapsack-kid",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 164212,
+      "titel": "Girls Band Cry",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/G1XHJV0W8/girls-band-cry",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 164212,
+      "titel": "Girls Band Cry",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/438",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 164212,
+      "titel": "Girls Band Cry",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0CYQJ79R8",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 166531,
+      "titel": "Oshi no Ko: Mein Star",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/81684733",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 168374,
+      "titel": "7th Time Loop: The Villainess Enjoys a Carefree Life Married to Her Worst Enemy!",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/G4PH0WJGQ/7th-time-loop-the-villainess-enjoys-a-carefree-life-married-to-her-worst-enemy",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 170695,
+      "titel": "I Parry Everything!",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.de/video/i-parry-everything",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 170916,
+      "titel": "Promise of Wizard",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0DRVH7MBP",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 172453,
+      "titel": "From Bureaucrat to Villainess: Dad’s Been Reincarnated!",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1266-from-bureaucrat-to-villainess-dads-been-reincarnated",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 172453,
+      "titel": "From Bureaucrat to Villainess: Dad’s Been Reincarnated!",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0DMKS6Y12",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 175914,
+      "titel": "Call of the Night: Season 2",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/912-call-of-the-night",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 175977,
+      "titel": "My Deer Friend Nokotan",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/G0XHWM100/my-deer-friend-nokotan",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 175977,
+      "titel": "My Deer Friend Nokotan",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0D3KTK8G2",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 175977,
+      "titel": "My Deer Friend Nokotan",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.de/video/my-deer-friend-nokotan",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 176158,
+      "titel": "Beheneko: Ich bin ein mächtiger Behemoth und lebe als Kätzchen bei einer Elfe",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0DNG43HF4",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 176276,
+      "titel": "Demon Slave: Staffel 2",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1125-demon-slave?s=2",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 177476,
+      "titel": "Yaiba: Samurai Legend",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1289-yaiba",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 177509,
+      "titel": "Kakushite! Makina-san!!",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0DPLRJNLG",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 177509,
+      "titel": "Kakushite! Makina-san!!",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1284-kakushite-makina-san",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 179950,
+      "titel": "Petals of Reincarnation",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0GVGXKJ22",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 179965,
+      "titel": "Bitte zieh dich an, Takamine!",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/G3KHEVD1D/please-put-them-on-takamine-san",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 180829,
+      "titel": "Yandere Dark Elf: She Chased Me All the Way from Another World!",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1283-yandere-dark-elf-she-chased-me-all-the-way-from-another-world",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 179126,
+      "titel": "Plus-Sized Elf (Episoden 13+14)",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1171-plus-sized-elf/26855-folge-13",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 182469,
+      "titel": "One Piece Fan Letter",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/watch/G14UVQ5D5/one-piece-fan-letter",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 182469,
+      "titel": "One Piece Fan Letter",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/81947352",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 182469,
+      "titel": "One Piece Fan Letter",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1258-one-piece-fan-letter/26964-folge-1",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 166442,
+      "titel": "Super Cube",
+      "plattform": "youtube",
+      "url": "https://www.youtube.com/playlist?list=PLTndXYWs2JgG2PxW3hisgJze2P5iKnO2s",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 182587,
+      "titel": "Oshi no Ko: Mein Star",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/81684733",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 183423,
+      "titel": "One Piece Log: Fish-Man Island Saga",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/one-piece",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 183423,
+      "titel": "One Piece Log: Fish-Man Island Saga",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1260-one-piece-log-fish-man-island-saga",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 184639,
+      "titel": "Anne Shirley",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/G8DHV78XM/anne-shirley",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 185262,
+      "titel": "Hell Mode: The Hardcore Gamer Dominates in Another World with Garbage Balancing",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1350-hell-mode-the-hardcore-gamer-dominates-in-another-world-with-garbage-balancing",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 185874,
+      "titel": "Bleach: Thousand-Year Blood War - The Calamity",
+      "plattform": "disneyplus",
+      "url": "https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 186559,
+      "titel": "Pokémon: Dragoran – Besondere Lieferung",
+      "plattform": "youtube",
+      "url": "https://www.youtube.com/watch?v=oHgcVr_CRQs",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 187941,
+      "titel": "Reincarnated as a Dragon Hatchling",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1347-reincarnated-as-a-dragon-hatchling",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 195153,
+      "titel": "Dusk Beyond the End of the World",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1334-dusk-beyond-the-end-of-the-world",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 195153,
+      "titel": "Dusk Beyond the End of the World",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0FP4BJZFG",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 195600,
+      "titel": "Das Band der Unterwelt",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/82719204",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 197824,
+      "titel": "Farming Life in Another World 2",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1008-farming-life-in-another-world",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 198113,
+      "titel": "Kill Blue",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GT00371896/kill-blue",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 118465,
+      "titel": "World's End Harem",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/worlds-end-harem",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
     }
   ]
 }
