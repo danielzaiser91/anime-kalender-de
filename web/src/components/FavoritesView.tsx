@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { Release, Title } from '@shared/types.ts'
-import type { Dataset } from '../lib/data.ts'
+import { loadAllTitles, type Dataset } from '../lib/data.ts'
 import { releaseStatus } from '@shared/logic.ts'
 import { addDays, formatDate, todayIso } from '@shared/time.ts'
 import { useLang } from '../lib/i18n.tsx'
@@ -51,6 +51,44 @@ export function FavoritesView({
 }) {
   const { t } = useLang()
   const heute = todayIso()
+
+  /**
+   * **Ein gemerkter Titel darf hier nicht fehlen — auch wenn er keinen Termin hat.**
+   *
+   * Der Erstaufruf lädt `titles-core.json`: die Titel, auf die ein Release
+   * zeigt. Wer einen Anime ohne Termin merkt, hat ihn danach in der
+   * Favoritenliste stehen, aber nicht im Index — und die Schleife unten stieg
+   * bei `!title` still aus.
+   *
+   * Gemessen am 29.08.2026 an der Live-Seite: Von fünf gesetzten Favoriten
+   * erschienen **zwei**. Death Note, Jujutsu Kaisen und One Punch Man stehen im
+   * Vollbestand und fehlten im Kern. Der Stern ließ sich setzen, die Seite
+   * verschwieg ihn — genau der Fehler, den dieses Projekt an fremden Quellen
+   * bemängelt.
+   *
+   * Nachgeladen wird nur, wenn wirklich einer fehlt. Bei den meisten Besuchern
+   * passiert also nichts; wer Titel ohne Termin merkt, zahlt einmal für die
+   * größere Datei. `loadAllTitles` hält seine Zusage selbst fest, ein zweiter
+   * Aufruf kostet nichts.
+   */
+  const [nachgeladen, setNachgeladen] = useState(0)
+  const fehlt = useMemo(
+    () => [...favorites].some((id) => !data.titleById.has(id)),
+    // `nachgeladen` steht bewusst in der Liste: Nach dem Abruf ist der Index
+    // ein anderer, und ohne das Signal würde React den alten Wert behalten.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [favorites, data, nachgeladen],
+  )
+  useEffect(() => {
+    if (!fehlt) return
+    let abgemeldet = false
+    void loadAllTitles(data).then(() => {
+      if (!abgemeldet) setNachgeladen((n) => n + 1)
+    })
+    return () => {
+      abgemeldet = true
+    }
+  }, [fehlt, data])
   const [sortierUnd, setSortierUnd] = useState<SortierUnd>('datum')
   const [kategorie, setKategorie] = useState<Kategorie>('alle')
   const [nurDeutsch, setNurDeutsch] = useState(false)
@@ -124,7 +162,8 @@ export function FavoritesView({
       })
     }
     return raus
-  }, [favorites, data, heute, eventsJeTitel])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [favorites, data, heute, eventsJeTitel, nachgeladen])
 
   /** Die vierzehn Tage des Zeitstrahls, mit den Folgen je Tag. */
   const strahl = useMemo(() => {

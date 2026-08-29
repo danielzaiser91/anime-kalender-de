@@ -466,7 +466,7 @@ const TEXTE = {
   'fav.where': 'zu sehen bei',
   'fav.details': 'Alle Termine und Quellen ansehen',
   'fav.emptyTitle': 'Du hast noch nichts gemerkt.',
-  'fav.emptyHint': 'Der Stern an einem Titel legt ihn hier ab — dann siehst du auf einen Blick, was ansteht und was du verpasst hast.',
+  'fav.emptyHint': 'Der Stern an einem Titel legt ihn hier ab — dann siehst du auf einen Blick, was erschienen ist und was ansteht.',
   'news.franchiseHint': 'Auch Neues aus gemerkten Reihen',
   'news.franchiseHintNote':
     'Erscheint zu einer Reihe, von der du etwas gemerkt hast, eine neue Staffel, ein Film oder ein Special, steht es in der nächsten Mail.',
