@@ -137,6 +137,34 @@ schicken, Erfolg anzeigen.
 **Messgröße:** Zeilen in `amazon.js` (heute 6.400), Zahl der Fassungen je Woche.
 **Aufwand:** Ein Tag, überwiegend Löschen.
 
+**Stand 29.08.2026: Phase 3 trägt, die Blockade lag woanders — und ist behoben.**
+
+Die Zuordnung ist gemessen: 6.887 Folgen mit um zwölf verschobener Nummerierung,
+99 % richtig, **0 falsch**. Damit wäre Phase 4 fällig. Der Lauf gegen echte
+Meldungen ordnete trotzdem **0 von 67 Adressen** zu — und der Grund war keine
+fehlende Meldung mit 3.90, wie hier zuerst stand:
+
+`prime_folge.titel_id` gibt es seit Migration 018, `fetch-rohfolgen.ts` liest
+das Feld seit demselben Tag — **der Worker hat es nie ausgeliefert.** Es stand
+nicht im SELECT. Der Bau fiel deshalb auf die Adresse zurück, und die steht bei
+einem Titel ohne Verweis nicht im Bestand; genau die stehen in der Prüfliste.
+
+Im selben Griff gefunden: `LIMIT 5000` bei 5.620 offenen Rohfolgen. 620 hätten
+den Bau nie erreicht — sie wären erst nachgerückt, nachdem die älteren
+übernommen sind, also nach einem Lauf, den es ohne sie nicht gegeben hätte.
+Beides behoben; `?nach=<id>` setzt fort.
+
+**Was jetzt noch fehlt, ist ein `wrangler deploy`.** Danach ist messbar, wie
+viele Adressen die Kennung tragen — und erst diese Zahl rechtfertigt, neunzig
+Entscheidungspunkte aus `amazon.js` zu löschen. Ein Abzug, der auf einer
+Vermutung beruht, ist kein Abzug, sondern ein Ausfall.
+
+**Die Lehre über dem Einzelfall:** Eine neue Spalte ist erst da, wenn sie am
+anderen Ende ankommt. Zwei Seiten waren fertig — Migration und Leser —, die
+dritte fehlte, und niemandem fiel es auf, weil der Rückfall funktionierte. Ein
+Rückfall, der still einspringt, verdeckt genau den Ausfall, gegen den er gebaut
+wurde.
+
 ### Phase 5 — Die Prüfliste schrumpft von selbst
 
 **Stand 29.08.2026: gemacht, was ohne Daniel geht. Das Ziel „unter 50" ist es

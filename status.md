@@ -1,11 +1,11 @@
 # Status: anime-kalender-de
 
-Stand: 27.08.2026 · Live: https://anime-kalender.de/
+Stand: 29.08.2026 · Live: https://anime-kalender.de/
 
-**Der aktuelle Plan steht in [PLAN.md](PLAN.md)** — mit gemessenen Zahlen und der Frage,
-was noch von einem vollständigen Kalender trennt. Was hier darunter steht, ist die
-Arbeitsgeschichte: die Pläne früherer Tage, ihre Messungen und ihre Begründungen. Sie bleibt
-stehen, weil eine verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
+**Der Weg zur Autonomie steht in [docs/autonomie-plan.md](docs/autonomie-plan.md)**, der
+inhaltliche Plan in [PLAN.md](PLAN.md). Was hier darunter steht, ist die Arbeitsgeschichte:
+die Pläne früherer Tage, ihre Messungen und ihre Begründungen. Sie bleibt stehen, weil eine
+verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 ## Task Queue
 
@@ -13,8 +13,26 @@ stehen, weil eine verworfene Quelle sonst in drei Monaten ein zweites Mal geprü
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **Prime-Suchadressen prüfen** | — | Erweiterung 3.39 zeigt auf den 118 Suchseiten, welcher Titel gemeint ist. Wartet auf Daniels erste Runde |
-| **Delta-Überwachung** | 1 | `node tools/delta-pruefen.mjs` täglich ansehen, bis zum 30.08.2026. Bisher unauffällig: Titel ±0, Urteile +4 |
+| **Phase 4: die Erweiterung hört auf zu urteilen** | 8 | Blockiert bis der Worker deployt ist — erst dann trägt jede Rohfolge ihre `titel_id` bis in den Bau, und erst dann ist belegbar, dass die Zuordnung ohne die Urteilsregeln auskommt |
+
+### Warten auf Feedback
+
+| Aufgabe | Notiz |
+|---|---|
+| **Worker ausliefern** | `npx wrangler deploy` — bringt `titel_id` und die seitenweise Rohfolgen-Abfrage nach draußen. Ohne ihn bleiben 0 von 67 Adressen zugeordnet und 620 von 5.620 Folgen unerreichbar |
+| **Erweiterung 3.91 laden** | Zeigt bei acht Suchaufträgen im Kasten, warum der TMDB-Treffer wackelt |
+| **Prime-Prüfliste** | 161 Suchen, davon 115 aussichtsreich (belegte deutsche Sprechrollen), 46 auf Verdacht am Ende |
+
+### Erledigt am 29.08.2026
+
+| | Was daraus wurde |
+|---|---|
+| **Phase 1–3 des Autonomie-Plans** | Zuordnung über Folgentitel und Erstausstrahlung statt Folgennummer. `check:folgen` stellt 6.887 Folgen mit **um zwölf verschobener** Nummerierung nach: 99 % richtig, **0 falsch**, 38 offen. Damit ist Daniels Regel gemessen bestätigt |
+| **aniSearch-Folgenlisten** | 150 Titel, 8.702 Folgen, 7.109 mit deutschem Titel — die Ankerdaten, an denen die Zuordnung hängt |
+| **Phase 5** | 6 Fortsetzungen aus der Prüfliste, 8 wackelige TMDB-Treffer mit Vermerk ans Ende, 44 ohne belegte Sprechrollen dahinter |
+| **Amazon-Automatisierung geprüft und verworfen** | robots.txt führt 19 namentliche Bot-Blöcke mit `Disallow: /` (ClaudeBot, GPTBot, Scrapy, Devin …). Die Prüfliste bleibt Handarbeit — festgehalten in CLAUDE.md, damit es niemand ein zweites Mal prüft |
+| **Zwei stille Lücken im Worker** | `titel_id` war seit Migration 018 da und wurde nie ausgeliefert; `LIMIT 5000` verschwieg 620 von 5.620 Rohfolgen |
+| **Favoriten-Seite, Quellenübersicht** | Zeitstrahl über 14 Tage, Übersicht nach Reihen gruppiert; eine Zeile je Quelle statt einer je Bereich |
 
 ### Erledigt seit dem 25.08.2026
 
