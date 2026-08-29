@@ -1388,56 +1388,6 @@ function main(): void {
     }
   }
 
-  /**
-   * **Deutsche Disc-Ausgaben aus dem aniSearch-Archiv.**
-   *
-   * Für einen Anime von 2002 ist „Kein Anbieter bekannt" richtig und trotzdem
-   * eine Sackgasse: Er lief nie bei einem Streamingdienst, es gab ihn auf DVD.
-   * Am 29.08.2026 stand das bei **1.041 Titeln**, 693 davon mit belegter
-   * deutscher Synchro.
-   *
-   * `extract-disc-ausgaben.ts` liest die Ausgaben aus dem Archiv, das der
-   * aniSearch-Lauf ohnehin anlegt — kein zusätzlicher Abruf. 584 Titel haben
-   * eine deutsche Ausgabe, **176 davon zeigen sonst keinen einzigen Weg**.
-   *
-   * **Ohne Sprachaussage.** Eine deutsche Disc kann untertitelt sein; im Archiv
-   * steht wörtlich „Saber Marionette J (OmU)". Der Eintrag ist deshalb ein
-   * `watchLink` vom Typ `buy` wie jeder andere und trägt kein `dub`.
-   *
-   * **Und nur, wo sonst nichts steht.** Wer einen Stream hat, braucht keinen
-   * Hinweis auf eine womöglich vergriffene DVD von 2005 — der Verweis wäre dort
-   * Rauschen statt Auskunft.
-   */
-  {
-    const discAusgaben = readJson<Record<string, { edition: string; datum: string; url?: string }[]>>(
-      'data/disc-ausgaben.json',
-      {},
-    )
-    let discWege = 0
-    for (const title of titles.values()) {
-      if (title.streams.length || (title.watchLinks ?? []).length) continue
-      const ausgaben = discAusgaben[String(title.id)]
-      if (!ausgaben?.length) continue
-      const erste = ausgaben[0]!
-      title.watchLinks = [
-        {
-          /*
-            **Der Name ist konstant, die Zahl nicht.** Die „Wo?"-Ansicht buendelt
-            ueber den Anbieternamen; „aniSearch — 6 Disc-Ausgaben" und
-            „aniSearch — 2 Disc-Ausgaben" waeren dort zwei verschiedene
-            Anbieter, und aus 176 Titeln wuerden Dutzende Einzelgruppen.
-            Beinahe eingebaut am 29.08.2026, gefangen beim Nachlesen.
-          */
-          name: 'Disc bei aniSearch',
-          url: erste.url ?? `https://www.anisearch.de/anime/${title.id}`,
-          kind: 'buy',
-        },
-      ]
-      discWege++
-    }
-    if (discWege) log(`${discWege} Titel ohne Weg haben jetzt eine deutsche Disc-Ausgabe als Bezugsweg`)
-  }
-
   // Von Hand gepflegte Bezugswege. Sie stehen vorn: Wer sie einträgt, hat
   // nachgesehen — das schlägt jede automatische Liste.
   for (const entry of loadWatchLinks()) {
@@ -3591,6 +3541,64 @@ function main(): void {
   if (wegeErgaenzt) {
     log(`${wegeErgaenzt} Titel ohne jeden Weg haben jetzt einen (TMDB-Anbieter + MOTN-Adresse)`)
   }
+
+  /**
+   * **Deutsche Disc-Ausgaben aus dem aniSearch-Archiv.**
+   *
+   * Für einen Anime von 2002 ist „Kein Anbieter bekannt" richtig und trotzdem
+   * eine Sackgasse: Er lief nie bei einem Streamingdienst, es gab ihn auf DVD.
+   * Am 29.08.2026 stand das bei **1.041 Titeln**, 693 davon mit belegter
+   * deutscher Synchro.
+   *
+   * `extract-disc-ausgaben.ts` liest die Ausgaben aus dem Archiv, das der
+   * aniSearch-Lauf ohnehin anlegt — kein zusätzlicher Abruf. 584 Titel haben
+   * eine deutsche Ausgabe, **176 davon zeigen sonst keinen einzigen Weg**.
+   *
+   * **Ohne Sprachaussage.** Eine deutsche Disc kann untertitelt sein; im Archiv
+   * steht wörtlich „Saber Marionette J (OmU)". Der Eintrag ist deshalb ein
+   * `watchLink` vom Typ `buy` wie jeder andere und trägt kein `dub`.
+   *
+   * **Die Stelle im Bau entscheidet mit — sie steht deshalb hier hinten.**
+   * Beim ersten Einbau am 29.08.2026 lief der Block **vor** den Bereinigungen:
+   * Er sah 176 wegelose Titel, die Crunchyroll-Bereinigung machte danach
+   * weitere wegelos, und die gingen leer aus. Gemessen kamen 87 statt 176 an.
+   * Dieselbe Reihenfolge-Falle wie bei der Zugangsart darunter, und dieselbe
+   * Antwort: Wer den Endzustand braucht, läuft am Ende.
+   *
+   * **Und nur, wo sonst nichts steht.** Wer einen Stream hat, braucht keinen
+   * Hinweis auf eine womöglich vergriffene DVD von 2005 — der Verweis wäre dort
+   * Rauschen statt Auskunft.
+   */
+  {
+    const discAusgaben = readJson<Record<string, { edition: string; datum: string; url?: string }[]>>(
+      'data/disc-ausgaben.json',
+      {},
+    )
+    let discWege = 0
+    for (const title of titles.values()) {
+      if (title.streams.length || (title.watchLinks ?? []).length) continue
+      const ausgaben = discAusgaben[String(title.id)]
+      if (!ausgaben?.length) continue
+      const erste = ausgaben[0]!
+      title.watchLinks = [
+        {
+          /*
+            **Der Name ist konstant, die Zahl nicht.** Die „Wo?"-Ansicht buendelt
+            ueber den Anbieternamen; „aniSearch — 6 Disc-Ausgaben" und
+            „aniSearch — 2 Disc-Ausgaben" waeren dort zwei verschiedene
+            Anbieter, und aus 176 Titeln wuerden Dutzende Einzelgruppen.
+            Beinahe eingebaut am 29.08.2026, gefangen beim Nachlesen.
+          */
+          name: 'Disc bei aniSearch',
+          url: erste.url ?? `https://www.anisearch.de/anime/${title.id}`,
+          kind: 'buy',
+        },
+      ]
+      discWege++
+    }
+    if (discWege) log(`${discWege} Titel ohne Weg haben jetzt eine deutsche Disc-Ausgabe als Bezugsweg`)
+  }
+
 
   /**
    * **Nachhut: kein Verweis verlässt den Bau ohne Zugangsart.**
