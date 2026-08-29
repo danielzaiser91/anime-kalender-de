@@ -1,18 +1,20 @@
 # Weg zu einem vollständigen Kalender
 
-Stand 29.08.2026, alle Zahlen aus dem ausgelieferten Datensatz gemessen.
+Stand 29.08.2026, 13:00 — alle Zahlen aus dem ausgelieferten Datensatz gemessen.
 
 ## Wo wir stehen
 
-| | 27.08. | 29.08. |
-|---|---|---|
-| Titel im Bestand | 2.762 | 2.763 |
-| davon mit Anbieter-Verweis | 1.625 | **1.474** |
-| mit belegter deutscher Synchro | 1.276 | **1.349** |
-| Verweise mit Urteil | 1.599 | **1.692** |
-| **Verweise ohne Urteil** | 531 | **193** |
-| Releases | 446 | 451 |
-| Termine | 888 | 892 |
+| | 27.08. | 29.08. früh | 29.08. 13:00 |
+|---|---|---|---|
+| Titel im Bestand | 2.762 | 2.763 | 2.763 |
+| davon mit Anbieter-Verweis | 1.625 | 1.474 | 1.474 |
+| mit belegter deutscher Synchro | 1.276 | 1.349 | 1.349 |
+| Verweise mit Urteil | 1.599 | 1.692 | 1.692 |
+| **Verweise ohne Urteil** | 531 | **193** | **193** |
+| **Titel ganz ohne Weg** | — | 1.041 | **862** |
+| **davon mit belegter Synchro** | — | 693 | **538** |
+| Releases | 446 | 451 | 451 |
+| Termine | 888 | 892 | 892 |
 
 **Die Urteilslücke ist in zwei Tagen um zwei Drittel geschrumpft** — von 531 auf
 193. Dass die Zahl der Titel *mit* Verweis dabei gesunken ist, gehört dazu und
@@ -35,30 +37,31 @@ dort nachweislich nicht mehr läuft. Ein toter Link ist schlimmer als keiner.
 Crunchyroll ist von 356 auf 63 gefallen — der Rest ist der harte Kern, den die
 Messung vom 27.08. schon benannt hat.
 
-### 2. Titel ohne jeden Weg — 1.041
+### 2. Titel ohne jeden Weg — 862
 
-Das ist die **größte inhaltliche Lücke des Projekts**, und sie ist gewachsen:
+Die größte inhaltliche Lücke, und sie ist heute um 179 Titel kleiner geworden:
 
-| | Zahl |
-|---|---|
-| Titel ohne `streams` | 1.289 |
-| davon mit einem Kauf- oder Ansehen-Verweis im Panel | 248 |
-| **ganz ohne Weg** | **1.041** |
-| davon mit belegten deutschen Sprechrollen | **693** |
+| | früh | 13:00 |
+|---|---|---|
+| Titel ganz ohne Weg | 1.041 | **862** |
+| davon mit belegten deutschen Sprechrollen | 693 | **538** |
+| Titel mit Disc-Weg aus dem Archiv | 0 | **173** |
 
-Die 693 sind der Kern: **Es gibt sie auf Deutsch, und wir sagen nicht wo.** Für
-einen Kalender, dessen Ziel „nicht nur wann, auch wo" heißt, ist das die
-schwerste Auskunft, die fehlt.
+**Was den Unterschied gemacht hat, lag im Haus.** `data/anisearch-raw/`
+archiviert die Titelseiten, und deren Abschnitt `<section id="items">` führt
+jede Veröffentlichung mit Datum und Artikelseite. Für einen Anime von 2002 ist
+das die richtige Antwort auf „wo?": Er lief nie bei einem Streamingdienst, es
+gab ihn auf DVD.
 
-**Was im Haus liegt:** `data/anisearch.json` führt für 338 dieser Titel konkrete
-Adressen — 584 Verweise, darunter 110 aniverse-Kanäle bei Prime, 84 Akibapass,
-58 Amazon. 215 davon erscheinen als Kauf-Verweis im Panel, 123 gar nicht. Die
-Abbildung ist nicht das Problem: Von 46 Provider-Schlüsseln sind 44 abgebildet.
-Die Verweise entstehen und werden **später entfernt** — teils zu Recht (ADN hat
-nur Untertitel), teils zu Unrecht (19 Kanal-Neins, behoben am 29.08.).
+**Der Engpass ist jetzt der Archivbestand.** 956 von 2.615 Titeln haben eine
+archivierte Seite. Jede weitere kann einen Disc-Weg, einen deutschen Titel und
+eine Beschreibung bringen. Seit dem 29.08. holt der **Tageslauf** 120 Seiten
+statt der wöchentlichen 60 — davor konnte die Warteschlange rechnerisch nie leer
+werden (2.615 Titel, 14 Tage Frist, 60 Seiten je Woche).
 
-**Nächster Griff:** nach dem nächsten Bau messen, wie viele der 123 zurückkommen,
-und den Rest einzeln nachvollziehen.
+**Für die 538 mit Synchro und ohne Weg bleibt danach:** Titel, die weder ein
+Streamingdienst führt noch je eine deutsche Disc hatten. Dort ist die ehrliche
+Antwort „Kein Anbieter bekannt".
 
 ### 3. Termine — 1.161 Titel mit Synchro ohne einen einzigen
 
