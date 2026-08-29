@@ -499,13 +499,24 @@ const TEXTE = {
   // Der Grund, aus dem sich jemand anmeldet, dessen Serie gar nicht im
   // Kalender steht (Daniel, 13.08.2026 — aus eigener Erfahrung beschrieben).
   // Wiederherstellung der Favoriten per E-Mail-Link (14.08.2026).
-  'news.restoreTitle': 'Favoriten verloren?',
+  // **Nicht „verloren" — der häufigere Fall ist ein zweites Gerät.**
+  //
+  // Daniel am 29.08.2026: „ich möchte auf all meinen Geräten mit meinen
+  // Favoriten synchron sein … auf meinem Handy ist der newsletter noch nicht
+  // mit meiner E-Mail-Adresse verbunden." Auf einem frischen Handy ist nichts
+  // verloren, und wer „Favoriten verloren?" liest, hält den Kasten für ein
+  // Problem, das er nicht hat — und sucht die Synchronisierung woanders.
+  //
+  // „Auf dieses Gerät holen" deckt beide Fälle mit denselben Worten ab.
+  'news.restoreTitle': 'Favoriten auf dieses Gerät holen',
   // Verbunden: Der Kasten zeigt kein Problem, sondern dieses Gerät.
   'news.deviceTitle': 'Dieses Gerät',
   // Gekürzt: Warum sie verlorengehen können, muss hier nicht stehen — wer das
   // Feld sucht, weiß es bereits.
+  // Sagt jetzt auch, was danach passiert: Der Abgleich läuft von selbst weiter.
+  // Das ist die Frage, mit der man hier ankommt („bleibt das synchron?").
   'news.restoreBody':
-    'Gemerkte Titel liegen im Browser. Hast du ein Abo, liegen sie auch bei uns. Wir schicken dir einen Link, der sie zurückholt.',
+    'Gemerkte Titel liegen im Browser. Hast du ein Abo, liegen sie auch bei uns. Wir schicken dir einen Link — danach gleichen sich beide Geräte von selbst ab.',
   // Ein Satz statt zwei: Dass die Titel auch auf dem Server liegen, ist die
   // Folge — wissen muss man in diesem Moment nur, dass es verbunden ist.
   'news.restoreConnected': 'Dieser Browser ist mit deinem Abo verbunden.',
