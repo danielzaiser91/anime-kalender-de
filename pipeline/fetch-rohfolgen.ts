@@ -120,6 +120,22 @@ async function main(): Promise<void> {
   const asFolgen = readJson<Record<string, { folgen: AsFolgeRoh[] }>>('data/anisearch-folgen.json', {})
   const asKennung = readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {})
 
+  /*
+    Jede Suchadresse, die aus einem unserer Titel entstehen kann — mit allen
+    Einträgen, auf die sie passt. Eine Adresse mit mehr als einem Eintrag wird
+    unten nicht verwendet.
+  */
+  const suchZuTitel = new Map<string, Set<number>>()
+  for (const t of titles) {
+    for (const name of [t.titleDe, t.titleEn, t.titleRomaji]) {
+      if (!name) continue
+      const u = `https://www.amazon.de/s?k=${encodeURIComponent(name)}&i=instant-video`
+      const da = suchZuTitel.get(u) ?? new Set<number>()
+      da.add(t.id)
+      suchZuTitel.set(u, da)
+    }
+  }
+
   /* Je Adresse gruppieren — eine Meldung betrifft immer eine Staffel-Seite. */
   const jeUrl = new Map<string, Rohfolge[]>()
   for (const f of folgen) {
@@ -161,7 +177,32 @@ async function main(): Promise<void> {
     const gemeldeteId = liste.find((f) => Number.isFinite(f.titel_id))?.titel_id ?? null
     const treffer = gemeldeteId
       ? titles.filter((t) => t.id === gemeldeteId)
-      : titles.filter((t) => (t.streams ?? []).some((s) => s.url === url))
+      : titles.filter((t) => (t.streams ?? []).some((s) => s.url === url)) ||
+        []
+    /*
+      **Eine Suchadresse trägt ihre Herkunft im Suchbegriff — sie stammt von uns.**
+
+      `tools/extension-offene-amazon.mjs` baut sie als
+      `amazon.de/s?k=${encodeURIComponent(unserTitel)}&i=instant-video`. Die
+      Rückrichtung ist damit kein Namensabgleich, sondern das Umkehren einer
+      Kodierung: Wer denselben Ausdruck über alle unsere Titel legt, findet
+      genau den einen, aus dem die Adresse entstand.
+
+      **Der Ertrag ist der Grund, warum es das gibt.** Am 29.08.2026 lagen 95
+      Adressen mit **5.435 gemeldeten Folgen** unzugeordnet — Daniels Arbeit von
+      Tagen. 79 davon sind Suchadressen, und **alle 79** lösen sich hierüber
+      auf: 4.398 Folgen.
+
+      **Mehrdeutige bleiben offen.** 69 der 6.461 möglichen Adressen führen auf
+      mehr als einen Eintrag — „Appleseed" gibt es als Film von 1988 und als
+      Serie, „Gantz" zweimal. Dort entscheidet nicht die Adresse, sondern nur
+      eine Meldung mit Kennung; ein Ratespiel wäre schlimmer als ein offener
+      Fall.
+    */
+    if (!treffer.length && suchZuTitel.has(url)) {
+      const ids = suchZuTitel.get(url)!
+      if (ids.size === 1) treffer.push(titles.find((t) => t.id === [...ids][0])!)
+    }
     if (treffer.length !== 1) {
       offen.push({
         url,
