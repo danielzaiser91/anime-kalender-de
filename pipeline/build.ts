@@ -2420,6 +2420,66 @@ function main(): void {
   if (ergaenzt) log(`${ergaenzt} Verweise aus geprüften Adressen ergänzt`)
 
   /**
+   * **Was Daniel bei Prime gemeldet hat, wird zum Verweis.**
+   *
+   * `fetch-rohfolgen.ts` legt die gemeldeten Folgen über unsere Zählung und
+   * schreibt das Ergebnis nach `data/prime-zugeordnet.json`. Diese Datei las
+   * bis zum 29.08.2026 **niemand** — die ganze Kette von der Erweiterung über
+   * den Briefkasten bis zur Zuordnung endete in einer Datei, die nirgends
+   * ankam. Der Fund kam aus der ersten echten Messung mit `titel_id`: Zwei
+   * Adressen waren sauber zugeordnet, und im Datensatz änderte sich nichts.
+   *
+   * Zwei Dinge entstehen daraus:
+   *
+   * - **Die Sprachangabe.** Nennt irgendeine gemeldete Folge „Deutsch", ist
+   *   `dub: true` belegt — von einer angemeldeten Sitzung an der Seite selbst,
+   *   also der stärkste Beleg, den dieses Projekt kennt.
+   * - **Die Adresse.** Gemeldet wird oft von einer **Suchadresse**; die Meldung
+   *   bringt die ASIN der Seite mit, auf der Daniel tatsächlich war. Daraus
+   *   wird eine echte Titelseite, und die nächste Prüfung beginnt nicht wieder
+   *   bei der Suche.
+   *
+   * **Ein Handbeleg schlägt das trotzdem.** Er ist dieselbe Quelle, nur
+   * ausdrücklich eingetragen — und er kann ein Nein enthalten, das eine
+   * automatische Ergänzung nicht überschreiben darf (CLAUDE.md, „ein Titel ohne
+   * Verweis ist nicht dasselbe wie ein Titel ohne geprüften Verweis").
+   */
+  {
+    const roh = readJson<
+      Record<string, { titleId: number; asin: string | null; folgen: { unsere: number | null; sprachen: string[] }[] }>
+    >('data/prime-zugeordnet.json', {})
+    let ausRoh = 0
+    let adressen = 0
+    for (const eintrag of Object.values(roh)) {
+      const title = titles.get(eintrag.titleId)
+      if (!title) continue
+      if (checks.has(dubKey(eintrag.titleId, 'primevideo'))) continue
+      const deutsch = eintrag.folgen.some((f) => f.sprachen.includes('Deutsch'))
+      if (!deutsch) continue
+
+      const seite = eintrag.asin ? `https://www.amazon.de/dp/${eintrag.asin}` : null
+      const da = title.streams.find((x) => x.platform === 'primevideo')
+      if (da) {
+        if (da.dub !== true) {
+          da.dub = true
+          ausRoh++
+        }
+        /* Eine Titelseite schlägt eine Suchadresse — nie umgekehrt. */
+        if (seite && /amazon\.[a-z.]+\/s\?/i.test(da.url)) {
+          da.url = seite
+          adressen++
+        }
+      } else if (seite) {
+        title.streams.push({ platform: 'primevideo', url: seite, dub: true })
+        ausRoh++
+      }
+    }
+    if (ausRoh || adressen) {
+      log(`${ausRoh} Prime-Verweise aus Daniels Meldungen belegt, ${adressen} Suchadresse(n) durch die Titelseite ersetzt`)
+    }
+  }
+
+  /**
    * Jedem Verweis seine Zugangsart geben.
    *
    * Steht spät, damit auch die ergänzten und umsortierten Verweise sie bekommen.

@@ -129,7 +129,18 @@ async function main(): Promise<void> {
   }
 
   const offen: Offen[] = []
-  const zugeordnet: Record<string, { titleId: number; folgen: { unsere: number; sprachen: string[] }[] }> = {}
+  /**
+   * Was der Bau am Ende bekommt.
+   *
+   * `unsere: null` heißt „gilt dem Titel, nicht einer Folge" — der Fall eines
+   * einzigen Eintrags, siehe unten. `asin` ist der eigentliche Ertrag einer
+   * Meldung von einer **Suchadresse**: Aus ihr wird damit eine echte
+   * Titelseite, und die nächste Prüfung beginnt nicht wieder bei der Suche.
+   */
+  const zugeordnet: Record<
+    string,
+    { titleId: number; asin: string | null; folgen: { unsere: number | null; sprachen: string[] }[] }
+  > = {}
 
   for (const [url, liste] of jeUrl) {
     /*
@@ -170,6 +181,37 @@ async function main(): Promise<void> {
       Staffel gefunden werden, und genau dort ging es schief: Am 28.08.2026 ließ
       sich **1 von 67** Adressen zuordnen.
     */
+    /*
+      **Ein einziger Eintrag ist nichts zuzuordnen — er ist der Titel.**
+
+      Prime führt „Halo Legends" als **einen Film**: die neun Kurzfilme, die
+      unser Bestand als neun Folgen kennt, zu einem Stück zusammengeschnitten
+      (Daniel, 29.08.2026: „1 film bei amazon, culmination of all 9 episodes
+      into a movie"). Es gibt dort keine Folge 1, der man unsere Folge 1
+      gegenüberstellen könnte, und die Suche nach einer TMDB-Staffel mit neun
+      Folgen musste scheitern.
+
+      **Die Frage, die dieses Projekt stellt, ist trotzdem beantwortet:** Läuft
+      der Titel dort auf Deutsch? Der eine Eintrag nennt seine Tonspuren, und
+      welche unserer Folgen gemeint ist, spielt für die Antwort keine Rolle.
+
+      Der Beleg wird deshalb ohne Folgennummer abgelegt (`unsere: null`) — er
+      gilt dem Titel, nicht einer Folge. Das ist die ehrliche Form: Eine erfundene
+      „Folge 1" wäre eine Behauptung über etwas, das die Seite nicht sagt.
+
+      **Nur bei genau einem Eintrag.** Zwei oder mehr heißen, dass Prime die
+      Sache aufteilt — dann ist die Zuordnung wieder die richtige Frage. 36 der
+      101 offenen Adressen tragen genau einen.
+    */
+    if (liste.length === 1) {
+      zugeordnet[url] = {
+        titleId: titel.id,
+        asin: liste[0]!.asin ?? null,
+        folgen: [{ unsere: null, sprachen: JSON.parse(liste[0]!.sprachen ?? '[]') as string[] }],
+      }
+      continue
+    }
+
     const asId = asKennung[String(titel.id)]?.anisearchId
     const asEintrag = asId ? asFolgen[String(asId)] : undefined
     let anker: TmdbFolge[] | null = null
@@ -224,6 +266,8 @@ async function main(): Promise<void> {
 
     zugeordnet[url] = {
       titleId: titel.id,
+      /* Alle Zeilen einer Adresse stammen von derselben Seite — die erste genügt. */
+      asin: liste.find((f) => f.asin)?.asin ?? null,
       folgen: treffend.map((p) => ({
         unsere: p.unsere!,
         sprachen: JSON.parse(liste[p.index]!.sprachen ?? '[]') as string[],
