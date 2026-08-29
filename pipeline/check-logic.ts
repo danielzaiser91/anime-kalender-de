@@ -2204,5 +2204,35 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
 }
 
 
+
+/*
+  **Die Reihenfolge im Bau ist selbst eine Aussage — sie wird geprüft.**
+
+  Am 29.08.2026 sind die Disc-Wege zweimal in einer Stunde ins Leere gelaufen:
+  erst zu früh eingebaut (vor den Bereinigungen — 87 von 176 kamen an), dann zu
+  spät (hinter `slim`, dem Aufbau der Auslieferung — **null** kamen an). Beide
+  Male war der Code richtig und die Stelle falsch, und beide Male fiel es erst
+  am ausgelieferten Datensatz auf.
+
+  Diese Zusicherung liest `build.ts` als Text und prüft die Reihenfolge der
+  Marken. Das ist grob, aber es fängt genau den Fehler, der zweimal passiert
+  ist — und er ist billig zu machen: Ein Block wandert beim Umbau mit, seine
+  Wirkung nicht.
+*/
+{
+  const bau = readFileSync(new URL('../pipeline/build.ts', import.meta.url), 'utf8')
+  const pos = (marke: string) => bau.indexOf(marke)
+  const letzteEntfernung = pos('Verweise ohne deutsche Synchro entfernt')
+  const disc = pos('**Deutsche Disc-Ausgaben aus dem aniSearch-Archiv.**')
+  const nachhut = pos('**Nachhut: kein Verweis verlässt den Bau ohne Zugangsart.**')
+  const auslieferung = pos('const allTitles = [...titles.values()]')
+  pruefe(
+    'die Disc-Wege entstehen nach der letzten Entfernung',
+    letzteEntfernung > 0 && disc > letzteEntfernung,
+  )
+  pruefe('… und vor dem Aufbau der Auslieferung', disc > 0 && disc < auslieferung)
+  pruefe('die Zugangsart-Nachhut ebenso', nachhut > letzteEntfernung && nachhut < auslieferung)
+}
+
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

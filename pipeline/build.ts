@@ -3174,6 +3174,113 @@ function main(): void {
     log(`${verschoben.length} Titel hinter den Toggle verschoben: japanische Ausstrahlung steht noch aus`)
 
   // --- Meta -----------------------------------------------------------------
+  /*
+    **Alles, was Verweise ändert, muss vor dieser Zeile stehen.**
+
+    `allTitles` ist der Ausgangspunkt der Auslieferung: `slim` baut daraus flache
+    Kopien. Eine **Mutation** an einem vorhandenen Objekt wirkt dort noch durch
+    (die `streams`-Arrays sind dieselben Referenzen), eine **Zuweisung** wie
+    `title.watchLinks = […]` nicht — die Kopie trägt dann den alten Wert.
+
+    Am 29.08.2026 zweimal in einer Stunde erlebt: erst standen die Disc-Wege zu
+    früh (vor den Bereinigungen, 87 statt 176 kamen an), dann zu spät (hinter
+    `slim`, **null** kamen an). Dazwischen liegt genau ein richtiger Platz.
+  */
+
+  /**
+   * **Deutsche Disc-Ausgaben aus dem aniSearch-Archiv.**
+   *
+   * Für einen Anime von 2002 ist „Kein Anbieter bekannt" richtig und trotzdem
+   * eine Sackgasse: Er lief nie bei einem Streamingdienst, es gab ihn auf DVD.
+   * Am 29.08.2026 stand das bei **1.041 Titeln**, 693 davon mit belegter
+   * deutscher Synchro.
+   *
+   * `extract-disc-ausgaben.ts` liest die Ausgaben aus dem Archiv, das der
+   * aniSearch-Lauf ohnehin anlegt — kein zusätzlicher Abruf. 584 Titel haben
+   * eine deutsche Ausgabe, **176 davon zeigen sonst keinen einzigen Weg**.
+   *
+   * **Ohne Sprachaussage.** Eine deutsche Disc kann untertitelt sein; im Archiv
+   * steht wörtlich „Saber Marionette J (OmU)". Der Eintrag ist deshalb ein
+   * `watchLink` vom Typ `buy` wie jeder andere und trägt kein `dub`.
+   *
+   * **Die Stelle im Bau entscheidet mit — sie steht deshalb hier hinten.**
+   * Beim ersten Einbau am 29.08.2026 lief der Block **vor** den Bereinigungen:
+   * Er sah 176 wegelose Titel, die Crunchyroll-Bereinigung machte danach
+   * weitere wegelos, und die gingen leer aus. Gemessen kamen 87 statt 176 an.
+   * Dieselbe Reihenfolge-Falle wie bei der Zugangsart darunter, und dieselbe
+   * Antwort: Wer den Endzustand braucht, läuft am Ende.
+   *
+   * **Und nur, wo sonst nichts steht.** Wer einen Stream hat, braucht keinen
+   * Hinweis auf eine womöglich vergriffene DVD von 2005 — der Verweis wäre dort
+   * Rauschen statt Auskunft.
+   */
+  {
+    const discAusgaben = readJson<Record<string, { edition: string; datum: string; url?: string }[]>>(
+      'data/disc-ausgaben.json',
+      {},
+    )
+    let discWege = 0
+    for (const title of titles.values()) {
+      if (title.streams.length || (title.watchLinks ?? []).length) continue
+      const ausgaben = discAusgaben[String(title.id)]
+      if (!ausgaben?.length) continue
+      const erste = ausgaben[0]!
+      title.watchLinks = [
+        {
+          /*
+            **Der Name ist konstant, die Zahl nicht.** Die „Wo?"-Ansicht buendelt
+            ueber den Anbieternamen; „aniSearch — 6 Disc-Ausgaben" und
+            „aniSearch — 2 Disc-Ausgaben" waeren dort zwei verschiedene
+            Anbieter, und aus 176 Titeln wuerden Dutzende Einzelgruppen.
+            Beinahe eingebaut am 29.08.2026, gefangen beim Nachlesen.
+          */
+          name: 'Disc bei aniSearch',
+          url: erste.url ?? `https://www.anisearch.de/anime/${title.id}`,
+          kind: 'buy',
+        },
+      ]
+      discWege++
+    }
+    if (discWege) log(`${discWege} Titel ohne Weg haben jetzt eine deutsche Disc-Ausgabe als Bezugsweg`)
+  }
+
+  /**
+   * **Nachhut: kein Verweis verlässt den Bau ohne Zugangsart.**
+   *
+   * Die Hauptrunde dafür steht rund tausend Zeilen weiter oben — bewusst spät,
+   * damit sie die ergänzten und umsortierten Verweise mitnimmt. Trotzdem wurde
+   * sie seither dreimal überholt: am 25.08.2026 von drei Verweisen (Gintama,
+   * DEATH NOTE Rewrite, Durarara!!), am 29.08.2026 von einem weiteren
+   * (Kickers, Crunchyroll aus der Suchergänzung). Jedes Mal wurde die neue
+   * Stelle einzeln nachgezogen, und jedes Mal kam die nächste.
+   *
+   * **Eine Reihenfolge, die man beim Einbau mitdenken muss, hält nicht** — das
+   * steht für die Handbelege längst in CLAUDE.md und gilt hier genauso. Diese
+   * Schleife braucht niemand mitzudenken: Sie läuft nach der letzten Stelle,
+   * die Verweise anlegt, und füllt nur, was noch leer ist. Ein bereits
+   * gesetzter Wert wird nicht angefasst — die Hauptrunde kennt die
+   * JustWatch-Angabe und den YouTube-Kanal, hier fehlen beide.
+   *
+   * Wird sie einmal überflüssig, meldet sie es selbst: Sie zählt, was sie
+   * nachträgt, und schweigt bei null.
+   */
+  let nachgetragen = 0
+  for (const title of titles.values()) {
+    for (const s of title.streams ?? []) {
+      if (s.zugang) continue
+      s.zugang = zugangsart(s.platform, undefined, s.url)
+      nachgetragen++
+    }
+    for (const w of title.watchLinks ?? []) {
+      if (w.zugang) continue
+      w.zugang = zugangsart(w.name, w.kind, w.url)
+      nachgetragen++
+    }
+  }
+  if (nachgetragen) {
+    log(`${nachgetragen} Verweis(e) nachträglich mit Zugangsart versehen — sie entstanden nach der Hauptrunde`)
+  }
+
   const allTitles = [...titles.values()]
   const genres = [...new Set(allTitles.flatMap((t) => t.genres))].sort((a, b) => a.localeCompare(b, 'de'))
   const keywords = [...new Set(allTitles.flatMap((t) => t.keywords))].sort((a, b) => a.localeCompare(b, 'de'))
@@ -3542,100 +3649,8 @@ function main(): void {
     log(`${wegeErgaenzt} Titel ohne jeden Weg haben jetzt einen (TMDB-Anbieter + MOTN-Adresse)`)
   }
 
-  /**
-   * **Deutsche Disc-Ausgaben aus dem aniSearch-Archiv.**
-   *
-   * Für einen Anime von 2002 ist „Kein Anbieter bekannt" richtig und trotzdem
-   * eine Sackgasse: Er lief nie bei einem Streamingdienst, es gab ihn auf DVD.
-   * Am 29.08.2026 stand das bei **1.041 Titeln**, 693 davon mit belegter
-   * deutscher Synchro.
-   *
-   * `extract-disc-ausgaben.ts` liest die Ausgaben aus dem Archiv, das der
-   * aniSearch-Lauf ohnehin anlegt — kein zusätzlicher Abruf. 584 Titel haben
-   * eine deutsche Ausgabe, **176 davon zeigen sonst keinen einzigen Weg**.
-   *
-   * **Ohne Sprachaussage.** Eine deutsche Disc kann untertitelt sein; im Archiv
-   * steht wörtlich „Saber Marionette J (OmU)". Der Eintrag ist deshalb ein
-   * `watchLink` vom Typ `buy` wie jeder andere und trägt kein `dub`.
-   *
-   * **Die Stelle im Bau entscheidet mit — sie steht deshalb hier hinten.**
-   * Beim ersten Einbau am 29.08.2026 lief der Block **vor** den Bereinigungen:
-   * Er sah 176 wegelose Titel, die Crunchyroll-Bereinigung machte danach
-   * weitere wegelos, und die gingen leer aus. Gemessen kamen 87 statt 176 an.
-   * Dieselbe Reihenfolge-Falle wie bei der Zugangsart darunter, und dieselbe
-   * Antwort: Wer den Endzustand braucht, läuft am Ende.
-   *
-   * **Und nur, wo sonst nichts steht.** Wer einen Stream hat, braucht keinen
-   * Hinweis auf eine womöglich vergriffene DVD von 2005 — der Verweis wäre dort
-   * Rauschen statt Auskunft.
-   */
-  {
-    const discAusgaben = readJson<Record<string, { edition: string; datum: string; url?: string }[]>>(
-      'data/disc-ausgaben.json',
-      {},
-    )
-    let discWege = 0
-    for (const title of titles.values()) {
-      if (title.streams.length || (title.watchLinks ?? []).length) continue
-      const ausgaben = discAusgaben[String(title.id)]
-      if (!ausgaben?.length) continue
-      const erste = ausgaben[0]!
-      title.watchLinks = [
-        {
-          /*
-            **Der Name ist konstant, die Zahl nicht.** Die „Wo?"-Ansicht buendelt
-            ueber den Anbieternamen; „aniSearch — 6 Disc-Ausgaben" und
-            „aniSearch — 2 Disc-Ausgaben" waeren dort zwei verschiedene
-            Anbieter, und aus 176 Titeln wuerden Dutzende Einzelgruppen.
-            Beinahe eingebaut am 29.08.2026, gefangen beim Nachlesen.
-          */
-          name: 'Disc bei aniSearch',
-          url: erste.url ?? `https://www.anisearch.de/anime/${title.id}`,
-          kind: 'buy',
-        },
-      ]
-      discWege++
-    }
-    if (discWege) log(`${discWege} Titel ohne Weg haben jetzt eine deutsche Disc-Ausgabe als Bezugsweg`)
-  }
 
 
-  /**
-   * **Nachhut: kein Verweis verlässt den Bau ohne Zugangsart.**
-   *
-   * Die Hauptrunde dafür steht rund tausend Zeilen weiter oben — bewusst spät,
-   * damit sie die ergänzten und umsortierten Verweise mitnimmt. Trotzdem wurde
-   * sie seither dreimal überholt: am 25.08.2026 von drei Verweisen (Gintama,
-   * DEATH NOTE Rewrite, Durarara!!), am 29.08.2026 von einem weiteren
-   * (Kickers, Crunchyroll aus der Suchergänzung). Jedes Mal wurde die neue
-   * Stelle einzeln nachgezogen, und jedes Mal kam die nächste.
-   *
-   * **Eine Reihenfolge, die man beim Einbau mitdenken muss, hält nicht** — das
-   * steht für die Handbelege längst in CLAUDE.md und gilt hier genauso. Diese
-   * Schleife braucht niemand mitzudenken: Sie läuft nach der letzten Stelle,
-   * die Verweise anlegt, und füllt nur, was noch leer ist. Ein bereits
-   * gesetzter Wert wird nicht angefasst — die Hauptrunde kennt die
-   * JustWatch-Angabe und den YouTube-Kanal, hier fehlen beide.
-   *
-   * Wird sie einmal überflüssig, meldet sie es selbst: Sie zählt, was sie
-   * nachträgt, und schweigt bei null.
-   */
-  let nachgetragen = 0
-  for (const title of titles.values()) {
-    for (const s of title.streams ?? []) {
-      if (s.zugang) continue
-      s.zugang = zugangsart(s.platform, undefined, s.url)
-      nachgetragen++
-    }
-    for (const w of title.watchLinks ?? []) {
-      if (w.zugang) continue
-      w.zugang = zugangsart(w.name, w.kind, w.url)
-      nachgetragen++
-    }
-  }
-  if (nachgetragen) {
-    log(`${nachgetragen} Verweis(e) nachträglich mit Zugangsart versehen — sie entstanden nach der Hauptrunde`)
-  }
 
   /**
    * „Im Angebot seit" — für Titel, die sonst gar kein Datum hätten.
