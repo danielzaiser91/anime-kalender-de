@@ -111,11 +111,17 @@ beiden Seiten nicht zusammenfinden.
 One-Piece-Filme, jeweils eine Folge, im Katalog mit `vde: 0`. Das wäre ein
 belegtes Nein — und würde den Verweis entfernen.
 
-**Nicht gemacht, aus einem Grund:** Der vierte Treffer ist „JoJo's Bizarre
-Adventure", und dort meldet der Katalog **113 Folgen mit `vde: 0`**, während
-CLAUDE.md für Serie 444 „113 von 152 mit vde" festhält. Zwei ADN-Einträge zur
-selben Reihe widersprechen sich also, und ein Namensabgleich, der einen Verweis
-**löscht**, darf auf so einem Fundament nicht laufen.
+**Der vermeintliche Widerspruch war ein Messfehler — aufgeklärt am 29.08.2026,
+23:10.** Die Auswertung suchte in den Katalogfolgen nach `vde`, fand in allen
+4.078 nichts und meldete „0 von 113 deutsch" für JoJo. Tatsächlich enthält
+`adn-catalog.json` **nur Serien mit deutschen Folgen**, und in ihren `episodes`
+stehen **ausschließlich** die deutschen — `episodeAus()` schreibt deshalb kein
+`languages`-Feld. Wahr ist also das Gegenteil: **Jede Folge im Katalog ist
+deutsch.**
+
+Damit sind die drei One-Piece-Filme belegt (je eine Folge bei uns, je eine im
+Katalog, Name exakt) und im Bau umgesetzt. JoJo bleibt offen: 26 Folgen bei uns
+gegen 113 im Katalog — das ist die Sammelserie aller Staffeln.
 
 **Der saubere Weg** ist die Auflösung Slug → Kennung an der Quelle. ADN
 beantwortet einen fremden Abruf mit HTTP 403 (CloudFront); die vorhandene
