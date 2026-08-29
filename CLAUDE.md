@@ -1310,6 +1310,31 @@ und die echte Störung geht darin unter.
 Die Frist ist die Taktung plus zwei Tage Luft. Ein ausgefallener Lauf soll noch keinen Alarm
 auslösen, zwei hintereinander schon.
 
+## `git push | tail` verschluckt den Fehlschlag
+
+Am 29.08.2026 sind drei Commits eine halbe Stunde lang nicht im Repo
+angekommen, obwohl die Ausgabe jedes Mal „gepusht" meldete. Der Grund steht in
+der Befehlskette:
+
+```
+git push -q 2>&1 | tail -1 && echo gepusht
+```
+
+Der Rückgabewert einer Pipe ist der des **letzten** Glieds — `tail` gelingt
+immer. Der abgelehnte Push (`! [rejected] main -> main (fetch first)`) rutscht
+als Textzeile durch, und `echo` läuft trotzdem.
+
+Richtig ist, den Rückgabewert direkt zu prüfen:
+
+```
+git push -q; echo "push exit=$?"
+```
+
+Aufgefallen ist es nur, weil ein späterer `git log --oneline origin/main` die
+eigenen Commits nicht enthielt. Ohne diesen Blick wäre die Arbeit eines ganzen
+Abschnitts liegen geblieben — sichtbar erst beim nächsten Datenlauf, der auf
+einem Stand ohne sie gebaut hätte.
+
 ## Der Worker wird aus `worker/` ausgeliefert, nicht aus der Wurzel
 
 ```
