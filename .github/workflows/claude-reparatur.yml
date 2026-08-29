@@ -112,7 +112,11 @@ jobs:
           # Datenläufe committen als `github-actions[bot]`.
           allowed_bots: 'github-actions[bot]'
           claude_args: |
-            --max-turns 30
+            # Sechzig statt dreißig: Am 29.08.2026 endete ein Lauf mit
+            # „Reached maximum number of turns (30)" und hat **nichts**
+            # hinterlassen — weder Befund noch Issue. Allein die Prüfkette
+            # kostet neun Aufrufe, und `npm run build` dauert.
+            --max-turns 60
             --allowedTools "Bash,Read,Edit,Write,Grep,Glob"
           prompt: |
             Der Datenlauf „${{ github.event.workflow_run.name }}" ist fehlgeschlagen.
@@ -120,6 +124,13 @@ jobs:
             Protokoll: gh run view ${{ github.event.workflow_run.id }} --repo ${{ github.repository }} --log-failed
 
             Deine Aufgabe, in dieser Reihenfolge:
+
+            0. **Zuerst den Befund festhalten, dann reparieren.** Sobald du die
+               Ursache kennst, öffne ein Issue mit ihr — auch wenn du gleich
+               danach einen Pull Request machst. Grund: Am 29.08.2026 endete ein
+               Lauf an der Zuggrenze und hinterließ nichts; die Diagnose war
+               gemacht und ging verloren. Ein Issue kostet einen Zug und
+               überlebt jeden Abbruch.
 
             1. Lies das Protokoll des fehlgeschlagenen Schritts und benenne die
                Ursache. Rate nicht — zitiere die Zeile, an der es bricht.
@@ -141,6 +152,9 @@ jobs:
               stellen, um einen grünen Lauf zu bekommen, ist ausdrücklich falsch —
               repariere die Ursache und lass die Zusicherung stehen.
             - Kommentare, Commit-Nachricht und Pull-Request-Text auf Deutsch.
+            - **Die Prüfkette läuft einmal, am Ende.** Sie kostet neun Aufrufe;
+              wer sie zwischendurch startet, verbraucht seine Züge daran und
+              kommt nicht mehr zum Pull Request.
 
       # Läuft auch nach einem Fehler: Der rote Lauf ist der, den man sehen will.
       - name: Lauf abmelden
