@@ -17,7 +17,7 @@
  *
  * Aufruf: npx tsx pipeline/fetch-adn.ts [--from -30] [--to 60]
  */
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync, statSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { gunzipSync, gzipSync } from 'node:zlib'
 import { addDays, diffDays, todayIso } from '../shared/time.ts'
@@ -391,10 +391,40 @@ async function fetchCatalog(): Promise<AdnShow[]> {
     }
   }
 
-  const alle = [...nachId.values(), ...zusaetzlich.values()]
+  /**
+   * **Die ältesten zuerst, und nur so viele wie erlaubt.**
+   *
+   * Bis zum 29.08.2026 prüfte dieser Lauf **jede** Serie bei jedem Durchgang neu
+   * — rund 2.600 Abfragen à 700 ms. Der Kommentar im Workflow sprach von „rund
+   * 580 Abfragen"; gemessen waren es an dem Tag **42 Minuten** an einem
+   * einzigen Schritt, in einem Lauf mit 61 Schritten und einer Zeitgrenze von
+   * 150 Minuten.
+   *
+   * Eine Serienseite bei ADN ändert sich selten. Was sich ändert, sind die
+   * Folgen laufender Serien — und dafür gibt es `--laufende`, das alle sechs
+   * Stunden läuft. Dieser Lauf hier sucht **neue** Serien und Nachzügler; ihn
+   * über das Alter des Archivs zu staffeln kostet nichts und macht ihn planbar.
+   *
+   * Ohne `--limit` bleibt alles wie bisher: Wer den vollen Durchgang will,
+   * bekommt ihn.
+   */
+  const KATALOG_LIMIT = Number(args[args.indexOf('--limit') + 1]) || 0
+  const alterDesArchivs = (id: number): number => {
+    try {
+      return statSync(`${ARCHIV_DIR}/${id}.json.gz`).mtimeMs
+    } catch {
+      /* Kein Archiv heißt „noch nie geholt" — die kommen zuerst. */
+      return 0
+    }
+  }
+  let alle = [...nachId.values(), ...zusaetzlich.values()]
+  if (KATALOG_LIMIT > 0) {
+    alle = alle.sort((a, b) => alterDesArchivs(a.id) - alterDesArchivs(b.id)).slice(0, KATALOG_LIMIT)
+  }
   log(
     `ADN-Katalog: ${alle.length} Serien in der Warteschlange (${nachId.size} aus der aktuellen Liste, ` +
-      `${zusaetzlich.size} aus früheren Läufen), wird je Serie auf deutsche Synchro geprüft…`,
+      `${zusaetzlich.size} aus früheren Läufen${KATALOG_LIMIT ? `, begrenzt auf ${KATALOG_LIMIT}` : ''}), ` +
+      'wird je Serie auf deutsche Synchro geprüft…',
   )
 
   const out: AdnShow[] = []

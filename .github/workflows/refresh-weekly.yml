@@ -202,11 +202,17 @@ jobs:
       - name: ADN — vollständiger Katalog
         # Der Kalender zeigt nur, was neu erscheint. Eine Serie, die komplett
         # im Angebot liegt, taucht dort nie auf und fehlte deshalb dauerhaft.
-        # Rund 580 Abfragen — zu viel für den Tageslauf, richtig für diesen.
+        #
+        # **Mit Grenze, seit dem 29.08.2026.** Der Kommentar hier sprach von
+        # „rund 580 Abfragen"; gemessen waren es rund 2.600 und **42 Minuten** an
+        # einem einzigen Schritt — der Lauf prueft jede Serie bei jedem Durchgang
+        # neu. 600 aelteste je Woche decken den Bestand in gut vier Wochen ab,
+        # und was sich wirklich bewegt (laufende Serien), holt `data:adn` alle
+        # sechs Stunden.
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run data:adn:catalog
+        run: npm run data:adn:catalog -- --limit 600
 
       - name: Fortschritt — ADN — vollständiger Katalog
         continue-on-error: true
