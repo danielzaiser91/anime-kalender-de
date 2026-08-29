@@ -53,6 +53,21 @@ const FRISTEN: Record<string, number> = {
   'tmdb-folgen': 9,
   /* Stündlich, aber nur wenn gemeldet wurde — eine Woche ohne Meldung ist normal. */
   rohfolgen: 30,
+  /*
+    **Das Kontingent ist der Takt, nicht der Kalender.**
+
+    Die Streaming-Availability-API hat ein Monatskontingent. Ist es
+    aufgebraucht, setzt der Lauf keine Anfrage mehr ab — und galt damit als
+    stumm. Am 28.08.2026 hat das den täglichen Lauf rot gemacht, obwohl nichts
+    kaputt war: HTTP 429, fünf Tage vor Monatsende.
+
+    Dreiunddreißig Tage decken einen vollen Kontingentzyklus plus zwei Tage
+    Luft ab. Bleibt sie darüber hinaus stumm, ist es ein echter Ausfall.
+
+    Dieselbe Lehre wie beim ADN-Katalog: Eine Warnung, die zuverlässig zu
+    Unrecht kommt, ist schlimmer als keine — man hört auf hinzusehen.
+  */
+  'motn-changes': 33,
   // Wöchentlich. Eine Freigabe wird erst kurz vor dem Kinostart erteilt —
   // in ruhigen Wochen belegt der Lauf nichts Neues, und das ist kein Ausfall.
   fsk: 9,

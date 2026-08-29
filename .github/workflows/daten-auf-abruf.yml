@@ -9,6 +9,11 @@
 # **Die Auswahl ist fest.** Ein Freitextfeld, das in eine Shell wandert, ist eine
 # offene Tür — auch in einem privaten Repo. Wer einen neuen Lauf braucht, trägt
 # ihn hier ein; das ist eine Zeile und ein Commit.
+#
+# **`data:build` steht bewusst nicht zur Wahl.** Dieser Workflow holt keinen
+# Cache (`NUR_QUELLEN`), und der Bau bricht ohne AniList-Daten ab — am
+# 28.08.2026 einmal ausprobiert und prompt rot geworden. Wer den Datensatz neu
+# bauen will, nimmt den Tageslauf.
 name: Datenlauf auf Abruf
 
 on:
@@ -24,7 +29,6 @@ on:
           - data:anisearch
           - data:cr-dub
           - data:extension-liste
-          - data:build
       grenze:
         description: 'Höchstzahl Titel (nur wo der Lauf --limit kennt)'
         required: false

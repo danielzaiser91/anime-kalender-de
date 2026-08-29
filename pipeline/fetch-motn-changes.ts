@@ -128,10 +128,20 @@ interface Bestand {
   >
 }
 
+/**
+ * War der letzte Fehlschlag ein erschöpftes Kontingent?
+ *
+ * Der Unterschied entscheidet, ob der Tageslauf rot wird: „Die Quelle antwortet
+ * nicht" ist ein Alarm, „das Monatskontingent ist aufgebraucht" ist ein bekannter
+ * Zustand mit bekanntem Ende.
+ */
+let kontingentLeer = false
+
 async function hole(pfad: string): Promise<Antwort | undefined> {
   const res = await fetch(`${BASIS}${pfad}`, { headers: { 'X-API-Key': SCHLUESSEL as string } })
   if (res.status === 429) {
     warn('Kontingent erschöpft (429) — der Lauf endet hier.')
+    kontingentLeer = true
     return undefined
   }
   if (!res.ok) {
@@ -273,7 +283,12 @@ async function main(): Promise<void> {
     keine Änderung gefunden hat, war erfolgreich. Ohne sie galt „null neue
     Titel" als Schweigen, und der tägliche Lauf wurde davon rot.
   */
-  recordSource('motn-changes', neue, anfragen ? undefined : 'keine Anfrage abgesetzt', anfragen)
+  recordSource(
+    'motn-changes',
+    neue,
+    anfragen ? undefined : kontingentLeer ? 'Kontingent erschöpft' : 'keine Anfrage abgesetzt',
+    anfragen,
+  )
 
   /**
    * Betrifft uns überhaupt etwas davon?
