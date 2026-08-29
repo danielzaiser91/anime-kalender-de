@@ -220,7 +220,9 @@ async function main(): Promise<void> {
   const gesamtTot = Object.values(bestand).filter((b) => b.status === 404 || b.status === 'region').length
   log(`Verweise: ${geprueft} geprüft, ${tot} davon unbrauchbar. Im Bestand insgesamt ${gesamtTot} unbrauchbar.`)
   if (!geprueft && offen.length) warn('Nichts geprüft, obwohl etwas fällig war — Aufruf prüfen.')
-  recordSource('link-check', geprueft, geprueft ? undefined : 'nichts fällig')
+  /* Nichts faellig ist der Normalfall, sobald alle Adressen geprueft sind —
+     kein Grund, den Lauf als stumm zu melden (29.08.2026). */
+  recordSource('link-check', geprueft, undefined, undefined, true)
 }
 
 main().catch((err) => {

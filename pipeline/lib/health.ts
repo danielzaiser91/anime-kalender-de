@@ -49,11 +49,35 @@ export type SourceHealth = Record<string, SourceState>
  * Ohne das Argument bleibt es beim alten Verhalten: Für die meisten Quellen
  * ist die Trefferzahl selbst das Maß.
  */
-export function recordSource(name: string, count: number, error?: string, gearbeitet?: number): void {
+/**
+ * **Eine leere Warteschlange ist ein Erfolg, kein Schweigen.**
+ *
+ * Am 29.08.2026 hat der Tageslauf zweimal rot gemeldet, weil `youtube-check`
+ * „seit 9,1 Tagen nichts geliefert" hatte. Der Lauf war in Ordnung: **Alle
+ * YouTube-Verweise sind geprüft**, also gab es nichts zu holen. Er meldete
+ * `count: 0` mit dem Grund „nichts zu prüfen", und `lastOk` blieb stehen, wo es
+ * war — bis die Frist von neun Tagen ablief.
+ *
+ * Genau die Falle aus CLAUDE.md: „Eine Prüfung, die rot wird, weil die Arbeit
+ * erledigt ist, misst das Falsche." Und sie ist teurer als eine falsche Zahl:
+ * Der ganze Lauf bricht ab, der Datensatz wird nicht ausgeliefert, und ein
+ * Reparatur-Automat springt an.
+ *
+ * `leerIstOk` trennt die beiden Fälle, die vorher beide „0" hießen:
+ * **nichts zu tun** (Warteschlange leer — der Normalfall am Ende einer Arbeit)
+ * und **nichts bekommen** (Abruf fehlgeschlagen, Quelle stumm).
+ */
+export function recordSource(
+  name: string,
+  count: number,
+  error?: string,
+  gearbeitet?: number,
+  leerIstOk?: boolean,
+): void {
   const health = readJson<SourceHealth>(FILE, {})
   const now = new Date().toISOString()
   const previous = health[name]
-  const erfolgreich = count > 0 || (gearbeitet ?? 0) > 0
+  const erfolgreich = count > 0 || (gearbeitet ?? 0) > 0 || leerIstOk === true
   health[name] = {
     lastOk: erfolgreich ? now : previous?.lastOk,
     lastRun: now,

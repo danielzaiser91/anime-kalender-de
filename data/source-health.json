@@ -40,16 +40,14 @@
     "lastCount": 8876
   },
   "youtube-check": {
-    "lastOk": "2026-08-20T12:03:26.405Z",
+    "lastOk": "2026-08-29T10:09:17.996Z",
     "lastRun": "2026-08-29T10:09:17.996Z",
-    "lastCount": 0,
-    "lastError": "nichts zu prüfen"
+    "lastCount": 0
   },
   "anilist-voices": {
-    "lastOk": "2026-08-24T11:55:11.741Z",
+    "lastOk": "2026-08-29T09:29:43.175Z",
     "lastRun": "2026-08-29T09:29:43.175Z",
-    "lastCount": 0,
-    "lastError": "keine Sprecher gefunden"
+    "lastCount": 0
   },
   "link-check": {
     "lastOk": "2026-08-24T11:57:52.015Z",

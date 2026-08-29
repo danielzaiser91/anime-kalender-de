@@ -117,7 +117,17 @@ async function main(): Promise<void> {
   }
 
   const gesamt = readdirSync(OUT).filter((d) => d.endsWith('.json')).length
-  recordSource('anilist-voices', geschrieben, geschrieben ? undefined : 'keine Sprecher gefunden')
+  /*
+    **Gearbeitet ist gearbeitet — auch wenn keine deutsche Stimme dabei war.**
+
+    Bis zum 29.08.2026 galt der Lauf nur dann als erfolgreich, wenn er Titel
+    **mit** Stimmen gefunden hat. Der Bestand ist aber vollstaendig (2.765
+    Dateien), und was die Warteschlange noch enthaelt, sind ueberwiegend Titel
+    ohne deutsche Rollen — der Lauf schrieb sie sauber weg und meldete trotzdem
+    „keine Sprecher gefunden". Nach fuenf Tagen haette das den Tageslauf rot
+    gemacht, wie es `youtube-check` am selben Tag zweimal getan hat.
+  */
+  recordSource('anilist-voices', geschrieben, undefined, geschrieben + leer, true)
   log(
     `Sprecher: ${geschrieben} Titel mit deutschen Stimmen, ${leer} ohne — ` +
       `${gesamt} Dateien im Bestand`,

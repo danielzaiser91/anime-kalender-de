@@ -245,7 +245,11 @@ async function main(): Promise<void> {
   writeJson(DATEI, bestand)
   const tot = Object.values(bestand).filter((b) => b.art !== 'kanal' && b.inDE === 0).length
   log(`YouTube: ${geprueft} geprüft, davon ${leer} ohne abrufbares Video. Im Bestand insgesamt ${tot} tote Verweise.`)
-  recordSource('youtube-check', geprueft, geprueft ? undefined : 'nichts zu prüfen')
+  /*
+    Nichts zu prüfen ist der Normalfall, sobald alle Verweise durch sind — und
+    kein Grund, den ganzen Tageslauf abzubrechen (29.08.2026, zweimal).
+  */
+  recordSource('youtube-check', geprueft, undefined, undefined, true)
 }
 
 main().catch((err) => {
