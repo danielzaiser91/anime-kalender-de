@@ -319,6 +319,43 @@ const NUR_VON_HAND = {
   }
 }
 
+
+/*
+  **Was ein Lauf schreibt, muss auch committet werden.**
+
+  CLAUDE.md nennt es als zweites von „Ein neuer Abruf braucht drei Dinge", und
+  `check-workflows` prüft es für `data/…` seit dem 24.08.2026. Für Dateien
+  außerhalb von `data/` galt es nicht — und genau dort lag der nächste Fall.
+
+  Am 29.08.2026 gemessen: `data:dub-checks` schreibt **neun** Arbeitslisten
+  unter `daniel-zum-abarbeiten/`, aber nur zwei standen in `commit-data.sh`. Die
+  anderen sieben entstanden bei jedem Lauf neu und wurden beim `git reset`
+  weggeworfen. Im Repo stand der Stand vom 24.08.: `07-primevideo.md` nannte
+  **588 offene Verweise**, tatsächlich offen waren 65.
+
+  Das ist teurer als eine veraltete Zahl — es ist Daniels Zeit: Er hätte 400
+  Zeilen abgearbeitet, von denen die meisten längst geprüft waren.
+*/
+{
+  const skript = readFileSync(new URL('../tools/commit-data.sh', import.meta.url), 'utf8')
+  const geschrieben = new Set()
+  for (const datei of readdirSync(new URL('../pipeline/', import.meta.url))) {
+    if (!/\.(ts|mjs)$/.test(datei)) continue
+    const inhalt = readFileSync(new URL('../pipeline/' + datei, import.meta.url), 'utf8')
+    for (const m of inhalt.matchAll(/['"`](daniel-zum-abarbeiten\/[\w.-]+\.md)['"`]/g)) {
+      geschrieben.add(m[1])
+    }
+  }
+  const fehlend = [...geschrieben].filter((p) => !skript.includes(p))
+  for (const p of fehlend) {
+    console.error(
+      `✗ ${p} wird von einem Lauf geschrieben, steht aber nicht in tools/commit-data.sh — ` +
+        'der `git reset` im CI wirft die Datei weg, und im Repo bleibt der alte Stand.',
+    )
+    fehler++
+  }
+}
+
 if (fehler) {
   console.error(`\n${fehler} Problem(e) in den Workflow-Dateien.`)
   process.exit(1)

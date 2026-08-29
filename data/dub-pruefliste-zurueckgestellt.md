@@ -1,6 +1,6 @@
 # Zurückgestellt: nur mit Abo prüfbar
 
-Stand 2026-08-23 · **0 offene Verweise** in **0 Zeilen**.
+Stand 2026-08-29 · **0 offene Verweise** in **0 Zeilen**.
 
 Diese Verweise stehen **nicht** in `daniel-zum-abarbeiten/07-alle-anbieter.md`: Wer sie prüfen will, braucht ein
 laufendes Abo beim Anbieter. Daniel am 21.08.2026: „ich hol mir kein rtl+ abo um das zu prüfen".

@@ -197,6 +197,27 @@ QUELLEN=(
   extension/offene-netflix.js
   extension/offene-disney.js
   daniel-zum-abarbeiten/08-arbeitspakete.md
+  # Die Listen je Anbieter — sieben Dateien, die `data:dub-checks` bei jedem Lauf
+  # neu schreibt und die bis zum 29.08.2026 keine einzige Zeile hier hatten.
+  # Ergebnis: Der Lauf erzeugte sie, der Commit nahm sie nicht mit, der `git
+  # reset` warf sie weg. Im Repo stand der Stand vom 24.08. — `07-primevideo.md`
+  # nannte **588 offene Verweise**, tatsaechlich offen waren 58.
+  #
+  # Genau die Falle aus CLAUDE.md, „Ein neuer Abruf braucht drei Dinge", nur fuer
+  # ein Erzeugnis: Wer eine Datei schreibt, ohne sie hier einzutragen, schreibt
+  # sie in jedem Lauf umsonst.
+  daniel-zum-abarbeiten/07-adn.md
+  daniel-zum-abarbeiten/07-crunchyroll.md
+  daniel-zum-abarbeiten/07-disneyplus.md
+  daniel-zum-abarbeiten/07-joyn.md
+  daniel-zum-abarbeiten/07-netflix.md
+  daniel-zum-abarbeiten/07-primevideo.md
+  daniel-zum-abarbeiten/07-youtube.md
+  daniel-zum-abarbeiten/06-netflix-rest.md
+  daniel-zum-abarbeiten/09-youtube-liste.md
+  daniel-zum-abarbeiten/10-rtlplus.md
+  daniel-zum-abarbeiten/10-kinostarts.md
+  daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md
 )
 ERZEUGNISSE=(public/data public/og)
 
