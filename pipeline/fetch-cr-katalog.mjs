@@ -110,3 +110,29 @@ for (const o of offen) {
 writeFileSync('data/cr-katalog-zuordnung.json', JSON.stringify(zuordnung, null, 2) + '\n')
 console.log(`${zuordnung.length} von ${offen.length} offenen Verweisen sicher zugeordnet, ${zuordnung.filter((z) => z.audio.includes('de-DE')).length} mit de-DE`)
 for (const z of zuordnung) console.log(`  ${z.audio.includes('de-DE') ? 'DE' : '--'} ${z.unser.slice(0, 40)} -> ${z.katalogTitel}`)
+
+/*
+  **Und eine Grenze, die man kennen muss: Der Katalogeintrag ist die Reihe.**
+
+  Am 29.08.2026 gemessen, nachdem der Namensteil-Abgleich fünfzehn falsche
+  Treffer erzeugt hatte:
+
+      Katalog: „THE PROMISED NEVERLAND"        audio ja-JP, de-DE, …
+        Block: THE PROMISED NEVERLAND          ja-JP
+        Block: THE PROMISED NEVERLAND Staffel 2  ja-JP, en-US
+
+  Der Eintrag meldet `de-DE`, **sobald irgendeine Staffel der Reihe deutsch
+  ist** — hier Staffel 1. Unser offener Eintrag ist Staffel 2, und die ist es
+  nicht. Dasselbe bei „Sword Art Online" (vier Blöcke, alle `ja-JP`) und
+  „One-Punch Man".
+
+  Zwei Folgen daraus:
+
+  - **Ein Katalogtreffer belegt nie eine einzelne Staffel.** Er belegt die
+    Reihe. Deshalb der Folgenzahl-Filter oben, und deshalb bleiben Specials und
+    OVAs an Serieneinträgen offen.
+  - **`seasons` über `content/v2` zeigt nur die Originalblöcke.** Die deutschen
+    Fassungen liegen im älteren CMS-Pfad unter eigenen Blöcken je Tonspur —
+    genau das nutzt `scrape-crunchyroll-dub.ts` mit dem Zugangspaket. Wer hier
+    weiterbaut, geht über jenen Pfad, nicht über diesen.
+*/
