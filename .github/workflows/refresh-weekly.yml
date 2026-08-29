@@ -284,7 +284,7 @@ jobs:
           # lesen. Es gilt 24 Stunden — ein Lauf braucht also ein frisches.
           CR_ZUGANG: ${{ secrets.CR_ZUGANG }}
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run data:cr-dub -- --limit 300 && npm run data:cr-einzelwerke
+        run: npm run data:cr-dub -- --limit 300 && npm run data:cr-einzelwerke && npm run data:cr-filmbloecke
 
       - name: Fortschritt — Crunchyroll-Serienseiten auf deutsche Tonspur
         continue-on-error: true

@@ -2921,6 +2921,33 @@ function main(): void {
       einzeln++
     }
     if (einzeln) log(`${einzeln} Filme/Specials über den deutschen Katalog belegt (Einzelwerk-Suche)`)
+
+    /**
+     * **Sechste Runde: der Film hat einen eigenen Block in einer Filmreihe.**
+     *
+     * Crunchyroll führt Filmreihen als eigene Serie — „Fairy Tail Movies" mit
+     * je einem Block pro Film, jeder mit eigener Sprachangabe. Unser Eintrag
+     * „Fairy Tail: The Movie - Phoenix Priestess" findet dort seinen Block; die
+     * Serie „Fairy Tail" mit ihren 175 deutschen Folgen sagt über ihn nichts.
+     *
+     * Verglichen wird das **Kennwort** — „Phoenix Priestess" —, nicht der ganze
+     * Name: Reihenname und Nummerierung schreibt jede Seite anders.
+     *
+     * Auch hier nur Ja: Wird kein Block gefunden, heißt das „nicht gefunden".
+     */
+    let filmbloecke = 0
+    for (const eintrag of readJson<{ id: number; treffer?: { audio?: string[] } | null }[]>(
+      'data/cr-filmbloecke.json',
+      [],
+    )) {
+      if (!eintrag.treffer?.audio?.includes('de-DE')) continue
+      const title = titles.get(eintrag.id)
+      const stream = title?.streams.find((s) => s.platform === 'crunchyroll')
+      if (!stream || stream.dub !== undefined) continue
+      stream.dub = true
+      filmbloecke++
+    }
+    if (filmbloecke) log(`${filmbloecke} Filme/Specials über ihren eigenen Block in einer Filmreihe belegt`)
     log(`${belegt} Synchro-Angaben aus den Crunchyroll-Serienseiten belegt (${crDub.serien.length} Seiten gelesen)`)
     if (verschwunden) log(`${verschwunden} Crunchyroll-Verweise entfernt — die Serie ist dort nicht mehr verfügbar`)
     /* Geschrieben wird erst am Ende — nach der letzten Stelle, die entfernt. */

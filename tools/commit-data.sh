@@ -193,6 +193,7 @@ QUELLEN=(
   data/bestand-historie.jsonl
   data/crunchyroll-de-kennungen.json
   data/cr-einzelwerke.json
+  data/cr-filmbloecke.json
   extension/offene-amazon.js
   extension/offene-amazon-suche.js
   extension/offene-netflix.js
