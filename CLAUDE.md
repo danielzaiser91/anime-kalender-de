@@ -1283,6 +1283,23 @@ und die echte Störung geht darin unter.
 Die Frist ist die Taktung plus zwei Tage Luft. Ein ausgefallener Lauf soll noch keinen Alarm
 auslösen, zwei hintereinander schon.
 
+## Der Worker wird aus `worker/` ausgeliefert, nicht aus der Wurzel
+
+```
+cd worker && npx wrangler deploy --config wrangler.toml
+```
+
+**Aus der Wurzel bricht es ab**, und die Meldung führt in die Irre: „The
+`assets` property in your configuration is missing the required `directory`
+property" (29.08.2026) — und **`cd worker` allein genügt nicht**, das `--config` gehört dazu. Wrangler findet sonst `wrangler.jsonc` — die gehört zur
+**Web-Anwendung** (SPA-Zustellung, kein `main`, keine D1-Bindung) und ist ohne
+gebautes `dist/` unvollständig. Der Newsletter-Worker hat seine eigene
+Konfiguration in `worker/wrangler.toml`, mit `main`, Cron und D1.
+
+Zwei Konfigurationen in einem Repo sind kein Versehen: Die Wurzel liefert die
+Seite aus, `worker/` den Dienst dahinter. Nur der Aufrufort entscheidet, welche
+gilt.
+
 ## Der Worker läuft dem Web-Client immer hinterher
 
 **Neue Endpunkte sind erst da, wenn `wrangler deploy` gelaufen ist — die Seite ist es schon beim
