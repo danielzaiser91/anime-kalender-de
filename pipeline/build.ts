@@ -1421,7 +1421,14 @@ function main(): void {
       const erste = ausgaben[0]!
       title.watchLinks = [
         {
-          name: ausgaben.length > 1 ? `aniSearch — ${ausgaben.length} Disc-Ausgaben` : 'aniSearch — Disc-Ausgabe',
+          /*
+            **Der Name ist konstant, die Zahl nicht.** Die „Wo?"-Ansicht buendelt
+            ueber den Anbieternamen; „aniSearch — 6 Disc-Ausgaben" und
+            „aniSearch — 2 Disc-Ausgaben" waeren dort zwei verschiedene
+            Anbieter, und aus 176 Titeln wuerden Dutzende Einzelgruppen.
+            Beinahe eingebaut am 29.08.2026, gefangen beim Nachlesen.
+          */
+          name: 'Disc bei aniSearch',
           url: erste.url ?? `https://www.anisearch.de/anime/${title.id}`,
           kind: 'buy',
         },
