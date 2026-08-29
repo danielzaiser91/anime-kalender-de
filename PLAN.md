@@ -76,6 +76,35 @@ ist erschienen, bevor eine unserer Quellen ihn kannte; 329 tragen wenigstens ein
 Ankündigungen deutscher Synchronfassungen gibt es in keiner maschinenlesbaren
 Quelle. Was nicht angekündigt ist, findet kein Lauf.
 
+## Die 15 offenen ADN-Verweise: zwei Adressformen, die nicht zusammenfinden
+
+Gemessen am 29.08.2026. Unser Bestand führt ADN unter **zwei** Adressformen:
+
+| Form | Zahl | passt zum Katalog |
+|---|---|---|
+| `animationdigitalnetwork.com/de/video/<id>` | 70 | ja |
+| `animationdigitalnetwork.de/video/<slug>` | 65 | **nein** |
+
+Der Katalog (`data/adn-catalog.json`, 114 Serien) führt Kennungen, die
+Slug-Adressen stammen aus aniSearch. Zehn der fünfzehn offenen Verweise haben
+deshalb keinen Anschluss — nicht weil die Auskunft fehlt, sondern weil die
+beiden Seiten nicht zusammenfinden.
+
+**Ein Namensabgleich löst vier davon, und drei davon eindeutig:** die drei
+One-Piece-Filme, jeweils eine Folge, im Katalog mit `vde: 0`. Das wäre ein
+belegtes Nein — und würde den Verweis entfernen.
+
+**Nicht gemacht, aus einem Grund:** Der vierte Treffer ist „JoJo's Bizarre
+Adventure", und dort meldet der Katalog **113 Folgen mit `vde: 0`**, während
+CLAUDE.md für Serie 444 „113 von 152 mit vde" festhält. Zwei ADN-Einträge zur
+selben Reihe widersprechen sich also, und ein Namensabgleich, der einen Verweis
+**löscht**, darf auf so einem Fundament nicht laufen.
+
+**Der saubere Weg** ist die Auflösung Slug → Kennung an der Quelle. ADN
+beantwortet einen fremden Abruf mit HTTP 403 (CloudFront); die vorhandene
+API-Anbindung in `fetch-adn.ts` kann es, braucht aber eine Suchfunktion, die es
+dort bisher nicht gibt.
+
 ## Was als Nächstes trägt
 
 1. **Die Anker für die Folgen-Zuordnung.** 150 von 2.615 Titeln haben eine
