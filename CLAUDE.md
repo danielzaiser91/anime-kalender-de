@@ -1116,6 +1116,33 @@ nur steht an einzelnen Stellen die Vermutung einer Quelle, wo eine Messung stand
 war Daniels Frage vom 23.08.2026, ob seine Netflix-Meldungen vom Vortag beim nächsten Lauf
 überschrieben werden könnten.
 
+## Ein laufender Datenlauf committet den Stand von seinem Start
+
+Am 29.08.2026 wurden 19 berichtigte Handbelege wieder falsch — keine Stunde,
+nachdem sie behoben waren. Die Ursache steht in `tools/commit-data.sh`, und sie
+ist kein Fehler, sondern eine Abwägung, die man kennen muss:
+
+Hat sich der Fernstand während des Laufs bewegt, rettet das Skript die
+**Quellen** aus seinem Arbeitsverzeichnis, setzt hart auf `origin/main` zurück
+und spielt sie wieder ein. Für geholte Daten ist das richtig — sonst wäre eine
+Stunde Abrufarbeit weg. Für eine Datei, an der **zwischenzeitlich jemand
+anderes gearbeitet hat**, bedeutet es: Die ältere Fassung gewinnt.
+
+Betroffen ist alles unter `QUELLEN` in diesem Skript, allen voran
+`data/dub-confirmed.yaml` — ausgerechnet die Datei mit den 2.947 von Hand
+geprüften Angaben.
+
+**Praktische Folge:** Eine Korrektur an einer Quelldatei, während ein Datenlauf
+läuft, ist nicht sicher. Entweder man wartet ihn ab (`gh run list`), oder man
+prüft nach seinem Ende nach, ob die Korrektur noch steht. Ein roter
+`check:logic` ist dabei der Freund: Er hat genau diesen Fall gemeldet, zwanzig
+Minuten nachdem er eingetreten war.
+
+**Und deshalb gehört zu jeder Datenkorrektur eine Zusicherung.** Die Korrektur
+allein hält einen Lauf nicht aus; die Zusicherung meldet sich, wenn sie
+verlorengeht. Am selben Tag zweimal bewiesen — beim Kanal-Nein und bei den
+Prime-Meldungen.
+
 ## Ein Lauf ergänzt und berichtigt — er löscht keine Metadaten
 
 Daniel am 24.08.2026: „metadaten sollten nie gelöscht werden von läufen, die dürfen höchstens
