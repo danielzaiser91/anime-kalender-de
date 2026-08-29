@@ -431,6 +431,38 @@ zwischenspeichern darf, und denen, die aussehen wie Sparpotenzial und keins sind
 `amazon.js` oder `amazon-leser.js` etwas an der Leistung ändern will, liest das zuerst:
 Mehrere der teuer aussehenden Muster sind Reparaturen echter Fehlschläge.
 
+### Amazon duldet keinen Agenten — die Prüfliste bleibt deshalb Handarbeit
+
+Am 29.08.2026 gemessen, weil die Frage naheliegt: Ließen sich die 161
+Prime-Suchadressen nicht einfach automatisch auflösen, statt sie Daniel
+vorzulegen?
+
+Die robots.txt beantwortet sie in zwei Zeilen. Der `*`-Block sperrt `/s?k=`
+**nicht** — aber darunter stehen **19 namentliche Bot-Blöcke, jeder mit
+`Disallow: /`**:
+
+    ClaudeBot, GPTBot, CCBot, PerplexityBot, Google-Extended,
+    GoogleAgent-Mariner, GoogleAgent-Shopping, meta-externalagent,
+    Bytespider, Scrapy, PetalBot, Devin, omgili, AI2Bot,
+    Gemini-Deep-Research, PanguBot, MistralAI-User, Diffbot,
+    Sidetrade indexer bot, EtaoSpider
+
+Dazu `/gp/video/api` ausdrücklich — genau der Aufruf, über den die
+Folgenliste käme. Damit ist die Sache entschieden, und zwar auf demselben Weg
+wie am 24.08.2026: **Die namentlichen Blöcke sagen, ob der Betreiber
+automatisiertes Auslesen überhaupt duldet**, und hier sagen sie neunzehnmal
+nein. Wo ein Betreiber besondere Vorkehrungen trifft, fehlt der Berufung auf
+BGH I ZR 159/10 ihre tragende Voraussetzung.
+
+**Was Daniel in seiner angemeldeten Sitzung tut, ist davon nicht berührt** — er
+ist ein Kunde, der eine Seite ansieht, und die Erweiterung liest, was ihm
+ohnehin angezeigt wird. Die Trennlinie verläuft zwischen einem Agenten, der
+Amazon abruft, und einem Menschen, der dort blättert.
+
+Die praktische Folge steht in `docs/autonomie-plan.md`, Phase 5: Die Prüfliste
+wird nicht kürzer, sie wird **billiger je Eintrag**. Jeder Eintrag bringt die
+Frage mit und nimmt die Antwort in einem Klick entgegen.
+
 ### Der Quelltext veraltet beim Staffelwechsel — und das ist die Wurzel
 
 **Amazon tauscht beim Wechsel über das Auswahlfeld den Quelltext nicht aus.** Adresse und ASIN

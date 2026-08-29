@@ -70,17 +70,42 @@ async function main(): Promise<void> {
     return
   }
 
-  const antwort = await fetch(`${WORKER}/pruefung?rohfolgen=1&token=${encodeURIComponent(TOKEN)}`)
-  if (!antwort.ok) {
-    warn(`Rohfolgen nicht abrufbar: HTTP ${antwort.status}`)
-    recordSource('rohfolgen', 0, `HTTP ${antwort.status}`)
-    return
+  /*
+    **Seitenweise, nicht in einem Zug.** Der Worker gibt höchstens 5.000 Zeilen
+    je Antwort heraus; am 29.08.2026 lagen 5.620 offen, und die 620 dahinter
+    hätten den Bau nie erreicht — sie wären erst nach der Übernahme der älteren
+    nachgerückt, also nach einem Lauf, den es ohne sie gar nicht gegeben hätte.
+
+    `weiter` trägt die letzte gelesene Kennung, oder `null`, wenn nichts mehr
+    aussteht. Die Obergrenze von zwanzig Seiten ist ein Notausgang gegen einen
+    Endlos-Lauf, keine Mengenbegrenzung: Bei 5.000 Zeilen je Seite sind das
+    100.000 Folgen.
+  */
+  const folgen: Rohfolge[] = []
+  let gesamt = 0
+  let nach = 0
+  for (let seite = 0; seite < 20; seite++) {
+    const antwort = await fetch(
+      `${WORKER}/pruefung?rohfolgen=1&nach=${nach}&token=${encodeURIComponent(TOKEN)}`,
+    )
+    if (!antwort.ok) {
+      warn(`Rohfolgen nicht abrufbar: HTTP ${antwort.status}`)
+      recordSource('rohfolgen', 0, `HTTP ${antwort.status}`)
+      return
+    }
+    const teil = (await antwort.json()) as { folgen: Rohfolge[]; gesamt: number; weiter?: number | null }
+    folgen.push(...teil.folgen)
+    gesamt = teil.gesamt
+    if (!teil.weiter) break
+    nach = teil.weiter
   }
-  const { folgen, gesamt } = (await antwort.json()) as { folgen: Rohfolge[]; gesamt: number }
   if (!folgen.length) {
     log(`keine offenen Rohfolgen (Bestand ${gesamt})`)
     recordSource('rohfolgen', 0)
     return
+  }
+  if (folgen.length < gesamt) {
+    warn(`${gesamt - folgen.length} Rohfolgen nicht geholt — die Seitengrenze greift, der nächste Lauf holt sie`)
   }
   log(`${folgen.length} Rohfolgen geholt (offen insgesamt: ${gesamt})`)
 

@@ -1734,18 +1734,43 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
       if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) {
         return antwort({ error: 'Token fehlt oder stimmt nicht' }, 403)
       }
+      /*
+        **`titel_id` gehört mit heraus — sonst war die Spalte umsonst.**
+
+        Migration 018 hat sie am 28.08.2026 angelegt, damit eine Meldung sagt,
+        **zu welchem Eintrag unseres Bestands** sie gehört, statt dass der Bau es
+        aus der Adresse erraten muss. Die Spalte wurde befüllt, im SELECT stand
+        sie nie — der Bau hat sie also nie gesehen, und die Zuordnung lief
+        weiter über die Adresse. Gemessen am 29.08.2026: 0 von 67 Adressen
+        zugeordnet.
+
+        **Und die Abfrage lässt sich fortsetzen.** 5.620 Folgen lagen offen,
+        5.000 kamen heraus — 620 hätten den Bau nie erreicht. Eine Abfrage mit
+        `LIMIT` beantwortet eine andere Frage als die gestellte (26.08.2026,
+        damals kostete es zwei Einträge). `?nach=<id>` setzt dort fort, wo die
+        letzte Seite endete; `gesamt` bleibt die ungekürzte Zahl.
+      */
+      const nach = Number(new URL(request.url).searchParams.get('nach') ?? 0)
       const { results } = await env.DB.prepare(
         `SELECT id, url, asin, gti, nummer, titel, erschienen, dauer_sek, sprachen,
-                untertitel, staffel_text, staffel_nr, gemeldet_am
+                untertitel, staffel_text, staffel_nr, gemeldet_am, titel_id
            FROM prime_folge
-          WHERE uebernommen = 0
-          ORDER BY gemeldet_am, id
+          WHERE uebernommen = 0 AND id > ?1
+          ORDER BY id
           LIMIT 5000`,
-      ).all()
+      )
+        .bind(Number.isFinite(nach) ? nach : 0)
+        .all()
       /* Die Gesamtzahl getrennt: Eine Abfrage mit LIMIT beantwortet eine andere
          Frage als die gestellte — das hat am 26.08.2026 zwei Einträge gekostet. */
       const gesamt = await env.DB.prepare('SELECT COUNT(*) AS n FROM prime_folge WHERE uebernommen = 0').first<{ n: number }>()
-      return antwort({ folgen: results ?? [], gesamt: gesamt?.n ?? 0 })
+      const zeilen = (results ?? []) as { id: number }[]
+      return antwort({
+        folgen: zeilen,
+        gesamt: gesamt?.n ?? 0,
+        /* Ist die Seite voll, steht die Fortsetzung dabei — sonst ausdrücklich null. */
+        weiter: zeilen.length === 5000 ? zeilen[zeilen.length - 1]!.id : null,
+      })
     }
 
     if (new URL(request.url).searchParams.get('zaehlen') === '1') {

@@ -139,21 +139,45 @@ schicken, Erfolg anzeigen.
 
 ### Phase 5 — Die Prüfliste schrumpft von selbst
 
-Was heute in der Liste steht, ist zu großen Teilen kein echter Prüffall:
+**Stand 29.08.2026: gemacht, was ohne Daniel geht. Das Ziel „unter 50" ist es
+nicht — und zwar aus einem Grund, der sich nicht wegprogrammieren lässt.**
 
-- **Fortsetzungen**, die über die Serienseite mitgeprüft werden (Higurashi Kai,
-  Bungo Stray Dogs 2). Sie fallen weg, sobald die Zuordnung Folgen statt Staffeln
-  vergleicht — dann ist es gleichgültig, unter welchem Eintrag gemeldet wurde.
-- **Falsche TMDB-Vorschläge.** Gemessen an einem Beispiel: Unsere OVA 20779
-  wurde auf die TV-Serie TMDB 61695 abgebildet, und deren Anbieter landeten als
-  Vorschlag in der Liste. Ein Abgleich von Format und Jahr zwischen unserem
-  Eintrag und dem TMDB-Treffer sortiert das aus.
-- **Titel ohne deutsche Fassung.** Wo ANN keine deutschen Sprechrollen kennt und
-  keine Quelle einen deutschen Ton nennt, ist die Wahrscheinlichkeit gering. Sie
-  gehören ans Ende der Liste, nicht an den Anfang.
+Drei Gruppen sind erledigt:
 
-**Messgröße:** Länge der Prüfliste. Ziel: unter 50 Einträge, und zwar solche, die
-wirklich nur ein Mensch entscheiden kann.
+| | vorher | jetzt |
+|---|---|---|
+| **Fortsetzungen**, über die Serienseite mitgeprüft | in der Liste | 6 ausgelassen |
+| **Falsche TMDB-Vorschläge** (Format oder Jahr passt nicht) | still mitgeschleppt | 8 mit Vermerk, ans Ende sortiert |
+| **Titel ohne belegte deutsche Sprechrollen** | gemischt | 44 hinter den aussichtsreichen |
+
+Der Vermerk steht im Kasten der Erweiterung selbst („TMDB kennt nur die Serie,
+wir führen OVA"). Gelöscht wird keiner: Ein Vorfilter verschiebt, er löscht
+nicht.
+
+**Was übrig bleibt, sind 115 echte Prüffälle** — Titel mit belegter deutscher
+Synchro, für die eine Quelle Prime nennt, ohne dass wir eine Titelseite hätten.
+Sie ließen sich nur auflösen, indem jemand die Amazon-Suche aufruft und den
+richtigen Treffer erkennt.
+
+**Automatisch geht das nicht, und der Beleg ist eindeutig.** Amazons robots.txt
+sperrt `/s?k=` im `*`-Block zwar nicht — aber sie führt **19 namentliche
+Bot-Blöcke, jeden mit `Disallow: /`**: ClaudeBot, GPTBot, CCBot, PerplexityBot,
+Devin, Scrapy, Diffbot und zwölf weitere (gemessen 29.08.2026). Das ist genau die
+„besondere Vorkehrung", an der die Rechtslage hängt; der Betreiber sagt damit
+unmissverständlich, dass er automatisiertes Auslesen durch Agenten nicht duldet.
+`/gp/video/api` — der Weg zur Folgenliste — ist zusätzlich ausdrücklich gesperrt.
+
+**Die Liste ist damit so kurz, wie sie zulässig werden kann.** Was bleibt, ist
+kein Automatisierungsrückstand, sondern Arbeit, die nur in einer angemeldeten
+Sitzung stattfinden darf — und dort ist sie ein Klick, kein Abgleich: Die
+Erweiterung liest, Daniel bestätigt.
+
+**Messgröße, korrigiert:** nicht die Länge der Liste, sondern **der Aufwand je
+Eintrag**. Ein Eintrag, der die Frage mitbringt und die Antwort in einem Klick
+entgegennimmt, ist billig — hundert davon sind es auch. Ein Eintrag, bei dem
+Daniel erst herausfinden muss, was gefragt ist, ist teuer, und zehn davon sind zu
+viel. Genau das war seine Ansage am 28.08.2026: „am besten meldung simple und
+schnell halten, sodass ich minimalen aufwand hab."
 
 ### Phase 6 — Was ein Mensch entscheiden muss, wird beantwortbar
 
