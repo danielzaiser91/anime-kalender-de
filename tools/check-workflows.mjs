@@ -356,6 +356,50 @@ const NUR_VON_HAND = {
   }
 }
 
+
+/*
+  **Wer dieselben Dateien schreibt, gehört in dieselbe Concurrency-Gruppe.**
+
+  Am 29.08.2026 lief ein Abruf auf Abruf parallel zum Tageslauf, und beide holten
+  gleichzeitig aniSearch-Seiten: Der vereinbarte Takt von sechs Sekunden wurde
+  damit effektiv zu drei, ohne dass es jemand entschieden hatte. aniSearch gehört
+  einer kleinen Redaktion, und der Takt ist eine Zusage.
+
+  Dazu schreiben beide dieselben Dateien; wer zuletzt committet, gewinnt — am
+  selben Tag hat das eine frisch berichtigte Datei wieder falsch gemacht.
+*/
+{
+  const gruppen = new Map()
+  for (const datei of readdirSync(new URL('../.github/workflows/', import.meta.url))) {
+    if (!datei.endsWith('.yml')) continue
+    const inhalt = readFileSync(new URL('../.github/workflows/' + datei, import.meta.url), 'utf8')
+    /*
+      Nur Workflows, die in den **Bestand** schreiben — erkennbar am Aufruf von
+      `commit-data.sh`. Ein Deploy baut nur, ein Auftrags-Lauf arbeitet an einem
+      Zweig; beide teilen sich die Quelle nicht.
+    */
+    /* Ein **Aufruf**, keine Erwähnung: `deploy.yml` nennt das Skript nur im Kommentar. */
+    const zeilen2 = inhalt.split("\n")
+    const ruftAuf = zeilen2.some((z) => !z.trim().startsWith("#") && z.includes("commit-data.sh"))
+    if (!ruftAuf) continue
+    /* Zwischen `concurrency:` und `group:` stehen oft Kommentarzeilen. */
+    const zeilenW = inhalt.split(String.fromCharCode(10))
+    const cIndex = zeilenW.findIndex((l) => l.trim() === 'concurrency:')
+    const gZeile = cIndex < 0 ? undefined : zeilenW.slice(cIndex + 1, cIndex + 6).find((l) => l.trim().startsWith('group:'))
+    const g = gZeile ? gZeile.split(':')[1].trim() : undefined
+    gruppen.set(datei, g ?? null)
+  }
+  const abweichend = [...gruppen.entries()].filter(([, g]) => g !== 'daten')
+  for (const [datei, g] of abweichend) {
+    console.error(
+      `✗ ${datei} startet Datenläufe, steht aber in der Concurrency-Gruppe "${g ?? 'keine'}" ` +
+        'statt "daten" — dann laufen zwei Läufe gleichzeitig gegen dieselbe fremde Quelle ' +
+        'und schreiben dieselben Dateien.',
+    )
+    fehler++
+  }
+}
+
 if (fehler) {
   console.error(`\n${fehler} Problem(e) in den Workflow-Dateien.`)
   process.exit(1)
