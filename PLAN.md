@@ -54,8 +54,13 @@ gab ihn auf DVD.
 
 **Dazu kam der zweite Fund:** Von 2.616 archivierbaren Seiten lagen nur 956 im
 Repo — 1.660 waren verlorengegangen, und der Abruf meldete trotzdem „nichts
-nachzuladen", weil seine Warteschlange nur nach dem Alter fragte. Nach zwei
-Nachhol-Läufen sind es 2.356; die restlichen 260 holt der Tageslauf.
+nachzuladen", weil seine Warteschlange nur nach dem Alter fragte. **Seit dem
+29.08.2026 abends ist das Archiv vollständig: 2.616 von 2.616.**
+
+**Und damit ist diese Lücke ausgeschöpft.** Von den 498 Titeln, die noch keinen
+Weg zeigen, hat **keiner** eine deutsche Disc-Ausgabe im aniSearch-Bestand. Was
+automatisch zu holen war, ist geholt; der Rest ist Handarbeit oder gar nicht zu
+beantworten.
 
 **Für die 277 mit Synchro und ohne Weg bleibt danach:** Titel, die weder ein
 Streamingdienst führt noch je eine deutsche Disc hatten. Dort ist die ehrliche
