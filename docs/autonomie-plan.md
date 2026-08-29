@@ -256,6 +256,35 @@ Sekunden statt Minuten kostet:
   Seite, beide Daten.
 - Die Antwort ist ein Klick, kein Formular.
 
+**Stand 29.08.2026: erfüllt — und die eigentliche Arbeit lag woanders, als hier
+stand.**
+
+Der Plan ging davon aus, dass die **Fragen** zu unklar gestellt sind. Gemessen
+war das Problem ein anderes: Die Listen, in denen sie stehen, waren falsch.
+
+| | stand dort | war wirklich |
+|---|---|---|
+| `00-START-HIER.md` (die erste Seite) | „Prime Video: 384 Adressen" | 166 Suchen, 19 Titelseiten |
+| `06-netflix-rest.md` | 1 Titel | 42 |
+| `07-primevideo.md` | 588 offene Verweise | 65 |
+| `07-crunchyroll.md` | Stand 24.08. | 60 offene |
+
+Drei Ursachen, alle behoben: Sieben der neun Listen standen nicht in
+`commit-data.sh` und wurden bei jedem Lauf weggeworfen; `data:netflix-rest`
+und `data:vorschlaege` hingen in keinem Workflow; und der Netflix-Filter
+verlangte, dass MOTN den Titel *vergeblich gesucht* hat — was über die Tonspur
+nichts aussagt.
+
+**Die Frage war also längst gut gestellt. Sie stand nur in einem Dokument, das
+niemand mehr nachgezogen hat.** Das ist die Lehre über der Phase: Ein Auftrag
+kostet nicht nur Zeit, wenn er unklar ist, sondern auch, wenn er falsch ist —
+und Letzteres merkt niemand, weil die Liste ja aussieht wie immer.
+
+`00-START-HIER.md` wird deshalb seit heute **erzeugt**, nicht gepflegt: mit
+gemessenen Zahlen, dem Weg je Aufgabe („Titelseite öffnen, Abspielen, warten,
+zurück") und der Auskunft, worum es geht — 862 Titel ohne Bezugsweg, 538 davon
+mit belegter Synchro.
+
 ## Was das für heute heißt
 
 Die Reihenfolge ist bindend: Phase 1 zuerst, weil ohne sie nichts gemessen werden
