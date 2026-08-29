@@ -25,14 +25,41 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 ### Erledigt am 29.08.2026
 
+**Vormittag — der Weg von der Meldung bis in den Datensatz:**
+
 | | Was daraus wurde |
 |---|---|
-| **Phase 1–3 des Autonomie-Plans** | Zuordnung über Folgentitel und Erstausstrahlung statt Folgennummer. `check:folgen` stellt 6.887 Folgen mit **um zwölf verschobener** Nummerierung nach: 99 % richtig, **0 falsch**, 38 offen. Damit ist Daniels Regel gemessen bestätigt |
-| **aniSearch-Folgenlisten** | 150 Titel, 8.702 Folgen, 7.109 mit deutschem Titel — die Ankerdaten, an denen die Zuordnung hängt |
-| **Phase 5** | 6 Fortsetzungen aus der Prüfliste, 8 wackelige TMDB-Treffer mit Vermerk ans Ende, 44 ohne belegte Sprechrollen dahinter |
-| **Amazon-Automatisierung geprüft und verworfen** | robots.txt führt 19 namentliche Bot-Blöcke mit `Disallow: /` (ClaudeBot, GPTBot, Scrapy, Devin …). Die Prüfliste bleibt Handarbeit — festgehalten in CLAUDE.md, damit es niemand ein zweites Mal prüft |
-| **Zwei stille Lücken im Worker** | `titel_id` war seit Migration 018 da und wurde nie ausgeliefert; `LIMIT 5000` verschwieg 620 von 5.620 Rohfolgen |
-| **Favoriten-Seite, Quellenübersicht** | Zeitstrahl über 14 Tage, Übersicht nach Reihen gruppiert; eine Zeile je Quelle statt einer je Bereich |
+| **Phase 1–3 des Autonomie-Plans** | Zuordnung über Folgentitel und Erstausstrahlung statt Folgennummer. `check:folgen` stellt 6.887 Folgen mit **um zwölf verschobener** Nummerierung nach: 99 % richtig, **0 falsch** |
+| **aniSearch-Folgenlisten** | 150 Titel, 8.702 Folgen, 7.109 mit deutschem Titel |
+| **Phase 5** | 7 Fortsetzungen raus, 19 wackelige TMDB-Treffer mit Vermerk ans Ende, Liste nach Aussicht sortiert |
+| **Worker: `titel_id` und Pagination** | Die Spalte lag seit Migration 018 da und wurde nie ausgeliefert; `LIMIT 5000` verschwieg 620 von 5.620 Rohfolgen. Beides behoben, Worker ausgeliefert |
+| **Rohfolgen werden abgehakt** | Briefkasten von 5.633 auf 958. 4.464 Dubletten aus dem INSERT-ohne-DELETE-Fehler weg — vor dem Wegwerfen gegengeprüft: 1.169 Gruppen, **null** mit abweichendem Inhalt |
+| **Suchadressen führen zurück** | Alle 79 offenen Suchadressen lösen sich über den Suchbegriff auf. Zugeordnete Adressen: 3 → 43 |
+
+**Nachmittag — vier Fehler, die Daten gekostet haben:**
+
+| | Befund |
+|---|---|
+| **Kanal-Titel erzeugten ein Nein** | 239 Handbelege tragen „⚠ Kanal", **19 davon ein `dub: false`** — und ein Nein entfernt den Verweis. „Fullmetal Alchemist" verlor so seinen letzten Weg, obwohl derselbe Eintrag sagt, dass die Angabe kein Beleg ist. Behoben an drei Stellen, Zusicherung in `check:logic` |
+| **Ein Beleg für Netflix sperrte Prime** | Der Vorschlagsfilter arbeitete je Titel statt je Titel+Plattform: 27 von 83 wegelosen Titeln mit Sprechrollen fielen heraus. Vorschläge 185 → 228 |
+| **Favoriten ohne Termin verschwanden** | Von fünf gesetzten Favoriten erschienen zwei — der Rest steht im Vollbestand, nicht im Kern. Der Stern ließ sich setzen, die Seite verschwieg ihn |
+| **„zuletzt" kam aus dem Kalender** | One Piece stand als „zuletzt 20.05.2019"; die deutsche Fassung lief bis 25.03.2026. `events.json` führt dort einen einzigen Termin, das Release kennt 515 Folgen |
+
+**Dazu, ohne Fehlerbezug:** vollständiges Entfernungsprotokoll (bisher nur die
+Crunchyroll-Bereinigung — 46 Titel ohne Weg waren unerklärlich), aniSearch- und
+ANN-Verweise in der Quellenübersicht (2.615 bzw. 8.876 Kennungen lagen ungenutzt
+im Bestand), `PLAN.md` frisch gemessen.
+
+**Verworfen, mit Begründung — damit es niemand ein zweites Mal prüft:**
+
+- **Amazon automatisch abrufen.** robots.txt führt 19 namentliche Bot-Blöcke mit
+  `Disallow: /` (ClaudeBot, GPTBot, Scrapy, Devin …).
+- **Die 287 Crunchyroll-Entfernungen sind kein Conan-Fehler.** Gegenprobe über
+  die Katalogsuche mit allen Titelschreibweisen, 40 Fälle: null doch gefunden
+  (`tools/cr-entfernte-gegenpruefen.mjs`).
+- **werstreamt.es** verbietet automatisierte Erfassung ausdrücklich.
+- **Akibapass** ist offen (`Allow: *`, Crawl-delay 5), bringt aber nichts Neues:
+  Die 198 Adressen stehen längst über aniSearch im Bestand.
 
 ### Erledigt seit dem 25.08.2026
 
