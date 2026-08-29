@@ -7,7 +7,26 @@ const vergeblich = new Set(Object.keys(motn.gesucht ?? {}).map(Number))
 const zeilen = []
 for (const t of liste) {
   const nf = (t.streams ?? []).find((s) => /netflix\.com/.test(s.url ?? '') && s.dub === undefined)
-  if (!nf || !vergeblich.has(t.id)) continue
+  /*
+    **Jeder offene Netflix-Verweis gehört auf die Liste, nicht nur die
+    MOTN-vergeblichen.**
+
+    Bis zum 29.08.2026 stand hier zusätzlich `vergeblich.has(t.id)` — die Idee
+    war: „Diese Titel kennt die Streaming Availability API nicht, ein zweiter
+    Abruf bringt nichts." Der Schluss ist falsch herum. Ob MOTN den Titel
+    **kennt**, sagt nichts darüber, ob es eine **Tonspur** liefert; die 42
+    offenen Verweise sind offen, weil keine Quelle geantwortet hat.
+
+    Gemessen an dem Tag: 42 offene Verweise, davon **null** MOTN-vergeblich —
+    die Liste war leer, während 42 Titel auf einen Blick warteten. Vorher stand
+    dort ein einziger, seit dem 24.08. unverändert, weil der Lauf in keinem
+    Workflow hing (am selben Tag behoben).
+
+    Für Netflix gilt ohnehin: Tonspuren gibt es nur an einem laufenden Player,
+    fünfmal gemessen und fünfmal bestätigt (CLAUDE.md). Es gibt keinen zweiten
+    Abruf, der hier etwas beitragen könnte.
+  */
+  if (!nf) continue
   zeilen.push({
     name: t.titleDe || t.titleEn || t.titleRomaji || String(t.id),
     folgen: t.episodes ?? 0,
@@ -16,6 +35,8 @@ for (const t of liste) {
     // Aus /title/<nummer> wird /watch/<nummer>: Netflix startet damit die erste
     // Folge, und nur im laufenden Player stehen die Tonspuren.
     spielen: (nf.url ?? '').replace('/title/', '/watch/'),
+    /* Nur zur Einordnung: Hat MOTN diesen Titel vergeblich gesucht? */
+    unbekannt: vergeblich.has(t.id),
   })
 }
 // Nach Nutzen: viele Folgen zuerst — der Aufwand je Zeile ist gleich, der Ertrag nicht.
@@ -26,7 +47,8 @@ const md = [
   '',
   `Stand ${new Date().toISOString().slice(0, 10)} · **${zeilen.length} Titel**.`,
   '',
-  'Diese Titel kennt die Streaming Availability API nicht — ein zweiter Abruf bringt nichts.',
+  'Netflix gibt seine Tonspuren nur an einen laufenden Player heraus — fünfmal gemessen,',
+  'fünfmal bestätigt. Es gibt keinen Abruf, der das hier abnehmen könnte.',
   'Netflix selbst darf nicht abgerufen werden (`robots.txt`). Bleibt der Blick von Hand.',
   '',
   '**Ablauf mit der Erweiterung aus `extension/`:** Titelseite öffnen, auf **Abspielen** klicken,',
