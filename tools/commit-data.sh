@@ -194,6 +194,8 @@ QUELLEN=(
   data/crunchyroll-de-kennungen.json
   data/cr-einzelwerke.json
   data/cr-filmbloecke.json
+  data/cr-katalog-de.json
+  data/cr-katalog-zuordnung.json
   extension/offene-amazon.js
   extension/offene-amazon-suche.js
   extension/offene-netflix.js

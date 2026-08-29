@@ -75,7 +75,8 @@
     "data:disc-ausgaben": "tsx pipeline/extract-disc-ausgaben.ts",
     "data:start-liste": "tsx pipeline/report-start.ts",
     "data:cr-einzelwerke": "node pipeline/fetch-cr-einzelwerke.mjs",
-    "data:cr-filmbloecke": "node pipeline/fetch-cr-filmbloecke.mjs"
+    "data:cr-filmbloecke": "node pipeline/fetch-cr-filmbloecke.mjs",
+    "data:cr-katalog": "node pipeline/fetch-cr-katalog.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",

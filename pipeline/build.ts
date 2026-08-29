@@ -2948,6 +2948,31 @@ function main(): void {
       filmbloecke++
     }
     if (filmbloecke) log(`${filmbloecke} Filme/Specials über ihren eigenen Block in einer Filmreihe belegt`)
+
+    /**
+     * **Siebte Runde: der Abgleich gegen den vollständigen deutschen Katalog.**
+     *
+     * `discover/browse` gibt ihn ganz heraus — 1.591 Einträge in 16 Abrufen.
+     * Danach braucht es keine Suchanfrage mehr, und Titel, die dort völlig
+     * anders heißen, finden trotzdem ihren Eintrag: „Fruits Basket: Prelude"
+     * steht im Katalog als **„-prelude-"**.
+     *
+     * **Der Filter ist streng, und das ist der Kern.** Ein Namensteil trifft
+     * immer den Reihennamen; ein erster Versuch ordnete 16 von 30 zu, davon die
+     * Mehrzahl falsch („One Punch Man OVAs" → „One-Punch Man"). Verlangt wird
+     * deshalb ein zweites, **zählbares** Merkmal: die Folgenzahl, bei einem Film
+     * 0 oder 1. Übrig bleibt einer — und der ist richtig.
+     */
+    let ausKatalog = 0
+    for (const z of readJson<{ id: number; audio?: string[] }[]>('data/cr-katalog-zuordnung.json', [])) {
+      if (!z.audio?.includes('de-DE')) continue
+      const title = titles.get(z.id)
+      const stream = title?.streams.find((s) => s.platform === 'crunchyroll')
+      if (!stream || stream.dub !== undefined) continue
+      stream.dub = true
+      ausKatalog++
+    }
+    if (ausKatalog) log(`${ausKatalog} über den vollständigen deutschen Katalog belegt`)
     log(`${belegt} Synchro-Angaben aus den Crunchyroll-Serienseiten belegt (${crDub.serien.length} Seiten gelesen)`)
     if (verschwunden) log(`${verschwunden} Crunchyroll-Verweise entfernt — die Serie ist dort nicht mehr verfügbar`)
     /* Geschrieben wird erst am Ende — nach der letzten Stelle, die entfernt. */

@@ -64,7 +64,28 @@ for (const o of offen) {
     await new Promise((r2) => setTimeout(r2, 700))
     for (const gruppe of r?.data ?? []) {
       for (const it of gruppe.items ?? []) {
-        if (!namen.some((n2) => norm(it.title) === norm(n2))) continue
+        /*
+          **Der Katalogtitel darf ein Teil unseres Titels sein.**
+
+          Daniel am 29.08.2026, mit Link: „den titel gibt es auf crunchy, wieso
+          nicht gefunden?" — „Fruits Basket: Prelude" heißt bei uns englisch
+          „Fruits Basket -prelude-", und Crunchyroll führt den Film schlicht als
+          **„-prelude-"**. Der exakte Vergleich scheitert an
+          „fruitsbasketprelude" gegen „prelude", obwohl beides dasselbe ist.
+
+          Erlaubt ist deshalb auch: Der Katalogtitel steckt **vollständig** in
+          unserem, und er ist mindestens sechs Zeichen lang. Die Richtung ist
+          wichtig — umgekehrt („unser Titel steckt im Katalogtitel") träfe
+          „Fruits Basket" auf jede Staffel der Reihe.
+
+          Zwei Sperren bleiben: Die Suchanfrage nennt bereits den vollen Titel,
+          die Trefferliste ist also eingegrenzt; und sechs Zeichen schließen
+          Allerweltswörter aus.
+        */
+        const exakt = namen.some((n2) => norm(it.title) === norm(n2))
+        const teil =
+          norm(it.title).length >= 6 && namen.some((n2) => norm(n2).includes(norm(it.title)))
+        if (!exakt && !teil) continue
         treffer = { id: it.id, typ: gruppe.type ?? it.type, titel: it.title, meta: it.movie_listing_metadata ?? it.series_metadata ?? it.movie_metadata ?? {} }
         break
       }
