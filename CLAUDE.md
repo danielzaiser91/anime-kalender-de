@@ -1370,6 +1370,32 @@ Die beiden hinteren leiten um, aber ohne `canonical` bleibt es Googles Vermutung
 und die Search Console meldet „Seite mit Weiterleitung". Die Zeile steht im `social`-Block von
 `web/index.html`, damit `build-share-pages.ts` sie je Teilen-Seite gegen deren eigene tauscht.
 
+## Wer die Live-Seite prüft, räumt zuerst den Service Worker ab
+
+Am 29.08.2026 zweimal in einer Stunde derselbe Fehlschluss: Ein Fix war
+ausgeliefert, die Seite zeigte den alten Stand, und der Verdacht fiel auf den
+Code. Beide Male war es der Service Worker — einmal bei „One Piece: zuletzt
+20.05.2019“ (der Fix stand längst live), einmal bei den Disc-Wegen in der
+„Wo?“-Ansicht (173 Einträge, angezeigt wurden null).
+
+Das ist kein Fehler der Seite, sondern ihre Aufgabe: Sie soll offline
+funktionieren, und `ignoreSearch` in `sw.js` sorgt bewusst dafür, dass die
+Datenstand-Kennung an der Adresse den Cache **nicht** umgeht (lieber alte
+Termine als eine leere Seite).
+
+**Der Prüfgriff, in dieser Reihenfolge:**
+
+```js
+for (const r of await navigator.serviceWorker.getRegistrations()) await r.unregister()
+for (const k of await caches.keys()) await caches.delete(k)
+location.reload()
+```
+
+Ein `location.reload(true)` allein genügt nicht — das Argument ist seit Jahren
+wirkungslos, und der Service Worker antwortet weiter aus seinem Cache. Wer die
+Registrierung stehen lässt, misst den Stand von vorhin und sucht den Fehler an
+der falschen Stelle.
+
 ## Caches: die Adresse ist die Version
 
 Datenadressen tragen den Datenstand (`/data/events.json?v=20260812142619`), eingesetzt in
