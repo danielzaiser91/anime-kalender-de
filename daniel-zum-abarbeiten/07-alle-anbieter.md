@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-08-29 · **163 offene Verweise** in **126 Zeilen**.
+Stand 2026-08-29 · **160 offene Verweise** in **125 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -37,7 +37,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | [Crunchyroll](07-crunchyroll.md) | 36 |
 | [Netflix](07-netflix.md) | 31 |
 | [YouTube](07-youtube.md) | 22 |
-| [ADN](07-adn.md) | 15 |
+| [ADN](07-adn.md) | 12 |
 | [Joyn](07-joyn.md) | 2 |
 | [Disney+](07-disneyplus.md) | 1 |
 
@@ -151,26 +151,25 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 104 | 2009-03-26 | Toradora! | [Hauptserie](https://www.amazon.de/s?k=Toradora!&i=instant-video) |
 | 105 | 2008-08-22 | Death Note | [Relight](https://www.netflix.com/title/70204970) |
 | 106 | 2007-09-12 | Zombie-Loan | [Hauptserie](https://www.amazon.de/s?k=Zombie%20Loan&i=instant-video) |
-| 107 | 2007-03-03 | One Piece | [Der Film](https://animationdigitalnetwork.de/video/one-piece-le-film) · [Abenteuer auf der Spiralinsel](https://animationdigitalnetwork.de/video/one-piece-film-aventure-de-lile-de-lhorloge) · [Abenteuer in Alabasta - Die Wüstenprinzessin](https://animationdigitalnetwork.de/video/one-piece-film-episode-alabasta-les-pirates-et-la-princesse-du-desert) |
-| 108 | 2006-09-27 | Ouran High School Host Club | [Hauptserie](https://www.netflix.com/title/70205014) |
-| 109 | 2005-09-14 | Final Fantasy VII: Advent Children | [Hauptserie](https://www.youtube.com/watch?v=IFKqfiIE66Q) |
-| 110 | 2005-03-19 | Samurai Champloo | [Hauptserie](https://www.netflix.com/title/70213065) |
-| 111 | 2005-03-19 | Samurai Champloo | [Hauptserie](https://www.amazon.de/s?k=Samurai%20Champloo&i=instant-video) |
-| 112 | 2005-03-16 | Tenjo Tenge | [Hauptserie](https://www.amazon.de/s?k=Tenjho%20Tenge&i=instant-video) · [OVA](https://www.amazon.de/s?k=Tenjho%20Tenge%3A%20The%20Ultimate%20Fight&i=instant-video) |
-| 113 | 2003-11-08 | Tokyo Godfathers | [Hauptserie](https://www.youtube.com/watch?v=jderzQDdDHc) |
-| 114 | 2000-10-24 | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
-| 115 | 2000-03-27 | The Candidate for Goddess | [Hauptserie](https://www.amazon.de/s?k=Pilot%20Candidate&i=instant-video) |
-| 116 | 1997-08-01 | Kimba, der weiße Löwe | [Jungle Emperor Leo: Der Kinofilm](https://www.crunchyroll.com/de/jungle-emperor-leo) |
-| 117 | 1995-12-23 | Sailor Moon: Das Mädchen mit den Zauberkräften | [Sailor Moon R Movie: Gefährliche Blumen](https://www.amazon.de/s?k=Sailor%20Moon%20R%3A%20The%20Movie&i=instant-video) · [Sailor Moon S: Schneeprinzessin Kaguya](https://www.amazon.de/s?k=Sailor%20Moon%20S%20Movie%3A%20Hearts%20in%20Ice&i=instant-video) · [Sailor Moon Super S: Reise ins Land der Träume](https://www.amazon.de/s?k=Sailor%20Moon%20SuperS%20the%20Movie%3A%20Black%20Dream%20Hole&i=instant-video) |
-| 118 | 1994-08-06 | Street Fighter II: The Animated Movie | [Hauptserie](https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie) |
-| 119 | 1994-08-06 | Street Fighter II: The Animated Movie | [Hauptserie](https://www.amazon.de/s?k=Street%20Fighter%20II%3A%20The%20Animated%20Movie&i=instant-video) |
-| 120 | 1991-10-03 | Die Mumins | [Hauptserie](https://www.youtube.com/playlist?list=PLL0kUUHCSZA6VQjBcZ8TJ-tshEMyPsSt6) |
-| 121 | 1987-07-18 | Knights of the Zodiac: Saint Seiya Teil 2 | [Saint Seiya: Die Krieger des Zodiac - Movie 1: Die Legende des goldenen Apfels](https://www.amazon.de/s?k=Saint%20Seiya%3A%20Evil%20Goddess%20Eris&i=instant-video) |
-| 122 | 1981-03-14 | Unico: Das phantastische Abenteuer eines Hörnchens | [Hauptserie](https://www.amazon.de/s?k=Fantastic%20Adventures%20of%20Unico&i=instant-video) |
-| 123 | 1980-12-28 | Tom Sawyers Abenteuer | [Hauptserie](https://www.amazon.de/s?k=The%20Adventures%20of%20Tom%20Sawyer&i=instant-video) |
-| 124 | 1979-12-15 | Lupin III.: Teil 1 | [Das Schloss des Cagliostro](https://www.netflix.com/title/70050576) |
-| 125 | 1968-04-07 | Choppy und die Prinzessin | [Hauptserie](https://www.youtube.com/watch?v=A0DaeCtJTG0) |
-| 126 | 1968-03-31 | Speed Racer | [Hauptserie](https://www.youtube.com/playlist?list=PLnY1FL_e1HO5NAcu_AaLWeYkpUc5KqVI3) |
+| 107 | 2006-09-27 | Ouran High School Host Club | [Hauptserie](https://www.netflix.com/title/70205014) |
+| 108 | 2005-09-14 | Final Fantasy VII: Advent Children | [Hauptserie](https://www.youtube.com/watch?v=IFKqfiIE66Q) |
+| 109 | 2005-03-19 | Samurai Champloo | [Hauptserie](https://www.netflix.com/title/70213065) |
+| 110 | 2005-03-19 | Samurai Champloo | [Hauptserie](https://www.amazon.de/s?k=Samurai%20Champloo&i=instant-video) |
+| 111 | 2005-03-16 | Tenjo Tenge | [Hauptserie](https://www.amazon.de/s?k=Tenjho%20Tenge&i=instant-video) · [OVA](https://www.amazon.de/s?k=Tenjho%20Tenge%3A%20The%20Ultimate%20Fight&i=instant-video) |
+| 112 | 2003-11-08 | Tokyo Godfathers | [Hauptserie](https://www.youtube.com/watch?v=jderzQDdDHc) |
+| 113 | 2000-10-24 | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
+| 114 | 2000-03-27 | The Candidate for Goddess | [Hauptserie](https://www.amazon.de/s?k=Pilot%20Candidate&i=instant-video) |
+| 115 | 1997-08-01 | Kimba, der weiße Löwe | [Jungle Emperor Leo: Der Kinofilm](https://www.crunchyroll.com/de/jungle-emperor-leo) |
+| 116 | 1995-12-23 | Sailor Moon: Das Mädchen mit den Zauberkräften | [Sailor Moon R Movie: Gefährliche Blumen](https://www.amazon.de/s?k=Sailor%20Moon%20R%3A%20The%20Movie&i=instant-video) · [Sailor Moon S: Schneeprinzessin Kaguya](https://www.amazon.de/s?k=Sailor%20Moon%20S%20Movie%3A%20Hearts%20in%20Ice&i=instant-video) · [Sailor Moon Super S: Reise ins Land der Träume](https://www.amazon.de/s?k=Sailor%20Moon%20SuperS%20the%20Movie%3A%20Black%20Dream%20Hole&i=instant-video) |
+| 117 | 1994-08-06 | Street Fighter II: The Animated Movie | [Hauptserie](https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie) |
+| 118 | 1994-08-06 | Street Fighter II: The Animated Movie | [Hauptserie](https://www.amazon.de/s?k=Street%20Fighter%20II%3A%20The%20Animated%20Movie&i=instant-video) |
+| 119 | 1991-10-03 | Die Mumins | [Hauptserie](https://www.youtube.com/playlist?list=PLL0kUUHCSZA6VQjBcZ8TJ-tshEMyPsSt6) |
+| 120 | 1987-07-18 | Knights of the Zodiac: Saint Seiya Teil 2 | [Saint Seiya: Die Krieger des Zodiac - Movie 1: Die Legende des goldenen Apfels](https://www.amazon.de/s?k=Saint%20Seiya%3A%20Evil%20Goddess%20Eris&i=instant-video) |
+| 121 | 1981-03-14 | Unico: Das phantastische Abenteuer eines Hörnchens | [Hauptserie](https://www.amazon.de/s?k=Fantastic%20Adventures%20of%20Unico&i=instant-video) |
+| 122 | 1980-12-28 | Tom Sawyers Abenteuer | [Hauptserie](https://www.amazon.de/s?k=The%20Adventures%20of%20Tom%20Sawyer&i=instant-video) |
+| 123 | 1979-12-15 | Lupin III.: Teil 1 | [Das Schloss des Cagliostro](https://www.netflix.com/title/70050576) |
+| 124 | 1968-04-07 | Choppy und die Prinzessin | [Hauptserie](https://www.youtube.com/watch?v=A0DaeCtJTG0) |
+| 125 | 1968-03-31 | Speed Racer | [Hauptserie](https://www.youtube.com/playlist?list=PLnY1FL_e1HO5NAcu_AaLWeYkpUc5KqVI3) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 

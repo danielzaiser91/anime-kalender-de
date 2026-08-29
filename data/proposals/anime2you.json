@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-29T18:35:02.203Z",
+  "scrapedAt": "2026-08-29T20:41:33.373Z",
   "proposals": [
     {
       "articleTitle": "Erste »Clevatess«-Staffel erscheint als Limited Edition auf Blu-ray",
@@ -56,6 +56,45 @@
         }
       ],
       "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Anime-Neuheiten im September 2026 auf DVD und Blu-ray",
+      "articleUrl": "https://www.anime2you.de/news/1043751/disc-neuheiten-september-2026/",
+      "publishedAt": "2026-08-29",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "month": "2026-09",
+          "context": "Anime-Neuheiten im September 2026 auf DVD und Blu-ray Im September 2026 kommen wieder"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»Afro Samurai« erscheint im limitierten Steelbook auf Blu-ray",
+      "articleUrl": "https://www.anime2you.de/news/1044479/afro-samurai-steelbook-blu-ray-edition/",
+      "publishedAt": "2026-08-29",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-12-18",
+          "context": "Dezember 2026 Die Steelbook-Komplettbox erscheint voraussichtlich am 18. Dezember 2026 als Blu-ray und beinhaltet sowohl die fünfteilige Se"
+        },
+        {
+          "month": "2026-12",
+          "context": "dition auf Blu-ray veröffentlichen wird. Wir fassen zusammen. Release im Dezember 2026 Die Steelbook-Komplettbox erscheint voraussichtlich a"
+        }
+      ],
+      "dub": "unklar",
       "alreadyCurated": false
     },
     {

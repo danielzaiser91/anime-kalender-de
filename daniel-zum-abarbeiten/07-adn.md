@@ -1,6 +1,6 @@
 # ADN: was noch zu prüfen ist
 
-Stand 2026-08-29 · **15 offene Verweise** in **9 Zeilen**.
+Stand 2026-08-29 · **12 offene Verweise** in **8 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Die Kurzschrift zum
 Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
@@ -17,4 +17,3 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 | 6 | 2022-09-23 | When Will Ayumu Make His Move? | [Hauptserie](https://animationdigitalnetwork.de/video/a-quoi-tu-joues-ayumu-soredemo-ayumu-wa-yosetekuru) |
 | 7 | 2022-09-12 | My Isekai Life: I Gained a Second Character Class and Became the Strongest Sage in the World! | [Hauptserie](https://animationdigitalnetwork.de/video/my-isekai-life) |
 | 8 | 2019-07-28 | JoJo’s Bizarre Adventure | [Hauptserie](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) · [Stardust Crusaders](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) · [Stardust Crusaders - Battle in Egypt](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) · [Diamond Is Unbreakable](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) · [Golden Wind](https://animationdigitalnetwork.com/de/video/444-jojo-s-bizarre-adventure) |
-| 9 | 2007-03-03 | One Piece | [Der Film](https://animationdigitalnetwork.de/video/one-piece-le-film) · [Abenteuer auf der Spiralinsel](https://animationdigitalnetwork.de/video/one-piece-film-aventure-de-lile-de-lhorloge) · [Abenteuer in Alabasta - Die Wüstenprinzessin](https://animationdigitalnetwork.de/video/one-piece-film-episode-alabasta-les-pirates-et-la-princesse-du-desert) |
