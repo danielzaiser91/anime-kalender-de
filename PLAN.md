@@ -21,19 +21,36 @@ dort nachweislich nicht mehr läuft. Ein toter Link ist schlimmer als keiner.
 
 ## Die drei Lücken
 
-### 1. Synchro-Urteile — 193 offene Verweise
+### 1. Synchro-Urteile — 178 offene Verweise
 
 | Anbieter | offen | Weg |
 |---|---|---|
-| Crunchyroll | 63 | Specials und Filme ohne eigenen Block; je Fall eine Entscheidung |
-| Prime Video | 58 | Erweiterung, Daniels Prüfliste |
-| Netflix | 42 | Erweiterung, ein Klick je Folge |
+| Prime Video | 76 | Erweiterung, Daniels Prüfliste |
+| Netflix | 32 | Erweiterung, ein Klick je Folge |
+| Crunchyroll | 30 | Titel im Katalog anders benannt — siehe unten |
 | YouTube | 22 | Handarbeit, der Titel nennt oft die Fassung |
-| ADN | 5 | eine Serie mit gemischten Staffeln |
+| ADN | 15 | zwei Adressformen, die nicht zusammenfinden |
 | Joyn, Disney+ | 3 | Handarbeit |
 
-Crunchyroll ist von 356 auf 63 gefallen — der Rest ist der harte Kern, den die
-Messung vom 27.08. schon benannt hat.
+**Crunchyroll: 34 von 56 an einem Abend automatisch beantwortet.** Vier Wege,
+alle am 29.08.2026 gefunden und in `pipeline/lib/crunchyroll-dub.ts` sowie
+`pipeline/fetch-cr-filmbloecke.mjs` beschrieben:
+
+| Weg | gelöst |
+|---|---|
+| Blockketten — ein Block deckt mehrere Cours | 5 |
+| Suche ohne `type=series` — Filme als `movie_listing` | 8 |
+| Eigene Filmreihen — „Fairy Tail Movies" | 5 |
+| Folgen innerhalb der Serie — Conan-Filme nennen ihre `versions` | 8 |
+
+**Zwei naheliegende Anker tragen dort nicht**, und das ist gemessen: Der
+japanische Originaltitel findet nichts (die Suche indiziert nur lokalisierte
+Titel), und das Jahr in der Antwort ist das der Aufnahme ins Angebot. Was trägt,
+ist das **Kennwort** hinter dem letzten Trenner, mindestens sechs Zeichen.
+
+Die verbleibenden 22 heißen im Katalog anders — „Fruits Basket: Prelude" steht
+dort als „-prelude-". Ein Abgleich über Beschreibungstexte wäre der nächste
+Schritt und ist kein sicherer Weg mehr.
 
 ### 2. Titel ohne jeden Weg — 498
 
