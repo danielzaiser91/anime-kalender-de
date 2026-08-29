@@ -336,6 +336,19 @@ try {
       jahr: Number.isFinite(t?.jpYear) ? t.jpYear : null,
       asId: anisearch[String(v.id)]?.anisearchId ?? null,
       vorschlag: true,
+      /*
+        **Warum dieser Vorschlag wackelig ist — im Klartext bis zum Kasten.**
+
+        `vorschlaege-anbieter.ts` prüft Format und Jahr des TMDB-Treffers gegen
+        unseren Eintrag. Passt beides nicht zusammen, gilt der Anbieter dem
+        falschen Werk: Unsere OVA 20779 wurde auf die TV-Serie TMDB 61695
+        abgebildet, und Daniel suchte bei Prime nach einer OVA, für die dort nie
+        etwas stand (29.08.2026, 13 von 185 Vorschlägen).
+
+        Gelöscht wird deshalb keiner — ein Vorfilter verschiebt (CLAUDE.md).
+        Aber der Kasten sagt es, bevor jemand sucht.
+      */
+      ...(v.unsicher ? { unsicher: v.unsicher } : {}),
     }
     ausVorschlaegen++
   }

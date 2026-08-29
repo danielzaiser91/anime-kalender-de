@@ -37,11 +37,21 @@ interface Vorschlag {
   anbieter: PlatformId[]
   /** Hat ANN deutsche Sprechrollen belegt? Dann ist die Suche besonders lohnend. */
   sprechrollen: boolean
+  /**
+   * Warum dieser Vorschlag unsicher ist — leer, wenn er es nicht ist.
+   *
+   * Er wird deshalb **nicht** weggelassen: Ein Vorfilter verschiebt, er löscht
+   * nicht (CLAUDE.md). Aber er steht hinten und sagt selbst, woran es liegt.
+   */
+  unsicher?: string
 }
 
 function main(): void {
   const titles = readJson<Title[]>('public/data/titles.json', [])
-  const tmdb = readJson<Record<string, { providers?: PlatformId[] }>>('data/tmdb-titles.json', {})
+  const tmdb = readJson<Record<string, { providers?: PlatformId[]; kind?: string; jahr?: number }>>(
+    'data/tmdb-titles.json',
+    {},
+  )
 
   /*
     Wer in `dub-confirmed.yaml` steht, wurde bereits angesehen — dort steht auch
@@ -57,6 +67,38 @@ function main(): void {
     if (geprueft.has(String(t.id))) continue
     const anbieter = tmdb[String(t.id)]?.providers ?? []
     if (!anbieter.length) continue
+    /*
+      **Passt der TMDB-Treffer überhaupt zu unserem Eintrag?**
+
+      Gemessen am 29.08.2026: Unsere OVA 20779 („Beyond the Boundary —
+      Morgendämmerung", 1 Folge, 2014) wurde auf die **TV-Serie** TMDB 61695
+      abgebildet. Deren Anbieter — ADN und Prime — landeten damit als Vorschlag
+      in der Prüfliste, und Daniel suchte bei Prime nach einer OVA, für die dort
+      nie etwas stand. Dreizehn der 185 Vorschläge sind von dieser Art.
+
+      Zwei Prüfungen, beide einfach und beide gegen einen belegten Fall:
+
+      - **Format:** Ein Film bei uns, eine Serie bei TMDB (oder umgekehrt) — dann
+        gelten die Anbieter nicht dem, was wir suchen.
+      - **Jahr:** Fünf Jahre Abstand oder mehr. „Elysium" ist bei uns ein
+        koreanischer Film von 2003, die Suche führt auf den Hollywood-Film von
+        2013 (Daniel, 28.08.2026).
+
+      Der Vorschlag bleibt trotzdem in der Liste, nur hinten und mit Vermerk. Ein
+      TMDB-Treffer auf die Serie ist ein schwacher Hinweis, aber kein Unsinn:
+      Läuft die Serie bei Prime, liegt die OVA vielleicht daneben.
+    */
+    const e = tmdb[String(t.id)]
+    const unsFilm = t.format === 'MOVIE'
+    const unsNeben = t.format === 'OVA' || t.format === 'SPECIAL' || t.format === 'ONA'
+    const gruende: string[] = []
+    if (e?.kind && ((unsFilm && e.kind !== 'movie') || (unsNeben && e.kind === 'tv'))) {
+      gruende.push(`TMDB kennt nur die Serie, wir führen ${t.format}`)
+    }
+    if (e?.jahr && t.jpYear && Math.abs(e.jahr - t.jpYear) >= 5) {
+      gruende.push(`TMDB-Treffer von ${e.jahr}, unser Eintrag von ${t.jpYear}`)
+    }
+
     vorschlaege.push({
       id: t.id,
       titel: t.titleDe ?? t.titleEn ?? t.titleRomaji ?? String(t.id),
@@ -65,6 +107,7 @@ function main(): void {
       jahr: t.jpYear ?? null,
       anbieter,
       sprechrollen: Boolean(t.hasVoices),
+      ...(gruende.length ? { unsicher: gruende.join('; ') } : {}),
     })
   }
 
@@ -74,6 +117,8 @@ function main(): void {
     zuerst die Serien — eine gefundene Serie bringt mehr Folgen als ein Film.
   */
   vorschlaege.sort((a, b) => {
+    /* Unsichere ganz nach hinten — sie kosten dieselbe Zeit und bringen weniger. */
+    if (Boolean(a.unsicher) !== Boolean(b.unsicher)) return a.unsicher ? 1 : -1
     if (a.sprechrollen !== b.sprechrollen) return a.sprechrollen ? -1 : 1
     return (b.folgen ?? 0) - (a.folgen ?? 0)
   })
@@ -83,9 +128,10 @@ function main(): void {
   const jeAnbieter: Record<string, number> = {}
   for (const v of vorschlaege) for (const a of v.anbieter) jeAnbieter[a] = (jeAnbieter[a] ?? 0) + 1
   const mitRollen = vorschlaege.filter((v) => v.sprechrollen).length
+  const unsichere = vorschlaege.filter((v) => v.unsicher).length
 
   log(
-    `${vorschlaege.length} Vorschläge (${mitRollen} mit belegten Sprechrollen): ` +
+    `${vorschlaege.length} Vorschläge (${mitRollen} mit belegten Sprechrollen, ${unsichere} unsicher): ` +
       Object.entries(jeAnbieter)
         .sort((a, b) => b[1] - a[1])
         .map(([a, n]) => `${a} ${n}`)

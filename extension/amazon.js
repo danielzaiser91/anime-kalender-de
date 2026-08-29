@@ -2110,8 +2110,23 @@ async function speicherSchreiben(werte) {
       gehoert zu einem Auftrag, und der traegt die Kennung. Ein Kasten, der
       kuenftig dazukommt, hat den Verweis damit von selbst.
     */
+    /*
+      **Ein wackeliger Auftrag sagt es selbst, bevor jemand sucht.**
+
+      Der Vermerk kommt aus `vorschlaege-anbieter.ts`: Dort passte das Format
+      oder das Jahr des TMDB-Treffers nicht zu unserem Eintrag. Wer das vorher
+      weiß, hört nach zwei Blicken auf zu suchen statt nach zwei Minuten — und
+      genau das war Daniels Anliegen am 28.08.2026 („die prüfliste ist extrem
+      mühselig für mich abzuarbeiten").
+
+      Er steht hier und nicht an einer Aufrufstelle, aus demselben Grund wie
+      der Verweis darunter: Jeder Kasten gehört zu einem Auftrag.
+    */
     try {
       const auftrag = suchauftrag()
+      if (auftrag?.unsicher) {
+        kasten.appendChild(kastenZeile('ak-such-warn', 'Wackeliger Vorschlag: ' + auftrag.unsicher))
+      }
       if (auftrag?.asId) {
         /*
           **aniSearch vor AniList** (Daniel, 28.08.2026: „nimm fuer prueflist titel

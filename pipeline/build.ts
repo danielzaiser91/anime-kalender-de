@@ -3423,6 +3423,43 @@ function main(): void {
   }
 
   /**
+   * **Nachhut: kein Verweis verlässt den Bau ohne Zugangsart.**
+   *
+   * Die Hauptrunde dafür steht rund tausend Zeilen weiter oben — bewusst spät,
+   * damit sie die ergänzten und umsortierten Verweise mitnimmt. Trotzdem wurde
+   * sie seither dreimal überholt: am 25.08.2026 von drei Verweisen (Gintama,
+   * DEATH NOTE Rewrite, Durarara!!), am 29.08.2026 von einem weiteren
+   * (Kickers, Crunchyroll aus der Suchergänzung). Jedes Mal wurde die neue
+   * Stelle einzeln nachgezogen, und jedes Mal kam die nächste.
+   *
+   * **Eine Reihenfolge, die man beim Einbau mitdenken muss, hält nicht** — das
+   * steht für die Handbelege längst in CLAUDE.md und gilt hier genauso. Diese
+   * Schleife braucht niemand mitzudenken: Sie läuft nach der letzten Stelle,
+   * die Verweise anlegt, und füllt nur, was noch leer ist. Ein bereits
+   * gesetzter Wert wird nicht angefasst — die Hauptrunde kennt die
+   * JustWatch-Angabe und den YouTube-Kanal, hier fehlen beide.
+   *
+   * Wird sie einmal überflüssig, meldet sie es selbst: Sie zählt, was sie
+   * nachträgt, und schweigt bei null.
+   */
+  let nachgetragen = 0
+  for (const title of titles.values()) {
+    for (const s of title.streams ?? []) {
+      if (s.zugang) continue
+      s.zugang = zugangsart(s.platform, undefined, s.url)
+      nachgetragen++
+    }
+    for (const w of title.watchLinks ?? []) {
+      if (w.zugang) continue
+      w.zugang = zugangsart(w.name, w.kind, w.url)
+      nachgetragen++
+    }
+  }
+  if (nachgetragen) {
+    log(`${nachgetragen} Verweis(e) nachträglich mit Zugangsart versehen — sie entstanden nach der Hauptrunde`)
+  }
+
+  /**
    * „Im Angebot seit" — für Titel, die sonst gar kein Datum hätten.
    *
    * 1.089 Titel mit belegter deutscher Synchro haben keinen einzigen Termin.

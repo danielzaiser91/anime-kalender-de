@@ -53,6 +53,16 @@ export interface TmdbTitle {
    * ob sich beide unterscheiden, denn nur er kennt beide.
    */
   nameDe?: string
+  /**
+   * Erscheinungsjahr laut TMDB — der Prüfstein gegen Gleichnamige.
+   *
+   * „Elysium" steht bei uns als koreanischer Mecha-Film von 2003; die
+   * Prime-Suche führt auf den Hollywood-Film von 2013 (Daniel, 28.08.2026).
+   * Titel und Typ stimmen dort überein, nur das Jahr nicht — und genau das
+   * wurde bis zum 29.08.2026 nicht mitgespeichert. Ohne es kann kein Lauf
+   * merken, dass der Treffer ein anderes Werk ist.
+   */
+  jahr?: number
   fsk?: Fsk
   providers?: PlatformId[]
   /** Alle deutschen Angebote, auch die ohne eigene Plattform. */
@@ -174,11 +184,21 @@ async function lookup(apiKey: string, title: Title): Promise<TmdbTitle> {
   const out: TmdbTitle = { tmdbId: best.hit.id, kind }
 
   try {
-    const detail = await fetchJson<{ overview?: string; name?: string; title?: string }>(
+    const detail = await fetchJson<{
+      overview?: string
+      name?: string
+      title?: string
+      first_air_date?: string
+      release_date?: string
+    }>(
       `${BASE}/${kind}/${best.hit.id}?api_key=${apiKey}&language=de-DE`,
     )
     // TMDB liefert bei fehlender Übersetzung ein leeres Feld statt Englisch.
     if (detail.overview && detail.overview.trim().length > 40) out.overviewDe = detail.overview.trim()
+    /* Serien tragen `first_air_date`, Filme `release_date` — beide als Jahr. */
+    const datum = detail.first_air_date || detail.release_date
+    const jahr = Number((datum ?? '').slice(0, 4))
+    if (Number.isFinite(jahr) && jahr > 1900) out.jahr = jahr
     /*
       **Der deutsche Titel kommt aus derselben Antwort — er wurde nur nie gelesen.**
 
