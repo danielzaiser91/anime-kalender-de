@@ -192,6 +192,7 @@ QUELLEN=(
   # Prime-Titel, von denen ein guter Teil erledigt war.
   data/bestand-historie.jsonl
   data/crunchyroll-de-kennungen.json
+  data/cr-einzelwerke.json
   extension/offene-amazon.js
   extension/offene-amazon-suche.js
   extension/offene-netflix.js

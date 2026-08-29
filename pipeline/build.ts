@@ -2891,6 +2891,36 @@ function main(): void {
       }
     }
     if (ketten) log(`${ketten} weitere über Blockketten belegt (ein Block deckt mehrere Staffeln)`)
+
+    /**
+     * **Fünfte Runde: Filme und Specials, die der Katalog einzeln führt.**
+     *
+     * Die Suche nach Serienkennungen läuft mit `type=series` — Filme findet sie
+     * nie. Am 29.08.2026 hatten 26 der 56 offenen Verweise deshalb keine
+     * Kennung, davon 18 Filme. `data:cr-einzelwerke` sucht ohne Typ-Filter und
+     * findet sie als `movie_listing`, mit ihren Tonspuren.
+     *
+     * **Der Beleggrad ist derselbe wie bei einer Serie:** Der deutsche Katalog
+     * nennt für diesen Titel `de-DE`. Der Namensvergleich ist exakt (nach
+     * Kleinschreibung ohne Sonderzeichen) — ein Film hat keinen zweiten
+     * Prüfstein, keine Folgenzahl und keine Staffelstruktur, deshalb wird hier
+     * nichts geraten.
+     *
+     * **Nur Ja, kein Nein.** Findet der Katalog den Film nicht, heißt das „hier
+     * nicht geführt" — und daraus wird kein `dub: false` (CLAUDE.md).
+     */
+    let einzeln = 0
+    for (const eintrag of readJson<
+      { id: number; treffer?: { audio?: string[] } | null }[]
+    >('data/cr-einzelwerke.json', [])) {
+      if (!eintrag.treffer?.audio?.includes('de-DE')) continue
+      const title = titles.get(eintrag.id)
+      const stream = title?.streams.find((s) => s.platform === 'crunchyroll')
+      if (!stream || stream.dub !== undefined) continue
+      stream.dub = true
+      einzeln++
+    }
+    if (einzeln) log(`${einzeln} Filme/Specials über den deutschen Katalog belegt (Einzelwerk-Suche)`)
     log(`${belegt} Synchro-Angaben aus den Crunchyroll-Serienseiten belegt (${crDub.serien.length} Seiten gelesen)`)
     if (verschwunden) log(`${verschwunden} Crunchyroll-Verweise entfernt — die Serie ist dort nicht mehr verfügbar`)
     /* Geschrieben wird erst am Ende — nach der letzten Stelle, die entfernt. */

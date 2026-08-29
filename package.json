@@ -73,7 +73,8 @@
     "check:qualitaet": "tsx pipeline/check-qualitaet.ts",
     "data:rohfolgen": "tsx pipeline/fetch-rohfolgen.ts",
     "data:disc-ausgaben": "tsx pipeline/extract-disc-ausgaben.ts",
-    "data:start-liste": "tsx pipeline/report-start.ts"
+    "data:start-liste": "tsx pipeline/report-start.ts",
+    "data:cr-einzelwerke": "node pipeline/fetch-cr-einzelwerke.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",
