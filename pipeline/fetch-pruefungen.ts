@@ -463,8 +463,37 @@ for (const gruppe of jeAdresse.values()) {
     */
     const teil = gruppe.map((x) => x).reverse().find((x) => x.teil_von && x.teil_bis)
     if (teil) zeilen.push(`  teilBereich: { von: ${teil.teil_von}, bis: ${teil.teil_bis} }`)
+    /*
+      **Aus einem Kanal-Titel wird nie ein Nein.**
+
+      Prime führt zweierlei unter derselben Oberfläche: eigene Inhalte und
+      Kanal-Abos (ADN, aniverse, Crunchyroll). Bei einem Kanal-Titel zeigt
+      Amazon die Sprachen, die der **Kanal** führt, nicht die der Folge —
+      gemessen an „Kill Blue": Amazon sagte 12 deutsche Folgen, ADN und Netflix
+      unabhängig je 4 (CLAUDE.md, 24.08.2026). Die Erweiterung markiert solche
+      Meldungen seitdem mit „⚠ Kanal" und schreibt die Warnung in die Notiz.
+
+      **Nur ist hier nie etwas daraus gefolgt.** Am 29.08.2026 gemessen: 239
+      Handbelege tragen die Warnung, **19 davon ein `dub: false`** — und ein Nein
+      entfernt den Verweis. „Fullmetal Alchemist" verlor so seinen letzten Weg,
+      obwohl die Notiz desselben Eintrags sagt, dass die Angabe kein Beleg ist.
+
+      Ein Ja bleibt zulässig: „Es gibt dort deutsche Folgen" stimmt auch dann,
+      wenn es weniger sind als angegeben. Ein Nein wäre eine Aussage über die
+      ganze Staffel, gestützt auf eine Quelle, die über die Folge nichts sagt —
+      dieselbe Asymmetrie wie bei jedem Ausschnitt.
+
+      Ohne `dub`-Zeile bleibt der Verweis mit „🇩🇪 ?" stehen. Das ist die
+      ehrliche Antwort und besser als beides: besser als ein erfundenes Ja und
+      besser als ein Nein, das einen richtigen Weg löscht.
+    */
+    const ueberKanal = gruppe.some((x) => /Kanal-Titel/.test(x.notiz ?? ''))
+    const neinAusKanal = ueberKanal && !eigene.some((b) => b.dub) && p.befund !== 'dub'
+
     if (weg) {
       zeilen.push('  available: false')
+    } else if (neinAusKanal) {
+      /* Kein Urteil — die Adresse und die Tonspuren stehen trotzdem in der Notiz. */
     } else if (eigene.length) {
       const ganz = eigene.length === 1 && eigene[0]!.von === 1 && eigene[0]!.bis === (t?.episodes ?? -1)
       zeilen.push(`  dub: ${eigene.some((b) => b.dub)}`)

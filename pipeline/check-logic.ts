@@ -2178,5 +2178,31 @@ pruefe('title/ ohne Nummer nicht', !netflixAdresseTaugt('https://www.netflix.com
 pruefe('eine Genre-Liste nicht', !netflixAdresseTaugt('http://netflix.com/DetectiveConanMovies'))
 pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.amazon.de/dp/B0B8TR93HR'))
 
+/*
+  **Aus einem Kanal-Titel darf kein Nein werden — gemessen am echten Bestand.**
+
+  Prime zeigt bei einem Kanal-Abo (ADN, aniverse, Crunchyroll) die Sprachen des
+  **Kanals**, nicht der Folge: „Kill Blue" meldete 12 deutsche Folgen, zwei
+  unabhängige Quellen je 4. Die Erweiterung markiert solche Meldungen seit dem
+  24.08.2026, und die Notiz sagt es im Klartext — nur folgte daraus nie etwas.
+
+  Am 29.08.2026 trugen **19 von 239** solcher Handbelege ein `dub: false`, und
+  ein Nein entfernt den Verweis: „Fullmetal Alchemist" verlor dadurch seinen
+  letzten Weg, obwohl derselbe Eintrag sagte, dass die Angabe kein Beleg ist.
+
+  Ein Ja bleibt erlaubt — „es gibt dort deutsche Folgen" stimmt auch bei zu
+  hoher Zahl. Geprüft wird nur die eine Richtung, die Daten löscht.
+*/
+{
+  const yaml = readFileSync(new URL('../data/dub-confirmed.yaml', import.meta.url), 'utf8')
+  const mitWarnung = yaml.split(/\n(?=- anilistId:)/).filter((b) => b.includes('Kanal-Titel'))
+  const neins = mitWarnung.filter((b) => b.includes('\n  dub: false'))
+  pruefe(
+    `kein Handbeleg macht aus einem Kanal-Titel ein Nein (${mitWarnung.length} mit Kanal-Warnung)`,
+    neins.length === 0,
+  )
+}
+
+
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

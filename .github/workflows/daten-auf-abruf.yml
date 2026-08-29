@@ -43,7 +43,12 @@ concurrency:
 jobs:
   lauf:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    # Zwei Stunden statt 45 Minuten: Die aniSearch-Folgenlisten sind der Anker,
+    # an dem die ganze Folgen-Zuordnung haengt, und sie kommen im Sechs-Sekunden-
+    # Takt — 45 Minuten sind 450 Titel, bei 2.615 offenen also sechs Laeufe.
+    # Der Takt selbst bleibt unangetastet; laenger heisst nicht schneller,
+    # sondern nur, dass ein Lauf nicht mittendrin abgeschnitten wird.
+    timeout-minutes: 120
     permissions:
       contents: write
     steps:
