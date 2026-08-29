@@ -945,7 +945,32 @@ function searchableName(name: string | undefined): string | undefined {
   return trimmed || name
 }
 
+interface EntfernterVerweis {
+  titleId: number
+  titel: string
+  plattform: string
+  url: string
+  seriesId: string | null
+  grund: string
+  geprueftAm: string | null
+  letzterWeg: boolean
+}
+
 function main(): void {
+  /**
+   * **Jeder entfernte Verweis mit seinem Grund — vollständig.**
+   *
+   * Es gab das Protokoll schon, aber nur für die Crunchyroll-Bereinigung. Am
+   * 29.08.2026 kostete das eine Stunde: 123 Titel zeigten keinen Weg, obwohl
+   * das eigene Archiv Adressen führt, und für **46 davon stand nirgends,
+   * warum**. Die Antwort lag in einer Schleife 300 Zeilen weiter unten, die
+   * belegte Neins wegwirft und dabei schweigt.
+   *
+   * Ein Verweis, der verschwindet, ist die folgenreichste Änderung, die dieser
+   * Bau macht — danach zeigt die Seite dem Besucher nichts mehr. Wer sie nicht
+   * nachvollziehen kann, kann sie auch nicht widerlegen.
+   */
+  const verweiseEntfernt: EntfernterVerweis[] = []
   const confidenceRaw = readJson<Record<string, DubConfidence>>('data/cache/dub-confidence.json', {})
   const byMal = readJson<Record<string, AniListMedia>>('data/cache/anilist-media.json', {})
   const byAniId = readJson<Record<string, AniListMedia>>('data/cache/anilist-by-id.json', {})
@@ -2672,16 +2697,8 @@ function main(): void {
      * ist genau die gewünschte: Hier steht jeder entfernte Verweis mit Grund
      * und Prüfdatum, ausgeliefert wird er nicht.
      */
-    const entfernt: {
-      titleId: number
-      titel: string
-      plattform: string
-      url: string
-      seriesId: string | null
-      grund: string
-      geprueftAm: string | null
-      letzterWeg: boolean
-    }[] = []
+    /* Die Liste steht weiter oben auf Funktionsebene — auch spätere
+       Entfernungen sollen hineinschreiben, nicht nur die dieses Blocks. */
     for (const serie of crDub.serien) {
       /**
        * „Leider sind die Videos dieser Serie nicht mehr verfügbar."
@@ -2742,7 +2759,7 @@ function main(): void {
           const weg = vorher - title.streams.length
           verschwunden += weg
           if (weg) {
-            entfernt.push({
+            verweiseEntfernt.push({
               titleId: title.id,
               titel: title.titleDe ?? title.titleEn ?? title.titleRomaji ?? String(title.id),
               plattform: 'crunchyroll',
@@ -2842,11 +2859,7 @@ function main(): void {
     if (jeBlock) log(`${jeBlock} weitere über den Blocknamen belegt`)
     log(`${belegt} Synchro-Angaben aus den Crunchyroll-Serienseiten belegt (${crDub.serien.length} Seiten gelesen)`)
     if (verschwunden) log(`${verschwunden} Crunchyroll-Verweise entfernt — die Serie ist dort nicht mehr verfügbar`)
-    if (entfernt.length) {
-      writeJson('data/verweise-entfernt.json', { stand: new Date().toISOString(), verweise: entfernt }, true)
-      const ohneWeg = entfernt.filter((e) => e.letzterWeg).length
-      log(`${entfernt.length} entfernte Verweise protokolliert (${ohneWeg} Titel zeigen danach keinen Weg mehr)`)
-    }
+    /* Geschrieben wird erst am Ende — nach der letzten Stelle, die entfernt. */
   }
 
   /**
@@ -2977,13 +2990,36 @@ function main(): void {
    */
   let ohneDeutsch = 0
   for (const title of titles.values()) {
-    const vorher = title.streams.length
+    const raus = title.streams.filter((s) => s.dub === false)
+    if (!raus.length) continue
     title.streams = title.streams.filter((s) => s.dub !== false)
-    ohneDeutsch += vorher - title.streams.length
+    ohneDeutsch += raus.length
+    for (const s of raus) {
+      verweiseEntfernt.push({
+        titleId: title.id,
+        titel: title.titleDe ?? title.titleEn ?? title.titleRomaji ?? String(title.id),
+        plattform: s.platform,
+        url: s.url,
+        seriesId: null,
+        grund: 'belegtes Nein: dort gibt es keine deutsche Tonspur',
+        geprueftAm: null,
+        letzterWeg: title.streams.length === 0,
+      })
+    }
     // `watchLinks` tragen keine Sprachangabe — sie sind Shops und Nischendienste,
     // zu denen niemand die Tonspur belegt. Sie bleiben unangetastet.
   }
   if (ohneDeutsch) log(`${ohneDeutsch} Verweise ohne deutsche Synchro entfernt`)
+
+  if (verweiseEntfernt.length) {
+    writeJson(
+      'data/verweise-entfernt.json',
+      { stand: new Date().toISOString(), verweise: verweiseEntfernt },
+      true,
+    )
+    const ohneWeg = verweiseEntfernt.filter((e) => e.letzterWeg).length
+    log(`${verweiseEntfernt.length} entfernte Verweise protokolliert (${ohneWeg} Titel zeigen danach keinen Weg mehr)`)
+  }
 
   /**
    * Adressen vermerken, die mehrere unserer Einträge bedienen.
