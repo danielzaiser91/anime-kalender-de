@@ -353,6 +353,8 @@ jobs:
       # Sekunden je Seite, deshalb ein eigener Schritt mit eigener Grenze.
       - name: aniSearch — Folgenlisten (deutsche Folgentitel)
         continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:anisearch-folgen -- --limit 120
 
       - name: Fortschritt — Deutsche Texte und Anbieter von aniSearch
