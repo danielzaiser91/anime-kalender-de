@@ -1,6 +1,6 @@
 # Netflix: was noch zu prüfen ist
 
-Stand 2026-08-29 · **41 offene Verweise** in **32 Zeilen**.
+Stand 2026-08-29 · **40 offene Verweise** in **32 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Die Kurzschrift zum
 Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
@@ -22,7 +22,7 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 | 11 | 2022-10-13 | Exception | [Hauptserie](https://www.netflix.com/title/81002444) |
 | 12 | 2022-09-12 | My Isekai Life: I Gained a Second Character Class and Became the Strongest Sage in the World! | [Hauptserie](https://www.netflix.com/title/81617962) |
 | 13 | 2022-03-16 | Mushoku Tensei: Jobless Reincarnation | [Eris auf Goblinjagd](https://www.netflix.com/title/80987039) |
-| 14 | 2021-07-30 | Fate/Zero | [Fate/Stay Night: Unlimited Blade Works - Sunny Day](https://www.netflix.com/title/80040330) · [Fate/Grand Order Absolute Demonic Front: Babylonia - Initium Iter](https://www.netflix.com/title/81186102) · [Fate/Grand Order: Final Singularity - The Grand Temple of Time: Solomon](https://www.netflix.com/title/82850867) |
+| 14 | 2021-07-30 | Fate/Zero | [Fate/Grand Order Absolute Demonic Front: Babylonia - Initium Iter](https://www.netflix.com/title/81186102) · [Fate/Grand Order: Final Singularity - The Grand Temple of Time: Solomon](https://www.netflix.com/title/82850867) |
 | 15 | 2021-02-11 | Sailor Moon: Das Mädchen mit den Zauberkräften | [Pretty Guardian Sailor Moon Eternal: Der Film](https://www.netflix.com/title/81214399) |
 | 16 | 2020-06-17 | Dorohedoro | [Teuflische Anekdoten](https://www.netflix.com/title/80991903) |
 | 17 | 2020-03-30 | Bakugan: Spieler des Schicksals | [Bakugan: Battle Planet](https://www.netflix.com/title/81174992) |

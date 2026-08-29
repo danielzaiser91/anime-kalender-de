@@ -16,6 +16,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:cr-G6NVG970Y@2026-08-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260822T120000Z
+DTEND:20260822T123000Z
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 19/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-G6NVG970Y
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:black-torch@2026-08-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260822T130000Z
@@ -23,16 +33,6 @@ DTEND:20260822T133000Z
 SUMMARY:Black Torch – Folge 8/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/black-torch
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6NVG970Y@2026-08-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260822T130000Z
-DTEND:20260822T133000Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 19/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -302,25 +302,23 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:cr-G6NVG970Y@2026-08-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260829T120000Z
+DTEND:20260829T123000Z
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 20/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-G6NVG970Y
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:black-torch@2026-08-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260829T130000Z
 DTEND:20260829T133000Z
 SUMMARY:Black Torch – Folge 9/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/black-torch
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6NVG970Y@2026-08-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260829T130000Z
-DTEND:20260829T133000Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 20/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-G6NVG970Y
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/black-torch
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -756,6 +754,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:cr-G6NVG970Y@2026-09-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260905T120000Z
+DTEND:20260905T123000Z
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 21/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-G6NVG970Y
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:black-torch@2026-09-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260905T130000Z
@@ -764,17 +773,6 @@ SUMMARY:Black Torch – Folge 10/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/black-torch
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6NVG970Y@2026-09-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260905T130000Z
-DTEND:20260905T133000Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 21/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -956,6 +954,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:cr-G6NVG970Y@2026-09-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260912T120000Z
+DTEND:20260912T123000Z
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 22/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-G6NVG970Y
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:black-torch@2026-09-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260912T130000Z
@@ -964,17 +973,6 @@ SUMMARY:Black Torch – Folge 11/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/black-torch
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6NVG970Y@2026-09-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260912T130000Z
-DTEND:20260912T133000Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 22/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1222,6 +1220,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:cr-G6NVG970Y@2026-09-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260919T120000Z
+DTEND:20260919T123000Z
+SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 23/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
+ rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
+ kalender.de/#/release/cr-G6NVG970Y
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:black-torch@2026-09-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260919T130000Z
@@ -1230,17 +1239,6 @@ SUMMARY:Black Torch – Folge 12/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
  kalender.de/#/release/black-torch
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6NVG970Y@2026-09-19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260919T130000Z
-DTEND:20260919T133000Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 23/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/cr-G6NVG970Y
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -1414,8 +1412,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:cr-G6NVG970Y@2026-09-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20260926T130000Z
-DTEND:20260926T133000Z
+DTSTART:20260926T120000Z
+DTEND:20260926T123000Z
 SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 24/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
  rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-

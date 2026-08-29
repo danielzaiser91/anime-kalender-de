@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-08-29T11:07:13.466Z",
+ "erzeugtAm": "2026-08-29T14:43:02.096Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -15,15 +15,15 @@
      "titel": "Hagane no Renkinjutsushi"
     },
     {
-     "url": "https://www.amazon.de/dp/B0CJZH535R",
+     "url": "https://www.amazon.de/dp/B0CJYMLW6W",
      "titel": "Fushigi Yuugi OVA 2"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/0JCA33AQG97BOWLTEVFO06HR3J",
+     "url": "https://www.amazon.de/dp/B01EKI0SQ8",
      "titel": "Yu☆Gi☆Oh! ZEXAL"
     },
     {
-     "url": "https://www.amazon.de/dp/B0CVFNLP9D",
+     "url": "https://www.amazon.de/dp/B0CGGZVNFS",
      "titel": "Toaru Kagaku no Railgun S"
     },
     {
@@ -35,11 +35,11 @@
      "titel": "Date A Live II"
     },
     {
-     "url": "https://www.amazon.de/dp/B0CN3Q9DH8",
+     "url": "https://www.amazon.de/dp/B0CWRDZVBY",
      "titel": "Mahouka Koukou no Rettousei"
     },
     {
-     "url": "https://www.amazon.de/dp/B0CGYPT89N",
+     "url": "https://www.amazon.de/dp/B0CGYJ482P",
      "titel": "Saenai Heroine no Sodatekata"
     },
     {
@@ -59,7 +59,7 @@
      "titel": "Appare-Ranman!"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/0KXOMCNFCKPTA6Z6HNIJ0ESQ9P",
+     "url": "https://www.amazon.de/dp/B0D956JD5Y",
      "titel": "EDENS ZERO 2nd Season"
     },
     {
@@ -75,7 +75,7 @@
      "titel": "Kakushite! Makina-san!!"
     },
     {
-     "url": "https://www.amazon.de/dp/B0GVGXKJ22",
+     "url": "https://www.amazon.de/dp/B0GVN98MKW",
      "titel": "Reincarnation no Kaben"
     },
     {
@@ -92,8 +92,8 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 367,
-   "gesamt": 398,
+   "gemeldet": 366,
+   "gesamt": 397,
    "offen": 31,
    "ohneSeite": 0,
    "ziel": "https://www.netflix.com/title/70050576",
