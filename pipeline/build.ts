@@ -2269,6 +2269,8 @@ function main(): void {
    * gesetztes `true`.
    */
   let geprueft = 0
+  /** YouTube-Verweise, deren Urteil aus der Tonspur-Angabe der Videoseite stammt. */
+  let ytAusTonspur = 0
   let entfernt = 0
   let ytEntfernt = 0
   let totEntfernt = 0
@@ -2296,11 +2298,30 @@ function main(): void {
    * "kostenlos" im Kalender, obwohl sechs davon Geld kosten.
    */
   const ytKauf = new Set<string>()
+  /**
+   * **Was YouTube selbst über die Tonspur sagt — je Adresse.**
+   *
+   * `pipeline/check-youtube.mjs` liest die Angabe seit dem 23.08.2026 aus der
+   * Videoseite („Audio: Deutsch"). Sie stand seither in `youtube-befunde.json`
+   * und erreichte den Datensatz nie: Dieser Block las `kanal` und
+   * `kaufAngebot`, das dritte Feld daneben las niemand. 41 Verweise trugen eine
+   * belegte Sprachangabe, und 22 YouTube-Verweise standen trotzdem ohne Urteil
+   * im Kalender (gemessen 29.08.2026).
+   *
+   * Die Aussage gilt dem **Verweis**, nicht dem Werk — genau das ist
+   * `stream.dub`. Ein „Japanisch" bei einer Seite, die mit `de-DE` angefragt
+   * wurde, heißt: Hier gibt es keinen deutschen Ton zu holen.
+   */
+  const ytAudio = new Map<string, boolean>()
   for (const [url, b] of Object.entries(
-    readJson<Record<string, { kanal?: string | null; kaufAngebot?: boolean }>>('data/youtube-befunde.json', {}),
+    readJson<Record<string, { kanal?: string | null; kaufAngebot?: boolean; audioDeutsch?: boolean }>>(
+      'data/youtube-befunde.json',
+      {},
+    ),
   )) {
     if (b?.kanal) ytKanal[url] = b.kanal
     if (b?.kaufAngebot === true) ytKauf.add(url)
+    if (typeof b?.audioDeutsch === 'boolean') ytAudio.set(url, b.audioDeutsch)
   }
   /** Antwortstatus je Anbieter-Adresse aus `pipeline/check-links.ts`. */
   const linkBefunde = readJson<Record<string, { status: number | string; prime?: boolean }>>('data/link-check.json', {})
@@ -2394,6 +2415,14 @@ function main(): void {
       if (check && typeof check.dub === 'boolean') {
         stream.dub = check.dub
         geprueft++
+      }
+      // Die Handprüfung hat Vorrang; wo sie schweigt, spricht YouTube selbst.
+      if (stream.dub === undefined && stream.platform === 'youtube') {
+        const ton = ytAudio.get(stream.url)
+        if (ton !== undefined) {
+          stream.dub = ton
+          ytAusTonspur++
+        }
       }
       // Wo der deutsche Ton aufhört, steht nur in den Bereichen. Sie kommen
       // fertig auf diese Staffel umgerechnet aus fetch-pruefungen.ts.
@@ -2543,7 +2572,10 @@ function main(): void {
   }
 
   if (checks.size) {
-    log(`${geprueft} geprüfte Synchro-Angaben übernommen, ${entfernt} tote Verweise entfernt (${checks.size} Prüfungen)`)
+    log(
+      `${geprueft} geprüfte Synchro-Angaben übernommen, ${entfernt} tote Verweise entfernt (${checks.size} Prüfungen)` +
+        (ytAusTonspur ? `, ${ytAusTonspur} YouTube-Urteile aus der Tonspur-Angabe` : ''),
+    )
   }
   if (adressen) {
     log(`${adressen} Anbieter-Adressen durch die von Hand geprüfte ersetzt`)

@@ -129,27 +129,71 @@ async function videoseite(url) {
       kanal: /"ownerChannelName":"([^"]+)"/.exec(html)?.[1] ?? null,
       kaufAngebot: /"offerId":"[^"]+"/.test(html),
       kategorie: /"category":"([^"]+)"/.exec(html)?.[1] ?? null,
+      /*
+        **Die Tonspur steht in derselben Seite — sie wurde nur nie gelesen.**
+        Bis zum 29.08.2026 holte nur der 200er-Zweig die Sprachangabe; wer mit
+        401 hier landete, blieb ohne. Genau die Kauf- und Leihtitel bei YouTube
+        Movies antworten aber mit 401, und ihre Seite nennt „Audio: Deutsch"
+        so deutlich wie jede andere. Ein zweiter Abruf wäre Verschwendung: das
+        HTML liegt hier bereits.
+      */
+      audio: audioAus(html),
     }
   } catch {
     return null
   }
 }
 
+function audioAus(html) {
+  const muster = [
+    /\{"text":"Audio"\}\]\},"contents":\[\{"simpleText":"([^"]+)"/,
+    /"simpleText":"Audio: ([^"]+)"/,
+    /"value":\{"simpleText":"([^"]+)"\},"label":\{"simpleText":"Hauptsprache"/,
+  ]
+  for (const m of muster) {
+    const treffer = m.exec(html)
+    if (treffer) return treffer[1]
+  }
+  return null
+}
+
 async function tonspur(url) {
   try {
     const antwort = await fetch(url, { headers: { 'Accept-Language': 'de-DE,de;q=0.9' } })
     if (!antwort.ok) return null
-    const html = await antwort.text()
-    const muster = [
-      /\{"text":"Audio"\}\]\},"contents":\[\{"simpleText":"([^"]+)"/,
-      /"simpleText":"Audio: ([^"]+)"/,
-      /"value":\{"simpleText":"([^"]+)"\},"label":\{"simpleText":"Hauptsprache"/,
-    ]
-    for (const m of muster) {
-      const treffer = m.exec(html)
-      if (treffer) return treffer[1]
-    }
+    return audioAus(await antwort.text())
+  } catch {
     return null
+  }
+}
+
+/**
+ * **Eine Playlist-Seite nennt keine Tonspur — ihre Videos tun es.**
+ *
+ * Zehn der 22 offenen YouTube-Verweise zeigten am 29.08.2026 auf eine Playlist
+ * (`?list=…` ohne `v=`). Dort greift `tonspur()` ins Leere: Das Audio-Menü
+ * gehört zum Abspieler eines Videos, nicht zur Sammlung. Der Verweis blieb
+ * darum offen, obwohl die Auskunft eine Ebene tiefer bereitliegt.
+ *
+ * Geholt wird das **erste** Video der Liste. Für ein `dub: true` genügt das:
+ * Die Aussage lautet „hinter diesem Verweis gibt es deutschen Ton", und ein
+ * deutsches Video belegt sie. Für ein `dub: false` würde es nicht genügen —
+ * das behauptet dieser Weg auch nicht.
+ */
+async function erstesVideoDerPlaylist(url) {
+  try {
+    const antwort = await fetch(url, {
+      headers: {
+        'Accept-Language': 'de-DE,de;q=0.9',
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127 Safari/537.36',
+      },
+    })
+    if (!antwort.ok) return null
+    const html = await antwort.text()
+    const treffer =
+      /"playlistVideoRenderer":\{"videoId":"([\w-]{11})"/.exec(html) ?? /"videoId":"([\w-]{11})"/.exec(html)
+    return treffer ? `https://www.youtube.com/watch?v=${treffer[1]}` : null
   } catch {
     return null
   }
@@ -195,6 +239,10 @@ for (const [i, v] of arbeit.entries()) {
         // gelesen werden, bleibt die Frage offen statt falsch beantwortet.
         kostenpflichtig: seite?.kaufAngebot === true ? true : undefined,
       }
+      if (seite?.audio) {
+        befund.audioDeutsch = /deutsch|german/i.test(seite.audio)
+        if (befund.audioDeutsch) belegt++
+      }
       if (seite?.videoTitel) {
         befund.deutscherTitel = DEUTSCHE_SPUR.test(seite.videoTitel)
         befund.andereFassung = ANDERE_FASSUNG.test(seite.videoTitel)
@@ -214,7 +262,15 @@ for (const [i, v] of arbeit.entries()) {
         deutscherTitel: DEUTSCHE_SPUR.test(daten.title ?? ''),
         andereFassung: ANDERE_FASSUNG.test(daten.title ?? ''),
       }
-      const ton = await tonspur(v.url)
+      let ton = await tonspur(v.url)
+      // Playlist ohne eigene Tonspur: eine Ebene tiefer, beim ersten Video.
+      if (!ton && /[?&]list=/.test(v.url) && !/[?&]v=/.test(v.url)) {
+        const erstes = await erstesVideoDerPlaylist(v.url)
+        if (erstes) {
+          ton = await tonspur(erstes)
+          if (ton) befund.audioAusVideo = erstes
+        }
+      }
       if (ton) {
         befund.audio = ton
         befund.audioDeutsch = /deutsch|german/i.test(ton)

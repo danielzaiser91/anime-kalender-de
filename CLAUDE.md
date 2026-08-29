@@ -2193,3 +2193,21 @@ hängt seit dem 26.08.2026 in `check:extension`. Was dort rot wird, ist ein Abst
 Dieselbe Klasse Fehler ist mir an diesem Tag **dreimal** unterlaufen: `empfohlen` im Dialog,
 `location` im Test-Sandkasten, `MARKE_FOLGEN` im ausgeschnittenen Block. Alle drei hätte diese
 Prüfung genannt.
+
+## Kein Prettier — das Projekt formatiert von Hand
+
+`npx prettier --write` auf eine Datei dieses Projekts formatiert **die ganze
+Datei um**: Semikolons rein, einfache Anführungszeichen zu doppelten. Am
+29.08.2026 traf es `pipeline/build.ts` — 2.840 geänderte Zeilen für eine
+Änderung von zwölf. `git blame` wäre für die Datei unbrauchbar geworden.
+
+Der Grund: Es gibt **keine** Prettier-Konfiguration im Repo und kein
+`format`-Skript in der `package.json`. `npx` lädt Prettier frisch herunter und
+wendet seine Voreinstellung an — die ist das Gegenteil des hier gewachsenen
+Stils (keine Semikolons, einfache Anführungszeichen, 120 Spalten).
+
+**Also: nicht formatieren lassen, sondern im Stil der Umgebung schreiben.**
+Dieselbe Regel wie bei den Zeilenenden (`sed -i` auf CRLF, 12.08.2026): Ein
+Werkzeug, das nebenbei die ganze Datei anfasst, kostet mehr, als es einspart.
+Wird Prettier je eingeführt, dann mit Konfiguration und als **eigener** Commit
+über den ganzen Bestand.
