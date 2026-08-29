@@ -95,7 +95,24 @@ const IDS_MAX_AGE_DAYS = 7
  * Anbieter, der die Rechte verliert, nie wieder aus unserem Bestand
  * verschwinden.
  */
-const TITEL_MAX_AGE_DAYS = Number(process.argv[process.argv.indexOf('--alter') + 1]) || 14
+/**
+ * Wiedervorlage nach dreißig Tagen — nicht nach vierzehn.
+ *
+ * **Vierzehn waren nicht haltbar, und das ist gerechnet, nicht gefühlt.** Der
+ * Bestand hat 2.615 Titel mit aniSearch-Kennung; um eine Frist von 14 Tagen
+ * einzuhalten, müssten täglich 187 Seiten geholt werden. Geholt wurden **60 je
+ * Woche** — die Warteschlange konnte nie leer werden, und am 29.08.2026 lagen
+ * **955 von 2.615** Seiten im Archiv, der Rest gar nicht.
+ *
+ * Was daran hängt, ist mehr als ein deutscher Titel: Aus demselben Archiv
+ * kommen die Beschreibungen, die Anbieterlisten und seit dem 29.08. die
+ * deutschen Disc-Ausgaben — der einzige Bezugsweg für 176 Titel, die sonst
+ * keinen zeigen.
+ *
+ * Dreißig Tage verlangen 87 Seiten am Tag. Der Tageslauf holt 120; damit trägt
+ * die Frist mit Luft, und der Rückstand ist in gut drei Wochen aufgeholt.
+ */
+const TITEL_MAX_AGE_DAYS = Number(process.argv[process.argv.indexOf('--alter') + 1]) || 30
 
 function veraltet(eintrag: { fetchedAt?: string }): boolean {
   if (!eintrag.fetchedAt) return true

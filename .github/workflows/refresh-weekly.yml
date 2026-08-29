@@ -352,8 +352,9 @@ jobs:
         run: bash "$MELDER" schritt "Anime2You"
 
       - name: Deutsche Texte und Anbieter von aniSearch
-        # Nur ein Kontingent je Lauf, eine Anfrage pro Sekunde. Der Bestand
-        # füllt sich über die Tage; er liegt im Repo und geht nie verloren.
+        # Seit dem 29.08.2026 holt der **Tageslauf** die Hauptmenge (120 Seiten);
+        # hier stehen nur noch die Nachzuegler. Der Takt ist sechs Sekunden je
+        # Seite — nicht eine Sekunde, wie hier bis heute stand.
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}

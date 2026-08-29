@@ -220,6 +220,18 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "Meldungen aus der Erweiterung abgeholt"
 
+      # aniSearch taeglich statt woechentlich — 120 Seiten im Sechs-Sekunden-Takt,
+      # also zwoelf Minuten. Der Grund steht in `fetch-anisearch.ts`: Bei 2.615
+      # Titeln und 60 Seiten je Woche konnte die Warteschlange nie leer werden;
+      # am 29.08.2026 lagen 955 von 2.615 Seiten im Archiv. An diesem Archiv
+      # haengen die deutschen Titel, die Beschreibungen, die Anbieterlisten und
+      # die Disc-Ausgaben.
+      - name: Deutsche Texte und Anbieter von aniSearch
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:anisearch -- --limit 120
+
       # Deutsche Disc-Ausgaben aus dem aniSearch-Archiv — kein Abruf, keine fremde
       # Last, nur das Auswerten dessen, was der aniSearch-Lauf ohnehin ablegt.
       # Muss **vor** dem Bau laufen: Er macht daraus die Bezugswege fuer Titel,
