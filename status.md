@@ -59,20 +59,31 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
   Stand von seinem Start). `check:logic` hat es zwanzig Minuten später gemeldet
   — der Beleg dafür, dass zu jeder Datenkorrektur eine Zusicherung gehört.
 
-**Gewonnen an Substanz:**
+**Abend — der Ertrag:**
 
-| | vorher | nachher |
+| | früh | abends |
 |---|---|---|
-| Titel ganz ohne Weg | 1.041 | **862** |
-| davon mit belegter Synchro | 693 | **538** |
-| Titel mit Disc-Weg | 0 | **173** |
-| aniSearch-Archivdateien | 956 | **1.656** |
-| Titel mit deutscher Disc-Ausgabe | 584 | **1.017** |
+| **Titel ganz ohne Weg** | 1.041 | **498** |
+| **davon mit belegter Synchro** | 693 | **277** |
+| Titel mit Disc-Weg aus dem Archiv | 0 | **542** |
+| aniSearch-Archivdateien | 956 | **2.356** |
+| Verweise ohne Urteil | 193 | 193 |
 
-**Dazu, ohne Fehlerbezug:** vollständiges Entfernungsprotokoll (bisher nur die
-Crunchyroll-Bereinigung — 46 Titel ohne Weg waren unerklärlich), aniSearch- und
-ANN-Verweise in der Quellenübersicht (2.615 bzw. 8.876 Kennungen lagen ungenutzt
-im Bestand), `PLAN.md` frisch gemessen.
+Die größte inhaltliche Lücke des Projekts hat sich an einem Tag **mehr als
+halbiert** — ohne eine einzige neue Quelle. Beide Funde lagen im eigenen Haus:
+der Veröffentlichungs-Abschnitt im aniSearch-Archiv, und 1.660 verlorene
+Archivdateien, die der Abruf nicht bemerkte, weil seine Warteschlange nur nach
+dem Alter fragte.
+
+**Und für die 277, die bleiben, sagt die Seite jetzt mehr:** „Kein Bezugsweg
+bekannt. Eine deutsche Fassung gab es — die Sprecher sind belegt." Wer das
+liest, sucht gebraucht statt weiter bei den Streamingdiensten.
+
+**Die Autonomie hat sich zum ersten Mal selbst geholfen.** Der Reparatur-Lauf,
+der bei einem roten Datenlauf anspringt, hat heute Abend die Ursache gefunden,
+den Fix committet und den Lauf grün gemacht — ohne Zutun. Vormittags war er noch
+an seiner Zuggrenze gescheitert und hatte nichts hinterlassen; seitdem hält er
+den Befund als Issue fest, bevor er repariert.
 
 **Verworfen, mit Begründung — damit es niemand ein zweites Mal prüft:**
 
