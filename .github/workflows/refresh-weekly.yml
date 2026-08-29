@@ -348,6 +348,13 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:anisearch -- --limit 60
 
+      # Die Folgenlisten mit den deutschen Folgentiteln — der Anker, über den
+      # gemeldete Anbieter-Folgen unseren Folgen zugeordnet werden. Sechs
+      # Sekunden je Seite, deshalb ein eigener Schritt mit eigener Grenze.
+      - name: aniSearch — Folgenlisten (deutsche Folgentitel)
+        continue-on-error: true
+        run: npm run data:anisearch-folgen -- --limit 120
+
       - name: Fortschritt — Deutsche Texte und Anbieter von aniSearch
         continue-on-error: true
         env:

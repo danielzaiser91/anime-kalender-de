@@ -68,6 +68,8 @@ const FRISTEN: Record<string, number> = {
     Unrecht kommt, ist schlimmer als keine — man hört auf hinzusehen.
   */
   'motn-changes': 33,
+  /* Wöchentlich, 150 Titel je Lauf gegen 90 Tage Wiedervorlage. */
+  'anisearch-folgen': 9,
   // Wöchentlich. Eine Freigabe wird erst kurz vor dem Kinostart erteilt —
   // in ruhigen Wochen belegt der Lauf nichts Neues, und das ist kein Ausfall.
   fsk: 9,

@@ -34,6 +34,8 @@ VERSUCHE="${2:-3}"
 # Pfade werden übersprungen.
 QUELLEN=(
   data/anisearch.json
+  data/anisearch-folgen.json
+  data/anisearch-folgen-raw
   data/crunchyroll.json
   # Was ein Lauf an Verweisen entfernt hat, mit Grund und Prüfdatum. Kein
   # Erzeugnis der Website, sondern das Gedächtnis dazu — siehe build.ts.

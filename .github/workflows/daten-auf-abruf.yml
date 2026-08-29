@@ -27,6 +27,7 @@ on:
           - data:tmdb-folgen
           - data:tmdb
           - data:anisearch
+          - data:anisearch-folgen
           - data:cr-dub
           - data:extension-liste
       grenze:
@@ -68,7 +69,7 @@ jobs:
           GRENZE='${{ inputs.grenze }}'
           # Nicht jeder Lauf kennt --limit; die, die es nicht tun, bekommen es nicht.
           case "$LAUF" in
-            data:tmdb-folgen|data:tmdb|data:anisearch|data:cr-dub)
+            data:tmdb-folgen|data:tmdb|data:anisearch|data:anisearch-folgen|data:cr-dub)
               npm run "$LAUF" -- --limit "$GRENZE" ;;
             *)
               npm run "$LAUF" ;;

@@ -28,6 +28,7 @@
     "data:dub-checks": "tsx pipeline/report-dub-checks.ts",
     "data:report": "tsx pipeline/report-proposals.ts",
     "data:icons": "tsx pipeline/build-icons.ts",
+    "data:anisearch-folgen": "tsx pipeline/fetch-anisearch-folgen.ts",
     "data:anisearch": "tsx pipeline/fetch-anisearch.ts",
     "data:voices": "tsx pipeline/fetch-voices.ts",
     "data:anisearch:check": "tsx pipeline/check-anisearch.ts",
