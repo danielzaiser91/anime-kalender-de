@@ -2367,7 +2367,15 @@ export function DetailPanel({
             ) && (
             <div>
               <SectionTitle>{t('detail.whereToWatch')}</SectionTitle>
-              <p className="text-xs text-slate-500 dark:text-slate-400">{t('detail.whereUnknown')}</p>
+              {/*
+                Sind deutsche Sprechrollen belegt, ist mehr bekannt als „nichts":
+                Es gab eine deutsche Fassung, wir kennen nur keinen Weg mehr
+                dorthin. Wer das liest, sucht gebraucht statt bei den
+                Streamingdiensten weiter.
+              */}
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                {t(title.hasVoices ? 'detail.whereDubbedButGone' : 'detail.whereUnknown')}
+              </p>
             </div>
           )}
 
