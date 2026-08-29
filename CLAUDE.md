@@ -1297,8 +1297,9 @@ gebautes `dist/` unvollständig. Der Newsletter-Worker hat seine eigene
 Konfiguration in `worker/wrangler.toml`, mit `main`, Cron und D1.
 
 Zwei Konfigurationen in einem Repo sind kein Versehen: Die Wurzel liefert die
-Seite aus, `worker/` den Dienst dahinter. Nur der Aufrufort entscheidet, welche
-gilt.
+Seite aus, `worker/wrangler.toml` den Dienst dahinter. Verlässlich entscheidet
+nur der ausgeschriebene `--config`, welche gilt — der Aufrufort allein tut es
+nicht.
 
 ## Der Worker läuft dem Web-Client immer hinterher
 

@@ -13,13 +13,13 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **Phase 4: die Erweiterung hört auf zu urteilen** | 8 | Blockiert bis der Worker deployt ist — erst dann trägt jede Rohfolge ihre `titel_id` bis in den Bau, und erst dann ist belegbar, dass die Zuordnung ohne die Urteilsregeln auskommt |
+| **Phase 4: die Erweiterung hört auf zu urteilen** | 8 | Worker ist ausgeliefert (29.08., Version 895b110a). Wartet jetzt auf eine Meldung mit 3.91 — erst an ihr ist belegbar, dass die Zuordnung ohne die neunzig Urteilsregeln auskommt |
 
 ### Warten auf Feedback
 
 | Aufgabe | Notiz |
 |---|---|
-| **Worker ausliefern** | `npx wrangler deploy` — bringt `titel_id` und die seitenweise Rohfolgen-Abfrage nach draußen. Ohne ihn bleiben 0 von 67 Adressen zugeordnet und 620 von 5.620 Folgen unerreichbar |
+| **Eine Prime-Meldung mit 3.91** | Der Worker ist ausgeliefert und schickt `titel_id` mit — bei allen 5.620 Altmeldungen steht dort NULL, sie stammen aus Fassungen vor 3.90. Eine einzige neue Meldung zeigt, ob die Zuordnung greift |
 | **Erweiterung 3.91 laden** | Zeigt bei acht Suchaufträgen im Kasten, warum der TMDB-Treffer wackelt |
 | **Prime-Prüfliste** | 161 Suchen, davon 115 aussichtsreich (belegte deutsche Sprechrollen), 46 auf Verdacht am Ende |
 
