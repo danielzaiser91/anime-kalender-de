@@ -273,6 +273,52 @@ for (const datei of readdirSync(DIR).filter((f) => f.endsWith('.yml') || f.endsW
   }
 }
 
+
+/*
+  **Ein `data:`-Skript, das in keinem Workflow steht, veraltet still.**
+
+  CLAUDE.md sagt es seit dem 16.08.2026 unter „Ein neuer Abruf braucht drei
+  Dinge" — geprüft wurde bisher nur das zweite (steht die Datei in
+  `commit-data.sh`?). Das erste, der Platz in einem Workflow, blieb ein Vorsatz.
+
+  Am 29.08.2026 gemessen: **elf** der 47 `data:`-Skripte standen in keiner
+  Automatik. Der teuerste Fall war `data:vorschlaege`: Es schreibt
+  `data/anbieter-vorschlaege.json`, aus der die Prüfliste entsteht — die Liste
+  wurde also stündlich neu gebaut und ihre Grundlage nie. Dazu die Netflix- und
+  RTL+-Arbeitslisten und die Wiedervorlage, also ausgerechnet der Lauf, der
+  gealterte Handprüfungen aufspüren soll.
+
+  **Was hier absichtlich fehlen darf, steht in der Ausnahmeliste** — mit Grund,
+  damit niemand sie später für Vergessenes hält.
+*/
+const NUR_VON_HAND = {
+  'data:all': 'Sammelbefehl für einen kompletten Durchlauf von Hand',
+  'data:icons': 'erzeugt Bilddateien, die im Repo liegen — läuft bei einer Designänderung',
+  'data:adn:refresh': 'holt das ADN-Archiv komplett neu; Stunden Laufzeit, nur bei Parserbruch',
+  'data:anisearch:reparse': 'liest das Archiv neu ein, ohne einen einzigen Abruf',
+  'data:anisearch:check': 'Prüfung gegen das Archiv — hängt in `check:*`, nicht in einem Datenlauf',
+  'data:disc-proposals': 'erzeugt Vorschläge, die ein Mensch einzeln annimmt',
+}
+
+{
+  const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).scripts
+  const alleWorkflows = readdirSync(new URL('../.github/workflows/', import.meta.url))
+    .map((f) => readFileSync(new URL('../.github/workflows/' + f, import.meta.url), 'utf8'))
+    .join('\n')
+  const vergessen = Object.keys(pkg)
+    .filter((k) => k.startsWith('data:'))
+    .filter((k) => !NUR_VON_HAND[k])
+    .filter((k) => !alleWorkflows.includes(k))
+  for (const k of vergessen) {
+    console.error(
+      `✗ npm-Skript "${k}" steht in keinem Workflow — es läuft dann genau einmal von Hand ` +
+        'und veraltet danach still (CLAUDE.md, „Ein neuer Abruf braucht drei Dinge"). ' +
+        'Absichtlich manuell? Dann mit Grund in NUR_VON_HAND eintragen.',
+    )
+    fehler++
+  }
+}
+
 if (fehler) {
   console.error(`\n${fehler} Problem(e) in den Workflow-Dateien.`)
   process.exit(1)

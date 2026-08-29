@@ -256,7 +256,13 @@ jobs:
       - name: Arbeitslisten und Erweiterungs-Liste neu erzeugen
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run data:dub-checks && npm run data:extension-liste
+        # `data:vorschlaege` steht **vor** `data:extension-liste`, und das ist der
+        # ganze Punkt: Die Prueflisten-Erzeugung liest
+        # `data/anbieter-vorschlaege.json`, und diese Datei entstand bis zum
+        # 29.08.2026 in **keinem** Workflow. Die Liste wurde also stuendlich neu
+        # gebaut, ihre Grundlage nie — dieselbe Falle wie eine Zeile darueber,
+        # nur eine Ebene tiefer.
+        run: npm run data:vorschlaege && npm run data:dub-checks && npm run data:extension-liste
 
       - name: Fortschritt — Arbeitslisten neu erzeugen
         continue-on-error: true

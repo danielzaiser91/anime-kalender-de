@@ -301,6 +301,17 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:youtube:titel && npm run data:youtube:report
 
+      # Arbeitslisten und Wiedervorlage — sie standen bis zum 29.08.2026 in
+      # keinem Workflow und veralteten still. Betroffen waren die Netflix- und
+      # RTL+-Listen (Daniels Arbeitsvorrat) und die Wiedervorlage, die
+      # gealterte Handpruefungen aufspuert — ausgerechnet die, die verhindern
+      # soll, dass ein Befund von 2026 bis in alle Ewigkeit gilt.
+      - name: Arbeitslisten und Wiedervorlage
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:netflix-rest && npm run data:rtlplus:report && npm run data:wiedervorlage
+
       - name: Fortschritt — YouTube-Verweise auf Titel, Kanal und Kaufangebot
         continue-on-error: true
         env:
