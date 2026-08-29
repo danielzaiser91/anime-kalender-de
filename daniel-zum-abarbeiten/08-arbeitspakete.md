@@ -1,7 +1,7 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-08-29 · **160 offene Verweise** in **125 Zeilen**,
-aufgeteilt in **7 Pakete** zu je 20.
+Stand 2026-08-29 · **154 offene Verweise** in **120 Zeilen**,
+aufgeteilt in **6 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
 `dub-pruefliste.md`, nur nach Nutzen sortiert statt nach Datum: Was viele Folgen oder einen
@@ -86,31 +86,31 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
 | 41 | Prime Video | Horimiya | [The Missing Pieces](https://www.amazon.de/s?k=Horimiya%3A%20The%20Missing%20Pieces&i=instant-video) |
-| 42 | YouTube | Pokémon | [Mystery Dungeon: Team Flinke Freunde](https://www.youtube.com/watch?v=rAOmQ-foqeg) · [Mystery Dungeon: Erkundungsteams Zeit und Dunkelheit](https://www.youtube.com/watch?v=V0PlwsTLoM0) · [Mystery Dungeon: Portale in die Unendlichkeit](https://www.youtube.com/watch?v=zbwSAruo3QU) · [Der Film - Volcanion und das mechanische Wunderwerk](https://www.youtube.com/watch?v=9A22nfAK1V4) · [Entwicklungen](https://youtube.com/playlist?list=PLQWzKIaERirwN5po6LduiSLm8qc7GtuAl&si=I6QtXoF-i7cfG2c8) |
-| 43 | Prime Video | Food Wars! Shokugeki no Soma | [Food Wars! The Second Plate](https://www.amazon.de/s?k=Food%20Wars!%20The%20Second%20Plate&i=instant-video) |
-| 44 | Prime Video | Noragami | [Aragoto](https://www.amazon.de/s?k=Noragami%20Aragoto&i=instant-video) |
-| 45 | Prime Video | Space Dandy | [Hauptserie](https://www.amazon.de/s?k=Space%20Dandy&i=instant-video) |
-| 46 | Netflix | Angeloid: Sora no Otoshimono | [Hauptserie](https://www.netflix.com/title/70266999) |
-| 47 | Netflix | Baki | [BAKI-DOU: The Invincible Samurai Teil 2](https://www.netflix.com/title/81922765) |
-| 48 | YouTube | Kill Blue | [Hauptserie](https://www.youtube.com/playlist?list=PLhGamQZtJ7K-rS4G9zn-Bsb93kgFIphCM) |
-| 49 | Joyn | Magical Girl Spec Ops Asuka | [Hauptserie](https://www.joyn.de/serien/magical-girl-special-ops-asuka) |
-| 50 | Prime Video | Solo Leveling | [Hauptserie](https://www.amazon.de/s?k=Solo%20Leveling&i=instant-video) |
-| 51 | Disney+ | Go, Go, Loser Ranger! | [Go! Go! Loser Ranger!](https://www.disneyplus.com/de-de/series/go-go-loser-ranger/2VX5fKgeiVEl) |
-| 52 | Prime Video | The Demon Sword Master of Excalibur Academy | [Hauptserie](https://www.amazon.de/s?k=The%20Demon%20Sword%20Master%20of%20Excalibur%20Academy&i=instant-video) |
-| 53 | Crunchyroll | NieR:Automata Ver1.1a | [Cour 2](https://www.crunchyroll.com/de/series/GNVHKNPW1/nierautomata-ver11a) |
-| 54 | ADN | Plus-Sized Elf | [Hauptserie](https://animationdigitalnetwork.de/video/50-nuances-de-gras) |
-| 55 | Prime Video | Magister Negi Magi | [UQ Holder! Magister Negi Magi Negima! 2](https://www.amazon.de/s?k=UQ%20Holder!&i=instant-video) |
-| 56 | Crunchyroll | Bofuri: I Don’t Want to Get Hurt, So I’ll Max Out My Defense. | [Staffel 2](https://www.crunchyroll.com/de/series/GKEH2G428/bofuri-i-dont-want-to-get-hurt-so-ill-max-out-my-defense) |
-| 57 | ADN | Bibliophile Princess | [Hauptserie](https://animationdigitalnetwork.de/video/princess-of-the-bibliophile) |
-| 58 | ADN | I’ve Somehow Gotten Stronger When I Improved My Farm-Related Skills | [Hauptserie](https://animationdigitalnetwork.de/video/got-strong-raising-skills-farming) |
-| 59 | Prime Video | Reincarnated as a Sword | [Hauptserie](https://www.amazon.de/s?k=Reincarnated%20as%20a%20Sword&i=instant-video) |
-| 60 | ADN | When Will Ayumu Make His Move? | [Hauptserie](https://animationdigitalnetwork.de/video/a-quoi-tu-joues-ayumu-soredemo-ayumu-wa-yosetekuru) |
+| 42 | Prime Video | Food Wars! Shokugeki no Soma | [Food Wars! The Second Plate](https://www.amazon.de/s?k=Food%20Wars!%20The%20Second%20Plate&i=instant-video) |
+| 43 | Prime Video | Noragami | [Aragoto](https://www.amazon.de/s?k=Noragami%20Aragoto&i=instant-video) |
+| 44 | Prime Video | Space Dandy | [Hauptserie](https://www.amazon.de/s?k=Space%20Dandy&i=instant-video) |
+| 45 | Netflix | Angeloid: Sora no Otoshimono | [Hauptserie](https://www.netflix.com/title/70266999) |
+| 46 | Netflix | Baki | [BAKI-DOU: The Invincible Samurai Teil 2](https://www.netflix.com/title/81922765) |
+| 47 | YouTube | Kill Blue | [Hauptserie](https://www.youtube.com/playlist?list=PLhGamQZtJ7K-rS4G9zn-Bsb93kgFIphCM) |
+| 48 | Joyn | Magical Girl Spec Ops Asuka | [Hauptserie](https://www.joyn.de/serien/magical-girl-special-ops-asuka) |
+| 49 | Prime Video | Solo Leveling | [Hauptserie](https://www.amazon.de/s?k=Solo%20Leveling&i=instant-video) |
+| 50 | Disney+ | Go, Go, Loser Ranger! | [Go! Go! Loser Ranger!](https://www.disneyplus.com/de-de/series/go-go-loser-ranger/2VX5fKgeiVEl) |
+| 51 | Prime Video | The Demon Sword Master of Excalibur Academy | [Hauptserie](https://www.amazon.de/s?k=The%20Demon%20Sword%20Master%20of%20Excalibur%20Academy&i=instant-video) |
+| 52 | Crunchyroll | NieR:Automata Ver1.1a | [Cour 2](https://www.crunchyroll.com/de/series/GNVHKNPW1/nierautomata-ver11a) |
+| 53 | ADN | Plus-Sized Elf | [Hauptserie](https://animationdigitalnetwork.de/video/50-nuances-de-gras) |
+| 54 | Prime Video | Magister Negi Magi | [UQ Holder! Magister Negi Magi Negima! 2](https://www.amazon.de/s?k=UQ%20Holder!&i=instant-video) |
+| 55 | Crunchyroll | Bofuri: I Don’t Want to Get Hurt, So I’ll Max Out My Defense. | [Staffel 2](https://www.crunchyroll.com/de/series/GKEH2G428/bofuri-i-dont-want-to-get-hurt-so-ill-max-out-my-defense) |
+| 56 | ADN | Bibliophile Princess | [Hauptserie](https://animationdigitalnetwork.de/video/princess-of-the-bibliophile) |
+| 57 | ADN | I’ve Somehow Gotten Stronger When I Improved My Farm-Related Skills | [Hauptserie](https://animationdigitalnetwork.de/video/got-strong-raising-skills-farming) |
+| 58 | Prime Video | Reincarnated as a Sword | [Hauptserie](https://www.amazon.de/s?k=Reincarnated%20as%20a%20Sword&i=instant-video) |
+| 59 | ADN | When Will Ayumu Make His Move? | [Hauptserie](https://animationdigitalnetwork.de/video/a-quoi-tu-joues-ayumu-soredemo-ayumu-wa-yosetekuru) |
+| 60 | ADN | My Isekai Life: I Gained a Second Character Class and Became the Strongest Sage in the World! | [Hauptserie](https://animationdigitalnetwork.de/video/my-isekai-life) |
 
 ## Paket 4 — Zeilen 61 bis 80
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 61 | ADN | My Isekai Life: I Gained a Second Character Class and Became the Strongest Sage in the World! | [Hauptserie](https://animationdigitalnetwork.de/video/my-isekai-life) |
+| 61 | YouTube | Pokémon | [Mystery Dungeon: Team Flinke Freunde](https://www.youtube.com/watch?v=rAOmQ-foqeg) · [Mystery Dungeon: Erkundungsteams Zeit und Dunkelheit](https://www.youtube.com/watch?v=V0PlwsTLoM0) · [Mystery Dungeon: Portale in die Unendlichkeit](https://www.youtube.com/watch?v=zbwSAruo3QU) · [Entwicklungen](https://youtube.com/playlist?list=PLQWzKIaERirwN5po6LduiSLm8qc7GtuAl&si=I6QtXoF-i7cfG2c8) |
 | 62 | Crunchyroll | One Punch Man | [OVAs](https://www.crunchyroll.com/watch/GPWU8KM42/the-shadow-that-snuck-up-too-close) · [Staffel 2 OVAs](https://www.crunchyroll.com/watch/G9DU9E4QG/saitama-and-the-mediocre-gang) |
 | 63 | Prime Video | Special 7: Special Crime Investigation Unit | [Hauptserie](https://www.amazon.de/s?k=Special%207%3A%20Special%20Crime%20Investigation%20Unit&i=instant-video) |
 | 64 | Prime Video | The Ones Within | [Hauptserie](https://www.amazon.de/s?k=The%20Ones%20Within&i=instant-video) |
@@ -162,31 +162,21 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 |---|---|---|---|
 | 101 | Prime Video | Cats: Ein schnurriges Abenteuer | [Hauptserie](https://www.amazon.de/gp/video/detail/amzn1.dv.gti.2eb82736-4d63-bfcd-21db-a04b6a8928e3) |
 | 102 | Crunchyroll | Your Voice: Kimikoe | [Hauptserie](https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378) |
-| 103 | YouTube | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.youtube.com/watch?v=RXD_V4p2iiA) |
-| 104 | Crunchyroll | Lu over the Wall | [Hauptserie](https://www.crunchyroll.com/lu-over-the-wall/lu-over-the-wall-unbekannt-811213?ssid=399959) |
-| 105 | Crunchyroll | Night is Short, Walk on Girl | [Hauptserie](https://www.crunchyroll.com/night-is-short-walk-on-girl/night-is-short-walk-on-girl-unbekannt-811211?ssid=399939) |
-| 106 | Crunchyroll | Project Itoh: Genocidal Organ | [Hauptserie](https://www.crunchyroll.com/genocidal-organ/genocidal-organ-unbekannt-807915?ssid=394444) |
-| 107 | Prime Video | Your Name. Gestern, heute und für immer | [Hauptserie](https://www.amazon.de/s?k=Your%20Name.&i=instant-video) |
-| 108 | YouTube | Your Name. Gestern, heute und für immer | [Hauptserie](https://www.youtube.com/watch?v=duoOTzpeWSE) |
-| 109 | Crunchyroll | Project Itoh: Harmony | [Hauptserie](https://www.crunchyroll.com/harmony/harmony-unbekannt-807914?ssid=394443) |
-| 110 | Crunchyroll | Project Itoh: The Empire of Corpses | [Hauptserie](https://www.crunchyroll.com/the-empire-of-corpses/the-empire-of-corpses-unknown-808170?ssid=395057) |
-| 111 | Netflix | Miss Hokusai | [Hauptserie](https://www.netflix.com/title/80075828) |
-| 112 | Netflix | Expelled from Paradise | [Hauptserie](https://www.netflix.com/title/80038207) |
-| 113 | Crunchyroll | Love, Chunibyo & Other Delusions! | [Love, Chunibyo & Other Delusions: Heart Throb - Offenbarung des wahren Auges des bösen Königs … Wiederholung](https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-/episode-13-799361?ssid=387047) |
-| 114 | Prime Video | Starship Troopers: Invasion | [Hauptserie](https://www.amazon.de/gp/video/detail/amzn1.dv.gti.8ca9f6c3-21de-5225-749f-931196618766) |
-| 115 | Crunchyroll | K-On! | [The Movie](https://www.crunchyroll.com/k-on/k-on-the-movie-unbekannt-822264?ssid=424604) |
-| 116 | YouTube | Onigamiden: Legend of the Millennium Dragon | [Hauptserie](https://www.youtube.com/watch?v=W8YuJXFKZ-k) |
-| 117 | YouTube | Final Fantasy VII: Advent Children | [Hauptserie](https://www.youtube.com/watch?v=IFKqfiIE66Q) |
-| 118 | YouTube | Tokyo Godfathers | [Hauptserie](https://www.youtube.com/watch?v=jderzQDdDHc) |
-| 119 | Crunchyroll | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
-| 120 | Crunchyroll | Kimba, der weiße Löwe | [Jungle Emperor Leo: Der Kinofilm](https://www.crunchyroll.com/de/jungle-emperor-leo) |
-
-## Paket 7 — Zeilen 121 bis 125
-
-| # | Anbieter | Reihe | Noch zu bestätigen |
-|---|---|---|---|
-| 121 | Crunchyroll | Street Fighter II: The Animated Movie | [Hauptserie](https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie) |
-| 122 | Prime Video | Street Fighter II: The Animated Movie | [Hauptserie](https://www.amazon.de/s?k=Street%20Fighter%20II%3A%20The%20Animated%20Movie&i=instant-video) |
-| 123 | Prime Video | Knights of the Zodiac: Saint Seiya Teil 2 | [Saint Seiya: Die Krieger des Zodiac - Movie 1: Die Legende des goldenen Apfels](https://www.amazon.de/s?k=Saint%20Seiya%3A%20Evil%20Goddess%20Eris&i=instant-video) |
-| 124 | Prime Video | Unico: Das phantastische Abenteuer eines Hörnchens | [Hauptserie](https://www.amazon.de/s?k=Fantastic%20Adventures%20of%20Unico&i=instant-video) |
-| 125 | Netflix | Lupin III.: Teil 1 | [Das Schloss des Cagliostro](https://www.netflix.com/title/70050576) |
+| 103 | Crunchyroll | Lu over the Wall | [Hauptserie](https://www.crunchyroll.com/lu-over-the-wall/lu-over-the-wall-unbekannt-811213?ssid=399959) |
+| 104 | Crunchyroll | Night is Short, Walk on Girl | [Hauptserie](https://www.crunchyroll.com/night-is-short-walk-on-girl/night-is-short-walk-on-girl-unbekannt-811211?ssid=399939) |
+| 105 | Crunchyroll | Project Itoh: Genocidal Organ | [Hauptserie](https://www.crunchyroll.com/genocidal-organ/genocidal-organ-unbekannt-807915?ssid=394444) |
+| 106 | Prime Video | Your Name. Gestern, heute und für immer | [Hauptserie](https://www.amazon.de/s?k=Your%20Name.&i=instant-video) |
+| 107 | Crunchyroll | Project Itoh: Harmony | [Hauptserie](https://www.crunchyroll.com/harmony/harmony-unbekannt-807914?ssid=394443) |
+| 108 | Crunchyroll | Project Itoh: The Empire of Corpses | [Hauptserie](https://www.crunchyroll.com/the-empire-of-corpses/the-empire-of-corpses-unknown-808170?ssid=395057) |
+| 109 | Netflix | Miss Hokusai | [Hauptserie](https://www.netflix.com/title/80075828) |
+| 110 | Netflix | Expelled from Paradise | [Hauptserie](https://www.netflix.com/title/80038207) |
+| 111 | Crunchyroll | Love, Chunibyo & Other Delusions! | [Love, Chunibyo & Other Delusions: Heart Throb - Offenbarung des wahren Auges des bösen Königs … Wiederholung](https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-/episode-13-799361?ssid=387047) |
+| 112 | Prime Video | Starship Troopers: Invasion | [Hauptserie](https://www.amazon.de/gp/video/detail/amzn1.dv.gti.8ca9f6c3-21de-5225-749f-931196618766) |
+| 113 | Crunchyroll | K-On! | [The Movie](https://www.crunchyroll.com/k-on/k-on-the-movie-unbekannt-822264?ssid=424604) |
+| 114 | Crunchyroll | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
+| 115 | Crunchyroll | Kimba, der weiße Löwe | [Jungle Emperor Leo: Der Kinofilm](https://www.crunchyroll.com/de/jungle-emperor-leo) |
+| 116 | Crunchyroll | Street Fighter II: The Animated Movie | [Hauptserie](https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie) |
+| 117 | Prime Video | Street Fighter II: The Animated Movie | [Hauptserie](https://www.amazon.de/s?k=Street%20Fighter%20II%3A%20The%20Animated%20Movie&i=instant-video) |
+| 118 | Prime Video | Knights of the Zodiac: Saint Seiya Teil 2 | [Saint Seiya: Die Krieger des Zodiac - Movie 1: Die Legende des goldenen Apfels](https://www.amazon.de/s?k=Saint%20Seiya%3A%20Evil%20Goddess%20Eris&i=instant-video) |
+| 119 | Prime Video | Unico: Das phantastische Abenteuer eines Hörnchens | [Hauptserie](https://www.amazon.de/s?k=Fantastic%20Adventures%20of%20Unico&i=instant-video) |
+| 120 | Netflix | Lupin III.: Teil 1 | [Das Schloss des Cagliostro](https://www.netflix.com/title/70050576) |
