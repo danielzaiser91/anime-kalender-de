@@ -59,6 +59,10 @@ const warte = () => new Promise((r) => setTimeout(r, 700))
 
 const norm = (s) => (s ?? '').toLowerCase().replace(/[^a-z0-9]/g, '')
 /** Der unterscheidende Teil eines Filmtitels: alles nach dem letzten Trenner. */
+const kennwortRoh = (s) => {
+  const t = (s ?? '').split(/s[-–—:]s|s*:s*/).filter(Boolean)
+  return (t[t.length - 1] ?? s ?? '').replace(/[~„"]/g, '').trim()
+}
 const kennwort = (s) => {
   const t = (s ?? '').split(/\s[-–—:]\s|\s*:\s*/).filter(Boolean)
   return norm(t[t.length - 1] ?? s)
@@ -104,6 +108,36 @@ for (const o of offen) {
     }
     if (treffer) break
   }
+  /*
+    **Dritter Weg: die OVA ist eine Folge, keine Serie.**
+
+    „TONIKAWA: Over The Moon For You ~Uniform~" führt Crunchyroll als Episode
+    innerhalb der Serie — und die Episode nennt in `versions` alle ihre
+    Sprachfassungen, `de-DE` eingeschlossen. Gemessen am 29.08.2026: Zehn
+    Treffer für dieselbe Folge, einer je Tonspur, und jeder trägt dieselbe
+    vollständige `versions`-Liste.
+
+    **Zwei Merkmale müssen zusammen passen**, sonst gilt der Treffer nicht: der
+    Serienname und das Kennwort im Episodentitel. „Uniform" allein wäre zu
+    wenig — in einer Serie mit fünfzig Folgen heißt leicht mehr als eine so.
+  */
+  if (!treffer) {
+    const s2 = await hol(
+      `https://beta-api.crunchyroll.com/content/v2/discover/search?q=${encodeURIComponent(`${reihe} ${kennwortRoh(o.titel ?? o.en)}`)}&n=12&type=episode&locale=de-DE`,
+    )
+    await warte()
+    for (const it of (s2?.data ?? []).flatMap((g) => g.items ?? [])) {
+      const md = it.episode_metadata ?? {}
+      const serieOk = norm(md.series_title ?? '').includes(norm(reihe)) || norm(reihe).includes(norm(md.series_title ?? ''))
+      const kw = namen.map(kennwort).find((k) => k.length >= 6 && norm(it.title).includes(k))
+      if (!serieOk || !kw) continue
+      const versionen = (md.versions ?? []).map((v) => v.audio_locale).filter(Boolean)
+      if (!versionen.length) continue
+      treffer = { serienId: md.series_id ?? null, blockId: it.id, blockTitel: `Folge „${it.title}" in ${md.series_title}`, audio: versionen }
+      break
+    }
+  }
+
   funde.push({ ...o, serie: undefined, treffer })
   const z = !treffer ? '—' : treffer.audio.includes('de-DE') ? 'DE' : treffer.audio.length ? 'kein DE' : '?'
   console.log(`  ${(o.format ?? '?').padEnd(7)} ${(o.titel ?? o.en ?? '').slice(0, 42).padEnd(44)} ${z.padEnd(8)} ${treffer ? treffer.blockTitel.slice(0, 34) : ''}`)
