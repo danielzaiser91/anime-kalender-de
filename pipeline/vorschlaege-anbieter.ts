@@ -59,13 +59,35 @@ function main(): void {
     zu machen.
   */
   const yaml = readFileSync('data/dub-confirmed.yaml', 'utf8')
-  const geprueft = new Set([...yaml.matchAll(/anilistId:\s*(\d+)/g)].map((m) => m[1]))
+  /*
+    **Geprüft wird ein Titel bei einem Anbieter, nicht ein Titel.**
+
+    Der Filter las bis zum 29.08.2026 nur die `anilistId` und sperrte damit
+    jeden Vorschlag zu diesem Titel, egal für welche Plattform. Gemessen: 27 von
+    83 Titeln mit belegten deutschen Sprechrollen und ganz ohne Weg fielen so
+    heraus.
+
+    „Fullmetal Alchemist" ist der Fall zum Anfassen: geprüft wurde **Netflix**
+    (Titelseite ohne abspielbare Folge), TMDB nennt **Prime**. Der Beleg für den
+    einen Anbieter sagt über den anderen nichts — und der Titel zeigt seit der
+    Crunchyroll-Bereinigung gar keinen Weg mehr.
+
+    Gesperrt wird deshalb das Paar aus Kennung und Plattform.
+  */
+  const geprueft = new Set()
+  for (const block of yaml.split(/\n(?=- anilistId:)/)) {
+    const id = /anilistId:\s*(\d+)/.exec(block)?.[1]
+    const plattform = /\n\s*platform:\s*(\S+)/.exec(block)?.[1]
+    if (id && plattform) geprueft.add(`${id}|${plattform}`)
+  }
 
   const vorschlaege: Vorschlag[] = []
   for (const t of titles) {
     if ((t.streams ?? []).length > 0) continue
-    if (geprueft.has(String(t.id))) continue
-    const anbieter = tmdb[String(t.id)]?.providers ?? []
+    /* Nur die Anbieter, zu denen es noch keine Handpruefung gibt. */
+    const anbieter = (tmdb[String(t.id)]?.providers ?? []).filter(
+      (p) => !geprueft.has(`${t.id}|${p}`),
+    )
     if (!anbieter.length) continue
     /*
       **Passt der TMDB-Treffer überhaupt zu unserem Eintrag?**
