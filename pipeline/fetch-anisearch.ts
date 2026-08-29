@@ -601,7 +601,36 @@ async function main(): Promise<void> {
      * wöchentlich. Bei 2.612 Einträgen bedeutet das rund 190 Abrufe je Nacht,
      * verteilt über die ohnehin laufende Warteschlange.
      */
-    .filter((t) => FORCE || !cache[t.id] || !cache[t.id].info || veraltet(cache[t.id]))
+    /*
+      **Eine fehlende Archivdatei ist ein Grund zum Nachholen — auch bei
+      frischem Abrufdatum.**
+
+      Am 29.08.2026 gemessen: 2.616 Titel haben einen vollständigen Eintrag mit
+      `info` und einem Abrufdatum von heute — und **1.660 davon haben keine
+      Archivdatei**. Das Archiv ist irgendwann verlorengegangen, vermutlich beim
+      Aufräumen der verschachtelten Ordner am 24.08.2026 (13.458 Dateien).
+
+      Gemerkt hat es niemand, denn die Warteschlange fragte nur nach dem Alter,
+      und das war in Ordnung. Der Lauf meldete „nichts nachzuladen", während
+      zwei Drittel des Archivs fehlten.
+
+      **Was daran hängt:** Aus dem Archiv kommen seit dem 29.08. die deutschen
+      Disc-Ausgaben — der einzige Bezugsweg für 173 Titel, die sonst keinen
+      zeigen. Ohne Archivdatei ist ein Titel dort unsichtbar, egal wie frisch
+      sein Eintrag aussieht.
+
+      Das ist dieselbe Lehre wie „Ein Abruf, der nur ergänzt, veraltet
+      zwangsläufig" (CLAUDE.md), eine Ebene tiefer: **Ein Abruf, der nur nach
+      dem Alter fragt, merkt einen Datenverlust nicht.**
+    */
+    .filter(
+      (t) =>
+        FORCE ||
+        !cache[t.id] ||
+        !cache[t.id].info ||
+        veraltet(cache[t.id]) ||
+        !existsSync(`${ARCHIV_DIR}/${ids.anisearch[t.id]}.html.gz`),
+    )
     .sort((a, b) => Number(withRelease.has(b.id)) - Number(withRelease.has(a.id)))
     .slice(0, LIMIT)
 
