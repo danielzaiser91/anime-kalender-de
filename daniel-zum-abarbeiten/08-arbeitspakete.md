@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-08-29 · **193 offene Verweise** in **144 Zeilen**,
+Stand 2026-08-29 · **191 offene Verweise** in **142 Zeilen**,
 aufgeteilt in **8 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -121,96 +121,94 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 69 | Crunchyroll | One Punch Man | [OVAs](https://www.crunchyroll.com/watch/GPWU8KM42/the-shadow-that-snuck-up-too-close) · [Staffel 2 OVAs](https://www.crunchyroll.com/watch/G9DU9E4QG/saitama-and-the-mediocre-gang) |
 | 70 | Prime Video | Special 7: Special Crime Investigation Unit | [Hauptserie](https://www.amazon.de/s?k=Special%207%3A%20Special%20Crime%20Investigation%20Unit&i=instant-video) |
 | 71 | Prime Video | The Ones Within | [Hauptserie](https://www.amazon.de/s?k=The%20Ones%20Within&i=instant-video) |
-| 72 | Crunchyroll | Demon Lord, Retry! | [Hauptserie](https://www.crunchyroll.com/series/GXJHM37KD/demon-lord-retry) |
-| 73 | Joyn | Angels of Death | [Hauptserie](https://www.joyn.de/serien/angels-of-death) |
-| 74 | Netflix | Kakegurui: Das Leben ist ein Spiel | [Hauptserie](https://www.netflix.com/title/80175351) |
-| 75 | Prime Video | Saekano: How to Raise a Boring Girlfriend | [.flat](https://www.amazon.de/s?k=Saekano%3A%20How%20to%20Raise%20a%20Boring%20Girlfriend%20%E2%99%AD&i=instant-video) |
-| 76 | Prime Video | Scum’s Wish | [Hauptserie](https://www.amazon.de/s?k=Scum's%20Wish&i=instant-video) |
-| 77 | Prime Video | Rage of Bahamut: Genesis | [Hauptserie](https://www.amazon.de/s?k=Rage%20of%20Bahamut%3A%20Genesis&i=instant-video) |
-| 78 | Prime Video | Selector Infected Wixoss | [Hauptserie](https://www.amazon.de/s?k=selector%20infected%20WIXOSS&i=instant-video) |
-| 79 | Prime Video | Jormungand | [Perfect Order](https://www.amazon.de/s?k=Jormungand%3A%20Perfect%20Order&i=instant-video) |
-| 80 | Prime Video | The Candidate for Goddess | [Hauptserie](https://www.amazon.de/s?k=Pilot%20Candidate&i=instant-video) |
+| 72 | Joyn | Angels of Death | [Hauptserie](https://www.joyn.de/serien/angels-of-death) |
+| 73 | Netflix | Kakegurui: Das Leben ist ein Spiel | [Hauptserie](https://www.netflix.com/title/80175351) |
+| 74 | Prime Video | Saekano: How to Raise a Boring Girlfriend | [.flat](https://www.amazon.de/s?k=Saekano%3A%20How%20to%20Raise%20a%20Boring%20Girlfriend%20%E2%99%AD&i=instant-video) |
+| 75 | Prime Video | Scum’s Wish | [Hauptserie](https://www.amazon.de/s?k=Scum's%20Wish&i=instant-video) |
+| 76 | Prime Video | Rage of Bahamut: Genesis | [Hauptserie](https://www.amazon.de/s?k=Rage%20of%20Bahamut%3A%20Genesis&i=instant-video) |
+| 77 | Prime Video | Selector Infected Wixoss | [Hauptserie](https://www.amazon.de/s?k=selector%20infected%20WIXOSS&i=instant-video) |
+| 78 | Prime Video | Jormungand | [Perfect Order](https://www.amazon.de/s?k=Jormungand%3A%20Perfect%20Order&i=instant-video) |
+| 79 | Prime Video | The Candidate for Goddess | [Hauptserie](https://www.amazon.de/s?k=Pilot%20Candidate&i=instant-video) |
+| 80 | Prime Video | Nukitashi | [Hauptserie](https://www.amazon.de/gp/video/detail/amzn1.dv.gti.234d22cb-bca3-4855-b0f7-04a79eecdbcd?tag=justat1218-21&token=491B3E20E8D6C755745FD7E34BCE779F25003CB2) |
 
 ## Paket 5 — Zeilen 81 bis 100
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 81 | Prime Video | Nukitashi | [Hauptserie](https://www.amazon.de/gp/video/detail/amzn1.dv.gti.234d22cb-bca3-4855-b0f7-04a79eecdbcd?tag=justat1218-21&token=491B3E20E8D6C755745FD7E34BCE779F25003CB2) |
-| 82 | Crunchyroll | The Promised Neverland | [Staffel 2](https://www.crunchyroll.com/de/the-promised-neverland) |
-| 83 | Prime Video | Zombie-Loan | [Hauptserie](https://www.amazon.de/s?k=Zombie%20Loan&i=instant-video) |
-| 84 | Crunchyroll | Free! Iwatobi Swim Club | [High Speed! Free! Starting Days](https://www.crunchyroll.com/de/free-iwatobi-swim-club) · [Free! -Timeless Medley- The Bond](https://www.crunchyroll.com/de/free-iwatobi-swim-club) · [Free! Timeless Medley](https://www.crunchyroll.com/de/free-iwatobi-swim-club) · [Free! Take Your Marks](https://www.crunchyroll.com/de/series/GRDQV2VWY/free---iwatobi-swim-club) · [Free! the Final Stroke: The First Volume](https://www.crunchyroll.com/de/free-iwatobi-swim-club) · [Free! the Final Stroke: The Second Volume](https://www.crunchyroll.com/de/free-iwatobi-swim-club) |
-| 85 | Netflix | Exception | [Hauptserie](https://www.netflix.com/title/81002444) |
-| 86 | Netflix | Haikyu!! | [Lev ist hier!](https://www.netflix.com/title/80090673) · [Movie 2 - Gewinner und Verlierer](https://www.netflix.com/title/80134174) · [Kampf gegen ungenügende Noten](https://www.netflix.com/title/80090673) · [Sonderbeitrag: Die Jugend beim Frühlingsturnier](https://www.netflix.com/title/80090673) · [An Land vs. In der Luft / Der ”Weg” des Balls](https://www.netflix.com/title/80090673) |
-| 87 | YouTube | Pokémon Horizonte | [Pokémon: Winde aus Paldea](https://www.youtube.com/playlist?list=PLQWzKIaERirzLZWMu3M89ZEpsDt9YtDBM) · [Meisterdetektiv Pikachu und der verschwundene Pudding](https://www.youtube.com/watch?v=5yQSUimraSU) |
-| 88 | Crunchyroll | Detektiv Conan | [Der Magier des letzten Jahrhunderts](https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-3-der-magier-des-letzten-jahrhunderts-unbekannt-810166) · [Der Killer in ihren Augen](https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-4-der-killer-in-ihren-augen-unbekannt-810167) · [Das verlorene Schiff im Himmel](https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-14-das-verlorene-schiff-im-himmel-unbekannt-811396?ssid=400599) · [Der Scharfschütze aus einer anderen Dimension](https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-18-der-scharfschtze-aus-einer-anderen-dimension-unbekannt-812231) · [Episode ONE - Der geschrumpfte Meisterdetektiv](https://www.crunchyroll.com/detektiv-conan/detektiv-conan-tv-special-episode-one-der-geschrumpfte-meisterdetektiv-unbekannt-821630?ssid=422962) |
-| 89 | Prime Video | One Piece | [Film: Strong World](https://www.amazon.de/s?k=One%20Piece%20Film%3A%20Strong%20World&i=instant-video) · [3D2Y: Überwinde Ace’s Tod! Das Gelübde der Kameraden](https://www.amazon.de/s?k=One%20Piece%203D2Y%3A%20Overcome%20Ace%E2%80%99s%20Death!%20Luffy%E2%80%99s%20Vow%20to%20his%20Friends&i=instant-video) · [Abenteuer auf Nebulandia](https://www.amazon.de/s?k=One%20Piece%3A%20Adventure%20of%20Nebulandia&i=instant-video) |
-| 90 | Netflix | Hi Score Girl | [Extra Stage](https://www.netflix.com/title/80997338) |
-| 91 | Crunchyroll | Lupin III.: Teil 1 | [Lupin III.: Der Schatz des Harimao](https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-der-schatz-des-harimao-unbekannt-813894?ssid=407180) · [Lupin III.: Daisuke Jigens Grabstein](https://www.crunchyroll.com/lupin-the-3rd-movies/daisuke-jigens-grabstein-unbekannt-822025?ssid=423942) · [Lupin III.: Goemon Ishikawa, der es Blut regnen lässt](https://www.crunchyroll.com/lupin-the-3rd-movies/goemon-ishikawa-der-es-blut-regnen-lsst-unbekannt-822028?ssid=423944) |
-| 92 | Netflix | Ghost in the Shell: Stand Alone Complex | [Ghost in the Shell: Arise - Border:1 Ghost Pain](https://www.netflix.com/title/80002073) · [Ghost in the Shell: Arise - Border:2 Ghost Whispers](https://www.netflix.com/title/80002074) · [Ghost in the Shell: Arise - Border:3 Ghost Tears](https://www.netflix.com/title/80021983) |
-| 93 | ADN | One Piece | [Der Film](https://animationdigitalnetwork.de/video/one-piece-le-film) · [Abenteuer auf der Spiralinsel](https://animationdigitalnetwork.de/video/one-piece-film-aventure-de-lile-de-lhorloge) · [Abenteuer in Alabasta - Die Wüstenprinzessin](https://animationdigitalnetwork.de/video/one-piece-film-episode-alabasta-les-pirates-et-la-princesse-du-desert) |
-| 94 | Prime Video | Sailor Moon: Das Mädchen mit den Zauberkräften | [Sailor Moon R Movie: Gefährliche Blumen](https://www.amazon.de/s?k=Sailor%20Moon%20R%3A%20The%20Movie&i=instant-video) · [Sailor Moon S: Schneeprinzessin Kaguya](https://www.amazon.de/s?k=Sailor%20Moon%20S%20Movie%3A%20Hearts%20in%20Ice&i=instant-video) · [Sailor Moon Super S: Reise ins Land der Träume](https://www.amazon.de/s?k=Sailor%20Moon%20SuperS%20the%20Movie%3A%20Black%20Dream%20Hole&i=instant-video) |
-| 95 | Crunchyroll | Tonikawa: Over the Moon for You | [Social Media](https://www.crunchyroll.com/de/tonikawa-over-the-moon-for-you) · [Uniform](https://www.crunchyroll.com/de/series/GRWMGGQ86/tonikawa-over-the-moon-for-you) |
-| 96 | Netflix | Fate/Zero | [Fate/Grand Order Absolute Demonic Front: Babylonia - Initium Iter](https://www.netflix.com/title/81186102) · [Fate/Grand Order: Final Singularity - The Grand Temple of Time: Solomon](https://www.netflix.com/title/82850867) |
-| 97 | Crunchyroll | How Heavy Are the Dumbbells You Lift? | [Gnadenlose Trainingsstunde](https://www.crunchyroll.com/series/GP5HJ80VJ/how-heavy-are-the-dumbbells-you-lift) |
-| 98 | Crunchyroll | The Dragon Dentist | [Hauptserie](https://www.crunchyroll.com/the-dragon-dentist/deomu-the-dragon-dentist-unbekannt-811630?ssid=401190) |
-| 99 | Netflix | Bleach | [The Movie - Fade to Black](https://www.netflix.com/title/70208801) · [The Movie - Hell Verse](https://www.netflix.com/title/70260383) |
-| 100 | Netflix | Death Note | [Relight](https://www.netflix.com/title/70204970) |
+| 81 | Crunchyroll | The Promised Neverland | [Staffel 2](https://www.crunchyroll.com/de/the-promised-neverland) |
+| 82 | Prime Video | Zombie-Loan | [Hauptserie](https://www.amazon.de/s?k=Zombie%20Loan&i=instant-video) |
+| 83 | Crunchyroll | Free! Iwatobi Swim Club | [High Speed! Free! Starting Days](https://www.crunchyroll.com/de/free-iwatobi-swim-club) · [Free! -Timeless Medley- The Bond](https://www.crunchyroll.com/de/free-iwatobi-swim-club) · [Free! Timeless Medley](https://www.crunchyroll.com/de/free-iwatobi-swim-club) · [Free! Take Your Marks](https://www.crunchyroll.com/de/series/GRDQV2VWY/free---iwatobi-swim-club) · [Free! the Final Stroke: The First Volume](https://www.crunchyroll.com/de/free-iwatobi-swim-club) · [Free! the Final Stroke: The Second Volume](https://www.crunchyroll.com/de/free-iwatobi-swim-club) |
+| 84 | Netflix | Exception | [Hauptserie](https://www.netflix.com/title/81002444) |
+| 85 | Netflix | Haikyu!! | [Lev ist hier!](https://www.netflix.com/title/80090673) · [Movie 2 - Gewinner und Verlierer](https://www.netflix.com/title/80134174) · [Kampf gegen ungenügende Noten](https://www.netflix.com/title/80090673) · [Sonderbeitrag: Die Jugend beim Frühlingsturnier](https://www.netflix.com/title/80090673) · [An Land vs. In der Luft / Der ”Weg” des Balls](https://www.netflix.com/title/80090673) |
+| 86 | YouTube | Pokémon Horizonte | [Pokémon: Winde aus Paldea](https://www.youtube.com/playlist?list=PLQWzKIaERirzLZWMu3M89ZEpsDt9YtDBM) · [Meisterdetektiv Pikachu und der verschwundene Pudding](https://www.youtube.com/watch?v=5yQSUimraSU) |
+| 87 | Crunchyroll | Detektiv Conan | [Der Magier des letzten Jahrhunderts](https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-3-der-magier-des-letzten-jahrhunderts-unbekannt-810166) · [Der Killer in ihren Augen](https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-4-der-killer-in-ihren-augen-unbekannt-810167) · [Das verlorene Schiff im Himmel](https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-14-das-verlorene-schiff-im-himmel-unbekannt-811396?ssid=400599) · [Der Scharfschütze aus einer anderen Dimension](https://www.crunchyroll.com/detektiv-conan-movies/detektiv-conan-film-18-der-scharfschtze-aus-einer-anderen-dimension-unbekannt-812231) · [Episode ONE - Der geschrumpfte Meisterdetektiv](https://www.crunchyroll.com/detektiv-conan/detektiv-conan-tv-special-episode-one-der-geschrumpfte-meisterdetektiv-unbekannt-821630?ssid=422962) |
+| 88 | Prime Video | One Piece | [Film: Strong World](https://www.amazon.de/s?k=One%20Piece%20Film%3A%20Strong%20World&i=instant-video) · [3D2Y: Überwinde Ace’s Tod! Das Gelübde der Kameraden](https://www.amazon.de/s?k=One%20Piece%203D2Y%3A%20Overcome%20Ace%E2%80%99s%20Death!%20Luffy%E2%80%99s%20Vow%20to%20his%20Friends&i=instant-video) · [Abenteuer auf Nebulandia](https://www.amazon.de/s?k=One%20Piece%3A%20Adventure%20of%20Nebulandia&i=instant-video) |
+| 89 | Netflix | Hi Score Girl | [Extra Stage](https://www.netflix.com/title/80997338) |
+| 90 | Crunchyroll | Lupin III.: Teil 1 | [Lupin III.: Der Schatz des Harimao](https://www.crunchyroll.com/lupin-the-3rd-tv-specials/lupin-iii-tv-special-der-schatz-des-harimao-unbekannt-813894?ssid=407180) · [Lupin III.: Daisuke Jigens Grabstein](https://www.crunchyroll.com/lupin-the-3rd-movies/daisuke-jigens-grabstein-unbekannt-822025?ssid=423942) · [Lupin III.: Goemon Ishikawa, der es Blut regnen lässt](https://www.crunchyroll.com/lupin-the-3rd-movies/goemon-ishikawa-der-es-blut-regnen-lsst-unbekannt-822028?ssid=423944) |
+| 91 | Netflix | Ghost in the Shell: Stand Alone Complex | [Ghost in the Shell: Arise - Border:1 Ghost Pain](https://www.netflix.com/title/80002073) · [Ghost in the Shell: Arise - Border:2 Ghost Whispers](https://www.netflix.com/title/80002074) · [Ghost in the Shell: Arise - Border:3 Ghost Tears](https://www.netflix.com/title/80021983) |
+| 92 | ADN | One Piece | [Der Film](https://animationdigitalnetwork.de/video/one-piece-le-film) · [Abenteuer auf der Spiralinsel](https://animationdigitalnetwork.de/video/one-piece-film-aventure-de-lile-de-lhorloge) · [Abenteuer in Alabasta - Die Wüstenprinzessin](https://animationdigitalnetwork.de/video/one-piece-film-episode-alabasta-les-pirates-et-la-princesse-du-desert) |
+| 93 | Prime Video | Sailor Moon: Das Mädchen mit den Zauberkräften | [Sailor Moon R Movie: Gefährliche Blumen](https://www.amazon.de/s?k=Sailor%20Moon%20R%3A%20The%20Movie&i=instant-video) · [Sailor Moon S: Schneeprinzessin Kaguya](https://www.amazon.de/s?k=Sailor%20Moon%20S%20Movie%3A%20Hearts%20in%20Ice&i=instant-video) · [Sailor Moon Super S: Reise ins Land der Träume](https://www.amazon.de/s?k=Sailor%20Moon%20SuperS%20the%20Movie%3A%20Black%20Dream%20Hole&i=instant-video) |
+| 94 | Crunchyroll | Tonikawa: Over the Moon for You | [Social Media](https://www.crunchyroll.com/de/tonikawa-over-the-moon-for-you) · [Uniform](https://www.crunchyroll.com/de/series/GRWMGGQ86/tonikawa-over-the-moon-for-you) |
+| 95 | Netflix | Fate/Zero | [Fate/Grand Order Absolute Demonic Front: Babylonia - Initium Iter](https://www.netflix.com/title/81186102) · [Fate/Grand Order: Final Singularity - The Grand Temple of Time: Solomon](https://www.netflix.com/title/82850867) |
+| 96 | Crunchyroll | The Dragon Dentist | [Hauptserie](https://www.crunchyroll.com/the-dragon-dentist/deomu-the-dragon-dentist-unbekannt-811630?ssid=401190) |
+| 97 | Netflix | Bleach | [The Movie - Fade to Black](https://www.netflix.com/title/70208801) · [The Movie - Hell Verse](https://www.netflix.com/title/70260383) |
+| 98 | Netflix | Death Note | [Relight](https://www.netflix.com/title/70204970) |
+| 99 | Netflix | Gintama | [the Movie 2026: Yoshiwara in Flames](https://www.netflix.com/title/82968180) |
+| 100 | Crunchyroll | Sword Art Online | [Extra Edition](http://www.crunchyroll.com/de/sword-art-online) |
 
 ## Paket 6 — Zeilen 101 bis 120
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 101 | Netflix | Gintama | [the Movie 2026: Yoshiwara in Flames](https://www.netflix.com/title/82968180) |
-| 102 | Crunchyroll | Sword Art Online | [Extra Edition](http://www.crunchyroll.com/de/sword-art-online) |
-| 103 | Netflix | Sword Art Online | [The Movie: Ordinal Scale](https://www.netflix.com/title/80180071) |
-| 104 | Netflix | Pokémon | [Blauer Himmel in der Ferne!](https://www.netflix.com/title/81670593) |
-| 105 | Netflix | Mushoku Tensei: Jobless Reincarnation | [Eris auf Goblinjagd](https://www.netflix.com/title/80987039) |
-| 106 | YouTube | Kaguya-sama: Love Is War | [Ultra Romantic: Ishigami Yu möchte sich unterhalten](https://www.youtube.com/watch?v=cxTxrKrYkcY) |
-| 107 | Crunchyroll | My Next Life as a Villainess: Wie überlebe ich in einem Dating-Game? | [My Next Life as a Villainess: All Routes Lead to Doom! Ich habe die mir vorbestimmte Person getroffen](https://www.crunchyroll.com/de/my-next-life-as-a-villainess-all-routes-lead-to-doom/my-next-life-as-a-villainess-all-routes-lead-to-doom-x-i-met-my-destined-one-814444) |
-| 108 | Prime Video | Detektiv Conan | [Die scharlachrote Kugel](https://www.amazon.de/gp/video/detail/amzn1.dv.gti.9c92f9a9-a36f-4f4e-8ccd-e0d6b3649bee) |
-| 109 | Netflix | Sailor Moon: Das Mädchen mit den Zauberkräften | [Pretty Guardian Sailor Moon Eternal: Der Film](https://www.netflix.com/title/81214399) |
-| 110 | Netflix | Dorohedoro | [Teuflische Anekdoten](https://www.netflix.com/title/80991903) |
-| 111 | Netflix | Her Blue Sky | [Hauptserie](https://www.netflix.com/title/81427482) |
-| 112 | Crunchyroll | Cencoroll | [Connect](https://www.crunchyroll.com/cencoroll-connect/de-cencoroll-connect-unbekannt-850430) |
-| 113 | Crunchyroll | Ride Your Wave | [Hauptserie](https://www.crunchyroll.com/ride-your-wave/ride-your-wave-unbekannt-806160?ssid=392654) |
-| 114 | Crunchyroll | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785) |
-| 115 | Crunchyroll | Kase-san and Morning Glories | [Hauptserie](https://www.crunchyroll.com/kase-san-and-morning-glories/kase-san-and-morning-glories-unbekannt-813883) |
-| 116 | Prime Video | Cats: Ein schnurriges Abenteuer | [Hauptserie](https://www.amazon.de/gp/video/detail/amzn1.dv.gti.2eb82736-4d63-bfcd-21db-a04b6a8928e3) |
-| 117 | Crunchyroll | Your Voice: Kimikoe | [Hauptserie](https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378) |
-| 118 | YouTube | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.youtube.com/watch?v=RXD_V4p2iiA) |
-| 119 | Crunchyroll | Haikyu!! | [Sonderbeitrag: Die Jugend beim Frühlingsturnier](https://www.crunchyroll.com/de/haikyu-dubs/episode-3-special-feature-the-spring-tournament-of-their-youth-848359) |
-| 120 | Crunchyroll | Lu over the Wall | [Hauptserie](https://www.crunchyroll.com/lu-over-the-wall/lu-over-the-wall-unbekannt-811213?ssid=399959) |
+| 101 | Netflix | Sword Art Online | [The Movie: Ordinal Scale](https://www.netflix.com/title/80180071) |
+| 102 | Netflix | Pokémon | [Blauer Himmel in der Ferne!](https://www.netflix.com/title/81670593) |
+| 103 | Netflix | Mushoku Tensei: Jobless Reincarnation | [Eris auf Goblinjagd](https://www.netflix.com/title/80987039) |
+| 104 | YouTube | Kaguya-sama: Love Is War | [Ultra Romantic: Ishigami Yu möchte sich unterhalten](https://www.youtube.com/watch?v=cxTxrKrYkcY) |
+| 105 | Crunchyroll | My Next Life as a Villainess: Wie überlebe ich in einem Dating-Game? | [My Next Life as a Villainess: All Routes Lead to Doom! Ich habe die mir vorbestimmte Person getroffen](https://www.crunchyroll.com/de/my-next-life-as-a-villainess-all-routes-lead-to-doom/my-next-life-as-a-villainess-all-routes-lead-to-doom-x-i-met-my-destined-one-814444) |
+| 106 | Prime Video | Detektiv Conan | [Die scharlachrote Kugel](https://www.amazon.de/gp/video/detail/amzn1.dv.gti.9c92f9a9-a36f-4f4e-8ccd-e0d6b3649bee) |
+| 107 | Netflix | Sailor Moon: Das Mädchen mit den Zauberkräften | [Pretty Guardian Sailor Moon Eternal: Der Film](https://www.netflix.com/title/81214399) |
+| 108 | Netflix | Dorohedoro | [Teuflische Anekdoten](https://www.netflix.com/title/80991903) |
+| 109 | Netflix | Her Blue Sky | [Hauptserie](https://www.netflix.com/title/81427482) |
+| 110 | Crunchyroll | Cencoroll | [Connect](https://www.crunchyroll.com/cencoroll-connect/de-cencoroll-connect-unbekannt-850430) |
+| 111 | Crunchyroll | Ride Your Wave | [Hauptserie](https://www.crunchyroll.com/ride-your-wave/ride-your-wave-unbekannt-806160?ssid=392654) |
+| 112 | Crunchyroll | Okko’s Inn | [Okko und ihre Geisterfreunde](https://www.crunchyroll.com/okkos-inn/okko-und-ihre-geisterfreunde-der-film-unbekannt-810007?ssid=397785) |
+| 113 | Crunchyroll | Kase-san and Morning Glories | [Hauptserie](https://www.crunchyroll.com/kase-san-and-morning-glories/kase-san-and-morning-glories-unbekannt-813883) |
+| 114 | Prime Video | Cats: Ein schnurriges Abenteuer | [Hauptserie](https://www.amazon.de/gp/video/detail/amzn1.dv.gti.2eb82736-4d63-bfcd-21db-a04b6a8928e3) |
+| 115 | Crunchyroll | Your Voice: Kimikoe | [Hauptserie](https://www.crunchyroll.com/your-voice-kimikoe-/de-your-voice-kimikoe-unbekannt-850378) |
+| 116 | YouTube | Fireworks: Alles eine Frage der Zeit | [Hauptserie](https://www.youtube.com/watch?v=RXD_V4p2iiA) |
+| 117 | Crunchyroll | Haikyu!! | [Sonderbeitrag: Die Jugend beim Frühlingsturnier](https://www.crunchyroll.com/de/haikyu-dubs/episode-3-special-feature-the-spring-tournament-of-their-youth-848359) |
+| 118 | Crunchyroll | Lu over the Wall | [Hauptserie](https://www.crunchyroll.com/lu-over-the-wall/lu-over-the-wall-unbekannt-811213?ssid=399959) |
+| 119 | Crunchyroll | Night is Short, Walk on Girl | [Hauptserie](https://www.crunchyroll.com/night-is-short-walk-on-girl/night-is-short-walk-on-girl-unbekannt-811211?ssid=399939) |
+| 120 | Crunchyroll | Project Itoh: Genocidal Organ | [Hauptserie](https://www.crunchyroll.com/genocidal-organ/genocidal-organ-unbekannt-807915?ssid=394444) |
 
 ## Paket 7 — Zeilen 121 bis 140
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 121 | Crunchyroll | Night is Short, Walk on Girl | [Hauptserie](https://www.crunchyroll.com/night-is-short-walk-on-girl/night-is-short-walk-on-girl-unbekannt-811211?ssid=399939) |
-| 122 | Crunchyroll | Project Itoh: Genocidal Organ | [Hauptserie](https://www.crunchyroll.com/genocidal-organ/genocidal-organ-unbekannt-807915?ssid=394444) |
-| 123 | Prime Video | Your Name. Gestern, heute und für immer | [Hauptserie](https://www.amazon.de/s?k=Your%20Name.&i=instant-video) |
-| 124 | YouTube | Your Name. Gestern, heute und für immer | [Hauptserie](https://www.youtube.com/watch?v=duoOTzpeWSE) |
-| 125 | Crunchyroll | Sound! Euphonium | [Auf die Plätze, fertig, Monaka](https://www.crunchyroll.com/de/sound-euphonium) |
-| 126 | Crunchyroll | Project Itoh: Harmony | [Hauptserie](https://www.crunchyroll.com/harmony/harmony-unbekannt-807914?ssid=394443) |
-| 127 | Crunchyroll | Project Itoh: The Empire of Corpses | [Hauptserie](https://www.crunchyroll.com/the-empire-of-corpses/the-empire-of-corpses-unknown-808170?ssid=395057) |
-| 128 | Netflix | Miss Hokusai | [Hauptserie](https://www.netflix.com/title/80075828) |
-| 129 | Crunchyroll | Love Stage!! | [Daran war gar nichts leicht](https://www.crunchyroll.com/love-stage/episode-11-841216) |
-| 130 | Netflix | Expelled from Paradise | [Hauptserie](https://www.netflix.com/title/80038207) |
-| 131 | Crunchyroll | Love, Chunibyo & Other Delusions! | [Love, Chunibyo & Other Delusions: Heart Throb - Offenbarung des wahren Auges des bösen Königs … Wiederholung](https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-/episode-13-799361?ssid=387047) |
-| 132 | Crunchyroll | Fairy Tail | [The Movie - Phoenix Priestess](https://www.crunchyroll.com/fairy-tail-movies/fairy-tail-the-movie-phoenix-princess-unbekannt-821316?ssid=422327) |
-| 133 | Prime Video | Starship Troopers: Invasion | [Hauptserie](https://www.amazon.de/gp/video/detail/amzn1.dv.gti.8ca9f6c3-21de-5225-749f-931196618766) |
-| 134 | Crunchyroll | K-On! | [The Movie](https://www.crunchyroll.com/k-on/k-on-the-movie-unbekannt-822264?ssid=424604) |
-| 135 | YouTube | Onigamiden: Legend of the Millennium Dragon | [Hauptserie](https://www.youtube.com/watch?v=W8YuJXFKZ-k) |
-| 136 | YouTube | Final Fantasy VII: Advent Children | [Hauptserie](https://www.youtube.com/watch?v=IFKqfiIE66Q) |
-| 137 | YouTube | Tokyo Godfathers | [Hauptserie](https://www.youtube.com/watch?v=jderzQDdDHc) |
-| 138 | Crunchyroll | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
-| 139 | Crunchyroll | Kimba, der weiße Löwe | [Jungle Emperor Leo: Der Kinofilm](https://www.crunchyroll.com/de/jungle-emperor-leo) |
-| 140 | Crunchyroll | Street Fighter II: The Animated Movie | [Hauptserie](https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie) |
+| 121 | Prime Video | Your Name. Gestern, heute und für immer | [Hauptserie](https://www.amazon.de/s?k=Your%20Name.&i=instant-video) |
+| 122 | YouTube | Your Name. Gestern, heute und für immer | [Hauptserie](https://www.youtube.com/watch?v=duoOTzpeWSE) |
+| 123 | Crunchyroll | Sound! Euphonium | [Auf die Plätze, fertig, Monaka](https://www.crunchyroll.com/de/sound-euphonium) |
+| 124 | Crunchyroll | Project Itoh: Harmony | [Hauptserie](https://www.crunchyroll.com/harmony/harmony-unbekannt-807914?ssid=394443) |
+| 125 | Crunchyroll | Project Itoh: The Empire of Corpses | [Hauptserie](https://www.crunchyroll.com/the-empire-of-corpses/the-empire-of-corpses-unknown-808170?ssid=395057) |
+| 126 | Netflix | Miss Hokusai | [Hauptserie](https://www.netflix.com/title/80075828) |
+| 127 | Crunchyroll | Love Stage!! | [Daran war gar nichts leicht](https://www.crunchyroll.com/love-stage/episode-11-841216) |
+| 128 | Netflix | Expelled from Paradise | [Hauptserie](https://www.netflix.com/title/80038207) |
+| 129 | Crunchyroll | Love, Chunibyo & Other Delusions! | [Love, Chunibyo & Other Delusions: Heart Throb - Offenbarung des wahren Auges des bösen Königs … Wiederholung](https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-/episode-13-799361?ssid=387047) |
+| 130 | Crunchyroll | Fairy Tail | [The Movie - Phoenix Priestess](https://www.crunchyroll.com/fairy-tail-movies/fairy-tail-the-movie-phoenix-princess-unbekannt-821316?ssid=422327) |
+| 131 | Prime Video | Starship Troopers: Invasion | [Hauptserie](https://www.amazon.de/gp/video/detail/amzn1.dv.gti.8ca9f6c3-21de-5225-749f-931196618766) |
+| 132 | Crunchyroll | K-On! | [The Movie](https://www.crunchyroll.com/k-on/k-on-the-movie-unbekannt-822264?ssid=424604) |
+| 133 | YouTube | Onigamiden: Legend of the Millennium Dragon | [Hauptserie](https://www.youtube.com/watch?v=W8YuJXFKZ-k) |
+| 134 | YouTube | Final Fantasy VII: Advent Children | [Hauptserie](https://www.youtube.com/watch?v=IFKqfiIE66Q) |
+| 135 | YouTube | Tokyo Godfathers | [Hauptserie](https://www.youtube.com/watch?v=jderzQDdDHc) |
+| 136 | Crunchyroll | Sin: The Movie | [Hauptserie](http://www.crunchyroll.com/de/sin-the-movie) |
+| 137 | Crunchyroll | Kimba, der weiße Löwe | [Jungle Emperor Leo: Der Kinofilm](https://www.crunchyroll.com/de/jungle-emperor-leo) |
+| 138 | Crunchyroll | Street Fighter II: The Animated Movie | [Hauptserie](https://www.crunchyroll.com/de/street-fighter-ii-the-animated-movie) |
+| 139 | Prime Video | Street Fighter II: The Animated Movie | [Hauptserie](https://www.amazon.de/s?k=Street%20Fighter%20II%3A%20The%20Animated%20Movie&i=instant-video) |
+| 140 | Prime Video | Knights of the Zodiac: Saint Seiya Teil 2 | [Saint Seiya: Die Krieger des Zodiac - Movie 1: Die Legende des goldenen Apfels](https://www.amazon.de/s?k=Saint%20Seiya%3A%20Evil%20Goddess%20Eris&i=instant-video) |
 
-## Paket 8 — Zeilen 141 bis 144
+## Paket 8 — Zeilen 141 bis 142
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 141 | Prime Video | Street Fighter II: The Animated Movie | [Hauptserie](https://www.amazon.de/s?k=Street%20Fighter%20II%3A%20The%20Animated%20Movie&i=instant-video) |
-| 142 | Prime Video | Knights of the Zodiac: Saint Seiya Teil 2 | [Saint Seiya: Die Krieger des Zodiac - Movie 1: Die Legende des goldenen Apfels](https://www.amazon.de/s?k=Saint%20Seiya%3A%20Evil%20Goddess%20Eris&i=instant-video) |
-| 143 | Prime Video | Unico: Das phantastische Abenteuer eines Hörnchens | [Hauptserie](https://www.amazon.de/s?k=Fantastic%20Adventures%20of%20Unico&i=instant-video) |
-| 144 | Netflix | Lupin III.: Teil 1 | [Das Schloss des Cagliostro](https://www.netflix.com/title/70050576) |
+| 141 | Prime Video | Unico: Das phantastische Abenteuer eines Hörnchens | [Hauptserie](https://www.amazon.de/s?k=Fantastic%20Adventures%20of%20Unico&i=instant-video) |
+| 142 | Netflix | Lupin III.: Teil 1 | [Das Schloss des Cagliostro](https://www.netflix.com/title/70050576) |

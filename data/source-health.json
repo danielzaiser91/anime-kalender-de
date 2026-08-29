@@ -1,22 +1,22 @@
 {
   "adn": {
-    "lastOk": "2026-08-29T14:05:58.737Z",
-    "lastRun": "2026-08-29T14:05:58.737Z",
+    "lastOk": "2026-08-29T14:53:20.378Z",
+    "lastRun": "2026-08-29T14:53:20.378Z",
     "lastCount": 7
   },
   "anime2you": {
-    "lastOk": "2026-08-29T14:06:05.487Z",
-    "lastRun": "2026-08-29T14:06:05.487Z",
+    "lastOk": "2026-08-29T14:53:28.234Z",
+    "lastRun": "2026-08-29T14:53:28.234Z",
     "lastCount": 34
   },
   "crunchyroll": {
-    "lastOk": "2026-08-29T14:44:40.100Z",
-    "lastRun": "2026-08-29T14:44:40.100Z",
-    "lastCount": 15
+    "lastOk": "2026-08-29T14:52:31.191Z",
+    "lastRun": "2026-08-29T14:52:31.191Z",
+    "lastCount": 27
   },
   "anisearch": {
-    "lastOk": "2026-08-29T14:42:46.171Z",
-    "lastRun": "2026-08-29T14:42:46.171Z",
+    "lastOk": "2026-08-29T15:29:34.162Z",
+    "lastRun": "2026-08-29T15:29:34.162Z",
     "lastCount": 120
   },
   "adn-catalog": {
@@ -40,14 +40,16 @@
     "lastCount": 8876
   },
   "youtube-check": {
-    "lastOk": "2026-08-29T10:09:17.996Z",
+    "lastOk": "2026-08-20T12:03:26.405Z",
     "lastRun": "2026-08-29T10:09:17.996Z",
-    "lastCount": 0
+    "lastCount": 0,
+    "lastError": "nichts zu prüfen"
   },
   "anilist-voices": {
-    "lastOk": "2026-08-29T09:29:43.175Z",
+    "lastOk": "2026-08-24T11:55:11.741Z",
     "lastRun": "2026-08-29T09:29:43.175Z",
-    "lastCount": 0
+    "lastCount": 0,
+    "lastError": "keine Sprecher gefunden"
   },
   "link-check": {
     "lastOk": "2026-08-24T11:57:52.015Z",
@@ -60,8 +62,8 @@
     "lastCount": 500
   },
   "motn-changes": {
-    "lastOk": "2026-08-29T14:05:59.583Z",
-    "lastRun": "2026-08-29T14:05:59.583Z",
+    "lastOk": "2026-08-29T14:53:21.879Z",
+    "lastRun": "2026-08-29T14:53:21.879Z",
     "lastCount": 0
   },
   "motn": {
