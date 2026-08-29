@@ -122,6 +122,35 @@ beantwortet einen fremden Abruf mit HTTP 403 (CloudFront); die vorhandene
 API-Anbindung in `fetch-adn.ts` kann es, braucht aber eine Suchfunktion, die es
 dort bisher nicht gibt.
 
+## Der Crunchyroll-Bestand ist vollständig — gegengeprüft
+
+Daniels Frage vom 29.08.2026 („wenn der lauf gesamten crunchy bestand hat und
+alles sammelt…") ist damit beantwortet, und zwar gemessen statt vermutet. Der
+vollständige deutsche Katalog liegt seit demselben Abend im Repo
+(`data/cr-katalog-de.json`, 1.591 Einträge):
+
+| | Zahl |
+|---|---|
+| Katalogeinträge mit deutscher Tonspur | 352 |
+| davon Serienkennung schon im Bestand | 331 |
+| davon Name im Bestand | 323 |
+| **weder noch** | **7** |
+
+Und die sieben sind allesamt keine Lücke:
+
+- **Vier Sammelseiten** — „Detektiv Conan Movies", „Haikyu!! (Synchronfassungen)",
+  „Code Geass – Akito the Exiled" (bei uns fünf Einzelteile), „Gosho Aoyama's
+  Collection of Short Stories".
+- **Einer anders benannt** — „Detektiv Conan Film 29: Der gefallene Engel der
+  Autobahn" steht bei uns als „Der gefallene Engel des Highways".
+- **Einer kein Anime** — „Crunchyroll Anime Awards 2021" ist eine Preisverleihung.
+- **Einer keine japanische Produktion** — „Onyx Equinox" (24 Folgen, deutsche
+  Tonspur) ist ein US-Original; AniList führt es nicht, und dieser Bestand baut
+  auf AniList auf.
+
+**Was Crunchyroll auf Deutsch anbietet, steht also im Kalender.** Was offen
+bleibt, sind Zuordnungsfragen innerhalb bekannter Titel — keine fehlenden Werke.
+
 ## Vorzulegen: darf ein gleichnamiger Block ein Nein belegen?
 
 Gemessen am 29.08.2026, spät abends. `beurteileJeBlock` vergleicht den
