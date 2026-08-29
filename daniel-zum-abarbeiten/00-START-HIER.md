@@ -6,10 +6,10 @@ falschen Ort; sie kommt beim nächsten Lauf zurück.
 
 | # | Aufgabe | Umfang | Zeit je Stück | wozu |
 |---|---|---|---|---|
-| 1 | Prime Video — Suchseiten | 173 Suchen | ~20 s je Titel | Titel ohne bekannte Produktseite |
+| 1 | Prime Video — Suchseiten | 175 Suchen | ~20 s je Titel | Titel ohne bekannte Produktseite |
 | 2 | [Prime Video — Titelseiten](07-primevideo.md) | 19 Adressen, 76 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
-| 3 | [Netflix](06-netflix-rest.md) | 31 Titel, 41 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
-| 4 | [Crunchyroll](07-crunchyroll.md) | 56 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
+| 3 | [Netflix](06-netflix-rest.md) | 22 Titel, 32 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
+| 4 | [Crunchyroll](07-crunchyroll.md) | 43 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
 | 5 | [YouTube](09-youtube-liste.md) | 22 Verweise | ~30 s je Video | der Videotitel nennt oft schon die Fassung |
 | 6 | [Disney+](07-disneyplus.md) | 1 Titel, 1 Verweis | ~30 s je Titel | der Playback-Aufruf liest die Sprachen ohne Wiedergabe |
 
