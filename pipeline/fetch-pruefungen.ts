@@ -493,7 +493,22 @@ for (const gruppe of jeAdresse.values()) {
     if (weg) {
       zeilen.push('  available: false')
     } else if (neinAusKanal) {
-      /* Kein Urteil — die Adresse und die Tonspuren stehen trotzdem in der Notiz. */
+      /*
+        **Kein Urteil — aber der Eintrag braucht trotzdem eine Aussage.**
+
+        `dub-confirmed.yaml` verlangt je Eintrag mindestens `dub`, `available`
+        oder eine `url`; ohne das überspringt der Bau ihn mit einer Warnung. Am
+        29.08.2026 hat das den Tageslauf rot gemacht — und zwar nicht wegen der
+        Warnung, sondern wegen ihrer Folge: „Fullmetal Alchemist" hat zwei
+        Belege (24.08. und 27.08.), der jüngere wurde übersprungen, und die
+        Zusicherung „es gilt immer der jüngste" schlug zu Recht an.
+
+        Ein übersprungener Eintrag verschwindet also nicht — er verdeckt einen
+        anderen. Die Adresse macht ihn zu einem gültigen Eintrag ohne Urteil,
+        und sie ist die nützlichste Angabe, die eine Kanal-Meldung hat: Sie sagt,
+        **welche Seite** angesehen wurde.
+      */
+      if (!nachUrl.has(schluesselAdresse(p.url))) zeilen.push(`  url: ${p.url}`)
     } else if (eigene.length) {
       const ganz = eigene.length === 1 && eigene[0]!.von === 1 && eigene[0]!.bis === (t?.episodes ?? -1)
       zeilen.push(`  dub: ${eigene.some((b) => b.dub)}`)
