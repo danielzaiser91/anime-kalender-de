@@ -1,20 +1,18 @@
 # Weg zu einem vollständigen Kalender
 
-Stand 29.08.2026, 13:00 — alle Zahlen aus dem ausgelieferten Datensatz gemessen.
+Stand 29.08.2026, 17:30 — alle Zahlen aus dem ausgelieferten Datensatz gemessen.
 
 ## Wo wir stehen
 
-| | 27.08. | 29.08. früh | 29.08. 13:00 |
+| | 27.08. | 29.08. früh | 29.08. abends |
 |---|---|---|---|
 | Titel im Bestand | 2.762 | 2.763 | 2.763 |
-| davon mit Anbieter-Verweis | 1.625 | 1.474 | 1.474 |
 | mit belegter deutscher Synchro | 1.276 | 1.349 | 1.349 |
-| Verweise mit Urteil | 1.599 | 1.692 | 1.692 |
 | **Verweise ohne Urteil** | 531 | **193** | **193** |
-| **Titel ganz ohne Weg** | — | 1.041 | **862** |
-| **davon mit belegter Synchro** | — | 693 | **538** |
-| Releases | 446 | 451 | 451 |
-| Termine | 888 | 892 | 892 |
+| **Titel ganz ohne Weg** | — | 1.041 | **498** |
+| **davon mit belegter Synchro** | — | 693 | **277** |
+| Titel mit Disc-Weg aus dem Archiv | — | 0 | **542** |
+| aniSearch-Archivdateien | — | 956 | **2.356** |
 
 **Die Urteilslücke ist in zwei Tagen um zwei Drittel geschrumpft** — von 531 auf
 193. Dass die Zahl der Titel *mit* Verweis dabei gesunken ist, gehört dazu und
@@ -37,15 +35,16 @@ dort nachweislich nicht mehr läuft. Ein toter Link ist schlimmer als keiner.
 Crunchyroll ist von 356 auf 63 gefallen — der Rest ist der harte Kern, den die
 Messung vom 27.08. schon benannt hat.
 
-### 2. Titel ohne jeden Weg — 862
+### 2. Titel ohne jeden Weg — 498
 
-Die größte inhaltliche Lücke, und sie ist heute um 179 Titel kleiner geworden:
+Die größte inhaltliche Lücke, und sie hat sich an einem Tag **mehr als
+halbiert**:
 
-| | früh | 13:00 |
+| | früh | abends |
 |---|---|---|
-| Titel ganz ohne Weg | 1.041 | **862** |
-| davon mit belegten deutschen Sprechrollen | 693 | **538** |
-| Titel mit Disc-Weg aus dem Archiv | 0 | **173** |
+| Titel ganz ohne Weg | 1.041 | **498** |
+| davon mit belegten deutschen Sprechrollen | 693 | **277** |
+| Titel mit Disc-Weg aus dem Archiv | 0 | **542** |
 
 **Was den Unterschied gemacht hat, lag im Haus.** `data/anisearch-raw/`
 archiviert die Titelseiten, und deren Abschnitt `<section id="items">` führt
@@ -53,13 +52,12 @@ jede Veröffentlichung mit Datum und Artikelseite. Für einen Anime von 2002 ist
 das die richtige Antwort auf „wo?": Er lief nie bei einem Streamingdienst, es
 gab ihn auf DVD.
 
-**Der Engpass ist jetzt der Archivbestand.** 956 von 2.615 Titeln haben eine
-archivierte Seite. Jede weitere kann einen Disc-Weg, einen deutschen Titel und
-eine Beschreibung bringen. Seit dem 29.08. holt der **Tageslauf** 120 Seiten
-statt der wöchentlichen 60 — davor konnte die Warteschlange rechnerisch nie leer
-werden (2.615 Titel, 14 Tage Frist, 60 Seiten je Woche).
+**Dazu kam der zweite Fund:** Von 2.616 archivierbaren Seiten lagen nur 956 im
+Repo — 1.660 waren verlorengegangen, und der Abruf meldete trotzdem „nichts
+nachzuladen", weil seine Warteschlange nur nach dem Alter fragte. Nach zwei
+Nachhol-Läufen sind es 2.356; die restlichen 260 holt der Tageslauf.
 
-**Für die 538 mit Synchro und ohne Weg bleibt danach:** Titel, die weder ein
+**Für die 277 mit Synchro und ohne Weg bleibt danach:** Titel, die weder ein
 Streamingdienst führt noch je eine deutsche Disc hatten. Dort ist die ehrliche
 Antwort „Kein Anbieter bekannt".
 
