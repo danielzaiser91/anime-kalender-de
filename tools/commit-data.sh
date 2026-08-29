@@ -76,6 +76,7 @@ QUELLEN=(
   data/anbieter-vorschlaege.json
   data/wiedervorlage.json
   data/qualitaet-verlauf.json
+  data/disc-ausgaben.json
   data/prime-zugeordnet.json
   data/prime-unzugeordnet.json
   data/cr-vorschlaege.json

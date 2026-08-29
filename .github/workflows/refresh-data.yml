@@ -220,6 +220,16 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "Meldungen aus der Erweiterung abgeholt"
 
+      # Deutsche Disc-Ausgaben aus dem aniSearch-Archiv — kein Abruf, keine fremde
+      # Last, nur das Auswerten dessen, was der aniSearch-Lauf ohnehin ablegt.
+      # Muss **vor** dem Bau laufen: Er macht daraus die Bezugswege fuer Titel,
+      # die sonst keinen einzigen zeigen (176 am 29.08.2026).
+      - name: Deutsche Disc-Ausgaben aus dem Archiv
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:disc-ausgaben
+
       - name: Datensatz bauen
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}

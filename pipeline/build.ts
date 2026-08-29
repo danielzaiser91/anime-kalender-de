@@ -1388,6 +1388,49 @@ function main(): void {
     }
   }
 
+  /**
+   * **Deutsche Disc-Ausgaben aus dem aniSearch-Archiv.**
+   *
+   * Für einen Anime von 2002 ist „Kein Anbieter bekannt" richtig und trotzdem
+   * eine Sackgasse: Er lief nie bei einem Streamingdienst, es gab ihn auf DVD.
+   * Am 29.08.2026 stand das bei **1.041 Titeln**, 693 davon mit belegter
+   * deutscher Synchro.
+   *
+   * `extract-disc-ausgaben.ts` liest die Ausgaben aus dem Archiv, das der
+   * aniSearch-Lauf ohnehin anlegt — kein zusätzlicher Abruf. 584 Titel haben
+   * eine deutsche Ausgabe, **176 davon zeigen sonst keinen einzigen Weg**.
+   *
+   * **Ohne Sprachaussage.** Eine deutsche Disc kann untertitelt sein; im Archiv
+   * steht wörtlich „Saber Marionette J (OmU)". Der Eintrag ist deshalb ein
+   * `watchLink` vom Typ `buy` wie jeder andere und trägt kein `dub`.
+   *
+   * **Und nur, wo sonst nichts steht.** Wer einen Stream hat, braucht keinen
+   * Hinweis auf eine womöglich vergriffene DVD von 2005 — der Verweis wäre dort
+   * Rauschen statt Auskunft.
+   */
+  {
+    const discAusgaben = readJson<Record<string, { edition: string; datum: string; url?: string }[]>>(
+      'data/disc-ausgaben.json',
+      {},
+    )
+    let discWege = 0
+    for (const title of titles.values()) {
+      if (title.streams.length || (title.watchLinks ?? []).length) continue
+      const ausgaben = discAusgaben[String(title.id)]
+      if (!ausgaben?.length) continue
+      const erste = ausgaben[0]!
+      title.watchLinks = [
+        {
+          name: ausgaben.length > 1 ? `aniSearch — ${ausgaben.length} Disc-Ausgaben` : 'aniSearch — Disc-Ausgabe',
+          url: erste.url ?? `https://www.anisearch.de/anime/${title.id}`,
+          kind: 'buy',
+        },
+      ]
+      discWege++
+    }
+    if (discWege) log(`${discWege} Titel ohne Weg haben jetzt eine deutsche Disc-Ausgabe als Bezugsweg`)
+  }
+
   // Von Hand gepflegte Bezugswege. Sie stehen vorn: Wer sie einträgt, hat
   // nachgesehen — das schlägt jede automatische Liste.
   for (const entry of loadWatchLinks()) {
