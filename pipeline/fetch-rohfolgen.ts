@@ -101,7 +101,15 @@ async function main(): Promise<void> {
   }
   if (!folgen.length) {
     log(`keine offenen Rohfolgen (Bestand ${gesamt})`)
-    recordSource('rohfolgen', 0)
+    /*
+      **Ein leerer Briefkasten ist der Idealzustand, kein Ausfall.**
+
+      Sobald Daniel ein paar Tage nichts meldet, steht hier 0 — und ohne
+      `leerIstOk` gaelte die Quelle nach drei Tagen als stumm und machte den
+      Tageslauf rot. Am 29.08.2026 ist genau das `youtube-check` zweimal
+      passiert.
+    */
+    recordSource('rohfolgen', 0, undefined, undefined, true)
     return
   }
   if (folgen.length < gesamt) {

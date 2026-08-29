@@ -400,6 +400,42 @@ const NUR_VON_HAND = {
   }
 }
 
+
+/*
+  **Wer „nichts zu tun" meldet, muss es als Erfolg melden.**
+
+  Am 29.08.2026 hat das den Tageslauf zweimal abgebrochen: `youtube-check`
+  meldete `count: 0` mit dem Grund „nichts zu prüfen", weil alle Verweise
+  geprüft waren. `lastOk` blieb stehen, nach neun Tagen galt die Quelle als
+  stumm, der Lauf brach ab, und der Reparatur-Automat sprang an.
+
+  Die Unterscheidung heißt `leerIstOk` in `recordSource`: **nichts zu tun**
+  (Warteschlange leer) gegen **nichts bekommen** (Abruf fehlgeschlagen). Wer
+  einen Grund wie „nichts fällig", „nichts zu prüfen" oder „nichts nachzuladen"
+  übergibt, meint fast immer den ersten Fall — und schreibt damit einen Ausfall
+  in den Bestand.
+
+  Geprüft wird der Wortlaut, nicht die Absicht; das ist grob, aber es fängt
+  genau die Formulierung, die dreimal zu einem falschen Alarm geführt hat.
+*/
+{
+  const verdaechtig = /['"`](nichts (zu prüfen|fällig|nachzuladen|zu tun)|keine Arbeit)['"`]/
+  for (const datei of readdirSync(new URL('../pipeline/', import.meta.url))) {
+    if (!datei.endsWith('.ts')) continue
+    const inhalt = readFileSync(new URL('../pipeline/' + datei, import.meta.url), 'utf8')
+    for (const zeile of inhalt.split(String.fromCharCode(10))) {
+      if (!zeile.includes('recordSource(')) continue
+      if (!verdaechtig.test(zeile)) continue
+      console.error(
+        `✗ pipeline/${datei}: recordSource meldet „nichts zu tun" als Fehlergrund — ` +
+          'das schreibt einen Ausfall in `source-health.json` und macht den Tageslauf ' +
+          'nach Ablauf der Frist rot. Stattdessen `leerIstOk` (fünftes Argument) setzen.',
+      )
+      fehler++
+    }
+  }
+}
+
 if (fehler) {
   console.error(`\n${fehler} Problem(e) in den Workflow-Dateien.`)
   process.exit(1)
