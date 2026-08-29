@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { Release, Title } from '@shared/types.ts'
 import { loadAllTitles, type Dataset } from '../lib/data.ts'
-import { releaseStatus } from '@shared/logic.ts'
+import { lastEpisodeDate, releaseStatus } from '@shared/logic.ts'
 import { addDays, formatDate, todayIso } from '@shared/time.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { favoritSeit } from '../lib/favorites.ts'
@@ -144,7 +144,35 @@ export function FavoritesView({
       */
       const termine = [...(eventsJeTitel.get(id) ?? [])].sort()
       const naechster = termine.find((d) => d >= heute)
-      const letzter = [...termine].reverse().find((d) => d < heute)
+      /*
+        **Der Kalender führt nicht jede Folge — das Release schon.**
+
+        `events.json` ist die Kalenderansicht und enthält nur, was jemand
+        eintragen wollte. Für One Piece steht dort **ein** Termin: der
+        20.05.2019, an dem ADN die Serie ins Angebot nahm. Das Release daneben
+        trägt 515 Folgen und ein Ende am 25.03.2026.
+
+        Die Zeile schrieb deshalb „zuletzt 20.05.2019" — für den Leser heißt
+        das „seit sieben Jahren nichts mehr", und das ist falsch. Gemessen an
+        der Live-Seite am 29.08.2026.
+
+        `lastEpisodeDate()` beantwortet es richtig: Sie liest das belegte Ende,
+        wo es steht, und rechnet es sonst aus Startdatum, Folgenzahl und
+        Sendepausen — nie aus dem Feld allein, das bei den meisten Releases gar
+        nicht gesetzt ist (CLAUDE.md).
+
+        Genommen wird das spätere von beidem, aber nur aus der Vergangenheit:
+        Ein Release, das noch läuft, hat sein Ende in der Zukunft, und das ist
+        kein „zuletzt".
+      */
+      const ausReleases = releases
+        .map((r) => lastEpisodeDate(r))
+        .filter((d): d is string => Boolean(d) && d! < heute)
+        .sort()
+        .at(-1)
+      const ausEvents = [...termine].reverse().find((d) => d < heute)
+      const letzter =
+        ausReleases && ausEvents ? (ausReleases > ausEvents ? ausReleases : ausEvents) : (ausReleases ?? ausEvents)
       /*
         Ein Titel gilt als laufend, wenn **irgendein** Release von ihm läuft.
         Ein künftiger Disc-Termin macht daraus nicht „läuft noch" — dafür fragt
