@@ -245,7 +245,13 @@ async function main(): Promise<void> {
   writeJson(DATEI, bestand)
   const tot = Object.values(bestand).filter((b) => b.art !== 'kanal' && b.inDE === 0).length
   log(`YouTube: ${geprueft} geprüft, davon ${leer} ohne abrufbares Video. Im Bestand insgesamt ${tot} tote Verweise.`)
-  recordSource('youtube-check', geprueft, geprueft ? undefined : 'nichts zu prüfen')
+  /*
+    Wie bei tmdb-folgen/anisearch-folgen: Der Bestand ist der Erfolgsmaßstab,
+    nicht der Ertrag dieses einzelnen Laufs. Die Wiedervorlage (--alter 30)
+    lässt eine Woche legitim ganz ohne fällige Adresse verstreichen — sonst
+    galt jeder solche Lauf als „stumme Quelle", obwohl nichts kaputt war.
+  */
+  recordSource('youtube-check', Object.keys(bestand).length, undefined, geprueft)
 }
 
 main().catch((err) => {
