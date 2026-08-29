@@ -18,7 +18,15 @@
  */
 import { log, readJson, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
-import { findeStaffel, ordneZu, type AnbieterFolge, type TmdbFolge } from '../shared/folgen-zuordnung.ts'
+import {
+  ausAnisearch,
+  englischeSchreibweisen,
+  findeStaffel,
+  ordneZu,
+  type AnbieterFolge,
+  type AsFolgeRoh,
+  type TmdbFolge,
+} from '../shared/folgen-zuordnung.ts'
 import type { Title } from '../shared/types.ts'
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
@@ -78,6 +86,14 @@ async function main(): Promise<void> {
 
   const titles = readJson<Title[]>('public/data/titles.json', [])
   const tmdbFolgen = readJson<Record<string, TmdbEintrag>>('data/tmdb-folgen.json', {})
+  /*
+    **aniSearch zuerst.** Seine Folgen sind auf Deutsch, tragen die japanische
+    Erstausstrahlung und sind **wie unser Bestand aufgeteilt** — je Eintrag eine
+    eigene Zählung ab 1. Damit entfällt `findeStaffel` und mit ihm die Stelle,
+    an der die Zuordnung bisher scheiterte.
+  */
+  const asFolgen = readJson<Record<string, { folgen: AsFolgeRoh[] }>>('data/anisearch-folgen.json', {})
+  const asKennung = readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {})
 
   /* Je Adresse gruppieren — eine Meldung betrifft immer eine Staffel-Seite. */
   const jeUrl = new Map<string, Rohfolge[]>()
@@ -121,24 +137,47 @@ async function main(): Promise<void> {
     }
     const titel = treffer[0]!
 
-    const tmdb = tmdbFolgen[String(titel.id)]
-    if (!tmdb) {
-      offen.push({ url, titel: titel.titleDe ?? titel.titleEn ?? null, grund: 'keine TMDB-Folgen vorhanden', folgen: liste.length })
-      continue
-    }
+    /*
+      **Anker suchen: aniSearch, dann TMDB.**
 
-    const staffel = findeStaffel(tmdb.folgen, titel.episodes ?? null, titel.jpYear ?? null)
-    if (staffel === null) {
-      offen.push({
-        url,
-        titel: titel.titleDe ?? titel.titleEn ?? null,
-        grund: `keine TMDB-Staffel mit ${titel.episodes ?? '?'} Folgen eindeutig`,
-        folgen: liste.length,
-      })
-      continue
-    }
+      Bei aniSearch ist die Zuordnung eine Zeile — der Eintrag entspricht unserem
+      Titel, seine Folgen sind unsere Folgen. Bei TMDB muss erst die richtige
+      Staffel gefunden werden, und genau dort ging es schief: Am 28.08.2026 ließ
+      sich **1 von 67** Adressen zuordnen.
+    */
+    const asId = asKennung[String(titel.id)]?.anisearchId
+    const asEintrag = asId ? asFolgen[String(asId)] : undefined
+    let anker: TmdbFolge[] | null = null
+    let ankerQuelle = ''
 
-    const tmdbStaffel = tmdb.folgen.filter((f) => f.s === staffel)
+    if (asEintrag?.folgen?.length) {
+      anker = [...ausAnisearch(asEintrag.folgen), ...englischeSchreibweisen(asEintrag.folgen)]
+      ankerQuelle = 'aniSearch'
+    } else {
+      const tmdb = tmdbFolgen[String(titel.id)]
+      if (!tmdb) {
+        offen.push({
+          url,
+          titel: titel.titleDe ?? titel.titleEn ?? null,
+          grund: 'keine Folgentitel vorhanden (weder aniSearch noch TMDB)',
+          folgen: liste.length,
+        })
+        continue
+      }
+      const staffel = findeStaffel(tmdb.folgen, titel.episodes ?? null, titel.jpYear ?? null)
+      if (staffel === null) {
+        offen.push({
+          url,
+          titel: titel.titleDe ?? titel.titleEn ?? null,
+          grund: `keine TMDB-Staffel mit ${titel.episodes ?? '?'} Folgen eindeutig`,
+          folgen: liste.length,
+        })
+        continue
+      }
+      anker = tmdb.folgen.filter((f) => f.s === staffel)
+      ankerQuelle = 'TMDB'
+    }
+    const tmdbStaffel = anker
     const anbieter: AnbieterFolge[] = liste.map((f) => ({
       nummer: f.nummer,
       titel: f.titel,
@@ -152,7 +191,7 @@ async function main(): Promise<void> {
       offen.push({
         url,
         titel: titel.titleDe ?? titel.titleEn ?? null,
-        grund: 'keine einzige Folge zuzuordnen',
+        grund: `keine einzige Folge zuzuordnen (Anker: ${ankerQuelle})`,
         folgen: liste.length,
       })
       continue

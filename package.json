@@ -6,7 +6,7 @@
   "description": "Wochenkalender für alle Anime-Releases mit deutscher Synchronisation",
   "scripts": {
     "dev": "vite",
-    "build": "npm run check:hooks && tsc -b --noEmit && vite build && tsx pipeline/build-share-pages.ts",
+    "build": "npm run check:hooks && npm run check:folgen && tsc -b --noEmit && vite build && tsx pipeline/build-share-pages.ts",
     "preview": "npm run build && wrangler dev",
     "data:fetch": "tsx pipeline/fetch.ts",
     "data:crunchyroll": "tsx pipeline/scrape-crunchyroll.ts --weeks 8",
@@ -34,6 +34,7 @@
     "data:anisearch:check": "tsx pipeline/check-anisearch.ts",
     "data:disc-proposals": "tsx pipeline/extract-disc-dates.ts",
     "data:anisearch:reparse": "tsx pipeline/reparse-anisearch.ts",
+    "check:folgen": "tsx pipeline/check-folgen-zuordnung.ts",
     "check:logic": "tsx pipeline/check-logic.ts",
     "check:search": "tsx pipeline/check-search.ts",
     "check:workflows": "node tools/check-workflows.mjs",

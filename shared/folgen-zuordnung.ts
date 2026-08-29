@@ -137,9 +137,6 @@ export function ordneZu(anbieter: AnbieterFolge[], staffel: TmdbFolge[]): Zuordn
     }
   }
 
-  const gleichLang = anbieter.length === staffel.length
-  const sortiert = [...staffel].sort((a, b) => a.e - b.e)
-
   return anbieter.map((a, index) => {
     const perDatum = a.datum ? nachDatum.get(a.datum) : undefined
     if (perDatum?.length === 1) return { index, unsere: perDatum[0]!.e, grund: 'datum' as const }
@@ -147,8 +144,81 @@ export function ordneZu(anbieter: AnbieterFolge[], staffel: TmdbFolge[]): Zuordn
     const perTitel = nachTitel.get(folgenKern(a.titel))
     if (perTitel?.length === 1) return { index, unsere: perTitel[0]!.e, grund: 'titel' as const }
 
-    if (gleichLang) return { index, unsere: sortiert[index]!.e, grund: 'position' as const }
+    /*
+      **Die Position ist gestrichen — sie war der Notausgang, der falsch lag.**
 
+      Daniel am 28.08.2026: „nur einfache logik, keine komplexe … nur simple
+      staffel zuordnungen." Eine Zuordnung nach Reihenfolge ist genau das
+      Gegenteil: Sie sieht einfach aus und ist eine Behauptung. Sie greift, wenn
+      Titel und Datum **beide** versagt haben — also genau dann, wenn nichts
+      dafür spricht, dass die n-te Folge dort die n-te hier ist.
+
+      Prime führt in einer Liste die deutsche Zählung neben der japanischen
+      (149–151 neben 1146–1148), Crunchyroll stellt Rückblick-Specials voran,
+      aniSearch trennt nach Arc. Gleiche Länge heißt in keinem dieser Fälle
+      gleiche Reihenfolge.
+
+      Was offen bleibt, bleibt offen. Das ist kein Verlust, sondern der Messwert
+      dafür, wie gut die Anker sind — und er steht in
+      `data/prime-unzugeordnet.json`.
+    */
     return { index, unsere: null, grund: 'offen' as const }
   })
+}
+
+/**
+ * Die Folgen eines Titels, wie aniSearch sie führt.
+ *
+ * Bewusst dieselbe Form wie `TmdbFolge`, damit `ordneZu` nicht wissen muss,
+ * woher die Anker kommen.
+ */
+export interface AsFolgeRoh {
+  nr: number
+  datum?: string
+  minuten?: number
+  de?: string
+  en?: string
+  ja?: string
+}
+
+/**
+ * **aniSearch-Folgen als Anker — und warum sie die besseren sind.**
+ *
+ * Drei Gründe, alle gemessen:
+ *
+ * 1. **Sie sind auf Deutsch.** 7.109 von 8.702 geholten Folgen tragen einen
+ *    deutschen Titel (Stand 29.08.2026). Prime, Netflix und Crunchyroll nennen
+ *    ihre Folgen ebenfalls deutsch — TMDB überwiegend englisch, und 50 seiner
+ *    594 Titel haben nur Platzhalter („Folge 1").
+ * 2. **Sie sind wie unser Bestand aufgeteilt.** aniSearch führt „Danganronpa 3 —
+ *    Despair Arc" als eigenen Eintrag mit eigener Folgenzählung ab 1, genau wie
+ *    wir. Bei TMDB muss dafür erst die richtige Staffel gefunden werden
+ *    (`findeStaffel`), und das ist die Stelle, an der es schiefgeht.
+ * 3. **Sie tragen die japanische Erstausstrahlung**, nicht das Datum einer
+ *    Plattform-Aufnahme. 7.453 der 8.702 Folgen haben eines.
+ *
+ * Der englische Titel kommt als zweite Schreibweise mit: Prime führt manche
+ * Folgen englisch, auch auf der deutschen Seite.
+ */
+export function ausAnisearch(folgen: AsFolgeRoh[]): TmdbFolge[] {
+  return folgen.map((f) => ({
+    s: 1,
+    e: f.nr,
+    titel: f.de ?? f.en ?? null,
+    datum: f.datum ?? null,
+    minuten: f.minuten ?? null,
+  }))
+}
+
+/**
+ * Zweite Schreibweise je Folge — für den Titelabgleich.
+ *
+ * `ordneZu` vergleicht einen Titel je Folge. Wo aniSearch beide führt, ist der
+ * englische ein zweiter Versuch, der nichts kostet: Er wird nur gebraucht, wenn
+ * der deutsche nicht traf.
+ */
+export function englischeSchreibweisen(folgen: AsFolgeRoh[]): TmdbFolge[] {
+  return folgen
+    .filter((f) => f.en && f.en !== f.de)
+    .map((f) => ({ s: 1, e: f.nr, titel: f.en!, datum: f.datum ?? null, minuten: f.minuten ?? null }))
 }
