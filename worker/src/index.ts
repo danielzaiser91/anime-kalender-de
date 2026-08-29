@@ -1942,6 +1942,37 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
       return antwort({ ok: true, reoeffnet: meta?.changes ?? 0 })
     }
 
+  /**
+   * **Rohfolgen abhaken — sonst wächst die Tabelle für immer.**
+   *
+   * `pruefung` kennt das seit jeher, `prime_folge` nicht: Der Bau ordnet die
+   * Folgen zu, schreibt das Ergebnis ins Repo — und die Zeilen bleiben auf
+   * `uebernommen = 0` stehen. Am 29.08.2026 holte jeder Lauf dieselben 5.633
+   * Zeilen erneut, davon 3.569 Dubletten aus einem behobenen Fehler.
+   *
+   * Abgehakt wird, was **zugeordnet** ist. Der Beleg dafür steht committet in
+   * `data/prime-zugeordnet.json`; ein Baufehler danach verliert also nichts.
+   * Was sich nicht zuordnen ließ, bleibt offen — das ist die Warteschlange, und
+   * sie soll bestehen bleiben, bis ein Anker dazukommt.
+   */
+  if (Array.isArray(daten.rohfolgenUebernommen)) {
+    const ids = (daten.rohfolgenUebernommen as unknown[])
+      .map(Number)
+      .filter((n) => Number.isInteger(n) && n > 0)
+    if (!ids.length) return antwort({ ok: true, markiert: 0 })
+    /* Dieselbe Stapelgrenze wie unten: D1 bindet höchstens 100 Werte je Anfrage. */
+    const STAPEL = 50
+    for (let i = 0; i < ids.length; i += STAPEL) {
+      const teil = ids.slice(i, i + STAPEL)
+      await env.DB.prepare(
+        `UPDATE prime_folge SET uebernommen = 1 WHERE id IN (${teil.map(() => '?').join(',')})`,
+      )
+        .bind(...teil)
+        .run()
+    }
+    return antwort({ ok: true, markiert: ids.length })
+  }
+
   if (Array.isArray(daten.uebernommen)) {
     const ids = (daten.uebernommen as unknown[]).map(Number).filter((n) => Number.isInteger(n) && n > 0)
     if (!ids.length) return antwort({ ok: true, markiert: 0 })

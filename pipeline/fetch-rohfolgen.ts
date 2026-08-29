@@ -81,7 +81,7 @@ async function main(): Promise<void> {
     Endlos-Lauf, keine Mengenbegrenzung: Bei 5.000 Zeilen je Seite sind das
     100.000 Folgen.
   */
-  const folgen: Rohfolge[] = []
+  let folgen: Rohfolge[] = []
   let gesamt = 0
   let nach = 0
   for (let seite = 0; seite < 20; seite++) {
@@ -136,6 +136,54 @@ async function main(): Promise<void> {
     }
   }
 
+  /*
+    **Dubletten aus dem Altbestand wegräumen.**
+
+    Bis zum 28.08.2026 hängte jede erneute Meldung derselben Adresse ihre Folgen
+    an, statt die offenen zu ersetzen — der Worker macht es seitdem richtig, aber
+    was davor entstand, liegt noch da: **3.569 Zeilen allein unter „Captain
+    Tsubasa"**, einer Seite mit 91 Folgen, weil Daniel an dem Titel oft gemeldet
+    hat. Sie machen zwei Drittel des Briefkastens aus und blockieren jeden Lauf.
+
+    Behalten wird je Adresse und Folgennummer die **jüngste** Zeile; die
+    überzähligen werden abgehakt. Das ist kein Datenverlust: Es sind wörtliche
+    Wiederholungen derselben Meldung.
+  */
+  const jungste = new Map<string, Rohfolge>()
+  const veraltet: number[] = []
+  for (const f of folgen) {
+    /*
+      **Der Schlüssel ist der Inhalt, nicht nur die Nummer.**
+
+      Prime führt in einer Liste die deutsche Zählung neben der japanischen
+      Gesamtzählung (Detektiv Conan: 149–151 neben 1146–1148, siehe CLAUDE.md).
+      Zwei verschiedene Folgen mit derselben Nummer sind damit möglich, und ein
+      Schlüssel aus Adresse und Nummer allein würde eine davon wegwerfen.
+
+      Gemessen am Altbestand vom 29.08.2026: 5.633 Zeilen, 1.169 Gruppen, und in
+      **keiner einzigen** unterscheidet sich der Inhalt. Die Verschärfung kostet
+      also nichts und schließt den Fall trotzdem aus, bevor er eintritt.
+    */
+    const k = `${f.url}|${f.nummer ?? ""}|${f.titel ?? ""}|${f.erschienen ?? ""}|${f.sprachen ?? ""}`
+    const da = jungste.get(k)
+    if (!da) {
+      jungste.set(k, f)
+      continue
+    }
+    /* Die spätere Meldung gewinnt; bei gleichem Zeitpunkt die höhere Kennung. */
+    const neuer = f.gemeldet_am > da.gemeldet_am || (f.gemeldet_am === da.gemeldet_am && f.id > da.id)
+    if (neuer) {
+      veraltet.push(da.id)
+      jungste.set(k, f)
+    } else {
+      veraltet.push(f.id)
+    }
+  }
+  if (veraltet.length) {
+    log(`${veraltet.length} doppelte Rohfolgen aussortiert (Altbestand vor dem 28.08.2026)`)
+    folgen = [...jungste.values()]
+  }
+
   /* Je Adresse gruppieren — eine Meldung betrifft immer eine Staffel-Seite. */
   const jeUrl = new Map<string, Rohfolge[]>()
   for (const f of folgen) {
@@ -157,6 +205,8 @@ async function main(): Promise<void> {
     string,
     { titleId: number; asin: string | null; folgen: { unsere: number | null; sprachen: string[] }[] }
   > = {}
+  /** Die Rohfolgen-Kennungen, die verwertet wurden — sie werden danach abgehakt. */
+  const erledigt: number[] = []
 
   for (const [url, liste] of jeUrl) {
     /*
@@ -250,6 +300,7 @@ async function main(): Promise<void> {
         asin: liste[0]!.asin ?? null,
         folgen: [{ unsere: null, sprachen: JSON.parse(liste[0]!.sprachen ?? '[]') as string[] }],
       }
+      erledigt.push(liste[0]!.id)
       continue
     }
 
@@ -314,10 +365,40 @@ async function main(): Promise<void> {
         sprachen: JSON.parse(liste[p.index]!.sprachen ?? '[]') as string[],
       })),
     }
+    /*
+      **Abgehakt wird die ganze Adresse, nicht nur die getroffenen Zeilen.**
+
+      Was von dieser Seite nicht zugeordnet werden konnte, wird es beim nächsten
+      Lauf auch nicht — die Anker sind dieselben. Es offen zu lassen hieße, die
+      Zeilen für immer erneut zu holen; ihr Inhalt steht ohnehin im Archiv der
+      Meldung. Kommt später ein Anker dazu, ist die Meldung neu zu holen, und
+      das ist ein Klick.
+    */
+    for (const f of liste) erledigt.push(f.id)
   }
 
   writeJson('data/prime-zugeordnet.json', zugeordnet)
   writeJson('data/prime-unzugeordnet.json', offen)
+
+  /*
+    **Erst schreiben, dann abhaken.** Die Zuordnung steht committet im Repo,
+    bevor der Briefkasten sie vergisst — andersherum wäre ein Netzfehler zwischen
+    beiden Schritten ein Datenverlust.
+  */
+  erledigt.push(...veraltet)
+  if (erledigt.length) {
+    try {
+      const res = await fetch(`${WORKER}/pruefung`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': TOKEN },
+        body: JSON.stringify({ rohfolgenUebernommen: erledigt }),
+      })
+      if (res.ok) log(`${erledigt.length} Rohfolgen abgehakt`)
+      else warn(`Rohfolgen nicht abgehakt: HTTP ${res.status} — sie kommen beim nächsten Lauf erneut`)
+    } catch (e) {
+      warn(`Rohfolgen nicht abgehakt: ${(e as Error).message}`)
+    }
+  }
 
   const gesamtZugeordnet = Object.values(zugeordnet).reduce((n, z) => n + z.folgen.length, 0)
   log(`${Object.keys(zugeordnet).length} Adressen zugeordnet (${gesamtZugeordnet} Folgen), ${offen.length} offen`)
