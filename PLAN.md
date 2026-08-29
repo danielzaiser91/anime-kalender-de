@@ -89,7 +89,12 @@ Von 1.349 Titeln mit belegter Synchro haben 188 einen Kalendereintrag. Der Rest
 ist erschienen, bevor eine unserer Quellen ihn kannte; 329 tragen wenigstens ein
 „Im Angebot seit" aus MOTN.
 
-**Hier ist wenig zu holen, und das ist gemessen, nicht resigniert:**
+**Nachtrag 30.08.2026 — für Discs galt das nicht.** Der Auszug aus dem
+aniSearch-Archiv () stammte vom 13.08., als 1.660
+Archivdateien fehlten. Nach dem Nachholen findet derselbe Code 160 statt 94
+künftige deutsche Ausgaben; im kuratierten Bestand stehen 57 Termine statt 14.
+
+**Für Streaming-Ankündigungen bleibt es dabei:**
 Ankündigungen deutscher Synchronfassungen gibt es in keiner maschinenlesbaren
 Quelle. Was nicht angekündigt ist, findet kein Lauf.
 

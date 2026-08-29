@@ -23,6 +23,58 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 | **Erweiterung 3.91 laden** | Zeigt bei acht Suchaufträgen im Kasten, warum der TMDB-Treffer wackelt |
 | **Prime-Prüfliste** | 161 Suchen, davon 115 aussichtsreich (belegte deutsche Sprechrollen), 46 auf Verdacht am Ende |
 
+### Nacht vom 29. auf den 30.08.2026: YouTube-Tonspur und Disc-Termine
+
+Zwei Wege, die im Haus lagen und nicht zu Ende gegangen waren.
+
+**YouTube: die Angabe stand da und wurde nicht gelesen.** `youtube-befunde.json`
+trägt seit dem 23.08. je Adresse `audioDeutsch` — YouTubes eigene Angabe „Audio:
+Deutsch" aus der Videoseite. `build.ts` las aus derselben Datei `kanal` und
+`kaufAngebot`; das Feld daneben las niemand. Dazu holte der 401-Zweig des
+Prüflaufs gar keine Tonspur, obwohl er die Seite ohnehin lädt — und genau die
+Kauf- und Leihtitel bei YouTube Movies antworten mit 401.
+
+| | vorher | nachher |
+|---|---|---|
+| YouTube-Verweise ohne Urteil | 22 | **16** |
+| Verweise ohne Urteil gesamt | 181 | **175** |
+
+Gegenprobe über `check:quellen`: 40 YouTube-Urteile gegen die Handprüfung,
+**100 % einig**. Belegt wurden unter anderem FF7 Advent Children, Tokyo
+Godfathers, Volcanion, Your Name und Fireworks.
+
+Playlists (`?list=` ohne `v=`) haben kein Audio-Menü; der Lauf geht dort jetzt
+eine Ebene tiefer zum ersten Video. Brachte diesmal nichts, kostet nichts.
+
+**Disc-Termine: der Auszug war zwei Wochen alt.** `data:disc-proposals` liest
+das aniSearch-Archiv und schlägt künftige deutsche Ausgaben vor. Der letzte Lauf
+stammte vom 13.08. — aus einer Zeit, in der 1.660 Archivdateien fehlten. Sie
+wurden heute Nachmittag nachgeholt; derselbe Code findet jetzt:
+
+| | 13.08. | 29.08. |
+|---|---|---|
+| künftige deutsche Ausgaben | 94 | **160** |
+| Termine im kuratierten Bestand | 14 | **57** |
+
+Das trifft die größte Lücke: 1.161 Titel mit belegter Synchro ohne einen
+einzigen Kalendereintrag. `PLAN.md` nannte hier „wenig zu holen" — das gilt für
+Streaming-Ankündigungen und stimmt dort weiter. Für Discs lag die Quelle im
+Haus, nur ihr Auszug war alt.
+
+**Dabei gelernt:** Ein `data-date` auf den 31.12. ist bei aniSearch kein Termin,
+sondern ein Jahr ohne Tag. Vier Vorschläge gingen darauf zurück, darunter „Mein
+Nachbar Totoro" — der wäre damit am Silvestertag erschienen. Sperre steht in
+`extract-disc-dates.ts`.
+
+**Und ein Fehlgriff:** `npx prettier --write pipeline/build.ts` formatierte die
+Datei in 2.840 Zeilen um, für eine Änderung von zwölf — das Projekt hat keine
+Prettier-Konfiguration, `npx` wendet die Voreinstellung an. Zurückgenommen,
+Änderung von Hand wiederholt (34 Zeilen), Regel in `CLAUDE.md` notiert.
+
+**Offen geblieben:** Prime 76, Crunchyroll 36, Netflix 32, ADN 12. Netflix ist
+über die Streaming Availability API ausgereizt — die 32 sind Titel, die sie für
+Deutschland nicht führt.
+
 ### Erledigt am 29.08.2026
 
 **Vormittag — der Weg von der Meldung bis in den Datensatz:**
