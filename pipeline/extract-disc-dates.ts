@@ -136,6 +136,20 @@ function main(): void {
       const [, datum, block] = m
       // Nur Künftiges. Was erschienen ist, hilft einem Kalender nicht mehr.
       if (!/^\d{4}-\d{2}-\d{2}$/.test(datum) || datum < heute) continue
+      /*
+        **Der 31.12. ist bei aniSearch kein Termin, sondern ein Jahr.**
+
+        Wo ein Verlag nur „2026" angekündigt hat, trägt der Eintrag den letzten
+        Tag des Jahres. Am 29.08.2026 betraf das vier von 61 Vorschlägen —
+        Bleach, Bleach TYBW, Dragon Ball Z und „Mein Nachbar Totoro", allesamt
+        Reihen mit einer nächsten Box ohne Datum. Im Kalender stünde daraus die
+        Behauptung, Totoro erscheine am Silvestertag.
+
+        Der Handel veröffentlicht mittwochs und freitags; ein echter
+        Verkaufsstart am 31.12. ist die Ausnahme, die diese Sperre zu Recht
+        mitnimmt — lieber ein Termin zu wenig als ein erfundener.
+      */
+      if (datum.endsWith('-12-31')) continue
       const edition = /<span class="title">([^<]*)</.exec(block)?.[1]?.trim()
       if (!edition) continue
       geprüft++
