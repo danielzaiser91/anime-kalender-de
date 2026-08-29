@@ -23615,3 +23615,28 @@
   dub: true
   checkedAt: '2026-08-28'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0C5F6SYC9: alle 12 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-29 ---
+
+- anilistId: 6867
+  title: "Halo Legends"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DW8W9JKQ
+  dub: true
+  checkedAt: '2026-08-29'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DW8W9JKQ: nur 1 von 9 Folgen geladen — Rest ungeprüft, Abos: Prime, zugang=abo_und_kauf"
+
+- anilistId: 100332
+  title: "Kokkoku: Moment für Moment"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-29'
+  note: "Suche auf Prime Video: kein einziger Treffer"
+
+- anilistId: 10790
+  title: "Is This a Zombie? of the Dead"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0BYY9NN5D
+  dub: true
+  checkedAt: '2026-08-29'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0BYY9NN5D: alle 12 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"

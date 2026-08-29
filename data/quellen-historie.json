@@ -2758,5 +2758,32 @@
       "sagt": "2026-09-01",
       "stand": "aktuell"
     }
+  ],
+  "adn-398": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
+      "gesehenAm": "2026-08-29",
+      "sagt": "2026-09-10",
+      "stand": "aktuell"
+    }
+  ],
+  "adn-1419": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "gw.api.animationdigitalnetwork.com",
+      "gesehenAm": "2026-08-29",
+      "sagt": "2026-09-17",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-132405-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1044082/my-dress-up-darling-steelbook-edition/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-08-29",
+      "sagt": "2026-12-04",
+      "stand": "aktuell"
+    }
   ]
 }

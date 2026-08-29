@@ -25,4 +25,24 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
  me-kalender.de/#/release/adn-634
 CATEGORIES:ADN
 END:VEVENT
+BEGIN:VEVENT
+UID:adn-398@2026-09-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260910T070000Z
+DTEND:20260910T073000Z
+SUMMARY:Undefeated Bahamut Chronicle
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-398
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1419@2026-09-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260917T070000Z
+DTEND:20260917T073000Z
+SUMMARY:SERVAMP
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1419
+CATEGORIES:ADN
+END:VEVENT
 END:VCALENDAR

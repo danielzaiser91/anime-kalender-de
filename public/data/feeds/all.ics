@@ -912,6 +912,16 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrzei
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-398@2026-09-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260910T070000Z
+DTEND:20260910T073000Z
+SUMMARY:Undefeated Bahamut Chronicle
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-398
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:vom-landei-zum-schwertheiligen-2@2026-09-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20260910
@@ -1088,6 +1098,16 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrzei
  t noch nicht bestätigt.\nTermin abgeleitet\, noch nicht offiziell bestätig
  t.\nDetails: https://anime-kalender.de/#/release/thunder-3
 CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-1419@2026-09-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260917T070000Z
+DTEND:20260917T073000Z
+SUMMARY:SERVAMP
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/#/release/adn-1419
+CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:witch-watch-vol2@2026-09-17@anime-kalender-de
@@ -2372,6 +2392,17 @@ SUMMARY:I'm Standing on a Million Lives – Staffel 2 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/im-stan
  ding-on-a-million-lives-s2-box
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-132405-disc@2026-12-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261204
+DTEND;VALUE=DATE:20261205
+SUMMARY:My Dress-Up Darling (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-13
+ 2405-disc
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT

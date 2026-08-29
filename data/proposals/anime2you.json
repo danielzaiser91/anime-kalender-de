@@ -1,6 +1,154 @@
 {
-  "scrapedAt": "2026-08-27T15:16:41.602Z",
+  "scrapedAt": "2026-08-29T08:02:35.195Z",
   "proposals": [
+    {
+      "articleTitle": "Termin der Fantasy-Serie »Dreamland« auf ADN und Crunchyroll + Trailer",
+      "articleUrl": "https://www.anime2you.de/news/1044897/termin-von-dreamland-trailer/",
+      "publishedAt": "2026-08-28",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll",
+        "adn"
+      ],
+      "dates": [
+        {
+          "iso": "2026-10-17",
+          "context": "ösischen Animationsserie »Dreamland« bekannt. Wir fassen zusammen. Ab 17. Oktober 2026 Die Fantasy-Serie »Dreamland« feiert demnach am 17. O"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Crunchyroll bald nicht mehr auf Nintendo Switch verfügbar",
+      "articleUrl": "https://www.anime2you.de/news/1044861/crunchyroll-bald-nicht-mehr-auf-nintendo-switch/",
+      "publishedAt": "2026-08-28",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [
+        {
+          "iso": "2026-10-30",
+          "context": "do endet die Verfügbarkeit von Crunchyroll auf der Nintendo Switch am 30. Oktober 2026. Ab diesem Zeitpunkt kann die App nicht mehr verwende"
+        },
+        {
+          "month": "2026-10",
+          "context": "der Nintendo Switch verfügbar sein. Wir fassen zusammen. Einstellung im Oktober 2026 Laut Nintendo endet die Verfügbarkeit von Crunchyroll"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "28. »Detektiv Conan«-Film erscheint auf DVD und Blu-ray",
+      "articleUrl": "https://www.anime2you.de/news/1044161/detektiv-conan-film-28-disc-release/",
+      "publishedAt": "2026-08-28",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-20",
+          "context": "er Flashback des Einäugigen« trägt, erscheint nach aktuellem Stand am 20. November 2026 in einer […] Der Beitrag 28. »Detektiv Conan«-Film"
+        },
+        {
+          "month": "2026-11",
+          "context": "enigen Monaten auf DVD und Blu-ray veröffentlichen wird. Disc-Release im November 2026 Der 28. »Detektiv Conan«-Film, der den Titel »Der Fla"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Erste »My Dress-Up Darling«-Staffel erscheint im limitierten Steelbook",
+      "articleUrl": "https://www.anime2you.de/news/1044082/my-dress-up-darling-steelbook-edition/",
+      "publishedAt": "2026-08-28",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-12-04",
+          "context": "el auf Deutsch und Japanisch beinhaltet, erscheint voraussichtlich am 4. Dezember 2026 als Blu-ray. […] Der Beitrag Erste »My Dress-Up Dar"
+        },
+        {
+          "month": "2026-12",
+          "context": "mitierten Steelbook-Edition auf Blu-ray veröffentlichen wird. Release im Dezember 2026 Das Steelbook, das alle zwölf Episoden der ersten Sta"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Vierte »Rising of the Shield Hero«-Staffel erscheint auf Blu-ray + Design",
+      "articleUrl": "https://www.anime2you.de/news/1044133/shield-hero-staffel-4-blu-ray-release/",
+      "publishedAt": "2026-08-28",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "month": "2026-11",
+          "context": "ringen wird. Zwei Produktbilder findet ihr weiter unten. Disc-Release ab November 2026 Das erste Volume der vierten »The Rising of the Shiel"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Zum 10. Jubiläum: 20 % Rabatt auf fast alle AniMoon-Produkte",
+      "articleUrl": "https://www.anime2you.de/news/1044784/animoon-aktion-20-prozent-rabatt/",
+      "publishedAt": "2026-08-28",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-08-30",
+          "context": "sammen. 20 % Rabatt mit Code Mit dem Code BONUS20 gibt es vom 28. bis 30. August 2026 im AniMoon-Shop einen Preisnachlass in Höhe von 20 Pro"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Bis zu 87 % Rabatt: Neue Aktion im AKIBA PASS SHOP gestartet",
+      "articleUrl": "https://www.anime2you.de/news/1044832/akiba-pass-shop-august-2026-sale/",
+      "publishedAt": "2026-08-28",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-08-31",
+          "context": "ahlreiche Produkte um bis zu 87 % reduziert angeboten werden. Nur bis 31. August 2026 Die Rabattaktion läuft vom 28. bis einschließlich 31."
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "ADN kündigt sieben Anime-Neuzugänge für September 2026 an",
+      "articleUrl": "https://www.anime2you.de/news/1044758/adn-neuzugaenge-im-september-2026/",
+      "publishedAt": "2026-08-27",
+      "category": "streaming",
+      "platforms": [
+        "adn"
+      ],
+      "dates": [
+        {
+          "month": "2026-09",
+          "context": "r 2026 an Der Streaming-Dienst ADN erweitert sein Anime-Programm auch im September 2026 mit mehreren Neuzugängen. Welche Titel euch im komme"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Blu-ray-Sammelschuber der vierten »Dr. STONE«-Staffel",
       "articleUrl": "https://www.anime2you.de/news/1043546/dr-stone-staffel-4-blu-ray-sammelschuber/",
