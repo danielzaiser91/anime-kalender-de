@@ -241,13 +241,20 @@ jobs:
         run: bash "$MELDER" schritt "Zuordnung zu Anime News Network"
 
       - name: Deutsche Sprechrollen von Anime News Network
-        # Eine Anfrage pro Sekunde, wie ANN es vorschreibt. Geholt wird nur, was
-        # noch nicht im Archiv liegt — nach dem ersten vollen Lauf sind das
-        # wenige Titel je Woche.
+        # Eine Anfrage pro Sekunde, wie ANN es vorschreibt.
+        #
+        # **Mit Grenze, seit dem 29.08.2026.** Als einziger Datenlauf hatte dieser
+        # keine: Er arbeitete die ganze faellige Warteschlange ab, und bei einer
+        # Sekunde je Titel wurde daraus **1 Stunde 50 Minuten** an einem Schritt.
+        # Weil Tages- und Wochenlauf dieselbe Concurrency-Gruppe teilen, stand
+        # damit der ganze Datenbau.
+        #
+        # 400 Titel sind knapp sieben Minuten. Was nicht drankommt, kommt beim
+        # naechsten Lauf — die Warteschlange laeuft ueber den Holstand.
         continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run data:ann:voices
+        run: npm run data:ann:voices -- --limit 400
 
       - name: Fortschritt — Deutsche Sprechrollen von Anime News Network
         continue-on-error: true
