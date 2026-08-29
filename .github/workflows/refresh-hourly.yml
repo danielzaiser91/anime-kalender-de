@@ -27,6 +27,17 @@ concurrency:
 jobs:
   sendezeiten:
     runs-on: ubuntu-latest
+    # Zeitgrenze, damit ein einzelner gedrosselter Schritt nicht den ganzen Tag
+    # stilllegt. Am 29.08.2026 hing „Deutsche Sprechrollen von Anime News
+    # Network" **1 Stunde 50 Minuten** an einem Schritt — kein Fehler, sondern
+    # AniLists Rate-Limit, das der Abruf korrekt abwartet. Weil Tages- und
+    # Wochenlauf dieselbe Concurrency-Gruppe „daten" teilen, stand damit auch
+    # der Datenbau: Die an dem Tag gebauten Verbesserungen kamen nicht heraus.
+    #
+    # 25 Minuten sind ein Vielfaches der gemessenen zwei Minuten. Laeuft es darueber hinaus, ist der
+    # naechste planmaessige Lauf der bessere Weg — die Abrufe sind idempotent,
+    # ihre Warteschlangen laufen ueber das Alter.
+    timeout-minutes: 25
     # Zweck und Ziel gehen an die Statusanzeige mit. Ohne sie steht dort nur
     # der Workflow-Name, und der sagt bei drei Auftrags-Läufen dreimal
     # dasselbe (Daniel, 21.08.2026: „Zweck sollte kurz beschreiben wofür
