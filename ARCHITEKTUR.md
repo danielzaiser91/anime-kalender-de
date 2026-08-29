@@ -137,6 +137,28 @@ steht bereits, der Worker auch. **Heute wäre eine Datenbank ein Rückschritt:**
 JSON vom CDN antwortet in Millisekunden ohne Kaltstart, ohne Ausfallrisiko und ohne Kosten.
 Eine Datenbank lohnt sich, wenn geschrieben wird — nicht, wenn viel gelesen wird.
 
+### 6. Die Folgen-Ebene wird sichtbar
+
+**Auslöser:** Folgentitel, Folgentermine und Tonspuren je Folge sollen auf der Seite stehen —
+nicht nur je Staffel.
+
+**Warum das die erste echte Schwelle ist, die näher rückt:** Der aniSearch-Lauf holt seit dem
+29.08.2026 Folgenlisten mit deutschen Folgentiteln. Gemessen am ersten Lauf: **6.874 Folgen aus
+100 Titeln**, davon 5.347 mit deutschem Titel. Über den Bestand von 2.615 zugeordneten Titeln
+hochgerechnet sind das weit über 150.000 Folgen.
+
+Das ist eine andere Größenordnung als alles Bisherige. `titles.json` mit 2.763 Titeln ist
+2,6 MB; eine Folgen-Datei wäre ein Vielfaches davon, und sie ließe sich nicht sinnvoll
+vorladen — niemand braucht 150.000 Folgen, jeder braucht die zwölf einer Staffel.
+
+**Reaktion:** Kein Umbau, sondern ein Endpunkt. Die Folgen wandern nach D1 (steht bereits, der
+Worker auch), und die Seite fragt sie beim Öffnen eines Titels ab — dieselbe Stelle, an der
+heute schon die Handlungsbeschreibung nachgeladen wird. Alles andere bleibt statisch.
+
+**Was dagegen weiterhin nicht in eine Datenbank gehört:** die 2.763 Titel, die 889 Termine, die
+Verweise. Sie ändern sich dreimal am Tag, werden bei jedem Seitenaufruf gebraucht und sind als
+Datei schneller, billiger und ausfallsicherer.
+
 ## Was bewusst nicht gemacht wird
 
 - **Keine Datenbank für Lesedaten.** Siehe oben. Der Termindatensatz ändert sich dreimal am
