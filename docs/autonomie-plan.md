@@ -159,6 +159,44 @@ viele Adressen die Kennung tragen — und erst diese Zahl rechtfertigt, neunzig
 Entscheidungspunkte aus `amazon.js` zu löschen. Ein Abzug, der auf einer
 Vermutung beruht, ist kein Abzug, sondern ein Ausfall.
 
+**Nachgemessen am 29.08.2026, 11:30 — und der Abzug fällt aus.**
+
+Die „rund neunzig Entscheidungspunkte" waren eine Schätzung. Gezählt sind es
+**zehn** Stellen, an denen `amazon.js` das Melden sperrt, und **keine einzige
+davon urteilt über unsere Daten**:
+
+| Sperre | worüber sie entscheidet |
+|---|---|
+| „alles gemeldet", „Staffel gemeldet" | was schon im Briefkasten liegt |
+| Störung, Fehlerseite, nicht abrufbar | Zustand der Seite |
+| Folgenliste noch nicht geladen | Zustand der Seite |
+| Stand noch nicht geladen | Zustand der Erweiterung |
+| Zahlen instabil nach Staffelwechsel | Zustand der Seite |
+| unvollständig geladen | siehe unten |
+
+Der Zahlenvergleich mit unserer Folgenzahl ist am 28.08.2026 zum **Hinweis**
+geworden, die Umrechnung durchgezählter Nummern läuft längst im Bau
+(`fetch-pruefungen.ts`), und die Wächter, die bleiben — `quelltextPasst`,
+`beiStaffelwechsel`, `istFilmSeite` — prüfen, ob die gelesenen Daten überhaupt
+zu dieser Seite gehören. Sie zu entfernen brächte die Fehler zurück, die
+CLAUDE.md seitenweise beschreibt.
+
+**Phase 4 ist damit erfüllt, nur anders als gedacht:** Nicht durch einen Abzug,
+sondern weil die urteilenden Stellen einzeln weggefallen sind, als der Bau ihre
+Aufgabe übernahm. Ein Löschen um der Zeilenzahl willen wäre Schaden.
+
+**Eine Sperre ist entbehrlich geworden — und bleibt trotzdem stehen.**
+`istVollstaendig` verbietet das Melden, solange nicht alle Abschnitte geladen
+sind. Ihre Begründung war: Die Meldung trägt die Folgenzahl, und aus „24 von 26"
+würde im Datensatz eine Reichweite bis 24. Seit 3.77 trägt jede Meldung ihre
+Folgen **einzeln** mit Nummer, Titel und Datum; aus 24 gelesenen werden 24
+Belege und keine Grenze. Der Grund ist damit weg.
+
+Sie stammt aber aus Daniels ausdrücklicher Ansage („make reporting not possible
+until all entries are loaded"), und eine getroffene Entscheidung kehrt man nicht
+im Alleingang um. **Vorzulegen, nicht zu machen.** Der Gewinn wäre spürbar: Bei
+langen Serien mit vielen Abschnitten müsste er nicht mehr auf alle warten.
+
 **Die Lehre über dem Einzelfall:** Eine neue Spalte ist erst da, wenn sie am
 anderen Ende ankommt. Zwei Seiten waren fertig — Migration und Leser —, die
 dritte fehlte, und niemandem fiel es auf, weil der Rückfall funktionierte. Ein
