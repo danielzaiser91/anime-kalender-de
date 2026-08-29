@@ -1,98 +1,106 @@
 # Weg zu einem vollständigen Kalender
 
-Stand 27.08.2026, alle Zahlen aus dem ausgelieferten Datensatz gemessen.
+Stand 29.08.2026, alle Zahlen aus dem ausgelieferten Datensatz gemessen.
 
 ## Wo wir stehen
 
-| | Zahl | seit 26.08. |
+| | 27.08. | 29.08. |
 |---|---|---|
-| Titel im Bestand | 2.762 | ±0 |
-| davon mit Anbieter-Verweis | 1.625 | −37 |
-| mit belegter deutscher Synchro | 1.276 | +54 |
-| Verweise mit Urteil | 1.599 | +93 |
-| **Verweise ohne Urteil** | **531** | −145 |
-| Titel mit Synchro **und** Termin | 377 | +192 |
-| Titel mit „Im Angebot seit" | 329 | neu |
-| Releases | 446 | +190 |
-| Termine | 888 | ±0 |
+| Titel im Bestand | 2.762 | 2.763 |
+| davon mit Anbieter-Verweis | 1.625 | **1.474** |
+| mit belegter deutscher Synchro | 1.276 | **1.349** |
+| Verweise mit Urteil | 1.599 | **1.692** |
+| **Verweise ohne Urteil** | 531 | **193** |
+| Releases | 446 | 451 |
+| Termine | 888 | 892 |
+
+**Die Urteilslücke ist in zwei Tagen um zwei Drittel geschrumpft** — von 531 auf
+193. Dass die Zahl der Titel *mit* Verweis dabei gesunken ist, gehört dazu und
+ist kein Rückschritt: 459 Crunchyroll-Verweise wurden entfernt, weil die Serie
+dort nachweislich nicht mehr läuft. Ein toter Link ist schlimmer als keiner.
 
 ## Die drei Lücken
 
-### 1. Synchro-Urteile — 531 offene Verweise
+### 1. Synchro-Urteile — 193 offene Verweise
 
 | Anbieter | offen | Weg |
 |---|---|---|
-| Crunchyroll | 356 | größtenteils **kein** automatischer Weg, siehe unten |
-| Prime Video | 123 | 118 davon Suchadressen ohne Titelseite |
-| Netflix | 22 | Erweiterung, ein Klick je Folge |
+| Crunchyroll | 63 | Specials und Filme ohne eigenen Block; je Fall eine Entscheidung |
+| Prime Video | 58 | Erweiterung, Daniels Prüfliste |
+| Netflix | 42 | Erweiterung, ein Klick je Folge |
 | YouTube | 22 | Handarbeit, der Titel nennt oft die Fassung |
 | ADN | 5 | eine Serie mit gemischten Staffeln |
 | Joyn, Disney+ | 3 | Handarbeit |
 
-**Crunchyroll aufgeschlüsselt** — und die Aufschlüsselung ist die eigentliche
-Auskunft:
+Crunchyroll ist von 356 auf 63 gefallen — der Rest ist der harte Kern, den die
+Messung vom 27.08. schon benannt hat.
 
-| | Zahl | was das heißt |
-|---|---|---|
-| „Content-API kennt keine Staffel" | 287 | Der deutsche Katalog **führt die Serie nicht**. Das ist ein Befund, kein Fehler — aber laut `CLAUDE.md` kein `dub: false`. |
-| Deutsch belegt, Zuordnung offen | 43 | Der Rest nach drei Zuordnungsstufen: Specials und Filme, die in keinem Block stehen. |
-| keine Serienkennung | 26 | Alte Slug-Adressen. Die Suche im deutschen Katalog fand am 26.08. für 51 von 391 eine Kennung. |
+### 2. Titel ohne jeden Weg — 1.041
 
-**Die 118 Prime-Suchadressen sind zu.** Weder MOTN noch TMDB führen echte
-Adressen — beides am 27.08. gemessen, beides null Treffer. Es bleibt: Die
-Erweiterung liest auf der Suchseite den Treffer, den Daniel anklickt, und meldet
-die Adresse. Das ist ein Bau, kein Lauf.
+Das ist die **größte inhaltliche Lücke des Projekts**, und sie ist gewachsen:
 
-### 2. Titel ohne Verweis — 1.137
+| | Zahl |
+|---|---|
+| Titel ohne `streams` | 1.289 |
+| davon mit einem Kauf- oder Ansehen-Verweis im Panel | 248 |
+| **ganz ohne Weg** | **1.041** |
+| davon mit belegten deutschen Sprechrollen | **693** |
 
-**Die MOTN-Brücke ist kleiner als gedacht.** Über TMDB lassen sich 791 Titel auf
-eine IMDb-Kennung bringen, 238 davon haben deutschen Ton belegt — aber nur **6**
-bekämen dadurch ein neues Urteil. 215 sind längst anderweitig belegt. Der
-Bestand von 8.521 Folgen in `data/motn.json` ist real, deckt aber im Wesentlichen
-Titel ab, die wir schon kennen.
+Die 693 sind der Kern: **Es gibt sie auf Deutsch, und wir sagen nicht wo.** Für
+einen Kalender, dessen Ziel „nicht nur wann, auch wo" heißt, ist das die
+schwerste Auskunft, die fehlt.
 
-Die frühere Fassung dieses Plans nannte das den größten Hebel. Das war eine
-Schätzung aus einer Gesamtzahl, keine Messung der Schnittmenge.
+**Was im Haus liegt:** `data/anisearch.json` führt für 338 dieser Titel konkrete
+Adressen — 584 Verweise, darunter 110 aniverse-Kanäle bei Prime, 84 Akibapass,
+58 Amazon. 215 davon erscheinen als Kauf-Verweis im Panel, 123 gar nicht. Die
+Abbildung ist nicht das Problem: Von 46 Provider-Schlüsseln sind 44 abgebildet.
+Die Verweise entstehen und werden **später entfernt** — teils zu Recht (ADN hat
+nur Untertitel), teils zu Unrecht (19 Kanal-Neins, behoben am 29.08.).
 
-### 3. Termine — 899 Titel mit Synchro ohne einen einzigen
+**Nächster Griff:** nach dem nächsten Bau messen, wie viele der 123 zurückkommen,
+und den Rest einzeln nachvollziehen.
 
-Von 1.276 Titeln mit Synchro haben 377 einen Termin. Der Rest teilt sich so:
+### 3. Termine — 1.161 Titel mit Synchro ohne einen einzigen
 
-- **329 tragen jetzt ein „Im Angebot seit"** aus MOTN — 190 davon (alle aus
-  2026) auch als Kalendereintrag, der Rest nur im Detail-Panel. Das Datum sagt,
-  seit wann der Anbieter den Titel listet, nicht wann die deutsche Fassung
-  erschien; die Beschriftung sagt das auch.
-- **Für die übrigen 570 gibt es keine Quelle.** Sie sind erschienen, bevor
-  irgendeine unserer Quellen sie kannte.
+Von 1.349 Titeln mit belegter Synchro haben 188 einen Kalendereintrag. Der Rest
+ist erschienen, bevor eine unserer Quellen ihn kannte; 329 tragen wenigstens ein
+„Im Angebot seit" aus MOTN.
+
+**Hier ist wenig zu holen, und das ist gemessen, nicht resigniert:**
+Ankündigungen deutscher Synchronfassungen gibt es in keiner maschinenlesbaren
+Quelle. Was nicht angekündigt ist, findet kein Lauf.
 
 ## Was als Nächstes trägt
 
-1. ~~**Prime-Suchadressen in der Erweiterung**~~ — **gebaut am 27.08.2026** (3.39).
-   Auf einer gelisteten Suchseite steht jetzt, welcher Titel gemeint ist und wie viele
-   Folgen unser Bestand dazu führt; der Klick auf den richtigen Treffer trägt den
-   Auftrag auf die Titelseite, wo die gewohnte Prüfung läuft. Gemeldet wird unter der
-   Suchadresse — die kennt der Datensatz —, und die Übernahme macht daraus den echten
-   Verweis. Wartet auf Daniels erste Runde.
-2. **Die 43 Crunchyroll-Specials** — Filme und OVAs, die in keinem Block stehen.
-   Je Fall eine Entscheidung; automatisch nicht zu klären.
-3. **Kalender auf Folgen-Ebene** — die Daten liegen (1.746 AniList-Sprechrollen,
-   `dubRanges` an vielen Verweisen). Kein neuer Abruf nötig, aber ein Umbau der
+1. **Die Anker für die Folgen-Zuordnung.** 150 von 2.615 Titeln haben eine
+   aniSearch-Folgenliste. Ohne sie scheitert jede Prime-Meldung an „keine
+   Folgentitel vorhanden" — am 29.08. betraf das 42 Adressen mit 4.360 Folgen.
+   Der Abruf läuft im Sechs-Sekunden-Takt; 2.465 offene Titel sind rund vier
+   Stunden Laufzeit, verteilt über mehrere Läufe.
+2. **Die 1.041 Titel ohne Weg**, allen voran die 693 mit belegter Synchro.
+   Beginnend bei dem, was das eigene Archiv schon weiß.
+3. **Phase 4 des Autonomie-Plans** — der Abzug in `extension/amazon.js`, jetzt
+   wo der Weg von der Meldung bis in den Datensatz belegt ist.
+4. **Kalender auf Folgen-Ebene** — die Daten liegen, es ist ein Umbau der
    Oberfläche.
 
 ## Was 100 % ausschließt
 
-- **Ankündigungen** deutscher Synchronfassungen gibt es in keiner
-  maschinenlesbaren Quelle. Was nicht angekündigt ist, findet kein Lauf.
+- **Ankündigungen** deutscher Synchronfassungen: keine maschinenlesbare Quelle.
 - **Netflix** gibt Tonspuren nur an einen laufenden Player heraus — fünfmal
   gemessen, fünfmal bestätigt.
-- **Amazons Kanal-Titel** melden die Sprachen des Kanals, nicht der Folge.
-- **287 Crunchyroll-Serien** führt der deutsche Katalog nicht. Ob sie dort je
-  liefen, ist von hier aus nicht zu klären.
+- **Amazons Kanal-Titel** melden die Sprachen des Kanals, nicht der Folge. Seit
+  dem 29.08. erzeugen sie deshalb kein `dub: false` mehr.
+- **Amazon automatisch abrufen.** Die robots.txt führt 19 namentliche Bot-Blöcke
+  mit `Disallow: /` (ClaudeBot, GPTBot, Scrapy, Devin …). Die Prüfliste bleibt
+  Handarbeit in Daniels angemeldeter Sitzung.
+- **287 Crunchyroll-Serien** führt der deutsche Katalog nicht. Gegenprobe am
+  29.08. über die Katalogsuche mit allen Titelschreibweisen: 40 Fälle geprüft,
+  **null** doch gefunden (`tools/cr-entfernte-gegenpruefen.mjs`).
 
-Erreichbar ist: **jeder Verweis mit einem Urteil, und jeder Titel mit Synchro
-mit mindestens einem Datum.** Am 26.08. waren das 1.506 Urteile und 185 Titel
-mit Datum; heute sind es 1.599 und 706 (377 mit Termin, 329 mit „Im Angebot
-seit").
+---
+
+# Ältere Messungen
 
 ## Nachgemessen am 27.08.2026, nach dem Datenbau von 10:34
 
