@@ -59,31 +59,56 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
   Stand von seinem Start). `check:logic` hat es zwanzig Minuten später gemeldet
   — der Beleg dafür, dass zu jeder Datenkorrektur eine Zusicherung gehört.
 
-**Abend — der Ertrag:**
+**Abend — der Ertrag des Tages:**
 
 | | früh | abends |
 |---|---|---|
 | **Titel ganz ohne Weg** | 1.041 | **498** |
 | **davon mit belegter Synchro** | 693 | **277** |
-| Titel mit Disc-Weg aus dem Archiv | 0 | **542** |
-| aniSearch-Archivdateien | 956 | **2.356** |
-| Verweise ohne Urteil | 193 | 193 |
+| Titel mit Disc-Weg aus dem Archiv | 0 | **545** |
+| aniSearch-Archivdateien | 956 | **2.616** (vollständig) |
+| Verweise mit Urteil | 1.692 | **1.715** |
+| Verweise ohne Urteil | 193 | **178** |
+| davon Crunchyroll | 60 | **30** (nach dem laufenden Bau: 22) |
 
-Die größte inhaltliche Lücke des Projekts hat sich an einem Tag **mehr als
-halbiert** — ohne eine einzige neue Quelle. Beide Funde lagen im eigenen Haus:
-der Veröffentlichungs-Abschnitt im aniSearch-Archiv, und 1.660 verlorene
-Archivdateien, die der Abruf nicht bemerkte, weil seine Warteschlange nur nach
-dem Alter fragte.
+**Die größte inhaltliche Lücke hat sich mehr als halbiert** — ohne eine einzige
+neue Quelle. Beide Funde lagen im eigenen Haus: der Veröffentlichungs-Abschnitt
+im aniSearch-Archiv, und 1.660 verlorene Archivdateien, die der Abruf nicht
+bemerkte, weil seine Warteschlange nur nach dem Alter fragte.
 
 **Und für die 277, die bleiben, sagt die Seite jetzt mehr:** „Kein Bezugsweg
 bekannt. Eine deutsche Fassung gab es — die Sprecher sind belegt." Wer das
 liest, sucht gebraucht statt weiter bei den Streamingdiensten.
 
-**Die Autonomie hat sich zum ersten Mal selbst geholfen.** Der Reparatur-Lauf,
-der bei einem roten Datenlauf anspringt, hat heute Abend die Ursache gefunden,
-den Fix committet und den Lauf grün gemacht — ohne Zutun. Vormittags war er noch
-an seiner Zuggrenze gescheitert und hatte nichts hinterlassen; seitdem hält er
-den Befund als Issue fest, bevor er repariert.
+### Crunchyroll: 34 von 56 Fragen ohne Daniel beantwortet
+
+Auf seine Frage „wieso kannst du dann nicht alle fragen selbst lösen?" hin
+gemessen — und der Schluss war richtig. Vier Wege, alle neu:
+
+| Weg | gelöst |
+|---|---|
+| **Blockketten** — ein Block deckt mehrere Cours (Dr. STONE „Season 3" = New World + Cour 2) | 5 |
+| **Suche ohne `type=series`** — Filme liegen als `movie_listing` | 8 |
+| **Eigene Filmreihen** — „Fairy Tail Movies" mit einem Block je Film | 5 |
+| **Folgen innerhalb der Serie** — die Detektiv-Conan-Filme sind Episoden, und die nennen ihre `versions` | 8 |
+
+**Zwei Anker tragen bei Crunchyroll nicht, und das ist jetzt gemessen:** Der
+japanische Originaltitel findet nichts (vier Fälle, kein Treffer — „Gyakusatsu
+Kikan" führt zu KONOHANA KITAN), und das Jahr in der Antwort ist das der
+Aufnahme ins Angebot, nicht der Erstausstrahlung („Ride Your Wave" von 2019
+steht dort mit 2021). Was trägt, ist das **Kennwort** — der Teil hinter dem
+letzten Trenner, mindestens sechs Zeichen.
+
+**Es bleiben 22.** Bei ihnen heißt der Titel im Katalog anders: „Fruits Basket:
+Prelude" steht dort als „-prelude-". Ein Abgleich über Beschreibungstexte wäre
+der nächste Schritt und ist kein sicherer Weg mehr.
+
+### Die Autonomie hat sich zum ersten Mal selbst geholfen
+
+Der Reparatur-Lauf, der bei einem roten Datenlauf anspringt, hat am Abend die
+Ursache gefunden, den Fix committet und den Lauf grün gemacht — ohne Zutun.
+Vormittags war er noch an seiner Zuggrenze gescheitert und hatte nichts
+hinterlassen; seitdem hält er den Befund als Issue fest, bevor er repariert.
 
 **Verworfen, mit Begründung — damit es niemand ein zweites Mal prüft:**
 
