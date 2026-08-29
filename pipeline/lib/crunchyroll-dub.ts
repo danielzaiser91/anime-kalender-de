@@ -443,6 +443,95 @@ export function beurteile(serie: CrSerie, unsere: Title[]): Urteil[] {
 }
 
 /**
+ * **Ein Block, der ganz deutsch ist, deckt eine oder mehrere unserer Staffeln.**
+ *
+ * `beurteileJeBlock` deckt Einzelserien, OVA-Blöcke und Filme mit eigenem
+ * Block ab — nicht aber **mehrere Staffeln unter einem Block**.
+ *
+ * `beurteileNachFolgennummern` verlangt, dass Crunchyroll über die ganze Reihe
+ * **durchzählt** — bei Golden Kamuy tut es das (12+12+12+13+13 = 62). Bei
+ * Dr. Stone nicht: Dort beginnt **jeder Block bei 1**, und die Sperre gegen
+ * überlappende Nummern greift zu Recht.
+ *
+ * Genau das macht die Zuordnung aber einfacher, nicht schwerer. Gemessen am
+ * 29.08.2026:
+ *
+ *     Dr. STONE                    folgen 24  deutsch 24  fremd 0   Nummern 1..24
+ *     Dr. STONE Staffel 2          folgen 11  deutsch 11  fremd 0   Nummern 1..11
+ *     Dr. STONE Special Episode    folgen  1  deutsch  1  fremd 0   Nummern 1..1
+ *     Dr. STONE Season 3           folgen 22  deutsch 22  fremd 0   Nummern 1..22
+ *     Dr. STONE SCIENCE FUTURE     folgen 37  deutsch 37  fremd 0   Nummern 1..37
+ *
+ * Unsere acht Einträge dazu, nach Jahr: 24, 11, 1, 11, 11, 12, 12, 13. Die
+ * Blöcke nehmen sie der Reihe nach auf, und es geht **exakt** auf:
+ * 24 | 11 | 1 | 11+11 | 12+12+13. „Season 3" ist bei uns „New World" und „New
+ * World Cour 2", „SCIENCE FUTURE" sind drei Cours — Crunchyroll bündelt, wir
+ * trennen.
+ *
+ * **Drei Sperren, und jede ist nötig:**
+ *
+ * 1. **Nur restlos deutsche Blöcke** (`fremd === 0`, `deutsch === folgen`). Ein
+ *    gemischter Block sagt nichts über eine einzelne unserer Staffeln — das ist
+ *    eine Frage für `dubRanges`.
+ * 2. **Nummern lückenlos ab 1.** Sonst zählt der Block anders, als wir annehmen.
+ * 3. **Exakt aufgehen oder gar nichts.** Bleibt am Ende ein Eintrag übrig, wird
+ *    die ganze Serie nicht beurteilt: Eine Zuordnung, die um eine Staffel
+ *    verrutscht, behauptet Deutsch für etwas, das keiner geprüft hat.
+ *
+ * Die Reihenfolge ist der Anker — Crunchyroll liefert die Blöcke chronologisch,
+ * und unsere Einträge werden nach Jahr sortiert. Namen taugen dafür nicht:
+ * „Season 3" heißt bei uns „New World".
+ */
+export function beurteileBlockketten(serie: CrSerie, unsere: Title[]): Urteil[] {
+  if (!unsere.length) return []
+  if (serie.katalog !== 'de' || !serie.deutschImAngebot) return []
+
+  /* Nur Blöcke, die restlos deutsch sind — in der Reihenfolge der Quelle. */
+  const bloecke: { name: string; anzahl: number }[] = []
+  for (const st of serie.staffeln ?? []) {
+    const dt = (st.deutscheFolgen ?? [])
+      .map((f) => f.nummer)
+      .filter((n): n is number => typeof n === 'number' && Number.isFinite(n))
+      .sort((a, b) => a - b)
+    if (!dt.length) continue
+    if ((st.fremd ?? 0) > 0) return []
+    if (typeof st.folgen === 'number' && st.folgen !== dt.length) return []
+    if (dt[0] !== 1 || dt[dt.length - 1] !== dt.length) return []
+    bloecke.push({ name: st.name ?? '', anzahl: dt.length })
+  }
+  if (bloecke.length < 2) return []
+
+  const sortiert = unsere.slice().sort((a, b) => (a.jpYear ?? 0) - (b.jpYear ?? 0) || a.id - b.id)
+  if (sortiert.some((t) => !t.episodes)) return []
+
+  const urteile: Urteil[] = []
+  let i = 0
+  for (const block of bloecke) {
+    let summe = 0
+    const gedeckt: Title[] = []
+    while (i < sortiert.length && summe < block.anzahl) {
+      summe += sortiert[i]!.episodes ?? 0
+      gedeckt.push(sortiert[i]!)
+      i++
+    }
+    if (summe !== block.anzahl) return []
+    for (const t of gedeckt) {
+      urteile.push({
+        titleId: t.id,
+        dub: true,
+        grund:
+          gedeckt.length > 1
+            ? `Block "${block.name}" ist mit ${block.anzahl} Folgen restlos deutsch und deckt ${gedeckt.length} unserer Einträge`
+            : `Block "${block.name}" ist mit ${block.anzahl} Folgen restlos deutsch`,
+      })
+    }
+  }
+  if (i !== sortiert.length) return []
+  return urteile
+}
+
+
+/**
  * Zuordnung über die **durchgezählten Folgennummern** statt über Blockgrößen.
  *
  * ## Daniels Vorschlag (23.08.2026)

@@ -22,7 +22,7 @@
  *
  * Aufruf: npm run check:cr-zuordnung
  */
-import { beurteile, beurteileNachFolgennummern, type CrSerie, type CrDubData, beurteileJeBlock } from './lib/crunchyroll-dub.ts'
+import { beurteile, beurteileNachFolgennummern, beurteileBlockketten, type CrSerie, type CrDubData, beurteileJeBlock } from './lib/crunchyroll-dub.ts'
 import { readJson, ROOT } from './lib/util.ts'
 import { resolve } from 'node:path'
 import type { Title } from '../shared/types.ts'
@@ -612,6 +612,74 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
   pruefe(
     'ohne deutsche Folgen kein Urteil',
     beurteileJeBlock(ohneDeutsch as never, [mach(6, 'Fairy Tail', 175, 'TV')]).length === 0,
+  )
+}
+
+
+/*
+  **Blockketten: ein Block deckt mehrere unserer Staffeln.**
+
+  Crunchyroll bündelt, wo wir trennen. „Dr. STONE Season 3" führt 22 deutsche
+  Folgen; bei uns sind das „New World" (11) und „New World Cour 2" (11). Der
+  Namensvergleich findet das nicht („Season 3" gegen „New World"), und
+  `beurteileNachFolgennummern` auch nicht — dort beginnt jeder Block bei 1.
+
+  Geprüft wird der echte Fall und die drei Sperren, die ihn eng halten.
+*/
+{
+  const block = (name, folgen, deutsch) => ({
+    name,
+    folgen,
+    deutsch,
+    fremd: folgen - deutsch,
+    deutscheFolgen: Array.from({ length: deutsch }, (_, i) => ({ nummer: i + 1 })),
+  })
+  const serie = (staffeln) => ({
+    url: 'https://www.crunchyroll.com/de/dr-stone',
+    seriesId: 'GYEXQKJG6',
+    katalog: 'de',
+    deutschImAngebot: true,
+    staffeln,
+  })
+  const titel = (id, episodes, jpYear) => ({ id, episodes, jpYear, format: 'TV' })
+
+  const drStone = serie([
+    block('Dr. STONE', 24, 24),
+    block('Dr. STONE Staffel 2', 11, 11),
+    block('Dr. STONE Season 3', 22, 22),
+  ])
+  const unsere = [titel(1, 24, 2019), titel(2, 11, 2021), titel(3, 11, 2023), titel(4, 11, 2023)]
+  const u = beurteileBlockketten(drStone, unsere)
+  pruefe('ein Block deckt zwei Staffeln, wenn die Summe exakt aufgeht', u.length === 4)
+  pruefe('… und alle vier bekommen ihr Ja', u.every((x) => x.dub === true))
+
+  pruefe(
+    'ein Block mit fremdsprachigem Rest sperrt die ganze Kette',
+    beurteileBlockketten(
+      serie([block('S1', 12, 0), block('S2', 12, 12)]),
+      [titel(1, 12, 2019), titel(2, 12, 2020)],
+    ).length === 0,
+  )
+  pruefe(
+    'geht die Summe nicht auf, wird gar nichts beurteilt',
+    beurteileBlockketten(
+      serie([block('S1', 24, 24), block('S2', 11, 11)]),
+      [titel(1, 24, 2019), titel(2, 13, 2021)],
+    ).length === 0,
+  )
+  pruefe(
+    'bleibt ein Eintrag übrig, wird gar nichts beurteilt',
+    beurteileBlockketten(
+      serie([block('S1', 24, 24), block('S2', 11, 11)]),
+      [titel(1, 24, 2019), titel(2, 11, 2021), titel(3, 12, 2023)],
+    ).length === 0,
+  )
+  pruefe(
+    'aus dem US-Katalog kommt keine Kette',
+    beurteileBlockketten(
+      { ...serie([block('S1', 24, 24), block('S2', 11, 11)]), katalog: 'us' },
+      [titel(1, 24, 2019), titel(2, 11, 2021)],
+    ).length === 0,
   )
 }
 

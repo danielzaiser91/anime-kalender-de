@@ -17,6 +17,7 @@ import { zugangsart } from '../shared/zugangsart.ts'
 import { dubKey, loadDubChecks } from './lib/dub-confirmed.ts'
 import {
   beurteile,
+  beurteileBlockketten,
   beurteileJeBlock,
   beurteileNachFolgennummern,
   type CrDubData,
@@ -2860,6 +2861,36 @@ function main(): void {
       }
     }
     if (jeBlock) log(`${jeBlock} weitere über den Blocknamen belegt`)
+
+    /*
+      **Vierte Runde: ein Block deckt mehrere unserer Staffeln.**
+
+      Crunchyroll bündelt, wo wir trennen: „Dr. STONE Season 3" führt 22
+      deutsche Folgen, bei uns sind das „New World" (11) und „New World Cour 2"
+      (11). Für `beurteileNachFolgennummern` ist das nichts, weil dort jeder
+      Block bei 1 zu zählen beginnt; für `beurteileJeBlock` auch nicht, weil
+      der Name nicht passt.
+
+      `beurteileBlockketten` legt die Blöcke der Reihe nach auf unsere nach
+      Jahr sortierten Einträge und verlangt, dass die Summen **exakt** aufgehen.
+      Gemessen am 29.08.2026 an fünfzehn offenen TV-Verweisen.
+    */
+    let ketten = 0
+    for (const { serie, titel: gruppe } of nachSerienId.values()) {
+      const offene = [...gruppe.values()].filter((t) =>
+        t.streams.some((s) => s.platform === 'crunchyroll' && s.dub === undefined),
+      )
+      if (!offene.length) continue
+      /* Die Kette rechnet über **alle** Einträge der Adresse, nicht nur die offenen. */
+      for (const urteil of beurteileBlockketten(serie, [...gruppe.values()])) {
+        const title = titles.get(urteil.titleId)
+        const stream = title?.streams.find((s) => s.platform === 'crunchyroll')
+        if (!stream || stream.dub !== undefined) continue
+        stream.dub = urteil.dub
+        ketten++
+      }
+    }
+    if (ketten) log(`${ketten} weitere über Blockketten belegt (ein Block deckt mehrere Staffeln)`)
     log(`${belegt} Synchro-Angaben aus den Crunchyroll-Serienseiten belegt (${crDub.serien.length} Seiten gelesen)`)
     if (verschwunden) log(`${verschwunden} Crunchyroll-Verweise entfernt — die Serie ist dort nicht mehr verfügbar`)
     /* Geschrieben wird erst am Ende — nach der letzten Stelle, die entfernt. */
