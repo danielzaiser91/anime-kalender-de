@@ -15,6 +15,7 @@ import { FilterBar } from './components/FilterBar.tsx'
 import { WeekView } from './components/WeekView.tsx'
 import { MonthView } from './components/MonthView.tsx'
 import { AgendaView } from './components/AgendaView.tsx'
+import { FavoritesView } from './components/FavoritesView.tsx'
 import { DatabaseView } from './components/DatabaseView.tsx'
 import { WhereView } from './components/WhereView.tsx'
 import { DetailPanel } from './components/DetailPanel.tsx'
@@ -248,6 +249,15 @@ export default function App() {
             hidden={hidden}
             onToggleFavorite={toggle}
             onToggleHidden={toggleHidden}
+            onOpen={(release) => navigate({ release, title: undefined })}
+          />
+        )}
+
+        {route.view === 'favoriten' && (
+          <FavoritesView
+            data={data}
+            favorites={favorites}
+            onToggleFavorite={toggle}
             onOpen={(release) => navigate({ release, title: undefined })}
           />
         )}

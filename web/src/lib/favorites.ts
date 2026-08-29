@@ -30,7 +30,17 @@ export function useFavorites(): {
   count: number
 } {
   const { ids, has, toggle, count } = favoritesSet.use()
-  return { favorites: ids, isFavorite: has, toggle, count }
+  /*
+    Das Datum wird beim Umschalten mitgeführt — an genau der Stelle, an der der
+    Titel dazukommt oder geht. Ein späterer Abgleich „welche Kennung hat noch
+    kein Datum" würde raten müssen.
+  */
+  const toggleMitDatum = (id: number) => {
+    const vorher = has(id)
+    toggle(id)
+    favoritDatumPflegen(id, !vorher)
+  }
+  return { favorites: ids, isFavorite: has, toggle: toggleMitDatum, count }
 }
 
 /**
@@ -55,4 +65,55 @@ export function useHidden(): {
 } {
   const { ids, has, toggle, count } = hiddenSet.use()
   return { hidden: ids, isHidden: has, toggle, count }
+}
+
+/**
+ * **Seit wann ein Titel gemerkt ist.**
+ *
+ * Daniel am 29.08.2026: „details evtl sichtbar sein (ab wann zu favorit
+ * hinzugefügt oder sonstige infos die wir tracken)."
+ *
+ * Die Favoritenliste ist ein `Set<number>` und trägt kein Datum. Statt ihr
+ * Format zu ändern — und damit jede vorhandene Liste im Browser eines Besuchers
+ * anzufassen — steht das Datum daneben in einer eigenen Ablage.
+ *
+ * **Wer die Seite schon benutzt, verliert nichts.** Seine Favoriten bleiben; sie
+ * tragen nur bis zum nächsten Antippen kein Datum, und die Anzeige schreibt dann
+ * „schon länger" statt eines erfundenen Tages. Ein Datum zu erraten wäre die
+ * schlechtere Lösung: Es sähe richtig aus und wäre falsch.
+ */
+const SEIT_SCHLUESSEL = 'favorites:seit'
+
+function seitLesen(): Record<string, string> {
+  try {
+    const roh = localStorage.getItem(SEIT_SCHLUESSEL)
+    if (!roh) return {}
+    const geparst: unknown = JSON.parse(roh)
+    return geparst && typeof geparst === 'object' ? (geparst as Record<string, string>) : {}
+  } catch {
+    return {}
+  }
+}
+
+/** Wann dieser Titel gemerkt wurde — `undefined`, wenn es aus der Zeit davor stammt. */
+export function favoritSeit(id: number): string | undefined {
+  return seitLesen()[String(id)]
+}
+
+/**
+ * Das Datum mitschreiben, wenn ein Titel gemerkt oder entfernt wird.
+ *
+ * Wird beim Umschalten aufgerufen: Neu hinzugefügt bekommt heute, entfernt
+ * verliert seinen Eintrag — sonst behauptet ein später erneut gemerkter Titel,
+ * er sei seit Monaten dabei.
+ */
+export function favoritDatumPflegen(id: number, gemerkt: boolean): void {
+  try {
+    const stand = seitLesen()
+    if (gemerkt) stand[String(id)] = new Date().toISOString().slice(0, 10)
+    else delete stand[String(id)]
+    localStorage.setItem(SEIT_SCHLUESSEL, JSON.stringify(stand))
+  } catch {
+    /* Ohne Speicher fehlt nur die Angabe, nicht der Favorit. */
+  }
 }
