@@ -396,6 +396,17 @@ const TEXTE = {
   // Bleibt vergleichsweise lang: Hier hängt eine Kaufentscheidung dran, und der
   // Leser kann den Unterschied nicht selbst herleiten.
   'detail.metaFrom': 'Metadaten von AniList',
+  'quellen.heading': 'Woher diese Angaben stammen ({count})',
+  'quellen.colSource': 'Quelle',
+  'quellen.colFeeds': 'liefert',
+  'quellen.feedTermine': 'Termine',
+  'quellen.feedWerk': 'Titel, Cover, Genres, Jahr, Studio, Folgenzahl',
+  'quellen.feedDeutsch': 'deutscher Titel, Beschreibung',
+  'quellen.feedStimmen': 'deutsche Sprechrollen',
+  'quellen.feedAnbieterName': 'Anbieter selbst',
+  'quellen.feedAnbieter': 'wo verfügbar, Sprachfassung',
+  'quellen.feedFsk': 'Altersfreigabe',
+  'quellen.note': 'Termine sind je Eintrag belegt und verlinkt. Bei den übrigen Angaben steht, welche Quelle sie im Regelfall liefert — sie werden nicht einzeln nachgewiesen.',
   'detail.malMeaning': 'Die Kennung dieses Anime bei MyAnimeList.',
   'detail.dubProof': 'Synchro belegt über MyDubList ({sources})',
 

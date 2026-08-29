@@ -37,6 +37,7 @@ import {
   SectionTitle,
   StatusBadge,
 } from './ui.tsx'
+import { Quellenuebersicht } from './Quellenuebersicht.tsx'
 
 const KEYWORD_PREVIEW = 8
 /**
@@ -2769,31 +2770,15 @@ export function DetailPanel({
             </div>
           )}
 
-          <p className="text-[11px] text-slate-400">
-            {t('detail.metaFrom')}
-            {title.malId ? (
-              <>
-                {' · '}
-                <Tooltip text={t('detail.malMeaning')} unterstrichen>
-                  MAL
-                </Tooltip>{' '}
-                {title.malId}
-              </>
-            ) : (
-              ''
-            )}{' '}
-            ·{' '}
-            {t('detail.dubProof', {
-              sources:
-                title.dubConfidence === 'very-high'
-                  ? '≥4'
-                  : title.dubConfidence === 'high'
-                    ? '≥3'
-                    : title.dubConfidence === 'normal'
-                      ? '≥2'
-                      : '1',
-            })}
-          </p>
+          {/*
+            **Die Quellen stehen gesammelt unten, nicht an jedem Bereich.**
+
+            Hier stand bis zum 29.08.2026 eine Zeile „Metadaten von AniList ·
+            MAL 12345 · Beleg ≥4" — richtig, aber unvollständig: Sie nannte
+            eine Quelle von sechs und war nicht klickbar (Daniel: „quellen
+            links in details kacheln nicht anklickbar").
+          */}
+          <Quellenuebersicht title={title} releases={releases} />
         </div>
       </aside>
     </>

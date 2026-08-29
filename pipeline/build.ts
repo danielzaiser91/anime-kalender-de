@@ -751,7 +751,18 @@ function titleFromMedia(media: AniListMedia, confidence: DubConfidence): Title {
     coverImage: media.coverImage?.extraLarge ?? media.coverImage?.large ?? undefined,
     bannerImage: media.bannerImage ?? undefined,
     synopsis: cleanSynopsis(media.description),
-    studios: (media.studios?.nodes ?? []).filter((s) => s.isAnimationStudio !== false).map((s) => s.name).slice(0, 3),
+    /*
+      **Ohne Dubletten.** AniList führt dasselbe Studio mehrfach, wenn es
+      verschiedene Rollen hatte — im Detail-Panel stand deshalb „WIT STUDIO, WIT
+      STUDIO" (gesehen am 29.08.2026 beim Prüfen der Quellenübersicht). Gemessen
+      betraf das **141 von 2.763** Titeln, darunter Detektiv Conan, Yū Yū Hakusho
+      und ufotable-Filme.
+    */
+    studios: [
+      ...new Set(
+        (media.studios?.nodes ?? []).filter((s) => s.isAnimationStudio !== false).map((s) => s.name),
+      ),
+    ].slice(0, 3),
     score: media.averageScore ?? undefined,
     dubConfidence: confidence,
     streams: mapStreams(media),
