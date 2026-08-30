@@ -2572,6 +2572,29 @@ async function speicherSchreiben(werte) {
         const kanalKarte = (k) => /channel|subscription/i.test(String(k.zugang ?? ''))
         const sortiert = befund.treffer.slice().sort((a, b) => Number(kanalKarte(a)) - Number(kanalKarte(b)))
         const t = sortiert[0]
+        /*
+          **Die zweite Ausgabe geht mit, sonst sieht sie nie jemand wieder.**
+
+          Prime führt „My First Girlfriend Is a Gal" zweimal: als Kauftitel mit
+          FSK 16 und elf Folgen und über den Crunchyroll-Kanal mit FSK 18 und
+          zehn — andere Folgentitel, zwei Verlage. Meldet Daniel eine davon,
+          fiel der Auftrag aus der Liste, und die andere blieb ungeprüft
+          (30.08.2026: „ich sehe keinen prüfliste eintrag für die kaufbare
+          option?").
+
+          Hier steht die Trefferliste noch vollständig da. Ihre Kennungen gehen
+          als `weitere=` in die Notiz — daraus legt `extension-offene-amazon.mjs`
+          eigene Aufträge an. Über die Notiz, weil die Meldetabelle keine Spalte
+          dafür hat und eine Migration für zwei Kennungen zu viel wäre.
+        */
+        try {
+          weitereAusgaben = sortiert
+            .slice(1, 4)
+            .map((z) => /\/(?:dp|detail)\/([A-Z0-9]{10,26})/.exec(z.url ?? '')?.[1])
+            .filter(Boolean)
+        } catch {
+          weitereAusgaben = []
+        }
         const ziel = ohneParameter(t.url)
         /*
           Die Kennung des Treffers gehört in den Auftrag. Ohne sie klebte der
@@ -2796,6 +2819,8 @@ async function speicherSchreiben(werte) {
    * einem Zahlenvergleich, und die Reihenfolge der Arcs ist eine Annahme.
    */
   let teilBereich = null
+  /** Kennungen der übrigen passenden Treffer derselben Suche — siehe `weitere=`. */
+  let weitereAusgaben = []
 
   function zeigeAuftragshinweis() {
     /*
@@ -7345,6 +7370,12 @@ async function speicherSchreiben(werte) {
              * die Notiz der Träger: `zugang=kauf` steht maschinenlesbar drin.
              */
             (zugangsart() ? `, zugang=${zugangsart()}` : '') +
+            /*
+              Die übrigen Ausgaben derselben Suche, maschinenlesbar. Der
+              Listengenerator macht daraus eigene Aufträge; ohne sie bliebe die
+              zweite Ausgabe für immer ungeprüft.
+            */
+            (weitereAusgaben.length ? `, weitere=${weitereAusgaben.join(',')}` : '') +
             /*
               Die Notiz trägt es maschinenlesbar mit, aus demselben Grund wie
               `zugang=`: Ohne den Vermerk sähe „kauf" im Datensatz aus wie eine

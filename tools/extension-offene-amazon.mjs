@@ -482,6 +482,38 @@ if (wegenStaffel) {
   console.log(`  ${wegenStaffel} Fortsetzung(en) ausgelassen — ihre Serienseite steht als eigener Auftrag`)
 }
 
+/**
+ * **Die zweite Prime-Ausgabe wird ein eigener Auftrag.**
+ *
+ * Prime führt denselben Anime regelmäßig zweimal — als Kauftitel und über ein
+ * Kanal-Abo, mit verschiedenen Folgenzahlen, Altersfreigaben und sogar
+ * verschiedenen Folgentiteln (zwei Verlage). Unser Bestand kennt nur einen
+ * Verweis; nach der ersten Meldung fiel der Auftrag aus der Liste, und die
+ * andere Ausgabe blieb ungeprüft (Daniel, 30.08.2026).
+ *
+ * Die Erweiterung schickt die Kennungen der übrigen Treffer derselben Suche
+ * seit 4.0.22 als `weitere=` in der Notiz mit. Daraus entsteht hier je Kennung
+ * ein Auftrag — es sei denn, sie ist längst geprüft.
+ */
+const AUS_NOTIZ = /weitere=([A-Z0-9,]+)/
+let ausWeiteren = 0
+for (const zeile of belege.split(String.fromCharCode(10))) {
+  if (!/^  note:/.test(zeile)) continue
+  const treffer = AUS_NOTIZ.exec(zeile)
+  if (!treffer) continue
+  for (const kennung of treffer[1].split(',')) {
+    if (!kennung || offen[kennung] || geprueftePrime.adressen.has(`https://www.amazon.de/dp/${kennung}`)) continue
+    offen[kennung] = {
+      titel: `Zweite Prime-Ausgabe (${kennung})`,
+      url: `https://www.amazon.de/dp/${kennung}`,
+      erneut: 'zweite Ausgabe derselben Suche — Folgenzahl und Freigabe können abweichen',
+      eintraege: [{ id: null, name: `Zweite Prime-Ausgabe (${kennung})`, folgen: null, offen: true }],
+    }
+    ausWeiteren++
+  }
+}
+if (ausWeiteren) console.log(`  ${ausWeiteren} zweite Ausgabe(n) aus den Meldungen übernommen`)
+
 for (const [asin, wert] of Object.entries(ERNEUT)) {
   if (offen[asin]) continue
   offen[asin] = {
