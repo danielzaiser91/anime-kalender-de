@@ -828,7 +828,41 @@ export function beurteileJeBlock(serie: CrSerie, unsere: Title[]): Urteil[] {
         dub: true,
         grund: `Block „${block.name}“: ${deutsch} deutsche Folgen, ueber den Namen zugeordnet`,
       })
+      continue
     }
+    /**
+     * **Und der gleichnamige Block ohne deutsche Folge belegt das Nein.**
+     *
+     * Freigegeben von Daniel am 30.08.2026, mit der Folgenzahl als Bedingung.
+     * Der Beleggrad ist derselbe, den `beurteile()` für ganze Serien längst
+     * nutzt: Der **deutsche** Katalog kennt den Block und führt keine deutsche
+     * Fassung. Zwei Fälle standen dafür seit dem 29.08. offen — „Fruits Basket"
+     * (25 Folgen) und „Bofuri" (12), beide mit gleichnamigem Block und null
+     * deutschen Folgen.
+     *
+     * **Drei Bedingungen, und jede hat ihren Grund:**
+     *
+     * - `katalog === 'de'` — aus dem US-Katalog belegt ein fehlendes `de-DE`
+     *   nichts (CLAUDE.md, „Fairy Tail" trägt dort nur `ja-JP, en-US`).
+     * - **Name exakt gleich**, geprüft eine Ebene höher: ein Präfix erbte sonst
+     *   das Urteil der Hauptserie an jedes Special.
+     * - **Folgenzahl exakt gleich** — Daniels Bedingung. Ein gleichnamiger
+     *   Block kann eine andere Ausgabe derselben Serie sein (der ältere
+     *   CMS-Pfad legt je Tonspur einen an); stimmt die Zahl nicht, ist es nicht
+     *   derselbe Umfang, und dann wird nichts behauptet.
+     *
+     * Ein Nein entfernt den Verweis. Deshalb steht hier die strengste Prüfung
+     * des ganzen Laufs, und deshalb hat sie eine Freigabe gebraucht.
+     */
+    if (serie.katalog !== 'de') continue
+    if (!titel.episodes || !block.folgen || titel.episodes !== block.folgen) continue
+    raus.push({
+      titleId: titel.id,
+      dub: false,
+      grund:
+        `Block „${block.name}“ im deutschen Katalog: ${block.folgen} Folgen wie unser Eintrag, ` +
+        `keine davon deutsch`,
+    })
   }
   return raus
 }

@@ -604,14 +604,43 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
     zwei,
   )
 
-  /* Und ohne deutschen Block bleibt es bei nichts. */
+  /*
+    **Seit dem 30.08.2026 belegt der gleichnamige Block auch das Nein.**
+
+    Bis dahin galt „ohne deutsche Folgen kein Urteil" — die Sperre, die am
+    29.08. zwei belegbare Fälle offen ließ („Fruits Basket" 25 Folgen, „Bofuri"
+    12, beide mit gleichnamigem Block ohne eine deutsche Folge). Daniel hat sie
+    freigegeben, mit der **Folgenzahl als Bedingung**.
+
+    Drei Riegel bleiben, und die drei Gegenproben darunter prüfen jeden einzeln.
+  */
   const ohneDeutsch = {
     ...mitBloecken,
     staffeln: [{ name: 'Fairy Tail', folgen: 175, kacheln: 175, deutsch: 0, fremd: 175 }],
   }
+  const nein = beurteileJeBlock(ohneDeutsch as never, [mach(6, 'Fairy Tail', 175, 'TV')])
   pruefe(
-    'ohne deutsche Folgen kein Urteil',
-    beurteileJeBlock(ohneDeutsch as never, [mach(6, 'Fairy Tail', 175, 'TV')]).length === 0,
+    'gleicher Name, gleiche Folgenzahl, keine deutsche Folge → Nein',
+    nein.length === 1 && nein[0]!.dub === false,
+    nein,
+  )
+
+  /* Folgenzahl weicht ab: dann ist es nicht derselbe Umfang, also kein Urteil. */
+  pruefe(
+    'abweichende Folgenzahl belegt nichts',
+    beurteileJeBlock(ohneDeutsch as never, [mach(7, 'Fairy Tail', 51, 'TV')]).length === 0,
+  )
+
+  /* Ohne Folgenzahl an unserem Eintrag fehlt die Bedingung ganz. */
+  pruefe(
+    'ohne Folgenzahl im Bestand kein Nein',
+    beurteileJeBlock(ohneDeutsch as never, [mach(8, 'Fairy Tail', 0, 'TV')]).length === 0,
+  )
+
+  /* Und aus dem US-Katalog weiterhin nichts — dort belegt ein fehlendes de-DE nie. */
+  pruefe(
+    'aus dem US-Katalog kein Nein über den Namen',
+    beurteileJeBlock({ ...ohneDeutsch, katalog: 'us' } as never, [mach(9, 'Fairy Tail', 175, 'TV')]).length === 0,
   )
 }
 
