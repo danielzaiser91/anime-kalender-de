@@ -505,11 +505,7 @@ function beschriftung(spuren) {
       gemessen, siehe CLAUDE.md), also muss abgespielt werden. Gemeldet wird
       danach weiterhin von Hand, über diesen Knopf.
     */
-    return {
-      text: 'Abspielen — im Player wird die Tonspur gelesen',
-      klasse: 'ak-leer',
-      aktiv: false,
-    }
+    return { text: null, klasse: null, aktiv: false }
   }
   const { deutsch } = urteil(spuren)
   const wo = stand.folgeNr
@@ -1877,7 +1873,39 @@ async function durchlaufMelden(folge, echte, deutsch) {
   }
 }
 
+/**
+ * **Ein Film hat keine Folgenliste — und braucht trotzdem den Durchlauf.**
+ *
+ * `DURCHLAUF.folgen` wird aus Netflix' `PreviewModalEpisodeSelectorSeasonEpisodes`
+ * gefüllt. Bei einem Film ruft Netflix die Operation nie auf, die Liste bleibt
+ * leer, und `durchlaufKnopfZeigen()` steigt bei `!folgen.length` aus. Damit gab
+ * es auf der Titelseite eines Films **gar keinen** Weg: kein Melde-Knopf (ohne
+ * Tonspur), kein Durchlauf-Knopf (ohne Folgen).
+ *
+ * Daniel am 30.08.2026: „auf der overview sollte sammel button erscheinen der
+ * automatisch player öffnet liest und wieder zurück navigiert … der neue code
+ * greift hier nicht."
+ *
+ * Die Folge, die es zu prüfen gibt, ist der Film selbst — seine `videoId` ist
+ * die Kennung aus der Adresse. Damit läuft derselbe Weg wie bei einer Serie:
+ * Player öffnen, Tonspur lesen, zurück.
+ */
+function folgenFuerFilmErgaenzen() {
+  try {
+    if (DURCHLAUF.folgen.length || DURCHLAUF.laeuft) return
+    const reihe = gemeinteReihe()
+    if (!reihe) return
+    const eintrag = offeneTitel[String(reihe)]
+    const staffeln = eintrag?.staffeln ?? []
+    if (staffeln.length !== 1 || !staffeln[0]?.film) return
+    DURCHLAUF.folgen = [{ nummer: 1, videoId: Number(reihe), titel: eintrag.titel ?? '', staffel: null }]
+  } catch {
+    /* Ohne Prüflisten-Eintrag bleibt es beim bisherigen Verhalten. */
+  }
+}
+
 function durchlaufKnopfZeigen() {
+  folgenFuerFilmErgaenzen()
   /*
     **Während eines Durchlaufs bleibt der Knopf sichtbar — auch im Player.**
 

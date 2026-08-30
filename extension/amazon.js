@@ -2414,7 +2414,27 @@ async function speicherSchreiben(werte) {
           : []
 
       if (befund.art === 'genau') {
-        const t = befund.treffer[0]
+        /*
+          **Zwei richtige Treffer sind keine Verlegenheit, sondern zwei Wege.**
+
+          „One Punch Man" steht bei Prime zweimal: einmal als Kauftitel, einmal
+          über den Crunchyroll-Kanal — beide mit vier Staffeln, beide korrekt
+          (Daniel, 30.08.2026: „2 valide treffer in suche, wie damit umgehen?").
+          Bis hierher nahm der Kasten `treffer[0]`, also den, der zufällig oben
+          stand.
+
+          **Der Kauftitel ist der bessere.** Bei einem Kanal-Titel nennt Amazon
+          die Sprachen des Kanals, nicht der Folge — an „Kill Blue" gemessen:
+          zwölf behauptete deutsche Folgen, vier echte (CLAUDE.md, 24.08.2026).
+          Die Karten tragen ihre Zugangsart als `data-card-entitlement` mit, also
+          wird danach sortiert und nicht nach Reihenfolge.
+
+          Angeboten werden trotzdem beide: Welcher Weg im Kalender stehen soll,
+          entscheidet Daniel — der Kauftitel steht nur oben.
+        */
+        const kanalKarte = (k) => /channel|subscription/i.test(String(k.zugang ?? ''))
+        const sortiert = befund.treffer.slice().sort((a, b) => Number(kanalKarte(a)) - Number(kanalKarte(b)))
+        const t = sortiert[0]
         const ziel = ohneParameter(t.url)
         /*
           Die Kennung des Treffers gehört in den Auftrag. Ohne sie klebte der
@@ -2438,6 +2458,27 @@ async function speicherSchreiben(werte) {
                 location.href = ziel
               })
             : kastenZeile('ak-such-hinweis', 'Öffnen — dort werden die Tonspuren gelesen'),
+          /* Der zweite Weg, falls es einen gibt — mit seiner Zugangsart benannt. */
+          ...sortiert.slice(1, 3).flatMap((z) => {
+            const zZiel = ohneParameter(z.url)
+            if (!zZiel) return []
+            return [
+              kastenKnopf(`Stattdessen: ${kanalKarte(z) ? 'über Kanal-Abo' : 'andere Ausgabe'}`, () => {
+                suchauftragMerken({
+                  ...auftrag,
+                  suchUrl: auftrag.suchUrl,
+                  zielAsin: /\/(?:dp|detail)\/([A-Z0-9]{10,26})/.exec(zZiel)?.[1] ?? null,
+                })
+                location.href = zZiel
+              }),
+            ]
+          }),
+          sortiert.length > 1
+            ? kastenZeile(
+                'ak-such-hinweis',
+                'Beim Kanal-Titel nennt Amazon die Sprachen des Kanals, nicht der Folge — der Kauftitel ist der belastbarere.',
+              )
+            : null,
         )
         return
       }
