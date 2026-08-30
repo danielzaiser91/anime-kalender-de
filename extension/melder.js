@@ -2072,7 +2072,19 @@ async function durchlaufMelden(folge, echte, deutsch) {
  */
 function folgenFuerFilmErgaenzen() {
   try {
-    if (DURCHLAUF.folgen.length || DURCHLAUF.laeuft) return
+    if (DURCHLAUF.laeuft) return
+    /*
+      **Und was schon dasteht, wird weggeräumt.**
+
+      Der Riegel darunter verhinderte nur das Anlegen. Ein Eintrag, der vor dem
+      Seitenwechsel entstand — oder bevor „Erinnern" geladen war —, blieb
+      stehen: Auf der Pokémon-Seite bot der Knopf weiter „1 Folge prüfen" an,
+      während daneben schon „Keine Folge da" stand (Daniel, 30.08.2026).
+    */
+    if (keineFolgeVorhanden() && DURCHLAUF.folgen.length === 1 && DURCHLAUF.folgen[0]?.film) {
+      DURCHLAUF.folgen = []
+    }
+    if (DURCHLAUF.folgen.length) return
     /*
       **Wo „Erinnern" steht, gibt es nichts zu prüfen.**
 
