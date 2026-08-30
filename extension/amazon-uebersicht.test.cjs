@@ -1170,6 +1170,53 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
         'der Übersichts-Knopf schreibt Text und Tooltip nur bei Änderung',
         !/uebersichtKnopf\.(textContent|title) =/.test(quelle),
       )
+      /*
+        **Es gibt genau einen Auftragskasten.**
+
+        Daniel am 30.08.2026, mit Bild: „hab es als 1-12 gemeldet, jetzt ist das
+        div doppelt dort?" Der Bereichs-Knopf ruft `zeigeAuftragshinweis()`
+        erneut auf; der Takt räumte den alten Kasten ab, dieser Aufrufer nicht.
+        Die erzeugende Stelle weiß immer, dass es nur einen geben darf — ein
+        Vorsatz je Aufrufer wird vergessen.
+      */
+      const bau = quelle.slice(quelle.indexOf('function hinweisKasten'), quelle.indexOf('function hinweisKasten') + 900)
+      pruefe(
+        'hinweisKasten räumt seinen Vorgänger ab',
+        bau.includes("querySelector('.ak-amazon-suchhinweis')?.remove()"),
+      )
+      /*
+        **Die Suchadresse wird abgehakt, auch ohne `url` am Eintrag.**
+
+        „nach der meldung ist der eintrag weiterhin in der prüfliste" — der
+        Eintrag aus der Suche trägt nur Titel und `ausSuche`, die Adresse steht
+        im Auftrag (`suchUrl`).
+      */
+      pruefe(
+        'nach dem Melden fällt die Suchadresse aus der Liste',
+        quelle.includes('suchauftrag()?.suchUrl') && quelle.includes('await suchAbhaken(suchAdresse)'),
+      )
+      /* Und keine AniList-Verweise mehr — sie sagen nichts über die Zuordnung. */
+      /*
+        **Der Befund kommt aus den Folgen, nicht aus dem Sammel-Set.**
+
+        Daniel am 30.08.2026 an „Hell Mode": Der Knopf sagte „🇩🇪 Deutsch · 12
+        Folgen", die Seite zeigte „Wiedergabesprachen: 日本語" und darunter
+        „Untertitel: Deutsch". Sein Diagnosebericht belegt es: alle zwölf Folgen
+        tragen `["日本語"]`, nur `gesehen.sprachen` enthielt Deutsch. Gegenprobe
+        bei ADN — dort gibt es den Titel nur mit Untertiteln.
+
+        Die Quelle ist ein Fund **ohne Folgennummer** aus der Rückfallebene des
+        Mitlesers: Er landet nicht in `jeFolge`, seine Sprachen aber im Set.
+        Wo Folgendaten vorliegen, entscheiden sie — dieselbe Regel, die dieses
+        Projekt bei Crunchyroll längst zieht.
+      */
+      pruefe(
+        'der Befund liest die Folgen, wo es welche gibt',
+        quelle.includes('gesehen.jeFolge.size') && quelle.includes('deutschInFolgen()'),
+      )
+
+      /* Nur echte Verweise — der Kommentar zitiert Daniels Satz und darf stehen. */
+      pruefe('keine AniList-Verweise mehr im Kasten', !quelle.includes('https://anilist.co/anime/'))
     }
 
     console.log()

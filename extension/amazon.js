@@ -2165,6 +2165,19 @@ async function speicherSchreiben(werte) {
   }
 
   function hinweisKasten(titel, unterzeile, ...zusatz) {
+    /*
+      **Der Vorgänger geht, bevor der Nachfolger kommt.**
+
+      Daniel am 30.08.2026, mit Bild: „hab es als 1-12 gemeldet, jetzt ist das
+      div doppelt dort?" Der Knopf „Als Folgen 1–12 melden" ruft
+      `zeigeAuftragshinweis()` erneut auf, um den Bereich einzublenden — und
+      baute einen zweiten Kasten über den ersten.
+
+      Der Takt räumte auf, dieser Aufrufer nicht. Ein Vorsatz, den jeder
+      Aufrufer einhalten muss, wird irgendwann vergessen; die Stelle, die den
+      Kasten **erzeugt**, weiß immer, dass es nur einen geben darf.
+    */
+    document.querySelector('.ak-amazon-suchhinweis')?.remove()
     const kasten = document.createElement('div')
     kasten.className = 'ak-amazon-suchhinweis'
     /*
@@ -2247,10 +2260,25 @@ async function speicherSchreiben(werte) {
         kasten.appendChild(
           kastenVerweis('Bei aniSearch nachsehen', 'https://www.anisearch.de/anime/' + auftrag.asId + '/episodes'),
         )
-      } else if (auftrag?.id) {
-        /* Ohne aniSearch-Kennung bleibt AniList — besser als kein Verweis. */
+      } else if (auftrag?.titel) {
+        /*
+          **Ohne Kennung die aniSearch-Suche, nicht AniList.**
+
+          AniList führt romanisierte Titel ohne deutschen Bezug; bei einer Reihe
+          mit vier Teilen ist von dort aus nicht zu erkennen, welcher gemeint
+          ist (Daniel, 30.08.2026: „da kann ich nicht herausfinden wozu das
+          gehört"). Die aniSearch-Suche über den Titel führt in zwei Klicks zur
+          Episodenliste mit deutschen Folgentiteln — genau dem, was den Vergleich
+          entscheidet.
+
+          Adresse gemessen, nicht geraten: `/anime/index?text=…` antwortet mit
+          HTTP 200 (30.08.2026).
+        */
         kasten.appendChild(
-          kastenVerweis('Bei AniList nachsehen (#' + auftrag.id + ')', 'https://anilist.co/anime/' + auftrag.id),
+          kastenVerweis(
+            'Bei aniSearch suchen',
+            'https://www.anisearch.de/anime/index?text=' + encodeURIComponent(auftrag.titel),
+          ),
         )
       }
     } catch {
@@ -2375,12 +2403,24 @@ async function speicherSchreiben(werte) {
     const gemerkt = !ausListe && /^\/s(\/|$)/.test(location.pathname) ? suchauftrag() : null
     const auftrag = ausListe ?? gemerkt
     if (!auftrag) return false
-    suchauftragMerken({
-      titel: auftrag.titel,
-      id: auftrag.id,
-      folgen: auftrag.folgen ?? null,
-      suchUrl: auftrag.suchUrl,
-    })
+    /*
+      **Die aniSearch-Kennung muss mitwandern.**
+
+      Hier standen vier Felder, und `asId` war keines davon. Auf der Suchseite
+      zeigte der Kasten deshalb den aniSearch-Verweis, nach dem Sprung auf die
+      Titelseite — wo der Vergleich wirklich stattfindet — fiel er auf AniList
+      zurück.
+
+      Daniel am 30.08.2026: „ich will keine anilist links, die sind furchtbar,
+      da kann ich nicht herausfinden wozu das gehört, ich brauche anisearch
+      links zu dem arc, damit ich das vergleichen und korrekt zuordnen kann."
+      Sein Beispiel war „Danganronpa 3 — Future Arc"; der Auftrag trägt
+      `asId: 11046`, nur kam sie nie an.
+
+      Übernommen wird jetzt der ganze Auftrag; `suchUrl` bleibt ausdrücklich
+      stehen, weil sie aus dem Aufrufer kommt und nicht aus dem Listeneintrag.
+    */
+    suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl })
     /*
       Die Treffer stehen erst da, wenn die Seite fertig ist. Zweimal
       nachsehen genügt: einmal sofort, einmal nach anderthalb Sekunden.
@@ -4952,7 +4992,33 @@ async function speicherSchreiben(werte) {
         Ein Attribut ist zum Nachsehen da, nicht zum Mitschreiben.
       */
     }))
-    const deutsch = [...gesehen.sprachen].some((s) => /deutsch|german/i.test(s))
+    /**
+   * **Der Befund kommt aus den Folgen, nicht aus dem Sammel-Set.**
+   *
+   * Daniel am 30.08.2026 an „Hell Mode": Staffel 2 wurde als „19 Folgen,
+   * Deutsch" gemeldet — und sein Diagnosebericht zeigt für **jede** der 21
+   * gelesenen Folgen nur `["日本語"]`. Deutsch stand allein im Sammel-Set
+   * `gesehen.sprachen`. Vier Sekunden vor der Staffel-1-Meldung sagte der Knopf
+   * außerdem „✕ kein Deutsch · 12 Folgen · Staffel 1", die Meldung trug
+   * trotzdem `dub`.
+   *
+   * Das Set sammelt über alles, was je eingegangen ist; die Folgenliste sagt,
+   * was auf **dieser** Seite steht. Wo es Folgendaten gibt, entscheiden sie —
+   * das ist dieselbe Regel, die dieses Projekt bei Crunchyroll längst zieht
+   * („der lauf muss jede folge individuell prüfen").
+   *
+   * Ohne Folgendaten bleibt das Set: Ein Film hat keine Folgenliste, und dort
+   * ist der Hydration-Block die einzige Quelle.
+   */
+    const deutschInFolgen = () => {
+      for (const namen of gesehen.jeFolge.values()) {
+        if ((namen ?? []).some((s) => /deutsch|german/i.test(s))) return true
+      }
+      return false
+    }
+    const deutsch = gesehen.jeFolge.size
+      ? deutschInFolgen()
+      : [...gesehen.sprachen].some((s) => /deutsch|german/i.test(s))
     const geladen = geladeneFolgen()
     if (geladen !== letzteZahl) {
       letzteZahl = geladen
@@ -7250,7 +7316,19 @@ async function speicherSchreiben(werte) {
           Abhak-Liste der Titelseiten an Kennung, Staffel und Serientitel hängt
           und eine Suchadresse nichts davon hat.
         */
-        if (eintrag.ausSuche && eintrag.url) await suchAbhaken(eintrag.url)
+        /*
+          **Die Suchadresse steht im Auftrag, nicht immer im Eintrag.**
+
+          Daniel am 30.08.2026: „nach der meldung ist der eintrag weiterhin in
+          der prüfliste." Sein Diagnosebericht zeigt warum — der Eintrag lautet
+          `{"titel":"Danganronpa 3 … Future Arc","ausSuche":true}`, ohne `url`.
+          Die Bedingung fiel durch, und abgehakt wurde nichts.
+
+          Die Adresse gibt es trotzdem: Der Suchauftrag trägt sie als `suchUrl`
+          über den Sprung von der Trefferliste auf die Titelseite hinweg.
+        */
+        const suchAdresse = eintrag.url ?? suchauftrag()?.suchUrl ?? null
+        if (eintrag.ausSuche && suchAdresse) await suchAbhaken(suchAdresse)
         /*
           Und der Kasten verschwindet mit ihm. Er sagt „Meldung läuft unter
           diesem Titel" — nach der Meldung läuft nichts mehr, und er stand

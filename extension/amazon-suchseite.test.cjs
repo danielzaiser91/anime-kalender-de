@@ -792,13 +792,23 @@ pruefe('„The Movie“ bleibt ein eigenes Werk', kaisenFilm.befund.art !== 'gen
   const von = quelle.indexOf('function hinweisKasten')
   const bis = quelle.indexOf('\n  }', von)
   const rumpf = quelle.slice(von, bis)
+  /*
+    **Es sind aniSearch-Verweise, keine AniList-Verweise mehr.**
+
+    Daniel am 30.08.2026: „ich will keine anilist links, die sind furchtbar, da
+    kann ich nicht herausfinden wozu das gehört, ich brauche anisearch links zu
+    dem arc, damit ich das vergleichen und korrekt zuordnen kann."
+
+    Mit Kennung führt der Verweis direkt auf die Episodenliste, ohne Kennung auf
+    die aniSearch-Suche über den Titel. AniList kommt nicht mehr vor.
+  */
   pruefe(
-    'der AniList-Verweis steht in hinweisKasten selbst',
-    rumpf.includes('kastenVerweis') && rumpf.includes('anilist.co/anime/'),
+    'der aniSearch-Verweis steht in hinweisKasten selbst',
+    rumpf.includes('kastenVerweis') && rumpf.includes('anisearch.de/anime/'),
   )
   pruefe(
-    'und die Kennung kommt aus dem Auftrag — aniSearch zuerst, AniList als Rueckfall',
-    /suchauftrag\(\)[\s\S]{0,600}auftrag\?\.asId[\s\S]{0,900}auftrag\?\.id/.test(rumpf),
+    'ohne Kennung führt er auf die aniSearch-Suche, nicht auf AniList',
+    rumpf.includes('anisearch.de/anime/index?text=') && !rumpf.includes('anilist.co/anime/'),
   )
   pruefe(
     'er wird nicht zusaetzlich an einer Aufrufstelle angehaengt',
