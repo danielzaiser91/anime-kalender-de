@@ -2516,7 +2516,33 @@ function main(): void {
       if (!deutsch) continue
 
       const seite = eintrag.asin ? `https://www.amazon.de/dp/${eintrag.asin}` : null
-      const da = title.streams.find((x) => x.platform === 'primevideo')
+      /**
+       * **Zwei Ausgaben desselben Titels sind zwei Wege, keine Dublette.**
+       *
+       * Prime führt „My First Girlfriend is a Gal" als Kauftitel mit 11 Folgen
+       * und FSK 16 — die KAZÉ-Fassung samt OVA, mit deutscher Synchro — und
+       * über den Crunchyroll-Kanal mit 10 Folgen und FSK 18, mit völlig anderen
+       * Folgentiteln, weil zwei Verlage unabhängig übersetzt haben (Daniel,
+       * 30.08.2026, mit Bildern; Verlagsangaben bei Anime2You und
+       * AnimeNachrichten nachgeschlagen).
+       *
+       * Bis hierher nahm der Bau je Titel **einen** Prime-Verweis, und die
+       * zweite Meldung überschrieb die erste. Für einen Besucher sind es aber
+       * zwei Angebote mit verschiedenem Inhalt und verschiedenem Preis — genau
+       * die Frage, für die er die Seite aufruft.
+       *
+       * Gesucht wird deshalb nach **dieser** Adresse. Nur wenn es sie noch nicht
+       * gibt, greift der Rückfall auf einen vorhandenen Prime-Verweis mit
+       * Suchadresse: Der ist keine eigene Ausgabe, sondern eine offene Frage,
+       * und wird von der Titelseite abgelöst.
+       *
+       * Die Oberfläche trennt beide schon: Sie gruppiert nach Zugangsart, also
+       * steht der Kauftitel unter „Kaufen oder leihen" und der Kanal-Titel unter
+       * „Im Abo".
+       */
+      const da =
+        (seite ? title.streams.find((x) => x.platform === 'primevideo' && x.url === seite) : null) ??
+        title.streams.find((x) => x.platform === 'primevideo' && /amazon\.[a-z.]+\/s\?/i.test(x.url))
       if (da) {
         if (da.dub !== true) {
           da.dub = true

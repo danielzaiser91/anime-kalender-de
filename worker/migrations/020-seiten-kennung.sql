@@ -1,0 +1,14 @@
+-- Die Kennung der Seite, auf der wirklich gelesen wurde.
+--
+-- `url` ist die Adresse aus unserer Prüfliste — dieselbe für beide Ausgaben
+-- eines Titels. Prime führt aber regelmäßig zwei, und sie sind verschiedene
+-- Angebote: „My First Girlfriend is a Gal" liegt als Kauftitel mit 11 Folgen
+-- und FSK 16 (die KAZÉ-Fassung samt OVA) und über den Crunchyroll-Kanal mit
+-- 10 Folgen und FSK 18 — dazu völlig andere Folgentitel, weil zwei Verlage
+-- unabhängig übersetzt haben (Daniel, 30.08.2026, mit Bildern).
+--
+-- Ohne dieses Feld tragen beide Meldungen dieselbe Adresse, und der
+-- Ersetzungs-Schritt beim Melden (DELETE über url + folge_nr + staffel) löscht
+-- die erste, sobald die zweite eintrifft. Die Kennung stand bisher nur im
+-- Fließtext der Notiz und war damit für keine Abfrage erreichbar.
+ALTER TABLE pruefung ADD COLUMN seiten_kennung TEXT;

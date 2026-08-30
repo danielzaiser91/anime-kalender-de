@@ -2082,17 +2082,35 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
    */
   const folgeNr = zahlOderNull(daten.folge_nr)
   const staffelNr = zahlOderNull(daten.staffel)
+  /**
+   * **Die Seitenkennung gehört in die Ersetzungs-Bedingung.**
+   *
+   * `url` ist die Adresse aus der Prüfliste — dieselbe für beide Ausgaben eines
+   * Titels. Prime führt aber regelmäßig zwei, und sie sind verschiedene
+   * Angebote: „My First Girlfriend is a Gal" liegt als Kauftitel mit 11 Folgen
+   * und FSK 16 (die KAZÉ-Fassung samt OVA) und über den Crunchyroll-Kanal mit
+   * 10 Folgen und FSK 18, mit völlig anderen Folgentiteln (Daniel, 30.08.2026).
+   *
+   * Ohne diese Bedingung löscht die zweite Meldung die erste, und im Briefkasten
+   * bleibt nur eine der beiden Ausgaben übrig.
+   *
+   * `IS` statt `=`, aus demselben Grund wie bei der Staffel: Ältere Meldungen
+   * tragen keine Kennung, und `NULL = NULL` liefert in SQLite nichts.
+   */
+  const seitenKennung = typeof daten.seiten_kennung === 'string' ? daten.seiten_kennung : null
   await env.DB.prepare(
     folgeNr === null
-      ? 'DELETE FROM pruefung WHERE url = ?1 AND uebernommen = 0 AND folge_nr IS NULL AND staffel IS ?2'
-      : 'DELETE FROM pruefung WHERE url = ?1 AND uebernommen = 0 AND folge_nr = ?2 AND staffel IS ?3',
+      ? 'DELETE FROM pruefung WHERE url = ?1 AND uebernommen = 0 AND folge_nr IS NULL AND staffel IS ?2 AND seiten_kennung IS ?3'
+      : 'DELETE FROM pruefung WHERE url = ?1 AND uebernommen = 0 AND folge_nr = ?2 AND staffel IS ?3 AND seiten_kennung IS ?4',
   )
-    .bind(...(folgeNr === null ? [url, staffelNr] : [url, folgeNr, staffelNr]))
+    .bind(
+      ...(folgeNr === null ? [url, staffelNr, seitenKennung] : [url, folgeNr, staffelNr, seitenKennung]),
+    )
     .run()
 
   await env.DB.prepare(
-    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am, zugang, abos, teil_von, teil_bis)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16)`,
+    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am, zugang, abos, teil_von, teil_bis, seiten_kennung)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17)`,
   )
     .bind(
       String(daten.plattform ?? 'unbekannt'),
@@ -2132,6 +2150,8 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
       */
       zahlOderNull(daten.teil_von),
       zahlOderNull(daten.teil_bis),
+      /* Die Seite, auf der wirklich gelesen wurde — trennt zwei Ausgaben desselben Titels. */
+      seitenKennung,
     )
     .run()
 

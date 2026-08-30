@@ -6839,6 +6839,27 @@ async function speicherSchreiben(werte) {
         body: JSON.stringify({
           plattform: 'primevideo',
           url: eintrag.url,
+          /**
+           * **Die Kennung der Seite, auf der wirklich gelesen wurde.**
+           *
+           * `url` ist die Adresse aus unserer Prüfliste — dieselbe für beide
+           * Ausgaben eines Titels. Prime führt aber regelmäßig zwei: „My First
+           * Girlfriend is a Gal" liegt als Kauftitel mit **11 Folgen und FSK 16**
+           * (die KAZÉ-Fassung samt OVA) und über den Crunchyroll-Kanal mit
+           * **10 Folgen und FSK 18**, mit völlig anderen Folgentiteln — zwei
+           * Lokalisierungen, zwei Angebote (Daniel, 30.08.2026, mit Bildern).
+           *
+           * Ohne dieses Feld tragen beide Meldungen dieselbe Adresse, und die
+           * zweite überschreibt die erste schon im Briefkasten. Die Kennung
+           * stand bisher nur im Fließtext der Notiz.
+           */
+          seiten_kennung: (() => {
+            try {
+              return asin() ?? null
+            } catch {
+              return null
+            }
+          })(),
           sprachen: teil ? teil.sprachen : sprachen,
           /* Ohne Mischung bleibt das Feld leer — dann gilt der Befund der Staffel. */
           folge_nr: teil ? teil.folgeNr : undefined,

@@ -192,12 +192,30 @@ async function main(): Promise<void> {
     folgen = [...jungste.values()]
   }
 
-  /* Je Adresse gruppieren — eine Meldung betrifft immer eine Staffel-Seite. */
+  /**
+   * Je Adresse **und Ausgabe** gruppieren.
+   *
+   * Eine Meldung betrifft eine Staffel-Seite — aber Prime führt regelmäßig zwei
+   * Ausgaben desselben Titels unter derselben Adresse aus unserer Liste. „My
+   * First Girlfriend is a Gal" liegt als Kauftitel mit 11 Folgen und FSK 16 (die
+   * KAZÉ-Fassung samt OVA) und über den Crunchyroll-Kanal mit 10 Folgen und FSK
+   * 18, mit völlig anderen Folgentiteln, weil zwei Verlage unabhängig übersetzt
+   * haben (Daniel, 30.08.2026, mit Bildern).
+   *
+   * Nach Adresse allein gruppiert lägen beide in einem Topf, und die Zuordnung
+   * sähe eine Staffel mit 21 widersprüchlichen Folgen.
+   *
+   * Getrennt wird über die `asin` **der Folge** — sie steht seit jeher je Zeile
+   * und nennt die Seite, von der die Folge gelesen wurde. Folgen ohne sie
+   * bleiben unter ihrer Adresse zusammen; das ist der Stand vor dem 30.08.2026
+   * und der Fall einer Suchadresse, die noch keine Titelseite kennt.
+   */
   const jeUrl = new Map<string, Rohfolge[]>()
   for (const f of folgen) {
-    const l = jeUrl.get(f.url) ?? []
+    const schluessel = f.asin ? `${f.url}#${f.asin}` : f.url
+    const l = jeUrl.get(schluessel) ?? []
     l.push(f)
-    jeUrl.set(f.url, l)
+    jeUrl.set(schluessel, l)
   }
 
   const offen: Offen[] = []
@@ -216,7 +234,13 @@ async function main(): Promise<void> {
   /** Die Rohfolgen-Kennungen, die verwertet wurden — sie werden danach abgehakt. */
   const erledigt: number[] = []
 
-  for (const [url, liste] of jeUrl) {
+  for (const [schluessel, liste] of jeUrl) {
+    /*
+      Der Schlüssel trägt seit dem 30.08.2026 die Ausgabe mit (`url#asin`) —
+      gesucht und gespeichert wird aber unter der Adresse selbst. Sie steht in
+      jeder Zeile der Gruppe, alle tragen dieselbe.
+    */
+    const url = liste[0]!.url
     /*
       Welcher unserer Titel gehört zu dieser Adresse? Über den Bestand, nicht über
       den Namen: Die Adresse steht dort, der Name kann bei Prime jede Form haben.
@@ -303,7 +327,7 @@ async function main(): Promise<void> {
       101 offenen Adressen tragen genau einen.
     */
     if (liste.length === 1) {
-      zugeordnet[url] = {
+      zugeordnet[schluessel] = {
         titleId: titel.id,
         asin: liste[0]!.asin ?? null,
         folgen: [{ unsere: null, sprachen: JSON.parse(liste[0]!.sprachen ?? '[]') as string[] }],
@@ -364,7 +388,7 @@ async function main(): Promise<void> {
       continue
     }
 
-    zugeordnet[url] = {
+    zugeordnet[schluessel] = {
       titleId: titel.id,
       /* Alle Zeilen einer Adresse stammen von derselben Seite — die erste genügt. */
       asin: liste.find((f) => f.asin)?.asin ?? null,
