@@ -27,6 +27,46 @@ import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+
+/**
+ * **Geprüft ist geprüft — auch ohne Urteil.**
+ *
+ * Die Liste filterte über `stream.dub !== undefined`: Wer ein Urteil trägt,
+ * fällt raus. Bei einem **Kanal-Titel** entsteht aber nie eins — Amazons
+ * Sprachangabe gilt dort nicht (CLAUDE.md, 24.08.2026), und der Bau schreibt
+ * deshalb bewusst kein `dub`.
+ *
+ * Folge: eine Schleife ohne Ausgang. „Kakushite! Makina-san!!" steht seit dem
+ * 27.08.2026 in `dub-confirmed.yaml` — geprüft, mit Notiz — und stand am
+ * 30.08.2026 immer noch auf der Prüfliste. Daniel: „entfern den eintrag, ich
+ * hab es bereits gemeldet." Er hätte es beliebig oft melden können.
+ *
+ * Die Liste zeigt offene **Arbeit**, nicht offene **Urteile**. Wer einmal
+ * hingesehen hat, sieht beim zweiten Mal dasselbe.
+ */
+const belege = readFileSync(resolve(wurzel, 'data/dub-confirmed.yaml'), 'utf8')
+const geprueftePrime = (() => {
+  const ids = new Set()
+  const adressen = new Set()
+  let id = null
+  let istPrime = false
+  for (const zeile of belege.split('\n')) {
+    const neu = /^- anilistId: (\d+)/.exec(zeile)
+    if (neu) {
+      id = Number(neu[1])
+      istPrime = false
+      continue
+    }
+    if (/^  platform: primevideo\b/.test(zeile)) {
+      istPrime = true
+      if (id) ids.add(id)
+      continue
+    }
+    const url = istPrime ? /^  url: (\S+)/.exec(zeile) : null
+    if (url) adressen.add(url[1])
+  }
+  return { ids, adressen }
+})()
 const roh = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
 const titel = Array.isArray(roh) ? roh : (roh.titles ?? Object.values(roh))
 
@@ -117,10 +157,16 @@ const ERNEUT = {
 }
 
 const JAHRESZEIT = { WINTER: 0, SPRING: 1, SUMMER: 2, FALL: 3 }
+let schonGeprueft = 0
 const offen = {}
 for (const [asin, eintraege] of jeAsin) {
   // Ist unter dieser Adresse schon alles beantwortet, gibt es nichts zu tun.
   if (eintraege.every((e) => e.dub !== undefined)) continue
+  /* Geprüft ist geprüft — auch wenn kein Urteil daraus wurde (Kanal-Titel). */
+  if (eintraege.every((e) => geprueftePrime.ids.has(e.t?.id ?? e.id))) {
+    schonGeprueft++
+    continue
+  }
   const sortiert = eintraege
     .slice()
     .sort((a, b) => (a.t.jpYear ?? 0) - (b.t.jpYear ?? 0) || (JAHRESZEIT[a.t.jpSeason] ?? 0) - (JAHRESZEIT[b.t.jpSeason] ?? 0))
@@ -346,6 +392,10 @@ for (const t of titel) {
   for (const s of t.streams ?? []) {
     if (s.platform !== 'primevideo' || !/\/s\?/.test(s.url ?? '')) continue
     if (s.dub !== undefined) continue
+    if (geprueftePrime.ids.has(t.id) || geprueftePrime.adressen.has(s.url)) {
+      schonGeprueft++
+      continue
+    }
     if (istNachrangigeStaffel(t)) {
       wegenStaffel++
       continue
@@ -425,6 +475,9 @@ writeFileSync(
   'globalThis.AK_PRIME_SUCHE = ' + JSON.stringify(suche) + '\n',
 )
 console.log(`${Object.keys(suche).length} Prime-Suchadressen ohne Titelseite`)
+if (schonGeprueft) {
+  console.log(`  ${schonGeprueft} Auftrag/Aufträge ausgelassen — schon geprüft, auch ohne Urteil`)
+}
 if (wegenStaffel) {
   console.log(`  ${wegenStaffel} Fortsetzung(en) ausgelassen — ihre Serienseite steht als eigener Auftrag`)
 }

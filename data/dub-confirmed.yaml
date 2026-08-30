@@ -22759,13 +22759,19 @@
   checkedAt: '2026-08-27'
   note: "Tonspuren: Deutsch — Amazon-Seite B0DNCLRXGC: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"
 
-- anilistId: 12413
-  title: "Jormungand"
+- anilistId: 13331
+  title: "Jormungand: Perfect Order"
   platform: primevideo
   url: https://www.amazon.de/dp/B0DNCGXVNT
   dub: true
-  checkedAt: '2026-08-27'
-  note: "Tonspuren: Deutsch — Amazon-Seite B0DNCGXVNT: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=kauf_oder_leihe"
+  checkedAt: '2026-08-30'
+  # Umgetragen von 12413 auf 13331 am 30.08.2026. Die Adresse trägt
+  # „?ref_=atv_dp_season_select_s2", und Daniel hat es ausdrücklich bestätigt:
+  # „es ist die 2. staffel". Die Meldung war beim Nachbartitel gelandet, weil
+  # die Zuordnung über die Adresse lief und Prime beide Staffeln unter einer
+  # Kennung führt — Jormungand S1 stand dadurch mit einem Beleg da, den es nie
+  # bekommen hatte, und „Perfect Order" blieb auf der Prüfliste.
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNCGXVNT: alle 12 Folgen geprüft, Abos: keine Angabe, laut Adresse Staffel 2, zugang=kauf_oder_leihe"
 
 - anilistId: 107961
   title: "Hensuki: Are You Willing to Fall in Love with a Pervert, as Long as She’s a Cutie?"
