@@ -2789,8 +2789,9 @@ async function speicherSchreiben(werte) {
       28.08.2026). Dieselbe Zahl, dieselbe Seite, zwei richtige Antworten; welche
       gilt, entscheidet der Auftrag, und der steht nicht auf der Seite.
 
-      Beide Fenster als Knopf ist die ehrliche Auflösung: Daniel sieht die
-      Folgentitel und entscheidet in einem Klick. Geraten wird nichts.
+      Beide Fenster werden berechnet und stehen im Diagnosebericht — als
+      Knöpfe gab es sie bis 4.0.16, seitdem ordnet der Bau über die Folgentitel
+      zu. Geraten wird weiterhin nichts.
     */
     const buendel =
       auftrag.folgen && hier > auftrag.folgen
@@ -2864,18 +2865,32 @@ async function speicherSchreiben(werte) {
     if (teilBereich) {
       teilZeilen.push(kastenZeile('ak-such-gut', `Meldung gilt für Folgen ${teilBereich.von}–${teilBereich.bis}`))
     } else if (buendel) {
+      /*
+        **Zuordnen ist Sache des Baus, nicht Daniels.**
+
+        Hier standen bis 4.0.16 Knöpfe „Als Folgen 1–12 melden" — Daniel sollte
+        die Folgentitel vergleichen und den Bereich wählen. Sein Einwand vom
+        30.08.2026 trifft: „wozu muss ich 1-12 überhaupt melden wenn du die 24
+        bereits gemeldet und im katalog hast, du hättest die verlinkung selbst
+        machen und den eintrag aus der prüfliste nehmen können."
+
+        Er hat recht, und es steht so schon in CLAUDE.md: Seit 3.77 trägt jede
+        Meldung ihre Folgen einzeln mit — Nummer, Titel, Datum, Laufzeit —, und
+        `pipeline/fetch-rohfolgen.ts` legt sie über TMDBs Folgentitel auf unsere
+        Zählung. „Sammeln und zuordnen sind zwei Arbeiten, und nur die erste
+        passiert im Browser."
+
+        Die Knöpfe waren außerdem eine Sackgasse: Sie setzten nur den Bereich
+        und meldeten nichts; der Melde-Knopf daneben stand auf „✓ alles
+        gemeldet" und war gesperrt.
+
+        Was bleibt, ist die Auskunft — sie erklärt, warum hier mehr Folgen
+        stehen als erwartet.
+      */
       teilZeilen.push(
-        kastenZeile('ak-such-warn', `${hier} Folgen hier, ${auftrag.folgen} erwartet — die Seite bündelt mehrere Teile`),
-        kastenZeile('ak-such-hinweis', 'Folgentitel vergleichen, dann den passenden Bereich wählen'),
+        kastenZeile('ak-such-hinweis', `${hier} Folgen hier, ${auftrag.folgen} erwartet — Prime bündelt mehrere Teile`),
+        kastenZeile('ak-such-gut', 'Alles melden genügt; welche Folgen zu diesem Titel gehören, entscheidet der Bau über die Folgentitel'),
       )
-      for (const b of buendel) {
-        teilZeilen.push(
-          kastenKnopf(`Als Folgen ${b.von}–${b.bis} melden`, () => {
-            teilBereich = b
-            zeigeAuftragshinweis()
-          }),
-        )
-      }
     } else if (auftrag.folgen && hier && hier < auftrag.folgen) {
       /*
         **Weniger Folgen heißt: Prime teilt, wo wir zusammenfassen.**
@@ -5574,7 +5589,28 @@ async function speicherSchreiben(werte) {
      * Deshalb zählt zusätzlich die einfache Frage: Ist **diese** Staffel dabei?
      * Wenn nicht, ist hier etwas zu tun, ganz gleich was die Zahl sagt.
      */
-    const alleDurch = Boolean(abgehakt) && schonGemeldet && fertig(listenId)
+    /*
+      **Ein offener Auftrag schlägt „alles gemeldet".**
+
+      Daniel am 30.08.2026 an „Danganronpa 3 — Future & Despair": „vorher stand
+      bereits alles gemeldet, ich klick 1-12 danach steht immer noch alles
+      gemeldet." Unter dieser Adresse war der **Despair Arc** gemeldet; der
+      **Future Arc** stand als eigener Auftrag offen, und Prime führt beide auf
+      derselben Seite.
+
+      Der Abhak-Speicher kennt nur Adresse und Staffel — für ihn war die Sache
+      erledigt. Die Prüfliste weiß es besser: Steht der Auftrag, der gerade
+      verfolgt wird, noch nicht im Briefkasten, ist hier etwas zu tun.
+    */
+    const auftragOffen = (() => {
+      try {
+        const a = suchauftrag()
+        return Boolean(a?.suchUrl && !istGemeldet(a.suchUrl))
+      } catch {
+        return false
+      }
+    })()
+    const alleDurch = Boolean(abgehakt) && schonGemeldet && fertig(listenId) && !auftragOffen
 
     /**
      * Alles durch — dann gibt es hier nichts mehr zu tun.

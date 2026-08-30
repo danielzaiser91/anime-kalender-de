@@ -122,21 +122,25 @@ pruefe(
 )
 
 /*
-  Bündelung: beide Fenster. Bei Captain Tsubasa sind die gesuchten 52 die
-  ersten, beim Junior-Youth-Auftrag die letzten — dieselbe Seite, zwei richtige
-  Antworten, also zwei Knöpfe.
+  Bündelung: Prime führt mehrere Teile auf einer Seite. **Gemeldet wird alles**,
+  zugeordnet wird im Bau über die Folgentitel — Daniel am 30.08.2026: „wozu muss
+  ich 1-12 überhaupt melden wenn du die 24 bereits gemeldet und im katalog hast".
+
+  Die beiden Fenster bleiben als Rechnung stehen: Sie sagen, welcher Ausschnitt
+  gemeint sein könnte, und stehen im Diagnosebericht. Knöpfe daraus gibt es
+  nicht mehr — sie meldeten nichts und liefen in die „alles gemeldet"-Sperre.
 */
 pruefe(
-  'das vordere Fenster wird angeboten',
-  /\{ von: 1, bis: auftrag\.folgen \}/.test(quelle),
+  'das vordere Fenster wird berechnet',
+  quelle.includes('{ von: 1, bis: auftrag.folgen }'),
 )
 pruefe(
   'das hintere Fenster ebenfalls',
-  /\{ von: hier - auftrag\.folgen \+ 1, bis: hier \}/.test(quelle),
+  quelle.includes('{ von: hier - auftrag.folgen + 1, bis: hier }'),
 )
 pruefe(
-  'und beide werden als Knopf gezeichnet',
-  /for \(const b of buendel\)/.test(quelle),
+  'aber keine Bereichs-Knöpfe mehr — der Bau ordnet zu',
+  !/for (const b of buendel)/.test(quelle) && quelle.includes('entscheidet der Bau über die Folgentitel'),
 )
 pruefe(
   'der Teilungsfall bekommt eine eigene Zeile',
