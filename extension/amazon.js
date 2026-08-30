@@ -3212,7 +3212,27 @@ async function speicherSchreiben(werte) {
       die richtige Antwort — nicht gemeldet, also offen.
     */
     try {
-      if (briefkastenAdressen) return briefkastenAdressen.has(url)
+      /*
+        **Eine Suchadresse kann der Briefkasten gar nicht kennen.**
+
+        Für Titelseiten ist er die einzige Quelle, und das bleibt so — dort
+        entscheidet er auch gegen einen lokalen Vermerk (28.08.2026).
+
+        Eine Suchadresse landet dort aber nur in einem einzigen Fall: wenn
+        „nicht bei Prime" gemeldet wurde. Wer den Treffer **findet**, meldet
+        unter der Titeladresse — und die Suchadresse bleibt dem Worker
+        unbekannt. `suchAbhaken()` trug sie hilfsweise in die geholte Liste
+        ein, und der nächste Abruf warf sie sofort wieder hinaus.
+
+        Sichtbar wurde das an „Jormungand: Perfect Order": gemeldet, Knopf auf
+        „alles gemeldet", und der Sucheintrag stand weiter in der Liste
+        (Daniel, 30.08.2026).
+
+        Deshalb gilt hier beides. Das ist keine Rückkehr zum alten Zustand,
+        sondern die Trennung, die vorher fehlte: Der Briefkasten entscheidet,
+        wo er etwas wissen kann.
+      */
+      if (briefkastenAdressen?.has(url)) return true
       return Boolean(suchErledigt[url])
     } catch {
       return false
@@ -5831,13 +5851,31 @@ async function speicherSchreiben(werte) {
     const gesamtFolgen = gesehen.gesamtLautSeite ?? gesehen.gesamt
     const anteilGelesen = gesamtFolgen && gesehen?.jeFolge?.size ? gesehen.jeFolge.size / gesamtFolgen : 1
     const zuWenigGelesen = !deutsch && !bereiche && anteilGelesen < 0.34
+    /*
+      **Drei Zahlen, drei Bedeutungen — und der Text nannte nur eine davon.**
+
+      „Folge 1–11 von 15 (2 ungelesen)" stand am 30.08.2026 über „Infinite
+      Dendrogram", und nach dem Klick meldete der Knopf „13 gemeldet". Daniel:
+      „warum nicht 1-13? … was ist angekommen, warum so verwirrend auf button
+      label?"
+
+      Gerechnet war alles richtig, nur hieß jede Zahl etwas anderes:
+      **11** = Folgen mit deutschem Ton (12 und 13 sind dort die englischen
+      Einträge), **15** = Amazons Zahl für die Staffel, **13** = tatsächlich
+      gelesene Folgen. „von" stellte einen Bezug her, den es nicht gibt — es
+      las sich wie „11 von 15 gelesen".
+
+      Jetzt trägt jede Zahl ihr Wort: was deutsch ist, und was gelesen wurde.
+    */
+    const gelesenText =
+      gesamtFolgen && gesehen?.jeFolge?.size ? ` · ${gesehen.jeFolge.size} von ${gesamtFolgen} gelesen` : ''
     const sprachStand = bereiche
-      ? `🇩🇪 Folge ${bereiche}${gesamtFolgen ? ` von ${gesamtFolgen}` : ''}${lueckenText}`
+      ? `🇩🇪 Folge ${bereiche} deutsch${gelesenText}`
       : deutsch
-        ? `🇩🇪 Deutsch${lueckenText}`
+        ? `🇩🇪 Deutsch${gelesenText || lueckenText}`
         : zuWenigGelesen
           ? `? unklar — erst ${gesehen.jeFolge.size} von ${gesamtFolgen} gelesen`
-          : `✕ kein Deutsch${lueckenText}`
+          : `✕ kein Deutsch${gelesenText || lueckenText}`
     /*
       **Der Knopf nennt die Staffel, die er melden würde.**
 
