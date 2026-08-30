@@ -1,0 +1,290 @@
+{
+  "erzeugtAm": "2026-08-30T23:10:58.848Z",
+  "version": "4.0.26",
+  "adresse": "https://www.amazon.de/gp/video/detail/B0GJ7PZZNP?ref_=atv_dp_season_select_s2",
+  "zustand": {
+    "id": "B0GJ7PZZNP",
+    "listenId": "B0GJ7PZZNP",
+    "eintrag": {
+      "titel": null,
+      "ausSuche": false
+    },
+    "letzteKennung": "2|1|B0GJ7PZZNP|Sekirei",
+    "staffelKennung": "2|1|B0GJ7PZZNP|Sekirei",
+    "staffelNummer": 1,
+    "gabStaffelwechsel": true,
+    "letzteZahl": 13,
+    "letzterStand": "true|13|13|false|true|true",
+    "letzterFortschritt": "2026-08-30T23:10:35.735Z",
+    "wartetSeitMs": 23113,
+    "langsam": true,
+    "taktMs": 9.599999994039536,
+    "taktMax": 12.600000001490116,
+    "takte": 8
+  },
+  "zaehlstand": {
+    "gesamt": 13,
+    "fuerAdresse": "/gp/video/detail/B0GJ7PZZNP?ref_=atv_dp_season_select_s2",
+    "nummern": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
+    "jeFolge": [
+      [
+        1,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ],
+      [
+        2,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ],
+      [
+        3,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ],
+      [
+        4,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ],
+      [
+        5,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ],
+      [
+        6,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ],
+      [
+        7,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ],
+      [
+        8,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ],
+      [
+        9,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ],
+      [
+        10,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ],
+      [
+        11,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ],
+      [
+        12,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ],
+      [
+        0,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ],
+      [
+        13,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ]
+    ],
+    "sprachen": [
+      "Deutsch",
+      "日本語"
+    ],
+    "abschnitte": {
+      "gesamt": 1,
+      "offen": 0
+    }
+  },
+  "lage": {
+    "fehlerseite": false,
+    "regionWeg": false,
+    "nichtAbrufbar": false,
+    "stoerung": false,
+    "hatFolgenReiter": true,
+    "staffelZahl": 2,
+    "regionFolgen": [],
+    "folgenLautSeite": 13,
+    "hatLaufzeit": true
+  },
+  "istFilmSeite": false,
+  "quelltextVeraltet": false,
+  "seite": {
+    "titel": "Amazon.de: Sekirei: Pure Engagement ansehen | Prime Video",
+    "folgenImDom": 14,
+    "knopfText": "🇩🇪 Deutsch · 13 Folgen · Staffel 1 · Abo + Kauf · ⚠ Kanal · neu · melden"
+  },
+  "umfeld": {
+    "eintraegeInListe": 2,
+    "erledigteEintraege": 264,
+    "offeneSuchen": 157,
+    "suchauftrag": null,
+    "zugangsart": "abo_und_kauf",
+    "abos": [
+      "aniversede"
+    ],
+    "ueberKanal": true,
+    "teilBereich": null
+  },
+  "tagebuch": [
+    {
+      "t": "2026-08-30T23:10:27.250Z",
+      "was": "antwort",
+      "fuerAdresse": "/gp/video/detail/B0FSY8YZT9",
+      "standAdresse": null,
+      "nummern": [],
+      "anzahl": 0,
+      "ersetzt": true
+    },
+    {
+      "t": "2026-08-30T23:10:27.260Z",
+      "was": "knopftext",
+      "von": "Folgen werden geladen …",
+      "nach": "🇩🇪 Deutsch · 12 Folgen · Abo + Kauf · ⚠ Kanal · melden",
+      "gelesen": 12
+    },
+    {
+      "t": "2026-08-30T23:10:27.306Z",
+      "was": "antwort",
+      "fuerAdresse": "/gp/video/detail/B0FSY8YZT9",
+      "standAdresse": "/gp/video/detail/B0FSY8YZT9",
+      "nummern": [],
+      "anzahl": 0,
+      "ersetzt": false
+    },
+    {
+      "t": "2026-08-30T23:10:35.276Z",
+      "was": "antwort",
+      "fuerAdresse": "/gp/video/detail/B0GJ7PZZNP?ref_=atv_dp_season_select_s2",
+      "standAdresse": "/gp/video/detail/B0FSY8YZT9",
+      "nummern": [],
+      "anzahl": 0,
+      "ersetzt": false
+    },
+    {
+      "t": "2026-08-30T23:10:35.285Z",
+      "was": "knopftext",
+      "von": "✓ Staffel 1 gemeldet · weiter mit Staffel 2",
+      "nach": "🇩🇪 Deutsch · 12 Folgen · Staffel 1 · Abo + Kauf · ⚠ Kanal · melden",
+      "gelesen": 12
+    },
+    {
+      "t": "2026-08-30T23:10:35.625Z",
+      "was": "staffelwechsel",
+      "von": "?|1|B0FSY8YZT9|Sekirei",
+      "nach": "2|1|B0GJ7PZZNP|Sekirei",
+      "adresse": "?ref_=atv_dp_season_select_s2"
+    },
+    {
+      "t": "2026-08-30T23:10:35.627Z",
+      "was": "knopftext",
+      "von": "🇩🇪 Deutsch · 12 Folgen · Staffel 1 · Abo + Kauf · ⚠ Kanal · melden",
+      "nach": "🇩🇪 Deutsch · 12 Folgen · Staffel 2 · Abo + Kauf · ⚠ Kanal · neu · melden",
+      "gelesen": 12
+    },
+    {
+      "t": "2026-08-30T23:10:35.635Z",
+      "was": "antwort",
+      "fuerAdresse": "/gp/video/detail/B0GJ7PZZNP?ref_=atv_dp_season_select_s2",
+      "standAdresse": "/gp/video/detail/B0GJ7PZZNP?ref_=atv_dp_season_select_s2",
+      "nummern": [],
+      "anzahl": 0,
+      "ersetzt": false
+    },
+    {
+      "t": "2026-08-30T23:10:35.645Z",
+      "was": "wartet-auf-staffel",
+      "wartetSeitMs": 19,
+      "gesamt": 13,
+      "gelesen": 12,
+      "staffel": 2
+    },
+    {
+      "t": "2026-08-30T23:10:35.726Z",
+      "was": "antwort",
+      "fuerAdresse": "/gp/video/detail/B0GJ7PZZNP?ref_=atv_dp_season_select_s2",
+      "standAdresse": "/gp/video/detail/B0GJ7PZZNP?ref_=atv_dp_season_select_s2",
+      "nummern": [],
+      "anzahl": 0,
+      "ersetzt": true
+    },
+    {
+      "t": "2026-08-30T23:10:35.737Z",
+      "was": "wartet-auf-staffel",
+      "wartetSeitMs": 2,
+      "gesamt": 13,
+      "gelesen": 14,
+      "staffel": 2
+    },
+    {
+      "t": "2026-08-30T23:10:35.774Z",
+      "was": "antwort",
+      "fuerAdresse": "/gp/video/detail/B0GJ7PZZNP?ref_=atv_dp_season_select_s2",
+      "standAdresse": "/gp/video/detail/B0GJ7PZZNP?ref_=atv_dp_season_select_s2",
+      "nummern": [],
+      "anzahl": 0,
+      "ersetzt": false
+    },
+    {
+      "t": "2026-08-30T23:10:39.554Z",
+      "was": "knopftext",
+      "von": "Staffel wechselt — einen Moment",
+      "nach": "🇩🇪 Deutsch · 13 Folgen · Staffel 1 · Abo + Kauf · ⚠ Kanal · neu · melden",
+      "gelesen": 14
+    }
+  ]
+}
