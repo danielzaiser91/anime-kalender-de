@@ -17,6 +17,7 @@
  * Aufruf: npm run check:logic
  */
 import { readFileSync } from 'node:fs'
+import { discSlug } from './lib/util.ts'
 import { expandEvents, lastEpisodeDate, istErschienen, titleStatus } from '../shared/logic.ts'
 import {
   alsEinBlock,
@@ -2232,6 +2233,31 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
   )
   pruefe('… und vor dem Aufbau der Auslieferung', disc > 0 && disc < auslieferung)
   pruefe('die Zugangsart-Nachhut ebenso', nachhut > letzteEntfernung && nachhut < auslieferung)
+}
+
+/*
+  **Ein Disc-Slug behält sein Datum — auch bei einem sehr langen Titel.**
+
+  `slugify` kappt bei 80 Zeichen. Bei „My Gift Lvl 9999 Unlimited Gacha:
+  Backstabbed in a Backwater Dungeon, I'm Out for Revenge!" fiel damit genau
+  das Datum weg, und zwei Verkaufsstarts (08.09. und 24.09.2026) beanspruchten
+  dieselbe Adresse — `data:validate` brach ab, der Deploy stand (30.08.2026).
+
+  Vier Releases im ausgelieferten Bestand tragen solche gekappten Adressen; der
+  doppelte Slug war nur der eine Fall, der laut geworden ist.
+*/
+{
+  const lang =
+    'My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeon, I’m Out for Revenge!'
+  const a = discSlug(lang, '2026-09-08')
+  const b = discSlug(lang, '2026-09-24')
+  pruefe('ein langer Titel behält sein Datum im Slug', a.endsWith('-2026-09-08'))
+  pruefe('… und zwei Termine ergeben zwei Adressen', a !== b)
+  pruefe('… ohne die bisherige Höchstlänge zu sprengen', a.length <= 80)
+  pruefe(
+    'ein kurzer Titel bleibt unverändert',
+    discSlug('Steins;Gate 0', '2026-10-16') === 'steins-gate-0-2026-10-16',
+  )
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')

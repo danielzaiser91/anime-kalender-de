@@ -89,3 +89,20 @@ export function slugify(input: string): string {
     .replace(/^-+|-+$/g, '')
     .slice(0, 80)
 }
+
+/**
+ * Slug aus Name und Datum — das Datum bleibt, gekappt wird der Name.
+ *
+ * `slugify` schneidet bei 80 Zeichen ab, und bei langen Titeln fiel damit
+ * genau das Unterscheidungsmerkmal weg: Aus „My Gift Lvl 9999 Unlimited
+ * Gacha: Backstabbed in a Backwater Dungeon, I'm Out for Revenge!“ zum 08.09.
+ * und zum 24.09. wurde zweimal derselbe Slug, ohne jedes Datum. Vier Releases
+ * im ausgelieferten Bestand tragen solche gekappten Adressen.
+ *
+ * 69 Zeichen Name + Bindestrich + zehn Zeichen Datum ergeben dieselbe
+ * Höchstlänge wie bisher.
+ */
+export function discSlug(name: string, datum: string): string {
+  const kern = slugify(name).slice(0, 69).replace(/-+$/, '')
+  return `${kern}-${datum}`
+}

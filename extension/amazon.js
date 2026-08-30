@@ -1104,6 +1104,30 @@ async function speicherSchreiben(werte) {
   }
 
   /**
+   * Wie viele Ausgaben die Seite für die gerade gewählte Staffel führt.
+   *
+   * Prime führt dieselbe Staffel regelmäßig zweimal — bei „Mob Psycho 100 II"
+   * einmal als reinen Kauftitel, einmal über ein Kanal-Abo (Daniel,
+   * 30.08.2026). Die Zugangsart gilt dann nur für die geöffnete Ausgabe, und
+   * genau das muss am Knopf und in der Notiz stehen.
+   *
+   * **Verglichen wird als Zahl.** Der erste Anlauf nahm `staffelSchluessel()`,
+   * und der liefert einen String — `Number.isFinite('2')` ist `false`, der
+   * Zusatz konnte also nie erscheinen. An der zweiten Stelle war die Variable
+   * gar nicht im Scope; beide Zugriffe standen in einem `try`, deshalb fiel
+   * nichts auf außer der ausbleibenden Wirkung.
+   */
+  function ausgabenDieserStaffel() {
+    try {
+      const nr = Number(staffelAusAdresse() ?? staffelAusSeite())
+      if (!Number.isFinite(nr)) return 0
+      return (gesehen?.seite?.staffeln ?? []).filter((s) => s?.nummer === nr).length
+    } catch {
+      return 0
+    }
+  }
+
+  /**
    * Die Kennung zum Melden: erst die Seite, dann die Adresse.
    *
    * Die Adresse bleibt als Rückfallebene — sie stimmt, solange niemand die
@@ -5393,15 +5417,7 @@ async function speicherSchreiben(werte) {
       gemeldet wurde „nur Kauf" (Daniel, 30.08.2026). Der Zusatz steht am Knopf,
       damit das **vor** dem Klick sichtbar ist und nicht erst im Datensatz.
     */
-    const mehrereAusgaben = (() => {
-      try {
-        const nr = jetzigeStaffel
-        if (!Number.isFinite(nr)) return false
-        return (gesehen?.seite?.staffeln ?? []).filter((s) => s?.nummer === nr).length > 1
-      } catch {
-        return false
-      }
-    })()
+    const mehrereAusgaben = ausgabenDieserStaffel() > 1
     const zugang =
       (art && art !== 'abo' ? ` · ${ZUGANG_TEXT[art]}` : '') + (mehrereAusgaben ? ' (diese Ausgabe)' : '')
 
@@ -7041,14 +7057,8 @@ async function speicherSchreiben(werte) {
               Aussage über den Titel, und sie gilt nur für diese Ausgabe.
             */
             ((() => {
-              try {
-                const nr = jetzigeStaffel
-                if (!Number.isFinite(nr)) return ''
-                const gleiche = (gesehen?.seite?.staffeln ?? []).filter((s) => s?.nummer === nr).length
-                return gleiche > 1 ? `, ausgaben=${gleiche} (Zugangsart gilt nur für diese)` : ''
-              } catch {
-                return ''
-              }
+              const gleiche = ausgabenDieserStaffel()
+              return gleiche > 1 ? `, ausgaben=${gleiche} (Zugangsart gilt nur für diese)` : ''
             })()) +
             (ueberKanal()
               ? ' — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg'

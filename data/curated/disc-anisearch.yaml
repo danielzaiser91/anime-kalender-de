@@ -247,16 +247,6 @@
   schedule: { firstEpisodeDate: "2026-09-18" }
   sources: [https://www.anisearch.de/article/211704,the-ancient-magus-bride-staffel-2-gesamtausgabe-blu-ray]
 
-- slug: the-devil-is-a-part-timer-ii-2026-09-04
-  anilistId: 155168
-  titleDe: "The Devil Is a Part-Timer! II"
-  platform: disc
-  releaseType: disc
-  publisher: "Anime House GmbH"
-  edition: "Komplettset Blu-ray"
-  schedule: { firstEpisodeDate: "2026-09-04" }
-  sources: [https://www.anisearch.de/article/211703,the-devil-is-a-part-timer-staffel-2-komplettset-blu-ray]
-
 - slug: code-geass-lelouch-of-the-rebellion-2026-09-18
   anilistId: 1575
   titleDe: "Code Geass: Lelouch of the Rebellion"
@@ -396,16 +386,6 @@
   edition: "Complete Series Blu-ray"
   schedule: { firstEpisodeDate: "2026-09-08" }
   sources: [https://www.anisearch.de/article/210609,my-gift-lvl-9999-unlimited-gacha-backstabbed-in-a-backwater-dungeon-im-out-for-revenge-complete-series-blu-ray]
-
-- slug: my-gift-lvl-9999-unlimited-gacha-backstabbed-in-a-backwater-dungeon-i-m-out-for-
-  anilistId: 184322
-  titleDe: "My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeon, I’m Out for Revenge!"
-  platform: disc
-  releaseType: disc
-  publisher: "Animation Digital Network (DE)"
-  edition: "Gesamtausgabe Blu-ray"
-  schedule: { firstEpisodeDate: "2026-09-24" }
-  sources: [https://www.anisearch.de/article/206522,my-gift-lvl-9999-unlimited-gacha-backstabbed-in-a-backwater-dungeon-im-out-for-revenge-gesamtausgabe-blu-ray]
 
 - slug: kamisama-kiss-staffel-2-2026-11-15
   anilistId: 20801

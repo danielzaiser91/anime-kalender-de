@@ -1395,6 +1395,47 @@ Die beiden hinteren leiten um, aber ohne `canonical` bleibt es Googles Vermutung
 und die Search Console meldet „Seite mit Weiterleitung". Die Zeile steht im `social`-Block von
 `web/index.html`, damit `build-share-pages.ts` sie je Teilen-Seite gegen deren eigene tauscht.
 
+### Eine Kürzung, die das Datum frisst, macht aus zwei Terminen eine Adresse
+
+`slugify` schneidet bei 80 Zeichen ab. Bei „My Gift Lvl 9999 Unlimited Gacha:
+Backstabbed in a Backwater Dungeon, I'm Out for Revenge!" fiel damit genau der
+unterscheidende Teil weg — das Datum. Zwei Verkaufsstarts (08.09. und
+24.09.2026) beanspruchten dieselbe Adresse, `data:validate` brach ab, und
+**alle Deploys standen** (30.08.2026).
+
+Vier Releases im ausgelieferten Bestand tragen solche gekappten Adressen; der
+doppelte Slug war nur der eine Fall, der laut geworden ist. `discSlug()` in
+`pipeline/lib/util.ts` kappt deshalb den **Namen** und hängt das Datum danach
+an; die Höchstlänge bleibt dieselbe.
+
+**Der zweite Fall im selben Lauf war ein anderer und braucht eine andere
+Antwort.** aniSearch führt „The Devil Is a Part-Timer! II" unter einem Artikel,
+AniList dieselbe Staffel unter zwei Kennungen (130592, 155168) — gleicher Name,
+je zwölf Folgen, die geteilte Ausstrahlung von 2022 und 2023. Der naheliegende
+Riegel „ein Quellartikel, ein Eintrag" wäre falsch gewesen: Die
+Naruto-Movie-Collection ist **ein** Artikel mit acht Filmen und zwei Specials,
+und jedes Werk gehört einzeln in den Kalender. Sechs Artikel erzeugen mehrere
+Einträge, fünf davon zu Recht. Der Riegel gilt dem doppelten **Werk** (gleicher
+Slug), nicht der doppelten Quelle.
+
+### Ein Skript, das beim Laden arbeitet, darf nicht importiert werden
+
+Für die Zusicherung zu `discSlug()` habe ich die Funktion aus
+`pipeline/disc-proposals-to-yaml.ts` importiert. Das Skript ruft `main()` auf
+Modulebene auf — der Import ließ also den ganzen Konverter laufen und
+**überschrieb `data/curated/disc-anisearch.yaml` von 57 auf 4 Einträge**. Die
+Zusicherungen meldeten dabei grün.
+
+Aufgefallen ist es nur, weil danach `git diff --stat` lief. Zwei Regeln:
+
+- **Eine geteilte Funktion gehört in `lib/`**, nicht in ein Skript mit
+  Seiteneffekt. `discSlug()` steht deshalb in `pipeline/lib/util.ts`.
+- **Der Konverter ist nicht wiederholbar.** Er prüft Vorschläge gegen
+  `public/data/releases.json`, und dort stehen die Einträge, die er selbst
+  erzeugt hat — ein zweiter Lauf verwirft fast alles als „bereits bekannt".
+  Wer die YAML von Hand berichtigt, berichtigt sie und lässt den Konverter in
+  Ruhe.
+
 ## Wer die Live-Seite prüft, räumt zuerst den Service Worker ab
 
 Am 29.08.2026 zweimal in einer Stunde derselbe Fehlschluss: Ein Fix war

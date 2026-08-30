@@ -12,7 +12,7 @@
  * Aufruf: npx tsx pipeline/disc-proposals-to-yaml.ts [--out datei.yaml]
  */
 import { writeFileSync } from 'node:fs'
-import { log, readJson, slugify, warn } from './lib/util.ts'
+import { discSlug, log, readJson, warn } from './lib/util.ts'
 import type { Release, Title } from '../shared/types.ts'
 import type { DiscProposal } from './extract-disc-dates.ts'
 
@@ -92,6 +92,40 @@ function main(): void {
     releases.filter((r) => r.releaseType === 'disc').map((r) => r.name.toLowerCase()),
   )
 
+  /**
+   * Termine, die dieser Lauf selbst schon geschrieben hat — je Ausgabe.
+   *
+   * `bekannteTermine` prüft gegen den **vorhandenen** Datensatz. Zwei
+   * Vorschläge für denselben Anime prüfen sich damit nicht gegeneinander:
+   * „My Gift Lvl 9999“ kam als „Complete Series“ zum 08.09. und als
+   * „Gesamtausgabe“ zum 24.09. — zwei aniSearch-Artikel für dieselbe
+   * ADN-Ausgabe im Abstand von 16 Tagen. Dieselbe Zweimonatsschwelle gilt
+   * deshalb auch innerhalb eines Laufs.
+   *
+   * Geschlüsselt wird über **Anime und Ausgabenname**, nicht über die
+   * Anime-Kennung allein: Folgebände erscheinen im Zweimonatstakt und
+   * unterscheiden sich genau hier („… – Vol. 1" gegen „… – Vol. 2"). Über die
+   * Kennung allein würde die Schwelle sie verschlucken.
+   */
+  const eigeneTermine = new Map<string, string[]>()
+
+  /**
+   * Vergebene Slugs — ein doppelter wäre eine Adresse für zwei Termine.
+   *
+   * Der Fall ist real: aniSearch führt „The Devil Is a Part-Timer! II" unter
+   * einem Artikel (211703, Komplettset Blu-ray), AniList führt dieselbe Staffel
+   * unter zwei Kennungen (130592 und 155168) — gleicher Name, je zwölf Folgen,
+   * die geteilte Ausstrahlung von 2022 und 2023. Die Bündelung nach
+   * `titleId|datum` machte daraus zwei Einträge mit demselben Slug, und
+   * `data:validate` brach ab (30.08.2026).
+   *
+   * **Ein Artikel darf sehr wohl mehrere Einträge erzeugen** — die
+   * Naruto-Movie-Collection enthält acht Filme und zwei Specials, jeder mit
+   * eigenem Kalendereintrag. Der Riegel gilt dem doppelten *Werk*, nicht der
+   * doppelten Quelle.
+   */
+  const vergebeneSlugs = new Set<string>()
+
   const zeilen: string[] = [
     '# Disc-Termine aus dem archivierten aniSearch-Bestand.',
     '#',
@@ -142,8 +176,25 @@ function main(): void {
         ),
       ),
     ]
+    const ausgabe = `${titleId}|${name.toLowerCase()}`
+    if ((eigeneTermine.get(ausgabe) ?? []).some((d) => tage(d, datum) < NAH_TAGE)) {
+      alsDoublette++
+      continue
+    }
+
+    const slug = discSlug(name, datum)
+    if (vergebeneSlugs.has(slug)) {
+      warn(`Slug doppelt: ${slug} — Eintrag ${titleId} zum ${datum} ausgelassen`)
+      alsDoublette++
+      continue
+    }
+    vergebeneSlugs.add(slug)
+    const eigene = eigeneTermine.get(ausgabe)
+    if (eigene) eigene.push(datum)
+    else eigeneTermine.set(ausgabe, [datum])
+
     zeilen.push(
-      `- slug: ${slugify(`${name}-${datum}`)}`,
+      `- slug: ${slug}`,
       `  anilistId: ${titleId}`,
       `  titleDe: ${q(name)}`,
       '  platform: disc',
