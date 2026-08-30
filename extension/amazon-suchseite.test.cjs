@@ -779,6 +779,20 @@ const kaisenFilm = werte(
 pruefe('„The Movie“ bleibt ein eigenes Werk', kaisenFilm.befund.art !== 'genau', kaisenFilm.befund.art)
 
 /*
+  **Gattungswörter dürfen den Treffer nicht kosten.**
+
+  Unser Titel lautet „One Piece Film: Strong World", Prime schreibt „One Piece –
+  Strong World" — und der Kasten meldete „Nicht dieser Titel" (Daniel,
+  31.08.2026). Seit 4.0.23 fallen Gattungswörter aus dem Vergleich; Film und
+  Serie trennt `typPasst()` über Amazons Kartentyp.
+*/
+const opFilm = werte(
+  [{ label: 'Beste Ergebnisse', karten: [karte('One Piece – Strong World', 'Movie', 'Entitled', 'B0BBBD2222')] }],
+  { titel: 'One Piece Film: Strong World', folgen: 1 },
+)
+pruefe('„Film" im Titel kostet den Treffer nicht', opFilm.befund.art === 'genau', opFilm.befund.art)
+
+/*
   **Der AniList-Verweis haengt an hinweisKasten, nicht an einer Aufrufstelle.**
 
   Er stand seit 3.80 nur im Auftragshinweis der Titelseite — gebraucht wird er

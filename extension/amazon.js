@@ -1871,12 +1871,32 @@ async function speicherSchreiben(werte) {
   */
   const REIHENFOLGE_SPERRE =
     /^(final|last|first|second|third|next|new|season|staffel|movie|film|part|teil|cour|chapter|kapitel|special|recap|origin|beginning|end|ending|zero|remake|reboot)$/i
+  /**
+   * **Gattungswörter sagen nichts über das Werk.**
+   *
+   * Daniel am 31.08.2026: „remove special characters from matching, just match
+   * with words. instead of 'One Piece Film: Strong World' -> 'One Piece Strong
+   * World'. remove generics and special characters."
+   *
+   * Sonderzeichen fielen schon vorher weg — der Split trennt an allem, was kein
+   * Buchstabe und keine Ziffer ist. Die Gattungswörter blieben und haben den
+   * Vergleich gekippt: Unser Titel führt „Film", Prime schreibt „One Piece –
+   * Strong World", und schon zählte der Auftrag ein Wort mehr als die Karte.
+   *
+   * **Film und Serie trennt trotzdem niemand mehr über den Titel** — das macht
+   * `typPasst()` über Amazons `data-card-entity-type`. Ein Datenfeld schlägt ein
+   * Textmuster, hier wie überall in diesem Projekt.
+   */
+  const GATTUNG = new Set([
+    'film', 'movie', 'serie', 'series', 'anime', 'staffel', 'season',
+    'komplett', 'komplette', 'complete', 'gesamtausgabe', 'edition',
+  ])
   const titelWorte = (t) =>
     (t ?? '')
       .toLowerCase()
       .replace(/\b(staffel|season|vol\.?|volume|teil|part)\s*\d+\b/g, ' ')
       .split(/[^a-z0-9]+/)
-      .filter((w) => w.length > 2)
+      .filter((w) => w.length > 2 && !GATTUNG.has(w))
   /*
     **Nicht jedes fremde Wort unterscheidet.** „Code Geass: Akito the Exiled —
     Memories of Hatred" gegen die Prime-Karte „… Akito the Exiled 4 — From the
