@@ -7448,6 +7448,30 @@ async function speicherSchreiben(werte) {
              */
             (zugangsart() ? `, zugang=${zugangsart()}` : '') +
             /*
+              **Die Regionssperre gehört in die Meldung, auch wenn Folgen übrig sind.**
+
+              Daniel am 31.08.2026 an „Shakugan no Shana": Die Seite trägt oben
+              und unter Folge 1 „In deiner Region nicht mehr auf Prime Video
+              verfügbar", die Meldung ging trotzdem als `dub` mit
+              `zugang=abo_und_kauf` heraus — ohne jeden Hinweis darauf.
+
+              Der Knopf urteilt zu Recht so: `regionWeg` gilt erst, wenn **keine**
+              Folge mehr abrufbar ist (bei „Chaika" waren es 12 von 24, und die
+              übrigen 12 laufen). Hier sind alle 24 lesbar, weil der Titel
+              **kaufbar** bleibt — weg ist nur das Abo.
+
+              Für die Sprachfrage ändert das nichts, für die Zugangsart schon.
+              Der Vermerk steht deshalb in der Notiz, statt den Befund zu kippen:
+              „deutsch" bleibt wahr, „im Abo" womöglich nicht.
+            */
+            (() => {
+              try {
+                return seitenLage().regionWeg ? ', regionsperre=laut Seite nicht mehr im Abo' : ''
+              } catch {
+                return ''
+              }
+            })() +
+            /*
               Die übrigen Ausgaben derselben Suche, maschinenlesbar. Der
               Listengenerator macht daraus eigene Aufträge; ohne sie bliebe die
               zweite Ausgabe für immer ungeprüft.
