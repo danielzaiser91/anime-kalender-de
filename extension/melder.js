@@ -694,10 +694,39 @@ function knopfZeigen() {
     knopf.hidden = false
     knopf.disabled = true
     knopf.className = 'ak-melder ak-leer'
-    knopf.textContent = 'Steht nicht auf der Prüfliste'
-    knopf.title =
-      'Zu dieser Netflix-Kennung gibt es keinen offenen Auftrag. Häufigster Grund: ' +
-      'Der Titel aus der Liste liegt unter einer anderen Kennung — dann über den Link in der Liste öffnen.'
+    /*
+      **Netflix leitet um — und dann sah es aus, als hätte Daniel falsch
+      geklickt.**
+
+      Der Bericht vom 30.08.2026 zeigt beides nebeneinander: `zuletztGeoeffnet`
+      steht auf `81670593` (dem Auftrag aus der Liste), die Adresse auf
+      `81706101` — einer anderen Pokémon-Reihe. Der Klick war also richtig, die
+      Weiterleitung kam von Netflix. Dazu `stoerung: "M7355"`, Netflix' Code für
+      „nicht verfügbar".
+
+      Ein „Steht nicht auf der Prüfliste" beschreibt zwar die Lage, gibt aber
+      dem Falschen die Schuld. Wo der Auftrag bekannt ist, sagt der Knopf, was
+      wirklich passiert ist.
+    */
+    const kamAusListe = (() => {
+      try {
+        return Boolean(
+          zuletztGeoeffnet?.id &&
+            offeneTitel[zuletztGeoeffnet.id] !== undefined &&
+            String(zuletztGeoeffnet.id) !== String(stand.reihe) &&
+            Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 5 * 60 * 1000,
+        )
+      } catch {
+        return false
+      }
+    })()
+    knopf.textContent = kamAusListe ? 'Netflix hat weitergeleitet — anderer Titel' : 'Steht nicht auf der Prüfliste'
+    knopf.title = kamAusListe
+      ? `Geöffnet war „${offeneTitel[zuletztGeoeffnet.id]?.titel ?? zuletztGeoeffnet.id}", ` +
+        'Netflix hat auf eine andere Kennung umgeleitet. Der Titel wird hier nicht geführt — ' +
+        'in der Prüfliste über „nichts da?" abhaken, wenn die Suche ihn auch nicht findet.'
+      : 'Zu dieser Netflix-Kennung gibt es keinen offenen Auftrag. Häufigster Grund: ' +
+        'Der Titel aus der Liste liegt unter einer anderen Kennung — dann über den Link in der Liste öffnen.'
     return
   }
   if (!reihe && !spuren) {
@@ -2727,6 +2756,30 @@ function pfadPruefen() {
 }
 window.addEventListener('popstate', pfadPruefen)
 setInterval(pfadPruefen, 1000)
+
+/**
+ * **Der Melde-Knopf gehört in den Takt, nicht nur an eine Nachricht.**
+ *
+ * Er wurde bisher allein aus dem Nachrichtenempfänger gezeichnet — also nur,
+ * wenn der Leser etwas meldet. Auf einer Titelseite ohne Player kommt keine
+ * Nachricht, und damit lief `knopfZeigen()` dort nie.
+ *
+ * Sichtbar wurde das an „Pokémon" (Daniel, 30.08.2026, mit Diagnosebericht):
+ * `istGesucht: false`, also hätte seit 3.99 „Steht nicht auf der Prüfliste"
+ * dastehen müssen — im Bericht steht `knopf: null`. Nicht die Beschriftung
+ * fehlte, sondern der Aufruf.
+ *
+ * Ein eigener Takt und nicht in `pfadPruefen`: Das steigt bei unverändertem
+ * Pfad sofort aus, und genau dort steht der Fall — dieselbe Seite, nur die
+ * Prüfliste kommt Sekunden später aus dem Speicher.
+ */
+setInterval(() => {
+  try {
+    knopfZeigen()
+  } catch {
+    /* Vor dem Laden des Speichers gibt es noch nichts zu zeichnen. */
+  }
+}, 1000)
 
 /**
  * Der erste Blick wartet auf den gespeicherten Stand.
