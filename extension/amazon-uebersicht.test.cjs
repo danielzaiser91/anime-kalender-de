@@ -1138,6 +1138,40 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
       )
     }
 
+    /*
+      **Nichts schreiben, was sich nicht geändert hat.**
+
+      Daniel am 30.08.2026, mit Videomitschnitt aus dem Elements-Tab: „im
+      element tab flackern die elemente der extension, warum ist das per
+      intervall statt per eventing gemacht?"
+
+      Der Takt war nicht die Ursache. `zeichnen()` steigt aus, wenn sich der
+      Stand nicht geändert hat — nur liefen die Zuweisungen davor jedes Mal
+      durch. Allen voran `dataset.diag`: Es trug vier Taktmesswerte, die sich
+      zweimal je Sekunde ändern.
+
+      Verhaltensecht ist das schwer zu messen (der Elements-Tab lässt sich nicht
+      nachbauen). Am Quelltext ist es ablesbar, und die beiden Regeln sind die
+      ganze Aussage.
+    */
+    {
+      const quelle = readFileSync(__dirname + '/amazon.js', 'utf8')
+      const diagBlock = quelle.slice(quelle.indexOf("setzData(knopf, 'diag'"), quelle.indexOf("setzData(knopf, 'diag'") + 2000)
+      pruefe(
+        'die Diagnose am Knopf trägt keine Taktmesswerte mehr',
+        !/taktMs:|taktSchnitt:|taktMax:/.test(diagBlock),
+      )
+      pruefe('sie wird nur bei Änderung geschrieben', /setzData\(knopf, 'diag'/.test(quelle))
+      pruefe(
+        'die Schutzfläche setzt ihre Maße nur bei Änderung',
+        !/schutzflaeche\.style\.(left|top|right|bottom|width|height) =/.test(quelle),
+      )
+      pruefe(
+        'der Übersichts-Knopf schreibt Text und Tooltip nur bei Änderung',
+        !/uebersichtKnopf\.(textContent|title) =/.test(quelle),
+      )
+    }
+
     console.log()
     if (fehler.length) {
       console.error(`${fehler.length} Zusicherung(en) verletzt.`)

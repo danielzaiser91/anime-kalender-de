@@ -3439,7 +3439,7 @@ async function speicherSchreiben(werte) {
     // Nach einem Neuladen der Erweiterung ist die Verbindung weg. Das
     // gehoert an den Knopf, sonst klickt Daniel ins Leere.
     if (!verbindungLebt()) {
-      uebersichtKnopf.textContent = 'Erweiterung neu geladen — Seite aktualisieren'
+      setz(uebersichtKnopf, 'textContent', 'Erweiterung neu geladen — Seite aktualisieren')
       uebersichtKnopf.classList.add('ak-fertig')
       return
     }
@@ -3452,16 +3452,24 @@ async function speicherSchreiben(werte) {
       Titelseite liest die Erweiterung selbst, eine Suchadresse verlangt, den
       richtigen Treffer herauszusuchen.
     */
-    uebersichtKnopf.textContent = gesamt
+    setz(
+      uebersichtKnopf,
+      'textContent',
+      gesamt
       ? suchen && offen
         ? `${offen} Prime-Titel · ${suchen} Suchen offen`
         : suchen
           ? `${suchen} Prime-Suchen offen`
           : `${offen} Prime-Titel offen`
-      : 'Prime: alles geprüft'
-    uebersichtKnopf.title = gesamt
-      ? 'Liste öffnen — Seite aufrufen, warten bis der Knopf eine Zahl zeigt, klicken'
-      : 'Keine offenen Prime-Titel mehr'
+      : 'Prime: alles geprüft',
+    )
+    setz(
+      uebersichtKnopf,
+      'title',
+      gesamt
+        ? 'Liste öffnen — Seite aufrufen, warten bis der Knopf eine Zahl zeigt, klicken'
+        : 'Keine offenen Prime-Titel mehr',
+    )
     if (dialog) dialogFuellen()
   }
   uebersichtZeichnen()
@@ -4586,6 +4594,35 @@ async function speicherSchreiben(werte) {
   }
 
 
+  /**
+   * Setzt ein Attribut nur, wenn es sich unterscheidet.
+   *
+   * Daniel am 30.08.2026, mit Videomitschnitt aus dem Elements-Tab: „im element
+   * tab flackern die elemente der extension, warum ist das per intervall statt
+   * per eventing gemacht?"
+   *
+   * Der Takt war nicht die Ursache — `zeichnen()` steigt seit jeher aus, wenn
+   * sich der Stand nicht geändert hat. Die Zuweisungen **davor** liefen aber
+   * jedes Mal durch, allen voran `dataset.diag` mit den Taktmesswerten: vier
+   * Zahlen, die sich zweimal je Sekunde ändern, in ein Attribut geschrieben,
+   * das der Elements-Tab bei jeder Berührung aufblinken lässt.
+   *
+   * Eine Zuweisung mit gleichem Wert ist keine leere Anweisung: `textContent`
+   * ersetzt den Textknoten, `dataset.x` setzt das Attribut neu, `style.x`
+   * schreibt das Style-Attribut. Der Browser sieht eine Mutation, wo keine ist —
+   * und jeder MutationObserver auf der Seite auch.
+   */
+  function setz(el, feld, wert) {
+    if (el[feld] !== wert) el[feld] = wert
+  }
+  function setzData(el, feld, wert) {
+    const text = String(wert)
+    if (el.dataset[feld] !== text) el.dataset[feld] = text
+  }
+  function setzStil(el, feld, wert) {
+    if (el.style[feld] !== wert) el.style[feld] = wert
+  }
+
   function zeichnen() {
     /*
       **Auf einer Suchseite gibt es nichts zu melden — in jedem Takt.**
@@ -4883,7 +4920,7 @@ async function speicherSchreiben(werte) {
      * Das kostet einen `JSON.stringify` je Takt über ein Objekt mit sieben
      * Zahlen — nichts gegen den Quelltext, der ohnehin gelesen wird.
      */
-    knopf.dataset.diag = JSON.stringify({
+    setzData(knopf, 'diag', JSON.stringify({
       folgen: gesehen.nummern.size,
       gesamt: gesehen.gesamt,
       sprachen: [...gesehen.sprachen],
@@ -4903,11 +4940,18 @@ async function speicherSchreiben(werte) {
       // damit die Diagnose nicht zweimal dieselbe Quelle zeigt.
       asinGemischt: asin(),
       quelltextZeichen: seitenHtml().length,
-      taktMs: Math.round(taktMs * 100) / 100,
-      taktSchnitt: takte ? Math.round((taktSumme / takte) * 100) / 100 : 0,
-      taktMax: Math.round(taktMax * 100) / 100,
-      takte,
-    })
+      /*
+        **Die Taktmesswerte stehen hier nicht mehr.**
+
+        `taktMs`, `taktSchnitt`, `taktMax` und `takte` ändern sich bei jedem
+        Durchlauf. In einem DOM-Attribut heißt das: zweimal je Sekunde eine
+        Mutation, auch wenn fachlich nichts passiert ist — im Elements-Tab ein
+        Dauerflackern (Daniel, 30.08.2026, mit Video).
+
+        Gebraucht werden sie im Diagnosebericht, und dort stehen sie weiterhin.
+        Ein Attribut ist zum Nachsehen da, nicht zum Mitschreiben.
+      */
+    }))
     const deutsch = [...gesehen.sprachen].some((s) => /deutsch|german/i.test(s))
     const geladen = geladeneFolgen()
     if (geladen !== letzteZahl) {
@@ -6507,11 +6551,11 @@ async function speicherSchreiben(werte) {
     }
     if (links === Infinity) {
       /* Nichts von uns sichtbar — dann schützt die Fläche auch nichts. */
-      schutzflaeche.style.display = 'none'
+      setzStil(schutzflaeche, 'display', 'none')
       return
     }
 
-    schutzflaeche.style.display = ''
+    setzStil(schutzflaeche, 'display', '')
     /*
       **Zur Ecke hin bis zum Rand, nach links mit Anlauf.**
 
@@ -6526,12 +6570,12 @@ async function speicherSchreiben(werte) {
       eine Fläche über den halben Bildschirm nähme mehr, als sie schützt.
     */
     const ANLAUF_LINKS = 100
-    schutzflaeche.style.left = `${Math.max(0, links - ANLAUF_LINKS)}px`
-    schutzflaeche.style.top = `${Math.max(0, oben - SCHUTZ_RAND)}px`
-    schutzflaeche.style.right = '0px'
-    schutzflaeche.style.bottom = '0px'
-    schutzflaeche.style.width = 'auto'
-    schutzflaeche.style.height = 'auto'
+    setzStil(schutzflaeche, 'left', `${Math.max(0, links - ANLAUF_LINKS)}px`)
+    setzStil(schutzflaeche, 'top', `${Math.max(0, oben - SCHUTZ_RAND)}px`)
+    setzStil(schutzflaeche, 'right', '0px')
+    setzStil(schutzflaeche, 'bottom', '0px')
+    setzStil(schutzflaeche, 'width', 'auto')
+    setzStil(schutzflaeche, 'height', 'auto')
   }
 
   function taktSchritt() {

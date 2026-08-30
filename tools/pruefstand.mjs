@@ -63,6 +63,23 @@ const ANBIETER = [
     /* Dieselbe Regel wie in `extension-offene-amazon.mjs`: /dp/ oder /detail/, 10–32 Zeichen. */
     kennung: (u) => /\/(?:dp|detail)\/([A-Z0-9]{10,32})/.exec(u)?.[1],
     offene: (wert) => (wert.eintraege ?? []).filter((e) => e.offen).length,
+    /*
+      **Die Suchaufträge werden gezählt, nicht nachgerechnet.**
+
+      `ohneSeite` entstand bisher aus `titles.json`: jeder Prime-Verweis, dessen
+      Adresse keine Kennung trägt. Die Erweiterung führt aber eine eigene Liste
+      — `offene-amazon-suche.js`, erzeugt von `extension-offene-amazon.mjs`, mit
+      Fortsetzungen aussortiert und TMDB-Vorschlägen ergänzt.
+
+      Zwei Rechnungen für dieselbe Sache laufen auseinander, und am 30.08.2026
+      taten sie es sichtbar: Die Statusanzeige schrieb „58 Suchen", die
+      Erweiterung im selben Moment „122 von 176 offen" (Daniel: „wieso die
+      diskrepanz? es sollte synchron sein").
+
+      Maßgeblich ist die Liste, die Daniel wirklich abarbeitet.
+    */
+    suchdatei: 'extension/offene-amazon-suche.js',
+    suchglobal: 'AK_PRIME_SUCHE',
   },
   {
     name: 'Netflix',
@@ -141,6 +158,13 @@ const stand = ANBIETER.map((a) => {
     .map(([schluessel, wert]) => ({ url: a.ziel(schluessel, wert), titel: wert?.titel ?? null }))
     .filter((z) => z.url)
 
+  /*
+    Wo es eine Suchliste gibt, ist sie die Wahrheit über die Suchaufträge — die
+    Zählung über `titles.json` bleibt für die Anbieter ohne eine solche Liste.
+  */
+  const suchAdressen = a.suchdatei ? Object.keys(listeLesen(a.suchdatei, a.suchglobal)) : null
+  if (suchAdressen) ohneSeite = suchAdressen.length
+
   const [schluessel, wert] = liste[0] ?? []
   return {
     name: a.name,
@@ -151,6 +175,12 @@ const stand = ANBIETER.map((a) => {
     offen,
     /* Verweise ohne Titelseite — nicht prüfbar, deshalb außerhalb der Rechnung. */
     ohneSeite,
+    /*
+      Die Adressen selbst, damit der Worker abziehen kann, was schon gemeldet
+      ist — dieselbe Rechnung wie bei `ziele`, und dieselbe, die die
+      Erweiterung mit `suchOffen()` macht.
+    */
+    ...(suchAdressen ? { suchAdressen } : {}),
     ziel: schluessel ? a.ziel(schluessel, wert) : null,
     ziele,
     /* Der Name des ersten offenen Eintrags — er steht als Titel am Knopf. */

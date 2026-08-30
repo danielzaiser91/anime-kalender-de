@@ -1715,6 +1715,7 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
           gesamt: number
           gemeldet: number
           ohneSeite?: number
+          suchAdressen?: string[]
           ziele?: { url: string; titel: string }[]
         }
         const unterwegs = gemeldeteAdressen.get(a.plattform) ?? new Set<string>()
@@ -1755,7 +1756,22 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
            * Anbieter mit dreistelliger offener Arbeit (Daniel, 27.08.2026:
            * „wieso steht in status app oben keine klickbare pill?").
            */
-          ohneSeite: a.ohneSeite ?? 0,
+          /*
+            Abgezogen wird, was schon gemeldet ist — sonst zählt die Anzeige
+            Arbeit mit, die längst getan ist.
+
+            Am 30.08.2026 stand in der Statusanzeige „58 Suchen", in der
+            Erweiterung im selben Moment „122 von 176 offen" (Daniel: „wieso die
+            diskrepanz? es sollte synchron sein"). Zwei Ursachen hintereinander:
+            Der Prüfstand rechnete die Suchaufträge selbst nach, statt die Liste
+            zu zählen, die Daniel abarbeitet — und hier wurde nichts abgezogen.
+
+            Beide sind behoben. `suchAdressen` trägt die Liste, `suchOffen()` in
+            der Erweiterung macht dieselbe Rechnung.
+          */
+          ohneSeite: a.suchAdressen
+            ? a.suchAdressen.filter((u) => !schonGemeldet.has(u)).length
+            : (a.ohneSeite ?? 0),
           ziel: offeneZiele[0]?.url ?? null,
           ziele: offeneZiele,
         }
