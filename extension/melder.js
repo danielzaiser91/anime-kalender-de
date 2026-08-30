@@ -792,20 +792,28 @@ function knopfZeigen() {
         return false
       }
     })()
-    /*
-      Einmal je Seitenaufruf nachsehen, ob eine unserer Kennungen hierher
-      leitet. Läuft im Hintergrund; findet sie etwas, zeichnet sie den Knopf
-      selbst neu.
-    */
-    void weiterleitungenSuchen()
     knopf.textContent = kamAusListe ? 'Weitergeleitet — Auftrag abgelaufen' : 'Steht nicht auf der Prüfliste'
+    /*
+      **Der Klick aus der Liste ist der einzige Weg — gemessen, nicht gewählt.**
+
+      Am 30.08.2026 versucht, die Weiterleitung selbst zu finden: ein `fetch`
+      auf `/title/<id>`, der dem Redirect folgt. Netflix leitet aber **nicht**
+      per HTTP um — der Abruf landet auf `/de-en/unsupportedbrowser`, und die
+      Zuordnung entsteht erst im Browser, im JavaScript. Derselbe Befund wie
+      beim Player-Manifest: Was Netflix im Client entscheidet, ist von außen
+      nicht zu lesen.
+
+      Also bleibt der Klick, und der Tooltip sagt es geradeheraus statt eine
+      Automatik anzudeuten, die es nicht gibt.
+    */
     knopf.title = kamAusListe
       ? `Geöffnet war „${offeneTitel[zuletztGeoeffnet.id]?.titel ?? zuletztGeoeffnet.id}", und Netflix hat ` +
         'auf eine andere Kennung geleitet — das ist oft richtig, wenn der Titel eine Folge innerhalb ' +
-        'einer Reihe ist. Erkannt wird das nur in der ersten Minute nach dem Klick; danach über den ' +
-        'Link in der Liste neu öffnen.'
-      : 'Zu dieser Netflix-Kennung gibt es keinen offenen Auftrag. Häufigster Grund: ' +
-        'Der Titel aus der Liste liegt unter einer anderen Kennung — dann über den Link in der Liste öffnen.'
+        'einer Reihe ist. Einmal über den Link in der Prüfliste öffnen; danach ist die Zuordnung ' +
+        'dauerhaft gemerkt.'
+      : 'Zu dieser Netflix-Kennung gibt es keinen offenen Auftrag. Häufigster Grund: Der Titel aus ' +
+        'der Liste liegt unter einer anderen Kennung — einmal über den Link in der Prüfliste öffnen, ' +
+        'dann sitzt die Zuordnung dauerhaft.'
     return
   }
   if (!reihe && !spuren) {
@@ -3185,59 +3193,3 @@ try {
   /* Ohne document gibt es nichts zu berichten. */
 }
 
-/**
- * **Weiterleitungen selbst herausfinden — ohne auf einen Klick zu warten.**
- *
- * Daniel am 30.08.2026: „ich hab nur die overview neugeladen nicht den link in
- * prüfliste angeklickt, damit hätte es bestimmt geklappt, aber es soll auch so
- * klappen."
- *
- * Er hat recht. Die Erkennung über `zuletztGeoeffnet` braucht einen frischen
- * Klick; wer die Seite offen hat und nur neu lädt, bekommt sie nie. Vier
- * Diagnoseberichte an einem Nachmittag gingen darauf zurück.
- *
- * Der Weg dahin ist billig: Steht die geöffnete Kennung nicht auf der Liste,
- * wird **einmal** geprüft, ob eine unserer Kennungen hierher leitet. Netflix
- * beantwortet das mit einer Weiterleitung auf `/title/<ziel>`, und der Abruf
- * läuft in Daniels angemeldeter Sitzung — dieselbe Anfrage, die ein Klick
- * auslösen würde.
- *
- * **Drei Riegel, damit daraus keine Abruflawine wird:**
- *
- * - nur, wenn die aktuelle Seite **nicht** auf der Liste steht
- * - nur für Kennungen, zu denen noch **keine** Weiterleitung bekannt ist
- * - höchstens einmal je Seitenaufruf, und die Liste ist ohnehin klein
- *
- * Das Ergebnis landet in `netflixWeiterleitungen` und gilt dann dauerhaft.
- */
-let weiterleitungenGeprueft = false
-async function weiterleitungenSuchen() {
-  if (weiterleitungenGeprueft) return
-  weiterleitungenGeprueft = true
-  try {
-    const hier = String(stand.reihe ?? '')
-    if (!hier || offeneTitel[hier] !== undefined) return
-    const offen = Object.keys(offeneTitel).filter((id) => !netflixWeiterleitungen[hier] && id !== hier)
-    if (!offen.length || offen.length > 25) return
-    for (const id of offen) {
-      let ziel = null
-      try {
-        const antwort = await fetch(`https://www.netflix.com/title/${id}`, { redirect: 'follow' })
-        ziel = /\/title\/(\d+)/.exec(antwort.url)?.[1] ?? null
-      } catch {
-        continue
-      }
-      if (!ziel || ziel === id) continue
-      netflixWeiterleitungen = { ...netflixWeiterleitungen, [ziel]: id }
-      void chrome.storage.local.set({ netflixWeiterleitungen })
-      console.log(`[Anime-Kalender] Netflix leitet ${id} auf ${ziel} — Zuordnung gemerkt.`)
-      if (ziel === hier) {
-        knopfZeigen()
-        durchlaufKnopfZeigen()
-        return
-      }
-    }
-  } catch {
-    /* Ohne Netz bleibt es beim bisherigen Verhalten. */
-  }
-}

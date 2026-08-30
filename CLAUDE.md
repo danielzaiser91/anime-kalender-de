@@ -2252,3 +2252,22 @@ zwei Stunden auseinander.
 Ab 4.0.0 gilt: **die letzte Stelle zählt hoch** (4.0.1, 4.0.2, …). Die mittlere
 bewegt sich nur bei einem Umbau, der die Bedienung ändert — die vordere nur,
 wenn nichts mehr so funktioniert wie vorher.
+
+### Netflix leitet im Browser um, nicht per HTTP
+
+Am 30.08.2026 versucht, die Weiterleitung von `81670593` („Pokémon: Blauer
+Himmel in der Ferne!") auf `81706101` („Ultimative Reisen") selbst zu finden —
+ein `fetch` auf `/title/<id>` mit `redirect: 'follow'`. Gemessen:
+
+    Status: 200
+    Ziel:   https://www.netflix.com/de-en/unsupportedbrowser
+    Redirects: 2
+
+**Netflix leitet nicht auf den Zieltitel um.** Die Zuordnung entsteht erst im
+Browser, im JavaScript der Anwendung — derselbe Befund wie beim Player-Manifest
+und bei der Folgenliste: Was Netflix im Client entscheidet, ist von außen nicht
+zu lesen.
+
+Damit bleibt der **Klick aus der Prüfliste** der einzige Weg, eine Weiterleitung
+zu erkennen. Er wird seit 4.0.3 dauerhaft gemerkt (`netflixWeiterleitungen`),
+also genügt er einmal je Titel; ein Reload danach ändert nichts mehr.
