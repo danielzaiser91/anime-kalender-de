@@ -4509,10 +4509,24 @@ async function speicherSchreiben(werte) {
     const e = erledigt[listenId]
     return [
       `Listeneintrag: ${listenId}${liste[listenId] ? '' : ' (nicht in der Liste)'}`,
-      `Staffel: ${staffelSchluessel()} (Adresse ${staffelAusAdresse() ?? '—'}, Seite ${staffelAusSeite() ?? '—'})`,
-      `gemeldet: ${Object.keys(staffelnDerSerie(listenId)).join(', ') || '—'} von ${gesamtDerSerie(listenId)}`,
+      /*
+        **Was der Band heißt, steht vor dem, wonach er sortiert wird.**
+
+        Daniel am 30.08.2026 an „Pokémon — Staffel 20 Teil 1": „tooltip sagt
+        staffel 2001 adresse 2001 seite 201? evtl ist es doch richtig, aber
+        liest sich komisch."
+
+        Es war richtig und trotzdem unlesbar. 2001 und 201 sind Amazons
+        **Sortierschlüssel**, keine Staffelnummern — dieselbe Beobachtung wie
+        bei „Yu-Gi-Oh! ZEXAL", wo Band 1 und Band 2 derselben Staffel als 101
+        und 1 nebeneinander stehen (CLAUDE.md, 25.08.2026). Der Name, den die
+        Seite selbst führt, sagt dagegen genau, wo man ist.
+      */
+      `Staffel: ${gemeldeterBand ?? staffelSchluessel()}`,
+      `  Sortierschlüssel — Adresse ${staffelAusAdresse() ?? '—'}, Seite ${staffelAusSeite() ?? '—'}`,
+      `gemeldet: ${Object.keys(staffelnDerSerie(listenId)).join(', ') || '—'} von ${gesamtDerSerie(listenId)} (Amazons Staffelzählung)`,
       `Serie im Bestand: ${e?.serie ?? '—'} · Seitentitel: ${seitenTitel() ?? '—'}`,
-      `Folgen: ${gesehen.nummern.size} von ${gesehen.gesamt ?? '?'}`,
+      `Folgen: ${gesehen.nummern.size} gelesen, ${gesehen.gesamt ?? '?'} laut Seite`,
     ].join(String.fromCharCode(10))
   }
 
