@@ -76,7 +76,8 @@
     "data:start-liste": "tsx pipeline/report-start.ts",
     "data:cr-einzelwerke": "node pipeline/fetch-cr-einzelwerke.mjs",
     "data:cr-filmbloecke": "node pipeline/fetch-cr-filmbloecke.mjs",
-    "data:cr-katalog": "node pipeline/fetch-cr-katalog.mjs"
+    "data:cr-katalog": "node pipeline/fetch-cr-katalog.mjs",
+    "data:rtlplus:katalog": "node pipeline/fetch-rtlplus-katalog.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",

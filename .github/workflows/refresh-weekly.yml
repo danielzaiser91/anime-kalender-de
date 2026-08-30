@@ -336,6 +336,17 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:netflix-rest && npm run data:rtlplus:report && npm run data:wiedervorlage
 
+      # RTL+ bietet seinen Katalog selbst als Sitemap an — `Allow: /` in der
+      # robots.txt, keine einzige namentliche Bot-Sperre (geprüft 30.08.2026).
+      # 211 Teilkarten à 1000 Adressen, 400 ms auseinander: rund anderthalb
+      # Minuten für einen Abgleich, der bis dahin von Hand lief. Wöchentlich,
+      # weil ein Katalog sich langsam bewegt.
+      - name: RTL+-Katalog über die Sitemaps abgleichen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:rtlplus:katalog
+
       - name: Fortschritt — YouTube-Verweise auf Titel, Kanal und Kaufangebot
         continue-on-error: true
         env:

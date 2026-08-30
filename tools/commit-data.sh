@@ -176,6 +176,11 @@ QUELLEN=(
   data/youtube-befunde.json
   # Dasselbe für RTL+: welche Adresse lebt, welche leitet auf die Startseite um.
   data/rtlplus-befunde.json
+  # Der Abgleich gegen RTL+' eigene Sitemaps (30.08.2026). Deren robots.txt lädt
+  # ausdrücklich dazu ein — `Allow: /`, keine einzige namentliche Bot-Sperre —
+  # und der Katalog führt weit mehr als die 40 Verweise, die wir bis dahin
+  # hatten. Ohne diese Zeile wäre der Lauf in jedem CI-Durchgang umsonst.
+  data/rtlplus-katalog.json
   # Die Neuzugänge der Streaming Availability API, ein Abruf am Tag gegen ein
   # Monatskontingent von 1.000. Ohne diese Zeile war der teuerste Lauf im
   # Projekt der einzige ohne Gedächtnis.
