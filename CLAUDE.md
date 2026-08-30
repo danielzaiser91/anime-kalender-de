@@ -2211,3 +2211,29 @@ Dieselbe Regel wie bei den Zeilenenden (`sed -i` auf CRLF, 12.08.2026): Ein
 Werkzeug, das nebenbei die ganze Datei anfasst, kostet mehr, als es einspart.
 Wird Prettier je eingeführt, dann mit Konfiguration und als **eigener** Commit
 über den ganzen Bestand.
+
+### Netflix leitet auf die Reihe um — und das ist meistens richtig
+
+„Pokémon: Blauer Himmel in der Ferne!" liegt bei uns unter `81670593`; ein Klick
+dort landet auf `81706101`, „Pokémon: Ultimative Reisen: Die Serie". Das sah nach
+einem falschen Titel aus und war keiner: Der Titel ist **Folge 46a** und wird
+international als Abschluss der 25. Staffel geführt; genau diese Teilstaffel
+nennt Netflix im deutschsprachigen Raum so (nachgeschlagen 30.08.2026 bei
+fernsehserien.de und PokéWiki, japanische Erstausstrahlung 23.12.2022, deutsche
+Fassung 09.10.2023).
+
+**Ein Namensvergleich kann das nicht entscheiden.** Die Namen sind verschieden,
+und bei einer Folge innerhalb einer Reihe ist das der Normalfall. Dieselbe Lücke
+war bei Disney+ schon aufgefallen (siehe oben, 26.08.2026), dort mit demselben
+Griff gelöst: Wer aus der Prüfliste öffnet, hinterlegt, welcher Titel gemeint
+war, und die Zielseite erbt ihn.
+
+Zwei Riegel halten das eng:
+
+- **Eine Minute, nicht fünf**, und nur bei einer *anderen* Kennung. Eine
+  Weiterleitung passiert im selben Atemzug wie der Klick; was danach selbst
+  angesteuert wird, ist keine.
+- **Kein Durchlauf auf einer geerbten Seite.** Der Auftrag meint eine Folge, die
+  Reihe hat 54 — ein Durchlauf wäre dreiundfünfzigmal Arbeit und
+  dreiundfünfzig Meldungen unter einer Adresse, die eine einzige meint. Dort
+  bleibt es bei der Handmeldung.

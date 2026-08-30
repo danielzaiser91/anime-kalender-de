@@ -250,13 +250,46 @@ function nameStimmt() {
  * aus der Liste heraus geöffnet wurde — **aber nur, wenn der Name dazu passt**
  * und der Klick nicht länger als fünf Minuten her ist.
  */
+/**
+ * **Eine Weiterleitung binnen einer Minute gehört noch zum Klick.**
+ *
+ * „Pokémon: Blauer Himmel in der Ferne!" liegt bei uns unter `81670593`; wer
+ * dort klickt, landet auf `81706101` — „Pokémon: Ultimative Reisen: Die Serie".
+ * Das sah nach einem falschen Titel aus, ist aber richtig: Der Titel ist Folge
+ * 46a und wird international als Abschluss der 25. Staffel geführt, und genau
+ * diese Teilstaffel nennt Netflix im deutschsprachigen Raum so
+ * (fernsehserien.de, PokéWiki, 30.08.2026 nachgeschlagen).
+ *
+ * `nameStimmt()` kann das nicht erkennen — die Namen sind verschieden, und das
+ * ist bei einer Folge innerhalb einer Reihe der Normalfall. Dasselbe Problem
+ * war bei Disney+ schon gelöst (CLAUDE.md, 26.08.2026): Wer aus der Prüfliste
+ * heraus öffnet, hinterlegt, welcher Titel gemeint war, und die Zielseite erbt
+ * ihn.
+ *
+ * **Eine Minute statt fünf**, und nur bei einer *anderen* Kennung: Eine
+ * Weiterleitung passiert im selben Atemzug wie der Klick. Was Daniel danach
+ * selbst ansteuert, ist keine mehr.
+ */
+function ausWeiterleitung() {
+  try {
+    return Boolean(
+      zuletztGeoeffnet?.id &&
+        offeneTitel[zuletztGeoeffnet.id] !== undefined &&
+        String(zuletztGeoeffnet.id) !== String(stand.reihe) &&
+        Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 60 * 1000,
+    )
+  } catch {
+    return false
+  }
+}
+
 function gemeinteReihe() {
   if (stand.reihe && offeneTitel[String(stand.reihe)] !== undefined) return stand.reihe
   if (
     zuletztGeoeffnet?.id &&
     offeneTitel[zuletztGeoeffnet.id] !== undefined &&
     Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 5 * 60 * 1000 &&
-    nameStimmt()
+    (nameStimmt() || ausWeiterleitung())
   ) {
     return zuletztGeoeffnet.id
   }
@@ -269,7 +302,7 @@ function istGesucht() {
     zuletztGeoeffnet?.id &&
       offeneTitel[zuletztGeoeffnet.id] !== undefined &&
       Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 5 * 60 * 1000 &&
-      nameStimmt(),
+      (nameStimmt() || ausWeiterleitung()),
   )
 }
 
@@ -730,11 +763,12 @@ function knopfZeigen() {
         return false
       }
     })()
-    knopf.textContent = kamAusListe ? 'Netflix hat weitergeleitet — anderer Titel' : 'Steht nicht auf der Prüfliste'
+    knopf.textContent = kamAusListe ? 'Weitergeleitet — Auftrag abgelaufen' : 'Steht nicht auf der Prüfliste'
     knopf.title = kamAusListe
-      ? `Geöffnet war „${offeneTitel[zuletztGeoeffnet.id]?.titel ?? zuletztGeoeffnet.id}", ` +
-        'Netflix hat auf eine andere Kennung umgeleitet. Der Titel wird hier nicht geführt — ' +
-        'in der Prüfliste über „nichts da?" abhaken, wenn die Suche ihn auch nicht findet.'
+      ? `Geöffnet war „${offeneTitel[zuletztGeoeffnet.id]?.titel ?? zuletztGeoeffnet.id}", und Netflix hat ` +
+        'auf eine andere Kennung geleitet — das ist oft richtig, wenn der Titel eine Folge innerhalb ' +
+        'einer Reihe ist. Erkannt wird das nur in der ersten Minute nach dem Klick; danach über den ' +
+        'Link in der Liste neu öffnen.'
       : 'Zu dieser Netflix-Kennung gibt es keinen offenen Auftrag. Häufigster Grund: ' +
         'Der Titel aus der Liste liegt unter einer anderen Kennung — dann über den Link in der Liste öffnen.'
     return
@@ -1961,6 +1995,26 @@ function folgenFuerFilmErgaenzen() {
 
 function durchlaufKnopfZeigen() {
   folgenFuerFilmErgaenzen()
+  /*
+    **Auf einer geerbten Seite prüft der Durchlauf die falsche Menge.**
+
+    „Blauer Himmel in der Ferne!" ist **eine** Folge; Netflix leitet auf die
+    Reihe „Ultimative Reisen" mit 54 weiter. Ein Durchlauf über alles wäre
+    dreiundfünfzigmal Arbeit für einen Auftrag, der einen Eintrag meint — und
+    dreiundfünfzig Meldungen unter seiner Adresse.
+
+    Hier bleibt es bei der Handmeldung: Daniel spielt die gemeinte Folge, die
+    Erweiterung liest ihre Tonspur, ein Klick meldet.
+  */
+  try {
+    if (ausWeiterleitung() && !DURCHLAUF.laeuft) {
+      const eintrag = offeneTitel[String(gemeinteReihe())]
+      const erwartet = (eintrag?.staffeln ?? []).reduce((n, s) => n + (s.folgen ?? 0), 0)
+      if (erwartet && DURCHLAUF.folgen.length > erwartet + 2) DURCHLAUF.folgen = []
+    }
+  } catch {
+    /* Ohne Auftrag bleibt es beim bisherigen Verhalten. */
+  }
   /*
     **Während eines Durchlaufs bleibt der Knopf sichtbar — auch im Player.**
 
