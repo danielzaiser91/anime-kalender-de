@@ -178,8 +178,22 @@ for (const [asin, eintraege] of jeAsin) {
   am Ende zählt nur von 2 bis 9 („Bungo Stray Dogs 3"), denn „Digimon Adventure
   02" und „Mob Psycho 100" tragen ebenfalls Ziffern.
 */
+/*
+  **Und römisch gezählt wird genauso oft.** „Mob Psycho 100 II" und „III" stehen
+  bei Prime unter einer Seite mit drei Staffeln, gemeldet waren sie längst — in
+  der Prüfliste standen sie trotzdem, weil das Muster nur arabische Ziffern
+  kannte (Daniel, 30.08.2026: „sie hätten entsprechend nicht in der prüfliste
+  auftauchen dürfen … suche nicht nach titel, sondern nach logischer referenz").
+
+  **Nur II, III und IV.** Von V an wird es unsicher, und `X` ist meistens gar
+  keine Zahl: „Sonic X", „Triage X", „Mysterious Girlfriend X", „Tales of
+  Zestiria the X" — vier von 39 Titeln mit römischer Endung im Bestand, alle
+  eigenständig. Der zweite Riegel fängt den Rest: Es zählt nur, was sich eine
+  `franchiseId` mit einer **anderen** Hauptserie teilt, und „Babel II" ist seine
+  eigene.
+*/
 const STAFFEL_IM_TITEL =
-  /\s(?:staffel|season|part|teil|cour)\s*([2-9]|\d{2})\b|\s([2-9])$|\s(?:2nd|3rd|4th|5th|second|third|fourth|fifth)\s+season\b/i
+  /\s(?:staffel|season|part|teil|cour)\s*([2-9]|\d{2})\b|\s([2-9])$|\s(?:2nd|3rd|4th|5th|second|third|fourth|fifth)\s+season\b|\s(?:II|III|IV)$/i
 
 const NEBENFORM = new Set(['MOVIE', 'SPECIAL', 'OVA', 'ONA', 'MUSIC'])
 
@@ -227,7 +241,34 @@ function istNachrangigeStaffel(t) {
     ein Name, der sich selbst als Fortsetzung ausweist („Bungou Stray Dogs 2nd
     Season", „Bungo Stray Dogs 3"). Ein Anthologie-Franchise trägt das nicht.
   */
-  return [t.titleDe, t.titleEn, t.titleRomaji].filter(Boolean).some((n) => STAFFEL_IM_TITEL.test(n))
+  /*
+    **Und der Name muss die Hauptserie fortsetzen, nicht nur bei ihr anfangen.**
+
+    „Sword Art Online Alternative: Gun Gale Online II" teilt sich die
+    `franchiseId` mit „Sword Art Online" und endet auf eine römische Zwei — nach
+    beiden Signalen eine Fortsetzung, in Wahrheit ein Spin-off mit eigener
+    Prime-Seite. Dasselbe bei „Pretty Guardian Sailor Moon Crystal Season III"
+    unter „Sailor Moon". Beide haben keinen eigenen Verweis; sie wären als Suche
+    verlorengegangen, und der Vorfilter darf verschieben, nicht verschwinden
+    lassen.
+
+    Der Prüfgriff: Vom Namen der Fortsetzung den der Hauptserie abziehen. Bleibt
+    mehr übrig als die Staffelangabe, ist es ein eigenes Werk — „Mob Psycho 100
+    II" lässt „II" übrig, das Spin-off oben „Alternative: Gun Gale Online II".
+  */
+  const hauptNamen = [haupt.titleDe, haupt.titleEn, haupt.titleRomaji].filter(Boolean).map((n) => n.toLowerCase())
+  const setztFort = (n) => {
+    const klein = n.toLowerCase()
+    const passend = hauptNamen.find((h) => klein.startsWith(h))
+    if (!passend) return false
+    const rest = klein.slice(passend.length).trim().replace(/^[-:–—]\s*/, '')
+    return /^(?:staffel|season|part|teil|cour)?\s*(?:[2-9]|\d{2}|ii|iii|iv|2nd|3rd|4th|5th|second|third|fourth|fifth)(?:\s+season)?$/i.test(
+      rest,
+    )
+  }
+  return [t.titleDe, t.titleEn, t.titleRomaji]
+    .filter(Boolean)
+    .some((n) => STAFFEL_IM_TITEL.test(n) && setztFort(n))
 }
 
 let wegenStaffel = 0

@@ -5335,7 +5335,25 @@ async function speicherSchreiben(werte) {
     const kanalHinweis = ueberKanal() ? ' · ⚠ Kanal' : ''
     // Die Zugangsart gehört an den Knopf — sonst meldet man sie blind mit.
     const art = zugangsart()
-    const zugang = art && art !== 'abo' ? ` · ${ZUGANG_TEXT[art]}` : ''
+    /*
+      **Steht dieselbe Staffel zweimal im Angebot, gilt der Preis nur hier.**
+
+      Bei „Mob Psycho 100 II" führte die geöffnete Seite Staffel 2 als reinen
+      Kauftitel, eine zweite Ausgabe derselben Staffel lief über ein Kanal-Abo —
+      gemeldet wurde „nur Kauf" (Daniel, 30.08.2026). Der Zusatz steht am Knopf,
+      damit das **vor** dem Klick sichtbar ist und nicht erst im Datensatz.
+    */
+    const mehrereAusgaben = (() => {
+      try {
+        const nr = jetzigeStaffel
+        if (!Number.isFinite(nr)) return false
+        return (gesehen?.seite?.staffeln ?? []).filter((s) => s?.nummer === nr).length > 1
+      } catch {
+        return false
+      }
+    })()
+    const zugang =
+      (art && art !== 'abo' ? ` · ${ZUGANG_TEXT[art]}` : '') + (mehrereAusgaben ? ' (diese Ausgabe)' : '')
 
     /**
      * Solange der gespeicherte Stand fehlt, wird nichts angeboten.
@@ -6845,7 +6863,7 @@ async function speicherSchreiben(werte) {
            */
           zugang: zugangsart(),
           abos: abos(),
-          /**
+         /**
            * **Die Folgen selbst — roh, ohne Deutung.**
            *
            * Bis 3.76 schickte die Meldung ein Urteil: `dub`, eine Folgenzahl, ein
@@ -6925,6 +6943,21 @@ async function speicherSchreiben(werte) {
              * die Notiz der Träger: `zugang=kauf` steht maschinenlesbar drin.
              */
             (zugangsart() ? `, zugang=${zugangsart()}` : '') +
+            /*
+              Die Notiz trägt es maschinenlesbar mit, aus demselben Grund wie
+              `zugang=`: Ohne den Vermerk sähe „kauf" im Datensatz aus wie eine
+              Aussage über den Titel, und sie gilt nur für diese Ausgabe.
+            */
+            ((() => {
+              try {
+                const nr = jetzigeStaffel
+                if (!Number.isFinite(nr)) return ''
+                const gleiche = (gesehen?.seite?.staffeln ?? []).filter((s) => s?.nummer === nr).length
+                return gleiche > 1 ? `, ausgaben=${gleiche} (Zugangsart gilt nur für diese)` : ''
+              } catch {
+                return ''
+              }
+            })()) +
             (ueberKanal()
               ? ' — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg'
               : ''),
