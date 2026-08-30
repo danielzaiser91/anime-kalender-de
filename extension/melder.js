@@ -486,7 +486,30 @@ function beschriftung(spuren) {
       von selbst meldet, macht die Herkunft einer Meldung unklar — und war der
       Grund, warum bei einem Titelwechsel fremde Sprachen ankamen.
     */
-    return { text: null, klasse: null, aktiv: false }
+    /*
+      **Ohne Tonspur gibt es nichts zu melden — aber der Knopf sagt jetzt, wie
+      man dahin kommt.**
+
+      Bis zum 26.08.2026 stand hier „Auf Abspielen klicken, dann läuft es von
+      selbst", und das war nach dem Abschalten der Automatik falsch: Es lief
+      nichts von selbst. Der Hinweis wurde ersatzlos gestrichen — und damit
+      verschwand der Knopf auf der Titelseite ganz.
+
+      Für einen **Film** ist das die einzige Stelle, an der jemand steht: Es gibt
+      keine Folgenliste, aus der heraus man in den Player käme. Daniel am
+      30.08.2026 an „Gintama the Movie 2026" und „Pokémon: Blauer Himmel in der
+      Ferne!": „beide titel lassen sich immer noch nicht melden."
+
+      Der neue Text verspricht keine Automatik, er nennt den Weg: Netflix gibt
+      seine Tonspuren nur an einer laufenden Wiedergabe heraus (viermal
+      gemessen, siehe CLAUDE.md), also muss abgespielt werden. Gemeldet wird
+      danach weiterhin von Hand, über diesen Knopf.
+    */
+    return {
+      text: 'Abspielen — im Player wird die Tonspur gelesen',
+      klasse: 'ak-leer',
+      aktiv: false,
+    }
   }
   const { deutsch } = urteil(spuren)
   const wo = stand.folgeNr
@@ -2412,20 +2435,16 @@ async function dialogOeffnen() {
     const link = document.createElement('a')
     link.className = 'ak-titel'
     /*
-      **Ein Film führt direkt in den Player.**
+      **Immer auf die Titelseite, auch bei einem Film** (Daniel, 30.08.2026:
+      „die links in der prüfliste öffnen direkt die player, stattdessen sollen
+      sie auf overview navigieren").
 
-      Netflix gibt seine Tonspuren nur an einer laufenden Wiedergabe heraus
-      (CLAUDE.md, viermal gemessen). Bei einer Serie ist die Titelseite trotzdem
-      der richtige Anlaufpunkt — dort wählt man die Folge. Bei einem Film gibt
-      es nichts zu wählen: Die Titelseite zeigt einen „Abspielen"-Knopf und
-      sonst nichts, was die Erweiterung lesen könnte, und der Melde-Knopf blieb
-      deshalb weg (Daniel, 30.08.2026, an „Gintama the Movie 2026").
-
-      `/watch/<id>` startet die Wiedergabe, die Erweiterung liest, ein Klick
-      meldet — derselbe Weg wie bei einer Folge.
+      Der Umweg über `/watch/` sparte einen Klick und kostete die Übersicht: Der
+      Player startet sofort die Wiedergabe, und wer nur nachsehen wollte, steht
+      mitten im Film. Auf der Titelseite entscheidet Daniel selbst, wann er
+      abspielt — dort liest die Erweiterung dann die Tonspur.
     */
-    const istFilm = (eintrag.staffeln ?? []).length === 1 && eintrag.staffeln[0]?.film
-    link.href = istFilm ? `https://www.netflix.com/watch/${id}` : `https://www.netflix.com/title/${id}`
+    link.href = `https://www.netflix.com/title/${id}`
     /*
       **Netflix bleibt im selben Tab** (Daniel, 30.08.2026).
 
