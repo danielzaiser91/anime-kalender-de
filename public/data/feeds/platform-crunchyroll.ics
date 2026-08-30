@@ -6,59 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – crunchyroll
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-08-23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260823T083000Z
-DTEND:20260823T090000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 5/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/you-and-i-are-polar-opposites-s
- 2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GNVHKN933@2026-08-23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260823T140000Z
-DTEND:20260823T143000Z
-SUMMARY:The 100 Girlfriends Who Really\, Really\, Really\, Really\, REALLY 
- Love You Staffel 3 – Folge 29/30
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-GNVHKN933
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-08-23#4@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260823T150000Z
-DTEND:20260823T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 4/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nTe
- rmin abgeleitet\, noch nicht offiziell bestätigt.\nDetails: https://anime-
- kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-08-23#5@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260823T150000Z
-DTEND:20260823T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 5/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/mushoku-tensei-s3
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:though-i-am-an-inept-villainess@2026-08-23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260823T154500Z
-DTEND:20260823T161500Z
-SUMMARY:Though I Am an Inept Villainess – Folge 4/11
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/though-i-am-an-inept-villainess
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:skeleton-knight-s2@2026-08-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260824T130000Z

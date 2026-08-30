@@ -1,5 +1,5 @@
 {
-  "stand": "2026-08-30T21:17:11.796Z",
+  "stand": "2026-08-30T23:38:12.129Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -659,7 +659,7 @@
       "seriesId": "G6WEK0026",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 15809,
@@ -689,7 +689,7 @@
       "seriesId": "GRW4DXNEY",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 100780,
@@ -3669,7 +3669,7 @@
       "seriesId": "GR2PQ7J2R",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 355,
@@ -3679,7 +3679,7 @@
       "seriesId": "GYW4EJZ26",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 1815,
@@ -3729,7 +3729,7 @@
       "seriesId": "G8DHV728E",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 21058,
@@ -3919,7 +3919,7 @@
       "seriesId": "GR5VXM03R",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-08-21",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 20661,
@@ -4429,7 +4429,7 @@
       "seriesId": "G609GQ4P6",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-08-26",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 1182,
@@ -5159,7 +5159,7 @@
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 10015,
@@ -5612,6 +5612,16 @@
       "letzterWeg": false
     },
     {
+      "titleId": 21368,
+      "titel": "Sinbad: The Magic Lamp and the Moving Islands",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B0FQP23X45",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
       "titleId": 21459,
       "titel": "My Hero Academia",
       "plattform": "youtube",
@@ -5839,7 +5849,7 @@
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 99643,
