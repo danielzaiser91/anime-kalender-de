@@ -1814,7 +1814,31 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
         adressen.push(r.url)
         if (mitNummern) eintraege.push({ url: r.url, folge_nr: r.folge_nr, staffel: r.staffel })
       }
-      return antwort(mitNummern ? { imBriefkasten: je, adressen, eintraege } : { imBriefkasten: je, adressen })
+      /**
+       * **„Liegt hier noch was?" ist nicht „wurde das gemeldet?"**
+       *
+       * `adressen` oben führt nur, was der Datenlauf noch nicht abgeholt hat
+       * (`uebernommen = 0`). Die Erweiterung benutzte genau diese Liste, um zu
+       * entscheiden, ob ein Titel abgehakt ist — mit der Folge, dass jede
+       * übernommene Meldung ihren Titel wieder in die Prüfliste zurückholte.
+       *
+       * Daniel am 30.08.2026: „3.91 → alles gemeldet, warum eintrag immer noch
+       * in liste?" Gemessen an „From Bureaucrat to Villainess": im Briefkasten
+       * nicht mehr da, im Datensatz noch ohne Urteil — also gemeldet, geholt,
+       * und trotzdem wieder offen. Nach jedem Datenlauf begann die Arbeit von
+       * vorn.
+       *
+       * `gemeldet` beantwortet die Frage, die die Erweiterung wirklich stellt:
+       * Ist unter dieser Adresse jemals etwas eingegangen? `DISTINCT`, weil je
+       * Staffel und Folge mehrere Zeilen auf dieselbe Adresse zeigen.
+       */
+      const { results: alle } = await env.DB.prepare(
+        `SELECT DISTINCT url FROM pruefung WHERE url IS NOT NULL AND url != ''`,
+      ).all<{ url: string }>()
+      const gemeldet = (alle ?? []).map((r) => r.url)
+      return antwort(
+        mitNummern ? { imBriefkasten: je, adressen, gemeldet, eintraege } : { imBriefkasten: je, adressen, gemeldet },
+      )
     }
 
     // Die Pipeline holt sich, was noch nicht übernommen wurde.

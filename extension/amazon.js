@@ -795,6 +795,16 @@ async function speicherSchreiben(werte) {
         nummern: [...(gesehen?.nummern ?? [])].sort((a, b) => a - b),
         jeFolge: [...(gesehen?.jeFolge ?? new Map())].map(([nr, sp]) => [nr, sp]),
         sprachen: [...(gesehen?.sprachen ?? [])],
+        /*
+          **Ohne dieses Feld war der Bericht vom 30.08.2026 nicht auswertbar.**
+
+          Der Knopf stand auf „10 von 10 Folgen gelesen — 0 fehlen noch" und
+          gab nicht frei. Warum, entscheidet `istVollstaendig()`: Sind
+          Abschnitte bekannt, zählt allein `abschnitte.offen`, und die Zahl der
+          Folgen daneben sagt gar nichts mehr. Genau die stand im Bericht — die
+          entscheidende nicht.
+        */
+        abschnitte: gesehen?.abschnitte ?? null,
       })),
       /*
         Die Seitenlage entscheidet, ob ein Film oder eine Staffel vor uns liegt —
@@ -3103,7 +3113,19 @@ async function speicherSchreiben(werte) {
       if (!antwort.ok) return
       const daten = await antwort.json()
       if (!Array.isArray(daten.adressen)) return
-      briefkastenAdressen = new Set(daten.adressen)
+      /*
+        **`gemeldet` statt `adressen` — der Unterschied kostete jede Meldung
+        ihre Wirkung.**
+
+        `adressen` führt nur, was der Datenlauf noch nicht abgeholt hat. Wer
+        einen Titel meldete und danach lief ein Datenlauf, fand ihn am nächsten
+        Tag wieder in der Prüfliste — die Meldung war da, nur eben nicht mehr
+        „im Briefkasten" (Daniel, 30.08.2026).
+
+        Der Rückfall auf `adressen` gilt für die Minuten zwischen dem Ausrollen
+        der Erweiterung und dem des Workers; danach ist `gemeldet` immer da.
+      */
+      briefkastenAdressen = new Set(Array.isArray(daten.gemeldet) ? daten.gemeldet : daten.adressen)
       briefkastenGeholtAm = Date.now()
       try {
         uebersichtZeichnen()
@@ -4272,8 +4294,37 @@ async function speicherSchreiben(werte) {
    * @param gezaehlt   abrufbare plus gesperrte Folgen
    * @param gesamt     was die Seite als Folgenzahl nennt
    */
-  function istVollstaendig(abschnitte, gezaehlt, gesamt) {
-    if (abschnitte) return abschnitte.offen === 0
+  function istVollstaendig(abschnitte, gezaehlt, gesamt, stillSeitMs = 0) {
+    /*
+      Die Frist steht hier drin, nicht daneben als Konstante: Die Testdatei
+      `amazon-serie-hydration.test.cjs` schneidet diese Funktion einzeln aus
+      der Datei heraus, und ein Bezug nach außen ist dort undefiniert.
+    */
+    const ABSCHNITT_FRIST_MS = 15_000
+    if (abschnitte) {
+      if (abschnitte.offen === 0) return true
+      /*
+        **Ein Abschnitt, der nie antwortet, darf die Meldung nicht ewig sperren.**
+
+        Daniel am 30.08.2026 an „Date A Live" (Bildschirmaufnahme und
+        Diagnosebericht): Der Knopf stand auf „10 von 10 Folgen gelesen — 0
+        fehlen noch" und blieb es über zwei Minuten. Der Bericht nennt den
+        Grund: `regionWeg: true`, `regionFolgen: [1]`. Eine der Folgen ist in
+        Deutschland nicht mehr abrufbar; ihr Abschnitt wird von der Seite nie
+        nachgeliefert, und `abschnitte.offen` fällt darum nie auf null.
+
+        Die Zahl daneben ist in diesem Fall die verlässlichere Auskunft: Sind
+        alle Folgen beisammen, die die Seite überhaupt nennt, und kommt seit
+        fünfzehn Sekunden nichts mehr nach, ist die Staffel gelesen.
+
+        Die Frist ist der ganze Unterschied zu „einfach die Zahl nehmen": Beim
+        normalen Nachladen tickt sie ständig neu, greift also nur, wenn wirklich
+        nichts mehr kommt. Der Fall aus dem Kommentar oben — 96 erwartete
+        Folgen, 48 erreichbare — bleibt gesperrt, denn dort ist die Zahl gerade
+        nicht erreicht.
+      */
+      return Boolean(gesamt) && gezaehlt >= gesamt && stillSeitMs >= ABSCHNITT_FRIST_MS
+    }
     return !gesamt || gezaehlt >= gesamt
   }
 
@@ -5052,7 +5103,12 @@ async function speicherSchreiben(werte) {
      * Mischung aus „Staffel 1, Band 2" und „Season 1, Volume 2" in derselben
      * Liste ohnehin unzuverlässig.
      */
-    const vollstaendig = istVollstaendig(gesehen.abschnitte, geladen + wegInRegion, gesehen.gesamt)
+    const vollstaendig = istVollstaendig(
+      gesehen.abschnitte,
+      geladen + wegInRegion,
+      gesehen.gesamt,
+      Date.now() - letzterFortschritt,
+    )
     // Die Zahl sagt, worüber der Befund wirklich etwas aussagt — nie mehr.
     /**
      * Ein Film ist keine Folge.
@@ -5261,9 +5317,20 @@ async function speicherSchreiben(werte) {
       const fehlend = Math.max(0, gesehen.gesamt - geladen)
       knopf.disabled = true
       knopf.dataset.deutsch = String(deutsch)
-      knopf.textContent = deutsch
-        ? `${geladen} von ${gesehen.gesamt} Folgen gelesen — ${fehlend} fehlen noch`
-        : `${geladen} von ${gesehen.gesamt} Folgen gelesen — fuer „kein Deutsch" fehlen ${fehlend}`
+      /*
+        **„0 fehlen noch" und trotzdem gesperrt — der Knopf log über sich selbst.**
+
+        Steht die Sperre nicht an fehlenden Folgen, sondern an einem Abschnitt,
+        den die Seite nicht nachliefert, ist `fehlend` null. Der Satz „0 fehlen
+        noch" sagt dann das Gegenteil dessen, was der Knopf tut (Daniel,
+        30.08.2026). Wo die Zahl nichts erklärt, muss der Text es tun.
+      */
+      knopf.textContent =
+        fehlend === 0
+          ? `${geladen} von ${gesehen.gesamt} gelesen — ein Abschnitt fehlt noch`
+          : deutsch
+            ? `${geladen} von ${gesehen.gesamt} Folgen gelesen — ${fehlend} fehlen noch`
+            : `${geladen} von ${gesehen.gesamt} Folgen gelesen — fuer „kein Deutsch" fehlen ${fehlend}`
       knopf.title =
         'Solange nicht jede Folge gelesen ist, sagt die Meldung mehr, als geprueft wurde. ' +
         '„Deutsch gefunden" gilt fuer die Sprache sofort — die Zahl der Folgen aber erst, wenn sie stimmt.'

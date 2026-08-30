@@ -259,6 +259,30 @@ pruefe('Beschreibung gelesen', (erste?.beschreibung ?? '').length > 40, (erste?.
     voll({ gesamt: 4, offen: 1 }, 96, 96),
   )
 
+  /*
+    **Der Abschnitt, der nie kommt — Date A Live, 30.08.2026.**
+
+    Eine Folge war in Deutschland nicht mehr abrufbar; ihr Abschnitt wurde nie
+    nachgeliefert, `offen` fiel nie auf null, und der Knopf stand zwei Minuten
+    auf „10 von 10 Folgen gelesen — 0 fehlen noch". Sind alle Folgen beisammen
+    und kommt seit fünfzehn Sekunden nichts mehr, gilt die Staffel als gelesen.
+  */
+  pruefe(
+    'offener Abschnitt, Zahl erfüllt, seit 20 s still — vollständig',
+    voll({ gesamt: 4, offen: 1 }, 10, 10, 20_000) === true,
+    voll({ gesamt: 4, offen: 1 }, 10, 10, 20_000),
+  )
+  pruefe(
+    'dieselbe Lage nach 3 s — noch nicht, es lädt vielleicht nach',
+    voll({ gesamt: 4, offen: 1 }, 10, 10, 3_000) === false,
+    voll({ gesamt: 4, offen: 1 }, 10, 10, 3_000),
+  )
+  pruefe(
+    'und die Frist hebelt die Abschnitte nicht aus, wenn die Zahl fehlt',
+    voll({ gesamt: 4, offen: 1 }, 48, 96, 60_000) === false,
+    voll({ gesamt: 4, offen: 1 }, 48, 96, 60_000),
+  )
+
   /* Ohne Abschnitte (Film, kurze Staffel) bleibt es beim Zahlenvergleich. */
   pruefe('ohne Abschnitte entscheidet die Zahl', voll(null, 12, 24) === false, voll(null, 12, 24))
   pruefe('und sie darf auch erfüllt sein', voll(null, 24, 24) === true, voll(null, 24, 24))
