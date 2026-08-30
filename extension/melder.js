@@ -275,11 +275,25 @@ function ausWeiterleitung() {
     /* Einmal erkannt, gilt sie weiter — auch nach einem Reload. */
     const gemerkt = netflixWeiterleitungen[String(stand.reihe)]
     if (gemerkt && offeneTitel[String(gemerkt)] !== undefined) return true
+    /*
+      **Dieselbe Frist wie `gemeinteReihe()` — fünf Minuten, nicht eine.**
+
+      Eine Minute war gedacht als „eine Weiterleitung passiert im selben Atemzug
+      wie der Klick". Das stimmt für die Weiterleitung, nicht für ihre
+      **Erkennung**: Wer die Erweiterung neu lädt, startet `melder.js` neu, und
+      der Zeitstempel des Klicks ist dann Minuten alt. Bei Daniel waren es 5,5 —
+      die Weiterleitung wurde nie erkannt und konnte deshalb auch nie gemerkt
+      werden (30.08.2026, dritter Bericht in Folge).
+
+      Der eigentliche Riegel ist ein anderer und bleibt: Die Adresse muss eine
+      **andere** Kennung tragen als der Auftrag. Was Daniel selbst ansteuert,
+      trägt seine eigene und fällt nicht darunter.
+    */
     const frisch = Boolean(
       zuletztGeoeffnet?.id &&
         offeneTitel[zuletztGeoeffnet.id] !== undefined &&
         String(zuletztGeoeffnet.id) !== String(stand.reihe) &&
-        Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 60 * 1000,
+        Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 5 * 60 * 1000,
     )
     if (frisch && stand.reihe) {
       netflixWeiterleitungen = { ...netflixWeiterleitungen, [String(stand.reihe)]: String(zuletztGeoeffnet.id) }
@@ -1486,7 +1500,18 @@ function stoerung() {
   */
   const treffer = /\bM7\d{3}\b|\bUI\d{4}\b|\bE\d{3}\b|\bNSES-[A-Z]{3}\b/.exec(text)
   if (treffer) return treffer[0]
-  /* Der Player kennt seine eigenen Fehler — falls die Seite noch nichts zeigt. */
+  /*
+    **Den Player fragen wir nur, solange einer läuft.**
+
+    Seine Fehler überleben die Sitzung: Auf der Pokémon-Titelseite meldete er
+    `M7355` aus einer Wiedergabe, die es längst nicht mehr gab — und der Knopf
+    riet, andere Tabs zu schließen, während die Seite selbst gar keinen Fehler
+    zeigte (Daniel, 30.08.2026, dreimal in Folge im Diagnosebericht).
+
+    Auf einer Titelseite steht der Fehler im Seitentext, wenn es einen gibt; der
+    Player ist dort keine zweite Meinung, sondern ein Gedächtnis.
+  */
+  if (!imPlayer()) return null
   try {
     const api = window.netflix?.appContext?.state?.playerApp?.getAPI?.()
     for (const id of api?.videoPlayer?.getAllPlayerSessionIds?.() ?? []) {
