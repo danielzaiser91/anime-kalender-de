@@ -4368,9 +4368,25 @@ async function speicherSchreiben(werte) {
    */
   function geladeneFolgen() {
     if (!gesehen.gesamt) return gesehen.nummern.size
-    let n = 0
-    for (const nummer of gesehen.nummern) if (nummer <= gesehen.gesamt) n++
-    return n
+    /*
+      **Prime nummeriert bis 40 und hat 39 Folgen — die Lücke ist echt.**
+
+      Bei „JoJo's Bizarre Adventure" Staffel 5 fehlt Folge 14; die übrigen
+      tragen die Nummern 1–13 und 15–40. Gelesen wurden 38 Einträge, und der
+      Knopf meldete „37 Folgen": Die Nummer 40 fiel durch die Grenze
+      `nummer <= gesamt`, obwohl sie eine echte Folge bezeichnet (Daniel,
+      30.08.2026).
+
+      Die Grenze ist trotzdem richtig gedacht — sie fängt die durchlaufende
+      Zählung ab, mit der Prime bei Detektiv Conan die Folgen 1146 bis 1148
+      neben 149 bis 151 führt (CLAUDE.md, 25.08.2026). Dort sind es dieselben
+      Folgen zweimal, hier ist es eine Lücke in der Nummerierung.
+
+      Beides trennt die **Anzahl**, nicht die Höhe der Nummern: Gelesen ist,
+      was gelesen wurde — höchstens aber so viel, wie die Staffel hat. Bei JoJo
+      sind das 38 von 39, bei Detektiv Conan bleiben es die drei echten Folgen.
+    */
+    return Math.min(gesehen.nummern.size, gesehen.gesamt)
   }
 
   /**
@@ -5867,8 +5883,18 @@ async function speicherSchreiben(werte) {
 
       Jetzt trägt jede Zahl ihr Wort: was deutsch ist, und was gelesen wurde.
     */
-    const gelesenText =
-      gesamtFolgen && gesehen?.jeFolge?.size ? ` · ${gesehen.jeFolge.size} von ${gesamtFolgen} gelesen` : ''
+    /*
+      **Zwei Zahlen nur, wenn wirklich etwas fehlt.**
+
+      Ist jede Folge gelesen, sagt „12 Folgen" alles — „12 von 12 gelesen" wäre
+      dieselbe Auskunft mit mehr Wörtern. Erst wenn eine fehlt, trägt der
+      Unterschied etwas bei.
+
+      Gezählt wird mit `geladen`, nicht mit der rohen Kartengröße: Sonst steht
+      dort „12 von 11 gelesen", sobald Prime eine Nummer über der Staffelgröße
+      vergibt — genau der Fall aus `geladeneFolgen()`.
+    */
+    const gelesenText = gesamtFolgen && geladen && geladen < gesamtFolgen ? ` · ${geladen} von ${gesamtFolgen} gelesen` : ''
     const sprachStand = bereiche
       ? `🇩🇪 Folge ${bereiche} deutsch${gelesenText}`
       : deutsch
@@ -5894,8 +5920,18 @@ async function speicherSchreiben(werte) {
     } catch {
       staffelText2 = null
     }
-    /* Steht der deutsche Bereich da, nennt er die Gesamtzahl schon. */
-    const umfangTeil = bereiche && !istFilm ? '' : ' · ' + umfang
+    /*
+      **Zweimal dieselbe Zahl ist eine Zahl zu viel.**
+
+      Am 30.08.2026 stand über JoJo Staffel 5: „✕ kein Deutsch · 38 von 39
+      gelesen · 37 Folgen" — drei Zahlen für zwei Sachverhalte, und die letzten
+      beiden meinten dasselbe. Nennt der Sprachstand schon, wie viel gelesen
+      wurde, ist der Umfang daneben Wiederholung.
+
+      Film und Teilbereich behalten ihren Zusatz: „Film" ist keine Zahl, und
+      ein bestätigter Bereich sagt etwas anderes als die gelesene Menge.
+    */
+    const umfangTeil = (bereiche || gelesenText) && !istFilm && !teilLang ? '' : ' · ' + umfang
     const neuerText = `${sprachStand}${umfangTeil}${staffelText2 ?? ''}${zugang}${kanalHinweis}${woher} · melden`
     /*
       **Jeder Wechsel der Beschriftung wird mitgeschrieben.**
@@ -6919,6 +6955,25 @@ async function speicherSchreiben(werte) {
         // Abwarten: Der naechste Klick liest hier gleich wieder, und ohne das
         // liest er den Stand von vor dieser Meldung.
         await speicherSchreiben({ amazonErledigt: erledigt })
+        /*
+          **Die eigene Meldung zählt sofort, nicht erst beim nächsten Abruf.**
+
+          `nichtAngekommen()` fragt die geholte Briefkasten-Liste, und die ist
+          bis zu einer Minute alt. Direkt nach dem Melden stand die Adresse dort
+          noch nicht — der Knopf ging wieder auf „melden", als wäre nichts
+          geschehen (Daniel, 30.08.2026: „button ist nach meldung erneut
+          klickbar"). Gemessen war die Meldung längst angekommen.
+
+          Der Eintrag überbrückt die Zeit bis zum nächsten Abruf; danach
+          entscheidet wieder der Worker. Kam sie wirklich nicht an, geht der
+          Knopf dann zu Recht erneut auf.
+        */
+        try {
+          if (briefkastenAdressen && eintrag.url) briefkastenAdressen.add(eintrag.url)
+        } catch {
+          /* Noch keine Auskunft vom Briefkasten — dann gibt es nichts zu ergänzen. */
+        }
+        void briefkastenHolen(true)
         /*
           Kam der Eintrag aus einer Suche, ist die Suchadresse damit erledigt —
           der Treffer ist gefunden und gemeldet. Getrennt gespeichert, weil die
