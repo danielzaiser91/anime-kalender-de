@@ -1,5 +1,21 @@
 name: Stündlich — Sendezeiten
 
+# **Dieser Lauf sammelt und liefert ab — er baut nicht.**
+#
+# Seit dem 30.08.2026 committet er mit `NUR_QUELLEN=1`: Was er geholt hat,
+# landet als Quelle im Repo, und damit ist seine Arbeit getan. Den Datensatz
+# baut „Bestand — zusammenführen und bauen", ausgelöst direkt im Anschluss.
+#
+# Der Grund ist Daniels Vorgabe vom selben Tag: „wöchentlich und stündlich
+# sollte nie rot sein können, alles was sie machen ist sammeln und liefern."
+# Vorher machte ein Widerspruch im **gebauten** Bestand einen Lauf rot, dessen
+# Abrufe fehlerlos durchgelaufen waren — beim Wochenlauf 58 Minuten Arbeit an
+# fünf fremden Servern, quittiert mit einem roten Kreuz.
+#
+# Deshalb tragen hier auch alle Abrufe `continue-on-error`. Fällt eine Quelle
+# aus, macht der Rest weiter; dass sie schweigt, meldet `data:check` im
+# Bau-Lauf — an der Stelle, die es beurteilen kann.
+
 # Der Crunchyroll-Kalender ist die einzige Quelle, die sich mehrmals täglich
 # ändert: Uhrzeiten verschieben sich, Folgen kommen dazu, Staffeln fallen aus.
 # Alles andere (AniList-Metadaten, Disc-Termine, Kinostarts) ändert sich
@@ -46,7 +62,7 @@ jobs:
     env:
       LAUF_ZWECK: "Hält die Sendetermine von anime-kalender.de stündlich aktuell"
       LAUF_ZIEL: "Crunchyroll-Kalender der nächsten drei Wochen einlesen und Datensatz bauen"
-      LAUF_SCHRITTE: '4'
+      LAUF_SCHRITTE: '2'
     steps:
       # Sofort anmelden, noch vor allem anderen.
       #
@@ -121,6 +137,7 @@ jobs:
           restore-keys: anilist-cache-
 
       - name: Rohdaten holen, falls kein Cache da ist
+        continue-on-error: true
         if: steps.cache.outputs.cache-matched-key == ''
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
@@ -135,9 +152,11 @@ jobs:
         run: bash "$MELDER" schritt "Rohdaten holen, falls kein Cache da ist"
 
       - name: Browser installieren
+        continue-on-error: true
         run: npx playwright install --with-deps chromium
 
       - name: Crunchyroll-Kalender lesen
+        continue-on-error: true
         # Drei Wochen genügen stündlich; der Wochenlauf schaut weiter zurück.
         run: npx tsx pipeline/scrape-crunchyroll.ts --weeks 3
 
@@ -147,87 +166,13 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "Crunchyroll-Kalender lesen"
 
-      # Der Briefkasten wird stündlich geleert, nicht mehr nur täglich.
-      #
-      # Daniel am 26.08.2026: „wieviel würde es kosten umzustellen das der bot
-      # 1x stündlich auf die liste guckt ob etwas gemeldet wurde und die
-      # gemeldeten dann abarbeitet, bzw nichts tut, wenn nichts gemeldet wurde?"
-      #
-      # Nichts — dieser Lauf läuft ohnehin jede Stunde und baut den Datensatz
-      # danach neu. Gemessen: Bei leerem Briefkasten sind es zwei Sekunden und
-      # kein Commit. Das Repo ist öffentlich, GitHub rechnet dafür keine
-      # Actions-Minuten ab.
-      #
-      # Der Gewinn ist nicht die Rechenzeit, sondern die Rückmeldung: Was
-      # abends gemeldet wird, steht eine Stunde später auf der Seite statt am
-      # nächsten Morgen um 04:17.
-      - name: Meldungen aus der Erweiterung abholen
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run data:pruefungen
-
-      - name: Fortschritt — Meldungen abholen
-        continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: bash "$MELDER" schritt "Meldungen abholen"
-
-      - name: Datensatz bauen
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-          SITE_URL: ${{ vars.SITE_URL }}
-        run: npm run data:build
-
-
-      # Was dieser Lauf am Bestand veraendert hat, Zeile fuer Zeile.
-      # Ohne diese Spur sah ein Lauf, der 508 Meldungen verlor, genauso
-      # gruen aus wie einer, der alles eingearbeitet hat (26.08.2026).
-      - name: Delta am Bestand festhalten
-        continue-on-error: true
-        run: npm run data:historie -- --lauf "${{ github.workflow }}"
-      - name: Fortschritt — Datensatz bauen
-        continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: bash "$MELDER" schritt "Datensatz bauen"
-
-      # Erst nach dem Bau: Die Listen zählen gegen `titles.json`, und das
-      # entsteht eine Zeile weiter oben. Davor gerechnet wären sie immer einen
-      # Lauf hinterher.
-      # Die gemeldeten Rohfolgen unseren Folgen zuordnen — gegen TMDB, nicht
-      # im Browser. Muss vor der Prüfliste laufen: Was zugeordnet ist, gehört
-      # nicht mehr auf sie.
-      - name: Rohfolgen zuordnen
-        continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run data:rohfolgen
-
-      - name: Prüflisten und Prüfstand neu erzeugen
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run data:extension-liste
-
-      # Zählt den Bestand und schreibt den Verlauf fort. Bricht nur ab, wenn
-      # etwas gefunden wird, das gar nicht vorkommen darf.
-      - name: Datenqualität messen
-        continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run check:qualitaet
-
-      - name: Vorschaubilder für neue Releases
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run data:og
-
-      - name: Fortschritt — Vorschaubilder für neue Releases
-        continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: bash "$MELDER" schritt "Vorschaubilder für neue Releases"
-
+      # Der Briefkasten wird weiterhin stündlich geleert — nur eine Stufe
+      # später: „Bestand — zusammenführen und bauen" läuft direkt hinter diesem
+      # Lauf und arbeitet die Meldungen ein. Was abends gemeldet wird, steht
+      # damit unverändert eine Stunde später auf der Seite.
       - name: Änderungen committen
+        env:
+          NUR_QUELLEN: '1'
         run: |
           bash tools/commit-data.sh "chore(data): Sendezeiten aktualisiert"
 

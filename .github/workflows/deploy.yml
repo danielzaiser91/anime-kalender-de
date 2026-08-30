@@ -28,9 +28,10 @@ on:
   # mitdeployt hat. `workflow_run` fällt nicht unter die Regel.
   workflow_run:
     workflows:
-      - 'Stündlich — Sendezeiten'
-      - 'Täglich — alle Quellen'
-      - 'Wöchentlich — tiefer Durchlauf'
+      # Nur noch der Bau-Lauf: Die drei Sammler committen seit dem 30.08.2026 nur
+      # Quellen und erzeugen keinen neuen Datensatz mehr, den man ausliefern
+      # könnte.
+      - 'Bestand — zusammenführen und bauen'
     types: [completed]
   workflow_dispatch:
 

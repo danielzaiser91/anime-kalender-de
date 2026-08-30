@@ -1,5 +1,21 @@
 name: Wöchentlich — tiefer Durchlauf
 
+# **Dieser Lauf sammelt und liefert ab — er baut nicht.**
+#
+# Seit dem 30.08.2026 committet er mit `NUR_QUELLEN=1`: Was er geholt hat,
+# landet als Quelle im Repo, und damit ist seine Arbeit getan. Den Datensatz
+# baut „Bestand — zusammenführen und bauen", ausgelöst direkt im Anschluss.
+#
+# Der Grund ist Daniels Vorgabe vom selben Tag: „wöchentlich und stündlich
+# sollte nie rot sein können, alles was sie machen ist sammeln und liefern."
+# Vorher machte ein Widerspruch im **gebauten** Bestand einen Lauf rot, dessen
+# Abrufe fehlerlos durchgelaufen waren — beim Wochenlauf 58 Minuten Arbeit an
+# fünf fremden Servern, quittiert mit einem roten Kreuz.
+#
+# Deshalb tragen hier auch alle Abrufe `continue-on-error`. Fällt eine Quelle
+# aus, macht der Rest weiter; dass sie schweigt, meldet `data:check` im
+# Bau-Lauf — an der Stelle, die es beurteilen kann.
+
 # Was täglich zu teuer wäre: weite Zeitfenster und ein vollständiger
 # Neuaufbau. Dabei fällt auf, was der Tageslauf mit seinem engen Fenster
 # übersieht — etwa eine Staffel, die vor Wochen anlief, oder ein ADN-Titel,
@@ -43,7 +59,7 @@ jobs:
     env:
       LAUF_ZWECK: "Wöchentlicher Tiefendurchlauf über alle Quellen von anime-kalender.de"
       LAUF_ZIEL: "ADN-Katalog, Sprechrollen, Crunchyroll-Synchro (250) und aniSearch (60) prüfen"
-      LAUF_SCHRITTE: '19'
+      LAUF_SCHRITTE: '14'
     steps:
       # Sofort anmelden, noch vor allem anderen.
       #
@@ -111,9 +127,11 @@ jobs:
           restore-keys: anilist-cache-
 
       - name: Browser installieren
+        continue-on-error: true
         run: npx playwright install --with-deps chromium
 
       - name: Rohdaten holen
+        continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
@@ -450,37 +468,9 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "TMDB-Folgen holen"
 
-      - name: Datensatz bauen
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-          SITE_URL: ${{ vars.SITE_URL }}
-        run: npm run data:build
-
-
-      # Was dieser Lauf am Bestand veraendert hat, Zeile fuer Zeile.
-      # Ohne diese Spur sah ein Lauf, der 508 Meldungen verlor, genauso
-      # gruen aus wie einer, der alles eingearbeitet hat (26.08.2026).
-      - name: Delta am Bestand festhalten
-        continue-on-error: true
-        run: npm run data:historie -- --lauf "${{ github.workflow }}"
-      - name: Fortschritt — Datensatz bauen
-        continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: bash "$MELDER" schritt "Datensatz bauen"
-
-      - name: Vorschaubilder
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run data:og
-
-      - name: Fortschritt — Vorschaubilder
-        continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: bash "$MELDER" schritt "Vorschaubilder"
-
       - name: Änderungen committen
+        env:
+          NUR_QUELLEN: '1'
         # `always()`, damit ein gescheiterter Aufbau nicht die Ernte mitnimmt.
         #
         # Dieser Lauf befragt fünf fremde Server mit Ratenlimits und braucht dafür
@@ -496,6 +486,7 @@ jobs:
           bash tools/commit-data.sh "chore(data): wöchentlicher Tiefendurchlauf"
 
       - name: Was noch kuratiert werden müsste
+        continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:report >> $GITHUB_STEP_SUMMARY
@@ -505,17 +496,6 @@ jobs:
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "Was noch kuratiert werden müsste"
-
-      - name: Quellen auf Schweigen prüfen
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run data:check
-
-      - name: Fortschritt — Quellen auf Schweigen prüfen
-        continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: bash "$MELDER" schritt "Quellen auf Schweigen prüfen"
 
       - name: Ergebnis nach Discord melden
         # Immer, auch bei einem Fehlschlag — eine Meldung, die genau dann

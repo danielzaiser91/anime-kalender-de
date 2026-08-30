@@ -1,5 +1,21 @@
 name: Täglich — alle Quellen
 
+# **Dieser Lauf sammelt und liefert ab — er baut nicht.**
+#
+# Seit dem 30.08.2026 committet er mit `NUR_QUELLEN=1`: Was er geholt hat,
+# landet als Quelle im Repo, und damit ist seine Arbeit getan. Den Datensatz
+# baut „Bestand — zusammenführen und bauen", ausgelöst direkt im Anschluss.
+#
+# Der Grund ist Daniels Vorgabe vom selben Tag: „wöchentlich und stündlich
+# sollte nie rot sein können, alles was sie machen ist sammeln und liefern."
+# Vorher machte ein Widerspruch im **gebauten** Bestand einen Lauf rot, dessen
+# Abrufe fehlerlos durchgelaufen waren — beim Wochenlauf 58 Minuten Arbeit an
+# fünf fremden Servern, quittiert mit einem roten Kreuz.
+#
+# Deshalb tragen hier auch alle Abrufe `continue-on-error`. Fällt eine Quelle
+# aus, macht der Rest weiter; dass sie schweigt, meldet `data:check` im
+# Bau-Lauf — an der Stelle, die es beurteilen kann.
+
 # Der große Lauf: Metadaten, Synchro-Listen, ADN-Kalender, Nachrichtenlage.
 # Die stündliche Aktion deckt nur Crunchyroll ab.
 
@@ -39,7 +55,7 @@ jobs:
     env:
       LAUF_ZWECK: "Aktualisiert täglich alle Datenquellen von anime-kalender.de"
       LAUF_ZIEL: "AniList, Crunchyroll, ADN, Anime2You und aniSearch einlesen, Datensatz neu bauen"
-      LAUF_SCHRITTE: '11'
+      LAUF_SCHRITTE: '8'
     steps:
       # Sofort anmelden, noch vor allem anderen.
       #
@@ -107,9 +123,11 @@ jobs:
           restore-keys: anilist-cache-
 
       - name: Browser für den Crunchyroll-Kalender installieren
+        continue-on-error: true
         run: npx playwright install --with-deps chromium
 
       - name: Rohdaten holen
+        continue-on-error: true
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
@@ -219,24 +237,6 @@ jobs:
       # die Meldungen warteten, bis jemand den Befehl von Hand ausführte.
       #
       # Vor dem Datenbau, damit heute Gemeldetes heute im Datensatz steht.
-      - name: Meldungen aus der Erweiterung abholen
-        continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run data:pruefungen
-
-      - name: Fortschritt — Meldungen abgeholt
-        continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: bash "$MELDER" schritt "Meldungen aus der Erweiterung abgeholt"
-
-      # aniSearch taeglich statt woechentlich — 120 Seiten im Sechs-Sekunden-Takt,
-      # also zwoelf Minuten. Der Grund steht in `fetch-anisearch.ts`: Bei 2.615
-      # Titeln und 60 Seiten je Woche konnte die Warteschlange nie leer werden;
-      # am 29.08.2026 lagen 955 von 2.615 Seiten im Archiv. An diesem Archiv
-      # haengen die deutschen Titel, die Beschreibungen, die Anbieterlisten und
-      # die Disc-Ausgaben.
       - name: Deutsche Texte und Anbieter von aniSearch
         continue-on-error: true
         env:
@@ -253,68 +253,9 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:disc-ausgaben
 
-      - name: Datensatz bauen
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-          SITE_URL: ${{ vars.SITE_URL }}
-        run: npm run data:build
-
-
-      # Was dieser Lauf am Bestand veraendert hat, Zeile fuer Zeile.
-      # Ohne diese Spur sah ein Lauf, der 508 Meldungen verlor, genauso
-      # gruen aus wie einer, der alles eingearbeitet hat (26.08.2026).
-      - name: Delta am Bestand festhalten
-        continue-on-error: true
-        run: npm run data:historie -- --lauf "${{ github.workflow }}"
-      - name: Fortschritt — Datensatz bauen
-        continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: bash "$MELDER" schritt "Datensatz bauen"
-
-      # Die Listen, mit denen Daniel und die Erweiterung arbeiten — sie
-      # entstehen aus dem frisch gebauten Datensatz und müssen deshalb hier
-      # stehen, nicht davor.
-      #
-      # **Sie liefen bis zum 25.08.2026 in keinem Workflow.** Erzeugt wurden sie
-      # einmal von Hand am 23.08., und seither veralteten sie still: Die
-      # Erweiterung zeigte 384 offene Prime-Titel, obwohl längst gemeldet war,
-      # und bot dieselben Titel wieder und wieder zum Melden an (Daniel,
-      # 25.08.2026: „warum sind es immer noch 384 titel, warum kann ich die
-      # bereits gemeldeten erneut melden?").
-      #
-      # Genau der Fall, den `CLAUDE.md` unter „Ein neuer Abruf braucht drei
-      # Dinge" beschreibt — nur ging es hier nicht um einen Abruf, sondern um
-      # ein Erzeugnis. Die Regel gilt für beides.
-      - name: Arbeitslisten und Erweiterungs-Liste neu erzeugen
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        # `data:vorschlaege` steht **vor** `data:extension-liste`, und das ist der
-        # ganze Punkt: Die Prueflisten-Erzeugung liest
-        # `data/anbieter-vorschlaege.json`, und diese Datei entstand bis zum
-        # 29.08.2026 in **keinem** Workflow. Die Liste wurde also stuendlich neu
-        # gebaut, ihre Grundlage nie — dieselbe Falle wie eine Zeile darueber,
-        # nur eine Ebene tiefer.
-        run: npm run data:vorschlaege && npm run data:dub-checks && npm run data:extension-liste && npm run data:start-liste
-
-      - name: Fortschritt — Arbeitslisten neu erzeugen
-        continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: bash "$MELDER" schritt "Arbeitslisten neu erzeugen"
-
-      - name: Vorschaubilder für neue Releases erzeugen
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run data:og
-
-      - name: Fortschritt — Vorschaubilder für neue Releases erzeugen
-        continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: bash "$MELDER" schritt "Vorschaubilder für neue Releases erzeugen"
-
       - name: Änderungen committen
+        env:
+          NUR_QUELLEN: '1'
         # `always()`, aus demselben Grund wie im Wochenlauf: Bricht der Aufbau an
         # einem Widerspruch ab, sind die Quellen dieses Laufs das Einzige, was
         # ihn reparieren kann — und aniSearch gibt eine Seite pro Sekunde her.
@@ -326,17 +267,6 @@ jobs:
       # Zuletzt, damit der Datenstand auch dann committet ist, wenn die Prüfung
       # anschlägt. Ein roter Lauf schickt dem Betreiber eine Mail — das ist die
       # Meldung „eine Quelle ist stumm geworden", ohne eigene Infrastruktur.
-      - name: Quellen auf Schweigen prüfen
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run data:check
-
-      - name: Fortschritt — Quellen auf Schweigen prüfen
-        continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: bash "$MELDER" schritt "Quellen auf Schweigen prüfen"
-
       - name: Ergebnis nach Discord melden
         # Nur bei einem Fehlschlag. Dieser Lauf läuft täglich beziehungsweise
         # stündlich; eine Erfolgsmeldung wäre Lärm in einem Kanal, den auch

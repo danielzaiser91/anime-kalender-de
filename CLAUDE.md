@@ -1116,6 +1116,36 @@ nur steht an einzelnen Stellen die Vermutung einer Quelle, wo eine Messung stand
 war Daniels Frage vom 23.08.2026, ob seine Netflix-Meldungen vom Vortag beim nächsten Lauf
 überschrieben werden könnten.
 
+## Sammeln und Zusammenführen sind zwei Läufe — nur der zweite darf rot werden
+
+Daniel am 30.08.2026: „mach die läufe stabil. wöchentlich und stündlich sollte nie
+rot sein können, alles was sie machen ist sammeln und liefern. sie müssen keine
+merge conflicts etc fixen, sie können irgendwo erstmal alles ablegen, das mergen
+in bestand muss separat passieren.“
+
+Der Anlass waren zwei rote Läufe an einem Tag, beide mit fertiger Arbeit:
+
+| Lauf | woran er starb | woran es **nicht** lag |
+|---|---|---|
+| Wöchentlich (33313062428) | `check:bestand` fand einen Widerspruch im gebauten Datensatz | 58 Minuten Abrufe von fünf fremden Servern, alle durchgelaufen |
+| Stündlich (33312972636) | eine doppelte `url:`-Zeile, geschrieben von einem **früheren** Lauf | der Lauf selbst hatte nichts falsch gemacht |
+
+Seitdem gilt:
+
+- **Die drei planmäßigen Läufe holen und committen nur Quellen** (`NUR_QUELLEN=1`).
+  Jeder Abruf trägt `continue-on-error`; fällt eine Quelle aus, macht der Rest
+  weiter.
+- **`Bestand — zusammenführen und bauen` führt zusammen**: Meldungen einarbeiten,
+  Rohfolgen zuordnen, bauen, Arbeitslisten, Vorschaubilder, `check:bestand`,
+  `data:check`. Er hängt per `workflow_run` an allen dreien und **darf rot
+  werden** — wird er es, ist wirklich etwas am Bestand kaputt.
+- **Der Deploy hängt jetzt an ihm**, nicht mehr an den Sammlern: Die bauen keinen
+  Datensatz mehr, den man ausliefern könnte.
+
+**Der Alarm über stumme Quellen wandert mit.** Ein Sammler, der eine Quelle nicht
+erreicht, ist kein Fehler — dass sie seit Tagen schweigt, schon. `data:check`
+steht deshalb im Bau-Lauf, an der Stelle, die es beurteilen kann.
+
 ## Ein laufender Datenlauf committet den Stand von seinem Start
 
 Am 29.08.2026 wurden 19 berichtigte Handbelege wieder falsch — keine Stunde,

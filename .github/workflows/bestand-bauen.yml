@@ -1,0 +1,209 @@
+name: Bestand — zusammenführen und bauen
+
+# Sammeln und Zusammenführen sind zwei Arbeiten — und nur die zweite darf rot
+# werden.
+#
+# Daniel am 30.08.2026: „mach die läufe stabil. wöchentlich und stündlich sollte
+# nie rot sein können, alles was sie machen ist sammeln und liefern. sie müssen
+# keine merge conflicts etc fixen, sie können irgendwo erstmal alles ablegen, das
+# mergen in bestand muss separat passieren."
+#
+# Der Anlass waren zwei rote Läufe an einem Tag, beide mit fertiger Arbeit:
+#
+# - Der Wochenlauf (33313062428) holte 58 Minuten lang von fünf fremden Servern
+#   und wurde am Ende rot, weil `check:bestand` einen Widerspruch im **gebauten**
+#   Datensatz fand — an den Abrufen lag nichts.
+# - Der stündliche Lauf (33312972636) brach beim Bau an einer YAML-Zeile ab, die
+#   ein früherer Lauf geschrieben hatte.
+#
+# Seitdem gilt die Arbeitsteilung: Die drei planmäßigen Läufe holen Daten und
+# committen sie mit `NUR_QUELLEN=1` — kein Bau, keine Zusicherung, kein Rot.
+# Dieser Lauf hier führt zusammen, baut, prüft und liefert aus. Wird er rot, ist
+# wirklich etwas am Bestand kaputt, und genau das soll man sehen.
+
+on:
+  # Läuft nach jedem Sammel-Lauf, auch nach einem gescheiterten: Der holt seine
+  # Quellen trotzdem, und die gehören verbaut.
+  workflow_run:
+    workflows:
+      - 'Stündlich — Sendezeiten'
+      - 'Täglich — alle Quellen'
+      - 'Wöchentlich — tiefer Durchlauf'
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  # Dieselbe Gruppe wie die Sammler: Zwei Läufe, die dieselben Dateien
+  # committen, erzeugen sonst einen Push-Konflikt.
+  group: daten
+  cancel-in-progress: false
+
+jobs:
+  bauen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      LAUF_ZWECK: 'Führt die gesammelten Quellen zum ausgelieferten Datensatz zusammen'
+      LAUF_ZIEL: 'Datensatz gebaut, Zusicherungen gehalten, Erzeugnisse committet'
+      LAUF_SCHRITTE: '5'
+    steps:
+      - name: Sofort anmelden
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: |
+          if [ -z "$LAUF_TOKEN" ]; then exit 0; fi
+          printf '{"lauf_id":"%s","repo":"%s","workflow":"%s","zustand":"laeuft","url":"%s","notiz":"wird eingerichtet"}' \
+            "$GITHUB_RUN_ID" "$GITHUB_REPOSITORY" "$GITHUB_WORKFLOW" \
+            "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" > /tmp/anmeldung.json
+          curl -sS --max-time 10 -X POST "https://newsletter.animekalender.workers.dev/lauf" \
+            -H "Content-Type: application/json" -H "X-Lauf-Token: $LAUF_TOKEN" \
+            --data-binary @/tmp/anmeldung.json > /dev/null || true
+
+      - uses: actions/checkout@v4
+        with:
+          # Der Sammler hat gerade gepusht — dieser Lauf braucht dessen Stand,
+          # nicht den Commit, für den er ausgelöst wurde.
+          ref: main
+
+      - name: Melder bereitlegen
+        run: |
+          cp tools/lauf-melden.sh "$RUNNER_TEMP/lauf-melden.sh"
+          echo "MELDER=$RUNNER_TEMP/lauf-melden.sh" >> "$GITHUB_ENV"
+
+      - name: Lauf anmelden
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" laeuft
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # `data/cache/` liegt bewusst nicht im Repo, der Bau braucht ihn aber —
+      # ohne ihn entstünde ein Datensatz ganz ohne Titel. Die Sammel-Läufe legen
+      # ihn unter demselben Präfix ab.
+      - name: AniList-Cache wiederverwenden
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: data/cache
+          key: anilist-cache-${{ github.run_id }}
+          restore-keys: anilist-cache-
+
+      - name: Rohdaten holen, falls kein Cache da ist
+        if: steps.cache.outputs.cache-matched-key == ''
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          SITE_URL: ${{ vars.SITE_URL }}
+        run: npm run data:fetch
+
+      # Die Meldungen aus der Erweiterung wandern hier in `dub-confirmed.yaml`
+      # — das ist Zusammenführen, nicht Sammeln. Scheitert der Bau danach,
+      # committet `commit-data.sh` die Datei trotzdem: Sie ist eine Quelle.
+      - name: Meldungen aus der Erweiterung einarbeiten
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:pruefungen
+
+      - name: Fortschritt — Meldungen einarbeiten
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Meldungen einarbeiten"
+
+      # Die gemeldeten Rohfolgen unseren Folgen zuordnen — gegen TMDB, nicht im
+      # Browser. Muss vor der Prüfliste laufen: Was zugeordnet ist, gehört nicht
+      # mehr auf sie.
+      - name: Rohfolgen zuordnen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:rohfolgen
+
+      - name: Datensatz bauen
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+          SITE_URL: ${{ vars.SITE_URL }}
+        run: npm run data:build
+
+      - name: Fortschritt — Datensatz bauen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Datensatz bauen"
+
+      # Was dieser Lauf am Bestand verändert hat, Zeile für Zeile. Ohne diese
+      # Spur sah ein Lauf, der 508 Meldungen verlor, genauso grün aus wie einer,
+      # der alles eingearbeitet hat (26.08.2026).
+      - name: Delta am Bestand festhalten
+        continue-on-error: true
+        run: npm run data:historie -- --lauf "${{ github.workflow }}"
+
+      # Erst nach dem Bau: Die Listen zählen gegen `titles.json`, und das
+      # entsteht eine Zeile weiter oben.
+      - name: Arbeitslisten und Prüfstand neu erzeugen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:vorschlaege && npm run data:dub-checks && npm run data:extension-liste && npm run data:start-liste
+
+      - name: Fortschritt — Arbeitslisten neu erzeugen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Arbeitslisten neu erzeugen"
+
+      # Zählt den Bestand und schreibt den Verlauf fort. Bricht nur ab, wenn
+      # etwas gefunden wird, das gar nicht vorkommen darf.
+      - name: Datenqualität messen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run check:qualitaet
+
+      - name: Vorschaubilder für neue Releases
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:og
+
+      - name: Fortschritt — Vorschaubilder
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Vorschaubilder"
+
+      # Hier sitzt die Zusicherung über den gebauten Bestand (`check:bestand` in
+      # commit-data.sh). Sie darf rot werden — das ist der Sinn dieses Laufs.
+      - name: Änderungen committen
+        run: |
+          bash tools/commit-data.sh "chore(data): Bestand neu gebaut"
+
+      # Der Alarm für stumm gewordene Quellen. Er gehört hierher und nicht in
+      # den Sammler: Ein Sammler, der eine Quelle nicht erreicht, macht weiter
+      # — dass sie seit Tagen schweigt, ist eine Aussage über den Bestand.
+      - name: Quellen auf Schweigen prüfen
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:check
+
+      - name: Ergebnis nach Discord melden
+        if: failure()
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: bash tools/discord-melden.sh "Bestand zusammenführen und bauen" "${{ job.status }}"
+
+      - name: Lauf abmelden
+        continue-on-error: true
+        if: always()
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" "${{ job.status == 'success' && 'ok' || job.status == 'cancelled' && 'abgebrochen' || 'fehler' }}"
