@@ -479,8 +479,26 @@ async function speicherSchreiben(werte) {
       const daten = JSON.parse(block.textContent)
       const oben = daten?.init?.preparations?.body?.atf?.state
       if (!oben) return null
-      const alle = oben.detail?.headerDetail ?? {}
-      const kopf = alle[oben.pageTitleId ?? ''] ?? Object.values(alle)[0]
+      /*
+        **`headerDetail` ist manchmal leer — dann steht alles in `detail`.**
+
+        Daniel am 30.08.2026 an „One Piece – Strong World": Der Knopf blieb auf
+        „Tonspuren nicht gefunden — Seite neu laden" stehen, obwohl
+        `istFilmSeite` griff und der Quelltext frisch war.
+
+        Anonym nachgemessen: Die Seite führt `audioTracks: ["Deutsch","日本語"]`
+        **dreimal** — unter `detail.headerDetail`, unter `detail.detail` und
+        unter `btfMoreDetails`. Im Zustand, den dieser Code liest, ist
+        `headerDetail` ein leeres Objekt, und `Object.values(alle)[0]` gibt
+        deshalb `undefined`.
+
+        Gelesen wird jetzt aus beiden Töpfen, `headerDetail` zuerst. Der
+        Rückfall auf den ersten Eintrag bleibt: Die Adresse (`B0DQM5BCFD`) und
+        die Kennung im Block (`B0DQM2JXB6`) gehen bei Filmen regelmäßig
+        auseinander.
+      */
+      const alle = { ...(oben.detail?.detail ?? {}), ...(oben.detail?.headerDetail ?? {}) }
+      const kopf = alle[oben.pageTitleId ?? ''] ?? Object.values(alle).find((x) => x?.audioTracks?.length)
       if (!kopf) return null
       /*
         Nur ein Film. Bei einer Serie liefert der Mitleser die Folgen einzeln,
