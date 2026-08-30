@@ -16,9 +16,10 @@ name: Claude — roten Datenlauf untersuchen
 on:
   workflow_run:
     workflows:
-      - 'Täglich — alle Quellen'
-      - 'Wöchentlich — tiefer Durchlauf'
-      - 'Stündlich — Sendezeiten'
+      # Seit dem 30.08.2026 sammeln die drei planmäßigen Läufe nur noch. Rot
+      # werden kann allein der Bau-Lauf — dort steht auch alles, was er
+      # reparieren könnte.
+      - 'Bestand — zusammenführen und bauen'
     types: [completed]
 
 permissions:
