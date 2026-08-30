@@ -2104,6 +2104,23 @@ async function speicherSchreiben(werte) {
   function hinweisKasten(titel, unterzeile, ...zusatz) {
     const kasten = document.createElement('div')
     kasten.className = 'ak-amazon-suchhinweis'
+    /*
+      **Der Kasten gehört zu einer Adresse — sonst überlebt er den Wechsel.**
+
+      Daniel am 30.08.2026: „warum ändert sich das div nicht, ich hab den
+      treffer in der suche angeklickt und will ihn melden, das tool lässt mich
+      nicht." Auf der Danmachi-Seite stand der Befund der **Suchseite**:
+      „Nicht dieser Titel — gefunden: … Familia Myth 3 OVA".
+
+      Beide Hinweise werden **einmal beim Seitenaufbau** gebaut, nicht im Takt.
+      Prime Video wechselt aber ohne Neuladen: Das Skript läuft weiter, der
+      Kasten bleibt hängen, und sein Inhalt beschreibt eine Seite, die niemand
+      mehr ansieht.
+
+      Dieselbe Lösung wie beim Mitleser (`fuerAdresse`, 25.08.2026): Jedes
+      Ergebnis trägt mit, wozu es gehört, und wer es liest, verwirft Fremdes.
+    */
+    kasten.dataset.fuerAdresse = location.pathname
     kasten.appendChild(kastenZeile('ak-such-titel', titel))
     if (unterzeile) kasten.appendChild(kastenZeile('ak-such-unter', unterzeile))
     for (const z of zusatz) if (z) kasten.appendChild(z)
@@ -2782,6 +2799,23 @@ async function speicherSchreiben(werte) {
     Der Pfad entscheidet, nicht die Parameter: `/s` ist Amazons Suche.
   */
   const aufSuchseite = zeigeSuchhinweis() || /^\/s(\/|$)/.test(location.pathname)
+
+  /**
+   * **Dieselbe Frage, aber jetzt statt beim Aufbau.**
+   *
+   * `aufSuchseite` oben entsteht einmal und bleibt es. Prime Video wechselt
+   * ohne Neuladen: Wer aus der Trefferliste auf einen Titel klickt, steht auf
+   * einer Seite, auf der gemeldet werden kann — mit einem Skript, das die Seite
+   * für eine Trefferliste hält und den Melde-Knopf ausblendet.
+   *
+   * Daniel am 30.08.2026: „ich hab den treffer in der suche angeklickt und will
+   * ihn melden, das tool lässt mich nicht."
+   *
+   * Der Pfad allein entscheidet, und zwar zur Zeichenzeit. Der gemerkte Auftrag
+   * gehört nicht in diese Frage: Er gilt zehn Minuten und über Seiten hinweg —
+   * genau deshalb darf er keine Titelseite stumm schalten.
+   */
+  const jetztAufSuchseite = () => /^\/s(\/|$)/.test(location.pathname)
 
 
   // Veränderlich: Das Auswahlfeld wechselt die Staffel ohne Seitenneuladen,
@@ -4369,7 +4403,7 @@ async function speicherSchreiben(werte) {
       Die Prüfung steht hier und nicht einmalig beim Aufbau: Der Takt zeichnet
       alle 500 ms neu und setzte die Anzeige jedes Mal zurück.
     */
-    if (aufSuchseite) {
+    if (jetztAufSuchseite()) {
       knopf.style.display = 'none'
       return
     }
@@ -6238,6 +6272,27 @@ async function speicherSchreiben(werte) {
     }
     uebersichtKnopf.style.display = ''
     schutzflaecheZeigen(true)
+    /*
+      **Ein Hinweiskasten einer anderen Seite wird weggeräumt und neu gebaut.**
+
+      Prime Video wechselt ohne Neuladen; beide Hinweise entstehen aber nur
+      beim Seitenaufbau. Ohne diese Zeilen bleibt der Befund der Suchseite über
+      einer Titelseite stehen und behauptet dort „Anderes Werk", während der
+      Melde-Weg gerade offen wäre (Daniel, 30.08.2026, an „Danmachi").
+
+      Neu aufgebaut wird nur der Auftragshinweis: Der Suchhinweis gehört auf
+      eine Trefferliste, und die erreicht man nicht per Wechsel innerhalb des
+      Titelbereichs.
+    */
+    const alterHinweis = document.querySelector('.ak-amazon-suchhinweis')
+    if (alterHinweis && alterHinweis.dataset.fuerAdresse !== location.pathname) {
+      alterHinweis.remove()
+      try {
+        zeigeAuftragshinweis()
+      } catch {
+        /* Ohne Auftrag gibt es nichts zu zeigen — der alte Kasten ist trotzdem weg. */
+      }
+    }
     beiStaffelwechsel()
     zeichnen()
     /**
