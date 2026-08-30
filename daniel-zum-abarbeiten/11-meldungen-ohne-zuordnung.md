@@ -42,3 +42,5 @@ nicht. Drei Fälle, drei Handgriffe:
 | primevideo | https://www.amazon.de/s?k=Grisaia%20Phantom%20Trigger&i=instant-video | Grisaia Phantom Trigger | dub | [Grisaia Phantom Trigger](https://anilist.co/anime/120892)<br>[Grisaia Phantom Trigger](https://anilist.co/anime/145740) | Vorschlag bestätigen, dann Adresse eintragen |
 | primevideo | https://www.amazon.de/s?k=Kizumonogatari%20II%3A%20Hei%C3%9Fes%20Blut&i=instant-video | Kizumonogatari II: Heißes Blut — Teil 2 | weg | — | nichts — diese Adresse steht bei uns nirgends |
 | primevideo | https://www.amazon.de/dp/B0D2M355W6 | Captain Tsubasa 2018 - Junior High School | dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/s?k=Kizumonogatari%20III%3A%20Kaltes%20Blut&i=instant-video | Kizumonogatari III: Kaltes Blut — Teil 3 | weg | — | nichts — diese Adresse steht bei uns nirgends |
+| primevideo | https://www.amazon.de/dp/B0GPD4GNLL | My First Girlfriend Is a Gal — Kauftitel (FSK 16, mit OVA) | dub | — | Titel von Hand suchen |
