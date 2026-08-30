@@ -1887,9 +1887,31 @@ async function speicherSchreiben(werte) {
    * `typPasst()` über Amazons `data-card-entity-type`. Ein Datenfeld schlägt ein
    * Textmuster, hier wie überall in diesem Projekt.
    */
+  /*
+    **Gemessen am eigenen Bestand, nicht ausgedacht.**
+
+    Ausgezählt wurden am 31.08.2026 alle Titelzusätze hinter dem letzten
+    Doppelpunkt oder Gedankenstrich (Daniel: „check existing data for more
+    examples"):
+
+        40× the movie      18× the animation     17× der film
+         7× the series      5× die serie          5× episoden
+
+    „The Animation" ist der Fall, an dem es auffiel: Unser Titel lautet
+    „Phantasy Star Online 2: The Animation", Prime schreibt „Phantasy Star
+    Online 2".
+
+    **Die Artikel gehören dazu.** Ohne sie bliebe „the" stehen, und der Auftrag
+    hätte immer noch ein Wort mehr als die Karte — der Treffer fiele durch
+    dieselbe Längenprüfung wie vorher. `FUELLWORT` führt sie ohnehin; hier
+    fallen sie eine Stufe früher weg.
+  */
   const GATTUNG = new Set([
-    'film', 'movie', 'serie', 'series', 'anime', 'staffel', 'season',
+    'film', 'movie', 'serie', 'series', 'anime', 'animation', 'staffel', 'season',
     'komplett', 'komplette', 'complete', 'gesamtausgabe', 'edition',
+    'episoden', 'folgen',
+    /* Artikel und Bindewörter — sie benennen nichts. */
+    'the', 'der', 'die', 'das', 'des', 'dem', 'den', 'und', 'and',
   ])
   const titelWorte = (t) =>
     (t ?? '')
@@ -1979,7 +2001,25 @@ async function speicherSchreiben(werte) {
     if (treffer) return Number(treffer[1])
     const wort = /\b(second|zweite|third|dritte|fourth|vierte|fifth)\b/.exec(s)?.[1]
     if (wort) return WORTE[wort]
-    const nackt = /\s([2-9])\s*$/.exec(s)?.[1]
+    /*
+      **Die nackte Zahl steht am Ende — auch wenn ein Gattungswort folgt.**
+
+      „Phantasy Star Online 2" gilt hier als Staffel 2 (die Zahl schließt den
+      Titel ab), „Phantasy Star Online 2: The Animation" dagegen als Staffel 1
+      — dort endet der Titel auf „animation". Damit galten Auftrag und Karte als
+      verschiedene Staffeln, und der Treffer fiel auf „ähnlich" zurück (Daniel,
+      31.08.2026).
+
+      Gattungswörter sagen nichts über die Staffel; sie werden vorher
+      abgeschnitten. Dass beide Seiten dieselbe Nummer bekommen, ist der ganze
+      Zweck — welche es ist, entscheidet der Rest des Namens.
+    */
+    /* Im Rumpf, nicht daneben: Die Zusicherungen schneiden Funktionen einzeln aus. */
+    const ohneGattung = s.replace(
+      /[\s:–—-]+(?:the\s+)?(?:animation|movie|film|serie|series|anime|edition)\s*$/i,
+      '',
+    )
+    const nackt = /\s([2-9])\s*$/.exec(ohneGattung)?.[1]
     return nackt ? Number(nackt) : 1
   }
 

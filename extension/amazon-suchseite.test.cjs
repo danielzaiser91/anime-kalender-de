@@ -792,6 +792,12 @@ const opFilm = werte(
 )
 pruefe('„Film" im Titel kostet den Treffer nicht', opFilm.befund.art === 'genau', opFilm.befund.art)
 
+const psoAnim = werte(
+  [{ label: 'Beste Ergebnisse', karten: [karte('Phantasy Star Online 2', 'TV Show', 'Entitled', 'B0CCCD3333')] }],
+  { titel: 'Phantasy Star Online 2: The Animation', folgen: 12 },
+)
+pruefe('„The Animation" ebenso wenig', psoAnim.befund.art === 'genau', psoAnim.befund.art)
+
 /*
   **Der AniList-Verweis haengt an hinweisKasten, nicht an einer Aufrufstelle.**
 
