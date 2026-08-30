@@ -23891,3 +23891,19 @@
   dub: true
   checkedAt: '2026-08-30'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0H9G1CNHC: alle 24 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-30 ---
+
+- anilistId: 158869
+  title: "Pokémon: Blauer Himmel in der Ferne!"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-30'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 7054
+  title: "Maid-sama"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DMWSJ7B9
+  checkedAt: '2026-08-30'
+  note: "Tonspuren: 日本語 — Amazon-Seite B0DMWSJ7B9: alle 27 Folgen geprüft, Abos: animedigitalde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"

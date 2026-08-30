@@ -37,3 +37,8 @@ nicht. Drei Fälle, drei Handgriffe:
 | primevideo | https://www.amazon.de/dp/B0CHH61FPJ | Food Wars! | dub | [Food Wars! Shokugeki no Soma](https://anilist.co/anime/20923) | Vorschlag bestätigen, dann Adresse eintragen |
 | primevideo | https://www.amazon.de/dp/B07LHFLDBS | Chaika | kein_dub | [Chaika, die Sargprinzessin](https://anilist.co/anime/20462)<br>[Chaika, die Sargprinzessin: Avenging Battle](https://anilist.co/anime/20719)<br>[Chaika, die Sargprinzessin OVA](https://anilist.co/anime/20724) | Vorschlag bestätigen, dann Adresse eintragen |
 | primevideo | https://www.amazon.de/dp/B0FVLKDZQ5 | Die rothaarige Schneeprinzessin - Die komplette Serie | kein_dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/s?k=Gantz&i=instant-video | Gantz | dub | [Gantz](https://anilist.co/anime/384)<br>[Gantz](https://anilist.co/anime/395) | Vorschlag bestätigen, dann Adresse eintragen |
+| primevideo | https://www.amazon.de/s?k=Girls%20und%20Panzer%3A%20Das%20Finale&i=instant-video | Girls und Panzer: Das Finale — Teil 4 | dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/s?k=Grisaia%20Phantom%20Trigger&i=instant-video | Grisaia Phantom Trigger | dub | [Grisaia Phantom Trigger](https://anilist.co/anime/120892)<br>[Grisaia Phantom Trigger](https://anilist.co/anime/145740) | Vorschlag bestätigen, dann Adresse eintragen |
+| primevideo | https://www.amazon.de/s?k=Kizumonogatari%20II%3A%20Hei%C3%9Fes%20Blut&i=instant-video | Kizumonogatari II: Heißes Blut — Teil 2 | weg | — | nichts — diese Adresse steht bei uns nirgends |
+| primevideo | https://www.amazon.de/dp/B0D2M355W6 | Captain Tsubasa 2018 - Junior High School | dub | — | Titel von Hand suchen |

@@ -11,7 +11,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260823T140000Z
 DTEND:20260823T143000Z
 SUMMARY:The 100 Girlfriends Who Really\, Really\, Really\, Really\, REALLY 
- Love You Staffel 3 – Folge 29/29
+ Love You Staffel 3 – Folge 29/30
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GNVHKN933
 CATEGORIES:Crunchyroll
@@ -24,6 +24,17 @@ DTEND:20260826T160000Z
 SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 5/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/trapped-in-a-dating-sim-s2
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GNVHKN933@2026-08-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260830T140000Z
+DTEND:20260830T143000Z
+SUMMARY:The 100 Girlfriends Who Really\, Really\, Really\, Really\, REALLY 
+ Love You Staffel 3 – Folge 30/30
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GNVHKN933
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT

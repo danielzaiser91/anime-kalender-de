@@ -11,7 +11,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20260823T140000Z
 DTEND:20260823T143000Z
 SUMMARY:The 100 Girlfriends Who Really\, Really\, Really\, Really\, REALLY 
- Love You Staffel 3 – Folge 29/29
+ Love You Staffel 3 – Folge 29/30
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GNVHKN933
 CATEGORIES:Crunchyroll
@@ -68,6 +68,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/nukitas
  hi-vol1
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GNVHKN933@2026-08-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260830T140000Z
+DTEND:20260830T143000Z
+SUMMARY:The 100 Girlfriends Who Really\, Really\, Really\, Really\, REALLY 
+ Love You Staffel 3 – Folge 30/30
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/#/release/cr-GNVHKN933
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:mushoku-tensei-s3@2026-08-30@anime-kalender-de
