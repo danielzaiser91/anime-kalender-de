@@ -23927,3 +23927,19 @@
   dub: true
   checkedAt: '2026-08-30'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0H9G1CNHC: alle 24 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+# Der Verweis führt zu einem anderen Werk — gemessen am 30.08.2026, nachdem die
+# Amazon-Pille Daniel zweimal dorthin geschickt hatte („klick auf amazon pill in
+# lauf status app hat free geöffnet"). `B0CH396B9Y` ist bei aniSearch dem
+# Eintrag 9421 zugeordnet, also „Free! Eternal Summer" (AniList 20614); bei uns
+# hing er an „Fullmetal Alchemist". Beides sind eigenständige Werke ohne jeden
+# Namensbezug — kein Fall von Serie und ihrer OVA, wie bei den zwölf übrigen
+# Abweichungen derselben Messung.
+- anilistId: 121
+  title: Fullmetal Alchemist
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-30'
+  note: >-
+    Adresse B0CH396B9Y öffnet „Free!" — sie gehört laut aniSearch zu Free!
+    Eternal Summer (as9421). Falsch zugeordnet, nicht fehlend.
