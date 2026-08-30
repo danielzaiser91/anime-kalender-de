@@ -1,13 +1,13 @@
 {
- "erzeugtAm": "2026-08-30T19:54:01.204Z",
+ "erzeugtAm": "2026-08-30T21:17:16.612Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 527,
-   "gesamt": 545,
-   "offen": 18,
-   "ohneSeite": 166,
+   "gemeldet": 562,
+   "gesamt": 564,
+   "offen": 2,
+   "ohneSeite": 157,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Tenjho%20Tenge&i=instant-video",
     "https://www.amazon.de/s?k=Samurai%20Champloo&i=instant-video",
@@ -23,7 +23,6 @@
     "https://www.amazon.de/s?k=The%20Adventures%20of%20Tom%20Sawyer&i=instant-video",
     "https://www.amazon.de/s?k=One%20Piece%20Film%3A%20Strong%20World&i=instant-video",
     "https://www.amazon.de/s?k=Toradora!&i=instant-video",
-    "https://www.amazon.de/s?k=Jormungand%3A%20Perfect%20Order&i=instant-video",
     "https://www.amazon.de/s?k=The%20Pet%20Girl%20of%20Sakurasou&i=instant-video",
     "https://www.amazon.de/s?k=Space%20Dandy&i=instant-video",
     "https://www.amazon.de/s?k=HAIKYU!!&i=instant-video",
@@ -42,7 +41,6 @@
     "https://www.amazon.de/s?k=Food%20Wars!%20The%20Second%20Plate&i=instant-video",
     "https://www.amazon.de/s?k=Scum's%20Wish&i=instant-video",
     "https://www.amazon.de/s?k=UQ%20Holder!&i=instant-video",
-    "https://www.amazon.de/s?k=Pok%C3%A9mon%20the%20Series%3A%20Sun%20%26%20Moon&i=instant-video",
     "https://www.amazon.de/s?k=Welcome%20to%20the%20Ballroom&i=instant-video",
     "https://www.amazon.de/s?k=Tokyo%20Ghoul%3Are&i=instant-video",
     "https://www.amazon.de/s?k=Tokyo%20Ghoul%3Are%202&i=instant-video",
@@ -68,9 +66,7 @@
     "https://www.amazon.de/s?k=Boogiepop%20and%20Others&i=instant-video",
     "https://www.amazon.de/s?k=Gantz&i=instant-video",
     "https://www.amazon.de/s?k=Danmachi%3A%20Is%20It%20Wrong%20to%20Try%20to%20Pick%20Up%20Girls%20in%20a%20Dungeon%3F%20Familia%20Myth&i=instant-video",
-    "https://www.amazon.de/s?k=Overlord&i=instant-video",
     "https://www.amazon.de/s?k=We%20Never%20Learn&i=instant-video",
-    "https://www.amazon.de/s?k=Princess%20Princess&i=instant-video",
     "https://www.amazon.de/s?k=Sekirei&i=instant-video",
     "https://www.amazon.de/s?k=Is%20This%20a%20Zombie%3F&i=instant-video",
     "https://www.amazon.de/s?k=Infinite%20Stratos&i=instant-video",
@@ -95,7 +91,6 @@
     "https://www.amazon.de/s?k=Aokana%3A%20Four%20Rhythm%20Across%20the%20Blue&i=instant-video",
     "https://www.amazon.de/s?k=Erased%3A%20Die%20Stadt%2C%20in%20der%20es%20mich%20nicht%20gibt&i=instant-video",
     "https://www.amazon.de/s?k=Phantasy%20Star%20Online%202%3A%20The%20Animation&i=instant-video",
-    "https://www.amazon.de/s?k=Legend%20of%20the%20Galactic%20Heroes%3A%20Die%20Neue%20These&i=instant-video",
     "https://www.amazon.de/s?k=Bungo%20Stray%20Dogs&i=instant-video",
     "https://www.amazon.de/s?k=Danganronpa%203%3A%20The%20End%20of%20Hope%E2%80%99s%20Peak%20Academy%20-%20Future%20Arc&i=instant-video",
     "https://www.amazon.de/s?k=Touken%20Ranbu%3A%20Hanamaru&i=instant-video",
@@ -109,8 +104,6 @@
     "https://www.amazon.de/s?k=Immoral%20Guild&i=instant-video",
     "https://www.amazon.de/s?k=Usagi%20Drop&i=instant-video",
     "https://www.amazon.de/s?k=Terror%20in%20Tokio&i=instant-video",
-    "https://www.amazon.de/s?k=Mother%20of%20the%20Goddess%E2%80%99%20Dormitory&i=instant-video",
-    "https://www.amazon.de/s?k=Pok%C3%A9mon%20Heroes%3A%20Der%20Film&i=instant-video",
     "https://www.amazon.de/s?k=Pok%C3%A9mon%207%3A%20Destiny%20Deoxys%20-%20Der%20Film&i=instant-video",
     "https://www.amazon.de/s?k=Shakugan%20no%20Shana%3A%20Der%20Film&i=instant-video",
     "https://www.amazon.de/s?k=Sword%20of%20the%20Stranger&i=instant-video",
@@ -149,10 +142,8 @@
     "https://www.amazon.de/s?k=Yandere%20Dark%20Elf%3A%20She%20Chased%20Me%20All%20the%20Way%20from%20Another%20World!&i=instant-video",
     "https://www.amazon.de/s?k=Hell%20Mode%3A%20The%20Hardcore%20Gamer%20Dominates%20in%20Another%20World%20with%20Garbage%20Balancing&i=instant-video",
     "https://www.amazon.de/s?k=Reincarnated%20as%20a%20Dragon%20Hatchling&i=instant-video",
-    "https://www.amazon.de/s?k=Phantom%20of%20the%20Idol&i=instant-video",
     "https://www.amazon.de/s?k=Star%20Blazers%202199%3A%20Space%20Battleship%20Yamato%20-%20A%20Voyage%20to%20Remember&i=instant-video",
     "https://www.amazon.de/s?k=Tao%20Tao%3A%20Der%20kleine%20Pandab%C3%A4r&i=instant-video",
-    "https://www.amazon.de/s?k=Kuroko%E2%80%99s%20Basketball%20-%20Winter%20Cup%20Highlights%20Movie%202%20Beyond%20the%20Tears&i=instant-video",
     "https://www.amazon.de/s?k=K%3A%20Seven%20Stories%20Movie%202%20-%20Side%3ABlue%20-%20Like%20Sirius&i=instant-video",
     "https://www.amazon.de/s?k=K%3A%20Seven%20Stories%20Movie%205%20-%20Memory%20of%20Red%20-%20BURN&i=instant-video",
     "https://www.amazon.de/s?k=K%3A%20Seven%20Stories%20Movie%206%20-%20Circle%20Vision%20-%20Nameless%20Song&i=instant-video",
@@ -164,84 +155,20 @@
     "https://www.amazon.de/s?k=Princess%20Principal%3A%20Crown%20Handler%203&i=instant-video",
     "https://www.amazon.de/s?k=Grisaia%20Phantom%20Trigger&i=instant-video",
     "https://www.amazon.de/s?k=Digimon%20Adventure%2002%3A%20The%20Beginning&i=instant-video",
-    "https://www.amazon.de/s?k=Lonely%20Castle%20in%20the%20Mirror&i=instant-video",
     "https://www.amazon.de/s?k=Tom%20und%20Jerry%3A%20Der%20verlorene%20Kompass&i=instant-video",
     "https://www.amazon.de/s?k=Tenchi%20Muyo!%20(Episode%201%20-%206)&i=instant-video",
     "https://www.amazon.de/s?k=Murder%20Princess&i=instant-video",
     "https://www.amazon.de/s?k=Fate%2FStay%20Night%3A%20Unlimited%20Blade%20Works%20-%20Sunny%20Day&i=instant-video",
     "https://www.amazon.de/s?k=Ghost%20in%20the%20Shell%3A%20Stand%20Alone%20Complex%20-%20Der%20Alltag%20der%20Tachikoma&i=instant-video",
     "https://www.amazon.de/s?k=Kiss%20%C3%97%20Sis%20(OVA)&i=instant-video",
+    "https://www.amazon.de/s?k=Legend%20of%20the%20Galactic%20Heroes%3A%20Die%20Neue%20These&i=instant-video",
     "https://www.amazon.de/s?k=Strike%20Witches%3A%20Operation%20Victory%20Arrow&i=instant-video",
     "https://www.amazon.de/s?k=Encouragement%20of%20Climb%3A%20Staffel%202%20Specials&i=instant-video",
     "https://www.amazon.de/s?k=How%20Heavy%20Are%20the%20Dumbbells%20You%20Lift%3F%20Gnadenlose%20Trainingsstunde&i=instant-video",
     "https://www.amazon.de/s?k=Danganronpa%203%3A%20The%20End%20of%20Hope%E2%80%99s%20Peak%20High%20School%20-%20Hope%20Arc%20-%20The%20School%20of%20Hope%20and%20the%20Students%20of%20Despair&i=instant-video"
    ],
-   "ziel": "https://www.amazon.de/dp/B0CH396B9Y",
+   "ziel": "https://www.amazon.de/dp/B0GKFJXSLT",
    "ziele": [
-    {
-     "url": "https://www.amazon.de/dp/B0CH396B9Y",
-     "titel": "Hagane no Renkinjutsushi"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0CJYMLW6W",
-     "titel": "Fushigi Yuugi OVA 2"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0DMWSJ7B9",
-     "titel": "Kaichou wa Maid-sama!"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0CGVS29ZD",
-     "titel": "Free!"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0CJJF26WZ",
-     "titel": "Date A Live II"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0CGYJ482P",
-     "titel": "Saenai Heroine no Sodatekata"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0GV5SHH5P",
-     "titel": "Hajimete no Gal"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0DMMT9B67",
-     "titel": "Grisaia: Phantom Trigger THE ANIMATION"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0CHN14W48",
-     "titel": "Free!: Dive to the Future"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B09MDQX4CW",
-     "titel": "Appare-Ranman!"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0CYQJ79R8",
-     "titel": "GIRLS BAND CRY"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0FSCGZ9SG",
-     "titel": "Dragon Ball DAIMA"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0DMKS6Y12",
-     "titel": "Akuyaku Reijou Tensei Oji-san"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0DPLRJNLG",
-     "titel": "Kakushite! Makina-san!!"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0GVN98MKW",
-     "titel": "Reincarnation no Kaben"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0FP4BJZFG",
-     "titel": "Towa no Yuugure"
-    },
     {
      "url": "https://www.amazon.de/dp/B0GKFJXSLT",
      "titel": "Golden Kamuy: Final Season"
@@ -251,7 +178,7 @@
      "titel": "My First Girlfriend Is a Gal — Kauftitel (FSK 16, mit OVA)"
     }
    ],
-   "naechster": "Hagane no Renkinjutsushi"
+   "naechster": "Golden Kamuy: Final Season"
   },
   {
    "name": "Netflix",

@@ -44,3 +44,16 @@ nicht. Drei Fälle, drei Handgriffe:
 | primevideo | https://www.amazon.de/dp/B0D2M355W6 | Captain Tsubasa 2018 - Junior High School | dub | — | Titel von Hand suchen |
 | primevideo | https://www.amazon.de/s?k=Kizumonogatari%20III%3A%20Kaltes%20Blut&i=instant-video | Kizumonogatari III: Kaltes Blut — Teil 3 | weg | — | nichts — diese Adresse steht bei uns nirgends |
 | primevideo | https://www.amazon.de/dp/B0GPD4GNLL | My First Girlfriend Is a Gal — Kauftitel (FSK 16, mit OVA) | dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/s?k=Legend%20of%20the%20Galactic%20Heroes%3A%20Die%20Neue%20These&i=instant-video | Legend of the Galactic Heroes: Die Neue These | dub | [Legend of the Galactic Heroes: Die Neue These](https://anilist.co/anime/20628)<br>[Legend of the Galactic Heroes: Die Neue These](https://anilist.co/anime/100780) | Vorschlag bestätigen, dann Adresse eintragen |
+| primevideo | https://www.amazon.de/dp/B0C8X3SVR3 | The Legend of the Galactic Heroes: Die Neue These Seiran | dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/dp/B0CH3DCVW6 | Pokémon - Die TV-Serie: Sonne & Mond - Ultra-Abenteuer | dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/dp/B0CJP92569 | Pokémon - Die TV-Serie: Sonne & Mond - Ultra-Abenteuer | dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/dp/B0CJSYBV2D | Pokémon - Die TV-Serie: Sonne & Mond - Ultra-Abenteuer | dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/dp/B0CGZY983N | Pokémon - Die TV-Serie: Sonne & Mond - Ultra-Abenteuer | dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/dp/B0CM453B26 | Pokémon - Die TV-Serie: Sonne & Mond - Ultra-Abenteuer | dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/dp/B0CLLNHKGX | Pokémon - Die TV-Serie: Sonne & Mond - Ultra-Abenteuer | dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/dp/B0CH3SN9L1 | Pokémon - Die TV-Serie: Sonne & Mond - Ultra-Abenteuer | dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/dp/B0CH76BDQH | Pokémon - Die TV-Serie: Sonne & Mond - Ultra-Abenteuer | dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/dp/B0CJQMS9J7 | Pokémon - Die TV-Serie: Sonne & Mond - Ultra-Abenteuer | dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/dp/B0CMTJSRGZ | Pokémon - Die TV-Serie: Sonne & Mond - Ultra-Abenteuer | dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/dp/B0CGMTLDJQ | Pokémon - Die TV-Serie: Sonne & Mond - Ultra-Abenteuer | dub | — | Titel von Hand suchen |
