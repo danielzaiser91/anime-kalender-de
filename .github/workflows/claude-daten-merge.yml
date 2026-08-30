@@ -151,7 +151,7 @@ jobs:
                Sind sie es nicht, hast du beim Auflösen etwas kaputt gemacht —
                dann repariere es, bevor du weitermachst.
             4. Push auf den Zweig, dann
-               `gh pr merge <nummer> --squash --delete-branch --admin`.
+               `gh pr merge <nummer> --squash --delete-branch`.
 
             Verbindlich:
 
@@ -162,6 +162,9 @@ jobs:
               Zusammenführ-Lauf, kein Aufräum-Lauf.
             - Bleibt ein Pull Request offen, sag am Ende ausdrücklich welcher
               und warum.
+            - Du baust den Datensatz **nicht** neu. Das macht „Bestand —
+              zusammenführen und bauen" beim nächsten planmäßigen Lauf,
+              spätestens eine Stunde später.
 
       - name: Lauf abmelden
         continue-on-error: true

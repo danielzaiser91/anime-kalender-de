@@ -1153,6 +1153,13 @@ Seitdem gilt:
   der Merge-Lauf hängt deshalb hinter den Sammlern und sieht selbst nach, ob
   ein `daten/*`-Zweig offen ist. Ist keiner offen, endet er in Sekunden, ohne
   Claude zu starten.
+
+  **Was Claude zusammengeführt hat, baut erst der nächste planmäßige Lauf.**
+  Den Bau an den Merge-Lauf zu hängen wäre naheliegend und falsch: Er endet
+  auch dann grün, wenn er nichts zu tun hatte — also bei fast jedem Zyklus.
+  Der Bau liefe dann 26-mal am Tag doppelt, jedes Mal mit einer Zeile in der
+  Statusanzeige. Ein Konflikt ist der Ausnahmefall, und eine Stunde Verzug ist
+  dort verkraftbar.
 - **`Bestand — zusammenführen und bauen` führt zusammen**: Meldungen einarbeiten,
   Rohfolgen zuordnen, bauen, Arbeitslisten, Vorschaubilder, `check:bestand`,
   `data:check`. Er hängt per `workflow_run` an allen dreien und **darf rot

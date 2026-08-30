@@ -31,10 +31,18 @@ on:
       - 'Stündlich — Sendezeiten'
       - 'Täglich — alle Quellen'
       - 'Wöchentlich — tiefer Durchlauf'
-      # Auch nach einer aufgelösten Konfliktlage: Der Merge-Lauf bringt Quellen
-      # nach main, die der Bau von vorhin noch nicht kannte.
-      - 'Claude — Daten-PR zusammenführen'
     types: [completed]
+    # **Nicht** zusätzlich hinter „Claude — Daten-PR zusammenführen".
+    #
+    # Der Merge-Lauf endet auch dann grün, wenn er gar nichts zu tun hatte —
+    # das ist der Normalfall. Hinge der Bau daran, liefe er bei jedem Zyklus
+    # zweimal: 26 überflüssige Läufe am Tag, jeder mit einer Zeile in der
+    # Statusanzeige. Auslösen kann der Merge-Lauf ihn auch nicht selbst, denn
+    # ein Workflow mit GITHUB_TOKEN startet keine weiteren.
+    #
+    # Also: Was Claude zusammengeführt hat, baut der nächste planmäßige Lauf —
+    # spätestens eine Stunde später. Ein Konflikt ist der Ausnahmefall, und
+    # eine Stunde Verzug ist dort verkraftbar.
   workflow_dispatch:
 
 permissions:
