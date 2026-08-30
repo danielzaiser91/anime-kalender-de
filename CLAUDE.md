@@ -2377,6 +2377,28 @@ Zwei Riegel halten das eng:
   dreiundfünfzig Meldungen unter einer Adresse, die eine einzige meint. Dort
   bleibt es bei der Handmeldung.
 
+### Beim Fernsehen ist die Erweiterung unsichtbar
+
+Am 30.08.2026 stand über einer laufenden Folge „Heroes" unten rechts ein Knopf:
+„Steht nicht auf der Prüfliste". Daniel: „i am just watching something, there
+should be no elements from the extension on screen."
+
+Der Hinweis war zwei Stunden vorher **bewusst** eingebaut worden, und für seinen
+Fall zu Recht: Leitet Netflix einen Klick aus der Prüfliste woandershin, soll der
+Knopf sagen, was passiert ist, statt stumm zu verschwinden. Nur galt er für
+**jede** Titel- und Player-Seite statt für die eine, auf der gerade ein Auftrag
+verfolgt wird.
+
+Die Unterscheidung stand schon im Code — `kamAusListe` — und entschied bisher
+nur über den **Text** des Knopfes statt über sein Dasein. Ohne Auftrag wird jetzt
+gar nichts gezeichnet.
+
+**Die allgemeine Form:** Ein Hinweis, der einen Sonderfall erklärt, gehört an den
+Sonderfall. Wer ihn an die Seite hängt, auf der der Sonderfall vorkommen *kann*,
+trifft alle übrigen Besuche derselben Seite mit — und das sind fast alle.
+Prüffrage vor jedem eingeblendeten Element: **Wer sieht das, der es nicht
+gesucht hat?**
+
 ## Die Erweiterung zählt zweistellig — und hinten
 
 Daniel am 30.08.2026: „bei versionierung maximal 2 stellig ab jetzt, nächste

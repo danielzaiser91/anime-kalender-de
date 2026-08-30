@@ -757,6 +757,38 @@ function knopfZeigen() {
       knopfEntfernen()
       return
     }
+    /*
+      **Der Hinweis gilt einem Auftrag, nicht jedem Netflix-Abend.**
+
+      Der Absatz darüber hat die eine Hälfte richtig gesehen und die andere
+      übersehen: Wer aus der Prüfliste kommt und von Netflix woandershin
+      geleitet wird, braucht eine Auskunft. Wer einfach etwas anschaut, braucht
+      sie nicht — und bekam sie trotzdem, quer über dem laufenden Bild.
+
+      Daniel am 30.08.2026, mit Bild aus „Heroes", Folge 4, mitten im Player:
+      „i am just watching something, there should be no elements from the
+      extension on screen."
+
+      `kamAusListe` ist genau diese Unterscheidung, und sie stand schon da — sie
+      entschied bisher nur über den **Text** des Knopfes statt über sein Dasein.
+      Ohne Auftrag ist die Erweiterung unsichtbar.
+    */
+    const kamAusListe = (() => {
+      try {
+        return Boolean(
+          zuletztGeoeffnet?.id &&
+            offeneTitel[zuletztGeoeffnet.id] !== undefined &&
+            String(zuletztGeoeffnet.id) !== String(stand.reihe) &&
+            Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 5 * 60 * 1000,
+        )
+      } catch {
+        return false
+      }
+    })()
+    if (!kamAusListe) {
+      knopfEntfernen()
+      return
+    }
     if (!knopf) {
       knopf = document.createElement('button')
       knopf.className = 'ak-melder'
@@ -776,23 +808,10 @@ function knopfZeigen() {
       Weiterleitung kam von Netflix. Dazu `stoerung: "M7355"`, Netflix' Code für
       „nicht verfügbar".
 
-      Ein „Steht nicht auf der Prüfliste" beschreibt zwar die Lage, gibt aber
-      dem Falschen die Schuld. Wo der Auftrag bekannt ist, sagt der Knopf, was
-      wirklich passiert ist.
+      Deshalb steht hier, was wirklich passiert ist. Wer **nicht** aus der
+      Liste kam, sieht diesen Knopf gar nicht mehr — siehe oben.
     */
-    const kamAusListe = (() => {
-      try {
-        return Boolean(
-          zuletztGeoeffnet?.id &&
-            offeneTitel[zuletztGeoeffnet.id] !== undefined &&
-            String(zuletztGeoeffnet.id) !== String(stand.reihe) &&
-            Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 5 * 60 * 1000,
-        )
-      } catch {
-        return false
-      }
-    })()
-    knopf.textContent = kamAusListe ? 'Weitergeleitet — Auftrag abgelaufen' : 'Steht nicht auf der Prüfliste'
+    knopf.textContent = 'Weitergeleitet — Auftrag abgelaufen'
     /*
       **Der Klick aus der Liste ist der einzige Weg — gemessen, nicht gewählt.**
 

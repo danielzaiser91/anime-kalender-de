@@ -96,6 +96,41 @@ const ohneEmpfehlung = Object.values(liste).filter((e) => empfohleneFolgen(e).le
 pruefe('jeder Eintrag nennt mindestens eine Folge', ohneEmpfehlung.length === 0,
   ohneEmpfehlung.slice(0, 2))
 
+/*
+  **Ohne Auftrag zeigt die Erweiterung beim Fernsehen gar nichts.**
+
+  Daniel am 30.08.2026, mit Bild aus „Heroes", Folge 4, mitten im laufenden
+  Player: „i am just watching something, there should be no elements from the
+  extension on screen." Unten rechts stand „Steht nicht auf der Prüfliste".
+
+  Der Hinweis war zwei Stunden vorher bewusst eingebaut worden — für den Fall,
+  dass Netflix einen Klick aus der Prüfliste woandershin leitet. Nur galt er
+  dort für **jede** Titel- und Player-Seite statt nur für die eine, auf der ein
+  Auftrag verfolgt wird.
+
+  Verhaltensecht ist das schwer zu prüfen: `knopfZeigen()` hängt an einem
+  halben Dutzend Zuständen. Die Reihenfolge im Quelltext lässt sich dagegen
+  ablesen, und sie ist die ganze Aussage — der Ausstieg muss **vor** dem
+  Einhängen des Knopfes stehen.
+*/
+{
+  const zweig = quelle.indexOf('if (!istGesucht()) {')
+  const abschnitt = quelle.slice(zweig, zweig + 3000)
+  const ausstieg = abschnitt.indexOf('if (!kamAusListe) {')
+  const einhaengen = abschnitt.indexOf('document.body.appendChild(knopf)')
+  pruefe('der Zweig ohne Auftrag existiert', zweig > 0)
+  pruefe('er steigt ohne Auftrag aus', ausstieg > 0)
+  pruefe(
+    '… und zwar bevor ein Knopf in die Seite kommt',
+    ausstieg > 0 && einhaengen > 0 && ausstieg < einhaengen,
+    { ausstieg, einhaengen },
+  )
+  pruefe(
+    'kein „Steht nicht auf der Prüfliste" mehr im Code',
+    !/knopf\.textContent = [^\n]*Steht nicht auf der Prüfliste/.test(quelle),
+  )
+}
+
 const fehler = faelle.filter((x) => !x).length
 console.log(fehler ? `\n${fehler} Fall/Fälle durchgefallen` : '\n✓ Die Übersicht sagt das Richtige')
 process.exit(fehler ? 1 : 0)
