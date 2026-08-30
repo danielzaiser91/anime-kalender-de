@@ -272,12 +272,20 @@ function nameStimmt() {
  */
 function ausWeiterleitung() {
   try {
-    return Boolean(
+    /* Einmal erkannt, gilt sie weiter — auch nach einem Reload. */
+    const gemerkt = netflixWeiterleitungen[String(stand.reihe)]
+    if (gemerkt && offeneTitel[String(gemerkt)] !== undefined) return true
+    const frisch = Boolean(
       zuletztGeoeffnet?.id &&
         offeneTitel[zuletztGeoeffnet.id] !== undefined &&
         String(zuletztGeoeffnet.id) !== String(stand.reihe) &&
         Date.now() - (zuletztGeoeffnet.zeit ?? 0) < 60 * 1000,
     )
+    if (frisch && stand.reihe) {
+      netflixWeiterleitungen = { ...netflixWeiterleitungen, [String(stand.reihe)]: String(zuletztGeoeffnet.id) }
+      void chrome.storage.local.set({ netflixWeiterleitungen })
+    }
+    return frisch
   } catch {
     return false
   }
@@ -285,6 +293,13 @@ function ausWeiterleitung() {
 
 function gemeinteReihe() {
   if (stand.reihe && offeneTitel[String(stand.reihe)] !== undefined) return stand.reihe
+  /* Eine gemerkte Weiterleitung gilt ohne Frist — sie ändert sich nicht. */
+  try {
+    const gemerkt = netflixWeiterleitungen[String(stand.reihe)]
+    if (gemerkt && offeneTitel[String(gemerkt)] !== undefined) return gemerkt
+  } catch {
+    /* Vor dem Laden des Speichers gilt der Weg darunter. */
+  }
   if (
     zuletztGeoeffnet?.id &&
     offeneTitel[zuletztGeoeffnet.id] !== undefined &&
@@ -839,12 +854,30 @@ function imPlayer() {
 
 /** Was diese Installation schon gemeldet hat — überlebt einen Neustart. */
 let erledigt = {}
+/**
+ * **Erkannte Weiterleitungen, dauerhaft.**
+ *
+ * `{ Zielkennung: Auftragskennung }` — bei „Pokémon: Blauer Himmel in der
+ * Ferne!" also `{ '81706101': '81670593' }`.
+ *
+ * Die Erkennung über `zuletztGeoeffnet` gilt nur eine Minute; nach einem Reload
+ * stand deshalb wieder „Steht nicht auf der Prüfliste" auf einer Seite, die
+ * eine Minute vorher noch richtig zugeordnet war (Daniel, 30.08.2026, mit zwei
+ * Bildern). Eine Weiterleitung ändert sich aber nicht — was einmal erkannt
+ * wurde, gilt weiter.
+ *
+ * Dasselbe Vorgehen wie bei Disney+ (CLAUDE.md, 26.08.2026), nur haltbar
+ * gemacht: Dort erbt die Zielseite den Auftrag über den Klick, hier zusätzlich
+ * über das Gedächtnis.
+ */
+let netflixWeiterleitungen = {}
 const erledigtGeladen = chrome.storage.local
-  .get(['erledigt', 'anbieterStaffeln', 'zuletztGeoeffnet'])
+  .get(['erledigt', 'anbieterStaffeln', 'zuletztGeoeffnet', 'netflixWeiterleitungen'])
   .then((x) => {
     erledigt = x.erledigt ?? {}
     anbieterStaffeln = x.anbieterStaffeln ?? {}
     zuletztGeoeffnet = x.zuletztGeoeffnet ?? null
+    netflixWeiterleitungen = x.netflixWeiterleitungen ?? {}
   })
   .catch(() => {
     erledigt = {}
@@ -1831,9 +1864,16 @@ async function durchlaufStarten(grenze) {
   DURCHLAUF.laeuft = false
   durchlaufKnopfZeigen()
   if (DURCHLAUF.stoerung) {
+    /*
+      Dieselbe Trennung wie am Knopf (30.08.2026): `M7…` meint die Wiedergabe,
+      alles andere den Titel. Der Rat „andere Tabs schließen" stand auch hier
+      unter jedem Code und schickte bei E103 in die falsche Richtung.
+    */
     console.warn(
       `[Anime-Kalender] Abgebrochen — Netflix meldet ${DURCHLAUF.stoerung}. ` +
-        'Andere Netflix-Tabs schließen, dann noch einmal starten.',
+        (/^M7/.test(DURCHLAUF.stoerung)
+          ? 'Andere Netflix-Tabs schließen, dann noch einmal starten.'
+          : 'Der Titel ist dort nicht abrufbar — nicht im Angebot, nicht in dieser Region oder noch nicht erschienen.'),
     )
   }
 }
