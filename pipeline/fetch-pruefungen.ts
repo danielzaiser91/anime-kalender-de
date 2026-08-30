@@ -125,6 +125,8 @@ function berlinDatum(iso: string): string {
 
 const heute = berlinDatum(new Date().toISOString())
 const zeilen: string[] = []
+/** Kanal-Meldungen ohne Urteil und ohne neue Adresse — sie würden nur verdecken. */
+let ausgelassenKanal = 0
 let uebernommen = 0
 let selbstZugeordnet = 0
 const offenGeblieben: string[] = []
@@ -443,6 +445,37 @@ for (const gruppe of jeAdresse.values()) {
       if (!eigene.length) continue
     }
 
+    /**
+     * **Ein Eintrag ohne Aussage darf gar nicht erst entstehen.**
+     *
+     * Bei einem Kanal-Titel ohne eigenen Beleg gibt es kein Urteil (richtig so),
+     * und der Ersatz — die Adresse — entfällt, wenn unser Datensatz sie schon
+     * kennt. Übrig bleibt ein Eintrag aus Kennung, Titel und Datum, den der Bau
+     * mit einer Warnung überspringt.
+     *
+     * **Und ein übersprungener Eintrag verschwindet nicht, er verdeckt.** Am
+     * 30.08.2026 hat das den Wochenlauf rot gemacht: Sechs Verweise trugen einen
+     * Beleg vom 24. bis 28.08., während der jüngste vom 30.08. übersprungen
+     * wurde — die Zusicherung „es gilt immer der jüngste" schlug zu Recht an.
+     * Derselbe Fehler wie am 29.08. bei „Fullmetal Alchemist", damals nur an
+     * einer Stelle behoben.
+     *
+     * Hier steht die Prüfung vor dem Schreiben: Wo weder Urteil noch Adresse
+     * herauskommen, wird der ganze Eintrag ausgelassen. Der ältere Beleg bleibt
+     * gültig, und das ist die richtige Auskunft — die Kanal-Meldung hat ihn ja
+     * nicht widerlegt.
+     */
+    const ohneAussage =
+      !weg &&
+      !echteAmazonAdresse(p) &&
+      nachUrl.has(schluesselAdresse(p.url)) &&
+      !eigene.length &&
+      gruppe.some((x) => /Kanal-Titel/.test(x.notiz ?? ''))
+    if (ohneAussage) {
+      ausgelassenKanal++
+      continue
+    }
+
     zeilen.push('')
     zeilen.push(`- anilistId: ${id}`)
     if (t?.titleDe || t?.titleEn) zeilen.push(`  title: ${JSON.stringify(t.titleDe ?? t.titleEn)}`)
@@ -660,7 +693,10 @@ if (Object.keys(anbieterStruktur).length && !TROCKEN) {
 
 log(
   `${pruefungen.length} Prüfungen abgeholt, ${uebernommen} Einträge geschrieben` +
-    (selbstZugeordnet ? `, ${selbstZugeordnet} über den Namen zugeordnet` : ''),
+    (selbstZugeordnet ? `, ${selbstZugeordnet} über den Namen zugeordnet` : '') +
+    (ausgelassenKanal
+      ? `, ${ausgelassenKanal} Kanal-Meldung(en) ohne Urteil ausgelassen (sie würden nur einen jüngeren Beleg verdecken)`
+      : ''),
 )
 for (const o of offenGeblieben) warn(o)
 if (TROCKEN) {

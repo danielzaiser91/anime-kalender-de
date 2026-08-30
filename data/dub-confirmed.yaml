@@ -23643,24 +23643,6 @@
 
 # --- Aus dem Browser gemeldet, abgeholt am 2026-08-30 ---
 
-- anilistId: 112444
-  title: "Appare-Ranman!"
-  platform: primevideo
-  checkedAt: '2026-08-30'
-  note: "Tonspuren: English, Español (Latinoamérica), Português (Brasil), 日本語 — Amazon-Seite B09MDQX4CW: alle 13 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 19163
-  title: "Date a Live II"
-  platform: primevideo
-  checkedAt: '2026-08-30'
-  note: "Amazon-Seite B0C7LZCS5H: alle 12 Folgen geprüft, Abos: keine Angabe, laut Adresse Staffel 1"
-
-- anilistId: 18507
-  title: "Free! Iwatobi Swim Club"
-  platform: primevideo
-  checkedAt: '2026-08-30'
-  note: "Tonspuren: English, Español (Latinoamérica), Français, Português (Brasil), 日本語 — Amazon-Seite B0CGVS29ZD: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
 - anilistId: 105334
   title: "Fruits Basket"
   platform: primevideo
@@ -23691,30 +23673,12 @@
   checkedAt: '2026-08-30'
   note: "Folgen 1–24 mit deutschem Ton, Folge 25 ohne deutschen Ton — Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High, 日本語 — Amazon-Seite B0CVFNLP9D: alle 24 Folgen geprüft, Abos: freewithads, crunchyrollde, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
-- anilistId: 20657
-  title: "Saekano: How to Raise a Boring Girlfriend"
-  platform: primevideo
-  checkedAt: '2026-08-30'
-  note: "Tonspuren: 日本語 — Amazon-Seite B0CGYJ482P: alle 13 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 179950
-  title: "Petals of Reincarnation"
-  platform: primevideo
-  checkedAt: '2026-08-30'
-  note: "Tonspuren: 日本語 — Amazon-Seite B0GVN98MKW: alle 13 Folgen geprüft, Abos: aniversede, FVOD, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
 - anilistId: 144932
   title: "Edens Zero: Season 2"
   platform: primevideo
   dub: true
   checkedAt: '2026-08-30'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CJQF3729: alle 25 Folgen geprüft, Abos: animedigitalde, aniversede, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 381
-  title: "Fushigi Yûgi New OVA: The Mysterious Play"
-  platform: primevideo
-  checkedAt: '2026-08-30'
-  note: "Tonspuren: English, 日本語 — Amazon-Seite B0CH6KQBJR: alle 52 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 1, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
 - anilistId: 20458
   title: "The Irregular at Magic High School"
