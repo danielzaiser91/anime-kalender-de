@@ -446,6 +446,40 @@ pruefe(
   }
 }
 
+/**
+ * **Die Briefkasten-Regel gilt an jeder Stelle, oder sie gilt nirgends.**
+ *
+ * „Kennt der Briefkasten die Adresse nicht, ist nichts gemeldet" stand am
+ * 30.08.2026 in `fertig()` und in der Marke der Liste — im Melde-Knopf nicht.
+ * Der sperrte sich mit „✓ alles gemeldet" auf einem Eintrag, den die Liste
+ * daneben als „nicht angekommen" führte (Daniel: „wie soll ich das erneut
+ * melden?"). Drei Kopien derselben Regel laufen auseinander.
+ *
+ * Geprüft wird deshalb nicht das Verhalten, sondern die Bauweise: Es gibt eine
+ * Funktion, und die drei Stellen rufen sie auf.
+ */
+{
+  console.log('\nDie Regel „nicht angekommen" steht an einer Stelle')
+  pruefe(
+    'es gibt genau eine Funktion nichtAngekommen()',
+    (quelle.match(/function nichtAngekommen\s*\(/g) ?? []).length === 1,
+    (quelle.match(/function nichtAngekommen\s*\(/g) ?? []).length,
+  )
+  const aufrufe = (quelle.match(/nichtAngekommen\(/g) ?? []).length - 1
+  pruefe('sie wird mindestens dreimal aufgerufen', aufrufe >= 3, aufrufe)
+  /*
+    Die Gegenprobe: Der Briefkasten wird nur **in** dieser Funktion abgefragt.
+    Das Muster ist die Zeile, die vor dem 30.08.2026 zusätzlich in `fertig()`
+    stand — eine Fundstelle ist die Funktion selbst, jede weitere eine Kopie.
+  */
+  const abfragen = (quelle.match(/briefkastenAdressen\s*&&\s*!briefkastenAdressen\.has/g) ?? []).length
+  pruefe('und niemand baut sie daneben noch einmal nach', abfragen === 1, abfragen)
+  pruefe(
+    'der Melde-Knopf fragt sie, bevor er sich sperrt',
+    /schonGemeldet \|\| gemeldeteStaffel === jetzigeStaffel\) && !nichtAngekommen\(/.test(quelle),
+  )
+}
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) rot.`)
   process.exit(1)

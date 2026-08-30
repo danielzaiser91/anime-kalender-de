@@ -3011,6 +3011,33 @@ async function speicherSchreiben(werte) {
     return groesste || erledigt[asinEintrag]?.gesamt || 1
   }
 
+  /**
+   * **Lokal abgehakt, aber beim Worker nie angekommen.**
+   *
+   * Der Briefkasten führt jede Adresse, unter der jemals gemeldet wurde. Kennt
+   * er eine nicht, ist die Arbeit verloren gegangen — der lokale Vermerk gilt
+   * dann nicht, ganz gleich was er sagt.
+   *
+   * Als eigene Funktion, weil dieselbe Regel an drei Stellen gebraucht wird:
+   * `fertig()` hatte sie, die Marke in der Liste bekam sie am 30.08.2026, und
+   * der Melde-Knopf hatte sie nicht. Genau das fiel Daniel auf: „eintrag der
+   * ‚nicht angekommen' ist angeklickt, da steht alles gemeldet, wie soll ich
+   * das erneut melden?" Drei Kopien derselben Regel laufen auseinander; eine
+   * Funktion tut es nicht.
+   *
+   * In `try`, weil `briefkastenAdressen` weiter unten angelegt wird und diese
+   * Funktion beim Seitenaufbau läuft. Vorher gilt: noch keine Auskunft, also
+   * entscheidet der lokale Stand.
+   */
+  function nichtAngekommen(asinEintrag) {
+    try {
+      const url = liste[asinEintrag]?.url
+      return Boolean(url && briefkastenAdressen && !briefkastenAdressen.has(url))
+    } catch {
+      return false
+    }
+  }
+
   function fertig(asinEintrag) {
     /*
       **Auch hier entscheidet der Briefkasten, nicht der Rechner.**
@@ -3020,17 +3047,7 @@ async function speicherSchreiben(werte) {
       hängen blieben: lokal abgehakt, im Briefkasten nie angekommen (oder längst
       übernommen), und damit für immer unsichtbar.
     */
-    const url = liste[asinEintrag]?.url
-    /*
-      In try, weil der Merker rund hundert Zeilen weiter unten angelegt wird und
-      diese Funktion beim Seitenaufbau laeuft. Vor seiner Zeile gilt: noch keine
-      Auskunft vom Briefkasten, also entscheidet der lokale Stand darunter.
-    */
-    try {
-      if (url && briefkastenAdressen && !briefkastenAdressen.has(url)) return false
-    } catch {
-      /* Merker noch nicht angelegt. */
-    }
+    if (nichtAngekommen(asinEintrag)) return false
     const e = erledigt[asinEintrag]
     if (!e) return false
     return Object.keys(staffelnDerSerie(asinEintrag)).length >= gesamtDerSerie(asinEintrag)
@@ -3502,14 +3519,7 @@ async function speicherSchreiben(werte) {
          *
          * Die Liste hat recht, sie zu zeigen. Sie war nur stumm darüber, warum.
          */
-        const verloren = (() => {
-          try {
-            const url = liste[asinEintrag]?.url
-            return Boolean(url && briefkastenAdressen && !briefkastenAdressen.has(url))
-          } catch {
-            return false
-          }
-        })()
+        const verloren = nichtAngekommen(asinEintrag)
         marke.className = fertig(asinEintrag)
           ? 'ak-folge ak-fertig'
           : verloren
@@ -5276,7 +5286,19 @@ async function speicherSchreiben(werte) {
      * Der Unterschied zum Fall darüber: Hier sind **andere** Staffeln noch
      * offen, der Knopf sagt also, wie viele.
      */
-    if (schonGemeldet || gemeldeteStaffel === jetzigeStaffel) {
+    /*
+      **Was nicht angekommen ist, gilt nicht als gemeldet — auch am Knopf.**
+
+      Daniel am 30.08.2026: „eintrag der ‚nicht angekommen' ist angeklickt, da
+      steht alles gemeldet, wie soll ich das erneut melden?" Die Liste hatte die
+      Regel seit demselben Tag, der Knopf nicht: Er las allein den lokalen
+      Vermerk und sperrte sich. Damit war der eine Weg zu, der aus dem Zustand
+      herausführt.
+
+      Der lokale Vermerk bleibt trotzdem stehen — er trägt den Befund von
+      damals, und der spart beim erneuten Melden das Nachsehen.
+    */
+    if ((schonGemeldet || gemeldeteStaffel === jetzigeStaffel) && !nichtAngekommen(listenId)) {
       const offen = gesamtDerSerie(listenId) - Object.keys(staffelnDerSerie(listenId)).length
       /**
        * Kein „gemeldet" mehr — es zählt, was noch fehlt.
