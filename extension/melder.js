@@ -303,12 +303,22 @@ window.addEventListener('message', (e) => {
       serientitel: e.data.serientitel ?? null,
       titel: e.data.titel,
     }
-    // Beim Wechsel auf einen Titel, der nicht auf der Liste steht, muss der
-    // Knopf des vorigen weg — Netflix wechselt die Seite ohne Neuladen.
-    if (!istGesucht()) {
-      knopfEntfernen()
-      return
-    }
+    /*
+      **Beide Fälle zeichnet `knopfZeigen()` selbst — hier wird nichts mehr
+      entfernt.**
+
+      Bis 3.107 stand hier ein eigenes `knopfEntfernen()` für Titel, die nicht
+      auf der Liste stehen. Seit `knopfZeigen()` dort „Steht nicht auf der
+      Prüfliste" zeigt, sind das zwei Stellen mit gegensätzlicher Regel: Der
+      Sekundentakt baute den Knopf, die nächste Leser-Nachricht riss ihn wieder
+      ab. Ergebnis war ein Blinken im Sekundenrhythmus (Daniel, 30.08.2026: „der
+      button blinkt, er ist sichtbar für <1sek und nach paar sekunden kommt er
+      wieder").
+
+      Der ursprüngliche Zweck bleibt erfüllt — `knopfZeigen()` zeichnet den
+      Zustand der **aktuellen** Seite, und ein Knopf des vorigen Titels
+      überlebt das nicht.
+    */
     knopfZeigen()
     /*
       Die automatische Meldung beim Abspielen ist seit dem 26.08.2026 aus.
