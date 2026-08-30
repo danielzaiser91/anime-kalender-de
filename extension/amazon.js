@@ -2267,17 +2267,25 @@ async function speicherSchreiben(werte) {
           AniList führt romanisierte Titel ohne deutschen Bezug; bei einer Reihe
           mit vier Teilen ist von dort aus nicht zu erkennen, welcher gemeint
           ist (Daniel, 30.08.2026: „da kann ich nicht herausfinden wozu das
-          gehört"). Die aniSearch-Suche über den Titel führt in zwei Klicks zur
-          Episodenliste mit deutschen Folgentiteln — genau dem, was den Vergleich
-          entscheidet.
+          gehört"). Die aniSearch-Suche führt in zwei Klicks zur Episodenliste
+          mit deutschen Folgentiteln — genau dem, was den Vergleich entscheidet.
 
-          Adresse gemessen, nicht geraten: `/anime/index?text=…` antwortet mit
-          HTTP 200 (30.08.2026).
+          **Zwei Dinge daran sind gemessen, nicht geraten** (30.08.2026, nachdem
+          der erste Anlauf Daniel auf „Deine Suchanfrage ist ungültig" schickte):
+
+          - `/anime/index?text=…` ist der **Filter** des Anime-Index und
+            beantwortet einen Aufruf von außen mit genau dieser Fehlermeldung.
+            `/search?q=…` ist die Volltextsuche und liefert Treffer.
+          - Gesucht wird mit dem **Kern** des Titels. „Kizumonogatari III:
+            Kaltes Blut — Teil 3" findet nichts, „Kizumonogatari" findet beide
+            Filme. Der Zusatz hinter Doppelpunkt oder Gedankenstrich ist die
+            deutsche Ausgabenbezeichnung; aniSearch führt sie nicht.
         */
+        const suchBegriff = auftrag.titel.split(/[:—–-]/)[0].trim() || auftrag.titel
         kasten.appendChild(
           kastenVerweis(
             'Bei aniSearch suchen',
-            'https://www.anisearch.de/anime/index?text=' + encodeURIComponent(auftrag.titel),
+            'https://www.anisearch.de/search?q=' + encodeURIComponent(suchBegriff),
           ),
         )
       }

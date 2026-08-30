@@ -808,7 +808,7 @@ pruefe('„The Movie“ bleibt ein eigenes Werk', kaisenFilm.befund.art !== 'gen
   )
   pruefe(
     'ohne Kennung führt er auf die aniSearch-Suche, nicht auf AniList',
-    rumpf.includes('anisearch.de/anime/index?text=') && !rumpf.includes('anilist.co/anime/'),
+    rumpf.includes('anisearch.de/search?q=') && !rumpf.includes('anilist.co/anime/'),
   )
   pruefe(
     'er wird nicht zusaetzlich an einer Aufrufstelle angehaengt',
