@@ -3015,6 +3015,24 @@ async function speicherSchreiben(werte) {
       }
     }
 
+    /*
+      **Nach einem Staffelwechsel schweigt der Kasten über die Seite.**
+
+      Daniel am 30.08.2026 an „Pokémon — Sonne & Mond": Er wechselte im
+      Auswahlfeld auf „Ultra-Legenden" (Adresse `s2204`, Seite zeigt 2020, 14
+      Folgen) — im Kasten stand weiter „Diese Seite ist von 1999" und „Hier
+      steht Staffel 201".
+
+      Der Grund steht seit dem 24.08.2026 in CLAUDE.md: **Amazon tauscht beim
+      Wechsel über das Auswahlfeld den Quelltext nicht aus.** Jahr und
+      Staffelnummer stammen von dort und gehören danach zur alten Staffel.
+
+      Eine falsche Auskunft ist schlechter als keine — die beiden Zeilen fallen
+      weg, bis die Seite frisch geladen ist. Was der Kasten sonst sagt (Titel,
+      erwartete Folgenzahl, Zugangsart), hängt am Auftrag und bleibt richtig.
+    */
+    const seitenAngabenGelten = !quelltextVeraltet()
+
     hinweisKasten(
       auftrag.titel,
       auftrag.folgen ? `${auftrag.folgen} ${auftrag.folgen === 1 ? 'Folge' : 'Folgen'} erwartet` : '',
@@ -3022,9 +3040,12 @@ async function speicherSchreiben(werte) {
       ...(andereSeite
         ? [kastenZeile('ak-such-warn', 'Andere Seite als der Treffer aus der Suche — vor dem Melden prüfen')]
         : []),
-      ...jahrZeilen,
-      ...teilZeilen,
-      kastenZeile('ak-such-hinweis', 'Zeigt die Seite deutlich weniger, ist es ein anderes Werk'),
+      ...(seitenAngabenGelten
+        ? [...jahrZeilen, ...teilZeilen]
+        : [kastenZeile('ak-such-hinweis', 'Staffel gewechselt — für Jahr und Staffelnummer die Seite neu laden')]),
+      ...(seitenAngabenGelten
+        ? [kastenZeile('ak-such-hinweis', 'Zeigt die Seite deutlich weniger, ist es ein anderes Werk')]
+        : []),
     )
     return true
   }
