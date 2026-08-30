@@ -1996,25 +1996,19 @@ function folgenFuerFilmErgaenzen() {
 function durchlaufKnopfZeigen() {
   folgenFuerFilmErgaenzen()
   /*
-    **Auf einer geerbten Seite prüft der Durchlauf die falsche Menge.**
+    **Der Durchlauf über die ganze Reihe ist richtig, nicht zu viel.**
 
-    „Blauer Himmel in der Ferne!" ist **eine** Folge; Netflix leitet auf die
-    Reihe „Ultimative Reisen" mit 54 weiter. Ein Durchlauf über alles wäre
-    dreiundfünfzigmal Arbeit für einen Auftrag, der einen Eintrag meint — und
-    dreiundfünfzig Meldungen unter seiner Adresse.
+    Eine Fassung vorher hatte ich ihn auf einer geerbten Seite gesperrt: „Blauer
+    Himmel in der Ferne!" sei eine Folge, die Reihe habe 54, das wären
+    dreiundfünfzig Meldungen zu viel. Daniel hat widersprochen, und er hat
+    recht (30.08.2026): „alle melden würde info zu dieser einen speziellen
+    episode und allen anderen geben, sonst fragst du mich einzeln nach den 54
+    folgen."
 
-    Hier bleibt es bei der Handmeldung: Daniel spielt die gemeinte Folge, die
-    Erweiterung liest ihre Tonspur, ein Klick meldet.
+    Jede Folge einzeln zu lesen ist genau der Zweck — es beantwortet die Frage
+    für den gemeinten Titel **und** für alle übrigen in einem Durchgang. Der
+    Fehler saß nie hier, sondern im Zuschnitt des Auftrags.
   */
-  try {
-    if (ausWeiterleitung() && !DURCHLAUF.laeuft) {
-      const eintrag = offeneTitel[String(gemeinteReihe())]
-      const erwartet = (eintrag?.staffeln ?? []).reduce((n, s) => n + (s.folgen ?? 0), 0)
-      if (erwartet && DURCHLAUF.folgen.length > erwartet + 2) DURCHLAUF.folgen = []
-    }
-  } catch {
-    /* Ohne Auftrag bleibt es beim bisherigen Verhalten. */
-  }
   /*
     **Während eines Durchlaufs bleibt der Knopf sichtbar — auch im Player.**
 
