@@ -1,6 +1,6 @@
 # YouTube: was die Prüfung gefunden hat
 
-Stand: 2026-08-29 · geprüft über YouTubes oEmbed-Schnittstelle
+Stand: 2026-08-30 · geprüft über YouTubes oEmbed-Schnittstelle
 (Titel und Kanal je Video, ohne Schlüssel und ohne Kontingent).
 
 Eingetragen wurde nur, wo der **Videotitel die Sprache benennt**. Was hier steht,
@@ -29,7 +29,6 @@ aber „meist" ist kein Beleg.
 
 | Unser Titel | Videotitel | Kanal | Verweis |
 |---|---|---|---|
-| Pokémon: Der Film - Volcanion und das mechanische Wunderwerk | Pokémon – Der Film: Volcanion und das Merchanische Wunderwerk | YouTube Movies | [öffnen](https://www.youtube.com/watch?v=9A22nfAK1V4) |
 
 ## Hinter einer Kasse
 
@@ -44,14 +43,12 @@ verschwindet, ist eine Entscheidung, keine Messung.
 
 ## Ohne Hinweis auf die Sprache
 
-37 Verweise, deren Videotitel nichts verrät. Für die hilft nur Hinsehen —
+32 Verweise, deren Videotitel nichts verrät. Für die hilft nur Hinsehen —
 oder die Data API mit Schlüssel, die auch die Tonspuren nennt.
 
 | Unser Titel | Videotitel | Kanal | Verweis |
 |---|---|---|---|
 | Beyblade | BEYBLADE EN Episodes | BEYBLADE Official | [öffnen](https://www.youtube.com/playlist?list=PLJ-JBvtUCWiz1Qtne5HlLBaEeTZUZBc7y) |
-| Final Fantasy VII: Advent Children | Final Fantasy VII: Advent Children | YouTube Movies | [öffnen](https://www.youtube.com/watch?v=IFKqfiIE66Q) |
-| Tokyo Godfathers | Tokyo Godfathers | YouTube Movies | [öffnen](https://www.youtube.com/watch?v=jderzQDdDHc) |
 | Speed Racer | Mach GoGoGo \| Speed Racer \| FULL EPISODES | TokuSHOUTsu | [öffnen](https://www.youtube.com/playlist?list=PLnY1FL_e1HO5NAcu_AaLWeYkpUc5KqVI3) |
 | Beyblade G Revolution | BEYBLADE GREVOLUTION EN Episodes | BEYBLADE Official | [öffnen](https://www.youtube.com/playlist?list=PLJ-JBvtUCWix_QLzA-xdbj3M02RVYxKsT) |
 | Beyblade V Force | BEYBLADE VForce EN Episodes | BEYBLADE Official | [öffnen](https://www.youtube.com/playlist?list=PLJ-JBvtUCWiz484jpH0aYoQ_wa_jux3dy) |
@@ -61,11 +58,8 @@ oder die Data API mit Schlüssel, die auch die Tonspuren nennt.
 | Choppy und die Prinzessin |  | — | [öffnen](https://www.youtube.com/watch?v=A0DaeCtJTG0) |
 | Inazuma Eleven | Season 3 Inazuma Eleven | Arait Play English | [öffnen](https://www.youtube.com/playlist?list=PLQVzkO9r_ci1DzCZEg8_O4sOAbCQlZRWa) |
 | Pokémon Mystery Dungeon: Erkundungsteams Zeit und Dunkelheit | Pokémon Mystery Dungeon: Explorers of Time and Darkness | The Official Pokémon YouTube channel | [öffnen](https://www.youtube.com/watch?v=V0PlwsTLoM0) |
-| Onigamiden: Legend of the Millennium Dragon | Onigamiden - Legend Of The Millennium Dragon | YouTube Movies | [öffnen](https://www.youtube.com/watch?v=W8YuJXFKZ-k) |
 | B-Daman Crossfire | B-Daman Crossfire | AnimangaPLUS | [öffnen](https://www.youtube.com/playlist?list=PL4o1lot_6q1EHL3vw_t4BGuHK6uBHyETT) |
 | Pokémon Mystery Dungeon: Portale in die Unendlichkeit | Pokémon Mystery Dungeon: Gates to Infinity (Part 1) | The Official Pokémon YouTube channel | [öffnen](https://www.youtube.com/watch?v=zbwSAruo3QU) |
-| Your Name. Gestern, heute und für immer | Your Name. - Gestern, heute und für immer | YouTube Movies | [öffnen](https://www.youtube.com/watch?v=duoOTzpeWSE) |
-| Fireworks: Alles eine Frage der Zeit | Fireworks - Alles eine Frage der Zeit | YouTube Movies | [öffnen](https://www.youtube.com/watch?v=RXD_V4p2iiA) |
 | Pokémon-Generationen | ポケモンジェネレーションズ | ポケモン公式YouTubeチャンネル | [öffnen](https://www.youtube.com/playlist?list=PLBE2D9BnJJUr3eL0gJwgbWbXqPaOFZI5p) |
 | Ookami Heart | ORESAMA - オオカミハート(F.O.ver.)［OFFICIAL MUSIC VIDEO］ | VAP OFFICIAL MUSIC CHANNEL | [öffnen](https://www.youtube.com/watch?v=PwAgOqNvFGA) |
 | Sylvanian Families | 【アニメ】シルバニアファミリー　ミニストーリー　シーズン１ | シルバニア ファミリー 公式チャンネル | [öffnen](https://www.youtube.com/playlist?list=PL5xoHmK9recj3tU54fpsrmAgehCzZpx4v) |

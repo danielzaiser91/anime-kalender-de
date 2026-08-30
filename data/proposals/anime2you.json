@@ -1,6 +1,50 @@
 {
-  "scrapedAt": "2026-08-30T09:58:32.100Z",
+  "scrapedAt": "2026-08-30T13:44:44.745Z",
   "proposals": [
+    {
+      "articleTitle": "»A Gatherer’s Adventure in Isekai« erscheint als Blu-ray-Komplettbox",
+      "articleUrl": "https://www.anime2you.de/news/1044440/a-gatherers-adventure-in-isekai-blu-ray-komplettbox/",
+      "publishedAt": "2026-08-30",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-12-04",
+          "context": "2026 »A Gatherer’s Adventure in Isekai« erscheint voraussichtlich am 4. Dezember 2026 in einer Blu-ray-Komplettbox, die alle zwölf Episoden"
+        },
+        {
+          "month": "2026-12",
+          "context": "mlers) auf Blu-ray veröffentlichen wird. Wir fassen zusammen. Release im Dezember 2026 »A Gatherer’s Adventure in Isekai« erscheint voraussi"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Fantasy-Anime »Failure Frame« erscheint als Blu-ray-Komplettbox",
+      "articleUrl": "https://www.anime2you.de/news/1044382/failure-frame-blu-ray-komplettbox/",
+      "publishedAt": "2026-08-30",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-06",
+          "context": "im November 2026 Die Blu-ray-Komplettbox von »Failure Frame« kommt am 6. November 2026 in den Handel und beinhaltet alle zwölf Episoden mit"
+        },
+        {
+          "month": "2026-11",
+          "context": "with Low-Level Spells« auf Blu-ray veröffentlichen wird. Disc-Release im November 2026 Die Blu-ray-Komplettbox von »Failure Frame« kommt am"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Erste »Clevatess«-Staffel erscheint als Limited Edition auf Blu-ray",
       "articleUrl": "https://www.anime2you.de/news/1044108/clevatess-staffel-1-blu-ray-release/",

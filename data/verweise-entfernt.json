@@ -1,5 +1,5 @@
 {
-  "stand": "2026-08-30T09:58:45.476Z",
+  "stand": "2026-08-30T13:59:56.478Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -6112,6 +6112,16 @@
       "letzterWeg": true
     },
     {
+      "titleId": 105334,
+      "titel": "Fruits Basket",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/fruits-basket",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
       "titleId": 107371,
       "titel": "White Snake: Die Legende der weißen Schlange",
       "plattform": "youtube",
@@ -6326,6 +6336,16 @@
       "titel": "By the Grace of the Gods",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/by-the-grace-of-the-gods",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 116867,
+      "titel": "Bofuri: I Don’t Want to Get Hurt, So I’ll Max Out My Defense. Staffel 2",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GKEH2G428/bofuri-i-dont-want-to-get-hurt-so-ill-max-out-my-defense",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -6724,12 +6744,22 @@
     {
       "titleId": 170083,
       "titel": "Dragon Ball Daima",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GG5H5XQ35/dragon-ball-daima",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
+    },
+    {
+      "titleId": 170083,
+      "titel": "Dragon Ball Daima",
       "plattform": "netflix",
       "url": "https://www.netflix.com/title/81943491",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 170083,
@@ -6739,7 +6769,7 @@
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 170695,

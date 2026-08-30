@@ -1,6 +1,6 @@
 # Netflix: was kein Automat beantworten kann
 
-Stand 2026-08-29 · **41 Titel**.
+Stand 2026-08-30 · **13 Titel**.
 
 Netflix gibt seine Tonspuren nur an einen laufenden Player heraus — fünfmal gemessen,
 fünfmal bestätigt. Es gibt keinen Abruf, der das hier abnehmen könnte.
@@ -23,44 +23,16 @@ Erzeugt von `npm run data:netflix-rest`, nicht von Hand pflegen.
 
 | # | Titel | Folgen | Jahr | Verweis |
 |---|---|---:|---:|---|
-| 1 | Yu-Gi-Oh! Arc-V | 148 | 2014 | [öffnen](https://www.netflix.com/title/80987906) |
-| 2 | Bakugan: Battle Planet | 50 | 2019 | [öffnen](https://www.netflix.com/title/81174992) |
-| 3 | Samurai Champloo | 26 | 2004 | [öffnen](https://www.netflix.com/title/70213065) |
-| 4 | Ouran High School Host Club | 26 | 2006 | [öffnen](https://www.netflix.com/title/70205014) |
-| 5 | Berserk | 25 | 1997 | [öffnen](https://www.netflix.com/title/80243876) |
-| 6 | Black Butler | 24 | 2008 | [öffnen](https://www.netflix.com/title/70204955) |
-| 7 | Kill La Kill | 24 | 2013 | [öffnen](https://www.netflix.com/title/70305217) |
-| 8 | Angeloid: Sora no Otoshimono | 13 | 2009 | [öffnen](https://www.netflix.com/title/70266999) |
-| 9 | Tower of God | 13 | 2020 | [öffnen](https://www.netflix.com/title/81329313) |
-| 10 | Beyond the Boundary: Kyoukai no Kanata | 12 | 2013 | [öffnen](https://www.netflix.com/title/80052668) |
-| 11 | Kakegurui: Das Leben ist ein Spiel | 12 | 2017 | [öffnen](https://www.netflix.com/title/80175351) |
-| 12 | My Isekai Life: I Gained a Second Character Class and Became the Strongest Sage in the World! | 12 | 2022 | [öffnen](https://www.netflix.com/title/81617962) |
-| 13 | Solo Leveling | 12 | 2024 | [öffnen](https://www.netflix.com/title/81748512) |
-| 14 | Possibly the Greatest Alchemist of All Time | 12 | 2025 | [öffnen](https://www.netflix.com/title/82058586) |
-| 15 | BAKI-DOU: The Invincible Samurai Part 2 | 12 | 2026 | [öffnen](https://www.netflix.com/title/81922765) |
-| 16 | Exception | 8 | 2022 | [öffnen](https://www.netflix.com/title/81002444) |
-| 17 | Hi Score Girl: Extra Stage | 3 | 2019 | [öffnen](https://www.netflix.com/title/80997338) |
-| 18 | Death Note: Relight | 2 | 2007 | [öffnen](https://www.netflix.com/title/70204970) |
-| 19 | Haikyu!! An Land vs. In der Luft / Der ”Weg” des Balls | 2 | 2020 | [öffnen](https://www.netflix.com/title/80090673) |
-| 20 | Das Schloss des Cagliostro | 1 | 1979 | [öffnen](https://www.netflix.com/title/70050576) |
-| 21 | Bleach: The Movie - Fade to Black | 1 | 2008 | [öffnen](https://www.netflix.com/title/70208801) |
-| 22 | Bleach: The Movie - Hell Verse | 1 | 2010 | [öffnen](https://www.netflix.com/title/70260383) |
-| 23 | Expelled from Paradise | 1 | 2014 | [öffnen](https://www.netflix.com/title/80038207) |
-| 24 | Ghost in the Shell: Arise - Border:1 Ghost Pain | 1 | 2013 | [öffnen](https://www.netflix.com/title/80002073) |
-| 25 | Ghost in the Shell: Arise - Border:2 Ghost Whispers | 1 | 2013 | [öffnen](https://www.netflix.com/title/80002074) |
-| 26 | Ghost in the Shell: Arise - Border:3 Ghost Tears | 1 | 2014 | [öffnen](https://www.netflix.com/title/80021983) |
-| 27 | Miss Hokusai | 1 | 2015 | [öffnen](https://www.netflix.com/title/80075828) |
-| 28 | Haikyu!! Lev ist hier! | 1 | 2014 | [öffnen](https://www.netflix.com/title/80090673) |
-| 29 | Haikyu!! Movie 2 - Gewinner und Verlierer | 1 | 2015 | [öffnen](https://www.netflix.com/title/80134174) |
-| 30 | Sword Art Online The Movie: Ordinal Scale | 1 | 2017 | [öffnen](https://www.netflix.com/title/80180071) |
-| 31 | Haikyu!! Sonderbeitrag: Die Jugend beim Frühlingsturnier | 1 | 2017 | [öffnen](https://www.netflix.com/title/80090673) |
-| 32 | Haikyu!! Kampf gegen ungenügende Noten | 1 | 2015 | [öffnen](https://www.netflix.com/title/80090673) |
-| 33 | Her Blue Sky | 1 | 2019 | [öffnen](https://www.netflix.com/title/81427482) |
-| 34 | Fate/Grand Order Absolute Demonic Front: Babylonia - Initium Iter | 1 | 2019 | [öffnen](https://www.netflix.com/title/81186102) |
-| 35 | Pretty Guardian Sailor Moon Eternal: Der Film | 1 | 2021 | [öffnen](https://www.netflix.com/title/81214399) |
-| 36 | Dorohedoro: Teuflische Anekdoten | 1 | 2020 | [öffnen](https://www.netflix.com/title/80991903) |
-| 37 | Fate/Grand Order: Final Singularity - The Grand Temple of Time: Solomon | 1 | 2021 | [öffnen](https://www.netflix.com/title/82850867) |
-| 38 | Mushoku Tensei: Jobless Reincarnation - Eris auf Goblinjagd | 1 | 2022 | [öffnen](https://www.netflix.com/title/80987039) |
-| 39 | Pokémon: Blauer Himmel in der Ferne! | 1 | 2022 | [öffnen](https://www.netflix.com/title/81670593) |
-| 40 | Gintama the Movie 2026: Yoshiwara in Flames | 1 | 2026 | [öffnen](https://www.netflix.com/title/82968180) |
-| 41 | Detektiv Conan | — | 1996 | [öffnen](https://www.netflix.com/title/80090370) |
+| 1 | Kakegurui: Das Leben ist ein Spiel | 12 | 2017 | [öffnen](https://www.netflix.com/title/80175351) |
+| 2 | BAKI-DOU: The Invincible Samurai Part 2 | 12 | 2026 | [öffnen](https://www.netflix.com/title/81922765) |
+| 3 | Hi Score Girl: Extra Stage | 3 | 2019 | [öffnen](https://www.netflix.com/title/80997338) |
+| 4 | Death Note: Relight | 2 | 2007 | [öffnen](https://www.netflix.com/title/70204970) |
+| 5 | Haikyu!! An Land vs. In der Luft / Der ”Weg” des Balls | 2 | 2020 | [öffnen](https://www.netflix.com/title/80090673) |
+| 6 | Haikyu!! Lev ist hier! | 1 | 2014 | [öffnen](https://www.netflix.com/title/80090673) |
+| 7 | Haikyu!! Sonderbeitrag: Die Jugend beim Frühlingsturnier | 1 | 2017 | [öffnen](https://www.netflix.com/title/80090673) |
+| 8 | Haikyu!! Kampf gegen ungenügende Noten | 1 | 2015 | [öffnen](https://www.netflix.com/title/80090673) |
+| 9 | Pretty Guardian Sailor Moon Eternal: Der Film | 1 | 2021 | [öffnen](https://www.netflix.com/title/81214399) |
+| 10 | Dorohedoro: Teuflische Anekdoten | 1 | 2020 | [öffnen](https://www.netflix.com/title/80991903) |
+| 11 | Mushoku Tensei: Jobless Reincarnation - Eris auf Goblinjagd | 1 | 2022 | [öffnen](https://www.netflix.com/title/80987039) |
+| 12 | Pokémon: Blauer Himmel in der Ferne! | 1 | 2022 | [öffnen](https://www.netflix.com/title/81670593) |
+| 13 | Gintama the Movie 2026: Yoshiwara in Flames | 1 | 2026 | [öffnen](https://www.netflix.com/title/82968180) |

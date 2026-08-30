@@ -2664,7 +2664,7 @@
     {
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
       "name": "gw.api.animationdigitalnetwork.com",
-      "gesehenAm": "2026-08-29",
+      "gesehenAm": "2026-08-30",
       "sagt": "2026-06-01",
       "stand": "aktuell"
     }
@@ -3690,6 +3690,15 @@
       "name": "anime2you.de",
       "gesehenAm": "2026-08-30",
       "sagt": "2026-08-28",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-187663-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1044440/a-gatherers-adventure-in-isekai-blu-ray-komplettbox/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-08-30",
+      "sagt": "2026-12-04",
       "stand": "aktuell"
     }
   ]

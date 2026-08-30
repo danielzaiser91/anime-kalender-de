@@ -1,63 +1,63 @@
 {
   "adn": {
-    "lastOk": "2026-08-30T09:58:25.122Z",
-    "lastRun": "2026-08-30T09:58:25.122Z",
-    "lastCount": 7
+    "lastOk": "2026-08-30T13:14:30.838Z",
+    "lastRun": "2026-08-30T13:14:30.838Z",
+    "lastCount": 11
   },
   "anime2you": {
-    "lastOk": "2026-08-30T09:58:32.098Z",
-    "lastRun": "2026-08-30T09:58:32.098Z",
-    "lastCount": 34
+    "lastOk": "2026-08-30T13:44:44.744Z",
+    "lastRun": "2026-08-30T13:44:44.744Z",
+    "lastCount": 35
   },
   "crunchyroll": {
-    "lastOk": "2026-08-30T09:57:34.881Z",
-    "lastRun": "2026-08-30T09:57:34.881Z",
-    "lastCount": 23
+    "lastOk": "2026-08-30T13:12:30.296Z",
+    "lastRun": "2026-08-30T13:12:30.296Z",
+    "lastCount": 29
   },
   "anisearch": {
-    "lastOk": "2026-08-30T09:58:41.864Z",
-    "lastRun": "2026-08-30T09:58:41.864Z",
+    "lastOk": "2026-08-30T13:44:45.379Z",
+    "lastRun": "2026-08-30T13:44:45.379Z",
     "lastCount": 2617
   },
   "adn-catalog": {
-    "lastOk": "2026-08-29T16:53:34.944Z",
-    "lastRun": "2026-08-29T16:53:34.944Z",
+    "lastOk": "2026-08-30T13:35:06.840Z",
+    "lastRun": "2026-08-30T13:35:06.840Z",
     "lastCount": 114
   },
   "crunchyroll-dub": {
-    "lastOk": "2026-08-29T10:09:16.923Z",
-    "lastRun": "2026-08-29T10:09:16.923Z",
-    "lastCount": 967
+    "lastOk": "2026-08-30T13:40:01.665Z",
+    "lastRun": "2026-08-30T13:40:01.665Z",
+    "lastCount": 968
   },
   "anime-offline-database": {
-    "lastOk": "2026-08-29T16:53:37.448Z",
-    "lastRun": "2026-08-29T16:53:37.448Z",
+    "lastOk": "2026-08-30T13:35:10.231Z",
+    "lastRun": "2026-08-30T13:35:10.231Z",
     "lastCount": 8876
   },
   "ann-voices": {
-    "lastOk": "2026-08-29T16:53:38.098Z",
-    "lastRun": "2026-08-29T16:53:38.098Z",
+    "lastOk": "2026-08-30T13:35:11.122Z",
+    "lastRun": "2026-08-30T13:35:11.122Z",
     "lastCount": 8876
   },
   "youtube-check": {
-    "lastOk": "2026-08-29T16:53:40.210Z",
-    "lastRun": "2026-08-29T16:53:40.210Z",
+    "lastOk": "2026-08-30T13:40:02.869Z",
+    "lastRun": "2026-08-30T13:40:02.869Z",
     "lastCount": 0
   },
   "anilist-voices": {
-    "lastOk": "2026-08-29T16:53:35.898Z",
-    "lastRun": "2026-08-29T16:53:35.898Z",
-    "lastCount": 2765
+    "lastOk": "2026-08-30T13:35:08.532Z",
+    "lastRun": "2026-08-30T13:35:08.532Z",
+    "lastCount": 0
   },
   "link-check": {
-    "lastOk": "2026-08-29T16:56:01.603Z",
-    "lastRun": "2026-08-29T16:56:01.603Z",
-    "lastCount": 134
+    "lastOk": "2026-08-30T13:44:39.555Z",
+    "lastRun": "2026-08-30T13:44:39.555Z",
+    "lastCount": 4
   },
   "tmdb-titles": {
-    "lastOk": "2026-08-29T17:11:31.472Z",
-    "lastRun": "2026-08-29T17:11:31.472Z",
-    "lastCount": 400
+    "lastOk": "2026-08-30T13:59:40.191Z",
+    "lastRun": "2026-08-30T13:59:40.191Z",
+    "lastCount": 161
   },
   "motn-changes": {
     "lastOk": "2026-08-30T09:58:25.959Z",
@@ -70,24 +70,24 @@
     "lastCount": 1548
   },
   "tmdb-kino": {
-    "lastOk": "2026-08-29T15:52:28.980Z",
-    "lastRun": "2026-08-29T15:52:28.980Z",
+    "lastOk": "2026-08-30T13:05:33.461Z",
+    "lastRun": "2026-08-30T13:05:33.461Z",
     "lastCount": 2
   },
   "fsk": {
-    "lastOk": "2026-08-29T15:52:28.261Z",
-    "lastRun": "2026-08-29T15:52:28.261Z",
+    "lastOk": "2026-08-30T13:05:32.937Z",
+    "lastRun": "2026-08-30T13:05:32.937Z",
     "lastCount": 3
   },
   "cinestar": {
-    "lastOk": "2026-08-29T15:51:38.747Z",
-    "lastRun": "2026-08-29T15:51:38.747Z",
+    "lastOk": "2026-08-30T13:04:44.607Z",
+    "lastRun": "2026-08-30T13:04:44.607Z",
     "lastCount": 1
   },
   "tmdb-folgen": {
-    "lastOk": "2026-08-29T17:12:09.658Z",
-    "lastRun": "2026-08-29T17:12:09.658Z",
-    "lastCount": 688
+    "lastOk": "2026-08-30T13:59:47.880Z",
+    "lastRun": "2026-08-30T13:59:47.880Z",
+    "lastCount": 706
   },
   "rohfolgen": {
     "lastOk": "2026-08-29T18:40:44.094Z",
@@ -95,8 +95,8 @@
     "lastCount": 0
   },
   "anisearch-folgen": {
-    "lastOk": "2026-08-29T17:09:37.415Z",
-    "lastRun": "2026-08-29T17:09:37.415Z",
-    "lastCount": 2583
+    "lastOk": "2026-08-30T13:58:36.960Z",
+    "lastRun": "2026-08-30T13:58:36.960Z",
+    "lastCount": 1586
   }
 }
