@@ -2338,12 +2338,59 @@ async function speicherSchreiben(werte) {
     return a
   }
 
-  function kastenKnopf(beschriftung, tun) {
+  /**
+   * Die Karte zu einer Prime-Kennung auf der Trefferseite.
+   *
+   * Gesucht wird über den Verweis, nicht über einen gespeicherten Knoten: Amazon
+   * baut die Trefferliste beim Filtern neu auf, und eine gemerkte Referenz zeigt
+   * danach auf ein Element, das nicht mehr im Baum steht.
+   */
+  function karteZu(kennung) {
+    if (!kennung) return null
+    try {
+      return (
+        document.querySelector(`article[data-testid="card"] a[href*="${kennung}"]`)?.closest('article') ?? null
+      )
+    } catch {
+      return null
+    }
+  }
+
+  /**
+   * Ein Knopf im Auftragskasten — mit der Karte, die er meint.
+   *
+   * Daniel am 30.08.2026 vor „One Punch Man", das die Suche achtmal ausgibt:
+   * „ich hab überhaupt keine ahnung was der eine oder der andere button meint,
+   * welcher der button springt zu welchem der suchtreffer? markier beim hover
+   * auf die button die suchtreffer irgendwie und setz in klammern hinter die
+   * label evtl die asin."
+   *
+   * Beides ist hier drin: Die Kennung steht im Label, und beim Überfahren
+   * bekommt die Karte einen Rahmen und wird ins Bild geholt. Ohne das ist ein
+   * Klick ein Sprung ins Ungewisse — zwischen einem Kauftitel und einem
+   * Kanal-Abo entscheidet er, was überhaupt belegbar ist.
+   */
+  function kastenKnopf(beschriftung, tun, kennung = null) {
     const k = document.createElement('button')
     k.type = 'button'
     k.className = 'ak-suchknopf'
-    k.textContent = beschriftung
+    k.textContent = kennung ? `${beschriftung} (${kennung})` : beschriftung
     k.addEventListener('click', () => tun(k))
+    if (kennung) {
+      k.title = `Zeigt auf ${kennung} — beim Überfahren wird die Karte markiert`
+      k.addEventListener('mouseenter', () => {
+        const karte = karteZu(kennung)
+        if (!karte) return
+        karte.classList.add('ak-treffer-zeigen')
+        /* `nearest` statt `center`: Steht die Karte schon im Bild, soll nichts springen. */
+        karte.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' })
+      })
+      k.addEventListener('mouseleave', () => {
+        for (const el of document.querySelectorAll('.ak-treffer-zeigen')) {
+          el.classList.remove('ak-treffer-zeigen')
+        }
+      })
+    }
     return k
   }
 
@@ -2526,23 +2573,38 @@ async function speicherSchreiben(werte) {
             es hier, bevor er springt, statt auf einer fremden Titelseite zu melden.
           */
           ziel
-            ? kastenKnopf('Zum Anime springen', () => {
-                location.href = ziel
-              })
+            ? kastenKnopf(
+                'Zum Anime springen',
+                () => {
+                  location.href = ziel
+                },
+                /\/(?:dp|detail)\/([A-Z0-9]{10,26})/.exec(ziel)?.[1] ?? null,
+              )
             : kastenZeile('ak-such-hinweis', 'Öffnen — dort werden die Tonspuren gelesen'),
           /* Der zweite Weg, falls es einen gibt — mit seiner Zugangsart benannt. */
           ...sortiert.slice(1, 3).flatMap((z) => {
             const zZiel = ohneParameter(z.url)
             if (!zZiel) return []
             return [
-              kastenKnopf(`Stattdessen: ${kanalKarte(z) ? 'über Kanal-Abo' : 'andere Ausgabe'}`, () => {
-                suchauftragMerken({
-                  ...auftrag,
-                  suchUrl: auftrag.suchUrl,
-                  zielAsin: /\/(?:dp|detail)\/([A-Z0-9]{10,26})/.exec(zZiel)?.[1] ?? null,
-                })
-                location.href = zZiel
-              }),
+              kastenKnopf(
+                /*
+                  **Der Titel der Karte gehört ins Label.** „Stattdessen: andere
+                  Ausgabe" sagt nicht, welche — bei „One Punch Man" gibt die Suche
+                  acht Karten aus, vier davon heißen fast gleich (Daniel,
+                  30.08.2026). Mit Name und Kennung ist der Knopf ohne Klick zu
+                  verstehen.
+                */
+                `Stattdessen: ${kanalKarte(z) ? 'Kanal-Abo' : 'Kauf/Abo'} · ${(z.titel ?? 'andere Ausgabe').slice(0, 40)}`,
+                () => {
+                  suchauftragMerken({
+                    ...auftrag,
+                    suchUrl: auftrag.suchUrl,
+                    zielAsin: /\/(?:dp|detail)\/([A-Z0-9]{10,26})/.exec(zZiel)?.[1] ?? null,
+                  })
+                  location.href = zZiel
+                },
+                /\/(?:dp|detail)\/([A-Z0-9]{10,26})/.exec(zZiel)?.[1] ?? null,
+              ),
             ]
           }),
           sortiert.length > 1

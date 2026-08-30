@@ -92,6 +92,28 @@ const ERNEUT = {
     titel: 'Golden Kamuy: Final Season',
     grund: '9 von 13 deutsch, obwohl Crunchyroll alle führt — derselbe Kanal',
   },
+  /*
+    **Die zweite Prime-Ausgabe desselben Titels.**
+
+    Prime führt „My First Girlfriend Is a Gal" zweimal: über den
+    Crunchyroll-Kanal (FSK 18, 10 Folgen) und als Kauftitel (FSK 16, 11 Folgen
+    mit OVA, KAZÉ) — andere Folgentitel, zwei Verlage, geprüft am 30.08.2026
+    mit Bildern. Gemeldet ist bisher nur der Kanal-Weg, und bei einem
+    Kanal-Titel nennt Amazon die Sprachen des **Kanals**, nicht der Folge; der
+    Kauftitel ist die belastbarere Quelle.
+
+    Unser Bestand kennt für den Titel nur einen Prime-Verweis, deshalb fiel der
+    Auftrag nach der ersten Meldung aus der Liste (Daniel: „ich sehe keinen
+    prüfliste eintrag für die kaufbare option?"). Die Adresse hat er von Hand
+    nachgeliefert.
+
+    Bis die Erweiterung eine zweite Ausgabe selbst meldet (status.md), steht sie
+    hier — mit Kennung, nicht mit einer Suche: Sie ist bekannt.
+  */
+  B0GPD4GNLL: {
+    titel: 'My First Girlfriend Is a Gal — Kauftitel (FSK 16, mit OVA)',
+    grund: 'zweite Prime-Ausgabe; gemeldet ist bisher nur der Crunchyroll-Kanal',
+  },
 }
 
 const JAHRESZEIT = { WINTER: 0, SPRING: 1, SUMMER: 2, FALL: 3 }

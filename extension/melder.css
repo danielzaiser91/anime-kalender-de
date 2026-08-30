@@ -482,6 +482,22 @@
 .ak-suchknopf:disabled { opacity: 0.6; cursor: default; }
 
 /*
+  Die Karte, auf die der überfahrene Knopf zeigt.
+
+  Kein `filter` und kein `transform` — Amazons Karten klappen beim Überfahren
+  selbst auf, und beides würde mit ihrer Animation streiten. Ein Umriss außerhalb
+  des Kastens verschiebt nichts im Layout.
+*/
+.ak-treffer-zeigen {
+  outline: 3px solid #7aa2ff !important;
+  outline-offset: 3px;
+  border-radius: 6px;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.45) !important;
+  position: relative;
+  z-index: 2147483000;
+}
+
+/*
   Die Ecke rechts unten, in der die Prime-Knöpfe stehen.
 
   Sie liegt über Amazons ruhenden Ergebniskarten und unter unseren eigenen

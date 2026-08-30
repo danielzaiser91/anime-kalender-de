@@ -806,6 +806,20 @@ pruefe('„The Movie“ bleibt ein eigenes Werk', kaisenFilm.befund.art !== 'gen
     'der aniSearch-Verweis steht in hinweisKasten selbst',
     rumpf.includes('kastenVerweis') && rumpf.includes('anisearch.de/anime/'),
   )
+  /*
+    **Ein Knopf sagt, wohin er springt.**
+
+    Daniel am 30.08.2026 vor „One Punch Man", das die Suche achtmal ausgibt:
+    „ich hab überhaupt keine ahnung was der eine oder der andere button meint,
+    welcher der button springt zu welchem der suchtreffer?" Seit 4.0.17 steht
+    die Kennung im Label, und beim Überfahren wird die Karte markiert.
+  */
+  pruefe(
+    'die Knöpfe tragen ihre Kennung und markieren die Karte',
+    quelle.includes('function karteZu(') &&
+      quelle.includes('ak-treffer-zeigen') &&
+      quelle.includes('function kastenKnopf(beschriftung, tun, kennung = null)'),
+  )
   pruefe(
     'ohne Kennung führt er auf die aniSearch-Suche, nicht auf AniList',
     rumpf.includes('anisearch.de/search?q=') && !rumpf.includes('anilist.co/anime/'),
