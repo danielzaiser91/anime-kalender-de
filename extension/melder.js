@@ -1982,6 +1982,21 @@ async function durchlaufMelden(folge, echte, deutsch) {
 function folgenFuerFilmErgaenzen() {
   try {
     if (DURCHLAUF.folgen.length || DURCHLAUF.laeuft) return
+    /*
+      **Wo „Erinnern" steht, gibt es nichts zu prüfen.**
+
+      Bei „Pokémon: Blauer Himmel in der Ferne!" bot der Knopf „1 Folge prüfen"
+      an, obwohl die Seite nur einen Erinnern-Knopf zeigt — der Titel ist dort
+      noch gar nicht abrufbar. Der Klick führte folgerichtig auf `/watch/…` mit
+      Fehlercode E103, „Dieser Titel steht nicht zum Streaming zur Verfügung"
+      (Daniel, 30.08.2026: „warum kann ich 1 folge prüfen, obwohl da erinnern
+      steht und keine folge da ist?").
+
+      Der Melde-Knopf daneben kennt den Fall längst und bietet „Keine Folge da —
+      als nicht abrufbar melden" an. Das ist die richtige Antwort; ein
+      Durchlauf, der ins Leere fährt, ist keine.
+    */
+    if (keineFolgeVorhanden()) return
     const reihe = gemeinteReihe()
     if (!reihe) return
     const eintrag = offeneTitel[String(reihe)]
@@ -2179,9 +2194,26 @@ function durchlaufKnopfZeigen() {
           : 'Ein Klick prüft alle offenen Folgen.\nKlick: auf zwei begrenzen.'
   }
   if (!DURCHLAUF.laeuft && DURCHLAUF.stoerung) {
-    DURCHLAUF.knopf.textContent = `⚠ ${DURCHLAUF.stoerung} — andere Tabs schließen`
-    DURCHLAUF.knopf.title =
-      'Netflix erlaubt nur eine laufende Wiedergabe. Andere Netflix-Tabs schließen, dann hier klicken.'
+    /*
+      **Nicht jede Störung heißt „zu viele Tabs".**
+
+      Der Rat stand unter jedem Code. Bei „Pokémon: Blauer Himmel in der Ferne!"
+      führte der Durchlauf auf eine Seite mit **E103** — „Dieser Titel steht
+      nicht zum Streaming zur Verfügung" —, und der Knopf riet, andere Tabs zu
+      schließen (Daniel, 30.08.2026: „falscher error?"). Das schickt in die
+      falsche Richtung: Kein geschlossener Tab macht einen Titel verfügbar.
+
+      Netflix' Codes trennen die Fälle sauber: `M7…` meint die Wiedergabe selbst
+      (zu viele Streams, Netzwerk), `E1…`, `UI…` und `NSES-…` meinen den Titel.
+    */
+    const wiedergabe = /^M7/.test(DURCHLAUF.stoerung)
+    DURCHLAUF.knopf.textContent = wiedergabe
+      ? `⚠ ${DURCHLAUF.stoerung} — andere Tabs schließen`
+      : `⚠ ${DURCHLAUF.stoerung} — hier nicht abrufbar`
+    DURCHLAUF.knopf.title = wiedergabe
+      ? 'Netflix erlaubt nur eine laufende Wiedergabe. Andere Netflix-Tabs schließen, dann hier klicken.'
+      : 'Netflix gibt den Titel nicht wieder — nicht im Angebot, nicht in dieser Region oder ' +
+        'noch nicht erschienen. In der Prüfliste über „nichts da?" abhaken, wenn die Suche ihn auch nicht findet.'
     DURCHLAUF.knopf.disabled = false
     DURCHLAUF.knopf.classList.remove('ak-fertig')
     return
@@ -2826,6 +2858,19 @@ function pfadPruefen() {
     Beides dieselbe Lücke: Ohne diesen Aufruf zeichnet nur ein Klick neu — und
     was dabei passiert, sieht aus, als hätte der Klick es verursacht.
   */
+  /*
+    **Eine Störung gehört zu der Wiedergabe, bei der sie auftrat.**
+
+    Sie blieb am Knopf stehen, auch nachdem der Durchlauf den Player längst
+    verlassen hatte — bei „Pokémon" stand nach der Rückkehr auf die Titelseite
+    noch „⚠ M7355", während die Seite zuvor E103 gezeigt hatte (Daniel,
+    30.08.2026, mit zwei Bildern). Zwei verschiedene Fehler, einer davon aus
+    einer Sitzung, die es nicht mehr gibt.
+
+    Beim Pfadwechsel ist sie damit erledigt: Was auf der neuen Seite stört,
+    stellt `stoerung()` dort neu fest.
+  */
+  DURCHLAUF.stoerung = null
   durchlaufKnopfZeigen()
 }
 window.addEventListener('popstate', pfadPruefen)
