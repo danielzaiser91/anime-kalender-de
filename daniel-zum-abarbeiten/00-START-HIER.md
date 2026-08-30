@@ -1,15 +1,15 @@
 # Was zu tun ist
 
-Stand: 2026-08-29 — **erzeugt aus dem ausgelieferten Datensatz**,
+Stand: 2026-08-30 — **erzeugt aus dem ausgelieferten Datensatz**,
 nicht von Hand gepflegt. Wer hier eine Zahl ändert, ändert sie am
 falschen Ort; sie kommt beim nächsten Lauf zurück.
 
 | # | Aufgabe | Umfang | Zeit je Stück | wozu |
 |---|---|---|---|---|
 | 1 | Prime Video — Suchseiten | 175 Suchen | ~20 s je Titel | Titel ohne bekannte Produktseite |
-| 2 | [Prime Video — Titelseiten](07-primevideo.md) | 19 Adressen, 76 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
-| 3 | [Netflix](06-netflix-rest.md) | 22 Titel, 32 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
-| 4 | [Crunchyroll](07-crunchyroll.md) | 36 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
+| 2 | [Prime Video — Titelseiten](07-primevideo.md) | 14 Adressen, 71 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
+| 3 | [Netflix](06-netflix-rest.md) | 3 Titel, 13 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
+| 4 | [Crunchyroll](07-crunchyroll.md) | 37 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
 | 5 | [YouTube](09-youtube-liste.md) | 16 Verweise | ~30 s je Video | der Videotitel nennt oft schon die Fassung |
 | 6 | [Disney+](07-disneyplus.md) | 1 Titel, 1 Verweis | ~30 s je Titel | der Playback-Aufruf liest die Sprachen ohne Wiedergabe |
 
@@ -19,7 +19,7 @@ schickt die Meldung ab. Die Listen hier sind zum Nachschlagen, nicht zum Abtippe
 
 ## Was das bringt
 
-Von 2763 Titeln zeigen **498** keinen einzigen Bezugsweg,
+Von 2764 Titeln zeigen **501** keinen einzigen Bezugsweg,
 **277** davon mit belegter deutscher Synchro. Für die ist die
 Antwort auf „wo kann ich das sehen?" heute: nirgends bekannt. Jede Meldung von hier
 macht eine davon weniger.

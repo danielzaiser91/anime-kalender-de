@@ -23640,3 +23640,290 @@
   url: https://www.amazon.de/dp/B0CH396B9Y
   checkedAt: '2026-08-27'
   note: "Tonspuren: English, 日本語 — Amazon-Seite B0CH396B9Y: alle 13 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-30 ---
+
+- anilistId: 112444
+  title: "Appare-Ranman!"
+  platform: primevideo
+  checkedAt: '2026-08-30'
+  note: "Tonspuren: English, Español (Latinoamérica), Português (Brasil), 日本語 — Amazon-Seite B09MDQX4CW: alle 13 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 19163
+  title: "Date a Live II"
+  platform: primevideo
+  checkedAt: '2026-08-30'
+  note: "Amazon-Seite B0C7LZCS5H: alle 12 Folgen geprüft, Abos: keine Angabe, laut Adresse Staffel 1"
+
+- anilistId: 18507
+  title: "Free! Iwatobi Swim Club"
+  platform: primevideo
+  checkedAt: '2026-08-30'
+  note: "Tonspuren: English, Español (Latinoamérica), Français, Português (Brasil), 日本語 — Amazon-Seite B0CGVS29ZD: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 105334
+  title: "Fruits Basket"
+  platform: primevideo
+  dub: true
+  checkedAt: '2026-08-30'
+  note: "Tonspuren: Deutsch, Deutsch [Audiobeschreibung], English, Español (Latinoamérica), Português (Brasil), 日本語 — Amazon-Seite B0GDFC7BL6: alle 13 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 10015
+  title: "Yu-Gi-Oh! Zexal"
+  platform: primevideo
+  dub: false
+  checkedAt: '2026-08-30'
+  note: "Amazon-Seite B01EKI0SQ8: alle 24 Folgen geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"
+
+- anilistId: 16049
+  title: "A Certain Scientific Railgun S"
+  platform: primevideo
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 24
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+    - from: 25
+      to: 25
+      dub: false
+      checked: [25]
+  checkedAt: '2026-08-30'
+  note: "Folgen 1–24 mit deutschem Ton, Folge 25 ohne deutschen Ton — Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High, 日本語 — Amazon-Seite B0CVFNLP9D: alle 24 Folgen geprüft, Abos: freewithads, crunchyrollde, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 20657
+  title: "Saekano: How to Raise a Boring Girlfriend"
+  platform: primevideo
+  checkedAt: '2026-08-30'
+  note: "Tonspuren: 日本語 — Amazon-Seite B0CGYJ482P: alle 13 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 179950
+  title: "Petals of Reincarnation"
+  platform: primevideo
+  checkedAt: '2026-08-30'
+  note: "Tonspuren: 日本語 — Amazon-Seite B0GVN98MKW: alle 13 Folgen geprüft, Abos: aniversede, FVOD, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 144932
+  title: "Edens Zero: Season 2"
+  platform: primevideo
+  dub: true
+  checkedAt: '2026-08-30'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CJQF3729: alle 25 Folgen geprüft, Abos: animedigitalde, aniversede, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 381
+  title: "Fushigi Yûgi New OVA: The Mysterious Play"
+  platform: primevideo
+  checkedAt: '2026-08-30'
+  note: "Tonspuren: English, 日本語 — Amazon-Seite B0CH6KQBJR: alle 52 Folgen geprüft, Abos: crunchyrollde, laut Adresse Staffel 1, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 20458
+  title: "The Irregular at Magic High School"
+  platform: primevideo
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 2
+      dub: false
+      checked: [1, 2]
+    - from: 3
+      to: 4
+      dub: true
+      checked: [3, 4]
+    - from: 5
+      to: 5
+      dub: false
+      checked: [5]
+    - from: 6
+      to: 13
+      dub: true
+      checked: [6, 7, 8, 9, 10, 11, 12, 13]
+  checkedAt: '2026-08-30'
+  note: "Folgen 1–2 ohne deutschen Ton, Folgen 3–4 mit deutschem Ton, Folge 5 ohne deutschen Ton, Folgen 6–13 mit deutschem Ton — Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CH5BXKFX: alle 13 Folgen geprüft, Abos: Prime, crunchyrollde, laut Adresse Staffel 2, zugang=abo_und_kauf"
+
+- anilistId: 5958
+  title: "Angeloid: Sora no Otoshimono"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-30'
+  note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
+
+- anilistId: 108852
+  title: "Bakugan: Battle Planet"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-30'
+  note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
+
+- anilistId: 4898
+  title: "Black Butler"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-30'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 4835
+  title: "Bleach: The Movie - Fade to Black"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-30'
+  note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
+
+- anilistId: 8247
+  title: "Bleach: The Movie - Hell Verse"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-30'
+  note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
+
+- anilistId: 1430
+  title: "Das Schloss des Cagliostro"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-30'
+  note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
+
+- anilistId: 235
+  title: "Detektiv Conan"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-30'
+  note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
+
+- anilistId: 170083
+  title: "Dragon Ball DAIMA"
+  platform: netflix
+  dub: false
+  checkedAt: '2026-08-30'
+  note: "Folgen 1–20 ohne deutschen Ton — Tonspuren: ja|Japanisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 20, dazwischen nicht geprüft — Folge 20: Maximum"
+
+- anilistId: 135660
+  title: "Exception"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-30'
+  note: "Folgen 1–8 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, pl|Polnisch, ja|Japanisch, fr|Französisch, es-ES|Spanisch (Spanien), pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch, hu|Ungarisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 8, dazwischen nicht geprüft — Folge 8: Gravitation"
+
+- anilistId: 13391
+  title: "Expelled from Paradise"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-30'
+  note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
+
+- anilistId: 17187
+  title: "Ghost in the Shell: Arise - Border:1 Ghost Pain"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-30'
+  note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
+
+- anilistId: 19191
+  title: "Ghost in the Shell: Arise - Border:2 Ghost Whispers"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-30'
+  note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
+
+- anilistId: 19193
+  title: "Ghost in the Shell: Arise - Border:3 Ghost Tears"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-30'
+  note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
+
+- anilistId: 108577
+  title: "Her Blue Sky"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-30'
+  note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
+
+- anilistId: 18679
+  title: "Kill La Kill"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-30'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 20709
+  title: "Miss Hokusai"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-30'
+  note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
+
+- anilistId: 853
+  title: "Ouran High School Host Club"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-30'
+  note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
+
+- anilistId: 205
+  title: "Samurai Champloo"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-30'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 21403
+  title: "Sword Art Online The Movie: Ordinal Scale"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-30'
+  note: "Titelseite ohne abspielbare Folge — nur „Erinnern\""
+
+- anilistId: 20552
+  title: "Yu-Gi-Oh! Arc-V"
+  platform: netflix
+  available: false
+  checkedAt: '2026-08-30'
+  note: "Aus der Übersicht als toter Verweis gemeldet — leitet auf die Startseite um"
+
+- anilistId: 21823
+  title: "ACCA: 13-Territory Inspection Dept."
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CNGRQS7W
+  dub: true
+  checkedAt: '2026-08-30'
+  note: "Tonspuren: Deutsch, 日本語, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0CNGRQS7W: alle 12 Folgen geprüft, Abos: aniversede, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 33
+  title: "Berserk"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DGGZSKRM
+  dub: true
+  checkedAt: '2026-08-30'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0DGGZSKRM: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf"
+
+- anilistId: 33
+  title: "Berserk"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FKZM9J6V
+  dub: true
+  checkedAt: '2026-08-30'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0FKZM9J6V: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=kauf"
+
+- anilistId: 20727
+  title: "Blood Blockade Battlefront"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0B7D8FYH8
+  dub: true
+  checkedAt: '2026-08-30'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0B7D8FYH8: alle 13 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 20727
+  title: "Blood Blockade Battlefront"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0B6GM8THT
+  dub: true
+  checkedAt: '2026-08-30'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High, 日本語 — Amazon-Seite B0B6GM8THT: alle 12 Folgen geprüft, Abos: aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 21825
+  title: "Danganronpa 3: The End of Hope’s Peak Academy - Despair Arc"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0H9G1CNHC
+  dub: true
+  checkedAt: '2026-08-30'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0H9G1CNHC: alle 24 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"

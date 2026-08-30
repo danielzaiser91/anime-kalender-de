@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-08-30T06:50:01.642Z",
+ "erzeugtAm": "2026-08-30T09:58:50.107Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 514,
-   "gesamt": 533,
-   "offen": 19,
+   "gemeldet": 522,
+   "gesamt": 536,
+   "offen": 14,
    "ohneSeite": 58,
    "ziel": "https://www.amazon.de/dp/B0CH396B9Y",
    "ziele": [
@@ -19,24 +19,12 @@
      "titel": "Fushigi Yuugi OVA 2"
     },
     {
-     "url": "https://www.amazon.de/dp/B01EKI0SQ8",
-     "titel": "Yu☆Gi☆Oh! ZEXAL"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0CGGZVNFS",
-     "titel": "Toaru Kagaku no Railgun S"
-    },
-    {
      "url": "https://www.amazon.de/dp/B0CGVS29ZD",
      "titel": "Free!"
     },
     {
      "url": "https://www.amazon.de/dp/B0CJJF26WZ",
      "titel": "Date A Live II"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0CWRDZVBY",
-     "titel": "Mahouka Koukou no Rettousei"
     },
     {
      "url": "https://www.amazon.de/dp/B0CGYJ482P",
@@ -51,16 +39,8 @@
      "titel": "Free!: Dive to the Future"
     },
     {
-     "url": "https://www.amazon.de/dp/B0G6HF46PV",
-     "titel": "Fruits Basket: 1st Season"
-    },
-    {
      "url": "https://www.amazon.de/dp/B09MDQX4CW",
      "titel": "Appare-Ranman!"
-    },
-    {
-     "url": "https://www.amazon.de/dp/B0D956JD5Y",
-     "titel": "EDENS ZERO 2nd Season"
     },
     {
      "url": "https://www.amazon.de/dp/B0CYQJ79R8",
@@ -92,106 +72,26 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 366,
-   "gesamt": 389,
-   "offen": 23,
+   "gemeldet": 367,
+   "gesamt": 370,
+   "offen": 3,
    "ohneSeite": 0,
-   "ziel": "https://www.netflix.com/title/70050576",
+   "ziel": "https://www.netflix.com/title/80175351",
    "ziele": [
-    {
-     "url": "https://www.netflix.com/title/70050576",
-     "titel": "Das Schloss des Cagliostro"
-    },
-    {
-     "url": "https://www.netflix.com/title/70204955",
-     "titel": "Black Butler"
-    },
-    {
-     "url": "https://www.netflix.com/title/70205014",
-     "titel": "Ouran High School Host Club"
-    },
-    {
-     "url": "https://www.netflix.com/title/70208801",
-     "titel": "Bleach: The Movie - Fade to Black"
-    },
-    {
-     "url": "https://www.netflix.com/title/70213065",
-     "titel": "Samurai Champloo"
-    },
-    {
-     "url": "https://www.netflix.com/title/70260383",
-     "titel": "Bleach: The Movie - Hell Verse"
-    },
-    {
-     "url": "https://www.netflix.com/title/70266999",
-     "titel": "Angeloid: Sora no Otoshimono"
-    },
-    {
-     "url": "https://www.netflix.com/title/70305217",
-     "titel": "Kill La Kill"
-    },
-    {
-     "url": "https://www.netflix.com/title/80002073",
-     "titel": "Ghost in the Shell: Arise - Border:1 Ghost Pain"
-    },
-    {
-     "url": "https://www.netflix.com/title/80002074",
-     "titel": "Ghost in the Shell: Arise - Border:2 Ghost Whispers"
-    },
-    {
-     "url": "https://www.netflix.com/title/80021983",
-     "titel": "Ghost in the Shell: Arise - Border:3 Ghost Tears"
-    },
-    {
-     "url": "https://www.netflix.com/title/80038207",
-     "titel": "Expelled from Paradise"
-    },
-    {
-     "url": "https://www.netflix.com/title/80075828",
-     "titel": "Miss Hokusai"
-    },
-    {
-     "url": "https://www.netflix.com/title/80090370",
-     "titel": "Detektiv Conan"
-    },
     {
      "url": "https://www.netflix.com/title/80175351",
      "titel": "Kakegurui: Das Leben ist ein Spiel"
-    },
-    {
-     "url": "https://www.netflix.com/title/80180071",
-     "titel": "Sword Art Online The Movie: Ordinal Scale"
-    },
-    {
-     "url": "https://www.netflix.com/title/80987906",
-     "titel": "Yu-Gi-Oh! Arc-V"
-    },
-    {
-     "url": "https://www.netflix.com/title/81002444",
-     "titel": "Exception"
-    },
-    {
-     "url": "https://www.netflix.com/title/81174992",
-     "titel": "Bakugan: Battle Planet"
-    },
-    {
-     "url": "https://www.netflix.com/title/81427482",
-     "titel": "Her Blue Sky"
     },
     {
      "url": "https://www.netflix.com/title/81670593",
      "titel": "Pokémon: Blauer Himmel in der Ferne!"
     },
     {
-     "url": "https://www.netflix.com/title/81943491",
-     "titel": "Dragon Ball DAIMA"
-    },
-    {
      "url": "https://www.netflix.com/title/82968180",
      "titel": "Gintama the Movie 2026: Yoshiwara in Flames"
     }
    ],
-   "naechster": "Das Schloss des Cagliostro"
+   "naechster": "Kakegurui: Das Leben ist ein Spiel"
   },
   {
    "name": "Disney+",

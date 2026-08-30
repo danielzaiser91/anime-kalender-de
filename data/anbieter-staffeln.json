@@ -489,6 +489,17 @@
   ],
   "gemeldetAm": "2026-08-23"
  },
+ "81002444": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "",
+    "folgen": 8,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-08-30"
+ },
  "81005375": {
   "staffeln": [
    {
@@ -1119,6 +1130,17 @@
    }
   ],
   "gemeldetAm": "2026-08-26"
+ },
+ "81943491": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "",
+    "folgen": 20,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-08-30"
  },
  "82031882": {
   "staffeln": [

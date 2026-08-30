@@ -1,5 +1,5 @@
 {
-  "stand": "2026-08-30T06:49:56.865Z",
+  "stand": "2026-08-30T09:58:45.476Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -679,7 +679,7 @@
       "seriesId": "GRGGJWD2R",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 20628,
@@ -1219,7 +1219,7 @@
       "seriesId": "GR3V5EK46",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 97672,
@@ -1759,7 +1759,7 @@
       "seriesId": "GR79V3VN6",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 8407,
@@ -1999,7 +1999,7 @@
       "seriesId": "GY8VM43GY",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 6610,
@@ -2209,7 +2209,7 @@
       "seriesId": "GMEHMEJJG",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-08-21",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 4962,
@@ -3479,7 +3479,7 @@
       "seriesId": null,
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-08-21",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 21087,
@@ -5169,7 +5169,17 @@
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
-      "letzterWeg": false
+      "letzterWeg": true
+    },
+    {
+      "titleId": 10015,
+      "titel": "Yu-Gi-Oh! Zexal",
+      "plattform": "primevideo",
+      "url": "https://www.amazon.de/dp/B01EKI0SQ8",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": true
     },
     {
       "titleId": 11061,
@@ -5259,7 +5269,7 @@
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 18507,
@@ -5279,7 +5289,7 @@
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 19193,
@@ -5289,7 +5299,7 @@
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 19195,
@@ -6710,6 +6720,26 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "letzterWeg": true
+    },
+    {
+      "titleId": 170083,
+      "titel": "Dragon Ball Daima",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/81943491",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
+    },
+    {
+      "titleId": 170083,
+      "titel": "Dragon Ball Daima",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1239-dragon-ball-daima",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "letzterWeg": false
     },
     {
       "titleId": 170695,
