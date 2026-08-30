@@ -1,13 +1,13 @@
 {
- "erzeugtAm": "2026-08-30T16:08:22.582Z",
+ "erzeugtAm": "2026-08-30T16:21:21.006Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 1041,
-   "gesamt": 1056,
+   "gemeldet": 522,
+   "gesamt": 537,
    "offen": 15,
-   "ohneSeite": 51,
+   "ohneSeite": 58,
    "ziel": "https://www.amazon.de/dp/B0CH396B9Y",
    "ziele": [
     {
