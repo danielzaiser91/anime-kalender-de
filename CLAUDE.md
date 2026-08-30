@@ -2377,6 +2377,39 @@ Zwei Riegel halten das eng:
   dreiundfünfzig Meldungen unter einer Adresse, die eine einzige meint. Dort
   bleibt es bei der Handmeldung.
 
+### Untertitel sind keine Tonspur — und ein Sammel-Set weiß nicht, welche es waren
+
+Am 30.08.2026 meldete der Knopf für „Hell Mode" **„Deutsch · 12 Folgen"**. Auf
+derselben Seite stand: **Wiedergabesprachen 日本語, Untertitel Deutsch.** Daniels
+Gegenprobe bei ADN: den Titel gibt es dort nur mit Untertiteln.
+
+Der Diagnosebericht zeigt den Widerspruch im Zählstand selbst:
+
+| | |
+|---|---|
+| `jeFolge` (12 Folgen) | jede einzelne `["日本語"]` |
+| `gesehen.sprachen` | `["日本語", "Deutsch"]` |
+
+**Die Quelle ist ein Fund ohne Folgennummer.** Der Empfänger in `amazon.js`
+trägt solche Funde nicht in `jeFolge` ein — ihre Sprachen aber ins Sammel-Set,
+und der Kommentar dort sagt es ausdrücklich: „seine Sprache zählt, als Folge
+zählt er nicht". Die Regel stammt aus der Zeit, als die Rückfallebene des
+Mitlesers die einzige Quelle war. Heute liefert er Folgendaten, und ein
+nummernloser Fund ist ein Kopf- oder Kanalwert — genau die Angabe, die bei einem
+Kanal-Titel nichts belegt.
+
+**Seit 4.0.14 entscheiden die Folgen**, wo es welche gibt; das Set bleibt nur für
+Filme, die keine Folgenliste haben. Das ist dieselbe Regel, die dieses Projekt
+bei Crunchyroll längst zieht — „der lauf muss jede folge individuell prüfen".
+
+Zwei Meldungen zu Hell Mode (Staffel 1 und 2, beide `dub`) wurden aus dem
+Briefkasten verworfen, ohne den Datensatz zu berühren.
+
+**Und die allgemeine Form:** Ein Sammel-Set beantwortet die Frage „kam das
+irgendwann vor?" — nicht „steht es an dieser Sache?". Wo es eine Liste je Einheit
+gibt, ist sie die Antwort; das Set ist der Rückfall für den Fall, dass es keine
+gibt.
+
 ### Beim Fernsehen ist die Erweiterung unsichtbar
 
 Am 30.08.2026 stand über einer laufenden Folge „Heroes" unten rechts ein Knopf:
