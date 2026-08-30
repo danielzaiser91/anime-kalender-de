@@ -6,14 +6,15 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Martial Arts
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:black-torch@2026-08-22@anime-kalender-de
+UID:auto-170083-rtlplus@2026-08-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20260822T130000Z
-DTEND:20260822T133000Z
-SUMMARY:Black Torch – Folge 8/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/black-torch
-CATEGORIES:Crunchyroll
+DTSTART;VALUE=DATE:20260828
+DTEND;VALUE=DATE:20260829
+SUMMARY:Dragon Ball DAIMA
+DESCRIPTION:Plattform: RTL+\nRelease-Art: Katalogtitel\nUhrzeit noch nicht 
+ bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-170083-rtlpl
+ us
+CATEGORIES:RTL+
 END:VEVENT
 BEGIN:VEVENT
 UID:black-torch@2026-08-29@anime-kalender-de

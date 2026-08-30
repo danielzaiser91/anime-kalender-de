@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-08-29T21:52:42.740Z",
-  "titleCount": 2763,
-  "releaseCount": 308,
-  "eventCount": 942,
+  "generatedAt": "2026-08-30T00:27:41.219Z",
+  "titleCount": 2764,
+  "releaseCount": 309,
+  "eventCount": 943,
   "genres": [
     "Action",
     "Adventure",
@@ -412,7 +412,8 @@
     "kino",
     "crunchyroll",
     "primevideo",
-    "adn"
+    "adn",
+    "rtlplus"
   ],
   "providers": [
     "Disc bei aniSearch",

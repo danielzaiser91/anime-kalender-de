@@ -6,16 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Demons
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:cr-G6NVG970Y@2026-08-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260822T120000Z
-DTEND:20260822T123000Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 19/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-G6NVG970Y
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:mushoku-tensei-s3@2026-08-23#4@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260823T150000Z
@@ -66,6 +56,17 @@ SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – Fo
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/#/release/cr-GYZJ43JMR
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-170083-rtlplus@2026-08-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260828
+DTEND;VALUE=DATE:20260829
+SUMMARY:Dragon Ball DAIMA
+DESCRIPTION:Plattform: RTL+\nRelease-Art: Katalogtitel\nUhrzeit noch nicht 
+ bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-170083-rtlpl
+ us
+CATEGORIES:RTL+
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-G6NVG970Y@2026-08-29@anime-kalender-de

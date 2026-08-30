@@ -6,26 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Magic
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:cr-G6793XKZY@2026-08-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260822T093000Z
-DTEND:20260822T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 16/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-G6793XKZY
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6NVG970Y@2026-08-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260822T120000Z
-DTEND:20260822T123000Z
-SUMMARY:Welcome to Demon School! Iruma-kun Staffel 4 – Folge 19/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/cr-G6NVG970Y
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:mushoku-tensei-s3@2026-08-23#4@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260823T150000Z
@@ -148,6 +128,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/virgin-
  road-vol1
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-170083-rtlplus@2026-08-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260828
+DTEND;VALUE=DATE:20260829
+SUMMARY:Dragon Ball DAIMA
+DESCRIPTION:Plattform: RTL+\nRelease-Art: Katalogtitel\nUhrzeit noch nicht 
+ bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-170083-rtlpl
+ us
+CATEGORIES:RTL+
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-G6793XKZY@2026-08-29@anime-kalender-de
