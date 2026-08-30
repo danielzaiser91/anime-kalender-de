@@ -14,6 +14,7 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 | Aufgabe | SP | Notiz |
 |---|---|---|
 | **Phase 4: die Erweiterung hört auf zu urteilen** | 8 | Worker ist ausgeliefert (29.08., Version 895b110a). Wartet jetzt auf eine Meldung mit 3.91 — erst an ihr ist belegbar, dass die Zuordnung ohne die neunzig Urteilsregeln auskommt |
+| **Zwei Prime-Ausgaben brauchen zwei Aufträge** | 5 | „My First Girlfriend Is a Gal" liegt bei Prime zweimal: als Kauftitel mit FSK 16 und 11 Folgen (KAZÉ, mit OVA) und über den Crunchyroll-Kanal mit FSK 18 und 10 Folgen — andere Folgentitel, zwei Verlage. Gemeldet werden kann seit dem 30.08. jede einzeln (`seiten_kennung`), aber die Prüfliste führt je Verweis **einen** Auftrag, und unser Bestand kennt für den Titel nur einen. Sobald die erste Ausgabe gemeldet ist, verschwindet der Eintrag — die zweite bleibt ungeprüft. Nötig: Erkennt die Erweiterung auf der Trefferliste eine zweite passende Ausgabe, meldet sie das mit, und der Bau legt daraus einen zweiten Auftrag an (Daniel, 30.08.2026: „ich sehe keinen prüfliste eintrag für die kaufbare option?") |
 
 ### Warten auf Feedback
 
