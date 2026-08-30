@@ -2833,3 +2833,86 @@ if (verbindungLebt())
     if (liste) liste.scrollTop = stelle
   })
 })
+
+/**
+ * **Ein Diagnosebericht für Netflix — denselben Griff wie bei Amazon.**
+ *
+ * Daniel am 30.08.2026: „diagnose download geht nicht." `ak-report` gibt es nur
+ * in `amazon.js`; auf Netflix lief das Ereignis ins Leere, und
+ * `dispatchEvent` gibt trotzdem `true` zurück — es heißt „nicht abgebrochen",
+ * nicht „jemand hat zugehört".
+ *
+ * Ohne Bericht bleibt jede Frage nach dem „warum lässt sich das nicht melden"
+ * eine Vermutung. Genau dafür gibt es ihn bei Amazon seit dem 28.08., und drei
+ * Fälle an einem Tag waren ohne ihn nicht auswertbar.
+ *
+ *     document.dispatchEvent(new CustomEvent('ak-report'))
+ *
+ * `window.__akDiagnose()` im Leser bleibt daneben bestehen — es sieht die
+ * GraphQL-Antworten, an die dieses Skript nicht herankommt. Wo es erreichbar
+ * ist, wandert sein Ergebnis mit in den Bericht.
+ */
+function nfBericht() {
+  const sicher = (f) => {
+    try {
+      return f()
+    } catch (err) {
+      return { fehler: String(err?.message ?? err) }
+    }
+  }
+  return {
+    erzeugtAm: new Date().toISOString(),
+    version: sicher(() => chrome.runtime.getManifest().version),
+    adresse: location.pathname + location.search,
+    stand: sicher(() => ({
+      reihe: stand.reihe,
+      folgeNr: stand.folgeNr,
+      staffel: stand.staffel,
+      titel: stand.titel,
+      spuren: stand.spuren,
+      serientitel: stand.serientitel,
+    })),
+    /* Die drei Fragen, an denen der Knopf hängt. */
+    lage: sicher(() => ({
+      imPlayer: imPlayer(),
+      istGesucht: istGesucht(),
+      gemeinteReihe: gemeinteReihe(),
+      keineFolgeVorhanden: keineFolgeVorhanden(),
+      erscheinungsdatum: erscheinungsdatum(),
+      stoerung: stoerung(),
+    })),
+    /* Steht der Titel auf der Liste, und als was? */
+    auftrag: sicher(() => {
+      const r = gemeinteReihe()
+      const e = r ? offeneTitel[String(r)] : null
+      return e ? { titel: e.titel, asId: e.asId, staffeln: e.staffeln } : null
+    }),
+    durchlauf: sicher(() => ({
+      folgen: DURCHLAUF.folgen.length,
+      nummern: DURCHLAUF.folgen.slice(0, 5).map((f) => ({ nummer: f.nummer, videoId: f.videoId })),
+      laeuft: DURCHLAUF.laeuft,
+      abbruch: DURCHLAUF.abbruch,
+      knopf: DURCHLAUF.knopf?.textContent ?? null,
+    })),
+    knopf: sicher(() => document.querySelector('.ak-melder')?.textContent ?? null),
+    zuletztGeoeffnet: sicher(() => zuletztGeoeffnet),
+    listeGesamt: sicher(() => Object.keys(offeneTitel).length),
+    /* Was der Leser sieht — er kennt die GraphQL-Antworten. */
+    leser: sicher(() => (typeof window.__akDiagnose === 'function' ? window.__akDiagnose() : 'nicht erreichbar')),
+  }
+}
+
+try {
+  document.addEventListener('ak-report', () => {
+    const daten = JSON.stringify(nfBericht(), null, 2)
+    const a = document.createElement('a')
+    a.href = URL.createObjectURL(new Blob([daten], { type: 'application/json' }))
+    a.download = `anime-kalender-netflix-${new Date().toISOString().replace(/[:.]/g, '-')}.json`
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+    console.log('[Anime-Kalender] Netflix-Diagnosebericht heruntergeladen.')
+  })
+} catch {
+  /* Ohne document gibt es nichts zu berichten. */
+}
