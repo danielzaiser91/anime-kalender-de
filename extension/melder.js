@@ -1888,9 +1888,25 @@ async function durchlaufMelden(folge, echte, deutsch) {
         url: `https://www.netflix.com/title/${gemeinteReihe()}`,
         sprachen: echte.map((s) => `${s.code}|${s.name}`),
         befund: deutsch ? 'dub' : 'kein_dub',
-        titel: stand.serientitel ?? null,
+        /*
+          **Der Player kennt bei einem Film keinen Serientitel.**
+
+          Die erste Film-Meldung kam mit `titel: null` an (Gintama, 30.08.2026).
+          Zugeordnet wird zwar über die Adresse, aber ein Eintrag ohne Namen ist
+          im Briefkasten nicht nachzusehen — und genau das war am 26.08. schon
+          einmal der Grund, warum eine Meldung als verloren galt.
+
+          Der Name steht im Auftrag, den die Prüfliste mitbringt.
+        */
+        titel: stand.serientitel ?? folge.titel ?? null,
         folge: folge.videoId,
-        folge_nr: folge.nummer,
+        /*
+          **Ein Film hat keine Folge 1** — dieselbe Regel wie bei Amazon
+          (22.08.2026: „filme in der liste werden als 1e01 gemeldet, obwohl es
+          filme und keine serien sind"). Die Nummer entstünde hier nur, weil der
+          Durchlauf intern bei eins zählt.
+        */
+        folge_nr: folge.film ? null : folge.nummer,
         /*
           Der Player nennt die Staffel manchmal erst nach der ersten Folge —
           dann gilt, was die Liste vorher schon gezeigt hat. Ohne das trug die
@@ -1937,7 +1953,7 @@ function folgenFuerFilmErgaenzen() {
     const eintrag = offeneTitel[String(reihe)]
     const staffeln = eintrag?.staffeln ?? []
     if (staffeln.length !== 1 || !staffeln[0]?.film) return
-    DURCHLAUF.folgen = [{ nummer: 1, videoId: Number(reihe), titel: eintrag.titel ?? '', staffel: null }]
+    DURCHLAUF.folgen = [{ nummer: 1, videoId: Number(reihe), titel: eintrag.titel ?? '', staffel: null, film: true }]
   } catch {
     /* Ohne Prüflisten-Eintrag bleibt es beim bisherigen Verhalten. */
   }
