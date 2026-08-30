@@ -15,6 +15,7 @@
  * Aufruf: npm run data:pruefungen
  */
 import { existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import yaml from 'js-yaml'
 import { echteAmazonAdresse } from './lib/amazon-adresse.js'
 import { resolve } from 'node:path'
 import {
@@ -484,10 +485,13 @@ for (const gruppe of jeAdresse.values()) {
     // Adresse noch nicht — dann gehört sie mit hinein, sonst bleibt der Befund
     // ohne Verweis stehen.
     const echte = echteAmazonAdresse(p)
+    let adresseGeschrieben = false
     if (echte) {
       zeilen.push(`  url: ${echte}`)
+      adresseGeschrieben = true
     } else if (!nachUrl.has(schluesselAdresse(p.url))) {
       zeilen.push(`  url: ${p.url}`)
+      adresseGeschrieben = true
     }
     /*
       Der Teilbereich steht vor dem Befund: Er sagt, worüber der Befund
@@ -541,7 +545,9 @@ for (const gruppe of jeAdresse.values()) {
         und sie ist die nützlichste Angabe, die eine Kanal-Meldung hat: Sie sagt,
         **welche Seite** angesehen wurde.
       */
-      if (!nachUrl.has(schluesselAdresse(p.url))) zeilen.push(`  url: ${p.url}`)
+      if (!adresseGeschrieben && !nachUrl.has(schluesselAdresse(p.url))) {
+        zeilen.push(`  url: ${p.url}`)
+      }
     } else if (eigene.length) {
       const ganz = eigene.length === 1 && eigene[0]!.von === 1 && eigene[0]!.bis === (t?.episodes ?? -1)
       zeilen.push(`  dub: ${eigene.some((b) => b.dub)}`)
@@ -582,7 +588,28 @@ if (zeilen.length && !TROCKEN) {
   const p = resolve(ROOT, 'data/dub-confirmed.yaml')
   const alt = readFileSync(p, 'utf8')
   const kopf = `\n# --- Aus dem Browser gemeldet, abgeholt am ${heute} ---`
-  writeFileSync(p, alt.trimEnd() + '\n' + kopf + '\n' + zeilen.join('\n') + '\n')
+  const neu = alt.trimEnd() + '\n' + kopf + '\n' + zeilen.join('\n') + '\n'
+  /*
+    **Erst lesen, dann schreiben — sonst fällt der Fehler drei Schritte später.**
+
+    Am 30.08.2026 bekam ein Eintrag zwei `url:`-Zeilen: Eine Amazon-Suchadresse
+    mit zugeordneter `/dp/`-Adresse durchlief oben den Zweig für die echte
+    Adresse und unten noch einmal den für „Kanal-Meldung ohne Urteil". YAML
+    verbietet doppelte Schlüssel, und der stündliche Lauf brach ab — nicht hier,
+    sondern beim Bau, mit einer Zeilennummer aus 24.000 Zeilen und ohne Hinweis
+    darauf, wer sie geschrieben hat.
+
+    Ein Parse-Versuch kostet Millisekunden und meldet den Fehler dort, wo er
+    entsteht. Geschrieben wird nur, was sich danach auch wieder lesen lässt.
+  */
+  try {
+    yaml.load(neu)
+  } catch (e) {
+    throw new Error(
+      `Die erzeugten Zeilen ergeben kein gültiges YAML — nichts geschrieben. ${(e as Error).message}`,
+    )
+  }
+  writeFileSync(p, neu)
 }
 
 /**

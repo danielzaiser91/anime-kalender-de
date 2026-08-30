@@ -17,6 +17,7 @@
  * Aufruf: npm run check:logic
  */
 import { readFileSync } from 'node:fs'
+import yaml from 'js-yaml'
 import { discSlug } from './lib/util.ts'
 import { expandEvents, lastEpisodeDate, istErschienen, titleStatus } from '../shared/logic.ts'
 import {
@@ -2258,6 +2259,27 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
     'ein kurzer Titel bleibt unverändert',
     discSlug('Steins;Gate 0', '2026-10-16') === 'steins-gate-0-2026-10-16',
   )
+}
+
+/*
+  **Die Handbelege müssen sich lesen lassen — `data:validate` prüft sie nicht.**
+
+  `data/dub-confirmed.yaml` liegt außerhalb von `data/curated/` und wird vom
+  Validator nicht angefasst. Am 30.08.2026 schrieb `fetch-pruefungen.ts` einem
+  Eintrag zwei `url:`-Zeilen; YAML verbietet doppelte Schlüssel, und der Fehler
+  fiel erst beim Bau auf — mit einer Zeilennummer aus 24.000 Zeilen.
+*/
+{
+  const roh = readFileSync(new URL('../data/dub-confirmed.yaml', import.meta.url), 'utf8')
+  let lesbar = true
+  let grund = ''
+  try {
+    yaml.load(roh)
+  } catch (e) {
+    lesbar = false
+    grund = (e as Error).message.split(String.fromCharCode(10))[0] ?? ''
+  }
+  pruefe(`data/dub-confirmed.yaml ist gültiges YAML${lesbar ? '' : ` — ${grund}`}`, lesbar)
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
