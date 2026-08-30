@@ -2714,6 +2714,23 @@ async function speicherSchreiben(werte) {
                 'Beim Kanal-Titel nennt Amazon die Sprachen des Kanals, nicht der Folge — der Kauftitel ist der belastbarere.',
               )
             : null,
+          /*
+            **Auch ein gefundener Treffer kann der falsche sein.**
+
+            Daniel am 31.08.2026 an „Ronja Räubertochter": Der Namensvergleich
+            fand eine Karte, und sie heißt tatsächlich so — nur ist es Viaplays
+            **Realverfilmung**, nicht der Anime von 1984. Der Kasten bot „Zum
+            Anime springen" an und sonst nichts; um „nicht bei Prime" zu melden,
+            hätte der Treffer erst verschwinden müssen.
+
+            Der Knopf steht deshalb auch hier, hinter den Sprungzielen: Wer
+            hinsieht und merkt, dass es der falsche Titel ist, kann es sofort
+            sagen. Er ist derselbe wie im Kein-Treffer-Kasten und meldet unter
+            der Suchadresse.
+          */
+          istGemeldet(auftrag.suchUrl)
+            ? kastenZeile('ak-such-gut', 'gemeldet ✓')
+            : kastenKnopf('Nicht bei Prime — melden', (k) => nichtBeiPrimeMelden(auftrag, befund, k)),
         )
         return
       }

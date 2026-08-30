@@ -799,6 +799,18 @@ const psoAnim = werte(
 pruefe('„The Animation" ebenso wenig', psoAnim.befund.art === 'genau', psoAnim.befund.art)
 
 /*
+  **Auch beim Treffer muss „nicht bei Prime" meldbar sein.**
+
+  „Ronja Räubertochter" fand eine gleichnamige Karte — Viaplays
+  Realverfilmung, nicht den Anime von 1984 (Daniel, 31.08.2026). Ohne den
+  Knopf gäbe es keinen Weg, das zu sagen.
+*/
+pruefe(
+  'der Melde-Knopf steht auch im Treffer-Kasten',
+  quelle.split("kastenKnopf('Nicht bei Prime — melden'").length - 1 >= 2,
+)
+
+/*
   **Der AniList-Verweis haengt an hinweisKasten, nicht an einer Aufrufstelle.**
 
   Er stand seit 3.80 nur im Auftragshinweis der Titelseite — gebraucht wird er
