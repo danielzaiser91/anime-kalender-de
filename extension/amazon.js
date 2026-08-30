@@ -2829,6 +2829,31 @@ async function speicherSchreiben(werte) {
       ist. Der Player bleibt ausgenommen — dort gehört kein Hinweis hin.
     */
     const andereSeite = Boolean(auftrag.zielAsin && auftrag.zielAsin !== asin())
+    /*
+      **Eine andere Ausgabe ist etwas anderes als ein fremdes Werk.**
+
+      Der Absatz darüber hält den Kasten bewusst offen, wenn die Kennung
+      abweicht — Daniel klickt in derselben Suche auf ein zweites Ergebnis, und
+      dort wird der Hinweis gebraucht.
+
+      Am 30.08.2026 zeigte sich die andere Seite davon: Auf einer
+      Pokémon-Titelseite stand der Kasten für „One Piece Film: Strong World".
+      Der Auftrag gilt zehn Minuten, und Daniel war längst weitergezogen.
+
+      Die Trennlinie ist der **Name**. Trägt der Seitentitel den Auftragstitel
+      (oder umgekehrt), ist es dieselbe Sache in einer anderen Ausgabe — dann
+      warnt der Kasten. Haben beide nichts gemeinsam, ist es ein fremdes Werk,
+      und der Auftrag hat hier nichts zu suchen.
+    */
+    if (andereSeite) {
+      try {
+        const a = titelKern(auftrag.titel ?? '')
+        const b = titelKern(seitenTitel() ?? '')
+        if (a && b && !a.includes(b) && !b.includes(a)) return false
+      } catch {
+        /* Ohne Titel bleibt es beim bisherigen Verhalten: warnen statt ausblenden. */
+      }
+    }
     if (imPlayer()) return false
     /*
       **Deutlich mehr Folgen als erwartet heißt: Die Seite bündelt.**
