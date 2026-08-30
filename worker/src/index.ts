@@ -1660,6 +1660,33 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
         dazu.add(r.url)
         gemeldeteAdressen.set(r.plattform, dazu)
       }
+      /**
+       * **Übernommen ist nicht erledigt — jedenfalls nicht für den Prüfstand.**
+       *
+       * `pruefstand.json` entsteht beim Datenbau und nennt, was der Datensatz
+       * noch nicht weiß. Abgezogen wurde bisher nur, was **offen** im
+       * Briefkasten liegt. Zwischen der Übernahme einer Meldung und dem
+       * nächsten Datenbau fällt eine Adresse damit durch beide Raster: im
+       * Prüfstand noch offen, im Briefkasten nicht mehr da.
+       *
+       * Genau dort landete Daniel zweimal an einem Tag — die Amazon-Pille
+       * schickte ihn auf einen Titel, den er längst gemeldet hatte (30.08.2026:
+       * „klick auf amazon pill in status leitet mich erneut zu einem bereits
+       * vollständig gemeldeten titel").
+       *
+       * Für die **Ziele** zählt deshalb jede jemals gemeldete Adresse. Die
+       * Zahl `unterwegs` daneben bleibt bei den offenen: Sie beantwortet eine
+       * andere Frage — was der nächste Datenlauf noch abholt.
+       */
+      const { results: jemals } = await env.DB.prepare(
+        `SELECT DISTINCT plattform, url FROM pruefung WHERE url IS NOT NULL AND url != ''`,
+      ).all<{ plattform: string; url: string }>()
+      const jeGemeldet = new Map<string, Set<string>>()
+      for (const r of jemals ?? []) {
+        const dazu = jeGemeldet.get(r.plattform) ?? new Set<string>()
+        dazu.add(r.url)
+        jeGemeldet.set(r.plattform, dazu)
+      }
 
       let stand: { anbieter?: unknown[] } = {}
       try {
@@ -1683,16 +1710,25 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
         }
         const unterwegs = gemeldeteAdressen.get(a.plattform) ?? new Set<string>()
         /*
-          Ein Ziel, das schon im Briefkasten liegt, ist erledigt — auch wenn der
-          Datensatz es noch nicht weiß. Genau dieser Abgleich fehlte.
+          Ein Ziel, unter dem jemals gemeldet wurde, ist erledigt — auch wenn
+          der Datensatz es noch nicht weiß und der Briefkasten es schon
+          abgegeben hat.
         */
-        const offeneZiele = (a.ziele ?? []).filter((z) => !unterwegs.has(z.url))
+        const schonGemeldet = jeGemeldet.get(a.plattform) ?? new Set<string>()
+        const offeneZiele = (a.ziele ?? []).filter((z) => !schonGemeldet.has(z.url))
         return {
           name: a.name,
           plattform: a.plattform,
           gesamt: a.gesamt,
-          /** Staffeln, die weder im Datensatz noch im Briefkasten stehen. */
-          offen: Math.max(0, a.offen - unterwegs.size),
+          /**
+           * Staffeln, zu denen weder der Datensatz noch eine Meldung etwas hat.
+           *
+           * Abgezogen wird, was **jemals** gemeldet wurde, nicht nur das
+           * Offene: Sonst wächst die Zahl nach jedem Datenlauf wieder an, weil
+           * die übernommenen Meldungen aus dem Briefkasten verschwinden, bevor
+           * der nächste Datenbau sie einarbeitet (30.08.2026).
+           */
+          offen: Math.max(0, a.offen - schonGemeldet.size),
           /** Adressen, die noch niemand gemeldet hat. */
           titel: offeneZiele.length,
           /** Was davon schon unterwegs ist. */

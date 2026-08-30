@@ -647,7 +647,41 @@ function knopfZeigen() {
   // Zweite Sicherung an der Stelle, die tatsächlich in die Seite schreibt: Wer
   // hier ankommt, ohne dass der Titel gesucht ist, hat einen Weg gefunden, den
   // niemand vorgesehen hat.
-  if ((!reihe && !spuren) || !istGesucht()) {
+  /*
+    **Ein Titel, der nicht auf der Liste steht, sagt das — statt zu schweigen.**
+
+    Daniel am 30.08.2026 an „Pokémon: Blauer Himmel in der Ferne!": Der
+    Listen-Eintrag führt `81670593`, geöffnet war `81706101` — eine andere
+    Pokémon-Reihe. Die Erweiterung entfernte ihren Knopf, und damit stand er
+    auf einer Seite, die von außen genauso aussieht wie eine richtige, ohne
+    jede Auskunft: „lässt sich nicht melden".
+
+    Ein Hinweis kostet nichts und beantwortet die Frage sofort. Ganz weg bleibt
+    der Knopf nur, wo ohnehin niemand meldet — auf der Startseite und überall,
+    wo keine Titelkennung in der Adresse steht.
+  */
+  if (!istGesucht()) {
+    const aufTitelseite = /^\/(title|watch)\/\d+/.test(location.pathname)
+    if (!aufTitelseite) {
+      knopfEntfernen()
+      return
+    }
+    if (!knopf) {
+      knopf = document.createElement('button')
+      knopf.className = 'ak-melder'
+      knopf.addEventListener('click', melden)
+      document.body.appendChild(knopf)
+    }
+    knopf.hidden = false
+    knopf.disabled = true
+    knopf.className = 'ak-melder ak-leer'
+    knopf.textContent = 'Steht nicht auf der Prüfliste'
+    knopf.title =
+      'Zu dieser Netflix-Kennung gibt es keinen offenen Auftrag. Häufigster Grund: ' +
+      'Der Titel aus der Liste liegt unter einer anderen Kennung — dann über den Link in der Liste öffnen.'
+    return
+  }
+  if (!reihe && !spuren) {
     knopfEntfernen()
     return
   }
@@ -2377,7 +2411,21 @@ async function dialogOeffnen() {
 
     const link = document.createElement('a')
     link.className = 'ak-titel'
-    link.href = `https://www.netflix.com/title/${id}`
+    /*
+      **Ein Film führt direkt in den Player.**
+
+      Netflix gibt seine Tonspuren nur an einer laufenden Wiedergabe heraus
+      (CLAUDE.md, viermal gemessen). Bei einer Serie ist die Titelseite trotzdem
+      der richtige Anlaufpunkt — dort wählt man die Folge. Bei einem Film gibt
+      es nichts zu wählen: Die Titelseite zeigt einen „Abspielen"-Knopf und
+      sonst nichts, was die Erweiterung lesen könnte, und der Melde-Knopf blieb
+      deshalb weg (Daniel, 30.08.2026, an „Gintama the Movie 2026").
+
+      `/watch/<id>` startet die Wiedergabe, die Erweiterung liest, ein Klick
+      meldet — derselbe Weg wie bei einer Folge.
+    */
+    const istFilm = (eintrag.staffeln ?? []).length === 1 && eintrag.staffeln[0]?.film
+    link.href = istFilm ? `https://www.netflix.com/watch/${id}` : `https://www.netflix.com/title/${id}`
     /*
       **Netflix bleibt im selben Tab** (Daniel, 30.08.2026).
 
