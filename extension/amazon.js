@@ -1507,7 +1507,46 @@ async function speicherSchreiben(werte) {
    * ganze Auskunft, und das ist der häufigere Fall.
    */
   function staffelZahl() {
-    return seitenLage().staffelZahl
+    /*
+      **Zwei Einträge, eine Staffel — Amazon zählt trotzdem zwei.**
+
+      Bei „Kakushite! Makina-san!!" führt Prime dieselbe erste Staffel zweimal
+      (zwei Ausgaben, beide `sequenceNumber: 1`) und schreibt „2 Staffeln" in
+      den Seitentext. Die Erweiterung verlangte daraufhin eine zweite Meldung —
+      für eine Staffel, die es nicht gibt (Daniel, 30.08.2026: „auf amazon gibt
+      es 2x die 1. staffel, aber keine 2., also kann ich auch keine 2. staffel
+      melden, was die extension aber möchte").
+
+      Die Staffelliste aus dem Hydration-Block weiß es besser: Sie nennt je
+      Eintrag die Nummer, und verschiedene Nummern sind verschiedene Staffeln.
+      Der Seitentext bleibt Rückfall, solange sie fehlt.
+
+      In `try`, weil `gesehen` weiter unten angelegt wird und diese Funktion
+      beim Seitenaufbau läuft — derselbe Grund wie bei `nichtAngekommen()`.
+    */
+    const ausText = seitenLage().staffelZahl
+    try {
+      const staffelListe = gesehen?.seite?.staffeln ?? []
+      const nummern = new Set(staffelListe.map((s) => s?.nummer).filter((n) => Number.isFinite(n)))
+      /*
+        **Nur eine vollständige Liste darf die Zahl senken.**
+
+        Die Staffelliste trifft mit Verzögerung ein. Steht dort erst ein
+        Eintrag, während der Seitentext „5 Staffeln" sagt, wäre eine 1 keine
+        Korrektur, sondern ein halber Ladezustand — und die Serie gälte nach
+        einer einzigen Meldung als fertig. Genau das ist bei „Danmachi" passiert:
+        Staffel 1 gemeldet, Eintrag weg, Staffel 2 nicht mehr meldbar (Daniel,
+        30.08.2026).
+
+        Vollständig ist die Liste, wenn sie so viele Einträge hat, wie die Seite
+        Staffeln nennt. Dann — und nur dann — zählen ihre Nummern: bei
+        „Kakushite" zwei Einträge mit derselben Nummer 1, also eine Staffel.
+      */
+      if (nummern.size && staffelListe.length >= ausText) return nummern.size
+    } catch {
+      /* Noch keine Staffelliste — dann gilt die Zahl aus dem Seitentext. */
+    }
+    return ausText
   }
 
   /**
@@ -2121,6 +2160,24 @@ async function speicherSchreiben(werte) {
       Ergebnis trägt mit, wozu es gehört, und wer es liest, verwirft Fremdes.
     */
     kasten.dataset.fuerAdresse = location.pathname
+    /*
+      **Und er gehört zu einem Folgenstand, nicht nur zu einer Adresse.**
+
+      Der Auftragshinweis entscheidet über die Folgenzahl, ob die Seite ein
+      Werk bündelt, es teilt oder ein anderes ist. Gebaut wird er beim
+      Seitenaufbau — da steht die Zahl oft noch auf null, und der Kasten wählte
+      den Zweig „zeigt deutlich weniger, ist ein anderes Werk".
+
+      Bei „Danganronpa 3" stand genau das über einer Seite mit 24 Folgen für
+      einen Auftrag über 12: Prime bündelt dort Future und Despair Arc, und der
+      Knopf „Als Folgen 1–12 melden" wäre der richtige gewesen — er kam nie,
+      weil niemand den Kasten noch einmal ansah (Daniel, 30.08.2026).
+    */
+    try {
+      kasten.dataset.beiFolgen = String(gesehen?.gesamt ?? 0)
+    } catch {
+      kasten.dataset.beiFolgen = '0'
+    }
     kasten.appendChild(kastenZeile('ak-such-titel', titel))
     if (unterzeile) kasten.appendChild(kastenZeile('ak-such-unter', unterzeile))
     for (const z of zusatz) if (z) kasten.appendChild(z)
@@ -3007,6 +3064,26 @@ async function speicherSchreiben(werte) {
     for (const k of serienGefaehrten(asinEintrag)) {
       const n = erledigt[k]?.gesamt
       if (Number.isFinite(n) && n > groesste) groesste = n
+    }
+    /*
+      **Die offene Seite darf eine zu kleine gespeicherte Zahl berichtigen.**
+
+      Ein `gesamt`, das beim Melden aus einem halben Ladezustand entstand,
+      bliebe sonst für immer stehen — und mit ihm ein Titel, der nach einer
+      Meldung als fertig gilt. Bei „Danmachi" war das eine 1 für eine Serie mit
+      fünf Staffeln; der Eintrag verschwand aus der Liste, und Staffel 2 war
+      nicht mehr erreichbar (Daniel, 30.08.2026).
+
+      Nur nach oben, und nur für den Eintrag, dessen Seite gerade offen ist:
+      Was hier steht, ist die Auskunft der Seite selbst.
+    */
+    try {
+      if (asinEintrag === listenId) {
+        const jetzt = staffelZahl()
+        if (Number.isFinite(jetzt) && jetzt > groesste) groesste = jetzt
+      }
+    } catch {
+      /* `listenId` noch nicht gesetzt — dann bleibt es beim Gespeicherten. */
     }
     return groesste || erledigt[asinEintrag]?.gesamt || 1
   }
@@ -6381,12 +6458,26 @@ async function speicherSchreiben(werte) {
       Titelbereichs.
     */
     const alterHinweis = document.querySelector('.ak-amazon-suchhinweis')
-    if (alterHinweis && alterHinweis.dataset.fuerAdresse !== location.pathname) {
-      alterHinweis.remove()
+    if (alterHinweis) {
+      const andereAdresse = alterHinweis.dataset.fuerAdresse !== location.pathname
+      /*
+        Die Folgenzahl kommt Sekunden nach dem Seitenaufbau — und sie
+        entscheidet, welchen Zweig der Auftragshinweis wählt. Ändert sie sich,
+        wird er neu gebaut.
+      */
+      let andereFolgen = false
       try {
-        zeigeAuftragshinweis()
+        andereFolgen = alterHinweis.dataset.beiFolgen !== String(gesehen?.gesamt ?? 0)
       } catch {
-        /* Ohne Auftrag gibt es nichts zu zeigen — der alte Kasten ist trotzdem weg. */
+        /* Kein Zählstand — dann bleibt es beim Adressvergleich. */
+      }
+      if (andereAdresse || andereFolgen) {
+        alterHinweis.remove()
+        try {
+          zeigeAuftragshinweis()
+        } catch {
+          /* Ohne Auftrag gibt es nichts zu zeigen — der alte Kasten ist trotzdem weg. */
+        }
       }
     }
     beiStaffelwechsel()
