@@ -480,6 +480,56 @@ pruefe(
   )
 }
 
+/**
+ * **Was Amazon listet, wird gesammelt — auch mit Lücken und Sprüngen.**
+ *
+ * Daniel am 30.08.2026, nach hunderten Fassungen: „jede folge muss gescanned
+ * werden … es kann vorkommen das lücken existieren (folge 13 und 15 da, aber 14
+ * nicht da), es kann sprünge geben (25 auf 1025) … alle episoden einzeln
+ * geprüft und übermittelt werden."
+ *
+ * Zwei Regeln standen dem im Weg, beide über die Erwartungszahl gebaut, beide
+ * am 30.08. entfernt. Diese Zusicherungen halten fest, dass sie nicht
+ * zurückkommen.
+ */
+{
+  console.log('\nGesammelt wird, was da ist — nicht was erwartet wird')
+
+  /*
+    Die Kappung warf jede Nummer über `gesehen.gesamt` weg. Bei JoJo Staffel 5
+    (Nummern 1–13 und 15–40 für 39 Folgen) traf das die 40; bei einem Sprung von
+    25 auf 1025 die 1025.
+  */
+  pruefe(
+    'keine Kappung überzähliger Folgennummern mehr',
+    !/const ueberzaehlig = \[\.\.\.gesehen\.jeFolge\.keys\(\)\]\.filter/.test(quelle),
+  )
+  pruefe(
+    'und kein stand-gekappt im Tagebuch',
+    !/notiere\('stand-gekappt'/.test(quelle),
+  )
+
+  /*
+    Der Staffelwechsel wird über die **Zugehörigkeit** getrennt, nicht über
+    Zahlen: Jede Mitleser-Antwort trägt `fuerAdresse`, und ein Stand zu einer
+    fremden Adresse wird verworfen. Das ist der Mechanismus, der die Kappung
+    ersetzt — fällt er weg, bliebe beim Wechsel der alte Stand stehen.
+  */
+  pruefe(
+    'der Staffelwechsel trennt über die Adresse',
+    /if \(gesehen\.fuerAdresse !== jetzigeAdresse\) \{[\s\S]{0,120}gesehen = leererStand\(\)/.test(quelle),
+  )
+
+  /*
+    `geladeneFolgen()` zählt seit dem 30.08. über die Anzahl statt über die Höhe
+    der Nummern — sonst fiele bei JoJo dieselbe 40 wieder heraus.
+  */
+  pruefe(
+    'geladeneFolgen zählt über die Anzahl, nicht über die Nummernhöhe',
+    /return Math\.min\(gesehen\.nummern\.size, gesehen\.gesamt\)/.test(quelle),
+  )
+}
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) rot.`)
   process.exit(1)

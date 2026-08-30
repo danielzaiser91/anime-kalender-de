@@ -5821,19 +5821,23 @@ async function speicherSchreiben(werte) {
         Eine Frist braucht das nicht mehr: Die Regel wirft nichts weg, was zur
         Seite gehört, und darf deshalb jederzeit greifen.
       */
-      const zuVieleFolgen =
-        Number.isFinite(gesehen?.gesamt) && gesehen.gesamt > 0 && (gesehen?.jeFolge?.size ?? 0) > gesehen.gesamt
-      if (zuVieleFolgen) {
-        const ueberzaehlig = [...gesehen.jeFolge.keys()].filter((n) => n > gesehen.gesamt)
-        notiere('stand-gekappt', { gesamt: gesehen.gesamt, gelesen: gesehen.jeFolge.size, weg: ueberzaehlig })
-        for (const n of ueberzaehlig) {
-          gesehen.jeFolge.delete(n)
-          gesehen.nummern.delete(n)
-        }
-        letzteZahl = -1
-        letzterStand = ''
-        letzterFortschritt = Date.now()
-      }      knopf.textContent = 'Staffel wechselt — einen Moment'
+      /*
+        **Und seit dem 30.08.2026 wird gar nicht mehr gekappt.**
+
+        Die Regel darüber warf jede Nummer über `gesehen.gesamt` weg. Sie traf
+        damit genau die Fälle, die Daniel geliefert hat: Bei „JoJo" Staffel 5
+        fehlt Folge 14, die übrigen tragen 1–13 und 15–40 — die 40 flog raus.
+        Bei einer Reihe mit Sprung („Folge 25 und Folge 1025 nebeneinander")
+        wäre die 1025 verschwunden. Seine Vorgabe: „alle episoden einzeln
+        geprüft und übermittelt … es kann sprünge geben."
+
+        Der Fall, für den sie gebaut war — nach einem Staffelwechsel schickt
+        Amazon die Folgen der alten Staffel nach —, ist seit dem 25.08. anders
+        gelöst: Jede Antwort trägt `fuerAdresse` mit, und ein Stand zu einer
+        fremden Adresse wird verworfen. Das trennt nach Zugehörigkeit statt nach
+        Zahlengröße, und nur das kann eine echte Folge von einer fremden
+        unterscheiden.
+      */      knopf.textContent = 'Staffel wechselt — einen Moment'
       /* Jede Sekunde dieses Zustands ist eine Sekunde Warten für Daniel. */
       notiere('wartet-auf-staffel', {
         wartetSeitMs: Date.now() - letzterFortschritt,
