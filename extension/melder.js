@@ -1492,7 +1492,19 @@ async function durchlaufStandSchreiben(reihe) {
  * anders da, die Kennung überall gleich.
  */
 function stoerung() {
-  const text = document.body?.textContent ?? ''
+  /*
+    **`innerText`, nicht `textContent` — sonst liest man Netflix' Skripte mit.**
+
+    `textContent` gibt auch den Inhalt von `<script>`-Elementen zurück, und dort
+    stehen Netflix' Fehlercode-Vorlagen im Klartext. Auf der Pokémon-Titelseite
+    fand das Muster deshalb ein `M7355`, obwohl die Seite keinen Fehler zeigt —
+    dreimal in Folge im Diagnosebericht, und jedes Mal riet der Knopf, andere
+    Tabs zu schließen (Daniel, 30.08.2026).
+
+    `innerText` liefert, was ein Mensch sieht: kein Skript, nichts Verborgenes.
+    Genau das ist gemeint, wenn hier nach einer Fehlermeldung gesucht wird.
+  */
+  const text = document.body?.innerText ?? ''
   /*
     `UI3003` kam am 26.08.2026 dazu — „Dieser Titel ist in Ihrem Land derzeit
     nicht verfügbar". Er erschien, weil eine Folge mit `videoId: 0` in die Liste
@@ -2723,6 +2735,19 @@ async function dialogOeffnen() {
      * richtigen Zeile ein.
      */
     link.addEventListener('click', () => {
+      /*
+        **Der Klick merkt sich auch, wohin er wollte.**
+
+        Die Weiterleitung wurde bisher erst auf der Zielseite erkannt, und dafür
+        brauchte es einen frischen Zeitstempel. Wer die Seite nur neu lädt oder
+        die Erweiterung neu startet, verliert ihn — bei Daniel lagen zuletzt 8,5
+        Minuten dazwischen, und die Zuordnung kam nie zustande (30.08.2026,
+        vier Berichte in Folge).
+
+        Deshalb wird hier gleich vermerkt, welcher Auftrag geöffnet wurde. Führt
+        die Zielseite eine andere Kennung, trägt der nächste Takt sie als
+        Weiterleitung nach — und zwar dauerhaft, unabhängig von jeder Frist.
+      */
       void speicherSchreiben({ zuletztGeoeffnet: { id: String(id), zeit: Date.now() } })
     })
     zeile.appendChild(link)
