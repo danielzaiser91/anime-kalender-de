@@ -27,3 +27,20 @@ MONITOR_EMAIL = "danielzaiser91@googlemail.com"
 WORKER_URL = "https://newsletter.animekalender.workers.dev"
 
 # Geheim setzen mit:  wrangler secret put MAIL_API_KEY
+
+# Der Push-Kanal zur Statusanzeige (30.08.2026).
+#
+# Ein Worker lebt je Anfrage und kann deshalb keine Verbindung halten, über die
+# er eine zweite Anfrage benachrichtigt. Ein Durable Object kann es: Es gibt es
+# genau einmal, und es weiß, wer gerade zuhört. Auf Cloudflare ist das der
+# einzige Weg zu echtem Push.
+#
+# `new_sqlite_classes` statt `new_classes`: die Variante, die auf dem freien
+# Tarif läuft.
+[[durable_objects.bindings]]
+name = "EREIGNISSE"
+class_name = "Ereignisse"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Ereignisse"]

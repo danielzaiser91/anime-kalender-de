@@ -1491,6 +1491,49 @@ Aufgefallen ist es nur, weil danach `git diff --stat` lief. Zwei Regeln:
   Wer die YAML von Hand berichtigt, berichtigt sie und lässt den Konverter in
   Ruhe.
 
+## Die Statusanzeige wird benachrichtigt, sie fragt nicht mehr nach
+
+Daniel am 30.08.2026: „status app muss automatisch mitbekommen wenn es sich
+ändert. bau ein eventing system ein, sodass es sofort benachrichtigt wird
+(websocket oder sonstiges).“
+
+Der Worker hat dafür ein **Durable Object** (`worker/src/ereignisse.ts`). Ein
+Worker lebt je Anfrage und kann keine Verbindung halten, über die er eine
+zweite Anfrage benachrichtigt; ein Durable Object gibt es genau einmal und es
+weiß, wer zuhört. Auf Cloudflare ist das der einzige Weg zu echtem Push.
+
+- **`GET /ereignisse`** nimmt den WebSocket an — ohne Token: Was dort fließt,
+  ist die Nachricht „es hat sich etwas geändert“, keine Daten.
+- **Gesendet wird bei jeder Meldung** (`POST /pruefung`) **und jeder
+  Lauf-Änderung** (`POST /lauf`), immer über `ctx.waitUntil` — der Melder
+  wartet nicht auf den Versand.
+- **Die Sockets laufen über `acceptWebSocket`**, nicht `accept()`. Damit darf
+  Cloudflare das Objekt schlafen legen, während nichts passiert; eine Anzeige,
+  die den ganzen Tag offen steht, kostet dann nichts.
+
+Gemessen am 30.08.2026: Ereignis **308 ms** nach dem Auslösen beim Client —
+vorher bis zu 60 Sekunden.
+
+**Der Takt bleibt trotzdem.** Ein Kanal kann stehen und nichts liefern; solange
+er steht, genügt der langsame Takt (fünf Minuten), fällt er weg, trägt er
+allein weiter (eine Minute).
+
+### Eine Antwort ohne Ziel ist nicht dasselbe wie keine Antwort
+
+Am selben Tag meldete Daniel: „status app amazon pill geklickt -> maid sama
+öffnet sich -> melden -> amazon pill nach meldung gedrückt -> maid sama öffnet
+sich…“
+
+Der Worker hatte recht: Nach der Meldung um 16:29:21 stand dort `titel: 0,
+ziel: null` — es gab nichts mehr zu prüfen. Die Anzeige fiel aber auf ihren
+Verweis vom Aufbau zurück, denn ihre Regel lautete `if (jetzt?.ziel) ziel =
+jetzt.ziel`. Sie war für den **Netzfehler** gedacht („ein Ziel zu viel ist
+besser als keins“) und traf einen Fall, der keiner war.
+
+**Prüffrage bei jedem Rückfall auf einen alten Wert:** *Unterscheide ich
+‚keine Antwort‘ von ‚Antwort ohne Inhalt‘?* Das Erste rechtfertigt den alten
+Wert, das Zweite widerlegt ihn.
+
 ## Wer die Live-Seite prüft, räumt zuerst den Service Worker ab
 
 Am 29.08.2026 zweimal in einer Stunde derselbe Fehlschluss: Ein Fix war

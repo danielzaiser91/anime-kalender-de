@@ -25,9 +25,17 @@ import {
   type NeuMitSynchro,
   type ReleaseLink,
 } from './templates.ts'
+import { Ereignisse, ereignisSenden } from './ereignisse.ts'
+
+export { Ereignisse }
 
 export interface Env extends MailEnv {
   DB: D1Database
+  /**
+   * Der Push-Kanal zur Statusanzeige. Optional: Ohne das Binding läuft alles
+   * weiter, die Anzeige erfährt Änderungen dann nur beim nächsten Nachfragen.
+   */
+  EREIGNISSE?: DurableObjectNamespace
   SITE_URL: string
   /** Öffentliche Adresse dieses Workers — steckt in den Abmeldelinks. */
   WORKER_URL: string
@@ -1549,6 +1557,7 @@ async function handleLauf(request: Request, env: Env, ctx?: ExecutionContext): P
     `DELETE FROM lauf_status WHERE gemeldet_am < ${ISO_JETZT}, '-14 days')`,
   ).run()
 
+  ctx?.waitUntil(ereignisSenden(env, 'lauf', { lauf_id: laufId, zustand }))
   return antwort({ ok: true, lauf_id: laufId, zustand })
 }
 
@@ -1567,7 +1576,7 @@ async function handleLauf(request: Request, env: Env, ctx?: ExecutionContext): P
  * CORS ist hier offen wie bei `/lauf`: Die Erweiterung läuft auf
  * `netflix.com`, nicht auf unserer Seite. Geschrieben wird nur mit Token.
  */
-async function handlePruefung(request: Request, env: Env): Promise<Response> {
+async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext): Promise<Response> {
   const offen = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
@@ -2237,6 +2246,13 @@ async function handlePruefung(request: Request, env: Env): Promise<Response> {
   const offen2 = await env.DB.prepare('SELECT COUNT(*) AS n FROM pruefung WHERE uebernommen = 0').first<{
     n: number
   }>()
+  /*
+    **Die Anzeige erfährt es sofort, nicht beim nächsten Nachfragen.**
+
+    Über `ctx.waitUntil`, damit die Erweiterung nicht auf den Versand wartet:
+    Sie hat ihre Arbeit getan, sobald die Meldung in der Datenbank steht.
+  */
+  ctx?.waitUntil(ereignisSenden(env, 'pruefung', { plattform: String(daten.plattform ?? 'unbekannt') }))
   return antwort({ ok: true, befund, offen: offen2?.n ?? 0 })
 }
 
@@ -2335,8 +2351,23 @@ export default {
         return handleLand(request, env)
       case '/netzfund':
         return handleNetzfund(request, env)
+      /*
+        **Der Kanal, auf dem die Statusanzeige zuhört.**
+
+        Kein Token: Was hier fließt, ist die Nachricht „es hat sich etwas
+        geändert" — keine Daten. Was sich geändert hat, holt die Anzeige über
+        die Endpunkte, die sie ohnehin liest.
+      */
+      case '/ereignisse': {
+        if (!env.EREIGNISSE) return json(env, { error: 'Kein Ereignis-Kanal eingerichtet' }, 501)
+        if (request.headers.get('Upgrade') !== 'websocket') {
+          return json(env, { error: 'WebSocket erwartet' }, 426)
+        }
+        const stub = env.EREIGNISSE.get(env.EREIGNISSE.idFromName('status'))
+        return stub.fetch(request)
+      }
       case '/pruefung':
-        return handlePruefung(request, env)
+        return handlePruefung(request, env, ctx)
       case '/lauf':
         return handleLauf(request, env, ctx)
       case '/health': {
