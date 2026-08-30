@@ -203,6 +203,15 @@
   color: #d2a8ff;
 }
 
+/* Dritte Stufe: Der Browser hat einen Befund gemerkt, beim Worker liegt keine
+   Meldung. Das ist keine Zwischenstufe, sondern ein Verlust — die Arbeit ist
+   getan und nirgends angekommen, sie muss wiederholt werden. Bernstein, weil
+   es eine Warnung ist und kein Fortschritt (Daniel, 30.08.2026). */
+.ak-folge.ak-verloren {
+  border-color: rgba(255, 180, 84, 0.65);
+  color: #ffb454;
+}
+
 /* Erledigtes ist standardmäßig ausgeblendet und wird über den Umschalter im
    Kopf sichtbar. Es ganz zu löschen wäre falsch — wer eine Staffel doppelt
    prüft, soll sehen, dass sie schon durch ist. */

@@ -3453,8 +3453,35 @@ async function speicherSchreiben(werte) {
       const stand = fortschritt(asinEintrag)
       if (stand) {
         const marke = document.createElement('span')
-        marke.className = fertig(asinEintrag) ? 'ak-folge ak-fertig' : 'ak-folge ak-angefasst'
-        marke.textContent = stand
+        /**
+         * **Lokal abgehakt, beim Worker nichts — das muss dastehen.**
+         *
+         * Daniel am 30.08.2026: „einträge in der liste sind mit checkmark und x
+         * symbol markiert, was bedeutet es? wenn das bedeutet sie wurden bereits
+         * gemeldet, warum sind sie dann immer noch in der liste?"
+         *
+         * Beides stimmt gleichzeitig: Die Marke zeigt den **lokal gemerkten**
+         * Befund, und die Zeile bleibt stehen, weil beim Worker keine Meldung
+         * liegt. Gemessen am selben Tag: 435 von 582 Prime-Adressen sind dort
+         * angekommen — die acht in der Liste nicht, obwohl alle acht lokal einen
+         * Befund tragen. Die Meldung ist unterwegs verloren gegangen.
+         *
+         * Die Liste hat recht, sie zu zeigen. Sie war nur stumm darüber, warum.
+         */
+        const verloren = (() => {
+          try {
+            const url = liste[asinEintrag]?.url
+            return Boolean(url && briefkastenAdressen && !briefkastenAdressen.has(url))
+          } catch {
+            return false
+          }
+        })()
+        marke.className = fertig(asinEintrag)
+          ? 'ak-folge ak-fertig'
+          : verloren
+            ? 'ak-folge ak-verloren'
+            : 'ak-folge ak-angefasst'
+        marke.textContent = verloren ? `${stand} — nicht angekommen` : stand
         /**
          * Beim Überfahren steht da, **welche** Staffeln durch sind.
          *

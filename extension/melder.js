@@ -986,6 +986,22 @@ function fertig(id, eintrag) {
   const abgehakt = new Set(erledigt[String(id)] ?? [])
   let hatFolgen = false
   for (const st of staffeln) {
+    /*
+      **Ein Film wird unter „Film" gemeldet — und hier unter „1e01" gesucht.**
+
+      `empfohleneFolgen()` gibt seit dem 22.08.2026 „Film" statt einer
+      Folgennummer aus. Diese Schleife wusste davon nichts: Sie baut ihre
+      Kürzel aus `folgen`, und bei einem Film ist das die Eins. Die beiden
+      trafen nie aufeinander, also galt kein Film je als fertig — er stand nach
+      jeder Meldung wieder in der Liste (Daniel, 30.08.2026, an „Gintama the
+      Movie" und „Pokémon: Blauer Himmel in der Ferne!").
+    */
+    if (st.film) {
+      hatFolgen = true
+      const kuerzel = staffeln.length > 1 ? `Film ${st.nr}` : 'Film'
+      if (!abgehakt.has(kuerzel) && !kuerzelErledigt(id, kuerzel)) return false
+      continue
+    }
     const erste = Number.isFinite(st.erste) ? st.erste : 1
     for (let n = 0; n < (st.folgen ?? 0); n++) {
       hatFolgen = true
@@ -2160,8 +2176,22 @@ function uebersichtZeigen() {
     const kuerzel = empfohleneFolgen({ ...e, staffeln: staffelnVon(id, e) })
     return n + kuerzel.filter((k) => !kuerzelErledigt(id, k)).length
   }, 0)
-  /* Der Worker hat die Antwort; lokal gerechnet wird nur, solange er schweigt. */
-  const offeneAdressen = offenLautStand ?? offeneStaffeln
+  /**
+   * **Der Knopf zählt, was in der Liste steht — nichts anderes.**
+   *
+   * Bis zum 30.08.2026 hatte der Worker-Stand Vorrang. Der zählt Verweise
+   * ohne Urteil im Datensatz, die Liste zählt, was hier noch anzuklicken ist —
+   * zwei Einheiten für dieselbe Frage. Auf Daniels Bildschirm stand deshalb
+   * „2 Titel zu prüfen" über einem Knopf mit der Zahl 1.
+   *
+   * Genau dieser Fehler steht schon im Kommentar darüber, vom 26.08.2026:
+   * „Zwei Zähler, zwei Einheiten, dieselbe Frage — dann widersprechen sie sich
+   * zwangsläufig." Er kam über den Worker-Stand zurück.
+   *
+   * Der Stand bleibt trotzdem nützlich: Er weiß, was ein Datenlauf schon
+   * eingespielt hat, und das steht jetzt im Tooltip statt am Knopf.
+   */
+  const offeneAdressen = offeneStaffeln
   const gesamt = Object.entries(offeneTitel).reduce(
     (n, [id, e]) => n + empfohleneFolgen({ ...e, staffeln: staffelnVon(id, e) }).length,
     0,
@@ -2182,11 +2212,16 @@ function uebersichtZeigen() {
   uebersichtKnopf.textContent = offeneAdressen
     ? `Anime-Kalender ${offeneAdressen}`
     : 'Anime-Kalender ✓'
-  uebersichtKnopf.title = !offeneAdressen
-    ? `Alles gemeldet — ${gesamt} Staffeln, zum Nachsehen anklicken`
-    : offeneAdressen === gesamt
-      ? `${offeneAdressen} Staffeln warten auf eine Prüfung`
-      : `${offeneAdressen} von ${gesamt} Staffeln warten noch — der Rest ist gemeldet, aber noch nicht eingespielt`
+  /* Der Worker-Stand steht hier statt am Knopf: Er beantwortet eine andere
+     Frage — was ein Datenlauf schon eingespielt hat. */
+  const nachStand = offenLautStand === null ? '' : `\nIm Datensatz noch ohne Urteil: ${offenLautStand}`
+  uebersichtKnopf.title =
+    (!offeneAdressen
+      ? `Alles gemeldet — ${gesamt} Staffeln, zum Nachsehen anklicken`
+      : offeneAdressen === gesamt
+        ? `${offeneAdressen} Staffeln warten auf eine Prüfung`
+        : `${offeneAdressen} von ${gesamt} Staffeln warten noch — der Rest ist gemeldet, aber noch nicht eingespielt`) +
+    nachStand
 }
 
 let dialog = null
@@ -2343,7 +2378,18 @@ async function dialogOeffnen() {
     const link = document.createElement('a')
     link.className = 'ak-titel'
     link.href = `https://www.netflix.com/title/${id}`
-    link.target = '_blank'
+    /*
+      **Netflix bleibt im selben Tab** (Daniel, 30.08.2026).
+
+      Wer die Liste abarbeitet, öffnet Titel für Titel — bei zwanzig Einträgen
+      sind das zwanzig Tabs, die alle offen bleiben. Und Netflix ist eine
+      Einseiten-Anwendung: Im selben Tab wechselt sie ohne Neuladen, die Liste
+      baut sich danach von selbst wieder auf.
+
+      Der aniSearch-Verweis daneben behält `_blank`: Er ist zum Nachschlagen
+      gedacht, nicht zum Weiterarbeiten — dort würde ein Wechsel die Netflix-
+      Seite verlassen, auf der gerade gemeldet werden soll.
+    */
     link.rel = 'noreferrer noopener'
     link.textContent = eintrag.titel || `Titel ${id}`
 
@@ -2407,6 +2453,31 @@ async function dialogOeffnen() {
      * `S1 E1-10, E12` statt elf Kästchen.
      */
     for (const st of staffeln) {
+      /*
+        **Ein Film hat keine Folge zum Anklicken — „offen: E1" war eine
+        Anweisung ins Leere** (Daniel, 30.08.2026, an „Gintama the Movie" und
+        „Pokémon: Blauer Himmel in der Ferne!").
+
+        `empfohleneFolgen()` kennt den Fall seit dem 22.08. und schreibt dort
+        „Film". Diese Anzeige hier kannte ihn nicht: Sie baut ihre Kacheln aus
+        `folgen`, und bei einem Film ist das die Eins. Wer darauf klickte,
+        landete auf einer Seite ohne Folgenliste — und ohne Melde-Knopf.
+      */
+      if (st.film) {
+        /* Dasselbe Kürzel wie in `empfohleneFolgen()` und `fertig()` — sonst
+           finden Meldung und Abgleich einander nicht. */
+        const kuerzel = staffeln.length > 1 ? `Film ${st.nr}` : 'Film'
+        const durch = kuerzelErledigt(id, kuerzel)
+        const zeileFilm = document.createElement('div')
+        zeileFilm.className = 'ak-staffelzeile'
+        const marke = document.createElement('span')
+        marke.className = durch ? 'ak-folge ak-fertig' : 'ak-folge'
+        marke.textContent = durch ? 'Film gemeldet' : 'Film — öffnen und melden'
+        marke.title = 'Ein Film wird nicht je Folge geprüft: öffnen, Tonspur ansehen, melden.'
+        zeileFilm.appendChild(marke)
+        folgen.appendChild(zeileFilm)
+        continue
+      }
       const erste = Number.isFinite(st.erste) ? st.erste : 1
       const alle = []
       for (let i = 0; i < (st.folgen ?? 0); i++) alle.push(erste + i)

@@ -174,7 +174,15 @@ for (const [id, eintraege] of jeAdresse) {
       // Nur ein echter Film ist ein Film. OVAs und Specials sind meist Folgen
       // einer Staffel und werden oben ohnehin ausgefiltert, wo eine Serie
       // dieselbe Adresse hat.
-      film: e.t.format === 'MOVIE',
+      //
+      // **Bis auf das Special, das allein auf seiner Seite steht.** „Pokémon:
+      // Blauer Himmel in der Ferne!" ist ein SPECIAL mit einer Folge und einer
+      // eigenen Netflix-Adresse; in der Liste stand „offen: E1", und die Folge
+      // gab es nicht zum Anklicken (Daniel, 30.08.2026). Wo eine Serie dieselbe
+      // Adresse hat, greift der Filter oben — was hier ankommt, steht für sich
+      // und wird wie ein Film bedient. `=== 1` und nicht `<= 1`: „ONE PIECE"
+      // läuft und trägt `folgen: 0`, ist aber eine Serie (22.08.2026).
+      film: e.t.format === 'MOVIE' || (e.t.format !== 'TV' && e.t.episodes === 1),
       // Was hier schon beantwortet ist, muss niemand mehr anklicken.
       offen: e.dub === undefined,
     })),
