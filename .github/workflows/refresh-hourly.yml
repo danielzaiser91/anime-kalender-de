@@ -1,20 +1,30 @@
 name: Stündlich — Sendezeiten
 
-# **Dieser Lauf sammelt und liefert ab — er baut nicht.**
+# **Dieser Lauf sammelt und reicht ein — er baut nicht und er schreibt nicht
+# auf `main`.**
 #
-# Seit dem 30.08.2026 committet er mit `NUR_QUELLEN=1`: Was er geholt hat,
-# landet als Quelle im Repo, und damit ist seine Arbeit getan. Den Datensatz
-# baut „Bestand — zusammenführen und bauen", ausgelöst direkt im Anschluss.
+# Drei Schritte, seit dem 30.08.2026:
 #
-# Der Grund ist Daniels Vorgabe vom selben Tag: „wöchentlich und stündlich
-# sollte nie rot sein können, alles was sie machen ist sammeln und liefern."
-# Vorher machte ein Widerspruch im **gebauten** Bestand einen Lauf rot, dessen
-# Abrufe fehlerlos durchgelaufen waren — beim Wochenlauf 58 Minuten Arbeit an
-# fünf fremden Servern, quittiert mit einem roten Kreuz.
+#   1. sammeln — jeder Abruf mit `continue-on-error`, eine ausgefallene Quelle
+#      hält den Rest nicht auf
+#   2. einreichen — die Quellen gehen als Pull Request auf einen eigenen Zweig
+#   3. mergen, **wenn** GitHub `MERGEABLE` sagt; sonst bleibt der Zweig stehen
+#      und „Claude — Daten-PR zusammenführen" löst den Konflikt
 #
-# Deshalb tragen hier auch alle Abrufe `continue-on-error`. Fällt eine Quelle
-# aus, macht der Rest weiter; dass sie schweigt, meldet `data:check` im
-# Bau-Lauf — an der Stelle, die es beurteilen kann.
+# Daniel dazu: „lass die läufe pr's erstellen mit ziel in bestand zu mergen,
+# aber nur wenn keine conflicte existieren soll gemerged werden … So ist es
+# sicherer. Weil wenn die läufe committen könnte es trotzdem zu conflicts
+# führen."
+#
+# Der Grund für die Trennung überhaupt ist seine Vorgabe vom selben Tag:
+# „wöchentlich und stündlich sollte nie rot sein können, alles was sie machen
+# ist sammeln und liefern." Vorher machte ein Widerspruch im **gebauten**
+# Bestand einen Lauf rot, dessen Abrufe fehlerlos durchgelaufen waren — beim
+# Wochenlauf 58 Minuten Arbeit an fünf fremden Servern, quittiert mit einem
+# roten Kreuz.
+#
+# Den Datensatz baut „Bestand — zusammenführen und bauen"; dass eine Quelle
+# schweigt, meldet dort `data:check` — an der Stelle, die es beurteilen kann.
 
 # Der Crunchyroll-Kalender ist die einzige Quelle, die sich mehrmals täglich
 # ändert: Uhrzeiten verschieben sich, Folgen kommen dazu, Staffeln fallen aus.
@@ -33,6 +43,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 concurrency:
   # Läuft ein Nachtlauf, hat der Vorrang: Zwei Jobs, die dieselben Dateien
@@ -170,11 +181,16 @@ jobs:
       # später: „Bestand — zusammenführen und bauen" läuft direkt hinter diesem
       # Lauf und arbeitet die Meldungen ein. Was abends gemeldet wird, steht
       # damit unverändert eine Stunde später auf der Seite.
-      - name: Änderungen committen
+
+      # Nicht mehr direkt auf main: Der Fund geht als Pull Request ein und wird
+      # nur gemergt, wenn er sich sauber einfügt. Sonst bleibt der Zweig stehen,
+      # und „Claude — Daten-PR zusammenführen" löst den Konflikt mit Blick auf
+      # beide Seiten — statt ihn per Reset zu überfahren.
+      - name: Quellen als Pull Request einreichen
         env:
-          NUR_QUELLEN: '1'
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          bash tools/commit-data.sh "chore(data): Sendezeiten aktualisiert"
+          bash tools/quellen-pr.sh "chore(data): Sendezeiten gesammelt"
 
       - name: Ergebnis nach Discord melden
         # Nur bei einem Fehlschlag. Dieser Lauf läuft täglich beziehungsweise

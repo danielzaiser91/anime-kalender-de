@@ -17,9 +17,11 @@ name: Bestand — zusammenführen und bauen
 #   ein früherer Lauf geschrieben hatte.
 #
 # Seitdem gilt die Arbeitsteilung: Die drei planmäßigen Läufe holen Daten und
-# committen sie mit `NUR_QUELLEN=1` — kein Bau, keine Zusicherung, kein Rot.
-# Dieser Lauf hier führt zusammen, baut, prüft und liefert aus. Wird er rot, ist
-# wirklich etwas am Bestand kaputt, und genau das soll man sehen.
+# reichen sie als Pull Request ein — kein Bau, keine Zusicherung, kein Rot, und
+# seit dem Nachmittag desselben Tages auch kein Schreiben auf `main` mehr.
+# Dieser Lauf hier baut aus dem, was auf `main` steht, prüft und liefert aus.
+# Wird er rot, ist wirklich etwas am Bestand kaputt, und genau das soll man
+# sehen.
 
 on:
   # Läuft nach jedem Sammel-Lauf, auch nach einem gescheiterten: Der holt seine
@@ -29,6 +31,9 @@ on:
       - 'Stündlich — Sendezeiten'
       - 'Täglich — alle Quellen'
       - 'Wöchentlich — tiefer Durchlauf'
+      # Auch nach einer aufgelösten Konfliktlage: Der Merge-Lauf bringt Quellen
+      # nach main, die der Bau von vorhin noch nicht kannte.
+      - 'Claude — Daten-PR zusammenführen'
     types: [completed]
   workflow_dispatch:
 

@@ -1132,9 +1132,27 @@ Der Anlass waren zwei rote Läufe an einem Tag, beide mit fertiger Arbeit:
 
 Seitdem gilt:
 
-- **Die drei planmäßigen Läufe holen und committen nur Quellen** (`NUR_QUELLEN=1`).
-  Jeder Abruf trägt `continue-on-error`; fällt eine Quelle aus, macht der Rest
-  weiter.
+- **Die drei planmäßigen Läufe holen und reichen ein — sie schreiben nicht auf
+  `main`.** `tools/quellen-pr.sh` legt den Fund auf einen Zweig `daten/<lauf>`,
+  öffnet einen Pull Request und mergt ihn **nur**, wenn GitHub `MERGEABLE`
+  sagt. Jeder Abruf trägt `continue-on-error`; fällt eine Quelle aus, macht der
+  Rest weiter.
+- **Bleibt ein Pull Request wegen eines Konflikts offen, übernimmt
+  `Claude — Daten-PR zusammenführen`** — der einzige Ort im Projekt, an dem ein
+  Konflikt in Datendateien aufgelöst wird. Daniel dazu: „So ist es sicherer.
+  Weil wenn die läufe committen könnte es trotzdem zu conflicts führen.“
+
+  Der Unterschied zum alten Weg ist nicht die Vorsicht, sondern **wer
+  entscheidet**. `commit-data.sh` löst jeden Konflikt selbst auf: hart auf den
+  Fernstand, eigene Quellen darüber. Das ist schnell und meistens richtig — am
+  29.08.2026 hat genau dieser Reset 19 berichtigte Handbelege wieder auf ihren
+  alten Stand gesetzt.
+
+  **Angestoßen wird per `workflow_run`, nicht per `workflow_dispatch`.** Ein
+  Workflow, den das GITHUB_TOKEN auslöst, startet keine weiteren Workflows;
+  der Merge-Lauf hängt deshalb hinter den Sammlern und sieht selbst nach, ob
+  ein `daten/*`-Zweig offen ist. Ist keiner offen, endet er in Sekunden, ohne
+  Claude zu starten.
 - **`Bestand — zusammenführen und bauen` führt zusammen**: Meldungen einarbeiten,
   Rohfolgen zuordnen, bauen, Arbeitslisten, Vorschaubilder, `check:bestand`,
   `data:check`. Er hängt per `workflow_run` an allen dreien und **darf rot

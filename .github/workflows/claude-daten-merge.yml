@@ -1,0 +1,171 @@
+name: Claude — Daten-PR zusammenführen
+
+# Löst die Konflikte, die ein Sammel-Lauf nicht selbst auflösen darf.
+#
+# Daniel am 30.08.2026: „lass die läufe pr's erstellen mit ziel in bestand zu
+# mergen, aber nur wenn keine conflicte existieren soll gemerged werden,
+# ansonsten soll der zusammenführ lauf es fixen und mergen."
+#
+# Die Sammel-Läufe reichen ihren Fund als Pull Request ein und mergen ihn, wenn
+# GitHub `MERGEABLE` sagt. Sagt es das nicht, bleibt der Zweig stehen — und
+# dieser Lauf übernimmt. Er ist damit der einzige Ort im Projekt, an dem ein
+# Konflikt in Datendateien aufgelöst wird, und zwar mit Blick auf beide Seiten.
+#
+# **Warum nicht `workflow_dispatch` aus dem Sammel-Lauf heraus?** Ein Workflow,
+# den das GITHUB_TOKEN auslöst, startet keine weiteren Workflows — GitHub
+# verhindert damit Endlosschleifen. `workflow_run` fällt nicht darunter. Der
+# Lauf hängt deshalb hinter den Sammlern und sieht selbst nach, ob es etwas zu
+# tun gibt; ist nichts offen, endet er nach wenigen Sekunden.
+
+on:
+  workflow_run:
+    workflows:
+      - 'Stündlich — Sendezeiten'
+      - 'Täglich — alle Quellen'
+      - 'Wöchentlich — tiefer Durchlauf'
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  id-token: write
+  actions: read
+
+# Zwei Claudes am selben Zweig erzeugen zwei widersprüchliche Auflösungen.
+concurrency:
+  group: claude-daten-merge
+  cancel-in-progress: false
+
+jobs:
+  # Erst nachsehen, ob überhaupt etwas offen ist. Der Schritt kostet einen
+  # API-Aufruf; die Claude-Action kostet Minuten und Daniels Kontingent.
+  pruefen:
+    runs-on: ubuntu-latest
+    outputs:
+      offen: ${{ steps.suche.outputs.offen }}
+      nummern: ${{ steps.suche.outputs.nummern }}
+    steps:
+      - id: suche
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # `mergeable` steht direkt nach dem Anlegen auf UNKNOWN. Hier ist das
+          # kein Problem: Dieser Lauf startet erst, wenn der Sammler fertig ist,
+          # und der hat die Berechnung bereits abgewartet.
+          gh pr list --repo "$GITHUB_REPOSITORY" --state open --json number,headRefName,mergeable \
+            --jq '[.[] | select(.headRefName | startswith("daten/")) | select(.mergeable != "MERGEABLE")]' > /tmp/offen.json
+          ANZAHL="$(jq 'length' /tmp/offen.json)"
+          NUMMERN="$(jq -r '[.[].number] | join(", ")' /tmp/offen.json)"
+          echo "offen=$ANZAHL" >> "$GITHUB_OUTPUT"
+          echo "nummern=$NUMMERN" >> "$GITHUB_OUTPUT"
+          echo "Offene Daten-Zweige mit Konflikt: $ANZAHL ($NUMMERN)"
+
+  zusammenfuehren:
+    needs: pruefen
+    if: needs.pruefen.outputs.offen != '0'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      LAUF_ZWECK: 'Führt liegengebliebene Daten-Zweige von anime-kalender.de zusammen'
+      LAUF_ZIEL: 'Konflikte aufgelöst, Pull Requests gemergt'
+    steps:
+      - name: Sofort anmelden
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: |
+          if [ -z "$LAUF_TOKEN" ]; then exit 0; fi
+          printf '{"lauf_id":"%s","repo":"%s","workflow":"%s","zustand":"laeuft","url":"%s","notiz":"wird eingerichtet"}' \
+            "$GITHUB_RUN_ID" "$GITHUB_REPOSITORY" "$GITHUB_WORKFLOW" \
+            "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" > /tmp/anmeldung.json
+          curl -sS --max-time 10 -X POST "https://newsletter.animekalender.workers.dev/lauf" \
+            -H "Content-Type: application/json" -H "X-Lauf-Token: $LAUF_TOKEN" \
+            --data-binary @/tmp/anmeldung.json > /dev/null || true
+
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          # Die Zweige werden gebraucht, nicht nur die Spitze von main.
+          fetch-depth: 0
+
+      - name: Melder bereitlegen
+        run: |
+          cp tools/lauf-melden.sh "$RUNNER_TEMP/lauf-melden.sh"
+          echo "MELDER=$RUNNER_TEMP/lauf-melden.sh" >> "$GITHUB_ENV"
+
+      - name: Lauf anmelden
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" laeuft
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # Die Action lehnt Bots als Auslöser ab, damit sie sich nicht selbst
+          # in eine Schleife ruft — unsere Sammel-Läufe committen aber als
+          # `github-actions[bot]`.
+          allowed_bots: 'github-actions[bot]'
+          claude_args: |
+            --max-turns 60
+            --allowedTools "Bash,Read,Edit,Write,Grep,Glob"
+          prompt: |
+            Diese Pull Requests aus Daten-Läufen lassen sich nicht ohne Konflikt
+            mergen: ${{ needs.pruefen.outputs.nummern }}
+
+            Sie enthalten ausschließlich **Quellen** — was ein Sammel-Lauf von
+            fremden Servern geholt hat. Deine Aufgabe ist, sie in `main` zu
+            bekommen, ohne dabei Angaben zu verlieren.
+
+            Vorgehen je Pull Request, in dieser Reihenfolge:
+
+            1. `gh pr checkout <nummer>`, dann `git merge origin/main`.
+            2. Die Konflikte auflösen. Die Leitregel dabei — sie steht so auch
+               in `CLAUDE.md` und ist der Grund, warum es diesen Lauf gibt:
+
+               - **Was ein Mensch geprüft hat, gewinnt.** In
+                 `data/dub-confirmed.yaml` stehen von Hand bestätigte Angaben.
+                 Gibt es zu derselben Sache zwei Einträge, gilt **der jüngere** —
+                 nie der aus dem Zweig, nur weil er im Konflikt links steht.
+               - **Ein Abruf ergänzt, er löscht nicht.** Steht auf einer Seite
+                 ein Eintrag, auf der anderen nicht, ist die Vereinigung richtig.
+                 Ein fehlender Eintrag heißt „noch nicht geholt", nicht „gibt es
+                 nicht mehr".
+               - **Bei Zeitstempeln (`fetchedAt`, `geprueftAm`) gewinnt der
+                 jüngere.** Sie steuern Warteschlangen; ein zurückgesetzter
+                 Stempel lässt denselben Abruf noch einmal laufen.
+               - **Rate nichts.** Lässt sich ein Konflikt nicht nach diesen
+                 Regeln entscheiden, lass den Pull Request offen, schreibe deinen
+                 Befund als Kommentar hinein und mach mit dem nächsten weiter.
+
+            3. `npm run data:validate && npm run check:logic` müssen grün sein.
+               Sind sie es nicht, hast du beim Auflösen etwas kaputt gemacht —
+               dann repariere es, bevor du weitermachst.
+            4. Push auf den Zweig, dann
+               `gh pr merge <nummer> --squash --delete-branch --admin`.
+
+            Verbindlich:
+
+            - Kommentare und Nachrichten auf Deutsch.
+            - **Die Prüfung läuft einmal je Pull Request**, nach dem Auflösen.
+              Nicht zwischendurch — sie kostet Züge, die du zum Mergen brauchst.
+            - Ändere **nichts** außer den Konfliktstellen. Dies ist ein
+              Zusammenführ-Lauf, kein Aufräum-Lauf.
+            - Bleibt ein Pull Request offen, sag am Ende ausdrücklich welcher
+              und warum.
+
+      - name: Lauf abmelden
+        continue-on-error: true
+        if: always()
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" "${{ job.status == 'success' && 'ok' || job.status == 'cancelled' && 'abgebrochen' || 'fehler' }}"

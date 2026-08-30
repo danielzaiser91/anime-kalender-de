@@ -95,7 +95,9 @@ for (const datei of readdirSync(pipelineDir, { recursive: true })) {
   for (const m of quelltext.matchAll(/['"](data\/[^'"]+)['"]/g)) geschrieben.add(m[1])
 }
 
-const skript = readFileSync(resolve(process.cwd(), 'tools/commit-data.sh'), 'utf8')
+// Die Liste der Quellpfade liegt seit dem 30.08.2026 in einer eigenen Datei:
+// `commit-data.sh` und `quellen-pr.sh` brauchen dieselbe.
+const skript = readFileSync(resolve(process.cwd(), 'tools/quellen-liste.sh'), 'utf8')
 for (const pfad of [...geschrieben].sort()) {
   // `data/cache/` liegt bewusst nicht im Repo (siehe .gitignore).
   if (pfad.startsWith('data/cache/')) continue
@@ -103,7 +105,7 @@ for (const pfad of [...geschrieben].sort()) {
   if (pfad.startsWith('data/proposals/')) continue
   if (!skript.includes(pfad)) {
     console.error(
-      `✗ ${pfad} wird von der Pipeline geschrieben, steht aber nicht in tools/commit-data.sh — ` +
+      `✗ ${pfad} wird von der Pipeline geschrieben, steht aber nicht in tools/quellen-liste.sh — ` +
         'ein CI-Lauf würde die Datei verwerfen',
     )
     fehler++
@@ -337,7 +339,7 @@ const NUR_VON_HAND = {
   Zeilen abgearbeitet, von denen die meisten längst geprüft waren.
 */
 {
-  const skript = readFileSync(new URL('../tools/commit-data.sh', import.meta.url), 'utf8')
+  const skript = readFileSync(new URL('../tools/quellen-liste.sh', import.meta.url), 'utf8')
   const geschrieben = new Set()
   for (const datei of readdirSync(new URL('../pipeline/', import.meta.url))) {
     if (!/\.(ts|mjs)$/.test(datei)) continue
@@ -349,7 +351,7 @@ const NUR_VON_HAND = {
   const fehlend = [...geschrieben].filter((p) => !skript.includes(p))
   for (const p of fehlend) {
     console.error(
-      `✗ ${p} wird von einem Lauf geschrieben, steht aber nicht in tools/commit-data.sh — ` +
+      `✗ ${p} wird von einem Lauf geschrieben, steht aber nicht in tools/quellen-liste.sh — ` +
         'der `git reset` im CI wirft die Datei weg, und im Repo bleibt der alte Stand.',
     )
     fehler++
