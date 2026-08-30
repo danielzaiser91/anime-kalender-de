@@ -4525,33 +4525,42 @@ async function speicherSchreiben(werte) {
       `amazon-serie-hydration.test.cjs` schneidet diese Funktion einzeln aus
       der Datei heraus, und ein Bezug nach außen ist dort undefiniert.
     */
-    const ABSCHNITT_FRIST_MS = 15_000
-    if (abschnitte) {
-      if (abschnitte.offen === 0) return true
-      /*
-        **Ein Abschnitt, der nie antwortet, darf die Meldung nicht ewig sperren.**
+    const STILL_MS = 15_000
+    /* Alle Abschnitte geholt — mehr gibt es nicht, und zwar sofort. */
+    if (abschnitte && abschnitte.offen === 0) return true
+    /*
+      **Sonst entscheidet der Stillstand, nicht Amazons Zahl.**
 
-        Daniel am 30.08.2026 an „Date A Live" (Bildschirmaufnahme und
-        Diagnosebericht): Der Knopf stand auf „10 von 10 Folgen gelesen — 0
-        fehlen noch" und blieb es über zwei Minuten. Der Bericht nennt den
-        Grund: `regionWeg: true`, `regionFolgen: [1]`. Eine der Folgen ist in
-        Deutschland nicht mehr abrufbar; ihr Abschnitt wird von der Seite nie
-        nachgeliefert, und `abschnitte.offen` fällt darum nie auf null.
+      Daniel am 30.08.2026: „erst melden möglich machen nachdem alle episoden
+      gesammelt wurden die amazon dort listet (nicht was wir erwarten, sondern
+      tatsächliche realität)."
 
-        Die Zahl daneben ist in diesem Fall die verlässlichere Auskunft: Sind
-        alle Folgen beisammen, die die Seite überhaupt nennt, und kommt seit
-        fünfzehn Sekunden nichts mehr nach, ist die Staffel gelesen.
+      Die alte Fassung verglich gegen `gesamt` — die Zahl aus dem Seitengerüst.
+      Die ist bei Prime regelmäßig falsch: Sie zählt Sprachdubletten mit (15 statt
+      13 bei „Infinite Dendrogram"), sie meint bei Bänden die ganze Staffel (96
+      statt 48 erreichbare bei Yu-Gi-Oh ZEXAL), und sie kennt Lücken in der
+      Nummerierung nicht (JoJo: 1–13 und 15–40 für 39 Folgen). Jede dieser
+      Abweichungen sperrte den Knopf dauerhaft.
 
-        Die Frist ist der ganze Unterschied zu „einfach die Zahl nehmen": Beim
-        normalen Nachladen tickt sie ständig neu, greift also nur, wenn wirklich
-        nichts mehr kommt. Der Fall aus dem Kommentar oben — 96 erwartete
-        Folgen, 48 erreichbare — bleibt gesperrt, denn dort ist die Zahl gerade
-        nicht erreicht.
-      */
-      return Boolean(gesamt) && gezaehlt >= gesamt && stillSeitMs >= ABSCHNITT_FRIST_MS
-    }
-    return !gesamt || gezaehlt >= gesamt
+      Gemessen wird jetzt, was die Seite **hergibt**: Kommt fünfzehn Sekunden
+      nichts mehr nach, ist gesammelt, was zu sammeln war. Beim normalen
+      Nachladen tickt die Frist ständig neu, greift also nur im Stillstand.
+    */
+    if (gezaehlt > 0 && stillSeitMs >= STILL_MS) return true
+    /*
+      **Die Zahl bleibt — als Freigabe, nicht als Sperre.**
+
+      Stimmt sie, ist sofort fertig; das ist der Normalfall und soll keine
+      fünfzehn Sekunden warten. Stimmt sie nicht, hält sie nichts mehr auf, denn
+      darüber entscheidet inzwischen der Stillstand. Genau das ist der
+      Unterschied zur alten Fassung: Dort war sie die **einzige** Bedingung.
+    */
+    if (gesamt && gezaehlt >= gesamt) return true
+    /* Ohne Abschnitte und ohne Erwartung ist da, was da ist. */
+    if (!abschnitte && !gesamt) return gezaehlt > 0
+    return false
   }
+
 
   function zeichnen() {
     /*
@@ -5568,6 +5577,14 @@ async function speicherSchreiben(werte) {
       1 und 3 bis 12 — Folge 2 fehlt, und die 12 liegt ueber der Staffelgroesse.
       `geladeneFolgen()` zaehlt nur Nummern bis `gesamt`, also zehn.
     */
+    /*
+      **Diese Sperre wartet aufs Sammeln, nicht auf eine Zahl.**
+
+      `vollstaendig` entscheidet seit dem 30.08.2026 über den Stillstand: Kommt
+      nichts mehr nach, ist gesammelt, was die Seite hergibt. Die Bedingung
+      `gesehen.gesamt` bleibt nur als Zeichen dafür, dass überhaupt eine
+      Folgenliste erwartet wird — sie ist keine Zielmarke mehr.
+    */
     if (!nichtAbrufbar && !istFilm && !vollstaendig && gesehen.gesamt) {
       const fehlend = Math.max(0, gesehen.gesamt - geladen)
       knopf.disabled = true
@@ -6002,7 +6019,16 @@ async function speicherSchreiben(werte) {
     */
     const gesamtFolgen = gesehen.gesamtLautSeite ?? gesehen.gesamt
     const anteilGelesen = gesamtFolgen && gesehen?.jeFolge?.size ? gesehen.jeFolge.size / gesamtFolgen : 1
-    const zuWenigGelesen = !deutsch && !bereiche && anteilGelesen < 0.34
+    /*
+      **Und „zu wenig gelesen" gilt nur, solange noch etwas nachkommt.**
+
+      Der Anteil misst gegen `gesamtLautSeite` — dieselbe Zahl, die bei Prime
+      regelmäßig danebenliegt. Ist alles gesammelt, was die Seite hergibt, ist
+      der Befund nicht unklar, sondern fertig: Er gilt eben für die Folgen, die
+      es dort gibt (Daniel, 30.08.2026: „nicht was wir erwarten, sondern
+      tatsächliche realität").
+    */
+    const zuWenigGelesen = !deutsch && !bereiche && !vollstaendig && anteilGelesen < 0.34
     /*
       **Drei Zahlen, drei Bedeutungen — und der Text nannte nur eine davon.**
 

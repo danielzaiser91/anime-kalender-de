@@ -253,10 +253,24 @@ pruefe('Beschreibung gelesen', (erste?.beschreibung ?? '').length > 40, (erste?.
     voll({ gesamt: 4, offen: 0 }, 49, 96) === true,
     voll({ gesamt: 4, offen: 0 }, 49, 96),
   )
+  /*
+    **Seit dem 30.08.2026 gibt die erreichte Zahl frei, statt zu sperren.**
+
+    Bis dahin galt: ein offener Abschnitt heißt unvollständig, auch wenn die
+    Zahl passt. Daniels Vorgabe kehrt das um — „erst melden möglich machen
+    nachdem alle episoden gesammelt wurden die amazon dort listet (nicht was wir
+    erwarten, sondern tatsächliche realität)". Sind alle Folgen beisammen, die
+    die Seite nennt, bringt der offene Abschnitt nur Dubletten.
+  */
   pruefe(
-    'ein offener Abschnitt heißt unvollständig — auch wenn die Zahl passt',
-    voll({ gesamt: 4, offen: 1 }, 96, 96) === false,
+    'erreichte Zahl gibt frei, auch bei offenem Abschnitt',
+    voll({ gesamt: 4, offen: 1 }, 96, 96) === true,
     voll({ gesamt: 4, offen: 1 }, 96, 96),
+  )
+  pruefe(
+    'nicht erreichte Zahl sperrt nicht mehr dauerhaft — nach Stillstand ist gesammelt',
+    voll({ gesamt: 4, offen: 1 }, 48, 96, 60_000) === true,
+    voll({ gesamt: 4, offen: 1 }, 48, 96, 60_000),
   )
 
   /*
@@ -272,15 +286,11 @@ pruefe('Beschreibung gelesen', (erste?.beschreibung ?? '').length > 40, (erste?.
     voll({ gesamt: 4, offen: 1 }, 10, 10, 20_000) === true,
     voll({ gesamt: 4, offen: 1 }, 10, 10, 20_000),
   )
+  /* Weniger gelesen als genannt und noch keine Ruhe: es lädt vielleicht nach. */
   pruefe(
-    'dieselbe Lage nach 3 s — noch nicht, es lädt vielleicht nach',
-    voll({ gesamt: 4, offen: 1 }, 10, 10, 3_000) === false,
-    voll({ gesamt: 4, offen: 1 }, 10, 10, 3_000),
-  )
-  pruefe(
-    'und die Frist hebelt die Abschnitte nicht aus, wenn die Zahl fehlt',
-    voll({ gesamt: 4, offen: 1 }, 48, 96, 60_000) === false,
-    voll({ gesamt: 4, offen: 1 }, 48, 96, 60_000),
+    'unerreichte Zahl, 3 s still — noch nicht fertig',
+    voll({ gesamt: 4, offen: 1 }, 8, 10, 3_000) === false,
+    voll({ gesamt: 4, offen: 1 }, 8, 10, 3_000),
   )
 
   /* Ohne Abschnitte (Film, kurze Staffel) bleibt es beim Zahlenvergleich. */

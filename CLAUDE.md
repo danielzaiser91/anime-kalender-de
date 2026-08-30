@@ -2237,3 +2237,18 @@ Zwei Riegel halten das eng:
   Reihe hat 54 — ein Durchlauf wäre dreiundfünfzigmal Arbeit und
   dreiundfünfzig Meldungen unter einer Adresse, die eine einzige meint. Dort
   bleibt es bei der Handmeldung.
+
+## Die Erweiterung zählt zweistellig — und hinten
+
+Daniel am 30.08.2026: „bei versionierung maximal 2 stellig ab jetzt, nächste
+version sollte 4.0.0 sein, und zähl lieber die kleine versions zahl hoch, also
+4.0.1, statt immer die 2."
+
+Die mittlere Stelle war bis dahin auf **3.111** gelaufen — an einem einzigen Tag
+von 3.91 auf 3.111, weil jeder Fix sie hochzählte. Dreistellig ist weder lesbar
+noch sagt es etwas: „3.111" und „3.98" sehen aus wie große Sprünge und waren
+zwei Stunden auseinander.
+
+Ab 4.0.0 gilt: **die letzte Stelle zählt hoch** (4.0.1, 4.0.2, …). Die mittlere
+bewegt sich nur bei einem Umbau, der die Bedienung ändert — die vordere nur,
+wenn nichts mehr so funktioniert wie vorher.
