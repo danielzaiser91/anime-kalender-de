@@ -1726,6 +1726,27 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
         */
         const schonGemeldet = jeGemeldet.get(a.plattform) ?? new Set<string>()
         const offeneZiele = (a.ziele ?? []).filter((z) => !schonGemeldet.has(z.url))
+        /**
+         * **Eine Suchadresse ist auch ein Ziel.**
+         *
+         * Daniel am 31.08.2026: „pill click in status app doesn't open next
+         * item in prüfliste, it just opens storefront." Zu Recht — bei Prime
+         * waren alle 100 offenen Aufträge Suchadressen, und die standen nur als
+         * **Zahl** in `ohneSeite`. `ziele` blieb leer, `ziel` null, und die
+         * Anzeige fiel auf die Startseite zurück.
+         *
+         * Die Adressen liegen längst vor — der Prüfstand schickt sie seit dem
+         * 30.08.2026 als `suchAdressen` mit, damit hier die gemeldeten
+         * abgezogen werden können. Sie hinten anzuhängen kostet nichts und gibt
+         * der Pille ein Ziel: die nächste Suche, die noch niemand erledigt hat.
+         *
+         * Titelseiten stehen davor: Dort liest die Erweiterung selbst, bei
+         * einer Suche muss der Treffer erst herausgesucht werden.
+         */
+        const offeneSuchen = (a.suchAdressen ?? [])
+          .filter((u) => !schonGemeldet.has(u))
+          .map((u) => ({ url: u, titel: '' }))
+        const alleZiele = [...offeneZiele, ...offeneSuchen]
         return {
           name: a.name,
           plattform: a.plattform,
@@ -1772,8 +1793,8 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
           ohneSeite: a.suchAdressen
             ? a.suchAdressen.filter((u) => !schonGemeldet.has(u)).length
             : (a.ohneSeite ?? 0),
-          ziel: offeneZiele[0]?.url ?? null,
-          ziele: offeneZiele,
+          ziel: alleZiele[0]?.url ?? null,
+          ziele: alleZiele.slice(0, 25),
         }
       })
       return antwort({ anbieter, erzeugtAm: new Date().toISOString() })
