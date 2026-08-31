@@ -126,6 +126,8 @@ const offeneTitel = globalThis.AK_OFFENE_TITEL ?? {}
  * mitgelieferte Angabe. Wirksam ab der ersten geprüften Folge, ohne Neuladen.
  */
 let anbieterStaffeln = {}
+/** Wo der Leser die Folgen gefunden hat — nur für den Diagnosebericht. */
+let letzteHerkunft = null
 
 /** Die Staffeln eines Titels — was der Anbieter sagte, sonst was wir wissen. */
 function staffelnVon(id, eintrag) {
@@ -342,6 +344,7 @@ window.addEventListener('message', (e) => {
       nicht hierher — beim Wechsel von One Piece zu Kakegurui stand sonst „61
       Folgen prüfen" auf einer Seite mit zwölf.
     */
+    if (Array.isArray(e.data.herkunft) && e.data.herkunft.length) letzteHerkunft = e.data.herkunft
     const hier = String(gemeinteReihe() ?? '')
     DURCHLAUF.folgen =
       e.data.fuerReihe && hier && String(e.data.fuerReihe) !== hier
@@ -3296,7 +3299,11 @@ function nfBericht() {
     zuletztGeoeffnet: sicher(() => zuletztGeoeffnet),
     listeGesamt: sicher(() => Object.keys(offeneTitel).length),
     /* Was der Leser sieht — er kennt die GraphQL-Antworten. */
-    leser: sicher(() => (typeof window.__akDiagnose === 'function' ? window.__akDiagnose() : 'nicht erreichbar')),
+    /*
+      Der Leser schickt seine Herkunft mit der Folgenliste — `window` teilen die
+      beiden Welten nicht, siehe den Kommentar dort.
+    */
+    leser: sicher(() => letzteHerkunft ?? 'noch keine Folgenliste gesehen'),
   }
 }
 

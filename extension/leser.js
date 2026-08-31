@@ -370,10 +370,12 @@
     return null
   }
 
-  function sammleFolgen(o, raus, tiefe, staffel = null) {
+  function sammleFolgen(o, raus, tiefe, staffel = null, pfad = '', eltern = null) {
     if (!o || typeof o !== 'object' || tiefe > 10) return raus
     if (Array.isArray(o)) {
-      for (const x of o) sammleFolgen(x, raus, tiefe + 1, staffel)
+      for (const [i, x] of o.entries()) {
+        sammleFolgen(x, raus, tiefe + 1, staffel, `${pfad}[${i}]`, eltern)
+      }
       return raus
     }
     /* Von hier ab gilt die Staffel dieses Knotens — falls er eine nennt. */
@@ -414,9 +416,28 @@
     */
     const abspielbar = o.isPlayable !== false && o.isAvailable !== false
     if (abspielbar && istFolge && Number.isFinite(nummer) && nummer > 0 && Number(kennung) > 0) {
-      raus.push({ nummer, videoId: Number(kennung), titel: o.title ?? null, staffel: hier })
+      raus.push({
+        nummer,
+        videoId: Number(kennung),
+        titel: o.title ?? null,
+        staffel: hier,
+        /*
+          **Woher die Folge kam — für die Messung, nicht für die Auswertung.**
+
+          Am 31.08.2026 blieb die Staffelzuordnung falsch, obwohl der Leser sie
+          angeblich mitführte: Die Feldnamen waren geraten, nicht gemessen
+          (`seasonSeq`, `seasonNumber`, `seasonSequenceNumber` — keiner traf).
+          Ohne den Pfad ist nicht zu sehen, welcher Knoten die Staffel wirklich
+          trägt, und ein zweiter Rateversuch wäre keinen Deut besser als der
+          erste.
+        */
+        pfad,
+        elternFelder: eltern ? Object.keys(eltern).slice(0, 24).join(',') : null,
+      })
     }
-    for (const v of Object.values(o)) sammleFolgen(v, raus, tiefe + 1, hier)
+    for (const [name, v] of Object.entries(o)) {
+      sammleFolgen(v, raus, tiefe + 1, hier, `${pfad}.${name}`, o)
+    }
     return raus
   }
 
@@ -559,6 +580,10 @@
         anzahl: gefunden.length,
         nummern: gefunden.slice(0, 5).map((f) => f.nummer),
         titel: gefunden.slice(0, 5).map((f) => f.titel),
+        /* Wo die Folgen im Baum liegen — daran ist die Staffel abzulesen. */
+        pfade: gefunden.slice(0, 3).map((f) => f.pfad),
+        elternFelder: gefunden.slice(0, 3).map((f) => f.elternFelder),
+        staffeln: gefunden.slice(0, 5).map((f) => f.staffel),
         /* Die ersten 600 Zeichen der Antwort — daran sieht man, was es war. */
         anfang: JSON.stringify(daten).slice(0, 600),
       })
@@ -577,6 +602,18 @@
         marke: MARKE_FOLGEN,
         fuerReihe: folgenFuer,
         folgen: [...folgenliste.values()].sort((a, b) => a.nummer - b.nummer),
+        /*
+          **Die Herkunft reist mit, weil sie sonst nicht ankommt.**
+
+          `window.__akDiagnose` setzt der Leser — der läuft in der Seiten-Welt,
+          der Melder im Content-Script. Die beiden teilen kein `window`, und im
+          Diagnosebericht stand deshalb dauerhaft „nicht erreichbar" (belegt am
+          31.08.2026 im Bericht zu „Beastars").
+
+          Ohne diese Angabe war die Staffelzuordnung nicht zu messen, und der
+          erste Fix beruhte auf geratenen Feldnamen — er traf keinen einzigen.
+        */
+        herkunft: herkunft.slice(-3),
       },
       '*',
     )

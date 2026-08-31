@@ -331,7 +331,7 @@ console.log(ok ? '\n✓ Gesehen, unverändert durchgereicht, kein Stapelüberlau
   const melderQuelle = readFileSync(__dirname + '/melder.js', 'utf8')
   pruefe(
     'der Leser reicht die Staffel nach unten durch',
-    /sammleFolgen\(v, raus, tiefe \+ 1, hier\)/.test(leserQuelle),
+    /sammleFolgen\(v, raus, tiefe \+ 1, hier,/.test(leserQuelle),
   )
   pruefe('… und hängt sie an die Folge', /staffel: hier/.test(leserQuelle))
   pruefe(
