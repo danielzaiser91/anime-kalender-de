@@ -2410,6 +2410,35 @@ irgendwann vor?" — nicht „steht es an dieser Sache?". Wo es eine Liste je Ei
 gibt, ist sie die Antwort; das Set ist der Rückfall für den Fall, dass es keine
 gibt.
 
+### Die Adresse nennt die Staffel — die Meldung kann alt sein
+
+Am 31.08.2026 meldeten drei Seiten hintereinander Staffel 1, obwohl Staffel 2
+gewählt war: Shangri-La Frontier, Space Dandy und Sekirei (Berichte in
+`docs/diagnose/`). Überall dasselbe Bild — Adresse `?ref_=atv_dp_season_select_s2`,
+Auswahlfeld mit dem Staffel-2-Namen, `lage.staffelZahl: 2`, und am Knopf stand 1.
+
+**Zwei Ursachen, und beide sind Umkehrungen einer Regel, die einmal richtig war.**
+
+1. Seit 2.8 stand `gemeldeteStaffelNummer` **vor** der Adresse, weil Yu-Gi-Oh!
+   ZEXAL zeigte, dass die Adresse Sortierschlüssel trägt (101 und 201 für die
+   beiden Bände derselben Staffel). Dagegen gibt es aber schon die Grenze von
+   fünfzig. Die Meldung hat dafür einen Nachteil, den die Adresse nicht hat: Sie
+   entsteht beim Lesen des Seitenblocks, und **den tauscht Amazon beim Wechsel
+   über das Auswahlfeld nicht aus**. Jetzt gilt: Adresse zuerst, solange ihre
+   Zahl ≤ 50 ist.
+
+2. Der Mitleser stempelte jede Antwort mit `location` **beim Senden**. Der
+   Kommentar dort begründete das damit, dass `startAdresse` für den Skriptstart
+   steht und nicht für den Abruf — richtig, nur ist der Sendezeitpunkt genauso
+   falsch. Zwischen Abruf und Auswertung liegen Sekunden. Bei Space Dandy trug
+   der Zählstand deshalb 26 Folgen aus Staffel 1 **unter der Adresse von Staffel
+   2**, und der Empfänger sah keinen Grund zu leeren. Gestempelt wird jetzt beim
+   **Abrufbeginn**.
+
+**Die allgemeine Form:** Ein Zeitstempel oder eine Kennung sagt nur dann etwas
+aus, wenn sie zu dem Zeitpunkt genommen wird, den sie beschreiben soll. „Jetzt"
+ist beim Senden ein anderes Jetzt als beim Abrufen.
+
 ### Beim Fernsehen ist die Erweiterung unsichtbar
 
 Am 30.08.2026 stand über einer laufenden Folge „Heroes" unten rechts ein Knopf:
