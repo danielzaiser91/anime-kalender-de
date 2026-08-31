@@ -13,15 +13,15 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **Phase 4: die Erweiterung hört auf zu urteilen** | 8 | Worker ist ausgeliefert (29.08., Version 895b110a). Wartet jetzt auf eine Meldung mit 3.91 — erst an ihr ist belegbar, dass die Zuordnung ohne die neunzig Urteilsregeln auskommt |
+| **Phase 4: die Erweiterung hört auf zu urteilen** | 8 | Worker ist ausgeliefert (29.08., Version 895b110a). Wartet auf eine Prime-Meldung mit 4.9.1 — `titelId` stand bis zum 31.08. drei Tage lang leer (sie liegt in `eintraege[].id`, nicht am aeusseren Eintrag), erst mit einer neuen Meldung ist die Zuordnung belegbar |
 | **Pokémon Sonne & Mond: 145 statt 146** | 1 | Daniel hat am 30.08.2026 alle zwölf Prime-Bände einzeln geprüft und gemeldet: Staffel 20 mit 43 Folgen (11+11+11+10), Staffel 21 mit 48 (4×12), Staffel 22 mit 54 (14+13+13+14). AniList führt für den Block 146. Seine Gegenprobe: „so wie sie gemeldet wurden so führt sie amazon, also falls da laut anisearch was fehlt, dann hat amazon die nicht." Die Zuordnung über die Folgentitel wird eine Nummer ohne Entsprechung lassen — das ist dann kein Lesefehler, sondern eine Lücke im Angebot, und genau so gehört sie in den Datensatz |
 
 ### Warten auf Feedback
 
 | Aufgabe | Notiz |
 |---|---|
-| **Eine Prime-Meldung mit 3.91** | Der Worker ist ausgeliefert und schickt `titel_id` mit — bei allen 5.620 Altmeldungen steht dort NULL, sie stammen aus Fassungen vor 3.90. Eine einzige neue Meldung zeigt, ob die Zuordnung greift |
-| **Erweiterung 4.1.11 laden** | Liest einen Hydration-Block nach, der beim ersten Griff erst halb gefüllt war („Encouragement of Climb" blieb auf 2 von 13 Folgen stehen) |
+| **Eine Prime-Meldung mit 4.9.1** | `titelId` kommt seit dem 31.08. gefuellt an (der Griff lag eine Ebene zu tief). Eine einzige neue Meldung zeigt, ob die Zuordnung jetzt greift |
+| **Erweiterung 4.9.1 laden** | Netflix-Staffelzuordnung aus der gemessenen `Season`-Kennung, und die Staffel der Folge reist bis zum lokalen Vermerk mit (Death Note zeigte Folge 31 weiter als offen) |
 | **Prime-Prüfliste** | **2 offene Suchen** (Stand 31.08.2026, 11:10): „Fullmetal Alchemist" und „Is This a Zombie?". Am Vormittag waren es 68 — die 441 wieder geöffneten Suchadress-Meldungen ergaben 210 Belege, seit der Bau auch Adressen aus `anbieter-vorschlaege.json` als Anker kennt |
 
 ## Recherche 31.08.2026: Deutsche Titel für Anime ohne belegte Synchro
