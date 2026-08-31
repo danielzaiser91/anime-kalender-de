@@ -430,9 +430,22 @@ for (const gruppe of jeAdresse.values()) {
     }
   }
 
-  // Ein „weg" hebt alles auf: Was der Anbieter nicht mehr zeigt, hat keine
-  // Folgenbereiche mehr.
-  const weg = gruppe.find((x) => x.befund === 'weg')
+  /**
+   * **Ein „weg" hebt alles auf — aber nur, solange nichts Jüngeres widerspricht.**
+   *
+   * Was der Anbieter nicht mehr zeigt, hat keine Folgenbereiche mehr. Der Satz
+   * stimmt; die Umsetzung fragte nur nicht, **wann** das gemeldet wurde.
+   *
+   * Am 31.08.2026 hat Daniel „Die Schatzinsel: Das große Abenteuer der Tiere"
+   * um 14:39 als „nicht bei Prime" gemeldet, den Titel eine Minute später unter
+   * einem anderen Suchbegriff gefunden und um 14:40 mit deutscher Tonspur
+   * gemeldet. Herausgekommen wäre `available: false` — die ältere, widerlegte
+   * Auskunft hätte gewonnen, und der Titel stünde als verschwunden im Bestand.
+   *
+   * Ein Nachschlagen ist eine Momentaufnahme. Die jüngere ist die bessere.
+   */
+  const jueng = [...gruppe].sort((a, b) => (a.gemeldet_am < b.gemeldet_am ? -1 : 1))
+  const weg = jueng[jueng.length - 1]?.befund === 'weg' ? jueng[jueng.length - 1] : undefined
 
   const meldungen = gruppe
     .filter((x) => x.befund !== 'weg' && x.folge_nr != null)

@@ -3058,9 +3058,16 @@ async function speicherSchreiben(werte) {
               }),
             ]
           : []),
-        ...(zusammen && zusammen !== jetzigerBegriff ? [kastenKnopf(`Anders schreiben: ${zusammen}`, () => {
-          location.href = `https://www.amazon.de/s?k=${encodeURIComponent(zusammen)}&i=instant-video`
-        })] : []),
+        /*
+          **„Anders schreiben" ist raus** (Daniel, 31.08.2026, mit Bild: „dieses
+          anders schreiben zusammengeschriebene button entfernen").
+
+          Der Knopf bot den Begriff mit zusammengezogenen ersten zwei Wörtern an
+          — „DreiKleine Geister" statt „Drei kleine Geister". Bei „Horimiya" hat
+          das einmal getragen, sonst schlägt es Schreibweisen vor, die es nicht
+          gibt. Deutsch und Englisch stehen darüber, „Kürzer suchen" darunter;
+          beide kommen aus dem Bestand statt aus einer Regel.
+        */
         ...(kurzform && kurzform !== jetzigerBegriff ? [kastenKnopf(`Kürzer suchen: ${kurzform}`, () => {
           location.href = `https://www.amazon.de/s?k=${encodeURIComponent(kurzform)}&i=instant-video`
         })] : []),
