@@ -647,6 +647,20 @@ pruefe('eine andere Jahresfassung zaehlt nicht als genauer Treffer', fremdesJahr
   pruefe('der Kasten bietet die englische Schreibweise', quelle.includes('Englisch suchen:'))
 
   /*
+    **Zwei Suchseiten unterscheiden sich nur in der Query.**
+
+    Der Kasten verglich über `location.pathname` — bei jeder Prime-Suche ist das
+    `/s`. Ein Klick auf den nächsten Listeneintrag ließ ihn stehen (Daniel,
+    31.08.2026).
+  */
+  pruefe(
+    'der Kasten vergleicht Pfad und Query',
+    !quelle.includes('dataset.fuerAdresse = location.pathname
+') &&
+      quelle.includes('dataset.fuerAdresse = location.pathname + location.search'),
+  )
+
+  /*
     **Die Kennungen der zweiten Ausgabe überleben den Sprung zur Titelseite.**
 
     Gemeldet wird dort, nicht auf der Suchseite. Eine Skriptvariable ist nach dem

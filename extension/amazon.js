@@ -2320,7 +2320,18 @@ async function speicherSchreiben(werte) {
       Dieselbe Lösung wie beim Mitleser (`fuerAdresse`, 25.08.2026): Jedes
       Ergebnis trägt mit, wozu es gehört, und wer es liest, verwirft Fremdes.
     */
-    kasten.dataset.fuerAdresse = location.pathname
+    /*
+      **Zwei Suchseiten unterscheiden sich nur in der Query.**
+
+      Der Vergleich lief über `location.pathname` — bei jeder Prime-Suche ist
+      das `/s`. Ein Klick auf den nächsten Listeneintrag führte damit auf eine
+      Seite, die für den Kasten „dieselbe" war: Er blieb stehen und zeigte den
+      Auftrag von vorhin (Daniel, 31.08.2026, mit Bild: Suche nach „One Piece
+      Abenteuer auf Nebulandia", Kasten zeigte „Tenjo Tenge OVA").
+
+      Auf Titelseiten trägt der Pfad die Kennung, dort fiel es nie auf.
+    */
+    kasten.dataset.fuerAdresse = location.pathname + location.search
     /*
       **Und er gehört zu einem Folgenstand, nicht nur zu einer Adresse.**
 
@@ -7069,7 +7080,7 @@ async function speicherSchreiben(werte) {
     */
     const alterHinweis = document.querySelector('.ak-amazon-suchhinweis')
     if (alterHinweis) {
-      const andereAdresse = alterHinweis.dataset.fuerAdresse !== location.pathname
+      const andereAdresse = alterHinweis.dataset.fuerAdresse !== location.pathname + location.search
       /*
         Die Folgenzahl kommt Sekunden nach dem Seitenaufbau — und sie
         entscheidet, welchen Zweig der Auftragshinweis wählt. Ändert sie sich,
