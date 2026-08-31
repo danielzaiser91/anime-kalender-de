@@ -7,11 +7,11 @@ falschen Ort; sie kommt beim nächsten Lauf zurück.
 | # | Aufgabe | Umfang | Zeit je Stück | wozu |
 |---|---|---|---|---|
 | 1 | Prime Video — Suchseiten | 1 Suchen | ~20 s je Titel | Titel ohne bekannte Produktseite |
-| 2 | [Prime Video — Titelseiten](07-primevideo.md) | 21 Adressen, 35 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
-| 3 | [Netflix](06-netflix-rest.md) | 24 Titel, 12 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
+| 2 | [Prime Video — Titelseiten](07-primevideo.md) | 2 Adressen, 35 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
+| 3 | [Netflix](06-netflix-rest.md) | 1 Titel, 11 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
 | 4 | [Crunchyroll](07-crunchyroll.md) | 35 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
 | 5 | [YouTube](09-youtube-liste.md) | 16 Verweise | ~30 s je Video | der Videotitel nennt oft schon die Fassung |
-| 6 | [Disney+](07-disneyplus.md) | 7 Titel, 1 Verweis | ~30 s je Titel | der Playback-Aufruf liest die Sprachen ohne Wiedergabe |
+| 6 | [Disney+](07-disneyplus.md) | 1 Titel, 1 Verweis | ~30 s je Titel | der Playback-Aufruf liest die Sprachen ohne Wiedergabe |
 
 **Alles außer Nummer 4 und 5 läuft über die Browser-Erweiterung** aus `extension/`.
 Sie zeigt auf jeder Anbieterseite, was dort noch offen ist, liest die Tonspuren und
