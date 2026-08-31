@@ -655,8 +655,7 @@ pruefe('eine andere Jahresfassung zaehlt nicht als genauer Treffer', fremdesJahr
   */
   pruefe(
     'der Kasten vergleicht Pfad und Query',
-    !quelle.includes('dataset.fuerAdresse = location.pathname
-') &&
+    quelle.includes('dataset.fuerAdresse = location.pathname + location.search'),
       quelle.includes('dataset.fuerAdresse = location.pathname + location.search'),
   )
 
