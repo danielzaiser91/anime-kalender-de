@@ -6,16 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – crunchyroll
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:skeleton-knight-s2@2026-08-24@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260824T130000Z
-DTEND:20260824T133000Z
-SUMMARY:Skeleton Knight in Another World – Staffel 2 – Folge 8/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/skeleton-knight-s2
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:clevatess-s2@2026-08-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260826T120000Z
