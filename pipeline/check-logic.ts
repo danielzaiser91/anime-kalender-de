@@ -2282,5 +2282,52 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
   pruefe(`data/dub-confirmed.yaml ist gültiges YAML${lesbar ? '' : ` — ${grund}`}`, lesbar)
 }
 
+/**
+ * **Ein Zuordnungslauf, der nichts zuordnet, ist kaputt — nicht erfolglos.**
+ *
+ * `fetch-rohfolgen.ts` meldete vom 28. bis 31.08.2026 in jedem Lauf
+ * „795 Rohfolgen geholt, **0 Adressen zugeordnet**". Die Zahl stand im Log,
+ * drei Tage lang, und niemand las sie. Die Ursache war ein Feld, das die
+ * Erweiterung sendete, ohne dass es je gefüllt war (`titelId` lag in der
+ * Prüfliste eine Ebene tiefer, siehe CLAUDE.md).
+ *
+ * Diese Zusicherung macht daraus einen roten Lauf: Liegen Rohfolgen vor und ist
+ * **keine einzige** Adresse zugeordnet, stimmt etwas an der Zuordnung nicht.
+ * Eine niedrige Quote ist normal — Prime führt Titel, die wir nicht kennen.
+ * Null ist es nicht.
+ */
+{
+  const lies = (pfad: string): unknown => {
+    try {
+      return JSON.parse(readFileSync(pfad, "utf8"))
+    } catch {
+      return []
+    }
+  }
+  const unzugeordnet = lies("data/prime-unzugeordnet.json") as Array<{ url?: string }>
+  const zugeordnet = lies("data/prime-zugeordnet.json") as Record<string, unknown> | unknown[]
+  const zahlZugeordnet = Array.isArray(zugeordnet)
+    ? zugeordnet.length
+    : Object.keys(zugeordnet).length
+  /*
+    **Nur Meldungen, die eine Kennung mitbrachten, sind ein Maßstab.**
+
+    Die 795 Rohfolgen vom 28. bis 31.08.2026 kamen alle mit `titel_id: null` an;
+    für sie ist „nicht zugeordnet" die Folge des Fehlers, nicht sein Beleg. Eine
+    Zusicherung, die sie mitzählt, bliebe rot, bis Daniel jede einzelne neu
+    meldet — und wäre damit ein Dauerlicht statt eines Alarms.
+  */
+  const liste = (Array.isArray(unzugeordnet) ? unzugeordnet : []) as Array<{
+    url?: string
+    mitKennung?: boolean
+  }>
+  const adressen = new Set(liste.filter((e) => e.mitKennung).map((e) => e.url).filter(Boolean)).size
+  pruefe(
+    `Rohfolgen-Zuordnung greift (${zahlZugeordnet} zugeordnet, ${adressen} Adressen offen)`,
+    adressen === 0 || zahlZugeordnet > 0,
+    `${adressen} Adressen offen, keine einzige zugeordnet — das ist kein magerer Ertrag, sondern ein Fehler`,
+  )
+}
+
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

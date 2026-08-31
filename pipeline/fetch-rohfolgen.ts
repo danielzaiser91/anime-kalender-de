@@ -61,6 +61,8 @@ interface Offen {
   titel: string | null
   grund: string
   folgen: number
+  /** Ob mindestens eine Rohfolge eine Titel-Kennung mitbrachte — siehe unten. */
+  mitKennung?: boolean
 }
 
 async function main(): Promise<void> {
@@ -291,6 +293,17 @@ async function main(): Promise<void> {
         titel: liste[0]?.titel ?? null,
         grund: treffer.length ? `${treffer.length} Titel teilen diese Adresse` : 'kein Titel zu dieser Adresse',
         folgen: liste.length,
+        /*
+          **Ob die Meldung überhaupt eine Kennung mitbrachte.**
+
+          Ohne sie kann die Zuordnung nur über die Adresse gehen, und die kennt
+          unser Bestand oft nicht — dann ist „nicht zugeordnet" kein Fehler,
+          sondern die Folge einer alten Meldung. Vom 28. bis 31.08.2026 kamen
+          alle 795 Rohfolgen so an (`titelId` lag in der Prüfliste eine Ebene
+          zu tief). Die Zusicherung in `check-logic.ts` unterscheidet daran,
+          ob eine Null Anlass zur Sorge ist.
+        */
+        mitKennung: liste.some((f) => f.titel_id != null),
       })
       continue
     }

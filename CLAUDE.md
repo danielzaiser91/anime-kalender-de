@@ -2333,6 +2333,41 @@ Dieselbe Klasse Fehler ist mir an diesem Tag **dreimal** unterlaufen: `empfohlen
 `location` im Test-Sandkasten, `MARKE_FOLGEN` im ausgeschnittenen Block. Alle drei hätte diese
 Prüfung genannt.
 
+## Ein neues Feld ist erst eingebaut, wenn es am Ziel angekommen ist
+
+Am 28.08.2026 bekam die Prime-Meldung ein Feld `titelId` — samt Kommentar, samt
+Begründung, samt Messung („von 67 gemeldeten Adressen ließ sich genau eine
+zuordnen"). Es war **drei Tage lang wirkungslos**, und niemand hat es bemerkt.
+
+Der Fehler war eine Ebene: In `AK_OFFENE_AMAZON` trägt der äußere Eintrag Titel
+und Adresse, die AniList-Kennung steht je Werk in `eintraege[]`. `eintrag?.id`
+ist damit immer `undefined`. Gemessen am 31.08.2026 — **0 von 21 Adressen** mit
+äußerem `id`, 19 mit einem in `eintraege`.
+
+Die Folge stand die ganze Zeit im Log:
+
+```
+795 Rohfolgen geholt
+  0 Adressen zugeordnet (0 Folgen), 795 offen
+```
+
+**Drei Lehren, und die dritte ist die allgemeine:**
+
+1. **Der Einbau endet am Empfänger, nicht am Sender.** Wer ein Feld hinzufügt,
+   prüft nach der ersten echten Meldung, ob es gefüllt ankommt — ein `SELECT`
+   auf die Spalte, ein Blick in die Antwort. Das kostet eine Minute und war hier
+   der Unterschied zwischen drei Tagen und keinem Tag.
+
+2. **„0 von N" ist ein Alarm, kein Zwischenstand.** Ein Zuordnungslauf, der
+   nichts zuordnet, hat nicht wenig gefunden — er ist kaputt. Solange die Zahl
+   nur im Log steht, liest sie niemand; deshalb prüft `check:logic` sie jetzt.
+
+3. **Ein Kommentar behauptet leicht, was er nicht belegt.** Dort stand „Die
+   Kennung liegt hier im Auftrag bereit und beendet das Raten" — eine Absicht im
+   Indikativ. Der nächste Leser (ich, drei Tage später) hält so etwas für
+   gemessen und sucht den Fehler woanders. **Was noch nicht gemessen ist, gehört
+   im Futur oder gar nicht in den Kommentar.**
+
 ## Kein Prettier — das Projekt formatiert von Hand
 
 `npx prettier --write` auf eine Datei dieses Projekts formatiert **die ganze
