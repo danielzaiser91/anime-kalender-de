@@ -6,8 +6,8 @@ falschen Ort; sie kommt beim nächsten Lauf zurück.
 
 | # | Aufgabe | Umfang | Zeit je Stück | wozu |
 |---|---|---|---|---|
-| 1 | Prime Video — Suchseiten | 61 Suchen | ~20 s je Titel | Titel ohne bekannte Produktseite |
-| 2 | [Prime Video — Titelseiten](07-primevideo.md) | 2 Adressen, 36 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
+| 1 | Prime Video — Suchseiten | 1 Suchen | ~20 s je Titel | Titel ohne bekannte Produktseite |
+| 2 | [Prime Video — Titelseiten](07-primevideo.md) | 2 Adressen, 33 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
 | 3 | [Netflix](06-netflix-rest.md) | 2 Titel, 12 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
 | 4 | [Crunchyroll](07-crunchyroll.md) | 35 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
 | 5 | [YouTube](09-youtube-liste.md) | 16 Verweise | ~30 s je Video | der Videotitel nennt oft schon die Fassung |
@@ -19,8 +19,8 @@ schickt die Meldung ab. Die Listen hier sind zum Nachschlagen, nicht zum Abtippe
 
 ## Was das bringt
 
-Von 2764 Titeln zeigen **504** keinen einzigen Bezugsweg,
-**282** davon mit belegter deutscher Synchro. Für die ist die
+Von 2764 Titeln zeigen **501** keinen einzigen Bezugsweg,
+**281** davon mit belegter deutscher Synchro. Für die ist die
 Antwort auf „wo kann ich das sehen?" heute: nirgends bekannt. Jede Meldung von hier
 macht eine davon weniger.
 

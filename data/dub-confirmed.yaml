@@ -26234,3 +26234,13 @@
       checked: [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
   checkedAt: '2026-08-30'
   note: "Folgen 1–12 mit deutschem Ton, Folgen 13–24 ohne deutschen Ton — Amazon-Seite B0FY77MLTT: alle 24 Folgen geprüft, Abos: aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-31 ---
+
+- anilistId: 121
+  title: "Fullmetal Alchemist"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0H4XQ2NNZ
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0H4XQ2NNZ: alle 51 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf"
