@@ -1,0 +1,357 @@
+{
+  "erzeugtAm": "2026-08-31T07:44:51.183Z",
+  "version": "4.1.6",
+  "adresse": "https://www.amazon.de/gp/video/detail/B0D522SR52?ref_=atv_dp_season_select_s4",
+  "zustand": {
+    "id": "B0D522SR52",
+    "listenId": "B0D522SR52",
+    "eintrag": {
+      "titel": null,
+      "ausSuche": false
+    },
+    "letzteKennung": "4|1|B0D522SR52|Tokyo Ghoul",
+    "staffelKennung": "4|1|B0D522SR52|Tokyo Ghoul",
+    "staffelNummer": 4,
+    "staffelAusAdresse": 4,
+    "staffelAusSeite": 1,
+    "gemeldeteStaffelNummer": null,
+    "gabStaffelwechsel": true,
+    "letzteZahl": 12,
+    "letzterStand": "true|12|24|false|true|true",
+    "letzterFortschritt": "2026-08-31T07:44:21.796Z",
+    "wartetSeitMs": 29389,
+    "langsam": false,
+    "taktMs": 2.2000000001862645,
+    "taktMax": 16.800000000745058,
+    "takte": 64
+  },
+  "zaehlstand": {
+    "gesamt": 24,
+    "fuerAdresse": "/gp/video/detail/B0D522SR52?ref_=atv_dp_season_select_s4",
+    "nummern": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "jeFolge": [
+      [
+        1,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ],
+      [
+        2,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ],
+      [
+        3,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ],
+      [
+        4,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ],
+      [
+        5,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ],
+      [
+        6,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ],
+      [
+        7,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ],
+      [
+        8,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ],
+      [
+        9,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ],
+      [
+        10,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ],
+      [
+        11,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ],
+      [
+        12,
+        [
+          "Deutsch",
+          "日本語"
+        ]
+      ]
+    ],
+    "sprachen": [
+      "Deutsch",
+      "日本語"
+    ],
+    "abschnitte": null
+  },
+  "lage": {
+    "fehlerseite": false,
+    "regionWeg": false,
+    "nichtAbrufbar": false,
+    "stoerung": false,
+    "hatFolgenReiter": false,
+    "staffelZahl": 4,
+    "regionFolgen": [],
+    "folgenLautSeite": null,
+    "hatLaufzeit": false
+  },
+  "istFilmSeite": false,
+  "quelltextVeraltet": false,
+  "seite": {
+    "titel": "Amazon.de: Tokyo Ghoul ansehen | Prime Video",
+    "folgenImDom": 0,
+    "knopfText": "12 von 24 Folgen gelesen — 12 fehlen noch"
+  },
+  "umfeld": {
+    "eintraegeInListe": 2,
+    "erledigteEintraege": 293,
+    "offeneSuchen": 129,
+    "suchauftrag": null,
+    "zugangsart": "abo_und_kauf",
+    "abos": [
+      "crunchyrollde"
+    ],
+    "ueberKanal": true,
+    "teilBereich": null
+  },
+  "tagebuch": [
+    {
+      "t": "2026-08-31T07:44:01.310Z",
+      "was": "antwort",
+      "fuerAdresse": "/gp/video/detail/B0CWGXHGHF",
+      "standAdresse": null,
+      "nummern": [],
+      "anzahl": 0,
+      "ersetzt": false
+    },
+    {
+      "t": "2026-08-31T07:44:01.323Z",
+      "was": "knopftext",
+      "von": "Folgen werden geladen …",
+      "nach": "🇩🇪 Deutsch · 12 Folgen · Staffel 1 · Abo + Kauf · ⚠ Kanal · melden",
+      "gelesen": 12
+    },
+    {
+      "t": "2026-08-31T07:44:01.343Z",
+      "was": "antwort",
+      "fuerAdresse": "/gp/video/detail/B0CWGXHGHF",
+      "standAdresse": "/gp/video/detail/B0CWGXHGHF",
+      "nummern": [],
+      "anzahl": 0,
+      "ersetzt": true
+    },
+    {
+      "t": "2026-08-31T07:44:01.784Z",
+      "was": "staffelwechsel",
+      "von": "?|1|B0CWGXHGHF|The Devil is a Part-Timer!",
+      "nach": "?|1|B0CWGXHGHF|Tokyo Ghoul",
+      "adresse": ""
+    },
+    {
+      "t": "2026-08-31T07:44:07.752Z",
+      "was": "antwort",
+      "fuerAdresse": "/gp/video/detail/B0CP9VNY3Q?ref_=atv_dp_season_select_s2",
+      "standAdresse": "/gp/video/detail/B0CWGXHGHF",
+      "nummern": [],
+      "anzahl": 0,
+      "ersetzt": false
+    },
+    {
+      "t": "2026-08-31T07:44:07.762Z",
+      "was": "knopftext",
+      "von": "✓ Staffel 1 gemeldet · weiter mit Staffel 2",
+      "nach": "🇩🇪 Deutsch · 12 Folgen · Staffel 2 · Abo + Kauf · ⚠ Kanal · melden",
+      "gelesen": 12
+    },
+    {
+      "t": "2026-08-31T07:44:08.031Z",
+      "was": "antwort",
+      "fuerAdresse": "/gp/video/detail/B0CP9VNY3Q?ref_=atv_dp_season_select_s2",
+      "standAdresse": "/gp/video/detail/B0CP9VNY3Q?ref_=atv_dp_season_select_s2",
+      "nummern": [],
+      "anzahl": 0,
+      "ersetzt": true
+    },
+    {
+      "t": "2026-08-31T07:44:08.258Z",
+      "was": "antwort",
+      "fuerAdresse": "/gp/video/detail/B0CP9VNY3Q?ref_=atv_dp_season_select_s2",
+      "standAdresse": "/gp/video/detail/B0CP9VNY3Q?ref_=atv_dp_season_select_s2",
+      "nummern": [],
+      "anzahl": 0,
+      "ersetzt": false
+    },
+    {
+      "t": "2026-08-31T07:44:08.490Z",
+      "was": "antwort",
+      "fuerAdresse": "/gp/video/detail/B0CP9VNY3Q?ref_=atv_dp_season_select_s2",
+      "standAdresse": "/gp/video/detail/B0CP9VNY3Q?ref_=atv_dp_season_select_s2",
+      "nummern": [],
+      "anzahl": 0,
+      "ersetzt": false
+    },
+    {
+      "t": "2026-08-31T07:44:09.801Z",
+      "was": "staffelwechsel",
+      "von": "?|1|B0CWGXHGHF|Tokyo Ghoul",
+      "nach": "2|1|B0CP9VNY3Q|Tokyo Ghoul",
+      "adresse": "?ref_=atv_dp_season_select_s2"
+    },
+    {
+      "t": "2026-08-31T07:44:09.805Z",
+      "was": "knopftext",
+      "von": "🇩🇪 Deutsch · 12 Folgen · Staffel 2 · Abo + Kauf · ⚠ Kanal · melden",
+      "nach": "🇩🇪 Deutsch · 12 Folgen · Staffel 2 · Abo + Kauf · ⚠ Kanal · neu · melden",
+      "gelesen": 12
+    },
+    {
+      "t": "2026-08-31T07:44:13.265Z",
+      "was": "antwort",
+      "fuerAdresse": "/gp/video/detail/B0D188KVH4?ref_=atv_dp_season_select_s3",
+      "standAdresse": "/gp/video/detail/B0CP9VNY3Q?ref_=atv_dp_season_select_s2",
+      "nummern": [],
+      "anzahl": 0,
+      "ersetzt": false
+    },
+    {
+      "t": "2026-08-31T07:44:13.280Z",
+      "was": "knopftext",
+      "von": "✓ Staffel 2 gemeldet · weiter mit Staffel 3",
+      "nach": "🇩🇪 Deutsch · 12 Folgen · Staffel 3 · Abo + Kauf · ⚠ Kanal · neu · melden",
+      "gelesen": 12
+    },
+    {
+      "t": "2026-08-31T07:44:13.756Z",
+      "was": "antwort",
+      "fuerAdresse": "/gp/video/detail/B0D188KVH4?ref_=atv_dp_season_select_s3",
+      "standAdresse": "/gp/video/detail/B0D188KVH4?ref_=atv_dp_season_select_s3",
+      "nummern": [],
+      "anzahl": 0,
+      "ersetzt": false
+    },
+    {
+      "t": "2026-08-31T07:44:13.776Z",
+      "was": "antwort",
+      "fuerAdresse": "/gp/video/detail/B0D188KVH4?ref_=atv_dp_season_select_s3",
+      "standAdresse": "/gp/video/detail/B0D188KVH4?ref_=atv_dp_season_select_s3",
+      "nummern": [],
+      "anzahl": 0,
+      "ersetzt": true
+    },
+    {
+      "t": "2026-08-31T07:44:13.796Z",
+      "was": "staffelwechsel",
+      "von": "2|1|B0CP9VNY3Q|Tokyo Ghoul",
+      "nach": "3|1|B0D188KVH4|Tokyo Ghoul",
+      "adresse": "?ref_=atv_dp_season_select_s3"
+    },
+    {
+      "t": "2026-08-31T07:44:14.373Z",
+      "was": "antwort",
+      "fuerAdresse": "/gp/video/detail/B0D188KVH4?ref_=atv_dp_season_select_s3",
+      "standAdresse": "/gp/video/detail/B0D188KVH4?ref_=atv_dp_season_select_s3",
+      "nummern": [],
+      "anzahl": 0,
+      "ersetzt": false
+    },
+    {
+      "t": "2026-08-31T07:44:14.391Z",
+      "was": "wartet-auf-staffel",
+      "wartetSeitMs": 4,
+      "gesamt": 24,
+      "gelesen": 24,
+      "staffel": 3
+    },
+    {
+      "t": "2026-08-31T07:44:17.361Z",
+      "was": "antwort",
+      "fuerAdresse": "/gp/video/detail/B0D188KVH4?ref_=atv_dp_season_select_s3",
+      "standAdresse": "/gp/video/detail/B0D188KVH4?ref_=atv_dp_season_select_s3",
+      "nummern": [],
+      "anzahl": 0,
+      "ersetzt": false
+    },
+    {
+      "t": "2026-08-31T07:44:17.379Z",
+      "was": "knopftext",
+      "von": "Staffel wechselt — einen Moment",
+      "nach": "🇩🇪 Deutsch · 24 Folgen · Staffel 3 · Abo + Kauf · ⚠ Kanal · neu · melden",
+      "gelesen": 24
+    },
+    {
+      "t": "2026-08-31T07:44:20.753Z",
+      "was": "antwort",
+      "fuerAdresse": "/gp/video/detail/B0D522SR52?ref_=atv_dp_season_select_s4",
+      "standAdresse": "/gp/video/detail/B0D188KVH4?ref_=atv_dp_season_select_s3",
+      "nummern": [],
+      "anzahl": 0,
+      "ersetzt": false
+    },
+    {
+      "t": "2026-08-31T07:44:21.249Z",
+      "was": "antwort",
+      "fuerAdresse": "/gp/video/detail/B0D522SR52?ref_=atv_dp_season_select_s4",
+      "standAdresse": "/gp/video/detail/B0D522SR52?ref_=atv_dp_season_select_s4",
+      "nummern": [],
+      "anzahl": 0,
+      "ersetzt": false
+    },
+    {
+      "t": "2026-08-31T07:44:21.796Z",
+      "was": "staffelwechsel",
+      "von": "3|1|B0D188KVH4|Tokyo Ghoul",
+      "nach": "4|1|B0D522SR52|Tokyo Ghoul",
+      "adresse": "?ref_=atv_dp_season_select_s4"
+    }
+  ]
+}

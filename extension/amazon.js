@@ -6173,6 +6173,42 @@ async function speicherSchreiben(werte) {
       `gesehen.gesamt` bleibt nur als Zeichen dafür, dass überhaupt eine
       Folgenliste erwartet wird — sie ist keine Zielmarke mehr.
     */
+    /*
+      **Eine Seite ohne Folgen bleibt eine Seite ohne Folgen — auch mit Zählstand.**
+
+      Daniel am 31.08.2026 an „Tokyo Ghoul" Staffel 4: Die Seite führt dort
+      keinen Folgen-Reiter und keine einzige Folge, der Knopf sagte trotzdem
+      „12 von 24 Folgen gelesen — 12 fehlen noch" und ließ nicht melden.
+
+      Der Zweig, der genau das anbietet („✕ keine Folgen für diese Staffel —
+      melden"), steht im Block `if (!geladen)` — er greift also nur, wenn gar
+      nichts gelesen wurde. Klebte ein Zählstand aus der vorigen Staffel, war er
+      unerreichbar.
+
+      Die Frage „führt diese Seite Folgen?" beantwortet aber die **Seite**, nicht
+      der Zählstand. Sagt sie nein, ist jeder Stand hier fremd. Die
+      Acht-Sekunden-Frist bleibt: Amazon baut den Reiter manchmal spät.
+
+      Belegt: Staffel 4 gibt es bei Prime nur als Kauftitel (`B0D7N68Q5T`, 12
+      Folgen, deutsch — von Daniel Minuten später von dort gemeldet). Die
+      Abo-Seite führt sie nicht, und genau das ist die Auskunft, die gefehlt hat.
+    */
+    if (
+      !seitenLage().hatFolgenReiter &&
+      !seitenLage().folgenLautSeite &&
+      !istFilm &&
+      !fehlerseite &&
+      !regionWeg &&
+      Date.now() - letzterFortschritt > 8000
+    ) {
+      knopf.dataset.tot = 'true'
+      knopf.disabled = false
+      knopf.dataset.deutsch = String(deutsch)
+      knopf.textContent = '✕ keine Folgen für diese Staffel — melden'
+      knopf.title =
+        'Diese Seite führt keine Folgenliste. Was hier an Zahlen steht, stammt aus einer anderen Staffel.'
+      return
+    }
     if (!nichtAbrufbar && !istFilm && !vollstaendig && gesehen.gesamt) {
       const fehlend = Math.max(0, gesehen.gesamt - geladen)
       knopf.disabled = true

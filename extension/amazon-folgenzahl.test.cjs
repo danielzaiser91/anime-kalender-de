@@ -582,6 +582,21 @@ pruefe(
   )
 }
 
+/*
+  **Eine Seite ohne Folgen bleibt eine Seite ohne Folgen — auch mit Zählstand.**
+
+  Bei „Tokyo Ghoul" Staffel 4 sagte der Knopf „12 von 24 Folgen gelesen", obwohl
+  die Seite keinen Folgen-Reiter führt: Der Meldezweig steckte in `if (!geladen)`
+  und war mit einem klebenden Zählstand unerreichbar (Bericht in
+  `docs/diagnose/tokyo-ghoul-s4-ohne-folgen.json`).
+*/
+{
+  const q = readFileSync(__dirname + '/amazon.js', 'utf8')
+  const zaehl = q.indexOf('const fehlend = Math.max(0, gesehen.gesamt - geladen)')
+  const melden = q.indexOf('Diese Seite führt keine Folgenliste')
+  pruefe('der Meldezweig steht vor dem Zählzweig', melden > 0 && zaehl > 0 && melden < zaehl)
+}
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) rot.`)
   process.exit(1)
