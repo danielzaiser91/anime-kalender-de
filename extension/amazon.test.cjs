@@ -398,7 +398,15 @@ function veraltetTest(schritte) {
     misst den Umbau statt der Regel.
   */
   const sendeStellen = (leser.match(/window\.postMessage\(/g) ?? []).length
-  const mitAdresse = (leser.match(/fuerAdresse: location\.pathname/g) ?? []).length
+  /*
+    **Gestempelt wird mit der Abruf-Adresse, nicht mit `location` beim Senden.**
+
+    Zwischen Abruf und Auswertung liegen Sekunden; wechselt Daniel in dieser Zeit
+    die Staffel, trägt die Antwort sonst die neue Adresse und der Empfänger sieht
+    keinen Grund zu leeren. Bei „Space Dandy" standen so 26 Folgen aus Staffel 1
+    unter der Adresse von Staffel 2 (31.08.2026).
+  */
+  const mitAdresse = (leser.match(/fuerAdresse: abrufAdresse/g) ?? []).length
   pruefe('jede Sendestelle haengt die Adresse an', sendeStellen > 0 && mitAdresse === sendeStellen, {
     sendeStellen,
     mitAdresse,

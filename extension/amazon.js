@@ -2572,6 +2572,15 @@ async function speicherSchreiben(werte) {
     }
   }
 
+  /**
+   * Kennungen der übrigen passenden Treffer derselben Suche — siehe `weitere=`.
+   *
+   * **Vor dem ersten Zugriff deklariert**, nicht darunter: `let` hebt den Namen
+   * hoch, aber nicht den Wert. Ein Zugriff davor wirft, statt `undefined` zu
+   * liefern — derselbe Fehler wie bei `listenId`, `knopf` und `istGemeldet`.
+   */
+  let weitereAusgaben = []
+
   function zeigeSuchhinweis() {
     /*
       **Eine zweite Suche gehört noch zum selben Auftrag.**
@@ -2666,6 +2675,14 @@ async function speicherSchreiben(werte) {
         Die englische Schreibweise kommt aus dem Bestand, nicht aus einer
         Umformung — der Listengenerator legt sie als `suchbegriffEn` bei.
       */
+      /* Beide aus dem Bestand, nicht aus einer Umformung des laufenden Begriffs. */
+      const auftragDe = (() => {
+        try {
+          return suchliste[auftrag?.suchUrl]?.suchbegriff ?? null
+        } catch {
+          return null
+        }
+      })()
       const auftragEn = (() => {
         try {
           return suchliste[auftrag?.suchUrl]?.suchbegriffEn ?? null
@@ -2920,6 +2937,25 @@ async function speicherSchreiben(werte) {
           Die zusammengezogene Variante bleibt als dritter Weg — sie hat bei
           „Horimiya" wirklich getragen —, steht aber hinter dem Englischen.
         */
+        /*
+          **Der deutsche Titel gehört an die erste Stelle.**
+
+          Daniel am 31.08.2026 vor „Tenjo Tenge OVA": Die Suche lief unter
+          „Tenjho Tenge: The Ultimate Fight", und der Kasten bot „Englisch
+          suchen", „Anders schreiben" und „Kürzer suchen" an — **keiner der drei
+          trug den deutschen Titel**, obwohl er im Auftrag steht.
+
+          Die Vorschläge wurden alle aus dem **laufenden** Suchbegriff gebaut,
+          nicht aus dem Bestand. Der deutsche Titel ist aber der, unter dem Prime
+          einen Titel führt, wenn er ihn führt — er steht deshalb zuerst.
+        */
+        ...(auftragDe && auftragDe !== jetzigerBegriff
+          ? [
+              kastenKnopf(`Deutsch suchen: ${auftragDe}`, () => {
+                location.href = `https://www.amazon.de/s?k=${encodeURIComponent(auftragDe)}&i=instant-video`
+              }),
+            ]
+          : []),
         ...(auftragEn && auftragEn !== jetzigerBegriff
           ? [
               kastenKnopf(`Englisch suchen: ${auftragEn}`, () => {
@@ -3001,8 +3037,6 @@ async function speicherSchreiben(werte) {
    * einem Zahlenvergleich, und die Reihenfolge der Arcs ist eine Annahme.
    */
   let teilBereich = null
-  /** Kennungen der übrigen passenden Treffer derselben Suche — siehe `weitere=`. */
-  let weitereAusgaben = []
 
   function zeigeAuftragshinweis() {
     /*
@@ -7095,7 +7129,21 @@ async function speicherSchreiben(werte) {
       if (andereAdresse || andereFolgen) {
         alterHinweis.remove()
         try {
-          zeigeAuftragshinweis()
+          /*
+            **Auf einer Suchseite baut ihn `zeigeSuchhinweis()`, sonst `zeigeAuftragshinweis()`.**
+
+            Bis 4.1.3 stand hier nur der zweite. Auf Titelseiten genügte das, weil
+            der Pfad dort die Kennung trägt und ein Wechsel die Seite neu lädt.
+            Auf Suchseiten war `andereAdresse` nie wahr — der Pfad ist immer
+            `/s` —, also wurde der Kasten dort nie ersetzt: Er zeigte den Auftrag
+            von vorhin (Daniel, 31.08.2026).
+
+            Seit der Vergleich die Query einschließt, greift der Zweig auch dort.
+            Nur baute ihn danach niemand neu, und der Kasten war ganz weg
+            („wo ist die extension?"). Beide Bauer gehören hierher.
+          */
+          if (location.pathname === '/s' || location.pathname.startsWith('/s/')) zeigeSuchhinweis()
+          else zeigeAuftragshinweis()
         } catch {
           /* Ohne Auftrag gibt es nichts zu zeigen — der alte Kasten ist trotzdem weg. */
         }

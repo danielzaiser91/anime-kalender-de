@@ -343,8 +343,8 @@ pruefe('Beschreibung gelesen', (erste?.beschreibung ?? '').length > 40, (erste?.
   }
   const koerper = amazon.slice(von, bis)
   pruefe(
-    'das JSON steht vor der Adresse',
-    koerper.indexOf('gemeldeteStaffelNummer') < koerper.indexOf('staffelAusAdresse'),
+    'die Adresse steht vor dem JSON',
+    koerper.indexOf('staffelAusAdresse') < koerper.indexOf('gemeldeteStaffelNummer'),
     koerper.replace(/\s+/g, ' ').slice(0, 100),
   )
   pruefe(

@@ -644,6 +644,7 @@ pruefe('eine andere Jahresfassung zaehlt nicht als genauer Treffer', fremdesJahr
     'die Liste öffnet den beigelegten Suchbegriff',
     quelle.includes('verweis.href = e?.suchbegriff'),
   )
+  pruefe('der Kasten bietet den deutschen Titel zuerst', quelle.includes('Deutsch suchen:'))
   pruefe('der Kasten bietet die englische Schreibweise', quelle.includes('Englisch suchen:'))
 
   /*
