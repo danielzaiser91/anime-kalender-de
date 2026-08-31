@@ -57,3 +57,6 @@ nicht. Drei Fälle, drei Handgriffe:
 | primevideo | https://www.amazon.de/dp/B0CJQMS9J7 | Pokémon - Die TV-Serie: Sonne & Mond - Ultra-Abenteuer | dub | — | Titel von Hand suchen |
 | primevideo | https://www.amazon.de/dp/B0CMTJSRGZ | Pokémon - Die TV-Serie: Sonne & Mond - Ultra-Abenteuer | dub | — | Titel von Hand suchen |
 | primevideo | https://www.amazon.de/dp/B0CGMTLDJQ | Pokémon - Die TV-Serie: Sonne & Mond - Ultra-Abenteuer | dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/dp/B0H4BGKSTS | TERRAFORMARS | dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/dp/B0GW62KMTG | The Most Heretical Last Boss Queen | dub | [The Most Heretical Last Boss Queen: From Villainess to Savior](https://anilist.co/anime/156040) | Vorschlag bestätigen, dann Adresse eintragen |
+| primevideo | https://www.amazon.de/dp/B0CHDCVCFL | We Never Learn: BOKUBEN | kein_dub | [We Never Learn](https://anilist.co/anime/103900) | Vorschlag bestätigen, dann Adresse eintragen |
