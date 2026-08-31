@@ -1,28 +1,34 @@
 /**
- * **Wo eine Quelle einer belegten Synchro widerspricht, wird nachgesehen.**
+ * **Ein Verdacht entsteht aus einer Änderung, nicht aus einem Schweigen.**
  *
- * Daniel am 31.08.2026: „was wenn netflix morgen einen der gemeldeten anime
- * titel komplett rausnimmt aus dem angebot? wann bekommen wir es mit?"
+ * Daniel am 31.08.2026: „die wiedervorlage von motn sollte so funktionieren:
+ * Motn sagt die netflix synchro existiert -> wir speichern diese info ab ->
+ * motn ändert die aussage irgendwann in der zukunft -> wiedervorlage."
  *
- * Bei Crunchyroll und ADN merkt es ein Lauf. Bei Netflix, Prime und Disney+
- * gibt es keine öffentliche Sprachauskunft — dort steht ein `dub: true`, bis
- * jemand hinsieht. Der Link-Check merkt, wenn die **Seite** verschwindet; dass
- * nur die deutsche Tonspur wegfällt, merkt niemand.
+ * Die erste Fassung dieses Laufs (Vormittag desselben Tages) fragte etwas
+ * anderes: *Widerspricht die Quelle gerade unserem Bestand?* Das ergab 57
+ * Dauerfälle — Titel, für die MOTN einfach nie eine deutsche Tonspur kannte.
+ * Dorohedoro stand darunter, vollständig gemeldet und trotzdem als „bitte
+ * gegenprüfen" in der Prüfliste; im Kasten sah es aus, als fehlten 23 Folgen.
  *
- * Dieser Lauf schließt die Lücke, ohne die Regel zu brechen, die für diese
- * Quelle gilt: **Sie belegt, was da ist, nie was fehlt.** Ein fehlendes `de`
- * heißt dort „noch nicht bekannt" — bei `thunder-3` kannte sie Folge 7 zwei
- * Tage nach dem Erscheinen noch nicht.
+ * **Ein fehlendes `de` heißt dort „noch nicht bekannt", und das gilt in beide
+ * Richtungen.** Aus Schweigen wird kein Befund — auch keine Aufgabe. Was
+ * dagegen etwas aussagt, ist der **Wechsel**: Wer gestern Deutsch nannte und
+ * heute nicht mehr, hat eine Angabe zurückgenommen. Genau das passiert, wenn
+ * ein Anbieter die Lizenz verliert und die deutsche Fassung aus dem Angebot
+ * nimmt — der Fall, für den es hier überhaupt eine Prüfung gibt.
  *
- * Deshalb entsteht hier **kein `dub: false`**, sondern ein Verdachtsfall: Der
- * Titel kommt auf die Prüfliste, und ein Mensch entscheidet. Der Unterschied
- * ist der ganze Punkt — ein falsch entfernter Verweis fällt niemandem auf, er
- * ist einfach weg.
+ * Deshalb führt dieser Lauf zwei Dateien:
+ *
+ * - `data/motn-tonspur.json` — je Verweis die zuletzt gesehene Aussage. Sie
+ *   wächst mit jedem Lauf und ist der Vergleichsmaßstab. Ohne Vorstand gibt es
+ *   keinen Verdacht, nur einen ersten Eintrag.
+ * - `data/tonspur-verdacht.json` — die Wechsel von „deutsch" auf „nicht mehr
+ *   genannt". Nur diese kommen in die Prüfliste.
  *
  * **Gemeldet wird nur, wo die Quelle wirklich hingesehen hat.** Sie muss den
- * Titel bei genau diesem Anbieter führen (`gelistet` nicht leer) und für den
- * abgedeckten Folgenbereich keine deutsche Tonspur nennen. Kennt sie den Titel
- * dort gar nicht, ist ihr Schweigen keine Auskunft.
+ * Titel bei genau diesem Anbieter führen; kennt sie ihn dort gar nicht, ist ihr
+ * Schweigen keine Auskunft und der Vorstand bleibt unangetastet.
  *
  * Aufruf: `tsx pipeline/tonspur-verdacht.ts`
  */
@@ -38,16 +44,32 @@ import {
 } from './lib/adn.ts'
 import type { Title } from '../shared/types.ts'
 
-/** Ein Verweis, dem eine Quelle widerspricht — vorzulegen, nicht anzuwenden. */
+/** Was die Quelle zuletzt über einen Verweis gesagt hat. */
+interface Stand {
+  titleId: number
+  platform: string
+  /** Nannte sie eine deutsche Tonspur? */
+  deutsch: boolean
+  /** Der Folgenbereich, über den sie gesprochen hat. */
+  von: number
+  bis: number
+  /** Wann diese Aussage zuletzt bestätigt wurde. */
+  stand: string
+  /** Wann sie zuerst gesehen wurde. */
+  seit: string
+}
+
+/** Ein zurückgenommenes „deutsch" — vorzulegen, nicht anzuwenden. */
 interface Verdacht {
   titleId: number
   name: string
   platform: string
   url?: string
-  /** Der Folgenbereich, über den die Quelle spricht. */
   von: number
   bis: number
-  /** Wann der Verdacht zuerst auffiel. */
+  /** Seit wann die Quelle Deutsch nannte, bevor sie es zurücknahm. */
+  vorherSeit: string
+  /** Wann der Wechsel auffiel. */
   seit: string
   /** Wann er zuletzt bestätigt wurde — solange er steht, wächst dieses Datum. */
   zuletzt: string
@@ -57,6 +79,7 @@ interface Verdacht {
 const heute = new Date().toISOString().slice(0, 10)
 const titles = readJson<Title[]>('public/data/titles.json', [])
 const motn = readJson<MotnDaten>('data/motn.json', MOTN_LEER)
+const staende = readJson<Stand[]>('data/motn-tonspur.json', [])
 const bisher = readJson<Verdacht[]>('data/tonspur-verdacht.json', [])
 
 if (!Object.keys(motn.shows ?? {}).length) {
@@ -72,100 +95,132 @@ const belege = ordneShowsZu(
   tmdbZuordnung(readJson('data/tmdb-titles.json', {}), motn.tmdb),
 )
 
-const jeSchluessel = new Map(bisher.map((v) => [`${v.titleId}:${v.platform}`, v]))
-let neu = 0
-let bestaetigt = 0
-
 /**
- * **Nur wo diese Quelle unsere beste ist.**
+ * **Nur wo diese Quelle unsere beste zweite Meinung ist.**
  *
  * Bei Crunchyroll lesen wir den deutschen Katalog selbst, je Folge; bei ADN die
  * `vde`-Angabe je Folge. Beides ist genauer als MOTN — dort widerspricht die
  * schlechtere Quelle der besseren, und das ist kein Verdacht, sondern Rauschen.
- *
- * Der erste Lauf am 31.08.2026 zeigte es in einer Zahl: **228 der 291 Fälle
- * waren Crunchyroll**, und 218 hatten überhaupt keinen Handbeleg — ihr
- * `dub: true` kommt aus unserem eigenen Katalog-Lauf. Übrig bleiben die drei
- * Anbieter, bei denen MOTN wirklich die einzige zweite Meinung ist.
+ * Der erste Lauf am 31.08.2026 zeigte es in einer Zahl: 228 der 291 Fälle waren
+ * Crunchyroll.
  */
 const OHNE_EIGENE_QUELLE = new Set(['netflix', 'primevideo', 'disneyplus'])
 
+const jeSchluessel = new Map(staende.map((s) => [`${s.titleId}:${s.platform}`, s]))
+const verdachtJeSchluessel = new Map(bisher.map((v) => [`${v.titleId}:${v.platform}`, v]))
+
+let neuerStand = 0
+let bestaetigt = 0
+let neuerVerdacht = 0
+let zurueck = 0
+
 for (const beleg of belege) {
-  /* Nur der Widerspruch zählt: Die Quelle kennt den Titel dort und nennt kein Deutsch. */
-  if (beleg.deutsch) continue
   if (!OHNE_EIGENE_QUELLE.has(beleg.platform)) continue
   const titel = titles.find((t) => t.id === beleg.titleId)
-  const stream = titel?.streams?.find((s) => s.platform === beleg.platform)
-  /* Ein Verweis ohne belegte Synchro widerspricht nichts — er sagt ja nichts. */
-  if (!titel || stream?.dub !== true) continue
+  if (!titel) continue
 
   const schluessel = `${beleg.titleId}:${beleg.platform}`
-  const vorhanden = jeSchluessel.get(schluessel)
-  if (vorhanden) {
-    vorhanden.zuletzt = heute
-    delete vorhanden.erledigt
-    bestaetigt++
-    continue
+  const vorher = jeSchluessel.get(schluessel)
+
+  /*
+    **Der Wechsel, um den es geht: gestern deutsch, heute nicht mehr.**
+
+    Nur er wird zur Aufgabe. Die Gegenrichtung (die Quelle lernt eine Synchro
+    dazu) ist eine gute Nachricht und braucht keine Handarbeit — sie bestätigt
+    höchstens, was wir ohnehin führen.
+  */
+  if (vorher?.deutsch && !beleg.deutsch) {
+    const stream = titel.streams?.find((s) => s.platform === beleg.platform)
+    const vorhandener = verdachtJeSchluessel.get(schluessel)
+    if (vorhandener) {
+      vorhandener.zuletzt = heute
+      delete vorhandener.erledigt
+      bestaetigt++
+    } else {
+      verdachtJeSchluessel.set(schluessel, {
+        titleId: beleg.titleId,
+        name: titel.titleDe ?? titel.titleEn ?? titel.titleRomaji ?? String(titel.id),
+        platform: beleg.platform,
+        url: stream?.url,
+        von: beleg.von,
+        bis: beleg.bis,
+        vorherSeit: vorher.seit,
+        seit: heute,
+        zuletzt: heute,
+      })
+      neuerVerdacht++
+    }
   }
-  const eintrag: Verdacht = {
-    titleId: beleg.titleId,
-    name: titel.titleDe ?? titel.titleEn ?? titel.titleRomaji ?? String(titel.id),
-    platform: beleg.platform,
-    url: stream?.url,
-    von: beleg.von,
-    bis: beleg.bis,
-    seit: heute,
-    zuletzt: heute,
+
+  /*
+    **Ein Verdacht, den die Quelle zurücknimmt, wird abgeräumt.**
+
+    Nennt sie wieder Deutsch, war der Wechsel ein Aussetzer — genau deshalb ist
+    ein Widerspruch von ihr kein Urteil.
+  */
+  if (beleg.deutsch) {
+    const vorhandener = verdachtJeSchluessel.get(schluessel)
+    if (vorhandener && !vorhandener.erledigt) {
+      vorhandener.erledigt = heute
+      zurueck++
+    }
   }
-  jeSchluessel.set(schluessel, eintrag)
-  neu++
+
+  if (vorher) {
+    vorher.deutsch = beleg.deutsch
+    vorher.von = beleg.von
+    vorher.bis = beleg.bis
+    vorher.stand = heute
+  } else {
+    jeSchluessel.set(schluessel, {
+      titleId: beleg.titleId,
+      platform: beleg.platform,
+      deutsch: beleg.deutsch,
+      von: beleg.von,
+      bis: beleg.bis,
+      stand: heute,
+      seit: heute,
+    })
+    neuerStand++
+  }
 }
 
-/*
-  **Ein Verdacht, den die Quelle nicht mehr trägt, wird abgeräumt.**
+writeJson('data/motn-tonspur.json', [...jeSchluessel.values()], true)
 
-  Sie kann sich korrigieren — genau deshalb ist ein Widerspruch von ihr kein
-  Urteil. Wer nach dem heutigen Lauf nicht mehr bestätigt wurde, bekommt ein
-  Erledigt-Datum und verschwindet aus der Arbeitsliste, bleibt aber in der
-  Datei: Was einmal auffiel, ist beim nächsten Mal ein Muster.
-*/
-let abgeraeumt = 0
-for (const v of jeSchluessel.values()) {
-  if (v.zuletzt !== heute && !v.erledigt) {
-    v.erledigt = heute
-    abgeraeumt++
-  }
-}
-
-const alle = [...jeSchluessel.values()]
+const alle = [...verdachtJeSchluessel.values()]
 writeJson('data/tonspur-verdacht.json', alle, true)
 
 const offen = alle.filter((v) => !v.erledigt)
 const zeilen = [
   '# Tonspur-Verdacht',
   '',
-  'Verweise, für die wir eine deutsche Synchro belegt haben, während die Streaming Availability',
-  'API für denselben Anbieter **keine** deutsche Tonspur nennt.',
+  'Verweise, für die die Streaming Availability API **früher** eine deutsche Tonspur nannte und',
+  'jetzt keine mehr. Das ist die Frage, für die es diese Prüfung gibt: Verliert ein Anbieter die',
+  'Lizenz, nimmt er die deutsche Fassung aus dem Angebot, und niemand sagt es uns.',
   '',
-  '**Das ist kein Befund, sondern eine Frage.** Die Quelle belegt, was da ist, nie was fehlt —',
-  'bei `thunder-3` kannte sie eine Folge zwei Tage nach dem Erscheinen noch nicht. Ein Eintrag',
-  'hier heißt deshalb: Bitte einmal nachsehen, ob die deutsche Fassung noch da ist.',
+  '**Ein Schweigen ist kein Eintrag.** Kennt die Quelle einen Titel gar nicht auf Deutsch, steht',
+  'hier nichts — bei `thunder-3` kannte sie eine Folge zwei Tage nach dem Erscheinen noch nicht.',
+  'Nur der Wechsel von „deutsch" auf „nicht mehr genannt" zählt.',
   '',
-  'Gemeldet wird nur, wo die Quelle den Titel bei diesem Anbieter wirklich führt. Wo sie ihn gar',
-  'nicht kennt, steht hier nichts.',
+  'Der Vergleichsmaßstab steht in `data/motn-tonspur.json`: je Verweis die zuletzt gesehene',
+  'Aussage. Ohne Vorstand gibt es keinen Verdacht, nur einen ersten Eintrag.',
   '',
-  `Stand: ${heute} · ${offen.length} offen`,
+  `Stand: ${heute} · ${offen.length} offen · ${jeSchluessel.size} Verweise beobachtet`,
   '',
-  '| Titel | Anbieter | Folgen | seit | Verweis |',
-  '|---|---|---|---|---|',
+  '| Titel | Anbieter | Folgen | nannte Deutsch seit | Wechsel bemerkt | Verweis |',
+  '|---|---|---|---|---|---|',
   ...offen
     .sort((a, b) => (a.seit < b.seit ? -1 : 1))
-    .map((v) => `| ${v.name} | ${v.platform} | ${v.von}–${v.bis} | ${v.seit} | ${v.url ?? '—'} |`),
+    .map(
+      (v) =>
+        `| ${v.name} | ${v.platform} | ${v.von}–${v.bis} | ${v.vorherSeit} | ${v.seit} | ${v.url ?? '—'} |`,
+    ),
   '',
 ]
 writeFileSync(resolve(ROOT, 'daniel-zum-abarbeiten/13-tonspur-verdacht.md'), zeilen.join('\n'))
 
 log(
-  `${neu} neue(r) Verdachtsfall/-fälle, ${bestaetigt} bestätigt, ${abgeraeumt} abgeräumt — ` +
+  `${jeSchluessel.size} Verweise beobachtet (${neuerStand} neu) — ` +
+    `${neuerVerdacht} neue(r) Verdachtsfall/-fälle, ${bestaetigt} bestätigt, ${zurueck} zurückgenommen, ` +
     `${offen.length} offen`,
 )

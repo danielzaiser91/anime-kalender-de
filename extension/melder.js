@@ -337,6 +337,29 @@ function istGesucht() {
   )
 }
 
+/**
+ * **Eine geratene Staffelnummer ist schlechter als keine.**
+ *
+ * Netflix' `Season`-Knoten trägt keine Nummer, nur eine `videoId` (gemessen
+ * 31.08.2026). Der Leser vergibt sie deshalb nach der Reihenfolge, in der die
+ * Staffeln eintreffen — und die ist nicht die des Anbieters. Bei Black Clover
+ * kamen 168 Meldungen an als „St. 2: Folge 1–50, St. 3: 52–101, St. 1: 104–155".
+ * Die Folgennummern stimmten alle, die Staffeln keine einzige; im Kasten stand
+ * danach „✓ E104–155" neben „E1–103" schwarz, obwohl alles gemeldet war.
+ *
+ * **Wo die Nummern durchlaufen, wird die Staffel gar nicht gebraucht.** 1 bis
+ * 171 ohne Wiederholung sagt selbst, welche Folge gemeint ist; die Zuordnung
+ * zu unseren Einträgen macht ohnehin die Pipeline über die Folgennummer.
+ * Gebraucht wird sie nur dort, wo der Anbieter je Staffel neu bei 1 anfängt —
+ * und genau daran ist der Fall erkennbar.
+ */
+function staffelnBereinigen(folgen) {
+  const nummern = folgen.map((f) => f.nummer).filter((n) => Number.isFinite(n))
+  const jeStaffelNeu = nummern.length !== new Set(nummern).size
+  if (jeStaffelNeu) return folgen
+  return folgen.map((f) => (f.staffel == null ? f : { ...f, staffel: null }))
+}
+
 window.addEventListener('message', (e) => {
   if (e.source === window && e.data?.marke === 'ak-folgenliste') {
     /*
@@ -350,7 +373,7 @@ window.addEventListener('message', (e) => {
       e.data.fuerReihe && hier && String(e.data.fuerReihe) !== hier
         ? []
         : Array.isArray(e.data.folgen)
-          ? e.data.folgen
+          ? staffelnBereinigen(e.data.folgen)
           : []
     void durchlaufStandLaden(gemeinteReihe()).then(durchlaufKnopfZeigen)
     durchlaufKnopfZeigen()
@@ -1134,9 +1157,30 @@ async function merkeErledigt(id, staffel, folge) {
     }
   }
   if (!staffel) {
-    const offene = (offeneTitel[String(id)]?.staffeln ?? []).filter((x) => x.offen)
-    if (offene.length !== 1) return
-    staffel = offene[0].nr
+    /*
+      **Die Folgennummer sagt selbst, in welche Staffel sie gehört.**
+
+      Bis 4.9.2 verlangte diese Stelle „genau eine offene Staffel" und stieg
+      sonst aus. Bei Death Note (drei Staffeln) blieb Folge 31 deshalb schwarz,
+      obwohl die Meldung angekommen war; bei Black Clover standen 168 gemeldete
+      Folgen mit drei geratenen Staffelnummern im Speicher, und der Kasten zeigte
+      nur ein Drittel als erledigt (Daniel, 31.08.2026).
+
+      Die Prüfliste trägt je Staffel, wo ihre Zählung beginnt und wie weit sie
+      reicht — bei durchgezählten Reihen ist das die Antwort, ohne zu raten.
+    */
+    const alle = offeneTitel[String(id)]?.staffeln ?? []
+    const treffer = alle.find((x) => {
+      const von = x.erste ?? 1
+      return folge >= von && folge < von + (x.folgen ?? 0)
+    })
+    if (treffer) {
+      staffel = treffer.nr
+    } else {
+      const offene = alle.filter((x) => x.offen)
+      if (offene.length !== 1) return
+      staffel = offene[0].nr
+    }
   }
   const schluessel = String(id)
   const kuerzel = folgenKuerzel(staffel, folge)

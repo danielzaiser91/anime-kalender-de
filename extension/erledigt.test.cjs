@@ -246,6 +246,36 @@ pruefe('ohne Vermerke ist nichts erledigt',
   `async` und haengen an `chrome.storage`, ihr Fehler war aber ein
   weitergereichter Wert.
 */
+/*
+  **Eine geratene Staffelnummer ist schlechter als keine.**
+
+  Netflix' Season-Knoten traegt keine Nummer; der Leser vergibt sie nach der
+  Reihenfolge des Eintreffens. Bei Black Clover kamen 168 Meldungen an als
+  "St. 2: 1-50, St. 3: 52-101, St. 1: 104-155" — die Folgennummern stimmten
+  alle, die Staffeln keine einzige (Daniel, 31.08.2026).
+*/
+{
+  const von = quelle.indexOf('function staffelnBereinigen')
+  eval(quelle.slice(von, quelle.indexOf('\n}\n', von) + 3))
+  const durch = staffelnBereinigen([
+    { nummer: 1, staffel: 2 },
+    { nummer: 2, staffel: 2 },
+    { nummer: 104, staffel: 1 },
+  ])
+  pruefe(
+    'bei durchlaufenden Nummern faellt die geratene Staffel weg',
+    durch.every((f) => f.staffel === null),
+  )
+  const jeStaffel = staffelnBereinigen([
+    { nummer: 1, staffel: 1 },
+    { nummer: 1, staffel: 2 },
+    { nummer: 2, staffel: 2 },
+  ])
+  pruefe(
+    'zaehlt der Anbieter je Staffel neu, bleibt sie stehen',
+    jeStaffel.every((f) => f.staffel !== null),
+  )
+}
 for (const name of ['durchlaufMelden', 'randMelden']) {
   const von = quelle.indexOf('async function ' + name)
   const block = quelle.slice(von, quelle.indexOf('\n}\n', von))

@@ -1,0 +1,2702 @@
+[
+  {
+    "titleId": 15,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1,
+    "bis": 145,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 30,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 26,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 33,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 1,
+    "bis": 25,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 33,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1,
+    "bis": 25,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 467,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 1,
+    "bis": 26,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 801,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 27,
+    "bis": 52,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 66,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 1,
+    "bis": 26,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 226,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 486,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 527,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 1,
+    "bis": 276,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 527,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1,
+    "bis": 276,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 1564,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 277,
+    "bis": 468,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 1564,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 277,
+    "bis": 468,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 1565,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 469,
+    "bis": 659,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 1565,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 469,
+    "bis": 659,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 9107,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 660,
+    "bis": 743,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 9107,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 660,
+    "bis": 743,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 14123,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 744,
+    "bis": 744,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 14123,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 744,
+    "bis": 744,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 14093,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 745,
+    "bis": 768,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 14093,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 745,
+    "bis": 768,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 126294,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 769,
+    "bis": 770,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 126294,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 769,
+    "bis": 770,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 17115,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 771,
+    "bis": 784,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 17115,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 771,
+    "bis": 784,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 17873,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 785,
+    "bis": 804,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 17873,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 785,
+    "bis": 804,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 19291,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 805,
+    "bis": 897,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 19291,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 805,
+    "bis": 897,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 20956,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 898,
+    "bis": 898,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 20956,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 898,
+    "bis": 898,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 21356,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 899,
+    "bis": 945,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 21356,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 899,
+    "bis": 945,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 97634,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 946,
+    "bis": 1091,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 97634,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 946,
+    "bis": 1091,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 97635,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 1092,
+    "bis": 1109,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 97635,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1092,
+    "bis": 1109,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 112153,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 1110,
+    "bis": 1245,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 112153,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1110,
+    "bis": 1245,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 119964,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 1246,
+    "bis": 1253,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 119964,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1246,
+    "bis": 1253,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 138699,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 1254,
+    "bis": 1261,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 138699,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1254,
+    "bis": 1261,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 158870,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 1262,
+    "bis": 1272,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 158870,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1262,
+    "bis": 1272,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 877,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1,
+    "bis": 47,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 169228,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 14,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 1535,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1,
+    "bis": 37,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 2548,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 1,
+    "bis": 48,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 100401,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 103049,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 13,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 3624,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 26,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 4581,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 5034,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 14,
+    "bis": 25,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 5630,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 11,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 10087,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 11741,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 14,
+    "bis": 25,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 9756,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 9926,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 11123,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 13,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 9941,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 25,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 117197,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 26,
+    "bis": 38,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 151803,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 39,
+    "bis": 50,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 9989,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 1,
+    "bis": 11,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 11771,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1,
+    "bis": 25,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 16894,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 26,
+    "bis": 50,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 20725,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 51,
+    "bis": 75,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 11887,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 14813,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 20698,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 14,
+    "bis": 26,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 108489,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 27,
+    "bis": 38,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 20464,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 25,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 20992,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 26,
+    "bis": 50,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 21698,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 51,
+    "bis": 60,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 106625,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 61,
+    "bis": 73,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 113538,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 74,
+    "bis": 85,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 20574,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 108581,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 13,
+    "bis": 21,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 20613,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 20665,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 22,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 20755,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 22,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 21170,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 23,
+    "bis": 47,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 20770,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 20631,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 20931,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 110364,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 1,
+    "bis": 52,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 20964,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 20966,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 21131,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 21390,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 13,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 21275,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 21507,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 101338,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 13,
+    "bis": 25,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 140439,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 26,
+    "bis": 37,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 21516,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1,
+    "bis": 26,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 21665,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 102498,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 13,
+    "bis": 18,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 21827,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 100341,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1,
+    "bis": 26,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 97682,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 98073,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 97940,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1,
+    "bis": 170,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 97986,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 114745,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 14,
+    "bis": 25,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 98449,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 98491,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 147571,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 13,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 99088,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 8,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 99230,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 99263,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 25,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 111321,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 26,
+    "bis": 38,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 111322,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 39,
+    "bis": 50,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 173780,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 51,
+    "bis": 62,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 99725,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 100010,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 100179,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 100663,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 109911,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 14,
+    "bis": 19,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 147729,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 20,
+    "bis": 31,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 100665,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 10,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 100673,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 100891,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 111048,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 13,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 146638,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 25,
+    "bis": 36,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 169692,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 37,
+    "bis": 52,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 101004,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 117448,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 13,
+    "bis": 22,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 101281,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 102835,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 101500,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 11,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 101347,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 101348,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 1,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 101348,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 136430,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 25,
+    "bis": 48,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 136430,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 25,
+    "bis": 48,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 101349,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 101759,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 108725,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 13,
+    "bis": 23,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 101597,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 101705,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 6,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 103222,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 103572,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 103572,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 109261,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 13,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 109261,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 13,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 103638,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 1,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 119837,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 132477,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 14,
+    "bis": 26,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 105096,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 15,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 110686,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 16,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 109586,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 105228,
+    "platform": "disneyplus",
+    "deutsch": false,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 105228,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 173172,
+    "platform": "disneyplus",
+    "deutsch": true,
+    "von": 13,
+    "bis": 23,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 173172,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 13,
+    "bis": 23,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 105333,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 113936,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 25,
+    "bis": 35,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 131518,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 36,
+    "bis": 46,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 162670,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 47,
+    "bis": 57,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 172019,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 58,
+    "bis": 69,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 189117,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 70,
+    "bis": 81,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 199221,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 82,
+    "bis": 94,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 105807,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 112686,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 13,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 150654,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 18,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 107660,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 114194,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 13,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 136880,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 25,
+    "bis": 36,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 187267,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 37,
+    "bis": 48,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 107693,
+    "platform": "disneyplus",
+    "deutsch": true,
+    "von": 1,
+    "bis": 23,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 116338,
+    "platform": "disneyplus",
+    "deutsch": false,
+    "von": 24,
+    "bis": 44,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 139092,
+    "platform": "disneyplus",
+    "deutsch": false,
+    "von": 45,
+    "bis": 65,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 184492,
+    "platform": "disneyplus",
+    "deutsch": false,
+    "von": 66,
+    "bis": 89,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 108357,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 5,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 108356,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 7,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 108450,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 108430,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 11,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 108465,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 11,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 127720,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 12,
+    "bis": 23,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 146065,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 24,
+    "bis": 36,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 166873,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 37,
+    "bis": 48,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 178789,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 49,
+    "bis": 62,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 108598,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 109020,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 109217,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 4,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 110353,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 111131,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 112357,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 10,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 112444,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 113415,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 113415,
+    "platform": "disneyplus",
+    "deutsch": true,
+    "von": 1,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 113415,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 145064,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 25,
+    "bis": 47,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 145064,
+    "platform": "disneyplus",
+    "deutsch": false,
+    "von": 25,
+    "bis": 47,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 145064,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 25,
+    "bis": 47,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 172463,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 48,
+    "bis": 59,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 172463,
+    "platform": "disneyplus",
+    "deutsch": false,
+    "von": 48,
+    "bis": 59,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 172463,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 48,
+    "bis": 59,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 116566,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 119683,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 25,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 144932,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 26,
+    "bis": 50,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 120120,
+    "platform": "disneyplus",
+    "deutsch": false,
+    "von": 1,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 142853,
+    "platform": "disneyplus",
+    "deutsch": false,
+    "von": 25,
+    "bis": 37,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 163329,
+    "platform": "disneyplus",
+    "deutsch": false,
+    "von": 38,
+    "bis": 50,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 120377,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 10,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 124080,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 124494,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 4,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 124786,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 125428,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 125426,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 5,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 132193,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 6,
+    "bis": 10,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 154982,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 11,
+    "bis": 15,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 125447,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 11,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 131930,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 6,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 126791,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 127399,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 138056,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 13,
+    "bis": 22,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 165356,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 23,
+    "bis": 27,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 187921,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 28,
+    "bis": 42,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 128705,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 128893,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 128893,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 166613,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 14,
+    "bis": 25,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 166613,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 14,
+    "bis": 25,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 129192,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 129201,
+    "platform": "disneyplus",
+    "deutsch": true,
+    "von": 1,
+    "bis": 25,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 130706,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 109946,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 132405,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 154768,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 13,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 133965,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 142984,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 13,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 135429,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 8,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 135643,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 6,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 135806,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 137822,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 163146,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 25,
+    "bis": 38,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 139589,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 10,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 140291,
+    "platform": "disneyplus",
+    "deutsch": true,
+    "von": 1,
+    "bis": 8,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 141391,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 175914,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 14,
+    "bis": 25,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 144677,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 159926,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 25,
+    "bis": 39,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 146210,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 146493,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 153906,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 6,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 147103,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 150672,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 11,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 150672,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1,
+    "bis": 11,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 166531,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 12,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 166531,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 12,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 182587,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 25,
+    "bis": 35,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 182587,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 25,
+    "bis": 35,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 151970,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 25,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 154116,
+    "platform": "disneyplus",
+    "deutsch": false,
+    "von": 1,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 153930,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 154965,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 158539,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 8,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 155015,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 8,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 154999,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 160831,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 6,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 157960,
+    "platform": "disneyplus",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 158417,
+    "platform": "disneyplus",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 178781,
+    "platform": "disneyplus",
+    "deutsch": true,
+    "von": 13,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 163137,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 10,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 163138,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 6,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 166710,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 10,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 175642,
+    "platform": "disneyplus",
+    "deutsch": true,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 171115,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 184560,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 13,
+    "bis": 26,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 175198,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 176158,
+    "platform": "primevideo",
+    "deutsch": false,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 177106,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 8,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 177474,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 177474,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 177679,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 177689,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 177709,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 11,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 184237,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 12,
+    "bis": 22,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 177887,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 179302,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 177814,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 8,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 179813,
+    "platform": "disneyplus",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 180436,
+    "platform": "disneyplus",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 181444,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 181841,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 184989,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 186043,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 186621,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 186914,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 188139,
+    "platform": "disneyplus",
+    "deutsch": false,
+    "von": 1,
+    "bis": 11,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 195600,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 195600,
+    "platform": "disneyplus",
+    "deutsch": false,
+    "von": 1,
+    "bis": 24,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 196935,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 198113,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 198188,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 8,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 103303,
+    "platform": "netflix",
+    "deutsch": false,
+    "von": 1,
+    "bis": 13,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 202955,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 20,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 206914,
+    "platform": "primevideo",
+    "deutsch": true,
+    "von": 1,
+    "bis": 12,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  },
+  {
+    "titleId": 208352,
+    "platform": "netflix",
+    "deutsch": true,
+    "von": 1,
+    "bis": 7,
+    "stand": "2026-08-31",
+    "seit": "2026-08-31"
+  }
+]

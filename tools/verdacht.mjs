@@ -1,11 +1,17 @@
 /**
  * **Verdachtsfälle gehören in die Prüfliste, nicht in eine Markdown-Datei.**
  *
- * `pipeline/tonspur-verdacht.ts` findet Verweise, für die wir eine deutsche
- * Synchro belegt haben, während die Streaming Availability API für denselben
- * Anbieter keine nennt. Bis zum 31.08.2026 landeten sie nur in
+ * `pipeline/tonspur-verdacht.ts` findet Verweise, bei denen die Streaming
+ * Availability API ihre eigene Aussage **zurückgenommen** hat: früher deutscher
+ * Ton, jetzt keiner mehr. Bis zum 31.08.2026 landeten sie nur in
  * `daniel-zum-abarbeiten/13-tonspur-verdacht.md` — einer Datei, die Daniel
  * neben der Erweiterung hätte abarbeiten müssen.
+ *
+ * **Ein Schweigen ist kein Verdacht.** Die erste Fassung fragte, ob die Quelle
+ * unserem Bestand gerade widerspricht — das ergab 57 Dauerfälle, darunter
+ * Dorohedoro, vollständig gemeldet und trotzdem als offen dargestellt. Daniels
+ * Vorgabe: „motn sagt es gibt keine deutsche synchro -> nächster motn lauf sagt
+ * auch keine de -> keine wiedervorlage."
  *
  * Sein Einwand: „das kann doch alles auf die prüfliste und mit extension
  * gecheckt werden oder nicht?" Kann es, und genau dort gehört es hin: Ein
@@ -42,5 +48,8 @@ export function verdachtsfaelle(wurzel, plattform) {
 
 /** Der Satz, der im Kasten der Erweiterung steht. */
 export function verdachtHinweis(v) {
-  return `Wiedervorlage: Wir führen hier deutsche Synchro, eine zweite Quelle nennt seit ${v.seit} keine — bitte gegenprüfen`
+  return (
+    `Wiedervorlage: Eine zweite Quelle nannte hier seit ${v.vorherSeit} deutschen Ton ` +
+    `und tut es seit ${v.seit} nicht mehr — bitte gegenprüfen`
+  )
 }
