@@ -3215,7 +3215,33 @@ async function speicherSchreiben(werte) {
       27.08.2026). Eine Fassung, die nur „ab Staffel 2" prüft, hätte das
       durchgelassen.
     */
-    const falscheStaffel = Number.isFinite(offeneStaffel) && offeneStaffel !== gesuchteStaffel
+    /*
+      **Eine fehlende Staffelangabe ist keine Eins.**
+
+      `staffelImTitel()` gibt 1 zurück, wenn im Titel keine Nummer steht — als
+      **Standardwert**, nicht als Feststellung. Die Warnung behandelte ihn wie
+      eine: Bei „Tokyo Ghoul:re" (das ist Staffel 3, trägt die Zahl aber nirgends)
+      stand auf der Staffel-3-Seite „Hier steht Staffel 3 — gesucht ist Staffel 1",
+      obwohl alle Staffeln längst gemeldet waren (Daniel, 31.08.2026).
+
+      Gewarnt wird deshalb nur, wenn der Auftragstitel eine Staffel wirklich
+      **nennt**. Der Fall, für den die Warnung gebaut wurde, bleibt gedeckt:
+      „Goblin Slayer" gegen Staffel 2 fiel darunter, weil dort die Seite die
+      Nummer trägt — und „Call of the Night: Season 2" nennt sie im Auftrag.
+    */
+    /* Zusammengesetzt statt als Literal: Ein Regex mit Escapes überlebt keinen Patch. */
+    const NENNT_STAFFEL = new RegExp(
+      [
+        '\\b(?:staffel|season|teil|part|cour|plate)\\s*\\d+\\b',
+        '\\b\\d+(?:st|nd|rd|th)?\\s*(?:staffel|season)\\b',
+        '\\b(?:second|zweite|third|dritte|fourth|vierte|fifth)\\b',
+        '\\s[2-9]\\s*$',
+      ].join('|'),
+      'i',
+    )
+    const auftragNenntStaffel = NENNT_STAFFEL.test(auftrag.titel ?? '')
+    const falscheStaffel =
+      auftragNenntStaffel && Number.isFinite(offeneStaffel) && offeneStaffel !== gesuchteStaffel
     /*
       **Der Knopf entsteht rund 950 Zeilen weiter unten — vorher wirft jeder
       Zugriff.**
