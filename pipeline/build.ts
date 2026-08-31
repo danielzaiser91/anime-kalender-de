@@ -229,14 +229,33 @@ function schreibeOhneSynchro(bekannt: Map<number, number>, verschoben: Title[] =
    * bei achtzehntausend Titeln rund 900 KB. `loadOhneSynchro` setzt sie beim
    * Laden, sodass der Rest der Anwendung sie wie gewohnt vorfindet.
    */
+  /**
+   * **Deutsche Titel kommen von aniSearch, nicht von AniList.**
+   *
+   * AniList führt keine. „Ein Landei aus dem Dorf vor dem letzten Dungeon sucht
+   * das Abenteuer in der Stadt" stand deshalb nur unter seinem englischen Namen
+   * hier, und Daniel fand ihn am 31.08.2026 nicht — obwohl Prime ihn genau so
+   * anzeigt. Sein Urteil: „anilist ist müll, die bessere quelle ist anisearch."
+   *
+   * `pipeline/fetch-anisearch-titel.ts` holt sie über die Kennung aus
+   * `data/anime-ids.json`; die Begründung für aniSearch statt TMDB steht dort
+   * und in `status.md`.
+   */
+  const ausAnisearch = readJson<Record<string, { titel?: string }>>(
+    'data/anisearch-titel.json',
+    {},
+  )
   const ohne = eintraege
     .filter((e) => !bekannt.has(e.id))
     .map((e) => {
       const [romaji, englisch, japanisch] = e.t
+      const deutsch = ausAnisearch[String(e.id)]?.titel
       return {
         id: e.id,
         titleRomaji: romaji ?? undefined,
         titleEn: englisch ?? undefined,
+        /* Nur, wenn er wirklich etwas Neues sagt — sonst steht dieselbe Zeichenkette zweimal. */
+        titleDe: deutsch && deutsch !== englisch && deutsch !== romaji ? deutsch : undefined,
         titleNative: japanisch ?? undefined,
         format: e.format ?? undefined,
         episodes: e.folgen ?? undefined,

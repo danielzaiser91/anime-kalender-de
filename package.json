@@ -30,6 +30,7 @@
     "data:icons": "tsx pipeline/build-icons.ts",
     "data:anisearch-folgen": "tsx pipeline/fetch-anisearch-folgen.ts",
     "data:anisearch": "tsx pipeline/fetch-anisearch.ts",
+    "data:anisearch-titel": "tsx pipeline/fetch-anisearch-titel.ts",
     "data:voices": "tsx pipeline/fetch-voices.ts",
     "data:anisearch:check": "tsx pipeline/check-anisearch.ts",
     "data:disc-proposals": "tsx pipeline/extract-disc-dates.ts",
