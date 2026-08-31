@@ -539,6 +539,16 @@ writeFileSync(
   resolve(wurzel, 'extension/offene-amazon-suche.js'),
   'globalThis.AK_PRIME_SUCHE = ' + JSON.stringify(suche) + '\n',
 )
+/*
+  **Dieselbe Liste noch einmal als JSON — für die Erweiterung im Betrieb.**
+
+  Die Fassung darüber steckt im Paket und altert ab dem Moment, in dem es
+  gepackt wurde. Am 31.08.2026 sagte die Erweiterung „Prime: alles geprüft",
+  während die Statusanzeige 24 offene Suchen zeigte: Dazwischen lag ein
+  Tiefendurchlauf mit 25 neuen Aufträgen, und beide hatten recht. Die
+  Erweiterung holt diese Datei jetzt beim Start; die gepackte bleibt Rückfall.
+*/
+writeFileSync(resolve(wurzel, 'public/data/prime-suche.json'), JSON.stringify(suche) + '\n')
 console.log(`${Object.keys(suche).length} Prime-Suchadressen ohne Titelseite`)
 if (schonGeprueft) {
   console.log(`  ${schonGeprueft} Auftrag/Aufträge ausgelassen — schon geprüft, auch ohne Urteil`)

@@ -1688,7 +1688,55 @@ async function speicherSchreiben(werte) {
   }
 
   const liste = globalThis.AK_OFFENE_AMAZON ?? {}
-  const suchliste = globalThis.AK_PRIME_SUCHE ?? {}
+  /**
+   * **Die Prüflisten kommen von der Seite, nicht aus dem Paket.**
+   *
+   * Beide Listen stecken als Datei in der Erweiterung und altern damit ab dem
+   * Moment, in dem sie gepackt wurde. Am 31.08.2026 sagte die Erweiterung
+   * „Prime: alles geprüft", während die Statusanzeige 24 offene Suchen zeigte —
+   * beide hatten recht, nur lag zwischen ihnen ein Tiefendurchlauf, der 25 neue
+   * Aufträge erzeugt hatte. Daniel: „single source of truth."
+   *
+   * Beim Start wird deshalb nachgeladen, was der Bau zuletzt veröffentlicht hat.
+   * Die gepackte Fassung bleibt als Rückfall: Ohne Netz oder mit einer alten
+   * Seite arbeitet die Erweiterung weiter, nur eben mit dem Stand von damals.
+   *
+   * Zwischengespeichert wird in `chrome.storage.local` — ein Abruf je zehn
+   * Minuten reicht für eine Liste, die sich im Takt der Datenläufe ändert, und
+   * ein neuer Prime-Tab kostet dann nichts.
+   */
+  let suchliste = globalThis.AK_PRIME_SUCHE ?? {}
+  const FRISCH_MS = 10 * 60 * 1000
+  const QUELLE = 'https://anime-kalender.de/data/prime-suche.json'
+  ;(async () => {
+    try {
+      const { primeSuche } = await chrome.storage.local.get('primeSuche')
+      if (primeSuche?.stand && Date.now() - primeSuche.stand < FRISCH_MS) {
+        if (primeSuche.liste) uebernehmen(primeSuche.liste)
+        return
+      }
+      const antwort = await fetch(QUELLE, { cache: 'no-store' })
+      if (!antwort.ok) return
+      const frisch = await antwort.json()
+      if (frisch && typeof frisch === 'object' && Object.keys(frisch).length) {
+        await chrome.storage.local.set({ primeSuche: { stand: Date.now(), liste: frisch } })
+        uebernehmen(frisch)
+      }
+    } catch {
+      /* Ohne Netz bleibt die gepackte Liste — sie ist alt, aber sie trägt. */
+    }
+  })()
+
+  /** Die frische Liste einsetzen und alles neu zeichnen, was aus ihr liest. */
+  function uebernehmen(frisch) {
+    if (JSON.stringify(frisch) === JSON.stringify(suchliste)) return
+    suchliste = frisch
+    try {
+      uebersichtZeichnen()
+    } catch {
+      /* Der Kasten steht noch nicht — dann zeichnet ihn der nächste Takt. */
+    }
+  }
 
   // --- Suchseiten: der Weg zur echten Titelseite ----------------------------
 

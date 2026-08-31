@@ -946,6 +946,23 @@ pruefe(
   /url: ohneZuordnung \?/.test(quelle),
 )
 
+
+/*
+  **Die Prüfliste kommt von der Seite, nicht aus dem Paket.**
+
+  Beide Listen stecken als Datei in der Erweiterung und altern ab dem Packen.
+  Am 31.08.2026 sagte die Erweiterung „Prime: alles geprüft", während die
+  Statusanzeige 24 offene Suchen zeigte — dazwischen lag ein Tiefendurchlauf
+  mit 25 neuen Aufträgen. Daniel: „single source of truth."
+
+  `tools/extension-offene-amazon.mjs` schreibt die Liste zusätzlich als
+  `public/data/prime-suche.json`; die Erweiterung holt sie beim Start und hält
+  sie zehn Minuten in `chrome.storage.local`.
+*/
+pruefe('die Suchliste wird von der Seite nachgeladen', quelle.includes('prime-suche.json'))
+pruefe('die gepackte Liste bleibt Rückfall', quelle.includes('globalThis.AK_PRIME_SUCHE ?? {}'))
+pruefe('nachgeladen wird zwischengespeichert', /chrome\.storage\.local[\s\S]{0,200}primeSuche/.test(quelle))
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) rot.`)
   process.exit(1)
