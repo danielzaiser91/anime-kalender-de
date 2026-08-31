@@ -26547,3 +26547,36 @@
   available: false
   checkedAt: '2026-08-31'
   note: "Suche auf Prime Video: kein einziger Treffer"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-31 ---
+
+- anilistId: 105807
+  title: "7 Seeds"
+  platform: netflix
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 23, dazwischen nicht geprüft — Folge 23: Große Kälte"
+
+- anilistId: 101281
+  title: "Carole und Tuesday"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 2
+      to: 11
+      dub: true
+      checked: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+  checkedAt: '2026-08-31'
+  note: "Folgen 2–11 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 2 und 23, dazwischen nicht geprüft — Folge 23: Don’t Stop Believin’"
+
+- anilistId: 1535
+  title: "Death Note"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 2
+      to: 36
+      dub: true
+      checked: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 32, 33, 34, 35, 36]
+  checkedAt: '2026-08-31'
+  note: "Folgen 2–36 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, cs|Tschechisch, hu|Ungarisch — ANGENOMMEN aus Randprobe — gemessen: Folge 2 und 36, dazwischen nicht geprüft — Folge 36: 28.01."
