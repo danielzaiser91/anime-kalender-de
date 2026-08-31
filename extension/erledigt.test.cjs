@@ -230,6 +230,35 @@ pruefe('ohne Vermerke ist nichts erledigt',
     naechsteUebernahme(um(16, 5)).getSeconds(),
   )
 }
+/*
+  **Die Staffel der Folge reist bis zum Vermerk mit.**
+
+  Zwei Stellen gaben stattdessen die des Players weiter, und beide haben
+  gekostet (31.08.2026):
+
+  - `durchlaufMelden` hakte mit `null` ab. `merkeErledigt` leitet die Staffel
+    dann aus "genau eine offene" ab und steigt bei mehreren aus — bei Death Note
+    blieb Folge 31 schwarz, obwohl die Meldung angekommen war.
+  - `randMelden` stempelte alle Folgen einer Randprobe mit der Staffel der einen
+    gemessenen. Bei Dorohedoro landeten so 1, 12 und 13 in Staffel 1.
+
+  Geprüft wird die Quelle, nicht ein Nachbau: Beide Funktionen sind
+  `async` und haengen an `chrome.storage`, ihr Fehler war aber ein
+  weitergereichter Wert.
+*/
+for (const name of ['durchlaufMelden', 'randMelden']) {
+  const von = quelle.indexOf('async function ' + name)
+  const block = quelle.slice(von, quelle.indexOf('\n}\n', von))
+  pruefe(
+    `${name} liest die Staffel an der Folge`,
+    /Number\.isFinite\((f|folge)\??\.staffel\)/.test(block),
+  )
+  pruefe(
+    `${name} hakt nicht mit einer erratenen Staffel ab`,
+    /merkeErledigt\([^;\n]*staffelDerFolge/.test(block),
+  )
+}
+
 const fehler = faelle.filter((x) => !x).length
 console.log(fehler ? `\n${fehler} Fall/Fälle durchgefallen` : '\n✓ Geprüftes wird sichtbar')
 process.exit(fehler ? 1 : 0)

@@ -2529,3 +2529,44 @@ zu lesen.
 Damit bleibt der **Klick aus der Prüfliste** der einzige Weg, eine Weiterleitung
 zu erkennen. Er wird seit 4.0.3 dauerhaft gemerkt (`netflixWeiterleitungen`),
 also genügt er einmal je Titel; ein Reload danach ändert nichts mehr.
+
+### Ein Wert, der weiterreicht, muss überall dieselbe Quelle haben
+
+Am 31.08.2026 zeigte die Prüfliste für Death Note weiter „E31" als offen,
+obwohl die Meldung um 22:35 angekommen war. Zwei Zeilen auseinander stand in
+`durchlaufMelden`:
+
+```
+staffel: stand.staffel ?? DURCHLAUF.staffel ?? null,   ← in die Meldung
+await merkeErledigt(gemeinteReihe(), null, folge.nummer)   ← in den Vermerk
+```
+
+Die Meldung bekam die Staffel, der lokale Vermerk nicht. `merkeErledigt`
+leitet sie dann aus „genau eine offene Staffel" ab und **steigt bei jedem
+Titel mit mehreren aus** — bei Death Note (drei) ohne ein Wort.
+
+Dieselbe Verwechslung eine Funktion weiter, mit teurerer Folge: `randMelden`
+stempelte **alle** Folgen einer Randprobe mit der Staffel der einen
+gemessenen. `befund` ist die Messung *einer* Folge; ihre Staffel gilt nicht
+für die übrigen. Bei Dorohedoro landeten 1, 12 und 13 in Staffel 1 und der
+Rest in Staffel 2 — die Reihenfolge, in der der Player sie meldete, nicht die
+des Anbieters.
+
+**Der Schaden war im Bestand angekommen**, und zwar so, dass er richtig
+aussah: `dub: true` stimmte überall, nur die Bereiche waren falsch. Gemessen
+über alle Netflix-Meldungen (Kriterium: lückenlose Folgenspanne über die ganze
+Reihe, mindestens acht Punkte, Staffelnummer nicht monoton) waren es fünf
+Reihen — Death Note stand mit „2–36" im Datensatz, obwohl 1 bis 37 gemeldet
+waren, Carole & Tuesday mit „2–11" bei 24 Folgen.
+
+**Repariert wird so etwas, indem man die falsche Angabe wegnimmt, nicht indem
+man sie berichtigt:** Die 132 Meldungen haben ihre Staffelnummer verloren und
+stehen wieder als offen. Ohne sie ordnet `ordneMeldungZu` über die
+Folgennummer zu, und das ist bei durchlaufender Zählung genau richtig. Eine
+Staffelnummer, die aus einer Verwechslung stammt, von Hand zu korrigieren
+hieße, dieselbe Vermutung noch einmal anzustellen.
+
+**Die allgemeine Form:** Wo ein Wert an zwei Empfänger geht, gehört er in
+**eine** Variable über beiden. Zwei Ausdrücke, die dasselbe meinen sollen,
+laufen auseinander — hier reichte dafür, dass der eine drei Zeilen später
+geschrieben wurde als der andere.
