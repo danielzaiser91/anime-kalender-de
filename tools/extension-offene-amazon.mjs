@@ -20,7 +20,15 @@
  * Ein Mensch, der eine Seite ansieht, nutzt die Lizenz bestimmungsgemäß —
  * ein Abrufer nicht. Die vollständige Bewertung steht in `status.md`.
  *
- * Aufruf: node tools/extension-offene-amazon.mjs
+ * **Aufruf: npm run data:extension-liste** — nicht dieses Werkzeug allein.
+ *
+ * Die Prüfliste der Erweiterung und der Prüfstand der Statusanzeige zählen
+ * dasselbe aus zwei Dateien. Wer nur eine erneuert, erzeugt einen Widerspruch,
+ * den niemand als Fehler erkennt: Am 31.08.2026 sagte die Erweiterung „alles
+ * geprüft" und die Statusanzeige „3 Suchen" — beide hatten recht, nur stand
+ * `public/data/pruefstand.json` noch auf dem Stand von vorher.
+ *
+ * Das npm-Skript ruft beide auf, dazu die Vorschläge und die Wiedervorlage.
  */
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
