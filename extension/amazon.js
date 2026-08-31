@@ -1014,17 +1014,22 @@ async function speicherSchreiben(werte) {
       Steht die Kennung aus der Adresse im Text (bei Sekirei 91-mal), ist ihr
       Umfeld die richtige Stelle.
     */
-    const eigene = asinAusAdresse()
-    if (eigene) {
-      const html = seitenHtml()
-      if (typeof html === 'string') {
-        const stelle = html.indexOf(eigene)
-        if (stelle >= 0) {
-          const n = /"seasonNumber\\*"\s*:\s*(\d+)/.exec(html.slice(stelle, stelle + 900))?.[1]
-          if (n) return Number(n)
-        }
-      }
-    }
+    /*
+      **Hier stand bis 4.1.7 eine zweite Suche über den ganzen Quelltext.**
+
+      Sie sollte die `seasonNumber` im Umfeld der Adress-Kennung finden statt
+      bei der ersten `titleID`. Der Gedanke stimmt — der Preis nicht: Der Aufruf
+      lag in `staffelSchluessel()`, das mehrfach je Takt läuft, und jeder
+      `seitenHtml()`-Aufruf baut bei Prime **zwei Megabyte** neu auf.
+
+      Daniel am 31.08.2026: „horrible performance … es dauert 5 sec bis der
+      hover effekt von einer kachel aktiviert wird", dazu ein Tab mit **9,4 GB**
+      und `setInterval handler took 1228ms` in der Konsole.
+
+      Die Staffelnummer kommt jetzt wieder allein aus der Adresse und aus dem
+      Mitleser — beides kostet nichts. Dieselbe Lehre wie am 28.08.2026: Wer
+      den Quelltext ein weiteres Mal liest, zahlt dafür bei jedem Takt.
+    */
     const html = seitenHtml()
     if (typeof html !== 'string') return null
     // Im Umkreis der ersten titleID suchen — das ist die gerade gezeigte
@@ -6193,9 +6198,11 @@ async function speicherSchreiben(werte) {
       Folgen, deutsch — von Daniel Minuten später von dort gemeldet). Die
       Abo-Seite führt sie nicht, und genau das ist die Auskunft, die gefehlt hat.
     */
+    /* Einmal fragen, zweimal verwenden — `seitenLage()` liest `body.innerText`. */
+    const lageJetzt = seitenLage()
     if (
-      !seitenLage().hatFolgenReiter &&
-      !seitenLage().folgenLautSeite &&
+      !lageJetzt.hatFolgenReiter &&
+      !lageJetzt.folgenLautSeite &&
       !istFilm &&
       !fehlerseite &&
       !regionWeg &&
