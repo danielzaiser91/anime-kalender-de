@@ -26343,3 +26343,207 @@
   available: false
   checkedAt: '2026-08-28'
   note: "Suche auf Prime Video: kein einziger Treffer"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-31 ---
+
+- anilistId: 232
+  title: "Cardcaptor Sakura"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GYDLTDD8
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: 日本語 — Amazon-Seite B0GYDLTDD8: alle 35 Folgen geprüft, Abos: animedigitalde, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 5081
+  title: "Bakemonogatari"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FRB2TRSF
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: 日本語 — Amazon-Seite B0FRB2TRSF: alle 15 Folgen geprüft, Abos: animedigitalde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 450
+  title: "InuYasha: Der Film - Das Traumschloss im Inneren der Spiegel"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FXS96LSG
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, Deutsch [Audiobeschreibung], 日本語 — Amazon-Seite B0FXS96LSG: alle 1 Folge geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 452
+  title: "InuYasha: Der Film - Gefühle, die die Zeit überwinden"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FWZ4L2B2
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, Deutsch [Audiobeschreibung], 日本語 — Amazon-Seite B0FWZ4L2B2: Film geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 449
+  title: "InuYasha: Der Film - Die Insel Hourai im Flammenmeer"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-31'
+  note: "Suche auf Prime Video: kein einziger Treffer"
+
+- anilistId: 451
+  title: "InuYasha: Der Film - Die Schwerter, die die Welt unterwerfen"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FV7Z1617
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, Deutsch [Audiobeschreibung], 日本語 — Amazon-Seite B0FV7Z1617: alle 1 Folge geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 2553
+  title: "Niklaas, ein Junge aus Flandern"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0G5D2R3N5
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0G5D2R3N5: alle 52 Folgen geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"
+
+- anilistId: 4513
+  title: "Erzählung einer weißen Schlange"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CNV3F1FX
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CNV3F1FX: alle 1 Folge geprüft, Abos: Prime, asiatic, zugang=abo_und_kauf"
+
+- anilistId: 2554
+  title: "Wunderbare Pollyanna"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0C7QCV5B4
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, Unknown — Amazon-Seite B0C7QCV5B4: alle 51 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 3010
+  title: "Z wie Zorro"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0G6SS22J4
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0G6SS22J4: alle 26 Folgen geprüft, Abos: flimmerkistetvde, aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 3010
+  title: "Z wie Zorro"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GFP5CLMN
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0GFP5CLMN: alle 26 Folgen geprüft, Abos: flimmerkistetvde, aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 1887
+  title: "Lucky Star"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CHH6TTQ6
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High, 日本語 — Amazon-Seite B0CHH6TTQ6: alle 24 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf"
+
+- anilistId: 1972
+  title: "Die Abenteuer des Sherlock Holmes"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DKK3W5VG
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0DKK3W5VG: alle 13 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf"
+
+- anilistId: 1972
+  title: "Die Abenteuer des Sherlock Holmes"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DM9QW32J
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0DM9QW32J: alle 13 Folgen geprüft, Abos: Prime — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf"
+
+- anilistId: 2547
+  title: "Die kleine Prinzessin Sara"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DNDM7MMT
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNDM7MMT: alle 46 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 3842
+  title: "Die Schatzinsel: Das große Abenteuer der Tiere"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FPKHXY28
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0FPKHXY28: alle 1 Folge geprüft, Abos: Prime, zugang=abo_und_kauf"
+
+- anilistId: 310
+  title: "Drei kleine Geister"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-31'
+  note: "Suche auf Prime Video: kein einziger Treffer"
+
+- anilistId: 3755
+  title: "Däumelinchen"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0F8P9SV71
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0F8P9SV71: alle 1 Folge geprüft, Abos: Prime, zugang=abo_und_kauf"
+
+- anilistId: 2236
+  title: "Das Mädchen, das durch die Zeit sprang"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0G2T3JPQ8
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0G2T3JPQ8: alle 1 Folge geprüft, Abos: aniversede, rtlde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 1430
+  title: "Das Schloss des Cagliostro"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FXJHK6WL
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0FXJHK6WL: alle 1 Folge geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"
+
+- anilistId: 5084
+  title: "Das Mädchen mit dem Zauberhaar"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B00LANS6P2
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch — Amazon-Seite B00LANS6P2: alle 1 Folge geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"
+
+- anilistId: 2569
+  title: "Das Dschungelbuch: Die Serie"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GSVYYYV8
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0GSVYYYV8: alle 26 Folgen geprüft, Abos: flimmerkistetvde, aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 3751
+  title: "Anja und die vier Jahreszeiten"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0B763S682
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0B763S682: alle 1 Folge geprüft, Abos: Prime, zugang=abo_und_kauf"
+
+- anilistId: 3791
+  title: "Air Gear: Special Trick"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-31'
+  note: "Titelseite auf Prime Video geöffnet und geprüft: Sie gehört nicht zu diesem Titel"
+
+- anilistId: 1862
+  title: "Strike Witches OVA"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GW5MXZY5
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0GW5MXZY5: alle 1 Folge geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 2574
+  title: "Pinocchio"
+  platform: primevideo
+  available: false
+  checkedAt: '2026-08-31'
+  note: "Suche auf Prime Video: kein einziger Treffer"

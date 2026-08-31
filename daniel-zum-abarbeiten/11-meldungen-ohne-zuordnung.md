@@ -58,3 +58,6 @@ nicht. Drei Fälle, drei Handgriffe:
 | primevideo | https://www.amazon.de/dp/B0GW62KMTG | The Most Heretical Last Boss Queen | dub | [The Most Heretical Last Boss Queen: From Villainess to Savior](https://anilist.co/anime/156040) | Vorschlag bestätigen, dann Adresse eintragen |
 | primevideo | https://www.amazon.de/s?k=Tokyo%20Ghoul%3Are&i=instant-video | Tokyo Ghoul:re | dub | [Tokyo Ghoul:re](https://anilist.co/anime/100240)<br>[Tokyo Ghoul:re](https://anilist.co/anime/102351) | Vorschlag bestätigen, dann Adresse eintragen |
 | primevideo | https://www.amazon.de/dp/B0CHDCVCFL | We Never Learn: BOKUBEN | kein_dub | [We Never Learn](https://anilist.co/anime/103900) | Vorschlag bestätigen, dann Adresse eintragen |
+| primevideo | https://www.amazon.de/dp/B0H2PWXL7B | Card Captor Sakura | kein_dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/dp/B0GWVR4Q9Z | Card Captor Sakura | kein_dub | — | Titel von Hand suchen |
+| primevideo | https://www.amazon.de/dp/B0GTMQYMQ5 | Das Dschungelbuch | dub | [Das Dschungelbuch: Die Serie](https://anilist.co/anime/2569) | Vorschlag bestätigen, dann Adresse eintragen |

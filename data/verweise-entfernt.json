@@ -1,5 +1,5 @@
 {
-  "stand": "2026-08-31T14:09:44.691Z",
+  "stand": "2026-08-31T16:19:07.723Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -1819,7 +1819,7 @@
       "seriesId": "GR79X4W46",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-08-21",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 451,
@@ -1829,7 +1829,7 @@
       "seriesId": "G61XWG4Z6",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-08-21",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 449,
@@ -1849,7 +1849,7 @@
       "seriesId": "G6QWD8N26",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-08-21",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 8841,
@@ -3159,7 +3159,7 @@
       "seriesId": "GY8V7NP8Y",
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 111852,
@@ -3479,7 +3479,7 @@
       "seriesId": null,
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-08-21",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 21087,
@@ -3959,7 +3959,7 @@
       "seriesId": "G4PH0WZVE",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-08-21",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 110224,
@@ -4449,7 +4449,7 @@
       "seriesId": "GYX0JEW3R",
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-08-26",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 12549,
@@ -4689,7 +4689,7 @@
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 235,
@@ -5069,7 +5069,7 @@
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 5231,
