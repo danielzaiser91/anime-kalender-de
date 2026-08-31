@@ -41,6 +41,7 @@
  */
 import { readJson, log, warn, ROOT } from './lib/util.ts'
 import { resolve } from 'node:path'
+import { existsSync, readFileSync } from 'node:fs'
 import { loadDubChecks } from './lib/dub-confirmed.ts'
 import { beurteile, type CrDubData } from './lib/crunchyroll-dub.ts'
 import { beurteileAdnVerweis, ladeAdnArchiv } from './lib/adn-sprachen.ts'
@@ -304,6 +305,52 @@ log('── aniSearch: was die Datenbank kennt und wir nicht ──')
   if (anteil > 35) {
     warn(`Mehr als ein Drittel der aniSearch-Verweise kommt nicht an (${anteil.toFixed(0)} %).`)
     alleSauber = false
+  }
+}
+
+/**
+ * **Prüfliste und Prüfstand zählen dasselbe — also müssen sie dasselbe sagen.**
+ *
+ * Die Erweiterung liest `extension/offene-amazon-suche.js`, die Statusanzeige
+ * über den Worker `public/data/pruefstand.json`. `tools/pruefstand.mjs` baut
+ * seine `suchAdressen` schon heute aus der ersten Datei — es gibt also nur eine
+ * Quelle, solange beide **im selben Zug** entstehen.
+ *
+ * Am 31.08.2026 taten sie das nicht: Nach einem Beleg-Nachtrag war nur die
+ * Prüfliste neu erzeugt. Die Erweiterung sagte „alles geprüft", die
+ * Statusanzeige „3 Suchen", und beide hatten recht. Daniel: „single source of
+ * truth."
+ *
+ * Diese Zusicherung findet den Fall: Weichen die Mengen ab, ist eine der beiden
+ * Dateien älter, und der Aufruf war ein einzelnes Werkzeug statt
+ * `npm run data:extension-liste`.
+ */
+{
+  const suchdatei = resolve(ROOT, 'extension/offene-amazon-suche.js')
+  const standdatei = resolve(ROOT, 'public/data/pruefstand.json')
+  if (existsSync(suchdatei) && existsSync(standdatei)) {
+    const roh = readFileSync(suchdatei, 'utf8')
+    const ausListe = new Set(
+      [...roh.matchAll(/"(https:\/\/www\.amazon\.de\/s\?k=[^"]+)"\s*:/g)].map((m) => m[1]),
+    )
+    const stand = JSON.parse(readFileSync(standdatei, 'utf8')) as {
+      anbieter?: Array<{ plattform?: string; suchAdressen?: string[] }>
+    }
+    const ausStand = new Set(
+      (stand.anbieter ?? []).find((a) => a.plattform === 'primevideo')?.suchAdressen ?? [],
+    )
+    const nurListe = [...ausListe].filter((u) => !ausStand.has(u))
+    const nurStand = [...ausStand].filter((u) => !ausListe.has(u))
+    if (nurListe.length || nurStand.length) {
+      warn(
+        `Prüfliste und Prüfstand widersprechen sich: ${ausListe.size} gegen ${ausStand.size} ` +
+          `Suchadressen (nur in der Liste: ${nurListe.length}, nur im Prüfstand: ${nurStand.length}). ` +
+          'Beide entstehen mit `npm run data:extension-liste` — einzeln aufgerufen laufen sie auseinander.',
+      )
+      alleSauber = false
+    } else {
+      log(`✓ Prüfliste und Prüfstand nennen dieselben ${ausListe.size} Suchadressen.`)
+    }
   }
 }
 
