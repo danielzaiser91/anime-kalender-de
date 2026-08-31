@@ -1,6 +1,6 @@
 # Netflix: was kein Automat beantworten kann
 
-Stand 2026-08-30 · **13 Titel**.
+Stand 2026-08-31 · **12 Titel**.
 
 Netflix gibt seine Tonspuren nur an einen laufenden Player heraus — fünfmal gemessen,
 fünfmal bestätigt. Es gibt keinen Abruf, der das hier abnehmen könnte.
@@ -34,5 +34,4 @@ Erzeugt von `npm run data:netflix-rest`, nicht von Hand pflegen.
 | 9 | Pretty Guardian Sailor Moon Eternal: Der Film | 1 | 2021 | [öffnen](https://www.netflix.com/title/81214399) |
 | 10 | Dorohedoro: Teuflische Anekdoten | 1 | 2020 | [öffnen](https://www.netflix.com/title/80991903) |
 | 11 | Mushoku Tensei: Jobless Reincarnation - Eris auf Goblinjagd | 1 | 2022 | [öffnen](https://www.netflix.com/title/80987039) |
-| 12 | Pokémon: Blauer Himmel in der Ferne! | 1 | 2022 | [öffnen](https://www.netflix.com/title/81670593) |
-| 13 | Gintama the Movie 2026: Yoshiwara in Flames | 1 | 2026 | [öffnen](https://www.netflix.com/title/82968180) |
+| 12 | Gintama the Movie 2026: Yoshiwara in Flames | 1 | 2026 | [öffnen](https://www.netflix.com/title/82968180) |

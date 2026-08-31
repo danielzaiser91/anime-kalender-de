@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-30T13:40:01.561Z",
+  "scrapedAt": "2026-08-31T12:23:40.672Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -41940,7 +41940,7 @@
       "seriesId": "G1XHJV0G7",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-08-22",
+      "geprueftAm": "2026-08-31",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -132433,6 +132433,25 @@
           "staffelId": "GRWEC3D88",
           "folgen": 20,
           "kacheln": 20,
+          "deutsch": 0,
+          "fremd": 0,
+          "deutscheFassung": false
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/series/GP5HJ845X/25-dimensional-seduction",
+      "seriesId": "GP5HJ845X",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-08-31",
+      "deutschImAngebot": false,
+      "staffeln": [
+        {
+          "name": "2.5 Dimensional Seduction",
+          "staffelId": "GR2PCVEJV",
+          "folgen": 24,
+          "kacheln": 24,
           "deutsch": 0,
           "fremd": 0,
           "deutscheFassung": false

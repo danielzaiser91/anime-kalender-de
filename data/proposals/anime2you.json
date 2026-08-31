@@ -1,6 +1,27 @@
 {
-  "scrapedAt": "2026-08-31T10:53:25.875Z",
+  "scrapedAt": "2026-08-31T12:32:35.337Z",
   "proposals": [
+    {
+      "articleTitle": "»Kubo Won’t Let Me Be Invisible« erscheint als Blu-ray-Komplettbox",
+      "articleUrl": "https://www.anime2you.de/news/1044503/kubo-wont-let-me-be-invisible-blu-ray-komplettbox/",
+      "publishedAt": "2026-08-31",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-19",
+          "context": "»Kubo Won’t Let Me Be Invisible« erscheint nach aktueller Planung am 19. November 2026 in einer Komplettbox auf Blu-ray, […] Der Beitrag"
+        },
+        {
+          "month": "2026-11",
+          "context": "t auf Blu-ray veröffentlichen wird. Wir fassen zusammen. Disc-Release im November 2026 »Kubo Won’t Let Me Be Invisible« erscheint nach aktue"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "»A Gatherer’s Adventure in Isekai« erscheint als Blu-ray-Komplettbox",
       "articleUrl": "https://www.anime2you.de/news/1044440/a-gatherers-adventure-in-isekai-blu-ray-komplettbox/",
