@@ -357,8 +357,39 @@
     return { ...seite, folgen }
   }
 
-  /* Für welche Adresse der Hydration-Block schon gelesen wurde. */
+  /**
+   * **Für welchen Stand des Hydration-Blocks schon gelesen wurde.**
+   *
+   * Bis 4.1.10 stand hier nur die Adresse. Wer einmal gelesen hatte, las nie
+   * wieder — auch dann nicht, wenn der Block beim ersten Griff erst zwei von
+   * dreizehn Folgen trug und Amazon ihn Sekundenbruchteile später vollständig
+   * nachreichte.
+   *
+   * Genau das ist am 31.08.2026 an „Encouragement of Climb" Staffel 1
+   * (`B0GP83RCNX`, 13 Folgen) passiert: Der Knopf blieb auf „2 gelesen — 11
+   * fehlen noch" stehen, nach einem Neuladen war alles da. Der Kommentar in
+   * `schritt()` warnt seit dem 25.08.2026 vor genau diesem Muster — er meinte
+   * aber nur den vollständigen Fehlschlag. Der **halbe** Erfolg ist derselbe
+   * Fall: Ein Merker, der eine Verzögerung festhält, macht sie zum Dauerzustand.
+   *
+   * Der Finger ist deshalb Adresse **plus Länge des Blocks**. Wächst der Block,
+   * wird neu gelesen und neu gesendet; der Empfänger sammelt je Folgennummer,
+   * doppelt Gesendetes schadet dort nicht. Bleibt er gleich, passiert nichts.
+   */
   let hydrationFuer = null
+
+  /**
+   * **Gemessen wird die Länge des Textknotens, nicht der Text selbst.**
+   *
+   * `block.textContent` würde je Takt bis zu zwei Megabyte neu aufbauen — das
+   * ist die Bauweise, die am 31.08.2026 einen Prime-Tab auf 9,4 GB und den
+   * Hover-Effekt auf fünf Sekunden gebracht hat. `CharacterData.length` ist
+   * dagegen eine Zahl, die schon dasteht.
+   */
+  function hydrationFinger() {
+    const knoten = document.getElementById('dv-web-page-hydration-data')?.firstChild
+    return `${location.pathname}${location.search}#${knoten?.length ?? 0}`
+  }
 
   /**
    * **Die Adresse, unter der der laufende Abruf begonnen hat.**
@@ -985,10 +1016,11 @@
       Fehlschlag darf keine Verzögerung in einen Dauerzustand verwandeln
       („Jujutsu Kaisen 0" blieb so auf „nicht abrufbar" stehen).
     */
-    if (hydrationFuer !== location.pathname + location.search) {
+    const finger = hydrationFinger()
+    if (hydrationFuer !== finger) {
       const seite = ausHydration()
       if (seite) {
-        hydrationFuer = location.pathname + location.search
+        hydrationFuer = finger
         window.postMessage(
           {
             marke: MARKE,

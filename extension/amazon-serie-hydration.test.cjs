@@ -354,6 +354,30 @@ pruefe('Beschreibung gelesen', (erste?.beschreibung ?? '').length > 40, (erste?.
   )
 }
 
+/*
+  **Ein halb gefüllter Hydration-Block darf kein Dauerzustand werden.**
+
+  Daniel am 31.08.2026 an „Encouragement of Climb" Staffel 1 (`B0GP83RCNX`, 13
+  Folgen): Der Knopf blieb auf „2 gelesen — 11 fehlen noch"; nach einem Neuladen
+  war alles da. Der Merker `hydrationFuer` trug nur die Adresse und wurde beim
+  ersten Treffer gesetzt — auch wenn dieser Treffer erst zwei Folgen umfasste.
+
+  Er trägt jetzt zusätzlich die Länge des Blocks. Wächst der Block, wird neu
+  gelesen; der Empfänger sammelt je Folgennummer, doppelt Gesendetes schadet
+  nicht.
+*/
+{
+  pruefe('der Merker trägt einen Finger, nicht nur die Adresse', quelle.includes('hydrationFuer !== finger'))
+  pruefe('der Finger nimmt die Länge des Blocks mit', /firstChild[\s\S]{0,200}length/.test(quelle))
+  /*
+    Und er nimmt sie über `CharacterData.length`, nicht über `textContent`:
+    Zwei Megabyte je Takt neu aufzubauen war die Bauweise, die den Tab am
+    31.08.2026 auf 9,4 GB gebracht hat.
+  */
+  const fn = quelle.slice(quelle.indexOf('function hydrationFinger()'))
+  pruefe('… ohne den Text neu aufzubauen', !fn.slice(0, 300).includes('textContent'))
+}
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) rot.`)
   process.exit(1)
