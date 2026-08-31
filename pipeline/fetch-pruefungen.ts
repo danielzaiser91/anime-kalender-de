@@ -158,6 +158,41 @@ for (const t of liste) {
   }
 }
 
+/**
+ * **Eine Suchadresse trägt den Titel, mit dem wir sie gebaut haben.**
+ *
+ * Unsere Prüfliste erzeugt Prime-Suchen als
+ * `https://www.amazon.de/s?k=<Titel>&i=instant-video`. Der Titel steht dort im
+ * Klartext, und er stammt aus **unserem** Bestand — nicht von Amazon. Wer ihn
+ * zurückliest und im Bestand genau einen Treffer findet, hat keine Ähnlichkeit
+ * geraten, sondern die Adresse gelesen.
+ *
+ * Das schließt eine Lücke, die der Namensabgleich nicht schließen kann: Die
+ * Erweiterung meldet den Titel, den **Amazon** anzeigt. Bei „Code Geass: Akito
+ * the Exiled - The Wyvern Arrives" führen wir „… - Der zerrissene Wyvern", der
+ * Name trifft also nicht — die Adresse dagegen nennt genau unseren englischen
+ * Titel. Am 31.08.2026 lagen 17 solcher Meldungen im Briefkasten, jede mit
+ * eindeutigem Vorschlag und keine zugeordnet.
+ *
+ * `mitTeilnummer()` hängt an mehrteilige Titel „— Teil N" an; das fällt beim
+ * zweiten Versuch weg.
+ */
+function ausSuchadresse(url: string): number[] {
+  let begriff: string | null = null
+  try {
+    begriff = new URL(url).searchParams.get('k')
+  } catch {
+    return []
+  }
+  if (!begriff) return []
+  const versuche = [begriff, begriff.replace(/\s+[—–-]\s+Teil\s+\d+\s*$/i, '')]
+  for (const v of versuche) {
+    const treffer = [...new Set(nachTitel.get(titelSchluessel(v)) ?? [])]
+    if (treffer.length === 1) return treffer
+  }
+  return []
+}
+
 /** Ein Zeitpunkt als Datum in Ortszeit Europe/Berlin. */
 function berlinDatum(iso: string): string {
   return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Berlin' }).format(new Date(iso))
@@ -171,6 +206,8 @@ let uebernommen = 0
 let selbstZugeordnet = 0
 /** Meldungen, die über ihre Staffelnummer an den richtigen Titel der Reihe gingen. */
 let nachStaffelZugeordnet = 0
+/** Meldungen, deren Suchadresse den Titel im Klartext trug. */
+let ausSuchadresseZugeordnet = 0
 const offenGeblieben: string[] = []
 /** Meldungen, deren Adresse unser Datensatz nicht kennt — samt Namensvorschlag. */
 /**
@@ -273,6 +310,13 @@ for (const p of pruefungen) {
 for (const gruppe of jeAdresse.values()) {
   const p = gruppe[gruppe.length - 1]!
   let ids = nachUrl.get(schluesselAdresse(p.url)) ?? []
+  if (!ids.length && p.url.includes('/s?k=')) {
+    const ausAdresse = ausSuchadresse(p.url)
+    if (ausAdresse.length) {
+      ids = ausAdresse
+      ausSuchadresseZugeordnet++
+    }
+  }
   if (!ids.length) {
     // Der Titel ist die letzte Chance — und nur ein Vorschlag: Ein Name ist
     // eine Ähnlichkeit, kein Beleg.
@@ -823,6 +867,9 @@ if (Object.keys(anbieterStruktur).length && !TROCKEN) {
 log(
   `${pruefungen.length} Prüfungen abgeholt, ${uebernommen} Einträge geschrieben` +
     (selbstZugeordnet ? `, ${selbstZugeordnet} über den Namen zugeordnet` : '') +
+    (ausSuchadresseZugeordnet
+      ? `, ${ausSuchadresseZugeordnet} über den Titel in der Suchadresse`
+      : '') +
     (nachStaffelZugeordnet
       ? `, ${nachStaffelZugeordnet} über die Staffelnummer an den Titel der Reihe`
       : '') +

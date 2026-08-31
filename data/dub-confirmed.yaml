@@ -26244,3 +26244,102 @@
   dub: true
   checkedAt: '2026-08-31'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0H4XQ2NNZ: alle 51 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-31 ---
+
+- anilistId: 154587
+  title: "Frieren: Nach dem Ende der Reise"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GH8MS7WZ
+  dub: true
+  checkedAt: '2026-08-27'
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Polski, Polski [Opis audio], Português (Brasil), 日本語 — Amazon-Seite B0GH8MS7WZ: alle 28 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 21833
+  title: "Mademoiselle Hanamura 1 - Aufbruch zu modernen Zeiten"
+  platform: primevideo
+  url: https://www.amazon.de/s?k=Haikara-san%3A%20Here%20Comes%20Miss%20Modern%20%E2%80%93%20Part%201&i=instant-video
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Suche auf Prime Video: kein einziger Treffer"
+
+- anilistId: 100652
+  title: "Mademoiselle Hanamura 2 - Eine Romanze in Tokyo"
+  platform: primevideo
+  url: https://www.amazon.de/s?k=Haikara-san%3A%20Here%20Comes%20Miss%20Modern%20%E2%80%93%20Part%202&i=instant-video
+  available: false
+  checkedAt: '2026-08-27'
+  note: "Suche auf Prime Video: kein einziger Treffer"
+
+- anilistId: 21212
+  title: "Ajin - Demi-Human: Impulse"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FWYJYCYW
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0FWYJYCYW: alle 1 Folge geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"
+
+- anilistId: 20764
+  title: "Arpeggio of Blue Steel: Ars Nova - Cadenza"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GKYNG36B
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0GKYNG36B: alle 1 Folge geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 100745
+  title: "Captain Tsubasa"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GXPFJJZK
+  dub: true
+  dubRanges:
+    - from: 49
+      to: 52
+      dub: false
+      checked: [49, 50, 51, 52]
+    - from: 53
+      to: 91
+      dub: true
+      checked: [53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91]
+  checkedAt: '2026-08-28'
+  note: "Folgen 49–52 ohne deutschen Ton, Folgen 53–91 mit deutschem Ton — Tonspuren: Deutsch, English, Español (Latinoamérica), Français, Português (Brasil), 日本語 — Amazon-Seite B0GXPFJJZK: nur 43 von 91 Folgen geladen — Rest ungeprüft, Abos: crunchyrollde, Seitenadresse: B0GXPFJJZK, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 8888
+  title: "Code Geass: Akito the Exiled - Der zerrissene Wyvern"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CH782B56
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, Français, 日本語 — Amazon-Seite B0CH782B56: alle 1 Folge geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 15197
+  title: "Code Geass: Akito the Exiled - Der zerrissene Wyvern"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CK5P8ZZR
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, Français, 日本語 — Amazon-Seite B0CK5P8ZZR: alle 1 Folge geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 21178
+  title: "Code Geass: Akito the Exiled - To The Beloved"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CJY19RYP
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, Français, 日本語 — Amazon-Seite B0CJY19RYP: Film geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 97734
+  title: "Digimon Adventure tri. Chapter 4: Lost"
+  platform: primevideo
+  url: https://www.amazon.de/s?k=Digimon%20Adventure%20tri.%20Chapter%204%3A%20Loss&i=instant-video
+  available: false
+  checkedAt: '2026-08-28'
+  note: "Suche auf Prime Video: kein einziger Treffer"
+
+- anilistId: 98402
+  title: "Digimon Adventure tri. Chapter 5: Coexistence"
+  platform: primevideo
+  url: https://www.amazon.de/s?k=Digimon%20Adventure%20tri.%20Chapter%205%3A%20Coexistance&i=instant-video
+  available: false
+  checkedAt: '2026-08-28'
+  note: "Suche auf Prime Video: kein einziger Treffer"
