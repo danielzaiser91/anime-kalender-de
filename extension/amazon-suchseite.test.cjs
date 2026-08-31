@@ -645,6 +645,19 @@ pruefe('eine andere Jahresfassung zaehlt nicht als genauer Treffer', fremdesJahr
     quelle.includes('verweis.href = e?.suchbegriff'),
   )
   pruefe('der Kasten bietet den deutschen Titel zuerst', quelle.includes('Deutsch suchen:'))
+
+  /*
+    **Der Auftrag wird auch unter seinem Suchbegriff wiedererkannt.**
+
+    Seit 4.1.1 öffnet die Liste den beigelegten Suchbegriff statt der Adresse
+    aus dem Bestand. `offeneSuche()` verglich aber weiter nur gegen den
+    Listenschlüssel — nach einem Klick gab es deshalb keinen Auftrag und keinen
+    Kasten (Daniel, 31.08.2026, Diagnose mit `suchauftrag: null`).
+  */
+  pruefe(
+    'offeneSuche kennt Schlüssel, deutschen und englischen Begriff',
+    quelle.includes('wert.suchbegriff === begriff') && quelle.includes('wert.suchbegriffEn === begriff'),
+  )
   pruefe('der Kasten bietet die englische Schreibweise', quelle.includes('Englisch suchen:'))
 
   /*

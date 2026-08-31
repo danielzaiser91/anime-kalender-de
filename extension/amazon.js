@@ -1746,7 +1746,29 @@ async function speicherSchreiben(werte) {
     if (!begriff) return null
     for (const [url, wert] of Object.entries(suchliste)) {
       try {
-        if (new URLSearchParams(new URL(url).search).get('k') === begriff) {
+        /*
+          **Der Auftrag wird auch unter seinem Suchbegriff wiedererkannt.**
+
+          Seit 4.1.1 öffnet die Prüfliste nicht mehr die Adresse aus dem
+          Bestand, sondern den beigelegten `suchbegriff` — den deutschen Titel
+          ohne Gattungswörter. Der Vergleich lief aber weiter nur gegen den
+          `k`-Parameter des Listenschlüssels, und der trägt den alten Begriff.
+
+          Folge: Nach einem Klick aus der Liste fand `offeneSuche()` nichts, es
+          gab keinen Auftrag, und der Kasten blieb aus (Daniel, 31.08.2026:
+          „immer noch keine hinweise nach klick auf eintrag in prüfliste" —
+          Diagnose zeigte `suchauftrag: null` bei 129 offenen Suchen).
+
+          Verglichen wird deshalb gegen alle drei Schreibweisen: den Schlüssel,
+          den deutschen Suchbegriff und den englischen. Gemeldet wird weiterhin
+          unter `suchUrl` — der Adresse aus dem Bestand.
+        */
+        const ausSchluessel = new URLSearchParams(new URL(url).search).get('k')
+        if (
+          ausSchluessel === begriff ||
+          (wert?.suchbegriff && wert.suchbegriff === begriff) ||
+          (wert?.suchbegriffEn && wert.suchbegriffEn === begriff)
+        ) {
           return { ...wert, suchUrl: url }
         }
       } catch {
