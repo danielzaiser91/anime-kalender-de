@@ -153,7 +153,22 @@ const bekannt = new Set(verpasst.map((v) => v.id))
 let neu = 0
 for (const e of ereignisse) {
   if (!e.estimated || bekannt.has(e.id)) continue
-  /* Nur, wo wirklich hingesehen wurde — sonst ist „nichts gefunden" keine Auskunft. */
+  /*
+    **Nur Crunchyroll — dort gibt es einen Kalender, den wir lesen.**
+
+    Der erste Lauf am 31.08.2026 meldete vier verpasste Termine, drei davon
+    falsch: „The Ghost in the Shell" und „Vom Landei zum Schwertheiligen II"
+    auf Prime, „Thunder 3" auf Netflix. Zu keiner dieser Plattformen führen
+    wir einen Sendekalender — dort **kann** es per Bauart keine Beobachtung
+    geben, und jeder geschätzte Termin wäre automatisch verpasst.
+
+    Daniel hat es sofort gesehen: „sind die anderen 3 wirklich verpasst? ich
+    hab es nicht geprüft, wie hast du es mitbekommen?" Genau die richtige
+    Frage — „keine Beobachtung" ist nur dort eine Auskunft, wo jemand
+    hingesehen hat.
+  */
+  if (e.platform !== 'crunchyroll') continue
+  /* Und nur im gelesenen Fenster — davor hat auch bei Crunchyroll niemand hingesehen. */
   if (e.date < von || e.date > bis) continue
   if (JETZT.getTime() - zeitpunkt(e).getTime() < KARENZ_MS) continue
   const treffer = beobachtungen(e.releaseSlug).some(
