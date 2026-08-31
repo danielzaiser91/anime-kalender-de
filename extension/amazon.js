@@ -2922,8 +2922,25 @@ async function speicherSchreiben(werte) {
           : kastenZeile('ak-such-warn', 'Kein Treffer bei Prime'),
         kastenZeile(
           'ak-such-hinweis',
+          /*
+            **„Anderes Werk" stimmt nicht, wenn die Reihe danebensteht.**
+
+            Daniel am 31.08.2026 an „Two Car: Racing Sidecar": Die Karte heißt
+            bei Prime schlicht „Two Car" — derselbe Anime, nur ohne Untertitel.
+            Der Wortvergleich verlangt aber **alle** Auftragswörter in der
+            Karte, und „racing sidecar" fehlt dort; ein Präfix-Treffer wäre zu
+            riskant, weil er „Sword Art Online" auf „… Alicization" treffen
+            ließe.
+
+            Der Kasten bietet den richtigen Weg trotzdem an — „Zur Reihe
+            springen" —, sagte darüber aber „Anderes Werk". Zwei Zeilen, die
+            einander widersprechen. Steht ein Reihen-Treffer bereit, sagt die
+            Zeile jetzt, was Sache ist.
+          */
           nurAehnlich
-            ? 'Anderes Werk — gehört zu einem eigenen Eintrag'
+            ? reihenTreffer
+              ? 'Prime führt nur den Reihennamen — der Sprung unten führt hin'
+              : 'Anderes Werk — gehört zu einem eigenen Eintrag'
             : gefunden.echte
               ? `${gefunden.echte} Treffer gelesen, keiner passt`
               : `${gefunden.gesehen} Karten gelesen, alle Empfehlungen`,
