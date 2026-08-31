@@ -2238,6 +2238,7 @@ function durchlaufKnopfZeigen() {
         bis 155 deutsch, wollte melden, aber das input ist weg."
       */
       DURCHLAUF.grenzFeld = null
+      DURCHLAUF.grenzKnopf = null
     }
     schutzflaecheZeigen(false)
     return
@@ -2489,6 +2490,22 @@ function durchlaufKnopfZeigen() {
       })
       DURCHLAUF.leiste.insertBefore(DURCHLAUF.grenzFeld, DURCHLAUF.leiste.firstChild)
     }
+    /*
+      **Enter allein ist keine Bedienung — der Weg muss zu sehen sein.**
+
+      Die Aufforderung „Zahl eintippen, Enter" stand nur im Tooltip des Feldes.
+      Daniel hat 155 eingetragen und dann gefragt: „wie melde ich die bis 155?
+      es gibt kein bestätigen oder so button?" (31.08.2026). Enter blieb
+      selbstverständlich, der Knopf steht jetzt daneben.
+    */
+    if (!DURCHLAUF.grenzKnopf?.isConnected) {
+      DURCHLAUF.grenzKnopf = document.createElement('button')
+      DURCHLAUF.grenzKnopf.className = 'ak-grenzknopf'
+      DURCHLAUF.grenzKnopf.textContent = '✓ melden'
+      DURCHLAUF.grenzKnopf.addEventListener('click', () => void grenzeUebernehmen())
+      DURCHLAUF.grenzFeld.after(DURCHLAUF.grenzKnopf)
+    }
+    DURCHLAUF.grenzKnopf.hidden = false
     const { erste, letzte } = DURCHLAUF.randOffen
     DURCHLAUF.grenzFeld.placeholder = `dt. bis Flg. ?`
     DURCHLAUF.grenzFeld.max = String(letzte.folge.nummer)
@@ -2500,6 +2517,7 @@ function durchlaufKnopfZeigen() {
     DURCHLAUF.knopf.classList.add('ak-uneinheitlich')
   } else {
     if (DURCHLAUF.grenzFeld) DURCHLAUF.grenzFeld.hidden = true
+    if (DURCHLAUF.grenzKnopf) DURCHLAUF.grenzKnopf.hidden = true
     DURCHLAUF.knopf?.classList.remove('ak-uneinheitlich')
   }
   /* Die offenen Folgen selbst — für die Spanne im Knopftext. */

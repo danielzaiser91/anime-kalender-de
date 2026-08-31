@@ -642,3 +642,21 @@
   outline: 2px dashed rgba(255, 90, 90, 0.9);
   outline-offset: -2px;
 }
+
+/*
+  Der Knopf zum Bestätigen der Grenze — Enter tut dasselbe, ist aber unsichtbar.
+  Daniel am 31.08.2026: „wie melde ich die bis 155? es gibt kein bestätigen
+  oder so button?"
+*/
+.ak-grenzknopf {
+  padding: 6px 12px;
+  border: 1px solid #d29922;
+  border-radius: 999px;
+  background: #d29922;
+  color: #1c1c1c;
+  font: 600 12px/1.2 system-ui, sans-serif;
+  cursor: pointer;
+}
+.ak-grenzknopf:hover {
+  background: #e3b341;
+}
