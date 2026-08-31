@@ -24,6 +24,59 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 | **Erweiterung 4.1.11 laden** | Liest einen Hydration-Block nach, der beim ersten Griff erst halb gefüllt war („Encouragement of Climb" blieb auf 2 von 13 Folgen stehen) |
 | **Prime-Prüfliste** | **2 offene Suchen** (Stand 31.08.2026, 11:10): „Fullmetal Alchemist" und „Is This a Zombie?". Am Vormittag waren es 68 — die 441 wieder geöffneten Suchadress-Meldungen ergaben 210 Belege, seit der Bau auch Adressen aus `anbieter-vorschlaege.json` als Anker kennt |
 
+## Recherche 31.08.2026: Deutsche Titel für Anime ohne belegte Synchro
+
+**Anlass** (Daniel, 16:48): „Ein Landei aus dem Dorf vor dem letzten Dungeon sucht das
+Abenteuer in der Stadt" ist auf Prime zu sehen, in unserer Datenbank aber nicht zu finden.
+Der Titel steht als AniList 112649 in `ohne-synchro.json` — **ohne deutschen Namen**, weil
+deutsche Titel bisher nur für die 2.764 kuratierten Titel geholt werden und AniList selbst
+keine führt.
+
+### Gemessen, nicht geschätzt
+
+| Quelle | deutscher Titel für 112649 | Zuordnung | Tempo |
+|---|---|---|---|
+| AniList | — | — | — |
+| aniSearch (14694) | **„Ein Landei aus dem Dorf vor dem letzten Dungeon sucht das Abenteuer in der Stadt"** | ID-Brücke aus `anime-offline-database`, **11.609 von 15.119 Titeln (77 %)** | ein Abruf je Titel, 2 s Takt → **6,4 Stunden** |
+| TMDB (100825) | **derselbe Titel** | nur über die Namenssuche — **keine** ID-Brücke, TMDB fehlt in der Offline-Datenbank | **28,2 Titel/s gemessen → 8,9 Minuten** für alle 15.119 |
+
+### Warum TMDB trotz des Tempos nicht allein trägt
+
+Stichprobe über 50 Titel (jeder 300. der Liste, `search/tv?language=de-DE`):
+
+- **28 ohne Treffer** (56 %) — vor allem chinesische Produktionen und Specials
+- **19 mit abweichendem Namen**, davon aber nur ein bis zwei echte deutsche Titel
+  („A Condition Called Love" → „Ein Gefühl namens Liebe"). Der Rest sind Originalnamen
+  (地灵曲, 妖怪ウォッチ♪) oder **Falschtreffer**: „Dream" → „Traum Studios".
+- **3 gleich**
+
+Ein Falschtreffer bringt einen erfundenen deutschen Titel in den Bestand, und niemand sieht
+ihm an, dass er falsch ist. Die Namenssuche ist damit als alleinige Zuordnung unbrauchbar.
+
+### aniSearch als Titelquelle — was die Messung wirklich zeigt
+
+18 neuere Serien (2021+) aus `ohne-synchro.json` über die ID-Brücke geholt: **10 weichen vom
+AniList-Titel ab, 8 sind gleich.** Die Abweichungen sind aber überwiegend Schreibvarianten
+(„Fate/strange Fake" → „Fate/Strange Fake", typografische Apostrophe) und Staffelschreibweisen
+(„Season 2" → „Staffel 2"). Echte deutsche Titel liefert aniSearch dort, wo es sie gibt —
+beim Landei-Beispiel exakt den, den auch Prime zeigt.
+
+**Das ist kein Widerspruch zu Daniels Urteil, sondern seine Bestätigung mit Zahlen:** aniSearch
+ist die bessere Quelle, weil es überhaupt deutsche Titel führt und über eine belastbare
+ID-Brücke erreichbar ist. Nur ist die Ausbeute kleiner als die 15.119, weil die meisten dieser
+Titel nie einen deutschen Namen bekommen haben.
+
+### Entscheidung
+
+Empfohlener Weg: **aniSearch über die ID-Brücke**, TMDB nur als Gegenprobe für Titel, bei denen
+aniSearch keinen Namen führt — und nur, wenn der TMDB-Treffer über eine ID kommt, nie über die
+Namenssuche allein. Der Lauf gehört in die Nachtläufe, nicht in einen einmaligen Sturmlauf:
+aniSearch hat am 09.08.2026 schon einmal die IP gesperrt.
+
+Offen, bis Daniel entscheidet: ob die 6,4 Stunden Abrufzeit über mehrere Nächte verteilt werden
+oder ob nur die Titel drankommen, die bei einem Anbieter tatsächlich laufen (rund 700 statt
+11.609 — das wäre in einer Nacht durch).
+
 ### Nacht vom 29. auf den 30.08.2026: YouTube-Tonspur und Disc-Termine
 
 Zwei Wege, die im Haus lagen und nicht zu Ende gegangen waren.
