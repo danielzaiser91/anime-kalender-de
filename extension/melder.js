@@ -2162,6 +2162,20 @@ function durchlaufKnopfZeigen() {
       DURCHLAUF.leiste = null
       DURCHLAUF.knopf = null
       DURCHLAUF.grenzKnopf = null
+      /*
+        **Auch das Grenzfeld — sonst überlebt die Referenz ihr Element.**
+
+        Daniel am 31.08.2026 an „Black Clover": Der Durchlauf endete
+        uneinheitlich, das Feld „dt. bis Flg. ?" erschien, er öffnete einzelne
+        Folgen zum Nachprüfen — und im Player räumt diese Stelle die Leiste ab.
+        Zurück auf der Titelseite baute sie sich neu auf, das Feld aber nicht:
+        `DURCHLAUF.grenzFeld` war noch gesetzt, also hielt der Aufbau es für
+        vorhanden. Es hing nur längst in keinem Dokument mehr.
+
+        Sein Befund: „ich hab einzeln episoden geprüft, herausgefunden es geht
+        bis 155 deutsch, wollte melden, aber das input ist weg."
+      */
+      DURCHLAUF.grenzFeld = null
     }
     schutzflaecheZeigen(false)
     return
@@ -2398,7 +2412,12 @@ function durchlaufKnopfZeigen() {
     stellt auf „alle" und lässt laufen — beide Wege stehen offen.
   */
   if (DURCHLAUF.randOffen && !DURCHLAUF.laeuft) {
-    if (!DURCHLAUF.grenzFeld) {
+    /*
+      `isConnected` statt eines bloßen Daseins-Tests: Eine Referenz auf ein
+      entferntes Element ist wahr und trotzdem wertlos. Der Fall oben ist der
+      belegte; dieser Riegel fängt jeden weiteren, ohne ihn zu kennen.
+    */
+    if (!DURCHLAUF.grenzFeld?.isConnected) {
       DURCHLAUF.grenzFeld = document.createElement('input')
       DURCHLAUF.grenzFeld.className = 'ak-grenzfeld'
       DURCHLAUF.grenzFeld.type = 'number'
