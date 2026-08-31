@@ -2669,34 +2669,6 @@
 
 # --- Aus dem Browser gemeldet, abgeholt am 2026-08-22 ---
 
-- anilistId: 101281
-  title: "Carole & Tuesday"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 12
-      dub: true
-      checked: [1, 12]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 1535
-  title: "Death Note"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 1
-      dub: false
-      checked: [1]
-    - from: 37
-      to: 37
-      dub: true
-      checked: [37]
-  checkedAt: '2026-08-22'
-  note: "Folge 1 ohne deutschen Ton, 2–36 ungeprüft, Folge 37 mit deutschem Ton — Tonspuren: ja|Japanisch [Original] — 1 Tonspuren, 0 Audiodeskriptionen"
-
 - anilistId: 103275
   title: "Fate/Grand Order Absolute Demonic Front: Babylonia"
   platform: netflix
@@ -3529,34 +3501,6 @@
 
 # --- Aus dem Browser gemeldet, abgeholt am 2026-08-22 ---
 
-- anilistId: 101281
-  title: "Carole & Tuesday"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 12
-      dub: true
-      checked: [1, 12]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 1535
-  title: "Death Note"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 1
-      dub: false
-      checked: [1]
-    - from: 37
-      to: 37
-      dub: true
-      checked: [37]
-  checkedAt: '2026-08-22'
-  note: "Folge 1 ohne deutschen Ton, 2–36 ungeprüft, Folge 37 mit deutschem Ton — Tonspuren: ja|Japanisch [Original] — 1 Tonspuren, 0 Audiodeskriptionen"
-
 - anilistId: 103275
   title: "Fate/Grand Order Absolute Demonic Front: Babylonia"
   platform: netflix
@@ -4313,34 +4257,6 @@
 
 # --- Aus dem Browser gemeldet, abgeholt am 2026-08-22 ---
 
-- anilistId: 101281
-  title: "Carole & Tuesday"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 12
-      dub: true
-      checked: [1, 12]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 1535
-  title: "Death Note"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 1
-      dub: false
-      checked: [1]
-    - from: 37
-      to: 37
-      dub: true
-      checked: [37]
-  checkedAt: '2026-08-22'
-  note: "Folge 1 ohne deutschen Ton, 2–36 ungeprüft, Folge 37 mit deutschem Ton — Tonspuren: ja|Japanisch [Original] — 1 Tonspuren, 0 Audiodeskriptionen"
-
 - anilistId: 103275
   title: "Fate/Grand Order Absolute Demonic Front: Babylonia"
   platform: netflix
@@ -5015,34 +4931,6 @@
 
 # --- Aus dem Browser gemeldet, abgeholt am 2026-08-22 ---
 
-- anilistId: 101281
-  title: "Carole & Tuesday"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 12
-      dub: true
-      checked: [1, 12]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 1535
-  title: "Death Note"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 1
-      dub: false
-      checked: [1]
-    - from: 37
-      to: 37
-      dub: true
-      checked: [37]
-  checkedAt: '2026-08-22'
-  note: "Folge 1 ohne deutschen Ton, 2–36 ungeprüft, Folge 37 mit deutschem Ton — Tonspuren: ja|Japanisch [Original] — 1 Tonspuren, 0 Audiodeskriptionen"
-
 - anilistId: 103275
   title: "Fate/Grand Order Absolute Demonic Front: Babylonia"
   platform: netflix
@@ -5716,34 +5604,6 @@
   note: "Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, el|Griechisch, he|Hebräisch, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), cs|Tschechisch, hu|Ungarisch — 22 Tonspuren, 1 Audiodeskriptionen"
 
 # --- Aus dem Browser gemeldet, abgeholt am 2026-08-22 ---
-
-- anilistId: 101281
-  title: "Carole & Tuesday"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 12
-      dub: true
-      checked: [1, 12]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 1535
-  title: "Death Note"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 1
-      dub: false
-      checked: [1]
-    - from: 37
-      to: 37
-      dub: true
-      checked: [37]
-  checkedAt: '2026-08-22'
-  note: "Folge 1 ohne deutschen Ton, 2–36 ungeprüft, Folge 37 mit deutschem Ton — Tonspuren: ja|Japanisch [Original] — 1 Tonspuren, 0 Audiodeskriptionen"
 
 - anilistId: 103275
   title: "Fate/Grand Order Absolute Demonic Front: Babylonia"
@@ -6426,58 +6286,6 @@
 
 # --- Aus dem Browser gemeldet, abgeholt am 2026-08-22 ---
 
-- anilistId: 101281
-  title: "Carole & Tuesday"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 12
-      dub: true
-      checked: [1, 12]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 1535
-  title: "Death Note"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 1
-      dub: false
-      checked: [1]
-    - from: 37
-      to: 37
-      dub: true
-      checked: [37]
-  checkedAt: '2026-08-22'
-  note: "Folge 1 ohne deutschen Ton, 2–36 ungeprüft, Folge 37 mit deutschem Ton — Tonspuren: ja|Japanisch [Original] — 1 Tonspuren, 0 Audiodeskriptionen"
-
-- anilistId: 105228
-  title: "Dorohedoro"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 13
-      dub: true
-      checked: [1, 12, 13]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 173172
-  title: "Dorohedoro Season 2"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 11
-      to: 11
-      dub: true
-      checked: [11]
-  checkedAt: '2026-08-22'
-  note: "Folge 11 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
 - anilistId: 103275
   title: "Fate/Grand Order Absolute Demonic Front: Babylonia"
   platform: netflix
@@ -6501,18 +6309,6 @@
       checked: [1, 9, 14]
   checkedAt: '2026-08-22'
   note: "Folgen 1–14 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 20574
-  title: "Hi Score Girl"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 15
-      dub: true
-      checked: [1, 15]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–15 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch — 11 Tonspuren, 1 Audiodeskriptionen"
 
 - anilistId: 108581
   title: "Hi Score Girl II"
@@ -7245,58 +7041,6 @@
   checkedAt: '2026-08-22'
   note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, ar|Arabisch, fil|Filipino, hi|Hindi, id|Indonesisch, ko|Koreanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, hu|Ungarisch, vi|Vietnamesisch — 18 Tonspuren, 3 Audiodeskriptionen"
 
-- anilistId: 101281
-  title: "Carole & Tuesday"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 12
-      dub: true
-      checked: [1, 12]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 1535
-  title: "Death Note"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 1
-      dub: false
-      checked: [1]
-    - from: 37
-      to: 37
-      dub: true
-      checked: [37]
-  checkedAt: '2026-08-22'
-  note: "Folge 1 ohne deutschen Ton, 2–36 ungeprüft, Folge 37 mit deutschem Ton — Tonspuren: ja|Japanisch [Original] — 1 Tonspuren, 0 Audiodeskriptionen"
-
-- anilistId: 105228
-  title: "Dorohedoro"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 13
-      dub: true
-      checked: [1, 12, 13]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 173172
-  title: "Dorohedoro Season 2"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 11
-      to: 11
-      dub: true
-      checked: [11]
-  checkedAt: '2026-08-22'
-  note: "Folge 11 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
 - anilistId: 103275
   title: "Fate/Grand Order Absolute Demonic Front: Babylonia"
   platform: netflix
@@ -7320,18 +7064,6 @@
       checked: [1, 9, 14]
   checkedAt: '2026-08-22'
   note: "Folgen 1–14 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 20574
-  title: "Hi Score Girl"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 15
-      dub: true
-      checked: [1, 15]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–15 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch — 11 Tonspuren, 1 Audiodeskriptionen"
 
 - anilistId: 108581
   title: "Hi Score Girl II"
@@ -8142,58 +7874,6 @@
   checkedAt: '2026-08-22'
   note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, ar|Arabisch, fil|Filipino, hi|Hindi, id|Indonesisch, ko|Koreanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, hu|Ungarisch, vi|Vietnamesisch — 18 Tonspuren, 3 Audiodeskriptionen"
 
-- anilistId: 101281
-  title: "Carole & Tuesday"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 12
-      dub: true
-      checked: [1, 12]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 1535
-  title: "Death Note"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 1
-      dub: false
-      checked: [1]
-    - from: 37
-      to: 37
-      dub: true
-      checked: [37]
-  checkedAt: '2026-08-22'
-  note: "Folge 1 ohne deutschen Ton, 2–36 ungeprüft, Folge 37 mit deutschem Ton — Tonspuren: ja|Japanisch [Original] — 1 Tonspuren, 0 Audiodeskriptionen"
-
-- anilistId: 105228
-  title: "Dorohedoro"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 13
-      dub: true
-      checked: [1, 12, 13]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 173172
-  title: "Dorohedoro Season 2"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 11
-      to: 11
-      dub: true
-      checked: [11]
-  checkedAt: '2026-08-22'
-  note: "Folge 11 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
 - anilistId: 103275
   title: "Fate/Grand Order Absolute Demonic Front: Babylonia"
   platform: netflix
@@ -8217,18 +7897,6 @@
       checked: [1, 9, 14]
   checkedAt: '2026-08-22'
   note: "Folgen 1–14 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 20574
-  title: "Hi Score Girl"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 15
-      dub: true
-      checked: [1, 15]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–15 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch — 11 Tonspuren, 1 Audiodeskriptionen"
 
 - anilistId: 108581
   title: "Hi Score Girl II"
@@ -8966,58 +8634,6 @@
   checkedAt: '2026-08-22'
   note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, ar|Arabisch, fil|Filipino, hi|Hindi, id|Indonesisch, ko|Koreanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, hu|Ungarisch, vi|Vietnamesisch — 18 Tonspuren, 3 Audiodeskriptionen"
 
-- anilistId: 101281
-  title: "Carole & Tuesday"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 12
-      dub: true
-      checked: [1, 12]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 1535
-  title: "Death Note"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 1
-      dub: false
-      checked: [1]
-    - from: 37
-      to: 37
-      dub: true
-      checked: [37]
-  checkedAt: '2026-08-22'
-  note: "Folge 1 ohne deutschen Ton, 2–36 ungeprüft, Folge 37 mit deutschem Ton — Tonspuren: ja|Japanisch [Original] — 1 Tonspuren, 0 Audiodeskriptionen"
-
-- anilistId: 105228
-  title: "Dorohedoro"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 13
-      dub: true
-      checked: [1, 12, 13]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 173172
-  title: "Dorohedoro Season 2"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 11
-      to: 11
-      dub: true
-      checked: [11]
-  checkedAt: '2026-08-22'
-  note: "Folge 11 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
 - anilistId: 103275
   title: "Fate/Grand Order Absolute Demonic Front: Babylonia"
   platform: netflix
@@ -9041,18 +8657,6 @@
       checked: [1, 9, 14]
   checkedAt: '2026-08-22'
   note: "Folgen 1–14 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 20574
-  title: "Hi Score Girl"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 15
-      dub: true
-      checked: [1, 15]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–15 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch — 11 Tonspuren, 1 Audiodeskriptionen"
 
 - anilistId: 108581
   title: "Hi Score Girl II"
@@ -9790,58 +9394,6 @@
   checkedAt: '2026-08-22'
   note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, ar|Arabisch, fil|Filipino, hi|Hindi, id|Indonesisch, ko|Koreanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, hu|Ungarisch, vi|Vietnamesisch — 18 Tonspuren, 3 Audiodeskriptionen"
 
-- anilistId: 101281
-  title: "Carole & Tuesday"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 12
-      dub: true
-      checked: [1, 12]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 1535
-  title: "Death Note"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 1
-      dub: false
-      checked: [1]
-    - from: 37
-      to: 37
-      dub: true
-      checked: [37]
-  checkedAt: '2026-08-22'
-  note: "Folge 1 ohne deutschen Ton, 2–36 ungeprüft, Folge 37 mit deutschem Ton — Tonspuren: ja|Japanisch [Original] — 1 Tonspuren, 0 Audiodeskriptionen"
-
-- anilistId: 105228
-  title: "Dorohedoro"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 13
-      dub: true
-      checked: [1, 12, 13]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 173172
-  title: "Dorohedoro Season 2"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 11
-      to: 11
-      dub: true
-      checked: [11]
-  checkedAt: '2026-08-22'
-  note: "Folge 11 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
 - anilistId: 103275
   title: "Fate/Grand Order Absolute Demonic Front: Babylonia"
   platform: netflix
@@ -9865,18 +9417,6 @@
       checked: [1, 9, 14]
   checkedAt: '2026-08-22'
   note: "Folgen 1–14 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 20574
-  title: "Hi Score Girl"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 15
-      dub: true
-      checked: [1, 15]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–15 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch — 11 Tonspuren, 1 Audiodeskriptionen"
 
 - anilistId: 108581
   title: "Hi Score Girl II"
@@ -10614,58 +10154,6 @@
   checkedAt: '2026-08-22'
   note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, ar|Arabisch, fil|Filipino, hi|Hindi, id|Indonesisch, ko|Koreanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, hu|Ungarisch, vi|Vietnamesisch — 18 Tonspuren, 3 Audiodeskriptionen"
 
-- anilistId: 101281
-  title: "Carole & Tuesday"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 12
-      dub: true
-      checked: [1, 12]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 1535
-  title: "Death Note"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 1
-      dub: false
-      checked: [1]
-    - from: 37
-      to: 37
-      dub: true
-      checked: [37]
-  checkedAt: '2026-08-22'
-  note: "Folge 1 ohne deutschen Ton, 2–36 ungeprüft, Folge 37 mit deutschem Ton — Tonspuren: ja|Japanisch [Original] — 1 Tonspuren, 0 Audiodeskriptionen"
-
-- anilistId: 105228
-  title: "Dorohedoro"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 13
-      dub: true
-      checked: [1, 12, 13]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 173172
-  title: "Dorohedoro Season 2"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 11
-      to: 11
-      dub: true
-      checked: [11]
-  checkedAt: '2026-08-22'
-  note: "Folge 11 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
 - anilistId: 103275
   title: "Fate/Grand Order Absolute Demonic Front: Babylonia"
   platform: netflix
@@ -10689,18 +10177,6 @@
       checked: [1, 9, 14]
   checkedAt: '2026-08-22'
   note: "Folgen 1–14 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 20574
-  title: "Hi Score Girl"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 15
-      dub: true
-      checked: [1, 15]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–15 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch — 11 Tonspuren, 1 Audiodeskriptionen"
 
 - anilistId: 108581
   title: "Hi Score Girl II"
@@ -12073,58 +11549,6 @@
   checkedAt: '2026-08-22'
   note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, ar|Arabisch, fil|Filipino, hi|Hindi, id|Indonesisch, ko|Koreanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, hu|Ungarisch, vi|Vietnamesisch — 18 Tonspuren, 3 Audiodeskriptionen"
 
-- anilistId: 101281
-  title: "Carole & Tuesday"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 12
-      dub: true
-      checked: [1, 12]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 1535
-  title: "Death Note"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 1
-      dub: false
-      checked: [1]
-    - from: 37
-      to: 37
-      dub: true
-      checked: [37]
-  checkedAt: '2026-08-22'
-  note: "Folge 1 ohne deutschen Ton, 2–36 ungeprüft, Folge 37 mit deutschem Ton — Tonspuren: ja|Japanisch [Original] — 1 Tonspuren, 0 Audiodeskriptionen"
-
-- anilistId: 105228
-  title: "Dorohedoro"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 13
-      dub: true
-      checked: [1, 12, 13]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 173172
-  title: "Dorohedoro Season 2"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 11
-      to: 11
-      dub: true
-      checked: [11]
-  checkedAt: '2026-08-22'
-  note: "Folge 11 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
 - anilistId: 103275
   title: "Fate/Grand Order Absolute Demonic Front: Babylonia"
   platform: netflix
@@ -12148,18 +11572,6 @@
       checked: [1, 9, 14]
   checkedAt: '2026-08-22'
   note: "Folgen 1–14 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 20574
-  title: "Hi Score Girl"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 15
-      dub: true
-      checked: [1, 15]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–15 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch — 11 Tonspuren, 1 Audiodeskriptionen"
 
 - anilistId: 108581
   title: "Hi Score Girl II"
@@ -12926,58 +12338,6 @@
   checkedAt: '2026-08-22'
   note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, ar|Arabisch, fil|Filipino, hi|Hindi, id|Indonesisch, ko|Koreanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, hu|Ungarisch, vi|Vietnamesisch — 18 Tonspuren, 3 Audiodeskriptionen"
 
-- anilistId: 101281
-  title: "Carole & Tuesday"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 12
-      dub: true
-      checked: [1, 12]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 1535
-  title: "Death Note"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 1
-      dub: false
-      checked: [1]
-    - from: 37
-      to: 37
-      dub: true
-      checked: [37]
-  checkedAt: '2026-08-22'
-  note: "Folge 1 ohne deutschen Ton, 2–36 ungeprüft, Folge 37 mit deutschem Ton — Tonspuren: ja|Japanisch [Original] — 1 Tonspuren, 0 Audiodeskriptionen"
-
-- anilistId: 105228
-  title: "Dorohedoro"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 13
-      dub: true
-      checked: [1, 12, 13]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 173172
-  title: "Dorohedoro Season 2"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 11
-      to: 11
-      dub: true
-      checked: [11]
-  checkedAt: '2026-08-22'
-  note: "Folge 11 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
 - anilistId: 103275
   title: "Fate/Grand Order Absolute Demonic Front: Babylonia"
   platform: netflix
@@ -13001,18 +12361,6 @@
       checked: [1, 9, 14]
   checkedAt: '2026-08-22'
   note: "Folgen 1–14 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 20574
-  title: "Hi Score Girl"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 15
-      dub: true
-      checked: [1, 15]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–15 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch — 11 Tonspuren, 1 Audiodeskriptionen"
 
 - anilistId: 108581
   title: "Hi Score Girl II"
@@ -13806,58 +13154,6 @@
   checkedAt: '2026-08-22'
   note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, ar|Arabisch, fil|Filipino, hi|Hindi, id|Indonesisch, ko|Koreanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, hu|Ungarisch, vi|Vietnamesisch — 18 Tonspuren, 3 Audiodeskriptionen"
 
-- anilistId: 101281
-  title: "Carole & Tuesday"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 12
-      dub: true
-      checked: [1, 12]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 1535
-  title: "Death Note"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 1
-      dub: false
-      checked: [1]
-    - from: 37
-      to: 37
-      dub: true
-      checked: [37]
-  checkedAt: '2026-08-22'
-  note: "Folge 1 ohne deutschen Ton, 2–36 ungeprüft, Folge 37 mit deutschem Ton — Tonspuren: ja|Japanisch [Original] — 1 Tonspuren, 0 Audiodeskriptionen"
-
-- anilistId: 105228
-  title: "Dorohedoro"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 13
-      dub: true
-      checked: [1, 12, 13]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 173172
-  title: "Dorohedoro Season 2"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 11
-      to: 11
-      dub: true
-      checked: [11]
-  checkedAt: '2026-08-22'
-  note: "Folge 11 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
 - anilistId: 103275
   title: "Fate/Grand Order Absolute Demonic Front: Babylonia"
   platform: netflix
@@ -13881,18 +13177,6 @@
       checked: [1, 9, 14]
   checkedAt: '2026-08-22'
   note: "Folgen 1–14 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 20574
-  title: "Hi Score Girl"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 15
-      dub: true
-      checked: [1, 15]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–15 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch — 11 Tonspuren, 1 Audiodeskriptionen"
 
 - anilistId: 108581
   title: "Hi Score Girl II"
@@ -14659,58 +13943,6 @@
   checkedAt: '2026-08-22'
   note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, ar|Arabisch, fil|Filipino, hi|Hindi, id|Indonesisch, ko|Koreanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, hu|Ungarisch, vi|Vietnamesisch — 18 Tonspuren, 3 Audiodeskriptionen"
 
-- anilistId: 101281
-  title: "Carole & Tuesday"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 12
-      dub: true
-      checked: [1, 12]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 1535
-  title: "Death Note"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 1
-      dub: false
-      checked: [1]
-    - from: 37
-      to: 37
-      dub: true
-      checked: [37]
-  checkedAt: '2026-08-22'
-  note: "Folge 1 ohne deutschen Ton, 2–36 ungeprüft, Folge 37 mit deutschem Ton — Tonspuren: ja|Japanisch [Original] — 1 Tonspuren, 0 Audiodeskriptionen"
-
-- anilistId: 105228
-  title: "Dorohedoro"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 13
-      dub: true
-      checked: [1, 12, 13]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 173172
-  title: "Dorohedoro Season 2"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 11
-      to: 11
-      dub: true
-      checked: [11]
-  checkedAt: '2026-08-22'
-  note: "Folge 11 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
 - anilistId: 103275
   title: "Fate/Grand Order Absolute Demonic Front: Babylonia"
   platform: netflix
@@ -14734,18 +13966,6 @@
       checked: [1, 9, 14]
   checkedAt: '2026-08-22'
   note: "Folgen 1–14 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 20574
-  title: "Hi Score Girl"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 15
-      dub: true
-      checked: [1, 15]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–15 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch — 11 Tonspuren, 1 Audiodeskriptionen"
 
 - anilistId: 108581
   title: "Hi Score Girl II"
@@ -15884,58 +15104,6 @@
   checkedAt: '2026-08-22'
   note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, ar|Arabisch, fil|Filipino, hi|Hindi, id|Indonesisch, ko|Koreanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, hu|Ungarisch, vi|Vietnamesisch — 18 Tonspuren, 3 Audiodeskriptionen"
 
-- anilistId: 101281
-  title: "Carole & Tuesday"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 12
-      dub: true
-      checked: [1, 12]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 1535
-  title: "Death Note"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 1
-      dub: false
-      checked: [1]
-    - from: 37
-      to: 37
-      dub: true
-      checked: [37]
-  checkedAt: '2026-08-22'
-  note: "Folge 1 ohne deutschen Ton, 2–36 ungeprüft, Folge 37 mit deutschem Ton — Tonspuren: ja|Japanisch [Original] — 1 Tonspuren, 0 Audiodeskriptionen"
-
-- anilistId: 105228
-  title: "Dorohedoro"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 13
-      dub: true
-      checked: [1, 12, 13]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 173172
-  title: "Dorohedoro Season 2"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 11
-      to: 11
-      dub: true
-      checked: [11]
-  checkedAt: '2026-08-22'
-  note: "Folge 11 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
 - anilistId: 103275
   title: "Fate/Grand Order Absolute Demonic Front: Babylonia"
   platform: netflix
@@ -15959,18 +15127,6 @@
       checked: [1, 9, 14]
   checkedAt: '2026-08-22'
   note: "Folgen 1–14 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 20574
-  title: "Hi Score Girl"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 15
-      dub: true
-      checked: [1, 15]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–15 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch — 11 Tonspuren, 1 Audiodeskriptionen"
 
 - anilistId: 108581
   title: "Hi Score Girl II"
@@ -16781,58 +15937,6 @@
   checkedAt: '2026-08-22'
   note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, ar|Arabisch, fil|Filipino, hi|Hindi, id|Indonesisch, ko|Koreanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch, hu|Ungarisch, vi|Vietnamesisch — 18 Tonspuren, 3 Audiodeskriptionen"
 
-- anilistId: 101281
-  title: "Carole & Tuesday"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 12
-      dub: true
-      checked: [1, 12]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — 8 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 1535
-  title: "Death Note"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 1
-      dub: false
-      checked: [1]
-    - from: 37
-      to: 37
-      dub: true
-      checked: [37]
-  checkedAt: '2026-08-22'
-  note: "Folge 1 ohne deutschen Ton, 2–36 ungeprüft, Folge 37 mit deutschem Ton — Tonspuren: ja|Japanisch [Original] — 1 Tonspuren, 0 Audiodeskriptionen"
-
-- anilistId: 105228
-  title: "Dorohedoro"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 13
-      dub: true
-      checked: [1, 12, 13]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 173172
-  title: "Dorohedoro Season 2"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 11
-      to: 11
-      dub: true
-      checked: [11]
-  checkedAt: '2026-08-22'
-  note: "Folge 11 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
 - anilistId: 103275
   title: "Fate/Grand Order Absolute Demonic Front: Babylonia"
   platform: netflix
@@ -16856,18 +15960,6 @@
       checked: [1, 9, 14]
   checkedAt: '2026-08-22'
   note: "Folgen 1–14 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), th|Thailändisch — 9 Tonspuren, 1 Audiodeskriptionen"
-
-- anilistId: 20574
-  title: "Hi Score Girl"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 15
-      dub: true
-      checked: [1, 15]
-  checkedAt: '2026-08-22'
-  note: "Folgen 1–15 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], tr|Türkisch, it|Italienisch, fr|Französisch, en|Englisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch — 11 Tonspuren, 1 Audiodeskriptionen"
 
 - anilistId: 108581
   title: "Hi Score Girl II"
@@ -26556,27 +25648,3 @@
   dub: true
   checkedAt: '2026-08-31'
   note: "Folgen 1–12 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 23, dazwischen nicht geprüft — Folge 23: Große Kälte"
-
-- anilistId: 101281
-  title: "Carole und Tuesday"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 2
-      to: 11
-      dub: true
-      checked: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-  checkedAt: '2026-08-31'
-  note: "Folgen 2–11 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika) — ANGENOMMEN aus Randprobe — gemessen: Folge 2 und 23, dazwischen nicht geprüft — Folge 23: Don’t Stop Believin’"
-
-- anilistId: 1535
-  title: "Death Note"
-  platform: netflix
-  dub: true
-  dubRanges:
-    - from: 2
-      to: 36
-      dub: true
-      checked: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 32, 33, 34, 35, 36]
-  checkedAt: '2026-08-31'
-  note: "Folgen 2–36 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, cs|Tschechisch, hu|Ungarisch — ANGENOMMEN aus Randprobe — gemessen: Folge 2 und 36, dazwischen nicht geprüft — Folge 36: 28.01."
