@@ -88,6 +88,37 @@ export interface Schedule {
    * Was hier steht, ist im Kalender gesehen worden und schlägt jede Rechnung.
    */
   observed?: Record<number, string>
+  /**
+   * **Termine, die der Anbieter nicht eingehalten hat — je Folgennummer.**
+   *
+   * Ein geschätzter Termin verstrich bis zum 31.08.2026 spurlos: Der Kalender
+   * behauptete „Mushoku Tensei Staffel 3, Folge 6, 30.08.", nichts erschien,
+   * und am nächsten Tag stand es unverändert da. Daniel: „falsche infos auf der
+   * webseite sind unbedingt zu vermeiden."
+   *
+   * `pipeline/termine-pruefen.ts` füllt das Feld, sobald ein Termin mehr als
+   * fünfzehn Minuten überfällig ist und im gelesenen Kalenderfenster keine
+   * Beobachtung dazu steht. Der Termin verschwindet dann **nicht** — er sagt,
+   * dass er nicht eingehalten wurde, wie viele Folgen der Anbieter wirklich
+   * zeigt und wann wir das nächste Mal nachsehen.
+   */
+  verpasst?: Record<
+    number,
+    {
+      /** Wann es hätte sein sollen. */
+      erwartetAm: string
+      /** Wann die Folge wirklich kam — leer, solange sie aussteht. */
+      erschienenAm?: string
+      /** Verzug in Stunden, sobald beides bekannt ist. */
+      verzugStunden?: number
+      /** Wie viele Folgen der Anbieter zu diesem Zeitpunkt zeigte. */
+      folgenVerfuegbar?: number
+      /** Der neue erwartete Termin aus der Handrecherche. */
+      neuErwartet?: string
+      /** Was die Recherche ergeben hat. */
+      recherche?: string
+    }
+  >
   /** true, wenn das Datum abgeleitet statt bestätigt ist. */
   estimated?: boolean
   /** true, wenn die Folgenzahl nicht belegt ist und angenommen wurde. */
@@ -424,6 +455,21 @@ export interface ReleaseEvent {
   platform: PlatformId
   name: string
   estimated?: boolean
+  /**
+   * Gesetzt, wenn der Anbieter diesen Termin nicht eingehalten hat.
+   *
+   * Kommt aus `schedule.verpasst` und trägt dieselben Felder — die Karte kann
+   * damit sagen, was los ist, statt einen Termin zu behaupten, an dem nichts
+   * erschienen ist.
+   */
+  verpasst?: {
+    erwartetAm: string
+    erschienenAm?: string
+    verzugStunden?: number
+    folgenVerfuegbar?: number
+    neuErwartet?: string
+    recherche?: string
+  }
 }
 
 /**

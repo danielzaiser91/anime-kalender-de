@@ -15,6 +15,7 @@ QUELLEN=(
   data/anisearch.json
   data/anisearch-folgen.json
   data/anisearch-titel.json
+  data/termine-verpasst.json
   data/anisearch-folgen-raw
   data/crunchyroll.json
   # Was ein Lauf an Verweisen entfernt hat, mit Grund und Prüfdatum. Kein
@@ -196,6 +197,7 @@ QUELLEN=(
   # ein Erzeugnis: Wer eine Datei schreibt, ohne sie hier einzutragen, schreibt
   # sie in jedem Lauf umsonst.
   daniel-zum-abarbeiten/07-adn.md
+  daniel-zum-abarbeiten/12-verpasste-termine.md
   daniel-zum-abarbeiten/07-crunchyroll.md
   daniel-zum-abarbeiten/07-disneyplus.md
   daniel-zum-abarbeiten/07-joyn.md

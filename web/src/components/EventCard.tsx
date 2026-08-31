@@ -101,9 +101,40 @@ export function EventCard({
               {event.episodeCount ? `/${event.episodeCount}` : ''}
             </span>
           )}
-          {event.estimated && (
+          {event.estimated && !event.verpasst && (
             <Tooltip text={t('legend.estimated')} seite="oben">
               <span className="text-amber-500">≈</span>
+            </Tooltip>
+          )}
+          {event.verpasst && (
+            /*
+              **Der Termin bleibt stehen und sagt, was los ist.**
+
+              Ihn auszublenden wäre die zweitschlechteste Lösung: Wer ihn im
+              Kalender hatte, sucht ihn dann und findet nichts. Der Hinweis nennt
+              deshalb drei Dinge — dass er nicht eingehalten wurde, wie viele
+              Folgen der Anbieter wirklich zeigt, und wann wir nachsehen. Ist die
+              Folge nachgeholt, steht dort ihr echtes Datum samt Verzug.
+            */
+            <Tooltip
+              text={[
+                t('card.missed'),
+                event.verpasst.folgenVerfuegbar != null &&
+                  t('card.missedCount', { n: event.verpasst.folgenVerfuegbar }),
+                event.verpasst.neuErwartet
+                  ? t('card.missedNext', { d: event.verpasst.neuErwartet.slice(0, 10) })
+                  : t('card.missedCheck'),
+                event.verpasst.recherche,
+              ]
+                .filter(Boolean)
+                .join(' · ')}
+              seite="oben"
+            >
+              <span className="rounded bg-rose-500/15 px-1 font-medium text-rose-600 dark:text-rose-400">
+                {event.verpasst.erschienenAm && event.verpasst.verzugStunden != null
+                  ? `↻ ${t('card.missedLate', { d: event.verpasst.erschienenAm.slice(0, 10), h: event.verpasst.verzugStunden })}`
+                  : `⚠ ${t('card.missed')}`}
+              </span>
             </Tooltip>
           )}
           <span className="ml-auto flex shrink-0 items-center gap-0.5">

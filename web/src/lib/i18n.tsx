@@ -67,6 +67,16 @@ const TEXTE = {
 
   'legend.colour': 'Farbe = Release-Art:',
   'legend.estimated': 'geschätzter Termin',
+  /*
+    Ein Termin, den der Anbieter hat verstreichen lassen. Der Text nennt drei
+    Dinge, weil ohne sie eine falsche Auskunft stehen bliebe: dass es nicht
+    passiert ist, wie viele Folgen es wirklich gibt, und wann wir nachsehen.
+  */
+  'card.missed': 'Anbieter hat diesen Termin nicht eingehalten',
+  'card.missedCount': 'beim Anbieter stehen {n} Folgen',
+  'card.missedNext': 'neu erwartet: {d}',
+  'card.missedCheck': 'wir sehen stündlich nach',
+  'card.missedLate': 'erschien {d} — {h} Stunden später als angekündigt',
   'legend.count': '{count} Termine im Filter · Tasten ← → T',
 
   'filter.search': 'Titel, Studio, Genre, Keyword …',

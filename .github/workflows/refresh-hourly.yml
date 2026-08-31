@@ -171,6 +171,13 @@ jobs:
         # Drei Wochen genügen stündlich; der Wochenlauf schaut weiter zurück.
         run: npx tsx pipeline/scrape-crunchyroll.ts --weeks 3
 
+      # Ein geschätzter Termin, an dem nichts erschien, darf nicht stehen bleiben,
+      # als wäre er eingetreten. Läuft direkt hinter dem Kalender-Abruf, weil er
+      # dessen Beobachtungen braucht.
+      - name: Verpasste Termine prüfen
+        continue-on-error: true
+        run: npx tsx pipeline/termine-pruefen.ts
+
       - name: Fortschritt — Crunchyroll-Kalender lesen
         continue-on-error: true
         env:

@@ -319,6 +319,8 @@ export function expandEvents(release: Release): ReleaseEvent[] {
       // Gesehen ist gesehen; fortgeschrieben bleibt eine Annahme, auch wenn
       // der Start selbst belegt ist.
       estimated: s.observed?.[episode] ? undefined : lastAnchor ? true : s.estimated,
+      /* Ein Termin, an dem nichts erschien, sagt das — er verschwindet nicht. */
+      verpasst: s.verpasst?.[episode],
     })
   }
 

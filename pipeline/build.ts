@@ -85,6 +85,21 @@ import {
   FRANCHISE_RELATIONS,
 } from '../shared/mappings.ts'
 
+/** Termine, die ein Anbieter nicht eingehalten hat — siehe `pipeline/termine-pruefen.ts`. */
+const verpassteTermine = readJson<
+  Array<{
+    slug: string
+    episode: number | null
+    erwartetAm: string
+    erschienenAm?: string | null
+    verzugStunden?: number | null
+    folgenVerfuegbar?: number | null
+    neuErwartet?: string | null
+    recherche?: string | null
+  }>
+>('data/termine-verpasst.json', [])
+
+
 const OUT = 'public/data'
 /** Deutsche Sprechrollen, eine Datei je Titel — gefüllt von `data:voices`. */
 const VOICES_DIR = `${OUT}/voices`
@@ -1666,6 +1681,31 @@ function main(): void {
 
     const info = tmdb[entry.slug]
     const schedule = { ...entry.schedule }
+    /*
+      **Was der Anbieter nicht eingehalten hat, steht am Termin.**
+
+      `pipeline/termine-pruefen.ts` schreibt die Fälle nach
+      `data/termine-verpasst.json`; hier wandern sie an den Sendeplan, damit
+      `expandEvents()` sie an das jeweilige Ereignis hängt. Ein Termin, an dem
+      nichts erschien, verschwindet damit nicht — er sagt es (Daniel,
+      31.08.2026: „falsche infos auf der webseite sind unbedingt zu vermeiden").
+    */
+    const verpasstHier = verpassteTermine.filter((v) => v.slug === entry.slug && v.episode != null)
+    if (verpasstHier.length) {
+      schedule.verpasst = Object.fromEntries(
+        verpasstHier.map((v) => [
+          v.episode as number,
+          {
+            erwartetAm: v.erwartetAm,
+            ...(v.erschienenAm ? { erschienenAm: v.erschienenAm } : {}),
+            ...(v.verzugStunden != null ? { verzugStunden: v.verzugStunden } : {}),
+            ...(v.folgenVerfuegbar != null ? { folgenVerfuegbar: v.folgenVerfuegbar } : {}),
+            ...(v.neuErwartet ? { neuErwartet: v.neuErwartet } : {}),
+            ...(v.recherche ? { recherche: v.recherche } : {}),
+          },
+        ]),
+      )
+    }
     const releaseYear = Number(entry.schedule.firstEpisodeDate.slice(0, 4))
     if (!schedule.episodeCount && entry.releaseType === 'weekly') {
       // Folgenzahl nur übernehmen, wenn der verknüpfte AniList-Eintrag zeitlich

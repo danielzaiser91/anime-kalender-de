@@ -1,0 +1,62 @@
+[
+  {
+    "id": "ghost-in-the-shell-2026@2026-08-25",
+    "slug": "ghost-in-the-shell-2026",
+    "titleId": 177699,
+    "name": "The Ghost in the Shell",
+    "platform": "primevideo",
+    "episode": 8,
+    "erwartetAm": "2026-08-24T22:00:00.000Z",
+    "bemerktAm": "2026-08-31T15:57:26.769Z",
+    "erschienenAm": null,
+    "verzugStunden": null,
+    "folgenVerfuegbar": null,
+    "neuErwartet": null,
+    "recherche": null
+  },
+  {
+    "id": "thunder-3@2026-08-26",
+    "slug": "thunder-3",
+    "titleId": 207254,
+    "name": "Thunder 3",
+    "platform": "netflix",
+    "episode": 8,
+    "erwartetAm": "2026-08-25T22:00:00.000Z",
+    "bemerktAm": "2026-08-31T15:57:26.769Z",
+    "erschienenAm": null,
+    "verzugStunden": null,
+    "folgenVerfuegbar": null,
+    "neuErwartet": null,
+    "recherche": null
+  },
+  {
+    "id": "vom-landei-zum-schwertheiligen-2@2026-08-27",
+    "slug": "vom-landei-zum-schwertheiligen-2",
+    "titleId": 194829,
+    "name": "Vom Landei zum Schwertheiligen II",
+    "platform": "primevideo",
+    "episode": 8,
+    "erwartetAm": "2026-08-26T22:00:00.000Z",
+    "bemerktAm": "2026-08-31T15:57:26.769Z",
+    "erschienenAm": null,
+    "verzugStunden": null,
+    "folgenVerfuegbar": null,
+    "neuErwartet": null,
+    "recherche": null
+  },
+  {
+    "id": "mushoku-tensei-s3@2026-08-30",
+    "slug": "mushoku-tensei-s3",
+    "titleId": 178789,
+    "name": "Mushoku Tensei: Jobless Reincarnation – Staffel 3",
+    "platform": "crunchyroll",
+    "episode": 6,
+    "erwartetAm": "2026-08-30T15:00:00.000Z",
+    "bemerktAm": "2026-08-31T15:57:26.769Z",
+    "erschienenAm": null,
+    "verzugStunden": null,
+    "folgenVerfuegbar": 5,
+    "neuErwartet": "2026-09-06T15:00:00.000Z",
+    "recherche": "Die deutsche Synchro startete verspaetet am 19.08.2026 mit den Folgen 1-3, als der OmU-Simulcast schon bei Folge 8 war (anime2you.de/news/1042819). Angekuendigt ist \"jeden Sonntag 17:00 Uhr\". Folge 5 kam am 23.08.; am 30.08. erschien nichts, und seit dem 24.08. fuehrt der deutsche Simulcast-Kalender die Staffel gar nicht mehr (eigener Scrape 31.08. 16:08, Fenster 24.08.-13.09., kein Slot). Eine Meldung ueber eine Verschiebung gibt es nicht. Naechster planmaessiger Termin waere Sonntag, 06.09.2026, 17:00 - bis dahin unbestaetigt."
+  }
+]
