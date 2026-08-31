@@ -4589,7 +4589,12 @@ async function speicherSchreiben(werte) {
   document.body.appendChild(schalter)
   schalter.addEventListener('click', () => {
     ohneZuordnung = !ohneZuordnung
-    zeichnen()
+    schalterZeichnen()
+    try {
+      zeichnen()
+    } catch {
+      /* Der Knopf zeichnet sich beim nächsten Takt ohnehin neu. */
+    }
   })
 
   /**
@@ -5231,7 +5236,32 @@ async function speicherSchreiben(werte) {
     if (el.style[feld] !== wert) el.style[feld] = wert
   }
 
+  /**
+   * **Der Schalter zeichnet sich selbst — `zeichnen()` kommt nicht immer bis hierher.**
+   *
+   * Bis 4.3.1 stand die Beschriftung am Ende von `zeichnen()`, hinter einem
+   * Dutzend `return`. Steht der Knopf auf „✓ alles gemeldet", kehrt die
+   * Funktion lange vorher zurück — der Klick setzte den Schalter also um, ohne
+   * dass sich etwas sichtbar änderte. Daniel: „ohne zuordnung klick -> nix
+   * passiert."
+   *
+   * Deshalb eine eigene Funktion, aufgerufen beim Klick und am **Anfang** von
+   * `zeichnen()`. Sie ist billig: zwei Zuweisungen, beide nur bei Änderung.
+   */
+  function schalterZeichnen() {
+    const ausSuche = Boolean(eintrag?.ausSuche)
+    if (schalter.hidden !== !ausSuche) schalter.hidden = !ausSuche
+    if (!ausSuche) return
+    const titel = eintrag?.titel ?? ''
+    const text = ohneZuordnung ? '↩ doch zuordnen' : '⊘ ohne Zuordnung'
+    if (schalter.textContent !== text) schalter.textContent = text
+    schalter.title = ohneZuordnung
+      ? `Die Meldung geht unter der Seitenadresse raus. Zurück zu „${titel}".`
+      : `Die Meldung wird „${titel}" zugeordnet. Passt das nicht, hier abschalten.`
+  }
+
   function zeichnen() {
+    schalterZeichnen()
     /*
       **Auf einer Suchseite gibt es nichts zu melden — in jedem Takt.**
 
@@ -6155,7 +6185,20 @@ async function speicherSchreiben(werte) {
         return false
       }
     })()
-    const alleDurch = Boolean(abgehakt) && schonGemeldet && fertig(listenId) && !auftragOffen
+    /*
+      **Wer die Zuordnung abschaltet, will melden — also darf „alles gemeldet" nicht sperren.**
+
+      Der Schalter setzte bis 4.3.1 nur ein Flag um. Stand der Knopf auf
+      „✓ alles gemeldet", blieb er gesperrt, und für Daniel sah der Klick nach
+      nichts aus: „ohne zuordnung klick -> nix passiert."
+
+      Das ist gerade der Fall, für den der Schalter gebaut wurde: Der Auftrag
+      ist abgehakt, die Seite gehört aber zu etwas anderem. Ohne Zuordnung ist
+      es eine neue Meldung unter der Seitenadresse — die kennt der Abhak-Speicher
+      nicht, und sie darf raus.
+    */
+    const alleDurch =
+      !ohneZuordnung && Boolean(abgehakt) && schonGemeldet && fertig(listenId) && !auftragOffen
 
     /**
      * Alles durch — dann gibt es hier nichts mehr zu tun.
@@ -6879,14 +6922,6 @@ async function speicherSchreiben(werte) {
     }
     knopf.textContent = neuerText
     knopf.dataset.teilweise = String(!vollstaendig)
-    /* Zu entscheiden gibt es nur etwas, wo ein Auftrag im Spiel ist. */
-    schalter.hidden = !eintrag?.ausSuche
-    if (!schalter.hidden) {
-      schalter.textContent = ohneZuordnung ? '↩ doch zuordnen' : '⊘ ohne Zuordnung'
-      schalter.title = ohneZuordnung
-        ? `Die Meldung geht unter der Seitenadresse raus. Zurück zu „${zielTitel}".`
-        : `Die Meldung wird „${zielTitel}" zugeordnet. Passt das nicht, hier abschalten.`
-    }
   }
 
   /**
