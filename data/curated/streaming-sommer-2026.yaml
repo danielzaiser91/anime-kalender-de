@@ -184,12 +184,25 @@
   releaseType: weekly
   schedule:
     firstEpisodeDate: "2026-07-08"
-    # Von Daniel am 10.08.2026 bei Prime Video geprüft: Start 08.07. stimmt,
-    # zuletzt Folge 5 am 06.08. Ob die Staffel dort endet oder weitergeht, ist
-    # offen — deshalb keine Folgenzahl, die Fortschreibung trägt das ≈.
+    # Von Daniel am 10.08.2026 bei Prime Video geprüft: Start 08.07. stimmt.
+    #
+    # Folge 5 stand hier bis zum 31.08.2026 auf dem 06.08. — einen Tag zu spät,
+    # und der ganze Takt danach erbte den Versatz: Der Kalender kündigte Folge 8
+    # für den 27.08. an, erschienen ist sie am 26.08.
+    #
+    # Zwei Belege gegen die Notiz, und sie stützen einander: Prime liefert diese
+    # Staffel **mittwochs** (Folge 1 am Mi 08.07.), und fernsehserien.de führt
+    # 05.08., 12.08., 19.08., 26.08. — vier Mittwoche in Folge. Der 06.08. war
+    # ein Donnerstag und hätte den Takt allein gebrochen.
+    #
+    # Die naheliegende Erklärung ist der Tag des Nachsehens statt des
+    # Erscheinens; Daniel hat am 10.08. geprüft und für Folge 5 notiert, was er
+    # dort las. Eine Handprüfung schlägt jede Ableitung — hier widerspricht sie
+    # aber ihrer eigenen ersten Zeile, und dann entscheidet die Quelle daneben.
     observed:
       1: "2026-07-08"
-      5: "2026-08-06"
+      5: "2026-08-05"
   sources:
     - https://www.anisearch.de/news/anime/58458,simulcast-uebersicht-sommer-2026
     - https://www.amazon.de/Vom-Landei-zum-Schwertheiligen-II/dp/B0H1QXQL33
+    - https://www.fernsehserien.de/vom-landei-zum-schwertheiligen/episodenguide/staffel-2/63281
