@@ -356,18 +356,40 @@
    * unten eine Staffelangabe, gilt sie für alles darunter. Findet sich keine,
    * bleibt das Feld leer — eine geratene Staffel ist schlimmer als keine.
    */
+  /**
+   * **Die Reihenfolge, in der Staffeln gesehen wurden — das ist ihre Nummer.**
+   *
+   * Netflix vergibt dem Staffelknoten eine `videoId`, aber keine Nummer. Die
+   * Anzeige leitet sie aus der Position im Auswahlfeld ab, und genau in dieser
+   * Reihenfolge lädt die Seite sie auch nach: Bei „Dorohedoro" kam zuerst
+   * `81054852` mit dreizehn Folgen, danach die zweite.
+   *
+   * Die Kennung reist trotzdem mit. Sie ist das Eindeutige; die Nummer ist eine
+   * Ableitung, und wer sie später anzweifelt, hat mit der Kennung noch etwas
+   * in der Hand.
+   */
+  const staffelNummern = new Map()
+  function staffelNummerFuer(kennung) {
+    if (!staffelNummern.has(kennung)) staffelNummern.set(kennung, staffelNummern.size + 1)
+    return staffelNummern.get(kennung)
+  }
+
+  /**
+   * **Die Staffel steckt im `Season`-Knoten — als Kennung, nicht als Zahl.**
+   *
+   * Gemessen am 31.08.2026 an „Dorohedoro" (Diagnosebericht, Version 4.8.2):
+   *
+   *     data.videos[0] = { __typename: "Season", videoId: 81054852, episodes: … }
+   *     Pfad je Folge  = [0].episodes.edges[0].node
+   *
+   * Der erste Anlauf suchte nach `seasonSeq`, `seasonNumber` und
+   * `seasonSequenceNumber` — drei geratene Namen, keiner davon existiert. Der
+   * Knoten nennt nur seinen Typ und seine Kennung.
+   */
   function staffelAus(o) {
-    for (const feld of ['seasonSeq', 'seasonNumber', 'seasonSequenceNumber', 'seq']) {
-      const wert = o?.[feld]
-      if (Number.isFinite(wert) && wert > 0 && wert < 100 && /season/i.test(String(o.__typename ?? feld))) {
-        return wert
-      }
-    }
-    /* Ein Staffelknoten nennt seinen Typ — dann zählt auch ein schlichtes `seq`. */
-    if (/season/i.test(String(o?.__typename ?? '')) && Number.isFinite(o?.seq) && o.seq > 0) {
-      return o.seq
-    }
-    return null
+    if (!/^season$/i.test(String(o?.__typename ?? ''))) return null
+    const kennung = o.videoId ?? o.id
+    return Number(kennung) > 0 ? String(kennung) : null
   }
 
   function sammleFolgen(o, raus, tiefe, staffel = null, pfad = '', eltern = null) {
@@ -420,7 +442,8 @@
         nummer,
         videoId: Number(kennung),
         titel: o.title ?? null,
-        staffel: hier,
+        seasonId: hier,
+        staffel: hier ? staffelNummerFuer(hier) : null,
         /*
           **Woher die Folge kam — für die Messung, nicht für die Auswertung.**
 

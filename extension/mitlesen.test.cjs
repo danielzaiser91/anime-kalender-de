@@ -333,7 +333,25 @@ console.log(ok ? '\n✓ Gesehen, unverändert durchgereicht, kein Stapelüberlau
     'der Leser reicht die Staffel nach unten durch',
     /sammleFolgen\(v, raus, tiefe \+ 1, hier,/.test(leserQuelle),
   )
-  pruefe('… und hängt sie an die Folge', /staffel: hier/.test(leserQuelle))
+  pruefe('… und hängt Kennung und Nummer an die Folge', /seasonId: hier/.test(leserQuelle))
+  /*
+    **Die Staffel kommt aus dem `Season`-Knoten — gemessen, nicht geraten.**
+
+    Der erste Anlauf suchte nach `seasonSeq`, `seasonNumber` und
+    `seasonSequenceNumber`. Keiner dieser Namen existiert; der Knoten nennt nur
+    seinen Typ und eine `videoId`. Belegt im Diagnosebericht vom 31.08.2026 zu
+    „Dorohedoro":
+
+        data.videos[0] = { __typename: "Season", videoId: 81054852, episodes: … }
+  */
+  pruefe(
+    'erkannt wird der Season-Knoten, nicht ein geratenes Feld',
+    leserQuelle.includes("/^season$/i.test(String(o?.__typename"),
+  )
+  pruefe(
+    'die Nummer entsteht aus der Reihenfolge der Kennungen',
+    /staffelNummern\.set\(kennung, staffelNummern\.size \+ 1\)/.test(leserQuelle),
+  )
   pruefe(
     'ohne Fund bleibt sie leer',
     /return null/.test(leserQuelle.slice(leserQuelle.indexOf('function staffelAus'))),
