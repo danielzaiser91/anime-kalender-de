@@ -360,6 +360,28 @@
   /* Für welche Adresse der Hydration-Block schon gelesen wurde. */
   let hydrationFuer = null
 
+  /**
+   * **Die Adresse, unter der der laufende Abruf begonnen hat.**
+   *
+   * Der Stempel an jeder Antwort hieß bisher `location.pathname +
+   * location.search`, **gelesen beim Senden**. Der Kommentar unten begründet
+   * das damit, dass `startAdresse` für den Skriptstart steht und nicht für den
+   * Abruf — richtig, nur ist der Sendezeitpunkt genauso falsch: Zwischen Abruf
+   * und Auswertung liegen Sekunden, und in dieser Zeit kann Daniel die Staffel
+   * gewechselt haben.
+   *
+   * Genau das ist am 31.08.2026 bei „Space Dandy" passiert
+   * (`docs/diagnose/space-dandy-staffel2-ohne-folgen.json`): Staffel 2 zeigt
+   * gar keine Folgen, der Zählstand trug trotzdem 26 — **unter der neuen
+   * Adresse**. Der Empfänger leert nur, wenn die Adresse der Antwort von seinem
+   * Stand abweicht; mit dem Stempel von eben tut sie das nie.
+   *
+   * Gesetzt wird sie beim Beginn jedes Abrufs. Kommt die Antwort nach einem
+   * Wechsel an, trägt sie die **alte** Adresse, der Empfänger erkennt sie als
+   * fremd und wirft sie weg — wie es die Regel seit dem 25.08.2026 vorsieht.
+   */
+  let abrufAdresse = location.pathname + location.search
+
   function auswerten(text, herkunft) {
     if (typeof text !== 'string' || text.length < 60) return
     if (!text.includes('audioTracks') && !text.includes('episodePages')) return
@@ -425,7 +447,7 @@
         die Antwort ausgewertet wird.
       */
       window.postMessage(
-        { marke: MARKE, funde, gesamt, startAdresse, fuerAdresse: location.pathname + location.search, abschnitte: { gesamt: alleAbschnitte.size, offen: [...alleAbschnitte].filter((t) => !geholt.has(t)).length }, },
+        { marke: MARKE, funde, gesamt, startAdresse, fuerAdresse: abrufAdresse, abschnitte: { gesamt: alleAbschnitte.size, offen: [...alleAbschnitte].filter((t) => !geholt.has(t)).length }, },
         '*',
       )
     }
@@ -750,6 +772,8 @@
    * wegwerfen, sonst mischen sich die Folgen zweier Staffeln.
    */
   async function holeStaffel(asin) {
+    /* Ab hier gehört alles, was zurückkommt, zu dieser Adresse. */
+    abrufAdresse = location.pathname + location.search
     if (holtGerade || !asin || asin === geholteStaffel) return
     holtGerade = true
     // Beim Fehlschlag zurück auf den alten Wert — sonst gilt eine Staffel als
@@ -780,7 +804,7 @@
       }
       const gesamt = Number.isFinite(liste.episodeCount) ? liste.episodeCount : null
       window.postMessage(
-        { marke: MARKE, funde, gesamt, startAdresse, ersetzt: true, asin, fuerAdresse: location.pathname + location.search, abschnitte: { gesamt: alleAbschnitte.size, offen: [...alleAbschnitte].filter((t) => !geholt.has(t)).length }, },
+        { marke: MARKE, funde, gesamt, startAdresse, ersetzt: true, asin, fuerAdresse: abrufAdresse, abschnitte: { gesamt: alleAbschnitte.size, offen: [...alleAbschnitte].filter((t) => !geholt.has(t)).length }, },
         '*',
       )
       ankam = true
@@ -910,6 +934,8 @@
   }
 
   function schritt() {
+    /* Jeder Takt liest die Seite neu — was er findet, gehört zu dieser Adresse. */
+    abrufAdresse = location.pathname + location.search
     /*
       **Einmal lesen, zweimal verwenden.**
 
@@ -976,7 +1002,7 @@
             gesamt: seite.folgen.length || (seite.art !== 'TV Show' ? 1 : null),
             seite,
             startAdresse,
-            fuerAdresse: location.pathname + location.search,
+            fuerAdresse: abrufAdresse,
           },
           '*',
         )

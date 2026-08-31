@@ -534,6 +534,54 @@ pruefe(
   )
 }
 
+/*
+  **Die Adresse nennt die Staffel — solange ihre Zahl eine sein kann.**
+
+  Drei Fälle vom 31.08.2026 (Berichte in `docs/diagnose/`): Shangri-La Frontier,
+  Space Dandy und Sekirei. Überall trug die Adresse `…_select_s2`, das
+  Auswahlfeld den Staffel-2-Namen — und der Knopf meldete Staffel 1, weil
+  `gemeldeteStaffelNummer` vorn stand. Die kann alt sein: Sie entsteht beim Lesen
+  des Seitenblocks, und den tauscht Amazon beim Wechsel über das Auswahlfeld
+  nicht aus.
+
+  Die Grenze von fünfzig trennt weiterhin die Sortierschlüssel ab (Yu-Gi-Oh!
+  ZEXAL trug 101 und 201 für die beiden Bände derselben Staffel).
+*/
+{
+  const q = readFileSync(__dirname + '/amazon.js', 'utf8')
+  const von = q.indexOf('  function staffelNummer()')
+  const bis = q.indexOf('\n  }', von) + 4
+  const code = q.slice(von, bis).replace(/^ {2}/gm, '')
+  const bau = (adr, gemeldet) =>
+    new Function(
+      'staffelAusAdresse',
+      'gemeldeteStaffelNummer',
+      'quelltextPasst',
+      'staffelAusSeite',
+      code + '; return staffelNummer()',
+    )(() => adr, gemeldet, () => true, () => 99)
+  pruefe('die Adresse schlägt eine veraltete Meldung', bau(2, 1) === 2, bau(2, 1))
+  pruefe('ein Sortierschlüssel tut es nicht', bau(101, 1) === 1, bau(101, 1))
+  pruefe('… und ohne Meldung bleibt er unbeantwortet', bau(101, undefined) === null, bau(101, undefined))
+  pruefe('ohne Adresse gilt die Meldung', bau(null, 3) === 3, bau(null, 3))
+}
+
+/*
+  **Der Stempel an einer Antwort gehört zum Abrufbeginn, nicht zum Senden.**
+
+  Bei „Space Dandy" trug der Zählstand 26 Folgen aus Staffel 1 — unter der
+  Adresse von Staffel 2. Der Leser stempelte beim Senden, und da war der Wechsel
+  längst passiert.
+*/
+{
+  const leser = readFileSync(__dirname + '/amazon-leser.js', 'utf8')
+  pruefe(
+    'der Leser stempelt mit der Abruf-Adresse',
+    leser.split('fuerAdresse: abrufAdresse').length - 1 === 3 &&
+      !leser.includes('fuerAdresse: location.pathname'),
+  )
+}
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) rot.`)
   process.exit(1)

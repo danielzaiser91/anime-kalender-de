@@ -797,6 +797,10 @@ async function speicherSchreiben(werte) {
         letzteKennung: sicher(() => letzteKennung),
         staffelKennung: sicher(() => staffelKennung()),
         staffelNummer: sicher(() => staffelNummer()),
+        /* Damit der nächste Bericht zeigt, welche der drei Quellen geantwortet hat. */
+        staffelAusAdresse: sicher(() => staffelAusAdresse()),
+        staffelAusSeite: sicher(() => staffelAusSeite()),
+        gemeldeteStaffelNummer: sicher(() => gemeldeteStaffelNummer ?? null),
         gabStaffelwechsel: sicher(() => gabStaffelwechsel),
         letzteZahl: sicher(() => letzteZahl),
         letzterStand: sicher(() => letzterStand),
@@ -1002,6 +1006,25 @@ async function speicherSchreiben(werte) {
   function staffelAusSeite() {
     /* Aus dem JSON gemeldet schlägt aus dem Quelltext gesucht. */
     if (Number.isFinite(gemeldeteStaffelNummer)) return gemeldeteStaffelNummer
+    /*
+      **Die Fundstelle gehört zur Adresse, nicht zur ersten `titleID`.**
+
+      Die Schleife unten nimmt die erste Kennung im Quelltext — bei einer
+      Serienseite ist das die Reihe oder die erste Staffel, nicht die gewählte.
+      Steht die Kennung aus der Adresse im Text (bei Sekirei 91-mal), ist ihr
+      Umfeld die richtige Stelle.
+    */
+    const eigene = asinAusAdresse()
+    if (eigene) {
+      const html = seitenHtml()
+      if (typeof html === 'string') {
+        const stelle = html.indexOf(eigene)
+        if (stelle >= 0) {
+          const n = /"seasonNumber\\*"\s*:\s*(\d+)/.exec(html.slice(stelle, stelle + 900))?.[1]
+          if (n) return Number(n)
+        }
+      }
+    }
     const html = seitenHtml()
     if (typeof html !== 'string') return null
     // Im Umkreis der ersten titleID suchen — das ist die gerade gezeigte
@@ -1050,10 +1073,33 @@ async function speicherSchreiben(werte) {
    * keine Reihe bei Prime, und die Grenze trennt jeden echten Fall von den
    * dreistelligen Sortierschlüsseln.
    */
+  /*
+    **Die Adresse steht wieder vorn — aber nur, wenn ihre Zahl eine sein kann.**
+
+    Drei Fälle vom 31.08.2026, alle mit Bericht in `docs/diagnose/`: Shangri-La
+    Frontier, Space Dandy und Sekirei. Überall trug die Adresse
+    `?ref_=atv_dp_season_select_s2`, das Auswahlfeld den Staffel-2-Namen,
+    `lage.staffelZahl` die 2 — und der Knopf meldete Staffel 1.
+
+    Seit 2.8 stand `gemeldeteStaffelNummer` vorn, weil Yu-Gi-Oh! ZEXAL zeigte,
+    dass die Adresse **Sortierschlüssel** trägt: 101 und 201 für die beiden
+    Bände derselben Staffel. Genau dagegen gibt es aber schon die Grenze von
+    fünfzig — sie trennt jeden echten Staffelwert von jedem Sortierschlüssel.
+
+    Die Meldung des Mitlesers hat dafür einen Nachteil, den die Adresse nicht
+    hat: Sie kann **alt** sein. Sie entsteht beim Lesen des Seitenblocks, und
+    nach einem Wechsel über das Auswahlfeld tauscht Amazon den nicht aus
+    (CLAUDE.md, 24.08.2026). Die Adresse wandert dagegen sofort mit.
+
+    Also: Adresse zuerst, solange ihre Zahl ≤ 50 ist; darüber gilt sie als
+    Sortierschlüssel und die Meldung übernimmt. Beide Fälle sind damit
+    abgedeckt, ohne dass einer den anderen kostet.
+  */
   function staffelNummer() {
-    if (Number.isFinite(gemeldeteStaffelNummer)) return gemeldeteStaffelNummer
     const ausAdresse = staffelAusAdresse()
-    if (Number.isFinite(ausAdresse)) return ausAdresse <= 50 ? ausAdresse : null
+    if (Number.isFinite(ausAdresse) && ausAdresse <= 50) return ausAdresse
+    if (Number.isFinite(gemeldeteStaffelNummer)) return gemeldeteStaffelNummer
+    if (Number.isFinite(ausAdresse)) return null
     return quelltextPasst() ? staffelAusSeite() : null
   }
 
