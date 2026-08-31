@@ -628,6 +628,24 @@ pruefe('eine andere Jahresfassung zaehlt nicht als genauer Treffer', fremdesJahr
   pruefe('ohne Angabe bleibt es Staffel 1', staffelImTitel('Goblin Slayer') === 1)
   /* Titel, die zufaellig auf Ziffern enden, sind keine Staffeln. */
   pruefe('Fate/Zero ist keine Staffel Zero', staffelImTitel('Fate/Zero') === 1)
+  /*
+    **Gesucht wird mit dem deutschen Titel ohne Gattungswörter.**
+
+    Von 51 Prime-Suchadressen trugen 26 den englischen Titel (gemessen
+    31.08.2026). Der findet oft nichts — „Sailor Moon S Movie: Hearts in Ice"
+    gibt null Anime-Treffer, obwohl der Film als „Sailor Moon S:
+    Schneeprinzessin Kaguya" dort liegt.
+
+    Die Adresse bleibt als Schlüssel für die Zuordnung; der Suchbegriff steht
+    als eigenes Feld daneben. Die englische Schreibweise ersetzt den geratenen
+    „Anders schreiben"-Vorschlag.
+  */
+  pruefe(
+    'die Liste öffnet den beigelegten Suchbegriff',
+    quelle.includes('verweis.href = e?.suchbegriff'),
+  )
+  pruefe('der Kasten bietet die englische Schreibweise', quelle.includes('Englisch suchen:'))
+
   pruefe('ein Jahr in Klammern auch nicht', staffelImTitel('Captain Tsubasa (2018)') === 1)
 }
 

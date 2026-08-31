@@ -387,6 +387,41 @@ function mitTeilnummer(name, t) {
   return name
 }
 
+/**
+ * **Gesucht wird mit dem deutschen Titel, ohne Gattungswörter.**
+ *
+ * Daniel am 31.08.2026: „alle titel sollen im search mit ihrem deutschen titel
+ * gesucht werden … und die generics sollen aus der search rausgenommen werden,
+ * also in diesem fall movie und :"
+ *
+ * Gemessen: Von 51 Prime-Suchadressen im Bestand tragen **26 den englischen**
+ * Titel. Der findet oft nichts — „Sailor Moon S Movie: Hearts in Ice" gibt bei
+ * Prime null Anime-Treffer, obwohl der Film dort als „Sailor Moon S:
+ * Schneeprinzessin Kaguya" liegt.
+ *
+ * **Die Adresse bleibt, wie sie ist.** Sie ist der Schlüssel, unter dem
+ * Meldungen zugeordnet werden; wer sie ändert, verliert den Bezug zu allem, was
+ * schon gemeldet wurde. Der Suchbegriff steht deshalb als eigenes Feld daneben,
+ * und die Erweiterung baut daraus die Adresse, die sie **öffnet**.
+ *
+ * Dieselben Gattungswörter wie beim Titelabgleich in `amazon.js` — sie stehen
+ * dort als `GATTUNG`. Zwei Listen liefen auseinander, also steht die
+ * maßgebliche hier und wird mitgeliefert.
+ */
+const GATTUNG = new Set([
+  'film', 'movie', 'serie', 'series', 'anime', 'animation', 'staffel', 'season',
+  'komplett', 'komplette', 'complete', 'gesamtausgabe', 'edition', 'episoden', 'folgen',
+  'the', 'der', 'die', 'das', 'des', 'dem', 'den', 'und', 'and',
+])
+
+/** „Sailor Moon S Movie: Hearts in Ice" → „Sailor Moon S Hearts in Ice" */
+function suchbegriffAus(name) {
+  const worte = (name ?? '')
+    .split(/[^\p{L}\p{N}]+/u)
+    .filter((w) => w && !GATTUNG.has(w.toLowerCase()))
+  return worte.join(' ') || (name ?? '')
+}
+
 const suche = {}
 for (const t of titel) {
   for (const s of t.streams ?? []) {
@@ -400,8 +435,16 @@ for (const t of titel) {
       wegenStaffel++
       continue
     }
+    const angezeigt = mitTeilnummer(t.titleDe ?? t.titleEn ?? t.titleRomaji ?? String(t.id), t)
     suche[s.url] = {
-      titel: mitTeilnummer(t.titleDe ?? t.titleEn ?? t.titleRomaji ?? String(t.id), t),
+      titel: angezeigt,
+      /*
+        Der Begriff, mit dem wirklich gesucht wird — deutscher Titel zuerst,
+        Englisch nur als Rückfall, Gattungswörter raus.
+      */
+      suchbegriff: suchbegriffAus(t.titleDe ?? angezeigt),
+      /* Die englische Schreibweise als zweiter Versuch, falls Prime sie führt. */
+      suchbegriffEn: t.titleEn && t.titleEn !== t.titleDe ? suchbegriffAus(t.titleEn) : null,
       id: t.id,
       folgen: t.episodes ?? null,
       /*
@@ -442,8 +485,12 @@ try {
       wegenStaffel++
       continue
     }
+    const angezeigtV = mitTeilnummer(v.titel, t)
     suche[url] = {
-      titel: mitTeilnummer(v.titel, t),
+      titel: angezeigtV,
+      /* Deutscher Titel zuerst, Gattungswörter raus — siehe suchbegriffAus(). */
+      suchbegriff: suchbegriffAus(t?.titleDe ?? angezeigtV),
+      suchbegriffEn: t?.titleEn && t.titleEn !== t?.titleDe ? suchbegriffAus(t.titleEn) : null,
       id: v.id,
       folgen: v.folgen,
       jahr: Number.isFinite(t?.jpYear) ? t.jpYear : null,

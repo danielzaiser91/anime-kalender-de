@@ -2651,6 +2651,17 @@ async function speicherSchreiben(werte) {
       const zusammengezogen = (t) => t.replace(/^(\S+)\s+(\S+)/, (_, a, b) => a + b.charAt(0).toUpperCase() + b.slice(1))
       const variante = zusammengezogen(begriff)
       const zusammen = jetzigerBegriff === variante ? begriff : variante
+      /*
+        Die englische Schreibweise kommt aus dem Bestand, nicht aus einer
+        Umformung — der Listengenerator legt sie als `suchbegriffEn` bei.
+      */
+      const auftragEn = (() => {
+        try {
+          return suchliste[auftrag?.suchUrl]?.suchbegriffEn ?? null
+        } catch {
+          return null
+        }
+      })()
       const begriffZeile =
         begriff && titelKern(begriff) !== titelKern(auftrag.titel)
           ? [kastenZeile('ak-such-hinweis', `gesucht als: ${begriff}`)]
@@ -2868,6 +2879,29 @@ async function speicherSchreiben(werte) {
           Bildern). Welche Schreibweise trifft, ist von außen nicht zu wissen —
           also wird die andere angeboten, statt sie zu erraten.
         */
+        /*
+          **Die englische Schreibweise als zweiter Versuch.**
+
+          Bis 4.1.0 stand hier „Anders schreiben" mit einer aus dem Begriff
+          zusammengezogenen Variante („SailorMoon" statt „Sailor Moon") — ein
+          Rateversuch. Daniel am 31.08.2026: „optional soll ein button angezeigt
+          werden der die englische schreibweise hat (ersetzt ‚anders
+          schreiben')."
+
+          Der englische Titel steht im Bestand und wird vom Listengenerator als
+          `suchbegriffEn` beigelegt, ebenfalls ohne Gattungswörter. Er ist die
+          bessere Zweitsuche: Prime führt manche Titel nur englisch.
+
+          Die zusammengezogene Variante bleibt als dritter Weg — sie hat bei
+          „Horimiya" wirklich getragen —, steht aber hinter dem Englischen.
+        */
+        ...(auftragEn && auftragEn !== jetzigerBegriff
+          ? [
+              kastenKnopf(`Englisch suchen: ${auftragEn}`, () => {
+                location.href = `https://www.amazon.de/s?k=${encodeURIComponent(auftragEn)}&i=instant-video`
+              }),
+            ]
+          : []),
         ...(zusammen && zusammen !== jetzigerBegriff ? [kastenKnopf(`Anders schreiben: ${zusammen}`, () => {
           location.href = `https://www.amazon.de/s?k=${encodeURIComponent(zusammen)}&i=instant-video`
         })] : []),
@@ -4095,7 +4129,22 @@ async function speicherSchreiben(werte) {
 
         const verweis = document.createElement('a')
         verweis.className = 'ak-titel'
-        verweis.href = url
+        /*
+          **Geöffnet wird der Suchbegriff, gemeldet die Adresse.**
+
+          Die Adresse aus dem Bestand ist der Schlüssel für jede Zuordnung — sie
+          bleibt unverändert. Womit gesucht wird, ist davon unabhängig: Der
+          Listengenerator legt seit dem 31.08.2026 einen `suchbegriff` bei,
+          gebaut aus dem **deutschen** Titel ohne Gattungswörter.
+
+          Daniel: „alle titel sollen im search mit ihrem deutschen titel gesucht
+          werden … die generics sollen aus der search rausgenommen werden."
+          Gemessen trugen 26 von 51 Adressen den englischen Titel, und der
+          findet bei Prime oft nichts.
+        */
+        verweis.href = e?.suchbegriff
+          ? `https://www.amazon.de/s?k=${encodeURIComponent(e.suchbegriff)}&i=instant-video`
+          : url
         verweis.textContent = e.titel
         zeile.appendChild(verweis)
 
