@@ -963,6 +963,46 @@ pruefe('die Suchliste wird von der Seite nachgeladen', quelle.includes('prime-su
 pruefe('die gepackte Liste bleibt Rückfall', quelle.includes('globalThis.AK_PRIME_SUCHE ?? {}'))
 pruefe('nachgeladen wird zwischengespeichert', /chrome\.storage\.local[\s\S]{0,200}primeSuche/.test(quelle))
 
+
+/*
+  **Zwei Elemente derselben Ecke dürfen nicht denselben Abstand haben.**
+
+  Auf einer Prime-Seite stehen bis zu vier Dinge unten rechts übereinander. Am
+  31.08.2026 lag der Zuordnungs-Schalter auf der Pille „N Prime-Suchen offen" —
+  beide bei 56px. Daniel mit Bild: „ohne zuordnung button liegt auf anderem
+  button."
+
+  Geprüft wird nur, was auf Amazon gleichzeitig sichtbar sein kann. Der
+  aufgeklappte Kasten deckt die Pille bewusst ab und bleibt draußen.
+*/
+{
+  const css = readFileSync(__dirname + '/melder.css', 'utf8')
+  const stapel = [
+    'ak-amazon-knopf',
+    'ak-durchlauf',
+    'ak-amazon-schalter',
+    'ak-amazon-suchhinweis',
+  ]
+  const werte = new Map()
+  for (const klasse of stapel) {
+    const block = new RegExp('\.' + klasse + '\s*\{([^}]*)\}').exec(css)?.[1] ?? ''
+    const b = /bottom:\s*(\d+)px/.exec(block)?.[1]
+    if (b) werte.set(klasse, Number(b))
+  }
+  const doppelt = [...werte.entries()].filter(
+    ([k, v]) => [...werte.values()].filter((x) => x === v).length > 1,
+  )
+  pruefe(
+    'kein Element unten rechts teilt seinen Abstand mit einem anderen',
+    doppelt.length === 0,
+    doppelt.map(([k, v]) => `${k}=${v}px`).join(', '),
+  )
+  /* Und der Abstand muss reichen: Der schmalste Knopf ist rund 24px hoch. */
+  const sortiert = [...werte.values()].sort((a, b) => a - b)
+  const zuEng = sortiert.filter((v, i) => i > 0 && v - sortiert[i - 1] < 30)
+  pruefe('zwischen zwei Ebenen liegen mindestens 30px', zuEng.length === 0, sortiert.join(' < '))
+}
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) rot.`)
   process.exit(1)
