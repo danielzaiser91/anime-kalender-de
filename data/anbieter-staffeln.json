@@ -470,7 +470,7 @@
     "erste": 13
    }
   ],
-  "gemeldetAm": "2026-08-23"
+  "gemeldetAm": "2026-08-31"
  },
  "80992137": {
   "staffeln": [
@@ -504,7 +504,7 @@
     "erste": 16
    }
   ],
-  "gemeldetAm": "2026-08-23"
+  "gemeldetAm": "2026-08-31"
  },
  "81002444": {
   "staffeln": [
@@ -809,6 +809,29 @@
   ],
   "gemeldetAm": "2026-08-22"
  },
+ "81278456": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "St. 1",
+    "folgen": 24,
+    "erste": 1
+   },
+   {
+    "seq": 2,
+    "name": "St. 2",
+    "folgen": 23,
+    "erste": 25
+   },
+   {
+    "seq": 3,
+    "name": "St. 3",
+    "folgen": 12,
+    "erste": 48
+   }
+  ],
+  "gemeldetAm": "2026-08-31"
+ },
  "81280998": {
   "staffeln": [
    {
@@ -913,6 +936,17 @@
    }
   ],
   "gemeldetAm": "2026-08-26"
+ },
+ "81422700": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "",
+    "folgen": 36,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-08-31"
  },
  "81442091": {
   "staffeln": [
