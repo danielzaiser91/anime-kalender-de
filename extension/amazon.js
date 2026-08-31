@@ -4514,6 +4514,37 @@ async function speicherSchreiben(werte) {
   document.body.appendChild(knopf)
 
   /**
+   * **Ob die Meldung an den Auftrag gehängt wird oder nur an die Seite.**
+   *
+   * Der Suchauftrag lebt im Sitzungs-Speicher und überlebt jeden Klick. Wer aus
+   * der Prüfliste heraus sucht, den Treffer öffnet und danach **noch eine**
+   * Serie ansieht, meldet die zweite unter dem Auftrag der ersten — die Meldung
+   * ist inhaltlich richtig und am falschen Titel.
+   *
+   * Genau das ist am 31.08.2026 passiert: „Encouragement of Climb" (13 Folgen,
+   * B0GP5XXDNT) kam unter der Adresse von „Re:␣Hamatora" an, und der Eintrag
+   * verschwand von der Prüfliste. Daniel: „die extension hat das falsche
+   * gemeldet glaub ich, um das zu verhindern kannst du bei extension immer
+   * anzeigen auf was gemapped wird wenn ich melde, und mir mglichkeit geben
+   * ohne zuordnung zu melden."
+   *
+   * Beides steht jetzt da: Der Knopf nennt den Titel, unter dem gemeldet wird,
+   * und daneben schaltet einer die Zuordnung ab. Ohne sie geht die Meldung
+   * unter der Seitenadresse raus — der Bau ordnet sie später zu, was er ohnehin
+   * besser kann als eine Sitzung im Browser.
+   */
+  let ohneZuordnung = false
+  const schalter = document.createElement('button')
+  schalter.className = 'ak-amazon-knopf ak-amazon-schalter'
+  schalter.type = 'button'
+  schalter.hidden = true
+  document.body.appendChild(schalter)
+  schalter.addEventListener('click', () => {
+    ohneZuordnung = !ohneZuordnung
+    zeichnen()
+  })
+
+  /**
    * Gesammelt wird über die Abschnitte hinweg, nicht je Ansicht.
    *
    * Amazon zeigt lange Staffeln seitenweise („Folgen 1–24", „25–48", „49–51").
@@ -6772,7 +6803,21 @@ async function speicherSchreiben(werte) {
       ein bestätigter Bereich sagt etwas anderes als die gelesene Menge.
     */
     const umfangTeil = (bereiche || gelesenText) && !istFilm && !teilLang ? '' : ' · ' + umfang
-    const neuerText = `${sprachStand}${umfangTeil}${staffelText2 ?? ''}${zugang}${kanalHinweis}${woher} · melden`
+    /*
+      **Wohin die Meldung geht, steht auf dem Knopf.**
+
+      Nur bei einem Auftrag aus der Suche: Auf einer Seite, die selbst in der
+      Prüfliste steht, gibt es nichts zu verwechseln. Der Titel wird gekürzt —
+      der Knopf soll nicht die halbe Seite einnehmen.
+    */
+    const zielTitel = eintrag?.ausSuche ? (eintrag.titel ?? '') : ''
+    const kurz = zielTitel.length > 38 ? zielTitel.slice(0, 36) + '…' : zielTitel
+    const zielTeil = ohneZuordnung
+      ? ' · melden ohne Zuordnung'
+      : kurz
+        ? ` · melden als „${kurz}"`
+        : ' · melden'
+    const neuerText = `${sprachStand}${umfangTeil}${staffelText2 ?? ''}${zugang}${kanalHinweis}${woher}${zielTeil}`
     /*
       **Jeder Wechsel der Beschriftung wird mitgeschrieben.**
 
@@ -6786,6 +6831,14 @@ async function speicherSchreiben(werte) {
     }
     knopf.textContent = neuerText
     knopf.dataset.teilweise = String(!vollstaendig)
+    /* Zu entscheiden gibt es nur etwas, wo ein Auftrag im Spiel ist. */
+    schalter.hidden = !eintrag?.ausSuche
+    if (!schalter.hidden) {
+      schalter.textContent = ohneZuordnung ? '↩ doch zuordnen' : '⊘ ohne Zuordnung'
+      schalter.title = ohneZuordnung
+        ? `Die Meldung geht unter der Seitenadresse raus. Zurück zu „${zielTitel}".`
+        : `Die Meldung wird „${zielTitel}" zugeordnet. Passt das nicht, hier abschalten.`
+    }
   }
 
   /**
@@ -7526,7 +7579,8 @@ async function speicherSchreiben(werte) {
         headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
         body: JSON.stringify({
           plattform: 'primevideo',
-          url: eintrag.url,
+          /* Ohne Zuordnung geht die Meldung unter der Seite raus, nicht unter dem Auftrag. */
+          url: ohneZuordnung ? `https://www.amazon.de/dp/${id}` : eintrag.url,
           /**
            * **Die Kennung der Seite, auf der wirklich gelesen wurde.**
            *

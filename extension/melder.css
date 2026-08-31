@@ -267,6 +267,18 @@
 .ak-amazon-knopf[data-deutsch='true'] { background: #15803d; }
 .ak-amazon-knopf[data-deutsch='false'] { background: #b91c1c; }
 
+/*
+  Der Schalter für die Zuordnung sitzt über dem Melde-Knopf und bleibt grau:
+  Er meldet nichts, er entscheidet nur, woran die Meldung hängt.
+*/
+.ak-amazon-schalter {
+  bottom: 56px;
+  background: #374151;
+  font-size: 12px;
+  padding: 5px 11px;
+}
+.ak-amazon-schalter[hidden] { display: none; }
+
 /* Auf Amazon stehen beide Knöpfe gleichzeitig da — bei Netflix schließen sie
    sich aus (Übersicht außerhalb des Players, Melder darin). Ohne diese Zeile
    liegt die Übersicht genau unter dem Melde-Knopf und ist nicht anklickbar. */

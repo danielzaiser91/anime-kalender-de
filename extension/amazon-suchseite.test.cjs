@@ -926,3 +926,27 @@ if (fehler.length) {
   process.exit(1)
 }
 console.log('Alle Zusicherungen erfüllt.')
+
+/*
+  **Der Knopf sagt, unter welchem Titel er meldet — und lässt es abschalten.**
+
+  Der Suchauftrag lebt im Sitzungs-Speicher und überlebt jeden Klick. Am
+  31.08.2026 kam „Encouragement of Climb" (13 Folgen, B0GP5XXDNT) unter der
+  Adresse von „Re:␣Hamatora" an, weil Daniel nach dem Treffer noch eine zweite
+  Serie ansah. Der Prüflisteneintrag verschwand, die Meldung war am falschen
+  Titel.
+
+  Sein Auftrag: „kannst du bei extension immer anzeigen auf was gemapped wird
+  wenn ich melde, und mir mglichkeit geben ohne zuordnung zu melden."
+*/
+pruefe('der Knopf nennt den Titel, unter dem gemeldet wird', quelle.includes('melden als'))
+pruefe('ein Schalter hebt die Zuordnung auf', quelle.includes('ohne Zuordnung'))
+pruefe(
+  'ohne Zuordnung geht die Meldung unter der Seitenadresse raus',
+  /url: ohneZuordnung \?/.test(quelle),
+)
+
+if (fehler.length) {
+  console.error(`\n${fehler.length} Zusicherung(en) rot.`)
+  process.exit(1)
+}
