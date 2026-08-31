@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-08-31T20:49:53.791Z",
+ "erzeugtAm": "2026-08-31T21:48:45.243Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -11,7 +11,7 @@
    "suchAdressen": [
     "https://www.amazon.de/s?k=Is%20This%20a%20Zombie%3F&i=instant-video"
    ],
-   "ziel": "https://www.amazon.de/dp/B0DGGZSKRM",
+   "ziel": "https://www.amazon.de/dp/B0GKFJXSLT",
    "ziele": [
     {
      "url": "https://www.amazon.de/dp/B0GKFJXSLT",
@@ -22,155 +22,43 @@
      "titel": "My First Girlfriend Is a Gal — Kauftitel (FSK 16, mit OVA)"
     }
    ],
-   "naechster": "Kenpuu Denki Berserk"
+   "naechster": "Golden Kamuy: Final Season"
   },
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 332,
+   "gemeldet": 367,
    "gesamt": 369,
-   "offen": 37,
+   "offen": 2,
    "ohneSeite": 0,
-   "ziel": "https://www.netflix.com/title/70204970",
+   "ziel": "https://www.netflix.com/title/80175351",
    "ziele": [
-    {
-     "url": "https://www.netflix.com/title/70204970",
-     "titel": "Death Note"
-    },
-    {
-     "url": "https://www.netflix.com/title/70297439",
-     "titel": "Pokémon"
-    },
-    {
-     "url": "https://www.netflix.com/title/80063153",
-     "titel": "Kuroko’s Basketball: 1st Season"
-    },
-    {
-     "url": "https://www.netflix.com/title/80103318",
-     "titel": "Kuromukuro"
-    },
     {
      "url": "https://www.netflix.com/title/80175351",
      "titel": "Kakegurui: Das Leben ist ein Spiel"
-    },
-    {
-     "url": "https://www.netflix.com/title/80183051",
-     "titel": "7 Seeds"
-    },
-    {
-     "url": "https://www.netflix.com/title/80221272",
-     "titel": "Last Hope"
-    },
-    {
-     "url": "https://www.netflix.com/title/80231373",
-     "titel": "Ultraman"
-    },
-    {
-     "url": "https://www.netflix.com/title/80238012",
-     "titel": "Black Clover"
-    },
-    {
-     "url": "https://www.netflix.com/title/80986797",
-     "titel": "Forest of Piano"
-    },
-    {
-     "url": "https://www.netflix.com/title/80991329",
-     "titel": "Larva Island"
-    },
-    {
-     "url": "https://www.netflix.com/title/80991903",
-     "titel": "Dorohedoro"
-    },
-    {
-     "url": "https://www.netflix.com/title/80992137",
-     "titel": "Carole und Tuesday"
-    },
-    {
-     "url": "https://www.netflix.com/title/80992228",
-     "titel": "Kengan Ashura"
-    },
-    {
-     "url": "https://www.netflix.com/title/80997338",
-     "titel": "Hi Score Girl"
-    },
-    {
-     "url": "https://www.netflix.com/title/81054847",
-     "titel": "Beastars"
-    },
-    {
-     "url": "https://www.netflix.com/title/81249833",
-     "titel": "Vinland Saga"
-    },
-    {
-     "url": "https://www.netflix.com/title/81278456",
-     "titel": "Jujutsu Kaisen"
-    },
-    {
-     "url": "https://www.netflix.com/title/81422700",
-     "titel": "Eyeshield 21"
-    },
-    {
-     "url": "https://www.netflix.com/title/81569754",
-     "titel": "My Dress-Up Darling"
-    },
-    {
-     "url": "https://www.netflix.com/title/81640753",
-     "titel": "Bluelock"
-    },
-    {
-     "url": "https://www.netflix.com/title/81698957",
-     "titel": "Sparks of Tomorrow"
-    },
-    {
-     "url": "https://www.netflix.com/title/82757009",
-     "titel": "Kill Blue"
     },
     {
      "url": "https://www.netflix.com/title/82968180",
      "titel": "Gintama the Movie 2026: Yoshiwara in Flames"
     }
    ],
-   "naechster": "Death Note"
+   "naechster": "Kakegurui: Das Leben ist ein Spiel"
   },
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 27,
+   "gemeldet": 35,
    "gesamt": 36,
-   "offen": 9,
+   "offen": 1,
    "ohneSeite": 0,
-   "ziel": "https://www.disneyplus.com/browse/entity-99c35086-cc39-481c-9827-333c0ab15d5a",
+   "ziel": "https://www.disneyplus.com/de-de/series/go-go-loser-ranger/2VX5fKgeiVEl",
    "ziele": [
-    {
-     "url": "https://www.disneyplus.com/browse/entity-99c35086-cc39-481c-9827-333c0ab15d5a",
-     "titel": "Dorohedoro"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-3dd9925f-0eb8-46f4-93d0-30ba887fc8d3",
-     "titel": "Jujutsu Kaisen"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-be391742-6617-42ad-b53a-be368ee73335",
-     "titel": "Tokyo Revengers"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/series/tokyo-revengers/4HFbN55sAh0i",
-     "titel": "Tokyo Revengers: Christmas Showdown"
-    },
     {
      "url": "https://www.disneyplus.com/de-de/series/go-go-loser-ranger/2VX5fKgeiVEl",
      "titel": "Go, Go, Loser Ranger!"
-    },
-    {
-     "url": "https://www.disneyplus.com/de-de/browse/entity-79a3e335-2acc-408e-a942-1b0bac47d952",
-     "titel": "Though I Am an Inept Villainess"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-8cc06990-0faf-4a7e-ac1f-fb74cb4b9286",
-     "titel": "Das Band der Unterwelt"
     }
    ],
-   "naechster": "Dorohedoro"
+   "naechster": "Go, Go, Loser Ranger!"
   }
  ]
 }
