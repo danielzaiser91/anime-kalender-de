@@ -274,29 +274,22 @@
 /*
   **Die Stapelordnung unten rechts — eine Liste, damit niemand wieder rät.**
 
-  Auf einer Prime-Seite stehen bis zu vier Dinge übereinander in derselben Ecke.
-  Wer eines davon einbaut, ohne die anderen zu kennen, legt es auf ein
-  vorhandenes: Am 31.08.2026 landete der Zuordnungs-Schalter (56px) genau auf
-  der Pille „N Prime-Suchen offen" (ebenfalls 56px). Daniel mit Bild: „ohne
-  zuordnung button liegt auf anderem button."
+  Auf einer Prime-Seite stehen mehrere Dinge übereinander in derselben Ecke. Wer
+  eines davon einbaut, ohne die anderen zu kennen, legt es auf ein vorhandenes:
+  Am 31.08.2026 landete ein Zuordnungs-Schalter (56px) genau auf der Pille
+  „N Prime-Suchen offen" (ebenfalls 56px). Daniel mit Bild: „ohne zuordnung
+  button liegt auf anderem button." Der Schalter ist inzwischen wieder weg —
+  die Ordnung bleibt, samt der Zusicherung in `amazon-suchseite.test.cjs`.
 
-  Von unten nach oben, mit dem Platz, den jedes Element braucht:
+  Von unten nach oben:
 
       16px   .ak-amazon-knopf        Melde-Knopf, ~30px hoch
       56px   .ak-durchlauf           Pille „N Prime-Suchen offen", ~26px
-      92px   .ak-amazon-schalter     Zuordnung an/aus, ~24px
      132px   .ak-amazon-suchhinweis  Hinweiskasten zur Suche
 
   `.ak-uebersicht.ak-amazon-uebersicht` (62px) ist der aufgeklappte Kasten — er
   deckt die Pille bewusst ab und gehört nicht in diese Reihe.
 */
-.ak-amazon-schalter {
-  bottom: 92px;
-  background: #374151;
-  font-size: 12px;
-  padding: 5px 11px;
-}
-.ak-amazon-schalter[hidden] { display: none; }
 
 /* Auf Amazon stehen beide Knöpfe gleichzeitig da — bei Netflix schließen sie
    sich aus (Übersicht außerhalb des Players, Melder darin). Ohne diese Zeile

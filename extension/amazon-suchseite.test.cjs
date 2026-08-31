@@ -928,7 +928,7 @@ if (fehler.length) {
 console.log('Alle Zusicherungen erfüllt.')
 
 /*
-  **Der Knopf sagt, unter welchem Titel er meldet — und lässt es abschalten.**
+  **Der Knopf sagt, unter welchem Titel er meldet.**
 
   Der Suchauftrag lebt im Sitzungs-Speicher und überlebt jeden Klick. Am
   31.08.2026 kam „Encouragement of Climb" (13 Folgen, B0GP5XXDNT) unter der
@@ -937,32 +937,10 @@ console.log('Alle Zusicherungen erfüllt.')
   Titel.
 
   Sein Auftrag: „kannst du bei extension immer anzeigen auf was gemapped wird
-  wenn ich melde, und mir mglichkeit geben ohne zuordnung zu melden."
+  wenn ich melde." Ein Schalter „ohne Zuordnung" stand kurz daneben und ist
+  wieder weg — „nicht bei prime" tut dasselbe und funktioniert (Daniel, 31.08.).
 */
 pruefe('der Knopf nennt den Titel, unter dem gemeldet wird', quelle.includes('melden als'))
-pruefe('ein Schalter hebt die Zuordnung auf', quelle.includes('ohne Zuordnung'))
-pruefe(
-  'ohne Zuordnung geht die Meldung unter der Seitenadresse raus',
-  /url: ohneZuordnung \?/.test(quelle),
-)
-
-
-/*
-  **Die Prüfliste kommt von der Seite, nicht aus dem Paket.**
-
-  Beide Listen stecken als Datei in der Erweiterung und altern ab dem Packen.
-  Am 31.08.2026 sagte die Erweiterung „Prime: alles geprüft", während die
-  Statusanzeige 24 offene Suchen zeigte — dazwischen lag ein Tiefendurchlauf
-  mit 25 neuen Aufträgen. Daniel: „single source of truth."
-
-  `tools/extension-offene-amazon.mjs` schreibt die Liste zusätzlich als
-  `public/data/prime-suche.json`; die Erweiterung holt sie beim Start und hält
-  sie zehn Minuten in `chrome.storage.local`.
-*/
-pruefe('die Suchliste wird von der Seite nachgeladen', quelle.includes('prime-suche.json'))
-pruefe('die gepackte Liste bleibt Rückfall', quelle.includes('globalThis.AK_PRIME_SUCHE ?? {}'))
-pruefe('nachgeladen wird zwischengespeichert', /chrome\.storage\.local[\s\S]{0,200}primeSuche/.test(quelle))
-
 
 /*
   **Zwei Elemente derselben Ecke dürfen nicht denselben Abstand haben.**
@@ -980,7 +958,6 @@ pruefe('nachgeladen wird zwischengespeichert', /chrome\.storage\.local[\s\S]{0,2
   const stapel = [
     'ak-amazon-knopf',
     'ak-durchlauf',
-    'ak-amazon-schalter',
     'ak-amazon-suchhinweis',
   ]
   const werte = new Map()

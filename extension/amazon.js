@@ -2628,13 +2628,16 @@ async function speicherSchreiben(werte) {
           url: auftrag.suchUrl,
           befund: 'weg',
           titel: auftrag.titel,
+          /* Woher die Auskunft stammt — Suchseite oder geöffnete Titelseite. */
           notiz:
-            'Suche auf Prime Video: ' +
-            (befund.art === 'aehnlich'
-              ? 'kein Treffer für diesen Titel, nur Verwandtes (' +
-                befund.treffer.map((t) => t.titel).slice(0, 3).join(', ') +
-                ')'
-              : 'kein einziger Treffer'),
+            befund.art === 'titelseite'
+              ? 'Titelseite auf Prime Video geöffnet und geprüft: Sie gehört nicht zu diesem Titel'
+              : 'Suche auf Prime Video: ' +
+                (befund.art === 'aehnlich'
+                  ? 'kein Treffer für diesen Titel, nur Verwandtes (' +
+                    befund.treffer.map((t) => t.titel).slice(0, 3).join(', ') +
+                    ')'
+                  : 'kein einziger Treffer'),
         }),
       })
       if (!antwort.ok) throw new Error(`HTTP ${antwort.status}`)
@@ -3448,6 +3451,29 @@ async function speicherSchreiben(werte) {
       ...(seitenAngabenGelten
         ? [kastenZeile('ak-such-hinweis', 'Zeigt die Seite deutlich weniger, ist es ein anderes Werk')]
         : []),
+      /*
+        **„Nicht bei Prime" gehört auch auf die Titelseite.**
+
+        Auf der Suchseite steht der Knopf seit dem 30.08.2026 — dort sieht man,
+        dass kein Treffer passt. Auf der Titelseite fehlte er, und genau dort
+        merkt man es oft erst: „Pinocchio" verlangt 52 Folgen, die geöffnete
+        Seite führt 18 (Daniel, 31.08.2026, mit Bild).
+
+        Kurz stand daneben ein Schalter „ohne Zuordnung", der die Meldung von
+        ihrem Auftrag löste. Er ist wieder weg — Daniel: „warum ohne zuordnung
+        und nicht bei prime beides?? eins von beidem reicht. besser nicht bei
+        prime, weil das funktioniert."
+
+        Der Knopf ist derselbe wie im Treffer-Kasten und meldet unter der
+        Suchadresse; die Notiz nennt, dass die geöffnete Titelseite nicht passt.
+      */
+      ...(istGemeldet(auftrag.suchUrl)
+        ? []
+        : [
+            kastenKnopf('Nicht bei Prime — melden', (k) =>
+              nichtBeiPrimeMelden(auftrag, { art: 'titelseite' }, k),
+            ),
+          ]),
     )
     return true
   }
@@ -4561,41 +4587,6 @@ async function speicherSchreiben(werte) {
   knopf.type = 'button'
   document.body.appendChild(knopf)
 
-  /**
-   * **Ob die Meldung an den Auftrag gehängt wird oder nur an die Seite.**
-   *
-   * Der Suchauftrag lebt im Sitzungs-Speicher und überlebt jeden Klick. Wer aus
-   * der Prüfliste heraus sucht, den Treffer öffnet und danach **noch eine**
-   * Serie ansieht, meldet die zweite unter dem Auftrag der ersten — die Meldung
-   * ist inhaltlich richtig und am falschen Titel.
-   *
-   * Genau das ist am 31.08.2026 passiert: „Encouragement of Climb" (13 Folgen,
-   * B0GP5XXDNT) kam unter der Adresse von „Re:␣Hamatora" an, und der Eintrag
-   * verschwand von der Prüfliste. Daniel: „die extension hat das falsche
-   * gemeldet glaub ich, um das zu verhindern kannst du bei extension immer
-   * anzeigen auf was gemapped wird wenn ich melde, und mir mglichkeit geben
-   * ohne zuordnung zu melden."
-   *
-   * Beides steht jetzt da: Der Knopf nennt den Titel, unter dem gemeldet wird,
-   * und daneben schaltet einer die Zuordnung ab. Ohne sie geht die Meldung
-   * unter der Seitenadresse raus — der Bau ordnet sie später zu, was er ohnehin
-   * besser kann als eine Sitzung im Browser.
-   */
-  let ohneZuordnung = false
-  const schalter = document.createElement('button')
-  schalter.className = 'ak-amazon-knopf ak-amazon-schalter'
-  schalter.type = 'button'
-  schalter.hidden = true
-  document.body.appendChild(schalter)
-  schalter.addEventListener('click', () => {
-    ohneZuordnung = !ohneZuordnung
-    schalterZeichnen()
-    try {
-      zeichnen()
-    } catch {
-      /* Der Knopf zeichnet sich beim nächsten Takt ohnehin neu. */
-    }
-  })
 
   /**
    * Gesammelt wird über die Abschnitte hinweg, nicht je Ansicht.
@@ -5236,32 +5227,8 @@ async function speicherSchreiben(werte) {
     if (el.style[feld] !== wert) el.style[feld] = wert
   }
 
-  /**
-   * **Der Schalter zeichnet sich selbst — `zeichnen()` kommt nicht immer bis hierher.**
-   *
-   * Bis 4.3.1 stand die Beschriftung am Ende von `zeichnen()`, hinter einem
-   * Dutzend `return`. Steht der Knopf auf „✓ alles gemeldet", kehrt die
-   * Funktion lange vorher zurück — der Klick setzte den Schalter also um, ohne
-   * dass sich etwas sichtbar änderte. Daniel: „ohne zuordnung klick -> nix
-   * passiert."
-   *
-   * Deshalb eine eigene Funktion, aufgerufen beim Klick und am **Anfang** von
-   * `zeichnen()`. Sie ist billig: zwei Zuweisungen, beide nur bei Änderung.
-   */
-  function schalterZeichnen() {
-    const ausSuche = Boolean(eintrag?.ausSuche)
-    if (schalter.hidden !== !ausSuche) schalter.hidden = !ausSuche
-    if (!ausSuche) return
-    const titel = eintrag?.titel ?? ''
-    const text = ohneZuordnung ? '↩ doch zuordnen' : '⊘ ohne Zuordnung'
-    if (schalter.textContent !== text) schalter.textContent = text
-    schalter.title = ohneZuordnung
-      ? `Die Meldung geht unter der Seitenadresse raus. Zurück zu „${titel}".`
-      : `Die Meldung wird „${titel}" zugeordnet. Passt das nicht, hier abschalten.`
-  }
 
   function zeichnen() {
-    schalterZeichnen()
     /*
       **Auf einer Suchseite gibt es nichts zu melden — in jedem Takt.**
 
@@ -6185,20 +6152,7 @@ async function speicherSchreiben(werte) {
         return false
       }
     })()
-    /*
-      **Wer die Zuordnung abschaltet, will melden — also darf „alles gemeldet" nicht sperren.**
-
-      Der Schalter setzte bis 4.3.1 nur ein Flag um. Stand der Knopf auf
-      „✓ alles gemeldet", blieb er gesperrt, und für Daniel sah der Klick nach
-      nichts aus: „ohne zuordnung klick -> nix passiert."
-
-      Das ist gerade der Fall, für den der Schalter gebaut wurde: Der Auftrag
-      ist abgehakt, die Seite gehört aber zu etwas anderem. Ohne Zuordnung ist
-      es eine neue Meldung unter der Seitenadresse — die kennt der Abhak-Speicher
-      nicht, und sie darf raus.
-    */
-    const alleDurch =
-      !ohneZuordnung && Boolean(abgehakt) && schonGemeldet && fertig(listenId) && !auftragOffen
+    const alleDurch = Boolean(abgehakt) && schonGemeldet && fertig(listenId) && !auftragOffen
 
     /**
      * Alles durch — dann gibt es hier nichts mehr zu tun.
@@ -6903,11 +6857,7 @@ async function speicherSchreiben(werte) {
     */
     const zielTitel = eintrag?.ausSuche ? (eintrag.titel ?? '') : ''
     const kurz = zielTitel.length > 38 ? zielTitel.slice(0, 36) + '…' : zielTitel
-    const zielTeil = ohneZuordnung
-      ? ' · melden ohne Zuordnung'
-      : kurz
-        ? ` · melden als „${kurz}"`
-        : ' · melden'
+    const zielTeil = kurz ? ` · melden als „${kurz}"` : ' · melden'
     const neuerText = `${sprachStand}${umfangTeil}${staffelText2 ?? ''}${zugang}${kanalHinweis}${woher}${zielTeil}`
     /*
       **Jeder Wechsel der Beschriftung wird mitgeschrieben.**
@@ -7662,8 +7612,7 @@ async function speicherSchreiben(werte) {
         headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
         body: JSON.stringify({
           plattform: 'primevideo',
-          /* Ohne Zuordnung geht die Meldung unter der Seite raus, nicht unter dem Auftrag. */
-          url: ohneZuordnung ? `https://www.amazon.de/dp/${id}` : eintrag.url,
+          url: eintrag.url,
           /**
            * **Die Kennung der Seite, auf der wirklich gelesen wurde.**
            *
