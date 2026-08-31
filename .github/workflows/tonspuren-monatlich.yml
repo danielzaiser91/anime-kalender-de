@@ -122,6 +122,15 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:motn:check >> $GITHUB_STEP_SUMMARY
 
+      # Wo die Quelle einer belegten Synchro widerspricht, entsteht kein Urteil,
+      # sondern eine Frage für die Prüfliste. Läuft direkt hinter der Messung,
+      # weil er ihren frischen Bestand braucht.
+      - name: Tonspur-Verdacht ableiten
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: npm run data:tonspur-verdacht
+
       - name: Fortschritt — Messung gegen die eigenen Belege
         continue-on-error: true
         env:

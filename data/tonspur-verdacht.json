@@ -1,0 +1,572 @@
+[
+  {
+    "titleId": 15,
+    "name": "Eyeshield 21",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/81422700",
+    "von": 1,
+    "bis": 145,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 33,
+    "name": "Berserk",
+    "platform": "primevideo",
+    "url": "https://www.amazon.de/dp/B0DGGZSKRM",
+    "von": 1,
+    "bis": 25,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 467,
+    "name": "Ghost in the Shell: Stand Alone Complex",
+    "platform": "primevideo",
+    "url": "https://www.amazon.de/dp/B0D8DHM8NX",
+    "von": 1,
+    "bis": 26,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 801,
+    "name": "Ghost in the Shell: Stand Alone Complex 2nd GIG",
+    "platform": "primevideo",
+    "url": "https://www.amazon.de/dp/B0H74YN7B4",
+    "von": 27,
+    "bis": 52,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 66,
+    "name": "Azumanga Daioh",
+    "platform": "primevideo",
+    "url": "https://www.amazon.de/dp/B0F47C5999",
+    "von": 1,
+    "bis": 26,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 527,
+    "name": "Pokémon",
+    "platform": "primevideo",
+    "url": "https://www.amazon.de/dp/B0CJQDVS5H",
+    "von": 1,
+    "bis": 276,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 527,
+    "name": "Pokémon",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/70297439",
+    "von": 1,
+    "bis": 276,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 1564,
+    "name": "Pokémon Advanced Generation",
+    "platform": "primevideo",
+    "url": "https://www.amazon.de/dp/B017CL1NBE",
+    "von": 277,
+    "bis": 468,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 1565,
+    "name": "Pokémon: Diamant & Perl",
+    "platform": "primevideo",
+    "url": "https://www.amazon.de/dp/B07PGC5Z88",
+    "von": 469,
+    "bis": 659,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 19291,
+    "name": "Pokémon: Die TV-Serie - XY",
+    "platform": "primevideo",
+    "url": "https://www.amazon.de/dp/B01K0PONXY",
+    "von": 805,
+    "bis": 897,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 21356,
+    "name": "Pokémon: Die TV-Serie - XYZ",
+    "platform": "primevideo",
+    "url": "https://www.amazon.de/dp/B01HRSRMPI",
+    "von": 899,
+    "bis": 945,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 97634,
+    "name": "Pokémon: Die TV-Serie - Sonne & Mond",
+    "platform": "primevideo",
+    "url": "https://www.amazon.de/dp/B0CNGQNN2P",
+    "von": 946,
+    "bis": 1091,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 112153,
+    "name": "Pokémon Reisen: Die Serie",
+    "platform": "primevideo",
+    "url": "https://www.amazon.de/dp/B0B75X84XM",
+    "von": 1110,
+    "bis": 1245,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 1535,
+    "name": "Death Note",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/70204970",
+    "von": 1,
+    "bis": 37,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 2548,
+    "name": "Eine fröhliche Familie",
+    "platform": "primevideo",
+    "url": "https://www.amazon.de/dp/B0G238GN6N",
+    "von": 1,
+    "bis": 48,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 103049,
+    "name": "Forest of Piano Staffel 2",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/80986797",
+    "von": 13,
+    "bis": 24,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 11771,
+    "name": "Kuroko’s Basketball: 1st Season",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/80063153",
+    "von": 1,
+    "bis": 25,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 16894,
+    "name": "Kuroko’s Basketball: 2nd Season",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/80063153",
+    "von": 26,
+    "bis": 50,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 108581,
+    "name": "Hi Score Girl II",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/80997338",
+    "von": 13,
+    "bis": 21,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 20631,
+    "name": "Trinity Seven",
+    "platform": "primevideo",
+    "url": "https://www.amazon.de/dp/B07NP2FZVG",
+    "von": 1,
+    "bis": 12,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 21516,
+    "name": "Kuromukuro",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/80103318",
+    "von": 1,
+    "bis": 26,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 100341,
+    "name": "Last Hope",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/80221272",
+    "von": 1,
+    "bis": 26,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 97940,
+    "name": "Black Clover",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/80238012",
+    "von": 1,
+    "bis": 170,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 100663,
+    "name": "Ultraman",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/80231373",
+    "von": 1,
+    "bis": 13,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 109911,
+    "name": "Ultraman: Staffel 2",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/80231373",
+    "von": 14,
+    "bis": 19,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 147729,
+    "name": "Ultraman: Staffel 3",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/80231373",
+    "von": 20,
+    "bis": 31,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 111048,
+    "name": "Kengan Ashura: Teil 2",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/80992228",
+    "von": 13,
+    "bis": 24,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 169692,
+    "name": "Kengan Ashura: Staffel 2",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/80992228",
+    "von": 37,
+    "bis": 52,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 101281,
+    "name": "Carole und Tuesday",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/80992137",
+    "von": 1,
+    "bis": 24,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 101348,
+    "name": "Vinland Saga",
+    "platform": "primevideo",
+    "url": "https://www.amazon.de/dp/B0C55SJB1W",
+    "von": 1,
+    "bis": 24,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 101348,
+    "name": "Vinland Saga",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/81249833",
+    "von": 1,
+    "bis": 24,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 136430,
+    "name": "Vinland Saga: Staffel 2",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/81249833",
+    "von": 25,
+    "bis": 48,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 103222,
+    "name": "Magical Girl Spec Ops Asuka",
+    "platform": "primevideo",
+    "url": "https://www.amazon.de/gp/video/detail/0I8UZXM92IXRYUU0Z8TR0TY4AE",
+    "von": 1,
+    "bis": 12,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 103638,
+    "name": "Kabukicho Sherlock",
+    "platform": "primevideo",
+    "url": "https://www.amazon.de/gp/video/detail/0MJG7IE502UMF8IOXIICDJMB9H",
+    "von": 1,
+    "bis": 24,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 119837,
+    "name": "Larva Island",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/80991329",
+    "von": 1,
+    "bis": 13,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 132477,
+    "name": "Larva Island Staffel 2",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/80991329",
+    "von": 14,
+    "bis": 26,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 105228,
+    "name": "Dorohedoro",
+    "platform": "disneyplus",
+    "url": "https://www.disneyplus.com/browse/entity-99c35086-cc39-481c-9827-333c0ab15d5a",
+    "von": 1,
+    "bis": 12,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 173172,
+    "name": "Dorohedoro: Staffel 2",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/80991903",
+    "von": 13,
+    "bis": 23,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 112686,
+    "name": "7 Seeds: Teil 2",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/80183051",
+    "von": 13,
+    "bis": 24,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 114194,
+    "name": "Beastars Staffel 2",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/81054847",
+    "von": 13,
+    "bis": 24,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 113415,
+    "name": "Jujutsu Kaisen",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/81278456",
+    "von": 1,
+    "bis": 24,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 145064,
+    "name": "Jujutsu Kaisen: Staffel 2",
+    "platform": "primevideo",
+    "url": "https://www.amazon.de/dp/B0H45KB3MK",
+    "von": 25,
+    "bis": 47,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 145064,
+    "name": "Jujutsu Kaisen: Staffel 2",
+    "platform": "disneyplus",
+    "url": "https://www.disneyplus.com/browse/entity-3dd9925f-0eb8-46f4-93d0-30ba887fc8d3",
+    "von": 25,
+    "bis": 47,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 145064,
+    "name": "Jujutsu Kaisen: Staffel 2",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/81278456",
+    "von": 25,
+    "bis": 47,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 172463,
+    "name": "Jujutsu Kaisen: Staffel 3",
+    "platform": "primevideo",
+    "url": "https://www.amazon.de/dp/B0H8NJSHG8",
+    "von": 48,
+    "bis": 59,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 172463,
+    "name": "Jujutsu Kaisen: Staffel 3",
+    "platform": "disneyplus",
+    "url": "https://www.disneyplus.com/browse/entity-3dd9925f-0eb8-46f4-93d0-30ba887fc8d3",
+    "von": 48,
+    "bis": 59,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 172463,
+    "name": "Jujutsu Kaisen: Staffel 3",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/81278456",
+    "von": 48,
+    "bis": 59,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 120120,
+    "name": "Tokyo Revengers",
+    "platform": "disneyplus",
+    "url": "https://www.disneyplus.com/browse/entity-be391742-6617-42ad-b53a-be368ee73335",
+    "von": 1,
+    "bis": 24,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 142853,
+    "name": "Tokyo Revengers: Christmas Showdown",
+    "platform": "disneyplus",
+    "url": "https://www.disneyplus.com/de-de/series/tokyo-revengers/4HFbN55sAh0i",
+    "von": 25,
+    "bis": 37,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 163329,
+    "name": "Tokyo Revengers: Tenjiku Arc",
+    "platform": "disneyplus",
+    "url": "https://www.disneyplus.com/de-de/series/tokyo-revengers/4HFbN55sAh0i",
+    "von": 38,
+    "bis": 50,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 154768,
+    "name": "My Dress-Up Darling: Staffel 2",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/81569754",
+    "von": 13,
+    "bis": 24,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 163146,
+    "name": "Blue Lock: Staffel 2",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/81640753",
+    "von": 25,
+    "bis": 38,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 166531,
+    "name": "Oshi no Ko: Mein Star",
+    "platform": "primevideo",
+    "url": "https://www.amazon.de/dp/B0D8FH5NC6",
+    "von": 12,
+    "bis": 24,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 188139,
+    "name": "Though I Am an Inept Villainess",
+    "platform": "disneyplus",
+    "url": "https://www.disneyplus.com/de-de/browse/entity-79a3e335-2acc-408e-a942-1b0bac47d952",
+    "von": 1,
+    "bis": 11,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 195600,
+    "name": "Das Band der Unterwelt",
+    "platform": "disneyplus",
+    "url": "https://www.disneyplus.com/browse/entity-8cc06990-0faf-4a7e-ac1f-fb74cb4b9286",
+    "von": 1,
+    "bis": 24,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 198113,
+    "name": "Kill Blue",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/82757009",
+    "von": 1,
+    "bis": 12,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  },
+  {
+    "titleId": 103303,
+    "name": "Sparks of Tomorrow",
+    "platform": "netflix",
+    "url": "https://www.netflix.com/title/81698957",
+    "von": 1,
+    "bis": 13,
+    "seit": "2026-08-31",
+    "zuletzt": "2026-08-31"
+  }
+]
