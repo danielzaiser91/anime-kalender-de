@@ -21,8 +21,8 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 | Aufgabe | Notiz |
 |---|---|
 | **Eine Prime-Meldung mit 3.91** | Der Worker ist ausgeliefert und schickt `titel_id` mit — bei allen 5.620 Altmeldungen steht dort NULL, sie stammen aus Fassungen vor 3.90. Eine einzige neue Meldung zeigt, ob die Zuordnung greift |
-| **Erweiterung 3.91 laden** | Zeigt bei acht Suchaufträgen im Kasten, warum der TMDB-Treffer wackelt |
-| **Prime-Prüfliste** | 161 Suchen, davon 115 aussichtsreich (belegte deutsche Sprechrollen), 46 auf Verdacht am Ende |
+| **Erweiterung 4.1.11 laden** | Liest einen Hydration-Block nach, der beim ersten Griff erst halb gefüllt war („Encouragement of Climb" blieb auf 2 von 13 Folgen stehen) |
+| **Prime-Prüfliste** | **2 offene Suchen** (Stand 31.08.2026, 11:10): „Fullmetal Alchemist" und „Is This a Zombie?". Am Vormittag waren es 68 — die 441 wieder geöffneten Suchadress-Meldungen ergaben 210 Belege, seit der Bau auch Adressen aus `anbieter-vorschlaege.json` als Anker kennt |
 
 ### Nacht vom 29. auf den 30.08.2026: YouTube-Tonspur und Disc-Termine
 
