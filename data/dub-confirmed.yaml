@@ -18027,14 +18027,6 @@
   checkedAt: '2026-08-24'
   note: "Tonspuren: Deutsch — Amazon-Seite B0D35C6HXQ: Film geprüft, Abos: prosiebenfun, prosiebende, Seitenadresse: B0D35F3Q7Q, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
-- anilistId: 2825
-  title: "Sindbad"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B00RY381NY
-  dub: true
-  checkedAt: '2026-08-24'
-  note: "Tonspuren: Deutsch — Amazon-Seite B00RY381NY: alle 21 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=kauf_oder_leihe"
-
 - anilistId: 110547
   title: "Arte"
   platform: primevideo
@@ -18167,14 +18159,6 @@
   dub: true
   checkedAt: '2026-08-24'
   note: "Tonspuren: Deutsch — Amazon-Seite B00RY37040: alle 21 Folgen geprüft, Abos: keine Angabe, Seitenadresse: B00RY3800I, zugang=kauf_oder_leihe"
-
-- anilistId: 2825
-  title: "Sindbad"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B00RY37040
-  dub: true
-  checkedAt: '2026-08-24'
-  note: "Tonspuren: Deutsch — Amazon-Seite B00RY37040: alle 21 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, Seitenadresse: B00RY381NY, laut Adresse Staffel 2, zugang=kauf_oder_leihe"
 
 - anilistId: 100668
   title: "Arifureta: From Commonplace to World’s Strongest"
@@ -18431,14 +18415,6 @@
   checkedAt: '2026-08-24'
   note: "Tonspuren: Deutsch — Amazon-Seite B09DBZ7T89: alle 12 Folgen geprüft, Abos: Prime, zugang=abo_und_kauf"
 
-- anilistId: 146493
-  title: "Ragna Crimson"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0D75XMMB1
-  dub: true
-  checkedAt: '2026-08-24'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0D75XMMB1: alle 15 Folgen geprüft, Abos: aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 5, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
 - anilistId: 10259
   title: "Big Fish & Begonia: Zwei Welten - Ein Schicksal"
   platform: primevideo
@@ -18529,13 +18505,6 @@
   url: https://www.amazon.de/dp/B0CGVS29ZD
   checkedAt: '2026-08-24'
   note: "Tonspuren: English, Español (Latinoamérica), Français, Português (Brasil), 日本語 — Amazon-Seite B0CGVS29ZD: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 121
-  title: "Fullmetal Alchemist"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0CH396B9Y
-  checkedAt: '2026-08-24'
-  note: "Tonspuren: English, 日本語 — Amazon-Seite B0CH396B9Y: alle 13 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
 - anilistId: 345
   title: "Emma: Eine viktorianische Liebe"
@@ -18711,14 +18680,6 @@
   dub: true
   checkedAt: '2026-08-24'
   note: "Tonspuren: Deutsch — Amazon-Seite B00WDK3XPE: alle 18 Folgen geprüft, Abos: keine Angabe, Seitenadresse: B00WDK4N26, laut Adresse Staffel 2, zugang=kauf_oder_leihe"
-
-- anilistId: 2836
-  title: "Wickie und die starken Männer"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B00WDK307K
-  dub: true
-  checkedAt: '2026-08-24'
-  note: "Tonspuren: Deutsch — Amazon-Seite B00WDK307K: alle 21 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 3, zugang=kauf_oder_leihe"
 
 - anilistId: 117612
   title: "How a Realist Hero Rebuilt the Kingdom"
@@ -22672,38 +22633,6 @@
   checkedAt: '2026-08-27'
   note: "Tonspuren: Deutsch, Deutsch [Audiobeschreibung], 日本語 — Amazon-Seite B0D6NNGL96: alle 27 Folgen geprüft, Abos: crunchyrollde, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
-- anilistId: 249
-  title: "InuYasha"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0D58K5WH5
-  dub: true
-  checkedAt: '2026-08-27'
-  note: "Tonspuren: Deutsch, Deutsch [Audiobeschreibung], 日本語 — Amazon-Seite B0D58K5WH5: alle 27 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 249
-  title: "InuYasha"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0D65FKW9Z
-  dub: true
-  checkedAt: '2026-08-27'
-  note: "Tonspuren: Deutsch, Deutsch [Audiobeschreibung], 日本語 — Amazon-Seite B0D65FKW9Z: alle 28 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 3, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 249
-  title: "InuYasha"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0D4J8PWCW
-  dub: true
-  checkedAt: '2026-08-27'
-  note: "Tonspuren: Deutsch, Deutsch [Audiobeschreibung], 日本語 — Amazon-Seite B0D4J8PWCW: alle 29 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 6, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 249
-  title: "InuYasha"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0FW2J99HL
-  dub: true
-  checkedAt: '2026-08-27'
-  note: "Tonspuren: Deutsch, Deutsch [Audiobeschreibung], 日本語 — Amazon-Seite B0FW2J99HL: alle 26 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 7, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
 - anilistId: 8074
   title: "Highschool of the Dead"
   platform: primevideo
@@ -22860,55 +22789,6 @@
   checkedAt: '2026-08-27'
   note: "Tonspuren: Deutsch, English, English [Audio Description], Español (España), Español (Latinoamérica), Français, Français [Audiodescription], Italiano, Português (Brasil), Русский, 日本語 — Amazon-Seite B0CWW1HHXJ: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
-- anilistId: 21507
-  title: "Mob Psycho 100"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0CHN2GVS3
-  dub: true
-  checkedAt: '2026-08-27'
-  note: "Tonspuren: Deutsch, English, English [Audio Description], Español (España), Español (Latinoamérica), Français, Français [Audiodescription], Italiano, Português (Brasil), Русский, 日本語 — Amazon-Seite B0CHN2GVS3: alle 13 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 21507
-  title: "Mob Psycho 100"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0CJRZY5ND
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 1
-      dub: false
-      checked: [1]
-    - from: 2
-      to: 5
-      dub: true
-      checked: [2, 3, 4, 5]
-    - from: 6
-      to: 6
-      dub: false
-      checked: [6]
-    - from: 7
-      to: 7
-      dub: true
-      checked: [7]
-    - from: 8
-      to: 8
-      dub: false
-      checked: [8]
-    - from: 9
-      to: 9
-      dub: true
-      checked: [9]
-    - from: 10
-      to: 10
-      dub: false
-      checked: [10]
-    - from: 11
-      to: 12
-      dub: true
-      checked: [11, 12]
-  checkedAt: '2026-08-27'
-  note: "Folge 1 ohne deutschen Ton, Folgen 2–5 mit deutschem Ton, Folge 6 ohne deutschen Ton, Folge 7 mit deutschem Ton, Folge 8 ohne deutschen Ton, Folge 9 mit deutschem Ton, Folge 10 ohne deutschen Ton, Folgen 11–12 mit deutschem Ton — Tonspuren: Deutsch, English, English [Audio Description], Español (España), Español (Latinoamérica), Français, Italiano, Italiano [descrizione audio], Português (Brasil), Русский, 日本語 — Amazon-Seite B0CJRZY5ND: alle 12 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
 - anilistId: 167404
   title: "Monsters: 103 Mercies Dragon Damnation"
   platform: primevideo
@@ -23006,30 +22886,6 @@
   checkedAt: '2026-08-28'
   note: "Amazon-Seite B0C7LZCS5H: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 1"
 
-- anilistId: 15583
-  title: "Date a Live"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0DMB2MKZX
-  dub: false
-  checkedAt: '2026-08-28'
-  note: "Amazon-Seite B0DMB2MKZX: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 3"
-
-- anilistId: 15583
-  title: "Date a Live"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0CK5N448R
-  dub: true
-  checkedAt: '2026-08-28'
-  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High, 日本語 — Amazon-Seite B0CK5N448R: alle 12 Folgen geprüft, Abos: Prime — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 4, zugang=abo"
-
-- anilistId: 15583
-  title: "Date a Live"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0FLKK79P9
-  dub: true
-  checkedAt: '2026-08-28'
-  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High, 日本語 — Amazon-Seite B0FLKK79P9: alle 12 Folgen geprüft, Abos: Prime — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 5, zugang=abo_und_kauf"
-
 - anilistId: 1689
   title: "5 Centimeters per Second"
   platform: primevideo
@@ -23108,14 +22964,6 @@
   url: https://www.amazon.de/dp/B0CJJF26WZ
   checkedAt: '2026-08-28'
   note: "Tonspuren: English, Español (Latinoamérica), Français, 日本語 — Amazon-Seite B0CJJF26WZ: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 15583
-  title: "Date a Live"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0CZS6FBVY
-  dub: false
-  checkedAt: '2026-08-28'
-  note: "Amazon-Seite B0CZS6FBVY: alle 1 Folge geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 5, zugang=kauf"
 
 - anilistId: 20741
   title: "Date a Live: The Movie – Mayuri Judgement"
@@ -23260,14 +23108,6 @@
   checkedAt: '2026-08-28'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0C9TV1XTQ: alle 12 Folgen geprüft, Abos: Prime, aniversede, zugang=abo_und_kauf"
 
-- anilistId: 146850
-  title: "Farming Life in Another World"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0GVWCHXZZ
-  dub: true
-  checkedAt: '2026-08-28'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0GVWCHXZZ: alle 12 Folgen geprüft, Abos: Prime, aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf"
-
 - anilistId: 21714
   title: "Flip Flappers"
   platform: primevideo
@@ -23322,32 +23162,6 @@
   dub: true
   checkedAt: '2026-08-28'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0D63ZG7MV: alle 7 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 302
-  title: "Future Boy Conan"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0C9SYFPRY
-  dub: true
-  checkedAt: '2026-08-28'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0C9SYFPRY: alle 6 Folgen geprüft, Abos: aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 302
-  title: "Future Boy Conan"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0CH8BD664
-  dub: true
-  checkedAt: '2026-08-28'
-  note: "Tonspuren: Deutsch, 日本語, English — Amazon-Seite B0CH8BD664: alle 7 Folgen geprüft, Abos: aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 302
-  title: "Future Boy Conan"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0F3GCF61R
-  dub: true
-  checkedAt: '2026-08-28'
-  note: "Tonspuren: Deutsch, English, 日本語 — Amazon-Seite B0F3GCF61R: alle 6 Folgen geprüft, Abos: aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 4, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-# --- Aus dem Browser gemeldet, abgeholt am 2026-08-29 ---
 
 - anilistId: 100745
   title: "Captain Tsubasa"
@@ -23581,14 +23395,6 @@
   checkedAt: '2026-08-28'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0FFKW3JQB: alle 13 Folgen geprüft, Abos: aniversede, FVOD, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
-- anilistId: 457
-  title: "Mushi-Shi"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0FKT53LXJ
-  dub: true
-  checkedAt: '2026-08-28'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0FKT53LXJ: alle 13 Folgen geprüft, Abos: aniversede, FVOD — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
 - anilistId: 145815
   title: "I’ve Somehow Gotten Stronger When I Improved My Farm-Related Skills"
   platform: primevideo
@@ -23639,15 +23445,6 @@
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0BYY9NN5D: alle 12 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
 # --- Aus dem Browser gemeldet, abgeholt am 2026-08-29 ---
-
-- anilistId: 121
-  title: "Fullmetal Alchemist"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0CH396B9Y
-  checkedAt: '2026-08-27'
-  note: "Tonspuren: English, 日本語 — Amazon-Seite B0CH396B9Y: alle 13 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-# --- Aus dem Browser gemeldet, abgeholt am 2026-08-30 ---
 
 - anilistId: 105334
   title: "Fruits Basket"
@@ -23866,14 +23663,6 @@
   checkedAt: '2026-08-30'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0DGGZSKRM: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf"
 
-- anilistId: 33
-  title: "Berserk"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0FKZM9J6V
-  dub: true
-  checkedAt: '2026-08-30'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0FKZM9J6V: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=kauf"
-
 - anilistId: 20727
   title: "Blood Blockade Battlefront"
   platform: primevideo
@@ -23881,14 +23670,6 @@
   dub: true
   checkedAt: '2026-08-30'
   note: "Tonspuren: Deutsch — Amazon-Seite B0B7D8FYH8: alle 13 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 20727
-  title: "Blood Blockade Battlefront"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0B6GM8THT
-  dub: true
-  checkedAt: '2026-08-30'
-  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High, 日本語 — Amazon-Seite B0B6GM8THT: alle 12 Folgen geprüft, Abos: aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
 - anilistId: 21825
   title: "Danganronpa 3: The End of Hope’s Peak Academy - Despair Arc"
@@ -23970,14 +23751,6 @@
   checkedAt: '2026-08-30'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0BZXS61PP: alle 12 Folgen geprüft, Abos: FVOD, aniversede, crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
-- anilistId: 112667
-  title: "Our Last Crusade or the Rise of a New World"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0CVR4N6DN
-  dub: true
-  checkedAt: '2026-08-30'
-  note: "Tonspuren: Deutsch, 日本語, English, Español (Latinoamérica), Português (Brasil), English [Audio Description], Español (Latinoamérica) [descripción de audio], Português (Brasil) [Descrição do áudio], English [Audio Description — Amazon-Seite B0CVR4N6DN: alle 12 Folgen geprüft, Abos: FVOD, aniversede, crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
 - anilistId: 98874
   title: "Overlord - Der dunkle Held"
   platform: primevideo
@@ -24030,99 +23803,6 @@
   checkedAt: '2026-08-30'
   note: "Folgen 1–3 mit deutschem Ton, Folge 4 ohne deutschen Ton, Folgen 5–8 mit deutschem Ton, Folge 9 ohne deutschen Ton, Folgen 10–12 mit deutschem Ton — Tonspuren: Deutsch, 日本語 — Amazon-Seite B0DCPGLMHR: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
-- anilistId: 21087
-  title: "One Punch Man"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0D4KNHDMT
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 3
-      dub: true
-      checked: [1, 2, 3]
-    - from: 4
-      to: 4
-      dub: false
-      checked: [4]
-    - from: 5
-      to: 8
-      dub: true
-      checked: [5, 6, 7, 8]
-    - from: 9
-      to: 9
-      dub: false
-      checked: [9]
-    - from: 10
-      to: 12
-      dub: true
-      checked: [10, 11, 12]
-  checkedAt: '2026-08-30'
-  note: "Folgen 1–3 mit deutschem Ton, Folge 4 ohne deutschen Ton, Folgen 5–8 mit deutschem Ton, Folge 9 ohne deutschen Ton, Folgen 10–12 mit deutschem Ton — Tonspuren: Deutsch, 日本語 — Amazon-Seite B0D4KNHDMT: alle 12 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 21087
-  title: "One Punch Man"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0FTGLMFP3
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 3
-      dub: true
-      checked: [1, 2, 3]
-    - from: 4
-      to: 4
-      dub: false
-      checked: [4]
-    - from: 5
-      to: 8
-      dub: true
-      checked: [5, 6, 7, 8]
-    - from: 9
-      to: 9
-      dub: false
-      checked: [9]
-    - from: 10
-      to: 13
-      dub: true
-      checked: [10, 11, 12, 13]
-  checkedAt: '2026-08-30'
-  note: "Folgen 1–3 mit deutschem Ton, Folge 4 ohne deutschen Ton, Folgen 5–8 mit deutschem Ton, Folge 9 ohne deutschen Ton, Folgen 10–13 mit deutschem Ton — Tonspuren: Deutsch, English, Français, Italiano, Italiano [descrizione audio], 日本語 — Amazon-Seite B0FTGLMFP3: alle 13 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 21087
-  title: "One Punch Man"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0FR8WFPDD
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 3
-      dub: true
-      checked: [1, 2, 3]
-    - from: 4
-      to: 4
-      dub: false
-      checked: [4]
-    - from: 5
-      to: 8
-      dub: true
-      checked: [5, 6, 7, 8]
-    - from: 9
-      to: 9
-      dub: false
-      checked: [9]
-    - from: 10
-      to: 12
-      dub: true
-      checked: [10, 11, 12]
-    - from: 13
-      to: 13
-      dub: false
-      checked: [13]
-  checkedAt: '2026-08-30'
-  note: "Folgen 1–3 mit deutschem Ton, Folge 4 ohne deutschen Ton, Folgen 5–8 mit deutschem Ton, Folge 9 ohne deutschen Ton, Folgen 10–12 mit deutschem Ton, Folge 13 ohne deutschen Ton — Amazon-Seite B0FR8WFPDD: alle 13 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 4, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-# --- Aus dem Browser gemeldet, abgeholt am 2026-08-30 ---
-
 - anilistId: 102836
   title: "Kuroko’s Basketball - Winter Cup Highlights Movie 2 Beyond the Tears"
   platform: primevideo
@@ -24146,30 +23826,6 @@
   dub: true
   checkedAt: '2026-08-30'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0DN482ZYY: alle 13 Folgen geprüft, Abos: aniversede, laut Adresse Staffel 1, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 20832
-  title: "Overlord"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0B8T48JNZ
-  dub: true
-  checkedAt: '2026-08-30'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0B8T48JNZ: alle 13 Folgen geprüft, Abos: aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 20832
-  title: "Overlord"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0B8PK3BS6
-  dub: true
-  checkedAt: '2026-08-30'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0B8PK3BS6: alle 13 Folgen geprüft, Abos: aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 20832
-  title: "Overlord"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0B75QXXC1
-  dub: true
-  checkedAt: '2026-08-30'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0B75QXXC1: alle 13 Folgen geprüft, Abos: aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 4, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
 
 - anilistId: 117989
   title: "Mother of the Goddess’ Dormitory"
@@ -24520,55 +24176,6 @@
   checkedAt: '2026-08-31'
   note: "Folge 1 mit deutschem Ton, Folge 2 ohne deutschen Ton, Folge 3 mit deutschem Ton, Folge 4 ohne deutschen Ton, Folgen 5–6 mit deutschem Ton, Folge 7 ohne deutschen Ton, Folgen 8–9 mit deutschem Ton, Folgen 10–11 ohne deutschen Ton, Folge 12 mit deutschem Ton — Tonspuren: Deutsch — Amazon-Seite B0FJWFGLQC: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf"
 
-- anilistId: 151807
-  title: "Solo Leveling"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0DQTBWY5K
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 1
-      dub: true
-      checked: [1]
-    - from: 2
-      to: 2
-      dub: false
-      checked: [2]
-    - from: 3
-      to: 3
-      dub: true
-      checked: [3]
-    - from: 4
-      to: 4
-      dub: false
-      checked: [4]
-    - from: 5
-      to: 6
-      dub: true
-      checked: [5, 6]
-    - from: 7
-      to: 7
-      dub: false
-      checked: [7]
-    - from: 8
-      to: 9
-      dub: true
-      checked: [8, 9]
-    - from: 10
-      to: 11
-      dub: false
-      checked: [10, 11]
-    - from: 12
-      to: 12
-      dub: true
-      checked: [12]
-    - from: 13
-      to: 13
-      dub: false
-      checked: [13]
-  checkedAt: '2026-08-31'
-  note: "Folge 1 mit deutschem Ton, Folge 2 ohne deutschen Ton, Folge 3 mit deutschem Ton, Folge 4 ohne deutschen Ton, Folgen 5–6 mit deutschem Ton, Folge 7 ohne deutschen Ton, Folgen 8–9 mit deutschem Ton, Folgen 10–11 ohne deutschen Ton, Folge 12 mit deutschem Ton, Folge 13 ohne deutschen Ton — Tonspuren: 한국어 — Amazon-Seite B0DQTBWY5K: nur 13 von 26 Folgen geladen — Rest ungeprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
 - anilistId: 139587
   title: "Reincarnated as a Sword"
   platform: primevideo
@@ -24671,14 +24278,6 @@
   checkedAt: '2026-08-31'
   note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0B6GH3ZK4: alle 20 Folgen geprüft, Abos: Prime, animedigitalde, aniversede, zugang=abo_und_kauf"
 
-- anilistId: 130298
-  title: "The Eminence in Shadow"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0CJ1VR18Y
-  dub: true
-  checkedAt: '2026-08-31'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CJ1VR18Y: alle 12 Folgen geprüft, Abos: Prime, animedigitalde, aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf"
-
 - anilistId: 156040
   title: "The Most Heretical Last Boss Queen: From Villainess to Savior"
   platform: primevideo
@@ -24734,46 +24333,6 @@
   dub: true
   checkedAt: '2026-08-31'
   note: "Tonspuren: Deutsch — Amazon-Seite B0DB78FWK9: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"
-
-- anilistId: 20605
-  title: "Tokyo Ghoul"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0CP9VNY3Q
-  dub: true
-  checkedAt: '2026-08-31'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CP9VNY3Q: alle 12 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 20605
-  title: "Tokyo Ghoul"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0D188KVH4
-  dub: true
-  checkedAt: '2026-08-31'
-  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0D188KVH4: alle 24 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
-
-- anilistId: 20605
-  title: "Tokyo Ghoul"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0DCXV5GMB
-  dub: true
-  checkedAt: '2026-08-31'
-  note: "Tonspuren: Deutsch — Amazon-Seite B0DCXV5GMB: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=kauf_oder_leihe"
-
-- anilistId: 20605
-  title: "Tokyo Ghoul"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0CW5WH6XZ
-  dub: true
-  checkedAt: '2026-08-31'
-  note: "Tonspuren: Deutsch — Amazon-Seite B0D7N68Q5T: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, Seitenadresse: B0D7N68Q5T, laut Adresse Staffel 4, zugang=kauf_oder_leihe"
-
-- anilistId: 20605
-  title: "Tokyo Ghoul"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0D7N68Q5T
-  dub: true
-  checkedAt: '2026-08-31'
-  note: "Tonspuren: Deutsch — Amazon-Seite B0D7N68Q5T: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 4, zugang=kauf_oder_leihe"
 
 - anilistId: 129759
   title: "Princess Principal: ~Crown Handler~ 2"
@@ -24965,14 +24524,6 @@
   checkedAt: '2026-08-31'
   note: "Tonspuren: Deutsch — Amazon-Seite B0D2D9Z3NR: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"
 
-- anilistId: 103900
-  title: "We Never Learn"
-  platform: primevideo
-  url: https://www.amazon.de/dp/B0CVG6BDYZ
-  dub: true
-  checkedAt: '2026-08-31'
-  note: "Tonspuren: Deutsch — Amazon-Seite B0CVG6BDYZ: alle 13 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=kauf_oder_leihe"
-
 - anilistId: 151513
   title: "Yohane the Parhelion: Sunshine in the Mirror"
   platform: primevideo
@@ -25064,3 +24615,504 @@
   dub: true
   checkedAt: '2026-08-31'
   note: "Tonspuren: Deutsch — Amazon-Seite B00XJXZ1KY: alle 11 Folgen geprüft, Abos: prosiebenfun, prosiebende, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+# --- Aus dem Browser gemeldet, abgeholt am 2026-08-31 ---
+
+- anilistId: 2825
+  title: "Sindbad"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B00RY381NY
+  dub: true
+  checkedAt: '2026-08-24'
+  note: "Tonspuren: Deutsch — Amazon-Seite B00RY381NY: alle 21 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=kauf_oder_leihe"
+
+- anilistId: 2825
+  title: "Sindbad"
+  platform: primevideo
+  dub: true
+  checkedAt: '2026-08-24'
+  note: "Tonspuren: Deutsch — Amazon-Seite B00RY37040: alle 21 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, Seitenadresse: B00RY381NY, laut Adresse Staffel 2, zugang=kauf_oder_leihe"
+
+- anilistId: 146493
+  title: "Ragna Crimson"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0D75XMMB1
+  dub: true
+  checkedAt: '2026-08-24'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0D75XMMB1: alle 15 Folgen geprüft, Abos: aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 5, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 2836
+  title: "Wickie und die starken Männer"
+  platform: primevideo
+  dub: true
+  checkedAt: '2026-08-24'
+  note: "Tonspuren: Deutsch — Amazon-Seite B00WDK307K: alle 21 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 3, zugang=kauf_oder_leihe"
+
+- anilistId: 249
+  title: "InuYasha"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0D58K5WH5
+  dub: true
+  checkedAt: '2026-08-27'
+  note: "Tonspuren: Deutsch, Deutsch [Audiobeschreibung], 日本語 — Amazon-Seite B0D58K5WH5: alle 27 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 249
+  title: "InuYasha"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0D65FKW9Z
+  dub: true
+  checkedAt: '2026-08-27'
+  note: "Tonspuren: Deutsch, Deutsch [Audiobeschreibung], 日本語 — Amazon-Seite B0D65FKW9Z: alle 28 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 3, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 249
+  title: "InuYasha"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0D4J8PWCW
+  dub: true
+  checkedAt: '2026-08-27'
+  note: "Tonspuren: Deutsch, Deutsch [Audiobeschreibung], 日本語 — Amazon-Seite B0D4J8PWCW: alle 29 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 6, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 101338
+  title: "Mob Psycho 100 II"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CHN2GVS3
+  dub: true
+  checkedAt: '2026-08-27'
+  note: "Tonspuren: Deutsch, English, English [Audio Description], Español (España), Español (Latinoamérica), Français, Français [Audiodescription], Italiano, Português (Brasil), Русский, 日本語 — Amazon-Seite B0CHN2GVS3: alle 13 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 140439
+  title: "Mob Psycho 100 III"
+  platform: primevideo
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: false
+      checked: [1]
+    - from: 2
+      to: 5
+      dub: true
+      checked: [2, 3, 4, 5]
+    - from: 6
+      to: 6
+      dub: false
+      checked: [6]
+    - from: 7
+      to: 7
+      dub: true
+      checked: [7]
+    - from: 8
+      to: 8
+      dub: false
+      checked: [8]
+    - from: 9
+      to: 9
+      dub: true
+      checked: [9]
+    - from: 10
+      to: 10
+      dub: false
+      checked: [10]
+    - from: 11
+      to: 12
+      dub: true
+      checked: [11, 12]
+  checkedAt: '2026-08-27'
+  note: "Folge 1 ohne deutschen Ton, Folgen 2–5 mit deutschem Ton, Folge 6 ohne deutschen Ton, Folge 7 mit deutschem Ton, Folge 8 ohne deutschen Ton, Folge 9 mit deutschem Ton, Folge 10 ohne deutschen Ton, Folgen 11–12 mit deutschem Ton — Tonspuren: Deutsch, English, English [Audio Description], Español (España), Español (Latinoamérica), Français, Italiano, Italiano [descrizione audio], Português (Brasil), Русский, 日本語 — Amazon-Seite B0CJRZY5ND: alle 12 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 100722
+  title: "Date a Live III"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DMB2MKZX
+  dub: false
+  checkedAt: '2026-08-28'
+  note: "Amazon-Seite B0DMB2MKZX: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 3"
+
+- anilistId: 116605
+  title: "Date a Live IV"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CK5N448R
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High, 日本語 — Amazon-Seite B0CK5N448R: alle 12 Folgen geprüft, Abos: Prime — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 4, zugang=abo"
+
+- anilistId: 151380
+  title: "Date a Live V"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FLKK79P9
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High, 日本語 — Amazon-Seite B0FLKK79P9: alle 12 Folgen geprüft, Abos: Prime — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 5, zugang=abo_und_kauf"
+
+- anilistId: 15583
+  title: "Date a Live"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CZS6FBVY
+  dub: false
+  checkedAt: '2026-08-28'
+  note: "Amazon-Seite B0CZS6FBVY: alle 1 Folge geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 5, zugang=kauf"
+
+- anilistId: 146850
+  title: "Farming Life in Another World"
+  platform: primevideo
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0GVWCHXZZ: alle 12 Folgen geprüft, Abos: Prime, aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf"
+
+- anilistId: 302
+  title: "Future Boy Conan"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0C9SYFPRY
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0C9SYFPRY: alle 6 Folgen geprüft, Abos: aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 302
+  title: "Future Boy Conan"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CH8BD664
+  dub: true
+  checkedAt: '2026-08-28'
+  note: "Tonspuren: Deutsch, 日本語, English — Amazon-Seite B0CH8BD664: alle 7 Folgen geprüft, Abos: aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 33
+  title: "Berserk"
+  platform: primevideo
+  dub: true
+  checkedAt: '2026-08-30'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0FKZM9J6V: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=kauf"
+
+- anilistId: 97668
+  title: "One Punch Man 2"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0D4KNHDMT
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 3
+      dub: true
+      checked: [1, 2, 3]
+    - from: 4
+      to: 4
+      dub: false
+      checked: [4]
+    - from: 5
+      to: 8
+      dub: true
+      checked: [5, 6, 7, 8]
+    - from: 9
+      to: 9
+      dub: false
+      checked: [9]
+    - from: 10
+      to: 12
+      dub: true
+      checked: [10, 11, 12]
+  checkedAt: '2026-08-30'
+  note: "Folgen 1–3 mit deutschem Ton, Folge 4 ohne deutschen Ton, Folgen 5–8 mit deutschem Ton, Folge 9 ohne deutschen Ton, Folgen 10–12 mit deutschem Ton — Tonspuren: Deutsch, 日本語 — Amazon-Seite B0D4KNHDMT: alle 12 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 21087
+  title: "One Punch Man"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0FTGLMFP3
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 3
+      dub: true
+      checked: [1, 2, 3]
+    - from: 4
+      to: 4
+      dub: false
+      checked: [4]
+    - from: 5
+      to: 8
+      dub: true
+      checked: [5, 6, 7, 8]
+    - from: 9
+      to: 9
+      dub: false
+      checked: [9]
+    - from: 10
+      to: 13
+      dub: true
+      checked: [10, 11, 12, 13]
+  checkedAt: '2026-08-30'
+  note: "Folgen 1–3 mit deutschem Ton, Folge 4 ohne deutschen Ton, Folgen 5–8 mit deutschem Ton, Folge 9 ohne deutschen Ton, Folgen 10–13 mit deutschem Ton — Tonspuren: Deutsch, English, Français, Italiano, Italiano [descrizione audio], 日本語 — Amazon-Seite B0FTGLMFP3: alle 13 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 21087
+  title: "One Punch Man"
+  platform: primevideo
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 3
+      dub: true
+      checked: [1, 2, 3]
+    - from: 4
+      to: 4
+      dub: false
+      checked: [4]
+    - from: 5
+      to: 8
+      dub: true
+      checked: [5, 6, 7, 8]
+    - from: 9
+      to: 9
+      dub: false
+      checked: [9]
+    - from: 10
+      to: 12
+      dub: true
+      checked: [10, 11, 12]
+    - from: 13
+      to: 13
+      dub: false
+      checked: [13]
+  checkedAt: '2026-08-30'
+  note: "Folgen 1–3 mit deutschem Ton, Folge 4 ohne deutschen Ton, Folgen 5–8 mit deutschem Ton, Folge 9 ohne deutschen Ton, Folgen 10–12 mit deutschem Ton, Folge 13 ohne deutschen Ton — Amazon-Seite B0FR8WFPDD: alle 13 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 4, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 98437
+  title: "Overlord II"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0B8T48JNZ
+  dub: true
+  checkedAt: '2026-08-30'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0B8T48JNZ: alle 13 Folgen geprüft, Abos: aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 101474
+  title: "Overlord III"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0B8PK3BS6
+  dub: true
+  checkedAt: '2026-08-30'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0B8PK3BS6: alle 13 Folgen geprüft, Abos: aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 151807
+  title: "Solo Leveling"
+  platform: primevideo
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+    - from: 2
+      to: 2
+      dub: false
+      checked: [2]
+    - from: 3
+      to: 3
+      dub: true
+      checked: [3]
+    - from: 4
+      to: 4
+      dub: false
+      checked: [4]
+    - from: 5
+      to: 6
+      dub: true
+      checked: [5, 6]
+    - from: 7
+      to: 7
+      dub: false
+      checked: [7]
+    - from: 8
+      to: 9
+      dub: true
+      checked: [8, 9]
+    - from: 10
+      to: 11
+      dub: false
+      checked: [10, 11]
+    - from: 12
+      to: 12
+      dub: true
+      checked: [12]
+    - from: 13
+      to: 13
+      dub: false
+      checked: [13]
+  checkedAt: '2026-08-31'
+  note: "Folge 1 mit deutschem Ton, Folge 2 ohne deutschen Ton, Folge 3 mit deutschem Ton, Folge 4 ohne deutschen Ton, Folgen 5–6 mit deutschem Ton, Folge 7 ohne deutschen Ton, Folgen 8–9 mit deutschem Ton, Folgen 10–11 ohne deutschen Ton, Folge 12 mit deutschem Ton, Folge 13 ohne deutschen Ton — Tonspuren: 한국어 — Amazon-Seite B0DQTBWY5K: nur 13 von 26 Folgen geladen — Rest ungeprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 130298
+  title: "The Eminence in Shadow"
+  platform: primevideo
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CJ1VR18Y: alle 12 Folgen geprüft, Abos: Prime, animedigitalde, aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf"
+
+- anilistId: 20850
+  title: "Tokyo Ghoul √A"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CP9VNY3Q
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CP9VNY3Q: alle 12 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 100240
+  title: "Tokyo Ghoul:re"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0D188KVH4
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0D188KVH4: alle 24 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 102351
+  title: "Tokyo Ghoul:re"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0D188KVH4
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0D188KVH4: alle 24 Folgen geprüft, Abos: crunchyrollde — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 3, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 20850
+  title: "Tokyo Ghoul √A"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0DCXV5GMB
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DCXV5GMB: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=kauf_oder_leihe"
+
+- anilistId: 102351
+  title: "Tokyo Ghoul:re"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CW5WH6XZ
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0D7N68Q5T: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, Seitenadresse: B0D7N68Q5T, laut Adresse Staffel 4, zugang=kauf_oder_leihe"
+
+- anilistId: 102351
+  title: "Tokyo Ghoul:re"
+  platform: primevideo
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0D7N68Q5T: alle 12 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 4, zugang=kauf_oder_leihe"
+
+- anilistId: 110229
+  title: "We Never Learn: Staffel 2"
+  platform: primevideo
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0CVG6BDYZ: alle 13 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=kauf_oder_leihe"
+
+- anilistId: 20661
+  title: "Terror in Tokio"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B010S2ZTCS
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B010S2ZTCS: alle 5 Folgen geprüft, Abos: prosiebenfun, prosiebende — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 21003
+  title: "Encouragement of Climb: Staffel 2 Specials"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GKC63VC9
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0GKC63VC9: alle 24 Folgen geprüft, Abos: FVOD, aniversede, laut Adresse Staffel 2, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 14355
+  title: "Encouragement of Climb"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GP83RCNX
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0GNH738G2: alle 13 Folgen geprüft, Abos: FVOD, aniversede — Staffel nicht im Bestand, Titel von der Seite gelesen, Seitenadresse: B0GNH738G2, laut Adresse Staffel 3, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 21318
+  title: "Fate/Stay Night: Unlimited Blade Works - Sunny Day"
+  platform: primevideo
+  url: https://www.amazon.de/s?k=Fate%2FStay%20Night%3A%20Unlimited%20Blade%20Works%20-%20Sunny%20Day&i=instant-video
+  available: false
+  checkedAt: '2026-08-31'
+  note: "Suche auf Prime Video: kein Treffer für diesen Titel, nur Verwandtes (Fate/stay night)"
+
+- anilistId: 1335
+  title: "Ghost in the Shell: Stand Alone Complex - Der Alltag der Tachikoma"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0BYVJZ51W
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0BYVJZ51W: alle 26 Folgen geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"
+
+- anilistId: 801
+  title: "Ghost in the Shell: Stand Alone Complex 2nd GIG"
+  platform: primevideo
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0B6ZXKKJL: alle 26 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=kauf_oder_leihe"
+
+- anilistId: 467
+  title: "Ghost in the Shell: Stand Alone Complex"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0D8DHM8NX
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, English, Español (España), Français (Belgique), Français (France), Italiano, 日本語 — Amazon-Seite B0D8DHM8NX: alle 26 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=kauf_oder_leihe"
+
+- anilistId: 801
+  title: "Ghost in the Shell: Stand Alone Complex 2nd GIG"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0H74YN7B4
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, English, Español (España), Français, Italiano — Amazon-Seite B0H74YN7B4: alle 26 Folgen geprüft, Abos: keine Angabe — Staffel nicht im Bestand, Titel von der Seite gelesen, laut Adresse Staffel 2, zugang=kauf_oder_leihe"
+
+- anilistId: 138103
+  title: "How Heavy Are the Dumbbells You Lift? Gnadenlose Trainingsstunde"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0CZSMKH71
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: true
+      checked: [1]
+    - from: 2
+      to: 2
+      dub: false
+      checked: [2]
+    - from: 3
+      to: 7
+      dub: true
+      checked: [3, 4, 5, 6, 7]
+    - from: 8
+      to: 8
+      dub: false
+      checked: [8]
+  checkedAt: '2026-08-31'
+  note: "Folge 1 mit deutschem Ton, Folge 2 ohne deutschen Ton, Folgen 3–7 mit deutschem Ton, Folge 8 ohne deutschen Ton — Tonspuren: Deutsch — Amazon-Seite B0CZSMKH71: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf_oder_leihe"
+
+- anilistId: 539
+  title: "Tenchi Muyo! (Episode 1 - 6)"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GGFXGY1C
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0GGFXGY1C: alle 14 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 1696
+  title: "Murder Princess"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0G2YJ5BYG
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0G2YJ5BYG: alle 6 Folgen geprüft, Abos: aniversede, zugang=abo_und_kauf — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+
+- anilistId: 5042
+  title: "Kiss × Sis (OVA)"
+  platform: primevideo
+  url: https://www.amazon.de/s?k=Kiss%20%C3%97%20Sis%20(OVA)&i=instant-video
+  available: false
+  checkedAt: '2026-08-31'
+  note: "Suche auf Prime Video: kein einziger Treffer"
+
+- anilistId: 20650
+  title: "Strike Witches: Operation Victory Arrow"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0GVZMY7WT
+  dub: true
+  checkedAt: '2026-08-31'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0GVZMY7WT: alle 3 Folgen geprüft, Abos: aniversede, zugang=abo — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
