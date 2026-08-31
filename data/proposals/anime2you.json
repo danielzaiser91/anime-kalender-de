@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-30T13:44:44.745Z",
+  "scrapedAt": "2026-08-31T10:53:25.875Z",
   "proposals": [
     {
       "articleTitle": "»A Gatherer’s Adventure in Isekai« erscheint als Blu-ray-Komplettbox",
@@ -43,6 +43,24 @@
         }
       ],
       "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "»Suzume« erscheint als limitierte Ultra-HD-Steelbook-Edition",
+      "articleUrl": "https://www.anime2you.de/news/1044393/suzume-ultra-hd-steelbook/",
+      "publishedAt": "2026-08-30",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "month": "2026-12",
+          "context": "elbook veröffentlichen wird. Wir fassen die Details zusammen. Release im Dezember 2026 Die limitierte 4K-Steelbook-Edition von »Suzume«, die"
+        }
+      ],
+      "dub": "ja",
       "alreadyCurated": false
     },
     {
