@@ -159,7 +159,10 @@ for (const [id, eintraege] of jeAdresse) {
          * gilt die Staffel als offen: Lieber einmal zu viel gefragt als eine
          * Lücke, von der niemand weiß.
          */
-        offen: sortiert[i] ? sortiert[i].dub === undefined : true,
+        /* Ein Verdachtsfall ist offen, obwohl er ein Urteil hat — es ist womöglich überholt. */
+        offen: sortiert[i]
+          ? sortiert[i].dub === undefined || verdaechtig.has(sortiert[i].t.id)
+          : true,
       })),
       laut: 'anbieter',
     }
@@ -197,7 +200,7 @@ for (const [id, eintraege] of jeAdresse) {
       // läuft und trägt `folgen: 0`, ist aber eine Serie (22.08.2026).
       film: e.t.format === 'MOVIE' || (e.t.format !== 'TV' && e.t.episodes === 1),
       // Was hier schon beantwortet ist, muss niemand mehr anklicken.
-      offen: e.dub === undefined,
+      offen: e.dub === undefined || verdaechtig.has(e.t.id),
     })),
   }
 }
