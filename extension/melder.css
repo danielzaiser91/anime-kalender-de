@@ -126,12 +126,10 @@
   weil nichts mehr um die gleiche Zeile konkurriert.
 */
 .ak-zeile {
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  align-items: center;
-  gap: 1px 10px;
-  padding: 7px 16px;
+  display: block;
+  padding: 5px 14px 6px;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: pointer;
 }
 /* Die erste Zeile braucht keine Linie — darüber steht schon der Kopf. */
 .ak-liste > .ak-zeile:first-child { border-top: 0; }
@@ -140,7 +138,7 @@
 /* Der Titel behält seine Breite, statt zwischen den Kürzeln zu verschwinden.
    Er darf schrumpfen, aber nicht unter das, was noch lesbar ist. */
 .ak-titel {
-  grid-column: 1;
+  display: block;
   min-width: 0;
   color: #79c0ff;
   text-decoration: none;
@@ -151,16 +149,34 @@
 .ak-titel:hover { text-decoration: underline; }
 
 /*
-  Die Staffeln stehen unter dem Titel, über die volle Breite und linksbündig —
-  eine Liste, keine rechte Spalte. Die Einrückung setzt sie sichtbar unter den
-  Titel, ohne sie von ihm zu trennen.
+  **Unter dem Titel steht eine Reihe Pillen — links die Staffeln, rechts das Tun.**
+
+  Bis zum 31.08.2026 bekam jede Staffel eine eigene Zeile. Bei drei Staffeln
+  waren das vier Zeilen je Eintrag, und zwanzig Einträge füllten drei
+  Bildschirme. Daniel: „zu viel platzverschwendung, die heights der rows muss
+  kleiner, je season eine pill in der die ep stehen … anisearch und nichts da
+  rechts, rest links."
+
+  Alles in **einer** Reihe, die bei Bedarf umbricht: eine Pille je Staffel mit
+  Nummer und Folgen darin, rechts die beiden Knöpfe.
 */
-.ak-folgen {
-  grid-column: 1 / -1;
+.ak-fuss {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  align-items: center;
+  gap: 4px 8px;
   margin-top: 2px;
+}
+.ak-folgen {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  gap: 4px;
+  min-width: 0;
+}
+.ak-aktionen {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 4px;
 }
 
 /* Die Kürzel sind kein Schmuck: Sie sagen, welche Folge zu öffnen ist. Erledigte
@@ -174,17 +190,38 @@
   Was noch zu tun ist, hat jetzt Kontrast; was durch ist, tritt zurück und
   bleibt trotzdem lesbar.
 */
+/*
+  **Eine Pille je Staffel — Nummer, Erledigtes, Offenes.**
+
+  Vorher waren es zwei Pillen nebeneinander, eine für „gemeldet" und eine für
+  „offen". Sie gehören zusammen: Zusammen ergeben sie die Staffel, und getrennt
+  kosten sie den doppelten Rahmen.
+*/
 .ak-folge {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
   padding: 1px 7px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
   background: rgba(255, 255, 255, 0.05);
   color: #e6edf3;
-  font: 600 11px/1.5 ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font: 600 11px/1.6 ui-monospace, "Cascadia Mono", Consolas, monospace;
   white-space: nowrap;
 }
+/* Die Staffelnummer gehört zur Pille, tritt darin aber zurück. */
+.ak-folge > .ak-st {
+  color: #8b949e;
+  font-weight: 500;
+}
+/* Was durch ist, steht in derselben Pille — leiser als das Offene daneben. */
+.ak-folge > .ak-durch {
+  color: #6e9e78;
+  font-weight: 500;
+}
+/* Eine Staffel, die ganz durch ist, tritt als Ganzes zurück. */
 .ak-folge.ak-fertig {
-  border-color: transparent;
+  border-color: rgba(255, 255, 255, 0.08);
   background: none;
   color: #6e9e78;
   font-weight: 500;
@@ -211,19 +248,25 @@
   Zeilen zwanzigmal den Blick auf sich, und zwar stärker als der Titel daneben
   (Daniel, 31.08.2026, mit Bild). Er bekommt ihn beim Überfahren.
 */
-.ak-tot {
-  grid-column: 3;
+/*
+  Beide Knöpfe rechts sehen gleich aus und verhalten sich gleich: leise im
+  Ruhezustand, deutlich beim Überfahren. Der eine schlägt nach, der andere
+  meldet — und ein Fehlklick auf den zweiten meldet eine Serie als verschwunden,
+  die es noch gibt. Deshalb fragt er einmal nach.
+*/
+.ak-tot,
+.ak-quelle {
   flex: 0 0 auto;
-  min-width: 78px;
-  padding: 2px 8px;
-  border: 1px solid transparent;
-  border-radius: 4px;
+  padding: 1px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
   background: none;
-  color: #6e7681;
-  font: 500 11px/1.5 "Segoe UI", system-ui, sans-serif;
+  color: #8b949e;
+  font: 500 11px/1.6 "Segoe UI", system-ui, sans-serif;
+  text-decoration: none;
   cursor: pointer;
 }
-.ak-zeile:hover .ak-tot { border-color: rgba(255, 255, 255, 0.14); color: #8b949e; }
+.ak-quelle:hover { border-color: rgba(124, 196, 255, 0.5); color: #7cc4ff; }
 .ak-tot:hover:not(:disabled) { border-color: #f85149; color: #f85149; }
 .ak-tot:disabled { cursor: default; opacity: .55; }
 .ak-tot.ak-frage { border-color: #f85149; color: #f85149; }
@@ -367,31 +410,7 @@
   color: #e5e5e5;
 }
 
-/*
-  Eine Zeile je Staffel: Nummer in einer festen Spalte, dann die Bereiche.
-  „gemeldet" und „offen" ergeben zusammen die ganze Staffel und gehören deshalb
-  nebeneinander — die feste Spalte sorgt dafür, dass die Kürzel aller Staffeln
-  an derselben Stelle beginnen.
-*/
-.ak-staffelzeile {
-  display: grid;
-  grid-template-columns: 20px 1fr;
-  align-items: center;
-  gap: 8px;
-}
-.ak-staffelzeile > .ak-folge:first-child { grid-column: 2; }
-.ak-staffelname {
-  color: #7d8590;
-  font: 600 10px/1.6 ui-monospace, "Cascadia Mono", Consolas, monospace;
-  text-align: right;
-}
-/* Mehrere Kürzel einer Staffel bleiben in ihrer Spalte beieinander. */
-.ak-staffelbereiche {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  min-width: 0;
-}
+/* Die Staffelzeile ist entfallen — eine Staffel ist jetzt eine Pille. */
 
 /* Beide Knöpfe stehen in einer Zeile — der Schalter links, der Durchlauf
    rechts. Die Leiste ist positioniert, die Knöpfe darin nicht: Die Breite des

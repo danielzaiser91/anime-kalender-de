@@ -2764,7 +2764,6 @@ async function dialogOeffnen() {
       asLink.rel = 'noreferrer noopener'
       asLink.textContent = 'aniSearch'
       asLink.title = 'Deutsche Folgentitel und Anbieter bei aniSearch nachsehen'
-      asLink.style.cssText = 'margin-left:8px;font-size:11px;color:#7cc4ff;text-decoration:underline'
     }
     /**
      * Merken, welchen Titel er gerade öffnet.
@@ -2796,7 +2795,16 @@ async function dialogOeffnen() {
       void speicherSchreiben({ zuletztGeoeffnet: { id: String(id), zeit: Date.now() } })
     })
     zeile.appendChild(link)
-    if (asLink) zeile.appendChild(asLink)
+
+    /*
+      **Die Fußzeile trägt beides: links die Staffeln, rechts das Tun.**
+
+      Vorher standen Titel, Verweis, Kürzel und Knopf alle im selben Fluss und
+      brachen unregelmäßig um. Zwei Behälter halten das auseinander, ohne dass
+      etwas um dieselbe Zeile konkurriert.
+    */
+    const fuss = document.createElement('div')
+    fuss.className = 'ak-fuss'
 
     const folgen = document.createElement('div')
     folgen.className = 'ak-folgen'
@@ -2851,37 +2859,38 @@ async function dialogOeffnen() {
       const gemeldet = alle.filter((n) => kuerzelErledigt(id, `${st.nr}e${String(n).padStart(2, "0")}`))
       const offen = alle.filter((n) => !gemeldet.includes(n))
 
-      const zeileSt = document.createElement("div")
-      zeileSt.className = "ak-staffelzeile"
+      /*
+        **Eine Pille je Staffel.** Nummer, Erledigtes und Offenes stehen darin
+        nebeneinander — zusammen ergeben sie die Staffel, und getrennt kosteten
+        sie den doppelten Rahmen und die doppelte Zeile.
+      */
+      const pille = document.createElement("span")
+      pille.className = offen.length ? "ak-folge" : "ak-folge ak-fertig"
+      pille.title = `${gemeldet.length} von ${alle.length} Folgen gemeldet`
 
-      const name = document.createElement("span")
-      name.className = "ak-staffelname"
-      name.textContent = staffeln.length > 1 ? `S${st.nr}` : ""
-      zeileSt.appendChild(name)
-
-      /* Alle Bereiche einer Staffel in einer Spalte — sonst rutscht der zweite
-         unter die Staffelnummer. */
-      const bereiche = document.createElement("div")
-      bereiche.className = "ak-staffelbereiche"
-      zeileSt.appendChild(bereiche)
+      if (staffeln.length > 1) {
+        const nr = document.createElement("span")
+        nr.className = "ak-st"
+        nr.textContent = `S${st.nr}`
+        pille.appendChild(nr)
+      }
 
       if (gemeldet.length) {
         const marke = document.createElement("span")
         marke.className = "ak-folge ak-fertig"
-        /* Ein Häkchen statt des Wortes: Die Zeile trägt bis zu vier Kürzel,
-           und „gemeldet:" davor kostet die Hälfte des Platzes. */
+        /* Ein Häkchen statt des Wortes: Die Pille trägt beides, und
+           „gemeldet:" davor kostet die Hälfte des Platzes. */
+        marke.className = "ak-durch"
         marke.textContent = `✓ E${alsBereiche(gemeldet).join(", E")}`
-        marke.title = `${gemeldet.length} von ${alle.length} Folgen dieser Staffel sind gemeldet`
-        bereiche.appendChild(marke)
+        pille.appendChild(marke)
       }
       if (offen.length) {
         const marke = document.createElement("span")
         marke.className = "ak-folge"
         marke.textContent = `E${alsBereiche(offen).join(", E")}`
-        marke.title = `${offen.length} von ${alle.length} Folgen dieser Staffel fehlen noch`
-        bereiche.appendChild(marke)
+        pille.appendChild(marke)
       }
-      folgen.appendChild(zeileSt)
+      folgen.appendChild(pille)
     }
 
     if (!folgen.childElementCount) {
@@ -2890,7 +2899,29 @@ async function dialogOeffnen() {
       leer.textContent = "keine Folgenangabe"
       folgen.appendChild(leer)
     }
-    zeile.appendChild(folgen)
+    fuss.appendChild(folgen)
+
+    /* Rechts, in fester Reihenfolge: nachschlagen, dann melden. */
+    const aktionen = document.createElement('div')
+    aktionen.className = 'ak-aktionen'
+    if (asLink) aktionen.appendChild(asLink)
+    fuss.appendChild(aktionen)
+    zeile.appendChild(fuss)
+
+    /*
+      **Die ganze Zeile öffnet den Titel, nicht nur seine drei Wörter.**
+
+      Der Titel-Link war das einzige Ziel — bei „7 Seeds" sind das neun Zeichen
+      in einer Zeile von siebenhundert Pixeln. Daniel am 31.08.2026: „zeile muss
+      klickbar sein."
+
+      Die Knöpfe rechts behalten ihr eigenes Verhalten: Ein Klick, der dort
+      landet, ist keiner auf die Zeile.
+    */
+    zeile.addEventListener('click', (ereignis) => {
+      if (ereignis.target.closest('a, button')) return
+      link.click()
+    })
 
     /**
      * Der Knopf für einen Verweis, der ins Leere führt.
@@ -2935,7 +2966,7 @@ async function dialogOeffnen() {
       tot.disabled = ok
       if (ok) zeile.classList.add('ak-abgehakt')
     })
-    zeile.appendChild(tot)
+    aktionen.appendChild(tot)
 
     // Was durch ist, bleibt sichtbar, tritt aber zurück.
     /*
