@@ -110,6 +110,17 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     for pfad in "${QUELLEN[@]}"; do
       [ -e "$RETTUNG/$pfad" ] || continue
       mkdir -p "$(dirname "$pfad")"
+      # `dub-confirmed.yaml` wächst — sie wird zusammengeführt, nicht ersetzt.
+      #
+      # Für jede andere Quelle ist „Arbeitsstand gewinnt" richtig: Der Lauf hat
+      # sie gerade frisch geholt. Diese eine trägt Belege, und der Fernstand kann
+      # welche haben, die dieser Lauf nie gesehen hat. Am 31.08.2026 hat genau
+      # das 300 Belege gekostet — zwei Bauläufe kurz hintereinander, dazwischen
+      # ein Push mit 210 neuen, und der ältere Lauf schrieb seinen Stand darüber.
+      if [ "$pfad" = "data/dub-confirmed.yaml" ] && [ -e "$pfad" ]; then
+        node tools/dub-belege-vereinen.mjs "$pfad" "$RETTUNG/$pfad" || true
+        continue
+      fi
       rm -rf "$pfad"
       cp -r "$RETTUNG/$pfad" "$pfad"
     done
