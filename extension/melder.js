@@ -2004,6 +2004,18 @@ async function randMelden(folgen, befund, bisNummer) {
   const reihe = gemeinteReihe()
   let gemeldet = 0
   for (const f of folgen) {
+    /*
+      **Eine Randprobe kann ueber Staffelgrenzen laufen — die Folge weiss, wohin.**
+
+      `befund` ist die Messung *einer* Folge; ihre Staffel gilt nicht fuer alle
+      uebrigen. Bei Dorohedoro (24 Folgen, zwei Staffeln) landeten so 1, 12 und
+      13 in Staffel 1 und der Rest in Staffel 2 — die Reihenfolge, in der der
+      Player sie gemeldet hat, nicht die des Anbieters (31.08.2026). Seit 4.9.0
+      traegt jede Folge ihre eigene Staffel; die schlaegt beide Rueckfaelle.
+    */
+    const staffelDerFolge = Number.isFinite(f.staffel)
+      ? f.staffel
+      : (befund.staffel ?? DURCHLAUF.staffel ?? null)
     try {
       const antwort = await fetch(WORKER, {
         method: 'POST',
@@ -2016,7 +2028,7 @@ async function randMelden(folgen, befund, bisNummer) {
           titel: stand.serientitel ?? null,
           folge: f.videoId,
           folge_nr: f.nummer,
-          staffel: befund.staffel ?? DURCHLAUF.staffel ?? null,
+          staffel: staffelDerFolge,
           staffeln: stand.staffeln ?? null,
           serientitel: stand.serientitel ?? null,
           notiz:
@@ -2045,7 +2057,7 @@ async function randMelden(folgen, befund, bisNummer) {
           offen: E3-60" — die Meldungen waren raus, nur wusste die Anzeige
           nichts davon (Daniel, 26.08.2026).
         */
-        await merkeErledigt(reihe, befund.staffel ?? DURCHLAUF.staffel ?? null, f.nummer)
+        await merkeErledigt(reihe, staffelDerFolge, f.nummer)
       }
     } catch {
       /* Eine verlorene Meldung hält die übrigen nicht auf. */
@@ -2059,6 +2071,20 @@ async function randMelden(folgen, befund, bisNummer) {
 async function durchlaufMelden(folge, echte, deutsch) {
   const { token } = await chrome.storage.sync.get('token')
   if (!token) return false
+  /*
+    **Die Staffel der Folge schlaegt die des Players — und sie gilt fuer beides.**
+
+    Bis 4.9.0 ging die Meldung mit dieser Staffel raus, der lokale Vermerk aber
+    mit `null`. `merkeErledigt` leitet die Staffel dann aus "genau eine offene"
+    ab und steigt bei jedem Titel mit mehreren offenen Staffeln aus. Bei Death
+    Note (drei Staffeln) blieb Folge 31 deshalb schwarz, obwohl die Meldung
+    angekommen war (Daniel, 31.08.2026).
+  */
+  const staffelDerFolge = Number.isFinite(folge?.staffel)
+    ? folge.staffel
+    : Number.isFinite(stand.staffel)
+      ? stand.staffel
+      : (DURCHLAUF.staffel ?? null)
   try {
     const antwort = await fetch(WORKER, {
       method: 'POST',
@@ -2093,14 +2119,14 @@ async function durchlaufMelden(folge, echte, deutsch) {
           Meldung zu Folge 1 kein Feld, und die Pipeline schlug sie der
           falschen Staffel zu.
         */
-        staffel: stand.staffel ?? DURCHLAUF.staffel ?? null,
+        staffel: staffelDerFolge,
         staffeln: stand.staffeln ?? null,
         serientitel: stand.serientitel ?? null,
         notiz: `Durchlauf: Folge ${folge.nummer}${folge.titel ? ` — ${folge.titel}` : ''}`,
       }),
     })
     if (!antwort.ok) return false
-    await merkeErledigt(gemeinteReihe(), null, folge.nummer)
+    await merkeErledigt(gemeinteReihe(), staffelDerFolge, folge.nummer)
     return true
   } catch {
     /* Eine verlorene Meldung hält den Durchlauf nicht auf — sie bleibt offen. */
