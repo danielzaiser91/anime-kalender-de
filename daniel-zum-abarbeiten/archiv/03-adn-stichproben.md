@@ -1,3 +1,10 @@
+> **Archiviert am 31.08.2026 — hier ist nichts mehr zu tun.**
+>
+> Drei Stichproben sollten 120 ADN-Urteile kontrollieren. ADN liefert die Sprachfassung je Folge als `vde`; der Lauf prüft sie viermal täglich für laufende Serien. Eine Stichprobe fügt dem nichts hinzu.
+>
+> Die Datei bleibt als Beleg stehen: Was einmal Arbeit war, gehört nachlesbar, nicht
+> gelöscht.
+
 # 3 — Drei ADN-Seiten ansehen
 
 **Zwei Minuten. Kontrolliert 120 Urteile, die noch nie jemand geprüft hat.**

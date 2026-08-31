@@ -24,6 +24,9 @@ import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+import { verdachtHinweis, verdachtsfaelle } from './verdacht.mjs'
+/** Verweise, denen eine zweite Quelle widerspricht — sie gehören auf die Liste. */
+const verdaechtig = verdachtsfaelle(wurzel, 'netflix')
 const roh = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
 const titel = Array.isArray(roh) ? roh : (roh.titles ?? Object.values(roh))
 
@@ -105,7 +108,16 @@ for (const [id, eintraege] of jeAdresse) {
    */
   const serien = eintraege.filter((e) => e.t.format === 'TV' || e.t.format === 'ONA')
   const zuZeigen = serien.length ? serien : eintraege
-  if (!zuZeigen.some((e) => e.dub === undefined)) continue
+  /*
+    **Ein Verdachtsfall hat ein Urteil — es ist nur womöglich überholt.**
+
+    Der Grundfilter zeigt, was **kein** Urteil hat. Wer in
+    `data/tonspur-verdacht.json` steht, hat eines, dem eine zweite Quelle
+    widerspricht; er gehört genauso auf die Liste (Daniel, 31.08.2026: „das kann
+    doch alles auf die prüfliste und mit extension gecheckt werden oder nicht?").
+  */
+  const verdacht = eintraege.map((e) => verdaechtig.get(e.t.id)).find(Boolean)
+  if (!zuZeigen.some((e) => e.dub === undefined) && !verdacht) continue
   /**
    * OVAs und Specials fallen weg, wo Serienstaffeln dieselbe Adresse haben.
    *
@@ -125,6 +137,7 @@ for (const [id, eintraege] of jeAdresse) {
     // Der Anbieter hat selbst gesagt, wie er teilt — dann gilt seine Zählung,
     // denn genau die steht im Player und landet später im Vermerk.
     offen[id] = {
+      ...(verdacht ? { wiedervorlage: verdachtHinweis(verdacht) } : {}),
       titel: sortiert[0].t.titleDe ?? sortiert[0].t.titleEn ?? sortiert[0].t.titleRomaji ?? '',
     asId: anisearchKennung[String(sortiert[0].t.id)] ?? null,
       asId: anisearchKennung[String(sortiert[0].t.id)] ?? null,

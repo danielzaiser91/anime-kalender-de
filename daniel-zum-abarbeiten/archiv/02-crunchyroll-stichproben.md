@@ -1,3 +1,10 @@
+> **Archiviert am 31.08.2026 — hier ist nichts mehr zu tun.**
+>
+> Drei Stichproben sollten entscheiden, ob 240 Crunchyroll-Verweise stimmen. Seit dem 22.08.2026 liest der Bau den **deutschen Katalog je Folge** (`data:cr-dub` mit `CR_ZUGANG`) — die Frage beantwortet sich seitdem selbst, und zwar genauer als drei Stichproben es könnten.
+>
+> Die Datei bleibt als Beleg stehen: Was einmal Arbeit war, gehört nachlesbar, nicht
+> gelöscht.
+
 # 2 — Drei Crunchyroll-Seiten ansehen
 
 **Zwei Minuten. Entscheidet über 240 Verweise.**

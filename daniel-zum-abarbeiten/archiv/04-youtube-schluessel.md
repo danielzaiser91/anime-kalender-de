@@ -1,3 +1,10 @@
+> **Archiviert am 31.08.2026 — hier ist nichts mehr zu tun.**
+>
+> Ausdrücklich erledigt am 23.08.2026, **bevor** die Bitte an Daniel ging: Die YouTube Data API führt für Audiosprachen ein einziges Feld (`snippet.defaultAudioLanguage`), und das steht ohnehin in der Videoseite. An drei offenen Verweisen nachgesehen — es fehlt dort vollständig, der Uploader hat es nie gesetzt. Der Schlüssel hätte Zeit gekostet und nichts geliefert.
+>
+> Die Datei bleibt als Beleg stehen: Was einmal Arbeit war, gehört nachlesbar, nicht
+> gelöscht.
+
 # 4 — YouTube-Data-API-Schlüssel anlegen
 
 **Fünf Minuten, einmalig. Löst 23 Verweise.**

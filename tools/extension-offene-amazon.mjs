@@ -35,6 +35,16 @@ import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+import { verdachtHinweis, verdachtsfaelle } from './verdacht.mjs'
+/**
+ * **Ein Verdachtsfall ist geprüft und trotzdem offen.**
+ *
+ * „Geprüft ist geprüft" nimmt beantwortete Titel aus der Liste — richtig, außer
+ * wenn eine zweite Quelle dem Urteil widerspricht. Dann ist die Frage wieder da,
+ * und sie gehört dorthin, wo sie mit einem Klick zu beantworten ist (Daniel,
+ * 31.08.2026).
+ */
+const verdaechtig = verdachtsfaelle(wurzel, 'primevideo')
 
 /**
  * **Geprüft ist geprüft — auch ohne Urteil.**
@@ -168,10 +178,18 @@ const JAHRESZEIT = { WINTER: 0, SPRING: 1, SUMMER: 2, FALL: 3 }
 let schonGeprueft = 0
 const offen = {}
 for (const [asin, eintraege] of jeAsin) {
+  /*
+    **Ein Verdachtsfall ist beantwortet und trotzdem offen.**
+
+    Widerspricht eine zweite Quelle unserem Urteil, ist die Frage wieder da —
+    und sie gehört auf die Titelseite, wo ein Klick sie beantwortet. Beide
+    Riegel darunter werden dafür übersprungen (Daniel, 31.08.2026).
+  */
+  const verdacht = eintraege.map((e) => verdaechtig.get(e.t?.id ?? e.id)).find(Boolean)
   // Ist unter dieser Adresse schon alles beantwortet, gibt es nichts zu tun.
-  if (eintraege.every((e) => e.dub !== undefined)) continue
+  if (!verdacht && eintraege.every((e) => e.dub !== undefined)) continue
   /* Geprüft ist geprüft — auch wenn kein Urteil daraus wurde (Kanal-Titel). */
-  if (eintraege.every((e) => geprueftePrime.ids.has(e.t?.id ?? e.id))) {
+  if (!verdacht && eintraege.every((e) => geprueftePrime.ids.has(e.t?.id ?? e.id))) {
     schonGeprueft++
     continue
   }
@@ -179,6 +197,7 @@ for (const [asin, eintraege] of jeAsin) {
     .slice()
     .sort((a, b) => (a.t.jpYear ?? 0) - (b.t.jpYear ?? 0) || (JAHRESZEIT[a.t.jpSeason] ?? 0) - (JAHRESZEIT[b.t.jpSeason] ?? 0))
   offen[asin] = {
+    ...(verdacht ? { wiedervorlage: verdachtHinweis(verdacht) } : {}),
     titel: sortiert[0].t.titleRomaji ?? sortiert[0].t.titleEn ?? '?',
     url: sortiert[0].url,
     eintraege: sortiert.map((e) => ({
@@ -435,7 +454,7 @@ for (const t of titel) {
   for (const s of t.streams ?? []) {
     if (s.platform !== 'primevideo' || !/\/s\?/.test(s.url ?? '')) continue
     if (s.dub !== undefined) continue
-    if (geprueftePrime.ids.has(t.id) || geprueftePrime.adressen.has(s.url)) {
+    if (!verdaechtig.has(t.id) && (geprueftePrime.ids.has(t.id) || geprueftePrime.adressen.has(s.url))) {
       schonGeprueft++
       continue
     }
@@ -444,8 +463,10 @@ for (const t of titel) {
       continue
     }
     const angezeigt = mitTeilnummer(t.titleDe ?? t.titleEn ?? t.titleRomaji ?? String(t.id), t)
+    const verdacht = verdaechtig.get(t.id)
     suche[s.url] = {
       titel: angezeigt,
+      ...(verdacht ? { wiedervorlage: verdachtHinweis(verdacht) } : {}),
       /*
         Der Begriff, mit dem wirklich gesucht wird — deutscher Titel zuerst,
         Englisch nur als Rückfall, Gattungswörter raus.

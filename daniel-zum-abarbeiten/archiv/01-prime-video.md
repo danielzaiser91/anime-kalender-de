@@ -1,3 +1,10 @@
+> **Archiviert am 31.08.2026 — hier ist nichts mehr zu tun.**
+>
+> Die Liste nannte 385 Prime-Adressen. Am 31.08.2026 sind es **2** — der Rest ist über die Erweiterung beantwortet. Was heute offen ist, steht in der Erweiterung selbst, nicht hier.
+>
+> Die Datei bleibt als Beleg stehen: Was einmal Arbeit war, gehört nachlesbar, nicht
+> gelöscht.
+
 # 1 — Prime Video durchgehen
 
 **385 Adressen.** Je Titel etwa 15 Sekunden. Das ist die Aufgabe mit der größten Wirkung, und

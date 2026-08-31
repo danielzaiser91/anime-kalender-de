@@ -149,6 +149,29 @@ md.push(
   '- [07-alle-anbieter.md](07-alle-anbieter.md) — die Kurzschrift zum Antworten',
   '- [08-arbeitspakete.md](08-arbeitspakete.md) — dieselbe Arbeit in Blöcken',
   '- [10-kinostarts.md](10-kinostarts.md) — Kinotermine, die eine Fassung brauchen',
+  '- [12-verpasste-termine.md](12-verpasste-termine.md) — Termine, die ein Anbieter hat verstreichen lassen',
+  '- [13-tonspur-verdacht.md](13-tonspur-verdacht.md) — Verweise, denen eine zweite Quelle widerspricht',
+  '',
+  /*
+    **Der Ordner sieht nach mehr Arbeit aus, als darin steckt.**
+
+    Daniel am 31.08.2026: „liest sich als wäre da mehr arbeit für mich." Die
+    je-Anbieter-Listen und die Sammelliste zeigen **dieselben** Verweise, nur
+    anders geschnitten — wer alle zusammenzählt, zählt jeden mehrfach.
+
+    Fünf Anleitungen, deren Aufgabe erledigt ist, liegen seit dem 31.08.2026
+    unter `archiv/`: die alte Prime-Liste mit 385 Adressen (heute sind es zwei),
+    die Crunchyroll- und ADN-Stichproben (beide Quellen lesen wir inzwischen je
+    Folge), der YouTube-Schlüssel (geprüft, bringt nichts) und die
+    Disney+-Handanleitung (die Erweiterung deckt es ab).
+  */
+  '## Warum hier weniger steht, als es aussieht',
+  '',
+  'Die Zeilen 2 bis 6 oben sind **eine** Menge Verweise, geschnitten nach Anbieter.',
+  'Die Sammelliste und die Arbeitspakete zeigen dieselben noch einmal am Stück —',
+  'wer alles zusammenzählt, zählt jeden Verweis mehrfach.',
+  '',
+  'Erledigte Anleitungen stehen unter [archiv/](archiv/) und sind kein offener Punkt.',
   '',
 )
 

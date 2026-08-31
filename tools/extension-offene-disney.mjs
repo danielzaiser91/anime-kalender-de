@@ -21,6 +21,9 @@ import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+import { verdachtHinweis, verdachtsfaelle } from './verdacht.mjs'
+/** Verweise, denen eine zweite Quelle widerspricht — siehe `verdacht.mjs`. */
+const verdaechtig = verdachtsfaelle(wurzel, 'disneyplus')
 const roh = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
 const titel = Array.isArray(roh) ? roh : (roh.titles ?? Object.values(roh))
 
@@ -60,9 +63,12 @@ for (const t of titel) {
 const offen = {}
 for (const [id, eintraege] of jeAdresse) {
   const sortiert = [...eintraege].sort(vergleiche)
-  /* Ist alles beantwortet, gehört die Seite nicht auf die Liste. */
-  if (sortiert.every((e) => e.dub !== undefined)) continue
+  const verdacht = eintraege.map((e) => verdaechtig.get(e.t?.id ?? e.id)).find(Boolean)
+  /* Ist alles beantwortet, gehört die Seite nicht auf die Liste — außer eine
+     zweite Quelle widerspricht dem Urteil. */
+  if (!verdacht && sortiert.every((e) => e.dub !== undefined)) continue
   offen[id] = {
+    ...(verdacht ? { wiedervorlage: verdachtHinweis(verdacht) } : {}),
     titel: sortiert[0].t.titleDe ?? sortiert[0].t.titleEn ?? sortiert[0].t.titleRomaji ?? '',
     url: sortiert[0].url,
     staffeln: sortiert.map((e, i) => ({
@@ -70,7 +76,7 @@ for (const [id, eintraege] of jeAdresse) {
       name: e.t.titleDe ?? e.t.titleEn ?? e.t.titleRomaji ?? '',
       folgen: e.t.episodes ?? 0,
       film: e.t.format === 'MOVIE',
-      offen: e.dub === undefined,
+      offen: e.dub === undefined || verdaechtig.has(e.t?.id ?? e.id),
     })),
   }
 }

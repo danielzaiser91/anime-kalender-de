@@ -1,3 +1,10 @@
+> **Archiviert am 31.08.2026 — hier ist nichts mehr zu tun.**
+>
+> Die Anleitung beginnt mit „Die Erweiterung deckt Disney+ **noch nicht** ab". Sie tut es seit dem 26.08.2026, samt Playback-Abruf für die Tonspuren. Was offen ist, steht in `07-disneyplus.md` und in der Erweiterung.
+>
+> Die Datei bleibt als Beleg stehen: Was einmal Arbeit war, gehört nachlesbar, nicht
+> gelöscht.
+
 # 5 — Disney+ durchgehen
 
 **40 Verweise.** Je Titel etwa 30 Sekunden.
