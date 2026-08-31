@@ -17,6 +17,7 @@ QUELLEN=(
   data/anisearch-titel.json
   data/termine-verpasst.json
   data/tonspur-verdacht.json
+  data/motn-tonspur.json
   data/anisearch-folgen-raw
   data/crunchyroll.json
   # Was ein Lauf an Verweisen entfernt hat, mit Grund und Prüfdatum. Kein
