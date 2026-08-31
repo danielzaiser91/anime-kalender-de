@@ -480,6 +480,16 @@ try {
     const url =
       'https://www.amazon.de/s?k=' + encodeURIComponent(v.titel) + '&i=instant-video'
     if (suche[url]) continue
+    /*
+      **„Geprüft ist geprüft" gilt auch für Vorschläge.**
+
+      Der Filter oben nimmt geprüfte Titel aus der Liste; dieser Zweig kannte
+      ihn nicht. Am 31.08.2026 standen deshalb „Danganronpa 3 — Future Arc" und
+      „— Hope Arc" weiter auf der Prüfliste, obwohl beide Minuten zuvor als
+      Beleg eingetragen worden waren. Daniel hatte sie gemeldet und musste es
+      zweimal sagen.
+    */
+    if (geprueftePrime.ids.has(v.id) || geprueftePrime.adressen.has(url)) continue
     const t = titel.find((x) => x.id === v.id)
     if (t && istNachrangigeStaffel(t)) {
       wegenStaffel++

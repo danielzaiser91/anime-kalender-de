@@ -107,6 +107,43 @@ for (const t of liste) {
 }
 
 /**
+ * **Auch eine vorgeschlagene Adresse ist eine Adresse.**
+ *
+ * Die Prüfliste enthält nicht nur Titel mit Verweis, sondern auch Vorschläge
+ * aus `data/anbieter-vorschlaege.json` — Titel, von denen wir vermuten, dass
+ * Prime sie führt. Ihre Suchadresse baut der Listengenerator aus dem Namen,
+ * und genau unter dieser Adresse meldet die Erweiterung.
+ *
+ * Der Bau kannte sie nicht: `nachUrl` entstand allein aus `titles.json`.
+ * Meldungen zu Vorschlägen fanden deshalb keinen Anker und landeten in
+ * `data/prime-unzugeordnet.json` — am 31.08.2026 waren das 887 Einträge.
+ * „Hamatora: The Animation" stand am 30.08. als geprüft gemeldet und am
+ * nächsten Tag unverändert auf der Prüfliste.
+ *
+ * Die Adresse wird hier **genauso** gebildet wie dort. Zwei Fassungen derselben
+ * Formel liefen garantiert auseinander, deshalb steht die Begründung an beiden
+ * Stellen.
+ */
+{
+  const datei = resolve(ROOT, 'data/anbieter-vorschlaege.json')
+  if (existsSync(datei)) {
+    const vorschlaege = JSON.parse(readFileSync(datei, 'utf8')) as Array<{
+      id: number
+      titel: string
+      anbieter?: string[]
+    }>
+    for (const v of vorschlaege) {
+      if (!v.anbieter?.includes('primevideo') || !v.titel || !v.id) continue
+      const k = schluesselAdresse(
+        'https://www.amazon.de/s?k=' + encodeURIComponent(v.titel) + '&i=instant-video',
+      )
+      const bisher = nachUrl.get(k) ?? []
+      if (!bisher.includes(v.id)) nachUrl.set(k, [...bisher, v.id])
+    }
+  }
+}
+
+/**
  * Der Rückweg von einem Namen zu unseren Kennungen.
  *
  * Nur für Meldungen, deren Adresse nichts trifft — und nur als Vorschlag.
