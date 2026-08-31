@@ -536,9 +536,38 @@ for (const gruppe of jeAdresse.values()) {
    */
   // Was der Anbieter über sich sagt, wird behalten — auch wenn die Zuordnung
   // danach scheitert. Es ist die Grundlage für die nächste Prüfrunde.
+  const kennungHier = /\/title\/(\d+)/.exec(p.url)?.[1]
   if (anbieterStaffeln?.length) {
-    const kennung = /\/title\/(\d+)/.exec(p.url)?.[1]
-    if (kennung) anbieterStruktur[kennung] = { staffeln: anbieterStaffeln, gemeldetAm: heute }
+    if (kennungHier) {
+      anbieterStruktur[kennungHier] = { staffeln: anbieterStaffeln, gemeldetAm: heute }
+    }
+  } else if (kennungHier && !anbieterStruktur[kennungHier]) {
+    /**
+     * **Wie viele Folgen der Anbieter führt — auch ohne Staffelangabe.**
+     *
+     * „Eyeshield 21" hat 145 Folgen; Netflix zeigt 36. Nach dem Melden standen
+     * 1–36 als geprüft in der Liste und 37–145 als offen, obwohl es sie dort
+     * gar nicht gibt. Daniel am 31.08.2026: „145 erwartet, 36 existieren, was
+     * jetzt?"
+     *
+     * Die Staffelstruktur kommt aus dem Player und fehlt bei vielen Meldungen —
+     * für „Eyeshield 21" und „7 Seeds" stand in `anbieter-staffeln.json` gar
+     * nichts. Die **Zahl** dagegen kennt der Durchlauf immer: Es ist die Länge
+     * seiner eigenen Folgenliste, und die Erweiterung schickt sie seit 4.8.1
+     * als `folgen` mit.
+     *
+     * Daraus wird ein Block: ein Eintrag mit dieser Folgenzahl. Das genügt für
+     * die Frage, die offen war — führt der Anbieter alles oder nur einen Teil.
+     */
+    const zahl = Math.max(...gruppe.map((x) => (typeof x.folgen === 'number' ? x.folgen : 0)), 0)
+    if (zahl > 0) {
+      anbieterStruktur[kennungHier] = {
+        staffeln: [{ seq: 1, name: 'Staffel 1', folgen: zahl, erste: 1 }],
+        gemeldetAm: heute,
+        /* Kein Staffelblock, nur eine Zahl — die Herkunft gehört dazu. */
+        nurFolgenzahl: true,
+      }
+    }
   }
 
   const zuordnung =

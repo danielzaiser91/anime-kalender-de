@@ -640,6 +640,23 @@ async function melden({ automatisch = false } = {}) {
         // Folgen. Damit lässt sich eine Meldung später einer unserer Staffeln
         // zuordnen, auch wenn der Anbieter anders einteilt.
         staffeln: stand.staffeln,
+        /**
+         * **Wie viele Folgen der Anbieter überhaupt führt.**
+         *
+         * „Eyeshield 21" hat 145 Folgen; Netflix zeigt 36. Nach dem Melden
+         * standen 1–36 als geprüft in der Liste und 37–145 als offen — obwohl
+         * es sie dort gar nicht gibt. Daniel am 31.08.2026: „145 erwartet, 36
+         * existieren, was jetzt?"
+         *
+         * Ohne diese Zahl kann der Bau die beiden Fälle nicht auseinanderhalten:
+         * „noch nicht geprüft" und „führt der Anbieter nicht". Der erste ist
+         * Arbeit, der zweite eine Auskunft — und beide sehen in der Liste
+         * gleich aus.
+         *
+         * Gezählt wird, was die Folgenliste der Seite hergibt, nicht was wir
+         * erwarten. Steht dort nichts, bleibt das Feld leer.
+         */
+        folgen: DURCHLAUF.folgen.length || undefined,
         serientitel: stand.serientitel,
         /**
          * Der Termin, den Netflix selbst nennt.
