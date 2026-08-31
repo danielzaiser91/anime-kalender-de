@@ -984,3 +984,24 @@ if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) rot.`)
   process.exit(1)
 }
+
+/*
+  **Die Titel-Kennung geht wirklich mit — sie stand eine Ebene zu tief.**
+
+  Das Feld `titelId` wurde am 28.08.2026 eingebaut, damit der Bau die Zuordnung
+  nicht mehr über die Adresse raten muss. Es blieb leer: In `AK_OFFENE_AMAZON`
+  trägt der äußere Eintrag Titel und Adresse, die AniList-Kennung steht je Werk
+  in `eintraege[]`. Gemessen am 31.08.2026 — **0 von 21 Adressen** mit äußerem
+  `id`, 19 mit einem in `eintraege`. Alle 795 gemeldeten Rohfolgen kamen mit
+  `titel_id: null` an, und der Bau ordnete null davon zu.
+*/
+pruefe('die Kennung wird auch aus eintraege[] geholt', /eintrag\?\.eintraege \?\? \[\]/.test(quelle))
+pruefe(
+  '… aber nur, wenn sie eindeutig ist',
+  /ids\.length === 1/.test(quelle) && /new Set\(/.test(quelle),
+)
+
+if (fehler.length) {
+  console.error(`\n${fehler.length} Zusicherung(en) rot.`)
+  process.exit(1)
+}

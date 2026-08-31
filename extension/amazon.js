@@ -7760,7 +7760,31 @@ async function speicherSchreiben(werte) {
             in `titles.streams.url`; ein Titel ohne Verweis steht dort nicht.
             Die Kennung liegt hier im Auftrag bereit und beendet das Raten.
           */
-          titelId: eintrag?.id ?? (() => { try { return suchauftrag()?.id ?? null } catch { return null } })(),
+          /*
+            **Die Kennung steht eine Ebene tiefer — deshalb kam nie eine an.**
+
+            Das Feld wurde am 28.08.2026 eingebaut, damit die Zuordnung nicht
+            mehr über die Adresse raten muss. Es blieb trotzdem leer: In
+            `AK_OFFENE_AMAZON` trägt der äußere Eintrag Titel und Adresse, die
+            AniList-Kennung steht je Werk in `eintraege[]`. Gemessen am
+            31.08.2026: **0 von 21 Adressen** haben ein äußeres `id`, 19 haben
+            eines in `eintraege`. Alle 795 gemeldeten Rohfolgen kamen deshalb
+            mit `titel_id: null` an, und der Bau ordnete **null** davon zu.
+
+            Genommen wird sie nur, wenn sie **eindeutig** ist: Hängen zwei
+            Werke an derselben Adresse, entscheidet nicht der erste Treffer,
+            sondern der Bau über die Folgentitel.
+          */
+          titelId: (() => {
+            try {
+              if (eintrag?.id != null) return eintrag.id
+              const ids = [...new Set((eintrag?.eintraege ?? []).map((e) => e?.id).filter((x) => x != null))]
+              if (ids.length === 1) return ids[0]
+              return suchauftrag()?.id ?? null
+            } catch {
+              return null
+            }
+          })(),
           rohfolgen: [...(gesehen.metaJeFolge ?? new Map()).values()].map((f) => ({
             asin: f.kennung ?? null,
             gti: f.gti ?? null,
