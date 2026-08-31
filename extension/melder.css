@@ -110,24 +110,38 @@
 
 .ak-liste { overflow-y: auto; padding: 6px 0; }
 
-/* Die Zeile darf umbrechen. Bei „One Piece" teilt Netflix in sieben Arcs, das
-   sind vierzehn Kürzel — sie drängten den Titel auf null Breite, und die Zeile
-   war nicht mehr zuzuordnen (Daniel, 22.08.2026: „One Piece label + link nicht
-   in liste"). */
+/*
+  **Eine Zeile ist ein Block mit zwei Ebenen, kein fließender Absatz.**
+
+  Bis zum 31.08.2026 war sie ein `flex-wrap` mit allem darin: Titel,
+  aniSearch-Verweis, sämtliche Staffelkürzel und der „nichts da?"-Knopf. Solange
+  eine Serie eine Staffel hatte, sah das ordentlich aus. Mit den
+  Wiedervorlagen kamen Titel mit drei und vier Staffeln dazu, und der Umbruch
+  verteilte sie über zwei bis drei Zeilen — mal linksbündig, mal rechts, der
+  Staffelmarker irgendwo dazwischen. Daniels Urteil mit Bild: „the design is all
+  over the place."
+
+  Jetzt: **Kopfzeile** (Titel links, Verweis und Knopf rechts), darunter je
+  Staffel **eine** Zeile, alle linksbündig untereinander. Nichts fließt mehr um,
+  weil nichts mehr um die gleiche Zeile konkurriert.
+*/
 .ak-zeile {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 6px 12px;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 1px 10px;
   padding: 7px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
+/* Die erste Zeile braucht keine Linie — darüber steht schon der Kopf. */
+.ak-liste > .ak-zeile:first-child { border-top: 0; }
 .ak-zeile:hover { background: rgba(255, 255, 255, 0.04); }
 
 /* Der Titel behält seine Breite, statt zwischen den Kürzeln zu verschwinden.
    Er darf schrumpfen, aber nicht unter das, was noch lesbar ist. */
 .ak-titel {
-  flex: 1 1 220px;
-  min-width: 160px;
+  grid-column: 1;
+  min-width: 0;
   color: #79c0ff;
   text-decoration: none;
   overflow: hidden;
@@ -136,30 +150,44 @@
 }
 .ak-titel:hover { text-decoration: underline; }
 
-/* Die Kürzel rücken nach rechts und brechen dort um — bei vielen Staffeln
-   stehen sie dann unter dem Titel statt vor ihm. */
+/*
+  Die Staffeln stehen unter dem Titel, über die volle Breite und linksbündig —
+  eine Liste, keine rechte Spalte. Die Einrückung setzt sie sichtbar unter den
+  Titel, ohne sie von ihm zu trennen.
+*/
 .ak-folgen {
+  grid-column: 1 / -1;
   display: flex;
-  flex: 1 1 auto;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 4px;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 2px;
 }
 
 /* Die Kürzel sind kein Schmuck: Sie sagen, welche Folge zu öffnen ist. Erledigte
    bleiben stehen statt zu verschwinden — sonst wüsste beim nächsten Mal niemand
    mehr, was schon durch ist. */
+/*
+  **Offen ist laut, erledigt ist leise.**
+
+  Vorher trugen beide denselben Rahmen und unterschieden sich nur in der Farbe —
+  auf einer Zeile mit vier Kürzeln kostete das jedes Mal einen zweiten Blick.
+  Was noch zu tun ist, hat jetzt Kontrast; was durch ist, tritt zurück und
+  bleibt trotzdem lesbar.
+*/
 .ak-folge {
   padding: 1px 7px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 4px;
-  color: #c9d1d9;
+  background: rgba(255, 255, 255, 0.05);
+  color: #e6edf3;
   font: 600 11px/1.5 ui-monospace, "Cascadia Mono", Consolas, monospace;
+  white-space: nowrap;
 }
 .ak-folge.ak-fertig {
-  border-color: rgba(63, 185, 80, 0.5);
-  background: rgba(63, 185, 80, 0.14);
-  color: #7ee787;
+  border-color: transparent;
+  background: none;
+  color: #6e9e78;
+  font-weight: 500;
 }
 /* Wackelig: Der TMDB-Treffer, aus dem dieser Vorschlag stammt, passt im Format
    oder im Jahr nicht zu unserem Eintrag. Gedämpftes Gelb — eine Warnung, keine
@@ -174,20 +202,28 @@
 
 .ak-hinweis { color: #8b949e; font-size: 11px; }
 
-/* Der Knopf für tote Verweise: klein, farblos, am Rand. Er wird selten
-   gebraucht, und ein Fehlklick meldet eine Serie als verschwunden, die es noch
-   gibt — deshalb fragt er einmal nach, statt aufzufallen. */
+/*
+  Der Knopf für tote Verweise: klein, farblos, am Rand. Er wird selten gebraucht,
+  und ein Fehlklick meldet eine Serie als verschwunden, die es noch gibt —
+  deshalb fragt er einmal nach, statt aufzufallen.
+
+  **Ohne Rahmen im Ruhezustand.** Mit Rahmen zog er in einer Liste von zwanzig
+  Zeilen zwanzigmal den Blick auf sich, und zwar stärker als der Titel daneben
+  (Daniel, 31.08.2026, mit Bild). Er bekommt ihn beim Überfahren.
+*/
 .ak-tot {
+  grid-column: 3;
   flex: 0 0 auto;
   min-width: 78px;
   padding: 2px 8px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid transparent;
   border-radius: 4px;
   background: none;
-  color: #8b949e;
+  color: #6e7681;
   font: 500 11px/1.5 "Segoe UI", system-ui, sans-serif;
   cursor: pointer;
 }
+.ak-zeile:hover .ak-tot { border-color: rgba(255, 255, 255, 0.14); color: #8b949e; }
 .ak-tot:hover:not(:disabled) { border-color: #f85149; color: #f85149; }
 .ak-tot:disabled { cursor: default; opacity: .55; }
 .ak-tot.ak-frage { border-color: #f85149; color: #f85149; }
@@ -216,7 +252,7 @@
    Kopf sichtbar. Es ganz zu löschen wäre falsch — wer eine Staffel doppelt
    prüft, soll sehen, dass sie schon durch ist. */
 .ak-zeile.ak-abgehakt { display: none; }
-.ak-kasten.ak-mit-erledigten .ak-zeile.ak-abgehakt { display: flex; opacity: .45; }
+.ak-kasten.ak-mit-erledigten .ak-zeile.ak-abgehakt { display: grid; opacity: .45; }
 .ak-kasten.ak-mit-erledigten .ak-zeile.ak-abgehakt:hover { opacity: .8; }
 
 .ak-umschalter {
@@ -331,19 +367,30 @@
   color: #e5e5e5;
 }
 
-/* Eine Zeile je Staffel: Nummer, dann die Bereiche. Sie stehen nebeneinander,
-   weil „gemeldet" und „offen" zusammen die ganze Staffel ergeben. */
+/*
+  Eine Zeile je Staffel: Nummer in einer festen Spalte, dann die Bereiche.
+  „gemeldet" und „offen" ergeben zusammen die ganze Staffel und gehören deshalb
+  nebeneinander — die feste Spalte sorgt dafür, dass die Kürzel aller Staffeln
+  an derselben Stelle beginnen.
+*/
 .ak-staffelzeile {
-  display: flex;
+  display: grid;
+  grid-template-columns: 20px 1fr;
   align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin: 2px 0;
+  gap: 8px;
 }
+.ak-staffelzeile > .ak-folge:first-child { grid-column: 2; }
 .ak-staffelname {
-  color: #8b949e;
-  font-size: 11px;
-  min-width: 22px;
+  color: #7d8590;
+  font: 600 10px/1.6 ui-monospace, "Cascadia Mono", Consolas, monospace;
+  text-align: right;
+}
+/* Mehrere Kürzel einer Staffel bleiben in ihrer Spalte beieinander. */
+.ak-staffelbereiche {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  min-width: 0;
 }
 
 /* Beide Knöpfe stehen in einer Zeile — der Schalter links, der Durchlauf

@@ -2857,21 +2857,29 @@ async function dialogOeffnen() {
       const name = document.createElement("span")
       name.className = "ak-staffelname"
       name.textContent = staffeln.length > 1 ? `S${st.nr}` : ""
-      if (name.textContent) zeileSt.appendChild(name)
+      zeileSt.appendChild(name)
+
+      /* Alle Bereiche einer Staffel in einer Spalte — sonst rutscht der zweite
+         unter die Staffelnummer. */
+      const bereiche = document.createElement("div")
+      bereiche.className = "ak-staffelbereiche"
+      zeileSt.appendChild(bereiche)
 
       if (gemeldet.length) {
         const marke = document.createElement("span")
         marke.className = "ak-folge ak-fertig"
-        marke.textContent = `gemeldet: E${alsBereiche(gemeldet).join(", E")}`
+        /* Ein Häkchen statt des Wortes: Die Zeile trägt bis zu vier Kürzel,
+           und „gemeldet:" davor kostet die Hälfte des Platzes. */
+        marke.textContent = `✓ E${alsBereiche(gemeldet).join(", E")}`
         marke.title = `${gemeldet.length} von ${alle.length} Folgen dieser Staffel sind gemeldet`
-        zeileSt.appendChild(marke)
+        bereiche.appendChild(marke)
       }
       if (offen.length) {
         const marke = document.createElement("span")
         marke.className = "ak-folge"
-        marke.textContent = `offen: E${alsBereiche(offen).join(", E")}`
+        marke.textContent = `E${alsBereiche(offen).join(", E")}`
         marke.title = `${offen.length} von ${alle.length} Folgen dieser Staffel fehlen noch`
-        zeileSt.appendChild(marke)
+        bereiche.appendChild(marke)
       }
       folgen.appendChild(zeileSt)
     }
