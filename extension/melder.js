@@ -1775,7 +1775,23 @@ async function durchlaufStarten(grenze) {
       if (!Number.isFinite(DURCHLAUF.staffel) && Number.isFinite(stand.staffel)) {
         DURCHLAUF.staffel = stand.staffel
       }
-      const staffelJetzt = Number.isFinite(stand.staffel) ? stand.staffel : DURCHLAUF.staffel
+      /**
+       * **Die Staffel der Folge schlägt die des Players.**
+       *
+       * Der Player nennt die Staffel der gerade laufenden Folge — nur hinkt er
+       * hinterher, und Netflix zählt jede Staffel neu bei 1. Bei „7 Seeds"
+       * landeten dadurch 22 von 24 geprüften Folgen unter Staffel 1 und zwei
+       * unter Staffel 2, praktisch zufällig verteilt (Daniel, 31.08.2026).
+       *
+       * Seit 4.8.0 trägt jede Folge ihre Staffel aus der Folgenliste mit —
+       * dort, wo Netflix sie selbst hinschreibt. Der Player bleibt Rückfall für
+       * Seiten, deren Liste keine nennt.
+       */
+      const staffelJetzt = Number.isFinite(f.staffel)
+        ? f.staffel
+        : Number.isFinite(stand.staffel)
+          ? stand.staffel
+          : DURCHLAUF.staffel
       /*
         Bei einer Randprobe wird erst gesammelt. Ob gemeldet wird, entscheidet
         sich, wenn beide Folgen gelesen sind — stimmen sie nicht überein, geht

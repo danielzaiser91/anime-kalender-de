@@ -339,12 +339,45 @@
    * 32 Antworten liefen durch, keine passte. Gesucht wird deshalb nach dem
    * Paar, nicht nach seinem Ort — dieselbe Regel wie bei Amazon.
    */
-  function sammleFolgen(o, raus, tiefe) {
+  /**
+   * **Die Staffel steht über der Folge, nicht an ihr.**
+   *
+   * Netflix zählt jede Staffel neu bei 1: „7 Seeds" hat zweimal die Folgen 1
+   * bis 12, „Beastars" dreimal eine Folge 1. Die Folgenknoten selbst tragen
+   * keine Staffelnummer — sie hängt am umgebenden Knoten (`seasonSeq`,
+   * `seasonNumber`, oder als `seasonId` in den Abfragevariablen).
+   *
+   * Bis zum 31.08.2026 nahm der Durchlauf sie stattdessen aus dem **Player**,
+   * während er lief. Der hinkt hinterher, und das Ergebnis war Zufall: Von 24
+   * geprüften Folgen bei „7 Seeds" landeten 22 unter Staffel 1 und zwei unter
+   * Staffel 2. Bei „Beastars" begann Staffel 3 dadurch bei Folge 1 statt 25.
+   *
+   * Deshalb wird sie beim Sammeln mitgeführt: Trägt ein Knoten auf dem Weg nach
+   * unten eine Staffelangabe, gilt sie für alles darunter. Findet sich keine,
+   * bleibt das Feld leer — eine geratene Staffel ist schlimmer als keine.
+   */
+  function staffelAus(o) {
+    for (const feld of ['seasonSeq', 'seasonNumber', 'seasonSequenceNumber', 'seq']) {
+      const wert = o?.[feld]
+      if (Number.isFinite(wert) && wert > 0 && wert < 100 && /season/i.test(String(o.__typename ?? feld))) {
+        return wert
+      }
+    }
+    /* Ein Staffelknoten nennt seinen Typ — dann zählt auch ein schlichtes `seq`. */
+    if (/season/i.test(String(o?.__typename ?? '')) && Number.isFinite(o?.seq) && o.seq > 0) {
+      return o.seq
+    }
+    return null
+  }
+
+  function sammleFolgen(o, raus, tiefe, staffel = null) {
     if (!o || typeof o !== 'object' || tiefe > 10) return raus
     if (Array.isArray(o)) {
-      for (const x of o) sammleFolgen(x, raus, tiefe + 1)
+      for (const x of o) sammleFolgen(x, raus, tiefe + 1, staffel)
       return raus
     }
+    /* Von hier ab gilt die Staffel dieses Knotens — falls er eine nennt. */
+    const hier = staffelAus(o) ?? staffel
     const nummer = o.number ?? o.episodeNumber ?? o.seq
     const kennung = o.videoId ?? o.id
     const istFolge = /episode/i.test(String(o.__typename ?? ''))
@@ -381,9 +414,9 @@
     */
     const abspielbar = o.isPlayable !== false && o.isAvailable !== false
     if (abspielbar && istFolge && Number.isFinite(nummer) && nummer > 0 && Number(kennung) > 0) {
-      raus.push({ nummer, videoId: Number(kennung), titel: o.title ?? null })
+      raus.push({ nummer, videoId: Number(kennung), titel: o.title ?? null, staffel: hier })
     }
-    for (const v of Object.values(o)) sammleFolgen(v, raus, tiefe + 1)
+    for (const v of Object.values(o)) sammleFolgen(v, raus, tiefe + 1, hier)
     return raus
   }
 

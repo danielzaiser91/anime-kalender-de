@@ -312,4 +312,36 @@ console.log(ok ? '\n✓ Gesehen, unverändert durchgereicht, kein Stapelüberlau
   pruefe('data.videos liefert die Staffel', echt?.folgen?.length === 2, echt?.folgen?.length)
 }
 
+
+/*
+  **Netflix zählt jede Staffel neu — die Zuordnung darf nicht aus dem Player kommen.**
+
+  „7 Seeds" hat zweimal die Folgen 1 bis 12, „Beastars" dreimal eine Folge 1.
+  Der Durchlauf las die Staffel bis zum 31.08.2026 aus dem Player, während er
+  lief; der hinkt hinterher, und das Ergebnis war Zufall: Von 24 geprüften
+  Folgen landeten 22 unter Staffel 1 und zwei unter Staffel 2. Bei „Beastars"
+  begann Staffel 3 dadurch bei Folge 1 statt bei 25.
+
+  Seit 4.8.0 führt der Leser die Staffel beim Sammeln mit — sie hängt am
+  umgebenden Knoten, nicht an der Folge. Findet sich keine, bleibt das Feld
+  leer: Eine geratene Staffel ist schlimmer als keine.
+*/
+{
+  const leserQuelle = readFileSync(__dirname + '/leser.js', 'utf8')
+  const melderQuelle = readFileSync(__dirname + '/melder.js', 'utf8')
+  pruefe(
+    'der Leser reicht die Staffel nach unten durch',
+    /sammleFolgen\(v, raus, tiefe \+ 1, hier\)/.test(leserQuelle),
+  )
+  pruefe('… und hängt sie an die Folge', /staffel: hier/.test(leserQuelle))
+  pruefe(
+    'ohne Fund bleibt sie leer',
+    /return null/.test(leserQuelle.slice(leserQuelle.indexOf('function staffelAus'))),
+  )
+  pruefe(
+    'der Melder nimmt sie vor der Player-Angabe',
+    /Number\.isFinite\(f\.staffel\)/.test(melderQuelle),
+  )
+}
+
 process.exit(ok && !rot.length ? 0 : 1)
