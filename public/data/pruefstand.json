@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-08-31T05:50:10.519Z",
+ "erzeugtAm": "2026-08-31T07:03:10.674Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -7,9 +7,8 @@
    "gemeldet": 567,
    "gesamt": 569,
    "offen": 2,
-   "ohneSeite": 130,
+   "ohneSeite": 129,
    "suchAdressen": [
-    "https://www.amazon.de/s?k=Tenjho%20Tenge%3A%20The%20Ultimate%20Fight&i=instant-video",
     "https://www.amazon.de/s?k=Sailor%20Moon%20R%3A%20The%20Movie&i=instant-video",
     "https://www.amazon.de/s?k=Pilot%20Candidate&i=instant-video",
     "https://www.amazon.de/s?k=Street%20Fighter%20II%3A%20The%20Animated%20Movie&i=instant-video",
