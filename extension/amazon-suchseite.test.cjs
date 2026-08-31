@@ -646,6 +646,19 @@ pruefe('eine andere Jahresfassung zaehlt nicht als genauer Treffer', fremdesJahr
   )
   pruefe('der Kasten bietet die englische Schreibweise', quelle.includes('Englisch suchen:'))
 
+  /*
+    **Die Kennungen der zweiten Ausgabe überleben den Sprung zur Titelseite.**
+
+    Gemeldet wird dort, nicht auf der Suchseite. Eine Skriptvariable ist nach dem
+    Seitenwechsel leer — gemessen am 31.08.2026: keine von 78 offenen Meldungen
+    trug `weitere=`, obwohl der Weg seit 4.0.22 stand. Der Auftrag im
+    sessionStorage überlebt ihn.
+  */
+  pruefe(
+    'weitere= wird im Auftrag gemerkt und beim Melden gelesen',
+    quelle.includes('weitere: weitereAusgaben') && quelle.includes('suchauftrag()?.weitere'),
+  )
+
   pruefe('ein Jahr in Klammern auch nicht', staffelImTitel('Captain Tsubasa (2018)') === 1)
 }
 

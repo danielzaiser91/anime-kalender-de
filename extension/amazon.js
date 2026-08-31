@@ -2709,6 +2709,20 @@ async function speicherSchreiben(werte) {
             .slice(1, 4)
             .map((z) => /\/(?:dp|detail)\/([A-Z0-9]{10,26})/.exec(z.url ?? '')?.[1])
             .filter(Boolean)
+          /*
+            **Die Kennungen müssen den Sprung überleben.**
+
+            Gemeldet wird fast immer auf der **Titelseite**, nicht auf der
+            Suchseite — und dorthin führt ein Seitenwechsel. Eine Variable im
+            Skript ist danach leer; gemessen am 31.08.2026: Von 78 offenen
+            Meldungen trug **keine einzige** ein `weitere=`, obwohl der Weg seit
+            4.0.22 eingebaut ist.
+
+            Der Suchauftrag liegt im `sessionStorage` und überlebt den Wechsel.
+          */
+          if (weitereAusgaben.length) {
+            suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, weitere: weitereAusgaben })
+          }
         } catch {
           weitereAusgaben = []
         }
@@ -7571,7 +7585,17 @@ async function speicherSchreiben(werte) {
               Listengenerator macht daraus eigene Aufträge; ohne sie bliebe die
               zweite Ausgabe für immer ungeprüft.
             */
-            (weitereAusgaben.length ? `, weitere=${weitereAusgaben.join(',')}` : '') +
+            (() => {
+              /* Aus dem Auftrag, nicht nur aus der Variablen — sie überlebt den Sprung nicht. */
+              const w = (() => {
+                try {
+                  return weitereAusgaben.length ? weitereAusgaben : (suchauftrag()?.weitere ?? [])
+                } catch {
+                  return weitereAusgaben
+                }
+              })()
+              return w.length ? `, weitere=${w.join(',')}` : ''
+            })() +
             /*
               Die Notiz trägt es maschinenlesbar mit, aus demselben Grund wie
               `zugang=`: Ohne den Vermerk sähe „kauf" im Datensatz aus wie eine
