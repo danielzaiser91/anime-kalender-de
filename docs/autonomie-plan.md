@@ -285,6 +285,93 @@ gemessenen Zahlen, dem Weg je Aufgabe („Titelseite öffnen, Abspielen, warten,
 zurück") und der Auskunft, worum es geht — 862 Titel ohne Bezugsweg, 538 davon
 mit belegter Synchro.
 
+### Phase 7 — Vollautomatisierung: was geht, was nicht, und woran es liegt
+
+Daniel am 31.08.2026: „ziel soll vollautomatisierung sein, nicht meine manuelle
+handarbeit … sodass du und ich beide nichts mehr manuell anpacken müssen, alles
+muss von allein laufen."
+
+Der Plan endete bisher bei Phase 6 mit dem Satz „der Rest wird nie null". Das
+stimmt für den **Klick**, aber es beantwortet die Frage nicht: Wo genau hängt
+die Handarbeit, und was davon ist wirklich unausweichlich?
+
+#### Der Bestand, gemessen (31.08.2026)
+
+3.285 Handbelege stehen in `data/dub-confirmed.yaml`. **2.794 davon sind über
+die Erweiterung entstanden** — also nicht in Handarbeit im engeren Sinn, sondern
+in Daniels angemeldeter Sitzung mit einem Klick.
+
+| Anbieter | Belege | automatisch lesbar? |
+|---|---|---|
+| Netflix | 2.018 | **Ja, technisch** — der Player-Weg vom 26.08.2026 liest je Folge 3,1 s, wenn man die Videosegmente abweist. Braucht eine angemeldete Sitzung, aber **keinen Klick je Folge**. |
+| Prime Video | 982 | **Nein** — 19 namentliche Bot-Blöcke in der robots.txt, `/gp/video/api` ausdrücklich gesperrt. |
+| YouTube | 95 | Ja, läuft (oEmbed plus Videotitel-Muster) |
+| Disney+ | 74 | **Ja** — der POST an `disney.playback.edge.bamgrid.com` liefert acht Tonspuren ohne Player, ohne DRM, ohne ein Videosegment |
+| Crunchyroll | 63 | Ja, läuft (deutscher Katalog je Folge) |
+| RTL+ | 42 | offen, nie gemessen |
+| ADN | 10 | Ja, läuft (`vde` je Folge) |
+
+#### Der Engpass ist nicht die Technik, sondern die Sitzung
+
+Netflix, Prime und Disney+ geben ihre Sprachangaben nur einer **angemeldeten**
+Sitzung heraus. Ein Cloud-Lauf hat keine — und ein Lauf mit Daniels Zugangsdaten
+wäre genau das, was diese Dienste in ihren Bedingungen untersagen.
+
+Was es gibt, ist sein Browser, in dem die Erweiterung ohnehin läuft. **Der Schritt
+zur Vollautomatisierung ist deshalb kein neuer Abrufweg, sondern eine andere
+Bauweise der Erweiterung:** Statt auf Klicks zu warten, holt sie sich Aufträge
+vom Worker, arbeitet sie im Hintergrund ab und meldet die Ergebnisse — gedrosselt,
+während er sowieso am Rechner ist.
+
+Das löst **Netflix (2.018) und Disney+ (74) vollständig**, denn beide Wege sind
+gemessen und funktionieren ohne Klick je Folge. Es löst Prime **nicht**.
+
+#### Warum Prime der harte Fall bleibt
+
+Amazons robots.txt nennt neunzehn Agenten beim Namen und sperrt jeden komplett,
+dazu `/gp/video/api`. Das ist die „besondere Vorkehrung", an der die Rechtslage
+hängt (BGH I ZR 159/10). Ein selbsttätiger Durchlauf in Daniels Browser wäre
+technisch möglich und rechtlich nicht sauber: Er ist kein Mensch, der blättert.
+
+**Ein Teil der 982 Prime-Belege ist trotzdem automatisch erreichbar — über die
+Kanäle.** Gemessen an den Notizen der Belege:
+
+| Zugang | Belege |
+|---|---|
+| über den Crunchyroll-Kanal | **160** |
+| über aniverse | **280** |
+| Prime eigen (`benefitId: Prime`) | 166 |
+| Kauf oder Leihe | 217 |
+
+Bei einem Kanal-Titel ist Amazons Sprachangabe ohnehin kein Beleg (siehe
+CLAUDE.md, 24.08.2026) — der Beleg gehört dem Kanalbetreiber. Für die 160
+Crunchyroll-Fälle liest ihn der Katalog-Lauf bereits automatisch; sie brauchen
+Prime gar nicht. **aniverse ist mit 280 Belegen der größte einzelne Posten und
+nie gemessen worden** — ob es eine lesbare Schnittstelle hat, ist offen.
+
+#### Was übrig bliebe
+
+Nach Netflix, Disney+ und den Kanälen blieben rund **550 Prime-Belege**, die nur
+in einer angemeldeten Amazon-Sitzung entstehen können. Für sie gilt weiterhin,
+was Phase 5 festgestellt hat: nicht Automatisierungsrückstand, sondern die
+Grenze, die der Betreiber gezogen hat.
+
+**Die ehrliche Antwort auf „alles muss von allein laufen" lautet damit: fast
+alles kann es, und der Rest ist kein technisches Problem.**
+
+#### Die Reihenfolge, nach Nutzen je Aufwand
+
+1. **aniverse messen** — 280 Belege, nie geprüft, möglicherweise eine offene
+   Schnittstelle wie bei Disney+. Der billigste Griff mit der größten Wirkung.
+2. **Disney+ selbsttätig** — der Weg ist gemessen und braucht keinen Player.
+   74 Belege heute, aber jeder künftige Titel dort ebenfalls.
+3. **Netflix selbsttätig** — der Player-Weg funktioniert, die offene Frage ist,
+   ob der Abruf einen Eintrag unter „Weiterschauen" erzeugt. Das ist mit einer
+   Gegenprobe an einer nie geöffneten Serie in einer Minute entschieden.
+4. **Wiedervorlage nach Alter** — schließt die stille Lücke bei allen Anbietern,
+   ist aber die Rückfallebene, nicht das Ziel: Sie erzeugt Arbeit, statt sie
+   abzunehmen.
+
 ## Was das für heute heißt
 
 Die Reihenfolge ist bindend: Phase 1 zuerst, weil ohne sie nichts gemessen werden
