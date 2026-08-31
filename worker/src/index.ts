@@ -1942,11 +1942,11 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
     const nurPlattform = sucheP.get('plattform')
     const abfrage = nurPlattform
       ? `SELECT id, plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln,
-                serientitel, notiz, teil_von, teil_bis, gemeldet_am
+                serientitel, notiz, teil_von, teil_bis, gemeldet_am, seiten_kennung
            FROM pruefung WHERE uebernommen = 0 AND plattform = ?
            ORDER BY gemeldet_am LIMIT 500`
       : `SELECT id, plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln,
-                serientitel, notiz, teil_von, teil_bis, gemeldet_am
+                serientitel, notiz, teil_von, teil_bis, gemeldet_am, seiten_kennung
            FROM pruefung WHERE uebernommen = 0
            ORDER BY gemeldet_am LIMIT 500`
     const stmt = env.DB.prepare(abfrage)

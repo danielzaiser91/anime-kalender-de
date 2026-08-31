@@ -87,6 +87,8 @@ const liste: Array<{
   titleRomaji?: string
   episodes?: number
   jpYear?: number
+  /** Die Reihe, zu der der Titel gehört — der Bau rechnet sie aus den AniList-Relationen aus. */
+  franchiseId?: number
   jpSeason?: string
   format?: string
   streams?: Array<{ platform: string; url: string }>
@@ -130,6 +132,8 @@ const zeilen: string[] = []
 let ausgelassenKanal = 0
 let uebernommen = 0
 let selbstZugeordnet = 0
+/** Meldungen, die über ihre Staffelnummer an den richtigen Titel der Reihe gingen. */
+let nachStaffelZugeordnet = 0
 const offenGeblieben: string[] = []
 /** Meldungen, deren Adresse unser Datensatz nicht kennt — samt Namensvorschlag. */
 /**
@@ -281,6 +285,67 @@ for (const gruppe of jeAdresse.values()) {
         `${p.url} — im Datensatz nicht gefunden${eindeutig.length ? ` (Vorschlag: ${eindeutig.join(', ')})` : ''}`,
       )
       continue
+    }
+  }
+
+  /**
+   * **Eine Staffel gehört ihrem Titel, nicht dem Kopf der Reihe.**
+   *
+   * Prime nennt jede Staffel von „Tokyo Ghoul" schlicht „Tokyo Ghoul", also
+   * fand der Namensabgleich immer nur AniList 20605. Am 31.08.2026 standen
+   * daraufhin die Belege für Staffel 2, 3 und 4 unter der **ersten** Staffel,
+   * während „Tokyo Ghoul √A" und „Tokyo Ghoul:re" weiter auf der Prüfliste
+   * warteten. Daniel: „das sind staffel 2 und 3, beides ist gemeldet,
+   * zuordnung passiert seperat, stell sicher das es korrekt klappt."
+   *
+   * Die Meldung sagt, welche Staffel gemeint ist; der Bestand kennt die Reihe
+   * über `franchiseId`. Beides zusammen ergibt den Titel — sortiert nach
+   * japanischer Erstausstrahlung, wie in `staffelnDerAdresse` auch.
+   *
+   * **Die Folgenzahl ist der Gegentest.** Zugeordnet wird nur, wenn die
+   * gemeldeten Folgen ab dieser Staffel **glatt aufgehen**. Prime führt „Tokyo
+   * Ghoul" Staffel 3 in zwei Ausgaben: eine mit 12 Folgen (das ist `:re`) und
+   * eine mit 24 (das sind `:re` **und** `:re 2`). Die erste deckt einen
+   * Titel, die zweite zwei — beide ohne Rest. Bleibt etwas übrig, war die
+   * Annahme falsch, und es bleibt beim Reihenkopf.
+   *
+   * Angefasst wird nur der Fall **ein** Titel: Hängen schon mehrere an der
+   * Adresse, hat die Adresse selbst die bessere Auskunft, und `verteileAufStaffeln`
+   * arbeitet damit weiter wie bisher.
+   */
+  if (ids.length === 1) {
+    const staffelNr = gruppe
+      .map((x) => x.staffel)
+      .find((n): n is number => typeof n === 'number' && Number.isFinite(n) && n >= 2 && n <= 50)
+    /*
+      Die Folgenzahl der **Staffel**: Bei je-Folge-Meldungen steht `folgen` auf
+      1 und sagt nichts — dann zählt, wie viele Folgen gemeldet wurden.
+    */
+    const folgenZahl = Math.max(
+      ...gruppe.map((x) => (typeof x.folgen === 'number' && Number.isFinite(x.folgen) ? x.folgen : 0)),
+      gruppe.filter((x) => x.folge_nr != null).length,
+    )
+    const kopf = liste.find((x) => x.id === ids[0])
+    const franchise = kopf?.franchiseId ?? ids[0]
+    if (staffelNr && folgenZahl > 0 && franchise) {
+      const reihe = staffelnDerAdresse(
+        liste.filter((x) => (x.franchiseId ?? x.id) === franchise).map((x) => x.id),
+      )
+      const gedeckt: number[] = []
+      let rest = folgenZahl
+      for (const eintrag of reihe.slice(staffelNr - 1)) {
+        if (rest <= 0) break
+        gedeckt.push(eintrag.id)
+        rest -= eintrag.folgen
+      }
+      if (gedeckt.length && rest === 0 && !(gedeckt.length === 1 && gedeckt[0] === ids[0])) {
+        log(
+          `Staffel ${staffelNr} von „${kopf?.titleDe ?? kopf?.titleEn ?? ids[0]}" gehört zu ` +
+            `${gedeckt.join(', ')} — ${folgenZahl} Folgen gehen glatt auf`,
+        )
+        ids = gedeckt
+        nachStaffelZugeordnet++
+      }
     }
   }
 
@@ -721,6 +786,9 @@ if (Object.keys(anbieterStruktur).length && !TROCKEN) {
 log(
   `${pruefungen.length} Prüfungen abgeholt, ${uebernommen} Einträge geschrieben` +
     (selbstZugeordnet ? `, ${selbstZugeordnet} über den Namen zugeordnet` : '') +
+    (nachStaffelZugeordnet
+      ? `, ${nachStaffelZugeordnet} über die Staffelnummer an den Titel der Reihe`
+      : '') +
     (ausgelassenKanal
       ? `, ${ausgelassenKanal} Kanal-Meldung(en) ohne Urteil ausgelassen (sie würden nur einen jüngeren Beleg verdecken)`
       : ''),
