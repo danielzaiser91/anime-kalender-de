@@ -497,6 +497,19 @@ pruefe(
     'wiedervorlage() liest das Feld erneut aus der Liste',
     /function wiedervorlage\([\s\S]{0,240}?\.erneut/.test(quelle),
   )
+  /*
+    **Und an beiden Stellen, nicht an einer.** 4.9.6 fasste nur den
+    Melde-Knopf an; Liste und Uebersicht haengen an fertig(), und die sagte
+    weiter "alles geprueft" (Daniel, 01.09.2026, mit Bild). Ein Riegel, der an
+    einer von zwei Stellen sitzt, ist keiner.
+  */
+  const fertigBlock = (() => {
+    const nl = String.fromCharCode(10)
+    const von = quelle.indexOf('function fertig(asinEintrag)')
+    return von < 0 ? '' : quelle.slice(von, quelle.indexOf(nl + '  }' + nl, von))
+  })()
+  pruefe('fertig() fragt die Wiedervorlage ebenfalls', /wiedervorlage\(asinEintrag\)/.test(fertigBlock))
+  pruefe('fertig() fragt weiterhin nichtAngekommen', /nichtAngekommen\(asinEintrag\)/.test(fertigBlock))
 }
 
 /**

@@ -3794,6 +3794,15 @@ async function speicherSchreiben(werte) {
       übernommen), und damit für immer unsichtbar.
     */
     if (nichtAngekommen(asinEintrag)) return false
+    /*
+      **Und eine Wiedervorlage ist nie fertig.**
+
+      Der erste Anlauf (4.9.6) fasste nur den Melde-Knopf an — Liste und
+      Uebersicht haengen aber an dieser Funktion, und die sagte weiter
+      "alles geprueft" (Daniel, 01.09.2026, mit Bild). Ein Riegel, der an
+      einer von zwei Stellen sitzt, ist keiner.
+    */
+    if (wiedervorlage(asinEintrag)) return false
     const e = erledigt[asinEintrag]
     if (!e) return false
     return Object.keys(staffelnDerSerie(asinEintrag)).length >= gesamtDerSerie(asinEintrag)
