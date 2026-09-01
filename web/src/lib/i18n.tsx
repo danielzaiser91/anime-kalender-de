@@ -224,7 +224,7 @@ const TEXTE = {
   'detail.linkStream': 'ansehen',
   'detail.linkBuy': 'kaufen oder leihen',
 
-  'detail.gone': 'nicht mehr im Katalog, geprüft am {d}',
+  'detail.gone': 'nicht mehr abrufbar, geprüft am {d}',
   'detail.whereToWatch': 'Wo läuft es',
   // Steht bei den Titeln, zu denen wir keinen Anbieter kennen — 665 von 2.760.
   // Ein Satz, weil er eine Aufgabe hat: das Suchen auf dieser Seite beenden.

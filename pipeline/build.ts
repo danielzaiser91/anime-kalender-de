@@ -2533,6 +2533,13 @@ function main(): void {
     if (abgaenge.length) {
       const jeAnbieter = new Map<string, (typeof abgaenge)[number]>()
       for (const a of abgaenge) {
+        /*
+          **Eine Suchadresse ist kein Abgang.** Sie war nie ein Eintrag im
+          Katalog, sondern ein Suchauftrag — „nicht mehr abrufbar" würde
+          behaupten, dort sei einmal etwas gewesen. 61 der ersten 613 Abgänge
+          waren solche Adressen (Cowboy Bebop auf Prime etwa).
+        */
+        if (/[?&]k=|\/s\?/.test(a.url)) continue
         if (title.streams.some((s) => s.platform === a.platform)) continue
         const bisher = jeAnbieter.get(a.platform)
         if (!bisher || (a.entferntAm ?? '') > (bisher.entferntAm ?? '')) jeAnbieter.set(a.platform, a)
