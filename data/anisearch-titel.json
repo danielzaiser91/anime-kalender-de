@@ -1,4 +1,194 @@
 {
+  "65": {
+    "titel": "Rozen Maiden: Träumend",
+    "anisearchId": 2852,
+    "fetchedAt": "2026-09-01T12:23:30.093Z"
+  },
+  "91": {
+    "titel": "Gundam Wing Endless Waltz OVA",
+    "anisearchId": 1861,
+    "fetchedAt": "2026-09-01T12:23:57.998Z"
+  },
+  "136": {
+    "titel": "Hunter × Hunter",
+    "anisearchId": 3074,
+    "fetchedAt": "2026-09-01T12:23:50.389Z"
+  },
+  "495": {
+    "titel": "Sorcerer Hunters",
+    "anisearchId": 1939,
+    "fetchedAt": "2026-09-01T12:24:03.069Z"
+  },
+  "550": {
+    "titel": "Yuu Gi Ou",
+    "anisearchId": 482,
+    "fetchedAt": "2026-09-01T12:23:55.456Z"
+  },
+  "733": {
+    "titel": "Kizuna",
+    "anisearchId": 1074,
+    "fetchedAt": "2026-09-01T12:24:08.147Z"
+  },
+  "760": {
+    "titel": "Tenjou Tenge: The Past Chapter",
+    "anisearchId": 580,
+    "fetchedAt": "2026-09-01T12:23:32.630Z"
+  },
+  "771": {
+    "titel": "Meine Liebe Wieder",
+    "anisearchId": 311,
+    "fetchedAt": "2026-09-01T12:23:19.944Z"
+  },
+  "1066": {
+    "titel": "Shakugan no Shana: Shana-tan",
+    "anisearchId": 3949,
+    "fetchedAt": "2026-09-01T12:23:22.480Z"
+  },
+  "1153": {
+    "titel": "Crying Freeman",
+    "anisearchId": 596,
+    "fetchedAt": "2026-09-01T12:24:23.362Z"
+  },
+  "1235": {
+    "titel": "I&#039;&#039;s Pure: Ichitaka’s Fantasy Diary",
+    "anisearchId": 8552,
+    "fetchedAt": "2026-09-01T12:23:35.164Z"
+  },
+  "1453": {
+    "titel": "Maison Ikkoku",
+    "anisearchId": 2918,
+    "fetchedAt": "2026-09-01T12:24:25.911Z"
+  },
+  "1472": {
+    "titel": "City Hunter 3",
+    "anisearchId": 700,
+    "fetchedAt": "2026-09-01T12:24:20.825Z"
+  },
+  "1473": {
+    "titel": "City Hunter ’91",
+    "anisearchId": 3365,
+    "fetchedAt": "2026-09-01T12:24:15.754Z"
+  },
+  "1719": {
+    "titel": "Rozen Maiden: Ouvertüre",
+    "anisearchId": 3948,
+    "fetchedAt": "2026-09-01T12:23:25.017Z"
+  },
+  "1830": {
+    "titel": "Utawarerumono: DVD-BOX Tokuten Short Episode",
+    "anisearchId": 4840,
+    "fetchedAt": "2026-09-01T12:23:27.551Z"
+  },
+  "1941": {
+    "titel": "Moonlight Mile",
+    "anisearchId": 4004,
+    "fetchedAt": "2026-09-01T12:23:17.401Z"
+  },
+  "2108": {
+    "titel": "MegaMan NT Warrior: Axess",
+    "anisearchId": 287,
+    "fetchedAt": "2026-09-01T12:23:47.839Z"
+  },
+  "2222": {
+    "titel": "Dr. Slump Show",
+    "anisearchId": 2134,
+    "fetchedAt": "2026-09-01T12:24:28.453Z"
+  },
+  "2237": {
+    "titel": "Rozen Maiden duellwalzer: Kunkun Tantei",
+    "anisearchId": 8608,
+    "fetchedAt": "2026-09-01T12:23:42.760Z"
+  },
+  "2248": {
+    "titel": "Naruto: Hidden Leaf Village Grand Sports Festival!",
+    "anisearchId": 4098,
+    "fetchedAt": "2026-09-01T12:23:45.305Z"
+  },
+  "2419": {
+    "titel": "Spirit of Wonder: Miss China‘s Ring",
+    "anisearchId": 2045,
+    "fetchedAt": "2026-09-01T12:24:13.214Z"
+  },
+  "2459": {
+    "titel": "Maison Ikkoku: Bangai-hen - Ikkokujima Nanpa Shimatsu-ki",
+    "anisearchId": 561,
+    "fetchedAt": "2026-09-01T12:24:18.287Z"
+  },
+  "3005": {
+    "titel": "Shadow Skill: Epilogue",
+    "anisearchId": 628,
+    "fetchedAt": "2026-09-01T12:24:05.608Z"
+  },
+  "3932": {
+    "titel": "Magnos: The Robot",
+    "anisearchId": 1974,
+    "fetchedAt": "2026-09-01T12:24:30.987Z"
+  },
+  "4107": {
+    "titel": "Gurren Lagann The Movie: Childhood’s End",
+    "anisearchId": 4842,
+    "fetchedAt": "2026-09-01T12:23:14.870Z"
+  },
+  "4667": {
+    "titel": "Battle B-Daman: Fire Spirits",
+    "anisearchId": 2310,
+    "fetchedAt": "2026-09-01T12:23:37.696Z"
+  },
+  "4938": {
+    "titel": "Tsubasa: Spring Thunder Chronicle",
+    "anisearchId": 5123,
+    "fetchedAt": "2026-09-01T12:23:09.799Z"
+  },
+  "5155": {
+    "titel": "Genji Monogatari Sennenki",
+    "anisearchId": 5043,
+    "fetchedAt": "2026-09-01T12:23:12.333Z"
+  },
+  "5844": {
+    "titel": "Pocket Monster Advanced Generation: Pikachuu no Obake Carnival",
+    "anisearchId": 3684,
+    "fetchedAt": "2026-09-01T12:23:40.230Z"
+  },
+  "6773": {
+    "titel": "Shakugan no Shana: Season III",
+    "anisearchId": 7185,
+    "fetchedAt": "2026-09-01T12:22:57.118Z"
+  },
+  "8465": {
+    "titel": "Ichiban Ushiro no Daimaou: Mo Hitotsu Omake no Daimaou",
+    "anisearchId": 7182,
+    "fetchedAt": "2026-09-01T12:23:07.259Z"
+  },
+  "9735": {
+    "titel": "Gintama: Juudai Happyou",
+    "anisearchId": 12018,
+    "fetchedAt": "2026-09-01T12:22:59.650Z"
+  },
+  "10055": {
+    "titel": "Black Jack: Obaa-chan",
+    "anisearchId": 715,
+    "fetchedAt": "2026-09-01T12:24:00.528Z"
+  },
+  "10302": {
+    "titel": "Pocket Monsters: Diamond &amp; Pearl Tokubetsu-hen",
+    "anisearchId": 10444,
+    "fetchedAt": "2026-09-01T12:23:02.184Z"
+  },
+  "10444": {
+    "titel": "Digimon Fusion (Season 2)",
+    "anisearchId": 6944,
+    "fetchedAt": "2026-09-01T12:23:04.719Z"
+  },
+  "12365": {
+    "titel": "Bakuman Season 3",
+    "anisearchId": 7461,
+    "fetchedAt": "2026-09-01T12:22:54.572Z"
+  },
+  "15743": {
+    "titel": "Yuugen Kaisha: Jiken File 00 - Hajimari wa Ayashiku mo Hanayaka ni",
+    "anisearchId": 7278,
+    "fetchedAt": "2026-09-01T12:24:10.677Z"
+  },
   "16385": {
     "titel": "Dog Days Season 3",
     "anisearchId": 8199,
@@ -819,6 +1009,11 @@
     "anisearchId": 11222,
     "fetchedAt": "2026-09-01T10:56:00.572Z"
   },
+  "21579": {
+    "titel": "Boruto: The Day Naruto Became the Hokage",
+    "anisearchId": 11874,
+    "fetchedAt": "2026-09-01T12:22:41.886Z"
+  },
   "21595": {
     "titel": "Haven&#039;t You Heard? I&#039;m Sakamoto",
     "anisearchId": 11091,
@@ -998,6 +1193,11 @@
     "titel": "Flying Witch: Petit",
     "anisearchId": 11291,
     "fetchedAt": "2026-09-01T10:57:08.782Z"
+  },
+  "21726": {
+    "titel": "Aggressive Retsuko",
+    "anisearchId": 11254,
+    "fetchedAt": "2026-09-01T12:22:44.419Z"
   },
   "21728": {
     "titel": "Brotherhood: Final Fantasy XV",
@@ -1699,6 +1899,11 @@
     "anisearchId": 12363,
     "fetchedAt": "2026-09-01T10:50:31.368Z"
   },
+  "98502": {
+    "titel": "Miss Kobayashi’s Dragon Something",
+    "anisearchId": 12313,
+    "fetchedAt": "2026-09-01T12:22:31.756Z"
+  },
   "98503": {
     "titel": "School Babysitters",
     "anisearchId": 12350,
@@ -2059,6 +2264,11 @@
     "anisearchId": 12704,
     "fetchedAt": "2026-09-01T10:52:05.353Z"
   },
+  "99717": {
+    "titel": "Tekkon Kinkreet",
+    "anisearchId": 3421,
+    "fetchedAt": "2026-09-01T12:23:52.917Z"
+  },
   "99720": {
     "titel": "Märchen Mädchen",
     "anisearchId": 12656,
@@ -2129,6 +2339,11 @@
     "anisearchId": 12812,
     "fetchedAt": "2026-09-01T10:52:21.786Z"
   },
+  "100180": {
+    "titel": "Shoujo Shuumatsu Jugyou",
+    "anisearchId": 12904,
+    "fetchedAt": "2026-09-01T12:22:36.821Z"
+  },
   "100185": {
     "titel": "A Certain Magical Index III",
     "anisearchId": 12847,
@@ -2158,6 +2373,11 @@
     "titel": "Onyankopon",
     "anisearchId": 12722,
     "fetchedAt": "2026-09-01T10:52:26.477Z"
+  },
+  "100256": {
+    "titel": "Maho Yome",
+    "anisearchId": 12892,
+    "fetchedAt": "2026-09-01T12:22:39.352Z"
   },
   "100262": {
     "titel": "Monster Strike The Anime: The Fading Cosmos",
@@ -2283,6 +2503,11 @@
     "titel": "Magical Girl Ore",
     "anisearchId": 13092,
     "fetchedAt": "2026-08-31T16:44:44.485Z"
+  },
+  "100716": {
+    "titel": "Noraneko",
+    "anisearchId": 12962,
+    "fetchedAt": "2026-09-01T12:22:49.482Z"
   },
   "100727": {
     "titel": "Yotsuiro Biyori",
@@ -2729,6 +2954,11 @@
     "anisearchId": 12151,
     "fetchedAt": "2026-09-01T10:59:01.464Z"
   },
+  "102309": {
+    "titel": "Megalo Box Audio Drama",
+    "anisearchId": 13679,
+    "fetchedAt": "2026-09-01T12:22:24.146Z"
+  },
   "102352": {
     "titel": "Super Dragon Ball Heroes",
     "anisearchId": 13623,
@@ -2798,6 +3028,11 @@
     "titel": "Rara Maji Opening Animation",
     "anisearchId": 15216,
     "fetchedAt": "2026-09-01T10:52:59.311Z"
+  },
+  "102651": {
+    "titel": "The Perfect World",
+    "anisearchId": 13519,
+    "fetchedAt": "2026-09-01T12:22:21.611Z"
   },
   "102656": {
     "titel": "Chiisana Tayori, Ookina Tayori.",
@@ -3469,6 +3704,16 @@
     "anisearchId": 14742,
     "fetchedAt": "2026-08-31T16:48:47.149Z"
   },
+  "108942": {
+    "titel": "Attack on Titan Chibi Theater: Go Get ’em, New Levi Squad!",
+    "anisearchId": 13955,
+    "fetchedAt": "2026-09-01T12:22:29.212Z"
+  },
+  "108972": {
+    "titel": "Space Dandy 2 Picture Drama",
+    "anisearchId": 10180,
+    "fetchedAt": "2026-09-01T12:22:46.950Z"
+  },
   "108992": {
     "titel": "Mebius Dust",
     "anisearchId": 15978,
@@ -3478,6 +3723,11 @@
     "titel": "Historical: Shinsengumi",
     "anisearchId": 11282,
     "fetchedAt": "2026-09-01T10:59:29.608Z"
+  },
+  "109002": {
+    "titel": "Code Geass: Boukoku no Akito - Picture Drama",
+    "anisearchId": 17070,
+    "fetchedAt": "2026-09-01T12:22:52.020Z"
   },
   "109010": {
     "titel": "I-Chu",
@@ -4009,6 +4259,11 @@
     "anisearchId": 14828,
     "fetchedAt": "2026-08-31T16:34:10.750Z"
   },
+  "114052": {
+    "titel": "Girls &amp; Panzer: Taiyaki War!",
+    "anisearchId": 14884,
+    "fetchedAt": "2026-09-01T12:22:14.001Z"
+  },
   "114065": {
     "titel": "Remake Our Life!",
     "anisearchId": 14829,
@@ -4148,6 +4403,11 @@
     "titel": "Jinryoku Senkan!? Shiokaze Sawakaze",
     "anisearchId": 12686,
     "fetchedAt": "2026-09-01T10:53:11.048Z"
+  },
+  "115107": {
+    "titel": "Digimon Adventure 20th Memorial Story",
+    "anisearchId": 14987,
+    "fetchedAt": "2026-09-01T12:22:16.541Z"
   },
   "115142": {
     "titel": "Watanuki-san Chi no",
@@ -4313,6 +4573,11 @@
     "titel": "Cogimyun",
     "anisearchId": 12804,
     "fetchedAt": "2026-09-01T10:53:18.081Z"
+  },
+  "118031": {
+    "titel": "Gekijouban Kiyoko no Basket: Last Game 0401",
+    "anisearchId": 13443,
+    "fetchedAt": "2026-09-01T12:22:34.287Z"
   },
   "118103": {
     "titel": "The Vampire Dies in No Time",
@@ -6009,6 +6274,11 @@
     "anisearchId": 17227,
     "fetchedAt": "2026-08-31T16:21:53.266Z"
   },
+  "145850": {
+    "titel": "Green Dakara × Mirai no Mirai",
+    "anisearchId": 14179,
+    "fetchedAt": "2026-09-01T12:22:26.679Z"
+  },
   "145852": {
     "titel": "Ore, Tsushima × Na Mo Naki Nezumi Collabo Douga",
     "anisearchId": 17948,
@@ -6418,6 +6688,11 @@
     "titel": "Tsurune: The Linking Shot",
     "anisearchId": 17625,
     "fetchedAt": "2026-08-31T15:25:36.567Z"
+  },
+  "154006": {
+    "titel": "Nisshin Curry Meshi × Zombieland Saga",
+    "anisearchId": 14783,
+    "fetchedAt": "2026-09-01T12:22:19.075Z"
   },
   "154081": {
     "titel": "Jashin-chan Dropkick X Mame Anime",
