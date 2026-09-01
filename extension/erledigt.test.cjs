@@ -330,6 +330,47 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
   pruefe('durchlaufende Zaehlung gilt nicht als je-Staffel-neu', zahlen.length === new Set(zahlen).size)
 }
 
+
+/*
+  **Der selbsttaetige Durchgang laeuft weiter, aber nicht endlos.**
+
+  Daniel am 01.09.2026: „ja soll sie" (Netflix freigegeben) und „wir brauchen
+  aber immer noch einen automatismus … erweiterung ist die temporaere nicht die
+  permanente loesung".
+
+  Die Riegel sind dieselben, die am 26.08.2026 gefehlt haben, als der erste
+  One-Piece-Durchlauf 42 falsche Meldungen erzeugte und Daniels einzige Antwort
+  „ich schliesse mal den tab" war.
+*/
+{
+  const quelle = readFileSync(__dirname + '/melder.js', 'utf8')
+  const von = quelle.indexOf('  videoAbdrehen(false)\n  DURCHLAUF.laeuft = false')
+  const block = von < 0 ? '' : quelle.slice(von, von + 1800)
+
+  pruefe('nach dem Durchgang wird weitergegangen', /naechsterAuftrag\(\)/.test(block))
+  pruefe(
+    'aber nur nach einem selbsttaetigen, nicht nach einem Klick',
+    /DURCHLAUF\.selbst && selbstAn/.test(block),
+  )
+  pruefe(
+    'eine Stoerung haelt an, statt weiterzumachen',
+    /!DURCHLAUF\.abbruch && !DURCHLAUF\.stoerung/.test(block),
+  )
+  pruefe('es gibt eine Obergrenze je Sitzung', /selbstGezaehlt >= SELBST_HOECHSTENS/.test(block))
+  pruefe(
+    'die Zielseite erbt den Auftrag, wie bei einem Klick',
+    /zuletztGeoeffnet: \{ id: String\(naechster\)/.test(block),
+  )
+
+  /* Die Auswahl selbst: Was abgehakt ist, wird uebersprungen. */
+  const wahl = quelle.slice(quelle.indexOf('function naechsterAuftrag()'))
+  pruefe('ein toter Verweis wird uebersprungen', /istErledigt\(kennung, 'tot'\)/.test(wahl))
+  pruefe(
+    'ein vollstaendig abgehakter Titel ebenso',
+    /kuerzel\.every\(\(k\) => kuerzelErledigt\(kennung, k\)\)/.test(wahl),
+  )
+  pruefe('und die Seite, auf der man schon steht', /kennung === hier/.test(wahl))
+}
 const fehler = faelle.filter((x) => !x).length
 console.log(fehler ? `\n${fehler} Fall/Fälle durchgefallen` : '\n✓ Geprüftes wird sichtbar')
 process.exit(fehler ? 1 : 0)

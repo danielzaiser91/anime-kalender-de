@@ -1436,6 +1436,42 @@ void speicherLesen('netflixSelbst')
  */
 let selbstVersucht = null
 
+/**
+ * **Wie viele Titel dieser Sitzung selbsttätig durchlaufen wurden.**
+ *
+ * Die Obergrenze ist kein Misstrauen gegen den Code, sondern gegen das
+ * Unvorhergesehene: Ein Durchgang öffnet Folgen in Daniels Konto, und ein Lauf,
+ * der sich verrennt, tut das ohne Ende. Dieselbe Lehre wie am 26.08.2026, als
+ * der erste One-Piece-Durchlauf 42 falsche Meldungen erzeugte — damals fehlte
+ * die Grenze, und Daniels einzige Antwort war „ich schließe mal den tab".
+ *
+ * Zwanzig Titel sind eine Stunde Arbeit; wer mehr will, lädt die Seite neu.
+ */
+let selbstGezaehlt = 0
+const SELBST_HOECHSTENS = 20
+
+/**
+ * **Die nächste Adresse, die noch etwas zu holen hat.**
+ *
+ * Genommen wird die erste offene aus der Prüfliste, die nicht die aktuelle ist.
+ * „Offen" heißt hier dasselbe wie im Kasten: mindestens eine Staffel ohne
+ * Antwort, und der Titel nicht als toter Verweis abgehakt.
+ */
+function naechsterAuftrag() {
+  const hier = String(gemeinteReihe() ?? '')
+  for (const [kennung, eintrag] of Object.entries(offeneTitel)) {
+    if (kennung === hier) continue
+    if (istErledigt(kennung, 'tot')) continue
+    const offen = (eintrag?.staffeln ?? []).filter((st) => st.offen)
+    if (!offen.length) continue
+    /* Was vollständig abgehakt ist, braucht keinen Besuch. */
+    const kuerzel = empfohleneFolgen(eintrag)
+    if (kuerzel.length && kuerzel.every((k) => kuerzelErledigt(kennung, k))) continue
+    return kennung
+  }
+  return null
+}
+
 async function vielleichtSelbstStarten() {
   if (!selbstAn || DURCHLAUF.laeuft) return
   if (!/^\/(?:de-de\/)?title\//.test(location.pathname)) return
@@ -2168,6 +2204,38 @@ async function durchlaufStarten(grenze) {
   videoAbdrehen(false)
   DURCHLAUF.laeuft = false
   durchlaufKnopfZeigen()
+  /*
+    **Und weiter zum nächsten Auftrag — das ist der Unterschied zwischen
+    „geht mit" und „läuft allein".**
+
+    Nur nach einem selbsttätigen Durchgang, nur bis zur Obergrenze, und nur
+    wenn nichts schiefgegangen ist: Eine Störung ist ein Grund anzuhalten,
+    kein Grund weiterzumachen (bei `M7…` hilft ohnehin nur, andere Tabs zu
+    schließen).
+  */
+  if (DURCHLAUF.selbst && selbstAn && !DURCHLAUF.abbruch && !DURCHLAUF.stoerung) {
+    if (selbstGezaehlt >= SELBST_HOECHSTENS) {
+      console.log(
+        `[Anime-Kalender] Selbsttätig: ${SELBST_HOECHSTENS} Titel geschafft — Schluss für diese Sitzung. ` +
+          'Neu laden, wenn es weitergehen soll.',
+      )
+    } else {
+      const naechster = naechsterAuftrag()
+      if (naechster) {
+        selbstGezaehlt++
+        console.log(
+          `[Anime-Kalender] Selbsttätig: weiter zu ${offeneTitel[naechster]?.titel ?? naechster} ` +
+            `(${selbstGezaehlt}/${SELBST_HOECHSTENS})`,
+        )
+        /* Wie ein Klick aus der Liste — damit die Zielseite den Auftrag erbt. */
+        void speicherSchreiben({ zuletztGeoeffnet: { id: String(naechster), zeit: Date.now() } })
+        zuletztGeoeffnet = { id: String(naechster), zeit: Date.now() }
+        gehe(`/title/${naechster}`)
+      } else {
+        console.log('[Anime-Kalender] Selbsttätig: kein offener Auftrag mehr.')
+      }
+    }
+  }
   if (DURCHLAUF.stoerung) {
     /*
       Dieselbe Trennung wie am Knopf (30.08.2026): `M7…` meint die Wiedergabe,
