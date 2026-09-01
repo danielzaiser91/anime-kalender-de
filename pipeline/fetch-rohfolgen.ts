@@ -431,8 +431,33 @@ async function main(): Promise<void> {
           for (const k of kerne) if (folgen.has(k)) n++
           if (n >= 3 && n > kerne.length / 2) punkte.set(id, n)
         }
-        const sortiert = [...punkte.entries()].sort((a, b) => b[1] - a[1])
-        if (sortiert.length === 1 || (sortiert.length > 1 && sortiert[0]![1] > sortiert[1]![1])) {
+        /*
+          **Bei Gleichstand gewinnt der spezifischere Eintrag.**
+
+          „Pokémon" (die Reihe) und „Pokémon: Die TV-Serie — Sonne & Mond" (die
+          Staffel) treffen dieselben zwölf Folgentitel, denn der Reihen-Eintrag
+          führt alle Folgen aller Staffeln. Ein Gleichstand ist hier also der
+          Normalfall, kein Zweifelsfall — und die Staffel ist die richtige
+          Antwort.
+
+          Entschieden wird über die **Menge**, die ein Titel insgesamt führt:
+          „Sonne & Mond" kennt 146 Folgentitel, „Pokémon" über tausend. Wer
+          dieselben Folgen mit weniger Ballast führt, meint sie genauer.
+
+          Bleibt es auch dann gleich — zwei Titel mit derselben Trefferzahl und
+          derselben Menge —, ist es ein echter Zweifelsfall und bleibt offen.
+        */
+        const sortiert = [...punkte.entries()].sort((a, b) => {
+          if (b[1] !== a[1]) return b[1] - a[1]
+          return (folgenJeTitel.get(a[0])?.size ?? 0) - (folgenJeTitel.get(b[0])?.size ?? 0)
+        })
+        const eindeutig =
+          sortiert.length === 1 ||
+          (sortiert.length > 1 &&
+            (sortiert[0]![1] > sortiert[1]![1] ||
+              (folgenJeTitel.get(sortiert[0]![0])?.size ?? 0) <
+                (folgenJeTitel.get(sortiert[1]![0])?.size ?? 0)))
+        if (eindeutig) {
           const gefunden = titles.find((t) => t.id === sortiert[0]![0])
           if (gefunden) {
             treffer.length = 0
