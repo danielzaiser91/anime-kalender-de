@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-08-31T12:32:35.337Z",
+  "scrapedAt": "2026-09-01T09:25:55.909Z",
   "proposals": [
     {
       "articleTitle": "»Kubo Won’t Let Me Be Invisible« erscheint als Blu-ray-Komplettbox",
@@ -20,6 +20,45 @@
         }
       ],
       "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Neue Anime-Katalogtitel im September 2026 bei aniverse",
+      "articleUrl": "https://www.anime2you.de/news/1045399/aniverse-september-2026-neuzugaenge/",
+      "publishedAt": "2026-08-31",
+      "category": "streaming",
+      "platforms": [
+        "primevideo",
+        "aniverse"
+      ],
+      "dates": [
+        {
+          "month": "2026-09",
+          "context": "Neue Anime-Katalogtitel im September 2026 bei aniverse Der Prime Video Channel aniverse erweit"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Netflix enthüllt Termin der neuen »My Happy Marriage«-Folgen + Trailer",
+      "articleUrl": "https://www.anime2you.de/news/1045378/my-happy-marriage-specials-netflix-termin/",
+      "publishedAt": "2026-08-31",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [
+        {
+          "iso": "2026-10-25",
+          "context": "ber 2026 Die drei neuen Episoden zu »My Happy Marriage« erscheinen am 25. Oktober 2026 unter anderem mit deutscher Sprachfassung sowie […]"
+        },
+        {
+          "month": "2026-10",
+          "context": "sten Trailer, den ihr weiter unten in diesem Artikel findet. Premiere im Oktober 2026 Die drei neuen Episoden zu »My Happy Marriage« erschei"
+        }
+      ],
+      "dub": "ja",
       "alreadyCurated": false
     },
     {
@@ -894,23 +933,6 @@
       "alreadyCurated": true
     },
     {
-      "articleTitle": "Disney+ kündigt sechs Anime-Neuzugänge für August 2026 an",
-      "articleUrl": "https://www.anime2you.de/news/1036663/disney-plus-sechs-anime-neuzugaenge-august-2026/",
-      "publishedAt": "2026-08-01",
-      "category": "streaming",
-      "platforms": [
-        "disneyplus"
-      ],
-      "dates": [
-        {
-          "month": "2026-08",
-          "context": "26 an Der Streaming-Dienst Disney+ erweitert sein Anime-Programm auch im August 2026 mit mehreren Serien. Welche Neuzugänge euch im kommende"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": true
-    },
-    {
       "articleTitle": "Crunchyroll bringt neuen »Madoka Magica«-Film ins Kino",
       "articleUrl": "https://www.anime2you.de/news/1036604/madoka-magica-walpurgisnacht-rising-kinostart/",
       "publishedAt": "2026-08-01",
@@ -1081,40 +1103,6 @@
       "alreadyCurated": false
     },
     {
-      "articleTitle": "Anime-Neuheiten im August 2026 auf DVD und Blu-ray",
-      "articleUrl": "https://www.anime2you.de/news/1033082/disc-neuheiten-august-2026/",
-      "publishedAt": "2026-07-25",
-      "category": "disc",
-      "platforms": [
-        "disc"
-      ],
-      "dates": [
-        {
-          "month": "2026-08",
-          "context": "Anime-Neuheiten im August 2026 auf DVD und Blu-ray Im August 2026 kommen wieder zahlre"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": true
-    },
-    {
-      "articleTitle": "Zum 25. Jubiläum: »Chihiros Reise ins Zauberland« bald wieder im Kino",
-      "articleUrl": "https://www.anime2you.de/news/1034379/chihiros-reise-ins-zauberland-bald-wieder-im-kino/",
-      "publishedAt": "2026-07-24",
-      "category": "kino",
-      "platforms": [
-        "kino"
-      ],
-      "dates": [
-        {
-          "month": "2026-08",
-          "context": "die große Leinwand zurück. Wir fassen die Details zusammen. Kinostart im August 2026 »Chihiros Reise ins Zauberland« ist ab dem 18. August 2"
-        }
-      ],
-      "dub": "ja",
-      "alreadyCurated": true
-    },
-    {
       "articleTitle": "Deutscher Kinostart von »Godzilla Minus Zero« steht fest + Teaser",
       "articleUrl": "https://www.anime2you.de/news/1033172/godzilla-minus-zero-deutscher-kinostart/",
       "publishedAt": "2026-07-20",
@@ -1138,24 +1126,6 @@
       ],
       "dub": "unklar",
       "alreadyCurated": false
-    },
-    {
-      "articleTitle": "Crunchyroll bringt 29. »Detektiv Conan«-Film in die deutschen Kinos",
-      "articleUrl": "https://www.anime2you.de/news/1020620/detektiv-conan-film-29-kinostart-deutschland/",
-      "publishedAt": "2026-06-11",
-      "category": "kino",
-      "platforms": [
-        "crunchyroll",
-        "kino"
-      ],
-      "dates": [
-        {
-          "month": "2026-08",
-          "context": "wenigen Monaten ins Kino bringen wird. Wir fassen zusammen. Kinostart im August 2026 Der 29. »Detektiv Conan«-Film trägt den Titel »Der gefa"
-        }
-      ],
-      "dub": "unklar",
-      "alreadyCurated": true
     },
     {
       "articleTitle": "Nintendo verschiebt »The Legend of Zelda«-Film erneut + Bilder",
