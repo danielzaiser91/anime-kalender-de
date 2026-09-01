@@ -3767,8 +3767,22 @@ async function speicherSchreiben(werte) {
    *
    * Der lokale Vermerk bleibt stehen; er trägt den Befund von damals.
    */
+  /**
+   * **Was in dieser Sitzung gemeldet wurde, ist erledigt — auch bei Wiedervorlage.**
+   *
+   * Der Riegel kennt sonst kein Ende: Die Liste trägt `erneut`, bis der nächste
+   * Bau sie neu erzeugt, und der Knopf bliebe die ganze Zeit offen. Daniel am
+   * 01.09.2026 nach der Meldung: „ich hab geklickt - button bleibt klickbar -
+   * ist was angekommen?" — sie war angekommen, der Knopf sagte es nur nicht.
+   *
+   * Ein Merker je Eintrag genügt. Er lebt nur, solange die Seite offen ist; das
+   * ist genau die Spanne, in der die Liste noch die alte ist.
+   */
+  const wiedervorlageErledigt = new Set()
+
   function wiedervorlage(asinEintrag) {
     try {
+      if (wiedervorlageErledigt.has(asinEintrag)) return null
       return String(liste[asinEintrag]?.erneut ?? '') || null
     } catch {
       return null
@@ -8069,6 +8083,15 @@ async function speicherSchreiben(werte) {
         } catch {
           /* Noch keine Auskunft vom Briefkasten — dann gibt es nichts zu ergänzen. */
         }
+        /*
+          **Und dieselbe Ueberbrueckung fuer die Wiedervorlage.**
+
+          Sie steht in der Liste, bis der naechste Bau sie neu erzeugt — ohne
+          diesen Merker bliebe der Knopf bis dahin offen, auch direkt nach einer
+          angekommenen Meldung (Daniel, 01.09.2026: "ich hab geklickt - button
+          bleibt klickbar - ist was angekommen?"). Sie war angekommen.
+        */
+        wiedervorlageErledigt.add(listenId)
         void briefkastenHolen(true)
         /*
           Kam der Eintrag aus einer Suche, ist die Suchadresse damit erledigt —
