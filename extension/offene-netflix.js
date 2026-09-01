@@ -1,1 +1,1 @@
-globalThis.AK_OFFENE_TITEL = {"80175351":{"titel":"Kakegurui: Das Leben ist ein Spiel","asId":12222,"staffeln":[{"nr":1,"name":"St. 1","folgen":12,"erste":1,"film":false,"offen":true},{"nr":2,"name":"St. 2","folgen":12,"erste":1,"film":false,"offen":false}],"laut":"anbieter"}}
+globalThis.AK_OFFENE_TITEL = {}
