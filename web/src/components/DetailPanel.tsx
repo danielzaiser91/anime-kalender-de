@@ -2275,6 +2275,33 @@ export function DetailPanel({
             Pille — und damit ein Termin, den es noch nicht gibt, nicht neben
             einem verfuegbaren Angebot steht.
           */}
+          {/*
+            **Ein Abgang ist eine Auskunft, kein Loch.**
+
+            Bis zum 01.09.2026 fiel ein Verweis stillschweigend heraus, sobald er
+            ins Leere führte. Daniel: „auch bei titeln die aus dem katalog eines
+            anbieters fliegen entsprechend anzeigen … ‚seit <datum> nicht mehr im
+            katalog von <anbieter>'" — und: „sie sind schließlich nicht mehr
+            klickbar."
+
+            Deshalb ein Vermerk, kein Verweis: gedämpft, durchgestrichen, ohne
+            `href`. Er steht **über** den Wegen, die es noch gibt, denn wer den
+            Titel dort gesucht hat, sucht zuerst nach dieser Auskunft.
+          */}
+          {(title.entfernteStreams?.length ?? 0) > 0 && (
+            <div className="flex flex-wrap gap-1.5">
+              {title.entfernteStreams!.map((s) => (
+                <span
+                  key={s.platform + s.url}
+                  className="inline-flex items-center gap-1 rounded-md border border-dashed border-slate-300 px-1.5 py-1 text-[11px] text-slate-400 dark:border-white/15 dark:text-slate-500"
+                >
+                  <span className="line-through">{PLATFORMS[s.platform]?.name ?? s.platform}</span>
+                  <span>{t('detail.gone', { d: formatDate(s.entferntAm ?? '') })}</span>
+                </span>
+              ))}
+            </div>
+          )}
+
           {(title.streams.length > 0 ||
             (title.watchLinks?.length ?? 0) > 0 ||
             vorbestellungen.length > 0) && (

@@ -190,6 +190,23 @@ export interface StreamLink {
    * Normalfall.
    */
   teilBereich?: { von: number; bis: number }
+  /**
+   * **Seit wann der Anbieter diesen Titel nicht mehr führt.**
+   *
+   * Bis zum 01.09.2026 verschwand ein Verweis stillschweigend, sobald eine
+   * Prüfung `available: false` ergab. Für den Leser sah das aus, als hätte es
+   * ihn nie gegeben — dabei ist genau das eine Auskunft, die er sucht: Ein
+   * Anime, der bei Netflix lief und jetzt nicht mehr, ist bei Netflix nicht
+   * mehr zu sehen, und das gehört gesagt.
+   *
+   * Daniel: „auch bei titeln die aus dem katalog eines anbieters fliegen
+   * entsprechend anzeigen, zB netflix nimmt einen anime aus dem katalog ->
+   * ‚seit <datum> nicht mehr im katalog von <anbieter>'."
+   *
+   * Ein Eintrag mit diesem Feld ist **kein Weg mehr**: Die Oberfläche zeigt ihn
+   * als Vermerk, nicht als Verweis, und er zählt nicht als Ort zum Ansehen.
+   */
+  entferntAm?: string
 }
 
 /** Ein Anime (genauer: ein AniList-Eintrag) mit belegter deutscher Synchro. */
@@ -284,6 +301,15 @@ export interface Title {
    */
   ohneSynchro?: boolean
   streams: StreamLink[]
+  /**
+   * **Wege, die es einmal gab — mit dem Tag, an dem sie wegfielen.**
+   *
+   * Sie stehen bewusst nicht in `streams`: Zehn Stellen in der Oberfläche
+   * zählen dieses Feld als „wo kann ich das sehen", und ein Eintrag, der dort
+   * bleibt, würde überall als Weg mitzählen. Hier ist er, was er ist — ein
+   * Vermerk über die Vergangenheit, nicht anklickbar.
+   */
+  entfernteStreams?: StreamLink[]
   /** Weitere Wege zum Ansehen oder Kaufen, die keine eigene Plattform sind. */
   watchLinks?: WatchLink[]
   /**

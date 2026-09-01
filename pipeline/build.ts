@@ -2383,7 +2383,9 @@ function main(): void {
     if (typeof b?.audioDeutsch === 'boolean') ytAudio.set(url, b.audioDeutsch)
   }
   /** Antwortstatus je Anbieter-Adresse aus `pipeline/check-links.ts`. */
-  const linkBefunde = readJson<Record<string, { status: number | string; prime?: boolean }>>('data/link-check.json', {})
+  const linkBefunde = readJson<
+    Record<string, { status: number | string; prime?: boolean; geprueftAm?: string }>
+  >('data/link-check.json', {})
   for (const title of titles.values()) {
     /**
      * Tote Verweise verschwinden, statt ein „✕" zu bekommen.
@@ -2411,6 +2413,10 @@ function main(): void {
     title.streams = title.streams.filter((s) => s.platform !== 'netflix' || netflixAdresseTaugt(s.url))
     netflixOhneKennung += vorNetflix - title.streams.length
 
+    /*
+      Abgänge werden gesammelt, nicht weggeworfen — siehe `entfernteStreams`.
+    */
+    const abgaenge: typeof title.streams = []
     title.streams = title.streams.filter((stream) => {
       /**
        * Was YouTube selbst über seine Verweise sagt.
@@ -2461,14 +2467,28 @@ function main(): void {
        * und ADN antworten jedem Skript mit 403; sie werden gar nicht erst
        * geprüft, sonst verwürfe diese Zeile reihenweise gültige Verweise.
        */
+      /*
+        **Ein Abgang wird vermerkt, nicht verschwiegen** (Daniel, 01.09.2026).
+
+        Bis dahin fiel ein Verweis stillschweigend heraus, sobald er ins Leere
+        führte oder eine Prüfung ihn als weg meldete. Für den Leser sah das aus,
+        als hätte es ihn nie gegeben — dabei ist genau das die Auskunft, die er
+        sucht: „seit <Datum> nicht mehr im Katalog von <Anbieter>".
+
+        Der Eintrag bleibt deshalb stehen und trägt `entferntAm`. Die Oberfläche
+        zeigt ihn als Vermerk statt als Verweis; anklickbar ist er nicht mehr,
+        denn dort ist nichts.
+      */
       const befund = linkBefunde[stream.url]?.status
       if (befund === 404 || befund === 'region') {
         totEntfernt++
+        abgaenge.push({ ...stream, entferntAm: linkBefunde[stream.url]?.geprueftAm ?? todayIso() })
         return false
       }
       const check = checks.get(dubKey(title.id, stream.platform))
       if (check?.available === false) {
         entfernt++
+        abgaenge.push({ ...stream, entferntAm: check.checkedAt ?? todayIso() })
         return false
       }
       if (check && typeof check.dub === 'boolean') {
@@ -2502,6 +2522,23 @@ function main(): void {
       }
       return true
     })
+    /*
+      **Ein Abgang je Anbieter, der jüngste.** Wechselt eine Adresse und fällt
+      auch die neue weg, steht sonst zweimal dasselbe da.
+
+      Und nur, solange der Anbieter keinen gültigen Weg mehr trägt: Führt ein
+      Titel nach einem Adresswechsel wieder einen Netflix-Verweis, ist der alte
+      Abgang keine Auskunft mehr, sondern eine Irreführung.
+    */
+    if (abgaenge.length) {
+      const jeAnbieter = new Map<string, (typeof abgaenge)[number]>()
+      for (const a of abgaenge) {
+        if (title.streams.some((s) => s.platform === a.platform)) continue
+        const bisher = jeAnbieter.get(a.platform)
+        if (!bisher || (a.entferntAm ?? '') > (bisher.entferntAm ?? '')) jeAnbieter.set(a.platform, a)
+      }
+      if (jeAnbieter.size) title.entfernteStreams = [...jeAnbieter.values()]
+    }
   }
   /**
    * Verweise, die es nur von Hand gibt.
