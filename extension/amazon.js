@@ -3752,6 +3752,29 @@ async function speicherSchreiben(werte) {
    * Funktion beim Seitenaufbau läuft. Vorher gilt: noch keine Auskunft, also
    * entscheidet der lokale Stand.
    */
+  /**
+   * **Ein Eintrag mit Wiedervorlage ist nie „alles gemeldet".**
+   *
+   * `tools/extension-offene-amazon.mjs` schreibt seit dem 29.08.2026 ein Feld
+   * `erneut` mit dem Grund, aus dem ein längst gemeldeter Titel noch einmal
+   * angesehen gehört — bei „Golden Kamuy: Final Season" steht dort „9 von 13
+   * deutsch, obwohl Crunchyroll alle führt — derselbe Kanal".
+   *
+   * **Gelesen hat es hier niemand.** Der Kasten zeigte „✓ alles gemeldet", der
+   * Grund stand nirgends, und der Auftrag war damit unerreichbar (Daniel,
+   * 01.09.2026). Derselbe Fehlertyp wie bei `titelId` am 28.08. und bei
+   * `paare` in `melder.js`: Das Feld entsteht, reist mit — und kommt nie an.
+   *
+   * Der lokale Vermerk bleibt stehen; er trägt den Befund von damals.
+   */
+  function wiedervorlage(asinEintrag) {
+    try {
+      return String(liste[asinEintrag]?.erneut ?? '') || null
+    } catch {
+      return null
+    }
+  }
+
   function nichtAngekommen(asinEintrag) {
     try {
       const url = liste[asinEintrag]?.url
@@ -4978,7 +5001,12 @@ async function speicherSchreiben(werte) {
       `gemeldet: ${Object.keys(staffelnDerSerie(listenId)).join(', ') || '—'} von ${gesamtDerSerie(listenId)} (Amazons Staffelzählung)`,
       `Serie im Bestand: ${e?.serie ?? '—'} · Seitentitel: ${seitenTitel() ?? '—'}`,
       `Folgen: ${gesehen.nummern.size} gelesen, ${gesehen.gesamt ?? '?'} laut Seite`,
-    ].join(String.fromCharCode(10))
+      /* Der Grund der Wiedervorlage gehoert dorthin, wo jemand nachsieht, warum
+         ein laengst gemeldeter Titel wieder dasteht. */
+      wiedervorlage(listenId) ? `Wiedervorlage: ${wiedervorlage(listenId)}` : '',
+    ]
+      .filter(Boolean)
+      .join(String.fromCharCode(10))
   }
 
   /**
@@ -6198,7 +6226,11 @@ async function speicherSchreiben(werte) {
       Der lokale Vermerk bleibt trotzdem stehen — er trägt den Befund von
       damals, und der spart beim erneuten Melden das Nachsehen.
     */
-    if ((schonGemeldet || gemeldeteStaffel === jetzigeStaffel) && !nichtAngekommen(listenId)) {
+    if (
+      (schonGemeldet || gemeldeteStaffel === jetzigeStaffel) &&
+      !nichtAngekommen(listenId) &&
+      !wiedervorlage(listenId)
+    ) {
       const offen = gesamtDerSerie(listenId) - Object.keys(staffelnDerSerie(listenId)).length
       /**
        * Kein „gemeldet" mehr — es zählt, was noch fehlt.

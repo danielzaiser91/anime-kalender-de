@@ -478,9 +478,24 @@ pruefe(
   */
   const abfragen = (quelle.match(/briefkastenAdressen\s*&&\s*!briefkastenAdressen\.has/g) ?? []).length
   pruefe('und niemand baut sie daneben noch einmal nach', abfragen === 1, abfragen)
+  /*
+    Das Muster war einzeilig und brach am 01.09.2026, als eine zweite Bedingung
+    dazukam. Geprueft wird deshalb der Block, nicht die Zeile.
+  */
+  const sperrBlock =
+    /schonGemeldet \|\| gemeldeteStaffel === jetzigeStaffel\)[\s\S]{0,220}?\{/.exec(quelle)?.[0] ?? ""
+  pruefe('der Melde-Knopf fragt sie, bevor er sich sperrt', /!nichtAngekommen\(/.test(sperrBlock))
+  /*
+    **Und die Wiedervorlage genauso.** `erneut` entsteht im Listengenerator seit
+    dem 29.08.2026 und wurde hier nie gelesen: Der Kasten sagte "alles gemeldet"
+    fuer einen Titel, den die Liste ausdruecklich noch einmal sehen wollte
+    ("Golden Kamuy: Final Season — 9 von 13 deutsch, obwohl Crunchyroll alle
+    fuehrt"). Daniel am 01.09.2026, vor der Seite stehend: "was soll ich tun".
+  */
+  pruefe('und die Wiedervorlage ebenso', /!wiedervorlage\(/.test(sperrBlock), sperrBlock)
   pruefe(
-    'der Melde-Knopf fragt sie, bevor er sich sperrt',
-    /schonGemeldet \|\| gemeldeteStaffel === jetzigeStaffel\) && !nichtAngekommen\(/.test(quelle),
+    'wiedervorlage() liest das Feld erneut aus der Liste',
+    /function wiedervorlage\([\s\S]{0,240}?\.erneut/.test(quelle),
   )
 }
 
