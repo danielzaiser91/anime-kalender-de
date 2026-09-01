@@ -2570,3 +2570,39 @@ hieße, dieselbe Vermutung noch einmal anzustellen.
 **eine** Variable über beiden. Zwei Ausdrücke, die dasselbe meinen sollen,
 laufen auseinander — hier reichte dafür, dass der eine drei Zeilen später
 geschrieben wurde als der andere.
+
+### Eine Überschrift ist keine Sprachangabe — der aniSearch-Titelabruf taugt nur für den Katalog
+
+Am 01.09.2026 lag der Schluss nahe: 139 Titel **mit** belegter deutscher Synchro
+tragen keinen deutschen Namen, 56 davon haben eine aniSearch-Kennung, und
+`fetch-anisearch-titel.ts` holt genau solche Seiten. Also den Hauptbestand in
+die Warteschlange, fertig.
+
+Der Lauf ist durchgelaufen, der Bau hat 30 Titel übernommen — und das Ergebnis
+war **schlechter als die Lücke**:
+
+| unser Titel | was ankam |
+|---|---|
+| Yu☆Gi☆Oh! | „Yuu Gi Ou" |
+| Mobile Suit Gundam Wing: Endless Waltz | „Gundam Wing Endless Waltz OVA" |
+| Pocket Monsters Diamond & Pearl | „Pocket Monsters: Diamond &amp; Pearl …" |
+
+Romaji, englische Namen, HTML-Entities. **Die `<h1 id="htitle">` einer
+aniSearch-Seite ist der Haupttitel, nicht der deutsche** — sie trägt keine
+Sprachkennzeichnung, und aniSearch wählt dort die gebräuchlichste Schreibweise.
+Beide Commits sind zurückgenommen.
+
+**Für den Katalog hinter dem Toggle bleibt der Abruf richtig.** Dort steht sonst
+gar nichts, und ein Romaji-Titel ist besser als keiner — 938 der 15.118
+Katalogtitel haben so überhaupt erst einen Namen bekommen. Im Hauptbestand
+überschreibt derselbe Wert die Suche mit einem Namen, unter dem niemand sucht.
+
+**Die allgemeine Form, und sie ist teurer als sie aussieht:** Zwei Bestände mit
+derselben Lücke brauchen nicht dieselbe Quelle. Was für den einen ein Gewinn
+ist, ist für den anderen ein Rückschritt — und das entscheidet nicht die Lücke,
+sondern was an ihrer Stelle stünde. Hier: nichts gegen einen falschen Namen.
+
+**Was den Fehler sichtbar gemacht hat, war die Stichprobe nach dem Einbau.** Die
+Zahl allein sah gut aus (139 → 109); erst die Liste der 29 übernommenen Titel
+zeigte, was darin steht. Eine Zahl, die sich in die gewünschte Richtung bewegt,
+ist kein Beleg für die Qualität dessen, was sie zählt.

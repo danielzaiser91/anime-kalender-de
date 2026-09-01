@@ -55,26 +55,30 @@ const bruecke = readJson<{ anisearch: Record<string, number> }>('data/anime-ids.
 const bestand = readJson<Record<string, Titeleintrag>>('data/anisearch-titel.json', {})
 const ohne = readJson<OhneSynchro[]>('public/data/ohne-synchro.json', [])
 /*
-  **Der Hauptbestand gehört genauso dazu — er wurde übersehen.**
+  **Warum der Hauptbestand hier NICHT drinsteht — am 01.09.2026 versucht und
+  widerlegt.**
 
-  Der Lauf zog seine Liste ausschließlich aus `ohne-synchro.json`, also aus dem
-  Katalog hinter dem Toggle. Die rund 2.800 Titel mit belegter Synchro standen
-  nie darin — ausgerechnet die, die im Kalender sichtbar sind.
+  Naheliegend war: 139 Titel mit belegter Synchro tragen keinen deutschen Namen,
+  56 davon haben eine aniSearch-Kennung, also holen wir sie. Der Lauf ist
+  durchgelaufen, der Bau hat 30 davon übernommen — und das Ergebnis war
+  schlechter als die Lücke:
 
-  Gemessen am 01.09.2026: 139 von ihnen tragen keinen deutschen Namen, 55 davon
-  haben eine aniSearch-Kennung und wären in zwei Minuten geholt. Darunter
-  „Hunter x Hunter" und „Yu☆Gi☆Oh!" — Titel, die auf Deutsch längst anders
-  heißen.
+      Yu☆Gi☆Oh!                       ->  „Yuu Gi Ou"
+      Mobile Suit Gundam Wing          ->  „Gundam Wing Endless Waltz OVA"
+      Pocket Monsters Diamond & Pearl  ->  „Pocket Monsters: Diamond &amp; Pearl …"
 
-  Die Zahlen im Kopfkommentar („2.700 kuratierte Titel, für die geholt wurde")
-  stimmten für einen anderen Abruf; dieser hier hatte sie nie.
+  Romaji, englische Namen, HTML-Entities. **Die `<h1 id="htitle">` einer
+  aniSearch-Seite ist der Haupttitel, nicht der deutsche** — sie trägt keine
+  Sprachkennzeichnung, und aniSearch wählt dort die gebräuchlichste Schreibweise.
+
+  Für den Katalog hinter dem Toggle ist das trotzdem ein Gewinn: Dort steht
+  sonst gar nichts, und ein Romaji-Titel ist besser als keiner. Im Hauptbestand
+  überschreibt er die Suche mit einem Namen, unter dem niemand sucht.
+
+  Wer einen deutschen Titel für den Hauptbestand will, nimmt `info.languages`
+  aus dem großen aniSearch-Abruf (dort steht die Sprache dabei) oder TMDB mit
+  `language=de-DE` — beides liest `build.ts` bereits.
 */
-const haupt = readJson<Array<{ id: number; titleDe?: string; format?: string; jpYear?: number }>>(
-  'public/data/titles.json',
-  [],
-)
-  .filter((t) => !t.titleDe)
-  .map((t) => ({ id: t.id, format: t.format, jpYear: t.jpYear }) as OhneSynchro)
 
 if (!Object.keys(bruecke).length) {
   warn('Keine aniSearch-Kennungen in data/anime-ids.json — erst `data:anisearch` laufen lassen.')
@@ -97,15 +101,9 @@ if (!Object.keys(bruecke).length) {
   er steht im Kalender, und sein Jahr sagt darueber nichts. „Hunter x Hunter"
   (1999) und „Yu☆Gi☆Oh!" (1998) waeren sonst nie an der Reihe.
 */
-const hauptIds = new Set(haupt.map((t) => t.id))
-const warteschlange = [...haupt, ...ohne]
+const warteschlange = ohne
   .filter((t) => bruecke[String(t.id)] && !bestand[String(t.id)])
-  .filter(
-    (t) =>
-      ALLE ||
-      hauptIds.has(t.id) ||
-      (['TV', 'ONA'].includes(t.format ?? '') && (t.jpYear ?? 0) >= 2015),
-  )
+  .filter((t) => ALLE || (['TV', 'ONA'].includes(t.format ?? '') && (t.jpYear ?? 0) >= 2015))
   .sort((a, b) => (b.jpYear ?? 0) - (a.jpYear ?? 0))
 
 log(`${warteschlange.length} Titel offen, davon kommen ${Math.min(GRENZE, warteschlange.length)} dran`)
