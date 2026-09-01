@@ -27,6 +27,16 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-113971-netflix@2026-08-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20260831
+DTEND;VALUE=DATE:20260901
+SUMMARY:MOBILE SUIT GUNDAM HATHAWAY The Sorcery of Nymph Circe
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Film\nUhrzeit noch nicht bestä
+ tigt.\nDetails: https://anime-kalender.de/#/release/auto-113971-netflix
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:adn-634@2026-09-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260901T070000Z
