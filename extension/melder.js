@@ -1683,6 +1683,54 @@ function videoAbdrehen(zu) {
   window.postMessage({ marke: 'ak-steuer', videoZu: zu }, '*')
 }
 
+/**
+ * **Abgehaktes einzeln zurückholen — auch bei Netflix.**
+ *
+ * Den Griff gibt es in `amazon.js` seit dem 28.08.2026; für Netflix fehlte er.
+ * Am 01.09.2026 habe ich Daniel genau diesen Befehl für eine Netflix-Seite
+ * gegeben — `dispatchEvent` meldete `true`, und nichts geschah: Der Rückgabewert
+ * sagt nur, dass niemand abgebrochen hat, nicht dass jemand zugehört hat.
+ *
+ *     document.dispatchEvent(new CustomEvent('ak-oeffnen', { detail: 'kakegurui' }))
+ *
+ * Gebraucht wird er, wo der lokale Vermerk und der Briefkasten auseinanderlaufen:
+ * Bis 4.9.1 stempelte eine Randprobe alle Folgen mit der Staffel der einen
+ * gemessenen, und die Kürzel im Speicher zeigen seitdem auf Staffeln, die nie
+ * gemeldet wurden. Bei Kakegurui behauptete der Knopf „24 Folgen geprüft",
+ * während im Briefkasten zwölf lagen.
+ *
+ * Der Speicher liegt in `chrome.storage`, an das die Seiten-Konsole nicht
+ * herankommt — deshalb der Weg über ein Ereignis am gemeinsamen `document`.
+ * Verglichen wird gegen den Titel aus der Prüfliste, ohne Groß-/Kleinschreibung.
+ */
+document.addEventListener('ak-oeffnen', async (e) => {
+  const suche = String(e?.detail ?? '')
+    .trim()
+    .toLowerCase()
+  if (!suche) {
+    console.log("[Anime-Kalender] ak-oeffnen braucht einen Text, z. B. { detail: 'kakegurui' }")
+    return
+  }
+  const treffer = []
+  for (const kennung of Object.keys(erledigt)) {
+    const titel = String(offeneTitel[kennung]?.titel ?? '').toLowerCase()
+    if (titel.includes(suche) || kennung === suche) treffer.push(kennung)
+  }
+  if (!treffer.length) {
+    console.log(
+      `[Anime-Kalender] nichts Abgehaktes passt auf „${suche}" — ` +
+        `${Object.keys(erledigt).length} Titel im Speicher`,
+    )
+    return
+  }
+  const weg = treffer.map((k) => `${offeneTitel[k]?.titel ?? k}: ${(erledigt[k] ?? []).join(', ')}`)
+  for (const kennung of treffer) delete erledigt[kennung]
+  await speicherSchreiben({ erledigt })
+  knopfZeigen()
+  durchlaufKnopfZeigen()
+  console.log(`[Anime-Kalender] ${treffer.length} Titel lokal geöffnet.`, weg)
+})
+
 /** Die Navigation, die auch ein Klick auslöst — ohne Neuladen. */
 function gehe(pfad) {
   history.pushState({}, '', pfad)
