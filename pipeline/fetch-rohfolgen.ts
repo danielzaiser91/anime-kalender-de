@@ -22,6 +22,7 @@ import {
   ausAnisearch,
   englischeSchreibweisen,
   findeStaffel,
+  folgenKern,
   ordneZu,
   type AnbieterFolge,
   type AsFolgeRoh,
@@ -241,6 +242,36 @@ async function main(): Promise<void> {
     jeUrl.set(schluessel, l)
   }
 
+  /*
+    **Welcher Titel führt welche Folgentitel — der Anker für den letzten Fall.**
+
+    Gebaut aus beiden Quellen: aniSearch (deutsche Folgentitel, wie unser
+    Bestand aufgeteilt) und TMDB (dieselben aus zweiter Hand). Ein Titel, dessen
+    Folgen die gemeldeten treffen, ist der gesuchte — ganz ohne eine Angabe des
+    Anbieters.
+
+    Gebaut wird die Karte einmal, nicht je Adresse: 510 aniSearch-Titel und 808
+    von TMDB, zusammen rund 17.000 Folgentitel.
+  */
+  const folgenJeTitel = new Map<number, Set<string>>()
+  for (const t of titles) {
+    const menge = new Set<string>()
+    const asId = asKennung[String(t.id)]?.anisearchId
+    for (const f of asId ? (asFolgen[String(asId)]?.folgen ?? []) : []) {
+      for (const name of [f.de, f.en]) {
+        const k = folgenKern(name)
+        if (k && k.length >= 5) menge.add(k)
+      }
+    }
+    for (const f of tmdbFolgen[String(t.id)]?.folgen ?? []) {
+      const k = folgenKern(f.titel)
+      if (k && k.length >= 5) menge.add(k)
+    }
+    if (menge.size) folgenJeTitel.set(t.id, menge)
+  }
+  /** Wie viele Adressen allein über ihre Folgentitel gefunden wurden. */
+  let ueberFolgentitel = 0
+
   const offen: Offen[] = []
   /**
    * Was der Bau am Ende bekommt.
@@ -353,6 +384,50 @@ async function main(): Promise<void> {
         const genau = titles.filter((t) => passt(t, true))
         const kandidaten = genau.length ? genau : titles.filter((t) => passt(t, false))
         if (kandidaten.length === 1) treffer.push(kandidaten[0]!)
+      }
+    }
+    /*
+      **Und wenn nicht einmal ein Name da ist, sprechen die Folgentitel selbst.**
+
+      Bei 16 Adressen mit 198 Folgen steht in der Meldung kein Serienname,
+      sondern der Titel der **Folge**: „Kyogre in der Falle!", „Ein beschwingter
+      Kampf!". Über die Adresse und den Namen ist damit nichts zu holen.
+
+      Über die Folgentitel schon — und genau das ist der Anker, den Daniel am
+      01.09.2026 gemeint hat: „einzeln episoden korrekt aus gesammeltem zustand
+      rauspicken und korrekt zuordnen … anhand von verlaesslichen sicheren
+      quellen wie zB anisearch."
+
+      `data/anisearch-folgen.json` führt je Titel die deutschen Folgentitel,
+      `data/tmdb-folgen.json` dieselben aus zweiter Quelle. Wer dort nachsieht,
+      welcher Titel diese Folgen führt, hat die Zuordnung — ohne eine einzige
+      Angabe des Anbieters.
+
+      **Die Schwelle ist hoch, und sie muss es sein.** Ein einzelner Folgentitel
+      kann zufällig doppelt vorkommen („Der Anfang", „Abschied"); erst wenn
+      **mindestens drei** und **mehr als die Hälfte** der gemeldeten Folgen
+      denselben Titel treffen, ist es eine Auskunft. Und nur, wenn kein zweiter
+      Titel gleich viele trifft.
+    */
+    if (!treffer.length) {
+      const kerne = liste
+        .map((f) => folgenKern(f.titel))
+        .filter((x) => x && x.length >= 5)
+      if (kerne.length >= 3) {
+        const punkte = new Map<number, number>()
+        for (const [id, folgen] of folgenJeTitel) {
+          let n = 0
+          for (const k of kerne) if (folgen.has(k)) n++
+          if (n >= 3 && n > kerne.length / 2) punkte.set(id, n)
+        }
+        const sortiert = [...punkte.entries()].sort((a, b) => b[1] - a[1])
+        if (sortiert.length === 1 || (sortiert.length > 1 && sortiert[0]![1] > sortiert[1]![1])) {
+          const gefunden = titles.find((t) => t.id === sortiert[0]![0])
+          if (gefunden) {
+            treffer.push(gefunden)
+            ueberFolgentitel++
+          }
+        }
       }
     }
     if (treffer.length !== 1) {
@@ -514,7 +589,10 @@ async function main(): Promise<void> {
   }
 
   const gesamtZugeordnet = Object.values(zugeordnet).reduce((n, z) => n + z.folgen.length, 0)
-  log(`${Object.keys(zugeordnet).length} Adressen zugeordnet (${gesamtZugeordnet} Folgen), ${offen.length} offen`)
+  log(
+    `${Object.keys(zugeordnet).length} Adressen zugeordnet (${gesamtZugeordnet} Folgen), ${offen.length} offen` +
+      (ueberFolgentitel ? `, davon ${ueberFolgentitel} allein über die Folgentitel gefunden` : ''),
+  )
   for (const o of offen.slice(0, 5)) log(`  offen: ${o.titel ?? o.url} — ${o.grund}`)
   recordSource('rohfolgen', gesamtZugeordnet, undefined, Object.keys(zugeordnet).length)
 }
