@@ -891,19 +891,37 @@ Drei Einzelheiten, die den Weg tragen:
   `mediaId`, die Dekodierung funktioniert also. Die Sprachen stehen
   ausschließlich hinter dem Playback-Aufruf.
 
-**Offen: ob der POST einen Eintrag unter „Weiterschauen" erzeugt.** Nach dem
-ersten Durchlauf stand dort „Jujutsu Kaisen, Noch 23 Min., S2:F1" — nur hatte
-Daniel dieselbe Folge kurz zuvor selbst abgespielt, um den Playback-Aufruf
-mitzuschneiden. Der Eintrag belegt also nichts; er hat genauso gut den einen
-Grund wie den anderen. Seine Rückfrage: „du machst voreilige schlüsse, ich hab
-doch selbst auch die episode aufgemacht."
+**Der POST erzeugt keinen Eintrag unter „Weiterschauen" — gemessen am
+01.09.2026.** Die Frage stand seit dem 26.08. offen: Nach dem ersten Durchlauf
+stand dort „Jujutsu Kaisen, Noch 23 Min., S2:F1" — nur hatte Daniel dieselbe
+Folge kurz zuvor selbst abgespielt, um den Playback-Aufruf mitzuschneiden. Der
+Eintrag belegte also nichts. Seine Rückfrage: „du machst voreilige schlüsse, ich
+hab doch selbst auch die episode aufgemacht."
 
-**Der Griff, der es entscheidet, ist eine Gegenprobe**, und es ist derselbe, der
-schon bei `getVideoMetadataByVideoId` den Unterschied gemacht hat: eine Serie
-prüfen, die **nie** geöffnet wurde. Steht sie danach in „Weiterschauen", liegt es
-am POST; steht sie nicht dort, an der Handarbeit. Solange das offen ist, meldet
-die Erweiterung bei Disney+ nichts — eine Meldung lässt sich zurücknehmen, ein
-Eintrag in Daniels Verlauf ist Handarbeit.
+**Entschieden hat es eine Gegenprobe an einer nie geöffneten Serie** — derselbe
+Griff, der schon bei `getVideoMetadataByVideoId` den Unterschied gemacht hat.
+`tools/disney-gegenprobe.js` fragt genau **eine** Folge ab und spricht dafür den
+Mitleser an, nicht Disney direkt; es läuft deshalb auch auf einem Titel, der
+nicht auf der Prüfliste steht.
+
+| | |
+|---|---|
+| Serie | „Cat's Eye: Ein Supertrio", Serienseite mit **ABSPIELEN** statt „WEITER" |
+| Abruf | eine Folge, Antwort `de, en, es-419, es-ES, fr-FR, it, ja, pt-BR` |
+| „Weiterschauen" davor | Undead Unluck · Inept Villainess · Dragon Ball Super · TENGOKU-DAIMAKYO · Jujutsu Kaisen |
+| „Weiterschauen" danach | dieselben — **Cat's Eye fehlt** |
+
+**Der Fortschrittsbalken ist dabei der Prüfstein für den Kandidaten.** Der erste
+Versuch lief auf „Go, Go, Loser Ranger!", und die Seite zeigte „S1:F7 … Noch 25
+Min." mit „WEITER" — angefangen, also als Gegenprobe wertlos. Auf der Startseite
+stand die Serie trotzdem nicht; die Reihe „Weiterschauen" zeigt nicht alles.
+**Wer prüft, ob eine Serie unangetastet ist, sieht auf der Serienseite nach, nicht
+auf der Startseite.**
+
+**Damit darf die Erweiterung bei Disney+ selbsttätig durchgehen.** Für Netflix
+folgt daraus **nichts**: Dort ist es keine Anfrage, sondern eine echte
+Wiedergabesitzung samt Lizenzabruf (siehe oben, 3,1 s je Folge) — die landet in
+„Weiter ansehen", und das ist eine andere Entscheidung.
 
 **Und die Lehre über dem Einzelfall:** Der Fund kam aus einer Frage, die ich beim
 ersten Durchgang nicht gestellt hatte. Ich hatte den Mitschnitt nach
