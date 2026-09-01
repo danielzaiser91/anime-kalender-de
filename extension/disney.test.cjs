@@ -129,7 +129,17 @@ pruefe('ein zweiter Abruf derselben Staffel verdoppelt nichts', folgen.size === 
     readFileSync(__dirname + '/offene-disney.js', 'utf8').replace('globalThis.AK_OFFENE_DISNEY = ', ''),
   )
   const schluessel = Object.keys(liste)
-  pruefe('die Liste hat Einträge', schluessel.length > 0, schluessel.length)
+  /*
+    **Leer ist der Normalfall am Ende, kein Fehler.**
+
+    „die Liste hat Einträge" wurde am 01.09.2026 rot, als Daniel den letzten
+    Disney-Auftrag gemeldet hatte — dieselbe Falle wie am 25.08. bei den
+    Prime-Zusicherungen und am selben Tag bei `liste.test.cjs` (CLAUDE.md,
+    „Eine Prüfung, die rot wird, weil die Arbeit erledigt ist, misst das
+    Falsche"). Zugesichert wird deshalb die **Form** der Einträge, nicht ihre
+    Zahl: Was drinsteht, muss stimmen; dass etwas drinsteht, ist Datenstand.
+  */
+  pruefe(`die Liste lädt (${schluessel.length} Einträge)`, liste && typeof liste === 'object')
   pruefe(
     'jeder Schlüssel wird aus seiner eigenen Adresse wiedergefunden',
     schluessel.every((k) => kennungExt(liste[k].url) === k),
@@ -139,6 +149,21 @@ pruefe('ein zweiter Abruf derselben Staffel verdoppelt nichts', folgen.size === 
     'jeder Eintrag hat mindestens eine offene Staffel',
     schluessel.every((k) => liste[k].staffeln.some((st) => st.offen)),
   )
+  /* Die Form selbst — an einer Kulisse, damit sie auch bei leerer Liste geprüft wird. */
+  {
+    const kulisse = {
+      '2VX5fKgeiVEl': {
+        url: 'https://www.disneyplus.com/de-de/series/go-go-loser-ranger/2VX5fKgeiVEl',
+        staffeln: [{ nr: 2, name: 'St. 2', folgen: 12, erste: 13, offen: true }],
+      },
+    }
+    const k = Object.keys(kulisse)
+    pruefe(
+      'die Formprüfung greift an einem erfundenen Eintrag',
+      k.every((x) => kennungExt(kulisse[x].url) === x) &&
+        k.every((x) => kulisse[x].staffeln.some((st) => st.offen)),
+    )
+  }
 }
 
 /**

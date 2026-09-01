@@ -1379,6 +1379,75 @@ const DURCHLAUF = {
   fertig: 0,
   gesamt: 0,
   knopf: null,
+  /**
+   * **Läuft gerade ein selbsttätiger Durchgang?**
+   *
+   * Er unterscheidet sich vom Klick-Durchlauf nur darin, wer ihn ausgelöst hat —
+   * und darin, dass er danach zur nächsten offenen Adresse weitergeht.
+   */
+  selbst: false,
+}
+
+/**
+ * **Der selbsttätige Durchgang — die Erweiterung wartet nicht mehr auf Klicks.**
+ *
+ * Daniel am 31.08.2026: „ziel soll vollautomatisierung sein, nicht meine manuelle
+ * handarbeit … sodass du und ich beide nichts mehr manuell anpacken müssen."
+ * Und am 01.09.2026, zur Freigabe für Netflix: „ja soll sie."
+ *
+ * `docs/autonomie-plan.md` (Phase 7) nennt den Grund, warum das die Lösung ist
+ * und kein neuer Abrufweg: Netflix, Prime und Disney+ geben ihre Sprachangaben
+ * nur einer **angemeldeten** Sitzung heraus. Ein Cloud-Lauf hat keine. Was es
+ * gibt, ist Daniels Browser, in dem die Erweiterung ohnehin läuft.
+ *
+ * **Was hier steht, ist der Selbststart** — der Durchlauf selbst ist derselbe wie
+ * beim Klick. Der Schritt danach (von allein zur nächsten offenen Adresse
+ * weitergehen) steht in `status.md` und kommt getrennt; er berührt die
+ * Navigation und gehört nicht in denselben Commit.
+ *
+ * **Angeschaltet wird er von Hand, nicht von selbst.** Ein Durchgang öffnet
+ * Folgen in Daniels Konto und landet bei Netflix in „Weiter ansehen" — das ist
+ * seine Entscheidung, jedes Mal.
+ */
+let selbstAn = false
+
+/** Aus dem Speicher, damit die Wahl das Neuladen überlebt. */
+void speicherLesen('netflixSelbst')
+  .then((x) => {
+    selbstAn = Boolean(x?.netflixSelbst)
+    if (selbstAn) void vielleichtSelbstStarten()
+  })
+  .catch(() => {
+    /* Ohne Speicher bleibt er aus — die vorsichtige Seite. */
+  })
+
+/**
+ * **Startet den Durchgang, wenn hier wirklich etwas zu holen ist.**
+ *
+ * Drei Riegel, und jeder hat seinen Grund:
+ *
+ * - **Nur mit Auftrag.** Steht die Seite nicht auf der Prüfliste, ist der
+ *   Besuch privat — dieselbe Regel wie beim Knopf (CLAUDE.md, 30.08.2026:
+ *   „i am just watching something").
+ * - **Nur auf der Titelseite.** Im Player läuft der Durchgang schon oder
+ *   Daniel sieht etwas an.
+ * - **Nur einmal je Seite.** Sonst startet der Sekundentakt ihn erneut,
+ *   sobald der vorige fertig ist.
+ */
+let selbstVersucht = null
+
+async function vielleichtSelbstStarten() {
+  if (!selbstAn || DURCHLAUF.laeuft) return
+  if (!/^\/(?:de-de\/)?title\//.test(location.pathname)) return
+  const reihe = gemeinteReihe()
+  if (!reihe || offeneTitel[String(reihe)] === undefined) return
+  if (selbstVersucht === reihe) return
+  if (!DURCHLAUF.folgen.length) return
+  selbstVersucht = reihe
+  console.log('[Anime-Kalender] Selbsttätiger Durchgang startet …')
+  DURCHLAUF.selbst = true
+  await durchlaufStarten(RAND)
+  DURCHLAUF.selbst = false
 }
 
 /** Der Speicherplatz je Reihe — eine Reihe, eine Liste gemeldeter Kennungen. */
@@ -2885,6 +2954,38 @@ async function dialogOeffnen() {
    * 22.08.2026: „warum sehe ich diese 11 noch in der liste ausgegraut?").
    * Wer nachsehen will, klappt sie auf.
    */
+  /*
+    **Der Schalter für den selbsttätigen Durchgang.**
+
+    Er steht hier und nicht am Titel: Er gilt für alle Aufträge, nicht für einen.
+    Angeschaltet öffnet die Erweiterung von allein jede Folge eines Auftrags, den
+    Daniel gerade besucht — bei Netflix ist das eine echte Wiedergabesitzung und
+    landet in „Weiter ansehen". Deshalb ist er **aus**, bis jemand ihn anschaltet
+    (Daniel hat den Weg am 01.09.2026 freigegeben: „ja soll sie").
+  */
+  {
+    const selbst = document.createElement('button')
+    selbst.className = 'ak-umschalter' + (selbstAn ? ' ak-selbst-an' : '')
+    selbst.textContent = selbstAn ? 'selbsttätig: an' : 'selbsttätig: aus'
+    selbst.title = selbstAn
+      ? 'Aus. Dann wird nur noch auf Klick geprüft.'
+      : 'An. Die Erweiterung geht jeden besuchten Auftrag von allein durch — ' +
+        'jede Folge wird kurz geöffnet und landet in „Weiter ansehen".'
+    selbst.addEventListener('click', async () => {
+      selbstAn = !selbstAn
+      selbst.textContent = selbstAn ? 'selbsttätig: an' : 'selbsttätig: aus'
+      selbst.classList.toggle('ak-selbst-an', selbstAn)
+      try {
+        await speicherSchreiben({ netflixSelbst: selbstAn })
+      } catch {
+        /* Ohne Speicher gilt die Wahl für diese Sitzung. */
+      }
+      /* Sofort greifen, nicht erst beim nächsten Takt. */
+      if (selbstAn) void vielleichtSelbstStarten()
+    })
+    kopf.appendChild(selbst)
+  }
+
   if (eintraege.length - nochOffen > 0) {
     const umschalter = document.createElement('button')
     umschalter.className = 'ak-umschalter'
@@ -3301,6 +3402,13 @@ setInterval(() => {
   } catch {
     /* Vor dem Laden des Speichers gibt es noch nichts zu zeichnen. */
   }
+  /*
+    Im selben Takt: Ist der selbsttaetige Durchgang an und steht hier ein
+    Auftrag, faengt er von allein an. Die Riegel stehen in der Funktion.
+  */
+  void vielleichtSelbstStarten().catch(() => {
+    /* Ein gescheiterter Start haelt den Takt nicht auf. */
+  })
 }, 1000)
 
 /**
