@@ -1269,12 +1269,6 @@ function main(): void {
   let fremdeAdressen = 0
   let umsortiert = 0
   let deutscheTitel = 0
-  /* Die gezielt geholten Titelseiten — siehe pipeline/fetch-anisearch-titel.ts. */
-  const anisearchTitel = readJson<Record<string, { titel?: string }>>(
-    'data/anisearch-titel.json',
-    {},
-  )
-  let deutscheTitelAnisearch = 0
   let deutscheTitelTmdb = 0
   let netflixOhneKennung = 0
   for (const title of titles.values()) {
@@ -1332,33 +1326,6 @@ function main(): void {
       if (kandidat && !gleichWie.includes(kern)) {
         title.titleDe = werkTitel(kandidat)
         deutscheTitelTmdb++
-      }
-    }
-
-    /*
-      **Und die dritte Quelle: der gezielte aniSearch-Abruf.**
-
-      `data/anisearch-titel.json` entstand am 31.08.2026 fuer den Katalog
-      hinter dem Toggle und wurde bis zum 01.09.2026 **nur dort** gelesen — der
-      Hauptbestand sah die Datei nie. Aufgefallen ist es an einer Zahl, die sich
-      nicht bewegte: 55 Titel geholt, 139 ohne deutschen Namen, davor wie
-      danach.
-
-      Der Block oben liest `extra.info.languages` aus dem grossen
-      aniSearch-Abruf; wo der schweigt, steht hier die gezielt geholte
-      Ueberschrift der Titelseite. `werkTitel` und der Gleichheitsvergleich
-      gelten wie bei TMDB: Ein deutscher Titel, der dem englischen gleicht,
-      fuellt nur ein Feld.
-    */
-    if (!title.titleDe && anisearchTitel[String(title.id)]?.titel) {
-      const kandidat = anisearchTitel[String(title.id)]!.titel!.trim()
-      const gleichWie = [title.titleEn, title.titleRomaji, title.titleNative]
-        .filter(Boolean)
-        .map((x) => x!.toLowerCase().replace(/[^a-z0-9]/g, ''))
-      const kern = kandidat.toLowerCase().replace(/[^a-z0-9]/g, '')
-      if (kandidat && !gleichWie.includes(kern)) {
-        title.titleDe = werkTitel(kandidat)
-        deutscheTitelAnisearch++
       }
     }
 
@@ -1423,8 +1390,6 @@ function main(): void {
   }
   if (netflixOhneKennung) log(`${netflixOhneKennung} Netflix-Verweise ohne Kennung entfernt — sie führen ins Leere`)
   if (deutscheTitelTmdb) log(`${deutscheTitelTmdb} deutsche Titel von TMDB ergänzt (aniSearch hatte keinen)`)
-  if (deutscheTitelAnisearch)
-    log(`${deutscheTitelAnisearch} deutsche Titel aus dem gezielten aniSearch-Abruf ergänzt`)
   if (umsortiert) log(`${umsortiert} aniSearch-Verweise umsortiert: Adresse gehört zu einem anderen Anbieter als dem genannten`)
   if (fremdeAdressen) log(`${fremdeAdressen} aniSearch-Verweise verworfen: Adresse führt zu gar keinem bekannten Anbieter`)
 
