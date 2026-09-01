@@ -2692,3 +2692,53 @@ derselben Datenbank wie der Worker. Wer beim Suchen eines Fehlers zwanzigmal
 das der Betrieb braucht — an diesem Tag rund vierzig Abfragen zur Fehlersuche.
 Für wiederholte Messungen gehört das Ergebnis in eine Datei, nicht in die
 zwanzigste Abfrage.
+
+### Der Auslöser war die Unterabfrage — die Ursache war der Takt
+
+Nachdem der Index lag, blieb die Frage, ob das Kontingent damit sicher ist. Die
+Antwort stand im selben Endpunkt, eine Abfrage weiter, und war größer als der
+Fehler von vorhin:
+
+| je Aufruf von `?zaehlen=1` | gelesene Zeilen |
+|---|---|
+| `SELECT … WHERE uebernommen = 0` | ~3.400 |
+| `SELECT DISTINCT url FROM pruefung` — **die ganze Tabelle** | 3.467 |
+| zusammen | **~6.900** |
+
+Die Erweiterung fragt im **Minutentakt**, aus **jedem offenen Tab**. Ein einziger
+Tab kommt damit auf **9,9 Millionen gelesene Zeilen am Tag**, bei einem
+Tageskontingent von fünf — die Unterabfrage hat den Ausfall nur vorgezogen.
+
+**Was den Takt billig macht, ist nicht ein Index, sondern dass niemand zweimal
+dasselbe liest.** Die Antwort ist für alle Fragenden dieselbe und ändert sich
+nur, wenn jemand schreibt. Sie liegt seit dem 01.09.2026 im Cache der Edge
+(`ausCache` in `worker/src/index.ts`) und wird bei jedem Schreibzugriff
+verworfen: 331.000 Zeilen am Tag statt 9,9 Millionen, **ohne** dass eine Meldung
+später sichtbar wird.
+
+Drei Einzelheiten, die den Weg tragen:
+
+- **Die Frische kommt aus dem Verwerfen, nicht aus dem Ablaufen.** Deshalb ist
+  die Haltedauer von einer halben Stunde keine Wartezeit — sie deckt nur den
+  Fall ab, dass ein Verwerfen ein anderes Rechenzentrum nicht erreicht. Wer sie
+  auf fünf Minuten kürzt, um „sicherer" zu sein, holt sich 2,0 Millionen Zeilen
+  je Tab zurück und ist bei drei Tabs wieder über dem Kontingent.
+- **Verworfen wird an der Weiterleitung, nicht je Schreibstelle.**
+  `handlePruefung` ändert die Tabelle an neun Stellen; die Invalidierung an jede
+  einzelne zu hängen hieße, sie bei der zehnten zu vergessen — und dann steht
+  eine halbe Stunde lang ein überholter Stand, ohne dass jemand den Zusammenhang
+  sieht. Genau dieser Stand war der Fehler, den Daniel am selben Tag viermal
+  melden musste.
+- **Eine Fehlerantwort wird nicht gehalten.** Sonst hielte ein einzelner
+  D1-Ausfall den Briefkasten eine halbe Stunde lang für leer — aus einer Störung
+  von Sekunden würde eine von Minuten.
+
+`tools/worker-cache-pruefen.cjs` (in `check:worker`) hält die gehaltenen
+Endpunkte gegen die Verwerfen-Liste, in beide Richtungen. Das ist die Stelle,
+die lautlos veraltet: Wer einen dritten Endpunkt umhüllt, merkt ohne sie nichts.
+
+**Die allgemeine Form, und sie gilt über D1 hinaus:** Bei einem Kontingent, das
+in *gelesenen Zeilen* misst, ist die erste Frage nicht „wie schnell ist die
+Abfrage", sondern **„wie oft läuft sie, und liest sie jedes Mal dasselbe?"** Ein
+Index beantwortet die erste Frage. Die zweite beantwortet nur, wer aufhört zu
+fragen.
