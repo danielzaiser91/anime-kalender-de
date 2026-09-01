@@ -54,6 +54,27 @@ const bruecke = readJson<{ anisearch: Record<string, number> }>('data/anime-ids.
 }).anisearch
 const bestand = readJson<Record<string, Titeleintrag>>('data/anisearch-titel.json', {})
 const ohne = readJson<OhneSynchro[]>('public/data/ohne-synchro.json', [])
+/*
+  **Der Hauptbestand gehört genauso dazu — er wurde übersehen.**
+
+  Der Lauf zog seine Liste ausschließlich aus `ohne-synchro.json`, also aus dem
+  Katalog hinter dem Toggle. Die rund 2.800 Titel mit belegter Synchro standen
+  nie darin — ausgerechnet die, die im Kalender sichtbar sind.
+
+  Gemessen am 01.09.2026: 139 von ihnen tragen keinen deutschen Namen, 55 davon
+  haben eine aniSearch-Kennung und wären in zwei Minuten geholt. Darunter
+  „Hunter x Hunter" und „Yu☆Gi☆Oh!" — Titel, die auf Deutsch längst anders
+  heißen.
+
+  Die Zahlen im Kopfkommentar („2.700 kuratierte Titel, für die geholt wurde")
+  stimmten für einen anderen Abruf; dieser hier hatte sie nie.
+*/
+const haupt = readJson<Array<{ id: number; titleDe?: string; format?: string; jpYear?: number }>>(
+  'public/data/titles.json',
+  [],
+)
+  .filter((t) => !t.titleDe)
+  .map((t) => ({ id: t.id, format: t.format, jpYear: t.jpYear }) as OhneSynchro)
 
 if (!Object.keys(bruecke).length) {
   warn('Keine aniSearch-Kennungen in data/anime-ids.json — erst `data:anisearch` laufen lassen.')
@@ -67,9 +88,24 @@ if (!Object.keys(bruecke).length) {
  * den Anime hierzulande zeigt. Bei einer Serie von 1979 gibt es meistens keinen,
  * und der Abruf kostet trotzdem zwei Sekunden.
  */
-const warteschlange = ohne
+/*
+  **Der Jahresfilter gilt dem Katalog, nicht dem Hauptbestand.**
+
+  „Erstmal alle ab 2015, danach den rest" galt fuer 15.000 Katalogtitel, von
+  denen die meisten nie in Deutschland liefen — dort spart die Regel Stunden.
+  Ein Titel mit belegter deutscher Synchro ist der andere Fall: Er laeuft hier,
+  er steht im Kalender, und sein Jahr sagt darueber nichts. „Hunter x Hunter"
+  (1999) und „Yu☆Gi☆Oh!" (1998) waeren sonst nie an der Reihe.
+*/
+const hauptIds = new Set(haupt.map((t) => t.id))
+const warteschlange = [...haupt, ...ohne]
   .filter((t) => bruecke[String(t.id)] && !bestand[String(t.id)])
-  .filter((t) => ALLE || (['TV', 'ONA'].includes(t.format ?? '') && (t.jpYear ?? 0) >= 2015))
+  .filter(
+    (t) =>
+      ALLE ||
+      hauptIds.has(t.id) ||
+      (['TV', 'ONA'].includes(t.format ?? '') && (t.jpYear ?? 0) >= 2015),
+  )
   .sort((a, b) => (b.jpYear ?? 0) - (a.jpYear ?? 0))
 
 log(`${warteschlange.length} Titel offen, davon kommen ${Math.min(GRENZE, warteschlange.length)} dran`)
