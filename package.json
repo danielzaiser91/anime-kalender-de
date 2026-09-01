@@ -40,7 +40,7 @@
     "check:logic": "tsx pipeline/check-logic.ts",
     "check:search": "tsx pipeline/check-search.ts",
     "check:workflows": "node tools/check-workflows.mjs",
-    "check:worker": "tsc --noEmit -p worker/tsconfig.json",
+    "check:worker": "tsc --noEmit -p worker/tsconfig.json && node tools/worker-cache-pruefen.cjs",
     "check:hooks": "eslint web/src",
     "check:extension": "node tools/extension-tests.mjs && node tools/amazon-startseite-pruefen.cjs && eslint --config extension/eslint.config.mjs extension/*.js",
     "check:zugangsart": "tsx pipeline/check-zugangsart.ts",

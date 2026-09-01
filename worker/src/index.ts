@@ -27,6 +27,25 @@ import {
 } from './templates.ts'
 import { Ereignisse, ereignisSenden } from './ereignisse.ts'
 
+/**
+ * **Was gemeldet wurde, ist sofort gemeldet — auch für die Übersicht.**
+ *
+ * Die Antworten von `?zaehlen=1` und `?stand=1` werden fünf Minuten gehalten
+ * (Begründung dort). Eine neue Meldung macht sie in derselben Sekunde falsch,
+ * also werden sie verworfen, statt abzulaufen.
+ *
+ * Die drei Adressen sind fest, weil die Erweiterung genau sie abfragt: die
+ * Übersicht mit und ohne Folgennummern und der Stand der Anzeige. Kommt eine
+ * vierte hinzu, gehört sie hierher — sonst hält sie fünf Minuten lang einen
+ * überholten Stand.
+ */
+async function briefkastenCacheLeeren(request: Request): Promise<void> {
+  const basis = new URL(request.url)
+  basis.search = ''
+  const wege = ['?zaehlen=1', '?zaehlen=1&nummern=1', '?stand=1']
+  await Promise.all(wege.map((w) => caches.default.delete(new Request(basis.toString() + w, { method: 'GET' }))))
+}
+
 export { Ereignisse }
 
 export interface Env extends MailEnv {
@@ -1584,6 +1603,53 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
   const antwort = (body: unknown, status = 200) =>
     new Response(JSON.stringify(body), { status, headers: offen })
 
+  /**
+   * **Gelesene Zeilen sind das Kontingent — also wird nicht zweimal dasselbe gelesen.**
+   *
+   * Die beiden Übersichts-Endpunkte (`?zaehlen=1`, `?stand=1`) lesen je Aufruf
+   * die **ganze** Tabelle `pruefung`: einmal die offenen Meldungen, einmal alle
+   * je gemeldeten Adressen. Am 01.09.2026 waren das rund 6.900 Zeilen — und die
+   * Erweiterung fragt im Minutentakt, aus jedem offenen Tab. Ein einziger Tab
+   * kommt so auf **9,9 Millionen gelesene Zeilen am Tag**, bei einem
+   * Tageskontingent von fünf.
+   *
+   * Genau das ist an dem Tag passiert (8,82 Mio., der Worker antwortete
+   * stundenlang mit HTTP 500). Die Unterabfrage ohne Index war der Auslöser,
+   * aber nicht die Ursache: Der Takt allein hätte es auch geschafft.
+   *
+   * Die Antwort ist für **alle** Fragenden dieselbe und ändert sich nur, wenn
+   * jemand schreibt. Sie wird deshalb im Cache der Edge gehalten und bei **jedem**
+   * Schreibzugriff verworfen (`briefkastenCacheLeeren`, angehängt an die
+   * Weiterleitung) — ein frisch gemeldeter Titel steht also nicht weiter als
+   * offen. Das ist der Fall, den Daniel am 01.09.2026 viermal melden musste; er
+   * darf durch eine Sparmaßnahme nicht zurückkommen.
+   *
+   * **Deshalb ist die halbe Stunde keine Wartezeit.** Die Frische kommt aus dem
+   * Verwerfen, nicht aus dem Ablaufen; die Dauer deckt nur den Fall ab, dass ein
+   * Verwerfen ein anderes Rechenzentrum nicht erreicht. Bei fünf Minuten
+   * blieben 2,0 Millionen gelesene Zeilen am Tag je offenem Tab — bei drei Tabs
+   * wieder über dem Kontingent. Mit dreißig sind es 331.000.
+   *
+   * `caches.default` gilt je Rechenzentrum. Meldung und Abfrage kommen aus
+   * demselben Browser, also aus demselben — für einen fremden Leser ist die
+   * Antwort im schlimmsten Fall fünf Minuten alt, und das ist bei einer
+   * Prüfliste folgenlos.
+   */
+  const ausCache = async (bauen: () => Promise<Response>): Promise<Response> => {
+    const schluessel = new Request(new URL(request.url).toString(), { method: 'GET' })
+    const cache = caches.default
+    const getroffen = await cache.match(schluessel)
+    if (getroffen) return getroffen
+    const frisch = await bauen()
+    /* Nur erfolgreiche Antworten werden gehalten — ein Fehler soll sich nicht festsetzen. */
+    if (frisch.status === 200) {
+      const zumHalten = new Response(frisch.clone().body, frisch)
+      zumHalten.headers.set('Cache-Control', 'public, max-age=1800')
+      ctx?.waitUntil(cache.put(schluessel, zumHalten))
+    }
+    return frisch
+  }
+
   if (request.method === 'GET') {
     /**
      * **Nur zählen — das geht ohne Token.**
@@ -1658,7 +1724,7 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
      * Gezählt wird in **Staffeln**, wie im Prüfstand; `titel` nennt daneben die
      * Zahl der Adressen, damit eine Liste ihre eigene Länge belegen kann.
      */
-    if (new URL(request.url).searchParams.get('stand') === '1') {
+    if (new URL(request.url).searchParams.get('stand') === '1') return ausCache(async () => {
       const { results } = await env.DB.prepare(
         `SELECT plattform, url FROM pruefung WHERE uebernommen = 0`,
       ).all<{ plattform: string; url: string }>()
@@ -1798,7 +1864,7 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
         }
       })
       return antwort({ anbieter, erzeugtAm: new Date().toISOString() })
-    }
+    })
 
     /*
       **Die Rohfolgen für den Bau.**
@@ -1872,7 +1938,7 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
       })
     }
 
-    if (new URL(request.url).searchParams.get('zaehlen') === '1') {
+    if (new URL(request.url).searchParams.get('zaehlen') === '1') return ausCache(async () => {
       /*
         **Die Adressen gehören dazu, nicht nur ihre Anzahl.**
 
@@ -1938,7 +2004,7 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
       return antwort(
         mitNummern ? { imBriefkasten: je, adressen, gemeldet, eintraege } : { imBriefkasten: je, adressen, gemeldet },
       )
-    }
+    })
 
     // Die Pipeline holt sich, was noch nicht übernommen wurde.
     const sucheP = new URL(request.url).searchParams
@@ -2437,8 +2503,20 @@ export default {
         const stub = env.EREIGNISSE.get(env.EREIGNISSE.idFromName('status'))
         return stub.fetch(request)
       }
-      case '/pruefung':
-        return handlePruefung(request, env, ctx)
+      case '/pruefung': {
+        const ergebnis = await handlePruefung(request, env, ctx)
+        /*
+          **Jeder Schreibzugriff verwirft die Übersicht — an einer Stelle, nicht an neun.**
+
+          `handlePruefung` ändert `pruefung` an neun Stellen: melden, verwerfen,
+          übernehmen, zurückholen. Die Invalidierung an jede einzelne zu hängen
+          hieße, sie bei der zehnten zu vergessen — und dann steht eine halbe
+          Stunde lang ein überholter Stand, ohne dass jemand den Zusammenhang
+          sieht. Hier kommt keine vorbei.
+        */
+        if (request.method !== 'GET') ctx.waitUntil(briefkastenCacheLeeren(request))
+        return ergebnis
+      }
       case '/lauf':
         return handleLauf(request, env, ctx)
       case '/health': {
