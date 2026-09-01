@@ -91,13 +91,12 @@
   },
   "rohfolgen": {
     "lastOk": "2026-09-01T16:44:07.502Z",
-    "lastRun": "2026-09-01T18:20:20.516Z",
-    "lastCount": 0,
-    "lastError": "HTTP 500"
+    "lastRun": "2026-09-01T16:50:06.721Z",
+    "lastCount": 0
   },
   "anisearch-folgen": {
-    "lastOk": "2026-08-31T12:46:45.911Z",
-    "lastRun": "2026-08-31T12:46:45.911Z",
-    "lastCount": 1705
+    "lastOk": "2026-09-01T18:32:37.408Z",
+    "lastRun": "2026-09-01T18:32:37.408Z",
+    "lastCount": 10860
   }
 }
