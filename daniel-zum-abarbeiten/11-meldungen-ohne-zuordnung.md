@@ -41,7 +41,6 @@ nicht. Drei Fälle, drei Handgriffe:
 | primevideo | https://www.amazon.de/dp/B07LHFLDBS | Chaika | kein_dub | [Chaika, die Sargprinzessin](https://anilist.co/anime/20462)<br>[Chaika, die Sargprinzessin: Avenging Battle](https://anilist.co/anime/20719)<br>[Chaika, die Sargprinzessin OVA](https://anilist.co/anime/20724) | Vorschlag bestätigen, dann Adresse eintragen |
 | primevideo | https://www.amazon.de/dp/B0FVLKDZQ5 | Die rothaarige Schneeprinzessin - Die komplette Serie | kein_dub | — | Titel von Hand suchen |
 | primevideo | https://www.amazon.de/dp/B0D2M355W6 | Captain Tsubasa 2018 - Junior High School | dub | — | Titel von Hand suchen |
-| primevideo | https://www.amazon.de/dp/B0GPD4GNLL | My First Girlfriend Is a Gal — Kauftitel (FSK 16, mit OVA) | dub | — | Titel von Hand suchen |
 | primevideo | https://www.amazon.de/dp/B0C8X3SVR3 | The Legend of the Galactic Heroes: Die Neue These Seiran | dub | — | Titel von Hand suchen |
 | primevideo | https://www.amazon.de/dp/B0CH3DCVW6 | Pokémon - Die TV-Serie: Sonne & Mond - Ultra-Abenteuer | dub | — | Titel von Hand suchen |
 | primevideo | https://www.amazon.de/dp/B0CJP92569 | Pokémon - Die TV-Serie: Sonne & Mond - Ultra-Abenteuer | dub | — | Titel von Hand suchen |
@@ -61,3 +60,4 @@ nicht. Drei Fälle, drei Handgriffe:
 | primevideo | https://www.amazon.de/dp/B0H2PWXL7B | Card Captor Sakura | kein_dub | — | Titel von Hand suchen |
 | primevideo | https://www.amazon.de/dp/B0GWVR4Q9Z | Card Captor Sakura | kein_dub | — | Titel von Hand suchen |
 | primevideo | https://www.amazon.de/dp/B0GTMQYMQ5 | Das Dschungelbuch | dub | [Das Dschungelbuch: Die Serie](https://anilist.co/anime/2569) | Vorschlag bestätigen, dann Adresse eintragen |
+| primevideo | https://www.amazon.de/dp/B0GPD4GNLL | My First Girlfriend Is a Gal — Kauftitel (FSK 16, mit OVA) | dub | — | Titel von Hand suchen |

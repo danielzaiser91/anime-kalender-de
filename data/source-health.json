@@ -90,10 +90,9 @@
     "lastCount": 808
   },
   "rohfolgen": {
-    "lastOk": "2026-08-31T16:20:20.753Z",
-    "lastRun": "2026-09-01T15:01:05.516Z",
-    "lastCount": 0,
-    "lastError": "kein Token"
+    "lastOk": "2026-09-01T16:01:33.764Z",
+    "lastRun": "2026-09-01T16:01:33.764Z",
+    "lastCount": 13
   },
   "anisearch-folgen": {
     "lastOk": "2026-08-31T12:46:45.911Z",
