@@ -60,4 +60,3 @@ nicht. Drei Fälle, drei Handgriffe:
 | primevideo | https://www.amazon.de/dp/B0H2PWXL7B | Card Captor Sakura | kein_dub | — | Titel von Hand suchen |
 | primevideo | https://www.amazon.de/dp/B0GWVR4Q9Z | Card Captor Sakura | kein_dub | — | Titel von Hand suchen |
 | primevideo | https://www.amazon.de/dp/B0GTMQYMQ5 | Das Dschungelbuch | dub | [Das Dschungelbuch: Die Serie](https://anilist.co/anime/2569) | Vorschlag bestätigen, dann Adresse eintragen |
-| primevideo | https://www.amazon.de/dp/B0GPD4GNLL | My First Girlfriend Is a Gal — Kauftitel (FSK 16, mit OVA) | dub | — | Titel von Hand suchen |

@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-09-01T16:01:42.084Z",
+ "erzeugtAm": "2026-09-01T16:09:51.310Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -38,18 +38,13 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 35,
+   "gemeldet": 36,
    "gesamt": 36,
-   "offen": 1,
+   "offen": 0,
    "ohneSeite": 0,
-   "ziel": "https://www.disneyplus.com/de-de/series/go-go-loser-ranger/2VX5fKgeiVEl",
-   "ziele": [
-    {
-     "url": "https://www.disneyplus.com/de-de/series/go-go-loser-ranger/2VX5fKgeiVEl",
-     "titel": "Go, Go, Loser Ranger!"
-    }
-   ],
-   "naechster": "Go, Go, Loser Ranger!"
+   "ziel": null,
+   "ziele": [],
+   "naechster": null
   }
  ]
 }

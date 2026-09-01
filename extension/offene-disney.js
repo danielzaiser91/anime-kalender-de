@@ -1,1 +1,1 @@
-globalThis.AK_OFFENE_DISNEY = {"2VX5fKgeiVEl":{"titel":"Go, Go, Loser Ranger!","url":"https://www.disneyplus.com/de-de/series/go-go-loser-ranger/2VX5fKgeiVEl","staffeln":[{"nr":1,"name":"Go, Go, Loser Ranger!","folgen":12,"film":false,"offen":false},{"nr":2,"name":"Go! Go! Loser Ranger!","folgen":12,"film":false,"offen":true}]}}
+globalThis.AK_OFFENE_DISNEY = {}
