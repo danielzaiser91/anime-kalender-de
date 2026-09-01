@@ -20584,18 +20584,6 @@
   checkedAt: '2026-08-26'
   note: "Disney+ meldet: nicht in deinem Gebiet verfügbar"
 
-- anilistId: 158417
-  title: "Go, Go, Loser Ranger!"
-  platform: disneyplus
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 24
-      dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
-  checkedAt: '2026-08-26'
-  note: "Folgen 1–24 mit deutschem Ton — Tonspuren: de, en, es-419, fr-FR, ja, pt-BR"
-
 - anilistId: 161476
   title: "Ishura"
   platform: disneyplus
@@ -20858,18 +20846,6 @@
   available: false
   checkedAt: '2026-08-26'
   note: "Disney+ meldet: nicht in deinem Gebiet verfügbar"
-
-- anilistId: 158417
-  title: "Go, Go, Loser Ranger!"
-  platform: disneyplus
-  dub: true
-  dubRanges:
-    - from: 1
-      to: 24
-      dub: true
-      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
-  checkedAt: '2026-08-26'
-  note: "Folgen 1–24 mit deutschem Ton — Tonspuren: de, en, es-419, fr-FR, ja, pt-BR"
 
 - anilistId: 161476
   title: "Ishura"

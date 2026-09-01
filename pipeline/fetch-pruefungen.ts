@@ -141,6 +141,37 @@ for (const t of liste) {
       if (!bisher.includes(v.id)) nachUrl.set(k, [...bisher, v.id])
     }
   }
+
+  /*
+    **Und dieselbe Brücke für die Wiedervorlagen mit eigener Adresse.**
+
+    `tools/extension-offene-amazon.mjs` führt unter `ERNEUT` Adressen, die
+    unser Datensatz **nicht** kennt — eine zweite Prime-Ausgabe etwa, die es
+    dort gibt und bei uns nicht. Die Erweiterung meldet unter genau dieser
+    Adresse, und der Lauf fand keinen Anker: „B0GPD4GNLL — im Datensatz nicht
+    gefunden", die Meldung vom 01.09.2026 blieb liegen.
+
+    Der Eintrag nennt seine `anilistId` selbst; sie steht dort, weil sie sich
+    aus der Adresse nicht ableiten lässt.
+  */
+  const listenDatei = resolve(ROOT, 'extension/offene-amazon.js')
+  if (existsSync(listenDatei)) {
+    try {
+      const roh = readFileSync(listenDatei, 'utf8')
+      const daten = JSON.parse(roh.slice(roh.indexOf('{'), roh.lastIndexOf('}') + 1)) as Record<
+        string,
+        { url?: string; anilistId?: number }
+      >
+      for (const eintrag of Object.values(daten)) {
+        if (!eintrag?.url || !eintrag.anilistId) continue
+        const k = schluesselAdresse(eintrag.url)
+        const bisher = nachUrl.get(k) ?? []
+        if (!bisher.includes(eintrag.anilistId)) nachUrl.set(k, [...bisher, eintrag.anilistId])
+      }
+    } catch {
+      /* Ohne lesbare Liste bleibt es bei den Ankern aus dem Datensatz. */
+    }
+  }
 }
 
 /**

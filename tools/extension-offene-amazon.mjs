@@ -171,6 +171,19 @@ const ERNEUT = {
   B0GPD4GNLL: {
     titel: 'My First Girlfriend Is a Gal — Kauftitel (FSK 16, mit OVA)',
     grund: 'zweite Prime-Ausgabe; gemeldet ist bisher nur der Crunchyroll-Kanal',
+    /*
+      **Ohne Kennung findet die Meldung keinen Anker.**
+
+      Unser Bestand führt für diesen Titel die Adresse `B0GV5SHH5P` (den
+      Kanal-Weg); der Kauftitel steht nirgends. `fetch-pruefungen.ts` ordnet
+      über die Adresse zu und meldete deshalb „im Datensatz nicht gefunden" —
+      die Meldung vom 01.09.2026 blieb liegen, obwohl sie angekommen war.
+
+      Die Kennung steht hier, damit der Lauf sie als Anker nehmen kann. Sobald
+      die Erweiterung eine zweite Ausgabe selbst meldet (status.md), entfällt
+      dieser Eintrag.
+    */
+    anilistId: 97863,
   },
 }
 
@@ -616,6 +629,7 @@ for (const [asin, wert] of Object.entries(ERNEUT)) {
     titel: wert.titel,
     url: `https://www.amazon.de/dp/${asin}`,
     erneut: wert.grund,
+    ...(wert.anilistId ? { anilistId: wert.anilistId } : {}),
     eintraege: [{ id: null, name: wert.titel, folgen: null, offen: true }],
   }
 }
