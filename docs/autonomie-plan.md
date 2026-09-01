@@ -346,8 +346,18 @@ Kanäle.** Gemessen an den Notizen der Belege:
 Bei einem Kanal-Titel ist Amazons Sprachangabe ohnehin kein Beleg (siehe
 CLAUDE.md, 24.08.2026) — der Beleg gehört dem Kanalbetreiber. Für die 160
 Crunchyroll-Fälle liest ihn der Katalog-Lauf bereits automatisch; sie brauchen
-Prime gar nicht. **aniverse ist mit 280 Belegen der größte einzelne Posten und
-nie gemessen worden** — ob es eine lesbare Schnittstelle hat, ist offen.
+Prime gar nicht.
+
+**aniverse hat keine eigene Schnittstelle — gemessen am 01.09.2026.** Der Posten
+sah mit 280 Belegen nach dem größten Hebel aus. Er ist keiner:
+
+    http://aniverse.de/   -> 200  https://www.amazon.de/-/en/gp/video/storefront/?ie=UTF8&benefitId=aniversede
+    https://aniverse.de/  -> ERR_SSL_TLSV1_UNRECOGNIZED_NAME
+
+Die Domain leitet auf Amazons Kanal-Storefront um; über HTTPS antwortet sie gar
+nicht. **aniverse ist ein Prime-Kanal, keine Plattform** — die 280 Belege sind
+Prime-Belege und liegen hinter derselben robots.txt-Sperre. Es gibt hier nichts
+zu messen und nichts zu erschließen.
 
 #### Was übrig bliebe
 
@@ -361,13 +371,16 @@ alles kann es, und der Rest ist kein technisches Problem.**
 
 #### Die Reihenfolge, nach Nutzen je Aufwand
 
-1. **aniverse messen** — 280 Belege, nie geprüft, möglicherweise eine offene
-   Schnittstelle wie bei Disney+. Der billigste Griff mit der größten Wirkung.
+1. ~~**aniverse messen**~~ — **erledigt am 01.09.2026, ohne Ertrag.** Die Domain
+   leitet auf Amazons Kanal-Storefront um; es gibt keine eigene Schnittstelle.
 2. **Disney+ selbsttätig** — der Weg ist gemessen und braucht keinen Player.
-   74 Belege heute, aber jeder künftige Titel dort ebenfalls.
-3. **Netflix selbsttätig** — der Player-Weg funktioniert, die offene Frage ist,
-   ob der Abruf einen Eintrag unter „Weiterschauen" erzeugt. Das ist mit einer
-   Gegenprobe an einer nie geöffneten Serie in einer Minute entschieden.
+   **Die offene Frage ist am 01.09.2026 beantwortet:** Eine Gegenprobe an „Cat's
+   Eye", einer nie geöffneten Serie, hat gezeigt, dass der Playback-Abruf
+   **keinen** Eintrag unter „Weiterschauen" erzeugt (`tools/disney-gegenprobe.js`).
+3. **Netflix selbsttätig** — **von Daniel freigegeben am 01.09.2026**: „ja soll
+   sie." Anders als bei Disney+ ist dort jede Folge eine echte Wiedergabesitzung
+   mit Lizenzabruf (3,1 s) und landet in „Weiter ansehen"; das war die
+   Entscheidung, die ihm gehörte, nicht mir.
 4. **Wiedervorlage nach Alter** — schließt die stille Lücke bei allen Anbietern,
    ist aber die Rückfallebene, nicht das Ziel: Sie erzeugt Arbeit, statt sie
    abzunehmen.
