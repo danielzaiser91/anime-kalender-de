@@ -176,8 +176,12 @@ function watchUrl(ctx: RowContext, ev: ReleaseEvent): string | undefined {
 
 function eventRow(ctx: RowContext, ev: ReleaseEvent, highlight: boolean): string {
   const type = RELEASE_TYPES[ev.releaseType]
-  const time = ev.time ? `${ev.time} Uhr` : ev.releaseType === 'disc' ? 'im Handel' : 'Zeit offen'
-  const episode = ev.episode ? ` · Folge ${ev.episode}${ev.episodeCount ? `/${ev.episodeCount}` : ''}` : ''
+  /*
+    Ohne Uhrzeit steht hier nichts — die Teile werden deshalb gesammelt und
+    erst am Ende verbunden, sonst bliebe ein führender Trennpunkt stehen.
+  */
+  const time = ev.time ? `${ev.time} Uhr` : ev.releaseType === 'disc' ? 'im Handel' : ''
+  const episode = ev.episode ? `Folge ${ev.episode}${ev.episodeCount ? `/${ev.episodeCount}` : ''}` : ''
   const platform = PLATFORMS[ev.platform]
   const watch = watchUrl(ctx, ev)
 
@@ -195,9 +199,9 @@ function eventRow(ctx: RowContext, ev: ReleaseEvent, highlight: boolean): string
       ${highlight ? '<span style="color:#fbbf24;">★</span> ' : ''}<a href="${escapeHtml(
         calendarUrl(ctx, ev),
       )}" style="color:#fff;text-decoration:none;"><strong>${escapeHtml(ev.name)}</strong></a><br>
-      <span style="color:#9aa5bd;font-size:13px;">${escapeHtml(time)}${escapeHtml(episode)} · ${platformPart}${
-        ev.estimated ? ' · Termin abgeleitet' : ''
-      }</span>
+      <span style="color:#9aa5bd;font-size:13px;">${[escapeHtml(time), escapeHtml(episode), platformPart, ev.estimated ? 'geschätzt' : '']
+        .filter(Boolean)
+        .join(' · ')}</span>
     </td>
   </tr>`
 }
@@ -238,8 +242,8 @@ function textSections(ctx: RowContext, events: ReleaseEvent[]): string {
           .map((ev) => {
             const watch = watchUrl(ctx, ev)
             return (
-              `  - ${ev.name}${ev.episode ? ` (Folge ${ev.episode})` : ''} — ${
-                ev.time ? `${ev.time} Uhr` : ev.releaseType === 'disc' ? 'im Handel' : 'Zeit offen'
+              `  - ${ev.name}${ev.episode ? ` (Folge ${ev.episode})` : ''}${
+                ev.time ? ` — ${ev.time} Uhr` : ev.releaseType === 'disc' ? ' — im Handel' : ''
               }, ${PLATFORMS[ev.platform].name}\n` +
               `    Kalender: ${calendarUrl(ctx, ev)}` +
               (watch ? `\n    ${ev.releaseType === 'disc' ? 'Kaufen' : 'Ansehen'}: ${watch}` : '')

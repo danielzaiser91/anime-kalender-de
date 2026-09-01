@@ -66,17 +66,20 @@ const TEXTE = {
   'release.disc.hint': 'Kaufbarer Datenträger',
 
   'legend.colour': 'Farbe = Release-Art:',
-  'legend.estimated': 'geschätzter Termin',
+  'legend.estimated':
+    'Geschätzter Termin — aus dem bisherigen Wochenrhythmus fortgeschrieben. Wir ziehen nach, sobald der Anbieter den Tag nennt.',
   /*
     Ein Termin, den der Anbieter hat verstreichen lassen. Der Text nennt drei
     Dinge, weil ohne sie eine falsche Auskunft stehen bliebe: dass es nicht
     passiert ist, wie viele Folgen es wirklich gibt, und wann wir nachsehen.
   */
-  'card.missed': 'Anbieter hat diesen Termin nicht eingehalten',
+  'card.missed': 'Von uns nachgeprüft: der Anbieter hat diesen Termin nicht eingehalten',
+  'card.missedBadge': 'nicht erschienen',
   'card.missedCount': 'beim Anbieter stehen {n} Folgen',
   'card.missedNext': 'neu erwartet: {d}',
   'card.missedCheck': 'wir sehen stündlich nach',
   'card.missedLate': 'erschien {d} — {h} Stunden später als angekündigt',
+  'card.missedLateBadge': 'kam {d}',
   'legend.count': '{count} Termine im Filter · Tasten ← → T',
 
   'filter.search': 'Titel, Studio, Genre, Keyword …',
@@ -99,7 +102,7 @@ const TEXTE = {
   'filter.keywords': 'Keywords ({count} verfügbar)',
   'filter.keywordSearch': 'z. B. Weibliche Protagonistin, Isekai, Zeitschleife …',
   'filter.confirmedOnly': 'nur bestätigte Termine',
-  'filter.confirmedOnlyHint': 'Blendet Termine aus, die nur aus dem Simulcast-Start abgeleitet sind',
+  'filter.confirmedOnlyHint': 'Blendet geschätzte Termine aus — es bleiben nur die vom Anbieter bestätigten',
   'filter.favourites': 'nur Favoriten',
   'filter.fskFrom': 'ab {n}',
   'filter.sources': '≥{n} Quellen',
@@ -123,7 +126,6 @@ const TEXTE = {
   'status.erschienen': 'Erschienen',
   'status.unbekannt': 'Termin unbekannt',
 
-  'card.timeOpen': 'Zeit offen',
   'card.inStores': 'im Handel',
   'card.episode': 'Ep {n}',
   'pwa.title': 'Auf den Startbildschirm legen',
@@ -406,7 +408,10 @@ const TEXTE = {
   'filter.available': 'stream verfügbar',
   'filter.availableHint':
     'Filtert Ergebnisse auf bestätigte Streaming-Verfügbarkeit.',
-  'detail.estimatedDate': 'Termin abgeleitet',
+  'detail.estimatedDate': 'geschätzter Termin',
+  'detail.estimatedWhy':
+    'Aus dem bisherigen Wochenrhythmus dieser Reihe fortgeschrieben. Wir ziehen nach, sobald der Anbieter den Tag nennt.',
+  'detail.timeNoteSource': 'Quelle',
   'detail.assumedEpisodes': 'Folgenzahl nicht belegt — 12 angenommen',
   'detail.assumedEpisodesAnisearch': 'Folgenzahl laut aniSearch, dort als vorläufige Schätzung geführt.',
   'detail.close': 'Schließen',

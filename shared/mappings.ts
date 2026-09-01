@@ -884,9 +884,15 @@ export function stripAffiliate(url: string): string {
 /**
  * Warum bei dieser Plattform keine Uhrzeit steht.
  *
- * „Zeit offen" ist ehrlich, aber unbefriedigend — der Leser weiß nicht, ob wir
- * schlampig gepflegt haben oder ob es die Angabe schlicht nicht gibt. Meist
- * ist Letzteres der Fall, und das lässt sich sagen.
+ * **Wo keine Uhrzeit steht, steht seit dem 01.09.2026 gar nichts** — vorher
+ * stand dort „Zeit offen", und das warf beim Leser die Frage auf, was denn
+ * offen sei. Daniel: „führt zu unnötiger verwirrung … und dann zweifeln
+ * [Nutzer] das die daten überhaupt stimmen, und vertrauen zu uns verlieren."
+ *
+ * Die Erklärung gehört trotzdem irgendwohin — nur nicht in die Zeile, in der
+ * eine Uhrzeit stünde. Sie steht hier, je Anbieter, und erscheint im
+ * Detail-Panel: Meist gibt es die Angabe schlicht nicht, und das lässt sich
+ * sagen, ohne nach einem Versäumnis auszusehen.
  *
  * Nur Netflix macht dazu eine belastbare Aussage, und die steht in ihrer
  * eigenen Hilfe. Für Disney+ und Prime Video gibt es keine — hier steht

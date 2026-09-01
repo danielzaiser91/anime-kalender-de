@@ -57,6 +57,20 @@ export function EventCard({
     )
   }
 
+  /*
+    **Ein überholter Termin wird durchgestrichen, nicht entfernt.**
+
+    Daniel am 01.09.2026: „wir haben es erst auf dem kalender gezeigt, dann
+    ändert sich das, wir sollten es dort dann rot markieren oder durchstreichen
+    oder so, damit weiterhin sichtbar ist, das es dort stand, aber die echte neue
+    info es nachweislich überschreibt."
+
+    Wer den Tag im Kopf hatte, sucht ihn — und findet ihn, mitsamt der Auskunft,
+    was daraus geworden ist. Nachgeholt (`erschienenAm`) zählt nicht mehr dazu:
+    Dann ist die Folge da, und der Termin war nur zu früh.
+  */
+  const ueberholt = Boolean(event.verpasst && !event.verpasst.erschienenAm)
+
   return (
     <div
       role="button"
@@ -88,13 +102,24 @@ export function EventCard({
             am Ende außerhalb der Kachel (10.08.2026). Bricht die Reihe um,
             schiebt `ml-auto` die Icons in der zweiten Zeile nach rechts. */}
         <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+          {/*
+            Ohne Uhrzeit steht hier nichts. „Zeit offen" führte zu der Frage,
+            was denn offen sei (Daniel, 01.09.2026); warum ein Anbieter keine
+            nennt, steht im Detail-Panel.
+          */}
           {event.time ? (
-            <span className="tabular-nums text-slate-700 dark:text-slate-200">{event.time}</span>
+            <span
+              className={
+                ueberholt
+                  ? 'tabular-nums text-rose-600/70 line-through dark:text-rose-400/70'
+                  : 'tabular-nums text-slate-700 dark:text-slate-200'
+              }
+            >
+              {event.time}
+            </span>
           ) : event.releaseType === 'disc' ? (
             <span>{t('card.inStores')}</span>
-          ) : (
-            <span className="italic">{t('card.timeOpen')}</span>
-          )}
+          ) : null}
           {event.episode && (
             <span className="rounded bg-slate-200/70 px-1 tabular-nums dark:bg-white/10">
               {t('card.episode', { n: event.episode })}
@@ -115,6 +140,13 @@ export function EventCard({
               deshalb drei Dinge — dass er nicht eingehalten wurde, wie viele
               Folgen der Anbieter wirklich zeigt, und wann wir nachsehen. Ist die
               Folge nachgeholt, steht dort ihr echtes Datum samt Verzug.
+
+              **Und er sagt, dass wir nachgesehen haben.** Daniel am 01.09.2026:
+              „wenn wir selbst herausfinden das ein datum nicht stimmt … ebenfalls
+              angeben, weil das etwas positives ist." Ein Kalender, der eigene
+              Termine überprüft und das Ergebnis zeigt, ist mehr wert als einer,
+              der stillschweigend richtig liegt — der Leser sieht die Arbeit nur,
+              wenn sie einmal etwas findet.
             */
             <Tooltip
               text={[
@@ -132,8 +164,8 @@ export function EventCard({
             >
               <span className="rounded bg-rose-500/15 px-1 font-medium text-rose-600 dark:text-rose-400">
                 {event.verpasst.erschienenAm && event.verpasst.verzugStunden != null
-                  ? `↻ ${t('card.missedLate', { d: event.verpasst.erschienenAm.slice(0, 10), h: event.verpasst.verzugStunden })}`
-                  : `⚠ ${t('card.missed')}`}
+                  ? `↻ ${t('card.missedLateBadge', { d: event.verpasst.erschienenAm.slice(0, 10) })}`
+                  : `⚠ ${t('card.missedBadge')}`}
               </span>
             </Tooltip>
           )}
@@ -149,7 +181,14 @@ export function EventCard({
             )}
           </span>
         </div>
-        <span className="line-clamp-2 text-[13px] font-medium leading-snug text-slate-900 dark:text-slate-100">
+        <span
+          className={[
+            'line-clamp-2 text-[13px] font-medium leading-snug',
+            ueberholt
+              ? 'text-slate-400 line-through decoration-rose-500/60 dark:text-slate-500'
+              : 'text-slate-900 dark:text-slate-100',
+          ].join(' ')}
+        >
           {event.name}
         </span>
         <span className="flex flex-wrap items-center gap-1">

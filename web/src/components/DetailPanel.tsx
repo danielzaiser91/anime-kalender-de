@@ -4,6 +4,7 @@ import type { Meldung, Quelle, Release, ReleaseEvent, Title, WatchLink } from '@
 import { dubGrenze, dubLuecken } from '@shared/dub-grenze.ts'
 import type { Zugangsart } from '@shared/zugangsart.ts'
 import { PLATFORMS } from '@shared/types.ts'
+import { PLATFORM_TIME_NOTE } from '@shared/mappings.ts'
 import { expandEvents, lastEpisodeDate, releaseStatus, titleStatus, istErschienen } from '@shared/logic.ts'
 import { buildIcs, googleCalendarUrl } from '@shared/ics.ts'
 import { formatDate, todayIso, weekdayName } from '@shared/time.ts'
@@ -351,6 +352,31 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
       </div>
 
       {/*
+        **Woher die Schätzung kommt — im Detail, nicht in der Kachel.**
+
+        „Termin abgeleitet" stand bis zum 01.09.2026 als Etikett da und warf die
+        Frage auf, wovon. Daniel: „wir wollen ehrlich sein, aber gleichzeitig
+        vertrauenswürdig und best mögliche quelle. es ist eine schätzung
+        basierend auf bisherigen daten und erfahrungen … aber sicherheit gibt es
+        erst nach bestätigung der titel bei den anbietern."
+
+        Der Satz nennt die **Grundlage**, nicht einen Vorbehalt. Daniels
+        Verschärfung im selben Zug: „unser gewähltes datum, wovon wir ausgehen
+        das es stimmt, sollte nicht von uns selbst angezweifelt werden." Ein
+        Kalender, der seinen eigenen Termin relativiert, nimmt dem Leser die
+        Entscheidung ab, für die er hergekommen ist — deshalb steht dort, woher
+        der Tag kommt und dass wir nachziehen, nicht, dass man ihm misstrauen
+        soll.
+
+        Die Quellen selbst stehen ohnehin weiter unten im Panel, verlinkt.
+      */}
+      {release.schedule.estimated && (
+        <p className="mt-1 text-[11px] leading-snug text-slate-500 dark:text-slate-400">
+          {t('detail.estimatedWhy')}
+        </p>
+      )}
+
+      {/*
         Der Name des Releases stand hier bis zum 12.08.2026 und wiederholte nur
         den Eintrag, der drei Zeilen darüber im Umschalter gewählt ist. Zwei
         Zeilen für dieselbe Auskunft sind eine zu viel.
@@ -468,6 +494,38 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
             <span className="text-slate-400"> · {release.schedule.time} Uhr</span>
           )}
         </dd>
+        {/*
+          **Warum hier keine Uhrzeit steht — an der Stelle, an der die Frage
+          entsteht.**
+
+          Bis zum 01.09.2026 stand in der Kachel „Zeit offen". Der Satz warf
+          eine Frage auf, statt eine zu beantworten, und Daniels Sorge geht
+          weiter als die Formulierung: „dann zweifeln [Nutzer] das die daten
+          überhaupt stimmen, und vertrauen zu uns verlieren."
+
+          Die Antwort lag längst im Haus — `PLATFORM_TIME_NOTE` steht seit
+          Wochen in `shared/mappings.ts` und wurde nie angezeigt. Meist gibt es
+          die Angabe beim Anbieter schlicht nicht, und das zu sagen ist etwas
+          anderes, als eine Lücke unkommentiert zu lassen.
+        */}
+        {!release.schedule.time && PLATFORM_TIME_NOTE[release.platform] && (
+          <dd className="col-span-2 mt-0.5 text-[11px] leading-snug text-slate-400 dark:text-slate-500">
+            {PLATFORM_TIME_NOTE[release.platform]!.de}
+            {PLATFORM_TIME_NOTE[release.platform]!.source && (
+              <>
+                {' '}
+                <a
+                  href={PLATFORM_TIME_NOTE[release.platform]!.source}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline decoration-dotted underline-offset-2 hover:text-sky-500"
+                >
+                  {t('detail.timeNoteSource')}
+                </a>
+              </>
+            )}
+          </dd>
+        )}
         {/*
           Eine Zeile, die sagt, was gerade zählt.
 
@@ -645,9 +703,7 @@ function ReleaseBlock({ release, today }: { release: Release; today: string }) {
                 <span className="tabular-nums">
                   {weekdayName(ev.date, true)} {formatDate(ev.date)}
                 </span>
-                <span className="tabular-nums text-slate-400">
-                  {ev.time ?? <span className="italic">{t('card.timeOpen')}</span>}
-                </span>
+                <span className="tabular-nums text-slate-400">{ev.time}</span>
                 {/*
                   Eintragen lässt sich nur, was noch kommt. Bei einer Serie, die
                   2024 gelaufen ist, stand hinter jeder Folge ein Knopf, der
