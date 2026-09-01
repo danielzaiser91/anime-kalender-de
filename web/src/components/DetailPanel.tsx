@@ -2439,8 +2439,25 @@ export function DetailPanel({
             bis das Gegenteil belegt ist. Das ist die vorsichtige Seite: lieber
             einen Hinweis zu wenig als eine falsche Auskunft.
           */}
+          {/*
+            **Bei einem Titel ohne deutsche Fassung entfällt der Block ganz.**
+
+            Bei „Mission: Yozakura Family" stand oben „Noch keine deutsche
+            Fassung — bisher kein deutscher Anbieter" und zwei Zeilen darunter
+            noch einmal „WO LÄUFT ES: Kein Anbieter bekannt". Daniel am
+            01.09.2026: „also ist es logisch das kein anbieter bekannt ist, es
+            sollte umformuliert werden oder der bereich muss in solchen fällen
+            einfach versteckt werden."
+
+            Die Auskunft ist dieselbe, nur zweimal — und die zweite liest sich
+            wie eine eigene Feststellung. Wo deutsche Sprechrollen belegt sind,
+            bleibt der Block: Dort sagt er etwas anderes („es gab eine Fassung,
+            wir kennen nur keinen Weg mehr dorthin"), und das steht sonst
+            nirgends.
+          */}
           {title.streams.length === 0 &&
             (title.watchLinks?.length ?? 0) === 0 &&
+            (title.hasVoices || antwort?.art !== 'ohne') &&
             !releases.some(
               (r) =>
                 r.platform === 'kino' &&

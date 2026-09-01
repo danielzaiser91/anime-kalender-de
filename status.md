@@ -13,7 +13,7 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **Phase 4: die Erweiterung hört auf zu urteilen** | 8 | Worker ist ausgeliefert (29.08., Version 895b110a). Wartet auf eine Prime-Meldung mit 4.9.1 — `titelId` stand bis zum 31.08. drei Tage lang leer (sie liegt in `eintraege[].id`, nicht am aeusseren Eintrag), erst mit einer neuen Meldung ist die Zuordnung belegbar |
+| **Phase 4: die Erweiterung hört auf zu urteilen** | 8 | Worker ist ausgeliefert (29.08., Version 895b110a). `titelId` kommt seit dem 31.08. gefuellt an. Der Weg steht fuer Prime (`fetch-rohfolgen.ts`); **Netflix und Disney+ gehen ihn nicht** — dort entscheidet weiter die Staffelangabe des Anbieters, siehe „Sammeln und Zuordnen vollstaendig trennen" |
 | **Pokémon Sonne & Mond: 145 statt 146** | 1 | Daniel hat am 30.08.2026 alle zwölf Prime-Bände einzeln geprüft und gemeldet: Staffel 20 mit 43 Folgen (11+11+11+10), Staffel 21 mit 48 (4×12), Staffel 22 mit 54 (14+13+13+14). AniList führt für den Block 146. Seine Gegenprobe: „so wie sie gemeldet wurden so führt sie amazon, also falls da laut anisearch was fehlt, dann hat amazon die nicht." Die Zuordnung über die Folgentitel wird eine Nummer ohne Entsprechung lassen — das ist dann kein Lesefehler, sondern eine Lücke im Angebot, und genau so gehört sie in den Datensatz |
 
 | **„Wo läuft es" doppelt sich bei Titeln ohne Fassung** | 1 | Bei „Mission: Yozakura Family" steht oben „Noch keine deutsche Fassung — bisher kein deutscher Anbieter" und darunter noch einmal „WO LÄUFT ES: Kein Anbieter bekannt" (Daniel, 01.09.2026): „also ist es logisch das kein anbieter bekannt ist, es sollte umformuliert werden oder der bereich muss in solchen fällen einfach versteckt werden". Der Block beantwortet dort eine Frage, die zwei Zeilen höher schon beantwortet ist — bei einem Titel **ohne** belegte Fassung entfällt er besser ganz. |
@@ -24,9 +24,8 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 
 | Aufgabe | Notiz |
 |---|---|
-| **Eine Prime-Meldung mit 4.9.1** | `titelId` kommt seit dem 31.08. gefuellt an (der Griff lag eine Ebene zu tief). Eine einzige neue Meldung zeigt, ob die Zuordnung jetzt greift |
-| **Erweiterung 4.9.1 laden** | Netflix-Staffelzuordnung aus der gemessenen `Season`-Kennung, und die Staffel der Folge reist bis zum lokalen Vermerk mit (Death Note zeigte Folge 31 weiter als offen) |
-| **Prime-Prüfliste** | **2 offene Suchen** (Stand 31.08.2026, 11:10): „Fullmetal Alchemist" und „Is This a Zombie?". Am Vormittag waren es 68 — die 441 wieder geöffneten Suchadress-Meldungen ergaben 210 Belege, seit der Bau auch Adressen aus `anbieter-vorschlaege.json` als Anker kennt |
+
+| **Pruefstand** | Stand 01.09.2026, 18:15: **Netflix 0, Disney+ 0, Prime 1** (der gemeldete Kauftitel, faellt beim naechsten Bau) plus 1 offene Suche („Is This a Zombie?"). Golden Kamuy ist aus der Wiedervorlage genommen — ein Kanal-Titel kann die Frage bauartbedingt nicht beantworten |
 
 ## Recherche 31.08.2026: Deutsche Titel für Anime ohne belegte Synchro
 
@@ -949,7 +948,6 @@ japanischen Originalton mit Untertiteln".
 Der Abruf ist rechtlich sauber, der Schlüssel liegt vor, und er beantwortet die halbe Frage —
 ob der Termin stimmt. Die Sprachfassung bleibt bis zur Messung offen.
 
-
 **ann-voices ist stumm — seit 9,1 Tagen null deutsche Rollen** (24.08.2026, 23:53)
 
 Der Tageslauf ist daran rot geworden, und die Warnung tut genau, was sie soll:
@@ -1124,7 +1122,6 @@ als Tooltip, tote Verweise meldbar.
 | **Disney+ in die Erweiterung** | 5 | Daniel: „evtl melde extension auf disney+ erweitern, damit es schneller geht." 40 Verweise in 34 Reihen, je ~30 Sekunden von Hand. Bauweise wie bei Netflix: Der Player nennt seine Tonspuren, ein Skript in `world: MAIN` liest sie mit. Der bisherige Einwand („bei 40 einmaligen Prüfungen ist Handarbeit schneller") gilt weiter — er kippt, sobald regelmäßig neue Disney-Titel dazukommen |
 | **Netflix: kein Melden von der Übersicht** | 2 | Daniel zu AnoHana: „keine anime-liste button sichtbar, wo ich nachgucken könnte ob dieser titel überhaupt eingetragen ist, der titel lässt sich nicht abspielen, kein melden möglich von der overview." Zwei Dinge: (1) Der Übersichts-Knopf fehlt auf Netflix-Seiten, die keine `/watch/`-Adresse sind — bei Prime Video gibt es ihn. (2) AnoHana trägt bei Netflix nur „Erinnerung", keinen Abspiel-Knopf: Der Titel ist **angekündigt, nicht verfügbar**. Dann gibt es dort nichts zu melden, und der Verweis gehört als „noch nicht abrufbar" markiert statt als offene Prüfung geführt |
 
-
 **Ähnliche Titel vorschlagen** — Idee von Daniel, 24.08.2026, 16:43
 
 Ein ausklappbarer Bereich im Detail-Panel, der Titel vorschlägt, die diesem ähneln.
@@ -1173,7 +1170,6 @@ Unterschied zwischen einer Empfehlung und einem Orakel.
 **Offen:** Sollen Titel ohne deutsche Synchro vorgeschlagen werden? Dagegen spricht der Zweck
 der Seite; dafür spricht, dass ein Vorschlag mit Stern-Merken der natürliche Weg ist, wie
 jemand von einem Titel zum nächsten kommt.
-
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
@@ -1644,7 +1640,6 @@ Katalogs, und die Betreiber schreiben selbst, dass „Netflix make it harder and
 to pull information" — die Daten sind also von derselben Sperre bedroht, die uns das
 Scrapen verbietet. Bleibt als Vergleichsquelle brauchbar.
 
-
 ## Crunchyrolls eigene Content-API — der Weg, der alle Textmuster ersetzt
 
 **Gefunden am 21.08.2026 auf Daniels Vorschlag** („prüf ob du die infos direkt aus crunchy
@@ -1929,7 +1924,6 @@ weder offiziell noch in den inoffiziellen Doku-Repos.
   je Titel Ja oder Nein sagt. Dann ist „keine Folge auf Deutsch" ein Befund statt einer Lücke, und
   die Regel trägt. Der grobe Vorfilter bleibt bis dahin in Kraft: Titel, deren japanische
   Ausstrahlung noch nicht begonnen hat, stehen schon hinter dem Toggle.
-
 
 - **Keine Fallback-Kette über Wikipedia für Beschreibungen** (11.08.2026). Am 11.08. gemessen
   statt geschätzt: Es fehlen nur noch **70** von 2.753 Beschreibungen (nicht 516 — die Zahl
@@ -2511,7 +2505,6 @@ fielen lautlos aus dem Lauf, statt in `daniel-zum-abarbeiten/11-meldungen-ohne-z
   Datenbank sind mit Enter und Leertaste bedienbar — der leere `onkeydown` im DOM täuscht, React
   hängt seine Behandlung an den Wurzelknoten.
 
-
 - ✅ **One Piece steht wieder vollständig da — 515 statt 10 Folgen** (17.08.2026). ADN teilt die
   deutschen Folgen in zwölf Blöcke mit Namen wie „Saga 2 : Alabasta". AniList kennt für die Serie
   **einen** Eintrag, und in unserem Bestand hat die Reihe außer ihm nur zwei Mitglieder (den
@@ -2620,7 +2613,6 @@ fielen lautlos aus dem Lauf, statt in `daniel-zum-abarbeiten/11-meldungen-ohne-z
   ist die tägliche Arbeit dieses Projekts und kein Rückstand. Ein Punkt entsteht daraus erst
   wieder, wenn eine Quelle etwas Neues sagt — und das meldet der Datenlauf von selbst.
 
-
 - ✅ **Favoriten gehen nicht mehr verloren** (14.08.2026, live). Gemerkte Titel lagen nur im
   Browser: Browserdaten gelöscht, Gerät gewechselt, neues Handy — weg. iOS-Safari räumt den
   Speicher sogar nach sieben Tagen ohne Besuch von allein auf. Serverseitig lagen sie längst,
@@ -2656,7 +2648,6 @@ fielen lautlos aus dem Lauf, statt in `daniel-zum-abarbeiten/11-meldungen-ohne-z
   (Version `9add16ef`). Gegengeprüft: sechs neue Spalten, Tabelle `rate_limit`, und die
   Endpunkte antworten wie vorgesehen.
 
-
 - ✅ **Detail-Panel neu geordnet: Karussell statt Auswahlliste** (13.08.2026). Vorher standen
   links ein Cover, rechts die Angaben und weiter unten eine Auswahlliste mit der Überschrift
   „Staffel, Film oder Special" — drei Bausteine für eine Sache. Jetzt zeigt ein Karussell alle
@@ -2689,7 +2680,6 @@ fielen lautlos aus dem Lauf, statt in `daniel-zum-abarbeiten/11-meldungen-ohne-z
   daran vorbei. Erkennbar daran, dass `curl` gegen denselben Port das richtige Ergebnis liefert.
   Abhilfe: `navigator.serviceWorker.getRegistrations()` abmelden und `caches.keys()` löschen.
 
-
 - ✅ **Anime ohne deutsche Synchro: merken und benachrichtigt werden** (13.08.2026). Der
   häufigste Grund, die Seite immer wieder aufzurufen, ist eine Serie, die es auf Deutsch gar
   nicht gibt — nachsehen, nichts finden, nächste Woche wieder (Daniel aus eigener Erfahrung).
@@ -2716,7 +2706,6 @@ fielen lautlos aus dem Lauf, statt in `daniel-zum-abarbeiten/11-meldungen-ohne-z
   pflegt Verschiebungen also schlicht nicht nach. Das ist eine andere Diagnose mit anderer Folge:
   Ein aniSearch-Datum, das **später** liegt als unseres, ist kein Fremdrelease, sondern ein
   ernstzunehmender Verdacht auf eine Verschiebung, die uns fehlt.
-
 
 - ✅ **Zehn Disc-Widersprüche geprüft, neun erledigt** (13.08.2026, Daniel von Hand, je über die
   Shops). Ergebnis in drei Teilen:
@@ -2753,7 +2742,6 @@ fielen lautlos aus dem Lauf, statt in `daniel-zum-abarbeiten/11-meldungen-ohne-z
   *Verworfen, mit Grund:* aniSearch als Beleg für einen deutschen Termin — dafür taugt es nicht.
   Als Hinweis, **dass** es zu einem Titel überhaupt eine Ausgabe gibt, bleibt es nützlich.
 
-
 - ✅ **Crunchyroll-Lauf abgeschlossen: 917 von 918 Seiten gelesen** (13.08.2026, 06:25–07:03).
   Die 316 Restadressen des abgebrochenen Laufs vom 12.08. nachgeholt; der Wiederaufsatz übersprang
   die 601 bekannten von selbst. **1.146 Synchro-Angaben belegt.**
@@ -2765,7 +2753,6 @@ fielen lautlos aus dem Lauf, statt in `daniel-zum-abarbeiten/11-meldungen-ohne-z
   *Beim Rebase auf die Nachtläufe kollidierten die erzeugten Dateien* (`public/data/*`). Nicht von
   Hand aufgelöst, sondern die Quelldaten zusammengeführt und `data:build` neu laufen lassen — bei
   erzeugten Dateien ist jede Handauflösung eine Erfindung.
-
 
 - ✅ **Ansicht „Wo sehen?" gebaut** (13.08.2026, `#/wo`, neuer Reiter). Der Kalender von der
   anderen Seite gelesen: nach **Anbieter** statt nach Datum, getrennt in *Ansehen* und *Kaufen
@@ -2792,7 +2779,6 @@ fielen lautlos aus dem Lauf, statt in `daniel-zum-abarbeiten/11-meldungen-ohne-z
   animiert nur noch eine Verschiebung um drei Pixel, und die steht mit im Keyframe, weil eine
   `transform`-Animation das statische `-translate-x-1/2` sonst überschreibt.
 
-
 - ✅ **Crunchyroll-Lauf: 601 Seiten gelesen, 791 Angaben belegt** (12./13.08.2026). Die offenen
   Crunchyroll-Verweise fielen damit von **1.156 auf 380**, die Prüfliste insgesamt von 2.847 auf
   **2.078** Verweise. 551 der gelesenen Seiten führen gar keine deutsche Tonspur — das sind
@@ -2806,7 +2792,6 @@ fielen lautlos aus dem Lauf, statt in `daniel-zum-abarbeiten/11-meldungen-ohne-z
   *Nebenbei:* Ein Fehlschlag wird nicht mehr als „keine Synchro" gespeichert — sonst stünde eine
   Zeitüberschreitung später als belegtes Nein im Datensatz, und der Wiederaufsatz fasste die
   Seite nie wieder an.
-
 
 - ✅ **Crunchyroll-Serienseiten liefern die Synchro-Auskunft selbst** (12.08.2026). Aus der
   Frage nach Crunchyrolls Staffelzählung wurde etwas viel Nützlicheres: Die Serienseite nennt
@@ -2824,7 +2809,6 @@ fielen lautlos aus dem Lauf, statt in `daniel-zum-abarbeiten/11-meldungen-ohne-z
   vertonter Block bleibt ohne Urteil. Sechs Zusicherungen in `check:logic` halten das fest.
   *Gegenprobe an Slime:* Staffel 4 mit 15 von 17 Folgen deutsch — genau Daniels Befund.
 
-
 - ✅ **Disc-Vorschläge abgearbeitet** (12.08.2026). Von 101 Vorschlägen aus dem aniSearch-Archiv
   führten wir 77 bereits mit demselben Datum. Von den 24 offenen blieben nach dem Abgleich genau
   **zwei** echte Lücken: „Spice and Wolf – Vol. 2/4" (02.10.) und „Witch Watch – Vol. 2/2"
@@ -2838,7 +2822,6 @@ fielen lautlos aus dem Lauf, statt in `daniel-zum-abarbeiten/11-meldungen-ohne-z
   *Nebenbei bestätigt:* aniSearch nennt für „Café Terrace – Staffel 1" den 21.08. — also genau
   das alte Datum aus dem Verschiebungs-Artikel. Unser bisheriger 07.08. war damit falsch, und
   die Entscheidung, auf den neuen 04.09. zu gehen, war richtig.
-
 
 - ✅ **Drei Pausen-Meldungen abgearbeitet** (12.08.2026). Der Filter hatte sie am 11.08. vorgelegt,
   aber ohne Datumsangaben — die stehen nur im Fließtext bzw. in einer Tabelle. Ergebnis nach
@@ -2860,7 +2843,6 @@ fielen lautlos aus dem Lauf, statt in `daniel-zum-abarbeiten/11-meldungen-ohne-z
     „Bleach auf unbestimmte Zeit verschoben" hat ohnehin kein Datum; „Scarlet" wäre ein
     Kinotermin, den wir noch nicht führen — als Kandidat notiert, nicht als Termin.
 
-
 - ✅ **Batch 3 ausgewertet, zwei Regeln fürs Vorlegen gelernt** (12.08.2026). 33 Angaben belegt,
   32 tote Verweise entfernt (65 Prüfungen). Zwei Fehler auf meiner Seite, beide beim Vorlegen im
   Chat: Ich hatte die Einträge einer Zeile **umsortiert** (Serien vor Filme statt in der
@@ -2871,7 +2853,6 @@ fielen lautlos aus dem Lauf, statt in `daniel-zum-abarbeiten/11-meldungen-ohne-z
   *Befund am Rande:* Crunchyroll zeigt „Café Terrace" und „Vanitas" je als **eine** Staffel mit
   24 Folgen, während wir sie getrennt führen. Daraus wurde `StreamLink.sharedWith` und ein
   Hinweis unter „Wo läuft es".
-
 
 - ✅ **Batch 1 der Prüfliste ausgewertet, Format umgestellt** (12.08.2026). Daniels zehn
   Antworten brachten einen Befund, den ich nicht erwartet hatte: **sechs von zehn Verweisen waren
@@ -2898,7 +2879,6 @@ fielen lautlos aus dem Lauf, statt in `daniel-zum-abarbeiten/11-meldungen-ohne-z
   Absatz, und darunter behauptete unsere eigene Zeile pauschal „themoviedb.org". Die Pipeline
   löst sie jetzt heraus und führt sie als `deSource` mit.
 
-
 - ✅ **Detail-Panel aufgeräumt** (12.08.2026, zehn Punkte von Daniel). Genres nach oben neben das
   Cover, Keywords ganz ans Ende, „Alles aus dieser Reihe" gestrichen (steht schon im
   Umschalter). Im Terminblock: Datum und Uhrzeit in einer Zeile, Uhrzeit weg statt „unbekannt",
@@ -2907,7 +2887,6 @@ fielen lautlos aus dem Lauf, statt in `daniel-zum-abarbeiten/11-meldungen-ohne-z
   eigenen Kastens. Kalender- und ICS-Knopf nur noch bei künftigen Terminen, ICS mit
   Erklär-Fragezeichen. Handlung auf 200 Zeichen mit „mehr anzeigen", Quelle darunter als
   Verweis. Im Browser gegengeprüft (Dev-Server 5183, danach gestoppt).
-
 
 - ✅ **Drei Nachbesserungen an der Staffel-Ansicht** (12.08.2026, Daniel).
   *Auswahlliste unlesbar:* Im Dunkelmodus hatte das `select` `bg-white/5` — 95 % durchsichtiges
@@ -2920,7 +2899,6 @@ fielen lautlos aus dem Lauf, statt in `daniel-zum-abarbeiten/11-meldungen-ohne-z
   bedeutet und fremde Reihen verschmelzen würde. 1.504 → 1.413 Reihen; SAO ist eine Kachel mit
   zwölf Einträgen.
   *Schalter-Vorgabe:* „Staffeln zusammenfassen" startet jetzt aus.
-
 
 - ✅ **Cache-Busting: normaler Refresh reicht** (12.08.2026, Daniel: „das harte Neuladen sollte
   nie notwendig sein"). Ursache war keine Fehlfunktion, sondern eine Adresse: `/data/events.json`
@@ -2940,7 +2918,6 @@ fielen lautlos aus dem Lauf, statt in `daniel-zum-abarbeiten/11-meldungen-ohne-z
   Veröffentlichung, unbegrenzt. Jetzt bleiben die letzten vierzig, und das Aufräumen fasst
   ausdrücklich nur `/assets/` an: Die Startseite steht in der Einfügereihenfolge ganz vorn und
   wäre als Erstes gelöscht worden, obwohl ohne sie offline gar nichts mehr geht.
-
 
 - ✅ **Suche und Staffel-Navigation überarbeitet** (12.08.2026, gemeldet von Daniel).
   *Suche:* liest jetzt Wort für Wort statt die Eingabe als eine Zeichenkette („aesthetic hero"
@@ -2964,7 +2941,6 @@ fielen lautlos aus dem Lauf, statt in `daniel-zum-abarbeiten/11-meldungen-ohne-z
   die Eindeutschung lief **nach** dem Ausrollen der Termine, stand also in `releases.json` und
   nicht in `events.json`; und die Mehrzahlform „Seasons 1 & 2" (Urusei Yatsura) fiel durch die
   Einzahl-Regel.
-
 
 - ✅ **196 erfundene Termine beseitigt — der schwerste Fehler bisher** (12.08.2026). Gemeldet
   von Daniel: Der Kalender führte „Sword Art Online" mit 96 Wochenfolgen bis zum 07.04.2027,
@@ -3292,7 +3268,6 @@ fielen lautlos aus dem Lauf, statt in `daniel-zum-abarbeiten/11-meldungen-ohne-z
   sich bewusst **nicht** selbst
 - ✅ Prime-Video-Links laufen über amazon.de. Die ASIN ist **nicht** marktübergreifend gleich —
   das Umschreiben von `amazon.com` auf `amazon.de` führte zuverlässig auf eine Fehlerseite
-
 
 ## Amazon nennt Tonspur und Abo-Bedingung selbst (23.08.2026, gemessen)
 

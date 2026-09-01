@@ -146,10 +146,28 @@ const ERNEUT = {
     Die Meldung trug außerdem die falsche Staffel: zugeordnet zu AniList 99699
     (Staffel 1, 12 Folgen), obwohl 13 Folgen geprüft wurden.
   */
-  B0GKFJXSLT: {
-    titel: 'Golden Kamuy: Final Season',
-    grund: '9 von 13 deutsch, obwohl Crunchyroll alle führt — derselbe Kanal',
-  },
+  /*
+    **Golden Kamuy steht hier nicht mehr — Amazon kann die Frage nicht beantworten.**
+
+    Der Auftrag lautete „9 von 13 deutsch, obwohl Crunchyroll alle führt — derselbe
+    Kanal". Daniel hat ihn am 01.09.2026 zweimal gemeldet, und beide Male hat der
+    Lauf die Meldung verworfen: „13 Kanal-Meldung(en) ohne Urteil ausgelassen".
+
+    Zu Recht. Die Serie läuft auf Prime **über den Crunchyroll-Kanal**, und dort
+    nennt Amazon die Sprachen des Kanals, nicht die der Folge (CLAUDE.md,
+    24.08.2026, gemessen an „Kill Blue": Amazon sagt 12, zwei unabhängige Quellen
+    sagen 4). Eine Wiedervorlage, die zu einer Quelle schickt, die bauartbedingt
+    nicht antworten kann, ist eine Sackgasse — sie kostet Daniels Zeit und bleibt
+    danach unverändert stehen.
+
+    **Der Widerspruch löst sich woanders:** Crunchyroll ist für Crunchyroll-Inhalte
+    die bessere Quelle, und der Beleg von dort führt alle Folgen. Die
+    Prime-Angabe „9 von 13" stammt aus einer Kanal-Meldung, die nie hätte zählen
+    dürfen.
+
+    Was hier stehen darf, sind Aufträge an eine Quelle, die antworten **kann**:
+    ein Kauftitel, eine zweite Ausgabe, eine eigene Prime-Produktion.
+  */
   /*
     **Die zweite Prime-Ausgabe desselben Titels.**
 
