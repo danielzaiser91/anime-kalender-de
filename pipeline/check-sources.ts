@@ -79,20 +79,25 @@ const FRISTEN: Record<string, number> = {
   // Wöchentlich, wie der Lauf, der sie füllt.
   'link-check': 9,
   /**
-   * Wöchentlich — aber die Taktung kommt hier nicht vom Nutzen, sondern vom
+   * Monatlich — die Taktung kommt hier nicht vom Nutzen, sondern vom
    * Kontingent.
    *
    * Die Streaming Availability API gibt 1.000 Anfragen im **Monat** her, Reset
-   * am Monatsersten. Täglich zu laufen hieße 33 Anfragen am Tag; ein einziger
-   * Katalogdurchlauf über den deutschen Netflix-Bestand ist damit nicht zu
-   * machen. Wöchentlich mit 120 Anfragen je Lauf sind rund 520 im Monat und
-   * lassen Luft für einen Lauf von Hand.
+   * am Monatsersten. `.github/workflows/tonspuren-monatlich.yml` holt am
+   * Zweiten jedes Monats bis zu 800 davon in einem Lauf — ein täglicher oder
+   * wöchentlicher Takt würde das Kontingent vorzeitig verbrauchen.
    *
    * Gegen die Taktung spricht der gemessene Verzug der Quelle nicht: Sie hinkt
    * ein paar Tage hinterher, und was seit Jahren auf Netflix liegt, liegt auch
-   * nächste Woche noch dort. Genau dieser Bestand ist ihr Zweck.
+   * nächsten Monat noch dort. Genau dieser Bestand ist ihr Zweck.
+   *
+   * Derselbe Kontingentzyklus wie bei `motn-changes`, deshalb derselbe Wert:
+   * ein voller Monat plus zwei Tage Luft. Bis 01.09.2026 stand hier 9 — eine
+   * Frist für Wochentakt, die seit Einführung des monatlichen Workflows nicht
+   * mehr passte und den Bau-Lauf einen Tag vor dem nächsten planmäßigen Abruf
+   * fälschlich rot machte (Lauf 33555019125, Issue #34).
    */
-  motn: 9,
+  motn: 33,
 }
 
 function daysSince(iso: string | undefined): number {
