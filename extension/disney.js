@@ -714,6 +714,31 @@
             staffel: r.staffel,
             staffeln,
             serientitel: eintrag.titel,
+            /*
+              **Die Rohfolge — sammeln und zuordnen sind getrennt.**
+
+              Daniel am 01.09.2026: „wenn disney+ sich entscheidet staffeln und
+              episoden wild zu gruppieren, muss das dem sammeln egal sein,
+              einfach alles melden was da ist."
+
+              Der Anlass steht am selben Tag im Bestand: Disney+ führt „Go, Go,
+              Loser Ranger" als **eine** Staffel mit 24 Folgen, unser Bestand als
+              zwei zu je zwölf. Der Beleg gab alle 24 dem ersten Titel — ein
+              Bereich „1 bis 24" bei zwölf Folgen.
+
+              Was hier mitgeht, ist die Angabe der Seite, unverändert. Ob die
+              Staffelnummer stimmt, entscheidet `fetch-rohfolgen.ts` über
+              Folgentitel und Erstausstrahlung, nicht der Sammler.
+            */
+            rohfolgen: [
+              {
+                gti: r.playbackId ?? null,
+                nummer: r.nummer ?? null,
+                titel: r.titel || null,
+                sprachen: r.sprachen ?? [],
+                staffelNr: Number.isFinite(r.staffel) ? r.staffel : null,
+              },
+            ],
           }),
         })
         if (antwort.ok) {

@@ -2390,6 +2390,34 @@ async function durchlaufMelden(folge, echte, deutsch) {
         staffeln: stand.staffeln ?? null,
         serientitel: stand.serientitel ?? null,
         notiz: `Durchlauf: Folge ${folge.nummer}${folge.titel ? ` — ${folge.titel}` : ''}`,
+        /*
+          **Die Rohfolge — sammeln und zuordnen sind getrennt.**
+
+          Daniel am 01.09.2026: „einfach alles melden was da ist … anbieter
+          zuordnung nicht vertrauen, sondern einzeln episoden korrekt aus
+          gesammeltem zustand rauspicken und korrekt zuordnen, auch wenn
+          anbieter zB folge 13 als staffel 2000 bezeichnet."
+
+          Prime geht diesen Weg seit dem 28.08.2026: Die Meldung trägt neben
+          dem Urteil die **rohen** Angaben der Seite, und `fetch-rohfolgen.ts`
+          legt sie über TMDBs Folgentitel und Erstausstrahlungsdaten auf unsere
+          Zählung. Netflix ging ihn nicht — und genau daran hingen am 01.09.2026
+          drei Fälle an einem Tag (Kakegurui, Dorohedoro, Loser Ranger).
+
+          Was hier mitgeht, ist alles, was der Leser gesehen hat, **unverändert**:
+          Nummer und Staffel so, wie Netflix sie nennt, dazu Titel und Kennung.
+          Ob die Staffelnummer stimmt, entscheidet nicht der Sammler.
+        */
+        rohfolgen: [
+          {
+            gti: folge.videoId != null ? String(folge.videoId) : null,
+            nummer: folge.nummer ?? null,
+            titel: folge.titel ?? null,
+            sprachen: echte.map((x) => `${x.code}|${x.name}`),
+            staffelText: folge.seasonId != null ? String(folge.seasonId) : null,
+            staffelNr: Number.isFinite(folge.staffel) ? folge.staffel : null,
+          },
+        ],
       }),
     })
     if (!antwort.ok) return false

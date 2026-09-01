@@ -1835,7 +1835,7 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
       const nach = Number(new URL(request.url).searchParams.get('nach') ?? 0)
       const { results } = await env.DB.prepare(
         `SELECT id, url, asin, gti, nummer, titel, erschienen, dauer_sek, sprachen,
-                untertitel, staffel_text, staffel_nr, gemeldet_am, titel_id
+                untertitel, staffel_text, staffel_nr, gemeldet_am, titel_id, plattform
            FROM prime_folge
           WHERE uebernommen = 0 AND id > ?1
           ORDER BY id
@@ -2234,7 +2234,16 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
       Uebernommene Zeilen bleiben unberuehrt: Sie sind Geschichte, kein Bestand.
     */
     try {
-      await env.DB.prepare('DELETE FROM prime_folge WHERE url = ?1 AND uebernommen = 0').bind(url).run()
+      /*
+        **Je Adresse UND Plattform**, seit dem 01.09.2026. Vorher trug die
+        Tabelle nur Prime-Zeilen; jetzt melden auch Netflix und Disney+ hierher,
+        und ein Aufräumen ohne Plattform löschte die Zeilen des Nachbarn.
+      */
+      await env.DB.prepare(
+        'DELETE FROM prime_folge WHERE url = ?1 AND plattform = ?2 AND uebernommen = 0',
+      )
+        .bind(url, String(daten.plattform ?? 'primevideo'))
+        .run()
     } catch (e) {
       console.error(`prime_folge aufraeumen: ${(e as Error).message}`)
     }
@@ -2244,8 +2253,9 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
     const stapel = rohfolgen.slice(0, 500).map((f: Record<string, unknown>) =>
       env.DB.prepare(
         `INSERT INTO prime_folge (url, asin, gti, nummer, titel, erschienen, dauer_sek,
-                                  sprachen, untertitel, staffel_text, staffel_nr, gemeldet_am, titel_id)
-         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13)`,
+                                  sprachen, untertitel, staffel_text, staffel_nr, gemeldet_am,
+                                  titel_id, plattform)
+         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)`,
       ).bind(
         url,
         f.asin ? String(f.asin).slice(0, 40) : null,
@@ -2269,6 +2279,13 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
           mitzuschicken kostet ein Feld.
         */
         zahlOderNull(daten.titelId),
+        /*
+          **Wer die Folge gemeldet hat.** Ohne dieses Feld gehörte die Tabelle
+          Prime allein; seit dem 01.09.2026 melden Netflix und Disney+ ebenfalls
+          hierher — sammeln und zuordnen sind getrennt, und der Zuordner
+          entscheidet über die Anker, nicht über die Anbieter-Staffelnummer.
+        */
+        String(daten.plattform ?? 'primevideo').slice(0, 20),
       ),
     )
     try {

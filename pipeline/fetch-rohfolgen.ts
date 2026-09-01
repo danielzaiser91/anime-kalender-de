@@ -48,6 +48,14 @@ interface Rohfolge {
   staffel_nr: number | null
   gemeldet_am: string
   titel_id: number | null
+  /*
+    **Wer die Folge gemeldet hat** — seit dem 01.09.2026 nicht mehr nur Prime.
+    Netflix und Disney+ melden auf denselben Weg; der Zuordner behandelt sie
+    gleich, denn seine Anker (Folgentitel, Erstausstrahlung) sind bei allen
+    dieselben. Die Spalte entscheidet nur, welcher Verweis im Bestand gemeint
+    ist, wenn ein Titel bei mehreren Anbietern laeuft.
+  */
+  plattform?: string | null
 }
 
 interface TmdbEintrag {
