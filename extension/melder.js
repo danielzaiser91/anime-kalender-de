@@ -1518,8 +1518,37 @@ async function durchlaufStandLaden(reihe) {
     /* Der Worker führt die Folgennummern; die Kennung steht hier daneben. */
     const nummern = new Set((daten.nummern ?? []).map(Number))
     DURCHLAUF.gemeldeteNummern = nummern
+    /*
+      **Wo jede Staffel bei 1 anfängt, trifft eine Nummer zweimal.**
+
+      Bei Kakegurui führt Netflix zwei Staffeln zu je zwölf Folgen, beide von 1
+      bis 12. Gemeldet waren die zwölf der zweiten — über `nummern` gefiltert
+      galten damit **alle vierundzwanzig** als erledigt, und der Knopf sagte
+      „✓ 24 Folgen geprüft" für eine Staffel, von der nichts im Briefkasten lag
+      (Daniel, 01.09.2026, mit Bildschirmaufnahme).
+
+      Der Worker liefert für genau diesen Fall `paare` mit Staffelnummer — der
+      Kommentar dort nennt den Anlass bei Disney+ am 26.08.2026 („2e16? wo sind
+      die ersten 15 von s2?"). `disney.js` nutzt sie seitdem, `melder.js` nie.
+
+      Gebraucht werden sie nur, wo die Nummern sich wiederholen. Läuft die
+      Zählung durch (One Piece: 1 bis 1174), ist die Nummer eindeutig, und die
+      Staffelangabe der Meldung wäre dort die schlechtere Auskunft — sie steht
+      bei durchlaufender Zählung bewusst auf `null` (siehe `staffelnBereinigen`).
+    */
+    const alleNummern = DURCHLAUF.folgen.map((f) => f.nummer)
+    const jeStaffelNeu = alleNummern.length !== new Set(alleNummern).size
+    const paare = Array.isArray(daten.paare) ? daten.paare : []
     DURCHLAUF.gemeldet = new Set(
-      DURCHLAUF.folgen.filter((f) => nummern.has(f.nummer)).map((f) => f.videoId),
+      jeStaffelNeu && paare.length
+        ? DURCHLAUF.folgen
+            .filter((f) =>
+              paare.some(
+                (x) => Number(x.nummer) === f.nummer && Number(x.staffel ?? 1) === Number(f.staffel ?? 1),
+              ),
+            )
+            .map((f) => f.videoId)
+        : DURCHLAUF.folgen.filter((f) => nummern.has(f.nummer)).map((f) => f.videoId),
     )
 
     /*
@@ -1541,7 +1570,16 @@ async function durchlaufStandLaden(reihe) {
     const bekannt = new Set(erledigt[String(reihe)] ?? [])
     const vorher = bekannt.size
     const staffeln = staffelnVon(reihe, offeneTitel[String(reihe)] ?? {})
-    for (const kuerzel of kuerzelFuerNummern(staffeln, nummern)) bekannt.add(kuerzel)
+    /*
+      Dieselbe Unterscheidung wie oben: Wiederholen sich die Nummern, sagt erst
+      das Paar, welche Staffel gemeint ist. `kuerzelFuerNummern` nimmt sonst die
+      erste passende — und die ist dann immer Staffel 1.
+    */
+    const kuerzel =
+      jeStaffelNeu && paare.length
+        ? paare.map((x) => `${Number(x.staffel ?? 1)}e${String(x.nummer).padStart(2, '0')}`)
+        : kuerzelFuerNummern(staffeln, nummern)
+    for (const k of kuerzel) bekannt.add(k)
     if (bekannt.size !== vorher) {
       erledigt[String(reihe)] = [...bekannt]
       try {

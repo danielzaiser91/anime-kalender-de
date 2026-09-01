@@ -289,6 +289,47 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
   )
 }
 
+/*
+  **Wo jede Staffel bei 1 anfaengt, trifft eine Nummer zweimal.**
+
+  Bei Kakegurui fuehrt Netflix zwei Staffeln zu je zwoelf Folgen, beide von 1
+  bis 12. Gemeldet waren die zwoelf der zweiten — ueber die blossen Nummern
+  gefiltert galten alle vierundzwanzig als erledigt, und der Knopf sagte
+  "24 Folgen geprueft" fuer eine Staffel ohne eine einzige Meldung
+  (Daniel, 01.09.2026, mit Bildschirmaufnahme).
+*/
+{
+  const folgen = []
+  for (let st = 1; st <= 2; st++)
+    for (let n = 1; n <= 12; n++) folgen.push({ nummer: n, staffel: st, videoId: st * 100 + n })
+  const nummern = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+  const paare = [...Array(12)].map((_, i) => ({ nummer: i + 1, staffel: 2 }))
+
+  const alle = folgen.map((f) => f.nummer)
+  const jeStaffelNeu = alle.length !== new Set(alle).size
+  pruefe('wiederholte Nummern werden als je-Staffel-Zaehlung erkannt', jeStaffelNeu)
+
+  const ueberPaare = folgen.filter((f) =>
+    paare.some(
+      (x) => Number(x.nummer) === f.nummer && Number(x.staffel ?? 1) === Number(f.staffel ?? 1),
+    ),
+  )
+  pruefe(
+    'ueber Paare gilt nur die gemeldete Staffel als erledigt',
+    ueberPaare.length === 12,
+    ueberPaare.length,
+  )
+  pruefe(
+    'ueber blosse Nummern waeren es alle 24 — der Fehler',
+    folgen.filter((f) => nummern.has(f.nummer)).length === 24,
+  )
+
+  /* Gegenprobe: durchlaufende Zaehlung braucht die Staffel nicht. */
+  const durch = [...Array(24)].map((_, i) => ({ nummer: i + 1, staffel: null }))
+  const zahlen = durch.map((f) => f.nummer)
+  pruefe('durchlaufende Zaehlung gilt nicht als je-Staffel-neu', zahlen.length === new Set(zahlen).size)
+}
+
 const fehler = faelle.filter((x) => !x).length
 console.log(fehler ? `\n${fehler} Fall/Fälle durchgefallen` : '\n✓ Geprüftes wird sichtbar')
 process.exit(fehler ? 1 : 0)
