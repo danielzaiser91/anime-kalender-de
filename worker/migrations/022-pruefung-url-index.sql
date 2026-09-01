@@ -1,0 +1,15 @@
+-- Ein Index auf `pruefung(url)` — die Unterabfrage der Rohfolgen braucht ihn.
+--
+-- Seit dem 01.09.2026 liefert der Rohfolgen-Endpunkt je Zeile den Serienamen aus
+-- der Meldung derselben Adresse mit; er ist der letzte Anker, wenn unser Bestand
+-- die Adresse nicht kennt (Prime legt je Staffel eine eigene an).
+--
+-- Ohne Index ist das ein vollständiger Durchlauf durch `pruefung` **je Rohfolge**:
+-- 210 offene Zeilen gegen 3.467 Meldungen sind 728.000 Vergleiche, und der Worker
+-- antwortete mit `error code: 1101` — dem Cloudflare-Zeichen für eine Ausnahme im
+-- Worker, hier das CPU-Limit. Der erste Lauf danach ging noch durch, weil damals
+-- 795 Zeilen in Seiten zu 5.000 kamen und die Abfrage knapp unter der Grenze blieb.
+--
+-- `gemeldet_am` steht mit im Index: Die Unterabfrage sortiert danach, um die
+-- jüngste Meldung zu nehmen.
+CREATE INDEX IF NOT EXISTS pruefung_url_zeit ON pruefung (url, gemeldet_am DESC);

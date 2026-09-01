@@ -409,13 +409,24 @@ async function main(): Promise<void> {
       denselben Titel treffen, ist es eine Auskunft. Und nur, wenn kein zweiter
       Titel gleich viele trifft.
     */
-    if (!treffer.length) {
-      const kerne = liste
-        .map((f) => folgenKern(f.titel))
-        .filter((x) => x && x.length >= 5)
+    /*
+      **Und derselbe Griff entscheidet, wo zwei Titel eine Adresse teilen.**
+
+      Prime führt „Golden Kamuy" Staffel 1 und 2 unter einer Adresse, beide mit
+      zwölf Folgen — die Adresse allein sagt nicht, welche gemeint ist, und ohne
+      Entscheidung blieben zwölf Folgen liegen. Die Folgentitel sagen es.
+
+      Der Unterschied zum Fall darüber ist nur die Ausgangsmenge: dort **alle**
+      Titel, hier die beiden Kandidaten. Die Schwelle bleibt dieselbe.
+    */
+    if (treffer.length !== 1) {
+      const kerne = liste.map((f) => folgenKern(f.titel)).filter((x) => x && x.length >= 5)
       if (kerne.length >= 3) {
+        const menge = treffer.length ? treffer.map((t) => t.id) : [...folgenJeTitel.keys()]
         const punkte = new Map<number, number>()
-        for (const [id, folgen] of folgenJeTitel) {
+        for (const id of menge) {
+          const folgen = folgenJeTitel.get(id)
+          if (!folgen) continue
           let n = 0
           for (const k of kerne) if (folgen.has(k)) n++
           if (n >= 3 && n > kerne.length / 2) punkte.set(id, n)
@@ -424,6 +435,7 @@ async function main(): Promise<void> {
         if (sortiert.length === 1 || (sortiert.length > 1 && sortiert[0]![1] > sortiert[1]![1])) {
           const gefunden = titles.find((t) => t.id === sortiert[0]![0])
           if (gefunden) {
+            treffer.length = 0
             treffer.push(gefunden)
             ueberFolgentitel++
           }

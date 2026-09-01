@@ -2654,3 +2654,41 @@ Meldung im Klartext.
 abhängen, ist das Ausführen die Prüfung — nicht das Lesen. Die statische
 Zusicherung bleibt trotzdem: Sie fängt die Fälle, die der Sandkasten nur auf
 einer Seite sieht, die er gerade nicht nachstellt.
+
+### Eine Unterabfrage ohne Index kostet das Tageskontingent
+
+Am 01.09.2026 um 20:20 antwortete der Worker auf **jeden** Datenbank-Endpunkt mit
+HTTP 500. Der Stapelauszug nannte den Grund:
+
+```
+D1_ERROR: Your account has exceeded D1's free tier daily row read limit.
+```
+
+Die Ursache stand seit einer Stunde im Code. Der Rohfolgen-Endpunkt bekam eine
+Unterabfrage, die je Zeile den Serienamen aus der Meldung derselben Adresse holt:
+
+```sql
+(SELECT p.titel FROM pruefung p WHERE p.url = f.url ORDER BY p.gemeldet_am DESC LIMIT 1)
+```
+
+**Ohne Index auf `pruefung(url)` ist das ein voller Durchlauf je Rohfolge.** 795
+offene Zeilen gegen 3.467 Meldungen sind 2,75 Millionen gelesene Zeilen — in
+**einem** Aufruf. Das Tageskontingent des kostenlosen Plans liegt bei fünf
+Millionen; nach dem zweiten Lauf war es weg, und mit ihm der Briefkasten für den
+Rest des Tages.
+
+**Der Index (Migration 022) senkt es auf 631 Zeilen** — vierhundertfach weniger.
+Er kam zwei Aufrufe zu spät.
+
+**Die Prüffrage vor jeder Unterabfrage in einem Endpunkt:** *Gibt es einen Index
+auf der Spalte, über die sie verknüpft?* Wenn nein, ist es kein „vielleicht etwas
+langsamer", sondern das Produkt beider Tabellengrößen. Bei D1 ist das keine
+Geschwindigkeitsfrage, sondern eine Mengenfrage: **Gelesene Zeilen sind das
+Kontingent**, und ein fehlender Index multipliziert sie.
+
+**Und lokale Messläufe zählen mit.** `wrangler d1 execute --remote` liest aus
+derselben Datenbank wie der Worker. Wer beim Suchen eines Fehlers zwanzigmal
+`SELECT` über eine große Tabelle laufen lässt, verbraucht dasselbe Kontingent,
+das der Betrieb braucht — an diesem Tag rund vierzig Abfragen zur Fehlersuche.
+Für wiederholte Messungen gehört das Ergebnis in eine Datei, nicht in die
+zwanzigste Abfrage.
