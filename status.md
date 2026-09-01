@@ -16,6 +16,8 @@ verworfene Quelle sonst in drei Monaten ein zweites Mal geprüft wird.
 | **Phase 4: die Erweiterung hört auf zu urteilen** | 8 | Worker ist ausgeliefert (29.08., Version 895b110a). Wartet auf eine Prime-Meldung mit 4.9.1 — `titelId` stand bis zum 31.08. drei Tage lang leer (sie liegt in `eintraege[].id`, nicht am aeusseren Eintrag), erst mit einer neuen Meldung ist die Zuordnung belegbar |
 | **Pokémon Sonne & Mond: 145 statt 146** | 1 | Daniel hat am 30.08.2026 alle zwölf Prime-Bände einzeln geprüft und gemeldet: Staffel 20 mit 43 Folgen (11+11+11+10), Staffel 21 mit 48 (4×12), Staffel 22 mit 54 (14+13+13+14). AniList führt für den Block 146. Seine Gegenprobe: „so wie sie gemeldet wurden so führt sie amazon, also falls da laut anisearch was fehlt, dann hat amazon die nicht." Die Zuordnung über die Folgentitel wird eine Nummer ohne Entsprechung lassen — das ist dann kein Lesefehler, sondern eine Lücke im Angebot, und genau so gehört sie in den Datensatz |
 
+| **„Wo läuft es" doppelt sich bei Titeln ohne Fassung** | 1 | Bei „Mission: Yozakura Family" steht oben „Noch keine deutsche Fassung — bisher kein deutscher Anbieter" und darunter noch einmal „WO LÄUFT ES: Kein Anbieter bekannt" (Daniel, 01.09.2026): „also ist es logisch das kein anbieter bekannt ist, es sollte umformuliert werden oder der bereich muss in solchen fällen einfach versteckt werden". Der Block beantwortet dort eine Frage, die zwei Zeilen höher schon beantwortet ist — bei einem Titel **ohne** belegte Fassung entfällt er besser ganz. |
+
 ### Warten auf Feedback
 
 | Aufgabe | Notiz |
