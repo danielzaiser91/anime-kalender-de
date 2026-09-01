@@ -2329,5 +2329,77 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
   )
 }
 
+/*
+  **Ein verpasster Termin verschiebt alles dahinter — und bleibt selbst stehen.**
+
+  Der reale Fall: Mushoku Tensei Staffel 3, Folge 6 kam am 30.08.2026 nicht.
+  Der Kalender rechnete unbeirrt weiter und setzte für den 06.09. Folge **7** an,
+  obwohl die Recherche in `data/termine-verpasst.json` genau diesen Tag für
+  Folge 6 nennt (Daniel, 01.09.2026).
+
+  Der alte Tag verschwindet dabei nicht: „damit weiterhin sichtbar ist, das es
+  dort stand, aber die echte neue info es nachweislich überschreibt."
+*/
+console.log('\nVerpasster Termin:')
+{
+  const release: Release = {
+    slug: 'probe-verpasst',
+    titleId: 1,
+    name: 'Probe',
+    platform: 'crunchyroll',
+    releaseType: 'weekly',
+    schedule: {
+      firstEpisodeDate: '2026-07-26',
+      episodeCount: 8,
+      time: '17:00',
+      estimated: true,
+      verpasst: {
+        6: {
+          erwartetAm: '2026-08-30T15:00:00.000Z',
+          neuErwartet: '2026-09-06T15:00:00.000Z',
+        },
+      },
+    },
+    year: 2026,
+    sources: ['https://www.crunchyroll.com/de/simulcastcalendar'],
+  }
+  const termine = expandEvents(release)
+  const sechs = termine.filter((e) => e.episode === 6)
+  pruefe(
+    'die ausgefallene Folge steht zweimal: am alten Tag und am neuen',
+    sechs.length === 2,
+    sechs.map((e) => e.date),
+  )
+  pruefe(
+    'nur der ausgefallene Tag traegt den Vermerk',
+    sechs.filter((e) => e.verpasst).length === 1 && sechs.find((e) => e.verpasst)?.date === '2026-08-30',
+    sechs.map((e) => e.date + (e.verpasst ? ' (verpasst)' : '')),
+  )
+  pruefe(
+    'der Ersatztermin ist der 06.09. und traegt keinen Vermerk',
+    sechs.some((e) => e.date === '2026-09-06' && !e.verpasst),
+    sechs.map((e) => e.date),
+  )
+  pruefe(
+    'Folge 7 rueckt mit — 13.09., nicht 06.09.',
+    termine.find((e) => e.episode === 7)?.date === '2026-09-13',
+    termine.find((e) => e.episode === 7)?.date,
+  )
+  /* Gegenprobe: Ohne recherchierten Ersatztermin wird nichts verschoben. */
+  const ohneErsatz = expandEvents({
+    ...release,
+    schedule: {
+      ...release.schedule,
+      verpasst: { 6: { erwartetAm: '2026-08-30T15:00:00.000Z' } },
+    },
+  })
+  pruefe(
+    'ohne recherchierten Ersatztermin bleibt der Plan, wie er war',
+    ohneErsatz.filter((e) => e.episode === 6).length === 1 &&
+      ohneErsatz.find((e) => e.episode === 7)?.date === '2026-09-06',
+    ohneErsatz.find((e) => e.episode === 7)?.date,
+  )
+}
+
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

@@ -10,8 +10,31 @@ import { addDays, todayIso, berlinToUtc } from './time.ts'
  * Terminliste, die am 04.11. endet.
  */
 function stuetzpunkte(s: Release['schedule']): { episode: number; date: string }[] {
-  return Object.entries(s.observed ?? {})
-    .map(([episode, date]) => ({ episode: Number(episode), date }))
+  /*
+    **Ein recherchierter Ersatztermin ist ein Stützpunkt wie eine Beobachtung.**
+
+    Hält ein Anbieter einen Termin nicht ein, verschiebt sich nicht nur diese
+    Folge, sondern alles dahinter. Bis zum 01.09.2026 rechnete der Kalender
+    unbeirrt weiter: Mushoku Tensei Folge 6 kam am 30.08. nicht, und für den
+    06.09. stand trotzdem Folge **7** im Kalender — obwohl die Recherche in
+    `data/termine-verpasst.json` genau diesen Tag für Folge 6 nennt.
+
+    Deshalb zählt `neuErwartet` hier mit. Der Unterschied zu einer Beobachtung
+    steht nicht hier, sondern am Ereignis: Was hinter dem letzten Stützpunkt
+    liegt, trägt weiterhin `estimated`.
+  */
+  const ausRecherche = Object.entries(s.verpasst ?? {})
+    .filter(([, v]) => v?.neuErwartet && !v.erschienenAm)
+    .map(([episode, v]) => ({ episode: Number(episode), date: String(v!.neuErwartet).slice(0, 10) }))
+  const beobachtet = Object.entries(s.observed ?? {}).map(([episode, date]) => ({
+    episode: Number(episode),
+    date,
+  }))
+  /* Eine Beobachtung schlägt eine Recherche — gemessen vor vermutet. */
+  const jeFolge = new Map<number, string>()
+  for (const a of [...ausRecherche, ...beobachtet]) if (a.date) jeFolge.set(a.episode, a.date)
+  return [...jeFolge.entries()]
+    .map(([episode, date]) => ({ episode, date }))
     .filter((a) => a.episode > 0 && a.date)
     .sort((a, b) => a.episode - b.episode)
 }
@@ -319,10 +342,48 @@ export function expandEvents(release: Release): ReleaseEvent[] {
       // Gesehen ist gesehen; fortgeschrieben bleibt eine Annahme, auch wenn
       // der Start selbst belegt ist.
       estimated: s.observed?.[episode] ? undefined : lastAnchor ? true : s.estimated,
-      /* Ein Termin, an dem nichts erschien, sagt das — er verschwindet nicht. */
-      verpasst: s.verpasst?.[episode],
+      /*
+        **Nur der Tag, an dem wirklich nichts kam, trägt den Vermerk.**
+
+        Seit `neuErwartet` als Stützpunkt zählt, liegt die Folge auf ihrem
+        Ersatztermin — und der ist der gültige, nicht der ausgefallene. Trüge er
+        den Vermerk, stünde der neue Termin durchgestrichen da.
+      */
+      verpasst:
+        s.verpasst?.[episode] && date === String(s.verpasst[episode].erwartetAm).slice(0, 10)
+          ? s.verpasst[episode]
+          : undefined,
     })
   }
+
+  /*
+    **Der ausgefallene Tag bleibt im Kalender stehen** (Daniel, 01.09.2026):
+    „wir haben es erst auf dem kalender gezeigt, dann ändert sich das, wir
+    sollten es dort dann rot markieren oder durchstreichen … damit weiterhin
+    sichtbar ist, das es dort stand, aber die echte neue info es nachweislich
+    überschreibt."
+
+    Wer den Tag im Kopf oder im Kalender-Abo hatte, sucht ihn — und findet ihn,
+    durchgestrichen, mit der Auskunft daneben. Der Eintrag entsteht nur, wenn
+    die Folge inzwischen woanders liegt; sonst steht er schon in der Schleife.
+  */
+  for (const [nr, v] of Object.entries(s.verpasst ?? {})) {
+    if (!v?.erwartetAm || v.erschienenAm) continue
+    const alterTag = String(v.erwartetAm).slice(0, 10)
+    const episode = Number(nr)
+    if (events.some((e) => e.date === alterTag && e.episode === episode)) continue
+    if (s.lastEpisodeDate && alterTag > s.lastEpisodeDate) continue
+    events.push({
+      ...base,
+      id: `${release.slug}@${alterTag}`,
+      date: alterTag,
+      episode,
+      episodeCount: last,
+      estimated: undefined,
+      verpasst: v,
+    })
+  }
+  events.sort((a, b) => (a.date === b.date ? (a.episode ?? 0) - (b.episode ?? 0) : a.date < b.date ? -1 : 1))
 
   /**
    * Mehrere Folgen an einem Tag brauchen unterscheidbare Kennungen.
