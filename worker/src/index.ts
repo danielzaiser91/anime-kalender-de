@@ -1834,11 +1834,28 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
       */
       const nach = Number(new URL(request.url).searchParams.get('nach') ?? 0)
       const { results } = await env.DB.prepare(
-        `SELECT id, url, asin, gti, nummer, titel, erschienen, dauer_sek, sprachen,
-                untertitel, staffel_text, staffel_nr, gemeldet_am, titel_id, plattform
-           FROM prime_folge
-          WHERE uebernommen = 0 AND id > ?1
-          ORDER BY id
+        /*
+          **Der Serienname kommt aus der Meldung derselben Adresse.**
+
+          `meldung_id` steht in der Tabelle, wurde aber nie gefüllt — bei allen
+          795 offenen Zeilen ist sie leer (gemessen 01.09.2026). Der Weg über
+          die Adresse trägt trotzdem: Zu jeder Rohfolge gibt es eine Meldung
+          unter derselben URL, und die kennt den Namen.
+
+          Gebraucht wird er, wo unser Bestand die Adresse nicht führt — Prime
+          legt je Staffel eine eigene an, wir kennen eine. „Card Captor Sakura"
+          lag deshalb mit 105 Folgen auf zwei Adressen unzugeordnet, obwohl der
+          Titel im Bestand steht.
+        */
+        `SELECT f.id, f.url, f.asin, f.gti, f.nummer, f.titel, f.erschienen, f.dauer_sek,
+                f.sprachen, f.untertitel, f.staffel_text, f.staffel_nr, f.gemeldet_am,
+                f.titel_id, f.plattform,
+                (SELECT p.titel FROM pruefung p
+                  WHERE p.url = f.url AND p.titel IS NOT NULL
+                  ORDER BY p.gemeldet_am DESC LIMIT 1) AS serientitel
+           FROM prime_folge f
+          WHERE f.uebernommen = 0 AND f.id > ?1
+          ORDER BY f.id
           LIMIT 5000`,
       )
         .bind(Number.isFinite(nach) ? nach : 0)

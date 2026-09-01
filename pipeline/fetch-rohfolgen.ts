@@ -56,6 +56,19 @@ interface Rohfolge {
     ist, wenn ein Titel bei mehreren Anbietern laeuft.
   */
   plattform?: string | null
+  /*
+    Der Serienname aus der Meldung derselben Adresse — der Worker liefert ihn
+    als Unterabfrage mit. Er ist der letzte Anker, wenn unser Bestand die
+    Adresse nicht kennt (Prime legt je Staffel eine eigene an).
+  */
+  serientitel?: string | null
+}
+
+/** Ein Name auf seinen Kern — dieselbe Formel wie in `fetch-pruefungen.ts`. */
+function titelSchluessel(name: string): string {
+  return String(name ?? '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '')
 }
 
 interface TmdbEintrag {
@@ -294,6 +307,53 @@ async function main(): Promise<void> {
     if (!treffer.length && suchZuTitel.has(url)) {
       const ids = suchZuTitel.get(url)!
       if (ids.size === 1) treffer.push(titles.find((t) => t.id === [...ids][0])!)
+    }
+    /*
+      **Und wo die Adresse nichts trifft, spricht der gemeldete Name.**
+
+      Am 01.09.2026 lagen 795 Rohfolgen auf 50 Adressen unzugeordnet, alle mit
+      „kein Titel zu dieser Adresse". Gemessen an zweien davon: Sie gehören zu
+      „Card Captor Sakura", und der Titel steht im Bestand — nur unter einer
+      **anderen** Prime-Adresse. Prime führt je Staffel eine eigene, unser
+      Bestand kennt eine.
+
+      Der Name ist hier ein **Vorschlag**, kein Beleg, und das ist vertretbar:
+      Was danach kommt, prüft ihn. `ordneZu` legt die gemeldeten Folgen über
+      Folgentitel und Erstausstrahlung; ein Namensvorschlag, dessen Folgen nicht
+      passen, fällt dort durch und bleibt offen. Das ist der Unterschied zu
+      `fetch-pruefungen.ts`, wo ein Namenstreffer direkt ein Urteil setzen
+      würde — dort bleibt er deshalb ein Vorschlag für die Handarbeit.
+
+      **Nur bei genau einem Treffer.** „Cardcaptor Sakura" gibt es fünfmal im
+      Bestand (Serie, zwei Filme, ein Special, „Clear Card Arc"); ohne die
+      Eindeutigkeit wäre das ein Ratespiel.
+    */
+    if (!treffer.length) {
+      const name = liste.find((f) => f.serientitel)?.serientitel ?? null
+      if (name) {
+        const k = titelSchluessel(name)
+        const passt = (t: Title, genau: boolean) =>
+          [t.titleDe, t.titleEn, t.titleRomaji].some((x) => {
+            if (!x) return false
+            const y = titelSchluessel(x)
+            return genau ? y === k : y.startsWith(k)
+          })
+        /*
+          **Erst genau, dann als Anfang — und nie beides gemischt.**
+
+          Prime nennt die Serie „Das Dschungelbuch", unser Bestand „Das
+          Dschungelbuch: Die Serie"; 26 Folgen lagen deshalb unzugeordnet. Ein
+          Bestandstitel, der mit dem gemeldeten Namen **beginnt**, ist ein
+          brauchbarer Vorschlag — einer, der ihn irgendwo enthält, wäre es
+          nicht: „Gantz" steckt in jedem „Gantz:O".
+
+          Die Stufen bleiben getrennt: Gibt es einen genauen Treffer, gewinnt
+          er, auch wenn drei Titel mit demselben Namen anfangen.
+        */
+        const genau = titles.filter((t) => passt(t, true))
+        const kandidaten = genau.length ? genau : titles.filter((t) => passt(t, false))
+        if (kandidaten.length === 1) treffer.push(kandidaten[0]!)
+      }
     }
     if (treffer.length !== 1) {
       offen.push({
