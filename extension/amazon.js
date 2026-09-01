@@ -3565,6 +3565,25 @@ async function speicherSchreiben(werte) {
    * halben Minute rot gemeldet.
    */
   let suchErledigt = {}
+
+  /**
+   * **Eine beantwortete Wiedervorlage bleibt beantwortet — über das Neuladen hinweg.**
+   *
+   * Der Riegel kennt sonst kein Ende: Die Liste trägt `erneut`, bis der nächste
+   * Bau sie neu erzeugt, und der Knopf stünde die ganze Zeit offen. Daniel am
+   * 01.09.2026 nach der Meldung: „ich hab geklickt - button bleibt klickbar -
+   * ist was angekommen?" — sie war angekommen, der Knopf sagte es nur nicht.
+   *
+   * **Der erste Anlauf war ein `Set` im Arbeitsspeicher** und überlebte kein
+   * Neuladen; zwei Minuten später stand dieselbe Frage wieder da („soll ich
+   * klicken oder wie wird er zu 'alles gemeldet'?"). Gespeichert wird deshalb
+   * wie alles andere hier: in `chrome.storage.local`.
+   *
+   * Der Eintrag hält den **Grund**, auf den geantwortet wurde. Schreibt der
+   * nächste Bau eine *andere* Wiedervorlage, greift der Merker nicht mehr —
+   * eine neue Frage ist eine neue Frage.
+   */
+  let wiedervorlageBeantwortet = {}
   /**
    * Bis der Stand da ist, wird nichts behauptet.
    *
@@ -3576,18 +3595,20 @@ async function speicherSchreiben(werte) {
    */
   let standGeladen = false
   /** Das Laden selbst — damit ein Klick darauf warten kann statt zu pollen. */
-  const gelesen = speicherLesen(['amazonErledigt', 'amazonSuche'])
+  const gelesen = speicherLesen(['amazonErledigt', 'amazonSuche', 'amazonWiedervorlage'])
   // Synchron oder als Zusage — beides kommt vor, siehe `speicherLesen`.
   const standFertig = gelesen && typeof gelesen.then === 'function' ? gelesen : Promise.resolve(gelesen)
   if (gelesen && typeof gelesen.then !== 'function') {
     erledigt = gelesen.amazonErledigt ?? {}
     suchErledigt = gelesen.amazonSuche ?? {}
+    wiedervorlageBeantwortet = gelesen.amazonWiedervorlage ?? {}
     standGeladen = true
   }
   standFertig
     .then((x) => {
       erledigt = x?.amazonErledigt ?? {}
       suchErledigt = x?.amazonSuche ?? {}
+      wiedervorlageBeantwortet = x?.amazonWiedervorlage ?? {}
       standGeladen = true
       /**
        * Jetzt erst kann der Weg über den Serientitel greifen — vorher war
@@ -3767,23 +3788,12 @@ async function speicherSchreiben(werte) {
    *
    * Der lokale Vermerk bleibt stehen; er trägt den Befund von damals.
    */
-  /**
-   * **Was in dieser Sitzung gemeldet wurde, ist erledigt — auch bei Wiedervorlage.**
-   *
-   * Der Riegel kennt sonst kein Ende: Die Liste trägt `erneut`, bis der nächste
-   * Bau sie neu erzeugt, und der Knopf bliebe die ganze Zeit offen. Daniel am
-   * 01.09.2026 nach der Meldung: „ich hab geklickt - button bleibt klickbar -
-   * ist was angekommen?" — sie war angekommen, der Knopf sagte es nur nicht.
-   *
-   * Ein Merker je Eintrag genügt. Er lebt nur, solange die Seite offen ist; das
-   * ist genau die Spanne, in der die Liste noch die alte ist.
-   */
-  const wiedervorlageErledigt = new Set()
 
   function wiedervorlage(asinEintrag) {
     try {
-      if (wiedervorlageErledigt.has(asinEintrag)) return null
-      return String(liste[asinEintrag]?.erneut ?? '') || null
+      const grund = String(liste[asinEintrag]?.erneut ?? '') || null
+      if (!grund) return null
+      return wiedervorlageBeantwortet[asinEintrag] === grund ? null : grund
     } catch {
       return null
     }
@@ -8091,7 +8101,11 @@ async function speicherSchreiben(werte) {
           angekommenen Meldung (Daniel, 01.09.2026: "ich hab geklickt - button
           bleibt klickbar - ist was angekommen?"). Sie war angekommen.
         */
-        wiedervorlageErledigt.add(listenId)
+        const grundJetzt = String(liste[listenId]?.erneut ?? '')
+        if (grundJetzt) {
+          wiedervorlageBeantwortet = { ...wiedervorlageBeantwortet, [listenId]: grundJetzt }
+          await speicherSchreiben({ amazonWiedervorlage: wiedervorlageBeantwortet })
+        }
         void briefkastenHolen(true)
         /*
           Kam der Eintrag aus einer Suche, ist die Suchadresse damit erledigt —

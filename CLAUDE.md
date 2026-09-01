@@ -2624,3 +2624,33 @@ sondern was an ihrer Stelle stünde. Hier: nichts gegen einen falschen Namen.
 Zahl allein sah gut aus (139 → 109); erst die Liste der 29 übernommenen Titel
 zeigte, was darin steht. Eine Zahl, die sich in die gewünschte Richtung bewegt,
 ist kein Beleg für die Qualität dessen, was sie zählt.
+
+### Der Sandkasten fängt, was die Textprüfung nicht sehen kann
+
+Am 01.09.2026 lief zum vierten Mal in einer Woche derselbe Absturz: Ein `let`
+im Modulscope wurde vor seiner Deklaration gelesen, diesmal
+`wiedervorlageBeantwortet`. Die statische Zusicherung dafür
+(`amazon-folgenzahl.test.cjs`) meldete grün.
+
+**Der Grund ist eine Lücke, die sich nicht schließen lässt.** Sie sucht
+`name.` — die Nutzung als Objekt. Hier stand aber eine reine **Zuweisung**:
+
+```
+wiedervorlageBeantwortet = x?.amazonWiedervorlage ?? {}
+```
+
+Der Versuch, auch Zuweisungen zu zählen, erzeugte sofort vier Fehlalarme
+(`id`, `listenId`, `eintrag`, `letzterStand`) — alle stehen in Funktionskörpern
+und laufen erst später, sind also harmlos. Textlich ist das nicht zu trennen:
+Dieselbe Zeile ist ein Absturz oder harmlos, je nachdem, **wann** ihr Block
+läuft. Die Schärfung wurde deshalb zurückgenommen; eine Prüfung, die
+zuverlässig zu Unrecht rot wird, ist schlimmer als keine.
+
+**Gefangen hat es `tools/amazon-startseite-pruefen.cjs`** — der Sandkasten, der
+`amazon.js` wirklich lädt. Sechs Zusicherungen der Übersicht wurden rot, mit der
+Meldung im Klartext.
+
+**Die Lehre über dem Einzelfall:** Für Fehler, die von der Ausführungsreihenfolge
+abhängen, ist das Ausführen die Prüfung — nicht das Lesen. Die statische
+Zusicherung bleibt trotzdem: Sie fängt die Fälle, die der Sandkasten nur auf
+einer Seite sieht, die er gerade nicht nachstellt.
