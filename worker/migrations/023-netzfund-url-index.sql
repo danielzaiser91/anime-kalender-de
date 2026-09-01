@@ -1,0 +1,17 @@
+-- Der letzte Zugriff ohne Index — vorsorglich, bevor er teuer wird.
+--
+-- Am 01.09.2026 hat eine Unterabfrage ohne Index das D1-Tageskontingent
+-- aufgebraucht (8,82 Millionen gelesene Zeilen bei einem Limit von fünf,
+-- Migration 022). Der Anlass war ein Bau von diesem Tag; die Lehre gilt
+-- allgemein, und deshalb steht hier der einzige verbliebene Zugriff derselben
+-- Art:
+--
+--   SELECT id FROM netzfund WHERE url = ?1
+--
+-- Er läuft bei **jedem** gemeldeten Netzfund und ist heute billig, weil die
+-- Tabelle klein ist. Das ist kein Zustand, auf den man baut: Genau so war es
+-- bei `pruefung` auch, bis dort 3.467 Zeilen lagen.
+--
+-- Ein Index kostet etwas Schreibzeit und ein paar Kilobyte. Ein fehlender
+-- kostet das Tageskontingent — und mit ihm den Briefkasten für alle.
+CREATE INDEX IF NOT EXISTS netzfund_url ON netzfund (url);
