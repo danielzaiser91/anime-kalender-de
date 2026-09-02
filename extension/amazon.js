@@ -3031,7 +3031,26 @@ async function speicherSchreiben(werte) {
             const karten = sortiert.slice(0, 4).filter((z) => ohneParameter(z.url))
             if (karten.length < 2) return []
             const kennungVon = (z) => /\/(?:dp|detail)\/([A-Z0-9]{10,26})/.exec(ohneParameter(z.url) ?? '')?.[1] ?? null
-            const bereits = new Set(auftrag.erwartet ?? [])
+            /*
+              **Die bestätigte Auswahl kommt aus dem gemerkten Auftrag, nicht aus der Prüfliste.**
+
+              `auftrag` stammt aus `AK_OFFENE_AMAZON` — die Liste kennt keine
+              Erwartung, sie wird ja erst hier gesetzt. Gespeichert wird sie in
+              `sessionStorage` (`suchauftragMerken`), und das überlebt ein
+              Neuladen; gelesen wurde sie nur nicht, und nach F5 stand wieder
+              „Auswahl bestätigen" (Daniel, 02.09.2026: „nach neuladen muss
+              bestätigung erhalten bleiben").
+            */
+            const gemerkt = (() => {
+              try {
+                const a = suchauftrag()
+                return a?.suchUrl === auftrag.suchUrl && Array.isArray(a.erwartet) ? a.erwartet : null
+              } catch {
+                return null
+              }
+            })()
+            const erwartetJetzt = auftrag.erwartet ?? gemerkt ?? null
+            const bereits = new Set(erwartetJetzt ?? [])
             const zeilen = karten
               .map((z) => {
                 const k = kennungVon(z)
@@ -3060,8 +3079,10 @@ async function speicherSchreiben(werte) {
             const gruppe = document.createElement('div')
             gruppe.className = 'ak-such-gruppe'
             for (const z of zeilen) gruppe.appendChild(z)
+            const knopfReihe = document.createElement('div')
+            knopfReihe.className = 'ak-such-knopfreihe'
             const bestaetigen = kastenKnopf(
-              auftrag.erwartet?.length ? `Auswahl ändern (${auftrag.erwartet.length} erwartet)` : 'Auswahl bestätigen',
+              erwartetJetzt?.length ? `${erwartetJetzt.length} erwartet` : 'Auswahl bestätigen',
               (k) => {
                 const gewaehlt = [...gruppe.querySelectorAll('.ak-such-auswahl input:checked')]
                   .map((b) => b.dataset.kennung)
@@ -3069,10 +3090,31 @@ async function speicherSchreiben(werte) {
                 suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, erwartet: gewaehlt })
                 k.textContent = `${gewaehlt.length} erwartet`
                 k.disabled = true
+                zuruecknehmen.hidden = false
                 uebersichtZeichnen()
               },
             )
-            gruppe.appendChild(bestaetigen)
+            bestaetigen.disabled = Boolean(erwartetJetzt?.length)
+            /*
+              **Zurücknehmen gehört daneben, nicht in ein Untermenü.**
+
+              Eine Bestätigung, die sich nicht widerrufen lässt, macht aus einem
+              Verklicker eine Sackgasse — hier sogar eine, die den Auftrag
+              offenhält, bis beide Ausgaben gemeldet sind (Daniel, 02.09.2026:
+              „neben bestätigen muss ein undo button sein").
+            */
+            const zuruecknehmen = kastenKnopf('↺', () => {
+              suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, erwartet: null })
+              bestaetigen.textContent = 'Auswahl bestätigen'
+              bestaetigen.disabled = false
+              zuruecknehmen.hidden = true
+              uebersichtZeichnen()
+            })
+            zuruecknehmen.title = 'Bestätigung zurücknehmen'
+            zuruecknehmen.classList.add('ak-suchknopf-klein')
+            zuruecknehmen.hidden = !erwartetJetzt?.length
+            knopfReihe.append(bestaetigen, zuruecknehmen)
+            gruppe.appendChild(knopfReihe)
             return [gruppe]
           })(),
           /*

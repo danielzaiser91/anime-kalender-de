@@ -790,3 +790,19 @@
   border-color: #7aa2ff;
   background: rgba(122, 162, 255, 0.12);
 }
+
+/* Bestätigen und Zurücknehmen stehen nebeneinander — eine Entscheidung, zwei Richtungen. */
+.ak-such-knopfreihe {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 5px;
+}
+
+.ak-such-knopfreihe .ak-suchknopf { margin: 0; }
+
+.ak-suchknopf-klein {
+  padding: 2px 8px;
+  font-size: 13px;
+  line-height: 1.2;
+}
