@@ -823,6 +823,26 @@ async function speicherSchreiben(werte) {
     }
     return {
       erwartungsLage: erwartungsLage(),
+      /**
+       * **Was der Knopf sagt — und was die Sperren dazu beitragen.**
+       *
+       * Am 02.09.2026 stand dort „✓ alles gemeldet", während die Checkliste
+       * daneben „offen" zeigte; drei gefixte Sperrzweige später sagte er es
+       * immer noch. Von außen war nicht zu sehen, welche Bedingung greift —
+       * vier Runden Raten haben das nicht geklärt, eine Ausgabe hätte es
+       * getan.
+       */
+      knopfLage: sicher(() => ({
+        text: knopf?.textContent ?? null,
+        gesperrt: Boolean(knopf?.disabled),
+        sichtbar: knopf?.style?.display !== 'none',
+        imKasten: Boolean(knopf?.parentElement?.className?.includes?.('ak-amazon-suchhinweis')),
+        /* Die drei Bedingungen, die ihn sperren — einzeln, damit erkennbar ist, welche. */
+        seiteOffen: seiteOffen(),
+        gemeldeteStaffel: gemeldeteStaffelNummer,
+        lokalAbgehakt: Object.keys(erledigt[listenId]?.staffeln ?? {}),
+        fertigLaut: fertig(listenId),
+      })),
       erzeugtAm: new Date().toISOString(),
       version: chrome?.runtime?.getManifest?.()?.version ?? 'unbekannt',
       adresse: location.href,
