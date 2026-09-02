@@ -23,6 +23,7 @@ import {
   englischeSchreibweisen,
   findeStaffel,
   folgenKern,
+  gruppiereNachAusgabe,
   ordneZu,
   type AnbieterFolge,
   type AsFolgeRoh,
@@ -216,81 +217,8 @@ async function main(): Promise<void> {
     folgen = [...jungste.values()]
   }
 
-  /**
-   * Je Adresse **und Ausgabe** gruppieren.
-   *
-   * Eine Meldung betrifft eine Staffel-Seite — aber Prime führt regelmäßig zwei
-   * Ausgaben desselben Titels unter derselben Adresse aus unserer Liste. „My
-   * First Girlfriend is a Gal" liegt als Kauftitel mit 11 Folgen und FSK 16 (die
-   * KAZÉ-Fassung samt OVA) und über den Crunchyroll-Kanal mit 10 Folgen und FSK
-   * 18, mit völlig anderen Folgentiteln, weil zwei Verlage unabhängig übersetzt
-   * haben (Daniel, 30.08.2026, mit Bildern).
-   *
-   * Nach Adresse allein gruppiert lägen beide in einem Topf, und die Zuordnung
-   * sähe eine Staffel mit 21 widersprüchlichen Folgen.
-   *
-   * **Die `asin` taugt dafür nicht — sie nennt die Folge, nicht die Ausgabe.**
-   * Der Kommentar an dieser Stelle behauptete das Gegenteil („sie nennt die
-   * Seite, von der die Folge gelesen wurde"), und niemand hat es nachgemessen.
-   * Gemessen am 02.09.2026 über alle 210 offenen Rohfolgen:
-   *
-   * | | |
-   * |---|---|
-   * | Adressen | 17 |
-   * | Gruppen nach `url#asin` | **210** — also eine je Folge |
-   * | Adressen mit doppelter Folgennummer | **0** |
-   *
-   * Die Folge von Golden Kamuy trägt `B0CN6MWLVS`, ihre Nachbarin eine andere.
-   * Jede Gruppe bestand damit aus **einer** Folge, und die Zuordnung über die
-   * Folgentitel — die drei davon braucht — konnte bauartbedingt nie greifen:
-   * Der Lauf meldete vier Tage lang „0 Adressen zugeordnet".
-   *
-   * **Getrennt wird deshalb über doppelte Folgennummern**, und das ist genau
-   * das Merkmal, das den Fall beschreibt, für den die Trennung gebaut wurde:
-   * Zwei Ausgaben unter einer Adresse zählen beide von 1 an. Zählt eine Adresse
-   * durch, gehört alles zusammen — dieselbe Regel, nach der auch die
-   * Erweiterung eine geratene Staffelnummer verwirft (`staffelnBereinigen`).
-   *
-   * Die `asin` bleibt an der Folge und wird beim Speichern mitgeführt; sie ist
-   * nur als Gruppenschlüssel untauglich.
-   */
-  const jeUrl = new Map<string, Rohfolge[]>()
-  {
-    const jeAdresse = new Map<string, Rohfolge[]>()
-    for (const f of folgen) {
-      const l = jeAdresse.get(f.url) ?? []
-      l.push(f)
-      jeAdresse.set(f.url, l)
-    }
-    for (const [url, liste] of jeAdresse) {
-      const nummern = liste.map((f) => f.nummer).filter((n): n is number => Number.isFinite(n))
-      const doppelt = nummern.length !== new Set(nummern).size
-      if (!doppelt) {
-        jeUrl.set(url, liste)
-        continue
-      }
-      /*
-        Zwei Ausgaben unter einer Adresse: getrennt wird über die Ausgabe-Kennung,
-        wo es eine gibt (`gti`), sonst über die Reihenfolge — die zweite Folge mit
-        derselben Nummer beginnt die zweite Ausgabe.
-      */
-      let teil = 0
-      const gesehen = new Set<number>()
-      for (const f of liste) {
-        if (Number.isFinite(f.nummer)) {
-          if (gesehen.has(f.nummer as number)) {
-            teil++
-            gesehen.clear()
-          }
-          gesehen.add(f.nummer as number)
-        }
-        const schluessel = `${url}#${teil}`
-        const l = jeUrl.get(schluessel) ?? []
-        l.push(f)
-        jeUrl.set(schluessel, l)
-      }
-    }
-  }
+  /* Die Regel, welche Folgen zusammengehören, steht in `shared/folgen-zuordnung.ts`. */
+  const jeUrl = gruppiereNachAusgabe(folgen)
 
   /*
     **Welcher Titel führt welche Folgentitel — der Anker für den letzten Fall.**

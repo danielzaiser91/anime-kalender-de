@@ -53,7 +53,7 @@ import { netflixNeutral } from '../shared/mappings.ts'
 import { pruefeErgebnis } from './lib/pruefung.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
-import { findeStaffel, folgenKern, ordneZu } from '../shared/folgen-zuordnung.ts'
+import { gruppiereNachAusgabe, findeStaffel, folgenKern, ordneZu } from '../shared/folgen-zuordnung.ts'
 import { netflixAdresseTaugt } from '../shared/netflix-adresse-pruefung.ts'
 import { beurteile } from './lib/crunchyroll-dub.ts'
 import {
@@ -2322,25 +2322,82 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
     mitKennung?: boolean
   }>
   /*
-    **Der Ausweg deckte genau den Fall zu, für den die Prüfung gebaut wurde.**
+    **Zwei Fehlgriffe an derselben Zeile, an einem Tag — und beide Male log die Zahl.**
 
-    Gezählt wurden nur Adressen mit `mitKennung` — und am 02.09.2026 trug keiner
-    der 210 offenen Einträge eine. `adressen` war damit null, die Bedingung
-    `adressen === 0 || …` grün, und der Lauf meldete vier Tage lang „0 Adressen
-    zugeordnet", ohne dass jemand rot wurde. Die Ursache war die Gruppierung nach
-    `url#asin` (siehe `fetch-rohfolgen.ts`); gefunden hat sie nicht diese Prüfung,
-    sondern Daniels Frage nach einem ganz anderen Thema.
+    Zuerst zählte die Prüfung nur Adressen mit `mitKennung`. Am 02.09.2026 trug
+    keiner der 210 offenen Einträge eine, `adressen` war null, die Bedingung grün
+    — und der Lauf meldete vier Tage lang „0 Adressen zugeordnet", ohne dass
+    jemand rot wurde. Der Ausweg deckte genau den Fall zu, für den die Prüfung
+    gebaut war.
 
-    Gezählt werden deshalb **alle** offenen Adressen. Ob eine Kennung dabei ist,
-    entscheidet, wie gut die Zuordnung sein könnte — nicht, ob sie überhaupt
-    stattgefunden hat.
+    Die Schärfung darauf („zähle alle Adressen") **hielt keine Stunde**: Nach der
+    behobenen Zuordnung waren 187 Rohfolgen abgehakt, und der nächste Lauf fand
+    nur noch die zwei Adressen, die sich bauartbedingt nicht auflösen lassen. Null
+    zugeordnet von zwei offenen — richtig, und trotzdem rot. **Der Deploy stand.**
+
+    Das ist die dokumentierte Falle: Eine Prüfung, die rot wird, weil die Arbeit
+    erledigt ist, misst das Falsche (CLAUDE.md, 25.08.2026). Ein Rest, der sich
+    nicht auflösen lässt, ist am Ende einer Arbeitsliste der **Normalfall**.
+
+    Deshalb jetzt zweigeteilt:
+
+    - **Die Regel** prüft eine Kulisse, unabhängig von jedem Datenstand (unten).
+      Sie hätte den echten Fehler gefangen: eine Adresse mit zwölf Folgen und
+      zwölf verschiedenen ASINs muss **eine** Gruppe ergeben, nicht zwölf.
+    - **Der Bestand** wird nur noch gegen eine Schwelle gehalten. Zwei
+      unauflösbare Reste sind normal, siebzehn Adressen ohne eine einzige
+      Zuordnung nicht.
   */
   const adressen = new Set(liste.map((e) => e.url).filter(Boolean)).size
-  const mitKennung = new Set(liste.filter((e) => e.mitKennung).map((e) => e.url).filter(Boolean)).size
+  const SCHWELLE = 5
   pruefe(
-    `Rohfolgen-Zuordnung greift (${zahlZugeordnet} zugeordnet, ${adressen} Adressen offen, davon ${mitKennung} mit Kennung)`,
-    adressen === 0 || zahlZugeordnet > 0,
-    `${adressen} Adressen offen, keine einzige zugeordnet — das ist kein magerer Ertrag, sondern ein Fehler`,
+    `Rohfolgen-Zuordnung greift (${zahlZugeordnet} zugeordnet, ${adressen} Adressen offen)`,
+    adressen < SCHWELLE || zahlZugeordnet > 0,
+    `${adressen} Adressen offen, keine einzige zugeordnet — bei so vielen ist das kein magerer Ertrag, sondern ein Fehler`,
+  )
+}
+
+console.log('\nRohfolgen: eine Adresse, eine Gruppe:')
+{
+  /*
+    Der Fehler vom 02.09.2026, wörtlich nachgestellt: Prime gibt jeder Folge eine
+    eigene ASIN. Wer danach gruppiert, bekommt je Folge eine Gruppe — und die
+    Zuordnung über Folgentitel braucht drei in einer Hand.
+  */
+  const zwoelf = Array.from({ length: 12 }, (_, i) => ({
+    url: 'https://www.amazon.de/dp/B0CH3DCVW6',
+    nummer: i + 1,
+    asin: `B0CN6MWL${String(i).padStart(2, '0')}`,
+  }))
+  const gruppen = gruppiereNachAusgabe(zwoelf)
+  pruefe(
+    `durchzählende Adresse bleibt eine Gruppe (${gruppen.size})`,
+    gruppen.size === 1 && [...gruppen.values()][0]!.length === 12,
+    `${gruppen.size} Gruppen statt einer — nach der ASIN gruppiert?`,
+  )
+
+  /* Und der Fall, für den die Trennung überhaupt gebaut wurde: zwei Ausgaben, beide ab 1. */
+  const zweiAusgaben = [
+    ...Array.from({ length: 12 }, (_, i) => ({ url: 'https://x/dp/A', nummer: i + 1, asin: 'S1' })),
+    ...Array.from({ length: 12 }, (_, i) => ({ url: 'https://x/dp/A', nummer: i + 1, asin: 'S2' })),
+  ]
+  const geteilt = gruppiereNachAusgabe(zweiAusgaben)
+  pruefe(
+    `zwei Ausgaben unter einer Adresse werden getrennt (${geteilt.size})`,
+    geteilt.size === 2 && [...geteilt.values()].every((l) => l.length === 12),
+    `${geteilt.size} Gruppen — Golden Kamuy Staffel 1 und 2 lägen in einem Topf`,
+  )
+
+  /* Eine Folge ohne Nummer darf die Gruppe nicht sprengen. */
+  const ohneNummer = [
+    { url: 'https://x/dp/B', nummer: 1, asin: 'a' },
+    { url: 'https://x/dp/B', nummer: null, asin: 'b' },
+    { url: 'https://x/dp/B', nummer: 2, asin: 'c' },
+  ]
+  pruefe(
+    'eine Folge ohne Nummer bleibt bei ihrer Adresse',
+    gruppiereNachAusgabe(ohneNummer).size === 1,
+    'die nummernlose Folge hat eine eigene Gruppe bekommen',
   )
 }
 

@@ -200,6 +200,68 @@ export interface AsFolgeRoh {
  * Der englische Titel kommt als zweite Schreibweise mit: Prime führt manche
  * Folgen englisch, auch auf der deutschen Seite.
  */
+/**
+ * **Welche Folgen einer Adresse gehören zusammen — und welche zu einer zweiten Ausgabe.**
+ *
+ * Prime führt gelegentlich zwei Ausgaben unter einer Adresse: Golden Kamuy
+ * Staffel 1 und 2, beide mit zwölf Folgen. Nach Adresse allein gruppiert lägen
+ * beide in einem Topf, und die Zuordnung sähe eine Staffel mit 21
+ * widersprüchlichen Folgen.
+ *
+ * **Die `asin` taugt zum Trennen nicht — sie nennt die Folge, nicht die Ausgabe.**
+ * Bis zum 02.09.2026 gruppierte der Lauf nach `url#asin`; der Kommentar dort
+ * behauptete, die Kennung nenne „die Seite, von der die Folge gelesen wurde".
+ * Gemessen über alle 210 offenen Rohfolgen: 17 Adressen, **210 Gruppen** — also
+ * eine je Folge, denn jede Folge trägt ihre eigene ASIN. Jede Gruppe bestand aus
+ * einer einzigen Folge, und die Zuordnung über Folgentitel, die drei davon
+ * braucht, konnte bauartbedingt nie greifen. Der Lauf meldete vier Tage lang
+ * „0 Adressen zugeordnet".
+ *
+ * **Getrennt wird deshalb über doppelte Folgennummern.** Das ist das Merkmal,
+ * das den Fall wirklich beschreibt: Zwei Ausgaben zählen beide von 1 an, eine
+ * durchzählende Adresse gehört zusammen. Dieselbe Regel, nach der auch die
+ * Erweiterung eine geratene Staffelnummer verwirft.
+ *
+ * Die `asin` bleibt an der Folge und wird beim Speichern mitgeführt; sie ist nur
+ * als Gruppenschlüssel untauglich.
+ */
+export function gruppiereNachAusgabe<T extends { url: string; nummer: number | null }>(
+  folgen: T[],
+): Map<string, T[]> {
+  const jeAdresse = new Map<string, T[]>()
+  for (const f of folgen) {
+    const l = jeAdresse.get(f.url) ?? []
+    l.push(f)
+    jeAdresse.set(f.url, l)
+  }
+
+  const ergebnis = new Map<string, T[]>()
+  for (const [url, liste] of jeAdresse) {
+    const nummern = liste.map((f) => f.nummer).filter((n): n is number => Number.isFinite(n))
+    if (nummern.length === new Set(nummern).size) {
+      ergebnis.set(url, liste)
+      continue
+    }
+    /* Die zweite Folge mit derselben Nummer beginnt die zweite Ausgabe. */
+    let teil = 0
+    const gesehen = new Set<number>()
+    for (const f of liste) {
+      if (Number.isFinite(f.nummer)) {
+        if (gesehen.has(f.nummer as number)) {
+          teil++
+          gesehen.clear()
+        }
+        gesehen.add(f.nummer as number)
+      }
+      const schluessel = `${url}#${teil}`
+      const l = ergebnis.get(schluessel) ?? []
+      l.push(f)
+      ergebnis.set(schluessel, l)
+    }
+  }
+  return ergebnis
+}
+
 export function ausAnisearch(folgen: AsFolgeRoh[]): TmdbFolge[] {
   return folgen.map((f) => ({
     s: 1,
