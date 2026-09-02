@@ -1,0 +1,19 @@
+-- Die Meldung nennt den Titel, für den sie gemeldet wurde.
+--
+-- Bis zum 02.09.2026 musste der Bau erraten, welchen Anime eine Meldung meint:
+-- Er suchte die gemeldete Adresse im Datensatz und fiel, wenn er sie nicht fand,
+-- auf einen Namensvergleich zurück, der ausdrücklich kein Beleg ist. Übrig
+-- blieben 36 Meldungen in `daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md`,
+-- jede mit der Bitte an Daniel, einen Vorschlag zu bestätigen.
+--
+-- Dabei steht die Antwort längst fest, bevor die Meldung entsteht: Wer aus der
+-- Prüfliste heraus eine Seite öffnet, arbeitet einen **Auftrag** ab, und der
+-- nennt seinen Titel. Anbieter führen denselben Anime unter mehreren Kennungen
+-- (Jujutsu Kaisen meldete sich als `title/80237957`, bei uns steht
+-- `title/81278456`) — die Adresse taugt deshalb grundsätzlich nicht als Anker,
+-- der Auftrag schon.
+--
+-- `prime_folge` trägt die Spalte seit Migration 018 und nutzt sie für die
+-- Rohfolgen. `pruefung` hatte sie nie, und damit ging die Kennung genau dort
+-- verloren, wo das Urteil steht.
+ALTER TABLE pruefung ADD COLUMN titel_id INTEGER;

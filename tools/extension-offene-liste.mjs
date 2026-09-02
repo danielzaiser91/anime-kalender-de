@@ -183,6 +183,23 @@ for (const [id, eintraege] of jeAdresse) {
     asId: anisearchKennung[String(sortiert[0].t.id)] ?? null,
     staffeln: sortiert.map((e, i) => ({
       nr: i + 1,
+      /*
+        **Die Kennung des Werks — sonst muss der Bau später raten.**
+
+        Eine Meldung nennt bisher nur die Adresse, und Anbieter führen denselben
+        Anime unter mehreren davon (Jujutsu Kaisen meldete sich als
+        `title/80237957`, bei uns steht `title/81278456`). Findet der Bau die
+        gemeldete Adresse nicht im Datensatz, fällt er auf einen Namensvergleich
+        zurück, der ausdrücklich kein Beleg ist — am 02.09.2026 warteten so 36
+        Meldungen in `daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md` auf
+        Daniels Bestätigung.
+
+        Dabei steht die Antwort fest, bevor die Meldung entsteht: Wer aus der
+        Prüfliste öffnet, arbeitet **diesen** Auftrag ab. Die Kennung reist
+        deshalb je Staffel mit, nicht je Adresse — bei einer Serienseite mit
+        mehreren Staffeln ist die Adresse für alle dieselbe, das Werk nicht.
+      */
+      id: e.t?.id ?? e.id ?? null,
       name: e.t.titleDe ?? e.t.titleEn ?? e.t.titleRomaji ?? '',
       folgen: e.t.episodes ?? 0,
       // Ein Film hat keine Folge zum Auswählen — man startet ihn einfach.

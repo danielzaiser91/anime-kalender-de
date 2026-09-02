@@ -115,6 +115,38 @@ const funde = []
 const offeneTitel = globalThis.AK_OFFENE_TITEL ?? {}
 
 /**
+ * **Welches Werk meint diese Meldung — der Auftrag weiß es, die Adresse nicht.**
+ *
+ * Anbieter führen denselben Anime unter mehreren Kennungen; Jujutsu Kaisen
+ * meldete sich als `title/80237957`, im Datensatz steht `title/81278456`.
+ * Findet der Bau die gemeldete Adresse nicht, fällt er auf einen Namensvergleich
+ * zurück, der ausdrücklich kein Beleg ist — am 02.09.2026 warteten 36 Meldungen
+ * in `daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md` auf Daniels
+ * Bestätigung, obwohl jede einzelne aus einem Auftrag stammte, der seinen Titel
+ * kennt.
+ *
+ * Gesucht wird **staffelgenau**: Eine Serienseite trägt alle Staffeln unter
+ * derselben Adresse, und die Kennung gehört zum Werk, nicht zur Seite. Ohne
+ * Staffelangabe wird nur geantwortet, wenn der Auftrag genau ein Werk führt —
+ * geraten wird nicht, denn eine falsche Kennung ist schlimmer als keine: Sie
+ * sieht aus wie ein Beleg.
+ */
+function titelIdFuer(reihe, staffelNr) {
+  try {
+    const staffeln = offeneTitel[String(reihe)]?.staffeln ?? []
+    if (!staffeln.length) return null
+    if (staffelNr != null) {
+      const treffer = staffeln.find((st) => Number(st.nr) === Number(staffelNr))
+      return treffer?.id ?? null
+    }
+    const ids = [...new Set(staffeln.map((st) => st.id).filter((x) => x != null))]
+    return ids.length === 1 ? ids[0] : null
+  } catch {
+    return null
+  }
+}
+
+/**
  * Was Netflix beim Prüfen über seine Staffeln gesagt hat — sofort verwendbar.
  *
  * Die mitgelieferte Liste kennt nur unsere Aufteilung, bis ein Datenlauf die
@@ -653,6 +685,8 @@ async function melden({ automatisch = false } = {}) {
          * Titel, den er angeklickt hat.
          */
         url: `https://www.netflix.com/title/${gemeinteReihe()}`,
+        /* Welches Werk gemeint ist — der Auftrag weiß es, die Adresse nicht. */
+        titelId: titelIdFuer(gemeinteReihe(), stand.staffel ?? null),
         sprachen: echte.map((s) => `${s.code}|${s.name}`),
         befund: ohneFolge ? 'weg' : deutsch ? 'dub' : 'kein_dub',
         titel: (stand.titel || '').replace(/\s*-\s*Netflix\s*$/i, '').trim() || null,
@@ -2296,6 +2330,7 @@ async function randMelden(folgen, befund, bisNummer) {
           folge: f.videoId,
           folge_nr: f.nummer,
           staffel: staffelDerFolge,
+          titelId: titelIdFuer(reihe, staffelDerFolge),
           staffeln: stand.staffeln ?? null,
           serientitel: stand.serientitel ?? null,
           notiz:
@@ -2387,6 +2422,7 @@ async function durchlaufMelden(folge, echte, deutsch) {
           falschen Staffel zu.
         */
         staffel: staffelDerFolge,
+        titelId: titelIdFuer(gemeinteReihe(), staffelDerFolge),
         staffeln: stand.staffeln ?? null,
         serientitel: stand.serientitel ?? null,
         notiz: `Durchlauf: Folge ${folge.nummer}${folge.titel ? ` — ${folge.titel}` : ''}`,
@@ -3547,6 +3583,7 @@ async function totMelden(id, titel) {
       body: JSON.stringify({
         plattform: 'netflix',
         url: `https://www.netflix.com/title/${id}`,
+        titelId: titelIdFuer(id, null),
         sprachen: [],
         befund: 'weg',
         titel: titel || null,

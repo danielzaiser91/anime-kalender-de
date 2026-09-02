@@ -160,13 +160,39 @@ for (const t of liste) {
       const roh = readFileSync(listenDatei, 'utf8')
       const daten = JSON.parse(roh.slice(roh.indexOf('{'), roh.lastIndexOf('}') + 1)) as Record<
         string,
-        { url?: string; anilistId?: number }
+        { url?: string; anilistId?: number; eintraege?: { id?: number | null }[] }
       >
+      /*
+        **Die Kennung steht zweimal in dieser Datei, und meistens nur an einer Stelle.**
+
+        `anilistId` auf der äußeren Ebene trägt ein Auftrag nur, wenn sie von Hand
+        ergänzt wurde — sie ist der Sonderfall für Adressen, die sich sonst nicht
+        auflösen lassen. Der Regelfall ist `eintraege[].id`: Dort steht, welche
+        Werke unter dieser Adresse zu prüfen sind, und das ist die Kennung, die der
+        Bau braucht.
+
+        **Derselbe Griff hat schon einmal drei Tage gekostet.** Am 28.08.2026 sendete
+        die Erweiterung ein Feld `titelId`, das sie aus `eintrag?.id` las — auch dort
+        die äußere Ebene, auch dort immer `undefined` (CLAUDE.md, „Ein neues Feld ist
+        erst eingebaut, wenn es am Ziel angekommen ist"). Hier stand der gleiche
+        Zugriff noch, und er ist am 02.09.2026 aufgefallen, als „Karakai Jouzu no
+        Takagi-san 2" gemeldet wurde: saubere Meldung, Adresse in keinem Verweis des
+        Datensatzes, Kennung 107068 im Auftrag — und niemand las sie.
+
+        Gelesen werden deshalb beide. Mehrere Werke unter einer Adresse sind der
+        Normalfall (eine Serienseite führt alle Staffeln); welches gemeint ist,
+        entscheidet danach die Folgenzahl, nicht diese Liste.
+      */
       for (const eintrag of Object.values(daten)) {
-        if (!eintrag?.url || !eintrag.anilistId) continue
+        if (!eintrag?.url) continue
         const k = schluesselAdresse(eintrag.url)
+        const kennungen = [
+          ...(eintrag.anilistId ? [eintrag.anilistId] : []),
+          ...(eintrag.eintraege ?? []).map((e) => e?.id).filter((n): n is number => Number.isFinite(n)),
+        ]
+        if (!kennungen.length) continue
         const bisher = nachUrl.get(k) ?? []
-        if (!bisher.includes(eintrag.anilistId)) nachUrl.set(k, [...bisher, eintrag.anilistId])
+        nachUrl.set(k, [...bisher, ...kennungen.filter((id) => !bisher.includes(id))])
       }
     } catch {
       /* Ohne lesbare Liste bleibt es bei den Ankern aus dem Datensatz. */
@@ -239,6 +265,8 @@ let selbstZugeordnet = 0
 let nachStaffelZugeordnet = 0
 /** Meldungen, deren Suchadresse den Titel im Klartext trug. */
 let ausSuchadresseZugeordnet = 0
+/** Wie viele Adressen die Meldung selbst zugeordnet hat — der Weg ohne Raten. */
+let ausMeldungZugeordnet = 0
 const offenGeblieben: string[] = []
 /** Meldungen, deren Adresse unser Datensatz nicht kennt — samt Namensvorschlag. */
 /**
@@ -340,7 +368,31 @@ for (const p of pruefungen) {
 
 for (const gruppe of jeAdresse.values()) {
   const p = gruppe[gruppe.length - 1]!
-  let ids = nachUrl.get(schluesselAdresse(p.url)) ?? []
+  /**
+   * **Die Meldung sagt selbst, für welches Werk sie gemeldet wurde.**
+   *
+   * Alles Weitere unten ist Rekonstruktion: die Adresse im Datensatz suchen, die
+   * Suchadresse zerlegen, zuletzt Namen vergleichen. Das war nötig, solange die
+   * Erweiterung nur meldete, *was* sie gesehen hat, und nicht, *wofür*.
+   *
+   * Anbieter führen denselben Anime unter mehreren Kennungen — Jujutsu Kaisen
+   * meldete sich als `title/80237957`, bei uns steht `title/81278456`. Die
+   * Adresse kann die Frage deshalb grundsätzlich nicht beantworten; der Auftrag
+   * kann es immer. Am 02.09.2026 warteten 36 Meldungen in
+   * `daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md` auf eine Bestätigung,
+   * die niemand hätte geben müssen.
+   *
+   * Seit dem 02.09.2026 tragen alle drei Melder `titelId` mit (staffelgenau aus
+   * ihrer Auftragsliste), der Worker speichert sie in `pruefung.titel_id`, und
+   * hier steht sie an erster Stelle. Was von vorher liegen blieb, geht weiter
+   * über die Wege darunter — die bleiben, für Meldungen ohne Auftrag und für den
+   * Altbestand.
+   */
+  const ausMeldung = gruppe
+    .map((m) => (m as { titel_id?: number | null }).titel_id)
+    .filter((n): n is number => Number.isFinite(n as number))
+  let ids = ausMeldung.length ? [...new Set(ausMeldung)] : (nachUrl.get(schluesselAdresse(p.url)) ?? [])
+  if (ausMeldung.length) ausMeldungZugeordnet++
   if (!ids.length && p.url.includes('/s?k=')) {
     const ausAdresse = ausSuchadresse(p.url)
     if (ausAdresse.length) {
@@ -939,6 +991,7 @@ if (Object.keys(anbieterStruktur).length && !TROCKEN) {
 
 log(
   `${pruefungen.length} Prüfungen abgeholt, ${uebernommen} Einträge geschrieben` +
+    (ausMeldungZugeordnet ? `, ${ausMeldungZugeordnet} von der Meldung selbst benannt` : '') +
     (selbstZugeordnet ? `, ${selbstZugeordnet} über den Namen zugeordnet` : '') +
     (ausSuchadresseZugeordnet
       ? `, ${ausSuchadresseZugeordnet} über den Titel in der Suchadresse`

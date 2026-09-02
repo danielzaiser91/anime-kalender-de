@@ -73,6 +73,8 @@ for (const [id, eintraege] of jeAdresse) {
     url: sortiert[0].url,
     staffeln: sortiert.map((e, i) => ({
       nr: i + 1,
+      /* Warum die Kennung mitreist: siehe `extension-offene-liste.mjs`. */
+      id: e.t?.id ?? e.id ?? null,
       name: e.t.titleDe ?? e.t.titleEn ?? e.t.titleRomaji ?? '',
       folgen: e.t.episodes ?? 0,
       film: e.t.format === 'MOVIE',

@@ -2025,11 +2025,11 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
     const nurPlattform = sucheP.get('plattform')
     const abfrage = nurPlattform
       ? `SELECT id, plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln,
-                serientitel, notiz, teil_von, teil_bis, gemeldet_am, seiten_kennung
+                serientitel, notiz, teil_von, teil_bis, gemeldet_am, seiten_kennung, titel_id
            FROM pruefung WHERE uebernommen = 0 AND plattform = ?
            ORDER BY gemeldet_am LIMIT 500`
       : `SELECT id, plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln,
-                serientitel, notiz, teil_von, teil_bis, gemeldet_am, seiten_kennung
+                serientitel, notiz, teil_von, teil_bis, gemeldet_am, seiten_kennung, titel_id
            FROM pruefung WHERE uebernommen = 0
            ORDER BY gemeldet_am LIMIT 500`
     const stmt = env.DB.prepare(abfrage)
@@ -2238,8 +2238,17 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
     .run()
 
   await env.DB.prepare(
-    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am, zugang, abos, teil_von, teil_bis, seiten_kennung)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17)`,
+    /*
+      **`titel_id` sagt, für welchen Auftrag gemeldet wurde — die Adresse sagt es nicht.**
+
+      Anbieter führen denselben Anime unter mehreren Kennungen; wer aus der
+      Prüfliste heraus öffnet, weiß trotzdem, welcher Titel gemeint war. Ohne
+      dieses Feld musste der Bau die Adresse im Datensatz suchen und fiel sonst
+      auf einen Namensvergleich zurück, der ausdrücklich kein Beleg ist — am
+      02.09.2026 warteten so 36 Meldungen auf Daniels Bestätigung.
+    */
+    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am, zugang, abos, teil_von, teil_bis, seiten_kennung, titel_id)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18)`,
   )
     .bind(
       String(daten.plattform ?? 'unbekannt'),
@@ -2281,6 +2290,7 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
       zahlOderNull(daten.teil_bis),
       /* Die Seite, auf der wirklich gelesen wurde — trennt zwei Ausgaben desselben Titels. */
       seitenKennung,
+      zahlOderNull(daten.titelId ?? daten.titel_id),
     )
     .run()
 
