@@ -3805,8 +3805,14 @@ async function speicherSchreiben(werte) {
       */
       ...(() => {
         try {
+          /*
+            Die Erwartung kommt vom Worker, nicht aus dem Sitzungs-Merker: Der
+            verfällt nach zehn Minuten, sie gilt bis alle Ausgaben gemeldet sind.
+            Nach dem Umstieg am 02.09.2026 blieb diese Stelle stehen, und die
+            Ausgaben fehlten auf der Titelseite (Video 15:31).
+          */
           const a = suchauftrag()
-          const erwartet = Array.isArray(a?.erwartet) ? a.erwartet : []
+          const erwartet = erwartungZu(a?.suchUrl ?? eintrag?.url ?? '') ?? (Array.isArray(a?.erwartet) ? a.erwartet : [])
           if (erwartet.length < 2) return []
           const hier = asin()
           return erwartet.map((k) => {
