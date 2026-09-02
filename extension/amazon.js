@@ -8103,7 +8103,35 @@ async function speicherSchreiben(werte) {
       prüfliste button?"). Der Takt holt das nach; er läuft ohnehin.
     */
     try {
-      const kasten = document.querySelector('.ak-amazon-suchhinweis')
+      /*
+        **Der Kasten ist die Hülle, nicht der Auftragshinweis.**
+
+        Er entstand nur, wenn es einen Auftrag zu zeigen gab. Nach der Meldung
+        gibt es keinen mehr — und dann standen die beiden Knöpfe wieder frei
+        nebeneinander (Daniel, 02.09.2026: „warum das alte design? es sollte
+        alles im kasten sein").
+
+        Fehlt er, entsteht hier eine leere Hülle mit Fußzeile. Sie kostet nichts,
+        wo ohnehin ein Knopf steht, und erscheint nicht, wo keiner ist: Ohne
+        sichtbaren Knopf wird sie gar nicht erst gebaut.
+      */
+      let kasten = document.querySelector('.ak-amazon-suchhinweis')
+      const etwasZuZeigen =
+        uebersichtKnopf.style.display !== 'none' || knopf.style.display !== 'none'
+      if (!kasten && etwasZuZeigen) {
+        kasten = document.createElement('div')
+        kasten.className = 'ak-amazon-suchhinweis ak-nur-huelle'
+        const zeile = document.createElement('div')
+        zeile.className = 'ak-such-fuss'
+        const links = document.createElement('span')
+        links.className = 'ak-such-fuss-links'
+        const mitte = document.createElement('span')
+        mitte.className = 'ak-such-fuss-mitte'
+        const rechts = document.createElement('span')
+        zeile.append(links, mitte, rechts)
+        kasten.appendChild(zeile)
+        document.body.appendChild(kasten)
+      }
       const fuss = kasten?.querySelector('.ak-such-fuss-mitte')
       if (fuss && uebersichtKnopf.parentElement !== fuss) {
         uebersichtKnopf.classList.add('ak-uebersicht-innen')

@@ -877,3 +877,18 @@
   margin: 8px 0 0;
   box-shadow: none;
 }
+
+/*
+  Der Kasten ohne Auftrag: nur die Fußzeile mit den beiden Knöpfen. Er hält sie
+  zusammen, statt sie frei über die Seite zu verteilen — das ist seine Aufgabe,
+  seit er das Bedienelement ist.
+*/
+.ak-nur-huelle {
+  padding: 6px 10px;
+}
+
+.ak-nur-huelle .ak-such-fuss {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
