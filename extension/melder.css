@@ -1027,8 +1027,76 @@
   display: none;
 }
 
+/*
+  Der Titel steht links, das X rechts — und der Titel darf umbrechen, ohne den
+  Knopf mitzunehmen.
+*/
 .ak-z-titel {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
   font-weight: 600;
+}
+
+.ak-z-titel-text {
+  min-width: 0;
+}
+
+/*
+  **Das X legt den Titel weg.**
+
+  Klein und zurückhaltend: Es ist ein Ausweg, keine Handlung, die man
+  anbieten will (Daniel, 02.09.2026: „um diesen titel nicht mehr zu suchen").
+  Unter dem Zeiger wird es deutlich — wer es sucht, findet es.
+*/
+.ak-z-weg {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color .15s ease, background .15s ease;
+}
+
+.ak-z-weg:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #e6edf3;
+}
+
+/*
+  **Weggelegt: Was zu diesem Titel gehört, verschwindet — der Weg zum nächsten
+  bleibt.**
+
+  Sichtbar bleiben genau zwei Dinge: der Prüflisten-Knopf, über den der nächste
+  Titel kommt, und die Debug-Zeile. Alles andere beantwortet eine Frage, die
+  gerade niemand mehr stellt.
+
+  Der Zustand hängt am Auftrag, nicht an der Seite: Er fällt von selbst weg,
+  sobald in der Prüfliste der nächste Titel gewählt wird.
+*/
+.ak-weggelegt .ak-z-titel,
+.ak-weggelegt .ak-z-inhalt,
+.ak-weggelegt .ak-z-melden,
+.ak-weggelegt .ak-such-fuss-rechts,
+.ak-weggelegt .ak-amazon-knopf-innen {
+  display: none !important;
+}
+
+/*
+  Ohne den aniSearch-Knopf wäre die rechte Hälfte leer und der Prüflisten-Knopf
+  stünde in einer halben Zeile. Er nimmt sie dann ganz.
+*/
+.ak-weggelegt .ak-such-fuss {
+  grid-template-columns: 1fr;
+  padding-top: 0;
+  border-top: none;
 }
 
 .ak-z-inhalt {

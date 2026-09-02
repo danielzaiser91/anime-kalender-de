@@ -89,7 +89,10 @@ const seite = `<!doctype html><meta charset="utf-8">
   ${css}
 </style>
 <div class="ak-amazon-suchhinweis">
-  <div class="ak-z-titel">Is This a Zombie? · 12 Folgen</div>
+  <div class="ak-z-titel">
+    <span class="ak-z-titel-text">Is This a Zombie? · 12 Folgen</span>
+    <button type="button" class="ak-z-weg">✕</button>
+  </div>
   <div class="ak-z-inhalt">
     <label class="ak-such-auswahl">
       <input type="checkbox" checked>
@@ -154,6 +157,15 @@ const lage = await seiteObj.evaluate(() => {
       }
     })(),
     linkDisplay: link ? getComputedStyle(link).display : '—',
+    /* Das X sitzt oben rechts — auf Höhe des Titels, am rechten Rand. */
+    weg: (() => {
+      const w = document.querySelector('.ak-z-weg')
+      const t = document.querySelector('.ak-z-titel')
+      if (!w || !t) return null
+      const a = r(w)
+      const b = r(t)
+      return { rechtsAbstand: Math.round(b.right - a.right), obenAbstand: Math.round(a.y - b.y) }
+    })(),
   }
 })
 
@@ -193,6 +205,10 @@ pruefe(
   lage.linkText && Math.abs(lage.linkText.linksAbstand - lage.linkText.rechtsAbstand) <= 2,
   `der aniSearch-Text steht mittig (links ${lage.linkText?.linksAbstand}, rechts ${lage.linkText?.rechtsAbstand})`,
 )
+
+/* Der Ausweg aus einem Titel, der bei Prime nicht zu finden ist (02.09.2026). */
+pruefe(lage.weg && lage.weg.rechtsAbstand <= 1, 'das X sitzt am rechten Rand der Titelzeile')
+pruefe(lage.weg && lage.weg.obenAbstand <= 4, '… auf Höhe des Titels')
 
 console.log(`\nBild: ${ziel}`)
 if (!existsSync(ziel)) {

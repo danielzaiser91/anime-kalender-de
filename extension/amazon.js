@@ -2006,6 +2006,51 @@ async function speicherSchreiben(werte) {
    */
   const SUCH_SCHLUESSEL = 'ak-prime-suchauftrag'
 
+  /**
+   * **Welcher Auftrag weggelegt wurde — und nur der.**
+   *
+   * Daniel am 02.09.2026: „pack ein x button oben rechts in die box, um diesen
+   * titel nicht mehr zu suchen … nur noch prüfliste und ruhemodus sind sichtbar
+   * wenn man x drückt, bis man den nächsten titel in der prüfliste auswählt."
+   *
+   * Der Fall dahinter: Ein Titel ist bei Prime nicht zu finden, und der Kasten
+   * fragt trotzdem weiter danach — auf jeder Seite, die man danach ansieht.
+   *
+   * **Gemerkt wird der Auftrag, nicht die Adresse.** Wer wegen desselben Titels
+   * eine zweite Seite öffnet, will ihn dort auch nicht mehr sehen; wer in der
+   * Prüfliste den nächsten anklickt, schon. Der Vermerk verfällt damit von
+   * selbst, ohne dass ihn jemand aufheben muss.
+   *
+   * Er liegt im `sessionStorage` neben dem Auftrag selbst — derselbe
+   * Geltungsbereich, dieselbe Lebensdauer. Ein Vermerk, der länger lebt als
+   * das, worauf er sich bezieht, wird zum Rätsel: „Warum zeigt der Kasten
+   * nichts mehr?"
+   */
+  const WEGGELEGT_SCHLUESSEL = 'akWeggelegt'
+
+  /** Kennzeichnet einen Auftrag — die Suchadresse, sonst der Titel. */
+  function auftragsKennung(auftrag) {
+    return auftrag?.suchUrl || auftrag?.url || auftrag?.titel || null
+  }
+
+  function istWeggelegt(auftrag) {
+    try {
+      const k = auftragsKennung(auftrag)
+      return Boolean(k) && sessionStorage.getItem(WEGGELEGT_SCHLUESSEL) === k
+    } catch {
+      return false
+    }
+  }
+
+  function weglegen(auftrag) {
+    try {
+      const k = auftragsKennung(auftrag)
+      if (k) sessionStorage.setItem(WEGGELEGT_SCHLUESSEL, k)
+    } catch {
+      /* Ohne Speicher bleibt der Kasten offen — sichtbar ist besser als kaputt. */
+    }
+  }
+
   function suchauftragMerken(auftrag) {
     try {
       sessionStorage.setItem(SUCH_SCHLUESSEL, JSON.stringify({ ...auftrag, zeit: Date.now() }))
@@ -2777,7 +2822,48 @@ async function speicherSchreiben(werte) {
     */
     const kopf = kasten.querySelector('.ak-z-titel')
     const kopfText = unterzeile ? titel + ' · ' + unterzeile : titel
-    if (kopf && kopf.textContent !== kopfText) kopf.textContent = kopfText
+    if (kopf) {
+      /*
+        Der Titel steht in einem eigenen Feld neben dem X — sonst überschreibt
+        `textContent` den Knopf gleich wieder mit.
+      */
+      let text = kopf.querySelector('.ak-z-titel-text')
+      if (!text) {
+        kopf.replaceChildren()
+        text = document.createElement('span')
+        text.className = 'ak-z-titel-text'
+        kopf.appendChild(text)
+
+        /*
+          **Das X legt den Titel weg, es schließt nicht den Kasten.**
+
+          Ein Kasten, der ganz verschwindet, nimmt den Prüflisten-Knopf mit —
+          und damit den Weg zum nächsten Titel. Weggelegt wird deshalb nur, was
+          diesen einen Auftrag betrifft; was den Stand der Arbeit zeigt, bleibt
+          (Daniel, 02.09.2026: „nur noch prüfliste und ruhemodus sind sichtbar").
+        */
+        const x = document.createElement('button')
+        x.type = 'button'
+        x.className = 'ak-z-weg'
+        x.textContent = '✕'
+        x.title = 'Diesen Titel nicht mehr suchen — bis zum nächsten aus der Prüfliste'
+        x.addEventListener('click', (e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          weglegen(suchauftrag())
+          kasten.classList.add('ak-weggelegt')
+        })
+        kopf.appendChild(x)
+      }
+      if (text.textContent !== kopfText) text.textContent = kopfText
+    }
+
+    /*
+      Der Zustand wird bei jedem Zeichnen neu gesetzt, nicht nur beim Klick: Ein
+      Auftragswechsel hebt ihn damit von selbst auf, ohne dass eine zweite
+      Stelle daran denken muss.
+    */
+    kasten.classList.toggle('ak-weggelegt', istWeggelegt(suchauftrag()))
 
     /*
       **Der aniSearch-Verweis sitzt in der Fußzeile, nicht im Inhalt.**
