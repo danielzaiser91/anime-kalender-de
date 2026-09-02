@@ -1975,11 +1975,19 @@
   ],
   "auto-171018-disc": [
     {
+      "url": "https://www.anime2you.de/news/1045863/animoon-monatsangebot-dan-da-dan/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-09-02",
+      "sagt": "2026-09-30",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1039547/dan-da-dan-staffel-1-blu-ray-komplettbox/",
       "name": "anime2you.de",
       "gesehenAm": "2026-09-02",
       "sagt": "2026-10-30",
-      "stand": "aktuell"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2026-09-30"
     }
   ],
   "auto-166216-netflix": [
@@ -3733,6 +3741,15 @@
       "name": "anime2you.de",
       "gesehenAm": "2026-09-02",
       "sagt": "2026-10-25",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-180523-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1044401/a-wild-last-boss-appeared-staffel-1-blu-ray-release/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-09-02",
+      "sagt": "2026-11-06",
       "stand": "aktuell"
     }
   ]

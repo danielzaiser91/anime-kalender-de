@@ -1,24 +1,28 @@
 {
- "erzeugtAm": "2026-09-02T04:50:00.983Z",
+ "erzeugtAm": "2026-09-02T08:53:04.945Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
    "gemeldet": 706,
-   "gesamt": 707,
-   "offen": 1,
+   "gesamt": 708,
+   "offen": 2,
    "ohneSeite": 1,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Is%20This%20a%20Zombie%3F&i=instant-video"
    ],
-   "ziel": "https://www.amazon.de/dp/B0GPD4GNLL",
+   "ziel": "https://www.amazon.de/gp/video/detail/0ST5YU69NBGTLE16XV4G99HZNC",
    "ziele": [
+    {
+     "url": "https://www.amazon.de/gp/video/detail/0ST5YU69NBGTLE16XV4G99HZNC",
+     "titel": "Karakai Jouzu no Takagi-san 2"
+    },
     {
      "url": "https://www.amazon.de/dp/B0GPD4GNLL",
      "titel": "My First Girlfriend Is a Gal — Kauftitel (FSK 16, mit OVA)"
     }
    ],
-   "naechster": "My First Girlfriend Is a Gal — Kauftitel (FSK 16, mit OVA)"
+   "naechster": "Karakai Jouzu no Takagi-san 2"
   },
   {
    "name": "Netflix",
