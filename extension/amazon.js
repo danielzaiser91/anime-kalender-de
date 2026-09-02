@@ -830,6 +830,60 @@ async function speicherSchreiben(werte) {
    * Ein zweiter Aufruf schaltet zurück. Der Modus gilt nur für diesen Tab und
    * ist nach dem Neuladen weg — er ändert nichts an der Seite, er blendet aus.
    */
+  /**
+   * **Die Schalter für Diagnose-Läufe — am linken Rand des Kastens.**
+   *
+   * Der Ruhemodus lässt sich per Konsolenbefehl schalten, und für ein einmaliges
+   * Messen genügt das. Für etwas, das man während einer Aufnahme mehrfach
+   * braucht, nicht (Daniel, 02.09.2026).
+   *
+   * Sie hängen **am Kasten**, nicht frei am Bildschirmrand: Alles, was die
+   * Erweiterung zeigt, gehört zusammen — dieselbe Vorgabe wie beim Melde- und
+   * Prüflisten-Knopf. Außen liegen sie trotzdem, denn sie sind Werkzeug, nicht
+   * Bedienung.
+   *
+   * Die Liste ist der Grund für die Bauweise: Ein zweiter Schalter kostet eine
+   * Zeile hier, keine neue Oberfläche.
+   */
+  const DEBUG_SCHALTER = [
+    {
+      an: '⏸',
+      aus: '▶',
+      titel: 'Ruhemodus: Hintergrundvideo und Animationen anhalten (für Aufnahmen)',
+      aktiv: () => document.documentElement?.classList?.contains('ak-ruhig') ?? false,
+      schalten: () => document.dispatchEvent(new CustomEvent('ak-ruhig')),
+    },
+  ]
+
+  function debugLeisteZeichnen() {
+    try {
+      const kasten = document.querySelector('.ak-amazon-suchhinweis')
+      if (!kasten) return
+      if (kasten.querySelector('.ak-debugleiste')) return
+      const leiste = document.createElement('div')
+      leiste.className = 'ak-debugleiste'
+      for (const sch of DEBUG_SCHALTER) {
+        const k = document.createElement('button')
+        k.type = 'button'
+        k.className = 'ak-debugknopf'
+        k.title = sch.titel
+        const zeigen = () => {
+          k.textContent = sch.aktiv() ? sch.an : sch.aus
+          k.classList.toggle('ak-debug-an', sch.aktiv())
+        }
+        k.addEventListener('click', () => {
+          sch.schalten()
+          zeigen()
+        })
+        zeigen()
+        leiste.appendChild(k)
+      }
+      kasten.appendChild(leiste)
+    } catch {
+      /* Eine Diagnosehilfe darf den Ablauf nie aufhalten. */
+    }
+  }
+
   /* Der Sandkasten der Zusicherungen kennt kein `addEventListener` am Dokument. */
   document.addEventListener?.('ak-ruhig', () => {
     const an = document.documentElement.classList.toggle('ak-ruhig')
@@ -8138,6 +8192,7 @@ async function speicherSchreiben(werte) {
 
   function taktSchritt() {
     const t0 = performance.now()
+    debugLeisteZeichnen()
     /*
       **Im Player zeigt die Erweiterung gar nichts.** Gesammelt wird auf der
       Übersichtsseite; im Player gibt es nichts zu lesen und nichts zu melden,

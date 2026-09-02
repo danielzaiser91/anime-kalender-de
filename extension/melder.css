@@ -968,3 +968,44 @@
 .ak-ruhig [style*='background-image'] {
   filter: grayscale(1) brightness(0.35);
 }
+
+/*
+  Die Debug-Schalter kleben am linken Rand des Kastens — sie gehören dazu, sind
+  aber kein Bedienelement. Wer sie nicht sucht, soll sie nicht bemerken: halb
+  durchsichtig, bis die Maus darauf liegt.
+*/
+.ak-amazon-suchhinweis { position: fixed; }
+
+.ak-debugleiste {
+  position: absolute;
+  right: 100%;
+  bottom: 8px;
+  margin-right: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  opacity: 0.3;
+  transition: opacity .15s ease;
+}
+
+.ak-debugleiste:hover { opacity: 1; }
+
+.ak-debugknopf {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 6px;
+  background: rgba(22, 27, 34, 0.92);
+  color: #94a3b8;
+  font-size: 11px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.ak-debugknopf:hover { border-color: #7aa2ff; color: #7aa2ff; }
+
+.ak-debugknopf.ak-debug-an {
+  border-color: #6ee7a0;
+  color: #6ee7a0;
+}
