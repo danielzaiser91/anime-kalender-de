@@ -1257,10 +1257,31 @@ const ersteAsin = Object.keys(ECHTE_LISTE)[0]
         'beide Pillen der Fußzeile stehen in einer Regel',
         /\.ak-such-fuss a,\s*\.ak-such-fuss \.ak-uebersicht-innen \{/.test(css),
       )
+      /*
+        Gemessen wird der **Block**, nicht ein Abstand in Zeichen: Ein Kommentar
+        dazwischen verändert die Zeichenzahl, nicht die Regel — und eine
+        Zusicherung, die daran scheitert, meldet einen Fehler, den es nicht gibt
+        (passiert beim nächsten Umbau derselben Regel, 02.09.2026).
+      */
+      const pillenBlock = css.slice(
+        css.indexOf('.ak-such-fuss a,'),
+        css.indexOf('}', css.indexOf('.ak-such-fuss a,')),
+      )
       pruefe(
         'und ihre Höhe hängt nicht an der Schrift',
-        /\.ak-such-fuss a,[\s\S]{0,400}min-height: 26px/.test(css),
+        /min-height: 26px/.test(pillenBlock),
+        pillenBlock.slice(0, 120),
       )
+      /*
+        Beide Hälften sind gleich breit — sonst sitzt der Knopf je nach Länge
+        seiner Beschriftung woanders (Daniel, 02.09.2026: „mach prüfliste button
+        50% und links geklemmt, ani search die anderen 50%“).
+      */
+      pruefe(
+        'die Fußzeile teilt sich in zwei gleiche Hälften',
+        /\.ak-such-fuss \{[^}]*grid-template-columns: 1fr 1fr/s.test(css),
+      )
+      pruefe('und beide Pillen füllen ihre Hälfte', /width: 100%/.test(pillenBlock))
       pruefe(
         'die Inhaltszeile vergleicht ihre Signatur, bevor sie neu füllt',
         /inhalt\.dataset\.signatur === signatur/.test(quelle) && /inhalt\.dataset\.signatur = signatur/.test(quelle),

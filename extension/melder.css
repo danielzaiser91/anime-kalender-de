@@ -711,14 +711,28 @@
   simplen text identisch zum hinweis"). Wer den Kasten überfliegt, sucht genau
   diese Zeile.
 */
+/*
+  **Die Meldezeile füllt die Breite — sie ist die Antwort, nicht eine Marke.**
+
+  Sie saß als kleine Pille links am Rand, mit Innenabstand statt Höhe. Daniel
+  am 02.09.2026: „gemeldet button soll ganze breite einnehmen und weniger
+  padding nach oben unten haben, stattdessen größere height.“
+
+  Die Höhe steht damit fest, statt sich aus Schrift und Innenabstand zu ergeben
+  — dieselbe Bauweise wie bei den Pillen der Fußzeile, und aus demselben
+  Grund: Was die Höhe aus dem Text bildet, springt, sobald der Text wechselt.
+*/
 .ak-such-fertig {
-  display: inline-flex;
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
   align-items: center;
+  justify-content: center;
   gap: 5px;
-  align-self: flex-start;
-  margin: 2px 0;
-  padding: 2px 8px;
-  border-radius: 999px;
+  min-height: 30px;
+  margin: 0;
+  padding: 0 10px;
+  border-radius: 6px;
   background: rgba(31, 157, 85, 0.18);
   border: 1px solid rgba(31, 157, 85, 0.55);
   color: #6ee7a0;
@@ -761,13 +775,34 @@
 .ak-such-sprung:hover { opacity: 1; }
 
 /* Ergebnis links, Nachschlagen rechts — eine Zeile mit klaren Enden. */
+/*
+  **Zwei gleiche Hälften statt drei Plätze.**
+
+  Vorher war es eine Flex-Zeile mit `space-between` und drei Plätzen: Die
+  Knöpfe waren so breit wie ihr Text, und der Abstand dazwischen ergab sich aus
+  dem Rest — bei kurzen Beschriftungen standen sie weit auseinander, bei langen
+  klebten sie zusammen. Daniel am 02.09.2026: „mach prüfliste button 50% und
+  links geklemmt, ani search die anderen 50% rechts daneben.“
+
+  Ein Grid mit zwei gleichen Spalten macht die Aufteilung unabhängig von der
+  Beschriftung: Sie ist bei „Prime: alles geprüft“ dieselbe wie bei „1 offen“.
+*/
 .ak-such-fuss {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
   padding-top: 6px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/*
+  Der dritte Platz aus der alten Fußzeile. Er trägt nichts mehr — „gemeldet ✓“
+  steht seit 4.11.0 in der Meldezeile darüber — und würde als leere Spalte die
+  Hälften verschieben.
+*/
+.ak-such-fuss-links {
+  display: none;
 }
 
 /*
@@ -777,10 +812,11 @@
   nicht auf selber zeile wie anisearch button gerendert -> 2 zeilig -> führt zu
   box-height change").
 */
+/* Die rechte Hälfte — aniSearch. Dieselbe Regel wie links. */
 .ak-such-fuss-rechts {
   display: flex;
   align-items: center;
-  flex: none;
+  min-width: 0;
 }
 
 .ak-such-fuss-links {
@@ -812,7 +848,14 @@
 .ak-such-fuss a,
 .ak-such-fuss .ak-uebersicht-innen {
   box-sizing: border-box;
-  display: inline-flex;
+  /*
+    `flex` statt `inline-flex`, damit die Pille ihre Grid-Spalte ausfüllt.
+    Als `inline-flex` war sie so breit wie ihr Text, und der aniSearch-Knopf
+    saß dann nicht mittig in seiner Hälfte (Daniel, 02.09.2026: „ani search
+    text ist nicht zentriert, prüfliste button sitzt komisch“).
+  */
+  display: flex;
+  width: 100%;
   align-items: center;
   justify-content: center;
   gap: 5px;
@@ -890,11 +933,15 @@
 }
 
 /* Die Mitte der Fußzeile — dort steht „Prime: alles geprüft". */
+/*
+  Die linke Hälfte — der Prüflisten-Knopf. Sie zentriert nicht mehr selbst:
+  Ihr Inhalt füllt sie ganz aus, und das Zentrieren macht die Pille (siehe
+  oben). Vorher war der Knopf so breit wie sein Text und saß dadurch je nach
+  Beschriftung woanders.
+*/
 .ak-such-fuss-mitte {
   display: flex;
   align-items: center;
-  justify-content: center;
-  flex: 1 1 auto;
   min-width: 0;
 }
 
