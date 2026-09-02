@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-09-02T09:45:36.080Z",
+  "generatedAt": "2026-09-02T19:14:22.095Z",
   "titleCount": 2765,
-  "releaseCount": 313,
-  "eventCount": 949,
+  "releaseCount": 535,
+  "eventCount": 2786,
   "genres": [
     "Action",
     "Adventure",
@@ -472,8 +472,11 @@
     2024,
     2023,
     2022,
+    2021,
     2020,
     2019,
+    2018,
+    2017,
     2016,
     2015
   ],

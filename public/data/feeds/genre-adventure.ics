@@ -6,6 +6,17 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Adventure
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:vom-landei-zum-schwertheiligen-2@2026-08-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260826T160000Z
+DTEND:20260826T163000Z
+SUMMARY:Vom Landei zum Schwertheiligen II – Folge 8/12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nGe
+ schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
+ ails: https://anime-kalender.de/#/release/vom-landei-zum-schwertheiligen-2
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:tomb-raider-king@2026-08-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260826T171500Z
@@ -26,18 +37,6 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrzei
  thmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/release/thund
  er-3
 CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
-UID:vom-landei-zum-schwertheiligen-2@2026-08-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260826
-DTEND;VALUE=DATE:20260827
-SUMMARY:Vom Landei zum Schwertheiligen II – Folge 8/12
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Woche
- nrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/release/v
- om-landei-zum-schwertheiligen-2
-CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-08-28@anime-kalender-de
@@ -125,6 +124,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:vom-landei-zum-schwertheiligen-2@2026-09-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260902T160000Z
+DTEND:20260902T163000Z
+SUMMARY:Vom Landei zum Schwertheiligen II – Folge 9/12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nGe
+ schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
+ ails: https://anime-kalender.de/#/release/vom-landei-zum-schwertheiligen-2
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:tomb-raider-king@2026-09-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260902T171500Z
@@ -146,18 +156,6 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrzei
  thmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/release/thund
  er-3
 CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
-UID:vom-landei-zum-schwertheiligen-2@2026-09-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260902
-DTEND;VALUE=DATE:20260903
-SUMMARY:Vom Landei zum Schwertheiligen II – Folge 9/12
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Woche
- nrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/release/v
- om-landei-zum-schwertheiligen-2
-CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-09-04@anime-kalender-de
@@ -317,6 +315,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:vom-landei-zum-schwertheiligen-2@2026-09-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260909T160000Z
+DTEND:20260909T163000Z
+SUMMARY:Vom Landei zum Schwertheiligen II – Folge 10/12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nGe
+ schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
+ ails: https://anime-kalender.de/#/release/vom-landei-zum-schwertheiligen-2
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:tomb-raider-king@2026-09-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260909T171500Z
@@ -338,18 +347,6 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrzei
  thmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/release/thund
  er-3
 CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
-UID:vom-landei-zum-schwertheiligen-2@2026-09-09@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260909
-DTEND;VALUE=DATE:20260910
-SUMMARY:Vom Landei zum Schwertheiligen II – Folge 10/12
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Woche
- nrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/release/v
- om-landei-zum-schwertheiligen-2
-CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-09-11@anime-kalender-de
@@ -397,6 +394,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:vom-landei-zum-schwertheiligen-2@2026-09-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260916T160000Z
+DTEND:20260916T163000Z
+SUMMARY:Vom Landei zum Schwertheiligen II – Folge 11/12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nGe
+ schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
+ ails: https://anime-kalender.de/#/release/vom-landei-zum-schwertheiligen-2
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:tomb-raider-king@2026-09-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260916T171500Z
@@ -418,18 +426,6 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrzei
  thmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/release/thund
  er-3
 CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
-UID:vom-landei-zum-schwertheiligen-2@2026-09-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260916
-DTEND;VALUE=DATE:20260917
-SUMMARY:Vom Landei zum Schwertheiligen II – Folge 11/12
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Woche
- nrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/release/v
- om-landei-zum-schwertheiligen-2
-CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:yu-gi-oh-komplettbox-ksm@2026-09-17@anime-kalender-de
@@ -510,6 +506,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nGe
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:vom-landei-zum-schwertheiligen-2@2026-09-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20260923T160000Z
+DTEND:20260923T163000Z
+SUMMARY:Vom Landei zum Schwertheiligen II – Folge 12/12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nGe
+ schätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDet
+ ails: https://anime-kalender.de/#/release/vom-landei-zum-schwertheiligen-2
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:tomb-raider-king@2026-09-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260923T171500Z
@@ -531,18 +538,6 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrzei
  thmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/release/thund
  er-3
 CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
-UID:vom-landei-zum-schwertheiligen-2@2026-09-23@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260923
-DTEND;VALUE=DATE:20260924
-SUMMARY:Vom Landei zum Schwertheiligen II – Folge 12/12
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nUh
- rzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Woche
- nrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/#/release/v
- om-landei-zum-schwertheiligen-2
-CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-09-25@anime-kalender-de
