@@ -8032,6 +8032,20 @@ async function speicherSchreiben(werte) {
         uebersichtKnopf.classList.add('ak-uebersicht-innen')
         fuss.appendChild(uebersichtKnopf)
       }
+      /*
+        **Und der Melde-Knopf gehört genauso hinein.**
+
+        Er stand als eigene Insel unten rechts — also hinter dem Kasten, der seit
+        4.10.13 genau dort sitzt. Daniel sah ihn nicht und fragte „wie melden?"
+        (02.09.2026), obwohl er da war.
+
+        Unsichtbar bleibt er trotzdem, wo er nichts zu sagen hat: `zeichnen()`
+        setzt ihn dann auf `display: none`, und das gilt im Kasten genauso.
+      */
+      if (kasten && knopf.parentElement !== kasten) {
+        knopf.classList.add('ak-amazon-knopf-innen')
+        kasten.insertBefore(knopf, kasten.querySelector('.ak-such-fuss') ?? null)
+      }
     } catch {
       /* Ohne Kasten bleibt er, wo er ist. */
     }

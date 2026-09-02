@@ -862,3 +862,18 @@
   flex: none;
   color: #94a3b8;
 }
+
+/*
+  Der Melde-Knopf im Kasten: keine eigene Ecke mehr, volle Breite, damit er als
+  die Handlung erkennbar ist, die er ist. Draußen bleibt er unverändert.
+*/
+.ak-amazon-knopf-innen {
+  position: static;
+  right: auto;
+  bottom: auto;
+  z-index: auto;
+  display: block;
+  width: 100%;
+  margin: 8px 0 0;
+  box-shadow: none;
+}
