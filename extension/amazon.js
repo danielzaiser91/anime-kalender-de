@@ -4520,6 +4520,25 @@ async function speicherSchreiben(werte) {
         sondern die Trennung, die vorher fehlte: Der Briefkasten entscheidet,
         wo er etwas wissen kann.
       */
+      /*
+        **Die Erwartung steht vor allem anderen — auch vor dem Briefkasten.**
+
+        Dieser Zweig hier fragte zuerst: Steht die Adresse unter den je gemeldeten?
+        Bei einem Suchauftrag steht sie dort, sobald **eine** Ausgabe gemeldet ist —
+        und damit galt der Auftrag als fertig, obwohl die zweite noch offen war.
+
+        Belegt am 02.09.2026 im Diagnosebericht, nach drei Vermutungen:
+
+            erwartet     B0BYY9NN5D:offen · B0B8TN9LSJ:gemeldet
+            istGemeldet  true          <- falsch
+
+        Wo ein Mensch angekreuzt hat, was zusammengehört, entscheidet das — und
+        sonst nichts.
+      */
+      const erwartetVorab = erwartungZu(url)
+      if (erwartetVorab && briefkastenSeiten) {
+        return erwartetVorab.every((k) => briefkastenSeiten.has(String(k)))
+      }
       if (briefkastenAdressen?.has(url)) return true
       /*
         **Auch für eine Suchadresse entscheidet jetzt der Briefkasten.**
