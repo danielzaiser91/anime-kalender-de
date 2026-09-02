@@ -1987,6 +1987,39 @@ Sichtbar ist davon nichts außer der Trägheit.
 verhindert. Beim zweiten Mal ist nicht der Fehler das Problem, sondern dass die
 Prüfung, die es gekonnt hätte, nirgends aufgerufen wurde.
 
+### Beim Styling der Erweiterung wird hingesehen, nicht gerechnet
+
+Am 02.09.2026 sind drei Fassungen der Fußzeile hintereinander falsch
+ausgeliefert worden — jede aus einer Vermutung über das CSS, jede von Daniel
+mit einem Bild widerlegt. Beim dritten Mal seine Vorgabe: „prüf das styling
+selbst mit playwright und screenshots.“
+
+Der Fehler war am Ende eine **Doppelung, die ich selbst hinterlassen hatte**:
+`.ak-such-fuss-links { display: none }` stand über einer älteren Regel
+`.ak-such-fuss-links { display: flex }`. Bei gleicher Spezifität gewinnt die
+spätere — der leere Platz belegte damit die erste Grid-Spalte, der
+Prüflisten-Knopf rutschte nach rechts und aniSearch in die zweite Zeile. Aus
+dem Quelltext gelesen sah beides richtig aus; ein einziger Screenshot hätte es
+in der ersten Runde gezeigt.
+
+```
+npm run check:kasten
+```
+
+`tools/melder-kasten-bild.mjs` stellt den Kasten mit dem **echten**
+`melder.css` in Chromium nach, misst die Lage der Elemente und schreibt
+`docs/melder-kasten.png`. Es braucht weder Amazon noch Daniels Sitzung: Ob zwei
+Knöpfe nebeneinander stehen, entscheidet allein das Stylesheet.
+
+**Die Struktur darin stammt aus dem Code und veraltet ohne Pflege.** Deshalb
+hält das Werkzeug die Klassennamen gegen `amazon.js` und bricht ab, wenn eine
+fehlt — ein Bild von einer Struktur, die es nicht mehr gibt, ist schlimmer als
+keines: Es sieht richtig aus und misst etwas anderes.
+
+Was es **nicht** ersetzt: alles, was an echten Seitendaten hängt —
+Folgenzählung, Tonspuren, Briefkasten. Dafür bleibt Daniels Sitzung die
+einzige Messstelle.
+
 ### Ein Zwischenspeicher, dessen Schlüssel sich ständig ändert, ist keiner
 
 Im selben Zug gefunden, bevor es jemandem auffiel: `filmAusSeite()` (3.82) nahm

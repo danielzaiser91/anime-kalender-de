@@ -819,11 +819,7 @@
   min-width: 0;
 }
 
-.ak-such-fuss-links {
-  display: flex;
-  align-items: center;
-  min-height: 20px;
-}
+
 
 /*
   **Beide Knöpfe der Fußzeile sind dieselbe Pille — nur in anderer Farbe.**
