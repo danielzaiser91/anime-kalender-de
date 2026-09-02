@@ -22,6 +22,7 @@ import {
   beurteileNachFolgennummern,
   type CrDubData,
 } from './lib/crunchyroll-dub.ts'
+import { alleTermine } from './lib/crunchyroll-termine.ts'
 import { LEER as MOTN_LEER, ordneShowsZu, tmdbZuordnung, uebernehmbar, type MotnDaten } from './lib/motn.ts'
 import type { TmdbInfo } from './lib/tmdb.ts'
 import {
@@ -3136,6 +3137,74 @@ function main(): void {
     if (ausKatalog) log(`${ausKatalog} über den vollständigen deutschen Katalog belegt`)
     log(`${belegt} Synchro-Angaben aus den Crunchyroll-Serienseiten belegt (${crDub.serien.length} Seiten gelesen)`)
     if (verschwunden) log(`${verschwunden} Crunchyroll-Verweise entfernt — die Serie ist dort nicht mehr verfügbar`)
+    /*
+      **Und aus denselben Daten kommen die Termine.**
+
+      Bis zum 02.09.2026 endete der Crunchyroll-Abschnitt hier: Er beantwortete
+      **ob** es eine deutsche Fassung gibt und warf weg, **wann** sie kam —
+      obwohl beides in derselben Antwort steht. Der Kalender zeigte für „Die
+      Tagebücher der Apothekerin“ deshalb nur eine Blu-ray im September 2026,
+      für eine Serie, die seit dem 18.11.2023 vollständig deutsch läuft
+      (Daniel, 02.09.2026: „CRUNCHY WIRD VON UNS GESCANNED!!! WIE Kann so
+      unglaublich falsche info bei uns stehen???“). 21.689 datierte deutsche
+      Folgen lagen ungenutzt im Repo.
+
+      Die Ableitung steht in `lib/crunchyroll-termine.ts` und ist bewusst
+      streng: Sie liefert nur, wo genau ein Titel an der Adresse hängt, genau
+      ein Block datierte Folgen hat und dessen Folgenzahl exakt zur unseren
+      passt. Was sie liegen lässt, lässt sie mit Absicht liegen.
+    */
+    const crTermine = alleTermine(crDub.serien, nachUrl)
+    let termineNeu = 0
+    let termineSchonDa = 0
+    for (const t of crTermine) {
+      const title = titles.get(t.titleId)
+      if (!title) continue
+      /*
+        **Ein vorhandener Streaming-Termin gewinnt.** Was aus dem Kalender oder
+        aus einem kuratierten Eintrag stammt, ist näher an der Quelle als eine
+        Ableitung — und ein zweites Release derselben Plattform würde
+        behaupten, es gäbe die Staffel zweimal.
+      */
+      if (releases.some((r) => r.titleId === t.titleId && r.platform === 'crunchyroll')) {
+        termineSchonDa++
+        continue
+      }
+      const name = title.titleDe ?? title.titleEn ?? title.titleRomaji ?? `Titel ${t.titleId}`
+      const adresse = title.streams.find((x) => x.platform === 'crunchyroll')?.url
+      releases.push({
+        slug: slugify(`${name}-crunchyroll-de-${t.firstEpisodeDate}`),
+        titleId: t.titleId,
+        name,
+        platform: 'crunchyroll',
+        platformUrl: adresse,
+        releaseType: t.rhythmus,
+        schedule: {
+          firstEpisodeDate: t.firstEpisodeDate,
+          lastEpisodeDate: t.lastEpisodeDate,
+          time: t.time,
+          episodeCount: t.episodeCount,
+        },
+        /*
+          **„Im Angebot seit“, wenn alles an einem Tag kam.** Bei einem
+          Katalogtitel nimmt Crunchyroll die ganze Staffel auf einmal auf; das
+          Datum ist dann der Tag der Aufnahme, nicht der Erstausstrahlung —
+          dieselbe Unterscheidung wie bei ADN.
+        */
+        dateMeaning: t.rhythmus === 'batch' ? 'available-from' : undefined,
+        fsk: title.fsk,
+        note: `Deutsche Fassung bei Crunchyroll — ${t.datiert} Folgen mit belegtem Termin (Block „${t.blockName}“)`,
+        year: Number(t.firstEpisodeDate.slice(0, 4)),
+        sources: [adresse ?? 'https://www.crunchyroll.com/de'],
+      })
+      termineNeu++
+    }
+    if (termineNeu || termineSchonDa)
+      log(
+        `${termineNeu} deutsche Streaming-Termine aus den Crunchyroll-Folgendaten abgeleitet` +
+          (termineSchonDa ? ` (${termineSchonDa} hatten schon einen)` : ''),
+      )
+
     /* Geschrieben wird erst am Ende — nach der letzten Stelle, die entfernt. */
   }
 

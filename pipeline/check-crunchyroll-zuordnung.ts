@@ -23,6 +23,7 @@
  * Aufruf: npm run check:cr-zuordnung
  */
 import { beurteile, beurteileNachFolgennummern, beurteileBlockketten, type CrSerie, type CrDubData, beurteileJeBlock } from './lib/crunchyroll-dub.ts'
+import { termineAusSerie } from './lib/crunchyroll-termine.ts'
 import { readJson, ROOT } from './lib/util.ts'
 import { resolve } from 'node:path'
 import type { Title } from '../shared/types.ts'
@@ -712,6 +713,120 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
       { ...serie([block('S1', 24, 24), block('S2', 11, 11)]), katalog: 'us' },
       [titel(1, 24, 2019), titel(2, 11, 2021)],
     ).length === 0,
+  )
+}
+
+/* ══ Die Termine aus den Folgendaten ══════════════════════════════════════ */
+{
+  /*
+    **Der Anlass ist der schlimmste Befund dieses Projekts.**
+
+    Daniel am 02.09.2026 an „Die Tagebücher der Apothekerin“: Der Kalender
+    zeigte als einzigen Termin eine Blu-ray im September 2026 und dazu „0 von
+    24 Folgen erschienen · Wöchentlich Frs“ — für eine Serie, die seit dem
+    18.11.2023 vollständig deutsch bei Crunchyroll liegt. Die Termine lagen die
+    ganze Zeit im Repo (21.689 datierte deutsche Folgen), nur las sie niemand.
+
+    Geprüft wird an einer **Kulisse**, nicht am Bestand: Was heute abgeleitet
+    wird, hängt am Datenstand, und der ändert sich täglich (siehe CLAUDE.md,
+    „Eine Prüfung, die rot wird, weil die Arbeit erledigt ist“).
+  */
+  const folge = (nummer: number, tag: string) => ({
+    nummer,
+    guid: `G${nummer}DEDE`,
+    verfuegbarAb: `${tag}T21:30:00Z`,
+  })
+
+  const crSerie = (bloecke: { name: string; folgen: ReturnType<typeof folge>[] }[]): CrSerie =>
+    ({
+      url: 'https://example.test/apotheke',
+      seriesId: 'CR1',
+      quelle: 'api',
+      katalog: 'de',
+      geprueftAm: '2026-09-02',
+      deutschImAngebot: true,
+      staffeln: bloecke.map((b) => ({
+        name: b.name,
+        staffelId: b.name,
+        folgen: b.folgen.length,
+        kacheln: b.folgen.length,
+        deutsch: b.folgen.length,
+        fremd: 0,
+        deutscheFassung: true,
+        deutscheFolgen: b.folgen,
+      })),
+    }) as unknown as CrSerie
+
+  const crTitel = (id: number, episodes: number, jpYear: number): Title =>
+    ({
+      id,
+      episodes,
+      jpYear,
+      titleRomaji: `T${id}`,
+      streams: [{ platform: 'crunchyroll', url: 'https://example.test/apotheke', dub: true }],
+    }) as unknown as Title
+
+  /* Zwei Staffeln zu je drei Folgen, wöchentlich, zwei Jahre auseinander. */
+  const zweiStaffeln = crSerie([
+    { name: 'Staffel 1', folgen: [folge(1, '2023-11-18'), folge(2, '2023-11-25'), folge(3, '2023-12-02')] },
+    { name: 'Staffel 2', folgen: [folge(1, '2025-01-31'), folge(2, '2025-02-07'), folge(3, '2025-02-14')] },
+  ])
+  const beide = [crTitel(1, 3, 2023), crTitel(2, 3, 2025)]
+
+  const paare = termineAusSerie(zweiStaffeln, beide)
+  pruefe('zwei Staffeln an einer Adresse werden chronologisch gepaart', paare.length === 2)
+  pruefe(
+    'die ältere Staffel bekommt den früheren Termin',
+    paare[0]?.titleId === 1 && paare[0]?.firstEpisodeDate === '2023-11-18',
+    JSON.stringify(paare[0]),
+  )
+  pruefe(
+    'die neuere den späteren',
+    paare[1]?.titleId === 2 && paare[1]?.firstEpisodeDate === '2025-01-31',
+    JSON.stringify(paare[1]),
+  )
+  pruefe('der Wochentakt wird gemessen', paare.every((t) => t.rhythmus === 'weekly'))
+  pruefe('das Ende steht, weil der Block vollständig datiert ist', paare[0]?.lastEpisodeDate === '2023-12-02')
+  /*
+    **22:30, nicht 21:30.** Crunchyroll liefert UTC; im Winter ist Berlin eine
+    Stunde voraus. Wer nur `slice(0, 10)` nimmt, verschiebt jeden Termin nach
+    22:00 UTC auf den Vortag.
+  */
+  pruefe('die Uhrzeit steht in Ortszeit Europe/Berlin', paare[0]?.time === '22:30', paare[0]?.time)
+
+  /* Alles an einem Tag ist kein Sendeplan, sondern eine Katalogaufnahme. */
+  const sammel = crSerie([
+    { name: 'Staffel 1', folgen: [folge(1, '2023-02-23'), folge(2, '2023-02-23'), folge(3, '2023-02-23')] },
+  ])
+  const sammelTermin = termineAusSerie(sammel, [crTitel(1, 3, 2020)])
+  pruefe('gleicher Tag für alle Folgen heißt Sammelrelease', sammelTermin[0]?.rhythmus === 'batch')
+
+  /*
+    **Die drei Riegel** — jeder einzeln geprüft, weil jeder allein zu wenig
+    wäre. Ein falscher Termin trägt sich in den Kalender ein und schickt
+    jemanden zu einer Folge, die es nicht gibt.
+  */
+  pruefe(
+    'ungleiche Zahl von Blöcken und Titeln ergibt nichts',
+    termineAusSerie(zweiStaffeln, [crTitel(1, 3, 2023)]).length === 0,
+  )
+  pruefe(
+    'ein Paar mit falscher Folgenzahl verwirft die ganze Serie',
+    termineAusSerie(zweiStaffeln, [crTitel(1, 3, 2023), crTitel(2, 12, 2025)]).length === 0,
+  )
+  pruefe(
+    'kein Termin vor der japanischen Ausstrahlung',
+    termineAusSerie(zweiStaffeln, [crTitel(1, 3, 2023), crTitel(2, 3, 2027)]).length === 0,
+  )
+  pruefe(
+    'ohne belegte Synchro kein Termin',
+    termineAusSerie(sammel, [
+      { ...crTitel(1, 3, 2020), streams: [{ platform: 'crunchyroll', url: 'https://example.test/apotheke' }] } as unknown as Title,
+    ]).length === 0,
+  )
+  pruefe(
+    'aus dem US-Katalog kommt kein deutscher Termin',
+    termineAusSerie({ ...sammel, katalog: 'us' } as CrSerie, [crTitel(1, 3, 2020)]).length === 0,
   )
 }
 
