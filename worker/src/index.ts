@@ -2033,10 +2033,23 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
         `SELECT DISTINCT seiten_kennung FROM pruefung WHERE seiten_kennung IS NOT NULL AND seiten_kennung != ''`,
       ).all<{ seiten_kennung: string }>()
       const gemeldeteSeiten = (seiten ?? []).map((r) => r.seiten_kennung)
+      /* Die bestätigten Erwartungen — siehe Migration 026. */
+      const { results: erw } = await env.DB.prepare(
+        'SELECT such_url, kennungen FROM such_erwartung',
+      ).all<{ such_url: string; kennungen: string }>()
+      const erwartungen: Record<string, string[]> = {}
+      for (const r of erw ?? []) {
+        try {
+          const l = JSON.parse(r.kennungen)
+          if (Array.isArray(l) && l.length) erwartungen[r.such_url] = l
+        } catch {
+          /* Eine kaputte Zeile darf die Antwort nicht mitreißen. */
+        }
+      }
       return antwort(
         mitNummern
-          ? { imBriefkasten: je, adressen, gemeldet, gemeldeteSuchen, gemeldeteSeiten, eintraege }
-          : { imBriefkasten: je, adressen, gemeldet, gemeldeteSuchen, gemeldeteSeiten },
+          ? { imBriefkasten: je, adressen, gemeldet, gemeldeteSuchen, gemeldeteSeiten, erwartungen, eintraege }
+          : { imBriefkasten: je, adressen, gemeldet, gemeldeteSuchen, gemeldeteSeiten, erwartungen },
       )
     })
 
@@ -2429,6 +2442,40 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
   const offen2 = await env.DB.prepare('SELECT COUNT(*) AS n FROM pruefung WHERE uebernommen = 0').first<{
     n: number
   }>()
+  /*
+    **Welche Ausgaben zu einem Suchauftrag gehören — vom Menschen bestätigt.**
+
+    Prime führt denselben Anime regelmäßig zweimal (Kanal-Abo und Kauftitel).
+    Welche Karten dasselbe Werk meinen, sieht nur ein Mensch; er kreuzt sie auf
+    der Trefferliste an, und der Auftrag gilt erst als erledigt, wenn jede
+    gemeldet ist.
+
+    Das gehört hierher, nicht in den Browser: Der erste Anlauf legte es in
+    `sessionStorage` ab und war nach einem Neuladen weg (02.09.2026). Daniels
+    Regel vom 28.08.2026: „kein localstorage dafür … single source of truth."
+  */
+  if (daten.erwartung && typeof daten.erwartung === 'object') {
+    const e = daten.erwartung as { suchUrl?: unknown; kennungen?: unknown }
+    const suchUrl = e.suchUrl ? String(e.suchUrl).slice(0, 500) : null
+    if (suchUrl) {
+      const liste = Array.isArray(e.kennungen)
+        ? e.kennungen.map((k) => String(k).slice(0, 40)).filter(Boolean).slice(0, 20)
+        : []
+      if (liste.length) {
+        await env.DB.prepare(
+          `INSERT INTO such_erwartung (such_url, kennungen, gesetzt_am) VALUES (?1, ?2, ?3)
+           ON CONFLICT(such_url) DO UPDATE SET kennungen = ?2, gesetzt_am = ?3`,
+        )
+          .bind(suchUrl, JSON.stringify(liste), new Date().toISOString())
+          .run()
+      } else {
+        /* Leere Liste heißt zurücknehmen — das ↺ neben dem Bestätigen-Knopf. */
+        await env.DB.prepare('DELETE FROM such_erwartung WHERE such_url = ?1').bind(suchUrl).run()
+      }
+      return antwort({ ok: true, erwartung: liste.length })
+    }
+  }
+
   /*
     **Die Anzeige erfährt es sofort, nicht beim nächsten Nachfragen.**
 

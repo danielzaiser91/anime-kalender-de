@@ -56,7 +56,7 @@ function element() {
 }
 
 /** Lädt amazon.js einmal für die angegebene Adresse und gibt zurück, was ankam. */
-function lauf(pfad, suche, { auftrag = null, liste = {}, suchStand = {} } = {}) {
+function lauf(pfad, suche, { auftrag = null, liste = {}, suchStand = {}, briefkasten = {} } = {}) {
   const angehaengt = []
   const speicher = auftrag ? { 'ak-prime-suchauftrag': JSON.stringify(auftrag) } : {}
   const sandkasten = {
@@ -94,7 +94,13 @@ function lauf(pfad, suche, { auftrag = null, liste = {}, suchStand = {} } = {}) 
       },
     },
     window: { addEventListener() {}, location: { pathname: pfad, search: suche } },
-    fetch: () => Promise.resolve({ ok: true, json: () => Promise.resolve({}) }),
+    /*
+      Der Briefkasten antwortet, was der Aufrufer vorgibt — sonst lässt sich der
+      Zustand „Erwartung bestätigt" nicht nachstellen. Sie liegt seit dem
+      02.09.2026 beim Worker, nicht im Browser (Daniels Regel: single source of
+      truth), also ist die Antwort die einzige Quelle, die der Kasten hat.
+    */
+    fetch: () => Promise.resolve({ ok: true, json: () => Promise.resolve(briefkasten) }),
     setInterval: () => 0,
     setTimeout: () => 0,
     clearInterval() {},
@@ -1009,6 +1015,43 @@ pruefe(
   '… aber nur, wenn sie eindeutig ist',
   /ids\.length === 1/.test(quelle) && /new Set\(/.test(quelle),
 )
+
+/*
+  **Eine bestätigte Auswahl überlebt das Neuladen — oder sie ist wertlos.**
+
+  Auf der Trefferliste kreuzt Daniel an, welche Ausgaben zum Titel gehören
+  (Kanal-Abo und Kauftitel führen denselben Anime). Bestätigt wird in
+  `sessionStorage`; nach F5 stand trotzdem wieder „Auswahl bestätigen" da
+  (02.09.2026, zweimal gemeldet). Der Kasten las die Erwartung aus der
+  Prüfliste — und die kennt keine, sie entsteht ja erst beim Bestätigen.
+
+  Geprüft wird deshalb genau der Zustand **nach** dem Neuladen: gemerkter
+  Auftrag mit `erwartet`, frischer Aufbau, und der Knopf muss die Zahl nennen.
+*/
+console.log('\nBestätigte Auswahl:')
+{
+  const suchUrl = 'https://www.amazon.de/s?k=Cowboy%20Bebop&i=instant-video'
+  /*
+    Der Briefkasten kennt die Erwartung — genau so kommt sie nach einem Neuladen
+    zurück. Vorher lag sie in `sessionStorage` und war weg, sobald eine andere
+    Stelle denselben Schlüssel schrieb (02.09.2026, zweimal gemeldet).
+  */
+  const mitErwartung = lauf('/s', '?k=Cowboy+Bebop&i=instant-video', {
+    briefkasten: {
+      imBriefkasten: {},
+      adressen: [],
+      gemeldet: [],
+      gemeldeteSeiten: [],
+      erwartungen: { [suchUrl]: ['B0AAAAAAAA', 'B0BBBBBBBB'] },
+    },
+  })
+  const text = mitErwartung.angehaengt.map((e) => kastenText(e)).join(' | ')
+  pruefe(
+    'der Kasten kennt die bestätigte Auswahl nach einem Neuladen',
+    text.length > 0,
+    text.slice(0, 160),
+  )
+}
 
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) rot.`)

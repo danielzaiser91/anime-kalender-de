@@ -2706,7 +2706,8 @@ async function speicherSchreiben(werte) {
       const sprung = document.createElement('a')
       sprung.className = 'ak-such-sprung'
       sprung.href = `https://www.amazon.de/gp/video/detail/${kennung}`
-      sprung.textContent = '↗'
+      /* Als Knopf, nicht als Zeichen — ein ↗ am Zeilenende übersieht man (Daniel, 02.09.2026). */
+      sprung.textContent = 'öffnen'
       sprung.title = `${kennung} öffnen`
       sprung.addEventListener('click', (e) => {
         e.preventDefault()
@@ -3041,15 +3042,16 @@ async function speicherSchreiben(werte) {
               „Auswahl bestätigen" (Daniel, 02.09.2026: „nach neuladen muss
               bestätigung erhalten bleiben").
             */
-            const gemerkt = (() => {
-              try {
-                const a = suchauftrag()
-                return a?.suchUrl === auftrag.suchUrl && Array.isArray(a.erwartet) ? a.erwartet : null
-              } catch {
-                return null
-              }
-            })()
-            const erwartetJetzt = auftrag.erwartet ?? gemerkt ?? null
+            /*
+              **Die Erwartung kommt vom Worker.**
+
+              Der erste Anlauf nahm `sessionStorage` — und war nach einem
+              Neuladen weg, weil eine andere Stelle denselben Schlüssel ohne
+              `erwartet` überschrieb. Daniel dazu: „warum willst du irgendwas in
+              session storage machen? so machst du schon wieder quatsch und es
+              ist kein single source of truth."
+            */
+            const erwartetJetzt = erwartungZu(auftrag.suchUrl)
             const bereits = new Set(erwartetJetzt ?? [])
             const zeilen = karten
               .map((z) => {
@@ -3087,11 +3089,18 @@ async function speicherSchreiben(werte) {
                 const gewaehlt = [...gruppe.querySelectorAll('.ak-such-auswahl input:checked')]
                   .map((b) => b.dataset.kennung)
                   .filter(Boolean)
-                suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, erwartet: gewaehlt })
-                k.textContent = `${gewaehlt.length} erwartet`
                 k.disabled = true
-                zuruecknehmen.hidden = false
-                uebersichtZeichnen()
+                k.textContent = 'speichere …'
+                void erwartungMelden(auftrag.suchUrl, gewaehlt).then((ok) => {
+                  if (!ok) {
+                    k.disabled = false
+                    k.textContent = 'Auswahl bestätigen — nicht angekommen'
+                    return
+                  }
+                  k.textContent = `${gewaehlt.length} erwartet`
+                  zuruecknehmen.hidden = false
+                  uebersichtZeichnen()
+                })
               },
             )
             bestaetigen.disabled = Boolean(erwartetJetzt?.length)
@@ -3104,11 +3113,12 @@ async function speicherSchreiben(werte) {
               „neben bestätigen muss ein undo button sein").
             */
             const zuruecknehmen = kastenKnopf('↺', () => {
-              suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, erwartet: null })
-              bestaetigen.textContent = 'Auswahl bestätigen'
-              bestaetigen.disabled = false
               zuruecknehmen.hidden = true
-              uebersichtZeichnen()
+              void erwartungMelden(auftrag.suchUrl, []).then(() => {
+                bestaetigen.textContent = 'Auswahl bestätigen'
+                bestaetigen.disabled = false
+                uebersichtZeichnen()
+              })
             })
             zuruecknehmen.title = 'Bestätigung zurücknehmen'
             zuruecknehmen.classList.add('ak-suchknopf-klein')
@@ -4242,6 +4252,43 @@ async function speicherSchreiben(werte) {
   let briefkastenSuchen = null
   /** Seiten-Kennungen, auf denen schon nachgesehen wurde. */
   let briefkastenSeiten = null
+  /** Je Suchadresse die bestätigten Ausgaben — vom Worker, nicht aus dem Browser. */
+  let briefkastenErwartungen = null
+
+  /** Die bestätigte Erwartung zu einer Suchadresse, oder null. */
+  function erwartungZu(suchUrl) {
+    try {
+      const l = briefkastenErwartungen?.[suchUrl]
+      return Array.isArray(l) && l.length ? l : null
+    } catch {
+      return null
+    }
+  }
+
+  /**
+   * **Bestätigen heißt: dem Worker sagen, was zusammengehört.**
+   *
+   * Eine leere Liste nimmt die Bestätigung zurück (das ↺ neben dem Knopf).
+   * Danach wird der Briefkasten neu geholt, damit die Anzeige nicht auf einem
+   * lokalen Zwischenstand sitzt.
+   */
+  async function erwartungMelden(suchUrl, kennungen) {
+    try {
+      /* Dasselbe wie an jeder anderen Meldestelle — es gibt kein tokenHolen(). */
+      const { token } = await chrome.storage.sync.get('token')
+      if (!token) return false
+      const antwort = await fetch(WORKER, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
+        body: JSON.stringify({ erwartung: { suchUrl, kennungen } }),
+      })
+      if (!antwort.ok) return false
+      await briefkastenHolen(true)
+      return true
+    } catch {
+      return false
+    }
+  }
 
   /**
    * **Diese Seite ist offen, auch wenn ihr Auftrag schon eine Meldung hat.**
@@ -4336,6 +4383,12 @@ async function speicherSchreiben(werte) {
       briefkastenSuchen = Array.isArray(daten.gemeldeteSuchen) ? new Set(daten.gemeldeteSuchen) : null
       /* Die Seiten, auf denen schon nachgesehen wurde — siehe `seiteOffen`. */
       briefkastenSeiten = Array.isArray(daten.gemeldeteSeiten) ? new Set(daten.gemeldeteSeiten) : null
+      /*
+        Welche Ausgaben zu einem Suchauftrag gehören — bestätigt von Daniel, und
+        beim Worker gespeichert. Nicht im Browser: Der erste Anlauf legte es in
+        `sessionStorage` ab und war nach einem Neuladen weg (02.09.2026).
+      */
+      briefkastenErwartungen = daten.erwartungen && typeof daten.erwartungen === 'object' ? daten.erwartungen : null
       briefkastenGeholtAm = Date.now()
       try {
         uebersichtZeichnen()
@@ -4438,14 +4491,7 @@ async function speicherSchreiben(werte) {
         Kennungen der Seiten, auf denen wirklich nachgesehen wurde. Kein lokaler
         Zähler: Wird eine Meldung verworfen, steht ihre Seite wieder offen.
       */
-      const erwartet = (() => {
-        try {
-          const a = suchauftrag()
-          return a?.suchUrl === url && Array.isArray(a.erwartet) && a.erwartet.length ? a.erwartet : null
-        } catch {
-          return null
-        }
-      })()
+      const erwartet = erwartungZu(url)
       if (erwartet && briefkastenSeiten) {
         return erwartet.every((k) => briefkastenSeiten.has(String(k)))
       }
