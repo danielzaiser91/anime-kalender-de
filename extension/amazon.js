@@ -8159,10 +8159,27 @@ async function speicherSchreiben(werte) {
         document.body.appendChild(kasten)
       }
       const fuss = kasten?.querySelector('.ak-such-fuss-mitte')
-      if (fuss && uebersichtKnopf.parentElement !== fuss) {
-        uebersichtKnopf.classList.add('ak-uebersicht-innen')
-        fuss.querySelector('.ak-such-laedt')?.remove()
-        fuss.appendChild(uebersichtKnopf)
+      /*
+        **Ein Platzhalter, der nie weicht, ist schlimmer als ein leerer Platz.**
+
+        Er hält die Höhe, solange der Prüflisten-Knopf noch unterwegs ist. Auf
+        einer Seite ohne offene Prüfliste kommt er aber gar nicht — dort ist er
+        versteckt, und das „···" pulsierte im Video vom 02.09.2026 vier Sekunden
+        lang weiter, bis zum Ende der Aufnahme.
+
+        Er weicht deshalb in beiden Fällen: wenn der Knopf einzieht, und wenn
+        feststeht, dass keiner kommt (Briefkasten hat geantwortet, Knopf ist
+        versteckt).
+      */
+      if (fuss) {
+        const platz = fuss.querySelector('.ak-such-laedt')
+        if (uebersichtKnopf.style.display === 'none') {
+          if (briefkastenAdressen) platz?.remove()
+        } else if (uebersichtKnopf.parentElement !== fuss) {
+          uebersichtKnopf.classList.add('ak-uebersicht-innen')
+          platz?.remove()
+          fuss.appendChild(uebersichtKnopf)
+        }
       }
       /*
         **Und der Melde-Knopf gehört genauso hinein.**
