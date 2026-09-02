@@ -262,7 +262,16 @@ const alsTitel = lauf('/dp/B000W9GBW6', '', {
     zeit: Date.now(),
   },
 })
-const merker = alsTitel.angehaengt.find((e) => /Meldung läuft unter diesem Titel/.test(kastenText(e)))
+/*
+  Gesucht wird über die **Folgenzahl**, nicht über einen Satz.
+
+  Bis zum 02.09.2026 stand hier `/Meldung läuft unter diesem Titel/` — der Satz
+  ist auf Daniels Wunsch entfallen („das kann weg. ist klar."), und die
+  Zusicherung wurde rot, obwohl der Kasten unverändert erschien. Eine Prüfung,
+  die an einer Formulierung hängt, misst die Formulierung; gemeint war, dass der
+  Kasten den Titel und sein Erkennungsmerkmal nennt.
+*/
+const merker = alsTitel.angehaengt.find((e) => /Folgen erwartet/.test(kastenText(e)))
 pruefe('die Titelseite nennt den Titel, unter dem gemeldet wird', Boolean(merker))
 pruefe(
   'und die erwartete Folgenzahl als Erkennungsmerkmal',

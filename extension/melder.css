@@ -699,3 +699,94 @@
   accent-color: #1f9d55;
   cursor: pointer;
 }
+
+/*
+  „gemeldet ✓" ist ein Ergebnis, kein Hinweis — und sah bis zum 02.09.2026 aus
+  wie einer (Daniel: „farblich oder anders sichtbar stylen, besser, nicht als
+  simplen text identisch zum hinweis"). Wer den Kasten überfliegt, sucht genau
+  diese Zeile.
+*/
+.ak-such-fertig {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  align-self: flex-start;
+  margin: 2px 0;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(31, 157, 85, 0.18);
+  border: 1px solid rgba(31, 157, 85, 0.55);
+  color: #6ee7a0;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+/* Auswahl und Bestätigen gehören zusammen — ein Kasten, kein loser Stapel. */
+.ak-such-gruppe {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 6px 0;
+  padding: 6px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.ak-such-gruppe .ak-suchknopf {
+  margin-top: 5px;
+  align-self: flex-start;
+}
+
+/* Der Sprung sitzt an der Auswahlzeile, nicht als eigener Knopf darunter. */
+.ak-such-sprung {
+  margin-left: auto;
+  padding: 0 4px;
+  color: #7aa2ff;
+  text-decoration: none;
+  font-size: 13px;
+  line-height: 1;
+  opacity: 0.75;
+}
+
+.ak-such-sprung:hover { opacity: 1; }
+
+/* Ergebnis links, Nachschlagen rechts — eine Zeile mit klaren Enden. */
+.ak-such-fuss {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 7px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ak-such-fuss-links {
+  display: flex;
+  align-items: center;
+  min-height: 20px;
+}
+
+.ak-such-fuss a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border: 1px solid rgba(122, 162, 255, 0.5);
+  border-radius: 6px;
+  color: #7aa2ff;
+  text-decoration: none;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.ak-such-fuss a::before {
+  content: '⌕';
+  font-size: 13px;
+}
+
+.ak-such-fuss a:hover {
+  border-color: #7aa2ff;
+  background: rgba(122, 162, 255, 0.12);
+}

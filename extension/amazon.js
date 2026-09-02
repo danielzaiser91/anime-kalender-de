@@ -2477,8 +2477,13 @@ async function speicherSchreiben(werte) {
     } catch {
       kasten.dataset.beiFolgen = '0'
     }
-    kasten.appendChild(kastenZeile('ak-such-titel', titel))
-    if (unterzeile) kasten.appendChild(kastenZeile('ak-such-unter', unterzeile))
+    /*
+      **Titel und Folgenzahl in einer Zeile.**
+
+      Zwei Zeilen für zwei Wörter kosten Höhe, die der Kasten für die Auswahl
+      braucht (Daniel, 02.09.2026: „Einzeilig statt mehrzeilig").
+    */
+    kasten.appendChild(kastenZeile('ak-such-titel', unterzeile ? `${titel} · ${unterzeile}` : titel))
     for (const z of zusatz) if (z) kasten.appendChild(z)
     /*
       **Der Verweis gehoert in jeden Kasten, nicht in einen.**
@@ -2520,7 +2525,7 @@ async function speicherSchreiben(werte) {
           entscheidet bei Reihen, die Prime durchnummeriert.
         */
         kasten.appendChild(
-          kastenVerweis('Bei aniSearch nachsehen', 'https://www.anisearch.de/anime/' + auftrag.asId + '/episodes'),
+          kastenFuss(kastenVerweis('aniSearch', 'https://www.anisearch.de/anime/' + auftrag.asId + '/episodes')),
         )
       } else if (auftrag?.titel) {
         /*
@@ -2650,7 +2655,39 @@ async function speicherSchreiben(werte) {
    * erledigt, wenn jede angekreuzte Seite gemeldet ist — und **gemeldet** sagt
    * der Briefkasten, nicht ein lokaler Zähler.
    */
-  function kastenAuswahl(beschriftung, kennung, angehakt) {
+  /**
+   * **Die Fußzeile: Ergebnis links, Nachschlagen rechts.**
+   *
+   * „gemeldet ✓" und der aniSearch-Verweis standen als zwei Zeilen untereinander
+   * und sahen beide wie Fließtext aus (Daniel, 02.09.2026: „gemeldet und
+   * anisearch link kann in eine zeile. gemeldet links (besonders gestyled) und
+   * anisearch rechts"). Sie beantworten verschiedene Fragen — was ist passiert,
+   * und wo sehe ich nach — und teilen sich deshalb eine Zeile mit klaren Enden.
+   *
+   * Die Marke wird eingesammelt, nicht neu gebaut: Wo sie im Kasten schon steht,
+   * wandert sie hierher; sonst bleibt die linke Seite leer.
+   */
+  function kastenFuss(rechts) {
+    const zeile = document.createElement('div')
+    zeile.className = 'ak-such-fuss'
+    const links = document.createElement('span')
+    links.className = 'ak-such-fuss-links'
+    zeile.append(links, rechts)
+    /*
+      Nach dem Anhängen umziehen — der Kasten ist dann vollständig.
+
+      `setTimeout` statt `queueMicrotask`: Der Sandkasten der Zusicherungen kennt
+      nur die Zeitgeber, und ESLint hat es gemeldet, bevor es jemand im Browser
+      sah.
+    */
+    setTimeout(() => {
+      const marke = zeile.parentElement?.querySelector('.ak-such-fertig')
+      if (marke && marke.parentElement !== links) links.appendChild(marke)
+    }, 0)
+    return zeile
+  }
+
+  function kastenAuswahl(beschriftung, kennung, angehakt, beimSprung = null) {
     const zeile = document.createElement('label')
     zeile.className = 'ak-such-auswahl'
     const box = document.createElement('input')
@@ -2658,6 +2695,27 @@ async function speicherSchreiben(werte) {
     box.checked = angehakt !== false
     box.dataset.kennung = kennung ?? ''
     zeile.append(box, document.createTextNode(' ' + (kennung ? `${beschriftung} (${kennung})` : beschriftung)))
+    /*
+      **Der Sprung sitzt an der Zeile, nicht als eigener Knopf darunter.**
+
+      Vorher stand unter der Auswahl noch „Zum Anime springen (B0BYY9NN5D)" und
+      „Stattdessen: Kauf/Abo · … (B0B8TN9LSJ)" — dieselben zwei Kennungen ein
+      zweites Mal (Daniel, 02.09.2026: „das ist unnötige dopplung").
+    */
+    if (kennung) {
+      const sprung = document.createElement('a')
+      sprung.className = 'ak-such-sprung'
+      sprung.href = `https://www.amazon.de/gp/video/detail/${kennung}`
+      sprung.textContent = '↗'
+      sprung.title = `${kennung} öffnen`
+      sprung.addEventListener('click', (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        if (typeof beimSprung === 'function') beimSprung(kennung)
+        location.href = sprung.href
+      })
+      zeile.appendChild(sprung)
+    }
     if (kennung) {
       zeile.addEventListener('mouseenter', () => {
         const karte = karteZu(kennung)
@@ -2937,7 +2995,11 @@ async function speicherSchreiben(werte) {
         hinweisKasten(
           auftrag.titel,
           folgen,
-          kastenZeile('ak-such-gut', `Treffer: ${t.titel} (${t.typ})`),
+          /*
+            Hier stand „Treffer: <Name> (<Typ>)" — entfernt am 02.09.2026.
+            Der Kopf nennt den Titel, die Auswahlzeilen nennen die Ausgaben; die
+            Zeile dazwischen wiederholte beides.
+          */
           ...begriffZeile,
           /*
             **Der Name des Treffers steht bewusst dabei.** Entschieden wird über
@@ -2975,36 +3037,56 @@ async function speicherSchreiben(werte) {
                 const k = kennungVon(z)
                 if (!k) return null
                 const name = `${kanalKarte(z) ? 'Kanal-Abo' : 'Kauf/Abo'} · ${(z.titel ?? 'Ausgabe').slice(0, 40)}`
-                return kastenAuswahl(name, k, bereits.size ? bereits.has(k) : true)
+                return kastenAuswahl(name, k, bereits.size ? bereits.has(k) : true, (kennung) => {
+                  /*
+                    Damit die Zielseite weiß, welcher Auftrag gemeint ist — sonst
+                    steht dort „Steht nicht auf der Prüfliste". Die Erwartung
+                    reist mit, sie gilt für beide Ausgaben.
+                  */
+                  suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, zielAsin: kennung })
+                })
               })
               .filter(Boolean)
             if (zeilen.length < 2) return []
-            return [
-              kastenZeile('ak-such-hinweis', 'Welche Ausgaben gehören zu diesem Titel? Ankreuzen, bestätigen, dann jede melden.'),
-              ...zeilen,
-              kastenKnopf(
-                auftrag.erwartet?.length ? `Auswahl ändern (${auftrag.erwartet.length} erwartet)` : 'Auswahl bestätigen',
-                (k) => {
-                  const gewaehlt = [...(k.parentElement?.querySelectorAll('.ak-such-auswahl input:checked') ?? [])]
-                    .map((b) => b.dataset.kennung)
-                    .filter(Boolean)
-                  suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, erwartet: gewaehlt })
-                  k.textContent = `${gewaehlt.length} erwartet — jetzt jede öffnen und melden`
-                  k.disabled = true
-                  uebersichtZeichnen()
-                },
-              ),
-            ]
+            /*
+              **Auswahl und Bestätigen stehen in einem Kasten — sie gehören zusammen.**
+
+              Vorher waren es lose Zeilen zwischen anderen Hinweisen, und der
+              Knopf sah aus wie einer von vieren (Daniel, 02.09.2026: „checkboxen
+              und auswahl bestätigen in einen kasten packen, die gehören
+              zusammen"). Die erklärende Überschrift ist im selben Zug entfallen:
+              Ankreuzfelder mit einem Bestätigen-Knopf erklären sich.
+            */
+            const gruppe = document.createElement('div')
+            gruppe.className = 'ak-such-gruppe'
+            for (const z of zeilen) gruppe.appendChild(z)
+            const bestaetigen = kastenKnopf(
+              auftrag.erwartet?.length ? `Auswahl ändern (${auftrag.erwartet.length} erwartet)` : 'Auswahl bestätigen',
+              (k) => {
+                const gewaehlt = [...gruppe.querySelectorAll('.ak-such-auswahl input:checked')]
+                  .map((b) => b.dataset.kennung)
+                  .filter(Boolean)
+                suchauftragMerken({ ...auftrag, suchUrl: auftrag.suchUrl, erwartet: gewaehlt })
+                k.textContent = `${gewaehlt.length} erwartet`
+                k.disabled = true
+                uebersichtZeichnen()
+              },
+            )
+            gruppe.appendChild(bestaetigen)
+            return [gruppe]
           })(),
-          ziel
-            ? kastenKnopf(
-                'Zum Anime springen',
-                () => {
-                  location.href = ziel
-                },
-                /\/(?:dp|detail)\/([A-Z0-9]{10,26})/.exec(ziel)?.[1] ?? null,
-              )
-            : kastenZeile('ak-such-hinweis', 'Öffnen — dort werden die Tonspuren gelesen'),
+          /*
+            Hier standen „Zum Anime springen" und darunter „Stattdessen: …" —
+            dieselben Kennungen ein zweites Mal. Seit dem 02.09.2026 sitzt der
+            Sprung als ↗ an der Auswahlzeile selbst (Daniel: „das ist unnötige
+            dopplung"). Ohne Auswahl — also bei nur einer Karte — bleibt der
+            Hinweis unten stehen.
+          */
+          sortiert.length < 2 && ziel
+            ? kastenKnopf('Öffnen — dort werden die Tonspuren gelesen', () => {
+                location.href = ziel
+              })
+            : null,
           /* Der zweite Weg, falls es einen gibt — mit seiner Zugangsart benannt. */
           ...sortiert.slice(1, 3).flatMap((z) => {
             const zZiel = ohneParameter(z.url)
@@ -3031,12 +3113,13 @@ async function speicherSchreiben(werte) {
               ),
             ]
           }),
-          sortiert.length > 1
-            ? kastenZeile(
-                'ak-such-hinweis',
-                'Beim Kanal-Titel nennt Amazon die Sprachen des Kanals, nicht der Folge — der Kauftitel ist der belastbarere.',
-              )
-            : null,
+          /*
+            Hier stand „Beim Kanal-Titel nennt Amazon die Sprachen des Kanals…" —
+            entfernt am 02.09.2026 auf Daniels Wunsch. Wer beide Ausgaben
+            ankreuzt und meldet, braucht die Belehrung nicht; die Unterscheidung
+            steht ohnehin an jeder Auswahlzeile („Kanal-Abo" / „Kauf/Abo").
+          */
+          null,
           /*
             **Auch ein gefundener Treffer kann der falsche sein.**
 
@@ -3052,7 +3135,7 @@ async function speicherSchreiben(werte) {
             der Suchadresse.
           */
           istGemeldet(auftrag.suchUrl)
-            ? kastenZeile('ak-such-gut', 'gemeldet ✓')
+            ? kastenZeile('ak-such-fertig', 'gemeldet ✓')
             : kastenKnopf('Nicht bei Prime — melden', (k) => nichtBeiPrimeMelden(auftrag, befund, k)),
         )
         return
@@ -3246,7 +3329,7 @@ async function speicherSchreiben(werte) {
           Suchadresse dort, steht an seiner Stelle die Bestaetigung.
         */
         istGemeldet(auftrag.suchUrl)
-          ? kastenZeile('ak-such-gut', 'gemeldet ✓')
+          ? kastenZeile('ak-such-fertig', 'gemeldet ✓')
           : kastenKnopf('Nicht bei Prime — melden', (k) => nichtBeiPrimeMelden(auftrag, befund, k)),
       )
     }
@@ -3594,16 +3677,50 @@ async function speicherSchreiben(werte) {
     hinweisKasten(
       auftrag.titel,
       auftrag.folgen ? `${auftrag.folgen} ${auftrag.folgen === 1 ? 'Folge' : 'Folgen'} erwartet` : '',
-      kastenZeile(andereSeite ? 'ak-such-warn' : 'ak-such-gut', 'Meldung läuft unter diesem Titel'),
       ...(andereSeite
         ? [kastenZeile('ak-such-warn', 'Andere Seite als der Treffer aus der Suche — vor dem Melden prüfen')]
         : []),
       ...(seitenAngabenGelten
         ? [...jahrZeilen, ...teilZeilen]
         : [kastenZeile('ak-such-hinweis', 'Staffel gewechselt — für Jahr und Staffelnummer die Seite neu laden')]),
-      ...(seitenAngabenGelten
-        ? [kastenZeile('ak-such-hinweis', 'Zeigt die Seite deutlich weniger, ist es ein anderes Werk')]
-        : []),
+      /*
+        **Die angekreuzten Ausgaben, mit ihrem Stand und einem Sprung dazwischen.**
+
+        Wer auf der Trefferliste zwei Ausgaben angekreuzt hat, arbeitet sie
+        nacheinander ab — und braucht dafür auf jeder Seite zweierlei: was noch
+        aussteht, und einen Weg dorthin. Ohne das musste Daniel zurücknavigieren
+        und die Suche erneut lesen (02.09.2026: „beim anime hinweistext sollten
+        die ausgewählten einträge stehen und es sollte direkt ein sprung zwischen
+        den beiden möglich sein").
+
+        Der Haken kommt vom Briefkasten, nicht von einem lokalen Zähler.
+      */
+      ...(() => {
+        try {
+          const a = suchauftrag()
+          const erwartet = Array.isArray(a?.erwartet) ? a.erwartet : []
+          if (erwartet.length < 2) return []
+          const hier = asin()
+          return erwartet.map((k) => {
+            const fertig = briefkastenSeiten?.has(String(k)) ?? false
+            const marke = fertig ? '✓' : '·'
+            if (String(k) === String(hier)) {
+              return kastenZeile(fertig ? 'ak-such-gut' : 'ak-such-hinweis', `${marke} ${k} — diese Seite`)
+            }
+            return kastenKnopf(`${marke} ${fertig ? 'nochmal ansehen' : 'jetzt melden'}`, () => {
+              location.href = `https://www.amazon.de/gp/video/detail/${k}`
+            }, String(k))
+          })
+        } catch {
+          return []
+        }
+      })(),
+      /*
+        Hier stand „Zeigt die Seite deutlich weniger, ist es ein anderes Werk" —
+        entfernt am 02.09.2026 auf Daniels Wunsch: „das kann weg. ist klar."
+        Ein Hinweis, der nur wiederholt, was der Leser ohnehin sieht, kostet
+        Platz und Aufmerksamkeit für die Zeilen, die etwas sagen.
+      */
       /*
         **„Nicht bei Prime" gehört auch auf die Titelseite.**
 
@@ -6138,7 +6255,20 @@ async function speicherSchreiben(werte) {
        * an, wo „✓ gemeldet" steht.
        */
       const totAbgehakt = erledigt[listenId]
-      if (gemeldeteStaffel !== null || Object.keys(totAbgehakt?.staffeln ?? {}).length) {
+      /*
+        **Eine Seite, auf der noch niemand nachgesehen hat, ist nicht „gemeldet".**
+
+        Der Auftrag läuft unter der Adresse aus dem Bestand — bei einem
+        Suchauftrag also unter der Suchadresse. Wer den Kauftitel gemeldet hat,
+        hat damit den Auftrag berührt, aber nicht die zweite Ausgabe: Prime führt
+        denselben Anime über einen Kanal **und** als Kauftitel.
+
+        Am 02.09.2026 sperrte genau das die zweite Meldung („kein melden möglich
+        bei #3"), obwohl der Briefkasten die aniverse-Kennung gar nicht führte.
+        `seiteOffen()` fragt ihn: Steht die Kennung dieser Seite nicht unter den
+        gemeldeten, ist hier noch nichts passiert.
+      */
+      if ((gemeldeteStaffel !== null || Object.keys(totAbgehakt?.staffeln ?? {}).length) && !seiteOffen()) {
         /*
           **Gemeldet ist gemeldet — und das ist kein toter Verweis.**
 
