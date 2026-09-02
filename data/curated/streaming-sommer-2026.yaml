@@ -184,6 +184,14 @@
   releaseType: weekly
   schedule:
     firstEpisodeDate: "2026-07-08"
+    # Uhrzeit beobachtet, nicht angenommen: Daniel hat am 02.09.2026 um 11:59
+    # nachgesehen — Folge 9 war nicht da — und sie um 18:10 vorgefunden. Sein
+    # Schluss: „18 uhr vermutlich, vllt auch früher".
+    #
+    # Damit ist 18:00 die erste beobachtete Uhrzeit für einen Prime-Video-Start
+    # in diesem Bestand. Sie gilt als Schätzung für die weiteren Folgen dieser
+    # Serie — beobachtet ist das Fenster, nicht die Minute.
+    time: "18:00"
     # Von Daniel am 10.08.2026 bei Prime Video geprüft: Start 08.07. stimmt.
     #
     # Folge 5 stand hier bis zum 31.08.2026 auf dem 06.08. — einen Tag zu spät,
