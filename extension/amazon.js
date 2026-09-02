@@ -3985,6 +3985,8 @@ async function speicherSchreiben(werte) {
    * wenn sie lokal abgehakt ist.
    */
   let briefkastenAdressen = null
+  /** Suchadressen, unter denen gemeldet wurde — vom Briefkasten, nicht lokal. */
+  let briefkastenSuchen = null
   let briefkastenGeholtAm = 0
   const BRIEFKASTEN_FRIST_MS = 60_000
 
@@ -4008,6 +4010,12 @@ async function speicherSchreiben(werte) {
         der Erweiterung und dem des Workers; danach ist `gemeldet` immer da.
       */
       briefkastenAdressen = new Set(Array.isArray(daten.gemeldet) ? daten.gemeldet : daten.adressen)
+      /*
+        Die Suchadressen, unter denen gemeldet wurde — seit dem 02.09.2026 weiß
+        der Briefkasten sie, und damit entscheidet er auch dort. Vorher blieb
+        für Suchadressen nur der lokale Vermerk, und der ist nicht abgeglichen.
+      */
+      briefkastenSuchen = Array.isArray(daten.gemeldeteSuchen) ? new Set(daten.gemeldeteSuchen) : null
       briefkastenGeholtAm = Date.now()
       try {
         uebersichtZeichnen()
@@ -4029,6 +4037,26 @@ async function speicherSchreiben(werte) {
    * Solange der Briefkasten nicht geantwortet hat, gilt der lokale Stand — sonst
    * flackerte die Liste bei jedem Seitenaufbau. Sobald er da ist, entscheidet er.
    */
+  /**
+   * **Ein lokaler Vermerk, den der Bau überholt hat, gilt nicht mehr.**
+   *
+   * Er überbrückt die Sekunden zwischen dem Klick und der nächsten Antwort des
+   * Briefkastens — mehr nicht. Steht die Adresse in einer Prüfliste, die **nach**
+   * dem Abhaken erzeugt wurde, hat der Bau sie nicht abgeräumt, also ist sie
+   * offen. Verglichen werden Tage: Am Tag des Abhakens gilt der Vermerk weiter.
+   */
+  function suchErledigtFrisch(url) {
+    try {
+      const vermerk = suchErledigt[url]
+      if (!vermerk) return false
+      const listeVom = globalThis.AK_OFFENE_AMAZON_ERZEUGT ?? null
+      if (listeVom && String(vermerk).slice(0, 10) < String(listeVom).slice(0, 10)) return false
+      return true
+    } catch {
+      return false
+    }
+  }
+
   function istGemeldet(url) {
     /*
       **Als Funktionsdeklaration, und der Rumpf in try.**
@@ -4065,7 +4093,21 @@ async function speicherSchreiben(werte) {
       */
       if (briefkastenAdressen?.has(url)) return true
       /*
-        **Ein Vermerk, den der Bau überholt hat, gilt nicht mehr.**
+        **Auch für eine Suchadresse entscheidet jetzt der Briefkasten.**
+
+        Seit dem 02.09.2026 trägt jede Meldung die Suchadresse mit, unter der ihr
+        Auftrag stand (`suchUrl`, Migration 025). Damit ist die Lücke zu, wegen
+        der es hier überhaupt einen lokalen Zweig gab: Wird eine Meldung
+        verworfen, verschwindet sie aus **beiden** Listen, und der Auftrag steht
+        wieder offen — ohne Konsolenbefehl.
+
+        Daniels Regel vom 28.08.2026: „gemeldet/nicht gemeldet sollte ebenfalls
+        synchron remote abgeglichen werden, kein lokales zurücksetzen only, kein
+        localstorage dafür … single source of truth."
+      */
+      if (briefkastenSuchen) return briefkastenSuchen.has(url) || Boolean(suchErledigtFrisch(url))
+      /*
+        **Solange der Briefkasten schweigt, gilt der lokale Vermerk — befristet.**
 
         Steht die Adresse in einer Prüfliste, die **nach** dem Abhaken erzeugt
         wurde, hat der Bau sie nicht abgeräumt — also ist sie offen, was auch
@@ -4082,11 +4124,7 @@ async function speicherSchreiben(werte) {
         ISO-Datum, die Liste ihren Erzeugungstag. Am Tag des Abhakens gilt er
         weiter — das ist die Überbrückung, für die er gedacht ist.
       */
-      const vermerk = suchErledigt[url]
-      if (!vermerk) return false
-      const listeVom = globalThis.AK_OFFENE_AMAZON_ERZEUGT ?? null
-      if (listeVom && String(vermerk).slice(0, 10) < String(listeVom).slice(0, 10)) return false
-      return true
+      return Boolean(suchErledigtFrisch(url))
     } catch {
       return false
     }
@@ -7766,6 +7804,33 @@ async function speicherSchreiben(werte) {
         body: JSON.stringify({
           plattform: 'primevideo',
           url: eintrag.url,
+          /**
+           * **Die Suchadresse, unter der dieser Auftrag stand.**
+           *
+           * Ein Suchauftrag wird auf der **Titelseite** gemeldet, nicht auf der
+           * Suchseite — der Worker erfuhr deshalb nie, dass die Suche erledigt
+           * ist. Für „schon gemeldet?" blieb bei Suchadressen nur der lokale
+           * Vermerk, und der ist nicht abgeglichen: Wird eine Meldung im
+           * Briefkasten verworfen, bleibt er stehen und sperrt den Auftrag.
+           *
+           * Real am 02.09.2026 bei „Is This a Zombie?": Briefkasten leer, Knopf
+           * „gemeldet ✓", und Daniel kam nicht weiter — „ich hab ihn nicht
+           * melden können". Zu beheben war es nur mit einem Konsolenbefehl,
+           * und das ist genau, was seine Regel vom 28.08.2026 ausschließt:
+           * „single source of truth … kein lokales zurücksetzen only".
+           *
+           * Mit diesem Feld weiß der Briefkasten es, und `?zaehlen=1` gibt die
+           * erledigten Suchadressen zurück. Der lokale Vermerk überbrückt dann
+           * nur noch die Sekunden bis zur nächsten Antwort — seine eigentliche
+           * Aufgabe.
+           */
+          suchUrl: (() => {
+            try {
+              return eintrag.ausSuche ? (eintrag.url ?? suchauftrag()?.suchUrl ?? null) : (suchauftrag()?.suchUrl ?? null)
+            } catch {
+              return null
+            }
+          })(),
           /**
            * **Die Kennung der Seite, auf der wirklich gelesen wurde.**
            *

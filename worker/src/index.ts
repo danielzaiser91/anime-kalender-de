@@ -2001,8 +2001,23 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
         `SELECT DISTINCT url FROM pruefung WHERE url IS NOT NULL AND url != ''`,
       ).all<{ url: string }>()
       const gemeldet = (alle ?? []).map((r) => r.url)
+      /*
+        **Und die Suchadressen, unter denen gemeldet wurde.**
+
+        Ein Suchauftrag wird auf der Titelseite gemeldet; ohne dieses Feld erfährt
+        die Erweiterung nie, dass die Suche erledigt ist, und muss sich auf einen
+        lokalen Vermerk verlassen. Der ist nicht abgeglichen — wird die Meldung
+        hier verworfen, sperrt er den Auftrag, und nur ein Konsolenbefehl half
+        (02.09.2026, „Is This a Zombie?").
+      */
+      const { results: suchen } = await env.DB.prepare(
+        `SELECT DISTINCT such_url FROM pruefung WHERE such_url IS NOT NULL AND such_url != ''`,
+      ).all<{ such_url: string }>()
+      const gemeldeteSuchen = (suchen ?? []).map((r) => r.such_url)
       return antwort(
-        mitNummern ? { imBriefkasten: je, adressen, gemeldet, eintraege } : { imBriefkasten: je, adressen, gemeldet },
+        mitNummern
+          ? { imBriefkasten: je, adressen, gemeldet, gemeldeteSuchen, eintraege }
+          : { imBriefkasten: je, adressen, gemeldet, gemeldeteSuchen },
       )
     })
 
@@ -2247,8 +2262,8 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
       auf einen Namensvergleich zurück, der ausdrücklich kein Beleg ist — am
       02.09.2026 warteten so 36 Meldungen auf Daniels Bestätigung.
     */
-    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am, zugang, abos, teil_von, teil_bis, seiten_kennung, titel_id)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18)`,
+    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am, zugang, abos, teil_von, teil_bis, seiten_kennung, titel_id, such_url)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19)`,
   )
     .bind(
       String(daten.plattform ?? 'unbekannt'),
@@ -2291,6 +2306,8 @@ async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext
       /* Die Seite, auf der wirklich gelesen wurde — trennt zwei Ausgaben desselben Titels. */
       seitenKennung,
       zahlOderNull(daten.titelId ?? daten.titel_id),
+      /* Die Suchadresse, unter der der Auftrag stand — siehe Migration 025. */
+      daten.suchUrl ? String(daten.suchUrl).slice(0, 500) : null,
     )
     .run()
 
