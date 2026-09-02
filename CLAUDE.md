@@ -1653,6 +1653,25 @@ Daniel am 24.08.2026: „du hast die läufe im status geprüft, warum sind die i
 wenn die geprüft wurden, können die dort entfernt werden, sonst bekomme ich einen falschen
 eindruck."
 
+**Und dasselbe gilt für den Pull Request, den der Reparatur-Lauf dazu aufmacht.** Am
+02.09.2026 wurde ein Bau rot (Slug-Kappung), `claude-reparatur.yml` sprang an und öffnete
+PR #43 — mit demselben Fix, den ich fünf Minuten später von Hand auf `main` gebracht habe,
+Zeile für Zeile. In Daniels Statusanzeige stand daraufhin **„WARTET AUF DICH — 1 OFFENER
+PULL REQUEST"**, und seine Frage war die richtige: „warum steht wartet auf dich, was soll ich
+tun". Nichts — die Sache war behoben, bevor er sie ansehen konnte.
+
+**Wer einen roten Lauf selbst behebt, sieht im selben Zug nach, ob der Reparatur-Lauf schon
+einen PR dazu aufgemacht hat**, und schließt ihn mit einem Satz, warum er überholt ist:
+
+```bash
+gh pr list --repo danielzaiser91/anime-kalender-de
+gh pr close <nr> --repo danielzaiser91/anime-kalender-de --delete-branch --comment "<warum überholt>"
+```
+
+Der Reparatur-Lauf ist nicht falsch gebaut — dass er einen PR öffnet statt zu pushen, ist
+genau richtig. Falsch ist nur, ihn stehen zu lassen: Eine Anzeige, die zur Handlung auffordert,
+wo es nichts zu tun gibt, ist derselbe Fehler wie ein roter Lauf, der längst geklärt ist.
+
 Die Liste der Läufe ist eine **Statusanzeige**, kein Archiv. Steht dort ein rotes Kreuz, heißt
 das „hier ist etwas zu tun" — und wenn nichts mehr zu tun ist, lügt es.
 
