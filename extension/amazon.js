@@ -778,6 +778,41 @@ async function speicherSchreiben(werte) {
    * hinaus: Adresse, Version, die vier Zustände des Staffelwechsels, den
    * Zählstand und das Tagebuch. Keine Kontodaten, kein Schlüssel.
    */
+  /**
+   * **Warum ein Auftrag als erledigt gilt — Zeile für Zeile.**
+   *
+   * Am 02.09.2026 sagte die Übersicht „Prime: alles geprüft", während der Worker
+   * die Erwartung sauber führte (zwei Kennungen, eine davon offen). Drei
+   * Vermutungen später stand fest, dass Raten hier nichts bringt: Die Antwort
+   * steht im Zustand der Erweiterung, und den sieht nur, wer ihn ausgibt.
+   */
+  function erwartungsLage() {
+    try {
+      const zeilen = []
+      for (const [url, wert] of Object.entries(suchliste)) {
+        const erw = erwartungZu(url)
+        zeilen.push({
+          suche: url.slice(-60),
+          titel: wert?.titel ?? null,
+          erwartet: erw,
+          jeKennung: erw ? erw.map((k) => `${k}:${briefkastenSeiten?.has(String(k)) ? 'gemeldet' : 'offen'}`) : null,
+          inGemeldeteSuchen: briefkastenSuchen?.has(url) ?? null,
+          lokalErledigt: suchErledigt[url] ?? null,
+          istGemeldet: istGemeldet(url),
+        })
+      }
+      return {
+        briefkastenDa: Boolean(briefkastenAdressen),
+        seitenBekannt: briefkastenSeiten?.size ?? null,
+        erwartungenBekannt: briefkastenErwartungen ? Object.keys(briefkastenErwartungen).length : null,
+        suchOffen: suchOffen().length,
+        zeilen,
+      }
+    } catch (e) {
+      return { fehler: String(e) }
+    }
+  }
+
   function bericht() {
     const sicher = (f) => {
       try {
@@ -787,6 +822,7 @@ async function speicherSchreiben(werte) {
       }
     }
     return {
+      erwartungsLage: erwartungsLage(),
       erzeugtAm: new Date().toISOString(),
       version: chrome?.runtime?.getManifest?.()?.version ?? 'unbekannt',
       adresse: location.href,
@@ -6407,7 +6443,12 @@ async function speicherSchreiben(werte) {
        * Fassungen tragen dieselbe Staffelnummer, und genau darauf kommt es an.
        */
       const dieseStaffel = staffelSchluessel()
-      if (totAbgehakt?.staffeln?.[dieseStaffel]) {
+      /*
+        Auch hier gilt: Eine Seite, deren Kennung der Briefkasten nicht führt, ist
+        offen — was auch immer lokal abgehakt wurde. Derselbe Griff wie im Zweig
+        darüber; er fehlte hier, und der Knopf blieb gesperrt (02.09.2026).
+      */
+      if (totAbgehakt?.staffeln?.[dieseStaffel] && !seiteOffen()) {
         knopf.disabled = true
         knopf.textContent = `✓ Staffel ${staffelText(dieseStaffel)} gemeldet`
         knopf.title =
